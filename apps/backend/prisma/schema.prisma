@@ -239,9 +239,38 @@ model UnitProgression {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  // 2026-05-10 sera Sprint Q+ Q-2 — back-ref offspring composite FK.
+  offspringAsParentA Offspring[] @relation("ParentAOffspring")
+  offspringAsParentB Offspring[] @relation("ParentBOffspring")
+
   @@unique([campaignId, unitId])
   @@index([campaignId])
   @@map("unit_progressions")
+}
+
+// ─── 2026-05-10 sera Sprint Q+ Q-2 Offspring (ADR-2026-05-05 Phase B Path γ) ─
+// Cross-encounter lineage ritual persistence. Schema contract:
+// packages/contracts/schemas/lineage_ritual.schema.json (Q-1).
+// Master-dd grant cascade approval session sera "2+3" forbidden path.
+
+model Offspring {
+  id              String   @id @default(uuid())
+  lineageId       String   @map("lineage_id")
+  sessionId       String   @map("session_id")
+  parentAId       String   @map("parent_a_id")
+  parentBId       String   @map("parent_b_id")
+  mutations       String[]
+  traitInherited  String[] @default([]) @map("trait_inherited")
+  biomeOrigin     String?  @map("biome_origin")
+  bornAt          DateTime @map("born_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  parentA UnitProgression @relation("ParentAOffspring", fields: [parentAId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  parentB UnitProgression @relation("ParentBOffspring", fields: [parentBId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([lineageId])
+  @@index([sessionId])
+  @@map("offspring")
 }
 
 // ─── M12 Phase D Form evolution persistence (ADR-2026-04-23 addendum) ─────

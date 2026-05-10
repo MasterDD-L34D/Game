@@ -29,6 +29,11 @@ const {
   computeBondHeartsDelta,
 } = require('../services/generation/lineagePropagator');
 
+// 2026-05-10 sera Sprint Q+ Q.B Q-3+Q-4 (ADR-2026-05-05 Phase B Path γ).
+const { propagateOffspringRitual } = require('../services/lineage/offspringRitual');
+const offspringStore = require('../services/lineage/offspringStore');
+const { loadMutationsCanonical, listCanonicalIds } = require('../services/lineage/mutationsLoader');
+
 function createLineageRouter() {
   const router = Router();
 
@@ -179,6 +184,111 @@ function createLineageRouter() {
       });
     } catch (err) {
       res.status(500).json({ error: 'legacy_ritual_failed', message: err.message });
+    }
+  });
+
+  // ─────────────────────────────────────────────────────────────────────
+  // 2026-05-10 sera Sprint Q+ Q-4 endpoints (ADR-2026-05-05 Phase B Path γ)
+  // ─────────────────────────────────────────────────────────────────────
+
+  /**
+   * POST /offspring-ritual — Sprint Q+ Q-3 propagateOffspringRitual.
+   *
+   * body: { session_id, parent_a_id, parent_b_id, mutations: [string, 1-3] }
+   * 201: lineage_ritual.schema.json (Q-1) payload
+   * 400: validation error (mutations invalid, parent ID missing, dup parent)
+   * 500: store/persistence failure
+   *
+   * Distinto da /legacy-ritual (Spore S5 mutations-on-death) — questo è
+   * mating offspring birth post-encounter Q+ ritual (lineage chain spawn).
+   */
+  router.post('/offspring-ritual', async (req, res) => {
+    try {
+      const { session_id, parent_a_id, parent_b_id, mutations } = req.body || {};
+      // Lookup parents in offspringStore per inherit lineage_id se exists.
+      // Se parent_a_id non è un offspring (es UnitProgression first-gen), getById
+      // returns null e propagateOffspringRitual genera new lineage_id.
+      const [storedA, storedB] = await Promise.all([
+        parent_a_id ? offspringStore.getById(parent_a_id) : null,
+        parent_b_id ? offspringStore.getById(parent_b_id) : null,
+      ]);
+      const parentA = {
+        id: parent_a_id,
+        lineage_id: storedA?.lineage_id || null,
+        trait_inherited: storedA?.trait_inherited || [],
+        biome_origin: storedA?.biome_origin || null,
+      };
+      const parentB = {
+        id: parent_b_id,
+        lineage_id: storedB?.lineage_id || null,
+        trait_inherited: storedB?.trait_inherited || [],
+        biome_origin: storedB?.biome_origin || null,
+      };
+      const offspring = await propagateOffspringRitual({
+        sessionId: session_id,
+        parentA,
+        parentB,
+        mutations,
+      });
+      return res.status(201).json(offspring);
+    } catch (err) {
+      const msg = String(err.message || '');
+      if (msg.startsWith('propagateOffspringRitual:')) {
+        return res.status(400).json({ error: msg });
+      }
+      console.error('[lineage] offspring-ritual unexpected error:', err);
+      return res.status(500).json({ error: msg || 'internal_error' });
+    }
+  });
+
+  /** GET /chain/:lineage_id — offspring chain ordered born_at ASC. */
+  router.get('/chain/:lineage_id', async (req, res) => {
+    try {
+      const chain = await offspringStore.getByLineageId(req.params.lineage_id);
+      if (!chain || chain.length === 0) {
+        return res.status(404).json({
+          error: 'lineage_id not found',
+          lineage_id: req.params.lineage_id,
+        });
+      }
+      return res.json({
+        lineage_id: req.params.lineage_id,
+        count: chain.length,
+        offspring: chain,
+      });
+    } catch (err) {
+      console.error('[lineage] chain unexpected error:', err);
+      return res.status(500).json({ error: err.message || 'internal_error' });
+    }
+  });
+
+  /** GET /session/:session_id — offspring per-session listing. */
+  router.get('/session/:session_id', async (req, res) => {
+    try {
+      const list = await offspringStore.getBySessionId(req.params.session_id);
+      return res.json({
+        session_id: req.params.session_id,
+        count: list.length,
+        offspring: list,
+      });
+    } catch (err) {
+      console.error('[lineage] session unexpected error:', err);
+      return res.status(500).json({ error: err.message || 'internal_error' });
+    }
+  });
+
+  /** GET /mutations/canonical — MUTATION_LIST 6-canonical Q-3. */
+  router.get('/mutations/canonical', (_req, res) => {
+    try {
+      const canonical = loadMutationsCanonical();
+      return res.json({
+        schema_version: canonical.schema_version || 'unknown',
+        ids: listCanonicalIds(),
+        mutations: canonical.mutations || {},
+      });
+    } catch (err) {
+      console.error('[lineage] mutations/canonical unexpected error:', err);
+      return res.status(500).json({ error: err.message || 'internal_error' });
     }
   });
 

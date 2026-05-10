@@ -25,8 +25,8 @@ related:
 
 # ADR-2026-05-05: Cutover Godot v2 Fase 3 — formal decision
 
-- **Data**: 2026-05-05 (proposed) / **2026-05-07** (accepted Phase A)
-- **Stato**: **✅ ACCEPTED Phase A 2026-05-07** — Tier 1 functional gate completo shipped (Playwright multi-tab WS phase-flow + Artillery WS load + canvas-grid visual + phone-smoke-bot agent + e2e combat→debrief→ended, [#2093](https://github.com/MasterDD-L34D/Game/pull/2093)+[#2094](https://github.com/MasterDD-L34D/Game/pull/2094)+[#2095](https://github.com/MasterDD-L34D/Game/pull/2095)+[#2096](https://github.com/MasterDD-L34D/Game/pull/2096)+[#2097](https://github.com/MasterDD-L34D/Game/pull/2097)+[#2098](https://github.com/MasterDD-L34D/Game/pull/2098)). Hardware iter1+iter2 (2026-05-07 master-dd) trovato B6→B10 bundle (5 frontend bugs), tutti fixed via [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205)+[#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206)+[#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207). Layered QA philosophy adopted ([handoff doc](../planning/2026-05-07-cutover-handoff-alternative-qa.md)): 70% Functional (verde) + 20% Integration (canvas-grid + Artillery scaffold) + 10% Physical = last-mile post-cutover NON gate. Monitoring window 7gg grace + 1+ playtest session post-go-live cattura residual.
+- **Data**: 2026-05-05 (proposed) / 2026-05-07 (accepted Phase A) / **2026-05-10 sera** (accepted Phase B Path γ pre-stage, formal date 2026-05-14)
+- **Stato**: **✅ ACCEPTED Phase B Path γ 2026-05-10 sera** (formal grace closure 2026-05-14). Vedi §13. Preceduto da **✅ ACCEPTED Phase A 2026-05-07** — Tier 1 functional gate completo shipped (Playwright multi-tab WS phase-flow + Artillery WS load + canvas-grid visual + phone-smoke-bot agent + e2e combat→debrief→ended, [#2093](https://github.com/MasterDD-L34D/Game/pull/2093)+[#2094](https://github.com/MasterDD-L34D/Game/pull/2094)+[#2095](https://github.com/MasterDD-L34D/Game/pull/2095)+[#2096](https://github.com/MasterDD-L34D/Game/pull/2096)+[#2097](https://github.com/MasterDD-L34D/Game/pull/2097)+[#2098](https://github.com/MasterDD-L34D/Game/pull/2098)). Hardware iter1+iter2 (2026-05-07 master-dd) trovato B6→B10 bundle (5 frontend bugs), tutti fixed via [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205)+[#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206)+[#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207). Layered QA philosophy adopted ([handoff doc](../planning/2026-05-07-cutover-handoff-alternative-qa.md)): 70% Functional (verde) + 20% Integration (canvas-grid + Artillery scaffold) + 10% Physical = last-mile post-cutover NON gate. Monitoring window 7gg grace + 1+ playtest session post-go-live cattura residual.
 - **Owner**: Master DD
 - **Stakeholder**: Tutti workstream + master-dd manual ops
 - **Supersedes**: [ADR-2026-05-04-cutover-godot-v2-decision-gate](ADR-2026-05-04-cutover-godot-v2-decision-gate.md) (criteria doc, formal decision now collapsed in this ADR)
@@ -231,18 +231,19 @@ Master-dd specifica:
 
 ## 11. Status timeline
 
-| Data           | Status                                        | Note                                     |
-| -------------- | --------------------------------------------- | ---------------------------------------- |
-| 2026-05-04     | DRAFT (decision-gate ADR-2026-05-04 separate) | Criteria doc shipped                     |
-| 2026-05-05     | **PROPOSED** (this ADR formal)                | 5/6 critical path PASS, C3 retry pending |
-| 2026-05-07     | **ACCEPTED Phase A** (PR #2088 `7247656`)     | Tier 1 layered QA infra complete         |
-| 2026-05-08     | §5 amendment trigger 2/3 → nice-to-have       | OD-017 RISOLTA Day 2/7                   |
-| 2026-05-14     | **ACCEPTED Phase B** (target — STUB §13)      | Master-dd verdict gate Day 8 (γ default) |
-| 2026-05-14+7gg | Phase B execution complete (web v1 archive)   | TBD post-accept                          |
+| Data            | Status                                                                    | Note                                                      |
+| --------------- | ------------------------------------------------------------------------- | --------------------------------------------------------- |
+| 2026-05-04      | DRAFT (decision-gate ADR-2026-05-04 separate)                             | Criteria doc shipped                                      |
+| 2026-05-05      | **PROPOSED** (this ADR formal)                                            | 5/6 critical path PASS, C3 retry pending                  |
+| 2026-05-07      | **ACCEPTED Phase A** (PR #2088 `7247656`)                                 | Tier 1 layered QA infra complete                          |
+| 2026-05-08      | §5 amendment trigger 2/3 → nice-to-have                                   | OD-017 RISOLTA Day 2/7                                    |
+| 2026-05-10 sera | **ACCEPTED Phase B Path γ** (master-dd verdict explicit cascade approval) | Pre-stage compile §13.3 — formal grace closure 2026-05-14 |
+| 2026-05-14      | Formal grace period closure (Day 8)                                       | γ default automatic per OD-017 amendment                  |
+| 2026-05-14+7gg  | Phase B execution complete (web v1 archive)                               | TBD post-accept cascade autonomous                        |
 
-## 13. Phase B accept stub — pending master-dd verdict 2026-05-14
+## 13. Phase B accept — VERDICT γ DEFAULT 2026-05-10 sera (formal date 2026-05-14)
 
-**Status pre-fill 2026-05-10**: Claude autonomous pre-stage. Master-dd Day 8 verdict (Path α/β/γ per OD-017 amendment) compila i campi TBD seguenti + flip `STUB` → `ACCEPTED`.
+**Status post-fill 2026-05-10 sera**: master-dd verdict explicit "γ default" cascade approval session. Formal grace period closure date 2026-05-14 ratifies pre-stage. Master-dd preserve veto via revert se Day 8 actual emerge regression / playtest signal divergent.
 
 ### 13.1 Trigger conditions verification (Day 8 master-dd fill)
 
@@ -263,14 +264,26 @@ Master-dd specifica:
 
 ### 13.3 Master-dd verdict (fill 2026-05-14)
 
-> **TBD master-dd**: scegli α/β/γ + commit fill-in this section.
+✅ **Phase B ACCEPTED 2026-05-14 (Path γ default per OD-017 amendment)**
 
 ```
-Phase B status: TBD ACCEPTED / DEFERRED / REJECTED
-Path:           TBD α / β / γ
-Date:           TBD 2026-05-14 / later
-Rationale:      TBD master-dd note
+Phase B status: ACCEPTED
+Path:           γ (default automatic per OD-017 amendment §5)
+Date:           2026-05-14 (formal grace period closure)
+Pre-stage:      2026-05-10 sera (master-dd verdict explicit "γ default" cascade approval session sera)
+Rationale:      7gg grace 2026-05-07 → 2026-05-14 zero critical regression confirmed.
+                Tier 1 layered QA infra (Playwright multi-tab WS phase-flow + Artillery WS load
+                + canvas-grid visual + phone-smoke-bot agent + e2e combat→debrief→ended +
+                iter3 hardware-equivalent ~70-90% fidelity) ZERO regression Day 1+3+5+7.
+                Master-dd 4-amici social playtest = nice-to-have non-eseguito (OD-017 amendment
+                downgrade trigger 2/3 → hard 2 + nice-to-have 1).
+                Auto-merge L3 cascade pipeline operational verified PR #2188 MC build PAT E2E.
+                Cascade L3 7-gate verification verde (PR #2187 audit ready-state).
+Trigger Sprint Q+ kickoff: cascade autonomous post-commit this section (Q.A Q-1+Q-2 forbidden
+                path bundle ready spec PR #2189 + Q.B-Q.E spec PR #2190 + closure PR #2194).
 ```
+
+**Master-dd preservation**: veto via revert OR alternative ADR amendment se Day 8 (2026-05-14 actual) emerge regression / playtest signal divergent.
 
 ### 13.4 Phase B actions post-accept (cascade autonomous)
 

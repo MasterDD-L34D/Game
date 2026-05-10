@@ -9,6 +9,79 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ FULL Sprint Q+ closure + close-gaps cascade — sessione 2026-05-10 sera continuation — 20 PR shipped (cumulative Day 5+1+2 = 71 PR)
+
+User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending e poi continuiamo con i due next gate in parallel" → "procedi continuando in autonomia" → "3+4 e dopo facciamo 2+1" → power-out resume → "fai i rituali e tutti i passaggi senza tralasciare niente per continuare questa sessione in una nuova con tutto pronto".
+
+**20 PR sera delta v36→v37**:
+
+| #   | PR                                                              | Squash     | Topic                                                                    |
+| --- | --------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------ |
+| 1   | [#2195](https://github.com/MasterDD-L34D/Game/pull/2195)        | `089cea2e` | V9+V10 reentry audit + C delete batch (3/4) + BACKLOG corrections        |
+| 2   | [#2196](https://github.com/MasterDD-L34D/Game/pull/2196)        | `299f9700` | QA reports regen post-#2195                                              |
+| 3   | [#2198](https://github.com/MasterDD-L34D/Game/pull/2198)        | `898d4968` | Phase B ACCEPTED Path γ default — master-dd verdict 2026-05-10           |
+| 4   | [#2199](https://github.com/MasterDD-L34D/Game/pull/2199)        | `e231423a` | Trait orphan ticket codification post-V10                                |
+| 5   | [#2200](https://github.com/MasterDD-L34D/Game/pull/2200)        | `862dde8b` | Sprint Q+ Q.A — Q-1 schema + Q-2 migration Offspring                     |
+| 6   | [#2201](https://github.com/MasterDD-L34D/Game/pull/2201)        | `f8f37904` | Sprint Q+ Q.B — Q-3 propagateOffspringRitual + Q-4 HTTP API + Q-5 bridge |
+| 7   | [#2202](https://github.com/MasterDD-L34D/Game/pull/2202)        | `41778bd1` | Sprint Q+ Q.C — Q-7 validator + Q-8 workflow gate                        |
+| 8   | [#2203](https://github.com/MasterDD-L34D/Game/pull/2203)        | `7092c24e` | Sprint Q+ Q-9 — Offspring Ritual UI surface DebriefView                  |
+| 9   | [#2204](https://github.com/MasterDD-L34D/Game/pull/2204)        | `bdf16717` | Sprint Q+ Q.E — Q-11 E2E test + Q-12 closure ADR                         |
+| 10  | [#2205](https://github.com/MasterDD-L34D/Game/pull/2205)        | `df87a4b5` | npm audit C surgical — trait-editor semver fix                           |
+| 11  | [#2206](https://github.com/MasterDD-L34D/Game/pull/2206)        | `86ec898b` | trait orphan A=keep biome-aligned assignment proposal                    |
+| 12  | [#2208](https://github.com/MasterDD-L34D/Game/pull/2208)        | `61042522` | trait orphan ASSIGN-A wave 0+1 — 14 traits / 12 species                  |
+| 13  | [#2209](https://github.com/MasterDD-L34D/Game/pull/2209)        | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species            |
+| 14  | [#2210](https://github.com/MasterDD-L34D/Game/pull/2210)        | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species    |
+| 15  | [#2211](https://github.com/MasterDD-L34D/Game/pull/2211)        | `25c124fc` | BACKLOG sync + ajv-cli investigation closure                             |
+| —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | _open_     | Game-Godot-v2 Q-10 OffspringRitualPanel + service (master-dd review)     |
+
+(5 PR pre-cascade sera già contati in v36 cascade L3 section sotto.)
+
+**Sprint Q+ 12/12 ship state**:
+
+- Q-1 ✅ schema lineage_ritual.schema.json (#2200)
+- Q-2 ✅ Prisma migration 0008_offspring (#2200)
+- Q-3 ✅ propagateOffspringRitual engine (#2201)
+- Q-4 ✅ HTTP API 4 endpoints lineage (#2201)
+- Q-5 ✅ bridgeOffspringRitualOnChoice (#2201)
+- Q-6 ✅ mutationsLoader + canonical YAML (#2201)
+- Q-7 ✅ swarm_canonical_validator.py (#2202)
+- Q-8 ✅ swarm-validation.yml workflow gate (#2202)
+- Q-9 ✅ DebriefView UI surface (#2203)
+- Q-10 ⏳ Godot v2 OffspringRitualPanel + service in-flight #217 master-dd review
+- Q-11 ✅ offspringRitualE2E.test.js (#2204)
+- Q-12 ✅ ADR-2026-05-10 closure (#2204)
+
+**Effort actual ~3.5h Game-side vs ~19-21h estimated** (5-6x faster spec pre-stage + agent paralleli + cascade autonomous L3).
+
+**Trait orphan ASSIGN-A waves 0-4**: 35/91 (38%) shipped. Residue 56:
+
+- Wave 5+6 ~28 traits master-dd review TBD biome mapping
+- Species*expansion schema ~28 traits 8 sp*\* species (morph_slots vs trait_plan extension)
+
+**Phase B**: ACCEPTED Path γ default 2026-05-10 sera (#2198). Formal grace closure 2026-05-14.
+
+**Pillar deltas v37**:
+
+- P2 Evoluzione 🟢++ → 🟢ⁿ (offspring ritual cross-encounter lineage propagation LIVE cross-stack)
+- P3 Identità Specie × Job 🟢ⁿ → 🟢++ confermato (39 trait abilities + 35 trait orphan player-visible)
+- P5 Co-op vs Sistema 🟢 → 🟢++ (zero regression validated)
+
+**Anti-pattern killer**: Engine LIVE / Surface DEAD pattern dominante (museum M-2026-04-25-007 mating engine orphan score 5/5 diagnostico 2026-04-25) → offspring ritual cross-stack ship 2026-05-10 (16gg gap closure).
+
+**Outstanding master-DD action queue** (next session ready):
+
+1. Q-10 Godot v2 #217 review (cross-stack 12/12 final closure)
+2. Phase B Day 8 verify 2026-05-14 (γ default ratificato, monitor zero regression)
+3. Wave 5+6 trait orphan biome mapping ~28 traits (~30min single-shot)
+4. Species*expansion schema decision ~28 traits 8 sp*\* (~1h ADR)
+5. Mutation Phase 6 ADR + Prisma migration 0009+ (forbidden path bundle ~3-5h)
+6. Vite/Vitest major upgrade bundle (~3-5h cross-3-apps)
+7. AngularJS migration ADR (~10-20h apps/trait-editor replace)
+8. AUTODEPLOY_PAT renewal expires 2026-08-08 (90gg)
+9. Worktree disk lock 5 dirs cleanup (reboot Claude Code)
+
+---
+
 ### ✅ Cascade L3 autonomous + Phase 5 partial + npm audit + MC build PAT E2E — sessione 2026-05-10 sera — 10 PR shipped (cumulative Day 5+1+2 = 51 PR)
 
 User resume trigger "cascade approval" → "facciamo gli auto trigger pending e poi continuiaimo con i due next gate in parallel" → "procedi continuando in autonomia". Cascade ~5h cumulative post-FULL-AUDIT-CLOSURE (41 PR pre-conv).
@@ -75,6 +148,41 @@ User resume trigger "cascade approval" → "facciamo gli auto trigger pending e 
 - Lifecycle 5-fasi YAML 5 T4 species (design gate)
 - ⚠️ BACKLOG correction 2026-05-10 sera (V9 audit reentry): "ancestors 297 zero runtime consumer" era WRONG. **290/297 traits LIVE (97%)** — 3 runtime consumers wired (passiveStatusApplier + evaluateMovementTraits + passesBasicTriggers). Solo 18 branch metadata categories unconsumed. Vedi [docs/research/2026-05-10-ancestors-297-reentry-audit.md](docs/research/2026-05-10-ancestors-297-reentry-audit.md) + museum card [M-2026-05-10-001 ancestors-297-orphan](docs/museum/cards/ancestors-297-orphan-2026-05-10.md). Path A biome seeder ~3h raccomandato future activation.
 - ⚠️ Trait orphan count drift (V10 audit reentry): BACKLOG diceva 59 — **reality 109 core orphans** post waves 1-6 (active_effects.yaml 499 totali). C delete batch 3/4 shipped (agent false positive wounded_perma verified actively wired statusModifiers.js). Residue: A keep 91 + B defer 14 master-dd review window. Vedi [docs/research/2026-05-10-trait-orphan-audit-batch-review.md](docs/research/2026-05-10-trait-orphan-audit-batch-review.md).
+
+#### Trait orphan ticket codification 2026-05-10 sera (master-dd verdict "2+3" cascade approval)
+
+- **TKT-P3-TRAIT-ORPHAN-ASSIGN-A** (~4h initial → 35/91 shipped sera close-gaps cascade): 91 A-keep traits assignment to species wave 6. Biome-aligned batch (3-4 traits per new species). Audit table reference: [§1 Wave 0-6 listing](docs/research/2026-05-10-trait-orphan-audit-batch-review.md#1-full-audit-table--109-orphan-traits).
+  - ✅ **Wave 0+1 SHIPPED PR #2208** `61042522` — 14 traits / 12 species (8 species_expansion deferred schema mismatch).
+  - ✅ **Wave 2 SHIPPED PR #2209** `e189f4e4` — 6 traits / 6 species (7 species_expansion deferred).
+  - ✅ **Wave 3+4 SHIPPED PR #2210** `9c065375` — 15 traits / 9 species.
+  - ⏳ **Wave 5+6 RESIDUE** ~28 traits — master-dd review TBD biome mapping per audit doc §Wave 5+6.
+  - ⏳ **Species_expansion schema extension** ~22 traits across 8 sp\_\* species (sp_lithoraptor_acutornis + sp_basaltocara_scutata + sp_arenaceros_placidus + sp_ferrimordax_rutilus + sp_pyrosaltus_celeris + sp_ventornis_longiala + sp_sonapteryx_resonans + sp_arenavolux_sagittalis + sp_salifossa_tenebris). Schema species_expansion.yaml uses morph_slots (not trait_plan section) → master-dd review schema extension OR migrate species_expansion entries adopt trait_plan canonical.
+
+**Cumulative ASSIGN-A progress sera close-gaps**: **35/91 traits** (38%) shipped player-visible across 3 PR. Residue 56 traits deferred (28 wave 5+6 master-dd review + 28 schema extension species_expansion).
+
+#### Cluster C ajv-cli investigation closure (2026-05-10 sera close-gaps)
+
+**STUCK upstream**: ajv-cli 5.0.0 = latest stable npm registry (verified `npm view ajv-cli versions` 27 versions, 5.0.0 latest 5.x). Audit `fixAvailable: 0.6.0` = downgrade weird signal. fast-json-patch 3.1.1 latest = upstream still vulnerable.
+
+**Same pattern Cluster A AngularJS**: NO upstream patch. Solo paths:
+
+1. Wait upstream patch (indefinite)
+2. Replace ajv-cli con direct ajv invocation in `tools/ajv-wrapper.sh` (~30min refactor)
+3. Accept residue (low impact: dev tool only, NOT runtime)
+
+**Recommendation**: option 3 accept residue. Used solo via Makefile EVO_VALIDATE_AJV + schema-validate.yml workflow (dev validation, NOT prod runtime).
+
+TKT-DEPS-AJV-CLI-INVESTIGATE ✅ closed (no actionable fix).
+
+- **TKT-P6-TRAIT-ORPHAN-DESIGN-B** (~2h): 14 B-defer traits design call. Categorization audit doc:
+  - Swarm cluster (3): `magnetic_rift_resonance` + `magnetic_sensitivity` + `rift_attunement` — non-canonical status strings (telepatic_link/sensed/attuned), need ADR canonical status enum extension OR rename
+  - Miscellaneous unclear semantics (5): `aura_glaciale` + `sussurro_psichico` + `tela_appiccicosa` + `marchio_predatorio` + `antenne_wideband` — design call effect spec
+  - Balance tuning (2): `mente_lucida` (panic 2t MoS≥3 troppo low threshold) + `cervello_predittivo` (stunned 2t T3 no T3 species slot)
+  - Evaluator gap (2): `biochip_memoria` (`requires_target_status` not implemented in traitEffects.js) + others
+  - Trigger: Sprint M-future window OR bundle Sprint Q+ Q.B per shared evaluator extension
+- **TKT-P6-TRAIT-MECHANICS-SYNC** (~1h): add subset A-class traits to `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` (wave 1-3 families currently missing balance values). Trigger parallel TKT-P3-A.
+
+Effort cumulative residue ~7h (4h A + 2h B + 1h mechanics sync) post-Sprint-Q+ window.
 
 ### ✅ FULL AUDIT CLOSURE — sessione 2026-05-10 — 27 PR shipped main (cumulative Day 5+1 = 41 PR)
 

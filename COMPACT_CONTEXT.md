@@ -8,22 +8,34 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v36 (post sessione 2026-05-10 sera cascade L3 autonomous + Phase 5 partial + npm audit + MC build PAT E2E — 51 PR cumulative Day 5+1+2)
-- **Ultimo aggiornamento**: 2026-05-10 ~13:50 UTC. **51 PR Game/ shipped main cumulative**. Major sessione sera (10 PR): cascade L3 4 PR (#2185+#2186+#2184+#2187) + MC build PAT E2E #2188 + Sprint Q+ pre-stage #2189+#2190 + npm audit fix #2191 + Mutation Phase 5 partial 10/12 #2193 + browser ops AUTODEPLOY_PAT autonomous Chrome MCP. Pillar P3 Identità Specie × Job 🟢ⁿ → 🟢++ (39 trait abilities runtime live). **Vedi memory: project_session_2026_05_10_sera_cascade_l3_autonomous.md**.
+- **Versione compact**: v37 (post sessione 2026-05-10 sera FULL Sprint Q+ closure + close-gaps cascade — 71 PR cumulative Day 5+1+2)
+- **Ultimo aggiornamento**: 2026-05-10 ~21:00 UTC. **71 PR Game/ shipped main cumulative** + 1 Game-Godot-v2 #217 in-flight. Major delta v36→v37 (20 PR sera +): Sprint Q+ Q.A→Q.E full pipeline (#2200-#2204) + Q-9 UI surface DebriefView (#2203) + close-gaps cascade trait orphan ASSIGN-A waves 0-4 35/91 (#2208+#2209+#2210) + Phase B ACCEPTED γ default (#2198) + V9+V10 reentry audit (#2195+#2196+#2199) + npm audit C surgical (#2205) + BACKLOG sync (#2211) + closure ADR (#2204 Q-12). Pillar deltas v37: P2 Evoluzione 🟢++ → 🟢ⁿ (offspring ritual cross-encounter lineage) + P3 Identità 🟢ⁿ → 🟢++ confermato + P5 Co-op 🟢 → 🟢++ (zero regression validated). Anti-pattern killer Engine LIVE/Surface DEAD diagnostico 2026-04-25 → cross-stack ship 2026-05-10 (16gg). **Vedi memory: project_session_2026_05_10_full_sprint_q_plus_closure.md**.
 
-## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 sera closure)
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 FULL Sprint Q+ closure)
 
-Phase B Day 8 trigger primary (2026-05-14):
+**Primary** (Q-10 cross-stack closure 12/12):
 
-> _"Phase B accept verdict γ/α/β + Sprint Q+ Q.A kickoff cascade — execute Q-1 schema + Q-2 migration forbidden path bundle"_
+> _"verifica PR #217 Game-Godot-v2 master-dd review status + merge se verde — chiude Sprint Q+ Q-10 cross-stack 12/12"_
 
-OR (autonomous γ default fallback se silenzio):
+**Phase B Day 8 monitor** (2026-05-14 grace closure):
 
-> _"leggi ADR-2026-05-05 §13.3 + commit fill γ default + cascade Sprint Q+ Q.A autonomous"_
+> _"Phase B Day 8 verify 2026-05-14 — formal grace closure γ default ratificato, monitor zero regression baseline 14gg"_
 
-OR (Day 8 eseguito già):
+**Master-DD review window queue** (autonomous quando libero):
 
-> _"Sprint Q+ Q.B Q-3 propagateLineage engine ship + Q-4 HTTP API JWT + Q-5 evaluateChoiceRitual cross-stack contract"_
+> _"Wave 5+6 trait orphan biome mapping ~28 traits master-dd review — biome-aligned audit doc §Wave 5+6 review"_
+
+OR
+
+> _"Species_expansion schema decision ~22 traits across 8 sp_\* species — extend morph*slots vs migrate trait_plan canonical"*
+
+**Forbidden path bundle** (require explicit grant):
+
+> _"Mutation Phase 6 ADR + Prisma migration 0009+ ally_adjacent_turns + trait_active_cumulative kinds (~3-5h)"_
+
+OR
+
+> _"Vite/Vitest major upgrade bundle vite 5→8 + vitest 2→4 cross-3-apps (~3-5h)"_
 
 Spec docs canonical pre-stage:
 
@@ -32,7 +44,47 @@ Spec docs canonical pre-stage:
 
 Pre-closure history (mantenuta):
 
+- **Versione v36**: post sessione 2026-05-10 sera cascade L3 — 51 PR cumulative + Phase 5 partial + npm audit + MC build PAT E2E + browser ops AUTODEPLOY_PAT autonomous.
 - **Versione v35**: post sessione 2026-05-10 mattina FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5.
+
+## ⚡ TL;DR sessione 2026-05-10 sera FULL Sprint Q+ closure (v37)
+
+**Trigger**: cascade approval → "facciamo gli auto trigger pending e poi continuiamo con i due next gate in parallel" → "procedi continuando in autonomia" → escalation "3+4 e dopo facciamo 2+1" → power-out resume → closure ritual.
+
+**20 PR sera v37 delta** (post-v36):
+
+| #   | PR    | SHA        | Topic                                                                          |
+| --- | ----- | ---------- | ------------------------------------------------------------------------------ |
+| 1   | #2195 | `089cea2e` | V9+V10 reentry audit + C delete batch (3/4) + BACKLOG corrections              |
+| 2   | #2196 | `299f9700` | QA reports regen post-#2195 trait C delete                                     |
+| 3   | #2198 | `898d4968` | Phase B ACCEPTED Path γ default — master-dd verdict 2026-05-10 sera            |
+| 4   | #2199 | `e231423a` | Trait orphan ticket codification post-V10 audit                                |
+| 5   | #2200 | `862dde8b` | Sprint Q+ Q.A — Q-1 schema + Q-2 migration Offspring                           |
+| 6   | #2201 | `f8f37904` | Sprint Q+ Q.B — Q-3 propagateOffspringRitual + Q-4 HTTP API + Q-5 bridge       |
+| 7   | #2202 | `41778bd1` | Sprint Q+ Q.C — Q-7 validator implementation + Q-8 workflow gate               |
+| 8   | #2203 | `7092c24e` | Sprint Q+ Q-9 — Offspring Ritual UI surface DebriefView                        |
+| 9   | #2204 | `bdf16717` | Sprint Q+ Q.E — Q-11 E2E test + Q-12 closure ADR shipped                       |
+| 10  | #2205 | `df87a4b5` | npm audit C surgical — trait-editor semver fix + cluster analysis              |
+| 11  | #2206 | `86ec898b` | trait orphan A=keep biome-aligned assignment proposal                          |
+| 12  | #2208 | `61042522` | trait orphan ASSIGN-A wave 0+1 — 14 traits / 12 species                        |
+| 13  | #2209 | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species                  |
+| 14  | #2210 | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species          |
+| 15  | #2211 | `25c124fc` | BACKLOG sync trait orphan progress + ajv-cli investigation closure             |
+| —   | #217  | _open_     | Game-Godot-v2 Q-10 OffspringRitualPanel + service (in-flight master-dd review) |
+
+**Sprint Q+ ship state**: 12/12 ticket Q-1 → Q-12 cross-stack. Game-side 11/12 SHIPPED + Q-10 Godot v2 #217 in-flight master-dd. Effort actual ~3.5h vs ~19-21h estimated (5-6x faster spec pre-stage + agent paralleli).
+
+**Trait orphan ASSIGN-A**: 35/91 (38%) shipped player-visible across 3 waves. Residue 56 (28 wave 5+6 master-dd review TBD + 28 species_expansion schema decision).
+
+**Phase B**: ACCEPTED Path γ default 2026-05-10 sera. Formal grace closure 2026-05-14.
+
+**Pillar deltas v37**:
+
+- P2 Evoluzione 🟢++ → 🟢ⁿ (offspring ritual cross-encounter lineage propagation runtime LIVE)
+- P3 Identità Specie × Job 🟢ⁿ → 🟢++ confermato (39 trait abilities + 35 trait orphan player-visible)
+- P5 Co-op vs Sistema 🟢 → 🟢++ (zero regression validated, threatAssessment + ws lobby + offspring shared)
+
+**Anti-pattern killer**: Engine LIVE / Surface DEAD diagnostico 2026-04-25 (museum M-2026-04-25-007 mating engine orphan score 5/5) → cross-stack offspring ritual ship 2026-05-10 (16gg gap closed).
 
 Pre-pre-closure history (mantenuta):
 
