@@ -125,9 +125,12 @@ test('terrain wire: tile state ttl decays at turn end', async (t) => {
   });
   const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
 
-  // Forza un fire tile.
+  // Forza un fire tile. 2026-05-10 flaky-fix (TKT-TERRAIN-FLAKY):
+  // bumped 12 → 30 iters per attack hit rate ~70% (d20 vs DC). 12 iters
+  // expected ~8 hits ma RNG variance produced ~5% test fail rate. 30 iters
+  // expected ~21 hits = effectively 100% probability.
   let foundFire = false;
-  for (let i = 0; i < 12 && !foundFire; i++) {
+  for (let i = 0; i < 30 && !foundFire; i++) {
     const r = await request(app).post('/api/session/action').send({
       session_id: sid,
       actor_id: 'p1',
