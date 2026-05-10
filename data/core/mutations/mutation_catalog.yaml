@@ -241,6 +241,15 @@ mutations:
     trigger_examples:
       - "5 kill consecutivi senza prendere danno tra uno e l'altro"
       - "rage attivo per 8+ turni cumulativi in 1 sessione"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: kill_streak
+        count: 5
+        no_damage_taken_between: true
+      - kind: status_apply_count
+        status: rage
+        threshold: 8
+        window: session
     visual_swap_it: "Tier 3: circolazione doppia -> circolazione supercritica. Postura e movimento alterati visibilmente."
     aspect_token: "core_supercritical"
     description_it: |
@@ -270,6 +279,15 @@ mutations:
     trigger_examples:
       - "alleato della stessa specie ucciso adiacente"
       - "panic applicato 15+ volte cumulato"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: ally_killed_adjacent
+        species_filter: same
+        threshold: 1
+      - kind: status_apply_count
+        status: panic
+        threshold: 15
+        window: cumulative
     visual_swap_it: "Tier 2: voce imperiosa -> canto di richiamo. Postura e movimento alterati visibilmente."
     aspect_token: "voice_summon"
     description_it: |
@@ -299,6 +317,17 @@ mutations:
     trigger_examples:
       - "panic applicato 10+ volte da intimidator"
       - "Sistema pressure tier 2+ mantenuto 5 turni"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: status_apply_count
+        status: panic
+        threshold: 10
+        window: cumulative
+        source_trait: intimidatore
+      - kind: biome_turn_count
+        biome_class: any
+        threshold: 5
+        sistema_pressure_min: 50
     visual_swap_it: "Tier 2: intimidatore -> aura di dispersione mentale. Postura e movimento alterati visibilmente."
     aspect_token: "aura_disperse"
     description_it: |
@@ -333,6 +362,15 @@ mutations:
     trigger_examples:
       - "10+ critici (MoS >= 8) in 3 encounter consecutivi"
       - "Sistema warning_signals 'precision_predator' attivo"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 10
+        window: session
+        side: actor
+      - kind: sistema_signal_active
+        signal_id: precision_predator
     visual_swap_it: "Tier 2: occhi cinetici -> occhi cristallo modulare. Organi sensoriali emissivi."
     aspect_token: "eyes_crystal"
     description_it: |
@@ -362,6 +400,17 @@ mutations:
     trigger_examples:
       - "1 critico MoS >= 12 (estremo)"
       - "antenne_tesla attive in 5 encounter, 30+ turni cumulativi"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 12
+        count: 1
+        window: session
+        side: actor
+      - kind: trait_active_cumulative
+        trait_id: antenne_tesla
+        encounter_count: 5
+        turns_cumulative: 30
     visual_swap_it: "Tier 3: antenne tesla -> antenne plasmatiche tempesta. Organi sensoriali emissivi."
     aspect_token: "antennae_storm"
     description_it: |
@@ -395,6 +444,17 @@ mutations:
     trigger_examples:
       - "1 critico MoS >= 10 da posizione sopraelevata"
       - "5 turni in biome solare cumulativi"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 10
+        count: 1
+        window: encounter
+        side: actor
+        elevation_min: 1
+      - kind: cumulative_turns_biome
+        biome_class: solar
+        threshold: 5
     visual_swap_it: "Tier 2: ali ioniche -> ali solari fotoni. Organi sensoriali emissivi."
     aspect_token: "wings_solar"
     description_it: |
@@ -424,6 +484,16 @@ mutations:
     trigger_examples:
       - "5 hit melee MoS >= 8 (alta precisione)"
       - "5 turni in biome cavernoso"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 5
+        window: encounter
+        side: actor
+      - kind: cumulative_turns_biome
+        biome_class: cavernous
+        threshold: 5
     visual_swap_it: "Tier 2: ali fulminee -> ali fono risonanti. Organi sensoriali emissivi."
     aspect_token: "wings_phono"
     description_it: |
@@ -457,6 +527,14 @@ mutations:
     trigger_examples:
       - "alleato adiacente per 8 turni cumulativi"
       - "kill assistito da alleato 5+ volte"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: ally_adjacent_turns
+        threshold: 8
+        window: cumulative
+      - kind: assisted_kill_count
+        threshold: 5
+        window: cumulative
     visual_swap_it: "Tier 2: emerge batteri termofili endosimbiosi. Simbionte visibile (overlay distinct)."
     aspect_token: "endosymbiont_chemio"
     description_it: |
@@ -490,6 +568,15 @@ mutations:
     trigger_examples:
       - "subito 5 hit elettrici/ionici in 2 encounter"
       - "5 turni in biome ionico"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_channel
+        channel: elettrico
+        count: 5
+        window: session
+      - kind: cumulative_turns_biome
+        biome_class: ionico
+        threshold: 5
     visual_swap_it: "Tier 2: pelli anti ustione -> epidermide dielettrica. Aura biome-reactive percettibile."
     aspect_token: "skin_dielectric"
     description_it: |
@@ -517,6 +604,11 @@ mutations:
     mbti_alignment: { S: 1, T: 1 }
     trigger_examples:
       - "5 turni in biome ricco di metalli (atollo_obsidiana, abisso_vulcanico)"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: metallic
+        threshold: 5
     visual_swap_it: "Tier 2: branchie microfiltri -> branchie metalloidi. Aura biome-reactive percettibile."
     aspect_token: "gills_metalloid"
     description_it: |
@@ -605,6 +697,11 @@ mutations:
     trigger_examples:
       - "5 turni in biome abissale cumulativi"
       - "subito 4 hit in mappa con luminosità ambient bassa"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: abissale
+        threshold: 5
     visual_swap_it: "Tier 2: carapaci ferruginosi -> carapace luminiscente abissale. Morfologia visibilmente ristrutturata."
     aspect_token: "carapace_luminescent"
     description_it: |
@@ -638,6 +735,12 @@ mutations:
     trigger_examples:
       - "5 hit MoS >= 8 (alta precisione)"
       - "completate 5 mutation di altre creature (esperienza accumulata)"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 5
+        window: session
     visual_swap_it: "Tier 2: artigli sette vie -> artigli vetrificati. Morfologia visibilmente ristrutturata."
     aspect_token: "claws_glass"
     description_it: |
@@ -694,6 +797,10 @@ mutations:
     trigger_examples:
       - "completata mutation precedente coda_balanced_to_counter"
       - "5 critici MoS >= 8 con coda_contrappeso"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: coda_balanced_to_counter
     visual_swap_it: "Tier 3: coda contrappeso -> coda frusta cinetica. Morfologia visibilmente ristrutturata."
     aspect_token: "tail_kinetic"
     description_it: |
@@ -727,6 +834,11 @@ mutations:
     trigger_examples:
       - "panic applicato 10+ volte da inchiostro"
       - "5 turni in biome palustre"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: palustre
+        threshold: 5
     visual_swap_it: "Tier 2: ghiandole inchiostro luce -> ghiandole nebbia acida. Morfologia visibilmente ristrutturata."
     aspect_token: "glands_acid"
     description_it: |
@@ -755,6 +867,11 @@ mutations:
     trigger_examples:
       - "bleeding applicato 15+ volte cumulato"
       - "5 turni in biome chimicamente attivo"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: chimicamente
+        threshold: 5
     visual_swap_it: "Tier 2: enzimi chelanti -> enzimi chelatori rapidi. Morfologia visibilmente ristrutturata."
     aspect_token: "enzymes_rapid"
     description_it: |
@@ -787,6 +904,10 @@ mutations:
     trigger_examples:
       - "completata mutation coda_kinetic_chain"
       - "fracture applicato 12+ volte cumulato"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: coda_kinetic_chain
     visual_swap_it: "Tier 2: emerge martello osseo. Morfologia visibilmente ristrutturata."
     aspect_token: "hammer_osseo"
     description_it: |
@@ -819,6 +940,12 @@ mutations:
     mbti_alignment: { S: 1, P: 1 }
     trigger_examples:
       - "5 hit MoS >= 5 in 1 encounter"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
     visual_swap_it: "Tier 2: occhi analizzatori di tensione -> occhi cinetici. Organi sensoriali emissivi."
     aspect_token: "eyes_kinetic"
     description_it: |
@@ -851,6 +978,11 @@ mutations:
     mbti_alignment: { S: 1, J: 1 }
     trigger_examples:
       - "5 turni in biome metallico/cristallino"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: metallico
+        threshold: 5
     visual_swap_it: "Tier 2: cartilagini biofibre -> cartilagini pseudometalliche. Aura biome-reactive percettibile."
     aspect_token: "cartilage_metallic"
     description_it: |
@@ -879,6 +1011,11 @@ mutations:
     mbti_alignment: { N: 1, F: 1 }
     trigger_examples:
       - "5 turni in biome luminoso/luminescente cumulativi"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: luminoso
+        threshold: 5
     visual_swap_it: "Tier 2: membrane pneumatofori -> membrane fotoconvoglianti. Aura biome-reactive percettibile."
     aspect_token: "membrane_photonic"
     description_it: |
@@ -972,6 +1109,10 @@ mutations:
     trigger_examples:
       - "completata mutation rage_simple_to_super"
       - "10+ kill consecutivi senza prendere danno"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: rage_simple_to_super
     visual_swap_it: "Tier 3: ferocia -> midollo iperattivo. Postura e movimento alterati visibilmente."
     aspect_token: "ferocity_supercritical"
     description_it: |
@@ -1007,6 +1148,11 @@ mutations:
     trigger_examples:
       - "8 turni cumulativi in biome forestale/palustre"
       - "alleato adiacente che subisce status physiological 5+ volte"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: forestale
+        threshold: 8
     visual_swap_it: "Tier 2: emerge mucillagine simbionte mangrovie. Filamenti radicali visibili (overlay distinct)."
     aspect_token: "symbiote_mycorrhiza"
     description_it: |
@@ -1071,6 +1217,10 @@ mutations:
     trigger_examples:
       - "completata mutation symbiosis_chemio_endosymbiont"
       - "10 turni cumulativi con alleato adiacente in biome termale"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: symbiosis_chemio_endosymbiont
     visual_swap_it: "Tier 3: doppio simbionte attivo. Aura termica visibile + valvole condotti chemio."
     aspect_token: "symbiote_thermofile"
     description_it: |
