@@ -30,6 +30,50 @@ Resume trigger user "verifica primo nightly cron run 2026-05-10 02:00 UTC + eseg
 - P2 #2 objective whitelist: `SUPPORTED_OBJECTIVE_TYPES = [elimination, survival]` — escort/capture_point/etc throw + graceful fallback synthetic
 - NIT 2 (self-review #2155): WS_URL scheme validation `/^wss?:\/\//`
 
+### Cross-domain gap inventory 2026-05-10 — 4 audit paralleli (trait + form/morph/mutation + MBTI×Job + Ennea)
+
+User trigger "ci sono altri gap nei trait, parti, morph, MBTI×Job, Ennea?". 4 balance-auditor + creature-aspect-illuminator agents audit paralleli. Findings consolidated:
+
+#### P0 — 3 critical
+
+| Ticket                   | Gap                                                                                                                                              | Domain   | Effort |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | :----: |
+| **TKT-MUT-AUTO-TRIGGER** | 30/30 mutations `trigger_examples` prose-only — backend ZERO trigger evaluator (biome turn / kill streak / Sistema pressure auto-unlock 0% impl) | Mutation | ~5-8h  |
+| **TKT-MBTI-JOB-VOCAB**   | mbti_forms `job_affinities` usa role-archetypes ("tattico"/"guaritore") vs canonical job IDs ("skirmisher"/"vanguard") — **0/176 combo resolve** | MBTI×Job |  ~2h   |
+| **TKT-MBTI-EXP-JOBS**    | 4 expansion jobs (stalker/symbiont/beastmaster/aberrant) assenti da mbti_forms — 64/176 = 36% unaddressed                                        | MBTI×Job |  ~1h   |
+
+#### P1 — 8 moderate
+
+| Ticket                           | Gap                                                                                                          | Domain    | Effort |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------- | :----: |
+| **TKT-ENNEA-1-5-DOUBLE-TRIGGER** | Riformatore(1)+Architetto(5) co-fire double `attack_mod +1` buff (no dedup in resolveEnneaEffects)           | Ennea     | ~30min |
+| **TKT-ENNEA-METRICS-FALLBACK**   | `assists`/`low_hp_time` 0 in solo scenario → ennea trigger silent no-op (calibration risk)                   | Ennea     |  ~1h   |
+| **TKT-MUT-CIRCULAR-SWAP**        | `simbionte_batteri_termofili` tier 3 `trait_swap.add: [batteri_endosimbionti_chemio]` = proprio prereq trait | Mutation  | ~10min |
+| **TKT-BOND-HUD-SURFACE**         | bondReactionTrigger.js wired session response ma ZERO HUD player-visible (Gate 5 engine LIVE / surface DEAD) | Companion |  ~3h   |
+| **TKT-SKIV-COMPANION-SERVICE**   | skiv_archetype_pool.yaml generativo unwired (`companionService.js` absent)                                   | Companion |  ~3h   |
+| **TKT-MBTI-AFFINITY-RUNTIME**    | personalityProjection.job_affinities NO runtime wire (vcScoring NOT consume mbti_forms)                      | MBTI×Job  |  ~3h   |
+| **TKT-TRAIT-MECH-NO-HANDLER**    | 31 traits in trait_mechanics.yaml hanno PT cost + damage tuned ma ZERO active_effects handler (dead economy) | Trait     | ~5-8h  |
+| **TKT-TRAIT-EFFECT-KIND-MISS**   | 4 active_effects traits hanno `effect.kind` senza handler (`wounded_perma persistent_marker` novel kind)     | Trait     | ~1-2h  |
+
+#### P2 — 6 minor
+
+| Ticket                      | Gap                                                                                              |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| TKT-SKIV-ENNEA-ARCHETYPE    | `skiv_archetype_pool.yaml` 0/9 Ennea archetype assignments per biome pool                        |
+| TKT-FORMPACK-EXP-JOB-BIAS   | `form_pack_bias.yaml job_bias` missing 3 expansion job slugs → silent [E,I] fallback             |
+| TKT-ANCESTORS-CONSUMER      | `data/core/ancestors/` 297 proposal entries zero runtime consumer (proposal-only files inert)    |
+| TKT-VCSCORING-ITER2-DEFAULT | iter2 E_I + S_N axis full coverage gated env flag `VC_AXES_ITER=2` (default partial < 30 events) |
+| TKT-TRAIT-ORPHAN-ACTIVE     | 59/168 active_effects mai referenziati in code/data/scenario (no assignment path)                |
+| TKT-TRAIT-AE-GLOSSARY-MISS  | 7 active_effects IDs senza glossary entry (no display name/description se UI surface)            |
+
+**Aggregate effort**: P0+P1 ~22-27h × 11 ticket. P2 ~5-8h × 6 ticket. **Total ~27-35h cross-domain**.
+
+**Engine LIVE / surface DEAD pattern hits Gate 5 — 3 ticket P0/P1 violation pervasive**:
+
+- TKT-MUT-AUTO-TRIGGER (mutation engine sans trigger evaluator)
+- TKT-BOND-HUD-SURFACE (bond reaction sans HUD)
+- TKT-SKIV-COMPANION-SERVICE (skiv pool sans generative service wire)
+
 ### Deferred follow-up tickets (post-Codex review #2156)
 
 | Ticket                         | Scope                                                                                                                                                                  |         Effort          | Trigger                                                      |
