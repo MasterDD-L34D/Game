@@ -565,6 +565,19 @@
       "track": "active"
     },
     {
+      "path": "docs/adr/ADR-2026-05-10-trait-editor-angularjs-migration.md",
+      "title": "ADR-2026-05-10: Trait Editor AngularJS 1.x → Vue 3 migration (PROPOSED)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-10",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
