@@ -21,19 +21,22 @@ function createJobsRouter() {
     if (!catalog || !catalog.jobs) {
       return res.status(503).json({ error: 'jobs catalog not loaded' });
     }
-    const summary = Object.entries(catalog.jobs).map(([id, job]) => ({
-      id,
-      label: job.label || job.label_it || id,
-      label_en: job.label_en,
-      role: job.role,
-      signature_mechanic: job.signature_mechanic,
-      initiative: job.initiative,
-      attack_range: job.attack_range,
-      resource_usage: job.resource_usage,
-      status: job.status,
-      ability_ids: extractAbilities(job).map((a) => a.ability_id),
-      href: `/api/jobs/${id}`,
-    }));
+    // Filter pseudo jobs (trait_native: indice ability_ids esposto solo a abilityExecutor).
+    const summary = Object.entries(catalog.jobs)
+      .filter(([, job]) => job.status !== 'pseudo')
+      .map(([id, job]) => ({
+        id,
+        label: job.label || job.label_it || id,
+        label_en: job.label_en,
+        role: job.role,
+        signature_mechanic: job.signature_mechanic,
+        initiative: job.initiative,
+        attack_range: job.attack_range,
+        resource_usage: job.resource_usage,
+        status: job.status,
+        ability_ids: extractAbilities(job).map((a) => a.ability_id),
+        href: `/api/jobs/${id}`,
+      }));
     res.json({ version: catalog.version || null, count: summary.length, jobs: summary });
   });
 
