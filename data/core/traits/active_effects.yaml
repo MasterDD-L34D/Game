@@ -9917,3 +9917,64 @@ traits:
       Empatia coordinativa: +1 attack_mod buff_stat 2t (coordinated_boost).
       Self-buff lower amount + longer duration vs focus_frazionato.
       Flavor co-op semantica ma engine attualmente solo self-buff.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 5/6 — 3 GREEN ship + 2 heal deferred
+  # ============================================================================
+  # Research via balance-illuminator agent batch 6 (alphabetic later half).
+  # 6 unique candidates trovati, 3 GREEN buff_stat + 2 heal deferred (heal
+  # kind NOT in traitEffects.js whitelist — abilityExecutor path) + 1 riserva
+  # filamenti_digestivi_compattanti per future batch.
+  # 2 heal traits deferred:
+  # - grassi_termici (thermal_pulse heal 1d4+2 self) — needs heal handler
+  # - sonno_emisferico_alternato (vigilant_rest heal 1d4+1 self) — needs heal handler
+
+  pelage_idrorepellente_avanzato:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 2
+      log_tag: pelage_hydro_shield
+    description_it: |
+      Pelage idrorepellente avanzato: +2 defense_mod buff_stat 2t (hydro_shield).
+      Mirror trait_mechanics defensive base + ionico resist 25%. Resist gestito
+      da resistanceEngine.js separato. Conservative buff_stat ship.
+
+  sacche_galleggianti_ascensoriali:
+    tier: T1
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 1
+      duration: 2
+      log_tag: sacche_buoyant_lift
+    description_it: |
+      Sacche galleggianti ascensoriali: +1 defense_mod buff_stat 2t (buoyant_lift).
+      Cost_ap 2 → worst EV/AP intentional (mobility narrative trade-off).
+
+  struttura_elastica_amorfa:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 2
+      log_tag: struttura_elastic_absorb
+    description_it: |
+      Struttura elastica amorfa: +2 defense_mod buff_stat 2t (elastic_absorb).
+      Mirror trait_mechanics + fisico resist 10%. Identical shape mimetismo_cromatico
+      ma trait_id distinct → runtime collision low risk.
