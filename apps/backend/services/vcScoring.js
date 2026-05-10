@@ -794,6 +794,24 @@ function evaluateCondition(expr, getValue) {
   return result;
 }
 
+// 2026-05-10 audit cross-domain BACKLOG TKT-ENNEA-METRICS-FALLBACK:
+// metrics che hanno semantica "0 quando inosservato in solo scenario"
+// (es. assists, low_hp_time). Pre-fix: getValue ritornava null quando
+// metric mancante → condition evaluator raggiungeva missing:<name> +
+// trigger silently no-op. Calibration analysts vedevano "missing"
+// pensando data broken, in realtà solo "scenario non aveva eventi
+// quel tipo" (canonical 0 atteso). Fallback: known-zero-in-solo
+// metrics default a 0 numeric quando assenti, così condition evalua
+// correttamente come false (es. assists > 0.3 in solo → 0 > 0.3 →
+// false con reason='triggered:false', NON 'missing:assists').
+const ENNEA_ZERO_DEFAULT_METRICS = new Set([
+  'assists',
+  'low_hp_time',
+  'evasion_count',
+  'parry_count',
+  'reaction_count',
+]);
+
 function computeEnneaArchetypes(aggregateIndices, config, rawMetrics = null) {
   const themes = Array.isArray(config.ennea_themes) ? config.ennea_themes : [];
   const getValue = (name) => {
@@ -808,6 +826,11 @@ function computeEnneaArchetypes(aggregateIndices, config, rawMetrics = null) {
       const raw = rawMetrics[name];
       return typeof raw === 'number' ? raw : null;
     }
+    // Priorita' 3: zero-default fallback per known-zero-in-solo metrics.
+    // Questo evita reason='missing:<name>' false positive in scenari
+    // dove la metrica semplicemente non ha eventi (es. solo run senza
+    // alleati → assists semper 0).
+    if (ENNEA_ZERO_DEFAULT_METRICS.has(name)) return 0;
     return null;
   };
   return themes.map((theme) => {

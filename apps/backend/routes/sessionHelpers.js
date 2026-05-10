@@ -132,10 +132,17 @@ function normaliseUnit(raw, fallbackIndex) {
   // Now: form_id (e.g. INTJ) shifts hp/ap/mod/guardia per stat_seed YAML
   // mapping (16 form × 4 stat). Idempotent via _form_stat_applied flag.
   // Best-effort: missing helper non blocca normalize.
+  //
+  // 2026-05-10 TKT-MBTI-AFFINITY-RUNTIME — chain applyJobAffinityBonus
+  // post-stat_seed. form × job match → first-turn ±1 attack_mod +
+  // ±1 defense_mod (mirror soft_gate.first_turn_penalty schema). Decay
+  // automatico via existing end-of-round loop. Idempotent.
   try {
     // eslint-disable-next-line global-require
-    const { applyStatSeed } = require('../services/forms/formStatApplier');
-    return applyStatSeed(unit);
+    const { applyStatSeed, applyJobAffinityBonus } = require('../services/forms/formStatApplier');
+    let result = applyStatSeed(unit);
+    result = applyJobAffinityBonus(result);
+    return result;
   } catch {
     return unit;
   }

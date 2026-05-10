@@ -33,6 +33,10 @@ const CANONICAL_SKIV = Object.freeze({
   opening_line: 'Allenatore, riconosco il tuo passo.',
   closing_ritual: 'Sabbia segue.',
   voice_modifier: 'canonical',
+  // 2026-05-10 TKT-SKIV-COMPANION-SERVICE — Ennea archetype canonical Skiv.
+  // Cacciatore(8) = predator hit-and-run, semantic fit dune_stalker apex.
+  // Triggera enneaEffects "Mordi e Fuggi" bonus evasion durante combat.
+  ennea_archetype: 'Cacciatore',
 });
 
 let _cachedPool = null;
@@ -99,6 +103,37 @@ function _trimSuffixDot(s) {
 }
 
 /**
+ * 2026-05-10 TKT-SKIV-COMPANION-SERVICE — resolve ennea archetype per biome.
+ *
+ * Audit cross-domain BACKLOG: skiv_archetype_pool aveva 0/9 Ennea
+ * archetype assignments. Post fix TKT-SKIV-ENNEA-ARCHETYPE shipped
+ * `ennea_archetype_bias` section (8 biomi → 3 ennea types weighted).
+ * Questa funzione consuma il lookup per assegnare ennea archetype a
+ * istanza companion generata, abilitando enneaEffects runtime
+ * downstream (apps/backend/services/enneaEffects.js handler 9/9 wired).
+ *
+ * Selection: primary archetype (index 0) deterministic. Future:
+ * squad_dominant_form bias (E.g. T-high → preferenza Cacciatore vs F).
+ *
+ * Canonical Skiv override: biome=savana + trainerCanonical=true →
+ * 'Cacciatore' (semantic fit per dune_stalker apex predator persona).
+ *
+ * @param {object} pool — full pool YAML root
+ * @param {string} biomeOriginId — resolved biome (post-fallback)
+ * @returns {string} ennea archetype name (es. 'Cacciatore') or '' missing
+ */
+function _resolveEnneaArchetype(pool, biomeOriginId) {
+  if (!pool || !pool.ennea_archetype_bias || !biomeOriginId) return '';
+  const bias = pool.ennea_archetype_bias[biomeOriginId];
+  if (!Array.isArray(bias) || bias.length === 0) {
+    // Fallback to savana if biome missing (mirror _resolveBiomePool fallback).
+    const savBias = pool.ennea_archetype_bias.savana;
+    return Array.isArray(savBias) && savBias.length > 0 ? savBias[0] : '';
+  }
+  return bias[0]; // primary archetype deterministic
+}
+
+/**
  * Deterministic companion archetype pick.
  *
  * @param {object} opts
@@ -141,6 +176,11 @@ function pick(opts = {}) {
   const metaphor =
     metaphorSet.length > 0 ? metaphorSet[Math.floor(rng() * metaphorSet.length)] : '';
   const voiceModifier = _resolveVoiceModifier(pool, formAxes);
+  // 2026-05-10 TKT-SKIV-COMPANION-SERVICE — companion ora carry ennea_archetype
+  // resolved da ennea_archetype_bias (TKT-SKIV-ENNEA-ARCHETYPE data ship).
+  // enneaEffects.resolveEnneaEffects([archetype]) downstream usa per
+  // applicare buff/debuff combat (es. "Cacciatore" → evasion_bonus).
+  const enneaArchetype = _resolveEnneaArchetype(pool, biomeOriginId);
   return {
     display_name: name,
     species_id: typeof speciesId === 'string' ? speciesId : '',
@@ -149,6 +189,7 @@ function pick(opts = {}) {
     opening_line: metaphor ? `Allenatore, ${_trimSuffixDot(metaphor)}.` : '',
     closing_ritual: closing,
     voice_modifier: voiceModifier,
+    ennea_archetype: enneaArchetype,
   };
 }
 

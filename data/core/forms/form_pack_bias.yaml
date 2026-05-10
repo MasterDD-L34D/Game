@@ -30,6 +30,14 @@ job_bias:
   artificer: [A, F]
   invoker: [A, J]
   harvester: [D, J]
+  # 2026-05-10 audit cross-domain BACKLOG TKT-FORMPACK-EXP-JOB-BIAS:
+  # add base ranger (scout role) + 4 expansion jobs (jobs_expansion.yaml).
+  # Mapping role → pack semantica (universal_packs codes A-J top of file):
+  ranger: [C, E] # scout → job+bioma flessibile + utility heavy
+  stalker: [A, J] # alpha strike damage → job_ability+trait + job+PE economy
+  symbiont: [I, B] # bonded support amplifier → trait+guardia+forma + defense+stack
+  beastmaster: [C, D] # control minions → flessibile + sustain per minion
+  aberrant: [G, J] # mutation-driven damage → forma+trait random + job+PE
   # Balanced fallback (jobs tag composite)
   any: [E, I]
 

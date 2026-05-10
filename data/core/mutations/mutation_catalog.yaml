@@ -1004,9 +1004,15 @@ mutations:
     prerequisites:
       traits: [batteri_termofili_endosimbiosi]
       mutations: [symbiosis_chemio_endosymbiont]
+    # 2026-05-10 fix circular swap (audit cross-domain BACKLOG TKT-MUT-CIRCULAR-SWAP):
+    # tier 3 capstone NON deve re-aggiungere base trait `batteri_endosimbionti_chemio`
+    # (prereq trait di mutazione tier 2). Capstone trait dedicato non ancora
+    # definito in active_effects.yaml → swap empty (mutation produce stat
+    # bonus + body_slot effect via mp_cost runtime, NO trait regression).
+    # Future: definire `batteri_endosimbionti_capstone` + ri-aggiornare swap.
     trait_swap:
       remove: []
-      add: [batteri_endosimbionti_chemio]
+      add: []
     pe_cost: 22
     pi_cost: 12
     derived_ability_id: null

@@ -97,19 +97,35 @@ function resolveEnneaEffects(activeArchetypes = []) {
 /**
  * Applica ennea buff a un actor (muta in place).
  * Aggiunge a actor.buffs[] come buff temporanei.
+ *
+ * 2026-05-10 dedup logic (audit cross-domain BACKLOG TKT-ENNEA-1-5-DOUBLE-TRIGGER):
+ * quando multipli archetype Ennea co-fire e targetano stessa stat (es.
+ * Riformatore(1)+Architetto(5) entrambi attack_mod +1), buff
+ * stackavano linearmente → +2 attack_mod doppio buff non intended.
+ * Fix: dedup per-stat, mantenere SOLO buff più forte per ogni stat
+ * tra tutti gli ennea source attivi. Preserve per-archetype trail
+ * via `source` field per debug; consumer runtime usa primo entry per stat.
  */
 function applyEnneaBuffs(actor, effects) {
   if (!actor || !effects || effects.length === 0) return;
   if (!actor.buffs) actor.buffs = [];
+  const bestPerStat = new Map();
   for (const effect of effects) {
     for (const buff of effect.buffs || []) {
-      actor.buffs.push({
+      const existing = bestPerStat.get(buff.stat);
+      const candidate = {
         source: `ennea:${effect.archetype}`,
         stat: buff.stat,
         amount: buff.amount,
         duration: buff.duration,
-      });
+      };
+      if (!existing || (buff.amount || 0) > (existing.amount || 0)) {
+        bestPerStat.set(buff.stat, candidate);
+      }
     }
+  }
+  for (const dedupedBuff of bestPerStat.values()) {
+    actor.buffs.push(dedupedBuff);
   }
 }
 
@@ -177,33 +193,62 @@ function applyEnneaToStatus(actor, effects) {
     return { applied, skipped };
   }
   if (!actor.status) actor.status = {};
+  // 2026-05-10 dedup logic (audit cross-domain BACKLOG TKT-ENNEA-1-5-DOUBLE-TRIGGER):
+  // applyEnneaToStatus è canonical runtime path da sessionRoundBridge.
+  // Quando multipli archetype Ennea co-fire e targetano stessa stat
+  // (es. Riformatore(1)+Architetto(5) entrambi attack_mod +1), bonus
+  // stackava linearmente → +2 attack_mod doppio buff non intended.
+  // Dedup pre-apply: per ogni stat, mantenere SOLO buff più forte
+  // (highest amount). Source archetype preservato per applied trail.
+  const bestPerStat = new Map();
   for (const effect of effects) {
     for (const buff of effect.buffs || []) {
-      const stat = buff.stat;
-      const amount = Number(buff.amount) || 0;
-      const duration = Number(buff.duration) || 1;
-      const kind = STAT_RUNTIME_KIND[stat] || 'log_only';
-      if (kind === 'mechanical') {
-        const bonusKey = `${stat}_bonus`;
-        const buffKey = `${stat}_buff`;
-        actor[bonusKey] = (Number(actor[bonusKey]) || 0) + amount;
-        actor.status[buffKey] = Math.max(Number(actor.status[buffKey]) || 0, duration);
-        applied.push({
-          archetype: effect.archetype,
-          stat,
-          amount,
-          duration,
-          bonus_after: actor[bonusKey],
-        });
-      } else {
+      const existing = bestPerStat.get(buff.stat);
+      if (!existing || (Number(buff.amount) || 0) > (Number(existing.buff.amount) || 0)) {
+        bestPerStat.set(buff.stat, { effect, buff });
+      }
+    }
+  }
+  // Skip-track tutti i buff scartati da dedup come superseded per audit.
+  for (const effect of effects) {
+    for (const buff of effect.buffs || []) {
+      const winner = bestPerStat.get(buff.stat);
+      if (!winner || winner.effect !== effect || winner.buff !== buff) {
         skipped.push({
           archetype: effect.archetype,
-          stat,
-          amount,
-          duration,
-          reason: 'no_consumer',
+          stat: buff.stat,
+          amount: Number(buff.amount) || 0,
+          duration: Number(buff.duration) || 1,
+          reason: 'dedup_superseded',
         });
       }
+    }
+  }
+  for (const { effect, buff } of bestPerStat.values()) {
+    const stat = buff.stat;
+    const amount = Number(buff.amount) || 0;
+    const duration = Number(buff.duration) || 1;
+    const kind = STAT_RUNTIME_KIND[stat] || 'log_only';
+    if (kind === 'mechanical') {
+      const bonusKey = `${stat}_bonus`;
+      const buffKey = `${stat}_buff`;
+      actor[bonusKey] = (Number(actor[bonusKey]) || 0) + amount;
+      actor.status[buffKey] = Math.max(Number(actor.status[buffKey]) || 0, duration);
+      applied.push({
+        archetype: effect.archetype,
+        stat,
+        amount,
+        duration,
+        bonus_after: actor[bonusKey],
+      });
+    } else {
+      skipped.push({
+        archetype: effect.archetype,
+        stat,
+        amount,
+        duration,
+        reason: 'no_consumer',
+      });
     }
   }
   return { applied, skipped };
