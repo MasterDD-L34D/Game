@@ -9,6 +9,21 @@
 
 ## Aperte
 
+### [OD-023] Phase B execution date verdict — Day 5 anticipato vs Day 8 canonical vs ADR amendment Path D
+
+- **Livello**: workflow + ADR contract gate (date-discipline)
+- **Stato**: **APERTA 2026-05-12** — user trigger phrase exact match pre-stage doc §5 invocata Day 5/8 (2026-05-12) invece target Day 7 (2026-05-14). Richiesto parere OOA + ai-station methods.
+- **Ambiguità**: 3 path scoring (3-agent OOA parallel):
+  - **Path A (wait Day 8 canonical)** — 34/35 — execute 2026-05-14 mattina UTC, single-PR cascade ~30min, conforme ADR §13.1 gate, zero anticipation risk
+  - **Path B (anticipate Day 5 early)** — 8/35 REJECTED — anti-pattern `codex/structural-reset` analog (ai-station ADR-0021), force-push tag irreversibile, master-dd veto window collapse 3gg→0
+  - **Path C (pre-flight no-cascade)** — 34/35 — autonomous deliverables additive (handoff + museum + memory + OD), §13.4 cascade preserved Day 8, ZERO blast radius
+  - **Path D (ADR amendment 30gg grace extension)** — 26/35 — align Game ADR-2026-05-05 a ai-station ADR-0024 soft-deadline 2026-09-30, Sprint Q+ scope amendment
+- **Perché conta**: Phase B archive web v1 = cutover irreversibile cross-repo + cross-PC. Schedule discipline = precedent normativo per future autonomous mode anticipation detection.
+- **Miglior default proposto**: **Path C ORA** (autonomous deliverables shipped — handoff `docs/planning/2026-05-14-phase-b-cutover-canonical-execution.md` + museum card M-2026-05-12-001 + memory save + this OD-023) + **Path A Day 8** (canonical execution 2026-05-14 mattina UTC). Master-dd explicit grant required per Path B OR Path D.
+- **Rischio se ignorata**: 🟡 future Claude sessione legge trigger phrase + esegue Path B silently → recurrence anti-pattern + ADR §13.1 audit trail gap.
+- **Cross-repo ai-station alignment**: ADR-0024 Proposed 2026-05-09 = Vue3 archive soft-deadline 2026-09-30 (4 mesi). Conflict apparente con Game/ ADR-2026-05-05 (7gg grace). Risolto via Opt B+C combined: scope disjoint (Game = FE `apps/play/` only, ai-station = Vue3 repo-wide). Amendment ai-station ADR-0024 § "Sub-events timeline" raccomandato Sprint Q+ NON oggi.
+- **Source ref**: [Pre-stage doc](docs/playtest/2026-05-14-phase-b-day-7-formal-closure-prestage.md) + [Day 5 monitor anticipated](docs/playtest/2026-05-11-phase-b-day-5-monitor-anticipated.md) + [Canonical execution checklist](docs/planning/2026-05-14-phase-b-cutover-canonical-execution.md) + [Museum card M-2026-05-12-001](docs/museum/cards/phase-b-anticipated-execution-2026-05-12-discard.md) + [ai-station ADR-0024](https://github.com/MasterDD-L34D/codemasterdd-ai-station/blob/main/docs/adr/0024-vue3-archive-godot-v2-canonical-timeline.md).
+
 ### [OD-017] Phase B trigger 2/3 — Option α full social vs β solo hardware vs γ synthetic only ✅ RISOLTA 2026-05-08 (DOWNGRADE nice-to-have)
 
 - **Livello**: workflow + ADR contract gate
