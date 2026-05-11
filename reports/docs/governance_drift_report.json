@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-10T18:44:39+00:00",
+  "generated_at": "2026-05-11T09:54:58+00:00",
   "summary": {
-    "total": 6,
+    "total": 8,
     "errors": 0,
-    "warnings": 6
+    "warnings": 8
   },
   "issues": [
     {
@@ -29,6 +29,18 @@
       "code": "stale_document",
       "path": "docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-26-next-session-handoff-M14-C.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-26-next-session-kickoff-p4-mbti-playtest.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-10"
     },
     {
       "level": "warning",
