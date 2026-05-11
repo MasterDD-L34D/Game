@@ -81,7 +81,7 @@ describe('TraitDataService caching behaviour', () => {
 
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     const firstLoad = await service.getTraits();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -209,7 +209,7 @@ describe('TraitDataService remote mutations', () => {
 
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     await service.getTraits();
     const remoteTrait = await service.getTraitById('delta');
     expect(remoteTrait).not.toBeNull();
@@ -333,7 +333,7 @@ describe('TraitDataService remote mutations', () => {
 
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     await service.getTraits();
     const remoteTrait = await service.getTraitById('delta');
     expect(remoteTrait).not.toBeNull();
@@ -448,7 +448,7 @@ describe('TraitDataService remote mutations', () => {
 
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     await service.getTraits();
     const remoteTrait = await service.getTraitById('delta');
     expect(remoteTrait).not.toBeNull();
@@ -541,7 +541,7 @@ describe('TraitDataService validation workflow', () => {
 
     globalThis.fetch = fetchMock as unknown as typeof fetch;
 
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     const result = await service.validateTrait(trait);
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -578,7 +578,7 @@ describe('TraitDataService validation workflow', () => {
   it('returns an empty validation result when the remote source is disabled', async () => {
     vi.unstubAllEnvs();
     vi.stubEnv('VITE_TRAIT_DATA_SOURCE', 'local');
-    const service = new TraitDataService(createFakeQ());
+    const service = new TraitDataService();
     const result = await service.validateTrait(getSampleTraits()[0]);
     expect(result).toEqual({ summary: { errors: 0, warnings: 0, suggestions: 0 }, issues: [] });
   });

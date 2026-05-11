@@ -38,9 +38,7 @@ export class TraitDataService {
   private readonly traitMeta: Map<string, { etag: string | null; version: string | null }> =
     new Map();
 
-  static $inject = ['$q'];
-
-  constructor(private readonly $q: any) {
+  constructor() {
     const source = (import.meta.env.VITE_TRAIT_DATA_SOURCE ?? '').toLowerCase();
     this.useRemoteSource = source === 'remote';
 
@@ -75,10 +73,10 @@ export class TraitDataService {
     const forceRemote = options?.forceRemote ?? false;
 
     if (this.cache && this.isCacheUsable(forceRemote)) {
-      return this.$q.resolve(cloneTraits(this.cache.traits));
+      return Promise.resolve(cloneTraits(this.cache.traits));
     }
 
-    return this.$q.when(this.loadTraits()).then((traits) => cloneTraits(traits));
+    return Promise.resolve(this.loadTraits()).then((traits) => cloneTraits(traits));
   }
 
   refreshTraitsFromRemote(): Promise<Trait[]> {
@@ -101,7 +99,7 @@ export class TraitDataService {
 
   getTraitById(id: string): Promise<Trait | null> {
     if (!id || id.trim() === '') {
-      return this.$q.resolve(null);
+      return Promise.resolve(null);
     }
 
     const resolveFromCache = (): Trait | null => {
@@ -116,8 +114,7 @@ export class TraitDataService {
       return this.getTraits().then(() => resolveFromCache());
     }
 
-    return this.$q
-      .when(this.fetchTraitDetailFromApi(id))
+    return Promise.resolve(this.fetchTraitDetailFromApi(id))
       .then((result) => {
         if (result) {
           return cloneTrait(result);
@@ -173,8 +170,7 @@ export class TraitDataService {
       }
     };
 
-    return this.$q
-      .when(persist())
+    return Promise.resolve(persist())
       .then((result) => {
         this.lastError = null;
         const finalTrait = result?.trait ?? traitCopy;
@@ -187,7 +183,7 @@ export class TraitDataService {
       .catch((error: Error) => {
         const err = error instanceof Error ? error : new Error(String(error));
         this.lastError = err;
-        return this.$q.reject(err);
+        return Promise.reject(err);
       });
   }
 
@@ -199,9 +195,9 @@ export class TraitDataService {
     const candidate = cloneTrait(trait);
     synchroniseTraitPresentation(candidate);
 
-    return this.$q.when(this.performTraitValidation(candidate)).catch((error: Error) => {
+    return Promise.resolve(this.performTraitValidation(candidate)).catch((error: Error) => {
       const err = error instanceof Error ? error : new Error(String(error));
-      return this.$q.reject(err);
+      return Promise.reject(err);
     });
   }
 
@@ -1010,6 +1006,12 @@ export class TraitDataService {
   }
 }
 
-export const registerTraitDataService = (module: any): void => {
-  module.service('TraitDataService', TraitDataService);
-};
+// TKT-C1 — Vue 3 rebuild: singleton instance (no Angular module registration).
+let _singleton: TraitDataService | null = null;
+
+export function getTraitDataService(): TraitDataService {
+  if (!_singleton) {
+    _singleton = new TraitDataService();
+  }
+  return _singleton;
+}
