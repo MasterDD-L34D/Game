@@ -209,6 +209,15 @@ def validate(
                     f"biome_affinity '{biome_affinity}' utilizza un alias, usare '{resolved}'"
                 )
 
+        # Deprecation: morph_slots → trait_plan canonical migration
+        # (ADR-2026-05-11 Path B variant ACCEPTED 2026-05-11).
+        # NO new entries should add morph_slots. Edit trait_plan only.
+        # Existing entries preserved for backwards compat zero-runtime-consumer.
+        if "morph_slots" in sp:
+            warnings.append(
+                f"morph_slots è DEPRECATO (ADR-2026-05-11): edit `trait_plan` canonical instead. species id={sid}"
+            )
+
         trait_plan = sp.get("trait_plan") or {}
         if trait_plan:
             for key in ["core", "optional", "synergies"]:
