@@ -292,6 +292,15 @@ model FormSessionState {
   // Consumer: mutationTriggerEvaluator kind=cumulative_turns_biome.
   // Update: end-of-encounter aggregate per session.scenario_biome_class.
   cumulativeBiomeTurns Json? @map("cumulative_biome_turns")
+  // 2026-05-11 TKT-C4 Phase 6 forbidden path bundle.
+  // cumulative_ally_adjacent_turns: int counter per unit, cross-session.
+  // Consumer: mutationTriggerEvaluator kind=ally_adjacent_turns.
+  // Update: end-of-round bridge scans session.units adjacency Manhattan <=1.
+  cumulativeAllyAdjacentTurns Int? @default(0) @map("cumulative_ally_adjacent_turns")
+  // cumulative_trait_active: JSONB {trait_id: int_fires} per unit, cross-session.
+  // Consumer: mutationTriggerEvaluator kind=trait_active_cumulative.
+  // Update: end-of-round bridge reads session.events action_type='trait_fire'.
+  cumulativeTraitActive Json? @map("cumulative_trait_active")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 

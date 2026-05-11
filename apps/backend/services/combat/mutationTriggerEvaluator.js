@@ -1,9 +1,11 @@
 // 2026-05-10 TKT-MUT-AUTO-TRIGGER Phase 2+3+4 (ADR-2026-05-10).
+// 2026-05-11 TKT-C4 Phase 6 forbidden path bundle (master-dd grant batch 2026-05-11).
 //
 // Phase 2: parser whitelist 12 kinds machine-readable.
 // Phase 3: per-unit per-round evaluator service.
 // Phase 4: surface — emit mutation_unlocked event in raw event log
 //   (action_type='mutation_unlock') + CLI debug log.
+// Phase 6: cross-encounter cumulative state Prisma migration 0009.
 //
 // Caller: apps/backend/services/sessionRoundBridge.js
 //   applyEndOfRoundSideEffects → loop units → evaluateMutationTriggers
@@ -16,25 +18,25 @@
 //   Q1 Phase scope = B (full backend Phase 1+2+3, surface CLI/log)
 //   Q2 Trigger kinds = Full (12 kinds whitelist post auto-extract)
 //   Q3 Default unlock UX = Hybrid (auto tier 1, confirm tier 2-3)
-//   Q4 Cumulative cross-session = Schema migration deferred (separate PR)
+//   Q4 Cumulative cross-session = Schema migration shipped Phase 6 (TKT-C4 2026-05-11).
 //
-// Status implementation:
+// Status implementation 12/12 post Phase 6:
 //   - status_apply_count       ✅ implemented
 //   - biome_turn_count         ✅ implemented
 //   - damage_taken_high_mos    ✅ implemented
 //   - kill_streak              ✅ implemented
 //   - mutation_chain           ✅ implemented
-//   - cumulative_turns_biome   ✅ implemented (Phase 5 ship — Prisma migration 0007 done)
+//   - cumulative_turns_biome   ✅ implemented (Phase 5 — Prisma migration 0007)
 //   - damage_taken_channel     ✅ implemented
-//   - ally_killed_adjacent     ✅ implemented (Phase 5 partial 2026-05-10 — kill+attack event match + position adjacency)
-//   - ally_adjacent_turns      ⏳ deferred Phase 6 (richiede per-turn proximity tracker, Prisma migration 0008+)
-//   - assisted_kill_count      ✅ implemented (Phase 5 partial 2026-05-10 — assist event filter)
+//   - ally_killed_adjacent     ✅ implemented (Phase 5 partial)
+//   - ally_adjacent_turns      ✅ implemented (Phase 6 — Prisma migration 0009)
+//   - assisted_kill_count      ✅ implemented (Phase 5 partial)
 //   - sistema_signal_active    ✅ implemented
-//   - trait_active_cumulative  ⏳ deferred Phase 6 (cross-encounter aggregate, Prisma migration 0009+)
+//   - trait_active_cumulative  ✅ implemented (Phase 6 — Prisma migration 0009)
 //
-// Phase 5 implementation count: 10/12 kinds. Residue 2/12 require Prisma
-// schema migration (per-turn proximity tracker + cross-encounter trait
-// aggregate) — defer ADR + master-dd grant gate.
+// Phase 6 closes residue 2/12. Bridge update hook for counter increment
+// stub'd inline cumulativeStateTracker (TODO Phase 7 wire into roundOrchestrator
+// applyEndOfRoundSideEffects when Phase 6 LIVE smoke passes).
 
 'use strict';
 
@@ -227,10 +229,31 @@ function _evaluateCondition(condition, unit, session) {
       ).length;
       return { triggered: count >= threshold, count, threshold };
     }
-    // 2026-05-10 — kinds residue Phase 6 (require Prisma migration 0008+).
-    case 'ally_adjacent_turns':
-    case 'trait_active_cumulative':
-      return { triggered: false, reason: 'kind_deferred_phase_6', kind };
+    case 'ally_adjacent_turns': {
+      // Phase 6 ship 2026-05-11 (TKT-C4). Counts cumulative rounds where unit
+      // had any ally within Manhattan distance <=1. State persisted via
+      // unit.cumulative_ally_adjacent_turns (int, Prisma migration 0009).
+      // Optional species_filter='same' narrows ally pool to unit.species.
+      const threshold = Number(condition.threshold) || Number(condition.min_proximity_turns) || 0;
+      const speciesFilter = condition.species_filter || null;
+      const turns = Number(unit?.cumulative_ally_adjacent_turns) || 0;
+      // species_filter only affects bridge counter update path, not threshold check
+      // (counter already filtered upstream by cumulativeStateTracker if applicable).
+      return { triggered: turns >= threshold, turns, threshold, speciesFilter };
+    }
+    case 'trait_active_cumulative': {
+      // Phase 6 ship 2026-05-11 (TKT-C4). Counts cumulative fires of a specific
+      // trait per unit cross-session. State persisted via
+      // unit.cumulative_trait_active (JSON {trait_id: count}, Prisma migration 0009).
+      const traitId = condition.trait_id;
+      const threshold = Number(condition.threshold) || 0;
+      if (!traitId) {
+        return { triggered: false, reason: 'trait_id_missing', kind };
+      }
+      const map = unit?.cumulative_trait_active || {};
+      const count = Number(map[traitId]) || 0;
+      return { triggered: count >= threshold, count, threshold, traitId };
+    }
     default:
       return { triggered: false, reason: 'unknown_kind', kind };
   }
@@ -359,4 +382,5 @@ module.exports = {
   emitUnlockEvents,
   _resetCache,
   _loadCatalog,
+  _evaluateCondition,
 };

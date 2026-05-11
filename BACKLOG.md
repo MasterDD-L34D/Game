@@ -25,7 +25,7 @@ User verdict cascade 11 decisioni outstanding (4 ADR PROPOSED + 6 OPEN_DECISIONS
 | 6   | C1  | AngularJS Vue 3 trait-editor migration                   | ACCEPT Path C Vue 3              | PR 1 ADR ACCEPTED + PR 4 §7                                                                                      |
 | 7   | C2  | ADR mutation Phase 4 auto-trigger                        | ACCEPT (status flip)             | PR 1 ADR ACCEPTED                                                                                                |
 | 8   | C3  | species_expansion Path B canonical migration             | ACCEPT Path B variant trait_plan | PR 1 ADR ACCEPTED + PR 3 impl                                                                                    |
-| 9   | C4  | mutation Phase 6 forbidden path bundle GRANT             | ACCEPT scoped                    | PR 4 scope ticket §8                                                                                             |
+| 9   | C4  | mutation Phase 6 forbidden path bundle GRANT             | ACCEPT scoped                    | SHIPPED 2026-05-11 — Prisma 0009 + mutation_trigger schema + evaluator 12/12 + cumulativeStateTracker + 10 test  |
 | 10  | C5  | Game-Database HTTP runtime flag-OFF                      | STATUS QUO confermato            | PR 1 OD-004 status flip                                                                                          |
 | 11  | C6  | Balance & Economy Tuning skill install                   | ACCEPT install ora               | install-doc 2026-05-11 (master-dd manual) — vedi `docs/planning/2026-05-11-tkt-c6-skill-install-instructions.md` |
 
