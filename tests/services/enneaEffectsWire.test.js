@@ -87,15 +87,18 @@ test('applyEnneaToStatus: Coordinatore(2) → defense_mod_bonus +1 + status.defe
   assert.equal(skipped.length, 0);
 });
 
-test('applyEnneaToStatus: multi-archetype Conquistatore + Architetto → attack_mod_bonus +2 (stacking)', () => {
+test('applyEnneaToStatus: multi-archetype Conquistatore + Architetto → attack_mod_bonus +1 (dedup best-wins)', () => {
+  // 2026-05-10 TKT-ENNEA-1-5-DOUBLE-TRIGGER dedup: when two archetypes target
+  // same stat with equal amount, best-per-stat wins; other is skipped as superseded.
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Conquistatore(3)', 'Architetto(5)']);
   assert.equal(effects.length, 2);
   const { applied, skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(actor.attack_mod_bonus, 2);
+  assert.equal(actor.attack_mod_bonus, 1);
   assert.equal(actor.status.attack_mod_buff, 1);
-  assert.equal(applied.length, 2);
-  assert.equal(skipped.length, 0);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 1);
+  assert.equal(skipped[0].reason, 'dedup_superseded');
 });
 
 // ─────────────────────────────────────────────────────────────────
@@ -294,27 +297,30 @@ test('applyEnneaToStatus: Lealista(6) → defense_mod_bonus +1 + status.defense_
   assert.equal(skipped.length, 0);
 });
 
-test('applyEnneaToStatus: stack Riformatore + Architetto → attack_mod_bonus +2', () => {
+test('applyEnneaToStatus: dedup Riformatore + Architetto → attack_mod_bonus +1 (same stat, one superseded)', () => {
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Riformatore(1)', 'Architetto(5)']);
   assert.equal(effects.length, 2);
   const { applied, skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(actor.attack_mod_bonus, 2);
+  assert.equal(actor.attack_mod_bonus, 1);
   assert.equal(actor.status.attack_mod_buff, 1);
-  assert.equal(applied.length, 2);
-  assert.equal(skipped.length, 0);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 1);
+  assert.equal(skipped[0].reason, 'dedup_superseded');
 });
 
-test('applyEnneaToStatus: stack Lealista(2) + Coordinatore(1) → defense_mod_bonus +2, buff=max(2,1)=2', () => {
+test('applyEnneaToStatus: dedup Lealista(6) + Coordinatore(2) → defense_mod_bonus +1, buff=2 (Lealista wins longer duration)', () => {
+  // Both give defense_mod +1; dedup keeps one. Lealista(6) duration=2 wins
+  // (same amount, first-encountered in Map insertion order → Lealista kept).
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Lealista(6)', 'Coordinatore(2)']);
   assert.equal(effects.length, 2);
   const { applied, skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(actor.defense_mod_bonus, 2);
-  // Lealista duration 2 wins over Coordinatore duration 1 via Math.max.
+  assert.equal(actor.defense_mod_bonus, 1);
   assert.equal(actor.status.defense_mod_buff, 2);
-  assert.equal(applied.length, 2);
-  assert.equal(skipped.length, 0);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 1);
+  assert.equal(skipped[0].reason, 'dedup_superseded');
 });
 
 test('decay coerenza: Lealista(6) duration=2 → buff persiste 2 round end', () => {
