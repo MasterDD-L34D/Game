@@ -196,6 +196,14 @@ const {
   ELEMENTS: TERRAIN_ELEMENTS,
 } = require('../services/combat/terrainReactions');
 
+// TKT-P6 — Rewind safety valve (snapshot pre-action + rewind endpoint).
+const {
+  snapshotSession,
+  rewindSession,
+  resetRewind,
+  rewindStateSummary,
+} = require('../services/combat/rewindBuffer');
+
 // Italian channel → terrainReactions element mapping. Action.channel is the
 // canonical attack channel string ("fuoco", "ghiaccio", ...). Only mapped
 // channels trigger reactions; everything else (fisico, perforante, ...) skips.
@@ -1765,6 +1773,18 @@ function createSessionRouter(options = {}) {
 
       const actionType = body.action_type;
 
+      // TKT-P6 — Snapshot pre-action state for potential rewind.
+      // Only player-controlled actor actions push snapshots (sistema AI
+      // actions are deterministic given seed, no rewind UX needed). Skip when
+      // session._rewind_disabled flag set (PvP / replay modes).
+      if (actor.controlled_by === 'player' && !session._rewind_disabled) {
+        try {
+          snapshotSession(session);
+        } catch {
+          // best-effort: never block action on snapshot failure
+        }
+      }
+
       if (actionType === 'attack') {
         const targetId = body.target_id || body.target;
         const target = session.units.find((u) => u.id === targetId);
@@ -2530,11 +2550,67 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // TKT-P6 — Rewind safety valve endpoint.
+  // POST /api/session/:id/rewind — restore most recent snapshot, decrement
+  // rewind budget. Returns 409 when budget exhausted or buffer empty.
+  router.post('/:id/rewind', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const result = rewindSession(session);
+      if (!result.ok) {
+        return res.status(409).json({
+          error: 'rewind_unavailable',
+          reason: result.reason,
+          budget_remaining: result.budget_remaining ?? 0,
+          rewind: rewindStateSummary(session),
+        });
+      }
+      // Append rewind audit event (forward-only log).
+      try {
+        if (Array.isArray(session.events)) {
+          session.events.push({
+            action_type: 'rewind',
+            turn: session.turn,
+            actor_id: null,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'ok',
+            position_from: null,
+            position_to: null,
+            budget_remaining: result.budget_remaining,
+            automatic: false,
+          });
+        }
+      } catch {
+        /* event log best-effort */
+      }
+      return res.json({
+        session_id: session.session_id,
+        rewind: {
+          rewound: true,
+          budget_remaining: result.budget_remaining,
+          snapshots_remaining: result.snapshots_remaining,
+        },
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/end', async (req, res, next) => {
     try {
       const body = req.body || {};
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
+      // TKT-P6 — reset rewind buffer + budget on combat end (next encounter
+      // starts fresh budget).
+      try {
+        resetRewind(session);
+      } catch {
+        /* best-effort */
+      }
       // Telemetry B (TKT-03/05): compute outcome + VC snapshot, persist
       // session_end event prima della finalizzazione.
       const sistemaAlive = session.units.filter(
