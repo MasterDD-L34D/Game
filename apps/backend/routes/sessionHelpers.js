@@ -431,6 +431,17 @@ function publicSessionView(session) {
       session.biome_modifiers && typeof session.biome_modifiers === 'object'
         ? session.biome_modifiers
         : { diff_base: 1.0, hp_mult: 1.0, pressure_mult: 0, pressure_initial_bonus: 0 },
+    // TKT-P6 — Rewind safety valve summary for HUD undo button. Always present
+    // (default budget=3 even on fresh session, snapshots=0 until first action).
+    rewind: (() => {
+      try {
+        // eslint-disable-next-line global-require
+        const { rewindStateSummary } = require('../services/combat/rewindBuffer');
+        return rewindStateSummary(session);
+      } catch {
+        return { budget_remaining: 3, budget_max: 3, snapshots_count: 0, buffer_size: 3 };
+      }
+    })(),
     // Sprint 11 (Surface-DEAD #6): expose biome_id per HUD biome chip surface.
     // session.biome_id viene popolato in /start dal body biome_id raw. Fallback
     // a session.encounter?.biome_id quando encounter_id YAML loader popola
