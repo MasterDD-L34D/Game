@@ -1,15 +1,17 @@
 ---
-title: TKT-C1 partial handoff — Vue 3 rebuild + trait editor port pending
+title: TKT-C1 partial handoff — Vue 3 rebuild + trait editor port (CLOSED 2026-05-11)
 workstream: planning
-status: active
+status: closed
 owner: claude
 last_review: 2026-05-11
-tags: [tkt-c1, trait-editor, vue-3, angularjs, migration, handoff]
+tags: [tkt-c1, trait-editor, vue-3, angularjs, migration, handoff, closed]
 ---
 
 # TKT-C1 partial handoff — AngularJS → Vue 3 rebuild
 
-## Shipped this PR
+> **CLOSED 2026-05-11 (TKT-C1-FE)** — Full editor view ported via follow-up PR. See "Closure note" at the bottom.
+
+## Shipped this PR (#2243)
 
 Full Vue 3 rebuild di `apps/trait-editor/` ad eccezione del **trait editor full controller** (1515 LOC AngularJS, deferred a follow-up scoped). App functional con library + detail view + routing + stato reattivo + ported services.
 
@@ -112,3 +114,34 @@ Stub view + handoff doc preserves intent + scopes residual work cleanly.
 ## Pillar impact
 
 P3 Identità Specie × Job — trait curation tooling rebuild = unblock future contribution velocity (Vue ecosystem >> AngularJS 1.8 dead-end).
+
+## Closure note (TKT-C1-FE, 2026-05-11)
+
+Full Vue 3 editor view shipped. `TraitEditorView.vue` stub replaced with composition-API SFC (~760 LOC) coprendo:
+
+- General info form (name + archetype + playstyle + description) con validazione reattiva touched/error
+- Indice e classificazione (label + tier + slot core/complementare) con label sync via `onLabelChange`
+- Dynamic-list editors (slot + usage tags + conflitti + biome tags + signature moves) con add/remove
+- Validation panel + auto-fix engine (pointer-based mutation, full port da legacy controller)
+- Undo stack auto-fix
+- Save/cancel workflow con `mergeTrait` + `synchroniseTraitPresentation`
+- Preview live via `setPreviewTrait`
+- Status messages via `setStatus`
+
+### Acceptance criteria — verified
+
+| Criterio                                              | Stato                                           |
+| ----------------------------------------------------- | ----------------------------------------------- |
+| Form input + reactive binding funziona end-to-end     | ✅ smoke + verbose spec                         |
+| Validation panel parity (issues + summary + auto-fix) | ✅ pointer engine port + `data-testid` markup   |
+| Preview live renders trait fields                     | ✅ `setPreviewTrait` su ogni `onFormChange`     |
+| Save/cancel routes back to detail view                | ✅ spec `cancel navigates back to trait detail` |
+| Test suite ≥6                                         | ✅ 7/7 new specs verdi                          |
+| Build vite green                                      | ✅ 132ms, 18.56 kB chunk editor                 |
+| Test totali green                                     | ✅ 23/23 (16 baseline + 7 nuovi)                |
+
+### Files touched
+
+- `apps/trait-editor/src/views/TraitEditorView.vue` — full rebuild (~760 LOC, replaces stub)
+- `apps/trait-editor/src/views/__tests__/TraitEditorView.spec.ts` — new spec, 7 test
+- `docs/planning/2026-05-11-tkt-c1-partial-handoff.md` — closure note (this file)
