@@ -8,27 +8,25 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v38 (post sessione 2026-05-10 notte Sprint Q+ Q-10 cross-stack closure 12/12 + trait orphan ASSIGN-A FULL CLOSURE — 76 PR cumulative Day 5+1+2)
-- **Ultimo aggiornamento**: 2026-05-10 ~22:00 UTC. **76 PR cumulative** (75 Game/ + 1 Game-Godot-v2 #217 MERGED). Major delta v37→v38 (5 PR notte +): Q-10 fix RefCounted + gdformat (Godot v2 #217 `b53f67c7`) + Skiv-monitor admin (#2207) + cautious empirical 3rd (#2197) + wave 5+6 33 traits (#2213 → 68/91) + wave 7 species_expansion 26 traits (#2214 → 94/91 effective full closure). **Sprint Q+ cross-stack 12/12 CHIUSO**. Trait orphan ASSIGN-A: 14+6+15+33+26 = **94 traits player-visible** (target 91 + 3 wave 0+1 silent recovery − 2 T3 unmappable). Pillar deltas v38: P3 Identità Specie × Job 🟢++ → 🟢ⁿ confermato (94 trait orphan cross-yaml additive species_expansion). **Vedi memory: project_session_2026_05_10_notte_q10_trait_orphan_full_closure.md**.
+- **Versione compact**: v39 (post sessione 2026-05-11 mattina+pomeriggio Opzione A cascade + Phase B Day 4+5 monitor + 2 ADR PROPOSED — 88 PR cumulative Day 5+1+2+3)
+- **Ultimo aggiornamento**: 2026-05-11 ~17:00 UTC. **88 PR cumulative** (87 Game/ + 1 Game-Godot-v2 #217 MERGED). Major delta v38→v39 (12 PR turno + post-v38): Opzione A bundle (#2220 npm audit + #2222 ADR mutation Phase 4 + #2223 trait_mechanics 59 entries + #2224 Bond HUD wire + #2225 paths-filter blind spot fix) + Vite/Vitest 5/2→6/3 (#2217) + AngularJS migration ADR PROPOSED (#2216) + closure ritual (#2215) + Phase B Day 4+5 monitor (#2229+#2232) + species_expansion canonical migration ADR PROPOSED (#2230) + T3 species lore proposal (#2231). Phase B grace window healthy 5/8 days (zero critical, backend tier 13/13 PASS iter1→iter4 baseline). Trait orphan ASSIGN-A FULL CLOSURE 94/91 confermato. Pillar P3 🟢ⁿ confermato + P5 🟢++ + zero regression baseline. **Vedi memory: project_session_2026_05_11_opzione_a_phase_b_monitor.md**.
 
 ## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 notte FULL trait orphan closure)
 
-**Primary** (Phase B Day 8 grace closure):
+**Primary** (Phase B Day 7 formal closure):
 
-> _"Phase B Day 8 verify 2026-05-14 — formal grace closure γ default ratificato, monitor zero regression baseline 14gg"_
+> _"Phase B Day 7 iter5 2026-05-14 — formal grace closure γ default ratificato + cascade actions ADR §13.4 (web-v1-final tag + apps/play archive + README banner)"_
 
-**Master-DD review queue post trait orphan FULL CLOSURE**:
+**Master-DD verdict queue post Opzione A + Phase B Day 4+5**:
 
-- 2 T3 trait residue (`antenne_plasmatiche_tempesta`, `circolazione_supercritica`) — gated T3-capable species creation lore
-- species_expansion canonical migration ADR formal (morph_slots → trait_plan canonical, wave 7 #2214 shipped additive)
+- ADR #2216 AngularJS Path C Vue 3 — verdict approve/path/framework/effort
+- ADR #2222 mutation Phase 4 auto-trigger PROPOSED — verdict
+- ADR #2230 species_expansion canonical migration PROPOSED — verdict
+- Proposal #2231 T3 species lore (`tempestarius_psionicus` + `magmocardium_furens` OR `psionofusio_atrox`) — lore approve
 
 **Forbidden path bundle** (require explicit grant):
 
 > _"Mutation Phase 6 ADR + Prisma migration 0009+ ally_adjacent_turns + trait_active_cumulative kinds (~3-5h)"_
-
-OR
-
-> _"Vite/Vitest major upgrade bundle vite 5→8 + vitest 2→4 cross-3-apps (~3-5h)"_
 
 Spec docs canonical pre-stage:
 
@@ -37,6 +35,7 @@ Spec docs canonical pre-stage:
 
 Pre-closure history (mantenuta):
 
+- **Versione v38**: post sessione 2026-05-10 notte Sprint Q+ Q-10 cross-stack closure 12/12 + trait orphan ASSIGN-A FULL CLOSURE — 76 PR cumulative.
 - **Versione v37**: post sessione 2026-05-10 sera FULL Sprint Q+ closure + close-gaps cascade — 71 PR cumulative + Q.A→Q.E pipeline + Phase B ACCEPTED γ + waves 0-4 35/91 trait orphan.
 - **Versione v36**: post sessione 2026-05-10 sera cascade L3 — 51 PR cumulative + Phase 5 partial + npm audit + MC build PAT E2E + browser ops AUTODEPLOY_PAT autonomous.
 - **Versione v35**: post sessione 2026-05-10 mattina FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5.
