@@ -24,7 +24,7 @@ related:
 
 ## Status
 
-**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT (C2 grant). Implementation runtime live (Phase 1+2+3+4 shipped). Phase 6 forbidden path bundle scoped separato (vedi TKT-C4-MUTATION-PHASE-6 in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md`).
+**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT (C2 grant). Implementation runtime live (Phase 1+2+3+4 shipped). **Phase 6 SHIPPED 2026-05-11** (TKT-C4 forbidden path bundle, master-dd grant batch ACCEPT) — Prisma migration 0009 + contracts schema register + 2 trigger kinds runtime + cumulativeStateTracker write-through pattern + 10 test coverage. **12/12 kinds complete**.
 
 **Original status**: PROPOSED 2026-05-10 — pending master-dd formal review.
 
