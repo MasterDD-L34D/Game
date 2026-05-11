@@ -532,6 +532,44 @@ function createSessionRouter(options = {}) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientedPenalty;
     }
 
+    // TKT-M14-A 2026-05-11 — Triangle Strategy elevation + terrain hit modifier.
+    // Reads actor.elevation / actor.terrain_type + target.elevation / target.terrain_type.
+    // Pattern mirrors statusMods / timeMods / biomeAffActor (per-attack delta + revert).
+    // Damage delta (cinder + fire channel) flows via positionModifier.damageBonus,
+    // applied below in baseDamage calculation. Non-blocking on errors.
+    let positionMod = {
+      attackBonus: 0,
+      defenseBonus: 0,
+      damageBonus: 0,
+      elevationDelta: 0,
+      elevationReason: 'level_ground',
+      terrainReasons: [],
+    };
+    try {
+      const { computeCombatPositionModifier } = require('../services/combat/elevationModifier');
+      const attackDistanceForMod = manhattanDistance(actor.position, target.position);
+      positionMod = computeCombatPositionModifier(actor, target, {
+        channel: action && typeof action.channel === 'string' ? action.channel : 'fisico',
+        attack_distance: attackDistanceForMod,
+      });
+      if (positionMod.attackBonus !== 0) {
+        actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + positionMod.attackBonus;
+      }
+      if (positionMod.defenseBonus !== 0) {
+        target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) + positionMod.defenseBonus;
+      }
+    } catch (err) {
+      // non-blocking: malformed tile metadata should never break combat
+      positionMod = {
+        attackBonus: 0,
+        defenseBonus: 0,
+        damageBonus: 0,
+        elevationDelta: 0,
+        elevationReason: 'level_ground',
+        terrainReasons: [],
+      };
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -574,6 +612,13 @@ function createSessionRouter(options = {}) {
     if (disorientedPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientedPenalty;
     }
+    // TKT-M14-A — Revert elevation + terrain modifier deltas (per-attack, non-persistent).
+    if (positionMod.attackBonus !== 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - positionMod.attackBonus;
+    }
+    if (positionMod.defenseBonus !== 0) {
+      target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - positionMod.defenseBonus;
+    }
     let damageDealt = 0;
     let killOccurred = false;
     let adjacencyBonus = 0;
@@ -591,7 +636,11 @@ function createSessionRouter(options = {}) {
     // emit `elevation_multiplier` field for log/telemetry consumers.
     let positionalInfo = null;
     if (result.hit) {
-      const baseDamage = 1 + result.pt;
+      // TKT-M14-A — terrain damageBonus (cinder + fire channel = +1 ember damage).
+      // Applied flat to baseDamage pre-multipliers. Damage delta tracked
+      // separately for log via positionMod.damageBonus.
+      const terrainDamageBonus = Number(positionMod.damageBonus) || 0;
+      const baseDamage = 1 + result.pt + terrainDamageBonus;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
       // e' strettamente adiacente al bersaglio (Manhattan == 1). Incentiva
       // la scelta tattica di entrare in mischia anche se skirmisher/ranger
