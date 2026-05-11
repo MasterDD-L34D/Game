@@ -3841,3 +3841,122 @@ canvas#grid.bg3lite-smooth-movement {
     min-height: 28px;
   }
 }
+
+/* TKT-M15-FE — Promotion panel (endgame overlay, victory). */
+.promo-panel {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.promo-panel.loading,
+.promo-panel.error,
+.promo-panel.empty {
+  opacity: 0.75;
+  font-size: 0.95em;
+}
+.promo-panel h3 {
+  color: var(--accent);
+  margin: 0 0 12px;
+  font-size: 1.05em;
+}
+.promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.promo-card {
+  background: var(--cell);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+.promo-card.promo-accepted {
+  border-color: #6fb085;
+  background: #2a3a30;
+}
+.promo-card.promo-deferred {
+  opacity: 0.55;
+}
+.promo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.promo-unit {
+  color: var(--accent);
+  font-size: 1.05em;
+}
+.promo-tier-arrow {
+  font-family: 'VT323', monospace;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+}
+.promo-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.promo-stat-chip {
+  background: rgba(139, 111, 176, 0.2);
+  border: 1px solid #8b6fb0;
+  color: #d4b8e8;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+}
+.promo-no-reward {
+  opacity: 0.7;
+  font-size: 0.9em;
+}
+.promo-actions {
+  display: flex;
+  gap: 8px;
+}
+.promo-accept,
+.promo-defer {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9em;
+}
+.promo-accept {
+  background: #2a4a3a;
+  border-color: #6fb085;
+  color: #b8e8c8;
+}
+.promo-accept:hover:not(:disabled) {
+  background: #4f876b;
+  color: #fff;
+}
+.promo-defer:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg);
+}
+.promo-accept:disabled,
+.promo-defer:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.promo-status {
+  margin-top: 8px;
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+.promo-status.ok {
+  color: #6fb085;
+}
+.promo-status.error {
+  color: #d96f6f;
+}
+.promo-status.deferred {
+  opacity: 0.7;
+  font-style: italic;
+}

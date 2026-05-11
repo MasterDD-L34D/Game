@@ -83,6 +83,16 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid, actor_id: actorId }),
     }),
+  // TKT-M15-FE — Promotion engine (XP tier ladder, accept/defer UI).
+  // PR #2242 backend: evaluatePromotion + applyPromotion + 2 endpoint.
+  // Eligibility = derivata da session.events log; promote applica deltas stat.
+  promotionEligibility: (sid) =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/promotion-eligibility`),
+  promotionAccept: (sid, unitId, targetTier) =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/promote`, {
+      method: 'POST',
+      body: JSON.stringify({ unit_id: unitId, target_tier: targetTier }),
+    }),
   // TKT-P6-FE — Rewind safety valve (3-snapshot buffer post-action).
   // Anti-frustration: 409 quando budget esaurito o buffer vuoto. Budget reset
   // a fine combat. Server append rewind audit event nel log.
