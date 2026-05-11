@@ -83,6 +83,14 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid, actor_id: actorId }),
     }),
+  // TKT-P6-FE — Rewind safety valve (3-snapshot buffer post-action).
+  // Anti-frustration: 409 quando budget esaurito o buffer vuoto. Budget reset
+  // a fine combat. Server append rewind audit event nel log.
+  rewindAction: (sid) =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/rewind`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+    }),
   // Bundle B.3 — Tunic decipher Codex pages.
   codexPages: (sid) => jsonFetch(`/api/v1/codex/pages?session_id=${encodeURIComponent(sid || '')}`),
   codexDecipher: (sid, pageId, triggerData = {}) =>

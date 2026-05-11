@@ -250,6 +250,18 @@ function redraw() {
       state.pendingIntents.some((pi) => pi.unit_id === state.selected && !pi.reaction_trigger);
     undoBtn.classList.toggle('hidden', !hasPending);
   }
+  // TKT-P6-FE — Rewind button state (budget + disabled when exhausted or empty).
+  const rewindBtn = document.getElementById('rewind-action');
+  const rewindBudgetEl = document.getElementById('rewind-budget');
+  if (rewindBtn && rewindBudgetEl) {
+    const rw = state.world?.rewind || { budget_remaining: 3, budget_max: 3, snapshots_count: 0 };
+    const budgetRemaining = Number(rw.budget_remaining) || 0;
+    const budgetMax = Number(rw.budget_max) || 3;
+    const snapshotsCount = Number(rw.snapshots_count) || 0;
+    rewindBudgetEl.textContent = `${budgetRemaining}/${budgetMax}`;
+    const canRewind = budgetRemaining > 0 && snapshotsCount > 0;
+    rewindBtn.disabled = !canRewind;
+  }
   // ability panel
   const selUnit = (state.world.units || []).find((u) => u.id === state.selected);
   if (selUnit && selUnit.controlled_by === 'player' && selUnit.hp > 0) {
@@ -459,6 +471,28 @@ document.addEventListener('keydown', (ev) => {
   ev.preventDefault();
   handleUndoAction();
 });
+
+// TKT-P6-FE — Rewind safety valve handler.
+// POST /api/session/:id/rewind restituisce nuovo state (publicSessionView).
+// Su 409 budget esaurito o buffer vuoto: log warn + UI rimane invariata.
+async function handleRewindAction() {
+  if (!state.sid) return;
+  const r = await api.rewindAction(state.sid);
+  if (!r.ok) {
+    const reason = r.data?.reason || r.data?.error || `HTTP ${r.status}`;
+    appendLog(logEl, `✖ rewind: ${reason}`, 'warn');
+    return;
+  }
+  state.world = r.data?.state || state.world;
+  state.pendingIntents = [];
+  const rw = r.data?.rewind || {};
+  appendLog(
+    logEl,
+    `↶ Turno annullato (budget ${rw.budget_remaining ?? '?'}/${state.world?.rewind?.budget_max ?? 3})`,
+  );
+  updateHint('Ultimo turno annullato. Rigioca la stessa scelta o cambia tattica.');
+  redraw();
+}
 
 function handleUnitClick(unit) {
   if (!state.world) return;
@@ -1474,11 +1508,7 @@ async function startNewSession() {
           `🗺 Campagna ${summary?.id || lobbyBridge.session.campaign_id} avviata (live-mirror ON)`,
         );
       } else {
-        appendLog(
-          logEl,
-          `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`,
-          'error',
-        );
+        appendLog(logEl, `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`, 'error');
       }
     } catch (err) {
       appendLog(logEl, `✖ campagna bootstrap: ${err?.message || err}`, 'error');
@@ -1530,6 +1560,8 @@ document.getElementById('reset-round')?.addEventListener('click', async () => {
 });
 // Bundle B.2 — Undo last action button (planning phase only, Ctrl+Z mirror).
 document.getElementById('undo-action')?.addEventListener('click', () => handleUndoAction());
+// TKT-P6-FE — Rewind safety valve button (3-snapshot buffer, post-action).
+document.getElementById('rewind-action')?.addEventListener('click', () => handleRewindAction());
 // W8L — Codex btn header (in-game wiki: Tips re-read + Glossario + Abilità + Status).
 document.getElementById('codex-open')?.addEventListener('click', () => {
   toggleCodex();
