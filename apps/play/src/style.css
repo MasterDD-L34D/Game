@@ -1512,6 +1512,27 @@ canvas#grid:hover {
   display: none;
 }
 
+/* TKT-P6-FE — Rewind button (3-snapshot safety valve, post-action). */
+.rewind-btn {
+  background: #3a4a5a !important;
+  border-color: #6f8bb0 !important;
+  color: #b8d4e8 !important;
+}
+.rewind-btn:hover:not(:disabled) {
+  background: #4f6b87 !important;
+  color: #fff !important;
+}
+.rewind-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rewind-budget {
+  margin-left: 4px;
+  font-size: 0.85em;
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
 .sidebar {
   background: var(--panel);
   padding: 12px;
