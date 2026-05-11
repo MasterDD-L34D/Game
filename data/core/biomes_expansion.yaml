@@ -15,6 +15,14 @@ biomes:
     display_name_it: "Dune di Cenere"
     display_name_en: "Cinder Dunes"
     source: docx_2026-04-16
+    # TKT-M14-A (2026-05-11) — default tile template (Triangle Strategy elevation + terrain).
+    # Used by scenario authors as starting tile metadata; runtime reads unit.elevation
+    # + unit.terrain_type for combat hit modifiers (elevationModifier.js).
+    tile_template:
+      default_elevation: 0
+      default_terrain_type: cinder
+      elevation_range: [-1, 2]  # rolling dunes
+      notes: "Ember synergy: fire-channel attacks +1 dmg on cinder tile"
 
   - id: saltglass-flats
     slug: saltglass-flats
@@ -22,6 +30,11 @@ biomes:
     display_name_it: "Distese di Salvetro"
     display_name_en: "Saltglass Flats"
     source: docx_2026-04-16
+    tile_template:
+      default_elevation: 0
+      default_terrain_type: water
+      elevation_range: [0, 0]  # flat coastal
+      notes: "Melee attackers -1 attack on water tiles (footing penalty)"
 
   - id: basalt-grottos
     slug: basalt-grottos
@@ -29,6 +42,11 @@ biomes:
     display_name_it: "Grotte di Basalto"
     display_name_en: "Basalt Grottos"
     source: docx_2026-04-16
+    tile_template:
+      default_elevation: 1
+      default_terrain_type: stone
+      elevation_range: [0, 3]  # grotto walls + ridges
+      notes: "Stone footing: melee attackers +1 attack. Elevation +1 by default (cave ceiling levels)"
 
   - id: zephyr-steppe
     slug: zephyr-steppe
