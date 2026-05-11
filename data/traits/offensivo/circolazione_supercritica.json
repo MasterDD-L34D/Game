@@ -16,7 +16,7 @@
       "meta": {
         "expansion": "coverage_q4_2025",
         "notes": "Circolazione Supercritica ottimizza le operazioni offensivo nelle condizioni di abisso vulcanico.",
-        "tier": "T1"
+        "tier": "T3"
       }
     }
   ],
@@ -36,7 +36,7 @@
     "core": "offensivo"
   },
   "spinta_selettiva": "i18n:traits.circolazione_supercritica.spinta_selettiva",
-  "tier": "T1",
+  "tier": "T3",
   "uso_funzione": "i18n:traits.circolazione_supercritica.uso_funzione",
   "usage_tags": [
     "breaker"

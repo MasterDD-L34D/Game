@@ -680,3 +680,96 @@ species_examples:
             Pulverator pack drives prey from cover, indirectly aiding
             dune_stalker (Skiv) ambush; reverse interaction rare.
     source: pulverator-ecology-2026-05-02
+
+  # T3 Apex ships 2026-05-11 — A1 master-dd verdict batch + trait orphan A-keep
+  # residue closure (host antenne_plasmatiche_tempesta).
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_tempestarius_psionicus
+    slug: tempestarius-psionicus
+    genus: Tempestarius
+    epithet: psionicus
+    clade_tag: Apex
+    sentience_tier: T3
+    display_name_it: "Maestro della Tempesta"
+    display_name_en: "Storm Master"
+    morph_slots:
+      locomotion: glide_pinions
+      offense: plasma_antennae
+      defense: ionized_carapace
+      senses: storm_eye
+      metabolism: psionic_charge
+    preferred_biomes: [cicloni_psionici, redspur-mesa]
+    role_tags: [apex, predator, playable, storm-channeler]
+    trait_plan:
+      core:
+        - antenne_plasmatiche_tempesta # T3 anchor — host trait
+        - sensori_geomagnetici
+        - carapace_luminiscente_abissale
+      optional:
+        - focus_frazionato
+        - risonanza_di_branco
+        - sinapsi_coraline_polifoniche
+      synergies:
+        - tattiche_di_branco
+    signature_hook: >-
+      Storm-Pulse strike: durante un ciclone psionico attivo, sp_tempestarius
+      canalizza la carica statica del fronte e la scarica in un raggio
+      Manhattan ≤3, applicando shock + marked al bersaglio + alleati adiacenti
+      (≤1 da target).
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 3
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []
+
+  # T3 Threat ships 2026-05-11 — A1 master-dd verdict batch + trait orphan
+  # A-keep residue closure (host circolazione_supercritica).
+  # NB tier T3 confermato canonical (audit doc 2026-05-10 + trigger lore-faithful
+  # rage controllato). Trait JSON metadata T1 → T3 fix shipped same PR.
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_magmocardium_furens
+    slug: magmocardium-furens
+    genus: Magmocardium
+    epithet: furens
+    clade_tag: Threat
+    sentience_tier: T3
+    display_name_it: "Cuore Furente"
+    display_name_en: "Magma Heart"
+    morph_slots:
+      locomotion: pressure_treads
+      offense: shear_lamellae
+      defense: thermal_plating
+      senses: hydrothermal_chemoreception
+      metabolism: supercritical_core
+    preferred_biomes: [abisso_vulcanico, ferrous-badlands]
+    role_tags: [apex, predator, playable, rage-assault]
+    trait_plan:
+      core:
+        - circolazione_supercritica # T3 anchor — host trait
+        - sangue_piroforico
+        - coda_frusta_cinetica
+      optional:
+        - ferocia
+        - lamelle_shear
+        - midollo_iperattivo
+      synergies:
+        - focus_frazionato
+    signature_hook: >-
+      Supercritical-Surge: al kill, sp_magmocardium entra in rage controllato
+      3 turni con +1 dmg sostenuto. In abisso vulcanico, l'effetto persiste
+      1 turno extra per onda adrenalinica prolungata.
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 2
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []
