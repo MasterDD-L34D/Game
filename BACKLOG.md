@@ -9,6 +9,32 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Ticket coda master-dd verdict batch 2026-05-11 — 11 decisioni resolved cascade
+
+User verdict cascade 11 decisioni outstanding (4 ADR PROPOSED + 6 OPEN_DECISIONS + 1 forbidden path). All ACCEPT modulo C5 (status quo flag-OFF).
+
+**Verdict summary table** (11 verdicts → 4 PR autonomous cascade):
+
+| #   | ID  | Topic                                                    | Verdict                          | Action shipped                |
+| --- | --- | -------------------------------------------------------- | -------------------------------- | ----------------------------- |
+| 1   | A1  | 2 T3 species ship + circolazione_supercritica tier T1→T3 | ACCEPT both + tier fix           | PR 2 impl                     |
+| 2   | A2  | Triangle Strategy sequenza M14-A → M14-B → M15           | ACCEPT sequenza                  | PR 4 scope ticket §1-3        |
+| 3   | A3  | Rewind safety valve IMPLEMENT ora                        | ACCEPT impl ora                  | PR 4 scope ticket §4          |
+| 4   | A4  | P2 Brigandine seasonal PROMUOVI priorità M14             | ACCEPT promotion M12+ → M14      | PR 4 scope ticket §5          |
+| 5   | B1  | V6 UI TV dashboard polish PROATTIVO ora                  | ACCEPT proattivo                 | PR 4 scope ticket §6          |
+| 6   | C1  | AngularJS Vue 3 trait-editor migration                   | ACCEPT Path C Vue 3              | PR 1 ADR ACCEPTED + PR 4 §7   |
+| 7   | C2  | ADR mutation Phase 4 auto-trigger                        | ACCEPT (status flip)             | PR 1 ADR ACCEPTED             |
+| 8   | C3  | species_expansion Path B canonical migration             | ACCEPT Path B variant trait_plan | PR 1 ADR ACCEPTED + PR 3 impl |
+| 9   | C4  | mutation Phase 6 forbidden path bundle GRANT             | ACCEPT scoped                    | PR 4 scope ticket §8          |
+| 10  | C5  | Game-Database HTTP runtime flag-OFF                      | STATUS QUO confermato            | PR 1 OD-004 status flip       |
+| 11  | C6  | Balance & Economy Tuning skill install                   | ACCEPT install ora               | PR 4 scope ticket §9          |
+
+**Cumulative effort scoped per future sessions**: ~70-90h (TKT-M14-A 12h + TKT-M14-B 13h + TKT-M15 10h + TKT-P6 5-7h + TKT-P2 20h + TKT-B1 3-5h + TKT-C1 8-12h + TKT-C4 3-5h + TKT-C6 30min).
+
+**Source ref**: master-dd verdict batch 2026-05-11 + scope ticket bundle `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` + OPEN_DECISIONS OD-002/003/004/005/014/015 status flip.
+
+---
+
 ### ✅ Sprint Q+ Q-10 closure + trait orphan ASSIGN-A FULL CLOSURE — sessione 2026-05-10 notte — 5 PR shipped (cumulative Day 5+1+2 = 76 PR)
 
 User resume trigger "verifica PR #217 Game-Godot-v2 master-dd review status + merge se verde — chiude Sprint Q+ Q-10 cross-stack 12/12" → autonomous closure cascade ~2h.

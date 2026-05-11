@@ -1,5 +1,5 @@
 ---
-title: 'ADR-2026-05-10 — Trait Editor AngularJS 1.x → Vue 3 migration (PROPOSED)'
+title: 'ADR-2026-05-10 — Trait Editor AngularJS 1.x → Vue 3 migration (ACCEPTED 2026-05-11)'
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
@@ -21,9 +21,9 @@ tags: [adr, frontend, migration, vue3, angularjs, eol, trait-editor]
 
 ## Status
 
-**PROPOSED 2026-05-10** — autonomous scoping document, master-dd verdict pending.
+**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT Path C Vue 3 green-field rebuild (C1 grant, ~8-12h scoped). Implementation futura session via TKT-C1-ANGULARJS-VUE-3 in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §7.
 
-This ADR is a planning artifact only. **No implementation begins until master-dd promotes status to ACCEPTED** and selects a migration path (A / B / C) and a target framework. The framework recommendation here (Vue 3) is non-binding.
+**Original status**: PROPOSED 2026-05-10 — autonomous scoping document, master-dd verdict pending.
 
 ## Context
 

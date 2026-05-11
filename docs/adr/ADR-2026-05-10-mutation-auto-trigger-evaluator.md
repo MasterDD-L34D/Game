@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
@@ -24,7 +24,9 @@ related:
 
 ## Status
 
-**PROPOSED** — implementation runtime live (Phase 1+2+3+4 shipped), pending master-dd formal review per acceptance signature.
+**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT (C2 grant). Implementation runtime live (Phase 1+2+3+4 shipped). Phase 6 forbidden path bundle scoped separato (vedi TKT-C4-MUTATION-PHASE-6 in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md`).
+
+**Original status**: PROPOSED 2026-05-10 — pending master-dd formal review.
 
 **Implementation evidence**:
 
