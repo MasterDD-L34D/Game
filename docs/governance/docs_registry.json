@@ -5973,6 +5973,19 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/playtest/2026-05-11-tkt-m14-b-conviction-audit.md",
+      "title": "TKT-M14-B Conviction system audit + scope refinement 2026-05-11",
+      "doc_status": "active",
+      "doc_owner": "claude",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md",
       "title": "Phase B synthetic supplement iter1 - Tier 1 phone smoke fresh capture 2026-05-08",
       "doc_status": "active",
