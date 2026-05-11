@@ -151,3 +151,29 @@ Post-verdict, spawn implementation ticket scoped (~1-2h totale per Candidate 1 +
 ---
 
 **Master-dd verdict gate**: questa proposta è PROPOSED. Procedere a IMPLEMENTATION solo dopo verdict esplicito A / B / C / D / E + canonical tier conferma `circolazione_supercritica`.
+
+---
+
+## SHIPPED 2026-05-11 — Verdict A (Candidate 1 + 2 both ship)
+
+Master-dd verdict batch 11-decisioni explicit:
+
+- **A1 verdict**: ship Candidate 1 (`sp_tempestarius_psionicus`) + Candidate 2 (`sp_magmocardium_furens`) entrambi.
+- **Tier confermato**: T3 entrambi.
+- **circolazione_supercritica tier T1 → T3**: audit canonical correction confermata (JSON metadata fix shipped same PR).
+
+**Implementation PR**: `feat/t3-species-2-candidate-ship` — branch ship to main 2026-05-11.
+
+**Files modificati**:
+
+- `data/core/species_expansion.yaml` — append `sp_tempestarius_psionicus` + `sp_magmocardium_furens` entries con schema canonical `trait_plan` + parallel `morph_slots` per backwards compat (ADR-2026-05-11 Path B variant).
+- `data/traits/offensivo/circolazione_supercritica.json` — tier T1 → T3 (2 occorrenze: line 19 meta.tier + line 39 root tier).
+
+**Trait residue chiusi**:
+
+- `antenne_plasmatiche_tempesta` (T3 sensoriale) → assigned to `sp_tempestarius_psionicus` (core slot).
+- `circolazione_supercritica` (T3 offensivo) → assigned to `sp_magmocardium_furens` (core slot).
+
+**Trait orphan A-keep ASSIGN-A coverage post-ship**: 94/91 → **96/91** effective (2 trait T3 residual closed).
+
+**Pillar delta**: P3 Identità Specie × Job 🟢ⁿ confermato + roster T3 (3 entries pre) → 5 entries post-ship (incremento +66% T3 roster size).
