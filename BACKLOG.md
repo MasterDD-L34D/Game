@@ -15,19 +15,19 @@ User verdict cascade 11 decisioni outstanding (4 ADR PROPOSED + 6 OPEN_DECISIONS
 
 **Verdict summary table** (11 verdicts → 4 PR autonomous cascade):
 
-| #   | ID  | Topic                                                    | Verdict                          | Action shipped                                                                                                   |
-| --- | --- | -------------------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| 1   | A1  | 2 T3 species ship + circolazione_supercritica tier T1→T3 | ACCEPT both + tier fix           | PR 2 impl                                                                                                        |
-| 2   | A2  | Triangle Strategy sequenza M14-A → M14-B → M15           | ACCEPT sequenza                  | PR 4 scope ticket §1-3                                                                                           |
-| 3   | A3  | Rewind safety valve IMPLEMENT ora                        | ACCEPT impl ora                  | PR 4 scope ticket §4                                                                                             |
-| 4   | A4  | P2 Brigandine seasonal PROMUOVI priorità M14             | ACCEPT promotion M12+ → M14      | PR 4 scope ticket §5                                                                                             |
-| 5   | B1  | V6 UI TV dashboard polish PROATTIVO ora                  | ACCEPT proattivo                 | PR 4 scope ticket §6                                                                                             |
-| 6   | C1  | AngularJS Vue 3 trait-editor migration                   | ACCEPT Path C Vue 3              | PR 1 ADR ACCEPTED + PR 4 §7                                                                                      |
-| 7   | C2  | ADR mutation Phase 4 auto-trigger                        | ACCEPT (status flip)             | PR 1 ADR ACCEPTED                                                                                                |
-| 8   | C3  | species_expansion Path B canonical migration             | ACCEPT Path B variant trait_plan | PR 1 ADR ACCEPTED + PR 3 impl                                                                                    |
-| 9   | C4  | mutation Phase 6 forbidden path bundle GRANT             | ACCEPT scoped                    | SHIPPED 2026-05-11 — Prisma 0009 + mutation_trigger schema + evaluator 12/12 + cumulativeStateTracker + 10 test  |
-| 10  | C5  | Game-Database HTTP runtime flag-OFF                      | STATUS QUO confermato            | PR 1 OD-004 status flip                                                                                          |
-| 11  | C6  | Balance & Economy Tuning skill install                   | ACCEPT install ora               | install-doc 2026-05-11 (master-dd manual) — vedi `docs/planning/2026-05-11-tkt-c6-skill-install-instructions.md` |
+| #   | ID  | Topic                                                    | Verdict                          | Action shipped                                                                                                       |
+| --- | --- | -------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| 1   | A1  | 2 T3 species ship + circolazione_supercritica tier T1→T3 | ACCEPT both + tier fix           | PR 2 impl                                                                                                            |
+| 2   | A2  | Triangle Strategy sequenza M14-A → M14-B → M15           | ACCEPT sequenza                  | PR 4 scope ticket §1-3                                                                                               |
+| 3   | A3  | Rewind safety valve IMPLEMENT ora                        | ACCEPT impl ora                  | PR 4 scope ticket §4                                                                                                 |
+| 4   | A4  | P2 Brigandine seasonal PROMUOVI priorità M14             | ACCEPT promotion M12+ → M14      | PR 4 scope ticket §5                                                                                                 |
+| 5   | B1  | V6 UI TV dashboard polish PROATTIVO ora                  | ACCEPT proattivo                 | SHIPPED 2026-05-11 — 4 polish edits style.css (1920px TV mode + .player-active pulse + CTA contrast + icon min size) |
+| 6   | C1  | AngularJS Vue 3 trait-editor migration                   | ACCEPT Path C Vue 3              | PR 1 ADR ACCEPTED + PR 4 §7                                                                                          |
+| 7   | C2  | ADR mutation Phase 4 auto-trigger                        | ACCEPT (status flip)             | PR 1 ADR ACCEPTED                                                                                                    |
+| 8   | C3  | species_expansion Path B canonical migration             | ACCEPT Path B variant trait_plan | PR 1 ADR ACCEPTED + PR 3 impl                                                                                        |
+| 9   | C4  | mutation Phase 6 forbidden path bundle GRANT             | ACCEPT scoped                    | SHIPPED 2026-05-11 — Prisma 0009 + mutation_trigger schema + evaluator 12/12 + cumulativeStateTracker + 10 test      |
+| 10  | C5  | Game-Database HTTP runtime flag-OFF                      | STATUS QUO confermato            | PR 1 OD-004 status flip                                                                                              |
+| 11  | C6  | Balance & Economy Tuning skill install                   | ACCEPT install ora               | install-doc 2026-05-11 (master-dd manual) — vedi `docs/planning/2026-05-11-tkt-c6-skill-install-instructions.md`     |
 
 **Cumulative effort scoped per future sessions**: ~70-90h (TKT-M14-A 12h + TKT-M14-B 13h + TKT-M15 10h + TKT-P6 5-7h + TKT-P2 20h + TKT-B1 3-5h + TKT-C1 8-12h + TKT-C4 3-5h + TKT-C6 30min).
 

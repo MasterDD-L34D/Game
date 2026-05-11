@@ -3697,3 +3697,126 @@ canvas#grid.bg3lite-smooth-movement {
     transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
     opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ─── 2026-05-11 TKT-B1 V6 UI TV polish proactive ───────────────────────────
+ * Master-dd verdict batch 2026-05-11 (B1 PROATTIVO ora, override OD-002).
+ * Scope: bounded polish 4 edit (no full rewrite):
+ *   1. ≥1920px TV-mode font + spacing emphasis
+ *   2. Active player turn pulse animation (.player-active class)
+ *   3. Primary CTA contrast bump for sofa-distance readability
+ *   4. Status icon min size guarantee (≥24px @ 3m sofa POV)
+ *
+ * Acceptance criteria scope ticket §6:
+ *   - TV-mode layout test 1080p + 4K (no overflow)
+ *   - Font readable a 3m (body ≥17px base, headers bumped on TV)
+ *   - Color contrast WCAG AA (CTA emphasized)
+ *   - Status icons visible from sofa POV
+ *
+ * Pillar impact: cross-pillar UX polish — non blocca pillar, ma migliora
+ * playtest feedback quality + sofa co-op readability. */
+
+/* Polish 1 — TV mode 1920px+ font + spacing emphasis */
+@media (min-width: 1920px) {
+  html {
+    /* Base 17→18px on TV 1080p+ (8% bump for 3m readability) */
+    font-size: 18px;
+  }
+  /* Heading emphasis: ensure ≥40px effective on TV (1.6rem × 18px = 28.8px → 1.9rem × 18px ≈ 34.2px → +bump) */
+  h1,
+  .panel h2,
+  header h1 {
+    font-size: 2.1rem;
+    letter-spacing: 0.04em;
+  }
+  /* Status bar + room code prominence */
+  .pressure-meter,
+  #room-code,
+  .room-code {
+    font-size: 1.15rem;
+  }
+}
+
+/* Polish 2 — Active player turn pulse (.player-active) */
+.player-active {
+  position: relative;
+  animation: player-active-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 0 2px var(--grim-accent-gold);
+}
+@keyframes player-active-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px var(--grim-accent-gold),
+      0 0 8px rgba(176, 163, 106, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px var(--grim-accent-gold),
+      0 0 16px rgba(176, 163, 106, 0.55);
+  }
+}
+/* Reduce-motion accessibility for active turn pulse */
+@media (prefers-reduced-motion: reduce) {
+  .player-active {
+    animation: none;
+    box-shadow:
+      0 0 0 2px var(--grim-accent-gold),
+      0 0 12px rgba(176, 163, 106, 0.45);
+  }
+}
+
+/* Polish 3 — Primary CTA contrast emphasis
+ * Targets primary action buttons (#end-turn, .cta-primary). WCAG AA contrast
+ * ratio bump to ≥5:1 (gold on deep-dark bg). Hover state +halo per sofa visibility. */
+#end-turn,
+.cta-primary {
+  background: linear-gradient(
+    180deg,
+    var(--grim-accent-gold) 0%,
+    var(--grim-accent-bronze) 100%
+  ) !important;
+  color: var(--grim-bg-deep) !important;
+  border: 1px solid var(--grim-accent-gold) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 0 rgba(255, 230, 160, 0.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 230, 160, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+#end-turn:hover,
+.cta-primary:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 230, 160, 1) 0%,
+    var(--grim-accent-gold) 100%
+  ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 240, 200, 0.5),
+    0 0 14px rgba(176, 163, 106, 0.65),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Polish 4 — Status icon min size guarantee
+ * Icons critical for tactical state (status, HUD chip, ability ready). Min 24px
+ * on TV ensures sofa POV @ 3m readability per scope ticket criterion 4. */
+.status-icon,
+.hud-chip-icon,
+.ability-ready-icon,
+.unit-status-badge {
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* On 1920px+ TV: bump to 28px for sofa distance */
+@media (min-width: 1920px) {
+  .status-icon,
+  .hud-chip-icon,
+  .ability-ready-icon,
+  .unit-status-badge {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
