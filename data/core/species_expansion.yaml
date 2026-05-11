@@ -1,6 +1,15 @@
-# Expansion roster — 30 new species from naming_doc (docx_2026-04-16)
+# Expansion roster — 32 species (30 docx_2026-04-16 + 2 T3 ship 2026-05-11).
 # Bilingual display names (IT canonical + EN from docx).
 # Genus/epithet canonical per docs/core/00E-NAMING_STYLEGUIDE.md.
+#
+# Schema canonical migration ADR-2026-05-11 (Path B variant ACCEPTED):
+#   - `trait_plan` è il campo canonical (core/optional/synergies/environment_focus).
+#   - `morph_slots` è DEPRECATO ma preservato per backwards compat zero-runtime-consumer.
+#     NO new entries should add morph_slots. Edit trait_plan only.
+#   - 16 entries hanno trait_plan stub flag `_pending_lore_review: true` —
+#     master-dd lore review required pre completamento core/optional/synergies.
+#
+# Vedi: docs/adr/ADR-2026-05-11-species-expansion-schema-canonical-migration.md
 
 species_examples:
   - id: sp_arenavolux_sagittalis
@@ -54,6 +63,13 @@ species_examples:
       pack_size:
         min: 1
         max: 3
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_sonapteryx_resonans
     slug: sonapteryx-resonans
@@ -116,6 +132,13 @@ species_examples:
     preferred_biomes: [saltglass-flats, brine-rift]
     role_tags: [keystone, detritivore]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_ventornis_longiala
     slug: ventornis-longiala
@@ -294,6 +317,13 @@ species_examples:
     preferred_biomes: [ember-marsh, silt-delta]
     role_tags: [threat, predator]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_cavatympa_sonans
     slug: cavatympa-sonans
@@ -334,6 +364,13 @@ species_examples:
     preferred_biomes: [thunder-reeds, ember-marsh]
     role_tags: [playable, grazer, bridge]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_salisucta_alveata
     slug: salisucta-alveata
@@ -352,6 +389,13 @@ species_examples:
     preferred_biomes: [brine-rift, saltglass-flats]
     role_tags: [keystone, filter_feeder]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_nebulocornis_mollis
     slug: nebulocornis-mollis
@@ -370,6 +414,13 @@ species_examples:
     preferred_biomes: [cold-mirror-fen, mistral-hollows]
     role_tags: [support, grazer]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_cryptolorca_medicata
     slug: cryptolorca-medicata
@@ -410,6 +461,13 @@ species_examples:
     preferred_biomes: [cold-mirror-fen, silt-delta]
     role_tags: [bridge, predator]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_tonitrudens_ferox
     slug: tonitrudens-ferox
@@ -428,6 +486,13 @@ species_examples:
     preferred_biomes: [thunder-reeds, redspur-mesa]
     role_tags: [threat, omnivore]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_rubrospina_velox
     slug: rubrospina-velox
@@ -446,6 +511,13 @@ species_examples:
     preferred_biomes: [redspur-mesa, zephyr-steppe]
     role_tags: [playable, scout, bridge]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_paludogromus_magnus
     slug: paludogromus-magnus
@@ -464,6 +536,13 @@ species_examples:
     preferred_biomes: [cold-mirror-fen, ember-marsh]
     role_tags: [keystone, support]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_cinerastra_nodosa
     slug: cinerastra-nodosa
@@ -482,6 +561,13 @@ species_examples:
     preferred_biomes: [ashen-sink, hollow-fumaroles]
     role_tags: [threat, ambusher]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_zephyrovum_fidelis
     slug: zephyrovum-fidelis
@@ -500,6 +586,13 @@ species_examples:
     preferred_biomes: [mistral-hollows, zephyr-steppe]
     role_tags: [bridge, disperser]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_vitricyba_punctata
     slug: vitricyba-punctata
@@ -518,6 +611,13 @@ species_examples:
     preferred_biomes: [crystal-scree, saltglass-flats]
     role_tags: [threat, forager]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_fumarisorba_sulfurea
     slug: fumarisorba-sulfurea
@@ -536,6 +636,13 @@ species_examples:
     preferred_biomes: [hollow-fumaroles, basalt-grottos]
     role_tags: [keystone, detritivore]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_arboryxis_lenis
     slug: arboryxis-lenis
@@ -554,6 +661,13 @@ species_examples:
     preferred_biomes: [lumen-canopy, paleroot-tangle]
     role_tags: [bridge, grazer]
     source: docx_2026-04-16
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
 
   - id: sp_noctipedis_umbrata
     slug: noctipedis-umbrata
@@ -627,6 +741,13 @@ species_examples:
   # Aggiunta 2026-05-02: prima entry con ecology block esteso. Compete
   # con dune_stalker per nicchia apex savana. Howl-Strike combo:
   # 3+ pack Manhattan <=2 same target -> panic + bleeding + rage_on_kill.
+    trait_plan:
+      # Canonical migration ADR-2026-05-11 Path B variant.
+      # _pending_lore_review: populate via master-dd lore review.
+      core: []
+      optional: []
+      synergies: []
+      _pending_lore_review: true
   - id: pulverator_gregarius
     slug: pulverator-gregarius
     genus: Pulverator
@@ -680,3 +801,96 @@ species_examples:
             Pulverator pack drives prey from cover, indirectly aiding
             dune_stalker (Skiv) ambush; reverse interaction rare.
     source: pulverator-ecology-2026-05-02
+
+  # T3 Apex ships 2026-05-11 — A1 master-dd verdict batch + trait orphan A-keep
+  # residue closure (host antenne_plasmatiche_tempesta).
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_tempestarius_psionicus
+    slug: tempestarius-psionicus
+    genus: Tempestarius
+    epithet: psionicus
+    clade_tag: Apex
+    sentience_tier: T3
+    display_name_it: "Maestro della Tempesta"
+    display_name_en: "Storm Master"
+    morph_slots:
+      locomotion: glide_pinions
+      offense: plasma_antennae
+      defense: ionized_carapace
+      senses: storm_eye
+      metabolism: psionic_charge
+    preferred_biomes: [cicloni_psionici, redspur-mesa]
+    role_tags: [apex, predator, playable, storm-channeler]
+    trait_plan:
+      core:
+        - antenne_plasmatiche_tempesta # T3 anchor — host trait
+        - sensori_geomagnetici
+        - carapace_luminiscente_abissale
+      optional:
+        - focus_frazionato
+        - risonanza_di_branco
+        - sinapsi_coraline_polifoniche
+      synergies:
+        - tattiche_di_branco
+    signature_hook: >-
+      Storm-Pulse strike: durante un ciclone psionico attivo, sp_tempestarius
+      canalizza la carica statica del fronte e la scarica in un raggio
+      Manhattan ≤3, applicando shock + marked al bersaglio + alleati adiacenti
+      (≤1 da target).
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 3
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []
+
+  # T3 Threat ships 2026-05-11 — A1 master-dd verdict batch + trait orphan
+  # A-keep residue closure (host circolazione_supercritica).
+  # NB tier T3 confermato canonical (audit doc 2026-05-10 + trigger lore-faithful
+  # rage controllato). Trait JSON metadata T1 → T3 fix shipped same PR.
+  # Ref: docs/planning/2026-05-11-t3-species-lore-proposal.md
+  - id: sp_magmocardium_furens
+    slug: magmocardium-furens
+    genus: Magmocardium
+    epithet: furens
+    clade_tag: Threat
+    sentience_tier: T3
+    display_name_it: "Cuore Furente"
+    display_name_en: "Magma Heart"
+    morph_slots:
+      locomotion: pressure_treads
+      offense: shear_lamellae
+      defense: thermal_plating
+      senses: hydrothermal_chemoreception
+      metabolism: supercritical_core
+    preferred_biomes: [abisso_vulcanico, ferrous-badlands]
+    role_tags: [apex, predator, playable, rage-assault]
+    trait_plan:
+      core:
+        - circolazione_supercritica # T3 anchor — host trait
+        - sangue_piroforico
+        - coda_frusta_cinetica
+      optional:
+        - ferocia
+        - lamelle_shear
+        - midollo_iperattivo
+      synergies:
+        - focus_frazionato
+    signature_hook: >-
+      Supercritical-Surge: al kill, sp_magmocardium entra in rage controllato
+      3 turni con +1 dmg sostenuto. In abisso vulcanico, l'effetto persiste
+      1 turno extra per onda adrenalinica prolungata.
+    source: t3-species-lore-proposal-2026-05-11
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 2
+      preys_on: []
+      prey_of: []
+      competes_with: []
+      mutualism_with: []

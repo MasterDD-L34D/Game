@@ -1,3 +1,4 @@
+import { reactive, readonly, type DeepReadonly } from 'vue';
 import type { Trait } from '../types/trait';
 import { cloneTrait } from '../utils/trait-helpers';
 
@@ -12,61 +13,54 @@ export interface TraitUiState {
   previewTrait: Trait | null;
 }
 
-const INITIAL_STATE: TraitUiState = {
+// TKT-C1 — Vue 3 rebuild: replace AngularJS $rootScope.$broadcast with native
+// Vue reactivity. Singleton reactive state used across composables + components.
+const state = reactive<TraitUiState>({
   isLoading: false,
   status: null,
   previewTrait: null,
-};
+});
 
 export class TraitStateService {
-  private state: TraitUiState = { ...INITIAL_STATE };
-
-  static $inject = ['$rootScope'];
-
-  constructor(private readonly $rootScope: any) {}
-
-  subscribe(scope: any, callback: (state: TraitUiState) => void): void {
-    callback(this.snapshot());
-    const deregister = this.$rootScope.$on('traitStateChanged', () => {
-      callback(this.snapshot());
-    });
-
-    scope.$on('$destroy', deregister);
+  getState(): DeepReadonly<TraitUiState> {
+    return readonly(state) as DeepReadonly<TraitUiState>;
   }
 
   setLoading(isLoading: boolean): void {
-    this.state.isLoading = isLoading;
-    this.broadcast();
+    state.isLoading = isLoading;
   }
 
   setStatus(message: string | null, variant: TraitStatus['variant'] = 'info'): void {
-    this.state.status = message ? { message, variant } : null;
-    this.broadcast();
+    state.status = message ? { message, variant } : null;
   }
 
   setPreviewTrait(trait: Trait | null): void {
-    this.state.previewTrait = trait ? cloneTrait(trait) : null;
-    this.broadcast();
+    state.previewTrait = trait ? cloneTrait(trait) : null;
   }
 
   reset(): void {
-    this.state = { ...INITIAL_STATE };
-    this.broadcast();
-  }
-
-  private broadcast(): void {
-    this.$rootScope.$broadcast('traitStateChanged');
-  }
-
-  private snapshot(): TraitUiState {
-    return {
-      isLoading: this.state.isLoading,
-      status: this.state.status ? { ...this.state.status } : null,
-      previewTrait: this.state.previewTrait ? cloneTrait(this.state.previewTrait) : null,
-    };
+    state.isLoading = false;
+    state.status = null;
+    state.previewTrait = null;
   }
 }
 
-export const registerTraitStateService = (module: any): void => {
-  module.service('TraitStateService', TraitStateService);
-};
+// Composable accessor — pattern Vue idiomatic per consumer .vue components.
+const singleton = new TraitStateService();
+
+export function useTraitState(): {
+  state: DeepReadonly<TraitUiState>;
+  setLoading: (v: boolean) => void;
+  setStatus: (msg: string | null, variant?: TraitStatus['variant']) => void;
+  setPreviewTrait: (t: Trait | null) => void;
+  reset: () => void;
+} {
+  return {
+    state: singleton.getState(),
+    setLoading: (v: boolean) => singleton.setLoading(v),
+    setStatus: (msg: string | null, variant?: TraitStatus['variant']) =>
+      singleton.setStatus(msg, variant),
+    setPreviewTrait: (t: Trait | null) => singleton.setPreviewTrait(t),
+    reset: () => singleton.reset(),
+  };
+}

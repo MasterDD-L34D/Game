@@ -1,13 +1,13 @@
 // Catalog + balance invariants for Beast Bond reaction trigger (Sprint 6).
 //
-// 1. Active trait registry: 3 nuovi trait caricati con schema corretto
+// 1. Active trait registry: 2 nuovi trait caricati con schema corretto
 //    (range, species_filter, atk_delta, def_delta, duration valorizzati).
+//    Note: pack_tactics rimosso in V10 C delete batch 2026-05-10
+//    (species predoni_nomadi non esiste in species.yaml/species_expansion.yaml).
 // 2. data/core/species.yaml: ogni species i cui trait_plan referenzia un
 //    trait Beast Bond deve usare un trait_id che il registry conosce.
 // 3. Balance invariant: con N (=2) holder bonded adiacenti all'attacker, il
 //    totale reactions emesse e' esattamente N (no double-count).
-// 4. Balance invariant: pack_tactics species_filter è 'pack:predoni_nomadi'
-//    (NON 'predatori_nomadi' — IDs della species canonical).
 
 'use strict';
 
@@ -20,7 +20,7 @@ const yaml = require('js-yaml');
 const { checkBeastBondReactions } = require('../../apps/backend/services/combat/beastBondReaction');
 const { loadActiveTraitRegistry } = require('../../apps/backend/services/traitEffects');
 
-const BOND_TRAIT_IDS = ['legame_di_branco', 'spirito_combattivo', 'pack_tactics'];
+const BOND_TRAIT_IDS = ['legame_di_branco', 'spirito_combattivo'];
 
 function loadCatalog() {
   const yamlPath = path.resolve(__dirname, '..', '..', 'data', 'core', 'species.yaml');
@@ -29,7 +29,7 @@ function loadCatalog() {
   return parsed && parsed.species ? parsed.species : [];
 }
 
-test('catalog: registry loads 3 Beast Bond traits with valid schema', () => {
+test('catalog: registry loads 2 Beast Bond traits with valid schema', () => {
   const registry = loadActiveTraitRegistry();
   for (const traitId of BOND_TRAIT_IDS) {
     const def = registry[traitId];
@@ -42,16 +42,6 @@ test('catalog: registry loads 3 Beast Bond traits with valid schema', () => {
     assert.equal(typeof cfg.def_delta, 'number', `${traitId}.def_delta is number`);
     assert.equal(typeof cfg.duration, 'number', `${traitId}.duration is number`);
   }
-});
-
-test('catalog: pack_tactics species_filter uses canonical predoni_nomadi ID', () => {
-  const registry = loadActiveTraitRegistry();
-  const cfg = registry.pack_tactics.triggers_on_ally_attack;
-  assert.equal(
-    cfg.species_filter,
-    'pack:predoni_nomadi',
-    'must match tutorial enemy species id (NOT predatori_*)',
-  );
 });
 
 test('catalog: species.yaml trait_plan only references known trait IDs', () => {
@@ -163,7 +153,7 @@ test('balance invariant: range=1 strict — Manhattan=2 holders never trigger', 
     controlled_by: 'sistema',
     hp: 5,
     position: { x: 2, y: 0 }, // Manhattan = 2
-    traits: ['legame_di_branco', 'spirito_combattivo', 'pack_tactics'],
+    traits: ['legame_di_branco', 'spirito_combattivo'],
     status: {},
   };
   const reactions = checkBeastBondReactions(attacker, [attacker, farHolder], registry);

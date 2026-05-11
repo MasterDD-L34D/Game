@@ -8,27 +8,26 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v38 (post sessione 2026-05-10 notte Sprint Q+ Q-10 cross-stack closure 12/12 + trait orphan ASSIGN-A FULL CLOSURE — 76 PR cumulative Day 5+1+2)
-- **Ultimo aggiornamento**: 2026-05-10 ~22:00 UTC. **76 PR cumulative** (75 Game/ + 1 Game-Godot-v2 #217 MERGED). Major delta v37→v38 (5 PR notte +): Q-10 fix RefCounted + gdformat (Godot v2 #217 `b53f67c7`) + Skiv-monitor admin (#2207) + cautious empirical 3rd (#2197) + wave 5+6 33 traits (#2213 → 68/91) + wave 7 species_expansion 26 traits (#2214 → 94/91 effective full closure). **Sprint Q+ cross-stack 12/12 CHIUSO**. Trait orphan ASSIGN-A: 14+6+15+33+26 = **94 traits player-visible** (target 91 + 3 wave 0+1 silent recovery − 2 T3 unmappable). Pillar deltas v38: P3 Identità Specie × Job 🟢++ → 🟢ⁿ confermato (94 trait orphan cross-yaml additive species_expansion). **Vedi memory: project_session_2026_05_10_notte_q10_trait_orphan_full_closure.md**.
+- **Versione compact**: v40 (post sessione 2026-05-11 verdict batch + scope tickets cascade + M14-B + P2 Brigandine A+B+C — 113 PR cumulative Day 5+1+2+3)
+- **Ultimo aggiornamento**: 2026-05-11 ~22:00 UTC. **113 PR cumulative** (112 Game/ + 2 Game-Godot-v2 #217+#218 MERGED). Major delta v39→v40 (20 PR turno verdict + cascade): verdict batch 4 ADR/proposal ACCEPTED (#2234-#2237) + 4 cascade scoped tickets (#2238-#2247: C6 install-doc + C4 mutation Phase 6 + B1 UI polish + P6 rewind + M15 promotion + C1 Vue 3 4/5 + P6-FE rewind HUD + M15-FE promotion UI + M14-A elevation+terrain + C1-FE editor full port) + M14-B Conviction Phase A+B+C cross-fase (#2248-#2250: engine + 5 dialogue branches + 2 endpoints + 9 tests) + TKT-P2 Brigandine Phase A+B+C cross-fase (#2251-#2253: seasonal engine + 4 seasons YAML + 2 phases + 6 endpoints + 11 tests). Pillar deltas v40: P1 🟢 → 🟢++ (elevation+terrain) + P2 🟢ⁿ → 🟢ⁿ+ (Brigandine seasonal stack) + P3 🟢ⁿ confermato (promotion engine) + P4 🟡 → **🟢 candidato** (Conviction system FULL closure) + P5 🟢++ confermato + P6 🟢 → 🟢 confermato (rewind safety valve). AI 393→417 + API 988→1069 verde. **Vedi memory: project_session_2026_05_11_verdict_cascade_v40.md**.
 
-## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 notte FULL trait orphan closure)
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-11 verdict cascade v40)
 
-**Primary** (Phase B Day 8 grace closure):
+**Primary** (Phase B Day 7 formal closure):
 
-> _"Phase B Day 8 verify 2026-05-14 — formal grace closure γ default ratificato, monitor zero regression baseline 14gg"_
+> _"Phase B Day 7 iter5 2026-05-14 — formal grace closure γ default ratificato + cascade actions ADR §13.4 (web-v1-final tag + apps/play archive + README banner)"_
 
-**Master-DD review queue post trait orphan FULL CLOSURE**:
+**Big items remaining post-verdict ACCEPT batch**:
 
-- 2 T3 trait residue (`antenne_plasmatiche_tempesta`, `circolazione_supercritica`) — gated T3-capable species creation lore
-- species_expansion canonical migration ADR formal (morph_slots → trait_plan canonical, wave 7 #2214 shipped additive)
+- TKT-P2 Phase D UI Godot v2 phone composer (~3h, cross-stack closure seasonal stack)
+- Side-runs cleanup #2226/#2227/#2228 (CONFLICTING/DRAFT)
 
-**Forbidden path bundle** (require explicit grant):
+**Verdict cascade closure v40 — zero outstanding ADR/proposal queue master-dd**:
+ADR #2216 AngularJS + #2222 mutation Phase 4 + #2230 species_expansion + Proposal #2231 T3 lore tutti ACCEPTED via verdict batch #2234.
 
-> _"Mutation Phase 6 ADR + Prisma migration 0009+ ally_adjacent_turns + trait_active_cumulative kinds (~3-5h)"_
+**Forbidden path bundle** GRANTED + SHIPPED:
 
-OR
-
-> _"Vite/Vitest major upgrade bundle vite 5→8 + vitest 2→4 cross-3-apps (~3-5h)"_
+> ~~Mutation Phase 6 ADR + Prisma migration 0009+ ally_adjacent_turns + trait_active_cumulative kinds~~ ✅ shipped #2239 `26bd5360`
 
 Spec docs canonical pre-stage:
 
@@ -37,6 +36,8 @@ Spec docs canonical pre-stage:
 
 Pre-closure history (mantenuta):
 
+- **Versione v39**: post sessione 2026-05-11 mattina+pomeriggio Opzione A cascade + Phase B Day 4+5 + 2 ADR PROPOSED — 88 PR cumulative.
+- **Versione v38**: post sessione 2026-05-10 notte Sprint Q+ Q-10 cross-stack closure 12/12 + trait orphan ASSIGN-A FULL CLOSURE — 76 PR cumulative.
 - **Versione v37**: post sessione 2026-05-10 sera FULL Sprint Q+ closure + close-gaps cascade — 71 PR cumulative + Q.A→Q.E pipeline + Phase B ACCEPTED γ + waves 0-4 35/91 trait orphan.
 - **Versione v36**: post sessione 2026-05-10 sera cascade L3 — 51 PR cumulative + Phase 5 partial + npm audit + MC build PAT E2E + browser ops AUTODEPLOY_PAT autonomous.
 - **Versione v35**: post sessione 2026-05-10 mattina FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5.

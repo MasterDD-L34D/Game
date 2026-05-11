@@ -79,6 +79,14 @@ jobs:
               - 'services/**/*.js'
               - 'tests/**/*.js'
               - 'apps/trait-editor/**'
+              # 2026-05-11 — paths-filter blind spot fix post-PR #2223.
+              # YAML data files consumed by backend AJV schema validation
+              # (npm run test:api). Pack-only / data-only edits previously
+              # skipped stack-quality, allowing schema regressions to slip
+              # (e.g. on_hit_status.status_id enum violation in #2223).
+              - 'data/core/**/*.yaml'
+              - 'packs/**/*.yaml'
+              - 'packages/contracts/schemas/**'
             site_audit:
               - 'ops/site-audit/**'
               - 'Makefile'

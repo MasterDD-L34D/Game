@@ -22,6 +22,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
+const { evaluateConviction } = require('./convictionEngine');
 
 const DEFAULT_TELEMETRY_PATH = path.resolve(
   __dirname,
@@ -912,6 +913,9 @@ function buildVcSnapshot(session, config) {
   // Sprint 2026-04-26: pass events_count a deriveMbtiType per dead-band
   // adattivo (short session < 30 eventi → 0.35/0.65, altrimenti 0.45/0.55).
   const eventsCount = events.length;
+  // TKT-M14-B Phase A: conviction axis aggregato additivo, vedi
+  // services/convictionEngine.js. Range 0..100 per axis, baseline 50.
+  const convictionByActor = evaluateConviction(events, units);
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
     const mbti = axesFn(rawMetrics);
@@ -922,6 +926,13 @@ function buildVcSnapshot(session, config) {
       mbti_axes: mbti,
       mbti_type: deriveMbtiType(mbti, { events_count: eventsCount }),
       ennea_archetypes: ennea,
+      // TKT-M14-B Phase A — additive, non rompe consumer esistenti.
+      conviction_axis: convictionByActor[unitId] || {
+        utility: 50,
+        liberty: 50,
+        morality: 50,
+        events_classified: 0,
+      },
     };
   }
 

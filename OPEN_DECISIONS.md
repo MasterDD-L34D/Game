@@ -165,28 +165,25 @@
 - **Evidence**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + Day 1+2 zero regression baseline.
 - **Source ref**: [docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md](docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md) §7.
 
-### [OD-014] P6 Fairness ammortizer — Tactics Ogre rewind/WORLD-Chariot pattern (deferred citation)
+### [OD-014] P6 Fairness ammortizer — Tactics Ogre rewind/WORLD-Chariot pattern ✅ RISOLTA 2026-05-11 (IMPLEMENT ORA ACCEPTED-IMPL-SCOPED)
 
 - **Livello**: game (combat fairness + anti-frustration ammortizer)
-- **Stato**: deferred citation 2026-04-28 (Action 8 ADR-2026-04-28-deep-research-actions citations P3)
-- **Ambiguità**: research deep research SRPG cita Tactics Ogre Reborn WORLD/Chariot rewind system come anti-frustration ammortizer per SRPG hard. Evo-Tactics P6 status 🟡 (hardcore-iter7 stalemate residue + wounded_perma regret post-Action 5a). Rewind action `N` turns potrebbe complementare attrition design senza rimuoverla. Non urgente — Long War 2 mission timers già shipped (M13.P6.A).
-- **Perché conta**: Battle Brothers attrition Action 5a/5b shippato pre-Godot = potrebbe creare regret loop ("ho ferito severo permanente per sempre"). TO rewind = safety valve player.
-- **Miglior default proposto**: defer post-playtest TKT-M11B-06. Se feedback "wounded_perma feels punitive" emerge → riapri come TKT-P6-REWIND-SAFETY-VALVE (~5-7h). Se feedback positivo → mantieni rigid attrition.
-- **Rischio se ignorata**: bassa. Player feedback driver decision.
-- **File o moduli coinvolti**: `apps/backend/services/combat/` (rewind state snapshot), `apps/backend/routes/session.js` (action endpoint).
-- **Prossima azione consigliata**: review post-playtest, valuta come TKT separato.
-- **Source ref**: F1 §"Tactics Ogre" line 50-51 + ADR-2026-04-28-deep-research-actions §5 citations.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT implement ora (~5-7h) NON deferred post-playtest.
+- **Verdict**: **IMPLEMENT ORA come safety valve player**. NON gate su playtest feedback. Rewind N times per battle + snapshot state pre-action.
+- **Action shipped (questa PR)**: scope ticket `TKT-P6-REWIND-SAFETY-VALVE` formal in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §4 (~5-7h). Implementation futura session.
+- **Verdict precedente preservato (riferimento)**: deferred citation post-playtest — superseded.
+- **File o moduli coinvolti**: `apps/backend/services/combat/rewindBuffer.js` (new), `apps/backend/routes/session.js` (extend `/rewind` endpoint), frontend button.
+- **Source ref**: master-dd verdict batch 2026-05-11 (A3 grant) + F1 §"Tactics Ogre" + ADR-2026-04-28-deep-research-actions §5 + scope ticket bundle.
 
-### [OD-015] P2 Macro-loop campaign — Brigandine seasonal Organization Phase pattern (deferred citation M12+)
+### [OD-015] P2 Macro-loop campaign — Brigandine seasonal Organization Phase pattern ✅ RISOLTA 2026-05-11 (PROMUOVI priorità M14 ACCEPTED-SCOPED)
 
 - **Livello**: game (P2 evoluzione macro-loop campaign-wide)
-- **Stato**: deferred citation 2026-04-28 (Action 8 ADR-2026-04-28-deep-research-actions citations P3)
-- **Ambiguità**: research deep research cita Brigandine `Organization Phase + Battle Phase` stagionale come "grand strategy compressed in SRPG" pattern. Evo-Tactics roadmap M12+ ha "P2 full Form evoluzione (deferred ~35h)" ma scope/pattern non specificato. Brigandine seasonal pattern potrebbe essere reference architecturale per macro-loop campaign-wide post-playtest.
-- **Perché conta**: research domain agent valida P2 already 🟢 def via mating engine + thoughts ritual. Brigandine seasonal pattern = future-proof per "long campaign 5-10 stagioni" feature M12+ (NOT Sprint N MVP scope, confermato research domain agent Q4).
-- **Miglior default proposto**: citation-only ora. Riapri quando M12+ P2 macro-loop sprint planificato. Pre-req: TKT-M11B-06 playtest data + Sprint N MVP shipped + Action 6 ambition Skiv-Pulverator alleanza shipped come pilot single-arc.
-- **Rischio se ignorata**: bassa. Future-proof reference.
-- **File o moduli coinvolti**: `apps/backend/services/campaign/` (NEW seasonal phase + organization), `data/core/campaign/seasons/` (NEW YAML).
-- **Source ref**: F1 §"Brigandine" + F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 citations.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit PROMUOVI priorità M12+ → M14.
+- **Verdict**: **PROMUOVI priorità M14**. NON M12+ post-playtest deferred. Brigandine seasonal Organization Phase + Battle Phase 5-10 stagioni meta-loop scoped M14.
+- **Action shipped (questa PR)**: scope ticket `TKT-P2-BRIGANDINE-SEASONAL` formal in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §5 (~20h). Implementation futura session.
+- **Verdict precedente preservato (riferimento)**: citation-only deferred M12+ — superseded.
+- **File o moduli coinvolti**: `apps/backend/services/campaign/seasonalEngine.js` (NEW), `data/core/campaign/seasons/*.yaml` (NEW).
+- **Source ref**: master-dd verdict batch 2026-05-11 (A4 promotion grant) + F1+F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 + scope ticket bundle.
 
 ### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
 
@@ -219,49 +216,46 @@
 - **Skiv link**: weak diretto (vagans = loner mating-blocked). Indiretto: Path A abilita "recruit ex-nemico nel debrief" Skiv narrative beat (vagans seguendo vincente).
 - **Ref**: card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md), [M-2026-04-25-008 Nido Itinerante](docs/museum/cards/mating_nido-canvas-nido-itinerante.md), [excavations/2026-04-25-mating_nido-inventory.md](docs/museum/excavations/2026-04-25-mating_nido-inventory.md).
 
-### [OD-002] V6 UI TV dashboard polish — priorità vs playtest feedback
+### [OD-002] V6 UI TV dashboard polish — priorità vs playtest feedback ✅ RISOLTA 2026-05-11 (ACCEPT proattivo ORA)
 
 - **Livello**: repo (frontend UI)
-- **Stato**: in attesa (deferred post-playtest)
-- **Ambiguità**: V6 gap identificato = UI TV dashboard è funzionale ma non "polished". Priorità rispetto a altri UX fix dipende da feedback playtest.
-- **Perché conta**: user-facing, prima impressione playtest. Ma polish senza feedback real = guessing.
-- **Miglior default proposto**: deferred fino a post-TKT-M11B-06 playtest. Raccogli feedback, allora applica fix mirati.
-- **Rischio se ignorata**: playtest "feels rough" → confusion player, blocca M14 sprint.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT proattivo ora (~3-5h).
+- **Verdict**: **ACCEPT proattivo ORA**. NON deferred post-playtest. Polish iterativo + screenshot before/after senza dipendere da TKT-M11B-06.
+- **Action shipped (questa PR)**: scope ticket `TKT-B1-UI-TV-POLISH` formal in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §6 (~3-5h). Implementation futura session.
+- **Verdict precedente preservato (riferimento)**: deferred post-playtest — superseded.
 - **File o moduli coinvolti**: `apps/play/src/*.css`, `apps/play/src/lobbyBridge.js`, `docs/frontend/`.
-- **Prossima azione consigliata**: invoke skill `design-critique` o `ux-copy` post-playtest su artefatti raccolti.
+- **Source ref**: master-dd verdict batch 2026-05-11 (B1 grant) + scope ticket bundle.
 
-### [OD-003] Triangle Strategy rollout sequence — M14-A/B vs M15 priorità
+### [OD-003] Triangle Strategy rollout sequence — M14-A/B vs M15 priorità ✅ RISOLTA 2026-05-11 (sequenza M14-A → M14-B → M15 ACCEPTED)
 
 - **Livello**: game + system
-- **Stato**: proposta (`docs/research/triangle-strategy-transfer-plan.md` sezione "Suggested rollout")
-- **Ambiguità**: 3 slice proposti (M14-A, M14-B, M15) sono sequenza o possono parallelizzare? Effort aggregate ~35h è fattibile in un singolo mega-sprint o va spezzato?
-- **Perché conta**: ogni slice tocca pilastri diversi (1 Tattica, 4 MBTI, 3 Specie×Job). Sequenza sbagliata = blocco su pilastro con più dipendenze.
-- **Miglior default proposto**: sequenza M14-A → M14-B → M15 come indicato nel transfer plan. M14-A (elevation + terrain) per Pilastro 1 (già 🟢, lo rafforza). M14-B (Conviction system) per Pilastro 4 (sblocca da 🟡++ a 🟢 candidato). M15 (CT bar + promotion) per Pilastro 3.
-- **Rischio se ignorata**: transfer plan resta carta senza ticket reali.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT sequenza M14-A → M14-B → M15.
+- **Verdict**: **sequenza M14-A → M14-B → M15**. Non parallelizzata. 3 ticket scoped, NOT impl this session.
+- **Action shipped (questa PR)**: scope ticket `TKT-M14-A` (~12h) + `TKT-M14-B` (~13h) + `TKT-M15` (~10h) formal in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §1-3.
+- **Verdict precedente preservato (riferimento)**: proposta sequenza M14-A → M14-B → M15 confermata, ora ACCEPTED + scoped.
 - **File o moduli coinvolti**: `apps/backend/services/combat/` (elevation, terrain, reaction), `apps/backend/services/vcScoring.js` (MBTI), `apps/backend/services/roundOrchestrator.js` (CT bar).
-- **Prossima azione consigliata**: aprire 3 ticket concreti (M14-A, M14-B, M15) con effort breakdown dopo playtest live.
+- **Source ref**: master-dd verdict batch 2026-05-11 (A2 grant) + scope ticket bundle.
 
-### [OD-004] Game-Database HTTP runtime Alt B — quando attivare
+### [OD-004] Game-Database HTTP runtime Alt B — quando attivare ✅ RISOLTA 2026-05-11 (status quo flag-OFF confermato)
 
 - **Livello**: system + repo
-- **Stato**: flag-OFF, scaffold esistente (ADR-2026-04-14)
-- **Ambiguità**: Alt B HTTP runtime è dormiente. Quando attivarlo? Serve il sibling repo essere deployato prima? Test di smoke adeguato?
-- **Perché conta**: trait glossary shared tra Game e Game-Database sarebbe valore reale (dual ownership content). Ma attivare senza repo sibling stable = rischio crash runtime.
-- **Miglior default proposto**: mantenere flag-OFF finché Game-Database non è production-ready separatamente. Agent `game-database-bridge` (proposto in roster) dormiente, attivabile quando serve.
-- **Rischio se ignorata**: drift schema tra Game e Game-Database se entrambi evolvono indipendentemente.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit status quo flag-OFF.
+- **Verdict**: **mantieni flag-OFF**. NON attivare. Status quo confermato fino a quando Game-Database non è production-ready separatamente.
+- **Rationale**: agent `game-database-bridge` rimane dormiente. Re-evaluate solo post-Sprint Q+ Game-Database integration trigger.
+- **Action followup**: nessuna autonomous Claude. Documentazione status quo questo verdict in OPEN_DECISIONS.
+- **Verdict precedente preservato (riferimento)**: flag-OFF default confermato come canonical decision.
 - **File o moduli coinvolti**: `packages/contracts/schemas/glossary.schema.json`, `apps/backend/services/catalog/`.
-- **Prossima azione consigliata**: re-evaluate post-M14 sprint. Se Game-Database ancora non pronto, lasciare flag-OFF senza altre azioni.
+- **Source ref**: master-dd verdict batch 2026-05-11 (C5 status quo).
 
-### [OD-005] Integrazione `Game Balance & Economy Tuning` skill (mcpmarket)
+### [OD-005] Integrazione `Game Balance & Economy Tuning` skill (mcpmarket) ✅ RISOLTA 2026-05-11 (install ORA ACCEPTED)
 
 - **Livello**: workflow
-- **Stato**: identificata in shopping list, non installata
-- **Ambiguità**: skill specifica per tuning items/weapons/economy/combat. Install dopo playtest round 2 (dati reali) o ora (proattivo)?
-- **Perché conta**: Pillar 6 (Fairness) calibration iter 1-7 hardcore è lavoro ripetitivo. Skill potrebbe automatizzare pattern.
-- **Miglior default proposto**: install post-TKT-M11B-06. Testarla su dati playtest raccolti (test-driven skill adoption).
-- **Rischio se ignorata**: continui a fare calibration manuale, -30% efficienza.
+- **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT install proattivo ora (~30min).
+- **Verdict**: **install ORA** (NON deferred post-playtest). Test-driven adoption su `docs/playtest/*-calibration.md` raccolti + dataset balance esistenti.
+- **Action shipped (questa PR)**: scope ticket `TKT-C6-BALANCE-SKILL-INSTALL` formal in `docs/planning/2026-05-11-big-items-scope-tickets-bundle.md` §9 (~30min). Implementation futura session (Claude lacks mcpmarket access from agent).
+- **Verdict precedente preservato (riferimento)**: deferred post-playtest — superseded.
 - **File o moduli coinvolti**: `.claude/settings.json` (per skill install config).
-- **Prossima azione consigliata**: post-playtest round 2, run skill su `docs/playtest/*-calibration.md` raccolti.
+- **Source ref**: master-dd verdict batch 2026-05-11 (C6 grant) + scope ticket bundle.
 
 ### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
 

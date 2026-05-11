@@ -262,6 +262,38 @@ function triggerBondReaction(session, attacker, target, damageDealt, options) {
 
   ally._bond_round_used = currentTurn;
   setCooldown(ally, bond, currentTurn);
+
+  // Gate 5 surface: structured stdout JSON emit (TKT-BOND-HUD-SURFACE backend
+  // wire). Mirrors generation-orchestrator `component=` pattern so dev
+  // playtest log tail can confirm bond firings without HUD ready. Frontend
+  // toast/HUD wire deferred to master-dd Mission Console coord (handoff:
+  // docs/planning/2026-05-10-tkt-bond-hud-surface-frontend-handoff.md).
+  // Suppress in test env to keep `node --test` output clean.
+  if (!process.env.IDEA_ENGINE_DISABLE_BOND_LOG && process.env.NODE_ENV !== 'test') {
+    try {
+      // eslint-disable-next-line no-console
+      console.info(
+        JSON.stringify({
+          component: 'bond-reaction',
+          event: 'bond_fired',
+          session_id: session.session_id || null,
+          turn: currentTurn,
+          bond_id: result.bond_id,
+          bond_type: result.type,
+          ally_id: result.ally_id,
+          attacker_id: attacker && attacker.id ? attacker.id : null,
+          target_id: target && target.id ? target.id : null,
+          damage_absorbed: result.damage_absorbed || 0,
+          damage_dealt: result.damage_dealt || 0,
+          ally_killed: !!result.ally_killed,
+          attacker_killed: !!result.attacker_killed,
+        }),
+      );
+    } catch {
+      // structured log is best-effort; combat path must never break on log.
+    }
+  }
+
   return result;
 }
 

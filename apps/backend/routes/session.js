@@ -196,6 +196,17 @@ const {
   ELEMENTS: TERRAIN_ELEMENTS,
 } = require('../services/combat/terrainReactions');
 
+// TKT-P6 — Rewind safety valve (snapshot pre-action + rewind endpoint).
+const {
+  snapshotSession,
+  rewindSession,
+  resetRewind,
+  rewindStateSummary,
+} = require('../services/combat/rewindBuffer');
+
+// TKT-M15 — Promotion engine (FFT-style class advancement).
+const { evaluatePromotion, applyPromotion } = require('../services/progression/promotionEngine');
+
 // Italian channel → terrainReactions element mapping. Action.channel is the
 // canonical attack channel string ("fuoco", "ghiaccio", ...). Only mapped
 // channels trigger reactions; everything else (fisico, perforante, ...) skips.
@@ -521,6 +532,44 @@ function createSessionRouter(options = {}) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientedPenalty;
     }
 
+    // TKT-M14-A 2026-05-11 — Triangle Strategy elevation + terrain hit modifier.
+    // Reads actor.elevation / actor.terrain_type + target.elevation / target.terrain_type.
+    // Pattern mirrors statusMods / timeMods / biomeAffActor (per-attack delta + revert).
+    // Damage delta (cinder + fire channel) flows via positionModifier.damageBonus,
+    // applied below in baseDamage calculation. Non-blocking on errors.
+    let positionMod = {
+      attackBonus: 0,
+      defenseBonus: 0,
+      damageBonus: 0,
+      elevationDelta: 0,
+      elevationReason: 'level_ground',
+      terrainReasons: [],
+    };
+    try {
+      const { computeCombatPositionModifier } = require('../services/combat/elevationModifier');
+      const attackDistanceForMod = manhattanDistance(actor.position, target.position);
+      positionMod = computeCombatPositionModifier(actor, target, {
+        channel: action && typeof action.channel === 'string' ? action.channel : 'fisico',
+        attack_distance: attackDistanceForMod,
+      });
+      if (positionMod.attackBonus !== 0) {
+        actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + positionMod.attackBonus;
+      }
+      if (positionMod.defenseBonus !== 0) {
+        target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) + positionMod.defenseBonus;
+      }
+    } catch (err) {
+      // non-blocking: malformed tile metadata should never break combat
+      positionMod = {
+        attackBonus: 0,
+        defenseBonus: 0,
+        damageBonus: 0,
+        elevationDelta: 0,
+        elevationReason: 'level_ground',
+        terrainReasons: [],
+      };
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -563,6 +612,13 @@ function createSessionRouter(options = {}) {
     if (disorientedPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientedPenalty;
     }
+    // TKT-M14-A — Revert elevation + terrain modifier deltas (per-attack, non-persistent).
+    if (positionMod.attackBonus !== 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - positionMod.attackBonus;
+    }
+    if (positionMod.defenseBonus !== 0) {
+      target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - positionMod.defenseBonus;
+    }
     let damageDealt = 0;
     let killOccurred = false;
     let adjacencyBonus = 0;
@@ -580,7 +636,11 @@ function createSessionRouter(options = {}) {
     // emit `elevation_multiplier` field for log/telemetry consumers.
     let positionalInfo = null;
     if (result.hit) {
-      const baseDamage = 1 + result.pt;
+      // TKT-M14-A — terrain damageBonus (cinder + fire channel = +1 ember damage).
+      // Applied flat to baseDamage pre-multipliers. Damage delta tracked
+      // separately for log via positionMod.damageBonus.
+      const terrainDamageBonus = Number(positionMod.damageBonus) || 0;
+      const baseDamage = 1 + result.pt + terrainDamageBonus;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
       // e' strettamente adiacente al bersaglio (Manhattan == 1). Incentiva
       // la scelta tattica di entrare in mischia anche se skirmisher/ranger
@@ -1765,6 +1825,18 @@ function createSessionRouter(options = {}) {
 
       const actionType = body.action_type;
 
+      // TKT-P6 — Snapshot pre-action state for potential rewind.
+      // Only player-controlled actor actions push snapshots (sistema AI
+      // actions are deterministic given seed, no rewind UX needed). Skip when
+      // session._rewind_disabled flag set (PvP / replay modes).
+      if (actor.controlled_by === 'player' && !session._rewind_disabled) {
+        try {
+          snapshotSession(session);
+        } catch {
+          // best-effort: never block action on snapshot failure
+        }
+      }
+
       if (actionType === 'attack') {
         const targetId = body.target_id || body.target;
         const target = session.units.find((u) => u.id === targetId);
@@ -2530,11 +2602,270 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // TKT-P6 — Rewind safety valve endpoint.
+  // POST /api/session/:id/rewind — restore most recent snapshot, decrement
+  // rewind budget. Returns 409 when budget exhausted or buffer empty.
+  router.post('/:id/rewind', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const result = rewindSession(session);
+      if (!result.ok) {
+        return res.status(409).json({
+          error: 'rewind_unavailable',
+          reason: result.reason,
+          budget_remaining: result.budget_remaining ?? 0,
+          rewind: rewindStateSummary(session),
+        });
+      }
+      // Append rewind audit event (forward-only log).
+      try {
+        if (Array.isArray(session.events)) {
+          session.events.push({
+            action_type: 'rewind',
+            turn: session.turn,
+            actor_id: null,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'ok',
+            position_from: null,
+            position_to: null,
+            budget_remaining: result.budget_remaining,
+            automatic: false,
+          });
+        }
+      } catch {
+        /* event log best-effort */
+      }
+      return res.json({
+        session_id: session.session_id,
+        rewind: {
+          rewound: true,
+          budget_remaining: result.budget_remaining,
+          snapshots_remaining: result.snapshots_remaining,
+        },
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // TKT-M15 — Promotion engine endpoints.
+  //
+  // GET /api/session/:id/promotion-eligibility — return all units' promotion
+  // eligibility computed from session.events log.
+  // POST /api/session/:id/promote — accept promotion for a unit (player choice).
+  //   body: { unit_id, target_tier }
+  //   200: { unit_id, applied_tier, deltas }
+  //   400: { error, details }
+  //   404: unknown session OR unit
+  router.get('/:id/promotion-eligibility', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const playerUnits = (session.units || []).filter((u) => u && u.controlled_by === 'player');
+      const eligibility = playerUnits.map((u) => ({
+        unit_id: u.id,
+        ...evaluatePromotion(u, session.events || []),
+      }));
+      res.json({
+        session_id: session.session_id,
+        eligibility,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/:id/promote', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const body = req.body || {};
+      const unitId = body.unit_id;
+      const targetTier = body.target_tier;
+      if (!unitId || !targetTier) {
+        return res.status(400).json({
+          error: 'missing_fields',
+          required: ['unit_id', 'target_tier'],
+        });
+      }
+      const unit = (session.units || []).find((u) => u && u.id === unitId);
+      if (!unit) {
+        return res.status(404).json({ error: 'unit_not_found', unit_id: unitId });
+      }
+      // Gate: must be eligible.
+      const eligibility = evaluatePromotion(unit, session.events || []);
+      if (!eligibility.eligible || eligibility.next_tier !== targetTier) {
+        return res.status(400).json({
+          error: 'not_eligible',
+          eligibility,
+        });
+      }
+      const result = applyPromotion(unit, targetTier);
+      if (!result.ok) {
+        return res.status(400).json({ error: result.error || 'apply_failed', details: result });
+      }
+      // Append promotion event to log (forward audit trail).
+      try {
+        if (Array.isArray(session.events)) {
+          session.events.push({
+            action_type: 'promotion',
+            turn: session.turn || 0,
+            actor_id: unitId,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'ok',
+            position_from: null,
+            position_to: null,
+            target_tier: targetTier,
+            previous_tier: result.previous_tier,
+            automatic: false,
+          });
+        }
+      } catch {
+        /* event log best-effort */
+      }
+      res.json({
+        session_id: session.session_id,
+        unit_id: unitId,
+        ...result,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // TKT-M14-B Phase C — Conviction system endpoints (eligibility + decide).
+  // Phase A engine in services/convictionEngine.js; Phase B dialogue YAML
+  // + loader in services/dialogueLoader.js; Phase C exposes API surface.
+  //
+  // State storage: session.convictionState[actorId] = { utility, liberty,
+  // morality, events_classified }. Persists across calls within session
+  // lifetime. Default actor = first unit with controlled_by='player'.
+  // vcSnapshot.per_actor[uid].conviction_axis (Phase A) resta event-derived
+  // separato — endpoint state additive sopra (test 8 regression preserved).
+  router.get('/:id/conviction/eligible', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+
+      const { findEligible } = require('../services/dialogueLoader');
+      const playerUnit = (session.units || []).find((u) => u && u.controlled_by === 'player');
+      const actorId = String(req.query.actor || '').trim() || (playerUnit ? playerUnit.id : null);
+      if (!actorId) {
+        return res.status(404).json({ error: 'no_player_actor' });
+      }
+
+      if (!session.convictionState) session.convictionState = {};
+      if (!session.convictionState[actorId]) {
+        session.convictionState[actorId] = {
+          utility: 50,
+          liberty: 50,
+          morality: 50,
+          events_classified: 0,
+        };
+      }
+      const state = session.convictionState[actorId];
+
+      const branches = findEligible(state, {
+        encounter_id: session.encounter_id || null,
+      });
+
+      res.json({
+        actor_id: actorId,
+        conviction_axis: state,
+        branches: branches.map((b) => ({
+          id: b.id,
+          title: b.title,
+          description_it: b.description_it,
+          description_en: b.description_en,
+        })),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/:id/conviction/decide', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+
+      const body = req.body || {};
+      const branchId = body.branch_id;
+      const choiceId = body.choice_id;
+      if (!branchId || !choiceId) {
+        return res.status(400).json({
+          error: 'missing_body_fields',
+          required: ['branch_id', 'choice_id'],
+        });
+      }
+
+      const { getBranch, getChoice } = require('../services/dialogueLoader');
+      const branch = getBranch(branchId);
+      if (!branch) {
+        return res.status(404).json({ error: 'branch_not_found', branch_id: branchId });
+      }
+      const choice = getChoice(branchId, choiceId);
+      if (!choice) {
+        return res.status(404).json({
+          error: 'choice_not_found',
+          branch_id: branchId,
+          choice_id: choiceId,
+        });
+      }
+
+      const playerUnit = (session.units || []).find((u) => u && u.controlled_by === 'player');
+      const actorId = String(body.actor || '').trim() || (playerUnit ? playerUnit.id : null);
+      if (!actorId) {
+        return res.status(404).json({ error: 'no_player_actor' });
+      }
+
+      const { applyDelta } = require('../services/convictionEngine');
+      if (!session.convictionState) session.convictionState = {};
+      if (!session.convictionState[actorId]) {
+        session.convictionState[actorId] = {
+          utility: 50,
+          liberty: 50,
+          morality: 50,
+          events_classified: 0,
+        };
+      }
+      const prev = session.convictionState[actorId];
+      const next = applyDelta(prev, choice.delta);
+      session.convictionState[actorId] = {
+        ...next,
+        events_classified: (prev.events_classified || 0) + 1,
+      };
+
+      res.json({
+        actor_id: actorId,
+        branch_id: branchId,
+        choice_id: choiceId,
+        delta_applied: choice.delta,
+        conviction_axis: session.convictionState[actorId],
+        consequence: choice.consequence,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/end', async (req, res, next) => {
     try {
       const body = req.body || {};
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
+      // TKT-P6 — reset rewind buffer + budget on combat end (next encounter
+      // starts fresh budget).
+      try {
+        resetRewind(session);
+      } catch {
+        /* best-effort */
+      }
       // Telemetry B (TKT-03/05): compute outcome + VC snapshot, persist
       // session_end event prima della finalizzazione.
       const sistemaAlive = session.units.filter(

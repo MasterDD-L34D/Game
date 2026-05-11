@@ -1,6 +1,7 @@
 // End-game detection + overlay (con VC debrief integrato).
 
 import { api } from './api.js';
+import { renderPromotionPanel } from './promotionPanel.js';
 
 function renderVcBlock(vcSnapshot) {
   if (!vcSnapshot || !vcSnapshot.per_actor) return '';
@@ -84,6 +85,17 @@ export function showEndgame(result, state, handlers) {
         slot.textContent = '⚠ VC non disponibile';
       }
     });
+  }
+
+  // TKT-M15-FE — Promotion panel (victory only; defeat path doesn't grant
+  // promotion eligibility usually but engine returns reason=thresholds_not_met
+  // gracefully so rendering on defeat is a noop empty state).
+  if (result === 'victory' && state.session_id) {
+    try {
+      renderPromotionPanel(state.session_id, document.getElementById('endgame-stats'));
+    } catch (err) {
+      console.warn('[promotion] render error', err);
+    }
   }
 
   document.getElementById('endgame-next').onclick = handlers.next;

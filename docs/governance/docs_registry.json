@@ -578,6 +578,19 @@
       "track": "active"
     },
     {
+      "path": "docs/adr/ADR-2026-05-10-mutation-auto-trigger-evaluator.md",
+      "title": "ADR-2026-05-10 — Mutation Auto-Trigger Evaluator (PROPOSED)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-10",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
@@ -5960,6 +5973,19 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/playtest/2026-05-11-tkt-m14-b-conviction-audit.md",
+      "title": "TKT-M14-B Conviction system audit + scope refinement 2026-05-11",
+      "doc_status": "active",
+      "doc_owner": "claude",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md",
       "title": "Phase B synthetic supplement iter1 - Tier 1 phone smoke fresh capture 2026-05-08",
       "doc_status": "active",
@@ -7348,6 +7374,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-05-11-drift-audit.md",
+      "title": "Drift Audit 2026-05-11",
+      "doc_status": "active",
+      "doc_owner": "governance-illuminator",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "generated"
+    },
+    {
       "path": "docs/research/2026-05-08-od-022-validator-pre-design.md",
       "title": "OD-022 swarm canonical validator - pre-design preview Day 3/7 sera",
       "doc_status": "draft",
@@ -8366,6 +8405,19 @@
       "last_verified": "2026-05-08",
       "source_of_truth": true,
       "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/reports/2026-05-11-thought-cabinet-adoption-check.md",
+      "title": "Thought Cabinet round-mode adoption check (Sprint 6 +14 days)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it-en",
       "review_cycle_days": 30,
       "primary": false,
       "track": "active"

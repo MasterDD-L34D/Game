@@ -46,6 +46,26 @@ const {
 const { grantXpToSurvivors } = require('../services/progression/progressionApply');
 const { loadXpCurve } = require('../services/progression/progressionLoader');
 
+// TKT-P2 Brigandine seasonal — Phase C routes (engine Phase A #2251 + content Phase B #2252).
+const seasonalEngine = require('../services/campaign/seasonalEngine');
+const seasonalContentLoader = require('../services/campaign/seasonalContentLoader');
+
+// In-memory seasonal state Map<campaign_id, state>. Per POC. Resettable via
+// _resetSeasonalState() per test isolation. Future iteration: integrate con
+// campaignStore o Prisma write-through (pattern progressionStore).
+const campaignSeasonalState = new Map();
+
+function _resetSeasonalState() {
+  campaignSeasonalState.clear();
+}
+
+function _getOrInitSeasonalState(campaignId) {
+  if (!campaignSeasonalState.has(campaignId)) {
+    campaignSeasonalState.set(campaignId, seasonalEngine.initialState());
+  }
+  return campaignSeasonalState.get(campaignId);
+}
+
 // M12 Phase D — evolve opportunity trigger threshold (ADR-2026-04-23 addendum).
 // Victory + pe_earned >= PE_EVOLVE_TRIGGER_THRESHOLD → response.evolve_opportunity=true.
 // Consumed frontend-side (formsPanel auto-open) + lobby campaign mirror.
@@ -529,6 +549,120 @@ function createCampaignRouter(options = {}) {
     return res.json(result);
   });
 
+  // TKT-P2 Brigandine seasonal — Phase C endpoints.
+  //
+  // 6 endpoints expose macro-loop state + transitions + content metadata:
+  //   GET  /api/campaign/seasonal/state           - current state for campaign_id
+  //   POST /api/campaign/seasonal/advance-phase   - organization ↔ battle
+  //   POST /api/campaign/seasonal/advance-season  - spring → summer → ... (+year wrap)
+  //   GET  /api/campaign/seasonal/modifiers       - current season modifiers
+  //   GET  /api/campaign/seasonal/phase-spec      - current phase actions + restrictions
+  //   GET  /api/campaign/seasonal/events          - season events_pool (?season=<id>)
+  //
+  // State storage: in-memory Map (POC). campaign_id query/body param required.
+
+  router.get('/campaign/seasonal/state', (req, res) => {
+    const campaignId = String(req.query?.campaign_id || '').trim();
+    if (!campaignId) {
+      return res.status(400).json({ error: 'campaign_id query param richiesto' });
+    }
+    const state = _getOrInitSeasonalState(campaignId);
+    return res.json({ campaign_id: campaignId, state });
+  });
+
+  router.post('/campaign/seasonal/advance-phase', (req, res) => {
+    const campaignId = String(req.body?.campaign_id || '').trim();
+    if (!campaignId) {
+      return res.status(400).json({ error: 'campaign_id richiesto' });
+    }
+    const prev = _getOrInitSeasonalState(campaignId);
+    try {
+      const next = seasonalEngine.advancePhase(prev);
+      campaignSeasonalState.set(campaignId, next);
+      return res.json({ campaign_id: campaignId, state: next });
+    } catch (err) {
+      return res.status(500).json({ error: 'advance_phase_failed', detail: err.message });
+    }
+  });
+
+  router.post('/campaign/seasonal/advance-season', (req, res) => {
+    const campaignId = String(req.body?.campaign_id || '').trim();
+    if (!campaignId) {
+      return res.status(400).json({ error: 'campaign_id richiesto' });
+    }
+    const prev = _getOrInitSeasonalState(campaignId);
+    try {
+      const next = seasonalEngine.advanceSeason(prev);
+      campaignSeasonalState.set(campaignId, next);
+      return res.json({ campaign_id: campaignId, state: next });
+    } catch (err) {
+      return res.status(500).json({ error: 'advance_season_failed', detail: err.message });
+    }
+  });
+
+  router.get('/campaign/seasonal/modifiers', (req, res) => {
+    const campaignId = String(req.query?.campaign_id || '').trim();
+    if (!campaignId) {
+      return res.status(400).json({ error: 'campaign_id query param richiesto' });
+    }
+    const state = _getOrInitSeasonalState(campaignId);
+    // Prefer YAML content (Phase B loader) for full hazards array; fallback engine POC.
+    const yamlSeason = seasonalContentLoader.getSeason(state.current_season);
+    if (yamlSeason) {
+      return res.json({
+        campaign_id: campaignId,
+        season: state.current_season,
+        modifiers: yamlSeason.modifiers,
+        hazards: yamlSeason.hazards || [],
+      });
+    }
+    const modifiers = seasonalEngine.getSeasonModifiers(state.current_season);
+    return res.json({
+      campaign_id: campaignId,
+      season: state.current_season,
+      modifiers,
+      hazards: modifiers ? [{ type: modifiers.hazard, intensity: 0.5, affected_biomes: [] }] : [],
+    });
+  });
+
+  router.get('/campaign/seasonal/phase-spec', (req, res) => {
+    const campaignId = String(req.query?.campaign_id || '').trim();
+    if (!campaignId) {
+      return res.status(400).json({ error: 'campaign_id query param richiesto' });
+    }
+    const state = _getOrInitSeasonalState(campaignId);
+    // Prefer YAML content (Phase B loader); fallback engine POC.
+    const yamlPhase = seasonalContentLoader.getPhase(`${state.current_phase}_phase`);
+    if (yamlPhase) {
+      return res.json({
+        campaign_id: campaignId,
+        phase: state.current_phase,
+        available_actions: yamlPhase.available_actions || [],
+        restricted_actions: yamlPhase.restricted_actions || [],
+        combat_enabled: yamlPhase.combat_enabled,
+        auto_advance: yamlPhase.auto_advance,
+      });
+    }
+    const spec = seasonalEngine.getCurrentPhaseSpec(state);
+    return res.json({
+      campaign_id: campaignId,
+      phase: state.current_phase,
+      available_actions: spec ? spec.actions : [],
+      restricted_actions: [],
+      combat_enabled: spec ? spec.combat_enabled : false,
+      auto_advance: false,
+    });
+  });
+
+  router.get('/campaign/seasonal/events', (req, res) => {
+    const season = String(req.query?.season || '').trim();
+    if (!season) {
+      return res.status(400).json({ error: 'season query param richiesto' });
+    }
+    const events = seasonalContentLoader.getSeasonEvents(season);
+    return res.json({ season, events, count: events.length });
+  });
+
   return router;
 }
 
@@ -536,4 +670,5 @@ module.exports = {
   createCampaignRouter,
   computeEvolveOpportunity,
   PE_EVOLVE_TRIGGER_THRESHOLD,
+  _resetSeasonalState,
 };
