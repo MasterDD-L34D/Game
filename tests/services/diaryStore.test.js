@@ -22,8 +22,8 @@ function tmpBaseDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'diary-test-'));
 }
 
-test('ALLOWED_EVENT_TYPES: 8 entries post 2026-04-25 content sprint', () => {
-  assert.equal(ALLOWED_EVENT_TYPES.size, 8);
+test('ALLOWED_EVENT_TYPES: 12 entries post 2026-04-25 content sprint + Skiv diary waves', () => {
+  assert.equal(ALLOWED_EVENT_TYPES.size, 12);
   assert.ok(ALLOWED_EVENT_TYPES.has('form_evolved'));
   assert.ok(ALLOWED_EVENT_TYPES.has('thought_internalized'));
   assert.ok(ALLOWED_EVENT_TYPES.has('scenario_completed'));
