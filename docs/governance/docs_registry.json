@@ -8408,6 +8408,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/reports/2026-05-11-thought-cabinet-adoption-check.md",
+      "title": "Thought Cabinet round-mode adoption check (Sprint 6 +14 days)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
