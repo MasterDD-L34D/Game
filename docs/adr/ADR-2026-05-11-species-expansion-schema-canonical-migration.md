@@ -162,3 +162,48 @@ Effort estimate: **~3-5h** scoped + zero runtime risk (nessun consumer da romper
 ---
 
 **Master-dd verdict gate**: questa ADR è PROPOSED. Procedere a IMPLEMENTATION solo dopo verdict esplicito Path A / B / C nel PR thread o successor ADR.
+
+---
+
+## §6 Migration shipped 2026-05-11 (Path B variant)
+
+Master-dd verdict batch 11-decisioni 2026-05-11 explicit ACCEPT **Path B variant** (canonical schema = `trait_plan` + deprecate `morph_slots` field, instead of `default_parts` originally recommended).
+
+### Variant rationale
+
+Migration `morph_slots → default_parts` introdurrebbe doppia migration (morph_slots → default_parts) e poi un secondo step canonical (default_parts → trait_plan) per allinearsi al pattern PR #2214 wave 7 già live. Verdict bypassa lo step intermedio: `trait_plan` diventa canonical direct.
+
+### Shipped changes
+
+- **`data/core/species_expansion.yaml`**: 16 entries missing `trait_plan` ora hanno stub canonical:
+  ```yaml
+  trait_plan:
+    # Canonical migration ADR-2026-05-11 Path B variant.
+    # _pending_lore_review: populate via master-dd lore review.
+    core: []
+    optional: []
+    synergies: []
+    _pending_lore_review: true
+  ```
+  Total entries with `trait_plan`: 33/33 (era 17/31 pre-migration; 31 → 33 dopo ship 2 T3 species PR #2235).
+- **`morph_slots`** field DEPRECATO ma preservato per backwards compat zero-runtime-consumer (no breaking change).
+- **`tools/py/validate_species.py`**: emit `morph_slots è DEPRECATO (ADR-2026-05-11)` warning quando legge il field.
+- **File header comment** updated con migration policy note.
+
+### Lore review residue
+
+16 species hanno `trait_plan._pending_lore_review: true` flag. Master-dd review necessario per popolare `core` + `optional` + `synergies` lore-faithful. Lista completa:
+
+`sp_ferriscroba_detrita`, `sp_salifossa_tenebris`, `sp_limnofalcis_serrata`, `sp_calamipes_gracilis`, `sp_salisucta_alveata`, `sp_nebulocornis_mollis`, `sp_glaciolabis_nitida`, `sp_tonitrudens_ferox`, `sp_rubrospina_velox`, `sp_paludogromus_magnus`, `sp_cinerastra_nodosa`, `sp_zephyrovum_fidelis`, `sp_vitricyba_punctata`, `sp_fumarisorba_sulfurea`, `sp_arboryxis_lenis`, `sp_siltovena_bifida`.
+
+### Acceptance shipped
+
+- ✅ Schema canonical migrated (`trait_plan` field on 33/33 entries).
+- ✅ Validator extended (deprecation warning on morph_slots).
+- ✅ Backwards compat preserved (morph_slots retained).
+- ✅ Validate-datasets pipe verde post-ship.
+- ⏳ 16 lore stubs require master-dd review (next session).
+
+### Implementation PR
+
+`feat/species-expansion-path-b-canonical-migration` shipped 2026-05-11.
