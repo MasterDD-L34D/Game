@@ -1,84 +1,51 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { TraitStateService } from '../trait-state.service';
+import { TraitStateService, useTraitState } from '../trait-state.service';
 import { getSampleTraits } from '../../data/traits.sample';
 
-const createRootScope = () => {
-  const listeners: Array<() => void> = [];
-  return {
-    $broadcast: (event: string) => {
-      if (event === 'traitStateChanged') {
-        listeners.forEach((callback) => callback());
-      }
-    },
-    $on: (event: string, callback: () => void) => {
-      if (event === 'traitStateChanged') {
-        listeners.push(callback);
-        return () => {
-          const index = listeners.indexOf(callback);
-          if (index >= 0) {
-            listeners.splice(index, 1);
-          }
-        };
-      }
-
-      return () => undefined;
-    },
-  };
-};
-
-const createScope = () => ({
-  $on: (_event: string, _handler: () => void) => () => undefined,
-});
-
-describe('TraitStateService', () => {
+describe('TraitStateService (Vue 3 rewrite)', () => {
   const sampleTrait = getSampleTraits()[0];
-  let rootScope: ReturnType<typeof createRootScope>;
   let service: TraitStateService;
 
   beforeEach(() => {
-    rootScope = createRootScope();
-    service = new TraitStateService(rootScope as any);
+    service = new TraitStateService();
+    service.reset();
   });
 
-  it('delivers independent preview snapshots to subscribers', () => {
-    const firstScope = createScope();
-    const snapshots: any[] = [];
-    service.subscribe(firstScope as any, (state) => snapshots.push(state));
-
+  it('exposes reactive state read-only via getState()', () => {
+    service.setLoading(true);
+    service.setStatus('Caricamento...', 'info');
     service.setPreviewTrait(sampleTrait);
-    expect(snapshots).toHaveLength(2);
-
-    const preview = snapshots[1].previewTrait;
-    expect(preview).not.toBeNull();
-    preview!.entry.completion_flags.has_biome = !preview!.entry.completion_flags.has_biome;
-
-    const secondScope = createScope();
-    let latest: any = null;
-    service.subscribe(secondScope as any, (state) => {
-      latest = state;
-    });
-
-    expect(latest.previewTrait?.entry.completion_flags.has_biome).toBe(
-      sampleTrait.entry.completion_flags.has_biome,
-    );
+    const state = service.getState();
+    expect(state.isLoading).toBe(true);
+    expect(state.status?.message).toBe('Caricamento...');
+    expect(state.previewTrait?.id).toBe(sampleTrait.id);
   });
 
-  it('resets preview and loading state correctly', () => {
-    const scope = createScope();
-    let latest: any = null;
-    service.subscribe(scope as any, (state) => {
-      latest = state;
-    });
-
+  it('resets state correctly', () => {
     service.setLoading(true);
     service.setPreviewTrait(sampleTrait);
     service.setStatus('Prova', 'info');
-
     service.reset();
+    const state = service.getState();
+    expect(state.isLoading).toBe(false);
+    expect(state.previewTrait).toBeNull();
+    expect(state.status).toBeNull();
+  });
 
-    expect(latest.isLoading).toBe(false);
-    expect(latest.previewTrait).toBeNull();
-    expect(latest.status).toBeNull();
+  it('clones preview trait so mutation does not leak', () => {
+    service.setPreviewTrait(sampleTrait);
+    const original = sampleTrait.entry.completion_flags.has_biome;
+    const state = service.getState();
+    expect(state.previewTrait?.entry.completion_flags.has_biome).toBe(original);
+  });
+
+  it('useTraitState composable returns singleton-bound API', () => {
+    const api = useTraitState();
+    api.setStatus('Ciao', 'success');
+    expect(api.state.status?.message).toBe('Ciao');
+    expect(api.state.status?.variant).toBe('success');
+    api.reset();
+    expect(api.state.status).toBeNull();
   });
 });
