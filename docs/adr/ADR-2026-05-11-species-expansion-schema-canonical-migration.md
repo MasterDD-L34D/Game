@@ -4,7 +4,7 @@ date: 2026-05-11
 type: adr
 workstream: dataset-pack
 owner: master-dd
-status: proposed
+status: accepted
 related_files:
   - data/core/species.yaml
   - data/core/species_expansion.yaml
@@ -21,7 +21,9 @@ related_pr:
 
 ## Status
 
-**PROPOSED** — 2026-05-11. Pending master-dd verdict (Path A / B / C).
+**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT **Path B variant** (canonical schema = `trait_plan` + deprecate `morph_slots` field, instead of `default_parts` originally recommended). Implementation cascade in successor PR (`feat/species-expansion-path-b-canonical-migration`).
+
+**Original status**: PROPOSED 2026-05-11.
 
 ## Context
 

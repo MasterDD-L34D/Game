@@ -4,7 +4,7 @@ date: 2026-05-11
 type: proposal
 workstream: dataset-pack
 owner: master-dd
-status: proposed
+status: accepted
 related_files:
   - data/core/species.yaml
   - data/core/species_expansion.yaml
@@ -20,7 +20,11 @@ related:
 
 ## Status
 
-**PROPOSED** — 2026-05-11. Pending master-dd lore verdict (Candidate 1 / 2 / 3-merge / reject).
+**ACCEPTED 2026-05-11** — master-dd verdict batch 11-decisioni explicit Opt 1 (Verdict A): ship Candidate 1 + Candidate 2 entrambi (2 nuove species T3 in roster). Tier T3 confermato. `circolazione_supercritica` tier T1 → T3 audit correction confermata.
+
+Implementation cascade in successor PR (`feat/t3-species-2-candidate-ship`). Vedi sezione "SHIPPED" alla fine.
+
+**Original status**: PROPOSED 2026-05-11.
 
 ## Scope
 
