@@ -2738,6 +2738,122 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // TKT-M14-B Phase C — Conviction system endpoints (eligibility + decide).
+  // Phase A engine in services/convictionEngine.js; Phase B dialogue YAML
+  // + loader in services/dialogueLoader.js; Phase C exposes API surface.
+  //
+  // State storage: session.convictionState[actorId] = { utility, liberty,
+  // morality, events_classified }. Persists across calls within session
+  // lifetime. Default actor = first unit with controlled_by='player'.
+  // vcSnapshot.per_actor[uid].conviction_axis (Phase A) resta event-derived
+  // separato — endpoint state additive sopra (test 8 regression preserved).
+  router.get('/:id/conviction/eligible', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+
+      const { findEligible } = require('../services/dialogueLoader');
+      const playerUnit = (session.units || []).find((u) => u && u.controlled_by === 'player');
+      const actorId = String(req.query.actor || '').trim() || (playerUnit ? playerUnit.id : null);
+      if (!actorId) {
+        return res.status(404).json({ error: 'no_player_actor' });
+      }
+
+      if (!session.convictionState) session.convictionState = {};
+      if (!session.convictionState[actorId]) {
+        session.convictionState[actorId] = {
+          utility: 50,
+          liberty: 50,
+          morality: 50,
+          events_classified: 0,
+        };
+      }
+      const state = session.convictionState[actorId];
+
+      const branches = findEligible(state, {
+        encounter_id: session.encounter_id || null,
+      });
+
+      res.json({
+        actor_id: actorId,
+        conviction_axis: state,
+        branches: branches.map((b) => ({
+          id: b.id,
+          title: b.title,
+          description_it: b.description_it,
+          description_en: b.description_en,
+        })),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/:id/conviction/decide', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+
+      const body = req.body || {};
+      const branchId = body.branch_id;
+      const choiceId = body.choice_id;
+      if (!branchId || !choiceId) {
+        return res.status(400).json({
+          error: 'missing_body_fields',
+          required: ['branch_id', 'choice_id'],
+        });
+      }
+
+      const { getBranch, getChoice } = require('../services/dialogueLoader');
+      const branch = getBranch(branchId);
+      if (!branch) {
+        return res.status(404).json({ error: 'branch_not_found', branch_id: branchId });
+      }
+      const choice = getChoice(branchId, choiceId);
+      if (!choice) {
+        return res.status(404).json({
+          error: 'choice_not_found',
+          branch_id: branchId,
+          choice_id: choiceId,
+        });
+      }
+
+      const playerUnit = (session.units || []).find((u) => u && u.controlled_by === 'player');
+      const actorId = String(body.actor || '').trim() || (playerUnit ? playerUnit.id : null);
+      if (!actorId) {
+        return res.status(404).json({ error: 'no_player_actor' });
+      }
+
+      const { applyDelta } = require('../services/convictionEngine');
+      if (!session.convictionState) session.convictionState = {};
+      if (!session.convictionState[actorId]) {
+        session.convictionState[actorId] = {
+          utility: 50,
+          liberty: 50,
+          morality: 50,
+          events_classified: 0,
+        };
+      }
+      const prev = session.convictionState[actorId];
+      const next = applyDelta(prev, choice.delta);
+      session.convictionState[actorId] = {
+        ...next,
+        events_classified: (prev.events_classified || 0) + 1,
+      };
+
+      res.json({
+        actor_id: actorId,
+        branch_id: branchId,
+        choice_id: choiceId,
+        delta_applied: choice.delta,
+        conviction_axis: session.convictionState[actorId],
+        consequence: choice.consequence,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/end', async (req, res, next) => {
     try {
       const body = req.body || {};
