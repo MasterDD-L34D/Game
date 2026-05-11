@@ -7374,6 +7374,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-05-11-drift-audit.md",
+      "title": "Drift Audit 2026-05-11",
+      "doc_status": "active",
+      "doc_owner": "governance-illuminator",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "generated"
+    },
+    {
       "path": "docs/research/2026-05-08-od-022-validator-pre-design.md",
       "title": "OD-022 swarm canonical validator - pre-design preview Day 3/7 sera",
       "doc_status": "draft",
