@@ -291,6 +291,14 @@
             <button id="undo-action" class="undo-btn hidden" title="Annulla ultima azione (Ctrl+Z)">
               ↶ Undo
             </button>
+            <!-- TKT-P6-FE — Rewind safety valve (3 snapshots post-action). P6 anti-frustration. -->
+            <button
+              id="rewind-action"
+              class="rewind-btn"
+              title="Annulla turno — rewind 1 azione completata (budget 3 per combat)"
+            >
+              ↶ Annulla turno <span id="rewind-budget" class="rewind-budget">3/3</span>
+            </button>
             <button id="new-session">Nuova sessione</button>
             <button id="reset-round" title="Emergency reset round state (se tutto bloccato)">
               🔄 Reset
