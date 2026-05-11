@@ -105,6 +105,8 @@ function resolveEnneaEffects(activeArchetypes = []) {
  * Fix: dedup per-stat, mantenere SOLO buff più forte per ogni stat
  * tra tutti gli ennea source attivi. Preserve per-archetype trail
  * via `source` field per debug; consumer runtime usa primo entry per stat.
+ * Tie-break: quando amounts uguali, vince il buff con duration più alta
+ * (es. Lealista duration=2 vince su Coordinatore duration=1).
  */
 function applyEnneaBuffs(actor, effects) {
   if (!actor || !effects || effects.length === 0) return;
@@ -119,7 +121,13 @@ function applyEnneaBuffs(actor, effects) {
         amount: buff.amount,
         duration: buff.duration,
       };
-      if (!existing || (buff.amount || 0) > (existing.amount || 0)) {
+      const newAmt = buff.amount || 0;
+      const newDur = buff.duration || 1;
+      const beats =
+        !existing ||
+        newAmt > (existing.amount || 0) ||
+        (newAmt === (existing.amount || 0) && newDur > (existing.duration || 1));
+      if (beats) {
         bestPerStat.set(buff.stat, candidate);
       }
     }
@@ -199,12 +207,19 @@ function applyEnneaToStatus(actor, effects) {
   // (es. Riformatore(1)+Architetto(5) entrambi attack_mod +1), bonus
   // stackava linearmente → +2 attack_mod doppio buff non intended.
   // Dedup pre-apply: per ogni stat, mantenere SOLO buff più forte
-  // (highest amount). Source archetype preservato per applied trail.
+  // (highest amount, tie-break by duration). Source archetype preservato.
   const bestPerStat = new Map();
   for (const effect of effects) {
     for (const buff of effect.buffs || []) {
       const existing = bestPerStat.get(buff.stat);
-      if (!existing || (Number(buff.amount) || 0) > (Number(existing.buff.amount) || 0)) {
+      const newAmt = Number(buff.amount) || 0;
+      const newDur = Number(buff.duration) || 1;
+      const beats =
+        !existing ||
+        newAmt > (Number(existing.buff.amount) || 0) ||
+        (newAmt === (Number(existing.buff.amount) || 0) &&
+          newDur > (Number(existing.buff.duration) || 1));
+      if (beats) {
         bestPerStat.set(buff.stat, { effect, buff });
       }
     }

@@ -309,11 +309,14 @@ test('applyEnneaToStatus: dedup Riformatore + Architetto → attack_mod_bonus +1
   assert.equal(skipped[0].reason, 'dedup_superseded');
 });
 
-test('applyEnneaToStatus: dedup Lealista(6) + Coordinatore(2) → defense_mod_bonus +1, buff=2 (Lealista wins longer duration)', () => {
-  // Both give defense_mod +1; dedup keeps one. Lealista(6) duration=2 wins
-  // (same amount, first-encountered in Map insertion order → Lealista kept).
+test('applyEnneaToStatus: dedup Coordinatore + Lealista (production order) → defense_mod_bonus +1, buff=2 (Lealista wins on duration tie-break)', () => {
+  // Production order from computeEnneaArchetypes() matches telemetry.yaml:
+  // Coordinatore(2) appears at line 60, Lealista(6) at line 96.
+  // Both give defense_mod +1; tie-break by duration → Lealista(duration=2) wins.
+  // Regression guard: strict > dedup (amount-only) would keep Coordinatore
+  // first-encountered, leaving defense_mod_buff=1 instead of intended 2.
   const actor = makeActor();
-  const effects = resolveEnneaEffects(['Lealista(6)', 'Coordinatore(2)']);
+  const effects = resolveEnneaEffects(['Coordinatore(2)', 'Lealista(6)']);
   assert.equal(effects.length, 2);
   const { applied, skipped } = applyEnneaToStatus(actor, effects);
   assert.equal(actor.defense_mod_bonus, 1);
