@@ -1,0 +1,43 @@
+# Promotion config — TKT-M15
+#
+# FFT-style class advancement (es. soldier → veteran → captain). Tier ladder
+# per job: base → veteran → captain. Promotion triggered by event-log
+# accumulation (kills + assists + objectives complete).
+#
+# Engine: apps/backend/services/progression/promotionEngine.js
+# Endpoint: POST /api/session/:id/promote { unit_id, target_tier }
+#
+# Pillar P3 Identità Specie × Job 🟢ⁿ rinforzato — depth FFT-style.
+
+version: "0.1.0"
+
+# Tier ladder canonical: every job promotes through veteran → captain.
+# Each promotion = stat buffs + 1 unlock new ability tier (r2 or r3).
+tier_ladder:
+  - base
+  - veteran
+  - captain
+
+# Eligibility thresholds. Cumulative across battles in a campaign.
+# evaluatePromotion(unit, log) checks unit.progression_metrics.* vs these.
+thresholds:
+  veteran:
+    kills_min: 3
+    objectives_min: 1
+    # If both criteria met → eligible. Player can accept/defer (no auto-apply).
+  captain:
+    kills_min: 8
+    objectives_min: 3
+    assists_min: 2
+
+# Stat reward per promotion. Additive on top of base stat.
+rewards:
+  veteran:
+    hp_bonus: 5
+    attack_mod_bonus: 1
+    ability_unlock_tier: r2
+  captain:
+    hp_bonus: 10
+    attack_mod_bonus: 2
+    initiative_bonus: 2
+    ability_unlock_tier: r3

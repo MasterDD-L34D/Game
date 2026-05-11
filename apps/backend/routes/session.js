@@ -204,6 +204,9 @@ const {
   rewindStateSummary,
 } = require('../services/combat/rewindBuffer');
 
+// TKT-M15 — Promotion engine (FFT-style class advancement).
+const { evaluatePromotion, applyPromotion } = require('../services/progression/promotionEngine');
+
 // Italian channel → terrainReactions element mapping. Action.channel is the
 // canonical attack channel string ("fuoco", "ghiaccio", ...). Only mapped
 // channels trigger reactions; everything else (fisico, perforante, ...) skips.
@@ -2592,6 +2595,93 @@ function createSessionRouter(options = {}) {
           budget_remaining: result.budget_remaining,
           snapshots_remaining: result.snapshots_remaining,
         },
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // TKT-M15 — Promotion engine endpoints.
+  //
+  // GET /api/session/:id/promotion-eligibility — return all units' promotion
+  // eligibility computed from session.events log.
+  // POST /api/session/:id/promote — accept promotion for a unit (player choice).
+  //   body: { unit_id, target_tier }
+  //   200: { unit_id, applied_tier, deltas }
+  //   400: { error, details }
+  //   404: unknown session OR unit
+  router.get('/:id/promotion-eligibility', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const playerUnits = (session.units || []).filter((u) => u && u.controlled_by === 'player');
+      const eligibility = playerUnits.map((u) => ({
+        unit_id: u.id,
+        ...evaluatePromotion(u, session.events || []),
+      }));
+      res.json({
+        session_id: session.session_id,
+        eligibility,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/:id/promote', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const body = req.body || {};
+      const unitId = body.unit_id;
+      const targetTier = body.target_tier;
+      if (!unitId || !targetTier) {
+        return res.status(400).json({
+          error: 'missing_fields',
+          required: ['unit_id', 'target_tier'],
+        });
+      }
+      const unit = (session.units || []).find((u) => u && u.id === unitId);
+      if (!unit) {
+        return res.status(404).json({ error: 'unit_not_found', unit_id: unitId });
+      }
+      // Gate: must be eligible.
+      const eligibility = evaluatePromotion(unit, session.events || []);
+      if (!eligibility.eligible || eligibility.next_tier !== targetTier) {
+        return res.status(400).json({
+          error: 'not_eligible',
+          eligibility,
+        });
+      }
+      const result = applyPromotion(unit, targetTier);
+      if (!result.ok) {
+        return res.status(400).json({ error: result.error || 'apply_failed', details: result });
+      }
+      // Append promotion event to log (forward audit trail).
+      try {
+        if (Array.isArray(session.events)) {
+          session.events.push({
+            action_type: 'promotion',
+            turn: session.turn || 0,
+            actor_id: unitId,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'ok',
+            position_from: null,
+            position_to: null,
+            target_tier: targetTier,
+            previous_tier: result.previous_tier,
+            automatic: false,
+          });
+        }
+      } catch {
+        /* event log best-effort */
+      }
+      res.json({
+        session_id: session.session_id,
+        unit_id: unitId,
+        ...result,
         state: publicSessionView(session),
       });
     } catch (err) {
