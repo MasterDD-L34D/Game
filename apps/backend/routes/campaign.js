@@ -685,7 +685,7 @@ function createCampaignRouter(options = {}) {
   // on offline / 404. Schema mirror migration 0010.
   const godotV2State = require('../services/campaign/godotV2State');
 
-  router.get('/godot-v2/state', async (req, res) => {
+  router.get('/campaign/godot-v2/state', async (req, res) => {
     try {
       const campaignId = String(req.query.campaign_id || '').trim();
       if (!campaignId) {
@@ -701,7 +701,7 @@ function createCampaignRouter(options = {}) {
     }
   });
 
-  router.put('/godot-v2/state', async (req, res) => {
+  router.put('/campaign/godot-v2/state', async (req, res) => {
     try {
       const body = req.body || {};
       if (!String(body.campaign_id || '').trim()) {
