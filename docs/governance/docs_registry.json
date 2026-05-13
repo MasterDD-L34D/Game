@@ -7374,6 +7374,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-05-13-ecosystem-infrastructure-audit.md",
+      "title": "Ecosystem Infrastructure Audit 2026-05-13 — 7-strati pipeline Ecosistema→Evoluzioni",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-13",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 60,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/2026-05-11-drift-audit.md",
       "title": "Drift Audit 2026-05-11",
       "doc_status": "active",
