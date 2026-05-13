@@ -1,11 +1,59 @@
 {
-  "generated_at": "2026-05-11T22:49:44+00:00",
+  "generated_at": "2026-05-13T15:43:00+00:00",
   "summary": {
-    "total": 8,
+    "total": 21,
     "errors": 0,
-    "warnings": 8
+    "warnings": 21
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/02-PILASTRI.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/DesignDoc-Overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/atlas.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/backend.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/combat.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/dataset-pack.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/flow.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
     {
       "level": "warning",
       "code": "stale_document",
@@ -44,6 +92,12 @@
     },
     {
       "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-27-sprint-abgd-coordinated-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-11"
+    },
+    {
+      "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
       "message": "Campo last_verified differente tra frontmatter (2026-05-07) e registry (2026-04-30)"
@@ -53,6 +107,30 @@
       "code": "stale_document",
       "path": "docs/process/sprint-2026-04-25-parallel-validation.md",
       "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-28-canonical-doc-consolidation-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-28-canonical-doc-drift-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-28-canonical-doc-inventory.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-04-28-godot-phone-composer-spike.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-12"
     }
   ]
 }
