@@ -5253,6 +5253,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-05-13-ecosystem-research-solution-plan.md",
+      "title": "Ecosystem Research & Solution Plan 2026-05-13 — 22 ticket TKT-ECO-XX dal player POV",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-13",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "historical_ref",
