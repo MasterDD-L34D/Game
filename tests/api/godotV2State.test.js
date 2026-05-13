@@ -39,10 +39,7 @@ test('getState returns null when no row exists', async () => {
 test('getState throws on empty campaign_id', async () => {
   const stub = makeStub();
   await assert.rejects(() => godotV2State.getState('', { prisma: stub }), /campaign_id required/);
-  await assert.rejects(
-    () => godotV2State.getState(null, { prisma: stub }),
-    /campaign_id required/,
-  );
+  await assert.rejects(() => godotV2State.getState(null, { prisma: stub }), /campaign_id required/);
 });
 
 test('upsertState stores defaults when fields absent', async () => {
@@ -101,10 +98,7 @@ test('upsertState rejects empty payload', async () => {
     () => godotV2State.upsertState({ campaign_id: '' }, { prisma: stub }),
     /campaign_id/,
   );
-  await assert.rejects(
-    () => godotV2State.upsertState(null, { prisma: stub }),
-    /payload required/,
-  );
+  await assert.rejects(() => godotV2State.upsertState(null, { prisma: stub }), /payload required/);
 });
 
 test('_rowToShape converts camelCase row to snake_case JSON', () => {
