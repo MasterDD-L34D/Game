@@ -32,12 +32,12 @@ tags: [audit, ecosystem, biome, foodweb, species, mating, forms, mutations, skiv
 | 6   | Mating + Nido + Recruit | ✅ 477 LOC `mating.yaml`           | ✅ 1053 LOC `metaProgression`| ✅ `nestHub.js` + debrief   | ✅ 600 LOC   | 🟢 **FULL WIRED**         |
 | 7a  | Forms (MBTI evolution)  | ✅ 472 LOC + d12 bias              | ✅ 1053 LOC 5 services       | ✅ `formsPanel.js` modal    | ✅ 4 test    | 🟢 **FULL WIRED**         |
 | 7b  | Mutations (M14)         | ✅ 1366 LOC catalog 30 entries     | ✅ 573 LOC 3 services        | ⚠️ surface location unclear | ✅ 292 LOC   | 🟡 ENGINE OK / SURFACE ?  |
-| 7c  | Promotions              | ✅ 43 LOC YAML                     | ❌ zero engine               | ❌ zero                     | ❌ zero      | ❌ **ORPHAN COMPLETE**    |
+| 7c  | Promotions              | ✅ 43 LOC YAML                     | ✅ 302 LOC `promotionEngine` | ✅ 2 endpoint session route | ⚠️ verify    | 🟢 **WIRED** (corrected)  |
 | 7d  | Skiv (creature canon)   | ✅ lifecycle 5-fase + saga.json    | ✅ 8 backend hook            | ✅ diary + thoughts ritual  | ✅ runtime   | 🟢 WIRED (sentience gap)  |
 
-**Sintesi**: 11 strati totali → **3/11 🟢 FULL WIRED** (Mating + Forms + Skiv), **3/11 🟡 PARTIAL**, **5/11 ❌ DATASET-ONLY o ORPHAN**.
+**Sintesi (post cross-validation 2026-05-13 sera)**: 11 strati totali → **4/11 🟢 FULL WIRED** (Mating + Forms + Skiv + **Promotions corrected**), **3/11 🟡 PARTIAL**, **4/11 ❌ DATASET-ONLY**.
 
-**Pattern dominante**: anti-pattern *Engine LIVE Surface DEAD* + *Dataset shipped runtime ZERO* concentrato strati 2-4 (ecosistema strutturale invisibile a player) + 7c promotions.
+**Pattern dominante**: anti-pattern *Engine LIVE Surface DEAD* + *Dataset shipped runtime ZERO* concentrato strati 2-4 (ecosistema strutturale invisibile a player). L7c Promotions originally classified ORPHAN was **FALSE NEGATIVE** — see [§Layer 7c correction](#layer-7c-corrected--promotions) + museum discard card [M-2026-05-13-001](../museum/cards/promotions-orphan-claim-discarded.md).
 
 **Pattern positivo**: strato 6 mating ha chiuso Engine-Orphan museum card M-2026-04-25-007 via Sprint Nido Path A (PR #1876+1879+1911, FULL CLOSURE 2026-04-27).
 
@@ -259,21 +259,45 @@ tags: [audit, ecosystem, biome, foodweb, species, mating, forms, mutations, skiv
 
 ---
 
-## Layer 7c — Promotions
+## Layer 7c (CORRECTED) — Promotions
 
-**Dataset**: `data/core/promotions/promotions.yaml` (43 LOC).
+**⚠️ AUDIT CORRECTION 2026-05-13 sera** — claim originale "ORPHAN COMPLETE" era **FALSE NEGATIVE**. Cross-validation flag da Godot v2 worktree session (`clever-brattain-ce2046`) ha rivelato l'errore.
 
-**Engine runtime**: ❌ ZERO. Nessun service in `apps/backend/services/promotions/`.
+**Root cause Explore agent miss**:
+- Cercato sub-dir literal `apps/backend/services/promotions/` → vuoto
+- Realtà: file vive sotto `apps/backend/services/progression/promotionEngine.js`
+- Cercato literal "promotion" in route function definition → missato perché import destrutturato `{ evaluatePromotion, applyPromotion }` linea 208
+- Speed/completeness tradeoff (226s, 51k token) → false negative su sub-dir naming heuristic
 
-**Routes**: ❌ ZERO.
+**Ground truth verificata (`grep` diretto 2026-05-13 sera)**:
 
-**Surface player**: ❌ ZERO.
+**Dataset**: `data/core/promotions/promotions.yaml` (43 LOC). ✅
 
-**Test coverage**: ❌ ZERO.
+**Engine runtime**:
+- `apps/backend/services/progression/promotionEngine.js` — **302 LOC, 9494 bytes**, mtime 2026-05-11
+- Functions: `evaluatePromotion`, `applyPromotion`
 
-**Status**: ❌ **ORPHAN COMPLETE** — anti-pattern *Dataset shipped runtime ZERO* canonical caso. 43 LOC = piccola, ma esistenza confonde futuro agent (esiste? wired? dove?).
+**Routes** (`apps/backend/routes/session.js`):
+- `:208` — `const { evaluatePromotion, applyPromotion } = require('../services/progression/promotionEngine');`
+- `:2663` — `GET /api/session/:id/promotion-eligibility`
+- `:2681` — `POST /api/session/:id/promote`
+- `:2670` + `:2699` + `:2706` — function call sites
 
-**Action**: o sandbox header `# STATUS: proposal-only — promotions deferred` + ADR, o demolish + remove file.
+**Surface player**: routes wired (player POV verify smoke pending TKT-ECO-A2-revised).
+
+**Cross-stack live (Godot v2 + Postgres)**:
+- Godot v2 engine `promotion_engine.gd` (PR #226)
+- Godot v2 UI `PromotionPanel.tscn` (PR #243)
+- Godot v2 caller wire E3 (PR #252)
+- D2-C Postgres `promotion_tiers` JSONB (PR #2259 + #253 + #254 + #256)
+
+**Status corrected**: 🟢 **WIRED full-stack** — cross-stack pillar tra i più completi, NON orphan.
+
+**Action revised**: TKT-ECO-A2 (sandbox header) **CANCELLED** + TKT-ECO-B7 (demolish vs implement) **REVISED** → verify-only smoke ~0.5h.
+
+**Lesson codify**: futuro Explore agent task per "engine inventory" deve grep cross sub-dir naming variants (es. `promotion*` cross `services/*/`) E import destrutturati cross routes. Aggiungo a plan §risk register.
+
+**Provenance correction**: cross-validation flag PR #2260 comment by master-dd (relayed Godot v2 wave session 2026-05-13 closure).
 
 ---
 
@@ -409,7 +433,7 @@ CLAUDE.md sprint context 2026-05-07 audit honest reveal — il "🟢++ everywher
 
 1. **Engine LIVE Surface DEAD (Gate 5)** — Layer 7b Mutations: engine 573 LOC + 5 endpoint + 292 LOC test, surface UI non grep-trovabile. Richiede smoke live verify.
 
-2. **Dataset shipped runtime ZERO** — Layer 2 + 3 + 4 (ecosistema + foodweb + cross-events) + Layer 5 ancestors + Layer 5 sentience + Layer 7c promotions. **6/11 strati** in questo pattern.
+2. **Dataset shipped runtime ZERO** — Layer 2 + 3 + 4 (ecosistema + foodweb + cross-events) + Layer 5 ancestors + Layer 5 sentience. **5/11 strati** in questo pattern (~~Layer 7c promotions~~ corrected post cross-validation 2026-05-13).
 
 3. **Museum card outdated post-PR-cascade** — Card M-2026-04-25-007 (mating orphan) scritta 2026-04-25, **superseded** da OD-001 Path A closure 2026-04-27. Card last_verified non bump-ato. Pattern: museum card additive-only protocol non automatizza re-verify post-PR-merge.
 

@@ -182,15 +182,21 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Output**: PASS → L7b 🟢; FAIL → ticket TKT-ECO-B5 (~4-8h frontend wire)
 - **Provenance**: audit report §Layer 7b
 
-#### TKT-ECO-A2 — Promotions sandbox header (~10 min)
+#### TKT-ECO-A2 — ~~Promotions sandbox header~~ → **VERIFY-ONLY smoke** (~30 min)
 - **Layer**: 7c
-- **Effort**: 0.2h
-- **Blast**: ×1.0 (data only)
-- **Gate-5 surface**: zero (anti-rot)
+- **Effort**: 0.5h (REVISED post cross-validation 2026-05-13)
+- **Blast**: ×1.0 (verify-only)
+- **Gate-5 surface**: confirms wired, no new surface
 - **ADR**: NO
-- **Deps**: nessuna
-- **Actions**: aggiungi header `# STATUS: proposal-only — runtime deferred, see TKT-ECO-B7` a `data/core/promotions/promotions.yaml`
-- **Provenance**: audit report §Layer 7c + pattern M-2026-05-10-001 §1
+- **Deps**: backend up + DATABASE_URL set
+- **Actions** (REVISED):
+  1. Boot backend with `DATABASE_URL` set
+  2. `POST /api/session/:id/promote` with valid tier → expect 200
+  3. Confirm Godot v2 `PromotionPanel.tscn` runtime fires same flow (smoke cross-stack)
+  4. Update audit report §Layer 7c with verify result + bump museum card if any
+- **Outcome**: L7c row already corrected to 🟢 WIRED in audit doc. Smoke confirms surface live.
+- **Provenance**: cross-validation flag PR #2260 comment by master-dd (Godot v2 wave 2026-05-13 closure) + audit report §Layer 7c CORRECTED
+- **Note**: ticket originale "sandbox header" CANCELLED — file `promotions.yaml` è data canonical consumed da `promotionEngine.js`, NON proposal-only. Cancellare header sarebbe disinformazione.
 
 #### TKT-ECO-A3 — Museum card M-007 post-script (~30 min)
 - **Layer**: meta
@@ -336,17 +342,12 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
   4. Dashboard surface in `atlas` workstream
 - **Provenance**: audit §2.5 + museum card `telemetry-duckdb-stockfish-llm-critic-quick-wins`
 
-#### TKT-ECO-B7 — Promotions design decision (~2-15h)
-- **Layer**: 7c
-- **Effort**: 2h demolish / 15h full implement
-- **Blast**: ×1.5 if implement
-- **Gate-5 surface**: post-level threshold modal "Skiv può promuoversi a Stalker Élite?"
-- **ADR**: YES if implement (`ADR-2026-XX-promotions-runtime`)
-- **Deps**: master-dd verdict demolish vs implement
-- **Actions paths**:
-  - **Path Demolish** (~2h): YAML header proposal-only + ADR documenting decision
-  - **Path Implement** (~15h): nuovo `apps/backend/services/promotions/promotionEngine.js` + route + UI modal
-- **Provenance**: audit §Layer 7c + completionist-preserve policy
+#### TKT-ECO-B7 — ~~Promotions design decision~~ → **CANCELLED post cross-validation 2026-05-13**
+- **Status**: CANCELLED — premise FALSE post audit correction
+- **Reason**: Promotions è già FULL WIRED full-stack (Game/ engine 302 LOC + 2 endpoint + Godot v2 PromotionPanel + Postgres tiers JSONB)
+- **Replacement**: rolled into TKT-ECO-A2 verify-only smoke
+- **Original framing preserved**: museum discard card [M-2026-05-13-001](../museum/cards/promotions-orphan-claim-discarded.md) per completionist-preserve protocol
+- **Effort saved**: 2-15h originally budgeted
 
 #### TKT-ECO-B8 — Skiv ASCII sprite lifecycle transitions (~5h)
 - **Layer**: 7d
@@ -508,7 +509,7 @@ Aggiungere a `OPEN_DECISIONS.md`:
 | OD ID | Domanda                                                                                          | Default proposed                              | Effort gate |
 | :---: | ------------------------------------------------------------------------------------------------ | --------------------------------------------- | :---------: |
 | OD-024 | Sentience tier backfill 45 species — auto-heuristic Claude o master-dd manual?                  | auto-heuristic + master-dd review draft (~30 min) | TKT-ECO-A4 |
-| OD-025 | Promotions YAML — demolish (~2h) o implement (~15h)?                                            | demolish + sandbox header                     | TKT-ECO-B7 |
+| OD-025 | ~~Promotions YAML — demolish o implement?~~ **CANCELLED 2026-05-13 sera** — premise FALSE post cross-validation. Already FULL WIRED. | N/A — verify-only smoke remaining (TKT-ECO-A2 revised) | n/a |
 | OD-026 | Atlas mini-map decisione D5 — diegetic (in-world item) vs HUD overlay?                          | HUD overlay (faster ROI)                      | TKT-ECO-B4 |
 | OD-027 | Bridge species type — enemy / NPC ambientale / encounter event?                                 | encounter event (low blast radius)            | TKT-ECO-C4 |
 | OD-028 | Audio pipeline ADR — Web Audio API direct o middleware (Howler.js, etc.)?                        | Web Audio API direct (zero new dep)           | TKT-ECO-C5 |
@@ -542,6 +543,7 @@ Aggiungere a `OPEN_DECISIONS.md`:
 | Game-Database OD-004 reopen drift Game ↔ Game-Database schema cross-stack                          |     M       |    M    | Status quo flag-OFF default mantenuto, defer Z3                               |
 | Mating Ennea 9/9 vs `data/core/personality/enneagramma/` schema diverge                            |     M       |    M    | Use existing 9-canon source autoritativo, mating.yaml extends only            |
 | Phase A TKT-ECO-A4 + A5 + A6 over-stack 1 dev day → bug rescue cycle                              |     M       |    L    | Verify-before-claim policy + smoke test per ticket prima di next               |
+| **Explore agent sub-dir naming heuristic miss** (false negative L7c promotions 2026-05-13)        |     M       |    H    | Future audit: grep cross variant naming `*<topic>*` cross `services/*/` + import destrutturati |
 
 ---
 
@@ -549,11 +551,11 @@ Aggiungere a `OPEN_DECISIONS.md`:
 
 ### Quantitative
 
-- **Pre-plan baseline**: 3/11 strati 🟢 FULL WIRED (Mating, Forms, Skiv).
-- **Post Phase A target**: 5/11 (+L5 sentience, +L7b mutations verified).
-- **Post Phase B target**: 8/11 (+L6 Ennea 9/9, +L7d sprite lifecycle, +L2 atlas, +L1 pressure).
-- **Post Phase C target**: 10/11 (+L3 foodweb, +L4 cross-events runtime).
-- **L7c Promotions**: out-of-scope demolish path (sandbox header) o implement path post-Phase-B verdict.
+- **Pre-plan baseline (corrected 2026-05-13 sera)**: **4/11** strati 🟢 FULL WIRED (Mating, Forms, Skiv, **Promotions**).
+- **Post Phase A target**: 6/11 (+L5 sentience, +L7b mutations verified).
+- **Post Phase B target**: 9/11 (+L6 Ennea 9/9, +L7d sprite lifecycle, +L2 atlas, +L1 pressure).
+- **Post Phase C target**: 11/11 (+L3 foodweb, +L4 cross-events runtime).
+- **L7c Promotions**: ~~out-of-scope demolish~~ → ALREADY 🟢 WIRED. Verify-only smoke TKT-ECO-A2.
 
 ### Qualitative smoke test sequence (master-dd 60s gameplay)
 
