@@ -456,6 +456,13 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **TKT-ECO-Z2** — Trait orphan ASSIGN-A waves 5-6 + species_expansion schema mismatch (~10-15h) — Sprint Q+ residue
 - **TKT-ECO-Z3** — Cross-Game-Database ancestors integration (~6h) — OD-004 reopen needed
 - **TKT-ECO-Z4** — Trait Editor ecosystem layer support (~12h) — Trait Editor app extension, deferred Sprint S+
+- **TKT-ECO-Z5** — Vault repo Pathfinder bestiari import (~6-10h) — **NEW 2026-05-13 sera** post cross-session integration:
+  - Source: [vault PR #1](https://github.com/MasterDD-L34D/vault/pull/1) — 50 cards atomizzate Bestiary 1 bio subset (30 animali + 15 parassiti + 5 vegetali) + reusable script `pathfinder_bestiary_atomize.py` (379 LOC stdlib-only)
+  - **NOT audit-flagged** (audit 2026-05-13 commit `c157553` + `5ca3c07` did NOT mention Pathfinder — verified via grep) — cross-session integration scope only
+  - Reuse path: evaluate import 50 cards Bestiary 1 + 226 Bestiary 2 + 185 Bestiary 3 = ~461 candidate species → `data/core/species_candidates/` con licensing review
+  - Gate: master-dd verdict OD-XXX (new): vault → Game/ data flow direction (additive species pool? selective import? reference-only?)
+  - License gate: Pathfinder Open Game License (Paizo) compatibility check pre-import
+  - Out-of-scope this audit/plan; tracked for visibility
 
 ---
 
