@@ -385,3 +385,25 @@ model MatingEvent {
   @@index([relationId, createdAt])
   @@map("mating_events")
 }
+
+// TKT-D2-C 2026-05-13 — Godot v2 CampaignState cross-stack sync.
+// Mirrors Godot Resource shape (scripts/session/campaign_state.gd):
+//   campaign_id + wounds_by_unit + status_locks + last_encounter_id
+//   + promotion_tiers (TKT-M15) + conviction_axes (TKT-M14-B)
+//   + seasonal_state (TKT-P2 Brigandine).
+// JSONB write-through adapter (Godot saves full Resource → backend
+// snapshot persists atomically). REST: GET/PUT /api/campaign/godot-v2/state.
+model GodotV2CampaignState {
+  id              String   @id @default(uuid())
+  campaignId      String   @unique @map("campaign_id")
+  woundsByUnit    Json     @default("{}") @map("wounds_by_unit")
+  statusLocks     Json     @default("{}") @map("status_locks")
+  lastEncounterId String   @default("") @map("last_encounter_id")
+  promotionTiers  Json     @default("{}") @map("promotion_tiers")
+  convictionAxes  Json     @default("{}") @map("conviction_axes")
+  seasonalState   Json     @default("{}") @map("seasonal_state")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("godot_v2_campaign_states")
+}

@@ -663,6 +663,57 @@ function createCampaignRouter(options = {}) {
     return res.json({ season, events, count: events.length });
   });
 
+  // TKT-D2-C 2026-05-13 — Godot v2 CampaignState cross-stack sync endpoints.
+  //
+  //   GET /api/campaign/godot-v2/state?campaign_id=<id>
+  //     → 200 { state: { campaign_id, wounds_by_unit, status_locks,
+  //              last_encounter_id, promotion_tiers, conviction_axes,
+  //              seasonal_state } }
+  //     → 404 when no row for campaign_id (caller falls back to baseline)
+  //
+  //   PUT /api/campaign/godot-v2/state
+  //     body: { campaign_id, wounds_by_unit?, status_locks?,
+  //             last_encounter_id?, promotion_tiers?, conviction_axes?,
+  //             seasonal_state? }
+  //     → 200 { state: <persisted row> } (upsert by campaign_id)
+  //     → 400 on missing campaign_id
+  //
+  // Write-through adapter: Godot v2 `scripts/session/campaign_state.gd`
+  // serializes Resource → JSON, client PUTs full snapshot, backend stores
+  // atomically. Read on encounter boot before local hydration when
+  // network reachable; falls back to user://campaigns/<id>/state.json
+  // on offline / 404. Schema mirror migration 0010.
+  const godotV2State = require('../services/campaign/godotV2State');
+
+  router.get('/campaign/godot-v2/state', async (req, res) => {
+    try {
+      const campaignId = String(req.query.campaign_id || '').trim();
+      if (!campaignId) {
+        return res.status(400).json({ error: 'campaign_id query param richiesto' });
+      }
+      const state = await godotV2State.getState(campaignId);
+      if (!state) {
+        return res.status(404).json({ error: 'not_found', campaign_id: campaignId });
+      }
+      return res.json({ state });
+    } catch (err) {
+      return res.status(500).json({ error: 'persist_read_failed', detail: String(err.message) });
+    }
+  });
+
+  router.put('/campaign/godot-v2/state', async (req, res) => {
+    try {
+      const body = req.body || {};
+      if (!String(body.campaign_id || '').trim()) {
+        return res.status(400).json({ error: 'campaign_id body field richiesto' });
+      }
+      const state = await godotV2State.upsertState(body);
+      return res.json({ state });
+    } catch (err) {
+      return res.status(500).json({ error: 'persist_write_failed', detail: String(err.message) });
+    }
+  });
+
   return router;
 }
 
