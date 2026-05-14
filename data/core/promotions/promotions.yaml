@@ -103,11 +103,11 @@ job_archetype_bias:
       attack_mod_bonus: 5    # +1 over base
   esploratore:
     elite:
-      initiative_bonus: 5    # +2 over base (scout speed bias)
+      initiative_bonus: 4    # +1 over base (scout speed; was +2 = over-tuned per GSD audit 2026-05-14)
       defense_mod_bonus: 1   # -1 from base (fragile but fast)
     master:
-      initiative_bonus: 6
-      crit_chance_bonus: 8   # +3 over base (ambush bias)
+      initiative_bonus: 5    # +1 over base (was +2 = over-tuned)
+      crit_chance_bonus: 8   # +3 over base (ambush bias preserved)
   tessitore:
     elite:
       ability_unlock_tier: r4
@@ -122,3 +122,25 @@ job_archetype_bias:
     master:
       hp_bonus: 35           # +10 over base (apex tank)
       defense_mod_bonus: 5   # +2 over base
+
+# Job-specific threshold override (GSD audit 2026-05-14 economy-design GAP-003).
+# Closes assists_min gate mismatch vs tank playstyle: custode generates kills,
+# not assists. Alternative path: replace assists_min with damage_taken_min
+# threshold (proxy for "tank shielded party from N points of damage").
+#
+# Schema:
+#   <job_id>:
+#     <tier>:
+#       <metric_to_replace>: <new_threshold> OR null to remove
+#
+# Engine consumption: Phase B4 reserved — promotionEngine.js evaluatePromotion
+# merges job_threshold_override[unit.job_id][next_tier] onto base threshold
+# (same shallow-merge pattern as job_archetype_bias rewards).
+job_threshold_override:
+  custode:
+    elite:
+      assists_min: null      # remove gate; tank doesn't generate assists
+      damage_taken_min: 30   # NEW: shielded ≥30 PT damage instead
+    master:
+      assists_min: null
+      damage_taken_min: 75
