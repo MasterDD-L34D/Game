@@ -1,0 +1,35 @@
+# Synthetic playtest #2 telemetry fixture for tools/py/playtest_2_analyzer.py.
+# 6 sessions × ~10 events each = covers ai-station verdict surfaces:
+#   - P3 Identità (promotions tier/job mix)
+#   - P4 Temperamenti (4-layer psicologico per_actor snapshot)
+#   - P6 Fairness (pressure tier + rewind)
+#   - OD-024 (interoception trait firings)
+#   - OD-026 (Skiv pulse + biome_focus events)
+#   - Performance (command_latency_ms)
+# Lines starting with `#` are comments (analyzer skips).
+{"session_id": "s1", "action_type": "attack", "actor_id": "pg1", "command_latency_ms": 45, "trait_effects": [{"trait": "propriocezione", "triggered": true, "effect": "proprioception_balance"}], "pressure_tier": 2}
+{"session_id": "s1", "action_type": "attack", "actor_id": "pg1", "command_latency_ms": 52, "trait_effects": [{"trait": "nocicezione", "triggered": true, "effect": "nociception_reactive"}], "pressure_tier": 2}
+{"session_id": "s1", "action_type": "promotion", "actor_id": "pg1", "job_id": "guerriero", "applied_tier": "elite", "command_latency_ms": 38}
+{"session_id": "s1", "event_type": "vc_snapshot", "per_actor": {"pg1": {"mbti_type": "ENTJ", "ennea_archetypes": {"Conquistatore(3)": true}, "conviction_axis": {"utility": 65, "liberty": 50, "morality": 45}, "sentience": {"tier": "T2", "source": "species_catalog"}}}}
+{"session_id": "s1", "event_type": "skiv_pulse_fired", "actor_id": "pg1", "target_biome_id": "caverna"}
+{"session_id": "s1", "event_type": "biome_focus_changed", "biome_id": "caverna"}
+{"session_id": "s2", "action_type": "attack", "actor_id": "pg2", "command_latency_ms": 67, "trait_effects": [{"trait": "termocezione", "triggered": true, "effect": "thermoception_resist"}], "pressure_tier": 3}
+{"session_id": "s2", "action_type": "rewind", "actor_id": "pg2", "command_latency_ms": 120}
+{"session_id": "s2", "action_type": "promotion", "actor_id": "pg2", "job_id": "custode", "applied_tier": "captain", "command_latency_ms": 41}
+{"session_id": "s2", "event_type": "vc_snapshot", "per_actor": {"pg2": {"mbti_type": "ISFJ", "ennea_archetypes": {"Lealista(6)": true}, "conviction_axis": {"utility": 50, "liberty": 60, "morality": 70}, "sentience": {"tier": "T1", "source": "species_catalog"}}}}
+{"session_id": "s3", "action_type": "attack", "actor_id": "pg3", "command_latency_ms": 89, "trait_effects": [{"trait": "equilibrio_vestibolare", "triggered": true, "effect": "vestibular_advantage"}], "pressure_tier": 2}
+{"session_id": "s3", "action_type": "promotion", "actor_id": "pg3", "job_id": "esploratore", "applied_tier": "elite", "command_latency_ms": 55}
+{"session_id": "s3", "event_type": "vc_snapshot", "per_actor": {"pg3": {"mbti_type": "ENFP", "ennea_archetypes": {"Esploratore(7)": true}, "conviction_axis": {"utility": 45, "liberty": 75, "morality": 50}, "sentience": {"tier": "T3", "source": "species_catalog"}}}}
+{"session_id": "s3", "event_type": "skiv_pulse_fired", "actor_id": "pg3", "target_biome_id": "foresta_temperata"}
+{"session_id": "s4", "action_type": "attack", "actor_id": "pg4", "command_latency_ms": 78, "trait_effects": [{"trait": "propriocezione", "triggered": true, "effect": "proprioception_balance"}], "pressure_tier": 4}
+{"session_id": "s4", "action_type": "attack", "actor_id": "pg4", "command_latency_ms": 95, "trait_effects": [{"trait": "termocezione", "triggered": true, "effect": "thermoception_resist"}], "pressure_tier": 4}
+{"session_id": "s4", "action_type": "promotion", "actor_id": "pg4", "job_id": "tessitore", "applied_tier": "master", "command_latency_ms": 62}
+{"session_id": "s4", "event_type": "vc_snapshot", "per_actor": {"pg4": {"mbti_type": "INTJ", "ennea_archetypes": {"Architetto(5)": true}, "conviction_axis": {"utility": 70, "liberty": 40, "morality": 55}, "sentience": {"tier": "T2", "source": "species_catalog"}}}}
+{"session_id": "s5", "action_type": "attack", "actor_id": "pg5", "command_latency_ms": 33, "pressure_tier": 1}
+{"session_id": "s5", "action_type": "promotion", "actor_id": "pg5", "job_id": "guerriero", "applied_tier": "veteran", "command_latency_ms": 27}
+{"session_id": "s5", "event_type": "vc_snapshot", "per_actor": {"pg5": {"mbti_type": "ESTP", "ennea_archetypes": {"Cacciatore(8)": true}, "conviction_axis": {"utility": 60, "liberty": 55, "morality": 40}, "sentience": {"tier": "T1", "source": "species_catalog"}}}}
+{"session_id": "s6", "action_type": "rewind", "actor_id": "pg6", "command_latency_ms": 110}
+{"session_id": "s6", "action_type": "promotion", "actor_id": "pg6", "job_id": "custode", "applied_tier": "elite", "command_latency_ms": 48}
+{"session_id": "s6", "event_type": "vc_snapshot", "per_actor": {"pg6": {"mbti_type": "ISFJ", "ennea_archetypes": {"Lealista(6)": true}, "conviction_axis": {"utility": 55, "liberty": 50, "morality": 65}, "sentience": {"tier": "T3", "source": "species_catalog"}}}}
+{"session_id": "s6", "event_type": "skiv_pulse_fired", "actor_id": "pg6", "target_biome_id": "atollo_obsidiana"}
+{"session_id": "s6", "event_type": "biome_focus_changed", "biome_id": "atollo_obsidiana"}

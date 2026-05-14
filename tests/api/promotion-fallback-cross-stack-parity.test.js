@@ -26,10 +26,34 @@ const path = require('node:path');
 const { FALLBACK_CONFIG } = require('../../apps/backend/services/progression/promotionEngine');
 
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
-// Sibling Godot v2 repo — mirror bundled JSON (matches PR #259 v0.2.0).
-// Tries multiple paths (direct sibling + Desktop layout) to handle both
-// canonical clone layout AND worktree-checkout layout.
+// 2026-05-14 ai-station drift-fix follow-up — Godot v2 promotions.json
+// snapshot fixture lives inside Game/ tests/fixtures/. Eliminates the
+// previous skip-when-sibling-absent pattern (4 skipped tests in CI single-
+// repo clone) and makes cross-stack parity a hard CI gate.
+//
+// Fixture update flow:
+//   When Godot v2 ships a promotions.json bump, copy the canonical mirror
+//   from sibling repo:
+//     cp <godot-v2>/data/progression/promotions.json \
+//        tests/fixtures/godot-v2-promotions-v<version>.json
+//   Then update GODOT_V2_FIXTURE_PATH below and bump the assertion expecting
+//   the new version. CI fires test on any drift.
+//
+// Resolution priority:
+//   1. GODOT_V2_REPO env var (CI matrix builds with sibling checkout)
+//   2. Sibling Game-Godot-v2 repo on local Desktop layout
+//   3. Bundled fixture (canonical, always present)
+const GODOT_V2_FIXTURE_PATH = path.resolve(
+  __dirname,
+  '..',
+  'fixtures',
+  'godot-v2-promotions-v0.2.0.json',
+);
 const GODOT_V2_PATH_CANDIDATES = [
+  // Env override (CI matrix with sibling checkout) — wins so live drift
+  // surfaces immediately during dev rather than masked by stale fixture.
+  process.env.GODOT_V2_REPO &&
+    path.resolve(process.env.GODOT_V2_REPO, 'data', 'progression', 'promotions.json'),
   path.resolve(REPO_ROOT, '..', 'Game-Godot-v2', 'data', 'progression', 'promotions.json'),
   // Worktree layout: /Game/.claude/worktrees/<name> → ../../../Game-Godot-v2/
   path.resolve(
@@ -43,9 +67,8 @@ const GODOT_V2_PATH_CANDIDATES = [
     'progression',
     'promotions.json',
   ),
-  // Env override for CI matrix builds with custom repo layout.
-  process.env.GODOT_V2_REPO &&
-    path.resolve(process.env.GODOT_V2_REPO, 'data', 'progression', 'promotions.json'),
+  // Final fallback: bundled fixture. ALWAYS present → tests never skip.
+  GODOT_V2_FIXTURE_PATH,
 ].filter(Boolean);
 
 function findGodotV2Json() {
