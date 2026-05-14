@@ -85,6 +85,14 @@ const FALLBACK_CONFIG = {
       ability_unlock_tier: 'r5',
     },
   },
+  // 2026-05-14 Phase B4 — custode tank alt-path (assists_min unreachable for
+  // tank playstyle; replace with damage_taken_min proxy). Mirror promotions.yaml.
+  job_threshold_override: {
+    custode: {
+      elite: { assists_min: null, damage_taken_min: 30 },
+      master: { assists_min: null, damage_taken_min: 75 },
+    },
+  },
 };
 
 /**
@@ -144,12 +152,15 @@ function resetCache() {
  */
 function computeUnitMetrics(unit, eventLog = []) {
   if (!unit || !unit.id) {
-    return { kills: 0, assists: 0, objectives: 0 };
+    return { kills: 0, assists: 0, objectives: 0, damage_taken: 0 };
   }
   const events = Array.isArray(eventLog) ? eventLog : [];
   let kills = 0;
   let assists = 0;
   let objectives = 0;
+  // Phase B4 — damage_taken metric for custode tank alt-path threshold.
+  // Sums damage_dealt received as target. Proxy for "tank shielded N PT".
+  let damage_taken = 0;
 
   // Walk events; track lethal blows + own contributions.
   const damagedByUnit = new Map(); // target_id → turn last damaged by unit
@@ -177,6 +188,17 @@ function computeUnitMetrics(unit, eventLog = []) {
         if (isKill) assists += 1;
       }
     }
+    // Phase B4 — damage_taken accumulator: any attack targeting our unit.
+    // Counted unconditionally (separate branch from assist tracking, which
+    // requires actorId !== unit.id). Handles edge: foe attacking us directly.
+    if (
+      action === 'attack' &&
+      targetId === unit.id &&
+      actorId !== unit.id &&
+      Number.isFinite(Number(ev.damage_dealt))
+    ) {
+      damage_taken += Number(ev.damage_dealt);
+    }
     if (
       (action === 'objective_complete' || action === 'mission_objective') &&
       (!actorId ||
@@ -186,7 +208,7 @@ function computeUnitMetrics(unit, eventLog = []) {
       if (ev.result === 'ok' || ev.result === 'completed') objectives += 1;
     }
   }
-  return { kills, assists, objectives };
+  return { kills, assists, objectives, damage_taken };
 }
 
 function currentTier(unit) {
@@ -222,7 +244,12 @@ function evaluatePromotion(unit, eventLog = [], config = null) {
       reward: null,
     };
   }
-  const threshold = cfg.thresholds?.[next] || null;
+  const baseThreshold = cfg.thresholds?.[next] || null;
+  // 2026-05-14 Phase B4 — merge job_threshold_override onto base threshold.
+  // Per-Job gate override (closes economy-design GAP custode tank assists_min
+  // mismatch). Override fields win per-key (null removes gate; new metric
+  // adds new gate). Shallow merge pattern parallel _mergeJobBias rewards.
+  const threshold = baseThreshold ? _mergeJobThreshold(baseThreshold, cfg, unit, next) : null;
   const baseReward = cfg.rewards?.[next] || null;
   // 2026-05-14 Phase B3 — surface Job-biased reward in eligibility preview
   // so UI (PromotionPanel) can render per-Job override stats (e.g.
@@ -249,6 +276,16 @@ function evaluatePromotion(unit, eventLog = [], config = null) {
   }
   if (Number.isFinite(threshold.objectives_min) && metrics.objectives < threshold.objectives_min) {
     reasons.push(`objectives ${metrics.objectives} < ${threshold.objectives_min}`);
+  }
+  // Phase B4 — new metric path: damage_taken_min (custode tank alt-path).
+  // Allows job_threshold_override to introduce new gate metrics without
+  // breaking base schema. Gracefully skipped when metric absent.
+  if (
+    Number.isFinite(threshold.damage_taken_min) &&
+    Number.isFinite(metrics.damage_taken) &&
+    metrics.damage_taken < threshold.damage_taken_min
+  ) {
+    reasons.push(`damage_taken ${metrics.damage_taken} < ${threshold.damage_taken_min}`);
   }
   const eligible = reasons.length === 0;
   return {
@@ -353,6 +390,43 @@ function applyPromotion(unit, targetTier, config = null) {
 //     per Job — only elite/master in current schema)
 //
 // Mirror Godot v2 scripts/progression/promotion_engine.gd _merge_job_bias.
+// 2026-05-14 Phase B4 ai-station — job_threshold_override merge helper.
+// Reads cfg.job_threshold_override[unit.job_id][targetTier] and shallow-merges
+// onto base threshold. Override semantics:
+//   - field: <number> → set new threshold (overrides base or adds new metric)
+//   - field: null     → REMOVE gate (skip threshold check)
+//
+// Closes economy-design GAP: custode tank assists_min:6/12 unreachable for
+// tank playstyle. Override replaces with damage_taken_min proxy.
+//
+// Mirror Godot v2 scripts/progression/promotion_engine.gd _merge_job_threshold.
+function _mergeJobThreshold(baseThreshold, cfg, unit, targetTier) {
+  if (
+    !cfg ||
+    typeof cfg.job_threshold_override !== 'object' ||
+    cfg.job_threshold_override === null
+  ) {
+    return baseThreshold;
+  }
+  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
+  if (!jobId) return baseThreshold;
+  const jobBlock = cfg.job_threshold_override[jobId];
+  if (!jobBlock || typeof jobBlock !== 'object') return baseThreshold;
+  const tierOverride = jobBlock[targetTier];
+  if (!tierOverride || typeof tierOverride !== 'object') return baseThreshold;
+  // Shallow merge: override fields win. null values DELETE base fields (remove
+  // gate entirely so threshold check skips them).
+  const merged = { ...baseThreshold };
+  for (const key of Object.keys(tierOverride)) {
+    if (tierOverride[key] === null) {
+      delete merged[key];
+    } else {
+      merged[key] = tierOverride[key];
+    }
+  }
+  return merged;
+}
+
 function _mergeJobBias(baseReward, cfg, unit, targetTier) {
   if (!cfg || typeof cfg.job_archetype_bias !== 'object' || cfg.job_archetype_bias === null) {
     return baseReward;
@@ -381,4 +455,6 @@ module.exports = {
   FALLBACK_CONFIG,
   // Phase B3 helper exported for cross-stack parity tests + Godot v2 mirror.
   _mergeJobBias,
+  // Phase B4 — job_threshold_override helper exported for tests.
+  _mergeJobThreshold,
 };

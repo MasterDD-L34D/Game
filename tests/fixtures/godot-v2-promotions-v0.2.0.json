@@ -57,8 +57,8 @@
       "master": { "hp_bonus": 30, "attack_mod_bonus": 5 }
     },
     "esploratore": {
-      "elite": { "initiative_bonus": 5, "defense_mod_bonus": 1 },
-      "master": { "initiative_bonus": 6, "crit_chance_bonus": 8 }
+      "elite": { "initiative_bonus": 4, "defense_mod_bonus": 1 },
+      "master": { "initiative_bonus": 5, "crit_chance_bonus": 8 }
     },
     "tessitore": {
       "elite": { "ability_unlock_tier": "r4", "ability_id_override": "weave_mastery" },
@@ -67,6 +67,12 @@
     "custode": {
       "elite": { "hp_bonus": 20, "defense_mod_bonus": 4 },
       "master": { "hp_bonus": 35, "defense_mod_bonus": 5 }
+    }
+  },
+  "job_threshold_override": {
+    "custode": {
+      "elite": { "assists_min": null, "damage_taken_min": 30 },
+      "master": { "assists_min": null, "damage_taken_min": 75 }
     }
   }
 }
