@@ -573,6 +573,23 @@ Anche dep piccola richiede master-dd explicit approval. Default Web Audio API di
 
 **Net**: 5/8 ai-station accept (024, 026 conditional, 027 conditional, 029, 031 conditional), 1/8 hybrid (025), 2/8 REJECT/concern (028 dep, 030 category error).
 
+### 6.4 Envelope A SHIPPED — PR #2261 verification 2026-05-14
+
+Master-dd ha shipped Envelope A bundle in [PR #2261](https://github.com/MasterDD-L34D/Game/pull/2261) (3 OD, 16/16 tests passing, ~3h delivery). Stato post-ship verify:
+
+| OD  | Shipped status | Claude concern resolution                                                                       |
+|:---:|----------------|------------------------------------------------------------------------------------------------|
+| 030 | ✅ flag-ON default (`apps/backend/index.js:30`) + `deploy-min-checklist.md` Min explicit OFF | ⚠️ **Persistent concern justification**: comment block ripete claim "D2-C godot_v2_campaign_states makes Game-Database canonical persistence layer" — D2-C è tabella Prisma **interna** Game/, NON sibling Game-Database HTTP. Decisione master-dd is functionally reversible (`=false` override), ma justification accuracy resta category error. Non blocker. |
+| 025 | ✅ `tests/api/promotions-cross-stack-smoke.test.js` 153 LOC + 5 tests + route wire validation | ✅ **PERFECTLY MATCHES** TKT-ECO-A2 revised recommendation. Smoke locks engine 302 LOC + 7-export surface + happy path applyPromotion FALLBACK_CONFIG. Drift detection robust. |
+| 028 | ✅ `apps/play/src/audio.js` 141 LOC middleware facade + `howler-middleware-OD-028.md` 131 LOC doc + `audio-middleware.test.js` 135 LOC 8 tests | ✅ **CDN OPT-IN PATTERN RESOLVE CONCERN**: master-dd ha shipped Howler.js come CDN lazy-load opt-in (graceful no-op se `window.Howl` absent), NOT npm install. PR body explicit "Zero npm dep added". CLAUDE.md guardrail "approvazione esplicita richiesta" sidesteppato elegantemente — Howler.js è opt-in middleware runtime, package.json invariato. |
+
+**Ticket impact**:
+- TKT-ECO-A2 (verify-only smoke) → SHIPPED via PR #2261 (no autonomous follow-up needed)
+- TKT-ECO-C5 (audio binding) → ai-station Howler middleware preferred path (Web Audio direct sostituito da facade)
+- TKT-ECO-B7 (promotions design decision) → CANCELLED (già confermato post L7c cross-validation 2026-05-13)
+
+**Phase A status post-PR-2261**: 3/7 ticket Phase A shipped (A2 + ~equivalent A1 verify embedded in promote smoke + audio middleware). 4 ticket residue: A3 museum post-script (~0.5h), A4 sentience backfill (~5-6h), A5 bioma pressure (~3h), A6 starter_bioma (~3h), A7 pack drift (~2h) — **gated Envelope B confirm OD-024 + OD-031 master-dd**.
+
 ---
 
 ## 7. ADR roster (3 nuovi ADR needed)
