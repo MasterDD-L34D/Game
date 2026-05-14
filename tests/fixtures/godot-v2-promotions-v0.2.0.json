@@ -1,0 +1,72 @@
+{
+  "version": "0.2.0",
+  "_source_yaml": "Game/data/core/promotions/promotions.yaml (TKT-M15 + OD-025-B2 ai-station 2026-05-14)",
+  "tier_ladder": ["base", "veteran", "captain", "elite", "master"],
+  "thresholds": {
+    "veteran": {
+      "kills_min": 3,
+      "objectives_min": 1
+    },
+    "captain": {
+      "kills_min": 8,
+      "objectives_min": 3,
+      "assists_min": 2
+    },
+    "elite": {
+      "kills_min": 18,
+      "objectives_min": 6,
+      "assists_min": 6
+    },
+    "master": {
+      "kills_min": 35,
+      "objectives_min": 12,
+      "assists_min": 12
+    }
+  },
+  "rewards": {
+    "veteran": {
+      "hp_bonus": 5,
+      "attack_mod_bonus": 1,
+      "ability_unlock_tier": "r2"
+    },
+    "captain": {
+      "hp_bonus": 10,
+      "attack_mod_bonus": 2,
+      "initiative_bonus": 2,
+      "ability_unlock_tier": "r3"
+    },
+    "elite": {
+      "hp_bonus": 15,
+      "attack_mod_bonus": 3,
+      "defense_mod_bonus": 2,
+      "initiative_bonus": 3,
+      "ability_unlock_tier": "r4"
+    },
+    "master": {
+      "hp_bonus": 25,
+      "attack_mod_bonus": 4,
+      "defense_mod_bonus": 3,
+      "initiative_bonus": 4,
+      "crit_chance_bonus": 5,
+      "ability_unlock_tier": "r5"
+    }
+  },
+  "job_archetype_bias": {
+    "guerriero": {
+      "elite": { "hp_bonus": 18, "attack_mod_bonus": 4 },
+      "master": { "hp_bonus": 30, "attack_mod_bonus": 5 }
+    },
+    "esploratore": {
+      "elite": { "initiative_bonus": 5, "defense_mod_bonus": 1 },
+      "master": { "initiative_bonus": 6, "crit_chance_bonus": 8 }
+    },
+    "tessitore": {
+      "elite": { "ability_unlock_tier": "r4", "ability_id_override": "weave_mastery" },
+      "master": { "ability_unlock_tier": "r5", "ability_id_override": "weave_apex" }
+    },
+    "custode": {
+      "elite": { "hp_bonus": 20, "defense_mod_bonus": 4 },
+      "master": { "hp_bonus": 35, "defense_mod_bonus": 5 }
+    }
+  }
+}
