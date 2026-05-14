@@ -223,19 +223,19 @@ Nessuno. Backend boot OK con defaults (in-memory, no auth, no Game-Database).
 
 ### Settati da render.yaml (scenario Min)
 
-| Var                                  | Valore       | Ruolo                                       |
-| ------------------------------------ | ------------ | ------------------------------------------- |
-| `NODE_VERSION`                       | `22.19.0`    | Render runtime                              |
-| `NODE_ENV`                           | `production` | Express prod mode                           |
-| `PORT`                               | (auto)       | Render injects, default `3334`              |
-| `HOST`                               | (default)    | `0.0.0.0`                                   |
-| `LOBBY_WS_ENABLED`                   | `true`       | Abilita WS server                           |
-| `LOBBY_WS_SHARED`                    | `true`       | WS attach a HTTP server stesso PORT         |
-| `LOBBY_WS_PORT`                      | (ignore)     | `3341` default — irrilevante in shared mode |
-| `LOBBY_WS_HOST`                      | (default)    | Eredita HOST                                |
-| `LOBBY_PRISMA_ENABLED`               | `false`      | In-memory only (Min)                        |
-| `GAME_DATABASE_ENABLED`              | `false`      | No HTTP integration sibling repo (Min)      |
-| `IDEA_ENGINE_DISABLE_STATUS_REFRESH` | `1`          | Disable background status refresh           |
+| Var                                  | Valore       | Ruolo                                                                                                        |
+| ------------------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------ |
+| `NODE_VERSION`                       | `22.19.0`    | Render runtime                                                                                               |
+| `NODE_ENV`                           | `production` | Express prod mode                                                                                            |
+| `PORT`                               | (auto)       | Render injects, default `3334`                                                                               |
+| `HOST`                               | (default)    | `0.0.0.0`                                                                                                    |
+| `LOBBY_WS_ENABLED`                   | `true`       | Abilita WS server                                                                                            |
+| `LOBBY_WS_SHARED`                    | `true`       | WS attach a HTTP server stesso PORT                                                                          |
+| `LOBBY_WS_PORT`                      | (ignore)     | `3341` default — irrilevante in shared mode                                                                  |
+| `LOBBY_WS_HOST`                      | (default)    | Eredita HOST                                                                                                 |
+| `LOBBY_PRISMA_ENABLED`               | `false`      | In-memory only (Min)                                                                                         |
+| `GAME_DATABASE_ENABLED`              | `false`      | Set explicit false in Min (default ON post-OD-030 2026-05-14 — Min deploy doesn't run sibling Game-Database) |
+| `IDEA_ENGINE_DISABLE_STATUS_REFRESH` | `1`          | Disable background status refresh                                                                            |
 
 ### Da popolare in dashboard (override render.yaml)
 
