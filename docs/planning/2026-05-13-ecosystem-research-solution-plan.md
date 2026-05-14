@@ -528,6 +528,51 @@ Aggiungere a `OPEN_DECISIONS.md`:
 
 **Note**: tutti i default + vault citation backing sono _Claude-proposed pending master-dd verdict_ — markup soft canonical (vault verdict ≠ master-dd verdict actual). Vault enrichment 2026-05-14 fornisce citation backing convergente con 7/8 default Claude (1/8 OD-025 already cancelled da cross-validation L7c). Source: [vault docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md](https://github.com/MasterDD-L34D/vault/blob/main/docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md).
 
+### 6.1 ai-station re-analysis 2026-05-14 (master-dd direction "finish work, not conservative")
+
+Master-dd feedback 2026-05-14 PR #2260 comment: _"verdetto vault precedente era troppo conservativo, ci costringe a non finire il lavoro ma a integrare solo in parte"_. ai-station session ribalta 6/8 verdetti verso scope full-completion. Source: [vault docs/decisions/OD-024-031-aistation-reanalysis-2026-05-14.md](https://github.com/MasterDD-L34D/vault/blob/main/docs/decisions/OD-024-031-aistation-reanalysis-2026-05-14.md) (vault PR #5).
+
+| OD | Vault verdict (precedente) | ai-station re-analysis 2026-05-14 | Envelope | Effort delta | Status verify |
+|---|---|---|:--:|:--:|---|
+| 024 | AUTO+manual hybrid (~5-6h) | **Full RFC T1-T6 + 4 traits 45/45** | B | +3-4h → ~9h | ✅ no claim conflict |
+| 025 | REJECT framing | REJECT (invariato) + Phase B2 catalog expansion | A+B | +3-4h → ~3.5h | ✅ no claim conflict |
+| 026 | HUD overlay | **Diegetic TV + Phone overlay** (FDF §16) | C | +3-4h → ~9-12h | ✅ no claim conflict (verify FDF §16) |
+| 027 | encounter event | **Full Species type + ecotypes** | B | +5-7h → ~15-17h | ✅ no claim conflict |
+| 028 | Web Audio direct | **Howler.js middleware 5KB MIT** | A | ~2h | ⚠️ **NEW NPM DEP — CLAUDE.md §guardrail "nuove dipendenze approvazione esplicita richiesta"** |
+| 029 | 13 entries baseline | **neurons_bridge 13→50 (Senses+Dexterity)** | B | +2h → ~5h | ✅ no claim conflict |
+| 030 | NO flag-OFF | **flag-ON** (D2-C #2259 già merged) | A | ~0.5h | ❌ **CATEGORY ERROR — verified false claim** |
+| 031 | additive only | **Merge core+plus consolidato** | B | +1h → ~3h | ✅ no claim conflict |
+
+**Effort cumulativo re-analysis**: ~46-52h (Phase A+B core) vs ~14-15h vault precedente. Master-dd direction-aligned ma commitment ~3x.
+
+### 6.2 ⚠️ Concerns verified pre re-analysis acceptance
+
+**❌ OD-030 — CATEGORY ERROR FALSE CLAIM**: ai-station claim "NO flag-OFF contraddice D2-C cross-stack pipeline LIVE (#2259)" è verified FALSE via grep diretto:
+- `#2259 e5a10c0` scope = `TKT-D2-C Godot v2 CampaignState cross-stack sync` = Prisma migration 0010 `godot_v2_campaign_states` JSONB table **interno** a Game/ backend
+- `GAME_DATABASE_ENABLED` env flag scope = **trait glossary HTTP integration con sibling repo Game-Database** (ADR-2026-04-14-game-database-topology). Default OFF.
+- I 2 sistemi sono **scope-disjoint**: D2-C non tocca trait glossary HTTP runtime. Flag-OFF di GAME_DATABASE_ENABLED non blocca D2-C.
+- Evidence: `apps/backend/index.js:21-28` (env flag scope explicit) + `git show e5a10c0` (Prisma migration scope explicit)
+- **OD-030 verdict pre-correction stays valid**: NO flag-OFF default (OD-004 RISOLTA confermata 2026-05-11). Riapertura richiede separate ADR su Game-Database HTTP integration con scope distinto da D2-C.
+
+**⚠️ OD-028 — NEW NPM DEP gate**: ai-station propone Howler.js 5KB MIT. CLAUDE.md §"Guardrail sprint":
+> Nuove dipendenze npm/pip: approvazione esplicita richiesta.
+Anche dep piccola richiede master-dd explicit approval. Default Web Audio API direct (Claude precedente) era zero new dep — safer. Master-dd verdict explicit required pre TKT-ECO-C5 implementation.
+
+### 6.3 Decision matrix post re-analysis (pending master-dd actual verdict)
+
+| OD | Default vault (≤5-6h Phase A) | ai-station full (~9-17h Phase B) | Recommendation Claude |
+|---|---|---|---|
+| 024 | hybrid ratio | Full RFC | ai-station IF Phase B time budget |
+| 025 | smoke verify | + Phase B2 catalog | smoke verify first, defer catalog Phase C |
+| 026 | HUD overlay | Diegetic TV+Phone | ai-station IF FDF §16 verified |
+| 027 | encounter event | Full Species type | ai-station IF ecotypes scope clear |
+| 028 | Web Audio direct | Howler.js | **Web Audio direct** unless explicit master-dd dep approval |
+| 029 | 13 baseline | 13→50 mapping | ai-station |
+| 030 | NO flag-OFF | flag-ON | **NO flag-OFF** (category error in claim) |
+| 031 | additive | Merge consolidato | ai-station IF audit confirms 0 break post-merge |
+
+**Net**: 5/8 ai-station accept (024, 026 conditional, 027 conditional, 029, 031 conditional), 1/8 hybrid (025), 2/8 REJECT/concern (028 dep, 030 category error).
+
 ---
 
 ## 7. ADR roster (3 nuovi ADR needed)
