@@ -659,9 +659,33 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 | A5 bioma diff_base + hazard pressure modifier | ~3h | autonomous | pending P6 driver |
 | A6 starter_bioma trait definition | ~3h | autonomous | pending completionist |
 | A7 mating.yaml pack drift (-84 LOC gene_slots) | ~2h | gated Q2 master-dd autonomous greenlight | pending (DIVERSO da OD-031 species pack) |
-| A8 NEW promotions engine Phase B3 (consume `defense_mod_bonus` + `crit_chance_bonus`) | ~3-4h | gated Q3 (Gate 5 closure) | proposed |
+| ~~A8 NEW promotions engine Phase B3~~ | ~~~3-4h~~ | ~~gated Q3~~ | ✅ **SHIPPED via PR #2264** (`feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold`) |
 
-**Phase A residue total**: ~12-14h. Possibile autonomous post master-dd greenlight Q1+Q2+Q3 verdict.
+**Phase A residue total post-merge-cascade**: ~9-10h (era ~12-14h, **A8 shipped autonomously by master-dd via #2264**, riduce di ~3-4h).
+
+### 6.9 Merge cascade 2026-05-14 sera — branch sync to main
+
+Verifica `git log origin/claude/analyze-ecosystem-infrastructure-W4Lyf` 2026-05-14 sera:
+
+| Commit  | PR    | Topic                                                                                          |
+|---------|-------|------------------------------------------------------------------------------------------------|
+| `f2244c8` | #2261 | Envelope A bundle OD-025 + OD-028 + OD-030 (3 OD shipped)                                      |
+| `4c07c4d` | #2262 | Envelope B bundle OD-024 + OD-025-B2 + OD-027 + OD-029 + OD-031                                |
+| `dee2e86` | #2263 | **fix(promotion): JS FALLBACK_CONFIG cross-stack parity drift** (OD-025-B2 follow-up parity)    |
+| `ad6081b` | #2264 | **feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold** |
+| `1dcfbfa` | merge | Merge branch 'main' into claude/analyze-ecosystem-infrastructure-W4Lyf                          |
+
+**Status post-cascade**:
+- 4 PR merged to main (#2261 + #2262 + #2263 + #2264)
+- Branch sync via merge commit (preserves audit + plan history on `claude/analyze-ecosystem-infrastructure-W4Lyf`)
+- **TKT-ECO-A8 NEW PROMOTIONS ENGINE PHASE B3** (proposed reply [comment-4451508839](https://github.com/MasterDD-L34D/Game/pull/2260#issuecomment-4451508839) post-Envelope-B verification) → **SHIPPED via #2264** before I could ship it
+- **#2263 proactive parity drift fix** — JS FALLBACK_CONFIG cross-stack parity caught by master-dd review (excellent CI/test discipline)
+- Gate 5 anti-pattern Engine LIVE Surface DEAD risk **CLOSED** (#2264 consume new reward fields runtime)
+
+**Pillar status post-cascade**:
+- P3 Identità: 🟢-cand → **🟢 candidato HARD** (PromotionEngine elite+master + job_archetype_bias + sentience fold)
+- P4 Temperamenti: 🟢-cand → **🟢 candidato HARD** (sentience 15/15 + 4 traits + 51 neurons + vc_scoring fold)
+- 🟢 hard final promotion ancora gated Playtest #2 userland
 
 **Note governance**: master-dd ha prioritizzato execution speed (8 OD shipped in 1 session) sopra dialog OD-by-OD. Legittima trade-off — direction "finish work, not conservative" applicata coerentemente. Residue 3 questions Phase A possono essere risolte retroactively o batched in nuovo OD aggregate.
 
