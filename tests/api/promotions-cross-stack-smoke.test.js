@@ -139,15 +139,20 @@ test('session.js routes wire promotion endpoints (NOT orphan)', () => {
   assert.match(src, /\/:id\/promote/, 'session.js must mount /api/session/:id/promote');
 });
 
-test('FALLBACK_CONFIG has canonical 3-tier ladder', () => {
+test('FALLBACK_CONFIG has canonical 5-tier ladder (post OD-025-B2)', () => {
+  // 2026-05-14 ai-station drift fix: FALLBACK_CONFIG bumped v0.1.0 → v0.2.0
+  // to align with promotions.yaml v0.2.0 + Godot v2 mirror. Previous 3-tier
+  // assertion was stale relative to canonical YAML.
   const engine = require(ENGINE_PATH);
   const cfg = engine.FALLBACK_CONFIG;
   assert.ok(Array.isArray(cfg.tier_ladder), 'tier_ladder must be array');
   assert.deepEqual(
     cfg.tier_ladder,
-    ['base', 'veteran', 'captain'],
-    'canonical ladder base→veteran→captain (Phase B2 will extend to +elite/+master)',
+    ['base', 'veteran', 'captain', 'elite', 'master'],
+    'canonical ladder 5-tier (base→veteran→captain→elite→master) per OD-025-B2',
   );
   assert.ok(cfg.thresholds.veteran, 'veteran threshold defined');
   assert.ok(cfg.thresholds.captain, 'captain threshold defined');
+  assert.ok(cfg.thresholds.elite, 'elite threshold defined (OD-025-B2)');
+  assert.ok(cfg.thresholds.master, 'master threshold defined (OD-025-B2)');
 });

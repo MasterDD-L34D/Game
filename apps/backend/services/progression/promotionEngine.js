@@ -45,12 +45,21 @@ const DEFAULT_CONFIG_PATH = path.join(
   'promotions.yaml',
 );
 
+// 2026-05-14 OD-025-B2 ai-station — FALLBACK_CONFIG bumped v0.1.0 → v0.2.0
+// to align with promotions.yaml v0.2.0 (5-tier ladder: base → veteran →
+// captain → elite → master). Closes cross-stack drift detected post-merge
+// PR #2262: Godot v2 mirror (scripts/progression/promotion_engine.gd)
+// already at v0.2.0 — this fallback was the only stale surface. Fallback
+// only fires when YAML unreadable/js-yaml missing; in normal operation
+// loadPromotionConfig parses the canonical YAML.
 const FALLBACK_CONFIG = {
-  version: '0.1.0-fallback',
-  tier_ladder: ['base', 'veteran', 'captain'],
+  version: '0.2.0-fallback',
+  tier_ladder: ['base', 'veteran', 'captain', 'elite', 'master'],
   thresholds: {
     veteran: { kills_min: 3, objectives_min: 1 },
     captain: { kills_min: 8, objectives_min: 3, assists_min: 2 },
+    elite: { kills_min: 18, objectives_min: 6, assists_min: 6 },
+    master: { kills_min: 35, objectives_min: 12, assists_min: 12 },
   },
   rewards: {
     veteran: { hp_bonus: 5, attack_mod_bonus: 1, ability_unlock_tier: 'r2' },
@@ -59,6 +68,21 @@ const FALLBACK_CONFIG = {
       attack_mod_bonus: 2,
       initiative_bonus: 2,
       ability_unlock_tier: 'r3',
+    },
+    elite: {
+      hp_bonus: 15,
+      attack_mod_bonus: 3,
+      defense_mod_bonus: 2,
+      initiative_bonus: 3,
+      ability_unlock_tier: 'r4',
+    },
+    master: {
+      hp_bonus: 25,
+      attack_mod_bonus: 4,
+      defense_mod_bonus: 3,
+      initiative_bonus: 4,
+      crit_chance_bonus: 5,
+      ability_unlock_tier: 'r5',
     },
   },
 };
@@ -276,6 +300,16 @@ function applyPromotion(unit, targetTier, config = null) {
   if (Number.isFinite(reward.initiative_bonus)) {
     unit.initiative = Number(unit.initiative || 0) + reward.initiative_bonus;
     deltas.initiative = reward.initiative_bonus;
+  }
+  // 2026-05-14 OD-025-B2 elite/master tier stat additions (mirror Godot v2
+  // PromotionEngine._apply_reward, scripts/progression/promotion_engine.gd).
+  if (Number.isFinite(reward.defense_mod_bonus)) {
+    unit.defense_mod = Number(unit.defense_mod || 0) + reward.defense_mod_bonus;
+    deltas.defense_mod = reward.defense_mod_bonus;
+  }
+  if (Number.isFinite(reward.crit_chance_bonus)) {
+    unit.crit_chance = Number(unit.crit_chance || 0) + reward.crit_chance_bonus;
+    deltas.crit_chance = reward.crit_chance_bonus;
   }
   if (reward.ability_unlock_tier) {
     unit.ability_tier_unlocked = reward.ability_unlock_tier;
