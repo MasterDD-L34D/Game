@@ -590,6 +590,51 @@ Master-dd ha shipped Envelope A bundle in [PR #2261](https://github.com/MasterDD
 
 **Phase A status post-PR-2261**: 3/7 ticket Phase A shipped (A2 + ~equivalent A1 verify embedded in promote smoke + audio middleware). 4 ticket residue: A3 museum post-script (~0.5h), A4 sentience backfill (~5-6h), A5 bioma pressure (~3h), A6 starter_bioma (~3h), A7 pack drift (~2h) — **gated Envelope B confirm OD-024 + OD-031 master-dd**.
 
+### 6.5 Envelope B SHIPPED — PR #2262 verification 2026-05-14
+
+Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD-L34D/Game/pull/2262) (5 OD, 24/24 tests passing, ~17h delivery). Stato post-ship verify diff:
+
+| OD | Shipped status | Claude verify findings |
+|:---:|---|---|
+| 031 | ✅ `tools/etl/merge_pack_v2_species.py` 201 LOC + `data/core/species/species_catalog.json` (649 LOC, 15 species, 10 Pack v2-plus + 5 stubs) | ⚠️ **Mating.yaml pack drift separato** — TKT-ECO-A7 originale era su `data/core/mating.yaml` (477 LOC) vs `packs/.../mating.yaml` (393 LOC) -84 LOC `gene_slots`. PR #2262 addressa species pack drift, NON mating pack drift. TKT-ECO-A7 RESTA PENDING. |
+| 027 | ✅ `species_catalog.json` schema v0.2.0 single SOT (15 keys per entry: scientific_name + classification + functional_signature + visual_description + risk_profile + interactions + constraints + sentience_index + ecotypes + trait_refs + lifecycle_yaml + source + merged_at) | ⚠️ **SCHEMA FORK risk**: `data/core/species.yaml` (45 species canonical) **NON modificato** + nuovo `species_catalog.json` (15 species rich schema). Dual SOT temporaneo. 30 species in species.yaml NOT migrated. Governance question: catalog è eventual canonical e species.yaml deprecato, o coesistono? |
+| 024 | ✅ Sentience 15/15 species T0-T3 (T0:2, T1:7, T2:4, T3:2) + 4 traits interocettivi shipped `active_effects.yaml` (propriocezione + equilibrio_vestibolare + nocicezione + termocezione) | ✅ **Scope clarification honest**: ai-station promised "45/45" ma 45 era da species.yaml legacy. PR delivery 15/15 species nel **nuovo catalog** è onesto subset post-OD-031 ETL (gli stessi 15 con `data/core/species/*_lifecycle.yaml`). I 30 species residue species.yaml senza lifecycle restano without sentience (TKT-ECO-A4 follow-up scope). |
+| 029 | ✅ `data/core/ancestors/neurons_bridge.csv` 51 entries (vs 13 RFC v0.1 = 3.9× expansion). Branch coverage Senses 28 + Dexterity 9 + Ambulation 9 + Memorie 5. Tier T1-T6 complete | ✅ Expansion ai-station promised "13→50 Senses+Dexterity"; delivery 51 entries con 4 branch (Senses+Dexterity+Ambulation+Memorie) supera scope. Positive over-delivery. |
+| 025-B2 | ✅ `data/core/promotions/promotions.yaml` v0.2.0 — 5-tier ladder (base→veteran→captain→**elite**→**master**) + `job_archetype_bias` schema anchor | ⚠️ **Engine Phase B3 reserved fields**: `defense_mod_bonus` (NEW Elite reward) + `crit_chance_bonus` (NEW Master reward) **shipped data schema MA engine `promotionEngine.js` non ancora consume** questi field. PR esplicito: "schema anchor only — engine extension Phase B3 reserved". Potenziale **Gate 5 anti-pattern Engine LIVE Surface DEAD** se Phase B3 deferred indefinito. Tracking: TKT-ECO-A7-NEW promotions engine extension Phase B3 (~3-4h, prima di Envelope C). |
+
+**Ticket impact**:
+- TKT-ECO-A4 (sentience backfill 45 specie) → PARTIAL via PR #2262 (15/15 lifecycle subset shipped). Follow-up 30 species residue species.yaml → ~3-4h ridotto (no Pack v2-plus rich data, solo heuristic baseline T1-T2)
+- TKT-ECO-A7 (pack drift mating.yaml) → STILL PENDING (different scope from species pack)
+- TKT-ECO-B3 (ancestors biome_pool seeder) → ENHANCED via PR #2262 neurons_bridge 51 entries (era 13 baseline)
+- TKT-ECO-C4 (bridge species canonicalization) → MIGRATABLE PATH via species_catalog.json schema (es. bridge species come ecotypes entries)
+- **NEW TKT-ECO-A8 (promotions engine Phase B3 extension)** — gated Envelope B post-merge, ~3-4h, consume NEW reward fields per Gate 5 closure
+
+### 6.6 Cumulative session 2026-05-14 cross-stack
+
+| Channel | PR | Status | Effort | Concerns |
+|---|---|:--:|---|---|
+| Vault | PR #5 ai-station re-analisi | open | (design) | — |
+| Game/ | PR #2261 Envelope A (3 OD) | open mergeable_state:blocked | ~3h | OD-030 justification accuracy persistent (non blocker) |
+| Game/ | PR #2262 Envelope B (5 OD) | open mergeable_state:blocked | ~17h | Schema fork species.yaml ↔ catalog + B3 reserved fields |
+
+**Cumulative tests**: 16 + 24 = **40/40 tests pass** ai-station Envelope execution.
+
+**Audit OD coverage**: 7/8 shipped/in-flight (Envelope A: 025+028+030, Envelope B: 024+027+029+031+025-B2), 1/8 deferred (026 Atlas Envelope C sprint dedicato).
+
+### 6.7 Residual Phase A items (NOT covered Envelope A+B)
+
+Items dal mio piano originale NON inclusi in PR #2261 + #2262:
+
+- **TKT-ECO-A1** (smoke mutations UI) — pending, ~0.5h. **L7b mutations** ≠ promotions, smoke distinto richiesto
+- **TKT-ECO-A3** (museum card M-007 post-script "FULL CLOSURE 2026-04-27") — pending, ~0.5h
+- **TKT-ECO-A4 residue** — 30 species species.yaml senza lifecycle ancora senza sentience. ~3-4h ridotto
+- **TKT-ECO-A5** (bioma diff_base + hazard pressure modifier) — pending, ~3h, **P6 driver**
+- **TKT-ECO-A6** (starter_bioma trait definition) — pending, ~3h
+- **TKT-ECO-A7** (mating.yaml pack drift -84 LOC) — pending, ~2h. **DIVERSO da OD-031 species pack drift**
+- **TKT-ECO-A8 NEW** (promotions engine Phase B3 — consume defense_mod_bonus + crit_chance_bonus) — proposed, ~3-4h, **Gate 5 closure**
+
+**Phase A residue effort**: ~12-14h totali. Possibile autonomous post-Envelope-merge.
+
 ---
 
 ## 7. ADR roster (3 nuovi ADR needed)
