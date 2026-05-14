@@ -916,6 +916,12 @@ function buildVcSnapshot(session, config) {
   // TKT-M14-B Phase A: conviction axis aggregato additivo, vedi
   // services/convictionEngine.js. Range 0..100 per axis, baseline 50.
   const convictionByActor = evaluateConviction(events, units);
+  // 2026-05-14 OD-024 Phase B3 ai-station — sentience tier fold.
+  // Reads species_catalog.json (Game/ canonical post #2262) and resolves
+  // per-actor sentience_index (T0-T6). Adds 4th layer to 3-layer psicologico
+  // (MBTI 4-axis + Ennea 9-arch + Conviction 3-axis + Sentience tier).
+  // Cross-link: docs/governance/open-decisions/OD-024-031-verdict-record.md
+  const sentienceByActor = _resolveSentienceTiers(units, session);
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
     const mbti = axesFn(rawMetrics);
@@ -932,6 +938,11 @@ function buildVcSnapshot(session, config) {
         liberty: 50,
         morality: 50,
         events_classified: 0,
+      },
+      // 2026-05-14 OD-024 Phase B3 — sentience tier (4th psicologico layer).
+      sentience: sentienceByActor[unitId] || {
+        tier: 'T1',
+        source: 'default-fallback',
       },
     };
   }
@@ -974,6 +985,84 @@ function buildVcSnapshot(session, config) {
   };
 }
 
+// 2026-05-14 OD-024 Phase B3 ai-station — sentience tier resolver.
+// Reads species_catalog.json (Game/ data/core/species/) and maps each unit
+// to its sentience_index via species_id lookup. Cache catalog per call site
+// to avoid repeat disk reads.
+//
+// Resolution priority:
+//   1. session.species_catalog (in-memory caller injection) — preferred
+//   2. Load from data/core/species/species_catalog.json (canonical)
+//   3. Fallback: empty index → all units default to "T1" (RFC v0.1 baseline)
+//
+// Returns { <unit_id>: { tier: "T0"|...|"T6", source: <provenance> } }
+//
+// Mirror Godot v2 scripts/scoring/vc_scoring.gd _resolve_sentience_tiers.
+let _cachedSpeciesCatalog = null;
+let _cachedCatalogPath = null;
+const _DEFAULT_SPECIES_CATALOG_PATH = require('path').resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'species',
+  'species_catalog.json',
+);
+
+function _loadSpeciesCatalog(filePath = _DEFAULT_SPECIES_CATALOG_PATH) {
+  if (_cachedSpeciesCatalog !== null && _cachedCatalogPath === filePath) {
+    return _cachedSpeciesCatalog;
+  }
+  try {
+    const raw = require('fs').readFileSync(filePath, 'utf8');
+    const parsed = JSON.parse(raw);
+    const index = {};
+    if (Array.isArray(parsed?.catalog)) {
+      for (const entry of parsed.catalog) {
+        if (entry?.species_id) {
+          index[entry.species_id] = entry;
+        }
+      }
+    }
+    _cachedSpeciesCatalog = index;
+    _cachedCatalogPath = filePath;
+    return index;
+  } catch {
+    _cachedSpeciesCatalog = {};
+    _cachedCatalogPath = filePath;
+    return {};
+  }
+}
+
+function _resetSpeciesCatalogCache() {
+  _cachedSpeciesCatalog = null;
+  _cachedCatalogPath = null;
+}
+
+function _resolveSentienceTiers(units, session) {
+  const out = {};
+  if (!Array.isArray(units) || units.length === 0) return out;
+  // Caller-injected catalog (e.g. tests) takes precedence over disk load.
+  const sessionCatalog =
+    session && session.species_catalog && typeof session.species_catalog === 'object'
+      ? session.species_catalog
+      : null;
+  const catalog = sessionCatalog || _loadSpeciesCatalog();
+  for (const u of units) {
+    if (!u || !u.id) continue;
+    const speciesId = u.species_id || u.species || '';
+    const entry = catalog[speciesId];
+    if (entry && typeof entry.sentience_index === 'string') {
+      out[u.id] = { tier: entry.sentience_index, source: 'species_catalog' };
+    } else {
+      out[u.id] = { tier: 'T1', source: 'default-fallback' };
+    }
+  }
+  return out;
+}
+
 module.exports = {
   loadTelemetryConfig,
   computeRawMetrics,
@@ -986,5 +1075,9 @@ module.exports = {
   tokenizeCondition,
   evaluateCondition,
   SCORING_VERSION,
+  // 2026-05-14 Phase B3 — sentience tier resolver exports for tests + tools.
+  _loadSpeciesCatalog,
+  _resetSpeciesCatalogCache,
+  _resolveSentienceTiers,
   DEFAULT_TELEMETRY_PATH,
 };
