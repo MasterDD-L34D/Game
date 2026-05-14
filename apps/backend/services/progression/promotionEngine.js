@@ -223,7 +223,12 @@ function evaluatePromotion(unit, eventLog = [], config = null) {
     };
   }
   const threshold = cfg.thresholds?.[next] || null;
-  const reward = cfg.rewards?.[next] || null;
+  const baseReward = cfg.rewards?.[next] || null;
+  // 2026-05-14 Phase B3 — surface Job-biased reward in eligibility preview
+  // so UI (PromotionPanel) can render per-Job override stats (e.g.
+  // guerriero elite → hp:18 not hp:15 base). Base preserved when no
+  // override (graceful).
+  const reward = baseReward ? _mergeJobBias(baseReward, cfg, unit, next) : null;
   if (!threshold) {
     return {
       current_tier: cur,
@@ -281,10 +286,16 @@ function applyPromotion(unit, targetTier, config = null) {
       target_tier: targetTier,
     };
   }
-  const reward = cfg.rewards?.[targetTier];
-  if (!reward) {
+  const baseReward = cfg.rewards?.[targetTier];
+  if (!baseReward) {
     return { ok: false, error: 'no_reward_defined', target_tier: targetTier };
   }
+  // 2026-05-14 OD-025-B2 Phase B3 ai-station — job_archetype_bias engine
+  // consumption. promotions.yaml v0.2.0 schema anchor surfaces per-Job
+  // override blocks (guerriero/esploratore/tessitore/custode). Merge: base
+  // reward fields + Job override (override wins per-key). Unrecognized job_id
+  // → no override (graceful no-op = base reward applied).
+  const reward = _mergeJobBias(baseReward, cfg, unit, targetTier);
   const deltas = {};
   if (Number.isFinite(reward.hp_bonus)) {
     const before = Number(unit.hp || 0);
@@ -315,6 +326,14 @@ function applyPromotion(unit, targetTier, config = null) {
     unit.ability_tier_unlocked = reward.ability_unlock_tier;
     deltas.ability_unlock_tier = reward.ability_unlock_tier;
   }
+  // 2026-05-14 Phase B3 — ability_id_override (tessitore Job specialization).
+  // job_archetype_bias schema: tessitore elite → ability_id_override:
+  // weave_mastery / master → weave_apex. Engine reads optional field; non-
+  // tessitore units pass through gracefully (no override field present).
+  if (typeof reward.ability_id_override === 'string' && reward.ability_id_override) {
+    unit.ability_id_unlocked = reward.ability_id_override;
+    deltas.ability_id_override = reward.ability_id_override;
+  }
   unit.promotion_tier = targetTier;
   return {
     ok: true,
@@ -322,6 +341,33 @@ function applyPromotion(unit, targetTier, config = null) {
     previous_tier: cur,
     deltas,
   };
+}
+
+// 2026-05-14 OD-025-B2 Phase B3 ai-station — job_archetype_bias merge helper.
+// Reads cfg.job_archetype_bias[unit.job_id][targetTier] and shallow-merges
+// onto the base reward Dict. Override fields win per-key. Returns base
+// untouched when:
+//   - cfg.job_archetype_bias absent
+//   - unit.job_id absent / unrecognized
+//   - target_tier override block absent (e.g. veteran/captain not specified
+//     per Job — only elite/master in current schema)
+//
+// Mirror Godot v2 scripts/progression/promotion_engine.gd _merge_job_bias.
+function _mergeJobBias(baseReward, cfg, unit, targetTier) {
+  if (!cfg || typeof cfg.job_archetype_bias !== 'object' || cfg.job_archetype_bias === null) {
+    return baseReward;
+  }
+  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
+  if (!jobId) return baseReward;
+  const jobBlock = cfg.job_archetype_bias[jobId];
+  if (!jobBlock || typeof jobBlock !== 'object') return baseReward;
+  const tierOverride = jobBlock[targetTier];
+  if (!tierOverride || typeof tierOverride !== 'object') return baseReward;
+  // Shallow-merge: override fields win per-key. Preserves base fields not
+  // mentioned in override (e.g. esploratore elite override has only
+  // initiative_bonus + defense_mod_bonus; base hp_bonus/attack_mod_bonus/
+  // ability_unlock_tier propagate).
+  return { ...baseReward, ...tierOverride };
 }
 
 module.exports = {
@@ -333,4 +379,6 @@ module.exports = {
   currentTier,
   nextTier,
   FALLBACK_CONFIG,
+  // Phase B3 helper exported for cross-stack parity tests + Godot v2 mirror.
+  _mergeJobBias,
 };
