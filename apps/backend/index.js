@@ -18,14 +18,16 @@ const dataRoot = path.resolve(ROOT_DIR, 'data');
 const databaseUrl = process.env.DATABASE_URL || '';
 
 // Game-Database HTTP integration (Alternative B of ADR-2026-04-14).
-// Default OFF: when GAME_DATABASE_ENABLED !== 'true' the catalog service
-// reads the trait glossary from local files only (legacy behavior). When ON,
-// the trait glossary is fetched from ${GAME_DATABASE_URL}/api/traits/glossary
-// with a TTL cache and falls back to the local file on any failure.
-// Other catalog sections (biome pools, trait catalog, ecology) remain Game-
-// local: see docs/adr/ADR-2026-04-14-game-database-topology.md for the scope.
+// Default ON since 2026-05-14 (OD-030 ai-station re-verdict): D2-C Prisma
+// cross-stack pipeline shipped wave 2026-05-13 (PR #2259 + Godot v2 #253/
+// #254/#256) makes Game-Database the canonical persistence layer for
+// godot_v2_campaign_states. Catalog service fetches trait glossary from
+// ${GAME_DATABASE_URL}/api/traits/glossary with TTL cache and falls back
+// to local files on any failure. Override OFF via GAME_DATABASE_ENABLED=false
+// for legacy file-only mode. See docs/governance/open-decisions/
+// OD-024-031-verdict-record.md for ai-station verdict context.
 const gameDatabaseUrl = process.env.GAME_DATABASE_URL || 'http://localhost:3333';
-const gameDatabaseEnabled = process.env.GAME_DATABASE_ENABLED === 'true';
+const gameDatabaseEnabled = process.env.GAME_DATABASE_ENABLED !== 'false';
 const gameDatabaseTimeoutMs = Number.parseInt(process.env.GAME_DATABASE_TIMEOUT_MS || '', 10);
 const gameDatabaseTtlMs = Number.parseInt(process.env.GAME_DATABASE_TTL_MS || '', 10);
 
