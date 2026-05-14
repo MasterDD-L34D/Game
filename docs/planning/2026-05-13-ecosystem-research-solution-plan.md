@@ -208,20 +208,22 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Actions**: additive update `docs/museum/cards/mating_nido-engine-orphan.md` con post-script "FULL CLOSURE 2026-04-27 via OD-001 Path A" + bump `last_verified: 2026-05-13`. Card additive-only per protocol museum.
 - **Provenance**: audit report §Layer 6
 
-#### TKT-ECO-A4 — Sentience tier backfill 45 specie (~8h)
+#### TKT-ECO-A4 — Sentience tier backfill 45 specie (~5-6h, revised hybrid 2026-05-14)
 - **Layer**: 5
-- **Effort**: 8h
+- **Effort**: ~5-6h (REVISED da 8h post vault citation backing — hybrid auto/manual ratio reduces manual workload)
 - **Blast**: ×1.3 (data + lifecycle resolver consumer)
 - **Gate-5 surface**: Skiv info-panel mostra "T2 — emergente". Altre 44 specie hanno tier visibile in debrief/wiki
-- **ADR**: NO (heuristic-based, master-dd review post-fact)
-- **Deps**: nessuna
-- **Actions**:
-  1. Heuristic auto-assign tier T1-T5 da `intelligence` stat + `social_traits` count + `clade_tag`
-  2. Master-dd review draft (~30 min)
-  3. Apply `sentience_index: T<n>` a `data/core/species.yaml` + `species_expansion.yaml`
-  4. Frontend chip in `apps/play/src/speciesNames.js` o info-panel debrief
+- **ADR**: NO (heuristic + hybrid manual, master-dd review post-fact)
+- **Deps**: nessuna (vault RFC sentience v0.1 da ingest cross-stack se OD-029 ✅)
+- **Actions hybrid** (Claude-vault-proposed 2026-05-14 ratio):
+  1. **AUTO baseline** ~30-35 specie: T1-T2 animal types Pack v2 base species via heuristic (`intelligence` stat + `social_traits` count + `clade_tag`)
+  2. **MANUAL override** ~10-15 specie: T3-T4 Custode/Skiv classes + T5-T6 specie senzienti rare
+  3. Master-dd review draft (~20-30 min, hybrid riduce da 45 manual → ~10-15)
+  4. Apply `sentience_index: T<n>` a `data/core/species.yaml` + `species_expansion.yaml`
+  5. Frontend chip in `apps/play/src/speciesNames.js` o info-panel debrief
+- **Vault citation backing** (Claude-vault-proposed pending master-dd verdict): `Cards/evo-tactics-sentience-tiers-canonical/` 10 cards atomized T1-T6 + 4 traits interocettivi (Propriocezione, Equilibrio, Nocicezione, Termocezione) + `traits_sensienza.yaml` data structure + `neurons_bridge.csv` 13 entries Ancestors mapping. Source: vault `docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md`.
 - **Provenance**: museum card `cognitive_traits-sentience-tiers-v1.md` + OD-008 RISOLTA 2026-04-25
-- **Note**: subject Claude judgment heuristic — markup soft `(⚠️ Claude-proposed heuristic pending master-dd review per criteri tier diversi)`
+- **Note**: hybrid auto+manual approach = Claude-vault-proposed soft markup `(⚠️ pending master-dd verdict OD-024 per ratio auto/manual + ingest RFC vault)`
 
 #### TKT-ECO-A5 — Bioma diff_base + hazard → pressure modifier (~3h)
 - **Layer**: 1
@@ -513,18 +515,18 @@ TKT-ECO-B7 (promotions decision) — independent
 
 Aggiungere a `OPEN_DECISIONS.md`:
 
-| OD ID | Domanda                                                                                          | Default proposed                              | Effort gate |
-| :---: | ------------------------------------------------------------------------------------------------ | --------------------------------------------- | :---------: |
-| OD-024 | Sentience tier backfill 45 species — auto-heuristic Claude o master-dd manual?                  | auto-heuristic + master-dd review draft (~30 min) | TKT-ECO-A4 |
-| OD-025 | ~~Promotions YAML — demolish o implement?~~ **CANCELLED 2026-05-13 sera** — premise FALSE post cross-validation. Already FULL WIRED. | N/A — verify-only smoke remaining (TKT-ECO-A2 revised) | n/a |
-| OD-026 | Atlas mini-map decisione D5 — diegetic (in-world item) vs HUD overlay?                          | HUD overlay (faster ROI)                      | TKT-ECO-B4 |
-| OD-027 | Bridge species type — enemy / NPC ambientale / encounter event?                                 | encounter event (low blast radius)            | TKT-ECO-C4 |
-| OD-028 | Audio pipeline ADR — Web Audio API direct o middleware (Howler.js, etc.)?                        | Web Audio API direct (zero new dep)           | TKT-ECO-C5 |
-| OD-029 | Ancestors Path B biome_pool seeder — Q1 verdict planning doc 2026-05-10?                        | proceed Path B con branch mapping default      | TKT-ECO-B3 |
-| OD-030 | Cross-Game-Database ancestors integration — OD-004 reopen?                                       | NO status quo flag-OFF                        | TKT-ECO-Z3 |
-| OD-031 | Pack drift policy — sync core → pack autoritativo o merge?                                       | core autoritativo (additive)                  | TKT-ECO-A7 |
+| OD ID | Domanda                                                                                          | Default proposed                              | Vault citation backing (Claude-vault-proposed 2026-05-14) | Effort gate |
+| :---: | ------------------------------------------------------------------------------------------------ | --------------------------------------------- | ---- | :---------: |
+| OD-024 | Sentience tier backfill 45 species — auto-heuristic Claude o master-dd manual?                  | auto-heuristic + master-dd review draft (~30 min) | ✅ AUTO+manual hybrid (`Cards/evo-tactics-sentience-tiers-canonical/` 10 cards T1-T6 + 4 traits interocettivi RFC v0.1) | TKT-ECO-A4 |
+| OD-025 | ~~Promotions YAML — demolish o implement?~~ **CANCELLED 2026-05-13 sera** — premise FALSE post cross-validation. Already FULL WIRED. | N/A — verify-only smoke remaining (TKT-ECO-A2 revised) | ❌ REJECT framing (engine LIVE confirmed) | n/a |
+| OD-026 | Atlas mini-map decisione D5 — diegetic (in-world item) vs HUD overlay?                          | HUD overlay (faster ROI)                      | ✅ HUD overlay (FINAL-DESIGN-FREEZE §16+§17 atomized) | TKT-ECO-B4 |
+| OD-027 | Bridge species type — enemy / NPC ambientale / encounter event?                                 | encounter event (low blast radius)            | ✅ encounter event (GAME_DATABASE_SYNC source ingested) | TKT-ECO-C4 |
+| OD-028 | Audio pipeline ADR — Web Audio API direct o middleware (Howler.js, etc.)?                        | Web Audio API direct (zero new dep)           | ✅ Web Audio direct (GDD §10 audio terziario verified) | TKT-ECO-C5 |
+| OD-029 | Ancestors Path B biome_pool seeder — Q1 verdict planning doc 2026-05-10?                        | proceed Path B con branch mapping default      | ✅ proceed mapping (RFC sentience §2+§5 + neurons_bridge.csv 13 entries ready) | TKT-ECO-B3 |
+| OD-030 | Cross-Game-Database ancestors integration — OD-004 reopen?                                       | NO status quo flag-OFF                        | ✅ NO flag-OFF (sync source + backend flag default verified) | TKT-ECO-Z3 |
+| OD-031 | Pack drift policy — sync core → pack autoritativo o merge?                                       | core autoritativo (additive)                  | ✅ core autoritativo (pack-v2-full-plus + authority_map atomized) | TKT-ECO-A7 |
 
-**Note**: tutti i default sono _Claude-proposed pending master-dd review_ — markup soft canonical.
+**Note**: tutti i default + vault citation backing sono _Claude-proposed pending master-dd verdict_ — markup soft canonical (vault verdict ≠ master-dd verdict actual). Vault enrichment 2026-05-14 fornisce citation backing convergente con 7/8 default Claude (1/8 OD-025 already cancelled da cross-validation L7c). Source: [vault docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md](https://github.com/MasterDD-L34D/vault/blob/main/docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md).
 
 ---
 
