@@ -128,6 +128,24 @@ function hasTargetStatus(target, statusName) {
   return Boolean(entry);
 }
 
+// 2026-05-14 OD-024 ai-station — actor status gate for interoception traits
+// (nocicezione `requires: ferito`). Symmetric to hasTargetStatus but checks
+// actor.status. RFC sentience v0.1 interoception_trait `ferito` = canonical
+// status name in Game/ status system.
+function hasActorStatus(actor, statusName) {
+  if (!actor || !statusName) return false;
+  const status = actor.status || {};
+  // Support both Dict pattern (status[name] = entry) AND Array pattern
+  // (status = ['ferito', 'stordito']) for back-compat across call sites.
+  if (Array.isArray(status)) {
+    return status.includes(statusName);
+  }
+  const entry = status[statusName];
+  if (!entry) return false;
+  if (typeof entry === 'object' && Number.isFinite(entry.turns)) return entry.turns > 0;
+  return Boolean(entry);
+}
+
 // Per-tag enemy gate — carica species.yaml + species_expansion.yaml e
 // costruisce indice { species_id: { clade_tag, role_tags: Set } }.
 // Lazy + cached. Soft-fail: file mancante → indice vuoto, gate ritorna
@@ -228,6 +246,12 @@ function passesBasicTriggers(trigger, actor, target, attackResult, ctx = {}) {
   if (trigger.on_result === 'miss' && attackResult.hit) return false;
   if (Number.isFinite(trigger.min_mos) && attackResult.mos < trigger.min_mos) return false;
   if (trigger.requires === 'posizione_sopraelevata' && !isElevated(actor, target)) return false;
+  // 2026-05-14 OD-024 ai-station — actor-status gate for interoception trait
+  // nocicezione (`requires: ferito`). Generic predicate: when `requires` is
+  // not a recognized positional/contextual gate, treat as actor status name.
+  // Conservative whitelist: only `ferito` recognized to avoid silently
+  // matching arbitrary strings. Phase B3 may extend to other status names.
+  if (trigger.requires === 'ferito' && !hasActorStatus(actor, 'ferito')) return false;
   if (trigger.melee_only === true && !isMelee(actor, target)) return false;
   if (trigger.requires_ally_adjacent === true && !hasAllyAdjacent(actor, ctx.allUnits))
     return false;
@@ -283,6 +307,22 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
   const logTag = effect.log_tag || definition.id || traitId;
 
   if (effect.kind === 'extra_damage' && side === 'actor') {
+    const amount = Number(effect.amount) || 0;
+    return {
+      trait: traitId,
+      triggered: true,
+      effect: logTag,
+      damage_delta: amount,
+    };
+  }
+
+  // 2026-05-14 OD-024 ai-station — attack_bonus kind for interoception trait
+  // propriocezione (RFC sentience v0.1). Behaviorally equivalent to
+  // extra_damage on the actor's own attack: +amount damage_delta on hit.
+  // Distinct kind name preserves design semantic (proprioception → balance
+  // boost on attack, not raw "extra damage"). Phase B3 may differentiate
+  // when fold into vc_scoring conviction axis.
+  if (effect.kind === 'attack_bonus' && side === 'actor') {
     const amount = Number(effect.amount) || 0;
     return {
       trait: traitId,
