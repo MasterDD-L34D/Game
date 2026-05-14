@@ -611,15 +611,18 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 
 ### 6.6 Cumulative session 2026-05-14 cross-stack
 
-| Channel | PR | Status | Effort | Concerns |
-|---|---|:--:|---|---|
-| Vault | PR #5 ai-station re-analisi | open | (design) | — |
-| Game/ | PR #2261 Envelope A (3 OD) | open mergeable_state:blocked | ~3h | OD-030 justification accuracy persistent (non blocker) |
-| Game/ | PR #2262 Envelope B (5 OD) | open mergeable_state:blocked | ~17h | Schema fork species.yaml ↔ catalog + B3 reserved fields |
+| Channel | PR | Status | Effort | Tests | Concerns |
+|---|---|:--:|---|:--:|---|
+| Vault | PR #5 ai-station re-analisi | open | (design) | docs | — |
+| Game/ | PR #2261 Envelope A (3 OD) | open mergeable_state:blocked | ~3h | 16/16 | OD-030 justification accuracy persistent (non blocker) |
+| Game/ | PR #2262 Envelope B (5 OD) | open mergeable_state:blocked | ~17h | 24/24 | Schema fork + B3 reserved fields + mating drift |
+| Godot v2 | PR #259 Envelope B cross-stack mirror | shipped 2026-05-14 | (Godot side) | 60/60 | (out-of-scope GitHub MCP — vedi commento master-dd PR #2260) |
 
-**Cumulative tests**: 16 + 24 = **40/40 tests pass** ai-station Envelope execution.
+**Cumulative tests cross-stack**: **100/100** ai-station Envelope A+B execution (16+24+60).
 
-**Audit OD coverage**: 7/8 shipped/in-flight (Envelope A: 025+028+030, Envelope B: 024+027+029+031+025-B2), 1/8 deferred (026 Atlas Envelope C sprint dedicato).
+**Audit OD coverage**: 7/8 shipped/in-flight cross-stack (Envelope A: 025+028+030, Envelope B: 024+027+029+031+025-B2 + Godot v2 mirror SpeciesCatalog/NeuronsBridgeCatalog/PromotionEngine elite-master), 1/8 deferred (026 Atlas Envelope C sprint dedicato).
+
+**Status master-dd dichiarazione 2026-05-14**: _"Pure-code Envelope A+B autonomous cross-stack execution CLOSED"_. Data-layer wave **closed**. Remaining work in altri scope (Atlas UI sprint dedicato + Playtest #2 userland + 3 residual questions Phase A).
 
 ### 6.7 Residual Phase A items (NOT covered Envelope A+B)
 
