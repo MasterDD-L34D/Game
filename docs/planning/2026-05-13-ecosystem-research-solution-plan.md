@@ -609,20 +609,61 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 - TKT-ECO-C4 (bridge species canonicalization) → MIGRATABLE PATH via species_catalog.json schema (es. bridge species come ecotypes entries)
 - **NEW TKT-ECO-A8 (promotions engine Phase B3 extension)** — gated Envelope B post-merge, ~3-4h, consume NEW reward fields per Gate 5 closure
 
-### 6.6 Cumulative session 2026-05-14 cross-stack
+### 6.6 Cumulative session 2026-05-14 cross-stack — FINAL CLOSURE
 
 | Channel | PR | Status | Effort | Tests | Concerns |
 |---|---|:--:|---|:--:|---|
 | Vault | PR #5 ai-station re-analisi | open | (design) | docs | — |
 | Game/ | PR #2261 Envelope A (3 OD) | open mergeable_state:blocked | ~3h | 16/16 | OD-030 justification accuracy persistent (non blocker) |
 | Game/ | PR #2262 Envelope B (5 OD) | open mergeable_state:blocked | ~17h | 24/24 | Schema fork + B3 reserved fields + mating drift |
-| Godot v2 | PR #259 Envelope B cross-stack mirror | shipped 2026-05-14 | (Godot side) | 60/60 | (out-of-scope GitHub MCP — vedi commento master-dd PR #2260) |
+| Godot v2 | PR #259 Envelope B cross-stack mirror | shipped 2026-05-14 | (Godot side) | 60/60 | (out-of-scope GitHub MCP) |
+| Godot v2 | PR #260 Envelope C scaffold OD-026 | shipped 2026-05-14 | ~6h | 18/18 | TV diegetic + Phone overlay scaffold pre-asset |
 
-**Cumulative tests cross-stack**: **100/100** ai-station Envelope A+B execution (16+24+60).
+**Cumulative tests cross-stack**: **118/118** ai-station Envelope A+B+C execution (16+24+60+18).
 
-**Audit OD coverage**: 7/8 shipped/in-flight cross-stack (Envelope A: 025+028+030, Envelope B: 024+027+029+031+025-B2 + Godot v2 mirror SpeciesCatalog/NeuronsBridgeCatalog/PromotionEngine elite-master), 1/8 deferred (026 Atlas Envelope C sprint dedicato).
+**Audit OD coverage**: **8/8 CLOSED** cross-stack (incluso OD-026 Atlas scaffold shipped Godot v2 #260).
 
-**Status master-dd dichiarazione 2026-05-14**: _"Pure-code Envelope A+B autonomous cross-stack execution CLOSED"_. Data-layer wave **closed**. Remaining work in altri scope (Atlas UI sprint dedicato + Playtest #2 userland + 3 residual questions Phase A).
+### 6.7 Final closure declaration — master-dd 2026-05-14
+
+> _"Pure-code autonomous Envelope A+B+C execution CLOSED end-to-end cross-stack"_
+
+**8/8 OD audit PR #2260 ai-station re-analysis CLOSED** in single session 2026-05-14:
+
+| OD | Status | Cross-stack channel |
+|:--:|---|---|
+| 024 Sentience full | ✅ | Game/ #2262 (15/15 lifecycle subset) |
+| 025 Promotions REJECT framing | ✅ | Game/ #2261 smoke + audit correction |
+| 025-B2 catalog +elite/+master | ✅ | Game/ #2262 schema + Godot v2 #259 FALLBACK_CONFIG |
+| 026 Diegetic Atlas scaffold | ✅ | Godot v2 #260 (TV + Phone variants pre-asset) |
+| 027 Species type + ecotypes | ✅ | Game/ #2262 catalog + Godot v2 #259 SpeciesCatalog Resource |
+| 028 Howler middleware | ✅ | Game/ #2261 CDN opt-in |
+| 029 neurons 13→51 | ✅ | Game/ #2262 + Godot v2 #259 NeuronsBridgeCatalog Resource |
+| 030 flag-ON Game-Database | ✅ | Game/ #2261 default flip |
+| 031 Pack merge | ✅ | Game/ #2262 ETL + species_catalog.json (species pack scope only, mating drift separate) |
+
+### 6.8 Residual master-dd manual + Phase A autonomous
+
+**Master-dd manual residue**:
+1. Review + merge 5 PR aperti (vault #5 + Game/ #2261 + #2262 + Godot v2 #259 + #260)
+2. Asset commission Wildermyth biome silhouettes (OD-026 visual polish post-scaffold)
+3. Skiv pulse caller wire combat phase integration (~1-2h, ~1 PR)
+4. Playtest #2 userland — 🟢-cand → 🟢 hard promotion P3+P4+P6
+
+**Phase A residue autonomous** (3 governance questions Q1+Q2+Q3 still open, audit-derived, NOT addressed dal cross-stack closure):
+
+| TKT | Effort | Gate | Status post-closure |
+|:--:|:--:|---|---|
+| A1 smoke mutations UI (L7b ≠ promotions) | 0.5h | autonomous | pending |
+| A3 museum card M-007 post-script "FULL CLOSURE 2026-04-27" | 0.5h | autonomous | pending |
+| A4 residue 30 species senza lifecycle (heuristic T1-T2) | ~3-4h | gated Q1 (schema fork resolve) | partial-shipped 15/45 via #2262 |
+| A5 bioma diff_base + hazard pressure modifier | ~3h | autonomous | pending P6 driver |
+| A6 starter_bioma trait definition | ~3h | autonomous | pending completionist |
+| A7 mating.yaml pack drift (-84 LOC gene_slots) | ~2h | gated Q2 master-dd autonomous greenlight | pending (DIVERSO da OD-031 species pack) |
+| A8 NEW promotions engine Phase B3 (consume `defense_mod_bonus` + `crit_chance_bonus`) | ~3-4h | gated Q3 (Gate 5 closure) | proposed |
+
+**Phase A residue total**: ~12-14h. Possibile autonomous post master-dd greenlight Q1+Q2+Q3 verdict.
+
+**Note governance**: master-dd ha prioritizzato execution speed (8 OD shipped in 1 session) sopra dialog OD-by-OD. Legittima trade-off — direction "finish work, not conservative" applicata coerentemente. Residue 3 questions Phase A possono essere risolte retroactively o batched in nuovo OD aggregate.
 
 ### 6.7 Residual Phase A items (NOT covered Envelope A+B)
 
