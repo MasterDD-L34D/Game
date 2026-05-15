@@ -98,6 +98,8 @@ def main():
                 match = field_prov == "needs-master-dd"
             elif args.filter == "default":
                 match = "default" in field_prov
+            elif args.filter == "claude-polish":
+                match = "claude-polish" in field_prov
             else:
                 match = field_prov == args.filter
             if match:

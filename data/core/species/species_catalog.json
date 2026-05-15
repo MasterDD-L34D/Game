@@ -1185,7 +1185,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "Il pulso termico che irradia stabilizza le colonie batteriche chemiosintetiche della dorsale: senza la sua regolazione, la temperatura fluttua oltre la soglia di tolleranza e tre livelli trofici collassano in una stagione."
+        "symbiosis": "Il polso termico che irradia stabilizza le colonie batteriche chemiosintetiche della dorsale: senza la sua regolazione, la temperatura fluttua oltre la soglia di tolleranza e tre livelli trofici collassano in una stagione."
       },
       "constraints": [
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
@@ -1328,7 +1328,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie bridge con corna_psico_conduttive + focus_frazionato.",
-      "visual_description": "Arrampica la caldera glaciale con l'attenzione di chi legge il paesaggio come testo: le corna psico-conduttive captano le correnti ferromagnetiche che altri esseri ignorano, traducendo il silenzio del ghiaccio in informazione navigabile. Abita la soglia tra il freddo e il psionico, curiosa di entrambi.",
+      "visual_description": "Arrampica la caldera glaciale con l'attenzione di chi legge il paesaggio come testo: le corna psico-conduttive captano le correnti ferromagnetiche che altri esseri ignorano, traducendo il silenzio del ghiaccio in informazione navigabile. Abita la soglia tra il freddo e lo psionico, curiosa di entrambi.",
       "risk_profile": {
         "danger_level": 4,
         "vectors": [
@@ -1553,7 +1553,7 @@
         "habitat": "ferrous-badlands"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Scava nella materia morta con la pazienza di chi sa che il ciclo non ha fretta. Il suo corpo è il confine tra ciò che è stato e ciò che tornerà utile: ogni boccone di detrito che inghiotte è cibo restituito sotto altra forma a tre specie diverse. Toglietelo e la rete trofica inizia a digiunare.",
+      "visual_description": "Scava nella materia morta con la pazienza di chi sa che il ciclo non ha fretta. Il suo corpo è il confine tra ciò che è stato e ciò che tornerà utile: ogni boccone di detrito che inghiotte è cibo restituito sotto altra forma a tre specie diverse. Toglietela e la rete trofica inizia a digiunare.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2029,7 +2029,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "Le membrane eliofiltranti convertono la luce solare in exsudate che fertilizzano il suolo attorno ai percorsi di pascolo: i micro-organismi del suolo prosperano sui suoi sentieri e le specie detritivore seguono la sua rotta stagionale."
+        "symbiosis": "Le membrane eliofiltranti convertono la luce solare in essudati che fertilizzano il suolo attorno ai percorsi di pascolo: i micro-organismi del suolo prosperano sui suoi sentieri e le specie detritivore seguono la sua rotta stagionale."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -2260,7 +2260,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "Le antenne a microonde cavernose mappano cavità invisibili dove le specie troglofile si ricovrano nelle stagioni avverse: i suoi richiami aprono rifugi che altrimenti resterebbero introvabili — è la chiave acustica della sopravvivenza ipogea."
+        "symbiosis": "Le antenne a microonde cavernose mappano cavità invisibili dove le specie troglofile si ricoverano nelle stagioni avverse: i suoi richiami aprono rifugi che altrimenti resterebbero introvabili — è la chiave acustica della sopravvivenza ipogea."
       },
       "constraints": [
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
@@ -2421,7 +2421,7 @@
         "habitat": "cold-mirror-fen"
       },
       "functional_signature": "Specie support con adattamenti non specificati.",
-      "visual_description": "Si muove tra le specie brucatrici con una discrezione che la rende quasi invisibile al comportamento collettivo del gregge. Ripara, redistribuisce, occcupa i vuoti che gli altri lasciano senza accorgersene. Il suo contributo si nota solo quando manca.",
+      "visual_description": "Si muove tra le specie brucatrici con una discrezione che la rende quasi invisibile al comportamento collettivo del gregge. Ripara, redistribuisce, occupa i vuoti che gli altri lasciano senza accorgersene. Il suo contributo si nota solo quando manca.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2755,7 +2755,7 @@
         "habitat": "ashen-sink"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "La colorazione cinerea lo rende indistinguibile dai substrati vulcanici su cui riposa per ore. Cacciatore in agguato puro: ogni nodul sporgente del corpo è un punto di ancoraggio che riduce il profilo termico finché la preda non è abbastanza vicina da non avere scelta.",
+      "visual_description": "La colorazione cinerea lo rende indistinguibile dai substrati vulcanici su cui riposa per ore. Cacciatore in agguato puro: ogni nodulo sporgente del corpo è un punto di ancoraggio che riduce il profilo termico finché la preda non è abbastanza vicina da non avere scelta.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
