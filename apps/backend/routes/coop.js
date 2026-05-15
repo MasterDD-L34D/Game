@@ -79,6 +79,18 @@ function createCoopRouter({ lobby, coopStore } = {}) {
           ready_list: orch.debriefReadyList(allPlayerIds(room)),
         },
       });
+      // 2026-05-15 Bundle C follow-up — surface per-actor 4-layer psicologico
+      // payload to phone clients when host attached it via /coop/combat/end
+      // (PR #2269 wire). Each phone composer extracts its local player slice
+      // and renders PhoneDebriefView labels (Godot v2 #269+#270).
+      // Schema: orch.run.debrief.per_actor[uid] = { sentience_tier,
+      // conviction_axis, ennea_archetype }.
+      if (orch.run?.debrief && typeof orch.run.debrief === 'object') {
+        room.broadcast({
+          type: 'debrief_payload',
+          payload: orch.run.debrief,
+        });
+      }
     }
   }
 
