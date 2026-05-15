@@ -114,7 +114,18 @@ def validate_state(quiet: bool = False) -> dict:
     jobs = load_yaml(JOBS_EXPANSION)
     mutations = load_yaml(MUTATION_CATALOG)
     thoughts = load_yaml(MBTI_THOUGHTS)
-    species = load_yaml(SPECIES)
+    # ADR-2026-05-15 Phase 4c.5 — catalog SOT primary, YAML fallback ENOENT-safe.
+    if SPECIES.exists():
+        species = load_yaml(SPECIES)
+    else:
+        # Catalog primary path post Phase 4c.6 file removal.
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from lib.species_loader import load_species_canonical
+            species_list, _src = load_species_canonical()
+            species = {"species": species_list}
+        except (ImportError, Exception):
+            species = {"species": []}
     lifecycle = load_yaml(LIFECYCLE) if LIFECYCLE.exists() else {}
 
     # Stalker job

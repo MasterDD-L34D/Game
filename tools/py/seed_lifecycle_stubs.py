@@ -50,32 +50,38 @@ DEFAULT_BIOME_PROGRESSION = {
 
 
 def load_species_index():
-    """Load species.yaml — supports both dict (legacy) and list (canonical) formats.
+    """Load species — ADR-2026-05-15 Phase 4c: catalog SOT primary, YAML fallback.
 
-    Canonical format (data/core/species.yaml): species: [{id, biome_affinity, display_name_it, ...}, ...]
-    Legacy dict format: species: {species_id: {primary_biome, name_it, ...}}
-    Returns dict {species_id: meta} normalized.
+    Canonical: data/core/species/species_catalog.json (catalog v0.4.x).
+    Fallback: data/core/species.yaml (DEPRECATED Phase 4c.6 removal pending).
+    Returns dict {species_id: {primary_biome, name_it}} normalized.
     """
-    if not SPECIES_INDEX.is_file():
-        return {}
-    with SPECIES_INDEX.open(encoding="utf-8") as fh:
-        data = yaml.safe_load(fh)
-    raw = (data or {}).get("species", {})
-    if isinstance(raw, list):
-        # Canonical: list of {id, biome_affinity, display_name_it, ...}
-        normalized = {}
-        for entry in raw:
-            if not isinstance(entry, dict):
-                continue
-            sid = entry.get("id")
-            if not sid:
-                continue
-            normalized[sid] = {
-                "primary_biome": entry.get("biome_affinity") or entry.get("primary_biome"),
-                "name_it": entry.get("display_name_it") or entry.get("display_name"),
-            }
-        return normalized
-    return raw or {}
+    # Use Phase 4c shared loader (catalog primary + YAML fallback).
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from lib.species_loader import load_species_canonical
+        species_list, _src = load_species_canonical()
+    except (ImportError, Exception):
+        # Fallback inline (legacy YAML walk) if loader not importable
+        if not SPECIES_INDEX.is_file():
+            return {}
+        with SPECIES_INDEX.open(encoding="utf-8") as fh:
+            data = yaml.safe_load(fh)
+        raw = (data or {}).get("species", {})
+        species_list = raw if isinstance(raw, list) else []
+
+    normalized = {}
+    for entry in species_list:
+        if not isinstance(entry, dict):
+            continue
+        sid = entry.get("id") or entry.get("species_id")
+        if not sid:
+            continue
+        normalized[sid] = {
+            "primary_biome": entry.get("biome_affinity") or entry.get("primary_biome"),
+            "name_it": entry.get("display_name_it") or entry.get("display_name"),
+        }
+    return normalized
 
 
 def species_has_lifecycle(species_id: str) -> bool:
