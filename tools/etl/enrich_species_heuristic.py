@@ -73,6 +73,169 @@ TRAIT_VECTOR_MAP = {
     'radiaz': 'radiazione',
 }
 
+# ADR-2026-05-15 Phase 3 Path D HYBRID — Pattern A (Caves of Qud tag-driven):
+# default_parts slot.part → italian sensory phrase (template engine).
+PART_PHRASE_MAP = {
+    # locomotion
+    'locomotion.burrower': 'movimento sotterraneo silenzioso, riemerge da terreni morbidi',
+    'locomotion.glider_magnetic': 'planata sospesa su correnti magnetiche, virate fluide',
+    'locomotion.swimmer': 'nuoto sinuoso, scia minima in acqua',
+    'locomotion.climber': 'arrampicata agile su superfici verticali',
+    'locomotion.legs': 'andatura quadrupede equilibrata',
+    'locomotion.spring_legs': 'salti potenti improvvisi, accumulo tensione visibile',
+    'locomotion.tentacle': 'avanzamento ondulato tentacolare',
+    # metabolism
+    'metabolism.bioelectric_field': 'campo bioelettrico permanente emanato dal corpo',
+    'metabolism.sand_digest': 'metabolismo aridofilo, ingerisce sabbia mineralizzata',
+    'metabolism.photosynth': 'fotosintesi cutanea, pelle traslucida',
+    'metabolism.chemosynth': 'chemosintesi da composti solforosi',
+    'metabolism.endotherm': 'regolazione termica interna costante',
+    # offense
+    'offense.electric_pulse': 'scariche elettriche concentriche dall’addome',
+    'offense.sand_claws': 'artigli abrasivi induriti da silice',
+    'offense.acid_spray': 'getto acido a parabola corta',
+    'offense.venom_fangs': 'zanne canalizzate con sacche venefere',
+    'offense.psionic_bolt': 'impulso psionico mirato',
+    'offense.sonic_blast': 'colpo sonico modulato a bassa frequenza',
+    # defense
+    'defense.heat_scales': 'squame riflettenti il calore, dorso lucente',
+    'defense.bipolar_skin': 'pelle bipolare che dissipa correnti',
+    'defense.spines': 'spine ritrattili lungo il dorso',
+    'defense.chitin_plate': 'placche chitinose modulari',
+    'defense.regen_film': 'pellicola rigenerante visibile post-ferita',
+    # senses
+    'senses.echolocation': 'ecolocalizzazione attiva, click ritmici percepibili',
+    'senses.thermo_vision': 'visione termica notturna',
+    'senses.magnetic_olfaction': 'olfatto magnetico, sente correnti ferromagnetiche',
+    'senses.tremor_sense': 'percezione vibrazionale del terreno',
+    'senses.uv_sight': 'visione ultravioletta, riconosce fluorescenze',
+}
+
+# Clade tag → context fragment (combina con biome).
+CLADE_PHRASE_MAP = {
+    'Apex': 'Predatore apicale',
+    'Threat': 'Specie minaccia',
+    'Keystone': 'Specie chiave',
+    'Bridge': 'Specie ponte',
+    'Support': 'Specie di supporto',
+    'predator': 'Predatore',
+    'predator_apex': 'Predatore apicale',
+    'predator_ambush': 'Cacciatore in agguato',
+    'herbivore': 'Erbivoro',
+    'omnivore': 'Onnivoro opportunista',
+    'scavenger': 'Spazzino',
+}
+
+# Biome → ambient descriptor (template fragment).
+BIOME_AMBIENT_MAP = {
+    'savana': 'delle savane aperte e calde',
+    'badlands': 'dei calanchi ferrosi',
+    'cryosteppe': 'delle steppe glaciali',
+    'foresta_temperata': 'delle foreste temperate',
+    'deserto_caldo': 'del deserto torrido',
+    'rovine_planari': 'delle rovine planari',
+    'frattura_abissale_sinaptica': 'delle fratture abissali sinaptiche',
+    'caverna': 'delle cavità sotterranee',
+    'palude': 'delle paludi salmastre',
+    'corallino': 'delle barriere coralline',
+    'foresta_acida': 'delle foreste acide',
+    'reef_luminescente': 'delle scogliere luminescenti',
+    'steppe_algoritmiche': 'delle steppe algoritmiche',
+    'foresta_miceliale': 'delle foreste miceliali',
+    'canyons_risonanti': 'dei canyon risonanti',
+    'atollo_obsidiana': "dell'atollo di obsidiana",
+    'cattedrale_apex': "della cattedrale dell'Apex",
+}
+
+# ADR-2026-05-15 Phase 3 Path D — Pattern C (RimWorld mechanical constraints):
+# Rule library: (predicate → constraint phrase italian).
+# Each rule: (predicate_fn(entry) → bool, constraint_phrase).
+CONSTRAINT_RULES = [
+    # Sentience-based
+    (
+        lambda e: e.get('sentience_index') in ('T0', 'T1'),
+        'Risponde a stimoli immediati senza tattiche multi-step',
+    ),
+    (
+        lambda e: e.get('sentience_index') in ('T0',),
+        'Comportamento riflesso, nessuna pianificazione',
+    ),
+    # Locomotion-based
+    (
+        lambda e: _get_locomotion(e) == 'burrower',
+        'Inefficace su roccia compatta o pavimentazione',
+    ),
+    (
+        lambda e: _get_locomotion(e) == 'swimmer',
+        'Disidratazione fuori dall’acqua, ritirata forzata',
+    ),
+    (
+        lambda e: _get_locomotion(e) == 'glider_magnetic',
+        'Caduta brusca quando schermato da gabbie di Faraday o calanchi ferrosi neutralizzati',
+    ),
+    (
+        lambda e: _get_locomotion(e) == 'spring_legs',
+        'Salto telegrafato durante accumulo tensione visibile',
+    ),
+    # Offense-based vector vulnerabilities
+    (
+        lambda e: 'electric_pulse' in _get_offense(e),
+        'Scarica inefficace in atmosfera secca priva di ionizzazione',
+    ),
+    (
+        lambda e: 'acid_spray' in _get_offense(e),
+        'Acido neutralizzato su basalto e ceramiche refrattarie',
+    ),
+    (
+        lambda e: 'sonic_blast' in _get_offense(e),
+        'Onda sonica dispersa in caverne troppo ampie',
+    ),
+    # Defense fragility
+    (
+        lambda e: 'regen_film' in _get_defense(e),
+        'Pellicola rigenerante consumata da freddo intenso',
+    ),
+    (
+        lambda e: 'heat_scales' in _get_defense(e),
+        'Squame fragili su attacchi cinetici a impatto basso ma rapido',
+    ),
+    # Clade-based
+    (
+        lambda e: e.get('clade_tag') in ('Apex', 'predator_apex'),
+        'Solitario territoriale, raramente in branco',
+    ),
+    (
+        lambda e: e.get('clade_tag') in ('Keystone',),
+        'Mantenere vivo: rimozione collassa intera rete trofica del bioma',
+    ),
+]
+
+
+def _get_locomotion(entry: dict) -> str:
+    dp = entry.get('default_parts') or {}
+    val = dp.get('locomotion')
+    if isinstance(val, str):
+        return val
+    if isinstance(val, list) and val:
+        return str(val[0])
+    return ''
+
+
+def _get_offense(entry: dict) -> list:
+    dp = entry.get('default_parts') or {}
+    val = dp.get('offense', [])
+    if isinstance(val, str):
+        return [val]
+    return list(val) if isinstance(val, list) else []
+
+
+def _get_defense(entry: dict) -> list:
+    dp = entry.get('default_parts') or {}
+    val = dp.get('defense', [])
+    if isinstance(val, str):
+        return [val]
+    return list(val) if isinstance(val, list) else []
+
 # Sentience tier → base danger level (T0=1, T6=5 — log-scaled).
 SENTIENCE_DANGER_BASE = {
     'T0': 1,
@@ -233,20 +396,105 @@ def derive_vectors(entry: dict) -> list[str]:
     return sorted(vectors)
 
 
+def derive_visual_description(entry: dict) -> str:
+    """ADR-2026-05-15 Phase 3 Path D — Pattern A (Caves of Qud tag-driven).
+
+    Compose 2-3 sentence italian sensory description from:
+    - clade_tag → opener ("Predatore apicale", "Specie ponte", etc.)
+    - biome_affinity → ambient context ("delle savane aperte")
+    - default_parts.{locomotion, metabolism, offense, defense, senses} →
+      sensory phrases (PART_PHRASE_MAP)
+
+    Empty string if insufficient data (master-dd polish needed).
+    """
+    clade = entry.get('clade_tag', '') or ''
+    biome = entry.get('biome_affinity', '') or ''
+    dp = entry.get('default_parts') or {}
+
+    # Opener: clade phrase + biome ambient
+    clade_phrase = CLADE_PHRASE_MAP.get(clade, '')
+    biome_phrase = BIOME_AMBIENT_MAP.get(biome, '')
+
+    parts_phrases = []
+    if isinstance(dp, dict):
+        for slot, val in dp.items():
+            if isinstance(val, str) and val:
+                key = f'{slot}.{val}'
+                phrase = PART_PHRASE_MAP.get(key)
+                if phrase:
+                    parts_phrases.append(phrase)
+            elif isinstance(val, list):
+                for v in val:
+                    if isinstance(v, str):
+                        key = f'{slot}.{v}'
+                        phrase = PART_PHRASE_MAP.get(key)
+                        if phrase:
+                            parts_phrases.append(phrase)
+
+    # Compose. Insufficient data → empty (master-dd composes)
+    if not clade_phrase and not biome_phrase and not parts_phrases:
+        return ''
+
+    sentences = []
+    opener_bits = []
+    if clade_phrase:
+        opener_bits.append(clade_phrase)
+    if biome_phrase:
+        opener_bits.append(biome_phrase)
+    if opener_bits:
+        sentences.append(' '.join(opener_bits) + '.')
+
+    if parts_phrases:
+        # Cap 3 sensory phrases per readability
+        capped = parts_phrases[:3]
+        sentences.append(_capitalize(', '.join(capped)) + '.')
+
+    return ' '.join(sentences)
+
+
+def _capitalize(s: str) -> str:
+    return s[0].upper() + s[1:] if s else s
+
+
+def derive_constraints(entry: dict) -> list:
+    """ADR-2026-05-15 Phase 3 Path D — Pattern C (RimWorld mechanical constraints).
+
+    Evaluate CONSTRAINT_RULES against entry. Return constraint phrases for
+    matching predicates. Idempotent (deterministic per entry data).
+    """
+    constraints = []
+    for predicate, phrase in CONSTRAINT_RULES:
+        try:
+            if predicate(entry):
+                constraints.append(phrase)
+        except Exception:
+            continue
+    return constraints
+
+
 def enrich_entry(
     entry: dict,
     predates_on_index: dict,
     predated_by_index: dict,
 ) -> dict:
-    """Apply 4 heuristic fills to a legacy-yaml-merge entry (idempotent)."""
+    """Apply Path D HYBRID heuristic fills to a legacy-yaml-merge entry (idempotent).
+
+    ADR-2026-05-15 Phase 3 Path D — Pattern A+B+C unified enrichment.
+    Tracks _provenance per field for master-dd review queue filter.
+    """
     if entry.get('source') != 'legacy-yaml-merge':
         return entry  # Skip non-legacy entries
 
     species_id = entry['species_id']
+    # _provenance dict tracks per-field origin ("heuristic-pattern-A|B|C" |
+    # "master-dd" | "needs-review"). Anti-fabrication audit trail (museum
+    # card pattern 2026-05-08 canonical).
+    provenance = entry.setdefault('_provenance', {})
 
-    # 1. functional_signature
+    # 1. functional_signature (existing heuristic)
     if not entry.get('functional_signature'):
         entry['functional_signature'] = derive_functional_signature(entry)
+        provenance['functional_signature'] = 'heuristic-clade-trait'
 
     # 2 + 3. risk_profile
     risk = entry.get('risk_profile', {})
@@ -257,14 +505,51 @@ def enrich_entry(
             'danger_level': new_level,
             'vectors': new_vectors,
         }
+        provenance['risk_profile.danger_level'] = 'heuristic-sentience-trait'
+        provenance['risk_profile.vectors'] = 'heuristic-trait-vector-map'
 
-    # 4. interactions.predates_on + predated_by
+    # 4. interactions.predates_on + predated_by (Pattern B — Dwarf Fortress foodweb projection)
     interactions = entry.get('interactions', {})
     if not interactions.get('predates_on') and species_id in predates_on_index:
         interactions['predates_on'] = predates_on_index[species_id]
+        provenance['interactions.predates_on'] = 'heuristic-pattern-B-foodweb'
+    elif not interactions.get('predates_on'):
+        provenance['interactions.predates_on'] = 'needs-master-dd'
     if not interactions.get('predated_by') and species_id in predated_by_index:
         interactions['predated_by'] = predated_by_index[species_id]
+        provenance['interactions.predated_by'] = 'heuristic-pattern-B-foodweb'
+    elif not interactions.get('predated_by'):
+        provenance['interactions.predated_by'] = 'needs-master-dd'
+
+    # symbiosis default "nessuna" if not overridden — Pattern B inference deferred
+    if not interactions.get('symbiosis') or interactions.get('symbiosis') == 'nessuna':
+        # Heuristic: Keystone clade often has mutualistic relationships
+        clade = entry.get('clade_tag', '')
+        if clade in ('Keystone', 'Bridge'):
+            interactions['symbiosis'] = 'possibili mutualismi cross-bioma (master-dd review)'
+            provenance['interactions.symbiosis'] = 'heuristic-clade-keystone'
+        else:
+            interactions['symbiosis'] = 'nessuna'
+            provenance['interactions.symbiosis'] = 'default-clade-nonkeystone'
     entry['interactions'] = interactions
+
+    # 5. visual_description (Pattern A — Caves of Qud tag-driven)
+    if not entry.get('visual_description'):
+        composed = derive_visual_description(entry)
+        if composed:
+            entry['visual_description'] = composed
+            provenance['visual_description'] = 'heuristic-pattern-A-tag-driven'
+        else:
+            provenance['visual_description'] = 'needs-master-dd'
+
+    # 6. constraints (Pattern C — RimWorld mechanical rules)
+    if not entry.get('constraints'):
+        derived = derive_constraints(entry)
+        if derived:
+            entry['constraints'] = derived
+            provenance['constraints'] = 'heuristic-pattern-C-mechanical'
+        else:
+            provenance['constraints'] = 'needs-master-dd'
 
     # Bump merged_at
     entry['merged_at'] = date.today().isoformat()
