@@ -64,15 +64,20 @@ function vcSnapshotToDebriefPayload(vcSnapshot) {
       }
     }
 
-    // Ennea: primary archetype (first fired). Array of objects with .name field.
+    // Ennea: primary triggered archetype. Real vcScoring shape is
+    // {id, triggered, condition, reason?} (NOT {.name}). Pick first triggered
+    // entry; if none, omit ennea_archetype. Codex P2 fix on PR #2277.
     const ennea = actorData.ennea_archetypes;
     if (Array.isArray(ennea) && ennea.length > 0) {
-      const primary = ennea[0];
-      if (primary && typeof primary === 'object' && typeof primary.name === 'string') {
-        entry.ennea_archetype = primary.name;
-      } else if (typeof primary === 'string') {
-        // Defensive: accept bare-string array shape too.
-        entry.ennea_archetype = primary;
+      // Pick first triggered entry (NOT [0] which may be untriggered).
+      const primary = ennea.find((e) => e && typeof e === 'object' && e.triggered === true);
+      if (primary && typeof primary.id === 'string') {
+        entry.ennea_archetype = primary.id;
+      }
+      // Defensive bare-string fallback (legacy back-compat; real buildVcSnapshot
+      // never emits bare strings).
+      else if (typeof ennea[0] === 'string') {
+        entry.ennea_archetype = ennea[0];
       }
     }
 
