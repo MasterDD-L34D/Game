@@ -1142,7 +1142,9 @@ function refreshBiomeChip() {
   const containerEl = document.getElementById('biome-chip');
   if (!containerEl) return;
   const biomeId = state.world?.biome_id || null;
-  renderBiomeChip(containerEl, biomeId);
+  // TKT-ECO-A5 — pass biome_modifiers per pressure tier indicator.
+  const biomeModifiers = state.world?.biome_modifiers || null;
+  renderBiomeChip(containerEl, biomeId, biomeModifiers);
 }
 
 // Action 7 (ADR-2026-04-28 §Action 7) — refresh CT bar HUD lookahead 3 turni.

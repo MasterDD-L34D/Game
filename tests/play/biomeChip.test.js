@@ -178,4 +178,66 @@ describe('renderBiomeChip — DOM side effect', () => {
     assert.ok(c.innerHTML.includes('Caverna'));
     assert.ok(c._attrs.title.includes('caverna'));
   });
+
+  // TKT-ECO-A5 — bioma pressure tier surface tests.
+  test('pressureTier — null biome_modifiers returns null (default)', async () => {
+    const { pressureTier } = await loadModule();
+    assert.equal(pressureTier(null), null);
+    assert.equal(pressureTier(undefined), null);
+    assert.equal(pressureTier({}), null);
+  });
+
+  test('pressureTier — savana defaults (diff_base 2) returns null', async () => {
+    const { pressureTier } = await loadModule();
+    const savanaMods = {
+      diff_base: 2.0,
+      hp_mult: 1.0,
+      pressure_mult: 0,
+      pressure_initial_bonus: 0,
+    };
+    assert.equal(pressureTier(savanaMods), null);
+  });
+
+  test('pressureTier — elevated tier (hp_mult 1.05 OR pressure_init >0)', async () => {
+    const { pressureTier } = await loadModule();
+    assert.equal(pressureTier({ hp_mult: 1.05 }), 'elevated');
+    assert.equal(pressureTier({ pressure_initial_bonus: 5 }), 'elevated');
+    assert.equal(pressureTier({ pressure_mult: 1 }), 'elevated');
+  });
+
+  test('pressureTier — severe tier (hp_mult ≥1.15 OR pressure_init ≥15)', async () => {
+    const { pressureTier } = await loadModule();
+    const abissoMods = { hp_mult: 1.15, pressure_initial_bonus: 15, pressure_mult: 3 };
+    assert.equal(pressureTier(abissoMods), 'severe');
+  });
+
+  test('formatBiomeChip — pressure indicator appended for elevated/severe tier', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('abisso_vulcanico', { hp_mult: 1.15, pressure_initial_bonus: 15 });
+    assert.ok(html.includes('biome-pressure-severe'));
+    assert.ok(html.includes('⚠⚠'));
+    const elev = formatBiomeChip('foresta', { hp_mult: 1.05 });
+    assert.ok(elev.includes('biome-pressure-elevated'));
+    assert.ok(elev.includes('⚠'));
+  });
+
+  test('renderBiomeChip — severe tier sets hostile tooltip', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'abisso_vulcanico', {
+      hp_mult: 1.15,
+      pressure_initial_bonus: 15,
+      pressure_mult: 3,
+    });
+    assert.ok(c._attrs.title.includes('OSTILE'));
+    assert.ok(c._attrs.title.includes('+15%'));
+  });
+
+  test('renderBiomeChip — null biome_modifiers preserves default tooltip', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'savana');
+    assert.ok(c._attrs.title.includes('Codex'));
+    assert.ok(!c._attrs.title.includes('OSTILE'));
+  });
 });
