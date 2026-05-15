@@ -124,6 +124,19 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
         # Preserve source label when re-merging from previous output (backup
         # input). Default 'pack-v2-full-plus' for fresh Pack v2 source.
         source = pack.get('source', 'pack-v2-full-plus')
+        # ADR-2026-05-15 Phase 4b — preserve functional clade_tag + role_tags
+        # for traitEffects.js consumer. Pack v2 source lacks these (taxonomic
+        # macro_class only); fallback to legacy YAML overlay when available,
+        # else preserve from previous merge output.
+        clade_tag = (
+            pack.get('clade_tag')
+            or (legacy.get('clade_tag') if legacy else None)
+        )
+        role_tags = (
+            pack.get('role_tags')
+            or (legacy.get('role_tags') if legacy else None)
+            or []
+        )
         return {
             'species_id': species_id,
             'scientific_name': pack.get('scientific_name', species_id.replace('_', ' ').title()),
@@ -138,6 +151,10 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'ecotypes': pack.get('ecotypes', []),
             'trait_refs': pack.get('trait_refs', []),
             'lifecycle_yaml': f'data/core/species/{species_id}_lifecycle.yaml',
+            'clade_tag': clade_tag,
+            'role_tags': role_tags if isinstance(role_tags, list) else [],
+            'legacy_slug': pack.get('legacy_slug') or (legacy.get('legacy_slug') if legacy else None),
+            'biome_affinity': pack.get('biome_affinity') or (legacy.get('biome_affinity') if legacy else None),
             'source': source,
             'merged_at': today,
         }
@@ -257,6 +274,14 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
         'ecotypes': ecotypes,
         'trait_refs': trait_refs,
         'lifecycle_yaml': None,  # legacy species without lifecycle YAML
+        # ADR-2026-05-15 Phase 4b — preserve functional clade_tag + role_tags
+        # for traitEffects.js + wikiLinkBridge.js consumers (Phase 4b refactor).
+        # Catalog classification.macro_class is taxonomic ("Reptilia"); clade_tag
+        # is functional ("Threat"/"Bridge"/"Keystone"/"Support"/"Apex").
+        'clade_tag': legacy.get('clade_tag'),
+        'role_tags': role_tags if isinstance(role_tags, list) else [],
+        'legacy_slug': legacy.get('legacy_slug') or legacy.get('slug'),
+        'biome_affinity': legacy.get('biome_affinity'),
         'source': 'legacy-yaml-merge',
         'merged_at': today,
     }

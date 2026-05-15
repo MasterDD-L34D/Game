@@ -76,6 +76,10 @@
         "TR-1805"
       ],
       "lifecycle_yaml": "data/core/species/anguis_magnetica_lifecycle.yaml",
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "legacy_slug": "anguis_magnetica",
+      "biome_affinity": "atollo_obsidiana",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -125,6 +129,10 @@
         "TR-1505"
       ],
       "lifecycle_yaml": "data/core/species/chemnotela_toxica_lifecycle.yaml",
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "legacy_slug": "chemnotela_toxica",
+      "biome_affinity": "foresta_acida",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -152,6 +160,10 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/dune_stalker_lifecycle.yaml",
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "legacy_slug": "dune_stalker",
+      "biome_affinity": "savana",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -203,6 +215,10 @@
         "TR-1105"
       ],
       "lifecycle_yaml": "data/core/species/elastovaranus_hydrus_lifecycle.yaml",
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "legacy_slug": "elastovaranus_hydrus",
+      "biome_affinity": "pianura_salina_iperarida",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -254,6 +270,10 @@
         "TR-1205"
       ],
       "lifecycle_yaml": "data/core/species/gulogluteus_scutiger_lifecycle.yaml",
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "legacy_slug": "gulogluteus_scutiger",
+      "biome_affinity": "canyons_risonanti",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -281,6 +301,10 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/leviatano_risonante_lifecycle.yaml",
+      "clade_tag": "Apex",
+      "role_tags": [],
+      "legacy_slug": "leviatano_risonante",
+      "biome_affinity": "frattura_abissale_sinaptica",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -330,6 +354,10 @@
         "TR-1305"
       ],
       "lifecycle_yaml": "data/core/species/perfusuas_pedes_lifecycle.yaml",
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "legacy_slug": "perfusuas_pedes",
+      "biome_affinity": "caverna",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -357,6 +385,10 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/polpo_araldo_sinaptico_lifecycle.yaml",
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "legacy_slug": "polpo_araldo_sinaptico",
+      "biome_affinity": "frattura_abissale_sinaptica",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -406,6 +438,10 @@
         "TR-1605"
       ],
       "lifecycle_yaml": "data/core/species/proteus_plasma_lifecycle.yaml",
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "legacy_slug": "proteus_plasma",
+      "biome_affinity": "palude",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -452,6 +488,10 @@
         "TR-2005"
       ],
       "lifecycle_yaml": "data/core/species/rupicapra_sensoria_lifecycle.yaml",
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "legacy_slug": "rupicapra_sensoria",
+      "biome_affinity": "caldera_glaciale",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -479,6 +519,10 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/sciame_larve_neurali_lifecycle.yaml",
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "legacy_slug": "sciame_larve_neurali",
+      "biome_affinity": "frattura_abissale_sinaptica",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -506,6 +550,10 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/simbionte_corallino_riflesso_lifecycle.yaml",
+      "clade_tag": "Support",
+      "role_tags": [],
+      "legacy_slug": "simbionte_corallino_riflesso",
+      "biome_affinity": "frattura_abissale_sinaptica",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -555,6 +603,10 @@
         "TR-1705"
       ],
       "lifecycle_yaml": "data/core/species/soniptera_resonans_lifecycle.yaml",
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "legacy_slug": "soniptera_resonans",
+      "biome_affinity": "canopia_ionica",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -601,6 +653,10 @@
         "TR-1405"
       ],
       "lifecycle_yaml": "data/core/species/terracetus_ambulator_lifecycle.yaml",
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "legacy_slug": "terracetus_ambulator",
+      "biome_affinity": "steppe_algoritmiche",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -649,6 +705,10 @@
         "TR-1905"
       ],
       "lifecycle_yaml": "data/core/species/umbra_alaris_lifecycle.yaml",
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "legacy_slug": "umbra_alaris",
+      "biome_affinity": "dorsale_termale_tropicale",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -701,6 +761,10 @@
         "scivolamento_magnetico"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [],
+      "legacy_slug": "electromanta_abyssalis",
+      "biome_affinity": "frattura_abissale_sinaptica",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -747,6 +811,10 @@
         "risonanza_di_branco"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "legacy_slug": "symbiotica_thermalis",
+      "biome_affinity": "dorsale_termale_tropicale",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -790,6 +858,10 @@
         "campo_di_interferenza_acustica"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "legacy_slug": "sonaraptor_dissonans",
+      "biome_affinity": "canopia_ionica",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -839,6 +911,10 @@
         "focus_frazionato"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "legacy_slug": "psionerva_montis",
+      "biome_affinity": "caldera_glaciale",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -884,6 +960,10 @@
         "moltiplicazione_per_fusione"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "legacy_slug": "fusomorpha_palustris",
+      "biome_affinity": "palude",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -923,6 +1003,14 @@
         "pungiglione_paralizzante"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable"
+      ],
+      "legacy_slug": "arenavolux-sagittalis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -956,6 +1044,14 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "scavenger",
+        "playable"
+      ],
+      "legacy_slug": "ferriscroba-detrita",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -992,6 +1088,14 @@
         "canto_di_richiamo"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser",
+        "playable"
+      ],
+      "legacy_slug": "sonapteryx-resonans",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1027,6 +1131,13 @@
         "lamelle_shear"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "legacy_slug": "lithoraptor-acutornis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1059,6 +1170,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "detritivore"
+      ],
+      "legacy_slug": "salifossa-tenebris",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1094,6 +1212,13 @@
         "membrane_pneumatofori"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "scout"
+      ],
+      "legacy_slug": "ventornis-longiala",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1129,6 +1254,13 @@
         "carapaci_ferruginosi"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator"
+      ],
+      "legacy_slug": "ferrimordax-rutilus",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1164,6 +1296,13 @@
         "zampe_radianti"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "ambusher"
+      ],
+      "legacy_slug": "pyrosaltus-celeris",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1201,6 +1340,13 @@
         "ghiandole_fango_calde"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "sentinel"
+      ],
+      "legacy_slug": "basaltocara-scutata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1238,6 +1384,13 @@
         "membrane_eliofiltranti"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "grazer"
+      ],
+      "legacy_slug": "arenaceros-placidus",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1272,6 +1425,13 @@
         "carapace_segmenti_logici"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser"
+      ],
+      "legacy_slug": "lucinerva-filata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1307,6 +1467,13 @@
         "carapace_luminiscente_abissale"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "symbiont"
+      ],
+      "legacy_slug": "radiluma-pendula",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1339,6 +1506,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "legacy_slug": "limnofalcis-serrata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1376,6 +1550,13 @@
         "tentacoli_uncinati"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "scout"
+      ],
+      "legacy_slug": "cavatympa-sonans",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1409,6 +1590,14 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Playable",
+      "role_tags": [
+        "playable",
+        "grazer",
+        "bridge"
+      ],
+      "legacy_slug": "calamipes-gracilis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1441,6 +1630,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "filter_feeder"
+      ],
+      "legacy_slug": "salisucta-alveata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1473,6 +1669,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "grazer"
+      ],
+      "legacy_slug": "nebulocornis-mollis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1508,6 +1711,13 @@
         "camere_mirage"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "support"
+      ],
+      "legacy_slug": "cryptolorca-medicata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1540,6 +1750,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "predator"
+      ],
+      "legacy_slug": "glaciolabis-nitida",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1572,6 +1789,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "omnivore"
+      ],
+      "legacy_slug": "tonitrudens-ferox",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1605,6 +1829,14 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Playable",
+      "role_tags": [
+        "playable",
+        "scout",
+        "bridge"
+      ],
+      "legacy_slug": "rubrospina-velox",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1637,6 +1869,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "support"
+      ],
+      "legacy_slug": "paludogromus-magnus",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1669,6 +1908,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "ambusher"
+      ],
+      "legacy_slug": "cinerastra-nodosa",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1701,6 +1947,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser"
+      ],
+      "legacy_slug": "zephyrovum-fidelis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1733,6 +1986,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "forager"
+      ],
+      "legacy_slug": "vitricyba-punctata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1765,6 +2025,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "detritivore"
+      ],
+      "legacy_slug": "fumarisorba-sulfurea",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1797,6 +2064,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "grazer"
+      ],
+      "legacy_slug": "arboryxis-lenis",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1831,6 +2105,13 @@
         "ghiandole_condensa_ozono"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator"
+      ],
+      "legacy_slug": "noctipedis-umbrata",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1866,6 +2147,14 @@
         "circolazione_bifasica"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "playable",
+        "grazer"
+      ],
+      "legacy_slug": "magnetocola-pastoris",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1898,6 +2187,13 @@
       ],
       "trait_refs": [],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "legacy_slug": "siltovena-bifida",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1943,6 +2239,14 @@
         "focus_frazionato"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "pack_alpha"
+      ],
+      "legacy_slug": "pulverator-gregarius",
+      "biome_affinity": "savana",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1987,6 +2291,15 @@
         "tattiche_di_branco"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable",
+        "storm-channeler"
+      ],
+      "legacy_slug": "tempestarius-psionicus",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2029,6 +2342,15 @@
         "focus_frazionato"
       ],
       "lifecycle_yaml": null,
+      "clade_tag": "Threat",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable",
+        "rage-assault"
+      ],
+      "legacy_slug": "magmocardium-furens",
+      "biome_affinity": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     }
