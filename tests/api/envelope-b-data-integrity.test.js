@@ -103,16 +103,17 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
   const catalog = JSON.parse(fs.readFileSync(catPath, 'utf8'));
 
   test('version + provenance + stats present', () => {
-    assert.equal(catalog.version, '0.2.0');
+    // ADR-2026-05-15 Q1 Option A bumped v0.2.0 -> v0.3.0 (53 species single SOT).
+    assert.equal(catalog.version, '0.3.0');
     assert.ok(catalog.merged_at);
     assert.ok(catalog.source_provenance);
     assert.ok(catalog.stats);
     assert.equal(typeof catalog.stats.total_species, 'number');
   });
 
-  test('15 Game/ canonical species merged', () => {
-    assert.equal(catalog.stats.total_species, 15);
-    assert.equal(catalog.catalog.length, 15);
+  test('53 species merged (15 lifecycle + 38 legacy residue) — ADR-2026-05-15 Phase 1', () => {
+    assert.equal(catalog.stats.total_species, 53);
+    assert.equal(catalog.catalog.length, 53);
   });
 
   test('Pack v2-full-plus metadata merged (10 species)', () => {
@@ -123,6 +124,15 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
   test('Frattura Abissale + dune_stalker as stubs (5 species)', () => {
     const stubs = catalog.catalog.filter((e) => e.source === 'game-canonical-stub');
     assert.equal(stubs.length, 5);
+  });
+
+  test('Legacy YAML residue absorbed (38 species) — ADR-2026-05-15 Phase 1', () => {
+    const legacy = catalog.catalog.filter((e) => e.source === 'legacy-yaml-merge');
+    assert.equal(
+      legacy.length,
+      38,
+      'expected 38 species absorbed from species.yaml + species_expansion.yaml',
+    );
   });
 
   test('every entry has sentience_index assigned', () => {
@@ -159,8 +169,20 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     }
   });
 
-  test('lifecycle_yaml path points to existing YAML', () => {
+  test('lifecycle_yaml path points to existing YAML (when present)', () => {
+    // ADR-2026-05-15 Phase 1: legacy-yaml-merge entries (38 species) have
+    // lifecycle_yaml=null since no per-species lifecycle file exists.
+    // Only 15 species (pack-v2-full-plus + game-canonical-stub) require lifecycle.
     for (const entry of catalog.catalog) {
+      if (entry.lifecycle_yaml === null) {
+        // legacy-yaml-merge: lifecycle missing by design (Phase 3 master-dd review may add)
+        assert.equal(
+          entry.source,
+          'legacy-yaml-merge',
+          `${entry.species_id} null lifecycle requires legacy source`,
+        );
+        continue;
+      }
       const yamlPath = path.join(REPO_ROOT, entry.lifecycle_yaml);
       assert.ok(
         fs.existsSync(yamlPath),

@@ -15,7 +15,8 @@
   "stats": {
     "total_species": 53,
     "by_source": {
-      "pack-v2-full-plus": 15,
+      "pack-v2-full-plus": 10,
+      "game-canonical-stub": 5,
       "legacy-yaml-merge": 38
     },
     "by_sentience_tier": {
@@ -150,7 +151,7 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/dune_stalker_lifecycle.yaml",
-      "source": "pack-v2-full-plus",
+      "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
     {
@@ -279,7 +280,7 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/leviatano_risonante_lifecycle.yaml",
-      "source": "pack-v2-full-plus",
+      "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
     {
@@ -355,7 +356,7 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/polpo_araldo_sinaptico_lifecycle.yaml",
-      "source": "pack-v2-full-plus",
+      "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
     {
@@ -477,7 +478,7 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/sciame_larve_neurali_lifecycle.yaml",
-      "source": "pack-v2-full-plus",
+      "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
     {
@@ -504,7 +505,7 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/simbionte_corallino_riflesso_lifecycle.yaml",
-      "source": "pack-v2-full-plus",
+      "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
     {

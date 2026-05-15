@@ -121,6 +121,9 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
         pack_tier = pack.get('sentience_index', 'T1')
         legacy_tier = legacy.get('sentience_tier') if legacy else None
         sentience = _max_tier(pack_tier, legacy_tier) if legacy_tier else pack_tier
+        # Preserve source label when re-merging from previous output (backup
+        # input). Default 'pack-v2-full-plus' for fresh Pack v2 source.
+        source = pack.get('source', 'pack-v2-full-plus')
         return {
             'species_id': species_id,
             'scientific_name': pack.get('scientific_name', species_id.replace('_', ' ').title()),
@@ -135,7 +138,7 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'ecotypes': pack.get('ecotypes', []),
             'trait_refs': pack.get('trait_refs', []),
             'lifecycle_yaml': f'data/core/species/{species_id}_lifecycle.yaml',
-            'source': 'pack-v2-full-plus',
+            'source': source,
             'merged_at': today,
         }
     # Stub for species missing from Pack v2 (Frattura Abissale + dune_stalker).
