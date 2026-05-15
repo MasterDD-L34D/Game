@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "merged_at": "2026-05-15",
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
@@ -10,7 +10,8 @@
   "sentience_assignment_method": {
     "pack_v2_plus_source": "sentience_index field verbatim",
     "non_pack_species": "RFC v0.1 heuristic mapping (animal→T1, pre-sociale→T2, emergente→T3)",
-    "legacy_yaml_residue": "sentience_tier mirror via TKT-ECO-A4-residue (PR #2271)"
+    "legacy_yaml_residue": "sentience_tier mirror via TKT-ECO-A4-residue (PR #2271)",
+    "phase_3_heuristic": "ADR-2026-05-15 Phase 3 Path Quick: functional_signature + risk_profile + interactions filled from clade_tag + trait_plan + foodweb cross-lookup. visual_description + symbiosis + constraints pending master-dd review."
   },
   "stats": {
     "total_species": 53,
@@ -661,11 +662,17 @@
         "macro_class": "Apex",
         "habitat": "unknown"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con elettromagnete_biologico + scivolamento_magnetico.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 5,
+        "vectors": [
+          "graffi",
+          "gravità distorta",
+          "nebbia disorientante",
+          "pulse magnetico",
+          "scariche elettriche"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -675,7 +682,24 @@
       "constraints": [],
       "sentience_index": "T4",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "elettromagnete_biologico",
+        "scivolamento_magnetico",
+        "integumento_bipolare",
+        "olfatto_risonanza_magnetica",
+        "seta_conduttiva_elettrica",
+        "capillari_fotovoltaici",
+        "antenne_tesla",
+        "bioantenne_gravitiche",
+        "artigli_induzione",
+        "epidermide_dielettrica",
+        "ghiandole_nebbia_ionica",
+        "filamenti_superconduttivi",
+        "filamenti_magnetotrofi",
+        "barbigli_sensori_plasma",
+        "elettromagnete_biologico",
+        "scivolamento_magnetico"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -690,10 +714,10 @@
         "macro_class": "Keystone",
         "habitat": "unknown"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con metabolismo_di_condivisione_energetica + scheletro_idraulico_a_pistoni.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 3,
         "vectors": []
       },
       "interactions": {
@@ -704,7 +728,24 @@
       "constraints": [],
       "sentience_index": "T4",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "metabolismo_di_condivisione_energetica",
+        "scheletro_idraulico_a_pistoni",
+        "filtro_metallofago",
+        "sacche_galleggianti_ascensoriali",
+        "risonanza_di_branco",
+        "capillari_fluoridici",
+        "branchie_metalloidi",
+        "batteri_termofili_endosimbiosi",
+        "denti_chelatanti",
+        "ghiandole_iodoattive",
+        "enzimi_antipredatori_algali",
+        "batteri_endosimbionti_chemio",
+        "filamenti_termoconduzione",
+        "pelli_anti_ustione",
+        "metabolismo_di_condivisione_energetica",
+        "risonanza_di_branco"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -719,10 +760,10 @@
         "macro_class": "Threat",
         "habitat": "unknown"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con cannone_sonico_a_raggio + campo_di_interferenza_acustica.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 3,
         "vectors": []
       },
       "interactions": {
@@ -733,7 +774,21 @@
       "constraints": [],
       "sentience_index": "T4",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica",
+        "sistemi_chimio_sonici",
+        "visione_multi_spettrale_amplificata",
+        "comunicazione_fotonica_coda_coda",
+        "ali_fono_risonanti",
+        "antenne_tesla",
+        "ali_solari_fotoni",
+        "denti_tuning_fork",
+        "coda_stabilizzatrice_vortex",
+        "branchie_eoliche",
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -748,11 +803,15 @@
         "macro_class": "Bridge",
         "habitat": "unknown"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con corna_psico_conduttive + focus_frazionato.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 4,
+        "vectors": [
+          "cariche",
+          "graffi",
+          "pulse magnetico"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -762,7 +821,23 @@
       "constraints": [],
       "sentience_index": "T4",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "corna_psico_conduttive",
+        "focus_frazionato",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "metabolismo_di_condivisione_energetica",
+        "lobi_risonanti_crepuscolo",
+        "antenne_tesla",
+        "capillari_criogenici",
+        "artigli_sghiaccio_glaciale",
+        "enzimi_antifase_termica",
+        "occhi_cristallo_modulare",
+        "lingua_cristallina",
+        "gusci_criovetro",
+        "corna_psico_conduttive",
+        "focus_frazionato"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -777,11 +852,14 @@
         "macro_class": "Playable",
         "habitat": "unknown"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie playable con flusso_ameboide_controllato + fagocitosi_assorbente.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 3,
+        "vectors": [
+          "panico contagioso",
+          "spore patogene"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -791,7 +869,20 @@
       "constraints": [],
       "sentience_index": "T4",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "flusso_ameboide_controllato",
+        "fagocitosi_assorbente",
+        "filtrazione_osmotica",
+        "ermafroditismo_cronologico",
+        "moltiplicazione_per_fusione",
+        "branchie_metalloidi",
+        "capillari_fluoridici",
+        "scheletro_idro_regolante",
+        "spore_paniche",
+        "branchie_microfiltri",
+        "flusso_ameboide_controllato",
+        "moltiplicazione_per_fusione"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -806,11 +897,13 @@
         "macro_class": "Apex",
         "habitat": "cinder-dunes"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con coda_contrappeso + midollo_iperattivo.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 2,
+        "vectors": [
+          "puntura"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -824,7 +917,11 @@
         "predator",
         "playable"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "coda_contrappeso",
+        "midollo_iperattivo",
+        "pungiglione_paralizzante"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -839,7 +936,7 @@
         "macro_class": "Keystone",
         "habitat": "ferrous-badlands"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -872,10 +969,10 @@
         "macro_class": "Bridge",
         "habitat": "redspur-mesa"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con ali_membrana_sonica + canto_di_richiamo.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -890,7 +987,10 @@
         "disperser",
         "playable"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "ali_membrana_sonica",
+        "canto_di_richiamo"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -905,7 +1005,7 @@
         "macro_class": "Threat",
         "habitat": "shardfall-ridge"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con intimidatore + lamelle_shear.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -922,7 +1022,10 @@
         "threat",
         "predator"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "intimidatore",
+        "lamelle_shear"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -937,7 +1040,7 @@
         "macro_class": "Keystone",
         "habitat": "saltglass-flats"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -969,7 +1072,7 @@
         "macro_class": "Bridge",
         "habitat": "redspur-mesa"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con ali_fulminee + membrane_pneumatofori.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -986,7 +1089,10 @@
         "bridge",
         "scout"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "ali_fulminee",
+        "membrane_pneumatofori"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1001,10 +1107,10 @@
         "macro_class": "Apex",
         "habitat": "ferrous-badlands"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con denti_ossidoferro + carapaci_ferruginosi.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1018,7 +1124,10 @@
         "apex",
         "predator"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "denti_ossidoferro",
+        "carapaci_ferruginosi"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1033,7 +1142,7 @@
         "macro_class": "Threat",
         "habitat": "cinder-dunes"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con denti_silice_termici + zampe_radianti.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1050,7 +1159,10 @@
         "threat",
         "ambusher"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "denti_silice_termici",
+        "zampe_radianti"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1065,11 +1177,13 @@
         "macro_class": "Support",
         "habitat": "basalt-grottos"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie support con artigli_vetrificati + ghiandole_fango_calde.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
-        "vectors": []
+        "vectors": [
+          "graffi"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -1082,7 +1196,10 @@
         "support",
         "sentinel"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "artigli_vetrificati",
+        "ghiandole_fango_calde"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1097,11 +1214,13 @@
         "macro_class": "Keystone",
         "habitat": "cinder-dunes"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con artigli_radice + membrane_eliofiltranti.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
-        "vectors": []
+        "vectors": [
+          "graffi"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -1114,7 +1233,10 @@
         "keystone",
         "grazer"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "artigli_radice",
+        "membrane_eliofiltranti"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1129,10 +1251,10 @@
         "macro_class": "Bridge",
         "habitat": "lumen-canopy"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con carapace_segmenti_logici.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1146,7 +1268,9 @@
         "bridge",
         "disperser"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "carapace_segmenti_logici"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1161,10 +1285,10 @@
         "macro_class": "Support",
         "habitat": "paleroot-tangle"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie support con biofilm_glow + carapace_luminiscente_abissale.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1178,7 +1302,10 @@
         "support",
         "symbiont"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "biofilm_glow",
+        "carapace_luminiscente_abissale"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1193,7 +1320,7 @@
         "macro_class": "Threat",
         "habitat": "ember-marsh"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1225,11 +1352,13 @@
         "macro_class": "Bridge",
         "habitat": "umbral-karst"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con antenne_microonde_cavernose + tentacoli_uncinati.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 2,
+        "vectors": [
+          "presa"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -1242,7 +1371,10 @@
         "bridge",
         "scout"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "antenne_microonde_cavernose",
+        "tentacoli_uncinati"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1257,7 +1389,7 @@
         "macro_class": "Playable",
         "habitat": "thunder-reeds"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie playable con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1290,7 +1422,7 @@
         "macro_class": "Keystone",
         "habitat": "brine-rift"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1322,7 +1454,7 @@
         "macro_class": "Support",
         "habitat": "cold-mirror-fen"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie support con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1354,10 +1486,10 @@
         "macro_class": "Keystone",
         "habitat": "umbral-karst"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con cartilagini_pseudometalliche + camere_mirage.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1371,7 +1503,10 @@
         "keystone",
         "support"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "cartilagini_pseudometalliche",
+        "camere_mirage"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1386,7 +1521,7 @@
         "macro_class": "Bridge",
         "habitat": "cold-mirror-fen"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1418,7 +1553,7 @@
         "macro_class": "Threat",
         "habitat": "thunder-reeds"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1450,7 +1585,7 @@
         "macro_class": "Playable",
         "habitat": "redspur-mesa"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie playable con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1483,7 +1618,7 @@
         "macro_class": "Keystone",
         "habitat": "cold-mirror-fen"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1515,7 +1650,7 @@
         "macro_class": "Threat",
         "habitat": "ashen-sink"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1547,7 +1682,7 @@
         "macro_class": "Bridge",
         "habitat": "mistral-hollows"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1579,7 +1714,7 @@
         "macro_class": "Threat",
         "habitat": "crystal-scree"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1611,7 +1746,7 @@
         "macro_class": "Keystone",
         "habitat": "hollow-fumaroles"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1643,7 +1778,7 @@
         "macro_class": "Bridge",
         "habitat": "lumen-canopy"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1675,10 +1810,10 @@
         "macro_class": "Apex",
         "habitat": "umbral-karst"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con ghiandole_condensa_ozono.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1692,7 +1827,9 @@
         "apex",
         "predator"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "ghiandole_condensa_ozono"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1707,10 +1844,10 @@
         "macro_class": "Support",
         "habitat": "ironbloom-wastes"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie support con circolazione_bifasica.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1725,7 +1862,9 @@
         "playable",
         "grazer"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "circolazione_bifasica"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1740,7 +1879,7 @@
         "macro_class": "Threat",
         "habitat": "silt-delta"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con adattamenti non specificati.",
       "visual_description": "",
       "risk_profile": {
         "danger_level": 1,
@@ -1772,11 +1911,14 @@
         "macro_class": "Apex",
         "habitat": "savana"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con denti_seghettati + artigli_sette_vie.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 2,
+        "vectors": [
+          "graffi",
+          "pulse magnetico"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -1790,7 +1932,16 @@
         "predator",
         "pack_alpha"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "denti_seghettati",
+        "artigli_sette_vie",
+        "voce_imperiosa",
+        "circolazione_doppia",
+        "olfatto_risonanza_magnetica",
+        "risonanza_di_branco",
+        "tattiche_di_branco",
+        "focus_frazionato"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1805,11 +1956,13 @@
         "macro_class": "Apex",
         "habitat": "cicloni_psionici"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie apex con antenne_plasmatiche_tempesta + sensori_geomagnetici.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
+        "danger_level": 2,
+        "vectors": [
+          "pulse magnetico"
+        ]
       },
       "interactions": {
         "predates_on": [],
@@ -1824,7 +1977,15 @@
         "playable",
         "storm-channeler"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "antenne_plasmatiche_tempesta",
+        "sensori_geomagnetici",
+        "carapace_luminiscente_abissale",
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche",
+        "tattiche_di_branco"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
@@ -1839,10 +2000,10 @@
         "macro_class": "Threat",
         "habitat": "abisso_vulcanico"
       },
-      "functional_signature": "",
+      "functional_signature": "Specie threat con circolazione_supercritica + sangue_piroforico.",
       "visual_description": "",
       "risk_profile": {
-        "danger_level": 1,
+        "danger_level": 2,
         "vectors": []
       },
       "interactions": {
@@ -1858,7 +2019,15 @@
         "playable",
         "rage-assault"
       ],
-      "trait_refs": [],
+      "trait_refs": [
+        "circolazione_supercritica",
+        "sangue_piroforico",
+        "coda_frusta_cinetica",
+        "ferocia",
+        "lamelle_shear",
+        "midollo_iperattivo",
+        "focus_frazionato"
+      ],
       "lifecycle_yaml": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"

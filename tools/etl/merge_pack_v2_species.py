@@ -220,7 +220,8 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
         'habitat': preferred_biomes[0] if preferred_biomes else 'unknown',
     }
 
-    # trait_refs from trait_plan if present (list of trait id strings).
+    # trait_refs from trait_plan if present.
+    # Schema: trait_plan può essere list[str|dict] OR dict {core, optional, synergies, ...}
     trait_plan = legacy.get('trait_plan', [])
     trait_refs = []
     if isinstance(trait_plan, list):
@@ -229,6 +230,12 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
                 trait_refs.append(tp)
             elif isinstance(tp, dict) and 'trait_id' in tp:
                 trait_refs.append(tp['trait_id'])
+    elif isinstance(trait_plan, dict):
+        # Canonical species.yaml schema: trait_plan = {core: [...], optional: [...], synergies: [...]}
+        for key in ('core', 'optional', 'synergies'):
+            section = trait_plan.get(key, [])
+            if isinstance(section, list):
+                trait_refs.extend(t for t in section if isinstance(t, str))
 
     # ecotypes from role_tags (defensive).
     role_tags = legacy.get('role_tags', [])
