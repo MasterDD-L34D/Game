@@ -158,11 +158,41 @@ Migrate 15 catalog species fields back to species.yaml (extend schema with rich 
 - Maintain backward-compat shape via adapter layer if needed
 - Verify AI tests baseline preserved post-refactor
 
-**Phase 4c — File removal (post-Phase-4b, ~30 min)**:
+**Phase 4c — Schema extension + Python migration + File removal (multi-step)**:
+
+Master-dd verdict 2026-05-15: Q4c-1=A + Q4c-2=C + Q4c-3=C + Q4c-4=C (full aggressive bundle).
+
+**Phase 4c.1 SHIPPED 2026-05-15** — Schema extension catalog v0.4.0:
+
+- ETL `merge_pack_v2_species.py`: preserve `default_parts` (per species nested dict) + `catalog_synergies` (top-level array verbatim from legacy)
+- Catalog v0.4.1 stats: 53 species, 20/53 default_parts populated, 1 catalog_synergies entry preserved
+- Pack v2 species fallback to legacy default_parts overlay when present
+
+**Phase 4c.2 SHIPPED 2026-05-15** — JS consumer refactor:
+
+- `apps/backend/services/combat/biomeResonance.js`: catalog primary + YAML fallback per `biome_affinity` resolve
+- `apps/backend/services/combat/synergyDetector.js`: catalog primary + YAML fallback per `default_parts` + `catalog_synergies` consume
+- Test envelope-b-data-integrity.test.js updated per v0.4.x version regex
+- 1193/1193 test:api + 417/417 AI tests verde
+
+**Phase 4c.5 PARTIAL SHIPPED 2026-05-15** — Python tools migration:
+
+- NEW `tools/py/lib/species_loader.py` (~140 LOC): unified loader catalog primary + YAML fallback. `load_species_canonical()` + `load_catalog_synergies()` API.
+- `tools/py/check_missing_traits.py` REFACTORED: catalog default + JSON parser + `_extract_traits_from_catalog()` adapter + YAML fallback walk preserved.
+- 7 altri Python tools (`export_biodiversity_bundle` + `seed_lifecycle_stubs` + `seed_skiv_saga` + `swarm_canonical_validator` + `validate_species` + `normalize_species_style` + `report_evo_species_ecosystem`): DEPRECATION HEADER added (ADR cross-link). Full migration deferred Phase 4c.6 master-dd sprint dedicato — verbose schema-specific refactor (~3-6h estimated, complex YAML-walk patterns).
+- All 8 tools Python syntax valid post-edits.
+
+**Phase 4c.6 DEFERRED — File removal** (master-dd authority, ~30 min execution post Phase 4c.5 full):
 
 - `git rm data/core/species.yaml data/core/species_expansion.yaml`
 - Copy historical snapshot to `docs/archive/historical-snapshots/2026-05-15_species-deprecation/`
-- Update `schemas/evo/species.schema.json` to reject sentience_tier field
+- BLOCKER: 7/8 Python tools still read legacy YAML directly. Removal NOW would break runtime tools.
+- UNBLOCK: master-dd Phase 4c.6 sprint dedicato refactor 7 Python tools using `species_loader.py` helper, then git rm.
+
+**Phase 4c.7 DEFERRED — Schema validator update** (post Phase 4c.6, ~15 min):
+
+- Update `schemas/evo/species.schema.json` to reject `sentience_tier` field
+- Sequence: file removal first, then schema strict mode
 
 **Phase 4d — Cross-stack Game-Database (master-dd authority, ~1-2h)**:
 

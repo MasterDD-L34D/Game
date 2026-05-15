@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """Seed lifecycle YAML stubs per le 44 species senza lifecycle.
+# DEPRECATED 2026-05-15 (ADR-2026-05-15 Phase 4c.5 partial migration):
+# Reads legacy data/core/species.yaml + species_expansion.yaml. Canonical SOT
+# moved to data/core/species/species_catalog.json (catalog v0.4.x). Full
+# migration via tools/py/lib/species_loader.py pending master-dd Phase 4c.6
+# sprint dedicato (file removal). Tool may break post Phase 4c.6 git rm —
+# refactor required to consume catalog.
+# See: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
 
 Source: docs/reports/2026-04-26-deep-analysis-creature.md GAP-1
 P0 deep-analysis residual gap: 44/45 species senza lifecycle YAML.

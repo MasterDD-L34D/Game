@@ -28,7 +28,31 @@ def load_trait_reference(path: Path) -> Set[str]:
   return set()
 
 
+def _extract_traits_from_catalog(path: Path) -> tuple[Set[str], list[str]]:
+  """Extract trait_refs from species_catalog.json v0.4.x (Phase 4c migration).
+
+  Catalog stores flat trait_refs (no core/optional/synergies distinction).
+  missing_core check downgraded to "no trait_refs at all" warning.
+  """
+  data = json.loads(path.read_text(encoding="utf-8"))
+  used: Set[str] = set()
+  missing_core: list[str] = []
+  for entry in data.get("catalog", []) or []:
+    sid = entry.get("species_id") or entry.get("id")
+    refs = entry.get("trait_refs") or []
+    if isinstance(refs, list):
+      used.update(t for t in refs if isinstance(t, str) and t)
+    if not refs and sid:
+      missing_core.append(str(sid))
+  return (used, missing_core)
+
+
 def extract_species_traits(path: Path) -> tuple[Set[str], list[str]]:
+  # ADR-2026-05-15 Phase 4c — catalog SOT primary, YAML fallback transition.
+  # If path points to JSON catalog (.json suffix), parse as catalog v0.4.x
+  # (trait_refs flat list). Otherwise YAML walk (legacy trait_plan dict).
+  if path.suffix == ".json":
+    return _extract_traits_from_catalog(path)
   data = yaml.safe_load(path.read_text(encoding="utf-8"))
   used: Set[str] = set()
   missing_core: list[str] = []
@@ -64,8 +88,9 @@ def main(argv: Iterable[str]) -> int:
     "--species",
     action="append",
     type=Path,
-    default=[Path("data/core/species.yaml")],
-    help="File YAML da controllare (può essere passato più volte).",
+    # ADR-2026-05-15 Phase 4c — default catalog SOT (legacy YAML still accepted).
+    default=[Path("data/core/species/species_catalog.json")],
+    help="File catalog JSON (canonical) o YAML legacy (deprecated). Può essere passato più volte.",
   )
   parser.add_argument(
     "--trait-reference",

@@ -19,6 +19,19 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
+// ADR-2026-05-15 Phase 4c — canonical species_catalog.json single SOT.
+// Legacy fallback species.yaml deferred Phase 4c.6 git rm post Python migration.
+const DEFAULT_SPECIES_CATALOG = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'species',
+  'species_catalog.json',
+);
 const DEFAULT_SPECIES_YAML = path.join(
   __dirname,
   '..',
@@ -79,15 +92,48 @@ const TIER_LABELS = {
 
 let _cache = null;
 
-function loadSpeciesAffinityMap({ filepath = DEFAULT_SPECIES_YAML, force = false } = {}) {
+// ADR-2026-05-15 Phase 4c — refactor 2026-05-15: canonical = species_catalog.json
+// (53 species v0.4.x con biome_affinity preserved via Phase 4b ETL).
+// Legacy fallback species.yaml during transition (Phase 4c.6 git rm pending).
+function loadSpeciesAffinityMap({
+  catalogPath = DEFAULT_SPECIES_CATALOG,
+  filepath = DEFAULT_SPECIES_YAML,
+  force = false,
+} = {}) {
   if (_cache && !force) return _cache;
-  const raw = fs.readFileSync(filepath, 'utf8');
-  const parsed = yaml.load(raw) || {};
   const map = {};
-  for (const sp of parsed.species || []) {
-    if (!sp || !sp.id) continue;
-    if (typeof sp.biome_affinity === 'string' && sp.biome_affinity) {
-      map[sp.id] = sp.biome_affinity;
+  // PRIMARY: species_catalog.json (canonical post ADR-2026-05-15).
+  let primaryLoaded = false;
+  try {
+    const text = fs.readFileSync(catalogPath, 'utf8');
+    const parsed = JSON.parse(text);
+    const list = parsed && Array.isArray(parsed.catalog) ? parsed.catalog : [];
+    for (const sp of list) {
+      if (!sp || !sp.species_id) continue;
+      if (typeof sp.biome_affinity === 'string' && sp.biome_affinity) {
+        map[sp.species_id] = sp.biome_affinity;
+      }
+    }
+    primaryLoaded = true;
+  } catch (err) {
+    if (err && err.code !== 'ENOENT') {
+      console.warn('[biomeResonance] catalog load failed:', err.message || err);
+    }
+  }
+  // FALLBACK: legacy species.yaml (back-compat Phase 4c.6 transition).
+  if (!primaryLoaded) {
+    try {
+      const raw = fs.readFileSync(filepath, 'utf8');
+      const parsed = yaml.load(raw) || {};
+      for (const sp of parsed.species || []) {
+        if (!sp || !sp.id) continue;
+        if (map[sp.id]) continue;
+        if (typeof sp.biome_affinity === 'string' && sp.biome_affinity) {
+          map[sp.id] = sp.biome_affinity;
+        }
+      }
+    } catch (err) {
+      console.warn('[biomeResonance] legacy fallback failed:', err.message || err);
     }
   }
   _cache = map;

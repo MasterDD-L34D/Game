@@ -307,7 +307,7 @@ def main():
     print(f'[enrich] interactions filled from foodweb: {interactions_filled}')
 
     # Bump version
-    catalog['version'] = '0.3.1'
+    catalog['version'] = '0.4.1'
     catalog['merged_at'] = date.today().isoformat()
     if 'sentience_assignment_method' not in catalog:
         catalog['sentience_assignment_method'] = {}

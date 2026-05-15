@@ -107,11 +107,13 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     //   v0.2.0 (PR #2262 Envelope B initial 15 species)
     //   v0.3.0 (Phase 1+2 — 53 species single SOT post legacy absorb)
     //   v0.3.1 (Phase 3 Path Quick — heuristic enrichment 38 legacy entries)
+    //   v0.4.0 (Phase 4c — schema extension default_parts + catalog_synergies)
+    //   v0.4.1 (Phase 4c enrichment re-run)
     // Accept >= 0.3.0 per Phase 1+ canonical state.
     assert.match(
       catalog.version,
-      /^0\.3\.\d+$/,
-      `catalog version must be 0.3.x (got ${catalog.version})`,
+      /^0\.[34]\.\d+$/,
+      `catalog version must be 0.3.x or 0.4.x (got ${catalog.version})`,
     );
     assert.ok(catalog.merged_at);
     assert.ok(catalog.source_provenance);

@@ -1,5 +1,5 @@
 {
-  "version": "0.3.1",
+  "version": "0.4.1",
   "merged_at": "2026-05-15",
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
@@ -27,8 +27,22 @@
       "T3": 6,
       "T0": 1,
       "T4": 5
-    }
+    },
+    "catalog_synergies_count": 1
   },
+  "catalog_synergies": [
+    {
+      "id": "echo_backstab",
+      "name": "Echo Backstab",
+      "when_all": [
+        "senses.echolocation",
+        "offense.sand_claws"
+      ],
+      "effect": {
+        "bonus_damage": 1
+      }
+    }
+  ],
   "catalog": [
     {
       "species_id": "anguis_magnetica",
@@ -80,6 +94,19 @@
       "role_tags": [],
       "legacy_slug": "anguis_magnetica",
       "biome_affinity": "atollo_obsidiana",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -133,6 +160,19 @@
       "role_tags": [],
       "legacy_slug": "chemnotela_toxica",
       "biome_affinity": "foresta_acida",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -164,6 +204,19 @@
       "role_tags": [],
       "legacy_slug": "dune_stalker",
       "biome_affinity": "savana",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -219,6 +272,19 @@
       "role_tags": [],
       "legacy_slug": "elastovaranus_hydrus",
       "biome_affinity": "pianura_salina_iperarida",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -274,6 +340,19 @@
       "role_tags": [],
       "legacy_slug": "gulogluteus_scutiger",
       "biome_affinity": "canyons_risonanti",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -305,6 +384,19 @@
       "role_tags": [],
       "legacy_slug": "leviatano_risonante",
       "biome_affinity": "frattura_abissale_sinaptica",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -358,6 +450,19 @@
       "role_tags": [],
       "legacy_slug": "perfusuas_pedes",
       "biome_affinity": "caverna",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -389,6 +494,19 @@
       "role_tags": [],
       "legacy_slug": "polpo_araldo_sinaptico",
       "biome_affinity": "frattura_abissale_sinaptica",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -442,6 +560,19 @@
       "role_tags": [],
       "legacy_slug": "proteus_plasma",
       "biome_affinity": "palude",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -492,6 +623,19 @@
       "role_tags": [],
       "legacy_slug": "rupicapra_sensoria",
       "biome_affinity": "caldera_glaciale",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -523,6 +667,19 @@
       "role_tags": [],
       "legacy_slug": "sciame_larve_neurali",
       "biome_affinity": "frattura_abissale_sinaptica",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -554,6 +711,19 @@
       "role_tags": [],
       "legacy_slug": "simbionte_corallino_riflesso",
       "biome_affinity": "frattura_abissale_sinaptica",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -607,6 +777,19 @@
       "role_tags": [],
       "legacy_slug": "soniptera_resonans",
       "biome_affinity": "canopia_ionica",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -657,6 +840,19 @@
       "role_tags": [],
       "legacy_slug": "terracetus_ambulator",
       "biome_affinity": "steppe_algoritmiche",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -709,6 +905,19 @@
       "role_tags": [],
       "legacy_slug": "umbra_alaris",
       "biome_affinity": "dorsale_termale_tropicale",
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -765,6 +974,19 @@
       "role_tags": [],
       "legacy_slug": "electromanta_abyssalis",
       "biome_affinity": "frattura_abissale_sinaptica",
+      "default_parts": {
+        "locomotion": "glider_magnetic",
+        "metabolism": "bioelectric_field",
+        "offense": [
+          "electric_pulse"
+        ],
+        "defense": [
+          "bipolar_skin"
+        ],
+        "senses": [
+          "magnetic_olfaction"
+        ]
+      },
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -815,6 +1037,19 @@
       "role_tags": [],
       "legacy_slug": "symbiotica_thermalis",
       "biome_affinity": "dorsale_termale_tropicale",
+      "default_parts": {
+        "locomotion": "thermal_floater",
+        "metabolism": "thermal_pulse",
+        "offense": [
+          "vent_steam_burst"
+        ],
+        "defense": [
+          "hydraulic_carapace"
+        ],
+        "senses": [
+          "thermal_gradient"
+        ]
+      },
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -862,6 +1097,19 @@
       "role_tags": [],
       "legacy_slug": "sonaraptor_dissonans",
       "biome_affinity": "canopia_ionica",
+      "default_parts": {
+        "locomotion": "ionic_glider",
+        "metabolism": "sonic_amplifier",
+        "offense": [
+          "sonic_lance"
+        ],
+        "defense": [
+          "sonic_dampener"
+        ],
+        "senses": [
+          "chemo_sonic_array"
+        ]
+      },
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -915,6 +1163,19 @@
       "role_tags": [],
       "legacy_slug": "psionerva_montis",
       "biome_affinity": "caldera_glaciale",
+      "default_parts": {
+        "locomotion": "cryogenic_climber",
+        "metabolism": "cryostasis_adaptive",
+        "offense": [
+          "psionic_horn"
+        ],
+        "defense": [
+          "psi_shield"
+        ],
+        "senses": [
+          "magnetic_olfaction"
+        ]
+      },
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -964,6 +1225,19 @@
       "role_tags": [],
       "legacy_slug": "fusomorpha_palustris",
       "biome_affinity": "palude",
+      "default_parts": {
+        "locomotion": "amoeboid_flow",
+        "metabolism": "phagocyte_absorber",
+        "offense": [
+          "pseudopod_lash"
+        ],
+        "defense": [
+          "osmotic_membrane"
+        ],
+        "senses": [
+          "chemo_sonic_array"
+        ]
+      },
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1011,6 +1285,7 @@
       ],
       "legacy_slug": "arenavolux-sagittalis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1052,6 +1327,7 @@
       ],
       "legacy_slug": "ferriscroba-detrita",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1096,6 +1372,7 @@
       ],
       "legacy_slug": "sonapteryx-resonans",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1138,6 +1415,7 @@
       ],
       "legacy_slug": "lithoraptor-acutornis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1177,6 +1455,7 @@
       ],
       "legacy_slug": "salifossa-tenebris",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1219,6 +1498,7 @@
       ],
       "legacy_slug": "ventornis-longiala",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1261,6 +1541,7 @@
       ],
       "legacy_slug": "ferrimordax-rutilus",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1303,6 +1584,7 @@
       ],
       "legacy_slug": "pyrosaltus-celeris",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1347,6 +1629,7 @@
       ],
       "legacy_slug": "basaltocara-scutata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1391,6 +1674,7 @@
       ],
       "legacy_slug": "arenaceros-placidus",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1432,6 +1716,7 @@
       ],
       "legacy_slug": "lucinerva-filata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1474,6 +1759,7 @@
       ],
       "legacy_slug": "radiluma-pendula",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1513,6 +1799,7 @@
       ],
       "legacy_slug": "limnofalcis-serrata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1557,6 +1844,7 @@
       ],
       "legacy_slug": "cavatympa-sonans",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1598,6 +1886,7 @@
       ],
       "legacy_slug": "calamipes-gracilis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1637,6 +1926,7 @@
       ],
       "legacy_slug": "salisucta-alveata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1676,6 +1966,7 @@
       ],
       "legacy_slug": "nebulocornis-mollis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1718,6 +2009,7 @@
       ],
       "legacy_slug": "cryptolorca-medicata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1757,6 +2049,7 @@
       ],
       "legacy_slug": "glaciolabis-nitida",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1796,6 +2089,7 @@
       ],
       "legacy_slug": "tonitrudens-ferox",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1837,6 +2131,7 @@
       ],
       "legacy_slug": "rubrospina-velox",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1876,6 +2171,7 @@
       ],
       "legacy_slug": "paludogromus-magnus",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1915,6 +2211,7 @@
       ],
       "legacy_slug": "cinerastra-nodosa",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1954,6 +2251,7 @@
       ],
       "legacy_slug": "zephyrovum-fidelis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1993,6 +2291,7 @@
       ],
       "legacy_slug": "vitricyba-punctata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2032,6 +2331,7 @@
       ],
       "legacy_slug": "fumarisorba-sulfurea",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2071,6 +2371,7 @@
       ],
       "legacy_slug": "arboryxis-lenis",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2112,6 +2413,7 @@
       ],
       "legacy_slug": "noctipedis-umbrata",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2155,6 +2457,7 @@
       ],
       "legacy_slug": "magnetocola-pastoris",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2194,6 +2497,7 @@
       ],
       "legacy_slug": "siltovena-bifida",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2247,6 +2551,7 @@
       ],
       "legacy_slug": "pulverator-gregarius",
       "biome_affinity": "savana",
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2300,6 +2605,7 @@
       ],
       "legacy_slug": "tempestarius-psionicus",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2351,6 +2657,7 @@
       ],
       "legacy_slug": "magmocardium-furens",
       "biome_affinity": null,
+      "default_parts": null,
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     }

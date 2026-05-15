@@ -137,6 +137,12 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             or (legacy.get('role_tags') if legacy else None)
             or []
         )
+        # ADR-2026-05-15 Phase 4c — preserve default_parts from legacy overlay
+        # when pack v2 lacks it. Pack v2 schema doesn't have default_parts.
+        default_parts = (
+            pack.get('default_parts')
+            or (legacy.get('default_parts') if legacy else None)
+        )
         return {
             'species_id': species_id,
             'scientific_name': pack.get('scientific_name', species_id.replace('_', ' ').title()),
@@ -155,6 +161,7 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'role_tags': role_tags if isinstance(role_tags, list) else [],
             'legacy_slug': pack.get('legacy_slug') or (legacy.get('legacy_slug') if legacy else None),
             'biome_affinity': pack.get('biome_affinity') or (legacy.get('biome_affinity') if legacy else None),
+            'default_parts': default_parts,
             'source': source,
             'merged_at': today,
         }
@@ -178,32 +185,39 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
     }
 
 
-def load_legacy_yaml(species_yaml: Path, expansion_yaml: Path) -> dict[str, dict]:
+def load_legacy_yaml(species_yaml: Path, expansion_yaml: Path) -> tuple[dict[str, dict], list]:
     """Load legacy species data from species.yaml + species_expansion.yaml.
 
     ADR-2026-05-15 Phase 1 — absorb 38 residue species into species_catalog.json.
-    Returns dict[species_id, legacy_entry_dict] across both files.
+    Phase 4c (2026-05-15): also extract catalog.synergies top-level array for
+    full SOT migration (consumed by synergyDetector.js).
+
+    Returns:
+        (legacy_species: dict[species_id, legacy_entry_dict], catalog_synergies: list)
     """
     try:
         import yaml
     except ImportError:
         print('WARN: PyYAML not installed — legacy YAML absorb skipped', file=sys.stderr)
-        return {}
+        return ({}, [])
 
     legacy = {}
+    catalog_synergies = []
     if species_yaml.exists():
         data = yaml.safe_load(species_yaml.read_text(encoding='utf-8'))
         for entry in data.get('species', []):
             sid = entry.get('id')
             if sid:
                 legacy[sid] = entry
+        # Phase 4c — preserve catalog.synergies top-level array verbatim.
+        catalog_synergies = data.get('catalog', {}).get('synergies', []) or []
     if expansion_yaml.exists():
         data = yaml.safe_load(expansion_yaml.read_text(encoding='utf-8'))
         for entry in data.get('species_examples', []):
             sid = entry.get('id')
             if sid and sid not in legacy:
                 legacy[sid] = entry
-    return legacy
+    return (legacy, catalog_synergies)
 
 
 def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
@@ -282,6 +296,9 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
         'role_tags': role_tags if isinstance(role_tags, list) else [],
         'legacy_slug': legacy.get('legacy_slug') or legacy.get('slug'),
         'biome_affinity': legacy.get('biome_affinity'),
+        # ADR-2026-05-15 Phase 4c — preserve default_parts (slot mapping) for
+        # synergyDetector.js consumer. Schema: dict {slot: str|list[str]}.
+        'default_parts': legacy.get('default_parts'),
         'source': 'legacy-yaml-merge',
         'merged_at': today,
     }
@@ -305,11 +322,14 @@ def main():
     print(f'[merge] Pack v2 species: {len(pack_index)}')
     print(f'[merge] Game/ lifecycle species: {len(lifecycle_ids)}')
 
-    # ADR-2026-05-15 Phase 1 — pre-load legacy YAML for sentience override + residue absorb.
+    # ADR-2026-05-15 Phase 1 + 4c — pre-load legacy YAML for sentience override
+    # + residue absorb + catalog.synergies preservation.
     legacy_index = {}
+    catalog_synergies = []
     if species_yaml and expansion_yaml:
-        legacy_index = load_legacy_yaml(species_yaml, expansion_yaml)
+        legacy_index, catalog_synergies = load_legacy_yaml(species_yaml, expansion_yaml)
         print(f'[merge] Legacy YAML species: {len(legacy_index)}')
+        print(f'[merge] Legacy catalog.synergies: {len(catalog_synergies)}')
 
     merged = []
     seen_ids = set()
@@ -340,7 +360,7 @@ def main():
         by_tier[entry['sentience_index']] = by_tier.get(entry['sentience_index'], 0) + 1
 
     output = {
-        'version': '0.3.0',
+        'version': '0.4.0',
         'merged_at': date.today().isoformat(),
         'source_provenance': {
             'pack_v2_full_plus': str(pack_path),
@@ -357,7 +377,12 @@ def main():
             'total_species': len(merged),
             'by_source': by_source,
             'by_sentience_tier': by_tier,
+            'catalog_synergies_count': len(catalog_synergies),
         },
+        # ADR-2026-05-15 Phase 4c — top-level catalog_synergies array preserved
+        # verbatim from legacy species.yaml catalog.synergies (consumer:
+        # apps/backend/services/combat/synergyDetector.js).
+        'catalog_synergies': catalog_synergies,
         'catalog': merged,
     }
 
