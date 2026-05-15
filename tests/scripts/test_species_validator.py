@@ -1,11 +1,10 @@
-"""CI guard species ecology block (ADR-2026-05-02).
+"""CI guard species ecology block (ADR-2026-05-02 + ADR-2026-05-15 Phase 4c.6).
 
 Background: la PR pulverator-ecology-2026-05-02 introduce un blocco
-``ecology`` opzionale alle entry di ``data/core/species.yaml`` e
-``data/core/species_expansion.yaml`` per codificare food web + pack size
-+ mutualismi machine-readable. Questo test garantisce che:
+``ecology`` opzionale per codificare food web + pack size + mutualismi
+machine-readable. Questo test garantisce che:
 
-1. Pulverator gregarius esista come 31a entry di species_expansion
+1. Pulverator gregarius esista nel canonical species catalog
    con tutti i campi richiesti (id, ecology.trophic_tier, pack_size).
 2. Ogni species_id citato nei sotto-campi
    ``prey_of / preys_on / competes_with / scavenges_from /
@@ -14,6 +13,12 @@ Background: la PR pulverator-ecology-2026-05-02 introduce un blocco
 3. La consistenza bidirectional regge: A.preys_on -> B implica
    B.prey_of -> A.
 4. La regola self-reference forbidden non sia violata.
+
+ADR-2026-05-15 Phase 4c.6 migration: data/core/species.yaml +
+species_expansion.yaml RIMOSSI. Canonical SOT = data/core/species/
+species_catalog.json (catalog v0.4.x con ecology field preserved via
+ETL legacy YAML absorb). Historical snapshot in
+docs/archive/historical-snapshots/2026-05-15_species-deprecation/.
 
 Run: ``PYTHONPATH=tools/py pytest tests/scripts/test_species_validator.py``
 Wirato anche tramite ``python3 tools/py/game_cli.py validate-datasets``
@@ -26,30 +31,24 @@ import sys
 from pathlib import Path
 
 import pytest
-import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SPECIES_CORE = REPO_ROOT / "data" / "core" / "species.yaml"
-SPECIES_EXPANSION = REPO_ROOT / "data" / "core" / "species_expansion.yaml"
 
 # Ensure tools/py importable regardless of pytest discovery.
 sys.path.insert(0, str(REPO_ROOT / "tools" / "py"))
 
 
-def _load(path: Path) -> dict:
-    with path.open("r", encoding="utf-8") as fh:
-        return yaml.safe_load(fh) or {}
-
-
 @pytest.fixture(scope="module")
 def species_entries() -> list[dict]:
-    """Flat list di tutte le species (core + expansion)."""
-    out: list[dict] = []
-    for entry in _load(SPECIES_CORE).get("species", []) or []:
-        out.append(entry)
-    for entry in _load(SPECIES_EXPANSION).get("species_examples", []) or []:
-        out.append(entry)
-    return out
+    """Flat list di tutte le species via Phase 4c canonical loader.
+
+    Catalog primary (data/core/species/species_catalog.json v0.4.x) +
+    YAML fallback (deprecated, files removed Phase 4c.6).
+    """
+    from lib.species_loader import load_species_canonical
+    species_list, _src = load_species_canonical()
+    # Filter dicts only (loader normalizes shape)
+    return [e for e in species_list if isinstance(e, dict)]
 
 
 @pytest.fixture(scope="module")

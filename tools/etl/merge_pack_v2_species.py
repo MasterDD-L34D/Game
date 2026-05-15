@@ -162,6 +162,12 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'legacy_slug': pack.get('legacy_slug') or (legacy.get('legacy_slug') if legacy else None),
             'biome_affinity': pack.get('biome_affinity') or (legacy.get('biome_affinity') if legacy else None),
             'default_parts': default_parts,
+            # ADR-2026-05-02 — preserve ecology + pack_size from legacy overlay.
+            'ecology': pack.get('ecology') or (legacy.get('ecology') if legacy else None),
+            'pack_size': pack.get('pack_size') or (legacy.get('pack_size') if legacy else None),
+            # Phase 4c.6 follow-up — preserve genus + epithet from legacy overlay.
+            'genus': pack.get('genus') or (legacy.get('genus') if legacy else None),
+            'epithet': pack.get('epithet') or (legacy.get('epithet') if legacy else None),
             'source': source,
             'merged_at': today,
         }
@@ -299,6 +305,15 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
         # ADR-2026-05-15 Phase 4c — preserve default_parts (slot mapping) for
         # synergyDetector.js consumer. Schema: dict {slot: str|list[str]}.
         'default_parts': legacy.get('default_parts'),
+        # ADR-2026-05-02 — preserve ecology block (trophic_tier, prey_of,
+        # preys_on, mutualism_with, pack_size). Consumer:
+        # tests/scripts/test_species_validator.py CI guard.
+        'ecology': legacy.get('ecology'),
+        'pack_size': legacy.get('pack_size'),
+        # Phase 4c.6 follow-up — preserve genus + epithet (legacy fields
+        # used by test_species_validator + future taxonomic sort).
+        'genus': legacy.get('genus'),
+        'epithet': legacy.get('epithet'),
         'source': 'legacy-yaml-merge',
         'merged_at': today,
     }

@@ -4,8 +4,8 @@
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
     "game_canonical_lifecycle": "data/core/species",
-    "legacy_yaml_species": "data/core/species.yaml",
-    "legacy_yaml_expansion": "data/core/species_expansion.yaml"
+    "legacy_yaml_species": "/tmp/species_etl_source.yaml",
+    "legacy_yaml_expansion": "/tmp/species_expansion_etl_source.yaml"
   },
   "sentience_assignment_method": {
     "pack_v2_plus_source": "sentience_index field verbatim",
@@ -107,6 +107,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Anguimagnus",
+      "epithet": "litoralis",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -173,6 +177,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Chemnotela",
+      "epithet": "toxifera",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -217,6 +225,29 @@
           "echolocation"
         ]
       },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 1
+        },
+        "competes_with": [
+          "pulverator_gregarius"
+        ],
+        "prey_of": [],
+        "preys_on": [],
+        "scavenges_from": [],
+        "mutualism_with": [
+          {
+            "species_id": "pulverator_gregarius",
+            "type": "indirect",
+            "note": "Pulverator pack scaccia prede da copertura agevolando ambush di Skiv (effetto raro, non intenzionale dal pack)."
+          }
+        ]
+      },
+      "pack_size": null,
+      "genus": "Arenavenator",
+      "epithet": "vagans",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -285,6 +316,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Elastovaranus",
+      "epithet": "hydraulicus",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -353,6 +388,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Gulogluteus",
+      "epithet": "scutiger",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -397,6 +436,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Resonoleviathan",
+      "epithet": "abyssalis",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -463,6 +506,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Perfusuas",
+      "epithet": "subterraneus",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -507,6 +554,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Synaptopus",
+      "epithet": "praeco",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -573,6 +624,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Proteoplasma",
+      "epithet": "amoebiforme",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -636,6 +691,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Rupicapra",
+      "epithet": "sensoria",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -680,6 +739,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Neurolarva",
+      "epithet": "gregaria",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -724,6 +787,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Corallosymbion",
+      "epithet": "speculans",
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15"
     },
@@ -790,6 +857,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Soniptera",
+      "epithet": "resonans",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -853,6 +924,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Terracetus",
+      "epithet": "ambulator",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -918,6 +993,10 @@
           "echolocation"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Umbralaris",
+      "epithet": "silens",
       "source": "pack-v2-full-plus",
       "merged_at": "2026-05-15"
     },
@@ -987,6 +1066,10 @@
           "magnetic_olfaction"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Electromanta",
+      "epithet": "abyssalis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1050,6 +1133,10 @@
           "thermal_gradient"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Symbiotica",
+      "epithet": "thermalis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1110,6 +1197,10 @@
           "chemo_sonic_array"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Sonaraptor",
+      "epithet": "dissonans",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1176,6 +1267,10 @@
           "magnetic_olfaction"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Psionerva",
+      "epithet": "montis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1238,6 +1333,10 @@
           "chemo_sonic_array"
         ]
       },
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Fusomorpha",
+      "epithet": "palustris",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1286,6 +1385,16 @@
       "legacy_slug": "arenavolux-sagittalis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      "pack_size": null,
+      "genus": "Arenavolux",
+      "epithet": "sagittalis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1328,6 +1437,16 @@
       "legacy_slug": "ferriscroba-detrita",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "scavenger",
+        "pack_size": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      "pack_size": null,
+      "genus": "Ferriscroba",
+      "epithet": "detrita",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1373,6 +1492,10 @@
       "legacy_slug": "sonapteryx-resonans",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Sonapteryx",
+      "epithet": "resonans",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1416,6 +1539,10 @@
       "legacy_slug": "lithoraptor-acutornis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Lithoraptor",
+      "epithet": "acutornis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1456,6 +1583,10 @@
       "legacy_slug": "salifossa-tenebris",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Salifossa",
+      "epithet": "tenebris",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1499,6 +1630,10 @@
       "legacy_slug": "ventornis-longiala",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Ventornis",
+      "epithet": "longiala",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1542,6 +1677,10 @@
       "legacy_slug": "ferrimordax-rutilus",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Ferrimordax",
+      "epithet": "rutilus",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1585,6 +1724,10 @@
       "legacy_slug": "pyrosaltus-celeris",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Pyrosaltus",
+      "epithet": "celeris",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1630,6 +1773,10 @@
       "legacy_slug": "basaltocara-scutata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Basaltocara",
+      "epithet": "scutata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1675,6 +1822,16 @@
       "legacy_slug": "arenaceros-placidus",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "primary_consumer",
+        "pack_size": {
+          "min": 4,
+          "max": 8
+        }
+      },
+      "pack_size": null,
+      "genus": "Arenaceros",
+      "epithet": "placidus",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1717,6 +1874,10 @@
       "legacy_slug": "lucinerva-filata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Lucinerva",
+      "epithet": "filata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1760,6 +1921,10 @@
       "legacy_slug": "radiluma-pendula",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Radiluma",
+      "epithet": "pendula",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1800,6 +1965,10 @@
       "legacy_slug": "limnofalcis-serrata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Limnofalcis",
+      "epithet": "serrata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1845,6 +2014,10 @@
       "legacy_slug": "cavatympa-sonans",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Cavatympa",
+      "epithet": "sonans",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1887,6 +2060,10 @@
       "legacy_slug": "calamipes-gracilis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Calamipes",
+      "epithet": "gracilis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1927,6 +2104,10 @@
       "legacy_slug": "salisucta-alveata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Salisucta",
+      "epithet": "alveata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -1967,6 +2148,10 @@
       "legacy_slug": "nebulocornis-mollis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Nebulocornis",
+      "epithet": "mollis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2010,6 +2195,10 @@
       "legacy_slug": "cryptolorca-medicata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Cryptolorca",
+      "epithet": "medicata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2050,6 +2239,10 @@
       "legacy_slug": "glaciolabis-nitida",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Glaciolabis",
+      "epithet": "nitida",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2090,6 +2283,10 @@
       "legacy_slug": "tonitrudens-ferox",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Tonitrudens",
+      "epithet": "ferox",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2132,6 +2329,10 @@
       "legacy_slug": "rubrospina-velox",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Rubrospina",
+      "epithet": "velox",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2172,6 +2373,10 @@
       "legacy_slug": "paludogromus-magnus",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Paludogromus",
+      "epithet": "magnus",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2212,6 +2417,10 @@
       "legacy_slug": "cinerastra-nodosa",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Cinerastra",
+      "epithet": "nodosa",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2252,6 +2461,10 @@
       "legacy_slug": "zephyrovum-fidelis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Zephyrovum",
+      "epithet": "fidelis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2292,6 +2505,10 @@
       "legacy_slug": "vitricyba-punctata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Vitricyba",
+      "epithet": "punctata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2332,6 +2549,10 @@
       "legacy_slug": "fumarisorba-sulfurea",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Fumarisorba",
+      "epithet": "sulfurea",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2372,6 +2593,10 @@
       "legacy_slug": "arboryxis-lenis",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Arboryxis",
+      "epithet": "lenis",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2414,6 +2639,16 @@
       "legacy_slug": "noctipedis-umbrata",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      "pack_size": null,
+      "genus": "Noctipedis",
+      "epithet": "umbrata",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2458,6 +2693,10 @@
       "legacy_slug": "magnetocola-pastoris",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Magnetocola",
+      "epithet": "pastoris",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2498,6 +2737,10 @@
       "legacy_slug": "siltovena-bifida",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": null,
+      "pack_size": null,
+      "genus": "Siltovena",
+      "epithet": "bifida",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2552,6 +2795,31 @@
       "legacy_slug": "pulverator-gregarius",
       "biome_affinity": "savana",
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 3,
+          "max": 5
+        },
+        "competes_with": [
+          "dune_stalker"
+        ],
+        "prey_of": [],
+        "preys_on": [],
+        "scavenges_from": [
+          "dune_stalker"
+        ],
+        "mutualism_with": [
+          {
+            "species_id": "dune_stalker",
+            "type": "indirect",
+            "note": "Pulverator pack drives prey from cover, indirectly aiding dune_stalker (Skiv) ambush; reverse interaction rare."
+          }
+        ]
+      },
+      "pack_size": null,
+      "genus": "Pulverator",
+      "epithet": "gregarius",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2606,6 +2874,20 @@
       "legacy_slug": "tempestarius-psionicus",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 3
+        },
+        "preys_on": [],
+        "prey_of": [],
+        "competes_with": [],
+        "mutualism_with": []
+      },
+      "pack_size": null,
+      "genus": "Tempestarius",
+      "epithet": "psionicus",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     },
@@ -2658,6 +2940,20 @@
       "legacy_slug": "magmocardium-furens",
       "biome_affinity": null,
       "default_parts": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 2
+        },
+        "preys_on": [],
+        "prey_of": [],
+        "competes_with": [],
+        "mutualism_with": []
+      },
+      "pack_size": null,
+      "genus": "Magmocardium",
+      "epithet": "furens",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15"
     }

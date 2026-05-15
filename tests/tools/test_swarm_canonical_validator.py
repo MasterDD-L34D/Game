@@ -73,11 +73,13 @@ def test_verify_missing_canonical_ref_hallucinated() -> None:
 
 
 def test_verify_real_path_real_fragment_keywords_align() -> None:
-    # data/core/species.yaml has many real species. Use one as fragment.
+    # ADR-2026-05-15 Phase 4c.6: data/core/species.yaml RIMOSSO. Canonical SOT
+    # = data/core/species/species_catalog.json (catalog v0.4.x). Update claim
+    # ref to canonical path (validator handles both YAML + JSON).
     claim = SwarmClaim(
         claim_id="c1",
         claim_text="dune_stalker species biome canopia desert",
-        canonical_ref="data/core/species.yaml#dune_stalker",
+        canonical_ref="data/core/species/species_catalog.json#dune_stalker",
         swarm_score=0.9,
         cycle=1,
     )
