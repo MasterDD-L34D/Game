@@ -72,12 +72,14 @@ PR #2271 commit `75cb025` (TKT-ECO-A4-residue) ha mirror-synced sentience_index 
 Migrate all 53 species from System A → System B (species_catalog.json). Deprecate species.yaml + species_expansion.yaml.
 
 **Pros**:
+
 - Single SOT clean per species (matches OD-031 "core autoritativo" direction extended)
 - Rich schema v0.2.0 forced everywhere (better catalog quality)
 - vcScoring + nebulaTelemetry consume uniform single source
 - ETL pipeline `tools/etl/merge_pack_v2_species.py` extensible per residue
 
 **Cons**:
+
 - Effort substantial: ~10-15h ETL extension per 38 residue species (rich schema fields manual fill: scientific_name + visual_description + risk_profile + ecotypes + trait_refs)
 - Legacy consumers (catalog.js, validators) require migration
 - Risk: species.yaml è referenced cross-stack (Game-Database build-time import via packs/evo_tactics_pack/docs/catalog/) — break risk
@@ -87,12 +89,14 @@ Migrate all 53 species from System A → System B (species_catalog.json). Deprec
 Mantieni dual SOT con bridge field (sentience_index mirror via PR #2271 A4-residue).
 
 **Pros**:
+
 - Zero break risk
 - Zero migration effort
 - vcScoring already works via species_catalog.json (15 species subset)
 - 38 residue species sentience_tier preserved + sentience_index mirrored = consumable se needed
 
 **Cons**:
+
 - Permanent schema drift technical debt
 - Future agents will re-discover the fork + confusion
 - Rich schema v0.2.0 NOT propagated to 38 residue (limited atlas / wiki quality per legacy entries)
@@ -103,11 +107,13 @@ Mantieni dual SOT con bridge field (sentience_index mirror via PR #2271 A4-resid
 Migrate 15 catalog species fields back to species.yaml (extend schema with rich v0.2.0 fields). Treat species_catalog.json as cache/subset for fast lookup.
 
 **Pros**:
+
 - Single SOT in legacy file
 - Existing tooling preserved
 - Pack v2-full-plus rich data preserved
 
 **Cons**:
+
 - Anti-pattern: rich schema → flat YAML (loss of validation rigor)
 - vcScoring + nebulaTelemetry need to refactor consumer back to species.yaml
 - ETL pipeline `merge_pack_v2_species.py` becomes obsolete
@@ -118,23 +124,51 @@ Migrate 15 catalog species fields back to species.yaml (extend schema with rich 
 **Option A — Canonical migration** with phased rollout:
 
 ### Phase 1 (~4-6h, autonomous)
+
 - ETL extension `tools/etl/merge_pack_v2_species.py` to absorb species.yaml + species_expansion.yaml entries
 - Heuristic populate rich schema fields (scientific_name from genus+epithet, visual_description from existing description if any, sentience_index from existing sentience_tier, ecotypes + risk_profile + interactions left empty/null per gradual fill master-dd review)
 - Output: species_catalog.json grows 15 → 53 entries
 
 ### Phase 2 (~2-3h, autonomous)
+
 - Update vcScoring + nebulaTelemetry to consume species_catalog.json full 53 species
 - Mark species.yaml + species_expansion.yaml as DEPRECATED via header comment + governance file
 
 ### Phase 3 (~1-2h, master-dd review)
+
 - Master-dd review draft scientific_name + visual_description + ecotypes for all 53 species
 - Iterate fill quality
 - Final sign-off
 
-### Phase 4 (~3-4h, master-dd authority)
-- Update Game-Database build-time import to read species_catalog.json
-- Remove species.yaml + species_expansion.yaml after sync (keep historical snapshot in `docs/archive/`)
-- Validator update to reject `sentience_tier` field
+### Phase 4 (~3-4h cross-stack, partially autonomous)
+
+**Phase 4a — In-repo autonomous (~2h, SHIPPED 2026-05-15)**:
+
+- ✅ `npm run sync:evo-pack` regen catalog mirrors (`docs/evo-tactics-pack/`, 75 file refresh)
+- ✅ `python3 tools/py/game_cli.py validate-datasets` verde 14/14 0 avvisi
+- ✅ AI tests baseline `node --test tests/ai/*.test.js` 417/417 verde
+- ✅ Backend consumers grep verify identified (2 services still read species.yaml direct):
+  - `apps/backend/services/traitEffects.js:65-66` (trait gate logic, species + expansion)
+  - `apps/backend/services/species/wikiLinkBridge.js:31` (wiki bridge SPECIES_INDEX)
+
+**Phase 4b — Backend consumer refactor (autonomous deferred, ~2-3h)**:
+
+- Refactor `traitEffects.js` to consume `species_catalog.json` instead of species.yaml + species_expansion.yaml direct read
+- Refactor `wikiLinkBridge.js` SPECIES_INDEX path → catalog-derived
+- Maintain backward-compat shape via adapter layer if needed
+- Verify AI tests baseline preserved post-refactor
+
+**Phase 4c — File removal (post-Phase-4b, ~30 min)**:
+
+- `git rm data/core/species.yaml data/core/species_expansion.yaml`
+- Copy historical snapshot to `docs/archive/historical-snapshots/2026-05-15_species-deprecation/`
+- Update `schemas/evo/species.schema.json` to reject sentience_tier field
+
+**Phase 4d — Cross-stack Game-Database (master-dd authority, ~1-2h)**:
+
+- Update Game-Database build-time import (`server/scripts/ingest/import-taxonomy.js`) to read `species_catalog.json` instead of `packs/.../docs/catalog/*.md`
+- Cross-stack scope (sibling repo `MasterDD-L34D/Game-Database`)
+- **Out-of-scope MCP** for Claude autonomous — requires master-dd manual OR explicit scope extension authorization
 
 **Total effort estimate**: ~10-15h cross-stack.
 
@@ -144,6 +178,7 @@ Migrate 15 catalog species fields back to species.yaml (extend schema with rich 
 - C (merge-back) anti-pattern rich → flat schema + diverges ai-station direction
 
 Option A respects:
+
 - "Core autoritativo additive" (OD-031) spirit (canonical = species_catalog.json with rich schema)
 - "Finish work, not conservative" (ai-station 2026-05-14 master-dd direction)
 - Single SOT principle (CLAUDE.md guardrail)
@@ -160,6 +195,7 @@ Option A respects:
 **PENDING MASTER-DD VERDICT**.
 
 Possible verdicts:
+
 - ✅ ACCEPT Option A → Claude autonomous Phase 1+2 (~6-9h), master-dd Phase 3+4
 - ⚠️ ACCEPT Option B → status quo (Phase A residue A4-residue mirror sync sufficient)
 - ❌ ACCEPT Option C → Claude autonomous merge-back (~10-12h)
@@ -183,4 +219,4 @@ Possible verdicts:
 
 ---
 
-*Sabbia segue. — Skiv*
+_Sabbia segue. — Skiv_
