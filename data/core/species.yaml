@@ -196,6 +196,7 @@ species:
     epithet: vagans
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Predatore delle Dune
     display_name_en: Dune Stalker
     display_name: Dune Stalker
@@ -261,6 +262,7 @@ species:
     epithet: praeco
     clade_tag: Keystone
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Polpo Araldo Sinaptico
     display_name_en: Synaptic Herald Octopus
     display_name: Polpo Araldo Sinaptico
@@ -285,6 +287,7 @@ species:
     epithet: gregaria
     clade_tag: Threat
     sentience_tier: T0
+    sentience_index: T0
     display_name_it: Sciame di Larve Neurali
     display_name_en: Neural Larva Swarm
     display_name: Sciame di Larve Neurali
@@ -310,6 +313,7 @@ species:
     epithet: abyssalis
     clade_tag: Apex
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Leviatano Risonante
     display_name_en: Resonant Leviathan
     display_name: Leviatano Risonante
@@ -349,6 +353,7 @@ species:
     epithet: abyssalis
     clade_tag: Apex
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Electromanta Abissale
     display_name_en: Abyssal Electromanta
     display_name: Electromanta Abissale
@@ -391,6 +396,7 @@ species:
     epithet: thermalis
     clade_tag: Keystone
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Simbionte Termale
     display_name_en: Thermal Symbiont
     display_name: Simbionte Termale
@@ -432,6 +438,7 @@ species:
     epithet: dissonans
     clade_tag: Threat
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Sonaraptor Dissonante
     display_name_en: Dissonant Sonaraptor
     display_name: Sonaraptor Dissonante
@@ -470,6 +477,7 @@ species:
     epithet: montis
     clade_tag: Bridge
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Psionerva Montano
     display_name_en: Psinerve Highlander
     display_name: Psionerva Montano
@@ -511,6 +519,7 @@ species:
     epithet: palustris
     clade_tag: Playable
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Fusomorfa Palustre
     display_name_en: Marsh Fusomorph
     display_name: Fusomorfa Palustre
@@ -545,6 +554,7 @@ species:
     epithet: speculans
     clade_tag: Support
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Simbionte Corallino Riflesso
     display_name_en: Mirror Coral Symbiont
     display_name: Simbionte Corallino Riflesso
@@ -570,6 +580,7 @@ species:
     epithet: litoralis
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: Anguilla Magnetica
     display_name_en: Magnetic Eel
     display_name: Anguis Magnetica
@@ -604,6 +615,7 @@ species:
     epithet: toxifera
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Tessitrice Tossica
     display_name_en: Toxic Weaver
     display_name: Chemnotela Toxica
@@ -640,6 +652,7 @@ species:
     epithet: hydraulicus
     clade_tag: Playable
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Varano Idraulico Elastico
     display_name_en: Hydraulic Elastic Varan
     display_name: Elastovaranus Hydrus
@@ -673,6 +686,7 @@ species:
     epithet: scutiger
     clade_tag: Playable
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Scudo Roccioso Prensile
     display_name_en: Prehensile Rock Shield
     display_name: Gulogluteus Scutiger
@@ -705,6 +719,7 @@ species:
     epithet: subterraneus
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: Miriapode delle Cripte
     display_name_en: Crypt Myriapod
     display_name: Perfusuas Pedes
@@ -735,6 +750,7 @@ species:
     epithet: amoebiforme
     clade_tag: Playable
     sentience_tier: T0
+    sentience_index: T0
     display_name_it: Plasma Proteico
     display_name_en: Protean Plasma
     display_name: Proteus Plasma
@@ -766,6 +782,7 @@ species:
     epithet: sensoria
     clade_tag: Keystone
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Stambecco Sensoriale
     display_name_en: Sensory Ibex
     display_name: Rupicapra Sensoria
@@ -799,6 +816,7 @@ species:
     epithet: resonans
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Ala Risonante
     display_name_en: Resonant Wing
     display_name: Soniptera Resonans
@@ -833,6 +851,7 @@ species:
     epithet: ambulator
     clade_tag: Keystone
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Cetaceo Terrestre
     display_name_en: Walking Cetacean
     display_name: Terracetus Ambulator
@@ -866,6 +885,7 @@ species:
     epithet: silens
     clade_tag: Playable
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Ala d'Ombra
     display_name_en: Shadow Wing
     display_name: Umbra Alaris
