@@ -274,6 +274,64 @@ function main() {
 
   // Fallback index for docs/public mirrors.
   writeJson(path.join(PACK_DOCS_DIR, 'species-index.json'), speciesIndex);
+
+  // ADR-2026-05-15 Phase 4d Scope A — emit canonical index from species_catalog.json
+  // (53 species single SOT post Phase 1-4c.7). Parallel to species-index.json
+  // (Pack v2 subset 21). Game-Database build-time import opt-in via separate
+  // configuration to consume canonical 53-entry shape.
+  // Catalog schema v0.4.x — see tools/etl/merge_pack_v2_species.py.
+  const CANONICAL_CATALOG_PATH = path.join(
+    REPO_ROOT,
+    'data',
+    'core',
+    'species',
+    'species_catalog.json',
+  );
+  if (fs.existsSync(CANONICAL_CATALOG_PATH)) {
+    const canonical = readJson(CANONICAL_CATALOG_PATH);
+    const catalogEntries = Array.isArray(canonical.catalog) ? canonical.catalog : [];
+    const canonicalIndex = {
+      schema_version: canonical.version || '0.4.x',
+      generated_at: nowIso,
+      source: 'data/core/species/species_catalog.json',
+      total_species: catalogEntries.length,
+      stats: canonical.stats || {},
+      // ADR-2026-05-15 Phase 4d Scope A — exposing full 53 canonical entries
+      // with rich schema (clade_tag, role_tags, ecology, default_parts,
+      // biome_affinity, legacy_slug, genus, epithet, sentience_index).
+      species: catalogEntries.map((entry) => ({
+        species_id: entry.species_id,
+        legacy_slug: entry.legacy_slug,
+        scientific_name: entry.scientific_name,
+        common_names: entry.common_names || [],
+        display_name_it: (entry.common_names && entry.common_names[0]) || entry.scientific_name,
+        classification: entry.classification || {},
+        clade_tag: entry.clade_tag,
+        role_tags: entry.role_tags || [],
+        ecotypes: entry.ecotypes || [],
+        biome_affinity: entry.biome_affinity,
+        sentience_index: entry.sentience_index,
+        risk_profile: entry.risk_profile || {},
+        functional_signature: entry.functional_signature || '',
+        visual_description: entry.visual_description || '',
+        interactions: entry.interactions || {},
+        ecology: entry.ecology || null,
+        pack_size: entry.pack_size || null,
+        default_parts: entry.default_parts || null,
+        trait_refs: entry.trait_refs || [],
+        genus: entry.genus,
+        epithet: entry.epithet,
+        source: entry.source,
+        lifecycle_yaml: entry.lifecycle_yaml,
+      })),
+      catalog_synergies: canonical.catalog_synergies || [],
+    };
+    writeJson(path.join(PACK_DOCS_DIR, 'species-canonical-index.json'), canonicalIndex);
+  } else {
+    console.warn(
+      '[evo-pack-catalog] species_catalog.json not found, skipping Phase 4d Scope A canonical mirror emit',
+    );
+  }
 }
 
 main();
