@@ -1043,6 +1043,14 @@ function rebroadcastCoopState(room, orch) {
         ready_list: orch.debriefReadyList(allIds),
       },
     });
+    // 2026-05-15 Bundle C follow-up — surface 4-layer psicologico payload
+    // post host-transfer (parity with routes/coop.js:broadcastCoopState).
+    if (orch.run?.debrief && typeof orch.run.debrief === 'object') {
+      room.broadcast({
+        type: 'debrief_payload',
+        payload: orch.run.debrief,
+      });
+    }
   }
 }
 
