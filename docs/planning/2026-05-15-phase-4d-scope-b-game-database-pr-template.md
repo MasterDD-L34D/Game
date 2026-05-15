@@ -12,7 +12,9 @@ tags: [phase-4d, scope-b, game-database, cross-stack, pr-template, handoff]
 
 # Phase 4d Scope B — Game-Database cross-stack PR template
 
-**Status**: 🟡 **HANDOFF master-dd manual** (cross-stack, MCP scope NON estesa a `MasterDD-L34D/Game-Database`).
+**Status**: ✅ **EXECUTION-READY** — bundle pre-fab disponibile in [`tools/scripts/phase-4d-scope-b/`](../../tools/scripts/phase-4d-scope-b/README.md). Master-dd manual cross-stack ~30-45min (MCP scope ristretto a `MasterDD-L34D/Game` only).
+
+> 🚀 **Quick start**: `bash tools/scripts/phase-4d-scope-b/execute.sh --apply /path/to/Game-Database` poi segui le istruzioni stampate. Vedi [`README.md`](../../tools/scripts/phase-4d-scope-b/README.md) execution package per workflow completo.
 
 ## Context
 
