@@ -60,6 +60,57 @@ OUTCOME_WEIGHTS = [
     ("defeat", 0.05),
 ]
 
+# ADR-2026-05-15 Phase 3 Path D extension — Skiv canonical voice diary beats
+# per outcome type (italian, sensory-desertic, prima persona).
+# Cross-link: docs/skiv/CANONICAL.md:30-37 voice rule.
+DIARY_BEATS = {
+    "victory_low": [
+        "Sabbia copre tracce sue. Allenatore mi guida bene.",
+        "Vento aiuta, ho sentito prima del balzo.",
+        "Piccolo trionfo. Ridge sopra ancora cantano.",
+    ],
+    "victory_med": [
+        "Allenatore vede crepa. Io l'ho odorata ore prima.",
+        "Branco non c'era, ma il deserto sì. Mi tiene memoria.",
+        "Caldo dell'ora bassa nel torace, vittoria nuova.",
+    ],
+    "victory_apex": [
+        "Apex caduto. Allenatore non sapeva del polso magnetico. Io sì.",
+        "Sussulto profondo dopo. La sabbia ricorda.",
+        "Predatore più grande di me, ora io sopra. Sabbia segue.",
+    ],
+    "draw": [
+        "Né vinto né perso. Allenatore valuta. Io aspetto.",
+        "Equilibrio sospeso, vento porta tracce di entrambi.",
+    ],
+    "defeat": [
+        "Ferito. Sabbia copre, allenatore raccoglie. Imparare.",
+        "Errore di lettura, predatore più rapido. Ridge tace.",
+    ],
+}
+
+# Synthetic mutation trigger thresholds (heuristic Skiv lifecycle):
+# - victory_apex count >=3 → mutation eligible (Apex resonance)
+# - cumulative XP >=500 → mutation slot unlock
+# - defeat count >=2 in window → wound-mutation (scar adaptation)
+MUTATION_TRIGGERS = {
+    "apex_resonance": {
+        "condition": lambda tally, xp: tally.get("victory_apex", 0) >= 3,
+        "mutation_id": "echo_apex_chord",
+        "diary": "Apex tre volte. Voci si combinano in coro nel petto. Allenatore noterà.",
+    },
+    "xp_threshold_unlock": {
+        "condition": lambda tally, xp: xp >= 500,
+        "mutation_id": "skiv_resonance_growth",
+        "diary": "Crescita lenta. Allenatore mi pesa, dice che cambio. Sabbia conferma.",
+    },
+    "wound_scar_adaptation": {
+        "condition": lambda tally, xp: tally.get("defeat", 0) >= 2,
+        "mutation_id": "scar_pattern_evolution",
+        "diary": "Cicatrici parlano. Imparo a leggere lo scontro prima. Ferito mi insegna.",
+    },
+}
+
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
@@ -122,14 +173,17 @@ def generate_synthetic_events(count: int, biome: str, seed: int, start_iso: str)
 
 
 def apply_events_to_state(state: dict, events: list[dict]) -> dict:
-    """Mutate state.progression based on synthetic event tally.
+    """Mutate state.progression + synthetic diary beats + mutation triggers.
 
-    Heuristic deltas (MVP scope):
+    ADR-2026-05-15 Phase 3 Path D extension — TKT-ECO-Z7 Skiv lifecycle full:
         - xp_total += sum(xp_gained per event)
         - level auto-recompute via XP ladder (heuristic 100*level^2)
         - encounter_count += len(events)
+        - synthetic diary beats appended (Skiv canonical voice)
+        - mutation triggers evaluated (apex resonance, xp threshold, wound adaptation)
         - last_synthetic_apply_ts = now
     """
+    rng = random.Random(events[0]["payload"]["synthetic_seed"] if events else 42)
     new_state = json.loads(json.dumps(state))  # deep copy
     progression = new_state.setdefault("progression", {})
     progression.setdefault("unit_id", "skiv")
@@ -151,8 +205,53 @@ def apply_events_to_state(state: dict, events: list[dict]) -> dict:
     )
     progression["last_synthetic_xp_delta"] = xp_delta
 
+    # Synthetic diary beats (Skiv canonical voice, italian, sensory-desertic).
+    diary = new_state.setdefault("diary", [])
+    outcome_tally = {}
+    for ev in events:
+        outcome = ev["payload"]["outcome"]
+        outcome_tally[outcome] = outcome_tally.get(outcome, 0) + 1
+        beats = DIARY_BEATS.get(outcome, [])
+        if beats:
+            beat = rng.choice(beats)
+            diary.append({
+                "ts": ev["ts"],
+                "outcome": outcome,
+                "biome": ev["payload"]["biome"],
+                "turn": ev["turn"],
+                "voice": beat,
+                "source": "skiv_synthetic_recompute",
+            })
+
+    # Mutation triggers evaluation (heuristic Skiv lifecycle progression).
+    triggered_mutations = new_state.setdefault("synthetic_mutations", [])
+    triggered_ids = {m.get("mutation_id") for m in triggered_mutations}
+    for trigger_id, trigger_def in MUTATION_TRIGGERS.items():
+        condition = trigger_def["condition"]
+        if condition(outcome_tally, progression["xp_total"]):
+            mid = trigger_def["mutation_id"]
+            if mid not in triggered_ids:
+                triggered_mutations.append({
+                    "mutation_id": mid,
+                    "trigger_id": trigger_id,
+                    "triggered_at": progression["last_synthetic_apply_ts"],
+                    "diary": trigger_def["diary"],
+                    "outcome_tally": outcome_tally,
+                    "xp_at_trigger": progression["xp_total"],
+                })
+                # Append diary beat for mutation
+                diary.append({
+                    "ts": progression["last_synthetic_apply_ts"],
+                    "outcome": "mutation_trigger",
+                    "turn": progression["encounter_count"],
+                    "voice": trigger_def["diary"],
+                    "mutation_id": mid,
+                    "source": "skiv_synthetic_recompute",
+                })
+
     new_state["generated_at"] = progression["last_synthetic_apply_ts"]
     new_state["origin"] = "skiv_synthetic_recompute"
+    new_state["synthetic_outcome_tally"] = outcome_tally
     return new_state
 
 

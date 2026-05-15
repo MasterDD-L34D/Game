@@ -236,6 +236,56 @@ def _get_defense(entry: dict) -> list:
         return [val]
     return list(val) if isinstance(val, list) else []
 
+
+def derive_predator_prey_heuristic(
+    entry: dict,
+    all_entries: list,
+) -> tuple[list, list]:
+    """ADR-2026-05-15 Phase 3 Path D extension — Pattern B heuristic for foodweb gap.
+
+    When foodweb scope misses (legacy species not in 5 biome files), derive
+    plausible predator-prey via clade_tag + biome_affinity heuristic:
+
+    - Apex (clade) in biome X → predates Threat/Bridge/Support in same biome
+    - Threat in biome X → predated_by Apex in biome X, predates lower-tier
+    - Bridge in biome X → cross-biome predates/predated_by
+    - Keystone → mutualism preferred over predation (return empty here)
+
+    Returns (predates_on_list, predated_by_list).
+    Conservative: only fill when biome_affinity present AND ≥2 same-biome species.
+    """
+    biome = entry.get('biome_affinity') or ''
+    clade = entry.get('clade_tag') or ''
+    if not biome:
+        return ([], [])
+
+    # Hierarchy: Apex > Threat > Bridge > Support (top eats lower)
+    tier_rank = {'Apex': 4, 'Threat': 3, 'Bridge': 2, 'Support': 1}
+    my_rank = tier_rank.get(clade, 0)
+
+    same_biome = [
+        c for c in all_entries
+        if c.get('biome_affinity') == biome
+        and c.get('species_id') != entry['species_id']
+    ]
+    if len(same_biome) < 2:
+        return ([], [])
+
+    predates_on = []
+    predated_by = []
+    for other in same_biome:
+        other_rank = tier_rank.get(other.get('clade_tag', ''), 0)
+        other_id = other.get('species_id')
+        if not other_id:
+            continue
+        if my_rank > other_rank > 0:
+            predates_on.append(other_id)
+        elif other_rank > my_rank > 0:
+            predated_by.append(other_id)
+
+    # Cap 3 each per readability + signal-to-noise
+    return (sorted(predates_on)[:3], sorted(predated_by)[:3])
+
 # Sentience tier → base danger level (T0=1, T6=5 — log-scaled).
 SENTIENCE_DANGER_BASE = {
     'T0': 1,
@@ -476,6 +526,7 @@ def enrich_entry(
     entry: dict,
     predates_on_index: dict,
     predated_by_index: dict,
+    all_entries: list | None = None,
 ) -> dict:
     """Apply Path D HYBRID heuristic fills to a legacy-yaml-merge entry (idempotent).
 
@@ -509,16 +560,33 @@ def enrich_entry(
         provenance['risk_profile.vectors'] = 'heuristic-trait-vector-map'
 
     # 4. interactions.predates_on + predated_by (Pattern B — Dwarf Fortress foodweb projection)
+    # Phase 3 Path D extension 2026-05-15: foodweb primary, clade+biome heuristic fallback.
     interactions = entry.get('interactions', {})
     if not interactions.get('predates_on') and species_id in predates_on_index:
         interactions['predates_on'] = predates_on_index[species_id]
         provenance['interactions.predates_on'] = 'heuristic-pattern-B-foodweb'
-    elif not interactions.get('predates_on'):
-        provenance['interactions.predates_on'] = 'needs-master-dd'
     if not interactions.get('predated_by') and species_id in predated_by_index:
         interactions['predated_by'] = predated_by_index[species_id]
         provenance['interactions.predated_by'] = 'heuristic-pattern-B-foodweb'
-    elif not interactions.get('predated_by'):
+
+    # Pattern B heuristic fallback (clade+biome derivation per species fuori foodweb scope)
+    if all_entries and (
+        not interactions.get('predates_on') or not interactions.get('predated_by')
+    ):
+        h_preds_on, h_preds_by = derive_predator_prey_heuristic(entry, all_entries)
+        if not interactions.get('predates_on') and h_preds_on:
+            interactions['predates_on'] = h_preds_on
+            provenance['interactions.predates_on'] = 'heuristic-pattern-B-clade-biome'
+        if not interactions.get('predated_by') and h_preds_by:
+            interactions['predated_by'] = h_preds_by
+            provenance['interactions.predated_by'] = 'heuristic-pattern-B-clade-biome'
+
+    # Final fallback: needs-master-dd se ancora vuoto
+    if not interactions.get('predates_on'):
+        interactions.setdefault('predates_on', [])
+        provenance['interactions.predates_on'] = 'needs-master-dd'
+    if not interactions.get('predated_by'):
+        interactions.setdefault('predated_by', [])
         provenance['interactions.predated_by'] = 'needs-master-dd'
 
     # symbiosis default "nessuna" if not overridden — Pattern B inference deferred
@@ -580,7 +648,7 @@ def main():
         before_interactions = bool(
             entry.get('interactions', {}).get('predates_on') or entry.get('interactions', {}).get('predated_by')
         )
-        enrich_entry(entry, predates_on_index, predated_by_index)
+        enrich_entry(entry, predates_on_index, predated_by_index, all_entries=catalog.get('catalog', []))
         after_interactions = bool(
             entry.get('interactions', {}).get('predates_on') or entry.get('interactions', {}).get('predated_by')
         )

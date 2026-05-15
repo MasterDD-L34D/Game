@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-05-15T10:42:46Z",
+  "generated_at": "2026-05-15T11:29:59Z",
   "unit_id": "skiv",
   "species_id": "dune_stalker",
   "biome_id": "savana",
@@ -25,7 +25,7 @@
   "progression": {
     "unit_id": "skiv",
     "job": "stalker",
-    "xp_total": 600,
+    "xp_total": 700,
     "level": 3,
     "picked_perks": [
       {
@@ -35,9 +35,9 @@
       }
     ],
     "previous_job": "skirmisher",
-    "encounter_count": 10,
-    "last_synthetic_apply_ts": "2026-05-15T10:42:46Z",
-    "last_synthetic_xp_delta": 390
+    "encounter_count": 15,
+    "last_synthetic_apply_ts": "2026-05-15T11:29:59Z",
+    "last_synthetic_xp_delta": 490
   },
   "cabinet": {
     "unlocked": [
@@ -224,8 +224,155 @@
         "pe_cost": 12,
         "pi_cost": 7
       }
+    },
+    {
+      "ts": "2026-05-16T09:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 1,
+      "voice": "Vento aiuta, ho sentito prima del balzo.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-16T13:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 2,
+      "voice": "Sabbia copre tracce sue. Allenatore mi guida bene.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-16T17:00:00Z",
+      "outcome": "victory_med",
+      "biome": "savana",
+      "turn": 3,
+      "voice": "Branco non c'era, ma il deserto sì. Mi tiene memoria.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-16T21:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 4,
+      "voice": "Piccolo trionfo. Ridge sopra ancora cantano.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T01:00:00Z",
+      "outcome": "victory_med",
+      "biome": "savana",
+      "turn": 5,
+      "voice": "Allenatore vede crepa. Io l'ho odorata ore prima.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T05:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 6,
+      "voice": "Sabbia copre tracce sue. Allenatore mi guida bene.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T09:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 7,
+      "voice": "Piccolo trionfo. Ridge sopra ancora cantano.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T13:00:00Z",
+      "outcome": "victory_med",
+      "biome": "savana",
+      "turn": 8,
+      "voice": "Allenatore vede crepa. Io l'ho odorata ore prima.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T17:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 9,
+      "voice": "Vento aiuta, ho sentito prima del balzo.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-17T21:00:00Z",
+      "outcome": "victory_med",
+      "biome": "savana",
+      "turn": 10,
+      "voice": "Caldo dell'ora bassa nel torace, vittoria nuova.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-18T01:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 11,
+      "voice": "Sabbia copre tracce sue. Allenatore mi guida bene.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-18T05:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 12,
+      "voice": "Piccolo trionfo. Ridge sopra ancora cantano.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-18T09:00:00Z",
+      "outcome": "victory_med",
+      "biome": "savana",
+      "turn": 13,
+      "voice": "Allenatore vede crepa. Io l'ho odorata ore prima.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-18T13:00:00Z",
+      "outcome": "draw",
+      "biome": "savana",
+      "turn": 14,
+      "voice": "Né vinto né perso. Allenatore valuta. Io aspetto.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-18T17:00:00Z",
+      "outcome": "victory_low",
+      "biome": "savana",
+      "turn": 15,
+      "voice": "Sabbia copre tracce sue. Allenatore mi guida bene.",
+      "source": "skiv_synthetic_recompute"
+    },
+    {
+      "ts": "2026-05-15T11:29:59Z",
+      "outcome": "mutation_trigger",
+      "turn": 15,
+      "voice": "Crescita lenta. Allenatore mi pesa, dice che cambio. Sabbia conferma.",
+      "mutation_id": "skiv_resonance_growth",
+      "source": "skiv_synthetic_recompute"
     }
   ],
   "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py.",
-  "origin": "skiv_synthetic_recompute"
+  "synthetic_mutations": [
+    {
+      "mutation_id": "skiv_resonance_growth",
+      "trigger_id": "xp_threshold_unlock",
+      "triggered_at": "2026-05-15T11:29:59Z",
+      "diary": "Crescita lenta. Allenatore mi pesa, dice che cambio. Sabbia conferma.",
+      "outcome_tally": {
+        "victory_low": 9,
+        "victory_med": 5,
+        "draw": 1
+      },
+      "xp_at_trigger": 700
+    }
+  ],
+  "origin": "skiv_synthetic_recompute",
+  "synthetic_outcome_tally": {
+    "victory_low": 9,
+    "victory_med": 5,
+    "draw": 1
+  }
 }
