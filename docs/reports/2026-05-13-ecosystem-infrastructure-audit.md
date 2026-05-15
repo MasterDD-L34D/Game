@@ -255,7 +255,7 @@ tags: [audit, ecosystem, biome, foodweb, species, mating, forms, mutations, skiv
 
 **Gap chiave Gate 5**: engine + routes wired, ma surface player-visible **NON verificabile in <60s gameplay** via inspection. Richiede smoke test live per confermare "user può VEDERE mutation applicata in debrief o overlay".
 
-**Status**: 🟡 **ENGINE WIRED / SURFACE UNVERIFIED** — possibile anti-pattern Gate 5 residuo. Action: smoke live nuova sessione.
+**Status**: 🟡 → **🟢 PARTIAL-WIRED** (revised post smoke 2026-05-15) — visual surface ✅ (aspect_token via `apps/play/src/render.js:586`) + MP accrual post-encounter ✅ (`apps/backend/routes/campaign.js:274` accrueEncounter) + API wrapper ✅ (`apps/play/src/api.js:402` mutationsApply). **Gap residuo minor**: standalone "choose mutation to apply" modal player-facing assente — offspringRitualPanel handles offspring (Layer 6), NOT unit-self post-encounter. M14 application path attualmente API-only (richiede UI modal o auto-apply policy).
 
 ---
 
