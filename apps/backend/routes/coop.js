@@ -259,19 +259,24 @@ function createCoopRouter({ lobby, coopStore } = {}) {
 
   router.post('/coop/combat/end', (req, res) => {
     // Host notifies combat ended (victory/defeat). MVP: host controls.
+    // 2026-05-15 Bundle C follow-up — optional `debrief_payload` carries
+    // 4-layer profilo psicologico (per_actor sentience+conviction+ennea) for
+    // phone DebriefView parity reveal. Computed by host-side combat resolver
+    // via vcScoring.buildVcSnapshot before POST. Back-compat: omit → null.
     const {
       code,
       host_token: hostToken,
       outcome = 'victory',
       xp_earned: xpEarned = 0,
       survivors = [],
+      debrief_payload: debriefPayload = null,
     } = req.body || {};
     const room = authHost(code, hostToken);
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
-      const result = orch.endCombat({ outcome, xpEarned, survivors });
+      const result = orch.endCombat({ outcome, xpEarned, survivors, debriefPayload });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, result });
     } catch (err) {

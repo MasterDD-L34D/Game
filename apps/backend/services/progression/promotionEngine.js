@@ -45,12 +45,21 @@ const DEFAULT_CONFIG_PATH = path.join(
   'promotions.yaml',
 );
 
+// 2026-05-14 OD-025-B2 ai-station — FALLBACK_CONFIG bumped v0.1.0 → v0.2.0
+// to align with promotions.yaml v0.2.0 (5-tier ladder: base → veteran →
+// captain → elite → master). Closes cross-stack drift detected post-merge
+// PR #2262: Godot v2 mirror (scripts/progression/promotion_engine.gd)
+// already at v0.2.0 — this fallback was the only stale surface. Fallback
+// only fires when YAML unreadable/js-yaml missing; in normal operation
+// loadPromotionConfig parses the canonical YAML.
 const FALLBACK_CONFIG = {
-  version: '0.1.0-fallback',
-  tier_ladder: ['base', 'veteran', 'captain'],
+  version: '0.2.0-fallback',
+  tier_ladder: ['base', 'veteran', 'captain', 'elite', 'master'],
   thresholds: {
     veteran: { kills_min: 3, objectives_min: 1 },
     captain: { kills_min: 8, objectives_min: 3, assists_min: 2 },
+    elite: { kills_min: 18, objectives_min: 6, assists_min: 6 },
+    master: { kills_min: 35, objectives_min: 12, assists_min: 12 },
   },
   rewards: {
     veteran: { hp_bonus: 5, attack_mod_bonus: 1, ability_unlock_tier: 'r2' },
@@ -59,6 +68,29 @@ const FALLBACK_CONFIG = {
       attack_mod_bonus: 2,
       initiative_bonus: 2,
       ability_unlock_tier: 'r3',
+    },
+    elite: {
+      hp_bonus: 15,
+      attack_mod_bonus: 3,
+      defense_mod_bonus: 2,
+      initiative_bonus: 3,
+      ability_unlock_tier: 'r4',
+    },
+    master: {
+      hp_bonus: 25,
+      attack_mod_bonus: 4,
+      defense_mod_bonus: 3,
+      initiative_bonus: 4,
+      crit_chance_bonus: 5,
+      ability_unlock_tier: 'r5',
+    },
+  },
+  // 2026-05-14 Phase B4 — custode tank alt-path (assists_min unreachable for
+  // tank playstyle; replace with damage_taken_min proxy). Mirror promotions.yaml.
+  job_threshold_override: {
+    custode: {
+      elite: { assists_min: null, damage_taken_min: 30 },
+      master: { assists_min: null, damage_taken_min: 75 },
     },
   },
 };
@@ -120,12 +152,15 @@ function resetCache() {
  */
 function computeUnitMetrics(unit, eventLog = []) {
   if (!unit || !unit.id) {
-    return { kills: 0, assists: 0, objectives: 0 };
+    return { kills: 0, assists: 0, objectives: 0, damage_taken: 0 };
   }
   const events = Array.isArray(eventLog) ? eventLog : [];
   let kills = 0;
   let assists = 0;
   let objectives = 0;
+  // Phase B4 — damage_taken metric for custode tank alt-path threshold.
+  // Sums damage_dealt received as target. Proxy for "tank shielded N PT".
+  let damage_taken = 0;
 
   // Walk events; track lethal blows + own contributions.
   const damagedByUnit = new Map(); // target_id → turn last damaged by unit
@@ -153,6 +188,17 @@ function computeUnitMetrics(unit, eventLog = []) {
         if (isKill) assists += 1;
       }
     }
+    // Phase B4 — damage_taken accumulator: any attack targeting our unit.
+    // Counted unconditionally (separate branch from assist tracking, which
+    // requires actorId !== unit.id). Handles edge: foe attacking us directly.
+    if (
+      action === 'attack' &&
+      targetId === unit.id &&
+      actorId !== unit.id &&
+      Number.isFinite(Number(ev.damage_dealt))
+    ) {
+      damage_taken += Number(ev.damage_dealt);
+    }
     if (
       (action === 'objective_complete' || action === 'mission_objective') &&
       (!actorId ||
@@ -162,7 +208,7 @@ function computeUnitMetrics(unit, eventLog = []) {
       if (ev.result === 'ok' || ev.result === 'completed') objectives += 1;
     }
   }
-  return { kills, assists, objectives };
+  return { kills, assists, objectives, damage_taken };
 }
 
 function currentTier(unit) {
@@ -198,8 +244,18 @@ function evaluatePromotion(unit, eventLog = [], config = null) {
       reward: null,
     };
   }
-  const threshold = cfg.thresholds?.[next] || null;
-  const reward = cfg.rewards?.[next] || null;
+  const baseThreshold = cfg.thresholds?.[next] || null;
+  // 2026-05-14 Phase B4 — merge job_threshold_override onto base threshold.
+  // Per-Job gate override (closes economy-design GAP custode tank assists_min
+  // mismatch). Override fields win per-key (null removes gate; new metric
+  // adds new gate). Shallow merge pattern parallel _mergeJobBias rewards.
+  const threshold = baseThreshold ? _mergeJobThreshold(baseThreshold, cfg, unit, next) : null;
+  const baseReward = cfg.rewards?.[next] || null;
+  // 2026-05-14 Phase B3 — surface Job-biased reward in eligibility preview
+  // so UI (PromotionPanel) can render per-Job override stats (e.g.
+  // guerriero elite → hp:18 not hp:15 base). Base preserved when no
+  // override (graceful).
+  const reward = baseReward ? _mergeJobBias(baseReward, cfg, unit, next) : null;
   if (!threshold) {
     return {
       current_tier: cur,
@@ -220,6 +276,16 @@ function evaluatePromotion(unit, eventLog = [], config = null) {
   }
   if (Number.isFinite(threshold.objectives_min) && metrics.objectives < threshold.objectives_min) {
     reasons.push(`objectives ${metrics.objectives} < ${threshold.objectives_min}`);
+  }
+  // Phase B4 — new metric path: damage_taken_min (custode tank alt-path).
+  // Allows job_threshold_override to introduce new gate metrics without
+  // breaking base schema. Gracefully skipped when metric absent.
+  if (
+    Number.isFinite(threshold.damage_taken_min) &&
+    Number.isFinite(metrics.damage_taken) &&
+    metrics.damage_taken < threshold.damage_taken_min
+  ) {
+    reasons.push(`damage_taken ${metrics.damage_taken} < ${threshold.damage_taken_min}`);
   }
   const eligible = reasons.length === 0;
   return {
@@ -257,10 +323,16 @@ function applyPromotion(unit, targetTier, config = null) {
       target_tier: targetTier,
     };
   }
-  const reward = cfg.rewards?.[targetTier];
-  if (!reward) {
+  const baseReward = cfg.rewards?.[targetTier];
+  if (!baseReward) {
     return { ok: false, error: 'no_reward_defined', target_tier: targetTier };
   }
+  // 2026-05-14 OD-025-B2 Phase B3 ai-station — job_archetype_bias engine
+  // consumption. promotions.yaml v0.2.0 schema anchor surfaces per-Job
+  // override blocks (guerriero/esploratore/tessitore/custode). Merge: base
+  // reward fields + Job override (override wins per-key). Unrecognized job_id
+  // → no override (graceful no-op = base reward applied).
+  const reward = _mergeJobBias(baseReward, cfg, unit, targetTier);
   const deltas = {};
   if (Number.isFinite(reward.hp_bonus)) {
     const before = Number(unit.hp || 0);
@@ -277,9 +349,27 @@ function applyPromotion(unit, targetTier, config = null) {
     unit.initiative = Number(unit.initiative || 0) + reward.initiative_bonus;
     deltas.initiative = reward.initiative_bonus;
   }
+  // 2026-05-14 OD-025-B2 elite/master tier stat additions (mirror Godot v2
+  // PromotionEngine._apply_reward, scripts/progression/promotion_engine.gd).
+  if (Number.isFinite(reward.defense_mod_bonus)) {
+    unit.defense_mod = Number(unit.defense_mod || 0) + reward.defense_mod_bonus;
+    deltas.defense_mod = reward.defense_mod_bonus;
+  }
+  if (Number.isFinite(reward.crit_chance_bonus)) {
+    unit.crit_chance = Number(unit.crit_chance || 0) + reward.crit_chance_bonus;
+    deltas.crit_chance = reward.crit_chance_bonus;
+  }
   if (reward.ability_unlock_tier) {
     unit.ability_tier_unlocked = reward.ability_unlock_tier;
     deltas.ability_unlock_tier = reward.ability_unlock_tier;
+  }
+  // 2026-05-14 Phase B3 — ability_id_override (tessitore Job specialization).
+  // job_archetype_bias schema: tessitore elite → ability_id_override:
+  // weave_mastery / master → weave_apex. Engine reads optional field; non-
+  // tessitore units pass through gracefully (no override field present).
+  if (typeof reward.ability_id_override === 'string' && reward.ability_id_override) {
+    unit.ability_id_unlocked = reward.ability_id_override;
+    deltas.ability_id_override = reward.ability_id_override;
   }
   unit.promotion_tier = targetTier;
   return {
@@ -288,6 +378,70 @@ function applyPromotion(unit, targetTier, config = null) {
     previous_tier: cur,
     deltas,
   };
+}
+
+// 2026-05-14 OD-025-B2 Phase B3 ai-station — job_archetype_bias merge helper.
+// Reads cfg.job_archetype_bias[unit.job_id][targetTier] and shallow-merges
+// onto the base reward Dict. Override fields win per-key. Returns base
+// untouched when:
+//   - cfg.job_archetype_bias absent
+//   - unit.job_id absent / unrecognized
+//   - target_tier override block absent (e.g. veteran/captain not specified
+//     per Job — only elite/master in current schema)
+//
+// Mirror Godot v2 scripts/progression/promotion_engine.gd _merge_job_bias.
+// 2026-05-14 Phase B4 ai-station — job_threshold_override merge helper.
+// Reads cfg.job_threshold_override[unit.job_id][targetTier] and shallow-merges
+// onto base threshold. Override semantics:
+//   - field: <number> → set new threshold (overrides base or adds new metric)
+//   - field: null     → REMOVE gate (skip threshold check)
+//
+// Closes economy-design GAP: custode tank assists_min:6/12 unreachable for
+// tank playstyle. Override replaces with damage_taken_min proxy.
+//
+// Mirror Godot v2 scripts/progression/promotion_engine.gd _merge_job_threshold.
+function _mergeJobThreshold(baseThreshold, cfg, unit, targetTier) {
+  if (
+    !cfg ||
+    typeof cfg.job_threshold_override !== 'object' ||
+    cfg.job_threshold_override === null
+  ) {
+    return baseThreshold;
+  }
+  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
+  if (!jobId) return baseThreshold;
+  const jobBlock = cfg.job_threshold_override[jobId];
+  if (!jobBlock || typeof jobBlock !== 'object') return baseThreshold;
+  const tierOverride = jobBlock[targetTier];
+  if (!tierOverride || typeof tierOverride !== 'object') return baseThreshold;
+  // Shallow merge: override fields win. null values DELETE base fields (remove
+  // gate entirely so threshold check skips them).
+  const merged = { ...baseThreshold };
+  for (const key of Object.keys(tierOverride)) {
+    if (tierOverride[key] === null) {
+      delete merged[key];
+    } else {
+      merged[key] = tierOverride[key];
+    }
+  }
+  return merged;
+}
+
+function _mergeJobBias(baseReward, cfg, unit, targetTier) {
+  if (!cfg || typeof cfg.job_archetype_bias !== 'object' || cfg.job_archetype_bias === null) {
+    return baseReward;
+  }
+  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
+  if (!jobId) return baseReward;
+  const jobBlock = cfg.job_archetype_bias[jobId];
+  if (!jobBlock || typeof jobBlock !== 'object') return baseReward;
+  const tierOverride = jobBlock[targetTier];
+  if (!tierOverride || typeof tierOverride !== 'object') return baseReward;
+  // Shallow-merge: override fields win per-key. Preserves base fields not
+  // mentioned in override (e.g. esploratore elite override has only
+  // initiative_bonus + defense_mod_bonus; base hp_bonus/attack_mod_bonus/
+  // ability_unlock_tier propagate).
+  return { ...baseReward, ...tierOverride };
 }
 
 module.exports = {
@@ -299,4 +453,8 @@ module.exports = {
   currentTier,
   nextTier,
   FALLBACK_CONFIG,
+  // Phase B3 helper exported for cross-stack parity tests + Godot v2 mirror.
+  _mergeJobBias,
+  // Phase B4 — job_threshold_override helper exported for tests.
+  _mergeJobThreshold,
 };

@@ -10343,3 +10343,75 @@ traits:
       Filamenti digestivi compattanti: ogni hit innesca micro-digestione
       di contatto. Recupera 1d6+1 HP actor passivamente. Gemello passivo
       della ability attiva digest_heal (trait_native pseudo-job).
+
+  # 2026-05-14 OD-024 ai-station — 4 traits interocettivi sensienza RFC v0.1
+  # (vault Sources/raw/sentience-rfc-2026-04/data/traits_sensienza.yaml).
+  # Inietta la base RFC interoception_traits: Propriocezione/Vestibolare/
+  # Nocicezione/Termocezione. Tier T1 = traits gateway sentience (RFC §5 MVP).
+  # Cross-link: docs/governance/open-decisions/OD-024-031-verdict-record.md
+  propriocezione:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 0
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: proprioception_balance
+    description_it: |
+      Propriocezione: +1 step equilibrio/posizione su attacchi. RFC
+      sentience v0.1 interoception_trait gateway T1. Hook: -1 stack
+      fatica sprint (folded in stamina engine separato).
+
+  equilibrio_vestibolare:
+    tier: T1
+    category: sensoriale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: vestibular_advantage
+    description_it: |
+      Equilibrio Vestibolare: vantaggio vs cadute, riduce 1 PT danno
+      da attacchi destabilizzanti. RFC sentience v0.1 interoception_trait
+      T1. Hook: penalità carico -1 tier (folded in encumbrance engine).
+
+  nocicezione:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires: ferito
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: nociception_reactive
+    description_it: |
+      Nocicezione: quando Ferito, trigger difensivi reattivi infliggono
+      +1 PT danno contrattacco. RFC sentience v0.1 interoception_trait
+      T1. Hook: ritardi -1 quando Ferito (folded in action timing).
+
+  termocezione:
+    tier: T1
+    category: sensoriale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: thermoception_resist
+    description_it: |
+      Termocezione: clock caldo/freddo + resistenze gear/ambiente.
+      Riduce 1 PT danno da attacchi termici (fuoco/ghiaccio). RFC
+      sentience v0.1 interoception_trait T1.

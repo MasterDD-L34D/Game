@@ -152,10 +152,92 @@ function classifyEvent(event) {
 }
 
 /**
+ * 2026-05-14 GSD audit narrative-design GAP-002 fix — inline evasion/retreat
+ * flag enrichment. The MOVE_EVASION + RETREAT_LOW_HP deltas read flags from
+ * event.flags but no upstream pipeline ever set them — `evasion_ratio` is a
+ * post-hoc derived raw_metric, not an event-level flag. Result: tactical
+ * evader playstyle never registered conviction delta despite axis claiming
+ * to track it. Fix: detect inline by walking events chronologically, matching
+ * (actor attack on target X) → (same actor move on next turn) → if move
+ * direction increases distance from X, flag evasion. Retreat: actor move
+ * when actor.hp ≤ HP_LOW_THRESHOLD * max_hp.
+ */
+const RETREAT_LOW_HP_RATIO = 0.35;
+
+function _manhattan(a, b) {
+  if (!a || !b) return 0;
+  return Math.abs(Number(a.x) - Number(b.x)) + Math.abs(Number(a.y) - Number(b.y));
+}
+
+function _enrichTacticalFlags(events, units) {
+  if (!Array.isArray(events) || !Array.isArray(units)) return events;
+  // Index units → max_hp lookup for retreat threshold check.
+  const maxHpByUnit = {};
+  for (const u of units) {
+    if (u && u.id) maxHpByUnit[u.id] = Number(u.max_hp || u.hp || 0);
+  }
+  // Track most recent (attacker, target, target_pos) per attacker so we can
+  // detect evasion when actor moves AWAY from that target on same/next turn.
+  const lastAttackContext = new Map(); // actor_id → { target_id, target_pos, turn }
+  // Track actor current HP (decreased on damage_taken) for retreat detection.
+  const hpByActor = {};
+  for (const u of units) {
+    if (u && u.id) hpByActor[u.id] = Number(u.hp || u.max_hp || 0);
+  }
+  for (const ev of events) {
+    if (!ev || !ev.actor_id) continue;
+    // Track damage taken (target side) to update hp_state for retreat check.
+    if (ev.action_type === 'attack' && ev.target_id && Number.isFinite(Number(ev.damage_dealt))) {
+      hpByActor[ev.target_id] = Math.max(
+        0,
+        (hpByActor[ev.target_id] || 0) - Number(ev.damage_dealt),
+      );
+    }
+    if (ev.action_type === 'attack') {
+      // Capture target position from event (target_pos) when present.
+      const tp = ev.target_pos || ev.target_position || null;
+      lastAttackContext.set(ev.actor_id, {
+        target_id: ev.target_id,
+        target_pos: tp,
+        turn: Number(ev.turn || 0),
+      });
+    } else if (ev.action_type === 'move' || ev.action_type === 'MoveAction') {
+      // Initialize flags object if absent (don't mutate read-only events
+      // contract — we only ADD flags, never replace).
+      const flags = ev.flags || (ev.flags = {});
+      // Evasion: did this actor attack recently + is this move away from
+      // that previous target's position?
+      const ctx = lastAttackContext.get(ev.actor_id);
+      const posFrom = ev.position_from || ev.from;
+      const posTo = ev.position_to || ev.to;
+      if (ctx && ctx.target_pos && posFrom && posTo) {
+        const distFrom = _manhattan(posFrom, ctx.target_pos);
+        const distTo = _manhattan(posTo, ctx.target_pos);
+        const sameOrNextTurn = Number(ev.turn || 0) - ctx.turn <= 1;
+        if (sameOrNextTurn && distTo > distFrom) {
+          flags.evasion = true;
+        }
+      }
+      // Retreat: actor HP fell below threshold of max_hp at move time.
+      const maxHp = maxHpByUnit[ev.actor_id] || 0;
+      const curHp = hpByActor[ev.actor_id] || 0;
+      if (maxHp > 0 && curHp <= Math.floor(maxHp * RETREAT_LOW_HP_RATIO)) {
+        flags.retreat = true;
+      }
+    }
+  }
+  return events;
+}
+
+/**
  * Evaluate conviction across a full event log + units roster.
  *
  * Pure aggregator: starts every actor at BASELINE (50/50/50), folds each
  * event with semantic match into the actor's axis. Returns per-actor map.
+ *
+ * 2026-05-14 GSD audit narrative-design GAP-002 fix: events pre-enriched
+ * with flags.evasion + flags.retreat inline before classification so
+ * tactical evader/retreater playstyles register conviction delta.
  *
  * @param {Array} events - session.events (action_type + actor_id + result + flags).
  * @param {Array} [units] - session.units (for actor enumeration if events empty).
@@ -174,6 +256,10 @@ function evaluateConviction(events, units = []) {
   }
 
   if (!Array.isArray(events)) return perActor;
+
+  // GSD audit fix: pre-enrich event flags inline (mutates flags only, not
+  // event identity). Safe: classifyEvent reads flags read-only post-enrich.
+  _enrichTacticalFlags(events, units);
 
   for (const event of events) {
     if (!event || !event.actor_id) continue;
@@ -253,4 +339,7 @@ module.exports = {
   evaluateConviction,
   checkRecruitGate,
   buildConvictionSnapshot,
+  // 2026-05-14 GSD audit GAP-002 fix exports — tests verify inline flag enrichment.
+  _enrichTacticalFlags,
+  RETREAT_LOW_HP_RATIO,
 };
