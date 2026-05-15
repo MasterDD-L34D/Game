@@ -21,7 +21,9 @@ function _fullActor(opts = {}) {
     aggregate_indices: {},
     mbti_axes: {},
     mbti_type: 'INTJ',
-    ennea_archetypes: opts.ennea ?? [{ name: 'Conquistatore' }],
+    ennea_archetypes: opts.ennea ?? [
+      { id: 'enn_conquistatore', triggered: true, condition: { gt: ['agg', 50] } },
+    ],
     conviction_axis: opts.axis ?? {
       utility: 60,
       liberty: 50,
@@ -47,7 +49,7 @@ test('full actor serializes all 3 layers', () => {
   const entry = out.per_actor.pg_alice;
   assert.equal(entry.sentience_tier, 'T3');
   assert.deepEqual(entry.conviction_axis, { utility: 60, liberty: 50, morality: 55 });
-  assert.equal(entry.ennea_archetype, 'Conquistatore');
+  assert.equal(entry.ennea_archetype, 'enn_conquistatore');
 });
 
 test('conviction_axis drops events_classified (4 keys → 3 canonical)', () => {
@@ -81,9 +83,16 @@ test('ennea_archetypes empty array → ennea_archetype omitted', () => {
 
 test('ennea_archetypes first object .name picked', () => {
   const out = vcSnapshotToDebriefPayload(
-    _snap({ pg: _fullActor({ ennea: [{ name: 'Mediatore' }, { name: 'Stoico' }] }) }),
+    _snap({
+      pg: _fullActor({
+        ennea: [
+          { id: 'enn_mediatore', triggered: true, condition: {} },
+          { id: 'enn_stoico', triggered: true, condition: {} },
+        ],
+      }),
+    }),
   );
-  assert.equal(out.per_actor.pg.ennea_archetype, 'Mediatore');
+  assert.equal(out.per_actor.pg.ennea_archetype, 'enn_mediatore');
 });
 
 test('ennea_archetypes bare-string fallback supported', () => {
@@ -149,4 +158,27 @@ test('integration: buildVcSnapshot output → debrief_payload schema', () => {
   assert.equal(payload.per_actor.pg_skiv.sentience_tier, 'T2');
   // Conviction axis baseline.
   assert.equal(payload.per_actor.pg_skiv.conviction_axis.utility, 50);
+});
+
+test('untriggered ennea entries are filtered out (real vcScoring shape)', () => {
+  const actor = _fullActor({
+    ennea: [
+      { id: 'enn_riformatore', triggered: false, condition: {}, reason: 'missing:agg' },
+      { id: 'enn_mediatore', triggered: false, condition: {} },
+    ],
+  });
+  const out = vcSnapshotToDebriefPayload(_snap({ pg: actor }));
+  assert.equal('ennea_archetype' in out.per_actor.pg, false);
+});
+
+test('mixed triggered/untriggered picks first triggered', () => {
+  const actor = _fullActor({
+    ennea: [
+      { id: 'enn_a', triggered: false, condition: {} },
+      { id: 'enn_b', triggered: true, condition: {} },
+      { id: 'enn_c', triggered: true, condition: {} },
+    ],
+  });
+  const out = vcSnapshotToDebriefPayload(_snap({ pg: actor }));
+  assert.equal(out.per_actor.pg.ennea_archetype, 'enn_b');
 });
