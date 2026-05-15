@@ -1260,7 +1260,11 @@
         "predated_by": [],
         "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Comportamento escalation post-confronto: aggressività cumulativa con stimoli ripetuti",
+        "Planata ionica disturbata da campi magnetici instabili (tempeste, frature)",
+        "Lancia sonica neutralizzata in nebbia densa o sale concentrato"
+      ],
       "sentience_index": "T4",
       "ecotypes": [],
       "trait_refs": [
@@ -1307,7 +1311,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -1335,7 +1339,11 @@
         "predated_by": [],
         "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
       },
-      "constraints": [],
+      "constraints": [
+        "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito",
+        "Climbing criogenico richiede pareti gelate, inattivo su terreno caldo",
+        "Corno psionico richiede contatto visivo, inefficace contro target schermati"
+      ],
       "sentience_index": "T4",
       "ecotypes": [],
       "trait_refs": [
@@ -1384,7 +1392,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "heuristic-clade-keystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -1411,7 +1419,11 @@
         "predated_by": [],
         "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Disponibile come unità giocabile: vincoli bilanciati per controllo player",
+        "Flusso amebico lento, terreno arido lo disidrata rapidamente",
+        "Frusta pseudopodica corto raggio, inefficace contro ranged tactics"
+      ],
       "sentience_index": "T4",
       "ecotypes": [],
       "trait_refs": [
@@ -1457,7 +1469,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -1612,7 +1624,9 @@
         "predated_by": [],
         "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
       },
-      "constraints": [],
+      "constraints": [
+        "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
+      ],
       "sentience_index": "T2",
       "ecotypes": [
         "bridge",
@@ -1644,7 +1658,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "heuristic-clade-keystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -2077,7 +2091,9 @@
         "predated_by": [],
         "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
       },
-      "constraints": [],
+      "constraints": [
+        "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
+      ],
       "sentience_index": "T2",
       "ecotypes": [
         "bridge",
@@ -2106,7 +2122,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "heuristic-clade-keystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -2130,7 +2146,9 @@
         "predated_by": [],
         "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Ruolo ecologico secondario: bassa difesa diretta, dipende da rete trofica intatta"
+      ],
       "sentience_index": "T2",
       "ecotypes": [
         "support",
@@ -2160,7 +2178,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -2241,7 +2259,9 @@
         "predated_by": [],
         "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
       },
-      "constraints": [],
+      "constraints": [
+        "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
+      ],
       "sentience_index": "T2",
       "ecotypes": [
         "bridge",
@@ -2271,7 +2291,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "heuristic-clade-keystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -3079,7 +3099,9 @@
         "predated_by": [],
         "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Ruolo ecologico secondario: bassa difesa diretta, dipende da rete trofica intatta"
+      ],
       "sentience_index": "T2",
       "ecotypes": [
         "support",
@@ -3110,7 +3132,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     },
     {
@@ -3354,7 +3376,9 @@
         "predated_by": [],
         "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Comportamento escalation post-confronto: aggressività cumulativa con stimoli ripetuti"
+      ],
       "sentience_index": "T3",
       "ecotypes": [
         "apex",
@@ -3403,7 +3427,7 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "heuristic-pattern-A-tag-driven",
-        "constraints": "needs-master-dd"
+        "constraints": "heuristic-pattern-C-mechanical"
       }
     }
   ]

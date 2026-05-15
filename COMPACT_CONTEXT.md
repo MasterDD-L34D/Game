@@ -8,7 +8,7 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v40 (post sessione 2026-05-11 verdict batch + scope tickets cascade + M14-B + P2 Brigandine A+B+C — 113 PR cumulative Day 5+1+2+3)
+- **Versione compact**: v42 (post sessione 2026-05-13/14/15 ecosystem audit + Q1 Option A canonical migration FULL CLOSURE + Phase 3 Path D HYBRID + Phase 4d Scope A+B prep — 44 commit PR #2271 cumulative)
 - **Ultimo aggiornamento**: 2026-05-11 ~22:00 UTC. **113 PR cumulative** (112 Game/ + 2 Game-Godot-v2 #217+#218 MERGED). Major delta v39→v40 (20 PR turno verdict + cascade): verdict batch 4 ADR/proposal ACCEPTED (#2234-#2237) + 4 cascade scoped tickets (#2238-#2247: C6 install-doc + C4 mutation Phase 6 + B1 UI polish + P6 rewind + M15 promotion + C1 Vue 3 4/5 + P6-FE rewind HUD + M15-FE promotion UI + M14-A elevation+terrain + C1-FE editor full port) + M14-B Conviction Phase A+B+C cross-fase (#2248-#2250: engine + 5 dialogue branches + 2 endpoints + 9 tests) + TKT-P2 Brigandine Phase A+B+C cross-fase (#2251-#2253: seasonal engine + 4 seasons YAML + 2 phases + 6 endpoints + 11 tests). Pillar deltas v40: P1 🟢 → 🟢++ (elevation+terrain) + P2 🟢ⁿ → 🟢ⁿ+ (Brigandine seasonal stack) + P3 🟢ⁿ confermato (promotion engine) + P4 🟡 → **🟢 candidato** (Conviction system FULL closure) + P5 🟢++ confermato + P6 🟢 → 🟢 confermato (rewind safety valve). AI 393→417 + API 988→1069 verde. **Vedi memory: project_session_2026_05_11_verdict_cascade_v40.md**.
 
 ## ⚡ TL;DR sessione 2026-05-13/14/15 — ecosystem audit + ai-station Envelope A+B+C cascade (v41)

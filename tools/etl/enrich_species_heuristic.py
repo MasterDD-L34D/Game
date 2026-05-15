@@ -208,6 +208,49 @@ CONSTRAINT_RULES = [
         lambda e: e.get('clade_tag') in ('Keystone',),
         'Mantenere vivo: rimozione collassa intera rete trofica del bioma',
     ),
+    # Phase 3 Path D extension 2026-05-15 — broader coverage 9/38 needs-master-dd:
+    (
+        lambda e: e.get('clade_tag') in ('Bridge',),
+        'Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito',
+    ),
+    (
+        lambda e: e.get('clade_tag') in ('Support',),
+        'Ruolo ecologico secondario: bassa difesa diretta, dipende da rete trofica intatta',
+    ),
+    (
+        lambda e: e.get('clade_tag') in ('Threat',) and e.get('sentience_index') in ('T3', 'T4'),
+        'Comportamento escalation post-confronto: aggressività cumulativa con stimoli ripetuti',
+    ),
+    (
+        lambda e: e.get('clade_tag') in ('Playable',),
+        'Disponibile come unità giocabile: vincoli bilanciati per controllo player',
+    ),
+    # Locomotion extension — Phase 3 Path D 2026-05-15:
+    (
+        lambda e: _get_locomotion(e) == 'ionic_glider',
+        'Planata ionica disturbata da campi magnetici instabili (tempeste, frature)',
+    ),
+    (
+        lambda e: _get_locomotion(e) == 'cryogenic_climber',
+        'Climbing criogenico richiede pareti gelate, inattivo su terreno caldo',
+    ),
+    (
+        lambda e: _get_locomotion(e) == 'amoeboid_flow',
+        'Flusso amebico lento, terreno arido lo disidrata rapidamente',
+    ),
+    # Offense extension — sonic/psionic vulnerabilities:
+    (
+        lambda e: 'sonic_lance' in _get_offense(e),
+        'Lancia sonica neutralizzata in nebbia densa o sale concentrato',
+    ),
+    (
+        lambda e: 'psionic_horn' in _get_offense(e),
+        'Corno psionico richiede contatto visivo, inefficace contro target schermati',
+    ),
+    (
+        lambda e: 'pseudopod_lash' in _get_offense(e),
+        'Frusta pseudopodica corto raggio, inefficace contro ranged tactics',
+    ),
 ]
 
 
