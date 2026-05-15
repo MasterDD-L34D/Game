@@ -458,6 +458,28 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **TKT-ECO-Z2** — Trait orphan ASSIGN-A waves 5-6 + species_expansion schema mismatch (~10-15h) — Sprint Q+ residue
 - **TKT-ECO-Z3** — Cross-Game-Database ancestors integration (~6h) — OD-004 reopen needed
 - **TKT-ECO-Z4** — Trait Editor ecosystem layer support (~12h) — Trait Editor app extension, deferred Sprint S+
+- **TKT-ECO-Z6** — Mutations UI standalone modal application (M14 unit-self post-encounter) (~4-6h) — **NEW 2026-05-15 completionist principle**:
+  - Source: TKT-ECO-A1 smoke verify finding (PR #2271) → M14 mutation_catalog è PARTIAL-WIRED (visual aspect_token + MP accrual + API wrapper) ma standalone "choose mutation to apply" modal player-facing assente
+  - offspringRitualPanel.js handles offspring mutations (Layer 6 mating output), NOT unit-self M14 post-encounter
+  - Reuse path: nuovo `apps/play/src/mutationsPanel.js` (pattern formsPanel.js) o estensione inline `debriefPanel.js` post-encounter
+  - Gate: master-dd verdict scope (modal dedicated vs auto-apply policy backend-driven)
+  - Out-of-scope this session, tracked Sprint M14 extension
+
+- **TKT-ECO-Z7** — Skiv state.json recompute post-encounter live playthrough (~deferred Phase 4) — **NEW 2026-05-15 completionist principle**:
+  - Source: COMPACT_CONTEXT v37 deferred backlog ("Skiv state.json recompute live") + handoff doc 2026-04-25
+  - Phase 4 dependency: NON backfillable senza run reale playthrough (richiede master-dd o playtest #2 userland session)
+  - Reuse path: `tools/py/seed_skiv_saga.py` extended con post-encounter state mutation parser (consume session.events log)
+  - Gate: Playtest #2 userland completion + master-dd OK recompute scope
+  - Out-of-scope this session, tracked Phase 4 narrative arc
+
+- **TKT-ECO-Z8** — Onboarding diegetic reveal "ecosistema vivo" (~8h, museum Disco pattern M-2026-04-27-003) — **NEW 2026-05-15 completionist principle reinforced**:
+  - Source: audit §2.7 + plan TKT-ECO-Z1 (originally) + 8/8 OD ai-station closure milestone
+  - Pattern: Disco Elysium thought cabinet diegetic reveal — info layered, prima si vede generic poi diegetic reveal "ecosistema interconnesso"
+  - V1 onboarding 60s shipped PR #1726 ha già 3-stage overlay base — extension a 4-stage con ecosistema reveal post-2-encounters
+  - Depend: TKT-ECO-B4 atlas mini-map shipped (Godot v2 #260 scaffold) → atlas data pronta per onboarding overlay
+  - Gate: Envelope C asset commission Wildermyth biome silhouettes complete (master-dd manual)
+  - Out-of-scope this session, tracked sprint dedicato post-Atlas
+
 - **TKT-ECO-Z5** — Vault repo Pathfinder bestiari import (~6-10h) — **NEW 2026-05-13 sera** post cross-session integration:
   - Source: [vault PR #1](https://github.com/MasterDD-L34D/vault/pull/1) — 50 cards atomizzate Bestiary 1 bio subset (30 animali + 15 parassiti + 5 vegetali) + reusable script `pathfinder_bestiary_atomize.py` (379 LOC stdlib-only)
   - **NOT audit-flagged** (audit 2026-05-13 commit `c157553` + `5ca3c07` did NOT mention Pathfinder — verified via grep) — cross-session integration scope only

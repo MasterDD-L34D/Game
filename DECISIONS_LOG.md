@@ -3,7 +3,7 @@
 > **Scope**: index cronologico delle decisioni architetturali. Punto d'ingresso per capire "perché le cose sono così".
 > **Sorgente canonical**: `docs/adr/*.md`. Questo file è l'index navigabile, non la fonte primaria.
 > **Aggiornamento**: manuale a ogni nuovo ADR mergiato in main.
-> **Totale ADR**: 30 (aggiornato 2026-04-24)
+> **Totale ADR**: 42 (aggiornato 2026-05-15 — 30 cumulativi 2025+2026-04 + 12 nuovi 2026-05 sezione bottom)
 
 ---
 
@@ -105,6 +105,25 @@
 | [ADR-2026-04-21b](docs/adr/ADR-2026-04-21b-onboarding-narrative-60s.md)     | Onboarding narrativo 60s (3 scelte identitarie pre-Act 0)    | Accepted | `#onboarding` `#narrative`    |
 | [ADR-2026-04-21c](docs/adr/ADR-2026-04-21c-trait-environmental-costs.md)    | Costo ambientale trait (pilot 4 trait × 3 biomi)             | Accepted | `#content` `#balance`         |
 | [ADR-2026-04-25](docs/adr/ADR-2026-04-25-skiv-as-monitor.md)                | Skiv-as-Monitor — creature canonica reagisce a git events    | Accepted | `#cross-cutting` `#skiv`      |
+
+### 2026-05 — Cutover Godot v2 + Sprint Q+ closure + ai-station methodology
+
+| ID                                                                                                                  | Titolo                                                                           | Status   | Tag                              |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------- | -------------------------------- |
+| [ADR-2026-05-02](docs/adr/ADR-2026-05-02-species-ecology-schema.md)                                                 | Species ecology schema canonical                                                 | Accepted | `#content` `#species`            |
+| [ADR-2026-05-04 cutover](docs/adr/ADR-2026-05-04-cutover-godot-v2-decision-gate.md)                                 | Cutover Godot v2 decision gate                                                   | Accepted | `#architecture` `#godot-v2`      |
+| [ADR-2026-05-04 ennea](docs/adr/ADR-2026-05-04-ennea-taxonomy-canonical.md)                                         | Ennea 9-canon taxonomy canonical                                                 | Accepted | `#personality` `#ennea`          |
+| [ADR-2026-05-05](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md)                                         | Cutover Godot v2 Fase 3 formal (PROPOSED → ACCEPTED Phase A 2026-05-07)         | Accepted | `#architecture` `#godot-v2`      |
+| [ADR-2026-05-06](docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md)                                            | Drop Hermeticormus Sprint L                                                      | Accepted | `#scope`                         |
+| [ADR-2026-05-07 abort](docs/adr/ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md)                            | Abort web quickwins reincarnate Godot                                            | Accepted | `#frontend` `#godot-v2`          |
+| [ADR-2026-05-07 auto-merge](docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md)                                 | Auto-merge L3 authorization (Claude-shipped PR Game/+Godot v2)                  | Accepted | `#process` `#automation`         |
+| [ADR-2026-05-10 mc-recovery](docs/adr/ADR-2026-05-10-mission-console-recovery.md)                                   | Mission console recovery                                                         | Accepted | `#frontend` `#mission-console`   |
+| [ADR-2026-05-10 mut-trigger](docs/adr/ADR-2026-05-10-mutation-auto-trigger-evaluator.md)                            | Mutation Phase 4 auto-trigger evaluator                                          | Accepted | `#mutations` `#engine`           |
+| [ADR-2026-05-10 sprint-q](docs/adr/ADR-2026-05-10-sprint-q-plus-lineage-merge-shipped.md)                           | Sprint Q+ Lineage merge shipped                                                  | Accepted | `#sprint` `#progression`         |
+| [ADR-2026-05-10 trait-editor](docs/adr/ADR-2026-05-10-trait-editor-angularjs-migration.md)                          | Trait Editor AngularJS → Vue 3 migration (Path C)                                | Accepted | `#frontend` `#trait-editor`      |
+| [ADR-2026-05-11](docs/adr/ADR-2026-05-11-species-expansion-schema-canonical-migration.md)                           | species_expansion schema canonical migration (Path B variant trait_plan)        | Accepted | `#content` `#species` `#schema`  |
+
+**Totale ADR aggiornato 2026-05-15: 42** (30 + 12 nuovi 2026-05).
 
 ---
 

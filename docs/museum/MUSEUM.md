@@ -17,7 +17,8 @@
 - [Cobalt Core Position-Conditional Bonus](cards/indie-cobalt-core-position-bonus.md) — **4/5** · P1+P5 depth, abilityExecutor position_condition, post-Bundle A · deferred
 - [Banner Saga Caravan Supply Attrition](cards/indie-banner-saga-caravan-attrition.md) — **4/5** · P6 supply cross-mission, campaignResourceTracker.js, post-playtest · deferred
 - [Banner Saga Permadeath Opt-In](cards/indie-banner-saga-permadeath-optin.md) — **4/5** · P6 consequences, party.yaml hardcore preset ~4h, pending D3 · deferred
-- [Mating Engine D1+D2 Orphan](cards/mating_nido-engine-orphan.md) — **5/5** · runtime LIVE (469 LOC + 7 endpoint), zero frontend · OD-001 correction needed
+- [Mating Engine D1+D2 Orphan](cards/mating_nido-engine-orphan.md) — **5/5** · ✅ FULL CLOSURE 2026-04-27 (OD-001 Path A, PR #1876+#1879+#1911) · engine 1053 LOC + 7 endpoint + frontend wire complete · revived
+- [L7c Promotions ORPHAN claim discarded](cards/promotions-orphan-claim-discarded.md) — **4/5** · NEW 2026-05-13 · false negative cross-validation lessons codify per Explore agent · curated
 - [Triangle Strategy MBTI Transfer](cards/personality-triangle-strategy-transfer.md) — **5/5** · 3 Proposals concrete P4 closure, mai citato BACKLOG · forgotten
 - [Sentience Traits v1.0 — tier T1-T6 + interoception](cards/cognitive_traits-sentience-tiers-v1.md) — **5/5** · Skiv Sprint C diary unblock 3h · unintegrated
 - [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — **5/5** · plug-in `enneaEffects.js` 3h · unintegrated
