@@ -598,12 +598,32 @@ class CoopOrchestrator {
 
   /**
    * Mark combat outcome. Moves phase combat → debrief.
+   *
+   * 2026-05-15 Bundle C follow-up — optional `debriefPayload` carries
+   * 4-layer profilo psicologico (sentience + conviction + ennea per actor)
+   * computed by combat resolver via vcScoring.buildVcSnapshot. Attached to
+   * run.debrief for broadcastCoopState → phone DebriefView reveal parity
+   * with TV. Back-compat: default null → no payload, phone hides labels.
+   *
+   * Expected shape (all optional):
+   *   debriefPayload.per_actor[uid] = {
+   *     sentience_tier: "T0"-"T6",
+   *     conviction_axis: {utility, liberty, morality},
+   *     ennea_archetype: "<canonical name>"
+   *   }
    */
-  endCombat({ outcome = 'victory', survivors = [], xpEarned = 0 } = {}) {
+  endCombat({ outcome = 'victory', survivors = [], xpEarned = 0, debriefPayload = null } = {}) {
     if (this.phase !== 'combat') throw new Error('not_in_combat');
     this.run.outcome = outcome;
     this.run.partyXp += xpEarned;
-    this._emit('combat_ended', { outcome, survivors, xp: xpEarned });
+    if (debriefPayload && typeof debriefPayload === 'object') {
+      this.run.debrief = debriefPayload;
+    }
+    const emitPayload = { outcome, survivors, xp: xpEarned };
+    if (debriefPayload && typeof debriefPayload === 'object') {
+      emitPayload.debrief = debriefPayload;
+    }
+    this._emit('combat_ended', emitPayload);
     this._setPhase('debrief');
     return { outcome, xp: xpEarned };
   }
