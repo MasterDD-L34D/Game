@@ -93,7 +93,26 @@ if [[ ! -f "${CATALOG_PATH}" ]]; then
   exit 6
 fi
 
-CATALOG_SPECIES_COUNT=$(python3 -c "import json; d=json.load(open('${CATALOG_PATH}')); print(len(d.get('catalog', [])))")
+# 2026-05-16 MSYS/Windows compat fix: WindowsApps `python3` stub can't open
+# MSYS-style paths (/c/...). Resolve python interpreter + convert path to
+# native via cygpath when available. Fallback chain: python3 → python → node.
+_count_species() {
+  local _path="$1" _native
+  if command -v cygpath >/dev/null 2>&1; then
+    _native="$(cygpath -w "${_path}" 2>/dev/null || echo "${_path}")"
+  else
+    _native="${_path}"
+  fi
+  for _py in python3 python; do
+    if command -v "${_py}" >/dev/null 2>&1; then
+      "${_py}" -c "import json,sys; print(len(json.load(open(sys.argv[1])).get('catalog',[])))" "${_native}" 2>/dev/null && return 0
+    fi
+  done
+  # Node fallback (always present in this stack).
+  node -e "const p=process.argv[1];console.log((require(p).catalog||[]).length)" "${_native}" 2>/dev/null && return 0
+  echo "?"
+}
+CATALOG_SPECIES_COUNT="$(_count_species "${CATALOG_PATH}")"
 echo " Catalog species:     ${CATALOG_SPECIES_COUNT}"
 echo
 
