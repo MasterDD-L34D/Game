@@ -1,25 +1,30 @@
 {
-  "version": "0.2.0",
-  "merged_at": "2026-05-14",
+  "version": "0.3.0",
+  "merged_at": "2026-05-15",
   "source_provenance": {
-    "pack_v2_full_plus": "C:\\Users\\VGit\\AppData\\Local\\Temp\\pack-v2-local\\species\\species_catalog.json",
-    "game_canonical_lifecycle": "data\\core\\species"
+    "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
+    "game_canonical_lifecycle": "data/core/species",
+    "legacy_yaml_species": "data/core/species.yaml",
+    "legacy_yaml_expansion": "data/core/species_expansion.yaml"
   },
   "sentience_assignment_method": {
     "pack_v2_plus_source": "sentience_index field verbatim",
-    "non_pack_species": "RFC v0.1 heuristic mapping (animal→T1, pre-sociale→T2, emergente→T3)"
+    "non_pack_species": "RFC v0.1 heuristic mapping (animal→T1, pre-sociale→T2, emergente→T3)",
+    "legacy_yaml_residue": "sentience_tier mirror via TKT-ECO-A4-residue (PR #2271)"
   },
   "stats": {
-    "total_species": 15,
+    "total_species": 53,
     "by_source": {
-      "pack-v2-full-plus": 10,
-      "game-canonical-stub": 5
+      "pack-v2-full-plus": 15,
+      "legacy-yaml-merge": 38
     },
     "by_sentience_tier": {
-      "T1": 7,
-      "T2": 4,
-      "T3": 2,
-      "T0": 2
+      "T1": 22,
+      "T2": 16,
+      "T5": 3,
+      "T3": 6,
+      "T0": 1,
+      "T4": 5
     }
   },
   "catalog": [
@@ -70,7 +75,7 @@
       ],
       "lifecycle_yaml": "data/core/species/anguis_magnetica_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "chemnotela_toxica",
@@ -105,7 +110,7 @@
         "Acido inefficace su basalto o ceramiche vetrose",
         "Tela sensibile a piogge torrenziali"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T2",
       "ecotypes": [
         "chiome interne",
         "radure umide"
@@ -119,7 +124,7 @@
       ],
       "lifecycle_yaml": "data/core/species/chemnotela_toxica_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "dune_stalker",
@@ -145,8 +150,8 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/dune_stalker_lifecycle.yaml",
-      "source": "game-canonical-stub",
-      "merged_at": "2026-05-14"
+      "source": "pack-v2-full-plus",
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "elastovaranus_hydrus",
@@ -183,7 +188,7 @@
         "Richiede pressione idraulica pre-caricata (cooldown dopo 3 colpi)",
         "Prestazioni ridotte in freddo prolungato"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T2",
       "ecotypes": [
         "dorsali rocciose",
         "letto fluviale stagionale"
@@ -197,7 +202,7 @@
       ],
       "lifecycle_yaml": "data/core/species/elastovaranus_hydrus_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "gulogluteus_scutiger",
@@ -234,7 +239,7 @@
         "Alto costo elettrolitico per secrezioni oleose in siccità",
         "La corazza riduce la velocità in sprint prolungati"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T2",
       "ecotypes": [
         "paludi di foresta",
         "forre umide"
@@ -248,7 +253,7 @@
       ],
       "lifecycle_yaml": "data/core/species/gulogluteus_scutiger_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "leviatano_risonante",
@@ -270,12 +275,12 @@
         "symbiosis": "nessuna"
       },
       "constraints": [],
-      "sentience_index": "T2",
+      "sentience_index": "T5",
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/leviatano_risonante_lifecycle.yaml",
-      "source": "game-canonical-stub",
-      "merged_at": "2026-05-14"
+      "source": "pack-v2-full-plus",
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "perfusuas_pedes",
@@ -324,7 +329,7 @@
       ],
       "lifecycle_yaml": "data/core/species/perfusuas_pedes_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "polpo_araldo_sinaptico",
@@ -346,12 +351,12 @@
         "symbiosis": "nessuna"
       },
       "constraints": [],
-      "sentience_index": "T3",
+      "sentience_index": "T5",
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/polpo_araldo_sinaptico_lifecycle.yaml",
-      "source": "game-canonical-stub",
-      "merged_at": "2026-05-14"
+      "source": "pack-v2-full-plus",
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "proteus_plasma",
@@ -400,7 +405,7 @@
       ],
       "lifecycle_yaml": "data/core/species/proteus_plasma_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "rupicapra_sensoria",
@@ -432,7 +437,7 @@
         "Rete psionica degrada oltre 500 m di distanza",
         "Affaticamento mentale dopo stress prolungato"
       ],
-      "sentience_index": "T2",
+      "sentience_index": "T5",
       "ecotypes": [
         "cenge alte",
         "prati alpini"
@@ -446,7 +451,7 @@
       ],
       "lifecycle_yaml": "data/core/species/rupicapra_sensoria_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "sciame_larve_neurali",
@@ -472,8 +477,8 @@
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/sciame_larve_neurali_lifecycle.yaml",
-      "source": "game-canonical-stub",
-      "merged_at": "2026-05-14"
+      "source": "pack-v2-full-plus",
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "simbionte_corallino_riflesso",
@@ -495,12 +500,12 @@
         "symbiosis": "nessuna"
       },
       "constraints": [],
-      "sentience_index": "T1",
+      "sentience_index": "T3",
       "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": "data/core/species/simbionte_corallino_riflesso_lifecycle.yaml",
-      "source": "game-canonical-stub",
-      "merged_at": "2026-05-14"
+      "source": "pack-v2-full-plus",
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "soniptera_resonans",
@@ -535,7 +540,7 @@
         "Rendimento ridotto in pioggia intensa",
         "Consumo energetico elevato in hovering prolungato"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T2",
       "ecotypes": [
         "oasi calde",
         "praterie arbustive"
@@ -549,7 +554,7 @@
       ],
       "lifecycle_yaml": "data/core/species/soniptera_resonans_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "terracetus_ambulator",
@@ -582,7 +587,7 @@
         "Scarsa capacità di arrampicata",
         "Vulnerabile a pendii ripidi"
       ],
-      "sentience_index": "T0",
+      "sentience_index": "T3",
       "ecotypes": [
         "pianure ventose"
       ],
@@ -595,7 +600,7 @@
       ],
       "lifecycle_yaml": "data/core/species/terracetus_ambulator_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
     },
     {
       "species_id": "umbra_alaris",
@@ -629,7 +634,7 @@
         "Efficacia ridotta in nebbia densa (diffusione)",
         "Bioluminescenza può tradire la posizione a distanza ravvicinata"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T3",
       "ecotypes": [
         "bassa volta arborea",
         "gole d’ombra"
@@ -643,7 +648,1219 @@
       ],
       "lifecycle_yaml": "data/core/species/umbra_alaris_lifecycle.yaml",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-14"
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "electromanta_abyssalis",
+      "scientific_name": "Electromanta abyssalis",
+      "common_names": [
+        "Electromanta Abissale"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "unknown"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T4",
+      "ecotypes": [],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "symbiotica_thermalis",
+      "scientific_name": "Symbiotica thermalis",
+      "common_names": [
+        "Simbionte Termale"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "unknown"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T4",
+      "ecotypes": [],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sonaraptor_dissonans",
+      "scientific_name": "Sonaraptor dissonans",
+      "common_names": [
+        "Sonaraptor Dissonante"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "unknown"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T4",
+      "ecotypes": [],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "psionerva_montis",
+      "scientific_name": "Psionerva montis",
+      "common_names": [
+        "Psionerva Montano"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "unknown"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T4",
+      "ecotypes": [],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "fusomorpha_palustris",
+      "scientific_name": "Fusomorpha palustris",
+      "common_names": [
+        "Fusomorfa Palustre"
+      ],
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "unknown"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T4",
+      "ecotypes": [],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_arenavolux_sagittalis",
+      "scientific_name": "Arenavolux sagittalis",
+      "common_names": [
+        "Saettatore delle Dune"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "cinder-dunes"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_ferriscroba_detrita",
+      "scientific_name": "Ferriscroba detrita",
+      "common_names": [
+        "Spazzino Ferroso"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "ferrous-badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "scavenger",
+        "playable"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_sonapteryx_resonans",
+      "scientific_name": "Sonapteryx resonans",
+      "common_names": [
+        "Ala Risonante"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "redspur-mesa"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "bridge",
+        "disperser",
+        "playable"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_lithoraptor_acutornis",
+      "scientific_name": "Lithoraptor acutornis",
+      "common_names": [
+        "Cacciatore di Schegge"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "shardfall-ridge"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_salifossa_tenebris",
+      "scientific_name": "Salifossa tenebris",
+      "common_names": [
+        "Scavatore Salino"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "saltglass-flats"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "detritivore"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_ventornis_longiala",
+      "scientific_name": "Ventornis longiala",
+      "common_names": [
+        "Aliante della Mesa"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "redspur-mesa"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "bridge",
+        "scout"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_ferrimordax_rutilus",
+      "scientific_name": "Ferrimordax rutilus",
+      "common_names": [
+        "Martellatore Ferroso"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "ferrous-badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "apex",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_pyrosaltus_celeris",
+      "scientific_name": "Pyrosaltus celeris",
+      "common_names": [
+        "Saltatore di Cenere"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "cinder-dunes"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "ambusher"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_basaltocara_scutata",
+      "scientific_name": "Basaltocara scutata",
+      "common_names": [
+        "Custode di Basalto"
+      ],
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "basalt-grottos"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "support",
+        "sentinel"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_arenaceros_placidus",
+      "scientific_name": "Arenaceros placidus",
+      "common_names": [
+        "Brucatore di Polvere"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "cinder-dunes"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "grazer"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_lucinerva_filata",
+      "scientific_name": "Lucinerva filata",
+      "common_names": [
+        "Tessitore di Luce"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "lumen-canopy"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "bridge",
+        "disperser"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_radiluma_pendula",
+      "scientific_name": "Radiluma pendula",
+      "common_names": [
+        "Lanterna di Radici"
+      ],
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "paleroot-tangle"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "support",
+        "symbiont"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_limnofalcis_serrata",
+      "scientific_name": "Limnofalcis serrata",
+      "common_names": [
+        "Trebbiatore di Palude"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "ember-marsh"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_cavatympa_sonans",
+      "scientific_name": "Cavatympa sonans",
+      "common_names": [
+        "Ascoltatore Cavo"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "umbral-karst"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "bridge",
+        "scout"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_calamipes_gracilis",
+      "scientific_name": "Calamipes gracilis",
+      "common_names": [
+        "Camminatore di Canne"
+      ],
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "thunder-reeds"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "playable",
+        "grazer",
+        "bridge"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_salisucta_alveata",
+      "scientific_name": "Salisucta alveata",
+      "common_names": [
+        "Filtratore Salmastro"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "brine-rift"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "filter_feeder"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_nebulocornis_mollis",
+      "scientific_name": "Nebulocornis mollis",
+      "common_names": [
+        "Cervo di Nebbia"
+      ],
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "cold-mirror-fen"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "support",
+        "grazer"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_cryptolorca_medicata",
+      "scientific_name": "Cryptolorca medicata",
+      "common_names": [
+        "Riparatore Carsico"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "umbral-karst"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "keystone",
+        "support"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_glaciolabis_nitida",
+      "scientific_name": "Glaciolabis nitida",
+      "common_names": [
+        "Pattinatore Specchio"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "cold-mirror-fen"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "bridge",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_tonitrudens_ferox",
+      "scientific_name": "Tonitrudens ferox",
+      "common_names": [
+        "Rosicchiatore di Tuono"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "thunder-reeds"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "omnivore"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_rubrospina_velox",
+      "scientific_name": "Rubrospina velox",
+      "common_names": [
+        "Corriere Spinato"
+      ],
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "redspur-mesa"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "playable",
+        "scout",
+        "bridge"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_paludogromus_magnus",
+      "scientific_name": "Paludogromus magnus",
+      "common_names": [
+        "Colosso Palustre"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "cold-mirror-fen"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "support"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_cinerastra_nodosa",
+      "scientific_name": "Cinerastra nodosa",
+      "common_names": [
+        "Spirale di Cenere"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "ashen-sink"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "ambusher"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_zephyrovum_fidelis",
+      "scientific_name": "Zephyrovum fidelis",
+      "common_names": [
+        "Nidificatore del Maestrale"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "mistral-hollows"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "bridge",
+        "disperser"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_vitricyba_punctata",
+      "scientific_name": "Vitricyba punctata",
+      "common_names": [
+        "Beccatore di Vetro"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "crystal-scree"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "forager"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_fumarisorba_sulfurea",
+      "scientific_name": "Fumarisorba sulfurea",
+      "common_names": [
+        "Bevitore di Fumarole"
+      ],
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "hollow-fumaroles"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "keystone",
+        "detritivore"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_arboryxis_lenis",
+      "scientific_name": "Arboryxis lenis",
+      "common_names": [
+        "Vagabondo della Volta"
+      ],
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "lumen-canopy"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "bridge",
+        "grazer"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_noctipedis_umbrata",
+      "scientific_name": "Noctipedis umbrata",
+      "common_names": [
+        "Corridore Notturno"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "umbral-karst"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "apex",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_magnetocola_pastoris",
+      "scientific_name": "Magnetocola pastoris",
+      "common_names": [
+        "Pastore Ferrico"
+      ],
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "ironbloom-wastes"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "support",
+        "playable",
+        "grazer"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_siltovena_bifida",
+      "scientific_name": "Siltovena bifida",
+      "common_names": [
+        "Divisore del Delta"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "silt-delta"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "pulverator_gregarius",
+      "scientific_name": "Pulverator gregarius",
+      "common_names": [
+        "Razziatore di Polvere"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "savana"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "apex",
+        "predator",
+        "pack_alpha"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_tempestarius_psionicus",
+      "scientific_name": "Tempestarius psionicus",
+      "common_names": [
+        "Maestro della Tempesta"
+      ],
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "cicloni_psionici"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T3",
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable",
+        "storm-channeler"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
+    },
+    {
+      "species_id": "sp_magmocardium_furens",
+      "scientific_name": "Magmocardium furens",
+      "common_names": [
+        "Cuore Furente"
+      ],
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "abisso_vulcanico"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [],
+      "sentience_index": "T3",
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable",
+        "rage-assault"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "legacy-yaml-merge",
+      "merged_at": "2026-05-15"
     }
   ]
 }

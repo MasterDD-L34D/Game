@@ -4,8 +4,10 @@ date: 2026-05-15
 type: adr
 workstream: dataset-pack
 owner: master-dd
-status: proposed
+status: accepted
 proposed_by: claude-code (PR #2271 audit Phase A residue)
+accepted_by: master-dd (verdict 2026-05-15 — Option A canonical migration)
+verdict_date: 2026-05-15
 related_files:
   - data/core/species.yaml
   - data/core/species_expansion.yaml
@@ -31,9 +33,11 @@ language: it
 
 ## Status
 
-**PROPOSED** by claude-code (PR #2271 audit Phase A residue completism).
+**ACCEPTED** 2026-05-15 — master-dd verdict **Option A canonical migration**.
 
-⚠️ Subjective Claude judgment markup soft — pending master-dd verdict per criteri canonical-migration vs coexistence vs merge-back diversi.
+Phased rollout autonomous (Phase 1+2) + master-dd authority (Phase 3+4) per execution sequence below.
+
+Original proposal by claude-code (PR #2271 audit Phase A residue completism).
 
 ## Context
 

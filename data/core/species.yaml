@@ -1,3 +1,29 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species registry. Canonical source-of-truth is now
+# `data/core/species/species_catalog.json` (rich schema v0.3.0, 53 species,
+# absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Status:
+#   - Phase 1 (autonomous, shipped 2026-05-15): ETL absorb 38 residue species
+#     into species_catalog.json. Sentience tier preserved via legacy override.
+#   - Phase 2 (autonomous, this commit): vcScoring + nebulaTelemetry consume
+#     species_catalog.json full 53 species. This file marked DEPRECATED.
+#   - Phase 3 (master-dd review pending): rich schema fields fill draft
+#     (scientific_name, visual_description, ecotypes, risk_profile per 38
+#     legacy-yaml-merge entries).
+#   - Phase 4 (master-dd authority pending): Game-Database build-time import
+#     update + this file removal post-sync (preserve historical snapshot in
+#     docs/archive/).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. New consumers MUST use species_catalog.json.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
 catalog:
   slots:
     locomotion:

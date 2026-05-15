@@ -1,3 +1,17 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species expansion registry. Canonical source-of-truth
+# is now `data/core/species/species_catalog.json` (rich schema v0.3.0, 53
+# species absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. Phase 4 (master-dd authority) sostituirà definitively.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
 # Expansion roster — 32 species (30 docx_2026-04-16 + 2 T3 ship 2026-05-11).
 # Bilingual display names (IT canonical + EN from docx).
 # Genus/epithet canonical per docs/core/00E-NAMING_STYLEGUIDE.md.
