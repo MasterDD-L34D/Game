@@ -151,11 +151,11 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ## 📊 Stats
 
-- **Excavations run**: 11 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13)
-- **Artifact identificati**: ~100 totali (99 precedenti + 1 promotions-orphan-claim discard)
-- **Cards total**: 33 curate (7 score 5/5 · 13 score 4/5 · 11 score 3/5 · 2 score 2/5) — +1 score 4/5 discard card
+- **Excavations run**: 12 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15)
+- **Artifact identificati**: ~101 totali (100 precedenti + 1 Phase 3 Path D HYBRID methodology pattern)
+- **Cards total**: 34 curate (8 score 5/5 · 13 score 4/5 · 11 score 3/5 · 2 score 2/5) — +1 score 5/5 methodology pattern
 - **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-05-13 sera (session 6 cross-validation: L7c promotions ORPHAN claim discard, M-2026-05-13-001 score 4/5)
+- **Last excavate**: 2026-05-15 (session 7 Phase 3 Path D HYBRID: Pattern A+B+C industry-pattern enrichment methodology + \_provenance audit trail, M-2026-05-15-001 score 5/5)
 - **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)

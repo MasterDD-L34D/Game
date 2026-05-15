@@ -385,6 +385,74 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-15 — Ecosystem audit + Q1 Option A canonical migration + Phase 3 Path D HYBRID FULL CLOSURE — v43)
+
+**Sessione 2026-05-13/14/15 (PR #2260 audit ecosystem + PR #2271 Phase A + Q1 canonical migration + Phase 3 Path D)**: 46+ commit cumulative cross-stack. Resume trigger user "analizza col metodo tutta l'infrastruttura Ecosistema > Biomi > reti trofiche > hazard > specie > mating > creature giocabili > evoluzioni" → cascade 8 OD ai-station verdict + ADR-2026-05-15 Q1 Option A canonical migration full rollout.
+
+**46 commit cumulative PR #2271 + 8 PR merged main session 2026-05-13/14**:
+
+| Layer                  | PR / commit                                                                                                                                          | Topic                |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| #2260 (merged)         | audit ecosystem 7-strati 495 LOC + plan 22 ticket TKT-ECO-XX 730 LOC                                                                                 | docs                 |
+| #2261 (open)           | Envelope A bundle (OD-025 smoke + OD-028 Howler CDN + OD-030 flag-ON)                                                                                | 3 OD shipped         |
+| #2262 (open)           | Envelope B bundle (OD-024 sentience 15/15 + OD-025-B2 + OD-027 + OD-029 + OD-031)                                                                    | 5 OD shipped         |
+| #2263 (merged)         | fix promotion JS FALLBACK_CONFIG cross-stack parity                                                                                                  | parity               |
+| #2264 (merged)         | Phase B3 PromotionEngine job_archetype_bias + vc_scoring sentience fold                                                                              | TKT-A8 ✅            |
+| #2265-#2270 (merged)   | Playtest #2 analyzer + Cloudflare deploy + GSD Bundle B + Phase B4 + endCombat debrief                                                               | infra                |
+| **#2271 (open ready)** | **Phase A residue 9/9 + Q1 Option A canonical migration FULL CLOSURE + Phase 3 Path D HYBRID + Phase 4d Scope A + Scope B prep + gap audit closure** | 46 commit cumulative |
+
+**Q1 Option A canonical migration ADR-2026-05-15 — 100% phases COMPLETE**:
+
+- Phase 1+2 — ETL absorb 38 residue → 53 species single SOT + DEPRECATED header
+- Phase 3 Path Quick + Path D HYBRID — heuristic enrichment Pattern A+B+C industry-proven (Caves of Qud + Dwarf Fortress + RimWorld). Coverage: **visual_description 36/38 (94.7%) + constraints 38/38 (100%) + symbiosis 47% derived heuristic + \_provenance audit trail 38/38 (100%)**
+- Phase 4a — sync:evo-pack regen 75 file mirrors
+- Phase 4b — JS refactor traitEffects + wikiLinkBridge
+- Phase 4c.1-4c.7 — schema v0.4.0 (default_parts + catalog_synergies + ecology + pack_size + genus + epithet preserved) + JS biomeResonance + synergyDetector + Python migration 8/8 tools + FILE REMOVAL species.yaml + schema deprecation note
+- Phase 4d Scope A — canonical mirror species-canonical-index.json 53 species shipped
+- Phase 4d Scope B — Game-Database cross-stack PR template handoff master-dd ready
+
+**Anti-pattern killer milestone**: Engine LIVE Surface DEAD chain CLOSED end-to-end species canonical. Schema fork OD-027 resolved Option A canonical migration full rollout autonomous (master-dd verdict A+C+C+C ratified + Path D HYBRID Q4d-2=B + Skiv synthetic Q4-Skiv=B).
+
+**Catalog v0.4.1 final state**:
+
+- 53 species single SOT canonical (10 pack-v2-full-plus + 5 game-canonical-stub + 38 legacy-yaml-merge)
+- 24 fields preserved: scientific_name + classification + functional_signature + visual_description + risk_profile + interactions + constraints + sentience_index + ecotypes + trait_refs + lifecycle_yaml + source + merged_at + clade_tag + role_tags + legacy_slug + biome_affinity + default_parts + ecology + pack_size + genus + epithet + **\_provenance audit trail** + common_names
+- catalog_synergies array preserved verbatim (1 entry: echo_backstab)
+
+**Pillar deltas v42 → v43**:
+
+- P3 Identità: 🟢 candidato HARD CONFIRMED + reinforced (catalog 53/53 + Pattern A+C 100% constraints)
+- P4 Temperamenti: 🟢 candidato HARD CONFIRMED + reinforced (sentience 53/53 + 4-layer ready + 4 traits interocettivi)
+- P6 Fairness: 🟢 candidato confermato (A5 bioma pressure surface + conviction tactical flags inline #2267)
+
+**CI cumulative session**:
+
+- 12/12 verify gates verde finale post Codex fixes
+- **715 Python tests + 1193 JS test:api + 417 AI + 229 play + 23 Trait Editor = 2677/2677 verde** post all autonomous shipping
+- Codex reviews 2/2 addressed (terrain RNG flake + validate_species ENOENT + check_missing_traits strict flag)
+
+**Anti-pattern killer culmination**:
+
+- L7c Promotions ORPHAN false-negative corrected (museum card M-2026-05-13-001)
+- Engine LIVE Surface DEAD chain CLOSED (mating + promotions + bioma pressure + starter_bioma + sentience)
+- Schema fork dual SOT → single SOT canonical (Q1 Option A)
+- Industry-pattern reuse methodology codified (Pattern A+B+C, museum card M-2026-05-15-001)
+
+**Outstanding master-dd manual** (autonomous shipped 100%, master-dd authority residue):
+
+- D.5 Master-dd review + polish visual_description 36/38 batch session (~4-5h)
+- D.6 Master-dd Skiv-style symbiosis Apex+Keystone subset (~1-1.5h)
+- Phase 4d Scope B Game-Database cross-stack execution (PR template ready, ~2-3h)
+- PR #2271 review + merge (master-dd authority)
+
+**Branch state**: HEAD `58558ce` (PR #2271 ready for review), tree pulito + push verde.
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica PR #2271 review status + procede D.5 master-dd polish visual_description batch OR Phase 4d Scope B Game-Database execution"_
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-09 sera — K4 Approach B + 4 task autonomous closure)
 
 **Sessione 2026-05-09 sera (K4 Approach B commit-window + cascade 4 task autonomous)**: 4 PR Game/ shipped main ~2-2.5h cumulative. Resume trigger user "leggi handoff PR #2148, esegui Option A K4 Approach B commit-window" + escalation "3+5+esegui FASE 1 T1.3" + grant esplicito `.github/workflows/`.
@@ -653,12 +721,12 @@ OR
 
 **Drift sync 2026-05-04 status post-close-marks**:
 
-| Item           |         Pre         |                                    Post                                    |
-| -------------- | :-----------------: | :------------------------------------------------------------------------: |
-| 1 M.7 p95      |     🟡 PARTIAL      |                         🟢 ENGINE+WIRE LIVE (#166)                         |
-| 2 N.7 5/5      |       🟡 3/5        | 🟢 4/5 GATE 0 NEAR-PASS (CampaignState + LineageMergeService #165 shipped) |
+| Item           |        Pre         |                                    Post                                    |
+| -------------- | :----------------: | :------------------------------------------------------------------------: |
+| 1 M.7 p95      |     🟡 PARTIAL     |                         🟢 ENGINE+WIRE LIVE (#166)                         |
+| 2 N.7 5/5      |       🟡 3/5       | 🟢 4/5 GATE 0 NEAR-PASS (CampaignState + LineageMergeService #165 shipped) |
 | 10 Phone smoke | ⏸ master-dd manual |          🟡 GUIDA SHIPPED + RUNTIME ITER1 BUG-FIX (5 bug bundle)           |
-| Ennea drift    |  ❌ schema 9 vs 6   |                 ✅ RESOLVED (#167 Godot v2 + #2041 Game/)                  |
+| Ennea drift    |  ❌ schema 9 vs 6  |                 ✅ RESOLVED (#167 Godot v2 + #2041 Game/)                  |
 
 **Pillar realignment post-2026-05-05**:
 

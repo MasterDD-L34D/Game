@@ -576,8 +576,31 @@ def enrich_entry(
     ADR-2026-05-15 Phase 3 Path D — Pattern A+B+C unified enrichment.
     Tracks _provenance per field for master-dd review queue filter.
     """
+    # Phase 3 Path D extension 2026-05-15: enrich legacy-yaml-merge primarily, BUT
+    # also fill ecology-derived symbiosis for pack-v2/stub entries con
+    # interactions.symbiosis = "nessuna" + ecology.mutualism_with rich.
     if entry.get('source') != 'legacy-yaml-merge':
-        return entry  # Skip non-legacy entries
+        # Special case: ecology-derived symbiosis fill for non-legacy entries.
+        eco = entry.get('ecology')
+        interactions = entry.get('interactions', {}) or {}
+        if (
+            eco and isinstance(eco, dict)
+            and (not interactions.get('symbiosis') or interactions.get('symbiosis') == 'nessuna')
+        ):
+            mut = eco.get('mutualism_with') or []
+            if isinstance(mut, list) and mut:
+                composed = []
+                for m in mut[:2]:
+                    if isinstance(m, dict):
+                        partner = m.get('species_id', '?')
+                        mtype = m.get('type', 'mutualismo')
+                        composed.append(f'{mtype} con {partner}')
+                if composed:
+                    interactions['symbiosis'] = ', '.join(composed)
+                    entry['interactions'] = interactions
+                    provenance = entry.setdefault('_provenance', {})
+                    provenance['interactions.symbiosis'] = 'heuristic-ecology-mutualism'
+        return entry  # Skip rest of heuristic for non-legacy entries
 
     species_id = entry['species_id']
     # _provenance dict tracks per-field origin ("heuristic-pattern-A|B|C" |
@@ -632,16 +655,59 @@ def enrich_entry(
         interactions.setdefault('predated_by', [])
         provenance['interactions.predated_by'] = 'needs-master-dd'
 
-    # symbiosis default "nessuna" if not overridden — Pattern B inference deferred
+    # symbiosis — Pattern B+C hybrid: ecology.mutualism_with primary, clade fallback.
+    # Phase 3 Path D extension 2026-05-15 — ecology block takes priority over clade default.
     if not interactions.get('symbiosis') or interactions.get('symbiosis') == 'nessuna':
-        # Heuristic: Keystone clade often has mutualistic relationships
-        clade = entry.get('clade_tag', '')
-        if clade in ('Keystone', 'Bridge'):
-            interactions['symbiosis'] = 'possibili mutualismi cross-bioma (master-dd review)'
-            provenance['interactions.symbiosis'] = 'heuristic-clade-keystone'
-        else:
-            interactions['symbiosis'] = 'nessuna'
-            provenance['interactions.symbiosis'] = 'default-clade-nonkeystone'
+        # PRIMARY: ecology.mutualism_with (preserved from legacy YAML via ETL)
+        eco = entry.get('ecology')
+        if eco and isinstance(eco, dict):
+            mut = eco.get('mutualism_with') or []
+            if isinstance(mut, list) and mut:
+                # Compose from first 2 mutualisms (signal-to-noise cap)
+                composed = []
+                for m in mut[:2]:
+                    if isinstance(m, dict):
+                        partner = m.get('species_id', '?')
+                        mtype = m.get('type', 'mutualismo')
+                        composed.append(f'{mtype} con {partner}')
+                if composed:
+                    interactions['symbiosis'] = ', '.join(composed)
+                    provenance['interactions.symbiosis'] = 'heuristic-ecology-mutualism'
+
+        # FALLBACK: clade-based heuristic
+        if interactions.get('symbiosis') in (None, '', 'nessuna'):
+            clade = entry.get('clade_tag', '')
+            if clade in ('Keystone',):
+                # Try to find same-biome partner species for plausible mutualism
+                if all_entries:
+                    biome = entry.get('biome_affinity') or ''
+                    same_biome_partners = [
+                        c for c in all_entries
+                        if c.get('biome_affinity') == biome
+                        and c.get('species_id') != species_id
+                        and c.get('clade_tag') in ('Support', 'Bridge')
+                    ]
+                    if biome and same_biome_partners:
+                        partner = same_biome_partners[0]
+                        interactions['symbiosis'] = (
+                            f'possibile mutualismo con {partner["species_id"]} '
+                            f'(same-biome {biome}, master-dd review)'
+                        )
+                        provenance['interactions.symbiosis'] = 'heuristic-keystone-biome-pair'
+                    else:
+                        interactions['symbiosis'] = 'possibili mutualismi cross-bioma (master-dd review)'
+                        provenance['interactions.symbiosis'] = 'heuristic-clade-keystone'
+                else:
+                    interactions['symbiosis'] = 'possibili mutualismi cross-bioma (master-dd review)'
+                    provenance['interactions.symbiosis'] = 'heuristic-clade-keystone'
+            elif clade in ('Bridge',):
+                interactions['symbiosis'] = (
+                    'specie ponte cross-bioma con mutualismi potenziali (master-dd review)'
+                )
+                provenance['interactions.symbiosis'] = 'heuristic-clade-bridge'
+            else:
+                interactions['symbiosis'] = 'nessuna'
+                provenance['interactions.symbiosis'] = 'default-clade-nonkeystone'
     entry['interactions'] = interactions
 
     # 5. visual_description (Pattern A — Caves of Qud tag-driven)
@@ -684,9 +750,9 @@ def main():
 
     enriched_count = 0
     interactions_filled = 0
+    # Phase 3 Path D extension 2026-05-15: enrich loops ALL entries (legacy + pack-v2 + stub).
+    # enrich_entry early-returns post non-legacy symbiosis fill from ecology.
     for entry in catalog.get('catalog', []):
-        if entry.get('source') != 'legacy-yaml-merge':
-            continue
         sid = entry['species_id']
         before_interactions = bool(
             entry.get('interactions', {}).get('predates_on') or entry.get('interactions', {}).get('predated_by')

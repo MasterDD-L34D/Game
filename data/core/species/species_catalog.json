@@ -201,7 +201,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "nessuna"
+        "symbiosis": "indirect con pulverator_gregarius"
       },
       "constraints": [],
       "sentience_index": "T2",
@@ -267,7 +267,10 @@
       "genus": "Arenavenator",
       "epithet": "vagans",
       "source": "game-canonical-stub",
-      "merged_at": "2026-05-15"
+      "merged_at": "2026-05-15",
+      "_provenance": {
+        "interactions.symbiosis": "heuristic-ecology-mutualism"
+      }
     },
     {
       "species_id": "elastovaranus_hydrus",
@@ -3212,7 +3215,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "nessuna"
+        "symbiosis": "indirect con dune_stalker"
       },
       "constraints": [
         "Solitario territoriale, raramente in branco"
@@ -3273,7 +3276,7 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "default-clade-nonkeystone",
+        "interactions.symbiosis": "heuristic-ecology-mutualism",
         "visual_description": "heuristic-pattern-A-tag-driven",
         "constraints": "heuristic-pattern-C-mechanical"
       }
