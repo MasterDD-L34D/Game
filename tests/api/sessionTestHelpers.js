@@ -106,6 +106,10 @@ function twoUnits(overrides = {}) {
       initiative: 14,
       position: overrides.p1Pos || { x: 2, y: 2 },
       controlled_by: 'player',
+      // 2026-05-15 (PR #2271 flaky-fix): optional attack mod override per tests
+      // that need deterministic hit/miss. d20 + mod vs DC ~10 → mod 99 = always hit.
+      // Backward-compat: omit override → mod undefined (treated 0 in resolveAttack).
+      mod: overrides.p1Mod,
       status: overrides.p1Status || {},
     },
     {
