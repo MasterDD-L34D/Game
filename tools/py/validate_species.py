@@ -356,6 +356,20 @@ if __name__ == "__main__":
         help="Mappa YAML degli alias dei biomi",
     )
     args = ap.parse_args()
+    # ADR-2026-05-15 Phase 4c.6: data/core/species.yaml RIMOSSO. Canonical SOT
+    # = data/core/species/species_catalog.json. validate_species.py è
+    # YAML-schema-specific (parse legacy `catalog.slots` shape) e NON valida
+    # JSON catalog format. Exit 0 con warning se path missing per back-compat
+    # CI workflow .github/workflows/ci.yml step "Validate Species (Python)".
+    target = Path(args.path)
+    if not target.exists():
+        print(
+            f"[validate_species] DEPRECATED: {target} non trovato (Phase 4c.6 removed). "
+            f"Canonical SOT moved to data/core/species/species_catalog.json. Skipping validation. "
+            f"See docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md",
+            file=sys.stderr,
+        )
+        sys.exit(0)
     sys.exit(
         validate(
             args.path,
