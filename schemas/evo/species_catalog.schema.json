@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/species_catalog.schema.json",
+  "title": "Evo Tactics Species Catalog v0.4.x",
+  "$comment": "ADR-2026-05-15 Q1 Option A Phase 4c.7+ catalog schema. Single SOT post legacy YAML removal. Output di tools/etl/merge_pack_v2_species.py + tools/etl/enrich_species_heuristic.py Path D HYBRID. Consumer cross-stack: Game/ backend (traitEffects + wikiLinkBridge + biomeResonance + synergyDetector) + Game-Database build-time import (Phase 4d Scope B).",
+  "type": "object",
+  "required": ["version", "catalog"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.[34]\\.\\d+$",
+      "description": "Semantic version (0.3.x post Phase 1+2 absorb; 0.4.x post Phase 4c.1 schema extension default_parts + catalog_synergies)."
+    },
+    "merged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO date catalog generation"
+    },
+    "source_provenance": {
+      "type": "object",
+      "description": "Pack v2 + Game/ canonical + legacy YAML overlay sources",
+      "additionalProperties": true
+    },
+    "sentience_assignment_method": {
+      "type": "object",
+      "description": "ETL provenance per sentience_index field",
+      "additionalProperties": true
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "total_species": { "type": "integer", "minimum": 0 },
+        "by_source": { "type": "object" },
+        "by_sentience_tier": { "type": "object" },
+        "catalog_synergies_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "catalog_synergies": {
+      "type": "array",
+      "description": "Top-level catalog synergies (preserved verbatim da legacy species.yaml catalog.synergies)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "when_all": { "type": "array", "items": { "type": "string" } },
+          "effect": { "type": "object" }
+        },
+        "required": ["id"],
+        "additionalProperties": true
+      }
+    },
+    "catalog": {
+      "type": "array",
+      "description": "53 species entries (10 pack-v2-full-plus + 5 game-canonical-stub + 38 legacy-yaml-merge)",
+      "items": {
+        "type": "object",
+        "required": ["species_id", "source"],
+        "properties": {
+          "species_id": {
+            "type": "string",
+            "pattern": "^[a-z_][a-z0-9_]+$",
+            "description": "Canonical underscore_case slug"
+          },
+          "legacy_slug": {
+            "type": ["string", "null"],
+            "description": "Original underscore_case from species.yaml (preserved)"
+          },
+          "scientific_name": { "type": "string" },
+          "common_names": { "type": "array", "items": { "type": "string" } },
+          "classification": {
+            "type": "object",
+            "properties": {
+              "macro_class": { "type": "string" },
+              "habitat": { "type": "string" }
+            },
+            "additionalProperties": true
+          },
+          "functional_signature": { "type": "string" },
+          "visual_description": {
+            "type": "string",
+            "description": "Phase 3 Path D Pattern A — sensory italian description (94.7% coverage legacy)"
+          },
+          "risk_profile": {
+            "type": "object",
+            "properties": {
+              "danger_level": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "vectors": { "type": "array", "items": { "type": "string" } }
+            },
+            "additionalProperties": true
+          },
+          "interactions": {
+            "type": "object",
+            "properties": {
+              "predates_on": { "type": "array" },
+              "predated_by": { "type": "array" },
+              "symbiosis": { "type": "string" }
+            },
+            "additionalProperties": true
+          },
+          "constraints": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Phase 3 Path D Pattern C — RimWorld mechanical constraints (100% coverage legacy)"
+          },
+          "sentience_index": {
+            "$ref": "enums.json#/$defs/sentience_tier"
+          },
+          "ecotypes": {
+            "type": "array",
+            "items": { "$ref": "enums.json#/$defs/ecotype_cluster" },
+            "uniqueItems": true
+          },
+          "trait_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "lifecycle_yaml": {
+            "type": ["string", "null"],
+            "description": "Path to per-species lifecycle YAML (null for legacy-yaml-merge entries without lifecycle)"
+          },
+          "clade_tag": {
+            "type": ["string", "null"],
+            "description": "Functional clade (Apex/Threat/Bridge/Keystone/Support/Playable) — preserved via Phase 4b ETL legacy overlay",
+            "enum": [
+              "Apex",
+              "Threat",
+              "Bridge",
+              "Keystone",
+              "Support",
+              "Playable",
+              "predator",
+              "predator_apex",
+              "predator_ambush",
+              "predator_pack",
+              "herbivore",
+              "grazer",
+              "omnivore",
+              "scavenger",
+              "decomposer",
+              "symbiote",
+              "parasite",
+              "detritivore",
+              "piscivore",
+              "insectivore",
+              null
+            ]
+          },
+          "role_tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "biome_affinity": {
+            "type": ["string", "null"]
+          },
+          "default_parts": {
+            "type": ["object", "null"],
+            "description": "Slot mapping {locomotion, metabolism, offense, defense, senses} preserved da legacy YAML (Phase 4c.1)",
+            "additionalProperties": true
+          },
+          "ecology": {
+            "type": ["object", "null"],
+            "description": "Trophic_tier + pack_size + prey_of + preys_on + competes_with + scavenges_from + mutualism_with (ADR-2026-05-02 ecology block)",
+            "additionalProperties": true
+          },
+          "pack_size": {
+            "type": ["object", "null"],
+            "properties": {
+              "min": { "type": "integer", "minimum": 1 },
+              "max": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "genus": { "type": ["string", "null"] },
+          "epithet": { "type": ["string", "null"] },
+          "source": {
+            "type": "string",
+            "enum": ["pack-v2-full-plus", "game-canonical-stub", "legacy-yaml-merge"]
+          },
+          "merged_at": { "type": "string" },
+          "_provenance": {
+            "type": "object",
+            "description": "Phase 3 Path D HYBRID audit trail per-field origin. Values: heuristic-pattern-A-tag-driven | heuristic-pattern-B-foodweb | heuristic-pattern-B-clade-biome | heuristic-pattern-C-mechanical | heuristic-ecology-mutualism | heuristic-clade-keystone | heuristic-clade-bridge | heuristic-keystone-biome-pair | heuristic-sentience-trait | heuristic-trait-vector-map | heuristic-clade-trait | default-clade-nonkeystone | needs-master-dd",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

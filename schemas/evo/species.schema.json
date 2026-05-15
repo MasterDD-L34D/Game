@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://game.example.com/schemas/evo/species.schema.json",
   "title": "Evo Tactics Species",
+  "$comment": "ADR-2026-05-15 Q1 Option A Phase 4c.7 (2026-05-15): legacy sentience_tier field intentionally NOT in schema (only sentience_index per RFC v0.1). Scope: validate per-species rich JSON files (skipped automatically for species_catalog.json which uses extended v0.4.x schema with clade_tag/role_tags/default_parts/biome_affinity additive fields preserved via ETL legacy-yaml-merge — see tools/etl/merge_pack_v2_species.py).",
   "type": "object",
   "additionalProperties": false,
   "required": ["species"],

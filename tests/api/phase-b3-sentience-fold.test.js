@@ -85,8 +85,11 @@ describe('Phase B3 — _resolveSentienceTiers helper', () => {
     // Without species_catalog in session, loads from data/core/species/.
     const units = [{ id: 'u1', species_id: 'elastovaranus_hydrus' }];
     const result = _resolveSentienceTiers(units, {});
-    // Canonical Game/ catalog has elastovaranus_hydrus → T1 per merged JSON.
-    assert.equal(result.u1.tier, 'T1');
+    // Canonical Game/ catalog v0.3.0 (post ADR-2026-05-15 Q1 Option A merge):
+    // elastovaranus_hydrus → T2 (legacy sentience_tier override boost from
+    // pack v2 T1 default, max preservation for legacy YAML authoritative).
+    // Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+    assert.equal(result.u1.tier, 'T2');
     assert.equal(result.u1.source, 'species_catalog');
   });
 });

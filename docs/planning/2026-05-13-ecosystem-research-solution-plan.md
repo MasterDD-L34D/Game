@@ -458,6 +458,28 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **TKT-ECO-Z2** — Trait orphan ASSIGN-A waves 5-6 + species_expansion schema mismatch (~10-15h) — Sprint Q+ residue
 - **TKT-ECO-Z3** — Cross-Game-Database ancestors integration (~6h) — OD-004 reopen needed
 - **TKT-ECO-Z4** — Trait Editor ecosystem layer support (~12h) — Trait Editor app extension, deferred Sprint S+
+- **TKT-ECO-Z6** — Mutations UI standalone modal application (M14 unit-self post-encounter) (~4-6h) — **NEW 2026-05-15 completionist principle**:
+  - Source: TKT-ECO-A1 smoke verify finding (PR #2271) → M14 mutation_catalog è PARTIAL-WIRED (visual aspect_token + MP accrual + API wrapper) ma standalone "choose mutation to apply" modal player-facing assente
+  - offspringRitualPanel.js handles offspring mutations (Layer 6 mating output), NOT unit-self M14 post-encounter
+  - Reuse path: nuovo `apps/play/src/mutationsPanel.js` (pattern formsPanel.js) o estensione inline `debriefPanel.js` post-encounter
+  - Gate: master-dd verdict scope (modal dedicated vs auto-apply policy backend-driven)
+  - Out-of-scope this session, tracked Sprint M14 extension
+
+- **TKT-ECO-Z7** — Skiv state.json recompute post-encounter live playthrough (~deferred Phase 4) — **NEW 2026-05-15 completionist principle**:
+  - Source: COMPACT_CONTEXT v37 deferred backlog ("Skiv state.json recompute live") + handoff doc 2026-04-25
+  - Phase 4 dependency: NON backfillable senza run reale playthrough (richiede master-dd o playtest #2 userland session)
+  - Reuse path: `tools/py/seed_skiv_saga.py` extended con post-encounter state mutation parser (consume session.events log)
+  - Gate: Playtest #2 userland completion + master-dd OK recompute scope
+  - Out-of-scope this session, tracked Phase 4 narrative arc
+
+- **TKT-ECO-Z8** — Onboarding diegetic reveal "ecosistema vivo" (~8h, museum Disco pattern M-2026-04-27-003) — **NEW 2026-05-15 completionist principle reinforced**:
+  - Source: audit §2.7 + plan TKT-ECO-Z1 (originally) + 8/8 OD ai-station closure milestone
+  - Pattern: Disco Elysium thought cabinet diegetic reveal — info layered, prima si vede generic poi diegetic reveal "ecosistema interconnesso"
+  - V1 onboarding 60s shipped PR #1726 ha già 3-stage overlay base — extension a 4-stage con ecosistema reveal post-2-encounters
+  - Depend: TKT-ECO-B4 atlas mini-map shipped (Godot v2 #260 scaffold) → atlas data pronta per onboarding overlay
+  - Gate: Envelope C asset commission Wildermyth biome silhouettes complete (master-dd manual)
+  - Out-of-scope this session, tracked sprint dedicato post-Atlas
+
 - **TKT-ECO-Z5** — Vault repo Pathfinder bestiari import (~6-10h) — **NEW 2026-05-13 sera** post cross-session integration:
   - Source: [vault PR #1](https://github.com/MasterDD-L34D/vault/pull/1) — 50 cards atomizzate Bestiary 1 bio subset (30 animali + 15 parassiti + 5 vegetali) + reusable script `pathfinder_bestiary_atomize.py` (379 LOC stdlib-only)
   - **NOT audit-flagged** (audit 2026-05-13 commit `c157553` + `5ca3c07` did NOT mention Pathfinder — verified via grep) — cross-session integration scope only
@@ -659,9 +681,33 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 | A5 bioma diff_base + hazard pressure modifier | ~3h | autonomous | pending P6 driver |
 | A6 starter_bioma trait definition | ~3h | autonomous | pending completionist |
 | A7 mating.yaml pack drift (-84 LOC gene_slots) | ~2h | gated Q2 master-dd autonomous greenlight | pending (DIVERSO da OD-031 species pack) |
-| A8 NEW promotions engine Phase B3 (consume `defense_mod_bonus` + `crit_chance_bonus`) | ~3-4h | gated Q3 (Gate 5 closure) | proposed |
+| ~~A8 NEW promotions engine Phase B3~~ | ~~~3-4h~~ | ~~gated Q3~~ | ✅ **SHIPPED via PR #2264** (`feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold`) |
 
-**Phase A residue total**: ~12-14h. Possibile autonomous post master-dd greenlight Q1+Q2+Q3 verdict.
+**Phase A residue total post-merge-cascade**: ~9-10h (era ~12-14h, **A8 shipped autonomously by master-dd via #2264**, riduce di ~3-4h).
+
+### 6.9 Merge cascade 2026-05-14 sera — branch sync to main
+
+Verifica `git log origin/claude/analyze-ecosystem-infrastructure-W4Lyf` 2026-05-14 sera:
+
+| Commit  | PR    | Topic                                                                                          |
+|---------|-------|------------------------------------------------------------------------------------------------|
+| `f2244c8` | #2261 | Envelope A bundle OD-025 + OD-028 + OD-030 (3 OD shipped)                                      |
+| `4c07c4d` | #2262 | Envelope B bundle OD-024 + OD-025-B2 + OD-027 + OD-029 + OD-031                                |
+| `dee2e86` | #2263 | **fix(promotion): JS FALLBACK_CONFIG cross-stack parity drift** (OD-025-B2 follow-up parity)    |
+| `ad6081b` | #2264 | **feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold** |
+| `1dcfbfa` | merge | Merge branch 'main' into claude/analyze-ecosystem-infrastructure-W4Lyf                          |
+
+**Status post-cascade**:
+- 4 PR merged to main (#2261 + #2262 + #2263 + #2264)
+- Branch sync via merge commit (preserves audit + plan history on `claude/analyze-ecosystem-infrastructure-W4Lyf`)
+- **TKT-ECO-A8 NEW PROMOTIONS ENGINE PHASE B3** (proposed reply [comment-4451508839](https://github.com/MasterDD-L34D/Game/pull/2260#issuecomment-4451508839) post-Envelope-B verification) → **SHIPPED via #2264** before I could ship it
+- **#2263 proactive parity drift fix** — JS FALLBACK_CONFIG cross-stack parity caught by master-dd review (excellent CI/test discipline)
+- Gate 5 anti-pattern Engine LIVE Surface DEAD risk **CLOSED** (#2264 consume new reward fields runtime)
+
+**Pillar status post-cascade**:
+- P3 Identità: 🟢-cand → **🟢 candidato HARD** (PromotionEngine elite+master + job_archetype_bias + sentience fold)
+- P4 Temperamenti: 🟢-cand → **🟢 candidato HARD** (sentience 15/15 + 4 traits + 51 neurons + vc_scoring fold)
+- 🟢 hard final promotion ancora gated Playtest #2 userland
 
 **Note governance**: master-dd ha prioritizzato execution speed (8 OD shipped in 1 session) sopra dialog OD-by-OD. Legittima trade-off — direction "finish work, not conservative" applicata coerentemente. Residue 3 questions Phase A possono essere risolte retroactively o batched in nuovo OD aggregate.
 

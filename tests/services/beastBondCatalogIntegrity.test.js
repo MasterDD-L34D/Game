@@ -15,7 +15,6 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const yaml = require('js-yaml');
 
 const { checkBeastBondReactions } = require('../../apps/backend/services/combat/beastBondReaction');
 const { loadActiveTraitRegistry } = require('../../apps/backend/services/traitEffects');
@@ -23,10 +22,33 @@ const { loadActiveTraitRegistry } = require('../../apps/backend/services/traitEf
 const BOND_TRAIT_IDS = ['legame_di_branco', 'spirito_combattivo'];
 
 function loadCatalog() {
-  const yamlPath = path.resolve(__dirname, '..', '..', 'data', 'core', 'species.yaml');
-  const text = fs.readFileSync(yamlPath, 'utf8');
-  const parsed = yaml.load(text);
-  return parsed && parsed.species ? parsed.species : [];
+  // ADR-2026-05-15 Phase 4c.6: data/core/species.yaml RIMOSSO. Canonical SOT
+  // = data/core/species/species_catalog.json (catalog v0.4.x). Catalog
+  // entries preserve trait_refs (derived da trait_plan core+optional+synergies).
+  const catalogPath = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'data',
+    'core',
+    'species',
+    'species_catalog.json',
+  );
+  const text = fs.readFileSync(catalogPath, 'utf8');
+  const parsed = JSON.parse(text);
+  // Normalize to legacy shape: trait_plan { core, optional, synergies } reconstructed
+  // from flat trait_refs. Beast Bond test only checks traitId presence, so flat OK.
+  return (parsed.catalog || []).map((entry) => ({
+    id: entry.species_id,
+    trait_plan: {
+      core: [],
+      optional: [],
+      synergies: [],
+      // Flat trait_refs treated as union of core+optional+synergies for the
+      // Beast Bond traitId presence check.
+      _flat: entry.trait_refs || [],
+    },
+  }));
 }
 
 test('catalog: registry loads 2 Beast Bond traits with valid schema', () => {
@@ -44,7 +66,10 @@ test('catalog: registry loads 2 Beast Bond traits with valid schema', () => {
   }
 });
 
-test('catalog: species.yaml trait_plan only references known trait IDs', () => {
+test('catalog: species_catalog.json trait_refs only references known trait IDs', () => {
+  // ADR-2026-05-15 Phase 4c.6 refactor: catalog v0.4.x has flat trait_refs
+  // (derived da trait_plan core+optional+synergies). Beast Bond traitId
+  // presence check works against flat list.
   const registry = loadActiveTraitRegistry();
   const species = loadCatalog();
   let bondAdoptionCount = 0;
@@ -53,7 +78,8 @@ test('catalog: species.yaml trait_plan only references known trait IDs', () => {
     const ids = []
       .concat(plan.core || [])
       .concat(plan.optional || [])
-      .concat(plan.synergies || []);
+      .concat(plan.synergies || [])
+      .concat(plan._flat || []);
     for (const traitId of ids) {
       if (BOND_TRAIT_IDS.includes(traitId)) {
         bondAdoptionCount += 1;

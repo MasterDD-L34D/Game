@@ -9,6 +9,34 @@
 
 ## Aperte
 
+### [OD-024..031] ai-station ecosystem audit verdicts — ✅ 8/8 SHIPPED cross-stack 2026-05-14
+
+8 OD originati da PR #2260 ecosystem audit + ai-station re-analisi vault PR #5. Master-dd direction "finish work, not conservative". Tutti shipped via Envelope A+B+C cascade ~26h cross-stack.
+
+| OD  | Topic                                       | Verdict ai-station                                  | Channel shipped                                       |
+| :-: | ------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| 024 | Sentience tier backfill                     | ✅ Full RFC T1-T6 + 4 traits 15/15 lifecycle        | Game/ #2262 (residue 30 species pending)              |
+| 025 | Promotions demolish vs implement            | ❌ REJECT framing (engine LIVE) + smoke + B2 catalog| Game/ #2261 + #2262                                   |
+| 026 | Atlas mini-map decisione D5                 | ✅ Diegetic TV + Phone overlay (FDF §16)            | Godot v2 #260 scaffold (asset commission pending)     |
+| 027 | Bridge species type                         | ✅ Full Species type + ecotypes                     | Game/ #2262 species_catalog.json v0.2.0               |
+| 028 | Audio pipeline                              | ✅ Howler.js middleware (CDN opt-in, zero npm dep)  | Game/ #2261 audio.js facade                           |
+| 029 | Ancestors Path B biome_pool                 | ✅ Proceed mapping 13→51 entries (4 branch)         | Game/ #2262 neurons_bridge.csv                        |
+| 030 | Game-Database HTTP runtime flag             | ✅ flag-ON default (D2-C cross-stack pipeline LIVE) | Game/ #2261 default flip                              |
+| 031 | Pack drift policy                           | ✅ Core autoritativo additive (species + mating)    | Game/ #2262 species_catalog + branch mating gene_slots|
+
+**Status**: ✅ 8/8 SHIPPED. 3 governance Q residue (Q1 schema fork + Q2 mating drift autonomous + Q3 engine B3) tutti chiusi questa sessione (Q1 awaits master-dd ADR scelta canonical-migration vs coexistence; Q2+Q3 ✅ shipped).
+
+**Cross-link**:
+- Audit source: [PR #2260](https://github.com/MasterDD-L34D/Game/pull/2260) ecosystem 7-strati
+- Plan canonical: [`docs/planning/2026-05-13-ecosystem-research-solution-plan.md`](docs/planning/2026-05-13-ecosystem-research-solution-plan.md) §6
+- Governance record: [`docs/governance/open-decisions/OD-024-031-verdict-record.md`](docs/governance/open-decisions/OD-024-031-verdict-record.md)
+- Vault re-analisi: [vault PR #5](https://github.com/MasterDD-L34D/vault/pull/5)
+- Museum discard card: [M-2026-05-13-001](docs/museum/cards/promotions-orphan-claim-discarded.md) (L7c FALSE NEGATIVE preserved)
+
+**Pillar impact**: P3 + P4 → 🟢 candidato HARD (gated Playtest #2 userland 🟢 hard promotion).
+
+---
+
 ### [OD-023] Phase B execution date verdict — Day 5 anticipato vs Day 8 canonical vs ADR amendment Path D
 
 - **Livello**: workflow + ADR contract gate (date-discipline)

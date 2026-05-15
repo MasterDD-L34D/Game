@@ -110,6 +110,8 @@ export function renderCharacterCreation() {
           <span>HP —</span><span>AP —</span><span>ATK —</span><span>DEF —</span>
         </div>
         <div class="cc-preview-packs" id="cc-preview-packs" aria-live="polite"></div>
+        <!-- TKT-ECO-A6 — starter bioma label (Form MBTI -> biome+trait). -->
+        <div class="cc-preview-starter-bioma" id="cc-preview-starter-bioma" aria-live="polite"></div>
       </div>
 
       <button type="button" class="cc-confirm" id="cc-confirm" disabled>
@@ -153,6 +155,8 @@ export function wireCharacterCreation(overlay, bridge) {
   };
 
   const packsEl = overlay.querySelector('#cc-preview-packs');
+  // TKT-ECO-A6 — starter bioma slot (Form MBTI -> biome_id + trait_id resolution).
+  const starterBiomaEl = overlay.querySelector('#cc-preview-starter-bioma');
 
   const renderPreview = () => {
     if (!state.form) return;
@@ -164,6 +168,8 @@ export function wireCharacterCreation(overlay, bridge) {
       <span>DEF ${stats.def}</span>
     `;
     fetchPacksForForm(state.form.id, state.form.job);
+    // TKT-ECO-A6 — fetch + render starter bioma per Form MBTI.
+    fetchStarterBiomaForForm(state.form.mbti);
   };
 
   // V4 PI-Pacchetti tematici — fetch form-appropriate pack bias hint.
@@ -193,6 +199,39 @@ export function wireCharacterCreation(overlay, bridge) {
         list.map((p) => `<span class="cc-preview-pack">${p.label || p.id || p}</span>`).join(' ');
     } catch {
       packsEl.textContent = '';
+    }
+  }
+
+  // TKT-ECO-A6 / M-017 — Form MBTI -> starter bioma label resolution.
+  // Backend chain: STARTER_BIOMA_MAP (16 forms) in formPackRecommender.js +
+  // active_effects.yaml starter_bioma_<form> (16 traits). Surface label
+  // exposure mancante pre-A6 = anti-pattern Engine LIVE Surface DEAD.
+  async function fetchStarterBiomaForForm(mbti) {
+    if (!starterBiomaEl) return;
+    if (!mbti || typeof mbti !== 'string') {
+      starterBiomaEl.textContent = '';
+      return;
+    }
+    starterBiomaEl.textContent = 'Bioma origine…';
+    try {
+      const formId = mbti.toUpperCase();
+      const res = await fetch(`/api/forms/${encodeURIComponent(formId)}/starter-bioma`);
+      if (!res.ok) {
+        starterBiomaEl.textContent = '';
+        return;
+      }
+      const data = await res.json();
+      if (!data?.biome_id || !data?.trait_id) {
+        starterBiomaEl.textContent = '';
+        return;
+      }
+      const biomeLabel = data.biome_id.replace(/_/g, ' ');
+      starterBiomaEl.innerHTML =
+        `<div class="cc-preview-starter-bioma-title">Bioma origine</div>` +
+        `<span class="cc-preview-starter-bioma-biome">🌍 ${biomeLabel}</span>` +
+        ` → <span class="cc-preview-starter-bioma-trait">${data.trait_id}</span>`;
+    } catch {
+      starterBiomaEl.textContent = '';
     }
   }
 

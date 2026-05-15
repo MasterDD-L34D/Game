@@ -59,9 +59,23 @@ let _biomeCostCache = null;
 
 // Per-tag enemy gate (audit follow-up 2026-04-25) — wires runtime-inert
 // ancestor traits gated by enemy taxonomy: predator / irascible / wildlife.
-// Source files: data/core/species.yaml + data/core/species_expansion.yaml
-// (clade_tag + role_tags). Lazy-cached singleton, soft-fail su ENOENT.
-const SPECIES_DEFAULT_PATHS = [
+//
+// ADR-2026-05-15 Phase 4b — refactor 2026-05-15: canonical source = single SOT
+// data/core/species/species_catalog.json (v0.3.x con clade_tag + role_tags
+// preserved via ETL legacy YAML absorb).
+// Legacy fallback paths kept per back-compat durante Phase 4c file removal
+// transition (species.yaml + species_expansion.yaml DEPRECATED ma still present).
+const SPECIES_CATALOG_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'species',
+  'species_catalog.json',
+);
+const SPECIES_LEGACY_FALLBACK_PATHS = [
   path.resolve(__dirname, '..', '..', '..', 'data', 'core', 'species.yaml'),
   path.resolve(__dirname, '..', '..', '..', 'data', 'core', 'species_expansion.yaml'),
 ];
@@ -146,41 +160,90 @@ function hasActorStatus(actor, statusName) {
   return Boolean(entry);
 }
 
-// Per-tag enemy gate — carica species.yaml + species_expansion.yaml e
-// costruisce indice { species_id: { clade_tag, role_tags: Set } }.
-// Lazy + cached. Soft-fail: file mancante → indice vuoto, gate ritorna
-// `wildlife` come default conservativo.
-function loadSpeciesTagIndex(yamlPaths = SPECIES_DEFAULT_PATHS, logger = console) {
+// Per-tag enemy gate — carica species_catalog.json (canonical post ADR-2026-05-15)
+// e costruisce indice { species_id: { clade_tag, role_tags: Set } }.
+// Lazy + cached. Soft-fail: catalog mancante → fallback legacy YAML;
+// entrambi mancanti → indice vuoto, gate ritorna `wildlife` come default
+// conservativo.
+//
+// ADR-2026-05-15 Phase 4b refactor:
+// - Primary: species_catalog.json v0.3.x (53 species, clade_tag + role_tags preserved)
+// - Fallback: species.yaml + species_expansion.yaml (DEPRECATED Phase 4c removal)
+function loadSpeciesTagIndex(options = {}, logger = console) {
   if (_speciesTagIndexCache !== null) return _speciesTagIndexCache;
+  // Back-compat: accetta array di path legacy (signature pre-refactor 2026-05-15)
+  // o oggetto { catalogPath, fallbackYamlPaths }.
+  const catalogPath =
+    typeof options === 'string'
+      ? options
+      : options && typeof options.catalogPath === 'string'
+        ? options.catalogPath
+        : SPECIES_CATALOG_PATH;
+  const fallbackPaths = Array.isArray(options)
+    ? options
+    : options && Array.isArray(options.fallbackYamlPaths)
+      ? options.fallbackYamlPaths
+      : SPECIES_LEGACY_FALLBACK_PATHS;
+
   const index = Object.create(null);
-  for (const yamlPath of yamlPaths) {
-    try {
-      const text = fs.readFileSync(yamlPath, 'utf8');
-      const parsed = yaml.load(text);
-      // Top-level key varia: species.yaml usa `species`, species_expansion.yaml
-      // usa `species_examples`. Accetta entrambe.
-      const list =
-        parsed && Array.isArray(parsed.species)
-          ? parsed.species
-          : parsed && Array.isArray(parsed.species_examples)
-            ? parsed.species_examples
+
+  // PRIMARY: read species_catalog.json (canonical post ADR-2026-05-15).
+  let primaryLoaded = false;
+  try {
+    const text = fs.readFileSync(catalogPath, 'utf8');
+    const parsed = JSON.parse(text);
+    const list = parsed && Array.isArray(parsed.catalog) ? parsed.catalog : [];
+    for (const sp of list) {
+      if (!sp || !sp.species_id) continue;
+      const roleTags = Array.isArray(sp.role_tags)
+        ? sp.role_tags.map((t) => String(t).toLowerCase())
+        : [];
+      index[sp.species_id] = {
+        clade_tag: sp.clade_tag || null,
+        role_tags: new Set(roleTags),
+      };
+    }
+    primaryLoaded = true;
+  } catch (err) {
+    if (err && err.code === 'ENOENT') {
+      logger.warn(`[enemy-tag-gate] catalog ${catalogPath} non trovato, fallback YAML`);
+    } else {
+      logger.warn(`[enemy-tag-gate] catalog ${catalogPath} errore:`, err.message || err);
+    }
+  }
+
+  // FALLBACK: legacy YAML (only if catalog missing — back-compat during Phase 4c transition).
+  if (!primaryLoaded) {
+    for (const yamlPath of fallbackPaths) {
+      try {
+        const text = fs.readFileSync(yamlPath, 'utf8');
+        const parsed = yaml.load(text);
+        // Top-level key varia: species.yaml usa `species`, species_expansion.yaml
+        // usa `species_examples`. Accetta entrambe.
+        const list =
+          parsed && Array.isArray(parsed.species)
+            ? parsed.species
+            : parsed && Array.isArray(parsed.species_examples)
+              ? parsed.species_examples
+              : [];
+        for (const sp of list) {
+          if (!sp || !sp.id) continue;
+          if (index[sp.id]) continue; // catalog wins
+          const roleTags = Array.isArray(sp.role_tags)
+            ? sp.role_tags.map((t) => String(t).toLowerCase())
             : [];
-      for (const sp of list) {
-        if (!sp || !sp.id) continue;
-        const roleTags = Array.isArray(sp.role_tags)
-          ? sp.role_tags.map((t) => String(t).toLowerCase())
-          : [];
-        index[sp.id] = {
-          clade_tag: sp.clade_tag || null,
-          role_tags: new Set(roleTags),
-        };
+          index[sp.id] = {
+            clade_tag: sp.clade_tag || null,
+            role_tags: new Set(roleTags),
+          };
+        }
+      } catch (err) {
+        if (err && err.code === 'ENOENT') {
+          logger.warn(`[enemy-tag-gate] fallback ${yamlPath} non trovato, skip`);
+          continue;
+        }
+        logger.warn(`[enemy-tag-gate] fallback ${yamlPath} errore:`, err.message || err);
       }
-    } catch (err) {
-      if (err && err.code === 'ENOENT') {
-        logger.warn(`[enemy-tag-gate] ${yamlPath} non trovato, skip`);
-        continue;
-      }
-      logger.warn(`[enemy-tag-gate] errore ${yamlPath}:`, err.message || err);
     }
   }
   _speciesTagIndexCache = index;
@@ -645,8 +708,12 @@ module.exports = {
   BIOME_COST_DEFAULT_PATH,
   _resetBiomeCostCache,
   // Per-tag enemy gate (audit follow-up 2026-04-25)
+  // ADR-2026-05-15 Phase 4b — canonical species_catalog.json + legacy fallback
   loadSpeciesTagIndex,
   inferEnemyTags,
-  SPECIES_DEFAULT_PATHS,
+  SPECIES_CATALOG_PATH,
+  SPECIES_LEGACY_FALLBACK_PATHS,
+  // Back-compat alias (tests pre-refactor reference SPECIES_DEFAULT_PATHS).
+  SPECIES_DEFAULT_PATHS: SPECIES_LEGACY_FALLBACK_PATHS,
   _resetSpeciesTagIndexCache,
 };

@@ -1,3 +1,29 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species registry. Canonical source-of-truth is now
+# `data/core/species/species_catalog.json` (rich schema v0.3.0, 53 species,
+# absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Status:
+#   - Phase 1 (autonomous, shipped 2026-05-15): ETL absorb 38 residue species
+#     into species_catalog.json. Sentience tier preserved via legacy override.
+#   - Phase 2 (autonomous, this commit): vcScoring + nebulaTelemetry consume
+#     species_catalog.json full 53 species. This file marked DEPRECATED.
+#   - Phase 3 (master-dd review pending): rich schema fields fill draft
+#     (scientific_name, visual_description, ecotypes, risk_profile per 38
+#     legacy-yaml-merge entries).
+#   - Phase 4 (master-dd authority pending): Game-Database build-time import
+#     update + this file removal post-sync (preserve historical snapshot in
+#     docs/archive/).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. New consumers MUST use species_catalog.json.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
 catalog:
   slots:
     locomotion:
@@ -196,6 +222,7 @@ species:
     epithet: vagans
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Predatore delle Dune
     display_name_en: Dune Stalker
     display_name: Dune Stalker
@@ -261,6 +288,7 @@ species:
     epithet: praeco
     clade_tag: Keystone
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Polpo Araldo Sinaptico
     display_name_en: Synaptic Herald Octopus
     display_name: Polpo Araldo Sinaptico
@@ -285,6 +313,7 @@ species:
     epithet: gregaria
     clade_tag: Threat
     sentience_tier: T0
+    sentience_index: T0
     display_name_it: Sciame di Larve Neurali
     display_name_en: Neural Larva Swarm
     display_name: Sciame di Larve Neurali
@@ -310,6 +339,7 @@ species:
     epithet: abyssalis
     clade_tag: Apex
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Leviatano Risonante
     display_name_en: Resonant Leviathan
     display_name: Leviatano Risonante
@@ -349,6 +379,7 @@ species:
     epithet: abyssalis
     clade_tag: Apex
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Electromanta Abissale
     display_name_en: Abyssal Electromanta
     display_name: Electromanta Abissale
@@ -391,6 +422,7 @@ species:
     epithet: thermalis
     clade_tag: Keystone
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Simbionte Termale
     display_name_en: Thermal Symbiont
     display_name: Simbionte Termale
@@ -432,6 +464,7 @@ species:
     epithet: dissonans
     clade_tag: Threat
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Sonaraptor Dissonante
     display_name_en: Dissonant Sonaraptor
     display_name: Sonaraptor Dissonante
@@ -470,6 +503,7 @@ species:
     epithet: montis
     clade_tag: Bridge
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Psionerva Montano
     display_name_en: Psinerve Highlander
     display_name: Psionerva Montano
@@ -511,6 +545,7 @@ species:
     epithet: palustris
     clade_tag: Playable
     sentience_tier: T4
+    sentience_index: T4
     display_name_it: Fusomorfa Palustre
     display_name_en: Marsh Fusomorph
     display_name: Fusomorfa Palustre
@@ -545,6 +580,7 @@ species:
     epithet: speculans
     clade_tag: Support
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Simbionte Corallino Riflesso
     display_name_en: Mirror Coral Symbiont
     display_name: Simbionte Corallino Riflesso
@@ -570,6 +606,7 @@ species:
     epithet: litoralis
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: Anguilla Magnetica
     display_name_en: Magnetic Eel
     display_name: Anguis Magnetica
@@ -604,6 +641,7 @@ species:
     epithet: toxifera
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Tessitrice Tossica
     display_name_en: Toxic Weaver
     display_name: Chemnotela Toxica
@@ -640,6 +678,7 @@ species:
     epithet: hydraulicus
     clade_tag: Playable
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Varano Idraulico Elastico
     display_name_en: Hydraulic Elastic Varan
     display_name: Elastovaranus Hydrus
@@ -673,6 +712,7 @@ species:
     epithet: scutiger
     clade_tag: Playable
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Scudo Roccioso Prensile
     display_name_en: Prehensile Rock Shield
     display_name: Gulogluteus Scutiger
@@ -705,6 +745,7 @@ species:
     epithet: subterraneus
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: Miriapode delle Cripte
     display_name_en: Crypt Myriapod
     display_name: Perfusuas Pedes
@@ -735,6 +776,7 @@ species:
     epithet: amoebiforme
     clade_tag: Playable
     sentience_tier: T0
+    sentience_index: T0
     display_name_it: Plasma Proteico
     display_name_en: Protean Plasma
     display_name: Proteus Plasma
@@ -766,6 +808,7 @@ species:
     epithet: sensoria
     clade_tag: Keystone
     sentience_tier: T5
+    sentience_index: T5
     display_name_it: Stambecco Sensoriale
     display_name_en: Sensory Ibex
     display_name: Rupicapra Sensoria
@@ -799,6 +842,7 @@ species:
     epithet: resonans
     clade_tag: Threat
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: Ala Risonante
     display_name_en: Resonant Wing
     display_name: Soniptera Resonans
@@ -833,6 +877,7 @@ species:
     epithet: ambulator
     clade_tag: Keystone
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Cetaceo Terrestre
     display_name_en: Walking Cetacean
     display_name: Terracetus Ambulator
@@ -866,6 +911,7 @@ species:
     epithet: silens
     clade_tag: Playable
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: Ala d'Ombra
     display_name_en: Shadow Wing
     display_name: Umbra Alaris

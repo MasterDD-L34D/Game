@@ -41,7 +41,7 @@ test('terrain wire: fire channel attack on normal tile → tile becomes fire', a
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // Force-reattempt fino a hit (rng reale): turn loop garantisce AP refresh.
   // 2026-05-10 flaky-fix consistency con line 132 (12 → 30 iters per RNG safety
@@ -83,7 +83,7 @@ test('terrain wire: missing channel → no terrain_reaction', async (t) => {
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // Attack senza `channel` → fisico → no reaction.
   const r = await request(app).post('/api/session/action').send({
@@ -105,7 +105,7 @@ test('terrain wire: unknown channel → no terrain_reaction', async (t) => {
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // Channel "perforante" non mappato → no reaction.
   const r = await request(app).post('/api/session/action').send({
@@ -126,7 +126,7 @@ test('terrain wire: tile state ttl decays at turn end', async (t) => {
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // Forza un fire tile. 2026-05-10 flaky-fix (TKT-TERRAIN-FLAKY):
   // bumped 12 → 30 iters per attack hit rate ~70% (d20 vs DC). 12 iters
@@ -168,7 +168,7 @@ test('terrain wire: lightning + water → electrified + burst damage', async (t)
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // Step 1: water tile via 'acqua' channel (puddle).
   // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
@@ -229,7 +229,7 @@ test('terrain wire: terrain_reaction field surfaced in attack event log', async 
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
+  const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
   // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
   let hit = false;

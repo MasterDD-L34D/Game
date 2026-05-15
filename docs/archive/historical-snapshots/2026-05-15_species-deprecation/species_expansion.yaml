@@ -1,3 +1,17 @@
+# =============================================================================
+# DEPRECATED 2026-05-15 — ADR-2026-05-15 Option A canonical migration ACCEPTED.
+# =============================================================================
+#
+# This file is the LEGACY species expansion registry. Canonical source-of-truth
+# is now `data/core/species/species_catalog.json` (rich schema v0.3.0, 53
+# species absorbed via tools/etl/merge_pack_v2_species.py Phase 1).
+#
+# Read-only consumers may continue reading this file during Phase 2-3
+# transition. Phase 4 (master-dd authority) sostituirà definitively.
+#
+# Cross-link: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
+# =============================================================================
+
 # Expansion roster — 32 species (30 docx_2026-04-16 + 2 T3 ship 2026-05-11).
 # Bilingual display names (IT canonical + EN from docx).
 # Genus/epithet canonical per docs/core/00E-NAMING_STYLEGUIDE.md.
@@ -18,6 +32,7 @@ species_examples:
     epithet: sagittalis
     clade_tag: Apex
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Saettatore delle Dune"
     display_name_en: "Dune Skiver"
     morph_slots:
@@ -46,6 +61,7 @@ species_examples:
     epithet: detrita
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Spazzino Ferroso"
     display_name_en: "Rust Scavenger"
     morph_slots:
@@ -77,6 +93,7 @@ species_examples:
     epithet: resonans
     clade_tag: Bridge
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Ala Risonante"
     display_name_en: "Echo Wing"
     morph_slots:
@@ -99,6 +116,7 @@ species_examples:
     epithet: acutornis
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Cacciatore di Schegge"
     display_name_en: "Shard Prowler"
     morph_slots:
@@ -121,6 +139,7 @@ species_examples:
     epithet: tenebris
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Scavatore Salino"
     display_name_en: "Salt Burrower"
     morph_slots:
@@ -146,6 +165,7 @@ species_examples:
     epithet: longiala
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Aliante della Mesa"
     display_name_en: "Mesa Glider"
     morph_slots:
@@ -168,6 +188,7 @@ species_examples:
     epithet: rutilus
     clade_tag: Apex
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Martellatore Ferroso"
     display_name_en: "Iron Mauler"
     morph_slots:
@@ -190,6 +211,7 @@ species_examples:
     epithet: celeris
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Saltatore di Cenere"
     display_name_en: "Cinder Leaper"
     morph_slots:
@@ -212,6 +234,7 @@ species_examples:
     epithet: scutata
     clade_tag: Support
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Custode di Basalto"
     display_name_en: "Basalt Warden"
     morph_slots:
@@ -234,6 +257,7 @@ species_examples:
     epithet: placidus
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Brucatore di Polvere"
     display_name_en: "Dust Grazer"
     morph_slots:
@@ -262,6 +286,7 @@ species_examples:
     epithet: filata
     clade_tag: Bridge
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Tessitore di Luce"
     display_name_en: "Lumen Weaver"
     morph_slots:
@@ -284,6 +309,7 @@ species_examples:
     epithet: pendula
     clade_tag: Support
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Lanterna di Radici"
     display_name_en: "Root Lantern"
     morph_slots:
@@ -306,6 +332,7 @@ species_examples:
     epithet: serrata
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Trebbiatore di Palude"
     display_name_en: "Mire Thresher"
     morph_slots:
@@ -331,6 +358,7 @@ species_examples:
     epithet: sonans
     clade_tag: Bridge
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Ascoltatore Cavo"
     display_name_en: "Hollow Listener"
     morph_slots:
@@ -353,6 +381,7 @@ species_examples:
     epithet: gracilis
     clade_tag: Playable
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Camminatore di Canne"
     display_name_en: "Reed Strider"
     morph_slots:
@@ -378,6 +407,7 @@ species_examples:
     epithet: alveata
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Filtratore Salmastro"
     display_name_en: "Brine Filter"
     morph_slots:
@@ -403,6 +433,7 @@ species_examples:
     epithet: mollis
     clade_tag: Support
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Cervo di Nebbia"
     display_name_en: "Fog Antler"
     morph_slots:
@@ -428,6 +459,7 @@ species_examples:
     epithet: medicata
     clade_tag: Keystone
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Riparatore Carsico"
     display_name_en: "Karst Mender"
     morph_slots:
@@ -450,6 +482,7 @@ species_examples:
     epithet: nitida
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Pattinatore Specchio"
     display_name_en: "Mirror Skater"
     morph_slots:
@@ -475,6 +508,7 @@ species_examples:
     epithet: ferox
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Rosicchiatore di Tuono"
     display_name_en: "Thunder Gnawer"
     morph_slots:
@@ -500,6 +534,7 @@ species_examples:
     epithet: velox
     clade_tag: Playable
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Corriere Spinato"
     display_name_en: "Spurback Courier"
     morph_slots:
@@ -525,6 +560,7 @@ species_examples:
     epithet: magnus
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Colosso Palustre"
     display_name_en: "Fen Colossus"
     morph_slots:
@@ -550,6 +586,7 @@ species_examples:
     epithet: nodosa
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Spirale di Cenere"
     display_name_en: "Ash Coil"
     morph_slots:
@@ -575,6 +612,7 @@ species_examples:
     epithet: fidelis
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Nidificatore del Maestrale"
     display_name_en: "Mistral Nester"
     morph_slots:
@@ -600,6 +638,7 @@ species_examples:
     epithet: punctata
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Beccatore di Vetro"
     display_name_en: "Glass Peck"
     morph_slots:
@@ -625,6 +664,7 @@ species_examples:
     epithet: sulfurea
     clade_tag: Keystone
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Bevitore di Fumarole"
     display_name_en: "Fumarole Drinker"
     morph_slots:
@@ -650,6 +690,7 @@ species_examples:
     epithet: lenis
     clade_tag: Bridge
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Vagabondo della Volta"
     display_name_en: "Canopy Drifter"
     morph_slots:
@@ -675,6 +716,7 @@ species_examples:
     epithet: umbrata
     clade_tag: Apex
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Corridore Notturno"
     display_name_en: "Night Loper"
     morph_slots:
@@ -703,6 +745,7 @@ species_examples:
     epithet: pastoris
     clade_tag: Support
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Pastore Ferrico"
     display_name_en: "Ferric Shepherd"
     morph_slots:
@@ -725,6 +768,7 @@ species_examples:
     epithet: bifida
     clade_tag: Threat
     sentience_tier: T1
+    sentience_index: T1
     display_name_it: "Divisore del Delta"
     display_name_en: "Delta Splitter"
     morph_slots:
@@ -754,6 +798,7 @@ species_examples:
     epithet: gregarius
     clade_tag: Apex
     sentience_tier: T2
+    sentience_index: T2
     display_name_it: "Razziatore di Polvere"
     display_name_en: "Dust Reaver"
     morph_slots:
@@ -811,6 +856,7 @@ species_examples:
     epithet: psionicus
     clade_tag: Apex
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: "Maestro della Tempesta"
     display_name_en: "Storm Master"
     morph_slots:
@@ -859,6 +905,7 @@ species_examples:
     epithet: furens
     clade_tag: Threat
     sentience_tier: T3
+    sentience_index: T3
     display_name_it: "Cuore Furente"
     display_name_en: "Magma Heart"
     morph_slots:

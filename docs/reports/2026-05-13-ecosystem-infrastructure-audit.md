@@ -255,7 +255,7 @@ tags: [audit, ecosystem, biome, foodweb, species, mating, forms, mutations, skiv
 
 **Gap chiave Gate 5**: engine + routes wired, ma surface player-visible **NON verificabile in <60s gameplay** via inspection. Richiede smoke test live per confermare "user può VEDERE mutation applicata in debrief o overlay".
 
-**Status**: 🟡 **ENGINE WIRED / SURFACE UNVERIFIED** — possibile anti-pattern Gate 5 residuo. Action: smoke live nuova sessione.
+**Status**: 🟡 → **🟢 PARTIAL-WIRED** (revised post smoke 2026-05-15) — visual surface ✅ (aspect_token via `apps/play/src/render.js:586`) + MP accrual post-encounter ✅ (`apps/backend/routes/campaign.js:274` accrueEncounter) + API wrapper ✅ (`apps/play/src/api.js:402` mutationsApply). **Gap residuo minor**: standalone "choose mutation to apply" modal player-facing assente — offspringRitualPanel handles offspring (Layer 6), NOT unit-self post-encounter. M14 application path attualmente API-only (richiede UI modal o auto-apply policy).
 
 ---
 
@@ -339,7 +339,7 @@ Layer 2 Eco ────┤ (dataset only, dormente)          │
 Layer 3 Food ───┤ (dataset only, dormente)          │
                 │                                    └─→ Layer 7a Forms (MBTI evolution)
 Layer 4 Hazard ─┘ (dataset only, dormente)              └─→ Layer 7b Mutations (engine OK, surface ?)
-                                                          └─→ Layer 7c Promotions (ORPHAN)
+                                                          └─→ Layer 7c Promotions (🟢 FULL WIRED — corrected post 2026-05-13 sera)
                                                           └─→ Layer 7d Skiv (canonical)
 ```
 
@@ -374,10 +374,7 @@ CLAUDE.md sprint context 2026-05-07 audit honest reveal — il "🟢++ everywher
    - Unblock: lifecycle gating semantico Skiv + altre specie
    - Blast ×1.3 (data + lifecycle resolver)
 
-2. **Promotions sandbox header** (~10 min, anti-rot):
-   - Aggiungere header `# STATUS: proposal-only — runtime deferred` a `promotions.yaml`
-   - Prevenire confusione futuro agent ("è wired? ORPHAN!")
-   - Zero blast radius
+2. ~~**Promotions sandbox header** (~10 min, anti-rot)~~: **SUPERSEDED** post cross-validation 2026-05-13 sera. Promotions è 🟢 FULL WIRED (vedi §Layer 7c CORRECTED). Action revised → **verify-only smoke** shipped via [PR #2261](https://github.com/MasterDD-L34D/Game/pull/2261) (`tests/api/promotions-cross-stack-smoke.test.js` 5 tests). Do NOT add sandbox header (mislabel active runtime data).
 
 3. **Bioma diff_base + hazard → pressure modifier** (~3h, P6 driver):
    - `sessionHelpers.js` consuma `biomes.yaml.hazard.stress_modifiers` + `diff_base` → scala HP enemy + StressWave iniziale
@@ -450,14 +447,14 @@ CLAUDE.md sprint context 2026-05-07 audit honest reveal — il "🟢++ everywher
 ### P0 (autonomous, no master-dd block)
 
 - [ ] **Smoke test Layer 7b mutations** — verify surface o flag gap (~30 min, includere in prossima sessione)
-- [ ] **Promotions sandbox header** — anti-rot ~10 min
+- [x] ~~**Promotions sandbox header**~~ — **SUPERSEDED post cross-validation 2026-05-13 sera**. Promotions 🟢 FULL WIRED. Smoke shipped via PR #2261. Do NOT add sandbox header.
 - [ ] **Museum card M-2026-04-25-007 post-script** — additive update con "FULL CLOSURE 2026-04-27 via OD-001 Path A" + `last_verified: 2026-05-13`
 
 ### P1 (master-dd verdict richiesto)
 
-- [ ] **Sentience tier backfill scope** — full 45 specie (~8h) o subset Skiv-related (~2h) o defer?
-- [ ] **Ancestors consumer Path A vs B** — sandbox header only o biome_pool seeder (~3h)? Gate Q1 in planning doc 2026-05-10.
-- [ ] **Promotions YAML demolish vs proposal-only** — ADR P0 dec.
+- [x] ~~**Sentience tier backfill scope**~~ — **SHIPPED via PR #2262** 15/15 lifecycle subset (T0-T3 + 4 traits interocettivi). Residue 30 species senza lifecycle → TKT-ECO-A4-residue ~3-4h heuristic baseline.
+- [ ] **Ancestors consumer Path A vs B** — ENHANCED via PR #2262 neurons_bridge 13→51 entries (Senses+Dexterity+Ambulation+Memorie). Path B biome_pool seeder ~3h still applicable post-merge.
+- [x] ~~**Promotions YAML demolish vs proposal-only**~~ — **CANCELLED post cross-validation 2026-05-13 sera**. Promotions 🟢 FULL WIRED, REJECT framing applied + smoke shipped #2261 + engine Phase B3 extension shipped via [PR #2264](https://github.com/MasterDD-L34D/Game/pull/2264) (job_archetype_bias + vc_scoring sentience fold). Discarded path preserved [museum card M-2026-05-13-001](../museum/cards/promotions-orphan-claim-discarded.md).
 
 ### P2 (Sprint Q+ candidate, ADR pre-req)
 

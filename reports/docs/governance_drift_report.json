@@ -1,11 +1,23 @@
 {
-  "generated_at": "2026-05-13T20:32:10+00:00",
+  "generated_at": "2026-05-15T10:26:52+00:00",
   "summary": {
-    "total": 21,
+    "total": 35,
     "errors": 0,
-    "warnings": 21
+    "warnings": 35
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/00-INDEX.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
     {
       "level": "warning",
       "code": "stale_document",
@@ -23,6 +35,30 @@
       "code": "stale_document",
       "path": "docs/core/DesignDoc-Overview.md",
       "message": "Documento stale: revisione scaduta il 2026-05-11"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/generated/pr-summaries/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/GLOSSARY.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/legacy_index_mapping.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/INDEX.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
     },
     {
       "level": "warning",
@@ -53,6 +89,18 @@
       "code": "stale_document",
       "path": "docs/hubs/flow.md",
       "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/incoming.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/incoming/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-14"
     },
     {
       "level": "warning",
@@ -98,9 +146,39 @@
     },
     {
       "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-29-ermes-codex-execution-brief.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-29-ermes-integration-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-14"
+    },
+    {
+      "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
       "message": "Campo last_verified differente tra frontmatter (2026-05-07) e registry (2026-04-30)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_agent_backlog.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-14"
     },
     {
       "level": "warning",
@@ -125,6 +203,12 @@
       "code": "stale_document",
       "path": "docs/reports/2026-04-28-canonical-doc-inventory.md",
       "message": "Documento stale: revisione scaduta il 2026-05-12"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/PILLAR-LIVE-STATUS.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-13"
     },
     {
       "level": "warning",

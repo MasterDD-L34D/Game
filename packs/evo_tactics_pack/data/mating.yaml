@@ -385,6 +385,91 @@ nest_standards:
     security: 1
     resources: ["gel_sonico","alghe_luminose"]
     privacy: true
+gene_slots:
+  # Ereditarietà: nuova Forma seleziona 2 gene slots dai genitori + 1 mutazione ambientale.
+  # Ref: docs/appendici/D-CANVAS_ACCOPPIAMENTO.md § Ereditarietà & Mutazioni
+  # SYNCED da data/core/mating.yaml 2026-05-15 — TKT-ECO-A7 mating.yaml pack drift resolution (OD-031 verdict "core autoritativo additive")
+  inheritance_rules:
+    parent_slots: 2          # gene slots ereditati dai genitori
+    env_mutations: 1         # mutazione ambientale aggiuntiva (bioma corrente)
+    form_seed_bias: true     # applica bias da dataset PI per preferenze tratti
+
+  categories:
+    struttura:
+      label_it: "Struttura"
+      description: "Corpo, arti, corazze — parti fisiche ereditabili"
+      slots:
+        - id: corpo
+          label_it: "Corpo"
+          maps_to_part: locomotion   # ref: data/core/species.yaml catalog.slots
+          inheritance_weight: 0.7
+          mutation_chance: 0.10
+        - id: arti
+          label_it: "Arti"
+          maps_to_part: offense
+          inheritance_weight: 0.6
+          mutation_chance: 0.15
+        - id: corazza
+          label_it: "Corazza"
+          maps_to_part: defense
+          inheritance_weight: 0.8
+          mutation_chance: 0.08
+
+    funzione:
+      label_it: "Funzione"
+      description: "Abilità attive e passive ereditabili"
+      slots:
+        - id: abilita_attiva
+          label_it: "Abilità attiva"
+          maps_to_part: offense
+          inheritance_weight: 0.5
+          mutation_chance: 0.20
+        - id: abilita_passiva
+          label_it: "Abilità passiva"
+          maps_to_part: senses
+          inheritance_weight: 0.6
+          mutation_chance: 0.15
+        - id: metabolismo
+          label_it: "Metabolismo"
+          maps_to_part: metabolism
+          inheritance_weight: 0.7
+          mutation_chance: 0.12
+
+    memorie:
+      label_it: "Memorie"
+      description: "Ricordi narrativi che sbloccano missioni story-driven"
+      slots:
+        - id: memoria_genitore_a
+          label_it: "Memoria genitore A"
+          maps_to_part: null       # narrativo, non mappato a parti fisiche
+          inheritance_weight: 0.4
+          mutation_chance: 0.25
+        - id: memoria_genitore_b
+          label_it: "Memoria genitore B"
+          maps_to_part: null
+          inheritance_weight: 0.4
+          mutation_chance: 0.25
+        - id: memoria_ambientale
+          label_it: "Memoria ambientale"
+          maps_to_part: null
+          inheritance_weight: 0.0   # sempre generata dal bioma, non ereditata
+          mutation_chance: 0.30
+
+  mutation_tiers:
+    # Mutazioni T1/T2 richiedono moduli Nido di livello ≥2
+    T0:
+      label_it: "Mutazione base"
+      nido_module_min: 0
+      description: "Variazioni cosmetiche o stat minori"
+    T1:
+      label_it: "Mutazione avanzata"
+      nido_module_min: 2
+      description: "Nuova abilità o parte strutturale alternativa"
+    T2:
+      label_it: "Mutazione radicale"
+      nido_module_min: 2
+      description: "Cambio morfotipo o sblocco trait sinergico raro"
+
 hybrid_rules:
   locomotion:
     spring_legs + glide: "spring_glide"

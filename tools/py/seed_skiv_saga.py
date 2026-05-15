@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """Skiv Saga Seed — composes canonical creature state showcase.
+# DEPRECATED 2026-05-15 (ADR-2026-05-15 Phase 4c.5 partial migration):
+# Reads legacy data/core/species.yaml + species_expansion.yaml. Canonical SOT
+# moved to data/core/species/species_catalog.json (catalog v0.4.x). Full
+# migration via tools/py/lib/species_loader.py pending master-dd Phase 4c.6
+# sprint dedicato (file removal). Tool may break post Phase 4c.6 git rm —
+# refactor required to consume catalog.
+# See: docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md
 
 Skiv (Arenavenator vagans) is the canonical recap-creature persona introduced
 2026-04-25. This script seeds his post-content-sprint state by composing:
@@ -107,7 +114,18 @@ def validate_state(quiet: bool = False) -> dict:
     jobs = load_yaml(JOBS_EXPANSION)
     mutations = load_yaml(MUTATION_CATALOG)
     thoughts = load_yaml(MBTI_THOUGHTS)
-    species = load_yaml(SPECIES)
+    # ADR-2026-05-15 Phase 4c.5 — catalog SOT primary, YAML fallback ENOENT-safe.
+    if SPECIES.exists():
+        species = load_yaml(SPECIES)
+    else:
+        # Catalog primary path post Phase 4c.6 file removal.
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from lib.species_loader import load_species_canonical
+            species_list, _src = load_species_canonical()
+            species = {"species": species_list}
+        except (ImportError, Exception):
+            species = {"species": []}
     lifecycle = load_yaml(LIFECYCLE) if LIFECYCLE.exists() else {}
 
     # Stalker job

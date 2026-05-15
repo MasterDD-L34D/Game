@@ -133,3 +133,34 @@ Auth: JWT honored quando configurato. CORS-enabled.
 - `mutation_catalog.yaml` (30 entries shipped 2026-04-25 sprint) **NOT wired to V3 mating** per design semantics. È un framework M14 unit-self post-encounter mutation, separato dal mating offspring genetics.
 - Path A faithful M14 implementation: `apps/backend/services/mutations/mutationCatalogLoader.js` + `apps/backend/routes/mutations.js` + plugin wire. 4 REST endpoint live (`/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 progression integration.
 - Effetto su questo card: il pool D2 mutation_catalog NON è un orfano dello stesso modo che lo è il mating engine — è un framework distinct, additive-only, con runtime entrypoint pulito. Card M-007 resta valido per `metaProgression.js` + `meta.js` (V3 mating engine), ma `mutation_catalog.yaml` esce dallo scope orphan.
+
+## 2026-05-13 update — FULL CLOSURE OD-001 Path A 2026-04-27 (additive)
+
+**Card status**: 🟢 **SUPERSEDED — engine NOW FULL WIRED end-to-end**.
+
+OD-001 Path A "Activate" verdict 2026-04-27 ha shipped frontend wire end-to-end:
+- Sprint A nestHub panel + biome_arc unlock — [PR #1876](https://github.com/MasterDD-L34D/Game/pull/1876)
+- Sprint C backend mating roll + 3-tier offspring — [PR #1879](https://github.com/MasterDD-L34D/Game/pull/1879)
+- Lineage tab UI nestHub — [PR #1911](https://github.com/MasterDD-L34D/Game/pull/1911)
+- PR #1877 closed-superseded (51K LOC stale frontend conflict)
+
+**Ground truth verificata 2026-05-13** via grep diretto:
+- `apps/backend/services/metaProgression.js` cresciuto 469 → **1053 LOC** (+584 LOC post-2026-04-25)
+- `apps/backend/routes/meta.js` cresciuto 119 → **328 LOC** (7 endpoint + sub-route)
+- `apps/play/src/api.js:352-390` — 7 fetch helpers wired con comment "OD-001 Path A V3 Mating/Nido — 7 endpoint /api/meta/* (2026-04-26)"
+- `apps/play/src/nestHub.js` — squad UI + lista NPC recruited + lineage tab
+- `apps/play/src/debriefPanel.js:680` — fetch `/api/meta/compat` graceful fallback
+- `apps/play/src/offspringRitualPanel.js` — 6-canonical mutation choice post-mating
+- Test coverage: `tests/services/metaProgression.{mating,lineage}.test.js` ~600 LOC
+
+**Pillar impact**:
+- P2 Evoluzione emergente 🟡 → 🟢 candidato (mating engine + offspring + recruit fully consumed)
+- P3 Identità Specie × Job 🟡 → 🟢 candidato (debrief recruit + lineage tab visibili)
+
+**Anti-pattern killer**: card era canonical case "Engine LIVE Surface DEAD" score 5/5. Ha chiuso pattern via Path A activate. Reference per future agent inventory tasks.
+
+**Card lifecycle**: `excavated → curated → reviewed → revived` (nuovo stato 2026-05-13). Card additive-only protocol mantenuto — testo originale preserved sopra.
+
+**Provenance update**: cross-validation source = ecosystem audit PR #2260 (Layer 6 Mating section verifica) + comment-4444944824 thread.
+
+**Last verified**: 2026-05-13 sera (post audit + cross-validation cascade).

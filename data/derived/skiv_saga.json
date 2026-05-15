@@ -1,14 +1,9 @@
 {
-  "schema_version": "0.2.0",
-  "generated_at": "2026-04-25T12:55:34Z",
+  "schema_version": "0.1.0",
+  "generated_at": "2026-05-15T10:03:29Z",
   "unit_id": "skiv",
   "species_id": "dune_stalker",
   "biome_id": "savana",
-  "lineage_id": "skiv-savana-2026-0425-canonical",
-  "companion_card_signature": null,
-  "crossbreed_history": [],
-  "voice_diary_portable": [],
-  "share_url": null,
   "mbti_axes": {
     "E_I": {
       "value": 0.68,
@@ -73,12 +68,6 @@
   ],
   "aspect": {
     "lifecycle_phase": "mature",
-    "current_stadio": 5,
-    "current_stadio_roman": "V",
-    "stadio_label_it": "Adulto",
-    "stadio_label_en": "Adult",
-    "dune_stalker_specific_label_it": "Predatore Adulto",
-    "dune_stalker_specific_label_en": "Adult Stalker",
     "polarity_stable": true,
     "mbti_form_label": "INTP-leaning-I",
     "aspect_it": "Forma adulta consolidata. Gli artigli a sette vie si vetrificano\n(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana\nche riflettono il sole. Le orecchie hanno scolpito conche per\nl'echolocation, visibili come solchi. Il pelo lungo il dorso si è\ncondensato in una cresta scura. Lo sguardo è fisso, leggero\nsocchiudere — primo segno di voce interna. Il branco lo riconosce\ncome predatore-stalker, non più cucciolo.",
@@ -234,5 +223,5 @@
       }
     }
   ],
-  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py. Schema 0.2.0 (S1 polish Phase 1) adds lineage_id + companion_card_signature + crossbreed_history[] + voice_diary_portable[] + share_url additive (ADR-2026-04-27)."
+  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py."
 }

@@ -65,15 +65,35 @@ export function iconForBiome(biomeId) {
   return BIOME_ICONS[key] || DEFAULT_ICON;
 }
 
+// Pure: biomeModifiers → pressure tier classification.
+// TKT-ECO-A5 (2026-05-15) — surface bioma pressure derivata da diff_base +
+// hazard.stress_modifiers. Soglia: hostile se pressure_initial_bonus > 0 OR
+// hp_mult > 1.0. Default biomes (savana diff_base 2) → null (chip standard).
+export function pressureTier(biomeModifiers) {
+  if (!biomeModifiers || typeof biomeModifiers !== 'object') return null;
+  const hpMult = Number(biomeModifiers.hp_mult || 1.0);
+  const pressureInit = Number(biomeModifiers.pressure_initial_bonus || 0);
+  const pressurePerRound = Number(biomeModifiers.pressure_mult || 0);
+  if (hpMult >= 1.15 || pressureInit >= 15 || pressurePerRound >= 3) return 'severe';
+  if (hpMult > 1.0 || pressureInit > 0 || pressurePerRound > 0) return 'elevated';
+  return null;
+}
+
 // Pure: payload → HTML chip. Returns empty string se biome_id mancante.
-export function formatBiomeChip(biomeId) {
+// Optional biomeModifiers param adds pressure indicator (TKT-ECO-A5).
+export function formatBiomeChip(biomeId, biomeModifiers = null) {
   if (!biomeId) return '';
   const icon = iconForBiome(biomeId);
   const label = labelForBiome(biomeId);
   if (!label) return '';
+  const tier = pressureTier(biomeModifiers);
+  const pressureHtml = tier
+    ? `<span class="biome-pressure biome-pressure-${tier}" data-tier="${tier}">${tier === 'severe' ? '⚠⚠' : '⚠'}</span>`
+    : '';
   return (
     `<span class="biome-icon">${icon}</span>` +
-    `<span class="biome-label">${escapeHtml(label)}</span>`
+    `<span class="biome-label">${escapeHtml(label)}</span>` +
+    pressureHtml
   );
 }
 
@@ -93,9 +113,10 @@ function escapeHtml(s) {
 
 // Side effect: render biome chip into HUD container element.
 // Idempotent — sostituisce innerHTML. Hide via .biome-hidden class quando biome_id null.
-export function renderBiomeChip(containerEl, biomeId) {
+// TKT-ECO-A5 — optional biomeModifiers param surface pressure tier indicator.
+export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null) {
   if (!containerEl || typeof containerEl.innerHTML !== 'string') return;
-  const html = formatBiomeChip(biomeId);
+  const html = formatBiomeChip(biomeId, biomeModifiers);
   if (!html) {
     containerEl.innerHTML = '';
     containerEl.classList.add('biome-hidden');
@@ -104,6 +125,17 @@ export function renderBiomeChip(containerEl, biomeId) {
   }
   containerEl.classList.remove('biome-hidden');
   containerEl.innerHTML = html;
-  // Tooltip nativo: mostra biome_id raw per advanced users + futuro link codex.
-  containerEl.setAttribute('title', `Biome: ${biomeId} — vedi Codex per dettagli`);
+  // Tooltip nativo: mostra biome_id raw + pressure detail se applicable.
+  const tier = pressureTier(biomeModifiers);
+  let tooltip = `Biome: ${biomeId} — vedi Codex per dettagli`;
+  if (tier === 'severe') {
+    const hp = Math.round((Number(biomeModifiers?.hp_mult || 1) - 1) * 100);
+    const init = Number(biomeModifiers?.pressure_initial_bonus || 0);
+    const tick = Number(biomeModifiers?.pressure_mult || 0);
+    tooltip = `Bioma OSTILE: HP nemici +${hp}% / pressure init +${init} / +${tick}/round. Vedi Codex.`;
+  } else if (tier === 'elevated') {
+    const hp = Math.round((Number(biomeModifiers?.hp_mult || 1) - 1) * 100);
+    tooltip = `Bioma stress elevato: HP nemici +${hp}%. Vedi Codex per dettagli.`;
+  }
+  containerEl.setAttribute('title', tooltip);
 }

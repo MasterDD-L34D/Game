@@ -25,6 +25,19 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
+// ADR-2026-05-15 Phase 4c — canonical species_catalog.json single SOT.
+// Legacy fallback species.yaml during transition (Phase 4c.6 git rm pending).
+const DEFAULT_SPECIES_CATALOG = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'species',
+  'species_catalog.json',
+);
 const DEFAULT_SPECIES_YAML = path.join(
   __dirname,
   '..',
@@ -40,26 +53,68 @@ const DEFAULT_BONUS_DAMAGE = 1;
 
 let _cache = null;
 
-function loadSynergyCatalog({ filepath = DEFAULT_SPECIES_YAML, force = false } = {}) {
-  if (_cache && !force) return _cache;
-  const raw = fs.readFileSync(filepath, 'utf8');
-  const parsed = yaml.load(raw) || {};
-  const synergies = (parsed.catalog && parsed.catalog.synergies) || [];
-  const speciesParts = {}; // species_id -> Set<slot.part>
-  for (const sp of parsed.species || []) {
-    if (!sp.id || !sp.default_parts) continue;
-    const set = new Set();
-    for (const [slot, val] of Object.entries(sp.default_parts)) {
-      if (Array.isArray(val)) {
-        for (const part of val) {
-          if (typeof part === 'string' && part) set.add(`${slot}.${part}`);
-        }
-      } else if (typeof val === 'string' && val) {
-        set.add(`${slot}.${val}`);
+/** Build slot.part Set from a default_parts dict (slot → str|list[str]). */
+function _partsSetFromDefault(defaultParts) {
+  const set = new Set();
+  if (!defaultParts || typeof defaultParts !== 'object') return set;
+  for (const [slot, val] of Object.entries(defaultParts)) {
+    if (Array.isArray(val)) {
+      for (const part of val) {
+        if (typeof part === 'string' && part) set.add(`${slot}.${part}`);
       }
+    } else if (typeof val === 'string' && val) {
+      set.add(`${slot}.${val}`);
     }
-    speciesParts[sp.id] = set;
   }
+  return set;
+}
+
+// ADR-2026-05-15 Phase 4c refactor 2026-05-15:
+// - Primary: species_catalog.json v0.4.x (53 species + catalog_synergies preserved)
+// - Fallback: species.yaml (DEPRECATED Phase 4c.6 removal pending Python migration)
+function loadSynergyCatalog({
+  catalogPath = DEFAULT_SPECIES_CATALOG,
+  filepath = DEFAULT_SPECIES_YAML,
+  force = false,
+} = {}) {
+  if (_cache && !force) return _cache;
+  let synergies = [];
+  const speciesParts = {}; // species_id -> Set<slot.part>
+
+  // PRIMARY: species_catalog.json (canonical post ADR-2026-05-15).
+  let primaryLoaded = false;
+  try {
+    const text = fs.readFileSync(catalogPath, 'utf8');
+    const parsed = JSON.parse(text);
+    synergies = Array.isArray(parsed.catalog_synergies) ? parsed.catalog_synergies : [];
+    const list = Array.isArray(parsed.catalog) ? parsed.catalog : [];
+    for (const sp of list) {
+      if (!sp.species_id || !sp.default_parts) continue;
+      speciesParts[sp.species_id] = _partsSetFromDefault(sp.default_parts);
+    }
+    primaryLoaded = true;
+  } catch (err) {
+    if (err && err.code !== 'ENOENT') {
+      console.warn('[synergyDetector] catalog load failed:', err.message || err);
+    }
+  }
+
+  // FALLBACK: legacy species.yaml (back-compat Phase 4c.6 transition).
+  if (!primaryLoaded) {
+    try {
+      const raw = fs.readFileSync(filepath, 'utf8');
+      const parsed = yaml.load(raw) || {};
+      synergies = (parsed.catalog && parsed.catalog.synergies) || [];
+      for (const sp of parsed.species || []) {
+        if (!sp.id || !sp.default_parts) continue;
+        if (speciesParts[sp.id]) continue; // catalog wins
+        speciesParts[sp.id] = _partsSetFromDefault(sp.default_parts);
+      }
+    } catch (err) {
+      console.warn('[synergyDetector] legacy fallback failed:', err.message || err);
+    }
+  }
+
   _cache = { synergies, speciesParts };
   return _cache;
 }
