@@ -143,6 +143,21 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             pack.get('default_parts')
             or (legacy.get('default_parts') if legacy else None)
         )
+        # ADR-2026-05-15 Phase 4c.6 follow-up — extract trait_refs from legacy
+        # trait_plan dict (core+optional+synergies) when pack lacks them.
+        # Codex review 2026-05-15: beastBondCatalogIntegrity needs bond traits
+        # (legame_di_branco, spirito_combattivo) preserved per dune_stalker etc.
+        pack_trait_refs = pack.get('trait_refs', []) or []
+        if not pack_trait_refs and legacy:
+            tp = legacy.get('trait_plan')
+            if isinstance(tp, dict):
+                pack_trait_refs = []
+                for key in ('core', 'optional', 'synergies'):
+                    section = tp.get(key) or []
+                    if isinstance(section, list):
+                        pack_trait_refs.extend(t for t in section if isinstance(t, str))
+            elif isinstance(tp, list):
+                pack_trait_refs = [t for t in tp if isinstance(t, str)]
         return {
             'species_id': species_id,
             'scientific_name': pack.get('scientific_name', species_id.replace('_', ' ').title()),
@@ -155,7 +170,7 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'constraints': pack.get('constraints', []),
             'sentience_index': sentience,
             'ecotypes': pack.get('ecotypes', []),
-            'trait_refs': pack.get('trait_refs', []),
+            'trait_refs': pack_trait_refs,
             'lifecycle_yaml': f'data/core/species/{species_id}_lifecycle.yaml',
             'clade_tag': clade_tag,
             'role_tags': role_tags if isinstance(role_tags, list) else [],

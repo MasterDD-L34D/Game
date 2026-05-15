@@ -167,5 +167,17 @@ function validate(path: string) {
   process.exit(report.errors === 0 ? 0 : 1);
 }
 
+// ADR-2026-05-15 Phase 4c.6: data/core/species.yaml RIMOSSO. Validator
+// è YAML-schema-specific (catalog.slots + species[].trait_plan dict shape)
+// e NON valida JSON catalog format. Exit 0 con warning se path missing per
+// back-compat CI typescript-tests step. Codex review 2026-05-15 follow-up.
 const pathArg = process.argv[2] || '../../data/core/species.yaml';
+if (!fs.existsSync(pathArg)) {
+  console.error(
+    `[validate_species.ts] DEPRECATED: ${pathArg} non trovato (Phase 4c.6 removed). ` +
+      `Canonical SOT moved to data/core/species/species_catalog.json. Skipping validation. ` +
+      `See docs/adr/ADR-2026-05-15-species-catalog-schema-fork-resolution.md`,
+  );
+  process.exit(0);
+}
 validate(pathArg);
