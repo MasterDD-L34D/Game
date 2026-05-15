@@ -201,7 +201,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "indirect con pulverator_gregarius"
+        "symbiosis": "Le rotte di scavo notturne del dune_stalker tracciano la mappa dell'acqua profonda che il branco di pulverator gregarius usa per orientarsi al tramonto: senza il rumore collettivo dei pulverator, le sue scansioni vibrazionali perdono il fondo acustico — e senza i suoi tunnel, il branco perde la sete guida. La sabbia porta le tracce di entrambi: non si separano mai del tutto."
       },
       "constraints": [],
       "sentience_index": "T2",
@@ -269,7 +269,7 @@
       "source": "game-canonical-stub",
       "merged_at": "2026-05-15",
       "_provenance": {
-        "interactions.symbiosis": "heuristic-ecology-mutualism"
+        "interactions.symbiosis": "claude-polish-skiv-canonical-savana"
       }
     },
     {
@@ -1090,7 +1090,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie apex con elettromagnete_biologico + scivolamento_magnetico.",
-      "visual_description": "Predatore apicale delle fratture abissali sinaptiche. Planata sospesa su correnti magnetiche, virate fluide, campo bioelettrico permanente emanato dal corpo, scariche elettriche concentriche dall’addome.",
+      "visual_description": "Creatura silenziosa delle fratture abissali, vola su correnti magnetiche invisibili con un'eleganza che non ha bisogno di velocità — sa già dove arriverà la preda. Il campo bioelettrico le avvolge il corpo come un sudario luminoso; quando scarica, l'intero piano sinaptico trema.",
       "risk_profile": {
         "danger_level": 5,
         "vectors": [
@@ -1162,7 +1162,7 @@
         "interactions.predates_on": "heuristic-pattern-B-clade-biome",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1177,7 +1177,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie keystone con metabolismo_di_condivisione_energetica + scheletro_idraulico_a_pistoni.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Galleggia sulla dorsale termale come un officiante sopra l'altare: il polso termico che emette non è aggressione, è redistribuzione. Senza il suo scheletro idraulico a pistoni che regola la pressione dei venti caldi, l'intera colonia corale sovrastante collassa in stagioni. Non è il più forte — è ciò senza cui il forte non esiste.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
@@ -1185,7 +1185,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Il pulso termico che irradia stabilizza le colonie batteriche chemiosintetiche della dorsale: senza la sua regolazione, la temperatura fluttua oltre la soglia di tolleranza e tre livelli trofici collassano in una stagione."
       },
       "constraints": [
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
@@ -1237,8 +1237,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1253,7 +1253,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie threat con cannone_sonico_a_raggio + campo_di_interferenza_acustica.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Nell'istante prima dell'attacco, tutta la canopia ionica diventa silenziosa: il suo campo di interferenza acustica precede il corpo di due secondi. La lancia sonica che emette non è un grido — è la negazione del suono altrui, un vuoto che si espande fino a stordire prima che le zanne tocchino. Predatore che uccide il senso prima del corpo.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
@@ -1313,7 +1313,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1328,7 +1328,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie bridge con corna_psico_conduttive + focus_frazionato.",
-      "visual_description": "Specie ponte. Olfatto magnetico, sente correnti ferromagnetiche.",
+      "visual_description": "Arrampica la caldera glaciale con l'attenzione di chi legge il paesaggio come testo: le corna psico-conduttive captano le correnti ferromagnetiche che altri esseri ignorano, traducendo il silenzio del ghiaccio in informazione navigabile. Abita la soglia tra il freddo e il psionico, curiosa di entrambi.",
       "risk_profile": {
         "danger_level": 4,
         "vectors": [
@@ -1340,7 +1340,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le corna psico-conduttive traducono i sussurri ferromagnetici della caldera in segnali leggibili dalle specie più lente: tre clade montani usano i suoi pattern psionici come navigazione di gruppo. Senza il suo passaggio meditativo lungo i crinali, la rete di consapevolezza condivisa si frammenta in stagioni."
       },
       "constraints": [
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito",
@@ -1393,8 +1393,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1409,7 +1409,7 @@
         "habitat": "unknown"
       },
       "functional_signature": "Specie playable con flusso_ameboide_controllato + fagocitosi_assorbente.",
-      "visual_description": "delle paludi salmastre.",
+      "visual_description": "Creatura delle paludi salmastre che non ha ancora deciso quale forma preferisce: il flusso ameboide le lascia aperta ogni possibilità, e la fagocitosi che pratica non è solo alimentazione — è curiosità che incorpora il mondo per capirlo meglio. Cresce con chi la accompagna, cambia con le stagioni, porta addosso ogni incontro come uno strato in più.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": [
@@ -1471,7 +1471,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-playable",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1486,7 +1486,7 @@
         "habitat": "cinder-dunes"
       },
       "functional_signature": "Specie apex con coda_contrappeso + midollo_iperattivo.",
-      "visual_description": "Predatore apicale.",
+      "visual_description": "La coda è il suo metronomo: ogni oscillazione scandisce l'attesa, poi il midollo iperattivo innesca lo scatto prima che l'occhio lo registri. Predatore che vince non per forza ma per anticipo — il territorio è già suo nel momento in cui entra in scena.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": [
@@ -1538,7 +1538,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1553,7 +1553,7 @@
         "habitat": "ferrous-badlands"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Scava nella materia morta con la pazienza di chi sa che il ciclo non ha fretta. Il suo corpo è il confine tra ciò che è stato e ciò che tornerà utile: ogni boccone di detrito che inghiotte è cibo restituito sotto altra forma a tre specie diverse. Toglietelo e la rete trofica inizia a digiunare.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -1561,7 +1561,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "La sua attività di scavo redistribuisce detriti organici verso gli strati superficiali dove le specie fitofaghe possono raggiungerli: ogni carcassa che elabora diventa substrato per almeno due specie che non avrebbero trovato cibo da sole."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -1601,8 +1601,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1617,7 +1617,7 @@
         "habitat": "redspur-mesa"
       },
       "functional_signature": "Specie bridge con ali_membrana_sonica + canto_di_richiamo.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Le membrane soniche delle ali non servono solo al volo: sono uno strumento che suona il bioma mentre lo attraversa. Il canto di richiamo cambia frequenza a ogni habitat visitato, come se imparasse la lingua locale prima di posarsi. Dispersore che porta notizie di luoghi che nessun'altra specie ha visitato.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -1625,7 +1625,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le ali a membrana sonica modulano il canto di richiamo in frequenze che le specie sedentarie usano come cronometro stagionale: quando smette di passare, almeno due specie del sottobosco perdono il segnale per migrare e restano fuori finestra riproduttiva."
       },
       "constraints": [
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
@@ -1659,8 +1659,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1675,7 +1675,7 @@
         "habitat": "shardfall-ridge"
       },
       "functional_signature": "Specie threat con intimidatore + lamelle_shear.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "L'intimidazione non è un segnale: è la sua prima arma. Le lamelle shear si aprono in ventaglio quando la distanza scende sotto la soglia di sicurezza, e il suono che producono è già abbastanza per fermare il cuore di una preda media. Chi non si ferma scopre le zanne nel modo sbagliato.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -1718,7 +1718,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1733,7 +1733,7 @@
         "habitat": "saltglass-flats"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Nelle faglie saline più profonde dove la luce non ricorda di esistere, decompone con metodo liturgico: prima i composti solforati, poi i residui minerali, infine il vuoto che prepara per il prossimo ciclo. La sua assenza non si nota subito — si nota quando due specie di predatori iniziano a competere per una preda che non c'è più.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -1741,7 +1741,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Nelle fasce saline anossiche decompone con metodologia che libera fosfati assorbibili dalle radici delle specie alofite adiacenti: toglietela e le piante del margine salino iniziano a cedere in tre cicli."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -1773,8 +1773,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1789,7 +1789,7 @@
         "habitat": "redspur-mesa"
       },
       "functional_signature": "Specie bridge con ali_fulminee + membrane_pneumatofori.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Le ali fulminee la portano oltre ogni confine di bioma prima che l'aria cambi di nuovo. Le membrane pneumatofore le permettono di planare senza battito per ore, leggendo le correnti come una mappa. Esplora i margini perché i centri non la interessano — è nei bordi che l'ecosistema si rivela.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -1797,7 +1797,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le ali fulminee disperdono semi e spore su rotte aeree che nessun altro essere raggiunge: ogni traversata fertilizza i margini di biomi che il vento da solo non collegherebbe. È il filo invisibile che cuce gli habitat distanti."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step"
@@ -1831,8 +1831,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1847,7 +1847,7 @@
         "habitat": "ferrous-badlands"
       },
       "functional_signature": "Specie apex con denti_ossidoferro + carapaci_ferruginosi.",
-      "visual_description": "Predatore apicale.",
+      "visual_description": "I denti ossidoferro non lacerano: franano, come una rupe che cede. Il carapace ferruginoso cattura la luce in riflessi bruciati che anticipano ogni combattimento prima che inizi. Dove passa, la rete trofica non si richiude per settimane.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -1888,7 +1888,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1903,7 +1903,7 @@
         "habitat": "cinder-dunes"
       },
       "functional_signature": "Specie threat con denti_silice_termici + zampe_radianti.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Le zampe radianti accumulano calore nei tendini per ore, immobili, finché lo scatto è inevitabile come un crollo. I denti silice-termici entrano nella preda alla temperatura della fusione: non tagliano, cauterizzano nell'atto stesso. Cacciatore che non insegue — attende che la preda entri nel raggio del salto.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -1946,7 +1946,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -1961,7 +1961,7 @@
         "habitat": "basalt-grottos"
       },
       "functional_signature": "Specie support con artigli_vetrificati + ghiandole_fango_calde.",
-      "visual_description": "Specie di supporto.",
+      "visual_description": "Gli artigli vetrificati non sono armi — sono strumenti di ancoraggio nelle zone vulcaniche dove nessun altro può tenersi fermo. Le ghiandole di fango caldo riparano le fessure del substrato dove altre specie si insediano dopo di lei: lavora in silenzio, poi sparisce prima che gli inquilini arrivino.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": [
@@ -2004,7 +2004,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2019,7 +2019,7 @@
         "habitat": "cinder-dunes"
       },
       "functional_signature": "Specie keystone con artigli_radice + membrane_eliofiltranti.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Le membrane eliofiltranti trasformano ogni ora di luce in biomassa che non trattiene per sé: i brucatori la trovano già parzialmente pre-digerita nei solchi che gli artigli-radice lasciano nel suolo. Pascola senza fretta, perché sa di essere la condizione di possibilità di tutto ciò che pascola con lui.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": [
@@ -2029,7 +2029,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le membrane eliofiltranti convertono la luce solare in exsudate che fertilizzano il suolo attorno ai percorsi di pascolo: i micro-organismi del suolo prosperano sui suoi sentieri e le specie detritivore seguono la sua rotta stagionale."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -2068,8 +2068,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2084,7 +2084,7 @@
         "habitat": "lumen-canopy"
       },
       "functional_signature": "Specie bridge con carapace_segmenti_logici.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Il carapace a segmenti logici si piega ad angoli diversi a seconda del substrato che attraversa, come se il corpo stesso stesse prendendo appunti sul territorio. Dispersore metodico: porta semi, spore e frammenti genetici tra habitat che altrimenti non si toccherebbero mai.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -2092,7 +2092,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Il carapace a segmenti logici codifica memoria di percorsi che le compagne usano per coordinare i raid di raccolta: traccia rotte vibrazionali che diventano via permanente per il clan, riducendo lo spreco di energia delle generazioni successive."
       },
       "constraints": [
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
@@ -2123,8 +2123,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2139,7 +2139,7 @@
         "habitat": "paleroot-tangle"
       },
       "functional_signature": "Specie support con biofilm_glow + carapace_luminiscente_abissale.",
-      "visual_description": "Specie di supporto.",
+      "visual_description": "Il biofilm luminescente che secerne non è esibizione: è un segnale che orienta le specie batteriche simbionti verso le zone del substrato dove il carapace abissale ha già pre-digerito i nutrienti. Lavora per altri, nella penombra, senza aspettare reciprocità.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -2180,7 +2180,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2195,7 +2195,7 @@
         "habitat": "ember-marsh"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Galleggia appena sotto la superficie con la pazienza di chi sa che il tempo è sempre dalla sua parte. La dentatura serrata non è per uccidere veloce: è per trattenere mentre la corrente fa il resto del lavoro. Predatore d'acqua, geometria di agguato perfetta.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2235,7 +2235,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2250,7 +2250,7 @@
         "habitat": "umbral-karst"
       },
       "functional_signature": "Specie bridge con antenne_microonde_cavernose + tentacoli_uncinati.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Le antenne microonde cavernose le permettono di mappare le cavità rocciose dall'esterno, annusando l'architettura sotterranea senza entrarci. I tentacoli uncinati la ancorano alle pareti mentre scansiona: esploratore della soglia tra il mondo aperto e quello nascosto.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": [
@@ -2260,7 +2260,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le antenne a microonde cavernose mappano cavità invisibili dove le specie troglofile si ricovrano nelle stagioni avverse: i suoi richiami aprono rifugi che altrimenti resterebbero introvabili — è la chiave acustica della sopravvivenza ipogea."
       },
       "constraints": [
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
@@ -2292,8 +2292,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2365,7 +2365,7 @@
         "habitat": "brine-rift"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Filtra senza sosta, alveolo dopo alveolo, trattenendo solo ciò che non serve ad altri e restituendo il resto alla corrente. L'ecosistema salino ruota attorno alla sua attività come una liturgia che nessuno ha scritto ma tutti rispettano: interrompila, e la torbidità uccide prima che lo faccia qualsiasi predatore.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2373,7 +2373,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "La filtrazione alveolare rimuove la torbidità che soffocherebbe le larve delle specie bentoniche circostanti: la sua presenza è la condizione di visibilità in cui tutta la catena alimentare del basso fondale opera."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -2405,8 +2405,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2421,7 +2421,7 @@
         "habitat": "cold-mirror-fen"
       },
       "functional_signature": "Specie support con adattamenti non specificati.",
-      "visual_description": "Specie di supporto.",
+      "visual_description": "Si muove tra le specie brucatrici con una discrezione che la rende quasi invisibile al comportamento collettivo del gregge. Ripara, redistribuisce, occcupa i vuoti che gli altri lasciano senza accorgersene. Il suo contributo si nota solo quando manca.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2461,7 +2461,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2476,7 +2476,7 @@
         "habitat": "umbral-karst"
       },
       "functional_signature": "Specie keystone con cartilagini_pseudometalliche + camere_mirage.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Le cartilagini pseudometalliche riflettono le camere mirage che proietta nell'ambiente come un oracolo dell'habitat: le specie confinanti orientano i propri spostamenti stagionali sulle sue proiezioni senza sapere di farlo. È la chiave del bioma sotto forma di corpo.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -2484,7 +2484,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Le proiezioni mirage delle camere cartilagine funzionano come calendari ambientali per le specie migratorie vicine: i pattern visivi che emette segnalano i cicli stagionali che sincronizzano la riproduzione di almeno quattro specie."
       },
       "constraints": [
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
@@ -2516,8 +2516,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2532,7 +2532,7 @@
         "habitat": "cold-mirror-fen"
       },
       "functional_signature": "Specie bridge con adattamenti non specificati.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Predatrice di confine: si muove tra l'habitat glaciale e quelli adiacenti con una fluidità che i predatori strettamente specializzati non possono imitare. Non appartiene a nessun centro — la sua forza è essere a proprio agio in tutti i margini contemporaneamente.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2540,7 +2540,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Predatore della soglia glaciale: rimuove le specie più deboli che altrimenti satureranno il margine e impedirebbero la nidificazione delle clade più rare. Senza la sua pressione selettiva, il margine si chiude in monocoltura e tre nicchie si estinguono in silenzio."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step"
@@ -2571,8 +2571,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2587,7 +2587,7 @@
         "habitat": "thunder-reeds"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Onnivoro senza remore: non distingue tra preda e opportunità. La sua forza bruta è il segnale di pericolo che ogni specie del bioma ha imparato a riconoscere prima ancora di vederlo. Quando entra in un habitat, tutto ciò che può fuggire, fugge — il resto diventa cibo.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2627,7 +2627,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2699,7 +2699,7 @@
         "habitat": "cold-mirror-fen"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Si muove nell'acqua stagnante con la solennità di chi porta peso antico. Il suo ruolo non è combattere né fuggire: è mantenere, consolidare, rinsaldare i sedimenti che altrimenti andrebbero in deriva. Togli il magnus e la palude smette di essere palude — diventa un deserto sommerso.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2707,7 +2707,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Il passaggio del magnus consolida i sedimenti che altrimenti andrebbero in sospensione, mantenendo la chiarezza dell'acqua necessaria alle specie fotiche del livello superiore: è il fondamento strutturale della palude, non solo il suo abitante."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -2739,8 +2739,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2755,7 +2755,7 @@
         "habitat": "ashen-sink"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "La colorazione cinerea lo rende indistinguibile dai substrati vulcanici su cui riposa per ore. Cacciatore in agguato puro: ogni nodul sporgente del corpo è un punto di ancoraggio che riduce il profilo termico finché la preda non è abbastanza vicina da non avere scelta.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2795,7 +2795,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2810,7 +2810,7 @@
         "habitat": "mistral-hollows"
       },
       "functional_signature": "Specie bridge con adattamenti non specificati.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Trasporta spore e pollini attraverso le correnti d'aria con un'affidabilità stagionale che le specie vegetali circostanti hanno imparato a fare propria. Dispersore fedele: se il vento cambia rotta, la si trova già lì, adattata, pronta a ricominciare.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2818,7 +2818,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Disperde uova di altre specie ovipare adese alle scaglie pneumatiche: le sue rotte aeree diventano corridoi riproduttivi per clade che non potrebbero attraversare zone aperte da sole. Trasporta il futuro genetico altrui come bagaglio inconsapevole."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step"
@@ -2849,8 +2849,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2865,7 +2865,7 @@
         "habitat": "crystal-scree"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Si muove in cerca di cibo con una puntualità che sembra metodica: lo stesso percorso, la stessa ora, la stessa pazienza. È il predatore della routine altrui — impara i ritmi delle specie vicine e li sfrutta con una precisione che non lascia margine di scampo.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2905,7 +2905,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2920,7 +2920,7 @@
         "habitat": "hollow-fumaroles"
       },
       "functional_signature": "Specie keystone con adattamenti non specificati.",
-      "visual_description": "Specie chiave.",
+      "visual_description": "Assorbe i fumi solforosi che ucciderebbero ogni altra forma di vita e li trasforma in substrato organico con una chimica che ancora sfida l'analisi. Nelle zone vulcaniche attive, è l'unica presenza che precede tutte le altre: arriva prima, prepara il terreno, poi si ritrae quando l'ecosistema non ha più bisogno di lei.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2928,7 +2928,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Neutralizza la tossicità sulfurea delle emanazioni vulcaniche abbassando la soglia di colonizzazione dell'habitat: ogni specie pioniera che arriva dopo di lei trova già un substrato respirabile che lei ha preparato senza rimanere ad aspettare ringraziamenti."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step",
@@ -2960,8 +2960,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-keystone",
+        "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -2976,7 +2976,7 @@
         "habitat": "lumen-canopy"
       },
       "functional_signature": "Specie bridge con adattamenti non specificati.",
-      "visual_description": "Specie ponte.",
+      "visual_description": "Bruca lentamente, senza urgenza, seguendo il bordo tra la copertura arborea e lo spazio aperto come se cercasse il punto esatto dove un habitat lascia spazio all'altro. Non è il più veloce né il più forte: è il più presente, e la sua presenza rende permeabile ogni confine che incontra.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -2984,7 +2984,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "possibili mutualismi cross-bioma (master-dd review)"
+        "symbiosis": "Il pascolo selettivo apre clearings tra le canopie dove le specie eliofile prosperano: ogni traccia di erba consumata diventa nicchia di luce per il sottobosco. Mangiando, costruisce — anche se non sa di farlo."
       },
       "constraints": [
         "Risponde a stimoli immediati senza tattiche multi-step"
@@ -3015,8 +3015,8 @@
         "risk_profile.vectors": "heuristic-trait-vector-map",
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-clade-keystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-bridge",
+        "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3031,7 +3031,7 @@
         "habitat": "umbral-karst"
       },
       "functional_signature": "Specie apex con ghiandole_condensa_ozono.",
-      "visual_description": "Predatore apicale.",
+      "visual_description": "Condensa ozono nelle ghiandole dorsali e lo rilascia come una firma olfattiva che marca il silenzio prima di lui. Predatore della soglia notturna, non insegue: aspetta che il buio porti la preda verso le sue zampe immobili. Il suo territorio si misura in ombre, non in metri.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -3077,7 +3077,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3092,7 +3092,7 @@
         "habitat": "ironbloom-wastes"
       },
       "functional_signature": "Specie support con circolazione_bifasica.",
-      "visual_description": "Specie di supporto.",
+      "visual_description": "La circolazione bifasica le permette di regolare la temperatura corporea in modo che i parassiti termici che colpirebbero le specie circostanti vengano assorbiti e neutralizzati nel suo metabolismo. Guardiana silenziosa del gregge: non combatte, assorbe.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -3134,7 +3134,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3149,7 +3149,7 @@
         "habitat": "silt-delta"
       },
       "functional_signature": "Specie threat con adattamenti non specificati.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "La biforcazione corporea le permette di occupare due traiettorie simultanee nella corrente limosa, avvicinandosi alla preda da angoli opposti. Non è veloce — è inevitabile: la geometria del suo attacco non lascia via di fuga che non sia già presidiata.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
@@ -3189,7 +3189,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3204,7 +3204,7 @@
         "habitat": "savana"
       },
       "functional_signature": "Specie apex con denti_seghettati + artigli_sette_vie.",
-      "visual_description": "Predatore apicale delle savane aperte e calde.",
+      "visual_description": "Nato dove la savana smette di fingere e la sabbia governa senza appello, si muove in branco con la stessa logica del vento: non sceglie una direzione, la porta. I denti seghettati lasciano tracce che il suolo ricorda giorni dopo; gli artigli sette-vie incidono l'aria come scrittura che solo il territorio sa leggere. Dove il branco è passato, le voci nel vuoto tacciono.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": [
@@ -3215,7 +3215,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [],
-        "symbiosis": "indirect con dune_stalker"
+        "symbiosis": "Il branco segna la traiettoria notturna di migrazione che il dune_stalker usa per orientarsi nelle scansioni vibrazionali: senza il rumore dei passi collettivi, il cacciatore solitario perde il filo del suolo. La sabbia porta tracce di entrambi — non si separano mai del tutto."
       },
       "constraints": [
         "Solitario territoriale, raramente in branco"
@@ -3276,8 +3276,8 @@
       "_provenance": {
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
-        "interactions.symbiosis": "heuristic-ecology-mutualism",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "interactions.symbiosis": "claude-polish-skiv-style-apex-savana",
+        "visual_description": "claude-polish-skiv-adjacent-savana",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3292,7 +3292,7 @@
         "habitat": "cicloni_psionici"
       },
       "functional_signature": "Specie apex con antenne_plasmatiche_tempesta + sensori_geomagnetici.",
-      "visual_description": "Predatore apicale.",
+      "visual_description": "Le antenne plasmatiche si erigono quando la pressione barometrica cala, trasformando ogni tempesta in un senso supplementare. Usa i sensori geomagnetici per triangolare le prede a distanze che sfidano la logica della caccia convenzionale. Quando attacca, lo fa dall'interno della tempesta — nessuno lo vede arrivare.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": [
@@ -3354,7 +3354,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     },
@@ -3369,7 +3369,7 @@
         "habitat": "abisso_vulcanico"
       },
       "functional_signature": "Specie threat con circolazione_supercritica + sangue_piroforico.",
-      "visual_description": "Specie minaccia.",
+      "visual_description": "Il sangue piroforico scorre a temperature che rendono ogni ferita una doppia minaccia: il danno fisico e il calore che lo accompagna. Quando la circolazione supercritica entra in fase di collasso, il corpo diventa un'arma indiretta — avvicinarsi troppo ha un costo che la preda paga due volte.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
@@ -3429,7 +3429,7 @@
         "interactions.predates_on": "needs-master-dd",
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
-        "visual_description": "heuristic-pattern-A-tag-driven",
+        "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical"
       }
     }
