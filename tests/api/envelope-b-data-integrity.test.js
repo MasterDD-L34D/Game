@@ -103,8 +103,16 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
   const catalog = JSON.parse(fs.readFileSync(catPath, 'utf8'));
 
   test('version + provenance + stats present', () => {
-    // ADR-2026-05-15 Q1 Option A bumped v0.2.0 -> v0.3.0 (53 species single SOT).
-    assert.equal(catalog.version, '0.3.0');
+    // ADR-2026-05-15 Q1 Option A version sequence:
+    //   v0.2.0 (PR #2262 Envelope B initial 15 species)
+    //   v0.3.0 (Phase 1+2 — 53 species single SOT post legacy absorb)
+    //   v0.3.1 (Phase 3 Path Quick — heuristic enrichment 38 legacy entries)
+    // Accept >= 0.3.0 per Phase 1+ canonical state.
+    assert.match(
+      catalog.version,
+      /^0\.3\.\d+$/,
+      `catalog version must be 0.3.x (got ${catalog.version})`,
+    );
     assert.ok(catalog.merged_at);
     assert.ok(catalog.source_provenance);
     assert.ok(catalog.stats);
