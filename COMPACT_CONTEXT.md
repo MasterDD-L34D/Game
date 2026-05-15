@@ -11,7 +11,63 @@
 - **Versione compact**: v40 (post sessione 2026-05-11 verdict batch + scope tickets cascade + M14-B + P2 Brigandine A+B+C — 113 PR cumulative Day 5+1+2+3)
 - **Ultimo aggiornamento**: 2026-05-11 ~22:00 UTC. **113 PR cumulative** (112 Game/ + 2 Game-Godot-v2 #217+#218 MERGED). Major delta v39→v40 (20 PR turno verdict + cascade): verdict batch 4 ADR/proposal ACCEPTED (#2234-#2237) + 4 cascade scoped tickets (#2238-#2247: C6 install-doc + C4 mutation Phase 6 + B1 UI polish + P6 rewind + M15 promotion + C1 Vue 3 4/5 + P6-FE rewind HUD + M15-FE promotion UI + M14-A elevation+terrain + C1-FE editor full port) + M14-B Conviction Phase A+B+C cross-fase (#2248-#2250: engine + 5 dialogue branches + 2 endpoints + 9 tests) + TKT-P2 Brigandine Phase A+B+C cross-fase (#2251-#2253: seasonal engine + 4 seasons YAML + 2 phases + 6 endpoints + 11 tests). Pillar deltas v40: P1 🟢 → 🟢++ (elevation+terrain) + P2 🟢ⁿ → 🟢ⁿ+ (Brigandine seasonal stack) + P3 🟢ⁿ confermato (promotion engine) + P4 🟡 → **🟢 candidato** (Conviction system FULL closure) + P5 🟢++ confermato + P6 🟢 → 🟢 confermato (rewind safety valve). AI 393→417 + API 988→1069 verde. **Vedi memory: project_session_2026_05_11_verdict_cascade_v40.md**.
 
-## ⚡ Resume trigger phrase canonical (next session — post-2026-05-11 verdict cascade v40)
+## ⚡ TL;DR sessione 2026-05-13/14/15 — ecosystem audit + ai-station Envelope A+B+C cascade (v41)
+
+**Trigger user**: "analizza col metodo tutta l'infrastruttura Ecosistema > Biomi > reti trofiche > hazard > specie > mating > creature giocabili ed evoluzioni" (2026-05-13).
+
+**Cascade cumulative 14 PR shipped** (Game/ + Godot v2 + vault):
+
+| PR | Topic | Tests |
+|---|---|:--:|
+| Game/ #2260 | Audit ecosystem 7-strati 495 LOC + plan 22 ticket TKT-ECO-XX 730 LOC | docs |
+| Game/ #2261 | Envelope A bundle (OD-025 smoke + OD-028 Howler + OD-030 flag-ON) | 16/16 |
+| Game/ #2262 | Envelope B bundle (OD-024 + OD-025-B2 + OD-027 + OD-029 + OD-031) | 24/24 |
+| Game/ #2263 | fix promotion JS FALLBACK_CONFIG cross-stack parity drift | parity |
+| Game/ #2264 | Phase B3 PromotionEngine job_archetype_bias + vc_scoring sentience fold | TKT-A8 |
+| Game/ #2265 | Playtest #2 analyzer + cross-stack fixture | infra |
+| Game/ #2266 | Cloudflare prod deploy guide + Playtest #2 synthetic baseline (P3 🟡 + P4 🟢 + P6 🟢) | E ✅ |
+| Game/ #2267 | GSD audit Bundle B — conviction tactical flags + balance tweaks | P3+P4 |
+| Game/ #2268 | Phase B4 promotionEngine job_threshold_override engine consume | P3 |
+| Game/ #2269 | endCombat debrief_payload backend wire | coop |
+| Game/ #2270 | broadcast debrief_payload type — Phase-3 cross-stack closure | open |
+| Godot v2 #259 | Envelope B mirror SpeciesCatalog + NeuronsBridgeCatalog + PromotionEngine | 60/60 |
+| Godot v2 #260 | Envelope C scaffold OD-026 Diegetic Atlas (TV + Phone) | 18/18 |
+| Vault #5 | ai-station re-analisi 6/8 verdict ribaltato "finish work, not conservative" | docs |
+
+**Cumulative tests cross-stack**: 118/118 verde + ai-station tests 393 → 422 (Game/) + 1877 → 1955 (Godot v2).
+
+**8/8 OD audit ai-station re-analysis CLOSED** post cross-validation (OD-024 + OD-025-B2 + OD-026 + OD-027 + OD-028 + OD-029 + OD-030 + OD-031). 5 OD aperte storiche resolved cascade.
+
+**Pillar deltas v40 → v41 confermati**:
+- P3 Identità: 🟢-cand → 🟢 candidato HARD (PromotionEngine elite+master + B3 + B4 + parity)
+- P4 Temperamenti: 🟢-cand → 🟢 candidato HARD (sentience 15/15 + 51 neurons + vc_scoring fold + 4 traits interocettivi)
+- P5 Co-op: 🟢 confirmed + Phase-3 debrief_payload cross-stack closure (#2270 in flight)
+- P6 Fairness: 🟢 candidato confermato (conviction tactical flags inline)
+
+🟢 hard final ancora gated **Playtest #2 userland** (master-dd manual, 4 amici).
+
+**Phase A residue mio plan TKT-ECO-XX (~9-10h)**:
+- A1 ✅ smoke mutations PARTIAL-WIRED (visual aspect_token + MP accrual + API wrapper)
+- A2 ✅ shipped via #2261 verify smoke
+- A3 ✅ museum card M-007 post-script "FULL CLOSURE OD-001 Path A 2026-04-27"
+- A7 ✅ mating.yaml pack drift sync (gene_slots 84 LOC core → pack)
+- A8 ✅ shipped via #2264 (Phase B3 promotions engine)
+- A6 🟡 PARTIAL backend chain wired, frontend characterCreation label gap (~30 LOC, scope creep)
+- A5 ⏳ pending bioma diff_base + hazard pressure modifier (~3h, sessionHelpers backend)
+- A4-residue ⏳ pending 30 species heuristic sentience (~3-4h, master-dd review)
+
+**3 governance Q questions still open** (vault re-analisi cascade NON addressed):
+- Q1 schema fork OD-027 (species.yaml 45 ↔ catalog 15 dual SOT)
+- Q2 TKT-ECO-A7 mating drift autonomous → ✅ shipped this session
+- Q3 TKT-ECO-A8 promotions engine Phase B3 → ✅ shipped via #2264
+
+**Branch claude/analyze-ecosystem-infrastructure-W4Lyf**: post-merge HEAD `2889a90` con commit residui Codex fix + cascade verify + A1/A3/A7 + branch sync. Future session reuse o delete dopo final closure.
+
+**Anti-pattern killer milestone**: PR #2260 cross-validation L7c Promotions ORPHAN claim FALSE NEGATIVE → museum discard card M-2026-05-13-001 + lessons codify per Explore agent inventory tasks (grep cross sub-dir naming variants + import destrutturati cross routes).
+
+---
+
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-15 ai-station cascade v41)
 
 **Primary** (Phase B Day 7 formal closure):
 

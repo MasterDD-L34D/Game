@@ -9,6 +9,39 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Ecosystem audit + ai-station Envelope A+B+C cascade — sessione 2026-05-13/14/15 — 14 PR cross-stack shipped
+
+User trigger 2026-05-13: "analizza col metodo tutta l'infrastruttura Ecosistema > ... > evoluzioni" → ecosystem 7-strati audit (495 LOC) + plan 22 ticket TKT-ECO-XX (730 LOC) → 8 OD raised → vault PR #5 ai-station re-analisi → master-dd direction "finish work, not conservative" → cascade 13 PR shipped cross-stack ~26h delivery.
+
+**Ticket TKT-ECO-XX status post-cascade** (Phase A residue ai-station codemasterdd protocol):
+
+| Ticket | Effort | Status | Channel |
+|---|:--:|:--:|---|
+| A1 smoke mutations UI | 0.5h | ✅ DONE | audit verify (PARTIAL-WIRED finding) |
+| A2 verify-only smoke promote | 0.5h | ✅ SHIPPED | Game/ #2261 |
+| A3 museum card M-007 post-script | 0.5h | ✅ DONE | additive update mating_nido card |
+| A4 sentience tier backfill 15/15 lifecycle | 5-6h | ✅ SHIPPED | Game/ #2262 |
+| A4-residue 30 species heuristic | 3-4h | ⏳ PENDING | gated master-dd verdict |
+| A5 bioma diff_base + hazard pressure | 3h | ⏳ PENDING | gated master-dd verdict (sessionHelpers backend) |
+| A6 starter_bioma trait | 3h | 🟡 PARTIAL | backend chain ✅, frontend label gap (~30 LOC) |
+| A7 mating.yaml pack drift | 2h | ✅ DONE | gene_slots core → pack sync this session |
+| A8 promotions engine Phase B3 | 3-4h | ✅ SHIPPED | Game/ #2264 |
+| B1-B6 various Envelope B | ~17h | ✅ SHIPPED | Game/ #2262 + #2263 + #2267 + #2268 |
+| C1-C7 various Envelope C | ~99h | 🟡 PARTIAL | Atlas scaffold ✅ Godot v2 #260, runtime gated playtest |
+
+**Pillar deltas v40 → v41**:
+- P3 Identità: 🟢-cand → 🟢 candidato HARD (PromotionEngine + B3 + B4 + parity)
+- P4 Temperamenti: 🟢-cand → 🟢 candidato HARD (sentience 15/15 + 51 neurons + vc_scoring fold)
+- P6 Fairness: 🟢 candidato confermato (conviction tactical flags inline)
+
+🟢 hard final ancora gated **Playtest #2 userland** (master-dd manual, 4 amici). Synthetic baseline shipped #2266 (P3 🟡 + P4 🟢 + P6 🟢 con 30 sessions).
+
+**Anti-pattern killer milestone**: cross-validation L7c Promotions ORPHAN claim FALSE NEGATIVE → museum discard card [M-2026-05-13-001](docs/museum/cards/promotions-orphan-claim-discarded.md) + lessons codify per Explore agent inventory.
+
+**Source ref**: PR #2260 audit + plan + 13 PR cascade + COMPACT_CONTEXT v41 + governance file `docs/governance/open-decisions/OD-024-031-verdict-record.md`.
+
+---
+
 ### ✅ Ticket coda master-dd verdict batch 2026-05-11 — 11 decisioni resolved cascade
 
 User verdict cascade 11 decisioni outstanding (4 ADR PROPOSED + 6 OPEN_DECISIONS + 1 forbidden path). All ACCEPT modulo C5 (status quo flag-OFF).
