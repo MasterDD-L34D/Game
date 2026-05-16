@@ -86,10 +86,7 @@ const FALLBACK_STATE = {
 const SKIV_STATE_BRANCH_BASE =
   process.env.SKIV_STATE_BRANCH_BASE ||
   'https://raw.githubusercontent.com/MasterDD-L34D/Game/skiv-monitor/state';
-const SKIV_REMOTE_TTL_MS = Number.parseInt(
-  process.env.SKIV_REMOTE_TTL_MS || '120000',
-  10,
-);
+const SKIV_REMOTE_TTL_MS = Number.parseInt(process.env.SKIV_REMOTE_TTL_MS || '120000', 10);
 const _remoteCache = new Map(); // relPath → { text, ts }
 
 async function fetchRemoteText(relPath) {
@@ -116,9 +113,7 @@ async function fetchRemoteText(relPath) {
 
 async function readStateSafe(statePath = STATE_PATH) {
   if (statePath === STATE_PATH) {
-    const remote = await fetchRemoteText(
-      'data/derived/skiv_monitor/state.json',
-    );
+    const remote = await fetchRemoteText('data/derived/skiv_monitor/state.json');
     if (remote) {
       try {
         return JSON.parse(remote);
@@ -140,9 +135,7 @@ async function readStateSafe(statePath = STATE_PATH) {
 
 async function readFeedTail(limit = 50, feedPath = FEED_PATH) {
   if (feedPath === FEED_PATH) {
-    const remote = await fetchRemoteText(
-      'data/derived/skiv_monitor/feed.jsonl',
-    );
+    const remote = await fetchRemoteText('data/derived/skiv_monitor/feed.jsonl');
     if (remote) {
       const rlines = remote.split('\n').filter((l) => l.trim().length > 0);
       return rlines
