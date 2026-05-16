@@ -78,7 +78,50 @@ const FALLBACK_STATE = {
   },
 };
 
+// OD-042-A (master-dd 2026-05-16): stato Skiv distribuito via branch
+// dedicato `skiv-monitor/state` (no PR-to-main, no git-bloat). Backend
+// fetcha quel branch (raw.githubusercontent) con cache TTL + fallback
+// graceful al checkout locale (compat deploy senza rete / test con
+// statePath|feedPath espliciti = bypass remoto, invariato).
+const SKIV_STATE_BRANCH_BASE =
+  process.env.SKIV_STATE_BRANCH_BASE ||
+  'https://raw.githubusercontent.com/MasterDD-L34D/Game/skiv-monitor/state';
+const SKIV_REMOTE_TTL_MS = Number.parseInt(process.env.SKIV_REMOTE_TTL_MS || '120000', 10);
+const _remoteCache = new Map(); // relPath → { text, ts }
+
+async function fetchRemoteText(relPath) {
+  const cached = _remoteCache.get(relPath);
+  if (cached && Date.now() - cached.ts < SKIV_REMOTE_TTL_MS) {
+    return cached.text;
+  }
+  try {
+    if (typeof fetch !== 'function') return null;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 5000);
+    const res = await fetch(`${SKIV_STATE_BRANCH_BASE}/${relPath}`, {
+      signal: ctrl.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    const text = await res.text();
+    _remoteCache.set(relPath, { text, ts: Date.now() });
+    return text;
+  } catch {
+    return null; // rete/abort/branch-assente → fallback locale
+  }
+}
+
 async function readStateSafe(statePath = STATE_PATH) {
+  if (statePath === STATE_PATH) {
+    const remote = await fetchRemoteText('data/derived/skiv_monitor/state.json');
+    if (remote) {
+      try {
+        return JSON.parse(remote);
+      } catch {
+        /* remote corrotto → prosegui a fallback locale */
+      }
+    }
+  }
   try {
     const raw = await fsp.readFile(statePath, 'utf8');
     return JSON.parse(raw);
@@ -91,6 +134,22 @@ async function readStateSafe(statePath = STATE_PATH) {
 }
 
 async function readFeedTail(limit = 50, feedPath = FEED_PATH) {
+  if (feedPath === FEED_PATH) {
+    const remote = await fetchRemoteText('data/derived/skiv_monitor/feed.jsonl');
+    if (remote) {
+      const rlines = remote.split('\n').filter((l) => l.trim().length > 0);
+      return rlines
+        .slice(-limit)
+        .map((line) => {
+          try {
+            return JSON.parse(line);
+          } catch {
+            return null;
+          }
+        })
+        .filter(Boolean);
+    }
+  }
   try {
     const raw = await fsp.readFile(feedPath, 'utf8');
     const lines = raw.split('\n').filter((l) => l.trim().length > 0);
