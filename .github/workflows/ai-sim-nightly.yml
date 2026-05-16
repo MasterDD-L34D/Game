@@ -145,6 +145,38 @@ jobs:
           fi
         continue-on-error: true
 
+      # Envelope A A5 — playtest #2 telemetry bridge + analyzer.
+      # Runs AFTER batch + threshold eval, BEFORE artifact upload, so the
+      # analyzer report + machine JSON ride along in the same artifact.
+      # No workflow_dispatch of other workflows; rides this existing cron.
+      # Synthetic sim runs count toward the analyzer --min-sample 30 gate
+      # (no userland required). First ~5 nightly runs are baseline-bootstrap
+      # — this step does NOT add regression gating (no `exit 1` here);
+      # the existing check-thresholds.js remains the only WR drift gate.
+      - name: Playtest #2 telemetry bridge + analyzer
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          BATCH_DIR=/tmp/ai-sim-nightly/batch-current
+          if [ ! -d "$BATCH_DIR/runs" ]; then
+            echo "No batch runs dir ($BATCH_DIR/runs) — skipping playtest #2 analysis"
+            exit 0
+          fi
+          node tools/sim/telemetry-bridge.js --in "$BATCH_DIR"
+          DATE=$(date -u +%Y-%m-%d)
+          REPORT="/tmp/ai-sim-nightly/playtest-2-report-${DATE}.md"
+          METRICS="/tmp/ai-sim-nightly/playtest-2-metrics-${DATE}.json"
+          python tools/py/playtest_2_analyzer.py \
+            --telemetry "$BATCH_DIR/playtest-2-telemetry.jsonl" \
+            --output "$REPORT" \
+            --json-out "$METRICS" \
+            --min-sample 30
+          echo "## Playtest #2 analyzer" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          sed -n '1,24p' "$REPORT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -153,6 +185,8 @@ jobs:
           path: |
             /tmp/ai-sim-nightly/batch-current/
             /tmp/ai-sim-nightly/threshold-report.md
+            /tmp/ai-sim-nightly/playtest-2-report-*.md
+            /tmp/ai-sim-nightly/playtest-2-metrics-*.json
             /tmp/ai-sim-nightly/backend.log
           retention-days: 14
 

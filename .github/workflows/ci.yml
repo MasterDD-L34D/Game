@@ -334,6 +334,42 @@ jobs:
         working-directory: tools/py
         run: python roll_pack.py ENTP invoker ../../data/packs.yaml
 
+      # Envelope A A6 — playtest #2 analyzer regression guard.
+      # 1. Analyzer must still parse the canonical synthetic fixture + exit 0
+      #    (locks the schema contract the telemetry-bridge targets).
+      # 2. telemetry-bridge round-trips a hand-made batch into a telemetry
+      #    JSONL the analyzer accepts + emits a report with all sections.
+      - name: Playtest #2 analyzer regression guard
+        run: |
+          set -euo pipefail
+          # (1) synthetic fixture still parses, markdown + json-out, exit 0
+          python tools/py/playtest_2_analyzer.py \
+            --telemetry tests/fixtures/playtest-2-synthetic-telemetry.jsonl \
+            --output /tmp/pt2-fixture-report.md \
+            --json-out /tmp/pt2-fixture-metrics.json \
+            --min-sample 30
+          grep -q '## 1. Executive summary' /tmp/pt2-fixture-report.md
+          grep -q '## 8. Verdict + next action' /tmp/pt2-fixture-report.md
+          python -c "import json; json.load(open('/tmp/pt2-fixture-metrics.json'))"
+          # (2) telemetry-bridge round-trip on a hand-made batch dir
+          mkdir -p /tmp/pt2-batch/runs
+          cat > /tmp/pt2-batch/runs/run-1-guard.jsonl <<'JSONL'
+          {"ts":1,"kind":"config","run_label":"ci_guard_1","run_seed":42}
+          {"ts":2,"kind":"player_action","round":1,"actor":"pg1","action":"attack","status":200,"command_latency_ms":50}
+          {"ts":3,"kind":"vc_capture","ok":true,"per_actor":{"pg1":{"mbti_type":"ENTJ","ennea_archetypes":[{"id":"Conquistatore(3)","triggered":true}],"conviction_axis":{"utility":60,"liberty":50,"morality":50},"sentience":{"tier":"T2"}}}}
+          {"ts":4,"kind":"combat_outcome","outcome":"victory","rounds":3}
+          {"ts":5,"kind":"final_phase","phase":"ended"}
+          not-json-malformed-line
+          JSONL
+          node tools/sim/telemetry-bridge.js --in /tmp/pt2-batch
+          test -s /tmp/pt2-batch/playtest-2-telemetry.jsonl
+          python tools/py/playtest_2_analyzer.py \
+            --telemetry /tmp/pt2-batch/playtest-2-telemetry.jsonl \
+            --output /tmp/pt2-bridge-report.md \
+            --min-sample 30
+          grep -q '## 3. P4 Temperamenti' /tmp/pt2-bridge-report.md
+          echo "Playtest #2 analyzer regression guard: PASS"
+
   dataset-checks:
     runs-on: ubuntu-latest
     needs:
