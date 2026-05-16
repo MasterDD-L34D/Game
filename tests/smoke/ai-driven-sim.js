@@ -551,13 +551,24 @@ function logSistemaDecisions(round, body) {
       actor_id: activeUnit.id,
       ...action,
     };
+    const actT0 = Date.now();
     const actRes = await postJson('/api/session/action', actBody);
-    log('player_action', {
+    // Envelope A A2 — map the action REST round-trip duration onto a
+    // command_latency_ms field for attack-type actions so the playtest #2
+    // analyzer Performance section (M.7 p95 gate) draws from real sim
+    // latency. Non-attack actions still log without latency (analyzer only
+    // reads command_latency_ms where > 0). Backward-compatible: existing
+    // balance summary counts `player_action` kind regardless of new field.
+    const playerActionEntry = {
       round: rounds,
       actor: activeUnit.id,
       action: action.action_type,
       status: actRes.status,
-    });
+    };
+    if (action.action_type === 'attack') {
+      playerActionEntry.command_latency_ms = Date.now() - actT0;
+    }
+    log('player_action', playerActionEntry);
 
     // End turn after single action (player AP=2 default; second action
     // optional — keep simple, end turn).
@@ -574,11 +585,43 @@ function logSistemaDecisions(round, body) {
   // T1.2 telemetry — pull VC scoring + objective state pre-close so the
   // JSONL holds full balance metrics for downstream analyzers.
   const vcRes = await getJson(`/api/session/${sessionId}/vc`);
-  const vcMbti = vcRes.body?.mbti || vcRes.body?.scoring?.mbti || null;
-  const vcEnnea = vcRes.body?.ennea || vcRes.body?.scoring?.ennea || null;
-  log('vc_capture', { ok: vcRes.status === 200, mbti: vcMbti, ennea: vcEnnea });
-  if (vcMbti) console.log('VC MBTI:', JSON.stringify(vcMbti));
-  if (vcEnnea) console.log('VC Ennea:', JSON.stringify(vcEnnea));
+  // Envelope A A2 — capture the FULL 4-layer per_actor profile from the
+  // GET /:id/vc snapshot (apps/backend/services/vcScoring.js buildVcSnapshot
+  // shape: { session_id, per_actor: { <uid>: { mbti_type, mbti_axes,
+  // ennea_archetypes:[{id,triggered}], conviction_axis:{utility,liberty,
+  // morality}, sentience:{tier} } }, meta }). The telemetry-bridge maps
+  // this directly to the analyzer `vc_snapshot` event (P4 Temperamenti:
+  // MBTI / Ennea / Conviction / Sentience layers). Field names mirror the
+  // real response — no fabrication; absent layers stay absent.
+  const vcSnapshot = vcRes.body || {};
+  const vcPerActor = vcSnapshot.per_actor || {};
+  // Legacy top-level mbti/ennea kept for backward compat with any older
+  // batch aggregator that read vc_capture.mbti / .ennea directly.
+  const legacyMbti = vcSnapshot.mbti || vcSnapshot.scoring?.mbti || null;
+  const legacyEnnea = vcSnapshot.ennea || vcSnapshot.scoring?.ennea || null;
+  log('vc_capture', {
+    ok: vcRes.status === 200,
+    mbti: legacyMbti,
+    ennea: legacyEnnea,
+    per_actor: vcPerActor,
+  });
+  const actorCount = Object.keys(vcPerActor).length;
+  console.log(`VC per_actor captured: ${actorCount} actor(s)`);
+  if (actorCount > 0) {
+    const first = Object.values(vcPerActor)[0];
+    console.log(
+      `VC sample actor: mbti=${first?.mbti_type} sentience=${first?.sentience?.tier} ` +
+        `conviction=${JSON.stringify(first?.conviction_axis)}`,
+    );
+  }
+  // TODO(Envelope A — A2 promotion): the headless smoke flow closes the
+  // session before debrief and does not currently drive a job promotion
+  // (promotionEngine.js is invoked via the coop debrief path, host-only,
+  // not reachable from this single-worker harness without a larger
+  // refactor of the debrief/lineage choreography). Promotion telemetry
+  // (P3 Identità) is therefore NOT emitted yet — analyzer P3 stays 🔴 on
+  // synthetic-only data until a future envelope wires the debrief
+  // promotion capture. Intentionally NOT faking promotion events.
   await postJson('/api/session/end', { session_id: sessionId });
   // Coop endCombat is host-only; emulate via coopOrchestrator state poll.
   // For sim purposes we rely on session.events VICTORY/DEFEAT to drive
