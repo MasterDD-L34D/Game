@@ -275,23 +275,3 @@ Ancora justified: tester signal data-driven, NOT speculative.
 | User judgment + 4 amici BG3 feel validation  |  QA   | 🟡 pending | TBD         |
 
 **Next sync**: aggiorna status table when ogni sub-task ship.
-
-## Addendum anti-rot — cross-ref path rotto (fence 2026-05-17)
-
-⚠️ **La DECISIONE resta valida e invariata** (BG3-lite Plus movement
-layer, Sprint G.2b). **Ma un riferimento file è ROTTO** (audit veracità
-ADR 2026-05-17, regola-0, verifica file-path vs git-truth):
-
-- `docs/adr/ADR-2026-04-16-grid-axial-tiles.md` (frontmatter `related:`
-  + sezione Riferimenti "ADR-2026-04-16 hex grid Proposed") → **FILE
-  INESISTENTE**. Il file reale è
-  `docs/adr/ADR-2026-04-16-grid-type-hex-axial.md` (stessa decisione hex
-  axial grid). Link storico = snapshot pre-rinomina, NON path corrente.
-  Nota: la decisione hex è poi superseded da
-  `ADR-2026-04-28-grid-type-square-final.md` (catena superseder
-  separata, intatta).
-
-**Trattamento**: decisione invariata; il path nel corpo/frontmatter =
-*riferimento storico rotto*, NON puntatore valido. Target canonico →
-`ADR-2026-04-16-grid-type-hex-axial.md`. (Addendum-only: governance ADR
-non riscrive link nel corpo; pointer corretto qui.)
