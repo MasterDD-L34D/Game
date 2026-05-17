@@ -184,6 +184,36 @@ function buildPhase(phase, eventStart, defaultTimezone, index = 0) {
   };
 }
 
+function parseEventEnd(definition, start, timezone) {
+  const hasEnd = definition.end !== undefined && definition.end !== null;
+  let end = hasEnd ? parseDateInput(definition.end, timezone) : null;
+  const durationMinutes = normalizeNumber(definition.durationMinutes, NaN);
+  if ((!end || Number.isNaN(end.getTime())) && Number.isFinite(durationMinutes)) {
+    end = new Date(start.getTime() + Math.max(0, durationMinutes) * 60000);
+  }
+  return end;
+}
+
+function normalizeEventPhases(definition, start, timezone) {
+  return Array.isArray(definition.phases)
+    ? definition.phases
+        .map((phase, phaseIndex) => buildPhase(phase, start, timezone, phaseIndex))
+        .filter(Boolean)
+        .sort((a, b) => a.start.getTime() - b.start.getTime())
+    : [];
+}
+
+function normalizeEventMetadata(definition) {
+  const tags = Array.isArray(definition.tags)
+    ? definition.tags.map((tag) => String(tag))
+    : undefined;
+  const metadata =
+    definition.metadata && typeof definition.metadata === 'object'
+      ? { ...definition.metadata }
+      : undefined;
+  return { tags, metadata };
+}
+
 function normalizeEvent(definition, defaultTimezone, source, index = 0) {
   if (!definition || typeof definition !== 'object') {
     return null;
@@ -196,30 +226,15 @@ function normalizeEvent(definition, defaultTimezone, source, index = 0) {
   if (!start || Number.isNaN(start.getTime())) {
     return null;
   }
-  const hasEnd = definition.end !== undefined && definition.end !== null;
-  let end = hasEnd ? parseDateInput(definition.end, timezone) : null;
-  const durationMinutes = normalizeNumber(definition.durationMinutes, NaN);
-  if ((!end || Number.isNaN(end.getTime())) && Number.isFinite(durationMinutes)) {
-    end = new Date(start.getTime() + Math.max(0, durationMinutes) * 60000);
-  }
+
+  const end = parseEventEnd(definition, start, timezone);
   if (!end || Number.isNaN(end.getTime()) || end.getTime() <= start.getTime()) {
     return null;
   }
-  const effectiveDurationMinutes = Math.round((end.getTime() - start.getTime()) / 60000);
-  const phases = Array.isArray(definition.phases)
-    ? definition.phases
-        .map((phase, phaseIndex) => buildPhase(phase, start, timezone, phaseIndex))
-        .filter(Boolean)
-        .sort((a, b) => a.start.getTime() - b.start.getTime())
-    : [];
 
-  const tags = Array.isArray(definition.tags)
-    ? definition.tags.map((tag) => String(tag))
-    : undefined;
-  const metadata =
-    definition.metadata && typeof definition.metadata === 'object'
-      ? { ...definition.metadata }
-      : undefined;
+  const effectiveDurationMinutes = Math.round((end.getTime() - start.getTime()) / 60000);
+  const phases = normalizeEventPhases(definition, start, timezone);
+  const { tags, metadata } = normalizeEventMetadata(definition);
 
   const title = definition.title || definition.name || `Evento ${index + 1}`;
   const id = String(definition.id ?? slugify(title) ?? `event-${index + 1}`);
@@ -242,6 +257,20 @@ function normalizeEvent(definition, defaultTimezone, source, index = 0) {
   };
 }
 
+function serializePhase(phase) {
+  return {
+    id: phase.id,
+    label: phase.label,
+    offsetMinutes: phase.offsetMinutes,
+    durationMinutes: phase.durationMinutes,
+    isoStart: phase.isoStart,
+    isoEnd: phase.isoEnd,
+    localStart: phase.localStart,
+    localEnd: phase.localEnd,
+    timezone: phase.timezone,
+  };
+}
+
 function serializeEvent(event) {
   return {
     id: event.id,
@@ -254,17 +283,7 @@ function serializeEvent(event) {
     durationMinutes: event.durationMinutes,
     metadata: event.metadata ? { ...event.metadata } : undefined,
     tags: event.tags ? [...event.tags] : undefined,
-    phases: event.phases.map((phase) => ({
-      id: phase.id,
-      label: phase.label,
-      offsetMinutes: phase.offsetMinutes,
-      durationMinutes: phase.durationMinutes,
-      isoStart: phase.isoStart,
-      isoEnd: phase.isoEnd,
-      localStart: phase.localStart,
-      localEnd: phase.localEnd,
-      timezone: phase.timezone,
-    })),
+    phases: event.phases.map(serializePhase),
     source: event.source,
   };
 }
@@ -281,105 +300,121 @@ function normalizeEvents(definitions, timezone, source, allowUtcFallback = false
     .sort((a, b) => a.start.getTime() - b.start.getTime());
 }
 
-export function createEventsScheduler(options = {}) {
-  let timezone =
-    typeof options.timezone === 'string' && options.timezone.trim()
-      ? options.timezone.trim()
-      : 'UTC';
-  let timezoneValid = isValidTimeZone(timezone);
-  let now = typeof options.now === 'function' ? options.now : () => new Date();
-  let baseDefinitions = Array.isArray(options.events) ? options.events.map(cloneDefinition) : [];
-  let fallbackDefinitions = Array.isArray(options.manualFallback)
-    ? options.manualFallback.map(cloneDefinition)
-    : [];
+class EventsScheduler {
+  constructor(options = {}) {
+    this.timezone =
+      typeof options.timezone === 'string' && options.timezone.trim()
+        ? options.timezone.trim()
+        : 'UTC';
+    this.timezoneValid = isValidTimeZone(this.timezone);
+    this.now = typeof options.now === 'function' ? options.now : () => new Date();
+    this.baseDefinitions = Array.isArray(options.events) ? options.events.map(cloneDefinition) : [];
+    this.fallbackDefinitions = Array.isArray(options.manualFallback)
+      ? options.manualFallback.map(cloneDefinition)
+      : [];
 
-  let events = normalizeEvents(baseDefinitions, timezone, 'primary', false);
-  let fallbackEvents = normalizeEvents(fallbackDefinitions, timezone, 'manualFallback', true);
-
-  const usingFallback = () =>
-    (!timezoneValid && fallbackEvents.length > 0) ||
-    (events.length === 0 && fallbackEvents.length > 0);
-  const dataset = () => (usingFallback() ? fallbackEvents : events);
-
-  function refresh() {
-    events = normalizeEvents(baseDefinitions, timezone, 'primary', false);
-    fallbackEvents = normalizeEvents(fallbackDefinitions, timezone, 'manualFallback', true);
-    timezoneValid = isValidTimeZone(timezone);
+    this.events = normalizeEvents(this.baseDefinitions, this.timezone, 'primary', false);
+    this.fallbackEvents = normalizeEvents(this.fallbackDefinitions, this.timezone, 'manualFallback', true);
   }
 
-  function resolveDate(value) {
-    const parsed = parseDateInput(value, timezone);
+  usingFallback() {
+    return (!this.timezoneValid && this.fallbackEvents.length > 0) ||
+      (this.events.length === 0 && this.fallbackEvents.length > 0);
+  }
+
+  dataset() {
+    return this.usingFallback() ? this.fallbackEvents : this.events;
+  }
+
+  refresh() {
+    this.events = normalizeEvents(this.baseDefinitions, this.timezone, 'primary', false);
+    this.fallbackEvents = normalizeEvents(this.fallbackDefinitions, this.timezone, 'manualFallback', true);
+    this.timezoneValid = isValidTimeZone(this.timezone);
+  }
+
+  resolveDate(value) {
+    const parsed = parseDateInput(value, this.timezone);
     return parsed && !Number.isNaN(parsed.getTime()) ? parsed : null;
   }
 
-  return {
-    load(definitions = []) {
-      baseDefinitions = Array.isArray(definitions) ? definitions.map(cloneDefinition) : [];
-      refresh();
-      return this;
-    },
-    setManualFallback(definitions = []) {
-      fallbackDefinitions = Array.isArray(definitions) ? definitions.map(cloneDefinition) : [];
-      refresh();
-      return this;
-    },
-    setTimezone(value) {
-      timezone = value && value.toString().trim() ? value.toString().trim() : 'UTC';
-      timezoneValid = isValidTimeZone(timezone);
-      refresh();
-      return this;
-    },
-    getTimezone() {
-      return timezone;
-    },
-    getTimeline({ from, to, includePast = true } = {}) {
-      const fromDate = from ? resolveDate(from) : null;
-      const toDate = to ? resolveDate(to) : null;
-      let result = dataset();
-      if (fromDate) {
-        result = result.filter((event) => event.end.getTime() >= fromDate.getTime());
-      }
-      if (toDate) {
-        result = result.filter((event) => event.start.getTime() <= toDate.getTime());
-      }
-      if (!includePast) {
-        const nowDate = now();
-        result = result.filter((event) => event.end.getTime() >= nowDate.getTime());
-      }
-      return result.map(serializeEvent);
-    },
-    getActiveEvents(reference) {
-      const ref = reference ? resolveDate(reference) : now();
-      if (!ref || Number.isNaN(ref.getTime())) {
-        return [];
-      }
-      return dataset()
-        .filter(
-          (event) => event.start.getTime() <= ref.getTime() && ref.getTime() < event.end.getTime(),
-        )
-        .map(serializeEvent);
-    },
-    getNextEvent(reference) {
-      const ref = reference ? resolveDate(reference) : now();
-      if (!ref || Number.isNaN(ref.getTime())) {
-        return null;
-      }
-      const next = dataset()
-        .filter((event) => event.start.getTime() > ref.getTime())
-        .sort((a, b) => a.start.getTime() - b.start.getTime())[0];
-      return next ? serializeEvent(next) : null;
-    },
-    isUsingFallback() {
-      return usingFallback();
-    },
-    toJSON() {
-      return {
-        timezone,
-        events: events.map(serializeEvent),
-        manualFallback: fallbackEvents.map(serializeEvent),
-      };
-    },
-  };
+  load(definitions = []) {
+    this.baseDefinitions = Array.isArray(definitions) ? definitions.map(cloneDefinition) : [];
+    this.refresh();
+    return this;
+  }
+
+  setManualFallback(definitions = []) {
+    this.fallbackDefinitions = Array.isArray(definitions) ? definitions.map(cloneDefinition) : [];
+    this.refresh();
+    return this;
+  }
+
+  setTimezone(value) {
+    this.timezone = value && value.toString().trim() ? value.toString().trim() : 'UTC';
+    this.timezoneValid = isValidTimeZone(this.timezone);
+    this.refresh();
+    return this;
+  }
+
+  getTimezone() {
+    return this.timezone;
+  }
+
+  getTimeline({ from, to, includePast = true } = {}) {
+    const fromDate = from ? this.resolveDate(from) : null;
+    const toDate = to ? this.resolveDate(to) : null;
+    let result = this.dataset();
+    if (fromDate) {
+      result = result.filter((event) => event.end.getTime() >= fromDate.getTime());
+    }
+    if (toDate) {
+      result = result.filter((event) => event.start.getTime() <= toDate.getTime());
+    }
+    if (!includePast) {
+      const nowDate = this.now();
+      result = result.filter((event) => event.end.getTime() >= nowDate.getTime());
+    }
+    return result.map(serializeEvent);
+  }
+
+  getActiveEvents(reference) {
+    const ref = reference ? this.resolveDate(reference) : this.now();
+    if (!ref || Number.isNaN(ref.getTime())) {
+      return [];
+    }
+    return this.dataset()
+      .filter(
+        (event) => event.start.getTime() <= ref.getTime() && ref.getTime() < event.end.getTime(),
+      )
+      .map(serializeEvent);
+  }
+
+  getNextEvent(reference) {
+    const ref = reference ? this.resolveDate(reference) : this.now();
+    if (!ref || Number.isNaN(ref.getTime())) {
+      return null;
+    }
+    const next = this.dataset()
+      .filter((event) => event.start.getTime() > ref.getTime())
+      .sort((a, b) => a.start.getTime() - b.start.getTime())[0];
+    return next ? serializeEvent(next) : null;
+  }
+
+  isUsingFallback() {
+    return this.usingFallback();
+  }
+
+  toJSON() {
+    return {
+      timezone: this.timezone,
+      events: this.events.map(serializeEvent),
+      manualFallback: this.fallbackEvents.map(serializeEvent),
+    };
+  }
+}
+
+export function createEventsScheduler(options = {}) {
+  return new EventsScheduler(options);
 }
 
 export function buildEventTimeline(events, options) {
