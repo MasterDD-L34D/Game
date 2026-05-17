@@ -781,9 +781,11 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
   });
 
   // Connect WS DOPO register handlers (fix race condition 2026-04-29).
-  client.connect().catch((err) => {
-    if (typeof console !== 'undefined') console.warn('[lobbyBridge] initial connect failed', err);
-  });
+  bridge.connect = () => {
+    return client.connect().catch((err) => {
+      if (typeof console !== 'undefined') console.warn('[lobbyBridge] initial connect failed', err);
+    });
+  };
 
   return bridge;
 }

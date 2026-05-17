@@ -52,6 +52,11 @@ jobs:
               - 'services/**/*.py'
               - 'tests/**/*.py'
               - 'tools/py/**'
+              # OD-038 — the playtest#2 analyzer regression guard
+              # (python-tests job) exercises tools/sim/telemetry-bridge.js
+              # round-trip. Bridge edits MUST re-run that guard, otherwise
+              # the biome_focus / schema-contract assertions are skipped.
+              - 'tools/sim/**'
             data:
               - 'data/**'
               - 'packs/**'
@@ -87,6 +92,8 @@ jobs:
               - 'data/core/**/*.yaml'
               - 'packs/**/*.yaml'
               - 'packages/contracts/schemas/**'
+              # OD-038 — sim bridge JS must hit stack-quality (Prettier).
+              - 'tools/sim/**'
             site_audit:
               - 'ops/site-audit/**'
               - 'Makefile'
@@ -361,13 +368,43 @@ jobs:
           {"ts":5,"kind":"final_phase","phase":"ended"}
           not-json-malformed-line
           JSONL
-          node tools/sim/telemetry-bridge.js --in /tmp/pt2-batch
+          # SKIP_GODOT_BIOME_FOCUS=1 keeps this round-trip hermetic (no
+          # cross-repo network dependency on the Godot artifact, which may
+          # not yet exist on Game-Godot-v2 main when this PR's CI runs).
+          SKIP_GODOT_BIOME_FOCUS=1 node tools/sim/telemetry-bridge.js --in /tmp/pt2-batch
           test -s /tmp/pt2-batch/playtest-2-telemetry.jsonl
           python tools/py/playtest_2_analyzer.py \
             --telemetry /tmp/pt2-batch/playtest-2-telemetry.jsonl \
             --output /tmp/pt2-bridge-report.md \
             --min-sample 30
           grep -q '## 3. P4 Temperamenti' /tmp/pt2-bridge-report.md
+          # (3) OD-026/OD-038 — Godot biome_focus_changed merge path. Serve
+          # a local fixture over http (fetch has no file:// support) and
+          # assert od026_atlas.biome_focus_events becomes NON-EMPTY with
+          # REAL biome ids + malformed lines skipped. Locks 7-of-7 close.
+          FIX=/tmp/biome-focus.jsonl
+          cat > "$FIX" <<'JSONL'
+          {"session_id":"godot-atlas-biome-focus","event_type":"biome_focus_changed","actor_id":"godot-client","biome_id":"caverna","surface":"tv"}
+          {"session_id":"godot-atlas-biome-focus","event_type":"biome_focus_changed","actor_id":"godot-client","biome_id":"foresta_temperata","surface":"phone"}
+          bad-line-must-be-skipped
+          JSONL
+          ( cd /tmp && python3 -m http.server 8765 >/tmp/httpd.log 2>&1 & echo $! > /tmp/httpd.pid )
+          for i in $(seq 1 20); do curl -fsS http://127.0.0.1:8765/biome-focus.jsonl >/dev/null 2>&1 && break; sleep 0.5; done
+          GODOT_BIOME_FOCUS_URL=http://127.0.0.1:8765/biome-focus.jsonl \
+            node tools/sim/telemetry-bridge.js --in /tmp/pt2-batch --out /tmp/pt2-bf.jsonl
+          kill "$(cat /tmp/httpd.pid)" 2>/dev/null || true
+          python tools/py/playtest_2_analyzer.py \
+            --telemetry /tmp/pt2-bf.jsonl \
+            --output /tmp/pt2-bf-report.md \
+            --json-out /tmp/pt2-bf-metrics.json \
+            --min-sample 30
+          python3 - <<'PY'
+          import json
+          m = json.load(open('/tmp/pt2-bf-metrics.json'))
+          bf = m['od026_atlas']['biome_focus_events']
+          assert bf.get('caverna') == 1 and bf.get('foresta_temperata') == 1, bf
+          print('OD-026 biome_focus_events real & non-empty:', bf)
+          PY
           echo "Playtest #2 analyzer regression guard: PASS"
 
   dataset-checks:

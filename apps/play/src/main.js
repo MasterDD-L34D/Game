@@ -2127,6 +2127,10 @@ if (lobbyBridge?.isHost) {
   });
 }
 
+if (lobbyBridge) {
+  lobbyBridge.connect();
+}
+
 // W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
 let _resizeTimeout = null;
 window.addEventListener('resize', () => {
