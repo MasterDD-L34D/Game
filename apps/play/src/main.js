@@ -934,9 +934,6 @@ async function doAction(body) {
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
     redraw();
     // W8h / W8L — Onboarding tip (solo first-time per action type).
-    // W8L fix: rimosso setTimeout intent-declared redundant (sovrapponeva +
-    // user non poteva leggere first-move perché chiudeva subito). Content
-    // già in first-move/first-attack page 2.
     if (body.action_type === 'move') showTip('first-move');
     else if (body.action_type === 'attack') showTip('first-attack');
     else if (body.action_type === 'ability') showTip('first-ability');

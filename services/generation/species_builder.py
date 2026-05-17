@@ -95,10 +95,44 @@ class TraitProfile:
             "glossary_ok": self.glossary_ok,
         }
 
+    @classmethod
+    def from_payload(cls, trait_id: str, raw: Mapping[str, Any]) -> "TraitProfile":
+        return cls(
+            id=trait_id,
+            label=str(raw.get("label") or trait_id),
+            tier=str(raw.get("tier")) if raw.get("tier") else None,
+            families=_normalise_sequence(raw.get("families")),
+            energy_profile=str(raw.get("energy_profile")) if raw.get("energy_profile") else None,
+            usage=str(raw.get("usage")) if raw.get("usage") else None,
+            selective_drive=str(raw.get("selective_drive")) if raw.get("selective_drive") else None,
+            mutation=str(raw.get("mutation")) if raw.get("mutation") else None,
+            synergies=_normalise_sequence(raw.get("synergies")),
+            conflicts=_normalise_sequence(raw.get("conflicts")),
+            environments=_normalise_sequence(raw.get("environments")),
+            weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
+            dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
+            usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
+            species_affinity=_parse_species_affinity(raw.get("species_affinity")),
+            usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
+            completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
+            glossary_ok=bool(raw.get("glossary_ok")),
+        )
+
 
 def _load_json(path: Path) -> Mapping[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _has_enhanced_fields(traits_payload: Mapping[str, Any]) -> bool:
+    if not isinstance(traits_payload, Mapping):
+        return False
+    for raw in traits_payload.values():
+        if isinstance(raw, Mapping) and (
+            "usage_tags" in raw or "species_affinity" in raw or "completion_flags" in raw
+        ):
+            return True
+    return False
 
 
 def _normalise_sequence(value: Any) -> List[str]:
@@ -188,25 +222,7 @@ def _parse_environment_requirements(entries: Any) -> List[str]:
     return sorted(set(environments))
 
 
-def build_trait_catalog_map(
-    *,
-    catalog_path: Path = DEFAULT_CATALOG_PATH,
-    trait_reference_path: Path = DEFAULT_TRAIT_REFERENCE_PATH,
-    trait_glossary_path: Path = DEFAULT_TRAIT_GLOSSARY_PATH,
-    trait_matrix_path: Path = DEFAULT_MATRIX_PATH,
-    inventory_path: Path = DEFAULT_INVENTORY_PATH,
-) -> Dict[str, TraitProfile]:
-    """Aggregate trait information from the available datasets."""
-
-    if not trait_reference_path.exists():
-        raise FileNotFoundError(f"Trait reference not found: {trait_reference_path}")
-
-    reference = _load_json(trait_reference_path)
-    glossary = _load_json(trait_glossary_path) if trait_glossary_path.exists() else {}
-    matrix = _load_json(trait_matrix_path) if trait_matrix_path.exists() else {}
-    inventory = _load_json(inventory_path) if inventory_path.exists() else {}
-
-    glossary_traits = glossary.get("traits") if isinstance(glossary, Mapping) else {}
+def _extract_resource_paths(inventory: Mapping[str, Any]) -> List[str]:
     resources = inventory.get("resources") if isinstance(inventory, Mapping) else []
     resource_paths = []
     for item in resources or []:
@@ -214,9 +230,10 @@ def build_trait_catalog_map(
             path = item.get("path")
             if isinstance(path, str):
                 resource_paths.append(path)
+    return resource_paths
 
-    reference_traits = reference.get("traits") if isinstance(reference, Mapping) else {}
 
+def _build_usage_map(matrix: Mapping[str, Any]) -> Dict[str, Dict[str, List[str]]]:
     usage_map: Dict[str, Dict[str, List[str]]] = {}
 
     def _register_usage(kind: str, trait_id: str, species_id: str) -> None:
@@ -241,63 +258,128 @@ def build_trait_catalog_map(
             for trait_id in _normalise_sequence(payload.get("synergy_traits")):
                 _register_usage("synergy", trait_id, species_id)
 
+    return usage_map
+
+
+def _parse_trait_profile(
+    trait_id: str,
+    raw: Mapping[str, Any],
+    glossary_entry: Mapping[str, Any],
+    resource_paths: List[str],
+    usage_map_entry: Dict[str, List[str]],
+) -> TraitProfile:
+    label = None
+    if isinstance(glossary_entry, Mapping):
+        label = glossary_entry.get("label_it") or glossary_entry.get("label_en")
+    label = label or raw.get("label") or trait_id
+
+    has_glossary_entry = isinstance(glossary_entry, Mapping) and bool(glossary_entry)
+
+    return TraitProfile(
+        id=str(trait_id),
+        label=str(label),
+        tier=str(raw.get("tier")) if raw.get("tier") else None,
+        families=_split_families(raw.get("famiglia_tipologia")),
+        energy_profile=str(raw.get("fattore_mantenimento_energetico"))
+        if raw.get("fattore_mantenimento_energetico")
+        else None,
+        usage=str(raw.get("uso_funzione")) if raw.get("uso_funzione") else None,
+        selective_drive=str(raw.get("spinta_selettiva")) if raw.get("spinta_selettiva") else None,
+        mutation=str(raw.get("mutazione_indotta")) if raw.get("mutazione_indotta") else None,
+        synergies=_normalise_sequence(raw.get("sinergie")),
+        conflicts=_normalise_sequence(raw.get("conflitti")),
+        environments=_parse_environment_requirements(raw.get("requisiti_ambientali")),
+        weakness=str(raw.get("debolezza")) if raw.get("debolezza") else None,
+        dataset_sources=sorted(set(resource_paths)),
+        usage_map=TraitUsage.from_mapping(usage_map_entry),
+        species_affinity=_parse_species_affinity(raw.get("species_affinity")),
+        usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
+        completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
+        glossary_ok=has_glossary_entry,
+    )
+
+
+def _save_catalog_payload(
+    catalog_path: Path,
+    catalog_traits: Dict[str, TraitProfile],
+    trait_reference_path: Path,
+    trait_matrix_path: Path,
+    trait_glossary_path: Path,
+    inventory_path: Path,
+    repo_root: Path,
+) -> None:
+    catalog_payload = {
+        "generated_at": None,
+        "traits": {trait_id: profile.to_payload() for trait_id, profile in catalog_traits.items()},
+        "sources": {
+            "trait_reference": trait_reference_path.relative_to(repo_root).as_posix(),
+            "trait_matrix": trait_matrix_path.relative_to(repo_root).as_posix()
+            if trait_matrix_path.exists()
+            else None,
+            "trait_glossary": trait_glossary_path.relative_to(repo_root).as_posix()
+            if trait_glossary_path.exists()
+            else None,
+            "inventory": inventory_path.relative_to(repo_root).as_posix()
+            if inventory_path.exists()
+            else None,
+        },
+    }
+    catalog_path.parent.mkdir(parents=True, exist_ok=True)
+    with catalog_path.open("w", encoding="utf-8") as handle:
+        json.dump(catalog_payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def build_trait_catalog_map(
+    *,
+    catalog_path: Path = DEFAULT_CATALOG_PATH,
+    trait_reference_path: Path = DEFAULT_TRAIT_REFERENCE_PATH,
+    trait_glossary_path: Path = DEFAULT_TRAIT_GLOSSARY_PATH,
+    trait_matrix_path: Path = DEFAULT_MATRIX_PATH,
+    inventory_path: Path = DEFAULT_INVENTORY_PATH,
+) -> Dict[str, TraitProfile]:
+    """Aggregate trait information from the available datasets."""
+
+    if not trait_reference_path.exists():
+        raise FileNotFoundError(f"Trait reference not found: {trait_reference_path}")
+
+    reference = _load_json(trait_reference_path)
+    glossary = _load_json(trait_glossary_path) if trait_glossary_path.exists() else {}
+    matrix = _load_json(trait_matrix_path) if trait_matrix_path.exists() else {}
+    inventory = _load_json(inventory_path) if inventory_path.exists() else {}
+
+    glossary_traits = glossary.get("traits") if isinstance(glossary, Mapping) else {}
+    resource_paths = _extract_resource_paths(inventory)
+
+    reference_traits = reference.get("traits") if isinstance(reference, Mapping) else {}
+
+    usage_map = _build_usage_map(matrix)
+
     catalog_traits: Dict[str, TraitProfile] = {}
 
     for trait_id, raw in reference_traits.items():
         if not isinstance(raw, Mapping):
             continue
         glossary_entry = glossary_traits.get(trait_id) if isinstance(glossary_traits, Mapping) else {}
-        label = None
-        if isinstance(glossary_entry, Mapping):
-            label = glossary_entry.get("label_it") or glossary_entry.get("label_en")
-        label = label or raw.get("label") or trait_id
 
-        has_glossary_entry = isinstance(glossary_entry, Mapping) and bool(glossary_entry)
-
-        profile = TraitProfile(
-            id=str(trait_id),
-            label=str(label),
-            tier=str(raw.get("tier")) if raw.get("tier") else None,
-            families=_split_families(raw.get("famiglia_tipologia")),
-            energy_profile=str(raw.get("fattore_mantenimento_energetico"))
-            if raw.get("fattore_mantenimento_energetico")
-            else None,
-            usage=str(raw.get("uso_funzione")) if raw.get("uso_funzione") else None,
-            selective_drive=str(raw.get("spinta_selettiva")) if raw.get("spinta_selettiva") else None,
-            mutation=str(raw.get("mutazione_indotta")) if raw.get("mutazione_indotta") else None,
-            synergies=_normalise_sequence(raw.get("sinergie")),
-            conflicts=_normalise_sequence(raw.get("conflitti")),
-            environments=_parse_environment_requirements(raw.get("requisiti_ambientali")),
-            weakness=str(raw.get("debolezza")) if raw.get("debolezza") else None,
-            dataset_sources=sorted(set(resource_paths)),
-            usage_map=TraitUsage.from_mapping(usage_map.get(trait_id, {})),
-            species_affinity=_parse_species_affinity(raw.get("species_affinity")),
-            usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
-            completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
-            glossary_ok=has_glossary_entry,
+        profile = _parse_trait_profile(
+            trait_id=str(trait_id),
+            raw=raw,
+            glossary_entry=glossary_entry,
+            resource_paths=resource_paths,
+            usage_map_entry=usage_map.get(str(trait_id), {}),
         )
         catalog_traits[trait_id] = profile
 
     if catalog_path:
-        catalog_payload = {
-            "generated_at": None,
-            "traits": {trait_id: profile.to_payload() for trait_id, profile in catalog_traits.items()},
-            "sources": {
-                "trait_reference": trait_reference_path.relative_to(REPO_ROOT).as_posix(),
-                "trait_matrix": trait_matrix_path.relative_to(REPO_ROOT).as_posix()
-                if trait_matrix_path.exists()
-                else None,
-                "trait_glossary": trait_glossary_path.relative_to(REPO_ROOT).as_posix()
-                if trait_glossary_path.exists()
-                else None,
-                "inventory": inventory_path.relative_to(REPO_ROOT).as_posix()
-                if inventory_path.exists()
-                else None,
-            },
-        }
-        catalog_path.parent.mkdir(parents=True, exist_ok=True)
-        with catalog_path.open("w", encoding="utf-8") as handle:
-            json.dump(catalog_payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        _save_catalog_payload(
+            catalog_path=catalog_path,
+            catalog_traits=catalog_traits,
+            trait_reference_path=trait_reference_path,
+            trait_matrix_path=trait_matrix_path,
+            trait_glossary_path=trait_glossary_path,
+            inventory_path=inventory_path,
+            repo_root=REPO_ROOT,
+        )
 
     return catalog_traits
 
@@ -489,45 +571,19 @@ class TraitCatalog:
         if path.exists():
             payload = _load_json(path)
             traits_payload = payload.get("traits") if isinstance(payload, Mapping) else {}
-            has_enhanced_fields = False
-            if isinstance(traits_payload, Mapping):
-                for raw in traits_payload.values():
-                    if isinstance(raw, Mapping) and (
-                        "usage_tags" in raw or "species_affinity" in raw or "completion_flags" in raw
-                    ):
-                        has_enhanced_fields = True
-                        break
-            else:
+
+            if not isinstance(traits_payload, Mapping):
                 traits_payload = {}
-            if not has_enhanced_fields:
+
+            if not _has_enhanced_fields(traits_payload):
                 traits = build_trait_catalog_map()
                 return cls(traits)
+
             traits: Dict[str, TraitProfile] = {}
             for trait_id, raw in traits_payload.items():
                 if not isinstance(raw, Mapping):
                     continue
-                traits[trait_id] = TraitProfile(
-                    id=trait_id,
-                    label=str(raw.get("label") or trait_id),
-                    tier=str(raw.get("tier")) if raw.get("tier") else None,
-                    families=_normalise_sequence(raw.get("families")),
-                    energy_profile=str(raw.get("energy_profile"))
-                    if raw.get("energy_profile")
-                    else None,
-                    usage=str(raw.get("usage")) if raw.get("usage") else None,
-                    selective_drive=str(raw.get("selective_drive")) if raw.get("selective_drive") else None,
-                    mutation=str(raw.get("mutation")) if raw.get("mutation") else None,
-                    synergies=_normalise_sequence(raw.get("synergies")),
-                    conflicts=_normalise_sequence(raw.get("conflicts")),
-                    environments=_normalise_sequence(raw.get("environments")),
-                    weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
-                    dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
-                    usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
-                    species_affinity=_parse_species_affinity(raw.get("species_affinity")),
-                    usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
-                    completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
-                    glossary_ok=bool(raw.get("glossary_ok")),
-                )
+                traits[trait_id] = TraitProfile.from_payload(trait_id, raw)
             if traits:
                 return cls(traits)
         # fall-back to build from scratch
@@ -715,6 +771,56 @@ class PathfinderTraitFormula:
         "bulette": {"core": ("carapace_fase_variabile",), "optional": ("armatura_pietra_planare",)},
     }
 
+    def _extract_base_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        base_traits = entry.get("genetic_traits")
+        if isinstance(base_traits, Sequence):
+            for trait_id in base_traits:
+                if isinstance(trait_id, str):
+                    yield "core", trait_id
+
+    def _extract_type_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        type_field = str(entry.get("type") or "").lower()
+        for trait_id, bucket in self._TYPE_TRAITS.get(type_field, ()):
+            yield bucket, trait_id
+
+    def _extract_subtype_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        subtype_field = str(entry.get("subtype") or "").lower()
+        for keyword, trait_specs in self._SUBTYPE_TRAITS:
+            if keyword in subtype_field:
+                for trait_id, bucket in trait_specs:
+                    yield bucket, trait_id
+
+    def _extract_movement_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        movement_entry = entry.get("movement")
+        if isinstance(movement_entry, Mapping):
+            for key, (trait_id, bucket) in self._MOVEMENT_TRAITS.items():
+                if key in movement_entry:
+                    yield bucket, trait_id
+
+    def _extract_ability_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        ability_text = " ".join(str(item).lower() for item in entry.get("special_abilities", []) if item)
+        for keywords, trait_id, bucket in self._ABILITY_KEYWORDS:
+            if any(keyword in ability_text for keyword in keywords):
+                yield bucket, trait_id
+
+    def _extract_environment_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        environment_text = " ".join(str(tag).lower() for tag in entry.get("environment_tags", []) if tag)
+        for keyword, trait_id, bucket in self._ENVIRONMENT_TRAITS:
+            if keyword in environment_text:
+                yield bucket, trait_id
+
+    def _extract_overrides(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        profile_id = str(entry.get("id") or "").lower()
+        overrides = self._PROFILE_OVERRIDES.get(profile_id, {})
+        for bucket, traits in overrides.items():
+            for trait_id in traits:
+                yield bucket, trait_id
+
+    def _extract_fallback_traits(self, fallback_traits: Sequence[str]) -> Iterable[tuple[str, str]]:
+        for trait_id in fallback_traits:
+            if isinstance(trait_id, str):
+                yield "optional", trait_id
+
     def extract(
         self, entry: Mapping[str, Any], *, fallback_traits: Sequence[str] = ()
     ) -> Dict[str, List[str]]:
@@ -735,47 +841,22 @@ class PathfinderTraitFormula:
             buckets[bucket].append(trait_id)
             trait_location[trait_id] = bucket
 
-        base_traits = entry.get("genetic_traits")
-        if isinstance(base_traits, Sequence):
-            for trait_id in base_traits:
-                if isinstance(trait_id, str):
-                    _register("core", trait_id)
-
-        type_field = str(entry.get("type") or "").lower()
-        for trait_id, bucket in self._TYPE_TRAITS.get(type_field, ()):  
+        for bucket, trait_id in self._extract_base_traits(entry):
             _register(bucket, trait_id)
-
-        subtype_field = str(entry.get("subtype") or "").lower()
-        for keyword, trait_specs in self._SUBTYPE_TRAITS:
-            if keyword in subtype_field:
-                for trait_id, bucket in trait_specs:
-                    _register(bucket, trait_id)
-
-        movement_entry = entry.get("movement")
-        if isinstance(movement_entry, Mapping):
-            for key, (trait_id, bucket) in self._MOVEMENT_TRAITS.items():
-                if key in movement_entry:
-                    _register(bucket, trait_id)
-
-        ability_text = " ".join(str(item).lower() for item in entry.get("special_abilities", []) if item)
-        for keywords, trait_id, bucket in self._ABILITY_KEYWORDS:
-            if any(keyword in ability_text for keyword in keywords):
-                _register(bucket, trait_id)
-
-        environment_text = " ".join(str(tag).lower() for tag in entry.get("environment_tags", []) if tag)
-        for keyword, trait_id, bucket in self._ENVIRONMENT_TRAITS:
-            if keyword in environment_text:
-                _register(bucket, trait_id)
-
-        profile_id = str(entry.get("id") or "").lower()
-        overrides = self._PROFILE_OVERRIDES.get(profile_id, {})
-        for bucket, traits in overrides.items():
-            for trait_id in traits:
-                _register(bucket, trait_id)
-
-        for trait_id in fallback_traits:
-            if isinstance(trait_id, str):
-                _register("optional", trait_id)
+        for bucket, trait_id in self._extract_type_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_subtype_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_movement_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_ability_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_environment_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_overrides(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_fallback_traits(fallback_traits):
+            _register(bucket, trait_id)
 
         return buckets
 

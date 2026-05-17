@@ -533,7 +533,7 @@
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-30",
+      "last_verified": "2026-05-07",
       "source_of_truth": true,
       "language": "it",
       "review_cycle_days": 60
@@ -589,19 +589,6 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
-    },
-    {
-      "path": "docs/adr/ADR-XXX-refactor-cli.md",
-      "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
-      "doc_status": "active",
-      "doc_owner": "platform-docs",
-      "workstream": "cross-cutting",
-      "last_verified": "2026-05-06",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
     },
     {
       "path": "docs/appendici/A-CANVAS_ORIGINALE.md",
@@ -5182,7 +5169,7 @@
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-30",
+      "last_verified": "2026-05-07",
       "source_of_truth": true,
       "language": "it",
       "review_cycle_days": 14
@@ -8053,7 +8040,7 @@
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-30",
+      "last_verified": "2026-05-07",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30
