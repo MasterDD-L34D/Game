@@ -248,7 +248,140 @@ function transformRun(events, sessionId) {
   return out;
 }
 
-function main() {
+// OD-026 / OD-038 / OD-026-FIX — REAL biome_focus_changed telemetry produced
+// by the Godot client (Game-Godot-v2). biome_focus_changed is a CLIENT-only
+// UI signal the backend sim never emits, so the analyzer's
+// od026_atlas.biome_focus_events stays empty without this bridge.
+//
+// TRANSPORT (fixed): the producer is the Godot GUT test
+// `test_biome_focus_telemetry_export.gd` in Game-Godot-v2, which writes a
+// small DETERMINISTIC analyzer-shaped JSONL (3 fixed pilot biomes × 2
+// surfaces = 6 lines, 875 bytes). The original OD-026 reused the OD-042-A
+// skiv-monitor raw.githubusercontent.com pattern — but that pattern only
+// works because the skiv producer repo is PUBLIC. Game-Godot-v2 is PRIVATE,
+// so raw.githubusercontent.com returns 404 forever with no auth → the
+// graceful-skip silently emitted [] and the advertised "schema-coverage
+// 7/7" was actually 6.5/7 in production with NO error.
+//
+// FIX: commit the real captured deterministic export into THIS public repo
+// at data/derived/atlas-telemetry/biome-focus.jsonl (byte-identical copy of
+// the Game-Godot-v2 GUT export) and read it LOCALLY first — no network, no
+// private-repo dependency. The GODOT_BIOME_FOCUS_URL env override is kept
+// as an OPTIONAL remote fallback (only used if explicitly set to a
+// reachable URL). REGEN: when the atlas pilot biomes change, re-run the
+// GUT export test in Game-Godot-v2 and copy its biome-focus.jsonl here.
+// See docs/runbook/od026-biome-focus-sync.md.
+//
+// GRACEFUL DEGRADATION preserved: file missing / malformed / unreachable
+// override → return [] and log a WARN; analyzer shows biome_focus empty
+// exactly as before. NEVER fabricate events.
+const GODOT_BIOME_FOCUS_LOCAL = path.join(
+  __dirname,
+  '..',
+  '..',
+  'data',
+  'derived',
+  'atlas-telemetry',
+  'biome-focus.jsonl',
+);
+const GODOT_BIOME_FOCUS_URL = process.env.GODOT_BIOME_FOCUS_URL || '';
+
+function parseBiomeFocusText(text) {
+  const out = [];
+  let skipped = 0;
+  for (const line of text.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    let ev;
+    try {
+      ev = JSON.parse(trimmed);
+    } catch {
+      skipped += 1;
+      continue;
+    }
+    // Only accept REAL, well-formed biome_focus_changed events. No invention.
+    if (
+      !ev ||
+      ev.event_type !== 'biome_focus_changed' ||
+      typeof ev.biome_id !== 'string' ||
+      ev.biome_id === ''
+    ) {
+      skipped += 1;
+      continue;
+    }
+    out.push({
+      session_id: String(ev.session_id || 'godot-atlas-biome-focus'),
+      event_type: 'biome_focus_changed',
+      actor_id: ev.actor_id || 'godot-client',
+      biome_id: ev.biome_id,
+    });
+  }
+  if (skipped) {
+    console.warn(`[telemetry-bridge] Godot biome_focus: ${skipped} malformed/irrelevant line(s)`);
+  }
+  return out;
+}
+
+async function fetchRemoteBiomeFocus(url) {
+  if (typeof fetch !== 'function') {
+    console.warn(
+      '[telemetry-bridge] WARN: global fetch unavailable — skipping Godot biome_focus override',
+    );
+    return null;
+  }
+  try {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 15000);
+    const res = await fetch(url, { signal: ctl.signal });
+    clearTimeout(timer);
+    if (!res.ok) {
+      console.warn(
+        `[telemetry-bridge] WARN: Godot biome_focus override fetch ${res.status} — skipping (non-fatal)`,
+      );
+      return null;
+    }
+    return await res.text();
+  } catch (err) {
+    console.warn(
+      `[telemetry-bridge] WARN: Godot biome_focus override fetch failed (${err.message}) — skipping`,
+    );
+    return null;
+  }
+}
+
+// Local-first: read the committed deterministic Godot export from THIS
+// public repo. Optional GODOT_BIOME_FOCUS_URL override fetches remotely
+// instead (only if explicitly set + reachable). Any total absence →
+// [] (graceful skip), never fatal, never fabricated.
+async function fetchGodotBiomeFocus(localPath, overrideUrl) {
+  if (overrideUrl) {
+    const text = await fetchRemoteBiomeFocus(overrideUrl);
+    if (text !== null) {
+      return parseBiomeFocusText(text);
+    }
+    console.warn(
+      '[telemetry-bridge] WARN: override URL unusable — falling back to local committed jsonl',
+    );
+  }
+  if (!fs.existsSync(localPath)) {
+    console.warn(
+      `[telemetry-bridge] WARN: local Godot biome_focus jsonl missing (${localPath}) — skipping (non-fatal)`,
+    );
+    return [];
+  }
+  let text;
+  try {
+    text = fs.readFileSync(localPath, 'utf8');
+  } catch (err) {
+    console.warn(
+      `[telemetry-bridge] WARN: local Godot biome_focus read failed (${err.message}) — skipping`,
+    );
+    return [];
+  }
+  return parseBiomeFocusText(text);
+}
+
+async function main() {
   const args = parseArgs(process.argv);
   const batchDir = resolveBatchDir(args.in);
   const runsDir = path.join(batchDir, 'runs');
@@ -281,18 +414,42 @@ function main() {
     }
   }
 
+  // Merge REAL Godot client biome_focus_changed events (graceful skip on
+  // any failure — analyzer degrades to empty biome_focus exactly as today).
+  let biomeFocus = [];
+  if (process.env.SKIP_GODOT_BIOME_FOCUS !== '1') {
+    biomeFocus = await fetchGodotBiomeFocus(GODOT_BIOME_FOCUS_LOCAL, GODOT_BIOME_FOCUS_URL);
+    for (const ev of biomeFocus) {
+      sessionIds.add(ev.session_id);
+      outLines.push(JSON.stringify(ev));
+    }
+  }
+
   fs.writeFileSync(outPath, outLines.join('\n') + (outLines.length ? '\n' : ''));
   console.log(`[telemetry-bridge] batch dir : ${batchDir}`);
   console.log(`[telemetry-bridge] run files : ${runFiles.length}`);
   console.log(`[telemetry-bridge] sessions  : ${sessionIds.size}`);
   console.log(`[telemetry-bridge] events    : ${outLines.length}`);
+  console.log(`[telemetry-bridge] biomefocus: ${biomeFocus.length} real Godot event(s)`);
   console.log(`[telemetry-bridge] skipped   : ${totalSkipped} malformed line(s)`);
   console.log(`[telemetry-bridge] output    : ${outPath}`);
   return 0;
 }
 
 if (require.main === module) {
-  process.exit(main());
+  main().then(
+    (code) => process.exit(code),
+    (err) => {
+      console.error(err);
+      process.exit(1);
+    },
+  );
 }
 
-module.exports = { transformRun, normalizeEnnea, buildVcSnapshotPerActor, deriveSessionId };
+module.exports = {
+  transformRun,
+  normalizeEnnea,
+  buildVcSnapshotPerActor,
+  deriveSessionId,
+  fetchGodotBiomeFocus,
+};
