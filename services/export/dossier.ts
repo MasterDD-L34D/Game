@@ -210,19 +210,11 @@ function formatSeedSummary(seed: Record<string, unknown>, helpers: DossierHelper
   return segments ? `- ${segments}` : null;
 }
 
-export function generateDossierDocument(
+function populateDossierHeader(
   context: DossierContext,
   helpers: DossierHelpers & { template: string },
-): Document {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(helpers.template, 'text/html');
-  const setSlotText = (slot: string, value: string | null | undefined) => {
-    const target = doc.querySelector(`[data-slot="${slot}"]`);
-    if (target) {
-      target.textContent = value ?? '';
-    }
-  };
-
+  setSlotText: (slot: string, value: string | null | undefined) => void,
+) {
   const generatedAt = context.generatedAt
     ? context.generatedAt instanceof Date
       ? context.generatedAt
@@ -252,7 +244,9 @@ export function generateDossierDocument(
     summaryParts.push(`Filtri: ${context.filterSummary}`);
   }
   setSlotText('summary', summaryParts.join(' · '));
+}
 
+function populateDossierActivity(doc: Document, context: DossierContext) {
   const activityContainer = doc.querySelector('[data-slot="activity"]');
   if (activityContainer) {
     activityContainer.innerHTML = '';
@@ -264,7 +258,9 @@ export function generateDossierDocument(
       activityContainer.appendChild(item);
     });
   }
+}
 
+function populateDossierBiomes(doc: Document, context: DossierContext, helpers: DossierHelpers) {
   const biomeContainer = doc.querySelector('[data-slot="biomes"]');
   if (biomeContainer) {
     biomeContainer.innerHTML = '';
@@ -286,7 +282,9 @@ export function generateDossierDocument(
       biomeContainer.appendChild(item);
     });
   }
+}
 
+function populateDossierSpecies(doc: Document, context: DossierContext, helpers: DossierHelpers) {
   const speciesContainer = doc.querySelector('[data-slot="species"]');
   if (speciesContainer) {
     speciesContainer.innerHTML = '';
@@ -331,7 +329,9 @@ export function generateDossierDocument(
         speciesContainer.appendChild(item);
       });
   }
+}
 
+function populateDossierSeeds(doc: Document, context: DossierContext) {
   const seedsContainer = doc.querySelector('[data-slot="seeds"]');
   if (seedsContainer) {
     seedsContainer.innerHTML = '';
@@ -351,6 +351,26 @@ export function generateDossierDocument(
       seedsContainer.appendChild(item);
     });
   }
+}
+
+export function generateDossierDocument(
+  context: DossierContext,
+  helpers: DossierHelpers & { template: string },
+): Document {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(helpers.template, 'text/html');
+  const setSlotText = (slot: string, value: string | null | undefined) => {
+    const target = doc.querySelector(`[data-slot="${slot}"]`);
+    if (target) {
+      target.textContent = value ?? '';
+    }
+  };
+
+  populateDossierHeader(context, helpers, setSlotText);
+  populateDossierActivity(doc, context);
+  populateDossierBiomes(doc, context, helpers);
+  populateDossierSpecies(doc, context, helpers);
+  populateDossierSeeds(doc, context);
 
   return doc;
 }
