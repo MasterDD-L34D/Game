@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-17T14:43:07+00:00",
+  "generated_at": "2026-05-15T12:58:46+00:00",
   "summary": {
-    "total": 52,
+    "total": 35,
     "errors": 0,
-    "warnings": 52
+    "warnings": 35
   },
   "issues": [
     {
@@ -21,68 +21,8 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/adr/ADR-2026-04-16-ai-architecture-utility.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/adr/ADR-2026-04-16-grid-type-hex-axial.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/adr/ADR-2026-04-16-networking-colyseus.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/appendici/A-CANVAS_ORIGINALE.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/appendici/C-CANVAS_NPG_BIOMI.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/appendici/D-CANVAS_ACCOPPIAMENTO.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/architecture/ai-policy-engine.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/00E-NAMING_STYLEGUIDE.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/core/02-PILASTRI.md",
       "message": "Documento stale: revisione scaduta il 2026-05-12"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/15-LEVEL_DESIGN.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/17-SCREEN_FLOW.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
     },
     {
       "level": "warning",
@@ -119,12 +59,6 @@
       "code": "stale_document",
       "path": "docs/guide/INDEX.md",
       "message": "Documento stale: revisione scaduta il 2026-05-13"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/guide/naming-pipeline.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
     },
     {
       "level": "warning",
@@ -167,24 +101,6 @@
       "code": "stale_document",
       "path": "docs/incoming/README.md",
       "message": "Documento stale: revisione scaduta il 2026-05-14"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pitch/evo_tactics_game_vision_reconstructed.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pitch/evo_tactics_one_page_pitch.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pitch/evo_tactics_publisher_sheet.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-16"
     },
     {
       "level": "warning",
@@ -261,18 +177,6 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/planning/2026-05-08-master-dd-decisions-evidence-based.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-15"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/planning/2026-05-08-sprint-q-kickoff-coordination.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-15"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/incoming_agent_backlog.md",
       "message": "Documento stale: revisione scaduta il 2026-05-14"
     },
@@ -299,12 +203,6 @@
       "code": "stale_document",
       "path": "docs/reports/2026-04-28-canonical-doc-inventory.md",
       "message": "Documento stale: revisione scaduta il 2026-05-12"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/reports/2026-05-08-day-3-completionist-multi-action-audit.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-15"
     },
     {
       "level": "warning",
