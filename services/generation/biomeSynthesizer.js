@@ -380,66 +380,58 @@ function inferTier(role, explicitTier) {
   }
 }
 
-async function buildSpecies(
+async function registerSpeciesTemplate(
+  template,
   pool,
   biomeId,
   traitGlossary,
   traitCatalog,
-  constraints,
   rng,
   speciesBuilder,
-  runtimeValidator,
 ) {
-  const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
-  const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
-    ROLE_FLAG_SET.has(role),
-  );
-  const shuffled = shuffle(templates, rng);
-  const species = [];
-  const takenRoles = new Set();
-
-  const register = async (template) => {
-    if (!template) return;
-    const role = template.role || 'specialist';
-    const baseId = slugify(`${pool.id}-${role}-${template.label || role}`) || randomId('spec', rng);
-    const id = `${baseId}-${Math.floor((rng() || Math.random()) * 1e5)
-      .toString(36)
-      .padStart(3, '0')}`;
-    const flags = buildFlags(role);
-    const tier = inferTier(role, template.tier);
-    const preferredTraits = ensureArray(template.preferred_traits);
-    const traitLabels = mapTraitDetails(preferredTraits, traitGlossary, traitCatalog);
-    let builderProfile = null;
-    if (speciesBuilder) {
-      try {
-        builderProfile = await speciesBuilder.buildProfile(preferredTraits, {
-          baseName: template.label || titleCase(`${role}-${pool.id}`),
-          random: () => rng(),
-        });
-      } catch (error) {
-        builderProfile = null;
-      }
+  if (!template) return null;
+  const role = template.role || 'specialist';
+  const baseId = slugify(`${pool.id}-${role}-${template.label || role}`) || randomId('spec', rng);
+  const id = `${baseId}-${Math.floor((rng() || Math.random()) * 1e5)
+    .toString(36)
+    .padStart(3, '0')}`;
+  const flags = buildFlags(role);
+  const tier = inferTier(role, template.tier);
+  const preferredTraits = ensureArray(template.preferred_traits);
+  const traitLabels = mapTraitDetails(preferredTraits, traitGlossary, traitCatalog);
+  let builderProfile = null;
+  if (speciesBuilder) {
+    try {
+      builderProfile = await speciesBuilder.buildProfile(preferredTraits, {
+        baseName: template.label || titleCase(`${role}-${pool.id}`),
+        random: () => rng(),
+      });
+    } catch (error) {
+      builderProfile = null;
     }
+  }
 
-    const fallbackMetadata = buildTraitMetadataFromCatalog(preferredTraits, traitCatalog);
+  const fallbackMetadata = buildTraitMetadataFromCatalog(preferredTraits, traitCatalog);
 
-    const profile = builderProfile || {
-      id,
-      display_name: template.label || titleCase(`${role}-${pool.id}`),
-      summary: template.summary || null,
-      description: template.summary || null,
-      morphology: null,
-      behavior: null,
-      statistics: {
-        threat_tier: `T${tier}`,
-        rarity: null,
-        energy_profile: null,
-        synergy_score: null,
-      },
-      traits: { core: preferredTraits, derived: [], conflicts: [], metadata: fallbackMetadata },
-    };
+  const profile = builderProfile || {
+    id,
+    display_name: template.label || titleCase(`${role}-${pool.id}`),
+    summary: template.summary || null,
+    description: template.summary || null,
+    morphology: null,
+    behavior: null,
+    statistics: {
+      threat_tier: `T${tier}`,
+      rarity: null,
+      energy_profile: null,
+      synergy_score: null,
+    },
+    traits: { core: preferredTraits, derived: [], conflicts: [], metadata: fallbackMetadata },
+  };
 
-    species.push({
+  return {
+    role,
+    speciesData: {
       id: profile.id || id,
       display_name: profile.display_name || template.label || titleCase(`${role}-${pool.id}`),
       role_trofico: `${ROLE_TROPHIC_LABELS[role] || role}_${pool.id}`,
@@ -467,8 +459,42 @@ async function buildSpecies(
       species_affinity: Array.isArray(profile.traits?.metadata?.species_affinity)
         ? profile.traits.metadata.species_affinity
         : [],
-    });
-    takenRoles.add(role);
+    },
+  };
+}
+
+async function buildSpecies(
+  pool,
+  biomeId,
+  traitGlossary,
+  traitCatalog,
+  constraints,
+  rng,
+  speciesBuilder,
+  runtimeValidator,
+) {
+  const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
+  const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
+  const shuffled = shuffle(templates, rng);
+  const species = [];
+  const takenRoles = new Set();
+
+  const register = async (template) => {
+    const result = await registerSpeciesTemplate(
+      template,
+      pool,
+      biomeId,
+      traitGlossary,
+      traitCatalog,
+      rng,
+      speciesBuilder,
+    );
+    if (result) {
+      species.push(result.speciesData);
+      takenRoles.add(result.role);
+    }
   };
 
   for (const template of shuffled) {
