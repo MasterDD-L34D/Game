@@ -176,6 +176,120 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           sed -n '1,24p' "$REPORT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "$METRICS" > /tmp/ai-sim-nightly/.metrics-path
+
+      # Envelope B / B1+B3 — pillar-metric regression baselines + bootstrap
+      # guard. Reads the analyzer metrics.json, compares vs the committed
+      # rolling baseline (tools/sim/pillar-baseline.json), folds this run in
+      # with --update. PT2-D: the first BOOTSTRAP_MIN runs only accumulate
+      # (script suppresses alerts itself; exit 0). Not a hard gate here —
+      # surfaces via issue (B3) / board delta (B4).
+      - name: Pillar regression baselines
+        id: pillar
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          METRICS=$(cat /tmp/ai-sim-nightly/.metrics-path 2>/dev/null || true)
+          if [ -z "$METRICS" ] || [ ! -f "$METRICS" ]; then
+            echo "No analyzer metrics.json — skipping pillar baselines"
+            echo "pillar_alert=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          PREV_VERDICT=$(node -e "try{console.log(require('./tools/sim/pillar-baseline.json').verdict||'')}catch{console.log('')}")
+          node tools/sim/check-pillar-baselines.js \
+            --metrics "$METRICS" \
+            --baseline tools/sim/pillar-baseline.json \
+            --out /tmp/ai-sim-nightly/pillar-report-${DATE}.md \
+            --status-out /tmp/ai-sim-nightly/pillar-status.json \
+            --update \
+            >> $GITHUB_STEP_SUMMARY
+          STATUS=$?
+          ALERT=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').alert?'true':'false')}catch{console.log('false')}")
+          NEW_VERDICT=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').verdict||'')}catch{console.log('')}")
+          VCHG=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').verdict_changed?'true':'false')}catch{console.log('false')}")
+          echo "pillar_alert=$ALERT" >> $GITHUB_OUTPUT
+          echo "verdict_changed=$VCHG" >> $GITHUB_OUTPUT
+          echo "prev_verdict=$PREV_VERDICT" >> $GITHUB_OUTPUT
+          echo "new_verdict=$NEW_VERDICT" >> $GITHUB_OUTPUT
+          # B4 — cross-repo board delta. The workflow GITHUB_TOKEN is
+          # repo-scoped to Game and CANNOT open a PR to codemasterdd, so we
+          # do NOT fake an automated cross-repo PR. Instead, on a verdict
+          # change, write a board-delta handoff doc into the artifact; the
+          # codemasterdd EXECUTION-BOARD.md row (OD-044) is synced via a
+          # manual/cron PR using that delta as the source of truth.
+          if [ "$VCHG" = "true" ]; then
+            DELTA=/tmp/ai-sim-nightly/playtest-2-board-delta-${DATE}.md
+            {
+              echo "# playtest#2 board delta — ${DATE}"
+              echo ""
+              echo "**OD-044 pillar verdict change**: \`${PREV_VERDICT:-<bootstrap>}\` → \`${NEW_VERDICT}\`"
+              echo ""
+              echo "Sync target: \`MasterDD-L34D/codemasterdd-ai-station\` →"
+              echo "\`docs/cross-repo/EXECUTION-BOARD.md\` row **playtest#2 automation (OD-044)**."
+              echo ""
+              echo "This is a MANUAL-HANDOFF step: the Game workflow token is"
+              echo "repo-scoped and cannot PR cross-repo. Open the codemasterdd"
+              echo "PR from this delta (or via the periodic board-sync cron)."
+              echo ""
+              echo '## Pillar status snapshot'
+              echo '```json'
+              cat /tmp/ai-sim-nightly/pillar-status.json
+              echo '```'
+            } > "$DELTA"
+            echo "board_delta=$DELTA" >> $GITHUB_OUTPUT
+          fi
+
+      # B3 — commit the updated rolling baseline + generated report via PR,
+      # NOT auto-commit to main (PT2-C). Token is contents+PR scoped.
+      - name: Open baseline-update PR
+        if: github.event_name == 'schedule' && steps.pillar.outputs.pillar_alert != ''
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          DATE=$(date -u +%Y-%m-%d)
+          if git diff --quiet -- tools/sim/pillar-baseline.json; then
+            echo "Baseline unchanged — no PR needed"
+            exit 0
+          fi
+          BRANCH="auto/playtest2-baseline-${DATE}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          mkdir -p docs/playtest
+          cp "/tmp/ai-sim-nightly/playtest-2-report-${DATE}.md" "docs/playtest/playtest-2-${DATE}.md" 2>/dev/null || true
+          git add tools/sim/pillar-baseline.json docs/playtest/playtest-2-${DATE}.md 2>/dev/null || git add tools/sim/pillar-baseline.json
+          git commit -m "chore(playtest2): nightly pillar baseline + report ${DATE}"
+          git push origin "$BRANCH" --force
+          gh pr create \
+            --title "playtest#2 nightly baseline ${DATE}" \
+            --body "Automated rolling pillar baseline update + analyzer report. Generated by ai-sim-nightly (PT2-C: PR delivery, never auto-commit to main)." \
+            --label "playtest-2,automated" \
+            --base main --head "$BRANCH" \
+            --repo "${{ github.repository }}" || echo "PR may already exist for $BRANCH"
+
+      - name: Open pillar regression issue
+        if: steps.pillar.outputs.pillar_alert == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          BODY=$(cat /tmp/ai-sim-nightly/pillar-report-${DATE}.md)
+          TITLE="playtest#2 pillar regression — $DATE"
+          # Reuse existing issues:write token (no new perms). Update an open
+          # issue with the same label set if present, else create one.
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" \
+            --label "playtest-2,automated" --state open \
+            --search "pillar regression" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY" \
+              --label "playtest-2,automated" --repo "${{ github.repository }}"
+          fi
 
       - name: Upload artifacts
         if: always()
@@ -187,6 +301,9 @@ jobs:
             /tmp/ai-sim-nightly/threshold-report.md
             /tmp/ai-sim-nightly/playtest-2-report-*.md
             /tmp/ai-sim-nightly/playtest-2-metrics-*.json
+            /tmp/ai-sim-nightly/pillar-report-*.md
+            /tmp/ai-sim-nightly/pillar-status.json
+            /tmp/ai-sim-nightly/playtest-2-board-delta-*.md
             /tmp/ai-sim-nightly/backend.log
           retention-days: 14
 
