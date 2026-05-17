@@ -251,59 +251,9 @@ class GenerationOrchestrator:
             )
 
         for attempt, candidate in enumerate(candidates, start=1):
-            attempt_logger = logger.bind(attempt=attempt, traits=candidate["traits"])
-            attempt_logger.info("generation.attempt", source=candidate["source"])
-            try:
-                blueprint = self.builder.build(
-                    candidate["traits"],
-                    seed=request.seed,
-                    base_name=request.base_name,
-                )
-            except ValueError as error:
-                attempt_logger.warning(
-                    "generation.builder_failure",
-                    error=str(error),
-                )
-                continue
-
-            validation = runtime_api.validate_species_entries(
-                [blueprint],
-                resources=self.resources,
-                biome_id=request.biome_id,
-            )
-            messages = [
-                ValidationMessage(**message)
-                if not isinstance(message, ValidationMessage)
-                else message
-                for message in validation["messages"]
-            ]
-            if has_errors(messages):
-                attempt_logger.warning(
-                    "generation.validation_failed",
-                    discarded=validation.get("discarded", []),
-                    messages=format_messages(messages),
-                )
-                continue
-
-            attempt_logger.info(
-                "generation.success",
-                warnings=[msg.message for msg in messages if msg.level != "error"],
-                fallback_used=candidate["source"] != "requested",
-            )
-            corrected_entries = validation.get("corrected") or []
-            corrected = corrected_entries[0] if corrected_entries else None
-            bundle = ValidationBundle(
-                corrected=corrected,
-                messages=_render_messages(messages),
-                discarded=validation.get("discarded", []),
-            )
-            meta = {
-                "request_id": request_id,
-                "attempts": attempt,
-                "fallback_used": candidate["source"] != "requested",
-                "biome_id": request.biome_id,
-            }
-            return GenerationResult(blueprint=blueprint, validation=bundle, meta=meta)
+            result = self._attempt_candidate(request, candidate, logger, attempt, request_id)
+            if result is not None:
+                return result
 
         logger.error(
             "generation.exhausted_fallbacks",
@@ -311,6 +261,78 @@ class GenerationOrchestrator:
             trait_sets=[candidate["traits"] for candidate in candidates],
         )
         raise GenerationError("Impossibile generare specie valida dopo i fallback")
+
+    def _attempt_candidate(
+        self,
+        request: SpeciesGenerationRequest,
+        candidate: Dict[str, Any],
+        logger: StructuredLogger,
+        attempt: int,
+        request_id: str,
+    ) -> Optional[GenerationResult]:
+        attempt_logger = logger.bind(attempt=attempt, traits=candidate["traits"])
+        attempt_logger.info("generation.attempt", source=candidate["source"])
+        try:
+            blueprint = self.builder.build(
+                candidate["traits"],
+                seed=request.seed,
+                base_name=request.base_name,
+            )
+        except ValueError as error:
+            attempt_logger.warning(
+                "generation.builder_failure",
+                error=str(error),
+            )
+            return None
+
+        bundle, messages, discarded = self._validate_and_bundle_blueprint(blueprint, request.biome_id)
+        if bundle is None:
+            attempt_logger.warning(
+                "generation.validation_failed",
+                discarded=discarded,
+                messages=format_messages(messages),
+            )
+            return None
+
+        attempt_logger.info(
+            "generation.success",
+            warnings=[msg.message for msg in messages if msg.level != "error"],
+            fallback_used=candidate["source"] != "requested",
+        )
+        meta = {
+            "request_id": request_id,
+            "attempts": attempt,
+            "fallback_used": candidate["source"] != "requested",
+            "biome_id": request.biome_id,
+        }
+        return GenerationResult(blueprint=blueprint, validation=bundle, meta=meta)
+
+    def _validate_and_bundle_blueprint(
+        self, blueprint: SpeciesBlueprint, biome_id: Optional[str]
+    ) -> tuple[Optional[ValidationBundle], list[ValidationMessage], list[Any]]:
+        validation = runtime_api.validate_species_entries(
+            [blueprint],
+            resources=self.resources,
+            biome_id=biome_id,
+        )
+        messages = [
+            ValidationMessage(**message)
+            if not isinstance(message, ValidationMessage)
+            else message
+            for message in validation["messages"]
+        ]
+        discarded = validation.get("discarded", [])
+        if has_errors(messages):
+            return None, messages, discarded
+
+        corrected_entries = validation.get("corrected") or []
+        corrected = corrected_entries[0] if corrected_entries else None
+        bundle = ValidationBundle(
+            corrected=corrected,
+            messages=_render_messages(messages),
+            discarded=discarded,
+        )
+        return bundle, messages, discarded
 
     def generate_species_batch(
         self, requests: Sequence[SpeciesGenerationRequest]
@@ -391,18 +413,8 @@ class GenerationOrchestrator:
             fallback_traits=request.fallback_trait_ids or self.fallback_traits,
         )
 
-        validation = runtime_api.validate_species_entries(
-            [blueprint],
-            resources=self.resources,
-            biome_id=request.biome_id,
-        )
-        messages = [
-            ValidationMessage(**message)
-            if not isinstance(message, ValidationMessage)
-            else message
-            for message in validation["messages"]
-        ]
-        if has_errors(messages):
+        bundle, messages, _ = self._validate_and_bundle_blueprint(blueprint, request.biome_id)
+        if bundle is None:
             logger.error(
                 "generation.dataset_validation_failed",
                 dataset_id=dataset_id,
@@ -413,13 +425,6 @@ class GenerationOrchestrator:
                 f"Validazione fallita per profilo '{profile_id}' del dataset '{dataset_id}'"
             )
 
-        corrected_entries = validation.get("corrected") or []
-        corrected = corrected_entries[0] if corrected_entries else None
-        bundle = ValidationBundle(
-            corrected=corrected,
-            messages=_render_messages(messages),
-            discarded=validation.get("discarded", []),
-        )
         meta = {
             "request_id": request.request_id or self._compute_request_id(request),
             "attempts": 1,
