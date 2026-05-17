@@ -67,16 +67,16 @@ const HARDCORE_SCENARIO_06 = {
 function buildHardcoreUnits06() {
   const players = [];
   // 8 player PG — mix specie/job per composition leggibile.
-  // 4 skirmisher (ranged dmg) + 2 vanguard (tank frontline) + 2 support.
+  // 2 skirmisher + 2 ranger (ranged dmg) + 2 vanguard (tank frontline) + 2 warden (support).
   const playerLayouts = [
     { id: 'p_scout_1', job: 'skirmisher', pos: [0, 2], hp: 10, mod: 3, dc: 12 },
-    { id: 'p_scout_2', job: 'skirmisher', pos: [0, 4], hp: 10, mod: 3, dc: 12 },
-    { id: 'p_scout_3', job: 'skirmisher', pos: [0, 6], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_scout_2', job: 'ranger', pos: [0, 4], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_scout_3', job: 'ranger', pos: [0, 6], hp: 10, mod: 3, dc: 12 },
     { id: 'p_scout_4', job: 'skirmisher', pos: [0, 8], hp: 10, mod: 3, dc: 12 },
     { id: 'p_tank_1', job: 'vanguard', pos: [1, 3], hp: 14, mod: 2, dc: 14 },
     { id: 'p_tank_2', job: 'vanguard', pos: [1, 7], hp: 14, mod: 2, dc: 14 },
-    { id: 'p_support_1', job: 'skirmisher', pos: [1, 1], hp: 11, mod: 3, dc: 13 },
-    { id: 'p_support_2', job: 'skirmisher', pos: [1, 5], hp: 11, mod: 3, dc: 13 },
+    { id: 'p_support_1', job: 'warden', pos: [1, 1], hp: 11, mod: 3, dc: 13 },
+    { id: 'p_support_2', job: 'warden', pos: [1, 5], hp: 11, mod: 3, dc: 13 },
   ];
   // pcg-level-design-illuminator P0 emergence fix: species variety.
   // Pre: tutti i 8 player = `dune_stalker` (emergence 🔴 LOW).
