@@ -1,0 +1,621 @@
+TAP version 13
+# [prisma] client non disponibile, uso stub in memoria DATABASE_URL non configurato
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: dash_strike: move_attack end-to-end, AP decremented, event emitted
+ok 1 - dash_strike: move_attack end-to-end, AP decremented, event emitted
+  ---
+  duration_ms: 699.88307
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: evasive_maneuver: attack_move applica buff defense_mod 1 turno
+ok 2 - evasive_maneuver: attack_move applica buff defense_mod 1 turno
+  ---
+  duration_ms: 280.883553
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: cost_ap enforcement: ability rigettata se AP insufficienti
+ok 3 - cost_ap enforcement: ability rigettata se AP insufficienti
+  ---
+  duration_ms: 224.274835
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: ability_id sconosciuta → 400
+ok 4 - ability_id sconosciuta → 400
+  ---
+  duration_ms: 208.495036
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: effect_type non supportato → 501 (sentinel test, ability sintetica unsupported_xyz)
+ok 5 - effect_type non supportato → 501 (sentinel test, ability sintetica unsupported_xyz)
+  ---
+  duration_ms: 238.847444
+  type: 'test'
+  ...
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: blade_flurry: multi_attack esegue fino a attack_count hit
+ok 6 - blade_flurry: multi_attack esegue fino a attack_count hit
+  ---
+  duration_ms: 225.741177
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: shield_bash: attack_push applica sbilanciato + tenta push
+ok 7 - shield_bash: attack_push applica sbilanciato + tenta push
+  ---
+  duration_ms: 226.875738
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: disrupt_field: debuff applica defense_mod_debuff + defense_mod_bonus
+ok 8 - disrupt_field: debuff applica defense_mod_debuff + defense_mod_bonus
+  ---
+  duration_ms: 196.925949
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: focused_blast: ranged_attack con damage_step_mod +2
+ok 9 - focused_blast: ranged_attack con damage_step_mod +2
+  ---
+  duration_ms: 216.963556
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: essence_drain: drain_attack cura actor per lifesteal_pct del damage
+ok 10 - essence_drain: drain_attack cura actor per lifesteal_pct del damage
+  ---
+  duration_ms: 245.418252
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: kill_shot: execution_attack non triggera execute se target HP piena
+ok 11 - kill_shot: execution_attack non triggera execute se target HP piena
+  ---
+  duration_ms: 199.126581
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: attack_mod_bonus bonifica roll in resolveAttack (hit rate sale)
+ok 12 - attack_mod_bonus bonifica roll in resolveAttack (hit rate sale)
+  ---
+  duration_ms: 215.562497
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: defense_mod_bonus applicato su DC via predictCombat
+ok 13 - defense_mod_bonus applicato su DC via predictCombat
+  ---
+  duration_ms: 221.594119
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: energy_barrier: shield assorbe damage in performAttack
+ok 14 - energy_barrier: shield assorbe damage in performAttack
+  ---
+  duration_ms: 217.759788
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in range
+ok 15 - resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in range
+  ---
+  duration_ms: 227.420503
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: symbiotic_bloom: team_heal cura tutti gli alleati in range
+ok 16 - symbiotic_bloom: team_heal cura tutti gli alleati in range
+  ---
+  duration_ms: 197.954784
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: sanctuary: aoe_buff applica defense_mod ai allies nell'area
+ok 17 - sanctuary: aoe_buff applica defense_mod ai allies nell'area
+  ---
+  duration_ms: 190.647001
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: binding_field: aoe_debuff applica movement debuff agli enemy nell'area
+ok 18 - binding_field: aoe_debuff applica movement debuff agli enemy nell'area
+  ---
+  duration_ms: 211.475406
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: cataclysm: surge_aoe danno area + stress_reset, shield-aware
+ok 19 - cataclysm: surge_aoe danno area + stress_reset, shield-aware
+  ---
+  duration_ms: 238.311347
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: cataclysm surge_aoe: actor elevation 1 vs target 0 → multiplier 1.3 riportato
+ok 20 - cataclysm surge_aoe: actor elevation 1 vs target 0 → multiplier 1.3 riportato
+  ---
+  duration_ms: 217.292982
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: overwatch_shot: reaction registra trigger su actor.reactions[]
+ok 21 - overwatch_shot: reaction registra trigger su actor.reactions[]
+  ---
+  duration_ms: 224.186402
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: FRICTION \#6: effective_reach esposto in GET /api/jobs/:id per ogni ability
+ok 22 - FRICTION \#6: effective_reach esposto in GET /api/jobs/:id per ogni ability
+  ---
+  duration_ms: 196.049267
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: FRICTION \#7: shield_bash default on_hit (miss → no push, no status)
+ok 23 - FRICTION \#7: shield_bash default on_hit (miss → no push, no status)
+  ---
+  duration_ms: 463.915904
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: FRICTION \#7: ability con effect_trigger=always applica push + status anche su miss
+ok 24 - FRICTION \#7: ability con effect_trigger=always applica push + status anche su miss
+  ---
+  duration_ms: 222.505897
+  type: 'test'
+  ...
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter4 intercept: ally adjacent reroute damage to interceptor
+ok 25 - iter4 intercept: ally adjacent reroute damage to interceptor
+  ---
+  duration_ms: 221.887581
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter4 overwatch_shot: mover entra IN range fires reaction (iter6 INTO semantics)
+ok 26 - iter4 overwatch_shot: mover entra IN range fires reaction (iter6 INTO semantics)
+  ---
+  duration_ms: 192.509886
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter4 no reaction armed: damage applies normalmente
+ok 27 - iter4 no reaction armed: damage applies normalmente
+  ---
+  duration_ms: 194.042351
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter6 \#1: interceptor death triggers kill + assist event chain
+ok 28 - iter6 \#1: interceptor death triggers kill + assist event chain
+  ---
+  duration_ms: 193.86626
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter6 \#2: overwatch NOT fires se mover stays in range (no INTO)
+ok 29 - iter6 \#2: overwatch NOT fires se mover stays in range (no INTO)
+  ---
+  duration_ms: 193.854378
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter6 \#3: aggro_warning quando player taunted attacca non-source
+ok 30 - iter6 \#3: aggro_warning quando player taunted attacca non-source
+  ---
+  duration_ms: 196.689149
+  type: 'test'
+  ...
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter6 \#4: reaction cap = 1 (re-arm sostituisce previous)
+ok 31 - iter6 \#4: reaction cap = 1 (re-arm sostituisce previous)
+  ---
+  duration_ms: 211.491729
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: iter5 taunt: aggro_pull applica defense buff + aggro_locked su target
+ok 32 - iter5 taunt: aggro_pull applica defense buff + aggro_locked su target
+  ---
+  duration_ms: 199.098546
+  type: 'test'
+  ...
+# Subtest: iter5 declareSistemaIntents respect aggro_locked → target = aggro_source
+ok 33 - iter5 declareSistemaIntents respect aggro_locked → target = aggro_source
+  ---
+  duration_ms: 1.795612
+  type: 'test'
+  ...
+# Subtest: iter5 senza aggro_locked, AI sceglie lowest-hp normale (regression)
+ok 34 - iter5 senza aggro_locked, AI sceglie lowest-hp normale (regression)
+  ---
+  duration_ms: 0.447277
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8.1 dervish_whirlwind (r4 multi_attack): dispatch via skirmisher path
+ok 35 - Sprint 8.1 dervish_whirlwind (r4 multi_attack): dispatch via skirmisher path
+  ---
+  duration_ms: 196.190782
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8.1 headshot (r4 execution_attack): dispatch via ranger path + execute branch
+ok 36 - Sprint 8.1 headshot (r4 execution_attack): dispatch via ranger path + execute branch
+  ---
+  duration_ms: 228.666254
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8.1 apocalypse_ray (r4 surge_aoe): dispatch via invoker path + stress_reset 0
+ok 37 - Sprint 8.1 apocalypse_ray (r4 surge_aoe): dispatch via invoker path + stress_reset 0
+  ---
+  duration_ms: 254.723145
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8.1 lifegrove (r4 team_heal): dispatch via harvester path + remove_status
+ok 38 - Sprint 8.1 lifegrove (r4 team_heal): dispatch via harvester path + remove_status
+  ---
+  duration_ms: 188.536327
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8.1 shadow_assassinate (Stalker r4 expansion execution_attack): dispatch end-to-end
+ok 39 - Sprint 8.1 shadow_assassinate (Stalker r4 expansion execution_attack): dispatch end-to-end
+  ---
+  duration_ms: 207.837106
+  type: 'test'
+  ...
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# unknown format "uri" ignored in schema at path "\#/properties/share_url/anyOf/1"
+# [jobs] caricato /app/data/core/jobs.yaml: 8 base + 4 expansion = 12 job
+# [plugin-loader] 8 plugins loaded: narrative, meta, tutorial, jobs, forms, progression, mutations, lineage
+# [auth] nessun provider configurato: gli endpoint non sono protetti
+# [trait-effects] 500 trait attivi caricati da /app/data/core/traits/active_effects.yaml
+# [fairness] cap_pt_max=1 caricato da /app/data/packs.yaml
+# [vc-scoring] telemetry config caricato: 6 indici, 4 MBTI, 9 Ennea
+# [ai-profiles] caricato /app/packs/evo_tactics_pack/data/balance/ai_profiles.yaml: 7 profile, utility_brain ON: [aggressive, aggressive_with_stickiness, aggressive_sticky_30, aggressive_commit_window]
+# Subtest: Sprint 8 phantom_step (r3 move_attack): dispatch end-to-end via existing executor
+ok 40 - Sprint 8 phantom_step (r3 move_attack): dispatch end-to-end via existing executor
+  ---
+  duration_ms: 229.935641
+  type: 'test'
+  ...
+# Subtest: raw event persistito con action_type=ability + ability_id
+ok 41 - raw event persistito con action_type=ability + ability_id
+  ---
+  duration_ms: 212.932625
+  type: 'test'
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9724.820684
