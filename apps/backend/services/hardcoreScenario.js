@@ -88,13 +88,19 @@ function buildHardcoreUnits06() {
     ranger: 'echo_seer', // psionic scout
     warden: 'mud_sentinel', // defensive support
   };
+  const TRAITS_BY_JOB = {
+    skirmisher: ['zampe_a_molla'],
+    vanguard: ['pelle_elastomera'],
+    ranger: ['spore_psichiche_silenziate'],
+    warden: ['struttura_elastica_amorfa'],
+  };
   for (const pl of playerLayouts) {
     const species = SPECIES_BY_JOB[pl.job] || 'dune_stalker';
     players.push({
       id: pl.id,
       species,
       job: pl.job,
-      traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
+      traits: TRAITS_BY_JOB[pl.job] || ['zampe_a_molla'],
       hp: pl.hp,
       ap: 2, // SoT canonical
       mod: pl.mod,
@@ -338,6 +344,12 @@ function buildHardcoreUnits07() {
     ranger: 'echo_seer',
     warden: 'mud_sentinel',
   };
+  const TRAITS_BY_JOB = {
+    skirmisher: ['zampe_a_molla'],
+    vanguard: ['pelle_elastomera'],
+    ranger: ['spore_psichiche_silenziate'],
+    warden: ['struttura_elastica_amorfa'],
+  };
   const players = [
     { id: 'p_scout_1', job: 'skirmisher', pos: [1, 3], hp: 10, mod: 3, dc: 12 },
     { id: 'p_scout_2', job: 'ranger', pos: [1, 6], hp: 10, mod: 3, dc: 12 },
@@ -347,7 +359,7 @@ function buildHardcoreUnits07() {
     id: pl.id,
     species: SPECIES_BY_JOB[pl.job] || 'dune_stalker',
     job: pl.job,
-    traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
+    traits: TRAITS_BY_JOB[pl.job] || ['zampe_a_molla'],
     hp: pl.hp,
     ap: 2,
     mod: pl.mod,
