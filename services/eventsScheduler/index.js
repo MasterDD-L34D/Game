@@ -184,14 +184,7 @@ function buildPhase(phase, eventStart, defaultTimezone, index = 0) {
   };
 }
 
-function normalizeEvent(definition, defaultTimezone, source, index = 0) {
-  if (!definition || typeof definition !== 'object') {
-    return null;
-  }
-  const timezone = definition.timezone || defaultTimezone;
-  if (!isValidTimeZone(timezone)) {
-    return null;
-  }
+function calculateEventBounds(definition, timezone) {
   const start = parseDateInput(definition.start, timezone);
   if (!start || Number.isNaN(start.getTime())) {
     return null;
@@ -206,12 +199,34 @@ function normalizeEvent(definition, defaultTimezone, source, index = 0) {
     return null;
   }
   const effectiveDurationMinutes = Math.round((end.getTime() - start.getTime()) / 60000);
-  const phases = Array.isArray(definition.phases)
-    ? definition.phases
-        .map((phase, phaseIndex) => buildPhase(phase, start, timezone, phaseIndex))
-        .filter(Boolean)
-        .sort((a, b) => a.start.getTime() - b.start.getTime())
-    : [];
+  return { start, end, effectiveDurationMinutes };
+}
+
+function normalizeEventPhases(phases, start, timezone) {
+  if (!Array.isArray(phases)) {
+    return [];
+  }
+  return phases
+    .map((phase, phaseIndex) => buildPhase(phase, start, timezone, phaseIndex))
+    .filter(Boolean)
+    .sort((a, b) => a.start.getTime() - b.start.getTime());
+}
+
+function normalizeEvent(definition, defaultTimezone, source, index = 0) {
+  if (!definition || typeof definition !== 'object') {
+    return null;
+  }
+  const timezone = definition.timezone || defaultTimezone;
+  if (!isValidTimeZone(timezone)) {
+    return null;
+  }
+  const bounds = calculateEventBounds(definition, timezone);
+  if (!bounds) {
+    return null;
+  }
+  const { start, end, effectiveDurationMinutes } = bounds;
+
+  const phases = normalizeEventPhases(definition.phases, start, timezone);
 
   const tags = Array.isArray(definition.tags)
     ? definition.tags.map((tag) => String(tag))
