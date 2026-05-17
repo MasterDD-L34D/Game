@@ -53,21 +53,6 @@ const {
   applyHazardImmunity: applyArchetypeHazardImmunity,
   computeAlphaAffinityGrant: computeArchetypeAlphaGrant,
 } = require('../services/combat/archetypePassives');
-// OD-026 — Skiv echolocation pulse telemetry seam. The senseReveal helper
-// (apps/backend/services/combat/senseReveal.js) derives revealed-tile coords
-// for an actor with a `default_parts.senses: [echolocation]` entry. Wired
-// here at the post-attack seam so a REAL attack by an echolocating actor
-// emits a `skiv_pulse_fired` event into session.events (analyzer OD-026
-// atlas). Lazy require with graceful fallback — a missing/broken module
-// must never block combat resolution.
-let _senseReveal = null;
-try {
-  // eslint-disable-next-line global-require
-  _senseReveal = require('../services/combat/senseReveal');
-} catch (_err) {
-  _senseReveal = null;
-}
-
 // Telepatic-link reveal pipe (2026-04-25 audit follow-up). Lazy-loaded with
 // graceful fallback so missing module never blocks /round/begin-planning.
 let computeTelepathicReveal = null;
@@ -574,57 +559,6 @@ function createRoundBridge(deps) {
         consumeCapPt(session, requestedCapPt);
       }
       await appendEvent(session, event);
-      // OD-026 — Skiv echolocation pulse. If the attacking actor carries an
-      // echolocation sense (default_parts.senses) and is not on cooldown,
-      // the REAL senseReveal mechanic derives revealed tiles around the
-      // attacked target. When ≥1 tile is revealed we emit a
-      // `skiv_pulse_fired` event into session.events (analyzer OD-026
-      // atlas) + mark the 2-round cooldown. target_biome_id is sourced from
-      // REAL session biome state (session.biome_id || encounter biome) — no
-      // hardcoded constant. No fabrication: emitted ONLY when getRevealedTiles
-      // actually returns tiles for a real attack. Defensive: any failure is
-      // swallowed so the pulse seam can never break combat.
-      if (_senseReveal && typeof _senseReveal.getRevealedTiles === 'function') {
-        try {
-          const currentRound = Number(
-            (session.roundState && session.roundState.round) || session.turn || 0,
-          );
-          // Real grid bounds (mirror session.js _gw/_gh pattern). Falls back
-          // to the scalar gridSize dep, else undefined → getRevealedTiles
-          // treats bounds as Infinity (no clamp) which is safe.
-          const gw =
-            (session.grid && Number(session.grid.width)) ||
-            (typeof gridSize === 'number' ? gridSize : undefined);
-          const gh =
-            (session.grid && Number(session.grid.height)) ||
-            (typeof gridSize === 'number' ? gridSize : undefined);
-          const world = {
-            currentRound,
-            width: Number.isFinite(gw) ? gw : undefined,
-            height: Number.isFinite(gh) ? gh : undefined,
-          };
-          const revealed = _senseReveal.getRevealedTiles(actor, target, world);
-          if (Array.isArray(revealed) && revealed.length > 0) {
-            const biomeId =
-              session.biome_id || (session.encounter && session.encounter.biome_id) || '';
-            await appendEvent(session, {
-              ts: new Date().toISOString(),
-              session_id: session.session_id,
-              action_type: 'skiv_pulse_fired',
-              actor_id: actor.id,
-              target_biome_id: biomeId,
-              revealed_tiles: revealed.length,
-              turn: session.turn,
-              trait_effects: [],
-            });
-            _senseReveal.markCooldown(actor, currentRound);
-          }
-        } catch (err) {
-          // Non-blocking: pulse telemetry must never break combat.
-          // eslint-disable-next-line no-console
-          console.warn('[od026 skiv-pulse] skipped:', err && err.message ? err.message : err);
-        }
-      }
       // iter4: emit reaction_trigger event quando intercept fires.
       if (capturedResults.intercept) {
         const reactionEvent = {

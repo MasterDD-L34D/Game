@@ -498,47 +498,11 @@ function logSistemaDecisions(round, body) {
   // engine then REALLY evaluates these per attack and appends
   // {trait,triggered,effect:proprioception_balance|nociception_reactive}
   // to the attack event — genuine engine output, not fabricated.
-  //
-  // Envelope C (OD-026 atlas) — equip the host character with an
-  // echolocation sense so the REAL senseReveal mechanic fires. The OD-026
-  // seam (apps/backend/routes/sessionRoundBridge.js, post-attack) calls
-  // senseReveal.getRevealedTiles(actor, target, world); it returns tiles
-  // ONLY when actor.default_parts.senses contains 'echolocation' and the
-  // actor is not on its 2-round cooldown. characterToUnit
-  // (coopOrchestrator.js) + normaliseUnit (sessionHelpers.js) preserve
-  // character.default_parts onto the spawned unit. We also add the
-  // `sensori_geomagnetici` trait (senseReveal BONUS_TRAIT_ID → +1 reveal
-  // radius) so the pulse reveals tiles even on a small grid. This only
-  // EQUIPS the sense — the backend then evaluates the real mechanic on a
-  // real attack; the skiv_pulse_fired event is genuine engine output, not
-  // fabricated (emitted only when getRevealedTiles really returns tiles).
-  const ECHO_TRAIT = 'sensori_geomagnetici';
-  const characters = rawCharacters.map((ch, idx) => ({
+  const characters = rawCharacters.map((ch) => ({
     ...ch,
     traits: Array.from(
-      new Set([
-        ...(Array.isArray(ch.traits) ? ch.traits : []),
-        ...INTEROCEPTION_ACTOR_TRAITS,
-        // Only the host (idx 0 = Skiv custode) carries echolocation so the
-        // OD-026 path mirrors the diegetic design (Skiv personal sprint).
-        ...(idx === 0 ? [ECHO_TRAIT] : []),
-      ]),
+      new Set([...(Array.isArray(ch.traits) ? ch.traits : []), ...INTEROCEPTION_ACTOR_TRAITS]),
     ),
-    ...(idx === 0
-      ? {
-          default_parts: {
-            ...(ch.default_parts && typeof ch.default_parts === 'object' ? ch.default_parts : {}),
-            senses: Array.from(
-              new Set([
-                ...(ch.default_parts && Array.isArray(ch.default_parts.senses)
-                  ? ch.default_parts.senses
-                  : []),
-                'echolocation',
-              ]),
-            ),
-          },
-        }
-      : {}),
     status: { ...(ch.status && typeof ch.status === 'object' ? ch.status : {}), ferito: 1 },
   }));
 
@@ -560,34 +524,10 @@ function logSistemaDecisions(round, body) {
     enemies = buildScenarioEnemies();
     yamlMeta = null;
   }
-  // OD-026 — resolve the REAL scenario biome from the encounter YAML
-  // (docs/planning/encounters/<scenario>.yaml `biome_id:`). This is genuine
-  // scenario state, not a hardcoded constant: the backend stamps it onto
-  // session.biome_id, and the OD-026 seam sources skiv_pulse_fired
-  // target_biome_id from session.biome_id. If the scenario YAML is missing
-  // or declares no biome we omit biome_id (the seam then emits "" which the
-  // analyzer counts as a pulse without a revealed biome — still real).
-  let scenarioBiomeId = null;
-  try {
-    const encYamlPath = path.join(ENCOUNTER_DIR, `${SCENARIO_ID}.yaml`);
-    if (fs.existsSync(encYamlPath)) {
-      const encParsed = yaml.load(fs.readFileSync(encYamlPath, 'utf-8'));
-      if (encParsed && typeof encParsed.biome_id === 'string' && encParsed.biome_id) {
-        scenarioBiomeId = encParsed.biome_id;
-      }
-    }
-  } catch (err) {
-    log('biome_resolve_fail', { scenario: SCENARIO_ID, error: err.message });
-  }
-  console.log(`Scenario biome: ${scenarioBiomeId || '(none declared)'}`);
-
   const startBody = {
     characters,
     units: enemies,
     scenario_id: SCENARIO_ID,
-    // OD-026 — pass the real scenario biome so session.biome_id is genuine
-    // combat state the skiv_pulse_fired event can reference.
-    ...(scenarioBiomeId ? { biome_id: scenarioBiomeId } : {}),
     // 2026-05-10 — pass encounter_id when YAML mode so backend
     // encounterLoader populates objective + biomeSpawnBias + conditions
     // (see apps/backend/routes/session.js:1473). Without this, non-elim
@@ -611,8 +551,6 @@ function logSistemaDecisions(round, body) {
   logSection('combat round loop');
   let rounds = 0;
   let outcome = null;
-  // OD-026 — dedupe skiv_pulse_fired across repeated state.events tails.
-  const seenPulseKeys = new Set();
   while (rounds < MAX_ROUNDS) {
     rounds += 1;
     const stRes = await getJson(`/api/session/state?session_id=${sessionId}`);
@@ -647,26 +585,6 @@ function logSistemaDecisions(round, body) {
             damage_dealt: ev.damage_dealt || null,
             event_ts: ev.ts || null,
           });
-        }
-        // OD-026 — surface the REAL skiv_pulse_fired events the backend
-        // senseReveal seam appended to session.events. publicSessionView
-        // only exposes session.events.slice(-30), and the same tail repeats
-        // across round-state polls, so dedupe by the monotone action_index
-        // appendEvent stamps on every event. telemetry-bridge.js maps the
-        // `kind: 'skiv_pulse_fired'` JSONL line → analyzer OD-026 atlas.
-        if (ev?.action_type === 'skiv_pulse_fired') {
-          const dedupeKey =
-            ev.action_index != null ? `pulse_${ev.action_index}` : `pulse_ts_${ev.ts}`;
-          if (!seenPulseKeys.has(dedupeKey)) {
-            seenPulseKeys.add(dedupeKey);
-            log('skiv_pulse_fired', {
-              round: rounds,
-              actor_id: ev.actor_id || null,
-              target_biome_id: ev.target_biome_id || '',
-              revealed_tiles: ev.revealed_tiles ?? null,
-              event_ts: ev.ts || null,
-            });
-          }
         }
       }
     }
@@ -882,20 +800,16 @@ function logSistemaDecisions(round, body) {
     }
   }
 
-  // OD-026 atlas (wired 2026-05-17): the Skiv echolocation pulse is now a
-  // REAL backend mechanic. The host character is equipped with
-  // default_parts.senses:['echolocation'] (+ sensori_geomagnetici radius
-  // bonus); the post-attack seam in apps/backend/routes/sessionRoundBridge.js
-  // calls senseReveal.getRevealedTiles(actor, target, world) and, when it
-  // returns ≥1 tile, appends a {action_type:'skiv_pulse_fired',
-  // target_biome_id:<real session biome>} event to session.events. The
-  // round loop above surfaces it (kind:'skiv_pulse_fired') for
-  // telemetry-bridge.js → analyzer OD-026 atlas. Genuine engine output —
-  // emitted only when the real mechanic reveals tiles, never fabricated.
-  // biome_focus_changed remains a Godot-client-only UI interaction (camera
-  // biome focus) with no backend equivalent — intentionally NOT synthesized
-  // headless (analyzer biome_focus_events stays {} by design until the
-  // Godot client emits it).
+  // TODO(Envelope C — OD-026 atlas): the diegetic atlas / Skiv-pulse
+  // reveal_neighbor system is NOT YET IMPLEMENTED in the backend. There
+  // is no skiv_pulse_fired / biome_focus_changed event anywhere in
+  // apps/backend (the only Skiv route is the devops GitHub-companion in
+  // routes/skiv.js, unrelated to in-game atlas). Per OD-024-031 verdict
+  // record §"Envelope C (OD-026 Diegetic)" this is an explicitly-deferred
+  // ~6h dedicated sprint pending a master-dd design call (custom shader
+  // vs Skiv pulse reuse). OD-026 atlas telemetry therefore CANNOT be
+  // emitted headless without that sprint — analyzer OD-026 stays empty
+  // on real data by design. Intentionally NOT faking skiv_pulse events.
   await postJson('/api/session/end', { session_id: sessionId });
   // Coop endCombat is host-only; emulate via coopOrchestrator state poll.
   // For sim purposes we rely on session.events VICTORY/DEFEAT to drive

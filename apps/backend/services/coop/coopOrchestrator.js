@@ -39,14 +39,6 @@ function characterToUnit(character, { index = 0 } = {}) {
     ap: character.ap_max || 2,
     traits: Array.isArray(character.traits) ? character.traits : [],
     position: character.position || { x: index, y: 0 },
-    // OD-026 — preserve default_parts (sensory bag, e.g.
-    // { senses: ['echolocation'] }) so the senseReveal echolocation pulse
-    // mechanic can fire for an actor that declares the sense. Additive:
-    // only carried through when the character actually declares it; absent
-    // default_parts stays absent (back-compat, no behaviour change).
-    ...(character.default_parts && typeof character.default_parts === 'object'
-      ? { default_parts: character.default_parts }
-      : {}),
   };
 }
 
