@@ -1,0 +1,409 @@
+// Prisma schema for idea engine and taxonomy relationships
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Idea {
+  id                Int        @id @default(autoincrement())
+  title             String
+  summary           String     @default("")
+  category          String
+  tags              String[]   @default([])
+  biomes            String[]   @default([])
+  ecosystems        String[]   @default([])
+  species           String[]   @default([])
+  traits            String[]   @default([])
+  gameFunctions     String[]   @default([]) @map("game_functions")
+  priority          String     @default("P2")
+  actionsNext       String     @default("") @map("actions_next")
+  linkDrive         String     @default("") @map("link_drive")
+  github            String     @default("")
+  note              String     @default("")
+  allowSlugOverride Boolean    @default(false) @map("allow_slug_override")
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime   @updatedAt @map("updated_at")
+  feedback          Feedback[]
+
+  @@map("ideas")
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  message   String
+  contact   String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  ideaId    Int      @map("idea_id")
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  @@index([ideaId])
+  @@map("idea_feedback")
+}
+
+model Species {
+  id             String         @id
+  name           String
+  classification String?
+  tags           String[]       @default([])
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  biomes         SpeciesBiome[]
+
+  @@map("species")
+}
+
+model Biome {
+  id        String         @id
+  name      String
+  climate   String?
+  region    String?
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  species   SpeciesBiome[]
+
+  @@map("biomes")
+}
+
+model SpeciesBiome {
+  id        Int      @id @default(autoincrement())
+  speciesId String   @map("species_id")
+  biomeId   String   @map("biome_id")
+  strength  String?
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  species   Species  @relation(fields: [speciesId], references: [id], onDelete: Cascade)
+  biome     Biome    @relation(fields: [biomeId], references: [id], onDelete: Cascade)
+
+  @@unique([speciesId, biomeId])
+  @@map("species_biomes")
+}
+
+// ─── M10 Campaign persistence (ADR-2026-04-21) ────────────────────────
+// Phase A: schema added. Phase B migration + route wire. Campaign state
+// persists cross-session per player. Single-player MVP (multi-device cloud
+// sync deferred M12+).
+
+model Campaign {
+  id             String         @id @default(uuid())
+  playerId       String         @map("player_id")
+  campaignDefId  String         @default("default_campaign_mvp") @map("campaign_def_id")
+  currentChapter Int            @default(1) @map("current_chapter")
+  currentAct     Int            @default(0) @map("current_act")
+  branchChoices  String         @default("[]") @map("branch_choices") // JSON array of binary choices
+  completionPct  Float          @default(0.0) @map("completion_pct")
+  finalState     String?        @map("final_state") // 'completed' | 'abandoned' | null
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  chapters       Chapter[]
+  partyRoster    PartyRoster[]
+  saves          SaveSnapshot[]
+
+  @@index([playerId])
+  @@map("campaigns")
+}
+
+model Chapter {
+  id           String    @id @default(uuid())
+  campaignId   String    @map("campaign_id")
+  campaign     Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  chapterIdx   Int       @map("chapter_idx") // sequential 1..N
+  actIdx       Int       @map("act_idx") // 0..2 (Act 0 tutorial, Act 1 main, Act 2 endgame post-MVP)
+  encounterId  String    @map("encounter_id") // refs encounter YAML
+  outcome      String? // 'victory' | 'defeat' | 'timeout' | null
+  peEarned     Int       @default(0) @map("pe_earned")
+  piEarned     Int       @default(0) @map("pi_earned")
+  branchChosen String?   @map("branch_chosen") // Descent binary choice key
+  completedAt  DateTime? @map("completed_at")
+
+  @@index([campaignId, chapterIdx])
+  @@map("chapters")
+}
+
+model PartyRoster {
+  id             String   @id @default(uuid())
+  campaignId     String   @map("campaign_id")
+  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  unitId         String   @map("unit_id") // PG identifier in-encounter
+  species        String
+  job            String
+  tier           String   @default("base") // base/veteran/elite (mythic post-MVP P0 Q58)
+  hpBase         Int      @map("hp_base")
+  traits         String   @default("[]") // JSON array trait IDs (inborn)
+  acquiredTraits String   @default("[]") @map("acquired_traits") // JSON array (PI pack runtime)
+  xpTotal        Int      @default(0) @map("xp_total")
+  level          Int      @default(1)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([campaignId])
+  @@map("party_rosters")
+}
+
+model SaveSnapshot {
+  id           String   @id @default(uuid())
+  campaignId   String   @map("campaign_id")
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sessionId    String?  @map("session_id") // optional: active session during save
+  saveType     String   @map("save_type") // 'auto' | 'manual' | 'checkpoint'
+  snapshotData String   @map("snapshot_data") // JSON full state serialized
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([campaignId, createdAt])
+  @@map("save_snapshots")
+}
+
+// ─── L06 Meta progression persistence (ADR-2026-04-21-meta-progression-prisma) ────────
+// Promotes metaProgression.js in-memory Map → DB-backed. Adapter pattern
+// preserves in-memory fallback when DATABASE_URL unset (dev/demo ngrok).
+// Scope: NPC affinity/trust, nest state, mating events, audit logs.
+
+model NpcRelation {
+  id             String        @id @default(uuid())
+  campaignId     String?       @map("campaign_id") // optional (legacy in-memory has no campaign)
+  npcId          String        @map("npc_id")
+  affinity       Int           @default(0) // range -2..+2 enforced app-level
+  trust          Int           @default(0) // range 0..5 enforced app-level
+  recruited      Boolean       @default(false)
+  mated          Boolean       @default(false)
+  matingCooldown Int           @default(0) @map("mating_cooldown")
+  mbtiType       String?       @map("mbti_type")
+  traitIds       String        @default("[]") @map("trait_ids") // JSON array
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  affinityLogs   AffinityLog[]
+  trustLogs      TrustLog[]
+  matingEvents   MatingEvent[]
+
+  @@unique([campaignId, npcId])
+  @@index([campaignId])
+  @@map("npc_relations")
+}
+
+model AffinityLog {
+  id         String      @id @default(uuid())
+  relationId String      @map("relation_id")
+  relation   NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta      Int
+  before     Int
+  after      Int
+  reason     String?
+  createdAt  DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("affinity_logs")
+}
+
+model TrustLog {
+  id         String      @id @default(uuid())
+  relationId String      @map("relation_id")
+  relation   NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta      Int
+  before     Int
+  after      Int
+  reason     String?
+  createdAt  DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("trust_logs")
+}
+
+model NestState {
+  id              String   @id @default(uuid())
+  campaignId      String?  @unique @map("campaign_id") // one nest per campaign (null = legacy global)
+  level           Int      @default(0)
+  biome           String?
+  requirementsMet Boolean  @default(false) @map("requirements_met")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("nest_states")
+}
+
+// ─── M13 P3 Character progression persistence (ADR-2026-04-24 pending) ────
+// XP + perk-pair picks per unit × campaign.
+
+model UnitProgression {
+  id          String   @id @default(uuid())
+  campaignId  String?  @map("campaign_id")
+  unitId      String   @map("unit_id")
+  job         String
+  xpTotal     Int      @default(0) @map("xp_total")
+  level       Int      @default(1)
+  pickedPerks String   @default("[]") @map("picked_perks") // JSON array of { level, perk_id, choice }
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // 2026-05-10 sera Sprint Q+ Q-2 — back-ref offspring composite FK.
+  offspringAsParentA Offspring[] @relation("ParentAOffspring")
+  offspringAsParentB Offspring[] @relation("ParentBOffspring")
+
+  @@unique([campaignId, unitId])
+  @@index([campaignId])
+  @@map("unit_progressions")
+}
+
+// ─── 2026-05-10 sera Sprint Q+ Q-2 Offspring (ADR-2026-05-05 Phase B Path γ) ─
+// Cross-encounter lineage ritual persistence. Schema contract:
+// packages/contracts/schemas/lineage_ritual.schema.json (Q-1).
+// Master-dd grant cascade approval session sera "2+3" forbidden path.
+
+model Offspring {
+  id              String   @id @default(uuid())
+  lineageId       String   @map("lineage_id")
+  sessionId       String   @map("session_id")
+  parentAId       String   @map("parent_a_id")
+  parentBId       String   @map("parent_b_id")
+  mutations       String[]
+  traitInherited  String[] @default([]) @map("trait_inherited")
+  biomeOrigin     String?  @map("biome_origin")
+  bornAt          DateTime @map("born_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  parentA UnitProgression @relation("ParentAOffspring", fields: [parentAId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  parentB UnitProgression @relation("ParentBOffspring", fields: [parentBId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([lineageId])
+  @@index([sessionId])
+  @@map("offspring")
+}
+
+// ─── M12 Phase D Form evolution persistence (ADR-2026-04-23 addendum) ─────
+// Promotes formSessionStore in-memory Map → DB-backed write-through cache.
+// Adapter preserves in-memory fallback when DATABASE_URL unset (dev/demo/tests).
+// Scope: per-session unit form state (current form, PE, cooldown, evolve count).
+
+model FormSessionState {
+  id              String   @id @default(uuid())
+  sessionId       String   @map("session_id")
+  unitId          String   @map("unit_id")
+  currentFormId   String?  @map("current_form_id")
+  pe              Int      @default(0)
+  lastEvolveRound Int?     @map("last_evolve_round")
+  evolveCount     Int      @default(0) @map("evolve_count")
+  lastDelta       String?  @map("last_delta") // JSON
+  // 2026-05-10 TKT-MUT Q4 cumulative_biome_turns (ADR-2026-05-10).
+  // Schema: { "<biome_class>": <int_turns_cumulative_cross_session> }.
+  // Consumer: mutationTriggerEvaluator kind=cumulative_turns_biome.
+  // Update: end-of-encounter aggregate per session.scenario_biome_class.
+  cumulativeBiomeTurns Json? @map("cumulative_biome_turns")
+  // 2026-05-11 TKT-C4 Phase 6 forbidden path bundle.
+  // cumulative_ally_adjacent_turns: int counter per unit, cross-session.
+  // Consumer: mutationTriggerEvaluator kind=ally_adjacent_turns.
+  // Update: end-of-round bridge scans session.units adjacency Manhattan <=1.
+  cumulativeAllyAdjacentTurns Int? @default(0) @map("cumulative_ally_adjacent_turns")
+  // cumulative_trait_active: JSONB {trait_id: int_fires} per unit, cross-session.
+  // Consumer: mutationTriggerEvaluator kind=trait_active_cumulative.
+  // Update: end-of-round bridge reads session.events action_type='trait_fire'.
+  cumulativeTraitActive Json? @map("cumulative_trait_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@unique([sessionId, unitId])
+  @@index([sessionId])
+  @@map("form_session_states")
+}
+
+// ─── M13 P5 Lobby persistence (Opzione C handoff 2026-04-26) ──────────────
+// Durable reconnect dopo backend restart. Write-through adapter: in-memory
+// LobbyService Map resta authoritative; Prisma upsert fire-and-forget al
+// mutation + hydrate su init. Graceful fallback quando DATABASE_URL unset.
+
+model LobbySession {
+  id           String        @id @default(uuid())
+  code         String        @unique
+  hostId       String        @map("host_id")
+  campaignId   String?       @map("campaign_id")
+  maxPlayers   Int           @default(8) @map("max_players")
+  state        String? // JSON snapshot of last published host state
+  stateVersion Int           @default(0) @map("state_version")
+  closed       Boolean       @default(false)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  players      LobbyPlayer[]
+
+  @@index([campaignId])
+  @@index([createdAt])
+  @@map("lobby_sessions")
+}
+
+model LobbyPlayer {
+  id        String       @id @default(uuid())
+  sessionId String       @map("session_id")
+  session   LobbySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  playerId  String       @map("player_id")
+  name      String
+  role      String // 'host' | 'player'
+  token     String       @unique
+  connected Boolean      @default(false)
+  joinedAt  DateTime     @map("joined_at")
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  @@unique([sessionId, playerId])
+  @@index([sessionId])
+  @@map("lobby_players")
+}
+
+// ─── S1 polish Phase 1 — Skiv portable companion state (ADR-2026-04-27) ────
+// Promotes companionStateStore in-memory Map → DB-backed write-through cache.
+// Adapter preserves in-memory fallback when DATABASE_URL unset.
+// Scope: portable Skiv card state, share URL, crossbreed history, voice diary.
+// Privacy: NO PII fields persisted (whitelist enforced server-side in store).
+
+model SkivCompanionState {
+  lineageId          String   @id @map("lineage_id")
+  schemaVersion      String   @default("0.2.0") @map("schema_version")
+  signature          String?  // sha256 hex (64 chars) of canonical-JSON whitelist
+  crossbreedHistory  Json     @default("[]") @map("crossbreed_history")
+  voiceDiaryPortable Json     @default("[]") @map("voice_diary_portable")
+  shareUrl           String?  @map("share_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("skiv_companion_states")
+}
+
+model MatingEvent {
+  id              String      @id @default(uuid())
+  relationId      String      @map("relation_id")
+  relation        NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  success         Boolean
+  roll            Int
+  modifier        Int
+  total           Int
+  threshold       Int
+  offspringTraits String      @default("[]") @map("offspring_traits") // JSON array
+  seedGenerated   Int         @default(0) @map("seed_generated")
+  reason          String? // e.g. 'roll_failed', 'gate_not_met'
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("mating_events")
+}
+
+// TKT-D2-C 2026-05-13 — Godot v2 CampaignState cross-stack sync.
+// Mirrors Godot Resource shape (scripts/session/campaign_state.gd):
+//   campaign_id + wounds_by_unit + status_locks + last_encounter_id
+//   + promotion_tiers (TKT-M15) + conviction_axes (TKT-M14-B)
+//   + seasonal_state (TKT-P2 Brigandine).
+// JSONB write-through adapter (Godot saves full Resource → backend
+// snapshot persists atomically). REST: GET/PUT /api/campaign/godot-v2/state.
+model GodotV2CampaignState {
+  id              String   @id @default(uuid())
+  campaignId      String   @unique @map("campaign_id")
+  woundsByUnit    Json     @default("{}") @map("wounds_by_unit")
+  statusLocks     Json     @default("{}") @map("status_locks")
+  lastEncounterId String   @default("") @map("last_encounter_id")
+  promotionTiers  Json     @default("{}") @map("promotion_tiers")
+  convictionAxes  Json     @default("{}") @map("conviction_axes")
+  seasonalState   Json     @default("{}") @map("seasonal_state")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("godot_v2_campaign_states")
+}

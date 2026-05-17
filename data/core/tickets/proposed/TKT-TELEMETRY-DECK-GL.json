@@ -1,0 +1,21 @@
+{
+  "id": "TKT-TELEMETRY-DECK-GL",
+  "title": "deck.gl hex WebGL replay analyzer",
+  "pillar": "P6",
+  "effort_hours": 12,
+  "donor_game": {
+    "name": "deck.gl Uber",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#12-deckgl-hex-webgl"
+  },
+  "agent_owner": "telemetry-viz-illuminator",
+  "status": "blocked",
+  "reuse_level": "full",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "BLOCKED Mission Console source. Hex grid encounter render → density overlay (kills/AI moves/status).",
+  "blockers": [
+    "Mission Console source not in repo"
+  ]
+}

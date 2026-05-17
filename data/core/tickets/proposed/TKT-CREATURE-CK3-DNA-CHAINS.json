@@ -1,0 +1,21 @@
+{
+  "id": "TKT-CREATURE-CK3-DNA-CHAINS",
+  "title": "CK3 DNA chains geneEncoder lineage",
+  "pillar": "P2",
+  "effort_hours": 6,
+  "donor_game": {
+    "name": "Crusader Kings 3",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#8-crusader-kings-3-paradox--2020"
+  },
+  "agent_owner": "creature-aspect-illuminator",
+  "status": "blocked",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`services/generation/geneEncoder.js` (NEW). Encode/decode 32-bit string → trait list. BLOCKED OD-001 verdict.",
+  "blockers": [
+    "OD-001 V3 Mating verdict pending"
+  ]
+}

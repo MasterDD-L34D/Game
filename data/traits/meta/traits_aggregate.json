@@ -1,0 +1,37 @@
+{
+  "id": "traits_aggregate",
+  "label": "i18n:traits.traits_aggregate.label",
+  "data_origin": "external_evo_pack",
+  "famiglia_tipologia": "Meta/Dataset",
+  "fattore_mantenimento_energetico": "N/A",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.traits_aggregate.mutazione_indotta",
+  "uso_funzione": "i18n:traits.traits_aggregate.uso_funzione",
+  "spinta_selettiva": "i18n:traits.traits_aggregate.spinta_selettiva",
+  "metrics": [],
+  "cost_profile": {
+    "rest": "N/A",
+    "burst": "N/A",
+    "sustained": "N/A"
+  },
+  "testability": {
+    "observable": "Checksum del catalogo TR-*",
+    "scene_prompt": "Confronto export aggregato con indice legacy"
+  },
+  "requisiti_ambientali": [],
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "slot_profile": {
+    "core": "meta",
+    "complementare": "supporto"
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.traits_aggregate.debolezza"
+}

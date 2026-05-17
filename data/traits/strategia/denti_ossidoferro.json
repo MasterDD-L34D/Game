@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.denti_ossidoferro.debolezza",
+  "famiglia_tipologia": "Strategico/Tattico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "denti_ossidoferro",
+  "label": "i18n:traits.denti_ossidoferro.label",
+  "mutazione_indotta": "i18n:traits.denti_ossidoferro.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "abisso_vulcanico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Denti Ossidoferro ottimizza le operazioni strategia nelle condizioni di abisso vulcanico.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "pianificatore",
+    "tattiche_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "tattico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "i18n:traits.denti_ossidoferro.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.denti_ossidoferro.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "abisso_vulcanico"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

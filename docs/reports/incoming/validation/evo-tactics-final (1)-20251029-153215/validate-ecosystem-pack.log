@@ -1,0 +1,88 @@
+{
+  "reports": [
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_ecosistema_v2_0.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/network/meta_network_alpha.yaml",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_cross_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/network/meta_network_alpha.yaml",
+      "code": 0,
+      "stdout": "INFO: [BADLANDS] Evento in BADLANDS può propagare verso FORESTA_TEMPERATA\nINFO: [BADLANDS] Evento in BADLANDS può propagare verso DESERTO_CALDO\nINFO: [FORESTA_TEMPERATA] Evento in FORESTA_TEMPERATA può propagare verso CRYOSTEPPE\nINFO: [DESERTO_CALDO] Evento in DESERTO_CALDO può propagare verso BADLANDS\nINFO: [CRYOSTEPPE] Evento in CRYOSTEPPE può propagare verso FORESTA_TEMPERATA\nINFO: [CRYOSTEPPE] Evento in CRYOSTEPPE può propagare verso BADLANDS",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/badlands --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cmd": "/root/.pyenv/versions/3.11.12/bin/python3 /workspace/Game/packs/evo_tactics_pack/tools/py/validate_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml",
+      "code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

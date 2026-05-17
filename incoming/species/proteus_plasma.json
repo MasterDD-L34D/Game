@@ -1,0 +1,25 @@
+{
+  "species": {
+    "scientific_name": "Proteus plasma",
+    "common_names": ["Mutaforma Cellulare"],
+    "classification": {
+      "macro_class": "Protista complesso",
+      "habitat": "zone umide, acque dolci"
+    },
+    "functional_signature": "Plasticità estrema di forma e funzione; ingestione per fagocitosi e stasi minerale.",
+    "visual_description": "Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti. Variazione volumetrica rapida.",
+    "risk_profile": {
+      "danger_level": 2,
+      "vectors": ["anossia locale", "asfissia prede piccole"]
+    },
+    "interactions": {
+      "predates_on": ["detrito organico", "invertebrati lenti"],
+      "predated_by": ["pesci"],
+      "symbiosis": "nessuna"
+    },
+    "constraints": ["Sensibile alla disidratazione", "Limitata coesione in acqua turbolenta"],
+    "sentience_index": "T0",
+    "ecotypes": ["Stagno Quieto", "Torrente Lento"],
+    "trait_refs": ["TR-1601", "TR-1602", "TR-1603", "TR-1604", "TR-1605"]
+  }
+}

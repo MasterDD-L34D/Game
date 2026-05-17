@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.filtri_planctonici.debolezza",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "filtri_planctonici",
+  "label": "i18n:traits.filtri_planctonici.label",
+  "mutazione_indotta": "i18n:traits.filtri_planctonici.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "laguna_bioreattiva"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Filtri Planctonici ottimizza le operazioni difensivo nelle condizioni di laguna bioreattiva.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_fase_variabile",
+    "mimetismo_cromatico_passivo"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "protezione",
+    "core": "difensivo"
+  },
+  "spinta_selettiva": "i18n:traits.filtri_planctonici.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.filtri_planctonici.uso_funzione",
+  "usage_tags": [
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "laguna_bioreattiva"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

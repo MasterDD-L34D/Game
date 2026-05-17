@@ -1,0 +1,59 @@
+{
+  "conflitti": [
+    "mantello_meteoritico"
+  ],
+  "debolezza": "i18n:traits.aura_scudo_radianza.debolezza",
+  "famiglia_tipologia": "Supporto/Difesa",
+  "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+  "id": "aura_scudo_radianza",
+  "label": "i18n:traits.aura_scudo_radianza.label",
+  "mutazione_indotta": "i18n:traits.aura_scudo_radianza.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [
+        "flight"
+      ],
+      "condizioni": {
+        "biome_class": "rovine_planari"
+      },
+      "fonte": "pathfinder_import",
+      "meta": {
+        "expansion": "pathfinder_dataset",
+        "notes": "Richiede catalizzatori di luce stabili nelle rovine planari.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difesa",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "i18n:traits.aura_scudo_radianza.spinta_selettiva",
+  "tier": "T3",
+  "uso_funzione": "i18n:traits.aura_scudo_radianza.uso_funzione",
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "rovine_planari"
+  ],
+  "data_origin": "pathfinder_dataset"
+}

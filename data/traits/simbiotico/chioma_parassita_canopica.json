@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.chioma_parassita_canopica.debolezza",
+  "famiglia_tipologia": "Simbiotico/Utility",
+  "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
+  "id": "chioma_parassita_canopica",
+  "label": "i18n:traits.chioma_parassita_canopica.label",
+  "mutazione_indotta": "i18n:traits.chioma_parassita_canopica.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopie_sospese"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Foreste verticali multilivello con alberi levitanti e liane sensibili.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "bulbi_radici_permafrost",
+    "nodi_micorrizici_oracolari"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "utility",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.chioma_parassita_canopica.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.chioma_parassita_canopica.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopie_sospese"
+  ],
+  "data_origin": "controllo_psionico"
+}

@@ -1,0 +1,63 @@
+# Sistema Pressure — AI Progress meter
+# Pattern AI War (Chris Park): single escalation dial controls SIS reinforcement
+# pool + intent variety. Players see the integer + have levers to lower it.
+# Source: reference_tactical_postmortems.md §A.3
+#
+# Semantics:
+# - sistema_pressure è un integer 0..100 su session state
+# - Sale quando PG vincono obiettivi (victory_delta per evento)
+# - Cala quando PG usano azioni "pressure_relief" (future: Data Centers, objectives neutral)
+# - Gate per intents_per_round + unlock intent types + reinforcement budget
+#
+# Hook Evo-Tactics:
+# - Inizializzato a 0 in session.js createSession
+# - Aggiornato da roundOrchestrator quando PG completa obiettivo
+# - Letto da declareSistemaIntents per sizing pool
+
+version: "0.1.0"
+
+# Tier soglie → capabilities SIS
+# Ogni tier sblocca un pool più largo di intents + reinforcement slot
+# Rebalance 2026-04-17 post-playtest: +1 cap Escalated/Apex per maggior
+# presenza SIS (human feedback "hunter non agisce T1"). Calm resta 1 per
+# tutorial_01 gentle.
+tiers:
+  - threshold: 0
+    label: "Calm"
+    intents_per_round: 1
+    reinforcement_budget: 0
+    unlocked_intent_types: ["attack_basic", "move", "skip"]
+  - threshold: 25
+    label: "Alert"
+    intents_per_round: 2
+    reinforcement_budget: 1
+    unlocked_intent_types: ["attack_basic", "move", "skip", "flank"]
+  - threshold: 50
+    label: "Escalated"
+    intents_per_round: 3 # was 2
+    reinforcement_budget: 2
+    unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire"]
+  - threshold: 75
+    label: "Critical"
+    intents_per_round: 3
+    reinforcement_budget: 3
+    unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire", "swarm"]
+  - threshold: 95
+    label: "Apex"
+    intents_per_round: 4 # was 3, BOSS scenari
+    reinforcement_budget: 4
+    unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire", "swarm", "overwhelm"]
+
+# Delta events → pressure change
+# Applied by roundOrchestrator / session handlers
+deltas:
+  pg_victory_encounter: +15
+  pg_trait_unlock: +5
+  pg_biome_clear: +20
+  sg_pg_down: -10           # PG messo KO abbassa pressione (narrativa: Sistema si placa)
+  pg_objective_data_center: -15  # future: oggetti "pressure relief" (placeholder)
+  round_decay: -1           # decay naturale per round senza eventi
+
+# Caps
+min_pressure: 0
+max_pressure: 100

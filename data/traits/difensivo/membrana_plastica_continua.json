@@ -1,0 +1,62 @@
+{
+  "id": "membrana_plastica_continua",
+  "label": "i18n:traits.membrana_plastica_continua.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Difensivo/Camuffamento",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "flusso_ameboide_controllato",
+    "fagocitosi_assorbente",
+    "moltiplicazione_per_fusione",
+    "secrezione_rallentante_palmi"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.membrana_plastica_continua.mutazione_indotta",
+  "uso_funzione": "i18n:traits.membrana_plastica_continua.uso_funzione",
+  "spinta_selettiva": "i18n:traits.membrana_plastica_continua.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "rilevabilita_visiva",
+      "value": 0.2,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Forma blob semitrasparente in 3 s",
+    "scene_prompt": "Documenta transito in fessura 5 mm"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "La membrana si sigilla contro polveri e vento tipici degli habitat terrestri, riducendo microfessure."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "camuffamento"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.membrana_plastica_continua.debolezza"
+}

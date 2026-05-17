@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "id": "fallback-species",
+    "name": "Specie dimostrativa",
+    "traits": ["fallback-core-trait", "fallback-secondary-trait"],
+    "biome_id": "fallback-biome"
+  },
+  "validation": {
+    "messages": [
+      {
+        "level": "info",
+        "message": "Dati caricati dal fallback locale"
+      }
+    ],
+    "discarded": [],
+    "corrected": null
+  },
+  "meta": {
+    "request_id": "fallback-species",
+    "endpoint_source": "fallback",
+    "fallback_used": true,
+    "fallback_active": true
+  }
+}

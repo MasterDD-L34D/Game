@@ -1,0 +1,28 @@
+{
+  "species": {
+    "scientific_name": "Anguis magnetica",
+    "common_names": ["Anguilla Geomagnetica"],
+    "classification": {
+      "macro_class": "Reptilia/Pisces",
+      "habitat": "corsi d’acqua e coste sabbiose"
+    },
+    "functional_signature": "Navigazione magnetica fine e scariche nervose a impulso; scivolamento silente riduci-attrito.",
+    "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
+    "risk_profile": {
+      "danger_level": 2,
+      "vectors": ["scariche elettriche"]
+    },
+    "interactions": {
+      "predates_on": ["pesci d’acqua dolce", "anfibi"],
+      "predated_by": ["coccodrilli", "grossi pesci predatori"],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Scariche inefficaci in acque altamente conduttive/salmastre",
+      "Dipendenza da micro-metalli nella dieta"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": ["Estuario Torbido", "Laguna Quieta"],
+    "trait_refs": ["TR-1801", "TR-1802", "TR-1803", "TR-1804", "TR-1805"]
+  }
+}

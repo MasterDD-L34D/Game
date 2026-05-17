@@ -1,0 +1,132 @@
+{
+  "schema_version": "0.1.0",
+  "unit_id": "skiv",
+  "species_id": "dune_stalker",
+  "species_label": "Arenavenator vagans",
+  "biome": "savana",
+  "job": "stalker",
+  "level": 5,
+  "xp": 15,
+  "xp_next": 343,
+  "form": "INTP",
+  "form_confidence": 0.9200000000000002,
+  "gauges": {
+    "hp": 14,
+    "hp_max": 14,
+    "ap": 2,
+    "ap_max": 2,
+    "sg": 2,
+    "sg_max": 3
+  },
+  "currencies": {
+    "pe": 62,
+    "pi": 8
+  },
+  "cabinet": {
+    "slots_max": 3,
+    "slots_used": 2,
+    "internalized": [
+      "i_osservatore",
+      "n_intuizione_terrena"
+    ]
+  },
+  "bond": {
+    "vega_enfj": 3,
+    "rhodo_istj": 2
+  },
+  "pressure_tier": 5,
+  "sentience_tier": "T2-T3",
+  "mood": "watchful",
+  "stress": 79,
+  "composure": 100,
+  "curiosity": 37,
+  "resolution_count": 35,
+  "perk_pending": 5,
+  "evolve_opportunity": 4,
+  "last_voice": "Macchina canta giusto. Sono in attesa.",
+  "last_event_id": "wf-26000724288",
+  "last_updated": "2026-05-17T20:47:30Z",
+  "narrative_log_size": 4739,
+  "weekly_digest": "Maturità si stringe. Prossimo passo richiede Lv 6 + mut 2 + pensieri 3. Aspetto paziente.",
+  "last_weekly_digest_at_size": 4739,
+  "weekly_digest_qualities": {
+    "pr": 21,
+    "iss_open": 0,
+    "iss_close": 0,
+    "wf_fail": 2,
+    "wf_pass": 27,
+    "fix": 0,
+    "evolve": 0,
+    "feat_p4": 0,
+    "feat_p6": 2
+  },
+  "mutations_count": 1,
+  "polarity_stable": true,
+  "counters": {
+    "prs_merged": 1898,
+    "issues_opened": 37,
+    "issues_closed": 35,
+    "workflows_passed": 2690,
+    "workflows_failed": 79,
+    "commits_silent": 0,
+    "commits_fix": 117,
+    "commits_revert": 0
+  },
+  "polarity_dist": 0.56,
+  "saga_lifecycle_phase": "mature",
+  "lifecycle": {
+    "phase_id": "mature",
+    "phase_label_it": "Predatore Maturo",
+    "phase_label_en": "Mature Stalker",
+    "sprite_ascii": [
+      "      /\\_/\\        *",
+      "     (  o.o )       *",
+      "      > ^ <",
+      "      /|||\\"
+    ],
+    "aspect_it": "Forma adulta consolidata. Gli artigli a sette vie si vetrificano\n(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana\nche riflettono il sole. Le orecchie hanno scolpito conche per\nl'echolocation, visibili come solchi. Il pelo lungo il dorso si è\ncondensato in una cresta scura. Lo sguardo è fisso, leggero\nsocchiudere — primo segno di voce interna. Il branco lo riconosce\ncome predatore-stalker, non più cucciolo.\n",
+    "tactical_signature": "Stalker Lv 4. Synergy echo_backstab live. Thought Cabinet 2/3 slot.",
+    "narrative_beat_it": "La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento.",
+    "warning_zone_it": "Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione.",
+    "next_phase_id": "apex",
+    "next_phase_label_it": "Apex delle Dune",
+    "next_gate": {
+      "level": 6,
+      "mutations_required": 2,
+      "thoughts_internalized_required": 3,
+      "polarity_required": true
+    },
+    "progression": {
+      "phases": [
+        {
+          "id": "hatchling",
+          "label_it": "Cucciolo delle Dune"
+        },
+        {
+          "id": "juvenile",
+          "label_it": "Predatore Giovane"
+        },
+        {
+          "id": "mature",
+          "label_it": "Predatore Maturo"
+        },
+        {
+          "id": "apex",
+          "label_it": "Apex delle Dune"
+        },
+        {
+          "id": "legacy",
+          "label_it": "Memoria del Branco"
+        }
+      ],
+      "current_index": 2
+    }
+  },
+  "sprite_ascii": [
+    "      /\\_/\\        *",
+    "     (  o.o )       *",
+    "      > ^ <",
+    "      /|||\\"
+  ],
+  "phase_label_it": "Predatore Maturo"
+}

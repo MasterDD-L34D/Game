@@ -1,0 +1,66 @@
+name: Docs Governance
+
+on:
+  # Run on every push and every PR, regardless of which files changed.
+  # The governance check is a required status on the protected `main` branch,
+  # so limiting the trigger to a path filter (as before) caused non-doc PRs
+  # to be stuck in "skipped" state and blocked from merging without a manual
+  # `gh workflow run docs-governance.yml --ref <branch>` workaround.
+  # The check itself is cheap (~8s), so running it always is fine.
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+env:
+  # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,
+  # setup-python, upload-artifact, ecc.). Evita deprecation warning Node 20
+  # (rimosso 2026-09-16). Vedi https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Docs governance check (required — Fase 2)
+        id: governance_check
+        run: |
+          python tools/check_docs_governance.py \
+            --registry docs/governance/docs_registry.json \
+            --report reports/docs/governance_drift_report.json \
+            --strict
+
+      - name: Docs link integrity (warning-only)
+        id: link_check
+        continue-on-error: true
+        run: python tools/check_site_links.py docs
+
+      - name: Upload governance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-governance-report-${{ github.run_id }}
+          path: reports/docs/governance_drift_report.json
+          if-no-files-found: warn
+
+      - name: Workflow summary
+        if: always()
+        run: |
+          echo "## Docs governance (Fase 2 — governance required, link warning-only)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- governance check outcome: ${{ steps.governance_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- link check outcome: ${{ steps.link_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.governance_check.outcome }}" != "success" ]; then
+            echo "::warning::Docs governance check reported issues (non blocking in warning-only mode)."
+          fi
+          if [ "${{ steps.link_check.outcome }}" != "success" ]; then
+            echo "::warning::Docs link check reported issues (non blocking in warning-only mode)."
+          fi

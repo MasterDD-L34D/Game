@@ -1,0 +1,59 @@
+{
+  "id": "comunicazione_fotonica_coda_coda",
+  "label": "i18n:traits.comunicazione_fotonica_coda_coda.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Cognitivo/Sociale",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "vello_di_assorbimento_totale"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.comunicazione_fotonica_coda_coda.mutazione_indotta",
+  "uso_funzione": "i18n:traits.comunicazione_fotonica_coda_coda.uso_funzione",
+  "spinta_selettiva": "i18n:traits.comunicazione_fotonica_coda_coda.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "cohesion_index",
+      "value": 0.85,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Esegue virate sincronizzate",
+    "scene_prompt": "Riprese IR e analisi di coesione"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Richiede linee di vista sgombre tipiche di biomi terrestri per scambiare impulsi fotonici fra individui."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "cognitivo",
+    "complementare": "sociale"
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.comunicazione_fotonica_coda_coda.debolezza"
+}

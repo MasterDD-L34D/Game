@@ -1,0 +1,59 @@
+{
+  "id": "filtrazione_osmotica",
+  "label": "i18n:traits.filtrazione_osmotica.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Fisiologico/Idrico",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "zanne_idracida"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.filtrazione_osmotica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.filtrazione_osmotica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.filtrazione_osmotica.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 15,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Emivita tossine ridotta del 50%",
+    "scene_prompt": "Analisi ematica dopo somministrazione standard"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Filtra vapori e aerosol presenti nell'aria terrestre per mantenere l'omeostasi idrica."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "idrico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.filtrazione_osmotica.debolezza"
+}

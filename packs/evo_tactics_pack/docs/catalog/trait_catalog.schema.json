@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/trait_catalog.schema.json",
+  "title": "Evo Tactics — Trait Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trait_glossary", "traits"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_uri": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "trait_glossary": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      ]
+    },
+    "traits": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "trait_entry.schema.json"
+      },
+      "propertyNames": {
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["query", "traits"],
+        "properties": {
+          "query": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "filters"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filters": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_]+$"
+                    }
+                  },
+                  "biomes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_]+$"
+                    }
+                  },
+                  "species": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "traits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          },
+          "type": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        }
+      },
+      "propertyNames": {
+        "pattern": "^[a-z0-9_]+$"
+      }
+    }
+  }
+}

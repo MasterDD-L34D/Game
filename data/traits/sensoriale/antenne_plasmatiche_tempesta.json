@@ -1,0 +1,66 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.antenne_plasmatiche_tempesta.debolezza",
+  "famiglia_tipologia": "Sensoriale/Offensivo",
+  "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
+  "id": "antenne_plasmatiche_tempesta",
+  "label": "i18n:traits.antenne_plasmatiche_tempesta.label",
+  "mutazione_indotta": "i18n:traits.antenne_plasmatiche_tempesta.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "cicloni_psionici"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Occhi di tempesta permanenti che concentrano elettricità e onde psioniche.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_luminiscente_abissale",
+    "focus_frazionato",
+    "risonanza_di_branco",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/Camouflage-Ambush",
+      "hud:StormMeshPsi",
+      "bioma:cicloni_psionici"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Tempestarii",
+      "HUD:Fulcro_Tempesta"
+    ],
+    "tabelle_random": [
+      "tabella:fulmini_empatici"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "offensivo",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.antenne_plasmatiche_tempesta.spinta_selettiva",
+  "tier": "T3",
+  "uso_funzione": "i18n:traits.antenne_plasmatiche_tempesta.uso_funzione",
+  "usage_tags": [
+    "breaker",
+    "scout"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "cicloni_psionici"
+  ],
+  "data_origin": "controllo_psionico"
+}

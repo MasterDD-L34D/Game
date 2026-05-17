@@ -1,0 +1,46 @@
+# Encounter: Standard — 3v3 Tier 2-3
+# Scontro bilanciato con trait attivi e terreno.
+id: standard_01
+label: "Pattuglia della Caverna"
+difficulty: standard
+biome_id: caverna_profonda
+description_it: "Scontro tattico contro pattuglia nemica in caverna con coperture naturali."
+
+party_size: 3
+party_suggested_tier: 3
+
+groups:
+  - role: keystone
+    power: 7
+    count: 1
+    species_hint: umbroid_lurker
+    trait_ids: [artigli_sette_vie, coda_frusta_cinetica]
+  - role: bridge
+    power: 4
+    count: 1
+    species_hint: mud_sentinel
+    trait_ids: [struttura_elastica_amorfa]
+  - role: support
+    power: 3
+    count: 1
+    species_hint: echo_seer
+    trait_ids: [spore_psichiche_silenziate]
+
+party_vc:
+  difficulty_multiplier: 1.0
+  pe_base: 5
+
+grid:
+  width: 6
+  height: 6
+  terrain_features:
+    - { x: 2, y: 2, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 3, type: roccia, defense_mod: 2 }
+    - { x: 1, y: 4, type: vegetazione_densa, defense_mod: 2 }
+
+hazard:
+  description: "Stalagmiti instabili: crollo casuale ogni 3 round."
+  severity: medium
+  stress_modifier: 0.03
+
+notes: "Scenario completo con terrain defense, trait effects, hazard. Target: 3-5 round."

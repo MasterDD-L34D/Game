@@ -1,0 +1,38 @@
+biomes:
+  canyon_fotosferico:
+    label: Canyon Fotosferico
+    summary: Gole basaltiche illuminate da colonne aurorali che erodono e riscaldano la roccia porosa.
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - vortice_fotonico
+      - micelio_riflettente
+      - correnti_basalto_termico
+    aliases:
+      - gole_aurorali
+      - canyon_plasmoide
+    hazard:
+      description: Vortici di plasma luminoso che generano microdetriti ionizzati e cecità temporanea.
+      severity: high
+      stress_modifiers:
+        orientamento: 0.05
+        respirazione: 0.04
+    npc_archetypes:
+      primary:
+        - migratore_fotonico
+        - predatore_barocromico
+      support:
+        - custode_micelio
+        - guida_echo
+    stresswave:
+      baseline: 0.6
+      escalation_rate: 0.18
+      event_thresholds:
+        soglia_crepuscolo: 0.35
+        soglia_tempesta: 0.75
+    narrative:
+      tone: bioluminescenza austera, risonanze profonde nelle pareti di basalto.
+      hooks:
+        - Scie di luce sincronizzata rivelano percorsi nascosti tra le gole.
+        - Colonne fotosferiche attirano droni di raccolta che diventano bersagli facili.
+        - Miceli riflettenti creano illusioni ottiche che separano i branchi.

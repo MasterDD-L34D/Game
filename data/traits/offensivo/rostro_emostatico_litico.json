@@ -1,0 +1,68 @@
+{
+  "id": "rostro_emostatico_litico",
+  "label": "i18n:traits.rostro_emostatico_litico.label",
+  "data_origin": "incoming_tr1100_pack",
+  "famiglia_tipologia": "Offensivo/Perforante",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "organi_sismici_cutanei",
+    "scheletro_idraulico_a_pistoni",
+    "ectotermia_dinamica"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.rostro_emostatico_litico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rostro_emostatico_litico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rostro_emostatico_litico.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "velocita_proiettile",
+      "value": 120,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Puntura e retrazione in < 0.1 s",
+    "scene_prompt": "Filma in slow-motion tre attacchi su gel fluorescente"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": "Progettato per perforare carapaci e ossa di fauna terrestre, fermando il flusso con coagulanti litici."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178",
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "perforante"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.rostro_emostatico_litico.debolezza"
+}

@@ -1,0 +1,1366 @@
+schema_version: "0.1.0"
+generated_at: "2026-04-25"
+notes: |
+  Mutation catalog draft (autonomous content sprint 2026-04-25).
+  Design intent NOT yet wired to runtime — additive baseline per M14.
+  Tutti i trait_id citati sono validati contro data/core/traits/glossary.json
+  (275 entries post 2026-04-25). Categorie: physiological / behavioral /
+  symbiotic / sensorial / environmental.
+
+  PE = Progression XP (M13.P3) cost
+  PI = Purchase Points cost
+  Tier 1 → 2 → 3 progressione: cost grows 5/12/25.
+
+  Cross-references:
+  - apps/backend/services/forms/formEvolution.js (M12.A engine, future hook)
+  - apps/backend/services/progression/progressionEngine.js (M13.P3)
+  - data/core/forms/mbti_forms.yaml (16 MBTI forms)
+  - docs/planning/2026-04-25-mutation-system-design.md (design doc)
+
+mutations:
+  # ============================================================================
+  # PHYSIOLOGICAL — trait_swap (rimpiazza un trait con uno più potente)
+  # ============================================================================
+
+  artigli_freeze_to_glacier:
+    tier: 2
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Artigli Glaciali"
+    name_en: "Mutation: Glacial Claws"
+    prerequisites:
+      traits: [artigli_ipo_termici]
+      mutations: []
+    trait_swap:
+      remove: [artigli_ipo_termici]
+      add: [artigli_sghiaccio_glaciale]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [cryosteppe, caldera_glaciale]
+    biome_penalty: [deserto_caldo, dorsale_termale_tropicale]
+    mbti_alignment: { S: 1, T: 1 }
+    trigger_examples:
+      - "3 stunned applicati in 1 encounter"
+      - "1 turno passato in biome glaciale post-Sistema pressure tier 2"
+    # 2026-05-10 TKT-MUT-AUTO-TRIGGER Phase 1 (ADR-2026-05-10): machine-readable
+    # parallel a trigger_examples prose. ANY clause vera → mutation unlock available.
+    trigger_conditions:
+      - kind: status_apply_count
+        status: stunned
+        threshold: 3
+        window: encounter
+      - kind: biome_turn_count
+        biome_class: upland
+        threshold: 1
+        sistema_pressure_min: 50
+    visual_swap_it: "Tier 2: artigli ipo termici -> artigli sghiaccio glaciale. Morfologia visibilmente ristrutturata."
+    aspect_token: "claws_glacial"
+    description_it: |
+      Le falangi criogeniche evolvono da shock localizzato a congelamento
+      profondo: gli stun vengono sostituiti da fracture (limitazione AP)
+      più persistente, segnando il bersaglio per allontanarne il movimento.
+
+  ali_panic_to_resonance:
+    tier: 2
+    category: physiological
+    body_slot: back
+    name_it: "Mutazione: Ali Risonanti"
+    name_en: "Mutation: Resonant Wings"
+    prerequisites:
+      traits: [ali_membrana_sonica]
+      mutations: []
+    trait_swap:
+      remove: [ali_membrana_sonica]
+      add: [ali_fono_risonanti]
+    pe_cost: 12
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [caverna, canyons_risonanti, frattura_abissale_sinaptica]
+    biome_penalty: [stratosfera_tempestosa]
+    mbti_alignment: { I: 1, N: 1 }
+    trigger_examples:
+      - "5 hit melee da posizione sopraelevata in 1 encounter"
+      - "panic applicato 8+ volte cumulato"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 0
+        count: 5
+        window: encounter
+        elevation_min: 1
+      - kind: status_apply_count
+        status: panic
+        threshold: 8
+        window: cumulative
+    visual_swap_it: "Tier 2: ali membrana sonica -> ali fono risonanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "wings_resonant"
+    description_it: |
+      Le ali si specializzano: dal terror sonico generico passano a
+      risonanza ad alta frequenza che provoca stunned su critico.
+      Trade-off: meno panic spread, più control puntuale.
+
+  denti_bleed_to_chelate:
+    tier: 2
+    category: physiological
+    body_slot: mouth
+    name_it: "Mutazione: Morso Chelante"
+    name_en: "Mutation: Chelating Bite"
+    prerequisites:
+      traits: [denti_seghettati]
+      mutations: []
+    trait_swap:
+      remove: [denti_seghettati]
+      add: [denti_chelatanti]
+    pe_cost: 10
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida]
+    biome_penalty: [pianura_salina_iperarida]
+    mbti_alignment: { S: 1, T: 1 }
+    trigger_examples:
+      - "10 turni cumulativi in biome palustre"
+      - "bleeding applicato 12+ volte"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: wetland
+        threshold: 10
+      - kind: status_apply_count
+        status: bleeding
+        threshold: 12
+        window: cumulative
+    visual_swap_it: "Tier 2: denti seghettati -> denti chelatanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "teeth_chelating"
+    description_it: |
+      I denti seghettati si arricchiscono di enzimi che chelano metalli nel
+      sangue del bersaglio: il sanguinamento dura 3 turni invece di 2 e si
+      amplifica vs creatures con trait minerale.
+
+  scheletro_buffer_upgrade:
+    tier: 2
+    category: physiological
+    body_slot: tegument
+    name_it: "Mutazione: Scheletro Idro-Regolante"
+    name_en: "Mutation: Hydro-Regulator Skeleton"
+    prerequisites:
+      traits: [scheletro_pneumatico_a_maglie]
+      mutations: []
+    trait_swap:
+      remove: [scheletro_pneumatico_a_maglie]
+      add: [scheletro_idro_regolante]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, reef_luminescente, atollo_obsidiana]
+    biome_penalty: [deserto_caldo, pianura_salina_iperarida]
+    mbti_alignment: { I: 1, J: 1 }
+    trigger_examples:
+      - "subito 5 hit con MoS >= 5 (sopravvive a colpi solidi)"
+      - "5 turni cumulativi in biome acquatico"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
+      - kind: cumulative_turns_biome
+        biome_class: littoral
+        threshold: 5
+    visual_swap_it: "Tier 2: scheletro pneumatico a maglie -> scheletro idro regolante. Morfologia visibilmente ristrutturata."
+    aspect_token: "skeleton_buffered"
+    description_it: |
+      Lo scheletro pneumatico evolve in un sistema idro-regolante che
+      modula la propria densità. Da DR1 always passa a DR2 condizionato
+      a colpi solidi (MoS >= 5) — più efficace contro nemici precisi.
+
+  carapace_segments_to_phase:
+    tier: 3
+    category: physiological
+    body_slot: tegument
+    name_it: "Mutazione: Carapace a Variazione di Fase"
+    name_en: "Mutation: Phase-Variable Carapace"
+    prerequisites:
+      traits: [carapace_segmenti_logici]
+      mutations: [scheletro_buffer_upgrade]
+    trait_swap:
+      remove: [carapace_segmenti_logici]
+      add: [carapace_fase_variabile]
+    pe_cost: 25
+    pi_cost: 14
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [rovine_planari, mezzanotte_orbitale, atollo_obsidiana]
+    biome_penalty: []
+    mbti_alignment: { I: 1, T: 1 }
+    trigger_examples:
+      - "subito 8 hit con MoS >= 5 in 3 encounter consecutivi"
+      - "completata mutation precedente scheletro_buffer_upgrade"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 8
+        window: session
+      - kind: mutation_chain
+        prereq_mutation_id: scheletro_buffer_upgrade
+    visual_swap_it: "Tier 3: carapace segmenti logici -> carapace fase variabile. Morfologia visibilmente ristrutturata."
+    aspect_token: "carapace_phasing"
+    description_it: |
+      Capstone della linea difensiva: il carapace acquisisce capacità di
+      variare densità molecolare on-demand, raggiungendo DR3 sui colpi
+      solidi (MoS >= 5). Trade-off: cooldown 3 turni post-attivazione.
+
+  # ============================================================================
+  # BEHAVIORAL — apply_status target_side actor (rage/control variants)
+  # ============================================================================
+
+  rage_simple_to_super:
+    tier: 3
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Adrenalina Supercritica"
+    name_en: "Mutation: Supercritical Adrenaline"
+    prerequisites:
+      traits: [circolazione_doppia]
+      mutations: []
+    trait_swap:
+      remove: [circolazione_doppia]
+      add: [circolazione_supercritica]
+    pe_cost: 25
+    pi_cost: 12
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [savana, badlands, abisso_vulcanico]
+    biome_penalty: [cryosteppe, caldera_glaciale]
+    mbti_alignment: { E: 1, T: 1 }
+    trigger_examples:
+      - "5 kill consecutivi senza prendere danno tra uno e l'altro"
+      - "rage attivo per 8+ turni cumulativi in 1 sessione"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: kill_streak
+        count: 5
+        no_damage_taken_between: true
+      - kind: status_apply_count
+        status: rage
+        threshold: 8
+        window: session
+    visual_swap_it: "Tier 3: circolazione doppia -> circolazione supercritica. Postura e movimento alterati visibilmente."
+    aspect_token: "core_supercritical"
+    description_it: |
+      La circolazione bifasica entra in fase supercritica: rage da 2 a 3
+      turni, e il bonus +1 dmg persiste 1 turno extra dopo il decay.
+      Sblocca capacità di rage-chain (kill durante rage estende durata).
+
+  voice_panic_to_summon:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Voce di Richiamo"
+    name_en: "Mutation: Calling Voice"
+    prerequisites:
+      traits: [voce_imperiosa]
+      mutations: []
+    trait_swap:
+      remove: [voce_imperiosa]
+      add: [canto_di_richiamo]
+    pe_cost: 12
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [foresta_temperata, foresta_miceliale, canyons_risonanti]
+    biome_penalty: [deserto_caldo, pianura_salina_iperarida]
+    mbti_alignment: { E: 1, F: 1 }
+    trigger_examples:
+      - "alleato della stessa specie ucciso adiacente"
+      - "panic applicato 15+ volte cumulato"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: ally_killed_adjacent
+        species_filter: same
+        threshold: 1
+      - kind: status_apply_count
+        status: panic
+        threshold: 15
+        window: cumulative
+    visual_swap_it: "Tier 2: voce imperiosa -> canto di richiamo. Postura e movimento alterati visibilmente."
+    aspect_token: "voice_summon"
+    description_it: |
+      La voce imperiosa shifta da terror-source a kill-amplifier: il
+      panic on-hit viene rimpiazzato da rage on-kill. La creatura passa
+      da role "intimidator" a "berserker rituale".
+
+  intimidator_to_dispersal:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Aura di Dispersione"
+    name_en: "Mutation: Dispersal Aura"
+    prerequisites:
+      traits: [intimidatore]
+      mutations: []
+    trait_swap:
+      remove: [intimidatore]
+      add: [aura_di_dispersione_mentale]
+    pe_cost: 12
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [rovine_planari, mezzanotte_orbitale, frattura_abissale_sinaptica]
+    biome_penalty: []
+    mbti_alignment: { I: 1, N: 1 }
+    trigger_examples:
+      - "panic applicato 10+ volte da intimidator"
+      - "Sistema pressure tier 2+ mantenuto 5 turni"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: status_apply_count
+        status: panic
+        threshold: 10
+        window: cumulative
+        source_trait: intimidatore
+      - kind: biome_turn_count
+        biome_class: any
+        threshold: 5
+        sistema_pressure_min: 50
+    visual_swap_it: "Tier 2: intimidatore -> aura di dispersione mentale. Postura e movimento alterati visibilmente."
+    aspect_token: "aura_disperse"
+    description_it: |
+      L'intimidatore diventa un'aura passiva: panic non più on-hit
+      condizionato, ma applicato a tutti gli attaccanti melee
+      simultaneamente. Trade-off: durata panic ridotta a 2 turni (era 2)
+      ma area effect.
+
+  # ============================================================================
+  # BEHAVIORAL — sensory upgrades (occhi/antenne)
+  # ============================================================================
+
+  eyes_kinetic_to_crystal:
+    tier: 2
+    category: sensorial
+    body_slot: sense
+    name_it: "Mutazione: Occhi a Cristallo Modulare"
+    name_en: "Mutation: Modular Crystal Eyes"
+    prerequisites:
+      traits: [occhi_cinetici]
+      mutations: []
+    trait_swap:
+      remove: [occhi_cinetici]
+      add: [occhi_cristallo_modulare]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [rovine_planari, steppe_algoritmiche, mezzanotte_orbitale]
+    biome_penalty: [foresta_miceliale, foresta_acida]
+    mbti_alignment: { I: 1, T: 1 }
+    trigger_examples:
+      - "10+ critici (MoS >= 8) in 3 encounter consecutivi"
+      - "Sistema warning_signals 'precision_predator' attivo"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 10
+        window: session
+        side: target
+      - kind: sistema_signal_active
+        signal_id: precision_predator
+    visual_swap_it: "Tier 2: occhi cinetici -> occhi cristallo modulare. Organi sensoriali emissivi."
+    aspect_token: "eyes_crystal"
+    description_it: |
+      Gli occhi cinetici si raffinano in prismi cristallini: MoS5+ +1 dmg
+      diventa MoS8+ +2 dmg. Trade-off: meno trigger ma più devastante
+      sui critici. Bias verso job Stalker/Aberrant.
+
+  antenne_track_to_storm:
+    tier: 3
+    category: sensorial
+    body_slot: sense
+    name_it: "Mutazione: Antenne Plasmatiche di Tempesta"
+    name_en: "Mutation: Storm Plasma Antennae"
+    prerequisites:
+      traits: [antenne_tesla]
+      mutations: [eyes_kinetic_to_crystal]
+    trait_swap:
+      remove: [antenne_tesla]
+      add: [antenne_plasmatiche_tempesta]
+    pe_cost: 25
+    pi_cost: 15
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [stratosfera_tempestosa, canopia_ionica]
+    biome_penalty: [caverna, abisso_vulcanico]
+    mbti_alignment: { E: 1, N: 1 }
+    trigger_examples:
+      - "1 critico MoS >= 12 (estremo)"
+      - "antenne_tesla attive in 5 encounter, 30+ turni cumulativi"
+    # 2026-05-10 Phase 1 batch 2 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 12
+        count: 1
+        window: session
+        side: target
+      - kind: trait_active_cumulative
+        trait_id: antenne_tesla
+        encounter_count: 5
+        turns_cumulative: 30
+    visual_swap_it: "Tier 3: antenne tesla -> antenne plasmatiche tempesta. Organi sensoriali emissivi."
+    aspect_token: "antennae_storm"
+    description_it: |
+      Capstone sensory: antenne tesla evolvono in plasma-tempesta. Critico
+      MoS >= 8 infligge +3 dmg invece di +2 su MoS5+. Apex predator-tier
+      crit specialist.
+
+  # ============================================================================
+  # SENSORIAL — wing dives upgrade
+  # ============================================================================
+
+  wings_ion_to_solar:
+    tier: 2
+    category: sensorial
+    body_slot: back
+    name_it: "Mutazione: Ali Solari Fotoniche"
+    name_en: "Mutation: Solar Photonic Wings"
+    prerequisites:
+      traits: [ali_ioniche]
+      mutations: []
+    trait_swap:
+      remove: [ali_ioniche]
+      add: [ali_solari_fotoni]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [altipiani_solari, deserto_caldo, stratosfera_tempestosa]
+    biome_penalty: [caverna, abisso_vulcanico]
+    mbti_alignment: { E: 1, S: 1 }
+    trigger_examples:
+      - "1 critico MoS >= 10 da posizione sopraelevata"
+      - "5 turni in biome solare cumulativi"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 10
+        count: 1
+        window: encounter
+        side: target
+        elevation_min: 1
+      - kind: cumulative_turns_biome
+        biome_class: arid
+        threshold: 5
+    visual_swap_it: "Tier 2: ali ioniche -> ali solari fotoni. Organi sensoriali emissivi."
+    aspect_token: "wings_solar"
+    description_it: |
+      Le ali ioniche evolvono in fotoniche: dive da stunned (control) a
+      +3 dmg pure damage (MoS5+). Shift da control role a glass cannon
+      role aereo.
+
+  wings_dive_to_phono:
+    tier: 2
+    category: sensorial
+    body_slot: back
+    name_it: "Mutazione: Ali Fono-Risonanti"
+    name_en: "Mutation: Phono-Resonant Wings"
+    prerequisites:
+      traits: [ali_fulminee]
+      mutations: []
+    trait_swap:
+      remove: [ali_fulminee]
+      add: [ali_fono_risonanti]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [caverna, canyons_risonanti, frattura_abissale_sinaptica]
+    biome_penalty: [stratosfera_tempestosa]
+    mbti_alignment: { I: 1, N: 1 }
+    trigger_examples:
+      - "5 hit melee MoS >= 8 (alta precisione)"
+      - "5 turni in biome cavernoso"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 5
+        window: encounter
+        side: target
+      - kind: cumulative_turns_biome
+        biome_class: subterranean
+        threshold: 5
+    visual_swap_it: "Tier 2: ali fulminee -> ali fono risonanti. Organi sensoriali emissivi."
+    aspect_token: "wings_phono"
+    description_it: |
+      Le ali fulminee si specializzano in risonanza acustica: dive +2
+      dmg da elevato passa a stunned 1 turno on critico (MoS8+). Shift
+      offensivo → control.
+
+  # ============================================================================
+  # SYMBIOTIC — link 2 unit (richiede runtime extension)
+  # ============================================================================
+
+  symbiosis_chemio_endosymbiont:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Endosimbiosi Chemio"
+    name_en: "Mutation: Chemio Endosymbiosis"
+    prerequisites:
+      traits: [batteri_endosimbionti_chemio]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [batteri_termofili_endosimbiosi]
+    pe_cost: 15
+    pi_cost: 9
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [reef_luminescente, abisso_vulcanico, dorsale_termale_tropicale]
+    biome_penalty: [cryosteppe, mezzanotte_orbitale]
+    mbti_alignment: { F: 1, J: 1 }
+    trigger_examples:
+      - "alleato adiacente per 8 turni cumulativi"
+      - "kill assistito da alleato 5+ volte"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: ally_adjacent_turns
+        threshold: 8
+        window: cumulative
+      - kind: assisted_kill_count
+        threshold: 5
+        window: cumulative
+    visual_swap_it: "Tier 2: emerge batteri termofili endosimbiosi. Simbionte visibile (overlay distinct)."
+    aspect_token: "endosymbiont_chemio"
+    description_it: |
+      Acquisisce un secondo endosimbionte termofilo: rage on-kill aumenta
+      di 1 turno per ogni alleato adiacente al momento del kill. Forte
+      sinergia con job futuro Symbiont.
+
+  # ============================================================================
+  # ENVIRONMENTAL — biome adaptation
+  # ============================================================================
+
+  pelle_burn_to_dielectric:
+    tier: 2
+    category: environmental
+    body_slot: tegument
+    name_it: "Mutazione: Epidermide Dielettrica"
+    name_en: "Mutation: Dielectric Epidermis"
+    prerequisites:
+      traits: [pelli_anti_ustione]
+      mutations: []
+    trait_swap:
+      remove: [pelli_anti_ustione]
+      add: [epidermide_dielettrica]
+    pe_cost: 10
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [stratosfera_tempestosa, canopia_ionica, mezzanotte_orbitale]
+    biome_penalty: [foresta_temperata, foresta_miceliale]
+    mbti_alignment: { S: 1, J: 1 }
+    trigger_examples:
+      - "subito 5 hit elettrici/ionici in 2 encounter"
+      - "5 turni in biome ionico"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_channel
+        channel: elettrico
+        count: 5
+        window: session
+      - kind: cumulative_turns_biome
+        biome_class: canopy
+        threshold: 5
+    visual_swap_it: "Tier 2: pelli anti ustione -> epidermide dielettrica. Aura biome-reactive percettibile."
+    aspect_token: "skin_dielectric"
+    description_it: |
+      Le pelli anti-ustione si elettrificano: stesso DR1 always ma resiste
+      anche ai colpi ionici (sblocca biome boost in canopia/stratosfera).
+
+  branchie_metalloid_upgrade:
+    tier: 2
+    category: environmental
+    body_slot: tegument
+    name_it: "Mutazione: Branchie Metalloidi"
+    name_en: "Mutation: Metalloid Gills"
+    prerequisites:
+      traits: [branchie_microfiltri]
+      mutations: []
+    trait_swap:
+      remove: [branchie_microfiltri]
+      add: [branchie_metalloidi]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [reef_luminescente, atollo_obsidiana, abisso_vulcanico]
+    biome_penalty: [pianura_salina_iperarida, deserto_caldo]
+    mbti_alignment: { S: 1, T: 1 }
+    trigger_examples:
+      - "5 turni in biome ricco di metalli (atollo_obsidiana, abisso_vulcanico)"
+    # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: volcanic
+        threshold: 5
+    visual_swap_it: "Tier 2: branchie microfiltri -> branchie metalloidi. Aura biome-reactive percettibile."
+    aspect_token: "gills_metalloid"
+    description_it: |
+      Le branchie a microfiltri integrano deposito metalloide: stesso DR1
+      ma scudo accessorio funge da counter-armor leggera.
+
+  capillari_to_photovoltaic:
+    tier: 2
+    category: environmental
+    body_slot: tegument
+    name_it: "Mutazione: Capillari Fotovoltaici"
+    name_en: "Mutation: Photovoltaic Capillaries"
+    prerequisites:
+      traits: [capillari_fluoridici]
+      mutations: []
+    trait_swap:
+      remove: [capillari_fluoridici]
+      add: [capillari_fotovoltaici]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [altipiani_solari, deserto_caldo, stratosfera_tempestosa]
+    biome_penalty: [abisso_vulcanico, caverna]
+    mbti_alignment: { E: 1, P: 1 }
+    trigger_examples:
+      - "5 turni cumulativi sotto luce intensa (biome solare)"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: arid
+        threshold: 5
+    visual_swap_it: "Tier 2: capillari fluoridici -> capillari fotovoltaici. Aura biome-reactive percettibile."
+    aspect_token: "capillaries_photovoltaic"
+    description_it: |
+      I capillari fluoridici evolvono in fotovoltaici: bleeding on-hit
+      shifta in rage on-kill (assorbe il flash di morte del bersaglio).
+      Trade-off: meno DoT, più burst momentaneo.
+
+  # ============================================================================
+  # PHYSIOLOGICAL — armor stack progressions
+  # ============================================================================
+
+  cuticole_wax_to_neutralize:
+    tier: 2
+    category: physiological
+    body_slot: tegument
+    name_it: "Mutazione: Cuticole Neutralizzanti"
+    name_en: "Mutation: Neutralizing Cuticles"
+    prerequisites:
+      traits: [cuticole_cerose]
+      mutations: []
+    trait_swap:
+      remove: [cuticole_cerose]
+      add: [cuticole_neutralizzanti]
+    pe_cost: 10
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida]
+    biome_penalty: []
+    mbti_alignment: { S: 1, J: 1 }
+    trigger_examples:
+      - "subito 6 hit chimici/acidi in 2 encounter"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_channel
+        channel: chimico
+        count: 6
+        window: session
+    visual_swap_it: "Tier 2: cuticole cerose -> cuticole neutralizzanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "cuticle_neutralize"
+    description_it: |
+      Le cuticole cerose imparano a neutralizzare composti reattivi:
+      DR1 always passa a DR2 condizionato a MoS5+. Più potente vs
+      attaccanti precisi ma vulnerabile a swarmer (MoS basso).
+
+  carapace_to_luminescent:
+    tier: 2
+    category: physiological
+    body_slot: tegument
+    name_it: "Mutazione: Carapace Luminiscente"
+    name_en: "Mutation: Luminescent Carapace"
+    prerequisites:
+      traits: [carapaci_ferruginosi]
+      mutations: []
+    trait_swap:
+      remove: [carapaci_ferruginosi]
+      add: [carapace_luminiscente_abissale]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [reef_luminescente, abisso_vulcanico, frattura_abissale_sinaptica]
+    biome_penalty: [altipiani_solari]
+    mbti_alignment: { I: 1, F: 1 }
+    trigger_examples:
+      - "5 turni in biome abissale cumulativi"
+      - "subito 4 hit in mappa con luminosità ambient bassa"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: subterranean
+        threshold: 5
+    visual_swap_it: "Tier 2: carapaci ferruginosi -> carapace luminiscente abissale. Morfologia visibilmente ristrutturata."
+    aspect_token: "carapace_luminescent"
+    description_it: |
+      Il carapace ferruginoso si arricchisce di pigmenti bioluminescenti:
+      DR2 always passa a DR1 always + confusione mira (riduce attacchi
+      successivi adiacenti). Soft-counter di assassini.
+
+  # ============================================================================
+  # PHYSIOLOGICAL — appendage damage upgrades
+  # ============================================================================
+
+  artigli_grip_to_glass:
+    tier: 2
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Artigli Vetrificati"
+    name_en: "Mutation: Vitrified Claws"
+    prerequisites:
+      traits: [artigli_sette_vie]
+      mutations: []
+    trait_swap:
+      remove: [artigli_sette_vie]
+      add: [artigli_vetrificati]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [pianura_salina_iperarida, deserto_caldo, atollo_obsidiana]
+    biome_penalty: [palude, foresta_acida]
+    mbti_alignment: { S: 1, T: 1 }
+    trigger_examples:
+      - "5 hit MoS >= 8 (alta precisione)"
+      - "completate 5 mutation di altre creature (esperienza accumulata)"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 8
+        count: 5
+        window: session
+    visual_swap_it: "Tier 2: artigli sette vie -> artigli vetrificati. Morfologia visibilmente ristrutturata."
+    aspect_token: "claws_glass"
+    description_it: |
+      Gli artigli a sette vie si vetrificano per durezza estrema: +1 dmg
+      always passa a +2 dmg condizionato MoS5+. Più burst, meno DPS
+      costante.
+
+  coda_balanced_to_counter:
+    tier: 2
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Coda Contrappeso"
+    name_en: "Mutation: Counterweight Tail"
+    prerequisites:
+      traits: [coda_balanciere]
+      mutations: []
+    trait_swap:
+      remove: [coda_balanciere]
+      add: [coda_contrappeso]
+    pe_cost: 10
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [foresta_temperata, savana, badlands]
+    biome_penalty: []
+    mbti_alignment: { S: 1, J: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
+    trigger_examples:
+      - "8 hit melee in 2 encounter"
+    visual_swap_it: "Tier 2: coda balanciere -> coda contrappeso. Morfologia visibilmente ristrutturata."
+    aspect_token: "tail_counter"
+    description_it: |
+      La coda balanciere muscoleggia in contrappeso pesante: +1 dmg always
+      passa a +2 dmg condizionato MoS5+. Specializzazione melee precisa.
+
+  coda_kinetic_chain:
+    tier: 3
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Coda Frusta Cinetica"
+    name_en: "Mutation: Kinetic Whip Tail"
+    prerequisites:
+      traits: [coda_contrappeso]
+      mutations: [coda_balanced_to_counter]
+    trait_swap:
+      remove: [coda_contrappeso]
+      add: [coda_frusta_cinetica]
+    pe_cost: 25
+    pi_cost: 12
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [savana, badlands, foresta_temperata]
+    biome_penalty: []
+    mbti_alignment: { E: 1, T: 1 }
+    trigger_examples:
+      - "completata mutation precedente coda_balanced_to_counter"
+      - "5 critici MoS >= 8 con coda_contrappeso"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: coda_balanced_to_counter
+    visual_swap_it: "Tier 3: coda contrappeso -> coda frusta cinetica. Morfologia visibilmente ristrutturata."
+    aspect_token: "tail_kinetic"
+    description_it: |
+      Capstone della linea coda: contrappeso evolve in frusta cinetica.
+      +2 dmg MoS5+ passa a fracture 2 turni MoS5+. Shift offensivo →
+      control devastante.
+
+  # ============================================================================
+  # PHYSIOLOGICAL — gill/breath upgrades
+  # ============================================================================
+
+  ghiandole_ink_to_acid:
+    tier: 2
+    category: physiological
+    body_slot: tegument
+    name_it: "Mutazione: Ghiandole di Nebbia Acida"
+    name_en: "Mutation: Acid Mist Glands"
+    prerequisites:
+      traits: [ghiandole_inchiostro_luce]
+      mutations: []
+    trait_swap:
+      remove: [ghiandole_inchiostro_luce]
+      add: [ghiandole_nebbia_acida]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida]
+    biome_penalty: [stratosfera_tempestosa]
+    mbti_alignment: { S: 1, F: -1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    trigger_examples:
+      - "panic applicato 10+ volte da inchiostro"
+      - "5 turni in biome palustre"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: wetland
+        threshold: 5
+    visual_swap_it: "Tier 2: ghiandole inchiostro luce -> ghiandole nebbia acida. Morfologia visibilmente ristrutturata."
+    aspect_token: "glands_acid"
+    description_it: |
+      Le ghiandole evolvono da inchiostro luminescente (panic 2) a nebbia
+      acida (bleeding 3). Shift da control → DoT.
+
+  enzimi_chelanti_to_rapid:
+    tier: 2
+    category: physiological
+    body_slot: mouth
+    name_it: "Mutazione: Enzimi Chelatori Rapidi"
+    name_en: "Mutation: Rapid Chelator Enzymes"
+    prerequisites:
+      traits: [enzimi_chelanti]
+      mutations: []
+    trait_swap:
+      remove: [enzimi_chelanti]
+      add: [enzimi_chelatori_rapidi]
+    pe_cost: 12
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida, abisso_vulcanico]
+    biome_penalty: [pianura_salina_iperarida]
+    mbti_alignment: { S: 1, P: 1 }
+    trigger_examples:
+      - "bleeding applicato 15+ volte cumulato"
+      - "5 turni in biome chimicamente attivo"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: wetland
+        threshold: 5
+    visual_swap_it: "Tier 2: enzimi chelanti -> enzimi chelatori rapidi. Morfologia visibilmente ristrutturata."
+    aspect_token: "enzymes_rapid"
+    description_it: |
+      Gli enzimi chelanti accelerano la cinetica: bleeding 2 always passa
+      a bleeding 3 condizionato MoS5+. Più severo ma meno frequente.
+
+  # ============================================================================
+  # BEHAVIORAL — apex/pack upgrades
+  # ============================================================================
+
+  martello_simple_to_osseo:
+    tier: 2
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Martello Osseo"
+    name_en: "Mutation: Bone Hammer"
+    prerequisites:
+      traits: [coda_frusta_cinetica]
+      mutations: [coda_kinetic_chain]
+    trait_swap:
+      remove: []
+      add: [martello_osseo]
+    pe_cost: 15
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [caverna, badlands, abisso_vulcanico]
+    biome_penalty: []
+    mbti_alignment: { S: 1, T: 1 }
+    trigger_examples:
+      - "completata mutation coda_kinetic_chain"
+      - "fracture applicato 12+ volte cumulato"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: coda_kinetic_chain
+    visual_swap_it: "Tier 2: emerge martello osseo. Morfologia visibilmente ristrutturata."
+    aspect_token: "hammer_osseo"
+    description_it: |
+      Sviluppa una protuberanza ossea pesante in aggiunta alla coda
+      cinetica: doppia fonte fracture (coda + martello). Synergy
+      devastante per BOSS-tier.
+
+  # ============================================================================
+  # SENSORIAL — predator advanced
+  # ============================================================================
+
+  occhi_tension_to_kinetic:
+    tier: 2
+    category: sensorial
+    body_slot: sense
+    name_it: "Mutazione: Occhi Cinetici"
+    name_en: "Mutation: Kinetic Eyes"
+    prerequisites:
+      traits: [occhi_analizzatori_di_tensione]
+      mutations: []
+    trait_swap:
+      remove: [occhi_analizzatori_di_tensione]
+      add: [occhi_cinetici]
+    pe_cost: 10
+    pi_cost: 5
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [savana, foresta_temperata, canyons_risonanti]
+    biome_penalty: []
+    mbti_alignment: { S: 1, P: 1 }
+    trigger_examples:
+      - "5 hit MoS >= 5 in 1 encounter"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
+    visual_swap_it: "Tier 2: occhi analizzatori di tensione -> occhi cinetici. Organi sensoriali emissivi."
+    aspect_token: "eyes_kinetic"
+    description_it: |
+      Gli occhi analizzatori di tensione si specializzano in lettura
+      cinetica: +1 dmg always passa a +1 dmg MoS5+. Più focalizzato
+      sui colpi solidi.
+
+  # ============================================================================
+  # ENVIRONMENTAL — biome-specific adaptations
+  # ============================================================================
+
+  cartilagini_to_metallic:
+    tier: 2
+    category: environmental
+    body_slot: tegument
+    name_it: "Mutazione: Cartilagini Pseudometalliche"
+    name_en: "Mutation: Pseudo-Metallic Cartilage"
+    prerequisites:
+      traits: [cartilagini_biofibre]
+      mutations: []
+    trait_swap:
+      remove: [cartilagini_biofibre]
+      add: [cartilagini_pseudometalliche]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [atollo_obsidiana, abisso_vulcanico, mezzanotte_orbitale]
+    biome_penalty: [foresta_miceliale]
+    mbti_alignment: { S: 1, J: 1 }
+    trigger_examples:
+      - "5 turni in biome metallico/cristallino"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: biome_turn_count
+        biome_class: volcanic
+        threshold: 5
+    visual_swap_it: "Tier 2: cartilagini biofibre -> cartilagini pseudometalliche. Aura biome-reactive percettibile."
+    aspect_token: "cartilage_metallic"
+    description_it: |
+      Le cartilagini biofibre mineralizzano: DR1 melee passa a DR2 always.
+      Più potente difesa, meno mobilità (implicit slowdown +0 ma weight
+      flag).
+
+  membrane_pneumatic_to_photonic:
+    tier: 2
+    category: environmental
+    body_slot: tegument
+    name_it: "Mutazione: Membrane Fotoconvoglianti"
+    name_en: "Mutation: Photonic Conducting Membranes"
+    prerequisites:
+      traits: [membrane_pneumatofori]
+      mutations: []
+    trait_swap:
+      remove: [membrane_pneumatofori]
+      add: [membrane_fotoconvoglianti]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [reef_luminescente, canopia_ionica, altipiani_solari]
+    biome_penalty: [caverna, frattura_abissale_sinaptica]
+    mbti_alignment: { N: 1, F: 1 }
+    trigger_examples:
+      - "5 turni in biome luminoso/luminescente cumulativi"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: canopy
+        threshold: 5
+    visual_swap_it: "Tier 2: membrane pneumatofori -> membrane fotoconvoglianti. Aura biome-reactive percettibile."
+    aspect_token: "membrane_photonic"
+    description_it: |
+      Le membrane pneumatofori si convertono a fotoconvoglianti: DR1
+      always passa a DR2 MoS5+. Specializzazione vs colpi precisi.
+
+  # ============================================================================
+  # SYMBIOTIC — pack synergy unlock
+  # ============================================================================
+
+  filamenti_super_to_echo:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Filamenti Echo"
+    name_en: "Mutation: Echo Filaments"
+    prerequisites:
+      traits: [filamenti_superconduttivi]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [filamenti_echo]
+    pe_cost: 15
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [canyons_risonanti, frattura_abissale_sinaptica, caverna]
+    biome_penalty: [stratosfera_tempestosa]
+    mbti_alignment: { I: 1, F: 1 }
+    trigger_examples:
+      - "alleato adiacente per 10 turni cumulativi"
+      - "10 hit subiti senza KO in 1 encounter"
+    visual_swap_it: "Tier 2: emerge filamenti echo. Simbionte visibile (overlay distinct)."
+    aspect_token: "filaments_echo"
+    description_it: |
+      Sviluppa filamenti aggiuntivi che rilanciano frequenze di squadra:
+      offensive +2 melee MoS5+ (filamenti_super) + defensive DR1 always
+      (filamenti_echo). Trait stacking unlock — apex synergy.
+
+  # ============================================================================
+  # PHYSIOLOGICAL — extreme tier 3 capstones
+  # ============================================================================
+
+  zampe_spring_to_radiant:
+    tier: 3
+    category: physiological
+    body_slot: appendage
+    name_it: "Mutazione: Zampe Radianti"
+    name_en: "Mutation: Radiant Paws"
+    prerequisites:
+      traits: [zampe_a_molla]
+      mutations: []
+    trait_swap:
+      remove: [zampe_a_molla]
+      add: [zampe_radianti]
+    pe_cost: 20
+    pi_cost: 10
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [savana, badlands, altipiani_solari]
+    biome_penalty: [palude, foresta_acida]
+    mbti_alignment: { E: 1, S: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
+    trigger_examples:
+      - "10 attacchi sopraelevati MoS >= 5 in 3 encounter"
+      - "Sistema warning_signals 'air_dominator' attivo"
+    visual_swap_it: "Tier 3: zampe a molla -> zampe radianti. Morfologia visibilmente ristrutturata."
+    aspect_token: "legs_radiant"
+    description_it: |
+      Le zampe a molla diventano radianti: bonus sopraelevato passa da
+      +1 dmg (MoS5+) a +2 dmg (any hit). Apex jumping predator.
+
+  ferocia_to_supercritical:
+    tier: 3
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Ferocia Supercritica"
+    name_en: "Mutation: Supercritical Ferocity"
+    prerequisites:
+      traits: [ferocia]
+      mutations: [rage_simple_to_super]
+    trait_swap:
+      remove: [ferocia]
+      add: [midollo_iperattivo]
+    pe_cost: 25
+    pi_cost: 14
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [savana, badlands, abisso_vulcanico]
+    biome_penalty: []
+    mbti_alignment: { E: 1, T: 1 }
+    trigger_examples:
+      - "completata mutation rage_simple_to_super"
+      - "10+ kill consecutivi senza prendere danno"
+    # 2026-05-10 Phase 1 (ADR-2026-05-10) consolidated.
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: rage_simple_to_super
+      - kind: kill_streak
+        count: 10
+        no_damage_taken_between: true
+    visual_swap_it: "Tier 3: ferocia -> midollo iperattivo. Postura e movimento alterati visibilmente."
+    aspect_token: "ferocity_supercritical"
+    description_it: |
+      Ferocia ancestrale evolve in midollo iperattivo: rage 3 turni
+      passa a rage 3 turni + cascata neuroendocrina prolungata. Apex
+      berserker tier.
+
+  # ============================================================================
+  # SYMBIOTIC — rebalance pass 2026-04-27 (Path B: fix bingo physio dominance)
+  # Aggiunti 3 simbionti per portare category da 2 (6.7%) a 5 (13.9%) — sblocca
+  # archetype "symbiont_plus" reachable in playtest reali, non solo teorici.
+  # ============================================================================
+
+  simbionte_micorriza_radici:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Simbionte Micorriza Radici"
+    name_en: "Mutation: Mycorrhizal Root Symbiont"
+    prerequisites:
+      traits: [nodi_micorrizici_oracolari]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [mucillagine_simbionte_mangrovie]
+    pe_cost: 14
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [foresta_temperata, foresta_miceliale, palude]
+    biome_penalty: [deserto_caldo, pianura_salina_iperarida]
+    mbti_alignment: { I: 1, F: 1 }
+    trigger_examples:
+      - "8 turni cumulativi in biome forestale/palustre"
+      - "alleato adiacente che subisce status physiological 5+ volte"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: forest
+        threshold: 8
+    visual_swap_it: "Tier 2: emerge mucillagine simbionte mangrovie. Filamenti radicali visibili (overlay distinct)."
+    aspect_token: "symbiote_mycorrhiza"
+    description_it: |
+      Acquisisce simbiosi radicale con micorrize fungali: gli alleati
+      adiacenti per 2+ turni ricevono +1 healing/turno. Trade-off:
+      movement penalty -1 finche' simbionte attivo.
+
+  simbionte_lichene_solare:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Simbionte Lichene Solare"
+    name_en: "Mutation: Solar Lichen Symbiont"
+    prerequisites:
+      traits: [capillari_fluoridici]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [olfatto_risonanza_magnetica]
+    pe_cost: 13
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [altipiani_solari, deserto_caldo, canopia_ionica]
+    biome_penalty: [caverna, abisso_vulcanico, frattura_abissale_sinaptica]
+    mbti_alignment: { N: 1, P: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
+    trigger_examples:
+      - "5 turni cumulativi sotto luce intensa (biome solare)"
+      - "subito 3 hit fotonici/elettrici senza KO"
+    visual_swap_it: "Tier 2: emerge lichene fotosintetico. Patches verdi-dorate sulla pelle (overlay distinct)."
+    aspect_token: "symbiote_lichen"
+    description_it: |
+      Sviluppa simbiosi con licheni fotosintetici: in biome solare
+      rigenera +1 mp/turno (cap 3 turni). Apre a sinergie symbiont
+      job archetype.
+
+  simbionte_batteri_termofili:
+    tier: 3
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Endosimbiosi Termofila Capstone"
+    name_en: "Mutation: Thermophilic Endosymbiosis Capstone"
+    prerequisites:
+      traits: [batteri_termofili_endosimbiosi]
+      mutations: [symbiosis_chemio_endosymbiont]
+    # 2026-05-10 fix circular swap (audit cross-domain BACKLOG TKT-MUT-CIRCULAR-SWAP):
+    # tier 3 capstone NON deve re-aggiungere base trait `batteri_endosimbionti_chemio`
+    # (prereq trait di mutazione tier 2). Capstone trait dedicato non ancora
+    # definito in active_effects.yaml → swap empty (mutation produce stat
+    # bonus + body_slot effect via mp_cost runtime, NO trait regression).
+    # Future: definire `batteri_endosimbionti_capstone` + ri-aggiornare swap.
+    trait_swap:
+      remove: []
+      add: []
+    pe_cost: 22
+    pi_cost: 12
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [abisso_vulcanico, dorsale_termale_tropicale, reef_luminescente]
+    biome_penalty: [cryosteppe, mezzanotte_orbitale]
+    mbti_alignment: { F: 1, J: 1 }
+    trigger_examples:
+      - "completata mutation symbiosis_chemio_endosymbiont"
+      - "10 turni cumulativi con alleato adiacente in biome termale"
+    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: mutation_chain
+        prereq_mutation_id: symbiosis_chemio_endosymbiont
+    visual_swap_it: "Tier 3: doppio simbionte attivo. Aura termica visibile + valvole condotti chemio."
+    aspect_token: "symbiote_thermofile"
+    description_it: |
+      Capstone della linea simbiotica: doppio endosimbionte attivo
+      (chemio + termofilo). Rage on-kill estende +2 turni con alleato
+      adiacente, healing condiviso 1 hp/turno. Sblocca archetype
+      "symbiont_plus" se 3 mutation symbiotic attive.
+
+  # ============================================================================
+  # BEHAVIORAL — rebalance pass 2026-04-27 (Path B)
+  # Aggiunti 2 behavioral per portare category da 4 (13.3%) a 6 (16.7%)
+  # ============================================================================
+
+  branco_cooperazione_segnalata:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Cooperazione di Branco"
+    name_en: "Mutation: Pack Cooperation"
+    prerequisites:
+      traits: [tattiche_di_branco]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [risonanza_di_branco]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [savana, foresta_temperata, badlands]
+    biome_penalty: [mezzanotte_orbitale]
+    mbti_alignment: { E: 1, F: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
+    trigger_examples:
+      - "3 squad combo focus_fire stesso target stesso round"
+      - "alleato della stessa specie KO in adiacenza"
+    visual_swap_it: "Tier 2: emerge risonanza di branco. Postura sincronizzata, vocalizzi udibili."
+    aspect_token: "pack_signaling"
+    description_it: |
+      Le tattiche di branco evolvono in risonanza vocale: alleati entro
+      2 tile ricevono +1 attack_mod_bonus quando attaccano stesso target
+      del mutante (focus_fire amplificato). Trade-off: -1 defense_mod
+      durante l'effetto.
+
+  gerarchia_dominanza_ritualizzata:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Dominanza Ritualizzata"
+    name_en: "Mutation: Ritualized Dominance"
+    prerequisites:
+      traits: [intimidatore]
+      mutations: [intimidator_to_dispersal]
+    trait_swap:
+      remove: []
+      add: [aura_di_dispersione_mentale]
+    pe_cost: 13
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [rovine_planari, frattura_abissale_sinaptica, canyons_risonanti]
+    biome_penalty: [foresta_miceliale]
+    mbti_alignment: { E: 1, J: 1 }
+    trigger_examples:
+      - "completata mutation intimidator_to_dispersal"
+      - "panic applicato 12+ volte cumulato post-mutation precedente"
+    visual_swap_it: "Tier 2: postura dominante esibita. Vocalizzi territoriali ad alta intensita'."
+    aspect_token: "hierarchy_ritual"
+    description_it: |
+      L'aura di dispersione si ritualizza: i nemici panicked entro 3 tile
+      hanno -1 attack_mod aggiuntivo. Doppio source di pressure controllato.
+      Synergy chain con intimidator_to_dispersal capstone.
+
+  # ============================================================================
+  # SENSORIAL — rebalance pass 2026-04-27 (Path B)
+  # Aggiunto 1 sensorial per portare category da 5 (16.7%) a 6 (16.7%)
+  # ============================================================================
+
+  recettori_chimici_seed_tracking:
+    tier: 2
+    category: sensorial
+    body_slot: sense
+    name_it: "Mutazione: Recettori Chimici da Tracking"
+    name_en: "Mutation: Chemical Tracking Receptors"
+    prerequisites:
+      traits: [chemiorecettori_bromuro]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [olfatto_risonanza_magnetica]
+    pe_cost: 11
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida, atollo_obsidiana]
+    biome_penalty: [stratosfera_tempestosa, mezzanotte_orbitale]
+    mbti_alignment: { S: 1, P: 1 }
+    trigger_examples:
+      - "5 hit MoS >= 5 contro stesso target in 1 encounter (lock cinetico)"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
+        side: actor
+      - "10 turni cumulativi in biome chimicamente attivo"
+    visual_swap_it: "Tier 2: chemiorecettori ipertrofici. Antenne sensitive estensione visibile."
+    aspect_token: "receptors_seed"
+    description_it: |
+      I chemiorecettori bromuro si specializzano in tracking persistente:
+      target colpiti ricevono debuff -1 defense_mod 2 turni (estende
+      finestra burst del party). Bias verso job Stalker.

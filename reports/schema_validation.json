@@ -1,0 +1,26 @@
+{
+  "generated_at": "2025-12-07T23:35:20Z",
+  "files": [
+    {
+      "path": "data/traits/index.json",
+      "schema": "https://game.schemas.local/catalog.schema.json",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/biomes.yaml",
+      "schema": "https://game.schemas.local/biome.schema.yaml",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/species.yaml",
+      "schema": "https://game.schemas.local/species.schema.yaml",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    }
+  ]
+}

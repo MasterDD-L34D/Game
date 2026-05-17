@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.mucose_aderenza_sonica.debolezza",
+  "famiglia_tipologia": "Locomotorio/Mobilità",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "id": "mucose_aderenza_sonica",
+  "label": "i18n:traits.mucose_aderenza_sonica.label",
+  "mutazione_indotta": "i18n:traits.mucose_aderenza_sonica.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Mucose Aderenza Sonica ottimizza le operazioni locomotorio nelle condizioni di caverna risonante.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "zampe_a_molla"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "mobilita",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "i18n:traits.mucose_aderenza_sonica.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.mucose_aderenza_sonica.uso_funzione",
+  "usage_tags": [
+    "scout"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

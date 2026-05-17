@@ -1,0 +1,83 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.struttura_elastica_amorfa.debolezza",
+  "famiglia_tipologia": "Strutturale/Locomotorio",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "struttura_elastica_amorfa",
+  "label": "i18n:traits.struttura_elastica_amorfa.label",
+  "mutazione_indotta": "i18n:traits.struttura_elastica_amorfa.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_tesla",
+    "artigli_sette_vie",
+    "artigli_vetrificati",
+    "branchie_dual_mode",
+    "capillari_criogenici",
+    "cartilagini_pseudometalliche",
+    "cisti_iperbariche",
+    "cromofori_alert_acido",
+    "denti_tuning_fork",
+    "filamenti_magnetotrofi",
+    "ghiandole_condensa_ozono",
+    "ghiandole_nebbia_ionica",
+    "lamine_filtranti_aeree",
+    "membrane_pneumatofori",
+    "mimetismo_cromatico_passivo",
+    "sacche_galleggianti_ascensoriali",
+    "scheletro_idro_regolante"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "locomotorio",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "i18n:traits.struttura_elastica_amorfa.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.struttura_elastica_amorfa.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopia_psionica_leggera",
+    "falde_magnetiche_psioniche"
+  ],
+  "data_origin": "controllo_psionico"
+}

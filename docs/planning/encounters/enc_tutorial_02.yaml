@@ -1,0 +1,72 @@
+# =============================================================================
+# Encounter 2: Tutorial — "Difesa della Duna"
+# Difficulty: 1/5 · Grid: 8×8 · Bioma: savana
+# Scopo: insegnare reazioni (parata), copertura, posizionamento difensivo
+# Schema: schemas/evo/encounter.schema.json
+# =============================================================================
+
+encounter_id: enc_tutorial_02
+name: 'Difesa della Duna'
+biome_id: savana
+grid_size: [8, 8]
+difficulty_rating: 1
+estimated_turns: 8
+# M7-#2 Phase C (ADR-2026-04-20): tutorial class (multiplier 1.0x, no enrage)
+encounter_class: tutorial
+
+objective:
+  type: survival
+  survive_turns: 6
+
+player_spawn:
+  - [3, 3]
+  - [3, 4]
+  - [4, 3]
+  - [4, 4]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [0, 0]
+      - [7, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: aggressive
+  - wave_id: 2
+    turn_trigger: 3
+    spawn_points:
+      - [7, 0]
+      - [0, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: balanced
+
+conditions: []
+
+tags: [tutorial]
+
+restrictions:
+  - no_hazard
+  - no_status
+
+didactic_focus:
+  - parry_reaction
+  - cover_positioning
+  - defensive_formation
+  - wave_awareness
+
+narrative:
+  briefing_ink: stories/tutorial_02_briefing.ink.json
+  debrief_ink: stories/tutorial_02_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca
+  accent_override: '#d4884a'

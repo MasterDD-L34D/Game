@@ -1,0 +1,223 @@
+---
+title: Trait Data Reference & Workflow
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-05-06
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# Trait Data Reference & Workflow
+
+Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare per mantenerli coerenti. È pensata come riferimento rapido durante l'aggiornamento dei registri o la creazione di nuovi tratti.
+
+## Struttura dei file
+
+| Percorso                                                                                         | Contenuto                                                                                                                                                                       | Note                                                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/core/traits/glossary.json`                                                                 | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale.                                                                         | Usato da strumenti ETL e validazione.                                                                                                                                                    |
+| `data/traits/index.json`                                                                         | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI.                                                                                               | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
+| `data/traits/index.csv`                                                                          | Indice rapido dei file trait con label, categoria/tipo, percorso, flag di completezza e nuovi campi `data_origin`, `biome_tags`, `usage_tags`, `has_biome`, `has_species_link`. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari.                                                                                                        |
+| `packs/evo_tactics_pack/docs/catalog/env_traits.json`                                            | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili.                                                                                                     | Necessario per report di coverage.                                                                                                                                                       |
+| `logs/trait_audit.md`                                                                            | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR.                                                                                             | Generato da `scripts/trait_audit.py`.                                                                                                                                                    |
+| `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL.                                                                                                                      | Utili per verificare la copertura sui nove assi.                                                                                                                                         |
+| `data/traits/_drafts/*.json`                                                                     | Bozze generate automaticamente da fonti esterne.                                                                                                                                | Popolate da `python tools/py/import_external_traits.py`; contengono `completion_flags.external_source = true`.                                                                           |
+
+## Vincoli sui campi trait
+
+- I campi localizzati (`label`, `mutazione_indotta`, `fattore_mantenimento_energetico`, `uso_funzione`,
+  `spinta_selettiva`, `debolezza`) devono essere riferimenti `i18n:` oppure stringhe senza spazi di bordo.
+- `famiglia_tipologia` mantiene il formato `<Macro>/<Sotto>` con caratteri alfanumerici, spazi o trattini
+  (`Supporto/Logistico`, `Offensivo/Assalto`, ...).
+- Gli identificatori (`id`, `sinergie[]`, `conflitti[]`, `biome_tags[]`, `usage_tags[]`, `data_origin`)
+  utilizzano slug `^[a-z0-9_]+$` e ogni file JSON deve avere un `id` corrispondente al nome del file.
+- Gli slot (`slot[]`) accettano soltanto lettere maiuscole singole (A–Z) e non possono ripetersi.
+- `usage_tags` deve contenere 1–2 tag tattici dal vocabolario ufficiale (vedi sotto) e non può essere
+  lasciato vuoto sui trait canonici.
+- `metrics[].unit` accetta esclusivamente stringhe UCUM senza spazi (`m/s`, `Cel`, `1`, `kPa`, …) mentre
+  `metrics[].name` deve essere già ripulito.
+- Le entry `species_affinity` validano sia il formato dello slug (`species_id` supporta trattini ma non
+  maiuscole) sia i ruoli (`roles[]` con slug `^[a-z0-9_]+$`).
+- `applicability.envo_terms` richiede URI ENVO canonici (`http://purl.obolibrary.org/obo/ENVO_…`).
+
+## Import da fonti esterne
+
+Per monitorare gli asset consegnati nei canvas e nei drop YAML è disponibile lo script `tools/py/import_external_traits.py`. Il parser utilizza:
+
+- **Appendici** (`docs/appendici/*.txt`): front matter YAML per metadati e bullet `- **<sezione Tier N>**: ...` per estrarre i nomi dei tratti.
+- **Manifest sentience** (`incoming/sentience_traits_v1.0.yaml`): loader YAML definitivo con milestone sensoriali/motorie T1…T6 e hook interocettivi da cui derivare descrizioni e gating ufficiali.
+
+Esecuzione standard:
+
+```bash
+python tools/py/import_external_traits.py \
+  --appendix-dir appendici \
+  --incoming incoming/sentience_traits_v1.0.yaml \
+  --output-dir data/traits/_drafts
+```
+
+Il comando sovrascrive la directory di destinazione generando bozze conformi allo schema trait, già etichettate con `data_origin` e `completion_flags.external_source = true`. Gli identificatori `data_origin` vengono normalizzati in slug (`^[a-z0-9_]+$`), ad esempio `incoming_sentience_traits_v1_0_t3_emergente`, così da rispettare il vincolo imposto dallo schema. Le bozze vanno poi integrate manualmente nel catalogo principale o scartate dopo la revisione.
+
+Per includere il controllo nel workflow di audit è possibile avviare:
+
+```bash
+python scripts/trait_audit.py --import-external-drafts
+```
+
+Lo step richiama l'importer prima di eseguire le verifiche esistenti, così da produrre sempre l'elenco aggiornato dei draft.
+
+### Vocabolario `usage_tags`
+
+I tag d'uso identificano il ruolo tattico prevalente di ciascun tratto e alimentano filtri UI,
+analytics e checklist automatiche. I valori ammessi sono:
+
+- `scout` – Ricognizione, sensori, mobilità e raccolta informazione rapida.
+- `breaker` – Assalto diretto, penetrazione difese e output offensivo concentrato.
+- `support` – Abilitazione del team, logistica, coordinamento e strumenti tattici.
+- `tank` – Mitigazione danni, protezione, schermature e gestione dell'aggro.
+- `sustain` – Economia risorse, guarigione, rigenerazione o mantenimento energetico.
+- `controller` – Controllo del campo, crowd control, psionica o manipolazione degli spazi.
+
+## Workflow di aggiornamento
+
+## Autenticazione API e ruoli
+
+L'API `POST/PUT/DELETE /api/traits` utilizza token JWT firmati (HS256) e un
+controllo degli accessi basato sui ruoli. Prima di avviare l'editor o gli
+script che interagiscono con l'API assicurati di configurare le variabili
+d'ambiente:
+
+- `AUTH_SECRET` (**obbligatorio**): secret condiviso usato per verificare la
+  firma dei token. Mantienilo al sicuro e ruotalo periodicamente.
+- `AUTH_TOKEN_MAX_AGE` (opzionale): durata massima accettata per i token,
+  espressa in secondi o in formato compatto (`15m`, `8h`, `7d`). In assenza del
+  claim `exp` viene applicato come timeout hard.
+- `AUTH_ISSUER` e `AUTH_AUDIENCE` (opzionali): vincoli aggiuntivi per issuer e
+  audience del token.
+- `AUTH_CLOCK_TOLERANCE` (opzionale): tolleranza in secondi per compensare
+  piccoli skew temporali.
+- `AUDIT_LOG_PATH` (opzionale): percorso del file JSON Lines che riceverà
+  l'audit trail (`logs/audit.log` è il default).
+
+Ogni token deve includere il claim `roles` (array o stringa) con almeno uno dei
+ruoli riconosciuti dal middleware RBAC:
+
+| Ruolo    | Permessi principali                                                                            |
+| -------- | ---------------------------------------------------------------------------------------------- |
+| reviewer | Lettura catalogo e validazione (`GET`, `POST /validate`).                                      |
+| editor   | Tutti i permessi di `reviewer` più creazione, clonazione, aggiornamento e ripristino versioni. |
+| admin    | Tutti i permessi precedenti più eliminazione definitiva dei trait.                             |
+
+I token vengono validati tramite header `Authorization: Bearer <jwt>`; in
+ambiente legacy è ancora possibile utilizzare `TRAIT_EDITOR_TOKEN`, ma solo per
+scenari locali o di emergenza (nessun audit trail).
+
+### Editor schema-driven
+
+Per modifiche iterative è disponibile l'editor React ospitato nella mission console (`/console/traits`). Il modulo monta un form dinamico generato da `config/schemas/trait.schema.json` e valida ogni modifica sia lato client (AJV) sia lato server.
+
+1. Avviare l'API locale impostando il secret di firma e, se necessario, la
+   durata massima dei token:
+   ```bash
+   export AUTH_SECRET="$(openssl rand -hex 32)"
+   export AUTH_TOKEN_MAX_AGE="8h"
+   npm run start:api
+   ```
+2. Generare un token con il ruolo adeguato (es. `editor`) e copiarlo per
+   l'utilizzo nell'editor. È possibile sfruttare l'helper incluso nel repo:
+   ```bash
+   node -e "const { signJwt } = require('./server/utils/jwt'); \
+     console.log(signJwt({ sub: 'local-editor', roles: ['editor'] }, process.env.AUTH_SECRET, { expiresIn: '8h' }));"
+   ```
+3. In una seconda shell, avviare la webapp:
+   ```bash
+   npm --prefix webapp install   # solo al primo avvio
+   npm --prefix webapp run dev
+   ```
+4. Aprire `http://localhost:5173/console/traits` e inserire il token nel pannello
+   laterale. Le richieste verso l'API useranno l'header Bearer automaticamente.
+5. Ogni salvataggio crea una copia della versione precedente in
+   `data/traits/_versions/<trait_id>/<timestamp>.json` prima di sovrascrivere il
+   file canonico.
+
+### Percorso manuale
+
+1. **Allineare il glossario** – aggiungere o aggiornare le voci in `data/core/traits/glossary.json`, assicurandosi che `trait_reference` punti a `data/traits/index.json`.
+2. **Aggiornare il trait reference** – editare `data/traits/index.json` e sincronizzare le copie in `docs/evo-tactics-pack/trait-reference.json` **e** `packs/evo_tactics_pack/docs/catalog/trait_reference.json`.
+   - Popolare i campi obbligatori: `tier`, `slot`, `slot_profile`, `sinergie`, `conflitti`, `requisiti_ambientali`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `debolezza`.
+   - Ogni sinergia deve essere **reciproca**: se il tratto A elenca il tratto B, anche B deve elencare A.
+3. **Rigenerare l'indice rapido** – creare/aggiornare `data/traits/index.csv` per l'audit dei file:
+   ```bash
+   node scripts/build_trait_index.js --output data/traits/index.csv
+   ```
+   Il comando supporta anche `--format json` se serve produrre un riepilogo alternativo e `--traits-dir`
+   per validare dataset di test senza toccare `data/traits/`. Il processo termina con errore se vengono
+   rilevati slug non conformi, slot non canonici, UCUM errati (simboli non standard o spazi) o
+   `species_affinity` con specie inesistenti.
+4. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
+5. **Rigenerare la baseline** – eseguire:
+   ```bash
+   python tools/py/build_trait_baseline.py \
+     packs/evo_tactics_pack/docs/catalog/env_traits.json \
+     packs/evo_tactics_pack/docs/catalog/trait_reference.json \
+     --trait-glossary data/core/traits/glossary.json
+   ```
+   Questo aggiorna `data/derived/analysis/trait_baseline.yaml`.
+6. **Aggiornare i report di coverage** – eseguire:
+   ```bash
+   python tools/py/report_trait_coverage.py \
+     --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json \
+     --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
+     --trait-glossary data/core/traits/glossary.json \
+     --out-json data/derived/analysis/trait_coverage_report.json \
+     --out-csv data/derived/analysis/trait_coverage_matrix.csv
+   ```
+   Lo script esce con codice diverso da zero se le entry `species_affinity` del catalogo fanno
+   riferimento a specie non presenti nel repository, se gli identificativi non rispettano gli slug
+   richiesti o se vengono trovate metriche con unità UCUM non valide.
+7. **Analizzare i gap rispetto ai dati ETL** – usare:
+   ```bash
+   python tools/analysis/trait_gap_report.py \
+     --trait-reference data/traits/index.json \
+     --trait-glossary data/core/traits/glossary.json \
+     --etl-report data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json \
+     --out data/derived/analysis/trait_gap_report.json
+   ```
+8. **Validare naming e integrità** – controllare che i registri restino coerenti:
+   ```bash
+   python tools/py/validate_registry_naming.py \
+     --trait-glossary data/core/traits/glossary.json \
+     --trait-reference data/traits/index.json \
+     --project-index config/project_index.json \
+     --env-rules packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml \
+     --hazards packs/evo_tactics_pack/tools/config/registries/hazards.yaml \
+     --biomes packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml \
+     --species-root packs/evo_tactics_pack/data/species
+   ```
+9. **Eseguire l'audit finale** – rigenerare `logs/trait_audit.md` e assicurarsi che non ci siano warning o errori:
+   ```bash
+   python3 scripts/trait_audit.py
+   python3 scripts/trait_audit.py --check
+   ```
+
+## Validazione automatica e riproduzione locale
+
+I workflow CI `data-quality` e `validate-traits` installano le dipendenze Node.js e Python dichiarate in `package.json` e `requirements-dev.txt`, ricostruiscono l'indice dei tratti e generano il report di coverage in modalità strict. Per riprodurre lo stesso flusso in locale:
+
+```bash
+npm ci
+python -m pip install -r requirements-dev.txt
+python -m pip install jsonschema
+node scripts/build_trait_index.js
+python tools/py/report_trait_coverage.py --strict
+```
+
+Il comando `report_trait_coverage.py --strict` fallisce se il numero di tratti coperti dalle specie scende sotto 27 oppure se esistono combinazioni regola→bioma prive di specie collegate (`rules_missing_species_total > 0`). I report principali vengono aggiornati in `data/derived/analysis/` (coverage JSON/CSV) e i riepiloghi pronti per la consultazione rimangono in `reports/`, gli stessi file che la CI archivia come artifact post-build.
+
+## Suggerimenti
+
+- Le modifiche ai tratti spesso impattano più file; usa questo flusso come checklist per evitare omissioni.
+- Mantieni le liste (`sinergie`, `conflitti`, `requisiti_ambientali`) ordinate alfabeticamente per ridurre i diff rumorosi.
+- Quando aggiungi nuovi tratti, valida anche gli asset PI correlati in `packs/evo_tactics_pack/data/species` se presenti.

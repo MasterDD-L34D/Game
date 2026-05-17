@@ -1,0 +1,53 @@
+{
+  "species": "Rupicapra sensoria",
+  "ecotypes": [
+    {
+      "id": "RUS-ECO1",
+      "label": "Cenge Calcarenitiche",
+      "biome_class": "terrestre_montano",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000207"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "tasso_di_salita",
+          "delta": 0.2,
+          "unit": "m/s",
+          "notes": "Micro‑adesione ottimizzata su calcare",
+          "trait_id": "unghie_a_micro_adesione"
+        },
+        {
+          "metric": "cohesion_index",
+          "delta": 0.05,
+          "unit": "1",
+          "notes": "Riflessi condivisi più efficaci in eco stretta",
+          "trait_id": "corna_psico_conduttive"
+        }
+      ]
+    },
+    {
+      "id": "RUS-ECO2",
+      "label": "Dorsali Ventose",
+      "biome_class": "terrestre_montano",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00005776"
+      ],
+      "trait_adjustments": [
+        {
+          "metric": "intimidazione_index",
+          "delta": 0.05,
+          "unit": "1",
+          "notes": "Soffi di vento aumentano effetto odori avversivi",
+          "trait_id": "aura_di_dispersione_mentale"
+        }
+      ]
+    }
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
+  },
+  "species_id": "rupicapra_sensoria"
+}

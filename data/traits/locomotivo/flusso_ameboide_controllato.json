@@ -1,0 +1,67 @@
+{
+  "id": "flusso_ameboide_controllato",
+  "label": "i18n:traits.flusso_ameboide_controllato.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "membrana_plastica_continua",
+    "nucleo_ovomotore_rotante"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.flusso_ameboide_controllato.mutazione_indotta",
+  "uso_funzione": "i18n:traits.flusso_ameboide_controllato.uso_funzione",
+  "spinta_selettiva": "i18n:traits.flusso_ameboide_controllato.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "raggio_di_volta",
+      "value": 0.1,
+      "unit": "m"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Curva stretta in tubo 20 cm",
+    "scene_prompt": "Traccia percorso in labirinto cilindrico"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Il corpo vischioso scorre tra fessure e sedimenti compatti che si trovano nei biomi terrestri."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "terrestre"
+  },
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "debolezza": "i18n:traits.flusso_ameboide_controllato.debolezza"
+}

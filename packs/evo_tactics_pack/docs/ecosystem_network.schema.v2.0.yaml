@@ -1,0 +1,61 @@
+title: Evo‑Tactics Ecosystem Network Schema v2.0
+type: object
+required: [schema_version, receipt, network, links]
+properties:
+  schema_version: {const: 2.0}
+  receipt: {type: object, required: [source, author, date, trace_hash]}
+  links:
+    type: object
+    required: [ecosystems]              # list of .ecosystem.yaml (v1.1) nodes
+  network:
+    type: object
+    required: [id, label, nodes, edges, rules]
+    properties:
+      id: {type: string}
+      label: {type: string}
+      nodes:
+        type: array
+        items:
+          type: object
+          required: [id, biome_id, path]
+          properties:
+            id: {type: string}         # node id (e.g., BADLANDS)
+            biome_id: {type: string}   # 'badlands', 'foresta_temperata', ecc.
+            path: {type: string}       # path to v1.1 ecosystem file
+            weight: {type: number}     # opzione: peso del nodo nel network (e.g., area/centralità)
+      edges:
+        type: array
+        items:
+          type: object
+          required: [from, to, type]
+          properties:
+            from: {type: string}
+            to: {type: string}
+            type: {type: string}       # corridor | seasonal_bridge | trophic_spillover | pollutant_flux | trade_route
+            resistance: {type: number} # 0..1 (0 libero, 1 quasi impossibile)
+            seasonality: {type: string}# es. 'inverno', 'estate', 'episodico'
+            notes: {type: string}
+      bridge_species_map:
+        type: array
+        items:
+          type: object
+          required: [species_id, roles]
+          properties:
+            species_id: {type: string}
+            roles: {type: array}        # es. ['dispersore_ponte','sentinella']
+            present_in_nodes: {type: array}  # subset di nodes.id
+      rules:
+        type: object
+        properties:
+          at_least:
+            type: object
+            properties:
+              sentient: {type: integer}
+              apex: {type: integer}
+              keystone: {type: integer}
+              bridge: {type: integer}
+              threat: {type: integer}
+              event: {type: integer}
+          per_biome_min:
+            type: object
+            description: "vincoli minimi per ciascun biome-node"

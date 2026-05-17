@@ -1,0 +1,66 @@
+{
+  "id": "unghie_a_micro_adesione",
+  "label": "i18n:traits.unghie_a_micro_adesione.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Arboricolo",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "corna_psico_conduttive"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.unghie_a_micro_adesione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.unghie_a_micro_adesione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.unghie_a_micro_adesione.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "tasso_di_salita",
+      "value": 1.2,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Scala parete 10 m inclinata 75°",
+    "scene_prompt": "Cronometra salita su lastra liscia"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Le micro-setole si ancorano a pareti e corteccia terrestre, migliorando arrampicata e trazione."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "arboricolo"
+  },
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "debolezza": "i18n:traits.unghie_a_micro_adesione.debolezza"
+}

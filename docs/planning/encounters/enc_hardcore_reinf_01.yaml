@@ -1,0 +1,92 @@
+# =============================================================================
+# Encounter: "Marea dell'Apex" — Hardcore Reinforcement
+# Difficulty: 5/5 · Grid: 10×10 · Bioma: rovine_planari
+# Objective: elimination; SIS ha reinforcement_pool attivo (ADR-2026-04-19).
+# Reinforcement tick a ogni /turn/end + /commit-round auto_resolve se tier >= Alert.
+# Pilastro coverage: 1 + 5 (Co-op vs Sistema) — AI Progress adattivo
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-19 (reinforcementSpawner)
+# =============================================================================
+
+encounter_id: enc_hardcore_reinf_01
+name: "Marea dell'Apex"
+biome_id: rovine_planari
+grid_size: [10, 10]
+difficulty_rating: 5
+estimated_turns: 15
+# M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
+# Reinforcement waves continue → damage scaling pressure-amplificato.
+encounter_class: hardcore
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 4]
+      - [9, 5]
+      - [9, 6]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+      - species: predoni_nomadi
+        count: 1
+        tier: apex
+        ai_profile: flanking
+
+reinforcement_pool:
+  - unit_id: predoni_nomadi
+    weight: 3
+    max_spawns: 4
+    hp: 7
+    mod: 2
+    dc: 12
+    ai_profile: aggressive
+  - unit_id: predoni_nomadi_elite
+    weight: 1
+    max_spawns: 2
+    hp: 10
+    mod: 3
+    dc: 13
+    ai_profile: flanking
+
+reinforcement_entry_tiles:
+  - [9, 0]
+  - [9, 9]
+  - [0, 0]
+  - [0, 9]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 4
+  min_distance_from_pg: 4
+
+conditions: []
+
+tags: [boss, standard]
+
+didactic_focus:
+  - pressure_management
+  - reinforcement_timing
+  - ai_progress_reading
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: cenere_sospesa
+  accent_override: '#b8935a'

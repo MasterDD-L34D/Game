@@ -1,0 +1,151 @@
+# AI Personality Profiles — Evo-Tactics
+# Pattern W5 (wesnoth micro-AI).
+# Ogni profilo sovrascrive soglie da ai_intent_scores.yaml.
+# Il Sistema carica un profilo per sessione/encounter.
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §W5
+
+version: "0.2.0"
+
+# Asymmetric AI resource model (AI War pattern: Park 2012)
+# SIS non usa la stessa economia dei PG. Niente PT pool, niente trait cost.
+# Il Sistema riceve un "intent budget" per round derivato da sistema_pressure
+# (vedi sistema_pressure.yaml). Questo e' un invariante di design:
+# risolve fairness via outcome measurement, non via simmetria di regole.
+# Source: reference_tactical_postmortems.md §A.2
+sistema_resource_model:
+  economy: "intent_budget"        # non "pt_pool"
+  budget_source: "sistema_pressure"  # tier lookup da sistema_pressure.yaml
+  ignores_fog_of_war: true        # SIS vede stato completo
+  ignores_trait_costs: true       # intent non consuma PT/AP del PG model
+  reinforcement_from_pressure: true
+  note: "Asymmetry invariant — do NOT refactor to mirror player rules"
+
+profiles:
+  aggressive:
+    label: "Aggressivo"
+    description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
+    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip.
+    # 2026-04-29 fix utilityBrain oscillation (action-aware TargetHealth/SelfHealth +
+    # additive scoring) → kill-switch ripristinato a true.
+    #
+    # FASE 2.x rollback 2026-05-09 (PR #2145 + K3 ablation): rollback to false
+    # post-confirmation utility brain causale (aggressive utility ON 65% WR vs
+    # ablation 95% WR, ΔWR +30pp).
+    #
+    # FASE 2.x SWAP 2026-05-09 sera (PR #2149 K4 Approach B verdict):
+    # commit-window guard deterministico in declareSistemaIntents recovery
+    # +10pp absolute (capped 100% N=40 vs K3 baseline 90% N=20). Re-enable
+    # utility_brain con commit_window: 2 — guard fires su flip detection
+    # (intent reversal OR direzione di movimento opposta a last_move_direction)
+    # forzando intent precedente per 2 turni. Combina exploration utility
+    # brain (weighted considerations) con anti-oscillation determinismo.
+    #
+    # Sweep results validation (PR #2149):
+    #   K3 baseline aggressive utility OFF      90% WR avg 25.0r
+    #   aggressive utility ON + commit_window 2 100% WR avg 24.2r (+10pp, -0.8r)
+    # Cross-ref: docs/research/2026-05-09-k4-commit-window-implementation.md
+    use_utility_brain: true
+    commit_window: 2
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2 # reagisce prima al turtling
+
+  # FASE 2.x — K3 ablation profile (PR #2145 follow-up). Identical
+  # overrides al profilo `aggressive` ma `use_utility_brain: false` per
+  # isolare il contributo del utility brain alla sottoperformance
+  # osservata (aggressive 53.5% WR vs balanced 100% N=162). Validation
+  # pattern: run batch `--profiles aggressive,aggressive_no_util` +
+  # measure ΔWR delta:
+  #   ΔWR > 30pp → utility brain root cause confirmed → patch shipped
+  #   ΔWR < 10pp → utility brain non causale → escalate K4 stickiness
+  #   ΔWR 10-30pp → partial → combine K3 + K4
+  aggressive_no_util:
+    label: "Aggressivo (utility OFF — K3 ablation)"
+    description: "Aggressive con utility_brain disabilitato per isolare oscillation root cause."
+    use_utility_brain: false
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
+
+  # FASE 2.x — K4 Approach A stickiness (PR #2146 follow-up). Re-enable
+  # utility_brain ma con stickiness_weight additivo per inibire flip-flop
+  # oscillation tra azioni near-tie. SPRT plan: confronto vs aggressive
+  # (utility OFF baseline 90% WR):
+  #   ≥ 88% WR → ship sticky come default + deprecate aggressive_no_util
+  #   < 80% WR → escalate Approach B commit-window OR Approach C softmax
+  aggressive_with_stickiness:
+    label: "Aggressivo (utility ON + K4 stickiness 0.15)"
+    description: "Aggressive con utility_brain riabilitato + stickiness term anti-flip-flop."
+    use_utility_brain: true
+    stickiness_weight: 0.15
+    stickiness_direction_weight: 0.075
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
+
+  # K4 Approach A — heavier stickiness sweep. 0.15 N=20 N=20 mostra 55% WR
+  # (insufficient vs 85% OFF baseline). 0.30 sweep candidate.
+  aggressive_sticky_30:
+    label: "Aggressivo (utility ON + K4 stickiness 0.30)"
+    description: "Aggressive sticky 2x weight per testare oscillation suppression."
+    use_utility_brain: true
+    stickiness_weight: 0.30
+    stickiness_direction_weight: 0.15
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
+
+  # FASE 2.x — K4 Approach B commit-window (PR-pending). Re-enable utility
+  # brain ma con anti-flip guard deterministico in declareSistemaIntents:
+  # quando la nuova policy intent reverses last_action_type OR la nuova
+  # direzione di movimento e' diametralmente opposta a last_move_direction,
+  # forza l'intent precedente per N turni (commit_window). Diversamente da
+  # Approach A (additive sticky), e' deterministico — non dipende dal peso
+  # relativo nelle considerations dello score utility brain. SPRT plan:
+  # confronto vs aggressive (utility OFF baseline 90% WR):
+  #   ≥ 88% WR → ship come default + supersede sticky variants
+  #   80-88%   → marginal → MAP-Elites grid combinato sticky + commit
+  #   < 80%    → escalate Approach C softmax temperature
+  aggressive_commit_window:
+    label: "Aggressivo (utility ON + K4 commit-window 2)"
+    description: "Aggressive utility ON con anti-flip guard deterministico (forza intent precedente 2 turni dopo flip detection)."
+    use_utility_brain: true
+    commit_window: 2
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
+
+  balanced:
+    label: "Bilanciato"
+    description: "Comportamento default del Sistema. Nessun override."
+    # Utility AI gradual rollout: attesa metriche VC fairness su aggressive
+    use_utility_brain: false
+    overrides: {}
+
+  cautious:
+    label: "Cauto"
+    description: "Retreat aggressivo, mantiene distanza. Preferisce kiting."
+    # Utility AI gradual rollout: flip dopo validation su aggressive + balanced
+    use_utility_brain: false
+    overrides:
+      # Balance audit 2026-04-25: retreat_hp_pct 0.5→0.3 (allinea al default
+      # ai_intent_scores.yaml:23). Soglia 0.5 causava timeout deadlock hardcore
+      # (66.7% timeout iter7, docs/playtest/2026-04-20-m7-iter7-phase-e-verdict.md:25).
+      # Balance-auditor 2026-04-26: 0.3 = default = ZERO differentiation vs balanced.
+      # Compromesso 0.4 (+33% vs default, -20% vs origin 0.5 deadlock-causante).
+      # Restore behavioral cautious distinct senza regredire timeout fix.
+      retreat_hp_pct: 0.4
+      kite_buffer: 2
+      default_attack_range: 2
+      threat_passivity_threshold: 5 # tollera piu passivita prima di escalare

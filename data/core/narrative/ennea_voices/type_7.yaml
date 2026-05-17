@@ -1,0 +1,96 @@
+# Ennea Voice Palette — Type 7 Esploratore (vc archetype id "Esploratore(7)")
+#
+# Skiv-style first-person narrative palette per archetipo Esploratore.
+# Tono canonical (museum card M-2026-04-25-006 + dataset enneagramma_master.yaml):
+# entusiasta, ottimistico, sparso su mille opzioni, action-oriented, futuro-spinto.
+# Voice persona: chi vede sempre la prossima possibilità prima di chiudere quella
+# corrente. Energia alta. Sigla recurrente: "Avanti."
+#
+# Selector logic identico a type_5.yaml (beat_id -> lines pool random).
+#
+# Cross-ref:
+#   - Trigger condition (telemetry.yaml line 61): explore>0.45
+#   - Museum card: docs/museum/cards/enneagramma-mechanics-registry.md
+#   - Pattern donor: Disco Elysium thought cabinet + Hades aspect quip
+schema_version: "0.1.0"
+archetype_id: "Esploratore(7)"
+ennea_type: 7
+canonical_name_it: "Esploratore"
+canonical_name_en: "Enthusiast"
+voice_persona: |
+  Curiosità prima di tutto. Le opzioni sono ossigeno. Le ferite si dimenticano.
+  Il prossimo angolo è sempre più interessante di quello dietro le spalle.
+  Linguaggio veloce, esclamativo, slang. Sigla: "Avanti."
+
+beats:
+  combat_attack_committed:
+    description: "Linea narrativa quando l'attore lancia un attacco con setup completo."
+    lines:
+      - id: "v7_atk_try_this"
+        text: "Provo questa! Vediamo dove porta."
+      - id: "v7_atk_options"
+        text: "Cinque modi di farlo. Scelgo questo."
+      - id: "v7_atk_forward"
+        text: "Avanti! La paura è retorica."
+      - id: "v7_atk_spin"
+        text: "Spin, taglio, scatto. Coreografia."
+
+  combat_defense_braced:
+    description: "Linea quando l'attore subisce attacco e si difende."
+    lines:
+      - id: "v7_def_dodge"
+        text: "Schivo. Giro. Riprovo."
+      - id: "v7_def_thousand"
+        text: "Mille opzioni. Sceglierne una è facile."
+      - id: "v7_def_play"
+        text: "È un gioco. Restando vivi si gioca meglio."
+
+  exploration_new_tile:
+    description: "Linea quando l'attore esplora una nuova tile / scopre area."
+    lines:
+      - id: "v7_exp_corner"
+        text: "Dietro l'angolo c'è qualcosa. Sempre c'è qualcosa."
+      - id: "v7_exp_smell"
+        text: "Odoro novità. Colore diverso, vento diverso."
+      - id: "v7_exp_first"
+        text: "Primo a vederlo? Bene. Bene bene."
+
+  low_hp_warning:
+    description: "Linea quando l'attore scende sotto soglia HP critica (<35%)."
+    lines:
+      - id: "v7_lhp_seen_worse"
+        text: "Già vista peggio. Avanti!"
+      - id: "v7_lhp_lucky"
+        text: "Si vede solo tre volte un giorno così. Salviamolo."
+      - id: "v7_lhp_options"
+        text: "Tre uscite. Una è buona. Scelgo!"
+
+  victory_solo:
+    description: "Linea quando l'attore stesso assesta il colpo finale (solo kill)."
+    lines:
+      - id: "v7_vct_told_you"
+        text: "Te l'avevo detto! Hai visto?"
+      - id: "v7_vct_next"
+        text: "Bene. Cosa proviamo dopo?"
+      - id: "v7_vct_dance"
+        text: "Era una danza. Ho ballato bene."
+
+  defeat_critical:
+    description: "Linea quando l'attore va KO o il party perde lo scenario."
+    lines:
+      - id: "v7_dft_archive"
+        text: "Questa la archiviamo. Prossima!"
+      - id: "v7_dft_lesson"
+        text: "Imparato qualcosa. Vale già."
+      - id: "v7_dft_forward"
+        text: "Cadere è una direzione. Anche."
+
+  idle_round_start:
+    description: "Linea opzionale a inizio round se nessun altro beat trigger."
+    lines:
+      - id: "v7_idl_what_next"
+        text: "Cosa proviamo dopo?"
+      - id: "v7_idl_options"
+        text: "Tre opzioni. Magari quattro."
+      - id: "v7_idl_forward"
+        text: "Avanti. Sempre avanti."

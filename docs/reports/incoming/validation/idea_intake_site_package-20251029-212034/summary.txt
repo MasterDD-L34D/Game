@@ -1,0 +1,8 @@
+zip_file: idea_intake_site_package.zip
+timestamp: 20251029-212034
+cli_origin: repository
+working_directory: /tmp/incoming_validation.O8CpfD/idea_intake_site_package
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/idea_intake_site_package-20251029-212034/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/idea_intake_site_package-20251029-212034/validate-ecosystem-pack.log

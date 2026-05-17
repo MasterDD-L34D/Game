@@ -1,0 +1,71 @@
+{
+  "conflitti": [
+    "sangue_piroforico"
+  ],
+  "debolezza": "i18n:traits.scheletro_idro_regolante.debolezza",
+  "famiglia_tipologia": "Strutturale/Omeostatico",
+  "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+  "id": "scheletro_idro_regolante",
+  "label": "i18n:traits.scheletro_idro_regolante.label",
+  "mutazione_indotta": "i18n:traits.scheletro_idro_regolante.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_tesla",
+    "artigli_vetrificati",
+    "branchie_dual_mode",
+    "branchie_osmotiche_salmastra",
+    "capillari_criogenici",
+    "cartilagini_pseudometalliche",
+    "cisti_iperbariche",
+    "cromofori_alert_acido",
+    "denti_tuning_fork",
+    "filamenti_magnetotrofi",
+    "ghiandole_condensa_ozono",
+    "ghiandole_nebbia_ionica",
+    "lamine_filtranti_aeree",
+    "membrane_pneumatofori",
+    "sacche_galleggianti_ascensoriali",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "omeostatico",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "i18n:traits.scheletro_idro_regolante.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.scheletro_idro_regolante.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

@@ -1,0 +1,46 @@
+pack_slug: foresta_temperata
+display_name_it: "Foodweb Foresta Temperata"
+display_name_en: "Temperate Forest Foodweb"
+biome_slug: foresta_temperata
+biome_legacy_slug: foresta_temperata
+nodes:
+  - id: produttori_base
+    node_id: produttori_base
+    legacy_slug: produttori_base
+    display_name_it: "Produttori di Base"
+    display_name_en: "Base Producers"
+    kind: resource
+  - id: HERB_CERVO
+    node_id: HERB_CERVO
+    legacy_slug: HERB_CERVO
+    display_name_it: "Cervo Erbivoro"
+    display_name_en: "Herbivore Deer"
+    kind: species
+  - id: PRED_LUPO
+    node_id: PRED_LUPO
+    legacy_slug: PRED_LUPO
+    display_name_it: "Lupo Temperato"
+    display_name_en: "Temperate Wolf"
+    kind: species
+  - id: DECO_FUNGO
+    node_id: DECO_FUNGO
+    legacy_slug: DECO_FUNGO
+    display_name_it: "Fungo Decompositore"
+    display_name_en: "Decomposer Fungus"
+    kind: species
+  - id: carcasse
+    node_id: carcasse
+    legacy_slug: carcasse
+    display_name_it: "Carcasse"
+    display_name_en: "Carcasses"
+    kind: resource
+  - id: detrito
+    node_id: detrito
+    legacy_slug: detrito
+    display_name_it: "Detrito"
+    display_name_en: "Detritus"
+    kind: resource
+edges:
+  - {from: produttori_base, to: HERB_CERVO, type: herbivory}
+  - {from: HERB_CERVO, to: PRED_LUPO, type: predation}
+  - {from: detrito, to: DECO_FUNGO, type: detritus}

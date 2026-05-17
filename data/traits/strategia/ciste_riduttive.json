@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.ciste_riduttive.debolezza",
+  "famiglia_tipologia": "Strategico/Tattico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "ciste_riduttive",
+  "label": "i18n:traits.ciste_riduttive.label",
+  "mutazione_indotta": "i18n:traits.ciste_riduttive.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "laguna_bioreattiva"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ciste Riduttive ottimizza le operazioni strategia nelle condizioni di laguna bioreattiva.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "pianificatore",
+    "tattiche_di_branco",
+    "secrezione_rallentante_palmi"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "tattico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "i18n:traits.ciste_riduttive.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.ciste_riduttive.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "laguna_bioreattiva"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

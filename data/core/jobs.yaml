@@ -1,0 +1,1171 @@
+# Job System — Evo-Tactics
+# Base 6 dal vision doc (Skirmisher, Vanguard, Warden, Artificer, Invoker,
+# Harvester) + Ranger aggiunto come 7o job. Roster aperto a espansione.
+# Fonte: Final Design Freeze v0.9 §11, evo_tactics_game_vision_reconstructed.md
+#
+# Ogni ability segue lo schema active_effects: ability_id, name_it,
+# cost_ap, effect_type, target, durata, costo PI per unlock.
+#
+# Regola di design (§11.1): ogni job ha 1 fantasy flavor, 2 R1 unlock,
+# 1 R2 unlock, clear PI costs, PT/PP/SG usage dichiarato.
+#
+# Sprint 8 2026-04-27 — Ability r3/r4 tier progressive (AncientBeast Tier S #6
+# residuo final closure). Cost ladder canonical: r1=3 / r2=8 / r3=14 / r4=22 PI.
+# Ogni job aggiunge 2 ability nuove: r3 (mid-tier upgrade) + r4 (capstone). Tutte
+# usano effect_type esistenti (18/18 abilityExecutor) — zero nuovi runtime types.
+
+version: "0.2.0"
+
+jobs:
+  skirmisher:
+    id: skirmisher
+    label: "Schermidore"
+    label_it: "Schermidore"
+    label_en: "Skirmisher"
+    role: damage
+    description: >-
+      DPS mobile con posizionamento aggressivo. Favorisce combo PP e kiting.
+      Il ruolo che questo organismo assume e' quello di lama veloce che colpisce
+      e si ritira, sfruttando il movimento per generare vantaggio tattico.
+    signature_mechanic: "Hit-and-run: attacca e riposiziona nello stesso turno, generando PP da combo di movimento."
+    synergy_tags: [warden, artificer, ranger]
+    status: base
+    description_it: "DPS mobile, posizionamento aggressivo. Favorisce combo PP e kiting."
+    fantasy_flavor: "Lama che danza tra le ombre del campo di battaglia."
+    initiative: 15
+    attack_range: 2
+    resource_usage: { primary: PP, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: dash_strike
+        name_it: "Assalto Fulmineo"
+        description_it: "Muove di 2 celle e attacca. Bonus +1 attack_mod se bersaglio non adiacente a inizio turno."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: move_attack
+        move_distance: 2
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_condition: "target_not_adjacent"
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: evasive_maneuver
+        name_it: "Manovra Evasiva"
+        description_it: "Dopo un attacco, muove di 1 cella senza provocare reazioni. +1 defense_mod per 1 turno."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: attack_move
+        move_distance: 1
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: blade_flurry
+        name_it: "Turbine di Lame"
+        description_it: "3 attacchi rapidi a -1 damage_step ciascuno. Consuma PP >= 6 (Tier 2). Ogni hit genera +1 PP."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 6
+        effect_type: multi_attack
+        attack_count: 3
+        damage_step_mod: -1
+        pp_per_hit: 1
+        target: enemy
+        rank: 2
+      unlock_r3:
+        ability_id: phantom_step
+        name_it: "Passo Fantasma"
+        description_it: "Muove di 3 celle ignorando reazioni overwatch e attacca con +1 damage_step. Buff +2 attack_mod per 1 turno post-attacco."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: move_attack
+        move_distance: 3
+        damage_step_mod: 1
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        ignore_overwatch: true
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: dervish_whirlwind
+        name_it: "Vortice del Derviscio"
+        description_it: "Capstone Tier 4. 4 attacchi rapidi a -1 damage_step. Ogni hit genera +2 PP e applica bleeding (2T) se MoS >= 4. Consuma PP >= 10."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: multi_attack
+        attack_count: 4
+        damage_step_mod: -1
+        pp_per_hit: 2
+        conditional_status: { condition: "mos >= 4", status_id: bleeding, duration: 2 }
+        target: enemy
+        rank: 4
+
+  vanguard:
+    id: vanguard
+    label: "Avanguardia"
+    label_it: "Avanguardia"
+    label_en: "Vanguard"
+    role: tank
+    description: >-
+      Iniziatore e tank di prima linea. Attira aggressione nemica e protegge
+      gli alleati. Il Vanguard definisce la linea del fronte e controlla lo
+      spazio fisico della griglia con presenza e resistenza.
+    signature_mechanic: "Aggro pull: forza nemici ad attaccarlo, guadagnando buff difensivi proporzionali al danno assorbito."
+    synergy_tags: [warden, harvester, invoker]
+    status: base
+    description_it: "Iniziatore, tank di prima linea. Attira aggressione, protegge alleati."
+    fantasy_flavor: "Muro vivente che si frappone tra il caos e la squadra."
+    initiative: 8
+    attack_range: 1
+    resource_usage: { primary: PT, secondary: SG }
+    abilities:
+      unlock_r1_1:
+        ability_id: shield_bash
+        name_it: "Colpo di Scudo"
+        description_it: "Attacco che infligge sbilanciato (1 turno) e spinge il target di 1 cella."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: attack_push
+        push_distance: 1
+        apply_status: { status_id: sbilanciato, duration: 1, intensity: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: taunt
+        name_it: "Provocazione"
+        description_it: "Forza un nemico adiacente ad attaccare questo turno. +2 defense_mod per 1 turno."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: aggro_pull
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: fortify
+        name_it: "Fortificazione"
+        description_it: "Consumo 3 PT. +3 armor e +2 defense_mod per 2 turni. Non puo muoversi."
+        cost_ap: 1
+        cost_pi: 8
+        cost_pt: 3
+        effect_type: buff
+        buff_stat: armor
+        buff_amount: 3
+        buff_duration: 2
+        buff_stat_2: defense_mod
+        buff_amount_2: 2
+        immobilize: true
+        target: self
+        rank: 2
+      unlock_r3:
+        ability_id: aegis_stance
+        name_it: "Postura dell'Egida"
+        description_it: "Tier 3 buff prolungato. +5 armor e +3 defense_mod per 3 turni. Consumo 5 PT. Si muove ma a -1 movement."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: buff
+        buff_stat: armor
+        buff_amount: 5
+        buff_duration: 3
+        buff_stat_2: defense_mod
+        buff_amount_2: 3
+        movement_penalty: -1
+        target: self
+        rank: 3
+      unlock_r4:
+        ability_id: bulwark_aegis
+        name_it: "Egida del Baluardo"
+        description_it: "Capstone protettivo. Zona 3x3: alleati ottengono +3 defense_mod e -10% stress per 3 turni. Consumo 8 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 8
+        effect_type: aoe_buff
+        aoe_size: 3
+        buff_stat: defense_mod
+        buff_amount: 3
+        stress_reduction: 0.10
+        buff_duration: 3
+        target: area
+        rank: 4
+
+  warden:
+    id: warden
+    label: "Guardiano"
+    label_it: "Guardiano"
+    label_en: "Warden"
+    role: control
+    description: >-
+      Controllore e difensore di zona. Crea campi di controllo che limitano il
+      movimento nemico e proteggono gli alleati. Il Warden intesse vincoli
+      tattici sulla griglia, negando spazio al nemico.
+    signature_mechanic: "Zone control: piazza aree persistenti che debuffano nemici e buffano alleati contemporaneamente."
+    synergy_tags: [vanguard, invoker, artificer]
+    status: base
+    description_it: "Controllore/difensore. Zona di controllo, debuff nemici, protezione alleati."
+    fantasy_flavor: "Sentinella che intesse vincoli di forza tra le celle della griglia."
+    initiative: 9
+    attack_range: 2
+    resource_usage: { primary: PT, secondary: PP }
+    abilities:
+      unlock_r1_1:
+        ability_id: binding_field
+        name_it: "Campo Vincolante"
+        description_it: "Crea zona 3x3 centrata. Nemici dentro: -1 movement per 2 turni."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: aoe_debuff
+        aoe_size: 3
+        debuff_stat: movement
+        debuff_amount: -1
+        debuff_duration: 2
+        target: area
+        rank: 1
+      unlock_r1_2:
+        ability_id: intercept
+        name_it: "Intercettazione"
+        description_it: "Reazione: quando un alleato adiacente viene attaccato, subisci il danno al suo posto."
+        cost_ap: 0
+        cost_pi: 3
+        effect_type: reaction
+        trigger: ally_attacked_adjacent
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: sanctuary
+        name_it: "Santuario"
+        description_it: "Zona 2x2. Alleati dentro: +2 defense_mod, -0.05 stress/turno per 3 turni. Costa 4 PT."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pt: 4
+        effect_type: aoe_buff
+        aoe_size: 2
+        buff_stat: defense_mod
+        buff_amount: 2
+        stress_reduction: 0.05
+        buff_duration: 3
+        target: area
+        rank: 2
+      unlock_r3:
+        ability_id: chain_shackles
+        name_it: "Catene Vincolanti"
+        description_it: "Zona 3x3 a range 2. Nemici dentro: -3 movement per 3 turni. Consumo 5 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: aoe_debuff
+        aoe_size: 3
+        range: 2
+        debuff_stat: movement
+        debuff_amount: -3
+        debuff_duration: 3
+        target: area
+        rank: 3
+      unlock_r4:
+        ability_id: void_collapse
+        name_it: "Collasso del Vuoto"
+        description_it: "Capstone controllo zona. AoE 4x4 a range 3. Nemici: -3 defense_mod per 3 turni. Consumo 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: aoe_debuff
+        aoe_size: 4
+        range: 3
+        debuff_stat: defense_mod
+        debuff_amount: -3
+        debuff_duration: 3
+        target: area
+        rank: 4
+
+  artificer:
+    id: artificer
+    label: "Artefice"
+    label_it: "Artefice"
+    label_en: "Artificer"
+    role: support
+    description: >-
+      Supporto e utility. Amplifica il potenziale della squadra con buff
+      alleati, debuff nemici e micro-gestione delle risorse. Tessitore di
+      sinergie biologiche che orchestra il team.
+    signature_mechanic: "Resource amplification: redistribuisce PP tra alleati e estende durata status positivi."
+    synergy_tags: [skirmisher, ranger, harvester]
+    status: base
+    description_it: "Supporto/utilita. Buff alleati, debuff nemici, micro-gestione risorse."
+    fantasy_flavor: "Tessitore di sinergie biologiche che amplifica il potenziale della squadra."
+    initiative: 11
+    attack_range: 2
+    resource_usage: { primary: PP, secondary: Seed }
+    abilities:
+      unlock_r1_1:
+        ability_id: catalyst_pulse
+        name_it: "Impulso Catalizzante"
+        description_it: "Buff alleato a range 2: +1 attack_mod e +1 damage_step per 2 turni."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_stat_2: damage_step
+        buff_amount_2: 1
+        buff_duration: 2
+        target: ally
+        rank: 1
+      unlock_r1_2:
+        ability_id: disrupt_field
+        name_it: "Campo Destabilizzante"
+        description_it: "Debuff nemico a range 2: -1 defense_mod per 2 turni. Se target ha status, +1 turno durata."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: debuff
+        debuff_stat: defense_mod
+        debuff_amount: -1
+        debuff_duration: 2
+        extend_status_if_present: 1
+        target: enemy
+        rank: 1
+      unlock_r2:
+        ability_id: resonance_amplifier
+        name_it: "Amplificatore di Risonanza"
+        description_it: "Tutti gli alleati in range 3: +2 PP istantanei. Consuma 4 PP propri."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 4
+        effect_type: team_buff
+        pp_grant: 2
+        range: 3
+        target: all_allies
+        rank: 2
+      unlock_r3:
+        ability_id: arcane_renewal
+        name_it: "Rinnovamento Arcano"
+        description_it: "Tutti gli alleati in range 3: cura 2d6+2 HP + genera 1 Seed. Consuma 5 PP."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: team_heal
+        heal_dice: { count: 2, sides: 6, modifier: 2 }
+        seed_gain: 1
+        range: 3
+        target: all_allies
+        rank: 3
+      unlock_r4:
+        ability_id: convergence_wave
+        name_it: "Onda di Convergenza"
+        description_it: "Capstone supporto. Tutti gli alleati in range 4: +2 attack_mod e +2 damage_step per 2 turni + 3 PP istantanei. Consuma 10 PP propri."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: team_buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 2
+        pp_grant: 3
+        range: 4
+        target: all_allies
+        rank: 4
+
+  invoker:
+    id: invoker
+    label: "Invocatore"
+    label_it: "Invocatore"
+    label_en: "Invoker"
+    role: damage
+    description: >-
+      Blaster a lungo raggio con danno direzionale e controllo area. Canalizza
+      energie primordiali che piegano lo spazio a distanza. Alto rischio, alto
+      rendimento — il Surge Gate e' la sua risorsa chiave.
+    signature_mechanic: "Surge Gate burst: accumula SG fino a soglia, poi rilascia AoE devastante con reset stress."
+    synergy_tags: [warden, vanguard, artificer]
+    status: base
+    description_it: "Blaster a lungo raggio. Danno direzionale, controllo area."
+    fantasy_flavor: "Canalizzatore di energie primordiali che piega lo spazio a distanza."
+    initiative: 12
+    attack_range: 3
+    resource_usage: { primary: SG, secondary: PP }
+    abilities:
+      unlock_r1_1:
+        ability_id: focused_blast
+        name_it: "Esplosione Focalizzata"
+        description_it: "Attacco a range 3 con +2 damage_step. Se MoS >= 10, applica disorient (1 turno)."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: ranged_attack
+        damage_step_mod: 2
+        conditional_status: { condition: "mos >= 10", status_id: disorient, duration: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: energy_barrier
+        name_it: "Barriera Energetica"
+        description_it: "Scudo su se stesso: assorbe i prossimi 8 HP di danno. Dura 2 turni o fino a esaurimento."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: shield
+        shield_hp: 8
+        shield_duration: 2
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: cataclysm
+        name_it: "Cataclisma"
+        description_it: "AoE 2x2 a range 3. 2d8+3 danno. Richiede SG >= 75 (Surge Burst). Reset stress a 0.25."
+        cost_ap: 2
+        cost_pi: 8
+        cost_sg: 75
+        effect_type: surge_aoe
+        damage_dice: { count: 2, sides: 8, modifier: 3 }
+        aoe_size: 2
+        range: 3
+        stress_reset: 0.25
+        target: area
+        rank: 2
+      unlock_r3:
+        ability_id: arcane_lance
+        name_it: "Lancia Arcana"
+        description_it: "Attacco a range 4 con +3 damage_step. Se MoS >= 8, applica disorient (2 turni). Consumo 40 SG."
+        cost_ap: 2
+        cost_pi: 14
+        cost_sg: 40
+        effect_type: ranged_attack
+        damage_step_mod: 3
+        range: 4
+        conditional_status: { condition: "mos >= 8", status_id: disorient, duration: 2 }
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: apocalypse_ray
+        name_it: "Raggio Apocalittico"
+        description_it: "Capstone Surge ultimate. AoE 3x3 a range 4. 3d8+5 danno. Richiede SG >= 100. Reset stress a 0. Consuma tutto SG."
+        cost_ap: 3
+        cost_pi: 22
+        cost_sg: 100
+        effect_type: surge_aoe
+        damage_dice: { count: 3, sides: 8, modifier: 5 }
+        aoe_size: 3
+        range: 4
+        stress_reset: 0.0
+        target: area
+        rank: 4
+
+  ranger:
+    id: ranger
+    label: "Ricognitore"
+    label_it: "Ricognitore"
+    label_en: "Ranger"
+    role: scout
+    description: >-
+      Range massimo e mobilita' alta. Scouting, kiting e mordi-e-fuggi.
+      Occhio vigile della squadra che marca bersagli e colpisce da dove nessuno
+      guarda. Aggiunto come 7o job oltre i 6 base del vision doc.
+    signature_mechanic: "Mark & overwatch: marca nemici dando bonus attacco al team, poi punisce chi si muove in range."
+    synergy_tags: [skirmisher, artificer, invoker]
+    status: extended
+    description_it: "Range massimo, mobilita alta. Scouting, kiting, mordi e fuggi."
+    fantasy_flavor: "Occhio vigile che colpisce da dove nessuno guarda."
+    initiative: 14
+    attack_range: 3
+    resource_usage: { primary: PP, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: mark_target
+        name_it: "Segna Bersaglio"
+        description_it: "Marca un nemico: tutti gli alleati hanno +1 attack_mod contro di lui per 2 turni."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: debuff
+        debuff_stat: marked
+        debuff_duration: 2
+        team_bonus: { stat: attack_mod, amount: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: overwatch_shot
+        name_it: "Tiro di Sorveglianza"
+        description_it: "Reazione: attacca automaticamente il primo nemico che si muove in range. -1 damage_step."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: reaction
+        trigger: enemy_moves_in_range
+        damage_step_mod: -1
+        target: enemy
+        rank: 1
+      unlock_r2:
+        ability_id: kill_shot
+        name_it: "Colpo Letale"
+        description_it: "Attacco singolo con +3 damage_step. Se target HP < 30%, danno raddoppiato. Consuma 6 PP."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 6
+        effect_type: execution_attack
+        damage_step_mod: 3
+        execute_threshold_hp_pct: 0.3
+        execute_damage_multiplier: 2
+        target: enemy
+        rank: 2
+      unlock_r3:
+        ability_id: hunter_mark
+        name_it: "Marchio del Cacciatore"
+        description_it: "Marca il bersaglio: -2 defense_mod e team +2 attack_mod contro di lui per 3 turni. Range 4. Consuma 5 PP."
+        cost_ap: 1
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: debuff
+        range: 4
+        debuff_stat: defense_mod
+        debuff_amount: -2
+        debuff_duration: 3
+        team_bonus: { stat: attack_mod, amount: 2 }
+        extend_status_if_present: 1
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: headshot
+        name_it: "Colpo alla Testa"
+        description_it: "Capstone esecuzione. Attacco singolo a range 4 con +5 damage_step. Se target HP < 50%, danno raddoppiato. Se MoS >= 6, applica stunned (1T). Consuma 12 PP."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 12
+        effect_type: execution_attack
+        damage_step_mod: 5
+        range: 4
+        execute_threshold_hp_pct: 0.5
+        execute_damage_multiplier: 2
+        conditional_status: { condition: "mos >= 6", status_id: stunned, duration: 1 }
+        target: enemy
+        rank: 4
+
+  harvester:
+    id: harvester
+    label: "Raccoglitore"
+    label_it: "Raccoglitore"
+    label_en: "Harvester"
+    role: utility
+    description: >-
+      Risorsa e crescita. Bridge verso la meta-economy, genera Seed e offre
+      supporto passivo. Custode del ciclo vitale che trae nutrimento dal caos
+      del campo e lo redistribuisce alla squadra.
+    signature_mechanic: "Drain & bloom: ruba risorse dai nemici e le converte in cure e Seed per il team."
+    synergy_tags: [vanguard, warden, artificer]
+    status: base
+    description_it: "Risorsa/crescita. Bridge meta-economy, genera seed, supporto passivo."
+    fantasy_flavor: "Custode del ciclo vitale che trae nutrimento dal caos del campo."
+    initiative: 8
+    attack_range: 1
+    resource_usage: { primary: Seed, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: essence_drain
+        name_it: "Drenaggio d'Essenza"
+        description_it: "Attacco mischia che cura se stesso per 50% del danno inflitto. Genera +1 Seed."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: drain_attack
+        lifesteal_pct: 50
+        seed_gain: 1
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: growth_spore
+        name_it: "Spora di Crescita"
+        description_it: "Cura alleato a range 2 per 1d6+2 HP. Se l'alleato e in bleeding, rimuovi bleeding."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: heal
+        heal_dice: { count: 1, sides: 6, modifier: 2 }
+        remove_status: bleeding
+        range: 2
+        target: ally
+        rank: 1
+      unlock_r2:
+        ability_id: symbiotic_bloom
+        name_it: "Fioritura Simbiotica"
+        description_it: "Tutti gli alleati in range 2: cura 2d4 HP + genera 1 Seed ciascuno. Consuma 4 PT."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pt: 4
+        effect_type: team_heal
+        heal_dice: { count: 2, sides: 4, modifier: 0 }
+        seed_gain: 1
+        range: 2
+        target: all_allies
+        rank: 2
+      unlock_r3:
+        ability_id: vital_drain
+        name_it: "Drenaggio Vitale"
+        description_it: "Attacco mischia che cura per 75% del danno inflitto. +2 Seed. Consumo 4 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 4
+        effect_type: drain_attack
+        lifesteal_pct: 75
+        seed_gain: 2
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: lifegrove
+        name_it: "Boschetto Vitale"
+        description_it: "Capstone supporto vitale. Tutti gli alleati in range 3: cura 3d6 HP + genera 2 Seed + rimuove bleeding. Consuma 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: team_heal
+        heal_dice: { count: 3, sides: 6, modifier: 0 }
+        seed_gain: 2
+        range: 3
+        remove_status: bleeding
+        target: all_allies
+        rank: 4
+
+  # Pseudo-job auto-generated by scripts/generate_trait_native_abilities.py.
+  # Indicizza abilità derivate da trait_mechanics.yaml active_effects per
+  # esposizione a abilityExecutor.js (catalog.jobs.*.abilities scan).
+  # Filtrato da GET /api/jobs via status: pseudo (apps/backend/routes/jobs.js).
+  # Non assegnabile come job principale a unit — abilità invocabili da
+  # qualunque unit possieda il trait_id sorgente referenziato.
+  trait_native:
+    id: trait_native
+    label: "Native (Trait)"
+    label_it: "Nativa (Trait)"
+    label_en: "Native (Trait)"
+    role: support
+    status: pseudo
+    description: "Pseudo-job indice trait-native abilities."
+    description_it: "Pseudo-job indice. Ogni unità eredita le abilità trait-native dei propri trait_id."
+    fantasy_flavor: "Le forme stesse parlano: ogni mutazione è un'arma."
+    synergy_tags: []
+    initiative: 0
+    attack_range: 0
+    resource_usage: { primary: AP, secondary: AP }
+    abilities:
+      trait_elastic_absorb:
+        ability_id: elastic_absorb
+        name_it: "Assorbimento Elastico"
+        description_it: "Abilità nativa del trait struttura_elastica_amorfa."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: struttura_elastica_amorfa
+      trait_digest_heal:
+        ability_id: digest_heal
+        name_it: "Digestione Rigenerante"
+        description_it: "Abilità nativa del trait filamenti_digestivi_compattanti."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: heal
+        heal_dice: { count: 1, sides: 6, modifier: 1 }
+        target: self
+        rank: 1
+        source: trait
+        trait_id: filamenti_digestivi_compattanti
+      trait_buoyant_lift:
+        ability_id: buoyant_lift
+        name_it: "Sollevamento Ascensionale"
+        description_it: "Abilità nativa del trait sacche_galleggianti_ascensoriali."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: sacche_galleggianti_ascensoriali
+      trait_thermal_pulse:
+        ability_id: thermal_pulse
+        name_it: "Impulso Termico"
+        description_it: "Abilità nativa del trait grassi_termici."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 2 }
+        target: self
+        rank: 1
+        source: trait
+        trait_id: grassi_termici
+      trait_waxy_coat:
+        ability_id: waxy_coat
+        name_it: "Rivestimento Ceroso"
+        description_it: "Abilità nativa del trait cuticole_cerose."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 3
+        target: self
+        rank: 1
+        source: trait
+        trait_id: cuticole_cerose
+      trait_hydro_fortify:
+        ability_id: hydro_fortify
+        name_it: "Fortificazione Idrostatica"
+        description_it: "Abilità nativa del trait scheletro_idro_regolante."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: scheletro_idro_regolante
+      trait_magnetic_sense:
+        ability_id: magnetic_sense
+        name_it: "Senso Magnetico"
+        description_it: "Abilità nativa del trait olfatto_risonanza_magnetica."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: olfatto_risonanza_magnetica
+      trait_chromatic_fade:
+        ability_id: chromatic_fade
+        name_it: "Dissolvenza Cromatica"
+        description_it: "Abilità nativa del trait mimetismo_cromatico_passivo."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: mimetismo_cromatico_passivo
+      trait_echo_pulse:
+        ability_id: echo_pulse
+        name_it: "Impulso Ecolocativo"
+        description_it: "Abilità nativa del trait eco_interno_riflesso."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: eco_interno_riflesso
+      trait_tail_whip:
+        ability_id: tail_whip
+        name_it: "Frustata Cinetica"
+        description_it: "Abilità nativa del trait coda_frusta_cinetica."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: coda_frusta_cinetica
+      trait_cleave_strike:
+        ability_id: cleave_strike
+        name_it: "Fendente a Sette Vie"
+        description_it: "Abilità nativa del trait artigli_sette_vie."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 3 }
+        channel: fisico
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: artigli_sette_vie
+      trait_spore_burst:
+        ability_id: spore_burst
+        name_it: "Esplosione di Spore"
+        description_it: "Abilità nativa del trait spore_psichiche_silenziate."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 2
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: spore_psichiche_silenziate
+      trait_umbral_spore:
+        ability_id: umbral_spore
+        name_it: "Spora Abissale"
+        description_it: "Abilità nativa del trait spore_psichiche_silenziate."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: dark
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: spore_psichiche_silenziate
+      trait_spin_burst:
+        ability_id: spin_burst
+        name_it: "Rotazione Esplosiva"
+        description_it: "Abilità nativa del trait nucleo_ovomotore_rotante."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: nucleo_ovomotore_rotante
+      trait_vortex_spin:
+        ability_id: vortex_spin
+        name_it: "Vortice Cinetico"
+        description_it: "Abilità nativa del trait nucleo_ovomotore_rotante."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: wind
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: nucleo_ovomotore_rotante
+      trait_divided_focus:
+        ability_id: divided_focus
+        name_it: "Focus Frazionato"
+        description_it: "Abilità nativa del trait focus_frazionato."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: focus_frazionato
+      trait_energy_burst:
+        ability_id: energy_burst
+        name_it: "Scarica Energetica"
+        description_it: "Abilità nativa del trait ventriglio_gastroliti."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: damage_step
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: ventriglio_gastroliti
+      trait_vigilant_rest:
+        ability_id: vigilant_rest
+        name_it: "Riposo Vigile"
+        description_it: "Abilità nativa del trait sonno_emisferico_alternato."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 1 }
+        target: self
+        rank: 1
+        source: trait
+        trait_id: sonno_emisferico_alternato
+      trait_ignition_surge:
+        ability_id: ignition_surge
+        name_it: "Innesco Piroforico"
+        description_it: "Abilità nativa del trait sangue_piroforico."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: sangue_piroforico
+      trait_explosive_rush:
+        ability_id: explosive_rush
+        name_it: "Scatto Esplosivo"
+        description_it: "Abilità nativa del trait respiro_a_scoppio."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: respiro_a_scoppio
+      trait_gale_burst:
+        ability_id: gale_burst
+        name_it: "Raffica Vorticosa"
+        description_it: "Abilità nativa del trait respiro_a_scoppio."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: wind
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: respiro_a_scoppio
+      trait_coordinated_boost:
+        ability_id: coordinated_boost
+        name_it: "Coordinazione Empatica"
+        description_it: "Abilità nativa del trait empatia_coordinativa."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: empatia_coordinativa
+      trait_salt_harden:
+        ability_id: salt_harden
+        name_it: "Indurimento Salino"
+        description_it: "Abilità nativa del trait cute_resistente_sali."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: cute_resistente_sali
+      trait_frozen_stasis:
+        ability_id: frozen_stasis
+        name_it: "Criostasi Difensiva"
+        description_it: "Abilità nativa del trait criostasi_adattiva."
+        cost_ap: 3
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: criostasi_adattiva
+      trait_phase_shift:
+        ability_id: phase_shift
+        name_it: "Sfasamento di Fase"
+        description_it: "Abilità nativa del trait carapace_fase_variabile."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: carapace_fase_variabile
+      trait_slowing_touch:
+        ability_id: slowing_touch
+        name_it: "Tocco Rallentante"
+        description_it: "Abilità nativa del trait secrezione_rallentante_palmi."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: secrezione_rallentante_palmi
+      trait_pack_call:
+        ability_id: pack_call
+        name_it: "Richiamo del Branco"
+        description_it: "Abilità nativa del trait risonanza_di_branco."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: risonanza_di_branco
+      trait_thermal_scan:
+        ability_id: thermal_scan
+        name_it: "Scansione Termica"
+        description_it: "Abilità nativa del trait occhi_infrarosso_composti."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: occhi_infrarosso_composti
+      trait_meteoric_shield:
+        ability_id: meteoric_shield
+        name_it: "Scudo Meteoritico"
+        description_it: "Abilità nativa del trait mantello_meteoritico."
+        cost_ap: 3
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 4
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: mantello_meteoritico
+      trait_meteor_strike:
+        ability_id: meteor_strike
+        name_it: "Caduta Meteoritica"
+        description_it: "Abilità nativa del trait mantello_meteoritico."
+        cost_ap: 3
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 2 }
+        channel: earth
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: mantello_meteoritico
+      trait_taste_weakness:
+        ability_id: taste_weakness
+        name_it: "Assaggio delle Debolezze"
+        description_it: "Abilità nativa del trait lingua_tattile_trama."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+        source: trait
+        trait_id: lingua_tattile_trama
+      trait_whip_lash:
+        ability_id: whip_lash
+        name_it: "Frustata Infuocata"
+        description_it: "Abilità nativa del trait frusta_fiammeggiante."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 2 }
+        channel: fuoco
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: frusta_fiammeggiante
+      trait_neutralize_toxin:
+        ability_id: neutralize_toxin
+        name_it: "Neutralizzazione Tossine"
+        description_it: "Abilità nativa del trait enzimi_chelanti."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 2 }
+        target: self
+        rank: 1
+        source: trait
+        trait_id: enzimi_chelanti
+      trait_resonant_stomp:
+        ability_id: resonant_stomp
+        name_it: "Pestata Risonante"
+        description_it: "Abilità nativa del trait zoccoli_risonanti_steppe."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: zoccoli_risonanti_steppe
+      trait_power_strike:
+        ability_id: power_strike
+        name_it: "Colpo Devastante"
+        description_it: "Abilità nativa del trait ipertrofia_muscolare_massiva."
+        cost_ap: 3
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 2, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: ipertrofia_muscolare_massiva
+      trait_ground_pound:
+        ability_id: ground_pound
+        name_it: "Onda Tellurica"
+        description_it: "Abilità nativa del trait ipertrofia_muscolare_massiva."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: earth
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: ipertrofia_muscolare_massiva
+      trait_hydro_shield:
+        ability_id: hydro_shield
+        name_it: "Scudo Idrorepellente"
+        description_it: "Abilità nativa del trait pelage_idrorepellente_avanzato."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: pelage_idrorepellente_avanzato
+      trait_sonic_blast:
+        ability_id: sonic_blast
+        name_it: "Detonazione Sonica"
+        description_it: "Abilità nativa del trait cannone_sonico_a_raggio."
+        cost_ap: 3
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 2, sides: 6, modifier: 1 }
+        channel: mentale
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: cannone_sonico_a_raggio
+      trait_pressure_wave:
+        ability_id: pressure_wave
+        name_it: "Onda di Pressione"
+        description_it: "Abilità nativa del trait cannone_sonico_a_raggio."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: wind
+        target: enemy
+        rank: 1
+        source: trait
+        trait_id: cannone_sonico_a_raggio
+  # END trait_native (auto-generated by scripts/generate_trait_native_abilities.py)

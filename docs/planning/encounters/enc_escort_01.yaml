@@ -1,0 +1,83 @@
+# =============================================================================
+# Encounter: "Il Messaggero delle Spine" — Escort
+# Difficulty: 3/5 · Grid: 12×8 · Bioma: savana
+# Objective: proteggere unita' escort_01 (unit VIP non-combattente) fino alla
+# zona di estrazione [10,3,11,4] entro 12 turni.
+# Pilastro coverage: 1 (tattica leggibile) — obiettivo protective
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-20 (objective evaluator escort)
+# =============================================================================
+
+encounter_id: enc_escort_01
+name: 'Il Messaggero delle Spine'
+biome_id: savana
+grid_size: [12, 8]
+difficulty_rating: 3
+estimated_turns: 12
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+encounter_class: standard
+
+objective:
+  type: escort
+  escort_target: escort_01
+  target_zone: [10, 3, 11, 4]
+  loss_conditions:
+    time_limit: 12
+    player_wipe: true
+
+player_spawn:
+  - [0, 2]
+  - [0, 3]
+  - [0, 4]
+  - [0, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [6, 0]
+      - [6, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: aggressive
+
+  - wave_id: 2
+    turn_trigger: 3
+    spawn_points:
+      - [11, 0]
+      - [11, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: flanking
+
+  - wave_id: 3
+    turn_trigger: 7
+    spawn_points:
+      - [11, 3]
+      - [11, 4]
+    units:
+      - species: predoni_nomadi
+        count: 1
+        tier: elite
+        ai_profile: aggressive
+
+conditions: []
+
+tags: [escort, timed]
+
+didactic_focus:
+  - escort_mechanics
+  - route_planning
+  - target_prioritization
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

@@ -1,0 +1,82 @@
+{
+  "conflitti": [
+    "secrezione_rallentante_palmi"
+  ],
+  "debolezza": "i18n:traits.nucleo_ovomotore_rotante.debolezza",
+  "famiglia_tipologia": "Riproduttivo/Locomotorio",
+  "fattore_mantenimento_energetico": "Alto (Rotolamento)",
+  "id": "nucleo_ovomotore_rotante",
+  "label": "i18n:traits.nucleo_ovomotore_rotante.label",
+  "mutazione_indotta": "i18n:traits.nucleo_ovomotore_rotante.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_balanciere",
+    "locomozione_miriapode_ibrida",
+    "flusso_ameboide_controllato"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "starter_bioma",
+      "sigillo_forma"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ESFP",
+      "ISTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "locomotorio",
+    "core": "riproduttivo"
+  },
+  "spinta_selettiva": "i18n:traits.nucleo_ovomotore_rotante.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.nucleo_ovomotore_rotante.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "marilith-vault",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

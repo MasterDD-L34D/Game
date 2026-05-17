@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Spark/special ability icon · MIT own asset · 2026-04-28 visual upgrade Sprint C -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M 12 2 L 14 9 L 21 11 L 14 13 L 12 22 L 10 13 L 3 11 L 10 9 L 12 2 Z"/>
+  <path d="M 12 6 L 13 10 L 17 11 L 13 12 L 12 18 L 11 12 L 7 11 L 11 10 Z" opacity="0.5"/>
+</svg>

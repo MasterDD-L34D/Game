@@ -1,0 +1,4 @@
+name: prod_snapshot
+last_sync: 2025-11-30
+source: data/
+notes: Copia rsync manuale usata come fallback deploy QA; mantenere checksum allineati a manifest-prod_snapshot.sha256.

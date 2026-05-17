@@ -1,0 +1,63 @@
+# Creature Bonds — Beast Bond reaction trigger system
+# AncientBeast Tier S #6 residuo (Sprint 7, 2026-04-27).
+#
+# Pattern source: AncientBeast "Beast Bond" — bonded creature pairs trigger
+# automatic reactions when one of the pair takes a hit. Distinct from
+# `intercept` (per-actor armed reaction): bonds are PASSIVE, species-pair
+# driven, with cooldown_turns regen rather than consume-on-use.
+#
+# Runtime: apps/backend/services/combat/bondReactionTrigger.js
+# Wire: apps/backend/routes/session.js performAttack post damage + post intercept.
+# Cap: 1 bond reaction per actor per round (allineato intercept cap).
+# Compat: bond-less encounter → no-op silenziosa.
+
+version: 1
+updated: "2026-04-27"
+
+bonds:
+  # ── Pack predators (apex synergy) ──────────────────────────────
+  - bond_id: pack_alpha
+    species_pair: [dune_stalker, dune_stalker]
+    reaction_type: counter_attack
+    trigger_range: 1   # adjacent (Manhattan)
+    cooldown_turns: 2
+    description: "Pack-bonded predators — when an alpha sibling is hit, the bonded twin counter-strikes the attacker (-1 damage_step, must be in range)."
+
+  - bond_id: hunt_alliance
+    species_pair: [dune_stalker, anguis_magnetica]
+    reaction_type: counter_attack
+    trigger_range: 1
+    cooldown_turns: 3
+    description: "Cross-species apex alliance — sand stalker + magnetic serpent share kill rights; either reacts to defend the other."
+
+  # ── Hive shielding (insectoid drones protect queen) ────────────
+  - bond_id: hive_link
+    species_pair: [sciame_larve_neurali, polpo_araldo_sinaptico]
+    reaction_type: shield_ally
+    trigger_range: 2   # ranged psionic link
+    cooldown_turns: 3
+    description: "Neural hive bond — drone swarm absorbs partial damage destined for the synaptic herald (50% damage redirect, drone takes the rest)."
+
+  # ── Symbiotic resonance (coral + leviathan) ────────────────────
+  - bond_id: resonant_symbiosis
+    species_pair: [simbionte_corallino_riflesso, leviatano_risonante]
+    reaction_type: shield_ally
+    trigger_range: 2
+    cooldown_turns: 4
+    description: "Reflective coral mirrors a fraction of incoming damage to itself, sparing the resonant leviathan (50% absorb)."
+
+  # ── Mutual defense (chemo-toxic pair) ──────────────────────────
+  - bond_id: toxin_kinship
+    species_pair: [chemnotela_toxica, chemnotela_toxica]
+    reaction_type: counter_attack
+    trigger_range: 1
+    cooldown_turns: 2
+    description: "Chemo-defensive kin — bonded toxica retaliates with venom strike when sibling is hit adjacent."
+
+  # ── Burrow guard (terrestrial pair) ────────────────────────────
+  - bond_id: burrow_guard
+    species_pair: [gulogluteus_scutiger, terracetus_ambulator]
+    reaction_type: shield_ally
+    trigger_range: 1
+    cooldown_turns: 3
+    description: "Armored burrow companions — scutiger interposes its plate when terracetus is struck adjacent (50% absorb)."

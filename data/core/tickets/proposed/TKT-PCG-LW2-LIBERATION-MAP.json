@@ -1,0 +1,18 @@
+{
+  "id": "TKT-PCG-LW2-LIBERATION-MAP",
+  "title": "LW2 Liberation campaign region map macro",
+  "pillar": "P6",
+  "effort_hours": 15,
+  "donor_game": {
+    "name": "XCOM Long War 2",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#8-xcom-long-war-2-pavonis-2017--p6-timer"
+  },
+  "agent_owner": "pcg-level-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Region grid + liberation% counter. Macro strategic layer above tactical. M14 campaign engine ext."
+}

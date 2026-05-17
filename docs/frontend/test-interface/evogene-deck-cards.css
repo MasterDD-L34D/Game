@@ -1,0 +1,97 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(32, 246, 255, 0.16), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(255, 70, 109, 0.12), transparent 50%),
+    var(--evogene-deck-bg, #030912);
+  color: var(--evogene-deck-text-primary, #f2f8ff);
+  font-family: var(--evogene-deck-font, 'Rajdhani', 'Segoe UI', 'Roboto', sans-serif);
+}
+
+.evogene-deck-demo {
+  padding: clamp(2rem, 6vw, 4rem);
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.evogene-deck-demo__intro {
+  max-width: 720px;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.evogene-deck-demo__intro h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: 0.05em;
+}
+
+.evogene-deck-demo__intro p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--evogene-deck-text-secondary, rgba(242, 248, 255, 0.7));
+}
+
+.evogene-deck-demo__grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: start;
+}
+
+.evogene-deck-demo__group {
+  display: grid;
+  gap: 1rem;
+}
+
+.evogene-deck-demo__group h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--evogene-deck-text-secondary, rgba(242, 248, 255, 0.7));
+}
+
+.evogene-deck-card__body-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--evogene-deck-text-primary, #f2f8ff);
+  font-size: 0.9rem;
+}
+
+.evogene-deck-card__tag-strip {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evogene-deck-card__tag-strip li {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(77, 208, 255, 0.16);
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+.evogene-deck-card__footer-note {
+  margin: 0;
+  color: var(--evogene-deck-text-secondary, rgba(242, 248, 255, 0.7));
+  font-size: 0.85rem;
+}
+
+.evogene-deck-biome-card__footer-note {
+  margin: 0;
+  color: var(--evogene-deck-text-secondary, rgba(242, 248, 255, 0.7));
+  font-size: 0.85rem;
+}

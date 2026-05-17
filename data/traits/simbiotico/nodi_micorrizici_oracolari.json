@@ -1,0 +1,71 @@
+{
+  "conflitti": [
+    "spore_psichiche_silenziate"
+  ],
+  "debolezza": "i18n:traits.nodi_micorrizici_oracolari.debolezza",
+  "famiglia_tipologia": "Simbiotico/Nervoso",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
+  "id": "nodi_micorrizici_oracolari",
+  "label": "i18n:traits.nodi_micorrizici_oracolari.label",
+  "mutazione_indotta": "i18n:traits.nodi_micorrizici_oracolari.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "reti_micorriziche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Sottoboschi viventi con reti fungine coscienti che emettono segnali premonitori.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_reagenti",
+    "artigli_scivolo_silente",
+    "biofilm_iperarido",
+    "bulbi_radici_permafrost",
+    "camere_nutrienti_vent",
+    "cartilagini_flessoacustiche",
+    "chioma_parassita_canopica",
+    "ciste_salmastre",
+    "coralli_partner",
+    "denti_silice_termici",
+    "epitelio_fosforescente",
+    "ghiandole_cambio_salino",
+    "ghiandole_nebbia_acida",
+    "lamelle_sincroniche",
+    "membrane_planata_vectored",
+    "mucillagine_simbionte_mangrovie"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nervoso",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.nodi_micorrizici_oracolari.spinta_selettiva",
+  "tier": "T3",
+  "uso_funzione": "i18n:traits.nodi_micorrizici_oracolari.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "reti_micorriziche"
+  ],
+  "data_origin": "controllo_psionico"
+}

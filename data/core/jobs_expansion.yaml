@@ -1,0 +1,716 @@
+# Jobs expansion — 4 NUOVI job (autonomous content sprint 2026-04-25).
+# Additive a data/core/jobs.yaml (7 base jobs canonici M13.P3).
+# Status: "expansion" (non-base). Schema mirror jobs.yaml + perks.yaml.
+#
+# Jobs:
+#   - stalker      (apex predator stealth, alpha strike, fragile)
+#   - symbiont     (linked-pair support, mirror damage)
+#   - beastmaster  (summoner / pack leader, controlla minion)
+#   - aberrant     (mutation specialist, glass cannon, alta variance)
+#
+# Effect_type usati: tutti già supportati da abilityExecutor.js
+# (move_attack, attack_move, buff, heal, multi_attack, attack_push, debuff,
+# ranged_attack, drain_attack, execution_attack, shield, team_buff,
+# team_heal, aoe_buff, aoe_debuff, surge_aoe, reaction, aggro_pull).
+#
+# Perk schema: passive { tag, payload }, stat_bonus { stat, amount },
+# ability_mod { ability_id, field, delta }.
+#
+# Cross-references:
+#   - data/core/jobs.yaml (7 base)
+#   - data/core/progression/perks.yaml (84 base perks)
+#   - apps/backend/services/combat/abilityExecutor.js (effect_type registry)
+#   - apps/backend/services/progression/progressionEngine.js (perk runtime)
+#   - data/core/forms/mbti_forms.yaml (MBTI alignment hooks)
+
+version: "0.3.0"
+status: expansion
+generated_at: "2026-05-05"
+
+jobs:
+  # ============================================================================
+  # JOB 1 — STALKER (apex predator hybrid)
+  # Inspirations: XCOM Reaper + Hunter:Showdown solos + Skyrim Sneak archetype
+  # ============================================================================
+  stalker:
+    id: stalker
+    label: "Predatore"
+    label_it: "Predatore"
+    label_en: "Stalker"
+    role: damage
+    description: >-
+      Predatore solitario specializzato in alpha strike: posizionamento
+      lungo la mappa, primo colpo devastante, ritirata silenziosa.
+      Fragile (HP basso, defense bassa) ma capace di KO singolo bersaglio
+      al primo round se posizionato correttamente. Filosofia "kill first,
+      survive after".
+    signature_mechanic: "First strike supremacy: il primo attacco di ogni encounter ignora difesa parziale e infligge +50% damage step se il bersaglio ha ancora full HP."
+    synergy_tags: [skirmisher, ranger, beastmaster]
+    status: expansion
+    description_it: "Apex predator stealth, alpha strike +50% sui bersagli full HP."
+    fantasy_flavor: "L'ombra che decide chi vive. Un colpo, una preda."
+    initiative: 18
+    attack_range: 3
+    resource_usage: { primary: PT, secondary: PP }
+    abilities:
+      unlock_r1_1:
+        ability_id: alpha_strike
+        name_it: "Alpha Strike"
+        description_it: "Attacco ranged singolo a 3 celle. Se bersaglio full HP, +2 damage_step e ignora 50% defense_mod."
+        cost_ap: 2
+        cost_pi: 4
+        effect_type: ranged_attack
+        damage_step_mod: 2
+        attack_range: 3
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: silent_step
+        name_it: "Passo Silente"
+        description_it: "Muove di 3 celle senza provocare reazioni. +1 attack_mod sul prossimo attacco entro 1 turno."
+        cost_ap: 1
+        cost_pi: 4
+        effect_type: attack_move
+        move_distance: 3
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: deathmark
+        name_it: "Marchio della Morte"
+        description_it: "Marca un bersaglio per 3 turni: +3 damage degli alleati su quel bersaglio. Costo PP >= 4."
+        cost_ap: 1
+        cost_pi: 9
+        cost_pp: 4
+        effect_type: debuff
+        debuff_stat: defense_mod
+        debuff_amount: 3
+        debuff_duration: 3
+        target: enemy
+        rank: 2
+      unlock_r3:
+        ability_id: shadow_mark
+        name_it: "Marchio d'Ombra"
+        description_it: "Tier 3 mark a range 4. Bersaglio: -3 defense_mod per 3 turni e team +2 attack_mod contro di lui. Consumo 5 PP."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: debuff
+        range: 4
+        debuff_stat: defense_mod
+        debuff_amount: -3
+        debuff_duration: 3
+        team_bonus: { stat: attack_mod, amount: 2 }
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: shadow_assassinate
+        name_it: "Assassinio d'Ombra"
+        description_it: "Capstone esecuzione apex predator. Attacco singolo a range 4 con +5 damage_step. Se target HP < 30%, danno raddoppiato. Se MoS >= 6, applica stunned (1T). Consumo 10 PP."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: execution_attack
+        damage_step_mod: 5
+        range: 4
+        execute_threshold_hp_pct: 0.3
+        execute_damage_multiplier: 2
+        conditional_status: { condition: "mos >= 6", status_id: stunned, duration: 1 }
+        target: enemy
+        rank: 4
+
+  # ============================================================================
+  # JOB 2 — SYMBIONT (linked-pair support)
+  # Inspirations: FFXIV Scholar Fairy + Pokemon doubles + Octopath Traveler
+  # ============================================================================
+  symbiont:
+    id: symbiont
+    label: "Simbionte"
+    label_it: "Simbionte"
+    label_en: "Symbiont"
+    role: support
+    description: >-
+      Unit legata a un alleato bonded. Il Simbionte non agisce da solo:
+      ogni turno usa l'AP per amplificare l'azione del bonded ally
+      (heal/buff/shield) oppure assorbe damage al suo posto. Gameplay
+      richiede coordinamento: senza bonded, è un'unità debole.
+    signature_mechanic: "Symbiotic Bond: link permanente con 1 alleato adiacente. Mentre bonded, 50% damage taken da bonded viene ridiretto al Symbiont."
+    synergy_tags: [warden, invoker, beastmaster]
+    status: expansion
+    description_it: "Linked-pair support, mirror damage, heal/buff focused."
+    fantasy_flavor: "Due cuori che battono come uno. La forza del legame supera il singolo."
+    initiative: 10
+    attack_range: 1
+    resource_usage: { primary: SG, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: symbiotic_bond
+        name_it: "Legame Simbiotico"
+        description_it: "Crea link con 1 alleato adiacente per il resto dell'encounter. 50% del damage taken dal bonded viene ridiretto al Symbiont."
+        cost_ap: 1
+        cost_pi: 4
+        effect_type: shield
+        shield_amount: 0
+        target: ally
+        rank: 1
+      unlock_r1_2:
+        ability_id: shared_vitality
+        name_it: "Vitalità Condivisa"
+        description_it: "Heal del bonded ally per 3 PT. Se bonded a HP pieno, applica buff defense_mod +2 per 2 turni."
+        cost_ap: 2
+        cost_pi: 4
+        effect_type: heal
+        heal_amount: 3
+        target: ally
+        rank: 1
+      unlock_r2:
+        ability_id: synaptic_burst
+        name_it: "Esplosione Sinaptica"
+        description_it: "Trasferisce 50% PT (heal) al bonded ally + buff attack_mod +2 per 2 turni a entrambi. Costo SG >= 2."
+        cost_ap: 2
+        cost_pi: 9
+        cost_sg: 2
+        effect_type: team_buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: ally
+        rank: 2
+      unlock_r3:
+        ability_id: bond_amplify
+        name_it: "Amplificazione del Legame"
+        description_it: "Tier 3 buff partner. Tutti gli alleati a range 3: +3 defense_mod e +2 attack_mod per 3 turni. Consumo 4 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 4
+        effect_type: team_buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        range: 3
+        target: all_allies
+        rank: 3
+      unlock_r4:
+        ability_id: unity_surge
+        name_it: "Onda di Unione"
+        description_it: "Capstone simbiotico. Tutti gli alleati a range 3: cura 3d6 HP + rimuove tutti gli status negativi (bleeding/panic/stunned). Consumo 8 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 8
+        effect_type: team_heal
+        heal_dice: { count: 3, sides: 6, modifier: 0 }
+        range: 3
+        remove_status: bleeding
+        target: all_allies
+        rank: 4
+
+  # ============================================================================
+  # JOB 3 — BEASTMASTER (summoner / pack leader)
+  # Inspirations: Warhammer Beastmaster + DnD Drakewarden + RTS hero pet
+  # ============================================================================
+  beastmaster:
+    id: beastmaster
+    label: "Domatore di Bestie"
+    label_it: "Domatore di Bestie"
+    label_en: "Beastmaster"
+    role: control
+    description: >-
+      Comandante di 1-2 minor unit (creature non-player). Gameplay tactical
+      positioning: i minion eseguono ordini base (move, attack, defend)
+      ma il Beastmaster può sacrificarli per buff/disrupt. Filosofia
+      "wider battlefield, shared HP pool". Costo PI alto (richiede inv-up
+      pre-encounter per evocare).
+    signature_mechanic: "Pack Command: comanda 1-2 minion (HP 4-6 ognuno). Ogni round, 1 ordine free a un minion (move o attack base)."
+    synergy_tags: [vanguard, harvester, stalker]
+    status: expansion
+    description_it: "Summoner, pack leader, controlla 1-2 minion HP basso."
+    fantasy_flavor: "La voce della foresta. I tuoi compagni rispondono al richiamo."
+    initiative: 12
+    attack_range: 2
+    resource_usage: { primary: PI, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: summon_companion
+        name_it: "Evoca Compagno"
+        description_it: "Evoca 1 minion (HP 5, attack_mod +1, mobility 3) in tile adiacente. Max 2 minion attivi simultanei."
+        cost_ap: 2
+        cost_pi: 6
+        effect_type: buff
+        buff_stat: hp_max
+        buff_amount: 5
+        buff_duration: 99
+        target: self
+        rank: 1
+      unlock_r1_2:
+        ability_id: pack_command
+        name_it: "Ordine al Branco"
+        description_it: "1 ordine free a un minion (move o attack). Bonus: minion attacco +1 dmg sui bersagli adiacenti al Beastmaster."
+        cost_ap: 1
+        cost_pi: 4
+        effect_type: aoe_buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: ally
+        rank: 1
+      unlock_r2:
+        ability_id: feral_sacrifice
+        name_it: "Sacrificio Feroce"
+        description_it: "Sacrifica 1 minion adiacente. Heal 50% HP del Beastmaster e applica rage 3 turni a tutti i minion superstiti. Costo PI >= 6."
+        cost_ap: 1
+        cost_pi: 12
+        effect_type: heal
+        heal_amount: 6
+        target: self
+        rank: 2
+      unlock_r3:
+        ability_id: feral_dominion
+        name_it: "Dominio Feroce"
+        description_it: "Tier 3 zona controllo branco. AoE 3x3 a range 4: minion e alleati ottengono +2 attack_mod e +1 defense_mod per 3 turni. Consumo 5 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: aoe_buff
+        aoe_size: 3
+        range: 4
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: area
+        rank: 3
+      unlock_r4:
+        ability_id: apex_pack
+        name_it: "Branco Apex"
+        description_it: "Capstone pack leader. AoE 4x4 a range 4: minion e alleati ottengono +3 attack_mod, +2 defense_mod, +2 movement per 3 turni. Consumo 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: aoe_buff
+        aoe_size: 4
+        range: 4
+        buff_stat: attack_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: area
+        rank: 4
+
+  # ============================================================================
+  # JOB 4 — ABERRANT (mutation specialist / glass cannon)
+  # Inspirations: Disco Elysium thoughts + The Thing assimilation + The Witcher mutagens
+  # ============================================================================
+  aberrant:
+    id: aberrant
+    label: "Aberrante"
+    label_it: "Aberrante"
+    label_en: "Aberrant"
+    role: damage
+    description: >-
+      Specialista in mutazioni: ogni encounter sperimenta variazioni
+      genetiche random. Stat scatter alta (HP/attack varia ±3 da base
+      ad ogni inizio turno). Gameplay altamente non-deterministico ma
+      con burst potenziale enorme. Filosofia "embrace chaos to outpace
+      stability".
+    signature_mechanic: "Mutation Cascade: a inizio encounter rolla 1d6 → applica 1 mutazione random temporanea (durata encounter). Tabelle separate per attack/defense/utility."
+    synergy_tags: [aberrant, stalker, invoker]
+    status: expansion
+    description_it: "Mutation specialist, alta variance, glass cannon."
+    fantasy_flavor: "Ogni mattina sei una nuova creatura. Non sai mai cosa diventerai oggi."
+    initiative: 14
+    attack_range: 2
+    resource_usage: { primary: PE, secondary: SG }
+    abilities:
+      unlock_r1_1:
+        ability_id: mutation_burst
+        name_it: "Burst Mutativo"
+        description_it: "Attacco melee con damage_step random 1d6 (1-6 invece di fisso). MoS >= 5 applica un random status: rage/panic/stunned/bleeding/fracture (1 turno)."
+        cost_ap: 2
+        cost_pi: 5
+        effect_type: drain_attack
+        damage_step_min: 1
+        damage_step_max: 6
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: phenotype_shift
+        name_it: "Cambio Fenotipo"
+        description_it: "Self-buff random per 2 turni: 1d6 → 1=attack+3, 2=defense+3, 3=mobility+2, 4=ap+1, 5=heal 4, 6=initiative+5."
+        cost_ap: 1
+        cost_pi: 4
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 3
+        buff_duration: 2
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: aberrant_overdrive
+        name_it: "Sovraccarico Aberrante"
+        description_it: "Trigger PE >= 5: x2 damage sul prossimo attacco, ma -2 HP al Aberrant. Crit (MoS >= 8) infligge bleeding 3 turni."
+        cost_ap: 1
+        cost_pi: 10
+        cost_pe: 5
+        effect_type: execution_attack
+        damage_step_mod: 4
+        target: enemy
+        rank: 2
+      unlock_r3:
+        ability_id: stabilized_mutation
+        name_it: "Mutazione Stabile"
+        description_it: "Tier 3 self-buff mutativo. Self: +3 attack_mod, +2 damage_step e +1 random status apply (rage/focus/stunned su MoS >= 4 nel prossimo attacco) per 2 turni. Consumo 5 SG."
+        cost_ap: 2
+        cost_pi: 14
+        cost_sg: 5
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 3
+        buff_stat_2: damage_step
+        buff_amount_2: 2
+        buff_duration: 2
+        target: self
+        rank: 3
+      unlock_r4:
+        ability_id: perfect_mutation
+        name_it: "Mutazione Perfetta"
+        description_it: "Capstone caos incarnato. AoE 3x3 a range 3. 3d6+2 danno + applica cascade status (bleeding/stunned/panic su MoS >= 4 a tutti). Consumo 80 SG. Reset stress a 0.1."
+        cost_ap: 3
+        cost_pi: 22
+        cost_sg: 80
+        effect_type: surge_aoe
+        damage_dice: { count: 3, sides: 6, modifier: 2 }
+        aoe_size: 3
+        range: 3
+        stress_reset: 0.1
+        conditional_status: { condition: "mos >= 4", status_id: bleeding, duration: 2 }
+        target: area
+        rank: 4
+
+# ============================================================================
+# PERK POOLS — 4 jobs × 6 levels × 2 perks = 48 perks expansion
+# Mirror schema data/core/progression/perks.yaml (M13.P3 canonical).
+# ============================================================================
+perks:
+  # --- STALKER perks (12) ---
+  stalker:
+    level_2:
+      perk_a:
+        id: st_r1_marksman
+        name_it: "Tiratore Esperto"
+        description_it: "alpha_strike: +1 damage_step (totale +3)."
+        effect:
+          ability_mod: { ability_id: alpha_strike, field: damage_step_mod, delta: 1 }
+      perk_b:
+        id: st_r1_silent_blade
+        name_it: "Lama Silente"
+        description_it: "+1 attack_mod su silent_step (cumulato +2)."
+        effect:
+          ability_mod: { ability_id: silent_step, field: buff_amount, delta: 1 }
+    level_3:
+      perk_a:
+        id: st_r2_camo_protocol
+        name_it: "Protocollo Mimetico"
+        description_it: "+2 defense_mod nel turno DOPO silent_step (camo bonus)."
+        effect:
+          passive: { tag: defense_after_silent, payload: { defense_mod: 2, duration: 1 } }
+      perk_b:
+        id: st_r2_long_eye
+        name_it: "Occhio Lungo"
+        description_it: "+1 attack_range su alpha_strike (totale 4)."
+        effect:
+          ability_mod: { ability_id: alpha_strike, field: attack_range, delta: 1 }
+    level_4:
+      perk_a:
+        id: st_r3_first_blood
+        name_it: "Primo Sangue"
+        description_it: "Sul primo kill di ogni encounter, +1 PE bonus."
+        effect:
+          passive: { tag: first_kill_pe_bonus, payload: { pe: 1 } }
+      perk_b:
+        id: st_r3_executor
+        name_it: "Esecutore"
+        description_it: "+3 damage su bersagli con hp_remaining < 33%."
+        effect:
+          passive: { tag: execution_bonus, payload: { threshold: 0.33, damage: 3 } }
+    level_5:
+      perk_a:
+        id: st_r4_deathmark_chain
+        name_it: "Catena del Marchio"
+        description_it: "deathmark: +1 turno di durata (totale 4)."
+        effect:
+          ability_mod: { ability_id: deathmark, field: debuff_duration, delta: 1 }
+      perk_b:
+        id: st_r4_isolation_strike
+        name_it: "Colpo dell'Isolamento"
+        description_it: "+3 damage su bersagli isolati (no alleato adiacente)."
+        effect:
+          passive: { tag: isolated_target_bonus, payload: { damage: 3 } }
+    level_6:
+      perk_a:
+        id: st_r5_phantom_step
+        name_it: "Passo Fantasma"
+        description_it: "silent_step: +1 move_distance (totale 4)."
+        effect:
+          ability_mod: { ability_id: silent_step, field: move_distance, delta: 1 }
+      perk_b:
+        id: st_r5_killer_focus
+        name_it: "Focus Omicida"
+        description_it: "Dopo KO, +2 attack_mod per 2 turni (rage-lite)."
+        effect:
+          passive: { tag: kill_buff_attack, payload: { attack_mod: 2, duration: 2 } }
+    level_7:
+      perk_a:
+        id: st_r6_apex_predator
+        name_it: "Predatore Apex (Capstone)"
+        description_it: "Capstone: alpha_strike ignora full DR sul primo attacco di ogni encounter."
+        effect:
+          passive: { tag: apex_first_strike, payload: { ignore_dr: true } }
+      perk_b:
+        id: st_r6_eternal_hunt
+        name_it: "Caccia Eterna (Capstone)"
+        description_it: "Capstone: kill_buff_attack diventa permanente fino a end-encounter (no decay)."
+        effect:
+          passive: { tag: eternal_kill_buff, payload: { attack_mod: 2 } }
+
+  # --- SYMBIONT perks (12) ---
+  symbiont:
+    level_2:
+      perk_a:
+        id: sy_r1_strong_bond
+        name_it: "Legame Forte"
+        description_it: "symbiotic_bond: damage redirect da 50% a 60%."
+        effect:
+          passive: { tag: bond_redirect_strong, payload: { redirect_pct: 0.6 } }
+      perk_b:
+        id: sy_r1_quick_heal
+        name_it: "Cura Rapida"
+        description_it: "shared_vitality: +1 heal_amount (totale 4)."
+        effect:
+          ability_mod: { ability_id: shared_vitality, field: heal_amount, delta: 1 }
+    level_3:
+      perk_a:
+        id: sy_r2_resonance
+        name_it: "Risonanza"
+        description_it: "+1 defense_mod per ogni alleato adiacente al bonded (max +3)."
+        effect:
+          passive: { tag: bonded_proximity_defense, payload: { per_ally: 1, max: 3 } }
+      perk_b:
+        id: sy_r2_dual_link
+        name_it: "Doppio Legame"
+        description_it: "Permette 2 bonded simultanei (uno principale, uno secondario @ 25% redirect)."
+        effect:
+          passive: { tag: dual_bond, payload: { secondary_redirect_pct: 0.25 } }
+    level_4:
+      perk_a:
+        id: sy_r3_burst_efficiency
+        name_it: "Efficienza Esplosiva"
+        description_it: "synaptic_burst: cost_sg da 2 a 1."
+        effect:
+          ability_mod: { ability_id: synaptic_burst, field: cost_sg, delta: -1 }
+      perk_b:
+        id: sy_r3_protective_aura
+        name_it: "Aura Protettiva"
+        description_it: "Alleati a Manhattan <= 2 dal Symbiont ricevono +1 defense_mod passivo."
+        effect:
+          passive: { tag: aura_defense_2tile, payload: { defense_mod: 1, range: 2 } }
+    level_5:
+      perk_a:
+        id: sy_r4_emergency_swap
+        name_it: "Scambio d'Emergenza"
+        description_it: "Quando bonded HP <= 30%, redirect diventa 100% per 1 turno (cooldown 5)."
+        effect:
+          passive: { tag: emergency_full_redirect, payload: { trigger_hp_pct: 0.3, duration: 1, cooldown: 5 } }
+      perk_b:
+        id: sy_r4_chain_heal
+        name_it: "Catena di Guarigione"
+        description_it: "shared_vitality cura anche alleati adiacenti al bonded per 50% del valore."
+        effect:
+          passive: { tag: chain_heal_adjacent, payload: { factor: 0.5 } }
+    level_6:
+      perk_a:
+        id: sy_r5_team_buff_extend
+        name_it: "Estensione Buff Squadra"
+        description_it: "synaptic_burst: +1 turno di buff_duration (totale 3)."
+        effect:
+          ability_mod: { ability_id: synaptic_burst, field: buff_duration, delta: 1 }
+      perk_b:
+        id: sy_r5_sacrifice_grace
+        name_it: "Grazia del Sacrificio"
+        description_it: "Quando bonded muore, Symbiont riceve heal 50% HP istantaneo + rage 3 turni."
+        effect:
+          passive: { tag: bonded_death_grace, payload: { heal_pct: 0.5, rage_turns: 3 } }
+    level_7:
+      perk_a:
+        id: sy_r6_one_soul
+        name_it: "Un'Anima Sola (Capstone)"
+        description_it: "Capstone: bonded e Symbiont condividono pool HP (somma HP, danno suddivisa equamente)."
+        effect:
+          passive: { tag: shared_hp_pool, payload: {} }
+      perk_b:
+        id: sy_r6_eternal_link
+        name_it: "Legame Eterno (Capstone)"
+        description_it: "Capstone: symbiotic_bond non richiede adiacenza dopo trigger (legame infinito su mappa)."
+        effect:
+          passive: { tag: bond_no_distance_limit, payload: {} }
+
+  # --- BEASTMASTER perks (12) ---
+  beastmaster:
+    level_2:
+      perk_a:
+        id: bm_r1_strong_summon
+        name_it: "Evocazione Potente"
+        description_it: "summon_companion: +1 HP minion (totale 6)."
+        effect:
+          ability_mod: { ability_id: summon_companion, field: buff_amount, delta: 1 }
+      perk_b:
+        id: bm_r1_swift_command
+        name_it: "Comando Rapido"
+        description_it: "pack_command: cost_ap da 1 a 0 (free action 1/round)."
+        effect:
+          ability_mod: { ability_id: pack_command, field: cost_ap, delta: -1 }
+    level_3:
+      perk_a:
+        id: bm_r2_ferocious_minion
+        name_it: "Minion Feroci"
+        description_it: "Minion: +1 attack_mod base (totale +2)."
+        effect:
+          passive: { tag: minion_attack_buff, payload: { attack_mod: 1 } }
+      perk_b:
+        id: bm_r2_pack_focus
+        name_it: "Focus del Branco"
+        description_it: "Minion adiacenti al Beastmaster: +1 dmg sui bersagli adiacenti al BM."
+        effect:
+          passive: { tag: minion_proximity_dmg, payload: { damage: 1 } }
+    level_4:
+      perk_a:
+        id: bm_r3_quick_summon
+        name_it: "Evocazione Veloce"
+        description_it: "summon_companion: cost_pi da 6 a 4."
+        effect:
+          ability_mod: { ability_id: summon_companion, field: cost_pi, delta: -2 }
+      perk_b:
+        id: bm_r3_battle_cry
+        name_it: "Grido di Battaglia"
+        description_it: "+1 attack_mod a tutti i minion per 2 turni a inizio encounter."
+        effect:
+          passive: { tag: encounter_start_buff_minions, payload: { attack_mod: 1, duration: 2 } }
+    level_5:
+      perk_a:
+        id: bm_r4_third_companion
+        name_it: "Terzo Compagno"
+        description_it: "Cap minion attivi da 2 a 3."
+        effect:
+          passive: { tag: max_minions, payload: { cap: 3 } }
+      perk_b:
+        id: bm_r4_sacrifice_efficiency
+        name_it: "Sacrificio Efficiente"
+        description_it: "feral_sacrifice: heal_amount da 6 a 8."
+        effect:
+          ability_mod: { ability_id: feral_sacrifice, field: heal_amount, delta: 2 }
+    level_6:
+      perk_a:
+        id: bm_r5_telepathic_command
+        name_it: "Comando Telepatico"
+        description_it: "pack_command: range Manhattan 5 invece di adiacenza."
+        effect:
+          passive: { tag: pack_command_extended_range, payload: { range: 5 } }
+      perk_b:
+        id: bm_r5_apex_companion
+        name_it: "Compagno Apex"
+        description_it: "Quando 1 minion uccide un nemico, ricevi +1 PE (max 1/round)."
+        effect:
+          passive: { tag: minion_kill_pe_bonus, payload: { pe: 1, cap_per_round: 1 } }
+    level_7:
+      perk_a:
+        id: bm_r6_alpha_pack
+        name_it: "Branco Alpha (Capstone)"
+        description_it: "Capstone: tutti i minion ricevono +1 attack_mod e +1 defense_mod permanente."
+        effect:
+          passive: { tag: alpha_pack_buff, payload: { attack_mod: 1, defense_mod: 1 } }
+      perk_b:
+        id: bm_r6_undying_pack
+        name_it: "Branco Immortale (Capstone)"
+        description_it: "Capstone: quando un minion muore, c'è 50% chance di re-summon a 1HP a fine round."
+        effect:
+          passive: { tag: minion_resurrect_chance, payload: { chance: 0.5, hp_on_revive: 1 } }
+
+  # --- ABERRANT perks (12) ---
+  aberrant:
+    level_2:
+      perk_a:
+        id: ab_r1_stable_chaos
+        name_it: "Caos Stabile"
+        description_it: "mutation_burst: damage_step floor 2 invece di 1 (range 2-6)."
+        effect:
+          ability_mod: { ability_id: mutation_burst, field: damage_step_min, delta: 1 }
+      perk_b:
+        id: ab_r1_phenotype_extend
+        name_it: "Estensione Fenotipo"
+        description_it: "phenotype_shift: buff_duration da 2 a 3."
+        effect:
+          ability_mod: { ability_id: phenotype_shift, field: buff_duration, delta: 1 }
+    level_3:
+      perk_a:
+        id: ab_r2_random_status_extra
+        name_it: "Status Aggiuntivo"
+        description_it: "mutation_burst: applica +1 turno extra al random status (totale 2 turni)."
+        effect:
+          passive: { tag: mutation_status_extend, payload: { turns: 1 } }
+      perk_b:
+        id: ab_r2_pe_efficient
+        name_it: "Efficienza PE"
+        description_it: "aberrant_overdrive: cost_pe da 5 a 3."
+        effect:
+          ability_mod: { ability_id: aberrant_overdrive, field: cost_pe, delta: -2 }
+    level_4:
+      perk_a:
+        id: ab_r3_chaos_attack
+        name_it: "Attacco Caotico"
+        description_it: "Ogni attack ha 25% chance di damage doppio (no requisiti)."
+        effect:
+          passive: { tag: random_double_dmg_chance, payload: { chance: 0.25 } }
+      perk_b:
+        id: ab_r3_self_healing_chaos
+        name_it: "Caos Curativo"
+        description_it: "phenotype_shift: include heal 2 garantito (in aggiunta al random buff)."
+        effect:
+          passive: { tag: phenotype_baseline_heal, payload: { heal: 2 } }
+    level_5:
+      perk_a:
+        id: ab_r4_overdrive_cooldown_reduce
+        name_it: "Riduzione Cooldown Overdrive"
+        description_it: "aberrant_overdrive: damage da +4 a +5 damage_step."
+        effect:
+          ability_mod: { ability_id: aberrant_overdrive, field: damage_step_mod, delta: 1 }
+      perk_b:
+        id: ab_r4_mutation_chain
+        name_it: "Catena Mutativa"
+        description_it: "Se mutation_burst infligge KO, applica subito un altro mutation_burst free (1/encounter)."
+        effect:
+          passive: { tag: mutation_chain_on_kill, payload: { cap_per_encounter: 1 } }
+    level_6:
+      perk_a:
+        id: ab_r5_extreme_phenotype
+        name_it: "Fenotipo Estremo"
+        description_it: "phenotype_shift: roll 2 risultati invece di 1, applicabili entrambi."
+        effect:
+          passive: { tag: double_phenotype_roll, payload: {} }
+      perk_b:
+        id: ab_r5_sg_synergy
+        name_it: "Sinergia SG"
+        description_it: "Ogni mutation_burst genera +1 SG (max 1/round)."
+        effect:
+          passive: { tag: sg_on_mutation_burst, payload: { sg: 1, cap_per_round: 1 } }
+    level_7:
+      perk_a:
+        id: ab_r6_perfect_aberrant
+        name_it: "Aberrante Perfetto (Capstone)"
+        description_it: "Capstone: mutation_burst damage_step diventa 6 garantito (no random) + applica TUTTI i 5 status (1 turno ognuno)."
+        effect:
+          passive: { tag: perfect_mutation_burst, payload: { fixed_dmg: 6, all_statuses: true, turns: 1 } }
+      perk_b:
+        id: ab_r6_chaos_incarnate
+        name_it: "Incarnazione del Caos (Capstone)"
+        description_it: "Capstone: phenotype_shift può essere usato 2x/round (cooldown ridotto)."
+        effect:
+          passive: { tag: phenotype_double_use, payload: { cap_per_round: 2 } }

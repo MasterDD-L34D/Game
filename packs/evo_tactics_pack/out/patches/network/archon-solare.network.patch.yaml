@@ -1,0 +1,12 @@
+id: archon-solare
+environment_affinity:
+  multibiome:
+  - ROVINE_PLANARI
+derived_from_environment:
+  jobs_bias:
+  - skirmisher
+network_bridge_roles:
+- dispersore_ponte
+- impollinatore
+biomes_add:
+- ROVINE_PLANARI

@@ -1,0 +1,205 @@
+# Damage scaling curves — M7-#2 (ADR-2026-04-20).
+#
+# Difficulty as feature, not ad-hoc tuning. Define per-encounter-class
+# enemy damage multiplier, boss enrage threshold, target win/defeat/timeout
+# bands per calibration harness.
+#
+# Runtime wire (M7-#2 Phase B):
+#   session.js /start → legge encounter.encounter_class → applica
+#   enemy_damage_multiplier a unit.mod degli enemy spawn
+#   performAttack boss turn → enrage check se hp < threshold_hp
+#
+# Calibration (M7-#2 Phase D):
+#   batch_calibrate_*.py legge target_bands per class → pass/fail oggettivo
+#
+# Vedi docs/adr/ADR-2026-04-20-damage-scaling-curves.md
+
+version: '1.0'
+schema_version: '1.0.0'
+
+# ─── Encounter classes ───────────────────────────────────────────────
+# Ogni encounter YAML dichiara `encounter_class: <key>`. Default "standard"
+# se assente. Sostituisce target band one-size 15-25% (fallacy).
+
+encounter_classes:
+  tutorial:
+    description: 'First-contact missions (tutorial_01-03). Skill floor, combat forgiving.'
+    target_bands:
+      win_rate: [0.60, 0.80]
+      defeat_rate: [0.10, 0.20]
+      timeout_rate: [0.05, 0.10]
+    enemy_damage_multiplier: 1.0
+    boss_enrage_threshold_hp: null  # no enrage tutorial tier
+    # M9 P6: turn_limit_defeat null = no forced outcome (tutorial forgiving)
+    turn_limit_defeat: null
+
+  tutorial_advanced:
+    description: 'Late tutorial (04-05). Introduce mechanics status/boss (apex tier-1).'
+    target_bands:
+      win_rate: [0.40, 0.60]
+      defeat_rate: [0.20, 0.35]
+      timeout_rate: [0.05, 0.15]
+    enemy_damage_multiplier: 1.1
+    boss_enrage_threshold_hp: 0.25
+    turn_limit_defeat: null
+
+  standard:
+    description: 'Mid-game encounters. Balanced threat, most common.'
+    target_bands:
+      win_rate: [0.35, 0.55]
+      defeat_rate: [0.25, 0.40]
+      timeout_rate: [0.10, 0.20]
+    enemy_damage_multiplier: 1.2
+    boss_enrage_threshold_hp: 0.30
+    turn_limit_defeat: 30  # soft limit per standard, rare trigger
+
+  hardcore:
+    description: 'High-difficulty 8p co-op. Team tactical peak required.'
+    target_bands:
+      win_rate: [0.15, 0.25]
+      defeat_rate: [0.40, 0.55]
+      timeout_rate: [0.15, 0.25]
+    # M7-#2 Phase E iter7 (post iter6 RED wr 63.3%): 1.4 → 1.8 (+0.4).
+    # Vedi docs/playtest/2026-04-20-m7-iter6-hardcore-verdict.md § Option A+D.
+    enemy_damage_multiplier: 1.8
+    boss_enrage_threshold_hp: 0.40
+    # M9 P6 (Flint Long War pattern): force decision pressure.
+    # Turn >= 25 + player still alive + objective not completed → defeat.
+    # iter7 median turns_win=28 → budget 25 = risky but reachable con focus-fire.
+    # Elimina stalemate pattern (iter7 timeout 67%).
+    turn_limit_defeat: 25
+
+  boss:
+    description: 'Apex boss fight. Signature mechanics, dramatic enrage.'
+    target_bands:
+      win_rate: [0.05, 0.15]
+      defeat_rate: [0.55, 0.70]
+      timeout_rate: [0.10, 0.25]
+    # M7-#2 Phase E iter7: 1.6 → 2.0 per mantenere monotonic > hardcore 1.8.
+    # Boss 1v2 player (solo fight), scaling piu aggressivo giustificato.
+    enemy_damage_multiplier: 2.0
+    boss_enrage_threshold_hp: 0.50
+    # M9 P6: boss 1v2 dura media 20 round. Limit 20 = kill boss o perdi.
+    turn_limit_defeat: 20
+
+# ─── Enemy tiers ──────────────────────────────────────────────────────
+# Base stats pre-class multiplier. Encounter spawn li legge + applica
+# multiplier da encounter_class.
+
+enemy_tiers:
+  minion:
+    description: 'Low-threat fodder, swarm patterns'
+    base_mod: 2
+    hp_baseline: 4
+    base_dc: 11
+    role: 'numbers_pressure'
+
+  elite:
+    description: 'Mid-threat specialist, archetype-distinct'
+    base_mod: 3
+    hp_baseline: 8
+    base_dc: 12
+    role: 'tactical_counter'
+
+  boss:
+    description: 'High-threat keystone, enrage-capable'
+    base_mod: 5
+    hp_baseline: 20
+    base_dc: 13
+    # M7-#2 Phase E iter7: enrage_mod_bonus 1 → 3. Combined con hardcore 1.8x
+    # multiplier, boss enrage passa mod 5 → mod 8 (+60%) late-fight drama.
+    enrage_mod_bonus: 3  # applied quando hp < class threshold
+    enrage_damage_dice_bonus: 0  # future: bonus dice su enrage
+    role: 'encounter_anchor'
+
+# ─── Player job combat baselines ──────────────────────────────────────
+# Stat base per job (pre-equipment/trait). Applicato a unit spawn via
+# normaliseUnit JOB_STATS hook. M8+ character progression usa qui.
+
+player_classes:
+  vanguard:
+    description: 'Tank — corazzato archetype, resist fisico/taglio'
+    hp_baseline: 14
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 13
+    ap_baseline: 2
+    resistance_archetype: corazzato
+
+  warden:
+    description: 'Ranged support caster — psionico archetype'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: psionico
+
+  invoker:
+    description: 'Psionic caster offensive'
+    hp_baseline: 9
+    armor_baseline: 0
+    mod_baseline: 4
+    dc_baseline: 11
+    ap_baseline: 2
+    resistance_archetype: psionico
+
+  skirmisher:
+    description: 'Mobile damage dealer — adattivo (neutral)'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  ranger:
+    description: 'Ranged damage dealer'
+    hp_baseline: 10
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  artificer:
+    description: 'Utility/support tech'
+    hp_baseline: 11
+    armor_baseline: 0
+    mod_baseline: 2
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+  harvester:
+    description: 'Resource specialist melee'
+    hp_baseline: 12
+    armor_baseline: 0
+    mod_baseline: 3
+    dc_baseline: 12
+    ap_baseline: 2
+    resistance_archetype: adattivo
+
+# ─── Validation rules ─────────────────────────────────────────────────
+
+validation:
+  target_bands_non_overlapping:
+    description: 'Tutorial defeat 10-20% vs standard defeat 25-40% NON si sovrappongono. Encounter class determinabile post-hoc da win_rate oggettivo.'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
+  multiplier_monotonic:
+    description: 'enemy_damage_multiplier deve crescere tutorial → tutorial_advanced → standard → hardcore → boss'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
+  enrage_threshold_range:
+    description: 'boss_enrage_threshold_hp ∈ [0, 1] o null. Null = no enrage (tutorial only).'
+    enforced_by: 'schemas/evo/damage_curves.schema.json'
+
+# ─── Riferimenti ──────────────────────────────────────────────────────
+
+references:
+  adr: 'docs/adr/ADR-2026-04-20-damage-scaling-curves.md'
+  evidence_calibration:
+    - 'docs/playtest/2026-04-19-m6-iter2b-baseline.md'
+    - 'docs/playtest/2026-04-19-m6-iter3-channel-exploit.md'
+  design_pivot_memo: 'docs/process/2026-04-19-M7-sprint-plan-expert-synthesis.md'

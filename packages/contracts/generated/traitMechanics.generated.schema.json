@@ -1,0 +1,1106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "traitMechanics.generated.v0.2.0",
+  "title": "Trait Mechanics Schema (auto-generated v0.2.0)",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "traits": {
+      "type": "object",
+      "properties": {
+        "artigli_sette_vie": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cannone_sonico_a_raggio": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "carapace_fase_variabile": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "coda_frusta_cinetica": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "criostasi_adattiva": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cute_resistente_sali": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cuticole_cerose": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "eco_interno_riflesso": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "empatia_coordinativa": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "enzimi_chelanti": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "filamenti_digestivi_compattanti": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "focus_frazionato": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "frusta_fiammeggiante": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "grassi_termici": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ipertrofia_muscolare_massiva": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "lingua_tattile_trama": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mantello_meteoritico": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mimetismo_cromatico_passivo": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "nucleo_ovomotore_rotante": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "occhi_infrarosso_composti": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "olfatto_risonanza_magnetica": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "pelage_idrorepellente_avanzato": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "respiro_a_scoppio": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "risonanza_di_branco": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sacche_galleggianti_ascensoriali": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sangue_piroforico": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "scheletro_idro_regolante": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "secrezione_rallentante_palmi": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sonno_emisferico_alternato": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "spore_psichiche_silenziate": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "struttura_elastica_amorfa": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ventriglio_gastroliti": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zoccoli_risonanti_steppe": {
+          "type": "object",
+          "properties": {
+            "attack_mod": {
+              "type": "integer"
+            },
+            "defense_mod": {
+              "type": "integer"
+            },
+            "damage_step": {
+              "type": "integer"
+            },
+            "cost_ap": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3
+            },
+            "resistances": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string"
+                  },
+                  "modifier_pct": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

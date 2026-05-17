@@ -1,0 +1,59 @@
+{
+  "conflitti": [
+    "armatura_pietra_planare"
+  ],
+  "debolezza": "i18n:traits.frusta_fiammeggiante.debolezza",
+  "famiglia_tipologia": "Offensivo/Controllo",
+  "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
+  "id": "frusta_fiammeggiante",
+  "label": "i18n:traits.frusta_fiammeggiante.label",
+  "mutazione_indotta": "i18n:traits.frusta_fiammeggiante.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [
+        "void_stride"
+      ],
+      "condizioni": {
+        "biome_class": "rovine_planari"
+      },
+      "fonte": "pathfinder_import",
+      "meta": {
+        "expansion": "pathfinder_dataset",
+        "notes": "Necessita condotti di stabilizzazione infernale nelle rovine planari.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "mantello_meteoritico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "controllo",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "i18n:traits.frusta_fiammeggiante.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.frusta_fiammeggiante.uso_funzione",
+  "usage_tags": [
+    "breaker",
+    "controller"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "rovine_planari"
+  ],
+  "data_origin": "pathfinder_dataset"
+}

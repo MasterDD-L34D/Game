@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.foliaggio_spugna.debolezza",
+  "famiglia_tipologia": "Offensivo/Assalto",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "foliaggio_spugna",
+  "label": "i18n:traits.foliaggio_spugna.label",
+  "mutazione_indotta": "i18n:traits.foliaggio_spugna.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "mangrovieto_cinetico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Foliaggio Spugna ottimizza le operazioni offensivo nelle condizioni di mangrovieto cinetico.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "sangue_piroforico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "assalto",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "i18n:traits.foliaggio_spugna.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.foliaggio_spugna.uso_funzione",
+  "usage_tags": [
+    "breaker"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "mangrovieto_cinetico"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

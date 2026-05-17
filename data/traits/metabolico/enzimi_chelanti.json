@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.enzimi_chelanti.debolezza",
+  "famiglia_tipologia": "Digestivo/Metabolico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "enzimi_chelanti",
+  "label": "i18n:traits.enzimi_chelanti.label",
+  "mutazione_indotta": "i18n:traits.enzimi_chelanti.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Gli enzimi legano metalli disciolti nei substrati umidi dei biomi miceliali, evitando accumuli tossici."
+      }
+    }
+  ],
+  "sinergie": [
+    "filamenti_digestivi_compattanti",
+    "ventriglio_gastroliti",
+    "ghiandola_caustica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "energia",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "i18n:traits.enzimi_chelanti.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.enzimi_chelanti.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

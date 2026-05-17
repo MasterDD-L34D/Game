@@ -1,0 +1,60 @@
+# =============================================================================
+# Encounter Prototipo 1: Tutorial — "Primi Passi nella Savana"
+# Difficulty: 1/5 · Grid: 8×8 · Bioma: savana
+# Scopo: insegnare movimento, attacco base, e Margin of Success
+# Schema: schemas/evo/encounter.schema.json
+# =============================================================================
+
+encounter_id: enc_tutorial_01
+name: 'Primi Passi nella Savana'
+biome_id: savana
+grid_size: [8, 8]
+difficulty_rating: 1
+estimated_turns: 6
+# M7-#2 Phase C (ADR-2026-04-20): tutorial class (multiplier 1.0x, no enrage)
+encounter_class: tutorial
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 3]
+  - [0, 4]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [7, 3]
+      - [7, 5]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: defensive
+
+conditions: []
+
+tags: [tutorial]
+
+restrictions:
+  - no_hazard
+  - no_reactions
+  - no_status
+
+didactic_focus:
+  - movement
+  - attack_base
+  - cover
+  - elevation
+  - MoS
+
+narrative:
+  briefing_ink: stories/tutorial_01_briefing.ink.json
+  debrief_ink: stories/tutorial_01_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

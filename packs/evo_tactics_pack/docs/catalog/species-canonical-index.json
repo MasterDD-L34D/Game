@@ -1,0 +1,2868 @@
+{
+  "schema_version": "0.4.1",
+  "generated_at": "2026-05-15T10:41:13.627Z",
+  "source": "data/core/species/species_catalog.json",
+  "total_species": 53,
+  "stats": {
+    "total_species": 53,
+    "by_source": {
+      "pack-v2-full-plus": 10,
+      "game-canonical-stub": 5,
+      "legacy-yaml-merge": 38
+    },
+    "by_sentience_tier": {
+      "T1": 22,
+      "T2": 16,
+      "T5": 3,
+      "T3": 6,
+      "T0": 1,
+      "T4": 5
+    },
+    "catalog_synergies_count": 1
+  },
+  "species": [
+    {
+      "species_id": "anguis_magnetica",
+      "legacy_slug": "anguis_magnetica",
+      "scientific_name": "Anguis magnetica",
+      "common_names": [
+        "Anguilla Geomagnetica"
+      ],
+      "display_name_it": "Anguilla Geomagnetica",
+      "classification": {
+        "macro_class": "Reptilia/Pisces",
+        "habitat": "corsi d’acqua e coste sabbiose"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "ecotypes": [
+        "estuario",
+        "lagune"
+      ],
+      "biome_affinity": "atollo_obsidiana",
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "scariche elettriche"
+        ]
+      },
+      "functional_signature": "Navigazione magnetica fine e scariche nervose a impulso; scivolamento silente riduci-attrito.",
+      "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
+      "interactions": {
+        "predates_on": [
+          "pesci d’acqua dolce",
+          "anfibi"
+        ],
+        "predated_by": [
+          "coccodrilli",
+          "grossi pesci predatori"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1801",
+        "TR-1802",
+        "TR-1803",
+        "TR-1804",
+        "TR-1805"
+      ],
+      "genus": "Anguimagnus",
+      "epithet": "litoralis",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/anguis_magnetica_lifecycle.yaml"
+    },
+    {
+      "species_id": "chemnotela_toxica",
+      "legacy_slug": "chemnotela_toxica",
+      "scientific_name": "Chemnotela toxica",
+      "common_names": [
+        "Aracnide Alchemico"
+      ],
+      "display_name_it": "Aracnide Alchemico",
+      "classification": {
+        "macro_class": "Artropode",
+        "habitat": "foreste tropicali"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "ecotypes": [
+        "chiome interne",
+        "radure umide"
+      ],
+      "biome_affinity": "foresta_acida",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "acidi forti",
+          "scariche elettriche"
+        ]
+      },
+      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
+      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
+      "interactions": {
+        "predates_on": [
+          "rettili arboricoli",
+          "uccelli piccoli"
+        ],
+        "predated_by": [
+          "ofidi grandi"
+        ],
+        "symbiosis": "alghe epifite su tela in radure umide"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1501",
+        "TR-1502",
+        "TR-1503",
+        "TR-1504",
+        "TR-1505"
+      ],
+      "genus": "Chemnotela",
+      "epithet": "toxifera",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/chemnotela_toxica_lifecycle.yaml"
+    },
+    {
+      "species_id": "dune_stalker",
+      "legacy_slug": "dune_stalker",
+      "scientific_name": "Dune Stalker",
+      "common_names": [],
+      "display_name_it": "Dune Stalker",
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "savana",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 1
+        },
+        "competes_with": [
+          "pulverator_gregarius"
+        ],
+        "prey_of": [],
+        "preys_on": [],
+        "scavenges_from": [],
+        "mutualism_with": [
+          {
+            "species_id": "pulverator_gregarius",
+            "type": "indirect",
+            "note": "Pulverator pack scaccia prede da copertura agevolando ambush di Skiv (effetto raro, non intenzionale dal pack)."
+          }
+        ]
+      },
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [],
+      "genus": "Arenavenator",
+      "epithet": "vagans",
+      "source": "game-canonical-stub",
+      "lifecycle_yaml": "data/core/species/dune_stalker_lifecycle.yaml"
+    },
+    {
+      "species_id": "elastovaranus_hydrus",
+      "legacy_slug": "elastovaranus_hydrus",
+      "scientific_name": "Elastovaranus hydrus",
+      "common_names": [
+        "Viverna-Elastico"
+      ],
+      "display_name_it": "Viverna-Elastico",
+      "classification": {
+        "macro_class": "Reptilia",
+        "habitat": "savana calda con gole rocciose"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "ecotypes": [
+        "dorsali rocciose",
+        "letto fluviale stagionale"
+      ],
+      "biome_affinity": "pianura_salina_iperarida",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "tossine litiche",
+          "emorragia"
+        ]
+      },
+      "functional_signature": "Attacchi a proiettile con inoculazione multipla tramite rostro estensibile, guidati da sensibilità sismica.",
+      "visual_description": "Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.",
+      "interactions": {
+        "predates_on": [
+          "antilopi piccole",
+          "varani",
+          "uccelli terricoli"
+        ],
+        "predated_by": [
+          "felidi grandi",
+          "rapaci diurni"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1101",
+        "TR-1102",
+        "TR-1103",
+        "TR-1104",
+        "TR-1105"
+      ],
+      "genus": "Elastovaranus",
+      "epithet": "hydraulicus",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/elastovaranus_hydrus_lifecycle.yaml"
+    },
+    {
+      "species_id": "gulogluteus_scutiger",
+      "legacy_slug": "gulogluteus_scutiger",
+      "scientific_name": "Gulogluteus scutiger",
+      "common_names": [
+        "Ghiotton-Scudo"
+      ],
+      "display_name_it": "Ghiotton-Scudo",
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "foreste umide con corsi d'acqua"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "ecotypes": [
+        "paludi di foresta",
+        "forre umide"
+      ],
+      "biome_affinity": "canyons_risonanti",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "schiacciamento",
+          "graffi"
+        ]
+      },
+      "functional_signature": "Manipolazione a lungo raggio tramite lingua prensile quanto il corpo e stabilizzazione caudale; difesa passiva dorsale a placca cheratinizzata.",
+      "visual_description": "Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile; regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende come una proboscide muscolare.",
+      "interactions": {
+        "predates_on": [
+          "insetti lignicoli",
+          "frutti duri",
+          "uova"
+        ],
+        "predated_by": [
+          "grossi felidi",
+          "umani"
+        ],
+        "symbiosis": "dispersione di semi tramite pelliccia oleosa"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1201",
+        "TR-1202",
+        "TR-1203",
+        "TR-1204",
+        "TR-1205"
+      ],
+      "genus": "Gulogluteus",
+      "epithet": "scutiger",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/gulogluteus_scutiger_lifecycle.yaml"
+    },
+    {
+      "species_id": "leviatano_risonante",
+      "legacy_slug": "leviatano_risonante",
+      "scientific_name": "Leviatano Risonante",
+      "common_names": [],
+      "display_name_it": "Leviatano Risonante",
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "frattura_abissale_sinaptica",
+      "sentience_index": "T5",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [],
+      "genus": "Resonoleviathan",
+      "epithet": "abyssalis",
+      "source": "game-canonical-stub",
+      "lifecycle_yaml": "data/core/species/leviatano_risonante_lifecycle.yaml"
+    },
+    {
+      "species_id": "perfusuas_pedes",
+      "legacy_slug": "perfusuas_pedes",
+      "scientific_name": "Perfusuas pedes",
+      "common_names": [
+        "Zannapiedi"
+      ],
+      "display_name_it": "Zannapiedi",
+      "classification": {
+        "macro_class": "Mammalo-artropode",
+        "habitat": "foreste e sistemi carsici"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "ecotypes": [
+        "grotte umide",
+        "radure notturne"
+      ],
+      "biome_affinity": "caverna",
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "acidi proteolitici",
+          "onda d’urto"
+        ]
+      },
+      "functional_signature": "Predatore cieco che usa sonar e chimio-navigazione; attacco a urto e digestione extracorporea.",
+      "visual_description": "Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi. Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con sacche ripiegabili.",
+      "interactions": {
+        "predates_on": [
+          "ungulati piccoli",
+          "rettili cavernicoli"
+        ],
+        "predated_by": [
+          "nessun predatore noto in età adulta"
+        ],
+        "symbiosis": "Ospita ostaggio-simbionte per supporto percettivo (dipendenza bio-cognitiva)"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1301",
+        "TR-1302",
+        "TR-1303",
+        "TR-1304",
+        "TR-1305"
+      ],
+      "genus": "Perfusuas",
+      "epithet": "subterraneus",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/perfusuas_pedes_lifecycle.yaml"
+    },
+    {
+      "species_id": "polpo_araldo_sinaptico",
+      "legacy_slug": "polpo_araldo_sinaptico",
+      "scientific_name": "Polpo Araldo Sinaptico",
+      "common_names": [],
+      "display_name_it": "Polpo Araldo Sinaptico",
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "frattura_abissale_sinaptica",
+      "sentience_index": "T5",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [],
+      "genus": "Synaptopus",
+      "epithet": "praeco",
+      "source": "game-canonical-stub",
+      "lifecycle_yaml": "data/core/species/polpo_araldo_sinaptico_lifecycle.yaml"
+    },
+    {
+      "species_id": "proteus_plasma",
+      "legacy_slug": "proteus_plasma",
+      "scientific_name": "Proteus plasma",
+      "common_names": [
+        "Mutaforma Cellulare"
+      ],
+      "display_name_it": "Mutaforma Cellulare",
+      "classification": {
+        "macro_class": "Protista complesso",
+        "habitat": "zone umide, acque dolci"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "ecotypes": [
+        "stagni",
+        "paludi"
+      ],
+      "biome_affinity": "palude",
+      "sentience_index": "T0",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "anossia locale",
+          "asfissia prede piccole"
+        ]
+      },
+      "functional_signature": "Plasticità estrema di forma e funzione; ingestione per fagocitosi e stasi minerale.",
+      "visual_description": "Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti. Variazione volumetrica rapida.",
+      "interactions": {
+        "predates_on": [
+          "detrito organico",
+          "invertebrati lenti"
+        ],
+        "predated_by": [
+          "pesci"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1601",
+        "TR-1602",
+        "TR-1603",
+        "TR-1604",
+        "TR-1605"
+      ],
+      "genus": "Proteoplasma",
+      "epithet": "amoebiforme",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/proteus_plasma_lifecycle.yaml"
+    },
+    {
+      "species_id": "rupicapra_sensoria",
+      "legacy_slug": "rupicapra_sensoria",
+      "scientific_name": "Rupicapra sensoria",
+      "common_names": [
+        "Camoscio Psionico"
+      ],
+      "display_name_it": "Camoscio Psionico",
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "falesie e praterie montane"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "ecotypes": [
+        "cenge alte",
+        "prati alpini"
+      ],
+      "biome_affinity": "caldera_glaciale",
+      "sentience_index": "T5",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "confusione psichica"
+        ]
+      },
+      "functional_signature": "Rete psionica di branco con difese mentali; capacità di arrampicata estrema.",
+      "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [
+          "lupi",
+          "aquile"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-2001",
+        "TR-2002",
+        "TR-2003",
+        "TR-2004",
+        "TR-2005"
+      ],
+      "genus": "Rupicapra",
+      "epithet": "sensoria",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/rupicapra_sensoria_lifecycle.yaml"
+    },
+    {
+      "species_id": "sciame_larve_neurali",
+      "legacy_slug": "sciame_larve_neurali",
+      "scientific_name": "Sciame Larve Neurali",
+      "common_names": [],
+      "display_name_it": "Sciame Larve Neurali",
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "frattura_abissale_sinaptica",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [],
+      "genus": "Neurolarva",
+      "epithet": "gregaria",
+      "source": "game-canonical-stub",
+      "lifecycle_yaml": "data/core/species/sciame_larve_neurali_lifecycle.yaml"
+    },
+    {
+      "species_id": "simbionte_corallino_riflesso",
+      "legacy_slug": "simbionte_corallino_riflesso",
+      "scientific_name": "Simbionte Corallino Riflesso",
+      "common_names": [],
+      "display_name_it": "Simbionte Corallino Riflesso",
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Support",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "frattura_abissale_sinaptica",
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [],
+      "genus": "Corallosymbion",
+      "epithet": "speculans",
+      "source": "game-canonical-stub",
+      "lifecycle_yaml": "data/core/species/simbionte_corallino_riflesso_lifecycle.yaml"
+    },
+    {
+      "species_id": "soniptera_resonans",
+      "legacy_slug": "soniptera_resonans",
+      "scientific_name": "Soniptera resonans",
+      "common_names": [
+        "Libellula Sonica"
+      ],
+      "display_name_it": "Libellula Sonica",
+      "classification": {
+        "macro_class": "Insecta",
+        "habitat": "savanes e bacini termici"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "ecotypes": [
+        "oasi calde",
+        "praterie arbustive"
+      ],
+      "biome_affinity": "canopia_ionica",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "onda sonora direzionale"
+        ]
+      },
+      "functional_signature": "Manipolazione sonora: dal mascheramento al raggio sonico; volo fine a latenza ridotta.",
+      "visual_description": "Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.",
+      "interactions": {
+        "predates_on": [
+          "sciami di insetti",
+          "uccelli molto piccoli"
+        ],
+        "predated_by": [
+          "uccelli rapaci",
+          "pipistrelli"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1701",
+        "TR-1702",
+        "TR-1703",
+        "TR-1704",
+        "TR-1705"
+      ],
+      "genus": "Soniptera",
+      "epithet": "resonans",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/soniptera_resonans_lifecycle.yaml"
+    },
+    {
+      "species_id": "terracetus_ambulator",
+      "legacy_slug": "terracetus_ambulator",
+      "scientific_name": "Terracetus ambulator",
+      "common_names": [
+        "Megattera Terrestre"
+      ],
+      "display_name_it": "Megattera Terrestre",
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "steppe e savane aperte"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "ecotypes": [
+        "pianure ventose"
+      ],
+      "biome_affinity": "steppe_algoritmiche",
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "infrasonico disorientante"
+        ]
+      },
+      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
+      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
+      "interactions": {
+        "predates_on": [
+          "micro-organismi aerodispersi"
+        ],
+        "predated_by": [
+          "nessuno in età adulta"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1401",
+        "TR-1402",
+        "TR-1403",
+        "TR-1404",
+        "TR-1405"
+      ],
+      "genus": "Terracetus",
+      "epithet": "ambulator",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/terracetus_ambulator_lifecycle.yaml"
+    },
+    {
+      "species_id": "umbra_alaris",
+      "legacy_slug": "umbra_alaris",
+      "scientific_name": "Umbra alaris",
+      "common_names": [
+        "Uccello Ombra"
+      ],
+      "display_name_it": "Uccello Ombra",
+      "classification": {
+        "macro_class": "Aves",
+        "habitat": "foreste pluviali e canyon notturni"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "ecotypes": [
+        "bassa volta arborea",
+        "gole d’ombra"
+      ],
+      "biome_affinity": "dorsale_termale_tropicale",
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "ipotermia localizzata"
+        ]
+      },
+      "functional_signature": "Invisibilità ottica quasi totale e visione potenziata nel buio; attacchi ipotermici silenziosi.",
+      "visual_description": "Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.",
+      "interactions": {
+        "predates_on": [
+          "roditori",
+          "piccoli marsupiali"
+        ],
+        "predated_by": [
+          "rapaci più grandi"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "burrower",
+        "metabolism": "sand_digest",
+        "offense": [
+          "sand_claws"
+        ],
+        "defense": [
+          "heat_scales"
+        ],
+        "senses": [
+          "echolocation"
+        ]
+      },
+      "trait_refs": [
+        "TR-1901",
+        "TR-1902",
+        "TR-1903",
+        "TR-1904",
+        "TR-1905"
+      ],
+      "genus": "Umbralaris",
+      "epithet": "silens",
+      "source": "pack-v2-full-plus",
+      "lifecycle_yaml": "data/core/species/umbra_alaris_lifecycle.yaml"
+    },
+    {
+      "species_id": "electromanta_abyssalis",
+      "legacy_slug": "electromanta_abyssalis",
+      "scientific_name": "Electromanta abyssalis",
+      "common_names": [
+        "Electromanta Abissale"
+      ],
+      "display_name_it": "Electromanta Abissale",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "frattura_abissale_sinaptica",
+      "sentience_index": "T4",
+      "risk_profile": {
+        "danger_level": 5,
+        "vectors": [
+          "graffi",
+          "gravità distorta",
+          "nebbia disorientante",
+          "pulse magnetico",
+          "scariche elettriche"
+        ]
+      },
+      "functional_signature": "Specie apex con elettromagnete_biologico + scivolamento_magnetico.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "glider_magnetic",
+        "metabolism": "bioelectric_field",
+        "offense": [
+          "electric_pulse"
+        ],
+        "defense": [
+          "bipolar_skin"
+        ],
+        "senses": [
+          "magnetic_olfaction"
+        ]
+      },
+      "trait_refs": [
+        "elettromagnete_biologico",
+        "scivolamento_magnetico",
+        "integumento_bipolare",
+        "olfatto_risonanza_magnetica",
+        "seta_conduttiva_elettrica",
+        "capillari_fotovoltaici",
+        "antenne_tesla",
+        "bioantenne_gravitiche",
+        "artigli_induzione",
+        "epidermide_dielettrica",
+        "ghiandole_nebbia_ionica",
+        "filamenti_superconduttivi",
+        "filamenti_magnetotrofi",
+        "barbigli_sensori_plasma",
+        "elettromagnete_biologico",
+        "scivolamento_magnetico"
+      ],
+      "genus": "Electromanta",
+      "epithet": "abyssalis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "symbiotica_thermalis",
+      "legacy_slug": "symbiotica_thermalis",
+      "scientific_name": "Symbiotica thermalis",
+      "common_names": [
+        "Simbionte Termale"
+      ],
+      "display_name_it": "Simbionte Termale",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "dorsale_termale_tropicale",
+      "sentience_index": "T4",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con metabolismo_di_condivisione_energetica + scheletro_idraulico_a_pistoni.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "thermal_floater",
+        "metabolism": "thermal_pulse",
+        "offense": [
+          "vent_steam_burst"
+        ],
+        "defense": [
+          "hydraulic_carapace"
+        ],
+        "senses": [
+          "thermal_gradient"
+        ]
+      },
+      "trait_refs": [
+        "metabolismo_di_condivisione_energetica",
+        "scheletro_idraulico_a_pistoni",
+        "filtro_metallofago",
+        "sacche_galleggianti_ascensoriali",
+        "risonanza_di_branco",
+        "capillari_fluoridici",
+        "branchie_metalloidi",
+        "batteri_termofili_endosimbiosi",
+        "denti_chelatanti",
+        "ghiandole_iodoattive",
+        "enzimi_antipredatori_algali",
+        "batteri_endosimbionti_chemio",
+        "filamenti_termoconduzione",
+        "pelli_anti_ustione",
+        "metabolismo_di_condivisione_energetica",
+        "risonanza_di_branco"
+      ],
+      "genus": "Symbiotica",
+      "epithet": "thermalis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sonaraptor_dissonans",
+      "legacy_slug": "sonaraptor_dissonans",
+      "scientific_name": "Sonaraptor dissonans",
+      "common_names": [
+        "Sonaraptor Dissonante"
+      ],
+      "display_name_it": "Sonaraptor Dissonante",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "canopia_ionica",
+      "sentience_index": "T4",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con cannone_sonico_a_raggio + campo_di_interferenza_acustica.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "ionic_glider",
+        "metabolism": "sonic_amplifier",
+        "offense": [
+          "sonic_lance"
+        ],
+        "defense": [
+          "sonic_dampener"
+        ],
+        "senses": [
+          "chemo_sonic_array"
+        ]
+      },
+      "trait_refs": [
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica",
+        "sistemi_chimio_sonici",
+        "visione_multi_spettrale_amplificata",
+        "comunicazione_fotonica_coda_coda",
+        "ali_fono_risonanti",
+        "antenne_tesla",
+        "ali_solari_fotoni",
+        "denti_tuning_fork",
+        "coda_stabilizzatrice_vortex",
+        "branchie_eoliche",
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica"
+      ],
+      "genus": "Sonaraptor",
+      "epithet": "dissonans",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "psionerva_montis",
+      "legacy_slug": "psionerva_montis",
+      "scientific_name": "Psionerva montis",
+      "common_names": [
+        "Psionerva Montano"
+      ],
+      "display_name_it": "Psionerva Montano",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "caldera_glaciale",
+      "sentience_index": "T4",
+      "risk_profile": {
+        "danger_level": 4,
+        "vectors": [
+          "cariche",
+          "graffi",
+          "pulse magnetico"
+        ]
+      },
+      "functional_signature": "Specie bridge con corna_psico_conduttive + focus_frazionato.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "cryogenic_climber",
+        "metabolism": "cryostasis_adaptive",
+        "offense": [
+          "psionic_horn"
+        ],
+        "defense": [
+          "psi_shield"
+        ],
+        "senses": [
+          "magnetic_olfaction"
+        ]
+      },
+      "trait_refs": [
+        "corna_psico_conduttive",
+        "focus_frazionato",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "metabolismo_di_condivisione_energetica",
+        "lobi_risonanti_crepuscolo",
+        "antenne_tesla",
+        "capillari_criogenici",
+        "artigli_sghiaccio_glaciale",
+        "enzimi_antifase_termica",
+        "occhi_cristallo_modulare",
+        "lingua_cristallina",
+        "gusci_criovetro",
+        "corna_psico_conduttive",
+        "focus_frazionato"
+      ],
+      "genus": "Psionerva",
+      "epithet": "montis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "fusomorpha_palustris",
+      "legacy_slug": "fusomorpha_palustris",
+      "scientific_name": "Fusomorpha palustris",
+      "common_names": [
+        "Fusomorfa Palustre"
+      ],
+      "display_name_it": "Fusomorfa Palustre",
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "unknown"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [],
+      "ecotypes": [],
+      "biome_affinity": "palude",
+      "sentience_index": "T4",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "panico contagioso",
+          "spore patogene"
+        ]
+      },
+      "functional_signature": "Specie playable con flusso_ameboide_controllato + fagocitosi_assorbente.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": {
+        "locomotion": "amoeboid_flow",
+        "metabolism": "phagocyte_absorber",
+        "offense": [
+          "pseudopod_lash"
+        ],
+        "defense": [
+          "osmotic_membrane"
+        ],
+        "senses": [
+          "chemo_sonic_array"
+        ]
+      },
+      "trait_refs": [
+        "flusso_ameboide_controllato",
+        "fagocitosi_assorbente",
+        "filtrazione_osmotica",
+        "ermafroditismo_cronologico",
+        "moltiplicazione_per_fusione",
+        "branchie_metalloidi",
+        "capillari_fluoridici",
+        "scheletro_idro_regolante",
+        "spore_paniche",
+        "branchie_microfiltri",
+        "flusso_ameboide_controllato",
+        "moltiplicazione_per_fusione"
+      ],
+      "genus": "Fusomorpha",
+      "epithet": "palustris",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_arenavolux_sagittalis",
+      "legacy_slug": "arenavolux-sagittalis",
+      "scientific_name": "Arenavolux sagittalis",
+      "common_names": [
+        "Saettatore delle Dune"
+      ],
+      "display_name_it": "Saettatore delle Dune",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "cinder-dunes"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "puntura"
+        ]
+      },
+      "functional_signature": "Specie apex con coda_contrappeso + midollo_iperattivo.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "coda_contrappeso",
+        "midollo_iperattivo",
+        "pungiglione_paralizzante"
+      ],
+      "genus": "Arenavolux",
+      "epithet": "sagittalis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_ferriscroba_detrita",
+      "legacy_slug": "ferriscroba-detrita",
+      "scientific_name": "Ferriscroba detrita",
+      "common_names": [
+        "Spazzino Ferroso"
+      ],
+      "display_name_it": "Spazzino Ferroso",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "ferrous-badlands"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "scavenger",
+        "playable"
+      ],
+      "ecotypes": [
+        "keystone",
+        "scavenger",
+        "playable"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "scavenger",
+        "pack_size": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Ferriscroba",
+      "epithet": "detrita",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_sonapteryx_resonans",
+      "legacy_slug": "sonapteryx-resonans",
+      "scientific_name": "Sonapteryx resonans",
+      "common_names": [
+        "Ala Risonante"
+      ],
+      "display_name_it": "Ala Risonante",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "redspur-mesa"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser",
+        "playable"
+      ],
+      "ecotypes": [
+        "bridge",
+        "disperser",
+        "playable"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con ali_membrana_sonica + canto_di_richiamo.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "ali_membrana_sonica",
+        "canto_di_richiamo"
+      ],
+      "genus": "Sonapteryx",
+      "epithet": "resonans",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_lithoraptor_acutornis",
+      "legacy_slug": "lithoraptor-acutornis",
+      "scientific_name": "Lithoraptor acutornis",
+      "common_names": [
+        "Cacciatore di Schegge"
+      ],
+      "display_name_it": "Cacciatore di Schegge",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "shardfall-ridge"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con intimidatore + lamelle_shear.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "intimidatore",
+        "lamelle_shear"
+      ],
+      "genus": "Lithoraptor",
+      "epithet": "acutornis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_salifossa_tenebris",
+      "legacy_slug": "salifossa-tenebris",
+      "scientific_name": "Salifossa tenebris",
+      "common_names": [
+        "Scavatore Salino"
+      ],
+      "display_name_it": "Scavatore Salino",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "saltglass-flats"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "detritivore"
+      ],
+      "ecotypes": [
+        "keystone",
+        "detritivore"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Salifossa",
+      "epithet": "tenebris",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_ventornis_longiala",
+      "legacy_slug": "ventornis-longiala",
+      "scientific_name": "Ventornis longiala",
+      "common_names": [
+        "Aliante della Mesa"
+      ],
+      "display_name_it": "Aliante della Mesa",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "redspur-mesa"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "scout"
+      ],
+      "ecotypes": [
+        "bridge",
+        "scout"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con ali_fulminee + membrane_pneumatofori.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "ali_fulminee",
+        "membrane_pneumatofori"
+      ],
+      "genus": "Ventornis",
+      "epithet": "longiala",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_ferrimordax_rutilus",
+      "legacy_slug": "ferrimordax-rutilus",
+      "scientific_name": "Ferrimordax rutilus",
+      "common_names": [
+        "Martellatore Ferroso"
+      ],
+      "display_name_it": "Martellatore Ferroso",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "ferrous-badlands"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie apex con denti_ossidoferro + carapaci_ferruginosi.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "denti_ossidoferro",
+        "carapaci_ferruginosi"
+      ],
+      "genus": "Ferrimordax",
+      "epithet": "rutilus",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_pyrosaltus_celeris",
+      "legacy_slug": "pyrosaltus-celeris",
+      "scientific_name": "Pyrosaltus celeris",
+      "common_names": [
+        "Saltatore di Cenere"
+      ],
+      "display_name_it": "Saltatore di Cenere",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "cinder-dunes"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "ambusher"
+      ],
+      "ecotypes": [
+        "threat",
+        "ambusher"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con denti_silice_termici + zampe_radianti.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "denti_silice_termici",
+        "zampe_radianti"
+      ],
+      "genus": "Pyrosaltus",
+      "epithet": "celeris",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_basaltocara_scutata",
+      "legacy_slug": "basaltocara-scutata",
+      "scientific_name": "Basaltocara scutata",
+      "common_names": [
+        "Custode di Basalto"
+      ],
+      "display_name_it": "Custode di Basalto",
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "basalt-grottos"
+      },
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "sentinel"
+      ],
+      "ecotypes": [
+        "support",
+        "sentinel"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "graffi"
+        ]
+      },
+      "functional_signature": "Specie support con artigli_vetrificati + ghiandole_fango_calde.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "artigli_vetrificati",
+        "ghiandole_fango_calde"
+      ],
+      "genus": "Basaltocara",
+      "epithet": "scutata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_arenaceros_placidus",
+      "legacy_slug": "arenaceros-placidus",
+      "scientific_name": "Arenaceros placidus",
+      "common_names": [
+        "Brucatore di Polvere"
+      ],
+      "display_name_it": "Brucatore di Polvere",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "cinder-dunes"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "grazer"
+      ],
+      "ecotypes": [
+        "keystone",
+        "grazer"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "graffi"
+        ]
+      },
+      "functional_signature": "Specie keystone con artigli_radice + membrane_eliofiltranti.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "primary_consumer",
+        "pack_size": {
+          "min": 4,
+          "max": 8
+        }
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "artigli_radice",
+        "membrane_eliofiltranti"
+      ],
+      "genus": "Arenaceros",
+      "epithet": "placidus",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_lucinerva_filata",
+      "legacy_slug": "lucinerva-filata",
+      "scientific_name": "Lucinerva filata",
+      "common_names": [
+        "Tessitore di Luce"
+      ],
+      "display_name_it": "Tessitore di Luce",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "lumen-canopy"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser"
+      ],
+      "ecotypes": [
+        "bridge",
+        "disperser"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con carapace_segmenti_logici.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "carapace_segmenti_logici"
+      ],
+      "genus": "Lucinerva",
+      "epithet": "filata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_radiluma_pendula",
+      "legacy_slug": "radiluma-pendula",
+      "scientific_name": "Radiluma pendula",
+      "common_names": [
+        "Lanterna di Radici"
+      ],
+      "display_name_it": "Lanterna di Radici",
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "paleroot-tangle"
+      },
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "symbiont"
+      ],
+      "ecotypes": [
+        "support",
+        "symbiont"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie support con biofilm_glow + carapace_luminiscente_abissale.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "biofilm_glow",
+        "carapace_luminiscente_abissale"
+      ],
+      "genus": "Radiluma",
+      "epithet": "pendula",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_limnofalcis_serrata",
+      "legacy_slug": "limnofalcis-serrata",
+      "scientific_name": "Limnofalcis serrata",
+      "common_names": [
+        "Trebbiatore di Palude"
+      ],
+      "display_name_it": "Trebbiatore di Palude",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "ember-marsh"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Limnofalcis",
+      "epithet": "serrata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_cavatympa_sonans",
+      "legacy_slug": "cavatympa-sonans",
+      "scientific_name": "Cavatympa sonans",
+      "common_names": [
+        "Ascoltatore Cavo"
+      ],
+      "display_name_it": "Ascoltatore Cavo",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "umbral-karst"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "scout"
+      ],
+      "ecotypes": [
+        "bridge",
+        "scout"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "presa"
+        ]
+      },
+      "functional_signature": "Specie bridge con antenne_microonde_cavernose + tentacoli_uncinati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "antenne_microonde_cavernose",
+        "tentacoli_uncinati"
+      ],
+      "genus": "Cavatympa",
+      "epithet": "sonans",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_calamipes_gracilis",
+      "legacy_slug": "calamipes-gracilis",
+      "scientific_name": "Calamipes gracilis",
+      "common_names": [
+        "Camminatore di Canne"
+      ],
+      "display_name_it": "Camminatore di Canne",
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "thunder-reeds"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [
+        "playable",
+        "grazer",
+        "bridge"
+      ],
+      "ecotypes": [
+        "playable",
+        "grazer",
+        "bridge"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie playable con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Calamipes",
+      "epithet": "gracilis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_salisucta_alveata",
+      "legacy_slug": "salisucta-alveata",
+      "scientific_name": "Salisucta alveata",
+      "common_names": [
+        "Filtratore Salmastro"
+      ],
+      "display_name_it": "Filtratore Salmastro",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "brine-rift"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "filter_feeder"
+      ],
+      "ecotypes": [
+        "keystone",
+        "filter_feeder"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Salisucta",
+      "epithet": "alveata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_nebulocornis_mollis",
+      "legacy_slug": "nebulocornis-mollis",
+      "scientific_name": "Nebulocornis mollis",
+      "common_names": [
+        "Cervo di Nebbia"
+      ],
+      "display_name_it": "Cervo di Nebbia",
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "cold-mirror-fen"
+      },
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "grazer"
+      ],
+      "ecotypes": [
+        "support",
+        "grazer"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie support con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Nebulocornis",
+      "epithet": "mollis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_cryptolorca_medicata",
+      "legacy_slug": "cryptolorca-medicata",
+      "scientific_name": "Cryptolorca medicata",
+      "common_names": [
+        "Riparatore Carsico"
+      ],
+      "display_name_it": "Riparatore Carsico",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "umbral-karst"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "support"
+      ],
+      "ecotypes": [
+        "keystone",
+        "support"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con cartilagini_pseudometalliche + camere_mirage.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "cartilagini_pseudometalliche",
+        "camere_mirage"
+      ],
+      "genus": "Cryptolorca",
+      "epithet": "medicata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_glaciolabis_nitida",
+      "legacy_slug": "glaciolabis-nitida",
+      "scientific_name": "Glaciolabis nitida",
+      "common_names": [
+        "Pattinatore Specchio"
+      ],
+      "display_name_it": "Pattinatore Specchio",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "cold-mirror-fen"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "predator"
+      ],
+      "ecotypes": [
+        "bridge",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Glaciolabis",
+      "epithet": "nitida",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_tonitrudens_ferox",
+      "legacy_slug": "tonitrudens-ferox",
+      "scientific_name": "Tonitrudens ferox",
+      "common_names": [
+        "Rosicchiatore di Tuono"
+      ],
+      "display_name_it": "Rosicchiatore di Tuono",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "thunder-reeds"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "omnivore"
+      ],
+      "ecotypes": [
+        "threat",
+        "omnivore"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Tonitrudens",
+      "epithet": "ferox",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_rubrospina_velox",
+      "legacy_slug": "rubrospina-velox",
+      "scientific_name": "Rubrospina velox",
+      "common_names": [
+        "Corriere Spinato"
+      ],
+      "display_name_it": "Corriere Spinato",
+      "classification": {
+        "macro_class": "Playable",
+        "habitat": "redspur-mesa"
+      },
+      "clade_tag": "Playable",
+      "role_tags": [
+        "playable",
+        "scout",
+        "bridge"
+      ],
+      "ecotypes": [
+        "playable",
+        "scout",
+        "bridge"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie playable con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Rubrospina",
+      "epithet": "velox",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_paludogromus_magnus",
+      "legacy_slug": "paludogromus-magnus",
+      "scientific_name": "Paludogromus magnus",
+      "common_names": [
+        "Colosso Palustre"
+      ],
+      "display_name_it": "Colosso Palustre",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "cold-mirror-fen"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "support"
+      ],
+      "ecotypes": [
+        "keystone",
+        "support"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Paludogromus",
+      "epithet": "magnus",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_cinerastra_nodosa",
+      "legacy_slug": "cinerastra-nodosa",
+      "scientific_name": "Cinerastra nodosa",
+      "common_names": [
+        "Spirale di Cenere"
+      ],
+      "display_name_it": "Spirale di Cenere",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "ashen-sink"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "ambusher"
+      ],
+      "ecotypes": [
+        "threat",
+        "ambusher"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Cinerastra",
+      "epithet": "nodosa",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_zephyrovum_fidelis",
+      "legacy_slug": "zephyrovum-fidelis",
+      "scientific_name": "Zephyrovum fidelis",
+      "common_names": [
+        "Nidificatore del Maestrale"
+      ],
+      "display_name_it": "Nidificatore del Maestrale",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "mistral-hollows"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "disperser"
+      ],
+      "ecotypes": [
+        "bridge",
+        "disperser"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Zephyrovum",
+      "epithet": "fidelis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_vitricyba_punctata",
+      "legacy_slug": "vitricyba-punctata",
+      "scientific_name": "Vitricyba punctata",
+      "common_names": [
+        "Beccatore di Vetro"
+      ],
+      "display_name_it": "Beccatore di Vetro",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "crystal-scree"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "forager"
+      ],
+      "ecotypes": [
+        "threat",
+        "forager"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Vitricyba",
+      "epithet": "punctata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_fumarisorba_sulfurea",
+      "legacy_slug": "fumarisorba-sulfurea",
+      "scientific_name": "Fumarisorba sulfurea",
+      "common_names": [
+        "Bevitore di Fumarole"
+      ],
+      "display_name_it": "Bevitore di Fumarole",
+      "classification": {
+        "macro_class": "Keystone",
+        "habitat": "hollow-fumaroles"
+      },
+      "clade_tag": "Keystone",
+      "role_tags": [
+        "keystone",
+        "detritivore"
+      ],
+      "ecotypes": [
+        "keystone",
+        "detritivore"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie keystone con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Fumarisorba",
+      "epithet": "sulfurea",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_arboryxis_lenis",
+      "legacy_slug": "arboryxis-lenis",
+      "scientific_name": "Arboryxis lenis",
+      "common_names": [
+        "Vagabondo della Volta"
+      ],
+      "display_name_it": "Vagabondo della Volta",
+      "classification": {
+        "macro_class": "Bridge",
+        "habitat": "lumen-canopy"
+      },
+      "clade_tag": "Bridge",
+      "role_tags": [
+        "bridge",
+        "grazer"
+      ],
+      "ecotypes": [
+        "bridge",
+        "grazer"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie bridge con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Arboryxis",
+      "epithet": "lenis",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_noctipedis_umbrata",
+      "legacy_slug": "noctipedis-umbrata",
+      "scientific_name": "Noctipedis umbrata",
+      "common_names": [
+        "Corridore Notturno"
+      ],
+      "display_name_it": "Corridore Notturno",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "umbral-karst"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie apex con ghiandole_condensa_ozono.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "ghiandole_condensa_ozono"
+      ],
+      "genus": "Noctipedis",
+      "epithet": "umbrata",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_magnetocola_pastoris",
+      "legacy_slug": "magnetocola-pastoris",
+      "scientific_name": "Magnetocola pastoris",
+      "common_names": [
+        "Pastore Ferrico"
+      ],
+      "display_name_it": "Pastore Ferrico",
+      "classification": {
+        "macro_class": "Support",
+        "habitat": "ironbloom-wastes"
+      },
+      "clade_tag": "Support",
+      "role_tags": [
+        "support",
+        "playable",
+        "grazer"
+      ],
+      "ecotypes": [
+        "support",
+        "playable",
+        "grazer"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie support con circolazione_bifasica.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "circolazione_bifasica"
+      ],
+      "genus": "Magnetocola",
+      "epithet": "pastoris",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_siltovena_bifida",
+      "legacy_slug": "siltovena-bifida",
+      "scientific_name": "Siltovena bifida",
+      "common_names": [
+        "Divisore del Delta"
+      ],
+      "display_name_it": "Divisore del Delta",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "silt-delta"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "threat",
+        "predator"
+      ],
+      "ecotypes": [
+        "threat",
+        "predator"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T1",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con adattamenti non specificati.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": null,
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [],
+      "genus": "Siltovena",
+      "epithet": "bifida",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "pulverator_gregarius",
+      "legacy_slug": "pulverator-gregarius",
+      "scientific_name": "Pulverator gregarius",
+      "common_names": [
+        "Razziatore di Polvere"
+      ],
+      "display_name_it": "Razziatore di Polvere",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "savana"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "pack_alpha"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator",
+        "pack_alpha"
+      ],
+      "biome_affinity": "savana",
+      "sentience_index": "T2",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "graffi",
+          "pulse magnetico"
+        ]
+      },
+      "functional_signature": "Specie apex con denti_seghettati + artigli_sette_vie.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 3,
+          "max": 5
+        },
+        "competes_with": [
+          "dune_stalker"
+        ],
+        "prey_of": [],
+        "preys_on": [],
+        "scavenges_from": [
+          "dune_stalker"
+        ],
+        "mutualism_with": [
+          {
+            "species_id": "dune_stalker",
+            "type": "indirect",
+            "note": "Pulverator pack drives prey from cover, indirectly aiding dune_stalker (Skiv) ambush; reverse interaction rare."
+          }
+        ]
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "denti_seghettati",
+        "artigli_sette_vie",
+        "voce_imperiosa",
+        "circolazione_doppia",
+        "olfatto_risonanza_magnetica",
+        "risonanza_di_branco",
+        "tattiche_di_branco",
+        "focus_frazionato"
+      ],
+      "genus": "Pulverator",
+      "epithet": "gregarius",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_tempestarius_psionicus",
+      "legacy_slug": "tempestarius-psionicus",
+      "scientific_name": "Tempestarius psionicus",
+      "common_names": [
+        "Maestro della Tempesta"
+      ],
+      "display_name_it": "Maestro della Tempesta",
+      "classification": {
+        "macro_class": "Apex",
+        "habitat": "cicloni_psionici"
+      },
+      "clade_tag": "Apex",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable",
+        "storm-channeler"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable",
+        "storm-channeler"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "pulse magnetico"
+        ]
+      },
+      "functional_signature": "Specie apex con antenne_plasmatiche_tempesta + sensori_geomagnetici.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 3
+        },
+        "preys_on": [],
+        "prey_of": [],
+        "competes_with": [],
+        "mutualism_with": []
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "antenne_plasmatiche_tempesta",
+        "sensori_geomagnetici",
+        "carapace_luminiscente_abissale",
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche",
+        "tattiche_di_branco"
+      ],
+      "genus": "Tempestarius",
+      "epithet": "psionicus",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    },
+    {
+      "species_id": "sp_magmocardium_furens",
+      "legacy_slug": "magmocardium-furens",
+      "scientific_name": "Magmocardium furens",
+      "common_names": [
+        "Cuore Furente"
+      ],
+      "display_name_it": "Cuore Furente",
+      "classification": {
+        "macro_class": "Threat",
+        "habitat": "abisso_vulcanico"
+      },
+      "clade_tag": "Threat",
+      "role_tags": [
+        "apex",
+        "predator",
+        "playable",
+        "rage-assault"
+      ],
+      "ecotypes": [
+        "apex",
+        "predator",
+        "playable",
+        "rage-assault"
+      ],
+      "biome_affinity": null,
+      "sentience_index": "T3",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "functional_signature": "Specie threat con circolazione_supercritica + sangue_piroforico.",
+      "visual_description": "",
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [],
+        "symbiosis": "nessuna"
+      },
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 2
+        },
+        "preys_on": [],
+        "prey_of": [],
+        "competes_with": [],
+        "mutualism_with": []
+      },
+      "pack_size": null,
+      "default_parts": null,
+      "trait_refs": [
+        "circolazione_supercritica",
+        "sangue_piroforico",
+        "coda_frusta_cinetica",
+        "ferocia",
+        "lamelle_shear",
+        "midollo_iperattivo",
+        "focus_frazionato"
+      ],
+      "genus": "Magmocardium",
+      "epithet": "furens",
+      "source": "legacy-yaml-merge",
+      "lifecycle_yaml": null
+    }
+  ],
+  "catalog_synergies": [
+    {
+      "id": "echo_backstab",
+      "name": "Echo Backstab",
+      "when_all": [
+        "senses.echolocation",
+        "offense.sand_claws"
+      ],
+      "effect": {
+        "bonus_damage": 1
+      }
+    }
+  ]
+}

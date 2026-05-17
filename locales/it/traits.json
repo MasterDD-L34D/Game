@@ -1,0 +1,1941 @@
+{
+  "$schema": "../../config/i18n/trait_locales.schema.json",
+  "language": "it",
+  "fallback": null,
+  "entries": {
+    "ali_fono_risonanti": {
+      "debolezza": "Le membrane si lacerano o si ghiacciano facilmente riducendo la risonanza.",
+      "description": "Generare ampia banda sonora in volo.",
+      "label": "Ali Fono-Risonanti",
+      "mutazione_indotta": "Venature come corde vibranti controllate.",
+      "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+      "uso_funzione": "Generare ampia banda sonora in volo."
+    },
+    "ali_fulminee": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Ali Fulminee permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "label": "Ali Fulminee",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ali_ioniche": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Membrane propulsive che rilasciano micro-scariche per scatti controllati.",
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ali_membrana_sonica": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
+      "label": "Ali Membrana Sonica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "ali_solari_fotoni": {
+      "debolezza": "Prestazioni ridotte in ombra prolungata o con polveri che schermano i pannelli.",
+      "description": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
+      "label": "Ali Solari Fotoni",
+      "mutazione_indotta": "innesta piumaggi a strati fotonici con condotti di accumulo irradiativo.",
+      "spinta_selettiva": "Sfruttare l'irraggiamento costante per copertura e manovre a lungo raggio.",
+      "uso_funzione": "Converte luce in spinta e genera scudi radianti per la squadra."
+    },
+    "antenne_dustsense": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Ricettori stratificati che stabilizzano l’assorbimento multi-fonte in deserti ionici.",
+      "label": "Antenne Dustsense",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "antenne_eco_turbina": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Antenne Eco Turbina permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "label": "Antenne Eco Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "antenne_flusso_mareale": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Antenne Flusso Mareale permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di laguna bioreattiva.",
+      "label": "Antenne Flusso Mareale",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "antenne_microonde_cavernose": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Antenne Microonde Cavernose permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante.",
+      "label": "Antenne Microonde Cavernose",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "antenne_plasmatiche_tempesta": {
+      "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
+      "description": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici.",
+      "label": "Antenne Plasmatiche di Tempesta",
+      "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
+      "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+    },
+    "antenne_reagenti": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Antenne Reagenti permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di foresta acida.",
+      "label": "Antenne Reagenti",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "antenne_tesla": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
+      "label": "Antenne Tesla",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "antenne_waveguide": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Antenne Waveguide permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di reef luminescente.",
+      "label": "Antenne Waveguide",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "antenne_wideband": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Antenne Wideband permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di steppe algoritmiche.",
+      "label": "Antenne Wideband",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "appendici_risonanti_marea": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Appendici Risonanti Marea permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.",
+      "label": "Appendici Risonanti Marea",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "appendici_thermotattiche": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Appendici Thermotattiche permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.",
+      "label": "Appendici Thermotattiche",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "armatura_pietra_planare": {
+      "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
+      "description": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto.",
+      "label": "Armatura di Pietra Planare",
+      "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
+      "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
+      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+    },
+    "articolazioni_a_leva_idraulica": {
+      "description": "Amplificare salto e spinta delle zampe.",
+      "label": "Articolazioni a Leva Idraulica",
+      "mutazione_indotta": "Camere pressurizzate nelle giunture.",
+      "spinta_selettiva": "Aggancio rapido su prede/rami.",
+      "uso_funzione": "Amplificare salto e spinta delle zampe."
+    },
+    "articolazioni_multiassiali": {
+      "description": "Ruotare arti per manovre strette.",
+      "label": "Articolazioni Multiassiali",
+      "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
+      "spinta_selettiva": "Arrampicata su tronchi umidi/scogliere",
+      "uso_funzione": "Ruotare arti per manovre strette"
+    },
+    "artigli_acidofagi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Artigli Acidofagi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "label": "Artigli Acidofagi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "artigli_induzione": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Artigli Induzione permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di canopia ionica.",
+      "label": "Artigli Induzione",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "artigli_ipo_termici": {
+      "description": "Indurre shock da freddo localizzato.",
+      "label": "Artigli Ipo-Termici",
+      "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
+      "spinta_selettiva": "Immobilizzazione rapida senza sangue.",
+      "uso_funzione": "Indurre shock da freddo localizzato."
+    },
+    "artigli_radice": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Artigli Radice permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di mangrovieto cinetico.",
+      "label": "Artigli Radice",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "artigli_scivolo_silente": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Artigli Scivolo Silente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di caverna risonante.",
+      "label": "Artigli Scivolo Silente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "artigli_sette_vie": {
+      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+      "description": "Artigli multipli che assicurano presa stabile su superfici irregolari.",
+      "label": "Artigli a Sette Vie",
+      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+    },
+    "artigli_sette_vie_2": {
+      "label": "Artigli Sette Vie",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Artigli Sette Vie'."
+    },
+    "artigli_sghiaccio_glaciale": {
+      "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
+      "description": "Falangi criogeniche che congelano e fissano il bersaglio al contatto.",
+      "label": "Artigli Sghiaccio Glaciale",
+      "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
+      "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+    },
+    "artigli_vetrificati": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Artigli Vetrificati permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
+      "label": "Artigli Vetrificati",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "artiglio_cinetico_a_urto": {
+      "description": "Infliggere onda d’urto e frattura.",
+      "label": "Artiglio Cinetico a Urto",
+      "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
+      "spinta_selettiva": "Neutralizzare rapidamente prede corazzate.",
+      "uso_funzione": "Infliggere onda d’urto e frattura."
+    },
+    "aura_di_dispersione_mentale": {
+      "description": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori.",
+      "label": "Aura di Dispersione Mentale",
+      "mutazione_indotta": "Emissioni EM deboli e odori avversivi coordinati.",
+      "spinta_selettiva": "Deterrenza senza scontro fisico.",
+      "uso_funzione": "Indurre ansia/vertigini nei predatori."
+    },
+    "aura_scudo_radianza": {
+      "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+      "description": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra.",
+      "label": "Aura Scudo di Radianza",
+      "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+      "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+    },
+    "baffi_mareomotori": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Baffi Mareomotori permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di mangrovieto cinetico.",
+      "label": "Baffi Mareomotori",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "barbigli_sensori_plasma": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Barbigli Sensori Plasma permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di stratosfera tempestosa.",
+      "label": "Barbigli Sensori Plasma",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "barriere_miasma_glaciale": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Barriere Miasma Glaciale permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caldera glaciale.",
+      "label": "Barriere Miasma Glaciale",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "batteri_endosimbionti_chemio": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Batteri Endosimbionti Chemio permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.",
+      "label": "Batteri Endosimbionti Chemio",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "batteri_termofili_endosimbiosi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Batteri Termofili Endosimbiosi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "label": "Batteri Termofili Endosimbiosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "bioantenne_gravitiche": {
+      "description": "Antenne che leggono shear gravitazionali e li convertono in segnali.",
+      "label": "Bioantenne Gravitiche"
+    },
+    "biochip_memoria": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Biochip Memoria permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di steppe algoritmiche.",
+      "label": "Biochip Memoria",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "biofilm_glow": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Biofilm Glow permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di reef luminescente.",
+      "label": "Biofilm Glow",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "biofilm_iperarido": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Biofilm Iperarido permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida.",
+      "label": "Biofilm Iperarido",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "bozzolo_magnetico": {
+      "description": "Schermarsi da campi elettromagnetici esterni.",
+      "label": "Bozzolo Magnetico",
+      "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
+      "spinta_selettiva": "Riposo profondo e protezione da predatori elettrorecettivi.",
+      "uso_funzione": "Schermarsi da EM esterni."
+    },
+    "branchie_dual_mode": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Branchie Dual Mode permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di laguna bioreattiva.",
+      "label": "Branchie Dual Mode",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "branchie_eoliche": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Branchie Eoliche permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "label": "Branchie Eoliche",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "branchie_metalloidi": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Branchie Metalloidi permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.",
+      "label": "Branchie Metalloidi",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "branchie_microfiltri": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Branchie Microfiltri permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di reef luminescente.",
+      "label": "Branchie Microfiltri",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "branchie_osmotiche_salmastra": {
+      "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
+      "description": "Branchie psioniche che filtrano sali e tossine in acque variabili.",
+      "label": "Branchie Osmotiche Salmastre",
+      "mutazione_indotta": "Lamelle branchiali multilivello con valvole che separano sali e tossine.",
+      "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
+      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+    },
+    "branchie_solfatiche": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Branchie Solfatiche permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di caldera glaciale.",
+      "label": "Branchie Solfatiche",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "branchie_turbina": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Branchie Turbina permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "label": "Branchie Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "bulbi_radici_permafrost": {
+      "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
+      "description": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse.",
+      "label": "Bulbi Radici del Permafrost",
+      "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
+      "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+    },
+    "camere_anticorrosione": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Camere Anticorrosione permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di foresta acida.",
+      "label": "Camere Anticorrosione",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "camere_mirage": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Camere Mirage permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "label": "Camere Mirage",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "camere_nutrienti_vent": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Camere Nutrienti Vent permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di dorsale termale tropicale.",
+      "label": "Camere Nutrienti Vent",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "camere_risonanza_abyssal": {
+      "description": "Caverne interne che amplificano onde elettriche/gravitazionali.",
+      "label": "Camere di Risonanza Abyssal"
+    },
+    "campo_di_interferenza_acustica": {
+      "debolezza": "Saturazione prolungata rompe la coerenza del rumore bianco e rivela la fonte.",
+      "description": "Mascherare posizione e velocità.",
+      "label": "Campo di Interferenza Acustica",
+      "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
+      "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
+      "uso_funzione": "Mascherare posizione/velocità."
+    },
+    "cannone_sonico_a_raggio": {
+      "debolezza": "I risonatori si surriscaldano e deviano il fascio senza cicli di raffreddamento.",
+      "description": "Stordire o ferire con un raggio sonoro.",
+      "label": "Cannone Sonico a Raggio",
+      "mutazione_indotta": "Risonanza focale su membrana alare.",
+      "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
+      "uso_funzione": "Stordire/ferire con raggio sonoro."
+    },
+    "canto_infrasonico_tattico": {
+      "description": "Disorientare predatori e comunicare a distanza.",
+      "label": "Canto Infrasonico Tattico",
+      "mutazione_indotta": "Corde vocali modificate a bassa frequenza.",
+      "spinta_selettiva": "Coordinamento di branco e deterrenza.",
+      "uso_funzione": "Disorientare predatori e comunicare a distanza."
+    },
+    "canto_risonante": {
+      "description": "Frequenze che armonizzano il gruppo e riducono stress (temp).",
+      "label": "Canto Risonante"
+    },
+    "capillari_criogenici": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Capillari Criogenici permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
+      "label": "Capillari Criogenici",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "capillari_fluoridici": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Capillari Fluoridici permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di foresta acida.",
+      "label": "Capillari Fluoridici",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "capillari_fotovoltaici": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Capillari Fotovoltaici permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di canopia ionica.",
+      "label": "Capillari Fotovoltaici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "capsule_paracadute": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Capsule Paracadute permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di stratosfera tempestosa.",
+      "label": "Capsule Paracadute",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "carapace_fase_variabile": {
+      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
+      "description": "Corazza che varia densità per bilanciare difesa e mobilità.",
+      "label": "Carapace a Variazione di Fase",
+      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+    },
+    "carapace_luminiscente_abissale": {
+      "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+      "description": "Guscio bioluminescente che confonde i predatori nelle profondità.",
+      "label": "Carapace Luminiscente Abissale",
+      "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+      "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+    },
+    "carapace_segmenti_logici": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Carapace Segmenti Logici permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "label": "Carapace Segmenti Logici",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "carapaci_ferruginosi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Carapaci Ferruginosi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.",
+      "label": "Carapaci Ferruginosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "cartilagine_flessotermica_venti": {
+      "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
+      "description": "Cartilagine termoreattiva che ottimizza virate e planate aeree.",
+      "label": "Cartilagine Flessotermica dei Venti",
+      "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
+      "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+    },
+    "cartilagini_biofibre": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Cartilagini Biofibre permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di reef luminescente.",
+      "label": "Cartilagini Biofibre",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "cartilagini_desertiche": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Cartilagini Desertiche permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "label": "Cartilagini Desertiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "cartilagini_flessoacustiche": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Cartilagini Flessoacustiche permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di caverna risonante.",
+      "label": "Cartilagini Flessoacustiche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cartilagini_pseudometalliche": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Cartilagini Pseudometalliche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "label": "Cartilagini Pseudometalliche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cavita_risonanti_tundra": {
+      "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+      "description": "Camere toraciche che proiettano richiami a lunga distanza nel gelo.",
+      "label": "Cavità Risonanti della Tundra",
+      "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+      "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+    },
+    "cervelletto_equilibrio_statico": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Cervelletto Equilibrio Statico permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di canopia ionica.",
+      "label": "Cervelletto Equilibrio Statico",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cervello_a_bassa_latenza": {
+      "description": "Eseguire manovre ad alta frequenza.",
+      "label": "Cervello a Bassa Latenza",
+      "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
+      "spinta_selettiva": "Predazione aerea in stormi.",
+      "uso_funzione": "Eseguire manovre ad alta frequenza."
+    },
+    "chemiorecettori_bromuro": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Chemiorecettori Bromuro permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di pianura salina iperarida.",
+      "label": "Chemiorecettori Bromuro",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "chioma_parassita_canopica": {
+      "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
+      "description": "Filamenti parassiti che creano corsie energetiche nella canopia.",
+      "label": "Chioma Parassita Canopica",
+      "mutazione_indotta": "Filamenti vegetali che si intrecciano con la canopia ospite fornendo punti d'ancoraggio e energia.",
+      "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+    },
+    "cinghia_iper_ciliare": {
+      "description": "Traslare il corpo su terreni piani o ruvidi.",
+      "label": "Cinghia Iper-Ciliare",
+      "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
+      "spinta_selettiva": "Ridurre necessità di arti portanti tradizionali.",
+      "uso_funzione": "Traslare il corpo su terreni piani/ruvidi."
+    },
+    "circolazione_bifasica": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Circolazione Bifasica permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caldera glaciale.",
+      "label": "Circolazione Bifasica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "circolazione_bifasica_palude": {
+      "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
+      "description": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti.",
+      "label": "Circolazione Bifasica di Palude",
+      "mutazione_indotta": "Cuori gemelli che pompano separatamente emolinfa ossigenata e linfa detossificante.",
+      "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+    },
+    "circolazione_cooling_loop": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Circolazione Cooling Loop permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "label": "Circolazione Cooling Loop",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "circolazione_doppia": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Circolazione Doppia permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "label": "Circolazione Doppia",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "circolazione_supercritica": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Circolazione Supercritica permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di abisso vulcanico.",
+      "label": "Circolazione Supercritica",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ciste_riduttive": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Ciste Riduttive permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di laguna bioreattiva.",
+      "label": "Ciste Riduttive",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ciste_salmastre": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Ciste Salmastre permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida.",
+      "label": "Ciste Salmastre",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cisti_di_ibernazione_minerale": {
+      "description": "Entrare in stasi in condizioni avverse.",
+      "label": "Cisti di Ibernazione Minerale",
+      "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
+      "spinta_selettiva": "Sopravvivenza a lungo termine.",
+      "uso_funzione": "Entra in stasi in condizioni avverse."
+    },
+    "cisti_iperbariche": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Cisti Iperbariche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "label": "Cisti Iperbariche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "coda_balanciere": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Coda Balanciere permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "label": "Coda Balanciere",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "coda_contrappeso": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Coda Contrappeso permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di mangrovieto cinetico.",
+      "label": "Coda Contrappeso",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "coda_coppia_retroattiva": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Coda Coppia Retroattiva permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di steppe algoritmiche.",
+      "label": "Coda Coppia Retroattiva",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "coda_frusta_cinetica": {
+      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
+      "description": "Coda elastica che accumula slancio per un colpo cinetico devastante.",
+      "label": "Coda a Frusta Cinetica",
+      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+    },
+    "coda_frusta_cinetica_2": {
+      "label": "Coda Frusta Cinetica",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Coda Frusta Cinetica'."
+    },
+    "coda_prensile_muscolare": {
+      "description": "Appendere e controbilanciarsi.",
+      "label": "Coda Prensile Muscolare",
+      "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
+      "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+      "uso_funzione": "Appendere e contro-bilanciare"
+    },
+    "coda_stabilizzatrice_filo": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Coda Stabilizzatrice Filo permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di canopia ionica.",
+      "label": "Coda Stabilizzatrice Filo",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "coda_stabilizzatrice_geiser": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Coda Stabilizzatrice Geiser permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "label": "Coda Stabilizzatrice Geiser",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "coda_stabilizzatrice_vortex": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Coda Stabilizzatrice Vortex permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di stratosfera tempestosa.",
+      "label": "Coda Stabilizzatrice Vortex",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "colonne_vibromagnetiche": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Colonne Vibromagnetiche permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante.",
+      "label": "Colonne Vibromagnetiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "comunicazione_fotonica_coda_coda": {
+      "description": "Scambiare impulsi luminosi tattili.",
+      "label": "Comunicazione Fotonica Coda-Coda",
+      "mutazione_indotta": "Piume codali con bioluminescenza debole.",
+      "spinta_selettiva": "Coordinamento silente in stormo.",
+      "uso_funzione": "Scambiare impulsi luminosi tattili."
+    },
+    "coralli_partner": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Coralli Partner permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente.",
+      "label": "Coralli Partner",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "coralli_sinaptici_fotofase": {
+      "description": "Barriere bioelettriche che canalizzano luce e impulsi.",
+      "label": "Coralli Sinaptici Fotofase"
+    },
+    "corazze_ferro_magnetico": {
+      "description": "Placche ferrose che guidano campi magnetici profondi.",
+      "label": "Corazze Ferro-Magnetico"
+    },
+    "corna_psico_conduttive": {
+      "description": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco.",
+      "label": "Corna Psico-Conduttive",
+      "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
+      "spinta_selettiva": "Allerta precoce e tattiche di branco.",
+      "uso_funzione": "Trasmettere/ricevere segnali neurali lenti."
+    },
+    "coscienza_dalveare_diffusa": {
+      "description": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "label": "Coscienza d’Alveare Diffusa",
+      "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
+      "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+      "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+      "debolezza": "Se i nodi vengono isolati la rete collassa in feedback caotici e stress cognitivo condiviso."
+    },
+    "coscienza_d_alveare_diffusa": {
+      "description": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "label": "Coscienza d’Alveare Diffusa",
+      "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
+      "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+      "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+      "debolezza": "Se i nodi vengono isolati la rete collassa in feedback caotici e stress cognitivo condiviso."
+    },
+    "criostasi_adattiva": {
+      "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
+      "description": "Metabolismo sospeso che sopravvive a stagioni estreme prolungate.",
+      "label": "Criostasi",
+      "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+      "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+    },
+    "criostasi_adattiva_2": {
+      "label": "Criostasi Adattiva",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Criostasi Adattiva'."
+    },
+    "cromofori_alert_acido": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di foresta acida.",
+      "label": "Cromofori Alert Acido",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Cuore Multicamera Bassa Pressione permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "label": "Cuore Multicamera Bassa Pressione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cuscinetti_elettrostatici": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Cuscinetti Elettrostatici permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di pianura salina iperarida.",
+      "label": "Cuscinetti Elettrostatici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "cute_resistente_sali": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Cute Resistente Sali permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di badlands.",
+      "label": "Cute Resistente Sali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "cuticole_cerose": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Cuticole Cerose permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "label": "Cuticole Cerose",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "cuticole_neutralizzanti": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Cuticole Neutralizzanti permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "label": "Cuticole Neutralizzanti",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "denti_chelatanti": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Denti Chelatanti permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di foresta acida.",
+      "label": "Denti Chelatanti",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "denti_ossidoferro": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Denti Ossidoferro permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di abisso vulcanico.",
+      "label": "Denti Ossidoferro",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "denti_silice_termici": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Denti Silice Termici permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di dorsale termale tropicale.",
+      "label": "Denti Silice Termici",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "denti_tuning_fork": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Denti Tuning Fork permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caverna risonante.",
+      "label": "Denti Tuning Fork",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "echi_risonanti": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Echi Risonanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "label": "Echi Risonanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "eco_interno_riflesso": {
+      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
+      "description": "Sonar interno che mappa l'ambiente attraverso vibrazioni corporee.",
+      "label": "Riflesso dell'Eco Interno",
+      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+    },
+    "ectotermia_dinamica": {
+      "description": "Microscosse isometriche che innalzano in fretta la temperatura corporea per picchi prestazionali in climi freschi.",
+      "label": "Ectotermia Dinamica",
+      "mutazione_indotta": "Microscosse isometriche per termogenesi rapida.",
+      "spinta_selettiva": "Caccia all’alba/crepuscolo in climi freschi.",
+      "uso_funzione": "Alzare temperatura per performance."
+    },
+    "elettromagnete_biologico": {
+      "description": "Interferire con il sistema nervoso della preda.",
+      "label": "Elettromagnete Biologico",
+      "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
+      "spinta_selettiva": "Immobilizzare pesci e piccoli rettili.",
+      "uso_funzione": "Interferire con sistema nervoso preda."
+    },
+    "emettitori_voidsong": {
+      "description": "Organi che emettono cori a frequenze profonde per stabilizzare lo shear.",
+      "label": "Emettitori Voidsong"
+    },
+    "emolinfa_conducente": {
+      "description": "Fluido che accumula carica e drena energia nemica.",
+      "label": "Emolinfa Conducente"
+    },
+    "empatia_coordinativa": {
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
+      "description": "Rete empatica che sincronizza cure e difese dell'intera squadra.",
+      "label": "Empatia Coordinativa",
+      "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+      "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+    },
+    "enzimi_antifase_termica": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Enzimi Antifase Termica permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caldera glaciale.",
+      "label": "Enzimi Antifase Termica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "enzimi_antipredatori_algali": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Enzimi Antipredatori Algali permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di reef luminescente.",
+      "label": "Enzimi Antipredatori Algali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "enzimi_chelanti": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Enzimi Chelanti permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "label": "Enzimi Chelanti",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "enzimi_chelatori_rapidi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Enzimi Chelatori Rapidi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "label": "Enzimi Chelatori Rapidi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "enzimi_metanoossidanti": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Enzimi Metanoossidanti permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di abisso vulcanico.",
+      "label": "Enzimi Metanoossidanti",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "epidermide_dielettrica": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Epidermide Dielettrica permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di stratosfera tempestosa.",
+      "label": "Epidermide Dielettrica",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "epitelio_fosforescente": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Epitelio Fosforescente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente.",
+      "label": "Epitelio Fosforescente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ermafroditismo_cronologico": {
+      "description": "Cambiare sesso dopo 1–2 incubazioni.",
+      "label": "Ermafroditismo Cronologico",
+      "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
+      "spinta_selettiva": "Ottimizzare successo riproduttivo in densità variabile.",
+      "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni."
+    },
+    "estroflessione_gastrica_acida": {
+      "description": "Liquefare tessuti al contatto e aspirarli.",
+      "label": "Estroflessione Gastrica Acida",
+      "mutazione_indotta": "Sacca digestiva everted con enzimi proteolitici.",
+      "spinta_selettiva": "Cattura prede più grandi con rischio minimo.",
+      "uso_funzione": "Liquefare tessuti su contatto e aspirare."
+    },
+    "fagocitosi_assorbente": {
+      "description": "Inglobare e digerire biomassa intera.",
+      "label": "Fagocitosi Assorbente",
+      "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
+      "spinta_selettiva": "Dieta onnivora opportunista.",
+      "uso_funzione": "Inglobare e digerire biomassa intera."
+    },
+    "filamenti_digestivi_compattanti": {
+      "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
+      "description": "Filamenti digestivi che compattano scarti e liberano spazio vitale.",
+      "label": "Filamenti Digestivi Compattanti",
+      "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+      "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+    },
+    "filamenti_echo": {
+      "description": "Filamenti che rilanciano frequenze di squadra e attenuano shear.",
+      "label": "Filamenti Echo"
+    },
+    "filamenti_guidalampo": {
+      "description": "Filamenti che tracciano rotte sicure nelle correnti.",
+      "label": "Filamenti Guidalampo"
+    },
+    "filamenti_magnetotrofi": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Filamenti Magnetotrofi permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "label": "Filamenti Magnetotrofi",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "filamenti_superconduttivi": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Filamenti Superconduttivi permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caldera glaciale.",
+      "label": "Filamenti Superconduttivi",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "filamenti_termoconduzione": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Filamenti Termoconduzione permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di dorsale termale tropicale.",
+      "label": "Filamenti Termoconduzione",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "filtrazione_osmotica": {
+      "description": "Neutralizzare tossine autogenerate.",
+      "label": "Filtrazione Osmotica",
+      "mutazione_indotta": "Reni a multi-stadio con escrezione selettiva.",
+      "spinta_selettiva": "Sopravvivere all’autointossicazione.",
+      "uso_funzione": "Neutralizzare tossine autogenerate."
+    },
+    "filtri_planctonici": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Filtri Planctonici permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.",
+      "label": "Filtri Planctonici",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "filtro_metallofago": {
+      "description": "Sostenere organi elettrogeni.",
+      "label": "Filtro Metallofago",
+      "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
+      "spinta_selettiva": "Metabolismo efficiente in acque povere.",
+      "uso_funzione": "Sostenere organi elettrogeni."
+    },
+    "flagelli_ancoranti": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Flagelli Ancoranti permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di laguna bioreattiva.",
+      "label": "Flagelli Ancoranti",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "flusso_ameboide_controllato": {
+      "description": "Scivolare o risalire superfici lisce.",
+      "label": "Flusso Ameboide Controllato",
+      "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
+      "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
+      "uso_funzione": "Scivolare/risalire superfici lisce."
+    },
+    "focus_frazionato": {
+      "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
+      "description": "Cortex biforcato che mantiene due minacce in sorveglianza attiva.",
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
+      "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+    },
+    "focus_frazionato_2": {
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Focus Frazionato'."
+    },
+    "foliage_fotocatodico": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Foliage Fotocatodico permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "label": "Foliage Fotocatodico",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "foliaggio_spugna": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Foliaggio Spugna permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di mangrovieto cinetico.",
+      "label": "Foliaggio Spugna",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "frusta_fiammeggiante": {
+      "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
+      "description": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli.",
+      "label": "Frusta Fiammeggiante",
+      "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
+      "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
+      "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+    },
+    "ghiaccio_piezoelettrico": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Ghiaccio Piezoelettrico permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caldera glaciale.",
+      "label": "Ghiaccio Piezoelettrico",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandola_caustica": {
+      "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
+      "description": "Ghiandola offensiva che spruzza acidi rapidi contro corazze leggere.",
+      "label": "Ghiandola Caustica",
+      "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
+      "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+    },
+    "ghiandole_cambio_salino": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Ghiandole Cambio Salino permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di laguna bioreattiva.",
+      "label": "Ghiandole Cambio Salino",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_condensa_ozono": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Ghiandole Condensa Ozono permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di stratosfera tempestosa.",
+      "label": "Ghiandole Condensa Ozono",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_eco_mappanti": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Ghiandole Eco Mappanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "label": "Ghiandole Eco Mappanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_fango_calde": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Ghiandole Fango Calde permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.",
+      "label": "Ghiandole Fango Calde",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ghiandole_fango_coesivo": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Ghiandole Fango Coesivo permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.",
+      "label": "Ghiandole Fango Coesivo",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "ghiandole_grafene": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Ghiandole Grafene permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "label": "Ghiandole Grafene",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "ghiandole_inchiostro_luce": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Ghiandole Inchiostro Luce permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di reef luminescente.",
+      "label": "Ghiandole Inchiostro Luce",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "ghiandole_iodoattive": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Ghiandole Iodoattive permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di pianura salina iperarida.",
+      "label": "Ghiandole Iodoattive",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ghiandole_minerali": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Ghiandole Minerali permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di dorsale termale tropicale.",
+      "label": "Ghiandole Minerali",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandole_mnemoniche": {
+      "description": "Secrezioni che trattengono copie attenuate di buff.",
+      "label": "Ghiandole Mnemoniche"
+    },
+    "ghiandole_nebbia_acida": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Ghiandole Nebbia Acida permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di foresta acida.",
+      "label": "Ghiandole Nebbia Acida",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_nebbia_ionica": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Ghiandole Nebbia Ionica permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
+      "label": "Ghiandole Nebbia Ionica",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_resina_conduttiva": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Ghiandole Resina Conduttiva permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di canopia ionica.",
+      "label": "Ghiandole Resina Conduttiva",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_ventosa": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Ghiandole Ventosa permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caldera glaciale.",
+      "label": "Ghiandole Ventosa",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "giunti_antitorsione": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Giunti Antitorsione permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.",
+      "label": "Giunti Antitorsione",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "grassi_termici": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Grassi Termici permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "label": "Grassi Termici",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "gusci_criovetro": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Gusci Criovetro permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di caldera glaciale.",
+      "label": "Gusci Criovetro",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "gusci_magnesio": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Gusci Magnesio permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di dorsale termale tropicale.",
+      "label": "Gusci Magnesio",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "impulsi_bioluminescenti": {
+      "description": "Scariche ritmiche che abbagliano e sincronizzano alleati.",
+      "label": "Impulsi Bioluminescenti"
+    },
+    "integumento_bipolare": {
+      "description": "Orientarsi lungo le linee di campo.",
+      "label": "Integumento Bipolare",
+      "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
+      "spinta_selettiva": "Migrazioni precise e caccia notturna.",
+      "uso_funzione": "Orientarsi su linee di campo."
+    },
+    "ipertrofia_muscolare_massiva": {
+      "description": "Fibre a sezione aumentata e mitocondri densi che sprigionano potenza e scatto sostenendo sforzi brevi.",
+      "label": "Ipertrofia Muscolare Massiva",
+      "mutazione_indotta": "Fibre a sezione aumentata e mitocondri densi.",
+      "spinta_selettiva": "Selezione per cattura prede muscolose.",
+      "uso_funzione": "Aumentare potenza e scatto."
+    },
+    "lamelle_shear": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Lamelle Shear permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di stratosfera tempestosa.",
+      "label": "Lamelle Shear",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "lamelle_sincroniche": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Lamelle Sincroniche permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di steppe algoritmiche.",
+      "label": "Lamelle Sincroniche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "lamelle_termoforetiche": {
+      "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
+      "description": "Lamelle respiratorie che deviano gas estremi con gradienti termici.",
+      "label": "Lamelle Termoforetiche",
+      "mutazione_indotta": "Canali lamellari mineralizzati che convogliano fluidi caldi tra branchie interne.",
+      "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
+      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+    },
+    "lamine_filtranti_aeree": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Lamine Filtranti Aeree permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
+      "label": "Lamine Filtranti Aeree",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "lamine_scudo_silice": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Lamine Scudo Silice permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di dorsale termale tropicale.",
+      "label": "Lamine Scudo Silice",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "linfa_tampone": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Linfa Tampone permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di foresta acida.",
+      "label": "Linfa Tampone",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "lingua_cristallina": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Lingua Cristallina permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di pianura salina iperarida.",
+      "label": "Lingua Cristallina",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "lingua_tattile_trama": {
+      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+      "description": "Lingua sensoriale che legge vibrazioni e fratture nascoste.",
+      "label": "Lingua Tattile Trama-Sensibile",
+      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+    },
+    "lobi_risonanti_crepuscolo": {
+      "description": "Camere risonanti che filtrano segnali instabili.",
+      "label": "Lobi Risonanti Crepuscolo"
+    },
+    "locomozione_miriapode_ibrida": {
+      "description": "Aderire e arrampicare su qualsiasi superficie.",
+      "label": "Locomozione Miriapode Ibrida",
+      "mutazione_indotta": "50–100 paia di arti segmentati.",
+      "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+      "uso_funzione": "Aderire e arrampicare su qualsiasi superficie."
+    },
+    "luminescenza_aurorale": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "description": "Luminescenza Aurorale permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di caldera glaciale.",
+      "label": "Luminescenza Aurorale",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "luminescenza_hydrotermica": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "description": "Luminescenza Hydrotermica permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.",
+      "label": "Luminescenza Hydrotermica",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "mantelli_geotermici": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "description": "Mantelli Geotermici permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di caldera glaciale.",
+      "label": "Mantelli Geotermici",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "mantello_meteoritico": {
+      "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
+      "description": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico.",
+      "label": "Mantello Meteoritico",
+      "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
+      "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
+      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+    },
+    "membrana_plastica_continua": {
+      "description": "Assumere forme e densità diverse.",
+      "label": "Membrana Plastica Continua",
+      "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
+      "spinta_selettiva": "Elusione predatori e passaggio micro-fessure.",
+      "uso_funzione": "Assumere forme e densità diverse."
+    },
+    "membrane_captura_rugiada": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "description": "Membrane Captura Rugiada permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "label": "Membrane Captura Rugiada",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "membrane_eliofiltranti": {
+      "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
+      "description": "Membrane traslucide che schermano radiazioni e patogeni sospesi.",
+      "label": "Membrane Eliofiltranti",
+      "mutazione_indotta": "Strati di mucopolisaccaridi trasparenti che filtrano radiazioni e microrganismi sospesi.",
+      "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
+      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+    },
+    "membrane_fotoconvoglianti": {
+      "description": "Tessuti che trasportano cariche luminose tra nodi sinaptici.",
+      "label": "Membrane Fotoconvoglianti"
+    },
+    "membrane_planata_vectored": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "description": "Membrane Planata Vectored permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di canopia ionica.",
+      "label": "Membrane Planata Vectored",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "membrane_pneumatofori": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "description": "Membrane Pneumatofori permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
+      "label": "Membrane Pneumatofori",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "metabolismo_di_condivisione_energetica": {
+      "description": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva.",
+      "label": "Metabolismo di Condivisione Energetica",
+      "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
+      "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
+      "uso_funzione": "Sostenere feriti/giovani con riserva collettiva."
+    },
+    "midollo_antivibrazione": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "description": "Midollo Antivibrazione permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "label": "Midollo Antivibrazione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "mimetismo_cromatico_passivo": {
+      "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
+      "description": "Cromatofori passivi che replicano lentamente i colori circostanti.",
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+      "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+    },
+    "moltiplicazione_per_fusione": {
+      "description": "Aumentare massa e intelligenza unendo unità.",
+      "label": "Moltiplicazione per Fusione",
+      "mutazione_indotta": "Scissione binaria e fusione selettiva.",
+      "spinta_selettiva": "Resilienza in condizioni variabili.",
+      "uso_funzione": "Aumentare massa/intelligenza unendo unità."
+    },
+    "motore_biologico_silenzioso": {
+      "description": "Garantire volo prolungato a bassissimo SPL.",
+      "label": "Motore Biologico Silenzioso",
+      "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
+      "spinta_selettiva": "Caccia persistente con sorpresa tattica.",
+      "uso_funzione": "Volo prolungato a bassissimo SPL."
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
+      "description": "Mucosa simbionte che assorbe veleni e sigilla ferite palustri.",
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "mutazione_indotta": "Strati mucosi che ospitano microfauna detossificante proveniente dalle radici di mangrovia.",
+      "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+    },
+    "mucose_aderenza_sonica": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "description": "Mucose Aderenza Sonica permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caverna risonante.",
+      "label": "Mucose Aderenza Sonica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "mucose_barofile": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "description": "Mucose Barofile permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di abisso vulcanico.",
+      "label": "Mucose Barofile",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "nebbia_mnesica": {
+      "description": "Foschia psionica che offusca memorie e orientamento.",
+      "label": "Nebbia Mnesica"
+    },
+    "nodi_micorrizici_oracolari": {
+      "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
+      "description": "Nodi micorrizici che anticipano minacce tramite segnali fungini.",
+      "label": "Nodi Micorrizici Oracolari",
+      "mutazione_indotta": "Radici dermiche che intrecciano funghi psionici capaci di predire variazioni ambientali.",
+      "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+    },
+    "nodi_sinaptici_superficiali": {
+      "description": "Reticolo di nodi che amplificano segnali superficiali.",
+      "label": "Nodi Sinaptici Superficiali"
+    },
+    "nucleo_ovomotore_rotante": {
+      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
+      "description": "Nucleo rotante che trasforma il corpo in una ruota motrice.",
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
+      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+    },
+    "occhi_analizzatori_di_tensione": {
+      "description": "Leggere tensioni nella seta e pattern di stress.",
+      "label": "Occhi Analizzatori di Tensione",
+      "mutazione_indotta": "Retina sensibile alla polarizzazione.",
+      "spinta_selettiva": "Ottimizzare riparazioni e trappole.",
+      "uso_funzione": "Leggere tensioni nella seta e pattern di stress."
+    },
+    "occhi_cinetici": {
+      "debolezza": "I micro-attuatori si saturano di polveri, rallentando la messa a fuoco.",
+      "description": "Vedere il suono come pattern d’aria.",
+      "label": "Occhi Cinetici",
+      "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+      "spinta_selettiva": "Allineamento col cannone sonico.",
+      "uso_funzione": "Vedere il suono come pattern d’aria."
+    },
+    "occhi_cristallo_modulare": {
+      "label": "Occhi a Cristallo Modulare",
+      "mutazione_indotta": "L'organo visivo si fraziona in lenti di cristallo sostituibili che modulano spettro e messa a fuoco in tempo reale.",
+      "spinta_selettiva": "Garantire riconoscimento rapido di minacce e risorse in scenari multibioma mantenendo resilienza a bagliori o accecamenti mirati.",
+      "uso_funzione": "Amplifica la raccolta dati a lunga distanza e consente di passare rapidamente da zoom tattici a panoramiche ambientali senza perdita di dettaglio."
+    },
+    "occhi_infrarosso_composti": {
+      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+      "description": "Ommatidi infrarossi che seguono scie termiche nell'oscurità.",
+      "label": "Occhi Composti ad Infrarosso",
+      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+    },
+    "olfatto_risonanza_magnetica": {
+      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
+      "description": "Bulbi olfattivi che tracciano campi magnetici e vene metalliche.",
+      "label": "Olfatto di Risonanza Magnetica",
+      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+    },
+    "organi_metacronici": {
+      "description": "Organi che sequenziano furti di buff in catena.",
+      "label": "Organi Metacronici"
+    },
+    "organi_sismici_cutanei": {
+      "description": "Lamelle meccano-recettive nelle squame che percepiscono vibrazioni del suolo e movimenti occultati.",
+      "label": "Organi Sismici Cutanei",
+      "mutazione_indotta": "Squame con lamelle meccano-recettive.",
+      "spinta_selettiva": "Predazione in copertura e notturna.",
+      "uso_funzione": "Percepire vibrazioni del suolo."
+    },
+    "pathfinder": {
+      "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+      "description": "Suite esplorativa che evidenzia rotte sicure tra biomi imprevedibili.",
+      "label": "Pathfinder",
+      "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+    },
+    "pelage_idrorepellente_avanzato": {
+      "description": "Isolare e galleggiare.",
+      "label": "Pelage Idrorepellente Avanzato",
+      "mutazione_indotta": "Ghiandole olocrine con olio ad alta densità.",
+      "spinta_selettiva": "Foraggiamento anfibio e notturno in climi umidi.",
+      "uso_funzione": "Isolare e galleggiare"
+    },
+    "pelle_piezo_satura": {
+      "description": "Dermide che accumula carica piezoelettrica e riflette colpi (temp).",
+      "label": "Pelle Piezo-Satura"
+    },
+    "pianificatore": {
+      "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
+      "description": "Modulo strategico che mantiene priorità e finestre d'attacco allineate.",
+      "label": "Pianificatore",
+      "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+      "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+    },
+    "piume_solari_fotovoltaiche": {
+      "debolezza": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica.",
+      "description": "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni.",
+      "label": "Piume Solari Fotovoltaiche",
+      "mutazione_indotta": "Piumaggio stratificato con pigmenti piezo-fotovoltaici che immagazzinano luce.",
+      "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
+      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+    },
+    "placca_diffusione_foschia": {
+      "description": "Placche che diffondono e attenuano cariche erratiche.",
+      "label": "Placca di Diffusione Foschia"
+    },
+    "placche_pressioniche": {
+      "description": "Strati che disperdono pressione abissale e riducono trauma.",
+      "label": "Placche Pressioniche"
+    },
+    "polmoni_cristallini_alta_quota": {
+      "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
+      "description": "Polmoni cristallini che concentrano ossigeno rarefatto in quota.",
+      "label": "Polmoni Cristallini d'Alta Quota",
+      "mutazione_indotta": "Sistemi alveolari irrobustiti da strutture cristalline che catturano ossigeno rarefatto.",
+      "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
+      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+    },
+    "random": {
+      "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
+      "description": "Slot sperimentale che estrae tratti casuali dal pool controllato.",
+      "label": "Trait Random",
+      "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
+      "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+    },
+    "respiro_a_scoppio": {
+      "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
+      "description": "Valvole toraciche che rilasciano getti propulsivi istantanei.",
+      "label": "Respiro a scoppio",
+      "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+      "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
+    },
+    "rete_filtro_polmonare": {
+      "description": "Assorbire nutrienti aerodispersi.",
+      "label": "Rete Filtro-Polmonare",
+      "mutazione_indotta": "Ghiandole parenchimali filtranti in sacche polmonari.",
+      "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
+      "uso_funzione": "Assorbire nutrienti aerodispersi."
+    },
+    "risonanza_di_branco": {
+      "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
+      "description": "Rete risonante che amplifica buff condivisi del branco.",
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
+      "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+    },
+    "risonanza_di_branco_2": {
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Risonanza di Branco'."
+    },
+    "riverbero_memetico": {
+      "description": "Eco cognitivo che duplica buff a potenza ridotta (temp).",
+      "label": "Riverbero Memetico"
+    },
+    "rostro_emostatico_litico": {
+      "description": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo l’impatto.",
+      "label": "Rostro Emostatico-Litico",
+      "mutazione_indotta": "Mascellare tubulare rigidizzato.",
+      "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
+      "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi."
+    },
+    "rostro_linguale_prensile": {
+      "description": "Afferrare e manipolare a lungo raggio.",
+      "label": "Rostro Linguale Prensile",
+      "mutazione_indotta": "Lingua muscolare adesiva con ioide esteso.",
+      "spinta_selettiva": "Accesso a risorse in cavità/altezza senza muovere il corpo",
+      "uso_funzione": "Afferrrare/manipolare a lungo raggio"
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
+      "description": "Sacche gassose regolabili per controllare assetto e profondità.",
+      "label": "Sacche galleggianti ascensoriali",
+      "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+      "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+    },
+    "sacche_galleggianti_ascensoriali_2": {
+      "label": "Sacche Galleggianti Ascensoriali",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Sacche Galleggianti Ascensoriali'."
+    },
+    "sacche_spore_stratosferiche": {
+      "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
+      "description": "Vescicole stratosferiche che disperdono spore di supporto a lungo.",
+      "label": "Sacche di Spore Stratosferiche",
+      "mutazione_indotta": "Vescicole dermiche che rilasciano spore portatrici capaci di galleggiare per chilometri.",
+      "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+    },
+    "sangue_piroforico": {
+      "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
+      "description": "Fluido ematico che incendia l'aria colpendo chi perfora la corazza.",
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+      "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+    },
+    "scheletro_idraulico_a_pistoni": {
+      "description": "Ossa cave pressurizzate che scattano pistoni cranici per colpi-proiettile rapidissimi.",
+      "label": "Scheletro Idraulico a Pistoni",
+      "mutazione_indotta": "Ossa cave pressurizzate con fluido.",
+      "spinta_selettiva": "Vincere fughe brevi con colpi-proiettile.",
+      "uso_funzione": "Estendere rapidamente il cranio per colpire."
+    },
+    "scheletro_idro_regolante": {
+      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
+      "description": "Ossa porose che modulano il contenuto idrico per mutare massa.",
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+    },
+    "scheletro_idro_regolante_2": {
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Scheletro Idro-Regolante'."
+    },
+    "scheletro_pneumatico_a_maglie": {
+      "description": "Alleggerire il carico per spostamenti lenti ma costanti.",
+      "label": "Scheletro Pneumatico a Maglie",
+      "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+      "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+      "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti."
+    },
+    "scintilla_sinaptica": {
+      "description": "Scarica leggera che illumina connessioni e riflessi (temp).",
+      "label": "Scintilla Sinaptica"
+    },
+    "scivolamento_magnetico": {
+      "description": "Ridurre attrito e scivolare.",
+      "label": "Scivolamento Magnetico",
+      "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
+      "spinta_selettiva": "Traslazione silente su superfici variabili.",
+      "uso_funzione": "Ridurre attrito e scivolare."
+    },
+    "scudo_gluteale_cheratinizzato": {
+      "description": "Assorbire impatti posteriori.",
+      "label": "Scudo Gluteale Cheratinizzato",
+      "mutazione_indotta": "Placca subdermica cheratino-ossea su eminenze glutee.",
+      "spinta_selettiva": "Predatori d’agguato; lotte in tana stretta",
+      "uso_funzione": "Assorbire impatti posteriori"
+    },
+    "secrezione_rallentante_palmi": {
+      "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
+      "description": "Palmi che rilasciano gel rallentante per bloccare bersagli rapidi.",
+      "label": "Mani secernano liquido rallentante",
+      "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
+      "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+    },
+    "secrezioni_antistatiche": {
+      "description": "Film protettivo che disperde accumuli elettrici.",
+      "label": "Secrezioni Antistatiche"
+    },
+    "sensori_geomagnetici": {
+      "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
+      "description": "Cristalli cranici che mappano corridoi geomagnetici invisibili.",
+      "label": "Sensori a Risonanza Geomagnetica",
+      "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
+      "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+    },
+    "sensori_planctonici": {
+      "description": "Sensori diffusi che leggono pattern di plancton memetico.",
+      "label": "Sensori Planctonici"
+    },
+    "seta_conduttiva_elettrica": {
+      "description": "Stordire con scariche nella tela.",
+      "label": "Seta Conduttiva Elettrica",
+      "mutazione_indotta": "Seta con nano-metalli piezoresponsivi.",
+      "spinta_selettiva": "Cattura prede veloci con trappola attiva.",
+      "uso_funzione": "Stordire con scariche nella tela."
+    },
+    "siero_anti_gelo_naturale": {
+      "description": "Impedire la cristallizzazione a basse temperature.",
+      "label": "Siero Anti-Gelo Naturale",
+      "mutazione_indotta": "Proteine antigelo circolanti.",
+      "spinta_selettiva": "Migrazione notturna in steppe fredde.",
+      "uso_funzione": "Impedire cristallizzazione a basse temperature."
+    },
+    "sinapsi_coraline_polifoniche": {
+      "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
+      "description": "Sinapsi coralline che trasmettono ordini tramite armoniche marine.",
+      "label": "Sinapsi Coraline Polifoniche",
+      "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
+      "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+    },
+    "sistemi_chimio_sonici": {
+      "description": "Mappare spazio e correnti d’aria senza vista.",
+      "label": "Sistemi Chimio-Sonici",
+      "mutazione_indotta": "Echolocazione + spruzzi feromonali orientativi.",
+      "spinta_selettiva": "Caccia in buio totale e gallerie fumose.",
+      "uso_funzione": "Mappare spazio e correnti d’aria senza vista."
+    },
+    "sonno_emisferico_alternato": {
+      "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
+      "description": "Cervello alternato che veglia con un emisfero mentre l'altro riposa.",
+      "label": "Dormire con solo metà cervello alla volta",
+      "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+      "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+      "uso_funzione": "Vigilanza continua pur garantendo riposo."
+    },
+    "spicole_canalizzatrici": {
+      "description": "Spine che assorbono buff e li reindirizzano.",
+      "label": "Spicole Canalizzatrici"
+    },
+    "spore_psichiche_silenziate": {
+      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata.",
+      "description": "Spore psioniche che sedano e confondono i bersagli vicini.",
+      "label": "Spora Psichica Silenziosa",
+      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
+      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+    },
+    "squame_diffusori_ionici": {
+      "description": "Squame che disperdono cariche e riducono glare.",
+      "label": "Squame Diffusori Ionici"
+    },
+    "squame_rifrangenti_deserto": {
+      "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
+      "description": "Scaglie cristalline che diffondono calore e creano miraggi.",
+      "label": "Squame Rifrangenti del Deserto",
+      "mutazione_indotta": "Placche cristalline sovrapposte che deviano luce e calore lungo superfici multiple.",
+      "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
+      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+    },
+    "struttura_elastica_amorfa": {
+      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
+      "description": "Corpo amorfo che si estende e si compatta per evadere vincoli.",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+    },
+    "struttura_elastica_amorfa_2": {
+      "label": "Struttura Elastica Amorfa",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Struttura Elastica Amorfa'."
+    },
+    "tattiche_di_branco": {
+      "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
+      "description": "Protocollo tattico che coordina focus e prese condivise.",
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
+      "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+    },
+    "tattiche_di_branco_2": {
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Tattiche di Branco'."
+    },
+    "traits_aggregate": {
+      "label": "Aggregato tratti Evo",
+      "mutazione_indotta": "Dump normalizzato dei trait Evo (TR-*) per pipeline legacy.",
+      "spinta_selettiva": "Allineare export Evo e indice legacy.",
+      "uso_funzione": "Punto di ingresso legacy per cataloghi e audit Evo.",
+      "debolezza": "Non rappresenta un tratto giocabile; solo metadato di pacchetto."
+    },
+    "unghie_a_micro_adesione": {
+      "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
+      "label": "Unghie a Micro-Adesione",
+      "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
+      "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+      "uso_funzione": "Aderire a superfici ripide."
+    },
+    "vello_condensatore_nebbie": {
+      "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",
+      "description": "Vello capillare che condensa nebbia in riserve idriche mobili.",
+      "label": "Vello Condensatore di Nebbie",
+      "mutazione_indotta": "Peli cavi microstriati che catturano e canalizzano la bruma atmosferica.",
+      "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
+      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+    },
+    "vello_di_assorbimento_totale": {
+      "description": "Assorbire quasi tutta la luce incidente.",
+      "label": "Vello di Assorbimento Totale",
+      "mutazione_indotta": "Nano-strutture piumari tipo vantablack biologico.",
+      "spinta_selettiva": "Caccia e fuga in oscurità totale.",
+      "uso_funzione": "Assorbire quasi tutta la luce incidente."
+    },
+    "ventriglio_gastroliti": {
+      "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
+      "description": "Ventriglio muscoloso che macina cibi duri con gastroliti.",
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+      "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+    },
+    "visione_multi_spettrale_amplificata": {
+      "description": "Vedere in luminanza estremamente bassa.",
+      "label": "Visione Multi-Spettrale Amplificata",
+      "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
+      "spinta_selettiva": "Predazione su prede a sangue caldo.",
+      "uso_funzione": "Vedere in luminanza estremamente bassa."
+    },
+    "vortice_nera_flash": {
+      "description": "Implosione luminosa seguita da vuoto e teletrasporto breve (temp).",
+      "label": "Vortice Nera Flash"
+    },
+    "zampe_a_molla": {
+      "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
+      "description": "Arti a molla che accumulano energia per balzi di riposizionamento.",
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
+      "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+    },
+    "zanne_idracida": {
+      "description": "Corrodere tessuti e metalli.",
+      "label": "Zanne Idracida",
+      "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
+      "spinta_selettiva": "Predazione su prede in corazza minerale.",
+      "uso_funzione": "Corrodere tessuti e metalli."
+    },
+    "zoccoli_risonanti_steppe": {
+      "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
+      "description": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.",
+      "label": "Zoccoli Risonanti delle Steppe",
+      "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
+      "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    }
+  }
+}

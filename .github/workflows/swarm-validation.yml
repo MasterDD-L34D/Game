@@ -1,0 +1,126 @@
+name: Swarm Canonical Validation
+
+# Sprint Q+ Q-8 ETL pipeline integration gate (ADR-2026-05-05 Phase B Path γ
+# ACCEPTED 2026-05-10 sera, OD-022 IMPLICIT ACCEPT 2026-05-08).
+#
+# Cross-verifica swarm distillation artifact JSON claims vs canonical
+# data/core/ Game prima merge. Gate: hallucination_ratio <= 0.30.
+#
+# Trigger:
+#   - pull_request paths docs/research/2026-*-evo-swarm-*-distillation.md
+#   - workflow_dispatch (manual con artifact path input)
+#
+# Implementation: tools/py/swarm_canonical_validator.py (Q-7).
+
+on:
+  pull_request:
+    paths:
+      - 'docs/research/2026-*-evo-swarm-*-distillation*.md'
+      - 'docs/research/swarm/**.json'
+      - 'docs/research/swarm/**.md'
+  workflow_dispatch:
+    inputs:
+      artifact:
+        description: 'Path artifact swarm (relative repo root)'
+        type: string
+        required: true
+      threshold:
+        description: 'Hallucination ratio threshold (default 0.30)'
+        type: number
+        default: 0.30
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Detect target artifact
+        id: detect
+        run: |
+          if [ -n "${{ github.event.inputs.artifact }}" ]; then
+            ARTIFACT="${{ github.event.inputs.artifact }}"
+          else
+            # PR mode: pick latest distillation file changed in PR.
+            ARTIFACT=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+              | grep -E "docs/research/.*evo-swarm.*distillation.*\.(md|json)$" \
+              | head -1)
+          fi
+          if [ -z "$ARTIFACT" ]; then
+            echo "::warning::No swarm artifact detected in PR — skip validation"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          if [ ! -f "$ARTIFACT" ]; then
+            echo "::error::Artifact $ARTIFACT not found"
+            exit 1
+          fi
+          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Run validator
+        if: steps.detect.outputs.skip != 'true'
+        id: validate
+        run: |
+          THRESHOLD="${{ github.event.inputs.threshold || '0.30' }}"
+          ARTIFACT="${{ steps.detect.outputs.artifact }}"
+          mkdir -p /tmp/swarm-validation
+          # Run validator capture exit (set +e per non-block step).
+          set +e
+          python tools/py/swarm_canonical_validator.py \
+            --artifact "$ARTIFACT" \
+            --canonical-root . \
+            --gate-threshold "$THRESHOLD" \
+            --output /tmp/swarm-validation/report.md \
+            --run-id "$(basename $ARTIFACT .md)" \
+            >> $GITHUB_STEP_SUMMARY
+          STATUS=$?
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          if [ $STATUS -ne 0 ]; then
+            echo "regression=true" >> $GITHUB_OUTPUT
+          else
+            echo "regression=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment PR with verification table
+        if: steps.detect.outputs.skip != 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = '/tmp/swarm-validation/report.md';
+            if (!fs.existsSync(path)) return;
+            const body = fs.readFileSync(path, 'utf8');
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Swarm Canonical Validation\n\n${body}`,
+            });
+
+      - name: Upload report artifact
+        if: steps.detect.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: swarm-validation-${{ github.run_id }}
+          path: /tmp/swarm-validation/report.md
+          retention-days: 14
+
+      - name: Fail on regression
+        if: steps.detect.outputs.skip != 'true' && steps.validate.outputs.regression == 'true'
+        run: |
+          echo "::error::Hallucination ratio above threshold — see PR comment + artifact"
+          exit 1

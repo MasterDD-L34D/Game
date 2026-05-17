@@ -1,0 +1,18 @@
+{
+  "id": "TKT-CREATURE-WILDERMYTH-BATTLE-SCAR",
+  "title": "Wildermyth permanent visible aspect/battle-scar registry",
+  "pillar": "P3",
+  "effort_hours": 12,
+  "donor_game": {
+    "name": "Wildermyth",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#12-wildermyth-worldwalker-2021--narrative--creature"
+  },
+  "agent_owner": "creature-aspect-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Mid-fight events alterano sprite long-term. M12 Form evolve già base, estendi a battle-scar registry."
+}

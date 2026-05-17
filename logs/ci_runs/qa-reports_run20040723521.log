@@ -1,0 +1,4 @@
+[2025-12-08T19:46:32Z] Dispatched qa-reports.yml on main via `GH_REPO=MasterDD-L34D/Game gh workflow run qa-reports.yml -r main`.
+Run ID: 20040723521. Status: STILL RUNNING as of 2025-12-08T20:12:30Z.
+Blocking step: job `Generate QA baselines` → step `Generate QA reports` (node scripts/export-qa-report.js) stuck >20m; later steps pending.
+Artifacts/logs not yet downloadable; rerun or cancellation may be needed before collecting outputs.

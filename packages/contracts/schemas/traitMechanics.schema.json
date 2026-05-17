@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/traitMechanics.schema.json",
+  "title": "TraitMechanicsCatalog",
+  "type": "object",
+  "required": ["schema_version", "traits"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_from": { "type": "string" },
+    "notes": { "type": "string" },
+    "_defaults": {
+      "type": "object",
+      "description": "OpenRA-style default templates per class (offensive, defensive, hybrid, mobility, utility). Chiavi sono nomi di classe, valori sono entry parziali usate come base di merge.",
+      "additionalProperties": true
+    },
+    "traits": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z0-9_]+$": { "$ref": "#/$defs/mechanics_entry" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "resistance_entry": {
+      "type": "object",
+      "required": ["channel", "modifier_pct"],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Slug canale di danno. Canonici dal Frattura draft: elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico."
+        },
+        "modifier_pct": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100
+        }
+      },
+      "additionalProperties": false
+    },
+    "on_hit_status": {
+      "type": "object",
+      "required": ["status_id", "duration", "intensity", "trigger_dc"],
+      "properties": {
+        "status_id": {
+          "type": "string",
+          "enum": ["bleeding", "fracture", "disorient", "rage", "panic"],
+          "description": "Uno dei 5 status canonici del combat schema."
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turni rimanenti all'applicazione. Decay a ogni begin_turn del target."
+        },
+        "intensity": { "type": "integer", "minimum": 1 },
+        "trigger_dc": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "CD del saving throw del target (d20 + 0 vs trigger_dc). Fail -> status applicato. Pattern dal Frattura draft (Leviatano Shear: SV CD 17 -> prone/disorient)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Trigger auto di uno status su attack success del trait attaccante. Il Balancer popola solo trait dove la description_it lo giustifica esplicitamente."
+    },
+    "mechanics_entry": {
+      "type": "object",
+      "required": [
+        "attack_mod",
+        "defense_mod",
+        "damage_step",
+        "cost_ap",
+        "resistances",
+        "active_effects"
+      ],
+      "properties": {
+        "attack_mod": { "type": "integer" },
+        "defense_mod": { "type": "integer" },
+        "damage_step": { "type": "integer", "minimum": 0 },
+        "cost_ap": { "type": "integer", "minimum": 0 },
+        "resistances": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/resistance_entry" },
+          "description": "Resistenze/vulnerabilita per canale di danno. Coerente con combat.schema.json#/$defs/resistance_entry."
+        },
+        "active_effects": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              {
+                "type": "object",
+                "required": ["ability_id", "effect_type", "cost_ap"],
+                "properties": {
+                  "ability_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+                  "name_it": { "type": "string" },
+                  "cost_ap": { "type": "integer", "minimum": 0 },
+                  "effect_type": {
+                    "type": "string",
+                    "enum": ["damage", "heal", "apply_status", "buff"]
+                  },
+                  "damage_dice": {
+                    "type": "object",
+                    "properties": {
+                      "count": { "type": "integer" },
+                      "sides": { "type": "integer" },
+                      "modifier": { "type": "integer" }
+                    }
+                  },
+                  "heal_dice": {
+                    "type": "object",
+                    "properties": {
+                      "count": { "type": "integer" },
+                      "sides": { "type": "integer" },
+                      "modifier": { "type": "integer" }
+                    }
+                  },
+                  "channel": { "type": "string" },
+                  "target": { "type": "string", "enum": ["enemy", "self", "ally"] },
+                  "status_id": { "type": "string" },
+                  "status_duration": { "type": "integer", "minimum": 1 },
+                  "status_intensity": { "type": "integer", "minimum": 1 },
+                  "buff_stat": {
+                    "type": "string",
+                    "enum": ["attack_mod", "defense_mod", "damage_step"]
+                  },
+                  "buff_amount": { "type": "integer" },
+                  "buff_duration": { "type": "integer", "minimum": 1 }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "on_hit_status": { "$ref": "#/$defs/on_hit_status" },
+        "on_hit_stress_delta": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success. Coerente con Frattura draft ('stress 0.05 on hit' delle larve). Il Balancer popola solo trait psi/sensoriali dove la description lo giustifica."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

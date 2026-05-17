@@ -1,0 +1,101 @@
+# Species Resistance Matrix — Evo-Tactics
+# Pattern W2 (wesnoth damage type / resistance matrix).
+# Resistenze base per-specie, indipendenti dai trait.
+# Il resolver somma queste + trait resistances nel calcolo danno.
+#
+# modifier_pct: 100 = neutro, >100 = vulnerabile, <100 = resistente
+# Es. 80 = 20% resistenza, 120 = 20% vulnerabilita
+#
+# Canali canonici: elettrico, psionico, fisico, fuoco, gravita, mentale,
+# taglio, ionico, earth, wind, dark
+# Vedi docs/planning/tactical-architecture-patterns.md §W2
+# Sprint 6 (2026-04-27): aggiunti earth/wind/dark — parity 11 channel vs
+# AncientBeast Material/Element classes. Vedi docs/balance/2026-04-27-numeric-reference-canonical.md §10.
+
+version: "0.2.0"
+
+# Matrice resistenze base per archetipo specie.
+# Le specie nel dataset riferiscono un archetipo qui definito.
+species_archetypes:
+  corazzato:
+    label: "Corazzato"
+    description: "Alta resistenza fisico/taglio/earth, vulnerabile a psionico/mentale."
+    resistances:
+      fisico: 80
+      taglio: 80
+      fuoco: 100
+      elettrico: 100
+      psionico: 120
+      mentale: 120
+      gravita: 100
+      ionico: 100
+      earth: 70
+      wind: 80
+      dark: 100
+
+  bioelettrico:
+    label: "Bioelettrico"
+    description: "Resistente a elettrico/ionico/wind, vulnerabile a fisico/earth."
+    resistances:
+      fisico: 120
+      taglio: 100
+      fuoco: 100
+      elettrico: 70
+      psionico: 100
+      mentale: 100
+      gravita: 100
+      ionico: 80
+      earth: 120
+      wind: 90
+      dark: 110
+
+  psionico:
+    label: "Psionico"
+    description: "Resistente a mentale/psionico/dark, fragile fisicamente."
+    resistances:
+      fisico: 120
+      taglio: 120
+      fuoco: 100
+      elettrico: 100
+      psionico: 70
+      mentale: 70
+      gravita: 100
+      ionico: 100
+      earth: 100
+      wind: 100
+      dark: 80
+
+  termico:
+    label: "Termico"
+    description: "Resistente a fuoco/earth, vulnerabile a gelo (ionico proxy) e dark."
+    resistances:
+      fisico: 100
+      taglio: 100
+      fuoco: 70
+      elettrico: 100
+      psionico: 100
+      mentale: 100
+      gravita: 100
+      ionico: 120
+      earth: 90
+      wind: 110
+      dark: 120
+
+  adattivo:
+    label: "Adattivo"
+    description: "Nessuna resistenza/vulnerabilita marcata. Equilibrato."
+    resistances:
+      fisico: 100
+      taglio: 100
+      fuoco: 100
+      elettrico: 100
+      psionico: 100
+      mentale: 100
+      gravita: 100
+      ionico: 100
+      earth: 100
+      wind: 100
+      dark: 100
+
+# Default per specie senza archetipo: neutro su tutto
+default_archetype: adattivo

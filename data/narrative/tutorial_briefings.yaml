@@ -1,0 +1,150 @@
+# Tutorial briefing variations — narrative-design-illuminator P0.
+#
+# Each scenario has multiple `pre` (mission start) and `post` (debrief on
+# victory) variants. Selection is deterministic on (session_id, variant_seed).
+# Optional gating conditions filter eligibility per (replay, mbti_axis, biome).
+#
+# When no variant matches OR the file fails to load, the engine falls back
+# to the hardcoded string in `apps/backend/services/tutorialScenario.js`
+# (backward compatible).
+#
+# Structure:
+#   <scenario_id>:
+#     pre:  list[Variant]
+#     post: list[Variant]
+#
+# Variant shape:
+#   id:          string, unique within scenario+phase
+#   text:        the briefing line
+#   weight:      optional, integer (default 1) — relative pick probability
+#   conditions:  optional, dict of soft gates:
+#     replay:    bool — only when run_count > 0
+#     mbti_t_min, mbti_f_min, mbti_n_min, mbti_s_min: float 0..1
+#     biome:     string match
+#     min_difficulty, max_difficulty: integer
+#
+# Pattern source: ink/inkle weave (text variation by tag) + Tracery grammar
+# (rule-based selection) + Wildermyth (handcrafted variants over procedural).
+#
+# Companion docs:
+#   .claude/agents/narrative-design-illuminator.md
+#   apps/backend/services/narrative/briefingVariations.js
+
+schema_version: '1.0'
+
+scenarios:
+  enc_tutorial_01:
+    pre:
+      - id: default
+        weight: 2
+        text: 'Due predoni nomadi hanno preso posizione nella savana. Avvicinati con cautela e eliminali.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: "Rapporto: due ostili in posizione difensiva nella savana. Range medio, copertura assente. Ingaggio raccomandato dal lato sopravento."
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "Due nomadi spaesati nella savana. Hanno paura quanto te. Risolvi rapidamente — ognuno qui sta solo cercando di sopravvivere."
+      - id: replay
+        conditions: { replay: true }
+        text: 'Conosci già questo terreno. Predoni della savana, due unità, posizione fissa. Mostra cosa hai imparato.'
+    post:
+      - id: default
+        weight: 2
+        text: 'Le sentinelle sono cadute. La via è libera — per ora.'
+      - id: cautious
+        conditions: { mbti_n_min: 0.6 }
+        text: 'Il silenzio della savana torna. Ma se due erano qui in vedetta, altri saranno vicini.'
+      - id: confident
+        conditions: { mbti_s_min: 0.6 }
+        text: 'Predoni neutralizzati. Posizione assicurata, perimetro sgombro. Procedere.'
+
+  enc_tutorial_02:
+    pre:
+      - id: default
+        weight: 2
+        text: 'La pattuglia nomade questa volta include un cacciatore con corazza pesante. Coordina scout e tank: il danno asimmetrico premia chi sceglie il bersaglio giusto.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: "Pattuglia mista rilevata: 2 unità leggere + 1 cacciatore corazzato. Resistenza fisica del cacciatore stimata +40%. Concentrare fuoco o aggirare."
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "Hanno mandato anche il loro più anziano — un cacciatore corazzato. Spera tu non sia obbligato a colpirlo per primo."
+      - id: replay
+        conditions: { replay: true }
+        text: 'La pattuglia asimmetrica torna. Questa volta sai dove cade il loro coordinamento se elimini il cacciatore.'
+    post:
+      - id: default
+        weight: 2
+        text: "La pattuglia è dissolta. Il cacciatore non e' bastato a tenerli insieme."
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: 'Pattuglia neutralizzata. Concentrazione fuoco sul cacciatore = collasso del gruppo confermato.'
+
+  enc_tutorial_03:
+    pre:
+      - id: default
+        weight: 2
+        text: 'Una caverna risonante con due fumarole attive. Le creature locali resistono al gas; voi no. Posizionate con cura e usate combo per finire in fretta.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: 'Caverna con 2 hazard tile (fumarole tossiche, danno 1 a turno se occupate). Guardiani locali immuni. Path-planning critico.'
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: 'La caverna respira veleno. Le creature ci sono nate dentro — è la loro casa, non la tua. Muoviti veloce, esci viva.'
+      - id: replay
+        conditions: { replay: true }
+        text: 'La caverna risonante. Già conosci le fumarole — questa volta usale a tuo vantaggio.'
+    post:
+      - id: default
+        weight: 2
+        text: 'I guardiani sono caduti. Il riverbero della caverna si placa.'
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "Le voci della caverna tacciono. Hanno difeso ciò che potevano. Non c'è gloria in questo, solo necessità."
+
+  enc_tutorial_04:
+    pre:
+      - id: default
+        weight: 2
+        text: 'La pozza acida nasconde 3 guardiani: 2 corrieri rapidi e un lanciere con denti seghettati. Il bleeding accumula danno turno per turno: prioritizza il lanciere o tieni HP alto.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: 'Pozza acida + 3 guardiani: 2 mobili + 1 con `denti_seghettati` (bleeding stack). Eliminazione lanciere = priorità target. 3 hazard tile mappati.'
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "Tre guardiani difendono una pozza che brucia. Il lanciere è il più aggressivo — dolore lo guida. Prendi lui, gli altri si arrenderanno al silenzio."
+      - id: replay
+        conditions: { replay: true }
+        text: 'La foresta acida. Sai già che il lanciere applica bleeding. Tienilo lontano dai tuoi più fragili.'
+    post:
+      - id: default
+        weight: 2
+        text: 'La pozza si calma. I corpi dei guardiani si dissolvono nel liquido.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: 'Tre target neutralizzati. Hazard ambientale gestito senza perdite critiche di HP. Operazione concluso entro parametri.'
+
+  enc_tutorial_05:
+    pre:
+      - id: default
+        weight: 2
+        text: 'Le rovine planari celano un Apex: 1v2 a vostro favore, ma il suo HP e i bonus crit possono ribaltare ogni round. Cooperate o cadrete uno alla volta.'
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: "Apex Predator confermato nelle rovine. HP stimato 30+, crit chain attiva, multi-attack 2/turn. 2v1 svantaggio numerico contro statistiche apex. Coop = win condition."
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "Un Apex. Sopravvissuto a tutto, fino ad ora. Forse il primo della sua linea. Forse l'ultimo. Devi essere tu a chiudere la sua storia."
+      - id: replay
+        conditions: { replay: true }
+        text: "L'Apex aspetta di nuovo nelle rovine. Sai cosa fa il suo crit chain. Sai dove cade quando vacilla. Vai."
+    post:
+      - id: default
+        weight: 2
+        text: "L'Apex si dissolve nelle rovine. Avete fatto la storia."
+      - id: empathic
+        conditions: { mbti_f_min: 0.6 }
+        text: "L'Apex respira l'ultima volta. Le rovine restano in silenzio — il loro guardiano è andato. Avete chiuso un'era."
+      - id: tactical
+        conditions: { mbti_t_min: 0.6 }
+        text: "Apex Predator neutralizzato. Crit chain interrotto al round critico. Operazione 1v2 → vittoria asimmetrica confermata. Database aggiornato."

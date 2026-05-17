@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "locomotorio"
+      ]
+    }
+  },
+  "traits": [
+    "ali_ioniche",
+    "antenne_wideband",
+    "artigli_sette_vie",
+    "artigli_sghiaccio_glaciale",
+    "barbigli_sensori_plasma",
+    "branchie_metalloidi",
+    "capillari_fotovoltaici",
+    "cartilagine_flessotermica_venti",
+    "chemiorecettori_bromuro",
+    "coda_contrappeso",
+    "coda_frusta_cinetica",
+    "cuscinetti_elettrostatici",
+    "enzimi_antifase_termica",
+    "filamenti_termoconduzione",
+    "ghiandole_fango_calde",
+    "ghiandole_ventosa",
+    "linfa_tampone",
+    "mucose_aderenza_sonica",
+    "zampe_a_molla",
+    "zoccoli_risonanti_steppe"
+  ],
+  "type": "locomotorio"
+}

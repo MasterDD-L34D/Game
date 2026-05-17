@@ -1,0 +1,359 @@
+{
+  "session_id": "demo-caverna-session",
+  "seed": "demo-caverna-v1",
+  "encounter_id": "caverna-ref-001",
+  "turn": 1,
+  "initiative_order": [
+    "hostile-01",
+    "hostile-02",
+    "hostile-03",
+    "hostile-04",
+    "party-01",
+    "party-02",
+    "party-03"
+  ],
+  "active_unit_id": "hostile-01",
+  "units": [
+    {
+      "id": "party-01",
+      "species_id": "anguis_magnetica",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "party-02",
+      "species_id": "aetherloom_stalker",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "earth",
+          "modifier_pct": 15
+        },
+        {
+          "channel": "fisico",
+          "modifier_pct": 20
+        },
+        {
+          "channel": "fuoco",
+          "modifier_pct": 30
+        }
+      ],
+      "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "party-03",
+      "species_id": "crysalis_ember",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "fuoco",
+          "modifier_pct": 15
+        },
+        {
+          "channel": "ionico",
+          "modifier_pct": 20
+        },
+        {
+          "channel": "taglio",
+          "modifier_pct": 10
+        }
+      ],
+      "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-01",
+      "species_id": "umbroid_lurker",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-02",
+      "species_id": "mud_sentinel",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-03",
+      "species_id": "echo_seer",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "dark",
+          "modifier_pct": 10
+        },
+        {
+          "channel": "mentale",
+          "modifier_pct": 15
+        }
+      ],
+      "trait_ids": ["spore_psichiche_silenziate"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-04",
+      "species_id": "crystal_ward",
+      "side": "hostile",
+      "tier": 2,
+      "hp": {
+        "current": 80,
+        "max": 80
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    }
+  ],
+  "vc": {
+    "aggro": "low",
+    "cohesion": "mid",
+    "setup": "mid",
+    "explore": "low",
+    "risk": "mid"
+  },
+  "log": [],
+  "_active_effects_registry": {
+    "zampe_a_molla": {
+      "tier": "T1",
+      "category": "fisiologico",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "min_mos": 5,
+        "requires": "posizione_sopraelevata"
+      },
+      "effect": {
+        "kind": "extra_damage",
+        "amount": 1,
+        "log_tag": "backstab_bonus"
+      },
+      "description_it": "Arti a molla che accumulano energia per balzi di riposizionamento.\nSe l'attaccante colpisce da posizione sopraelevata (y > y_target)\ncon un margin of success >= 5, infligge 1 PT di danno extra.\n"
+    },
+    "pelle_elastomera": {
+      "tier": "T1",
+      "category": "fisiologico",
+      "applies_to": "target",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit"
+      },
+      "effect": {
+        "kind": "damage_reduction",
+        "amount": 1,
+        "min": 0,
+        "log_tag": "damage_reduction"
+      },
+      "description_it": "Pelle elastomerica che ammortizza l'impatto dei colpi in arrivo.\nQuando il target subisce un hit, il danno ricevuto viene ridotto\ndi 1 (minimo 0).\n"
+    },
+    "ferocia": {
+      "tier": "T1",
+      "category": "comportamentale",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit",
+        "on_kill": true
+      },
+      "effect": {
+        "kind": "apply_status",
+        "target_side": "actor",
+        "stato": "rage",
+        "turns": 3,
+        "log_tag": "ferocia_rage"
+      },
+      "description_it": "Ferocia ancestrale: ogni uccisione fa entrare l'attaccante in\nrabbia per 3 turni. In rage ignora l'autoconservazione (niente\nretreat REGOLA_002) e infligge +1 damage ai colpi riusciti.\n"
+    },
+    "intimidatore": {
+      "tier": "T1",
+      "category": "comportamentale",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit",
+        "melee_only": true
+      },
+      "effect": {
+        "kind": "apply_status",
+        "target_side": "target",
+        "stato": "panic",
+        "turns": 2,
+        "log_tag": "intimidatore_panic"
+      },
+      "description_it": "Aura intimidatoria che terrorizza chi viene colpito da vicino.\nOgni hit adiacente riuscito applica 2 turni di panic sul target:\nl'unita' scappera' (REGOLA_002 / STATO_PANIC) invece di\ncontrattaccare.\n"
+    },
+    "stordimento": {
+      "tier": "T1",
+      "category": "traumatico",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit",
+        "min_mos": 8
+      },
+      "effect": {
+        "kind": "apply_status",
+        "target_side": "target",
+        "stato": "stunned",
+        "turns": 1,
+        "log_tag": "stordimento_stun"
+      },
+      "description_it": "Colpo traumatico: ogni critico (MoS >= 8) applica 1 turno di\nstunned al bersaglio, che saltera' il turno successivo.\n"
+    },
+    "denti_seghettati": {
+      "tier": "T1",
+      "category": "fisiologico",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit"
+      },
+      "effect": {
+        "kind": "apply_status",
+        "target_side": "target",
+        "stato": "bleeding",
+        "turns": 2,
+        "log_tag": "denti_bleeding"
+      },
+      "description_it": "Denti seghettati che lacerano la carne del bersaglio. Ogni hit\napplica 2 turni di sanguinamento: il target subisce 1 danno non\nriducibile al termine di ogni turno.\n"
+    },
+    "martello_osseo": {
+      "tier": "T1",
+      "category": "traumatico",
+      "applies_to": "actor",
+      "trigger": {
+        "action_type": "attack",
+        "on_result": "hit",
+        "min_mos": 8
+      },
+      "effect": {
+        "kind": "apply_status",
+        "target_side": "target",
+        "stato": "fracture",
+        "turns": 2,
+        "log_tag": "martello_fracture"
+      },
+      "description_it": "Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)\napplica 2 turni di frattura: il target perde AP al reset di turno\n(ap_remaining = 1 invece di ap pieno), limitando il movimento.\n"
+    }
+  }
+}

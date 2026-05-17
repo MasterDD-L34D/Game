@@ -1,0 +1,56 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.echi_risonanti.debolezza",
+  "famiglia_tipologia": "Sensoriale/Analitico",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "id": "echi_risonanti",
+  "label": "i18n:traits.echi_risonanti.label",
+  "mutazione_indotta": "i18n:traits.echi_risonanti.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Echi Risonanti ottimizza le operazioni sensoriale nelle condizioni di caverna risonante.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "sinapsi_coraline_polifoniche",
+    "occhi_cristallo_modulare"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "analitico",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.echi_risonanti.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.echi_risonanti.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evo-Tactics — Telemetry Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0d12;
+        --panel: #151922;
+        --panel-2: #1d2230;
+        --border: #2a3040;
+        --text: #e8eaf0;
+        --muted: #8891a3;
+        --accent: #4fc3f7;
+        --accent-host: #ffb74d;
+        --ok: #66bb6a;
+        --warn: #ffb74d;
+        --danger: #ef5350;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: max(32px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+          max(48px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+      }
+      header h1 {
+        margin: 0 0 8px;
+        font-size: 1.8rem;
+      }
+      header p {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+      .load-panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .load-panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.1rem;
+      }
+      .load-panel p {
+        margin: 4px 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+      .load-panel code {
+        background: var(--panel-2);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+      .load-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        min-height: 44px;
+        padding: 10px 18px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        color: var(--text);
+        cursor: pointer;
+      }
+      .btn:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #001014;
+        border-color: var(--accent);
+      }
+      input[type='file'] {
+        color: var(--muted);
+      }
+      .status {
+        margin-left: 8px;
+        font-size: 0.9rem;
+      }
+      .status.err::before {
+        content: '⚠ ';
+      }
+      .status.ok::before {
+        content: '✓ ';
+      }
+      .status.err {
+        color: var(--danger);
+      }
+      .status.ok {
+        color: var(--ok);
+      }
+      section.chart-section {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      section.chart-section h2 {
+        margin: 0 0 12px;
+        font-size: 1.15rem;
+      }
+      section.chart-section p {
+        color: var(--muted);
+        font-size: 0.88rem;
+        margin: 0 0 12px;
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+      .kpi {
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+      }
+      .kpi .label {
+        color: var(--muted);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .kpi .value {
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-top: 4px;
+        color: var(--accent);
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.82rem;
+        margin-top: 32px;
+      }
+      footer a {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main role="main">
+      <header>
+        <h1>📊 Evo-Tactics Analytics Dashboard</h1>
+        <p>
+          Observable Plot + Tufte small multiples per telemetry JSONL via
+          <code>tools/py/telemetry_analyze.py</code>.
+        </p>
+      </header>
+
+      <div class="load-panel" role="region" aria-label="Caricamento dati telemetry">
+        <h2>📥 Carica telemetry JSON</h2>
+        <p>
+          1. Genera summary:
+          <code
+            >PYTHONPATH=. python3 tools/py/telemetry_analyze.py --out-json
+            apps/analytics/telemetry.json</code
+          >
+        </p>
+        <p>
+          2. Poi <strong>Auto</strong> (fetch <code>./telemetry.json</code>) oppure
+          <strong>Upload</strong> file manuale.
+        </p>
+        <div class="load-row">
+          <button
+            id="btn-auto"
+            class="btn btn-primary"
+            aria-label="Carica telemetry.json adiacente"
+          >
+            Auto load
+          </button>
+          <input
+            type="file"
+            id="file-input"
+            accept="application/json,.json"
+            aria-label="Upload telemetry JSON"
+          />
+          <span id="status" class="status" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <div id="kpi" class="kpi-grid" aria-label="Metriche top-level"></div>
+
+      <section class="chart-section" id="section-funnel" aria-labelledby="h-funnel" hidden>
+        <h2 id="h-funnel">Funnel stages</h2>
+        <p>
+          Stages: session_start → ability_use → damage_dealt → session_end. Drop-off % per stage
+          (Tufte data-ink ratio).
+        </p>
+        <div id="chart-funnel"></div>
+      </section>
+
+      <section class="chart-section" id="section-tutorial" aria-labelledby="h-tutorial" hidden>
+        <h2 id="h-tutorial">Tutorial funnel (onboarding drop-off)</h2>
+        <p>Per-scenario start → complete rate. Identifica stuck points tutorial 01→05.</p>
+        <div id="chart-tutorial"></div>
+      </section>
+
+      <section class="chart-section" id="section-events" aria-labelledby="h-events" hidden>
+        <h2 id="h-events">Event type distribution</h2>
+        <p>Small multiples per tipologia evento. Identifica drift + volume.</p>
+        <div id="chart-events"></div>
+      </section>
+
+      <section class="chart-section" id="section-outcomes" aria-labelledby="h-outcomes" hidden>
+        <h2 id="h-outcomes">Scenario outcomes</h2>
+        <p>Win / defeat / timeout per scenario_id. Banda visuale per band-checking calibration.</p>
+        <div id="chart-outcomes"></div>
+      </section>
+
+      <footer role="contentinfo">
+        Generato da <code>tools/py/telemetry_analyze.py</code> ·
+        <a href="https://observablehq.com/plot/" target="_blank" rel="noopener">Observable Plot</a>
+        · pattern Tufte Small Multiples · agent
+        <code>telemetry-viz-illuminator</code>
+      </footer>
+    </main>
+
+    <script type="module">
+      import * as Plot from 'https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.16/+esm';
+
+      const statusEl = document.getElementById('status');
+      const kpiEl = document.getElementById('kpi');
+      const sections = {
+        funnel: document.getElementById('section-funnel'),
+        tutorial: document.getElementById('section-tutorial'),
+        events: document.getElementById('section-events'),
+        outcomes: document.getElementById('section-outcomes'),
+      };
+
+      function setStatus(msg, cls) {
+        statusEl.className = 'status ' + (cls || '');
+        statusEl.textContent = msg;
+      }
+
+      function renderKPIs(data) {
+        const items = [
+          ['Total events', data.total_events ?? 0],
+          ['Sessions', data.sessions ?? 0],
+          ['Malformed lines', data.malformed_lines ?? 0],
+          ['Unknown types', Object.keys(data.unknown_types || {}).length],
+        ];
+        kpiEl.innerHTML = items
+          .map(
+            ([label, value]) =>
+              `<div class="kpi"><div class="label">${label}</div><div class="value">${value}</div></div>`,
+          )
+          .join('');
+      }
+
+      function renderFunnel(data) {
+        const funnel = data.funnel || {};
+        const entries = Object.entries(funnel);
+        if (entries.length === 0) return;
+        sections.funnel.hidden = false;
+        const stage0 = entries[0][1] || 1;
+        const marks = entries.map(([stage, n]) => ({
+          stage,
+          sessions: n,
+          pct: (100 * n) / stage0,
+        }));
+        const chart = Plot.plot({
+          width: 900,
+          height: 260,
+          marginLeft: 160,
+          color: { scheme: 'blues' },
+          x: { label: 'Sessions' },
+          y: { label: null },
+          marks: [
+            Plot.barX(marks, { x: 'sessions', y: 'stage', fill: 'pct' }),
+            Plot.text(marks, {
+              x: 'sessions',
+              y: 'stage',
+              text: (d) => `${d.sessions} (${d.pct.toFixed(0)}%)`,
+              dx: 6,
+              fill: '#e8eaf0',
+            }),
+          ],
+        });
+        document.getElementById('chart-funnel').replaceChildren(chart);
+      }
+
+      function renderTutorialFunnel(data) {
+        const tf = data.tutorial_funnel || {};
+        const entries = Object.entries(tf);
+        if (entries.length === 0) return;
+        sections.tutorial.hidden = false;
+        const rows = entries.flatMap(([scenario, d]) => [
+          { scenario, type: 'Started', n: d.started || 0 },
+          { scenario, type: 'Completed', n: d.completed || 0 },
+        ]);
+        const chart = Plot.plot({
+          width: 900,
+          height: 40 + entries.length * 52,
+          marginLeft: 180,
+          color: { legend: true, domain: ['Started', 'Completed'], range: ['#4fc3f7', '#66bb6a'] },
+          x: { label: 'Count' },
+          y: { label: null },
+          marks: [
+            Plot.barX(rows, { x: 'n', y: 'scenario', fill: 'type', sort: { y: '-x' } }),
+            Plot.text(rows, {
+              x: 'n',
+              y: 'scenario',
+              text: (d) => (d.n > 0 ? d.n : ''),
+              dx: 6,
+              fill: '#e8eaf0',
+            }),
+          ],
+        });
+        document.getElementById('chart-tutorial').replaceChildren(chart);
+      }
+
+      function renderEventDistribution(data) {
+        const types = data.type_counts || {};
+        const entries = Object.entries(types);
+        if (entries.length === 0) return;
+        sections.events.hidden = false;
+        const rows = entries
+          .map(([type, n]) => ({ type, n }))
+          .sort((a, b) => b.n - a.n)
+          .slice(0, 20);
+        const chart = Plot.plot({
+          width: 900,
+          height: 40 + rows.length * 24,
+          marginLeft: 170,
+          x: { label: 'Count' },
+          y: { label: null },
+          marks: [
+            Plot.barX(rows, { x: 'n', y: 'type', fill: '#4fc3f7' }),
+            Plot.text(rows, {
+              x: 'n',
+              y: 'type',
+              text: (d) => d.n,
+              dx: 6,
+              fill: '#e8eaf0',
+            }),
+          ],
+        });
+        document.getElementById('chart-events').replaceChildren(chart);
+      }
+
+      function renderOutcomes(data) {
+        const outcomes = data.scenario_outcomes || {};
+        const entries = Object.entries(outcomes);
+        if (entries.length === 0) return;
+        sections.outcomes.hidden = false;
+        const rows = entries.flatMap(([scenario, counts]) =>
+          Object.entries(counts).map(([outcome, n]) => ({ scenario, outcome, n })),
+        );
+        const chart = Plot.plot({
+          width: 900,
+          height: 40 + entries.length * 44,
+          marginLeft: 170,
+          color: { legend: true },
+          x: { label: 'Count' },
+          y: { label: null },
+          marks: [
+            Plot.barX(rows, {
+              x: 'n',
+              y: 'scenario',
+              fill: 'outcome',
+              sort: { y: '-x' },
+            }),
+          ],
+        });
+        document.getElementById('chart-outcomes').replaceChildren(chart);
+      }
+
+      function renderAll(data) {
+        renderKPIs(data);
+        renderFunnel(data);
+        renderTutorialFunnel(data);
+        renderEventDistribution(data);
+        renderOutcomes(data);
+        setStatus(`Loaded ${data.total_events ?? 0} events, ${data.sessions ?? 0} sessions.`, 'ok');
+      }
+
+      async function loadAuto() {
+        try {
+          setStatus('Loading ./telemetry.json …');
+          const r = await fetch('./telemetry.json');
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const data = await r.json();
+          renderAll(data);
+        } catch (e) {
+          setStatus(`Auto load failed: ${e.message}. Try Upload.`, 'err');
+        }
+      }
+
+      document.getElementById('btn-auto').addEventListener('click', loadAuto);
+      document.getElementById('file-input').addEventListener('change', async (ev) => {
+        const file = ev.target.files && ev.target.files[0];
+        if (!file) return;
+        setStatus(`Reading ${file.name} …`);
+        try {
+          const text = await file.text();
+          const data = JSON.parse(text);
+          renderAll(data);
+        } catch (e) {
+          setStatus(`Upload failed: ${e.message}`, 'err');
+        }
+      });
+      // Attempt auto-load on startup (silent fail OK)
+      loadAuto().catch(() => {});
+    </script>
+  </body>
+</html>

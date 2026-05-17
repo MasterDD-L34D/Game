@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.gusci_criovetro.debolezza",
+  "famiglia_tipologia": "Supporto/Logistico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "gusci_criovetro",
+  "label": "i18n:traits.gusci_criovetro.label",
+  "mutazione_indotta": "i18n:traits.gusci_criovetro.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caldera_glaciale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Gusci Criovetro ottimizza le operazioni supporto nelle condizioni di caldera glaciale.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "logistico",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "i18n:traits.gusci_criovetro.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.gusci_criovetro.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caldera_glaciale"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

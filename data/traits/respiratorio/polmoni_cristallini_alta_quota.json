@@ -1,0 +1,55 @@
+{
+  "conflitti": [
+    "branchie_osmotiche_salmastra"
+  ],
+  "debolezza": "i18n:traits.polmoni_cristallini_alta_quota.debolezza",
+  "famiglia_tipologia": "Respiratorio/Aerobico",
+  "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
+  "id": "polmoni_cristallini_alta_quota",
+  "label": "i18n:traits.polmoni_cristallini_alta_quota.label",
+  "mutazione_indotta": "i18n:traits.polmoni_cristallini_alta_quota.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "picchi_cristallini"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Catene montuose sospese dove i cristalli amplificano l'aria rarefatta.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "membrane_eliofiltranti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "aerobico",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "i18n:traits.polmoni_cristallini_alta_quota.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.polmoni_cristallini_alta_quota.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "picchi_cristallini"
+  ],
+  "data_origin": "controllo_psionico"
+}

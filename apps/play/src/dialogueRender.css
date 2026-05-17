@@ -1,0 +1,92 @@
+/* OD-013 Path B — MBTI dialogue color codes (diegetic).
+ *
+ * 8 classi axis (E/I/S/N/T/F/J/P) coerenti con
+ * data/core/ui/mbti_axis_palette.yaml. WCAG AA garantito su sfondo
+ * bianco; per dark bg (es. .db-narrative #0b0d12) il testo passa in
+ * `text-shadow` per migliorare contrasto.
+ *
+ * Hover tooltip (Italian label) usa `data-mbti-axis` come hook +
+ * pseudo-element ::after — accessibility-friendly (no JS).
+ *
+ * Print-safe: @media print → color: inherit (no color leak su carta).
+ */
+
+.mbti-axis-E {
+  color: #b45309;
+}
+.mbti-axis-I {
+  color: #1e40af;
+}
+.mbti-axis-S {
+  color: #15803d;
+}
+.mbti-axis-N {
+  color: #6d28d9;
+}
+.mbti-axis-T {
+  color: #0e7490;
+}
+.mbti-axis-F {
+  color: #be185d;
+}
+.mbti-axis-J {
+  color: #854d0e;
+}
+.mbti-axis-P {
+  color: #0369a1;
+}
+
+/* Su dark background (narrative log, tooltip dark): saturate testo
+ * + leggera glow per leggibilità. */
+.db-narrative .mbti-axis-E,
+.db-narrative .mbti-axis-I,
+.db-narrative .mbti-axis-S,
+.db-narrative .mbti-axis-N,
+.db-narrative .mbti-axis-T,
+.db-narrative .mbti-axis-F,
+.db-narrative .mbti-axis-J,
+.db-narrative .mbti-axis-P {
+  font-weight: 600;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.45);
+  filter: brightness(1.35) saturate(1.1);
+}
+
+/* Hover tooltip: mostra label IT (es. "Estroversione"). Pure CSS. */
+[data-mbti-axis] {
+  position: relative;
+  cursor: help;
+}
+
+[data-mbti-axis]:hover::after {
+  content: attr(data-mbti-axis-label);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -4px);
+  background: #0b0d12;
+  color: #e8eaf0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  border: 1px solid #2a3040;
+}
+
+/* Print-safe: niente colore su carta. */
+@media print {
+  .mbti-axis-E,
+  .mbti-axis-I,
+  .mbti-axis-S,
+  .mbti-axis-N,
+  .mbti-axis-T,
+  .mbti-axis-F,
+  .mbti-axis-J,
+  .mbti-axis-P {
+    color: inherit !important;
+    text-shadow: none !important;
+    filter: none !important;
+  }
+}

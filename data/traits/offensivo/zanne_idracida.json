@@ -1,0 +1,61 @@
+{
+  "id": "zanne_idracida",
+  "label": "i18n:traits.zanne_idracida.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "seta_conduttiva_elettrica",
+    "articolazioni_a_leva_idraulica",
+    "filtrazione_osmotica"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.zanne_idracida.mutazione_indotta",
+  "uso_funzione": "i18n:traits.zanne_idracida.uso_funzione",
+  "spinta_selettiva": "i18n:traits.zanne_idracida.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "pressione_getto",
+      "value": 1000000,
+      "unit": "Pa"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Perfora lamina d’alluminio 1 mm",
+    "scene_prompt": "Spruzzo controllato su pannello metallico"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": "Le zanne rilasciano acido in ambienti terrestri asciutti dove evapora lentamente e resta aderente."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "chimico"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.zanne_idracida.debolezza"
+}

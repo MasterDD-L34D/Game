@@ -1,0 +1,94 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.random.debolezza",
+  "famiglia_tipologia": "Flessibile/Generico",
+  "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
+  "id": "random",
+  "label": "i18n:traits.random.label",
+  "mutazione_indotta": "i18n:traits.random.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Gli schemi imprevedibili confondono predatori che si affidano a tracce nel tappeto miceliale."
+      }
+    }
+  ],
+  "sinergie": [
+    "pianificatore",
+    "focus_frazionato",
+    "tattiche_di_branco",
+    "camere_mirage",
+    "biofilm_glow",
+    "colonne_vibromagnetiche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "cap_pt",
+      "guardia_situazionale",
+      "job_ability:random",
+      "starter_bioma"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "ENFP",
+      "ENTP",
+      "ISTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "B"
+  ],
+  "slot_profile": {
+    "complementare": "adattivo",
+    "core": "strategia"
+  },
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
+  "species_affinity": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 2
+    }
+  ],
+  "spinta_selettiva": "i18n:traits.random.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.random.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

@@ -1,0 +1,69 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.eco_interno_riflesso.debolezza",
+  "famiglia_tipologia": "Sensoriale/Nervoso",
+  "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+  "id": "eco_interno_riflesso",
+  "label": "i18n:traits.eco_interno_riflesso.label",
+  "mutazione_indotta": "i18n:traits.eco_interno_riflesso.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+        "tier": "T2"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "cavita_risonanti_tundra",
+    "olfatto_risonanza_magnetica",
+    "sensori_geomagnetici"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nervoso",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.eco_interno_riflesso.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.eco_interno_riflesso.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "scout"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopia_psionica_leggera",
+    "falde_magnetiche_psioniche"
+  ],
+  "data_origin": "controllo_psionico"
+}

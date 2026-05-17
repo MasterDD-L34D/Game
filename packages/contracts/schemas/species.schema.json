@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/species.schema.json",
+  "title": "AtlasSpecies",
+  "type": "object",
+  "required": ["id", "name"],
+  "properties": {
+    "id": { "$ref": "#/$defs/species_id" },
+    "name": { "type": "string", "minLength": 1 },
+    "archetype": { "type": "string" },
+    "rarity": { "type": "string" },
+    "threatTier": { "type": "string" },
+    "energyProfile": { "type": "string" },
+    "synopsis": { "type": "string" },
+    "traits": {
+      "type": "object",
+      "required": ["core"],
+      "properties": {
+        "core": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
+        },
+        "optional": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
+        },
+        "synergy": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "habitats": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "readiness": { "type": "string" },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "coverage": { "type": "number", "minimum": 0 },
+        "lastValidation": { "type": ["string", "null"], "format": "date-time" },
+        "curatedBy": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tag_slug" },
+      "uniqueItems": true
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "species_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "trait_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "tag_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+# Encounter: Pack Clash savana — 3 Pulverator vs party 4p (MVP)
+# Generato 2026-05-02 con ADR-2026-05-02 (species ecology schema).
+#
+# Tactical pitch: il giocatore affronta un branco apex in nicchia condivisa
+# con dune_stalker. Skiv compare come NPC neutrale (hostile player ma non
+# interferisce con Pulverator) — testa la Howl-Strike combo (3+ pack
+# Manhattan <=2 stesso target) e la pressione di un branco coordinato.
+#
+# Win conditions:
+#   1. Pack alpha (Pulverator #1) abbattuto, OR
+#   2. Sopravvivenza party >= 8 round
+# Loss: party wipe.
+id: enc_savana_pack_clash
+label: "Branco di Polvere"
+difficulty: hardcore
+biome_id: savana
+description_it: >-
+  Un branco di Razziatori di Polvere (Pulverator gregarius) ha cinto
+  d'assedio la party in pieno meriggio. Lo Skiv (dune_stalker) osserva
+  da una duna sopravento, contendendo la stessa nicchia ma neutrale
+  finche' qualcuno non gli si avvicina entro 3 caselle.
+
+party_size: 4
+party_suggested_tier: 3
+
+groups:
+  - role: apex
+    power: 9
+    count: 1
+    species_hint: pulverator_gregarius
+    trait_ids: [denti_seghettati, artigli_sette_vie, voce_imperiosa, circolazione_doppia]
+    notes: "Pack alpha: usa voce_imperiosa al round 2 per panic AoE."
+  - role: apex
+    power: 7
+    count: 2
+    species_hint: pulverator_gregarius
+    trait_ids: [denti_seghettati, artigli_sette_vie, olfatto_risonanza_magnetica]
+    notes: "Pack beta: trigger Howl-Strike combo se entrambi Manhattan <=2 stesso target dell'alpha."
+  - role: apex_neutral
+    power: 8
+    count: 1
+    species_hint: dune_stalker
+    trait_ids: [artigli_sette_vie, struttura_elastica_amorfa, scheletro_idro_regolante]
+    notes: >-
+      Skiv NPC neutrale: hostile-on-approach (raggio 3). Compete con
+      Pulverator (ecology.competes_with) ma non interviene preventivamente.
+
+party_vc:
+  difficulty_multiplier: 1.4
+  pe_base: 8
+
+grid:
+  width: 10
+  height: 10
+  terrain_features:
+    - { x: 2, y: 4, type: vegetazione_densa, defense_mod: 2 }
+    - { x: 7, y: 6, type: vegetazione_densa, defense_mod: 2 }
+    - { x: 5, y: 8, type: roccia, defense_mod: 2 }
+    - { x: 3, y: 2, type: duna, defense_mod: 1 }
+    - { x: 8, y: 1, type: duna, defense_mod: 1 }
+
+hazard:
+  description: "Polvere sospesa: -1 perception per tutti i round dispari."
+  severity: low
+  stress_modifier: 0.02
+
+ecology_seed:
+  source_adr: ADR-2026-05-02
+  food_web_active: true
+  pack_signature_hook: howl_strike_combo
+  neutral_apex_pressure: dune_stalker
+
+notes: >-
+  Scenario MVP per validare ecology.pack_size + competes_with in runtime.
+  Target win rate calibration: 25-40% (hardcore range). Iter1 N=10
+  pending tools/py harness post-merge.

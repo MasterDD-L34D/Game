@@ -1,0 +1,73 @@
+# =============================================================================
+# Encounter Prototipo 2: Medio — "Eco nella Caverna"
+# Difficulty: 3/5 · Grid: 10×10 · Bioma: caverna
+# Scopo: cattura punto, reazioni, FOV ridotto, 2 wave
+# Schema: schemas/evo/encounter.schema.json
+# =============================================================================
+
+encounter_id: enc_caverna_02
+name: 'Eco nella Caverna'
+biome_id: caverna
+grid_size: [10, 10]
+difficulty_rating: 3
+estimated_turns: 12
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+encounter_class: standard
+
+objective:
+  type: capture_point
+  target_zone: [4, 4, 5, 5]
+  hold_turns: 3
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [1, 3]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 4]
+      - [9, 5]
+      - [8, 3]
+    units:
+      - species: bracconieri_echomantici
+        count: 2
+        tier: base
+        ai_profile: aggressive
+      - species: cartografi_subsonici
+        count: 1
+        tier: base
+        ai_profile: support
+
+  - wave_id: 2
+    turn_trigger: 4
+    spawn_points:
+      - [5, 0]
+      - [4, 9]
+    units:
+      - species: guardiani_risonanza
+        count: 2
+        tier: elite
+        affixes: [eco]
+        ai_profile: territorial
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 5
+  - type: environmental_mutation
+    trigger_turn: 6
+    effect: echo_feedback
+
+tags: [standard]
+
+narrative:
+  briefing_ink: stories/enc_caverna_02_briefing.ink.json
+  debrief_ink: stories/enc_caverna_02_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: claustrofobia
+  lighting: bassa_puntiforme
+  particle_effect: bioluminescenza_drift

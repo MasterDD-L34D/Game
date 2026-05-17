@@ -1,0 +1,66 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.cavita_risonanti_tundra.debolezza",
+  "famiglia_tipologia": "Sensoriale/Supporto",
+  "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+  "id": "cavita_risonanti_tundra",
+  "label": "i18n:traits.cavita_risonanti_tundra.label",
+  "mutazione_indotta": "i18n:traits.cavita_risonanti_tundra.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "tundra_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "criostasi_adattiva",
+    "eco_interno_riflesso",
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/Communication",
+      "boardgame:DominantSpecies/Initiative",
+      "hud:TundraPulse"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Cantore_Tundra",
+      "HUD:EchoGrid"
+    ],
+    "tabelle_random": [
+      "tabella:canti_ipersonici"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "supporto",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.cavita_risonanti_tundra.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.cavita_risonanti_tundra.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "tundra_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

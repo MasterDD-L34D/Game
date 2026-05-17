@@ -1,0 +1,70 @@
+{
+  "conflitti": [
+    "sangue_piroforico",
+    "sacche_galleggianti_ascensoriali"
+  ],
+  "debolezza": "i18n:traits.criostasi_adattiva.debolezza",
+  "famiglia_tipologia": "Metabolico/Difensivo",
+  "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+  "id": "criostasi_adattiva",
+  "label": "i18n:traits.criostasi_adattiva.label",
+  "mutazione_indotta": "i18n:traits.criostasi_adattiva.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Fase T1 controllata: micro-canopie sospese usate per cicli brevi di ibernazione.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Variante apex T3 in camere orbitali a gravità invertita per stasi prolungate.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "cavita_risonanti_tundra"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "i18n:traits.criostasi_adattiva.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.criostasi_adattiva.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopia_psionica_leggera",
+    "orbita_psionica_inversa"
+  ],
+  "data_origin": "controllo_psionico"
+}

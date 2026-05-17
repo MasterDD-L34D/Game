@@ -1,0 +1,248 @@
+# V4 PI-Pacchetti tematici — 16 Forme MBTI × 3 pack bias canonical.
+#
+# Source: docs/core/PI-Pacchetti-Forme.md (tabella Forme Base d12 bias).
+# Machine-readable extraction per formPackRecommender runtime.
+#
+# Per ogni forma: 3 pack (A/B/C) con combo descrittiva + d12 bias ranges.
+# Riferimento generic packs (A-J + Bias Forma + Bias Job + Scelta) vive in
+# data/packs.yaml — qui solo la specializzazione tematica per forma.
+
+schema_version: '1.0'
+
+# Pack universal baseline (d20 rolls, doc PI-Pacchetti-Forme §Pacchetti)
+universal_packs:
+  A: 'job_ability + trait_T1'
+  B: 'trait_T1 + guardia_situazionale + cap_pt'
+  C: 'job_ability + cap_pt + starter_bioma'
+  D: 'job_ability + guardia_situazionale + PE'
+  E: 'trait_T1 + starter_bioma + cap_pt + PE'
+  F: 'sigillo_forma + job_ability + starter_bioma'
+  G: 'sigillo_forma + trait_T1 + starter_bioma + PE'
+  H: 'PE x7'
+  I: 'trait_T1 + guardia_situazionale + sigillo_forma'
+  J: 'job_ability + PE x3'
+
+# Job bias mapping (d20 18-19 Bias Job)
+job_bias:
+  vanguard: [B, D]
+  skirmisher: [C, E]
+  warden: [E, G]
+  artificer: [A, F]
+  invoker: [A, J]
+  harvester: [D, J]
+  # 2026-05-10 audit cross-domain BACKLOG TKT-FORMPACK-EXP-JOB-BIAS:
+  # add base ranger (scout role) + 4 expansion jobs (jobs_expansion.yaml).
+  # Mapping role → pack semantica (universal_packs codes A-J top of file):
+  ranger: [C, E] # scout → job+bioma flessibile + utility heavy
+  stalker: [A, J] # alpha strike damage → job_ability+trait + job+PE economy
+  symbiont: [I, B] # bonded support amplifier → trait+guardia+forma + defense+stack
+  beastmaster: [C, D] # control minions → flessibile + sustain per minion
+  aberrant: [G, J] # mutation-driven damage → forma+trait random + job+PE
+  # Balanced fallback (jobs tag composite)
+  any: [E, I]
+
+# Form-specific pack bias (d12 Bias Forma, triggered on d20 16-17 reroll to d12)
+forms:
+  ISTJ:
+    pack_a:
+      combo: 'trait_T1:pianificatore + guardia_situazionale + sigillo_forma'
+      tags: [defense, planner, identity]
+    pack_b:
+      combo: 'job_ability:vanguard/muraglia + cap_pt + PE'
+      tags: [tank, control, earn]
+    pack_c:
+      combo: 'trait_T1:pianificatore + cap_pt + starter_bioma + PE'
+      tags: [planner, economy, bioma]
+    d12_bias: { a: [1, 5], b: [6, 9], c: [10, 12] }
+
+  ISFJ:
+    pack_a:
+      combo: 'trait_T1:risonanza_di_branco + guardia_situazionale + starter_bioma + PE'
+      tags: [pack, support, bioma, earn]
+    pack_b:
+      combo: 'job_ability:warden/aura_di_sollievo + cap_pt + PE'
+      tags: [heal, sustain]
+    pack_c:
+      combo: 'job_ability:warden/purga + guardia_situazionale + PE'
+      tags: [cleanse, support]
+    d12_bias: { a: [1, 4], b: [5, 9], c: [10, 12] }
+
+  INFJ:
+    pack_a:
+      combo: 'trait_T1:focus_frazionato + cap_pt + starter_bioma + PE'
+      tags: [focus, bioma, economy]
+    pack_b:
+      combo: 'job_ability:invoker/vena_psionica + guardia_situazionale + PE'
+      tags: [psi, defense]
+    pack_c:
+      combo: 'job_ability:artificer/mina_a_pressione + cap_pt + PE'
+      tags: [trap, control]
+    d12_bias: { a: [1, 4], b: [5, 8], c: [9, 12] }
+
+  INTJ:
+    pack_a:
+      combo: 'job_ability:invoker/varchi_di_forza + cap_pt + PE'
+      tags: [psi, control]
+    pack_b:
+      combo: 'job_ability:artificer/mina_a_pressione + guardia_situazionale + PE'
+      tags: [trap, defense]
+    pack_c:
+      combo: 'trait_T1:pianificatore + sigillo_forma + starter_bioma + PE'
+      tags: [planner, identity, bioma]
+    d12_bias: { a: [1, 6], b: [7, 9], c: [10, 12] }
+
+  ISTP:
+    pack_a:
+      combo: 'trait_T1:ghiandola_caustica + guardia_situazionale + PE x2'
+      tags: [debuff, defense]
+    pack_b:
+      combo: 'job_ability:skirmisher/taglio_opportunista + cap_pt + PE'
+      tags: [mobility, opportunity]
+    pack_c:
+      combo: 'job_ability:artificer/turret_ematica + guardia_situazionale + PE'
+      tags: [trap, area]
+    d12_bias: { a: [6, 8], b: [1, 5], c: [9, 12] }
+
+  ISFP:
+    pack_a:
+      combo: 'job_ability:skirmisher/smoke_step + starter_bioma + PE x2'
+      tags: [mobility, evasion, bioma]
+    pack_b:
+      combo: 'trait_T1:zampe_a_molla + cap_pt + guardia_situazionale'
+      tags: [mobility, defense]
+    pack_c:
+      combo: 'job_ability:skirmisher/dash_cut + cap_pt + PE'
+      tags: [mobility, offense]
+    d12_bias: { a: [1, 4], b: [9, 12], c: [5, 8] }
+
+  INFP:
+    pack_a:
+      combo: 'trait_T1:empatia_coordinativa + job_ability:warden/scudo_di_risonanza'
+      tags: [support, shield]
+    pack_b:
+      combo: 'job_ability:warden/aura_di_sollievo + starter_bioma + PE x2'
+      tags: [heal, bioma]
+    pack_c:
+      combo: 'trait_T1:risonanza_di_branco + cap_pt + guardia_situazionale'
+      tags: [pack, defense]
+    d12_bias: { a: [1, 6], b: [7, 9], c: [10, 12] }
+
+  INTP:
+    pack_a:
+      combo: 'job_ability:artificer/turret_ematica + cap_pt + PE'
+      tags: [trap, area]
+    pack_b:
+      combo: 'job_ability:artificer/neutralizzatore + guardia_situazionale + PE'
+      tags: [counter, defense]
+    pack_c:
+      combo: 'trait_T1:focus_frazionato + sigillo_forma + starter_bioma + PE'
+      tags: [focus, identity, bioma]
+    d12_bias: { a: [1, 5], b: [6, 9], c: [10, 12] }
+
+  ESTP:
+    pack_a:
+      combo: 'job_ability:skirmisher/dash_cut + trait_T1:zampe_a_molla'
+      tags: [mobility, offense]
+    pack_b:
+      combo: 'job_ability:skirmisher/raffica + guardia_situazionale + PE'
+      tags: [multi-attack, defense]
+    pack_c:
+      combo: 'job_ability:invoker/sincronia + cap_pt + PE'
+      tags: [combo, psi]
+    d12_bias: { a: [1, 6], b: [7, 9], c: [10, 12] }
+
+  ESFP:
+    pack_a:
+      combo: 'job_ability:harvester/taglia_obiettivo + guardia_situazionale + PE'
+      tags: [execution, defense]
+    pack_b:
+      combo: 'trait_T1:tattiche_di_branco + cap_pt + starter_bioma + PE'
+      tags: [pack, bioma]
+    pack_c:
+      combo: 'job_ability:harvester/rete_predatoria + cap_pt + PE'
+      tags: [control, predator]
+    d12_bias: { a: [1, 5], b: [6, 8], c: [9, 12] }
+
+  ENFP:
+    pack_a:
+      combo: 'trait_T1:pathfinder + cap_pt + starter_bioma + PE'
+      tags: [mobility, bioma]
+    pack_b:
+      combo: 'job_ability:invoker/sincronia + guardia_situazionale + PE'
+      tags: [combo, defense]
+    pack_c:
+      combo: 'job_ability:skirmisher/smoke_step + cap_pt + PE'
+      tags: [mobility, evasion]
+    d12_bias: { a: [1, 6], b: [7, 8], c: [9, 12] }
+
+  ENTP:
+    pack_a:
+      combo: 'job_ability:invoker/sincronia + trait_T1:focus_frazionato'
+      tags: [combo, focus]
+    pack_b:
+      combo: 'job_ability:artificer/rete_sincro + cap_pt + PE'
+      tags: [combo, area]
+    pack_c:
+      combo: 'trait_T1:pianificatore + guardia_situazionale + sigillo_forma'
+      tags: [planner, defense, identity]
+    d12_bias: { a: [1, 6], b: [7, 9], c: [10, 12] }
+
+  ESTJ:
+    pack_a:
+      combo: 'job_ability:vanguard/muraglia + guardia_situazionale + PE'
+      tags: [tank, defense]
+    pack_b:
+      combo: 'job_ability:vanguard/carica + cap_pt + PE'
+      tags: [charge, offense]
+    pack_c:
+      combo: 'trait_T1:pianificatore + sigillo_forma + starter_bioma + PE'
+      tags: [planner, identity, bioma]
+    d12_bias: { a: [1, 5], b: [6, 9], c: [10, 12] }
+
+  ESFJ:
+    pack_a:
+      combo: 'job_ability:warden/scudo_di_risonanza + cap_pt + PE'
+      tags: [shield, support]
+    pack_b:
+      combo: 'trait_T1:tattiche_di_branco + guardia_situazionale + sigillo_forma'
+      tags: [pack, defense, identity]
+    pack_c:
+      combo: 'job_ability:warden/aura_di_sollievo + starter_bioma + PE x2'
+      tags: [heal, bioma, earn]
+    d12_bias: { a: [1, 5], b: [6, 8], c: [9, 12] }
+
+  ENFJ:
+    pack_a:
+      combo: 'job_ability:warden/aura_di_sollievo + starter_bioma + PE x2'
+      tags: [heal, bioma, earn]
+    pack_b:
+      combo: 'trait_T1:risonanza_di_branco + cap_pt + guardia_situazionale'
+      tags: [pack, defense]
+    pack_c:
+      combo: 'job_ability:harvester/taglia_obiettivo + cap_pt + PE'
+      tags: [execution, economy]
+    d12_bias: { a: [1, 6], b: [7, 8], c: [9, 12] }
+
+  ENTJ:
+    pack_a:
+      combo: 'job_ability:harvester/blocco_rifornimenti + cap_pt + PE'
+      tags: [denial, economy]
+    pack_b:
+      combo: 'job_ability:vanguard/sfida + guardia_situazionale + PE'
+      tags: [taunt, defense]
+    pack_c:
+      combo: 'trait_T1:pianificatore + sigillo_forma + starter_bioma + PE'
+      tags: [planner, identity, bioma]
+    d12_bias: { a: [1, 6], b: [7, 9], c: [10, 12] }
+
+  NEUTRA:
+    pack_a:
+      combo: 'trait_T1:random + job_ability:random'
+      tags: [wildcard]
+    pack_b:
+      combo: 'trait_T1:random + guardia_situazionale + cap_pt'
+      tags: [wildcard, defense]
+    pack_c:
+      combo: 'job_ability:random + starter_bioma + cap_pt'
+      tags: [wildcard, bioma]
+    d12_bias: { a: [1, 4], b: [5, 8], c: [9, 12] }

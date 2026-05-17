@@ -1,0 +1,36 @@
+# Tabella dei modificatori di velocita' di risoluzione per action type.
+#
+# Fonte: ADR-2026-04-15-round-based-combat-model.md
+# Consumer: apps/backend/services/roundOrchestrator.js (Node canonical post Phase 3 removal Python rules)
+#
+# Semantica: il valore e' sommato a unit.initiative (reaction speed) per
+# calcolare resolve_priority. Alto = risolve prima nel round.
+#
+# Formula completa:
+#   resolve_priority = unit.initiative + action_speed[action.type] - status_penalty
+#
+# Modifica questo file per tarare il combat bilanciamento senza commit
+# al codice Python. Il round orchestrator fa hot reload al prossimo
+# import del modulo (o via load_action_speed_table() esplicito in test).
+#
+# Fallback: se il file manca o e' malformato, il round orchestrator usa
+# DEFAULT_ACTION_SPEED (stessi valori di questo file, hardcoded nel modulo).
+
+version: 1
+
+action_speed:
+  # Stance difensive: gia' mantenute, reazione immediata
+  defend: 2
+  parry: 2
+
+  # Azioni offensive: baseline del d20
+  attack: 0
+
+  # Abilita' elaborate: richiedono telegraph / windup
+  ability: -1
+
+  # Movimento: commitment fisico, piu' lento a reagire
+  move: -2
+
+  # Future extension: aggiungere qui nuovi action type senza toccare Python.
+  # Unknown action type → default 0 (il loader e' tollerante).

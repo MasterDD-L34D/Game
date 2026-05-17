@@ -1,0 +1,108 @@
+# Artillery WebSocket load smoke — Tier 1 #2 adoption post 2026-05-07.
+#
+# Pre-merge gate `lobbyService` host-transfer grace 90s + B5 phase_change
+# broadcast resilience under N concurrent lobby create/join cycles.
+#
+# Stress targets:
+#   1. HTTP /api/lobby/create endpoint throughput (JWT mint + room registry write)
+#   2. HTTP /api/lobby/join endpoint throughput (token validation + room state mutation)
+#   3. WS /ws shared mode handshake success rate (LOBBY_WS_SHARED=true)
+#   4. Backend stability under burst: no crash, response times bounded, JWT sign rate
+#
+# Pre-flight:
+#   LOBBY_WS_SHARED=true PORT=3334 npm run start:api  &
+#
+# Run:
+#   npx artillery run tests/load/lobby-flood.yml
+#   # OR via npm script: npm run test:load:lobby
+#
+# Override target via env:
+#   TARGET_URL=https://<tunnel>.trycloudflare.com npx artillery run ...
+#
+# Cross-ref:
+#   - docs/playtest/AGENT_DRIVEN_WORKFLOW.md Pattern C
+#   - tools/ts/tests/playwright/phone/phone-multi.spec.ts (Pattern B complementary)
+#   - tests/api/airplaneReconnect.test.js (Node-level grace timing, 5 test)
+
+config:
+  target: "{{ $env.TARGET_URL }}"
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+  phases:
+    # Warm-up: low arrival rate, baseline RTT measurement
+    - name: warmup
+      duration: 10
+      arrivalRate: 2
+    # Steady load: sustained 10 lobbies/sec for 30s = 300 rooms
+    - name: steady
+      duration: 30
+      arrivalRate: 10
+    # Burst: spike to 25/sec for 10s = 250 rooms in burst
+    - name: burst
+      duration: 10
+      arrivalRate: 25
+  ensure:
+    # CI gate thresholds — fail if exceeded.
+    thresholds:
+      - http.response_time.p95: 500
+      - http.response_time.p99: 1500
+    # Codes 5xx must stay below 1% of total (backend stability check).
+    conditions:
+      - expression: 'http.codes.500 < total_requests / 100'
+        strict: true
+
+scenarios:
+  - name: 'host_create_join_close'
+    weight: 80
+    flow:
+      # 1. Host creates lobby → server mints host_token JWT + assigns code
+      - post:
+          url: '/api/lobby/create'
+          json:
+            host_name: 'LoadHost{{ $randomString() }}'
+          capture:
+            - json: '$.code'
+              as: 'roomCode'
+            - json: '$.host_token'
+              as: 'hostToken'
+            - json: '$.host_id'
+              as: 'hostId'
+          expect:
+            - statusCode: 200
+            - hasProperty: 'code'
+            - hasProperty: 'host_token'
+      # 2. Player joins via REST (separate HTTP from host context)
+      - post:
+          url: '/api/lobby/join'
+          json:
+            code: '{{ roomCode }}'
+            player_name: 'LoadPlayer{{ $randomString() }}'
+          capture:
+            - json: '$.player_id'
+              as: 'playerId'
+            - json: '$.player_token'
+              as: 'playerToken'
+          expect:
+            - statusCode: 200
+            - hasProperty: 'player_token'
+      # 3. Verify lobby visible in list (room registry consistency under load)
+      - get:
+          url: '/api/lobby/list'
+          expect:
+            - statusCode: 200
+      # Cooldown — let server emit broadcasts + clear queue between flows
+      - think: 1
+
+  - name: 'list_only_read_pressure'
+    weight: 20
+    flow:
+      # Read-only pressure on registry — validates concurrent reads don't block writes
+      - get:
+          url: '/api/lobby/list'
+          expect:
+            - statusCode: 200
+      - get:
+          url: '/api/lobby/list'
+          expect:
+            - statusCode: 200

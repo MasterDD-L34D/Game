@@ -1,0 +1,60 @@
+{
+  "id": "artiglio_cinetico_a_urto",
+  "label": "i18n:traits.artiglio_cinetico_a_urto.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Offensivo/Contusivo",
+  "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "locomozione_miriapode_ibrida",
+    "estroflessione_gastrica_acida"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.artiglio_cinetico_a_urto.mutazione_indotta",
+  "uso_funzione": "i18n:traits.artiglio_cinetico_a_urto.uso_funzione",
+  "spinta_selettiva": "i18n:traits.artiglio_cinetico_a_urto.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "energia_impattiva",
+      "value": 800,
+      "unit": "J"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Frattura tibia su osso bovino in prova",
+    "scene_prompt": "Misura impulso con accelerometro"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": "Serve terreno solido terrestre per scaricare l'energia d'urto senza perdere equilibrio."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "contusivo"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.artiglio_cinetico_a_urto.debolezza"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "ipertrofia_muscolare_massiva",
+  "label": "i18n:traits.ipertrofia_muscolare_massiva.label",
+  "data_origin": "incoming_tr1100_pack",
+  "famiglia_tipologia": "Fisiologico/Metabolico",
+  "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "ectotermia_dinamica",
+    "scheletro_idraulico_a_pistoni"
+  ],
+  "conflitti": [
+    "organi_sismici_cutanei"
+  ],
+  "mutazione_indotta": "i18n:traits.ipertrofia_muscolare_massiva.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ipertrofia_muscolare_massiva.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ipertrofia_muscolare_massiva.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 60,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Sprint 0–10 m < 2 s",
+    "scene_prompt": "Cronometra tre sprint; rileva FC post-sforzo"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "La crescita muscolare richiede gravità standard e superfici di spinta dei biomi terrestri."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "metabolico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.ipertrofia_muscolare_massiva.debolezza"
+}

@@ -1,0 +1,102 @@
+﻿{
+  "version": "1.0.0",
+  "updated_at": "2026-04-13",
+  "incomplete_exit_criteria": [
+    "README minimo del modulo presente",
+    "owner operativo assegnato",
+    "test o smoke check eseguibile",
+    "runbook operativo referenziato"
+  ],
+  "workstreams": [
+    {
+      "name": "flow",
+      "owner": "flow-team",
+      "status": "active",
+      "dependencies": ["dataset-pack", "backend"],
+      "components": [
+        { "path": "services/generation", "kind": "code", "state": "active" },
+        { "path": "tools/py", "kind": "code", "state": "active" },
+        { "path": "tools/ts", "kind": "code", "state": "active" }
+      ]
+    },
+    {
+      "name": "atlas",
+      "owner": "atlas-team",
+      "status": "active",
+      "dependencies": ["backend", "dataset-pack"],
+      "components": [
+        { "path": "apps/dashboard", "kind": "code", "state": "removed", "removed_in": "#1343" },
+        { "path": "docs/test-interface", "kind": "docs", "state": "review_needed" }
+      ]
+    },
+    {
+      "name": "backend",
+      "owner": "backend-team",
+      "status": "active",
+      "dependencies": ["dataset-pack"],
+      "components": [
+        {
+          "path": "apps/backend",
+          "kind": "code",
+          "state": "incomplete",
+          "missing": ["README minimo", "tests directory dedicata"]
+        },
+        {
+          "path": "services/eventsScheduler",
+          "kind": "code",
+          "state": "incomplete",
+          "missing": ["README minimo", "smoke test"]
+        }
+      ]
+    },
+    {
+      "name": "dataset-pack",
+      "owner": "data-pack-team",
+      "status": "active",
+      "dependencies": ["flow", "atlas", "backend"],
+      "components": [
+        { "path": "data", "kind": "runtime-data", "state": "active" },
+        { "path": "packs/evo_tactics_pack", "kind": "runtime-data", "state": "active" },
+        { "path": "docs/evo-tactics-pack", "kind": "generated-docs", "state": "legacy_active" }
+      ]
+    },
+    {
+      "name": "ops-qa",
+      "owner": "ops-qa-team",
+      "status": "active",
+      "dependencies": ["flow", "atlas", "backend", "dataset-pack"],
+      "components": [
+        { "path": ".github/workflows", "kind": "ci", "state": "active" },
+        { "path": "ops/site-audit", "kind": "ops", "state": "active" },
+        { "path": "docs/reports", "kind": "generated-docs", "state": "legacy_active" }
+      ]
+    },
+    {
+      "name": "combat",
+      "owner": "combat-team",
+      "status": "active",
+      "dependencies": ["dataset-pack", "backend"],
+      "components": [
+        { "path": "apps/backend/services/combat", "kind": "code", "state": "active" },
+        { "path": "apps/backend/services/roundOrchestrator.js", "kind": "code", "state": "active" },
+        { "path": "apps/backend/services/traitEffects.js", "kind": "code", "state": "active" },
+        {
+          "path": "packs/evo_tactics_pack/data/balance",
+          "kind": "runtime-data",
+          "state": "active"
+        }
+      ]
+    },
+    {
+      "name": "incoming",
+      "owner": "incoming-archivist",
+      "status": "active",
+      "dependencies": ["ops-qa"],
+      "components": [
+        { "path": "incoming", "kind": "staging-data", "state": "legacy_active" },
+        { "path": "docs/incoming", "kind": "docs", "state": "legacy_active" },
+        { "path": "docs/archive", "kind": "docs", "state": "historical_ref" }
+      ]
+    }
+  ]
+}

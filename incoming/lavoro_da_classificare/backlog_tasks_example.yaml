@@ -1,0 +1,39 @@
+project_name: Evo‑Tactics Roadmap
+columns:
+  - Backlog
+  - In Progress
+  - Review QA
+  - Done
+issues:
+  - title: '[DS1] Validare dataset MBTI/Enneagramma'
+    body: 'Eseguire script di validazione per garantire coerenza e completezza dei tratti nei dataset di personalità.'
+    labels: ['dataset']
+    column: 'Backlog'
+  - title: '[DS2] Aggiornare glossario tratti'
+    body: 'Applicare le correzioni individuate dalla revisione sistematica al file glossario.json.'
+    labels: ['dataset']
+    column: 'Backlog'
+  - title: '[CLI1] Implementare comando di generazione profili'
+    body: 'Aggiungere un comando alla CLI (Python/TypeScript) che consenta la creazione e validazione dei profili giocatore.'
+    labels: ['cli']
+    column: 'Backlog'
+  - title: '[BE1] Creare endpoint API per telemetria incrementale'
+    body: 'Esporre un endpoint REST che permetta al frontend di inviare dati di telemetria in modo incrementale.'
+    labels: ['backend', 'telemetria']
+    column: 'Backlog'
+  - title: '[FE1] Introdurre HUD telemetrico nel frontend'
+    body: 'Integrare l’overlay HUD smart nel prototipo WebGL/Vite secondo le specifiche di design.'
+    labels: ['frontend', 'hud']
+    column: 'Backlog'
+  - title: '[QA1] Ampliare suite di test Playwright'
+    body: 'Aggiungere scenari di test end‑to‑end per coprire le nuove funzionalità HUD e telemetria.'
+    labels: ['qa', 'playwright']
+    column: 'Backlog'
+  - title: '[SEC1] Integrare workflow di sicurezza'
+    body: 'Creare il workflow security.yml ed eseguire scansioni SAST, dipendenze e segreti ad ogni PR.'
+    labels: ['security']
+    column: 'Backlog'
+  - title: '[DOC1] Consolidare la documentazione tecnica'
+    body: 'Aggiornare e centralizzare i documenti in docs/, includendo GDD, documentazione di sicurezza e guide di installazione.'
+    labels: ['documentation']
+    column: 'Backlog'

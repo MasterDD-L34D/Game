@@ -1,0 +1,36 @@
+{
+  "id": "placche_pressioniche",
+  "label": "i18n:traits.placche_pressioniche.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Difesa/Pressione",
+  "fattore_mantenimento_energetico": "Alto: la struttura resiste a pressioni variabili e richiede pompaggio continuo.",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.placche_pressioniche.mutazione_indotta",
+  "uso_funzione": "i18n:traits.placche_pressioniche.uso_funzione",
+  "spinta_selettiva": "i18n:traits.placche_pressioniche.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T3",
+        "notes": "Attive nella frattura nera per assorbire gli sbalzi di pressione e le microfratture."
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": false,
+    "has_usage_tags": true
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.placche_pressioniche.debolezza"
+}

@@ -1,0 +1,56 @@
+{
+  "conflitti": [
+    "sangue_piroforico"
+  ],
+  "debolezza": "i18n:traits.circolazione_bifasica_palude.debolezza",
+  "famiglia_tipologia": "Metabolico/Resilienza",
+  "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
+  "id": "circolazione_bifasica_palude",
+  "label": "i18n:traits.circolazione_bifasica_palude.label",
+  "mutazione_indotta": "i18n:traits.circolazione_bifasica_palude.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "paludi_gas_luminescenti"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Paludi bioluminescenti piene di gas nervini e batteri simbionti.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "mucillagine_simbionte_mangrovie"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "resilienza",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "i18n:traits.circolazione_bifasica_palude.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.circolazione_bifasica_palude.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "paludi_gas_luminescenti"
+  ],
+  "data_origin": "controllo_psionico"
+}

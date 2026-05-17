@@ -1,0 +1,256 @@
+# V2 Tri-Sorgente — reward card pool seed (MVP).
+#
+# Pool piccolo (15 carte) per tutorial + Act 1. Espandibile.
+# Carta shape: { id, label, rarity, roll_bucket?, synergy_tags[],
+#   personality_weights[], action_affinities[], exclusion_tags?,
+#   max_copies?, effect: {type, params} }
+#
+# Rarity: common | uncommon | rare | epic | legendary
+# Roll bucket: 1..20 (d20 contextual). Optional.
+# Personality weights: { mbti?: "INTJ", ennea?: "5", weight: 0..2 }
+# Action affinities: { action: "attack_executed", weight: 0..1 }
+# Effect types: trait_grant | stat_bonus | ability_unlock | pe_bonus
+
+schema_version: '1.0'
+pool_id: reward_pool_mvp
+
+cards:
+  - id: rwd_claws_sharp
+    label: 'Artigli affilati'
+    rarity: common
+    roll_bucket: 5
+    synergy_tags: [offense, melee]
+    personality_weights:
+      - { mbti: 'ESTP', weight: 1.0 }
+      - { ennea: '8', weight: 0.8 }
+    action_affinities:
+      - { action: 'attacks_started', weight: 0.5 }
+    effect:
+      type: trait_grant
+      trait_id: artigli_sette_vie
+
+  - id: rwd_elastic_skin
+    label: 'Pelle elastica'
+    rarity: common
+    roll_bucket: 3
+    synergy_tags: [defense, tank]
+    personality_weights:
+      - { mbti: 'ISFJ', weight: 1.0 }
+      - { ennea: '6', weight: 0.8 }
+    action_affinities:
+      - { action: 'damage_taken', weight: 0.4 }
+    effect:
+      type: trait_grant
+      trait_id: pelle_elastomera
+
+  - id: rwd_spring_legs
+    label: 'Zampe a molla'
+    rarity: common
+    roll_bucket: 7
+    synergy_tags: [mobility, skirmisher]
+    personality_weights:
+      - { mbti: 'ESFP', weight: 1.0 }
+      - { ennea: '7', weight: 0.8 }
+    action_affinities:
+      - { action: 'moves_executed', weight: 0.5 }
+    effect:
+      type: trait_grant
+      trait_id: zampe_a_molla
+
+  - id: rwd_whip_tail
+    label: 'Coda frusta cinetica'
+    rarity: uncommon
+    roll_bucket: 9
+    synergy_tags: [offense, ranged]
+    personality_weights:
+      - { mbti: 'ENTP', weight: 1.0 }
+    action_affinities:
+      - { action: 'attacks_started', weight: 0.3 }
+    effect:
+      type: trait_grant
+      trait_id: coda_frusta_cinetica
+
+  - id: rwd_serrated_teeth
+    label: 'Denti seghettati'
+    rarity: uncommon
+    roll_bucket: 12
+    synergy_tags: [offense, bleeding]
+    personality_weights:
+      - { mbti: 'ENTJ', weight: 1.0 }
+      - { ennea: '3', weight: 0.6 }
+    action_affinities:
+      - { action: 'first_blood', weight: 0.8 }
+    effect:
+      type: trait_grant
+      trait_id: denti_seghettati
+
+  - id: rwd_hydro_regul
+    label: 'Scheletro idro-regolante'
+    rarity: rare
+    roll_bucket: 14
+    synergy_tags: [defense, utility]
+    personality_weights:
+      - { mbti: 'INTJ', weight: 1.0 }
+    action_affinities:
+      - { action: 'support_bias', weight: 0.5 }
+    effect:
+      type: trait_grant
+      trait_id: scheletro_idro_regolante
+
+  - id: rwd_pe_boost_5
+    label: 'Rivelazione tattica (+5 PE)'
+    rarity: common
+    roll_bucket: 2
+    synergy_tags: [progression]
+    personality_weights: []
+    action_affinities: []
+    max_copies: 3
+    effect:
+      type: pe_bonus
+      amount: 5
+
+  - id: rwd_pe_boost_10
+    label: 'Epifania (+10 PE)'
+    rarity: uncommon
+    roll_bucket: 11
+    synergy_tags: [progression]
+    personality_weights: []
+    action_affinities: []
+    max_copies: 2
+    effect:
+      type: pe_bonus
+      amount: 10
+
+  - id: rwd_stat_hp_plus
+    label: 'Resistenza incrementata'
+    rarity: common
+    roll_bucket: 6
+    synergy_tags: [defense, tank]
+    personality_weights:
+      - { mbti: 'ISTJ', weight: 0.8 }
+    action_affinities:
+      - { action: 'damage_taken', weight: 0.3 }
+    max_copies: 2
+    effect:
+      type: stat_bonus
+      stat: hp
+      amount: 2
+
+  - id: rwd_stat_atk_plus
+    label: 'Aggressività crescente'
+    rarity: common
+    roll_bucket: 8
+    synergy_tags: [offense, melee]
+    personality_weights:
+      - { mbti: 'ESTP', weight: 0.8 }
+    action_affinities:
+      - { action: 'attacks_started', weight: 0.4 }
+    max_copies: 2
+    effect:
+      type: stat_bonus
+      stat: attack_mod
+      amount: 1
+
+  - id: rwd_stat_def_plus
+    label: 'Postura difensiva'
+    rarity: common
+    roll_bucket: 4
+    synergy_tags: [defense]
+    personality_weights:
+      - { mbti: 'ISFJ', weight: 0.8 }
+    action_affinities:
+      - { action: 'evasion_ratio', weight: 0.3 }
+    max_copies: 2
+    effect:
+      type: stat_bonus
+      stat: defense_mod
+      amount: 1
+
+  - id: rwd_surge_burst
+    label: 'Burst Surge'
+    rarity: rare
+    roll_bucket: 16
+    synergy_tags: [offense, burst]
+    personality_weights:
+      - { mbti: 'ENTJ', weight: 0.8 }
+      - { ennea: '8', weight: 0.6 }
+    action_affinities:
+      - { action: 'kill_pressure', weight: 0.5 }
+    effect:
+      type: ability_unlock
+      ability_id: surge_burst
+
+  - id: rwd_focus_stance
+    label: 'Focus mentale'
+    rarity: uncommon
+    roll_bucket: 10
+    synergy_tags: [utility, buff]
+    personality_weights:
+      - { mbti: 'INTP', weight: 1.0 }
+      - { ennea: '5', weight: 0.7 }
+    action_affinities:
+      - { action: 'setup_ratio', weight: 0.6 }
+    effect:
+      type: ability_unlock
+      ability_id: focus_stance
+
+  - id: rwd_support_heal
+    label: 'Cura empatica'
+    rarity: uncommon
+    roll_bucket: 13
+    synergy_tags: [support, heal]
+    personality_weights:
+      - { mbti: 'INFJ', weight: 1.0 }
+      - { ennea: '2', weight: 0.9 }
+    action_affinities:
+      - { action: 'assists', weight: 0.7 }
+    effect:
+      type: ability_unlock
+      ability_id: support_heal
+
+  - id: rwd_apex_scent
+    label: "Traccia dell'Apex"
+    rarity: epic
+    roll_bucket: 18
+    synergy_tags: [utility, narrative]
+    personality_weights:
+      - { mbti: 'INFJ', weight: 0.6 }
+      - { ennea: '4', weight: 0.8 }
+    action_affinities: []
+    max_copies: 1
+    effect:
+      type: pe_bonus
+      amount: 20
+
+  # Tier B Quick win — Isaac Anomaly Trait pool (1/20 rare spawn).
+  # Source: docs/research/2026-04-26-tier-b-extraction-matrix.md #7 Binding of Isaac.
+  # Pattern: pack roll d20+BIAS estesa a Anomaly Trait raro 1/20 con effetto
+  # trasformativo cross-pillar. tag `anomaly` consente analytics + special-case
+  # rendering (es. glow effect future PR).
+  - id: rwd_anomaly_resilienza_temporale
+    label: "Anomalia: Resilienza Temporale"
+    rarity: legendary
+    roll_bucket: 20
+    synergy_tags: [anomaly, transformative, defense, time]
+    personality_weights:
+      - { mbti: 'INTJ', weight: 0.9 }
+      - { ennea: '5', weight: 0.7 }
+    action_affinities: []
+    max_copies: 1
+    effect:
+      type: ability_unlock
+      ability_id: temporal_rewind
+
+  - id: rwd_anomaly_simbiosi_apex
+    label: "Anomalia: Simbiosi Apex"
+    rarity: legendary
+    roll_bucket: 20
+    synergy_tags: [anomaly, transformative, mating, evolve]
+    personality_weights:
+      - { mbti: 'ENFJ', weight: 0.9 }
+      - { ennea: '2', weight: 0.7 }
+    action_affinities: []
+    max_copies: 1
+    effect:
+      type: trait_grant
+      trait_id: coscienza_d_alveare_diffusa

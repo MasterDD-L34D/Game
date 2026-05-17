@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/encounter.schema.json",
+  "title": "Evo Tactics Encounter Template",
+  "description": "Schema for encounter YAML definitions. See docs/core/00-SOURCE-OF-TRUTH.md §15.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "encounter_id",
+    "name",
+    "biome_id",
+    "grid_size",
+    "objective",
+    "player_spawn",
+    "waves",
+    "difficulty_rating"
+  ],
+  "properties": {
+    "encounter_id": {
+      "type": "string",
+      "pattern": "^enc_[a-z0-9_]+$",
+      "description": "Unique slug identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name (Italian)"
+    },
+    "biome_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to biomes.yaml entry"
+    },
+    "grid_size": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 4, "maximum": 20 },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "[width, height] in hex cells"
+    },
+    "objective": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["elimination", "capture_point", "escort", "sabotage", "survival", "escape"]
+        },
+        "target_zone": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "[x1, y1, x2, y2] bounding box for capture/escape"
+        },
+        "hold_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turns to hold zone (capture_point)"
+        },
+        "survive_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turns to survive (survival)"
+        },
+        "escort_target": {
+          "type": "string",
+          "description": "Unit ID to protect (escort)"
+        },
+        "time_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turn limit (sabotage, escape)"
+        },
+        "sabotage_turns_required": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "ADR-2026-04-20: turns PG must be in target_zone to complete sabotage"
+        },
+        "min_units_in_zone": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "ADR-2026-04-20: min PG count in target_zone to count as held/sabotaging"
+        },
+        "loss_conditions": {
+          "type": "object",
+          "description": "ADR-2026-04-20: decouple defeat conditions from win conditions",
+          "additionalProperties": false,
+          "properties": {
+            "time_limit": { "type": "integer", "minimum": 1 },
+            "player_wipe": { "type": "boolean", "default": true }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "player_spawn": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "minItems": 1,
+      "description": "[[x, y], ...] spawn positions for player units"
+    },
+    "waves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wave_id", "turn_trigger", "spawn_points", "units"],
+        "additionalProperties": false,
+        "properties": {
+          "wave_id": { "type": "integer", "minimum": 1 },
+          "turn_trigger": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Turn number when wave spawns (0 = start)"
+          },
+          "spawn_points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 0 },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "minItems": 1
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["species", "count"],
+              "additionalProperties": false,
+              "properties": {
+                "species": { "type": "string", "minLength": 1 },
+                "count": { "type": "integer", "minimum": 1 },
+                "tier": {
+                  "type": "string",
+                  "enum": ["base", "elite", "apex"],
+                  "default": "base"
+                },
+                "ai_profile": {
+                  "type": "string",
+                  "description": "Reference to ai_profiles.yaml entry"
+                },
+                "affixes": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "fog_of_war",
+              "stress_wave",
+              "terrain_collapse",
+              "allied_reinforcement",
+              "environmental_mutation"
+            ]
+          },
+          "fov_radius": { "type": "integer", "minimum": 1 },
+          "trigger_turn": { "type": "integer", "minimum": 1 },
+          "effect": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "difficulty_rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1-5 star difficulty"
+    },
+    "estimated_turns": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Expected match length in turns"
+    },
+    "narrative": {
+      "type": "object",
+      "properties": {
+        "briefing_ink": {
+          "type": "string",
+          "description": "Path to .ink.json briefing story"
+        },
+        "debrief_ink": {
+          "type": "string",
+          "description": "Path to .ink.json debrief story"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "tutorial",
+          "standard",
+          "boss",
+          "survival",
+          "escort",
+          "puzzle",
+          "timed",
+          "night",
+          "storm"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "restrictions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Disabled mechanics: no_hazard, no_reactions, no_status, etc."
+    },
+    "didactic_focus": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Mechanics highlighted in tutorial encounters"
+    },
+    "reinforcement_pool": {
+      "type": "array",
+      "description": "ADR-2026-04-19: SIS reinforcement candidates (weighted selection).",
+      "items": {
+        "type": "object",
+        "required": ["unit_id"],
+        "additionalProperties": true,
+        "properties": {
+          "unit_id": { "type": "string", "minLength": 1 },
+          "weight": { "type": "number", "minimum": 0 },
+          "max_spawns": { "type": "integer", "minimum": 1 },
+          "hp": { "type": "integer", "minimum": 1 },
+          "mod": { "type": "integer" },
+          "dc": { "type": "integer", "minimum": 1 },
+          "ai_profile": { "type": "string" }
+        }
+      }
+    },
+    "reinforcement_entry_tiles": {
+      "type": "array",
+      "description": "ADR-2026-04-19: tiles where reinforcement units may spawn (Manhattan ≥ min_distance_from_pg from any PG).",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "reinforcement_policy": {
+      "type": "object",
+      "description": "ADR-2026-04-19: gating rules for reinforcementSpawner.tick().",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "min_tier": {
+          "type": "string",
+          "enum": ["Calm", "Alert", "Escalated", "Critical", "Apex"],
+          "default": "Alert"
+        },
+        "cooldown_rounds": { "type": "integer", "minimum": 0, "default": 0 },
+        "max_total_spawns": { "type": "integer", "minimum": 0 },
+        "min_distance_from_pg": { "type": "integer", "minimum": 0, "default": 3 }
+      }
+    },
+    "encounter_class": {
+      "type": "string",
+      "enum": ["tutorial", "tutorial_advanced", "standard", "hardcore", "boss"],
+      "description": "M7-#2 Phase C (ADR-2026-04-20): damage scaling class. Controls enemy_damage_multiplier (1.0→1.6) + boss_enrage_threshold_hp. Vedi data/core/balance/damage_curves.yaml."
+    },
+    "visual_mood": {
+      "type": "object",
+      "description": "Art direction metadata per encounter (docs/core/41-ART-DIRECTION.md). Referenzia palette bioma + lighting + particle effect + optional accent override. Opzionale, no-op runtime.",
+      "additionalProperties": false,
+      "properties": {
+        "mood_tag": {
+          "type": "string",
+          "description": "Mood from 41-AD palette matrix (es. esposizione, claustrofobia, tensione_mistero, densita_tossica, onirico_sporale, archeologico, vivacita_acquatica, pericolo_calore, astratto_digitale)"
+        },
+        "lighting": {
+          "type": "string",
+          "description": "Light direction from 41-AD (es. alta_calda_dall_alto, bassa_puntiforme, filtrata_verdastra, diffusa_violacea, fredda_obliqua, bassa_bioluminescente, chiaroscuro_subacqueo, calda_dal_basso, neutra_diffusa)"
+        },
+        "particle_effect": {
+          "type": "string",
+          "description": "Particelle ambientali semantiche (es. polvere_secca, spore_fluttuanti, bioluminescenza_drift, scintille_magma, onde_sinaptiche, bolle_reef, cenere_sospesa)"
+        },
+        "accent_override": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "description": "Optional palette accent override per encounter (hex 6 o 8 digit). Override accent 1 del bioma se presente."
+        }
+      }
+    }
+  }
+}

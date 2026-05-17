@@ -1,0 +1,71 @@
+{
+  "conflitti": [
+    "ghiandola_caustica"
+  ],
+  "debolezza": "i18n:traits.mucillagine_simbionte_mangrovie.debolezza",
+  "famiglia_tipologia": "Simbiotico/Difensivo",
+  "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
+  "id": "mucillagine_simbionte_mangrovie",
+  "label": "i18n:traits.mucillagine_simbionte_mangrovie.label",
+  "mutazione_indotta": "i18n:traits.mucillagine_simbionte_mangrovie.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "mangrovie_risonanti"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Foreste di mangrovie ipersature dove le radici cantano frequenze psioniche.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_reagenti",
+    "artigli_scivolo_silente",
+    "biofilm_iperarido",
+    "branchie_osmotiche_salmastra",
+    "camere_nutrienti_vent",
+    "cartilagini_flessoacustiche",
+    "circolazione_bifasica_palude",
+    "ciste_salmastre",
+    "coralli_partner",
+    "denti_silice_termici",
+    "epitelio_fosforescente",
+    "ghiandole_cambio_salino",
+    "ghiandole_nebbia_acida",
+    "lamelle_sincroniche",
+    "membrane_planata_vectored",
+    "nodi_micorrizici_oracolari"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.mucillagine_simbionte_mangrovie.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.mucillagine_simbionte_mangrovie.uso_funzione",
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "mangrovie_risonanti"
+  ],
+  "data_origin": "controllo_psionico"
+}

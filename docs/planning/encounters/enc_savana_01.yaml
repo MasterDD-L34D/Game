@@ -1,0 +1,67 @@
+# =============================================================================
+# Encounter: "Pattuglia della Savana"
+# Difficulty: 2/5 · Grid: 10×10 · Bioma: savana
+# Prima missione non-tutorial: tutte meccaniche base attive
+# Schema: schemas/evo/encounter.schema.json
+# =============================================================================
+
+encounter_id: enc_savana_01
+name: 'Pattuglia della Savana'
+biome_id: savana
+grid_size: [10, 10]
+difficulty_rating: 2
+estimated_turns: 10
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+# Prima missione non-tutorial. No boss, gating baseline Pilastro 1.
+encounter_class: standard
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [1, 4]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 3]
+      - [9, 6]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: balanced
+  - wave_id: 2
+    turn_trigger: 4
+    spawn_points:
+      - [9, 5]
+      - [8, 8]
+    units:
+      - species: custode_basalto
+        count: 1
+        tier: elite
+        ai_profile: aggressive
+      - species: predoni_nomadi
+        count: 1
+        tier: base
+        ai_profile: cautious
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 5
+
+tags: [standard]
+
+narrative:
+  briefing_ink: stories/savana_01_briefing.ink.json
+  debrief_ink: stories/savana_01_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

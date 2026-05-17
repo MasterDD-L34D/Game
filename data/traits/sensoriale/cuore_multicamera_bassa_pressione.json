@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.cuore_multicamera_bassa_pressione.debolezza",
+  "famiglia_tipologia": "Sensoriale/Analitico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "cuore_multicamera_bassa_pressione",
+  "label": "i18n:traits.cuore_multicamera_bassa_pressione.label",
+  "mutazione_indotta": "i18n:traits.cuore_multicamera_bassa_pressione.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "stratosfera_tempestosa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Cuore Multicamera Bassa Pressione ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "analitico",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.cuore_multicamera_bassa_pressione.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.cuore_multicamera_bassa_pressione.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "stratosfera_tempestosa"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

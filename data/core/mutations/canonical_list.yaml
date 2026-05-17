@@ -1,0 +1,79 @@
+# 2026-05-10 sera Sprint Q+ Q-3 MUTATION_LIST canonical (ADR-2026-05-05 Phase B
+# Path γ ACCEPTED 2026-05-10 sera). Master-dd verdict 2026-05-08 6-canonical
+# (PR #2109 Appendice A confirmed).
+#
+# Consumer: apps/backend/services/lineage/mutationsLoader.js → propagateLineage
+# (Q-3) + Godot v2 LegacyRitualPanel.gd (Q-10).
+# Cross-stack contract: packages/contracts/schemas/lineage_ritual.schema.json
+# enum mutations.
+
+schema_version: "1.0.0"
+
+mutations:
+  armatura_residua:
+    label_it: "Armatura Residua"
+    label_en: "Residual Armor"
+    effect_kind: passive_buff
+    stat: defense_mod
+    amount: 1
+    duration: permanent
+    description_it: |
+      Tessuto coriaceo persistente da generazione precedente. +1 defense_mod
+      permanente. L'offspring eredita una corteccia indurita dal trauma genitoriale.
+
+  tendine_rapide:
+    label_it: "Tendine Rapide"
+    label_en: "Rapid Tendons"
+    effect_kind: passive_buff
+    stat: attack_range
+    amount: 1
+    duration: permanent
+    description_it: |
+      Fibre muscolari ottimizzate per velocità. +1 attack_range permanente.
+      Adattamento epigenetico: il genitore correva, l'offspring scatta.
+
+  cuore_doppio:
+    label_it: "Cuore Doppio"
+    label_en: "Double Heart"
+    effect_kind: passive_buff
+    stat: hp_max
+    amount_pct: 15
+    duration: permanent
+    description_it: |
+      Sistema circolatorio ridondante. +15% hp_max permanente. Fragilità
+      compensata via duplicazione organo. Skiv-line cardiac mutation.
+
+  vista_predatore:
+    label_it: "Vista Predatore"
+    label_en: "Predator Sight"
+    effect_kind: conditional_buff
+    stat: attack_mod
+    amount: 1
+    condition: target_status_panicked
+    duration: permanent
+    description_it: |
+      Acuità sensoriale specializzata. +1 attack_mod vs target panicked
+      permanente. Eredita tracking pattern del genitore cacciatore.
+
+  lingua_chimica:
+    label_it: "Lingua Chimica"
+    label_en: "Chemical Tongue"
+    effect_kind: on_hit_apply_status
+    status_id: disorient
+    duration: 1
+    cooldown: 2
+    description_it: |
+      Saliva neurotossica. Applica disorient 1t on hit (cooldown 2t).
+      Adattamento secretorio post-mating cross-pollination.
+
+  memoria_ferita:
+    label_it: "Memoria Ferita"
+    label_en: "Wound Memory"
+    effect_kind: conditional_buff
+    stat: attack_mod
+    amount: 1
+    condition: target_trait_id_eq_previous_wounded_source
+    duration: permanent
+    description_it: |
+      Marchio epigenetico del trauma genitoriale. +1 attack_mod vs trait_id
+      sorgente ferita parent. L'offspring ricorda chi ha ferito i genitori.

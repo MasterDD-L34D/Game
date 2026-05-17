@@ -1,0 +1,3962 @@
+:root {
+  --bg: #1a1a1a;
+  --fg: #e8e8e8;
+  --accent: #ffcc00;
+  --player: #00b8d4;
+  --sistema: #ff5252;
+  --dim: #888;
+  --cell: #2a2a2a;
+  --cell-alt: #303030;
+  --panel: #222;
+  --border: #444;
+
+  /* W8c — Semantic color tokens (42-STYLE-GUIDE-UI.md compliance).
+   * Mirror di render.js JOB_COLORS + ui.js STATUS_LABELS per palette-lock. */
+  --job-vanguard: #5d4037;
+  --job-tank: #5d4037;
+  --job-skirmisher: #7e57c2;
+  --job-scout: #66bb6a;
+  --job-sniper: #ffb300;
+  --job-ranged: #ffb300;
+  --job-healer: #29b6f6;
+  --job-support: #29b6f6;
+  --job-controller: #ab47bc;
+  --job-mage: #ab47bc;
+  --job-boss: #d32f2f;
+
+  /* FX tokens (damage/heal popups + attack rays). */
+  --fx-damage: #ff5252;
+  --fx-heal: #4caf50;
+  --fx-ray-player: #ffcc00;
+  --fx-ray-sistema: #ff5252;
+
+  /* Status tokens (mirror ui.js STATUS_LABELS). */
+  --status-panic: #ff9800;
+  --status-rage: #f44336;
+  --status-stunned: #9c27b0;
+  --status-focused: #03a9f4;
+  --status-confused: #ffc107;
+  --status-bleeding: #e91e63;
+  --status-fracture: #795548;
+  --status-sbilanciato: #ffeb3b;
+  --status-taunted: #ffc107;
+  --status-aggro: #ff5722;
+
+  /* HP tier tokens (mirror render.js COLORS.hpFull/Warn/Crit). */
+  --hp-full: #4caf50;
+  --hp-warn: #ffc107;
+  --hp-crit: #f44336;
+
+  /* Phone composer namespace tokens (P1-13 ui-design-illuminator 2026-04-26).
+   * Centralizza palette phoneComposerV2.css per evitare hardcoded hex drift.
+   * Distinct namespace from --bg/--fg/--panel: phone è dark-deep (TV è dark-warm). */
+  --phone-bg-top: #111827;
+  --phone-bg-bot: #05070c;
+  --phone-bg-deep: #0b0d12;
+  --phone-panel: #151922;
+  --phone-panel-alt: #1d2230;
+  --phone-fg: #e8eaf0;
+  --phone-fg-dim: #8891a3;
+  --phone-accent: #4fc3f7;
+  --phone-success: #4caf50;
+  --phone-warn: #ffb74d;
+  --phone-danger: #ef5350;
+
+  /* 2026-04-27 PR-Y1 — Gris pressure palette (color = Sistema mood).
+   * Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (Gris #2).
+   * Default Calm (pressure 0-30). Body class .pressure-{calm,alert,critical,apex}
+   * cambia bg/cell/accent dinamico. Transition 1.5s ease (ambient feel).
+   * Driver: state.sistema_pressure tier via aiProgressMeter (PR #1898). */
+  --gris-bg-calm: #1a1a1a;
+  --gris-bg-alert: #1e1814; /* warm tint, sabbia bassa */
+  --gris-bg-critical: #2a1212; /* tinta rossastra mood teso */
+  --gris-bg-apex: #3a0a14; /* rosso scuro saturo, panico */
+  --gris-accent-calm: #ffcc00;
+  --gris-accent-alert: #ffaa44;
+  --gris-accent-critical: #ff7755;
+  --gris-accent-apex: #ff3344;
+
+  /* 2026-04-27 PR-Y1 — Pentiment font faction-as-identity.
+   * Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (Pentiment #4).
+   * Player = serif caldo (Georgia/Cambria). Sistema = monospace tech (SF Mono).
+   * Surface in event log + unit name labels. Identita visiva immediata. */
+  --font-player: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  --font-sistema: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  --font-narrative: 'Georgia', 'Cambria', 'Times New Roman', serif;
+
+  /* 2026-04-28 Visual upgrade Sprint A — Tactical typography stack.
+   * User feedback: "sembra app telefono, non gioco". Fix: serif tactical display
+   * tier (Cinzel headers + IM Fell body) + VT323 game-mono per log/coord.
+   * Reference: FFT WotL serif maiuscole, Tactics Ogre LUCT panel, IM Fell oldstyle.
+   * Apply: body base override + h1/h2 + .mono/.log family swap below.
+   * Preserva fallback Inter/Noto/SF Mono → graceful degradation se font CDN down. */
+  --font-display: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
+  --font-body-tactical: 'IM Fell English', 'Georgia', 'Cambria', serif;
+  --font-mono-game: 'VT323', 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+
+  /* 2026-04-28 Visual upgrade Sprint A — GRIMDARK FANTASY palette (Lospec verified).
+   * https://lospec.com/palette-list/grimdark-fantasy
+   * Tactical RPG dark base + parchment text + gold accent + crimson HP.
+   * Coexistence con --bg/--accent base: applicato selettivamente via .game-grimdark
+   * o via override per panel/HUD specifici. Default body resta su Gris pressure
+   * palette (atmospheric shifts driven da AI tier). */
+  --grim-bg-deep: #0f0f13;
+  --grim-bg-panel: #1e1a17;
+  --grim-bg-elevated: #2d2a2e;
+  --grim-accent-gold: #b0a36a;
+  --grim-accent-bronze: #8b6f47;
+  --grim-text-primary: #c2b29a;
+  --grim-text-dim: #8a7d6a;
+  --grim-hp: #bf6b70;
+  --grim-mp: #4f6d76;
+  --grim-purple: #6a5d8c;
+  --grim-silver: #b3b0a8;
+}
+
+/* 2026-04-27 PR-Y1 — Gris pressure palette transitions.
+ * body.pressure-{tier} applicata da JS (sessionStateApply) basato su
+ * state.ai_progress.tier.name (Calm/Alert/Escalated/Critical/Apex).
+ * Transition lenta 1.5s ease per "mood ambientale", non flash.
+ *
+ * Implementation note: sovrascrive --bg + --accent base. Tutto il resto
+ * eredita via cascade. Zero edit downstream rules. */
+body {
+  transition:
+    background-color 1.5s ease,
+    color 0.3s ease;
+}
+body.pressure-calm {
+  --bg: var(--gris-bg-calm);
+  --accent: var(--gris-accent-calm);
+}
+body.pressure-alert {
+  --bg: var(--gris-bg-alert);
+  --accent: var(--gris-accent-alert);
+}
+body.pressure-critical {
+  --bg: var(--gris-bg-critical);
+  --accent: var(--gris-accent-critical);
+}
+body.pressure-apex {
+  --bg: var(--gris-bg-apex);
+  --accent: var(--gris-accent-apex);
+}
+
+/* 2026-04-27 PR-Y1 — Pentiment font faction classes.
+ * Apply: .faction-player .name { font-family: var(--font-player); }
+ * In event log: .log-entry.player vs .log-entry.sistema.
+ * Surface integration in main.js / ui.js append class.  */
+.faction-player {
+  font-family: var(--font-player);
+}
+.faction-sistema {
+  font-family: var(--font-sistema);
+  letter-spacing: 0.02em;
+}
+.faction-narrative {
+  font-family: var(--font-narrative);
+  font-style: italic;
+}
+
+/* W8 — Bump html base 16→17px per TV-first readability (42-SG).
+ * Tutti i rem riscalati 6% senza touch individuali. */
+html {
+  font-size: 17px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  /* 2026-04-28 Visual upgrade Sprint A — body shift Inter sans → IM Fell English serif tactical.
+   * Inter conservato come fallback (CDN down). Body text leggibile manuscript feel.
+   * Spec 42-STYLE-GUIDE-UI.md §Typography v2 tactical (vedi note in 42-SG). */
+  font-family: var(--font-body-tactical);
+  font-size: 16px; /* TV-first body base (spec: 16px minimum @ 3m viewing) */
+  line-height: 1.5;
+  height: 100%;
+}
+
+/* 2026-04-28 — VT323 game-mono per stat/log/coord readability.
+ * Cinematic terminal feel vs corporate SF Mono. */
+.mono,
+code,
+.bar-value,
+.unit-stats span,
+#log {
+  font-family: var(--font-mono-game);
+  font-size: 1.05em; /* VT323 ottica più piccola → bump leggero per parità */
+}
+
+/* 2026-04-28 Visual upgrade Sprint C — Pixel-crisp rendering globale.
+ * Canvas + sprite rendering via image-rendering: pixelated.
+ * Asset 32×32 / 64×64 ingranditi via CSS rimangono nitidi (no bilinear blur).
+ * Reference: MDN crisp-pixel-art-look. */
+canvas,
+img.sprite,
+.sprite-pixel {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* M4 P0.5 — TV-first safe zone 5% (42-STYLE-GUIDE-UI.md).
+ * Padding orizzontale su #app garantisce nessun UI critico nei bordi 5%
+ * del viewport su TV 1080p @ 3m distance. */
+#app {
+  padding-left: max(env(safe-area-inset-left, 0), 2.5vw);
+  padding-right: max(env(safe-area-inset-right, 0), 2.5vw);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* 2026-04-28 Visual upgrade Sprint B — relative anchor per scanline + vignette pseudo-element overlay. */
+  position: relative;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B — Scanline overlay (CRT diegetic).
+ * 2px-on / 2px-off gradient, opacity 0.15 (sotto WCAG threshold 0.25).
+ * pointer-events: none → no interferenza click. z-index basso → sotto modali (9999 reservato).
+ * Anti-pattern: NON aumentare opacity oltre 0.2 (contrast WCAG fail su low-contrast text). */
+.scanline-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 200;
+  mix-blend-mode: multiply;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B — Vignette radial (atmospheric depth).
+ * Center transparente 60%, edges scuri 75% — focus visivo su grid combat.
+ * Reference: XCOM 2 cinematic camera. */
+.scanline-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 95%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  pointer-events: none;
+  z-index: 199;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B/F — Tactical panel frame (border-image SVG procedural).
+ * 9-slice frame parchment + gold ornament. Slice 32px su SVG 96px → safe stretch.
+ * Apply: header, .sidebar, .feedback-card, .endgame-card, .ability-bar.
+ * !important richiesto per override `.sidebar { border: 1px solid var(--border) }`
+ * (Sprint F fix — cascade specificity loss su selettori aside.sidebar / .feedback-card). */
+.tactical-frame {
+  border-style: solid !important;
+  border-width: 16px !important;
+  border-image: url('/assets/ui/panel-frame.svg') 32 fill stretch !important;
+  background-clip: padding-box !important;
+}
+
+/* Sprint F — Tactical button + select theming (controls main + scenario picker).
+ * Override .controls button / select default browser styling per look-tactical RPG.
+ * !important critico: specifity loss vs rules legacy section più sotto in style.css. */
+.controls button,
+.controls select,
+#scenario-select,
+#modulation-select,
+#end-turn,
+#new-session,
+#reset-round,
+#open-replay,
+#download-eval,
+#toggle-mute {
+  background: var(--grim-bg-panel) !important;
+  color: var(--grim-text-primary) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: inset 0 0 0 1px rgba(176, 163, 106, 0.15);
+}
+.controls button:hover,
+.controls select:hover,
+#end-turn:hover,
+#new-session:hover,
+#reset-round:hover,
+#open-replay:hover,
+#download-eval:hover,
+#toggle-mute:hover {
+  background: var(--grim-bg-elevated);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+  box-shadow:
+    inset 0 0 0 1px rgba(176, 163, 106, 0.4),
+    0 0 8px rgba(176, 163, 106, 0.3);
+}
+.controls button:active,
+#end-turn:active {
+  background: var(--grim-bg-deep);
+  transform: translateY(1px);
+}
+
+/* Sprint F — Ability bar tactical (sticky bottom) — gold band + Cinzel labels. */
+#ability-bar.ability-bar {
+  background: linear-gradient(180deg, var(--grim-bg-panel) 0%, var(--grim-bg-deep) 100%) !important;
+  border-top: 2px solid var(--grim-accent-bronze) !important;
+  box-shadow: 0 -2px 0 rgba(176, 163, 106, 0.3) !important;
+  padding: 10px 24px !important;
+}
+.ability-bar-title {
+  font-family: var(--font-display);
+  color: var(--grim-accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ability-bar-row button {
+  background: var(--grim-bg-elevated);
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.ability-bar-row button:hover {
+  background: var(--grim-bg-panel);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+}
+
+/* Sprint F — Pressure meter tactical (Sistema mood) — gold rule + Cinzel label. */
+#pressure-meter.pressure-meter {
+  border-bottom: 1px solid var(--grim-accent-bronze) !important;
+  padding-bottom: 4px !important;
+}
+#pressure-meter .pressure-label {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--grim-accent-gold) !important;
+  font-size: 0.85rem !important;
+}
+#pressure-meter .pressure-bar {
+  background: rgba(15, 15, 19, 0.8) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  height: 8px !important;
+}
+#pressure-meter .pressure-fill {
+  background: linear-gradient(
+    90deg,
+    var(--grim-mp),
+    var(--grim-accent-gold),
+    var(--grim-hp)
+  ) !important;
+  transition: width 0.5s ease !important;
+}
+
+/* Sprint F — Footer tactical (sticky bottom hint). */
+footer {
+  background: var(--grim-bg-deep) !important;
+  color: var(--grim-text-dim) !important;
+  border-top: 1px solid var(--grim-accent-bronze);
+  font-family: var(--font-body-tactical);
+  font-style: italic;
+}
+
+/* Sprint F — Sidebar list (#units) compact tactical look. */
+#units li.unit-item,
+#units li {
+  border-left: 3px solid var(--grim-accent-bronze) !important;
+  padding: 8px 8px 6px 10px !important;
+  margin-bottom: 6px !important;
+  background: rgba(45, 42, 46, 0.4) !important;
+}
+#units li strong {
+  color: var(--grim-accent-gold) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 0.85rem !important;
+}
+#units li code {
+  font-family: var(--font-mono-game) !important;
+  font-size: 0.95rem !important;
+  color: var(--grim-text-dim) !important;
+}
+
+/* Sprint F — Log panel parchment-tinted bg. */
+#log {
+  background: var(--grim-bg-deep) !important;
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary) !important;
+}
+
+/* Sprint F — Objective + biome chip tactical. */
+.objective-bar,
+.biome-chip,
+.ct-bar {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: var(--panel);
+  border-bottom: 2px solid var(--border);
+}
+
+header h1 {
+  margin: 0;
+  /* W8 — TV-first: heading 26px (1.6rem base 16). */
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em; /* Cinzel beneficia di tracking maiuscole positivo */
+  /* 2026-04-28 Sprint A — Cinzel Roman serif maiuscole per signal "tactical RPG". */
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--grim-accent-gold);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* 2026-04-28 Sprint A — Display tier headings (sidebar h2 + modal headers + ability titles). */
+.sidebar h2,
+.feedback-header h2,
+.endgame-card h2,
+.tip-modal h2,
+.codex-panel h2,
+.character-panel h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--grim-accent-gold);
+}
+
+.status {
+  display: flex;
+  gap: 16px;
+  /* W8 — TV-first: 16px min (1rem). */
+  font-size: 1rem;
+  color: var(--dim);
+  font-weight: 600;
+}
+.status span:first-child {
+  color: var(--accent);
+}
+
+/* AI Progress meter — sistema_pressure gauge (pillar 5 visibility).
+   AI War pattern: progress bar leggibile a distanza TV co-op. */
+.pressure-meter {
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pressure-label {
+  font-size: 0.75rem;
+  color: var(--dim);
+  letter-spacing: 0.04em;
+}
+.pressure-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.pressure-fill {
+  height: 100%;
+  transition:
+    width 0.4s ease-out,
+    background 0.2s ease-out;
+  border-radius: 4px;
+}
+.pushback-label {
+  font-size: 0.7rem;
+  color: #ef9a9a;
+  letter-spacing: 0.03em;
+  margin-top: 3px;
+}
+.pushback-bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 100, 80, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 1px;
+}
+.pushback-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ef9a9a, #ff5252);
+  border-radius: 3px;
+  transition: width 0.4s ease-out;
+  animation: pushback-pulse 2s ease-in-out infinite;
+}
+@keyframes pushback-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* 2026-04-27 Step 3 — AI War Progress meter frontend (PR #1898 backend wire).
+ * Pattern donor: AI War Fleet Command — visibility + anticipation.
+ * Estende existing .pressure-meter con tier name + threat label + next_tier
+ * anticipation + history sparkline (Tufte pattern). */
+.ai-progress-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  color: var(--fg);
+}
+.ai-tier-name {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.ai-threat-label {
+  color: var(--dim);
+  font-style: italic;
+}
+.ai-threat-label strong {
+  color: var(--fg);
+  font-style: normal;
+}
+.ai-next-tier {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.ai-history {
+  font-size: 0.7rem;
+  color: var(--dim);
+  margin-top: 2px;
+}
+.ai-history-dot {
+  color: var(--sistema);
+  font-size: 0.85rem;
+  margin: 0 1px;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  padding: 16px;
+  /* Playtest 2026-04-24: TV ultrawide sprecava vertical space. Stretch
+   * contenuto su full altezza viewport, canvas + sidebar scalano. */
+  min-height: 0;
+}
+.board {
+  min-height: 0;
+  justify-content: center;
+}
+
+/* W8e — Responsive breakpoints (research pass 3 #3).
+ * Default: TV-first 1fr + 300px sidebar (≥1024px).
+ * <1024px: stacked — canvas sopra, sidebar sotto (laptop small + tablet landscape).
+ * <768px: sidebar sezioni compatte (mobile/tablet portrait). */
+@media (max-width: 1024px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .sidebar {
+    max-height: 400px;
+  }
+}
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+  }
+  header h1 {
+    font-size: 1.2rem;
+  }
+  .pressure-meter {
+    min-width: 200px;
+  }
+  main {
+    padding: 8px;
+    gap: 8px;
+  }
+  canvas#grid {
+    max-width: 100%;
+    height: auto;
+  }
+  .controls {
+    flex-wrap: wrap;
+  }
+  #units li {
+    padding: 6px 8px;
+    font-size: 0.82rem;
+  }
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+canvas#grid {
+  background: var(--cell);
+  border: 2px solid var(--border);
+  /* W3.4 — tactical crosshair cursor. Active hover pulse via transition. */
+  cursor: crosshair;
+  /* W8O — responsive: backbuffer fissata via fitCanvas JS (CELL dinamico),
+   * CSS display block con max-width full per riempire container. */
+  display: block;
+  max-width: 100%;
+  height: auto;
+  transition:
+    border-color 0.18s ease-out,
+    box-shadow 0.18s ease-out;
+}
+.board {
+  width: 100%;
+  min-width: 0;
+}
+
+/* W8i — Tip modal bloccante center-screen con backdrop dim.
+ * User feedback: "non sono riuscito a leggerli, bloccare il gioco con figlio opaco
+ * finché non si clicca OK, o prossimo per info più complesse".
+ * Replaces W8h popup laterale non-blocking. */
+.tip-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9500; /* sopra tutto tranne endgame (9999) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+.tip-modal-root.hidden {
+  display: none;
+}
+.tip-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  /* W8j — backdrop alleggerito (0.55) per vedere elementi evidenziati sotto. */
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  cursor: pointer;
+}
+
+/* W8j — Spotlight highlight target: elemento referenciato dal tip lampeggia
+ * sopra il backdrop. User vede subito di cosa parla la guida. */
+.tip-highlight-target {
+  position: relative;
+  z-index: 9600 !important;
+  animation: tip-pulse-glow 1.5s ease-in-out infinite;
+  border-radius: 6px;
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 6px rgba(255, 204, 0, 0.22),
+    0 0 24px rgba(255, 204, 0, 0.55);
+}
+@keyframes tip-pulse-glow {
+  0%,
+  100% {
+    outline-color: var(--accent);
+    box-shadow:
+      0 0 0 6px rgba(255, 204, 0, 0.22),
+      0 0 24px rgba(255, 204, 0, 0.55);
+  }
+  50% {
+    outline-color: #fff;
+    box-shadow:
+      0 0 0 10px rgba(255, 204, 0, 0.35),
+      0 0 36px rgba(255, 204, 0, 0.85);
+  }
+}
+
+/* W8j — Hint banner sotto body: "elementi evidenziati = target tip". */
+.tip-modal .tip-modal-hint {
+  font-size: 0.85rem;
+  color: var(--accent);
+  padding: 8px 12px;
+  background: rgba(255, 204, 0, 0.08);
+  border-left: 3px solid var(--accent);
+  margin-bottom: 14px;
+  border-radius: 3px;
+  font-style: italic;
+}
+.tip-modal {
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 20px 24px;
+  max-width: 520px;
+  min-width: 340px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75);
+  animation: tip-modal-in 0.22s ease-out;
+}
+@keyframes tip-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.tip-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.tip-modal-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+.tip-modal-title {
+  color: var(--accent);
+  font-size: 1.2rem;
+  flex: 1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.tip-modal-pageinfo {
+  font-size: 0.75rem;
+  color: var(--dim);
+  font-family: 'SF Mono', monospace;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.tip-modal-body {
+  font-size: 1rem;
+  color: var(--fg);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  white-space: pre-wrap;
+  min-height: 80px;
+}
+.tip-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.tip-btn {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: 100px;
+}
+.tip-btn:hover {
+  background: var(--panel);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tip-btn.tip-btn-ok {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+.tip-btn.tip-btn-ok:hover {
+  background: #fff;
+  color: var(--bg);
+}
+.tip-btn.tip-btn-prev {
+  margin-right: auto;
+}
+
+/* W8L — Codex panel modal (in-game wiki MVP). Tip re-reader + glossario +
+ * abilità + status reference. User feedback: "manca sistema Aliena o simile
+ * dove rileggere i tip e molto altro". */
+.codex-panel-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9400; /* sotto tip-modal 9500, sopra canvas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.codex-panel-root.hidden {
+  display: none;
+}
+.codex-panel-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(1px);
+  cursor: pointer;
+}
+.codex-panel {
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 0;
+  max-width: 720px;
+  width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75);
+  animation: tip-modal-in 0.22s ease-out;
+}
+.codex-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.codex-panel-icon {
+  font-size: 1.5rem;
+}
+.codex-panel-title {
+  color: var(--accent);
+  font-size: 1.15rem;
+  font-weight: 700;
+  flex: 1;
+}
+.codex-close-btn {
+  background: transparent;
+  border: 1px solid var(--dim);
+  color: var(--fg);
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.codex-close-btn:hover {
+  background: var(--sistema);
+  color: #fff;
+}
+.codex-tabs {
+  display: flex;
+  padding: 0 20px;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  background: var(--cell);
+}
+.codex-tab {
+  background: transparent;
+  border: none;
+  color: var(--dim);
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-bottom: 3px solid transparent;
+  font-family: inherit;
+}
+.codex-tab:hover {
+  color: var(--fg);
+}
+.codex-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.codex-panel-body {
+  padding: 18px 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+.codex-tab-content.hidden {
+  display: none;
+}
+.codex-intro {
+  font-size: 0.9rem;
+  color: var(--dim);
+  margin: 0 0 14px 0;
+  font-style: italic;
+}
+.codex-actions-row {
+  margin-bottom: 14px;
+}
+.codex-btn {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: inherit;
+}
+.codex-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.codex-tip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.codex-tip-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: var(--cell);
+  border-left: 3px solid var(--dim);
+  border-radius: 3px;
+}
+.codex-tip-item.seen {
+  border-left-color: #4caf50;
+}
+.codex-tip-item.unseen {
+  border-left-color: var(--accent);
+}
+.codex-tip-status {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.codex-tip-item.seen .codex-tip-status {
+  color: #4caf50;
+}
+.codex-tip-item.unseen .codex-tip-status {
+  color: var(--accent);
+}
+.codex-tip-title {
+  flex: 1;
+  font-size: 0.92rem;
+}
+.codex-glossario dt {
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.codex-glossario dt strong {
+  font-weight: 700;
+}
+.codex-term-full {
+  color: var(--dim);
+  font-size: 0.78rem;
+  font-weight: normal;
+  font-style: italic;
+}
+.codex-glossario dd {
+  margin: 0 0 10px 0;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--fg);
+  border-left: 2px solid var(--border);
+}
+.codex-job {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--cell);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.codex-job summary {
+  cursor: pointer;
+  font-size: 0.98rem;
+  color: var(--fg);
+}
+.codex-job-role {
+  color: var(--dim);
+  font-size: 0.78rem;
+  margin-left: 8px;
+  font-style: italic;
+}
+.codex-job-mechanic {
+  margin: 8px 0;
+  font-size: 0.85rem;
+  color: var(--fg);
+  line-height: 1.5;
+}
+.codex-ability-list {
+  list-style: disc inside;
+  padding: 0;
+  margin: 0;
+}
+.codex-ability-list li {
+  padding: 2px 0;
+  font-size: 0.85rem;
+}
+.codex-ability-list code {
+  color: var(--accent);
+  background: var(--panel);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.codex-status-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.codex-status-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: var(--cell);
+  border-radius: 3px;
+}
+.codex-status-chip {
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  min-width: 90px;
+  text-align: center;
+}
+.codex-status-desc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--fg);
+  flex: 1;
+}
+
+/* W4.1 / W6 — Intent badge sidebar (pending / declared) + cancel btn. */
+.intent-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.intent-badge {
+  margin-top: 4px;
+  padding: 2px 6px;
+  font-size: 0.68rem;
+  border-radius: 3px;
+  display: inline-block;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+.intent-row .intent-badge {
+  margin-top: 0;
+  flex: 1;
+}
+/* W8N — AP pending indicator: mostra AP già impegnati in intent pending. */
+.ap-pending {
+  display: inline-block;
+  margin-left: 3px;
+  padding: 0 4px;
+  background: rgba(255, 152, 0, 0.22);
+  color: #ffb74d;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
+/* W8k — Multi-intent list per unit (stacked badges). */
+.intent-row-multi {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.intent-row-multi .intent-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.intent-row-multi .intent-badge {
+  margin: 0;
+  font-size: 0.72rem;
+}
+.intent-badge.pending {
+  background: rgba(128, 128, 128, 0.18);
+  color: #bdbdbd;
+  font-style: italic;
+  font-weight: normal;
+}
+.intent-badge.declared {
+  background: rgba(76, 175, 80, 0.22);
+  color: #81c784;
+  border-left: 2px solid #4caf50;
+}
+.intent-cancel {
+  background: transparent;
+  color: #f44336;
+  border: 1px solid #f44336;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+}
+.intent-cancel:hover {
+  background: rgba(244, 67, 54, 0.2);
+}
+
+/* W7.B — Priority rank preview badge (visible in planning once intent declared). */
+.priority-rank {
+  display: inline-block;
+  background: var(--accent);
+  color: #000;
+  font-weight: bold;
+  font-size: 0.7rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* W7.D — Per-player ability chips (inline mini-list). */
+.unit-abilities {
+  margin-top: 4px;
+  font-size: 0.68rem;
+  color: var(--dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+.unit-abilities .ab-chip {
+  background: rgba(255, 204, 0, 0.12);
+  color: var(--accent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    transform 0.12s;
+}
+.unit-abilities .ab-chip:hover {
+  background: rgba(255, 204, 0, 0.28);
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
+/* W8-emergency (bug #1+#8): highlight ability panel when first populated post-select. */
+.ability-bar-row:not(:empty) {
+  animation: abilityReveal 0.6s ease-out;
+}
+@keyframes abilityReveal {
+  0% {
+    background: rgba(255, 204, 0, 0);
+  }
+  40% {
+    background: rgba(255, 204, 0, 0.18);
+  }
+  100% {
+    background: rgba(255, 204, 0, 0);
+  }
+}
+
+/* W6.3 — Per-PG expanded HUD: traits row + recent unit events log. */
+.unit-traits {
+  margin-top: 4px;
+  font-size: 0.68rem;
+  color: var(--dim);
+  line-height: 1.4;
+}
+.unit-traits code {
+  color: #ab47bc;
+  background: var(--cell);
+  padding: 0 3px;
+  border-radius: 2px;
+  font-size: 0.68rem;
+  margin-right: 2px;
+}
+.unit-log-details {
+  margin-top: 4px;
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+.unit-log-details summary {
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+}
+.unit-log-details summary:hover {
+  color: #fff;
+}
+.unit-log {
+  list-style: none;
+  padding: 0;
+  margin: 3px 0 0 0;
+  max-height: 82px;
+  overflow-y: auto;
+}
+.unit-log li {
+  padding: 2px 5px;
+  margin-bottom: 1px;
+  border-left: 2px solid rgba(0, 184, 212, 0.45);
+  background: rgba(0, 184, 212, 0.05);
+  font-size: 0.85rem;
+}
+
+/* W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" fullscreen flash. */
+#commit-reveal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+  transition:
+    opacity 0.22s ease-out,
+    background 0.22s ease-out;
+}
+#commit-reveal.visible {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.55);
+}
+#commit-reveal.fade-out {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+}
+#commit-reveal .cr-inner {
+  text-align: center;
+  animation: cr-pulse 0.7s ease-out;
+}
+#commit-reveal .cr-title {
+  font-size: 2.8rem;
+  color: var(--accent);
+  font-weight: bold;
+  text-shadow: 0 0 24px rgba(255, 204, 0, 0.7);
+  letter-spacing: 0.05em;
+}
+#commit-reveal .cr-sub {
+  font-size: 1.1rem;
+  color: var(--fg);
+  margin-top: 6px;
+  letter-spacing: 0.08em;
+}
+@keyframes cr-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* W4.6 — Planning timer header widget. */
+#planning-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 140px;
+  font-size: 0.78rem;
+  color: var(--dim);
+}
+#planning-timer.hidden {
+  display: none;
+}
+#planning-timer .pt-label {
+  letter-spacing: 0.04em;
+}
+#planning-timer .pt-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 70px;
+}
+#planning-timer .pt-fill {
+  height: 100%;
+  width: 100%;
+  background: #4caf50;
+  transition:
+    width 0.1s linear,
+    background 0.3s ease-out;
+}
+#planning-timer .pt-value {
+  min-width: 20px;
+  text-align: right;
+  font-weight: bold;
+  color: var(--fg);
+}
+canvas#grid:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.28);
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button,
+.controls select {
+  background: var(--panel);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Bundle B.3 — Tunic decipher Codex pages (blurred → clear via gameplay). */
+.codex-pages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.codex-page {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.codex-page.blurred .codex-page-content {
+  filter: blur(3px);
+  opacity: 0.5;
+  user-select: none;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+.codex-page.deciphered {
+  border-color: #6fb04a;
+  background: rgba(111, 176, 74, 0.06);
+}
+.codex-page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.codex-page-cat {
+  font-size: 0.75em;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+.codex-page-content {
+  white-space: pre-wrap;
+  font-size: 0.85em;
+  margin: 6px 0;
+  line-height: 1.4;
+}
+.codex-page-hint {
+  font-size: 0.8em;
+  font-style: italic;
+  color: #d4b8e8;
+  margin-top: 6px;
+  padding: 4px 6px;
+  background: rgba(139, 111, 176, 0.1);
+  border-left: 2px solid #8b6fb0;
+}
+
+/* Sprint 3 §I (2026-04-27) — Tunic glyph progression list. */
+.codex-glyph-counters {
+  margin: 8px 0 12px;
+  padding: 6px 10px;
+  background: rgba(139, 111, 176, 0.08);
+  border-left: 2px solid #8b6fb0;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+.codex-glyph-counter-list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.codex-glyph-counter-list code {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+.codex-glyph-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.codex-glyph {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.codex-glyph.unlocked {
+  border-color: #6fb04a;
+  background: rgba(111, 176, 74, 0.06);
+}
+.codex-glyph.locked {
+  opacity: 0.7;
+}
+.codex-glyph-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.codex-glyph-symbol {
+  font-size: 1.6em;
+  line-height: 1;
+  width: 1.4em;
+  text-align: center;
+  color: #d4b8e8;
+}
+.codex-glyph.locked .codex-glyph-symbol {
+  letter-spacing: -2px;
+  font-size: 1em;
+  opacity: 0.5;
+}
+.codex-glyph-name {
+  font-size: 0.95em;
+}
+.codex-glyph-meaning {
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--text);
+  opacity: 0.85;
+}
+.codex-glyph-hint {
+  font-size: 0.8em;
+  font-style: italic;
+  color: #d4b8e8;
+  padding: 4px 6px;
+  background: rgba(139, 111, 176, 0.1);
+  border-left: 2px solid #8b6fb0;
+}
+.codex-glyph-progress {
+  font-style: normal;
+  font-weight: bold;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
+/* Bundle B.2 — Undo button (TBW Tactical Breach Wizards pattern). */
+.undo-btn {
+  background: #4a3a5a !important;
+  border-color: #8b6fb0 !important;
+  color: #d4b8e8 !important;
+}
+.undo-btn:hover {
+  background: #6b4f87 !important;
+  color: #fff !important;
+}
+.undo-btn.hidden {
+  display: none;
+}
+
+/* TKT-P6-FE — Rewind button (3-snapshot safety valve, post-action). */
+.rewind-btn {
+  background: #3a4a5a !important;
+  border-color: #6f8bb0 !important;
+  color: #b8d4e8 !important;
+}
+.rewind-btn:hover:not(:disabled) {
+  background: #4f6b87 !important;
+  color: #fff !important;
+}
+.rewind-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.rewind-budget {
+  margin-left: 4px;
+  font-size: 0.85em;
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.sidebar {
+  background: var(--panel);
+  padding: 12px;
+  border: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+
+#units {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+
+#units li {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  border-left: 3px solid var(--dim);
+  font-size: 0.85rem;
+  cursor: default;
+}
+
+/* W8f — Section headers distinguish player vs SIS groups (user feedback: "sono tutte uguali"). */
+#units li.unit-section-header {
+  padding: 8px 6px 4px;
+  margin-bottom: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  border-left: none;
+  background: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+#units li.unit-section-header.section-player {
+  color: var(--player);
+  border-bottom: 1px solid rgba(0, 184, 212, 0.25);
+}
+#units li.unit-section-header.section-sistema {
+  color: var(--sistema);
+  border-bottom: 1px solid rgba(255, 82, 82, 0.25);
+  margin-top: 8px;
+}
+
+/* W8f — Player li: prominent + clickable. Thicker border + hover elevation + cursor pointer. */
+#units li.player {
+  border-left: 6px solid var(--player);
+  background: rgba(0, 184, 212, 0.04);
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    transform 0.12s ease-out;
+}
+#units li.player:hover {
+  background: rgba(0, 184, 212, 0.12);
+  transform: translateX(2px);
+}
+/* W8f — Sistema li: dimmed, target-only (click = attack target quando PG selected). */
+#units li.sistema {
+  border-left: 3px solid var(--sistema);
+  background: rgba(255, 82, 82, 0.04);
+  opacity: 0.78;
+  cursor: pointer;
+}
+#units li.sistema:hover {
+  background: rgba(255, 82, 82, 0.1);
+  opacity: 1;
+}
+
+/* W8f — Display name "Species · Job" primary + tech id compact secondary. */
+.unit-display-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.unit-tech-id {
+  font-size: 0.8rem;
+  color: var(--dim);
+  opacity: 0.7;
+  margin-left: 4px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+}
+#units li.active {
+  background: rgba(255, 204, 0, 0.1);
+}
+#units li.dead {
+  opacity: 0.35;
+  text-decoration: line-through;
+}
+#units li.selected {
+  background: rgba(0, 184, 212, 0.15);
+}
+
+#units .hp-bar {
+  display: inline-block;
+  width: 60px;
+  height: 6px;
+  background: #333;
+  border-radius: 2px;
+  margin-left: 6px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+#units .hp-bar > span {
+  display: block;
+  height: 100%;
+  background: #4caf50;
+}
+
+#units .hp-bar.warn > span {
+  background: #ffc107;
+}
+#units .hp-bar.crit > span {
+  background: #f44336;
+}
+
+/* Unit HUD enhanced */
+#units li {
+  padding: 8px 10px;
+}
+.unit-head {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.unit-head strong {
+  font-size: 0.95rem;
+}
+.unit-job {
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.unit-species {
+  color: var(--dim);
+  font-size: 0.7rem;
+  font-style: italic;
+}
+.unit-bars {
+  margin: 4px 0;
+}
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  margin-bottom: 2px;
+}
+.bar-label {
+  color: var(--dim);
+  width: 24px;
+  font-weight: bold;
+}
+.bar-value {
+  color: var(--dim);
+  font-size: 0.7rem;
+  min-width: 50px;
+}
+.ap-bar {
+  flex: 1;
+  height: 5px;
+  background: #333;
+  border-radius: 2px;
+  overflow: hidden;
+  display: inline-block;
+}
+.ap-bar > span {
+  display: block;
+  height: 100%;
+  background: #9c27b0;
+}
+#units .hp-bar {
+  flex: 1;
+  margin-left: 0;
+  vertical-align: middle;
+  width: auto;
+}
+.unit-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: var(--dim);
+  margin: 3px 0;
+}
+.unit-stats span {
+  background: var(--cell);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.unit-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+.status-chip {
+  /* W8O — bump 0.82→0.95rem (~16px) per visibilità TV. Padding +icon margin. */
+  font-size: 0.95rem;
+  color: #000;
+  padding: 4px 10px 4px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  cursor: help;
+}
+.status-chip .status-svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+.status-chip .status-svg {
+  flex-shrink: 0;
+}
+.synergy-telegraph {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #ffd86e;
+  background: rgba(255, 198, 50, 0.1);
+  border: 1px solid rgba(255, 198, 50, 0.35);
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: syn-pulse 2.4s ease-in-out infinite;
+}
+.synergy-telegraph .syn-bonus {
+  color: #ffaa00;
+  font-weight: 700;
+}
+@keyframes syn-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+.unit-ai {
+  margin-top: 3px;
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+.unit-ai code {
+  color: var(--sistema);
+  font-size: 0.7rem;
+}
+
+/* Ability row extended */
+.ab-desc {
+  color: var(--dim);
+  font-size: 0.7rem;
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+#log {
+  font-size: 0.8rem;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--cell);
+  padding: 8px;
+}
+
+#log div {
+  margin-bottom: 4px;
+  color: var(--dim);
+}
+#log div.event {
+  color: var(--fg);
+}
+#log div.error {
+  color: var(--sistema);
+}
+
+/* M4 P0.1 — Ability bar sticky bottom, always-visible (user feedback) */
+.ability-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--panel);
+  border-top: 2px solid var(--accent);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 80px;
+  z-index: 20;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+}
+.ability-bar-title {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: bold;
+  white-space: nowrap;
+}
+.ability-bar-title.hidden-empty {
+  display: inline;
+  opacity: 0.4;
+}
+.ability-bar-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.ability-bar-row .ability-row {
+  min-width: 180px;
+  max-width: 260px;
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+}
+.ability-bar-row:empty::before {
+  content: 'Seleziona una tua unità per vedere le ability';
+  color: var(--dim);
+  font-style: italic;
+  font-size: 0.85rem;
+  padding: 8px 0;
+}
+
+footer {
+  padding: 8px 24px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+#cancel-pending {
+  background: var(--sistema);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 3px;
+}
+#cancel-pending:hover {
+  background: #d32f2f;
+}
+#cancel-pending.hidden {
+  display: none;
+}
+
+body.ability-target-mode footer {
+  background: linear-gradient(90deg, rgba(255, 204, 0, 0.15), rgba(255, 82, 82, 0.15));
+  color: var(--accent);
+  font-weight: bold;
+  animation: pulse-footer 1.5s ease-in-out infinite;
+}
+@keyframes pulse-footer {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+}
+
+/* Ability panel */
+.hidden-empty {
+  display: none;
+}
+#abilities {
+  margin-bottom: 16px;
+}
+.ab-empty {
+  font-size: 0.8rem;
+  color: var(--dim);
+  font-style: italic;
+  padding: 4px;
+}
+.ability-row {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: var(--cell);
+  border-left: 3px solid var(--accent);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.ability-row:hover {
+  background: rgba(255, 204, 0, 0.08);
+}
+.ability-row.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-left-color: var(--dim);
+}
+.ab-head {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.ab-cost {
+  color: var(--accent);
+}
+.ab-effect {
+  color: var(--dim);
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+/* Awaiting target mode */
+body.ability-target-mode canvas#grid {
+  cursor: crosshair;
+}
+body.ability-target-mode canvas#grid {
+  box-shadow: 0 0 0 3px var(--accent) inset;
+}
+
+/* Endgame overlay */
+#endgame-overlay.hidden {
+  display: none;
+}
+#endgame-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.endgame-card {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  padding: 32px 48px;
+  text-align: center;
+  min-width: 320px;
+}
+.endgame-card h2 {
+  margin: 0 0 16px;
+  font-size: 2.2rem;
+}
+.endgame-card h2.win {
+  color: #4caf50;
+}
+.endgame-card h2.lose {
+  color: #f44336;
+}
+.endgame-card p {
+  line-height: 1.6;
+}
+.endgame-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.endgame-actions button {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.endgame-actions button:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.vc-block {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.vc-block h3 {
+  color: var(--accent);
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.vc-row {
+  background: var(--cell);
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-left: 3px solid var(--player);
+  font-size: 0.85rem;
+}
+.vc-row strong {
+  display: inline-block;
+  min-width: 80px;
+}
+.vc-mbti {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 2px 6px;
+  font-weight: bold;
+  margin: 0 8px;
+  border-radius: 3px;
+}
+.vc-ennea {
+  color: var(--dim);
+  font-size: 0.75rem;
+}
+.vc-agg {
+  margin-top: 4px;
+  color: var(--dim);
+  font-size: 0.7rem;
+}
+.vc-loading {
+  color: var(--dim);
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 16px;
+}
+.vc-error {
+  color: var(--sistema);
+  font-size: 0.8rem;
+  margin-top: 16px;
+}
+
+/* Replay viewer */
+#replay-viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.replay-card {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  padding: 20px;
+  max-width: 600px;
+}
+.replay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.replay-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.replay-header button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+#replay-canvas {
+  display: block;
+  margin: 0 auto;
+  background: var(--cell);
+  border: 1px solid var(--border);
+}
+.replay-controls {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+  align-items: center;
+}
+.replay-controls button {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.replay-controls button:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+#replay-step {
+  color: var(--dim);
+  font-size: 0.85rem;
+  margin-left: 12px;
+}
+#replay-event-info {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--dim);
+  min-height: 20px;
+}
+#replay-event-info code {
+  color: var(--accent);
+}
+
+/* M4 P0 Wave 2 — Help panel overlay */
+.help-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  padding: 20px;
+  overflow-y: auto;
+}
+.help-panel.hidden {
+  display: none;
+}
+.help-panel-card {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  width: min(780px, 95vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+.help-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, rgba(255, 204, 0, 0.15), transparent);
+  border-bottom: 1px solid var(--border);
+}
+.help-panel-header h2 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+.help-panel-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.help-panel-close:hover {
+  background: var(--sistema);
+  color: #fff;
+}
+.help-panel-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+.help-panel-body section {
+  margin-bottom: 20px;
+}
+.help-panel-body h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+.help-panel-body p {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+.help-panel-body ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+}
+.help-panel-body li {
+  margin-bottom: 5px;
+}
+.help-panel-body b {
+  color: var(--fg);
+}
+.help-panel-body kbd {
+  background: var(--cell);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.help-panel-footer {
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--dim);
+  text-align: center;
+}
+.help-icon {
+  display: inline-block;
+  width: 22px;
+  text-align: center;
+  font-weight: bold;
+  margin-right: 4px;
+}
+.help-icon-player {
+  color: var(--player);
+}
+.help-icon-sistema {
+  color: var(--sistema);
+}
+.help-icon-intent {
+  color: #ff8a65;
+}
+.help-icon-warn {
+  color: #ff9800;
+}
+.help-icon-stun {
+  color: #9c27b0;
+}
+.help-icon-bleed {
+  color: #e91e63;
+}
+
+/* W2.5 — Unit hover tooltip (floating) */
+/* M7 fix: z-index era 90 → nascosto dietro panels (100-9000+). Bump a 9700
+   per stare sopra panels/overlays ma sotto feedback modal (9999) + endgame. */
+.unit-tooltip {
+  position: fixed;
+  z-index: 9700;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid var(--accent);
+  color: var(--fg);
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  pointer-events: none;
+  max-width: 280px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+.unit-tooltip.hidden {
+  display: none;
+}
+.unit-tooltip strong {
+  color: var(--accent);
+}
+.unit-tooltip .tt-intent {
+  color: var(--sistema);
+  font-weight: bold;
+  display: block;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.unit-tooltip .tt-faction-player {
+  color: var(--player);
+}
+.unit-tooltip .tt-faction-sistema {
+  color: var(--sistema);
+}
+
+/* Sprint 4 §I (2026-04-27) — Cogmind stratified tooltip expand layer.
+   Source: docs/research/2026-04-26-tier-b-extraction-matrix.md #3 Cogmind. */
+.unit-tooltip {
+  max-width: 360px; /* expand allows wider content */
+}
+.unit-tooltip .tt-section {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.78rem;
+}
+.unit-tooltip .tt-section strong {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+.unit-tooltip .tt-section code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  color: var(--fg);
+}
+.unit-tooltip .tt-sentience {
+  display: inline-block;
+  background: rgba(212, 184, 232, 0.18);
+  color: #d4b8e8;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 4px;
+}
+.unit-tooltip .tt-expand-hint {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  opacity: 0.55;
+  font-style: italic;
+}
+/* Sprint 11 (Surface-DEAD #6) — Biome chip HUD surface. */
+.biome-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(34, 51, 34, 0.32);
+  border: 1px solid #4a5d3f;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c8d6c0;
+  letter-spacing: 0.02em;
+  cursor: help;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  user-select: none;
+}
+.biome-chip.biome-hidden {
+  display: none;
+}
+.biome-chip:hover {
+  background: rgba(34, 51, 34, 0.48);
+  border-color: #6b8059;
+}
+.biome-chip .biome-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.biome-chip .biome-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+}
+
+/* Action 7 (ADR-2026-04-28 §Action 7) — CT bar lookahead 3 turni HUD top-strip.
+ * FFT-style temporal legibility: current actor pulse + 3 slot futuri con arrow
+ * separator. Pillar P1 chiusura gap "chi muove dopo".
+ */
+.ct-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border, #3a3a3a);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: var(--grim-text-primary, #d8d4cc);
+  user-select: none;
+  cursor: help;
+}
+.ct-bar.ct-bar-hidden {
+  display: none;
+}
+.ct-bar-slot {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  max-width: 64px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(60, 60, 60, 0.45);
+  border: 1px solid rgba(120, 120, 120, 0.4);
+  /* Hardware-accelerated: transform-only animations to avoid repaint cost. */
+  transform: scale(1);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+.ct-bar-slot.ct-bar-player {
+  background: rgba(34, 90, 50, 0.45);
+  border-color: rgba(110, 200, 130, 0.55);
+}
+.ct-bar-slot.ct-bar-sistema,
+.ct-bar-slot.ct-bar-enemy,
+.ct-bar-slot.ct-bar-ai,
+.ct-bar-slot.ct-bar-ia {
+  background: rgba(120, 36, 36, 0.45);
+  border-color: rgba(220, 90, 90, 0.55);
+}
+.ct-bar-slot.ct-bar-current {
+  background: rgba(220, 180, 60, 0.55);
+  border-color: rgba(255, 220, 100, 0.95);
+  box-shadow: 0 0 10px rgba(255, 215, 100, 0.55);
+  animation: ctBarPulse 1s ease-in-out infinite;
+}
+.ct-bar-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.ct-bar-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 56px;
+}
+.ct-bar-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  font-size: 0.7rem;
+  color: rgba(180, 180, 180, 0.55);
+  flex: 0 0 auto;
+}
+@keyframes ctBarPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+/* Reduce-motion accessibility: disable pulse animation. */
+@media (prefers-reduced-motion: reduce) {
+  .ct-bar-slot.ct-bar-current {
+    animation: none;
+  }
+}
+
+/* Sprint 9 (Surface-DEAD #5) — Objective HUD top-bar. */
+.objective-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  min-width: 240px;
+  max-width: 480px;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+.objective-bar.obj-hidden {
+  display: none;
+}
+.objective-bar .obj-icon {
+  font-size: 1.1rem;
+}
+.objective-bar .obj-label {
+  color: var(--accent);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+.objective-bar .obj-progress {
+  color: var(--dim);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+.objective-bar .obj-status {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.objective-bar .obj-status-win {
+  background: rgba(76, 175, 80, 0.18);
+  color: #c8f5cb;
+  border: 1px solid #4caf50;
+}
+.objective-bar .obj-status-loss {
+  background: rgba(244, 67, 54, 0.18);
+  color: #ffc8c4;
+  border: 1px solid #f44336;
+}
+.objective-bar.obj-status-win {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+}
+.objective-bar.obj-status-loss {
+  border-color: #f44336;
+  background: rgba(244, 67, 54, 0.12);
+}
+.objective-bar.obj-status-active {
+  border-color: var(--accent);
+}
+.objective-bar .obj-empty {
+  color: var(--dim);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Sprint 8 (Surface-DEAD #1) — predict_combat hover row. */
+.unit-tooltip .tt-predict {
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  background: rgba(255, 255, 255, 0.04);
+}
+.unit-tooltip .tt-predict.tt-predict-high {
+  border-left-color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+  color: #c8f5cb;
+}
+.unit-tooltip .tt-predict.tt-predict-medium {
+  border-left-color: #ffc107;
+  background: rgba(255, 193, 7, 0.1);
+  color: #ffe89e;
+}
+.unit-tooltip .tt-predict.tt-predict-low {
+  border-left-color: #f44336;
+  background: rgba(244, 67, 54, 0.12);
+  color: #ffc8c4;
+}
+.unit-tooltip .tt-predict.tt-predict-unknown {
+  border-left-color: #9e9e9e;
+  color: #cfd1d5;
+}
+.unit-tooltip .tt-predict.tt-predict-error {
+  border-left-color: #ef5350;
+  color: #ffb4af;
+  font-style: italic;
+  opacity: 0.7;
+}
+.unit-tooltip .tt-predict strong {
+  color: inherit;
+  font-weight: 700;
+}
+.unit-tooltip .tt-expand-hint.open {
+  color: var(--accent);
+  opacity: 0.9;
+}
+.unit-tooltip kbd {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 0.7rem;
+  font-family: monospace;
+}
+
+/* Help open button — top-right of header */
+#help-open {
+  background: var(--cell);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+}
+#help-open:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Fullscreen toggle button */
+#fullscreen-toggle {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 3px;
+}
+#fullscreen-toggle:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Header right-side cluster */
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* W8M — HUD btn redesign: icon SVG + mini-label sotto (TV-first visible label).
+ * User feedback: "icone senza scritte non si capiscono". Ora ogni btn ha label
+ * sempre visibile + icon SVG consistent (replace emoji OS-variante). */
+.hud-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 56px;
+  font-family: inherit;
+  transition:
+    background 0.15s ease-out,
+    border-color 0.15s ease-out,
+    color 0.15s ease-out;
+}
+.hud-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.hud-btn:focus-visible {
+  outline: 2px solid var(--player);
+  outline-offset: 2px;
+}
+.hud-btn .hud-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: block;
+}
+.hud-btn .hud-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* Unit sidebar job accent (W2.4 color per tipo) */
+#units li[data-job='vanguard'],
+#units li[data-job='tank'] {
+  border-left-width: 5px;
+  border-left-color: #5d4037; /* brown-earth */
+}
+#units li[data-job='skirmisher'] {
+  border-left-width: 5px;
+  border-left-color: #7e57c2; /* purple */
+}
+#units li[data-job='scout'] {
+  border-left-width: 5px;
+  border-left-color: #66bb6a; /* green */
+}
+#units li[data-job='sniper'],
+#units li[data-job='ranged'] {
+  border-left-width: 5px;
+  border-left-color: #ffb300; /* amber */
+}
+#units li[data-job='healer'],
+#units li[data-job='support'] {
+  border-left-width: 5px;
+  border-left-color: #29b6f6; /* light-blue */
+}
+#units li[data-job='controller'],
+#units li[data-job='mage'] {
+  border-left-width: 5px;
+  border-left-color: #ab47bc; /* magenta */
+}
+#units li[data-job='boss'] {
+  border-left-width: 5px;
+  border-left-color: #d32f2f; /* dark-red */
+}
+
+/* ═══ M7 Feedback modal (2026-04-20) ═══ */
+
+.hud-btn-primary {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+  border: 2px solid #4caf50;
+}
+
+.hud-btn-primary:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+  box-shadow: 0 0 18px rgba(76, 175, 80, 0.6);
+}
+
+#feedback-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+#feedback-overlay.hidden {
+  display: none;
+}
+
+.feedback-card {
+  background: #1e1e2a;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: #e0e0e0;
+  font-family: 'Inter', 'Noto Sans', sans-serif;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.feedback-header h2 {
+  margin: 0;
+  color: #81c784;
+  font-size: 1.5em;
+}
+
+.feedback-close {
+  background: transparent;
+  border: 1px solid #555;
+  color: #aaa;
+  font-size: 1.2em;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.feedback-close:hover {
+  background: #333;
+  color: #fff;
+}
+
+.feedback-intro {
+  margin: 8px 0 16px;
+  color: #bbb;
+  font-size: 0.95em;
+}
+
+.feedback-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 12px;
+}
+
+.feedback-tab {
+  flex: 1;
+  background: #2a2a38;
+  border: 1px solid #444;
+  color: #bbb;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: all 0.2s;
+}
+
+.feedback-tab:hover {
+  background: #353548;
+  color: #fff;
+}
+
+.feedback-tab.active {
+  background: #2e7d32;
+  border-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
+}
+
+#feedback-player-row {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+
+#feedback-player-row label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95em;
+}
+
+#feedback-player-name {
+  flex: 1;
+  background: #2a2a38;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.95em;
+  max-width: 300px;
+}
+
+.feedback-content.hidden {
+  display: none;
+}
+
+.feedback-q {
+  margin-bottom: 16px;
+}
+
+.feedback-q label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #81c784;
+}
+
+.feedback-rating,
+.feedback-choice {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rating-btn,
+.choice-btn {
+  background: #2a2a38;
+  border: 1px solid #444;
+  color: #ddd;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: all 0.2s;
+}
+
+.rating-btn:hover,
+.choice-btn:hover {
+  background: #353548;
+  border-color: #666;
+}
+
+.rating-btn.selected,
+.choice-btn.selected {
+  background: #2e7d32;
+  border-color: #4caf50;
+  color: #fff;
+  font-weight: 600;
+}
+
+.feedback-textarea {
+  width: 100%;
+  background: #2a2a38;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95em;
+  resize: vertical;
+}
+
+.feedback-textarea:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.feedback-textarea-large {
+  min-height: 200px;
+}
+
+.feedback-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #333;
+}
+
+.feedback-submit {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  border: 2px solid #4caf50;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.feedback-submit:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+  box-shadow: 0 0 18px rgba(76, 175, 80, 0.6);
+}
+
+.feedback-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feedback-status {
+  flex: 1;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.feedback-status.success {
+  color: #81c784;
+  font-weight: 600;
+}
+
+.feedback-status.error {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .feedback-card {
+    padding: 16px;
+  }
+  .feedback-tab {
+    font-size: 0.85em;
+    padding: 8px;
+  }
+  .rating-btn,
+  .choice-btn {
+    font-size: 0.85em;
+    padding: 6px 10px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*   M10 Phase D — Campaign panel UI                                */
+/* ═══════════════════════════════════════════════════════════════ */
+
+#campaign-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+}
+#campaign-overlay.hidden {
+  display: none;
+}
+
+.camp-card {
+  max-width: 720px;
+  width: 90%;
+}
+
+.camp-header h2 {
+  margin: 0 0 8px 0;
+  color: #ffcc00;
+  font-size: 1.4em;
+}
+
+.camp-status-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.camp-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.85em;
+  color: #e8e8e8;
+}
+
+.camp-pill-status-completed {
+  background: rgba(76, 175, 80, 0.25);
+  border-color: #4caf50;
+  color: #aed581;
+}
+
+.camp-pill-status-in_progress {
+  background: rgba(0, 184, 212, 0.2);
+  border-color: #00b8d4;
+  color: #80deea;
+}
+
+.camp-pill-status-abandoned {
+  background: rgba(244, 67, 54, 0.25);
+  border-color: #f44336;
+  color: #ef9a9a;
+}
+
+.camp-progress {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.camp-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0288d1, #4caf50);
+  transition: width 0.4s ease;
+}
+
+.camp-progress-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.camp-empty {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.camp-empty h2 {
+  color: #ffcc00;
+  margin-bottom: 8px;
+}
+
+.camp-empty p {
+  color: #bbb;
+  margin-bottom: 20px;
+}
+
+.camp-briefing {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #00b8d4;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+
+.camp-act-info {
+  color: #80deea;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.camp-briefing h3 {
+  margin: 0 0 10px 0;
+  color: #e8e8e8;
+  font-size: 1.1em;
+}
+
+.camp-narrative {
+  color: #bdbdbd;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+.camp-choice {
+  background: rgba(255, 204, 0, 0.08);
+  border: 2px solid #ffcc00;
+  padding: 16px;
+  margin: 14px 0;
+  border-radius: 6px;
+}
+
+.camp-choice h3 {
+  margin: 0 0 8px 0;
+  color: #ffcc00;
+}
+
+.camp-choice-desc {
+  color: #e8e8e8;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.camp-choice-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.camp-choice-btn {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 204, 0, 0.4);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.camp-choice-btn:hover {
+  background: rgba(255, 204, 0, 0.15);
+  border-color: #ffcc00;
+  transform: translateX(3px);
+}
+
+.camp-choice-btn strong {
+  display: block;
+  color: #ffcc00;
+  margin-bottom: 3px;
+}
+
+.camp-choice-btn small {
+  color: #bdbdbd;
+  line-height: 1.4;
+}
+
+.camp-completed {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid #4caf50;
+  padding: 16px;
+  border-radius: 4px;
+  margin: 14px 0;
+  text-align: center;
+}
+
+.camp-completed h3 {
+  color: #aed581;
+  margin: 0 0 6px 0;
+}
+
+.camp-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.hud-btn-danger {
+  background: linear-gradient(135deg, #c62828, #b71c1c);
+  color: #fff;
+  border: 1px solid #d32f2f;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.hud-btn-danger:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828);
+}
+
+/* M13 P6 Phase B — Mission timer HUD (Long War 2 countdown).
+   Bottom-right corner overlay. Warning state = red pulse. */
+#mission-timer-hud {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 850;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(11, 13, 18, 0.92);
+  border: 1px solid #2a3040;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-family: Inter, system-ui, sans-serif;
+  color: #e8eaf0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+#mission-timer-hud.hidden {
+  display: none;
+}
+#mission-timer-hud .mt-icon {
+  font-size: 1.4rem;
+}
+#mission-timer-hud .mt-body {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+#mission-timer-hud .mt-count {
+  font-family: 'SF Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #a5d6a7;
+}
+#mission-timer-hud .mt-label {
+  font-size: 0.7rem;
+  color: #8891a3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+#mission-timer-hud.mt-warning {
+  border-color: #f44336;
+  background: rgba(35, 15, 15, 0.94);
+  animation: mt-pulse 1.2s ease-in-out infinite;
+}
+#mission-timer-hud.mt-warning .mt-count {
+  color: #ef5350;
+}
+#mission-timer-hud.mt-expired {
+  border-color: #b71c1c;
+  background: rgba(60, 10, 10, 0.95);
+  animation: none;
+}
+#mission-timer-hud.mt-expired .mt-count {
+  color: #ffab91;
+  text-decoration: line-through;
+}
+@keyframes mt-pulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.7);
+  }
+}
+
+/* =============================================================================
+ * Sprint β Visual UX 2026-04-28 — strategy games extraction.
+ * Patterns: Civ VI tooltip 3-tier + Frostpunk tension + CK3 portrait + JA3 voice.
+ * ============================================================================= */
+
+/* --- Civ VI 3-tier stratified tooltip --- */
+.tooltip-tier {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  background: rgba(12, 14, 22, 0.95);
+  border: 1px solid var(--accent, #ffcc00);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #e8eaf0;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  max-width: 280px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.tooltip-tier.visible {
+  opacity: 1;
+}
+.tooltip-tier-1 .tt-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.tooltip-tier-1 .tt-icon {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+.tooltip-tier-2 .tt-stats {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2px 10px;
+  margin-top: 6px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: #a0b4cf;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 6px;
+}
+.tooltip-tier-3 .tt-lore {
+  margin-top: 8px;
+  font-style: italic;
+  color: #c9d2e3;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 6px;
+}
+
+/* --- Frostpunk tension vignette (canvas overlay handled in JS) --- */
+.tension-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8500;
+  /* JS toggles --tension-alpha + --tension-color CSS vars */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 30%,
+    var(--tension-color, rgba(168, 50, 50, 0)) 100%
+  );
+  opacity: var(--tension-alpha, 0);
+  transition:
+    opacity 800ms ease-out,
+    background 1500ms ease-out;
+}
+
+/* --- CK3 portrait-as-status panel --- */
+.portrait-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0d1118;
+  border: 1px solid #2a3040;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+.portrait-frame {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: visible;
+  background: #1a1f2b;
+  border: 2px solid #2a3040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.portrait-fallback {
+  font-size: 3rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.portrait-emotion {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0d1118;
+  border: 2px solid var(--accent, #ffcc00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.portrait-emotion.panic {
+  border-color: #ff7755;
+  animation: portrait-shake 0.3s infinite alternate;
+}
+.portrait-emotion.rage {
+  border-color: #ef5350;
+  box-shadow: 0 0 12px rgba(239, 83, 80, 0.6);
+}
+.portrait-emotion.bleeding {
+  border-color: #e91e63;
+}
+.portrait-emotion.focused {
+  border-color: #66d1fb;
+}
+@keyframes portrait-shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(1px, 1px);
+  }
+}
+.portrait-caption {
+  margin-top: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.portrait-caption .portrait-mbti {
+  font-family: 'SF Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffd166;
+}
+.portrait-caption .portrait-mood {
+  font-size: 0.72rem;
+  color: #8aa0c7;
+  font-style: italic;
+}
+.portrait-empty {
+  text-align: center;
+  color: #6b7790;
+  font-style: italic;
+  padding: 12px;
+}
+
+/* --- JA3 atmospheric voice UI (status-driven font swap) --- */
+.voice-status-panic {
+  font-weight: 700;
+  color: #ff7755;
+  letter-spacing: 0.02em;
+}
+.voice-status-focused {
+  font-style: italic;
+  color: #66d1fb;
+}
+.voice-status-rage {
+  font-stretch: expanded;
+  color: #a83232;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.voice-status-bleeding {
+  color: #e91e63;
+  text-decoration: underline wavy;
+}
+
+/* Period-typography variant (ties-in faction palette) */
+.period-typography-player {
+  font-family: var(--font-player);
+}
+.period-typography-sistema {
+  font-family: var(--font-sistema);
+  letter-spacing: 0.02em;
+}
+.period-typography-narrative {
+  font-family: var(--font-narrative);
+  font-style: italic;
+}
+
+/* =============================================================================
+ * Skiv Goal 2 (2026-04-28) — Echolocation visual fog-of-war pulse.
+ * Surface for actors with `default_parts.senses: [echolocation]` (Skiv canonical).
+ * Cyan #66d1fb mirrors `focused` status icon to read as a sense overlay.
+ * Animation owned canvas-side (drawEcholocationPulse) — these classes apply
+ * to optional DOM overlays (e.g. lingering hint badges over the canvas wrap).
+ * ============================================================================= */
+@keyframes echolocation-pulse-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.echolocation-pulse-overlay {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid #66d1fb;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(102, 209, 251, 0.55);
+  animation: echolocation-pulse-anim 800ms ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* Skiv Goal 3 — Thoughts ritual choice overlay (P4 agency, Disco extension).
+ * Backup styles (panel injects its own via injectStyles for isolation, these
+ * are kept in style.css per handoff §3.1 file ownership matrix +40 LOC). */
+.thoughts-ritual-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(8, 6, 14, 0.86);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.thoughts-ritual-overlay.visible {
+  display: flex;
+}
+.thoughts-ritual-card.urgent {
+  /* When timer falls below 10s, card pulses red to signal urgency.
+   * Mirror handoff D-skiv-3 default countdown rosso → giallo → verde. */
+  animation: ritual-pulse-warning 1.2s ease-in-out infinite;
+}
+@keyframes ritual-countdown {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes ritual-pulse-warning {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(239, 68, 68, 0.55);
+  }
+}
+.ritual-candidate.top-pick {
+  box-shadow:
+    0 0 0 1px #c6a0ff inset,
+    0 0 16px rgba(198, 160, 255, 0.28);
+}
+
+/* =========================================================================
+ * 2026-04-29 Sprint G v3 — Legacy Collection (Ansimuz CC0) parallax bg.
+ * 4 layer parallax (sky/clouds/mountains/forest) dietro al canvas tactical.
+ * Canvas opaque tile-fill copre layer durante gameplay; parallax visibile
+ * sul padding/margin .board (drama atmosphere senza interferire con grid).
+ * ========================================================================= */
+.board {
+  background-image:
+    url('/assets/legacy/parallax/sky.png'), url('/assets/legacy/parallax/clouds.png'),
+    url('/assets/legacy/parallax/mountains.png'), url('/assets/legacy/parallax/back.png');
+  background-size:
+    cover,
+    200% auto,
+    cover,
+    cover;
+  background-position:
+    0 0,
+    0 18%,
+    0 65%,
+    0 90%;
+  background-repeat: no-repeat, repeat-x, no-repeat, no-repeat;
+  background-color: #0d1018;
+  animation: parallax-clouds 90s linear infinite;
+}
+
+@keyframes parallax-clouds {
+  from {
+    background-position:
+      0 0,
+      0 18%,
+      0 65%,
+      0 90%;
+  }
+  to {
+    background-position:
+      0 0,
+      -200% 18%,
+      0 65%,
+      0 90%;
+  }
+}
+
+/* User pref reduce-motion: disabilita slide nuvole. */
+@media (prefers-reduced-motion: reduce) {
+  .board {
+    animation: none;
+  }
+}
+
+/* Sprint G v3 — footer credit line attribution Ansimuz CC0 + UI MIT. */
+.credit-line {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: rgba(232, 232, 232, 0.55);
+  font-style: italic;
+}
+
+/* Action 6 (ADR-2026-04-28 §Action 6) — Ambition HUD top-strip.
+ * Long-arc campaign goal surface. Pillar P5 closes "combat isolated" risk.
+ * Mirror pattern .biome-chip pill style. Pulse on progress increment.
+ */
+.ambition-hud {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ambition-hud.ambition-hidden {
+  display: none;
+}
+.ambition-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(255, 198, 107, 0.1);
+  border: 1px solid #ffc66b;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffc66b;
+  letter-spacing: 0.02em;
+  user-select: none;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+.ambition-pill.ambition-ready {
+  background: rgba(74, 222, 128, 0.16);
+  border-color: #4ade80;
+  color: #4ade80;
+  cursor: pointer;
+}
+.ambition-pill .ambition-cta {
+  font-size: 0.74rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+.ambition-pill.ambition-pulse {
+  animation: ambition-progress-pulse 1s ease-in-out;
+}
+@keyframes ambition-progress-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 198, 107, 0);
+  }
+  40% {
+    transform: scale(1.06);
+    box-shadow: 0 0 14px rgba(255, 198, 107, 0.55);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 198, 107, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambition-pill.ambition-pulse {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+ * 2026-04-29 Spike POC BG3-lite Tier 1 — visual classes per toggle pre/post.
+ * Applicate a canvas#grid via main.js bootstrap (load apps/play/public/data/ui_config.json).
+ * Tier 2 (sub-tile float + flanking 5-zone) DEFERRED full Sprint G.2b post-spike-pass.
+ * ============================================================================= */
+
+/* Canvas class quando bg3lite_hide_grid ON — subtle vignette mask edges per
+ * smooth integration con surrounding layout (tile bioma resta visibile). */
+canvas#grid.bg3lite-hide-grid {
+  box-shadow: inset 0 0 32px rgba(15, 20, 30, 0.45);
+  border-radius: 8px;
+}
+
+/* Range circle pulse breathing (~2s ease-in-out, subtle 5% scale).
+ * Wired da render.js drawBg3liteRangeOverlay phase calculation, NOT CSS animation
+ * (canvas redraw frame-driven). Class qui solo per future hooks DOM overlay. */
+canvas#grid.bg3lite-range-circle {
+  /* placeholder per future DOM overlay (range gradient cerchio).
+   * Animation @keyframes range-pulse 2s ease-in-out infinite preserved per spec. */
+  cursor: crosshair;
+}
+
+@keyframes range-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Smooth movement class — flag per future DOM transitions (HUD slot shift).
+ * Movement curva bezier in canvas è frame-interpolation in anim.js. */
+canvas#grid.bg3lite-smooth-movement {
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── 2026-05-11 TKT-B1 V6 UI TV polish proactive ───────────────────────────
+ * Master-dd verdict batch 2026-05-11 (B1 PROATTIVO ora, override OD-002).
+ * Scope: bounded polish 4 edit (no full rewrite):
+ *   1. ≥1920px TV-mode font + spacing emphasis
+ *   2. Active player turn pulse animation (.player-active class)
+ *   3. Primary CTA contrast bump for sofa-distance readability
+ *   4. Status icon min size guarantee (≥24px @ 3m sofa POV)
+ *
+ * Acceptance criteria scope ticket §6:
+ *   - TV-mode layout test 1080p + 4K (no overflow)
+ *   - Font readable a 3m (body ≥17px base, headers bumped on TV)
+ *   - Color contrast WCAG AA (CTA emphasized)
+ *   - Status icons visible from sofa POV
+ *
+ * Pillar impact: cross-pillar UX polish — non blocca pillar, ma migliora
+ * playtest feedback quality + sofa co-op readability. */
+
+/* Polish 1 — TV mode 1920px+ font + spacing emphasis */
+@media (min-width: 1920px) {
+  html {
+    /* Base 17→18px on TV 1080p+ (8% bump for 3m readability) */
+    font-size: 18px;
+  }
+  /* Heading emphasis: ensure ≥40px effective on TV (1.6rem × 18px = 28.8px → 1.9rem × 18px ≈ 34.2px → +bump) */
+  h1,
+  .panel h2,
+  header h1 {
+    font-size: 2.1rem;
+    letter-spacing: 0.04em;
+  }
+  /* Status bar + room code prominence */
+  .pressure-meter,
+  #room-code,
+  .room-code {
+    font-size: 1.15rem;
+  }
+}
+
+/* Polish 2 — Active player turn pulse (.player-active) */
+.player-active {
+  position: relative;
+  animation: player-active-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 0 2px var(--grim-accent-gold);
+}
+@keyframes player-active-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px var(--grim-accent-gold),
+      0 0 8px rgba(176, 163, 106, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px var(--grim-accent-gold),
+      0 0 16px rgba(176, 163, 106, 0.55);
+  }
+}
+/* Reduce-motion accessibility for active turn pulse */
+@media (prefers-reduced-motion: reduce) {
+  .player-active {
+    animation: none;
+    box-shadow:
+      0 0 0 2px var(--grim-accent-gold),
+      0 0 12px rgba(176, 163, 106, 0.45);
+  }
+}
+
+/* Polish 3 — Primary CTA contrast emphasis
+ * Targets primary action buttons (#end-turn, .cta-primary). WCAG AA contrast
+ * ratio bump to ≥5:1 (gold on deep-dark bg). Hover state +halo per sofa visibility. */
+#end-turn,
+.cta-primary {
+  background: linear-gradient(
+    180deg,
+    var(--grim-accent-gold) 0%,
+    var(--grim-accent-bronze) 100%
+  ) !important;
+  color: var(--grim-bg-deep) !important;
+  border: 1px solid var(--grim-accent-gold) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 0 rgba(255, 230, 160, 0.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 230, 160, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+#end-turn:hover,
+.cta-primary:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 230, 160, 1) 0%,
+    var(--grim-accent-gold) 100%
+  ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 240, 200, 0.5),
+    0 0 14px rgba(176, 163, 106, 0.65),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Polish 4 — Status icon min size guarantee
+ * Icons critical for tactical state (status, HUD chip, ability ready). Min 24px
+ * on TV ensures sofa POV @ 3m readability per scope ticket criterion 4. */
+.status-icon,
+.hud-chip-icon,
+.ability-ready-icon,
+.unit-status-badge {
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+/* On 1920px+ TV: bump to 28px for sofa distance */
+@media (min-width: 1920px) {
+  .status-icon,
+  .hud-chip-icon,
+  .ability-ready-icon,
+  .unit-status-badge {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+
+/* TKT-M15-FE — Promotion panel (endgame overlay, victory). */
+.promo-panel {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.promo-panel.loading,
+.promo-panel.error,
+.promo-panel.empty {
+  opacity: 0.75;
+  font-size: 0.95em;
+}
+.promo-panel h3 {
+  color: var(--accent);
+  margin: 0 0 12px;
+  font-size: 1.05em;
+}
+.promo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.promo-card {
+  background: var(--cell);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 4px;
+  transition: opacity 0.2s ease;
+}
+.promo-card.promo-accepted {
+  border-color: #6fb085;
+  background: #2a3a30;
+}
+.promo-card.promo-deferred {
+  opacity: 0.55;
+}
+.promo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.promo-unit {
+  color: var(--accent);
+  font-size: 1.05em;
+}
+.promo-tier-arrow {
+  font-family: 'VT323', monospace;
+  font-size: 1.1em;
+  letter-spacing: 1px;
+}
+.promo-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.promo-stat-chip {
+  background: rgba(139, 111, 176, 0.2);
+  border: 1px solid #8b6fb0;
+  color: #d4b8e8;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.85em;
+}
+.promo-no-reward {
+  opacity: 0.7;
+  font-size: 0.9em;
+}
+.promo-actions {
+  display: flex;
+  gap: 8px;
+}
+.promo-accept,
+.promo-defer {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9em;
+}
+.promo-accept {
+  background: #2a4a3a;
+  border-color: #6fb085;
+  color: #b8e8c8;
+}
+.promo-accept:hover:not(:disabled) {
+  background: #4f876b;
+  color: #fff;
+}
+.promo-defer:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg);
+}
+.promo-accept:disabled,
+.promo-defer:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.promo-status {
+  margin-top: 8px;
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+.promo-status.ok {
+  color: #6fb085;
+}
+.promo-status.error {
+  color: #d96f6f;
+}
+.promo-status.deferred {
+  opacity: 0.7;
+  font-style: italic;
+}

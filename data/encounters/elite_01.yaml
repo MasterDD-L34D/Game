@@ -1,0 +1,42 @@
+# Encounter: Elite — 3v1 Boss Tier 5
+# Boss fight. Un singolo apex con HP alti e trait multipli.
+id: elite_01
+label: "Confronto con l'Apex"
+difficulty: boss
+biome_id: abisso_vulcanico
+description_it: "Boss fight: un Leviatano Risonante domina il campo. Cooperazione obbligatoria."
+
+party_size: 3
+party_suggested_tier: 3
+
+groups:
+  - role: apex
+    power: 14
+    count: 1
+    species_hint: leviatano_risonante
+    trait_ids:
+      - mantello_meteoritico
+      - criostasi_adattiva
+      - artigli_sette_vie
+      - sangue_piroforico
+
+party_vc:
+  difficulty_multiplier: 2.0
+  pe_base: 12
+
+grid:
+  width: 6
+  height: 6
+  terrain_features:
+    - { x: 3, y: 3, type: lava, defense_mod: -1 }
+    - { x: 2, y: 1, type: roccia, defense_mod: 2 }
+    - { x: 4, y: 5, type: roccia, defense_mod: 2 }
+
+hazard:
+  description: "Eruzioni periodiche: 1d6 danno fuoco a unita su celle lava ogni 2 round."
+  severity: high
+  stress_modifier: 0.07
+
+notes: >
+  Boss ha 4 trait, tier 5, HP ~180, armor 9. Target: 50-60% hit, 5+ round.
+  Cooperazione e positioning critici. Surge burst quasi necessario per chiudere.

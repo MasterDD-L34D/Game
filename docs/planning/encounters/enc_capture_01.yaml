@@ -1,0 +1,77 @@
+# =============================================================================
+# Encounter: "Presidio della Forgia" — Capture Point
+# Difficulty: 3/5 · Grid: 10×10 · Bioma: rovine_planari
+# Objective: tenere la zona centrale [4,4,6,6] per 3 turni consecutivi
+# Pilastro coverage: 1 (tattica leggibile) — obiettivo non-elimination
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-20 (objective evaluator capture_point)
+# =============================================================================
+
+encounter_id: enc_capture_01
+name: 'Presidio della Forgia'
+biome_id: rovine_planari
+grid_size: [10, 10]
+difficulty_rating: 3
+estimated_turns: 10
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+encounter_class: standard
+
+objective:
+  type: capture_point
+  target_zone: [4, 4, 6, 6]
+  hold_turns: 3
+  min_units_in_zone: 2
+  loss_conditions:
+    time_limit: 15
+    player_wipe: true
+
+player_spawn:
+  - [0, 0]
+  - [0, 1]
+  - [1, 0]
+  - [1, 1]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 9]
+      - [9, 0]
+      - [0, 9]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: aggressive
+      - species: predoni_nomadi
+        count: 1
+        tier: elite
+        ai_profile: flanking
+
+  - wave_id: 2
+    turn_trigger: 5
+    spawn_points:
+      - [9, 4]
+      - [9, 5]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: balanced
+
+conditions: []
+
+tags: [standard]
+
+didactic_focus:
+  - zone_control
+  - positional_play
+  - time_pressure
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: polvere_millenaria
