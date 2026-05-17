@@ -23,6 +23,9 @@ function decodePointer(path) {
   // 6901 §5). Pre-fix: both produced `[]` segments and applyOp
   // silently treated them as root replacement → malformed ops without
   // a path field could corrupt entire room state.
+  if (path === undefined) {
+    throw new Error('invalid_pointer: missing path');
+  }
   if (typeof path !== 'string') {
     throw new Error('invalid_pointer: path must be string');
   }

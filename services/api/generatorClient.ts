@@ -78,23 +78,22 @@ async function fetchJson<T>(
   return (await response.json()) as T;
 }
 
-function createContext(base: string): GeneratorCatalogContext {
-  const resolvedBase = ensureTrailingSlash(base);
-  let docsBase: string | null = null;
+function getDocsBase(resolvedBase: string | null): string | null {
   try {
     const resolvedDocs = resolveRelative('docs/catalog/', resolvedBase);
-    docsBase = ensureTrailingSlash(resolvedDocs);
+    return ensureTrailingSlash(resolvedDocs);
   } catch (error) {
     console.warn('Impossibile determinare la base documenti del pack', error);
-    docsBase = null;
+    return null;
   }
+}
 
-  const resolveDocHref = (relativePath: string): string => {
-    if (docsBase) {
-      return resolveRelative(relativePath, docsBase);
-    }
-    return resolveRelative(relativePath, resolvedBase);
-  };
+function createContext(base: string): GeneratorCatalogContext {
+  const resolvedBase = ensureTrailingSlash(base);
+  const docsBase = getDocsBase(resolvedBase);
+
+  const resolveDocHref = (relativePath: string): string =>
+    resolveRelative(relativePath, docsBase ?? resolvedBase);
 
   const resolvePackHref = (relativePath: string): string =>
     resolveRelative(relativePath, resolvedBase);
@@ -108,6 +107,27 @@ function createContext(base: string): GeneratorCatalogContext {
   };
 }
 
+function resolveCandidate(candidate: string, context?: GeneratorCatalogContext | null): string {
+  if (context?.resolveDocHref) {
+    try {
+      return context.resolveDocHref(candidate);
+    } catch (error) {
+      console.warn('Impossibile risolvere la risorsa tramite resolveDocHref', candidate, error);
+    }
+  }
+  if (context?.resolvePackHref) {
+    try {
+      return context.resolvePackHref(candidate);
+    } catch (error) {
+      console.warn('Impossibile risolvere la risorsa tramite resolvePackHref', candidate, error);
+    }
+  }
+  if (context?.resolvedBase) {
+    return resolveRelative(candidate, context.resolvedBase);
+  }
+  return candidate;
+}
+
 async function fetchFromCandidates<T>(
   options: FetchResourceOptions,
 ): Promise<ResourceFetchResult<T>> {
@@ -119,30 +139,9 @@ async function fetchFromCandidates<T>(
   const tried = new Set<string>();
   let lastError: unknown = null;
 
-  const resolveCandidate = (candidate: string): string => {
-    if (context?.resolveDocHref) {
-      try {
-        return context.resolveDocHref(candidate);
-      } catch (error) {
-        console.warn('Impossibile risolvere la risorsa tramite resolveDocHref', candidate, error);
-      }
-    }
-    if (context?.resolvePackHref) {
-      try {
-        return context.resolvePackHref(candidate);
-      } catch (error) {
-        console.warn('Impossibile risolvere la risorsa tramite resolvePackHref', candidate, error);
-      }
-    }
-    if (context?.resolvedBase) {
-      return resolveRelative(candidate, context.resolvedBase);
-    }
-    return candidate;
-  };
-
   for (const candidate of candidates) {
     if (!candidate) continue;
-    const url = resolveCandidate(candidate);
+    const url = resolveCandidate(candidate, context);
     if (!url || tried.has(url)) continue;
     tried.add(url);
     try {
