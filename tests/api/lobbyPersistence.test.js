@@ -391,7 +391,8 @@ test('LobbyService.hydrate: restores rooms from DB seeds', async () => {
   assert.equal(room.players.size, 2);
   // token preserved → reconnect path survives
   const host = room.getPlayer('p_host');
-  assert.equal(host.token, 'th');
+  const expectedHash = require('node:crypto').createHash('sha256').update('th').digest('hex');
+  assert.equal(host.token, expectedHash);
 });
 
 test('LobbyService.hydrate: no prisma → returns 0', async () => {
