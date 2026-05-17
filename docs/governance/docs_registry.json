@@ -315,7 +315,7 @@
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-18",
+      "last_verified": "2026-05-07",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 90,
@@ -8053,7 +8053,7 @@
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-30",
+      "last_verified": "2026-05-07",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30
