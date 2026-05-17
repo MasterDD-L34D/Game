@@ -591,19 +591,6 @@
       "track": "active"
     },
     {
-      "path": "docs/adr/ADR-XXX-refactor-cli.md",
-      "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
-      "doc_status": "active",
-      "doc_owner": "platform-docs",
-      "workstream": "cross-cutting",
-      "last_verified": "2026-05-06",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
       "path": "docs/appendici/A-CANVAS_ORIGINALE.md",
       "title": "Canvas A — Originale (A.L.I.E.N.A.)",
       "doc_status": "active",
