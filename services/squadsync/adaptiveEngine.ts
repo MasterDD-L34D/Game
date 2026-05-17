@@ -147,7 +147,7 @@ export class AdaptiveEngine {
     this.ingestMany(responses);
   }
 
-  ingest(input: AdaptiveResponseInput): AdaptiveResponse {
+  private buildResponse(input: AdaptiveResponseInput): AdaptiveResponse {
     const createdAt = normaliseDate(input.createdAt, this.now);
     const ttl =
       typeof input.ttlMs === 'number' && Number.isFinite(input.ttlMs)
@@ -169,7 +169,7 @@ export class AdaptiveEngine {
         : baseline === null
           ? null
           : Number((Number(input.value) - baseline).toFixed(3));
-    const response: AdaptiveResponse = {
+    return {
       id: input.id && input.id.trim() ? input.id : randomUUID(),
       squad: input.squad,
       priority: input.priority,
@@ -186,6 +186,10 @@ export class AdaptiveEngine {
       variant: input.variant || 'adaptive',
       range: input.range ?? null,
     };
+  }
+
+  ingest(input: AdaptiveResponseInput): AdaptiveResponse {
+    const response = this.buildResponse(input);
     this.store.set(response.id, response);
     this.purgeExpired();
     this.enforceLimits();
@@ -319,6 +323,11 @@ export class AdaptiveEngine {
       perSquad.set(response.squad, bucket);
     }
 
+    summary.squads = this.buildSquadSummaries(perSquad);
+    return summary;
+  }
+
+  private buildSquadSummaries(perSquad: Map<string, AdaptiveResponse[]>): AdaptiveSquadSummary[] {
     const squads: AdaptiveSquadSummary[] = [];
     for (const [squad, bucket] of perSquad.entries()) {
       const ordered = bucket.sort(sortResponses);
@@ -342,8 +351,7 @@ export class AdaptiveEngine {
       if (b.latestResponseAt) return 1;
       return a.squad.localeCompare(b.squad);
     });
-    summary.squads = squads;
-    return summary;
+    return squads;
   }
 
   clear(): void {
