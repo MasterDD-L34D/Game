@@ -314,12 +314,19 @@ class EventsScheduler {
       : [];
 
     this.events = normalizeEvents(this.baseDefinitions, this.timezone, 'primary', false);
-    this.fallbackEvents = normalizeEvents(this.fallbackDefinitions, this.timezone, 'manualFallback', true);
+    this.fallbackEvents = normalizeEvents(
+      this.fallbackDefinitions,
+      this.timezone,
+      'manualFallback',
+      true,
+    );
   }
 
   usingFallback() {
-    return (!this.timezoneValid && this.fallbackEvents.length > 0) ||
-      (this.events.length === 0 && this.fallbackEvents.length > 0);
+    return (
+      (!this.timezoneValid && this.fallbackEvents.length > 0) ||
+      (this.events.length === 0 && this.fallbackEvents.length > 0)
+    );
   }
 
   dataset() {
@@ -328,7 +335,12 @@ class EventsScheduler {
 
   refresh() {
     this.events = normalizeEvents(this.baseDefinitions, this.timezone, 'primary', false);
-    this.fallbackEvents = normalizeEvents(this.fallbackDefinitions, this.timezone, 'manualFallback', true);
+    this.fallbackEvents = normalizeEvents(
+      this.fallbackDefinitions,
+      this.timezone,
+      'manualFallback',
+      true,
+    );
     this.timezoneValid = isValidTimeZone(this.timezone);
   }
 
