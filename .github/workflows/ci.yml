@@ -52,6 +52,11 @@ jobs:
               - 'services/**/*.py'
               - 'tests/**/*.py'
               - 'tools/py/**'
+              # OD-038 — the playtest#2 analyzer regression guard
+              # (python-tests job) exercises tools/sim/telemetry-bridge.js
+              # round-trip. Bridge edits MUST re-run that guard, otherwise
+              # the biome_focus / schema-contract assertions are skipped.
+              - 'tools/sim/**'
             data:
               - 'data/**'
               - 'packs/**'
@@ -87,6 +92,8 @@ jobs:
               - 'data/core/**/*.yaml'
               - 'packs/**/*.yaml'
               - 'packages/contracts/schemas/**'
+              # OD-038 — sim bridge JS must hit stack-quality (Prettier).
+              - 'tools/sim/**'
             site_audit:
               - 'ops/site-audit/**'
               - 'Makefile'
