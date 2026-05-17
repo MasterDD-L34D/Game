@@ -285,6 +285,38 @@ function cloneAffinity(entries) {
     .filter((entry) => entry.species_id);
 }
 
+function updateCompletionFlags(flags, completionFlags) {
+  Object.entries(flags).forEach(([key, value]) => {
+    if (typeof value === 'boolean') {
+      // eslint-disable-next-line no-param-reassign
+      completionFlags[key] = completionFlags[key] || value;
+    }
+  });
+}
+
+function updateAffinityMap(affinityEntries, affinityMap) {
+  affinityEntries.forEach((affinity) => {
+    const speciesId = affinity.species_id;
+    if (!speciesId) return;
+    if (!affinityMap.has(speciesId)) {
+      affinityMap.set(speciesId, { species_id: speciesId, roles: new Set(), weight: 0 });
+    }
+    const bucket = affinityMap.get(speciesId);
+    bucket.weight += Number.isFinite(affinity.weight) ? affinity.weight : 0;
+    affinity.roles.forEach((role) => bucket.roles.add(role));
+  });
+}
+
+function formatSpeciesAffinity(affinityMap) {
+  return Array.from(affinityMap.values())
+    .map((entry) => ({
+      species_id: entry.species_id,
+      roles: Array.from(entry.roles).sort(),
+      weight: Math.round(entry.weight * 1000) / 1000,
+    }))
+    .sort((a, b) => b.weight - a.weight || a.species_id.localeCompare(b.species_id));
+}
+
 function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
   if (!traitCatalog || typeof traitCatalog.get !== 'function') {
     return { usage_tags: [], species_affinity: [], completion_flags: {}, per_trait: {} };
@@ -293,48 +325,35 @@ function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
   const completionFlags = {};
   const affinityMap = new Map();
   const perTrait = {};
+
   traitIds.forEach((traitId) => {
     const entry = traitCatalog.get(traitId);
     if (!entry || typeof entry !== 'object') return;
+
     const id = entry.id || traitId;
     const traitUsage = Array.isArray(entry.usage_tags) ? entry.usage_tags.filter(Boolean) : [];
     traitUsage.forEach((tag) => usageTags.add(tag));
+
     const flags =
       entry.completion_flags && typeof entry.completion_flags === 'object'
         ? entry.completion_flags
         : {};
-    Object.entries(flags).forEach(([key, value]) => {
-      if (typeof value === 'boolean') {
-        completionFlags[key] = completionFlags[key] || value;
-      }
-    });
+
+    updateCompletionFlags(flags, completionFlags);
+
     const affinityEntries = cloneAffinity(entry.species_affinity);
-    affinityEntries.forEach((affinity) => {
-      const speciesId = affinity.species_id;
-      if (!speciesId) return;
-      if (!affinityMap.has(speciesId)) {
-        affinityMap.set(speciesId, { species_id: speciesId, roles: new Set(), weight: 0 });
-      }
-      const bucket = affinityMap.get(speciesId);
-      bucket.weight += Number.isFinite(affinity.weight) ? affinity.weight : 0;
-      affinity.roles.forEach((role) => bucket.roles.add(role));
-    });
+    updateAffinityMap(affinityEntries, affinityMap);
+
     perTrait[id] = {
       usage_tags: [...traitUsage],
       completion_flags: { ...flags },
       species_affinity: affinityEntries,
     };
   });
-  const speciesAffinity = Array.from(affinityMap.values())
-    .map((entry) => ({
-      species_id: entry.species_id,
-      roles: Array.from(entry.roles).sort(),
-      weight: Math.round(entry.weight * 1000) / 1000,
-    }))
-    .sort((a, b) => b.weight - a.weight || a.species_id.localeCompare(b.species_id));
+
   return {
     usage_tags: Array.from(usageTags).sort(),
-    species_affinity: speciesAffinity,
+    species_affinity: formatSpeciesAffinity(affinityMap),
     completion_flags: completionFlags,
     per_trait: perTrait,
   };
