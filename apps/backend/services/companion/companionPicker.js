@@ -72,13 +72,15 @@ function _seededRng(seed) {
   };
 }
 
-function _resolveBiomePool(pool, biomeId) {
+function _resolveBiomePool(pool, biomeId, allowFallback = true) {
   const pools = pool && pool.biome_pools ? pool.biome_pools : {};
   if (pools[biomeId]) return { biomePool: pools[biomeId], biomeOriginId: biomeId };
   // Fallback per skiv_archetype_pool.yaml §generative_rules.fallback rule
   // ("primary_biome NOT in biome_species_pool → use savana pool").
-  const fallback = pools.savana;
-  if (fallback) return { biomePool: fallback, biomeOriginId: 'savana' };
+  if (allowFallback) {
+    const fallback = pools.savana;
+    if (fallback) return { biomePool: fallback, biomeOriginId: 'savana' };
+  }
   return { biomePool: null, biomeOriginId: biomeId };
 }
 
@@ -209,8 +211,7 @@ function listArchetypesForBiome(biomeId, opts = {}) {
   // Codex W5.5 P2 fix: don't use _resolveBiomePool's savana fallback —
   // /api/companion/pool consumers expect [] for unknown biome (per
   // function doc), not echo of unknown id with savana archetypes.
-  const pools = pool && pool.biome_pools ? pool.biome_pools : {};
-  const biomePool = pools[biomeId];
+  const { biomePool } = _resolveBiomePool(pool, biomeId, false);
   if (!biomePool) return [];
   return Array.isArray(biomePool.species_pool) ? biomePool.species_pool.slice() : [];
 }

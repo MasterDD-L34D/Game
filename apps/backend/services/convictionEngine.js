@@ -259,6 +259,9 @@ function evaluateConviction(events, units = []) {
 
   // GSD audit fix: pre-enrich event flags inline (mutates flags only, not
   // event identity). Safe: classifyEvent reads flags read-only post-enrich.
+  for (const event of events) {
+    if (event) event.flags = { ...(event.flags || {}) };
+  }
   _enrichTacticalFlags(events, units);
 
   for (const event of events) {

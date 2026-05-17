@@ -95,10 +95,44 @@ class TraitProfile:
             "glossary_ok": self.glossary_ok,
         }
 
+    @classmethod
+    def from_payload(cls, trait_id: str, raw: Mapping[str, Any]) -> "TraitProfile":
+        return cls(
+            id=trait_id,
+            label=str(raw.get("label") or trait_id),
+            tier=str(raw.get("tier")) if raw.get("tier") else None,
+            families=_normalise_sequence(raw.get("families")),
+            energy_profile=str(raw.get("energy_profile")) if raw.get("energy_profile") else None,
+            usage=str(raw.get("usage")) if raw.get("usage") else None,
+            selective_drive=str(raw.get("selective_drive")) if raw.get("selective_drive") else None,
+            mutation=str(raw.get("mutation")) if raw.get("mutation") else None,
+            synergies=_normalise_sequence(raw.get("synergies")),
+            conflicts=_normalise_sequence(raw.get("conflicts")),
+            environments=_normalise_sequence(raw.get("environments")),
+            weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
+            dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
+            usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
+            species_affinity=_parse_species_affinity(raw.get("species_affinity")),
+            usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
+            completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
+            glossary_ok=bool(raw.get("glossary_ok")),
+        )
+
 
 def _load_json(path: Path) -> Mapping[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _has_enhanced_fields(traits_payload: Mapping[str, Any]) -> bool:
+    if not isinstance(traits_payload, Mapping):
+        return False
+    for raw in traits_payload.values():
+        if isinstance(raw, Mapping) and (
+            "usage_tags" in raw or "species_affinity" in raw or "completion_flags" in raw
+        ):
+            return True
+    return False
 
 
 def _normalise_sequence(value: Any) -> List[str]:
@@ -537,45 +571,19 @@ class TraitCatalog:
         if path.exists():
             payload = _load_json(path)
             traits_payload = payload.get("traits") if isinstance(payload, Mapping) else {}
-            has_enhanced_fields = False
-            if isinstance(traits_payload, Mapping):
-                for raw in traits_payload.values():
-                    if isinstance(raw, Mapping) and (
-                        "usage_tags" in raw or "species_affinity" in raw or "completion_flags" in raw
-                    ):
-                        has_enhanced_fields = True
-                        break
-            else:
+
+            if not isinstance(traits_payload, Mapping):
                 traits_payload = {}
-            if not has_enhanced_fields:
+
+            if not _has_enhanced_fields(traits_payload):
                 traits = build_trait_catalog_map()
                 return cls(traits)
+
             traits: Dict[str, TraitProfile] = {}
             for trait_id, raw in traits_payload.items():
                 if not isinstance(raw, Mapping):
                     continue
-                traits[trait_id] = TraitProfile(
-                    id=trait_id,
-                    label=str(raw.get("label") or trait_id),
-                    tier=str(raw.get("tier")) if raw.get("tier") else None,
-                    families=_normalise_sequence(raw.get("families")),
-                    energy_profile=str(raw.get("energy_profile"))
-                    if raw.get("energy_profile")
-                    else None,
-                    usage=str(raw.get("usage")) if raw.get("usage") else None,
-                    selective_drive=str(raw.get("selective_drive")) if raw.get("selective_drive") else None,
-                    mutation=str(raw.get("mutation")) if raw.get("mutation") else None,
-                    synergies=_normalise_sequence(raw.get("synergies")),
-                    conflicts=_normalise_sequence(raw.get("conflicts")),
-                    environments=_normalise_sequence(raw.get("environments")),
-                    weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
-                    dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
-                    usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
-                    species_affinity=_parse_species_affinity(raw.get("species_affinity")),
-                    usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
-                    completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
-                    glossary_ok=bool(raw.get("glossary_ok")),
-                )
+                traits[trait_id] = TraitProfile.from_payload(trait_id, raw)
             if traits:
                 return cls(traits)
         # fall-back to build from scratch
