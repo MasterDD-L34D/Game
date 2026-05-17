@@ -1,0 +1,120 @@
+--- services/generation/biomeSynthesizer.js
++++ services/generation/biomeSynthesizer.js
+@@ -656,6 +656,41 @@
+   return path.join(dataRoot, ...targetSegments);
+ }
+
++function processLoadedData(glossary, pools, catalog) {
++  const traitGlossary = normaliseTraitGlossary(glossary);
++  const poolsWithMetadata = injectPoolMetadata(pools);
++  const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
++  return { traitGlossary, poolList, traitCatalog: catalog };
++}
++
++function pickQueueEntry(queue, rng) {
++  const total = queue.reduce((sum, entry) => sum + (entry.score || 1), 0);
++  const threshold = (rng() || Math.random()) * (total || queue.length);
++  let cumulative = 0;
++  let pickedIndex = 0;
++  for (let index = 0; index < queue.length; index += 1) {
++    const weight = queue[index].score || 1;
++    cumulative += weight;
++    if (threshold <= cumulative) {
++      pickedIndex = index;
++      break;
++    }
++  }
++  return queue.splice(pickedIndex, 1)[0];
++}
++
++function formatGenerateResult(result, constraints, poolCount) {
++  return {
++    biomes: result,
++    constraints: {
++      requested: constraints,
++      applied: {
++        hazard: constraints.hazard || null,
++        climate: constraints.climate || null,
++        requiredRoles: ensureArray(constraints.requiredRoles).filter((role) =>
++          ROLE_FLAG_SET.has(role),
++        ),
++        preferredTags: ensureArray(constraints.preferredTags),
++        minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : null,
++      },
++      poolCount,
++    },
++  };
++}
++
+ function createBiomeSynthesizer(options = {}) {
+   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
+   const traitGlossaryPath =
+@@ -696,10 +731,7 @@
+         speciesBuilderInstance.ensureCatalog(),
+       ])
+         .then(([glossary, pools, catalog]) => {
+-          const traitGlossary = normaliseTraitGlossary(glossary);
+-          const poolsWithMetadata = injectPoolMetadata(pools);
+-          const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
+-          loaded = { traitGlossary, poolList, traitCatalog: catalog };
++          loaded = processLoadedData(glossary, pools, catalog);
+           return loaded;
+         })
+         .finally(() => {
+@@ -714,10 +746,7 @@
+       speciesBuilderInstance.ensureCatalog(),
+     ])
+       .then(([glossary, pools, catalog]) => {
+-        const traitGlossary = normaliseTraitGlossary(glossary);
+-        const poolsWithMetadata = injectPoolMetadata(pools);
+-        const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
+-        loaded = { traitGlossary, poolList, traitCatalog: catalog };
++        loaded = processLoadedData(glossary, pools, catalog);
+         return loaded;
+       })
+       .finally(() => {
+@@ -740,19 +769,7 @@
+       if (!queue.length) {
+         queue.push(...candidates);
+       }
+-      const total = queue.reduce((sum, entry) => sum + (entry.score || 1), 0);
+-      const threshold = (rng() || Math.random()) * (total || queue.length);
+-      let cumulative = 0;
+-      let pickedIndex = 0;
+-      for (let index = 0; index < queue.length; index += 1) {
+-        const weight = queue[index].score || 1;
+-        cumulative += weight;
+-        if (threshold <= cumulative) {
+-          pickedIndex = index;
+-          break;
+-        }
+-      }
+-      const [entry] = queue.splice(pickedIndex, 1);
++      const entry = pickQueueEntry(queue, rng);
+       // eslint-disable-next-line no-await-in-loop
+       const biome = await buildBiomeFromPool(
+         entry.pool,
+@@ -766,20 +783,7 @@
+       result.push(biome);
+     }
+
+-    return {
+-      biomes: result,
+-      constraints: {
+-        requested: constraints,
+-        applied: {
+-          hazard: constraints.hazard || null,
+-          climate: constraints.climate || null,
+-          requiredRoles: ensureArray(constraints.requiredRoles).filter((role) =>
+-            ROLE_FLAG_SET.has(role),
+-          ),
+-          preferredTags: ensureArray(constraints.preferredTags),
+-          minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : null,
+-        },
+-        poolCount: poolList.length,
+-      },
+-    };
++    return formatGenerateResult(result, constraints, poolList.length);
+   }
+
+   async function reload() {
