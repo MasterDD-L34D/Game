@@ -178,11 +178,19 @@ class Room {
 
     if (hydrateFromSeed?.players?.length) {
       for (const p of hydrateFromSeed.players) {
+        // Codex PR #2031 P1 fix: hydrated pre-JWT rooms retain raw token
+        // strings in player.token. Hash legacy tokens upon hydration to
+        // avoid retaining raw strings in memory.
+        let safeToken = p.token;
+        if (typeof p.token === 'string' && !p.token.includes('.')) {
+          safeToken = crypto.createHash('sha256').update(p.token).digest('hex');
+        }
+
         this.players.set(p.id, {
           id: p.id,
           name: p.name,
           role: p.role,
-          token: p.token,
+          token: safeToken,
           socket: null,
           connected: false,
           joinedAt: p.joinedAt,
@@ -255,7 +263,14 @@ class Room {
   authenticate(playerId, token) {
     const p = this.players.get(playerId);
     if (!p) return null;
-    if (p.token !== token) return null;
+    if (p.token !== token) {
+      // Codex PR #2031 P1 fix fallback: check against hashed token for hydrated legacy players.
+      const safeToken = typeof token === 'string' ? token : '';
+      const hashed = crypto.createHash('sha256').update(safeToken).digest('hex');
+      if (p.token !== hashed) {
+        return null;
+      }
+    }
     return p;
   }
 
@@ -914,8 +929,15 @@ class LobbyService {
     const room = this.rooms.get(normalized);
     if (!room) throw new Error('room_not_found');
     const host = room.getPlayer(room.hostId);
-    if (!host || host.token !== hostToken) {
+    if (!host) {
       throw new Error('host_auth_failed');
+    }
+    if (host.token !== hostToken) {
+      const safeHostToken = typeof hostToken === 'string' ? hostToken : '';
+      const hashed = crypto.createHash('sha256').update(safeHostToken).digest('hex');
+      if (host.token !== hashed) {
+        throw new Error('host_auth_failed');
+      }
     }
     room.close();
     this.rooms.delete(normalized);
