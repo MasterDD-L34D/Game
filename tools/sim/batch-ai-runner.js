@@ -281,6 +281,34 @@ function buildSummary(results, args) {
       p.avg_wall_ms = Math.round(p.avg_wall_ms / p.runs);
     }
   }
+  // Envelope B / B2 — profile×scenario cross-tab. `by_profile` aggregates
+  // across scenarios (a known blind spot: a profile can pass overall while
+  // failing one scenario). This non-breaking sibling keys on
+  // "<profile>::<scenario>" so per-cell regressions are visible. Existing
+  // `by_profile` stays for back-compat.
+  const byProfileScenario = {};
+  for (const r of results) {
+    const cell = `${r.profile}::${r.scenario}`;
+    if (!byProfileScenario[cell]) {
+      byProfileScenario[cell] = {
+        profile: r.profile,
+        scenario: r.scenario,
+        runs: 0,
+        victory: 0,
+        defeat: 0,
+        timeout: 0,
+        avg_rounds: 0,
+      };
+    }
+    const c = byProfileScenario[cell];
+    c.runs += 1;
+    c[r.outcome] = (c[r.outcome] || 0) + 1;
+    c.avg_rounds += r.rounds || 0;
+  }
+  for (const k of Object.keys(byProfileScenario)) {
+    const c = byProfileScenario[k];
+    if (c.runs > 0) c.avg_rounds = +(c.avg_rounds / c.runs).toFixed(2);
+  }
   const avgRounds =
     total === 0 ? 0 : +(results.reduce((s, r) => s + (r.rounds || 0), 0) / total).toFixed(2);
   const avgWallMs =
@@ -292,6 +320,7 @@ function buildSummary(results, args) {
     completion_rate: total === 0 ? 0 : +(completed / total).toFixed(3),
     by_outcome: byOutcome,
     by_profile: byProfile,
+    by_profile_scenario: byProfileScenario,
     avg_rounds: avgRounds,
     avg_wall_ms: avgWallMs,
     started_at: results.length > 0 ? new Date().toISOString() : null,
