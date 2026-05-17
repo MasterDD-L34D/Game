@@ -35,7 +35,7 @@ export async function renderAbilities(unit, state, onAbility) {
   // W8O fix: empty unit → clear + return. Altri casi: NON wipe prima del await
   // check. Prima era: wipe sempre → se stale return → container vuoto (bug
   // round 2 "barra si è buggata"). Ora wipe solo post-await se ancora latest.
-  if (!unit || !unit.job) {
+  if (!unit?.job) {
     titleEl.classList.add('hidden-empty');
     container.innerHTML = '';
     return;
