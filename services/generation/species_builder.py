@@ -771,6 +771,56 @@ class PathfinderTraitFormula:
         "bulette": {"core": ("carapace_fase_variabile",), "optional": ("armatura_pietra_planare",)},
     }
 
+    def _extract_base_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        base_traits = entry.get("genetic_traits")
+        if isinstance(base_traits, Sequence):
+            for trait_id in base_traits:
+                if isinstance(trait_id, str):
+                    yield "core", trait_id
+
+    def _extract_type_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        type_field = str(entry.get("type") or "").lower()
+        for trait_id, bucket in self._TYPE_TRAITS.get(type_field, ()):
+            yield bucket, trait_id
+
+    def _extract_subtype_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        subtype_field = str(entry.get("subtype") or "").lower()
+        for keyword, trait_specs in self._SUBTYPE_TRAITS:
+            if keyword in subtype_field:
+                for trait_id, bucket in trait_specs:
+                    yield bucket, trait_id
+
+    def _extract_movement_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        movement_entry = entry.get("movement")
+        if isinstance(movement_entry, Mapping):
+            for key, (trait_id, bucket) in self._MOVEMENT_TRAITS.items():
+                if key in movement_entry:
+                    yield bucket, trait_id
+
+    def _extract_ability_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        ability_text = " ".join(str(item).lower() for item in entry.get("special_abilities", []) if item)
+        for keywords, trait_id, bucket in self._ABILITY_KEYWORDS:
+            if any(keyword in ability_text for keyword in keywords):
+                yield bucket, trait_id
+
+    def _extract_environment_traits(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        environment_text = " ".join(str(tag).lower() for tag in entry.get("environment_tags", []) if tag)
+        for keyword, trait_id, bucket in self._ENVIRONMENT_TRAITS:
+            if keyword in environment_text:
+                yield bucket, trait_id
+
+    def _extract_overrides(self, entry: Mapping[str, Any]) -> Iterable[tuple[str, str]]:
+        profile_id = str(entry.get("id") or "").lower()
+        overrides = self._PROFILE_OVERRIDES.get(profile_id, {})
+        for bucket, traits in overrides.items():
+            for trait_id in traits:
+                yield bucket, trait_id
+
+    def _extract_fallback_traits(self, fallback_traits: Sequence[str]) -> Iterable[tuple[str, str]]:
+        for trait_id in fallback_traits:
+            if isinstance(trait_id, str):
+                yield "optional", trait_id
+
     def extract(
         self, entry: Mapping[str, Any], *, fallback_traits: Sequence[str] = ()
     ) -> Dict[str, List[str]]:
@@ -791,47 +841,22 @@ class PathfinderTraitFormula:
             buckets[bucket].append(trait_id)
             trait_location[trait_id] = bucket
 
-        base_traits = entry.get("genetic_traits")
-        if isinstance(base_traits, Sequence):
-            for trait_id in base_traits:
-                if isinstance(trait_id, str):
-                    _register("core", trait_id)
-
-        type_field = str(entry.get("type") or "").lower()
-        for trait_id, bucket in self._TYPE_TRAITS.get(type_field, ()):  
+        for bucket, trait_id in self._extract_base_traits(entry):
             _register(bucket, trait_id)
-
-        subtype_field = str(entry.get("subtype") or "").lower()
-        for keyword, trait_specs in self._SUBTYPE_TRAITS:
-            if keyword in subtype_field:
-                for trait_id, bucket in trait_specs:
-                    _register(bucket, trait_id)
-
-        movement_entry = entry.get("movement")
-        if isinstance(movement_entry, Mapping):
-            for key, (trait_id, bucket) in self._MOVEMENT_TRAITS.items():
-                if key in movement_entry:
-                    _register(bucket, trait_id)
-
-        ability_text = " ".join(str(item).lower() for item in entry.get("special_abilities", []) if item)
-        for keywords, trait_id, bucket in self._ABILITY_KEYWORDS:
-            if any(keyword in ability_text for keyword in keywords):
-                _register(bucket, trait_id)
-
-        environment_text = " ".join(str(tag).lower() for tag in entry.get("environment_tags", []) if tag)
-        for keyword, trait_id, bucket in self._ENVIRONMENT_TRAITS:
-            if keyword in environment_text:
-                _register(bucket, trait_id)
-
-        profile_id = str(entry.get("id") or "").lower()
-        overrides = self._PROFILE_OVERRIDES.get(profile_id, {})
-        for bucket, traits in overrides.items():
-            for trait_id in traits:
-                _register(bucket, trait_id)
-
-        for trait_id in fallback_traits:
-            if isinstance(trait_id, str):
-                _register("optional", trait_id)
+        for bucket, trait_id in self._extract_type_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_subtype_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_movement_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_ability_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_environment_traits(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_overrides(entry):
+            _register(bucket, trait_id)
+        for bucket, trait_id in self._extract_fallback_traits(fallback_traits):
+            _register(bucket, trait_id)
 
         return buckets
 
