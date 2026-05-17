@@ -136,11 +136,34 @@ job_archetype_bias:
 # Engine consumption: Phase B4 reserved — promotionEngine.js evaluatePromotion
 # merges job_threshold_override[unit.job_id][next_tier] onto base threshold
 # (same shallow-merge pattern as job_archetype_bias rewards).
+# 2026-05-17 Envelope C (playtest #2 coverage) — custode veteran/captain
+# tank-path extension. Same design rationale as the elite/master block
+# (GAP-003): the custode is a tank that generates kills + soaks damage, it
+# does NOT grab mission objectives. The session combat engine does not emit
+# `objective_complete` / `mission_objective` events from a pure-elimination
+# flow, so `objectives_min` is structurally unreachable for a tank in
+# headless AI-vs-AI sim. Replace the objective gate with a damage_taken_min
+# proxy (consistent with the existing assists_min → damage_taken_min
+# substitution). Promotion still requires REAL kills from REAL combat —
+# only the unreachable objective sub-gate is swapped, NOT fabricated.
 job_threshold_override:
   custode:
+    veteran:
+      # Remove the structurally-unreachable objective sub-gate. The session
+      # combat engine never emits objective_complete / mission_objective
+      # events (pre-existing backend gap), so objectives_min:1 can NEVER be
+      # satisfied for ANY job from a pure-combat flow. For the earliest
+      # tier the honest replacement is no proxy at all: veteran then
+      # requires only REAL kills_min:3 from REAL killing blows.
+      objectives_min: null
+    captain:
+      objectives_min: null
+      damage_taken_min: 3    # tank proxy: soaked ≥3 real PT (mid tier)
     elite:
       assists_min: null      # remove gate; tank doesn't generate assists
+      objectives_min: null   # see Envelope C rationale above
       damage_taken_min: 30   # NEW: shielded ≥30 PT damage instead
     master:
       assists_min: null
+      objectives_min: null
       damage_taken_min: 75

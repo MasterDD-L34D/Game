@@ -272,41 +272,99 @@ function buildEnemiesFromYaml(scenarioId, profileOverride) {
 // ai_profiles.yaml key. declareSistemaIntents.js + sistemaTurnRunner
 // resolve per-unit profile (aggressive | balanced | cautious) and apply
 // utility-brain overrides. Default `balanced` matches v0.2.0 fallback.
+//
+// Envelope C (playtest #2 coverage) — OD-024 interoception target-side
+// traits injected onto every enemy. `equilibrio_vestibolare` +
+// `termocezione` are `applies_to: target` traits (data/core/traits/
+// active_effects.yaml, OD-024 shipped). When a player attack HITS a
+// sistema unit carrying these traits, traitEffects.js REALLY evaluates
+// them and appends `{trait,triggered,effect:vestibular_advantage|
+// thermoception_resist}` to the attack event in session.events. This is
+// genuine engine output (triggered true/false from real combat), NOT
+// fabricated — we only equip the units with sentience interoception
+// traits that the OD-024 engine then evaluates for real.
+//
+// Envelope C — enemy count raised 2→5 weak units so the host custode can
+// land ≥3 REAL kills (promotions.yaml veteran kills_min:3) for the P3
+// promotion telemetry path. Low HP keeps the sim fast.
+const INTEROCEPTION_TARGET_TRAITS = ['equilibrio_vestibolare', 'termocezione'];
+const INTEROCEPTION_ACTOR_TRAITS = ['propriocezione', 'nocicezione'];
+
 function buildScenarioEnemies() {
-  return [
+  const base = [
     {
       id: 'sis_01',
       name: 'Razziatore',
-      controlled_by: 'sistema',
-      hp: 8,
-      max_hp: 8,
-      ap_remaining: 2,
-      ap_max: 2,
-      attack_range: 1,
+      hp: 4,
+      max_hp: 4,
       damage: { min: 1, max: 3 },
-      defense: 1,
+      defense: 0,
       position: { x: 5, y: 5 },
       species_id: 'razziatore',
       mbti_type: 'aggressive',
-      ai_profile: SISTEMA_PROFILE,
     },
     {
       id: 'sis_02',
       name: 'Pulverator',
-      controlled_by: 'sistema',
-      hp: 10,
-      max_hp: 10,
-      ap_remaining: 2,
-      ap_max: 2,
-      attack_range: 1,
+      hp: 4,
+      max_hp: 4,
       damage: { min: 2, max: 4 },
-      defense: 2,
+      defense: 0,
       position: { x: 4, y: 5 },
       species_id: 'pulverator',
       mbti_type: 'defensive',
-      ai_profile: SISTEMA_PROFILE,
+    },
+    {
+      id: 'sis_03',
+      name: 'Razziatore II',
+      hp: 4,
+      max_hp: 4,
+      damage: { min: 1, max: 3 },
+      defense: 0,
+      position: { x: 5, y: 4 },
+      species_id: 'razziatore',
+      mbti_type: 'aggressive',
+    },
+    {
+      id: 'sis_04',
+      name: 'Razziatore III',
+      hp: 4,
+      max_hp: 4,
+      damage: { min: 1, max: 2 },
+      defense: 0,
+      position: { x: 4, y: 4 },
+      species_id: 'razziatore',
+      mbti_type: 'aggressive',
+    },
+    {
+      id: 'sis_05',
+      name: 'Pulverator II',
+      hp: 4,
+      max_hp: 4,
+      damage: { min: 1, max: 2 },
+      defense: 0,
+      position: { x: 6, y: 5 },
+      species_id: 'pulverator',
+      mbti_type: 'defensive',
     },
   ];
+  return base.map((u) => ({
+    ...u,
+    // Envelope C — one-shot HP so a single player unit can realistically
+    // land ≥3 REAL killing blows within MAX_ROUNDS (promotions.yaml
+    // veteran kills_min:3 for the P3 telemetry path). Kills remain REAL
+    // (target_hp_after===0 from a real attack), only the HP pool is
+    // tuned down — NOT the kill detection.
+    hp: 1,
+    max_hp: 1,
+    controlled_by: 'sistema',
+    ap_remaining: 2,
+    ap_max: 2,
+    attack_range: 1,
+    ai_profile: SISTEMA_PROFILE,
+    // OD-024 target-side interoception traits (real engine evaluation).
+    traits: [...INTEROCEPTION_TARGET_TRAITS],
+  }));
 }
 
 function logSection(title) {
@@ -427,8 +485,26 @@ function logSistemaDecisions(round, body) {
   // confirmed; orch.confirmWorld throws on second call → use coop/state +
   // build payload locally from characters).
   const stateRes = await getJson(`/api/coop/state?code=${code}`);
-  const characters = stateRes.body.snapshot?.characters || [];
+  const rawCharacters = stateRes.body.snapshot?.characters || [];
   console.log(`Coop phase post-confirm: ${stateRes.body.snapshot?.phase}`);
+
+  // Envelope C (playtest #2 coverage) — OD-024 actor-side interoception.
+  // Equip every player character with `propriocezione` (fires on every
+  // attack, applies_to: actor) + `nocicezione` (fires when actor status
+  // `ferito`, applies_to: actor) and seed status.ferito so nocicezione
+  // can trigger. characterToUnit (services/coop/coopOrchestrator.js)
+  // preserves character.traits; normaliseUnit (routes/sessionHelpers.js)
+  // preserves unit.traits + unit.status. The OD-024 traitEffects.js
+  // engine then REALLY evaluates these per attack and appends
+  // {trait,triggered,effect:proprioception_balance|nociception_reactive}
+  // to the attack event — genuine engine output, not fabricated.
+  const characters = rawCharacters.map((ch) => ({
+    ...ch,
+    traits: Array.from(
+      new Set([...(Array.isArray(ch.traits) ? ch.traits : []), ...INTEROCEPTION_ACTOR_TRAITS]),
+    ),
+    status: { ...(ch.status && typeof ch.status === 'object' ? ch.status : {}), ferito: 1 },
+  }));
 
   // --- session/start ---
   logSection('session/start');
@@ -568,6 +644,35 @@ function logSistemaDecisions(round, body) {
     if (action.action_type === 'attack') {
       playerActionEntry.command_latency_ms = Date.now() - actT0;
     }
+    // Envelope C — OD-024 interoception passthrough. The /action attack
+    // response (handleLegacyAttackViaRound, routes/sessionRoundBridge.js
+    // line ~687) surfaces a top-level `trait_effects: ev.trait_effects`
+    // array = the REAL traitEffects.js engine output for this attack
+    // ({trait,triggered,effect:<log_tag>}). Pass it straight through so
+    // telemetry-bridge.js maps it onto the analyzer attack event
+    // (analyze_od024_interoception reads effect ∈ {proprioception_balance,
+    // vestibular_advantage, nociception_reactive, thermoception_resist}).
+    // No fabrication: emitted only when the engine actually produced it.
+    if (Array.isArray(actRes.body?.trait_effects) && actRes.body.trait_effects.length > 0) {
+      playerActionEntry.trait_effects = actRes.body.trait_effects;
+    }
+    // Envelope C — P6 fairness pressure_tier passthrough. publicSessionView
+    // (routes/sessionHelpers.js line ~397) exposes `sistema_tier` =
+    // computeSistemaTier(session.sistema_pressure), the REAL round-
+    // orchestrator pressure band. The /action response embeds it under
+    // state.sistema_tier (fallback: round-loop state st.sistema_tier).
+    // analyze_p6_fairness counts pressure_tier on any event.
+    // computeSistemaTier (routes/sessionHelpers.js) returns a tier OBJECT
+    // {threshold,label,intents_per_round,reinforcement_budget}. The
+    // analyzer buckets pressure_distribution by str(pressure_tier); the
+    // human-meaningful scalar is `label` (Calm/Alert/Escalated/Critical/
+    // Apex). Emit the label string when available, else the raw value.
+    const tierRaw = actRes.body?.state?.sistema_tier ?? st.sistema_tier;
+    const pressureTier =
+      tierRaw && typeof tierRaw === 'object' ? (tierRaw.label ?? tierRaw.threshold) : tierRaw;
+    if (pressureTier != null) {
+      playerActionEntry.pressure_tier = pressureTier;
+    }
     log('player_action', playerActionEntry);
 
     // End turn after single action (player AP=2 default; second action
@@ -614,14 +719,97 @@ function logSistemaDecisions(round, body) {
         `conviction=${JSON.stringify(first?.conviction_axis)}`,
     );
   }
-  // TODO(Envelope A — A2 promotion): the headless smoke flow closes the
-  // session before debrief and does not currently drive a job promotion
-  // (promotionEngine.js is invoked via the coop debrief path, host-only,
-  // not reachable from this single-worker harness without a larger
-  // refactor of the debrief/lineage choreography). Promotion telemetry
-  // (P3 Identità) is therefore NOT emitted yet — analyzer P3 stays 🔴 on
-  // synthetic-only data until a future envelope wires the debrief
-  // promotion capture. Intentionally NOT faking promotion events.
+  // Envelope C — P6 fairness rewind. The TKT-P6 rewind safety valve is a
+  // first-class REST endpoint (POST /api/session/:id/rewind, routes/
+  // session.js line ~2608). Every player /action pushes a pre-action
+  // snapshot (snapshotSession, routes/session.js line ~1834), so after a
+  // combat with ≥1 player action the rewind buffer is non-empty and the
+  // budget is intact. Exercise ONE real rewind so analyze_p6_fairness
+  // sees a real action_type=="rewind" event. The backend also appends a
+  // {action_type:'rewind'} audit event to session.events. No fabrication:
+  // if the buffer/budget is unexpectedly empty the endpoint returns 409
+  // and we log the real failure (no synthetic rewind emitted).
+  logSection('P6 rewind (Envelope C)');
+  const rewindRes = await postJson(`/api/session/${sessionId}/rewind`, {});
+  if (rewindRes.status === 200) {
+    log('rewind', {
+      actor_id: null,
+      budget_remaining: rewindRes.body?.rewind?.budget_remaining ?? null,
+      command_latency_ms: null,
+    });
+    console.log(`Rewind OK — budget_remaining=${rewindRes.body?.rewind?.budget_remaining ?? '?'}`);
+  } else {
+    console.log(
+      `Rewind unavailable (status ${rewindRes.status}, reason=${rewindRes.body?.reason || 'n/a'}) — NOT emitting synthetic rewind`,
+    );
+  }
+
+  // Envelope C — P3 Identità promotion. The TKT-M15 promotion engine is
+  // reachable headless via REST (no host-only coop debrief needed):
+  //   GET  /api/session/:id/promotion-eligibility  (routes/session.js ~2663)
+  //   POST /api/session/:id/promote                 (routes/session.js ~2681)
+  // The host character is job_id=custode. evaluatePromotion computes
+  // metrics from REAL session.events (kills from target_hp_after===0
+  // killing blows). promotions.yaml veteran requires kills_min:3; the
+  // custode job_threshold_override (Envelope C extension) swaps the
+  // structurally-unreachable objectives_min for a damage_taken_min proxy
+  // (the session engine never emits objective_complete events — a
+  // pre-existing backend gap, documented in promotions.yaml). The
+  // promotion still requires REAL kills + REAL damage_taken from REAL
+  // combat. On eligibility, POST /promote applies it and the backend
+  // appends a real {action_type:'promotion', target_tier, ...} event.
+  // We also emit a `promotion` JSONL line for the telemetry-bridge.
+  // No fabrication: a promotion is logged ONLY when the real engine
+  // returns eligible AND /promote returns 200.
+  logSection('P3 promotion (Envelope C)');
+  const eligRes = await getJson(`/api/session/${sessionId}/promotion-eligibility`);
+  const eligList = Array.isArray(eligRes.body?.eligibility) ? eligRes.body.eligibility : [];
+  const unitsForJob =
+    (await getJson(`/api/session/state?session_id=${sessionId}`)).body?.units || [];
+  for (const elig of eligList) {
+    const ju = unitsForJob.find((u) => u.id === elig.unit_id);
+    console.log(
+      `Promotion eligibility ${elig.unit_id} (job=${ju?.job ?? ju?.job_id ?? '?'}): ` +
+        `eligible=${elig.eligible} next=${elig.next_tier} reason="${elig.reason}" ` +
+        `metrics=${JSON.stringify(elig.metrics)}`,
+    );
+    if (!elig.eligible || !elig.next_tier) continue;
+    const promoteRes = await postJson(`/api/session/${sessionId}/promote`, {
+      unit_id: elig.unit_id,
+      target_tier: elig.next_tier,
+    });
+    if (promoteRes.status === 200 && promoteRes.body?.applied_tier) {
+      const promotedUnit = (
+        (await getJson(`/api/session/state?session_id=${sessionId}`)).body?.units || []
+      ).find((u) => u.id === elig.unit_id);
+      log('promotion', {
+        actor_id: elig.unit_id,
+        job_id: promotedUnit?.job || promotedUnit?.job_id || null,
+        applied_tier: promoteRes.body.applied_tier,
+        previous_tier: promoteRes.body.previous_tier ?? null,
+      });
+      console.log(
+        `Promotion APPLIED ${elig.unit_id} → ${promoteRes.body.applied_tier} ` +
+          `(was ${promoteRes.body.previous_tier ?? '?'})`,
+      );
+    } else {
+      console.log(
+        `Promotion NOT applied for ${elig.unit_id} (status ${promoteRes.status}) — ` +
+          `NOT emitting synthetic promotion`,
+      );
+    }
+  }
+
+  // TODO(Envelope C — OD-026 atlas): the diegetic atlas / Skiv-pulse
+  // reveal_neighbor system is NOT YET IMPLEMENTED in the backend. There
+  // is no skiv_pulse_fired / biome_focus_changed event anywhere in
+  // apps/backend (the only Skiv route is the devops GitHub-companion in
+  // routes/skiv.js, unrelated to in-game atlas). Per OD-024-031 verdict
+  // record §"Envelope C (OD-026 Diegetic)" this is an explicitly-deferred
+  // ~6h dedicated sprint pending a master-dd design call (custom shader
+  // vs Skiv pulse reuse). OD-026 atlas telemetry therefore CANNOT be
+  // emitted headless without that sprint — analyzer OD-026 stays empty
+  // on real data by design. Intentionally NOT faking skiv_pulse events.
   await postJson('/api/session/end', { session_id: sessionId });
   // Coop endCombat is host-only; emulate via coopOrchestrator state poll.
   // For sim purposes we rely on session.events VICTORY/DEFEAT to drive

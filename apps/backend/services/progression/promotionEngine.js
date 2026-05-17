@@ -408,9 +408,19 @@ function _mergeJobThreshold(baseThreshold, cfg, unit, targetTier) {
   ) {
     return baseThreshold;
   }
-  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
-  if (!jobId) return baseThreshold;
-  const jobBlock = cfg.job_threshold_override[jobId];
+  // 2026-05-17 Envelope C — field-name reconciliation. The unit pipeline
+  // (services/coop/coopOrchestrator.js characterToUnit + routes/
+  // sessionHelpers.js normaliseUnit) only ever populates `unit.job`, never
+  // `unit.job_id`. The job_threshold_override (and job_archetype_bias)
+  // merge helpers were written against `unit.job_id`, so the per-Job
+  // override silently never fired for engine-produced units (only inline
+  // test fixtures that set job_id directly). Fall back to `unit.job` so
+  // the documented per-Job tank-path override actually applies in
+  // headless sim + production. Pure widening: job_id still wins when set.
+  const jobId = unit && typeof unit.job_id === 'string' && unit.job_id ? unit.job_id : '';
+  const jobName = jobId || (unit && typeof unit.job === 'string' ? unit.job : '');
+  if (!jobName) return baseThreshold;
+  const jobBlock = cfg.job_threshold_override[jobName];
   if (!jobBlock || typeof jobBlock !== 'object') return baseThreshold;
   const tierOverride = jobBlock[targetTier];
   if (!tierOverride || typeof tierOverride !== 'object') return baseThreshold;
@@ -431,9 +441,12 @@ function _mergeJobBias(baseReward, cfg, unit, targetTier) {
   if (!cfg || typeof cfg.job_archetype_bias !== 'object' || cfg.job_archetype_bias === null) {
     return baseReward;
   }
-  const jobId = unit && typeof unit.job_id === 'string' ? unit.job_id : '';
-  if (!jobId) return baseReward;
-  const jobBlock = cfg.job_archetype_bias[jobId];
+  // 2026-05-17 Envelope C — same job_id→job fallback as _mergeJobThreshold
+  // (unit pipeline only sets unit.job). Pure widening; job_id wins if set.
+  const jobId = unit && typeof unit.job_id === 'string' && unit.job_id ? unit.job_id : '';
+  const jobName = jobId || (unit && typeof unit.job === 'string' ? unit.job : '');
+  if (!jobName) return baseReward;
+  const jobBlock = cfg.job_archetype_bias[jobName];
   if (!jobBlock || typeof jobBlock !== 'object') return baseReward;
   const tierOverride = jobBlock[targetTier];
   if (!tierOverride || typeof tierOverride !== 'object') return baseReward;
