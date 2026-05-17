@@ -30,10 +30,7 @@ const {
   listEventIds: qbnListEventIds,
 } = require('../../apps/backend/services/narrative/qbnEngine');
 
-function createNarrativeRouter() {
-  const router = Router();
-  const activeStories = new Map();
-
+function setupStoryRoutes(router, activeStories) {
   // GET /stories — lista storie .ink.json disponibili
   router.get('/stories', (_req, res) => {
     res.json({ stories: listStories() });
@@ -108,7 +105,9 @@ function createNarrativeRouter() {
       res.status(500).json({ error: err.message });
     }
   });
+}
 
+function setupDriftRoutes(router) {
   // ── Drift briefing (Bundle B.1 — Citizen Sleeper drift gating) ─────
   //
   // POST /briefing/drift
@@ -150,7 +149,9 @@ function createNarrativeRouter() {
       res.status(500).json({ error: err.message });
     }
   });
+}
 
+function setupQbnRoutes(router) {
   // ── QBN sub-routes (Quality-Based Narrative) ────────────────────────
 
   // GET /qbn/events — list event ids in pack (introspection)
@@ -179,6 +180,15 @@ function createNarrativeRouter() {
       res.status(500).json({ error: err.message });
     }
   });
+}
+
+function createNarrativeRouter() {
+  const router = Router();
+  const activeStories = new Map();
+
+  setupStoryRoutes(router, activeStories);
+  setupDriftRoutes(router);
+  setupQbnRoutes(router);
 
   return router;
 }
