@@ -3,9 +3,11 @@
 > **Cosa e' questo doc**: tutto quello che un giocatore deve sapere -- cos'e',
 > cosa fai, perche' conta, dove vuoi arrivare. Distillato dal design canonical
 > (`docs/PITCH.md`, `docs/core/01-VISIONE.md`, `02-PILASTRI.md`, `03-LOOP.md`).
-> **Onesto**: descrive la _visione del gioco_, non una build pubblica
-> disponibile oggi (il gioco e' in sviluppo, design in freeze M1). Niente
-> gergo di sviluppo qui dentro -- solo l'esperienza.
+> **Due livelli**: il **Core** (sotto) = esperienza descritta dai pilastri
+> canonical. La **Visione estesa -- DF Levels** (sezione dedicata in fondo) =
+> direzione di design _confermata e in costruzione_ (non ancora tutta
+> realizzata), tracciata in governance. Onesto: e' lo sviluppo, non una build
+> pubblica. Niente gergo dev qui -- solo l'esperienza.
 
 ---
 
@@ -73,22 +75,28 @@ Nessuna creatura nasce "speciale". L'identita' si conquista giocando:
 | **Cucciolo** | Anonima. Uno sprite di specie. Nessun nome, nessuna storia.                                                                                        |
 | **Giovane**  | Al primo gesto che conta (prima uccisione, prima cicatrice, prima sopravvivenza) **emerge un nome**. Entra nella cronaca.                          |
 | **Matura**   | Un evento formativo le da' un **epiteto** guadagnato ("il Cacciatore", "la Sopravvissuta"). Il corpo porta i segni: cicatrici visibili, mutazioni. |
-| **Apice**    | Nome pieno + la sua **forma vera** si rivela: il Sistema la riconosce e la nomina. Vedi finalmente chi e' davvero.                                 |
+| **Apice**    | Nome pieno + la sua **forma vera** si rivela: il gioco mostra il temperamento che hai plasmato giocando. Vedi finalmente chi e' davvero.           |
 | **Leggenda** | Diventa figura storica. Il mondo ne parla. Il lignaggio resta consultabile.                                                                        |
 
 Le cicatrici sono permanenti e visibili. Una creatura accecata a un occhio
 combatte diversamente -- per sempre. Il nome non te lo da' il gioco: lo
-guadagna lei, dalle sue gesta.
+guadagna lei, dalle sue gesta. (La rivelazione del temperamento all'Apice e'
+gia' realizzata; cicatrici permanenti + emergenza-nome sono parte della
+Visione estesa qui sotto.)
 
 ---
 
 ## Il Sistema (il tuo avversario)
 
 Non e' "l'IA". E' il **Sistema**: una presenza persistente, parte del mondo.
-Ti parla. Ti studia. Cambia tono man mano che la pressione sale -- da calmo, a
-teso, ad apice. Non e' un boss con una barra: e' l'antagonista che reagisce a
-come la tua squadra combatte. (Visione: imparera' anche tra una partita e
-l'altra -- ricordando chi e' pericoloso e quali tattiche hai usato.)
+Ti parla. Ti studia _dentro_ la battaglia. Cambia tono man mano che la
+pressione sale -- da calmo, a teso, ad apice. Non e' un boss con una barra:
+e' l'antagonista data-driven che reagisce a come la tua squadra combatte,
+qui e ora.
+
+> Che il Sistema _ricordi tra una partita e l'altra_ -- imparando chi e'
+> pericoloso, contrando le tattiche ripetute, con fazioni e fasi strategiche --
+> e' la **Visione estesa** (sotto): direzione confermata, in costruzione.
 
 ---
 
@@ -115,14 +123,15 @@ cuore. I ruoli si completano: nessuna creatura basta da sola.
 - Costruire un lignaggio: accoppiare le sopravvissute giuste, far ereditare i
   tratti che vuoi, sbloccare forme e ruoli giocando in una direzione precisa.
 - Far emergere identita': portare creature da anonime a leggende.
-- Adattarti: il Sistema e i biomi rispondono: la tua build deve evolvere.
+- Adattarti: i biomi rispondono -- la tua build deve evolvere.
 
 **Nel mondo / lungo termine**
 
 - Attraversare epoche/stagioni: il metagioco continua oltre il singolo match.
-- Lasciare un segno: leggende nella cronaca, lignaggi che durano, un mondo che
-  ricorda cosa e' successo (le cicatrici restano, le storie si accumulano).
 - Padroneggiare lo stile: trovare la tua identita' di gioco e spingerla a fondo.
+- Lasciare un segno (Visione estesa): leggende nella cronaca, lignaggi che
+  durano, mutazioni che portano il nome di chi le ha generate, un mondo che
+  ricorda.
 
 Non c'e' un solo "hai vinto". C'e' una squadra che diventa qualcosa, una storia
 che si scrive, un mondo che cambia per come hai giocato.
@@ -132,9 +141,12 @@ che si scrive, un mondo che cambia per come hai giocato.
 ## Vincere e perdere
 
 **Perdere fa parte della storia.** La morte di una creatura non e' un game over
-da ricaricare: e' un capitolo che finisce. Il Sistema avanza, il mondo porta
-le cicatrici, ma il lignaggio continua -- la prole eredita, la cronaca registra,
-la prossima ondata parte da li'. Il fallimento e' narrativo, non frustrante.
+da ricaricare: e' un capitolo che finisce. Il lignaggio continua -- la prole
+eredita, la prossima ondata parte da li'. Il fallimento e' narrativo, non
+frustrante.
+
+> Che la sconfitta faccia _avanzare il Sistema_ (conquista il bioma, il
+> briefing successivo cita cosa hai ceduto) e' parte della Visione estesa.
 
 ---
 
@@ -159,20 +171,78 @@ adulto: ferite, panico, mutazione). Tre registri visivi:
   al Nido la prole eredita tratti, memoria e una mutazione dal bioma.
 - **Non narrativa a cutscene**: la storia emerge da chi sopravvive, chi accoppi,
   cosa diventa la prole.
+- **Non una partita isolata** (meta della Visione estesa): il Sistema ricorda,
+  il mondo cambia, il lignaggio continua.
+
+---
+
+## Visione estesa — DF Levels (direzione confermata, in costruzione)
+
+> Questa NON e' speculazione e NON e' vaporware. E' la **direzione di design
+> deliberata e tracciata in governance** verso cui il gioco evolve: i
+> sistemi-memoria ispirati all'architettura a livelli L0-L5 (stile
+> simulazione-profonda). Status: **progettata, in costruzione** -- alcune
+> parti gia' realizzate, altre formalizzate come decisione in attesa di
+> verdetto, altre in roadmap. La marca "in costruzione" e' onesta verso il
+> giocatore _e_ afferma che l'intento e' reale.
+
+**Cosa aggiunge (il "mondo che ricorda"):**
+
+- **Il Sistema impara tra le partite.** Aggiorna cosa sa di te -- quali
+  creature sono pericolose, quali tattiche usi, dove hai vinto o ceduto --
+  e schiera di conseguenza. Tattica ripetuta -> la studia -> la contra.
+  Creatura troppo pericolosa -> nel mirino.
+- **Il Sistema ha struttura.** Fazioni con nomi, obiettivi, morale che si
+  degrada quando le batti. Fazione che crolla -> ne arriva una piu' adatta
+  alla tua minaccia. La "guerra" ha una narrativa a fasi: ricognizione ->
+  ... -> eliminazione mirata.
+- **La Cronaca.** Tra le sessioni sfogli le storie delle creature, la storia
+  della guerra, i biomi cambiati, il lignaggio (da chi discende ognuna, quali
+  mutazioni porta e dove sono nate). Il racconto e' scritto dal gioco.
+- **Relazioni.** Creature che sopravvivono insieme formano legami (combattono
+  meglio vicine; quando una cade l'altra lo sente). Affrontare lo stesso
+  nemico due volte crea rivalita'. Non flavor: cambia come combattono.
+- **Mutazioni con nome e lignaggio.** La prima volta che una mutazione appare
+  in una creatura specifica, prende un nome (dallo Sputo delle Acque Nere,
+  dalla Scaglia del Varco...). La prole che la eredita porta quella storia.
+- **La sconfitta cambia il mondo.** Il Sistema che vince avanza, conquista il
+  bioma, il briefing successivo lo sa: "avete ceduto il Varco del Sangue."
+
+**Status reale per parte (onesto):**
+
+| Parte                                                     | Stato                                                                                          |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Rivelazione temperamento / "forma vera" all'Apice         | **realizzata** (gia' nel gioco)                                                                |
+| Sistema-memoria cross-partita + fazioni + fasi            | **decisione formalizzata, verdetto in attesa** (ADR-2026-05-18, opzioni full/pilota/differita) |
+| Cronaca, Relazioni, Mutazioni-con-nome                    | **progettate, in roadmap** (feature ordinarie, non urgenti, non ancora costruite)              |
+| Identita' guadagnata end-to-end (nome->epiteto->leggenda) | **modello deciso, costruzione incrementale**                                                   |
+
+**Perche' e' reale (tracciabilita'):** la direzione vive in artefatti di
+governance, non in chiacchiere -- decisione formale aperta
+(`docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md`), piano
+re-scoped su stato verificato, ragionamento di design L0-L5 archiviato
+(A5 research). Il giocatore legge: _questo e' dove andiamo, sul serio --
+non tutto e' qui oggi_.
 
 ---
 
 ## Nota onesta sullo stato
 
-Questo e' il **disegno del gioco** (visione canonical), non una versione
-pubblica giocabile oggi. Alcuni sistemi sono realizzati, altri progettati, altri
-in lavorazione (design in freeze M1, pilastri in collaudo). I 6 pilastri di
-design dietro tutto questo -- tattica leggibile, evoluzione emergente, identita'
+Questo e' il **disegno del gioco** (visione canonical + visione estesa
+confermata), non una versione pubblica giocabile oggi. Core: alcuni sistemi
+realizzati, altri in lavorazione (design in freeze M1, pilastri in collaudo).
+Visione estesa: direzione deliberata, in costruzione (vedi tabella status
+sopra). I 6 pilastri -- tattica leggibile, evoluzione emergente, identita'
 specie x ruolo, temperamenti giocati, co-op vs Sistema, fairness -- sono la
-bussola: l'esperienza sopra descritta e' la meta verso cui converge.
+bussola.
 
 ---
 
-_Distillato 2026-05-18 da: `docs/PITCH.md`, `docs/core/01-VISIONE.md`,
-`docs/core/02-PILASTRI.md`, `docs/core/03-LOOP.md` + design freeze. Doc
-player-facing -- per dettaglio dev vedi `docs/core/` + `docs/hubs/`._
+\*Aggiornato 2026-05-18. Core distillato da: `docs/PITCH.md`,
+`docs/core/01-VISIONE.md`, `docs/core/02-PILASTRI.md`, `docs/core/03-LOOP.md`
+
+- design freeze. Visione estesa: direzione DF-Levels tracciata in
+  `docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md` (verdetto
+  pending) + ragionamento di design A5 (RECONCILIATION-MASTER, non-canonical,
+  informa-non-governa). Doc player-facing -- dettaglio dev: `docs/core/` +
+  `docs/hubs/`.\*
