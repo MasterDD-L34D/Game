@@ -5,7 +5,7 @@ tags: [combat, rules-engine, d20, canon]
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-05-18
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -14,6 +14,21 @@ review_cycle_days: 14
 # Combat Canon Spec
 
 Documento unico di riferimento per il sistema di combattimento d20 di Evo-Tactics. Unisce e indirizza le specifiche distribuite in round-loop.md e resolver-api.md, dichiarando esplicitamente scope shipping, timing, side-effects e non-scope.
+
+> **⚠️ Migrazione Python→Node (PR #2059 `d0c86c60`, "Phase 3 removal").**
+> Il combat resolver/orchestrator Python (`services/rules/resolver.py`,
+> `round_orchestrator.py`) e' stato **rimosso** e re-implementato in Node.
+> I riferimenti `resolver.py STEP/branch/NOOP/begin_turn/aggregate_mod/
+apply_status` nella colonna _Implementazione_ sotto sono **naming legacy**
+> per la pipeline ora in `apps/backend/services/roundOrchestrator.js` +
+> `apps/backend/services/combat/*` + `apps/backend/routes/sessionRoundBridge.js`.
+> **Le semantiche (formule, timing, scope) restano canon e invariate** —
+> coperte da suite Node: `roundExecute*`, `sessionRoundModelEquivalence`,
+> `abilityExecutor`, `predict-combat*` (87/87 pass 2026-05-18) +
+> `contracts-combat/hydration/trait` (45/45). G2-debt tracciato:
+> reconciliation per-riga della colonna _Implementazione_ ai moduli Node
+> esatti (naming-only, non semantico) — vedi
+> `EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md §6`.
 
 ## 1. Action types shipping
 
