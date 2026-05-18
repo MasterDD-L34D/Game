@@ -1,8 +1,28 @@
+> ⛔ **PREMESSA FALSIFICATA — NON AZIONARE COME SCRITTO (2026-05-18)**
+> Audit ground-truth (gh-api origin/main) ha smentito il cuore di questo
+> documento. **NON aprire TKT-RESCUE, NON toccare Q-001/BACKLOG** sulla base
+> di questo file. Correzioni:
+>
+> - **Triangle Strategy Proposal A E B = GIA' SHIPPED 2026-04-26**
+>   (`apps/backend/services/mbtiSurface.js` + `mbtiPalette.js` +
+>   `data/core/personality/mbti_axis_palette.yaml`, OD-013 Path A+B, PR #1848).
+>   NON "FORGOTTEN/rescue". Solo **Proposal C** resta open (gated OD-001).
+> - **Sentience tier backfill = SHIPPED PR #1808** (OD-008, ALL 45 species,
+>   25/04). NON #2262 (= Envelope-B bundle scollegato; BACKLOG L23 upstream-wrong).
+> - Worldgen population-tick = greenfield non-costruito (verificare prima).
+>
+> Questo file resta **artefatto storico del ragionamento** (A5, NON
+> governante). Decisione governata: umbrella
+> `docs/adr/ADR-2026-05-18-df-levels-integration-direction.md` + codemasterdd
+> `STATUS_MULTI_REPO.md` §DF Integration. Ground-truth: PR #2326 body.
+
+---
+
 # RESCUE-FORGOTTEN-HIGH-ROI.md
 
 _Documento operativo per i 3 item dimenticati_
-_Data: 2026-05-18 | Priorità: CRITICA_
-_Autorità: A1 → aggiornare Q-001 + BACKLOG in Game_
+_Data: 2026-05-18 | Priorità: ~~CRITICA~~ -> ARCHIVIATO (premessa falsificata, vedi banner)_
+_Autorità: A5 reasoning archive -- NON A1, NON aggiornare Q-001/BACKLOG_
 
 ---
 
