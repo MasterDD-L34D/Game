@@ -18,9 +18,10 @@ related_doc:
   - docs/planning/RESCUE-FORGOTTEN-HIGH-ROI.md
   - docs/PLAYER-VISION.md
 supersedes_as_decision_source:
-  - vault Spaces/Dev/Evo-Tactics/core/RECONCILIATION-MASTER.md (A5, resta reasoning archive)
-  - vault Spaces/Dev/Evo-Tactics/core/PHASE-PLAN-COMPLETE.md (A5, resta reasoning archive)
-  - vault Spaces/Dev/Evo-Tactics/core/GAME-ANALYSIS-COMPLETE.md (A5, contenuto corretto qui)
+  # effective UPON merge of vault PR #94 (filing order: #94 before #2330)
+  - vault Spaces/Dev/Evo-Tactics/core/RECONCILIATION-MASTER.md (A5, resta reasoning archive, via #94)
+  - vault Spaces/Dev/Evo-Tactics/core/PHASE-PLAN-COMPLETE.md (A5, resta reasoning archive, via #94)
+  # GAME-ANALYSIS-COMPLETE.md NOT filed standalone -- content absorbed (corrected) into this matrix
 ---
 
 # ADR-2026-05-18 — DF-Levels integration: direzione confermata + decision-matrix governata
@@ -44,7 +45,9 @@ trovato **premessa parzialmente falsificata** ricorrente nei 3:
   **e B** (`apps/backend/services/mbtiPalette.js` + `data/core/personality/
 mbti_axis_palette.yaml` + test) = **SHIPPED 2026-04-26** (OD-013 Path A+B),
   NON "FORGOTTEN/rescue 5/5".
-- Sentience tier backfill 15/15 lifecycle SHIPPED #2262.
+- Sentience tier backfill SHIPPED **PR #1808** (OD-008, ALL 45 species,
+  25/04). NB: BACKLOG L23 cita erroneamente #2262 (= Envelope-B bundle
+  14/05, scollegato) -- upstream-wrong da fixare Eduardo-side.
 - `services/{identity,eventlog,worldstate,chronicle}` = **404, non esistono**:
   battle-scar / EventLog / population-tick / Chronicle / Sistema-S7 sono
   **greenfield non-costruito**, non "IN-DESIGN/ready".
@@ -90,16 +93,16 @@ Catalogo completo "cosa prendi/cosa NO" prosa = DESIGN_DIGEST §11. Qui = decisi
 
 ### A — Pillar tier
 
-| Gioco                | DF    | Pil   | Cosa prendi (sintesi)                                         | STATUS verificato                                                                                                | Verdetto                  |
-| -------------------- | ----- | ----- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| FFT 1997             | L0,L1 | P1    | Wait action; facing 3-zone; CT-bar come _senso_; JP-concept   | Wait SHIPPED #1896; facing/CT DEFERRED                                                                           | KEEP-partial              |
-| Spore 2008           | L3    | P2    | ability da morfologia; visual-swap; DNA-budget; eredita' gen. | mating SHIPPED #1876-1911; visual-swap = **design-claim non-verificato** (non "P0 gap" confermato)               | KEEP (verify visual-swap) |
-| Disco Elysium 2019   | L1,L4 | P4    | MBTI debrief color-coded; reveal diegetico                    | MBTI debrief SHIPPED #1897; Thought-Cabinet greenfield ~8h                                                       | KEEP-partial              |
-| AI War 2009          | L2    | P5    | Sistema-centric; progress-meter; intelligence accumulata      | progress-meter SHIPPED `aiProgressMeter.js`; Sistema-memoria = ADR-2026-05-18-sistema-persistent (#2328 pending) | GATED (#2328)             |
-| Into the Breach 2018 | L0    | P1    | telegraph rule; threat overlay; kill-badge; arrows            | threat SHIPPED #1884; badge/arrows greenfield ~3h                                                                | KEEP-partial              |
-| Hades 2020           | L5    | P6    | 3-currency (cap 3); Pact opt-in; codex                        | DEFERRED post-playtest                                                                                           | GATED (playtest)          |
-| Monster Train 2020   | L5    | P6    | Pact-Shards opt-in componibile                                | DEFERRED post-playtest (converge Hades/AIWar/XCOM-LW2)                                                           | GATED (playtest)          |
-| Tactics Ogre 2022    | L0,L1 | P1,P3 | HP-float; AP-pip; charm; WORLD-rewind                         | HP/AP SHIPPED #1901; charm/auto/rewind greenfield                                                                | KEEP-partial              |
+| Gioco                | DF    | Pil   | Cosa prendi (sintesi)                                         | STATUS verificato                                                                                                                          | Verdetto                  |
+| -------------------- | ----- | ----- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
+| FFT 1997             | L0,L1 | P1    | Wait action; facing 3-zone; CT-bar come _senso_; JP-concept   | Wait SHIPPED #1896; facing/CT DEFERRED                                                                                                     | KEEP-partial              |
+| Spore 2008           | L3    | P2    | ability da morfologia; visual-swap; DNA-budget; eredita' gen. | mating engine SHIPPED (multiple PR ~2026-04, range non-citazione); visual-swap = **design-claim non-verificato** (non "P0 gap" confermato) | KEEP (verify visual-swap) |
+| Disco Elysium 2019   | L1,L4 | P4    | MBTI debrief color-coded; reveal diegetico                    | MBTI debrief SHIPPED #1897; Thought-Cabinet greenfield ~8h                                                                                 | KEEP-partial              |
+| AI War 2009          | L2    | P5    | Sistema-centric; progress-meter; intelligence accumulata      | progress-meter SHIPPED `aiProgressMeter.js`; Sistema-memoria = ADR-2026-05-18-sistema-persistent (#2328 pending)                           | GATED (#2328)             |
+| Into the Breach 2018 | L0    | P1    | telegraph rule; threat overlay; kill-badge; arrows            | threat-tile UI SHIPPED #1884 (WCAG tile, NON threat-logic); badge/arrows greenfield ~3h                                                    | KEEP-partial              |
+| Hades 2020           | L5    | P6    | 3-currency (cap 3); Pact opt-in; codex                        | DEFERRED post-playtest                                                                                                                     | GATED (playtest)          |
+| Monster Train 2020   | L5    | P6    | Pact-Shards opt-in componibile                                | DEFERRED post-playtest (converge Hades/AIWar/XCOM-LW2)                                                                                     | GATED (playtest)          |
+| Tactics Ogre 2022    | L0,L1 | P1,P3 | HP-float; AP-pip; charm; WORLD-rewind                         | HP/AP SHIPPED #1901; charm/auto/rewind greenfield                                                                                          | KEEP-partial              |
 
 ### B — Creature & narrativa
 
