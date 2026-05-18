@@ -28,8 +28,8 @@ Va usato come riferimento da:
 | Stato | Significato                       |
 | ----- | --------------------------------- |
 | ☐     | Gate non aperto / non soddisfatto |
-| ☐→☑  | Gate aperto o in consolidamento   |
-| ☑    | Gate chiuso e verificato          |
+| ☐→☑   | Gate aperto o in consolidamento   |
+| ☑     | Gate chiuso e verificato          |
 
 ### 2.1 Glossario operativo
 
@@ -44,16 +44,16 @@ Va usato come riferimento da:
 
 ## 3. Gate overview
 
-| Stato | Task                                         | Dettagli operativi                                                                               |
-| ----- | -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| ☐→☑  | G0 — Baseline & Governance                   | Freeze pubblicato, file planning presenti, authority map presente, naming/owner/gating definiti. |
-| ☐     | G1 — Session Model / Controls / In-match HUD | Session model, control scheme e HUD in-match minimi chiusi e coerenti col prodotto.              |
-| ☐     | G2 — Combat Freeze                           | Combat canon unico, scope azioni chiuso, test combat e schema verdi.                             |
-| ☐     | G3 — Balance & Progression Freeze            | Trait mechanics audit completato, economy freeze, unlock freeze, build matrix.                   |
-| ☐     | G4 — Content Shipping Slice                  | Species/job/biome/director slice chiusi e vertical slice ripetibile.                             |
-| ☐     | G5 — UX / HUD / Telemetry                    | Overlay HUD, debrief, output metriche e surfacing warnings chiusi.                               |
-| ☐     | G6 — Meta Slice & Cross-Repo                 | Recruit/Nido/Mating slice chiusi, import contract e runbook DB pronti.                           |
-| ☐     | G7 — Release Candidate                       | Validator PASS, smoke PASS, snapshot PASS, playtest target e sign-off completi.                  |
+| Stato | Task                                         | Dettagli operativi                                                                                                                                                  |
+| ----- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☐→☑   | G0 — Baseline & Governance                   | Freeze pubblicato, file planning presenti, authority map presente, naming/owner/gating definiti.                                                                    |
+| ☐     | G1 — Session Model / Controls / In-match HUD | Session model, control scheme e HUD in-match minimi chiusi e coerenti col prodotto.                                                                                 |
+| ✅    | G2 — Combat Freeze                           | Combat canon unico, scope azioni chiuso, test combat e schema verdi. **CLOSED 2026-05-18** (combat-only scope; 45/45 Node + smoke; OD-025-B2 cross-repo out-of-G2). |
+| ☐     | G3 — Balance & Progression Freeze            | Trait mechanics audit completato, economy freeze, unlock freeze, build matrix.                                                                                      |
+| ☐     | G4 — Content Shipping Slice                  | Species/job/biome/director slice chiusi e vertical slice ripetibile.                                                                                                |
+| ☐     | G5 — UX / HUD / Telemetry                    | Overlay HUD, debrief, output metriche e surfacing warnings chiusi.                                                                                                  |
+| ☐     | G6 — Meta Slice & Cross-Repo                 | Recruit/Nido/Mating slice chiusi, import contract e runbook DB pronti.                                                                                              |
+| ☐     | G7 — Release Candidate                       | Validator PASS, smoke PASS, snapshot PASS, playtest target e sign-off completi.                                                                                     |
 
 ## 4. G0 — Baseline & Governance
 
@@ -133,20 +133,28 @@ Va usato come riferimento da:
 
 ### Exit criteria
 
-| Stato | Task                     | Dettagli operativi                                                                                                                     |
-| ----- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| ☐     | Combat canon spec pronto | Documento unico con formule, timing, scope e non-scope.                                                                                |
-| ☐     | Action types chiusi      | `attack`, `move`, `defend`, `parry`, ability stub solo come stub.                                                                      |
-| ☐     | Status shipping chiusi   | `bleeding`, `fracture`, `disorient`, `rage`, `panic`.                                                                                  |
-| ☐     | PT spend chiusi          | `perforazione`, `spinta` e relativo timing.                                                                                            |
-| ☐     | NOOP dichiarato          | `active_effects` esplicitamente fuori dallo shipping scope.                                                                            |
-| ☐     | Test Python verdi        | `tests/test_resolver.py`, `tests/test_hydration.py`.                                                                                   |
-| ☐     | Test Node/contract verdi | `tests/api/contracts-combat.test.js`, `tests/api/contracts-hydration-snapshot.test.js`, `tests/api/contracts-trait-mechanics.test.js`. |
-| ☐     | Smoke demo CLI verde     | Modalità auto e output riproducibile.                                                                                                  |
+> **Scope G2 = combat-only** (Eduardo 2026-05-18). G2 e' Combat Freeze:
+> evidenza = canon spec + action/status/PT/NOOP + contract combat/hydration/
+> trait + smoke CLI. La parity progression cross-repo **OD-025-B2**
+> (Game-Godot-v2 promotions.json v0.1.0 stale vs Game JS FALLBACK_CONFIG
+> v0.2.0) **NON e' un blocker G2** — e' debt cross-repo (G3/G6), tracciato
+> OD-025. `npm run test:stack` puo' restare rosso su quel solo file senza
+> bloccare G2.
+
+| Stato | Task                     | Dettagli operativi                                                                                                                                                                           |
+| ----- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅    | Combat canon spec pronto | `docs/combat/combat-canon.md` (doc unico: formule, timing, scope, non-scope). Authority A2.                                                                                                  |
+| ✅    | Action types chiusi      | Canon: `attack`/`heal`/`ability` pieni + `defend`/`parry`/`move` NOOP. (Era "ability stub" — canon A2 evoluto Fase 3b; gate-doc allineato.)                                                  |
+| ✅    | Status shipping chiusi   | Canon: 6 shipping `bleeding`→`stunned`; `focused`/`sbilanciato` placeholder deferred dichiarati.                                                                                             |
+| ✅    | PT spend chiusi          | Canon §PT: `perforazione`, `spinta` + timing.                                                                                                                                                |
+| ✅    | NOOP dichiarato          | Canon dichiara NOOP `defend`/`parry`/`move`. (Era "`active_effects` fuori scope" — canon A2 evoluto: `active_effects` ora in ability pipeline Fase 3b; gate-doc allineato alla canon-truth.) |
+| N/A   | ~~Test Python verdi~~    | **DRIFT FIXATO**: `tests/test_resolver.py`/`test_hydration.py` non esistono — combat resolver/hydration **migrati interamente a Node**. Copertura = riga Node sotto.                         |
+| ✅    | Test Node/contract verdi | `tests/api/contracts-combat.test.js`, `contracts-hydration-snapshot.test.js`, `contracts-trait-mechanics.test.js` → **45/45 pass** (2026-05-18).                                             |
+| ✅    | Smoke demo CLI verde     | `python tools/py/game_cli.py generate-encounter --seed 42 --party-power 4` → JSON riproducibile exit 0; `validate-datasets` 14 controlli 0 avvisi.                                           |
 
 ### Evidenze richieste
 
-- report test
+- report test: **2026-05-18 — Node combat/hydration/trait 45/45 pass; validate-datasets 14/0; smoke seeded exit 0.** test:stack rosso = solo OD-025-B2 (out-of-G2, vedi nota scope).
 - eventuale snapshot diff approvato
 - nota di freeze su rules engine
 
@@ -179,7 +187,7 @@ Va usato come riferimento da:
 | ☐     | Economy freeze chiusa        | PE, PI, Seed, PP, SG, conversioni e cap stabiliti.                                                                                     |
 | ☐     | Unlock rules freeze          | Set shipping delle unlock rules dichiarato.                                                                                            |
 | ☐     | MBTI/PF gating soft chiuso   | Gating documentato senza hard lock opaco.                                                                                              |
-| ☑    | Legacy gaps chiusi           | HUD overlay dependency nota; XP Cipher **parked** via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) (2026-04-17). |
+| ☑     | Legacy gaps chiusi           | HUD overlay dependency nota; XP Cipher **parked** via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) (2026-04-17). |
 
 ### Evidenze richieste
 
@@ -354,9 +362,9 @@ Questa board rispecchia il body (§4..§12). Ogni gate ha il suo significato dic
 
 | Stato | Gate | Etichetta                                                                            |
 | ----- | ---- | ------------------------------------------------------------------------------------ |
-| ☐→☑  | G0   | Baseline & Governance — struttura documentale e governance pronta.                   |
+| ☐→☑   | G0   | Baseline & Governance — struttura documentale e governance pronta.                   |
 | ☐     | G1   | Session Model / Controls / In-match HUD — session pacing, input e HUD minimi chiusi. |
-| ☐     | G2   | Combat Freeze — combat congelato.                                                    |
+| ✅    | G2   | Combat Freeze — combat congelato. **CLOSED 2026-05-18** (combat-only).               |
 | ☐     | G3   | Balance & Progression Freeze — bilanciamento e progressione congelati.               |
 | ☐     | G4   | Content Shipping Slice — content slice congelata.                                    |
 | ☐     | G5   | UX / HUD / Telemetry Shipping Layer — HUD/telemetria shipping pronte.                |
