@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-17T14:31:35+00:00",
+  "generated_at": "2026-05-18T07:06:35+00:00",
   "summary": {
-    "total": 50,
+    "total": 55,
     "errors": 0,
-    "warnings": 50
+    "warnings": 55
   },
   "issues": [
     {
@@ -38,6 +38,12 @@
     },
     {
       "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/adr/ADR-2026-04-30-pillar-promotion-criteria.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-30) e registry (2026-05-07)"
+    },
+    {
+      "level": "warning",
       "code": "stale_document",
       "path": "docs/appendici/A-CANVAS_ORIGINALE.md",
       "message": "Documento stale: revisione scaduta il 2026-05-16"
@@ -63,8 +69,26 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/balance/tutorial-tuning-iter-2026-04-17.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/balance/vc-calibration-iter1.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-17"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/core/00E-NAMING_STYLEGUIDE.md",
       "message": "Documento stale: revisione scaduta il 2026-05-16"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/00F-ART_AUDIO_BUSINESS.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-17"
     },
     {
       "level": "warning",
@@ -257,6 +281,12 @@
       "code": "stale_document",
       "path": "docs/planning/2026-05-08-sprint-q-kickoff-coordination.md",
       "message": "Documento stale: revisione scaduta il 2026-05-15"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/VERTICAL_SLICE_PLAN.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-17"
     },
     {
       "level": "warning",
