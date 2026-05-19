@@ -100,6 +100,10 @@ export async function renderAbilities(unit, state, onAbility) {
 }
 
 export function clearAbilities() {
+  // W8O-2: invalidate any in-flight renderAbilities await. Without this, a
+  // render started before clear (token still latest) resurrects abilities for
+  // the gone unit when loadJobDetail resolves. Same bug class as W8/W8O.
+  _renderToken += 1;
   const titleEl = document.getElementById('abilities-title');
   const container = document.getElementById('abilities');
   if (titleEl) titleEl.classList.add('hidden-empty');
