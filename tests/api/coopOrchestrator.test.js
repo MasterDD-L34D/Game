@@ -646,6 +646,74 @@ test('log captures phase_change + run_started events', () => {
 });
 
 // ===========================================================================
+// setHostId — sync hostId post host transfer (coop-phase-validator
+// audit 2026-05-20 Finding 1 P1 fix).
+// ===========================================================================
+
+test('setHostId: updates hostId from initial value to new host', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_old' });
+  assert.equal(co.hostId, 'p_old');
+  const changed = co.setHostId('p_new');
+  assert.equal(changed, true);
+  assert.equal(co.hostId, 'p_new');
+});
+
+test('setHostId: no-op idempotent when same id', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_same' });
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'host_id_synced') events.push(evt.payload);
+  });
+  const changed = co.setHostId('p_same');
+  assert.equal(changed, false);
+  assert.equal(events.length, 0);
+});
+
+test('setHostId: emits host_id_synced event with previous + current', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_a' });
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'host_id_synced') events.push(evt.payload);
+  });
+  co.setHostId('p_b');
+  assert.equal(events.length, 1);
+  assert.equal(events[0].previous, 'p_a');
+  assert.equal(events[0].current, 'p_b');
+});
+
+test('setHostId: accepts null to clear hostId', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_a' });
+  const changed = co.setHostId(null);
+  assert.equal(changed, true);
+  assert.equal(co.hostId, null);
+});
+
+test('setHostId: host-only gates respect new hostId post transfer', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_old' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  // Transfer host
+  co.setHostId('p_new');
+  // Old host can no longer submit onboarding choice
+  assert.throws(
+    () =>
+      co.submitOnboardingChoice(
+        'p_old',
+        { option_key: 'a', trait_id: 't', label: 'L', narrative: 'N' },
+        { hostId: co.hostId },
+      ),
+    /host_only/,
+  );
+  // New host succeeds
+  assert.doesNotThrow(() =>
+    co.submitOnboardingChoice(
+      'p_new',
+      { option_key: 'a', trait_id: 't', label: 'L', narrative: 'N' },
+      { hostId: co.hostId },
+    ),
+  );
+});
+
+// ===========================================================================
 // Phase-skip negative tests (BACKLOG coverage gap)
 // ===========================================================================
 

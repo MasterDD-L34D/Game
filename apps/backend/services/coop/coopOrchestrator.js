@@ -119,6 +119,27 @@ class CoopOrchestrator {
   }
 
   /**
+   * 2026-05-20 — sync orchestrator hostId with current Room host post
+   * transfer (coop-phase-validator audit Finding 1 fix). Without this,
+   * `orch.hostId` stays frozen at construction time and any caller relying
+   * on it for host-only gates (`submitOnboardingChoice`, `submitNextMacro`)
+   * would silently pass for the wrong player after host transfer.
+   *
+   * Idempotent: no-op when newHostId matches current. Emits
+   * `host_id_synced` event with previous + new id for telemetry.
+   *
+   * @param {string|null} newHostId
+   * @returns {boolean} true if hostId changed, false if no-op
+   */
+  setHostId(newHostId) {
+    if (newHostId === this.hostId) return false;
+    const previousHostId = this.hostId;
+    this.hostId = newHostId || null;
+    this._emit('host_id_synced', { previous: previousHostId, current: this.hostId });
+    return true;
+  }
+
+  /**
    * Start a new run. Moves phase lobby → character_creation.
    */
   startRun({ scenarioStack = ['enc_tutorial_01'] } = {}) {
