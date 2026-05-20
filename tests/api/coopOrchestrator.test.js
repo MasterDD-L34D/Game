@@ -644,3 +644,52 @@ test('log captures phase_change + run_started events', () => {
   assert.ok(kinds.includes('phase_change'));
   assert.ok(kinds.includes('run_started'));
 });
+
+// ===========================================================================
+// Phase-skip negative tests (BACKLOG coverage gap)
+// ===========================================================================
+
+test('confirmWorld from lobby throws not_in_world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHGT' });
+  assert.equal(co.phase, 'lobby');
+  assert.throws(() => co.confirmWorld({ scenarioId: 'enc_demo' }), /not_in_world_setup/);
+});
+
+test('confirmWorld from character_creation throws not_in_world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHGC' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  assert.equal(co.phase, 'character_creation');
+  assert.throws(() => co.confirmWorld({ scenarioId: 'enc_demo' }), /not_in_world_setup/);
+});
+
+test('startRun from combat phase throws cannot_start_from_phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHCB' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  co._setPhase('combat');
+  assert.equal(co.phase, 'combat');
+  assert.throws(
+    () => co.startRun({ scenarioStack: ['enc_demo_2'] }),
+    /cannot_start_from_phase:combat/,
+  );
+});
+
+test('startRun from debrief phase throws cannot_start_from_phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHDB' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  co._setPhase('combat');
+  co._setPhase('debrief');
+  assert.throws(
+    () => co.startRun({ scenarioStack: ['enc_demo_2'] }),
+    /cannot_start_from_phase:debrief/,
+  );
+});
+
+test('startRun from ended phase succeeds (allowed restart path)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHED' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('ended');
+  assert.doesNotThrow(() => co.startRun({ scenarioStack: ['enc_demo_2'] }));
+  assert.equal(co.phase, 'character_creation');
+});
