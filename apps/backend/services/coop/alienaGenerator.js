@@ -104,10 +104,28 @@ async function generateAlienaEnvelope(biomeId, opts = {}) {
   return { summary: templateSummary, version: ALIENA_VERSION_TEMPLATE_V1 };
 }
 
+/**
+ * 2026-05-20 — list all 13 biome → aliena_summary_it mappings + fallback flag
+ * (mirror A6 `listBiomeRoleDemands` pattern, gap-fill da Explore quick-win
+ * discovery). Used by readonly diagnostic route + frontend onboarding world
+ * mood preload. Doctrine: surface aliena_summary_it never labels ALIENA
+ * system; player vede solo il summary diegetic.
+ *
+ * @returns {Array<{biome_id: string, summary: string, has_fallback: boolean}>}
+ */
+function listAlienaSummaries() {
+  return Object.entries(STATIC_SUMMARIES).map(([biome_id, summary]) => ({
+    biome_id,
+    summary: String(summary),
+    has_fallback: summary === FALLBACK_SUMMARY,
+  }));
+}
+
 module.exports = {
   generateAlienaSummary,
   generateAlienaEnvelope,
   generateAuthoringTags,
+  listAlienaSummaries,
   STATIC_SUMMARIES,
   FALLBACK_SUMMARY,
   ALIENA_VERSION_TEMPLATE_V1,
