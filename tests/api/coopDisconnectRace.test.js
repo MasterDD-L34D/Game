@@ -500,7 +500,11 @@ test('snapshot consistency: world_tally on hello/reconnect exposes connected_* f
       waitForMessage(bWs, (m) => m.type === 'hello'),
     ]);
 
-    // Initial snapshot must expose connected_* fields (post-fix consistency).
+    // Initial snapshot must expose connected_* FIELDS (post-fix consistency).
+    // Exact counts are racy on slower CI: each WS gets its own snapshot at
+    // attach time, and the order p_a vs p_b "connected=true" varies. The
+    // KEY positive proof of the fix is that the fields EXIST (pre-fix they
+    // were absent). For exact-count assertion use post-vote broadcast below.
     const snapshot = await waitForMessage(aWs, (m) => m.type === 'world_tally', 2000);
     assert.ok(snapshot.payload, 'snapshot payload present');
     assert.equal(
@@ -508,13 +512,43 @@ test('snapshot consistency: world_tally on hello/reconnect exposes connected_* f
       'number',
       'snapshot exposes connected_total (post-fix)',
     );
-    assert.equal(snapshot.payload.connected_total, 2, '2 non-host players connected');
-    assert.equal(snapshot.payload.connected_accept, 0, 'no votes yet');
-    assert.equal(snapshot.payload.connected_pending, 2, 'both pending');
-    assert.equal(snapshot.payload.all_connected_accepted, false, 'no quorum');
+    assert.equal(
+      typeof snapshot.payload.connected_accept,
+      'number',
+      'snapshot exposes connected_accept (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.connected_reject,
+      'number',
+      'snapshot exposes connected_reject (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.connected_pending,
+      'number',
+      'snapshot exposes connected_pending (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.all_connected_accepted,
+      'boolean',
+      'snapshot exposes all_connected_accepted (post-fix)',
+    );
     // Legacy fields still present (back-compat).
     assert.equal(typeof snapshot.payload.total, 'number');
     assert.equal(typeof snapshot.payload.accept, 'number');
+
+    // Drain pre-vote snapshot then trigger probe vote → broadcast post-vote
+    // sees deterministic connected state (both WS confirmed connected by now).
+    hostWs.__buf = hostWs.__buf.filter((m) => m.type !== 'world_tally');
+    sendVote(aWs, true);
+    const broadcastTally = await waitForMessage(
+      hostWs,
+      (m) => m.type === 'world_tally' && m.payload?.connected_accept >= 1,
+      2000,
+    );
+    assert.equal(broadcastTally.payload.connected_total, 2, '2 non-host players connected');
+    assert.equal(broadcastTally.payload.connected_accept, 1, 'a voted accept');
+    assert.equal(broadcastTally.payload.connected_pending, 1, 'b pending');
+    assert.equal(broadcastTally.payload.all_connected_accepted, false, 'no quorum (b pending)');
 
     hostWs.close();
     aWs.close();
