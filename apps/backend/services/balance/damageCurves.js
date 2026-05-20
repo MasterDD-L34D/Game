@@ -140,6 +140,36 @@ function getScenarioOverride(scenarioId, curves = null) {
 }
 
 /**
+ * Apply enemy_count_modifier locale alla lista enemy.
+ * Negativo = rimuovi N unit dalla fine (preserva early-design enemies).
+ * Positivo = NOT YET SUPPORTED (richiede spawn pool, defer Sprint M14).
+ *
+ * @param {array} enemies array di unit enemy (mutato in-place via splice)
+ * @param {string} scenarioId scenario_id (es 'enc_tutorial_07_hardcore_pod_rush')
+ * @param {object} curves optional (dependency injection)
+ * @returns {number} delta applied (negative integer, 0 se no-op)
+ */
+function applyScenarioEnemyCountModifier(enemies, scenarioId, curves = null) {
+  if (!Array.isArray(enemies) || enemies.length === 0) return 0;
+  const override = getScenarioOverride(scenarioId, curves);
+  if (!override || override.enemy_count_modifier == null) return 0;
+  const delta = Number(override.enemy_count_modifier);
+  if (!Number.isFinite(delta) || delta === 0) return 0;
+  if (delta > 0) {
+    // Future Sprint M14: spawn from override.enemy_spawn_pool. Now no-op.
+    return 0;
+  }
+  // Negative: remove |delta| enemies from end (preserve front-loaded patrol).
+  const removeCount = Math.min(Math.abs(delta), enemies.length - 1); // never remove ALL
+  const removed = enemies.splice(enemies.length - removeCount, removeCount);
+  // Audit trail su scenario context (caller may log).
+  for (const e of removed) {
+    e._removed_by = `scenario_overrides.${scenarioId}.enemy_count_modifier`;
+  }
+  return -removeCount;
+}
+
+/**
  * Apply boss_hp_multiplier locale a unit boss.
  * No-op se override assente, se unit non-boss, o se multiplier === 1.0.
  *
@@ -228,6 +258,7 @@ module.exports = {
   isTurnLimitExceeded,
   getScenarioOverride,
   applyScenarioBossHpOverride,
+  applyScenarioEnemyCountModifier,
   DEFAULT_CLASS,
   DEFAULT_PATH,
   _resetCache,

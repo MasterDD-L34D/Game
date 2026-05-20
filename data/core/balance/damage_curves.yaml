@@ -212,12 +212,22 @@ scenario_overrides:
     #   massive overshoot (defeat 0%, timeout 15%). turn_limit removal +
     #   boss 0.65 = trivial encounter. Rollback iter3. Vedi
     #   docs/playtest/2026-05-20-hardcore-06-iter3-turnlimitnull-n40v2.json
-    # Iter4 candidate (deferred next session): turn_limit_defeat_override 30 or 35
-    #   come intermediate fix per secondary band coverage. Target: WR 20-25%,
-    #   defeat 45-55%, timeout 15-25% (all bands green).
-    # Vedi docs/playtest/2026-05-20-hardcore-06-scenario-overrides-iter1to3-final.md
+    # Iter4 REJECTED: turn_limit_defeat_override 30 -> N=40 parallel C ->
+    #   WR 47.5% OOB-high (target 15-25%). Defeat 52.5% in-band ✅ ma WR overshoot.
+    #   +5 round troppo lenient. Rollback. Iter5 candidate next session: limit 26
+    #   (just +1) per shift fine. Vedi docs/playtest/iter4-parallel-c-n40.log.
+    # Iter4 retrospective: docs/playtest/2026-05-20-hardcore-06-iter4-overshoot.md
     boss_hp_multiplier: 0.65
-    rationale: 'PR post #2344 — iter2 N=40 WR 15% in-band primary metric. Secondary metrics partial (defeat 85% OOB-high). Iter3 turn_limit null rejected (WR 85% overshoot). Iter4 intermediate (limit 30-35) deferred next session. ITB scenario-tagged isolates fix dal class-wide.'
+    rationale: 'PR post #2344 — iter2 N=40 WR 15% in-band primary. Iter3 turn_limit null REJECTED (WR 85%). Iter4 turn_limit 30 REJECTED (WR 47.5% OOB-high). Iter5 candidate limit 26 (just +1) deferred next session. Boss HP 0.65 PRODUCTION fix.'
+
+  # 2026-05-20 3A REJECTED: enemy_count_modifier -1 (remove e_patrol_scout_3)
+  # N=40 parallel C -> WR 60% -> 70% WORSE. Direction inverted: fewer initial
+  # enemies = less party time killing them = MORE party AP for boss focus =
+  # MORE wins. enemy_count_modifier remains in damageCurves.js infra (knob
+  # available, just not THIS knob for hardcore_07).
+  # Iter2 candidate next session: enemy_damage_multiplier_override raise OR
+  # reinforcement_pool.max_total_spawns increase OR mission_timer tighter.
+  # Vedi docs/playtest/2026-05-20-hardcore-07-3a-overshoot.md
 
 # ─── Validation rules ─────────────────────────────────────────────────
 

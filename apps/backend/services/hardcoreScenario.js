@@ -20,7 +20,10 @@
 
 'use strict';
 
-const { applyScenarioBossHpOverride } = require('./balance/damageCurves');
+const {
+  applyScenarioBossHpOverride,
+  applyScenarioEnemyCountModifier,
+} = require('./balance/damageCurves');
 
 const HARDCORE_SCENARIO_06 = {
   id: 'enc_tutorial_06_hardcore',
@@ -453,6 +456,10 @@ function buildHardcoreUnits07() {
       facing: 'W',
     },
   ];
+
+  // 2026-05-20 L-069 iter (3A): scenario_overrides.enemy_count_modifier may
+  // splice last N enemies. e_patrol_scout_3 (M14-C iter1 addition) target.
+  applyScenarioEnemyCountModifier(enemies, HARDCORE_SCENARIO_07_POD_RUSH.id);
   return [...players, ...enemies];
 }
 
