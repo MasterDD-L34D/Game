@@ -529,24 +529,49 @@ def _player_actions_from_resp(resp, player_actor_ids):
 
 
 def _extract_trait_id(action_result):
-    """Tentativo extract trait_id da result. Schema variabile per action type.
-    Ritorna trait_id string o None. Future: backend deve expose trait_id consistente
-    su action_type=ability (M11 sprint candidate).
+    """LEGACY single-trait extract. Mantenuto back-compat. Vedi _extract_trait_ids
+    per canonical reading via trait_effects array."""
+    ids = _extract_trait_ids(action_result)
+    return ids[0] if ids else None
+
+
+def _extract_trait_ids(action_result):
+    """Extract TRIGGERED trait_ids da action_result via canonical schema.
+
+    2026-05-21 FASE B fix (Codex audit followup): backend already exposes
+    triggered traits via `result.trait_effects` array — schema canonica in
+    sessionRoundBridge.js:753 + session.js:1102. Each entry:
+        {trait: 'trait_id', triggered: bool, effect: {...}}
+    Estrai SOLO traits con triggered=true (effect attivato runtime).
+
+    Chiude F-gap "trait_used_distribution empty" senza richiedere modifiche
+    backend o packages/contracts (schema esisteva già).
+
+    Args:
+        action_result: dict di results[] da /api/session/round/execute
+
+    Returns:
+        list[str] trait_ids triggered. Empty se nessun trait attivo o action
+        non-attack (move/skip non hanno trait_effects).
     """
     if not isinstance(action_result, dict):
-        return None
-    res = action_result.get("result") or {}
-    # Candidati fields nel result (descending preference)
-    for k in ("trait_id", "trait_used", "ability_id", "effect_id"):
-        v = res.get(k) if isinstance(res, dict) else None
-        if v:
-            return str(v)
-    # Top-level fallback
-    for k in ("trait_id", "ability_id"):
-        v = action_result.get(k)
-        if v:
-            return str(v)
-    return None
+        return []
+    res = action_result.get("result")
+    if not isinstance(res, dict):
+        return []
+    effects = res.get("trait_effects") or []
+    if not isinstance(effects, list):
+        return []
+    out = []
+    for eff in effects:
+        if not isinstance(eff, dict):
+            continue
+        if not eff.get("triggered"):
+            continue
+        tid = eff.get("trait")
+        if tid:
+            out.append(str(tid))
+    return out
 
 
 def run_one(host, run_idx, turn_limit_defeat=None):
@@ -617,8 +642,8 @@ def run_one(host, run_idx, turn_limit_defeat=None):
         for pa in player_actions:
             ptype = pa.get("action_type") or pa.get("type", "unknown")
             player_action_tally[ptype] = player_action_tally.get(ptype, 0) + 1
-            tid = _extract_trait_id(pa)
-            if tid:
+            # 2026-05-21 FASE B: read all triggered traits via canonical schema.
+            for tid in _extract_trait_ids(pa):
                 trait_used_tally[tid] = trait_used_tally.get(tid, 0) + 1
 
     if outcome is None:

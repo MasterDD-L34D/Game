@@ -195,17 +195,25 @@ def run_one(host, run_idx):
         if timer.get("expired"):
             timer_expired = True
         # Tally player actions + trait usage per round.
+        # 2026-05-21 FASE B fix: canonical schema lettura via trait_effects
+        # array (sessionRoundBridge.js:753) — esisteva già backend. Cattura
+        # solo triggered=true (effect attivato runtime).
         for pa in resp.get("results", []):
             if pa.get("actor_id") not in player_actor_ids:
                 continue
             ptype = pa.get("action_type") or pa.get("type", "unknown")
             player_action_tally[ptype] = player_action_tally.get(ptype, 0) + 1
             res = pa.get("result") if isinstance(pa.get("result"), dict) else {}
-            for k in ("trait_id", "trait_used", "ability_id", "effect_id"):
-                v = res.get(k)
-                if v:
-                    trait_used_tally[str(v)] = trait_used_tally.get(str(v), 0) + 1
-                    break
+            effects = res.get("trait_effects") if isinstance(res, dict) else None
+            if isinstance(effects, list):
+                for eff in effects:
+                    if not isinstance(eff, dict):
+                        continue
+                    if not eff.get("triggered"):
+                        continue
+                    tid = eff.get("trait")
+                    if tid:
+                        trait_used_tally[str(tid)] = trait_used_tally.get(str(tid), 0) + 1
         outcome = detect_outcome(state, timer_expired)
         if outcome:
             break
