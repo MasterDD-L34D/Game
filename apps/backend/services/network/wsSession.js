@@ -1014,6 +1014,12 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
  */
 function rebroadcastCoopState(room, orch) {
   if (!room || typeof room.broadcast !== 'function' || !orch) return;
+  // 2026-05-20 — sync orchestrator.hostId with Room.hostId post host transfer
+  // (coop-phase-validator audit Finding 1). Prevents stale hostId footgun
+  // for any future caller relying on orch.hostId for host-only gates.
+  if (typeof orch.setHostId === 'function' && orch.hostId !== room.hostId) {
+    orch.setHostId(room.hostId);
+  }
   const allIds = Array.from(room.players.values())
     .filter((p) => p.id !== room.hostId && p.role !== 'host')
     .map((p) => p.id);
