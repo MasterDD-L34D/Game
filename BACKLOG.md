@@ -15,21 +15,22 @@ User trigger 2026-05-13: "analizza col metodo tutta l'infrastruttura Ecosistema 
 
 **Ticket TKT-ECO-XX status post-cascade** (Phase A residue ai-station codemasterdd protocol):
 
-| Ticket | Effort | Status | Channel |
-|---|:--:|:--:|---|
-| A1 smoke mutations UI | 0.5h | ✅ DONE | audit verify (PARTIAL-WIRED finding) |
-| A2 verify-only smoke promote | 0.5h | ✅ SHIPPED | Game/ #2261 |
-| A3 museum card M-007 post-script | 0.5h | ✅ DONE | additive update mating_nido card |
-| A4 sentience tier backfill 15/15 lifecycle | 5-6h | ✅ SHIPPED | Game/ #2262 |
-| A4-residue 30 species heuristic | 3-4h | ⏳ PENDING | gated master-dd verdict |
-| A5 bioma diff_base + hazard pressure | 3h | ⏳ PENDING | gated master-dd verdict (sessionHelpers backend) |
-| A6 starter_bioma trait | 3h | 🟡 PARTIAL | backend chain ✅, frontend label gap (~30 LOC) |
-| A7 mating.yaml pack drift | 2h | ✅ DONE | gene_slots core → pack sync this session |
-| A8 promotions engine Phase B3 | 3-4h | ✅ SHIPPED | Game/ #2264 |
-| B1-B6 various Envelope B | ~17h | ✅ SHIPPED | Game/ #2262 + #2263 + #2267 + #2268 |
-| C1-C7 various Envelope C | ~99h | 🟡 PARTIAL | Atlas scaffold ✅ Godot v2 #260, runtime gated playtest |
+| Ticket                                     | Effort |   Status   | Channel                                                 |
+| ------------------------------------------ | :----: | :--------: | ------------------------------------------------------- |
+| A1 smoke mutations UI                      |  0.5h  |  ✅ DONE   | audit verify (PARTIAL-WIRED finding)                    |
+| A2 verify-only smoke promote               |  0.5h  | ✅ SHIPPED | Game/ #2261                                             |
+| A3 museum card M-007 post-script           |  0.5h  |  ✅ DONE   | additive update mating_nido card                        |
+| A4 sentience tier backfill 15/15 lifecycle |  5-6h  | ✅ SHIPPED | Game/ #2262                                             |
+| A4-residue 30 species heuristic            |  3-4h  | ⏳ PENDING | gated master-dd verdict                                 |
+| A5 bioma diff_base + hazard pressure       |   3h   | ⏳ PENDING | gated master-dd verdict (sessionHelpers backend)        |
+| A6 starter_bioma trait                     |   3h   | 🟡 PARTIAL | backend chain ✅, frontend label gap (~30 LOC)          |
+| A7 mating.yaml pack drift                  |   2h   |  ✅ DONE   | gene_slots core → pack sync this session                |
+| A8 promotions engine Phase B3              |  3-4h  | ✅ SHIPPED | Game/ #2264                                             |
+| B1-B6 various Envelope B                   |  ~17h  | ✅ SHIPPED | Game/ #2262 + #2263 + #2267 + #2268                     |
+| C1-C7 various Envelope C                   |  ~99h  | 🟡 PARTIAL | Atlas scaffold ✅ Godot v2 #260, runtime gated playtest |
 
 **Pillar deltas v40 → v41**:
+
 - P3 Identità: 🟢-cand → 🟢 candidato HARD (PromotionEngine + B3 + B4 + parity)
 - P4 Temperamenti: 🟢-cand → 🟢 candidato HARD (sentience 15/15 + 51 neurons + vc_scoring fold)
 - P6 Fairness: 🟢 candidato confermato (conviction tactical flags inline)
@@ -698,11 +699,11 @@ Ref: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md` (agent run verdi
 
 ### Test coverage gaps coop (non bloccanti, da audit)
 
-- [ ] Phase-skip negative tests (`confirmWorld()` from lobby should throw)
+- [x] ~~Phase-skip negative tests (`confirmWorld()` from lobby should throw)~~ → **✅ CHIUSO 2026-05-20** branch `claude/parallel-coop-test-coverage-2026-05-20`. 5 nuovi test in `tests/api/coopOrchestrator.test.js`: confirmWorld lobby/character_creation throw `not_in_world_setup`, startRun combat/debrief throw `cannot_start_from_phase:*`, startRun ended succeeds (allowed restart).
 - [ ] Multi-player disconnect race test
 - [ ] Host-transfer + coop-state sync e2e
-- [ ] Room-code alphabet regex purity test
-- [ ] `startRun()` from combat phase untested
+- [x] ~~Room-code alphabet regex purity test~~ → **✅ GIÀ CHIUSO** in `tests/api/wsRoomCode.test.js` (Wave 3 #4 audit 2026-04-24). 4 test: alphabet 20 consonant zero vowel, single-shot smoke, 1000-sample statistical purity, uppercase/no-space sanity. BACKLOG entry era stale.
+- [x] ~~`startRun()` from combat phase untested~~ → **✅ CHIUSO 2026-05-20** stesso branch coop-test-coverage (vedi sopra).
 
 ### Triangle Strategy transfer (design-driven, new)
 
