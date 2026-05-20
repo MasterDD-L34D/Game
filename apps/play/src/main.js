@@ -558,6 +558,29 @@ function findUnitAt(x, y) {
 // (trait list, resistances, AP cost breakdown). UI a strati = leggibilità.
 const tooltipEl = document.getElementById('unit-tooltip');
 let _tooltipExpanded = false;
+let _lastMouseX = 0;
+let _lastMouseY = 0;
+
+function _repositionTooltip() {
+  if (!tooltipEl || tooltipEl.classList.contains('hidden')) return;
+  const ttRect = tooltipEl.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const offset = 14;
+  let left = _lastMouseX + offset;
+  let top = _lastMouseY + offset;
+  if (left + ttRect.width + 8 > vw) {
+    left = _lastMouseX - ttRect.width - offset;
+  }
+  if (top + ttRect.height + 8 > vh) {
+    top = _lastMouseY - ttRect.height - offset;
+  }
+  // Clamp a viewport minima
+  left = Math.max(8, left);
+  top = Math.max(8, top);
+  tooltipEl.style.left = `${left}px`;
+  tooltipEl.style.top = `${top}px`;
+}
 
 function _buildExpandedSection(unit) {
   // Cogmind expand: trait list (top 6 + count rest) + resistances + ability cost.
@@ -648,7 +671,10 @@ window.addEventListener('keydown', (ev) => {
       const lastUnit = tooltipEl.dataset.lastUnitId;
       if (lastUnit) {
         const u = findUnitById(lastUnit);
-        if (u) tooltipEl.innerHTML = buildUnitTooltip(u);
+        if (u) {
+          tooltipEl.innerHTML = buildUnitTooltip(u);
+          _repositionTooltip();
+        }
       }
     }
   }
@@ -660,7 +686,10 @@ window.addEventListener('keyup', (ev) => {
       const lastUnit = tooltipEl.dataset.lastUnitId;
       if (lastUnit) {
         const u = findUnitById(lastUnit);
-        if (u) tooltipEl.innerHTML = buildUnitTooltip(u);
+        if (u) {
+          tooltipEl.innerHTML = buildUnitTooltip(u);
+          _repositionTooltip();
+        }
       }
     }
   }
@@ -673,6 +702,8 @@ function findUnitById(id) {
 
 canvas.addEventListener('mousemove', (ev) => {
   if (!state.world || !tooltipEl) return;
+  _lastMouseX = ev.clientX;
+  _lastMouseY = ev.clientY;
   const { x, y } = canvasToCell(canvas, ev, state.world.grid.height);
   const unit = findUnitAt(x, y);
   if (!unit) {
@@ -721,28 +752,13 @@ canvas.addEventListener('mousemove', (ev) => {
       } else {
         tooltipEl.insertAdjacentHTML('beforeend', html);
       }
+      _repositionTooltip();
     });
   }
   // M7 fix: boundary-aware positioning. Se tooltip esce da viewport
   // riposiziona a sx/sopra del cursore. Evita clip dietro canvas/panels.
   tooltipEl.classList.remove('hidden');
-  const ttRect = tooltipEl.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const offset = 14;
-  let left = ev.clientX + offset;
-  let top = ev.clientY + offset;
-  if (left + ttRect.width + 8 > vw) {
-    left = ev.clientX - ttRect.width - offset;
-  }
-  if (top + ttRect.height + 8 > vh) {
-    top = ev.clientY - ttRect.height - offset;
-  }
-  // Clamp a viewport minima
-  left = Math.max(8, left);
-  top = Math.max(8, top);
-  tooltipEl.style.left = `${left}px`;
-  tooltipEl.style.top = `${top}px`;
+  _repositionTooltip();
 });
 
 canvas.addEventListener('mouseleave', () => {
