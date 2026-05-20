@@ -270,7 +270,10 @@ def main():
     t0 = time.time()
     print(f"[parallel] {len(batch_procs)} batches running...", flush=True)
 
-    # Wait all batches.
+    # Wait all batches. Codex PR #2354 fix: track failures + fail-fast on shard
+    # subprocess errors. Continuing to merge with partial data risks wrong
+    # calibration decisions (total_n mismatch effective sampled runs).
+    shard_failures = []
     for proc, fh, host, n, log_p in batch_procs:
         rc = proc.wait()
         try:
@@ -280,9 +283,41 @@ def main():
         elapsed = time.time() - t0
         status = "OK" if rc == 0 else f"FAIL rc={rc}"
         print(f"[parallel] shard {host} done N={n} {status} elapsed={elapsed:.1f}s", flush=True)
+        if rc != 0:
+            shard_failures.append({"host": host, "n": n, "rc": rc, "log": str(log_p)})
 
     total_elapsed = time.time() - t0
     print(f"[parallel] all shards done in {total_elapsed:.1f}s", flush=True)
+
+    if shard_failures:
+        print(
+            f"[parallel] ABORT — {len(shard_failures)}/{len(batch_procs)} shards failed:",
+            file=sys.stderr,
+            flush=True,
+        )
+        for f in shard_failures:
+            print(f"  - {f['host']} rc={f['rc']} log={f['log']}", file=sys.stderr, flush=True)
+        # Cleanup shards (don't leak processes) before exit.
+        if owned_shards and not args.keep_shards:
+            ports = [args.base_port + i for i in range(args.shards)]
+            for proc, fh, port in zip(shard_procs, shard_fhs, ports):
+                stop_shard(proc, fh, port)
+            print(f"[parallel] {len(shard_procs)} shards stopped", flush=True)
+        # Write failure report for forensic.
+        failure_report = {
+            "scenario": args.scenario,
+            "status": "shard_failures",
+            "shard_failures": shard_failures,
+            "shards_total": len(batch_procs),
+            "shards_failed": len(shard_failures),
+            "elapsed_sec": total_elapsed,
+            "host_list": hosts,
+        }
+        fail_path = Path(f"{base}-FAILED.json")
+        with open(fail_path, "w", encoding="utf-8") as f:
+            json.dump(failure_report, f, indent=2, ensure_ascii=False)
+        print(f"[parallel] failure report: {fail_path}", file=sys.stderr, flush=True)
+        return 5  # distinct exit code for shard failure
 
     # Merge + aggregate.
     runs = merge_jsonl(jsonl_paths)

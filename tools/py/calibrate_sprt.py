@@ -192,13 +192,26 @@ def main():
     decision_ci = (None, None)
     last_n_checked = -1  # bug fix: only re-eval when N changes (no print spam)
 
+    # Codex PR #2354 fix: track if subprocess exited with non-zero (failure).
+    # Without this, batch error states emit misleading decision/CI verdicts
+    # based on empty/partial JSONL data instead of surfacing hard failure.
+    subprocess_failed = False
     try:
         while True:
             # Check if process exited.
             if proc.poll() is not None:
-                # Subprocess finished by itself (reached max-n or errored).
+                # Subprocess finished — distinguish normal completion vs error.
+                rc = proc.returncode
+                if rc != 0:
+                    subprocess_failed = True
+                    decision = "BATCH_SUBPROCESS_ERROR"
+                    print(
+                        f"[sprt] FAIL — subprocess exit code={rc} (non-zero). Decision invalid.",
+                        file=sys.stderr,
+                        flush=True,
+                    )
                 outcomes = parse_jsonl_outcomes(jsonl_path)
-                if outcomes:
+                if outcomes and not subprocess_failed:
                     n = len(outcomes)
                     wins = sum(1 for o in outcomes if o == "victory")
                     wr = wins / n
@@ -207,7 +220,11 @@ def main():
                     decision_n = n
                     decision_wr = wr
                     decision_ci = (lo, hi)
-                print(f"[sprt] subprocess exit code={proc.returncode}, completed N={decision_n}", flush=True)
+                elif outcomes:
+                    # Failure path — record partial data for forensic but mark invalid.
+                    decision_n = len(outcomes)
+                    decision_wr = sum(1 for o in outcomes if o == "victory") / decision_n
+                print(f"[sprt] subprocess exit code={rc}, completed N={decision_n}", flush=True)
                 break
 
             outcomes = parse_jsonl_outcomes(jsonl_path)
@@ -290,6 +307,9 @@ def main():
         "elapsed_sec": elapsed,
         "host": args.host,
         "saved_runs_vs_max": args.max_n - n_final,
+        # Codex PR #2354 fix: surface batch failure to caller (no false confidence).
+        "subprocess_failed": subprocess_failed,
+        "subprocess_returncode": proc.returncode if proc.poll() is not None else None,
     }
     report_path = Path(f"{base}-report.json")
     with open(report_path, "w", encoding="utf-8") as f:
@@ -298,7 +318,9 @@ def main():
           flush=True)
     print(f"[sprt] elapsed={elapsed:.1f}s saved={args.max_n - n_final} runs", flush=True)
     print(f"[sprt] report: {report_path}", flush=True)
-    return 0
+    # Codex PR #2354 fix: exit non-zero on batch subprocess failure so callers
+    # (CI, wrapper scripts) can detect via exit code instead of parsing report.
+    return 6 if subprocess_failed else 0
 
 
 if __name__ == "__main__":
