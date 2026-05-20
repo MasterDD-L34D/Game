@@ -3610,6 +3610,18 @@
       "label_en": "Zoccoli Risonanti delle Steppe",
       "description_it": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.",
       "description_en": "Hollow hooves sending rhythmic waves across the steppe pack."
+    },
+    "scarica_ionica": {
+      "label_it": "Scarica Ionica",
+      "label_en": "Ionic Discharge",
+      "description_it": "Membrane ioniche che accumulano carica e rilasciano un impulso elettrico mirato. Resistenza canale ionico (+10%).",
+      "description_en": "Ionic membranes accumulate charge and release a targeted electric pulse. Ionic channel resistance (+10%)."
+    },
+    "arco_voltaico": {
+      "label_it": "Arco Voltaico",
+      "label_en": "Voltaic Arc",
+      "description_it": "Filamento dorsale che genera un arco voltaico ad alta tensione: danno ionico amplificato con effetto disorient on-hit. Resistenza canale ionico (+15%).",
+      "description_en": "Dorsal filament generates a high-voltage voltaic arc: amplified ionic damage with on-hit disorient. Ionic channel resistance (+15%)."
     }
   }
 }
