@@ -901,7 +901,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: branchie_osmotiche_salmastra_guard
@@ -976,7 +977,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: carapace_segmenti_logici_guard
@@ -991,7 +993,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: carapaci_ferruginosi_guard
@@ -1006,7 +1009,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: cartilagini_pseudometalliche_guard
@@ -1245,7 +1249,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: ghiandole_grafene_guard
@@ -1474,7 +1479,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: pelli_fitte_guard
