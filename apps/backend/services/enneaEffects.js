@@ -269,10 +269,30 @@ function applyEnneaToStatus(actor, effects) {
   return { applied, skipped };
 }
 
+/**
+ * 2026-05-20 — list ENNEA_EFFECTS canonical catalog (A6 pattern, gap-fill
+ * Explore quick-wins wave 6 #1). Espone 9/9 ennea archetype buff catalog
+ * per frontend per preload buff tier reference (avoids client-side
+ * duplication / drift vs canonical YAML).
+ *
+ * @returns {Array<{archetype, label, buffs, description}>} sorted by archetype name
+ */
+function listEnneaEffects() {
+  return Object.entries(ENNEA_EFFECTS)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([archetype, def]) => ({
+      archetype,
+      label: def.label,
+      buffs: Array.isArray(def.buffs) ? def.buffs.map((b) => ({ ...b })) : [],
+      description: def.description,
+    }));
+}
+
 module.exports = {
   ENNEA_EFFECTS,
   STAT_RUNTIME_KIND,
   resolveEnneaEffects,
   applyEnneaBuffs,
   applyEnneaToStatus,
+  listEnneaEffects,
 };
