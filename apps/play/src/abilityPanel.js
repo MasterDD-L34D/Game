@@ -100,6 +100,13 @@ export async function renderAbilities(unit, state, onAbility) {
 }
 
 export function clearAbilities() {
+  // W8O-2 (re-applied 2026-05-20, regressed by Jules #2327 rewrite that dropped
+  // this line; first landed PR #2321): invalidate any in-flight renderAbilities
+  // await. Without this, a render started before clear (token still latest)
+  // resurrects abilities for the gone unit when loadJobDetail resolves. Same
+  // bug class as W8/W8O ("barra si e buggata"). Regression test in
+  // tests/play/abilityPanelClearRace.test.js MUST stay green.
+  _renderToken += 1;
   const titleEl = document.getElementById('abilities-title');
   const container = document.getElementById('abilities');
   if (titleEl) titleEl.classList.add('hidden-empty');
