@@ -169,9 +169,9 @@ test('disconnect race: 3 players, p_b drops after voting, quorum only fires when
       waitForMessage(cWs, (m) => m.type === 'hello'),
     ]);
 
-    // Drop the initial world_tally snapshot emitted on hello (sendCoopStateSnapshot
-    // at wsSession.js:997 calls worldTally WITHOUT connectedPlayerIds — payload
-    // lacks connected_* fields). We only care about post-vote broadcasts here.
+    // Drop the initial world_tally snapshot emitted on hello (post-fix
+    // sendCoopStateSnapshot now exposes connected_* fields — see Test 4 —
+    // but we only care about post-vote broadcasts here, so drain pre-vote tally).
     hostWs.__buf = hostWs.__buf.filter((m) => m.type !== 'world_tally');
 
     // p_a votes accept.
@@ -446,6 +446,112 @@ test('disconnect race: p_a reconnects within ghost timeout → vote preserved + 
 
     hostWs.close();
     aWs2.close();
+    bWs.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Test 4 — sendCoopStateSnapshot consistency fix (PR finding wave 2):
+// per-socket snapshot at hello/reconnect must expose connected_* fields,
+// matching post-vote broadcast shape. Pre-fix the snapshot called
+// worldTally(allIds) WITHOUT connectedPlayerIds → connected_* missing.
+// ---------------------------------------------------------------------------
+
+test('snapshot consistency: world_tally on hello/reconnect exposes connected_* fields', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', hostTransferGraceMs: 5000 });
+    const roomObj = lobby.getRoom(room.code);
+    roomObj.ghostTimeoutMs = 60;
+    const pA = lobby.joinRoom({ code: room.code, playerName: 'A' });
+    const pB = lobby.joinRoom({ code: room.code, playerName: 'B' });
+
+    seedWorldSetup(coopStore, room.code, [pA.player_id, pB.player_id]);
+
+    const hostWs = openWs(port, {
+      code: room.code,
+      player_id: room.host_id,
+      token: room.host_token,
+    });
+    const aWs = openWs(port, {
+      code: room.code,
+      player_id: pA.player_id,
+      token: pA.player_token,
+    });
+    const bWs = openWs(port, {
+      code: room.code,
+      player_id: pB.player_id,
+      token: pB.player_token,
+    });
+    await Promise.all([waitOpen(hostWs), waitOpen(aWs), waitOpen(bWs)]);
+    await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'hello'),
+      waitForMessage(aWs, (m) => m.type === 'hello'),
+      waitForMessage(bWs, (m) => m.type === 'hello'),
+    ]);
+
+    // Initial snapshot must expose connected_* FIELDS (post-fix consistency).
+    // Exact counts are racy on slower CI: each WS gets its own snapshot at
+    // attach time, and the order p_a vs p_b "connected=true" varies. The
+    // KEY positive proof of the fix is that the fields EXIST (pre-fix they
+    // were absent). For exact-count assertion use post-vote broadcast below.
+    const snapshot = await waitForMessage(aWs, (m) => m.type === 'world_tally', 2000);
+    assert.ok(snapshot.payload, 'snapshot payload present');
+    assert.equal(
+      typeof snapshot.payload.connected_total,
+      'number',
+      'snapshot exposes connected_total (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.connected_accept,
+      'number',
+      'snapshot exposes connected_accept (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.connected_reject,
+      'number',
+      'snapshot exposes connected_reject (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.connected_pending,
+      'number',
+      'snapshot exposes connected_pending (post-fix)',
+    );
+    assert.equal(
+      typeof snapshot.payload.all_connected_accepted,
+      'boolean',
+      'snapshot exposes all_connected_accepted (post-fix)',
+    );
+    // Legacy fields still present (back-compat).
+    assert.equal(typeof snapshot.payload.total, 'number');
+    assert.equal(typeof snapshot.payload.accept, 'number');
+
+    // Drain pre-vote snapshot then trigger probe vote → broadcast post-vote
+    // sees deterministic connected state (both WS confirmed connected by now).
+    hostWs.__buf = hostWs.__buf.filter((m) => m.type !== 'world_tally');
+    sendVote(aWs, true);
+    const broadcastTally = await waitForMessage(
+      hostWs,
+      (m) => m.type === 'world_tally' && m.payload?.connected_accept >= 1,
+      2000,
+    );
+    assert.equal(broadcastTally.payload.connected_total, 2, '2 non-host players connected');
+    assert.equal(broadcastTally.payload.connected_accept, 1, 'a voted accept');
+    assert.equal(broadcastTally.payload.connected_pending, 1, 'b pending');
+    assert.equal(broadcastTally.payload.all_connected_accepted, false, 'no quorum (b pending)');
+
+    hostWs.close();
+    aWs.close();
     bWs.close();
   } finally {
     await wsHandle.close();
