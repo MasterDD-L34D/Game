@@ -71,9 +71,58 @@ language: it
 ## Tool usage delta sessione
 
 - `superpowers:using-superpowers` (boot)
-- `superpowers:dispatching-parallel-agents` (pattern guidance loaded)
-- 3 agent paralleli single-message dispatch
+- `superpowers:dispatching-parallel-agents` (pattern guidance loaded, **2 wave consecutive proven**)
+- 3 agent paralleli single-message dispatch (wave 1) + 2 agent paralleli (wave 2)
 - `mcp__Claude_Preview__preview_start/stop` (backend live probe A6 + role-demands)
-- `Skill` tool (handoff invocation)
-- `TaskCreate/TaskUpdate` (11 task end-to-end)
+- `Skill` tool (handoff invocation, fewer-permission-prompts invocation)
+- `TaskCreate/TaskUpdate` (14 task end-to-end)
 - `gh pr merge --squash --delete-branch` (auto-merge L3 fallback immediate dopo update-branch)
+- Background `Bash run_in_background` (CI poll × 3)
+- AA01 lesson encode (`~/aa01/learnings/L-064/065/066`, post collision-detection cross-store renumber)
+
+---
+
+## Wave 2 addendum (2026-05-20 sera, ~30min cumulative)
+
+User trigger _"non stop avevi individuato molti campi di lavoro... usa superpower per procedere in maniera coordinata"_ → second multi-agent dispatch (2 agent general-purpose paralleli) per chiudere ultimi 2 BACKLOG coop test gap residue (Multi-player disconnect race WS-e2e + Host-transfer + coop-state sync WS-e2e).
+
+### PR shipped wave 2 (2)
+
+| PR                                                            | Scope                                                                                                                                                                            | Test                                     |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| [Game #2340](https://github.com/MasterDD-L34D/Game/pull/2340) | WS-level disconnect race e2e (3 scenari: vote+drop, reject+drop, reconnect within ghost grace) — `tests/api/coopDisconnectRace.test.js` (~360 LOC)                               | 3/3 verde + 68/68 regression cross-suite |
+| [Game #2341](https://github.com/MasterDD-L34D/Game/pull/2341) | WS-level host-transfer + coop-state sync e2e (3 scenari: world_setup tally rebroadcast, debrief payload, sequential A→B→C) — `tests/api/coopHostTransferSync.test.js` (~290 LOC) | 3/3 verde + 2/2 F-1 regression           |
+
+### Pillar deltas v44 → v44.1
+
+- P5 Co-op: 🟢 confirmed → 🟢 **confirmed HARD reinforced** (5/5 BACKLOG coop test gaps CLOSED definitivamente)
+
+### Museum card reuse cross-wave
+
+Card `docs/museum/cards/coop-ws-test-infra-patterns-2026-05-20.md` (shipped wave 1) **riusata cross-wave** entrambi agent wave 2 hanno applicato pattern P1+P2+P3+P5+P6 senza re-discovery. Validation: museum infrastructure ROI ≥2x se card è score 5/5 + age <24h.
+
+### Bug/finding flagged wave 2
+
+- `sendCoopStateSnapshot` (`wsSession.js:997`) emette `world_tally` SENZA `connectedPlayerIds` per-socket join → payload manca field `connected_*` (snapshot vs broadcast post-vote inconsistente). Test workaround: drop pre-vote buffer OR predicate strict. Out-of-scope #2340 ma future improvement.
+- BACKLOG.md merge conflict cross-agent: Agent 2 stash → fresh main → resolve coherente. Future improvement: agents committano BACKLOG closure su SEPARATE entry (no overlap line numbers).
+- `lobby.createRoom()` return `{code, host_id, host_token}` metadata NON Room object — usare `lobby.getRoom(meta.code)` per accesso `.hostId` raw (catch durante Agent 2 implementazione).
+
+### Coop test gap closures FINAL state (5/5 ✅)
+
+- ✅ Phase-skip negative tests — #2335
+- ✅ Room-code alphabet regex purity — stale (wsRoomCode.test.js) — #2335
+- ✅ startRun from combat phase — #2335
+- ✅ Multi-player disconnect race (unit) — #2336 + (WS e2e) — #2340
+- ✅ Host-transfer + coop-state sync (P1 foundation) — #2337 + (WS e2e) — #2341
+
+### Next blocker (post-wave-2)
+
+Coop test infra ora COMPLETO. Prossima frontiera P5:
+
+- Atlas Envelope C runtime gated playtest (~99h)
+- Sprint Q+ ETL Q-1+Q-2 forbidden path bundle (post-Phase-B-accept, ~22-25h cumulative)
+- Playtest userland live (4 amici + master-dd, ~2h)
+
+### Resume trigger phrase aggiornato
+
+> _"verifica worktree cleanup post-master-dd + tackle next P5 advance (Atlas Envelope C runtime gated playtest, OR start Sprint Q+ ETL Q-1+Q-2 forbidden path bundle post-Phase-B-accept)"_
