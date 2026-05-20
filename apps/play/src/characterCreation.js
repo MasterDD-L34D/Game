@@ -225,11 +225,14 @@ export function wireCharacterCreation(overlay, bridge) {
         starterBiomaEl.textContent = '';
         return;
       }
-      const biomeLabel = data.biome_id.replace(/_/g, ' ');
+      // A6 — prefer human label (biome_label_it / trait_label_it) over raw id.
+      // Fallback retro-compat: biome_id underscore-replace, trait_id raw.
+      const biomeLabel = data.biome_label_it || data.biome_id.replace(/_/g, ' ');
+      const traitLabel = data.trait_label_it || data.trait_id;
       starterBiomaEl.innerHTML =
         `<div class="cc-preview-starter-bioma-title">Bioma origine</div>` +
         `<span class="cc-preview-starter-bioma-biome">🌍 ${biomeLabel}</span>` +
-        ` → <span class="cc-preview-starter-bioma-trait">${data.trait_id}</span>`;
+        ` → <span class="cc-preview-starter-bioma-trait">${traitLabel}</span>`;
     } catch {
       starterBiomaEl.textContent = '';
     }

@@ -167,6 +167,22 @@ test('resolveStarterBioma: 16 forms map to {biome_id, trait_id}', () => {
   }
 });
 
+// A6 frontend label surface — every form must expose biome_label_it +
+// trait_label_it (Engine LIVE Surface DEAD killer).
+test('resolveStarterBioma: 16 forms expose biome_label_it + trait_label_it', () => {
+  for (const f of ALL_16_FORMS) {
+    const r = resolveStarterBioma(f);
+    assert.equal(typeof r.biome_label_it, 'string', `${f} biome_label_it`);
+    assert.ok(r.biome_label_it.length > 0, `${f} biome_label_it non-empty`);
+    assert.equal(typeof r.trait_label_it, 'string', `${f} trait_label_it`);
+    assert.ok(r.trait_label_it.length > 0, `${f} trait_label_it non-empty`);
+    assert.ok(
+      r.trait_label_it.includes(f),
+      `${f} trait_label_it should mention form id (got: ${r.trait_label_it})`,
+    );
+  }
+});
+
 test('resolveStarterBioma: unknown / NEUTRA returns null', () => {
   assert.equal(resolveStarterBioma('XXXX'), null);
   assert.equal(resolveStarterBioma('NEUTRA'), null);
@@ -175,13 +191,15 @@ test('resolveStarterBioma: unknown / NEUTRA returns null', () => {
   assert.equal(resolveStarterBioma(undefined), null);
 });
 
-test('listStarterBiomas: returns 16 items with form_id+biome_id+trait_id', () => {
+test('listStarterBiomas: returns 16 items with form_id+biome_id+trait_id+labels', () => {
   const list = listStarterBiomas();
   assert.equal(list.length, 16);
   for (const item of list) {
     assert.ok(ALL_16_FORMS.includes(item.form_id));
     assert.ok(item.biome_id.length > 0);
     assert.ok(item.trait_id.startsWith('starter_bioma_'));
+    assert.ok(item.biome_label_it && item.biome_label_it.length > 0);
+    assert.ok(item.trait_label_it && item.trait_label_it.length > 0);
   }
 });
 
