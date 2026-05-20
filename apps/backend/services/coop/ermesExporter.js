@@ -209,9 +209,25 @@ function _countPartyRoles(partyJobs) {
   return out;
 }
 
+/**
+ * 2026-05-20 — list all 13 biome → role demand mappings (mirror A6
+ * `listStarterBiomas` pattern, gap-fill da Explore quick-win discovery).
+ * Used by readonly diagnostic route + frontend onboarding hint surface.
+ *
+ * @returns {Array<{biome_id: string, roles_demanded: object, total_slots: number}>}
+ */
+function listBiomeRoleDemands() {
+  return Object.entries(BIOME_ROLE_DEMANDS).map(([biome_id, roles_demanded]) => ({
+    biome_id,
+    roles_demanded: { ...roles_demanded },
+    total_slots: Object.values(roles_demanded).reduce((sum, n) => sum + (Number(n) || 0), 0),
+  }));
+}
+
 module.exports = {
   getErmesForBiome,
   computeRoleGap,
+  listBiomeRoleDemands,
   BIOME_ROLE_DEMANDS,
   STATIC_FALLBACKS,
   NEUTRAL_FALLBACK,
