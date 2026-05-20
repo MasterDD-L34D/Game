@@ -700,7 +700,7 @@ Ref: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md` (agent run verdi
 ### Test coverage gaps coop (non bloccanti, da audit)
 
 - [x] ~~Phase-skip negative tests (`confirmWorld()` from lobby should throw)~~ → **✅ CHIUSO 2026-05-20** branch `claude/parallel-coop-test-coverage-2026-05-20`. 5 nuovi test in `tests/api/coopOrchestrator.test.js`: confirmWorld lobby/character_creation throw `not_in_world_setup`, startRun combat/debrief throw `cannot_start_from_phase:*`, startRun ended succeeds (allowed restart).
-- [ ] Multi-player disconnect race test
+- [x] ~~Multi-player disconnect race test~~ → **✅ CHIUSO 2026-05-20** branch `claude/parallel-coop-disc-race-ws-e2e-2026-05-20`. 3 nuovi test WS-level e2e in `tests/api/coopDisconnectRace.test.js`: (1) 3-player vote scenario p_b abrupt terminate mid-tally → `connected_total` scende da 3→2, `all_connected_accepted` fires solo quando p_c (last connected) vota; (2) 2-player p_b reject + drop → `connected_reject=0` post-drop + `all_connected_accepted=true` (p_a unanime dei connected); (3) reconnect within ghostTimeoutMs → vote preserved in `orch.worldVotes` + tally reconciled. Composti pattern P1+P2+P5+P6 da museum card M-2026-05-20-001. Valida end-to-end B-NEW-1 fix 2026-05-08 (`wsSession.js:1524` connected-only quorum filter).
 - [ ] Host-transfer + coop-state sync e2e
 - [x] ~~Room-code alphabet regex purity test~~ → **✅ GIÀ CHIUSO** in `tests/api/wsRoomCode.test.js` (Wave 3 #4 audit 2026-04-24). 4 test: alphabet 20 consonant zero vowel, single-shot smoke, 1000-sample statistical purity, uppercase/no-space sanity. BACKLOG entry era stale.
 - [x] ~~`startRun()` from combat phase untested~~ → **✅ CHIUSO 2026-05-20** stesso branch coop-test-coverage (vedi sopra).
