@@ -27,6 +27,8 @@ const { createCodexRouter } = require('./routes/codex');
 const { createFormPackRouter } = require('./routes/formPackRoutes');
 const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
+// 2026-05-20 — Combat readonly diagnostic routes (status penalties + biome modifiers)
+const { createCombatRouter } = require('./routes/combat');
 // W5.5 — companion picker REST endpoint.
 const { createCompanionRouter } = require('./routes/companion');
 // Skiv ticket #7 — unit diary persistence (cross-session memoria)
@@ -786,6 +788,8 @@ function createApp(options = {}) {
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
   const coopStore = createCoopStore({ lobby });
   app.use('/api', createCoopRouter({ lobby, coopStore }));
+  // 2026-05-20 — Combat readonly diagnostic (status-penalties + biome-modifiers).
+  app.use('/api/combat', createCombatRouter());
   app.use('/api', createCompanionRouter());
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
