@@ -693,3 +693,51 @@ test('startRun from ended phase succeeds (allowed restart path)', () => {
   assert.doesNotThrow(() => co.startRun({ scenarioStack: ['enc_demo_2'] }));
   assert.equal(co.phase, 'character_creation');
 });
+
+// ===========================================================================
+// Multi-player disconnect race (BACKLOG coverage gap; cf. coop-phase-validator
+// audit 2026-05-20 Finding 4 — stale accept-vote of disconnected player must
+// not satisfy all_connected_accepted quorum).
+// ===========================================================================
+
+test('worldTally: disconnected voter accept does NOT fire all_connected_accepted when other connected player pending', () => {
+  const co = new CoopOrchestrator({ roomCode: 'DISC', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b', 'p_c'];
+  // p_a and p_b vote accept; then p_b "disconnects" mid-tally.
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds });
+  co.voteWorld('p_b', { accept: true, allPlayerIds: allIds });
+  const connected = ['p_a', 'p_c']; // p_b dropped; p_c never voted yet
+  const tally = co.worldTally(allIds, connected);
+  // Global accept still 2 (vote persists in Map by design).
+  assert.equal(tally.accept, 2);
+  // BUT connected quorum must NOT fire — p_c (connected) hasn't voted.
+  assert.equal(tally.all_connected_accepted, false);
+  assert.equal(tally.connected_pending, 1);
+  // Only when p_c (last connected) votes accept does quorum fire.
+  co.voteWorld('p_c', { accept: true, allPlayerIds: allIds });
+  const tally2 = co.worldTally(allIds, connected);
+  assert.equal(tally2.all_connected_accepted, true);
+  assert.equal(tally2.connected_pending, 0);
+});
+
+test('worldTally: disconnected REJECT vote excluded from connected_reject quorum', () => {
+  const co = new CoopOrchestrator({ roomCode: 'DISC', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b'];
+  // p_a accepts, p_b rejects, then p_b drops.
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds });
+  co.voteWorld('p_b', { accept: false, allPlayerIds: allIds });
+  const connected = ['p_a']; // p_b dropped
+  const tally = co.worldTally(allIds, connected);
+  // Global counts still see both votes.
+  assert.equal(tally.accept, 1);
+  assert.equal(tally.reject, 1);
+  // Connected quorum sees only p_a → unanimous accept across connected.
+  assert.equal(tally.connected_total, 1);
+  assert.equal(tally.connected_accept, 1);
+  assert.equal(tally.connected_reject, 0);
+  assert.equal(tally.all_connected_accepted, true);
+});
