@@ -1707,9 +1707,17 @@ function createRoundBridge(deps) {
 
     // 2026-04-26: soft turn-limit defeat (damage_curves.yaml turn_limit_defeat per class).
     // Indipendente da missionTimer (opt-in encounter feature). Forza outcome=defeat se turn≥limit.
+    // 2026-05-20 L-069 iter3: scenarioId passthrough enables scenario_overrides
+    // turn_limit_defeat_override (e.g. hardcore_06 null disable per convert defeat→timeout).
     const encClassForLimit =
       session.encounter_class || session.encounter?.encounter_class || 'standard';
-    const turnLimitExceeded = isTurnLimitExceeded(session.turn, encClassForLimit);
+    const scenarioIdForLimit = session.encounter?.id || null;
+    const turnLimitExceeded = isTurnLimitExceeded(
+      session.turn,
+      encClassForLimit,
+      null,
+      scenarioIdForLimit,
+    );
     if (turnLimitExceeded && !objectiveResult.failed && !objectiveResult.completed) {
       objectiveResult.failed = true;
       objectiveResult.reason = `turn_limit_defeat:${encClassForLimit}`;

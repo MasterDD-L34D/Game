@@ -180,9 +180,52 @@ player_classes:
     ap_baseline: 2
     resistance_archetype: adattivo
 
+# ─── Scenario overrides (per-encounter knob layer) ────────────────────
+# Pattern: Hades Pact of Punishment + Into the Breach scenario-tagged design.
+# Risolve cross-scenario tension dove encounter_class globale (es 'hardcore')
+# applica stesso multiplier a scenari con bottleneck ortogonali (es. boss-HP
+# vs swarm+timer). Override locale per-scenario sopra class default.
+#
+# Origine: docs/research/2026-05-20-calibration-knob-patterns-industry.md
+# Evidence: docs/playtest/2026-05-20-hardcore-06-postwave57-report.md (0% WR
+#   stesso class hardcore vs hardcore_07 60% WR — single-knob insufficient).
+#
+# Schema: keys = scenario_id (matcha hardcoreScenario.js export); valori = oggetto
+# con knob opzionali. Knob assenti = inherit class default.
+#
+# Knob supportati v1:
+#   boss_hp_multiplier (float, default 1.0) → moltiplica HP unità con flag is_boss
+#                                            o id contiene "_boss"
+#
+# Validation: vedi validation.scenario_overrides_valid_ids regola sotto.
+
+scenario_overrides:
+  enc_tutorial_06_hardcore:
+    # hardcore_06 "Cattedrale dell'Apex": boss HP 40 + party DPS post Wave 5-7
+    # nerf insufficient (N=10 → 0% WR, boss survives avg 22.4 HP residual).
+    # Iter1: boss_hp_multiplier 0.75 (HP 40→30) → N=10 → WR 10% AMBER near band,
+    #   defeat 90% / boss residual 15.3. Direction OK, magnitude undershoot.
+    # Iter2: 0.75 → 0.65 (HP 40→26, -35%). N=40 ratify → WR 15% IN-BAND floor,
+    #   defeat 85% / timeout 0% (secondary metrics RED, boss residual 13.8).
+    #   SHIPPED FIX — primary WR target achieved.
+    # Iter3 REJECTED: turn_limit_defeat_override null → N=40 → WR 85% OOB-high
+    #   massive overshoot (defeat 0%, timeout 15%). turn_limit removal +
+    #   boss 0.65 = trivial encounter. Rollback iter3. Vedi
+    #   docs/playtest/2026-05-20-hardcore-06-iter3-turnlimitnull-n40v2.json
+    # Iter4 candidate (deferred next session): turn_limit_defeat_override 30 or 35
+    #   come intermediate fix per secondary band coverage. Target: WR 20-25%,
+    #   defeat 45-55%, timeout 15-25% (all bands green).
+    # Vedi docs/playtest/2026-05-20-hardcore-06-scenario-overrides-iter1to3-final.md
+    boss_hp_multiplier: 0.65
+    rationale: 'PR post #2344 — iter2 N=40 WR 15% in-band primary metric. Secondary metrics partial (defeat 85% OOB-high). Iter3 turn_limit null rejected (WR 85% overshoot). Iter4 intermediate (limit 30-35) deferred next session. ITB scenario-tagged isolates fix dal class-wide.'
+
 # ─── Validation rules ─────────────────────────────────────────────────
 
 validation:
+  scenario_overrides_valid_ids:
+    description: 'Tutti scenario_id in scenario_overrides devono esistere in hardcoreScenario.js exports (HARDCORE_SCENARIO_06/07/...). Drift = config orfano.'
+    enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
+
   target_bands_non_overlapping:
     description: 'Tutorial defeat 10-20% vs standard defeat 25-40% NON si sovrappongono. Encounter class determinabile post-hoc da win_rate oggettivo.'
     enforced_by: 'tests/scripts/damageCurvesIntegrity.test.js'
