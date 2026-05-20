@@ -96,12 +96,91 @@ def load_target_bands(encounter_class):
     return bands if bands else None
 
 
-def load_turn_limit_defeat(encounter_class):
+def _load_scenario_turn_limit_override(scenario_id):
+    """2026-05-20 L-069 iter3: scenario_overrides parser per turn_limit_defeat_override.
+    Coerente con backend damageCurves.js getTurnLimitDefeat() scenario-override logic.
+
+    Ritorna:
+      - int>0 = override numerico esplicito
+      - None  = override esplicito null (disable) OR scenario assente OR key assente
+      - 'INHERIT' sentinel string se scenario non ha la key (caller usa class default)
+
+    Caller deve distinguere None-disable vs 'INHERIT'-fallback.
+    """
+    if not scenario_id or not os.path.exists(DAMAGE_CURVES_PATH):
+        return "INHERIT"
+    try:
+        with open(DAMAGE_CURVES_PATH, "r", encoding="utf-8") as f:
+            raw = f.read()
+    except OSError:
+        return "INHERIT"
+
+    lines = raw.splitlines()
+    in_overrides = False
+    overrides_indent = None
+    idx_scenario = None
+    scenario_indent = None
+    for i, line in enumerate(lines):
+        if line.startswith("scenario_overrides:"):
+            in_overrides = True
+            overrides_indent = 0
+            continue
+        if not in_overrides:
+            continue
+        # Detect scenario_id key (e.g. 'enc_tutorial_06_hardcore:')
+        m = re.match(r"^(\s+)([A-Za-z0-9_]+):\s*$", line)
+        if m:
+            indent = len(m.group(1))
+            if scenario_indent is None:
+                scenario_indent = indent
+            if indent == scenario_indent and m.group(2) == scenario_id:
+                idx_scenario = i
+                break
+        if line and not line.startswith(" ") and not line.startswith("#"):
+            break
+
+    if idx_scenario is None:
+        return "INHERIT"
+
+    j = idx_scenario + 1
+    while j < len(lines):
+        line = lines[j]
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            j += 1
+            continue
+        # Exit if we hit a sibling scenario or section
+        if line and scenario_indent is not None and len(line) - len(line.lstrip()) <= scenario_indent:
+            break
+        m = re.match(r"^\s+turn_limit_defeat_override:\s*(\S+)", line)
+        if m:
+            val = m.group(1).strip().lower()
+            if val in ("null", "~", "none"):
+                return None  # explicit disable
+            try:
+                n = int(val)
+                return n if n > 0 else None
+            except ValueError:
+                return "INHERIT"
+        j += 1
+    return "INHERIT"
+
+
+def load_turn_limit_defeat(encounter_class, scenario_id=None):
     """M9 P6: legge turn_limit_defeat da damage_curves.yaml per class.
     Ritorna int>0 o None (no limit).
 
+    2026-05-20 L-069 iter3: scenario_id arg enables scenario_overrides resolution.
+    Override esplicito null = no limit; override numerico = use override;
+    override assente = inherit class default.
+
     Mini-parser consistente con load_target_bands.
     """
+    # Scenario override check first.
+    override = _load_scenario_turn_limit_override(scenario_id)
+    if override != "INHERIT":
+        return override
+
     if not os.path.exists(DAMAGE_CURVES_PATH):
         return None
     try:
@@ -437,6 +516,39 @@ def _ai_actions_from_resp(resp, sis_actor_ids):
     return actions
 
 
+def _player_actions_from_resp(resp, player_actor_ids):
+    """Estrai player actions da /round/execute response.
+    2026-05-20 method F: close anti-pattern #8 shallow-ADOPT.
+    Enables empirical trait/action analysis vs heuristic-only.
+    """
+    actions = []
+    for r in resp.get("results", []):
+        if r.get("actor_id") in player_actor_ids:
+            actions.append(r)
+    return actions
+
+
+def _extract_trait_id(action_result):
+    """Tentativo extract trait_id da result. Schema variabile per action type.
+    Ritorna trait_id string o None. Future: backend deve expose trait_id consistente
+    su action_type=ability (M11 sprint candidate).
+    """
+    if not isinstance(action_result, dict):
+        return None
+    res = action_result.get("result") or {}
+    # Candidati fields nel result (descending preference)
+    for k in ("trait_id", "trait_used", "ability_id", "effect_id"):
+        v = res.get(k) if isinstance(res, dict) else None
+        if v:
+            return str(v)
+    # Top-level fallback
+    for k in ("trait_id", "ability_id"):
+        v = action_result.get(k)
+        if v:
+            return str(v)
+    return None
+
+
 def run_one(host, run_idx, turn_limit_defeat=None):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
@@ -463,6 +575,10 @@ def run_one(host, run_idx, turn_limit_defeat=None):
     dmg_to_boss = 0
     initial_units = {u["id"]: dict(u) for u in units}
     sis_actor_ids = {u["id"] for u in units if u.get("controlled_by") == "sistema"}
+    # 2026-05-20 method F: player action + trait telemetry (close anti-pattern #8).
+    player_actor_ids = {u["id"] for u in units if u.get("controlled_by") == "player"}
+    player_action_tally = {}  # action_type -> count
+    trait_used_tally = {}     # trait_id -> count (None values dropped)
 
     outcome = None
     for rnd in range(1, MAX_ROUNDS + 1):
@@ -495,6 +611,15 @@ def run_one(host, run_idx, turn_limit_defeat=None):
             atype = a.get("action_type") or a.get("type", "unknown")
             key = (tier, atype)
             ai_intent_tally[key] = ai_intent_tally.get(key, 0) + 1
+
+        # 2026-05-20 method F: tally player actions + trait usage.
+        player_actions = _player_actions_from_resp(resp, player_actor_ids)
+        for pa in player_actions:
+            ptype = pa.get("action_type") or pa.get("type", "unknown")
+            player_action_tally[ptype] = player_action_tally.get(ptype, 0) + 1
+            tid = _extract_trait_id(pa)
+            if tid:
+                trait_used_tally[tid] = trait_used_tally.get(tid, 0) + 1
 
     if outcome is None:
         outcome = detect_outcome(state, turn_limit_defeat) or "timeout"
@@ -537,6 +662,9 @@ def run_one(host, run_idx, turn_limit_defeat=None):
         "boss_hp_remaining": boss_hp_remaining,
         "pressure_final": pressure_samples[-1] if pressure_samples else pstart,
         "ai_intent_tally": {f"{t}|{a}": c for (t, a), c in ai_intent_tally.items()},
+        # 2026-05-20 method F: player + trait telemetry (anti-pattern #8 close).
+        "player_action_tally": dict(player_action_tally),
+        "trait_used_tally": dict(trait_used_tally),
         "vc": {
             "mbti": vc_data.get("mbti"),
             "ennea": vc_data.get("ennea"),
@@ -563,6 +691,14 @@ def aggregate(runs, encounter_class=None):
     for r in ok:
         for k, v in r["ai_intent_tally"].items():
             ai_global[k] = ai_global.get(k, 0) + v
+    # 2026-05-20 method F: aggregate player action + trait usage.
+    player_global = {}
+    trait_global = {}
+    for r in ok:
+        for k, v in (r.get("player_action_tally") or {}).items():
+            player_global[k] = player_global.get(k, 0) + v
+        for k, v in (r.get("trait_used_tally") or {}).items():
+            trait_global[k] = trait_global.get(k, 0) + v
 
     n = len(ok)
     wr = len(wins) / n
@@ -605,6 +741,9 @@ def aggregate(runs, encounter_class=None):
             statistics.mean(r["players_alive"] for r in wins) if wins else None
         ),
         "ai_intent_distribution": ai_global,
+        # 2026-05-20 method F: player + trait empirical telemetry.
+        "player_action_distribution": player_global,
+        "trait_used_distribution": trait_global,
     }
 
 
@@ -651,9 +790,12 @@ def main():
         return 0
 
     # M9 P6: load turn_limit_defeat per class (force decision pressure).
-    turn_limit_defeat = load_turn_limit_defeat(args.encounter_class)
+    # 2026-05-20 L-069 iter3: pass SCENARIO_ID for scenario_overrides resolution.
+    turn_limit_defeat = load_turn_limit_defeat(args.encounter_class, scenario_id=SCENARIO_ID)
     if turn_limit_defeat:
-        print(f"M9 P6: turn_limit_defeat={turn_limit_defeat} for class '{args.encounter_class}' (Long War pattern)", flush=True)
+        print(f"M9 P6: turn_limit_defeat={turn_limit_defeat} for class '{args.encounter_class}' scenario={SCENARIO_ID} (Long War pattern)", flush=True)
+    else:
+        print(f"M9 P6: turn_limit_defeat DISABLED for scenario={SCENARIO_ID} (override null OR class no limit)", flush=True)
 
     runs = []
     jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None
