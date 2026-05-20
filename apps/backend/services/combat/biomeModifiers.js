@@ -161,9 +161,29 @@ function applyEnemyHpMultiplier(units, hpMult) {
   return units;
 }
 
+/**
+ * 2026-05-20 — list runtime biome modifier registry (A6 pattern, gap-fill
+ * Explore quick-win wave 3 #4). Used by readonly diagnostic route +
+ * frontend combat UI per preload diff_base/hp_mult/pressure formula per biome.
+ *
+ * @param {object} [registry] — DI override (test/dev)
+ * @returns {Array<{biome_id, diff_base, hp_mult, pressure_mult, pressure_initial_bonus}>}
+ */
+function listBiomeModifiers(registry) {
+  const biomes = registry || loadBiomesConfig();
+  if (!biomes || typeof biomes !== 'object') return [];
+  return Object.keys(biomes)
+    .sort()
+    .map((biome_id) => ({
+      biome_id,
+      ...getBiomeModifiers(biome_id, biomes),
+    }));
+}
+
 module.exports = {
   loadBiomesConfig,
   getBiomeModifiers,
+  listBiomeModifiers,
   applyEnemyHpMultiplier,
   _resetCache,
   DEFAULT_BIOMES_YAML,

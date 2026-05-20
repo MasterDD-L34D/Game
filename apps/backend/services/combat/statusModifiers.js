@@ -257,11 +257,33 @@ function applyTurnRegen(unit) {
   return events;
 }
 
+/**
+ * 2026-05-20 — list status penalty tiers (A6 pattern, gap-fill Explore
+ * quick-win wave 3 #2). Used by readonly diagnostic route + frontend
+ * combat UI per preload penalty tier table (avoids client-side duplication).
+ *
+ * @returns {{
+ *   wounded_perma_attack_penalty: Array<{severity, penalty}>,
+ *   bleeding_fracture_slow_down_threshold: Array<{severity, triggers_slow_down}>,
+ * }}
+ */
+function listStatusPenalties() {
+  return {
+    wounded_perma_attack_penalty: Object.entries(WOUNDED_PERMA_ATTACK_PENALTY).map(
+      ([severity, penalty]) => ({ severity, penalty }),
+    ),
+    bleeding_fracture_slow_down_threshold: Object.entries(
+      BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD,
+    ).map(([severity, triggers_slow_down]) => ({ severity, triggers_slow_down })),
+  };
+}
+
 module.exports = {
   computeStatusModifiers,
   applyTurnRegen,
   computeWoundedPermaAttackPenalty,
   computeSlowDownPenalty,
+  listStatusPenalties,
   // Exported for tests
   manhattanDistance,
   WOUNDED_PERMA_ATTACK_PENALTY,
