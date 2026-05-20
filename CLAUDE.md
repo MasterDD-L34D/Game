@@ -385,6 +385,56 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-20 — Parallel cascade multi-agent dispatch — v44)
+
+**Sessione 2026-05-20 (parallel cascade multi-agent, ~3h)**: 6 PR cross-repo shipped + merged main via auto-merge L3 immediate fallback. Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical: 3 agent paralleli (coop-phase-validator + repo-archaeologist + Explore) → synthesis 3 PR cascade in ~33min cumulative.
+
+**PR shipped main 2026-05-20** (6):
+
+| PR                                                                                     | Topic                                                                                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [Game #2334](https://github.com/MasterDD-L34D/Game/pull/2334)                          | A6 starter_bioma frontend label surface (16 Form MBTI biome_label_it + trait_label_it fallback retro-compat) |
+| [Game #2335](https://github.com/MasterDD-L34D/Game/pull/2335)                          | 5 test phase-skip + startRun negative (confirmWorld lobby/character_creation throw, ended allowed)           |
+| [Game #2336](https://github.com/MasterDD-L34D/Game/pull/2336)                          | Disconnect race + computeRoleGap negative (auto-bundled W8O-2 fix clearAbilities token-bump)                 |
+| [Game #2337](https://github.com/MasterDD-L34D/Game/pull/2337)                          | Fix P1 orch.hostId stale gate (setHostId() + rebroadcastCoopState hook + 5 test)                             |
+| [Game #2338](https://github.com/MasterDD-L34D/Game/pull/2338)                          | listBiomeRoleDemands + GET /api/coop/role-demands diagnostic (A6 pattern, 7 test defensive copy)             |
+| [codemasterdd #187](https://github.com/MasterDD-L34D/codemasterdd-ai-station/pull/187) | Handoff stamps cascade (STATUS_MULTI_REPO altra sessione bundled)                                            |
+
+**Pillar deltas v43 → v44**:
+
+- P3 Identità: 🟢 candidato HARD → 🟢 candidato HARD reinforced (A6 surface live 16/16 Form expose human labels — Engine LIVE Surface DEAD killer Gate 5)
+- P5 Co-op: 🟢 confirmed → 🟢 confirmed + reinforced (P1 hostId stale gate fix + 3/5 coop test gaps chiuse + disconnect race tested)
+
+**Coop test gap closures (BACKLOG)**:
+
+- ✅ Phase-skip negative tests — #2335
+- ✅ Room-code alphabet regex purity (entry stale, già coperto `wsRoomCode.test.js`) — #2335
+- ✅ startRun from combat phase — #2335
+- ✅ Multi-player disconnect race (unit level, WS e2e deferred ~3h) — #2336
+- 🟡 Host-transfer + coop-state sync e2e (P1 foundation fix shipped #2337, WS-level e2e deferred ~3h)
+
+**Tool/skill stack proven**:
+
+- `superpowers:dispatching-parallel-agents` v5.1.0 — single-message multi-Agent call pattern, ROI 4-6x vs sequenziale
+- `superpowers:handoff` — formal handoff doc end-of-session
+- 3 agent paralleli: `coop-phase-validator` (5 finding, 1 P1 fixed) + `repo-archaeologist` (museum card score 5/5) + `Explore` (5 quick-win ranked, 2 shipped)
+
+**Warning/blockers raccolti**:
+
+- 5 worktree orphan dirty `.claude/worktrees/*` (master-dd verify prima di rimuovere — contengono mod docker-compose, scheduled_tasks.lock × 2, governance_drift_report, 2 untracked playtest reports)
+- Auto-merge L3 GH setting `enablePullRequestAutoMerge=false` Game repo vs ADR-2026-05-07 ACCEPTED (fallback: immediate merge post update-branch)
+- Husky lint-staged auto-backup branch `claude/w8o2-restore-*` confuse PR A flow
+- PostEdit hook "No preview server running" spam su test-only/doc-only edits
+- Codex review COMMENTED treated as pass-through
+
+**Handoff doc**: [`docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md`](docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md)
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica worktree cleanup post-master-dd + procede coop WS e2e test (Multi-player disconnect race + Host-transfer sync) usando museum card M-2026-05-20 coop-ws-test-infra-patterns"_
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-15 — Ecosystem audit + Q1 Option A canonical migration + Phase 3 Path D HYBRID FULL CLOSURE — v43)
 
 **Sessione 2026-05-13/14/15 (PR #2260 audit ecosystem + PR #2271 Phase A + Q1 canonical migration + Phase 3 Path D)**: 46+ commit cumulative cross-stack. Resume trigger user "analizza col metodo tutta l'infrastruttura Ecosistema > Biomi > reti trofiche > hazard > specie > mating > creature giocabili > evoluzioni" → cascade 8 OD ai-station verdict + ADR-2026-05-15 Q1 Option A canonical migration full rollout.
