@@ -11,6 +11,13 @@
 # Vedi docs/planning/tactical-architecture-patterns.md §W2
 # Sprint 6 (2026-04-27): aggiunti earth/wind/dark — parity 11 channel vs
 # AncientBeast Material/Element classes. Vedi docs/balance/2026-04-27-numeric-reference-canonical.md §10.
+#
+# 2026-05-20 balance-auditor P3 polish — `gravita` channel: definito qui in
+# tutti 5 archetype (neutral 100) MA zero damage trait usa `channel: gravita`
+# in trait_mechanics.yaml. Channel **reserved per future damage trait** (intent
+# design: gravita = anti-ranged/anti-flying meccanica futura). Mantenuto attivo
+# nello schema per evitare migration cost quando primo trait gravita arriva.
+# Master-dd verdict needed se intent cambia → rimuovere channel da schema.
 
 version: "0.2.0"
 
@@ -67,7 +74,13 @@ species_archetypes:
 
   termico:
     label: "Termico"
-    description: "Resistente a fuoco/earth, vulnerabile a gelo (ionico proxy) e dark."
+    # 2026-05-20 balance-auditor P2 description alignment: YAML resistances
+    # mostrano 3-channel vulnerability (ionico 120, wind 110, dark 120) MA
+    # description originale dichiarava solo 2 (ionico + dark). Update doc
+    # per allineare description a YAML reality (additive doc fix, zero
+    # behavior change). Master-dd verdict needed se design intent diverso
+    # (es. restore wind: 100 per neutral) — flag come P2 monitor.
+    description: "Resistente a fuoco/earth, vulnerabile a gelo (ionico proxy), wind e dark (glass-cannon 3-channel)."
     resistances:
       fisico: 100
       taglio: 100

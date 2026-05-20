@@ -115,9 +115,19 @@ profiles:
   #   ≥ 88% WR → ship come default + supersede sticky variants
   #   80-88%   → marginal → MAP-Elites grid combinato sticky + commit
   #   < 80%    → escalate Approach C softmax temperature
+  # 2026-05-20 balance-auditor P3 polish: questo profile è duplicato funzionale
+  # di `aggressive` (vedi line 25) post-promotion K4 Approach B come default
+  # production. Settings identici (use_utility_brain:true + commit_window:2 +
+  # same 4 overrides). Mantenuto per back-compat scenario references + ablation
+  # testing. Selector code può ignorarlo silently (preferire `aggressive`
+  # canonical). Future cleanup: rimuovere dopo verifica zero scenari attivi
+  # referenced this profile name.
   aggressive_commit_window:
-    label: "Aggressivo (utility ON + K4 commit-window 2)"
-    description: "Aggressive utility ON con anti-flip guard deterministico (forza intent precedente 2 turni dopo flip detection)."
+    label: "Aggressivo (utility ON + K4 commit-window 2) — DEPRECATED, usa aggressive"
+    description: "DEPRECATED duplicato funzionale di `aggressive` post-K4 promotion default. Settings identici. Mantenuto solo per back-compat scenario references + ablation testing."
+    deprecated: true
+    deprecated_since: "2026-05-20"
+    superseded_by: "aggressive"
     use_utility_brain: true
     commit_window: 2
     overrides:
