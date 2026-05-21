@@ -43,3 +43,19 @@ test('determinism: same inputs -> same output', () => {
   const b = selectAiPolicy(actor(0.1), target(), null, { persistent_high_threat: true });
   assert.deepEqual(a, b);
 });
+
+test('persistent_high_threat does NOT override passive escalation', () => {
+  // passive escalation forces engage (approach/attack) BEFORE the retreat check,
+  // so the +20% widened threshold cannot turn it into a retreat.
+  const p = selectAiPolicy(actor(0.33), target(), null, {
+    escalation_tier: 'passive',
+    persistent_high_threat: true,
+  });
+  assert.notEqual(p.intent, 'retreat');
+});
+
+test('hp exactly at widened threshold (base*1.2) retreats with flag', () => {
+  const edge = _cfg.LOW_HP_RETREAT_THRESHOLD * 1.2;
+  const p = selectAiPolicy(actor(edge), target(), null, { persistent_high_threat: true });
+  assert.equal(p.intent, 'retreat'); // <= boundary inclusive
+});
