@@ -57,13 +57,13 @@ test('endCombat folds sistemaObservations into store.upsert(run.id, ...)', async
   assert.equal(store.upserts.length, 1, 'exactly one upsert fired');
   const { campaignId, unitsObserved } = store.upserts[0];
   assert.equal(campaignId, runId, 'upsert keyed by run.id');
-  // pg_a: 3 kills >= HIGH_THREAT_KILLS(3) → threat high.
+  // pg_a: 3 kills >= HIGH_THREAT_KILLS(3) -> threat high.
   assert.deepEqual(unitsObserved.pg_a, {
     kills_vs_sistema: 3,
     sightings: 1,
     threat_level: 'high',
   });
-  // pg_b: 1 kill < threshold → threat normal.
+  // pg_b: 1 kill < threshold -> threat normal.
   assert.deepEqual(unitsObserved.pg_b, {
     kills_vs_sistema: 1,
     sightings: 1,
@@ -82,7 +82,7 @@ test('endCombat folds onto prior units_observed from store.get', async () => {
   });
   await tick();
   assert.equal(store.upserts.length, 1);
-  // prior 2 kills + 1 this encounter = 3 >= threshold → high; sightings 5 + 1.
+  // prior 2 kills + 1 this encounter = 3 >= threshold -> high; sightings 5 + 1.
   assert.deepEqual(store.upserts[0].unitsObserved.pg_a, {
     kills_vs_sistema: 3,
     sightings: 6,
@@ -95,7 +95,7 @@ test('endCombat WITHOUT sistemaObservations does NOT upsert (back-compat)', asyn
   const co = _setupAtCombat(store);
   co.endCombat({ outcome: 'victory', xpEarned: 10 });
   await tick();
-  assert.equal(store.upserts.length, 0, 'no observations → no accumulation');
+  assert.equal(store.upserts.length, 0, 'no observations -> no accumulation');
   assert.equal(co.phase, 'debrief', 'phase still advances normally');
 });
 
@@ -115,7 +115,7 @@ test('endCombat phase + outcome unaffected by sistemaObservations', async () => 
 test('default store (no injection) does not break endCombat', async () => {
   // Back-compat: omitting sistemaStateStore must still construct + drive to
   // debrief without throwing, even when sistemaObservations supplied (default
-  // store is stub-safe with no DATABASE_URL → upsert no-op).
+  // store is stub-safe with no DATABASE_URL -> upsert no-op).
   const co = new CoopOrchestrator({ roomCode: 'DFLT', hostId: 'p_h' });
   co.startRun({ scenarioStack: ['enc_demo_01'] });
   co.submitCharacter('p_h', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: ['p_h'] });

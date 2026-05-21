@@ -684,7 +684,7 @@ class CoopOrchestrator {
     // CAMP-2 best-effort SistemaState accumulation. Folds the per-encounter
     // slim-delta { roster, kills } into units_observed keyed by run.id. Runs
     // detached (Promise.resolve().then) + .catch so a store failure NEVER
-    // blocks or throws into the combat-end path. No observations → no-op.
+    // blocks or throws into the combat-end path. No observations -> no-op.
     if (sistemaObservations && this.run && this.run.id) {
       const store = this._getSistemaStore();
       const runId = this.run.id;
