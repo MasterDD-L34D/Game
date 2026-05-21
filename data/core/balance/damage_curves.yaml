@@ -201,24 +201,15 @@ player_classes:
 
 scenario_overrides:
   enc_tutorial_06_hardcore:
-    # hardcore_06 "Cattedrale dell'Apex": boss HP 40 + party DPS post Wave 5-7
-    # nerf insufficient (N=10 → 0% WR, boss survives avg 22.4 HP residual).
-    # Iter1: boss_hp_multiplier 0.75 (HP 40→30) → N=10 → WR 10% AMBER near band,
-    #   defeat 90% / boss residual 15.3. Direction OK, magnitude undershoot.
-    # Iter2: 0.75 → 0.65 (HP 40→26, -35%). N=40 ratify → WR 15% IN-BAND floor,
-    #   defeat 85% / timeout 0% (secondary metrics RED, boss residual 13.8).
-    #   SHIPPED FIX — primary WR target achieved.
-    # Iter3 REJECTED: turn_limit_defeat_override null → N=40 → WR 85% OOB-high
-    #   massive overshoot (defeat 0%, timeout 15%). turn_limit removal +
-    #   boss 0.65 = trivial encounter. Rollback iter3. Vedi
-    #   docs/playtest/2026-05-20-hardcore-06-iter3-turnlimitnull-n40v2.json
-    # Iter4 REJECTED: turn_limit_defeat_override 30 -> N=40 parallel C ->
-    #   WR 47.5% OOB-high (target 15-25%). Defeat 52.5% in-band ✅ ma WR overshoot.
-    #   +5 round troppo lenient. Rollback. Iter5 candidate next session: limit 26
-    #   (just +1) per shift fine. Vedi docs/playtest/iter4-parallel-c-n40.log.
-    # Iter4 retrospective: docs/playtest/2026-05-20-hardcore-06-iter4-overshoot.md
+    # iter5 OPTUNA REJECTED (2026-05-21): Method A TPE 3-trial converged
+    # boss 0.866 + limit 31 → N=20 WR 15% BUT N=40 ratify → WR 30% OOB-high.
+    # L-073 META-LESSON: Optuna optimized on N=20 objective = converged to
+    # noise (trial 1 lucky-low 3/20). Optimizer inherited L-069 flaw.
+    # Rollback iter5. iter2 (boss 0.65 alone) restored = N=40 WR 15% confirmed.
+    # FUTURE: Optuna n_per_trial MUST be >=40 OR converges to noise.
+    # Vedi docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
     boss_hp_multiplier: 0.65
-    rationale: 'PR post #2344 — iter2 N=40 WR 15% in-band primary. Iter3 turn_limit null REJECTED (WR 85%). Iter4 turn_limit 30 REJECTED (WR 47.5% OOB-high). Iter5 candidate limit 26 (just +1) deferred next session. Boss HP 0.65 PRODUCTION fix.'
+    rationale: 'iter2 N=40 WR 15% in-band primary RESTORED. iter5 Optuna (boss 0.866 + limit 31) REJECTED N=40 WR 30% OOB-high (L-073 optimizer-on-noise). Secondary metrics (defeat 85%) deferred Sprint M14 N=40-objective Optuna OR MAP-Elites.'
 
   # 2026-05-20 3A REJECTED: enemy_count_modifier -1 (remove e_patrol_scout_3)
   # N=40 parallel C -> WR 60% -> 70% WORSE. Direction inverted: fewer initial

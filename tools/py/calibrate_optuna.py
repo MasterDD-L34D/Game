@@ -310,8 +310,11 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--scenario", choices=list(SCENARIO_CFG.keys()), required=True)
     p.add_argument("--n-trials", type=int, default=8, help="Optuna trials (default 8)")
-    p.add_argument("--n-per-trial", type=int, default=20,
-                   help="Batch N per trial (default 20 — balance accuracy vs compute)")
+    p.add_argument("--n-per-trial", type=int, default=40,
+                   help="Batch N per trial (default 40 — ratify-grade per L-073). "
+                        "N<40 = optimizer converges to NOISE (smoke 2026-05-21: "
+                        "N=20 trial WR 15% -> N=40 ratify WR 30%). Use parallel C "
+                        "internal to make N=40/trial affordable (~3min/trial).")
     p.add_argument("--host", default="http://localhost:3340",
                    help="Backend URL (auto-managed if backend not running)")
     p.add_argument("--seed", type=int, default=42)
@@ -340,6 +343,11 @@ def main():
     backend_proc_ref = {"proc": None}
     objective = make_objective(args.scenario, args.host, args.n_per_trial, log_dir, backend_proc_ref)
 
+    if args.n_per_trial < 40:
+        print(f"[optuna] WARNING — n_per_trial={args.n_per_trial} < 40 (L-073 noise risk).",
+              flush=True)
+        print(f"[optuna] Optimizer may converge to noise. Best params REQUIRE N=40 ratify.",
+              flush=True)
     print(f"[optuna] scenario={args.scenario} n_trials={args.n_trials} n_per_trial={args.n_per_trial}",
           flush=True)
     print(f"[optuna] target band: {cfg['target_band']} (center: {cfg['target_center']})", flush=True)
