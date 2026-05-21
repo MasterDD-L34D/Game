@@ -148,6 +148,44 @@ function buildBiomePressureRating(session) {
   };
 }
 
+// M1 ADR-2026-05-18 (DRAFT) — Sistema persistent-learning Gate-5 surface.
+// The engine (sistemaStateAccumulator -> store -> policy.js REGOLA_002 retreat
+// +20% vs proven killers) is LIVE but had NO player surface: the Sistema flees
+// sooner from a high-threat PG with an INVISIBLE cause. This exposes the prior
+// units_observed (the state that DROVE this battle's REGOLA_002 behavior) so the
+// debrief can show "the Sistema remembers you". Mirrors buildBiomePressureRating
+// (TKT-ECO-A5 #2366). null when nobody is marked high-threat.
+// ⚠️ label_it/detail_it wording is Claude autonomous judgment — pending master-dd
+// review (ADR-2026-05-18 still draft; wording = design taste, not engine fact).
+function buildSistemaMemory(session) {
+  const observed =
+    session && session.sistema_state && typeof session.sistema_state.units_observed === 'object'
+      ? session.sistema_state.units_observed
+      : null;
+  if (!observed) return null;
+  const marked = [];
+  for (const unitId of Object.keys(observed)) {
+    const rec = observed[unitId] || {};
+    if (rec.threat_level === 'high') {
+      marked.push({
+        unit_id: unitId,
+        kills_vs_sistema: Number(rec.kills_vs_sistema) || 0,
+        threat_level: 'high',
+      });
+    }
+  }
+  if (marked.length === 0) return null;
+  // Deterministic ordering (most kills first) for stable UI + tests.
+  marked.sort(
+    (a, b) => b.kills_vs_sistema - a.kills_vs_sistema || (a.unit_id < b.unit_id ? -1 : 1),
+  );
+  return {
+    marked,
+    label_it: 'Il Sistema ti ricorda',
+    detail_it: 'Riconosce i predatori provati e fugge prima da loro.',
+  };
+}
+
 function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   // 2026-04-26 (Q19 resolved Opzione A): PE→PI conversion gated su outcome=victory
   // (StS gold analogy). Defeat/timeout = PE earned ma non convertito; resta in pool campaign-wide.
@@ -302,6 +340,9 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // TKT-ECO-A5 — biome pressure rating chip (Gate-5 surface for the live
     // diff_base + hazard engine). null when session has no biome modifiers.
     biome_pressure_rating: buildBiomePressureRating(session),
+    // M1 ADR-2026-05-18 — Sistema persistent-memory chip (Gate-5 surface for the
+    // live cross-session learning + REGOLA_002 retreat). null when nobody marked.
+    sistema_memory: buildSistemaMemory(session),
   };
 }
 
@@ -313,4 +354,5 @@ module.exports = {
   convertPE,
   buildDebriefSummary,
   buildBiomePressureRating,
+  buildSistemaMemory,
 };
