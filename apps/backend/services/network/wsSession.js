@@ -974,6 +974,15 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
   const allIds = Array.from(room.players.values())
     .filter((p) => p.id !== room.hostId && p.role !== 'host')
     .map((p) => p.id);
+  // 2026-05-20 — consistency fix (PR #2340 finding agent 1 wave 2): include
+  // connectedPlayerIds in worldTally invocation so per-socket snapshot
+  // payload exposes connected_* fields, matching broadcast in routes/coop.js
+  // broadcastCoopState() + rebroadcastCoopState() below. Without this,
+  // snapshot at reconnect omits connected_total/accept/reject/pending +
+  // all_connected_accepted → phone clients see inconsistent shape.
+  const connectedIds = Array.from(room.players.values())
+    .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
+    .map((p) => p.id);
   const send = (msg) => {
     try {
       socket.send(JSON.stringify(msg));
@@ -994,7 +1003,7 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
     send({ type: 'character_ready_list', payload: orch.characterReadyList(allIds) });
   }
   if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
-    send({ type: 'world_tally', payload: orch.worldTally(allIds) });
+    send({ type: 'world_tally', payload: orch.worldTally(allIds, connectedIds) });
   }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     send({
@@ -1014,8 +1023,20 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
  */
 function rebroadcastCoopState(room, orch) {
   if (!room || typeof room.broadcast !== 'function' || !orch) return;
+  // 2026-05-20 — sync orchestrator.hostId with Room.hostId post host transfer
+  // (coop-phase-validator audit Finding 1). Prevents stale hostId footgun
+  // for any future caller relying on orch.hostId for host-only gates.
+  if (typeof orch.setHostId === 'function' && orch.hostId !== room.hostId) {
+    orch.setHostId(room.hostId);
+  }
   const allIds = Array.from(room.players.values())
     .filter((p) => p.id !== room.hostId && p.role !== 'host')
+    .map((p) => p.id);
+  // 2026-05-20 — consistency fix (PR #2340 finding agent 1 wave 2): pass
+  // connectedPlayerIds to worldTally so rebroadcast surfaces connected_*
+  // fields parity with routes/coop.js broadcastCoopState + snapshot above.
+  const connectedIds = Array.from(room.players.values())
+    .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
     .map((p) => p.id);
   room.broadcast({
     type: 'phase_change',
@@ -1033,7 +1054,7 @@ function rebroadcastCoopState(room, orch) {
     });
   }
   if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
-    room.broadcast({ type: 'world_tally', payload: orch.worldTally(allIds) });
+    room.broadcast({ type: 'world_tally', payload: orch.worldTally(allIds, connectedIds) });
   }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     room.broadcast({

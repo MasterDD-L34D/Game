@@ -23,27 +23,109 @@ const yaml = require('js-yaml');
 const BIAS_FILE = path.join(process.cwd(), 'data', 'core', 'forms', 'form_pack_bias.yaml');
 let _cache = null;
 
-// QW2 / M-017: Form -> starter bioma mapping (slot `starter_bioma` resolution).
+// QW2 / M-017 / A6: Form -> starter bioma mapping (slot `starter_bioma`).
 // Each Form has a thematic biome + dedicated trait `starter_bioma_<form_id>`
 // defined in data/core/traits/active_effects.yaml + glossary.json.
-// Wire UI onboarding panel = follow-up PR.
+// biome_label_it / trait_label_it sourced from biomes.yaml display_name_it +
+// glossary.json label_it (frontend surface label, A6 Engine LIVE Surface DEAD
+// killer). If those source files drift, regen via `npm run lint:starter-bioma`.
 const STARTER_BIOMA_MAP = Object.freeze({
-  ISTJ: { biome_id: 'steppe_algoritmiche', trait_id: 'starter_bioma_istj' },
-  ISFJ: { biome_id: 'foresta_temperata', trait_id: 'starter_bioma_isfj' },
-  INFJ: { biome_id: 'foresta_miceliale', trait_id: 'starter_bioma_infj' },
-  INTJ: { biome_id: 'rovine_planari', trait_id: 'starter_bioma_intj' },
-  ISTP: { biome_id: 'caverna', trait_id: 'starter_bioma_istp' },
-  ISFP: { biome_id: 'reef_luminescente', trait_id: 'starter_bioma_isfp' },
-  INFP: { biome_id: 'foresta_acida', trait_id: 'starter_bioma_infp' },
-  INTP: { biome_id: 'canyons_risonanti', trait_id: 'starter_bioma_intp' },
-  ESTP: { biome_id: 'savana', trait_id: 'starter_bioma_estp' },
-  ESFP: { biome_id: 'dorsale_termale_tropicale', trait_id: 'starter_bioma_esfp' },
-  ENFP: { biome_id: 'canopia_ionica', trait_id: 'starter_bioma_enfp' },
-  ENTP: { biome_id: 'atollo_obsidiana', trait_id: 'starter_bioma_entp' },
-  ESTJ: { biome_id: 'badlands', trait_id: 'starter_bioma_estj' },
-  ESFJ: { biome_id: 'pianura_salina_iperarida', trait_id: 'starter_bioma_esfj' },
-  ENFJ: { biome_id: 'palude', trait_id: 'starter_bioma_enfj' },
-  ENTJ: { biome_id: 'abisso_vulcanico', trait_id: 'starter_bioma_entj' },
+  ISTJ: {
+    biome_id: 'steppe_algoritmiche',
+    biome_label_it: 'Steppe Algoritmiche',
+    trait_id: 'starter_bioma_istj',
+    trait_label_it: 'Adattamento Steppe (ISTJ)',
+  },
+  ISFJ: {
+    biome_id: 'foresta_temperata',
+    biome_label_it: 'Foresta Temperata Umida',
+    trait_id: 'starter_bioma_isfj',
+    trait_label_it: 'Adattamento Foresta Temperata (ISFJ)',
+  },
+  INFJ: {
+    biome_id: 'foresta_miceliale',
+    biome_label_it: 'Foresta Miceliale',
+    trait_id: 'starter_bioma_infj',
+    trait_label_it: 'Adattamento Foresta Miceliale (INFJ)',
+  },
+  INTJ: {
+    biome_id: 'rovine_planari',
+    biome_label_it: 'Rovine Planari Fratturate',
+    trait_id: 'starter_bioma_intj',
+    trait_label_it: 'Adattamento Rovine Planari (INTJ)',
+  },
+  ISTP: {
+    biome_id: 'caverna',
+    biome_label_it: 'Caverna Risonante',
+    trait_id: 'starter_bioma_istp',
+    trait_label_it: 'Adattamento Caverna (ISTP)',
+  },
+  ISFP: {
+    biome_id: 'reef_luminescente',
+    biome_label_it: 'Scogliera Luminescente',
+    trait_id: 'starter_bioma_isfp',
+    trait_label_it: 'Adattamento Reef Luminescente (ISFP)',
+  },
+  INFP: {
+    biome_id: 'foresta_acida',
+    biome_label_it: 'Foresta Acida',
+    trait_id: 'starter_bioma_infp',
+    trait_label_it: 'Adattamento Foresta Acida (INFP)',
+  },
+  INTP: {
+    biome_id: 'canyons_risonanti',
+    biome_label_it: 'Canyon Risonanti',
+    trait_id: 'starter_bioma_intp',
+    trait_label_it: 'Adattamento Canyons Risonanti (INTP)',
+  },
+  ESTP: {
+    biome_id: 'savana',
+    biome_label_it: 'Savana Ionizzata',
+    trait_id: 'starter_bioma_estp',
+    trait_label_it: 'Adattamento Savana (ESTP)',
+  },
+  ESFP: {
+    biome_id: 'dorsale_termale_tropicale',
+    biome_label_it: 'Dorsale Termale Tropicale',
+    trait_id: 'starter_bioma_esfp',
+    trait_label_it: 'Adattamento Dorsale Tropicale (ESFP)',
+  },
+  ENFP: {
+    biome_id: 'canopia_ionica',
+    biome_label_it: 'Canopia Ionica',
+    trait_id: 'starter_bioma_enfp',
+    trait_label_it: 'Adattamento Canopia Ionica (ENFP)',
+  },
+  ENTP: {
+    biome_id: 'atollo_obsidiana',
+    biome_label_it: 'Atollo di Ossidiana',
+    trait_id: 'starter_bioma_entp',
+    trait_label_it: 'Adattamento Atollo Obsidiana (ENTP)',
+  },
+  ESTJ: {
+    biome_id: 'badlands',
+    biome_label_it: 'Calanchi Ferromagnetici',
+    trait_id: 'starter_bioma_estj',
+    trait_label_it: 'Adattamento Badlands (ESTJ)',
+  },
+  ESFJ: {
+    biome_id: 'pianura_salina_iperarida',
+    biome_label_it: 'Pianura Salina Iperarida',
+    trait_id: 'starter_bioma_esfj',
+    trait_label_it: 'Adattamento Pianura Salina (ESFJ)',
+  },
+  ENFJ: {
+    biome_id: 'palude',
+    biome_label_it: 'Palude Tossica',
+    trait_id: 'starter_bioma_enfj',
+    trait_label_it: 'Adattamento Palude (ENFJ)',
+  },
+  ENTJ: {
+    biome_id: 'abisso_vulcanico',
+    biome_label_it: 'Abisso Vulcanico',
+    trait_id: 'starter_bioma_entj',
+    trait_label_it: 'Adattamento Abisso Vulcanico (ENTJ)',
+  },
 });
 
 function loadBias() {
@@ -109,7 +191,9 @@ function listStarterBiomas() {
   return Object.entries(STARTER_BIOMA_MAP).map(([form_id, v]) => ({
     form_id,
     biome_id: v.biome_id,
+    biome_label_it: v.biome_label_it,
     trait_id: v.trait_id,
+    trait_label_it: v.trait_label_it,
   }));
 }
 

@@ -395,22 +395,47 @@ function roleFromType(entry = {}) {
   return 'evento_ecologico';
 }
 
+function extractPathfinderLists(statblock, options) {
+  return {
+    fallbackTraits: Array.isArray(options.fallbackTraits) ? options.fallbackTraits : [],
+    geneticTraits: Array.isArray(statblock.genetic_traits) ? statblock.genetic_traits : [],
+    abilities: Array.isArray(statblock.special_abilities)
+      ? statblock.special_abilities.filter(Boolean)
+      : [],
+    environmentTags: Array.isArray(statblock.environment_tags)
+      ? statblock.environment_tags.filter(Boolean)
+      : [],
+  };
+}
+
+function buildPathfinderStats(axes) {
+  const threatTier = threatTierFromScore(axes.threat);
+  const rarity = rarityFromScore(axes.versatility);
+  return {
+    balance: {
+      threat_tier: threatTier,
+      rarity,
+      encounter_role: 'ambient',
+    },
+    statistics: {
+      threat_tier: threatTier,
+      rarity,
+      energy_profile: null,
+      synergy_score: clampScore(axes.versatility),
+    },
+  };
+}
+
 function buildPathfinderProfile(statblock, options = {}) {
   if (!statblock || typeof statblock !== 'object') {
     throw new Error('Statblock Pathfinder non valido');
   }
   const axes = statblock.axes || {};
-  const vc = vcFromAxes(axes);
-  const threatTier = threatTierFromScore(axes.threat);
-  const rarity = rarityFromScore(axes.versatility);
-  const fallbackTraits = Array.isArray(options.fallbackTraits) ? options.fallbackTraits : [];
-  const geneticTraits = Array.isArray(statblock.genetic_traits) ? statblock.genetic_traits : [];
-  const abilities = Array.isArray(statblock.special_abilities)
-    ? statblock.special_abilities.filter(Boolean)
-    : [];
-  const environmentTags = Array.isArray(statblock.environment_tags)
-    ? statblock.environment_tags.filter(Boolean)
-    : [];
+  const { fallbackTraits, geneticTraits, abilities, environmentTags } = extractPathfinderLists(
+    statblock,
+    options,
+  );
+  const { balance, statistics } = buildPathfinderStats(axes);
 
   return {
     id: `pathfinder-${statblock.id}`,
@@ -424,20 +449,11 @@ function buildPathfinderProfile(statblock, options = {}) {
       String(statblock.subtype || '').toLowerCase(),
     ].filter(Boolean),
     biomes: options.biomeId ? [options.biomeId] : [],
-    vc,
+    vc: vcFromAxes(axes),
     playable_unit: false,
     spawn_rules: { densita: 'moderata' },
-    balance: {
-      threat_tier: threatTier,
-      rarity,
-      encounter_role: 'ambient',
-    },
-    statistics: {
-      threat_tier: threatTier,
-      rarity,
-      energy_profile: null,
-      synergy_score: clampScore(axes.versatility),
-    },
+    balance,
+    statistics,
     traits: {
       core: Array.from(new Set(['pathfinder', ...geneticTraits, ...fallbackTraits])),
       derived: [],
@@ -448,10 +464,7 @@ function buildPathfinderProfile(statblock, options = {}) {
       adaptations: geneticTraits,
       environments: environmentTags,
     },
-    behavior: {
-      tags: ['pathfinder'],
-      drives: abilities.slice(0, 2),
-    },
+    behavior: { tags: ['pathfinder'], drives: abilities.slice(0, 2) },
     special_abilities: abilities,
     environment_affinity: {
       biome_class: options.biomeId || 'pathfinder_unknown',
@@ -462,12 +475,7 @@ function buildPathfinderProfile(statblock, options = {}) {
       optional_traits: [],
       synergy_traits: ['pathfinder'],
     },
-    source_dataset: {
-      id: 'pathfinder',
-      profile_id: statblock.id,
-      cr: statblock.cr,
-      axes,
-    },
+    source_dataset: { id: 'pathfinder', profile_id: statblock.id, cr: statblock.cr, axes },
   };
 }
 

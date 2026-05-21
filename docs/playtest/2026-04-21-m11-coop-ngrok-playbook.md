@@ -134,7 +134,7 @@ Stesso flow, modulation `quartet` (4p × 1PG = 4 schierati). Uno player = 1 PG. 
 | ------------------------- | ---------------------------------------------- | ----------------------------- |
 | RTT intent → broadcast    | Cronometrare intent submit → overlay update    | <500ms locale · <1500ms ngrok |
 | Reconnect success rate    | Count reconnect eventi / tentativi             | ≥90% success                  |
-| Host log relay success    | Rapporto ✖ intent relay vs ✓                  | 0 errori                      |
+| Host log relay success    | Rapporto ✖ intent relay vs ✓                   | 0 errori                      |
 | Campaign summary accuracy | PE/PI mostrati in overlay = PE/PI live backend | 100% match                    |
 | UX confusion (soggettivo) | Player verbali "cosa devo fare?" / round       | ≤1 per round                  |
 | Fun rating (post-demo)    | Form feedback (`📣 Feedback` header)           | ≥4/5 media                    |
@@ -171,3 +171,41 @@ Se demo supera 3 round senza crash + ≥4 player + RTT <1500ms ngrok → bump **
 - ADR protocollo: [`docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md`](../adr/ADR-2026-04-20-m11-jackbox-phase-a.md)
 - Phase B close: [`docs/planning/2026-04-21-m11-phase-b-close.md`](../planning/2026-04-21-m11-phase-b-close.md)
 - Strategy: [`docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md`](../planning/2026-04-20-strategy-m9-m11-evidence-based.md)
+
+---
+
+## Addendum 2026-05-18 — Hybrid agent-sim-first + G2 gate + P5 observe-delta
+
+> Proposta codemasterdd (first-principles verdict 2026-05-18, Decisione
+> 009). Questo playbook resta canonical per la sessione umana; addendum =
+> ordine d'esecuzione + cosa-osservare delta. PR #2331 chiusa (duplicava
+> questo doc).
+
+**Ordine corretto (non invertibile)**:
+
+1. **Chiudi M1 = Gate G2 Combat Freeze PRIMA**. Exit criteria
+   (`EVO_FINAL_DESIGN_MILESTONES_AND_GATES` §3): combat canon unico +
+   scope azioni chiuso + test combat/schema verdi. Comandi reali:
+   `npm run test:stack` + `node --test tests/api/contracts-combat.test.js`
+   - `tools/py/game_cli.py validate-datasets` +
+     `tools/check_docs_governance.py` + `scripts/run_deploy_checks.sh`.
+     Persistere/learnare da combat non-frozen = build su sabbia.
+2. **Agent-sim FIRST (esistente, automatico)**: lancia
+   `playtest-2-weekly` / `ai-sim-nightly` (450 run, 30 seed × 5 scen × 3
+   prof). Per master-dd PT2-A le sim sintetiche **contano verso 🟢-hard
+   sample** (no userland recruitment per la statistica). Copre
+   balance/meccanica/regression. Artifact analyzer = evidenza G2.
+3. **Sessione umana SOLO il delta irriducibile**: la sim NON puo'
+   rispondere alla domanda P5. Questo playbook (sopra) per setup. Durante,
+   annota specificamente:
+   - Il Sistema **reagisce** o sembra flat/scriptato? (P5 core "troppo passivo")
+   - Pressure-tier Calm->Apex **percepibile** dai player o opaca?
+   - I player **sentono un avversario** o "muovono pedine"?
+   - Serve "Sistema che ricorda tra partite" (ADR #2328 S7) o e' **tuning
+     in-match**? → se tuning: verdetto C/defer #2328 **confermato da
+     evidenza**; se memoria: requisito concreto emerso.
+
+**Vincolo**: nessun codice DF/Sistema (S7/eventlog/identity/chronicle)
+prima del punto 3. Rif: codemasterdd `STATUS_MULTI_REPO` §DF + Decisione
+009; ADR-2026-05-18-df-levels-integration-direction (#2330) +
+sistema-persistent-state (#2328).

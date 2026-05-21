@@ -98,8 +98,34 @@ GitHub events ──cron 4h──▶ tools/py/skiv_monitor.py ──writes──
 | Single-platform UI (Discord bot) | Triple-surface architectural choice                        |
 | Octokit npm deps for webhook     | npm dep approval pending — deferred (proposal doc shipped) |
 
+## Addendum — Distribution channel v2 (OD-042-A, 2026-05-16)
+
+**Supersedes**: "git-hub-via-PR-to-main" distribution path.
+
+**Problema rilevato**: il canale "bot apre PR derived-only → main protetto"
+generava (1) PR BLOCKED ricorrente eterno (`ci.yml` required-check
+path-filtered → skipped su PR derived → mai mergiabile, vedi Game #2257)
+e (2) bloat: `feed.jsonl` append-only 8.3 MB +ogni 4h nella git-history
+di `main` se mergiato.
+
+**Decisione master-dd (vault `docs/decisions/OD-042-skiv-monitor-
+distribution-channel-2026-05-16.md`, verdict A)**: lo stato Skiv è dato
+derived/rigenerabile di distribuzione → NON appartiene a `main`. Bot
+orphan-force-push a branch dedicato non-protetto `skiv-monitor/state`
+(nessun PR, nessun required-check, history shallow ogni run = zero
+bloat). Git resta hub cross-PC (intento ADR preservato), fuori dal path
+protetto. Backend `apps/backend/routes/skiv.js` fetcha quel branch
+(raw.githubusercontent + cache TTL + fallback locale graceful). API
+`/api/skiv/{status,feed,card}` invariata. Cleanup gitignore
+`data/derived/skiv_monitor/` = follow-up opzionale separato (post
+stabilizzazione, coerente con `data/derived/unit_diaries/` già gitignored).
+
+Resto dell'ADR (event-driven deterministic, mapping pure-function,
+lifecycle, voice) **invariato**: cambia solo il canale di distribuzione.
+
 ## Cross-references
 
+- Decisione redesign: [vault OD-042](../decisions/) (`docs/decisions/OD-042-skiv-monitor-distribution-channel-2026-05-16.md`)
 - Persona canonical: [docs/skiv/CANONICAL.md](../skiv/CANONICAL.md)
 - Live monitor doc: [docs/skiv/MONITOR.md](../skiv/MONITOR.md) (autogen, do NOT edit)
 - Plan: [docs/planning/2026-04-25-skiv-monitor-plan.md](../planning/2026-04-25-skiv-monitor-plan.md)

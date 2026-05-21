@@ -11,6 +11,8 @@
 'use strict';
 
 const express = require('express');
+const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
+const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
 
 function createCoopRouter({ lobby, coopStore } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
@@ -93,6 +95,23 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       }
     }
   }
+
+  // 2026-05-20 — readonly diagnostic per onboarding hint (A6 pattern
+  // `listStarterBiomas` replicato; gap-fill Explore quick-win discovery).
+  // Frontend onboarding HUD può preload role expectation per biome scelto.
+  router.get('/coop/role-demands', (_req, res) => {
+    const items = listBiomeRoleDemands();
+    res.json({ count: items.length, items });
+  });
+
+  // 2026-05-20 — readonly diagnostic per onboarding world mood preload
+  // (A6 pattern `listBiomeRoleDemands` replicato; gap-fill Explore quick-win
+  // discovery). Frontend onboarding HUD può preload aliena_summary_it per
+  // biome scelto. Doctrine: surface diegetic summary, mai label "ALIENA".
+  router.get('/coop/aliena-summaries', (_req, res) => {
+    const items = listAlienaSummaries();
+    res.json({ count: items.length, items });
+  });
 
   router.post('/coop/run/start', (req, res) => {
     const { code, host_token: hostToken, scenario_stack: scenarioStack } = req.body || {};

@@ -76,6 +76,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--telemetry", required=True, help="Path to telemetry JSONL")
     p.add_argument("--output", help="Output markdown path (default stdout)")
     p.add_argument(
+        "--json-out",
+        help="Optional path to dump aggregated metric dicts as JSON "
+        "(machine-readable; non-breaking, markdown output unchanged)",
+    )
+    p.add_argument(
         "--min-sample",
         type=int,
         default=MIN_SAMPLE_GREEN_HARD,
@@ -452,6 +457,40 @@ def main() -> int:
     perf = analyze_performance(events)
 
     report = build_report(summary, p3, p4, p6, od024, od026, perf, args.min_sample)
+
+    # Envelope A A4 — optional machine-readable JSON dump of the aggregated
+    # metric dicts. Non-breaking: markdown output path is unchanged. The
+    # nightly workflow uploads this alongside the report so downstream
+    # tooling (drift dashboards) does not have to re-parse markdown.
+    if args.json_out:
+        json_path = Path(args.json_out)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        # job_tier_breakdown uses (job, tier) tuple keys → JSON-unsafe.
+        # Re-key to "job::tier" strings for the machine dump only (the
+        # markdown report keeps the original tuple-keyed dict untouched).
+        p3_json = dict(p3)
+        p3_json["job_tier_breakdown"] = {
+            f"{job}::{tier}": count
+            for (job, tier), count in p3["job_tier_breakdown"].items()
+        }
+        machine = {
+            "summary": {
+                "total_sessions": summary["total_sessions"],
+                "total_events": summary["total_events"],
+            },
+            "min_sample": args.min_sample,
+            "p3_promotions": p3_json,
+            "p4_psicologico": p4,
+            "p6_fairness": p6,
+            "od024_interoception": od024,
+            "od026_atlas": od026,
+            "performance": perf,
+        }
+        json_path.write_text(
+            json.dumps(machine, indent=2, default=str), encoding="utf-8"
+        )
+        print(f"[playtest-2-analyzer] JSON metrics written: {json_path}")
+
     if args.output:
         out_path = Path(args.output)
         out_path.parent.mkdir(parents=True, exist_ok=True)

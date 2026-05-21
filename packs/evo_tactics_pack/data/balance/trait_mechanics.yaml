@@ -901,7 +901,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: branchie_osmotiche_salmastra_guard
@@ -976,7 +977,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: carapace_segmenti_logici_guard
@@ -991,7 +993,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: carapaci_ferruginosi_guard
@@ -1006,7 +1009,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: cartilagini_pseudometalliche_guard
@@ -1245,7 +1249,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: ghiandole_grafene_guard
@@ -1474,7 +1479,8 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    # 2026-05-20 balance-auditor P1 fix — Wave 5-7 cluster nerf (cost_ap 1→2 vs 6-trait batch-fill artifact mismatching AP:3 mantle baseline).
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: pelli_fitte_guard
@@ -1548,3 +1554,51 @@ traits:
         damage_dice: { count: 1, sides: 4, modifier: 2 }
         channel: fisico
         target: enemy
+
+  # 2026-05-20 balance-auditor wave 3 A4 ship — closes ionico dead-channel.
+  # Pre-fix: channel ionico defined in species_resistances.yaml (5 archetype
+  # neutral 100, termico vulnerable 120) MA zero damage trait usa channel:
+  # ionico. Termico glass-cannon "ionico vuln" was DEAD threat (0/27 traits).
+  # Post-fix: 2 nuovi trait con channel ionico. Termico vuln 120 = +20%
+  # damage taken → tactical counter activated. Wind/dark/fuoco corpus parity:
+  # 3/1/1 → adding 2 ionico → corpus damage channel coverage 8 trait-channels
+  # active (vs 6 pre-fix). Glass-cannon termico practical exposure ora 6/29
+  # (20%) vs 4/27 (15%) pre-fix.
+  scarica_ionica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances:
+      - { channel: ionico, modifier_pct: 10 }
+    active_effects:
+      - ability_id: ionic_pulse
+        name_it: "Impulso Ionico"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: ionico
+        target: enemy
+    notes: "2026-05-20 balance A4 (wave 3): ionico damage basic. EV 4.5 a AP 2 (mirror pattern wind `gale_burst` 1d6+2). Resist ionico +10 (mirror wind resist on focus_frazionato). Closes dead-channel termico vuln (was 0 traits)."
+
+  arco_voltaico:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances:
+      - { channel: ionico, modifier_pct: 15 }
+    active_effects:
+      - ability_id: voltaic_arc
+        name_it: "Arco Voltaico"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: ionico
+        target: enemy
+    on_hit_status:
+      status_id: disorient
+      duration: 1
+      intensity: 1
+      trigger_dc: 14
+    notes: "2026-05-20 balance A4 (wave 3): ionico damage + on-hit disorient (mirror dark `umbral_spore` pattern). EV 5.5 a AP 2 con damage_step +1. trigger_dc 14 medio (vs umbral_spore 12, vortice 15). Resist ionico +15 (above scarica_ionica baseline)."

@@ -1486,11 +1486,15 @@ function createSessionRouter(options = {}) {
         if (curves) {
           const encCls = getEncounterClass(req.body, curves);
           encounterClassUsed = encCls;
+          // 2026-05-21 hc07 iter2: scenario_id passthrough enables
+          // enemy_damage_multiplier_override per-scenario (replaces class default).
+          const scenarioIdForEdm =
+            req.body?.encounter?.id || req.body?.encounter_id || req.body?.scenario_id || null;
           units = units.map((u) => {
             if (!u) return u;
             if (u.controlled_by !== 'sistema') return u;
             const clone = { ...u };
-            applyEnemyDamageMultiplier(clone, encCls, curves);
+            applyEnemyDamageMultiplier(clone, encCls, curves, scenarioIdForEdm);
             return clone;
           });
         }

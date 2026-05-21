@@ -1,0 +1,198 @@
+{
+  "scenario": "enc_tutorial_07_hardcore_pod_rush",
+  "runs": [
+    {
+      "run": 1,
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 32,
+        "unknown": 2
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 2,
+      "outcome": "victory",
+      "rounds": 11,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 32,
+        "unknown": 2
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 3,
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 25,
+        "unknown": 2
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 4,
+      "outcome": "victory",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 44,
+        "unknown": 1
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 5,
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 26,
+        "unknown": 5
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 6,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 46
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 7,
+      "outcome": "timeout",
+      "rounds": 15,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 1,
+      "kills": 2,
+      "losses": 1,
+      "kd": 2.0,
+      "player_action_tally": {
+        "move": 5,
+        "attack": 45
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 8,
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 33,
+        "unknown": 4
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 9,
+      "outcome": "victory",
+      "rounds": 12,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 34,
+        "unknown": 3
+      },
+      "trait_used_tally": {}
+    },
+    {
+      "run": 10,
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0,
+      "player_action_tally": {
+        "move": 8,
+        "attack": 37,
+        "unknown": 3
+      },
+      "trait_used_tally": {}
+    }
+  ],
+  "summary": {
+    "n": 10,
+    "win_rate": 80.0,
+    "win_rate_ci95": [50.0, 100],
+    "defeat_rate": 0.0,
+    "defeat_rate_ci95": [0, 0],
+    "timeout_rate": 20.0,
+    "timeout_rate_ci95": [0, 50.0],
+    "timer_expire_rate": 0.0,
+    "rounds_avg": 12.3,
+    "rounds_ci95": [11, 13.5],
+    "rounds_median": 12.0,
+    "kd_avg": 2.8,
+    "kd_ci95": [2.5, 3.0],
+    "target_band": "win 30-50%",
+    "in_band": false,
+    "player_action_distribution": {
+      "move": 68,
+      "attack": 354,
+      "unknown": 22
+    },
+    "trait_used_distribution": {},
+    "elapsed_s": 319.8,
+    "failures": 0
+  }
+}

@@ -385,6 +385,188 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-20 late-notte — Multi-agent cascade wave 1-6 + A4 design-space — v44.3)
+
+**Sessione 2026-05-20 (cascade wave 1-6, ~11h cumulative)**: **21 PR cross-repo shipped + merged main** (20 Game + 1 codemasterdd). Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical **6 wave consecutive** (3+2+3+3+1+2 agent + serial inline cleanup). Pilastri reinforced: 5/5 BACKLOG coop test gaps CLOSED + balance P1+P2+P3 cleanup + A4 design-space activation (ionico channel live) + 5 A6-pattern readonly diagnostic endpoint (starter-biomas/role-demands/aliena/status+biome/ennea-effects) + 17 offspring negative tests + 9 env flag documented + termico glass-cannon ratified.
+
+**PR shipped main 2026-05-20 wave 6 addendum** (5 nuovi vs v44.2):
+
+| #   | PR                                                            | Wave | Topic                                                                         |
+| --- | ------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------- |
+| 17  | [Game #2349](https://github.com/MasterDD-L34D/Game/pull/2349) | 5    | Handoff doc v44.2 (16 PR cumulative)                                          |
+| 18  | [Game #2350](https://github.com/MasterDD-L34D/Game/pull/2350) | 5b   | Balance P2/P3 cleanup (termico desc + commit_window deprecated + gravita doc) |
+| 19  | [Game #2351](https://github.com/MasterDD-L34D/Game/pull/2351) | 5c   | A4 design-space activation: 2 ionico traits (scarica_ionica + arco_voltaico)  |
+| 20  | [Game #2352](https://github.com/MasterDD-L34D/Game/pull/2352) | 6    | Ennea-effects readonly diagnostic (A6 5th endpoint cumulative)                |
+
+**Pillar deltas v44.2 → v44.3**:
+
+- P3 Identità: 🟢 candidato HARD reinforced **+ ennea catalog surface** (4 trait readonly endpoint cumulativi expose canonical map)
+- P4 Temperamenti MBTI/Ennea: 🟢 candidato → 🟢 **candidato HARD reinforced** (ennea-effects readonly endpoint shipped + 9/9 archetype catalog frontend-preloadable)
+- P6 Fairness: 🟢 confirmed candidato post **A4 design-space activation** (ionico dead-channel closed + 2 new trait + termico practical exposure 15% → 21%)
+
+**Tool/skill stack proven (cumulative wave 1-6)**:
+
+- `superpowers:dispatching-parallel-agents` v5.1.0 — **proven 6 wave consecutive** ROI 4-6x
+- `superpowers:handoff` × 3 (v44 + v44.1/2 + v44.3)
+- `superpowers:fewer-permission-prompts` — 10 entries applied
+- 10 agent total dispatched cross wave: `coop-phase-validator` + `repo-archaeologist` × 2 + `Explore` × 3 + `general-purpose` × 5 + `balance-auditor` + `playtest-analyzer`
+- 2 museum cards (coop-ws-test-infra + session-debug-infra) score 5/5
+- AA01 lessons L-064/065/066/067/068 encoded (multi-agent ROI + Self-Mod HARD BLOCK + parallel session drift + cwd contamination recovery + **design-space activation via corpus balance**)
+
+**Balance audit verdict status (post wave 6)**:
+
+- ✅ P1 Wave 5-7 cluster nerf — SHIPPED #2344
+- ✅ P2 termico glass-cannon — RATIFIED (3-channel intentional, A4 corpus activated)
+- ✅ P2 artigli pick-rate — monitor flag (playtest-analyzer wave 6: no fresh post-nerf batch data, need N=10 hardcore_07 run)
+- ✅ P3 aggressive_commit_window — DEPRECATED #2350
+- ✅ P3 gravita reserved — DOC #2350 (B1 verdict KEEP)
+- ✅ A4 ionico design-space — ACTIVATED #2351 (2 trait shipped)
+
+**Playtest-analyzer wave 6 findings** (gated master-dd action):
+
+- 🔴 hardcore_07 WR 80-100% vs target 30-50% (4-5 batch runs out-of-band, all pre-Wave 5-7 data)
+- 🔴 hardcore_06 0% WR (party damage insufficient vs Apex+Critical boss, all pre-Wave 5-7)
+- 🟡 enc_tutorial_01 round=41 cap 14% stall rate (47/337 runs)
+- 🟡 MBTI vc telemetry not firing (vc_mbti null in 413 session logs)
+- 🟡 PI-shop trait_T3 acquisition <3% (economically unreachable in normal play)
+
+**Recommendation autonomous-defer master-dd**: run N=10 `batch_calibrate_hardcore07.py` post-Wave 5-7 nerf per verify drift (richiede backend + Python + ~10-15min userland).
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica worktree cleanup post-master-dd + run N=10 batch_calibrate_hardcore07.py post-Wave 5-7 nerf per verify drift OR tackle Atlas Envelope C runtime gated playtest OR Sprint Q+ ETL Q-1+Q-2 forbidden path bundle"_
+
+A6 pattern provato 5x scalabile (starter-biomas + role-demands + aliena + status/biome + ennea). Coop infra COMPLETO. Balance ecosystem reinforced + design-space ionico activated. Prossima frontiera: P6 calibration verification post-nerf + P5 playtest live.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-05-20 notte — Multi-agent cascade wave 1-5 — v44.2) [SUPERSEDED v44.3]
+
+**Sessione 2026-05-20 (cascade wave 1-5, ~9h cumulative)**: **16 PR cross-repo shipped + merged main** (15 Game + 1 codemasterdd). Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical **5 wave consecutive** (3+2+3+3+1 agent + serial inline cleanup). 5/5 BACKLOG coop test gaps CLOSED + balance P1 fix + 3 nuovi diagnostic readonly route (coop role-demands + aliena summaries + combat status/biome) + offspring negative coverage + 9 env flag documented.
+
+**PR shipped main 2026-05-20** (16):
+
+| #   | PR                                                                                     | Wave | Topic                                                                |
+| --- | -------------------------------------------------------------------------------------- | ---- | -------------------------------------------------------------------- |
+| 1   | [Game #2334](https://github.com/MasterDD-L34D/Game/pull/2334)                          | 0    | A6 starter_bioma frontend label surface                              |
+| 2   | [Game #2335](https://github.com/MasterDD-L34D/Game/pull/2335)                          | 0    | Phase-skip + startRun negative tests                                 |
+| 3   | [Game #2336](https://github.com/MasterDD-L34D/Game/pull/2336)                          | 1    | Disconnect race unit + computeRoleGap negative (auto-bundled W8O-2)  |
+| 4   | [Game #2337](https://github.com/MasterDD-L34D/Game/pull/2337)                          | 1    | Fix P1 orch.hostId stale gate                                        |
+| 5   | [Game #2338](https://github.com/MasterDD-L34D/Game/pull/2338)                          | 1    | listBiomeRoleDemands + GET /api/coop/role-demands                    |
+| 6   | [Game #2339](https://github.com/MasterDD-L34D/Game/pull/2339)                          | 1    | Handoff doc v44                                                      |
+| 7   | [Game #2340](https://github.com/MasterDD-L34D/Game/pull/2340)                          | 2    | WS e2e Multi-player disconnect race (3 scenari)                      |
+| 8   | [Game #2341](https://github.com/MasterDD-L34D/Game/pull/2341)                          | 2    | WS e2e Host-transfer + coop-state sync (3 scenari)                   |
+| 9   | [Game #2342](https://github.com/MasterDD-L34D/Game/pull/2342)                          | 2    | Handoff v44.1 wave 2 update                                          |
+| 10  | [Game #2343](https://github.com/MasterDD-L34D/Game/pull/2343)                          | 3    | snapshot world_tally consistency fix + test 4 CI-race fix            |
+| 11  | [Game #2344](https://github.com/MasterDD-L34D/Game/pull/2344)                          | 4    | Balance Wave 5-7 6-trait cluster nerf (cost_ap 1→2, P1 auditor)      |
+| 12  | [Game #2345](https://github.com/MasterDD-L34D/Game/pull/2345)                          | 4    | listAlienaSummaries + GET /api/coop/aliena-summaries (clean rebuild) |
+| 13  | [Game #2346](https://github.com/MasterDD-L34D/Game/pull/2346)                          | 4    | propagateOffspringRitual 17 negative-path tests                      |
+| 14  | [Game #2347](https://github.com/MasterDD-L34D/Game/pull/2347)                          | 5    | Combat readonly diagnostic (status-penalties + biome-modifiers)      |
+| 15  | [Game #2348](https://github.com/MasterDD-L34D/Game/pull/2348)                          | 5    | Doc 9 backend env flag in deploy-min-checklist                       |
+| 16  | [codemasterdd #187](https://github.com/MasterDD-L34D/codemasterdd-ai-station/pull/187) | 1    | Handoff stamps cascade                                               |
+
+**Pillar deltas v44.1 → v44.2**:
+
+- P3 Identità: 🟢 candidato HARD reinforced (A6 surface + 3 nuovi readonly diagnostic = 4 endpoint nuovi A6 pattern proven scalable)
+- P5 Co-op: 🟢 confirmed HARD reinforced (5/5 coop test gaps CLOSED + WS e2e + snapshot consistency + offspring negative coverage)
+- P6 Fairness: 🟢 candidato → 🟢 confirmed candidato (balance Wave 5-7 cluster nerf + audit chain + 6 traits cost_ap recalibrato baseline)
+
+**Tool/skill stack proven (cumulative wave 1-5)**:
+
+- `superpowers:dispatching-parallel-agents` v5.1.0 — single-message multi-Agent call pattern, ROI 4-6x vs sequenziale, **proven 5 wave consecutive**
+- `superpowers:handoff` × 2 (wave 1 + wave 2/3/4/5 cumulative)
+- `superpowers:fewer-permission-prompts` — 10 entries `.claude/settings.json` add (apply-manuale per Self-Mod HARD BLOCK L-065)
+- 8 agent total dispatched: `coop-phase-validator` + `repo-archaeologist` × 2 + `Explore` × 2 + `general-purpose` × 5 (WS e2e × 2, balance fix, aliena, offspring) + `balance-auditor`
+- 2 museum cards shipped (M-2026-05-20 coop-ws-test-infra + session-debug-infra) entrambi score 5/5
+- `mcp__Claude_Preview__preview_*` × 2 (backend live probe A6 + role-demands)
+- AA01 lessons L-064/065/066/067 encoded (multi-agent ROI, Self-Mod HARD BLOCK, parallel session drift, agent-cwd contamination recovery)
+
+**Warning/blockers raccolti** (cross-PC master-dd):
+
+- 5 worktree orphan dirty `.claude/worktrees/*` (mod docker-compose, scheduled_tasks.lock × 2, governance_drift_report, 2 untracked playtest reports — verify before remove)
+- Auto-merge L3 GH setting `enablePullRequestAutoMerge=false` Game repo vs ADR-2026-05-07 ACCEPTED (fallback: immediate merge post update-branch)
+- Husky lint-staged auto-backup branch confuse flow (lesson L-066)
+- Parallel agent shared cwd contamination (lesson L-067, recovery cherry-pick fresh main proven)
+- PostEdit hook "No preview server running" spam su test-only/doc-only edits
+- Codex review COMMENTED treated as pass-through
+
+**Balance audit P2/P3 deferred** (balance-auditor wave 3 findings):
+
+- 🟡 monitor: `artigli_sette_vie` damage/cost ratio +40% (already nerfed, monitor pick-rate sim)
+- 🟡 monitor: `termico` archetype 3-channel vulnerability (verify design intent)
+- 🟢 polish: `aggressive_commit_window` profile duplicate (deprecated flag)
+- 🟢 polish: `gravita` channel dead (remove o aggiungi 1 trait)
+
+**Handoff doc**: [`docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md`](docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md) (wave 1 baseline; wave 2-5 additions inline questa sezione + AA01 L-064/065/066/067)
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica worktree cleanup post-master-dd + tackle balance P2 monitor (artigli pick-rate nightly sim + termico design verify) OR P5 advance (Atlas Envelope C runtime gated playtest OR Sprint Q+ ETL Q-1+Q-2 forbidden path bundle post-Phase-B-accept)"_
+
+A6 pattern provato scalabile (4 readonly diagnostic endpoint cumulativo: starter-biomas + role-demands + aliena-summaries + status-penalties + biome-modifiers). Coop infra COMPLETO. Balance P1 fix shipped. Prossima frontiera: P5 playtest live OR Sprint Q+ ETL.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-05-20 sera — Parallel cascade multi-agent dispatch wave 1+2 — v44.1) [SUPERSEDED v44.2]
+
+**Sessione 2026-05-20 (parallel cascade multi-agent wave 1+2, ~5h cumulative)**: **9 PR cross-repo shipped + merged main** via auto-merge L3 immediate fallback. Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical 2 wave: wave 1 = 3 agent (coop-phase-validator + repo-archaeologist + Explore) → 3 PR cascade ~33min; wave 2 = 2 agent (general-purpose × 2) → 2 PR cascade ~30min. **5/5 BACKLOG coop test gaps CLOSED definitivamente**.
+
+**PR shipped main 2026-05-20** (9):
+
+| PR                                                                                     | Topic                                                                                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [Game #2334](https://github.com/MasterDD-L34D/Game/pull/2334)                          | A6 starter_bioma frontend label surface (16 Form MBTI biome_label_it + trait_label_it fallback retro-compat) |
+| [Game #2335](https://github.com/MasterDD-L34D/Game/pull/2335)                          | 5 test phase-skip + startRun negative (confirmWorld lobby/character_creation throw, ended allowed)           |
+| [Game #2336](https://github.com/MasterDD-L34D/Game/pull/2336)                          | Disconnect race unit + computeRoleGap negative (auto-bundled W8O-2 fix clearAbilities token-bump)            |
+| [Game #2337](https://github.com/MasterDD-L34D/Game/pull/2337)                          | Fix P1 orch.hostId stale gate (setHostId() + rebroadcastCoopState hook + 5 test)                             |
+| [Game #2338](https://github.com/MasterDD-L34D/Game/pull/2338)                          | listBiomeRoleDemands + GET /api/coop/role-demands diagnostic (A6 pattern, 7 test defensive copy)             |
+| [Game #2339](https://github.com/MasterDD-L34D/Game/pull/2339)                          | Handoff doc parallel-cascade + CLAUDE.md v44 sprint context                                                  |
+| [Game #2340](https://github.com/MasterDD-L34D/Game/pull/2340)                          | WS e2e Multi-player disconnect race (3 scenari: vote+drop, reject+drop, reconnect within ghost grace)        |
+| [Game #2341](https://github.com/MasterDD-L34D/Game/pull/2341)                          | WS e2e Host-transfer + coop-state sync (3 scenari: world_setup tally, debrief payload, sequential A→B→C)     |
+| [codemasterdd #187](https://github.com/MasterDD-L34D/codemasterdd-ai-station/pull/187) | Handoff stamps cascade (STATUS_MULTI_REPO altra sessione bundled)                                            |
+
+**Pillar deltas v44 → v44.1**:
+
+- P3 Identità: 🟢 candidato HARD reinforced (A6 surface live 16/16 Form expose human labels — Engine LIVE Surface DEAD killer Gate 5)
+- P5 Co-op: 🟢 confirmed → 🟢 **confirmed HARD reinforced** (5/5 coop test gaps CLOSED + P1 hostId stale gate fix + WS-level e2e end-to-end coverage)
+
+**Coop test gap closures (BACKLOG) — 5/5 DONE**:
+
+- ✅ Phase-skip negative tests — #2335
+- ✅ Room-code alphabet regex purity (entry stale, già coperto `wsRoomCode.test.js`) — #2335
+- ✅ startRun from combat phase — #2335
+- ✅ Multi-player disconnect race (unit) — #2336 + (WS e2e) — #2340
+- ✅ Host-transfer + coop-state sync (P1 foundation) — #2337 + (WS e2e) — #2341
+
+**Tool/skill stack proven (cumulative wave 1+2)**:
+
+- `superpowers:dispatching-parallel-agents` v5.1.0 — single-message multi-Agent call pattern, ROI 4-6x vs sequenziale, **proven 2 wave consecutive**
+- `superpowers:handoff` — formal handoff doc end-of-session (this update)
+- `superpowers:fewer-permission-prompts` — 10 entries `.claude/settings.json` add (apply-manuale per Self-Mod HARD BLOCK)
+- 5 agent total dispatched: `coop-phase-validator` (5 finding, 1 P1 fixed) + `repo-archaeologist` (museum card score 5/5 reused cross-wave) + `Explore` (5 quick-win ranked, 2 shipped) + `general-purpose` × 2 (WS e2e tests)
+- `mcp__Claude_Preview__preview_*` (backend live probe A6 + role-demands)
+- AA01 lessons L-064/065/066 encoded (post collision-detection cross-store renumber)
+
+**Warning/blockers raccolti** (cross-PC master-dd):
+
+- 5 worktree orphan dirty `.claude/worktrees/*` (mod docker-compose, scheduled_tasks.lock × 2, governance_drift_report, 2 untracked playtest reports — verify before remove)
+- Auto-merge L3 GH setting `enablePullRequestAutoMerge=false` Game repo vs ADR-2026-05-07 ACCEPTED (fallback: immediate merge post update-branch)
+- Husky lint-staged auto-backup branch confuse flow (`claude/w8o2-restore-*` → mio commit landed wrong branch)
+- PostEdit hook "No preview server running" spam su test-only/doc-only edits
+- Codex review COMMENTED treated as pass-through
+- `sendCoopStateSnapshot` (`wsSession.js:997`) emette `world_tally` SENZA `connectedPlayerIds` per-socket join → field `connected_*` missing nel snapshot (vs broadcast post-vote consistente). Out-of-scope #2340/#2341 ma future improvement consistency.
+- BACKLOG.md conflict pattern cross-agent (Agent 2 stash → fresh main → resolve) — codify Future: agents committano BACKLOG closure su SEPARATE entry (no overlap line numbers)
+
+**Handoff doc**: [`docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md`](docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md) (wave 1 baseline; wave 2 additions inline questa sezione + AA01 L-064/065/066)
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica worktree cleanup post-master-dd + tackle next P5 advance (Atlas Envelope C runtime gated playtest, OR start Sprint Q+ ETL Q-1+Q-2 forbidden path bundle post-Phase-B-accept)"_
+
+Coop test infra ora COMPLETO (5/5). Prossima frontiera P5: playtest live OR runtime Atlas / Sprint Q+ ETL.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-15 — Ecosystem audit + Q1 Option A canonical migration + Phase 3 Path D HYBRID FULL CLOSURE — v43)
 
 **Sessione 2026-05-13/14/15 (PR #2260 audit ecosystem + PR #2271 Phase A + Q1 canonical migration + Phase 3 Path D)**: 46+ commit cumulative cross-stack. Resume trigger user "analizza col metodo tutta l'infrastruttura Ecosistema > Biomi > reti trofiche > hazard > specie > mating > creature giocabili > evoluzioni" → cascade 8 OD ai-station verdict + ADR-2026-05-15 Q1 Option A canonical migration full rollout.

@@ -75,6 +75,9 @@ test('GET /api/forms/INTJ/starter-bioma: resolves single form', async (t) => {
   assert.equal(res.body.form_id, 'INTJ');
   assert.equal(res.body.trait_id, 'starter_bioma_intj');
   assert.equal(res.body.biome_id, 'rovine_planari');
+  // A6 surface labels (frontend label gap killer).
+  assert.equal(res.body.biome_label_it, 'Rovine Planari Fratturate');
+  assert.equal(res.body.trait_label_it, 'Adattamento Rovine Planari (INTJ)');
 });
 
 test('GET /api/forms/XXXX/starter-bioma: 404 for unknown form', async (t) => {

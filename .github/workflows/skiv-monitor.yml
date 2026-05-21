@@ -43,7 +43,7 @@ jobs:
           python tools/py/skiv_monitor.py \
             --repo "${{ github.repository }}"
 
-      - name: Commit Skiv state + monitor doc (push to auto branch + PR)
+      - name: Push Skiv state to dedicated branch (OD-042-A, no PR)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -51,27 +51,18 @@ jobs:
             echo "[skiv-monitor] no state change, skipping commit"
             exit 0
           fi
-          # Branch protection main blocca direct push da Actions.
-          # Push a `auto/skiv-monitor-update` + open or update PR.
-          # Master DD review/merge poi confluisce in main.
+          # OD-042-A (master-dd 2026-05-16): NO PR-to-main. Stato Skiv =
+          # dato derived/rigenerabile di distribuzione → branch dedicato
+          # non-protetto `skiv-monitor/state`, orphan ogni run (history
+          # shallow = zero bloat: feed.jsonl NON accumula in git-history).
+          # Risolve insieme: (1) PR BLOCKED ricorrente #2257, (2) bloat
+          # 8MB/4h. Backend fetcha questo branch. Vedi vault OD-042.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          BRANCH="auto/skiv-monitor-update"
-          git checkout -B "$BRANCH"
+          BRANCH="skiv-monitor/state"
+          git checkout --orphan "$BRANCH"
+          git rm -rq --cached . >/dev/null 2>&1 || true
           git add data/derived/skiv_monitor/ docs/skiv/MONITOR.md
-          git commit -m "chore(skiv-monitor): aggiorna stato + feed creatura"
-          # Fetch first so force-with-lease lease isn't stale (workflow checkout
-          # not aware of remote branch updates from previous run).
-          git fetch origin "$BRANCH" 2>/dev/null || true
+          git commit -m "chore(skiv): state @${{ github.run_id }} (OD-042-A)"
           git push --force origin "$BRANCH"
-          # Open or refresh PR (idempotent — gh pr create fails harmlessly if exists).
-          if gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' | grep -q .; then
-            echo "[skiv-monitor] PR already open for $BRANCH"
-          else
-            gh pr create \
-              --base main \
-              --head "$BRANCH" \
-              --title "chore(skiv-monitor): auto-update stato + feed creatura" \
-              --body "🦎 Auto-update da workflow \`skiv-monitor.yml\` (cron 4h). Merge sicuro: solo file in \`data/derived/skiv_monitor/\` + \`docs/skiv/MONITOR.md\`." \
-              --label "automation,skiv"
-          fi
+          echo "[skiv-monitor] stato → branch skiv-monitor/state (no PR, OD-042-A)"

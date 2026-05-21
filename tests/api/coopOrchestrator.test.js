@@ -644,3 +644,168 @@ test('log captures phase_change + run_started events', () => {
   assert.ok(kinds.includes('phase_change'));
   assert.ok(kinds.includes('run_started'));
 });
+
+// ===========================================================================
+// setHostId — sync hostId post host transfer (coop-phase-validator
+// audit 2026-05-20 Finding 1 P1 fix).
+// ===========================================================================
+
+test('setHostId: updates hostId from initial value to new host', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_old' });
+  assert.equal(co.hostId, 'p_old');
+  const changed = co.setHostId('p_new');
+  assert.equal(changed, true);
+  assert.equal(co.hostId, 'p_new');
+});
+
+test('setHostId: no-op idempotent when same id', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_same' });
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'host_id_synced') events.push(evt.payload);
+  });
+  const changed = co.setHostId('p_same');
+  assert.equal(changed, false);
+  assert.equal(events.length, 0);
+});
+
+test('setHostId: emits host_id_synced event with previous + current', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_a' });
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'host_id_synced') events.push(evt.payload);
+  });
+  co.setHostId('p_b');
+  assert.equal(events.length, 1);
+  assert.equal(events[0].previous, 'p_a');
+  assert.equal(events[0].current, 'p_b');
+});
+
+test('setHostId: accepts null to clear hostId', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_a' });
+  const changed = co.setHostId(null);
+  assert.equal(changed, true);
+  assert.equal(co.hostId, null);
+});
+
+test('setHostId: host-only gates respect new hostId post transfer', () => {
+  const co = new CoopOrchestrator({ roomCode: 'HSYN', hostId: 'p_old' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  // Transfer host
+  co.setHostId('p_new');
+  // Old host can no longer submit onboarding choice
+  assert.throws(
+    () =>
+      co.submitOnboardingChoice(
+        'p_old',
+        { option_key: 'a', trait_id: 't', label: 'L', narrative: 'N' },
+        { hostId: co.hostId },
+      ),
+    /host_only/,
+  );
+  // New host succeeds
+  assert.doesNotThrow(() =>
+    co.submitOnboardingChoice(
+      'p_new',
+      { option_key: 'a', trait_id: 't', label: 'L', narrative: 'N' },
+      { hostId: co.hostId },
+    ),
+  );
+});
+
+// ===========================================================================
+// Phase-skip negative tests (BACKLOG coverage gap)
+// ===========================================================================
+
+test('confirmWorld from lobby throws not_in_world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHGT' });
+  assert.equal(co.phase, 'lobby');
+  assert.throws(() => co.confirmWorld({ scenarioId: 'enc_demo' }), /not_in_world_setup/);
+});
+
+test('confirmWorld from character_creation throws not_in_world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHGC' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  assert.equal(co.phase, 'character_creation');
+  assert.throws(() => co.confirmWorld({ scenarioId: 'enc_demo' }), /not_in_world_setup/);
+});
+
+test('startRun from combat phase throws cannot_start_from_phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHCB' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  co._setPhase('combat');
+  assert.equal(co.phase, 'combat');
+  assert.throws(
+    () => co.startRun({ scenarioStack: ['enc_demo_2'] }),
+    /cannot_start_from_phase:combat/,
+  );
+});
+
+test('startRun from debrief phase throws cannot_start_from_phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHDB' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  co._setPhase('combat');
+  co._setPhase('debrief');
+  assert.throws(
+    () => co.startRun({ scenarioStack: ['enc_demo_2'] }),
+    /cannot_start_from_phase:debrief/,
+  );
+});
+
+test('startRun from ended phase succeeds (allowed restart path)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'PHED' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('ended');
+  assert.doesNotThrow(() => co.startRun({ scenarioStack: ['enc_demo_2'] }));
+  assert.equal(co.phase, 'character_creation');
+});
+
+// ===========================================================================
+// Multi-player disconnect race (BACKLOG coverage gap; cf. coop-phase-validator
+// audit 2026-05-20 Finding 4 — stale accept-vote of disconnected player must
+// not satisfy all_connected_accepted quorum).
+// ===========================================================================
+
+test('worldTally: disconnected voter accept does NOT fire all_connected_accepted when other connected player pending', () => {
+  const co = new CoopOrchestrator({ roomCode: 'DISC', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b', 'p_c'];
+  // p_a and p_b vote accept; then p_b "disconnects" mid-tally.
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds });
+  co.voteWorld('p_b', { accept: true, allPlayerIds: allIds });
+  const connected = ['p_a', 'p_c']; // p_b dropped; p_c never voted yet
+  const tally = co.worldTally(allIds, connected);
+  // Global accept still 2 (vote persists in Map by design).
+  assert.equal(tally.accept, 2);
+  // BUT connected quorum must NOT fire — p_c (connected) hasn't voted.
+  assert.equal(tally.all_connected_accepted, false);
+  assert.equal(tally.connected_pending, 1);
+  // Only when p_c (last connected) votes accept does quorum fire.
+  co.voteWorld('p_c', { accept: true, allPlayerIds: allIds });
+  const tally2 = co.worldTally(allIds, connected);
+  assert.equal(tally2.all_connected_accepted, true);
+  assert.equal(tally2.connected_pending, 0);
+});
+
+test('worldTally: disconnected REJECT vote excluded from connected_reject quorum', () => {
+  const co = new CoopOrchestrator({ roomCode: 'DISC', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b'];
+  // p_a accepts, p_b rejects, then p_b drops.
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds });
+  co.voteWorld('p_b', { accept: false, allPlayerIds: allIds });
+  const connected = ['p_a']; // p_b dropped
+  const tally = co.worldTally(allIds, connected);
+  // Global counts still see both votes.
+  assert.equal(tally.accept, 1);
+  assert.equal(tally.reject, 1);
+  // Connected quorum sees only p_a → unanimous accept across connected.
+  assert.equal(tally.connected_total, 1);
+  assert.equal(tally.connected_accept, 1);
+  assert.equal(tally.connected_reject, 0);
+  assert.equal(tally.all_connected_accepted, true);
+});

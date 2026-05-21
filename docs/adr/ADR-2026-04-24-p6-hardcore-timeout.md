@@ -213,3 +213,20 @@ Log entry `⏱ Auto-timeout: mission_timer expired → outcome='timeout'` emesso
 - Multiple nested timers (soft phase + hard fail)
 - Timer persistence across retry
 - Fairness score metric includere timer_expire_rate in `fairnessCap` tracking
+
+## Addendum anti-rot — cross-ref path rotto (fence 2026-05-17)
+
+⚠️ **La DECISIONE resta valida e invariata** (M13 P6 hardcore timer +
+pod activation). **Ma un riferimento file è ROTTO** (audit veracità ADR
+2026-05-17, regola-0, verifica file-path vs git-truth):
+
+- `docs/adr/ADR-2026-04-19-reinforcement-option-b.md` (frontmatter
+  `related:` + sezione Riferimenti) → **FILE INESISTENTE**. Il file
+  reale è `docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md`
+  (rinominato; decisione Reinforcement Option B contenuta lì). Link
+  storico = snapshot pre-rinomina, NON path corrente.
+
+**Trattamento**: decisione invariata; il path nel corpo/frontmatter =
+*riferimento storico rotto*, NON puntatore valido. Target canonico →
+`ADR-2026-04-19-reinforcement-spawn-engine.md`. (Addendum-only:
+governance ADR non riscrive link nel corpo; pointer corretto qui.)

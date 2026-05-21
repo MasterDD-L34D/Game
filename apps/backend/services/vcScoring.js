@@ -619,7 +619,7 @@ function letterOrUncertain(value, lo, hi, band = null) {
   const highT = band?.hi ?? MBTI_DEAD_BAND_HIGH;
   if (value < lowT) return lo;
   if (value > highT) return hi;
-  return null; // dead-band: indeterminato → propaga null
+  return null; // Bot review fix: dead-band axes MUST propagate null so mating fallback triggers correctly
 }
 
 /**

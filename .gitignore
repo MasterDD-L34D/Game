@@ -26,6 +26,21 @@ logs/*.log
 # Python bytecode caches
 __pycache__/
 
+# 2026-05-20 L-071 — Godot HTML5 phone build artifacts leak to backend/public/ root.
+# deploy-quick.sh mounts Game-Godot-v2/dist/web to apps/backend/public/phone/ but
+# some pipeline variants drop files at public/ root. Prevent accidental commit.
+# Ref: docs/playtest/2026-05-20-method-ABCF-smoke-results.md §"Bonus discovery L-071".
+apps/backend/public/index.html
+apps/backend/public/index.js
+apps/backend/public/index.wasm
+apps/backend/public/index.pck
+apps/backend/public/index.png
+apps/backend/public/index.icon.png
+apps/backend/public/index.apple-touch-icon.png
+apps/backend/public/index.audio.worklet.js
+apps/backend/public/index.audio.position.worklet.js
+apps/backend/public/index.*.import
+
 # Generated UI artifacts
 logs/tooling/*.png
 
@@ -96,3 +111,6 @@ apps/backend/public/phone/
 
 # Cloudflare Tunnel deploy logs
 .deploy-logs/
+
+# 2026-05-21 staging-writer fix (issue #2356) -- ephemeral calibration candidate
+data/core/balance/damage_curves.staging.yaml

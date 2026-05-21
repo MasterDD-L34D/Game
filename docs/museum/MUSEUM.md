@@ -47,6 +47,7 @@
 - [Cogmind Tooltip Stratificati](cards/ui-cogmind-tooltip-stratificati-quick-win.md) — **4/5** · P2+P3 quick-win UI ~5h · unintegrated
 - [Tier E Quick Wins (DuckDB + SPRT + LLM critic)](cards/telemetry-duckdb-stockfish-llm-critic-quick-wins.md) — **4/5** · P6 ops bundle ~10-15h, Pathfinder XP shipped #1894 · unintegrated
 - [NS2 Strategist + Frozen Synapse Replay](cards/coop-ns2-frozen-synapse-replay-asymmetric.md) — **4/5** · P5 replay cinematico + 5p+ asymmetric · unintegrated
+- [Coop WS Test Infra Patterns](cards/coop-ws-test-infra-patterns-2026-05-20.md) — **5/5** · 6 pattern riusabili per disconnect-race + host-transfer e2e · unintegrated
 
 ---
 
@@ -103,6 +104,10 @@ _Pool secco. 10/10 species in `incoming/species/*.json` già canonical via commi
 
 - [BiomeMemory + Costo ambientale trait](cards/architecture-biome-memory-trait-cost.md) — score 4/5 · 3 exploration-note + Skiv biome-mover · deferred
 
+### Test infrastructure
+
+- [Coop WS Test Infra Patterns](cards/coop-ws-test-infra-patterns-2026-05-20.md) — score 5/5 · 6 pattern riusabili (spinUp/attachBuffer/ghostTimeoutMs/connectedPids/coopStore seed/terminate vs close) per disconnect-race + host-transfer e2e · unintegrated
+
 ### Pipeline failure modes
 
 - [evo-swarm run #5 discarded claims](cards/evo-swarm-run-5-discarded-claims.md) — score 4/5 · 8 hallucinated + 2 redundant, OD-022 gate reference + LLM prompt training · curated (⚠️ user-requested autonomous deviation Museum-first protocol — repo-archaeologist agent review pending)
@@ -151,11 +156,11 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ## 📊 Stats
 
-- **Excavations run**: 12 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15)
-- **Artifact identificati**: ~101 totali (100 precedenti + 1 Phase 3 Path D HYBRID methodology pattern)
-- **Cards total**: 34 curate (8 score 5/5 · 13 score 4/5 · 11 score 3/5 · 2 score 2/5) — +1 score 5/5 methodology pattern
+- **Excavations run**: 13 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry + 1 session-6 cross-validation 2026-05-13 + 1 session-7 Phase 3 Path D methodology 2026-05-15 + 1 session-8 coop WS test infra 2026-05-20)
+- **Artifact identificati**: ~107 totali (101 precedenti + 6 pattern coop WS test infra)
+- **Cards total**: 35 curate (9 score 5/5 · 13 score 4/5 · 11 score 3/5 · 2 score 2/5) — +1 score 5/5 test infra
 - **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-05-15 (session 7 Phase 3 Path D HYBRID: Pattern A+B+C industry-pattern enrichment methodology + \_provenance audit trail, M-2026-05-15-001 score 5/5)
+- **Last excavate**: 2026-05-20 (session 8 coop WS test infra: 6 pattern riusabili disconnect-race + host-transfer, M-2026-05-20-001 score 5/5)
 - **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)

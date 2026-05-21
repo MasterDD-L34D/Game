@@ -126,6 +126,15 @@ function normaliseUnit(raw, fallbackIndex) {
     // useUtilityAi global (default false) → Utility AI mai attivo per /start sessions.
     // Bot-flagged 2026-04-29 PR #1495 review.
     ai_profile: input.ai_profile ? String(input.ai_profile) : null,
+    // OD-026 — preserve default_parts sensory bag (e.g.
+    // { senses: ['echolocation'] }). senseReveal._hasEcholocationSense
+    // reads actor.default_parts.senses; without carrying it here the
+    // echolocation pulse mechanic could never fire for a /start unit
+    // (it was already silently dropped — "Engine LIVE Surface DEAD").
+    // Additive + back-compat: only set when input declares an object.
+    ...(input.default_parts && typeof input.default_parts === 'object'
+      ? { default_parts: input.default_parts }
+      : {}),
   };
   // 2026-05-06 TKT-P3-FORM-STAT-APPLIER — apply form stat_seed delta to
   // baseline. Pre-fix: form_id was cosmetic only — NO mech link to combat.

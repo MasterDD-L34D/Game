@@ -53,11 +53,9 @@ async function runOne(app) {
       break;
     }
 
+    let liveEnemies = aliveEnemies.map((e) => ({ ...e }));
+
     for (const player of alivePlayers) {
-      const liveStateRes = await request(app).get('/api/session/state').query({ session_id: sid });
-      const liveEnemies = liveStateRes.body.units.filter(
-        (u) => u.controlled_by === 'sistema' && u.hp > 0,
-      );
       const target = liveEnemies[0];
       if (!target) break;
       const actionRes = await request(app).post('/api/session/action').send({
@@ -71,6 +69,10 @@ async function runOne(app) {
         if (x.result === 'hit') {
           stats.player_hits++;
           stats.player_damage += x.damage_dealt || 0;
+          target.hp -= x.damage_dealt || 0;
+          if (target.hp <= 0) {
+            liveEnemies = liveEnemies.filter((e) => e.hp > 0);
+          }
         } else {
           stats.player_misses++;
         }

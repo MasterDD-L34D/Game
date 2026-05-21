@@ -156,6 +156,9 @@ def run_one(host, run_idx):
         "sistema_pressure_start": sc.get("sistema_pressure_start", 60),
         "hazard_tiles": sc.get("hazard_tiles", []),
         "encounter": {
+            # 2026-05-21 hc07 iter2: id enables enemy_damage_multiplier_override
+            # scenario resolution at /start (session.js scenarioIdForEdm).
+            "id": SCENARIO_ID,
             "mission_timer": sc.get("mission_timer"),
             "reinforcement_policy": sc.get("reinforcement_policy"),
             "reinforcement_pool": sc.get("reinforcement_pool"),
@@ -172,6 +175,12 @@ def run_one(host, run_idx):
     rounds = 0
     enemy_initial = sum(1 for u in state.get("units", []) if u.get("controlled_by") == "sistema")
     player_initial = sum(1 for u in state.get("units", []) if u.get("controlled_by") == "player")
+    # 2026-05-20 method F: player + trait telemetry (anti-pattern #8 close).
+    player_actor_ids = {
+        u["id"] for u in state.get("units", []) if u.get("controlled_by") == "player"
+    }
+    player_action_tally = {}
+    trait_used_tally = {}
 
     for r in range(1, MAX_ROUNDS + 1):
         rounds = r
@@ -188,6 +197,26 @@ def run_one(host, run_idx):
         timer = resp.get("mission_timer") or {}
         if timer.get("expired"):
             timer_expired = True
+        # Tally player actions + trait usage per round.
+        # 2026-05-21 FASE B fix: canonical schema lettura via trait_effects
+        # array (sessionRoundBridge.js:753) — esisteva già backend. Cattura
+        # solo triggered=true (effect attivato runtime).
+        for pa in resp.get("results", []):
+            if pa.get("actor_id") not in player_actor_ids:
+                continue
+            ptype = pa.get("action_type") or pa.get("type", "unknown")
+            player_action_tally[ptype] = player_action_tally.get(ptype, 0) + 1
+            res = pa.get("result") if isinstance(pa.get("result"), dict) else {}
+            effects = res.get("trait_effects") if isinstance(res, dict) else None
+            if isinstance(effects, list):
+                for eff in effects:
+                    if not isinstance(eff, dict):
+                        continue
+                    if not eff.get("triggered"):
+                        continue
+                    tid = eff.get("trait")
+                    if tid:
+                        trait_used_tally[str(tid)] = trait_used_tally.get(str(tid), 0) + 1
         outcome = detect_outcome(state, timer_expired)
         if outcome:
             break
@@ -216,6 +245,9 @@ def run_one(host, run_idx):
         "kills": kills,
         "losses": losses,
         "kd": round(kills / max(1, losses), 2),
+        # 2026-05-20 method F: anti-pattern #8 close (empirical not heuristic).
+        "player_action_tally": dict(player_action_tally),
+        "trait_used_tally": dict(trait_used_tally),
     }
 
 
@@ -267,6 +299,14 @@ def summarise(runs):
     defeat_indicator = [1 if r["outcome"] == "defeat" else 0 for r in ok]
     timeout_indicator = [1 if r["outcome"] == "timeout" else 0 for r in ok]
     win_ci = _bootstrap_ci(win_indicator, statistics.mean)
+    # 2026-05-20 method F: aggregate empirical player + trait usage.
+    player_global = {}
+    trait_global = {}
+    for r in ok:
+        for k, v in (r.get("player_action_tally") or {}).items():
+            player_global[k] = player_global.get(k, 0) + v
+        for k, v in (r.get("trait_used_tally") or {}).items():
+            trait_global[k] = trait_global.get(k, 0) + v
     return {
         "n": n,
         "win_rate": round(wins / n * 100, 1),
@@ -289,6 +329,8 @@ def summarise(runs):
         "kd_ci95": list(_bootstrap_ci(kds, statistics.mean)),
         "target_band": "win 30-50%",
         "in_band": 30 <= (wins / n * 100) <= 50,
+        "player_action_distribution": player_global,
+        "trait_used_distribution": trait_global,
     }
 
 

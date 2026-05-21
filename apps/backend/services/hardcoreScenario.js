@@ -20,6 +20,11 @@
 
 'use strict';
 
+const {
+  applyScenarioBossHpOverride,
+  applyScenarioEnemyCountModifier,
+} = require('./balance/damageCurves');
+
 const HARDCORE_SCENARIO_06 = {
   id: 'enc_tutorial_06_hardcore',
   name: "Cattedrale dell'Apex",
@@ -67,16 +72,16 @@ const HARDCORE_SCENARIO_06 = {
 function buildHardcoreUnits06() {
   const players = [];
   // 8 player PG — mix specie/job per composition leggibile.
-  // 4 skirmisher (ranged dmg) + 2 vanguard (tank frontline) + 2 support.
+  // 2 skirmisher + 2 ranger (ranged dmg) + 2 vanguard (tank frontline) + 2 warden (support).
   const playerLayouts = [
     { id: 'p_scout_1', job: 'skirmisher', pos: [0, 2], hp: 10, mod: 3, dc: 12 },
-    { id: 'p_scout_2', job: 'skirmisher', pos: [0, 4], hp: 10, mod: 3, dc: 12 },
-    { id: 'p_scout_3', job: 'skirmisher', pos: [0, 6], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_scout_2', job: 'ranger', pos: [0, 4], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_scout_3', job: 'ranger', pos: [0, 6], hp: 10, mod: 3, dc: 12 },
     { id: 'p_scout_4', job: 'skirmisher', pos: [0, 8], hp: 10, mod: 3, dc: 12 },
     { id: 'p_tank_1', job: 'vanguard', pos: [1, 3], hp: 14, mod: 2, dc: 14 },
     { id: 'p_tank_2', job: 'vanguard', pos: [1, 7], hp: 14, mod: 2, dc: 14 },
-    { id: 'p_support_1', job: 'skirmisher', pos: [1, 1], hp: 11, mod: 3, dc: 13 },
-    { id: 'p_support_2', job: 'skirmisher', pos: [1, 5], hp: 11, mod: 3, dc: 13 },
+    { id: 'p_support_1', job: 'warden', pos: [1, 1], hp: 11, mod: 3, dc: 13 },
+    { id: 'p_support_2', job: 'warden', pos: [1, 5], hp: 11, mod: 3, dc: 13 },
   ];
   // pcg-level-design-illuminator P0 emergence fix: species variety.
   // Pre: tutti i 8 player = `dune_stalker` (emergence 🔴 LOW).
@@ -88,13 +93,19 @@ function buildHardcoreUnits06() {
     ranger: 'echo_seer', // psionic scout
     warden: 'mud_sentinel', // defensive support
   };
+  const TRAITS_BY_JOB = {
+    skirmisher: ['zampe_a_molla'],
+    vanguard: ['pelle_elastomera'],
+    ranger: ['spore_psichiche_silenziate'],
+    warden: ['struttura_elastica_amorfa'],
+  };
   for (const pl of playerLayouts) {
     const species = SPECIES_BY_JOB[pl.job] || 'dune_stalker';
     players.push({
       id: pl.id,
       species,
       job: pl.job,
-      traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
+      traits: TRAITS_BY_JOB[pl.job] || ['zampe_a_molla'],
       hp: pl.hp,
       ap: 2, // SoT canonical
       mod: pl.mod,
@@ -178,6 +189,10 @@ function buildHardcoreUnits06() {
     // Iter 2: e_elite_hunter_3 RIMOSSO. Damage concentrato su BOSS singolo
     // (boss hp 22→40 +82%) > damage spread su 3 elite. Aggro rotation player
     // troppo facile con 4 target distinti.
+
+    // Scenario override layer (Hades Pact + ITB pattern, research 2026-05-20).
+    // damage_curves.yaml scenario_overrides.enc_tutorial_06_hardcore può
+    // applicare boss_hp_multiplier per nerf locale senza touch class globale.
     // 3 minion nomad — fragili ma numerosi, mod 2 hp 4.
     {
       id: 'e_minion_1',
@@ -226,6 +241,10 @@ function buildHardcoreUnits06() {
     },
   ];
 
+  // Apply scenario_overrides layer (post-construct, pre-return).
+  for (const u of enemies) {
+    applyScenarioBossHpOverride(u, HARDCORE_SCENARIO_06.id);
+  }
   return [...players, ...enemies];
 }
 
@@ -338,6 +357,12 @@ function buildHardcoreUnits07() {
     ranger: 'echo_seer',
     warden: 'mud_sentinel',
   };
+  const TRAITS_BY_JOB = {
+    skirmisher: ['zampe_a_molla'],
+    vanguard: ['pelle_elastomera'],
+    ranger: ['spore_psichiche_silenziate'],
+    warden: ['struttura_elastica_amorfa'],
+  };
   const players = [
     { id: 'p_scout_1', job: 'skirmisher', pos: [1, 3], hp: 10, mod: 3, dc: 12 },
     { id: 'p_scout_2', job: 'ranger', pos: [1, 6], hp: 10, mod: 3, dc: 12 },
@@ -347,7 +372,7 @@ function buildHardcoreUnits07() {
     id: pl.id,
     species: SPECIES_BY_JOB[pl.job] || 'dune_stalker',
     job: pl.job,
-    traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
+    traits: TRAITS_BY_JOB[pl.job] || ['zampe_a_molla'],
     hp: pl.hp,
     ap: 2,
     mod: pl.mod,
@@ -431,6 +456,10 @@ function buildHardcoreUnits07() {
       facing: 'W',
     },
   ];
+
+  // 2026-05-20 L-069 iter (3A): scenario_overrides.enemy_count_modifier may
+  // splice last N enemies. e_patrol_scout_3 (M14-C iter1 addition) target.
+  applyScenarioEnemyCountModifier(enemies, HARDCORE_SCENARIO_07_POD_RUSH.id);
   return [...players, ...enemies];
 }
 
