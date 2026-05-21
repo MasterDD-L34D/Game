@@ -301,13 +301,20 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       xp_earned: xpEarned = 0,
       survivors = [],
       debrief_payload: debriefPayload = null,
+      sistema_observations: sistemaObservations = null,
     } = req.body || {};
     const room = authHost(code, hostToken);
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
-      const result = orch.endCombat({ outcome, xpEarned, survivors, debriefPayload });
+      const result = orch.endCombat({
+        outcome,
+        xpEarned,
+        survivors,
+        debriefPayload,
+        sistemaObservations,
+      });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, result });
     } catch (err) {

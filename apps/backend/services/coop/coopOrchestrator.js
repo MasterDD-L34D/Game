@@ -4,6 +4,9 @@
 
 'use strict';
 
+const { foldObservations } = require('../ai/sistemaStateAccumulator');
+const { createSistemaStateStore } = require('../ai/sistemaStateStore');
+
 // 2026-05-06 narrative onboarding port — `onboarding` phase added per
 // canonical `docs/core/51-ONBOARDING-60S.md` Phase B. Sequence:
 // lobby → onboarding → character_creation → world_setup → combat → debrief.
@@ -51,11 +54,22 @@ function characterToUnit(character, { index = 0 } = {}) {
 }
 
 class CoopOrchestrator {
-  constructor({ roomCode, hostId, now = Date.now, worldEnricher = null } = {}) {
+  constructor({
+    roomCode,
+    hostId,
+    now = Date.now,
+    worldEnricher = null,
+    sistemaStateStore = null,
+  } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
     this.hostId = hostId || null;
     this.now = now;
+    // CAMP-2 — SistemaState accumulation store (DI seam, same style as
+    // worldEnricher). Default lazily wires the canonical Prisma-backed store
+    // on first use so module-load order / stub-mode (no DATABASE_URL) stays
+    // safe. Tests inject a stub recording get/upsert.
+    this._sistemaStore = sistemaStateStore;
     this.phase = 'lobby';
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
@@ -88,6 +102,13 @@ class CoopOrchestrator {
     // eslint-disable-next-line global-require
     this._worldEnricher = require('./worldEnricher');
     return this._worldEnricher;
+  }
+
+  _getSistemaStore() {
+    if (this._sistemaStore) return this._sistemaStore;
+    // eslint-disable-next-line global-require
+    this._sistemaStore = createSistemaStateStore(require('../../db/prisma').prisma);
+    return this._sistemaStore;
   }
 
   _emit(kind, payload = {}) {
@@ -641,7 +662,13 @@ class CoopOrchestrator {
    *     ennea_archetype: "<canonical name>"
    *   }
    */
-  endCombat({ outcome = 'victory', survivors = [], xpEarned = 0, debriefPayload = null } = {}) {
+  endCombat({
+    outcome = 'victory',
+    survivors = [],
+    xpEarned = 0,
+    debriefPayload = null,
+    sistemaObservations = null,
+  } = {}) {
     if (this.phase !== 'combat') throw new Error('not_in_combat');
     this.run.outcome = outcome;
     this.run.partyXp += xpEarned;
@@ -654,6 +681,23 @@ class CoopOrchestrator {
     }
     this._emit('combat_ended', emitPayload);
     this._setPhase('debrief');
+    // CAMP-2 best-effort SistemaState accumulation. Folds the per-encounter
+    // slim-delta { roster, kills } into units_observed keyed by run.id. Runs
+    // detached (Promise.resolve().then) + .catch so a store failure NEVER
+    // blocks or throws into the combat-end path. No observations → no-op.
+    if (sistemaObservations && this.run && this.run.id) {
+      const store = this._getSistemaStore();
+      const runId = this.run.id;
+      Promise.resolve()
+        .then(async () => {
+          const prior = await store.get(runId);
+          const next = foldObservations((prior && prior.units_observed) || {}, sistemaObservations);
+          await store.upsert(runId, next);
+        })
+        .catch((err) =>
+          console.warn('[coop] sistema accumulate failed (best-effort):', err.message),
+        );
+    }
     return { outcome, xp: xpEarned };
   }
 
