@@ -14,6 +14,7 @@ const {
   computeSessionPE,
   convertPE,
   buildDebriefSummary,
+  buildBiomePressureRating,
 } = require('../../apps/backend/services/rewardEconomy');
 
 // ─────────────────────────────────────────────────────────────────
@@ -189,4 +190,57 @@ test('exports surface canonical constants', () => {
   assert.equal(PE_BASE_BY_DIFFICULTY.standard, 5);
   assert.equal(PE_BASE_BY_DIFFICULTY.elite, 8);
   assert.equal(PE_BASE_BY_DIFFICULTY.boss, 12);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// TKT-ECO-A5 — biome pressure rating chip (Gate-5 surface)
+// ─────────────────────────────────────────────────────────────────
+
+test('buildBiomePressureRating: null when no biome_modifiers', () => {
+  assert.equal(buildBiomePressureRating({ session_id: 's' }), null);
+  assert.equal(buildBiomePressureRating({ biome_modifiers: 'nope' }), null);
+});
+
+test('buildBiomePressureRating: neutral biome (diff_base<=2)', () => {
+  const r = buildBiomePressureRating({
+    biome_modifiers: { diff_base: 2, hp_mult: 1.0, pressure_initial_bonus: 0, pressure_mult: 0 },
+  });
+  assert.equal(r.rating, 'NEUTRAL');
+  assert.equal(r.enemy_hp_bonus_pct, 0);
+  assert.equal(r.pressure_initial_bonus, 0);
+});
+
+test('buildBiomePressureRating: hostile/extreme scale + derived bonuses', () => {
+  const hostile = buildBiomePressureRating({
+    biome_id: 'abisso_vulcanico',
+    biome_modifiers: { diff_base: 4, hp_mult: 1.1, pressure_initial_bonus: 10, pressure_mult: 2 },
+  });
+  assert.equal(hostile.rating, 'HOSTILE');
+  assert.equal(hostile.enemy_hp_bonus_pct, 10); // (1.1-1)*100
+  assert.equal(hostile.pressure_per_round, 2);
+  assert.equal(hostile.biome_id, 'abisso_vulcanico');
+
+  const extreme = buildBiomePressureRating({
+    biome_modifiers: { diff_base: 5, hp_mult: 1.15, pressure_initial_bonus: 15, pressure_mult: 3 },
+  });
+  assert.equal(extreme.rating, 'EXTREME');
+  assert.equal(extreme.enemy_hp_bonus_pct, 15);
+});
+
+test('buildDebriefSummary includes biome_pressure_rating chip', () => {
+  const session = {
+    session_id: 'sess_biome',
+    biome_modifiers: { diff_base: 3, hp_mult: 1.05, pressure_initial_bonus: 5, pressure_mult: 1 },
+  };
+  const snap = makeVcSnapshot({}, 3);
+  const debrief = buildDebriefSummary(session, snap, computeSessionPE(snap, {}));
+  assert.ok(debrief.biome_pressure_rating);
+  assert.equal(debrief.biome_pressure_rating.rating, 'MODERATE');
+  assert.equal(debrief.biome_pressure_rating.enemy_hp_bonus_pct, 5);
+});
+
+test('buildDebriefSummary biome_pressure_rating null without modifiers', () => {
+  const snap = makeVcSnapshot({}, 0);
+  const debrief = buildDebriefSummary({ session_id: 's' }, snap, computeSessionPE(snap, {}));
+  assert.equal(debrief.biome_pressure_rating, null);
 });

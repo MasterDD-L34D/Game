@@ -98,6 +98,48 @@ function convertPE(peBalance) {
  * @param {object} pfSession — output di computePfSession() per actor (opzionale)
  * @returns {object} debrief payload
  */
+// TKT-ECO-A5 (Gate-5 surface) — biome pressure rating chip for the debrief.
+// The biome diff_base + hazard.stress_modifiers engine is LIVE (biomeModifiers.js
+// scales enemy HP on /start, adds pressure_initial_bonus, ticks pressure_mult per
+// round in sessionRoundBridge). But the player never SAW it — biome_modifiers lived
+// only in /state telemetry, not the debrief. This derives a human-readable chip so
+// "Cryosteppe vs Foresta" reads as a tangible difficulty difference post-combat.
+// Returns null when the session has no biome modifiers (graceful, e.g. no biome_id).
+function buildBiomePressureRating(session) {
+  const bm =
+    session && typeof session.biome_modifiers === 'object' ? session.biome_modifiers : null;
+  if (!bm) return null;
+  const diffBase = Number(bm.diff_base) || 1.0;
+  const hpMult = Number(bm.hp_mult) || 1.0;
+  const pressureInit = Number(bm.pressure_initial_bonus) || 0;
+  const pressurePerRound = Number(bm.pressure_mult) || 0;
+  let rating;
+  let labelIt;
+  if (diffBase >= 5) {
+    rating = 'EXTREME';
+    labelIt = 'Bioma estremo';
+  } else if (diffBase >= 4) {
+    rating = 'HOSTILE';
+    labelIt = 'Bioma ostile';
+  } else if (diffBase >= 3) {
+    rating = 'MODERATE';
+    labelIt = 'Bioma impegnativo';
+  } else {
+    rating = 'NEUTRAL';
+    labelIt = 'Bioma neutro';
+  }
+  return {
+    rating,
+    label_it: labelIt,
+    biome_id:
+      bm.biome_id || session.biome_id || (session.encounter && session.encounter.biome_id) || null,
+    diff_base: diffBase,
+    enemy_hp_bonus_pct: Math.round((hpMult - 1) * 100),
+    pressure_initial_bonus: pressureInit,
+    pressure_per_round: pressurePerRound,
+  };
+}
+
 function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   // 2026-04-26 (Q19 resolved Opzione A): PE→PI conversion gated su outcome=victory
   // (StS gold analogy). Defeat/timeout = PE earned ma non convertito; resta in pool campaign-wide.
@@ -249,6 +291,9 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
       total_events: (session.events || []).length,
       kills: Object.values(session.damage_taken || {}).filter((v) => v <= 0).length,
     },
+    // TKT-ECO-A5 — biome pressure rating chip (Gate-5 surface for the live
+    // diff_base + hazard engine). null when session has no biome modifiers.
+    biome_pressure_rating: buildBiomePressureRating(session),
   };
 }
 
@@ -259,4 +304,5 @@ module.exports = {
   computeSessionPE,
   convertPE,
   buildDebriefSummary,
+  buildBiomePressureRating,
 };
