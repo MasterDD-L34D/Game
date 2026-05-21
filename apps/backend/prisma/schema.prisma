@@ -407,3 +407,19 @@ model GodotV2CampaignState {
 
   @@map("godot_v2_campaign_states")
 }
+
+// ─── M1 ADR-2026-05-18 Option B pilot — Sistema persistent cross-session ─────
+// learning. Sistema AI biases defensive vs PG units that proved lethal across
+// encounters. units_observed JSONB: { [unit_id]: { kills_vs_sistema, sightings,
+// threat_level } }. Campaign-scoped (campaign_id unique). REST: GET/PUT
+// /api/campaign/sistema-state. Mirrors GodotV2CampaignState JSONB write-through
+// pattern (migration 0010). Apply deferred to next deploy via prisma migrate deploy.
+model SistemaState {
+  id            String   @id @default(uuid())
+  campaignId    String   @unique @map("campaign_id")
+  unitsObserved Json     @default("{}") @map("units_observed")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("sistema_state")
+}
