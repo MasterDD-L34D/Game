@@ -26,7 +26,7 @@ function pg(hp, maxHp) {
   return { id: 'p1', team: 'player', hp, max_hp: maxHp, position: { x: 1, y: 0 } };
 }
 
-// ── scoreAction granularity: guaranteed delta + non-retreat untouched ──
+// -- scoreAction granularity: guaranteed delta + non-retreat untouched --
 
 test('scoreAction: persistent_high_threat boosts retreat by exactly the bonus', () => {
   const actor = sisActor(6, 10);
@@ -60,7 +60,7 @@ test('scoreAction: persistent_high_threat does NOT change non-retreat actions', 
   assert.equal(approachThreat.score, approachBase.score);
 });
 
-// ── selectAiPolicyUtility integration: the flip (leans more defensive) ──
+// -- selectAiPolicyUtility integration: the flip (leans more defensive) --
 
 test('selectAiPolicyUtility: borderline actor flips attack -> retreat under threat', () => {
   // hp 6/10 chosen so retreat is just-below the attack score without threat;
