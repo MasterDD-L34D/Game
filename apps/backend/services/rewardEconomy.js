@@ -155,8 +155,7 @@ function buildBiomePressureRating(session) {
 // units_observed (the state that DROVE this battle's REGOLA_002 behavior) so the
 // debrief can show "the Sistema remembers you". Mirrors buildBiomePressureRating
 // (TKT-ECO-A5 #2366). null when nobody is marked high-threat.
-// ⚠️ label_it/detail_it wording is Claude autonomous judgment — pending master-dd
-// review (ADR-2026-05-18 still draft; wording = design taste, not engine fact).
+// label_it/detail_it wording approved by master-dd 2026-05-22 (PR #2377 review).
 function buildSistemaMemory(session) {
   const observed =
     session && session.sistema_state && typeof session.sistema_state.units_observed === 'object'
