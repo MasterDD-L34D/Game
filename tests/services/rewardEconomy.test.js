@@ -201,6 +201,28 @@ test('buildBiomePressureRating: null when no biome_modifiers', () => {
   assert.equal(buildBiomePressureRating({ biome_modifiers: 'nope' }), null);
 });
 
+test('buildBiomePressureRating: null on SAFE_DEFAULTS with no biome (Codex P2)', () => {
+  // /api/session/start persists biome_modifiers=SAFE_DEFAULTS even with no biome.
+  assert.equal(
+    buildBiomePressureRating({
+      biome_modifiers: {
+        diff_base: 1.0,
+        hp_mult: 1.0,
+        pressure_initial_bonus: 0,
+        pressure_mult: 0,
+      },
+    }),
+    null,
+  );
+  // But a real biome_id keeps the chip even at defaults.
+  const withId = buildBiomePressureRating({
+    biome_id: 'foresta',
+    biome_modifiers: { diff_base: 1.0, hp_mult: 1.0, pressure_initial_bonus: 0, pressure_mult: 0 },
+  });
+  assert.equal(withId.rating, 'NEUTRAL');
+  assert.equal(withId.biome_id, 'foresta');
+});
+
 test('buildBiomePressureRating: neutral biome (diff_base<=2)', () => {
   const r = buildBiomePressureRating({
     biome_modifiers: { diff_base: 2, hp_mult: 1.0, pressure_initial_bonus: 0, pressure_mult: 0 },

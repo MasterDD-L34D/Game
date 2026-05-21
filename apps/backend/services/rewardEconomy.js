@@ -113,6 +113,15 @@ function buildBiomePressureRating(session) {
   const hpMult = Number(bm.hp_mult) || 1.0;
   const pressureInit = Number(bm.pressure_initial_bonus) || 0;
   const pressurePerRound = Number(bm.pressure_mult) || 0;
+  const biomeId =
+    bm.biome_id || session.biome_id || (session.encounter && session.encounter.biome_id) || null;
+  // Codex P2: /api/session/start persists biome_modifiers even with no biome
+  // (getBiomeModifiers -> SAFE_DEFAULTS). Suppress the chip when there's no real
+  // biome AND modifiers are all defaults, so consumers distinguish "no biome
+  // configured" (null) from a true neutral biome (NEUTRAL chip with biome_id).
+  const isDefault =
+    diffBase <= 1.0 && hpMult === 1.0 && pressureInit === 0 && pressurePerRound === 0;
+  if (!biomeId && isDefault) return null;
   let rating;
   let labelIt;
   if (diffBase >= 5) {
@@ -131,8 +140,7 @@ function buildBiomePressureRating(session) {
   return {
     rating,
     label_it: labelIt,
-    biome_id:
-      bm.biome_id || session.biome_id || (session.encounter && session.encounter.biome_id) || null,
+    biome_id: biomeId,
     diff_base: diffBase,
     enemy_hp_bonus_pct: Math.round((hpMult - 1) * 100),
     pressure_initial_bonus: pressureInit,
