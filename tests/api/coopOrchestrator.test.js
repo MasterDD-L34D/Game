@@ -228,6 +228,44 @@ test('startRun transitions lobby → character_creation', () => {
   assert.deepEqual(run.scenarioStack, ['enc_tutorial_01']);
 });
 
+// CAMP-1/CAMP-2 - run.id is the SistemaState persistence key. Two runs
+// created in the SAME millisecond must NOT collide (cross-run learning
+// bleed). The old `run_${Date.now().toString(36)}` impl fails this: pin
+// Date.now to a constant so both orchestrators see the identical tick and
+// the time-only id would be byte-identical.
+test('two runs in the same now() tick get distinct ids', () => {
+  const realNow = Date.now;
+  Date.now = () => 1000;
+  try {
+    const o1 = new CoopOrchestrator({ roomCode: 'R1', hostId: 'h1' });
+    const o2 = new CoopOrchestrator({ roomCode: 'R2', hostId: 'h2' });
+    const r1 = o1.startRun();
+    const r2 = o2.startRun();
+    assert.notEqual(r1.id, r2.id, 'same-tick runs must have distinct ids');
+    assert.match(r1.id, /^run_/);
+    assert.match(r2.id, /^run_/);
+  } finally {
+    Date.now = realNow;
+  }
+});
+
+// startOnboarding shares the run.id shape with startRun - same collision
+// surface, same SistemaState key path. Guard both call sites.
+test('two onboarding runs in the same now() tick get distinct ids', () => {
+  const realNow = Date.now;
+  Date.now = () => 2000;
+  try {
+    const o1 = new CoopOrchestrator({ roomCode: 'R3', hostId: 'h3' });
+    const o2 = new CoopOrchestrator({ roomCode: 'R4', hostId: 'h4' });
+    const r1 = o1.startOnboarding();
+    const r2 = o2.startOnboarding();
+    assert.notEqual(r1.id, r2.id, 'same-tick onboarding runs must have distinct ids');
+    assert.match(r1.id, /^run_/);
+  } finally {
+    Date.now = realNow;
+  }
+});
+
 test('submitCharacter stores spec + advances when all players ready', () => {
   const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
   co.startRun();
