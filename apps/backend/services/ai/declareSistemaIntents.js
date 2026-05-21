@@ -175,6 +175,17 @@ function createDeclareSistemaIntents(deps) {
     const threatCtx =
       typeof computeThreatIndex === 'function' ? computeThreatIndex(session, threatConfig) : null;
 
+    // M1 ADR-2026-05-18 Option B pilot -- surface persistent high-threat to the
+    // legacy policy (selectAiPolicy reads threatCtx). True when any PG unit in
+    // the hydrated sistema_state is flagged high threat. Back-compat: absent
+    // sistema_state -> false -> baseline behavior.
+    if (threatCtx) {
+      const observed = (session.sistema_state && session.sistema_state.units_observed) || {};
+      threatCtx.persistent_high_threat = Object.values(observed).some(
+        (u) => u && u.threat_level === 'high',
+      );
+    }
+
     // AI War pattern: pressure-driven intent cap.
     // Tier piu' alto (player vincente) → SIS dichiara piu' intents.
     // Calm: 1 intent/round, Critical/Apex: 3.
