@@ -63,3 +63,25 @@ test('does not mutate prior input', () => {
   accumulate(prior, session([pg('p1')], [killEvent('p1', 's1')]));
   assert.equal(JSON.stringify(prior), snapshot);
 });
+
+test('multiple kills by same PG accumulate', () => {
+  const out = accumulate(
+    {},
+    session([pg('p1'), sis('s1'), sis('s2')], [killEvent('p1', 's1'), killEvent('p1', 's2')]),
+  );
+  assert.equal(out.p1.kills_vs_sistema, 2);
+});
+
+test('PG in prior but absent this encounter: counters preserved, sightings NOT incremented', () => {
+  const prior = { p1: { kills_vs_sistema: 2, sightings: 5, threat_level: 'normal' } };
+  const out = accumulate(prior, session([pg('p2')], [])); // p1 not present
+  assert.equal(out.p1.sightings, 5); // unchanged
+  assert.equal(out.p1.kills_vs_sistema, 2); // unchanged
+  assert.equal(out.p2.sightings, 1);
+});
+
+test('prior threat_level ignored: corrupt high below threshold recomputed to normal', () => {
+  const prior = { p1: { kills_vs_sistema: 1, sightings: 1, threat_level: 'high' } };
+  const out = accumulate(prior, session([], []));
+  assert.equal(out.p1.threat_level, 'normal'); // recomputed from kills=1 < 3
+});

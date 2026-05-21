@@ -41,6 +41,9 @@ function accumulate(priorUnitsObserved, session) {
     rec.sightings += 1;
   }
   // kills_vs_sistema: kill events where a PG killed a SIS unit.
+  // NOTE: controlledBy is built from session.units, so a kill by a PG that is
+  // absent from the final units snapshot is intentionally NOT credited (only
+  // units present in the session are tracked). Intended; not a dropped event.
   for (const ev of events) {
     if (!ev || ev.action_type !== 'kill') continue;
     if (controlledBy[ev.actor_id] !== 'player') continue;
@@ -52,7 +55,9 @@ function accumulate(priorUnitsObserved, session) {
     });
     rec.kills_vs_sistema += 1;
   }
-  // Recompute threat_level from final kill counts.
+  // threat_level is ALWAYS recomputed from final kills_vs_sistema; the prior
+  // record's threat_level value is ignored (recompute-always invariant). If
+  // HIGH_THREAT_KILLS is ever tuned, units re-evaluate against the new threshold.
   for (const id of Object.keys(out)) {
     out[id].threat_level = out[id].kills_vs_sistema >= HIGH_THREAT_KILLS ? 'high' : 'normal';
   }
