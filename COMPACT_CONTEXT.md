@@ -5,6 +5,25 @@
 
 ---
 
+## ⚡ Sessione corrente 2026-05-21 — calibration P6 + TKT-ECO A-series closure (v45)
+
+**3 PR merged main**: #2365 (hc06 hardcore band revised to engine reality OD-032 A+C — defeat [0.40,0.55]→[0.75,0.85], timeout [0.15,0.25]→[0.00,0.05], WR kept + enemy_damage knob wired + no-op bug fix + **L-074** localhost→127.0.0.1 IPv6 stall fix across all calib tools) · #2366 (A5 biome pressure rating chip in debrief, Gate-5 surface — engine was already live #1864) · #2368 (BACKLOG closure A4-residue/A5/A6, all stale-but-shipped).
+
+**Verdicts/findings**:
+
+- hc06 secondary band: was structurally unreachable (turn_limit=25 kills timeout by design); band revised to reality (defeat-dominated). OD-032 RESOLVED A+C.
+- hc07 secondary band: healthy as-is (mission-timer scenario, timeout-by-design 65%, WR 35% in-band). Verdict C, no change.
+- A4-residue + A6: verified ALREADY shipped (#2271 sentience_tier 53/53 + #2334 starter_bioma label). BACKLOG was stale.
+- **L-075 / anti-pattern #19 codified** (global CLAUDE.md + MEMORY.md): BACKLOG/OD ⏳/🟡 markers lag shipped work → verify ground-truth (grep+git) before working any pending item; ship-PR must update tracker same-PR. 3 items this session were stale-but-done.
+
+**Blocker open**: L-075 #19 codified in LOCAL ~/.claude/CLAUDE.md (not git-tracked) — needs canonical deploy-source sync (deploy_claude_global.ps1, cross-PC Lenovo) or clobbered on next global deploy.
+
+**Genuinely-open next-session candidates** (verified, not stale): TKT-07 tutorial sweep #2 N=10×enc_tutorial_01-05 (harness `tools/sim/batch-ai-runner.js`, needs backend + tunnel/local setup) · Wave 5+6 residue ~28 traits + species_expansion schema (master-dd schema verdict) · M14-B/M15 mechanics (~12-15h, master-dd) · Envelope C Atlas runtime gated playtest.
+
+**Resume trigger canonical**: _"verifica ground-truth (grep+git) BACKLOG 🔴 prima di lavorare (L-075/#19); poi TKT-07 tutorial sweep N=10 OR sync L-075 #19 a canonical global deploy-source OR master-dd-gated items (Wave 5+6 traits / species_expansion schema)"_
+
+---
+
 ## Progetto
 
 - **Nome**: Evo-Tactics
