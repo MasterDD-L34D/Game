@@ -25,19 +25,19 @@ User trigger 2026-05-13: "analizza col metodo tutta l'infrastruttura Ecosistema 
 
 **Ticket TKT-ECO-XX status post-cascade** (Phase A residue ai-station codemasterdd protocol):
 
-| Ticket                                     | Effort |   Status   | Channel                                                 |
-| ------------------------------------------ | :----: | :--------: | ------------------------------------------------------- |
-| A1 smoke mutations UI                      |  0.5h  |  ✅ DONE   | audit verify (PARTIAL-WIRED finding)                    |
-| A2 verify-only smoke promote               |  0.5h  | ✅ SHIPPED | Game/ #2261                                             |
-| A3 museum card M-007 post-script           |  0.5h  |  ✅ DONE   | additive update mating_nido card                        |
-| A4 sentience tier backfill 15/15 lifecycle |  5-6h  | ✅ SHIPPED | Game/ #2262                                             |
-| A4-residue 30 species heuristic            |  3-4h  | ⏳ PENDING | gated master-dd verdict                                 |
-| A5 bioma diff_base + hazard pressure       |   3h   | ⏳ PENDING | gated master-dd verdict (sessionHelpers backend)        |
-| A6 starter_bioma trait                     |   3h   | 🟡 PARTIAL | backend chain ✅, frontend label gap (~30 LOC)          |
-| A7 mating.yaml pack drift                  |   2h   |  ✅ DONE   | gene_slots core → pack sync this session                |
-| A8 promotions engine Phase B3              |  3-4h  | ✅ SHIPPED | Game/ #2264                                             |
-| B1-B6 various Envelope B                   |  ~17h  | ✅ SHIPPED | Game/ #2262 + #2263 + #2267 + #2268                     |
-| C1-C7 various Envelope C                   |  ~99h  | 🟡 PARTIAL | Atlas scaffold ✅ Godot v2 #260, runtime gated playtest |
+| Ticket                                     | Effort |   Status   | Channel                                                                         |
+| ------------------------------------------ | :----: | :--------: | ------------------------------------------------------------------------------- |
+| A1 smoke mutations UI                      |  0.5h  |  ✅ DONE   | audit verify (PARTIAL-WIRED finding)                                            |
+| A2 verify-only smoke promote               |  0.5h  | ✅ SHIPPED | Game/ #2261                                                                     |
+| A3 museum card M-007 post-script           |  0.5h  |  ✅ DONE   | additive update mating_nido card                                                |
+| A4 sentience tier backfill 15/15 lifecycle |  5-6h  | ✅ SHIPPED | Game/ #2262                                                                     |
+| A4-residue 30 species heuristic            |  3-4h  | ✅ SHIPPED | Game/ #2271 (legacy_yaml_residue → sentience_tier mirror; catalog 53/53 tiered) |
+| A5 bioma diff_base + hazard pressure       |   3h   | ✅ SHIPPED | engine #1864 (HP+pressure live) + chip #2366 (debrief Gate-5 surface)           |
+| A6 starter_bioma trait                     |   3h   | ✅ SHIPPED | backend recommender + #2334 frontend label (characterCreation biome_label_it)   |
+| A7 mating.yaml pack drift                  |   2h   |  ✅ DONE   | gene_slots core → pack sync this session                                        |
+| A8 promotions engine Phase B3              |  3-4h  | ✅ SHIPPED | Game/ #2264                                                                     |
+| B1-B6 various Envelope B                   |  ~17h  | ✅ SHIPPED | Game/ #2262 + #2263 + #2267 + #2268                                             |
+| C1-C7 various Envelope C                   |  ~99h  | 🟡 PARTIAL | Atlas scaffold ✅ Godot v2 #260, runtime gated playtest                         |
 
 **Pillar deltas v40 → v41**:
 
@@ -677,7 +677,7 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 > **Audit 2026-04-24**: CLAUDE.md "Backlog ticket aperti" era stale. Verificato contro git history.
 
 - [x] ~~**TKT-06**~~ — `predict_combat` ignora `unit.mod` stat → **✅ CHIUSO in PR #1588 (`2d6394dd`)** 2026-04-18. `resolve_attack_v2` + `predict_combat` Python + JS `predictCombat` ora includono actor.mod + aggregate_mod parity.
-- [ ] **TKT-07** — Tutorial sweep #2 N=10/scenario post telemetry fix. Unblock (TKT-06 risolto). Sweep #2 run da confermare in `docs/playtest/*sweep*`.
+- [x] **TKT-07** ✅ — Tutorial sweep #2 N=10/scenario. SHIPPED 2026-05-21: nuovo tool generico `tools/py/batch_sweep_tutorials.py` (riusa helper hardcore06) + run N=10 × enc_tutorial_01-05 → `docs/playtest/2026-05-21-tutorial-sweep.json`. Risultato: 5/5 scenari funzionali + winnable (WR 100% scripted-AI, 0 errori, rounds 6-13) = HEALTH PASS. Caveat (nel report): player scripted ≠ ai_profiles/human (WR upward-biased) + diff_rating→class mapping coarse → verdict RED informativo, non balance-oracle. Balance vero = real ai_profiles / master-dd playtest.
 - [x] ~~**TKT-08**~~ — Backend stability under batch (morì run #14 batch N=30) → **✅ CHIUSO 2026-04-26 (branch `fix/tkt-08-batch-harness-stability`)**. Diagnosi: (1) `planningTimers` Map in `sessionRoundBridge.js` non cancellato a `/end` → orphan setTimeout closures accumulano in Node timer queue su batch lunghi (callback no-op grazie al guard, ma queue cresce N×runs). Fix: `cancelPlanningTimer` esposto da `createRoundBridge` + invocato in `/end` prima di `sessions.delete` (defensive try/catch). (2) `batch_calibrate_hardcore07.py` era bare urlopen senza retry/health/cooldown/jsonl → transient backend stalls causavano crash mid-batch. Fix: porting hardening pattern da `batch_calibrate_hardcore06.py` (retry exp backoff 5×0.5s base, `/api/health` probe fail-fast pre-batch + ogni 10 run, cooldown 0.5s, JSONL incremental write resume-friendly, `--skip-health` opt-out). Test: AI 311/311 + session API 77/77 verdi, prettier verde, syntax python OK, CLI args wire OK. ADDITIVE only (zero breaking change). Doc: `docs/process/2026-04-26-tkt-08-backend-stability.md`.
 - [x] ~~**TKT-09**~~ — `ai_intent_distribution` mancante in `/round/execute` response → **✅ CHIUSO in PR #1551 (`092bff14`)** 2026-04-18. Harness `_ai_actions_from_resp` filtra `results[]` per `actor_id ∈ SIS`.
 - [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run). **Parziale**: PR #1551 probe_one addendum; retry+resume esplicito da confermare.
