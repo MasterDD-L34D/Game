@@ -278,8 +278,90 @@ def parse_objective(result, target_center):
     return abs(wr - target_center)
 
 
+def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
+    """Parallel-internal objective: each trial uses N shards (4x speedup).
+
+    Per-trial 24min serial -> ~6min via 4-shard parallel C. Staging-writer:
+    all shards read same trial candidate via DAMAGE_CURVES_PATH env (production
+    untouched). Imports calibrate_parallel helpers.
+    """
+    import importlib
+    cfg = SCENARIO_CFG[scenario]
+    cp = importlib.import_module("calibrate_parallel")
+    cp_cfg = cp.SCENARIO_MAP[scenario]  # calibrate_parallel cfg (key "script", not "batch_script")
+
+    def objective(trial):
+        knob_values = {}
+        for knob, spec in cfg["knob_space"].items():
+            kind, lo, hi = spec
+            if kind == "float":
+                knob_values[knob] = round(trial.suggest_float(knob, lo, hi), 3)
+            elif kind == "int":
+                knob_values[knob] = trial.suggest_int(knob, lo, hi)
+            else:
+                raise ValueError(f"Unknown knob kind: {kind}")
+
+        trial_label = f"trial-{trial.number:03d}"
+        print(f"\n[optuna-parallel] {trial_label} knobs: {knob_values}", flush=True)
+
+        staging_path = write_scenario_override(cfg["scenario_id"], knob_values)
+        ports = [base_port + i for i in range(shards)]
+        hosts = [f"http://localhost:{p}" for p in ports]
+        shard_procs, shard_fhs = [], []
+        try:
+            # Pre-check ports free.
+            for h in hosts:
+                if cp.health_check(h, timeout=1):
+                    print(f"[optuna-parallel] port busy {h}, abort trial", file=sys.stderr, flush=True)
+                    return float("inf")
+            # Spawn shards (staging-aware via curves_path).
+            shard_logdir = log_dir / f"{trial_label}-shards"
+            shard_logdir.mkdir(parents=True, exist_ok=True)
+            for port in ports:
+                proc, fh = cp.start_shard(port, shard_logdir, curves_path=staging_path)
+                shard_procs.append(proc)
+                shard_fhs.append(fh)
+            for h in hosts:
+                if cp.wait_healthy(h, max_wait=60) is None:
+                    print(f"[optuna-parallel] shard {h} unhealthy, abort", file=sys.stderr, flush=True)
+                    return float("inf")
+            # Distribute N + run batches parallel.
+            n_per = cp.distribute_n(n_per_trial, shards)
+            batch_procs, jsonl_paths = [], []
+            for i, (host, n) in enumerate(zip(hosts, n_per)):
+                if n == 0:
+                    continue
+                out_p = log_dir / f"{trial_label}-shard{i}.json"
+                jsonl_p = log_dir / f"{trial_label}-shard{i}.jsonl"
+                log_p = log_dir / f"{trial_label}-shard{i}.log"
+                jsonl_paths.append(jsonl_p)
+                proc, fh = cp.run_shard_batch(host, cp_cfg, n, out_p, jsonl_p, log_p)
+                batch_procs.append((proc, fh))
+            for proc, fh in batch_procs:
+                proc.wait()
+                try:
+                    fh.close()
+                except Exception:
+                    pass
+            runs = cp.merge_jsonl(jsonl_paths)
+            agg = cp.aggregate_merged(runs, scenario)
+            distance = parse_objective({"aggregate": agg}, cfg["target_center"])
+            wr = float((agg or {}).get("win_rate", 0))
+            if wr > 1: wr /= 100
+            print(f"[optuna-parallel] {trial_label} WR={wr*100:.1f}% N={len(runs)} distance={distance:.3f}",
+                  flush=True)
+            return distance
+        finally:
+            ports2 = [base_port + i for i in range(shards)]
+            for proc, fh, port in zip(shard_procs, shard_fhs, ports2):
+                cp.stop_shard(proc, fh, port)
+            cleanup_staging(staging_path)
+
+    return objective
+
+
 def make_objective(scenario, host, n_per_trial, log_dir, backend_proc_ref):
-    """Returns Optuna objective function closure."""
+    """Returns Optuna objective function closure (single-backend serial)."""
     cfg = SCENARIO_CFG[scenario]
 
     def objective(trial):
@@ -337,6 +419,13 @@ def main():
                         "internal to make N=40/trial affordable (~3min/trial).")
     p.add_argument("--host", default="http://localhost:3340",
                    help="Backend URL (auto-managed if backend not running)")
+    p.add_argument("--parallel", action="store_true",
+                   help="Parallel-internal: each trial uses N shards (4x speedup). "
+                        "Per-trial 24min serial -> ~6min. Staging-writer keeps "
+                        "production untouched across shards.")
+    p.add_argument("--shards", type=int, default=4, help="Shards per trial (--parallel)")
+    p.add_argument("--base-port", type=int, default=3341,
+                   help="First shard port (--parallel). Default 3341.")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--out-dir", default="docs/playtest")
     p.add_argument("--label", default=None)
@@ -361,7 +450,14 @@ def main():
                                  study_name=f"calibrate-{args.scenario}-{label}")
 
     backend_proc_ref = {"proc": None}
-    objective = make_objective(args.scenario, args.host, args.n_per_trial, log_dir, backend_proc_ref)
+    if args.parallel:
+        objective = make_objective_parallel(
+            args.scenario, args.n_per_trial, args.shards, args.base_port, log_dir
+        )
+        print(f"[optuna] PARALLEL-internal mode: {args.shards} shards/trial "
+              f"base-port {args.base_port} (per-trial ~4x speedup)", flush=True)
+    else:
+        objective = make_objective(args.scenario, args.host, args.n_per_trial, log_dir, backend_proc_ref)
 
     if args.n_per_trial < 40:
         print(f"[optuna] WARNING — n_per_trial={args.n_per_trial} < 40 (L-073 noise risk).",
