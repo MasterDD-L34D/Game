@@ -111,3 +111,6 @@ apps/backend/public/phone/
 
 # Cloudflare Tunnel deploy logs
 .deploy-logs/
+
+# 2026-05-21 staging-writer fix (issue #2356) -- ephemeral calibration candidate
+data/core/balance/damage_curves.staging.yaml

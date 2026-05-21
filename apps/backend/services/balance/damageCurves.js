@@ -15,7 +15,15 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
-const DEFAULT_PATH = path.join(process.cwd(), 'data', 'core', 'balance', 'damage_curves.yaml');
+// 2026-05-21 staging-writer fix (issue #2356): DAMAGE_CURVES_PATH env override
+// lets calibration tools (calibrate_optuna.py / calibrate_map_elites.py) point
+// the backend at a STAGING copy with candidate scenario_overrides instead of
+// clobbering production data/core/balance/damage_curves.yaml in-place.
+// Root cause: in-place write + restore-on-finally was fragile (3 clobber
+// occurrences when process killed mid-run before restore fired).
+const DEFAULT_PATH =
+  process.env.DAMAGE_CURVES_PATH ||
+  path.join(process.cwd(), 'data', 'core', 'balance', 'damage_curves.yaml');
 
 const DEFAULT_CLASS = 'standard';
 

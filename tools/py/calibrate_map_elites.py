@@ -238,10 +238,12 @@ def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_re
         opt.stop_backend(backend_ref["proc"])
         backend_ref["proc"] = None
 
-    original_yaml = opt.write_scenario_override(scenario_id, knobs)
+    # Staging-writer fix (issue #2356): candidate to STAGING, production untouched.
+    staging_path = opt.write_scenario_override(scenario_id, knobs)
     try:
         # Codex PR #2357 fix: honor --host port (was hardcoded 3340).
-        proc, host_url = opt.start_backend(port=port)
+        # Staging path → backend DAMAGE_CURVES_PATH env (never clobbers prod).
+        proc, host_url = opt.start_backend(port=port, curves_path=staging_path)
         if proc is None:
             print(f"[map-elites] backend start FAIL for {label}", file=sys.stderr, flush=True)
             return (None, None)
@@ -257,14 +259,14 @@ def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_re
             return (None, None)
         wr = float(wr_raw)
         defeat = float(defeat_raw) if defeat_raw is not None else 0.0
-        # Normalize percent → fraction if needed.
+        # Normalize percent -> fraction if needed.
         if wr > 1.0:
             wr /= 100.0
         if defeat > 1.0:
             defeat /= 100.0
         return (wr, defeat)
     finally:
-        opt.restore_yaml(opt.DAMAGE_CURVES, original_yaml)
+        opt.cleanup_staging(staging_path)
 
 
 # ─────────────────────────────────────────────────────────────────────────
