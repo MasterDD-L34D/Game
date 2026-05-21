@@ -185,25 +185,86 @@ def evaluate_knobs_stub(knobs, rng):
     return wr, defeat
 
 
-# Stub for real evaluation hook — when implemented, replace evaluate_knobs_stub
-# with this. Skeleton matches calibrate_optuna.py pattern.
-def evaluate_knobs_real(knobs, scenario, host, n_per_trial, log_dir):
-    """REAL impl — TODO Sprint M14+ when stable baseline.
+# ─────────────────────────────────────────────────────────────────────────
+# Real evaluator — reuses calibrate_optuna.py backend lifecycle + yaml writer
+# ─────────────────────────────────────────────────────────────────────────
 
-    Pattern:
-        1. write_scenario_override(scenario_id, knobs, yaml_path) (from calibrate_optuna.py)
-        2. restart backend OR spawn shard
-        3. run batch_calibrate_*.py N=n_per_trial
-        4. parse JSON aggregate
-        5. return (wr, defeat_rate)
-        6. restore_yaml original
+# Lazy import (calibrate_optuna in same dir). Reuses write_scenario_override
+# (full-block replace, fixed L-073 bug), start_backend, stop_backend,
+# restore_yaml, run_batch, DAMAGE_CURVES.
+import importlib
 
-    Returns (wr, defeat_rate) tuple in [0, 1].
+
+def _load_optuna_helpers():
+    """Import backend lifecycle + yaml helpers from calibrate_optuna module."""
+    sys.path.insert(0, str(REPO_ROOT / "tools" / "py"))
+    opt = importlib.import_module("calibrate_optuna")
+    return opt
+
+
+# Scenario_id mapping (MAP-Elites KNOB_SPACE keys → encounter scenario_id).
+SCENARIO_ID_MAP = {
+    "hardcore_06": "enc_tutorial_06_hardcore",
+    "hardcore_07": "enc_tutorial_07_hardcore_pod_rush",
+}
+
+
+def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_ref, port=3340):
+    """REAL evaluator — write yaml override + restart backend + batch + parse.
+
+    2026-05-21 implemented (was Sprint M14+ stub). Reuses calibrate_optuna.py
+    helpers for backend lifecycle + yaml full-block replace (L-073-fixed writer).
+
+    L-073 applied: caller passes n_per_trial>=40 (warns below). MAP-Elites
+    feature placement uses observed (wr, defeat) — both need ratify-grade N
+    or cells get noise-placed.
+
+    Args:
+        knobs: dict knob_values for this evaluation
+        scenario: 'hardcore_06' | 'hardcore_07'
+        n_per_trial: batch N (>=40 recommended per L-073)
+        log_dir: Path for batch outputs
+        label: unique label for this eval (cell coords or iter number)
+        backend_ref: dict {'proc': Popen|None} for backend lifecycle reuse
+
+    Returns:
+        (wr, defeat_rate) tuple in [0, 1], OR (None, None) on failure.
     """
-    raise NotImplementedError(
-        "MAP-Elites real evaluator: Sprint M14+ candidate. "
-        "Use STUB (--stub-eval) for algorithm validation."
-    )
+    opt = _load_optuna_helpers()
+    scenario_id = SCENARIO_ID_MAP[scenario]
+
+    # Stop prior backend (knob change requires fresh YAML cache).
+    if backend_ref.get("proc") is not None:
+        opt.stop_backend(backend_ref["proc"])
+        backend_ref["proc"] = None
+
+    original_yaml = opt.write_scenario_override(scenario_id, knobs)
+    try:
+        # Codex PR #2357 fix: honor --host port (was hardcoded 3340).
+        proc, host_url = opt.start_backend(port=port)
+        if proc is None:
+            print(f"[map-elites] backend start FAIL for {label}", file=sys.stderr, flush=True)
+            return (None, None)
+        backend_ref["proc"] = proc
+
+        result = opt.run_batch(scenario, host_url, n_per_trial, label, log_dir)
+        if result is None:
+            return (None, None)
+        agg = result.get("aggregate") or result.get("summary") or {}
+        wr_raw = agg.get("win_rate")
+        defeat_raw = agg.get("defeat_rate")
+        if wr_raw is None:
+            return (None, None)
+        wr = float(wr_raw)
+        defeat = float(defeat_raw) if defeat_raw is not None else 0.0
+        # Normalize percent → fraction if needed.
+        if wr > 1.0:
+            wr /= 100.0
+        if defeat > 1.0:
+            defeat /= 100.0
+        return (wr, defeat)
+    finally:
+        opt.restore_yaml(opt.DAMAGE_CURVES, original_yaml)
 
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -220,33 +281,54 @@ def main():
     p.add_argument("--label", default=None)
     p.add_argument("--stub-eval", action="store_true",
                    help="Use synthetic evaluator (algorithm validation, no backend).")
-    p.add_argument("--n-per-trial", type=int, default=20,
-                   help="(real eval only) batch N per trial")
+    p.add_argument("--n-per-trial", type=int, default=40,
+                   help="(real eval only) batch N per cell eval. Default 40 per "
+                        "L-073 (N<40 = noise-placed cells). Compute heavy: "
+                        "iterations × N × ~30s. Use --stub-eval for fast algo test.")
     p.add_argument("--host", default="http://localhost:3340")
     args = p.parse_args()
-
-    if not args.stub_eval:
-        print("ERROR: real evaluator NOT YET IMPLEMENTED (Sprint M14+ stub).", file=sys.stderr)
-        print("       Use --stub-eval flag for algorithm validation against synthetic.", file=sys.stderr)
-        return 1
 
     rng = random.Random(args.seed)
     label = args.label or time.strftime("%Y-%m-%d-%H%M%S")
     log_dir = REPO_ROOT / args.out_dir / f"map-elites-{args.scenario}-{label}"
     log_dir.mkdir(parents=True, exist_ok=True)
 
+    mode = "STUB" if args.stub_eval else "REAL"
+    backend_ref = {"proc": None}  # real-eval backend lifecycle
+
+    if not args.stub_eval and args.n_per_trial < 40:
+        print(f"[map-elites] WARNING n_per_trial={args.n_per_trial} < 40 (L-073 noise risk).",
+              flush=True)
+        print(f"[map-elites] Cells may be noise-placed. Best cell REQUIRES N=40 ratify.",
+              flush=True)
+
     # Initialize empty 5x5 feature map
     feature_map = {}  # (wr_idx, def_idx) -> {knob_values, features, fitness, iter}
 
-    print(f"[map-elites] scenario={args.scenario} iterations={args.iterations} mode=STUB", flush=True)
+    print(f"[map-elites] scenario={args.scenario} iterations={args.iterations} mode={mode}", flush=True)
     print(f"[map-elites] knob_space: {KNOB_SPACE[args.scenario]}", flush=True)
     print(f"[map-elites] feature grid: {len(WR_BUCKETS)}x{len(DEFEAT_BUCKETS)} cells", flush=True)
+    # Parse port from --host for real-eval backend spawn (Codex PR #2357 fix).
+    import re as _re
+    _port_match = _re.search(r":(\d+)", args.host)
+    host_port = int(_port_match.group(1)) if _port_match else 3340
+
+    if not args.stub_eval:
+        # Codex PR #2357 fix: 0.5 = min/run (30s). Total minutes = iter*N*0.5.
+        # Previous bug divided by 60 again → reported hours-as-minutes (60x under).
+        est_min = args.iterations * args.n_per_trial * 0.5  # ~30s/run = 0.5 min/run
+        est_hr = est_min / 60
+        print(f"[map-elites] REAL eval: ~{est_min:.0f}min (~{est_hr:.1f}h) compute estimate "
+              f"({args.iterations} iter × N={args.n_per_trial} × ~30s/run). "
+              f"Heavy — Sprint M14+ budget. Backend port={host_port}.",
+              flush=True)
     print(f"[map-elites] log_dir: {log_dir}", flush=True)
 
     t0 = time.time()
     cells_populated = 0
     cells_replaced = 0
     cells_skipped = 0
+    eval_failures = 0
     history = []
 
     for i in range(args.iterations):
@@ -259,8 +341,18 @@ def main():
             knobs = mutate_knobs(parent_cell["knob_values"], args.scenario, rng)
             origin = "mutate"
 
-        # Evaluate (STUB synthetic for now)
-        wr, defeat = evaluate_knobs_stub(knobs, rng)
+        # Evaluate — STUB synthetic OR REAL backend batch.
+        if args.stub_eval:
+            wr, defeat = evaluate_knobs_stub(knobs, rng)
+        else:
+            wr, defeat = evaluate_knobs_real(
+                knobs, args.scenario, args.n_per_trial, log_dir, f"iter-{i:03d}",
+                backend_ref, port=host_port
+            )
+            if wr is None:
+                eval_failures += 1
+                print(f"[map-elites] iter {i} eval FAILED (backend/batch error), skip", flush=True)
+                continue
 
         cell = feature_cell(wr, defeat)
         fitness = cell_fitness(wr, defeat, *cell)
@@ -310,6 +402,12 @@ def main():
 
     elapsed = time.time() - t0
 
+    # Real-eval backend cleanup.
+    if not args.stub_eval and backend_ref.get("proc") is not None:
+        opt = _load_optuna_helpers()
+        opt.stop_backend(backend_ref["proc"])
+        print("[map-elites] backend stopped", flush=True)
+
     # Compose report
     map_serializable = {
         f"{wr_idx},{def_idx}": cell_data
@@ -327,10 +425,12 @@ def main():
         "wr_buckets": WR_BUCKETS,
         "defeat_buckets": DEFEAT_BUCKETS,
         "feature_map": map_serializable,
+        "n_per_trial": args.n_per_trial if not args.stub_eval else None,
         "stats": {
             "cells_populated": cells_populated,
             "cells_replaced": cells_replaced,
             "cells_skipped": cells_skipped,
+            "eval_failures": eval_failures,
             "cells_active": len(feature_map),
             "max_cells": len(WR_BUCKETS) * len(DEFEAT_BUCKETS),
             "coverage_pct": len(feature_map) / (len(WR_BUCKETS) * len(DEFEAT_BUCKETS)) * 100,
@@ -340,7 +440,7 @@ def main():
         "method": "D-map-elites-qd",
         "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
         "seed": args.seed,
-        "status": "STUB-Sprint-M14",
+        "status": "stub-validated" if args.stub_eval else "real-eval",
     }
     report_path = log_dir / "map-elites-report.json"
     with open(report_path, "w", encoding="utf-8") as f:
