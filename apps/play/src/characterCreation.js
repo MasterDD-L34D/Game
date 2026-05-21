@@ -229,10 +229,24 @@ export function wireCharacterCreation(overlay, bridge) {
       // Fallback retro-compat: biome_id underscore-replace, trait_id raw.
       const biomeLabel = data.biome_label_it || data.biome_id.replace(/_/g, ' ');
       const traitLabel = data.trait_label_it || data.trait_id;
-      starterBiomaEl.innerHTML =
-        `<div class="cc-preview-starter-bioma-title">Bioma origine</div>` +
-        `<span class="cc-preview-starter-bioma-biome">🌍 ${biomeLabel}</span>` +
-        ` → <span class="cc-preview-starter-bioma-trait">${traitLabel}</span>`;
+      // Codex PR #2334 audit fix (2026-05-21): build DOM nodes via textContent
+      // instead of innerHTML interpolation to prevent DOM XSS via free-form
+      // label content coming from API payload (glossary/biome updates can
+      // contain HTML characters).
+      starterBiomaEl.textContent = '';
+      const titleEl = document.createElement('div');
+      titleEl.className = 'cc-preview-starter-bioma-title';
+      titleEl.textContent = 'Bioma origine';
+      starterBiomaEl.appendChild(titleEl);
+      const biomeSpan = document.createElement('span');
+      biomeSpan.className = 'cc-preview-starter-bioma-biome';
+      biomeSpan.textContent = `🌍 ${biomeLabel}`;
+      starterBiomaEl.appendChild(biomeSpan);
+      starterBiomaEl.appendChild(document.createTextNode(' → '));
+      const traitSpan = document.createElement('span');
+      traitSpan.className = 'cc-preview-starter-bioma-trait';
+      traitSpan.textContent = traitLabel;
+      starterBiomaEl.appendChild(traitSpan);
     } catch {
       starterBiomaEl.textContent = '';
     }
