@@ -7,6 +7,16 @@
 
 ---
 
+## Goals (S/M/L)
+
+> Canonical per-repo goals. Hub mirror: `codemasterdd/GOALS.md`. Horizons: Short=weeks / Mid=1-2mo / Long=3-6mo.
+
+- **Short**: close M1 Sistema persistent cross-session learning (route #2364 + pilot #2363); finalize hardcore band revision (#2365 OD-032).
+- **Mid**: M1 Sistema full wired Game<->Godot; trait system completeness (post-A4 ionico/termico).
+- **Long**: shippable co-op tactical loop -- 4-8 friends, TV + phones (Jackbox model), ~60min runs, "how you play shapes what you become".
+
+---
+
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
 ### ✅ Ecosystem audit + ai-station Envelope A+B+C cascade — sessione 2026-05-13/14/15 — 14 PR cross-stack shipped
