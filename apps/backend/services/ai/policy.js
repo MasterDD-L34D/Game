@@ -176,7 +176,15 @@ function selectAiPolicy(actor, target, profile, threatCtx) {
   const hpRatio = actor.hp / maxHp;
 
   // REGOLA_002: autoconservazione prima di tutto
-  if (hpRatio <= cfg.LOW_HP_RETREAT_THRESHOLD) {
+  // M1 ADR-2026-05-18 Option B pilot -- when a proven killer (persistent
+  // high-threat PG) is on the field, the Sistema retreats sooner: +20% retreat
+  // threshold. Deterministic; escalation passive/critical above already
+  // returned, so this only widens the cautious (normal) path.
+  const retreatThreshold =
+    threatCtx && threatCtx.persistent_high_threat
+      ? cfg.LOW_HP_RETREAT_THRESHOLD * 1.2
+      : cfg.LOW_HP_RETREAT_THRESHOLD;
+  if (hpRatio <= retreatThreshold) {
     return { rule: 'REGOLA_002', intent: 'retreat' };
   }
 
@@ -288,6 +296,7 @@ module.exports = {
   DEFAULT_MAX_HP_FALLBACK,
   LOW_HP_RETREAT_THRESHOLD,
   DEFAULT_OBJECTIVES,
+  _cfg,
   loadAiConfig,
   applyProfile,
   scoreObjectives,
