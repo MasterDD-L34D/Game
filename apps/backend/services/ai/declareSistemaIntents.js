@@ -116,6 +116,22 @@ function intentsCapForPressure(pressure) {
   return cap;
 }
 
+// M1 ADR-2026-05-18 -- true only when a high-threat PG is CURRENTLY on the field
+// (present in session.units AND alive). units_observed accumulates across
+// encounters, so it MUST be intersected with the live roster -- otherwise a
+// past killer biases unrelated future battles (codex P1 #2363).
+function computePersistentHighThreat(session) {
+  const observed = (session && session.sistema_state && session.sistema_state.units_observed) || {};
+  const units = Array.isArray(session && session.units) ? session.units : [];
+  for (const u of units) {
+    if (!u || u.controlled_by !== 'player') continue;
+    if (u.hp != null && u.hp <= 0) continue; // dead -> not on the field
+    const rec = observed[u.id];
+    if (rec && rec.threat_level === 'high') return true;
+  }
+  return false;
+}
+
 function createDeclareSistemaIntents(deps) {
   const {
     pickLowestHpEnemy,
@@ -174,6 +190,14 @@ function createDeclareSistemaIntents(deps) {
     // AI War pattern: compute threat context once per round
     const threatCtx =
       typeof computeThreatIndex === 'function' ? computeThreatIndex(session, threatConfig) : null;
+
+    // M1 ADR-2026-05-18 Option B pilot -- surface persistent high-threat to the
+    // legacy policy (selectAiPolicy reads threatCtx). Only fires when a
+    // high-threat PG is alive on the current field (codex P1 #2363 fix).
+    // Back-compat: absent sistema_state -> false -> baseline behavior.
+    if (threatCtx) {
+      threatCtx.persistent_high_threat = computePersistentHighThreat(session);
+    }
 
     // AI War pattern: pressure-driven intent cap.
     // Tier piu' alto (player vincente) → SIS dichiara piu' intents.
@@ -484,4 +508,4 @@ function createDeclareSistemaIntents(deps) {
   };
 }
 
-module.exports = { createDeclareSistemaIntents };
+module.exports = { createDeclareSistemaIntents, computePersistentHighThreat };
