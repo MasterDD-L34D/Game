@@ -1618,6 +1618,9 @@ function createSessionRouter(options = {}) {
         // + future UI hint. Consumed da round bridge (pressure_mult tick) e
         // applicato in applyEnemyHpMultiplier sopra (hp_mult).
         biome_modifiers: biomeModifiers,
+        // M1 ADR-2026-05-18 -- campaign scope for SistemaState persistence.
+        campaign_id: req.body?.campaign_id || null,
+        sistema_state: { units_observed: {} },
       };
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
@@ -1648,6 +1651,17 @@ function createSessionRouter(options = {}) {
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
+      // M1 -- hydrate persistent Sistema learning state (best-effort, never blocks).
+      try {
+        if (session.campaign_id) {
+          const { prisma } = require('../db/prisma');
+          const { createSistemaStateStore } = require('../services/ai/sistemaStateStore');
+          const store = createSistemaStateStore(prisma);
+          session.sistema_state = await store.get(session.campaign_id);
+        }
+      } catch {
+        /* best-effort -- default { units_observed: {} } already set */
+      }
       await fs.mkdir(logsDir, { recursive: true });
       await fs.writeFile(logFilePath, '[]\n', 'utf8');
       // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).
@@ -2910,7 +2924,21 @@ function createSessionRouter(options = {}) {
         });
         debrief = buildDebriefSummary(session, vcSnapshot, peResult);
       } catch {
-        // vc + debrief are best-effort — don't block session end
+        // vc + debrief are best-effort -- don't block session end
+      }
+      // M1 -- persist Sistema learning (best-effort, never blocks session end).
+      try {
+        if (session.campaign_id) {
+          const { prisma } = require('../db/prisma');
+          const { createSistemaStateStore } = require('../services/ai/sistemaStateStore');
+          const { accumulate } = require('../services/ai/sistemaStateAccumulator');
+          const store = createSistemaStateStore(prisma);
+          const prior = await store.get(session.campaign_id);
+          const next = accumulate(prior.units_observed, session);
+          await store.upsert(session.campaign_id, next);
+        }
+      } catch {
+        /* best-effort -- don't block session end */
       }
       await appendEvent(session, {
         action_type: 'session_end',

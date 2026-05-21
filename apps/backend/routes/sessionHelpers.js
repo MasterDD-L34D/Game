@@ -448,6 +448,9 @@ function publicSessionView(session) {
     // encounter ma biome_id raw non passato (e.g. tutorial UI flow).
     // Null se nessun biome dichiarato (legacy tutorial / scenario JS senza biome).
     biome_id: session.biome_id || session.encounter?.biome_id || null,
+    // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
+    campaign_id: session.campaign_id || null,
+    sistema_state: session.sistema_state || { units_observed: {} },
     // OD-001 Path A Sprint A — Nido unlock flag for HUD btn visibility.
     nido_unlocked: checkNidoUnlock(session),
     // Skiv Goal 2 (2026-04-28) — Echolocation sense surface. Lazy compute:
