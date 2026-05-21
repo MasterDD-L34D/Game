@@ -70,15 +70,32 @@ function getEncounterClass(encounter, curves = null) {
  * Static application: unit.mod modificato una volta durante session init.
  * Round floor (damage deve essere int).
  *
+ * 2026-05-21 hc07 iter2: scenario_overrides.enemy_damage_multiplier_override
+ * REPLACES the class default (not stacked) when scenarioId provided + override
+ * present. Lets per-scenario tuning (es. hardcore_07 2.2 vs class hardcore 1.8)
+ * without touching the shared encounter_class knob.
+ *
+ * @param {object} unit
+ * @param {string} encounterClass
+ * @param {object} curves optional (dependency injection)
+ * @param {string} scenarioId optional (per scenario_overrides resolution)
  * @returns {boolean} true se mod modificato
  */
-function applyEnemyDamageMultiplier(unit, encounterClass, curves = null) {
+function applyEnemyDamageMultiplier(unit, encounterClass, curves = null, scenarioId = null) {
   if (!unit) return false;
   const data = curves || loadDamageCurves();
   if (!data) return false;
   const cls = data.encounter_classes[encounterClass];
   if (!cls) return false;
-  const mult = Number(cls.enemy_damage_multiplier) || 1.0;
+  let mult = Number(cls.enemy_damage_multiplier) || 1.0;
+  // Scenario override REPLACES class multiplier (not stacked).
+  if (scenarioId && data.scenario_overrides && data.scenario_overrides[scenarioId]) {
+    const override = data.scenario_overrides[scenarioId];
+    if (override.enemy_damage_multiplier_override != null) {
+      const o = Number(override.enemy_damage_multiplier_override);
+      if (Number.isFinite(o) && o > 0) mult = o;
+    }
+  }
   if (mult === 1.0) return false;
   const before = Number(unit.mod || 0);
   unit.mod = Math.round(before * mult);
