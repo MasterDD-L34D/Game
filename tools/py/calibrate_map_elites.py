@@ -209,7 +209,7 @@ SCENARIO_ID_MAP = {
 }
 
 
-def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_ref):
+def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_ref, port=3340):
     """REAL evaluator — write yaml override + restart backend + batch + parse.
 
     2026-05-21 implemented (was Sprint M14+ stub). Reuses calibrate_optuna.py
@@ -240,7 +240,8 @@ def evaluate_knobs_real(knobs, scenario, n_per_trial, log_dir, label, backend_re
 
     original_yaml = opt.write_scenario_override(scenario_id, knobs)
     try:
-        proc, host_url = opt.start_backend(port=3340)
+        # Codex PR #2357 fix: honor --host port (was hardcoded 3340).
+        proc, host_url = opt.start_backend(port=port)
         if proc is None:
             print(f"[map-elites] backend start FAIL for {label}", file=sys.stderr, flush=True)
             return (None, None)
@@ -307,10 +308,19 @@ def main():
     print(f"[map-elites] scenario={args.scenario} iterations={args.iterations} mode={mode}", flush=True)
     print(f"[map-elites] knob_space: {KNOB_SPACE[args.scenario]}", flush=True)
     print(f"[map-elites] feature grid: {len(WR_BUCKETS)}x{len(DEFEAT_BUCKETS)} cells", flush=True)
+    # Parse port from --host for real-eval backend spawn (Codex PR #2357 fix).
+    import re as _re
+    _port_match = _re.search(r":(\d+)", args.host)
+    host_port = int(_port_match.group(1)) if _port_match else 3340
+
     if not args.stub_eval:
-        est_min = args.iterations * args.n_per_trial * 0.5 / 60  # ~30s/run / 60
-        print(f"[map-elites] REAL eval: ~{est_min:.0f}min compute estimate "
-              f"({args.iterations} iter × N={args.n_per_trial}). Heavy — Sprint M14+ budget.",
+        # Codex PR #2357 fix: 0.5 = min/run (30s). Total minutes = iter*N*0.5.
+        # Previous bug divided by 60 again → reported hours-as-minutes (60x under).
+        est_min = args.iterations * args.n_per_trial * 0.5  # ~30s/run = 0.5 min/run
+        est_hr = est_min / 60
+        print(f"[map-elites] REAL eval: ~{est_min:.0f}min (~{est_hr:.1f}h) compute estimate "
+              f"({args.iterations} iter × N={args.n_per_trial} × ~30s/run). "
+              f"Heavy — Sprint M14+ budget. Backend port={host_port}.",
               flush=True)
     print(f"[map-elites] log_dir: {log_dir}", flush=True)
 
@@ -336,7 +346,8 @@ def main():
             wr, defeat = evaluate_knobs_stub(knobs, rng)
         else:
             wr, defeat = evaluate_knobs_real(
-                knobs, args.scenario, args.n_per_trial, log_dir, f"iter-{i:03d}", backend_ref
+                knobs, args.scenario, args.n_per_trial, log_dir, f"iter-{i:03d}",
+                backend_ref, port=host_port
             )
             if wr is None:
                 eval_failures += 1
