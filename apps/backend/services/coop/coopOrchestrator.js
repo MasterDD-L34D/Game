@@ -4,8 +4,18 @@
 
 'use strict';
 
+const crypto = require('crypto');
 const { foldObservations } = require('../ai/sistemaStateAccumulator');
 const { createSistemaStateStore } = require('../ai/sistemaStateStore');
+
+// CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
+// SistemaState under run.id; Godot client keys CampaignState.campaign_id on
+// it). The legacy `run_${Date.now().toString(36)}` collided when two runs
+// were created in the same millisecond, causing cross-run learning bleed.
+// crypto.randomUUID() is collision-resistant; the `run_` prefix is preserved.
+function newRunId() {
+  return `run_${crypto.randomUUID()}`;
+}
 
 // 2026-05-06 narrative onboarding port — `onboarding` phase added per
 // canonical `docs/core/51-ONBOARDING-60S.md` Phase B. Sequence:
@@ -168,7 +178,7 @@ class CoopOrchestrator {
       throw new Error(`cannot_start_from_phase:${this.phase}`);
     }
     this.run = {
-      id: `run_${Date.now().toString(36)}`,
+      id: newRunId(),
       scenarioStack: Array.isArray(scenarioStack) ? scenarioStack : ['enc_tutorial_01'],
       currentIndex: 0,
       partyXp: 0,
@@ -202,7 +212,7 @@ class CoopOrchestrator {
       throw new Error(`cannot_start_from_phase:${this.phase}`);
     }
     this.run = {
-      id: `run_${Date.now().toString(36)}`,
+      id: newRunId(),
       scenarioStack: Array.isArray(scenarioStack) ? scenarioStack : ['enc_tutorial_01'],
       currentIndex: 0,
       partyXp: 0,
