@@ -11,13 +11,13 @@ Vedi `.claude/prompts/README.md` per elenco completo + policy usage.
 
 **Quick reference**:
 
-| Scenario                                          | Template                                                                                                                                                                    | Tool target           |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Chiarire player fantasy + core loop nuova feature | `.claude/prompts/02_game_design_core_loop.prompt.md`                                                                                                                        | ChatGPT               |
-| Trasformare sintesi NotebookLM in backlog/brief   | `.claude/prompts/04_research_bridge.prompt.md`                                                                                                                              | ChatGPT               |
-| Brief tecnico consolidato per Claude Code         | `.claude/prompts/05_claude_code_brief.prompt.md`                                                                                                                            | Claude Code           |
-| Audit first-principles game + repo                | `.claude/prompts/09_first_principles_checklist.prompt.md`                                                                                                                   | Claude Code / ChatGPT |
-| Prossimo punto / lavoro irrisolto (autonomo)      | inline: _"prossimo punto autonomo — applica CLAUDE.md §Autonomous Next-Point"_ (verifica ground-truth L-075 → seleziona rubrica → esegui+ship+merge → stop solo fork/gated) | Claude Code           |
+| Scenario                                          | Template                                                                                                                                                                                                                            | Tool target           |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Chiarire player fantasy + core loop nuova feature | `.claude/prompts/02_game_design_core_loop.prompt.md`                                                                                                                                                                                | ChatGPT               |
+| Trasformare sintesi NotebookLM in backlog/brief   | `.claude/prompts/04_research_bridge.prompt.md`                                                                                                                                                                                      | ChatGPT               |
+| Brief tecnico consolidato per Claude Code         | `.claude/prompts/05_claude_code_brief.prompt.md`                                                                                                                                                                                    | Claude Code           |
+| Audit first-principles game + repo                | `.claude/prompts/09_first_principles_checklist.prompt.md`                                                                                                                                                                           | Claude Code / ChatGPT |
+| Prossimo punto / lavoro irrisolto                 | inline: _"prossimo punto / continuiamo"_ — costrutti esistenti (Autonomous Execution + verifica ground-truth L-075 + STOP fork/gated). Nessun protocollo dedicato (rifiutato SDMG 2026-05-21). Vedi CLAUDE.md §Open-ended go-signal | Claude Code           |
 
 ## Cercare un prompt esistente prima di crearne uno
 

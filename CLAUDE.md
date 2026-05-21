@@ -34,17 +34,11 @@ Derived from `/insights` audit 2026-04-25 — friction "stopping early" + "confi
 - **Verify config changes**: dopo ogni edit a `*.json`, `*.yaml`, `.env`, config service → (1) re-read file, (2) restart/reload servizio se applicable, (3) probe live (test API call / `curl /health`). Mai "configurato X" senza i 3 step.
 - **Stop-on-missing-prereq**: se handoff doc / planning file referenziato non esiste, FERMA e chiedi. Non auto-creare il piano mancante per "salvare" la sessione.
 
-### 🎯 Autonomous Next-Point (trigger "prossimo punto / lavoro irrisolto")
+### 🎯 Open-ended go-signal ("prossimo punto / lavoro irrisolto")
 
-Quando l'utente dice _"andiamo al prossimo punto"_ / _"riprendiamo il lavoro irrisolto"_ (o simili): **NON chiedere "quale?"**. Verifica → seleziona → esegui → loop. Decisione codificata 2026-05-21 (era friction: ask ripetuti su prompt ambiguo).
+Segnali open-ended (_"prossimo punto"_, _"continuiamo"_, _"procedi"_) sono gestiti dai costrutti **esistenti** — niente protocollo dedicato. (Un "Autonomous Next-Point Protocol" formale è stato **rifiutato** da harsh-reviewer SDMG 2026-05-21: ridondante con quanto sotto, "highest-value" = euristica-as-decider [P7 step 6], nessun problema empirico — selezione improvvisata ha funzionato su ~6 go-signal. Rif: codemasterdd `docs/superpowers/specs/2026-05-21-autonomous-next-point-protocol-design.md`.)
 
-1. **VERIFICA ground-truth (L-075 / anti-pattern #19)** — `git fetch origin main` PRIMA (un clone/worktree stale ha `origin/main` indietro → misclassifica merged come open = la stessa rot che la regola previene), poi per ogni candidato BACKLOG/OD/COMPACT marcato ⏳/🟡/pending: `grep -rn <feature> <impl-dir>` + `git log origin/main --oneline | grep -i <ticket>` + check artifact (catalog stats / endpoint / test). Marker = ipotesi, git (post-fetch) = verità. Già shipped → **chiudi entry (no rebuild)**, passa oltre.
-2. **SELEZIONA per rubrica** (ordine): (a) verified-open + autonomous-doable + basso blast → **fallo SUBITO**; (b) se più candidati, max valore-pilastro / sblocca-altro; (c) **salta** master-dd-gated / destructive / forbidden-path (`.github/workflows`, `migrations/`, `packages/contracts/`, `services/generation/`, `services/rules/`) / design-fork.
-3. **ESEGUI fino a done** — implementa + test + ship (PR + **aggiorna il tracker stesso-PR**, L-075) + Codex P1/P2 address+reply+resolve + merge a verde (`--admin` se BEHIND + green, auto-merge disabled repo-wide).
-4. **FERMATI SOLO per**: design fork reale (`AskUserQuestion` con 2-4 opzioni), azione gated (master-dd authority / forbidden path / cross-PC / destructive), o **zero verified-open autonomous rimasti** → allora report shortlist gated + chiedi direzione.
-5. **Loop** al prossimo finché stop-condition. Caveman + commit AA01 sempre attivi.
-
-**Paste-prompt breve** (entrypoint, vedi `PROMPT_LIBRARY.md`): _"prossimo punto autonomo — applica CLAUDE.md §Autonomous Next-Point (verifica ground-truth, seleziona per rubrica, esegui+ship+merge, fermati solo per fork/gated)."_
+In pratica: applica **Autonomous Execution** (sopra) + **verifica ground-truth prima di lavorare item ⏳/🟡** (`git fetch origin main` poi `grep` impl + `git log origin/main | grep <ticket>` + check artifact — marker=ipotesi, git=verità, L-075 / anti-pattern #19) + **FERMATI** per irreversibile / owner-gated / forbidden-path / fork architetturale.
 
 ## 🌳 Worktree & Path Discipline
 
