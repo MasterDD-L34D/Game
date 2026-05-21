@@ -11,7 +11,9 @@ const { createApp } = require('../../apps/backend/app');
 
 test('GET /api/campaign/sistema-state returns 200 with empty-safe state', async (t) => {
   const { app, close } = createApp({ databasePath: null });
-  t.after(async () => { if (typeof close === 'function') await close().catch(() => {}); });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
 
   const res = await request(app)
     .get('/api/campaign/sistema-state')
@@ -23,7 +25,9 @@ test('GET /api/campaign/sistema-state returns 200 with empty-safe state', async 
 
 test('GET /api/campaign/sistema-state 400 when campaign_id missing', async (t) => {
   const { app, close } = createApp({ databasePath: null });
-  t.after(async () => { if (typeof close === 'function') await close().catch(() => {}); });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
 
   const res = await request(app).get('/api/campaign/sistema-state');
   assert.equal(res.status, 400, 'missing campaign_id → 400');
