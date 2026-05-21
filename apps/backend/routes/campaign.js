@@ -714,6 +714,28 @@ function createCampaignRouter(options = {}) {
     }
   });
 
+  // M1 sub-proj 2 — read-only Sistema-memory mirror for the Godot v2 client.
+  //   GET /api/campaign/sistema-state?campaign_id=<id>
+  //     → 200 { state: { units_observed } }  (empty-safe {} when no row / stub)
+  //     → 400 missing campaign_id
+  // Thin read over the sub-proj 1 store; persistence failure is non-fatal.
+  const { createSistemaStateStore } = require('../services/ai/sistemaStateStore');
+  const { prisma: _sistemaPrisma } = require('../db/prisma');
+
+  router.get('/campaign/sistema-state', async (req, res) => {
+    try {
+      const campaignId = String(req.query.campaign_id || '').trim();
+      if (!campaignId) {
+        return res.status(400).json({ error: 'campaign_id query param richiesto' });
+      }
+      const store = createSistemaStateStore(_sistemaPrisma);
+      const state = await store.get(campaignId); // { units_observed }
+      return res.json({ state });
+    } catch (err) {
+      return res.status(500).json({ error: 'persist_read_failed', detail: String(err.message) });
+    }
+  });
+
   return router;
 }
 
