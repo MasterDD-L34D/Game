@@ -25,7 +25,12 @@ test('GET /api/tutorial/enc_tutorial_06_hardcore returns 14 units + recommended 
     assert.equal(enemies.length, 6);
     const boss = enemies.find((u) => u.id === 'e_apex_boss');
     assert.ok(boss);
-    assert.equal(boss.hp, 40); // iter 2: 22→40
+    // 2026-05-20 L-069 iter2 SHIPPED: scenario_overrides.boss_hp_multiplier 0.65
+    // applies at build time. HP 40 (raw scenario) → 26 (post override).
+    // _hp_base preserves raw scenario value, _hp_scenario_multiplier audits factor.
+    assert.equal(boss.hp, 26); // iter 2 base 40 × 0.65 = 26
+    assert.equal(boss._hp_base, 40, 'override preserves raw HP audit trail');
+    assert.equal(boss._hp_scenario_multiplier, 0.65, 'override factor logged');
     assert.equal(boss.mod, 3); // iter 4 (M14-C): 5→3 per compensare elevation +30%
     assert.equal(boss.guardia, 4); // iter 2: 3→4
     assert.equal(boss.attack_range, 3); // iter 2: 2→3

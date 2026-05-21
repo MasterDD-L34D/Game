@@ -1,0 +1,78 @@
+OK: backend healthy at http://localhost:3334
+M9 P6: turn_limit_defeat=25 for class 'hardcore' (Long War pattern)
+[1/10] L rounds=25 boss_hp=21 pa=6
+[2/10] L rounds=25 boss_hp=25 pa=6
+[3/10] L rounds=25 boss_hp=22 pa=6
+[4/10] L rounds=25 boss_hp=29 pa=5
+[5/10] L rounds=25 boss_hp=25 pa=7
+[6/10] L rounds=25 boss_hp=15 pa=4
+[7/10] L rounds=25 boss_hp=16 pa=5
+[8/10] L rounds=25 boss_hp=40 pa=6
+[9/10] L rounds=25 boss_hp=9 pa=7
+[10/10] L rounds=25 boss_hp=22 pa=5
+
+Wrote docs/playtest/2026-05-20-hardcore-06-postwave57.json
+
+=== AGGREGATE ===
+{
+  "N": 10,
+  "encounter_class": "hardcore",
+  "target_bands": {
+    "win_rate": [
+      0.15,
+      0.25
+    ],
+    "defeat_rate": [
+      0.4,
+      0.55
+    ],
+    "timeout_rate": [
+      0.15,
+      0.25
+    ]
+  },
+  "verdict": "RED",
+  "verdict_reasons": [
+    "win_rate=0.00 out of band [0.15,0.25] (red)",
+    "defeat_rate=1.00 out of band [0.4,0.55] (red)",
+    "timeout_rate=0.00 out of band [0.15,0.25] (red)"
+  ],
+  "win_rate": 0.0,
+  "defeat_rate": 1.0,
+  "timeout_rate": 0.0,
+  "win_count": 0,
+  "loss_count": 10,
+  "timeout_count": 0,
+  "turns_avg": 25,
+  "turns_median": 25.0,
+  "turns_stdev": 0.0,
+  "turns_min": 25,
+  "turns_max": 25,
+  "turns_hist": {
+    "1-5": 0,
+    "6-10": 0,
+    "11-15": 0,
+    "16-20": 0,
+    "21-30": 10,
+    "31-40": 0,
+    "41+": 0
+  },
+  "kd_avg": 2.575,
+  "kd_median": 2.25,
+  "dmg_dealt_avg": 47.3,
+  "dmg_taken_avg": 24.1,
+  "boss_hp_remaining_avg_on_loss": 22.4,
+  "players_alive_avg_on_win": null,
+  "ai_intent_distribution": {
+    "Critical|move": 72,
+    "Critical|unknown": 21,
+    "Apex|move": 66,
+    "Apex|attack": 126,
+    "Apex|unknown": 24,
+    "Critical|attack": 13,
+    "High|attack": 1,
+    "High|move": 3
+  },
+  "elapsed_sec": 559.9,
+  "failures": 0
+}

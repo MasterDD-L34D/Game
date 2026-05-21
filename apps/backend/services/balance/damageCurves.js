@@ -123,14 +123,109 @@ function getTargetBands(encounterClass, curves = null) {
 }
 
 /**
+ * Estrae override locale per uno scenario_id specifico.
+ * Pattern Hades Pact + ITB scenario-tagged design (research 2026-05-20).
+ * Resolve cross-scenario calibration tension dove class-wide knob crea
+ * regression su scenario con bottleneck ortogonale.
+ *
+ * @param {string} scenarioId match damage_curves.yaml scenario_overrides keys
+ * @param {object} curves optional (dependency injection)
+ * @returns {object|null} override obj o null se scenario_id assente
+ */
+function getScenarioOverride(scenarioId, curves = null) {
+  if (!scenarioId) return null;
+  const data = curves || loadDamageCurves();
+  if (!data || !data.scenario_overrides) return null;
+  return data.scenario_overrides[scenarioId] || null;
+}
+
+/**
+ * Apply enemy_count_modifier locale alla lista enemy.
+ * Negativo = rimuovi N unit dalla fine (preserva early-design enemies).
+ * Positivo = NOT YET SUPPORTED (richiede spawn pool, defer Sprint M14).
+ *
+ * @param {array} enemies array di unit enemy (mutato in-place via splice)
+ * @param {string} scenarioId scenario_id (es 'enc_tutorial_07_hardcore_pod_rush')
+ * @param {object} curves optional (dependency injection)
+ * @returns {number} delta applied (negative integer, 0 se no-op)
+ */
+function applyScenarioEnemyCountModifier(enemies, scenarioId, curves = null) {
+  if (!Array.isArray(enemies) || enemies.length === 0) return 0;
+  const override = getScenarioOverride(scenarioId, curves);
+  if (!override || override.enemy_count_modifier == null) return 0;
+  const delta = Number(override.enemy_count_modifier);
+  if (!Number.isFinite(delta) || delta === 0) return 0;
+  if (delta > 0) {
+    // Future Sprint M14: spawn from override.enemy_spawn_pool. Now no-op.
+    return 0;
+  }
+  // Negative: remove |delta| enemies from end (preserve front-loaded patrol).
+  const removeCount = Math.min(Math.abs(delta), enemies.length - 1); // never remove ALL
+  const removed = enemies.splice(enemies.length - removeCount, removeCount);
+  // Audit trail su scenario context (caller may log).
+  for (const e of removed) {
+    e._removed_by = `scenario_overrides.${scenarioId}.enemy_count_modifier`;
+  }
+  return -removeCount;
+}
+
+/**
+ * Apply boss_hp_multiplier locale a unit boss.
+ * No-op se override assente, se unit non-boss, o se multiplier === 1.0.
+ *
+ * @param {object} unit unit con hp (mutato in-place)
+ * @param {string} scenarioId scenario_id (es 'enc_tutorial_06_hardcore')
+ * @param {object} curves optional (dependency injection)
+ * @returns {boolean} true se HP modificato
+ */
+function applyScenarioBossHpOverride(unit, scenarioId, curves = null) {
+  if (!unit || !unit.hp) return false;
+  const isBoss = unit.id && /(?:_boss|_apex)/i.test(unit.id);
+  if (!isBoss) return false;
+  const override = getScenarioOverride(scenarioId, curves);
+  if (!override || override.boss_hp_multiplier == null) return false;
+  const mult = Number(override.boss_hp_multiplier);
+  if (!Number.isFinite(mult) || mult === 1.0) return false;
+  const before = Number(unit.hp);
+  unit.hp = Math.max(1, Math.round(before * mult));
+  unit.max_hp = unit.hp;
+  unit._hp_base = before;
+  unit._hp_scenario_multiplier = mult;
+  return true;
+}
+
+/**
  * M9 P6: turn_limit_defeat per class. Null = no forced outcome.
  * Consumed da sessionOutcomeResolver per force decision pressure.
  *
+ * Scenario override (2026-05-20 L-069 iter3): se scenarioId fornito + scenario
+ * ha `turn_limit_defeat_override` definito, usa override invece di class default.
+ * Override esplicito `null` = disable turn_limit_defeat per quello scenario.
+ * Override assente / undefined = inherit class default.
+ *
+ * @param {string} encounterClass
+ * @param {object} curves optional (dependency injection)
+ * @param {string} scenarioId optional (per scenario_overrides resolution)
  * @returns {number|null} turn threshold, null se disabilitato
  */
-function getTurnLimitDefeat(encounterClass, curves = null) {
+function getTurnLimitDefeat(encounterClass, curves = null, scenarioId = null) {
   const data = curves || loadDamageCurves();
   if (!data || !data.encounter_classes) return null;
+
+  // Scenario override check first (2026-05-20 L-069 iter3 hardcore_06 secondary
+  // band fix: defeat 85% → 55% via timeout escape valve).
+  if (scenarioId && data.scenario_overrides && data.scenario_overrides[scenarioId]) {
+    const override = data.scenario_overrides[scenarioId];
+    // Use hasOwnProperty pattern: distinguishes explicit null (disable) from
+    // absent key (inherit). `null` = no turn limit; explicit numeric override allowed.
+    if (Object.prototype.hasOwnProperty.call(override, 'turn_limit_defeat_override')) {
+      const o = override.turn_limit_defeat_override;
+      if (o === null) return null;
+      const n = Number(o);
+      return Number.isFinite(n) && n > 0 ? n : null;
+    }
+  }
+
   const cls = data.encounter_classes[encounterClass];
   if (!cls || cls.turn_limit_defeat == null) return null;
   const n = Number(cls.turn_limit_defeat);
@@ -140,9 +235,14 @@ function getTurnLimitDefeat(encounterClass, curves = null) {
 /**
  * M9 P6: check se session turn corrente viola turn_limit_defeat per class.
  * Ritorna true se turn >= limit (defeat va applicato).
+ *
+ * @param {number} turn
+ * @param {string} encounterClass
+ * @param {object} curves optional
+ * @param {string} scenarioId optional (per scenario_overrides resolution)
  */
-function isTurnLimitExceeded(turn, encounterClass, curves = null) {
-  const limit = getTurnLimitDefeat(encounterClass, curves);
+function isTurnLimitExceeded(turn, encounterClass, curves = null, scenarioId = null) {
+  const limit = getTurnLimitDefeat(encounterClass, curves, scenarioId);
   if (limit == null) return false;
   return Number(turn || 0) >= limit;
 }
@@ -156,6 +256,9 @@ module.exports = {
   getTargetBands,
   getTurnLimitDefeat,
   isTurnLimitExceeded,
+  getScenarioOverride,
+  applyScenarioBossHpOverride,
+  applyScenarioEnemyCountModifier,
   DEFAULT_CLASS,
   DEFAULT_PATH,
   _resetCache,

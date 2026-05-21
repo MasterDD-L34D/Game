@@ -20,6 +20,11 @@
 
 'use strict';
 
+const {
+  applyScenarioBossHpOverride,
+  applyScenarioEnemyCountModifier,
+} = require('./balance/damageCurves');
+
 const HARDCORE_SCENARIO_06 = {
   id: 'enc_tutorial_06_hardcore',
   name: "Cattedrale dell'Apex",
@@ -184,6 +189,10 @@ function buildHardcoreUnits06() {
     // Iter 2: e_elite_hunter_3 RIMOSSO. Damage concentrato su BOSS singolo
     // (boss hp 22→40 +82%) > damage spread su 3 elite. Aggro rotation player
     // troppo facile con 4 target distinti.
+
+    // Scenario override layer (Hades Pact + ITB pattern, research 2026-05-20).
+    // damage_curves.yaml scenario_overrides.enc_tutorial_06_hardcore può
+    // applicare boss_hp_multiplier per nerf locale senza touch class globale.
     // 3 minion nomad — fragili ma numerosi, mod 2 hp 4.
     {
       id: 'e_minion_1',
@@ -232,6 +241,10 @@ function buildHardcoreUnits06() {
     },
   ];
 
+  // Apply scenario_overrides layer (post-construct, pre-return).
+  for (const u of enemies) {
+    applyScenarioBossHpOverride(u, HARDCORE_SCENARIO_06.id);
+  }
   return [...players, ...enemies];
 }
 
@@ -443,6 +456,10 @@ function buildHardcoreUnits07() {
       facing: 'W',
     },
   ];
+
+  // 2026-05-20 L-069 iter (3A): scenario_overrides.enemy_count_modifier may
+  // splice last N enemies. e_patrol_scout_3 (M14-C iter1 addition) target.
+  applyScenarioEnemyCountModifier(enemies, HARDCORE_SCENARIO_07_POD_RUSH.id);
   return [...players, ...enemies];
 }
 
