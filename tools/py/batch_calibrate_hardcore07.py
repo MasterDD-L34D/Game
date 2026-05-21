@@ -156,6 +156,9 @@ def run_one(host, run_idx):
         "sistema_pressure_start": sc.get("sistema_pressure_start", 60),
         "hazard_tiles": sc.get("hazard_tiles", []),
         "encounter": {
+            # 2026-05-21 hc07 iter2: id enables enemy_damage_multiplier_override
+            # scenario resolution at /start (session.js scenarioIdForEdm).
+            "id": SCENARIO_ID,
             "mission_timer": sc.get("mission_timer"),
             "reinforcement_policy": sc.get("reinforcement_policy"),
             "reinforcement_pool": sc.get("reinforcement_pool"),

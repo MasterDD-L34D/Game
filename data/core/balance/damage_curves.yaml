@@ -211,14 +211,14 @@ scenario_overrides:
     boss_hp_multiplier: 0.65
     rationale: 'iter2 N=40 WR 15% in-band primary RESTORED. iter5 Optuna (boss 0.866 + limit 31) REJECTED N=40 WR 30% OOB-high (L-073 optimizer-on-noise). Secondary metrics (defeat 85%) deferred Sprint M14 N=40-objective Optuna OR MAP-Elites.'
 
-  # 2026-05-20 3A REJECTED: enemy_count_modifier -1 (remove e_patrol_scout_3)
-  # N=40 parallel C -> WR 60% -> 70% WORSE. Direction inverted: fewer initial
-  # enemies = less party time killing them = MORE party AP for boss focus =
-  # MORE wins. enemy_count_modifier remains in damageCurves.js infra (knob
-  # available, just not THIS knob for hardcore_07).
-  # Iter2 candidate next session: enemy_damage_multiplier_override raise OR
-  # reinforcement_pool.max_total_spawns increase OR mission_timer tighter.
-  # Vedi docs/playtest/2026-05-20-hardcore-07-3a-overshoot.md
+  enc_tutorial_07_hardcore_pod_rush:
+    # 3A iter2 (2026-05-21): enemy_damage_multiplier_override 2.2 (REPLACES
+    # class hardcore 1.8). 3A iter1 (enemy_count -1) REJECTED inverted direction
+    # (WR 60->70%). iter2 path B: enemies hit harder = party takes more dmg =
+    # LOWER WR toward target [30-50%]. Direction probe N=10 then N=40 ratify.
+    # Replaces (not stacks) class 1.8. Vedi docs/playtest/2026-05-20-hardcore-07-3a-overshoot.md
+    enemy_damage_multiplier_override: 2.1
+    rationale: '3A iter2 enemy_damage 1.8->2.1 (replace class). edm 2.2 N=40 WR 27.5% OOB-low (-2.5pp below floor). Slope ~8pp/0.1edm: 2.1 expect WR ~33-37% mid-band [30-50%]. iter1 enemy_count -1 rejected. PENDING N=40 ratify.'
 
 # ─── Validation rules ─────────────────────────────────────────────────
 
