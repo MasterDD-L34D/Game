@@ -133,8 +133,14 @@ def stop_shard(proc, fh, port):
             pass
 
 
-def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path):
-    """Subprocess wrapper -- launch batch_calibrate_*.py against one shard."""
+def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None):
+    """Subprocess wrapper -- launch batch_calibrate_*.py against one shard.
+
+    curves_path (OD-032 no-op-bug fix): if set, the batch CLIENT subprocess gets
+    DAMAGE_CURVES_PATH=curves_path so its scenario-override parser reads the SAME
+    staging file the backend shard reads. Without this the client silently used
+    production overrides (turn_limit/enemy_damage knobs = no-op during calibration).
+    """
     script_path = TOOLS_PY / scenario_cfg["script"]
     cmd = [
         sys.executable, "-u", str(script_path),
@@ -146,7 +152,10 @@ def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path):
     ] + scenario_cfg["extra_args"]
     print(f"[parallel] launch shard host={host} N={n}", flush=True)
     f = open(log_path, "w", encoding="utf-8")
-    proc = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT, cwd=str(REPO_ROOT))
+    env = dict(os.environ)
+    if curves_path is not None:
+        env["DAMAGE_CURVES_PATH"] = str(curves_path)
+    proc = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT, cwd=str(REPO_ROOT), env=env)
     return proc, f
 
 

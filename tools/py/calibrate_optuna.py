@@ -73,11 +73,28 @@ SCENARIO_CFG = {
         "target_band": (0.15, 0.25),
         "target_center": 0.20,
         "batch_script": "batch_calibrate_hardcore06.py",
+        # OD-032 C: 2 continuous levers + pinned timer. enemy_damage = defeat<->timeout
+        # SPLIT lever (high dmg -> party wiped fast = defeat; low dmg -> survive to
+        # round 40 = timeout). boss_hp = difficulty/WR (upper widened: timer-off the
+        # party wins easily, needs harder). turn_limit PINNED 41 (>= MAX_ROUNDS 40 =
+        # disabled, validated probe v2): required for timeout>0 since any limit <=40
+        # force-defeats unresolved games before the loop yields a timeout. Searching
+        # turn_limit wastes ~76% of trials in the dead zone (only 41-45 unlock), so
+        # it's a fixed_override not a knob. NOTE: disables M7 decision-pressure for
+        # hc06 — part of the A+C decision to make the secondary band reachable.
         "knob_space": {
-            "boss_hp_multiplier": ("float", 0.50, 1.00),
-            "turn_limit_defeat_override": ("int", 25, 35),
+            "boss_hp_multiplier": ("float", 0.50, 1.30),
+            "enemy_damage_multiplier_override": ("float", 1.0, 2.5),
         },
+        "fixed_overrides": {"turn_limit_defeat_override": 41},
         "extra_batch_args": ["--encounter-class", "hardcore"],
+        # Multi-band objective (canonical hardcore bands, damage_curves.yaml:59-61).
+        # WR primary-weighted (hard constraint). See parse_objective_multiband.
+        "secondary_bands": {
+            "win_rate": (0.15, 0.25),
+            "defeat_rate": (0.40, 0.55),
+            "timeout_rate": (0.15, 0.25),
+        },
     },
     "hardcore_07": {
         "scenario_id": "enc_tutorial_07_hardcore_pod_rush",
@@ -238,8 +255,12 @@ def stop_backend(proc):
         pass
 
 
-def run_batch(scenario, host, n, label, log_dir):
-    """Run batch_calibrate_*.py + return parsed result."""
+def run_batch(scenario, host, n, label, log_dir, curves_path=None):
+    """Run batch_calibrate_*.py + return parsed result.
+
+    curves_path (OD-032 no-op-bug fix): pass DAMAGE_CURVES_PATH to the batch CLIENT
+    so its scenario-override parser reads the staging candidate (not production).
+    """
     cfg = SCENARIO_CFG[scenario]
     script = TOOLS_PY / cfg["batch_script"]
     out_path = log_dir / f"{label}.json"
@@ -253,8 +274,11 @@ def run_batch(scenario, host, n, label, log_dir):
         "--jsonl", str(jsonl_path),
         "--skip-health",
     ] + cfg["extra_batch_args"]
+    env = dict(os.environ)
+    if curves_path is not None:
+        env["DAMAGE_CURVES_PATH"] = str(curves_path)
     with open(log_path, "w", encoding="utf-8") as fh:
-        rc = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT, cwd=str(REPO_ROOT)).returncode
+        rc = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT, cwd=str(REPO_ROOT), env=env).returncode
     if rc != 0:
         return None
     try:
@@ -276,6 +300,66 @@ def parse_objective(result, target_center):
     if wr > 1.0:
         wr = wr / 100.0
     return abs(wr - target_center)
+
+
+def _norm_rate(v):
+    if v is None:
+        return None
+    v = float(v)
+    return v / 100.0 if v > 1.0 else v
+
+
+def _band_distance(val, lo, hi):
+    """Out-of-band distance (0 inside band, else distance to nearest edge)."""
+    if val < lo:
+        return lo - val
+    if val > hi:
+        return val - hi
+    return 0.0
+
+
+def parse_objective_multiband(agg, bands, primary_key="win_rate", primary_weight=2.0):
+    """Composite multi-band penalty. Optuna minimizes.
+
+    Sum of weighted out-of-band distances across WR + defeat + timeout. WR is
+    primary-weighted (hard constraint per L-069 — must stay in-band). A tiny
+    center-pull tie-break (0.01x) gives gradient toward band centers even when
+    all rates are already in-band. Returns inf if any required rate is missing.
+    """
+    if not agg:
+        return float("inf")
+    rates = {}
+    for key in bands:
+        v = _norm_rate(agg.get(key))
+        if v is None:
+            return float("inf")
+        rates[key] = v
+    penalty = 0.0
+    tiebreak = 0.0
+    for key, (lo, hi) in bands.items():
+        w = primary_weight if key == primary_key else 1.0
+        penalty += w * _band_distance(rates[key], lo, hi)
+        tiebreak += abs(rates[key] - (lo + hi) / 2.0)
+    return penalty + 0.01 * tiebreak
+
+
+def _store_rates(trial, agg, n):
+    """Persist observed rates as Optuna user_attrs so the report is self-contained."""
+    try:
+        trial.set_user_attr("win_rate", _norm_rate((agg or {}).get("win_rate")))
+        trial.set_user_attr("defeat_rate", _norm_rate((agg or {}).get("defeat_rate")))
+        trial.set_user_attr("timeout_rate", _norm_rate((agg or {}).get("timeout_rate")))
+        trial.set_user_attr("n", n)
+    except Exception:
+        pass
+
+
+def _fmt_rates(agg):
+    """Compact WR/defeat/timeout log string from an aggregate dict."""
+    def pct(key):
+        v = _norm_rate((agg or {}).get(key))
+        return "?" if v is None else f"{v * 100:.1f}%"
+    return f"WR={pct('win_rate')} def={pct('defeat_rate')} to={pct('timeout_rate')}"
 
 
 def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
@@ -301,6 +385,7 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
             else:
                 raise ValueError(f"Unknown knob kind: {kind}")
 
+        knob_values.update(cfg.get("fixed_overrides") or {})  # pinned non-search overrides
         trial_label = f"trial-{trial.number:03d}"
         print(f"\n[optuna-parallel] {trial_label} knobs: {knob_values}", flush=True)
 
@@ -335,7 +420,9 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
                 jsonl_p = log_dir / f"{trial_label}-shard{i}.jsonl"
                 log_p = log_dir / f"{trial_label}-shard{i}.log"
                 jsonl_paths.append(jsonl_p)
-                proc, fh = cp.run_shard_batch(host, cp_cfg, n, out_p, jsonl_p, log_p)
+                # OD-032 no-op-bug fix: batch CLIENT also reads staging candidate.
+                proc, fh = cp.run_shard_batch(host, cp_cfg, n, out_p, jsonl_p, log_p,
+                                              curves_path=staging_path)
                 batch_procs.append((proc, fh))
             for proc, fh in batch_procs:
                 proc.wait()
@@ -345,11 +432,14 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
                     pass
             runs = cp.merge_jsonl(jsonl_paths)
             agg = cp.aggregate_merged(runs, scenario)
-            distance = parse_objective({"aggregate": agg}, cfg["target_center"])
-            wr = float((agg or {}).get("win_rate", 0))
-            if wr > 1: wr /= 100
-            print(f"[optuna-parallel] {trial_label} WR={wr*100:.1f}% N={len(runs)} distance={distance:.3f}",
-                  flush=True)
+            bands = cfg.get("secondary_bands")
+            if bands:
+                distance = parse_objective_multiband(agg, bands)
+            else:
+                distance = parse_objective({"aggregate": agg}, cfg["target_center"])
+            _store_rates(trial, agg, len(runs))
+            print(f"[optuna-parallel] {trial_label} {_fmt_rates(agg)} "
+                  f"N={len(runs)} distance={distance:.3f}", flush=True)
             return distance
         finally:
             ports2 = [base_port + i for i in range(shards)]
@@ -376,6 +466,7 @@ def make_objective(scenario, host, n_per_trial, log_dir, backend_proc_ref):
             else:
                 raise ValueError(f"Unknown knob kind: {kind}")
 
+        knob_values.update(cfg.get("fixed_overrides") or {})  # pinned non-search overrides
         trial_label = f"trial-{trial.number:03d}"
         print(f"\n[optuna] {trial_label} knobs: {knob_values}", flush=True)
 
@@ -393,13 +484,20 @@ def make_objective(scenario, host, n_per_trial, log_dir, backend_proc_ref):
                 return float("inf")
             backend_proc_ref["proc"] = proc
 
-            result = run_batch(scenario, host_url, n_per_trial, trial_label, log_dir)
-            distance = parse_objective(result, cfg["target_center"])
+            # OD-032 no-op-bug fix: batch CLIENT also reads staging candidate.
+            result = run_batch(scenario, host_url, n_per_trial, trial_label, log_dir,
+                               curves_path=staging_path)
+            bands = cfg.get("secondary_bands")
             if result:
-                wr = float((result.get("aggregate") or {}).get("win_rate", 0))
-                if wr > 1: wr /= 100
-                print(f"[optuna] {trial_label} WR={wr*100:.1f}% distance={distance:.3f}", flush=True)
+                agg = result.get("aggregate") or result.get("summary") or {}
+                if bands:
+                    distance = parse_objective_multiband(agg, bands)
+                else:
+                    distance = parse_objective(result, cfg["target_center"])
+                _store_rates(trial, agg, agg.get("n") or n_per_trial)
+                print(f"[optuna] {trial_label} {_fmt_rates(agg)} distance={distance:.3f}", flush=True)
             else:
+                distance = float("inf")
                 print(f"[optuna] {trial_label} batch failed", file=sys.stderr, flush=True)
             return distance
         finally:
@@ -445,7 +543,11 @@ def main():
     log_dir = REPO_ROOT / args.out_dir / f"optuna-{args.scenario}-{label}"
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    sampler = optuna.samplers.TPESampler(seed=args.seed)
+    # n_startup_trials default 10 = pure random until then. With small trial budgets
+    # (8-12) over 2-3 knobs that means no Bayesian guidance at all. Lower to 5 so TPE
+    # exploits the posterior for the back half of the run.
+    n_startup = min(5, max(2, args.n_trials // 2))
+    sampler = optuna.samplers.TPESampler(seed=args.seed, n_startup_trials=n_startup)
     study = optuna.create_study(direction="minimize", sampler=sampler,
                                  study_name=f"calibrate-{args.scenario}-{label}")
 
@@ -491,11 +593,14 @@ def main():
         "best_trial_number": best.number,
         "best_value_distance": best.value,
         "best_params": best.params,
+        "best_rates": dict(best.user_attrs),
+        "secondary_bands": {k: list(v) for k, v in (cfg.get("secondary_bands") or {}).items()},
         "all_trials": [
             {
                 "number": t.number,
                 "value": t.value,
                 "params": t.params,
+                "rates": dict(t.user_attrs),
                 "state": str(t.state),
             }
             for t in study.trials
@@ -512,7 +617,11 @@ def main():
     print(f"\n[optuna] DONE elapsed={elapsed/60:.1f}min", flush=True)
     print(f"[optuna] best trial #{best.number}: distance={best.value:.3f} params={best.params}",
           flush=True)
+    if best.user_attrs:
+        print(f"[optuna] best rates: {_fmt_rates(best.user_attrs)} "
+              f"(N={best.user_attrs.get('n')})", flush=True)
     print(f"[optuna] report: {report_path}", flush=True)
+    print(f"[optuna] NEXT: N=40 ratify best_params before ship (L-069).", flush=True)
     return 0
 
 
