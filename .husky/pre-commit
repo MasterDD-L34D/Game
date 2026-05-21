@@ -16,3 +16,14 @@ node tools/check_backups_binary.js
 # M7-#1: replace_all safety warn (non-blocking). Rileva rename massivi
 # identificatori ambigui (pattern che causò #1628 + #1641 bug production).
 node scripts/lint/replace_all_safety.js || true
+
+# 2026-05-21 — trait mirror consistency check (P1 #2351 prevention L-072 candidate).
+# Catches Engine LIVE Surface DEAD anti-pattern: traits shipped only in
+# trait_mechanics.yaml but missing in active_effects.yaml = silent no-op.
+# Non-blocking warn (validator return code respected but commit proceeds);
+# upgrade to blocking once existing branches catch up (ionico mirror in PR #2355).
+if git diff --cached --name-only | grep -qE "(packs/evo_tactics_pack/data/balance/trait_mechanics\.yaml|data/core/traits/active_effects\.yaml)"; then
+  if [ -f tools/py/check_trait_mirror_consistency.py ] && command -v python >/dev/null 2>&1; then
+    python tools/py/check_trait_mirror_consistency.py || echo "[pre-commit] WARN trait mirror inconsistent — see tools/py/check_trait_mirror_consistency.py"
+  fi
+fi
