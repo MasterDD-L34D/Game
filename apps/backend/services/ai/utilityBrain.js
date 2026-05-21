@@ -177,6 +177,14 @@ function manhattanFallback(a, b) {
 const DEFAULT_STICKINESS_WEIGHT = 0.15;
 const DEFAULT_STICKINESS_DIRECTION_WEIGHT = 0.075;
 
+// M1 ADR-2026-05-18 Option B -- persistent high-threat defensive overlay.
+// Utility-AI mirror of selectAiPolicy's +20% retreat-threshold bias (policy.js
+// REGOLA_002): when a proven killer (persistent high-threat PG) is on the field,
+// retreat actions receive a flat additive bonus so the unit leans cautious near
+// retreat-worthy HP. Deterministic (no RNG). Inactive when state.persistent_high_threat
+// is falsy -> zero contribution -> baseline behavior preserved.
+const PERSISTENT_THREAT_RETREAT_BONUS = 0.2;
+
 function _moveDirection(fromPos, toPos) {
   if (!fromPos || !toPos) return null;
   const dx = (toPos.x ?? 0) - (fromPos.x ?? 0);
@@ -231,6 +239,19 @@ function scoreAction(
       totalScore += stickDirWeight;
       breakdown.push({ name: 'StickyDirection', raw: 1, curved: 1, weighted: stickDirWeight });
     }
+  }
+
+  // M1 persistent high-threat defensive overlay (see PERSISTENT_THREAT_RETREAT_BONUS).
+  // Boosts retreat utility when a high-threat PG is on the field; non-retreat actions
+  // are untouched (mirrors legacy "widen cautious path" rather than penalize aggression).
+  if (state && state.persistent_high_threat && action.type === 'retreat') {
+    totalScore += PERSISTENT_THREAT_RETREAT_BONUS;
+    breakdown.push({
+      name: 'PersistentThreat',
+      raw: 1,
+      curved: 1,
+      weighted: PERSISTENT_THREAT_RETREAT_BONUS,
+    });
   }
 
   return { score: totalScore, breakdown };

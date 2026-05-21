@@ -323,7 +323,14 @@ function createDeclareSistemaIntents(deps) {
             }
           }
         }
-        policy = selectAiPolicyUtility(actor, target, {}, stickyDifficulty);
+        // M1 ADR-2026-05-18 Option B -- surface persistent high-threat to the
+        // Utility AI path too (was dropped here; legacy path at selectAiPolicy
+        // below already reads threatCtx). Without this, M1's defensive overlay
+        // went inert for any Sistema unit running a use_utility_brain profile.
+        const utilityState = {
+          persistent_high_threat: !!(threatCtx && threatCtx.persistent_high_threat),
+        };
+        policy = selectAiPolicyUtility(actor, target, utilityState, stickyDifficulty);
       } else {
         policy = selectAiPolicy(actor, target, null, threatCtx);
       }
