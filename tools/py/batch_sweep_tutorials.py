@@ -78,7 +78,11 @@ def run_one(host, scenario_id):
             {"session_id": sid, "player_intents": intents, "ai_auto": True, "priority_queue": True},
         )
         if st != 200 or not isinstance(resp, dict):
-            break
+            # Codex P1: a failed round/execute must NOT be silently relabeled from
+            # stale state as timeout/victory/defeat (would under-report failures and
+            # fake a health pass). Surface it as an error run; end the session first.
+            h6.post(f"{host}/api/session/end", {"session_id": sid})
+            return {"error": f"round/execute {st}", "rounds": state.get("turn", 0)}
         state = resp.get("state", state)
     if outcome is None:
         outcome = h6.detect_outcome(state, None) or "timeout"
@@ -149,7 +153,7 @@ def main():
     report = {
         "method": "tutorial-sweep",
         "n_per_scenario": args.n,
-        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),  # UTC (Codex P2)
         "elapsed_sec": round(time.time() - t0, 1),
         "caveat": (
             "Player side uses a SCRIPTED greedy planner (focus-fire + channel exploit), "
