@@ -15,6 +15,8 @@ function createSistemaStateStore(prisma) {
     try {
       const row = await model.findUnique({ where: { campaignId } });
       if (!row) return empty;
+      // unitsObserved is the Prisma camelCase field; units_observed fallback
+      // guards raw-SQL rows / test fixtures. Both map to the units_observed column.
       const uo = row.unitsObserved || row.units_observed || {};
       return { units_observed: typeof uo === 'object' && uo !== null ? uo : {} };
     } catch {
@@ -31,8 +33,9 @@ function createSistemaStateStore(prisma) {
         update: { unitsObserved: uo },
         create: { campaignId, unitsObserved: uo },
       });
-    } catch {
-      /* best-effort -- never block combat */
+    } catch (err) {
+      // best-effort — never block combat; surface for observability.
+      console.warn('[sistemaStateStore] upsert failed (best-effort):', err.message);
     }
   }
 
