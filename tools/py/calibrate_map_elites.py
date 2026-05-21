@@ -287,7 +287,7 @@ def main():
                    help="(real eval only) batch N per cell eval. Default 40 per "
                         "L-073 (N<40 = noise-placed cells). Compute heavy: "
                         "iterations × N × ~30s. Use --stub-eval for fast algo test.")
-    p.add_argument("--host", default="http://localhost:3340")
+    p.add_argument("--host", default="http://127.0.0.1:3340")  # IP not "localhost" (Windows IPv6 ~2s/call stall)
     args = p.parse_args()
 
     rng = random.Random(args.seed)

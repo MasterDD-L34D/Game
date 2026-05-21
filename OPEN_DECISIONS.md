@@ -9,24 +9,55 @@
 
 ## Aperte
 
+### [OD-032] hardcore_06 secondary band — blocker strutturale + design fork ✅ RISOLTA A+C 2026-05-21
+
+> **Verdict master-dd 2026-05-21: A+C.** A = banda canonica rivista alla realtà engine (N=40 evidence). C = enemy_damage knob wired per hc06 (capability per futuro timer-off path). Shipped:
+>
+> - **A**: `damage_curves.yaml` hardcore `target_bands` → defeat `[0.40,0.55]→[0.75,0.85]`, timeout `[0.15,0.25]→[0.00,0.05]`, WR `[0.15,0.25]` invariata. Evidence: prod config (boss_hp 0.65, timer 25) N=40 = WR 25% / defeat 75% / timeout 0% (pooled N=72 ~ WR 21% / def 78% / to 0%). Banda originale era DESIGN-TARGET incompatibile col proprio `turn_limit_defeat=25` (M7 elimina stalemate → timeout~0). Optuna 3-knob run confermò timeout irraggiungibile (no stalemate corner nei 5 trial; combat hc06 risolve win/wipe entro 40 round).
+> - **C**: `enemy_damage_multiplier_override` knob wired hc06 (batch encounter.id + Optuna knob_space + multi-band objective). Validato: shift WR/defeat pulito. NON cambia config production (capability per timer-off path se master-dd lo vuole).
+> - **Bug collaterale fixato**: batch CLIENT ignorava `DAMAGE_CURVES_PATH` env (no-op silenzioso scenario_overrides in calibrazione). Ora env-aware + passato al subprocess batch in optuna/parallel.
+> - **ALT non-shippato (master-dd authority)**: restaurare timeout-middle band = revert M7 (raise/disable turn_limit) + tune stalemate corner. Fragile (iter7 = 67% timeout uncontrolled). enemy_damage knob pronto se si persegue.
+> - **Side-finding**: backend hang dopo ~7 sessioni/processo durante batch (3 run stallati a 7/shard). Workaround: 8 shard × 5. Investigazione separata raccomandata.
+
+**Contesto**: task "converge secondary band hc06 (defeat 85% → 40-55%, timeout 0% → 15-25%, WR resta in-band [15-25%])" via Optuna multi-knob `boss_hp_multiplier` + `turn_limit_defeat_override`. Investigazione pre-run ha trovato che il band è **strutturalmente irraggiungibile** con i knob attuali. Niente run lanciato (gated master-dd).
+
+**3 problemi trovati**:
+
+1. **turn_limit è binario, non controlla lo split.** `MAX_ROUNDS=40` (`batch_calibrate_hardcore06.py:19`) + `detect_outcome` forza `defeat` quando `turn >= turn_limit_defeat` (`:431`). Qualsiasi limit ≤40 cattura TUTTE le partite irrisolte prima che il loop a 40 round produca un `timeout` → **timeout = 0% per ogni valore in [25,40]**. Timeout si sblocca solo a limit ≥41 (= disabilitato, mai triggera nel loop a 40). Non c'è conversione parziale: lo split defeat↔timeout è una step-function, turn_limit NON può colpire finemente timeout 15-25%.
+2. **Disabilitare il timer fa schizzare la WR.** Probe N=12 con `turn_limit=41` + boss_hp 0.65: 5/6 **victory a turn 23-38**. La WR appariva 15% solo perché il force-defeat a turn 25 tagliava partite che il party avrebbe vinto. Con timer off, per tenere WR in [15,25] serve boss_hp ben sopra il range [0.50,1.00] configurato. Con 1 knob continuo effettivo (boss_hp) vs 3 vincoli di banda → probabilmente infeasible.
+3. **Bug tooling (no-op silenzioso)**: il _client_ batch ignora l'env `DAMAGE_CURVES_PATH` — `DAMAGE_CURVES_PATH` è hardcoded a produzione (`batch_calibrate_hardcore06.py:21`), e `load_turn_limit_defeat` / override-parser leggono da lì (`:180`,`:110`). Nei run Optuna parallel il knob `turn_limit_defeat_override` scritto in staging era letto solo dal backend, **mai dal client** → il client usava sempre prod=25. Quindi nei run multi-knob passati il knob turn_limit era un no-op (variava solo boss_hp).
+
+   ⚠️ _Claude autonomous finding — pending master-dd review_. Anche l'oggetto Optuna ottimizzava solo distanza-WR (ignorava defeat/timeout band).
+
+**Design fork (verdict master-dd richiesto)**:
+
+- **A — Rivedere la banda canonica hc06.** defeat 40-55 + timeout 15-25 contraddice `turn_limit_defeat=25` (M7 Option A+D decision-pressure, `damage_curves.yaml:70`). Forse la banda è aspirazionale e va riallineata alla realtà engine (es. defeat 70-85, timeout 0-10 con timer ON).
+- **B — Alzare MAX_ROUNDS / cambiare modello outcome** per dare conversione parziale (controllo fine dello split). Tocca semantica game-length della calibrazione.
+- **C — Aggiungere un knob di split indipendente** (es. `enemy_damage_multiplier_override` come in hc07): più danno nemico → wipe più rapidi (defeat) vs sopravvivere-a-timeout. Dà la 2ª dimensione continua mancante. Richiede wiring hc06 + ri-tune congiunto.
+
+**Default proposto**: A o C. A se la banda era ottimistica (riallinea SoT alla realtà); C se si vuole davvero la banda e serve il 2° knob. **Prerequisito comune a B/C**: fixare il bug no-op (client env-aware `DAMAGE_CURVES_PATH` + passare l'env al subprocess batch in `calibrate_optuna.py`/`calibrate_parallel.py`) + oggetto Optuna multi-banda. Senza quel fix nessun run hc06 secondary è valido.
+
+**WR primary resta in-band** (boss_hp 0.65 = WR 15%, N=40 ratificato) — questo OD riguarda SOLO la banda secondaria. Nessuna regressione P6 primary.
+
 ### [OD-024..031] ai-station ecosystem audit verdicts — ✅ 8/8 SHIPPED cross-stack 2026-05-14
 
 8 OD originati da PR #2260 ecosystem audit + ai-station re-analisi vault PR #5. Master-dd direction "finish work, not conservative". Tutti shipped via Envelope A+B+C cascade ~26h cross-stack.
 
-| OD  | Topic                                       | Verdict ai-station                                  | Channel shipped                                       |
-| :-: | ------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
-| 024 | Sentience tier backfill                     | ✅ Full RFC T1-T6 + 4 traits 15/15 lifecycle        | Game/ #2262 (residue 30 species pending)              |
-| 025 | Promotions demolish vs implement            | ❌ REJECT framing (engine LIVE) + smoke + B2 catalog| Game/ #2261 + #2262                                   |
-| 026 | Atlas mini-map decisione D5                 | ✅ Diegetic TV + Phone overlay (FDF §16)            | Godot v2 #260 scaffold (asset commission pending)     |
-| 027 | Bridge species type                         | ✅ Full Species type + ecotypes                     | Game/ #2262 species_catalog.json v0.2.0               |
-| 028 | Audio pipeline                              | ✅ Howler.js middleware (CDN opt-in, zero npm dep)  | Game/ #2261 audio.js facade                           |
-| 029 | Ancestors Path B biome_pool                 | ✅ Proceed mapping 13→51 entries (4 branch)         | Game/ #2262 neurons_bridge.csv                        |
-| 030 | Game-Database HTTP runtime flag             | ✅ flag-ON default (D2-C cross-stack pipeline LIVE) | Game/ #2261 default flip                              |
-| 031 | Pack drift policy                           | ✅ Core autoritativo additive (species + mating)    | Game/ #2262 species_catalog + branch mating gene_slots|
+| OD  | Topic                            | Verdict ai-station                                   | Channel shipped                                        |
+| :-: | -------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| 024 | Sentience tier backfill          | ✅ Full RFC T1-T6 + 4 traits 15/15 lifecycle         | Game/ #2262 (residue 30 species pending)               |
+| 025 | Promotions demolish vs implement | ❌ REJECT framing (engine LIVE) + smoke + B2 catalog | Game/ #2261 + #2262                                    |
+| 026 | Atlas mini-map decisione D5      | ✅ Diegetic TV + Phone overlay (FDF §16)             | Godot v2 #260 scaffold (asset commission pending)      |
+| 027 | Bridge species type              | ✅ Full Species type + ecotypes                      | Game/ #2262 species_catalog.json v0.2.0                |
+| 028 | Audio pipeline                   | ✅ Howler.js middleware (CDN opt-in, zero npm dep)   | Game/ #2261 audio.js facade                            |
+| 029 | Ancestors Path B biome_pool      | ✅ Proceed mapping 13→51 entries (4 branch)          | Game/ #2262 neurons_bridge.csv                         |
+| 030 | Game-Database HTTP runtime flag  | ✅ flag-ON default (D2-C cross-stack pipeline LIVE)  | Game/ #2261 default flip                               |
+| 031 | Pack drift policy                | ✅ Core autoritativo additive (species + mating)     | Game/ #2262 species_catalog + branch mating gene_slots |
 
 **Status**: ✅ 8/8 SHIPPED. 3 governance Q residue (Q1 schema fork + Q2 mating drift autonomous + Q3 engine B3) tutti chiusi questa sessione (Q1 awaits master-dd ADR scelta canonical-migration vs coexistence; Q2+Q3 ✅ shipped).
 
 **Cross-link**:
+
 - Audit source: [PR #2260](https://github.com/MasterDD-L34D/Game/pull/2260) ecosystem 7-strati
 - Plan canonical: [`docs/planning/2026-05-13-ecosystem-research-solution-plan.md`](docs/planning/2026-05-13-ecosystem-research-solution-plan.md) §6
 - Governance record: [`docs/governance/open-decisions/OD-024-031-verdict-record.md`](docs/governance/open-decisions/OD-024-031-verdict-record.md)

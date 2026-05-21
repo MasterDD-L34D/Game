@@ -19,7 +19,7 @@ import urllib.request
 
 SCENARIO_ID = "enc_tutorial_07_hardcore_pod_rush"
 MAX_ROUNDS = 15
-DEFAULT_HOST = "http://localhost:3334"
+DEFAULT_HOST = "http://127.0.0.1:3334"  # IP not "localhost" (Windows IPv6 ~2s/call stall)
 
 
 def _retry(fn, retries=5, backoff_base=0.5):
