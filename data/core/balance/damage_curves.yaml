@@ -55,10 +55,27 @@ encounter_classes:
 
   hardcore:
     description: 'High-difficulty 8p co-op. Team tactical peak required.'
+    # 2026-05-21 (OD-032) band revised to engine reality via N=40 evidence.
+    # Original DESIGN-TARGET was defeat [0.40,0.55] + timeout [0.15,0.25] (a
+    # "hard but ran-out-of-time" middle outcome). That target is structurally
+    # INCOMPATIBLE with turn_limit_defeat=25 below: M7 added the timer
+    # specifically to "elimina stalemate pattern (iter7 timeout 67%)" -> it
+    # converts every unresolved game to defeat at turn 25, so timeout ~0 always.
+    # Optuna 3-knob run (boss_hp + enemy_damage + turn_limit) confirmed: with
+    # timer ON timeout=0 (no reachable stalemate band); even timer-OFF the 5
+    # trials never produced timeout (hc06 combat resolves win/wipe within 40
+    # rounds). Production config (boss_hp 0.65, timer 25) N=40: WR 25% / defeat
+    # 75% / timeout 0% (pooled N=72 ~ WR 21% / defeat 78% / to 0%). Band now
+    # matches that. WR [0.15,0.25] kept (primary pillar, in-band).
+    # ALT (master-dd, OD-032): to restore the timeout-middle band, revert M7
+    # (raise/disable turn_limit) + tune the stalemate corner (high boss_hp +
+    # low enemy_damage) -- fragile (iter7 hit 67% uncontrolled) and re-opens the
+    # stalemate M7 closed. enemy_damage_multiplier_override knob now wired for
+    # hc06 (OD-032 C) if that path is pursued.
     target_bands:
       win_rate: [0.15, 0.25]
-      defeat_rate: [0.40, 0.55]
-      timeout_rate: [0.15, 0.25]
+      defeat_rate: [0.75, 0.85]
+      timeout_rate: [0.00, 0.05]
     # M7-#2 Phase E iter7 (post iter6 RED wr 63.3%): 1.4 → 1.8 (+0.4).
     # Vedi docs/playtest/2026-04-20-m7-iter6-hardcore-verdict.md § Option A+D.
     enemy_damage_multiplier: 1.8

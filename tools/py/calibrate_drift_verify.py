@@ -169,7 +169,7 @@ def assess_vs_prior(probe_wr, prior_wr, target_band):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--scenario", choices=list(SCENARIO_MAP.keys()), required=True)
-    p.add_argument("--host", default="http://localhost:3334")
+    p.add_argument("--host", default="http://127.0.0.1:3334")  # IP not "localhost" (Windows IPv6 ~2s/call stall)
     p.add_argument("--out-dir", default="docs/playtest")
     p.add_argument("--probe-n", type=int, default=10, help="N=10 default")
     p.add_argument("--ratify-n", type=int, default=40, help="N=40 default")
