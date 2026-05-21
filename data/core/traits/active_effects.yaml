@@ -490,15 +490,18 @@ traits:
     trigger:
       action_type: attack
       on_result: hit
+      min_mos: 5
     effect:
       kind: extra_damage
-      amount: 0
+      amount: 1
       log_tag: ionic_pulse
     description_it: |
-      Scarica ionica baseline. Il colpo ionico genera un impulso elettrico
-      sul bersaglio (damage standard del canale). Resist canalico +10% (vedi
-      trait_mechanics.yaml). 2026-05-20 PR #2351 ship A4 design-space ionico
-      attivazione (chiude dead-channel termico vuln).
+      Scarica ionica baseline. Il colpo ionico riuscito con MoS >= 5 genera
+      un impulso elettrico che infligge 1 PT extra (ionic_pulse). Resist
+      canalico +10% (vedi trait_mechanics.yaml, applicato da resistanceEngine).
+      2026-05-20 PR #2351 ship A4 design-space ionico attivazione.
+      Codex PR #2355 audit fix: amount 0 → 1 (era no-op, ora effetto reale
+      gated MoS 5 per coerenza con damage_step 0 baseline + ability ionic_pulse).
 
   arco_voltaico:
     # Codex PR #2351 audit fix (2026-05-21): mirror trait_mechanics.yaml entry.
