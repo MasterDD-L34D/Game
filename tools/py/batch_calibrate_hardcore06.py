@@ -3,6 +3,12 @@
 
 Greedy player policy (atk-closest), AI auto. N=30 default.
 Target: win_rate 15-25%, turns 14-18, K/D 0.6-0.9.
+
+PERF / HANG NOTE (2026-05-21): default --host uses 127.0.0.1, NOT "localhost".
+The backend binds IPv4 (0.0.0.0); on Windows "localhost" resolves IPv6 ::1 first
+and Python urllib (no Happy-Eyeballs) stalls ~2s per request before IPv4 fallback
+(~28 calls/run x 2s = ~56s/run vs ~0.7s/run). That per-call stall is what made a
+shard look like it "hangs" after ~7 sessions. Always pass an IP host, not a name.
 """
 
 import argparse
@@ -17,7 +23,7 @@ import urllib.request
 
 SCENARIO_ID = "enc_tutorial_06_hardcore"
 MAX_ROUNDS = 40
-DEFAULT_HOST = "http://localhost:3340"
+DEFAULT_HOST = "http://127.0.0.1:3340"  # IP not "localhost" (Windows IPv6 stall, see module docstring)
 # 2026-05-21 no-op-bug fix (OD-032): honor DAMAGE_CURVES_PATH env so the batch
 # CLIENT reads the SAME staging file the backend reads. Without this the client's
 # load_turn_limit_defeat / scenario-override parser always read production, making

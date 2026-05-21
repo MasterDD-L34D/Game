@@ -73,27 +73,28 @@ SCENARIO_CFG = {
         "target_band": (0.15, 0.25),
         "target_center": 0.20,
         "batch_script": "batch_calibrate_hardcore06.py",
-        # OD-032 C: 2 continuous levers + pinned timer. enemy_damage = defeat<->timeout
-        # SPLIT lever (high dmg -> party wiped fast = defeat; low dmg -> survive to
-        # round 40 = timeout). boss_hp = difficulty/WR (upper widened: timer-off the
-        # party wins easily, needs harder). turn_limit PINNED 41 (>= MAX_ROUNDS 40 =
-        # disabled, validated probe v2): required for timeout>0 since any limit <=40
-        # force-defeats unresolved games before the loop yields a timeout. Searching
-        # turn_limit wastes ~76% of trials in the dead zone (only 41-45 unlock), so
-        # it's a fixed_override not a knob. NOTE: disables M7 decision-pressure for
-        # hc06 — part of the A+C decision to make the secondary band reachable.
+        # OD-032 A+C: boss_hp = difficulty/WR lever; enemy_damage = lethality lever
+        # (high dmg -> faster wipes). turn_limit PINNED 41 (>= MAX_ROUNDS 40 =
+        # disabled) — carried from the OD-032 C ALT probe that tried to open a
+        # timeout-middle band. That band proved UNREACHABLE: hc06 combat resolves
+        # win/wipe within 40 rounds, so timeout ~0 even timer-off (see the hardcore
+        # comment in damage_curves.yaml + OD-032 A). Objective therefore targets the
+        # CANONICAL defeat-heavy band below, not the old middle band. Searching
+        # turn_limit wastes ~76% of trials in a dead zone, so it stays a
+        # fixed_override not a knob.
         "knob_space": {
             "boss_hp_multiplier": ("float", 0.50, 1.30),
             "enemy_damage_multiplier_override": ("float", 1.0, 2.5),
         },
         "fixed_overrides": {"turn_limit_defeat_override": 41},
         "extra_batch_args": ["--encounter-class", "hardcore"],
-        # Multi-band objective (canonical hardcore bands, damage_curves.yaml:59-61).
-        # WR primary-weighted (hard constraint). See parse_objective_multiband.
+        # Multi-band objective = CANONICAL hardcore target_bands (damage_curves.yaml
+        # hardcore: win 15-25%, defeat 75-85%, timeout 0-5%, revised OD-032
+        # 2026-05-21). WR primary-weighted (hard constraint). See parse_objective_multiband.
         "secondary_bands": {
             "win_rate": (0.15, 0.25),
-            "defeat_rate": (0.40, 0.55),
-            "timeout_rate": (0.15, 0.25),
+            "defeat_rate": (0.75, 0.85),
+            "timeout_rate": (0.00, 0.05),
         },
     },
     "hardcore_07": {
@@ -232,11 +233,11 @@ def start_backend(port=3340, curves_path=None):
         env=env,
         cwd=str(REPO_ROOT),
     )
-    wait = wait_healthy(f"http://localhost:{port}", max_wait=90)
+    wait = wait_healthy(f"http://127.0.0.1:{port}", max_wait=90)
     if wait is None:
         proc.kill()
         return None, None
-    return proc, f"http://localhost:{port}"
+    return proc, f"http://127.0.0.1:{port}"
 
 
 def stop_backend(proc):
@@ -391,7 +392,8 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
 
         staging_path = write_scenario_override(cfg["scenario_id"], knob_values)
         ports = [base_port + i for i in range(shards)]
-        hosts = [f"http://localhost:{p}" for p in ports]
+        # 127.0.0.1 not "localhost": Windows IPv6 ::1 stall ~2s/call (see calibrate_parallel.py).
+        hosts = [f"http://127.0.0.1:{p}" for p in ports]
         shard_procs, shard_fhs = [], []
         try:
             # Pre-check ports free.
@@ -515,7 +517,7 @@ def main():
                         "N<40 = optimizer converges to NOISE (smoke 2026-05-21: "
                         "N=20 trial WR 15% -> N=40 ratify WR 30%). Use parallel C "
                         "internal to make N=40/trial affordable (~3min/trial).")
-    p.add_argument("--host", default="http://localhost:3340",
+    p.add_argument("--host", default="http://127.0.0.1:3340",
                    help="Backend URL (auto-managed if backend not running)")
     p.add_argument("--parallel", action="store_true",
                    help="Parallel-internal: each trial uses N shards (4x speedup). "
@@ -582,6 +584,11 @@ def main():
     elapsed = time.time() - t0
     best = study.best_trial
 
+    # best.params holds only the SAMPLED knobs; Optuna omits pinned fixed_overrides.
+    # ratify_params is the full effective config a ratify run must reproduce (P2).
+    fixed_overrides_eff = cfg.get("fixed_overrides") or {}
+    ratify_params = {**best.params, **fixed_overrides_eff}
+
     report = {
         "scenario": args.scenario,
         "scenario_id": cfg["scenario_id"],
@@ -593,6 +600,8 @@ def main():
         "best_trial_number": best.number,
         "best_value_distance": best.value,
         "best_params": best.params,
+        "fixed_overrides": fixed_overrides_eff,
+        "ratify_params": ratify_params,
         "best_rates": dict(best.user_attrs),
         "secondary_bands": {k: list(v) for k, v in (cfg.get("secondary_bands") or {}).items()},
         "all_trials": [
@@ -621,7 +630,13 @@ def main():
         print(f"[optuna] best rates: {_fmt_rates(best.user_attrs)} "
               f"(N={best.user_attrs.get('n')})", flush=True)
     print(f"[optuna] report: {report_path}", flush=True)
-    print(f"[optuna] NEXT: N=40 ratify best_params before ship (L-069).", flush=True)
+    if fixed_overrides_eff:
+        print(f"[optuna] NEXT: N=40 ratify FULL params {ratify_params} before ship "
+              f"(L-069). best_params omits pinned {fixed_overrides_eff} — include them.",
+              flush=True)
+    else:
+        print(f"[optuna] NEXT: N=40 ratify best_params {best.params} before ship (L-069).",
+              flush=True)
     return 0
 
 

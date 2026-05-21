@@ -128,7 +128,7 @@ def health_check(host, timeout=2):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--scenario", choices=list(SCENARIO_MAP.keys()), required=True)
-    p.add_argument("--host", default="http://localhost:3334")
+    p.add_argument("--host", default="http://127.0.0.1:3334")  # IP not "localhost" (Windows IPv6 ~2s/call stall)
     p.add_argument("--max-n", type=int, default=80, help="Hard ceiling N")
     p.add_argument("--min-n", type=int, default=10,
                    help="Minimum N before considering early-stop (default 10)")

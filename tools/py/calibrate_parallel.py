@@ -234,7 +234,14 @@ def main():
     else:
         owned_shards = True
         ports = [args.base_port + i for i in range(args.shards)]
-        hosts = [f"http://localhost:{port}" for port in ports]
+        # Use 127.0.0.1, not "localhost". Backend binds IPv4 (0.0.0.0); on Windows
+        # "localhost" resolves ::1 (IPv6) first and Python urllib (no Happy-Eyeballs)
+        # stalls ~2s per request before falling back to IPv4 — ~28 calls/run x 2s
+        # = ~56s/run vs ~0.7s/run, which looks like a per-shard "hang" after a few
+        # sessions. Empirically verified 2026-05-21: localhost 2.04s/call vs
+        # 127.0.0.1 0.001s/call (N=10 batch: ~560s -> 7s). See SCENARIO_MAP/--hosts
+        # for remote overrides.
+        hosts = [f"http://127.0.0.1:{port}" for port in ports]
 
         # Sanity: ensure ports not already taken.
         for h in hosts:
