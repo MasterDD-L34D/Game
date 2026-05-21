@@ -78,18 +78,25 @@ def wait_healthy(host, max_wait=60):
     return None
 
 
-def start_shard(port, log_dir):
+def start_shard(port, log_dir, curves_path=None):
     """Spawn `PORT=<port> node apps/backend/index.js`. Returns Popen handle.
 
     LOBBY_WS_ENABLED=false: WS lobby default port is 3341 (apps/backend/index.js:50).
     Without disable, shards on 3341+ collide with WS upgrade middleware -> /api/health
     returns 426 Upgrade Required instead of 200. Batch calibration doesn't use WS,
     so safe to disable. Discovery 2026-05-20 smoke L-071.
+
+    curves_path (staging-writer fix #2356): if set, all shards read candidate
+    overrides from this staging yaml via DAMAGE_CURVES_PATH env. Used by Optuna
+    parallel-internal so each trial's 4 shards see the SAME trial candidate
+    without touching production damage_curves.yaml.
     """
     log_path = log_dir / f"shard-{port}.log"
     env = dict(os.environ)
     env["PORT"] = str(port)
     env["LOBBY_WS_ENABLED"] = "false"  # avoid HTTP/WS port collision per-shard
+    if curves_path is not None:
+        env["DAMAGE_CURVES_PATH"] = str(curves_path)
     # Inherit other env (DATABASE_URL etc).
     print(f"[shard-{port}] starting backend, log={log_path}", flush=True)
     f = open(log_path, "w", encoding="utf-8")
