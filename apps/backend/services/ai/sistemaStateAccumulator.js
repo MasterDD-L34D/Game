@@ -64,4 +64,37 @@ function accumulate(priorUnitsObserved, session) {
   return out;
 }
 
-module.exports = { accumulate, HIGH_THREAT_KILLS };
+// CAMP-2 — slim-delta fold: accumulate a per-encounter observation
+// { roster:[pg_id], kills:{pg_id:int} } into prior units_observed.
+// Server owns the threat threshold (HIGH_THREAT_KILLS). Pure, no I/O.
+function foldObservations(priorUnitsObserved, observations) {
+  const out = {};
+  const prior =
+    priorUnitsObserved && typeof priorUnitsObserved === 'object' ? priorUnitsObserved : {};
+  for (const id of Object.keys(prior)) {
+    const r = prior[id] || {};
+    out[id] = {
+      kills_vs_sistema: Number(r.kills_vs_sistema) || 0,
+      sightings: Number(r.sightings) || 0,
+      threat_level: r.threat_level === 'high' ? 'high' : 'normal',
+    };
+  }
+  const obs = observations && typeof observations === 'object' ? observations : {};
+  const roster = Array.isArray(obs.roster) ? obs.roster : [];
+  const kills = obs.kills && typeof obs.kills === 'object' ? obs.kills : {};
+  const ensure = (id) =>
+    (out[id] = out[id] || { kills_vs_sistema: 0, sightings: 0, threat_level: 'normal' });
+  for (const id of roster) {
+    if (id == null) continue;
+    ensure(String(id)).sightings += 1;
+  }
+  for (const id of Object.keys(kills)) {
+    ensure(String(id)).kills_vs_sistema += Number(kills[id]) || 0;
+  }
+  for (const id of Object.keys(out)) {
+    out[id].threat_level = out[id].kills_vs_sistema >= HIGH_THREAT_KILLS ? 'high' : 'normal';
+  }
+  return out;
+}
+
+module.exports = { accumulate, foldObservations, HIGH_THREAT_KILLS };
