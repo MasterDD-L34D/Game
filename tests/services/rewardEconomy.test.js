@@ -15,6 +15,7 @@ const {
   convertPE,
   buildDebriefSummary,
   buildBiomePressureRating,
+  buildSistemaMemory,
 } = require('../../apps/backend/services/rewardEconomy');
 
 // ─────────────────────────────────────────────────────────────────
@@ -265,4 +266,58 @@ test('buildDebriefSummary biome_pressure_rating null without modifiers', () => {
   const snap = makeVcSnapshot({}, 0);
   const debrief = buildDebriefSummary({ session_id: 's' }, snap, computeSessionPE(snap, {}));
   assert.equal(debrief.biome_pressure_rating, null);
+});
+
+// M1 ADR-2026-05-18 — Sistema persistent-memory Gate-5 surface
+test('buildSistemaMemory: null when no sistema_state / no units_observed', () => {
+  assert.equal(buildSistemaMemory({ session_id: 's' }), null);
+  assert.equal(buildSistemaMemory({ sistema_state: {} }), null);
+  assert.equal(buildSistemaMemory({ sistema_state: { units_observed: 'nope' } }), null);
+});
+
+test('buildSistemaMemory: null when nobody is marked high-threat', () => {
+  const r = buildSistemaMemory({
+    sistema_state: {
+      units_observed: {
+        pg_a: { kills_vs_sistema: 1, threat_level: 'normal' },
+        pg_b: { kills_vs_sistema: 2, threat_level: 'normal' },
+      },
+    },
+  });
+  assert.equal(r, null);
+});
+
+test('buildSistemaMemory: surfaces marked killers, ordered by kills desc', () => {
+  const r = buildSistemaMemory({
+    sistema_state: {
+      units_observed: {
+        pg_low: { kills_vs_sistema: 3, threat_level: 'high' },
+        pg_high: { kills_vs_sistema: 5, threat_level: 'high' },
+        pg_safe: { kills_vs_sistema: 2, threat_level: 'normal' },
+      },
+    },
+  });
+  assert.ok(r);
+  assert.equal(r.marked.length, 2); // pg_safe excluded
+  assert.equal(r.marked[0].unit_id, 'pg_high'); // 5 kills first
+  assert.equal(r.marked[1].unit_id, 'pg_low');
+  assert.equal(r.label_it, 'Il Sistema ti ricorda');
+});
+
+test('buildDebriefSummary includes sistema_memory chip when a killer is marked', () => {
+  const session = {
+    session_id: 'sess_m1',
+    sistema_state: { units_observed: { pg_x: { kills_vs_sistema: 4, threat_level: 'high' } } },
+  };
+  const snap = makeVcSnapshot({}, 2);
+  const debrief = buildDebriefSummary(session, snap, computeSessionPE(snap, {}));
+  assert.ok(debrief.sistema_memory);
+  assert.equal(debrief.sistema_memory.marked[0].unit_id, 'pg_x');
+  assert.equal(debrief.sistema_memory.marked[0].kills_vs_sistema, 4);
+});
+
+test('buildDebriefSummary sistema_memory null without sistema_state', () => {
+  const snap = makeVcSnapshot({}, 0);
+  const debrief = buildDebriefSummary({ session_id: 's' }, snap, computeSessionPE(snap, {}));
+  assert.equal(debrief.sistema_memory, null);
 });
