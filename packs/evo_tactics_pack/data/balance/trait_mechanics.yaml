@@ -221,7 +221,8 @@ traits:
         name_it: "Fendente a Sette Vie"
         cost_ap: 2
         effect_type: damage
-        damage_dice: { count: 1, sides: 8, modifier: 3 }
+        # balance-audit 2026-05-22: EV 7.5 (1d8+3) was top EV/AP ratio 3.75 (+15% vs peer); candidate 1d8+2 (EV 6.5), needs N=40 ratify
+        damage_dice: { count: 1, sides: 8, modifier: 2 }
         channel: fisico
         target: enemy
     notes: "Balance audit 2026-04-25: cost_ap 1→2 to align EV/AP ratio with peer offensive trait `frusta_fiammeggiante` (was 67% above next-best)."
@@ -406,6 +407,7 @@ traits:
     active_effects:
       - ability_id: frozen_stasis
         name_it: "Criostasi Difensiva"
+        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
@@ -486,6 +488,7 @@ traits:
     active_effects:
       - ability_id: meteoric_shield
         name_it: "Scudo Meteoritico"
+        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
@@ -567,6 +570,7 @@ traits:
     active_effects:
       - ability_id: power_strike
         name_it: "Colpo Devastante"
+        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
         cost_ap: 3
         effect_type: damage
         damage_dice: { count: 2, sides: 6, modifier: 2 }
@@ -606,6 +610,7 @@ traits:
     active_effects:
       - ability_id: sonic_blast
         name_it: "Detonazione Sonica"
+        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
         cost_ap: 3
         effect_type: damage
         damage_dice: { count: 2, sides: 6, modifier: 1 }
@@ -735,7 +740,7 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    cost_ap: 2 # balance-audit 2026-05-22: def_mod=2 baseline (Wave 5-7 nerf #2344 remainder); candidate, needs N=40 ratify
     resistances: []
     active_effects:
       - ability_id: appendici_risonanti_marea_guard
@@ -755,11 +760,13 @@ traits:
     active_effects:
       - ability_id: armatura_pietra_planare_guard
         name_it: "Armatura Pietra Planare Guard"
+        # balance-audit 2026-05-22: cost_ap=3 exceeds the 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
         buff_amount: 3
-        buff_duration: 4
+        # balance-audit 2026-05-22: buff_duration 4 = highest 3AP efficiency (4.00); candidate 2 (eff 2.00), needs N=40 ratify
+        buff_duration: 2
         target: self
   artigli_radice:
     attack_mod: 0
@@ -857,7 +864,7 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    cost_ap: 2 # balance-audit 2026-05-22: def_mod=2 baseline (Wave 5-7 nerf #2344 remainder); candidate, needs N=40 ratify
     resistances: []
     active_effects:
       - ability_id: branchie_dual_mode_guard
@@ -962,7 +969,7 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    cost_ap: 2 # balance-audit 2026-05-22: def_mod=2 baseline (Wave 5-7 nerf #2344 remainder); candidate, needs N=40 ratify
     resistances: []
     active_effects:
       - ability_id: carapace_luminiscente_abissale_guard
@@ -1110,7 +1117,8 @@ traits:
         cost_ap: 2
         effect_type: apply_status
         status_id: rage
-        status_duration: 3
+        # balance-audit 2026-05-22: rage duration 3 = +50% vs sibling median 2; candidate 2, needs N=40 ratify
+        status_duration: 2
         status_intensity: 1
         target: enemy
   cuore_multicamera_bassa_pressione:
@@ -1300,7 +1308,7 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    cost_ap: 2 # balance-audit 2026-05-22: def_mod=2 baseline (Wave 5-7 nerf #2344 remainder); candidate, needs N=40 ratify
     resistances: []
     active_effects:
       - ability_id: gusci_criovetro_guard
@@ -1374,7 +1382,7 @@ traits:
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 1
+    cost_ap: 2 # balance-audit 2026-05-22: def_mod=2 baseline (Wave 5-7 nerf #2344 remainder); candidate, needs N=40 ratify
     resistances: []
     active_effects:
       - ability_id: luminescenza_aurorale_guard
@@ -1442,7 +1450,8 @@ traits:
         cost_ap: 2
         effect_type: apply_status
         status_id: rage
-        status_duration: 3
+        # balance-audit 2026-05-22: rage duration 3 = +50% vs sibling median 2; candidate 2, needs N=40 ratify
+        status_duration: 2
         status_intensity: 1
         target: enemy
   pelli_anti_ustione:
