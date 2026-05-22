@@ -11,8 +11,8 @@
 
 > Canonical per-repo goals. Hub mirror: `codemasterdd/GOALS.md`. Horizons: Short=weeks / Mid=1-2mo / Long=3-6mo.
 
-- **Short**: M1 Sistema persistent cross-session learning **CLOSED** — pilot #2363 + read route #2364 + utility-AI passthrough #2376 + **Gate-5 surface live via Godot #342** (brief "Il Sistema ricorda" + debrief Cronaca echo, rendered from `units_observed` HTTP read route). Backend `debrief_payload.sistema_memory` (#2377) **removed as orphan** — Godot renders from the canonical read-route path, single-source. Hardcore band revision DONE (#2365 OD-032).
-- **Mid**: M1 Sistema full wired Game<->Godot — validate/playtest the live loop; trait system completeness (post-A4 ionico/termico).
+- **Short**: M1 Sistema full wired Game<->Godot -- validate/playtest the live loop end-to-end. Confirm the canonical read route (#2364 `units_observed`) feeds Godot brief "Il Sistema ricorda" + debrief Cronaca echo correctly across a full run; single-source render path holds (no `sistema_memory` orphan regress, #2377); capture playtest findings. (Promoted from Mid; M1 build CLOSED -- pilot #2363 + route #2364 + passthrough #2376 + Godot surface #342 + hardcore band #2365.)
+- **Mid**: trait system completeness (post-A4 ionico/termico); M1 loop hardening from playtest findings.
 - **Long**: shippable co-op tactical loop -- 4-8 friends, TV + phones (Jackbox model), ~60min runs, "how you play shapes what you become".
 
 ---
