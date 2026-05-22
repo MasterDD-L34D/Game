@@ -1153,6 +1153,23 @@ function createRoundBridge(deps) {
       }
     }
 
+    // TKT-ORPHAN-CUMSTATE (Phase 7 wire 2026-05-22): populate per-unit
+    // cumulative_ally_adjacent_turns + cumulative_trait_active at end of round so
+    // mutationTriggerEvaluator's cumulative-kind triggers actually fire. The engine
+    // (cumulativeStateTracker, built 2026-05-11) was orphan: consumer read fields
+    // nobody wrote -> cumulative-trigger mutations never fired. Surface = mutations
+    // now trigger (player-visible). Best-effort; never blocks the round.
+    try {
+      const { updateCumulativeState } = require('../services/combat/cumulativeStateTracker');
+      for (const unit of session.units) {
+        if (!unit || Number(unit.hp || 0) <= 0) continue;
+        updateCumulativeState(unit, session, {});
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[cumulative-state] failed:', err && err.message ? err.message : err);
+    }
+
     return {
       hazardEvents,
       bleedingEvents,
