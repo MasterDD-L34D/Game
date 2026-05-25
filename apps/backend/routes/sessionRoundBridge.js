@@ -1413,6 +1413,24 @@ function createRoundBridge(deps) {
           );
         }
       }
+      // TKT-ORPHAN-MORALE (wire): morale check on ally death. Logic extracted
+      // to services/combat/moraleOnKill (pure, unit-tested). When a unit is
+      // killed, its LIVING adjacent same-team allies make a morale check ->
+      // panic (or rarely rage). Best-effort; never blocks the kill flow.
+      try {
+        const { moraleEventsForKill } = require('../services/combat/moraleOnKill');
+        const moraleEvents = moraleEventsForKill(target, session.units, {
+          sessionId: session.session_id,
+          turn: session.turn,
+        });
+        for (const mEv of moraleEvents) {
+          // eslint-disable-next-line no-await-in-loop
+          await appendEvent(session, mEv);
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[morale] failed:', err && err.message ? err.message : err);
+      }
     }
   }
 
