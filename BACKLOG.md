@@ -35,9 +35,10 @@ Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). Ve
 
 Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify caught it (read vs write path are different things).
 
-**Balance — candidate PR #2381 (NEEDS N=40 RATIFY per L-069):**
+**Balance — PR #2381 RATIFIED 2026-05-26 (no-regression + EV-parity, per L-069):**
 
-- 5× `def_mod=2` cost_ap 1→2 (#2344 baseline remainder) · artigli dice 1d8+3→1d8+2 · armatura buff_duration 4→2 · rage duration 3→2 (cuore_in_furia + midollo_iperattivo) · corazzato elettrico 100→120 (lore sign-off) — all in PR #2381, ratify per knob before merge.
+- 5× `def_mod=2` cost_ap 1→2 (#2344 baseline remainder) · artigli dice 1d8+3→1d8+2 · armatura buff_duration 4→2 · rage duration 3→2 (cuore_in_furia + midollo_iperattivo) · corazzato elettrico 100→120 (lore sign-off) — all in PR #2381 (merged).
+- ✅ **Ratify 2026-05-26** (Ryzen, real Postgres): Fendente EV-parity CONFIRMED deterministically (1d8+2 = 3.25 EV/AP == peer `frusta_fiammeggiante`, was 3.75 outlier). N=40 no-regression: hardcore_06 GREEN in-band (WR 0.25, turns_avg 24.2 == #2149 baseline); hardcore_07 N=40 clean. **Caveat L-069/14**: both hardcore scenarios non-discriminating for these knobs (only `zampe_a_molla` exercised; Fendente/corazzato unused) → N=40 = no-break, not direct knob-WR; accepted given conservative parity/dead-channel nature + deterministic EV proof. Evidence: `docs/playtest/2026-05-26-ratify-2381-balance.md`. Lore sign-off (corazzato elettrico) still master-dd.
 - **TKT-P6-AP3**: 5 abilities `cost_ap=3` (frozen_stasis/meteoric_shield/power_strike/sonic_blast/armatura guard) exceed 2 AP/turn budget — flagged in-YAML. Decision: document unlock-mechanic (PT/SG) OR reduce to 2.
 
 **Tooling:** `tools/py/ancestors_style_guide_proposal.py` v1 — completed migration tooling (ancestors/neurons taxonomy, museum-covered domain). NOT a dead dup to delete — repo-archaeologist museum-card candidate (reuse provenance). KEEP.
