@@ -152,6 +152,15 @@ PR #2123 cross-link OD-022 ↔ OD-020 + 5 doc canonical "ZERO" framing → user 
 
 ---
 
+## 📜 Canonical PRD — READ FIRST (design + build status)
+
+> Unified PRD EXISTS — stop re-deriving design/build (recurring rework 2026-05-25).
+
+- **Design / loop / Nido / mating / specie / narrative** → repo-local `docs/core/00-SOURCE-OF-TRUTH.md` (v5 canonical, promoted here) + `docs/core/{01-VISIONE,03-LOOP,17-SCREEN_FLOW,20-SPECIE_E_PARTI,27-MATING_NIDO,90-FINAL-DESIGN-FREEZE}.md`. 28 GDD OQ all CLOSED (§19). Loop = §23. _(Upstream authority A5 = vault `Spaces/Dev/Evo-Tactics/core/` — NOT resolvable from a Game checkout; use the repo-local copies above.)_
+- **Build status** → SoT **§13 is STALE** (web-v1, 2026-04-16, pre-Godot-pivot AND pre M1/CAMP sprints). Cross-stack live status (sibling repo): https://github.com/MasterDD-L34D/Game-Godot-v2/blob/main/docs/godot-v2/PRD-BUILD-STATUS-GODOT-V2.md (🔵 rows = backend-built-here). Backend meta-loop (nest/mating/geneEncoder/campaignEngine/affinity/trust) is BUILT here but unported to Godot.
+
+---
+
 ## 🏛 Museum-first protocol (validato 2026-04-25)
 
 Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
