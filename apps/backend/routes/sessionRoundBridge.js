@@ -1413,6 +1413,46 @@ function createRoundBridge(deps) {
           );
         }
       }
+      // TKT-ORPHAN-MORALE (wire 2026-05-26): Battle-Brothers morale check on ally
+      // death. When a unit is killed, its LIVING adjacent allies make a morale
+      // check -> panic (or rarely rage on a natural 1). morale.js was orphan
+      // (test-only, never wired). checkMorale applies the status internally.
+      // Best-effort; never blocks the kill flow.
+      try {
+        const { checkMorale } = require('../services/combat/morale');
+        const deadTeam = target.controlled_by || target.team;
+        const dp = target.position;
+        if (dp && Number.isFinite(Number(dp.x)) && Number.isFinite(Number(dp.y))) {
+          for (const ally of session.units) {
+            if (!ally || ally.id === target.id || Number(ally.hp || 0) <= 0) continue;
+            if ((ally.controlled_by || ally.team) !== deadTeam) continue;
+            const apos = ally.position;
+            if (!apos || !Number.isFinite(Number(apos.x))) continue;
+            const dist =
+              Math.abs(Number(apos.x) - Number(dp.x)) + Math.abs(Number(apos.y) - Number(dp.y));
+            if (dist > 1) continue;
+            const res = checkMorale(ally, 'ally_killed_adjacent', {});
+            if (res && res.triggered && res.status) {
+              await appendEvent(session, {
+                ts: new Date().toISOString(),
+                session_id: session.session_id,
+                action_type: 'morale',
+                actor_id: ally.id,
+                target_id: ally.id,
+                turn: session.turn,
+                result: res.status,
+                morale_event: 'ally_killed_adjacent',
+                morale_score: res.score,
+                morale_threshold: res.threshold,
+                duration: res.duration,
+              });
+            }
+          }
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[morale] failed:', err && err.message ? err.message : err);
+      }
     }
   }
 
