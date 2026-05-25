@@ -16,7 +16,8 @@ function moraleEventsForKill(deadUnit, units, opts = {}) {
   const dp = deadUnit.position;
   if (!dp || !Number.isFinite(Number(dp.x)) || !Number.isFinite(Number(dp.y))) return events;
 
-  const checkMorale = typeof opts.checkMorale === 'function' ? opts.checkMorale : defaultCheckMorale;
+  const checkMorale =
+    typeof opts.checkMorale === 'function' ? opts.checkMorale : defaultCheckMorale;
   const deadTeam = deadUnit.controlled_by || deadUnit.team;
   const now = opts.now || new Date().toISOString();
 
