@@ -4,10 +4,11 @@ date: 2026-05-18
 type: adr
 workstream: backend
 owner: master-dd
-status: draft
+status: implemented-option-b-pending-ratify
 proposed_by: claude-code (codemasterdd DF re-scope audit, ground-truth gh-api)
-accepted_by: pending master-dd verdict
+accepted_by: pending master-dd verdict (Option B shipped ahead of formal verdict -- see Implementation status)
 verdict_date: pending
+implemented_date: 2026-05-25
 related_files:
   - apps/backend/services/ai/sistemaTurnRunner.js
   - apps/backend/services/ai/declareSistemaIntents.js
@@ -29,9 +30,31 @@ related_doc:
 
 # ADR-2026-05-18 — Sistema persistent cross-session state (learning AI)
 
-> STATUS: **DRAFT** — proposta da audit codemasterdd DF re-scope. Richiede
-> verdetto master-dd PRIMA di qualsiasi implementazione. Nessun codice
-> scritto. Questo file = scaffold decisione, non decisione presa.
+> STATUS: **OPTION B IMPLEMENTED (2026-05-25), formal verdict pending** -- lo
+> scaffold originale richiedeva verdetto master-dd PRIMA dell'implementazione,
+> ma il subset Option B (`units_observed` + threat, Prisma) e' stato shippato
+> + validato ahead-of-verdict. Il verdetto formale master-dd (ratify + playtest
+> gate, vedi Risks #5) resta APERTO. Vedi "Implementation status" sotto.
+
+## Implementation status (2026-05-25)
+
+**Built = Option B** (subset minimale, vedi "Options considered"): solo
+`units_observed` + threat persistente. NON costruite le bucket di Option A
+(`tactics_observed`, `factions`, `strategic_phase`) ne' il campo `abilities[]`.
+
+- Storage: Prisma model `SistemaState` (campaign-scoped, colonna JSONB
+  `units_observed`), migration `0011_sistema_state`. NON file JSON.
+- Write: `coopOrchestrator` fold a fine-encounter (best-effort). Read:
+  `GET /api/campaign/sistema-state?campaign_id=<id>`.
+- Surface: client Godot v2 (brief "Il Sistema ricorda" + echo Cronaca nel debrief).
+- PR: #2363/#2364 (pilot + route), #2371 (store), #2377/#2379 (debrief chip +
+  orphan removal), #2383 (cumulativeStateTracker wire).
+- Validazione 2026-05-25 (Ryzen): logica 18/18 + e2e real-Postgres PASS. Findings
+  `docs/playtest/2026-05-25-m1-sistema-live-loop.md`.
+- SoT caricato: vault `00-SOURCE-OF-TRUTH.md` §13.5.1 (PR vault #184).
+
+**Aperto**: ratify formale master-dd (Risks #5 playtest gate) + decisione se
+estendere a Option A (tactics/factions/phase = scope S7/M5 in PHASE-PLAN).
 
 ## Context
 
@@ -83,7 +106,7 @@ Persistenza: Prisma model `SistemaState` (campaign-scoped, JSONB bucket)
 
 Nuovi file proposti: `services/ai/sistemaStateManager.js` (~150 LOC) +
 `sistemaStateAccumulator.js` (~120 LOC) + `campaign/sistemaStateLoader.js`
-(~80 LOC) + Prisma model + migration + route GET `/api/campaign/:id/sistema-state`.
+(~80 LOC) + Prisma model + migration + route GET `/api/campaign/sistema-state?campaign_id=<id>` (impl reale; lo scaffold proponeva `/:id/sistema-state`).
 
 Backward-compat: optional args con default (zero breaking su flow esistente),
 adapter fallback se DB assente (graceful degrade in-memory).
