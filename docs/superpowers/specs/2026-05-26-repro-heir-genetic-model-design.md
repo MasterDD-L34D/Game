@@ -144,16 +144,22 @@ Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE-01
 - **Fase 3 (Epigenome, net-new)**: layer 3 Lamarck-lite + Frammenti wire +
   speciazione soglia. Il vero contributo di profondita'.
 
-## 5. Decisioni richieste (master-dd, pre-build)
-1. **ADR-supersede §21.3**: confermare che il deep-genetics esce dal freeze-defer
-   (altrimenti resta vision-only).
-2. **Epigenome Lamarck-lite**: accettare il design-novel (eredita' play-shaped)?
-   Red-team: rischio "snowball" (genitori forti -> prole sempre piu' forte) ->
-   serve decay/regression-to-mean.
-3. **Reconcile i 2 path**: confermare che mating (individuale) e drift-pool
-   (S5 ambientale) restano tipi distinti + fixare cross-lineage isolation.
-4. **Godot unify**: i 3 impl parziali Godot vanno unificati sotto il backend
-   genotype, o Godot resta avg-blend "display" finche' il backend e' canonico?
+## 5. Decisioni (RISOLTE master-dd 2026-05-26)
+
+1. **ADR-supersede §21.3 = SCOPED Fase-1.** Si supersede §21.3 SOLO per Fase-1
+   (Spore Moderate: body_slot / part->ability / MP-pool / bingo, gia' designato
+   ADR-2026-04-26). Epigenome + genealogie profonde restano vision (Fase-3).
+   Artefatto: `docs/adr/ADR-2026-05-26-deep-genetics-phase1-supersede-freeze.md`.
+2. **Epigenome Lamarck-lite = ACCETTATO con decay obbligatorio, build Fase-3.**
+   Concetto play-shapes-identity accettato MA `decay`/regression-to-mean
+   mandatorio (anti-snowball). Design ora, build ultimo (Fase-3).
+3. **2 path = DISTINTI + fix isolation.** Mating (individuale) e S5-drift-pool
+   (ambientale) restano tipi distinti. Cross-lineage isolation bug
+   (`lineagePropagator.js:14-15`) da fixare quando si deepena S5 (Fase-2).
+4. **Godot = BACKEND CANONICO.** Genotype/genetica vive nel backend Game/
+   (SoT §1 runtime-source-of-truth); Godot consuma via API + renderizza. I 3
+   impl parziali Godot (avg-blend / lineage_merge / offspring_ritual) vanno
+   unificati per chiamare il backend (Fase-2), niente logica genotype divergente.
 
 ## 6. Out of scope (qui)
 Implementazione (writing-plans separato per fase). UI del gene-grid. Authoring
