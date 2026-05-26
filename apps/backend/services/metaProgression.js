@@ -443,6 +443,40 @@ function tierBonusTraits(tier) {
   return 0;
 }
 
+// RECON-04b (Fase-1 Spore, G2) -- complexity-budget formula.
+// Fallback cost for applied ids lacking a catalog mp_cost (e.g. bonus trait
+// ids): modal mp_cost of the catalog (master-dd ratified 2026-05-26, Option A).
+const FALLBACK_BONUS_COST = 8;
+
+/**
+ * Compute offspring genetic complexity = Sigma mp_cost over the applied set
+ * [environmental_mutation.id, ...tier_bonus_traits]. Ids resolving in the
+ * mutation catalog contribute their mp_cost; non-catalog ids contribute
+ * FALLBACK_BONUS_COST. Inherited gene slots are structural (NOT counted).
+ *
+ * @param {object} offspring -- { environmental_mutation?: {id}, tier_bonus_traits?: string[] }
+ * @param {object|null} catalog -- loadMutationCatalog() output ({byId}) or null
+ * @returns {number} total complexity
+ */
+function computeOffspringComplexity(offspring, catalog) {
+  const byId = catalog && typeof catalog === 'object' ? catalog.byId || {} : {};
+  const applied = [];
+  const envId =
+    offspring && offspring.environmental_mutation && offspring.environmental_mutation.id;
+  if (envId) applied.push(envId);
+  const bonus = Array.isArray(offspring && offspring.tier_bonus_traits)
+    ? offspring.tier_bonus_traits
+    : [];
+  for (const b of bonus) applied.push(b);
+  let sum = 0;
+  for (const id of applied) {
+    const entry = byId[id];
+    const mp = entry && entry.mp_cost != null ? Number(entry.mp_cost) : FALLBACK_BONUS_COST;
+    sum += Number.isFinite(mp) ? mp : FALLBACK_BONUS_COST;
+  }
+  return sum;
+}
+
 /**
  * Sprint C — Roll mating offspring spec.
  *
@@ -507,12 +541,32 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     bonus.push(available.splice(idx, 1)[0]);
   }
 
+  // RECON-04b (G2, ADR-2026-04-26) -- complexity-budget enforce at offspring
+  // materialization. Drop random bonus traits (preserve inherited slots) until
+  // Sigma c <= C_max. env-only floor (mp_cost <= 15) is always <= C_max=30.
+  const C_MAX = Number(process.env.OFFSPRING_C_MAX) || 30;
+  const droppedBonus = [];
+  let complexity = computeOffspringComplexity(
+    { environmental_mutation: environmentalMutation, tier_bonus_traits: bonus },
+    mutationCatalog,
+  );
+  for (let _iter = 0; complexity > C_MAX && bonus.length > 0 && _iter < 5; _iter++) {
+    const dropIdx = Math.floor(rng() * bonus.length);
+    droppedBonus.push(bonus.splice(dropIdx, 1)[0]);
+    complexity = computeOffspringComplexity(
+      { environmental_mutation: environmentalMutation, tier_bonus_traits: bonus },
+      mutationCatalog,
+    );
+  }
+
   const offspring = {
     lineage_id: lineageId,
     gene_slots: inheritedSlots,
     environmental_mutation: environmentalMutation,
     tier_bonus_traits: bonus,
     tier,
+    complexity,
+    complexity_budget: { c_max: C_MAX, formula: 'mp_cost_sum_fallback8', dropped: droppedBonus },
     predicted_lifecycle_phase: 'hatchling',
     parent_a_id: parentA.id || null,
     parent_b_id: parentB.id || null,
@@ -562,9 +616,9 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
 function prismaSupportsMeta(prisma) {
   return Boolean(
     prisma &&
-      prisma.npcRelation &&
-      typeof prisma.npcRelation.findUnique === 'function' &&
-      typeof prisma.npcRelation.upsert === 'function',
+    prisma.npcRelation &&
+    typeof prisma.npcRelation.findUnique === 'function' &&
+    typeof prisma.npcRelation.upsert === 'function',
   );
 }
 
@@ -1047,6 +1101,7 @@ module.exports.inheritGeneSlots = inheritGeneSlots;
 module.exports.pickEnvironmentalMutation = pickEnvironmentalMutation;
 module.exports.computeOffspringTier = computeOffspringTier;
 module.exports.rollMatingOffspring = rollMatingOffspring;
+module.exports.computeOffspringComplexity = computeOffspringComplexity;
 module.exports.TIER_NO_GLOW = TIER_NO_GLOW;
 module.exports.TIER_GOLD = TIER_GOLD;
 module.exports.TIER_RAINBOW = TIER_RAINBOW;
