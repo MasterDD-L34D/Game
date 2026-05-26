@@ -34,18 +34,18 @@ impl_anchors:
 
 Il modello NON e' da zero. Stato verificato cross-repo (file:line):
 
-| Pezzo | Stato | Dove |
-|---|---|---|
-| Genotype 2-parent (slot-pick) | SHIPPED | `metaProgression.inheritGeneSlots` (296) + `rollMatingOffspring` (465) |
-| gene_slots schema (3 cat + rules) | SHIPPED | `data/core/mating.yaml` (parent_slots:2, env:1, form_seed_bias; cat Struttura/Funzione/Memorie; mutation_tiers T0/T1/T2 Nido-gated; hybrid_rules) |
-| Env-mutation pick (biome) | SHIPPED | `pickEnvironmentalMutation` (364) |
-| Lineage chain (provenance) | SHIPPED | `geneEncoder` SHA1 `gn1:parent:self` |
-| Phenotype biome boost/penalty | SHIPPED (data) | `mutation_catalog.yaml`, species `*_lifecycle.yaml` |
-| Speciazione emergente | SHIPPED | `getTribesEmergent` (>=3 stesso lineage_id = tribe) |
-| Ambient drift (Spore S5) | SHIPPED (plumbing, hook deferred) | `lineagePropagator.propagateLineage` (biome-pool, free-grant 1-2) |
-| Single-ancestor succession (M2) | SHIPPED (Godot) | `succession_engine.gd` + attrition/lethality + `campaign_state` ledger |
-| 2-parent mating (Godot) | SHIPPED (parziale) | `mating_trigger.generate_child_preview` (avg+trait-union FIFO5), `lineage_merge_service`, `offspring_ritual` (3-of-6) |
-| Spore S1-S6 part-pack | DESIGNED + ADR | `docs/research/2026-04-26-spore-deep-extraction.md`, ADR-2026-04-26 (5 slot locked, complexity-budget, S5 deferred) |
+| Pezzo                             | Stato                             | Dove                                                                                                                                              |
+| --------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Genotype 2-parent (slot-pick)     | SHIPPED                           | `metaProgression.inheritGeneSlots` (296) + `rollMatingOffspring` (465)                                                                            |
+| gene_slots schema (3 cat + rules) | SHIPPED                           | `data/core/mating.yaml` (parent_slots:2, env:1, form_seed_bias; cat Struttura/Funzione/Memorie; mutation_tiers T0/T1/T2 Nido-gated; hybrid_rules) |
+| Env-mutation pick (biome)         | SHIPPED                           | `pickEnvironmentalMutation` (364)                                                                                                                 |
+| Lineage chain (provenance)        | SHIPPED                           | `geneEncoder` SHA1 `gn1:parent:self`                                                                                                              |
+| Phenotype biome boost/penalty     | SHIPPED (data)                    | `mutation_catalog.yaml`, species `*_lifecycle.yaml`                                                                                               |
+| Speciazione emergente             | SHIPPED                           | `getTribesEmergent` (>=3 stesso lineage_id = tribe)                                                                                               |
+| Ambient drift (Spore S5)          | SHIPPED (plumbing, hook deferred) | `lineagePropagator.propagateLineage` (biome-pool, free-grant 1-2)                                                                                 |
+| Single-ancestor succession (M2)   | SHIPPED (Godot)                   | `succession_engine.gd` + attrition/lethality + `campaign_state` ledger                                                                            |
+| 2-parent mating (Godot)           | SHIPPED (parziale)                | `mating_trigger.generate_child_preview` (avg+trait-union FIFO5), `lineage_merge_service`, `offspring_ritual` (3-of-6)                             |
+| Spore S1-S6 part-pack             | DESIGNED + ADR                    | `docs/research/2026-04-26-spore-deep-extraction.md`, ADR-2026-04-26 (5 slot locked, complexity-budget, S5 deferred)                               |
 
 **Il design ESTENDE/UNIFICA questo, non lo sostituisce.** Il vero net-new = il
 layer **Epigenome** (telemetry-heritable). Tutto il resto = formalizzare +
@@ -78,6 +78,7 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
 ## 2. D-HEIR — modello genetico a 3 layer (Approach A)
 
 ### Layer 1 — Genotype (ereditato)
+
 - **Loci = gene_slots** organizzati nelle 3 categorie canoniche
   **Struttura / Funzione / Memorie** (`mating.yaml`), mappate sui **5 body_slot
   Spore locked** (mouth/appendage/sense/tegument/back, ADR-2026-04-26 / S1).
@@ -91,6 +92,7 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
   specializzazione passiva (es. tank_plus). Gia' previsto.
 
 ### Layer 2 — Phenotype (espresso, biome-driven)
+
 - Tratti espressi = genotype x **espressione ambientale**: un allele/parte
   "dorme" o si attiva per pressione bioma (**biome T-bands T0-T3**, ADR;
   `biome_boost`/`biome_penalty` del catalog). Stesso genotype, fenotipo diverso
@@ -101,9 +103,10 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
   `visual_swap_it`) prima del testo. `form_seed_bias` guida le preferenze.
 
 ### Layer 3 — Epigenome (NET-NEW, appreso nel Nido) ⭐
+
 - **Substrato esistente**: `vcScoring` (telemetria VC -> assi MBTI da come giochi)
-  + categoria **Memorie** (`memoria_ambientale`, `inheritance_weight:0.0` =
-  sempre rigenerata = hook epigenetico) + `form_seed_bias`.
+  - categoria **Memorie** (`memoria_ambientale`, `inheritance_weight:0.0` =
+    sempre rigenerata = hook epigenetico) + `form_seed_bias`.
 - **Net-new**: rendere lo stato VC-appreso **parzialmente ereditabile**
   (Lamarck-lite): l'epigenome play-shaped dei genitori **bias** l'espressione
   della prole. **Questo e' il motore di "how you play shapes what you become".**
@@ -115,11 +118,13 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
   currency parallela** -- riusare quella.
 
 ### Speciazione emergente
+
 - Divergenza genotype accumulata su generazioni (drift + selezione bioma);
   oltre soglia -> lineage letta come "specie-forma" distinta. Gia' parziale via
   `getTribesEmergent` (>=3 stesso lineage). Estendere con soglia complexity/T-band.
 
 ## 3. Vincoli & anti-pattern (da Spore extraction §3 + freeze)
+
 - **Irreversibilita'** (pilastro narrativo): mutazione permanente = peso. NO
   infinite-revert (Spore-trap esplicito).
 - **NO**: editor real-time mid-encounter, full 5-stage, creator 3D, sandbox-nav,
@@ -130,7 +135,7 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
 
 ## 4. Fasatura (anti-over-engineer vs freeze)
 
-Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE-01..10:
+Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE (Fase-1 = **01..08** Moderate; **09-10** = Fase-2 Full/S5):
 
 - **Fase 0 (MVP-freeze, gia' ~shippable)**: lo slice freeze attuale (2-slot +
   1-env, trust+nest, 1-2 seed). Niente nuovo.
@@ -138,9 +143,9 @@ Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE-01
   MP-pool + morphology + bingo. **Richiede ADR-supersede §21.3** (sblocca genetica
   oltre il minimal).
 - **Fase 2 (Full ~+15h, S5 + reconcile)**: wire `propagateLineage` lifecycle hook
-  + **fix cross-lineage isolation** + unificare i 3 impl Godot (mating_trigger
-  avg-blend + lineage_merge + ritual) sotto il genotype model + promuovere
-  ibridazione da display-only.
+  - **fix cross-lineage isolation** + unificare i 3 impl Godot (mating_trigger
+    avg-blend + lineage_merge + ritual) sotto il genotype model + promuovere
+    ibridazione da display-only.
 - **Fase 3 (Epigenome, net-new)**: layer 3 Lamarck-lite + Frammenti wire +
   speciazione soglia. Il vero contributo di profondita'.
 
@@ -162,6 +167,7 @@ Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE-01
    unificati per chiamare il backend (Fase-2), niente logica genotype divergente.
 
 ## 6. Out of scope (qui)
+
 Implementazione (writing-plans separato per fase). UI del gene-grid. Authoring
 catalog 30->50 mutazioni. Bilanciamento numerico. Promozione a SoT canonico
 (nuova sezione vault) -- avviene dopo l'ADR-supersede.

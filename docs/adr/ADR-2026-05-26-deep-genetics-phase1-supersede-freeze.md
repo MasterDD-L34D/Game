@@ -4,7 +4,7 @@ date: 2026-05-26
 type: adr
 workstream: evo-tactics / Pilastro 2
 owner: master-dd
-status: accepted
+status: accepted (design) — Fase-1 build gated on writing-plans + schema-ripple escalation
 accepted_by: master-dd (in-chat 2026-05-26)
 supersedes_scoped: vault `90-FINAL-DESIGN-FREEZE §21.3` (only for Fase-1 scope below)
 related:
@@ -44,6 +44,7 @@ These are additive to the existing 2-gene-slot + 1-env-mutation canonical rule;
 they deepen the genotype/phenotype WITHOUT deep genealogies or the epigenome.
 
 **Still DEFERRED (remain §21.3 vision, NOT unlocked here)**:
+
 - Epigenome / Lamarck-lite telemetry-heritable layer (Fase-3).
 - Deep multi-generation genealogies / long-term reproductive ecosystem.
 - S5 ambient-drift lifecycle wire + cross-lineage isolation (Fase-2).
@@ -77,8 +78,10 @@ extends `metaProgression` / `progressionEngine` / `rewardOffer` / `mutation_cata
 ## Risks (red-team)
 
 1. **Snowball** (Fase-3 epigenome, pre-flagged): heritable play-shaped traits ->
-   parents strong -> offspring stronger. Mitigation locked NOW: decay /
-   regression-to-mean is a Fase-3 acceptance gate, not optional.
+   parents strong -> offspring stronger. Mitigation = **Fase-3 acceptance gate**
+   (decay / regression-to-mean) -- **parametri TBD, NON ancora progettato**; va
+   specificato + testato PRIMA di qualsiasi build Fase-3. Non e' risolto ora: e'
+   un gate vincolante, non una mitigazione completata.
 2. **Complexity-budget escape**: inheritance must NOT let a build exceed `C_max`
    regardless of inherited parts. Enforce at offspring materialization.
 3. **Scope creep past Fase-1**: any genealogy/epigenome work needs a NEW ADR;
