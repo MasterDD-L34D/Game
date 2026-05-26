@@ -36,7 +36,7 @@ mutations:
       add: [artigli_sghiaccio_glaciale]
     pe_cost: 12
     pi_cost: 6
-    derived_ability_id: null
+    derived_ability_id: artigli_sghiaccio_glaciale
     mp_cost: 8
     biome_boost: [cryosteppe, caldera_glaciale]
     biome_penalty: [deserto_caldo, dorsale_termale_tropicale]
@@ -116,7 +116,7 @@ mutations:
       add: [denti_chelatanti]
     pe_cost: 10
     pi_cost: 5
-    derived_ability_id: null
+    derived_ability_id: denti_chelatanti
     mp_cost: 8
     biome_boost: [palude, foresta_acida]
     biome_penalty: [pianura_salina_iperarida]
@@ -233,7 +233,7 @@ mutations:
       add: [circolazione_supercritica]
     pe_cost: 25
     pi_cost: 12
-    derived_ability_id: null
+    derived_ability_id: circolazione_supercritica
     mp_cost: 15
     biome_boost: [savana, badlands, abisso_vulcanico]
     biome_penalty: [cryosteppe, caldera_glaciale]
@@ -271,7 +271,7 @@ mutations:
       add: [canto_di_richiamo]
     pe_cost: 12
     pi_cost: 8
-    derived_ability_id: null
+    derived_ability_id: canto_di_richiamo
     mp_cost: 8
     biome_boost: [foresta_temperata, foresta_miceliale, canyons_risonanti]
     biome_penalty: [deserto_caldo, pianura_salina_iperarida]
@@ -309,7 +309,7 @@ mutations:
       add: [aura_di_dispersione_mentale]
     pe_cost: 12
     pi_cost: 8
-    derived_ability_id: null
+    derived_ability_id: aura_di_dispersione_mentale
     mp_cost: 8
     biome_boost: [rovine_planari, mezzanotte_orbitale, frattura_abissale_sinaptica]
     biome_penalty: []
@@ -354,7 +354,7 @@ mutations:
       add: [occhi_cristallo_modulare]
     pe_cost: 12
     pi_cost: 6
-    derived_ability_id: null
+    derived_ability_id: occhi_cristallo_modulare
     mp_cost: 8
     biome_boost: [rovine_planari, steppe_algoritmiche, mezzanotte_orbitale]
     biome_penalty: [foresta_miceliale, foresta_acida]
@@ -392,7 +392,7 @@ mutations:
       add: [antenne_plasmatiche_tempesta]
     pe_cost: 25
     pi_cost: 15
-    derived_ability_id: null
+    derived_ability_id: antenne_plasmatiche_tempesta
     mp_cost: 15
     biome_boost: [stratosfera_tempestosa, canopia_ionica]
     biome_penalty: [caverna, abisso_vulcanico]
@@ -436,7 +436,7 @@ mutations:
       add: [ali_solari_fotoni]
     pe_cost: 12
     pi_cost: 7
-    derived_ability_id: null
+    derived_ability_id: ali_solari_fotoni
     mp_cost: 8
     biome_boost: [altipiani_solari, deserto_caldo, stratosfera_tempestosa]
     biome_penalty: [caverna, abisso_vulcanico]
@@ -560,7 +560,7 @@ mutations:
       add: [epidermide_dielettrica]
     pe_cost: 10
     pi_cost: 5
-    derived_ability_id: null
+    derived_ability_id: epidermide_dielettrica
     mp_cost: 8
     biome_boost: [stratosfera_tempestosa, canopia_ionica, mezzanotte_orbitale]
     biome_penalty: [foresta_temperata, foresta_miceliale]
@@ -597,7 +597,7 @@ mutations:
       add: [branchie_metalloidi]
     pe_cost: 12
     pi_cost: 6
-    derived_ability_id: null
+    derived_ability_id: branchie_metalloidi
     mp_cost: 8
     biome_boost: [reef_luminescente, atollo_obsidiana, abisso_vulcanico]
     biome_penalty: [pianura_salina_iperarida, deserto_caldo]
@@ -629,7 +629,7 @@ mutations:
       add: [capillari_fotovoltaici]
     pe_cost: 12
     pi_cost: 6
-    derived_ability_id: null
+    derived_ability_id: capillari_fotovoltaici
     mp_cost: 8
     biome_boost: [altipiani_solari, deserto_caldo, stratosfera_tempestosa]
     biome_penalty: [abisso_vulcanico, caverna]
@@ -804,7 +804,7 @@ mutations:
       add: [coda_frusta_cinetica]
     pe_cost: 25
     pi_cost: 12
-    derived_ability_id: null
+    derived_ability_id: coda_frusta_cinetica
     mp_cost: 15
     biome_boost: [savana, badlands, foresta_temperata]
     biome_penalty: []
