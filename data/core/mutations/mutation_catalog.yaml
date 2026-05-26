@@ -142,7 +142,9 @@ mutations:
 
   scheletro_buffer_upgrade:
     tier: 2
-    category: physiological
+    # RECON-03a 2026-05-26: re-categorized physiological->environmental
+    # (biome-adaptive tegument defense; bingo G3 rebalance, no new entry).
+    category: environmental
     body_slot: tegument
     name_it: "Mutazione: Scheletro Idro-Regolante"
     name_en: "Mutation: Hydro-Regulator Skeleton"
@@ -654,7 +656,9 @@ mutations:
 
   cuticole_wax_to_neutralize:
     tier: 2
-    category: physiological
+    # RECON-03a 2026-05-26: re-categorized physiological->environmental
+    # (biome-adaptive chemical-neutralize tegument; bingo G3 rebalance, no new entry).
+    category: environmental
     body_slot: tegument
     name_it: "Mutazione: Cuticole Neutralizzanti"
     name_en: "Mutation: Neutralizing Cuticles"
@@ -688,7 +692,9 @@ mutations:
 
   carapace_to_luminescent:
     tier: 2
-    category: physiological
+    # RECON-03a 2026-05-26: re-categorized physiological->environmental
+    # (biome-reactive abyssal luminescence tegument; bingo G3 rebalance, no new entry).
+    category: environmental
     body_slot: tegument
     name_it: "Mutazione: Carapace Luminiscente"
     name_en: "Mutation: Luminescent Carapace"
