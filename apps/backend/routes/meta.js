@@ -354,7 +354,12 @@ function createMetaRouter(opts = {}) {
 
   router.get('/tribes', (_req, res, next) => {
     try {
-      const tribes = getTribesEmergent();
+      const cfg = loadEpigenomeConfig();
+      const speciesMean = computeSpeciesMean(listLineageEntries());
+      const tribes = getTribesEmergent({
+        speciesMean,
+        divergenceThreshold: cfg.speciation_divergence_threshold,
+      });
       res.json({ tribes, threshold: 3 });
     } catch (err) {
       next(err);
