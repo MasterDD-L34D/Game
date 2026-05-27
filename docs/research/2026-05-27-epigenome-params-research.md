@@ -58,6 +58,18 @@ lo stato VC-appreso (vcScoring) **parzialmente ereditabile** senza snowball.
 
 ### 2.4 Coherence check vs comparables + SoT (2026-05-27)
 
+**Comparables UFFICIALI** (`docs/pitch/evo_tactics_publisher_sheet.md`
+§Comparable References): **Spore** (fantasia evolutiva), **Descent**
+(missione/squad/living-room), tactics-turni moderni (leggibilita'), run-based
+(debrief). One-sentence sell: "il tuo stile di gioco evolve davvero le creature
+che controlli" = **l'epigenome E' la USP headline**, non un layer secondario.
+Tensione gia' risolta nel SoT: **Spore = anchor FANTASIA** (positioning) MA
+Pilastro 2 = **"NON Spore sim continuo"** (mechanic = unlock discreto). Il
+refinement discrete-expression (§3) allinea i due: fantasia-Spore via espressione
+DISCRETA leggibile.
+
+**Benchmark analitici** (mechanic-fit, complemento ai marketing-comparables):
+
 - **Niche** (turn-based + genetica + roguelike = comparable piu' vicino):
   inheritance **DISCRETA Mendeliana** (2 alleli/gene, dom/rec, 50% pass,
   fenotipo = allele dominante = readable). = il nostro genotype
