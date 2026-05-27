@@ -26,6 +26,8 @@ const {
   getTribesEmergent,
   getTribeForUnit,
 } = require('../services/metaProgression');
+const { addFragments } = require('../services/rewards/skipFragmentStore');
+const { loadEpigenomeConfig } = require('../services/genetics/epigenome');
 
 // OD-001 Path A Sprint B (2026-04-26): debrief-recruit affinity-bypass threshold.
 // Defeated enemies with affinity_at_recruit >= this value can be recruited
@@ -241,12 +243,25 @@ function createMetaRouter(opts = {}) {
       }
       const geneSlotsSchema = loadMatingSchema();
       const mutationCatalog = loadCatalog();
+      const epigenomeConfig = loadEpigenomeConfig();
       const result = await store.rollOffspring({
         parentA: parent_a,
         parentB: parent_b,
         biomeId: biome_id || null,
-        context: { geneSlotsSchema, mutationCatalog },
+        context: { geneSlotsSchema, mutationCatalog, epigenomeConfig },
       });
+      // Fase-3 -- Frammenti Genetici grant at birth (strong parent epigenetic
+      // bias). NO parallel currency: reuse skipFragmentStore. species_mean
+      // defaults to 0.5 inside rollMatingOffspring (species-specific running
+      // mean = tuning follow-up).
+      const campaignId = (req.body && req.body.campaign_id) || opts.campaignId || null;
+      const grant = (result && result.offspring && result.offspring.epigenome_fragment_grant) || 0;
+      if (campaignId && grant > 0) {
+        addFragments(campaignId, grant, {
+          reason: 'epigenome_birth',
+          lineage_id: result.offspring.lineage_id,
+        });
+      }
       res.json(result);
     } catch (err) {
       next(err);

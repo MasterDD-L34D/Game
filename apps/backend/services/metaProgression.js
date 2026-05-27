@@ -13,6 +13,14 @@
 
 'use strict';
 
+const {
+  computeOffspringEpigenome,
+  deriveEpigeneticMemory,
+  epigenomeBiasStrength,
+  computeFragmentGrant,
+  computeSpeciesMean,
+} = require('./genetics/epigenome');
+
 // Gate thresholds (§20.2)
 const RECRUIT_AFFINITY_MIN = 0;
 const RECRUIT_TRUST_MIN = 2;
@@ -654,6 +662,45 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     }
   }
 
+  // Fase-3 Epigenome (Lamarck-lite). Opt-in: requires context.epigenomeConfig
+  // + at least one parent epigenome. Pure: attaches offspring.epigenome,
+  // .epigenetic_memory, .epigenome_fragment_grant (caller applies the fragment
+  // side-effect at the route boundary). Fully inert otherwise (back-compat).
+  if (context.epigenomeConfig && (parentA.epigenome || parentB.epigenome)) {
+    const epiCfg = context.epigenomeConfig;
+    const speciesMean = context.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+    const offspringEpi = computeOffspringEpigenome(
+      parentA.epigenome,
+      parentB.epigenome,
+      speciesMean,
+      epiCfg,
+    );
+    const epiMemory = deriveEpigeneticMemory(
+      offspringEpi,
+      speciesMean,
+      epiCfg.axis_memory_map,
+      epiCfg.min_bias_expression,
+    );
+    const parentBias = epigenomeBiasStrength(parentA.epigenome, parentB.epigenome, speciesMean);
+    offspring.epigenome = offspringEpi;
+    offspring.epigenetic_memory = epiMemory;
+    offspring.epigenome_fragment_grant = computeFragmentGrant(
+      parentBias,
+      epiCfg.fragment_grant_threshold,
+      epiCfg.fragment_grant_amount,
+    );
+    // Discrete expression on the narrative slot: if a memory expressed, surface
+    // it as memoria_ambientale (else stays pure-biome = absent).
+    if (epiMemory.memory_id) {
+      offspring.memoria_ambientale = {
+        source: 'epigenome',
+        memory_id: epiMemory.memory_id,
+        axis: epiMemory.axis,
+        direction: epiMemory.direction,
+      };
+    }
+  }
+
   return {
     success: true,
     offspring,
@@ -1007,6 +1054,7 @@ function recordOffspring(entry) {
     generation: Number.isFinite(entry.generation) ? entry.generation : parents.length === 0 ? 0 : 1,
     born_at_session: entry.born_at_session || null,
     born_at_biome: entry.born_at_biome || null,
+    epigenome: entry.epigenome && typeof entry.epigenome === 'object' ? entry.epigenome : null,
   };
   _offspringRegistry.set(normalized.unit_id, normalized);
   return normalized;
@@ -1044,7 +1092,9 @@ function getLineageChain(lineageId) {
  *
  * @returns {Array<object>}
  */
-function getTribesEmergent() {
+function getTribesEmergent(opts = {}) {
+  const _speciesMean = opts.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+  const _divThreshold = Number.isFinite(opts.divergenceThreshold) ? opts.divergenceThreshold : 0.15;
   // Group by lineage_id.
   const byLineage = new Map();
   for (const entry of _offspringRegistry.values()) {
@@ -1087,12 +1137,25 @@ function getTribesEmergent() {
       );
     }
 
+    // Fase-3 -- emergent speciation by epigenetic divergence. Tribe mean
+    // epigenome vs species mean; beyond threshold = distinct "specie-forma".
+    const tribeMean = computeSpeciesMean(members);
+    let epigeneticDivergence = 0;
+    for (const axis of ['utility', 'liberty', 'morality']) {
+      const tv = Number.isFinite(tribeMean[axis]) ? tribeMean[axis] : 0.5;
+      const sv = Number.isFinite(_speciesMean[axis]) ? _speciesMean[axis] : 0.5;
+      epigeneticDivergence = Math.max(epigeneticDivergence, Math.abs(tv - sv));
+    }
+    epigeneticDivergence = Math.round(epigeneticDivergence * 1000) / 1000;
+
     tribes.push({
       tribe_id: lineageId,
       members_count: members.length,
       primary_biome: primaryBiome,
       oldest_generation: oldestGeneration,
       lineage_root_unit_id: root?.unit_id ?? null,
+      epigenetic_divergence: epigeneticDivergence,
+      is_distinct_form: epigeneticDivergence >= _divThreshold,
     });
   }
 
