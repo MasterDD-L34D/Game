@@ -477,6 +477,52 @@ function computeOffspringComplexity(offspring, catalog) {
   return sum;
 }
 
+// Fase-2 (Spore S5) -- hybrid fusion engine (mechanism-only; rules content =
+// master-dd authoring debt). hybrid_rules shape (mating.yaml):
+//   { <category>: { "<traitA> + <traitB>": "<resultTrait>" } }
+function parseHybridRules(hybridRules) {
+  const out = [];
+  if (!hybridRules || typeof hybridRules !== 'object') return out;
+  for (const [category, rules] of Object.entries(hybridRules)) {
+    if (!rules || typeof rules !== 'object') continue;
+    for (const [pairKey, result] of Object.entries(rules)) {
+      const parts = String(pairKey)
+        .split('+')
+        .map((x) => x.trim())
+        .filter(Boolean);
+      if (parts.length === 2 && typeof result === 'string' && result) {
+        out.push({ category, a: parts[0], b: parts[1], result });
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Pure hybrid fusion: given a flat trait-id array + hybrid_rules, replace any
+ * present "A + B" pair with its result trait (greedy, first-match-wins). Returns
+ * a new trait set + fusion log. Inert when hybridRules absent/empty.
+ *
+ * @param {string[]} traitIds
+ * @param {object} [hybridRules]
+ * @returns {{ traits: string[], fusions: Array<{category:string,pair:[string,string],result:string}> }}
+ */
+function applyHybridFusion(traitIds, hybridRules) {
+  const present = new Set(
+    Array.isArray(traitIds) ? traitIds.filter((t) => typeof t === 'string' && t) : [],
+  );
+  const fusions = [];
+  for (const r of parseHybridRules(hybridRules)) {
+    if (present.has(r.a) && present.has(r.b)) {
+      present.delete(r.a);
+      present.delete(r.b);
+      present.add(r.result);
+      fusions.push({ category: r.category, pair: [r.a, r.b], result: r.result });
+    }
+  }
+  return { traits: Array.from(present), fusions };
+}
+
 /**
  * Sprint C — Roll mating offspring spec.
  *
@@ -559,6 +605,17 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     );
   }
 
+  // Fase-2 hybrid fusion (mechanism-only; inert until real hybrid_rules injected
+  // via context.hybridRules). Non-destructive: surfaces fusions as metadata, does
+  // NOT mutate tier_bonus_traits (zero interaction with complexity-budget).
+  const hybridTraitSet = [
+    ...bonus,
+    ...(environmentalMutation && environmentalMutation.type === 'trait' && environmentalMutation.id
+      ? [environmentalMutation.id]
+      : []),
+  ];
+  const { fusions: hybridFusions } = applyHybridFusion(hybridTraitSet, context.hybridRules || null);
+
   const offspring = {
     lineage_id: lineageId,
     gene_slots: inheritedSlots,
@@ -567,6 +624,7 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     tier,
     complexity,
     complexity_budget: { c_max: C_MAX, formula: 'mp_cost_sum_fallback8', dropped: droppedBonus },
+    hybrid_fusions: hybridFusions,
     predicted_lifecycle_phase: 'hatchling',
     parent_a_id: parentA.id || null,
     parent_b_id: parentB.id || null,
@@ -1101,6 +1159,7 @@ module.exports.inheritGeneSlots = inheritGeneSlots;
 module.exports.pickEnvironmentalMutation = pickEnvironmentalMutation;
 module.exports.computeOffspringTier = computeOffspringTier;
 module.exports.rollMatingOffspring = rollMatingOffspring;
+module.exports.applyHybridFusion = applyHybridFusion;
 module.exports.computeOffspringComplexity = computeOffspringComplexity;
 module.exports.TIER_NO_GLOW = TIER_NO_GLOW;
 module.exports.TIER_GOLD = TIER_GOLD;
