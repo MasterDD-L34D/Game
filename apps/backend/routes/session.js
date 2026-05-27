@@ -2944,6 +2944,35 @@ function createSessionRouter(options = {}) {
       } catch {
         /* best-effort -- don't block session end */
       }
+      // Fase-3 Epigenome -- accumulate per-creature epigenome from how the
+      // player played this session (conviction_axis EMA). Best-effort, never
+      // blocks session end. Surviving player units only.
+      try {
+        if (session.campaign_id && vcSnapshot && vcSnapshot.per_actor) {
+          const { prisma } = require('../db/prisma');
+          const {
+            createCreatureEpigenomeStore,
+          } = require('../services/genetics/creatureEpigenomeStore');
+          const {
+            accumulateEpigenome,
+            loadEpigenomeConfig,
+          } = require('../services/genetics/epigenome');
+          const epiStore = createCreatureEpigenomeStore(prisma);
+          const alpha = loadEpigenomeConfig().accumulation_alpha;
+          const survivors = session.units.filter(
+            (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
+          );
+          for (const u of survivors) {
+            const conv = vcSnapshot.per_actor[u.id] && vcSnapshot.per_actor[u.id].conviction_axis;
+            if (!conv) continue;
+            const prev = await epiStore.get(session.campaign_id, u.id);
+            const next = accumulateEpigenome(prev, conv, alpha);
+            await epiStore.upsert(session.campaign_id, u.id, next);
+          }
+        }
+      } catch {
+        /* best-effort -- epigenome accumulation never blocks session end */
+      }
       await appendEvent(session, {
         action_type: 'session_end',
         turn: session.turn,

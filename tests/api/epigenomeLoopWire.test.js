@@ -1,0 +1,69 @@
+'use strict';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+
+const {
+  accumulateEpigenome,
+  loadEpigenomeConfig,
+} = require('../../apps/backend/services/genetics/epigenome');
+const {
+  createCreatureEpigenomeStore,
+} = require('../../apps/backend/services/genetics/creatureEpigenomeStore');
+
+function fakePrisma() {
+  const rows = new Map();
+  return {
+    creatureEpigenome: {
+      async findUnique({
+        where: {
+          campaignId_unitId: { campaignId, unitId },
+        },
+      }) {
+        return rows.get(`${campaignId}:${unitId}`) || null;
+      },
+      async findMany({ where: { campaignId } }) {
+        return [...rows.values()].filter((r) => r.campaignId === campaignId);
+      },
+      async upsert({
+        where: {
+          campaignId_unitId: { campaignId, unitId },
+        },
+        update,
+        create,
+      }) {
+        const key = `${campaignId}:${unitId}`;
+        const existing = rows.get(key);
+        const row = existing ? { ...existing, ...update } : { campaignId, unitId, ...create };
+        rows.set(key, row);
+        return row;
+      },
+    },
+  };
+}
+
+// Mirrors the exact session-end accumulation logic (Task 3 step 3) so we pin
+// the contract: survivors' conviction_axis EMA-accumulated into the store.
+async function accumulateSurvivors(store, campaignId, survivors, perActor, alpha) {
+  for (const unitId of survivors) {
+    const conv = perActor[unitId] && perActor[unitId].conviction_axis;
+    if (!conv) continue;
+    const prev = await store.get(campaignId, unitId);
+    const next = accumulateEpigenome(prev, conv, alpha);
+    await store.upsert(campaignId, unitId, next);
+  }
+}
+
+test('session-end accumulation: survivor conviction EMA-accumulates into store', async () => {
+  const store = createCreatureEpigenomeStore(fakePrisma());
+  const alpha = loadEpigenomeConfig().accumulation_alpha; // 0.4
+  const perActor = { u1: { conviction_axis: { utility: 90, liberty: 50, morality: 10 } } };
+  await accumulateSurvivors(store, 'c1', ['u1'], perActor, alpha);
+  // first accumulate from baseline 0.5: utility 0.4*0.9+0.6*0.5=0.66
+  const after1 = await store.get('c1', 'u1');
+  assert.ok(Math.abs(after1.utility - 0.66) < 1e-9);
+  // second session reinforces toward high utility
+  await accumulateSurvivors(store, 'c1', ['u1'], perActor, alpha);
+  const after2 = await store.get('c1', 'u1');
+  assert.ok(after2.utility > after1.utility);
+});
