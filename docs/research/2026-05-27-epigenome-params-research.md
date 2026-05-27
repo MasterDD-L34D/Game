@@ -56,6 +56,25 @@ lo stato VC-appreso (vcScoring) **parzialmente ereditabile** senza snowball.
   breeding trait-inherit + breeder XP-split anti-farm), **regression-to-mean**
   (tira l'ereditato verso la media -> nessun runaway). (fonti §5)
 
+### 2.4 Coherence check vs comparables + SoT (2026-05-27)
+
+- **Niche** (turn-based + genetica + roguelike = comparable piu' vicino):
+  inheritance **DISCRETA Mendeliana** (2 alleli/gene, dom/rec, 50% pass,
+  fenotipo = allele dominante = readable). = il nostro genotype
+  `inheritGeneSlots` 2-parent weighted-pick. **STANDARD, coerente.**
+- **Creatures** (norn neural-sim): learning -> heritable (= idea epigenome) MA
+  **simulazione continua pesante** = cio' che il **Pilastro 2 RIFIUTA**
+  ("evoluzione emergente ... NON Spore sim continuo"; pattern proven =
+  Wesnoth/AI-War pack-unlock DISCRETO).
+- **Vision (01-VISIONE) + P4**: "come giochi modella cio' che diventi" +
+  VC-telemetria ludica = l'epigenome E' la fusione canonica P2xP4. Coerente.
+- **Implicazione load-bearing**: il VC-bias continuo (0-1) e' **substrato
+  INTERNO** (P4 telemetria); l'**ESPRESSIONE deve essere DISCRETA + leggibile**
+  (P2 + spec readability "player vede esiti, NON loci/alleli"). L'epigenome NON
+  deve diventare stat-drift continuo (anti-pattern Creatures); deve **biasare
+  unlock/espressione DISCRETI** (soglia/probabilita' di quale trait-part si
+  esprime) -> Niche-readable.
+
 ## 3. Params decisi (start-values)
 
 | param                          | valore                       | rationale                                                                                          |
@@ -81,6 +100,14 @@ offspring_epi[axis] = clamp(
 - `species_mean` = media popolazione/specie corrente (baseline regression).
 - gen-1 retention della deviazione-genitore ~= 0.7 _ 0.3 _ 0.6 = **~0.13**, poi
   fade geometrico per `decay` ogni generazione successiva.
+
+### Espressione DISCRETA (vincolo P2 + Niche-standard, da §2.4)
+
+I 4 params governano la **forza** del bias; l'**OUTPUT** applicato all'offspring
+e' un nudge su **espressione/unlock DISCRETI** (soglia/probabilita' di quale
+trait-part si esprime), **NON** un drift continuo di stat. Il VC-axis continuo
+resta substrato interno; il player vede esiti discreti leggibili. Questo tiene
+l'epigenome dentro Pilastro 2 ("NON sim continuo") + readability spec.
 
 ### Anti-snowball -- proof
 

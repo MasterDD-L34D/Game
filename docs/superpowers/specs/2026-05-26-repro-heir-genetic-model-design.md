@@ -141,6 +141,11 @@ offspring_epi = clamp(
 gen-1 retention ~0.13 deviazione-genitore, fade geometrico (ratio 0.6 < 1 ->
 converge) + cap -> **anti-snowball provato**. Trade-off feel-vs-snowball = tune playtest.
 
+**Vincolo coerenza (comparables + Pilastro 2)**: il VC-bias e' substrato INTERNO;
+l'output e' nudge su **espressione/unlock DISCRETI** (Niche-readable, dom/rec-like),
+**NON** stat-drift continuo (anti-pattern Creatures, che P2 "NON sim continuo"
+rifiuta). Genotype 2-parent = gia' Niche-standard. Vedi research doc §2.4.
+
 ### Speciazione emergente
 
 - Divergenza genotype accumulata su generazioni (drift + selezione bioma);
