@@ -67,3 +67,31 @@ test('session-end accumulation: survivor conviction EMA-accumulates into store',
   const after2 = await store.get('c1', 'u1');
   assert.ok(after2.utility > after1.utility);
 });
+
+const request = require('supertest');
+const { createApp } = require('../../apps/backend/app');
+const meta = require('../../apps/backend/services/metaProgression');
+
+test('mating/roll: records offspring into lineage registry with epigenome (bridge)', async () => {
+  meta._resetLineageRegistry();
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    // 3 rolls of the SAME parents (same lineage_id) -> tribe emerges
+    for (let i = 0; i < 3; i++) {
+      const res = await request(app)
+        .post('/api/meta/mating/roll')
+        .send({
+          campaign_id: 'cL',
+          parent_a: { id: 'pa', epigenome: { utility: 1.0, liberty: 0.5, morality: 0.5 } },
+          parent_b: { id: 'pb', epigenome: { utility: 1.0, liberty: 0.5, morality: 0.5 } },
+          biome_id: 'dune',
+        });
+      assert.equal(res.status, 200);
+      assert.ok(res.body.offspring.epigenome, 'offspring carries epigenome when parents do');
+    }
+    const entries = meta.listLineageEntries().filter((e) => e.epigenome);
+    assert.ok(entries.length >= 3, 'offspring recorded with epigenome');
+  } finally {
+    close();
+  }
+});
