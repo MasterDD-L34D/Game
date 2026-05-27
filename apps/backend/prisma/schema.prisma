@@ -424,3 +424,18 @@ model SistemaState {
 
   @@map("sistema_state")
 }
+
+// ─── Fase-3 Epigenome -- per-creature persistence (campaignId, unitId) ────────
+// Keyed by (campaign_id, unit_id) composite PK. epigenome JSONB stores the
+// conviction-axis EMA {utility, liberty, morality} (0-1). No foreign-key
+// dependency: keyed by ids the session flow already has. Best-effort: the
+// store no-ops when the model is absent. Migration 0015.
+model CreatureEpigenome {
+  campaignId String   @map("campaign_id")
+  unitId     String   @map("unit_id")
+  epigenome  Json     @default("{}")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@id([campaignId, unitId])
+  @@map("creature_epigenome")
+}
