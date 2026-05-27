@@ -1053,6 +1053,7 @@ function recordOffspring(entry) {
     generation: Number.isFinite(entry.generation) ? entry.generation : parents.length === 0 ? 0 : 1,
     born_at_session: entry.born_at_session || null,
     born_at_biome: entry.born_at_biome || null,
+    epigenome: entry.epigenome && typeof entry.epigenome === 'object' ? entry.epigenome : null,
   };
   _offspringRegistry.set(normalized.unit_id, normalized);
   return normalized;

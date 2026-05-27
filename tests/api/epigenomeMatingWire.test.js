@@ -32,3 +32,20 @@ test('rollMatingOffspring: with config + parent epigenomes -> offspring epigenom
   // parent bias strength = 0.5 >= grant_threshold 0.1 -> grant 1
   assert.equal(r.offspring.epigenome_fragment_grant, 1);
 });
+
+const {
+  recordOffspring,
+  _resetLineageRegistry,
+} = require('../../apps/backend/services/metaProgression');
+
+test('recordOffspring: persists epigenome field (default null)', () => {
+  _resetLineageRegistry();
+  const e1 = recordOffspring({ unit_id: 'u1', lineage_id: 'L1' });
+  assert.equal(e1.epigenome, null);
+  const e2 = recordOffspring({
+    unit_id: 'u2',
+    lineage_id: 'L1',
+    epigenome: { utility: 0.7, liberty: 0.5, morality: 0.5 },
+  });
+  assert.deepEqual(e2.epigenome, { utility: 0.7, liberty: 0.5, morality: 0.5 });
+});
