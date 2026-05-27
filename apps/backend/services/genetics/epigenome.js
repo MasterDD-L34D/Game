@@ -43,4 +43,37 @@ function accumulateEpigenome(prevEpi, sessionConviction, alpha = 0.4) {
   return out;
 }
 
-module.exports = { AXES, accumulateEpigenome };
+/**
+ * Ratified 2-parent offspring epigenome (deviation-cap reading -- see plan
+ * "Formula interpretation note"). Per axis:
+ *   deviation = (parentAvg - mean) * (1-regression) * weight * decay
+ *   offspring = clamp01(mean + clamp(deviation, -cap, +cap))
+ *
+ * @param {object} epiA -- parent A epigenome (0-1; missing axis -> species mean)
+ * @param {object} epiB -- parent B epigenome
+ * @param {object} speciesMean -- per-axis 0-1 baseline
+ * @param {object} params -- { inheritance_weight, decay_per_gen, regression_to_mean, bias_cap }
+ * @returns {{utility:number, liberty:number, morality:number}}
+ */
+function computeOffspringEpigenome(epiA, epiB, speciesMean, params) {
+  const p = params || {};
+  const w = Number.isFinite(p.inheritance_weight) ? p.inheritance_weight : 0.3;
+  const decay = Number.isFinite(p.decay_per_gen) ? p.decay_per_gen : 0.6;
+  const reg = Number.isFinite(p.regression_to_mean) ? p.regression_to_mean : 0.3;
+  const cap = Number.isFinite(p.bias_cap) ? p.bias_cap : 0.2;
+  const out = {};
+  for (const axis of AXES) {
+    const mean = clamp01(
+      speciesMean && Number.isFinite(speciesMean[axis]) ? speciesMean[axis] : BASELINE,
+    );
+    const pa = clamp01(epiA && Number.isFinite(epiA[axis]) ? epiA[axis] : mean);
+    const pb = clamp01(epiB && Number.isFinite(epiB[axis]) ? epiB[axis] : mean);
+    const parentAvg = (pa + pb) / 2;
+    let deviation = (parentAvg - mean) * (1 - reg) * w * decay;
+    deviation = Math.max(-cap, Math.min(cap, deviation));
+    out[axis] = clamp01(mean + deviation);
+  }
+  return out;
+}
+
+module.exports = { AXES, accumulateEpigenome, computeOffspringEpigenome };
