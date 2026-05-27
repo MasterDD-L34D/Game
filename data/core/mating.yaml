@@ -451,7 +451,7 @@ gene_slots:
         - id: memoria_ambientale
           label_it: "Memoria ambientale"
           maps_to_part: null
-          inheritance_weight: 0.0   # sempre generata dal bioma, non ereditata
+          inheritance_weight: 0.0 # gene-slot pick: mai (rigenerata bioma). Espressione epigenetica governata dal blocco `epigenome:` (Fase-3, weight 0.3)
           mutation_chance: 0.30
 
   mutation_tiers:
@@ -475,3 +475,24 @@ hybrid_rules:
     tentacle + legs: "multi_stance"
   senses:
     echolocate + thermo: "echo_thermo"
+
+epigenome:
+  # Fase-3 Lamarck-lite. Params ratified #2401 (2026-05-27); START-VALUES, lock =
+  # playtest N>=40 al build (L-069). Substrato = vcScoring conviction_axis
+  # (utility/liberty/morality, 0-100 -> /100; baseline 50 -> species_mean 0.5).
+  axes: [utility, liberty, morality]
+  inheritance_weight: 0.3 # bias non copia (< gene-slot 0.4-0.8)
+  decay_per_gen: 0.6 # bio transient ~3 gen (0.6^3 ~= 0.22)
+  regression_to_mean: 0.3 # tira 30% verso media-specie
+  bias_cap: 0.2 # hard-bound DEVIAZIONE da species_mean (anti-runaway)
+  accumulation_alpha: 0.4 # EMA reattivita' per-creatura (start-value)
+  min_bias_expression: 0.05 # sotto soglia -> memoria_ambientale resta pura-bioma
+  fragment_grant_threshold: 0.1 # |deviazione| parent dominante >= soglia -> grant
+  fragment_grant_amount: 1 # Frammenti Genetici bonus (riusa skipFragmentStore)
+  speciation_divergence_threshold: 0.15 # tribe epi-divergence >= soglia -> is_distinct_form
+  # asse dominante x direzione -> memoria_ambientale espressa (tag narrativo,
+  # content re-authorable da master-dd; mechanism-default minimale).
+  axis_memory_map:
+    utility: { hi: memoria_efficienza, lo: memoria_spreco }
+    liberty: { hi: memoria_indomita, lo: memoria_disciplina }
+    morality: { hi: memoria_protettiva, lo: memoria_spietata }

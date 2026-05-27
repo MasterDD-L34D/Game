@@ -138,3 +138,19 @@ test('computeSpeciesMean: averages stored epigenomes; defaults 0.5 when empty', 
   assert.ok(Math.abs(mean.liberty - 0.5) < 1e-9);
   assert.ok(Math.abs(mean.morality - 0.5) < 1e-9);
 });
+
+const { loadEpigenomeConfig } = require('../../apps/backend/services/genetics/epigenome');
+
+test('loadEpigenomeConfig: reads ratified params + memory map from mating.yaml', () => {
+  const cfg = loadEpigenomeConfig();
+  assert.equal(cfg.inheritance_weight, 0.3);
+  assert.equal(cfg.decay_per_gen, 0.6);
+  assert.equal(cfg.regression_to_mean, 0.3);
+  assert.equal(cfg.bias_cap, 0.2);
+  assert.equal(cfg.accumulation_alpha, 0.4);
+  assert.equal(cfg.min_bias_expression, 0.05);
+  assert.equal(cfg.fragment_grant_threshold, 0.1);
+  assert.equal(cfg.fragment_grant_amount, 1);
+  assert.equal(cfg.speciation_divergence_threshold, 0.15);
+  assert.equal(cfg.axis_memory_map.morality.hi, 'memoria_protettiva');
+});

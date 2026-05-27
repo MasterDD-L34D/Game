@@ -161,12 +161,63 @@ function computeSpeciesMean(entries) {
   return { utility: acc.utility / n, liberty: acc.liberty / n, morality: acc.morality / n };
 }
 
+// epigenome.js lives at apps/backend/services/genetics/ -> 4 levels to repo root.
+const DEFAULT_MATING_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'mating.yaml',
+);
+
+const EPIGENOME_DEFAULTS = {
+  axes: AXES,
+  inheritance_weight: 0.3,
+  decay_per_gen: 0.6,
+  regression_to_mean: 0.3,
+  bias_cap: 0.2,
+  accumulation_alpha: 0.4,
+  min_bias_expression: 0.05,
+  fragment_grant_threshold: 0.1,
+  fragment_grant_amount: 1,
+  speciation_divergence_threshold: 0.15,
+  axis_memory_map: {
+    utility: { hi: 'memoria_efficienza', lo: 'memoria_spreco' },
+    liberty: { hi: 'memoria_indomita', lo: 'memoria_disciplina' },
+    morality: { hi: 'memoria_protettiva', lo: 'memoria_spietata' },
+  },
+};
+
+/**
+ * Load the epigenome: block from mating.yaml, merged over defaults.
+ * Missing file/key -> defaults (never throws).
+ */
+function loadEpigenomeConfig(matingPath = DEFAULT_MATING_PATH) {
+  try {
+    const parsed = yaml.load(fs.readFileSync(matingPath, 'utf8'));
+    const blk =
+      parsed && parsed.epigenome && typeof parsed.epigenome === 'object' ? parsed.epigenome : {};
+    return {
+      ...EPIGENOME_DEFAULTS,
+      ...blk,
+      axis_memory_map: { ...EPIGENOME_DEFAULTS.axis_memory_map, ...(blk.axis_memory_map || {}) },
+    };
+  } catch (_) {
+    return { ...EPIGENOME_DEFAULTS };
+  }
+}
+
 module.exports = {
   AXES,
+  EPIGENOME_DEFAULTS,
   accumulateEpigenome,
   computeOffspringEpigenome,
   deriveEpigeneticMemory,
   epigenomeBiasStrength,
   computeFragmentGrant,
   computeSpeciesMean,
+  loadEpigenomeConfig,
 };
