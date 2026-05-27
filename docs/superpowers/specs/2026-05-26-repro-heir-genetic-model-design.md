@@ -117,6 +117,30 @@ path duplicati — chiarisce i 2 "path in conflitto" come tipi diversi):
   (§20: skip-cards -> Frammenti, "evoluzione tipo Spore"). **NON inventare una
   currency parallela** -- riusare quella.
 
+#### Params (Fase-3 design, researched 2026-05-27 -- chiude GATE Decision #2)
+
+Decay/regression obbligatori (anti-snowball). **Start-values** (lock finale =
+playtest N>=40 al build Fase-3, L-069). Dettaglio + proof + fonti:
+`docs/research/2026-05-27-epigenome-params-research.md`.
+
+| param                          | start            | nota                                                                 |
+| ------------------------------ | ---------------- | -------------------------------------------------------------------- |
+| `epigenome_inheritance_weight` | 0.3              | bias non copia; < gene-slot 0.4-0.8. `memoria_ambientale` 0.0 -> 0.3 |
+| `epigenome_decay_per_gen`      | 0.6 retention    | bio transient ~3 gen (0.6^3 ~= 0.22)                                 |
+| `epigenome_regression_to_mean` | 0.3              | tira 30% verso media-specie asse VC                                  |
+| `epigenome_bias_cap`           | +/-0.2 / asse VC | hard-bound anti-runaway                                              |
+
+Formula (per asse VC, a offspring-materialization):
+
+```
+offspring_epi = clamp(
+  species_mean + (parent_avg_epi - species_mean) * (1-regression) * weight * decay,
+  -cap, +cap )
+```
+
+gen-1 retention ~0.13 deviazione-genitore, fade geometrico (ratio 0.6 < 1 ->
+converge) + cap -> **anti-snowball provato**. Trade-off feel-vs-snowball = tune playtest.
+
 ### Speciazione emergente
 
 - Divergenza genotype accumulata su generazioni (drift + selezione bioma);
@@ -158,6 +182,10 @@ Ancora ai 3 reuse-path Spore (`docs/research/...` §4) + i TKT-CREATURE-SPORE (F
 2. **Epigenome Lamarck-lite = ACCETTATO con decay obbligatorio, build Fase-3.**
    Concetto play-shapes-identity accettato MA `decay`/regression-to-mean
    mandatorio (anti-snowball). Design ora, build ultimo (Fase-3).
+   **Params SET 2026-05-27** (start-values, GATE chiuso): inheritance_weight 0.3
+   / decay_per_gen 0.6 / regression_to_mean 0.3 / bias_cap +/-0.2 -- vedi §Layer-3
+   - `docs/research/2026-05-27-epigenome-params-research.md`. Lock = playtest N>=40
+     al build (L-069).
 3. **2 path = DISTINTI + fix isolation.** Mating (individuale) e S5-drift-pool
    (ambientale) restano tipi distinti. Cross-lineage isolation bug
    (`lineagePropagator.js:14-15`) da fixare quando si deepena S5 (Fase-2).
