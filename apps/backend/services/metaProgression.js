@@ -13,6 +13,13 @@
 
 'use strict';
 
+const {
+  computeOffspringEpigenome,
+  deriveEpigeneticMemory,
+  epigenomeBiasStrength,
+  computeFragmentGrant,
+} = require('./genetics/epigenome');
+
 // Gate thresholds (§20.2)
 const RECRUIT_AFFINITY_MIN = 0;
 const RECRUIT_TRUST_MIN = 2;
@@ -651,6 +658,45 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     } catch (_err) {
       // Defensive: encoder optional, never block mating roll
       offspring.dna_chain = null;
+    }
+  }
+
+  // Fase-3 Epigenome (Lamarck-lite). Opt-in: requires context.epigenomeConfig
+  // + at least one parent epigenome. Pure: attaches offspring.epigenome,
+  // .epigenetic_memory, .epigenome_fragment_grant (caller applies the fragment
+  // side-effect at the route boundary). Fully inert otherwise (back-compat).
+  if (context.epigenomeConfig && (parentA.epigenome || parentB.epigenome)) {
+    const epiCfg = context.epigenomeConfig;
+    const speciesMean = context.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+    const offspringEpi = computeOffspringEpigenome(
+      parentA.epigenome,
+      parentB.epigenome,
+      speciesMean,
+      epiCfg,
+    );
+    const epiMemory = deriveEpigeneticMemory(
+      offspringEpi,
+      speciesMean,
+      epiCfg.axis_memory_map,
+      epiCfg.min_bias_expression,
+    );
+    const parentBias = epigenomeBiasStrength(parentA.epigenome, parentB.epigenome, speciesMean);
+    offspring.epigenome = offspringEpi;
+    offspring.epigenetic_memory = epiMemory;
+    offspring.epigenome_fragment_grant = computeFragmentGrant(
+      parentBias,
+      epiCfg.fragment_grant_threshold,
+      epiCfg.fragment_grant_amount,
+    );
+    // Discrete expression on the narrative slot: if a memory expressed, surface
+    // it as memoria_ambientale (else stays pure-biome = absent).
+    if (epiMemory.memory_id) {
+      offspring.memoria_ambientale = {
+        source: 'epigenome',
+        memory_id: epiMemory.memory_id,
+        axis: epiMemory.axis,
+        direction: epiMemory.direction,
+      };
     }
   }
 
