@@ -1,0 +1,29 @@
+name: SoT Drift Sentinel
+on:
+  push:
+    branches: [main]
+permissions:
+  issues: write
+  contents: read
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # need previous commit to diff the merge
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Compute changed files
+        run: git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" > changed.txt || git diff --name-only HEAD~1 HEAD > changed.txt
+      - name: Run matcher
+        id: match
+        run: |
+          node tools/sot-drift/detect.mjs .github/sot-drift/watch-map.yml changed.txt > matches.json
+          echo "count=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("matches.json","utf8")).length)')" >> "$GITHUB_OUTPUT"
+      - name: Open/update drift-candidate issue
+        if: steps.match.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/sot-drift/flag-issue.sh "${{ github.sha }}"
