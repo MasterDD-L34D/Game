@@ -123,12 +123,13 @@ test('inheritFromLineage: cross-biome isolation — savana pool NON ereditata in
   assert.equal(result.pool_size, 0);
 });
 
-test('inheritFromLineage: same-species cross-lineage — pool condiviso (per ora)', () => {
-  // Lineage A propaga
-  propagateLineage({ id: 'src-a', applied_mutations: ['mut_lineage_a'] }, 'dune_stalker', 'savana');
-  // Lineage B propaga nello stesso (species, biome)
-  propagateLineage({ id: 'src-b', applied_mutations: ['mut_lineage_b'] }, 'dune_stalker', 'savana');
-  // Newborn lineage C eredita da pool condiviso → può ricevere o A o B.
+test('inheritFromLineage: un-lineaged (AMBIENT) drift is shared by design', () => {
+  // Both legacy units are UN-LINEAGED (no lineage_id) -> AMBIENT partition =
+  // shared environmental drift. A newborn of any lineage inherits ambient.
+  // (Cross-lineage ISOLATION for lineage-TAGGED legacy is covered in
+  // tests/api/lineageCrossIsolation.test.js — Fase-2 fix 2026-05-27.)
+  propagateLineage({ id: 'src-a', applied_mutations: ['mut_ambient_a'] }, 'dune_stalker', 'savana');
+  propagateLineage({ id: 'src-b', applied_mutations: ['mut_ambient_b'] }, 'dune_stalker', 'savana');
   const result = inheritFromLineage(
     { id: 'newborn-c', applied_mutations: [], trait_ids: [] },
     'dune_stalker',
@@ -137,7 +138,7 @@ test('inheritFromLineage: same-species cross-lineage — pool condiviso (per ora
     { min: 2, max: 2 }, // forza 2 per testare entrambi
   );
   assert.equal(result.inherited.length, 2);
-  assert.deepEqual(result.inherited.sort(), ['mut_lineage_a', 'mut_lineage_b']);
+  assert.deepEqual(result.inherited.sort(), ['mut_ambient_a', 'mut_ambient_b']);
 });
 
 test('inheritFromLineage: rispetta cap min/max e non eccede pool size', () => {
