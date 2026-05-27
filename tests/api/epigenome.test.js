@@ -59,3 +59,49 @@ test('computeOffspringEpigenome: bias_cap bounds DEVIATION from species_mean', (
   // liberty raw dev = (0.0-0.5) = -0.5 -> -0.2 -> 0.5 - 0.2 = 0.3
   assert.ok(Math.abs(out.liberty - 0.3) < 1e-9);
 });
+
+const { deriveEpigeneticMemory } = require('../../apps/backend/services/genetics/epigenome');
+
+const MEMORY_MAP = {
+  utility: { hi: 'memoria_efficienza', lo: 'memoria_spreco' },
+  liberty: { hi: 'memoria_indomita', lo: 'memoria_disciplina' },
+  morality: { hi: 'memoria_protettiva', lo: 'memoria_spietata' },
+};
+const NEUTRAL_MEAN = { utility: 0.5, liberty: 0.5, morality: 0.5 };
+
+test('deriveEpigeneticMemory: dominant hi-deviation axis picks hi memory tag', () => {
+  const m = deriveEpigeneticMemory(
+    { utility: 0.7, liberty: 0.52, morality: 0.5 },
+    NEUTRAL_MEAN,
+    MEMORY_MAP,
+    0.05,
+  );
+  assert.equal(m.axis, 'utility');
+  assert.equal(m.direction, 'hi');
+  assert.equal(m.memory_id, 'memoria_efficienza');
+  assert.ok(Math.abs(m.strength - 0.2) < 1e-9);
+});
+
+test('deriveEpigeneticMemory: lo-deviation axis picks lo memory tag', () => {
+  const m = deriveEpigeneticMemory(
+    { utility: 0.5, liberty: 0.5, morality: 0.25 },
+    NEUTRAL_MEAN,
+    MEMORY_MAP,
+    0.05,
+  );
+  assert.equal(m.axis, 'morality');
+  assert.equal(m.direction, 'lo');
+  assert.equal(m.memory_id, 'memoria_spietata');
+});
+
+test('deriveEpigeneticMemory: all axes below min_bias -> pure biome (null)', () => {
+  const m = deriveEpigeneticMemory(
+    { utility: 0.52, liberty: 0.49, morality: 0.5 },
+    NEUTRAL_MEAN,
+    MEMORY_MAP,
+    0.05,
+  );
+  assert.equal(m.memory_id, null);
+  assert.equal(m.axis, null);
+  assert.equal(m.strength, 0);
+});

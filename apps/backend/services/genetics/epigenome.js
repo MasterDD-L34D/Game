@@ -76,4 +76,44 @@ function computeOffspringEpigenome(epiA, epiB, speciesMean, params) {
   return out;
 }
 
-module.exports = { AXES, accumulateEpigenome, computeOffspringEpigenome };
+function _round3(x) {
+  return Math.round(x * 1000) / 1000;
+}
+
+/**
+ * Discrete expression: pick the axis with the largest |deviation| from the
+ * species mean and map it (hi/lo) to a narrative memoria_ambientale tag.
+ * Below min_bias -> no epigenetic expression (memoria stays pure-biome = null).
+ *
+ * @param {object} offspringEpi -- per-axis 0-1
+ * @param {object} speciesMean -- per-axis 0-1
+ * @param {object} axisMemoryMap -- { <axis>: { hi, lo } }
+ * @param {number} [minBias=0.05]
+ * @returns {{memory_id:string|null, axis:string|null, direction:'hi'|'lo'|null, strength:number}}
+ */
+function deriveEpigeneticMemory(offspringEpi, speciesMean, axisMemoryMap, minBias = 0.05) {
+  let best = null;
+  let bestMag = 0;
+  for (const axis of AXES) {
+    const epiV = clamp01(
+      offspringEpi && Number.isFinite(offspringEpi[axis]) ? offspringEpi[axis] : BASELINE,
+    );
+    const meanV = clamp01(
+      speciesMean && Number.isFinite(speciesMean[axis]) ? speciesMean[axis] : BASELINE,
+    );
+    const dev = epiV - meanV;
+    if (Math.abs(dev) > bestMag) {
+      bestMag = Math.abs(dev);
+      best = { axis, dev };
+    }
+  }
+  if (!best || bestMag < minBias) {
+    return { memory_id: null, axis: null, direction: null, strength: 0 };
+  }
+  const direction = best.dev >= 0 ? 'hi' : 'lo';
+  const memory_id =
+    (axisMemoryMap && axisMemoryMap[best.axis] && axisMemoryMap[best.axis][direction]) || null;
+  return { memory_id, axis: best.axis, direction, strength: _round3(bestMag) };
+}
+
+module.exports = { AXES, accumulateEpigenome, computeOffspringEpigenome, deriveEpigeneticMemory };
