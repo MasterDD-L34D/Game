@@ -129,3 +129,41 @@ test('GET /api/meta/tribes: uses config threshold + registry species-mean -> is_
     close();
   }
 });
+
+test('GET /api/meta/tribes: species-mean from registry (NOT default 0.5) governs is_distinct_form', async () => {
+  meta._resetLineageRegistry();
+  // Registry mean utility = (3*0.7 + 3*0.85)/6 = 0.775; DIV divergence = 0.075 < 0.15 -> NOT distinct.
+  // If the route wrongly used default 0.5, divergence would be 0.35 > 0.15 -> distinct (wrong).
+  for (let i = 0; i < 3; i++) {
+    meta.recordOffspring({
+      unit_id: `base${i}`,
+      lineage_id: 'BASE',
+      generation: i,
+      born_at_biome: 'dune',
+      epigenome: { utility: 0.7, liberty: 0.5, morality: 0.5 },
+    });
+  }
+  for (let i = 0; i < 3; i++) {
+    meta.recordOffspring({
+      unit_id: `div${i}`,
+      lineage_id: 'DIV',
+      generation: i,
+      born_at_biome: 'dune',
+      epigenome: { utility: 0.85, liberty: 0.5, morality: 0.5 },
+    });
+  }
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const res = await request(app).get('/api/meta/tribes');
+    assert.equal(res.status, 200);
+    const div = res.body.tribes.find((t) => t.tribe_id === 'DIV');
+    assert.ok(div, 'DIV tribe present');
+    assert.equal(
+      div.is_distinct_form,
+      false,
+      'registry mean (0.775) not default 0.5 governs divergence',
+    );
+  } finally {
+    close();
+  }
+});

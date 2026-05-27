@@ -267,6 +267,7 @@ function createMetaRouter(opts = {}) {
             const e = await epiStore.get(campaignId, parent_b.id);
             if (e) parent_b.epigenome = e;
           }
+          // getMany -> {unitId: epi}; wrap each epi as {epigenome} for computeSpeciesMean.
           const pop = Object.values(await epiStore.getMany(campaignId)).map((epi) => ({
             epigenome: epi,
           }));
