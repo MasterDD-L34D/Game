@@ -139,6 +139,50 @@ test('computeSpeciesMean: averages stored epigenomes; defaults 0.5 when empty', 
   assert.ok(Math.abs(mean.morality - 0.5) < 1e-9);
 });
 
+// Fix 3b: missing axis in sessionConviction falls back to neutral 0.5 conviction.
+// Missing axis -> rawV=NaN -> sNorm=0.5 -> 0.4*0.5 + 0.6*0.5 = 0.5
+test('accumulateEpigenome: missing axis in sessionConviction falls back to neutral 0.5', () => {
+  const prev = { utility: 0.5, liberty: 0.5, morality: 0.5 };
+  const session = { utility: 90 }; // liberty and morality missing
+  const out = accumulateEpigenome(prev, session, 0.4);
+  // utility: 0.4*0.9 + 0.6*0.5 = 0.66
+  assert.ok(Math.abs(out.utility - 0.66) < 1e-9, `utility expected 0.66, got ${out.utility}`);
+  // liberty missing -> sNorm=0.5 (NaN fallback), prev=0.5 -> 0.4*0.5 + 0.6*0.5 = 0.5
+  assert.ok(
+    Math.abs(out.liberty - 0.5) < 1e-9,
+    `liberty expected 0.5 (neutral fallback), got ${out.liberty}`,
+  );
+  // morality missing -> same
+  assert.ok(
+    Math.abs(out.morality - 0.5) < 1e-9,
+    `morality expected 0.5 (neutral fallback), got ${out.morality}`,
+  );
+});
+
+// Fix 3a: at-mean morality assertion (both parents at mean -> no deviation -> morality = mean).
+test('computeOffspringEpigenome: gen-1 at-mean axis stays at species mean', () => {
+  const epiA = { utility: 1.0, liberty: 0.5, morality: 0.5 };
+  const epiB = { utility: 1.0, liberty: 0.5, morality: 0.5 };
+  const mean = { utility: 0.5, liberty: 0.5, morality: 0.5 };
+  const out = computeOffspringEpigenome(epiA, epiB, mean, RATIFIED);
+  assert.ok(Math.abs(out.morality - 0.5) < 1e-9, `morality should be 0.5, got ${out.morality}`);
+});
+
+// Fix 1 regression: symmetric deviations around mean must pick FIRST axis in AXES order.
+// utility dev = 0.7-0.5 = +0.2 (IEEE-754: 0.19999999999999996), liberty dev = 0.3-0.5 = -0.2
+// Both |dev| appear equal but float noise should NOT decide winner; first-in-AXES (utility) must win.
+test('deriveEpigeneticMemory: symmetric deviation picks first axis (utility) not float noise', () => {
+  const m = deriveEpigeneticMemory(
+    { utility: 0.7, liberty: 0.3, morality: 0.5 },
+    NEUTRAL_MEAN,
+    MEMORY_MAP,
+    0.05,
+  );
+  assert.equal(m.axis, 'utility');
+  assert.equal(m.direction, 'hi');
+  assert.equal(m.memory_id, 'memoria_efficienza');
+});
+
 const { loadEpigenomeConfig } = require('../../apps/backend/services/genetics/epigenome');
 
 test('loadEpigenomeConfig: reads ratified params + memory map from mating.yaml', () => {

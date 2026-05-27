@@ -14,7 +14,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
-const AXES = ['utility', 'liberty', 'morality'];
+const AXES = Object.freeze(['utility', 'liberty', 'morality']);
 const BASELINE = 0.5;
 
 function clamp01(x) {
@@ -102,7 +102,7 @@ function deriveEpigeneticMemory(offspringEpi, speciesMean, axisMemoryMap, minBia
       speciesMean && Number.isFinite(speciesMean[axis]) ? speciesMean[axis] : BASELINE,
     );
     const dev = epiV - meanV;
-    if (Math.abs(dev) > bestMag) {
+    if (Math.abs(dev) - bestMag > 1e-9) {
       bestMag = Math.abs(dev);
       best = { axis, dev };
     }
@@ -174,7 +174,7 @@ const DEFAULT_MATING_PATH = path.resolve(
 );
 
 const EPIGENOME_DEFAULTS = {
-  axes: AXES,
+  axes: [...AXES],
   inheritance_weight: 0.3,
   decay_per_gen: 0.6,
   regression_to_mean: 0.3,
@@ -206,6 +206,10 @@ function loadEpigenomeConfig(matingPath = DEFAULT_MATING_PATH) {
       axis_memory_map: { ...EPIGENOME_DEFAULTS.axis_memory_map, ...(blk.axis_memory_map || {}) },
     };
   } catch (_) {
+    console.warn(
+      '[epigenome] loadEpigenomeConfig: failed to parse mating.yaml, using defaults:',
+      _.message,
+    );
     return { ...EPIGENOME_DEFAULTS };
   }
 }
