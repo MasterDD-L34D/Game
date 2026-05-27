@@ -18,6 +18,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const { Router } = require('express');
 const yaml = require('js-yaml');
 const {
@@ -25,9 +26,11 @@ const {
   getLineageChain,
   getTribesEmergent,
   getTribeForUnit,
+  recordOffspring,
+  listLineageEntries,
 } = require('../services/metaProgression');
 const { addFragments } = require('../services/rewards/skipFragmentStore');
-const { loadEpigenomeConfig } = require('../services/genetics/epigenome');
+const { loadEpigenomeConfig, computeSpeciesMean } = require('../services/genetics/epigenome');
 
 // OD-001 Path A Sprint B (2026-04-26): debrief-recruit affinity-bypass threshold.
 // Defeated enemies with affinity_at_recruit >= this value can be recruited
@@ -244,23 +247,66 @@ function createMetaRouter(opts = {}) {
       const geneSlotsSchema = loadMatingSchema();
       const mutationCatalog = loadCatalog();
       const epigenomeConfig = loadEpigenomeConfig();
+      const campaignId = (req.body && req.body.campaign_id) || opts.campaignId || null;
+      // Fase-3 -- Hydrate parent epigenomes from persistence when caller
+      // did not supply them inline, and compute campaign species mean.
+      // Best-effort: Prisma-gated, any failure is silently swallowed.
+      let speciesMean;
+      try {
+        if (campaignId) {
+          const { prisma } = require('../db/prisma');
+          const {
+            createCreatureEpigenomeStore,
+          } = require('../services/genetics/creatureEpigenomeStore');
+          const epiStore = createCreatureEpigenomeStore(prisma);
+          if (parent_a.id && !parent_a.epigenome) {
+            const e = await epiStore.get(campaignId, parent_a.id);
+            if (e) parent_a.epigenome = e;
+          }
+          if (parent_b.id && !parent_b.epigenome) {
+            const e = await epiStore.get(campaignId, parent_b.id);
+            if (e) parent_b.epigenome = e;
+          }
+          // getMany -> {unitId: epi}; wrap each epi as {epigenome} for computeSpeciesMean.
+          const pop = Object.values(await epiStore.getMany(campaignId)).map((epi) => ({
+            epigenome: epi,
+          }));
+          if (pop.length > 0) speciesMean = computeSpeciesMean(pop);
+        }
+      } catch {
+        /* best-effort hydration */
+      }
       const result = await store.rollOffspring({
         parentA: parent_a,
         parentB: parent_b,
         biomeId: biome_id || null,
-        context: { geneSlotsSchema, mutationCatalog, epigenomeConfig },
+        context: { geneSlotsSchema, mutationCatalog, epigenomeConfig, speciesMean },
       });
       // Fase-3 -- Frammenti Genetici grant at birth (strong parent epigenetic
-      // bias). NO parallel currency: reuse skipFragmentStore. species_mean
-      // defaults to 0.5 inside rollMatingOffspring (species-specific running
-      // mean = tuning follow-up).
-      const campaignId = (req.body && req.body.campaign_id) || opts.campaignId || null;
+      // bias). NO parallel currency: reuse skipFragmentStore.
       const grant = (result && result.offspring && result.offspring.epigenome_fragment_grant) || 0;
       if (campaignId && grant > 0) {
         addFragments(campaignId, grant, {
           reason: 'epigenome_birth',
           lineage_id: result.offspring.lineage_id,
         });
+      }
+      // Fase-3 -- record the offspring into the lineage graph (emergent
+      // speciation). Best-effort; deterministic lineage_id groups same-parent
+      // rolls into a tribe. unit_id synthesized (offspring spec has no unit id).
+      if (result && result.success && result.offspring) {
+        try {
+          const o = result.offspring;
+          recordOffspring({
+            unit_id: `${o.lineage_id}:${crypto.randomUUID()}`,
+            lineage_id: o.lineage_id,
+            parents: [o.parent_a_id, o.parent_b_id].filter(Boolean),
+            born_at_biome: o.biome_id_at_mating || null,
+            epigenome: o.epigenome || null,
+          });
+        } catch {
+          /* best-effort -- lineage recording never blocks mating */
+        }
       }
       res.json(result);
     } catch (err) {
@@ -309,7 +355,12 @@ function createMetaRouter(opts = {}) {
 
   router.get('/tribes', (_req, res, next) => {
     try {
-      const tribes = getTribesEmergent();
+      const cfg = loadEpigenomeConfig();
+      const speciesMean = computeSpeciesMean(listLineageEntries());
+      const tribes = getTribesEmergent({
+        speciesMean,
+        divergenceThreshold: cfg.speciation_divergence_threshold,
+      });
       res.json({ tribes, threshold: 3 });
     } catch (err) {
       next(err);
