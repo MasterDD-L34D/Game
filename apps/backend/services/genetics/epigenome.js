@@ -116,4 +116,57 @@ function deriveEpigeneticMemory(offspringEpi, speciesMean, axisMemoryMap, minBia
   return { memory_id, axis: best.axis, direction, strength: _round3(bestMag) };
 }
 
-module.exports = { AXES, accumulateEpigenome, computeOffspringEpigenome, deriveEpigeneticMemory };
+/**
+ * Max axis |deviation| of the parent average epigenome from the species mean.
+ * Keys the birth-time fragment grant on PARENT play-shaping (not the diluted
+ * post-decay offspring deviation).
+ */
+function epigenomeBiasStrength(epiA, epiB, speciesMean) {
+  let mag = 0;
+  for (const axis of AXES) {
+    const pa = clamp01(epiA && Number.isFinite(epiA[axis]) ? epiA[axis] : BASELINE);
+    const pb = clamp01(epiB && Number.isFinite(epiB[axis]) ? epiB[axis] : BASELINE);
+    const mean = clamp01(
+      speciesMean && Number.isFinite(speciesMean[axis]) ? speciesMean[axis] : BASELINE,
+    );
+    mag = Math.max(mag, Math.abs((pa + pb) / 2 - mean));
+  }
+  return _round3(mag);
+}
+
+/**
+ * Frammenti Genetici grant at birth (reuse skipFragmentStore at the boundary;
+ * NO parallel currency). Strong parent bias (>= threshold) -> grant amount.
+ */
+function computeFragmentGrant(strength, threshold = 0.1, amount = 1) {
+  const s = Number(strength);
+  return Number.isFinite(s) && s >= threshold ? amount : 0;
+}
+
+/**
+ * Mean epigenome across registry entries that carry an `epigenome` object.
+ * Empty/invalid -> 0.5 baseline per axis.
+ */
+function computeSpeciesMean(entries) {
+  const acc = { utility: 0, liberty: 0, morality: 0 };
+  let n = 0;
+  for (const e of Array.isArray(entries) ? entries : []) {
+    const epi = e && e.epigenome;
+    if (!epi || typeof epi !== 'object') continue;
+    if (!AXES.every((axis) => Number.isFinite(epi[axis]))) continue;
+    for (const axis of AXES) acc[axis] += epi[axis];
+    n += 1;
+  }
+  if (n === 0) return { utility: BASELINE, liberty: BASELINE, morality: BASELINE };
+  return { utility: acc.utility / n, liberty: acc.liberty / n, morality: acc.morality / n };
+}
+
+module.exports = {
+  AXES,
+  accumulateEpigenome,
+  computeOffspringEpigenome,
+  deriveEpigeneticMemory,
+  epigenomeBiasStrength,
+  computeFragmentGrant,
+  computeSpeciesMean,
+};

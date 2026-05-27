@@ -105,3 +105,36 @@ test('deriveEpigeneticMemory: all axes below min_bias -> pure biome (null)', () 
   assert.equal(m.axis, null);
   assert.equal(m.strength, 0);
 });
+
+const {
+  epigenomeBiasStrength,
+  computeFragmentGrant,
+  computeSpeciesMean,
+} = require('../../apps/backend/services/genetics/epigenome');
+
+test('epigenomeBiasStrength: max axis deviation of parent avg from species mean', () => {
+  const s = epigenomeBiasStrength(
+    { utility: 1.0, liberty: 0.5, morality: 0.5 },
+    { utility: 1.0, liberty: 0.5, morality: 0.5 },
+    { utility: 0.5, liberty: 0.5, morality: 0.5 },
+  );
+  assert.ok(Math.abs(s - 0.5) < 1e-9);
+});
+
+test('computeFragmentGrant: strength >= threshold grants amount', () => {
+  assert.equal(computeFragmentGrant(0.2, 0.1, 1), 1);
+  assert.equal(computeFragmentGrant(0.05, 0.1, 1), 0);
+  assert.equal(computeFragmentGrant(0, 0.1, 1), 0);
+});
+
+test('computeSpeciesMean: averages stored epigenomes; defaults 0.5 when empty', () => {
+  assert.deepEqual(computeSpeciesMean([]), { utility: 0.5, liberty: 0.5, morality: 0.5 });
+  const mean = computeSpeciesMean([
+    { epigenome: { utility: 0.6, liberty: 0.4, morality: 0.5 } },
+    { epigenome: { utility: 0.8, liberty: 0.6, morality: 0.5 } },
+    { epigenome: null }, // skipped
+  ]);
+  assert.ok(Math.abs(mean.utility - 0.7) < 1e-9);
+  assert.ok(Math.abs(mean.liberty - 0.5) < 1e-9);
+  assert.ok(Math.abs(mean.morality - 0.5) < 1e-9);
+});
