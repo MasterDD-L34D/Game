@@ -18,6 +18,7 @@ const {
   deriveEpigeneticMemory,
   epigenomeBiasStrength,
   computeFragmentGrant,
+  computeSpeciesMean,
 } = require('./genetics/epigenome');
 
 // Gate thresholds (§20.2)
@@ -1091,7 +1092,9 @@ function getLineageChain(lineageId) {
  *
  * @returns {Array<object>}
  */
-function getTribesEmergent() {
+function getTribesEmergent(opts = {}) {
+  const _speciesMean = opts.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+  const _divThreshold = Number.isFinite(opts.divergenceThreshold) ? opts.divergenceThreshold : 0.15;
   // Group by lineage_id.
   const byLineage = new Map();
   for (const entry of _offspringRegistry.values()) {
@@ -1134,12 +1137,25 @@ function getTribesEmergent() {
       );
     }
 
+    // Fase-3 -- emergent speciation by epigenetic divergence. Tribe mean
+    // epigenome vs species mean; beyond threshold = distinct "specie-forma".
+    const tribeMean = computeSpeciesMean(members);
+    let epigeneticDivergence = 0;
+    for (const axis of ['utility', 'liberty', 'morality']) {
+      const tv = Number.isFinite(tribeMean[axis]) ? tribeMean[axis] : 0.5;
+      const sv = Number.isFinite(_speciesMean[axis]) ? _speciesMean[axis] : 0.5;
+      epigeneticDivergence = Math.max(epigeneticDivergence, Math.abs(tv - sv));
+    }
+    epigeneticDivergence = Math.round(epigeneticDivergence * 1000) / 1000;
+
     tribes.push({
       tribe_id: lineageId,
       members_count: members.length,
       primary_biome: primaryBiome,
       oldest_generation: oldestGeneration,
       lineage_root_unit_id: root?.unit_id ?? null,
+      epigenetic_divergence: epigeneticDivergence,
+      is_distinct_form: epigeneticDivergence >= _divThreshold,
     });
   }
 
