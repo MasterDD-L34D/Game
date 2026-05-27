@@ -43,6 +43,14 @@ Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify c
 
 **Tooling:** `tools/py/ancestors_style_guide_proposal.py` v1 — completed migration tooling (ancestors/neurons taxonomy, museum-covered domain). NOT a dead dup to delete — repo-archaeologist museum-card candidate (reuse provenance). KEEP.
 
+### 🔵 REUSE-REVIVAL — encounter-authoring CLI (da Fallout Tactics postmortem, archivio Ryzen 2026-05-28)
+
+Source: reuse-queue triage codemasterdd `KNOWLEDGE_MAP.md` §7 (archivio `ryzen-memory-archive/Game-Desktop-old/reference_tactical_postmortems.md`). Unico pattern tattico genuinamente NON costruito tra gli 11 reference archiviati (prova-di-eliminazione: gli altri = backup già assorbito in SoT/code).
+
+| Ticket | Cosa | Razionale | Stato |
+| ------ | ---- | --------- | ----- |
+| TKT-ENCOUNTER-CLI | `game_cli.py author-encounter` — CLI authoring encounter (numeric spec + vertical-slice playtest loop, pattern Fallout Tactics / Micro Forte 2001) | Sblocca volume content-slice M3 (encounter authoring oggi manuale) | OPEN — master-dd verdict (scope M3 vs defer) |
+
 ### ✅ Ecosystem audit + ai-station Envelope A+B+C cascade — sessione 2026-05-13/14/15 — 14 PR cross-stack shipped
 
 User trigger 2026-05-13: "analizza col metodo tutta l'infrastruttura Ecosistema > ... > evoluzioni" → ecosystem 7-strati audit (495 LOC) + plan 22 ticket TKT-ECO-XX (730 LOC) → 8 OD raised → vault PR #5 ai-station re-analisi → master-dd direction "finish work, not conservative" → cascade 13 PR shipped cross-stack ~26h delivery.

@@ -247,7 +247,7 @@ review_cycle_days: 90
 
 ## Repo open-source extraction map
 
-> Source: [`reference_external_repos.md`](../../C--Users-VGit-Desktop-Game/memory/reference_external_repos.md) (memory) + [Tier 0 Deep Dive](../../C--Users-VGit-Desktop-Game/memory/reference_tier0_deep_dive.md). 37 repo curati, 4 tier per impatto architetturale.
+> Source: `reference_external_repos.md` + `reference_tier0_deep_dive.md` (Claude memory, archiviati 2026-05-27 in codemasterdd `docs/ryzen-memory-archive/Game-Desktop-old/` -- erano path Ryzen-locale morto, ora preservati in git). 37 repo curati, 4 tier per impatto architetturale.
 
 ### Tier 0 — Analisi immediata
 
