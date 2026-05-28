@@ -51,6 +51,10 @@ function createCoopStore({ lobby } = {}) {
     for (const orch of orchestrators.values()) {
       if (orch?.run?.id === campaignId) {
         orch.setSessionId(sessionId);
+        // Mirror onto the lobby room so the VERSIONED publishPhaseChange
+        // (the channel the phone composer consumes) carries session_id.
+        const room = lobby?.getRoom?.(orch.roomCode);
+        if (room) room.sessionId = sessionId;
         return true;
       }
     }

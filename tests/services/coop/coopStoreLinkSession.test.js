@@ -25,3 +25,14 @@ test('linkSession returns false on no match or missing args', () => {
   assert.equal(store.linkSession(orch.run.id, ''), false);
   assert.equal(orch.sessionId, null);
 });
+
+test('linkSession also mirrors sessionId onto the lobby room', () => {
+  const room = { sessionId: null };
+  const lobby = { getRoom: (code) => (code === 'ABCD' ? room : null) };
+  const store = createCoopStore({ lobby });
+  const orch = store.getOrCreate('ABCD');
+  const run = orch.startRun({ scenarioStack: ['enc_a'] });
+  assert.equal(store.linkSession(run.id, 'sess_q'), true);
+  assert.equal(orch.sessionId, 'sess_q');
+  assert.equal(room.sessionId, 'sess_q');
+});
