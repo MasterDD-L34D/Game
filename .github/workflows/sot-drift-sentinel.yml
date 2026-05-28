@@ -1,0 +1,39 @@
+name: SoT Drift Sentinel
+on:
+  push:
+    branches: [main]
+permissions:
+  issues: write
+  contents: read
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history: before..sha range must cover every commit in the push
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Compute changed files
+        env:
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          # Diff the whole push range (before..sha). On the first push the base is the
+          # zero-SHA / unreachable, so fall back to the single pushed commit's tree.
+          if [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git rev-parse --verify --quiet "$BEFORE^{commit}" >/dev/null; then
+            git diff --name-only "$BEFORE" "$SHA" > changed.txt
+          else
+            git diff-tree --no-commit-id --name-only -r "$SHA" > changed.txt
+          fi
+      - name: Run matcher
+        id: match
+        run: |
+          node tools/sot-drift/detect.mjs .github/sot-drift/watch-map.yml changed.txt > matches.json
+          echo "count=$(node -e 'console.log(JSON.parse(require("fs").readFileSync("matches.json","utf8")).length)')" >> "$GITHUB_OUTPUT"
+      - name: Open/update drift-candidate issue
+        if: steps.match.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/sot-drift/flag-issue.sh "${{ github.sha }}"
