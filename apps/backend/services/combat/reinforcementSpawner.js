@@ -119,6 +119,9 @@ function ensureAlienaTelemetry(session) {
   return session.aliena_coherence_telemetry;
 }
 
+// `applyBiomeBias` return value is intentionally discarded: this pre-pass is
+// invoked for the per-entry `emitAlienaCoherence` callback side-effect only;
+// the bias-applied weights are not consumed at this site.
 function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
   if (!Array.isArray(pool) || pool.length === 0 || !biomeConfig) return;
   const buffer = ensureAlienaTelemetry(session);
@@ -128,8 +131,10 @@ function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
       canonicalPool: pool,
       emitAlienaCoherence: (sample) => {
         buffer.push({ ...sample, round });
+        // Tail-truncate per push so a burst pool >MAX never transiently
+        // allocates beyond the cap (harsh-review PR #2417 follow-up).
         if (buffer.length > ALIENA_TELEMETRY_MAX) {
-          buffer.splice(0, buffer.length - ALIENA_TELEMETRY_MAX);
+          buffer.shift();
         }
       },
     });
