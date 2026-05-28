@@ -25,10 +25,16 @@ function clamp01(x) {
   return Math.max(0, Math.min(1, x));
 }
 
+function _entryId(e) {
+  if (!e) return null;
+  return e.id || e.unit_id || null;
+}
+
 function _scorePlausibilita(entry, biomeConfig, canonicalPool) {
-  if (!entry || !entry.id) return 0;
+  const eid = _entryId(entry);
+  if (!eid) return 0;
   const pool = Array.isArray(canonicalPool) ? canonicalPool : [];
-  const inPool = pool.some((p) => p && p.id === entry.id);
+  const inPool = pool.some((p) => p && _entryId(p) === eid);
   if (inPool) return 1.0;
   const roleTemplates = (biomeConfig && biomeConfig.role_templates) || [];
   try {

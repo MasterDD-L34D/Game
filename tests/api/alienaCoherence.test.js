@@ -93,3 +93,13 @@ test('hook: no emitAlienaCoherence callback -> no telemetry, no throw (back-comp
   const out = applyBiomeBias(pool, { id: 'dune', affixes: [] });
   assert.equal(out.length, 1);
 });
+
+test('aliena scorer: unit_id schema (reinforcement_pool) -> plausibilita 1.0 in-pool', () => {
+  // Codex P2 PR #2418 regression: reinforcement_pool uses `unit_id` schema,
+  // not `id`. _scorePlausibilita must normalize both entry + canonicalPool.
+  const entry = { unit_id: 'dune_stalker', tags: ['sand'], role: 'apex' };
+  const biomeConfig = { id: 'dune', affixes: ['sabbia'], role_templates: [] };
+  const canonicalPool = [{ unit_id: 'dune_stalker' }, { unit_id: 'mire_husk' }];
+  const r = scoreAlienaCoherence(entry, biomeConfig, { canonicalPool });
+  assert.equal(r.sub_scores.plausibilita, 1.0);
+});
