@@ -252,6 +252,9 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
 
   // §21 ALIENA diagnostic -- emit per-entry coherence telemetry. Opt-in via
   // opts.emitAlienaCoherence callback. Best-effort: never throws, never blocks.
+  // Iterates pre-bias `pool` (NOT outPool): coherence is an entry-identity
+  // property (ecological fit), distinct from the spawn-probability signal
+  // (boosted weight). Future enforcement layer must explicitly choose which.
   if (typeof opts.emitAlienaCoherence === 'function') {
     try {
       const { scoreAlienaCoherence } = require('../authorial/alienaCoherence');
