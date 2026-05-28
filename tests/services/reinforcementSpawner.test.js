@@ -240,6 +240,70 @@ test('Sprint 2 §II — biomeConfig fallback null when no biome_id + no biome', 
   assert.ok(res.spawned.every((s) => s.unit_id === 'm'));
 });
 
+// §21 ALIENA telemetry wire (ALIENA-B)
+test('aliena telemetry: opt-in policy populates session buffer with pool snapshot', () => {
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({
+    biome_id: 'dune',
+    affixes: ['sabbia'],
+    reinforcement_pool: [
+      { unit_id: 'dune_stalker', weight: 1, tags: ['desert', 'sand'], role: 'apex' },
+      { unit_id: 'mire_husk', weight: 1, tags: ['wet'], role: 'support' },
+    ],
+    reinforcement_policy: {
+      enabled: true,
+      min_tier: 'Alert',
+      cooldown_rounds: 0,
+      max_total_spawns: 10,
+      aliena_coherence_telemetry: true,
+    },
+  });
+  tick(session, enc, { rng: () => 0.5 });
+  assert.ok(Array.isArray(session.aliena_coherence_telemetry));
+  assert.equal(session.aliena_coherence_telemetry.length, 2);
+  const sample = session.aliena_coherence_telemetry[0];
+  assert.equal(sample.biome_id, 'dune');
+  assert.ok(typeof sample.entry_id === 'string');
+  assert.ok(Number.isFinite(sample.aggregate));
+  assert.ok(sample.sub_scores && typeof sample.sub_scores === 'object');
+  assert.equal(typeof sample.round, 'number');
+});
+
+test('aliena telemetry: default (flag absent) does NOT attach buffer', () => {
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({
+    biome_id: 'dune',
+    affixes: ['sabbia'],
+  });
+  tick(session, enc, { rng: () => 0.5 });
+  assert.equal(session.aliena_coherence_telemetry, undefined);
+});
+
+test('aliena telemetry: multi-tick accumulates with round metadata', () => {
+  const session = mockSession({ pressure: 30, round: 5 });
+  const enc = mockEncounter({
+    biome_id: 'dune',
+    affixes: ['sabbia'],
+    reinforcement_pool: [
+      { unit_id: 'a', weight: 1, tags: ['sand'], role: 'apex' },
+      { unit_id: 'b', weight: 1, tags: ['wet'], role: 'support' },
+    ],
+    reinforcement_policy: {
+      enabled: true,
+      min_tier: 'Alert',
+      cooldown_rounds: 0,
+      max_total_spawns: 99,
+      aliena_coherence_telemetry: true,
+    },
+  });
+  tick(session, enc, { rng: () => 0.5 });
+  session.round = 7;
+  tick(session, enc, { rng: () => 0.5 });
+  assert.equal(session.aliena_coherence_telemetry.length, 4);
+  assert.equal(session.aliena_coherence_telemetry[0].round, 5);
+  assert.equal(session.aliena_coherence_telemetry[3].round, 7);
+});
+
 test('_internals: manhattanDistance', () => {
   assert.equal(_internals.manhattanDistance([0, 0], [3, 4]), 7);
   assert.equal(_internals.manhattanDistance([5, 5], [5, 5]), 0);
