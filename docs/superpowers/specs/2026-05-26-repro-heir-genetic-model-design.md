@@ -123,12 +123,12 @@ Decay/regression obbligatori (anti-snowball). **Start-values** (lock finale =
 playtest N>=40 al build Fase-3, L-069). Dettaglio + proof + fonti:
 `docs/research/2026-05-27-epigenome-params-research.md`.
 
-| param                          | start            | nota                                                                 |
-| ------------------------------ | ---------------- | -------------------------------------------------------------------- |
-| `epigenome_inheritance_weight` | 0.3              | bias non copia; < gene-slot 0.4-0.8. `memoria_ambientale` 0.0 -> 0.3 |
-| `epigenome_decay_per_gen`      | 0.6 retention    | bio transient ~3 gen (0.6^3 ~= 0.22)                                 |
-| `epigenome_regression_to_mean` | 0.3              | tira 30% verso media-specie asse VC                                  |
-| `epigenome_bias_cap`           | +/-0.2 / asse VC | hard-bound anti-runaway                                              |
+| param                          | start            | nota                                                                                                                              |
+| ------------------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `epigenome_inheritance_weight` | 0.45             | bias non copia; < gene-slot 0.4-0.8. `memoria_ambientale` 0.0 -> 0.3 (0.3->0.45 ratified 2026-05-28 via sim perceptibility curve) |
+| `epigenome_decay_per_gen`      | 0.6 retention    | bio transient ~3 gen (0.6^3 ~= 0.22)                                                                                              |
+| `epigenome_regression_to_mean` | 0.3              | tira 30% verso media-specie asse VC                                                                                               |
+| `epigenome_bias_cap`           | +/-0.2 / asse VC | hard-bound anti-runaway                                                                                                           |
 
 Formula (per asse VC, a offspring-materialization):
 

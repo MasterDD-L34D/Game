@@ -175,7 +175,7 @@ const DEFAULT_MATING_PATH = path.resolve(
 
 const EPIGENOME_DEFAULTS = {
   axes: [...AXES],
-  inheritance_weight: 0.3,
+  inheritance_weight: 0.45,
   decay_per_gen: 0.6,
   regression_to_mean: 0.3,
   bias_cap: 0.2,

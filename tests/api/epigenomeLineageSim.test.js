@@ -82,6 +82,7 @@ test('paramOverrides: higher inheritance_weight raises gen-1 deviation (tuning s
     sessionsPerGen: 5,
     lineages: 40,
     seed: 7,
+    paramOverrides: { inheritance_weight: 0.3 },
   });
   const bumped = runLineageSim({
     profile: 'strong_utility',

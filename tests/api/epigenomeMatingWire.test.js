@@ -26,7 +26,7 @@ test('rollMatingOffspring: with config + parent epigenomes -> offspring epigenom
     context: { epigenomeConfig: cfg, speciesMean: { utility: 0.5, liberty: 0.5, morality: 0.5 } },
   });
   assert.equal(r.success, true);
-  assert.ok(Math.abs(r.offspring.epigenome.utility - 0.563) < 1e-9);
+  assert.ok(Math.abs(r.offspring.epigenome.utility - 0.5945) < 1e-9);
   assert.equal(r.offspring.epigenetic_memory.memory_id, 'memoria_efficienza');
   assert.equal(r.offspring.memoria_ambientale.source, 'epigenome');
   // parent bias strength = 0.5 >= grant_threshold 0.1 -> grant 1
