@@ -1626,6 +1626,13 @@ function createSessionRouter(options = {}) {
         campaign_id: req.body?.campaign_id || null,
         sistema_state: { units_observed: {} },
       };
+      // §21 ALIENA-C: opt-in baseline coherence snapshot (round=0). Pairs with
+      // ALIENA-B per-tick emit at reinforcementSpawner. Best-effort.
+      try {
+        require('../services/combat/initialAlienaTelemetry').emitInitial(session, encounterPayload);
+      } catch (err) {
+        console.warn('[aliena-initial] emit failed:', err.message);
+      }
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
       // save-load + integration tests seed SG after the encounter zero-pass.
