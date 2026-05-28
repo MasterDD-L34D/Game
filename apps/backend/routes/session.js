@@ -2703,6 +2703,28 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // §21 ALIENA-D: READ-only consumer endpoint exposing diagnostic telemetry
+  // buffer populated by ALIENA-B (per-tick reinforcement) + ALIENA-C (round=0
+  // baseline). Empty array when flag off or no spawn-eligible events yet.
+  // capped flips true when buffer hit MAX=500 tail-cap.
+  router.get('/:id/aliena-telemetry', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const buffer = Array.isArray(session.aliena_coherence_telemetry)
+        ? session.aliena_coherence_telemetry
+        : [];
+      res.json({
+        session_id: session.session_id,
+        telemetry: buffer,
+        count: buffer.length,
+        capped: buffer.length >= 500,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/:id/promote', (req, res, next) => {
     try {
       const { error, session } = resolveSession(req.params.id);
