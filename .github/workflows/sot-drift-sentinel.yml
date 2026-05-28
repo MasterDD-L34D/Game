@@ -11,12 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2   # need previous commit to diff the merge
+          fetch-depth: 0   # full history: before..sha range must cover every commit in the push
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
       - name: Compute changed files
-        run: git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" > changed.txt || git diff --name-only HEAD~1 HEAD > changed.txt
+        env:
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          # Diff the whole push range (before..sha). On the first push the base is the
+          # zero-SHA / unreachable, so fall back to the single pushed commit's tree.
+          if [ "$BEFORE" != "0000000000000000000000000000000000000000" ] && git rev-parse --verify --quiet "$BEFORE^{commit}" >/dev/null; then
+            git diff --name-only "$BEFORE" "$SHA" > changed.txt
+          else
+            git diff-tree --no-commit-id --name-only -r "$SHA" > changed.txt
+          fi
       - name: Run matcher
         id: match
         run: |

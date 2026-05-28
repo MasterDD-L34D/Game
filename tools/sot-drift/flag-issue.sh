@@ -2,6 +2,7 @@
 set -euo pipefail
 SHA="$1"
 BODY_FILE="$(mktemp)"
+trap 'rm -f "$BODY_FILE"' EXIT
 {
   echo "## SoT drift candidate (auto-detected)"
   echo ""
