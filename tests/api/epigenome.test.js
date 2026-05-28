@@ -187,7 +187,7 @@ const { loadEpigenomeConfig } = require('../../apps/backend/services/genetics/ep
 
 test('loadEpigenomeConfig: reads ratified params + memory map from mating.yaml', () => {
   const cfg = loadEpigenomeConfig();
-  assert.equal(cfg.inheritance_weight, 0.3);
+  assert.equal(cfg.inheritance_weight, 0.45);
   assert.equal(cfg.decay_per_gen, 0.6);
   assert.equal(cfg.regression_to_mean, 0.3);
   assert.equal(cfg.bias_cap, 0.2);

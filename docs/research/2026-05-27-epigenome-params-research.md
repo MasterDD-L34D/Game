@@ -14,6 +14,8 @@ related:
 
 # Epigenome Lamarck-lite params -- research + decision
 
+> **SUPERSEDED 2026-05-28**: `inheritance_weight` 0.3 -> 0.45 (ratified via lineage-sim perceptibility curve; gen-1 felt-shift doubled, anti-snowball unchanged). 0.3 values below are the original ratification record.
+
 ## 0. Scopo (chiude il GATE Decision #2)
 
 Spec Decision #2: "Epigenome Lamarck-lite = ACCETTATO con decay obbligatorio

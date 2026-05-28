@@ -481,7 +481,7 @@ epigenome:
   # playtest N>=40 al build (L-069). Substrato = vcScoring conviction_axis
   # (utility/liberty/morality, 0-100 -> /100; baseline 50 -> species_mean 0.5).
   axes: [utility, liberty, morality]
-  inheritance_weight: 0.3 # bias non copia (< gene-slot 0.4-0.8)
+  inheritance_weight: 0.45 # bias (low end gene-slot 0.4-0.8); 0.3->0.45 ratified 2026-05-28 via sim perceptibility curve (gen-1 felt-shift ~5%->~8%, anti-snowball still holds)
   decay_per_gen: 0.6 # bio transient ~3 gen (0.6^3 ~= 0.22)
   regression_to_mean: 0.3 # tira 30% verso media-specie
   bias_cap: 0.2 # hard-bound DEVIAZIONE da species_mean (anti-runaway)
