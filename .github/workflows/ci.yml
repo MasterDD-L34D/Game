@@ -784,6 +784,8 @@ jobs:
     # and passes when every needed job is success-or-skipped, failing only on a
     # real failure/cancellation -- removing the need to admin-merge.
     # Scope = the jobs currently required on main (no new enforcement added).
+    # MAINTENANCE: if you make another job required on main, add it to needs: below
+    # (and vice-versa) -- this list must mirror the branch-protection required set.
     name: ci-gate
     if: always()
     needs:
