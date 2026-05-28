@@ -254,7 +254,7 @@ function createMetaRouter(opts = {}) {
       let speciesMean;
       try {
         if (campaignId) {
-          const { prisma } = require('../db/prisma');
+          const prisma = opts.prisma || require('../db/prisma').prisma;
           const {
             createCreatureEpigenomeStore,
           } = require('../services/genetics/creatureEpigenomeStore');
@@ -303,6 +303,7 @@ function createMetaRouter(opts = {}) {
             parents: [o.parent_a_id, o.parent_b_id].filter(Boolean),
             born_at_biome: o.biome_id_at_mating || null,
             epigenome: o.epigenome || null,
+            campaign_id: campaignId,
           });
         } catch {
           /* best-effort -- lineage recording never blocks mating */
@@ -346,20 +347,25 @@ function createMetaRouter(opts = {}) {
     try {
       const { id } = req.params;
       if (!id) return res.status(400).json({ error: 'lineage id required' });
-      const chain = getLineageChain(id);
+      const chain = getLineageChain(
+        id,
+        (req.query && req.query.campaign_id) || opts.campaignId || null,
+      );
       res.json({ lineage_id: id, members_count: chain.length, chain });
     } catch (err) {
       next(err);
     }
   });
 
-  router.get('/tribes', (_req, res, next) => {
+  router.get('/tribes', (req, res, next) => {
     try {
       const cfg = loadEpigenomeConfig();
-      const speciesMean = computeSpeciesMean(listLineageEntries());
+      const campaignId = (req.query && req.query.campaign_id) || opts.campaignId || null;
+      const speciesMean = computeSpeciesMean(listLineageEntries(campaignId));
       const tribes = getTribesEmergent({
         speciesMean,
         divergenceThreshold: cfg.speciation_divergence_threshold,
+        campaignId,
       });
       res.json({ tribes, threshold: 3 });
     } catch (err) {

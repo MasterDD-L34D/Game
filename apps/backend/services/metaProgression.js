@@ -1020,6 +1020,7 @@ const TRIBE_MIN_MEMBERS = 3;
 // Shared registry (process-scoped). Sprint C deve invocare recordOffspring()
 // dopo ogni mating successo per popolare il grafo.
 const _offspringRegistry = new Map(); // unit_id → entry
+const LINEAGE_REGISTRY_MAX_PER_CAMPAIGN = 1000; // FIFO cap per campaign (anti-unbounded-growth)
 
 /**
  * Resetta lo store di lignaggio. Solo per test.
@@ -1055,8 +1056,23 @@ function recordOffspring(entry) {
     born_at_session: entry.born_at_session || null,
     born_at_biome: entry.born_at_biome || null,
     epigenome: entry.epigenome && typeof entry.epigenome === 'object' ? entry.epigenome : null,
+    campaign_id:
+      typeof entry.campaign_id === 'string' && entry.campaign_id ? entry.campaign_id : null,
+    created_at: Number.isFinite(entry.created_at) ? entry.created_at : Date.now(),
   };
   _offspringRegistry.set(normalized.unit_id, normalized);
+  // Anti-unbounded-growth: cap entries per campaign, evict oldest by created_at.
+  if (normalized.campaign_id) {
+    const sameCampaign = [];
+    for (const e of _offspringRegistry.values()) {
+      if (e.campaign_id === normalized.campaign_id) sameCampaign.push(e);
+    }
+    if (sameCampaign.length > LINEAGE_REGISTRY_MAX_PER_CAMPAIGN) {
+      sameCampaign.sort((a, b) => (a.created_at ?? 0) - (b.created_at ?? 0));
+      const evict = sameCampaign.length - LINEAGE_REGISTRY_MAX_PER_CAMPAIGN;
+      for (let i = 0; i < evict; i++) _offspringRegistry.delete(sameCampaign[i].unit_id);
+    }
+  }
   return normalized;
 }
 
@@ -1069,10 +1085,18 @@ function recordOffspring(entry) {
  * @param {string} lineageId
  * @returns {Array<object>} — units con quel lineage_id, ordinati per generation
  */
-function getLineageChain(lineageId) {
+function _registryEntries(campaignId) {
+  const out = [];
+  for (const e of _offspringRegistry.values()) {
+    if (!campaignId || e.campaign_id === campaignId) out.push(e);
+  }
+  return out;
+}
+
+function getLineageChain(lineageId, campaignId) {
   if (!lineageId) return [];
   const members = [];
-  for (const entry of _offspringRegistry.values()) {
+  for (const entry of _registryEntries(campaignId)) {
     if (entry.lineage_id === lineageId) members.push(entry);
   }
   members.sort((a, b) => (a.generation ?? 0) - (b.generation ?? 0));
@@ -1095,9 +1119,10 @@ function getLineageChain(lineageId) {
 function getTribesEmergent(opts = {}) {
   const _speciesMean = opts.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
   const _divThreshold = Number.isFinite(opts.divergenceThreshold) ? opts.divergenceThreshold : 0.15;
+  const campaignId = opts.campaignId || null;
   // Group by lineage_id.
   const byLineage = new Map();
-  for (const entry of _offspringRegistry.values()) {
+  for (const entry of _registryEntries(campaignId)) {
     const lid = entry.lineage_id;
     if (!byLineage.has(lid)) byLineage.set(lid, []);
     byLineage.get(lid).push(entry);
@@ -1179,7 +1204,7 @@ function getTribeForUnit(unitId) {
   if (!unitId) return null;
   const entry = _offspringRegistry.get(unitId);
   if (!entry) return null;
-  const tribes = getTribesEmergent();
+  const tribes = getTribesEmergent({ campaignId: entry.campaign_id || null });
   return tribes.find((t) => t.tribe_id === entry.lineage_id) || null;
 }
 
@@ -1188,8 +1213,8 @@ function getTribeForUnit(unitId) {
  *
  * @returns {Array<object>}
  */
-function listLineageEntries() {
-  return [..._offspringRegistry.values()].map((e) => ({ ...e, parents: [...(e.parents || [])] }));
+function listLineageEntries(campaignId) {
+  return _registryEntries(campaignId).map((e) => ({ ...e, parents: [...(e.parents || [])] }));
 }
 
 module.exports = {
@@ -1206,6 +1231,7 @@ module.exports = {
   MATING_THRESHOLD,
   // Sprint D — lineage + tribe emergent
   TRIBE_MIN_MEMBERS,
+  LINEAGE_REGISTRY_MAX_PER_CAMPAIGN,
   recordOffspring,
   getLineageChain,
   getTribesEmergent,
