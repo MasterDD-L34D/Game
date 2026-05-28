@@ -1,4 +1,4 @@
-﻿// PR-0 §22 coop-WS surface — single source for the coop `phase_change`
+// PR-0 §22 coop-WS surface — single source for the coop `phase_change`
 // broadcast payload. Previously this { phase, round, scenario } shape was
 // duplicated inline at routes/coop.js (broadcastCoopState) and
 // services/network/wsSession.js (reconnect snapshot + host-transfer
@@ -20,6 +20,10 @@ function buildPhaseChangePayload(orch, extra = {}) {
     phase: orch?.phase,
     round: currentIndex,
     scenario: run?.scenarioStack?.[currentIndex] || null,
+    // PR-1 §22 coop-WS surface — ids for phone-side ALIENA telemetry +
+    // tribes fetch. campaign_id == run.id (Godot keys CampaignState on it).
+    session_id: orch?.sessionId ?? null,
+    campaign_id: run?.id ?? null,
     ...extra,
   };
 }
