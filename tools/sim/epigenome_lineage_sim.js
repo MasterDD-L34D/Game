@@ -35,8 +35,12 @@ function runLineageSim({
   sessionsPerGen = 5,
   lineages = 40,
   seed = 12345,
+  paramOverrides = {},
 } = {}) {
-  const cfg = eng.loadEpigenomeConfig();
+  // paramOverrides lets a tuning sweep probe non-ratified values (e.g.
+  // inheritance_weight, accumulation_alpha) WITHOUT editing data/core/mating.yaml.
+  // Empty default => ratified config verbatim.
+  const cfg = { ...eng.loadEpigenomeConfig(), ...paramOverrides };
   const conv = PROFILES[profile] || PROFILES.neutral;
 
   const perGen = Array.from({ length: generations }, () => ({
@@ -140,12 +144,16 @@ if (require.main === module) {
     const i = args.indexOf('--' + k);
     return i >= 0 ? args[i + 1] : d;
   };
+  const paramOverrides = {};
+  if (args.includes('--weight')) paramOverrides.inheritance_weight = Number(get('weight'));
+  if (args.includes('--alpha')) paramOverrides.accumulation_alpha = Number(get('alpha'));
   const report = runLineageSim({
     profile: get('profile', 'strong_utility'),
     generations: Number(get('generations', 6)),
     sessionsPerGen: Number(get('sessions-per-gen', 5)),
     lineages: Number(get('lineages', 40)),
     seed: Number(get('seed', 12345)),
+    paramOverrides,
   });
   process.stdout.write(JSON.stringify(report, null, 2) + '\n');
 }
