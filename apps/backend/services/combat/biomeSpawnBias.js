@@ -264,8 +264,8 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
             canonicalPool: opts.canonicalPool || [],
           });
           opts.emitAlienaCoherence({
-            entry_id: entry.id,
-            biome_id: biomeConfig && biomeConfig.id,
+            entry_id: entry.id || entry.unit_id,
+            biome_id: biomeConfig && (biomeConfig.id || biomeConfig.biome_id),
             aggregate: score.aggregate,
             sub_scores: score.sub_scores,
           });

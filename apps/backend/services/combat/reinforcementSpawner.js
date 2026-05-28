@@ -108,6 +108,41 @@ function ensureReinforcementState(session) {
   return session.reinforcement_state;
 }
 
+// §21 ALIENA diagnostic buffer (ALIENA-B). Opt-in via
+// encounter.reinforcement_policy.aliena_coherence_telemetry === true.
+// Tail-truncated to bound memory on long sessions.
+const ALIENA_TELEMETRY_MAX = 500;
+function ensureAlienaTelemetry(session) {
+  if (!Array.isArray(session.aliena_coherence_telemetry)) {
+    session.aliena_coherence_telemetry = [];
+  }
+  return session.aliena_coherence_telemetry;
+}
+
+// `applyBiomeBias` return value is intentionally discarded: this pre-pass is
+// invoked for the per-entry `emitAlienaCoherence` callback side-effect only;
+// the bias-applied weights are not consumed at this site.
+function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
+  if (!Array.isArray(pool) || pool.length === 0 || !biomeConfig) return;
+  const buffer = ensureAlienaTelemetry(session);
+  try {
+    const { applyBiomeBias } = require('./biomeSpawnBias');
+    applyBiomeBias(pool, biomeConfig, {
+      canonicalPool: pool,
+      emitAlienaCoherence: (sample) => {
+        buffer.push({ ...sample, round });
+        // Tail-truncate per push so a burst pool >MAX never transiently
+        // allocates beyond the cap (harsh-review PR #2417 follow-up).
+        if (buffer.length > ALIENA_TELEMETRY_MAX) {
+          buffer.shift();
+        }
+      },
+    });
+  } catch {
+    /* best-effort; never blocks spawn */
+  }
+}
+
 function tick(session, encounter, opts = {}) {
   const rng = typeof opts.rng === 'function' ? opts.rng : Math.random;
   const policy = encounter?.reinforcement_policy;
@@ -166,6 +201,11 @@ function tick(session, encounter, opts = {}) {
       affixes: Array.isArray(encounter.affixes) ? encounter.affixes : [],
       npc_archetypes: encounter.npc_archetypes || null,
     };
+  }
+
+  // §21 ALIENA diagnostic pre-pass (ALIENA-B). One-shot per tick, full pool.
+  if (policy.aliena_coherence_telemetry === true) {
+    emitAlienaPoolSnapshot(session, pool, biomeConfig, round);
   }
 
   for (let i = 0; i < budget; i += 1) {
