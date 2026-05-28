@@ -62,3 +62,34 @@ test('aliena scorer: no narrative data -> ancoraggio_narrativo 0.5 neutral', () 
   const r = scoreAlienaCoherence(entry, biomeConfig, {});
   assert.equal(r.sub_scores.ancoraggio_narrativo, 0.5);
 });
+
+const { applyBiomeBias } = require('../../apps/backend/services/combat/biomeSpawnBias');
+
+test('hook: applyBiomeBias emits aliena_coherence telemetry per entry (opt-in)', () => {
+  const pool = [
+    { id: 'dune_stalker', weight: 1.0, tags: ['desert', 'sand'], role: 'apex' },
+    { id: 'random', weight: 1.0, tags: [] },
+  ];
+  const biomeConfig = {
+    id: 'dune',
+    affixes: ['sabbia'],
+    role_templates: [{ role: 'apex', tier: 'T2', primary: true }],
+  };
+  const telemetry = [];
+  const out = applyBiomeBias(pool, biomeConfig, {
+    canonicalPool: [{ id: 'dune_stalker' }],
+    emitAlienaCoherence: (event) => telemetry.push(event),
+  });
+  assert.equal(out.length, pool.length, 'pool length unchanged (no enforcement)');
+  assert.equal(telemetry.length, pool.length, 'telemetry emitted per entry');
+  const dune = telemetry.find((t) => t.entry_id === 'dune_stalker');
+  assert.ok(dune.aggregate > 0.7, 'dune_stalker has high coherence');
+  const random = telemetry.find((t) => t.entry_id === 'random');
+  assert.ok(random.aggregate < 0.5, 'random has low coherence');
+});
+
+test('hook: no emitAlienaCoherence callback -> no telemetry, no throw (back-compat)', () => {
+  const pool = [{ id: 'x', weight: 1.0 }];
+  const out = applyBiomeBias(pool, { id: 'dune', affixes: [] });
+  assert.equal(out.length, 1);
+});
