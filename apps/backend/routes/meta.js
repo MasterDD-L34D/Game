@@ -303,6 +303,7 @@ function createMetaRouter(opts = {}) {
             parents: [o.parent_a_id, o.parent_b_id].filter(Boolean),
             born_at_biome: o.biome_id_at_mating || null,
             epigenome: o.epigenome || null,
+            campaign_id: campaignId,
           });
         } catch {
           /* best-effort -- lineage recording never blocks mating */
@@ -353,13 +354,15 @@ function createMetaRouter(opts = {}) {
     }
   });
 
-  router.get('/tribes', (_req, res, next) => {
+  router.get('/tribes', (req, res, next) => {
     try {
       const cfg = loadEpigenomeConfig();
-      const speciesMean = computeSpeciesMean(listLineageEntries());
+      const campaignId = (req.query && req.query.campaign_id) || opts.campaignId || null;
+      const speciesMean = computeSpeciesMean(listLineageEntries(campaignId));
       const tribes = getTribesEmergent({
         speciesMean,
         divergenceThreshold: cfg.speciation_divergence_threshold,
+        campaignId,
       });
       res.json({ tribes, threshold: 3 });
     } catch (err) {
