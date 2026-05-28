@@ -20,3 +20,57 @@ test('determinism: same seed -> identical report', () => {
   });
   assert.deepEqual(a.by_gen, b.by_gen);
 });
+
+const { PROFILES } = require('../../tools/sim/epigenome_lineage_sim');
+
+test('neutral control: no false bias (expression ~0, deviation ~0)', () => {
+  const r = runLineageSim({
+    profile: 'neutral',
+    generations: 6,
+    sessionsPerGen: 5,
+    lineages: 40,
+    seed: 7,
+  });
+  assert.equal(r.by_gen[0].expression_rate, 0, 'neutral play must not express a bias');
+  assert.ok(r.by_gen[0].deviation_avg < 1e-6, 'neutral deviation must be ~0');
+  assert.equal(r.checks.all_gens_under_cap, true);
+});
+
+test('perceptibility: strong play expresses a bias at gen-1 (dominant memoria_efficienza)', () => {
+  const r = runLineageSim({
+    profile: 'strong_utility',
+    generations: 6,
+    sessionsPerGen: 5,
+    lineages: 40,
+    seed: 7,
+  });
+  assert.ok(
+    r.checks.gen1_deviation > r.params.min_bias_expression - 1e-9,
+    'gen-1 deviation must reach the expression threshold',
+  );
+  assert.ok(r.by_gen[0].expression_rate > 0, 'strong play must express at gen-1');
+  const hist = r.by_gen[0].memory_hist;
+  const dominant = Object.entries(hist).sort((a, b) => b[1] - a[1])[0];
+  assert.equal(dominant[0], 'memoria_efficienza', 'utility-high must map to memoria_efficienza');
+});
+
+test('anti-snowball: strong play converges to a bounded fixed point (plateau, under cap)', () => {
+  const r = runLineageSim({
+    profile: 'strong_utility',
+    generations: 6,
+    sessionsPerGen: 5,
+    lineages: 40,
+    seed: 7,
+  });
+  assert.equal(r.checks.all_gens_under_cap, true, 'no generation may exceed bias_cap');
+  assert.equal(
+    r.checks.converged,
+    true,
+    'late-gen deviation delta must be < 0.01 (fixed point reached)',
+  );
+  assert.ok(
+    r.checks.genG_deviation < r.params.bias_cap,
+    'plateau must sit well under cap (no runaway)',
+  );
+  assert.equal(r.checks.anti_snowball, true);
+});
