@@ -42,7 +42,22 @@ function createCoopStore({ lobby } = {}) {
     orchestrators.clear();
   }
 
-  return { getOrCreate, get, remove, list, clear };
+  // PR-1 §22 coop-WS surface — link a combat session id (POST
+  // /api/session/start) to the orchestrator whose run.id equals the
+  // campaign_id the host passed (run.id == campaign_id in the coop flow).
+  // Returns true if a matching orch was found and updated.
+  function linkSession(campaignId, sessionId) {
+    if (!campaignId || !sessionId) return false;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) {
+        orch.setSessionId(sessionId);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  return { getOrCreate, get, remove, list, clear, linkSession };
 }
 
 module.exports = { createCoopStore };

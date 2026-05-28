@@ -763,7 +763,16 @@ function createApp(options = {}) {
   // Sprint SPRINT_001 fase 3 — engine minimo giocabile.
   // Espone POST /api/session/{start,action,end} + GET /api/session/state.
   // Stato in memoria, log eventi su disco in logs/session_*.json.
-  app.use('/api/session', createSessionRouter(options.session || {}));
+  // PR-1 §22 coop-WS surface — lobby + coopStore created here (ahead of the
+  // session router) so /api/session/start can link the new combat session id
+  // back into the coop orchestrator (campaign_id == run.id).
+  const lobbyOptions = { ...(options.lobby || {}) };
+  if (!lobbyOptions.service && lobbyOptions.prisma === undefined && repo.prisma) {
+    lobbyOptions.prisma = repo.prisma;
+  }
+  const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
+  const coopStore = createCoopStore({ lobby });
+  app.use('/api/session', createSessionRouter({ ...(options.session || {}), coopStore }));
   app.use('/api/party', createPartyRouter());
   // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
   app.use('/api', createFeedbackRouter(options.feedback || {}));
@@ -779,14 +788,8 @@ function createApp(options = {}) {
   // REST only; WebSocket server bootstraps in index.js on port 3341.
   // Opzione C (2026-04-26): optional Prisma write-through persistence.
   // Graceful fallback when DATABASE_URL unset (dev/demo/tests).
-  const lobbyOptions = { ...(options.lobby || {}) };
-  if (!lobbyOptions.service && lobbyOptions.prisma === undefined && repo.prisma) {
-    lobbyOptions.prisma = repo.prisma;
-  }
-  const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
   app.use('/api', createLobbyRouter({ lobby }));
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
-  const coopStore = createCoopStore({ lobby });
   app.use('/api', createCoopRouter({ lobby, coopStore }));
   // 2026-05-20 — Combat readonly diagnostic (status-penalties + biome-modifiers).
   app.use('/api/combat', createCombatRouter());

@@ -105,6 +105,9 @@ class CoopOrchestrator {
     // Default lazy-loads the canonical service module on first use.
     this._worldEnricher = worldEnricher;
     this.enrichedWorld = null; // populated by confirmWorld() with rich schema
+    // PR-1 §22 coop-WS surface — combat session id (POST /api/session/start)
+    // linked back via coopStore.linkSession so phase_change can surface it.
+    this.sessionId = null;
   }
 
   _getWorldEnricher() {
@@ -167,6 +170,21 @@ class CoopOrchestrator {
     const previousHostId = this.hostId;
     this.hostId = newHostId || null;
     this._emit('host_id_synced', { previous: previousHostId, current: this.hostId });
+    return true;
+  }
+  /**
+   * PR-1 §22 coop-WS surface — link the combat session id (created by
+   * POST /api/session/start, keyed in coop flow on run.id == campaign_id)
+   * so broadcastCoopState/phaseChangePayload can surface it to phone clients
+   * for ALIENA telemetry fetch on debrief. Idempotent: no-op when unchanged.
+   *
+   * @param {string|null} sessionId
+   * @returns {boolean} true if sessionId changed, false if no-op
+   */
+  setSessionId(sessionId) {
+    const next = sessionId || null;
+    if (next === this.sessionId) return false;
+    this.sessionId = next;
     return true;
   }
 
