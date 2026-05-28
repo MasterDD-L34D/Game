@@ -2949,7 +2949,7 @@ function createSessionRouter(options = {}) {
       // blocks session end. Surviving player units only.
       try {
         if (session.campaign_id && vcSnapshot && vcSnapshot.per_actor) {
-          const { prisma } = require('../db/prisma');
+          const prisma = options.prisma || require('../db/prisma').prisma;
           const {
             createCreatureEpigenomeStore,
           } = require('../services/genetics/creatureEpigenomeStore');

@@ -254,7 +254,7 @@ function createMetaRouter(opts = {}) {
       let speciesMean;
       try {
         if (campaignId) {
-          const { prisma } = require('../db/prisma');
+          const prisma = opts.prisma || require('../db/prisma').prisma;
           const {
             createCreatureEpigenomeStore,
           } = require('../services/genetics/creatureEpigenomeStore');
