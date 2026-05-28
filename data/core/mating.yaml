@@ -451,7 +451,7 @@ gene_slots:
         - id: memoria_ambientale
           label_it: "Memoria ambientale"
           maps_to_part: null
-          inheritance_weight: 0.0 # gene-slot pick: mai (rigenerata bioma). Espressione epigenetica governata dal blocco `epigenome:` (Fase-3, weight 0.3)
+          inheritance_weight: 0.0 # gene-slot pick: mai (rigenerata bioma). Espressione epigenetica governata dal blocco `epigenome:` (Fase-3, weight 0.45 ratified #2409)
           mutation_chance: 0.30
 
   mutation_tiers:
