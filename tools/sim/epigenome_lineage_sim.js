@@ -17,17 +17,6 @@ const PROFILES = {
   strong_morality_lo: { utility: 50, liberty: 50, morality: 5 },
 };
 
-function mulberry32(seed) {
-  let s = seed >>> 0;
-  return function () {
-    s = (s + 0x6d2b79f5) >>> 0;
-    let t = s;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 const SPECIES_MEAN = { utility: 0.5, liberty: 0.5, morality: 0.5 };
 
 function maxAxisDev(epi, mean) {
@@ -49,8 +38,6 @@ function runLineageSim({
 } = {}) {
   const cfg = eng.loadEpigenomeConfig();
   const conv = PROFILES[profile] || PROFILES.neutral;
-  const rng = mulberry32(seed); // reserved for future stochastic profiles; keeps seed in signature
-  void rng;
 
   const perGen = Array.from({ length: generations }, () => ({
     devs: [],
