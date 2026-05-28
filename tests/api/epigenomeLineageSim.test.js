@@ -74,3 +74,28 @@ test('anti-snowball: strong play converges to a bounded fixed point (plateau, un
   );
   assert.equal(r.checks.anti_snowball, true);
 });
+
+test('paramOverrides: higher inheritance_weight raises gen-1 deviation (tuning sweep)', () => {
+  const base = runLineageSim({
+    profile: 'strong_utility',
+    generations: 6,
+    sessionsPerGen: 5,
+    lineages: 40,
+    seed: 7,
+  });
+  const bumped = runLineageSim({
+    profile: 'strong_utility',
+    generations: 6,
+    sessionsPerGen: 5,
+    lineages: 40,
+    seed: 7,
+    paramOverrides: { inheritance_weight: 0.6 },
+  });
+  // deviation is linear in weight: 0.6 vs ratified 0.3 -> ~2x gen-1 deviation.
+  assert.equal(bumped.params.weight, 0.6, 'override must apply to reported params');
+  assert.ok(
+    bumped.checks.gen1_deviation > base.checks.gen1_deviation * 1.8,
+    'doubling weight must ~double gen-1 deviation',
+  );
+  assert.equal(bumped.checks.all_gens_under_cap, true, 'still bounded under cap at weight 0.6');
+});
