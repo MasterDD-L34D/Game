@@ -36,7 +36,13 @@ test('prune: per-campaign FIFO cap evicts oldest', () => {
   _resetLineageRegistry();
   const cap = LINEAGE_REGISTRY_MAX_PER_CAMPAIGN;
   for (let i = 0; i < cap + 5; i++) {
-    recordOffspring({ unit_id: `u${i}`, lineage_id: 'L', campaign_id: 'cP', generation: i });
+    recordOffspring({
+      unit_id: `u${i}`,
+      lineage_id: 'L',
+      campaign_id: 'cP',
+      generation: i,
+      created_at: i,
+    });
   }
   assert.equal(listLineageEntries('cP').length, cap, 'campaign capped at MAX');
   // oldest (u0..u4) evicted, newest retained

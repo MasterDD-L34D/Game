@@ -347,7 +347,10 @@ function createMetaRouter(opts = {}) {
     try {
       const { id } = req.params;
       if (!id) return res.status(400).json({ error: 'lineage id required' });
-      const chain = getLineageChain(id);
+      const chain = getLineageChain(
+        id,
+        (req.query && req.query.campaign_id) || opts.campaignId || null,
+      );
       res.json({ lineage_id: id, members_count: chain.length, chain });
     } catch (err) {
       next(err);
