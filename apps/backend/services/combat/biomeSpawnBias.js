@@ -206,7 +206,7 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
   // If no signal at all → fully unchanged (backward compat with V7 baseline).
   if (!hasAffixes && !hasRoleTemplates) return pool;
 
-  return pool.map((entry) => {
+  const outPool = pool.map((entry) => {
     const baseWeight = Number(entry.weight) || 1;
     let boost = 1.0;
 
@@ -249,6 +249,36 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
       },
     };
   });
+
+  // §21 ALIENA diagnostic -- emit per-entry coherence telemetry. Opt-in via
+  // opts.emitAlienaCoherence callback. Best-effort: never throws, never blocks.
+  // Iterates pre-bias `pool` (NOT outPool): coherence is an entry-identity
+  // property (ecological fit), distinct from the spawn-probability signal
+  // (boosted weight). Future enforcement layer must explicitly choose which.
+  if (typeof opts.emitAlienaCoherence === 'function') {
+    try {
+      const { scoreAlienaCoherence } = require('../authorial/alienaCoherence');
+      for (const entry of pool) {
+        try {
+          const score = scoreAlienaCoherence(entry, biomeConfig, {
+            canonicalPool: opts.canonicalPool || [],
+          });
+          opts.emitAlienaCoherence({
+            entry_id: entry.id,
+            biome_id: biomeConfig && biomeConfig.id,
+            aggregate: score.aggregate,
+            sub_scores: score.sub_scores,
+          });
+        } catch {
+          /* best-effort per-entry; never blocks */
+        }
+      }
+    } catch {
+      /* best-effort whole-block */
+    }
+  }
+
+  return outPool;
 }
 
 module.exports = {
