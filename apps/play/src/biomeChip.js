@@ -79,9 +79,26 @@ export function pressureTier(biomeModifiers) {
   return null;
 }
 
+// Pure: ERMES eco_pressure band → diegetic IT descriptor (FASE 3 P4).
+// ADR "Per il giocatore" doctrine: il nome "ERMES" non appare MAI al player.
+// low = calmo, med = in equilibrio, high = in tensione. Unknown → ''.
+export function ecoBandLabel(band) {
+  switch (band) {
+    case 'low':
+      return 'Bioma calmo';
+    case 'med':
+      return 'Bioma in equilibrio';
+    case 'high':
+      return 'Bioma in tensione';
+    default:
+      return '';
+  }
+}
+
 // Pure: payload → HTML chip. Returns empty string se biome_id mancante.
 // Optional biomeModifiers param adds pressure indicator (TKT-ECO-A5).
-export function formatBiomeChip(biomeId, biomeModifiers = null) {
+// Optional ermesBand (low/med/high) adds eco descriptor (FASE 3 P4).
+export function formatBiomeChip(biomeId, biomeModifiers = null, ermesBand = null) {
   if (!biomeId) return '';
   const icon = iconForBiome(biomeId);
   const label = labelForBiome(biomeId);
@@ -90,10 +107,15 @@ export function formatBiomeChip(biomeId, biomeModifiers = null) {
   const pressureHtml = tier
     ? `<span class="biome-pressure biome-pressure-${tier}" data-tier="${tier}">${tier === 'severe' ? '⚠⚠' : '⚠'}</span>`
     : '';
+  const ecoLabel = ecoBandLabel(ermesBand);
+  const ecoHtml = ecoLabel
+    ? `<span class="biome-eco biome-eco-${ermesBand}" data-band="${ermesBand}">${escapeHtml(ecoLabel)}</span>`
+    : '';
   return (
     `<span class="biome-icon">${icon}</span>` +
     `<span class="biome-label">${escapeHtml(label)}</span>` +
-    pressureHtml
+    pressureHtml +
+    ecoHtml
   );
 }
 
@@ -114,9 +136,9 @@ function escapeHtml(s) {
 // Side effect: render biome chip into HUD container element.
 // Idempotent — sostituisce innerHTML. Hide via .biome-hidden class quando biome_id null.
 // TKT-ECO-A5 — optional biomeModifiers param surface pressure tier indicator.
-export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null) {
+export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null, ermesBand = null) {
   if (!containerEl || typeof containerEl.innerHTML !== 'string') return;
-  const html = formatBiomeChip(biomeId, biomeModifiers);
+  const html = formatBiomeChip(biomeId, biomeModifiers, ermesBand);
   if (!html) {
     containerEl.innerHTML = '';
     containerEl.classList.add('biome-hidden');
@@ -136,6 +158,11 @@ export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null) {
   } else if (tier === 'elevated') {
     const hp = Math.round((Number(biomeModifiers?.hp_mult || 1) - 1) * 100);
     tooltip = `Bioma stress elevato: HP nemici +${hp}%. Vedi Codex per dettagli.`;
+  }
+  // FASE 3 P4: eco descriptor in tooltip (diegetic, no ERMES name).
+  const ecoLabel = ecoBandLabel(ermesBand);
+  if (ecoLabel) {
+    tooltip += ` · ${ecoLabel} (reazione del bioma ai tratti in gioco).`;
   }
   containerEl.setAttribute('title', tooltip);
 }

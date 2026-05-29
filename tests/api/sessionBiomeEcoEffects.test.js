@@ -42,6 +42,13 @@ test('session/start surfaces ERMES band in biomeCostsLog (cryosteppe HIGH)', asy
     high,
     `expected at least one log entry with band=high for cryosteppe_convergence; log=${JSON.stringify(res.body.biomeCostsLog)}`,
   );
+
+  // FASE 3 P4: biome-level eco band surfaced in state (consumed by the biome chip).
+  assert.equal(
+    res.body.state?.ermes_band,
+    'high',
+    `expected state.ermes_band='high' for cryosteppe_convergence; state.ermes_band=${res.body.state?.ermes_band}`,
+  );
 });
 
 test('session/start without biome_id -> no biome eco log', async (t) => {
