@@ -24,6 +24,13 @@ const steps = [
   'node --test tests/scripts/crossPlatformRunners.test.js',
   'node --test tests/i18n/parity.test.js',
   'node --test tests/play/*.test.js',
+  // ERMES runtime bridge (ADR-2026-05-29 FASE 2). tests/services + tests/ai
+  // were not covered by the globs above -> CI-orphaned. Wire the ermes surface
+  // so a rewrite dropping behavior fails CI (guards anti-pattern #10
+  // non-CI-guarded drop). Scoped to ermes files, not the whole subtree.
+  'node --test tests/services/ermes/*.test.js',
+  'node --test tests/services/coop/ermesExporter*.test.js',
+  'node --test tests/ai/applyErmesBiomeTraitCosts.test.js',
 ];
 
 const env = {
