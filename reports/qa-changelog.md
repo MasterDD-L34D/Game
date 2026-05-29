@@ -1,21 +1,20 @@
 # QA export changelog
 
-Generato: 2026-05-10T15:06:28.062394Z
-Baseline precedente: 2026-04-25T11:45:06.785807Z
+Generato: 2026-05-29T01:06:32.371607Z
+Baseline precedente: 2026-05-10T15:06:28.062394Z
 
 ## Metriche baseline
 - Tratti totali: 254 (0 vs precedente)
-- Glossario OK: 253 (-1 vs precedente)
-- Glossario mancanti: 1 (+1 vs precedente)
+- Glossario OK: 254 (+1 vs precedente)
+- Glossario mancanti: 0 (-1 vs precedente)
 - Mismatch matrice: 76 (0 vs precedente)
 - Tratti con conflitti: 34 (0 vs precedente)
 
 ### tratti senza glossario
-- Nuovi:
+- Risolti:
   - antenne_waveguide
 
 ## Highlights UI
-- Glossario mancante: antenne_waveguide
 - Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
 - Mismatch matrice: ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica
 - Zero coverage: ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica
@@ -37,7 +36,7 @@ Baseline precedente: 2026-04-25T11:45:06.785807Z
 - Tratti validati: 0 (0 vs precedente)
 
 ## Badge QA
-- Tratti passed: 253 (-1 vs precedente)
+- Tratti passed: 254 (+1 vs precedente)
 - Conflitti badge: 34 (0 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_

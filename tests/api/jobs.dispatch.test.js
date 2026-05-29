@@ -77,7 +77,13 @@ test('every trait_ability declares source: trait marker', () => {
 
 test('representative audit EASY abilities present', () => {
   const { abilityIds } = extractTraitAbilities();
-  const sample = ['elastic_absorb', 'digest_heal', 'buoyant_lift', 'magnetic_sense', 'chromatic_fade'];
+  const sample = [
+    'elastic_absorb',
+    'digest_heal',
+    'buoyant_lift',
+    'magnetic_sense',
+    'chromatic_fade',
+  ];
   for (const a of sample) {
     assert.ok(abilityIds.includes(a), `expected audit EASY ability ${a} present`);
   }

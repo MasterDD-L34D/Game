@@ -49,12 +49,16 @@ test('active_effects.yaml declares schema_version 2.0 (regex grep, no js-yaml de
   assert.ok(match, 'active_effects.yaml must declare schema_version: "2.0" at top-level');
 });
 
-test('mock retire -- traits.sample.ts moved to tests/fixtures/', { skip: 'TKT-CL-08 pending ship' }, () => {
-  const oldPath = path.join(REPO_ROOT, 'apps/trait-editor/src/data/traits.sample.ts');
-  const newPath = path.join(REPO_ROOT, 'apps/trait-editor/tests/fixtures/traits.sample.ts');
-  assert.ok(!fs.existsSync(oldPath), 'sample.ts MUST be moved out of src/data/');
-  assert.ok(fs.existsSync(newPath), 'fixture MUST exist at new path');
-});
+test(
+  'mock retire -- traits.sample.ts moved to tests/fixtures/',
+  { skip: 'TKT-CL-08 pending ship' },
+  () => {
+    const oldPath = path.join(REPO_ROOT, 'apps/trait-editor/src/data/traits.sample.ts');
+    const newPath = path.join(REPO_ROOT, 'apps/trait-editor/tests/fixtures/traits.sample.ts');
+    assert.ok(!fs.existsSync(oldPath), 'sample.ts MUST be moved out of src/data/');
+    assert.ok(fs.existsSync(newPath), 'fixture MUST exist at new path');
+  },
+);
 
 test('glossary ancestor_ entries may omit design block (Tier-Ancestor policy)', () => {
   const doc = JSON.parse(
@@ -75,9 +79,7 @@ test('glossary ancestor_ entries may omit design block (Tier-Ancestor policy)', 
 });
 
 test('index entry non-ancestor SHOULD have design block (sample first 5, warn-only)', () => {
-  const doc = JSON.parse(
-    fs.readFileSync(path.join(REPO_ROOT, 'data/traits/index.json'), 'utf8'),
-  );
+  const doc = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data/traits/index.json'), 'utf8'));
   const sampleKeys = Object.keys(doc.traits)
     .filter((k) => !k.startsWith('ancestor_'))
     .slice(0, 5);
@@ -98,6 +100,10 @@ test('pre-commit gate exits 1 on schema_version != 2.0 (sandbox)', () => {
   const badFile = path.join(tmpDir, 'bad.json');
   fs.writeFileSync(badFile, JSON.stringify({ schema_version: '1.0', traits: {} }));
   const r = spawnSync('python', [gateScript, '--check', badFile], { encoding: 'utf8' });
-  assert.equal(r.status, 1, `gate must exit 1 on wrong schema_version (got ${r.status}, stderr: ${r.stderr})`);
+  assert.equal(
+    r.status,
+    1,
+    `gate must exit 1 on wrong schema_version (got ${r.status}, stderr: ${r.stderr})`,
+  );
   assert.match(r.stderr || '', /2\.0|WRONG schema_version/);
 });
