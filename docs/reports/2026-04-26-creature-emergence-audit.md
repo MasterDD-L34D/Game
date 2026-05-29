@@ -6,7 +6,7 @@ created: 2026-04-26
 author: creature-aspect-illuminator (audit mode)
 tags: [species, lifecycle, emergence, spawn, visual-morphology]
 last_verified: "2026-05-29"
-reconcile_note: "Partial: P0 drawLifecycleRing/drawMutationDots NOT shipped (apps/play/src); biome_affinity spawn-filter still open. Visual-emergence gap carded in museum evolution_genetics-voidling-bound. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
+reconcile_note: "Partial: P0 visual-emergence SHIPPED (render.js resolveUnitVisualStyle + getAspectTokenOverlay + drawLifecycleBadge, 10-stadi spec 2026-04-27); biomeAffinity stat-mod wired (session.js); only foodweb spawn-filter still open (= worldgen GAP-A). Earlier 'NOT shipped' was a name-based false-negative. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Creature Emergence Audit
