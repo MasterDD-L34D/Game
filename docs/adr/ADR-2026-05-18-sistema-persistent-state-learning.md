@@ -4,10 +4,10 @@ date: 2026-05-18
 type: adr
 workstream: backend
 owner: master-dd
-status: implemented-option-b-pending-ratify
+status: accepted
 proposed_by: claude-code (codemasterdd DF re-scope audit, ground-truth gh-api)
-accepted_by: pending master-dd verdict (Option B shipped ahead of formal verdict -- see Implementation status)
-verdict_date: pending
+accepted_by: master-dd (Eduardo Scarpelli) -- ratify Option B 2026-05-29 (gate playtest, vedi Verdetto)
+verdict_date: 2026-05-29
 implemented_date: 2026-05-25
 related_files:
   - apps/backend/services/ai/sistemaTurnRunner.js
@@ -30,11 +30,11 @@ related_doc:
 
 # ADR-2026-05-18 — Sistema persistent cross-session state (learning AI)
 
-> STATUS: **OPTION B IMPLEMENTED (2026-05-25), formal verdict pending** -- lo
-> scaffold originale richiedeva verdetto master-dd PRIMA dell'implementazione,
-> ma il subset Option B (`units_observed` + threat, Prisma) e' stato shippato
-> + validato ahead-of-verdict. Il verdetto formale master-dd (ratify + playtest
-> gate, vedi Risks #5) resta APERTO. Vedi "Implementation status" sotto.
+> STATUS: **ACCEPTED — Option B RATIFIED (verdetto master-dd 2026-05-29)**, gate
+> playtest attivo (vedi "Verdetto master-dd"). Il subset Option B (`units_observed`
+> + threat, Prisma) e' shippato + validato (e2e PASS 2026-05-25). Ratify formale dato
+> in valutazione congiunta DF (parent `ADR-2026-05-18-df-levels`, Q5), post
+> harsh-review. Vedi "Implementation status" + "Verdetto master-dd" sotto.
 
 ## Implementation status (2026-05-25)
 
@@ -104,9 +104,15 @@ Persistenza: Prisma model `SistemaState` (campaign-scoped, JSONB bucket)
 | Intent declaration | `declareSistemaIntents.js` -> optional arg `persistent_tactics` per counter-weighting             |
 | Campaign load      | `services/campaign/campaignLoader.js loadCampaign()` -> attach `session.sistema_state_persistent` |
 
-Nuovi file proposti: `services/ai/sistemaStateManager.js` (~150 LOC) +
-`sistemaStateAccumulator.js` (~120 LOC) + `campaign/sistemaStateLoader.js`
-(~80 LOC) + Prisma model + migration + route GET `/api/campaign/sistema-state?campaign_id=<id>` (impl reale; lo scaffold proponeva `/:id/sistema-state`).
+Nuovi file proposti (scaffold originale): `services/ai/sistemaStateManager.js` +
+`sistemaStateAccumulator.js` + `campaign/sistemaStateLoader.js` + Prisma model +
+migration + route GET `/api/campaign/sistema-state?campaign_id=<id>`.
+
+**AS-BUILT (reconcile 2026-05-29, fix P2.2 harsh-review)**: shippati
+`apps/backend/services/ai/sistemaStateStore.js` + `apps/backend/services/ai/sistemaStateAccumulator.js`.
+`sistemaStateManager.js` / `campaign/sistemaStateLoader.js` NON creati come file
+separati: la logica e' folded in `sistemaStateStore.js` + `coopOrchestrator`. Route +
+Prisma model `SistemaState` come da "Implementation status" sopra.
 
 Backward-compat: optional args con default (zero breaking su flow esistente),
 adapter fallback se DB assente (graceful degrade in-memory).
@@ -150,12 +156,23 @@ AI core (sistemaTurnRunner/declareSistemaIntents) 🟡 CHECKPOINT.
   ~3-4h. Chiude meno del gap P5 ma low-risk pilot.
 - **C no-op**: restare stateless. P5 resta 🟡 "passivo", gap non chiuso.
 
-## Decision needed (master-dd)
+## Verdetto master-dd (2026-05-29)
 
-1. Pursue? (A full / B pilot / C defer)
-2. Se pursue: milestone target (S7 post-M4? o feature M5?) — NON "rescue",
-   feature nuova ordinaria competere in roadmap.
-3. Determinismo replay: accettabile snapshot+seed strategy?
+Dato in valutazione congiunta DF (parent `ADR-2026-05-18-df-levels`, Q5), post
+harsh-review stress-test:
+
+1. **Option B = RATIFIED** (gia' shipped + e2e PASS 2026-05-25). NON era una scelta
+   "pilot" forward (correzione P0.2 harsh-review: era stale framing). Resta in main
+   come shipped subset (units_observed + threat).
+2. **Gate = ratify-OR-revert sul playtest core co-op**: Option B resta, ma il lock
+   definitivo (no-revert) e' subordinato al gate playtest filato del core loop
+   (>=1 sessione 4-umani TV+phone, findings `docs/playtest/`, sign-off master-dd) —
+   stesso gate di L2-L5 nel parent ADR. Se il playtest mostra "AI troppo aggressiva"
+   (Risks #5) -> tuning o revert del subset.
+3. **Estensione Option A** (tactics_observed / factions / strategic_phase) = feature
+   M2+ ordinaria, NON priorita' automatica, stesso doppio-gate (playtest +
+   same-increment-surface) del parent. NON costruire ora.
+4. **Determinismo replay**: snapshot+seed accettato (Risks #1).
 
 Riferimento audit completo: codemasterdd `STATUS_MULTI_REPO.md`
 §DF Integration + PR #2326 caveat ground-truth.
