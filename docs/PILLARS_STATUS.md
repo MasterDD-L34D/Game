@@ -61,3 +61,23 @@ Dopo il playtest: **tutti 🟡**. Non è regressione reale: è revisione onesta 
 ---
 
 _File vivo. Aggiornare dopo ogni playtest o modifica rilevante ai pilastri._
+
+---
+
+## Aggiornamento 2026-05-29 -- ERMES runtime bridge FASE 2 (PR fase2b)
+
+Plumbing del bridge ERMES (ADR-2026-05-29) shipped + reso **dimostrabile**, ma NON
+ancora player-perceivable in combattimento. Nessun upgrade di stato pilastro.
+
+- **P2 Evoluzione emergente** (resta 🟡): il bridge legge eco_pressure per bioma e
+  applica delta DISCRETI bucketed (low -1 / med 0 / high +1) a attack/defense.
+  Config pilota tunato per esercitare low+med+high (rovine LOW, cryosteppe HIGH).
+  MA `applyErmesBiomeTraitCosts` non ha ancora caller nel loop di combattimento,
+  quindi la reazione bioma NON e' percepibile in-game. Combat wiring = FASE 3.
+- **P6 Fairness** (resta 🟡): output DISCRETO con cap +/-2 (mirror ADR-21c), max 3
+  bucket attivi per unit -> niente stat-drift continuo (anti-ref Creatures). Cap
+  testato; diventa rilevante per P6 quando il bridge sara' combat-wired.
+- Calibration WR N=40 DEFERITA a FASE 3 (oggi il bridge e' inerte nel combat loop;
+  rationale + before/after in `docs/playtest/2026-05-29-br12-ermes-band-tuning.md`).
+
+Ref: PR fase2b (BR-03/04/08/09/11/12 + wiring test ermes prima orfani in CI).

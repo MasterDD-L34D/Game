@@ -26,12 +26,13 @@ version: "0.2.0"
 species_archetypes:
   corazzato:
     label: "Corazzato"
-    description: "Alta resistenza fisico/taglio/earth, vulnerabile a psionico/mentale."
+    description: "Alta resistenza fisico/taglio/earth, vulnerabile a psionico/mentale/elettrico."
     resistances:
       fisico: 80
       taglio: 80
       fuoco: 100
-      elettrico: 100
+      # balance-audit 2026-05-22: elettrico was a dead offensive channel (no archetype vulnerable). Armor conducts -> corazzato vuln 100->120. Candidate, needs N=40 ratify + lore sign-off.
+      elettrico: 120
       psionico: 120
       mentale: 120
       gravita: 100

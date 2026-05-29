@@ -13,8 +13,9 @@
 const express = require('express');
 const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
 const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
+const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload');
 
-function createCoopRouter({ lobby, coopStore } = {}) {
+function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = null } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
   if (!coopStore) throw new Error('createCoopRouter: coopStore required');
   const router = express.Router();
@@ -55,11 +56,7 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     if (!room || typeof room.broadcast !== 'function') return;
     room.broadcast({
       type: 'phase_change',
-      payload: {
-        phase: orch.phase,
-        round: orch.run?.currentIndex ?? 0,
-        scenario: orch.run?.scenarioStack?.[orch.run.currentIndex] || null,
-      },
+      payload: buildPhaseChangePayload(orch),
     });
     room.broadcast({
       type: 'character_ready_list',
@@ -80,6 +77,10 @@ function createCoopRouter({ lobby, coopStore } = {}) {
           outcome: orch.run?.outcome || 'victory',
           ready_list: orch.debriefReadyList(allPlayerIds(room)),
         },
+      });
+      room.broadcast({
+        type: 'mating_tally',
+        payload: orch.matingTally(allPlayerIds(room), connectedPlayerIds(room)),
       });
       // 2026-05-15 Bundle C follow-up — surface per-actor 4-layer psicologico
       // payload to phone clients when host attached it via /coop/combat/end
@@ -201,6 +202,61 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       return res.json({ phase: orch.phase, tally });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_vote_failed' });
+    }
+  });
+
+  router.post('/coop/mating/vote', (req, res) => {
+    const {
+      code,
+      player_id: playerId,
+      player_token: playerToken,
+      pair_id: pairId,
+    } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const allPids = allPlayerIds(room);
+      const connectedPids = connectedPlayerIds(room);
+      const tally = orch.voteMating(playerId, pairId, {
+        allPlayerIds: allPids,
+        connectedPlayerIds: connectedPids,
+      });
+      broadcastCoopState(room, orch);
+      // S22-B Task 8 -- WS parity: roll offspring + broadcast mating_resolved
+      // when this vote meets connected-only quorum. Best-effort, additive.
+      const winner = orch.resolveMatingWinner(allPids, connectedPids);
+      if (winner && metaStoreFactory) {
+        const store = metaStoreFactory(winner.campaign_id);
+        if (store) {
+          // eslint-disable-next-line global-require
+          const { resolveCoopMatingOffspring } = require('../services/mating/coopMatingResolver');
+          resolveCoopMatingOffspring({
+            store,
+            prisma,
+            campaignId: winner.campaign_id,
+            parentAId: winner.parent_a_id,
+            parentBId: winner.parent_b_id,
+            biomeId: winner.biome_id,
+          })
+            .then((resolveRes) => {
+              room.broadcast({
+                type: 'mating_resolved',
+                payload: {
+                  pair_id: winner.pair_id,
+                  offspring: resolveRes.offspring || null,
+                  ok: resolveRes.success,
+                },
+              });
+            })
+            .catch(() => {});
+        }
+      }
+      return res.json({ phase: orch.phase, tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'mating_vote_failed' });
     }
   });
 

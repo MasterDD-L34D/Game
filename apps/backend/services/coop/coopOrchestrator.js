@@ -84,6 +84,8 @@ class CoopOrchestrator {
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
+    // S22-B -- per-player mating pair vote { player_id -> { pair_id, ts } }.
+    this.matingVotes = new Map();
     this.debriefChoices = new Map();
     // 2026-05-06 narrative onboarding port — host single-choice identity
     // for entire branco. Pre-assigned trait propagated to all party
@@ -105,6 +107,9 @@ class CoopOrchestrator {
     // Default lazy-loads the canonical service module on first use.
     this._worldEnricher = worldEnricher;
     this.enrichedWorld = null; // populated by confirmWorld() with rich schema
+    // PR-1 §22 coop-WS surface — combat session id (POST /api/session/start)
+    // linked back via coopStore.linkSession so phase_change can surface it.
+    this.sessionId = null;
   }
 
   _getWorldEnricher() {
@@ -169,6 +174,21 @@ class CoopOrchestrator {
     this._emit('host_id_synced', { previous: previousHostId, current: this.hostId });
     return true;
   }
+  /**
+   * PR-1 §22 coop-WS surface — link the combat session id (created by
+   * POST /api/session/start, keyed in coop flow on run.id == campaign_id)
+   * so broadcastCoopState/phaseChangePayload can surface it to phone clients
+   * for ALIENA telemetry fetch on debrief. Idempotent: no-op when unchanged.
+   *
+   * @param {string|null} sessionId
+   * @returns {boolean} true if sessionId changed, false if no-op
+   */
+  setSessionId(sessionId) {
+    const next = sessionId || null;
+    if (next === this.sessionId) return false;
+    this.sessionId = next;
+    return true;
+  }
 
   /**
    * Start a new run. Moves phase lobby → character_creation.
@@ -184,9 +204,13 @@ class CoopOrchestrator {
       partyXp: 0,
       partyPi: 0,
       outcome: null,
+      matingResolved: false,
+      survivors: [],
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
+    this.matingVotes.clear();
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -218,9 +242,13 @@ class CoopOrchestrator {
       partyXp: 0,
       partyPi: 0,
       outcome: null,
+      matingResolved: false,
+      survivors: [],
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
+    this.matingVotes.clear();
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -582,6 +610,86 @@ class CoopOrchestrator {
   }
 
   /**
+   * S22-B -- player votes for an eligible mating pair (pair_id =
+   * `${parent_a_id}__${parent_b_id}`). Debrief-phase only. Idempotent
+   * re-vote (replaces). Mirror of voteWorld.
+   */
+  voteMating(playerId, pairId, { allPlayerIds = [], connectedPlayerIds } = {}) {
+    if (this.phase !== 'debrief') throw new Error('not_in_debrief');
+    if (!playerId) throw new Error('player_id_required');
+    if (!pairId) throw new Error('pair_id_required');
+    this.matingVotes.set(playerId, { pair_id: pairId, ts: this.now() });
+    this._emit('mating_vote', { player_id: playerId, pair_id: pairId });
+    return this.matingTally(allPlayerIds, connectedPlayerIds);
+  }
+
+  /**
+   * S22-B -- tally mating votes. Returns per-pair counts, the leading
+   * pair (deterministic tie-break: lowest pair_id lexicographic), and
+   * quorum vs allPlayerIds. Mirror of worldTally shape.
+   */
+  matingTally(allPlayerIds = [], connectedPlayerIds) {
+    const counts = new Map();
+    const perPlayer = {};
+    for (const [pid, vote] of this.matingVotes.entries()) {
+      perPlayer[pid] = vote;
+      counts.set(vote.pair_id, (counts.get(vote.pair_id) || 0) + 1);
+    }
+    const tallies = Array.from(counts.entries())
+      .map(([pair_id, votes]) => ({ pair_id, votes }))
+      .sort((x, y) => y.votes - x.votes || x.pair_id.localeCompare(y.pair_id));
+    const voted = this.matingVotes.size;
+    const tally = {
+      tallies,
+      leading_pair_id: tallies.length ? tallies[0].pair_id : null,
+      total: allPlayerIds.length || voted,
+      pending: Math.max((allPlayerIds.length || voted) - voted, 0),
+      per_player: perPlayer,
+    };
+    if (Array.isArray(connectedPlayerIds)) {
+      const connected = connectedPlayerIds.filter(Boolean);
+      const connectedVoted = connected.filter((pid) => this.matingVotes.has(pid)).length;
+      tally.connected_total = connected.length;
+      tally.connected_voted = connectedVoted;
+      tally.connected_pending = Math.max(connected.length - connectedVoted, 0);
+      tally.all_connected_voted = connected.length > 0 && connectedVoted === connected.length;
+    }
+    return tally;
+  }
+
+  /**
+   * S22-B Task 8 -- if mating quorum is met and not yet resolved, mark
+   * resolved and return the winning pair (parsed ids). Idempotent: null on
+   * subsequent calls or before quorum. Connected-only quorum (mirror world).
+   */
+  resolveMatingWinner(allPlayerIds = [], connectedPlayerIds = []) {
+    if (!this.run || this.run.matingResolved) return null;
+    const tally = this.matingTally(allPlayerIds, connectedPlayerIds);
+    if (!tally.all_connected_voted || !tally.leading_pair_id) return null;
+    const [parentAId, parentBId] = String(tally.leading_pair_id).split('__');
+    // S22-B Task 8 (Codex P1) -- only resolve a pair whose BOTH parents are
+    // actual surviving units. voteMating accepts any client pair_id, so a
+    // bogus pair must NOT trigger an offspring roll. Leave matingResolved
+    // false so a later legit pair can still win.
+    const survivorIds = new Set(
+      (this.run.survivors || [])
+        .map((u) => (typeof u === 'string' ? u : u && (u.id || u.unit_id)))
+        .filter(Boolean),
+    );
+    if (!parentAId || !parentBId || !survivorIds.has(parentAId) || !survivorIds.has(parentBId)) {
+      return null;
+    }
+    this.run.matingResolved = true;
+    return {
+      pair_id: tally.leading_pair_id,
+      parent_a_id: parentAId,
+      parent_b_id: parentBId,
+      biome_id: this.run.scenarioStack?.[this.run.currentIndex] || null,
+      campaign_id: this.run.id,
+    };
+  }
+
+  /**
    * 2026-05-06 phone smoke W7 — submit post-debrief macro navigation choice.
    * Host-only (mirror submitOnboardingChoice pattern). Choice ∈
    * {advance, branch, retreat}. Phase must be `debrief` or `ended` (post
@@ -681,6 +789,7 @@ class CoopOrchestrator {
   } = {}) {
     if (this.phase !== 'combat') throw new Error('not_in_combat');
     this.run.outcome = outcome;
+    this.run.survivors = Array.isArray(survivors) ? survivors : [];
     this.run.partyXp += xpEarned;
     if (debriefPayload && typeof debriefPayload === 'object') {
       this.run.debrief = debriefPayload;
@@ -763,6 +872,8 @@ class CoopOrchestrator {
     });
     this.debriefChoices.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
+    this.matingVotes.clear();
     this.formPulses.clear();
     this.revealAcks.clear();
     this._setPhase('world_setup');

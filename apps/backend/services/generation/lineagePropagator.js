@@ -11,8 +11,11 @@
 // sprint — see PR description.
 //
 // Pool storage: in-memory Map. Persistence (Prisma write-through) deferred.
-// Cross-lineage isolation deferred: two different `lineage_id` in same
-// (species, biome) currently SHARE the pool.
+// Cross-lineage isolation (Fase-2 2026-05-27): pool partitioned by lineage.
+// Legacy units carrying `lineage_id` write to that lineage's partition;
+// un-lineaged legacy writes to the shared AMBIENT partition (environmental
+// drift, preserved). A newborn inherits from AMBIENT + its-own-lineage,
+// NEVER from other lineages' partitions.
 //
 // Cross-ref:
 // - data/core/species/dune_stalker_lifecycle.yaml `legacy.inheritable_traits`
@@ -22,8 +25,10 @@
 
 'use strict';
 
-// Pool: Map<species_id, Map<biome_id, Set<mutation_id>>>
-// Set garantisce dedup naturale dei trait/mutation propagati.
+// Pool: Map<species_id, Map<biome_id, Map<lineage_key, Set<mutation_id>>>>
+// lineage_key = lineage_id string, or AMBIENT for un-lineaged legacy (shared
+// environmental drift). Set garantisce dedup naturale per-partition.
+const AMBIENT = '__ambient__';
 const _pool = new Map();
 
 // Inherit cap defaults — newborn riceve random N in [MIN, MAX].
@@ -39,14 +44,40 @@ function _getOrCreateBiomeMap(speciesId) {
   return biomeMap;
 }
 
-function _getOrCreateMutationSet(speciesId, biomeId) {
+function _getOrCreateLineageMap(speciesId, biomeId) {
   const biomeMap = _getOrCreateBiomeMap(speciesId);
-  let mutSet = biomeMap.get(biomeId);
+  let lineageMap = biomeMap.get(biomeId);
+  if (!lineageMap) {
+    lineageMap = new Map();
+    biomeMap.set(biomeId, lineageMap);
+  }
+  return lineageMap;
+}
+
+function _getOrCreateMutationSet(speciesId, biomeId, lineageKey) {
+  const lineageMap = _getOrCreateLineageMap(speciesId, biomeId);
+  let mutSet = lineageMap.get(lineageKey);
   if (!mutSet) {
     mutSet = new Set();
-    biomeMap.set(biomeId, mutSet);
+    lineageMap.set(lineageKey, mutSet);
   }
   return mutSet;
+}
+
+// Mutation ids visible to inheritance for (species, biome, lineageKey):
+// AMBIENT partition + the unit's own lineage partition (excludes other lineages).
+function _gatherInheritablePool(speciesId, biomeId, lineageKey) {
+  const biomeMap = _pool.get(speciesId);
+  const lineageMap = biomeMap ? biomeMap.get(biomeId) : null;
+  if (!lineageMap) return [];
+  const out = new Set();
+  const ambient = lineageMap.get(AMBIENT);
+  if (ambient) for (const m of ambient) out.add(m);
+  if (lineageKey && lineageKey !== AMBIENT) {
+    const own = lineageMap.get(lineageKey);
+    if (own) for (const m of own) out.add(m);
+  }
+  return Array.from(out);
 }
 
 /**
@@ -105,7 +136,11 @@ function propagateLineage(legacyUnit, speciesId, biomeId, options) {
     toPropagate = applied.filter((mid) => leaveSet.has(mid));
   }
 
-  const mutSet = _getOrCreateMutationSet(speciesId, biomeId);
+  const lineageKey =
+    typeof legacyUnit.lineage_id === 'string' && legacyUnit.lineage_id
+      ? legacyUnit.lineage_id
+      : AMBIENT;
+  const mutSet = _getOrCreateMutationSet(speciesId, biomeId, lineageKey);
   const written = [];
   for (const mid of toPropagate) {
     if (typeof mid === 'string' && mid && !mutSet.has(mid)) {
@@ -133,8 +168,9 @@ function propagateLineage(legacyUnit, speciesId, biomeId, options) {
  * @param {object} newUnit — newborn unit (must be plain object; we copy)
  * @param {string} speciesId
  * @param {string} biomeId
- * @param {string|null} [lineageId] — currently informational only
- *   (cross-lineage isolation deferred)
+ * @param {string|null} [lineageId] — newborn's lineage. Inheritance reads the
+ *   AMBIENT partition + THIS lineage's partition only (cross-lineage isolation,
+ *   Fase-2 2026-05-27). Other lineages' legacy mutations are NOT inherited.
  * @param {object} [opts]
  * @param {number} [opts.min] — minimum inherited count (default 1)
  * @param {number} [opts.max] — maximum inherited count (default 2)
@@ -162,9 +198,8 @@ function inheritFromLineage(newUnit, speciesId, biomeId, lineageId = null, opts 
   const max = Number.isInteger(opts.max) ? opts.max : DEFAULT_INHERIT_MAX;
   const rng = typeof opts.rng === 'function' ? opts.rng : Math.random;
 
-  const biomeMap = _pool.get(speciesId);
-  const mutSet = biomeMap ? biomeMap.get(biomeId) : null;
-  const poolArr = mutSet ? Array.from(mutSet) : [];
+  const lineageKey = typeof lineageId === 'string' && lineageId ? lineageId : AMBIENT;
+  const poolArr = _gatherInheritablePool(speciesId, biomeId, lineageKey);
 
   // Empty pool → no inheritance, return shallow copy.
   if (poolArr.length === 0) {
@@ -226,8 +261,12 @@ function inheritFromLineage(newUnit, speciesId, biomeId, lineageId = null, opts 
  */
 function inspectPool(speciesId, biomeId) {
   const biomeMap = _pool.get(speciesId);
-  const mutSet = biomeMap ? biomeMap.get(biomeId) : null;
-  const mutations = mutSet ? Array.from(mutSet) : [];
+  const lineageMap = biomeMap ? biomeMap.get(biomeId) : null;
+  const agg = new Set();
+  if (lineageMap) {
+    for (const set of lineageMap.values()) for (const m of set) agg.add(m);
+  }
+  const mutations = Array.from(agg);
   return {
     species_id: speciesId,
     biome_id: biomeId,

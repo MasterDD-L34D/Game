@@ -24,6 +24,16 @@ const steps = [
   'node --test tests/scripts/crossPlatformRunners.test.js',
   'node --test tests/i18n/parity.test.js',
   'node --test tests/play/*.test.js',
+  // tests/services/** + tests/ai/** were not covered by the globs above ->
+  // CI-orphaned: ~140 test files (711 tests) passed manually but never guarded,
+  // so a refactor dropping behavior would stay green (anti-pattern #10
+  // non-CI-guarded drop). Wire the whole subtree. All 711 verified passing both
+  // standalone and as a parallel glob batch (2026-05-30) -> no port collision /
+  // shared-state. Single-* globs (bash- and node-expandable, no globstar dep);
+  // services nests max one level. Supersedes the ermes-only wiring (PR #2432).
+  'node --test tests/services/*.test.js',
+  'node --test tests/services/*/*.test.js',
+  'node --test tests/ai/*.test.js',
 ];
 
 const env = {

@@ -33,6 +33,11 @@ services:
       PRISMA_BOOTSTRAP_FILE: ${PRISMA_BOOTSTRAP_FILE:-.docker-prisma-bootstrapped}
       HOST: 0.0.0.0
       PORT: 3334
+      # 2026-05-16 Named Tunnel deploy — WS shared on port 3334 (single port
+      # serves REST + WS /ws + phone static). Avoids 3341 separate-port
+      # tunnel route (container only maps 3334). Mirrors Quick Tunnel
+      # 2026-05-13 deploy pattern.
+      LOBBY_WS_SHARED: ${LOBBY_WS_SHARED:-true}
     ports:
       - '3334:3334'
     volumes:

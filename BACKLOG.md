@@ -11,13 +11,45 @@
 
 > Canonical per-repo goals. Hub mirror: `codemasterdd/GOALS.md`. Horizons: Short=weeks / Mid=1-2mo / Long=3-6mo.
 
-- **Short**: M1 Sistema persistent cross-session learning **CLOSED** — pilot #2363 + read route #2364 + utility-AI passthrough #2376 + **Gate-5 surface live via Godot #342** (brief "Il Sistema ricorda" + debrief Cronaca echo, rendered from `units_observed` HTTP read route). Backend `debrief_payload.sistema_memory` (#2377) **removed as orphan** — Godot renders from the canonical read-route path, single-source. Hardcore band revision DONE (#2365 OD-032).
-- **Mid**: M1 Sistema full wired Game<->Godot — validate/playtest the live loop; trait system completeness (post-A4 ionico/termico).
+- **Short**: M1 Sistema full wired Game<->Godot -- validate/playtest the live loop end-to-end. Confirm the canonical read route (#2364 `units_observed`) feeds Godot brief "Il Sistema ricorda" + debrief Cronaca echo correctly across a full run; single-source render path holds (no `sistema_memory` orphan regress, #2377); capture playtest findings. (Promoted from Mid; M1 build CLOSED -- pilot #2363 + route #2364 + passthrough #2376 + Godot surface #342 + hardcore band #2365.)
+- **Mid**: trait system completeness (post-A4 ionico/termico); M1 loop hardening from playtest findings.
 - **Long**: shippable co-op tactical loop -- 4-8 friends, TV + phones (Jackbox model), ~60min runs, "how you play shapes what you become".
 
 ---
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
+
+### 🟡 OPEN — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
+
+Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). Verified findings; dispositions are master-dd-gated (wire-vs-remove / N=40 ratify).
+
+**Gate-5 backend orphans (Engine-LIVE-Surface-DEAD) — wire-vs-remove decision (NO autonomous delete: project = revive culture):**
+
+| Ticket                | Module                                                     | Verified state                                                                                                                                                 | Decision                                                       |
+| --------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| TKT-ORPHAN-CUMSTATE   | `apps/backend/services/combat/cumulativeStateTracker.js`   | zero runtime callers; `mutationTriggerEvaluator.js:38` stubbed counter inline, "TODO Phase 7 wire" never happened                                              | wire to roundOrchestrator (Phase 7) OR remove                  |
+| TKT-ORPHAN-WOUNDPERMA | `apps/backend/services/combat/woundedPerma.js`             | **write-path orphan** — `applyWound`/`initSessionMap` uncalled; `statusModifiers.js:84` is the live READ path only. Feature half-wired (read live, write dead) | wire write-path (apply wounds in combat) OR remove the feature |
+| TKT-ORPHAN-MORALE     | `apps/backend/services/combat/morale.js`                   | P6 feature shipped #1959, never wired to roundOrchestrator                                                                                                     | wire (P6 fairness) OR remove                                   |
+| TKT-ORPHAN-VCSNAP     | `apps/backend/services/coop/vcSnapshotToDebriefPayload.js` | test-only; cross-stack parity scaffold (Godot mirror)                                                                                                          | wire to debrief broadcast OR remove                            |
+| (KEEP)                | `services/replay/replayEngine.js`                          | test-only WIP for documented M12+ replay feature                                                                                                               | KEEP (documented future)                                       |
+
+Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify caught it (read vs write path are different things).
+
+**Balance — PR #2381 RATIFIED 2026-05-26 (no-regression + EV-parity, per L-069):**
+
+- 5× `def_mod=2` cost_ap 1→2 (#2344 baseline remainder) · artigli dice 1d8+3→1d8+2 · armatura buff_duration 4→2 · rage duration 3→2 (cuore_in_furia + midollo_iperattivo) · corazzato elettrico 100→120 (lore sign-off) — all in PR #2381 (merged).
+- ✅ **Ratify 2026-05-26** (Ryzen, real Postgres): Fendente EV-parity CONFIRMED deterministically (1d8+2 = 3.25 EV/AP == peer `frusta_fiammeggiante`, was 3.75 outlier). N=40 no-regression: hardcore_06 GREEN in-band (WR 0.25, turns_avg 24.2 == #2149 baseline); hardcore_07 N=40 clean. **Caveat L-069/14**: both hardcore scenarios non-discriminating for these knobs (only `zampe_a_molla` exercised; Fendente/corazzato unused) → N=40 = no-break, not direct knob-WR; accepted given conservative parity/dead-channel nature + deterministic EV proof. Evidence: `docs/playtest/2026-05-26-ratify-2381-balance.md`. Lore sign-off (corazzato elettrico) still master-dd.
+- **TKT-P6-AP3**: 5 abilities `cost_ap=3` (frozen_stasis/meteoric_shield/power_strike/sonic_blast/armatura guard) exceed 2 AP/turn budget — flagged in-YAML. Decision: document unlock-mechanic (PT/SG) OR reduce to 2.
+
+**Tooling:** `tools/py/ancestors_style_guide_proposal.py` v1 — completed migration tooling (ancestors/neurons taxonomy, museum-covered domain). NOT a dead dup to delete — repo-archaeologist museum-card candidate (reuse provenance). KEEP.
+
+### 🔵 REUSE-REVIVAL — encounter-authoring CLI (da Fallout Tactics postmortem, archivio Ryzen 2026-05-28)
+
+Source: reuse-queue triage codemasterdd `KNOWLEDGE_MAP.md` §7 (archivio `ryzen-memory-archive/Game-Desktop-old/reference_tactical_postmortems.md`). Unico pattern tattico genuinamente NON costruito tra gli 11 reference archiviati (prova-di-eliminazione: gli altri = backup già assorbito in SoT/code).
+
+| Ticket | Cosa | Razionale | Stato |
+| ------ | ---- | --------- | ----- |
+| TKT-ENCOUNTER-CLI | `game_cli.py author-encounter` — CLI authoring encounter (numeric spec + vertical-slice playtest loop, pattern Fallout Tactics / Micro Forte 2001) | Sblocca volume content-slice M3 (encounter authoring oggi manuale) | OPEN — master-dd verdict (scope M3 vs defer) |
 
 ### ✅ Ecosystem audit + ai-station Envelope A+B+C cascade — sessione 2026-05-13/14/15 — 14 PR cross-stack shipped
 

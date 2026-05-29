@@ -65,7 +65,7 @@ function pickEntryTile(entryTiles, session, minDist) {
   return candidates.length > 0 ? candidates[0] : null;
 }
 
-function pickPoolEntry(pool, session, rng, biomeConfig = null) {
+function pickPoolEntry(pool, session, rng, biomeConfig = null, alienaEnforcement = null) {
   const history = session.reinforcement_state?.spawn_history || [];
   const counts = history.reduce((m, h) => {
     m[h.unit_id] = (m[h.unit_id] || 0) + 1;
@@ -82,7 +82,10 @@ function pickPoolEntry(pool, session, rng, biomeConfig = null) {
   if (biomeConfig) {
     try {
       const { applyBiomeBias } = require('./biomeSpawnBias');
-      weighted = applyBiomeBias(eligible, biomeConfig);
+      weighted = applyBiomeBias(eligible, biomeConfig, {
+        alienaEnforcement,
+        canonicalPool: pool,
+      });
     } catch {
       weighted = eligible;
     }
@@ -106,6 +109,41 @@ function ensureReinforcementState(session) {
     };
   }
   return session.reinforcement_state;
+}
+
+// §21 ALIENA diagnostic buffer (ALIENA-B). Opt-in via
+// encounter.reinforcement_policy.aliena_coherence_telemetry === true.
+// Tail-truncated to bound memory on long sessions.
+const ALIENA_TELEMETRY_MAX = 500;
+function ensureAlienaTelemetry(session) {
+  if (!Array.isArray(session.aliena_coherence_telemetry)) {
+    session.aliena_coherence_telemetry = [];
+  }
+  return session.aliena_coherence_telemetry;
+}
+
+// `applyBiomeBias` return value is intentionally discarded: this pre-pass is
+// invoked for the per-entry `emitAlienaCoherence` callback side-effect only;
+// the bias-applied weights are not consumed at this site.
+function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
+  if (!Array.isArray(pool) || pool.length === 0 || !biomeConfig) return;
+  const buffer = ensureAlienaTelemetry(session);
+  try {
+    const { applyBiomeBias } = require('./biomeSpawnBias');
+    applyBiomeBias(pool, biomeConfig, {
+      canonicalPool: pool,
+      emitAlienaCoherence: (sample) => {
+        buffer.push({ ...sample, round });
+        // Tail-truncate per push so a burst pool >MAX never transiently
+        // allocates beyond the cap (harsh-review PR #2417 follow-up).
+        if (buffer.length > ALIENA_TELEMETRY_MAX) {
+          buffer.shift();
+        }
+      },
+    });
+  } catch {
+    /* best-effort; never blocks spawn */
+  }
 }
 
 function tick(session, encounter, opts = {}) {
@@ -168,13 +206,29 @@ function tick(session, encounter, opts = {}) {
     };
   }
 
+  // §21 ALIENA enforcement (config-gated, default-OFF). When
+  // policy.aliena_enforcement = { enabled:true, strength:>0 }, thread a
+  // normalized strength knob into pickPoolEntry → applyBiomeBias so spawn
+  // weights are modulated by per-entry ALIENA coherence. Absent/disabled →
+  // null → byte-identical spawns vs the diagnostic-only baseline.
+  const enfCfg = policy.aliena_enforcement;
+  const alienaEnforcement =
+    enfCfg && enfCfg.enabled === true && Number(enfCfg.strength) > 0
+      ? { strength: Math.max(0, Math.min(1, Number(enfCfg.strength))) }
+      : null;
+
+  // §21 ALIENA diagnostic pre-pass (ALIENA-B). One-shot per tick, full pool.
+  if (policy.aliena_coherence_telemetry === true) {
+    emitAlienaPoolSnapshot(session, pool, biomeConfig, round);
+  }
+
   for (let i = 0; i < budget; i += 1) {
     const tile = pickEntryTile(entryTiles, session, minDist);
     if (!tile) {
       spawned.push({ skipped: true, reason: 'no_walkable_entry' });
       break;
     }
-    const entry = pickPoolEntry(pool, session, rng, biomeConfig);
+    const entry = pickPoolEntry(pool, session, rng, biomeConfig, alienaEnforcement);
     if (!entry) {
       spawned.push({ skipped: true, reason: 'pool_exhausted' });
       break;

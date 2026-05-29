@@ -658,6 +658,100 @@ function applyBiomeTraitCosts(unit, biomeId, data) {
   return applied;
 }
 
+// ADR-2026-05-29 TKT-BR-06: ERMES-derived discrete deltas extension.
+// Mirror del pattern applyBiomeTraitCosts (ADR-21c) ma legge ERMES report multi-biome
+// v1.0.0 + applica delta DISCRETI dai bucket (ermes_bucket_thresholds.yaml).
+// Output: unit.attack_mod_bonus / defense_mod_bonus / mobility / rest_recovery.
+// NO write su creature_epigenome.bias (vincolo sot-drift-verifier preliminary).
+// Idempotente via marker _ermes_biome_costs_applied. Session-scoped.
+
+const ERMES_STAT_KEYS = ['attack_mod', 'defense_mod', 'mobility', 'rest_recovery'];
+
+function _clampDelta(value, cap) {
+  if (typeof value !== 'number') return 0;
+  return Math.max(-cap, Math.min(cap, value));
+}
+
+/**
+ * Apply ERMES bucketed deltas to a unit (additive to existing bonuses).
+ *
+ * @param {object} unit - mutated in place
+ * @param {string} biomeId
+ * @param {object} [opts] - { ermesExporter, ermesReport, capDelta }
+ * @returns {Array<{ bucket, delta, source }>} applied log
+ */
+function applyErmesBiomeTraitCosts(unit, biomeId, opts = {}) {
+  if (!unit || !biomeId) return [];
+  if (unit._ermes_biome_costs_applied) {
+    return (unit._ermes_biome_costs_log && unit._ermes_biome_costs_log.buckets_applied) || [];
+  }
+
+  let bucketed = opts.bucketed;
+  if (!bucketed) {
+    try {
+      const ermesExporter = opts.ermesExporter || require('./coop/ermesExporter');
+      if (typeof ermesExporter.getErmesBucketed !== 'function') return [];
+      bucketed = ermesExporter.getErmesBucketed(biomeId);
+    } catch (err) {
+      return []; // soft-fail (ADR-21c precedent)
+    }
+  }
+  if (!bucketed || !bucketed.buckets || Object.keys(bucketed.buckets).length === 0) return [];
+
+  const caps = bucketed.caps || { max_delta_any_stat: 2, max_buckets_active_per_unit: 3 };
+  const capDelta = opts.capDelta || caps.max_delta_any_stat || 2;
+  const maxActive = caps.max_buckets_active_per_unit || 3;
+
+  const applied = [];
+  const totalDelta = Object.fromEntries(ERMES_STAT_KEYS.map((k) => [k, 0]));
+
+  let activeCount = 0;
+  for (const [bucketKey, banded] of Object.entries(bucketed.buckets)) {
+    if (activeCount >= maxActive) break;
+    if (!banded || !banded.def) continue;
+    const def = banded.def;
+    let consumed = false;
+
+    // eco_pressure_score uses delta_mod (global stat-agnostic +/-1).
+    if (typeof def.delta_mod === 'number' && def.delta_mod !== 0) {
+      totalDelta.attack_mod = _clampDelta(totalDelta.attack_mod + def.delta_mod, capDelta);
+      totalDelta.defense_mod = _clampDelta(totalDelta.defense_mod + def.delta_mod, capDelta);
+      consumed = true;
+    }
+
+    // delta object {stat: amount}.
+    if (def.delta && typeof def.delta === 'object') {
+      for (const [stat, amount] of Object.entries(def.delta)) {
+        if (!ERMES_STAT_KEYS.includes(stat)) continue;
+        if (typeof amount !== 'number' || amount === 0) continue;
+        totalDelta[stat] = _clampDelta(totalDelta[stat] + amount, capDelta);
+        consumed = true;
+      }
+    }
+
+    if (consumed) {
+      applied.push({ bucket: bucketKey, band: banded.band, def });
+      activeCount += 1;
+    }
+  }
+
+  for (const stat of ERMES_STAT_KEYS) {
+    if (totalDelta[stat] === 0) continue;
+    const fieldName = stat === 'attack_mod' || stat === 'defense_mod' ? `${stat}_bonus` : stat;
+    unit[fieldName] = (unit[fieldName] || 0) + totalDelta[stat];
+  }
+
+  unit._ermes_biome_costs_applied = true;
+  unit._ermes_biome_costs_log = { biomeId, buckets_applied: applied, total_delta: totalDelta };
+  return applied;
+}
+
+function _resetErmesCostMarker(unit) {
+  if (!unit) return;
+  delete unit._ermes_biome_costs_applied;
+  delete unit._ermes_biome_costs_log;
+}
+
 /**
  * Evaluate movement-triggered buff_stat traits for a unit.
  *
@@ -707,6 +801,10 @@ module.exports = {
   applyBiomeTraitCosts,
   BIOME_COST_DEFAULT_PATH,
   _resetBiomeCostCache,
+  // ADR-2026-05-29 TKT-BR-06 ERMES bucketed deltas
+  applyErmesBiomeTraitCosts,
+  _resetErmesCostMarker,
+  ERMES_STAT_KEYS,
   // Per-tag enemy gate (audit follow-up 2026-04-25)
   // ADR-2026-05-15 Phase 4b — canonical species_catalog.json + legacy fallback
   loadSpeciesTagIndex,

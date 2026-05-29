@@ -272,7 +272,9 @@ function createSessionRouter(options = {}) {
   }
 
   const sessions = new Map();
-  let activeSessionId = null;
+  let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
+  // /start links the new session id back by campaign_id (== run.id).
+  const coopStore = options.coopStore || null;
 
   // Telemetry helper — append JSONL entry to logs/telemetry_YYYYMMDD.jsonl.
   // Same schema as POST /telemetry (ts, session_id, player_id, type, payload)
@@ -1626,6 +1628,13 @@ function createSessionRouter(options = {}) {
         campaign_id: req.body?.campaign_id || null,
         sistema_state: { units_observed: {} },
       };
+      // §21 ALIENA-C: opt-in baseline coherence snapshot (round=0). Pairs with
+      // ALIENA-B per-tick emit at reinforcementSpawner. Best-effort.
+      try {
+        require('../services/combat/initialAlienaTelemetry').emitInitial(session, encounterPayload);
+      } catch (err) {
+        console.warn('[aliena-initial] emit failed:', err.message);
+      }
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
       // save-load + integration tests seed SG after the encounter zero-pass.
@@ -1655,6 +1664,16 @@ function createSessionRouter(options = {}) {
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
+      // PR-1 §22 coop-WS surface — link this combat session back into the coop
+      // orchestrator (campaign_id == run.id) so the next phase_change broadcast
+      // surfaces session_id to phone clients for ALIENA telemetry on debrief.
+      if (coopStore && session.campaign_id) {
+        try {
+          coopStore.linkSession(session.campaign_id, sessionId);
+        } catch {
+          /* best-effort -- coop link must never block session start */
+        }
+      }
       // M1 -- hydrate persistent Sistema learning state (best-effort, never blocks).
       try {
         if (session.campaign_id) {
@@ -2696,6 +2715,28 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // §21 ALIENA-D: READ-only consumer endpoint exposing diagnostic telemetry
+  // buffer populated by ALIENA-B (per-tick reinforcement) + ALIENA-C (round=0
+  // baseline). Empty array when flag off or no spawn-eligible events yet.
+  // capped flips true when buffer hit MAX=500 tail-cap.
+  router.get('/:id/aliena-telemetry', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const buffer = Array.isArray(session.aliena_coherence_telemetry)
+        ? session.aliena_coherence_telemetry
+        : [];
+      res.json({
+        session_id: session.session_id,
+        telemetry: buffer,
+        count: buffer.length,
+        capped: buffer.length >= 500,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/:id/promote', (req, res, next) => {
     try {
       const { error, session } = resolveSession(req.params.id);
@@ -2943,6 +2984,35 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* best-effort -- don't block session end */
+      }
+      // Fase-3 Epigenome -- accumulate per-creature epigenome from how the
+      // player played this session (conviction_axis EMA). Best-effort, never
+      // blocks session end. Surviving player units only.
+      try {
+        if (session.campaign_id && vcSnapshot && vcSnapshot.per_actor) {
+          const prisma = options.prisma || require('../db/prisma').prisma;
+          const {
+            createCreatureEpigenomeStore,
+          } = require('../services/genetics/creatureEpigenomeStore');
+          const {
+            accumulateEpigenome,
+            loadEpigenomeConfig,
+          } = require('../services/genetics/epigenome');
+          const epiStore = createCreatureEpigenomeStore(prisma);
+          const alpha = loadEpigenomeConfig().accumulation_alpha;
+          const survivors = session.units.filter(
+            (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
+          );
+          for (const u of survivors) {
+            const conv = vcSnapshot.per_actor[u.id] && vcSnapshot.per_actor[u.id].conviction_axis;
+            if (!conv) continue;
+            const prev = await epiStore.get(session.campaign_id, u.id);
+            const next = accumulateEpigenome(prev, conv, alpha);
+            await epiStore.upsert(session.campaign_id, u.id, next);
+          }
+        }
+      } catch {
+        /* best-effort -- epigenome accumulation never blocks session end */
       }
       await appendEvent(session, {
         action_type: 'session_end',

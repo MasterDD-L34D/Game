@@ -13,6 +13,14 @@
 
 'use strict';
 
+const {
+  computeOffspringEpigenome,
+  deriveEpigeneticMemory,
+  epigenomeBiasStrength,
+  computeFragmentGrant,
+  computeSpeciesMean,
+} = require('./genetics/epigenome');
+
 // Gate thresholds (§20.2)
 const RECRUIT_AFFINITY_MIN = 0;
 const RECRUIT_TRUST_MIN = 2;
@@ -443,6 +451,86 @@ function tierBonusTraits(tier) {
   return 0;
 }
 
+// RECON-04b (Fase-1 Spore, G2) -- complexity-budget formula.
+// Fallback cost for applied ids lacking a catalog mp_cost (e.g. bonus trait
+// ids): modal mp_cost of the catalog (master-dd ratified 2026-05-26, Option A).
+const FALLBACK_BONUS_COST = 8;
+
+/**
+ * Compute offspring genetic complexity = Sigma mp_cost over the applied set
+ * [environmental_mutation.id, ...tier_bonus_traits]. Ids resolving in the
+ * mutation catalog contribute their mp_cost; non-catalog ids contribute
+ * FALLBACK_BONUS_COST. Inherited gene slots are structural (NOT counted).
+ *
+ * @param {object} offspring -- { environmental_mutation?: {id}, tier_bonus_traits?: string[] }
+ * @param {object|null} catalog -- loadMutationCatalog() output ({byId}) or null
+ * @returns {number} total complexity
+ */
+function computeOffspringComplexity(offspring, catalog) {
+  const byId = catalog && typeof catalog === 'object' ? catalog.byId || {} : {};
+  const applied = [];
+  const envId =
+    offspring && offspring.environmental_mutation && offspring.environmental_mutation.id;
+  if (envId) applied.push(envId);
+  const bonus = Array.isArray(offspring && offspring.tier_bonus_traits)
+    ? offspring.tier_bonus_traits
+    : [];
+  for (const b of bonus) applied.push(b);
+  let sum = 0;
+  for (const id of applied) {
+    const entry = byId[id];
+    const mp = entry && entry.mp_cost != null ? Number(entry.mp_cost) : FALLBACK_BONUS_COST;
+    sum += Number.isFinite(mp) ? mp : FALLBACK_BONUS_COST;
+  }
+  return sum;
+}
+
+// Fase-2 (Spore S5) -- hybrid fusion engine (mechanism-only; rules content =
+// master-dd authoring debt). hybrid_rules shape (mating.yaml):
+//   { <category>: { "<traitA> + <traitB>": "<resultTrait>" } }
+function parseHybridRules(hybridRules) {
+  const out = [];
+  if (!hybridRules || typeof hybridRules !== 'object') return out;
+  for (const [category, rules] of Object.entries(hybridRules)) {
+    if (!rules || typeof rules !== 'object') continue;
+    for (const [pairKey, result] of Object.entries(rules)) {
+      const parts = String(pairKey)
+        .split('+')
+        .map((x) => x.trim())
+        .filter(Boolean);
+      if (parts.length === 2 && typeof result === 'string' && result) {
+        out.push({ category, a: parts[0], b: parts[1], result });
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Pure hybrid fusion: given a flat trait-id array + hybrid_rules, replace any
+ * present "A + B" pair with its result trait (greedy, first-match-wins). Returns
+ * a new trait set + fusion log. Inert when hybridRules absent/empty.
+ *
+ * @param {string[]} traitIds
+ * @param {object} [hybridRules]
+ * @returns {{ traits: string[], fusions: Array<{category:string,pair:[string,string],result:string}> }}
+ */
+function applyHybridFusion(traitIds, hybridRules) {
+  const present = new Set(
+    Array.isArray(traitIds) ? traitIds.filter((t) => typeof t === 'string' && t) : [],
+  );
+  const fusions = [];
+  for (const r of parseHybridRules(hybridRules)) {
+    if (present.has(r.a) && present.has(r.b)) {
+      present.delete(r.a);
+      present.delete(r.b);
+      present.add(r.result);
+      fusions.push({ category: r.category, pair: [r.a, r.b], result: r.result });
+    }
+  }
+  return { traits: Array.from(present), fusions };
+}
+
 /**
  * Sprint C — Roll mating offspring spec.
  *
@@ -507,12 +595,44 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     bonus.push(available.splice(idx, 1)[0]);
   }
 
+  // RECON-04b (G2, ADR-2026-04-26) -- complexity-budget enforce at offspring
+  // materialization. Drop random bonus traits (preserve inherited slots) until
+  // Sigma c <= C_max. env-only floor (mp_cost <= 15) is always <= C_max=30.
+  const C_MAX = Number(process.env.OFFSPRING_C_MAX) || 30;
+  const droppedBonus = [];
+  let complexity = computeOffspringComplexity(
+    { environmental_mutation: environmentalMutation, tier_bonus_traits: bonus },
+    mutationCatalog,
+  );
+  for (let _iter = 0; complexity > C_MAX && bonus.length > 0 && _iter < 5; _iter++) {
+    const dropIdx = Math.floor(rng() * bonus.length);
+    droppedBonus.push(bonus.splice(dropIdx, 1)[0]);
+    complexity = computeOffspringComplexity(
+      { environmental_mutation: environmentalMutation, tier_bonus_traits: bonus },
+      mutationCatalog,
+    );
+  }
+
+  // Fase-2 hybrid fusion (mechanism-only; inert until real hybrid_rules injected
+  // via context.hybridRules). Non-destructive: surfaces fusions as metadata, does
+  // NOT mutate tier_bonus_traits (zero interaction with complexity-budget).
+  const hybridTraitSet = [
+    ...bonus,
+    ...(environmentalMutation && environmentalMutation.type === 'trait' && environmentalMutation.id
+      ? [environmentalMutation.id]
+      : []),
+  ];
+  const { fusions: hybridFusions } = applyHybridFusion(hybridTraitSet, context.hybridRules || null);
+
   const offspring = {
     lineage_id: lineageId,
     gene_slots: inheritedSlots,
     environmental_mutation: environmentalMutation,
     tier_bonus_traits: bonus,
     tier,
+    complexity,
+    complexity_budget: { c_max: C_MAX, formula: 'mp_cost_sum_fallback8', dropped: droppedBonus },
+    hybrid_fusions: hybridFusions,
     predicted_lifecycle_phase: 'hatchling',
     parent_a_id: parentA.id || null,
     parent_b_id: parentB.id || null,
@@ -542,6 +662,45 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     }
   }
 
+  // Fase-3 Epigenome (Lamarck-lite). Opt-in: requires context.epigenomeConfig
+  // + at least one parent epigenome. Pure: attaches offspring.epigenome,
+  // .epigenetic_memory, .epigenome_fragment_grant (caller applies the fragment
+  // side-effect at the route boundary). Fully inert otherwise (back-compat).
+  if (context.epigenomeConfig && (parentA.epigenome || parentB.epigenome)) {
+    const epiCfg = context.epigenomeConfig;
+    const speciesMean = context.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+    const offspringEpi = computeOffspringEpigenome(
+      parentA.epigenome,
+      parentB.epigenome,
+      speciesMean,
+      epiCfg,
+    );
+    const epiMemory = deriveEpigeneticMemory(
+      offspringEpi,
+      speciesMean,
+      epiCfg.axis_memory_map,
+      epiCfg.min_bias_expression,
+    );
+    const parentBias = epigenomeBiasStrength(parentA.epigenome, parentB.epigenome, speciesMean);
+    offspring.epigenome = offspringEpi;
+    offspring.epigenetic_memory = epiMemory;
+    offspring.epigenome_fragment_grant = computeFragmentGrant(
+      parentBias,
+      epiCfg.fragment_grant_threshold,
+      epiCfg.fragment_grant_amount,
+    );
+    // Discrete expression on the narrative slot: if a memory expressed, surface
+    // it as memoria_ambientale (else stays pure-biome = absent).
+    if (epiMemory.memory_id) {
+      offspring.memoria_ambientale = {
+        source: 'epigenome',
+        memory_id: epiMemory.memory_id,
+        axis: epiMemory.axis,
+        direction: epiMemory.direction,
+      };
+    }
+  }
+
   return {
     success: true,
     offspring,
@@ -562,9 +721,9 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
 function prismaSupportsMeta(prisma) {
   return Boolean(
     prisma &&
-      prisma.npcRelation &&
-      typeof prisma.npcRelation.findUnique === 'function' &&
-      typeof prisma.npcRelation.upsert === 'function',
+    prisma.npcRelation &&
+    typeof prisma.npcRelation.findUnique === 'function' &&
+    typeof prisma.npcRelation.upsert === 'function',
   );
 }
 
@@ -861,6 +1020,7 @@ const TRIBE_MIN_MEMBERS = 3;
 // Shared registry (process-scoped). Sprint C deve invocare recordOffspring()
 // dopo ogni mating successo per popolare il grafo.
 const _offspringRegistry = new Map(); // unit_id → entry
+const LINEAGE_REGISTRY_MAX_PER_CAMPAIGN = 1000; // FIFO cap per campaign (anti-unbounded-growth)
 
 /**
  * Resetta lo store di lignaggio. Solo per test.
@@ -895,8 +1055,24 @@ function recordOffspring(entry) {
     generation: Number.isFinite(entry.generation) ? entry.generation : parents.length === 0 ? 0 : 1,
     born_at_session: entry.born_at_session || null,
     born_at_biome: entry.born_at_biome || null,
+    epigenome: entry.epigenome && typeof entry.epigenome === 'object' ? entry.epigenome : null,
+    campaign_id:
+      typeof entry.campaign_id === 'string' && entry.campaign_id ? entry.campaign_id : null,
+    created_at: Number.isFinite(entry.created_at) ? entry.created_at : Date.now(),
   };
   _offspringRegistry.set(normalized.unit_id, normalized);
+  // Anti-unbounded-growth: cap entries per campaign, evict oldest by created_at.
+  if (normalized.campaign_id) {
+    const sameCampaign = [];
+    for (const e of _offspringRegistry.values()) {
+      if (e.campaign_id === normalized.campaign_id) sameCampaign.push(e);
+    }
+    if (sameCampaign.length > LINEAGE_REGISTRY_MAX_PER_CAMPAIGN) {
+      sameCampaign.sort((a, b) => (a.created_at ?? 0) - (b.created_at ?? 0));
+      const evict = sameCampaign.length - LINEAGE_REGISTRY_MAX_PER_CAMPAIGN;
+      for (let i = 0; i < evict; i++) _offspringRegistry.delete(sameCampaign[i].unit_id);
+    }
+  }
   return normalized;
 }
 
@@ -909,10 +1085,18 @@ function recordOffspring(entry) {
  * @param {string} lineageId
  * @returns {Array<object>} — units con quel lineage_id, ordinati per generation
  */
-function getLineageChain(lineageId) {
+function _registryEntries(campaignId) {
+  const out = [];
+  for (const e of _offspringRegistry.values()) {
+    if (!campaignId || e.campaign_id === campaignId) out.push(e);
+  }
+  return out;
+}
+
+function getLineageChain(lineageId, campaignId) {
   if (!lineageId) return [];
   const members = [];
-  for (const entry of _offspringRegistry.values()) {
+  for (const entry of _registryEntries(campaignId)) {
     if (entry.lineage_id === lineageId) members.push(entry);
   }
   members.sort((a, b) => (a.generation ?? 0) - (b.generation ?? 0));
@@ -932,10 +1116,13 @@ function getLineageChain(lineageId) {
  *
  * @returns {Array<object>}
  */
-function getTribesEmergent() {
+function getTribesEmergent(opts = {}) {
+  const _speciesMean = opts.speciesMean || { utility: 0.5, liberty: 0.5, morality: 0.5 };
+  const _divThreshold = Number.isFinite(opts.divergenceThreshold) ? opts.divergenceThreshold : 0.15;
+  const campaignId = opts.campaignId || null;
   // Group by lineage_id.
   const byLineage = new Map();
-  for (const entry of _offspringRegistry.values()) {
+  for (const entry of _registryEntries(campaignId)) {
     const lid = entry.lineage_id;
     if (!byLineage.has(lid)) byLineage.set(lid, []);
     byLineage.get(lid).push(entry);
@@ -975,12 +1162,25 @@ function getTribesEmergent() {
       );
     }
 
+    // Fase-3 -- emergent speciation by epigenetic divergence. Tribe mean
+    // epigenome vs species mean; beyond threshold = distinct "specie-forma".
+    const tribeMean = computeSpeciesMean(members);
+    let epigeneticDivergence = 0;
+    for (const axis of ['utility', 'liberty', 'morality']) {
+      const tv = Number.isFinite(tribeMean[axis]) ? tribeMean[axis] : 0.5;
+      const sv = Number.isFinite(_speciesMean[axis]) ? _speciesMean[axis] : 0.5;
+      epigeneticDivergence = Math.max(epigeneticDivergence, Math.abs(tv - sv));
+    }
+    epigeneticDivergence = Math.round(epigeneticDivergence * 1000) / 1000;
+
     tribes.push({
       tribe_id: lineageId,
       members_count: members.length,
       primary_biome: primaryBiome,
       oldest_generation: oldestGeneration,
       lineage_root_unit_id: root?.unit_id ?? null,
+      epigenetic_divergence: epigeneticDivergence,
+      is_distinct_form: epigeneticDivergence >= _divThreshold,
     });
   }
 
@@ -1004,7 +1204,7 @@ function getTribeForUnit(unitId) {
   if (!unitId) return null;
   const entry = _offspringRegistry.get(unitId);
   if (!entry) return null;
-  const tribes = getTribesEmergent();
+  const tribes = getTribesEmergent({ campaignId: entry.campaign_id || null });
   return tribes.find((t) => t.tribe_id === entry.lineage_id) || null;
 }
 
@@ -1013,8 +1213,8 @@ function getTribeForUnit(unitId) {
  *
  * @returns {Array<object>}
  */
-function listLineageEntries() {
-  return [..._offspringRegistry.values()].map((e) => ({ ...e, parents: [...(e.parents || [])] }));
+function listLineageEntries(campaignId) {
+  return _registryEntries(campaignId).map((e) => ({ ...e, parents: [...(e.parents || [])] }));
 }
 
 module.exports = {
@@ -1031,6 +1231,7 @@ module.exports = {
   MATING_THRESHOLD,
   // Sprint D — lineage + tribe emergent
   TRIBE_MIN_MEMBERS,
+  LINEAGE_REGISTRY_MAX_PER_CAMPAIGN,
   recordOffspring,
   getLineageChain,
   getTribesEmergent,
@@ -1047,6 +1248,8 @@ module.exports.inheritGeneSlots = inheritGeneSlots;
 module.exports.pickEnvironmentalMutation = pickEnvironmentalMutation;
 module.exports.computeOffspringTier = computeOffspringTier;
 module.exports.rollMatingOffspring = rollMatingOffspring;
+module.exports.applyHybridFusion = applyHybridFusion;
+module.exports.computeOffspringComplexity = computeOffspringComplexity;
 module.exports.TIER_NO_GLOW = TIER_NO_GLOW;
 module.exports.TIER_GOLD = TIER_GOLD;
 module.exports.TIER_RAINBOW = TIER_RAINBOW;

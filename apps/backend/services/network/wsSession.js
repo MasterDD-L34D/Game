@@ -36,6 +36,7 @@ const { WebSocketServer } = require('ws');
 const crypto = require('node:crypto');
 const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
 const { applyOps: applyJsonPatchOps } = require('./jsonPatch');
+const { buildPhaseChangePayload } = require('../coop/phaseChangePayload');
 
 // B-NEW-2 RCA aid 2026-05-08 — structured JSON log for lobby lifecycle
 // events (create / join / vote / close / host_grace_fire / ghost_remove).
@@ -145,6 +146,9 @@ class Room {
     this.hostId = hostId;
     this.maxPlayers = maxPlayers;
     this.campaignId = campaignId;
+    // PR-1 §22 coop-WS surface — combat session id linked post /api/session/start
+    // (coopStore.linkSession). Surfaced in publishPhaseChange for phone clients.
+    this.sessionId = null;
     this.createdAt = hydrateFromSeed?.createdAt || Date.now();
     this.closed = Boolean(hydrateFromSeed?.closed);
     this.hostTransferGraceMs = hostTransferGraceMs;
@@ -561,7 +565,11 @@ class Room {
       throw new Error(`phase_not_whitelisted:${phase}`);
     }
     this.phase = phase;
-    return this.publishEvent('phase_change', { phase });
+    return this.publishEvent('phase_change', {
+      phase,
+      session_id: this.sessionId ?? null,
+      campaign_id: this.campaignId ?? null,
+    });
   }
 
   /**
@@ -992,12 +1000,7 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
   };
   send({
     type: 'phase_change',
-    payload: {
-      phase: orch.phase,
-      round: orch.run?.currentIndex ?? 0,
-      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
-      reason: 'reconnect',
-    },
+    payload: buildPhaseChangePayload(orch, { reason: 'reconnect' }),
   });
   if (typeof orch.characterReadyList === 'function') {
     send({ type: 'character_ready_list', payload: orch.characterReadyList(allIds) });
@@ -1040,12 +1043,7 @@ function rebroadcastCoopState(room, orch) {
     .map((p) => p.id);
   room.broadcast({
     type: 'phase_change',
-    payload: {
-      phase: orch.phase,
-      round: orch.run?.currentIndex ?? 0,
-      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
-      reason: 'host_transferred',
-    },
+    payload: buildPhaseChangePayload(orch, { reason: 'host_transferred' }),
   });
   if (typeof orch.characterReadyList === 'function') {
     room.broadcast({
@@ -1092,6 +1090,12 @@ function createWsServer({
   port = null,
   path = '/ws',
   coopStore = null,
+  // S22-B Task 8 -- optional DI for server-side offspring roll on mating
+  // quorum. metaStoreFactory: (campaignId) => metaStore. prisma forwarded to
+  // the resolver for best-effort epigenome hydration. Both absent -> resolve
+  // is a no-op (mating_tally + ack still fire).
+  metaStoreFactory = null,
+  prisma = null,
 } = {}) {
   if (!lobby) throw new Error('lobby_required');
   if (!server && (port === null || port === undefined)) {
@@ -1561,6 +1565,74 @@ function createWsServer({
                 JSON.stringify({
                   type: 'error',
                   payload: { code: err.message || 'world_vote_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // S22-B -- drain mating_vote intents server-side via
+          // coopOrchestrator.voteMating (mirror world_vote). Phone sends
+          // { action: 'mating_vote', pair_id } during debrief.
+          if (action === 'mating_vote' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const connectedPids = Array.from(room.players.values())
+                .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
+              const tally = orch.voteMating(playerId, msg.payload?.pair_id, {
+                allPlayerIds: allPids,
+                connectedPlayerIds: connectedPids,
+              });
+              logLobbyEvent('mating_vote', {
+                code: room.code,
+                player_id: playerId,
+                pair_id: msg.payload?.pair_id || null,
+                leading_pair_id: tally.leading_pair_id,
+              });
+              room.broadcast({ type: 'mating_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'mating_vote_accepted', payload: { tally } }));
+              // S22-B Task 8 -- if the vote met connected-only quorum, roll the
+              // offspring server-side + broadcast mating_resolved. Best-effort:
+              // any failure leaves tally/ack intact (resolve is additive).
+              const winner = orch.resolveMatingWinner(allPids, connectedPids);
+              if (winner && metaStoreFactory) {
+                const store = metaStoreFactory(winner.campaign_id);
+                if (store) {
+                  // eslint-disable-next-line global-require
+                  const { resolveCoopMatingOffspring } = require('../mating/coopMatingResolver');
+                  resolveCoopMatingOffspring({
+                    store,
+                    prisma,
+                    campaignId: winner.campaign_id,
+                    parentAId: winner.parent_a_id,
+                    parentBId: winner.parent_b_id,
+                    biomeId: winner.biome_id,
+                  })
+                    .then((resolveRes) => {
+                      room.broadcast({
+                        type: 'mating_resolved',
+                        payload: {
+                          pair_id: winner.pair_id,
+                          offspring: resolveRes.offspring || null,
+                          ok: resolveRes.success,
+                        },
+                      });
+                    })
+                    .catch(() => {});
+                }
+              }
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'mating_vote_failed' },
                 }),
               );
             }

@@ -80,6 +80,11 @@ jobs:
               - 'Makefile'
               - 'scripts/dev-stack.sh'
               - 'scripts/lint-stack.mjs'
+              # test-runner harness: editing the runner must re-run the suite it
+              # drives (else a runner change -- e.g. new test globs -- skips
+              # stack-quality, the job that executes it).
+              - 'scripts/run-test-api.cjs'
+              - 'scripts/run-test-stack.cjs'
               - 'apps/backend/**'
               - 'services/**/*.js'
               - 'tests/**/*.js'
@@ -774,3 +779,37 @@ jobs:
           DEPLOY_CHROMIUM_BUNDLE_ARCHIVE: ${{ runner.temp }}/playwright-bundle/chromium-bundle.tar.gz
           DEPLOY_CHROMIUM_BUNDLE_SHA256: ${{ needs.playwright-bundle.outputs.sha256 }}
         run: scripts/run_deploy_checks.sh
+
+  ci-gate:
+    # Aggregator gate (issue #2410): meant to be the single ci.yml required check
+    # on main. The path-filtered jobs (stack-quality / cli-checks / python-tests /
+    # dataset-checks) report "skipped" when their area is not touched; a skipped
+    # REQUIRED check stays Pending and blocks the merge by design, so a tooling /
+    # CI-only PR can only land via admin override. This gate runs with always()
+    # and passes when every needed job is success-or-skipped, failing only on a
+    # real failure/cancellation -- removing the need to admin-merge.
+    # Scope = the jobs currently required on main (no new enforcement added).
+    # MAINTENANCE: if you make another job required on main, add it to needs: below
+    # (and vice-versa) -- this list must mirror the branch-protection required set.
+    name: ci-gate
+    if: always()
+    needs:
+      - paths-filter
+      - stack-quality
+      - cli-checks
+      - python-tests
+      - dataset-checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify no needed job failed (skipped is OK)
+        run: |
+          results="${{ join(needs.*.result, ' ') }}"
+          echo "needs results: $results"
+          for r in $results; do
+            case "$r" in
+              failure|cancelled)
+                echo "::error::a needed job concluded '$r' -> ci-gate fails"
+                exit 1 ;;
+            esac
+          done
+          echo "ci-gate pass (all needed jobs success or skipped)"

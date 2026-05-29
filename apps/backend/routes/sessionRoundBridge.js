@@ -1153,6 +1153,23 @@ function createRoundBridge(deps) {
       }
     }
 
+    // TKT-ORPHAN-CUMSTATE (Phase 7 wire 2026-05-22): populate per-unit
+    // cumulative_ally_adjacent_turns + cumulative_trait_active at end of round so
+    // mutationTriggerEvaluator's cumulative-kind triggers actually fire. The engine
+    // (cumulativeStateTracker, built 2026-05-11) was orphan: consumer read fields
+    // nobody wrote -> cumulative-trigger mutations never fired. Surface = mutations
+    // now trigger (player-visible). Best-effort; never blocks the round.
+    try {
+      const { updateCumulativeState } = require('../services/combat/cumulativeStateTracker');
+      for (const unit of session.units) {
+        if (!unit || Number(unit.hp || 0) <= 0) continue;
+        updateCumulativeState(unit, session, {});
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[cumulative-state] failed:', err && err.message ? err.message : err);
+    }
+
     return {
       hazardEvents,
       bleedingEvents,
@@ -1395,6 +1412,24 @@ function createRoundBridge(deps) {
             PRESSURE_DELTAS.sg_pg_down,
           );
         }
+      }
+      // TKT-ORPHAN-MORALE (wire): morale check on ally death. Logic extracted
+      // to services/combat/moraleOnKill (pure, unit-tested). When a unit is
+      // killed, its LIVING adjacent same-team allies make a morale check ->
+      // panic (or rarely rage). Best-effort; never blocks the kill flow.
+      try {
+        const { moraleEventsForKill } = require('../services/combat/moraleOnKill');
+        const moraleEvents = moraleEventsForKill(target, session.units, {
+          sessionId: session.session_id,
+          turn: session.turn,
+        });
+        for (const mEv of moraleEvents) {
+          // eslint-disable-next-line no-await-in-loop
+          await appendEvent(session, mEv);
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[morale] failed:', err && err.message ? err.message : err);
       }
     }
   }
