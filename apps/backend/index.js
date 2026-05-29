@@ -30,6 +30,10 @@ const gameDatabaseUrl = process.env.GAME_DATABASE_URL || 'http://localhost:3333'
 const gameDatabaseEnabled = process.env.GAME_DATABASE_ENABLED !== 'false';
 const gameDatabaseTimeoutMs = Number.parseInt(process.env.GAME_DATABASE_TIMEOUT_MS || '', 10);
 const gameDatabaseTtlMs = Number.parseInt(process.env.GAME_DATABASE_TTL_MS || '', 10);
+// Pins the catalog glossary fetch to one taxonomy version (RFC Section 5).
+// When set, the Game-Database glossary URL gains ?versionId=<v>; unset = no
+// param (current behavior). See docs/adr/ADR-2026-04-14-game-database-topology.md.
+const taxonomyVersion = process.env.EVO_TAXONOMY_VERSION || undefined;
 
 const { app, lobby, coopStore, metaStoreFactory, prisma } = createApp({
   dataRoot,
@@ -38,6 +42,7 @@ const { app, lobby, coopStore, metaStoreFactory, prisma } = createApp({
     url: gameDatabaseUrl,
     timeoutMs: Number.isFinite(gameDatabaseTimeoutMs) ? gameDatabaseTimeoutMs : undefined,
     ttlMs: Number.isFinite(gameDatabaseTtlMs) ? gameDatabaseTtlMs : undefined,
+    taxonomyVersion,
   },
 });
 

@@ -52,3 +52,16 @@ def test_multi_biome_includes_back_compat_bias():
     for biome_id, biome_data in report["biomes"].items():
         assert "predator_density" in biome_data["bias"], f"{biome_id} bias missing predator_density"
         assert "resource_scarcity" in biome_data["bias"], f"{biome_id} bias missing resource_scarcity"
+
+
+def test_multi_biome_exercises_low_and_high_bands():
+    # TKT-BR-12: the pilot config must produce eco_pressure spanning the LOW
+    # (<0.33) AND HIGH (>=0.66) bands so the ERMES bridge is demonstrably
+    # non-inert. When every pilot lands in MED ([0.33,0.66)) the bridge applies
+    # delta_mod 0 everywhere (the inert state found at handoff 2026-05-29).
+    # Bands mirror data/core/balance/ermes_bucket_thresholds.yaml eco_pressure_score.
+    config = load_config(CONFIG)
+    report = run_multi_biome(config)
+    scores = {b: d["eco_pressure_score"] for b, d in report["biomes"].items()}
+    assert min(scores.values()) < 0.33, f"no LOW-band biome (bridge inert): {scores}"
+    assert max(scores.values()) >= 0.66, f"no HIGH-band biome (bridge inert): {scores}"
