@@ -213,10 +213,11 @@ L0-L5 declassato a lente**.
 4. **Build**: L0-L1 ora (vicini al core). **L2-L5 = feature ordinarie M2+**, NON
    priorita' automatica, gated da DUE precondizioni HARD (fix P1.1/P1.2/P1.3
    harsh-review — non hand-wavy):
-   - **(a) gate playtest falsificabile**: nessun merge L2-L5 finche' il core co-op
-     loop non e' validato end-to-end in un playtest filato (>=1 sessione 4-umani
-     TV+phone, run completa, findings in `docs/playtest/`, sign-off master-dd).
-     Artefatto-gate = BACKLOG `Short` goal M1.
+   - **(a) gate AI-driven canonical playtest** (paradigma 2026-05-29,
+     `docs/process/CANONICAL-AI-PLAYTEST.md`): nessun merge L2-L5 finche' il core co-op
+     loop non passa il **playtest AI-driven canonico** (multi-policy, WR in-band a N=40,
+     test verdi), riproducibile via `calibrate_parallel.py`. Playtest umano = conferma
+     opzionale, NON bloccante. Artefatto-gate = `canonical-suite.yaml` + BACKLOG `Short` M1.
    - **(b) regola same-increment-surface**: ogni sprint L2-L5 shippa engine + payoff
      player-visibile + debrief NELLO STESSO incremento, o non shippa (roadmap
      `evo-state-roadmap` §82-83). Cross-run NON de-rischia: e' un *moltiplicatore* di

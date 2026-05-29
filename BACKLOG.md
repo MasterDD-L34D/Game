@@ -29,6 +29,16 @@ Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-cur
 | TKT-WORLDGEN-GAPB  | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove  |
 | TKT-WORLDGEN-GAPC  | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                              | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
+### 🟡 OPEN — Canonical AI-driven playtest (paradigma flip 2026-05-29)
+
+SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
+
+| Ticket                   | Scope                                                                                           | Effort | Note                                                          |
+| ------------------------ | ----------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------ |
+| TKT-PLAYTEST-SEED        | `--seed` pin RNG nei `batch_calibrate_*.py` per riproducibilita' bit-identica                   | ~2-3h  | gap "ogni volta" (oggi solo statistica N=40, non bit-identica) |
+| TKT-PLAYTEST-TRIANGULATE | wire multi-policy `--policy {random,greedy,lookahead2,utility}` (Restricted-Play, Jaffe 2012)   | ~4h    | stub gia' nel policy doc superseded; output = banda WR non single verdict |
+| TKT-PLAYTEST-SUITE       | `tools/py/playtest_canonical.py` orchestratore summa (manifest -> N=40 parallel -> report datato) | ~4-6h  | smoke-gated (backend up + ~10min). Anti-pattern #9: non shippare non-testato |
+
 ### 🟡 OPEN — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
 
 Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). Verified findings; dispositions are master-dd-gated (wire-vs-remove / N=40 ratify).
@@ -87,7 +97,7 @@ User trigger 2026-05-13: "analizza col metodo tutta l'infrastruttura Ecosistema 
 - P4 Temperamenti: 🟢-cand → 🟢 candidato HARD (sentience 15/15 + 51 neurons + vc_scoring fold)
 - P6 Fairness: 🟢 candidato confermato (conviction tactical flags inline)
 
-🟢 hard final ancora gated **Playtest #2 userland** (master-dd manual, 4 amici). Synthetic baseline shipped #2266 (P3 🟡 + P4 🟢 + P6 🟢 con 30 sessions).
+🟢 hard final: gate = **playtest AI-driven canonico** (multi-policy N=40 in-band, `docs/process/CANONICAL-AI-PLAYTEST.md`). Playtest umano "#2 userland 4 amici" = conferma OPZIONALE, NON bloccante (flip 2026-05-29). Synthetic baseline shipped #2266 (P3 🟡 + P4 🟢 + P6 🟢 con 30 sessions).
 
 **Anti-pattern killer milestone**: cross-validation L7c Promotions ORPHAN claim FALSE NEGATIVE → museum discard card [M-2026-05-13-001](docs/museum/cards/promotions-orphan-claim-discarded.md) + lessons codify per Explore agent inventory.
 
@@ -806,7 +816,7 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 ## 🚫 Bloccato da
 
 - **TKT-07** ← TKT-06 (predict_combat fix prima di sweep #2)
-- **V6 UI polish** ← TKT-M11B-06 playtest (serve feedback real per priorità UI)
+- **V6 UI polish** ← playtest canonico AI-driven (`docs/process/CANONICAL-AI-PLAYTEST.md`) OR feedback human opzionale (TKT-M11B-06 declassato, non bloccante)
 - **M15 Triangle Strategy** ← M14-A + M14-B completati (sequenza rollout)
 - **Alt B HTTP runtime** ← Game-Database sibling repo availability + deployment pubblico
 
