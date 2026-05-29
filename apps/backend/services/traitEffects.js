@@ -752,6 +752,71 @@ function _resetErmesCostMarker(unit) {
   delete unit._ermes_biome_costs_log;
 }
 
+// ADR-2026-05-29 FASE 3 (section 3): unified biome-eco orchestrator.
+// Runs ADR-21c applyBiomeTraitCosts + ERMES applyErmesBiomeTraitCosts, then clamps
+// the COMBINED biome-origin delta per stat to +/-2 (mirror ADR-21c strict range).
+// Snapshot/diff so non-biome bonuses already on the field are preserved. Idempotent
+// via the sub-functions' own markers. NEVER writes creature_epigenome (R6 gate).
+const BIOME_ECO_FIELDS = ['attack_mod_bonus', 'defense_mod_bonus', 'mobility', 'rest_recovery'];
+const BIOME_ECO_COMBINED_CAP = 2;
+
+function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
+  const emptyLog = {
+    adr21c: [],
+    ermes: [],
+    combined_delta: {},
+    capped: false,
+    biome_id: biomeId || null,
+    band: null,
+  };
+  if (!unit || !biomeId) return emptyLog;
+
+  const base = {};
+  for (const f of BIOME_ECO_FIELDS) base[f] = Number(unit[f] || 0);
+
+  let adr21c = [];
+  if (opts.biomeCostsRegistry && opts.biomeCostsRegistry.trait_costs) {
+    try {
+      adr21c = applyBiomeTraitCosts(unit, biomeId, opts.biomeCostsRegistry) || [];
+    } catch (_) {
+      adr21c = [];
+    }
+  }
+
+  let ermes = [];
+  try {
+    ermes =
+      applyErmesBiomeTraitCosts(unit, biomeId, {
+        ermesExporter: opts.ermesExporter,
+        bucketed: opts.bucketed,
+      }) || [];
+  } catch (_) {
+    ermes = [];
+  }
+
+  const combined_delta = {};
+  let capped = false;
+  for (const f of BIOME_ECO_FIELDS) {
+    const raw = Number(unit[f] || 0) - base[f];
+    const clamped = Math.max(-BIOME_ECO_COMBINED_CAP, Math.min(BIOME_ECO_COMBINED_CAP, raw));
+    if (clamped !== raw) capped = true;
+    unit[f] = base[f] + clamped;
+    if (clamped !== 0) combined_delta[f] = clamped;
+  }
+
+  const ecoItem = Array.isArray(ermes)
+    ? ermes.find((a) => a && a.bucket === 'eco_pressure_score')
+    : null;
+  return {
+    adr21c,
+    ermes,
+    combined_delta,
+    capped,
+    biome_id: biomeId,
+    band: ecoItem ? ecoItem.band : null,
+  };
+}
+
 /**
  * Evaluate movement-triggered buff_stat traits for a unit.
  *
@@ -801,6 +866,9 @@ module.exports = {
   applyBiomeTraitCosts,
   BIOME_COST_DEFAULT_PATH,
   _resetBiomeCostCache,
+  // ADR-2026-05-29 FASE 3: unified biome-eco orchestrator
+  applyBiomeEcoEffects,
+  BIOME_ECO_COMBINED_CAP,
   // ADR-2026-05-29 TKT-BR-06 ERMES bucketed deltas
   applyErmesBiomeTraitCosts,
   _resetErmesCostMarker,
