@@ -80,6 +80,11 @@ jobs:
               - 'Makefile'
               - 'scripts/dev-stack.sh'
               - 'scripts/lint-stack.mjs'
+              # test-runner harness: editing the runner must re-run the suite it
+              # drives (else a runner change -- e.g. new test globs -- skips
+              # stack-quality, the job that executes it).
+              - 'scripts/run-test-api.cjs'
+              - 'scripts/run-test-stack.cjs'
               - 'apps/backend/**'
               - 'services/**/*.js'
               - 'tests/**/*.js'
