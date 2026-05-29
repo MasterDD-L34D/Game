@@ -16,6 +16,13 @@
 # Estensioni future (tier T2+, categorie aggiuntive) richiederanno di
 # ampliare lo schema qui sotto e l'evaluator in traitEffects.js.
 
+# ADR-2026-05-29-trait-schema-canonization: schema_version 2.0 bump 2026-05-29.
+# `version: 1` legacy preservato 1 release per back-compat consumer; rimuovere
+# in TKT successivo dopo verify nessun consumer legge il vecchio field.
+schema_version: "2.0"
+schema_version_previous: "1"
+schema_bumped_at: "2026-05-29"
+schema_bumped_ref: "ADR-2026-05-29-trait-schema-canonization"
 version: 1
 traits:
   zampe_a_molla:
