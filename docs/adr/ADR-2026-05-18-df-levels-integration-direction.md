@@ -4,10 +4,10 @@ date: 2026-05-18
 type: adr
 workstream: cross-cutting
 owner: master-dd
-status: draft
+status: accepted
 proposed_by: claude-code (codemasterdd consolidamento DF + ground-truth audit gh-api)
-accepted_by: pending master-dd verdict
-verdict_date: pending
+accepted_by: master-dd (Eduardo Scarpelli) -- verdetto 2026-05-29 post harsh-review stress-test
+verdict_date: 2026-05-29
 related_adr:
   - docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md
 related_pr:
@@ -26,11 +26,12 @@ supersedes_as_decision_source:
 
 # ADR-2026-05-18 — DF-Levels integration: direzione confermata + decision-matrix governata
 
-> STATUS: **DRAFT** — richiede verdetto master-dd. Nessun codice. Questo file
-> consolida 3 doc A5 sparsi (RECONCILIATION / PHASE-PLAN / GAME-ANALYSIS) in
-> **un unico artefatto governato**, con la per-game matrix **ground-truth-
-> corretta** (audit gh-api origin/main 2026-05-18). Afferma che l'intento DF
-> e' reale e deliberato, NON vaporware e NON shipped.
+> STATUS: **ACCEPTED** (verdetto master-dd 2026-05-29, post harsh-review stress-test
+> — vedi "Verdetto master-dd" sotto). Nessun codice in questo ADR. Consolida **2 doc
+> A5 reali** (RECONCILIATION / PHASE-PLAN; GAME-ANALYSIS gia' assorbito-corretto in
+> questa matrix, non file standalone) in **un unico artefatto governato**, con la
+> per-game matrix **ground-truth-corretta** (audit gh-api origin/main 2026-05-18).
+> L'intento DF e' reale e deliberato, NON vaporware e NON shipped.
 
 ## Context
 
@@ -81,8 +82,14 @@ decision-matrix corretta; (c) chiuda lo sprawl di 4 doc paralleli.
 | L4  | Narrativa superficiale      | "rende la storia leggibile?"                 |
 | L5  | Filosofia "losing is fun"   | "il fallimento e' narrativo non frustrante?" |
 
-Regola: ogni sprint DF deve rispondere SI ad almeno una. Se no a tutte =
-simulazione senza memoria, non genera storie, ripriorizza.
+Regola (verdetto 2026-05-29, fix P0.1 harsh-review): L0-L5 e' **annotazione
+descrittiva subordinata al gate dei 6 pilastri** (`vault core/02-PILASTRI` =
+source_of_truth), NON un secondo gate parallelo. Il gate che approva/blocca un
+feature restano i 6 pilastri; L0-L5 = lente narrativa di profondita'-emergenza
+(serve a *descrivere* dove un feature aggiunge story-depth, non a deciderlo in/out).
+Euristica informale OK ("questo sprint tocca quale livello?"), MA non e' un cancello
+autonomo. Evita il doppio-gate = doppia superficie di sprawl (la cosa che questo
+ADR dichiara di combattere).
 
 ## Decision-matrix per-gioco (GROUND-TRUTH CORRETTA 2026-05-18)
 
@@ -191,13 +198,35 @@ veto immediato indipendente dal ROI. Non "non-ancora", ma "escluso".
 - **C reject**: nessun ADR governato, restano i 3 A5 sparsi. Sconsigliato
   (sprawl + premessa falsificata non corretta in governance).
 
-## Decision needed (master-dd)
+## Verdetto master-dd (2026-05-29)
 
-1. Adotti la direzione DF come confermata? (A / B / C)
-2. Accetti questa decision-matrix come record governato (vs tabelle A5 sparse)?
-3. Supersedi i 3 doc A5 a "reasoning archive non-governante"? (Y/N)
-4. Greenfield DF: collocazione roadmap (M2+ feature ordinarie) o defer-block?
-5. Verdetto figlio #2328 (Sistema S7: A/B/C) — sblocca punto 2 della ranked.
+Verdetto dato da Eduardo (master-dd) in valutazione congiunta, stress-testato da
+`harsh-reviewer` (read-only) PRIMA del commit: 2 P0 + fix anti-blind-spot adottati
+("se rigetta adotto non difendo"). Sintesi: **direzione regge, ambizione sequenziata,
+L0-L5 declassato a lente**.
+
+1. **Direzione DF = CONFERMATA**. Cross-run persistence confermata da master-dd =
+   substrato reale per L2-L5 (NON format-mismatch). Build-sequencing: **A come
+   direzione, B come ordine-di-costruzione**.
+2. **Record governato = SI**. Questa decision-matrix sostituisce le tabelle A5 sparse.
+3. **Supersession = SI**. I 2 doc A5 reali -> reasoning archive non-governante (vault PR #94).
+4. **Build**: L0-L1 ora (vicini al core). **L2-L5 = feature ordinarie M2+**, NON
+   priorita' automatica, gated da DUE precondizioni HARD (fix P1.1/P1.2/P1.3
+   harsh-review — non hand-wavy):
+   - **(a) gate playtest falsificabile**: nessun merge L2-L5 finche' il core co-op
+     loop non e' validato end-to-end in un playtest filato (>=1 sessione 4-umani
+     TV+phone, run completa, findings in `docs/playtest/`, sign-off master-dd).
+     Artefatto-gate = BACKLOG `Short` goal M1.
+   - **(b) regola same-increment-surface**: ogni sprint L2-L5 shippa engine + payoff
+     player-visibile + debrief NELLO STESSO incremento, o non shippa (roadmap
+     `evo-state-roadmap` §82-83). Cross-run NON de-rischia: e' un *moltiplicatore* di
+     surface-dead. Precedente di creep gia' avvenuto: il figlio S7 (feature L2) e'
+     stato costruito PRIMA del suo verdetto.
+5. **Figlio #2328 (Sistema S7)**: Option B **gia' SHIPPED** (units_observed + threat,
+   e2e PASS 2026-05-25) -> NON "pilot" (correzione P0.2: era stale framing). Verdetto =
+   **ratify-or-revert** sul gate playtest (a). Estensione a Option A
+   (tactics/factions/phase) = feature M2+ ordinaria, stesso doppio-gate. Dettaglio nel child ADR.
 
 Riferimento audit: codemasterdd `STATUS_MULTI_REPO.md` §DF Integration +
-PR #2326 caveat ground-truth.
+PR #2326 caveat ground-truth. Stress-test: harsh-reviewer 2026-05-29 (2 P0 fixed:
+L0-L5 gate->annotazione; Q5 pilot->ratify; gate reso falsificabile; count 3->2 doc A5).
