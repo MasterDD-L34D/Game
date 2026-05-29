@@ -31,3 +31,13 @@ test('voteMating re-vote replaces, not stacks; debrief gate enforced', () => {
   const lobby = new CoopOrchestrator({ roomCode: 'ZZ', hostId: 'h' });
   assert.throws(() => lobby.voteMating('p1', 'a__b'), /not_in_debrief/);
 });
+
+test('matingVotes cleared on scenario advance (new debrief round)', () => {
+  const o = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1' });
+  o.startRun({ scenarioStack: ['e1', 'e2'] });
+  o.phase = 'debrief';
+  o.voteMating('p1', 'a__b', { allPlayerIds: ['p1'] });
+  assert.equal(o.matingVotes.size, 1);
+  o.advanceScenarioOrEnd();
+  assert.equal(o.matingVotes.size, 0);
+});
