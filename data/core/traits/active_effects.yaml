@@ -10469,21 +10469,8 @@ traits:
       Riduce 1 PT danno da attacchi termici (fuoco/ghiaccio). RFC
       sentience v0.1 interoception_trait T1.
 
-  # ADR-2026-05-29 TKT-CL-05: passive heal handler missing per audit
-  # 2026-05-10-trait-mech-no-handler-audit.md (1/30 gap b). filamenti_digestivi_compattanti
-  # ha active_effects.heal in trait_mechanics.yaml ma mancava passive trigger qui.
-  filamenti_digestivi_compattanti:
-    tier: T1
-    category: fisiologico
-    applies_to: actor
-    trigger:
-      action_type: attack
-      on_result: hit
-    effect:
-      kind: heal
-      amount: 3
-      dice: '1d6+1'
-      log_tag: filamenti_digestivi_heal
-    description_it: |
-      Filamenti digestivi che estraggono nutrienti dai tessuti del bersaglio
-      colpito. Ogni hit innesca micro-digestione di contatto: recupera 1d6+1 HP.
+  # ADR-2026-05-29 TKT-CL-05 REVERTED 2026-05-29: pre-existing handler trovato
+  # a linea 10383 (amount: 0, dice 1d6+1, log_tag filamenti_digestivi_heal).
+  # L'audit 2026-05-10-trait-mech-no-handler-audit.md era stale - il gap b era
+  # gia chiuso. Diff balance (amount 0 vs 3) e' decisione Balancer agent + tier
+  # check, fuori scope ADR-2026-05-29 §scope guard "NO touch ai dati esistenti".
