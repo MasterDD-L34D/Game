@@ -146,6 +146,9 @@ class Room {
     this.hostId = hostId;
     this.maxPlayers = maxPlayers;
     this.campaignId = campaignId;
+    // PR-1 §22 coop-WS surface — combat session id linked post /api/session/start
+    // (coopStore.linkSession). Surfaced in publishPhaseChange for phone clients.
+    this.sessionId = null;
     this.createdAt = hydrateFromSeed?.createdAt || Date.now();
     this.closed = Boolean(hydrateFromSeed?.closed);
     this.hostTransferGraceMs = hostTransferGraceMs;
@@ -562,7 +565,11 @@ class Room {
       throw new Error(`phase_not_whitelisted:${phase}`);
     }
     this.phase = phase;
-    return this.publishEvent('phase_change', { phase });
+    return this.publishEvent('phase_change', {
+      phase,
+      session_id: this.sessionId ?? null,
+      campaign_id: this.campaignId ?? null,
+    });
   }
 
   /**
