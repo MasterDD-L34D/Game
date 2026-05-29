@@ -19,6 +19,11 @@ const routes: RouteRecordRaw[] = [
     name: 'trait-editor',
     component: () => import('./views/TraitEditorView.vue'),
   },
+  {
+    path: '/suggestions',
+    name: 'trait-suggestions',
+    component: () => import('./views/TraitSuggestionsView.vue'),
+  },
   { path: '/:pathMatch(.*)*', redirect: '/traits' },
 ];
 

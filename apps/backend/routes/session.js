@@ -272,7 +272,9 @@ function createSessionRouter(options = {}) {
   }
 
   const sessions = new Map();
-  let activeSessionId = null;
+  let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
+  // /start links the new session id back by campaign_id (== run.id).
+  const coopStore = options.coopStore || null;
 
   // Telemetry helper — append JSONL entry to logs/telemetry_YYYYMMDD.jsonl.
   // Same schema as POST /telemetry (ts, session_id, player_id, type, payload)
@@ -1626,6 +1628,13 @@ function createSessionRouter(options = {}) {
         campaign_id: req.body?.campaign_id || null,
         sistema_state: { units_observed: {} },
       };
+      // §21 ALIENA-C: opt-in baseline coherence snapshot (round=0). Pairs with
+      // ALIENA-B per-tick emit at reinforcementSpawner. Best-effort.
+      try {
+        require('../services/combat/initialAlienaTelemetry').emitInitial(session, encounterPayload);
+      } catch (err) {
+        console.warn('[aliena-initial] emit failed:', err.message);
+      }
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
       // save-load + integration tests seed SG after the encounter zero-pass.
@@ -1655,6 +1664,16 @@ function createSessionRouter(options = {}) {
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
+      // PR-1 §22 coop-WS surface — link this combat session back into the coop
+      // orchestrator (campaign_id == run.id) so the next phase_change broadcast
+      // surfaces session_id to phone clients for ALIENA telemetry on debrief.
+      if (coopStore && session.campaign_id) {
+        try {
+          coopStore.linkSession(session.campaign_id, sessionId);
+        } catch {
+          /* best-effort -- coop link must never block session start */
+        }
+      }
       // M1 -- hydrate persistent Sistema learning state (best-effort, never blocks).
       try {
         if (session.campaign_id) {
@@ -2690,6 +2709,28 @@ function createSessionRouter(options = {}) {
       res.json({
         session_id: session.session_id,
         eligibility,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // §21 ALIENA-D: READ-only consumer endpoint exposing diagnostic telemetry
+  // buffer populated by ALIENA-B (per-tick reinforcement) + ALIENA-C (round=0
+  // baseline). Empty array when flag off or no spawn-eligible events yet.
+  // capped flips true when buffer hit MAX=500 tail-cap.
+  router.get('/:id/aliena-telemetry', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const buffer = Array.isArray(session.aliena_coherence_telemetry)
+        ? session.aliena_coherence_telemetry
+        : [];
+      res.json({
+        session_id: session.session_id,
+        telemetry: buffer,
+        count: buffer.length,
+        capped: buffer.length >= 500,
       });
     } catch (err) {
       next(err);

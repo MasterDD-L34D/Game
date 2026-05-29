@@ -5,6 +5,11 @@ import {
 } from '../data/traits.sample';
 import type { Trait, TraitIndexEntry } from '../types/trait';
 import type {
+  TraitSuggestion,
+  TraitSuggestionPatch,
+  TraitSuggestionsResponse,
+} from '../types/trait-suggestion';
+import type {
   TraitValidationAutoFix,
   TraitValidationAutoFixOperation,
   TraitValidationIssue,
@@ -189,6 +194,102 @@ export class TraitDataService {
 
   getLastError(): Error | null {
     return this.lastError;
+  }
+
+  // ADR-2026-05-29 TKT-BR-09: read ERMES trait suggestions (GET, read-only).
+  // Reuses fetchWithAuth (Bearer + 401 retry). Server returns the latest
+  // reports/traits/<date>-ermes-suggestions.json (ermes_trait_suggestion v1.0.0).
+  async getSuggestions(): Promise<TraitSuggestionsResponse> {
+    const endpoint = this.endpointOverride ?? TRAIT_DATA_ENDPOINT;
+    const target = this.buildSuggestionsEndpoint(endpoint);
+    if (!target) {
+      throw new Error('Endpoint suggestions non configurato.');
+    }
+    const response = await this.fetchWithAuth(target, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error(`Caricamento suggestions fallito (stato ${response.status}).`);
+    }
+    let payload: unknown;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      throw new Error(`Risposta suggestions non interpretabile: ${String(error)}`);
+    }
+    return this.normaliseSuggestions(payload);
+  }
+
+  private buildSuggestionsEndpoint(baseEndpoint: string): string | null {
+    const apiPath = '/api/traits/suggestions';
+    const trimmed = typeof baseEndpoint === 'string' ? baseEndpoint.trim() : '';
+    if (trimmed && this.isAbsoluteUrl(trimmed)) {
+      try {
+        const base = new URL(trimmed);
+        return new URL(apiPath, `${base.protocol}//${base.host}`).toString();
+      } catch {
+        return apiPath;
+      }
+    }
+    if (this.locationOrigin) {
+      try {
+        return new URL(apiPath, this.locationOrigin).toString();
+      } catch {
+        return apiPath;
+      }
+    }
+    return apiPath;
+  }
+
+  private normaliseSuggestions(payload: unknown): TraitSuggestionsResponse {
+    const empty: TraitSuggestionsResponse = {
+      schema: 'ermes_trait_suggestion',
+      schema_version: '1.0.0',
+      suggestions: [],
+    };
+    if (!payload || typeof payload !== 'object') {
+      return empty;
+    }
+    const record = payload as Record<string, unknown>;
+    const rawList = Array.isArray(record.suggestions) ? record.suggestions : [];
+    const suggestions = rawList
+      .map((item) => this.normaliseSuggestion(item))
+      .filter((item): item is TraitSuggestion => Boolean(item));
+    return {
+      schema: typeof record.schema === 'string' ? record.schema : empty.schema,
+      schema_version:
+        typeof record.schema_version === 'string' ? record.schema_version : empty.schema_version,
+      suggestions,
+      note: typeof record.note === 'string' ? record.note : undefined,
+    };
+  }
+
+  private normaliseSuggestion(source: unknown): TraitSuggestion | null {
+    if (!source || typeof source !== 'object') {
+      return null;
+    }
+    const r = source as Record<string, unknown>;
+    const traitId = typeof r.trait_id === 'string' ? r.trait_id : '';
+    if (!traitId) {
+      return null;
+    }
+    const patch =
+      r.proposed_patch && typeof r.proposed_patch === 'object'
+        ? (r.proposed_patch as TraitSuggestionPatch)
+        : undefined;
+    return {
+      trait_id: traitId,
+      biome_id: typeof r.biome_id === 'string' ? r.biome_id : '',
+      kind: typeof r.kind === 'string' ? r.kind : 'suggestion',
+      rationale: typeof r.rationale === 'string' ? r.rationale : '',
+      confidence: typeof r.confidence === 'number' ? r.confidence : 0,
+      evidence:
+        r.evidence && typeof r.evidence === 'object'
+          ? (r.evidence as Record<string, unknown>)
+          : undefined,
+      proposed_patch: patch,
+    };
   }
 
   validateTrait(trait: Trait): Promise<TraitValidationResult> {

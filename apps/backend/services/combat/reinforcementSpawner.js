@@ -65,7 +65,7 @@ function pickEntryTile(entryTiles, session, minDist) {
   return candidates.length > 0 ? candidates[0] : null;
 }
 
-function pickPoolEntry(pool, session, rng, biomeConfig = null) {
+function pickPoolEntry(pool, session, rng, biomeConfig = null, alienaEnforcement = null) {
   const history = session.reinforcement_state?.spawn_history || [];
   const counts = history.reduce((m, h) => {
     m[h.unit_id] = (m[h.unit_id] || 0) + 1;
@@ -82,7 +82,10 @@ function pickPoolEntry(pool, session, rng, biomeConfig = null) {
   if (biomeConfig) {
     try {
       const { applyBiomeBias } = require('./biomeSpawnBias');
-      weighted = applyBiomeBias(eligible, biomeConfig);
+      weighted = applyBiomeBias(eligible, biomeConfig, {
+        alienaEnforcement,
+        canonicalPool: pool,
+      });
     } catch {
       weighted = eligible;
     }
@@ -203,6 +206,17 @@ function tick(session, encounter, opts = {}) {
     };
   }
 
+  // §21 ALIENA enforcement (config-gated, default-OFF). When
+  // policy.aliena_enforcement = { enabled:true, strength:>0 }, thread a
+  // normalized strength knob into pickPoolEntry → applyBiomeBias so spawn
+  // weights are modulated by per-entry ALIENA coherence. Absent/disabled →
+  // null → byte-identical spawns vs the diagnostic-only baseline.
+  const enfCfg = policy.aliena_enforcement;
+  const alienaEnforcement =
+    enfCfg && enfCfg.enabled === true && Number(enfCfg.strength) > 0
+      ? { strength: Math.max(0, Math.min(1, Number(enfCfg.strength))) }
+      : null;
+
   // §21 ALIENA diagnostic pre-pass (ALIENA-B). One-shot per tick, full pool.
   if (policy.aliena_coherence_telemetry === true) {
     emitAlienaPoolSnapshot(session, pool, biomeConfig, round);
@@ -214,7 +228,7 @@ function tick(session, encounter, opts = {}) {
       spawned.push({ skipped: true, reason: 'no_walkable_entry' });
       break;
     }
-    const entry = pickPoolEntry(pool, session, rng, biomeConfig);
+    const entry = pickPoolEntry(pool, session, rng, biomeConfig, alienaEnforcement);
     if (!entry) {
       spawned.push({ skipped: true, reason: 'pool_exhausted' });
       break;
