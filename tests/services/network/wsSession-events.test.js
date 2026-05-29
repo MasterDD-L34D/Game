@@ -121,7 +121,7 @@ test('Room.publishPhaseChange: sets phase + ledger-records as phase_change', () 
   assert.equal(room.phase, 'combat');
   const entries = room.ledgerSince(0);
   assert.equal(entries[0].type, 'phase_change');
-  assert.deepEqual(entries[0].payload, { phase: 'combat' });
+  assert.deepEqual(entries[0].payload, { phase: 'combat', session_id: null, campaign_id: null });
 });
 
 test('Room.publishPhaseChange: rejects empty phase', () => {
@@ -166,8 +166,8 @@ test('WS-event: phase_change broadcast carries version + payload', async () => {
       waitForMessage(p1Ws, (m) => m.type === 'phase_change'),
     ]);
     assert.equal(hostMsg.version, 1);
-    assert.deepEqual(hostMsg.payload, { phase: 'combat' });
-    assert.deepEqual(p1Msg.payload, { phase: 'combat' });
+    assert.deepEqual(hostMsg.payload, { phase: 'combat', session_id: null, campaign_id: null });
+    assert.deepEqual(p1Msg.payload, { phase: 'combat', session_id: null, campaign_id: null });
 
     hostWs.close();
     p1Ws.close();
