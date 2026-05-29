@@ -41,3 +41,14 @@ test('POST /coop/mating/vote rejects bad auth', async (t) => {
   });
   assert.equal(res.status, 403);
 });
+
+test('voteMating emits mating_vote identity-signal event (pair_id + player_id)', () => {
+  const { CoopOrchestrator } = require('../../apps/backend/services/coop/coopOrchestrator');
+  const o = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1' });
+  o.startRun({ scenarioStack: ['enc_a'] });
+  o.phase = 'debrief';
+  o.voteMating('p1', 'a__b', { allPlayerIds: ['p1'] });
+  const evt = o.log.filter((e) => e.kind === 'mating_vote').pop();
+  assert.equal(evt.payload.pair_id, 'a__b');
+  assert.equal(evt.payload.player_id, 'p1');
+});
