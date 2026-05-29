@@ -4,7 +4,7 @@ doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: '2026-05-29'
-source_of_truth: false
+source_of_truth: true
 language: it-en
 review_cycle_days: 90
 ---
@@ -412,6 +412,23 @@ Index canonico museum: [docs/museum/MUSEUM.md](../museum/MUSEUM.md).
 - Trigger review: nuovo pilastro stato change (🔴→🟡→🟢) → re-check top-3 source per pillar relevance
 
 ---
+
+## Relazione con SoT governato
+
+Questo catalogo e' **source-of-truth governato** (registrato in
+`docs/governance/docs_registry.json`, `source_of_truth: true`, review-cycle 90gg): la
+lista giochi-fonte non e' piu' un doc laterale che va stale (drift 2026-05-29: Pokopia
++ Dwarf Fortress mancanti = root-cause maintenance-protocol non seguito). Relazioni:
+
+- **DF-Levels matrix** ([ADR-2026-05-18-df-levels](../adr/ADR-2026-05-18-df-levels-integration-direction.md)):
+  aggiunge la dimensione **L0-L5 + verdetto governato** (SHIPPED/GATED/GREENFIELD/REF/ANTI).
+  De-dup: studio+feature+pilastro+depth = QUI (catalogo SoT); DF-level + verdetto-di-build = li'.
+- **Metodo playtest**: validazione dei pattern adottati = [playtest AI-driven canonico](../process/CANONICAL-AI-PLAYTEST.md)
+  (gate riproducibile multi-policy N=40), NON playtest umano.
+- **Mirror sovereign**: vault `Atlas/evo-tactics-*-moc.md` + `Cards/deep-research-evo-tactics/` = copia sovereign design-notes.
+
+Maintenance: nuovo gioco -> riga qui (protocollo sotto) E, se tocca direzione DF, riga
+nella matrix ADR. Currency check nel review-cycle 90gg (registry-tracked = niente piu' drift silenzioso).
 
 ## Riferimenti incrociati
 

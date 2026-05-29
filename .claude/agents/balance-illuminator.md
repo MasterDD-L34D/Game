@@ -264,7 +264,7 @@ Prima di ogni analisi, leggi in questo ordine:
 3. **Scenario spec**: `apps/backend/services/{hardcoreScenario,tutorialScenario}.js`
 4. **Damage curves + bands**: `data/core/balance/damage_curves.yaml` (target bands per encounter_class)
 5. **Historical playtest docs**: `docs/playtest/*.md`
-6. **ADR history**: `ADR-2026-04-20-damage-scaling-curves.md`, `ADR-2026-04-26-calibration-harness-policy.md`
+6. **ADR history**: `ADR-2026-04-20-damage-scaling-curves.md`, `ADR-2026-04-26-calibration-harness-policy.md` (SUPERSEDED 2026-05-29 -> `docs/process/CANONICAL-AI-PLAYTEST.md`: gate-policy flippata, harness AI-driven multi-policy = gate/oracolo, playtest umano = opzionale)
 7. **CLAUDE.md claims**: solo sanity cross-check, mai autoritativo
 
 ## Execution flow

@@ -96,7 +96,9 @@ ADR dichiara di combattere).
 Verdetto: **SHIPPED** (fatto, drop) | **GATED** (open ma bloccato da decisione) |
 **GREENFIELD** (non-costruito, feature ordinaria se voluta) | **REF**
 (reference/validatore, no feature) | **ANTI** (rifiuto esplicito).
-Catalogo completo "cosa prendi/cosa NO" prosa = DESIGN_DIGEST §11. Qui = decisione.
+Catalogo studiato (studio+feature+pilastro+depth) = SoT registrato `docs/guide/games-source-index.md`.
+Catalogo "cosa prendi/cosa NO" prosa = DESIGN_DIGEST §11. Qui = **DF-level + verdetto** governato
+(de-dup: NON ripetere il catalogo — feature/pilastro in games-source-index, verdetto-di-build qui).
 
 ### A — Pillar tier
 

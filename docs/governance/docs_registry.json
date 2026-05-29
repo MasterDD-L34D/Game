@@ -3681,6 +3681,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/guide/games-source-index.md",
+      "title": "Games Source Index — catalogo giochi-fonte + ricerche (SoT)",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-29",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/guide/external-references.md",
       "title": "Risorse esterne curate — Game Design Reference",
       "doc_status": "active",
