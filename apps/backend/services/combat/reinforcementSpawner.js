@@ -28,6 +28,8 @@
 
 const { computeSistemaTier } = require('../../routes/sessionHelpers');
 const { defaultRng } = require('./pseudoRng');
+// TKT-WORLDGEN-GAPA (2026-05-29): foodweb whitelist filter for the spawn pool.
+const { filterReinforcementPool } = require('../worldgen/foodwebFilter');
 
 const DEFAULT_MIN_DISTANCE_FROM_PG = 3; // Manhattan
 const TIER_LABEL_ORDER = ['Calm', 'Alert', 'Escalated', 'Critical', 'Apex'];
@@ -153,7 +155,34 @@ function tick(session, encounter, opts = {}) {
   if (!policy || policy.enabled !== true) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'policy_disabled' };
   }
-  const pool = encounter?.reinforcement_pool;
+  // TKT-WORLDGEN-GAPA: filter the spawn pool to the encounter biome's foodweb
+  // (Caves of Qud whitelist). `pool` is bound to the filtered result, so both
+  // the ALIENA snapshot and the spawn loop below consume it. Kill switch:
+  // policy.foodweb_filter === false. Filter never empties the pool (fallback),
+  // so off-foodweb scenario pools (e.g. synthetic hardcore units) pass through
+  // unchanged -> WR bands unaffected.
+  const rawPool = encounter?.reinforcement_pool;
+  const foodwebBiomeId = encounter?.biome_id || encounter?.biome || session?.biome_id || null;
+  let foodwebMeta;
+  let pool;
+  if (policy.foodweb_filter === false) {
+    foodwebMeta = { applied: false, biome_id: foodwebBiomeId, excluded: [], reason: 'disabled' };
+    pool = rawPool;
+  } else {
+    foodwebMeta = filterReinforcementPool(rawPool, foodwebBiomeId);
+    pool = foodwebMeta.pool;
+  }
+  if (foodwebMeta.reason === 'filtered' || foodwebMeta.reason === 'all_excluded_fallback') {
+    // Gate-5 surface: developer/replay-visible record of foodweb pool shaping.
+    console.log(
+      JSON.stringify({
+        component: 'reinforcement-foodweb-filter',
+        biome_id: foodwebBiomeId,
+        reason: foodwebMeta.reason,
+        excluded: foodwebMeta.excluded,
+      }),
+    );
+  }
   const entryTiles = encounter?.reinforcement_entry_tiles;
   if (!Array.isArray(pool) || pool.length === 0) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'no_pool' };
@@ -270,6 +299,12 @@ function tick(session, encounter, opts = {}) {
     skipped: effective.length === 0,
     reason: effective.length === 0 ? 'no_tile_or_pool' : 'spawned',
     tier_at_tick: tier.label,
+    foodweb_filter: {
+      applied: foodwebMeta.applied,
+      biome_id: foodwebMeta.biome_id,
+      excluded: foodwebMeta.excluded,
+      reason: foodwebMeta.reason,
+    },
   };
 }
 
