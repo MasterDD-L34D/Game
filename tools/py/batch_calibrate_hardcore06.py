@@ -513,6 +513,7 @@ def probe_one(host):
 def _ai_actions_from_resp(resp, sis_actor_ids):
     """Estrai AI actions da /round/execute response.
     TKT-09 fix: in priority_queue mode AI actions sono in results[] (non ai_result.ia_actions).
+    Nota: priority_queue mode results are flat, non c\'è bisogno di fare l\'unwrap di ia_actions.
     Filtra per actor_id appartenente a SIS-controlled.
     """
     actions = []
@@ -643,6 +644,7 @@ def run_one(host, run_idx, turn_limit_defeat=None):
 
         # Tally AI actions — TKT-09 fix: read from results[] (priority_queue) +
         # fallback ai_result.ia_actions. Vedi feedback_probe_before_batch.md.
+        # Closed as no-op: priority_queue mode results are already flat and correctly provide action_type.
         ai_actions = _ai_actions_from_resp(resp, sis_actor_ids)
         for a in ai_actions:
             tier = pressure_tier(state.get("sistema_pressure", pstart))
