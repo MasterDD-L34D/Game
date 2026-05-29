@@ -36,6 +36,7 @@ const { WebSocketServer } = require('ws');
 const crypto = require('node:crypto');
 const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
 const { applyOps: applyJsonPatchOps } = require('./jsonPatch');
+const { buildPhaseChangePayload } = require('../coop/phaseChangePayload');
 
 // B-NEW-2 RCA aid 2026-05-08 — structured JSON log for lobby lifecycle
 // events (create / join / vote / close / host_grace_fire / ghost_remove).
@@ -992,12 +993,7 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
   };
   send({
     type: 'phase_change',
-    payload: {
-      phase: orch.phase,
-      round: orch.run?.currentIndex ?? 0,
-      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
-      reason: 'reconnect',
-    },
+    payload: buildPhaseChangePayload(orch, { reason: 'reconnect' }),
   });
   if (typeof orch.characterReadyList === 'function') {
     send({ type: 'character_ready_list', payload: orch.characterReadyList(allIds) });
@@ -1040,12 +1036,7 @@ function rebroadcastCoopState(room, orch) {
     .map((p) => p.id);
   room.broadcast({
     type: 'phase_change',
-    payload: {
-      phase: orch.phase,
-      round: orch.run?.currentIndex ?? 0,
-      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
-      reason: 'host_transferred',
-    },
+    payload: buildPhaseChangePayload(orch, { reason: 'host_transferred' }),
   });
   if (typeof orch.characterReadyList === 'function') {
     room.broadcast({
