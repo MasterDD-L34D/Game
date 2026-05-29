@@ -2,9 +2,10 @@
 title: Calibration harness policy — diagnostic, not merge gate
 workstream: ops-qa
 category: process
-doc_status: draft
+doc_status: superseded
 doc_owner: claude-code
-last_verified: '2026-04-26'
+last_verified: '2026-05-29'
+superseded_by: docs/process/CANONICAL-AI-PLAYTEST.md
 source_of_truth: false
 language: it
 review_cycle_days: 90
@@ -21,6 +22,13 @@ related:
 ---
 
 # Calibration Harness Policy — Diagnostic, Not Merge Gate
+
+> **SUPERSEDED 2026-05-29** da [`CANONICAL-AI-PLAYTEST.md`](CANONICAL-AI-PLAYTEST.md).
+> Il **gate-stance e' INVERTITO**: l'harness AI-driven (multi-policy, N=40) ORA E' il
+> merge gate/oracolo; il playtest umano e' conferma opzionale, NON il gate. Le sezioni
+> "Harness != merge gate" e "Oracolo vero = playtest live umano" qui sotto sono
+> **storiche/declassate**. La **metodologia** (Restricted-Play triangulation, predictCombat,
+> composite metric, smart policy) resta valida ed e' assorbita nel doc canonical.
 
 **Stato**: 🟡 DRAFT (M14-C follow-up, pending master-dd approval)  
 **Trigger**: sessione 2026-04-26 iter3-iter5 hardcore_06 post-elevation = 30+ min di loop edit→backend→harness senza convergenza. User feedback: "stiamo perdendo un sacco di tempo".

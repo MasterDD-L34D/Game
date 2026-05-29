@@ -64,7 +64,7 @@
 - P5 Co-op: 🟢 confirmed + Phase-3 debrief_payload cross-stack closure (#2270 in flight)
 - P6 Fairness: 🟢 candidato confermato (conviction tactical flags inline)
 
-🟢 hard final ancora gated **Playtest #2 userland** (master-dd manual, 4 amici).
+🟢 hard final: gate = **playtest AI-driven canonico** (multi-policy N=40, `docs/process/CANONICAL-AI-PLAYTEST.md`); playtest umano 4-amici = conferma OPZIONALE (flip 2026-05-29).
 
 **Phase A residue mio plan TKT-ECO-XX (~9-10h)**:
 
@@ -1100,7 +1100,7 @@ Total Fase 1 effort: ~5-5.5 settimane.
 
 1. **Read handoff doc** (`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`) — 90s onboarding alla orchestra agent + workflow validato 6×.
 2. **Pick P0 residual or new domain** — usa illuminator agent invocation in `--mode audit` per scope, poi runtime apply separato.
-3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati JSONL + visualizza in `apps/analytics/index.html`.
+3. **Playtest AI-driven canonico** P5 (multi-policy N=40, `docs/process/CANONICAL-AI-PLAYTEST.md`) — gate riproducibile, NON bloccante umano. TKT-M11B-06 playtest live 4-amici = conferma OPZIONALE (declassato 2026-05-29, flip). `playtest-analyzer` agent processa JSONL se/quando ci sono dati human.
 
 **Deferred**: M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, M14-D pincer queue (ADR ready), V3 Mating/Nido (~20h post-MVP, pattern già researched).
 

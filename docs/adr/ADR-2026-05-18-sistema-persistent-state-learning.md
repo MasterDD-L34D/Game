@@ -164,11 +164,11 @@ harsh-review stress-test:
 1. **Option B = RATIFIED** (gia' shipped + e2e PASS 2026-05-25). NON era una scelta
    "pilot" forward (correzione P0.2 harsh-review: era stale framing). Resta in main
    come shipped subset (units_observed + threat).
-2. **Gate = ratify-OR-revert sul playtest core co-op**: Option B resta, ma il lock
-   definitivo (no-revert) e' subordinato al gate playtest filato del core loop
-   (>=1 sessione 4-umani TV+phone, findings `docs/playtest/`, sign-off master-dd) —
-   stesso gate di L2-L5 nel parent ADR. Se il playtest mostra "AI troppo aggressiva"
-   (Risks #5) -> tuning o revert del subset.
+2. **Gate = ratify-OR-revert sul playtest AI-driven canonical**: Option B resta, ma il
+   lock definitivo (no-revert) e' subordinato al **playtest AI-driven canonico** del core
+   loop (multi-policy, WR in-band a N=40, `docs/process/CANONICAL-AI-PLAYTEST.md`) —
+   stesso gate di L2-L5 nel parent ADR. Playtest umano = conferma opzionale. Se la sim
+   mostra "AI troppo aggressiva" (Risks #5) -> tuning o revert del subset.
 3. **Estensione Option A** (tactics_observed / factions / strategic_phase) = feature
    M2+ ordinaria, NON priorita' automatica, stesso doppio-gate (playtest +
    same-increment-surface) del parent. NON costruire ora.
