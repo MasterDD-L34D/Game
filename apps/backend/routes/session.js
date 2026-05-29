@@ -130,6 +130,8 @@ const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../servic
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
 const { getBiomeModifiers, applyEnemyHpMultiplier } = require('../services/combat/biomeModifiers');
+// TKT-WORLDGEN-GAPB (2026-05-29): seasonal cross-event flat pressure engine.
+const { getCrossEventPressureDelta } = require('../services/worldgen/crossEventEngine');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
 // Applica channel-specific resist/vuln su damage pre-hp. Evidence spike:
 // 84.6% → 20% win rate hardcore-06 con flat 50% resist (leva confermata).
@@ -1435,6 +1437,10 @@ function createSessionRouter(options = {}) {
       // (no-op multipliers, zero pressure bonus). Enemy HP scaled here so
       // downstream pipeline (objectives, balance) reads the modulated values.
       const biomeModifiers = getBiomeModifiers(biomeIdRaw);
+      // TKT-WORLDGEN-GAPB: seasonal cross-event flat pressure offset. No season in
+      // payload (e.g. hardcore scenarios) -> pressure_delta 0 -> WR bands unchanged.
+      const seasonRaw = req.body?.season || req.body?.encounter?.season || null;
+      const crossEvent = getCrossEventPressureDelta(biomeIdRaw, seasonRaw);
       if (biomeModifiers.hp_mult !== 1.0) {
         applyEnemyHpMultiplier(units, biomeModifiers.hp_mult);
       }
@@ -1601,7 +1607,8 @@ function createSessionRouter(options = {}) {
           Math.min(
             100,
             (Number(req.body?.sistema_pressure_start) || 0) +
-              Number(biomeModifiers.pressure_initial_bonus || 0),
+              Number(biomeModifiers.pressure_initial_bonus || 0) +
+              Number(crossEvent.pressure_delta || 0),
           ),
         ),
         // Hazard tiles dal scenario (es. enc_tutorial_03 fumarole).
@@ -1631,6 +1638,9 @@ function createSessionRouter(options = {}) {
         // + future UI hint. Consumed da round bridge (pressure_mult tick) e
         // applicato in applyEnemyHpMultiplier sopra (hp_mult).
         biome_modifiers: biomeModifiers,
+        // TKT-WORLDGEN-GAPB: seasonal cross-event surface (replay/HUD).
+        cross_events: crossEvent.events,
+        cross_event_hazards: crossEvent.hazards,
         // M1 ADR-2026-05-18 -- campaign scope for SistemaState persistence.
         campaign_id: req.body?.campaign_id || null,
         sistema_state: { units_observed: {} },
