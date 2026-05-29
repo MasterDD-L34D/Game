@@ -237,3 +237,54 @@ test('catalog http client — httpEnabled false ignores httpBase even if set', a
   assert.equal(calls.length, 0, 'fetch should never be called when httpEnabled is false');
   assert.equal(service.getSource(), 'local');
 });
+
+test('catalog http client — taxonomyVersion pins the glossary URL with ?versionId', async (t) => {
+  const fixture = setupFixture(t);
+  const calls = [];
+  const fetchFn = makeMockFetch({
+    calls,
+    payload: {
+      traits: [{ _id: 'pinned_trait', labels: { it: 'PINNED', en: 'PINNED' }, descriptions: {} }],
+    },
+  });
+
+  const service = createCatalogService({
+    dataRoot: fixture.dataRoot,
+    traitCatalogPath: fixture.catalogDataPath,
+    httpEnabled: true,
+    httpBase: 'http://fake-game-database:3333',
+    httpFetch: fetchFn,
+    taxonomyVersion: 'taxonomy-2026-05-29',
+  });
+
+  await service.loadTraitGlossary();
+  assert.equal(calls.length, 1);
+  assert.equal(
+    calls[0].url,
+    'http://fake-game-database:3333/api/traits/glossary?versionId=taxonomy-2026-05-29',
+  );
+});
+
+test('catalog http client — no taxonomyVersion omits the versionId query param', async (t) => {
+  const fixture = setupFixture(t);
+  const calls = [];
+  const fetchFn = makeMockFetch({
+    calls,
+    payload: {
+      traits: [{ _id: 'unpinned_trait', labels: { it: 'X', en: 'X' }, descriptions: {} }],
+    },
+  });
+
+  const service = createCatalogService({
+    dataRoot: fixture.dataRoot,
+    traitCatalogPath: fixture.catalogDataPath,
+    httpEnabled: true,
+    httpBase: 'http://fake-game-database:3333',
+    httpFetch: fetchFn,
+  });
+
+  await service.loadTraitGlossary();
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, 'http://fake-game-database:3333/api/traits/glossary');
+  assert.ok(!calls[0].url.includes('versionId'), 'unset version must not add versionId param');
+});
