@@ -8,7 +8,9 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
-const mod = require(path.resolve(__dirname, '../../../apps/backend/services/ermes/ermesDebriefInput'));
+const mod = require(
+  path.resolve(__dirname, '../../../apps/backend/services/ermes/ermesDebriefInput'),
+);
 
 test('buildDebriefPayload shape v1.0.0', () => {
   const p = mod.buildDebriefPayload('sess1', {
@@ -36,7 +38,11 @@ test('buildDebriefPayload defaults on empty runState', () => {
 
 test('writeErmesDebriefInput writes file + returns path', () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ermes-debrief-'));
-  const target = mod.writeErmesDebriefInput('sess3', { biomesVisited: ['savana'] }, { inputsDir: tmp });
+  const target = mod.writeErmesDebriefInput(
+    'sess3',
+    { biomesVisited: ['savana'] },
+    { inputsDir: tmp },
+  );
   assert.ok(target, 'should return path');
   assert.ok(fs.existsSync(target), 'file should exist');
   const written = JSON.parse(fs.readFileSync(target, 'utf8'));

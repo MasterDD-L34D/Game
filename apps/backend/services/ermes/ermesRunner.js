@@ -13,10 +13,7 @@ const DEFAULT_BIOME_POOLS = path.resolve(
   __dirname,
   '../../../../data/core/traits/biome_pools.json',
 );
-const DEFAULT_LAB_SCRIPT = path.resolve(
-  __dirname,
-  '../../../../prototypes/ermes_lab/ermes_sim.py',
-);
+const DEFAULT_LAB_SCRIPT = path.resolve(__dirname, '../../../../prototypes/ermes_lab/ermes_sim.py');
 const DEFAULT_LAB_CONFIG = path.resolve(
   __dirname,
   '../../../../prototypes/ermes_lab/configs/multi_biome.json',
@@ -42,7 +39,7 @@ function createErmesRunner(opts = {}) {
         const traits = [
           ...(pool.traits?.core || []),
           ...(pool.traits?.support || []),
-          ...((pool.role_templates || []).flatMap((rt) => rt.preferred_traits || [])),
+          ...(pool.role_templates || []).flatMap((rt) => rt.preferred_traits || []),
         ];
         for (const traitId of traits) {
           if (!_traitToPoolsMap.has(traitId)) _traitToPoolsMap.set(traitId, new Set());
@@ -116,14 +113,7 @@ function createErmesRunner(opts = {}) {
       const result = await new Promise((resolve, reject) => {
         const proc = spawn(
           python,
-          [
-            labScriptPath,
-            '--multi-biome',
-            '--config',
-            labConfig,
-            '--output',
-            outputPath,
-          ],
+          [labScriptPath, '--multi-biome', '--config', labConfig, '--output', outputPath],
           { stdio: 'pipe' },
         );
         let stderr = '';

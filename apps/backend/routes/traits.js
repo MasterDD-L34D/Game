@@ -265,9 +265,7 @@ function createTraitRouter(options = {}) {
           note: 'reports/traits/ assente -- esegui prototypes/ermes_lab/suggestions.py',
         });
       }
-      const files = fs
-        .readdirSync(reportsDir)
-        .filter((f) => f.endsWith('-ermes-suggestions.json'));
+      const files = fs.readdirSync(reportsDir).filter((f) => f.endsWith('-ermes-suggestions.json'));
       if (files.length === 0) {
         return res.json({
           schema: 'ermes_trait_suggestion',

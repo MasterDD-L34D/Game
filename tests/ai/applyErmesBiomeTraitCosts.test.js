@@ -123,15 +123,24 @@ test('cap max_buckets_active_per_unit limits applied count', () => {
 test('R6 gate: NEVER writes unit.creature_epigenome.bias (sot-drift-verifier)', () => {
   const unit = { id: 'u1', attack_mod_bonus: 0, defense_mod_bonus: 0 };
   te.applyErmesBiomeTraitCosts(unit, 'high_biome', { bucketed: bucketedHigh() });
-  assert.equal(unit.creature_epigenome, undefined, 'must NOT touch creature_epigenome (D-HEIR substrate)');
+  assert.equal(
+    unit.creature_epigenome,
+    undefined,
+    'must NOT touch creature_epigenome (D-HEIR substrate)',
+  );
 });
 
 test('writes to ADR-21c keys only (attack_mod_bonus/defense_mod_bonus/mobility)', () => {
   const unit = { id: 'u1' };
   te.applyErmesBiomeTraitCosts(unit, 'high_biome', { bucketed: bucketedHigh() });
   const allowed = new Set([
-    'id', 'attack_mod_bonus', 'defense_mod_bonus', 'mobility', 'rest_recovery',
-    '_ermes_biome_costs_applied', '_ermes_biome_costs_log',
+    'id',
+    'attack_mod_bonus',
+    'defense_mod_bonus',
+    'mobility',
+    'rest_recovery',
+    '_ermes_biome_costs_applied',
+    '_ermes_biome_costs_log',
   ]);
   for (const k of Object.keys(unit)) {
     assert.ok(allowed.has(k), `unexpected field written: ${k}`);
