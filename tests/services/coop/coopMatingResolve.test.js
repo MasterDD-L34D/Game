@@ -34,3 +34,10 @@ test('resolveMatingWinner null before quorum', () => {
   const o = debriefWithSurvivors();
   assert.equal(o.resolveMatingWinner(['p1', 'p2'], ['p1', 'p2']), null);
 });
+
+test('resolveMatingWinner rejects pair not in survivors (no roll on bogus ids)', () => {
+  const o = debriefWithSurvivors();
+  o.voteMating('p1', 'foo__bar', { allPlayerIds: ['p1'] });
+  assert.equal(o.resolveMatingWinner(['p1'], ['p1']), null);
+  assert.equal(o.run.matingResolved, false);
+});

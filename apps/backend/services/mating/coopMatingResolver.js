@@ -29,6 +29,16 @@ async function resolveCoopMatingOffspring({
       if (ea) parentA.epigenome = ea;
       const eb = await epiStore.get(campaignId, parentBId);
       if (eb) parentB.epigenome = eb;
+      // Codex P2 -- supply epigenome config + species mean so rollOffspring
+      // actually applies epigenetic inheritance (mirror /mating/roll). Without
+      // context.epigenomeConfig, hydrated epigenomes are ignored by the roll.
+      // eslint-disable-next-line global-require
+      const { loadEpigenomeConfig, computeSpeciesMean } = require('../genetics/epigenome');
+      context.epigenomeConfig = loadEpigenomeConfig();
+      const pop = Object.values(await epiStore.getMany(campaignId)).map((epi) => ({
+        epigenome: epi,
+      }));
+      if (pop.length > 0) context.speciesMean = computeSpeciesMean(pop);
     }
   } catch {
     /* best-effort hydration */

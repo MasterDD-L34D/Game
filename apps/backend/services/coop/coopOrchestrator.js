@@ -666,8 +666,16 @@ class CoopOrchestrator {
     if (!this.run || this.run.matingResolved) return null;
     const tally = this.matingTally(allPlayerIds, connectedPlayerIds);
     if (!tally.all_connected_voted || !tally.leading_pair_id) return null;
-    this.run.matingResolved = true;
     const [parentAId, parentBId] = String(tally.leading_pair_id).split('__');
+    // S22-B Task 8 (Codex P1) -- only resolve a pair whose BOTH parents are
+    // actual surviving units. voteMating accepts any client pair_id, so a
+    // bogus pair must NOT trigger an offspring roll. Leave matingResolved
+    // false so a later legit pair can still win.
+    const survivorIds = new Set((this.run.survivors || []).map((u) => u && u.id).filter(Boolean));
+    if (!parentAId || !parentBId || !survivorIds.has(parentAId) || !survivorIds.has(parentBId)) {
+      return null;
+    }
+    this.run.matingResolved = true;
     return {
       pair_id: tally.leading_pair_id,
       parent_a_id: parentAId,
