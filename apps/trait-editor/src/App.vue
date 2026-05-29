@@ -21,6 +21,7 @@ function statusIcon(): string {
       </p>
       <nav class="app-shell__nav">
         <router-link to="/traits">Libreria</router-link>
+        <router-link to="/suggestions">Suggerimenti</router-link>
       </nav>
     </header>
     <main class="app-shell__content">

@@ -97,6 +97,12 @@ let _cachedReport = null;
 let _cachedPath = null;
 let _cachedMissing = false;
 
+// ADR-2026-05-29 TKT-BR-04: schema v1.0.0 check on report load.
+// Accepted versions: '1.0.0' (multi-biome ADR-2026-05-29) + null/undefined (legacy
+// static fallback fixtures pre-bump). Mismatched non-null version -> log warn +
+// treat as missing (consumer falls back to STATIC_FALLBACKS / NEUTRAL_FALLBACK).
+const ACCEPTED_REPORT_SCHEMA_VERSIONS = new Set(['1.0.0', null, undefined]);
+
 function _loadReport(reportPath) {
   if (reportPath === _cachedPath) {
     if (_cachedMissing) return null;
@@ -115,6 +121,15 @@ function _loadReport(reportPath) {
       return null;
     }
     const data = JSON.parse(raw);
+    // ADR-2026-05-29 TKT-BR-04 schema gate.
+    if (data && data.schema_version && !ACCEPTED_REPORT_SCHEMA_VERSIONS.has(data.schema_version)) {
+      console.warn(
+        `[ermesExporter] schema_version mismatch: got ${data.schema_version}, want 1.0.0 -- falling back`,
+      );
+      _cachedMissing = true;
+      _cachedReport = null;
+      return null;
+    }
     _cachedMissing = false;
     _cachedReport = data;
     return data;
@@ -224,13 +239,85 @@ function listBiomeRoleDemands() {
   }));
 }
 
+// ADR-2026-05-29 TKT-BR-04: bucket-aware export consumer.
+// Reads data/core/balance/ermes_bucket_thresholds.yaml (TKT-BR-05) + maps
+// continuous eco_pressure_score / mutation_bias.* / encounter_bias.* to discrete
+// bucket bands (low/med/high). Used by applyErmesBiomeTraitCosts (TKT-BR-06).
+const DEFAULT_BUCKETS_PATH = path.resolve(
+  __dirname,
+  '../../../../data/core/balance/ermes_bucket_thresholds.yaml',
+);
+let _cachedBuckets = null;
+let _cachedBucketsPath = null;
+
+function _loadBuckets(p = DEFAULT_BUCKETS_PATH) {
+  if (_cachedBuckets && _cachedBucketsPath === p) return _cachedBuckets;
+  if (!fs.existsSync(p)) return null;
+  try {
+    const yaml = require('js-yaml');
+    const data = yaml.load(fs.readFileSync(p, 'utf8'));
+    if (!data || typeof data !== 'object') return null;
+    _cachedBuckets = data;
+    _cachedBucketsPath = p;
+    return data;
+  } catch (err) {
+    console.warn('[ermesExporter] _loadBuckets failed:', err && err.message);
+    return null;
+  }
+}
+
+function _bandFor(value, bucketDef) {
+  if (typeof value !== 'number' || !bucketDef) return null;
+  for (const [name, def] of Object.entries(bucketDef)) {
+    if (!def || !Array.isArray(def.range) || def.range.length < 2) continue;
+    const [lo, hi] = def.range;
+    if (value >= lo && value < hi) return { band: name, def };
+  }
+  // Fallback to high band if value >= last range start.
+  if (bucketDef.high && bucketDef.high.range && value >= bucketDef.high.range[0]) {
+    return { band: 'high', def: bucketDef.high };
+  }
+  if (bucketDef.low) return { band: 'low', def: bucketDef.low };
+  return null;
+}
+
+function getErmesBucketed(biomeId, opts = {}) {
+  const ermes = getErmesForBiome(biomeId, opts);
+  const buckets = _loadBuckets(opts.bucketsPath);
+  if (!buckets || !buckets.buckets) return { ...ermes, buckets: {}, caps: null, guards: null };
+  const out = {};
+  // eco_pressure_score (top-level key in report)
+  if (buckets.buckets.eco_pressure_score && typeof ermes.eco_pressure_score === 'number') {
+    const banded = _bandFor(ermes.eco_pressure_score, buckets.buckets.eco_pressure_score);
+    if (banded) out.eco_pressure_score = banded;
+  }
+  // For mutation_bias.* / encounter_bias.* the report (multi-biome v1.0.0) nests
+  // these under biome record; legacy static fallback may not have them.
+  // Consumer should fetch report separately via _loadReport for those fields.
+  return {
+    ...ermes,
+    buckets: out,
+    caps: buckets.caps || null,
+    guards: buckets.guards || null,
+  };
+}
+
+function _resetBucketsCache() {
+  _cachedBuckets = null;
+  _cachedBucketsPath = null;
+}
+
 module.exports = {
   getErmesForBiome,
+  getErmesBucketed,
   computeRoleGap,
   listBiomeRoleDemands,
   BIOME_ROLE_DEMANDS,
   STATIC_FALLBACKS,
   NEUTRAL_FALLBACK,
+  ACCEPTED_REPORT_SCHEMA_VERSIONS,
+  DEFAULT_BUCKETS_PATH,
   _resetCache,
+  _resetBucketsCache,
   DEFAULT_REPORT_PATH,
 };

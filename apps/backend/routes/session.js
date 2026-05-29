@@ -272,7 +272,9 @@ function createSessionRouter(options = {}) {
   }
 
   const sessions = new Map();
-  let activeSessionId = null;
+  let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
+  // /start links the new session id back by campaign_id (== run.id).
+  const coopStore = options.coopStore || null;
 
   // Telemetry helper — append JSONL entry to logs/telemetry_YYYYMMDD.jsonl.
   // Same schema as POST /telemetry (ts, session_id, player_id, type, payload)
@@ -1662,6 +1664,16 @@ function createSessionRouter(options = {}) {
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
+      // PR-1 §22 coop-WS surface — link this combat session back into the coop
+      // orchestrator (campaign_id == run.id) so the next phase_change broadcast
+      // surfaces session_id to phone clients for ALIENA telemetry on debrief.
+      if (coopStore && session.campaign_id) {
+        try {
+          coopStore.linkSession(session.campaign_id, sessionId);
+        } catch {
+          /* best-effort -- coop link must never block session start */
+        }
+      }
       // M1 -- hydrate persistent Sistema learning state (best-effort, never blocks).
       try {
         if (session.campaign_id) {
