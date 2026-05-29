@@ -23,3 +23,12 @@ test('setSessionId is idempotent — returns false when unchanged', () => {
   assert.equal(orch.setSessionId(''), true); // clears to null
   assert.equal(orch.sessionId, null);
 });
+
+test('sessionId cleared on scenario advance (new combat session)', () => {
+  const o = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1' });
+  o.startRun({ scenarioStack: ['e1', 'e2'] });
+  o.setSessionId('sess_1');
+  assert.equal(o.sessionId, 'sess_1');
+  o.advanceScenarioOrEnd();
+  assert.equal(o.sessionId, null);
+});
