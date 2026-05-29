@@ -1157,7 +1157,9 @@ function refreshBiomeChip() {
   const biomeId = state.world?.biome_id || null;
   // TKT-ECO-A5 — pass biome_modifiers per pressure tier indicator.
   const biomeModifiers = state.world?.biome_modifiers || null;
-  renderBiomeChip(containerEl, biomeId, biomeModifiers);
+  // FASE 3 P4 — eco band (low/med/high) diegetic descriptor on the chip.
+  const ermesBand = state.world?.ermes_band || null;
+  renderBiomeChip(containerEl, biomeId, biomeModifiers, ermesBand);
 }
 
 // Action 7 (ADR-2026-04-28 §Action 7) — refresh CT bar HUD lookahead 3 turni.

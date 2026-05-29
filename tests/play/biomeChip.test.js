@@ -241,3 +241,68 @@ describe('renderBiomeChip — DOM side effect', () => {
     assert.ok(!c._attrs.title.includes('OSTILE'));
   });
 });
+
+// FASE 3 P4 — ERMES eco band diegetic descriptor.
+describe('ecoBandLabel + eco descriptor (FASE 3 P4)', () => {
+  function fakeContainer() {
+    const classList = new Set();
+    const attrs = {};
+    return {
+      innerHTML: '',
+      classList: {
+        add: (...c) => c.forEach((x) => classList.add(x)),
+        remove: (...c) => c.forEach((x) => classList.delete(x)),
+        contains: (x) => classList.has(x),
+      },
+      setAttribute: (k, v) => {
+        attrs[k] = v;
+      },
+      removeAttribute: (k) => {
+        delete attrs[k];
+      },
+      _attrs: attrs,
+    };
+  }
+
+  test('ecoBandLabel maps bands to diegetic IT (never the ERMES name)', async () => {
+    const { ecoBandLabel } = await loadModule();
+    assert.equal(ecoBandLabel('low'), 'Bioma calmo');
+    assert.equal(ecoBandLabel('med'), 'Bioma in equilibrio');
+    assert.equal(ecoBandLabel('high'), 'Bioma in tensione');
+    assert.equal(ecoBandLabel(null), '');
+    assert.equal(ecoBandLabel('xyz'), '');
+    for (const b of ['low', 'med', 'high']) {
+      assert.ok(!ecoBandLabel(b).toUpperCase().includes('ERMES'));
+    }
+  });
+
+  test('formatBiomeChip appends eco descriptor when band present', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('cryosteppe_convergence', null, 'high');
+    assert.ok(html.includes('biome-eco-high'));
+    assert.ok(html.includes('Bioma in tensione'));
+    assert.ok(html.includes('data-band="high"'));
+  });
+
+  test('formatBiomeChip — no eco span when band null/unknown', async () => {
+    const { formatBiomeChip } = await loadModule();
+    assert.ok(!formatBiomeChip('savana', null, null).includes('biome-eco'));
+    assert.ok(!formatBiomeChip('savana', null, 'bogus').includes('biome-eco'));
+  });
+
+  test('formatBiomeChip — eco + pressure tier coexist', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('abisso_vulcanico', { hp_mult: 1.05 }, 'low');
+    assert.ok(html.includes('biome-pressure-elevated'));
+    assert.ok(html.includes('biome-eco-low'));
+    assert.ok(html.includes('Bioma calmo'));
+  });
+
+  test('renderBiomeChip — eco descriptor in body + tooltip', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'rovine_planari', null, 'low');
+    assert.ok(c.innerHTML.includes('Bioma calmo'));
+    assert.ok(c._attrs.title.includes('Bioma calmo'));
+  });
+});

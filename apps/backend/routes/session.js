@@ -1409,6 +1409,7 @@ function createSessionRouter(options = {}) {
       // Session-scoped compute (no Prisma persistence). Log surfaced in response.
       const biomeIdRaw = req.body?.biome_id || req.body?.encounter?.biome_id || null;
       let biomeCostsLog = [];
+      let ermesBand = null;
       if (biomeIdRaw) {
         try {
           const biomeCostsRegistry = loadTraitEnvironmentalCosts();
@@ -1416,6 +1417,9 @@ function createSessionRouter(options = {}) {
             if (!u) return u;
             const clone = { ...u };
             const log = applyBiomeEcoEffects(clone, biomeIdRaw, { biomeCostsRegistry });
+            // FASE 3 P4: capture biome-level eco band (uniform across units, set
+            // even for med where no delta is applied) for the diegetic chip.
+            if (log && log.band) ermesBand = log.band;
             if (log && (log.adr21c.length || log.ermes.length)) {
               biomeCostsLog.push({ unit_id: clone.id, ...log });
             }
@@ -1619,6 +1623,9 @@ function createSessionRouter(options = {}) {
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,
+        // FASE 3 P4: biome-level eco band (low/med/high) for the diegetic biome
+        // chip descriptor ("Bioma calmo/in equilibrio/in tensione").
+        ermes_band: ermesBand,
         // QW1 (M-018): runtime knobs derivati da biomes.yaml diff_base +
         // hazard.stress_modifiers. Esposto via /api/session/state per debug
         // + future UI hint. Consumed da round bridge (pressure_mult tick) e
