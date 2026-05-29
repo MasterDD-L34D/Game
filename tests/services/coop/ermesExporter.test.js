@@ -305,3 +305,37 @@ test('getErmesBucketed: missing buckets yaml -> empty buckets, null caps/guards'
     fs.unlinkSync(tmp);
   }
 });
+
+// ===========================================================================
+// ADR-2026-05-29 TKT-BR-11 -- cross-repo parity guard vs Godot v2.
+// ===========================================================================
+
+test('BIOME_ROLE_DEMANDS: exact parity snapshot vs Godot ermes_role_gap.gd (TKT-BR-11)', () => {
+  // Cross-repo parity contract. This snapshot mirrors, verbatim, the canonical
+  // source Game-Godot-v2/scripts/session/ermes_role_gap.gd BIOME_ROLE_DEMANDS.
+  // The JS computeRoleGap is a port of that .gd compute. A unilateral edit on
+  // either side (add/remove a biome, change a demand count) without mirroring
+  // the other fails this assertion -> forces the mirror (the .gd header rule
+  // "any edit here MUST land in Godot side too"). The prior >=13 + 5-spot-check
+  // test did not catch drift in biomes 6-13.
+  const GODOT_SNAPSHOT = {
+    savana: { esploratore: 1, guerriero: 1 },
+    caverna: { esploratore: 1, custode: 1 },
+    atollo_obsidiana: { tessitore: 1, esploratore: 1 },
+    foresta_temperata: { tessitore: 1, custode: 1 },
+    badlands: { guerriero: 1, esploratore: 1 },
+    foresta_miceliale: { tessitore: 2 },
+    abisso_vulcanico: { guerriero: 1, esploratore: 1 },
+    reef_luminescente: { esploratore: 1, tessitore: 1 },
+    caldera_glaciale: { custode: 1, guerriero: 1 },
+    pianura_salina_iperarida: { esploratore: 2 },
+    mezzanotte_orbitale: { tessitore: 1, esploratore: 1 },
+    frattura_abissale_sinaptica: { tessitore: 1, custode: 1 },
+    foresta_acida: { custode: 1, tessitore: 1 },
+  };
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(BIOME_ROLE_DEMANDS)),
+    GODOT_SNAPSHOT,
+    'JS BIOME_ROLE_DEMANDS drifted from Godot ermes_role_gap.gd -- mirror both sides',
+  );
+});
