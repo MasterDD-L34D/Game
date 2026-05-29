@@ -7,6 +7,8 @@ const { createAuthHandlers } = require('../middleware/auth');
 function createTraitRouter(options = {}) {
   const router = express.Router();
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
+  const suggestionsDir =
+    options.suggestionsDir || path.resolve(__dirname, '..', '..', '..', 'reports', 'traits');
   const repository =
     options.repository ||
     new TraitRepository({
@@ -256,7 +258,7 @@ function createTraitRouter(options = {}) {
     try {
       const fs = require('node:fs');
       const path = require('node:path');
-      const reportsDir = path.resolve(__dirname, '../../../reports/traits');
+      const reportsDir = suggestionsDir;
       if (!fs.existsSync(reportsDir)) {
         return res.json({
           schema: 'ermes_trait_suggestion',
