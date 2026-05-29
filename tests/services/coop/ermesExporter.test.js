@@ -307,6 +307,28 @@ test('getErmesBucketed: missing buckets yaml -> empty buckets, null caps/guards'
 });
 
 // ===========================================================================
+// FASE 3 P1 -- pilot biome static fallback banding (rovine_planari / cryosteppe_convergence).
+// ===========================================================================
+
+test('STATIC_FALLBACKS: rovine_planari pilot present + LOW band', () => {
+  bucketsReset();
+  const e = getErmesForBiome('rovine_planari', { reportPath: '/tmp/no_such_report.json' });
+  assert.ok(e.eco_pressure_score < 0.33, `rovine should be LOW, got ${e.eco_pressure_score}`);
+  const out = getErmesBucketed('rovine_planari', { reportPath: '/tmp/no_such_report.json' });
+  assert.equal(out.buckets.eco_pressure_score.band, 'low');
+});
+
+test('STATIC_FALLBACKS: cryosteppe_convergence pilot present + HIGH band', () => {
+  bucketsReset();
+  const e = getErmesForBiome('cryosteppe_convergence', { reportPath: '/tmp/no_such_report.json' });
+  assert.ok(e.eco_pressure_score >= 0.66, `cryosteppe should be HIGH, got ${e.eco_pressure_score}`);
+  const out = getErmesBucketed('cryosteppe_convergence', {
+    reportPath: '/tmp/no_such_report.json',
+  });
+  assert.equal(out.buckets.eco_pressure_score.band, 'high');
+});
+
+// ===========================================================================
 // ADR-2026-05-29 TKT-BR-11 -- cross-repo parity guard vs Godot v2.
 // ===========================================================================
 

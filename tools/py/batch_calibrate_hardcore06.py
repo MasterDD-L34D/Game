@@ -586,7 +586,7 @@ def _extract_trait_ids(action_result):
     return out
 
 
-def run_one(host, run_idx, turn_limit_defeat=None):
+def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
@@ -604,6 +604,8 @@ def run_one(host, run_idx, turn_limit_defeat=None):
         # 2026-05-21 (OD-032 C): id enables scenario_overrides resolution at /start
         # (boss_hp + enemy_damage_multiplier_override per session.js scenarioIdForEdm).
         "encounter": {"id": SCENARIO_ID},
+        # ERMES FASE 3 P2: set biome_id to exercise applyBiomeEcoEffects in calibration.
+        **({"biome_id": biome_id} if biome_id else {}),
     })
     if status != 200:
         return {"error": f"session/start failed: {start}"}
@@ -816,6 +818,10 @@ def main():
                     help="M7-#2 Phase D: class key da damage_curves.yaml. "
                          "Default 'hardcore' (coerente con enc_tutorial_06_hardcore). "
                          "Valori: tutorial|tutorial_advanced|standard|hardcore|boss")
+    ap.add_argument("--biome-id", default=None,
+                    help="ERMES FASE 3 P2: set req.body.biome_id to exercise biome eco "
+                         "deltas (applyBiomeEcoEffects) during calibration. e.g. "
+                         "cryosteppe_convergence (HIGH) | rovine_planari (LOW).")
     args = ap.parse_args()
 
     # Health probe (TKT-08): fail fast se backend non risponde.
@@ -844,7 +850,7 @@ def main():
     failures = 0
     try:
         for i in range(args.n):
-            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat)
+            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat, biome_id=args.biome_id)
             runs.append(r)
             if "error" in r:
                 failures += 1

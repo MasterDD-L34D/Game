@@ -65,6 +65,20 @@ const STATIC_FALLBACKS = Object.freeze({
       ruin_collapse: 0.5,
     },
   },
+  rovine_planari: {
+    eco_pressure_score: 0.16,
+    bias: {
+      ruin_collapse: 0.4,
+      magnetic_pull: 0.35,
+    },
+  },
+  cryosteppe_convergence: {
+    eco_pressure_score: 0.87,
+    bias: {
+      cold_shock: 0.7,
+      whiteout_disorient: 0.55,
+    },
+  },
 });
 
 const NEUTRAL_FALLBACK = Object.freeze({
