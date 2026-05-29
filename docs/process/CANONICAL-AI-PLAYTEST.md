@@ -1,10 +1,10 @@
 ---
-title: "Canonical AI-driven playtest — single reproducible best-test (SoT)"
+title: 'Canonical AI-driven playtest — single reproducible best-test (SoT)'
 workstream: ops-qa
 category: process
 doc_status: active
 doc_owner: claude-code
-last_verified: "2026-05-29"
+last_verified: '2026-05-29'
 source_of_truth: true
 language: it
 review_cycle_days: 90
@@ -24,11 +24,11 @@ supersedes:
 
 ## 0. Paradigma (flip 2026-05-29)
 
-| Prima (superseded) | Ora (canonical) |
-|---|---|
-| Harness AI = diagnostic, NON merge gate | **Harness AI = gate**: WR in-band a N=40 + test verdi = merge OK |
+| Prima (superseded)                                    | Ora (canonical)                                                                 |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Harness AI = diagnostic, NON merge gate               | **Harness AI = gate**: WR in-band a N=40 + test verdi = merge OK                |
 | Oracolo vero = playtest live umano (4 amici TV+phone) | **Oracolo = AI-driven multi-policy**; human = conferma opzionale, mai bloccante |
-| Sim = scaffold, humans = ground truth | Sim multi-policy + telemetria = ground truth riproducibile |
+| Sim = scaffold, humans = ground truth                 | Sim multi-policy + telemetria = ground truth riproducibile                      |
 
 Razionale: il playtest umano 4-amici e' raro, non-riproducibile, e ha bloccato sprint
 per settimane (TKT-M11B-06). L'AI-driven e' riproducibile **ogni volta**, scala, ed e'
@@ -41,12 +41,12 @@ gia' il metodo de-facto (tutti i dati ratify sotto vengono da li').
 NON usare single greedy come proxy-umano (anti-pattern, rejected da Jaffe 2012 +
 Politowski 2023). Il best-test gira **>=3 policy** e produce una **banda** WR:
 
-| Policy | Ruolo | Sorgente |
-|---|---|---|
-| `random` | noise floor (WR minimo) | baseline |
-| `greedy` | ceiling locale (atk-closest, focus-fire) | attuale default batch |
-| `lookahead2` | tactical awareness | da wire |
-| `utility` | smart brain | `apps/backend/services/ai/utilityBrain.js` (opt-in `ai_profile: aggressive`) |
+| Policy       | Ruolo                                    | Sorgente                                                                     |
+| ------------ | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| `random`     | noise floor (WR minimo)                  | baseline                                                                     |
+| `greedy`     | ceiling locale (atk-closest, focus-fire) | attuale default batch                                                        |
+| `lookahead2` | tactical awareness                       | da wire                                                                      |
+| `utility`    | smart brain                              | `apps/backend/services/ai/utilityBrain.js` (opt-in `ai_profile: aggressive`) |
 
 Human WR stimato ~= banda `[random_WR, strong_WR]`. Banda larga = skill-dominated
 (posizionamento conta); stretta = luck-dominated (tune variance). Formula iniziale
@@ -54,11 +54,11 @@ Human WR stimato ~= banda `[random_WR, strong_WR]`. Banda larga = skill-dominate
 
 ### 1.2 N-ladder (autorita' L-069/L-070/L-072/L-073)
 
-| Fase | N | CI95 WR | Quando |
-|---|---|---|---|
-| **Probe** | 10 | ±30pp | direzione del delta (NON band-placement). Mai claim upgrade da N=10 |
-| **Ratify** | 40 | ±15pp | **gate decisionale** band-placement |
-| **Forensic** | 100 | ±10pp | cross-scenario fairness / metagame lock |
+| Fase         | N   | CI95 WR | Quando                                                              |
+| ------------ | --- | ------- | ------------------------------------------------------------------- |
+| **Probe**    | 10  | ±30pp   | direzione del delta (NON band-placement). Mai claim upgrade da N=10 |
+| **Ratify**   | 40  | ±15pp   | **gate decisionale** band-placement                                 |
+| **Forensic** | 100 | ±10pp   | cross-scenario fairness / metagame lock                             |
 
 Regole dure: N=10 = solo direzione (segno robusto, magnitudo rumorosa). MAI catene
 iter1/iter2/iter3 di N=10 (rumore compounding). Un N=40 > tre N=10. Optimizer
@@ -69,12 +69,12 @@ altrimenti converge a rumore (L-073).
 
 `win_rate` dice SE sei fuori band, non PERCHE'. Diagnosi prima:
 
-| Sintomo | Causa | Knob |
-|---|---|---|
-| WR alto + boss residual >50% | survivability | enemy DPR / HP party |
+| Sintomo                      | Causa                    | Knob                    |
+| ---------------------------- | ------------------------ | ----------------------- |
+| WR alto + boss residual >50% | survivability            | enemy DPR / HP party    |
 | WR alto + boss residual <10% | DPR insufficiente nemico | enemy_damage_multiplier |
-| Timeout 100% + turns=max | timer | turn_limit_defeat |
-| WR ~target ma KD estremo | swingy | variance |
+| Timeout 100% + turns=max     | timer                    | turn_limit_defeat       |
+| WR ~target ma KD estremo     | swingy                   | variance                |
 
 Composite metric (anti falso-"balanced"): `0.50*WR + 0.25*KD_ratio + 0.25*PE_ratio`.
 Metriche gia' emesse: `boss_hp_remaining_avg_on_loss`, `kd_avg`, `dmg_dealt_avg`.
@@ -94,16 +94,16 @@ Prima di ogni batch (costoso): `predictCombat(actor, target, n=1000)` in
 
 ## 2. Tooling (esistente, riusabile)
 
-| Tool | Cosa | Invocazione |
-|---|---|---|
-| `tools/py/batch_calibrate_hardcore06.py` | WR runner HC06 | `--host http://127.0.0.1:3340 --encounter-class hardcore --n 40 --out <json>` |
-| `tools/py/batch_calibrate_hardcore07.py` | WR runner HC07 (timer) | `--host http://127.0.0.1:3334 --n 40 --out <json>` |
-| `tools/py/batch_calibrate_non_elim.py` / `_skiv_solo_pack.py` | altri scenari | analogo |
-| `tools/py/calibrate_parallel.py` | 4-shard parallel | `--scenario hardcore_06 --n 40 --shards 4 --base-port 3341` (~10min vs ~36min serial) |
-| `tools/py/calibrate_drift_verify.py` | N=10 probe -> auto-escalate N=40 | `--scenario hardcore_06 --target-band 15-25` |
-| `tools/py/sprt_calibrate.py` | Stockfish SPRT early-stop | `--scenario <s> --target-low 0.30 --target-high 0.50 --n-max 80` |
-| `tools/py/playtest_2_analyzer.py` | aggregatore JSONL telemetry | post-run |
-| `.claude/agents/balance-illuminator.md` | agent: encoda tutto (calibration + research mode) | invoke |
+| Tool                                                          | Cosa                                              | Invocazione                                                                           |
+| ------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `tools/py/batch_calibrate_hardcore06.py`                      | WR runner HC06                                    | `--host http://127.0.0.1:3340 --encounter-class hardcore --n 40 --out <json>`         |
+| `tools/py/batch_calibrate_hardcore07.py`                      | WR runner HC07 (timer)                            | `--host http://127.0.0.1:3334 --n 40 --out <json>`                                    |
+| `tools/py/batch_calibrate_non_elim.py` / `_skiv_solo_pack.py` | altri scenari                                     | analogo                                                                               |
+| `tools/py/calibrate_parallel.py`                              | 4-shard parallel                                  | `--scenario hardcore_06 --n 40 --shards 4 --base-port 3341` (~10min vs ~36min serial) |
+| `tools/py/calibrate_drift_verify.py`                          | N=10 probe -> auto-escalate N=40                  | `--scenario hardcore_06 --target-band 15-25`                                          |
+| `tools/py/sprt_calibrate.py`                                  | Stockfish SPRT early-stop                         | `--scenario <s> --target-low 0.30 --target-high 0.50 --n-max 80`                      |
+| `tools/py/playtest_2_analyzer.py`                             | aggregatore JSONL telemetry                       | post-run                                                                              |
+| `.claude/agents/balance-illuminator.md`                       | agent: encoda tutto (calibration + research mode) | invoke                                                                                |
 
 Optimizer/search (research-tier, primary-sourced in `balance-illuminator.md`): SPRT,
 MCTS smart playout, MAP-Elites QD, Bayesian (Optuna/Ax, N>=40/trial), LLM-as-critic
@@ -117,7 +117,7 @@ Per risultati ri-ottenibili:
 2. **`DAMAGE_CURVES_PATH` set**: il client DEVE leggere lo stesso staging file del backend, altrimenti gli override sono SILENT NO-OP client-side (bug L-069/OD-032).
 3. **`LOBBY_WS_ENABLED=false`** per ogni shard parallel (collisione porta WS, L-071). Porte shard deterministiche (base 3341 + offset).
 4. **Host `127.0.0.1` NON "localhost"** (Windows risolve IPv6 ::1 prima -> stall ~2s/call).
-5. **SEED RNG pinnato** — **GAP APERTO**: i batch attuali NON pinnano il seed (run non bit-identici). Per "ogni volta" bit-identico serve `--seed` (vedi `TKT-PLAYTEST-SEED`). Finche' non wired, riproducibilita' = statistica (stessa banda a N=40), non bit-identica.
+5. **SEED RNG pinnato** — **WIRED** (TKT-PLAYTEST-SEED, 2026-05-30): `batch_calibrate_hardcore0{6,7}.py --seed` propaga il seed a `/api/session/start`, che pinna la RNG combat seedabile (`apps/backend/services/combat/pseudoRng.js` `defaultRng`/`seedRng`). 2 run stesso seed = JSON bit-identici (smoke verde). Unseeded = `Math.random` (zero regressione prod). Run i usa `seed+i` (intero batch riproducibile).
 6. **Policy fissate**: il set multi-policy (1.1) e' parte del contratto, non ad-hoc.
 7. **Output archiviato**: `docs/playtest/YYYY-MM-DD-<scenario>-<phase>.json` + report `docs/playtest/YYYY-MM-DD-<scenario>-illuminator.md`.
 
@@ -125,24 +125,26 @@ Per risultati ri-ottenibili:
 
 Manifest macchina-leggibile: [`docs/playtest/canonical-suite.yaml`](../playtest/canonical-suite.yaml).
 
-| Scenario | Band target | Knob ratificato | WR (N=40) | Stato |
-|---|---|---|---|---|
-| `enc_tutorial_06_hardcore` | 15-25% | `boss_hp_multiplier: 0.65` | 15-25% (iter2 + #2381) | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
-| `enc_tutorial_07_hardcore_pod_rush` | 30-50% | `enemy_damage_multiplier_override: 2.1` (REPLACE class 1.8) | 30-40% (post-wave 5-7 nerf) | IN-BAND |
-| `enc_tutorial_01..05` | designed-winnable | n/a | ~100% greedy | NON balance-oracle (ladder di apprendimento) |
+| Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)                   | Stato                                                      |
+| ----------------------------------- | ----------------- | ----------------------------------------------------------- | --------------------------- | ---------------------------------------------------------- |
+| `enc_tutorial_06_hardcore`          | 15-25%            | `boss_hp_multiplier: 0.65`                                  | 15-25% (iter2 + #2381)      | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
+| `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.1` (REPLACE class 1.8) | 30-40% (post-wave 5-7 nerf) | IN-BAND                                                    |
+| `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy                | NON balance-oracle (ladder di apprendimento)               |
 
 Fonte knob: `data/core/balance/damage_curves.yaml`. Fonte dati: `docs/playtest/2026-05-20-*`, `2026-05-21-*`, `2026-05-26-ratify-2381-balance.md`.
 
 ## 5. Gate policy (canonical)
 
 **Merge gate** (sostituisce "harness != gate"):
+
 - AI regression `tests/ai/*.test.js` verde (obbligatorio).
 - Scenario toccato: WR **in-band a N=40** (multi-policy) — ratify gate.
 - No crash / no contract-ripple.
 
 **Human playtest = conferma OPZIONALE**, mai bloccante. Se gira (G7 RC o quando capita)
 = un singolo re-tune iter, non un blocco. Telemetria JSONL via `POST /api/session/telemetry`
-+ `playtest-analyzer` se ci sono dati human, ma la loro assenza NON blocca nulla.
+
+- `playtest-analyzer` se ci sono dati human, ma la loro assenza NON blocca nulla.
 
 ## 6. Comando canonico (finche' il suite-runner non e' wired)
 
@@ -156,18 +158,19 @@ python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --shards 4 -
 ```
 
 Suite-runner unico (`tools/py/playtest_canonical.py`, gira tutto il manifest a N=40 +
-report datato + seed-pin) = **TKT-PLAYTEST-SUITE** (da scaffoldare + smoke, anti-pattern
-#9: non shippato non-testato).
+report datato + `--dry-run` backend-free) = **TKT-PLAYTEST-SUITE** -- **SHIPPED** 2026-05-30
+(smoke verde: --dry-run + live hardcore_06 N=10). Comando: `python tools/py/playtest_canonical.py --n 40`.
 
-## 7. Backlog (gap -> ticket)
+## 7. Backlog (gap -> ticket) -- ALL SHIPPED 2026-05-30 (branch claude/canonical-ai-playtest-harness)
 
-- **TKT-PLAYTEST-SEED**: `--seed` pin RNG nei batch_calibrate_* per riproducibilita' bit-identica.
-- **TKT-PLAYTEST-TRIANGULATE**: wire multi-policy `--policy {random,greedy,lookahead2,utility}` (~4h, stub gia' in policy doc superseded).
-- **TKT-PLAYTEST-SUITE**: `playtest_canonical.py` orchestratore summa (manifest -> N=40 parallel -> report datato). Smoke-gated.
+- **TKT-PLAYTEST-SEED** [SHIPPED]: `--seed` nei batch*calibrate*\* -> bit-identico via `pseudoRng.js` `defaultRng` + `/start` seed.
+- **TKT-PLAYTEST-TRIANGULATE** [SHIPPED]: `--policy {random,greedy,lookahead2,utility,all}` (`calibrate_policies.py`) -> banda WR + stima human.
+- **TKT-PLAYTEST-SUITE** [SHIPPED]: `playtest_canonical.py` (manifest -> N=40 parallel -> report datato; `--dry-run` backend-free).
 
 ## 8. Supersedes / flag (paradigma human-oracle declassato)
 
 Questi riferimenti al playtest umano come gate/oracolo sono **declassati a opzionale**:
+
 - `docs/process/2026-04-26-calibration-harness-policy.md` (`status: superseded`, gate-stance invertita)
 - `docs/adr/ADR-2026-05-18-df-levels-integration-direction.md` gate (a) — ora AI-driven
 - `docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md` gate ratify — ora AI-driven
