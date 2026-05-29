@@ -204,6 +204,8 @@ class CoopOrchestrator {
       partyXp: 0,
       partyPi: 0,
       outcome: null,
+      matingResolved: false,
+      survivors: [],
     };
     this.characters.clear();
     this.worldVotes.clear();
@@ -240,6 +242,8 @@ class CoopOrchestrator {
       partyXp: 0,
       partyPi: 0,
       outcome: null,
+      matingResolved: false,
+      survivors: [],
     };
     this.characters.clear();
     this.worldVotes.clear();
@@ -654,6 +658,34 @@ class CoopOrchestrator {
   }
 
   /**
+   * S22-B Task 8 -- if mating quorum is met and not yet resolved, mark
+   * resolved and return the winning pair (parsed ids). Idempotent: null on
+   * subsequent calls or before quorum. Connected-only quorum (mirror world).
+   */
+  resolveMatingWinner(allPlayerIds = [], connectedPlayerIds = []) {
+    if (!this.run || this.run.matingResolved) return null;
+    const tally = this.matingTally(allPlayerIds, connectedPlayerIds);
+    if (!tally.all_connected_voted || !tally.leading_pair_id) return null;
+    const [parentAId, parentBId] = String(tally.leading_pair_id).split('__');
+    // S22-B Task 8 (Codex P1) -- only resolve a pair whose BOTH parents are
+    // actual surviving units. voteMating accepts any client pair_id, so a
+    // bogus pair must NOT trigger an offspring roll. Leave matingResolved
+    // false so a later legit pair can still win.
+    const survivorIds = new Set((this.run.survivors || []).map((u) => u && u.id).filter(Boolean));
+    if (!parentAId || !parentBId || !survivorIds.has(parentAId) || !survivorIds.has(parentBId)) {
+      return null;
+    }
+    this.run.matingResolved = true;
+    return {
+      pair_id: tally.leading_pair_id,
+      parent_a_id: parentAId,
+      parent_b_id: parentBId,
+      biome_id: this.run.scenarioStack?.[this.run.currentIndex] || null,
+      campaign_id: this.run.id,
+    };
+  }
+
+  /**
    * 2026-05-06 phone smoke W7 — submit post-debrief macro navigation choice.
    * Host-only (mirror submitOnboardingChoice pattern). Choice ∈
    * {advance, branch, retreat}. Phase must be `debrief` or `ended` (post
@@ -753,6 +785,7 @@ class CoopOrchestrator {
   } = {}) {
     if (this.phase !== 'combat') throw new Error('not_in_combat');
     this.run.outcome = outcome;
+    this.run.survivors = Array.isArray(survivors) ? survivors : [];
     this.run.partyXp += xpEarned;
     if (debriefPayload && typeof debriefPayload === 'object') {
       this.run.debrief = debriefPayload;

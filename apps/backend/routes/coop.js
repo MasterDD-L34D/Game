@@ -15,7 +15,7 @@ const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
 const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
 const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload');
 
-function createCoopRouter({ lobby, coopStore } = {}) {
+function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = null } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
   if (!coopStore) throw new Error('createCoopRouter: coopStore required');
   const router = express.Router();
@@ -218,11 +218,42 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
+      const allPids = allPlayerIds(room);
+      const connectedPids = connectedPlayerIds(room);
       const tally = orch.voteMating(playerId, pairId, {
-        allPlayerIds: allPlayerIds(room),
-        connectedPlayerIds: connectedPlayerIds(room),
+        allPlayerIds: allPids,
+        connectedPlayerIds: connectedPids,
       });
       broadcastCoopState(room, orch);
+      // S22-B Task 8 -- WS parity: roll offspring + broadcast mating_resolved
+      // when this vote meets connected-only quorum. Best-effort, additive.
+      const winner = orch.resolveMatingWinner(allPids, connectedPids);
+      if (winner && metaStoreFactory) {
+        const store = metaStoreFactory(winner.campaign_id);
+        if (store) {
+          // eslint-disable-next-line global-require
+          const { resolveCoopMatingOffspring } = require('../services/mating/coopMatingResolver');
+          resolveCoopMatingOffspring({
+            store,
+            prisma,
+            campaignId: winner.campaign_id,
+            parentAId: winner.parent_a_id,
+            parentBId: winner.parent_b_id,
+            biomeId: winner.biome_id,
+          })
+            .then((resolveRes) => {
+              room.broadcast({
+                type: 'mating_resolved',
+                payload: {
+                  pair_id: winner.pair_id,
+                  offspring: resolveRes.offspring || null,
+                  ok: resolveRes.success,
+                },
+              });
+            })
+            .catch(() => {});
+        }
+      }
       return res.json({ phase: orch.phase, tally });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'mating_vote_failed' });
