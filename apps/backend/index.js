@@ -31,7 +31,7 @@ const gameDatabaseEnabled = process.env.GAME_DATABASE_ENABLED !== 'false';
 const gameDatabaseTimeoutMs = Number.parseInt(process.env.GAME_DATABASE_TIMEOUT_MS || '', 10);
 const gameDatabaseTtlMs = Number.parseInt(process.env.GAME_DATABASE_TTL_MS || '', 10);
 
-const { app, lobby, coopStore } = createApp({
+const { app, lobby, coopStore, metaStoreFactory, prisma } = createApp({
   dataRoot,
   gameDatabase: {
     enabled: gameDatabaseEnabled,
@@ -72,10 +72,10 @@ const server = http.createServer(app);
 // WS server: shared mode (single port for demo/ngrok) or dedicated port.
 if (wsEnabled && lobby) {
   if (wsShared) {
-    lobbyWs = createWsServer({ lobby, coopStore, server });
+    lobbyWs = createWsServer({ lobby, coopStore, metaStoreFactory, prisma, server });
     console.log(`[lobby-ws] WebSocket server attached to HTTP server on /ws (shared mode)`);
   } else {
-    lobbyWs = createWsServer({ lobby, coopStore, port: wsPort });
+    lobbyWs = createWsServer({ lobby, coopStore, metaStoreFactory, prisma, port: wsPort });
     console.log(`[lobby-ws] WebSocket server online on ws://${wsHost}:${wsPort}/ws`);
   }
   // Opzione C: hydrate rooms from Prisma if persistence wired.

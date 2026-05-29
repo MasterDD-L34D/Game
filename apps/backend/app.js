@@ -38,6 +38,8 @@ const { createSkivRouter } = require('./routes/skiv');
 // Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
 const { createSpeciesWikiRouter } = require('./routes/speciesWiki');
 const { createCoopStore } = require('./services/coop/coopStore');
+// S22-B Task 8 -- metaStore factory for server-side offspring roll on mating quorum.
+const { createMetaStore } = require('./services/metaProgression');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
@@ -790,7 +792,11 @@ function createApp(options = {}) {
   // Graceful fallback when DATABASE_URL unset (dev/demo/tests).
   app.use('/api', createLobbyRouter({ lobby }));
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
-  app.use('/api', createCoopRouter({ lobby, coopStore }));
+  // S22-B Task 8 -- metaStoreFactory + prisma injected so a mating quorum can
+  // roll offspring server-side (WS handler + REST parity). Prisma-gated; the
+  // resolver degrades gracefully when prisma is absent (dev/demo/tests).
+  const metaStoreFactory = (campaignId) => createMetaStore({ prisma: repo.prisma, campaignId });
+  app.use('/api', createCoopRouter({ lobby, coopStore, metaStoreFactory, prisma: repo.prisma }));
   // 2026-05-20 — Combat readonly diagnostic (status-penalties + biome-modifiers).
   app.use('/api/combat', createCombatRouter());
   app.use('/api', createCompanionRouter());
@@ -1024,7 +1030,16 @@ function createApp(options = {}) {
     }
   }
 
-  return { app, repo, generationOrchestrator, lobby, coopStore, close };
+  return {
+    app,
+    repo,
+    generationOrchestrator,
+    lobby,
+    coopStore,
+    metaStoreFactory,
+    prisma: repo.prisma,
+    close,
+  };
 }
 
 module.exports = { createApp };

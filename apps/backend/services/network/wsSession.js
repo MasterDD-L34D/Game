@@ -1090,6 +1090,12 @@ function createWsServer({
   port = null,
   path = '/ws',
   coopStore = null,
+  // S22-B Task 8 -- optional DI for server-side offspring roll on mating
+  // quorum. metaStoreFactory: (campaignId) => metaStore. prisma forwarded to
+  // the resolver for best-effort epigenome hydration. Both absent -> resolve
+  // is a no-op (mating_tally + ack still fire).
+  metaStoreFactory = null,
+  prisma = null,
 } = {}) {
   if (!lobby) throw new Error('lobby_required');
   if (!server && (port === null || port === undefined)) {
@@ -1592,6 +1598,36 @@ function createWsServer({
               });
               room.broadcast({ type: 'mating_tally', payload: tally });
               socket.send(JSON.stringify({ type: 'mating_vote_accepted', payload: { tally } }));
+              // S22-B Task 8 -- if the vote met connected-only quorum, roll the
+              // offspring server-side + broadcast mating_resolved. Best-effort:
+              // any failure leaves tally/ack intact (resolve is additive).
+              const winner = orch.resolveMatingWinner(allPids, connectedPids);
+              if (winner && metaStoreFactory) {
+                const store = metaStoreFactory(winner.campaign_id);
+                if (store) {
+                  // eslint-disable-next-line global-require
+                  const { resolveCoopMatingOffspring } = require('../mating/coopMatingResolver');
+                  resolveCoopMatingOffspring({
+                    store,
+                    prisma,
+                    campaignId: winner.campaign_id,
+                    parentAId: winner.parent_a_id,
+                    parentBId: winner.parent_b_id,
+                    biomeId: winner.biome_id,
+                  })
+                    .then((resolveRes) => {
+                      room.broadcast({
+                        type: 'mating_resolved',
+                        payload: {
+                          pair_id: winner.pair_id,
+                          offspring: resolveRes.offspring || null,
+                          ok: resolveRes.success,
+                        },
+                      });
+                    })
+                    .catch(() => {});
+                }
+              }
             } catch (err) {
               socket.send(
                 JSON.stringify({
