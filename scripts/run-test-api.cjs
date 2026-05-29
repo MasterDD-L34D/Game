@@ -24,13 +24,20 @@ const steps = [
   'node --test tests/scripts/crossPlatformRunners.test.js',
   'node --test tests/i18n/parity.test.js',
   'node --test tests/play/*.test.js',
-  // ERMES runtime bridge (ADR-2026-05-29 FASE 2). tests/services + tests/ai
-  // were not covered by the globs above -> CI-orphaned. Wire the ermes surface
-  // so a rewrite dropping behavior fails CI (guards anti-pattern #10
-  // non-CI-guarded drop). Scoped to ermes files, not the whole subtree.
-  'node --test tests/services/ermes/*.test.js',
-  'node --test tests/services/coop/ermesExporter*.test.js',
-  'node --test tests/ai/applyErmesBiomeTraitCosts.test.js',
+  // tests/services/** + tests/ai/** were not covered by the globs above ->
+  // CI-orphaned: they pass when run manually but never ran in CI, so a refactor
+  // could silently drop behavior while CI stays green (anti-pattern #10
+  // non-CI-guarded drop). All 140 files (1738 tests) verified passing in
+  // parallel 2026-05-29; these broad subtree globs supersede the prior
+  // ermes-scoped wiring (PR #2432).
+  //
+  // Globs are DOUBLE-QUOTED on purpose: spawnSync runs with shell:true, so a
+  // bare tests/services/**/*.test.js would be expanded by the shell, not node.
+  // POSIX sh (Linux CI) has no globstar -> collapses ** to a single level and
+  // silently drops the 71 top-level files (1276 -> 249 tests). Quoting forces
+  // node's own recursive glob, identical on cmd.exe (Windows) and sh (Linux).
+  'node --test "tests/services/**/*.test.js"',
+  'node --test "tests/ai/**/*.test.js"',
 ];
 
 const env = {
