@@ -89,9 +89,8 @@ onMounted(async () => {
         </div>
         <p class="trait-suggestions__rationale">{{ s.rationale }}</p>
         <code v-if="s.proposed_patch" class="trait-suggestions__patch" data-testid="patch">
-          {{ s.proposed_patch.op }} {{ s.proposed_patch.path }}<template
-            v-if="s.proposed_patch.value !== undefined"
-          >
+          {{ s.proposed_patch.op }} {{ s.proposed_patch.path
+          }}<template v-if="s.proposed_patch.value !== undefined">
             = {{ s.proposed_patch.value }}</template
           >
         </code>

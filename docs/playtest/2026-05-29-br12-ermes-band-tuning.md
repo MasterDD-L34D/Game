@@ -26,12 +26,12 @@ happened to land in the mid range after the 50-generation env random walk
 Tuned `multi_biome.json` so the pilot set spans LOW + MED + HIGH. Pushed values
 hard so the per-generation random walk (volatility 0.04-0.06) cannot flip the band.
 
-| biome | env before (temp/food/pred) | env after | eco before | eco after | band |
-|---|---|---|---|---|---|
-| rovine_planari | 0.5 / 0.45 / 0.4 | 0.5 / 0.85 / 0.15 | 0.424 | 0.164 | LOW |
-| cryosteppe_convergence | 0.15 / 0.4 / 0.5 | 0.05 / 0.2 / 0.85 | 0.659 | 0.876 | HIGH |
-| savana | unchanged | unchanged | 0.449 | 0.449 | MED |
-| caverna_risonante | unchanged | unchanged | 0.598 | 0.598 | MED |
+| biome                  | env before (temp/food/pred) | env after         | eco before | eco after | band |
+| ---------------------- | --------------------------- | ----------------- | ---------- | --------- | ---- |
+| rovine_planari         | 0.5 / 0.45 / 0.4            | 0.5 / 0.85 / 0.15 | 0.424      | 0.164     | LOW  |
+| cryosteppe_convergence | 0.15 / 0.4 / 0.5            | 0.05 / 0.2 / 0.85 | 0.659      | 0.876     | HIGH |
+| savana                 | unchanged                   | unchanged         | 0.449      | 0.449     | MED  |
+| caverna_risonante      | unchanged                   | unchanged         | 0.598      | 0.598     | MED  |
 
 Narrative-coherent: ancient `rovine` = calm (abundant food, few predators);
 `cryosteppe convergence` = harsh (scarce food, many predators, extreme cold).
@@ -41,12 +41,12 @@ Narrative-coherent: ancient `rovine` = calm (abundant food, few predators);
 Bridge run on the regenerated report (`getErmesBucketed` -> `applyErmesBiomeTraitCosts`,
 fresh unit each biome):
 
-| biome | band | attack_mod_bonus | defense_mod_bonus | buckets_applied |
-|---|---|---|---|---|
-| rovine_planari | low | -1 | -1 | 1 |
-| savana | med | 0 | 0 | 0 |
-| caverna_risonante | med | 0 | 0 | 0 |
-| cryosteppe_convergence | high | +1 | +1 | 1 |
+| biome                  | band | attack_mod_bonus | defense_mod_bonus | buckets_applied |
+| ---------------------- | ---- | ---------------- | ----------------- | --------------- |
+| rovine_planari         | low  | -1               | -1                | 1               |
+| savana                 | med  | 0                | 0                 | 0               |
+| caverna_risonante      | med  | 0                | 0                 | 0               |
+| cryosteppe_convergence | high | +1               | +1                | 1               |
 
 The bridge now applies -1 / 0 / +1 by band (capped +/-2 per ADR-21c). MED stays
 neutral by design. Guarded by `test_multi_biome_exercises_low_and_high_bands`
