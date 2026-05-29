@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-10T15:06:28.062394Z",
+  "generated_at": "2026-05-29T01:06:32.371607Z",
   "summary": {
     "total_traits": 254,
-    "glossary_ok": 253,
-    "glossary_missing": 1,
+    "glossary_ok": 254,
+    "glossary_missing": 0,
     "matrix_ok": 178,
     "matrix_mismatch": 76,
     "with_conflicts": 34,
@@ -1420,7 +1420,7 @@
         "total": 2
       },
       "statuses": {
-        "glossary": "missing",
+        "glossary": "ok",
         "matrix": "ok"
       },
       "conflicts": [],
@@ -29809,9 +29809,7 @@
     "visione_spettrale",
     "voce_spettrale"
   ],
-  "missing_glossary": [
-    "antenne_waveguide"
-  ],
+  "missing_glossary": [],
   "sources": {
     "trait_reference": "data/traits/index.json",
     "trait_matrix": "docs/catalog/species_trait_matrix.json",

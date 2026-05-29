@@ -24,6 +24,24 @@ node scripts/lint/replace_all_safety.js || true
 # upgrade to blocking once existing branches catch up (ionico mirror in PR #2355).
 if git diff --cached --name-only | grep -qE "(packs/evo_tactics_pack/data/balance/trait_mechanics\.yaml|data/core/traits/active_effects\.yaml)"; then
   if [ -f tools/py/check_trait_mirror_consistency.py ] && command -v python >/dev/null 2>&1; then
-    python tools/py/check_trait_mirror_consistency.py || echo "[pre-commit] WARN trait mirror inconsistent — see tools/py/check_trait_mirror_consistency.py"
+    python tools/py/check_trait_mirror_consistency.py || echo "[pre-commit] WARN trait mirror inconsistent -- see tools/py/check_trait_mirror_consistency.py"
   fi
+fi
+
+# 2026-05-29 -- ADR-2026-05-29 trait schema gate (HARD on schema_version 2.0).
+# Validates data/core/traits/*.json + data/core/traits/active_effects.yaml +
+# data/traits/*.json + config/schemas/trait.schema.json on staged writes.
+# Tier-Ancestor policy (ancestor_* identity-only) honored. Design block missing
+# = WARN-only for index.json (Tier-Backlog tolerated); HARD for per-trait files.
+# Bypass via _gate_skip_reason key + --allow-skip-marker (use sparingly).
+TRAIT_GATE_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^(data/core/traits/[^/]+\.(json|yaml)|data/traits/.*\.json|config/schemas/trait\.schema\.json)$' || true)
+if [ -n "$TRAIT_GATE_FILES" ] && command -v python >/dev/null 2>&1; then
+  GATE_ARGS=""
+  for f in $TRAIT_GATE_FILES; do
+    GATE_ARGS="$GATE_ARGS --check $f"
+  done
+  python tools/lint/trait_schema_gate.py $GATE_ARGS || {
+    echo "[pre-commit] FAIL trait schema gate -- see ADR-2026-05-29" >&2
+    exit 1
+  }
 fi

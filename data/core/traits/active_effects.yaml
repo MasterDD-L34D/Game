@@ -16,6 +16,13 @@
 # Estensioni future (tier T2+, categorie aggiuntive) richiederanno di
 # ampliare lo schema qui sotto e l'evaluator in traitEffects.js.
 
+# ADR-2026-05-29-trait-schema-canonization: schema_version 2.0 bump 2026-05-29.
+# `version: 1` legacy preservato 1 release per back-compat consumer; rimuovere
+# in TKT successivo dopo verify nessun consumer legge il vecchio field.
+schema_version: "2.0"
+schema_version_previous: "1"
+schema_bumped_at: "2026-05-29"
+schema_bumped_ref: "ADR-2026-05-29-trait-schema-canonization"
 version: 1
 traits:
   zampe_a_molla:
@@ -10461,3 +10468,9 @@ traits:
       Termocezione: clock caldo/freddo + resistenze gear/ambiente.
       Riduce 1 PT danno da attacchi termici (fuoco/ghiaccio). RFC
       sentience v0.1 interoception_trait T1.
+
+  # ADR-2026-05-29 TKT-CL-05 REVERTED 2026-05-29: pre-existing handler trovato
+  # a linea 10383 (amount: 0, dice 1d6+1, log_tag filamenti_digestivi_heal).
+  # L'audit 2026-05-10-trait-mech-no-handler-audit.md era stale - il gap b era
+  # gia chiuso. Diff balance (amount 0 vs 3) e' decisione Balancer agent + tier
+  # check, fuori scope ADR-2026-05-29 §scope guard "NO touch ai dati esistenti".
