@@ -78,6 +78,10 @@ function createCoopRouter({ lobby, coopStore } = {}) {
           ready_list: orch.debriefReadyList(allPlayerIds(room)),
         },
       });
+      room.broadcast({
+        type: 'mating_tally',
+        payload: orch.matingTally(allPlayerIds(room), connectedPlayerIds(room)),
+      });
       // 2026-05-15 Bundle C follow-up — surface per-actor 4-layer psicologico
       // payload to phone clients when host attached it via /coop/combat/end
       // (PR #2269 wire). Each phone composer extracts its local player slice
@@ -198,6 +202,30 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       return res.json({ phase: orch.phase, tally });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_vote_failed' });
+    }
+  });
+
+  router.post('/coop/mating/vote', (req, res) => {
+    const {
+      code,
+      player_id: playerId,
+      player_token: playerToken,
+      pair_id: pairId,
+    } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.voteMating(playerId, pairId, {
+        allPlayerIds: allPlayerIds(room),
+        connectedPlayerIds: connectedPlayerIds(room),
+      });
+      broadcastCoopState(room, orch);
+      return res.json({ phase: orch.phase, tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'mating_vote_failed' });
     }
   });
 
