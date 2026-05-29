@@ -14,12 +14,15 @@ shard look like it "hangs" after ~7 sessions. Always pass an IP host, not a name
 import argparse
 import json
 import os
+import random
 import re
 import statistics
 import sys
 import time
 import urllib.error
 import urllib.request
+
+import calibrate_policies
 
 SCENARIO_ID = "enc_tutorial_06_hardcore"
 MAX_ROUNDS = 40
@@ -371,6 +374,31 @@ def _pick_channel_for(target_id):
     return CHANNEL_EXPLOIT_MAP.get(target_id, "fisico")
 
 
+# TKT-PLAYTEST-TRIANGULATE: hc06 ctx -- channel exploit map + boss-last priority
+# (focus minions first, mirrors plan_player_intents enemy_priority).
+def _enemy_priority_hc06(e):
+    eid = e.get("id", "")
+    if eid == "e_apex_boss":
+        return 2
+    if "elite" in eid:
+        return 1
+    return 0
+
+
+POLICY_CTX = {
+    "channel_for": _pick_channel_for,
+    "enemy_priority": _enemy_priority_hc06,
+    "attack_range_default": 1,
+}
+
+
+def _policy_rng(policy, run_seed):
+    """random.Random for the 'random' policy (seeded -> reproducible); None else."""
+    if policy != "random":
+        return None
+    return random.Random(run_seed) if run_seed is not None else random.Random()
+
+
 def plan_player_intents(state, occupied):
     units = state.get("units", [])
     grid = state.get("grid", {})
@@ -586,7 +614,8 @@ def _extract_trait_ids(action_result):
     return out
 
 
-def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None):
+def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
+            policy="greedy", rng=None):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
@@ -630,7 +659,10 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None):
         outcome = detect_outcome(state, turn_limit_defeat)
         if outcome:
             break
-        intents = plan_player_intents(state, None)
+        if policy == "greedy":
+            intents = plan_player_intents(state, None)
+        else:
+            intents = calibrate_policies.pick_intents(policy, state, POLICY_CTX, rng)
         status, resp = post(f"{host}/api/session/round/execute", {
             "session_id": sid,
             "player_intents": intents,
@@ -698,6 +730,7 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None):
     return {
         "run": run_idx,
         "seed": seed,
+        "policy": policy,
         "outcome": outcome,
         "rounds": state.get("turn", 0),
         "players_alive": players_alive,
@@ -807,6 +840,69 @@ def _hist(values, bins):
     return out
 
 
+def run_triangulation(args):
+    """TKT-PLAYTEST-TRIANGULATE: run every policy at N and report a WR band.
+    Additive output (mode=triangulation); single-policy callers unaffected."""
+    from calibrate_policies import POLICIES, compute_band
+
+    turn_limit_defeat = load_turn_limit_defeat(args.encounter_class, scenario_id=SCENARIO_ID)
+    print(
+        f"Hardcore 06 TRIANGULATION: policies={list(POLICIES)} N={args.n}/policy "
+        f"host={args.host} seed={'None' if args.seed is None else args.seed} "
+        f"turn_limit_defeat={turn_limit_defeat}",
+        flush=True,
+    )
+    t0 = time.time()
+    per_policy = {}
+    policy_aggs = {}
+    for pol in POLICIES:
+        runs = []
+        for i in range(args.n):
+            run_seed = args.seed + i if args.seed is not None else None
+            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat,
+                        biome_id=args.biome_id, seed=run_seed, policy=pol,
+                        rng=_policy_rng(pol, run_seed))
+            runs.append(r)
+            mark = ("V" if r.get("outcome") == "victory" else "L" if r.get("outcome") == "defeat"
+                    else "T" if r.get("outcome") == "timeout" else "E")
+            print(f"  [{pol}] [{i+1}/{args.n}] {mark} rounds={r.get('rounds','?')} "
+                  f"boss_hp={r.get('boss_hp_remaining','?')}", flush=True)
+            if args.cooldown > 0 and i + 1 < args.n:
+                time.sleep(args.cooldown)
+        per_policy[pol] = runs
+        policy_aggs[pol] = aggregate(runs, encounter_class=args.encounter_class)
+
+    band = compute_band(per_policy)
+    elapsed = round(time.time() - t0, 1)
+    pwr = band["policy_win_rate"]
+    print("\n=== TRIANGULATION BAND ===", flush=True)
+    for pol in POLICIES:
+        wr = pwr.get(pol)
+        print(f"  {pol:11s} WR={'n/a' if wr is None else f'{wr * 100:.1f}%'}", flush=True)
+    lo, hi = band["band"]
+    human = band["human_wr_est"]
+    lo_s = "n/a" if lo is None else f"{lo * 100:.1f}%"
+    hi_s = "n/a" if hi is None else f"{hi * 100:.1f}%"
+    human_s = "n/a" if human is None else f"{human * 100:.1f}%"
+    print(f"  band=[{lo_s}, {hi_s}]  human_est={human_s} ({band['human_wr_formula']})", flush=True)
+
+    out = {
+        "scenario_id": SCENARIO_ID,
+        "mode": "triangulation",
+        "n_per_policy": args.n,
+        "seed": args.seed,
+        "encounter_class": args.encounter_class,
+        "elapsed_sec": elapsed,
+        "band": band,
+        "policies": {pol: {"aggregate": policy_aggs[pol], "runs": per_policy[pol]} for pol in POLICIES},
+    }
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=2)
+        print(f"\nWrote {args.out}")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default=DEFAULT_HOST)
@@ -830,6 +926,11 @@ def main():
                     help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Run i uses "
                          "seed+i (so the whole batch is reproducible). Omit = legacy "
                          "Math.random (statistical reproducibility only).")
+    ap.add_argument("--policy", default="greedy",
+                    choices=["random", "greedy", "lookahead2", "utility", "all"],
+                    help="TKT-PLAYTEST-TRIANGULATE: player policy proxy. 'all' runs every "
+                         "policy and reports a WR band (Jaffe 2012 Restricted Play). "
+                         "Default greedy (back-compat single-policy output).")
     args = ap.parse_args()
 
     # Health probe (TKT-08): fail fast se backend non risponde.
@@ -843,6 +944,10 @@ def main():
     if args.probe:
         probe_one(args.host)
         return 0
+
+    # TKT-PLAYTEST-TRIANGULATE: multi-policy band mode short-circuits single flow.
+    if args.policy == "all":
+        return run_triangulation(args)
 
     # M9 P6: load turn_limit_defeat per class (force decision pressure).
     # 2026-05-20 L-069 iter3: pass SCENARIO_ID for scenario_overrides resolution.
@@ -860,7 +965,8 @@ def main():
         for i in range(args.n):
             run_seed = args.seed + i if args.seed is not None else None
             r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat,
-                        biome_id=args.biome_id, seed=run_seed)
+                        biome_id=args.biome_id, seed=run_seed, policy=args.policy,
+                        rng=_policy_rng(args.policy, run_seed))
             runs.append(r)
             if "error" in r:
                 failures += 1
