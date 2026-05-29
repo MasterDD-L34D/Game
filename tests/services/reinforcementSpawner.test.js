@@ -6,6 +6,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const { tick, _internals } = require('../../apps/backend/services/combat/reinforcementSpawner');
+const ecosystemResolver = require('../../apps/backend/services/worldgen/ecosystemResolver');
 
 function mockSession(overrides = {}) {
   return {
@@ -314,4 +315,98 @@ test('_internals: tierMeetsMin', () => {
   assert.equal(_internals.tierMeetsMin('Calm', 'Alert'), false);
   assert.equal(_internals.tierMeetsMin('Apex', 'Escalated'), true);
   assert.equal(_internals.tierMeetsMin('Unknown', 'Alert'), true); // permissive fallback
+});
+
+// --- TKT-WORLDGEN-GAPA: foodweb spawn-pool whitelist filter ---
+
+const gapaFarEntryTiles = [
+  [9, 9],
+  [8, 9],
+  [9, 8],
+  [8, 8],
+];
+
+test('GAP-A: band-neutral on trophic-clean badlands pool (excluded empty)', () => {
+  ecosystemResolver._resetCache();
+  const session = mockSession({ pressure: 30 }); // Alert -> budget 1
+  const enc = mockEncounter({
+    biome_id: 'badlands',
+    reinforcement_pool: [
+      { unit_id: 'rust-scavenger', weight: 2, max_spawns: 5, hp: 8 },
+      { unit_id: 'sand-burrower', weight: 2, max_spawns: 5, hp: 7 },
+      { unit_id: 'echo-wing', weight: 1, max_spawns: 5, hp: 6 },
+    ],
+    reinforcement_entry_tiles: gapaFarEntryTiles,
+  });
+  const res = tick(session, enc, { rng: () => 0.1 });
+  assert.ok(res.foodweb_filter);
+  assert.deepEqual(res.foodweb_filter.excluded, []); // nothing removed -> WR bands unchanged
+  assert.equal(res.foodweb_filter.applied, false);
+  assert.ok(res.spawned.length > 0);
+});
+
+test('GAP-A: excludes off-biome species from spawn pool', () => {
+  ecosystemResolver._resetCache();
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({
+    biome_id: 'badlands',
+    reinforcement_pool: [
+      { unit_id: 'rust-scavenger', weight: 5, max_spawns: 5, hp: 8 }, // badlands consumer
+      { unit_id: 'cryo-lynx', weight: 5, max_spawns: 5, hp: 8 }, // cryosteppe -- filtered out
+    ],
+    reinforcement_entry_tiles: gapaFarEntryTiles,
+  });
+  // rng biased to the LAST entry: a broken filter would spawn cryo-lynx.
+  const res = tick(session, enc, { rng: () => 0.99 });
+  assert.equal(res.foodweb_filter.applied, true);
+  assert.ok(res.foodweb_filter.excluded.includes('cryo-lynx'));
+  assert.ok(res.spawned.length > 0);
+  assert.ok(res.spawned.every((s) => s.unit_id === 'rust-scavenger'));
+});
+
+test('GAP-A: hardcore_07 off-foodweb pool -> all_excluded_fallback (pool preserved, band-safe)', () => {
+  ecosystemResolver._resetCache();
+  const session = mockSession({ pressure: 30 });
+  // rovine_planari foodweb does NOT contain these synthetic combat units, so
+  // the filter would empty the pool -> fallback preserves it unchanged.
+  const enc = mockEncounter({
+    biome_id: 'rovine_planari',
+    reinforcement_pool: [
+      { unit_id: 'cacciatore_corazzato', weight: 2, max_spawns: 3, hp: 8 },
+      { unit_id: 'predone_agile', weight: 3, max_spawns: 3, hp: 6 },
+    ],
+    reinforcement_entry_tiles: gapaFarEntryTiles,
+  });
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.foodweb_filter.reason, 'all_excluded_fallback');
+  assert.equal(res.foodweb_filter.applied, false);
+  assert.ok(res.spawned.length > 0); // pool preserved -> still spawns -> bands unchanged
+});
+
+test('GAP-A: kill switch (foodweb_filter:false) disables filter', () => {
+  ecosystemResolver._resetCache();
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({
+    biome_id: 'badlands',
+    reinforcement_pool: [{ unit_id: 'cryo-lynx', weight: 1, max_spawns: 5, hp: 8 }], // off-biome, allowed
+    reinforcement_entry_tiles: gapaFarEntryTiles,
+    reinforcement_policy: {
+      enabled: true,
+      min_tier: 'Alert',
+      cooldown_rounds: 0,
+      max_total_spawns: 10,
+      foodweb_filter: false,
+    },
+  });
+  const res = tick(session, enc, { rng: () => 0 });
+  assert.equal(res.foodweb_filter.reason, 'disabled');
+  assert.ok(res.spawned.length > 0);
+});
+
+test('GAP-A: no biome_id -> filter passthrough (no_biome)', () => {
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({ reinforcement_entry_tiles: gapaFarEntryTiles });
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.foodweb_filter.reason, 'no_biome');
+  assert.ok(res.spawned.length > 0);
 });
