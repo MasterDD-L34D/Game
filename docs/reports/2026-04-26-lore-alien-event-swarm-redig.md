@@ -3,10 +3,11 @@ title: "Lore alien-event: swarm re-dig — fonti esterne non esplorate"
 doc_status: draft
 doc_owner: repo-archaeologist
 workstream: cross-cutting
-last_verified: "2026-04-26"
+last_verified: "2026-05-29"
 source_of_truth: false
 language: it
 review_cycle_days: 30
+reconcile_note: "Verdict CONFIRMED_ZERO (no alien-event) still valid. Candidates eco_lucido/strappo_planare now partly wired in data/core/events/mutagen_events.yaml; Leviatano/Frattura canonical (vault Atlas frattura-abissale MOC). See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Lore alien-event — Swarm Re-dig

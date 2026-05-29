@@ -6,6 +6,8 @@ created: 2026-04-26
 author: creature-aspect-illuminator
 related_od: OD-001
 related_cards: [M-2026-04-25-007, M-2026-04-25-008]
+last_verified: "2026-05-29"
+reconcile_note: "EXECUTED -- OD-001 Path A shipped (apps/play/src/nestHub.js, PR #1876/#1879/#1911); museum M-007 revived. Historical reference. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Nido — housing+mutation pattern, repo audit + Pokopia reference
