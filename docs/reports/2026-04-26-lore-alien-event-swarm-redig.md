@@ -7,7 +7,7 @@ last_verified: "2026-05-29"
 source_of_truth: false
 language: it
 review_cycle_days: 30
-reconcile_note: "Verdict CONFIRMED_ZERO (no alien-event) still valid. Candidates eco_lucido/strappo_planare now partly wired in data/core/events/mutagen_events.yaml; Leviatano/Frattura canonical (vault Atlas frattura-abissale MOC). See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
+reconcile_note: "Verdict CONFIRMED_ZERO (no alien-event) still valid. Candidates eco_lucido/strappo_planare now present in data/core/events/mutagen_events.yaml but DATA-ONLY (no backend consumer yet), not in active_effects/glossary. Leviatano/Frattura canonical (vault Atlas frattura-abissale MOC). See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Lore alien-event — Swarm Re-dig
