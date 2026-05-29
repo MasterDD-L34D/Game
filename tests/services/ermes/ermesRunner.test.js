@@ -108,3 +108,57 @@ test('missing biome_pools file -> empty index, no throw', () => {
   assert.deepEqual(r.poolsForTrait('t_shared'), []);
   assert.equal(r.getTraitToPoolsMap().size, 0);
 });
+
+// ---------------------------------------------------------------------------
+// FASE 3 P3 -- generateBootReport (idempotent boot-time report generation).
+// ---------------------------------------------------------------------------
+
+test('generateBootReport: /skip lab + no report -> skipped_lab', async () => {
+  const r = createErmesRunner({
+    labScriptPath: '/skip',
+    outputPath: path.join(os.tmpdir(), `no_report_${Date.now()}.json`),
+  });
+  const res = await r.generateBootReport();
+  assert.equal(res.skipped_lab, true);
+});
+
+test('generateBootReport: fresh report -> skipped (idempotent, no regen)', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ermes-boot-'));
+  const out = path.join(dir, 'latest.json');
+  fs.writeFileSync(out, '{"biomes":{}}');
+  try {
+    const r = createErmesRunner({ labScriptPath: '/skip', outputPath: out });
+    const res = await r.generateBootReport();
+    assert.equal(res.skipped, true);
+    assert.equal(res.reason, 'fresh');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('generateBootReport: stale report past ttl -> regen path (skipped_lab)', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ermes-boot-'));
+  const out = path.join(dir, 'latest.json');
+  fs.writeFileSync(out, '{"biomes":{}}');
+  fs.utimesSync(out, 1000000, 1000000); // ancient mtime
+  try {
+    const r = createErmesRunner({ labScriptPath: '/skip', outputPath: out });
+    const res = await r.generateBootReport({ ttlMs: 1000 });
+    assert.equal(res.skipped_lab, true);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('generateBootReport: force bypasses freshness', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ermes-boot-'));
+  const out = path.join(dir, 'latest.json');
+  fs.writeFileSync(out, '{"biomes":{}}'); // fresh
+  try {
+    const r = createErmesRunner({ labScriptPath: '/skip', outputPath: out });
+    const res = await r.generateBootReport({ force: true });
+    assert.equal(res.skipped_lab, true);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
