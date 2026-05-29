@@ -671,7 +671,11 @@ class CoopOrchestrator {
     // actual surviving units. voteMating accepts any client pair_id, so a
     // bogus pair must NOT trigger an offspring roll. Leave matingResolved
     // false so a later legit pair can still win.
-    const survivorIds = new Set((this.run.survivors || []).map((u) => u && u.id).filter(Boolean));
+    const survivorIds = new Set(
+      (this.run.survivors || [])
+        .map((u) => (typeof u === 'string' ? u : u && (u.id || u.unit_id)))
+        .filter(Boolean),
+    );
     if (!parentAId || !parentBId || !survivorIds.has(parentAId) || !survivorIds.has(parentBId)) {
       return null;
     }

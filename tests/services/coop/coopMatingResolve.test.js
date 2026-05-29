@@ -41,3 +41,13 @@ test('resolveMatingWinner rejects pair not in survivors (no roll on bogus ids)',
   assert.equal(o.resolveMatingWinner(['p1'], ['p1']), null);
   assert.equal(o.run.matingResolved, false);
 });
+
+test('resolveMatingWinner accepts string-id survivors (browser host shape)', () => {
+  const o = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1' });
+  o.startRun({ scenarioStack: ['enc_a'] });
+  o.phase = 'combat';
+  o.endCombat({ outcome: 'victory', survivors: ['u_a', 'u_b'] });
+  o.voteMating('p1', 'u_a__u_b', { allPlayerIds: ['p1'] });
+  const w = o.resolveMatingWinner(['p1'], ['p1']);
+  assert.equal(w.pair_id, 'u_a__u_b');
+});
