@@ -112,11 +112,12 @@ function injectPoolMetadata(payload) {
   return { ...payload, pools: poolsWithMetadata };
 }
 
-async function fetchRemoteGlossary(httpBase, fetchFn, timeoutMs) {
+async function fetchRemoteGlossary(httpBase, fetchFn, timeoutMs, versionId) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const url = `${httpBase.replace(/\/$/, '')}${HTTP_GLOSSARY_PATH}`;
+    const query = versionId ? `?versionId=${encodeURIComponent(versionId)}` : '';
+    const url = `${httpBase.replace(/\/$/, '')}${HTTP_GLOSSARY_PATH}${query}`;
     const response = await fetchFn(url, {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
@@ -188,6 +189,10 @@ function createCatalogService(options = {}) {
     ? options.httpTimeoutMs
     : DEFAULT_HTTP_TIMEOUT_MS;
   const httpTtlMs = Number.isFinite(options.httpTtlMs) ? options.httpTtlMs : DEFAULT_HTTP_TTL_MS;
+  const taxonomyVersion =
+    typeof options.taxonomyVersion === 'string' && options.taxonomyVersion.trim()
+      ? options.taxonomyVersion.trim()
+      : null;
   const httpFetch =
     options.httpFetch ||
     (typeof globalThis.fetch === 'function' ? globalThis.fetch.bind(globalThis) : null);
@@ -200,7 +205,12 @@ function createCatalogService(options = {}) {
   async function loadGlossarySource() {
     if (httpEnabled && httpBase && httpFetch) {
       try {
-        const remote = await fetchRemoteGlossary(httpBase, httpFetch, httpTimeoutMs);
+        const remote = await fetchRemoteGlossary(
+          httpBase,
+          httpFetch,
+          httpTimeoutMs,
+          taxonomyVersion,
+        );
         return { glossary: remote, source: 'http' };
       } catch (error) {
         logger.warn(
