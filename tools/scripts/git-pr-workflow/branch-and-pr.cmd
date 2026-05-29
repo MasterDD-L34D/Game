@@ -12,7 +12,17 @@ REM - main aggiornato (git pull origin main da clean state)
 REM - gh CLI auth attiva (MasterDD-L34D)
 
 setlocal enabledelayedexpansion
-cd /d C:\dev\Game
+
+REM Codex P2 fix 2026-05-29: resolve repo path from script location instead of
+REM hardcoded C:\dev\Game. Template now portable across clones / worktrees /
+REM CI checkouts. Script lives at tools/scripts/git-pr-workflow/branch-and-pr.cmd
+REM so the repo root is 3 levels up from %~dp0 (no trailing slash on result).
+for %%I in ("%~dp0..\..\..") do set "REPO_ROOT=%%~fI"
+cd /d "%REPO_ROOT%"
+if not %errorlevel%==0 (
+    echo !!! ERROR: cannot cd to resolved REPO_ROOT=%REPO_ROOT% -- abort.
+    exit /b 1
+)
 
 REM UTF-8 console (anti-mojibake nei test output e commit body)
 chcp 65001 >nul 2>&1
