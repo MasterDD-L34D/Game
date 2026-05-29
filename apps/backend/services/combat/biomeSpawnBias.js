@@ -238,9 +238,34 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
     // Final cap (no dominance absoluta).
     if (boost > maxBoostTotal) boost = maxBoostTotal;
 
-    return {
+    // §21 ALIENA enforcement (config-gated, default-OFF). When
+    // opts.alienaEnforcement.strength > 0, modulate the bias weight by the
+    // entry's continuous ALIENA coherence aggregate (no threshold -- strength
+    // is a continuous knob). factor = 1 - strength*(1 - aggregate), floored
+    // above 0 so a spawnable entry is never fully zeroed. strength=0/absent ->
+    // factor 1 (no-op, byte-identical to the diagnostic-only baseline).
+    let finalWeight = baseWeight * boost;
+    let alienaMeta = null;
+    const enf = opts.alienaEnforcement;
+    if (enf && Number(enf.strength) > 0) {
+      let aggregate = 1;
+      try {
+        const { scoreAlienaCoherence } = require('../authorial/alienaCoherence');
+        aggregate = scoreAlienaCoherence(entry, biomeConfig, {
+          canonicalPool: opts.canonicalPool || [],
+        }).aggregate;
+      } catch {
+        aggregate = 1; // graceful: scorer failure -> no modulation
+      }
+      const strength = Math.max(0, Math.min(1, Number(enf.strength)));
+      const factor = Math.max(0.0001, 1 - strength * (1 - aggregate));
+      finalWeight = baseWeight * boost * factor;
+      alienaMeta = { strength, aggregate, factor };
+    }
+
+    const out = {
       ...entry,
-      weight: baseWeight * boost,
+      weight: finalWeight,
       _biome_bias: {
         boost,
         affix_matches: affixMatches,
@@ -248,6 +273,8 @@ function applyBiomeBias(pool, biomeConfig, opts = {}) {
         base_weight: baseWeight,
       },
     };
+    if (alienaMeta) out._aliena_enforcement = alienaMeta;
+    return out;
   });
 
   // §21 ALIENA diagnostic -- emit per-entry coherence telemetry. Opt-in via
