@@ -19,6 +19,16 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### 🟡 OPEN — Worldgen GAP-A/B/C (foodweb/cross-events/meta-network -> runtime) — 2026-05-29
+
+Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26), ground-truth-verificato 2026-05-29. Museum cards M-013/M-014/M-016 + gallery worldgen. Engine-LIVE-Surface-DEAD: i 4 livelli worldgen (bioma/ecosistema/foodweb/network) hanno il dato ma 3 livelli restano senza consumer runtime. NO autonomous wire (revive culture: decision master-dd).
+
+| Ticket             | Gap                              | Verified state 2026-05-29                                                                                                              | Effort (post-blast-radius) | Decision                                                            |
+| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------- |
+| TKT-WORLDGEN-GAPA  | foodweb -> spawn composition     | `biomeAffinity.js` = stat-modifier (Subnautica, wired session.js:506), NON spawn-filter; `reinforcementSpawner.js` non filtra per trophic-tier/biome_affinity | ~8-10h (×1.0-1.2)          | wire `ecosystemLoader` + foodweb whitelist in reinforcementSpawner OR remove |
+| TKT-WORLDGEN-GAPB  | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove  |
+| TKT-WORLDGEN-GAPC  | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                              | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
+
 ### 🟡 OPEN — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
 
 Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). Verified findings; dispositions are master-dd-gated (wire-vs-remove / N=40 ratify).

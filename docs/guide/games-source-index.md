@@ -3,7 +3,7 @@ title: Games Source Index — catalogo completo giochi-fonte + ricerche
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-05-28'
+last_verified: '2026-05-29'
 source_of_truth: false
 language: it-en
 review_cycle_days: 90
@@ -87,6 +87,7 @@ review_cycle_days: 90
 | **Wildermyth**                  | Worldwalker · 2021    | Tactical narrative              | Layered handcrafted+procedural narrative + portraits stratificati + permanent visible change                                                                                                                                    | narrative + creature | 📋    | [narrative-design-illuminator](../../.claude/agents/narrative-design-illuminator.md) + [creature-aspect-illuminator](../../.claude/agents/creature-aspect-illuminator.md)     |
 | **Voidling Bound**              | Hatchery Games · 2026 | TPS + monster collector         | Rarity-gated ability CLASS unlock + element path-lock + Spliced terminal endpoint + 3-currency separation + element-faction archetype affinity + visual change every tier                                                       | P2+P3                | 🔬    | [research 2026-04-26](../research/2026-04-26-voidling-bound-evolution-patterns.md) · [museum M-2026-04-26-001](../museum/cards/evolution_genetics-voidling-bound-patterns.md) |
 | **Niche**                       | Team Niche · 2017     | Turn-based + genetica roguelike | Eredità Mendeliana DISCRETA (2 alleli/gene, dom/rec, 50% pass, fenotipo = allele dominante = leggibile) — comparable più vicino al nostro `inheritGeneSlots` 2-parent + espressione epigenome DISCRETA (no stat-drift continuo) | P2                   | 📋    | [epigenome research §2.4](../research/2026-05-27-epigenome-params-research.md) · [D-HEIR spec §Layer-3](../superpowers/specs/2026-05-26-repro-heir-genetic-model-design.md)   |
+| **Dwarf Fortress**              | Bay 12 Games · 2006+  | Sim colonia emergente           | Modello **L0-L5** (simulazione -> identita individuale -> memoria-mondo -> eredita/artefatti -> narrativa -> "losing is fun"); regola: ogni sprint DF risponde SI ad >=1 livello; greenfield services/{identity,eventlog,worldstate,chronicle}                                | cross (P2+P5+P6)     | 🔬    | [ADR-2026-05-18 DF-levels](../adr/ADR-2026-05-18-df-levels-integration-direction.md) (direction confermata, **draft pending verdetto master-dd**) + 3 vault A5 (RECONCILIATION/PHASE-PLAN/GAME-ANALYSIS reasoning archive) |
 
 ---
 
@@ -107,6 +108,7 @@ review_cycle_days: 90
 | **Subnautica**             | Unknown Worlds · 2018 | Habitat lifecycle (Skiv canonical creature pattern)                         | creature-aspect                     | P2 + Skiv  |
 | **Spelunky**               | Mossmouth · 2008/12   | 4x4 grid PCG                                                                | pcg-level-design                    | P5 PCG     |
 | **Dead Space**             | Visceral · 2008       | Diegetic UI (HUD on character)                                              | ui-design                           | P1 UI      |
+| **Pokemon Pokopia**        | Game Freak / Omega Force · 2026 | Housing-as-primary-loop + base persistente sempre-accessibile + unlock diegetico via biome-arc (no level-gate) + companion abilita world-interaction | nido pattern ([report](../reports/2026-04-26-nido-pokopia-housing-pattern.md)) + `apps/play/src/nestHub.js` shipped | P2 nido/base |
 
 ---
 
@@ -173,7 +175,7 @@ review_cycle_days: 90
 | **Stockfish** (chess engine)                   | tooling     | SPRT statistical balance test                                                                     | balance-illuminator calibration mode | `.claude/agents/balance-illuminator.md`                                                      |
 | **Hearthstone** (Fontaine 2019)                | academic    | Map-Elites Deck Spaces ([arxiv 1904.10656](https://arxiv.org/abs/1904.10656))                     | balance MAP-Elites archive           | [docs/balance/2026-04-25-map-elites-archive.md](../balance/2026-04-25-map-elites-archive.md) |
 | **Wave Function Collapse**                     | algorithm   | Constraint PCG (mxgmn/WaveFunctionCollapse)                                                       | pcg-level-design-illuminator         | `.claude/agents/pcg-level-design-illuminator.md`                                             |
-| **Pathfinder TTRPG**                           | tabletop    | XP budget + Encounter Building + Bestiary scaling                                                 | pcg-level-design-illuminator         | same                                                                                         |
+| **Pathfinder TTRPG**                           | tabletop    | XP budget + Encounter Building + Bestiary scaling; **Bestiary 1e import: 1211 creature normalizzate su 9 assi trait (threat/defense/mobility/perception/magic/social/stealth/environment/versatility) + genetic_traits/visual/biology** | pcg-level-design-illuminator; ETL `tools/importers/pathfinder_bestiary.py` -> `data/external/pathfinder_bestiary_1e.json` (test `test_pathfinder_bestiary_import.py`) consumato da `species_builder.py` -- **DORMANT dal 2025-10-29** | [pcg-agent](../../.claude/agents/pcg-level-design-illuminator.md) + `tools/importers/pathfinder_bestiary.py` |
 | **ASP constraint solvers**                     | algorithm   | PCG declarative                                                                                   | pcg-level-design-illuminator         | same                                                                                         |
 | **MAP-Elites Quality-Diversity**               | algorithm   | Disruptive balance discovery                                                                      | balance-illuminator research mode    | `.claude/agents/balance-illuminator.md`                                                      |
 | **MCTS smart playout policies**                | algorithm   | Smart Monte Carlo Tree Search                                                                     | balance-illuminator                  | same                                                                                         |
