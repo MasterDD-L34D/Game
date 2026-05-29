@@ -55,7 +55,7 @@ scenarios:
     tool: tools/py/batch_calibrate_*.py
     note: 'Tutorial = learning ladder, designed-winnable (greedy ~100% WR). NOT a difficulty target.'
 
-# Canonical run (parallel, ~10min N=40). Suite-runner = TKT-PLAYTEST-SUITE (pending smoke).
+# Canonical run (parallel, ~10min N=40). One-command suite = tools/py/playtest_canonical.py (TKT-PLAYTEST-SUITE, SHIPPED 2026-05-30).
 run_canonical: |
   python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --shards 4 --base-port 3341
   python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --shards 4 --base-port 3341
