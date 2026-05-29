@@ -15,6 +15,12 @@ export interface CatalogServiceOptions {
   httpTimeoutMs?: number;
   httpTtlMs?: number;
   httpFetch?: typeof fetch;
+  /**
+   * Pins the remote glossary fetch to a single taxonomy version by appending
+   * `?versionId=<v>` to the Game-Database glossary URL (RFC Section 5). When
+   * unset the URL is built without the param and behaviour is unchanged.
+   */
+  taxonomyVersion?: string;
   logger?: Pick<Console, 'warn' | 'log' | 'error'>;
 }
 

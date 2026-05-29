@@ -312,6 +312,7 @@ function createApp(options = {}) {
       httpTimeoutMs: gameDatabaseOptions.timeoutMs,
       httpTtlMs: gameDatabaseOptions.ttlMs,
       httpFetch: gameDatabaseOptions.fetch,
+      taxonomyVersion: gameDatabaseOptions.taxonomyVersion,
     });
   const biomeSynthesizer =
     options.biomeSynthesizer ||
