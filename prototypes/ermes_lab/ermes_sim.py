@@ -115,8 +115,85 @@ class Tests(unittest.TestCase):
 def run_tests():
     res=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(Tests));
     if not res.wasSuccessful(): raise SystemExit(1)
+
+# ADR-2026-05-29 TKT-BR-02: multi-biome run + nested v1.0.0 report.
+# Refactor closes G-C1 schema mismatch (ermesExporter consumer expects nested
+# report.biomes[bid].eco_pressure_score; flat single-biome legacy emit kept
+# for back-compat via run_simulation).
+def _strip_to_biome_record(flat_report):
+    """Convert flat single-biome report to nested biome-record (rename eco_pressure
+    -> eco_pressure_score + back-compat bias key for W5-bb ermesExporter consumer)."""
+    return {
+        'eco_pressure_score': flat_report['eco_pressure'],
+        'food_pressure': flat_report['food_pressure'],
+        'predator_pressure': flat_report['predator_pressure'],
+        'temperature_pressure': flat_report['temperature_pressure'],
+        'encounter_bias': flat_report['encounter_bias'],
+        'mutation_bias': flat_report['mutation_bias'],
+        'bias': {
+            'predator_density': flat_report['predator_pressure'],
+            'resource_scarcity': flat_report['food_pressure'],
+        },
+        'extinction_risk': flat_report['extinction_risk'],
+        'species_summary': flat_report['species_summary'],
+        'debrief_notes': flat_report['debrief_notes'],
+    }
+
+
+def build_multi_biome_report(biome_results):
+    """Compose v1.0.0 multi-biome schema (ADR-2026-05-29 sezione B)."""
+    from datetime import datetime, timezone
+    return {
+        'schema': 'ermes_eco_pressure_report',
+        'schema_version': '1.0.0',
+        'generated_at': datetime.now(timezone.utc).isoformat(),
+        'generator': {'tool': 'ermes_sim.py', 'tool_version': '0.6.0'},
+        'biomes': {bid: _strip_to_biome_record(rep) for bid, rep in biome_results.items()},
+        'runtime_note': 'Prototype-derived. Consumer must check schema_version.',
+    }
+
+
+def run_multi_biome(config):
+    """Execute per-biome simulation and emit nested v1.0.0 report.
+
+    Config shape: {schema_version, seed, generations, biomes: {bid: {environment, species}}}.
+    Determinism: same seed reused per biome (each run_simulation re-seeds via random.seed).
+    """
+    biomes_config = config.get('biomes', {})
+    if not biomes_config:
+        raise ValueError("multi_biome config missing 'biomes' dict")
+    seed = int(config.get('seed', 7))
+    generations = int(config.get('generations', 150))
+    results = {}
+    for biome_id, bcfg in biomes_config.items():
+        single_config = {
+            'biome_id': biome_id,
+            'seed': seed,
+            'generations': generations,
+            'environment': bcfg['environment'],
+            'species': bcfg['species'],
+        }
+        _, report = run_simulation(single_config)
+        results[biome_id] = report
+    return build_multi_biome_report(results)
+
+
 def main(argv=None):
-    p=argparse.ArgumentParser(); p.add_argument('--cli',action='store_true'); p.add_argument('--test',action='store_true'); p.add_argument('--config',default=str(DEFAULT_CONFIG)); p.add_argument('--output',default=str(DEFAULT_OUTPUT)); p.add_argument('--history',default=str(DEFAULT_HISTORY_CSV)); a=p.parse_args(argv or sys.argv[1:])
+    p=argparse.ArgumentParser()
+    p.add_argument('--cli',action='store_true')
+    p.add_argument('--test',action='store_true')
+    p.add_argument('--multi-biome',action='store_true',help='Use multi-biome schema v1.0.0 (ADR-2026-05-29)')
+    p.add_argument('--config',default=str(DEFAULT_CONFIG))
+    p.add_argument('--output',default=str(DEFAULT_OUTPUT))
+    p.add_argument('--history',default=str(DEFAULT_HISTORY_CSV))
+    a=p.parse_args(argv or sys.argv[1:])
     if a.test: run_tests(); return 0
+    if a.multi_biome:
+        config = load_config(Path(a.config))
+        report = run_multi_biome(config)
+        write_report(report, Path(a.output))
+        print(f'Multi-biome report: {a.output}')
+        print(f"Biomes: {sorted(report['biomes'].keys())}")
+        return 0
     run_cli(Path(a.config),Path(a.output),Path(a.history)); return 0
 if __name__=='__main__': raise SystemExit(main())

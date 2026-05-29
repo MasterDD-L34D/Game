@@ -248,6 +248,51 @@ function createTraitRouter(options = {}) {
     }
   });
 
+  // ADR-2026-05-29 TKT-BR-08: GET /api/traits/suggestions.
+  // Consumer del file ermes-suggestions piu recente in reports/traits/.
+  // ETag via mtime+size per cache validation. 304 su If-None-Match match.
+  // Output: ermes_trait_suggestion schema v1.0.0 (Eduardo gate accept/reject in frontend).
+  router.get('/suggestions', ...readAccess, async (req, res) => {
+    try {
+      const fs = require('node:fs');
+      const path = require('node:path');
+      const reportsDir = path.resolve(__dirname, '../../../reports/traits');
+      if (!fs.existsSync(reportsDir)) {
+        return res.json({
+          schema: 'ermes_trait_suggestion',
+          schema_version: '1.0.0',
+          suggestions: [],
+          note: 'reports/traits/ assente -- esegui prototypes/ermes_lab/suggestions.py',
+        });
+      }
+      const files = fs.readdirSync(reportsDir).filter((f) => f.endsWith('-ermes-suggestions.json'));
+      if (files.length === 0) {
+        return res.json({
+          schema: 'ermes_trait_suggestion',
+          schema_version: '1.0.0',
+          suggestions: [],
+          note: 'nessun report ermes-suggestions trovato',
+        });
+      }
+      files.sort(
+        (a, b) =>
+          fs.statSync(path.join(reportsDir, b)).mtimeMs -
+          fs.statSync(path.join(reportsDir, a)).mtimeMs,
+      );
+      const latestPath = path.join(reportsDir, files[0]);
+      const stat = fs.statSync(latestPath);
+      const etag = `W/"${stat.mtimeMs.toFixed(0)}-${stat.size}"`;
+      if (req.headers['if-none-match'] === etag) {
+        return res.status(304).end();
+      }
+      const latest = JSON.parse(fs.readFileSync(latestPath, 'utf8'));
+      res.setHeader('ETag', etag);
+      res.json(latest);
+    } catch (error) {
+      handleError(res, error, 'Errore caricamento suggestions');
+    }
+  });
+
   router.post('/', ...editAccess, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     const traitPayload =
