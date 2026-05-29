@@ -8,11 +8,13 @@ const os = require('node:os');
 const path = require('node:path');
 const {
   getErmesForBiome,
+  getErmesBucketed,
   computeRoleGap,
   BIOME_ROLE_DEMANDS,
   STATIC_FALLBACKS,
   NEUTRAL_FALLBACK,
   _resetCache,
+  _resetBucketsCache,
 } = require('../../../apps/backend/services/coop/ermesExporter');
 
 function reset() {
@@ -175,4 +177,165 @@ test('BIOME_ROLE_DEMANDS: all role counts are positive integers', () => {
       assert.ok(count > 0, `${biome}.${role} not positive: ${count}`);
     }
   }
+});
+
+// ===========================================================================
+// ADR-2026-05-29 TKT-BR-04 -- schema_version gate + getErmesBucketed banding.
+// (gap-fill: pre-existing file covered getErmesForBiome/computeRoleGap only.)
+// ===========================================================================
+
+function bucketsReset() {
+  _resetCache();
+  _resetBucketsCache();
+}
+
+function writeReport(obj) {
+  const tmp = path.join(
+    os.tmpdir(),
+    `ermes_bucket_${Date.now()}_${Math.random().toString(36).slice(2)}.json`,
+  );
+  fs.writeFileSync(tmp, JSON.stringify(obj));
+  return tmp;
+}
+
+test('schema gate: v1.0.0 report loads (runtime overrides static)', () => {
+  bucketsReset();
+  const tmp = writeReport({
+    schema_version: '1.0.0',
+    biomes: { savana: { eco_pressure_score: 0.21, bias: {} } },
+  });
+  try {
+    const e = getErmesForBiome('savana', { reportPath: tmp });
+    assert.equal(e.eco_pressure_score, 0.21);
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+});
+
+test('schema gate: mismatched version -> falls back to static + warn', () => {
+  bucketsReset();
+  const tmp = writeReport({
+    schema_version: '9.9.9',
+    biomes: { savana: { eco_pressure_score: 0.21 } },
+  });
+  const origWarn = console.warn;
+  let warned = '';
+  console.warn = (...a) => {
+    warned += a.join(' ');
+  };
+  try {
+    const e = getErmesForBiome('savana', { reportPath: tmp });
+    assert.equal(e.eco_pressure_score, 0.62, 'savana static fallback on schema mismatch');
+    assert.match(warned, /schema_version mismatch/);
+  } finally {
+    console.warn = origWarn;
+    fs.unlinkSync(tmp);
+  }
+});
+
+test('schema gate: null/undefined schema_version accepted (legacy fixtures)', () => {
+  bucketsReset();
+  const tmp = writeReport({ biomes: { savana: { eco_pressure_score: 0.77 } } });
+  try {
+    const e = getErmesForBiome('savana', { reportPath: tmp });
+    assert.equal(e.eco_pressure_score, 0.77);
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+});
+
+test('getErmesBucketed: eco_pressure bands low/med/high (default thresholds)', () => {
+  const cases = [
+    [0.2, 'low'],
+    [0.5, 'med'],
+    [0.8, 'high'],
+  ];
+  for (const [score, expectedBand] of cases) {
+    bucketsReset();
+    const tmp = writeReport({
+      schema_version: '1.0.0',
+      biomes: { savana: { eco_pressure_score: score, bias: {} } },
+    });
+    try {
+      const out = getErmesBucketed('savana', { reportPath: tmp });
+      assert.ok(out.buckets.eco_pressure_score, `score ${score} should band`);
+      assert.equal(
+        out.buckets.eco_pressure_score.band,
+        expectedBand,
+        `score ${score} -> ${expectedBand}`,
+      );
+    } finally {
+      fs.unlinkSync(tmp);
+    }
+  }
+});
+
+test('getErmesBucketed: surfaces caps + guards from thresholds yaml', () => {
+  bucketsReset();
+  const tmp = writeReport({
+    schema_version: '1.0.0',
+    biomes: { savana: { eco_pressure_score: 0.5, bias: {} } },
+  });
+  try {
+    const out = getErmesBucketed('savana', { reportPath: tmp });
+    assert.equal(out.caps.max_delta_any_stat, 2);
+    assert.equal(out.caps.max_buckets_active_per_unit, 3);
+    assert.equal(out.guards.bucket_miss_fallback, 'low');
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+});
+
+test('getErmesBucketed: missing buckets yaml -> empty buckets, null caps/guards', () => {
+  bucketsReset();
+  const tmp = writeReport({
+    schema_version: '1.0.0',
+    biomes: { savana: { eco_pressure_score: 0.5, bias: {} } },
+  });
+  try {
+    const out = getErmesBucketed('savana', {
+      reportPath: tmp,
+      bucketsPath: path.join(os.tmpdir(), 'no_such_buckets_xyz.yaml'),
+    });
+    assert.deepEqual(out.buckets, {});
+    assert.equal(out.caps, null);
+    assert.equal(out.guards, null);
+    assert.equal(out.eco_pressure_score, 0.5);
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+});
+
+// ===========================================================================
+// ADR-2026-05-29 TKT-BR-11 -- cross-repo parity guard vs Godot v2.
+// ===========================================================================
+
+test('BIOME_ROLE_DEMANDS: exact parity snapshot vs Godot ermes_role_gap.gd (TKT-BR-11)', () => {
+  // Cross-repo parity contract. This snapshot mirrors, verbatim, the canonical
+  // source Game-Godot-v2/scripts/session/ermes_role_gap.gd BIOME_ROLE_DEMANDS.
+  // The JS computeRoleGap is a port of that .gd compute. A unilateral edit on
+  // either side (add/remove a biome, change a demand count) without mirroring
+  // the other fails this assertion -> forces the mirror (the .gd header rule
+  // "any edit here MUST land in Godot side too"). The prior >=13 + 5-spot-check
+  // test did not catch drift in biomes 6-13.
+  const GODOT_SNAPSHOT = {
+    savana: { esploratore: 1, guerriero: 1 },
+    caverna: { esploratore: 1, custode: 1 },
+    atollo_obsidiana: { tessitore: 1, esploratore: 1 },
+    foresta_temperata: { tessitore: 1, custode: 1 },
+    badlands: { guerriero: 1, esploratore: 1 },
+    foresta_miceliale: { tessitore: 2 },
+    abisso_vulcanico: { guerriero: 1, esploratore: 1 },
+    reef_luminescente: { esploratore: 1, tessitore: 1 },
+    caldera_glaciale: { custode: 1, guerriero: 1 },
+    pianura_salina_iperarida: { esploratore: 2 },
+    mezzanotte_orbitale: { tessitore: 1, esploratore: 1 },
+    frattura_abissale_sinaptica: { tessitore: 1, custode: 1 },
+    foresta_acida: { custode: 1, tessitore: 1 },
+  };
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(BIOME_ROLE_DEMANDS)),
+    GODOT_SNAPSHOT,
+    'JS BIOME_ROLE_DEMANDS drifted from Godot ermes_role_gap.gd -- mirror both sides',
+  );
 });
