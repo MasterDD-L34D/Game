@@ -143,6 +143,40 @@ function createErmesRunner(opts = {}) {
     }
   }
 
+  // FASE 3 P3: one-shot boot report generation. Idempotent via freshness check
+  // (skip if report exists + younger than ttlMs) -> the report file IS the
+  // checkpoint (anti-pattern #5). Non-blocking: the caller (backend boot) does
+  // NOT await -- best-effort at startup; static fallbacks cover absence.
+  async function generateBootReport({ force = false, ttlMs = 24 * 60 * 60 * 1000 } = {}) {
+    if (!force && fs.existsSync(outputPath)) {
+      try {
+        const age = Date.now() - fs.statSync(outputPath).mtimeMs;
+        if (age < ttlMs) return { skipped: true, reason: 'fresh', output: outputPath, age_ms: age };
+      } catch (_) {
+        /* stat failed -> fall through to regen */
+      }
+    }
+    if (labScriptPath === '/skip') {
+      return { skipped_lab: true, output: outputPath };
+    }
+    return new Promise((resolve, reject) => {
+      const proc = spawn(
+        python,
+        [labScriptPath, '--multi-biome', '--config', labConfig, '--output', outputPath],
+        { stdio: 'pipe' },
+      );
+      let stderr = '';
+      proc.stderr.on('data', (d) => {
+        stderr += d.toString();
+      });
+      proc.on('error', (err) => reject(err));
+      proc.on('exit', (code) => {
+        if (code === 0) resolve({ generated: true, output: outputPath });
+        else reject(new Error(`ermes_sim boot exited ${code}: ${stderr.slice(0, 400)}`));
+      });
+    });
+  }
+
   return {
     getTraitToPoolsMap,
     poolsForTrait,
@@ -151,6 +185,7 @@ function createErmesRunner(opts = {}) {
     isRunning,
     onRerunComplete,
     runQueuedRerun,
+    generateBootReport,
     DEFAULT_BIOME_POOLS,
     DEFAULT_LAB_SCRIPT,
     DEFAULT_LAB_CONFIG,

@@ -119,6 +119,21 @@ server.listen(port, host, () => {
   } else {
     console.log('[game-database] HTTP integration disabled — using local files only');
   }
+
+  // FASE 3 P3: best-effort boot generation of the ERMES eco_pressure report so
+  // pilot biomes are dynamically non-neutral (static fallbacks cover absence).
+  // Non-blocking + idempotent (freshness check). Failure logged, never fatal.
+  try {
+    const { createErmesRunner } = require('./services/ermes/ermesRunner');
+    createErmesRunner()
+      .generateBootReport()
+      .then((r) =>
+        console.log(`[ermes] boot report: ${r.generated ? 'generated' : r.reason || 'skipped'}`),
+      )
+      .catch((e) => console.warn('[ermes] boot report failed:', e?.message || e));
+  } catch (e) {
+    console.warn('[ermes] boot report init failed:', e?.message || e);
+  }
 });
 
 async function shutdown(signal) {
