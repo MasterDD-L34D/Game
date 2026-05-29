@@ -20,7 +20,7 @@
       ]
     },
     "rovine_planari": {
-      "environment": {"temperature": 0.5, "food": 0.45, "predators": 0.4, "volatility": 0.04},
+      "environment": {"temperature": 0.5, "food": 0.85, "predators": 0.15, "volatility": 0.04},
       "species": [
         {"name": "construct", "population": 50,
          "traits": {"speed": 0.4, "size": 0.7, "resistance": 0.8},
@@ -28,7 +28,7 @@
       ]
     },
     "cryosteppe_convergence": {
-      "environment": {"temperature": 0.15, "food": 0.4, "predators": 0.5, "volatility": 0.06},
+      "environment": {"temperature": 0.05, "food": 0.2, "predators": 0.85, "volatility": 0.06},
       "species": [
         {"name": "cryo_lupus", "population": 70,
          "traits": {"speed": 0.65, "size": 0.55, "resistance": 0.75},
