@@ -1865,6 +1865,12 @@
       "description_it": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
       "description_en": "Antenne Tesla allow squads to redistribute load and modulate structural rigidity within canopia ionica."
     },
+    "antenne_waveguide": {
+      "label_it": "Antenne Waveguide",
+      "label_en": "Waveguide Antennae",
+      "description_it": "Antenne capaci di guidare e modulare onde nel range delle microonde per coordinazione e analisi sensoriale a lunga distanza, ottimizzate per condizioni di reef luminescente.",
+      "description_en": "Antennae capable of guiding and modulating microwave-range signals for long-distance coordination and sensory analysis, optimized for luminescent reef conditions."
+    },
     "antenne_wideband": {
       "label_it": "Antenne Wideband",
       "label_en": "Antenne Wideband",
