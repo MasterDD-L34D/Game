@@ -130,6 +130,13 @@ const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../servic
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
 const { getBiomeModifiers, applyEnemyHpMultiplier } = require('../services/combat/biomeModifiers');
+// TKT-PLAYTEST-SEED (2026-05-29): canonical seedable combat RNG. Unseeded =
+// Math.random (zero prod change); seeded at /start = bit-identical calibration.
+const {
+  defaultRng,
+  seedRng: seedCombatRng,
+  clearSeed: clearCombatSeed,
+} = require('../services/combat/pseudoRng');
 // TKT-WORLDGEN-GAPB (2026-05-29): seasonal cross-event flat pressure engine.
 const { getCrossEventPressureDelta } = require('../services/worldgen/crossEventEngine');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
@@ -255,7 +262,10 @@ function createSessionRouter(options = {}) {
   const router = Router();
   const repoRoot = path.resolve(__dirname, '..', '..', '..');
   const logsDir = options.logsDir || path.join(repoRoot, 'logs');
-  const rng = typeof options.rng === 'function' ? options.rng : Math.random;
+  // TKT-PLAYTEST-SEED: default to the canonical seedable provider so a seed
+  // pinned at /start propagates to every combat draw. defaultRng === Math.random
+  // behavior until seeded, so production is unchanged.
+  const rng = typeof options.rng === 'function' ? options.rng : defaultRng;
   const traitRegistry = options.traitRegistry || loadActiveTraitRegistry();
   const fairnessConfig = options.fairnessConfig || loadFairnessConfig();
   const telemetryConfig = options.telemetryConfig || loadTelemetryConfig();
@@ -1346,6 +1356,15 @@ function createSessionRouter(options = {}) {
 
   router.post('/start', async (req, res, next) => {
     try {
+      // TKT-PLAYTEST-SEED: pin the combat RNG for bit-identical calibration.
+      // Must run before any session-setup roll. Production omits `seed` ->
+      // clearCombatSeed() -> Math.random passthrough (no behavior change).
+      const seedRaw = req.body?.seed;
+      if (seedRaw !== undefined && seedRaw !== null && seedRaw !== '') {
+        seedCombatRng(seedRaw);
+      } else {
+        clearCombatSeed();
+      }
       const sessionId = newSessionId();
       const now = new Date();
       const logFilePath = path.join(logsDir, `session_${timestampStamp(now)}.json`);

@@ -27,6 +27,7 @@
 'use strict';
 
 const { computeSistemaTier } = require('../../routes/sessionHelpers');
+const { defaultRng } = require('./pseudoRng');
 // TKT-WORLDGEN-GAPA (2026-05-29): foodweb whitelist filter for the spawn pool.
 const { filterReinforcementPool } = require('../worldgen/foodwebFilter');
 
@@ -149,7 +150,7 @@ function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
 }
 
 function tick(session, encounter, opts = {}) {
-  const rng = typeof opts.rng === 'function' ? opts.rng : Math.random;
+  const rng = typeof opts.rng === 'function' ? opts.rng : defaultRng;
   const policy = encounter?.reinforcement_policy;
   if (!policy || policy.enabled !== true) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'policy_disabled' };

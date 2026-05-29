@@ -17,9 +17,26 @@ import time
 import urllib.error
 import urllib.request
 
+import calibrate_policies
+
 SCENARIO_ID = "enc_tutorial_07_hardcore_pod_rush"
 MAX_ROUNDS = 15
 DEFAULT_HOST = "http://127.0.0.1:3334"  # IP not "localhost" (Windows IPv6 ~2s/call stall)
+
+# TKT-PLAYTEST-TRIANGULATE: hc07 is a timer scenario with no archetype channel
+# exploit -> fisico focus, equal enemy priority.
+POLICY_CTX = {
+    "channel_for": lambda _tid: "fisico",
+    "enemy_priority": lambda _e: 0,
+    "attack_range_default": 1,
+}
+
+
+def _policy_rng(policy, run_seed):
+    """random.Random for the 'random' policy (seeded -> reproducible); None else."""
+    if policy != "random":
+        return None
+    return random.Random(run_seed) if run_seed is not None else random.Random()
 
 
 def _retry(fn, retries=5, backoff_base=0.5):
@@ -145,13 +162,16 @@ def detect_outcome(state, timer_expired):
     return None
 
 
-def run_one(host, run_idx):
+def run_one(host, run_idx, seed=None, policy="greedy", rng=None):
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
         return {"run": run_idx, "error": f"scenario fetch {status}"}
 
     status, start = post(f"{host}/api/session/start", {
         "units": sc["units"],
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
+        # None -> key omitted -> backend stays on Math.random (no behavior change).
+        **({"seed": seed} if seed is not None else {}),
         "modulation": sc.get("recommended_modulation", "quartet"),
         "sistema_pressure_start": sc.get("sistema_pressure_start", 60),
         "hazard_tiles": sc.get("hazard_tiles", []),
@@ -184,7 +204,10 @@ def run_one(host, run_idx):
 
     for r in range(1, MAX_ROUNDS + 1):
         rounds = r
-        intents = plan_intents(state)
+        if policy == "greedy":
+            intents = plan_intents(state)
+        else:
+            intents = calibrate_policies.pick_intents(policy, state, POLICY_CTX, rng)
         status, resp = post(f"{host}/api/session/round/execute", {
             "session_id": sid,
             "player_intents": intents,
@@ -237,6 +260,8 @@ def run_one(host, run_idx):
     losses = player_initial - players_alive
     return {
         "run": run_idx,
+        "seed": seed,
+        "policy": policy,
         "outcome": outcome,
         "rounds": rounds,
         "timer_expired": timer_expired,
@@ -334,6 +359,64 @@ def summarise(runs):
     }
 
 
+def run_triangulation(args):
+    """TKT-PLAYTEST-TRIANGULATE: run every policy at N and report a WR band.
+    Output shape is additive (mode=triangulation) so single-policy callers
+    (calibrate_parallel.py) are unaffected."""
+    from calibrate_policies import POLICIES, compute_band
+
+    print(
+        f"Hardcore 07 TRIANGULATION: policies={list(POLICIES)} N={args.n}/policy "
+        f"host={args.host} seed={'None' if args.seed is None else args.seed}",
+        flush=True,
+    )
+    t0 = time.time()
+    per_policy = {}
+    policy_summaries = {}
+    for pol in POLICIES:
+        runs = []
+        for i in range(args.n):
+            run_seed = args.seed + i if args.seed is not None else None
+            r = run_one(args.host, i + 1, seed=run_seed, policy=pol,
+                        rng=_policy_rng(pol, run_seed))
+            runs.append(r)
+            print(f"  [{pol}] run {i+1}: {r.get('outcome', 'error')} "
+                  f"rounds={r.get('rounds', '?')}", flush=True)
+            if args.cooldown > 0 and i + 1 < args.n:
+                time.sleep(args.cooldown)
+        per_policy[pol] = runs
+        policy_summaries[pol] = summarise(runs)
+
+    band = compute_band(per_policy)
+    elapsed = round(time.time() - t0, 1)
+    pwr = band["policy_win_rate"]
+    print("\n=== TRIANGULATION BAND ===", flush=True)
+    for pol in POLICIES:
+        wr = pwr.get(pol)
+        print(f"  {pol:11s} WR={'n/a' if wr is None else f'{wr * 100:.1f}%'}", flush=True)
+    lo, hi = band["band"]
+    human = band["human_wr_est"]
+    lo_s = "n/a" if lo is None else f"{lo * 100:.1f}%"
+    hi_s = "n/a" if hi is None else f"{hi * 100:.1f}%"
+    human_s = "n/a" if human is None else f"{human * 100:.1f}%"
+    print(f"  band=[{lo_s}, {hi_s}]  human_est={human_s} ({band['human_wr_formula']})", flush=True)
+
+    out = {
+        "scenario": SCENARIO_ID,
+        "mode": "triangulation",
+        "n_per_policy": args.n,
+        "seed": args.seed,
+        "elapsed_s": elapsed,
+        "band": band,
+        "policies": {pol: {"summary": policy_summaries[pol], "runs": per_policy[pol]} for pol in POLICIES},
+    }
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=2)
+        print(f"Saved: {args.out}", flush=True)
+    return 0
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--n", type=int, default=10)
@@ -342,6 +425,15 @@ def main():
     p.add_argument("--jsonl", default=None, help="JSONL incremental output (resume)")
     p.add_argument("--cooldown", type=float, default=0.5, help="Sec between runs")
     p.add_argument("--skip-health", action="store_true", help="Skip /api/health probe")
+    p.add_argument("--seed", type=int, default=None,
+                   help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Run i uses "
+                        "seed+i (so the whole batch is reproducible). Omit = legacy "
+                        "Math.random (statistical reproducibility only).")
+    p.add_argument("--policy", default="greedy",
+                   choices=["random", "greedy", "lookahead2", "utility", "all"],
+                   help="TKT-PLAYTEST-TRIANGULATE: player policy proxy. 'all' runs every "
+                        "policy and reports a WR band (Jaffe 2012 Restricted Play). "
+                        "Default greedy (back-compat single-policy output).")
     args = p.parse_args()
 
     # TKT-08: health probe fail-fast prima di batch.
@@ -351,14 +443,21 @@ def main():
             return 1
         print(f"OK: backend healthy at {args.host}", flush=True)
 
-    print(f"Hardcore 07 calibration: N={args.n} host={args.host}", flush=True)
+    # TKT-PLAYTEST-TRIANGULATE: multi-policy band mode short-circuits single flow.
+    if args.policy == "all":
+        return run_triangulation(args)
+
+    seed_note = f"seed={args.seed} (bit-identical)" if args.seed is not None else "seed=None (statistical)"
+    print(f"Hardcore 07 calibration: N={args.n} host={args.host} {seed_note}", flush=True)
     t0 = time.time()
     runs = []
     failures = 0
     jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None
     try:
         for i in range(args.n):
-            r = run_one(args.host, i + 1)
+            run_seed = args.seed + i if args.seed is not None else None
+            r = run_one(args.host, i + 1, seed=run_seed, policy=args.policy,
+                        rng=_policy_rng(args.policy, run_seed))
             runs.append(r)
             if "error" in r:
                 failures += 1

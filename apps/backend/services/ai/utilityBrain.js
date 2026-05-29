@@ -14,6 +14,10 @@
 
 'use strict';
 
+// TKT-PLAYTEST-SEED: draw from the canonical seedable RNG so the utility
+// policy is deterministic under a pinned seed (unseeded === Math.random).
+const { defaultRng } = require('../combat/pseudoRng');
+
 // ─────────────────────────────────────────────────────────────────
 // Consideration curves
 // ─────────────────────────────────────────────────────────────────
@@ -288,7 +292,7 @@ function selectAction(
       stickinessDirectionWeight,
     });
     // Add noise
-    const noisyScore = result.score + (Math.random() - 0.5) * 2 * noise * result.score;
+    const noisyScore = result.score + (defaultRng() - 0.5) * 2 * noise * result.score;
     return { action, score: Math.max(0, noisyScore), breakdown: result.breakdown };
   });
 
@@ -298,7 +302,7 @@ function selectAction(
   let chosen;
   switch (selection) {
     case 'random':
-      chosen = scored[Math.floor(Math.random() * scored.length)];
+      chosen = scored[Math.floor(defaultRng() * scored.length)];
       break;
     case 'weighted_top3': {
       const top = scored.slice(0, 3);
@@ -306,7 +310,7 @@ function selectAction(
       if (totalWeight === 0) {
         chosen = top[0];
       } else {
-        let roll = Math.random() * totalWeight;
+        let roll = defaultRng() * totalWeight;
         chosen = top[0];
         for (const s of top) {
           roll -= s.score;

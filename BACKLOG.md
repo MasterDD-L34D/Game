@@ -23,20 +23,22 @@
 
 Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26), ground-truth-verificato 2026-05-29. Museum cards M-013/M-014/M-016 + gallery worldgen. Engine-LIVE-Surface-DEAD: i 4 livelli worldgen (bioma/ecosistema/foodweb/network) hanno il dato ma 3 livelli restano senza consumer runtime. NO autonomous wire (revive culture: decision master-dd).
 
-| Ticket             | Gap                              | Verified state 2026-05-29                                                                                                              | Effort (post-blast-radius) | Decision                                                            |
-| ------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------- |
-| TKT-WORLDGEN-GAPA  | foodweb -> spawn composition     | `biomeAffinity.js` = stat-modifier (Subnautica, wired session.js:506), NON spawn-filter; `reinforcementSpawner.js` non filtra per trophic-tier/biome_affinity | ~8-10h (×1.0-1.2)          | wire `ecosystemLoader` + foodweb whitelist in reinforcementSpawner OR remove |
-| TKT-WORLDGEN-GAPB  | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove  |
-| TKT-WORLDGEN-GAPC  | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                              | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
+| Ticket            | Gap                               | Verified state 2026-05-29                                                                                                                                     | Effort (post-blast-radius) | Decision                                                                                        |
+| ----------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
+| TKT-WORLDGEN-GAPA | foodweb -> spawn composition      | `biomeAffinity.js` = stat-modifier (Subnautica, wired session.js:506), NON spawn-filter; `reinforcementSpawner.js` non filtra per trophic-tier/biome_affinity | ~8-10h (×1.0-1.2)          | wire `ecosystemLoader` + foodweb whitelist in reinforcementSpawner OR remove                    |
+| TKT-WORLDGEN-GAPB | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events                 | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove                              |
+| TKT-WORLDGEN-GAPC | meta-network -> campaign routing  | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                                                       | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
-### 🟡 OPEN — Canonical AI-driven playtest (paradigma flip 2026-05-29)
+### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
 
-| Ticket                   | Scope                                                                                           | Effort | Note                                                          |
-| ------------------------ | ----------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------ |
-| TKT-PLAYTEST-SEED        | `--seed` pin RNG nei `batch_calibrate_*.py` per riproducibilita' bit-identica                   | ~2-3h  | gap "ogni volta" (oggi solo statistica N=40, non bit-identica) |
-| TKT-PLAYTEST-TRIANGULATE | wire multi-policy `--policy {random,greedy,lookahead2,utility}` (Restricted-Play, Jaffe 2012)   | ~4h    | stub gia' nel policy doc superseded; output = banda WR non single verdict |
+**SHIPPED 2026-05-30** (branch `claude/canonical-ai-playtest-harness`): TKT-PLAYTEST-SEED `fd5c050c` + TKT-PLAYTEST-TRIANGULATE `b3ed0430` + TKT-PLAYTEST-SUITE `26387f52`. New: `tools/py/calibrate_policies.py` + `tools/py/playtest_canonical.py`; backend seedable RNG `apps/backend/services/combat/pseudoRng.js`. Smoke verde (backend up): seed bit-identico, banda WR random<greedy~lookahead2<utility, suite --dry-run + live N=10. PR pendente.
+
+| Ticket                   | Scope                                                                                             | Effort | Note                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------- |
+| TKT-PLAYTEST-SEED        | `--seed` pin RNG nei `batch_calibrate_*.py` per riproducibilita' bit-identica                     | ~2-3h  | gap "ogni volta" (oggi solo statistica N=40, non bit-identica)               |
+| TKT-PLAYTEST-TRIANGULATE | wire multi-policy `--policy {random,greedy,lookahead2,utility}` (Restricted-Play, Jaffe 2012)     | ~4h    | stub gia' nel policy doc superseded; output = banda WR non single verdict    |
 | TKT-PLAYTEST-SUITE       | `tools/py/playtest_canonical.py` orchestratore summa (manifest -> N=40 parallel -> report datato) | ~4-6h  | smoke-gated (backend up + ~10min). Anti-pattern #9: non shippare non-testato |
 
 ### 🟡 OPEN — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
@@ -67,8 +69,8 @@ Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify c
 
 Source: reuse-queue triage codemasterdd `KNOWLEDGE_MAP.md` §7 (archivio `ryzen-memory-archive/Game-Desktop-old/reference_tactical_postmortems.md`). Unico pattern tattico genuinamente NON costruito tra gli 11 reference archiviati (prova-di-eliminazione: gli altri = backup già assorbito in SoT/code).
 
-| Ticket | Cosa | Razionale | Stato |
-| ------ | ---- | --------- | ----- |
+| Ticket            | Cosa                                                                                                                                               | Razionale                                                          | Stato                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------------------- |
 | TKT-ENCOUNTER-CLI | `game_cli.py author-encounter` — CLI authoring encounter (numeric spec + vertical-slice playtest loop, pattern Fallout Tactics / Micro Forte 2001) | Sblocca volume content-slice M3 (encounter authoring oggi manuale) | OPEN — master-dd verdict (scope M3 vs defer) |
 
 ### ✅ Ecosystem audit + ai-station Envelope A+B+C cascade — sessione 2026-05-13/14/15 — 14 PR cross-stack shipped

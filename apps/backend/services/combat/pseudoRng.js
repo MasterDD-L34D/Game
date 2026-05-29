@@ -80,6 +80,78 @@ function resetStreaks(unit) {
   return unit;
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Seedable global RNG (TKT-PLAYTEST-SEED, 2026-05-29).
+//
+// Canonical RNG provider for combat. `defaultRng` is a drop-in for
+// Math.random: when UNSEEDED it delegates to Math.random (bit-for-bit
+// production behavior, zero regression). When SEEDED (via seedRng, called
+// from POST /api/session/start when the body carries a `seed`) it draws
+// from a deterministic mulberry32 stream so a calibration run is
+// reproducible bit-identical given the same seed.
+//
+// Module-global by design: one backend process runs one calibration
+// session at a time per shard (LOBBY_WS_ENABLED=false, L-071), and each
+// /start reseeds. Production never sends a seed -> unseeded -> Math.random.
+//
+// API:
+//   seedRng(seed)  -> bool   set the stream to a finite numeric seed
+//   clearSeed()              revert to Math.random passthrough
+//   isSeeded()     -> bool   true when a deterministic stream is active
+//   defaultRng()   -> [0,1)  next float (seeded stream or Math.random)
+// ─────────────────────────────────────────────────────────────────
+
+// Active deterministic generator, or null when unseeded (Math.random).
+let _rngState = null;
+
+/**
+ * mulberry32 — compact, well-distributed 32-bit PRNG. Returns a function
+ * producing floats in [0,1). Same well-known constants as the reference
+ * implementation so the stream is portable/inspectable.
+ */
+function _mulberry32(seed) {
+  let a = seed >>> 0;
+  return function next() {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Pin the global RNG stream to a seed. Coerces numeric strings. Non-finite
+ * input is rejected (returns false) and leaves the stream unseeded.
+ * @returns {boolean} true if a deterministic stream is now active.
+ */
+function seedRng(seed) {
+  const n = Number(seed);
+  if (!Number.isFinite(n)) {
+    _rngState = null;
+    return false;
+  }
+  _rngState = _mulberry32(n >>> 0);
+  return true;
+}
+
+/** Revert to Math.random passthrough (no determinism). */
+function clearSeed() {
+  _rngState = null;
+}
+
+/** @returns {boolean} true when a deterministic seeded stream is active. */
+function isSeeded() {
+  return _rngState !== null;
+}
+
+/**
+ * Canonical combat RNG. Float in [0,1). Seeded stream when active, else
+ * Math.random. Stable reference — safe for callers to capture once.
+ */
+function defaultRng() {
+  return _rngState !== null ? _rngState() : Math.random();
+}
+
 module.exports = {
   initUnit,
   recordRoll,
@@ -87,4 +159,9 @@ module.exports = {
   resetStreaks,
   MISS_STREAK_THRESHOLD,
   STREAK_BONUS,
+  // Seedable global RNG (TKT-PLAYTEST-SEED).
+  seedRng,
+  clearSeed,
+  isSeeded,
+  defaultRng,
 };

@@ -33,6 +33,7 @@
 'use strict';
 
 const { loadJobs, extractAbilities } = require('./jobsLoader');
+const { defaultRng } = require('./combat/pseudoRng');
 
 let abilityIndex = null;
 
@@ -125,7 +126,7 @@ function createAbilityExecutor(deps) {
     appendEvent,
     manhattanDistance,
     gridSize = 6,
-    rng = Math.random,
+    rng = defaultRng,
   } = deps;
 
   // V5 SG earn (ADR-2026-04-26 Opzione C mixed): accumulate dealt+taken

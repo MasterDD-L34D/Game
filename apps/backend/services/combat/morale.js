@@ -27,6 +27,8 @@
 
 'use strict';
 
+const { defaultRng } = require('./pseudoRng');
+
 const PANIC_DURATION_DEFAULT = 2;
 const RAGE_DURATION_DEFAULT = 1;
 
@@ -84,7 +86,7 @@ function checkMorale(unit, eventType, ctx = {}) {
   const profile = EVENT_OUTCOME_PROFILE[eventType] || { primary: 'panic', rage_inversion: false };
 
   // Roll d20.
-  const rng = typeof ctx.rng === 'function' ? ctx.rng : Math.random;
+  const rng = typeof ctx.rng === 'function' ? ctx.rng : defaultRng;
   const die = Math.floor(rng() * 20) + 1; // 1..20
   const moraleMod = Number(unit.morale_mod || 0);
   const score = die + moraleMod;
