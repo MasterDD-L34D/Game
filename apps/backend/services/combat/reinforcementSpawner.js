@@ -27,6 +27,7 @@
 'use strict';
 
 const { computeSistemaTier } = require('../../routes/sessionHelpers');
+const { defaultRng } = require('./pseudoRng');
 
 const DEFAULT_MIN_DISTANCE_FROM_PG = 3; // Manhattan
 const TIER_LABEL_ORDER = ['Calm', 'Alert', 'Escalated', 'Critical', 'Apex'];
@@ -147,7 +148,7 @@ function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
 }
 
 function tick(session, encounter, opts = {}) {
-  const rng = typeof opts.rng === 'function' ? opts.rng : Math.random;
+  const rng = typeof opts.rng === 'function' ? opts.rng : defaultRng;
   const policy = encounter?.reinforcement_policy;
   if (!policy || policy.enabled !== true) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'policy_disabled' };

@@ -586,7 +586,7 @@ def _extract_trait_ids(action_result):
     return out
 
 
-def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None):
+def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
@@ -598,6 +598,9 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None):
     # Start.
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
+        # None -> key omitted -> backend stays on Math.random (no behavior change).
+        **({"seed": seed} if seed is not None else {}),
         "modulation": "full",
         "sistema_pressure_start": pstart,
         "hazard_tiles": hazard,
@@ -694,6 +697,7 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None):
 
     return {
         "run": run_idx,
+        "seed": seed,
         "outcome": outcome,
         "rounds": state.get("turn", 0),
         "players_alive": players_alive,
@@ -822,6 +826,10 @@ def main():
                     help="ERMES FASE 3 P2: set req.body.biome_id to exercise biome eco "
                          "deltas (applyBiomeEcoEffects) during calibration. e.g. "
                          "cryosteppe_convergence (HIGH) | rovine_planari (LOW).")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Run i uses "
+                         "seed+i (so the whole batch is reproducible). Omit = legacy "
+                         "Math.random (statistical reproducibility only).")
     args = ap.parse_args()
 
     # Health probe (TKT-08): fail fast se backend non risponde.
@@ -850,7 +858,9 @@ def main():
     failures = 0
     try:
         for i in range(args.n):
-            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat, biome_id=args.biome_id)
+            run_seed = args.seed + i if args.seed is not None else None
+            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat,
+                        biome_id=args.biome_id, seed=run_seed)
             runs.append(r)
             if "error" in r:
                 failures += 1

@@ -145,13 +145,16 @@ def detect_outcome(state, timer_expired):
     return None
 
 
-def run_one(host, run_idx):
+def run_one(host, run_idx, seed=None):
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
         return {"run": run_idx, "error": f"scenario fetch {status}"}
 
     status, start = post(f"{host}/api/session/start", {
         "units": sc["units"],
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
+        # None -> key omitted -> backend stays on Math.random (no behavior change).
+        **({"seed": seed} if seed is not None else {}),
         "modulation": sc.get("recommended_modulation", "quartet"),
         "sistema_pressure_start": sc.get("sistema_pressure_start", 60),
         "hazard_tiles": sc.get("hazard_tiles", []),
@@ -237,6 +240,7 @@ def run_one(host, run_idx):
     losses = player_initial - players_alive
     return {
         "run": run_idx,
+        "seed": seed,
         "outcome": outcome,
         "rounds": rounds,
         "timer_expired": timer_expired,
@@ -342,6 +346,10 @@ def main():
     p.add_argument("--jsonl", default=None, help="JSONL incremental output (resume)")
     p.add_argument("--cooldown", type=float, default=0.5, help="Sec between runs")
     p.add_argument("--skip-health", action="store_true", help="Skip /api/health probe")
+    p.add_argument("--seed", type=int, default=None,
+                   help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Run i uses "
+                        "seed+i (so the whole batch is reproducible). Omit = legacy "
+                        "Math.random (statistical reproducibility only).")
     args = p.parse_args()
 
     # TKT-08: health probe fail-fast prima di batch.
@@ -351,14 +359,16 @@ def main():
             return 1
         print(f"OK: backend healthy at {args.host}", flush=True)
 
-    print(f"Hardcore 07 calibration: N={args.n} host={args.host}", flush=True)
+    seed_note = f"seed={args.seed} (bit-identical)" if args.seed is not None else "seed=None (statistical)"
+    print(f"Hardcore 07 calibration: N={args.n} host={args.host} {seed_note}", flush=True)
     t0 = time.time()
     runs = []
     failures = 0
     jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None
     try:
         for i in range(args.n):
-            r = run_one(args.host, i + 1)
+            run_seed = args.seed + i if args.seed is not None else None
+            r = run_one(args.host, i + 1, seed=run_seed)
             runs.append(r)
             if "error" in r:
                 failures += 1

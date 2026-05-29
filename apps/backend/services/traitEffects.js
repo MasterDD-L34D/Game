@@ -27,6 +27,7 @@ const yaml = require('js-yaml');
 // mutati. Cache key per attack-result hash. Soft-fail safe (always recompute
 // se cache miss o invalid input).
 const dirtyFlagTracker = require('./perf/dirtyFlagTracker');
+const { defaultRng } = require('./combat/pseudoRng');
 
 const DEFAULT_REGISTRY_PATH = path.resolve(
   __dirname,
@@ -423,7 +424,7 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
         const bonus = Number(match[3] || 0);
         let roll = 0;
         for (let i = 0; i < numDice; i += 1) {
-          roll += Math.floor((ctx?.rng ? ctx.rng() : Math.random()) * sides) + 1;
+          roll += Math.floor((ctx?.rng ? ctx.rng() : defaultRng()) * sides) + 1;
         }
         healAmount = roll + bonus;
       }

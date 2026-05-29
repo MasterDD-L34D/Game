@@ -14,6 +14,10 @@ const {
   resetStreaks,
   MISS_STREAK_THRESHOLD,
   STREAK_BONUS,
+  seedRng,
+  clearSeed,
+  isSeeded,
+  defaultRng,
 } = require('../../../apps/backend/services/combat/pseudoRng');
 
 test('pseudoRng: 3 miss consecutivi → +5 to_hit bonus', () => {
@@ -59,4 +63,62 @@ test('pseudoRng: back-compat zero-bonus su unit senza fields + null safety', () 
   resetStreaks(unit);
   assert.equal(unit.miss_streak, 0);
   assert.equal(unit.hit_streak, 0);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// TKT-PLAYTEST-SEED — seedable global RNG (bit-identical calibration).
+// defaultRng() is the canonical combat RNG provider: Math.random when
+// unseeded (zero prod change), deterministic mulberry32 stream when seeded.
+// ─────────────────────────────────────────────────────────────────
+
+test('pseudoRng: defaultRng unseeded yields floats in [0,1)', () => {
+  clearSeed();
+  assert.equal(isSeeded(), false, 'starts unseeded');
+  for (let i = 0; i < 50; i += 1) {
+    const v = defaultRng();
+    assert.ok(v >= 0 && v < 1, `value ${v} in [0,1)`);
+  }
+  assert.equal(isSeeded(), false, 'unseeded after draws (Math.random passthrough)');
+});
+
+test('pseudoRng: same seed → bit-identical sequence', () => {
+  seedRng(12345);
+  assert.equal(isSeeded(), true);
+  const a = Array.from({ length: 20 }, () => defaultRng());
+  seedRng(12345);
+  const b = Array.from({ length: 20 }, () => defaultRng());
+  assert.deepEqual(a, b, 'identical seed reproduces identical stream');
+  // values are real floats in range, not constant
+  assert.ok(new Set(a).size > 1, 'stream is not a constant');
+  clearSeed();
+});
+
+test('pseudoRng: different seeds → different sequences', () => {
+  seedRng(1);
+  const a = Array.from({ length: 10 }, () => defaultRng());
+  seedRng(2);
+  const b = Array.from({ length: 10 }, () => defaultRng());
+  assert.notDeepEqual(a, b, 'distinct seeds diverge');
+  clearSeed();
+});
+
+test('pseudoRng: clearSeed reverts to Math.random passthrough', () => {
+  seedRng(7);
+  assert.equal(isSeeded(), true);
+  clearSeed();
+  assert.equal(isSeeded(), false);
+  const v = defaultRng();
+  assert.ok(v >= 0 && v < 1);
+});
+
+test('pseudoRng: seedRng rejects non-finite, stays unseeded', () => {
+  clearSeed();
+  assert.equal(seedRng('not-a-number'), false);
+  assert.equal(isSeeded(), false);
+  assert.equal(seedRng(undefined), false);
+  assert.equal(isSeeded(), false);
+  // numeric string is coerced and accepted
+  assert.equal(seedRng('42'), true);
+  assert.equal(isSeeded(), true);
+  clearSeed();
 });
