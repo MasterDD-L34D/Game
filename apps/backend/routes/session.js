@@ -123,7 +123,9 @@ const {
 // Applica penalty/bonus biome-specific a unit basato su trait set × biome_id.
 // Pilot 4×3: thermal_armor, zampe_a_molla, pelle_elastomera, denti_seghettati
 // × savana, caverna_risonante, rovine_planari.
-const { loadTraitEnvironmentalCosts, applyBiomeTraitCosts } = require('../services/traitEffects');
+// ADR-2026-05-29 FASE 3: applyBiomeEcoEffects replaces inline ADR-21c block.
+// Runs ADR-21c + ERMES + unified +/-2 cap. applyBiomeTraitCosts no longer used directly.
+const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../services/traitEffects');
 // QW1 (M-018 worldgen card): biome diff_base + stress_modifiers → runtime
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
@@ -1401,28 +1403,26 @@ function createSessionRouter(options = {}) {
         // best-effort: se config non carica, skip profile scaling
       }
 
-      // M11 pilot (ADR-2026-04-21c, issue #1674): apply biome environmental
-      // trait costs. Legge biome_id da req.body (top-level) con fallback
-      // req.body.encounter?.biome_id. Pilot scope 4 trait × 3 biomi = 12 cell.
-      // Session-scoped compute (no Prisma persistence).
+      // M11 pilot (ADR-2026-04-21c, issue #1674) + ADR-2026-05-29 FASE 3:
+      // apply biome environmental eco effects (ADR-21c + ERMES + +/-2 unified cap).
+      // Legge biome_id da req.body (top-level) con fallback req.body.encounter?.biome_id.
+      // Session-scoped compute (no Prisma persistence). Log surfaced in response.
       const biomeIdRaw = req.body?.biome_id || req.body?.encounter?.biome_id || null;
       let biomeCostsLog = [];
       if (biomeIdRaw) {
         try {
           const biomeCostsRegistry = loadTraitEnvironmentalCosts();
-          if (biomeCostsRegistry && biomeCostsRegistry.trait_costs) {
-            units = units.map((u) => {
-              if (!u) return u;
-              const clone = { ...u };
-              const applied = applyBiomeTraitCosts(clone, biomeIdRaw, biomeCostsRegistry);
-              if (applied && applied.length) {
-                biomeCostsLog.push({ unit_id: clone.id, applied });
-              }
-              return clone;
-            });
-          }
+          units = units.map((u) => {
+            if (!u) return u;
+            const clone = { ...u };
+            const log = applyBiomeEcoEffects(clone, biomeIdRaw, { biomeCostsRegistry });
+            if (log && (log.adr21c.length || log.ermes.length)) {
+              biomeCostsLog.push({ unit_id: clone.id, ...log });
+            }
+            return clone;
+          });
         } catch (err) {
-          console.warn('[trait-env-costs] apply failed:', err.message);
+          console.warn('[biome-eco-effects] apply failed:', err.message);
         }
       }
 
@@ -1755,6 +1755,9 @@ function createSessionRouter(options = {}) {
         // Array per-unit con mutation_ids ereditati da pool propagato.
         // Empty se nessuna lineage propagation precedente o no match.
         lineage_inherited: lineageInherited,
+        // ADR-2026-05-29 FASE 3: biome eco effects log per-unit (ADR-21c + ERMES + cap).
+        // Each entry: { unit_id, adr21c, ermes, combined_delta, capped, biome_id, band }.
+        biomeCostsLog,
       });
     } catch (err) {
       next(err);
