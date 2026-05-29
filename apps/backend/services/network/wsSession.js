@@ -1564,6 +1564,44 @@ function createWsServer({
             }
             return;
           }
+          // S22-B -- drain mating_vote intents server-side via
+          // coopOrchestrator.voteMating (mirror world_vote). Phone sends
+          // { action: 'mating_vote', pair_id } during debrief.
+          if (action === 'mating_vote' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const connectedPids = Array.from(room.players.values())
+                .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
+              const tally = orch.voteMating(playerId, msg.payload?.pair_id, {
+                allPlayerIds: allPids,
+                connectedPlayerIds: connectedPids,
+              });
+              logLobbyEvent('mating_vote', {
+                code: room.code,
+                player_id: playerId,
+                pair_id: msg.payload?.pair_id || null,
+                leading_pair_id: tally.leading_pair_id,
+              });
+              room.broadcast({ type: 'mating_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'mating_vote_accepted', payload: { tally } }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'mating_vote_failed' },
+                }),
+              );
+            }
+            return;
+          }
           // 2026-05-06 phone smoke W6 fix — drain lineage_choice (debrief
           // phase) server-side via coopOrchestrator.submitDebriefChoice.
           // Pre-fix the intent was relayed to host Godot → silent drop,
