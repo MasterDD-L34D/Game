@@ -5,6 +5,8 @@ status: draft
 created: 2026-04-26
 author: creature-aspect-illuminator (audit mode)
 tags: [species, lifecycle, emergence, spawn, visual-morphology]
+last_verified: "2026-05-29"
+reconcile_note: "Partial: P0 drawLifecycleRing/drawMutationDots NOT shipped (apps/play/src); biome_affinity spawn-filter still open. Visual-emergence gap carded in museum evolution_genetics-voidling-bound. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Creature Emergence Audit

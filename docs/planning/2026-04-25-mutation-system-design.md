@@ -1,11 +1,13 @@
 ---
-doc_status: draft
+doc_status: superseded
 doc_owner: catalog-curator
 workstream: dataset-pack
-last_verified: 2026-04-25
+last_verified: 2026-05-29
 source_of_truth: false
 language: it
 review_cycle_days: 30
+superseded_by: docs/adr/ADR-2026-05-10-mutation-auto-trigger-evaluator.md
+reconcile_note: "SHIPPED -- mutationEngine.js + mutationCatalogLoader.js + combat/mutationTriggerEvaluator.js live; auto-trigger formalized in ADR-2026-05-10. Design realized. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 
 # Mutation System Design — Evo-Tactics

@@ -5023,10 +5023,10 @@
     {
       "path": "docs/planning/2026-04-25-mutation-system-design.md",
       "title": "Mutation System Design — M14+ runtime intent + 30 mutation catalog (T2 24, T3 6) + 5 categorie + integration M12/M13/M11",
-      "doc_status": "draft",
+      "doc_status": "superseded",
       "doc_owner": "catalog-curator",
       "workstream": "dataset-pack",
-      "last_verified": "2026-04-25",
+      "last_verified": "2026-05-29",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30
