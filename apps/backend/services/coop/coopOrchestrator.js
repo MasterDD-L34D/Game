@@ -205,6 +205,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -239,6 +240,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -781,6 +783,7 @@ class CoopOrchestrator {
     });
     this.debriefChoices.clear();
     this.worldVotes.clear();
+    this.sessionId = null;
     this.formPulses.clear();
     this.revealAcks.clear();
     this._setPhase('world_setup');
