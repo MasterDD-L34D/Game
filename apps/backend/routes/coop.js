@@ -13,6 +13,7 @@
 const express = require('express');
 const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
 const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
+const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload');
 
 function createCoopRouter({ lobby, coopStore } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
@@ -55,11 +56,7 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     if (!room || typeof room.broadcast !== 'function') return;
     room.broadcast({
       type: 'phase_change',
-      payload: {
-        phase: orch.phase,
-        round: orch.run?.currentIndex ?? 0,
-        scenario: orch.run?.scenarioStack?.[orch.run.currentIndex] || null,
-      },
+      payload: buildPhaseChangePayload(orch),
     });
     room.broadcast({
       type: 'character_ready_list',
