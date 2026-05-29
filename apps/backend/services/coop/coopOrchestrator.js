@@ -84,6 +84,8 @@ class CoopOrchestrator {
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
+    // S22-B -- per-player mating pair vote { player_id -> { pair_id, ts } }.
+    this.matingVotes = new Map();
     this.debriefChoices = new Map();
     // 2026-05-06 narrative onboarding port — host single-choice identity
     // for entire branco. Pre-assigned trait propagated to all party
@@ -597,6 +599,54 @@ class CoopOrchestrator {
       // (caller should not auto-advance with zero participants).
       tally.all_connected_accepted =
         connectedTotal > 0 && connectedAccept === connectedTotal && connectedReject === 0;
+    }
+    return tally;
+  }
+
+  /**
+   * S22-B -- player votes for an eligible mating pair (pair_id =
+   * `${parent_a_id}__${parent_b_id}`). Debrief-phase only. Idempotent
+   * re-vote (replaces). Mirror of voteWorld.
+   */
+  voteMating(playerId, pairId, { allPlayerIds = [], connectedPlayerIds } = {}) {
+    if (this.phase !== 'debrief') throw new Error('not_in_debrief');
+    if (!playerId) throw new Error('player_id_required');
+    if (!pairId) throw new Error('pair_id_required');
+    this.matingVotes.set(playerId, { pair_id: pairId, ts: this.now() });
+    this._emit('mating_vote', { player_id: playerId, pair_id: pairId });
+    return this.matingTally(allPlayerIds, connectedPlayerIds);
+  }
+
+  /**
+   * S22-B -- tally mating votes. Returns per-pair counts, the leading
+   * pair (deterministic tie-break: lowest pair_id lexicographic), and
+   * quorum vs allPlayerIds. Mirror of worldTally shape.
+   */
+  matingTally(allPlayerIds = [], connectedPlayerIds) {
+    const counts = new Map();
+    const perPlayer = {};
+    for (const [pid, vote] of this.matingVotes.entries()) {
+      perPlayer[pid] = vote;
+      counts.set(vote.pair_id, (counts.get(vote.pair_id) || 0) + 1);
+    }
+    const tallies = Array.from(counts.entries())
+      .map(([pair_id, votes]) => ({ pair_id, votes }))
+      .sort((x, y) => y.votes - x.votes || x.pair_id.localeCompare(y.pair_id));
+    const voted = this.matingVotes.size;
+    const tally = {
+      tallies,
+      leading_pair_id: tallies.length ? tallies[0].pair_id : null,
+      total: allPlayerIds.length || voted,
+      pending: Math.max((allPlayerIds.length || voted) - voted, 0),
+      per_player: perPlayer,
+    };
+    if (Array.isArray(connectedPlayerIds)) {
+      const connected = connectedPlayerIds.filter(Boolean);
+      const connectedVoted = connected.filter((pid) => this.matingVotes.has(pid)).length;
+      tally.connected_total = connected.length;
+      tally.connected_voted = connectedVoted;
+      tally.connected_pending = Math.max(connected.length - connectedVoted, 0);
+      tally.all_connected_voted = connected.length > 0 && connectedVoted === connected.length;
     }
     return tally;
   }
