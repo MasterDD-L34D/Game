@@ -101,7 +101,6 @@ model Campaign {
   createdAt      DateTime       @default(now()) @map("created_at")
   updatedAt      DateTime       @updatedAt @map("updated_at")
   chapters       Chapter[]
-  partyRoster    PartyRoster[]
   saves          SaveSnapshot[]
 
   @@index([playerId])
@@ -128,7 +127,6 @@ model Chapter {
 model PartyRoster {
   id             String   @id @default(uuid())
   campaignId     String   @map("campaign_id")
-  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   unitId         String   @map("unit_id") // PG identifier in-encounter
   species        String
   job            String
@@ -141,6 +139,7 @@ model PartyRoster {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
+  @@unique([campaignId, unitId])
   @@index([campaignId])
   @@map("party_rosters")
 }
