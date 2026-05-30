@@ -57,7 +57,8 @@ surface, non costruire nuovo engine.
 
 ### 0.2 Data-rich / runtime-thin
 
-Dato vastissimo, frazione wired: **5/38** biomi con ecosystem.yaml completo; **502/606**
+Dato vastissimo, frazione wired: **3/20** biomi top-level con ecosystem.yaml risolvibile (5 file
+`.ecosystem.yaml`, ma 2 su id non-canonici → vedi census #2454 §1.4); **502/606**
 trait con meccanica; **15/53** specie con lifecycle YAML; **32/53** specie senza
 biome_affinity; **1211** creature Pathfinder importate ma **0 integrate** nei foodweb;
 **24** passive-tag job-expansion senza handler (Phase C).
@@ -88,7 +89,7 @@ Premessa macro DRAFT, non ancora canon in docs/core. Gate = playtest AI-driven c
 
 | Cosa                              | Conteggio                | Path                                                                                                                               |
 | --------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Biomi definiti                    | **38**                   | `data/core/biomes.yaml`                                                                                                            |
+| Biomi definiti                    | **20** (top-level)       | `data/core/biomes.yaml` (census #2454 verificato; il "38" precedente non corrispondeva ad alcuna fonte)                            |
 | Ecosystem.yaml completi (trofico) | **5**                    | `packs/evo_tactics_pack/data/ecosystems/*.ecosystem.yaml` (badlands, cryosteppe, deserto_caldo, foresta_temperata, rovine_planari) |
 | Foodweb.yaml                      | 5                        | `packs/.../data/foodwebs/*_foodweb.yaml`                                                                                           |
 | Meta-network                      | 5 nodi / 11 archi        | `packs/.../ecosystems/network/meta_network_alpha.yaml`                                                                             |
@@ -102,7 +103,7 @@ pressure flat stagionale (Rimworld-offset). biomeResonance (affinita = sconto ri
 biomeSpawnBias (peso spawn da affix) gia live. **Perche**: chiudere Engine-LIVE/Surface-DEAD
 del worldgen (dato c'era, nessun consumer).
 
-**Gap**: **33/38 biomi data-only** (no ecosystem.yaml -> foodwebFilter passthrough). Meta-network
+**Gap**: **17/20 biomi data-only** (no ecosystem.yaml risolvibile -> foodwebFilter passthrough). Meta-network
 copre solo 5 nodi (GAP-C routing campagna = post-MVP, Dormans grammar). Cross-events solo 3.
 Servirebbe: generare ecosystem.yaml per top biomi (stratosfera/palude/atollo/frattura...) +
 espandere network. Vedi BACKLOG TKT-WORLDGEN-GAPC.
@@ -328,7 +329,7 @@ Connessioni chiave:
 | 1   | 4 orphan combat (morale/cumstate/woundperma/vcsnap) wire-or-remove | abilita    | 2-4h cad  | BACKLOG TKT-ORPHAN-\*, decision master-dd |
 | 2   | Ennea-voice frontend + dialogue-colors pipeline                    | mbti/ennea | 4h+2h     | sblocca P4 -> 🟢 (surface dead)           |
 | 3   | 24 passive-tag job-expansion handler (Phase C)                     | job        | ~12h      | perk expansion inerti finche non wired    |
-| 4   | 33/38 biomi senza ecosystem.yaml                                   | ecosistema | ~Nh/bioma | foodwebFilter passthrough; GAP-C post-MVP |
+| 4   | 17/20 biomi senza ecosystem.yaml risolvibile                       | ecosistema | ~Nh/bioma | foodwebFilter passthrough; GAP-C post-MVP |
 | 5   | 104 trait glossary senza meccanica + drift                         | trait      | audit     | silent no-op runtime                      |
 | 6   | 38/53 specie senza lifecycle + 32/53 senza biome                   | specie     | backfill  | OD-008 incrementale                       |
 | 7   | Pathfinder 1211 -> seed foodweb (0 integrate)                      | creature   | 30-50h    | designer pass per-bioma                   |
@@ -340,16 +341,16 @@ Connessioni chiave:
 
 ## 11. Dashboard conteggi
 
-| Sistema    | Headline                                                                    |
-| ---------- | --------------------------------------------------------------------------- |
-| Ecosistemi | 38 biomi · 5 ecosystem wired · 5 nodi-network · 6 consumer                  |
-| Creature   | 53 canonical · 1211 Pathfinder · 21 public · ~297 ancestors · 53 deprecated |
-| Specie     | 53 roster · 15 lifecycle · T0-T5 (T6=0) · 6 clade                           |
-| Trait      | 606 glossary · 502 wired · 297 ancestors · 36 mutation · 106 famiglie       |
-| Job        | 11 (7+4) · 132 perk · 18/18 effect-type · 6 resource                        |
-| MBTI/Ennea | 16 form · 4 axes · 9 ennea · ~80 file · P4 🟡++                             |
-| Abilita    | 18/18 effect-type · 34 servizi (30 wired/4 orphan) · 12 status              |
-| Lore       | premessa DRAFT · L0-L1 shipped · L2 parziale · L3-L5 greenfield             |
+| Sistema    | Headline                                                                     |
+| ---------- | ---------------------------------------------------------------------------- |
+| Ecosistemi | 20 biomi (3/20 risolvibili) · 5 ecosystem file · 5 nodi-network · 6 consumer |
+| Creature   | 53 canonical · 1211 Pathfinder · 21 public · ~297 ancestors · 53 deprecated  |
+| Specie     | 53 roster · 15 lifecycle · T0-T5 (T6=0) · 6 clade                            |
+| Trait      | 606 glossary · 502 wired · 297 ancestors · 36 mutation · 106 famiglie        |
+| Job        | 11 (7+4) · 132 perk · 18/18 effect-type · 6 resource                         |
+| MBTI/Ennea | 16 form · 4 axes · 9 ennea · ~80 file · P4 🟡++                              |
+| Abilita    | 18/18 effect-type · 34 servizi (30 wired/4 orphan) · 12 status               |
+| Lore       | premessa DRAFT · L0-L1 shipped · L2 parziale · L3-L5 greenfield              |
 
 ---
 

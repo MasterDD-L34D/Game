@@ -94,11 +94,16 @@ function tagsAreBalanced(text) {
  *
  * @param {string} text — può contenere `<mbti axis="X">...</mbti>`
  * @param {{revealed?: Array}} [mbtiRevealed] — Path A payload
+ * @param {{forceReveal?: boolean}} [opts] — TKT-P4-DIALOGUE-COLORS: se
+ *   `forceReveal` colora OGNI asse taggato a prescindere dal Path-A gating.
+ *   Usato dalle voci personalità del debrief (ennea + inner voice): la voce
+ *   È il momento di reveal, quindi il colore non va gated.
  * @returns {string} HTML safe
  */
-function renderMbtiTaggedHtml(text, mbtiRevealed = null) {
+function renderMbtiTaggedHtml(text, mbtiRevealed = null, opts = {}) {
   if (typeof text !== 'string') return '';
   if (text.length === 0) return '';
+  const forceReveal = Boolean(opts && opts.forceReveal);
   // Fallback graceful per tag non bilanciati: escape + plain.
   if (!tagsAreBalanced(text)) {
     return escapeHtml(text);
@@ -112,7 +117,7 @@ function renderMbtiTaggedHtml(text, mbtiRevealed = null) {
     const openMatch = part.match(/^<mbti\s+axis="([EISNTFJP])"\s*>$/);
     if (openMatch) {
       const letter = openMatch[1];
-      const revealed = isAxisRevealed(letter, mbtiRevealed);
+      const revealed = forceReveal || isAxisRevealed(letter, mbtiRevealed);
       stack.push({ letter, revealed });
       if (revealed) {
         out += `<span class="mbti-axis-${letter}" data-mbti-axis="${letter}">`;
