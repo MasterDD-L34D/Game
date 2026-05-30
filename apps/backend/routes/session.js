@@ -749,7 +749,11 @@ function createSessionRouter(options = {}) {
       // trait_ids al primo hit (cache su target._resistances).
       // Channel da action.channel (client-provided) o default "fisico".
       // Se speciesResistancesData null (file mancante) → no-op.
-      if (speciesResistancesData && damageDealt > 0 && !perkCombatMods.ignoreDr) {
+      // TKT-JOB-PHASEC: apex_first_strike (perkCombatMods.ignoreDr) bypassa la
+      // DR positiva ma NON le vulnerabilità — il blocco gira sempre (così la
+      // cache _resistances + l'amplificazione da vulnerabilità restano corrette)
+      // e passa vulnerabilitiesOnly ad applyResistance.
+      if (speciesResistancesData && damageDealt > 0) {
         if (!Array.isArray(target._resistances)) {
           const traitResists = [];
           for (const tid of Array.isArray(target.traits) ? target.traits : []) {
@@ -769,7 +773,9 @@ function createSessionRouter(options = {}) {
         // quando action è null (overwatch lambda) o channel assente.
         const channel =
           (action && typeof action.channel === 'string' && action.channel) || 'fisico';
-        damageDealt = applyResistance(damageDealt, target._resistances, channel);
+        damageDealt = applyResistance(damageDealt, target._resistances, channel, {
+          vulnerabilitiesOnly: perkCombatMods.ignoreDr,
+        });
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
