@@ -209,6 +209,68 @@ function computePerkDamageBonus(actor, target, ctx = {}) {
 }
 
 /**
+ * Apply on-kill perk effects to the killer. Category B (TKT-JOB-PHASEC).
+ * Mutates actor in place. Called from the kill hook in performAttack
+ * (routes/session.js), gated on the final killOccurred — the live combat path
+ * the /round/execute priority_queue flow traverses (so the buff is not inert in
+ * band-verify).
+ *
+ * Decay model: sessionRoundBridge end-of-round blanket-zeros attack_mod_bonus
+ * when status.attack_mod_buff expires. So the temporary buff rides
+ * attack_mod_bonus + status.attack_mod_buff (decays); the permanent buff rides
+ * actor.mod (base stat, never decayed). resolveAttack sums mod + attack_mod_bonus,
+ * so both reach the d20 roll.
+ *
+ * - eternal_kill_buff (STALKER capstone st_r6_eternal_hunt): permanent +attack_mod
+ *   per kill via actor.mod. Supersedes the temporary buff when an actor has both.
+ * - kill_buff_attack (STALKER st_r5_killer_focus): temporary +attack_mod for
+ *   payload.duration rounds via attack_mod_bonus + status.attack_mod_buff.
+ *
+ * @param {object} actor — the unit that scored the kill (reads actor._perk_passives)
+ * @returns {{ applied: Array<object> }}
+ */
+function applyPerkKillEffects(actor) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  if (passives.length === 0) return out;
+
+  const eternal = passives.find((p) => p.tag === 'eternal_kill_buff');
+  if (eternal) {
+    const amt = Number(eternal.payload?.attack_mod) || 0;
+    if (amt !== 0) {
+      actor.mod = Number(actor.mod || 0) + amt; // permanent base bump, no decay
+      out.applied.push({
+        tag: 'eternal_kill_buff',
+        attack_mod: amt,
+        mode: 'permanent',
+        source_perk_id: eternal.source_perk_id,
+      });
+    }
+    return out; // eternal supersedes the temporary buff
+  }
+
+  const temp = passives.find((p) => p.tag === 'kill_buff_attack');
+  if (temp) {
+    const amt = Number(temp.payload?.attack_mod) || 0;
+    const dur = Number(temp.payload?.duration) || 0;
+    if (amt !== 0 && dur > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + amt;
+      if (!actor.status || typeof actor.status !== 'object') actor.status = {};
+      // Arm/refresh the decay counter to the longer of current vs new window.
+      actor.status.attack_mod_buff = Math.max(Number(actor.status.attack_mod_buff) || 0, dur);
+      out.applied.push({
+        tag: 'kill_buff_attack',
+        attack_mod: amt,
+        duration: dur,
+        mode: 'temporary',
+        source_perk_id: temp.source_perk_id,
+      });
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -253,6 +315,7 @@ function grantXpToSurvivors(units, amount, opts = {}) {
 module.exports = {
   applyProgressionToUnits,
   computePerkDamageBonus,
+  applyPerkKillEffects,
   grantXpToSurvivors,
   resetDefaults,
 };
