@@ -44,6 +44,9 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// TKT-ORPHAN-VCSNAP — Game-side serializer that flattens a vc snapshot to the
+// Godot-parity debrief_payload (sentience_tier + conviction_axis + ennea_archetype).
+const { vcSnapshotToDebriefPayload } = require('../services/coop/vcSnapshotToDebriefPayload');
 // P4 Thought Cabinet: Phase 1 (threshold unlock) + Phase 2 (research → internalize).
 const {
   evaluateThoughts: evaluateMbtiThoughts,
@@ -3124,6 +3127,10 @@ function createSessionRouter(options = {}) {
         outcome,
         objective_state: objectiveFinal,
         vc_snapshot: vcSnapshot,
+        // TKT-ORPHAN-VCSNAP: server-derived flat 3-layer payload so phones/Godot
+        // DebriefView get the pinned shape without re-deriving client-side
+        // (serializer null-safe -> {per_actor:{}} when vcSnapshot is null).
+        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot),
         debrief,
       });
     } catch (err) {
@@ -3152,6 +3159,11 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* ignore: shape resta legacy */
+      }
+      // TKT-ORPHAN-VCSNAP: attach the flat Godot-parity payload (additive;
+      // serializer reads only per_actor, so legacy consumers are unaffected).
+      if (snapshot && typeof snapshot === 'object') {
+        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot);
       }
       res.json(snapshot);
     } catch (err) {
