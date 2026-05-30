@@ -23,8 +23,13 @@ tags: [worldgen, species, biomi, combat, ecologia, ermes, aliena, foodweb, strat
 ## 0. TL;DR (per decidere in 30s)
 
 - **0 su 53** specie canoniche hanno stat di combat (hp/mod/dc). Hanno trait + ecologia, non numeri.
-- **13 su 14** creature usate dagli scenari sono **orfane** (non nel catalogo canonico né nelle dir-bioma).
-- **5 su 20** biomi dichiarati hanno un ecosistema/foodweb (gli altri 15 non possono usare GAP-A).
+- **10 su 14** creature usate dagli scenari sono **orfane pure** (nessun file, nessun catalogo);
+  altre 4 esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + foodweb);
+  **1 sola** (pulverator_gregarius) è canonica. Quindi 13/14 fuori dal SOT canonico.
+- **3 su 20** biomi _dichiarati top-level_ risolvono un ecosistema/foodweb via `getEcosystem()`
+  (badlands, foresta_temperata, rovine_planari). Esistono 5 file `.ecosystem.yaml`, ma 2
+  (cryosteppe, deserto_caldo) sono indicizzati su id NON top-level in `biomes.yaml` → **17** biomi
+  dichiarati senza ecosistema risolvibile, non 15.
 - **1 su 5** biomi-con-ecosistema (`rovine_planari`) ha le specie tutte-stub → ed è proprio il bioma
   degli scenari hardcore. Ecco perché inventano creature: il loro bioma è vuoto.
 - Causa radice: **il combat richiede `hp/mod/dc`, che vivono SOLO in 6 specie "tutorial"**; tutto il
@@ -61,15 +66,15 @@ Note:
 `rovine_planari` è l'**unico bioma-con-ecosistema completamente stub**, e per coincidenza è il bioma di
 `hardcore_06`, `hardcore_07`, `enc_hardcore_reinf_01`. Da qui l'uso forzato di creature inline.
 
-### 1.3 Creature usate dagli scenari — 13/14 orfane
+### 1.3 Creature usate dagli scenari — 10/14 orfane pure (13/14 fuori SOT canonico)
 
 Referenziate da `hardcoreScenario.js` + `docs/planning/encounters/*.yaml`:
 
-| Creatura                                                                                                                                                                   | Stato                                                                                           |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| pulverator_gregarius                                                                                                                                                       | ✅ CANON (nel SOT)                                                                              |
-| apex_predatore, cacciatore_corazzato, predone_agile, predoni_nomadi, predoni_nomadi_elite                                                                                  | ⚠️ esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + fuori foodweb) |
-| araldi_fotofase, bracconieri_echomantici, cartografi_subsonici, cori_voidsong, custode_basalto, custodi_coralli, guardiani_risonanza, leviatani_risonanti, sciami_memetici | ❌ ORFANE pure (inventate inline, nessun file, nessun catalogo)                                 |
+| Creatura                                                                                                                                                                                         | Stato                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| pulverator_gregarius                                                                                                                                                                             | ✅ CANON (nel SOT)                                                                                                                             |
+| apex_predatore, cacciatore_corazzato, predone_agile, predoni_nomadi                                                                                                                              | ⚠️ esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + fuori foodweb)                                                |
+| predoni_nomadi_elite, araldi_fotofase, bracconieri_echomantici, cartografi_subsonici, cori_voidsong, custode_basalto, custodi_coralli, guardiani_risonanza, leviatani_risonanti, sciami_memetici | ❌ ORFANE pure (inventate inline, nessun file, nessun catalogo). `predoni_nomadi_elite` appare solo nei dati encounter — NON ha file tutorial. |
 
 ### 1.4 Biomi — 5/20 con ecosistema
 
@@ -78,9 +83,14 @@ Referenziate da `hardcoreScenario.js` + `docs/planning/encounters/*.yaml`:
   foresta_miceliale, foresta_temperata, stratosfera_tempestosa, mezzanotte_orbitale,
   pianura_salina_iperarida, reef_luminescente, savana, steppe_algoritmiche, rovine_planari,
   frattura_abissale_sinaptica).
-- **Con ecosistema/foodweb** (`*.ecosystem.yaml`): **5** (badlands, cryosteppe, deserto_caldo,
-  foresta_temperata, rovine_planari) — tutti e 5 presenti anche in `biomes.yaml`. Restano **~15
-  biomi dichiarati SENZA ecosistema** (gli altri 15 dei 20).
+- **File ecosistema/foodweb** (`*.ecosystem.yaml`): **5** (badlands, cryosteppe, deserto_caldo,
+  foresta_temperata, rovine_planari). MA `ecosystemResolver.getEcosystem()` indicizza per
+  `biome_id` esatto **senza normalizzazione alias**: `cryosteppe` e `deserto_caldo` NON sono id
+  top-level in `biomes.yaml` (vi appaiono solo come alias/figli, righe 68 + 548). Quindi, per i
+  **20 id dichiarati top-level**, ne risolvono solo **3** (badlands, foresta_temperata,
+  rovine_planari) → **17 biomi dichiarati SENZA ecosistema risolvibile**. (Nota secondaria:
+  la mancata normalizzazione alias è essa stessa un mini-buco — cryosteppe/deserto_caldo hanno
+  dati foodweb ma non sono raggiungibili dagli id canonici.)
 - **Referenziati da scenari senza ecosistema**: savana, caverna, frattura_abissale_sinaptica →
   qui GAP-A (foodweb filter) non ha dati su cui lavorare (cade in `no_ecosystem`, passthrough).
 
