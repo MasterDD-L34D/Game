@@ -156,3 +156,15 @@ def test_predictable_accuracy_excludes_singletons():
     acc = sba.predictable_accuracy(assigned, res)
     assert acc["predictable_total"] <= 21
     assert acc["predictable_accuracy"] >= res["top1_accuracy"]
+
+
+def test_main_refuses_canonical_catalog_out():
+    import pytest
+    with pytest.raises(SystemExit):
+        sba.main(["--out", str(sba.CATALOG_PATH)])
+
+
+def test_main_refuses_canonical_data_dir_out():
+    import pytest
+    with pytest.raises(SystemExit):
+        sba.main(["--out", str(sba.REPO_ROOT / "data/core/species/whatever.json")])

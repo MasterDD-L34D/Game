@@ -15,6 +15,7 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_PATH = REPO_ROOT / "data/core/species/species_catalog.json"
 BIOMES_PATH = REPO_ROOT / "data/core/biomes.yaml"
+CANONICAL_DATA_DIR = REPO_ROOT / "data/core"
 
 
 def load_catalog(path: Path = CATALOG_PATH) -> list:
@@ -232,11 +233,25 @@ def generate_draft(missing: list, trait_biome_map: dict, valid_biomes: list) -> 
     return draft
 
 
+def _assert_safe_output(out_path: Path) -> None:
+    """Hard-refuse writing into canonical data (enforces the DRAFT-only contract
+    in code, not just by convention). Blocks e.g.
+    --out data/core/species/species_catalog.json from clobbering the canonical
+    catalog via a mistaken or malicious override."""
+    resolved = out_path.resolve()
+    canonical_dir = CANONICAL_DATA_DIR.resolve()
+    if resolved == CATALOG_PATH.resolve():
+        raise SystemExit(f"[REFUSED] --out is the canonical catalog, never written: {resolved}")
+    if resolved == canonical_dir or canonical_dir in resolved.parents:
+        raise SystemExit(f"[REFUSED] --out resolves inside canonical data dir {canonical_dir}: {resolved}")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="D4 biome-affinity heuristic (DRAFT only)")
     ap.add_argument("--out", default=str(REPO_ROOT / "docs/planning/2026-05-30-biome-affinity-draft.json"))
     ap.add_argument("--gate", type=float, default=GATE_THRESHOLD)
     args = ap.parse_args(argv)
+    _assert_safe_output(Path(args.out))
 
     species = load_catalog()
     assigned, missing = split_by_biome_affinity(species)
