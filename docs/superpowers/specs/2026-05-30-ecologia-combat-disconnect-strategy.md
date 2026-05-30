@@ -170,6 +170,36 @@ esistente (la tua richiesta), produce un effetto visibile, ed è circoscritto a 
 fasi diventano decisioni informate una volta visto il pilota. **GAP-C (mondo a inizio partita)
 resta POST-MVP** e ortogonale a tutto questo.
 
+## 6bis. Riconciliazione con ATLAS + gap-resolution-plan (2026-05-30)
+
+Questo census **alimenta** due doc preesistenti più ampi (NON li sostituisce):
+
+- `docs/guide/DESIGN-DATA-ATLAS.md` (mappa madre 8 sistemi, PR #2452 merged)
+- `docs/planning/2026-05-30-design-data-gap-resolution-plan.md` (4 wave, PR #2453 merged) +
+  reframe `claude/plan-reframe-adapter-first-2026-05-30` (worktree, non ancora su main) che cita
+  questo census come trigger dello switch **adapter-first** (la mia Fase 1 = la loro keystone Wave 3).
+
+**Allineamento concettuale: PIENO.** Adapter ecologia→combat è la keystone di entrambi. Le mie
+Fasi 1-5 mappano sulle Wave 1-4 del plan (la mia Fase 1 = Wave 3 adapter-first ristrutturata).
+
+**Discrepanze numeriche da risolvere PRIMA di eseguire le wave (ground-truth verificato qui):**
+
+| Metrica                                | ATLAS / plan dice | Census verificato qui                                | Nota                                                                                                            |
+| -------------------------------------- | ----------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Biomi totali (`data/core/biomes.yaml`) | **38**            | **20 top-level** (29 incl. figli)                    | né 20 né 29 = 38; il "38" NON è verificabile dalla struttura reale → ATLAS da correggere o citare fonte diversa |
+| Biomi con ecosystem risolvibile        | 5/38              | **3/20** top-level (5 file, ma 2 su id non-canonici) | resolver non normalizza alias (vedi §1.4)                                                                       |
+| Biomi senza ecosystem                  | 33/38             | **17/20** (per id top-level)                         | denominatore diverso → ricalcolare su fonte unica                                                               |
+| Specie senza biome_affinity            | 32/53             | **32/53** ✅                                         | concorda                                                                                                        |
+| Specie senza lifecycle                 | 38/53             | non misurato qui                                     | dato ATLAS, plausibile                                                                                          |
+| Specie senza hp/mod/dc                 | (implicito)       | **53/53** (0 hanno stat)                             | il dato che ha innescato il reframe adapter-first                                                               |
+
+**Azione di riconciliazione raccomandata** (prima di Wave 3/4):
+
+1. Stabilire la **fonte unica di verità** per il conteggio biomi (biomes.yaml top-level = 20? include figli? altra fonte per 38?). Correggere ATLAS/plan di conseguenza.
+2. Propagare le correzioni di questo census (3/20, gap 17, elite-orphan) — vedi PR #2455.
+3. Il **gate D4** (heuristic biome-assignment) del plan resta il vero sblocco della mia Fase 1: non
+   parte finché D4 non è deciso dal master-dd.
+
 ## 7. Fonti (verificate sola-lettura 2026-05-30)
 
 - `packs/evo_tactics_pack/docs/catalog/species-canonical-index.json` (53 specie, 0 con hp, 21 con biome_affinity)
