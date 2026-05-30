@@ -44,6 +44,9 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// TKT-ORPHAN-VCSNAP — Game-side serializer that flattens a vc snapshot to the
+// Godot-parity debrief_payload (sentience_tier + conviction_axis + ennea_archetype).
+const { vcSnapshotToDebriefPayload } = require('../services/coop/vcSnapshotToDebriefPayload');
 // P4 Thought Cabinet: Phase 1 (threshold unlock) + Phase 2 (research → internalize).
 const {
   evaluateThoughts: evaluateMbtiThoughts,
@@ -284,6 +287,11 @@ function createSessionRouter(options = {}) {
   }
 
   const sessions = new Map();
+  // TKT-ORPHAN-WOUNDPERMA: cross-encounter wounded_perma scar map, keyed by
+  // campaign_id (== run.id). Persists between single-encounter sessions of the
+  // same playthrough so woundedPerma.applyWound (write) + restoreOnEncounterStart
+  // (restore) are live, not orphan. In-memory (dev/demo; lossy on restart).
+  const woundedPermaByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
   const coopStore = options.coopStore || null;
@@ -641,6 +649,7 @@ function createSessionRouter(options = {}) {
     let backstabBonus = 0;
     let wasBackstab = false;
     let panicTriggered = false;
+    let critMoraleResult = null;
     let parryResult = null;
     let interceptResult = null;
     let bondReactionResult = null;
@@ -839,13 +848,33 @@ function createSessionRouter(options = {}) {
           }
         }
       }
-      // SPRINT_013 (issue #10): trigger panic nel target se subisce un
-      // colpo critico (MoS >= 8). Il target non e' ancora morto (target.hp
-      // potrebbe essere a 0 ma panic su un'unita' KO e' innocuo). Applica
-      // 2 turni di panic.
-      if (result.mos >= 8 && target.status && target.hp > 0) {
-        target.status.panic = Math.max(Number(target.status.panic) || 0, 2);
-        panicTriggered = true;
+      // TKT-ORPHAN-MORALE (SPRINT_013 successor): a critical hit (MoS >=
+      // CRIT_MOS_THRESHOLD, surfaced as result.is_critical) on a SURVIVING target
+      // routes through the morale module (enemy_critical_hit) instead of the old
+      // unconditional panic. checkMorale rolls d20+morale_mod vs threshold and
+      // applies panic on target.status when it triggers, so morale.js's crit
+      // event is finally live + telemetered (units with high morale_mod can now
+      // shrug off a crit). Best-effort: never blocks the hit.
+      if (result.is_critical && target.status && target.hp > 0) {
+        try {
+          const { checkMorale } = require('../services/combat/morale');
+          critMoraleResult = checkMorale(target, 'enemy_critical_hit', { rng });
+          if (critMoraleResult && critMoraleResult.triggered) {
+            panicTriggered = true;
+            // The round-state sync (syncStatusesFromRoundState) rebuilds unit.status
+            // from the orchestrator's tracked list, wiping a panic set mid-resolve.
+            // Stash it on the session so the sync re-applies it afterward — one place
+            // that covers every attack resolver (player + AI + legacy direction).
+            if (!Array.isArray(session._pendingMoraleStatus)) session._pendingMoraleStatus = [];
+            session._pendingMoraleStatus.push({
+              unit_id: target.id,
+              status: critMoraleResult.status,
+              duration: critMoraleResult.duration,
+            });
+          }
+        } catch {
+          /* morale optional; never block the hit */
+        }
       }
 
       // M14-A: terrain reaction post damage step (additive, non-blocking).
@@ -1000,6 +1029,7 @@ function createSessionRouter(options = {}) {
       backstabBonus,
       wasBackstab,
       panicTriggered,
+      crit_morale: critMoraleResult,
       status_applies: statusApplies,
       parry: parryResult,
       intercept: interceptResult,
@@ -1701,6 +1731,28 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* sgTracker optional */
+      }
+      // TKT-ORPHAN-WOUNDPERMA: re-apply persistent wounds carried by this
+      // campaign (cross-encounter scar). initSessionMap on first sight; the read
+      // path is live in statusModifiers.js (wounded_perma -> attack penalty) plus
+      // the reduced max_hp applied here. Best-effort; never blocks the start.
+      if (session.campaign_id) {
+        try {
+          const woundedPerma = require('../services/combat/woundedPerma');
+          let woundMap = woundedPermaByCampaign.get(session.campaign_id);
+          if (!woundMap) {
+            woundMap = woundedPerma.initSessionMap();
+            woundedPermaByCampaign.set(session.campaign_id, woundMap);
+          }
+          session.lastMissionWoundedPerma = woundMap;
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player') {
+              woundedPerma.restoreOnEncounterStart(u, woundMap);
+            }
+          }
+        } catch {
+          /* woundedPerma optional; never block the start */
+        }
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
@@ -2994,6 +3046,22 @@ function createSessionRouter(options = {}) {
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       else outcome = 'abandon';
+      // TKT-ORPHAN-WOUNDPERMA (write-path): on a player wipe, each KO'd player
+      // unit takes a persistent wound into the campaign-scoped map so the next
+      // encounter of this playthrough restores the scar (see /start restore).
+      // Best-effort; never blocks session end.
+      if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
+        try {
+          const woundedPerma = require('../services/combat/woundedPerma');
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player' && Number(u.hp || 0) <= 0) {
+              woundedPerma.applyWound(u, session.lastMissionWoundedPerma);
+            }
+          }
+        } catch {
+          /* woundedPerma optional */
+        }
+      }
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
       // Normalize session.outcome from local outcome variable BEFORE buildDebriefSummary —
@@ -3124,6 +3192,10 @@ function createSessionRouter(options = {}) {
         outcome,
         objective_state: objectiveFinal,
         vc_snapshot: vcSnapshot,
+        // TKT-ORPHAN-VCSNAP: server-derived flat 3-layer payload so phones/Godot
+        // DebriefView get the pinned shape without re-deriving client-side
+        // (serializer null-safe -> {per_actor:{}} when vcSnapshot is null).
+        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot),
         debrief,
       });
     } catch (err) {
@@ -3152,6 +3224,11 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* ignore: shape resta legacy */
+      }
+      // TKT-ORPHAN-VCSNAP: attach the flat Godot-parity payload (additive;
+      // serializer reads only per_actor, so legacy consumers are unaffected).
+      if (snapshot && typeof snapshot === 'object') {
+        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot);
       }
       res.json(snapshot);
     } catch (err) {

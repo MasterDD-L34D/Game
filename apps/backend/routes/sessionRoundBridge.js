@@ -329,6 +329,27 @@ function createRoundBridge(deps) {
         }
       }
     }
+
+    // TKT-ORPHAN-MORALE: re-apply morale statuses (panic/rage) that performAttack
+    // stashed during this resolve. The loop above rebuilds unit.status from the
+    // orchestrator's tracked array and would otherwise wipe a panic set mid-attack;
+    // draining here gives every attack resolver (player + AI + legacy) consistent
+    // behavior in one place. Best-effort; never blocks the round.
+    if (Array.isArray(session._pendingMoraleStatus) && session._pendingMoraleStatus.length) {
+      let applyMoraleStatus = null;
+      try {
+        ({ applyMoraleStatus } = require('../services/combat/morale'));
+      } catch {
+        applyMoraleStatus = null;
+      }
+      if (applyMoraleStatus) {
+        for (const pending of session._pendingMoraleStatus) {
+          const u = (session.units || []).find((x) => String(x.id) === String(pending.unit_id));
+          if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+        }
+      }
+      session._pendingMoraleStatus = [];
+    }
   }
 
   function placeholderResolveAction(state, action, _catalog, _rng) {
@@ -1174,6 +1195,48 @@ function createRoundBridge(deps) {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('[cumulative-state] failed:', err && err.message ? err.message : err);
+    }
+
+    // TKT-ORPHAN-MORALE (panic contagion): when a team is already routing
+    // (>= PANIC_CONTAGION_THRESHOLD living units panicked), each still-steady ally
+    // rolls the status_panic_high morale check (morale.js) — panic can spread.
+    // High threshold keeps it a rout amplifier, not a first-panic cascade.
+    // Best-effort; never blocks the round.
+    try {
+      const { checkMorale } = require('../services/combat/morale');
+      const PANIC_CONTAGION_THRESHOLD = 3;
+      const moraleRng = makeHolderRng(session.combatRng);
+      const teams = {};
+      for (const unit of session.units) {
+        if (!unit || Number(unit.hp || 0) <= 0) continue;
+        const team = unit.controlled_by || unit.team || 'players';
+        if (!teams[team]) teams[team] = { panicked: 0, steady: [] };
+        if (unit.status && Number(unit.status.panic) > 0) teams[team].panicked += 1;
+        else teams[team].steady.push(unit);
+      }
+      for (const group of Object.values(teams)) {
+        if (group.panicked < PANIC_CONTAGION_THRESHOLD) continue;
+        for (const unit of group.steady) {
+          const res = checkMorale(unit, 'status_panic_high', { rng: moraleRng });
+          if (res && res.triggered && res.status) {
+            // eslint-disable-next-line no-await-in-loop
+            await appendEvent(session, {
+              action_type: 'morale',
+              actor_id: unit.id,
+              target_id: unit.id,
+              turn: session.turn,
+              result: res.status,
+              morale_event: 'status_panic_high',
+              morale_score: res.score,
+              morale_threshold: res.threshold,
+              duration: res.duration,
+            });
+          }
+        }
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[morale-contagion] failed:', err && err.message ? err.message : err);
     }
 
     return {
