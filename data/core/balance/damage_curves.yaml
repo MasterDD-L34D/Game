@@ -99,6 +99,38 @@ encounter_classes:
     # M9 P6: boss 1v2 dura media 20 round. Limit 20 = kill boss o perdi.
     turn_limit_defeat: 20
 
+  badlands:
+    # TKT-ADAPTER-ECO-COMBAT phase 2b -- ecology->combat adapter pilot band.
+    # Scenario enc_badlands_pilot_01: enemies derived by ecologyCombatAdapter
+    # from REAL badlands species ecology (threat_tier x role_class). This is a
+    # NEW, SEPARATE band -- it never touches the ratified hardcore_06 [0.15,0.25]
+    # or hardcore_07 [0.30,0.50] bands (census anti-pattern 5).
+    # Tone: first-contact badlands biome pilot, difficulty 5/10 quartet -- engaging
+    # but winnable. WR [0.40,0.60] picked as the calibration target for the N=40 pass.
+    # enemy_damage_multiplier 1.0 (NEUTRAL) on purpose: the adapter HP/role-mult knobs
+    # are the SOLE calibration lever (D3 adapter-first), so calibration == real play.
+    description: 'Badlands ecology-adapter pilot. Adapter-driven enemies, neutral class mult.'
+    target_bands:
+      win_rate: [0.40, 0.60]  # PRIMARY pillar (handoff target). Pooled N=80 = 0.500.
+      # Decisive scenario: the turn_limit_defeat below forces win/defeat (TR ~ 0), so
+      # defeat_rate mirrors 1 - win_rate. Band kept CONSISTENT with the win band
+      # ([0.40,0.60] win + <=0.15 timeout -> defeat in [0.25,0.60]); pooled N=80 = 0.500.
+      defeat_rate: [0.30, 0.60]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0
+    boss_enrage_threshold_hp: null  # no boss in pilot roster
+    # Stalemate breaker (Flint Long War pattern, mirrors standard/hardcore). N=10
+    # calibration showed the quartet-vs-5 elimination naturally runs ~30 rounds; with
+    # no limit, ~30-60% of games stall to MAX_ROUNDS (round 41) as timeouts. A limit
+    # of 34 (>= typical win time 18-32, < stall point 41) converts genuine stalls to
+    # tactical defeats, collapsing the timeout band to ~0 while preserving real wins.
+    # This is the calibration lever (NOT the adapter knobs: baseline adapter stats land
+    # in band once stalls resolve -- no HP/MOD override needed). See phase-2b research doc.
+    # Tuned 34->37 at N=40: limit 34 gave WR 0.45 / DR 0.55 (DR +5pp over band ceiling);
+    # 37 lets the slow-but-winnable fights (turns 32-37) resolve as wins, lifting WR into
+    # the [0.50,0.60] sweet spot so DR lands inside [0.30,0.50].
+    turn_limit_defeat: 37
+
 # ─── Enemy tiers ──────────────────────────────────────────────────────
 # Base stats pre-class multiplier. Encounter spawn li legge + applica
 # multiplier da encounter_class.

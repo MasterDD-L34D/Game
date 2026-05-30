@@ -49,13 +49,22 @@ SCENARIO_MAP = {
         "script": "batch_calibrate_hardcore06.py",
         "target_band": (0.15, 0.25),
         "scenario_id": "enc_tutorial_06_hardcore",
+        "encounter_class": "hardcore",
         "extra_args": ["--encounter-class", "hardcore"],
     },
     "hardcore_07": {
         "script": "batch_calibrate_hardcore07.py",
         "target_band": (0.30, 0.50),
         "scenario_id": "enc_tutorial_07_hardcore_pod_rush",
+        "encounter_class": "hardcore",
         "extra_args": [],
+    },
+    "badlands_pilot_01": {
+        "script": "batch_calibrate_badlands_pilot_01.py",
+        "target_band": (0.40, 0.60),
+        "scenario_id": "enc_badlands_pilot_01",
+        "encounter_class": "badlands",
+        "extra_args": ["--encounter-class", "badlands"],
     },
 }
 
@@ -194,8 +203,9 @@ def aggregate_merged(runs, scenario):
     # Dynamic import.
     sys.path.insert(0, str(TOOLS_PY))
     mod = __import__(script_module)
+    enc_cls = cfg.get("encounter_class", "hardcore")
     if hasattr(mod, "aggregate"):
-        return mod.aggregate(runs, encounter_class="hardcore")
+        return mod.aggregate(runs, encounter_class=enc_cls)
     if hasattr(mod, "summarise"):
         return mod.summarise(runs)
     return {"error": f"no aggregate fn in {script_module}"}
