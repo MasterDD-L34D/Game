@@ -322,8 +322,10 @@ function createSessionRouter(options = {}) {
     }
   }
 
-  // Pattern matcher per tutorial scenario IDs (funnel analysis input).
-  const TUTORIAL_SCENARIO_RE = /^enc_tutorial_\d+/;
+  // Pattern matcher per tutorial + badlands-pilot scenario IDs (SG-init + funnel
+  // telemetry). enc_badlands_pilot_01 (adapter pilot) gets the same SG=1 onboard
+  // treatment as the hardcore scenarios so its calibration is comparable.
+  const TUTORIAL_SCENARIO_RE = /^enc_(tutorial|badlands_pilot)_\d+/;
   function isTutorialScenario(scenarioId) {
     return typeof scenarioId === 'string' && TUTORIAL_SCENARIO_RE.test(scenarioId);
   }
