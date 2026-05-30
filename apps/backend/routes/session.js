@@ -287,6 +287,11 @@ function createSessionRouter(options = {}) {
   }
 
   const sessions = new Map();
+  // TKT-ORPHAN-WOUNDPERMA: cross-encounter wounded_perma scar map, keyed by
+  // campaign_id (== run.id). Persists between single-encounter sessions of the
+  // same playthrough so woundedPerma.applyWound (write) + restoreOnEncounterStart
+  // (restore) are live, not orphan. In-memory (dev/demo; lossy on restart).
+  const woundedPermaByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
   const coopStore = options.coopStore || null;
@@ -1727,6 +1732,28 @@ function createSessionRouter(options = {}) {
       } catch {
         /* sgTracker optional */
       }
+      // TKT-ORPHAN-WOUNDPERMA: re-apply persistent wounds carried by this
+      // campaign (cross-encounter scar). initSessionMap on first sight; the read
+      // path is live in statusModifiers.js (wounded_perma -> attack penalty) plus
+      // the reduced max_hp applied here. Best-effort; never blocks the start.
+      if (session.campaign_id) {
+        try {
+          const woundedPerma = require('../services/combat/woundedPerma');
+          let woundMap = woundedPermaByCampaign.get(session.campaign_id);
+          if (!woundMap) {
+            woundMap = woundedPerma.initSessionMap();
+            woundedPermaByCampaign.set(session.campaign_id, woundMap);
+          }
+          session.lastMissionWoundedPerma = woundMap;
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player') {
+              woundedPerma.restoreOnEncounterStart(u, woundMap);
+            }
+          }
+        } catch {
+          /* woundedPerma optional; never block the start */
+        }
+      }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
       // PR-1 §22 coop-WS surface — link this combat session back into the coop
@@ -3019,6 +3046,22 @@ function createSessionRouter(options = {}) {
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       else outcome = 'abandon';
+      // TKT-ORPHAN-WOUNDPERMA (write-path): on a player wipe, each KO'd player
+      // unit takes a persistent wound into the campaign-scoped map so the next
+      // encounter of this playthrough restores the scar (see /start restore).
+      // Best-effort; never blocks session end.
+      if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
+        try {
+          const woundedPerma = require('../services/combat/woundedPerma');
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player' && Number(u.hp || 0) <= 0) {
+              woundedPerma.applyWound(u, session.lastMissionWoundedPerma);
+            }
+          }
+        } catch {
+          /* woundedPerma optional */
+        }
+      }
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
       // Normalize session.outcome from local outcome variable BEFORE buildDebriefSummary —
