@@ -7,6 +7,7 @@
 const crypto = require('crypto');
 const { foldObservations } = require('../ai/sistemaStateAccumulator');
 const { createSistemaStateStore } = require('../ai/sistemaStateStore');
+const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
@@ -72,6 +73,7 @@ class CoopOrchestrator {
     now = Date.now,
     worldEnricher = null,
     sistemaStateStore = null,
+    rosterStore = null,
     nidoUnlocked = false,
   } = {}) {
     if (!roomCode) throw new Error('room_code_required');
@@ -88,6 +90,10 @@ class CoopOrchestrator {
     // on first use so module-load order / stub-mode (no DATABASE_URL) stays
     // safe. Tests inject a stub recording get/upsert.
     this._sistemaStore = sistemaStateStore;
+    // N2 roster-display -- run-keyed party_rosters persistence (DI seam, same
+    // style as sistemaStateStore). Lazily wires the canonical Prisma store on
+    // first use so module-load order / stub-mode stays safe.
+    this._rosterStore = rosterStore;
     this.phase = 'lobby';
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
@@ -132,6 +138,13 @@ class CoopOrchestrator {
     // eslint-disable-next-line global-require
     this._sistemaStore = createSistemaStateStore(require('../../db/prisma').prisma);
     return this._sistemaStore;
+  }
+
+  _getRosterStore() {
+    if (this._rosterStore) return this._rosterStore;
+    // eslint-disable-next-line global-require
+    this._rosterStore = createRosterStore(require('../../db/prisma').prisma);
+    return this._rosterStore;
   }
 
   _emit(kind, payload = {}) {
@@ -374,6 +387,20 @@ class CoopOrchestrator {
       submitted_at: this.now(),
     };
     this.characters.set(playerId, normalized);
+    // N2 -- persist the created PG to party_rosters (run.id-keyed), best-effort
+    // and fire-and-forget. Never block / throw into the submit path: the sync
+    // try/catch covers a wiring throw (store construct), and the .catch covers
+    // an async-rejecting upsert (the canonical store swallows internally).
+    if (this.run && this.run.id) {
+      try {
+        const persisting = this._getRosterStore().upsert(this.run.id, normalized);
+        if (persisting && typeof persisting.catch === 'function') {
+          persisting.catch(() => {});
+        }
+      } catch (_err) {
+        /* best-effort */
+      }
+    }
     this._emit('character_ready', normalized);
 
     const expected = new Set(allPlayerIds.filter(Boolean));

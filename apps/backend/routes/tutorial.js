@@ -31,6 +31,10 @@ const {
   buildHardcoreUnits07,
 } = require('../services/hardcoreScenario');
 const { selectBriefing } = require('../services/narrative/briefingVariations');
+const {
+  BADLANDS_SCENARIO_01,
+  buildBadlandsUnits01,
+} = require('../services/worldgen/badlandsPilotScenario');
 
 // Optional briefing variation: when ?variant_seed=N is passed, swap the
 // hardcoded briefing_pre/post with a YAML-pack variant (tutorial_briefings.yaml).
@@ -146,6 +150,15 @@ function createTutorialRouter() {
     });
   });
 
+  router.get('/enc_badlands_pilot_01', (_req, res) => {
+    res.json({
+      ...BADLANDS_SCENARIO_01,
+      units: buildBadlandsUnits01(),
+      usage:
+        'POST units + modulation="quartet". Pilota adapter ecologia->combat (enemies = deriveCombatStats da specie badlands reali). Band calibration phase 2b.',
+    });
+  });
+
   router.get('/', (_req, res) => {
     res.json({
       scenarios: [
@@ -190,6 +203,12 @@ function createTutorialRouter() {
           name: HARDCORE_SCENARIO_06_QUARTET.name,
           difficulty: HARDCORE_SCENARIO_06_QUARTET.difficulty_rating,
           href: `/api/tutorial/${HARDCORE_SCENARIO_06_QUARTET.id}`,
+        },
+        {
+          id: BADLANDS_SCENARIO_01.id,
+          name: BADLANDS_SCENARIO_01.name,
+          difficulty: BADLANDS_SCENARIO_01.difficulty_rating,
+          href: `/api/tutorial/${BADLANDS_SCENARIO_01.id}`,
         },
       ],
     });

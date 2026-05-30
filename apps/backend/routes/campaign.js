@@ -736,6 +736,26 @@ function createCampaignRouter(options = {}) {
     }
   });
 
+  // N2 roster-display -- read-only party roster mirror for the Godot v2 Nido
+  // hub. GET /api/campaign/roster?campaign_id=<run.id> -> { roster: [rows] }.
+  // Empty-safe ([] when no rows / stub / no DB); persistence failure is
+  // non-fatal. Reuses the db/prisma singleton already required above.
+  const { createRosterStore } = require('../services/campaign/rosterStore');
+
+  router.get('/campaign/roster', async (req, res) => {
+    try {
+      const campaignId = String(req.query.campaign_id || '').trim();
+      if (!campaignId) {
+        return res.status(400).json({ error: 'campaign_id query param richiesto' });
+      }
+      const store = createRosterStore(_sistemaPrisma);
+      const roster = await store.get(campaignId);
+      return res.json({ roster });
+    } catch (err) {
+      return res.status(500).json({ error: 'persist_read_failed', detail: String(err.message) });
+    }
+  });
+
   return router;
 }
 
