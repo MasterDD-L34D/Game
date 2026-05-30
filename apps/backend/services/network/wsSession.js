@@ -89,6 +89,7 @@ const KNOWN_PHASES = new Set([
   'world_seed_reveal', // UI-only transient between world_setup → combat
   'combat',
   'debrief',
+  'nido', // N1 Nido-hub phase
   'ended',
   // Combat lifecycle hints (not orch phases, but used by round model).
   'planning',
@@ -1822,6 +1823,43 @@ function createWsServer({
                 JSON.stringify({
                   type: 'error',
                   payload: { code: err.message || 'next_macro_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // N1 Nido-hub — host leaves nido and starts the next mission.
+          // Mirror of next_macro handler shape.
+          if (action === 'nido_start_mission' && coopStore) {
+            if (player.role !== 'host') {
+              socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_host' } }));
+              return;
+            }
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const result = orch.startMissionFromNido(playerId, { hostId: room.hostId });
+              if (result.phase === 'world_setup') {
+                room.publishPhaseChange('world_setup');
+              } else if (result.phase === 'ended') {
+                room.publishPhaseChange('ended');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'nido_start_mission_accepted',
+                  payload: { phase: result.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'nido_start_mission_failed' },
                 }),
               );
             }

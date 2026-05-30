@@ -7,6 +7,7 @@
 const crypto = require('crypto');
 const { foldObservations } = require('../ai/sistemaStateAccumulator');
 const { createSistemaStateStore } = require('../ai/sistemaStateStore');
+const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -29,6 +30,7 @@ const PHASES = [
   'world_setup',
   'combat',
   'debrief',
+  'nido', // N1 Nido-hub phase (return-to-hub loop step, after debrief)
   'ended',
 ];
 
@@ -70,11 +72,17 @@ class CoopOrchestrator {
     now = Date.now,
     worldEnricher = null,
     sistemaStateStore = null,
+    nidoUnlocked = false,
   } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
     this.hostId = hostId || null;
     this.now = now;
+    // N1 Nido-hub — pre-seeded unlock flag (DI seam for tests + server-side
+    // room construction). When true, debrief advance routes to 'nido' instead
+    // of directly to world_setup. env NIDO_UNLOCKED=true also activates the
+    // gate (checked at call-time via checkNidoUnlock).
+    this._nidoUnlocked = Boolean(nidoUnlocked);
     // CAMP-2 — SistemaState accumulation store (DI seam, same style as
     // worldEnricher). Default lazily wires the canonical Prisma-backed store
     // on first use so module-load order / stub-mode (no DATABASE_URL) stays
@@ -744,11 +752,34 @@ class CoopOrchestrator {
         advance = { action: 'already_ended' };
       }
     } else if (this.phase === 'debrief') {
-      advance = this.advanceScenarioOrEnd();
+      // N1 Nido-hub gate: if unlocked, route to nido hub before advancing.
+      // checkNidoUnlock checks env NIDO_UNLOCKED=true OR meta.nido_unlocked.
+      if (checkNidoUnlock({ meta: { nido_unlocked: this._nidoUnlocked } })) {
+        this._setPhase('nido');
+        advance = { action: 'nido' };
+      } else {
+        advance = this.advanceScenarioOrEnd();
+      }
     } else {
       advance = { action: 'noop_post_advance' };
     }
     return { choice, phase: this.phase, run_state: this.run, advance };
+  }
+
+  /**
+   * N1 Nido-hub — host leaves the hub and starts the next mission.
+   * Requires phase === 'nido'. Host-only. Delegates to advanceScenarioOrEnd()
+   * which moves phase to world_setup (or ended if stack exhausted).
+   *
+   * @param playerId — submitting player (must equal hostId)
+   * @param hostId — current host player id (host-only gate)
+   * @returns { phase, advance, run_state }
+   */
+  startMissionFromNido(playerId, { hostId } = {}) {
+    if (hostId && playerId !== hostId) throw new Error('host_only');
+    if (this.phase !== 'nido') throw new Error('not_in_nido');
+    const advance = this.advanceScenarioOrEnd();
+    return { phase: this.phase, advance, run_state: this.run };
   }
 
   /**
