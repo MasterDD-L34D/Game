@@ -144,18 +144,31 @@ function mergeResistances(traitResistances, speciesResistances) {
  * @param {number} damage danno pre-resistance (int)
  * @param {Array|null|undefined} resistances lista `[{channel, modifier_pct}]` (delta)
  * @param {string|null|undefined} channel canale attacco es. "fisico"
+ * @param {object} [opts]
+ * @param {boolean} [opts.vulnerabilitiesOnly] quando true salta i modificatori
+ *   di RESISTENZA positivi (pct > 0 = DR → danno pieno) ma applica comunque le
+ *   VULNERABILITÀ negative (pct < 0 = danno amplificato). Usato da
+ *   apex_first_strike (TKT-JOB-PHASEC): il capstone bypassa la DR ma NON deve
+ *   sopprimere le vulnerabilità del bersaglio, altrimenti il primo colpo
+ *   potrebbe infliggere meno danno di un attacco normale vs un bersaglio
+ *   vulnerabile (es. psionico ha fisico:120 → vuln).
  * @returns {number} damage post-resistance (int, floor)
  */
-function applyResistance(damage, resistances, channel) {
+function applyResistance(damage, resistances, channel, opts = {}) {
   if (!Number.isFinite(damage) || damage <= 0) return damage;
   if (!channel || typeof channel !== 'string') return damage;
   if (!Array.isArray(resistances)) return damage;
+
+  const vulnerabilitiesOnly = Boolean(opts && opts.vulnerabilitiesOnly);
 
   for (const res of resistances) {
     if (!res || typeof res !== 'object') continue;
     if (res.channel !== channel) continue;
     const pct = Number(res.modifier_pct);
     if (!Number.isFinite(pct)) continue;
+    // vulnerabilitiesOnly: bypassa la DR positiva (danno pieno) ma lascia
+    // attiva la vulnerabilità negativa (danno amplificato).
+    if (vulnerabilitiesOnly && pct > 0) return damage;
     const factor = (100 - pct) / 100;
     const adjusted = Math.floor(damage * factor);
     // Clamp a 0 (nessun damage negativo anche con vuln oltre 100)

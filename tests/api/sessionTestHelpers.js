@@ -7,6 +7,7 @@
 
 const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
+const { createStubOrchestrator } = require('../../apps/backend/services/stubOrchestrator');
 
 /**
  * Set USE_ROUND_MODEL env var and return a restore function.
@@ -26,7 +27,14 @@ function withRoundFlag(value) {
  */
 function createFlaggedApp(flagValue) {
   const restore = withRoundFlag(flagValue);
-  const handle = createApp({ databasePath: null });
+  // Session round-model tests never hit /api/v1/generation/* -> inject the no-op
+  // orchestrator so no Python worker subprocesses spawn. Explicit injection (vs
+  // relying on the IDEA_ENGINE_STUB_ORCHESTRATOR flag) keeps single-file runs of
+  // these tests subprocess-free too.
+  const handle = createApp({
+    databasePath: null,
+    generationOrchestrator: createStubOrchestrator(),
+  });
   return { ...handle, restore };
 }
 

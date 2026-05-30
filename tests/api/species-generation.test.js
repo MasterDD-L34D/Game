@@ -1,3 +1,7 @@
+// Generation test: must use the real Python orchestrator bridge. Opt out of the
+// run-test-api stub flag so createApp builds the real bridge even when the batch
+// sets IDEA_ENGINE_STUB_ORCHESTRATOR=1.
+delete process.env.IDEA_ENGINE_STUB_ORCHESTRATOR;
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
 
 const test = require('node:test');

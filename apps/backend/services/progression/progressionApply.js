@@ -271,6 +271,48 @@ function applyPerkKillEffects(actor) {
 }
 
 /**
+ * Compute multiplicative / DR-bypass perk modifiers at attack resolve time.
+ * Complements computePerkDamageBonus (which is additive-only). Category A
+ * (TKT-JOB-PHASEC) expansion perks live here.
+ *
+ * @param {object} actor — attacker unit (reads actor._perk_passives)
+ * @param {object} target — defender unit (reserved for future per-target tags)
+ * @param {object} ctx — { isFirstStrike?, rng? }
+ * @returns {{ multiplier: number, ignoreDr: boolean, applied: Array<object> }}
+ */
+function computePerkCombatModifiers(actor, target, ctx = {}) {
+  const out = { multiplier: 1, ignoreDr: false, applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  if (passives.length === 0) return out;
+  const rng = typeof ctx.rng === 'function' ? ctx.rng : Math.random;
+
+  for (const p of passives) {
+    switch (p.tag) {
+      case 'random_double_dmg_chance': {
+        // ABERRANT (ab_r3_chaos_attack): each attack has payload.chance to x2.
+        const chance = Number(p.payload?.chance) || 0;
+        if (chance > 0 && rng() < chance) {
+          out.multiplier *= 2;
+          out.applied.push({ tag: p.tag, multiplier: 2, source_perk_id: p.source_perk_id });
+        }
+        break;
+      }
+      case 'apex_first_strike': {
+        // STALKER capstone (st_r6_apex_predator): first strike ignores full DR.
+        if (ctx.isFirstStrike && p.payload?.ignore_dr) {
+          out.ignoreDr = true;
+          out.applied.push({ tag: p.tag, ignore_dr: true, source_perk_id: p.source_perk_id });
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -315,6 +357,7 @@ function grantXpToSurvivors(units, amount, opts = {}) {
 module.exports = {
   applyProgressionToUnits,
   computePerkDamageBonus,
+  computePerkCombatModifiers,
   applyPerkKillEffects,
   grantXpToSurvivors,
   resetDefaults,

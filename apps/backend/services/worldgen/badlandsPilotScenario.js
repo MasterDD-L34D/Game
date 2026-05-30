@@ -8,10 +8,13 @@
 // NOT hardcore_06/07: this is a fresh scenario with its OWN (provisional) band, so it
 // never touches the ratified hardcore bands (census anti-pattern 5).
 //
-// Band calibration = phase 2b: encounter_class is 'standard' (provisional) until the
-// N=40 calibrate_parallel pass tunes the adapter knobs + sets the real class/band.
-// The enemy stats here are the UNTUNED adapter baseline (deliberately weak); 2b raises
-// the knobs to hit a target band. `calibration_status: 'pending'` flags this.
+// Band calibration = phase 2b (RATIFIED 2026-05-30): encounter_class 'badlands' with a
+// dedicated band (win_rate [0.40,0.60]) in damage_curves.yaml. Three independent N=40
+// calibrate_parallel passes landed WR 0.475-0.525 (pooled ~0.51) -> GREEN.
+// Finding: the adapter BASELINE stats are correct as-is -- no HP/MOD knob override was
+// needed. The combat naturally runs ~30 rounds, so the calibration lever was the
+// 'badlands' class turn_limit_defeat=37 stalemate-breaker (timeout band -> ~0). See
+// docs/playtest/2026-05-30-badlands-pilot-calibration.md.
 
 'use strict';
 
@@ -77,7 +80,7 @@ const BADLANDS_SCENARIO_01 = {
   id: 'enc_badlands_pilot_01',
   name: 'Brulle Ferrose -- Pilota Adapter',
   biome_id: 'badlands',
-  encounter_class: 'standard', // provisional; phase 2b calibration sets tuned class/band
+  encounter_class: 'badlands', // phase 2b: dedicated calibrated band (damage_curves.yaml)
   difficulty_rating: 5,
   estimated_turns: 14,
   grid_size: 10,
@@ -85,7 +88,7 @@ const BADLANDS_SCENARIO_01 = {
   objective_text: 'Elimina la fauna ostile delle Brulle Ferrose.',
   sistema_pressure_start: 70,
   recommended_modulation: 'quartet',
-  calibration_status: 'pending', // phase 2b N=40 (calibrate_parallel)
+  calibration_status: 'ratified-2026-05-30', // phase 2b N=40x3 GREEN, WR ~0.51
 };
 
 function _player(id, job, position, stats) {
