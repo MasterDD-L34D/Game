@@ -289,9 +289,12 @@ function createSessionRouter(options = {}) {
 
   const sessions = new Map();
   // TKT-ORPHAN-WOUNDPERMA: cross-encounter wounded_perma scar map, keyed by
-  // campaign_id (== run.id). Persists between single-encounter sessions of the
-  // same playthrough so woundedPerma.applyWound (write) + restoreOnEncounterStart
-  // (restore) are live, not orphan. In-memory (dev/demo; lossy on restart).
+  // campaign_id (== run.id). PERMANENT roguelike meta-progression (master-dd
+  // 2026-05-30): scars persist across encounters AND across playthroughs of the
+  // same campaign_id -- deliberately never reset (no clearSession on this map).
+  // woundedPerma.applyWound (write) + restoreOnEncounterStart (restore) are live.
+  // In-memory (dev/demo; lossy on process restart) -> true cross-restart permanence
+  // needs DB backing (future follow-up); unbounded growth acceptable (few campaign ids).
   const woundedPermaByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
@@ -320,8 +323,10 @@ function createSessionRouter(options = {}) {
     }
   }
 
-  // Pattern matcher per tutorial scenario IDs (funnel analysis input).
-  const TUTORIAL_SCENARIO_RE = /^enc_tutorial_\d+/;
+  // Pattern matcher per tutorial + badlands-pilot scenario IDs (SG-init + funnel
+  // telemetry). enc_badlands_pilot_01 (adapter pilot) gets the same SG=1 onboard
+  // treatment as the hardcore scenarios so its calibration is comparable.
+  const TUTORIAL_SCENARIO_RE = /^enc_(tutorial|badlands_pilot)_\d+/;
   function isTutorialScenario(scenarioId) {
     return typeof scenarioId === 'string' && TUTORIAL_SCENARIO_RE.test(scenarioId);
   }
@@ -877,7 +882,9 @@ function createSessionRouter(options = {}) {
       // unconditional panic. checkMorale rolls d20+morale_mod vs threshold and
       // applies panic on target.status when it triggers, so morale.js's crit
       // event is finally live + telemetered (units with high morale_mod can now
-      // shrug off a crit). Best-effort: never blocks the hit.
+      // shrug off a crit). Probability: a default unit (morale_mod 0) panics ~65% on
+      // crit (d20 vs threshold), NOT the old guaranteed 100%; morale_mod lowers/erases it.
+      // Best-effort: never blocks the hit.
       if (result.is_critical && target.status && target.hp > 0) {
         try {
           const { checkMorale } = require('../services/combat/morale');
@@ -3221,6 +3228,49 @@ function createSessionRouter(options = {}) {
         debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot),
         debrief,
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // 2026-05-30 P4 debrief wire — GET /:id/debrief. Non-destructive sibling of
+  // POST /end: returns the same buildDebriefSummary payload (ennea_voices /
+  // inner_voices / conviction_badges / ennea archetypes / narrative_event /
+  // mating_eligibles) WITHOUT finalizing or deleting the session. A coop host
+  // fetches it to attach `debrief_payload` to /coop/combat/end while keeping its
+  // own session alive for the VC block + promotion accept (a destructive /end
+  // would 404 those). Registered after the static routes, same ordering guard as
+  // /:id/vc below. Outcome gate: ?outcome=victory unlocks mating/PE→PI fields.
+  router.get('/:id/debrief', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const rawOutcome = typeof req.query.outcome === 'string' ? req.query.outcome : null;
+      // Map the client outcome ('victory'/'defeat') to the session.outcome
+      // vocabulary buildDebriefSummary gates on (=== 'victory'). Mirror /end's
+      // 'win' → 'victory' normalization; fall back to the session's own outcome.
+      const normalizedOutcome =
+        rawOutcome === 'win' || rawOutcome === 'victory'
+          ? 'victory'
+          : rawOutcome || session.outcome || null;
+      let debrief = null;
+      try {
+        const vcSnapshot = buildVcSnapshot(session, telemetryConfig);
+        const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
+        const peResult = computeSessionPE(vcSnapshot, {
+          difficulty: session.encounter_class || session.difficulty || 'standard',
+        });
+        // Shallow clone with the resolved outcome so we never mutate the live
+        // session — it must stay pristine for the host's later /end + promotion.
+        debrief = buildDebriefSummary(
+          { ...session, outcome: normalizedOutcome },
+          vcSnapshot,
+          peResult,
+        );
+      } catch {
+        /* vc + debrief are best-effort — never block the read */
+      }
+      res.json({ session_id: session.session_id, outcome: normalizedOutcome, debrief });
     } catch (err) {
       next(err);
     }
