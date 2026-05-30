@@ -288,9 +288,12 @@ function createSessionRouter(options = {}) {
 
   const sessions = new Map();
   // TKT-ORPHAN-WOUNDPERMA: cross-encounter wounded_perma scar map, keyed by
-  // campaign_id (== run.id). Persists between single-encounter sessions of the
-  // same playthrough so woundedPerma.applyWound (write) + restoreOnEncounterStart
-  // (restore) are live, not orphan. In-memory (dev/demo; lossy on restart).
+  // campaign_id (== run.id). PERMANENT roguelike meta-progression (master-dd
+  // 2026-05-30): scars persist across encounters AND across playthroughs of the
+  // same campaign_id -- deliberately never reset (no clearSession on this map).
+  // woundedPerma.applyWound (write) + restoreOnEncounterStart (restore) are live.
+  // In-memory (dev/demo; lossy on process restart) -> true cross-restart permanence
+  // needs DB backing (future follow-up); unbounded growth acceptable (few campaign ids).
   const woundedPermaByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
@@ -854,7 +857,9 @@ function createSessionRouter(options = {}) {
       // unconditional panic. checkMorale rolls d20+morale_mod vs threshold and
       // applies panic on target.status when it triggers, so morale.js's crit
       // event is finally live + telemetered (units with high morale_mod can now
-      // shrug off a crit). Best-effort: never blocks the hit.
+      // shrug off a crit). Probability: a default unit (morale_mod 0) panics ~65% on
+      // crit (d20 vs threshold), NOT the old guaranteed 100%; morale_mod lowers/erases it.
+      // Best-effort: never blocks the hit.
       if (result.is_critical && target.status && target.hp > 0) {
         try {
           const { checkMorale } = require('../services/combat/morale');
