@@ -282,13 +282,31 @@ function redraw() {
           .filter((u) => u && u.controlled_by === 'player' && u.hp > 0)
           .map((u) => u.id);
         const xpEarned = outcome === 'victory' ? 10 : 2;
-        api
-          .coopCombatEnd(lobbyBridge.session.code, lobbyBridge.session.token, {
-            outcome,
-            xp_earned: xpEarned,
-            survivors,
-          })
-          .catch((err) => console.warn('[coop] combatEnd', err));
+        // 2026-05-30 P4 debrief wire — fetch the full debrief (ennea/inner
+        // voices + conviction badges + archetypes) NON-destructively (GET keeps
+        // this session alive for the VC block + promotion accept below), then
+        // attach it as debrief_payload so the server rebroadcasts it to every
+        // phone → their debrief panel P4 surfaces finally populate in real play.
+        (async () => {
+          let debriefPayload = null;
+          try {
+            const r = await api.sessionDebrief(state.sid, outcome);
+            if (r?.ok && r.data) debriefPayload = r.data.debrief || null;
+          } catch (err) {
+            console.warn('[coop] debrief fetch', err);
+          }
+          if (debriefPayload) lobbyBridge.lastDebrief = debriefPayload;
+          try {
+            await api.coopCombatEnd(lobbyBridge.session.code, lobbyBridge.session.token, {
+              outcome,
+              xp_earned: xpEarned,
+              survivors,
+              debrief_payload: debriefPayload,
+            });
+          } catch (err) {
+            console.warn('[coop] combatEnd', err);
+          }
+        })();
       }
       showEndgame(
         outcome,

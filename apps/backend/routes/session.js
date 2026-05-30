@@ -3131,6 +3131,49 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // 2026-05-30 P4 debrief wire — GET /:id/debrief. Non-destructive sibling of
+  // POST /end: returns the same buildDebriefSummary payload (ennea_voices /
+  // inner_voices / conviction_badges / ennea archetypes / narrative_event /
+  // mating_eligibles) WITHOUT finalizing or deleting the session. A coop host
+  // fetches it to attach `debrief_payload` to /coop/combat/end while keeping its
+  // own session alive for the VC block + promotion accept (a destructive /end
+  // would 404 those). Registered after the static routes, same ordering guard as
+  // /:id/vc below. Outcome gate: ?outcome=victory unlocks mating/PE→PI fields.
+  router.get('/:id/debrief', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const rawOutcome = typeof req.query.outcome === 'string' ? req.query.outcome : null;
+      // Map the client outcome ('victory'/'defeat') to the session.outcome
+      // vocabulary buildDebriefSummary gates on (=== 'victory'). Mirror /end's
+      // 'win' → 'victory' normalization; fall back to the session's own outcome.
+      const normalizedOutcome =
+        rawOutcome === 'win' || rawOutcome === 'victory'
+          ? 'victory'
+          : rawOutcome || session.outcome || null;
+      let debrief = null;
+      try {
+        const vcSnapshot = buildVcSnapshot(session, telemetryConfig);
+        const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
+        const peResult = computeSessionPE(vcSnapshot, {
+          difficulty: session.encounter_class || session.difficulty || 'standard',
+        });
+        // Shallow clone with the resolved outcome so we never mutate the live
+        // session — it must stay pristine for the host's later /end + promotion.
+        debrief = buildDebriefSummary(
+          { ...session, outcome: normalizedOutcome },
+          vcSnapshot,
+          peResult,
+        );
+      } catch {
+        /* vc + debrief are best-effort — never block the read */
+      }
+      res.json({ session_id: session.session_id, outcome: normalizedOutcome, debrief });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // SPRINT_003 fase 3: VC snapshot on-demand. Registrato DOPO tutte le
   // route statiche (/start, /state, /action, /turn/end, /end) per
   // evitare che resolveSession('state') venga intercettato dal pattern
