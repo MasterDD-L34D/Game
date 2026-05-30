@@ -19,6 +19,10 @@ import { setupOffspringRitual } from './offspringRitualPanel.js';
 // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: 9/9 ennea voice palette wire.
 // Engine LIVE Surface DEAD #1 P4 fix — ~189 line authorate visibili in debrief.
 import { renderEnneaVoices } from './enneaVoiceRender.js';
+// 2026-05-30 TKT-P4-DIALOGUE-COLORS: inner voice (Disco Elysium monologue) +
+// TKT-P4-CONVICTION-BADGES: Triangle Strategy conviction badges, debrief surface.
+import { renderInnerVoices } from './innerVoiceRender.js';
+import { renderConvictionBadges } from './convictionBadgeRender.js';
 
 // Sprint Surface-DEAD ennea archetypes — 9 archetypes player surface in debrief.
 // Mirror ENNEA_META da characterPanel.js (kept self-contained per debrief scope).
@@ -192,6 +196,18 @@ export function renderDebriefPanel() {
         <div class="db-ennea-voices-list" id="db-ennea-voices-list"></div>
       </div>
 
+      <!-- 2026-05-30 TKT-P4-DIALOGUE-COLORS: inner voice diegetic monologue (MBTI-tinted). -->
+      <div class="db-section" id="db-inner-voices-section" style="display:none">
+        <div class="db-section-title">💭 Voce interiore</div>
+        <div class="db-inner-voices-list" id="db-inner-voices-list"></div>
+      </div>
+
+      <!-- 2026-05-30 TKT-P4-CONVICTION-BADGES: Triangle Strategy conviction badges. -->
+      <div class="db-section" id="db-conviction-section" style="display:none">
+        <div class="db-section-title">⚜️ Convinzioni manifestate</div>
+        <div class="db-conviction-list" id="db-conviction-list"></div>
+      </div>
+
       <!-- Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic. -->
       <div class="db-section db-qbn-section" id="db-qbn-section" style="display:none">
         <div class="db-section-title">📖 Cronaca diegetica</div>
@@ -296,6 +312,11 @@ export function wireDebriefPanel(overlay, bridge) {
     // Shape: [{actor_id, archetype_id, ennea_type, beat_id, line_id, text}].
     // Empty array hides section.
     enneaVoices: [],
+    // 2026-05-30 TKT-P4-DIALOGUE-COLORS: inner voice palette per actor.
+    // Shape: [{actor_id, voice_id, axis, direction, mbti_pole, tier, label, text}].
+    innerVoices: [],
+    // 2026-05-30 TKT-P4-CONVICTION-BADGES: conviction badges (map uid→[badge] or flat).
+    convictionBadges: null,
     // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
     recruitedNpcIds: new Set(),
     recruitInFlight: new Set(),
@@ -481,6 +502,24 @@ export function wireDebriefPanel(overlay, bridge) {
     renderEnneaVoices(section, list, state.enneaVoices);
   };
 
+  // 2026-05-30 TKT-P4-DIALOGUE-COLORS — render inner voice diegetic monologue.
+  // Section hidden by default; revealed when innerVoices payload non-empty.
+  const renderInnerVoicesSection = () => {
+    const section = overlay.querySelector('#db-inner-voices-section');
+    const list = overlay.querySelector('#db-inner-voices-list');
+    if (!section || !list) return;
+    renderInnerVoices(section, list, state.innerVoices);
+  };
+
+  // 2026-05-30 TKT-P4-CONVICTION-BADGES — render conviction badges.
+  // Section hidden by default; revealed when a decisive axis produced a badge.
+  const renderConvictionSection = () => {
+    const section = overlay.querySelector('#db-conviction-section');
+    const list = overlay.querySelector('#db-conviction-list');
+    if (!section || !list) return;
+    renderConvictionBadges(section, list, state.convictionBadges);
+  };
+
   // Sprint 12 (Surface-DEAD #4) — render lineage eligibles (pair-bond cards).
   // Sezione hidden by default, rivela quando matingEligibles non vuota.
   // Solo su victory (defeat = niente lineage); il backend già filtra ma
@@ -660,6 +699,8 @@ export function wireDebriefPanel(overlay, bridge) {
     renderQbn();
     renderLineage();
     renderEnneaVoicesSection();
+    renderInnerVoicesSection();
+    renderConvictionSection();
     renderRecruit();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
@@ -874,6 +915,19 @@ export function wireDebriefPanel(overlay, bridge) {
     setEnneaVoices(payload) {
       state.enneaVoices = Array.isArray(payload) ? payload : [];
       renderEnneaVoicesSection();
+    },
+    // 2026-05-30 TKT-P4-DIALOGUE-COLORS — set inner voice palette per actor.
+    // Accepts [{actor_id, voice_id, mbti_pole, tier, label, text}]. Empty → hide.
+    setInnerVoices(payload) {
+      state.innerVoices = Array.isArray(payload) ? payload : [];
+      renderInnerVoicesSection();
+    },
+    // 2026-05-30 TKT-P4-CONVICTION-BADGES — set conviction badges.
+    // Accepts map { uid: [badge] } OR flat [badge] OR null. Empty → hide.
+    setConvictionBadges(payload) {
+      state.convictionBadges =
+        payload && (Array.isArray(payload) || typeof payload === 'object') ? payload : null;
+      renderConvictionSection();
     },
     show() {
       overlay.classList.remove('db-hidden');
