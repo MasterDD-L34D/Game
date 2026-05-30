@@ -50,3 +50,49 @@ def build_trait_biome_map(assigned: list) -> dict:
         for trait in s.get("trait_refs", []) or []:
             tmap[trait][biome] += 1
     return dict(tmap)
+
+
+# Keyword (lowercased substring) -> biome_id. Lexical signal from
+# scientific_name + functional_signature. Conservative: only unambiguous roots.
+KEYWORD_BIOME = {
+    "arena": "savana",
+    "dune": "savana",
+    "sand": "savana",
+    "hydro": "palude",
+    "hydrus": "palude",
+    "palud": "palude",
+    "salina": "pianura_salina_iperarida",
+    "sali": "pianura_salina_iperarida",
+    "ferr": "badlands",
+    "rust": "badlands",
+    "magnet": "atollo_obsidiana",
+    "obsidian": "atollo_obsidiana",
+    "cryo": "caldera_glaciale",
+    "glaci": "caldera_glaciale",
+    "gel": "caldera_glaciale",
+    "myco": "foresta_miceliale",
+    "spore": "foresta_miceliale",
+    "acid": "foresta_acida",
+    "caver": "caverna",
+    "litho": "canyons_risonanti",
+    "rupi": "canyons_risonanti",
+    "synap": "frattura_abissale_sinaptica",
+    "neural": "frattura_abissale_sinaptica",
+    "reef": "reef_luminescente",
+    "coral": "reef_luminescente",
+    "volcan": "abisso_vulcanico",
+    "vulcan": "abisso_vulcanico",
+    "therm": "dorsale_termale_tropicale",
+}
+
+
+def keyword_biome_scores(text: str, valid_biomes: list) -> dict:
+    """Lowercased substring match -> {biome_id: hit_count}, filtered to valid biomes."""
+    if not text:
+        return {}
+    low = text.lower()
+    scores = Counter()
+    for kw, biome in KEYWORD_BIOME.items():
+        if kw in low and biome in valid_biomes:
+            scores[biome] += 1
+    return dict(scores)

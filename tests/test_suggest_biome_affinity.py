@@ -45,3 +45,14 @@ def test_trait_map_vote_counts_match_assigned():
     tmap = sba.build_trait_biome_map(fake_assigned)
     assert tmap["t_sand"]["savana"] == 2
     assert tmap["t_other"]["savana"] == 1
+
+
+def test_keyword_biome_scores_arena_hits_savana_or_sand():
+    text = "Specie apex Arenavolux sagittalis, coda contrappeso"
+    scores = sba.keyword_biome_scores(text, sba.load_biome_ids())
+    assert scores.get("savana", 0) > 0
+
+
+def test_keyword_biome_scores_empty_when_no_match():
+    scores = sba.keyword_biome_scores("zzz qqq", sba.load_biome_ids())
+    assert all(v == 0 for v in scores.values()) or scores == {}
