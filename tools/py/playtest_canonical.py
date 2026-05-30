@@ -86,7 +86,22 @@ def in_band(wr, band):
     return band[0] <= wr <= band[1]
 
 
-def build_plan(manifest, n, shards, base_port, only=None):
+def resolve_seed(manifest, cli_seed=None, no_seed=False):
+    """Effective canonical seed: --no-seed wins (None = fresh statistical sample),
+    then explicit --seed, then the manifest canonical_seed when seed_pinned is set.
+    This is what makes manifest `seed_pinned: true` actually honored end-to-end."""
+    if no_seed:
+        return None
+    if cli_seed is not None:
+        return int(cli_seed)
+    repro = manifest.get("repro", {})
+    if repro.get("seed_pinned"):
+        cs = repro.get("canonical_seed")
+        return int(cs) if cs is not None else None
+    return None
+
+
+def build_plan(manifest, n, shards, base_port, only=None, seed=None):
     """Backend-free execution plan (used by --dry-run + the live runner)."""
     scenarios = []
     for s in oracle_scenarios(manifest):
@@ -106,6 +121,7 @@ def build_plan(manifest, n, shards, base_port, only=None):
     repro = dict(manifest.get("repro", {}))
     return {
         "n": n,
+        "seed": seed,
         "shards": shards,
         "base_port": base_port,
         "ladder_role": "ratify" if n >= 40 else ("probe" if n <= 10 else "interim"),
@@ -125,9 +141,9 @@ def _resolve_curves_path(manifest):
     return str(p)
 
 
-def run_scenario(parallel_key, n, shards, base_port, work_dir, label, curves_path):
+def run_scenario(parallel_key, n, shards, base_port, work_dir, label, curves_path, seed=None):
     """Run one scenario via calibrate_parallel.py, read the merged JSON, return
-    a result row. Honors the repro contract via DAMAGE_CURVES_PATH env."""
+    a result row. Honors the repro contract via DAMAGE_CURVES_PATH env + --seed."""
     work_dir = Path(work_dir)
     work_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
@@ -136,6 +152,8 @@ def run_scenario(parallel_key, n, shards, base_port, work_dir, label, curves_pat
         "--shards", str(shards), "--base-port", str(base_port),
         "--out-dir", str(work_dir), "--label", label,
     ]
+    if seed is not None:
+        cmd += ["--seed", str(seed)]
     env = dict(os.environ)
     if curves_path:
         env["DAMAGE_CURVES_PATH"] = curves_path
@@ -187,6 +205,7 @@ def build_report(plan, results, label, manifest_path):
         "label": label,
         "manifest": str(manifest_path),
         "n": plan["n"],
+        "seed": plan.get("seed"),
         "ladder_role": plan["ladder_role"],
         "all_in_band": all_in_band,
         "repro": plan["repro"],
@@ -240,6 +259,8 @@ def print_plan(plan, manifest_path):
     print(f"manifest: {manifest_path}", flush=True)
     print(f"N per scenario: {plan['n']} (ladder role: {plan['ladder_role']})  "
           f"shards: {plan['shards']}  base_port: {plan['base_port']}", flush=True)
+    _seed = plan.get("seed")
+    print(f"seed: {_seed if _seed is not None else 'None (fresh statistical sample)'}", flush=True)
     repro = plan["repro"]
     print("repro contract:", flush=True)
     print(f"  host={repro.get('host')}  lobby_ws_enabled={repro.get('lobby_ws_enabled')}  "
@@ -265,12 +286,18 @@ def main():
                    help="Run only this calibrate_parallel key (e.g. hardcore_06).")
     p.add_argument("--out-dir", default="docs/playtest", help="Where the combined report is written.")
     p.add_argument("--label", default=None, help="Report label (default today's date).")
+    p.add_argument("--seed", type=int, default=None,
+                   help="TKT-PLAYTEST-SEED: base seed (bit-identical). Default = manifest "
+                        "canonical_seed when seed_pinned. Use --no-seed for a fresh sample.")
+    p.add_argument("--no-seed", action="store_true",
+                   help="Force a fresh (Math.random) statistical sample, ignoring canonical_seed.")
     p.add_argument("--dry-run", action="store_true",
                    help="Parse manifest + print plan, NO backend (backend-free smoke).")
     args = p.parse_args()
 
     manifest = load_manifest(args.manifest)
-    plan = build_plan(manifest, args.n, args.shards, args.base_port, only=args.scenario)
+    eff_seed = resolve_seed(manifest, args.seed, args.no_seed)
+    plan = build_plan(manifest, args.n, args.shards, args.base_port, only=args.scenario, seed=eff_seed)
 
     if args.dry_run:
         print_plan(plan, args.manifest)
@@ -290,7 +317,7 @@ def main():
     for sc in plan["scenarios"]:
         results.append(run_scenario(
             sc["parallel_key"], args.n, args.shards, args.base_port,
-            work_dir, label, curves_path,
+            work_dir, label, curves_path, seed=eff_seed,
         ))
 
     report = build_report(plan, results, label, args.manifest)

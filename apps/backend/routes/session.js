@@ -130,13 +130,11 @@ const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../servic
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
 const { getBiomeModifiers, applyEnemyHpMultiplier } = require('../services/combat/biomeModifiers');
-// TKT-PLAYTEST-SEED (2026-05-29): canonical seedable combat RNG. Unseeded =
-// Math.random (zero prod change); seeded at /start = bit-identical calibration.
-const {
-  defaultRng,
-  seedRng: seedCombatRng,
-  clearSeed: clearCombatSeed,
-} = require('../services/combat/pseudoRng');
+// TKT-PLAYTEST-SEED (2026-05-29): canonical seedable combat RNG. Unseeded
+// defaultRng === Math.random (zero prod change). The seed is recorded per
+// session (session.combatRng) and installed by sessionRoundBridge via
+// runWithSeed only while resolving that session's combat (P2 review fix).
+const { defaultRng } = require('../services/combat/pseudoRng');
 // TKT-WORLDGEN-GAPB (2026-05-29): seasonal cross-event flat pressure engine.
 const { getCrossEventPressureDelta } = require('../services/worldgen/crossEventEngine');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
@@ -1356,14 +1354,16 @@ function createSessionRouter(options = {}) {
 
   router.post('/start', async (req, res, next) => {
     try {
-      // TKT-PLAYTEST-SEED: pin the combat RNG for bit-identical calibration.
-      // Must run before any session-setup roll. Production omits `seed` ->
-      // clearCombatSeed() -> Math.random passthrough (no behavior change).
+      // TKT-PLAYTEST-SEED (P2 per-session): record the combat seed on the
+      // session (combatRng holder), NOT a process-global stream. The round
+      // bridge installs it via runWithSeed only while resolving THIS session's
+      // combat, so concurrent sessions never share RNG state. Production omits
+      // `seed` -> null -> Math.random passthrough (no behavior change).
       const seedRaw = req.body?.seed;
+      let combatSeedState = null;
       if (seedRaw !== undefined && seedRaw !== null && seedRaw !== '') {
-        seedCombatRng(seedRaw);
-      } else {
-        clearCombatSeed();
+        const seedNum = Number(seedRaw);
+        if (Number.isFinite(seedNum)) combatSeedState = seedNum >>> 0;
       }
       const sessionId = newSessionId();
       const now = new Date();
@@ -1594,6 +1594,10 @@ function createSessionRouter(options = {}) {
       const session = {
         session_id: sessionId,
         scenario_id: scenarioId,
+        // TKT-PLAYTEST-SEED (P2): per-session RNG cursor. { state: int } when a
+        // seed was provided (deterministic), { state: null } otherwise
+        // (Math.random). Installed by sessionRoundBridge via runWithSeed.
+        combatRng: { state: combatSeedState },
         // M7-#2 Phase B: persist encounter class per enrage check runtime
         encounter_class: encounterClassUsed || 'standard',
         pressure_start: pressureStart,

@@ -21,6 +21,7 @@ repro:
   lobby_ws_enabled: false # per-shard, port collision (L-071)
   damage_curves_path_required: true # client must read backend staging file (L-069/OD-032)
   seed_pinned: true # WIRED via TKT-PLAYTEST-SEED (batch --seed -> pseudoRng.js defaultRng at /start)
+  canonical_seed: 424242 # suite-runner pins this by default for a bit-identical gate; --no-seed = fresh statistical sample
   config_source: data/core/balance/damage_curves.yaml
   scenario_spawn_source: apps/backend/services/hardcoreScenario.js
 
@@ -57,8 +58,11 @@ scenarios:
 
 # Canonical run (parallel, ~10min N=40). One-command suite = tools/py/playtest_canonical.py (TKT-PLAYTEST-SUITE, SHIPPED 2026-05-30).
 run_canonical: |
-  python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --shards 4 --base-port 3341
-  python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --shards 4 --base-port 3341
+  # One command (pins canonical_seed for a bit-identical gate; --no-seed = fresh statistical sample):
+  python tools/py/playtest_canonical.py --n 40
+  # Manual per-scenario equivalent (--seed pins the run):
+  #   python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --seed 424242
+  #   python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --seed 424242
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'

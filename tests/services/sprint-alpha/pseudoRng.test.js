@@ -18,6 +18,10 @@ const {
   clearSeed,
   isSeeded,
   defaultRng,
+  captureState,
+  restoreState,
+  runWithSeed,
+  makeHolderRng,
 } = require('../../../apps/backend/services/combat/pseudoRng');
 
 test('pseudoRng: 3 miss consecutivi → +5 to_hit bonus', () => {
@@ -121,4 +125,113 @@ test('pseudoRng: seedRng rejects non-finite, stays unseeded', () => {
   assert.equal(seedRng('42'), true);
   assert.equal(isSeeded(), true);
   clearSeed();
+});
+
+// ─────────────────────────────────────────────────────────────────
+// TKT-PLAYTEST-SEED P2 — per-session RNG scoping (runWithSeed). Fixes the
+// process-global footgun: a seeded calibration session keeps its own cursor
+// on the session object, so concurrent sessions never clobber each other.
+// ─────────────────────────────────────────────────────────────────
+
+test('pseudoRng: captureState null when unseeded; restoreState resumes exact position', () => {
+  clearSeed();
+  assert.equal(captureState(), null, 'null cursor when unseeded');
+  seedRng(77);
+  defaultRng();
+  defaultRng();
+  const snap = captureState();
+  const next = defaultRng();
+  restoreState(snap);
+  assert.equal(defaultRng(), next, 'restoreState resumes the exact stream position');
+  clearSeed();
+});
+
+test('pseudoRng: runWithSeed gives per-session continuity + reproducibility', () => {
+  clearSeed();
+  const s1 = { state: 100 };
+  const a = [];
+  runWithSeed(s1, () => {
+    a.push(defaultRng(), defaultRng());
+  });
+  runWithSeed(s1, () => {
+    a.push(defaultRng(), defaultRng());
+  });
+  const s2 = { state: 100 };
+  const b = [];
+  runWithSeed(s2, () => {
+    b.push(defaultRng(), defaultRng());
+  });
+  runWithSeed(s2, () => {
+    b.push(defaultRng(), defaultRng());
+  });
+  assert.deepEqual(a, b, 'same start state reproduces the stream across runWithSeed calls');
+  assert.equal(new Set(a).size, 4, 'stream advanced (not reset) across calls');
+});
+
+test('pseudoRng: runWithSeed isolates two concurrent session streams', () => {
+  clearSeed();
+  const aSolo = [];
+  runWithSeed({ state: 1 }, () => {
+    aSolo.push(defaultRng(), defaultRng(), defaultRng());
+  });
+  // Interleave A and B; A's stream must be unaffected by B's draws.
+  const sA = { state: 1 };
+  const sB = { state: 2 };
+  const aInter = [];
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  runWithSeed(sB, () => defaultRng());
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  runWithSeed(sB, () => defaultRng());
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  assert.deepEqual(aInter, aSolo, 'session A stream identical whether or not B interleaves');
+});
+
+test('pseudoRng: runWithSeed restores the prior global state', () => {
+  seedRng(555);
+  defaultRng();
+  const stateBefore = captureState();
+  runWithSeed({ state: 999 }, () => {
+    defaultRng();
+    defaultRng();
+  });
+  assert.equal(captureState(), stateBefore, 'global seed cursor restored after runWithSeed');
+  clearSeed();
+  runWithSeed({ state: 7 }, () => defaultRng());
+  assert.equal(isSeeded(), false, 'unseeded global stays unseeded after runWithSeed');
+});
+
+// makeHolderRng: a session-scoped rng FUNCTION that draws straight from a
+// holder cursor (no global). Lets async post-resolution paths (morale on kill,
+// reinforcement spawn) keep drawing the SAME per-session stream that the
+// synchronous runWithSeed block used -- Codex #2450 P1 fix.
+
+test('pseudoRng: makeHolderRng is deterministic per holder seed', () => {
+  clearSeed();
+  const r1 = makeHolderRng({ state: 50 });
+  const r2 = makeHolderRng({ state: 50 });
+  assert.deepEqual([r1(), r1(), r1()], [r2(), r2(), r2()], 'same holder seed -> same sequence');
+});
+
+test('pseudoRng: runWithSeed + makeHolderRng share one continuous stream', () => {
+  clearSeed();
+  // Path A: two draws inside runWithSeed, then one more via makeHolderRng.
+  const h = { state: 77 };
+  const inRun = [];
+  runWithSeed(h, () => {
+    inRun.push(defaultRng(), defaultRng());
+  });
+  const cont = makeHolderRng(h)();
+  // Path B: three consecutive draws from a fresh holder of the same seed.
+  const ref = makeHolderRng({ state: 77 });
+  assert.deepEqual(
+    [inRun[0], inRun[1], cont],
+    [ref(), ref(), ref()],
+    'combat (runWithSeed) -> morale/reinforcement (makeHolderRng) is one stream',
+  );
+  assert.equal(isSeeded(), false, 'global untouched by makeHolderRng');
+});
+
+test('pseudoRng: makeHolderRng unseeded holder -> Math.random passthrough', () => {
+  assert.ok(((v) => v >= 0 && v < 1)(makeHolderRng({ state: null })()));
+  assert.ok(((v) => v >= 0 && v < 1)(makeHolderRng(null)()));
 });

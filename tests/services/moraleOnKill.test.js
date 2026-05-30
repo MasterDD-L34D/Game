@@ -31,3 +31,15 @@ test('emits one morale event only for a living adjacent same-team ally', () => {
   assert.equal(e.session_id, 's1');
   assert.ok(e.result === 'panic' || e.result === 'rage', 'panic (or rage on nat-1)');
 });
+
+test('forwards opts.rng to the morale d20 (Codex #2450 P1 seeded path)', () => {
+  const dead = { id: 'd1', controlled_by: 'sistema', position: { x: 1, y: 1 } };
+  const units = [dead, { id: 'ally', controlled_by: 'sistema', hp: 10, position: { x: 1, y: 2 } }];
+  // morale_mod default 0: rng->0 yields die=1 (low score => triggers); rng->~1
+  // yields die=20 (high score => no trigger). Proves the d20 uses opts.rng,
+  // so a seeded session's post-kill morale is deterministic (not Math.random).
+  const low = moraleEventsForKill(dead, units, { sessionId: 's', turn: 1, rng: () => 0 });
+  const high = moraleEventsForKill(dead, units, { sessionId: 's', turn: 1, rng: () => 0.999 });
+  assert.equal(low.length, 1, 'low roll triggers morale (rng wired to the d20)');
+  assert.equal(high.length, 0, 'high roll does not trigger (rng wired to the d20)');
+});

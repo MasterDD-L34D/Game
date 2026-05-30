@@ -77,6 +77,36 @@ def test_build_plan_scenario_filter():
     assert [s["parallel_key"] for s in plan["scenarios"]] == ["hardcore_06"]
 
 
+def test_resolve_seed_default_uses_manifest_canonical_seed():
+    m = pc.load_manifest(str(MANIFEST))
+    # manifest has seed_pinned: true + canonical_seed -> honored by default
+    assert pc.resolve_seed(m) == 424242
+    assert pc.resolve_seed(m, cli_seed=99) == 99, "explicit --seed wins"
+    assert pc.resolve_seed(m, no_seed=True) is None, "--no-seed forces fresh sample"
+
+
+def test_resolve_seed_no_pin_returns_none():
+    assert pc.resolve_seed({"repro": {"seed_pinned": False, "canonical_seed": 5}}) is None
+    assert pc.resolve_seed({"repro": {}}) is None
+    assert pc.resolve_seed({}) is None
+
+
+def test_build_plan_includes_seed():
+    m = pc.load_manifest(str(MANIFEST))
+    assert pc.build_plan(m, n=40, shards=4, base_port=3341, seed=424242)["seed"] == 424242
+    assert pc.build_plan(m, n=40, shards=4, base_port=3341)["seed"] is None
+
+
+def test_dry_run_cli_shows_canonical_seed(tmp_path):
+    proc = subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "py" / "playtest_canonical.py"),
+         "--dry-run", "--manifest", str(MANIFEST)],
+        capture_output=True, text=True, env=dict(os.environ), cwd=str(ROOT), timeout=60,
+    )
+    assert proc.returncode == 0, proc.stderr
+    assert "seed: 424242" in proc.stdout, "default dry-run pins the canonical seed"
+
+
 def test_dry_run_cli_no_backend(tmp_path):
     """--dry-run parses the manifest + prints the plan and exits 0 without any
     backend (this is the backend-free smoke gate)."""

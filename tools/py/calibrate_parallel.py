@@ -133,7 +133,7 @@ def stop_shard(proc, fh, port):
             pass
 
 
-def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None):
+def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None, seed=None):
     """Subprocess wrapper -- launch batch_calibrate_*.py against one shard.
 
     curves_path (OD-032 no-op-bug fix): if set, the batch CLIENT subprocess gets
@@ -149,7 +149,7 @@ def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curve
         "--out", str(out_path),
         "--jsonl", str(jsonl_path),
         "--skip-health",
-    ] + scenario_cfg["extra_args"]
+    ] + (["--seed", str(seed)] if seed is not None else []) + scenario_cfg["extra_args"]
     print(f"[parallel] launch shard host={host} N={n}", flush=True)
     f = open(log_path, "w", encoding="utf-8")
     env = dict(os.environ)
@@ -214,6 +214,10 @@ def main():
     p.add_argument("--label", default=None, help="Suffix for output files")
     p.add_argument("--keep-shards", action="store_true",
                    help="Don't stop shards on exit (for reuse).")
+    p.add_argument("--seed", type=int, default=None,
+                   help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Each shard gets "
+                        "a distinct offset (base + cumulative N) so runs never duplicate across "
+                        "shards while the whole batch stays reproducible. Omit = Math.random.")
     args = p.parse_args()
 
     cfg = SCENARIO_MAP[args.scenario]
@@ -273,6 +277,16 @@ def main():
     # Distribute runs.
     n_per_shard = distribute_n(args.n, args.shards)
     print(f"[parallel] N={args.n} distributed: {n_per_shard}", flush=True)
+    # TKT-PLAYTEST-SEED: per-shard seed offset so each shard draws a DISTINCT
+    # slice of the seed space (shard i runs seeds base+offset ..), keeping the
+    # whole N reproducible without duplicate runs across shards.
+    seed_offsets = []
+    _acc = 0
+    for _n in n_per_shard:
+        seed_offsets.append(_acc)
+        _acc += _n
+    if args.seed is not None:
+        print(f"[parallel] seed={args.seed} per-shard offsets={seed_offsets}", flush=True)
 
     # Launch batches parallel.
     batch_procs = []
@@ -287,7 +301,8 @@ def main():
         log_p = Path(f"{base}-shard{i}.log")
         out_paths.append(out_p)
         jsonl_paths.append(jsonl_p)
-        proc, fh = run_shard_batch(host, cfg, n, out_p, jsonl_p, log_p)
+        shard_seed = args.seed + seed_offsets[i] if args.seed is not None else None
+        proc, fh = run_shard_batch(host, cfg, n, out_p, jsonl_p, log_p, seed=shard_seed)
         batch_procs.append((proc, fh, host, n, log_p))
 
     t0 = time.time()
@@ -353,6 +368,7 @@ def main():
         "scenario_id": cfg["scenario_id"],
         "target_band": list(cfg["target_band"]),
         "total_n": args.n,
+        "seed": args.seed,
         "shards": args.shards,
         "n_per_shard": n_per_shard,
         "hosts": hosts,

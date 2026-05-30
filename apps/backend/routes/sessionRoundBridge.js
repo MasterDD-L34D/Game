@@ -39,6 +39,10 @@ const {
   resetRoundSynergyTracker,
 } = require('../services/combat/synergyDetector');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
+// TKT-PLAYTEST-SEED (P2): per-session RNG scoping for combat round resolution.
+// Installs session.combatRng around each (synchronous) resolveRoundPure so a
+// seeded calibration session's stream is isolated from concurrent sessions.
+const { runWithSeed, makeHolderRng } = require('../services/combat/pseudoRng');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 // 2026-04-26: wire isTurnLimitExceeded (damage_curves.yaml soft cap per encounter_class).
@@ -505,7 +509,9 @@ function createRoundBridge(deps) {
     }
     cur = roundOrchestrator.declareIntent(cur, actor.id, roundAction).nextState;
     cur = roundOrchestrator.commitRound(cur).nextState;
-    const result = resolveRoundPure(cur, null, rng, realResolveAction);
+    const result = runWithSeed(session.combatRng, () =>
+      resolveRoundPure(cur, null, rng, realResolveAction),
+    );
     session.roundState = result.nextState;
     syncStatusesFromRoundState(session);
 
@@ -1422,6 +1428,9 @@ function createRoundBridge(deps) {
         const moraleEvents = moraleEventsForKill(target, session.units, {
           sessionId: session.session_id,
           turn: session.turn,
+          // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
+          // (this path runs after runWithSeed restored the global stream).
+          rng: makeHolderRng(session.combatRng),
         });
         for (const mEv of moraleEvents) {
           // eslint-disable-next-line no-await-in-loop
@@ -1652,7 +1661,9 @@ function createRoundBridge(deps) {
       return { nextState: next, turnLogEntry };
     };
 
-    const result = resolveRoundPure(session.roundState, null, rng, realResolveAction);
+    const result = runWithSeed(session.combatRng, () =>
+      resolveRoundPure(session.roundState, null, rng, realResolveAction),
+    );
     session.roundState = result.nextState;
     syncStatusesFromRoundState(session);
 
@@ -1680,7 +1691,10 @@ function createRoundBridge(deps) {
 
     // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
     // session.encounter undefined → both modules return no-op.
-    const reinforcementResult = reinforcementTick(session, session.encounter);
+    // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+    const reinforcementResult = reinforcementTick(session, session.encounter, {
+      rng: makeHolderRng(session.combatRng),
+    });
     for (const rec of reinforcementResult.spawned || []) {
       if (rec.skipped) continue;
       await appendEvent(session, {
@@ -1806,7 +1820,9 @@ function createRoundBridge(deps) {
       if (session.roundState && session.roundState.round_phase === PHASE_PLANNING) {
         try {
           session.roundState = roundOrchestrator.commitRound(session.roundState).nextState;
-          const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
+          const result = runWithSeed(session.combatRng, () =>
+            resolveRoundPure(session.roundState, null, rng, placeholderResolveAction),
+          );
           session.roundState = result.nextState;
           syncStatusesFromRoundState(session);
         } catch (_e) {
@@ -2057,7 +2073,9 @@ function createRoundBridge(deps) {
 
         // auto_resolve=true: risolve round in simultanea usando unified resolver
         const { resolveFn, iaActions, playerActions, kills } = buildUnifiedRoundResolver(session);
-        const result = resolveRoundPure(session.roundState, null, rng, resolveFn);
+        const result = runWithSeed(session.combatRng, () =>
+          resolveRoundPure(session.roundState, null, rng, resolveFn),
+        );
         session.roundState = result.nextState;
         syncStatusesFromRoundState(session);
 
@@ -2080,7 +2098,10 @@ function createRoundBridge(deps) {
 
         // ADR-2026-04-19 + 04-20 wiring (commit-round path).
         // Graceful no-op if session.encounter undefined.
-        const reinforcementResult = reinforcementTick(session, session.encounter);
+        // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+        const reinforcementResult = reinforcementTick(session, session.encounter, {
+          rng: makeHolderRng(session.combatRng),
+        });
         for (const rec of reinforcementResult.spawned || []) {
           if (rec.skipped) continue;
           await appendEvent(session, {
@@ -2169,7 +2190,9 @@ function createRoundBridge(deps) {
             .status(400)
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
         }
-        const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
+        const result = runWithSeed(session.combatRng, () =>
+          resolveRoundPure(session.roundState, null, rng, placeholderResolveAction),
+        );
         session.roundState = result.nextState;
         syncStatusesFromRoundState(session);
         res.json({
