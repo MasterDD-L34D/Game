@@ -23,8 +23,13 @@ tags: [worldgen, species, biomi, combat, ecologia, ermes, aliena, foodweb, strat
 ## 0. TL;DR (per decidere in 30s)
 
 - **0 su 53** specie canoniche hanno stat di combat (hp/mod/dc). Hanno trait + ecologia, non numeri.
-- **13 su 14** creature usate dagli scenari sono **orfane** (non nel catalogo canonico né nelle dir-bioma).
-- **5 su 20** biomi dichiarati hanno un ecosistema/foodweb (gli altri 15 non possono usare GAP-A).
+- **10 su 14** creature usate dagli scenari sono **orfane pure** (nessun file, nessun catalogo);
+  altre 4 esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + foodweb);
+  **1 sola** (pulverator_gregarius) è canonica. Quindi 13/14 fuori dal SOT canonico.
+- **3 su 20** biomi _dichiarati top-level_ risolvono un ecosistema/foodweb via `getEcosystem()`
+  (badlands, foresta_temperata, rovine_planari). Esistono 5 file `.ecosystem.yaml`, ma 2
+  (cryosteppe, deserto_caldo) sono indicizzati su id NON top-level in `biomes.yaml` → **17** biomi
+  dichiarati senza ecosistema risolvibile, non 15.
 - **1 su 5** biomi-con-ecosistema (`rovine_planari`) ha le specie tutte-stub → ed è proprio il bioma
   degli scenari hardcore. Ecco perché inventano creature: il loro bioma è vuoto.
 - Causa radice: **il combat richiede `hp/mod/dc`, che vivono SOLO in 6 specie "tutorial"**; tutto il
@@ -61,15 +66,15 @@ Note:
 `rovine_planari` è l'**unico bioma-con-ecosistema completamente stub**, e per coincidenza è il bioma di
 `hardcore_06`, `hardcore_07`, `enc_hardcore_reinf_01`. Da qui l'uso forzato di creature inline.
 
-### 1.3 Creature usate dagli scenari — 13/14 orfane
+### 1.3 Creature usate dagli scenari — 10/14 orfane pure (13/14 fuori SOT canonico)
 
 Referenziate da `hardcoreScenario.js` + `docs/planning/encounters/*.yaml`:
 
-| Creatura                                                                                                                                                                   | Stato                                                                                           |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| pulverator_gregarius                                                                                                                                                       | ✅ CANON (nel SOT)                                                                              |
-| apex_predatore, cacciatore_corazzato, predone_agile, predoni_nomadi, predoni_nomadi_elite                                                                                  | ⚠️ esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + fuori foodweb) |
-| araldi_fotofase, bracconieri_echomantici, cartografi_subsonici, cori_voidsong, custode_basalto, custodi_coralli, guardiani_risonanza, leviatani_risonanti, sciami_memetici | ❌ ORFANE pure (inventate inline, nessun file, nessun catalogo)                                 |
+| Creatura                                                                                                                                                                                         | Stato                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| pulverator_gregarius                                                                                                                                                                             | ✅ CANON (nel SOT)                                                                                                                             |
+| apex_predatore, cacciatore_corazzato, predone_agile, predoni_nomadi                                                                                                                              | ⚠️ esistono solo come dir `tutorial/` (combat-ready ma fuori catalogo canonico + fuori foodweb)                                                |
+| predoni_nomadi_elite, araldi_fotofase, bracconieri_echomantici, cartografi_subsonici, cori_voidsong, custode_basalto, custodi_coralli, guardiani_risonanza, leviatani_risonanti, sciami_memetici | ❌ ORFANE pure (inventate inline, nessun file, nessun catalogo). `predoni_nomadi_elite` appare solo nei dati encounter — NON ha file tutorial. |
 
 ### 1.4 Biomi — 5/20 con ecosistema
 
@@ -78,9 +83,14 @@ Referenziate da `hardcoreScenario.js` + `docs/planning/encounters/*.yaml`:
   foresta_miceliale, foresta_temperata, stratosfera_tempestosa, mezzanotte_orbitale,
   pianura_salina_iperarida, reef_luminescente, savana, steppe_algoritmiche, rovine_planari,
   frattura_abissale_sinaptica).
-- **Con ecosistema/foodweb** (`*.ecosystem.yaml`): **5** (badlands, cryosteppe, deserto_caldo,
-  foresta_temperata, rovine_planari) — tutti e 5 presenti anche in `biomes.yaml`. Restano **~15
-  biomi dichiarati SENZA ecosistema** (gli altri 15 dei 20).
+- **File ecosistema/foodweb** (`*.ecosystem.yaml`): **5** (badlands, cryosteppe, deserto_caldo,
+  foresta_temperata, rovine_planari). MA `ecosystemResolver.getEcosystem()` indicizza per
+  `biome_id` esatto **senza normalizzazione alias**: `cryosteppe` e `deserto_caldo` NON sono id
+  top-level in `biomes.yaml` (vi appaiono solo come alias/figli, righe 68 + 548). Quindi, per i
+  **20 id dichiarati top-level**, ne risolvono solo **3** (badlands, foresta_temperata,
+  rovine_planari) → **17 biomi dichiarati SENZA ecosistema risolvibile**. (Nota secondaria:
+  la mancata normalizzazione alias è essa stessa un mini-buco — cryosteppe/deserto_caldo hanno
+  dati foodweb ma non sono raggiungibili dagli id canonici.)
 - **Referenziati da scenari senza ecosistema**: savana, caverna, frattura_abissale_sinaptica →
   qui GAP-A (foodweb filter) non ha dati su cui lavorare (cade in `no_ecosystem`, passthrough).
 
@@ -159,6 +169,36 @@ Partire da **Fase 1** (adapter + pilota badlands): è l'unico passo che usa _dav
 esistente (la tua richiesta), produce un effetto visibile, ed è circoscritto a un bioma. Le altre
 fasi diventano decisioni informate una volta visto il pilota. **GAP-C (mondo a inizio partita)
 resta POST-MVP** e ortogonale a tutto questo.
+
+## 6bis. Riconciliazione con ATLAS + gap-resolution-plan (2026-05-30)
+
+Questo census **alimenta** due doc preesistenti più ampi (NON li sostituisce):
+
+- `docs/guide/DESIGN-DATA-ATLAS.md` (mappa madre 8 sistemi, PR #2452 merged)
+- `docs/planning/2026-05-30-design-data-gap-resolution-plan.md` (4 wave, PR #2453 merged) +
+  reframe `claude/plan-reframe-adapter-first-2026-05-30` (worktree, non ancora su main) che cita
+  questo census come trigger dello switch **adapter-first** (la mia Fase 1 = la loro keystone Wave 3).
+
+**Allineamento concettuale: PIENO.** Adapter ecologia→combat è la keystone di entrambi. Le mie
+Fasi 1-5 mappano sulle Wave 1-4 del plan (la mia Fase 1 = Wave 3 adapter-first ristrutturata).
+
+**Discrepanze numeriche da risolvere PRIMA di eseguire le wave (ground-truth verificato qui):**
+
+| Metrica                                | ATLAS / plan dice | Census verificato qui                                | Nota                                                                                                            |
+| -------------------------------------- | ----------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Biomi totali (`data/core/biomes.yaml`) | **38**            | **20 top-level** (29 incl. figli)                    | né 20 né 29 = 38; il "38" NON è verificabile dalla struttura reale → ATLAS da correggere o citare fonte diversa |
+| Biomi con ecosystem risolvibile        | 5/38              | **3/20** top-level (5 file, ma 2 su id non-canonici) | resolver non normalizza alias (vedi §1.4)                                                                       |
+| Biomi senza ecosystem                  | 33/38             | **17/20** (per id top-level)                         | denominatore diverso → ricalcolare su fonte unica                                                               |
+| Specie senza biome_affinity            | 32/53             | **32/53** ✅                                         | concorda                                                                                                        |
+| Specie senza lifecycle                 | 38/53             | non misurato qui                                     | dato ATLAS, plausibile                                                                                          |
+| Specie senza hp/mod/dc                 | (implicito)       | **53/53** (0 hanno stat)                             | il dato che ha innescato il reframe adapter-first                                                               |
+
+**Azione di riconciliazione raccomandata** (prima di Wave 3/4):
+
+1. Stabilire la **fonte unica di verità** per il conteggio biomi (biomes.yaml top-level = 20? include figli? altra fonte per 38?). Correggere ATLAS/plan di conseguenza.
+2. Propagare le correzioni di questo census (3/20, gap 17, elite-orphan) — vedi PR #2455.
+3. Il **gate D4** (heuristic biome-assignment) del plan resta il vero sblocco della mia Fase 1: non
+   parte finché D4 non è deciso dal master-dd.
 
 ## 7. Fonti (verificate sola-lettura 2026-05-30)
 
