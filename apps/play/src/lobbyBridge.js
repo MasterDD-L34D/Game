@@ -700,6 +700,12 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     client.on('debrief_ready_list', (payload) => {
       coordinator.onDebriefReadyList(payload);
     });
+    // 2026-05-30 P4 debrief wire — server rebroadcasts orch.run.debrief as a
+    // `debrief_payload` message. Cache it on the bridge so the debrief panel
+    // populates its P4 surfaces (ennea/inner voices + conviction badges).
+    client.on('debrief_payload', (payload) => {
+      if (coordinator?.onDebriefPayload) coordinator.onDebriefPayload(payload);
+    });
     // M19 — forward world state to coordinator for debrief panel narrative.
     client.on('state', ({ payload }) => {
       if (coordinator?.onWorldState) coordinator.onWorldState(payload);

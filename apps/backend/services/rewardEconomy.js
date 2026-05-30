@@ -148,6 +148,40 @@ function buildBiomePressureRating(session) {
   };
 }
 
+// TKT-P4 (2026-05-30) — personality voice color + surface helpers.
+const _MBTI_PAIRS = ['E_I', 'S_N', 'T_F', 'J_P'];
+// IT headline per pole letter for the inner-voice card (derived from pole only).
+const _POLE_NAME_IT = {
+  E: 'Voce estroversa',
+  I: 'Voce introversa',
+  S: 'Voce sensoriale',
+  N: 'Voce intuitiva',
+  T: 'Voce razionale',
+  F: 'Voce empatica',
+  J: 'Voce strutturata',
+  P: 'Voce fluida',
+};
+const _TIER_RANK = { 3: 3, 2: 2, 1: 1, shout: 3, voice: 2, whisper: 1 };
+
+// Most decisive (out-of-deadband) MBTI axis → its pole letter. null when every
+// axis sits in the 0.4..0.6 deadband. Used to tint an actor's ennea voice quote.
+function dominantPoleLetter(mbtiAxes) {
+  if (!mbtiAxes || typeof mbtiAxes !== 'object') return null;
+  let bestLetter = null;
+  let bestMag = 0.1; // require |value-0.5| > 0.1 (out of deadband)
+  for (const axis of _MBTI_PAIRS) {
+    const entry = mbtiAxes[axis];
+    const v = entry && Number.isFinite(Number(entry.value)) ? Number(entry.value) : null;
+    if (v === null) continue;
+    const mag = Math.abs(v - 0.5);
+    if (mag <= bestMag) continue;
+    bestMag = mag;
+    const [lo, hi] = axis.split('_');
+    bestLetter = v < 0.5 ? lo : hi;
+  }
+  return bestLetter;
+}
+
 function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   // 2026-04-26 (Q19 resolved Opzione A): PE→PI conversion gated su outcome=victory
   // (StS gold analogy). Defeat/timeout = PE earned ma non convertito; resta in pool campaign-wide.
@@ -205,6 +239,7 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   let enneaVoices = [];
   try {
     const { selectEnneaVoice } = require('../../../services/narrative/narrativeEngine');
+    const { mbtiTaggedLine } = require('./mbtiPalette');
     const beatId = isVictory ? 'victory_solo' : 'defeat_critical';
     // Deterministic seed per session_id per reproducibility (test).
     const seedSrc = String(session?.session_id || 'debrief');
@@ -224,18 +259,69 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
       if (!Array.isArray(vc.ennea_archetypes) || vc.ennea_archetypes.length === 0) continue;
       const selection = selectEnneaVoice(vc.ennea_archetypes, beatId, { rand });
       if (selection) {
+        const pole = dominantPoleLetter(vc.mbti_axes);
         enneaVoices.push({
           actor_id: actorId,
           archetype_id: selection.archetype_id,
           ennea_type: selection.ennea_type,
           beat_id: selection.beat_id,
           line_id: selection.line_id,
-          text: selection.text,
+          mbti_pole: pole || null,
+          // TKT-P4-DIALOGUE-COLORS: tint the archetype quote with the actor's
+          // dominant MBTI pole (frontend renders the <mbti> tag in WCAG color).
+          text: pole ? mbtiTaggedLine(selection.text, [pole]) : selection.text,
         });
       }
     }
   } catch {
     // narrativeEngine / enneaVoice module optional — non blocca debrief
+  }
+
+  // 2026-05-30 TKT-P4-DIALOGUE-COLORS — wire inner voices (Disco Elysium diegetic
+  // monologue) into the debrief. Engine LIVE (innerVoice.evaluateVoiceTriggers +
+  // 24-line inner_voices.yaml) but had ZERO debrief surface. Emit up to 2 of the
+  // most intense triggered voices per actor, MBTI-tinted via mbtiTaggedLine.
+  let innerVoices = [];
+  try {
+    const { evaluateVoiceTriggers, describeVoice } = require('./narrative/innerVoice');
+    const { mbtiTaggedLine } = require('./mbtiPalette');
+    for (const [actorId, vc] of Object.entries(vcSnapshot.per_actor || {})) {
+      const axes = vc && vc.mbti_axes ? vc.mbti_axes : null;
+      if (!axes) continue;
+      const { heard } = evaluateVoiceTriggers(axes, []);
+      if (!Array.isArray(heard) || heard.length === 0) continue;
+      const described = heard.map((id) => describeVoice(id)).filter(Boolean);
+      described.sort((a, b) => (_TIER_RANK[b.tier] || 0) - (_TIER_RANK[a.tier] || 0));
+      for (const v of described.slice(0, 2)) {
+        const pole = typeof v.pole_letter === 'string' ? v.pole_letter : null;
+        const raw = v.voice_it || v.flavor_it || '';
+        if (!raw) continue;
+        innerVoices.push({
+          actor_id: actorId,
+          voice_id: v.id,
+          axis: v.axis || null,
+          direction: v.direction || null,
+          tier: v.tier ?? null,
+          label: pole ? _POLE_NAME_IT[pole] || null : null,
+          mbti_pole: pole,
+          text: pole ? mbtiTaggedLine(raw, [pole]) : raw,
+        });
+      }
+    }
+  } catch {
+    // innerVoice module optional — non blocca debrief
+  }
+
+  // 2026-05-30 TKT-P4-CONVICTION-BADGES — wire conviction badges (Triangle
+  // Strategy pattern) into the debrief. Engine LIVE (mbtiSurface) but the only
+  // renderer was a transient in-combat flash; surface the per-actor badges in
+  // the debrief payload (first-reveal mode — no previous snapshot needed).
+  let mbtiSurface = { conviction_badges: {} };
+  try {
+    const { buildConvictionBadgesMap } = require('./mbtiSurface');
+    mbtiSurface = { conviction_badges: buildConvictionBadgesMap(vcSnapshot) || {} };
+  } catch {
+    // mbtiSurface module optional — non blocca debrief
   }
 
   // Sprint 12 (Surface-DEAD #4) — Mating lifecycle wire.
@@ -292,6 +378,12 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // 1 line per actor con triggered ennea archetypes. Beat selected by outcome
     // (victory_solo | defeat_critical). Empty quando no archetypes triggered.
     ennea_voices: enneaVoices,
+    // 2026-05-30 TKT-P4-DIALOGUE-COLORS — inner voice diegetic monologue (MBTI-
+    // tinted), up to 2 per actor. Empty when no axis crosses a voice threshold.
+    inner_voices: innerVoices,
+    // 2026-05-30 TKT-P4-CONVICTION-BADGES — conviction badges per actor (map
+    // uid → [badge]). Empty map when no decisive axis (first-reveal mode).
+    mbti_surface: mbtiSurface,
     // Personality projection
     pf_session: pfSession,
     // Combat stats

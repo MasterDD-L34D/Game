@@ -17,6 +17,12 @@
 
 'use strict';
 
+// TKT-P4-DIALOGUE-COLORS (2026-05-30): voce archetipo color-coded per asse MBTI.
+// Il backend (rewardEconomy.buildDebriefSummary) avvolge il testo in
+// `<mbti axis="X">...</mbti>` via mbtiTaggedLine usando il polo dominante
+// dell'attore; qui lo renderizziamo a colori (forceReveal — la voce È il reveal).
+import { renderMbtiTaggedHtml } from './dialogueRender.js';
+
 // Mapping archetype_id → metadata UI (icon + label + color).
 // Color = Disco-Elysium thought cabinet aesthetic (subtle gradient bg).
 const ARCHETYPE_META = {
@@ -62,7 +68,7 @@ export function formatVoiceLine(voice) {
       <span class="db-ennea-voice-label">${escapeHtml(meta.label)}</span>
       ${beatHtml}
     </div>
-    <div class="db-ennea-voice-text">"${escapeHtml(text)}"</div>
+    <div class="db-ennea-voice-text">"${renderMbtiTaggedHtml(text, null, { forceReveal: true })}"</div>
   </div>`;
 }
 

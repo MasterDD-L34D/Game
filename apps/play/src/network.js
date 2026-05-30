@@ -50,6 +50,10 @@ const EVENT_TYPES = [
   'world_tally',
   // M19 additions
   'debrief_ready_list',
+  // 2026-05-30 P4 debrief wire — server rebroadcasts orch.run.debrief so phones
+  // can populate the debrief panel P4 surfaces (ennea voices / inner voices /
+  // conviction badges / ennea archetypes). Previously unregistered → dropped.
+  'debrief_payload',
 ];
 
 function resolveDefaultWsImpl() {
@@ -266,6 +270,9 @@ export class LobbyClient {
         return;
       case 'debrief_ready_list':
         this._emit('debrief_ready_list', msg.payload || {});
+        return;
+      case 'debrief_payload':
+        this._emit('debrief_payload', msg.payload || {});
         return;
       case 'room_closed':
         this._emit('room_closed', msg.payload || {});

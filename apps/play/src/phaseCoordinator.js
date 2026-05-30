@@ -10,6 +10,9 @@ import './debriefPanel.css';
 // OD-013 Path B — MBTI dialogue color palette CSS (8 axis classes + tooltip).
 // Co-located con debriefPanel: il narrative log è il primo consumer.
 import './dialogueRender.css';
+// 2026-05-30 P4 debrief wire — pure routing + bridge cache (CSS-free so they
+// stay unit testable). bridge.lastDebrief was read here but never written.
+import { pipeDebriefToPanel, cacheDebriefOnBridge } from './debriefPipe.js';
 
 export function createPhaseCoordinator(bridge) {
   if (!bridge) return null;
@@ -95,36 +98,17 @@ export function createPhaseCoordinator(bridge) {
         } catch {
           /* reward offer optional */
         }
-        // Sprint 10 (Surface-DEAD #7): pipe QBN narrative event quando debrief
-        // payload include narrative_event (rewardEconomy.buildDebriefSummary).
-        // bridge.lastDebrief è una cache del response /api/session/end o del
-        // payload coop debrief broadcast. Fail-safe: setter ignora null.
+        // 2026-05-30 P4 debrief wire — route the cached debrief payload to the
+        // panel P4 setters (narrative event + lineage + ennea archetypes +
+        // ennea voices + inner voices + conviction badges). bridge.lastDebrief
+        // is populated by onDebriefPayload (coop WS `debrief_payload` broadcast)
+        // or the host /session/end capture. Fail-safe: pipe ignores null fields.
         try {
-          const debriefPayload = bridge?.lastDebrief || bridge?.session?.lastDebrief || null;
-          const narrativeEvent = debriefPayload?.narrative_event || null;
-          if (dbApi.setNarrativeEvent) dbApi.setNarrativeEvent(narrativeEvent);
-          // Sprint 12 (Surface-DEAD #4): pipe lineage eligibles dal debrief.
-          // mating_eligibles è array di pair-bond candidates (post-victory).
-          const matingEligibles = Array.isArray(debriefPayload?.mating_eligibles)
-            ? debriefPayload.mating_eligibles
-            : [];
-          if (dbApi.setLineageEligibles) dbApi.setLineageEligibles(matingEligibles);
-          // Sprint Surface-DEAD ennea: pipe ennea_archetypes per current player
-          // dal debriefPayload.vc_summary.per_actor[playerId].
           const playerId = bridge?.session?.player_id || bridge?.session?.actor_id || null;
-          const enneaArchetypes = playerId
-            ? debriefPayload?.vc_summary?.per_actor?.[playerId]?.ennea_archetypes
-            : null;
-          if (dbApi.setEnneaArchetypes) dbApi.setEnneaArchetypes(enneaArchetypes);
-          // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: pipe 9/9 voice palette
-          // dal debriefPayload.ennea_voices (rewardEconomy.buildDebriefSummary
-          // emit array of {actor_id, archetype_id, beat_id, line_id, text}).
-          const enneaVoices = Array.isArray(debriefPayload?.ennea_voices)
-            ? debriefPayload.ennea_voices
-            : [];
-          if (dbApi.setEnneaVoices) dbApi.setEnneaVoices(enneaVoices);
+          const debriefPayload = bridge?.lastDebrief || bridge?.session?.lastDebrief || null;
+          pipeDebriefToPanel(dbApi, debriefPayload, playerId);
         } catch {
-          /* narrative event + lineage + ennea + voices optional */
+          /* narrative event + lineage + ennea + voices + conviction optional */
         }
         break;
       }
@@ -199,11 +183,29 @@ export function createPhaseCoordinator(bridge) {
     }
   }
 
+  // 2026-05-30 P4 debrief wire — coop `debrief_payload` WS broadcast handler.
+  // Caches the payload onto the bridge so applyPhase('debrief') can read it, and
+  // re-pipes immediately when it arrives after the phase already switched
+  // (debrief_payload and phase_change have no guaranteed ordering).
+  function onDebriefPayload(payload) {
+    cacheDebriefOnBridge(bridge, payload);
+    if (state.currentPhase === 'debrief') {
+      const playerId = bridge?.session?.player_id || bridge?.session?.actor_id || null;
+      const dbApi = ensureDebrief();
+      try {
+        pipeDebriefToPanel(dbApi, bridge?.lastDebrief || payload, playerId);
+      } catch {
+        /* debrief surfaces optional */
+      }
+    }
+  }
+
   return {
     applyPhase,
     onCharacterReadyList,
     onWorldTally,
     onDebriefReadyList,
+    onDebriefPayload,
     onPhaseChange,
     onPlayersChanged,
     onWorldState,
