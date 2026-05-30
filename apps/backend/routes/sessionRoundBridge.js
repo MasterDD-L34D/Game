@@ -39,6 +39,10 @@ const {
   resetRoundSynergyTracker,
 } = require('../services/combat/synergyDetector');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
+// TKT-PLAYTEST-SEED (P2): per-session RNG scoping for combat round resolution.
+// Installs session.combatRng around each (synchronous) resolveRoundPure so a
+// seeded calibration session's stream is isolated from concurrent sessions.
+const { runWithSeed } = require('../services/combat/pseudoRng');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 // 2026-04-26: wire isTurnLimitExceeded (damage_curves.yaml soft cap per encounter_class).
@@ -505,7 +509,9 @@ function createRoundBridge(deps) {
     }
     cur = roundOrchestrator.declareIntent(cur, actor.id, roundAction).nextState;
     cur = roundOrchestrator.commitRound(cur).nextState;
-    const result = resolveRoundPure(cur, null, rng, realResolveAction);
+    const result = runWithSeed(session.combatRng, () =>
+      resolveRoundPure(cur, null, rng, realResolveAction),
+    );
     session.roundState = result.nextState;
     syncStatusesFromRoundState(session);
 
@@ -1652,7 +1658,9 @@ function createRoundBridge(deps) {
       return { nextState: next, turnLogEntry };
     };
 
-    const result = resolveRoundPure(session.roundState, null, rng, realResolveAction);
+    const result = runWithSeed(session.combatRng, () =>
+      resolveRoundPure(session.roundState, null, rng, realResolveAction),
+    );
     session.roundState = result.nextState;
     syncStatusesFromRoundState(session);
 
@@ -1806,7 +1814,9 @@ function createRoundBridge(deps) {
       if (session.roundState && session.roundState.round_phase === PHASE_PLANNING) {
         try {
           session.roundState = roundOrchestrator.commitRound(session.roundState).nextState;
-          const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
+          const result = runWithSeed(session.combatRng, () =>
+            resolveRoundPure(session.roundState, null, rng, placeholderResolveAction),
+          );
           session.roundState = result.nextState;
           syncStatusesFromRoundState(session);
         } catch (_e) {
@@ -2057,7 +2067,9 @@ function createRoundBridge(deps) {
 
         // auto_resolve=true: risolve round in simultanea usando unified resolver
         const { resolveFn, iaActions, playerActions, kills } = buildUnifiedRoundResolver(session);
-        const result = resolveRoundPure(session.roundState, null, rng, resolveFn);
+        const result = runWithSeed(session.combatRng, () =>
+          resolveRoundPure(session.roundState, null, rng, resolveFn),
+        );
         session.roundState = result.nextState;
         syncStatusesFromRoundState(session);
 
@@ -2169,7 +2181,9 @@ function createRoundBridge(deps) {
             .status(400)
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
         }
-        const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
+        const result = runWithSeed(session.combatRng, () =>
+          resolveRoundPure(session.roundState, null, rng, placeholderResolveAction),
+        );
         session.roundState = result.nextState;
         syncStatusesFromRoundState(session);
         res.json({

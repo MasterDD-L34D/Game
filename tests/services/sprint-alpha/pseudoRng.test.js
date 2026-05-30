@@ -18,6 +18,9 @@ const {
   clearSeed,
   isSeeded,
   defaultRng,
+  captureState,
+  restoreState,
+  runWithSeed,
 } = require('../../../apps/backend/services/combat/pseudoRng');
 
 test('pseudoRng: 3 miss consecutivi → +5 to_hit bonus', () => {
@@ -121,4 +124,77 @@ test('pseudoRng: seedRng rejects non-finite, stays unseeded', () => {
   assert.equal(seedRng('42'), true);
   assert.equal(isSeeded(), true);
   clearSeed();
+});
+
+// ─────────────────────────────────────────────────────────────────
+// TKT-PLAYTEST-SEED P2 — per-session RNG scoping (runWithSeed). Fixes the
+// process-global footgun: a seeded calibration session keeps its own cursor
+// on the session object, so concurrent sessions never clobber each other.
+// ─────────────────────────────────────────────────────────────────
+
+test('pseudoRng: captureState null when unseeded; restoreState resumes exact position', () => {
+  clearSeed();
+  assert.equal(captureState(), null, 'null cursor when unseeded');
+  seedRng(77);
+  defaultRng();
+  defaultRng();
+  const snap = captureState();
+  const next = defaultRng();
+  restoreState(snap);
+  assert.equal(defaultRng(), next, 'restoreState resumes the exact stream position');
+  clearSeed();
+});
+
+test('pseudoRng: runWithSeed gives per-session continuity + reproducibility', () => {
+  clearSeed();
+  const s1 = { state: 100 };
+  const a = [];
+  runWithSeed(s1, () => {
+    a.push(defaultRng(), defaultRng());
+  });
+  runWithSeed(s1, () => {
+    a.push(defaultRng(), defaultRng());
+  });
+  const s2 = { state: 100 };
+  const b = [];
+  runWithSeed(s2, () => {
+    b.push(defaultRng(), defaultRng());
+  });
+  runWithSeed(s2, () => {
+    b.push(defaultRng(), defaultRng());
+  });
+  assert.deepEqual(a, b, 'same start state reproduces the stream across runWithSeed calls');
+  assert.equal(new Set(a).size, 4, 'stream advanced (not reset) across calls');
+});
+
+test('pseudoRng: runWithSeed isolates two concurrent session streams', () => {
+  clearSeed();
+  const aSolo = [];
+  runWithSeed({ state: 1 }, () => {
+    aSolo.push(defaultRng(), defaultRng(), defaultRng());
+  });
+  // Interleave A and B; A's stream must be unaffected by B's draws.
+  const sA = { state: 1 };
+  const sB = { state: 2 };
+  const aInter = [];
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  runWithSeed(sB, () => defaultRng());
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  runWithSeed(sB, () => defaultRng());
+  runWithSeed(sA, () => aInter.push(defaultRng()));
+  assert.deepEqual(aInter, aSolo, 'session A stream identical whether or not B interleaves');
+});
+
+test('pseudoRng: runWithSeed restores the prior global state', () => {
+  seedRng(555);
+  defaultRng();
+  const stateBefore = captureState();
+  runWithSeed({ state: 999 }, () => {
+    defaultRng();
+    defaultRng();
+  });
+  assert.equal(captureState(), stateBefore, 'global seed cursor restored after runWithSeed');
+  clearSeed();
+  runWithSeed({ state: 7 }, () => defaultRng());
+  assert.equal(isSeeded(), false, 'unseeded global stays unseeded after runWithSeed');
 });
