@@ -123,8 +123,18 @@ export function createPhaseCoordinator(bridge) {
             ? debriefPayload.ennea_voices
             : [];
           if (dbApi.setEnneaVoices) dbApi.setEnneaVoices(enneaVoices);
+          // 2026-05-30 TKT-P4-DIALOGUE-COLORS: pipe inner voice monologue
+          // dal debriefPayload.inner_voices (rewardEconomy.buildDebriefSummary).
+          const innerVoices = Array.isArray(debriefPayload?.inner_voices)
+            ? debriefPayload.inner_voices
+            : [];
+          if (dbApi.setInnerVoices) dbApi.setInnerVoices(innerVoices);
+          // 2026-05-30 TKT-P4-CONVICTION-BADGES: pipe conviction badges map
+          // dal debriefPayload.mbti_surface.conviction_badges (Triangle Strategy).
+          const convictionBadges = debriefPayload?.mbti_surface?.conviction_badges || null;
+          if (dbApi.setConvictionBadges) dbApi.setConvictionBadges(convictionBadges);
         } catch {
-          /* narrative event + lineage + ennea + voices optional */
+          /* narrative event + lineage + ennea + voices + conviction optional */
         }
         break;
       }
