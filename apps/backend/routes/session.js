@@ -194,6 +194,7 @@ const { createRoundBridge } = require('./sessionRoundBridge');
 const {
   applyProgressionToUnits,
   computePerkDamageBonus,
+  applyPerkKillEffects,
 } = require('../services/progression/progressionApply');
 // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
 // DR-1 (defender) + sight+2 (actor). Init+2 lives in roundOrchestrator.
@@ -950,6 +951,15 @@ function createSessionRouter(options = {}) {
         // eslint-disable-next-line no-console
         console.warn('[lineage-propagator] skipped:', err && err.message ? err.message : err);
       }
+    }
+
+    // TKT-JOB-PHASEC Category B — on-kill attack buffs (kill_buff_attack temp,
+    // eternal_kill_buff permanent). Gated on the FINAL killOccurred (after
+    // intercept/bond may have reset it and terrain burst may have re-set it).
+    // Mutates the killer; fires on the live performAttack path the priority_queue
+    // traverses. No-op when actor carries no kill perks.
+    if (killOccurred) {
+      applyPerkKillEffects(actor);
     }
 
     // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,
