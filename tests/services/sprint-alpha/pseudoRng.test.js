@@ -21,6 +21,7 @@ const {
   captureState,
   restoreState,
   runWithSeed,
+  makeHolderRng,
 } = require('../../../apps/backend/services/combat/pseudoRng');
 
 test('pseudoRng: 3 miss consecutivi → +5 to_hit bonus', () => {
