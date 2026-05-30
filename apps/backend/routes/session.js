@@ -644,6 +644,7 @@ function createSessionRouter(options = {}) {
     let backstabBonus = 0;
     let wasBackstab = false;
     let panicTriggered = false;
+    let critMoraleResult = null;
     let parryResult = null;
     let interceptResult = null;
     let bondReactionResult = null;
@@ -842,13 +843,33 @@ function createSessionRouter(options = {}) {
           }
         }
       }
-      // SPRINT_013 (issue #10): trigger panic nel target se subisce un
-      // colpo critico (MoS >= 8). Il target non e' ancora morto (target.hp
-      // potrebbe essere a 0 ma panic su un'unita' KO e' innocuo). Applica
-      // 2 turni di panic.
-      if (result.mos >= 8 && target.status && target.hp > 0) {
-        target.status.panic = Math.max(Number(target.status.panic) || 0, 2);
-        panicTriggered = true;
+      // TKT-ORPHAN-MORALE (SPRINT_013 successor): a critical hit (MoS >=
+      // CRIT_MOS_THRESHOLD, surfaced as result.is_critical) on a SURVIVING target
+      // routes through the morale module (enemy_critical_hit) instead of the old
+      // unconditional panic. checkMorale rolls d20+morale_mod vs threshold and
+      // applies panic on target.status when it triggers, so morale.js's crit
+      // event is finally live + telemetered (units with high morale_mod can now
+      // shrug off a crit). Best-effort: never blocks the hit.
+      if (result.is_critical && target.status && target.hp > 0) {
+        try {
+          const { checkMorale } = require('../services/combat/morale');
+          critMoraleResult = checkMorale(target, 'enemy_critical_hit', { rng });
+          if (critMoraleResult && critMoraleResult.triggered) {
+            panicTriggered = true;
+            // The round-state sync (syncStatusesFromRoundState) rebuilds unit.status
+            // from the orchestrator's tracked list, wiping a panic set mid-resolve.
+            // Stash it on the session so the sync re-applies it afterward — one place
+            // that covers every attack resolver (player + AI + legacy direction).
+            if (!Array.isArray(session._pendingMoraleStatus)) session._pendingMoraleStatus = [];
+            session._pendingMoraleStatus.push({
+              unit_id: target.id,
+              status: critMoraleResult.status,
+              duration: critMoraleResult.duration,
+            });
+          }
+        } catch {
+          /* morale optional; never block the hit */
+        }
       }
 
       // M14-A: terrain reaction post damage step (additive, non-blocking).
@@ -1003,6 +1024,7 @@ function createSessionRouter(options = {}) {
       backstabBonus,
       wasBackstab,
       panicTriggered,
+      crit_morale: critMoraleResult,
       status_applies: statusApplies,
       parry: parryResult,
       intercept: interceptResult,

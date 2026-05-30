@@ -89,6 +89,10 @@ function normaliseUnit(raw, fallbackIndex) {
     ap_remaining: Number.isFinite(Number(input.ap_remaining)) ? Number(input.ap_remaining) : ap,
     mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
     dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
+    // TKT-ORPHAN-MORALE: preserve morale_mod (read by services/combat/morale.js
+    // checkMorale). It was silently stripped at /start, so the morale system could
+    // never apply a per-unit modifier. Additive, default 0 (back-compat).
+    morale_mod: Number.isFinite(Number(input.morale_mod)) ? Number(input.morale_mod) : 0,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
     initiative,
@@ -191,6 +195,11 @@ function normaliseUnitsPayload(raw) {
   return raw.map((entry, index) => normaliseUnit(entry, index));
 }
 
+// TKT-ORPHAN-MORALE: gameplay "colpo critico" threshold. A hit whose margin of
+// success reaches this surfaces `is_critical` (consumed by the enemy_critical_hit
+// morale check + telemetry). Matches the legacy SPRINT_013 crit-panic threshold.
+const CRIT_MOS_THRESHOLD = 8;
+
 function resolveAttack({ actor, target, rng }) {
   const die = rollD20(rng);
   // Ability buff bonus temporanei (es. evasive_maneuver defense_mod +1,
@@ -240,7 +249,17 @@ function resolveAttack({ actor, target, rng }) {
       /* non-blocking */
     }
   }
-  return { die, roll, mos, hit, dc, pt, pseudo_rng_bonus: pseudoRngBonus, pin_penalty: pinPenalty };
+  return {
+    die,
+    roll,
+    mos,
+    hit,
+    dc,
+    pt,
+    is_critical: hit && mos >= CRIT_MOS_THRESHOLD,
+    pseudo_rng_bonus: pseudoRngBonus,
+    pin_penalty: pinPenalty,
+  };
 }
 
 /**
@@ -760,6 +779,7 @@ module.exports = {
   buildDefaultUnits,
   normaliseUnitsPayload,
   resolveAttack,
+  CRIT_MOS_THRESHOLD,
   timestampStamp,
   publicSessionView,
   applyApRefill,
