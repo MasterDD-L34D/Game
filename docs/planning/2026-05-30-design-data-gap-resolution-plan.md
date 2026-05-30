@@ -61,10 +61,10 @@ Outcome: combat engine fully wired (34/34); job expansion perks attivi. Smoke ob
 | -------------------- | ------------------------------------------------------- | --------------------------------------------------- | --------------------- | ------------ |
 | TKT-SPECIE-LIFECYCLE | 38/53 specie senza lifecycle YAML                       | data-gen (seed_lifecycle_stubs.py esiste) + content | incrementale (OD-008) | -            |
 | TKT-SPECIE-BIOME     | 32/53 specie senza biome_affinity                       | data-gen heuristic                                  | ~Nh                   | **D4**       |
-| TKT-ECO-YAML-GEN     | 33/38 biomi senza ecosystem.yaml                        | data-gen                                            | ~Nh/bioma             | D4 (qualita) |
+| TKT-ECO-YAML-GEN     | 17/20 biomi senza ecosystem.yaml risolvibile            | data-gen                                            | ~Nh/bioma             | D4 (qualita) |
 | TKT-TRAIT-RECONCILE  | 104 trait glossary senza meccanica + tassonomia 57->106 | data hygiene                                        | audit                 | -            |
 
-Outcome: data-rich diventa data-wired. Foodweb consumer (gia live #2447) ora ha 38/38 ecosistemi. NON prima di Wave 2 (non aggiungere dato finche surface non wired = meta-pattern #2).
+Outcome: data-rich diventa data-wired. Foodweb consumer (gia live #2447) ora ha 20/20 ecosistemi risolvibili. NON prima di Wave 2 (non aggiungere dato finche surface non wired = meta-pattern #2).
 
 ## Wave 4 — content + Pathfinder seed (writer/designer; D2 DECISO; L2-L5 gated)
 
