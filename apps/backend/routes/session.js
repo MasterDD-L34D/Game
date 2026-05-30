@@ -194,6 +194,7 @@ const { createRoundBridge } = require('./sessionRoundBridge');
 const {
   applyProgressionToUnits,
   computePerkDamageBonus,
+  computePerkCombatModifiers,
 } = require('../services/progression/progressionApply');
 // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
 // DR-1 (defender) + sight+2 (actor). Init+2 lives in roundOrchestrator.
@@ -702,6 +703,14 @@ function createSessionRouter(options = {}) {
         units: session.units || [],
         isFirstStrike: !actor._first_strike_used,
       });
+      // TKT-JOB-PHASEC Category A — multiplicative / DR-bypass expansion perks
+      // (random_double_dmg_chance, apex_first_strike). Computed once here; the
+      // multiplier is applied to the resolved hit and ignoreDr gates the
+      // channel-resistance step below.
+      const perkCombatMods = computePerkCombatModifiers(actor, target, {
+        isFirstStrike: !actor._first_strike_used,
+        rng,
+      });
       const adjusted =
         baseDamage +
         evaluation.damage_modifier +
@@ -722,6 +731,11 @@ function createSessionRouter(options = {}) {
         baseDamage: Math.max(0, adjusted),
       });
       damageDealt = positional.damage;
+      // TKT-JOB-PHASEC Category A — random_double_dmg_chance doubles the hit
+      // (pre shield + resistance). multiplier == 1 when no perk fired.
+      if (perkCombatMods.multiplier !== 1) {
+        damageDealt = damageDealt * perkCombatMods.multiplier;
+      }
       positionalInfo = {
         multiplier: Number(positional.multiplier) || 1,
         elevation_delta: Number(positional.elevation_delta) || 0,
@@ -729,7 +743,10 @@ function createSessionRouter(options = {}) {
         flank_multiplier: (positional.parts && Number(positional.parts.flank)) || 1,
         quadrant: positional.quadrant || 'front',
       };
-      if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
+      if (
+        perkBonus.applied.some((p) => p.tag === 'first_strike_bonus') ||
+        perkCombatMods.applied.some((p) => p.tag === 'apex_first_strike')
+      ) {
         actor._first_strike_used = true;
       }
       // M6-#1 (ADR-2026-04-19): applica channel resistance post damage.
@@ -737,6 +754,10 @@ function createSessionRouter(options = {}) {
       // trait_ids al primo hit (cache su target._resistances).
       // Channel da action.channel (client-provided) o default "fisico".
       // Se speciesResistancesData null (file mancante) → no-op.
+      // TKT-JOB-PHASEC: apex_first_strike (perkCombatMods.ignoreDr) bypassa la
+      // DR positiva ma NON le vulnerabilità — il blocco gira sempre (così la
+      // cache _resistances + l'amplificazione da vulnerabilità restano corrette)
+      // e passa vulnerabilitiesOnly ad applyResistance.
       if (speciesResistancesData && damageDealt > 0) {
         if (!Array.isArray(target._resistances)) {
           const traitResists = [];
@@ -757,7 +778,9 @@ function createSessionRouter(options = {}) {
         // quando action è null (overwatch lambda) o channel assente.
         const channel =
           (action && typeof action.channel === 'string' && action.channel) || 'fisico';
-        damageDealt = applyResistance(damageDealt, target._resistances, channel);
+        damageDealt = applyResistance(damageDealt, target._resistances, channel, {
+          vulnerabilitiesOnly: perkCombatMods.ignoreDr,
+        });
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
