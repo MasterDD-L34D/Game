@@ -104,16 +104,22 @@ W_KEYWORD = 2.0
 
 
 def score_species(species: dict, trait_biome_map: dict, valid_biomes: list) -> list:
-    """Return [(biome_id, score), ...] sorted by score desc (only score > 0)."""
+    """Return [(biome_id, score), ...] sorted by score desc, then biome id asc
+    (deterministic tie-break). Only score > 0 and biomes in valid_biomes."""
+    valid = set(valid_biomes)
     scores = Counter()
 
-    # Primary: trait votes
+    # Primary: trait votes (normalized over VALID biomes only)
     for trait in species.get("trait_refs", []) or []:
         votes = trait_biome_map.get(trait)
-        if votes:
-            total = sum(votes.values())
-            for biome, cnt in votes.items():
-                scores[biome] += W_TRAIT * (cnt / total)
+        if not votes:
+            continue
+        valid_total = sum(cnt for b, cnt in votes.items() if b in valid)
+        if valid_total <= 0:
+            continue
+        for biome, cnt in votes.items():
+            if biome in valid:
+                scores[biome] += W_TRAIT * (cnt / valid_total)
 
     # Secondary: keyword match on scientific_name + functional_signature
     text = " ".join(
@@ -123,5 +129,9 @@ def score_species(species: dict, trait_biome_map: dict, valid_biomes: list) -> l
     for biome, hits in keyword_biome_scores(text, valid_biomes).items():
         scores[biome] += W_KEYWORD * hits
 
-    ranked = [(b, sc) for b, sc in scores.most_common() if sc > 0]
+    # Deterministic: score desc, then biome id asc
+    ranked = sorted(
+        ((b, sc) for b, sc in scores.items() if sc > 0),
+        key=lambda x: (-x[1], x[0]),
+    )
     return ranked

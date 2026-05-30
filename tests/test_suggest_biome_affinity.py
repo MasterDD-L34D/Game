@@ -82,3 +82,24 @@ def test_score_species_no_signal_returns_empty():
     }
     ranked = sba.score_species(species, {}, sba.load_biome_ids())
     assert ranked == [] or ranked[0][1] == 0
+
+
+def test_score_species_ignores_stale_biome_in_normalization():
+    # trait votes savana=2 + a STALE biome not in valid list; valid score must
+    # normalize over savana only (=> full W_TRAIT weight), stale never emitted.
+    tmap = {"t_x": Counter({"savana": 2, "not_a_real_biome": 2})}
+    species = {"species_id": "z", "trait_refs": ["t_x"], "scientific_name": "", "functional_signature": "", "clade_tag": "Apex"}
+    ranked = sba.score_species(species, tmap, sba.load_biome_ids())
+    biomes = [b for b, _ in ranked]
+    assert "not_a_real_biome" not in biomes
+    assert ranked[0][0] == "savana"
+    assert abs(ranked[0][1] - 3.0) < 1e-9  # W_TRAIT * (2/2) = 3.0, NOT 3.0*(2/4)
+
+
+def test_score_species_tiebreak_is_deterministic():
+    # two biomes with equal score must rank alphabetically (stable across runs)
+    tmap = {"t_a": Counter({"savana": 1}), "t_b": Counter({"caverna": 1})}
+    species = {"species_id": "z", "trait_refs": ["t_a", "t_b"], "scientific_name": "", "functional_signature": "", "clade_tag": "Apex"}
+    ranked = sba.score_species(species, tmap, sba.load_biome_ids())
+    # both score W_TRAIT*1 = 3.0; alphabetical: caverna before savana
+    assert [b for b, _ in ranked] == ["caverna", "savana"]
