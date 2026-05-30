@@ -135,3 +135,32 @@ def score_species(species: dict, trait_biome_map: dict, valid_biomes: list) -> l
         key=lambda x: (-x[1], x[0]),
     )
     return ranked
+
+
+def golden_set_validate(assigned: list, valid_biomes: list) -> dict:
+    """Leave-one-out: for each assigned species, rebuild the trait map WITHOUT it,
+    score it, and check whether top-1 prediction matches its known biome_affinity."""
+    top1_correct = 0
+    misses = []
+    for i, s in enumerate(assigned):
+        others = assigned[:i] + assigned[i + 1:]
+        tmap = build_trait_biome_map(others)
+        ranked = score_species(s, tmap, valid_biomes)
+        predicted = ranked[0][0] if ranked else None
+        actual = s["biome_affinity"]
+        if predicted == actual:
+            top1_correct += 1
+        else:
+            misses.append({
+                "species_id": s.get("species_id"),
+                "actual": actual,
+                "predicted": predicted,
+                "ranked": ranked[:3],
+            })
+    total = len(assigned)
+    return {
+        "top1_correct": top1_correct,
+        "total": total,
+        "top1_accuracy": (top1_correct / total) if total else 0.0,
+        "misses": misses,
+    }

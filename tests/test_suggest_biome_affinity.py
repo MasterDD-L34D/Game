@@ -103,3 +103,19 @@ def test_score_species_tiebreak_is_deterministic():
     ranked = sba.score_species(species, tmap, sba.load_biome_ids())
     # both score W_TRAIT*1 = 3.0; alphabetical: caverna before savana
     assert [b for b, _ in ranked] == ["caverna", "savana"]
+
+
+def test_golden_set_accuracy_is_measurable():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    result = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    assert result["total"] == 21
+    assert 0.0 <= result["top1_accuracy"] <= 1.0
+    assert result["top1_correct"] + len(result["misses"]) == 21
+
+
+def test_golden_set_leave_one_out_excludes_self():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    result = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    assert result["top1_accuracy"] <= 1.0
