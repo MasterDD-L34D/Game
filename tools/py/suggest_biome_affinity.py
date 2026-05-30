@@ -38,3 +38,15 @@ def load_biome_ids(path: Path = BIOMES_PATH) -> list:
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     return list(data["biomes"].keys())
+
+
+def build_trait_biome_map(assigned: list) -> dict:
+    """trait_id -> Counter({biome_id: vote_count}) from already-assigned species."""
+    tmap = defaultdict(Counter)
+    for s in assigned:
+        biome = s.get("biome_affinity")
+        if not (isinstance(biome, str) and biome.strip()):
+            continue
+        for trait in s.get("trait_refs", []) or []:
+            tmap[trait][biome] += 1
+    return dict(tmap)

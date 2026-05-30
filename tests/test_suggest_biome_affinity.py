@@ -1,6 +1,8 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "py"))
 
+from collections import Counter
+
 import suggest_biome_affinity as sba
 
 
@@ -23,3 +25,23 @@ def test_valid_biome_ids_are_20():
     assert len(ids) == 20
     assert "savana" in ids
     assert "rovine_planari" in ids
+
+
+def test_build_trait_biome_map_from_assigned():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    tmap = sba.build_trait_biome_map(assigned)
+    assert isinstance(tmap, dict)
+    assert len(tmap) > 0
+    sample_trait = next(iter(tmap))
+    assert isinstance(tmap[sample_trait], Counter)
+
+
+def test_trait_map_vote_counts_match_assigned():
+    fake_assigned = [
+        {"trait_refs": ["t_sand"], "biome_affinity": "savana"},
+        {"trait_refs": ["t_sand", "t_other"], "biome_affinity": "savana"},
+    ]
+    tmap = sba.build_trait_biome_map(fake_assigned)
+    assert tmap["t_sand"]["savana"] == 2
+    assert tmap["t_other"]["savana"] == 1
