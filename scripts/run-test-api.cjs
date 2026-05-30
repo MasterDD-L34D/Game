@@ -36,13 +36,23 @@ const steps = [
   'node --test tests/ai/*.test.js',
 ];
 
-const env = {
+const baseEnv = {
   ...process.env,
   ORCHESTRATOR_AUTOCLOSE_MS: '2000',
 };
 
+// The parallel `node --test tests/api/*.test.js` batch builds dozens of apps;
+// the real orchestrator bridge eagerly spawns Python worker subprocesses per
+// app -> CPU/subprocess contention + noisy `Worker N terminato (SIGTERM)`
+// teardown logs. Those API tests do not exercise /api/v1/generation/*, so swap
+// in the no-op stub orchestrator for this step. Generation-specific files
+// (species-generation, quality-release) opt back out at module load via
+// `delete process.env.IDEA_ENGINE_STUB_ORCHESTRATOR`.
+const API_GLOB_STEP = 'node --test tests/api/*.test.js';
+
 for (const step of steps) {
   console.log(`\n$ ${step}`);
+  const env = step === API_GLOB_STEP ? { ...baseEnv, IDEA_ENGINE_STUB_ORCHESTRATOR: '1' } : baseEnv;
   const result = spawnSync(step, {
     stdio: 'inherit',
     shell: true,

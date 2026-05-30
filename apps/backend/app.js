@@ -8,6 +8,7 @@ const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../../services/generation/biomeSynthesizer');
 const { createRuntimeValidator } = require('../../services/generation/runtimeValidator');
 const { createGenerationOrchestratorBridge } = require('./services/orchestratorBridge');
+const { createStubOrchestrator } = require('./services/stubOrchestrator');
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
 const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
@@ -330,8 +331,16 @@ function createApp(options = {}) {
     ...(options.orchestratorOptions || {}),
     snapshotStore: generationSnapshotStore,
   };
+  // IDEA_ENGINE_STUB_ORCHESTRATOR=1 swaps the real Python-spawning bridge for a
+  // no-op stub so Node-native API tests that never hit /api/v1/generation/* do
+  // not spin up worker subprocesses. Production leaves the flag unset -> real
+  // bridge, unchanged behavior. An explicit options.generationOrchestrator
+  // (e.g. generation-specific tests) always wins over the flag.
   const generationOrchestrator =
-    options.generationOrchestrator || createGenerationOrchestratorBridge(orchestratorOptions);
+    options.generationOrchestrator ||
+    (process.env.IDEA_ENGINE_STUB_ORCHESTRATOR === '1'
+      ? createStubOrchestrator()
+      : createGenerationOrchestratorBridge(orchestratorOptions));
   const schemaValidator =
     options.schemaValidator || createSchemaValidator(options.schemaValidatorOptions || {});
   schemaValidator.registerSchema('quality://suggestion', qualitySuggestionSchema);
