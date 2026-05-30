@@ -89,6 +89,34 @@ describe('pipeDebriefToPanel — routes debrief payload to the panel setters', (
     assert.deepEqual(panel.calls.setInnerVoices, FULL_PAYLOAD.inner_voices);
   });
 
+  test('per-actor key resolves the coop unit id pg_<playerId> (Codex P2)', async () => {
+    const { pipeDebriefToPanel } = await loadPipe();
+    const panel = makeSpyPanel();
+    // coop: buildDebriefSummary keys vc_summary.per_actor by the UNIT id
+    // `pg_${player_id}` (characterToUnit), but the phone bridge only knows the
+    // raw player_id — the lookup must fall back to the pg_ form or it hides.
+    const payload = {
+      vc_summary: { per_actor: { pg_p_a: { ennea_archetypes: ['Cacciatore(8)'] } } },
+    };
+    pipeDebriefToPanel(panel, payload, 'p_a');
+    assert.deepEqual(panel.calls.setEnneaArchetypes, ['Cacciatore(8)']);
+  });
+
+  test('per-actor key prefers an exact playerId match over the pg_ fallback', async () => {
+    const { pipeDebriefToPanel } = await loadPipe();
+    const panel = makeSpyPanel();
+    const payload = {
+      vc_summary: {
+        per_actor: {
+          p_a: { ennea_archetypes: ['Exact(1)'] },
+          pg_p_a: { ennea_archetypes: ['Fallback(2)'] },
+        },
+      },
+    };
+    pipeDebriefToPanel(panel, payload, 'p_a');
+    assert.deepEqual(panel.calls.setEnneaArchetypes, ['Exact(1)']);
+  });
+
   test('non-array voice fields are coerced to [] (defensive against bad shapes)', async () => {
     const { pipeDebriefToPanel } = await loadPipe();
     const panel = makeSpyPanel();

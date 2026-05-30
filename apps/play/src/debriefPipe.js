@@ -34,9 +34,13 @@ export function pipeDebriefToPanel(dbApi, debriefPayload, playerId) {
   if (dbApi.setLineageEligibles) dbApi.setLineageEligibles(matingEligibles);
 
   // Ennea archetypes manifested for the current player (per-actor → needs id).
-  const enneaArchetypes = playerId
-    ? p?.vc_summary?.per_actor?.[playerId]?.ennea_archetypes || null
-    : null;
+  // vc_summary.per_actor is keyed by the UNIT id, which in coop is
+  // `pg_${player_id}` (characterToUnit). The phone bridge only knows the raw
+  // player_id, so try the exact id first then the pg_ unit-id form — otherwise
+  // real phone clients silently lose the archetype surface.
+  const perActor = p?.vc_summary?.per_actor || null;
+  const actorVc = playerId ? perActor?.[playerId] || perActor?.[`pg_${playerId}`] : null;
+  const enneaArchetypes = actorVc?.ennea_archetypes || null;
   if (dbApi.setEnneaArchetypes) dbApi.setEnneaArchetypes(enneaArchetypes);
 
   // TKT-P4-ENNEA-VOICE-FRONTEND — 1 diegetic quote per actor.
