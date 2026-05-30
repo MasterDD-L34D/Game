@@ -167,3 +167,111 @@ def golden_set_validate(assigned: list, valid_biomes: list) -> dict:
         "top1_accuracy": (top1_correct / total) if total else 0.0,
         "misses": misses,
     }
+
+
+GATE_THRESHOLD = 0.60  # >=60% top-1 on PREDICTABLE species (non-singleton biomes)
+
+
+def singleton_biomes(assigned: list) -> set:
+    """Biomes represented by exactly 1 assigned species (unpredictable in
+    leave-one-out: removing the species removes the only training example)."""
+    counts = Counter(
+        s["biome_affinity"] for s in assigned
+        if isinstance(s.get("biome_affinity"), str) and s["biome_affinity"].strip()
+    )
+    return {b for b, n in counts.items() if n == 1}
+
+
+def predictable_accuracy(assigned: list, gs_result: dict) -> dict:
+    """Recompute accuracy excluding species whose biome is a singleton (LOO can
+    never predict them). gs_result is the output of golden_set_validate."""
+    singles = singleton_biomes(assigned)
+    predictable = [s for s in assigned if s["biome_affinity"] not in singles]
+    missed_ids = {m["species_id"] for m in gs_result["misses"]}
+    correct = sum(1 for s in predictable if s["species_id"] not in missed_ids)
+    total = len(predictable)
+    return {
+        "predictable_total": total,
+        "predictable_correct": correct,
+        "predictable_accuracy": (correct / total) if total else 0.0,
+        "singleton_biomes": sorted(singles),
+    }
+
+
+def _confidence(ranked: list) -> float:
+    if not ranked:
+        return 0.0
+    if len(ranked) == 1:
+        return 0.5
+    top, second = ranked[0][1], ranked[1][1]
+    if top <= 0:
+        return 0.0
+    return max(0.0, min(1.0, (top - second) / top))
+
+
+def _reasoning(species: dict, ranked: list) -> str:
+    if not ranked:
+        return "no signal (no trait votes, no keyword match) -- needs manual assignment"
+    traits = ", ".join(species.get("trait_refs", []) or []) or "none"
+    top = ranked[0]
+    return f"top biome {top[0]} (score {top[1]:.2f}) from traits [{traits}] + clade {species.get('clade_tag')}"
+
+
+def generate_draft(missing: list, trait_biome_map: dict, valid_biomes: list) -> list:
+    draft = []
+    for s in missing:
+        ranked = score_species(s, trait_biome_map, valid_biomes)
+        suggested = ranked[0][0] if ranked else None
+        draft.append({
+            "species_id": s.get("species_id"),
+            "suggested_biome": suggested,
+            "confidence": round(_confidence(ranked), 3),
+            "reasoning": _reasoning(s, ranked),
+            "alternatives": [b for b, _ in ranked[:3]],
+        })
+    return draft
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description="D4 biome-affinity heuristic (DRAFT only)")
+    ap.add_argument("--out", default=str(REPO_ROOT / "docs/planning/2026-05-30-biome-affinity-draft.json"))
+    ap.add_argument("--gate", type=float, default=GATE_THRESHOLD)
+    args = ap.parse_args(argv)
+
+    species = load_catalog()
+    assigned, missing = split_by_biome_affinity(species)
+    valid = load_biome_ids()
+
+    gs = golden_set_validate(assigned, valid)
+    pa = predictable_accuracy(assigned, gs)
+    print(f"[golden-set] total top-1 {gs['top1_accuracy']:.1%} ({gs['top1_correct']}/{gs['total']})")
+    print(f"[golden-set] predictable top-1 {pa['predictable_accuracy']:.1%} ({pa['predictable_correct']}/{pa['predictable_total']}) gate={args.gate:.0%}")
+    print(f"[golden-set] singleton biomes (LOO-unpredictable, excluded): {pa['singleton_biomes']}")
+
+    if pa["predictable_accuracy"] < args.gate:
+        print("[GATE FAIL] predictable accuracy below threshold. NOT generating draft.")
+        for m in gs["misses"]:
+            print(f"  - {m['species_id']}: actual={m['actual']} predicted={m['predicted']}")
+        return 1
+
+    tmap = build_trait_biome_map(assigned)
+    draft = generate_draft(missing, tmap, valid)
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump({
+            "golden_set": {
+                "total_accuracy": gs["top1_accuracy"], "total_correct": gs["top1_correct"], "total": gs["total"],
+                "predictable_accuracy": pa["predictable_accuracy"], "predictable_correct": pa["predictable_correct"],
+                "predictable_total": pa["predictable_total"], "singleton_biomes": pa["singleton_biomes"],
+                "gate": args.gate,
+            },
+            "draft": draft,
+        }, f, ensure_ascii=False, indent=2)
+    print(f"[GATE PASS] draft of {len(draft)} suggestions written to {out_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())

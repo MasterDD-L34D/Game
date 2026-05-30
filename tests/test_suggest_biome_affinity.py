@@ -126,3 +126,33 @@ def test_golden_set_accuracy_above_baseline():
     assigned, _ = sba.split_by_biome_affinity(species)
     result = sba.golden_set_validate(assigned, sba.load_biome_ids())
     assert result["top1_accuracy"] >= 0.38
+
+
+def test_singleton_biomes_identified():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    singles = sba.singleton_biomes(assigned)
+    assert isinstance(singles, set)
+    assert len(singles) >= 1
+
+
+def test_generate_draft_shape():
+    species = sba.load_catalog()
+    assigned, missing = sba.split_by_biome_affinity(species)
+    tmap = sba.build_trait_biome_map(assigned)
+    draft = sba.generate_draft(missing, tmap, sba.load_biome_ids())
+    assert len(draft) == 32
+    entry = draft[0]
+    for key in ("species_id", "suggested_biome", "confidence", "reasoning", "alternatives"):
+        assert key in entry
+    assert 0.0 <= entry["confidence"] <= 1.0
+    assert isinstance(entry["alternatives"], list)
+
+
+def test_predictable_accuracy_excludes_singletons():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    res = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    acc = sba.predictable_accuracy(assigned, res)
+    assert acc["predictable_total"] <= 21
+    assert acc["predictable_accuracy"] >= res["top1_accuracy"]
