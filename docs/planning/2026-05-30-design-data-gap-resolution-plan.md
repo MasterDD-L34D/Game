@@ -32,13 +32,16 @@ tags: [planning, gap-resolution, roadmap, design-data, atlas, waves]
 - **D2 — Pathfinder 1211**: **FULL SEED PASS** (30-50 creature/bioma in tutti i foodweb).
 - **D3 — Sequencing**: plan-doc-first (questo doc) -> esecuzione per wave sotto.
 - **D3b — Adapter-first reframe (2026-05-30, post census #2454)**: la keystone Wave 3/4 e l'adapter ecologia->combat (deriva hp/mod/dc deterministici da threat_tier/role_trofico + trait modifier). Backfill-broad = YAGNI (solo biomi/specie toccati dal gameplay). Pilota verticale su badlands prima di generalizzare. GAP-C (mondo a inizio partita) resta POST-MVP.
+- **D5 — SPECIES_BY_JOB (RESOLVED 2026-05-30)**: SoT = `species.jobs_bias` (1:many, gia esistente, 23/81 specie); `SPECIES_BY_JOB` = indice inverso **DERIVATO** a build-time (job -> specie eligibili). **soft-gate** (player non hard-locked; jobs_bias resta anche AI-bias). Sostituire l'hardcoded map (`hardcoreScenario.js:90-95`) con l'indice derivato (anti-drift L-075). Backfill `jobs_bias` per coprire gli 11 job. **Impl deferita al player-roster UI** (unico consumer reale, non ancora wired -- YAGNI): la SHAPE e decisa, l'infra si costruisce col consumer.
+- **D6 — rovine_planari (RESOLVED 2026-05-30)**: **NON toccare hardcore_06/07** (content shipped + bande ratificate 15-25%/30-50%, revive-culture). Riempire le 10 specie rovine_planari come **NUOVO contenuto** (Wave 3/4, YAGNI: solo se il gameplay le tocca) per encounter futuri. Retrofit di hardcore_06/07 con specie reali = **decisione separata gated dopo** (richiede band re-ratify N=40).
 
 ## Decisioni ANCORA pending (gate-ano Wave 3-4)
 
 - **D4 — biome-assignment heuristic** (DEMOTED post #2454): come assegnare biome_affinity alle 32 specie senza? (Phase-3 heuristic ADR-2026-05-15: functional_signature + clade + trait_plan). **Non piu critical-path**: serve a foodweb-membership (GAP-A), NON alla combat-usabilita (quella e l'adapter D3b). Si risolve per-bioma quando si estende un ecosystem.yaml a un bioma gameplay-touched.
-- **D5 — SPECIES_BY_JOB**: schema mapping specie<->job (quale specie sblocca quali job). Gate job-specie identity. Invariato (ortogonale all'ecologia-combat).
-- **D6 — rovine_planari (NEW post #2454)**: il bioma di hardcore_06/07 ha 10 specie tutte-stub -> gli scenari inventano creature inline. Decisione master-dd: (a) scrivere le 10 specie reali (autoriale + bilancio) OPPURE (b) ri-ambientare gli scenari hardcore in un bioma gia ricco (es. badlands) + marcare rovine_planari "narrativo non-combat" finche non c'e budget. Gate: quali specie usano hardcore_06/07.
+- **D5 + D6 — RESOLVED 2026-05-30** -> spostate in "Decisioni master-dd LOCKED" sopra (D5 = derive-from-jobs_bias DRY + impl deferita roster-UI; D6 = leave-hardcore + fill-as-new-content).
 - **L2-L5 lore**: resta gated da playtest AI-driven canonico (ADR-2026-05-18-df-levels, gia deciso). NON sblocca finche core-loop non validato.
+
+> Stato gate Wave 3-4: D3/D3b LOCKED, D4 demoted (foodweb-only, non critical-path), D5/D6 RESOLVED. Resta pending solo L2-L5 (playtest-gated). Il critical-path Wave 3 (adapter) NON e gated da decisioni aperte.
 
 ---
 
