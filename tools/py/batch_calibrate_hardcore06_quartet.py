@@ -9,6 +9,7 @@ Reuse engine da tools/py/batch_calibrate_hardcore06.py (import).
 
 import argparse
 import json
+import random
 import statistics
 import sys
 import time
@@ -16,16 +17,17 @@ import urllib.error
 import urllib.request
 
 sys.path.insert(0, "tools/py")
+import calibrate_policies  # noqa: E402
 from batch_calibrate_hardcore06 import (  # noqa: E402
     post, get, pressure_tier, plan_player_intents, detect_outcome,
-    MAX_ROUNDS, aggregate,
+    MAX_ROUNDS, aggregate, POLICY_CTX, _policy_rng,
 )
 
 SCENARIO_ID = "enc_tutorial_06_hardcore"
 DEFAULT_HOST = "http://localhost:3340"
 
 
-def run_one_quartet(host, run_idx):
+def run_one_quartet(host, run_idx, seed=None, policy="greedy", rng=None):
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
         return {"error": f"fetch scenario failed: {sc}"}
@@ -48,6 +50,8 @@ def run_one_quartet(host, run_idx):
 
     status, start = post(f"{host}/api/session/start", {
         "units": quartet_units,
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
+        **({"seed": seed} if seed is not None else {}),
         "modulation": "quartet",
         "sistema_pressure_start": pstart,
         "hazard_tiles": hazard,
@@ -65,7 +69,10 @@ def run_one_quartet(host, run_idx):
         outcome = detect_outcome(state)
         if outcome:
             break
-        intents = plan_player_intents(state, None)
+        if policy == "greedy":
+            intents = plan_player_intents(state, None)
+        else:
+            intents = calibrate_policies.pick_intents(policy, state, POLICY_CTX, rng)
         status, resp = post(f"{host}/api/session/round/execute", {
             "session_id": sid,
             "player_intents": intents,
@@ -110,6 +117,8 @@ def run_one_quartet(host, run_idx):
 
     return {
         "run": run_idx,
+        "seed": seed,
+        "policy": policy,
         "outcome": outcome,
         "rounds": state.get("turn", 0),
         "players_alive": players_alive,
@@ -129,12 +138,20 @@ def main():
     ap.add_argument("--host", default=DEFAULT_HOST)
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--seed", type=int, default=None,
+                    help="TKT-PLAYTEST-SEED: base seed; run i uses seed+i for bit-identical replay.")
+    ap.add_argument("--policy", default="greedy",
+                    choices=["random", "greedy", "lookahead2", "utility"],
+                    help="TKT-PLAYTEST-TRIANGULATE: player policy proxy (single). Band/'all' mode "
+                         "lives in the canonical suite (playtest_canonical.py) for hc06/hc07.")
     args = ap.parse_args()
 
     runs = []
     t0 = time.time()
     for i in range(args.n):
-        r = run_one_quartet(args.host, i)
+        run_seed = args.seed + i if args.seed is not None else None
+        r = run_one_quartet(args.host, i, seed=run_seed, policy=args.policy,
+                            rng=_policy_rng(args.policy, run_seed))
         runs.append(r)
         mark = "V" if r.get("outcome") == "victory" else "L" if r.get("outcome") == "defeat" else "T" if r.get("outcome") == "timeout" else "E"
         print(f"[{i+1}/{args.n}] {mark} rounds={r.get('rounds','?')} boss={r.get('boss_hp_remaining','?')} pa={r.get('players_alive','?')}/4", flush=True)

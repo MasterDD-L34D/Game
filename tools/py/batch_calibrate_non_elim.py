@@ -149,13 +149,16 @@ def encounter_to_units(encounter):
     return units
 
 
-def run_one(host, encounter, run_idx):
+def run_one(host, encounter, run_idx, seed=None):
     units = encounter_to_units(encounter)
 
     encounter_payload = dict(encounter)
 
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay
+        # (this escort scenario has no player policy -> only --seed applies).
+        **({"seed": seed} if seed is not None else {}),
         "encounter": encounter_payload,
     })
     if status != 200:
@@ -179,6 +182,7 @@ def run_one(host, encounter, run_idx):
 
     return {
         "run": run_idx,
+        "seed": seed,
         "outcome": end_res.get("outcome"),
         "objective_state": end_res.get("objective_state"),
         "final_objective": objective_state_seen,
@@ -231,6 +235,9 @@ def main():
     ap.add_argument("--out", default=None, help="JSON output path")
     ap.add_argument("--probe", action="store_true", help="N=1 verbose probe")
     ap.add_argument("--skip-health", action="store_true")
+    ap.add_argument("--seed", type=int, default=None,
+                    help="TKT-PLAYTEST-SEED: base seed; run i uses seed+i for bit-identical "
+                         "replay. Omit = Math.random. (No --policy: escort scenario, no player ladder.)")
     args = ap.parse_args()
 
     # Resolve scenario path.
@@ -257,7 +264,7 @@ def main():
     runs = []
     t0 = time.time()
     for i in range(args.n):
-        r = run_one(args.host, encounter, i)
+        r = run_one(args.host, encounter, i, seed=(args.seed + i if args.seed is not None else None))
         runs.append(r)
         mark = "V" if r.get("outcome") == "win" else "L" if r.get("outcome") in ("wipe", "objective_failed") else "T" if r.get("outcome") == "timeout" else "E"
         print(f"[{i+1}/{args.n}] {mark} outcome={r.get('outcome', 'err')}", flush=True)

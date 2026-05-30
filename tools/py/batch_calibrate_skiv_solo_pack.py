@@ -246,10 +246,13 @@ def detect_outcome(state, rounds):
     return None
 
 
-def run_one(host, run_idx):
+def run_one(host, run_idx, seed=None):
     units = build_skiv_units()
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay
+        # (single-unit survival scenario -> only --seed; no player-ladder policy).
+        **({"seed": seed} if seed is not None else {}),
         "encounter_id": ENCOUNTER_ID,
         "biome_id": "savana",
     })
@@ -298,6 +301,7 @@ def run_one(host, run_idx):
     )
     return {
         "run": run_idx,
+        "seed": seed,
         "outcome": outcome,
         "rounds": rounds,
         "skiv_hp_final": skiv_hp,
@@ -424,6 +428,9 @@ def main():
     parser.add_argument("--target-high", type=int, default=45)
     parser.add_argument("--no-report", action="store_true", help="skip md report write")
     parser.add_argument("--json-out", help="optional path to dump raw runs JSON")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="TKT-PLAYTEST-SEED: base seed; run i uses seed+i for bit-identical "
+                             "replay. Omit = Math.random. (No --policy: solo-survival, no player ladder.)")
     args = parser.parse_args()
 
     host = args.host.rstrip("/")
@@ -434,7 +441,7 @@ def main():
 
     runs = []
     for i in range(1, args.n + 1):
-        result = run_one(host, i)
+        result = run_one(host, i, seed=(args.seed + i if args.seed is not None else None))
         runs.append(result)
         outcome = result.get("outcome", "ERROR")
         marker = " ✓mark" if result.get("alpha_marked") else ""
