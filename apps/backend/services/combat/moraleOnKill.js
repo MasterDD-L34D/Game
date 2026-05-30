@@ -6,7 +6,7 @@
 // (Manhattan dist <= 1) same-team ally whose checkMorale triggers. checkMorale
 // applies the status to the ally internally (side effect on ally.status).
 //
-// opts: { sessionId?, turn?, now?, checkMorale? (DI for tests) }
+// opts: { sessionId?, turn?, now?, rng? (session-scoped d20 rng), checkMorale? (DI for tests) }
 
 const { checkMorale: defaultCheckMorale } = require('./morale');
 
@@ -29,7 +29,7 @@ function moraleEventsForKill(deadUnit, units, opts = {}) {
     const dist = Math.abs(Number(apos.x) - Number(dp.x)) + Math.abs(Number(apos.y) - Number(dp.y));
     if (dist > 1) continue;
 
-    const res = checkMorale(ally, 'ally_killed_adjacent', {});
+    const res = checkMorale(ally, 'ally_killed_adjacent', { rng: opts.rng });
     if (res && res.triggered && res.status) {
       events.push({
         ts: now,

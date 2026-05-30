@@ -118,14 +118,23 @@ let _active = false;
 let _seedA = 0;
 
 /**
- * Advance the mulberry32 cursor once and return a float in [0,1). Same
- * well-known constants as the reference implementation (stream portable).
+ * Pure mulberry32 step: advance cursor `a` once, return { a: nextCursor, v }
+ * with v in [0,1). Same well-known constants (stream portable). Shared by the
+ * global stream (_step) and per-holder streams (makeHolderRng) so they produce
+ * one identical sequence from a given cursor.
  */
-function _step() {
-  _seedA = (_seedA + 0x6d2b79f5) | 0;
-  let t = Math.imul(_seedA ^ (_seedA >>> 15), 1 | _seedA);
+function _advance(a) {
+  a = (a + 0x6d2b79f5) | 0;
+  let t = Math.imul(a ^ (a >>> 15), 1 | a);
   t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  return { a, v: ((t ^ (t >>> 14)) >>> 0) / 4294967296 };
+}
+
+/** Advance the GLOBAL cursor once and return a float in [0,1). */
+function _step() {
+  const r = _advance(_seedA);
+  _seedA = r.a;
+  return r.v;
 }
 
 /**
@@ -204,6 +213,27 @@ function runWithSeed(holder, fn) {
   }
 }
 
+/**
+ * Build a session-scoped rng FUNCTION drawing directly from `holder.state`
+ * (advancing + persisting it), independent of the global stream. Lets ASYNC
+ * post-resolution paths (morale-on-kill, reinforcement spawn) keep drawing the
+ * SAME per-session stream the synchronous runWithSeed block used -- safe across
+ * `await`s and concurrent sessions because it never touches the global cursor
+ * (Codex #2450 P1). holder null / holder.state null -> Math.random passthrough.
+ * @param {{state: number|null}|null|undefined} holder
+ * @returns {() => number}
+ */
+function makeHolderRng(holder) {
+  return function holderRng() {
+    if (!holder || holder.state === null || holder.state === undefined) {
+      return Math.random();
+    }
+    const r = _advance(holder.state);
+    holder.state = r.a;
+    return r.v;
+  };
+}
+
 module.exports = {
   initUnit,
   recordRoll,
@@ -220,4 +250,5 @@ module.exports = {
   captureState,
   restoreState,
   runWithSeed,
+  makeHolderRng,
 };

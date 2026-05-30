@@ -42,7 +42,7 @@ const { tick: reinforcementTick } = require('../services/combat/reinforcementSpa
 // TKT-PLAYTEST-SEED (P2): per-session RNG scoping for combat round resolution.
 // Installs session.combatRng around each (synchronous) resolveRoundPure so a
 // seeded calibration session's stream is isolated from concurrent sessions.
-const { runWithSeed } = require('../services/combat/pseudoRng');
+const { runWithSeed, makeHolderRng } = require('../services/combat/pseudoRng');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 // 2026-04-26: wire isTurnLimitExceeded (damage_curves.yaml soft cap per encounter_class).
@@ -1428,6 +1428,9 @@ function createRoundBridge(deps) {
         const moraleEvents = moraleEventsForKill(target, session.units, {
           sessionId: session.session_id,
           turn: session.turn,
+          // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
+          // (this path runs after runWithSeed restored the global stream).
+          rng: makeHolderRng(session.combatRng),
         });
         for (const mEv of moraleEvents) {
           // eslint-disable-next-line no-await-in-loop
@@ -1688,7 +1691,10 @@ function createRoundBridge(deps) {
 
     // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
     // session.encounter undefined → both modules return no-op.
-    const reinforcementResult = reinforcementTick(session, session.encounter);
+    // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+    const reinforcementResult = reinforcementTick(session, session.encounter, {
+      rng: makeHolderRng(session.combatRng),
+    });
     for (const rec of reinforcementResult.spawned || []) {
       if (rec.skipped) continue;
       await appendEvent(session, {
@@ -2092,7 +2098,10 @@ function createRoundBridge(deps) {
 
         // ADR-2026-04-19 + 04-20 wiring (commit-round path).
         // Graceful no-op if session.encounter undefined.
-        const reinforcementResult = reinforcementTick(session, session.encounter);
+        // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+        const reinforcementResult = reinforcementTick(session, session.encounter, {
+          rng: makeHolderRng(session.combatRng),
+        });
         for (const rec of reinforcementResult.spawned || []) {
           if (rec.skipped) continue;
           await appendEvent(session, {

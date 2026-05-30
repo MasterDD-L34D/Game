@@ -199,3 +199,39 @@ test('pseudoRng: runWithSeed restores the prior global state', () => {
   runWithSeed({ state: 7 }, () => defaultRng());
   assert.equal(isSeeded(), false, 'unseeded global stays unseeded after runWithSeed');
 });
+
+// makeHolderRng: a session-scoped rng FUNCTION that draws straight from a
+// holder cursor (no global). Lets async post-resolution paths (morale on kill,
+// reinforcement spawn) keep drawing the SAME per-session stream that the
+// synchronous runWithSeed block used -- Codex #2450 P1 fix.
+
+test('pseudoRng: makeHolderRng is deterministic per holder seed', () => {
+  clearSeed();
+  const r1 = makeHolderRng({ state: 50 });
+  const r2 = makeHolderRng({ state: 50 });
+  assert.deepEqual([r1(), r1(), r1()], [r2(), r2(), r2()], 'same holder seed -> same sequence');
+});
+
+test('pseudoRng: runWithSeed + makeHolderRng share one continuous stream', () => {
+  clearSeed();
+  // Path A: two draws inside runWithSeed, then one more via makeHolderRng.
+  const h = { state: 77 };
+  const inRun = [];
+  runWithSeed(h, () => {
+    inRun.push(defaultRng(), defaultRng());
+  });
+  const cont = makeHolderRng(h)();
+  // Path B: three consecutive draws from a fresh holder of the same seed.
+  const ref = makeHolderRng({ state: 77 });
+  assert.deepEqual(
+    [inRun[0], inRun[1], cont],
+    [ref(), ref(), ref()],
+    'combat (runWithSeed) -> morale/reinforcement (makeHolderRng) is one stream',
+  );
+  assert.equal(isSeeded(), false, 'global untouched by makeHolderRng');
+});
+
+test('pseudoRng: makeHolderRng unseeded holder -> Math.random passthrough', () => {
+  assert.ok(((v) => v >= 0 && v < 1)(makeHolderRng({ state: null })()));
+  assert.ok(((v) => v >= 0 && v < 1)(makeHolderRng(null)()));
+});
