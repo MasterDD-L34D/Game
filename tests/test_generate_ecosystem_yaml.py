@@ -90,6 +90,27 @@ def test_main_writes_draft_yaml(tmp_path):
     assert "apex1" in parsed["ecosistema"]["trofico"]["consumatori"]["terziari"]
 
 
+def test_unit_slug_normalizes_to_runtime_hyphenated_slug():
+    # foodwebFilter matches reinforcement unit_id (hyphenated runtime slug),
+    # not catalog species_id (sp_*). Default id_field='slug' must produce that.
+    assert gey._unit_slug({"species_id": "sp_arenavolux_sagittalis"}) == "arenavolux-sagittalis"
+    assert gey._unit_slug({"species_id": "dune_stalker", "legacy_slug": "dune_stalker"}) == "dune-stalker"
+    assert gey._unit_slug({"species_id": "x", "legacy_slug": "leviatano_risonante"}) == "leviatano-risonante"
+
+
+def test_unit_slug_id_field_override():
+    sp = {"species_id": "sp_x_y", "legacy_slug": "x_y"}
+    assert gey._unit_slug(sp, "species_id") == "sp_x_y"
+    assert gey._unit_slug(sp, "legacy_slug") == "x_y"
+    assert gey._unit_slug(sp, "slug") == "x-y"
+
+
+def test_group_biome_emits_slug_namespace():
+    cat = [{"species_id": "sp_foo_bar", "biome_affinity": "savana", "clade_tag": "Apex"}]
+    grouped = gey.group_biome(cat, "savana")  # default slug
+    assert grouped["consumatori"]["terziari"] == ["foo-bar"]
+
+
 def _write_cat(tmp_path):
     import json
     p = tmp_path / "cat.json"

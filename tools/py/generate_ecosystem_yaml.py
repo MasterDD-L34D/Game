@@ -77,7 +77,25 @@ def infer_tier(sp: dict) -> str:
     return "secondari"
 
 
-def group_biome(catalog: list, biome: str) -> dict:
+def _unit_slug(sp: dict, id_field: str = "slug") -> str:
+    """Emit the id namespace foodwebFilter compares against `reinforcement_pool`
+    entry.unit_id. The existing consumed ecosystems (e.g. badlands.ecosystem.yaml)
+    use hyphenated runtime slugs (`dune-stalker`, `rust-scavenger`), NOT catalog
+    `species_id` (`sp_arenavolux_sagittalis`). Default `slug` normalizes to that
+    runtime form; `--id-field` overrides if a given pool uses another namespace.
+    """
+    if id_field == "species_id":
+        return str(sp.get("species_id") or sp.get("legacy_slug") or "").strip()
+    if id_field == "legacy_slug":
+        return str(sp.get("legacy_slug") or sp.get("species_id") or "").strip()
+    # "slug": runtime hyphenated form (strip sp_ prefix, _ -> -)
+    base = str(sp.get("legacy_slug") or sp.get("species_id") or "").strip()
+    if base.startswith("sp_"):
+        base = base[3:]
+    return base.replace("_", "-")
+
+
+def group_biome(catalog: list, biome: str, id_field: str = "slug") -> dict:
     grouped = {
         "produttori": [],
         "consumatori": {"primari": [], "secondari": [], "terziari": []},
@@ -86,7 +104,7 @@ def group_biome(catalog: list, biome: str) -> dict:
     for sp in catalog:
         if str(sp.get("biome_affinity") or "") != biome:
             continue
-        sid = sp.get("species_id") or sp.get("legacy_slug")
+        sid = _unit_slug(sp, id_field)
         if not sid:
             continue
         tier = infer_tier(sp)
@@ -126,6 +144,12 @@ def main(argv=None):
     ap.add_argument("--biomes", nargs="+", required=True, help="target biome id(s)")
     ap.add_argument("--catalog", default=str(CATALOG_PATH))
     ap.add_argument("--out-dir", default=str(DEFAULT_DRAFT_DIR))
+    ap.add_argument(
+        "--id-field",
+        choices=["slug", "legacy_slug", "species_id"],
+        default="slug",
+        help="id namespace for species_all (default slug = runtime hyphenated form foodwebFilter expects)",
+    )
     args = ap.parse_args(argv)
 
     valid = load_valid_biomes()
@@ -141,7 +165,7 @@ def main(argv=None):
         if biome not in valid:
             print(f"[skip] {biome} not in biomes.yaml")
             continue
-        grouped = group_biome(catalog, biome)
+        grouped = group_biome(catalog, biome, id_field=args.id_field)
         n = sum(len(t) for t in _flatten(grouped))
         if n == 0:
             print(f"[skip] {biome}: 0 species with biome_affinity={biome} (has apply run yet?)")
