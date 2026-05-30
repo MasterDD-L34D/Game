@@ -126,6 +126,14 @@ export const api = {
       body: JSON.stringify({ session_id: sid, auto_resolve: autoResolve }),
     }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
+  // 2026-05-30 P4 debrief wire — non-destructive debrief fetch (full
+  // buildDebriefSummary: ennea/inner voices + conviction badges + archetypes).
+  // Host uses it to attach debrief_payload to /coop/combat/end without ending
+  // the session (keeps VC + promotion accept alive). ?outcome gates mating/PE.
+  sessionDebrief: (sid, outcome = null) => {
+    const qs = outcome ? `?outcome=${encodeURIComponent(outcome)}` : '';
+    return jsonFetch(`/api/session/${encodeURIComponent(sid)}/debrief${qs}`);
+  },
   // Sprint 8 (Surface-DEAD #1): predict_combat hover preview.
   predict: (sid, actorId, targetId) =>
     jsonFetch('/api/session/predict', {

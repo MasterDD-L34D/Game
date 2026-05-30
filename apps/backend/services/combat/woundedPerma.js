@@ -9,8 +9,13 @@
 //      → applyWound(unit, sessionMap) on every KO'd player unit
 //   2. encounter starts → restoreOnEncounterStart(unit, sessionMap) re-applies
 //      HP penalty from prior session map, idempotent (skip if already applied).
-//   3. session ends → clearSession(sessionMap) wipes all entries (durata sessione,
-//      handoff §4 D-skiv-2 default).
+//   3. clearSession(sessionMap) wipes all entries -- kept for session-scoped callers.
+//      NOTE (master-dd 2026-05-30): the live caller (session.js TKT-ORPHAN-WOUNDPERMA)
+//      keys the map by campaign_id and DELIBERATELY never clears it -- scars are a
+//      PERMANENT roguelike meta-progression consequence (carry across playthroughs),
+//      so the old "durata sessione" default does NOT apply to that map. Current store
+//      is in-memory (lossy on process restart); true cross-restart permanence = future
+//      DB-backed follow-up.
 //
 // API:
 //   initSessionMap()                           → empty map object
