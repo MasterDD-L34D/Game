@@ -388,10 +388,15 @@ class CoopOrchestrator {
     };
     this.characters.set(playerId, normalized);
     // N2 -- persist the created PG to party_rosters (run.id-keyed), best-effort
-    // and fire-and-forget. Never block / throw into the submit path.
+    // and fire-and-forget. Never block / throw into the submit path: the sync
+    // try/catch covers a wiring throw (store construct), and the .catch covers
+    // an async-rejecting upsert (the canonical store swallows internally).
     if (this.run && this.run.id) {
       try {
-        this._getRosterStore().upsert(this.run.id, normalized);
+        const persisting = this._getRosterStore().upsert(this.run.id, normalized);
+        if (persisting && typeof persisting.catch === 'function') {
+          persisting.catch(() => {});
+        }
       } catch (_err) {
         /* best-effort */
       }

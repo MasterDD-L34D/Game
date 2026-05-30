@@ -71,3 +71,28 @@ test('persist never throws into submit when store.upsert throws', () => {
     ),
   );
 });
+
+test('persist swallows an async-rejecting store upsert (no unhandled rejection)', async () => {
+  const co = new CoopOrchestrator({
+    roomCode: 'RSTR',
+    hostId: 'p_h',
+    rosterStore: {
+      get: async () => [],
+      async upsert() {
+        throw new Error('async db down');
+      },
+    },
+  });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('character_creation');
+  assert.doesNotThrow(() =>
+    co.submitCharacter(
+      'p_h',
+      { name: 'Liev', form_id: 'form_x', species_id: 'umbra', job_id: 'custode' },
+      { allPlayerIds: ['p_h', 'p_a'] },
+    ),
+  );
+  // Let the deferred upsert rejection settle; the hook's .catch must swallow it
+  // (an unguarded rejection would surface as an unhandled rejection here).
+  await new Promise((resolve) => setImmediate(resolve));
+});
