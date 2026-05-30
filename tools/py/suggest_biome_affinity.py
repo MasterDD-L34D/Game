@@ -96,3 +96,32 @@ def keyword_biome_scores(text: str, valid_biomes: list) -> dict:
         if kw in low and biome in valid_biomes:
             scores[biome] += 1
     return dict(scores)
+
+
+# Signal weights (calibrated against golden-set in later task).
+W_TRAIT = 3.0
+W_KEYWORD = 2.0
+
+
+def score_species(species: dict, trait_biome_map: dict, valid_biomes: list) -> list:
+    """Return [(biome_id, score), ...] sorted by score desc (only score > 0)."""
+    scores = Counter()
+
+    # Primary: trait votes
+    for trait in species.get("trait_refs", []) or []:
+        votes = trait_biome_map.get(trait)
+        if votes:
+            total = sum(votes.values())
+            for biome, cnt in votes.items():
+                scores[biome] += W_TRAIT * (cnt / total)
+
+    # Secondary: keyword match on scientific_name + functional_signature
+    text = " ".join(
+        str(species.get(k, "") or "")
+        for k in ("scientific_name", "functional_signature")
+    )
+    for biome, hits in keyword_biome_scores(text, valid_biomes).items():
+        scores[biome] += W_KEYWORD * hits
+
+    ranked = [(b, sc) for b, sc in scores.most_common() if sc > 0]
+    return ranked

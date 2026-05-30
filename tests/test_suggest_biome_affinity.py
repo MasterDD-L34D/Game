@@ -56,3 +56,29 @@ def test_keyword_biome_scores_arena_hits_savana_or_sand():
 def test_keyword_biome_scores_empty_when_no_match():
     scores = sba.keyword_biome_scores("zzz qqq", sba.load_biome_ids())
     assert all(v == 0 for v in scores.values()) or scores == {}
+
+
+def test_score_species_returns_ranked_biomes():
+    tmap = {"t_sand": Counter({"savana": 3})}
+    species = {
+        "species_id": "x",
+        "trait_refs": ["t_sand"],
+        "scientific_name": "Dunecrawler arena",
+        "functional_signature": "predatore di sabbia",
+        "clade_tag": "Apex",
+    }
+    ranked = sba.score_species(species, tmap, sba.load_biome_ids())
+    assert ranked[0][0] == "savana"
+    assert ranked[0][1] > 0
+
+
+def test_score_species_no_signal_returns_empty():
+    species = {
+        "species_id": "y",
+        "trait_refs": ["unknown_trait"],
+        "scientific_name": "Xyz qqq",
+        "functional_signature": "",
+        "clade_tag": "Bridge",
+    }
+    ranked = sba.score_species(species, {}, sba.load_biome_ids())
+    assert ranked == [] or ranked[0][1] == 0
