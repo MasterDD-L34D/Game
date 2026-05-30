@@ -89,6 +89,7 @@ const KNOWN_PHASES = new Set([
   'world_seed_reveal', // UI-only transient between world_setup → combat
   'combat',
   'debrief',
+  'nido', // N1 Nido-hub phase
   'ended',
   // Combat lifecycle hints (not orch phases, but used by round model).
   'planning',

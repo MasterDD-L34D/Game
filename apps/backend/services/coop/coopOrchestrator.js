@@ -29,6 +29,7 @@ const PHASES = [
   'world_setup',
   'combat',
   'debrief',
+  'nido', // N1 Nido-hub phase (return-to-hub loop step, after debrief)
   'ended',
 ];
 
