@@ -717,12 +717,15 @@
   gap: 10px;
 }
 .db-ennea-voice {
-  background: linear-gradient(180deg, #1a1828 0%, #0e0c18 100%);
-  border: 1px solid #2a2438;
+  /* TKT-P4-DIALOGUE-COLORS: light card so the dark-on-light MBTI palette
+     (.mbti-axis-X) stays WCAG AA. Disco-Elysium thought-card look. */
+  background: #ffffff;
+  border: 1px solid #d8d2e6;
   border-left: 3px solid #6a5a9a;
   border-radius: 8px;
   padding: 10px 14px;
   font-family: Georgia, 'Times New Roman', serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 .db-ennea-voice-header {
   display: flex;
@@ -732,7 +735,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #b0a8c8;
+  color: #5a5470;
   margin-bottom: 6px;
 }
 .db-ennea-voice-icon {
@@ -751,9 +754,93 @@
 .db-ennea-voice-text {
   font-style: italic;
   font-size: 0.95rem;
-  color: #e6e2f0;
+  color: #2a2f3d;
   line-height: 1.4;
   margin: 0;
+}
+
+/* TKT-P4-DIALOGUE-COLORS: inner voice (Disco Elysium internal monologue). */
+.db-inner-voices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.db-inner-voice {
+  background: #ffffff;
+  border: 1px solid #d6d2e8;
+  border-left: 3px solid #8a7ad9;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: Georgia, 'Times New Roman', serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.db-inner-voice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.db-inner-voice-pole {
+  font-weight: 800;
+  font-size: 13px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ece8fb;
+  color: #4a3aa0;
+}
+.db-inner-voice-label {
+  font-weight: 700;
+  color: #4a3aa0;
+}
+.db-inner-voice-tier {
+  font-size: 11px;
+  color: #5a6b85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.db-inner-voice-text {
+  font-style: italic;
+  color: #2a2f3d;
+}
+
+/* TKT-P4-CONVICTION-BADGES: Triangle Strategy conviction chips (inline color). */
+.db-conviction-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.db-conviction-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(20, 26, 38, 0.7);
+  border: 1px solid #2c3650;
+  border-left-width: 4px;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.db-conviction-badge .cv-letter {
+  font-weight: 800;
+  font-size: 16px;
+}
+.db-conviction-badge .cv-axis-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9fb0cc;
+}
+.db-conviction-badge .cv-pole-label {
+  font-weight: 600;
+  color: #e8ecf5;
+}
+.db-conviction-badge .cv-delta {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7ee0a0;
 }
 /* 9 archetype color accent (border-left). */
 .db-ennea-voice.archetype-1 {
