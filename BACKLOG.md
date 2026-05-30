@@ -19,15 +19,18 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
-### 🟡 OPEN — Worldgen GAP-A/B/C (foodweb/cross-events/meta-network -> runtime) — 2026-05-29
+### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 
-Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26), ground-truth-verificato 2026-05-29. Museum cards M-013/M-014/M-016 + gallery worldgen. Engine-LIVE-Surface-DEAD: i 4 livelli worldgen (bioma/ecosistema/foodweb/network) hanno il dato ma 3 livelli restano senza consumer runtime. NO autonomous wire (revive culture: decision master-dd).
+Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26). Museum cards M-013/M-014/M-016 + gallery worldgen.
 
-| Ticket            | Gap                               | Verified state 2026-05-29                                                                                                                                     | Effort (post-blast-radius) | Decision                                                                                        |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
-| TKT-WORLDGEN-GAPA | foodweb -> spawn composition      | `biomeAffinity.js` = stat-modifier (Subnautica, wired session.js:506), NON spawn-filter; `reinforcementSpawner.js` non filtra per trophic-tier/biome_affinity | ~8-10h (×1.0-1.2)          | wire `ecosystemLoader` + foodweb whitelist in reinforcementSpawner OR remove                    |
-| TKT-WORLDGEN-GAPB | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events                 | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove                              |
-| TKT-WORLDGEN-GAPC | meta-network -> campaign routing  | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                                                       | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
+**GAP-A + GAP-B closed 2026-05-31 (stale-row correction, L-075 / anti-pattern #19):** both were already shipped + wired + tested in PR #2447 (`04a3920a` on main) — the 2026-05-29 "zero consumer runtime" verified-state was already obsolete when written.
+
+- ✅ **TKT-WORLDGEN-GAPA** (foodweb -> spawn composition): `apps/backend/services/worldgen/foodwebFilter.js` `filterReinforcementPool` wired into `reinforcementSpawner.js tick():172` (Caves of Qud whitelist; kill-switch `policy.foodweb_filter===false`; band-safe fallback never empties pool; Gate-5 console surface). Tests: `foodwebFilter.test.js` 8/8 + `reinforcementSpawner.test.js` 23/23.
+- ✅ **TKT-WORLDGEN-GAPB** (cross-events -> pressure modifier): `crossEventEngine.js` `getCrossEventPressureDelta(biome,season)` wired into `session.js /start` (`:1532` call → `:1704` pressure_delta applied → `:1735` cross_events/hazards surfaced). Test: `crossEventEngine.test.js` 9/9.
+
+| Ticket            | Gap                              | Verified state 2026-05-31                                                                               | Effort (post-blast-radius) | Decision                                                                                        |
+| ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
+| TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
