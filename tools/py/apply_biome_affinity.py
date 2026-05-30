@@ -35,6 +35,11 @@ def load_valid_biomes(path: Path = BIOMES_PATH) -> set:
 
 
 def load_draft(path: Path) -> list:
+    """Return the draft entries, or [] if the file is absent. The draft is an
+    untracked artifact (docs/planning), so a clean checkout may lack it — treat
+    that as zero approved entries so the dry-run contract still holds."""
+    if not path.exists():
+        return []
     with open(path, encoding="utf-8") as f:
         d = json.load(f)
     if isinstance(d, dict):
@@ -107,7 +112,11 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     valid = load_valid_biomes()
-    draft = load_draft(Path(args.draft))
+    draft_path = Path(args.draft)
+    if not draft_path.exists():
+        print(f"[draft] not found at {draft_path} -> treating as 0 entries")
+        print("        regenerate via: python tools/py/suggest_biome_affinity.py --gate 0.45")
+    draft = load_draft(draft_path)
     approved, problems = select_approved(draft, valid)
 
     with open(args.catalog, encoding="utf-8") as f:

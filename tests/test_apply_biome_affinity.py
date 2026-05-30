@@ -88,6 +88,20 @@ def test_main_apply_writes_only_approved_missing(tmp_path):
     assert after["catalog"][1]["biome_affinity"] == "savana"  # NOT overwritten to palude
 
 
+def test_load_draft_missing_returns_empty(tmp_path):
+    assert apply_ba.load_draft(tmp_path / "nope.json") == []
+
+
+def test_main_missing_draft_dry_run_safe(tmp_path):
+    cat_path = tmp_path / "cat.json"
+    cat_path.write_text(json.dumps({"catalog": [{"species_id": "a"}]}), encoding="utf-8")
+    # default draft path won't exist here; explicit missing path -> no crash, no write
+    rc = apply_ba.main(["--catalog", str(cat_path), "--draft", str(tmp_path / "nope.json")])
+    assert rc == 0
+    after = json.loads(cat_path.read_text(encoding="utf-8"))
+    assert "biome_affinity" not in after["catalog"][0]
+
+
 def test_main_apply_rejects_invalid_biome_no_write(tmp_path):
     cat_path = tmp_path / "cat.json"
     cat_path.write_text(json.dumps({"catalog": [{"species_id": "a"}]}), encoding="utf-8")
