@@ -169,3 +169,37 @@ describe('renderEnneaVoices — DOM side effect (fake nodes)', () => {
     assert.doesNotThrow(() => renderEnneaVoices(null, { innerHTML: '' }, []));
   });
 });
+
+describe('formatVoiceLine — MBTI color-coding (TKT-P4-DIALOGUE-COLORS)', () => {
+  test('mbti-tagged text → quote rendered with WCAG color span', async () => {
+    const { formatVoiceLine } = await loadModule();
+    const html = formatVoiceLine({
+      actor_id: 'p_a',
+      archetype_id: 'Architetto(5)',
+      beat_id: 'victory_solo',
+      text: '<mbti axis="N">Visione astratta confermata.</mbti>',
+    });
+    assert.ok(html.includes('mbti-axis-N'), 'color class applied (WCAG AA via CSS)');
+    assert.ok(html.includes('Visione astratta confermata.'), 'inner text preserved');
+  });
+
+  test('plain (untagged) text still renders escaped, no color span', async () => {
+    const { formatVoiceLine } = await loadModule();
+    const html = formatVoiceLine({
+      archetype_id: 'Stoico(9)',
+      text: 'Resisto. Sempre.',
+    });
+    assert.ok(html.includes('Resisto. Sempre.'));
+    assert.ok(!html.includes('mbti-axis-'), 'no color span for plain text');
+  });
+
+  test('mbti-tagged text with XSS inner stays escaped (color + safety)', async () => {
+    const { formatVoiceLine } = await loadModule();
+    const html = formatVoiceLine({
+      archetype_id: 'Cacciatore(8)',
+      text: '<mbti axis="F"><img src=x onerror=alert(1)></mbti>',
+    });
+    assert.ok(!html.includes('<img src'), 'no live img tag');
+    assert.ok(html.includes('mbti-axis-F'), 'still colorized');
+  });
+});
