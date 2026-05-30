@@ -154,9 +154,10 @@ test('worldTally back-compat omits connected_* fields when arg missing', () => {
   assert.equal(tally.all_connected_accepted, undefined);
 });
 
-test('PHASES covers lobby→onboarding→character_creation→world_setup→combat→debrief→ended', () => {
+test('PHASES covers lobby→onboarding→character_creation→world_setup→combat→debrief→nido→ended', () => {
   // 2026-05-06 narrative onboarding port — `onboarding` inserted between
   // lobby and character_creation per canonical 51-ONBOARDING-60S.md.
+  // N1 Nido-hub — `nido` inserted after `debrief` (return-to-hub loop step).
   assert.deepEqual(PHASES, [
     'lobby',
     'onboarding',
@@ -164,6 +165,7 @@ test('PHASES covers lobby→onboarding→character_creation→world_setup→comb
     'world_setup',
     'combat',
     'debrief',
+    'nido',
     'ended',
   ]);
 });
