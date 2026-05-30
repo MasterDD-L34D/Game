@@ -119,3 +119,10 @@ def test_golden_set_leave_one_out_excludes_self():
     assigned, _ = sba.split_by_biome_affinity(species)
     result = sba.golden_set_validate(assigned, sba.load_biome_ids())
     assert result["top1_accuracy"] <= 1.0
+
+
+def test_golden_set_accuracy_above_baseline():
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    result = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    assert result["top1_accuracy"] >= 0.38
