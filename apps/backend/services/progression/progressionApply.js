@@ -318,4 +318,10 @@ module.exports = {
   applyPerkKillEffects,
   grantXpToSurvivors,
   resetDefaults,
+  // Test seam: the module-default store is the singleton the session /start
+  // route reads (applyProgressionToUnits with no injected store). Exposing the
+  // getters lets integration tests seed it so a real /round/execute kill drives
+  // _perk_passives -> performAttack kill hook -> applyPerkKillEffects end-to-end.
+  getDefaultEngine,
+  getDefaultStore,
 };
