@@ -195,7 +195,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 | 13  | [#2209](https://github.com/MasterDD-L34D/Game/pull/2209)        | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species            |
 | 14  | [#2210](https://github.com/MasterDD-L34D/Game/pull/2210)        | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species    |
 | 15  | [#2211](https://github.com/MasterDD-L34D/Game/pull/2211)        | `25c124fc` | BACKLOG sync + ajv-cli investigation closure                             |
-| —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | _open_     | Game-Godot-v2 Q-10 OffspringRitualPanel + service (master-dd review)     |
+| —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | ✅ merged  | Game-Godot-v2 Q-10 OffspringRitualPanel + service (MERGED 2026-05-10, L-075 re-sweep) |
 
 (5 PR pre-cascade sera già contati in v36 cascade L3 section sotto.)
 
@@ -233,7 +233,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 
 **Outstanding master-DD action queue** (next session ready):
 
-1. Q-10 Godot v2 #217 review (cross-stack 12/12 final closure)
+1. ~~Q-10 Godot v2 #217 review~~ ✅ DONE (#217 MERGED 2026-05-10 — closed in 2026-05-31 re-sweep, L-075)
 2. Phase B Day 8 verify 2026-05-14 (γ default ratificato, monitor zero regression)
 3. Wave 5+6 trait orphan biome mapping ~28 traits (~30min single-shot)
 4. Species*expansion schema decision ~28 traits 8 sp*\* (~1h ADR)
