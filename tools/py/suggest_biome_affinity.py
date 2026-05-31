@@ -41,6 +41,26 @@ def load_biome_ids(path: Path = BIOMES_PATH) -> list:
     return list(data["biomes"].keys())
 
 
+# Provenance tag written by apply_biome_affinity.py onto species whose
+# biome_affinity came from THIS heuristic (a proposal under review, not editorial
+# ground truth). Must mirror apply_biome_affinity.PROV_TAG.
+D4_PROVENANCE_TAG = "d4-heuristic-suggest+master-dd-approve"
+
+
+def editorial_assigned(assigned: list) -> list:
+    """The assigned species forming the heuristic's TRUSTED ground truth:
+    everything except entries whose biome_affinity this tool itself wrote (tagged
+    D4_PROVENANCE_TAG in _provenance). Stable regardless of how many suggestions
+    apply_biome_affinity.py has merged. The golden-set gate and trait training run
+    against this set so a post-apply checkout still regenerates the draft instead
+    of self-poisoning (the applied suggestions would otherwise drag predictable
+    accuracy below the gate and block regeneration)."""
+    return [
+        s for s in assigned
+        if (s.get("_provenance") or {}).get("biome_affinity") != D4_PROVENANCE_TAG
+    ]
+
+
 def build_trait_biome_map(assigned: list) -> dict:
     """trait_id -> Counter({biome_id: vote_count}) from already-assigned species."""
     tmap = defaultdict(Counter)
@@ -257,11 +277,18 @@ def main(argv=None):
     assigned, missing = split_by_biome_affinity(species)
     valid = load_biome_ids()
 
-    gs = golden_set_validate(assigned, valid)
-    pa = predictable_accuracy(assigned, gs)
+    # Gate + trait training measure heuristic quality against the EDITORIAL ground
+    # truth only (exclude this tool's own prior suggestions), so the gate is stable
+    # whether or not apply_biome_affinity.py has already merged suggestions.
+    editorial = editorial_assigned(assigned)
+
+    gs = golden_set_validate(editorial, valid)
+    pa = predictable_accuracy(editorial, gs)
     print(f"[golden-set] total top-1 {gs['top1_accuracy']:.1%} ({gs['top1_correct']}/{gs['total']})")
     print(f"[golden-set] predictable top-1 {pa['predictable_accuracy']:.1%} ({pa['predictable_correct']}/{pa['predictable_total']}) gate={args.gate:.0%}")
     print(f"[golden-set] singleton biomes (LOO-unpredictable, excluded): {pa['singleton_biomes']}")
+    if len(editorial) != len(assigned):
+        print(f"[golden-set] editorial truth {len(editorial)}/{len(assigned)} assigned ({len(assigned) - len(editorial)} D4-applied excluded)")
 
     if pa["predictable_accuracy"] < args.gate:
         print("[GATE FAIL] predictable accuracy below threshold. NOT generating draft.")
@@ -269,7 +296,7 @@ def main(argv=None):
             print(f"  - {m['species_id']}: actual={m['actual']} predicted={m['predicted']}")
         return 1
 
-    tmap = build_trait_biome_map(assigned)
+    tmap = build_trait_biome_map(editorial)
     draft = generate_draft(missing, tmap, valid)
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

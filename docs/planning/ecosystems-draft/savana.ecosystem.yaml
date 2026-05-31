@@ -1,0 +1,18 @@
+schema_version: 1.0
+ecosistema:
+  id: SAVANA
+  label: Savana
+  biome_id: savana
+  trofico:
+    produttori:
+    - arenaceros-placidus
+    consumatori:
+      primari: []
+      secondari: []
+      terziari:
+      - dune-stalker
+      - arenavolux-sagittalis
+      - pulverator-gregarius
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT

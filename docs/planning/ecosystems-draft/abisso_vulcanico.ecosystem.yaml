@@ -1,0 +1,19 @@
+schema_version: 1.0
+ecosistema:
+  id: ABISSO_VULCANICO
+  label: Abisso Vulcanico
+  biome_id: abisso_vulcanico
+  trofico:
+    produttori: []
+    consumatori:
+      primari:
+      - fumarisorba-sulfurea
+      secondari: []
+      terziari:
+      - pyrosaltus-celeris
+      - cinerastra-nodosa
+      - magmocardium-furens
+    decompositori:
+    - basaltocara-scutata
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT

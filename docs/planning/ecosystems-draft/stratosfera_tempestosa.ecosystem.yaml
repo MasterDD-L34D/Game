@@ -1,0 +1,16 @@
+schema_version: 1.0
+ecosistema:
+  id: STRATOSFERA_TEMPESTOSA
+  label: Stratosfera Tempestosa
+  biome_id: stratosfera_tempestosa
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari:
+      - zephyrovum-fidelis
+      terziari:
+      - tonitrudens-ferox
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT

@@ -1,0 +1,22 @@
+schema_version: 1.0
+ecosistema:
+  id: FRATTURA_ABISSALE_SINAPTICA
+  label: Frattura Abissale Sinaptica
+  biome_id: frattura_abissale_sinaptica
+  trofico:
+    produttori: []
+    consumatori:
+      primari:
+      - polpo-araldo-sinaptico
+      secondari:
+      - sonapteryx-resonans
+      terziari:
+      - leviatano-risonante
+      - sciame-larve-neurali
+      - electromanta-abyssalis
+      - tempestarius-psionicus
+    decompositori:
+    - simbionte-corallino-riflesso
+    - radiluma-pendula
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
