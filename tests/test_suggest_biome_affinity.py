@@ -6,6 +6,26 @@ from collections import Counter
 import suggest_biome_affinity as sba
 
 
+# --- D4 apply re-baseline ---------------------------------------------------
+# apply_biome_affinity.py (D4) closes the biome_affinity gap: post-apply all 53
+# catalog species carry a biome_affinity. The 32 tool/Claude-proposed ones are
+# tagged in _provenance with D4_PROV. Heuristic-QUALITY assertions below measure
+# against the EDITORIAL ground truth (the 21 species assigned before D4) via
+# _editorial_assigned(), so they stay meaningful and numerically stable after
+# apply; CATALOG-STATE assertions assert the new gap-closed reality (0 missing).
+D4_PROV = "d4-heuristic-suggest+master-dd-approve"
+
+
+def _editorial_assigned():
+    """The species assigned before D4 (the heuristic's golden ground truth):
+    assigned species WITHOUT the D4 provenance tag. Stable at 21 regardless of
+    how many suggestions the apply step writes."""
+    species = sba.load_catalog()
+    assigned, _ = sba.split_by_biome_affinity(species)
+    return [s for s in assigned
+            if (s.get("_provenance") or {}).get("biome_affinity") != D4_PROV]
+
+
 def test_load_catalog_returns_53_species():
     species = sba.load_catalog()
     assert len(species) == 53
@@ -15,8 +35,11 @@ def test_load_catalog_returns_53_species():
 def test_split_assigned_vs_missing():
     species = sba.load_catalog()
     assigned, missing = sba.split_by_biome_affinity(species)
-    assert len(assigned) == 21
-    assert len(missing) == 32
+    # D4 apply closes the gap: was 21 assigned / 32 missing before apply, now all
+    # 53 carry a biome_affinity. State-robust: the split partitions the catalog
+    # and every assigned entry is a valid non-empty biome string.
+    assert len(assigned) + len(missing) == len(species) == 53
+    assert len(missing) == 0  # gap closed by D4 apply (was 32)
     assert all(isinstance(s["biome_affinity"], str) and s["biome_affinity"] for s in assigned)
 
 
@@ -106,9 +129,9 @@ def test_score_species_tiebreak_is_deterministic():
 
 
 def test_golden_set_accuracy_is_measurable():
-    species = sba.load_catalog()
-    assigned, _ = sba.split_by_biome_affinity(species)
-    result = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    # Measure against the editorial 21 (excludes D4-applied suggestions).
+    editorial = _editorial_assigned()
+    result = sba.golden_set_validate(editorial, sba.load_biome_ids())
     assert result["total"] == 21
     assert 0.0 <= result["top1_accuracy"] <= 1.0
     assert result["top1_correct"] + len(result["misses"]) == 21
@@ -122,9 +145,11 @@ def test_golden_set_leave_one_out_excludes_self():
 
 
 def test_golden_set_accuracy_above_baseline():
-    species = sba.load_catalog()
-    assigned, _ = sba.split_by_biome_affinity(species)
-    result = sba.golden_set_validate(assigned, sba.load_biome_ids())
+    # Heuristic quality bar held against the editorial 21 ground truth. Including
+    # the 32 D4-applied biomes (incl. low-confidence name proposals) would pollute
+    # the baseline, so restrict to the editorial set the 0.38 bar was set against.
+    editorial = _editorial_assigned()
+    result = sba.golden_set_validate(editorial, sba.load_biome_ids())
     assert result["top1_accuracy"] >= 0.38
 
 
@@ -137,11 +162,20 @@ def test_singleton_biomes_identified():
 
 
 def test_generate_draft_shape():
+    # Decoupled from catalog state (post-D4 there are 0 missing species). Feed a
+    # synthetic missing entry to assert generate_draft's output SHAPE contract.
     species = sba.load_catalog()
-    assigned, missing = sba.split_by_biome_affinity(species)
+    assigned, _ = sba.split_by_biome_affinity(species)
     tmap = sba.build_trait_biome_map(assigned)
-    draft = sba.generate_draft(missing, tmap, sba.load_biome_ids())
-    assert len(draft) == 32
+    synthetic_missing = [{
+        "species_id": "sp_test_shape",
+        "trait_refs": ["t_sand"],
+        "scientific_name": "Testus arena",
+        "functional_signature": "predatore di sabbia",
+        "clade_tag": "Apex",
+    }]
+    draft = sba.generate_draft(synthetic_missing, tmap, sba.load_biome_ids())
+    assert len(draft) == 1
     entry = draft[0]
     for key in ("species_id", "suggested_biome", "confidence", "reasoning", "alternatives"):
         assert key in entry
@@ -150,10 +184,10 @@ def test_generate_draft_shape():
 
 
 def test_predictable_accuracy_excludes_singletons():
-    species = sba.load_catalog()
-    assigned, _ = sba.split_by_biome_affinity(species)
-    res = sba.golden_set_validate(assigned, sba.load_biome_ids())
-    acc = sba.predictable_accuracy(assigned, res)
+    # Editorial 21 ground truth (excludes D4-applied suggestions).
+    editorial = _editorial_assigned()
+    res = sba.golden_set_validate(editorial, sba.load_biome_ids())
+    acc = sba.predictable_accuracy(editorial, res)
     assert acc["predictable_total"] <= 21
     assert acc["predictable_accuracy"] >= res["top1_accuracy"]
 

@@ -1,0 +1,17 @@
+schema_version: 1.0
+ecosistema:
+  id: CAVERNA
+  label: Caverna
+  biome_id: caverna
+  trofico:
+    produttori: []
+    consumatori:
+      primari:
+      - cryptolorca-medicata
+      secondari:
+      - perfusuas-pedes
+      - cavatympa-sonans
+      terziari: []
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
