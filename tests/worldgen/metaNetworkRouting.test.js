@@ -114,3 +114,43 @@ test('selectNextNodes: edge to a missing node is skipped safely', () => {
   assert.equal(res.candidates[0].node_id, 'PHANTOM');
   assert.equal(res.candidates[0].biome_id, null);
 });
+
+// Codex P2 (#2483): the player picks a NODE, not an edge. Parallel edges to the
+// same target (real graph: CRYOSTEPPE -> BADLANDS via both corridor AND
+// trophic_spillover) must collapse to ONE candidate, keeping the easiest
+// (lowest-resistance) edge as representative + listing all edge types.
+test('selectNextNodes: parallel edges to the same node collapse to one candidate', () => {
+  const g = {
+    nodes: [
+      { id: 'A', weight: 0.4 },
+      { id: 'B', biome_id: 'biome_b', weight: 0.5 },
+    ],
+    edges: [
+      { from: 'A', to: 'B', type: 'trophic_spillover', resistance: 0.7 },
+      { from: 'A', to: 'B', type: 'corridor', resistance: 0.5 },
+    ],
+  };
+  const res = selectNextNodes('A', { graph: g, clearedNodes: [] });
+  assert.equal(res.candidates.length, 1, 'one candidate per unique node');
+  const b = res.candidates[0];
+  assert.equal(b.node_id, 'B');
+  // representative = lowest-resistance edge (corridor 0.5, not trophic 0.7)
+  assert.equal(b.resistance, 0.5);
+  assert.equal(b.edge_type, 'corridor');
+  // no info lost: all parallel edge types surfaced
+  assert.deepEqual([...b.edge_types].sort(), ['corridor', 'trophic_spillover']);
+});
+
+test('selectNextNodes: single edge still exposes edge_types as a 1-element array', () => {
+  const g = {
+    nodes: [
+      { id: 'A', weight: 0 },
+      { id: 'B', weight: 0.5 },
+    ],
+    edges: [{ from: 'A', to: 'B', type: 'corridor', resistance: 0.5 }],
+  };
+  const res = selectNextNodes('A', { graph: g, clearedNodes: [] });
+  assert.equal(res.candidates.length, 1);
+  assert.equal(res.candidates[0].edge_type, 'corridor');
+  assert.deepEqual(res.candidates[0].edge_types, ['corridor']);
+});

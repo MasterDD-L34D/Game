@@ -60,23 +60,48 @@ function selectNextNodes(currentNodeId, ctx = {}) {
   const cleared = new Set((Array.isArray(ctx.clearedNodes) ? ctx.clearedNodes : []).map(_norm));
   const allowRevisit = ctx.allowRevisit === true;
 
-  const candidates = [];
-  const excluded = [];
+  // The player picks a NODE, not an edge. Collapse parallel edges to the same
+  // target into ONE candidate (the real graph has e.g. CRYOSTEPPE -> BADLANDS
+  // via both corridor and trophic_spillover). Representative edge = the
+  // easiest-to-traverse (lowest resistance); all parallel edge types are kept
+  // in edge_types so no routing info is lost.
+  const byTarget = new Map(); // node_id key -> candidate
+  const excludedSet = new Set();
   for (const e of outgoing) {
-    const targetNode = nodeByKey.get(_norm(e.to)) || null;
-    if (!allowRevisit && cleared.has(_norm(e.to))) {
-      excluded.push(e.to);
+    const toKey = _norm(e.to);
+    if (!allowRevisit && cleared.has(toKey)) {
+      excludedSet.add(e.to);
       continue;
     }
-    candidates.push({
-      node_id: e.to,
-      biome_id: targetNode ? (targetNode.biome_id ?? null) : null,
-      weight: targetNode ? Number(targetNode.weight) || 0 : 0,
-      edge_type: e.type || 'corridor',
-      resistance: Number.isFinite(Number(e.resistance)) ? Number(e.resistance) : 0,
-      seasonality: e.seasonality ?? null,
-    });
+    const targetNode = nodeByKey.get(toKey) || null;
+    const resistance = Number.isFinite(Number(e.resistance)) ? Number(e.resistance) : 0;
+    const edgeType = e.type || 'corridor';
+    const existing = byTarget.get(toKey);
+    if (!existing) {
+      byTarget.set(toKey, {
+        node_id: e.to,
+        biome_id: targetNode ? (targetNode.biome_id ?? null) : null,
+        weight: targetNode ? Number(targetNode.weight) || 0 : 0,
+        edge_type: edgeType,
+        resistance,
+        seasonality: e.seasonality ?? null,
+        edge_types: [edgeType],
+      });
+      continue;
+    }
+    // Merge parallel edge: record its type; adopt it as representative when it
+    // is easier to traverse (lower resistance).
+    if (!existing.edge_types.includes(edgeType)) existing.edge_types.push(edgeType);
+    if (resistance < existing.resistance) {
+      existing.edge_type = edgeType;
+      existing.resistance = resistance;
+      existing.seasonality = e.seasonality ?? null;
+    }
   }
+
+  const candidates = [...byTarget.values()];
+  for (const c of candidates) c.edge_types.sort();
+  const excluded = [...excludedSet];
 
   // Deterministic: weight DESC, then node_id ASC.
   candidates.sort((a, b) => b.weight - a.weight || a.node_id.localeCompare(b.node_id));
