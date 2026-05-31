@@ -197,6 +197,26 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     }
   });
 
+  test('every catalog trait_ref resolves to glossary (no TR-#### codes, no dangling) -- TKT-CATALOG-REF-GUARD', () => {
+    // Wave3 TRAIT-RECONCILE: the species_catalog trait_refs were previously NOT
+    // CI-guarded (the pack-yaml guard in speciesTraitReferences.test.js covers a
+    // different surface), so 50 legacy TR-#### codes sat dangling. After the remap
+    // (TR-####.json id -> slug) every catalog trait_ref must resolve to glossary.json.
+    const glossPath = path.join(REPO_ROOT, 'data', 'core', 'traits', 'glossary.json');
+    const gloss = JSON.parse(fs.readFileSync(glossPath, 'utf8')).traits;
+    const dangling = [];
+    for (const entry of catalog.catalog) {
+      for (const ref of entry.trait_refs || []) {
+        if (/^TR-\d+$/.test(ref)) {
+          dangling.push(`${entry.species_id}:${ref} (un-remapped TR-code)`);
+        } else if (!(ref in gloss)) {
+          dangling.push(`${entry.species_id}:${ref} (not in glossary)`);
+        }
+      }
+    }
+    assert.equal(dangling.length, 0, `dangling trait_refs:\n  ${dangling.join('\n  ')}`);
+  });
+
   test('lifecycle_yaml path points to existing YAML (when present)', () => {
     // ADR-2026-05-15 Phase 1: legacy-yaml-merge entries (38 species) have
     // lifecycle_yaml=null since no per-species lifecycle file exists.
