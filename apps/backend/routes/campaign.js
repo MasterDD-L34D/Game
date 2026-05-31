@@ -50,6 +50,16 @@ const { loadXpCurve } = require('../services/progression/progressionLoader');
 const seasonalEngine = require('../services/campaign/seasonalEngine');
 const seasonalContentLoader = require('../services/campaign/seasonalContentLoader');
 
+// TKT-WORLDGEN-GAPC MVP fase 1 — meta-network campaign routing (read-only).
+// Surfaces the eligible next-node candidates (player-choice, Into the Breach)
+// from the meta-network graph. Flag-gated OFF by default (META_NETWORK_ROUTING
+// !== 'true'): the diagnostic endpoint returns enabled:false so existing
+// campaign flow is untouched (band-safe / back-compat). Generative grammar +
+// arc-conditions (data gate) are POST-MVP — see spec
+// docs/superpowers/specs/2026-05-31-worldgen-gapc-meta-network-routing-design.md.
+const metaNetworkResolver = require('../services/worldgen/metaNetworkResolver');
+const { selectNextNodes } = require('../services/worldgen/metaNetworkRouting');
+
 // In-memory seasonal state Map<campaign_id, state>. Per POC. Resettable via
 // _resetSeasonalState() per test isolation. Future iteration: integrate con
 // campaignStore o Prisma write-through (pattern progressionStore).
@@ -189,6 +199,34 @@ function createCampaignRouter(options = {}) {
     if (!defDoc) return res.status(500).json({ error: 'campaign def mancante' });
     const summary = summariseCampaign(campaign, defDoc);
     return res.json(summary);
+  });
+
+  // TKT-WORLDGEN-GAPC MVP fase 1 — GET /api/campaign/meta-network/next
+  // Read-only diagnostic: the eligible next-node candidates (player-choice) from
+  // a node on the meta-network graph. Flag-gated OFF by default — when
+  // META_NETWORK_ROUTING !== 'true' it returns { enabled: false } and does NOT
+  // touch campaign flow (band-safe / back-compat, Gate-5 surface without wiring
+  // into /advance). Query: ?from=<NODE_ID>&cleared=A,B&allow_revisit=1
+  // Arc-conditions + node->encounter resolution are POST-MVP (spec §7).
+  router.get('/campaign/meta-network/next', (req, res) => {
+    const enabled = process.env.META_NETWORK_ROUTING === 'true';
+    if (!enabled) {
+      return res.json({ enabled: false, reason: 'flag_off', candidates: [] });
+    }
+    const from = req.query.from;
+    if (!from) return res.status(400).json({ error: 'from query param richiesto (node id)' });
+    const graph = metaNetworkResolver.getNetwork();
+    const clearedNodes =
+      typeof req.query.cleared === 'string' && req.query.cleared.length > 0
+        ? req.query.cleared.split(',').map((s) => s.trim())
+        : [];
+    const allowRevisit = req.query.allow_revisit === '1' || req.query.allow_revisit === 'true';
+    const routing = selectNextNodes(from, { graph, clearedNodes, allowRevisit });
+    return res.json({
+      enabled: true,
+      network_id: graph ? graph.id : null,
+      ...routing,
+    });
   });
 
   // POST /api/campaign/advance
@@ -731,6 +769,26 @@ function createCampaignRouter(options = {}) {
       const store = createSistemaStateStore(_sistemaPrisma);
       const state = await store.get(campaignId); // { units_observed }
       return res.json({ state });
+    } catch (err) {
+      return res.status(500).json({ error: 'persist_read_failed', detail: String(err.message) });
+    }
+  });
+
+  // N2 roster-display -- read-only party roster mirror for the Godot v2 Nido
+  // hub. GET /api/campaign/roster?campaign_id=<run.id> -> { roster: [rows] }.
+  // Empty-safe ([] when no rows / stub / no DB); persistence failure is
+  // non-fatal. Reuses the db/prisma singleton already required above.
+  const { createRosterStore } = require('../services/campaign/rosterStore');
+
+  router.get('/campaign/roster', async (req, res) => {
+    try {
+      const campaignId = String(req.query.campaign_id || '').trim();
+      if (!campaignId) {
+        return res.status(400).json({ error: 'campaign_id query param richiesto' });
+      }
+      const store = createRosterStore(_sistemaPrisma);
+      const roster = await store.get(campaignId);
+      return res.json({ roster });
     } catch (err) {
       return res.status(500).json({ error: 'persist_read_failed', detail: String(err.message) });
     }

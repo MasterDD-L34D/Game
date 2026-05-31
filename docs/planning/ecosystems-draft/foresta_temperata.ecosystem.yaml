@@ -1,0 +1,16 @@
+schema_version: 1.0
+ecosistema:
+  id: FORESTA_TEMPERATA
+  label: Foresta Temperata
+  biome_id: foresta_temperata
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari:
+      - arboryxis-lenis
+      terziari: []
+    decompositori:
+    - nebulocornis-mollis
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT

@@ -19,15 +19,18 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
-### 🟡 OPEN — Worldgen GAP-A/B/C (foodweb/cross-events/meta-network -> runtime) — 2026-05-29
+### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 
-Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26), ground-truth-verificato 2026-05-29. Museum cards M-013/M-014/M-016 + gallery worldgen. Engine-LIVE-Surface-DEAD: i 4 livelli worldgen (bioma/ecosistema/foodweb/network) hanno il dato ma 3 livelli restano senza consumer runtime. NO autonomous wire (revive culture: decision master-dd).
+Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26). Museum cards M-013/M-014/M-016 + gallery worldgen.
 
-| Ticket            | Gap                               | Verified state 2026-05-29                                                                                                                                     | Effort (post-blast-radius) | Decision                                                                                        |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
-| TKT-WORLDGEN-GAPA | foodweb -> spawn composition      | `biomeAffinity.js` = stat-modifier (Subnautica, wired session.js:506), NON spawn-filter; `reinforcementSpawner.js` non filtra per trophic-tier/biome_affinity | ~8-10h (×1.0-1.2)          | wire `ecosystemLoader` + foodweb whitelist in reinforcementSpawner OR remove                    |
-| TKT-WORLDGEN-GAPB | cross-events -> pressure modifier | `cross_events.yaml` (3 eventi) zero consumer runtime; `seasonalEngine.js` Phase-A scaffold (wired campaign.js:50) ma NON consuma cross_events                 | ~12h (×1.3 session hook)   | wire crossEventEngine (pressure/hazard delta su session) OR remove                              |
-| TKT-WORLDGEN-GAPC | meta-network -> campaign routing  | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici                                                       | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
+**GAP-A + GAP-B closed 2026-05-31 (stale-row correction, L-075 / anti-pattern #19):** both were already shipped + wired + tested in PR #2447 (`04a3920a` on main) — the 2026-05-29 "zero consumer runtime" verified-state was already obsolete when written.
+
+- ✅ **TKT-WORLDGEN-GAPA** (foodweb -> spawn composition): `apps/backend/services/worldgen/foodwebFilter.js` `filterReinforcementPool` wired into `reinforcementSpawner.js tick():172` (Caves of Qud whitelist; kill-switch `policy.foodweb_filter===false`; band-safe fallback never empties pool; Gate-5 console surface). Tests: `foodwebFilter.test.js` 8/8 + `reinforcementSpawner.test.js` 23/23.
+- ✅ **TKT-WORLDGEN-GAPB** (cross-events -> pressure modifier): `crossEventEngine.js` `getCrossEventPressureDelta(biome,season)` wired into `session.js /start` (`:1532` call → `:1704` pressure_delta applied → `:1735` cross_events/hazards surfaced). Test: `crossEventEngine.test.js` 9/9.
+
+| Ticket            | Gap                              | Verified state 2026-05-31                                                                               | Effort (post-blast-radius) | Decision                                                                                        |
+| ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
+| TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
@@ -41,19 +44,19 @@ SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.ya
 | TKT-PLAYTEST-TRIANGULATE | wire multi-policy `--policy {random,greedy,lookahead2,utility}` (Restricted-Play, Jaffe 2012)     | ~4h    | stub gia' nel policy doc superseded; output = banda WR non single verdict    |
 | TKT-PLAYTEST-SUITE       | `tools/py/playtest_canonical.py` orchestratore summa (manifest -> N=40 parallel -> report datato) | ~4-6h  | smoke-gated (backend up + ~10min). Anti-pattern #9: non shippare non-testato |
 
-### 🟡 OPEN — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
+### 🟢 MOSTLY CLOSED — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
 
-Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). Verified findings; dispositions are master-dd-gated (wire-vs-remove / N=40 ratify).
+Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). **Ground-truth re-sweep 2026-05-31:** all 4 Gate-5 orphans ✅ DONE (CUMSTATE/WOUNDPERMA/MORALE/VCSNAP wired #2463+earlier) + balance PR #2381 RATIFIED. **Only TKT-P6-AP3 remains open** (decision-gated: document unlock-mechanic vs reduce cost_ap — verified the 5 abilities still `cost_ap: 3` in `data/core/jobs.yaml`, NOT stale).
 
 **Gate-5 backend orphans (Engine-LIVE-Surface-DEAD) — wire-vs-remove decision (NO autonomous delete: project = revive culture):**
 
-| Ticket                | Module                                                     | Verified state                                                                                                                                                                                                                                                                                                                                  | Decision                                                                                                                               |
-| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| TKT-ORPHAN-CUMSTATE   | `apps/backend/services/combat/cumulativeStateTracker.js`   | ✅ **already wired** (ground-truth 2026-05-30): `sessionRoundBridge.js:1162-1177` calls `updateCumulativeState` per living unit at end-of-round (Phase-7 wire 2026-05-22); consumer `mutationTriggerEvaluator` cases `ally_adjacent_turns`:239 + `trait_active_cumulative`:253 read the written fields. "zero callers" claim was stale (L-075). | ✅ DONE 2026-05-30 — verified end-to-end + regression test `tests/api/sessionCumulativeWire.test.js` (PR `claude/orphan-wiring-wave2`) |
-| TKT-ORPHAN-WOUNDPERMA | `apps/backend/services/combat/woundedPerma.js`             | **write-path orphan** — `applyWound`/`initSessionMap` uncalled; `statusModifiers.js:84` is the live READ path only. Feature half-wired (read live, write dead)                                                                                                                                                                                  | wire write-path (apply wounds in combat) OR remove the feature                                                                         |
-| TKT-ORPHAN-MORALE     | `apps/backend/services/combat/morale.js`                   | P6 feature shipped #1959, never wired to roundOrchestrator                                                                                                                                                                                                                                                                                      | wire (P6 fairness) OR remove                                                                                                           |
-| TKT-ORPHAN-VCSNAP     | `apps/backend/services/coop/vcSnapshotToDebriefPayload.js` | test-only; cross-stack parity scaffold (Godot mirror)                                                                                                                                                                                                                                                                                           | wire to debrief broadcast OR remove                                                                                                    |
-| (KEEP)                | `services/replay/replayEngine.js`                          | test-only WIP for documented M12+ replay feature                                                                                                                                                                                                                                                                                                | KEEP (documented future)                                                                                                               |
+| Ticket                | Module                                                     | Verified state                                                                                                                                                                                                                                                                                                                                  | Decision                                                                                                                                                                                                                                                                                |
+| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TKT-ORPHAN-CUMSTATE   | `apps/backend/services/combat/cumulativeStateTracker.js`   | ✅ **already wired** (ground-truth 2026-05-30): `sessionRoundBridge.js:1162-1177` calls `updateCumulativeState` per living unit at end-of-round (Phase-7 wire 2026-05-22); consumer `mutationTriggerEvaluator` cases `ally_adjacent_turns`:239 + `trait_active_cumulative`:253 read the written fields. "zero callers" claim was stale (L-075). | ✅ DONE 2026-05-30 — verified end-to-end + regression test `tests/api/sessionCumulativeWire.test.js` (PR `claude/orphan-wiring-wave2`)                                                                                                                                                  |
+| TKT-ORPHAN-WOUNDPERMA | `apps/backend/services/combat/woundedPerma.js`             | **write-path orphan** — `applyWound`/`initSessionMap` uncalled; `statusModifiers.js:84` is the live READ path only. Feature half-wired (read live, write dead)                                                                                                                                                                                  | ✅ DONE 2026-05-30 — write-path wired in PR #2463 (`0ff922e4`): `applyWound` on player-wipe (`/end`) + `restoreOnEncounterStart` (`/start`), campaign-keyed `woundedPermaByCampaign` Map; module test `tests/services/woundedPerma.test.js`                                             |
+| TKT-ORPHAN-MORALE     | `apps/backend/services/combat/morale.js`                   | P6 feature shipped #1959, never wired to roundOrchestrator                                                                                                                                                                                                                                                                                      | ✅ DONE 2026-05-30 — wired in PR #2463 (`0ff922e4`): crit system (`resolveAttack.is_critical` MoS≥8) routes `enemy_critical_hit` through `checkMorale` + end-of-round `status_panic_high` contagion; `normaliseUnit` preserves `morale_mod`; test `tests/api/sessionMoraleWire.test.js` |
+| TKT-ORPHAN-VCSNAP     | `apps/backend/services/coop/vcSnapshotToDebriefPayload.js` | test-only; cross-stack parity scaffold (Godot mirror)                                                                                                                                                                                                                                                                                           | ✅ DONE 2026-05-30 — wired in PR #2463 (`0ff922e4`): `vcSnapshotToDebriefPayload` server-derived into `/end` + `/:id/vc`; test `tests/api/sessionVcDebriefPayload.test.js`                                                                                                              |
+| (KEEP)                | `services/replay/replayEngine.js`                          | test-only WIP for documented M12+ replay feature                                                                                                                                                                                                                                                                                                | KEEP (documented future)                                                                                                                                                                                                                                                                |
 
 Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify caught it (read vs write path are different things).
 
@@ -192,7 +195,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 | 13  | [#2209](https://github.com/MasterDD-L34D/Game/pull/2209)        | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species            |
 | 14  | [#2210](https://github.com/MasterDD-L34D/Game/pull/2210)        | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species    |
 | 15  | [#2211](https://github.com/MasterDD-L34D/Game/pull/2211)        | `25c124fc` | BACKLOG sync + ajv-cli investigation closure                             |
-| —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | _open_     | Game-Godot-v2 Q-10 OffspringRitualPanel + service (master-dd review)     |
+| —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | ✅ merged  | Game-Godot-v2 Q-10 OffspringRitualPanel + service (MERGED 2026-05-10, L-075 re-sweep) |
 
 (5 PR pre-cascade sera già contati in v36 cascade L3 section sotto.)
 
@@ -207,7 +210,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 - Q-7 ✅ swarm_canonical_validator.py (#2202)
 - Q-8 ✅ swarm-validation.yml workflow gate (#2202)
 - Q-9 ✅ DebriefView UI surface (#2203)
-- Q-10 ⏳ Godot v2 OffspringRitualPanel + service in-flight #217 master-dd review
+- Q-10 ✅ Godot v2 OffspringRitualPanel + service ([#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) MERGED 2026-05-10 — stale ⏳ closed in 2026-05-31 re-sweep, L-075)
 - Q-11 ✅ offspringRitualE2E.test.js (#2204)
 - Q-12 ✅ ADR-2026-05-10 closure (#2204)
 
@@ -230,7 +233,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 
 **Outstanding master-DD action queue** (next session ready):
 
-1. Q-10 Godot v2 #217 review (cross-stack 12/12 final closure)
+1. ~~Q-10 Godot v2 #217 review~~ ✅ DONE (#217 MERGED 2026-05-10 — closed in 2026-05-31 re-sweep, L-075)
 2. Phase B Day 8 verify 2026-05-14 (γ default ratificato, monitor zero regression)
 3. Wave 5+6 trait orphan biome mapping ~28 traits (~30min single-shot)
 4. Species*expansion schema decision ~28 traits 8 sp*\* (~1h ADR)
@@ -315,10 +318,10 @@ User resume trigger "cascade approval" → "facciamo gli auto trigger pending e 
   - ✅ **Wave 0+1 SHIPPED PR #2208** `61042522` — 14 traits / 12 species (8 species_expansion deferred schema mismatch).
   - ✅ **Wave 2 SHIPPED PR #2209** `e189f4e4` — 6 traits / 6 species (7 species_expansion deferred).
   - ✅ **Wave 3+4 SHIPPED PR #2210** `9c065375` — 15 traits / 9 species.
-  - ⏳ **Wave 5+6 RESIDUE** ~28 traits — master-dd review TBD biome mapping per audit doc §Wave 5+6.
-  - ⏳ **Species_expansion schema extension** ~22 traits across 8 sp\_\* species (sp_lithoraptor_acutornis + sp_basaltocara_scutata + sp_arenaceros_placidus + sp_ferrimordax_rutilus + sp_pyrosaltus_celeris + sp_ventornis_longiala + sp_sonapteryx_resonans + sp_arenavolux_sagittalis + sp_salifossa_tenebris). Schema species_expansion.yaml uses morph_slots (not trait_plan section) → master-dd review schema extension OR migrate species_expansion entries adopt trait_plan canonical.
+  - ✅ **Wave 5+6 SHIPPED PR #2213** `6b5f871e` — 33 traits assigned (stale ⏳ closed 2026-05-31 re-sweep, L-075).
+  - ✅ **Species_expansion schema extension SHIPPED**: wave 7 assign PR #2214 `16e068a7` (26 traits, additive `trait_plan` section) + canonical migration PR #2237 `79c780b6` (`morph_slots → trait_plan`, ADR #2230). Stale ⏳ closed 2026-05-31 re-sweep.
 
-**Cumulative ASSIGN-A progress sera close-gaps**: **35/91 traits** (38%) shipped player-visible across 3 PR. Residue 56 traits deferred (28 wave 5+6 master-dd review + 28 schema extension species_expansion).
+**Cumulative ASSIGN-A progress — FULL CLOSURE** (corrected 2026-05-31 re-sweep): **94/91 effective** across PRs #2208+#2209+#2210+#2213+#2214 (14+6+15+33+26). The "35/91 (38%) residue 56 deferred" snapshot was stale ⏳ lag (L-075) — superseded by the FULL CLOSURE block above. Only the `morph_slots → trait_plan` schema-canonical migration ADR is master-dd-deferred (migration itself shipped #2237).
 
 #### Cluster C ajv-cli investigation closure (2026-05-10 sera close-gaps)
 

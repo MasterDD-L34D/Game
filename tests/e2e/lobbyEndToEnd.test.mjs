@@ -586,3 +586,51 @@ test('e2e: LobbyClient auth failure rejects with connect() promise reject', asyn
     await wsHandle.close();
   }
 });
+
+// ---------------------------------------------------------------------------
+// 2026-05-30 P4 debrief wire — debrief_payload broadcast reaches the phone.
+// Proves the receive half end-to-end over a REAL socket (the unit test drives
+// LobbyClient._onMessage directly): server room.broadcast → client WS frame →
+// LobbyClient dispatch → 'debrief_payload' event carrying the buildDebriefSummary
+// payload (which the phase coordinator then routes to the debrief panel setters).
+// ---------------------------------------------------------------------------
+
+test('e2e: debrief_payload broadcast reaches a connected LobbyClient with its payload', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    await c1.connect();
+
+    const uid = `pg_${p1.player_id}`; // coop unit id (characterToUnit) — per-actor key
+    const debrief = {
+      ennea_voices: [{ actor_id: uid, archetype_id: 'Architetto(5)', text: 'Modello validato.' }],
+      inner_voices: [{ actor_id: uid, mbti_pole: 'N', text: 'Vedo lo schema.' }],
+      mbti_surface: { conviction_badges: { [uid]: [{ id: 'utility', label: 'Utilità' }] } },
+      vc_summary: { per_actor: { [uid]: { ennea_archetypes: ['Architetto(5)'] } } },
+    };
+
+    const gotDebrief = new Promise((resolve) => c1.once('debrief_payload', resolve));
+    let errored = false;
+    c1.on('error', () => {
+      errored = true;
+    });
+
+    lobby.getRoom(room.code).broadcast({ type: 'debrief_payload', payload: debrief });
+    const received = await gotDebrief;
+
+    assert.deepEqual(received, debrief);
+    assert.equal(errored, false, 'debrief_payload must not surface as an unknown-type error');
+
+    c1.close();
+  } finally {
+    await wsHandle.close();
+  }
+});

@@ -170,56 +170,50 @@ test('terrain wire: lightning + water → electrified + burst damage', async (t)
   });
   const sid = await startWithUnits(app, twoUnits({ sisHp: 100, p1Mod: 99 }));
 
-  // Step 1: water tile via 'acqua' channel (puddle).
-  // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
-  let waterCreated = false;
-  for (let i = 0; i < 30 && !waterCreated; i++) {
-    const r = await request(app).post('/api/session/action').send({
-      session_id: sid,
-      actor_id: 'p1',
-      action_type: 'attack',
-      target_id: 'sis',
-      channel: 'acqua',
-    });
-    if (r.status === 200 && r.body.terrain_reaction?.new_state === 'water') {
-      waterCreated = true;
-    }
-    await request(app).post('/api/session/turn/end').send({ session_id: sid });
-  }
-  assert.ok(waterCreated, 'water tile created via acqua channel');
+  // 2026-05-30 flaky-fix (supersedes the 2026-05-10 30-iter loop): the prior
+  // version created the water tile, then ran a 30-iter loop calling turn/end
+  // before each folgore strike. With turn/end between water-creation and the
+  // lightning strike, the sistema-controlled SIS could move off the water tile
+  // (3,2) -> folgore hit a normal tile -> no_reaction; the chase loop then chipped
+  // the 100hp SIS to 0 -> the "graceful fallback" attack 400'd ("target gia'
+  // abbattuto") -> assert(200) failed ~67% of runs. Root cause was AI movement +
+  // HP attrition, NOT burst RNG: terrainReactions is pure with burst_damage
+  // const 2. Tile decay across turns is covered by the ttl-decay test above; the
+  // wire here only needs ONE clean water->lightning hit. Strike both channels in
+  // the SAME p1 turn (p1 has 2 AP, p1Mod 99 = always hit, no turn/end) so the SIS
+  // cannot move off the tile and two hits cannot down it -> fully deterministic.
 
-  // Step 2: lightning strike on water → electrified + burst 2 dmg.
-  // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
-  let electrified = false;
-  for (let i = 0; i < 30 && !electrified; i++) {
-    const r = await request(app).post('/api/session/action').send({
-      session_id: sid,
-      actor_id: 'p1',
-      action_type: 'attack',
-      target_id: 'sis',
-      channel: 'folgore',
-    });
-    if (r.status === 200 && r.body.terrain_reaction?.new_state === 'electrified') {
-      electrified = true;
-      assert.ok(r.body.terrain_reaction.effects.includes('electrify'));
-      assert.equal(r.body.terrain_reaction.burst_damage, 2);
-    }
-    await request(app).post('/api/session/turn/end').send({ session_id: sid });
-  }
-  // NOTE: water tile potrebbe essere decaduto se hit cycle troppo lungo.
-  // Test passa se electrified raggiunto OR water decayed prima del lightning.
-  if (!electrified) {
-    // graceful fallback: la pipeline funziona se almeno l'evento attack è
-    // andato a buon fine (terrain_reaction null perché tile decayed).
-    const r = await request(app).post('/api/session/action').send({
-      session_id: sid,
-      actor_id: 'p1',
-      action_type: 'attack',
-      target_id: 'sis',
-      channel: 'folgore',
-    });
-    assert.equal(r.status, 200, 'pipeline robust to decayed water tile');
-  }
+  // AP 2 -> 1: acqua attack puddles the SIS tile (3,2).
+  const water = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    actor_id: 'p1',
+    action_type: 'attack',
+    target_id: 'sis',
+    channel: 'acqua',
+  });
+  assert.equal(water.status, 200, 'acqua attack resolves');
+  assert.equal(
+    water.body.terrain_reaction?.new_state,
+    'water',
+    'water tile created via acqua channel',
+  );
+
+  // AP 1 -> 0: folgore on the same tile, same turn -> lightning + water = electrified.
+  const strike = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    actor_id: 'p1',
+    action_type: 'attack',
+    target_id: 'sis',
+    channel: 'folgore',
+  });
+  assert.equal(strike.status, 200, 'folgore attack resolves');
+  assert.equal(
+    strike.body.terrain_reaction?.new_state,
+    'electrified',
+    'water tile becomes electrified',
+  );
+  assert.ok(strike.body.terrain_reaction.effects.includes('electrify'));
+  assert.equal(strike.body.terrain_reaction.burst_damage, 2);
 });
 
 test('terrain wire: terrain_reaction field surfaced in attack event log', async (t) => {

@@ -1520,7 +1520,7 @@
         "playable"
       ],
       "legacy_slug": "arenavolux-sagittalis",
-      "biome_affinity": null,
+      "biome_affinity": "savana",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "apex",
@@ -1539,7 +1539,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1582,7 +1583,7 @@
         "playable"
       ],
       "legacy_slug": "ferriscroba-detrita",
-      "biome_affinity": null,
+      "biome_affinity": "badlands",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "scavenger",
@@ -1603,7 +1604,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1648,7 +1650,7 @@
         "playable"
       ],
       "legacy_slug": "sonapteryx-resonans",
-      "biome_affinity": null,
+      "biome_affinity": "frattura_abissale_sinaptica",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1661,7 +1663,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1704,7 +1707,7 @@
         "predator"
       ],
       "legacy_slug": "lithoraptor-acutornis",
-      "biome_affinity": null,
+      "biome_affinity": "canyons_risonanti",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1719,7 +1722,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1760,7 +1764,7 @@
         "detritivore"
       ],
       "legacy_slug": "salifossa-tenebris",
-      "biome_affinity": null,
+      "biome_affinity": "pianura_salina_iperarida",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1775,7 +1779,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1818,7 +1823,7 @@
         "scout"
       ],
       "legacy_slug": "ventornis-longiala",
-      "biome_affinity": null,
+      "biome_affinity": "canyons_risonanti",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1833,7 +1838,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1876,7 +1882,7 @@
         "predator"
       ],
       "legacy_slug": "ferrimordax-rutilus",
-      "biome_affinity": null,
+      "biome_affinity": "badlands",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1889,7 +1895,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1932,7 +1939,7 @@
         "ambusher"
       ],
       "legacy_slug": "pyrosaltus-celeris",
-      "biome_affinity": null,
+      "biome_affinity": "abisso_vulcanico",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -1947,7 +1954,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1992,7 +2000,7 @@
         "sentinel"
       ],
       "legacy_slug": "basaltocara-scutata",
-      "biome_affinity": null,
+      "biome_affinity": "abisso_vulcanico",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2005,7 +2013,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2051,7 +2060,7 @@
         "grazer"
       ],
       "legacy_slug": "arenaceros-placidus",
-      "biome_affinity": null,
+      "biome_affinity": "savana",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "primary_consumer",
@@ -2070,7 +2079,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2112,7 +2122,7 @@
         "disperser"
       ],
       "legacy_slug": "lucinerva-filata",
-      "biome_affinity": null,
+      "biome_affinity": "reef_luminescente",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2125,7 +2135,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2168,7 +2179,7 @@
         "symbiont"
       ],
       "legacy_slug": "radiluma-pendula",
-      "biome_affinity": null,
+      "biome_affinity": "frattura_abissale_sinaptica",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2181,7 +2192,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2221,7 +2233,7 @@
         "predator"
       ],
       "legacy_slug": "limnofalcis-serrata",
-      "biome_affinity": null,
+      "biome_affinity": "palude",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2236,7 +2248,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2281,7 +2294,7 @@
         "scout"
       ],
       "legacy_slug": "cavatympa-sonans",
-      "biome_affinity": null,
+      "biome_affinity": "caverna",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2294,7 +2307,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2336,7 +2350,7 @@
         "bridge"
       ],
       "legacy_slug": "calamipes-gracilis",
-      "biome_affinity": null,
+      "biome_affinity": "palude",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2351,7 +2365,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "needs-master-dd",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2392,7 +2407,7 @@
         "filter_feeder"
       ],
       "legacy_slug": "salisucta-alveata",
-      "biome_affinity": null,
+      "biome_affinity": "pianura_salina_iperarida",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2407,7 +2422,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2447,7 +2463,7 @@
         "grazer"
       ],
       "legacy_slug": "nebulocornis-mollis",
-      "biome_affinity": null,
+      "biome_affinity": "foresta_temperata",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2462,7 +2478,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2505,7 +2522,7 @@
         "support"
       ],
       "legacy_slug": "cryptolorca-medicata",
-      "biome_affinity": null,
+      "biome_affinity": "caverna",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2518,7 +2535,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2558,7 +2576,7 @@
         "predator"
       ],
       "legacy_slug": "glaciolabis-nitida",
-      "biome_affinity": null,
+      "biome_affinity": "caldera_glaciale",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2573,7 +2591,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2613,7 +2632,7 @@
         "omnivore"
       ],
       "legacy_slug": "tonitrudens-ferox",
-      "biome_affinity": null,
+      "biome_affinity": "stratosfera_tempestosa",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2628,7 +2647,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2670,7 +2690,7 @@
         "bridge"
       ],
       "legacy_slug": "rubrospina-velox",
-      "biome_affinity": null,
+      "biome_affinity": "badlands",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2685,7 +2705,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "needs-master-dd",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2726,7 +2747,7 @@
         "support"
       ],
       "legacy_slug": "paludogromus-magnus",
-      "biome_affinity": null,
+      "biome_affinity": "palude",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2741,7 +2762,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2781,7 +2803,7 @@
         "ambusher"
       ],
       "legacy_slug": "cinerastra-nodosa",
-      "biome_affinity": null,
+      "biome_affinity": "abisso_vulcanico",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2796,7 +2818,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2836,7 +2859,7 @@
         "disperser"
       ],
       "legacy_slug": "zephyrovum-fidelis",
-      "biome_affinity": null,
+      "biome_affinity": "stratosfera_tempestosa",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2851,7 +2874,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2891,7 +2915,7 @@
         "forager"
       ],
       "legacy_slug": "vitricyba-punctata",
-      "biome_affinity": null,
+      "biome_affinity": "atollo_obsidiana",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2906,7 +2930,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2947,7 +2972,7 @@
         "detritivore"
       ],
       "legacy_slug": "fumarisorba-sulfurea",
-      "biome_affinity": null,
+      "biome_affinity": "abisso_vulcanico",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -2962,7 +2987,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3002,7 +3028,7 @@
         "grazer"
       ],
       "legacy_slug": "arboryxis-lenis",
-      "biome_affinity": null,
+      "biome_affinity": "foresta_temperata",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -3017,7 +3043,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3059,7 +3086,7 @@
         "predator"
       ],
       "legacy_slug": "noctipedis-umbrata",
-      "biome_affinity": null,
+      "biome_affinity": "mezzanotte_orbitale",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "apex",
@@ -3078,7 +3105,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3122,7 +3150,7 @@
         "grazer"
       ],
       "legacy_slug": "magnetocola-pastoris",
-      "biome_affinity": null,
+      "biome_affinity": "atollo_obsidiana",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -3135,7 +3163,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3175,7 +3204,7 @@
         "predator"
       ],
       "legacy_slug": "siltovena-bifida",
-      "biome_affinity": null,
+      "biome_affinity": "palude",
       "default_parts": null,
       "ecology": null,
       "pack_size": null,
@@ -3190,7 +3219,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3332,7 +3362,7 @@
         "storm-channeler"
       ],
       "legacy_slug": "tempestarius-psionicus",
-      "biome_affinity": null,
+      "biome_affinity": "frattura_abissale_sinaptica",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "apex",
@@ -3355,7 +3385,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -3407,7 +3438,7 @@
         "rage-assault"
       ],
       "legacy_slug": "magmocardium-furens",
-      "biome_affinity": null,
+      "biome_affinity": "abisso_vulcanico",
       "default_parts": null,
       "ecology": {
         "trophic_tier": "apex",
@@ -3430,7 +3461,8 @@
         "interactions.predated_by": "needs-master-dd",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
-        "constraints": "heuristic-pattern-C-mechanical"
+        "constraints": "heuristic-pattern-C-mechanical",
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     }
   ]

@@ -189,11 +189,14 @@ const {
 } = require('./sessionHelpers');
 // Skiv ticket #5 (Sprint B): Defy verb — player counter-pressure agency.
 const { applyDefy: applyDefyAction, DEFY_SG_COST } = require('../services/combat/defyEngine');
+const { applyOvercharge: applyOverchargeAction } = require('../services/combat/overchargeEngine');
 const { createRoundBridge } = require('./sessionRoundBridge');
 // M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
 const {
   applyProgressionToUnits,
   computePerkDamageBonus,
+  computePerkCombatModifiers,
+  applyPerkKillEffects,
 } = require('../services/progression/progressionApply');
 // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
 // DR-1 (defender) + sight+2 (actor). Init+2 lives in roundOrchestrator.
@@ -322,8 +325,10 @@ function createSessionRouter(options = {}) {
     }
   }
 
-  // Pattern matcher per tutorial scenario IDs (funnel analysis input).
-  const TUTORIAL_SCENARIO_RE = /^enc_tutorial_\d+/;
+  // Pattern matcher per tutorial + badlands-pilot scenario IDs (SG-init + funnel
+  // telemetry). enc_badlands_pilot_01 (adapter pilot) gets the same SG=1 onboard
+  // treatment as the hardcore scenarios so its calibration is comparable.
+  const TUTORIAL_SCENARIO_RE = /^enc_(tutorial|badlands_pilot)_\d+/;
   function isTutorialScenario(scenarioId) {
     return typeof scenarioId === 'string' && TUTORIAL_SCENARIO_RE.test(scenarioId);
   }
@@ -700,6 +705,14 @@ function createSessionRouter(options = {}) {
         units: session.units || [],
         isFirstStrike: !actor._first_strike_used,
       });
+      // TKT-JOB-PHASEC Category A — multiplicative / DR-bypass expansion perks
+      // (random_double_dmg_chance, apex_first_strike). Computed once here; the
+      // multiplier is applied to the resolved hit and ignoreDr gates the
+      // channel-resistance step below.
+      const perkCombatMods = computePerkCombatModifiers(actor, target, {
+        isFirstStrike: !actor._first_strike_used,
+        rng,
+      });
       const adjusted =
         baseDamage +
         evaluation.damage_modifier +
@@ -720,6 +733,11 @@ function createSessionRouter(options = {}) {
         baseDamage: Math.max(0, adjusted),
       });
       damageDealt = positional.damage;
+      // TKT-JOB-PHASEC Category A — random_double_dmg_chance doubles the hit
+      // (pre shield + resistance). multiplier == 1 when no perk fired.
+      if (perkCombatMods.multiplier !== 1) {
+        damageDealt = damageDealt * perkCombatMods.multiplier;
+      }
       positionalInfo = {
         multiplier: Number(positional.multiplier) || 1,
         elevation_delta: Number(positional.elevation_delta) || 0,
@@ -727,7 +745,10 @@ function createSessionRouter(options = {}) {
         flank_multiplier: (positional.parts && Number(positional.parts.flank)) || 1,
         quadrant: positional.quadrant || 'front',
       };
-      if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
+      if (
+        perkBonus.applied.some((p) => p.tag === 'first_strike_bonus') ||
+        perkCombatMods.applied.some((p) => p.tag === 'apex_first_strike')
+      ) {
         actor._first_strike_used = true;
       }
       // M6-#1 (ADR-2026-04-19): applica channel resistance post damage.
@@ -735,6 +756,10 @@ function createSessionRouter(options = {}) {
       // trait_ids al primo hit (cache su target._resistances).
       // Channel da action.channel (client-provided) o default "fisico".
       // Se speciesResistancesData null (file mancante) → no-op.
+      // TKT-JOB-PHASEC: apex_first_strike (perkCombatMods.ignoreDr) bypassa la
+      // DR positiva ma NON le vulnerabilità — il blocco gira sempre (così la
+      // cache _resistances + l'amplificazione da vulnerabilità restano corrette)
+      // e passa vulnerabilitiesOnly ad applyResistance.
       if (speciesResistancesData && damageDealt > 0) {
         if (!Array.isArray(target._resistances)) {
           const traitResists = [];
@@ -755,7 +780,9 @@ function createSessionRouter(options = {}) {
         // quando action è null (overwatch lambda) o channel assente.
         const channel =
           (action && typeof action.channel === 'string' && action.channel) || 'fisico';
-        damageDealt = applyResistance(damageDealt, target._resistances, channel);
+        damageDealt = applyResistance(damageDealt, target._resistances, channel, {
+          vulnerabilitiesOnly: perkCombatMods.ignoreDr,
+        });
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
@@ -948,6 +975,15 @@ function createSessionRouter(options = {}) {
         // eslint-disable-next-line no-console
         console.warn('[lineage-propagator] skipped:', err && err.message ? err.message : err);
       }
+    }
+
+    // TKT-JOB-PHASEC Category B — on-kill attack buffs (kill_buff_attack temp,
+    // eternal_kill_buff permanent). Gated on the FINAL killOccurred (after
+    // intercept/bond may have reset it and terrain burst may have re-set it).
+    // Mutates the killer; fires on the live performAttack path the priority_queue
+    // traverses. No-op when actor carries no kill perks.
+    if (killOccurred) {
+      applyPerkKillEffects(actor);
     }
 
     // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,
@@ -2726,6 +2762,50 @@ function createSessionRouter(options = {}) {
         relief: outcome.relief,
         sg_cost: outcome.cost.sg,
         ap_penalty_next_turn: outcome.cost.ap_next_turn,
+      };
+      if (Array.isArray(session.events)) session.events.push(event);
+      res.json({
+        session_id: session.session_id,
+        actor_id: actor.id,
+        ...outcome,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // TKT-P6-AP3 — Overcharge verb (FFT "charge a big move" / Pillar 6).
+  // Body: { session_id, actor_id }. Validates actor is player-controlled +
+  // alive + not already overcharged this turn + SG >= OVERCHARGE_SG_COST (3);
+  // on success spends a full SG gauge and grants +1 ap_remaining THIS turn so a
+  // cost_ap:3 ability fits the 2-AP budget. The actor.status.overcharged guard
+  // is cleared by the end-of-round status decrement (once per turn). Symmetric
+  // twin of /defy (which trades SG for pressure relief at -1 AP next turn).
+  router.post('/overcharge', async (req, res, next) => {
+    try {
+      const body = req.body || {};
+      const { error, session } = resolveSession(body.session_id);
+      if (error) return res.status(error.status).json(error.body);
+      const actor = session.units.find((u) => u.id === body.actor_id);
+      if (!actor) {
+        return res.status(400).json({ error: 'actor_not_found', actor_id: body.actor_id || null });
+      }
+      const outcome = applyOverchargeAction(actor);
+      if (!outcome.ok) {
+        return res
+          .status(409)
+          .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
+      }
+      const event = {
+        event_type: 'overcharge',
+        actor_id: actor.id,
+        turn: Number(session.turn || 0),
+        sg_before: outcome.before.sg,
+        sg_after: outcome.after.sg,
+        ap_before: outcome.before.ap_remaining,
+        ap_after: outcome.after.ap_remaining,
+        sg_cost: outcome.cost.sg,
       };
       if (Array.isArray(session.events)) session.events.push(event);
       res.json({
