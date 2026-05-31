@@ -1,24 +1,30 @@
 ---
 title: ADR-2026-05-31 — Meta-network edge arc-conditions schema (2.0 → 2.1)
-status: proposed
+status: accepted
 date: 2026-05-31
 workstream: flow
-doc_status: draft
+doc_status: active
 doc_owner: claude-code
 last_verified: 2026-05-31
 source_of_truth: false
 language: it
 review_cycle_days: 180
+deciders: master-dd (Eduardo), claude-opus-4.8
 tags:
-  [adr, worldgen, meta-network, arc-conditions, schema, gap-c, lock-and-key, data-gate, proposed]
+  [adr, worldgen, meta-network, arc-conditions, schema, gap-c, lock-and-key, data-gate, accepted]
 ---
 
 # ADR-2026-05-31 — Meta-network edge arc-conditions schema (2.0 → 2.1)
 
 ## Status
 
-**PROPOSED** — gated master-dd (Eduardo). NON applicare a `meta_network_alpha.yaml` finché questo
-ADR non è **ACCEPTED**. Questo documento è la decisione di design (bozza); non tocca alcun file dati.
+**ACCEPTED 2026-05-31** (master-dd Eduardo). Le 3 decisioni (D1 mappa terse inline, D2 bump additivo
+`2.0 → 2.1`, D3 telegraph con motivo generato dal codice) + il set condizioni v1 (`prior_node_cleared`
+→ `season` plumbing → `min_pressure`/`max_pressure`) sono ratificate. La scrittura del blocco
+`conditions:` in `meta_network_alpha.yaml` (DATA GATE, schema 2.0→2.1 + ricalcolo `trace_hash`) è ora
+**autorizzata** — eseguire la ripple checklist di questo ADR (resolver pass-through PRIMA, altrimenti
+no-op silenzioso; validatori + `trace_hash` verdi). `biome_affinity` resta deferito (v1.1) finché la
+confidence D4 non è band-verificata.
 
 ## Context
 
