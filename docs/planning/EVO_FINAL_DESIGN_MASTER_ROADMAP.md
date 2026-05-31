@@ -1,15 +1,23 @@
 ---
 title: Evo Final Design — Master Roadmap
-doc_status: draft
+doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-15
+last_verified: 2026-05-30
 source_of_truth: false
+superseded_by: docs/core/40-ROADMAP.md
 language: it-en
 review_cycle_days: 14
 ---
 
 # Evo Final Design — Master Roadmap
+
+> **SUPERSEDED 2026-05-30** -- questa roadmap-doc era hand-maintained e ferma a
+> 2026-04-15 (anti-drift #19: frammentazione roadmap-of-record). **Roadmap LIVE**:
+> [docs/core/40-ROADMAP.md](../core/40-ROADMAP.md) (active) + esecuzione in
+> [MILESTONES_AND_GATES](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md) +
+> [BACKLOG](../../BACKLOG.md) + [gap-resolution-plan](2026-05-30-design-data-gap-resolution-plan.md).
+> Sotto = reference storico (non roadmap corrente).
 
 ## 1. Obiettivo
 
@@ -33,21 +41,21 @@ Evo Tactics va finalizzato come:
 
 | Stato | Task                 | Dettagli operativi                                                                                                                                                                                                                                                                                                                                        |
 | ----- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Scope lock           | Il target prodotto resta quello sintetizzato in [`docs/core/40-ROADMAP.md`](../core/40-ROADMAP.md): core TBT, **6 specie base come target** (4 specie shipping nella slice freeze attuale, vedi [freeze §24](../core/90-FINAL-DESIGN-FREEZE.md)), 6 job base, VC telemetry, 12 unlock rules, UI identità, 2 mappe, privacy/reset, 50 partite di playtest. |
-| ☑    | Combat-first         | Il rules engine d20 è il cuore eseguibile del progetto; ogni milestone successiva dipende dal suo freeze.                                                                                                                                                                                                                                                 |
-| ☑    | Balance separato     | `trait_mechanics.yaml` resta il layer numerico separato e obbligatorio.                                                                                                                                                                                                                                                                                   |
-| ☑    | Confine cross-repo   | `Game` continua a leggere file locali a runtime; nessun redesign finale può dipendere da Game <- HTTP runtime.                                                                                                                                                                                                                                            |
-| ☑    | Governance docs      | I file nuovi devono avere frontmatter coerente con il sistema di governance docs.                                                                                                                                                                                                                                                                         |
-| ☑    | Source authority map | Le decisioni su conflitti tra freeze, ADR, YAML, Canvas e file operativi passano da [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).                                                                                                                                                                                  |
-| ☑    | Codex workflow       | AGENTS, BOOT_PROFILE, COMMAND_LIBRARY e strict-mode vanno rispettati per tutte le esecuzioni che toccano file.                                                                                                                                                                                                                                            |
+| ☑     | Scope lock           | Il target prodotto resta quello sintetizzato in [`docs/core/40-ROADMAP.md`](../core/40-ROADMAP.md): core TBT, **6 specie base come target** (4 specie shipping nella slice freeze attuale, vedi [freeze §24](../core/90-FINAL-DESIGN-FREEZE.md)), 6 job base, VC telemetry, 12 unlock rules, UI identità, 2 mappe, privacy/reset, 50 partite di playtest. |
+| ☑     | Combat-first         | Il rules engine d20 è il cuore eseguibile del progetto; ogni milestone successiva dipende dal suo freeze.                                                                                                                                                                                                                                                 |
+| ☑     | Balance separato     | `trait_mechanics.yaml` resta il layer numerico separato e obbligatorio.                                                                                                                                                                                                                                                                                   |
+| ☑     | Confine cross-repo   | `Game` continua a leggere file locali a runtime; nessun redesign finale può dipendere da Game <- HTTP runtime.                                                                                                                                                                                                                                            |
+| ☑     | Governance docs      | I file nuovi devono avere frontmatter coerente con il sistema di governance docs.                                                                                                                                                                                                                                                                         |
+| ☑     | Source authority map | Le decisioni su conflitti tra freeze, ADR, YAML, Canvas e file operativi passano da [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).                                                                                                                                                                                  |
+| ☑     | Codex workflow       | AGENTS, BOOT_PROFILE, COMMAND_LIBRARY e strict-mode vanno rispettati per tutte le esecuzioni che toccano file.                                                                                                                                                                                                                                            |
 
 ## 4. Stato delle fonti
 
 | Stato | Task         | Dettagli operativi                                                                                                                                                                                                                                |
 | ----- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Fonti 2026   | Il backbone documentale e gli ADR sono stati riallineati e verificati il 2026-04-14.                                                                                                                                                              |
-| ☑    | Storico 2025 | Checklist, action items e alcuni report operativi contengono ancora task dell’ondata VC 2025: utili come storico, non come piano da copiare integralmente.                                                                                        |
-| ☑    | Implicazione | La roadmap finale deve recuperare solo ciò che serve davvero al freeze: HUD overlay, vertical slice, validator, smoke, import cadence. _(XP Cipher parked via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md), out of scope.)_ |
+| ☑     | Fonti 2026   | Il backbone documentale e gli ADR sono stati riallineati e verificati il 2026-04-14.                                                                                                                                                              |
+| ☑     | Storico 2025 | Checklist, action items e alcuni report operativi contengono ancora task dell’ondata VC 2025: utili come storico, non come piano da copiare integralmente.                                                                                        |
+| ☑     | Implicazione | La roadmap finale deve recuperare solo ciò che serve davvero al freeze: HUD overlay, vertical slice, validator, smoke, import cadence. _(XP Cipher parked via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md), out of scope.)_ |
 
 ## 5. Roadmap macro
 
@@ -55,8 +63,8 @@ Evo Tactics va finalizzato come:
 
 | Stato | Task                                         | Dettagli operativi                                                                                                                |
 | ----- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Fase 0 — Baseline & Governance               | Congelare fonti, path, owner, naming, policy di merge, checklist di tracciabilita, source authority map e rapporto con il freeze. |
-| ☐→☑  | Fase 1 — Combat Freeze                       | Chiudere combat canon, resolver scope, status shipping, PT spend, parry, determinismo e test pack.                                |
+| ☑     | Fase 0 — Baseline & Governance               | Congelare fonti, path, owner, naming, policy di merge, checklist di tracciabilita, source authority map e rapporto con il freeze. |
+| ☐→☑   | Fase 1 — Combat Freeze                       | Chiudere combat canon, resolver scope, status shipping, PT spend, parry, determinismo e test pack.                                |
 | ☐     | Fase 2 — Balance & Progression Freeze        | Chiudere trait mechanics, build identity, economy PE/PI/Seed, unlock rules, gates MBTI/PF.                                        |
 | ☐     | Fase 3 — Content Shipping Slice              | Definire specie, morph, job, biomi, surge, armi, mission vertical slice e director set minimo.                                    |
 | ☐     | Fase 4 — UX / HUD / Telemetry Shipping Layer | Chiudere overlay HUD, telemetria leggibile, debrief, surfacing counter, report utili a QA/balancing.                              |
@@ -84,9 +92,9 @@ Evo Tactics va finalizzato come:
 
 | Stato | Task                                   | Dettagli operativi                                                                                                    |
 | ----- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| ☐→☑  | Pubblicare il freeze                   | Caricare `docs/core/90-FINAL-DESIGN-FREEZE.md` come baseline da cui discendono tutte le decisioni.                    |
-| ☐→☑  | Pubblicare il bundle roadmap           | Caricare questi file in `docs/planning/` e linkarli dal freeze.                                                       |
-| ☐→☑  | Pubblicare la source authority map     | Caricare `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md` e trattarlo come riferimento obbligatorio di merge. |
+| ☐→☑   | Pubblicare il freeze                   | Caricare `docs/core/90-FINAL-DESIGN-FREEZE.md` come baseline da cui discendono tutte le decisioni.                    |
+| ☐→☑   | Pubblicare il bundle roadmap           | Caricare questi file in `docs/planning/` e linkarli dal freeze.                                                       |
+| ☐→☑   | Pubblicare la source authority map     | Caricare `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md` e trattarlo come riferimento obbligatorio di merge. |
 | ☐     | Congelare overview e pilastri canonici | Chiudere un unico set di pilastri e product boundary prima delle milestone di sistema.                                |
 | ☐     | Registrare i file nel docs registry    | Aggiornare `docs/governance/docs_registry.json` se si vuole governance completa.                                      |
 | ☐     | Allineare naming e ownership           | Confermare owner umani e owner logici per ogni milestone.                                                             |
@@ -157,25 +165,25 @@ Evo Tactics va finalizzato come:
 
 | Stato | Task                                   | Dettagli operativi                                                              |
 | ----- | -------------------------------------- | ------------------------------------------------------------------------------- |
-| ☑    | Combat freeze precede tutto            | Senza combat canon spec, il resto genera drift.                                 |
-| ☑    | Trait mechanics precede content tuning | Senza layer numerico stabile, specie/job/biomi non sono confrontabili.          |
-| ☑    | Content slice precede HUD definitivo   | La UI deve spiegare un sistema già definito, non inseguirlo.                    |
-| ☑    | Meta slice dopo il core                | Nido/Mating non devono bloccare combat, progression e content slice.            |
-| ☑    | Import contract dopo il freeze dati    | Il Game-Database va sincronizzato dopo che i dati Game sono stabili, non prima. |
+| ☑     | Combat freeze precede tutto            | Senza combat canon spec, il resto genera drift.                                 |
+| ☑     | Trait mechanics precede content tuning | Senza layer numerico stabile, specie/job/biomi non sono confrontabili.          |
+| ☑     | Content slice precede HUD definitivo   | La UI deve spiegare un sistema già definito, non inseguirlo.                    |
+| ☑     | Meta slice dopo il core                | Nido/Mating non devono bloccare combat, progression e content slice.            |
+| ☑     | Import contract dopo il freeze dati    | Il Game-Database va sincronizzato dopo che i dati Game sono stabili, non prima. |
 
 ## 8. Owner matrix
 
 | Stato | Task                             | Dettagli operativi                                                             |
 | ----- | -------------------------------- | ------------------------------------------------------------------------------ |
-| ☑    | Master DD                        | Owner umano finale: approvazione, priorità, merge gate, arbitraggi di scope.   |
-| ☑    | Platform Docs / Archivist        | Consolidamento freeze, roadmap, registry, changelog, cross-link docs.          |
-| ☑    | Combat Team                      | Combat canon, resolver scope, test combat, determinismo, status shipping.      |
-| ☑    | Balancer / Progression Design    | Trait mechanics, economy, unlock, gap XP Cipher, shaping build identity.       |
-| ☑    | Content Design                   | Species slice, morphs, jobs, biomes, surge, armi, vertical slice.              |
-| ☑    | UI Systems                       | HUD overlay, debrief, surfacing warnings e metriche player-facing.             |
-| ☑    | QA Support                       | Smoke, scenario matrix, telemetry validation, issue triage, playtest evidence. |
-| ☑    | Game-Database maintainer (Codex) | Import hardening, runbook, sync policy, eventuali workflow automatici lato DB. |
-| ☑    | Release Ops / Dev Tooling        | Validator, CI, smoke, bundle, rollback plan, gating di PR.                     |
+| ☑     | Master DD                        | Owner umano finale: approvazione, priorità, merge gate, arbitraggi di scope.   |
+| ☑     | Platform Docs / Archivist        | Consolidamento freeze, roadmap, registry, changelog, cross-link docs.          |
+| ☑     | Combat Team                      | Combat canon, resolver scope, test combat, determinismo, status shipping.      |
+| ☑     | Balancer / Progression Design    | Trait mechanics, economy, unlock, gap XP Cipher, shaping build identity.       |
+| ☑     | Content Design                   | Species slice, morphs, jobs, biomes, surge, armi, vertical slice.              |
+| ☑     | UI Systems                       | HUD overlay, debrief, surfacing warnings e metriche player-facing.             |
+| ☑     | QA Support                       | Smoke, scenario matrix, telemetry validation, issue triage, playtest evidence. |
+| ☑     | Game-Database maintainer (Codex) | Import hardening, runbook, sync policy, eventuali workflow automatici lato DB. |
+| ☑     | Release Ops / Dev Tooling        | Validator, CI, smoke, bundle, rollback plan, gating di PR.                     |
 
 ## 9. Artefatti obbligatori per chiudere la roadmap
 

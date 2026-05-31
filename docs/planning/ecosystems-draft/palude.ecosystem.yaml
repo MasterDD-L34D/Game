@@ -4,7 +4,9 @@ ecosistema:
   label: Palude
   biome_id: palude
   trofico:
-    produttori: []
+    produttori:
+    - canneti_palustri
+    - alghe
     consumatori:
       primari:
       - paludogromus-magnus
@@ -18,3 +20,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

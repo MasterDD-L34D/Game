@@ -121,9 +121,27 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     assert.equal(typeof catalog.stats.total_species, 'number');
   });
 
-  test('53 species merged (15 lifecycle + 38 legacy residue) — ADR-2026-05-15 Phase 1', () => {
-    assert.equal(catalog.stats.total_species, 53);
-    assert.equal(catalog.catalog.length, 53);
+  test('75 species (53 canon + 22 gameplay-promote) -- Wave3 CANON-RECONCILE', () => {
+    // Wave 3 unify (Option 1): gameplay creatures from the multi-species gameplay
+    // biomes (badlands 7 + cryosteppe 6 + deserto_caldo 4 + foresta_temperata 5)
+    // promoted into the canon SoT as structural stubs (source=gameplay-promote).
+    // Excludes rovine_planari (D6) + tutorial generics + thin biomes. See
+    // docs/planning/2026-05-30-canon-reconcile-audit.md + promote_gameplay_to_canon.py.
+    assert.equal(catalog.stats.total_species, 75);
+    assert.equal(catalog.catalog.length, 75);
+  });
+
+  test('canon base unchanged: 53 = 10 pack + 5 stub + 38 legacy', () => {
+    const base = catalog.catalog.filter((e) => e.source !== 'gameplay-promote');
+    assert.equal(base.length, 53, 'the original 53-species canon must be untouched');
+  });
+
+  test('gameplay-promote batch (22 species, all flagged _promote_stub)', () => {
+    const promo = catalog.catalog.filter((e) => e.source === 'gameplay-promote');
+    assert.equal(promo.length, 22, 'expected 22 gameplay creatures promoted');
+    for (const e of promo) {
+      assert.equal(e._promote_stub, true, `${e.species_id} must be flagged _promote_stub`);
+    }
   });
 
   test('Pack v2-full-plus metadata merged (10 species)', () => {
@@ -185,11 +203,11 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     // Only 15 species (pack-v2-full-plus + game-canonical-stub) require lifecycle.
     for (const entry of catalog.catalog) {
       if (entry.lifecycle_yaml === null) {
-        // legacy-yaml-merge: lifecycle missing by design (Phase 3 master-dd review may add)
-        assert.equal(
-          entry.source,
-          'legacy-yaml-merge',
-          `${entry.species_id} null lifecycle requires legacy source`,
+        // legacy-yaml-merge: lifecycle missing by design (Phase 3 master-dd review may add).
+        // gameplay-promote: Wave3 structural stubs, lifecycle authored in Strato 2.
+        assert.ok(
+          entry.source === 'legacy-yaml-merge' || entry.source === 'gameplay-promote',
+          `${entry.species_id} null lifecycle requires legacy or gameplay-promote source`,
         );
         continue;
       }
