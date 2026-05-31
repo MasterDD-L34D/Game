@@ -3490,7 +3490,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "sonno_emisferico_alternato",
+        "sacche_galleggianti_ascensoriali",
+        "lingua_tattile_trama"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "echo_wing",
@@ -3512,7 +3518,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -3539,7 +3544,13 @@
       "constraints": [],
       "sentience_index": "T3",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "mimetismo_cromatico_passivo",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi",
+        "lingua_tattile_trama",
+        "ventriglio_gastroliti"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "ferrocolonia_magnetotattica",
@@ -3561,7 +3572,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -3637,7 +3647,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "filamenti_digestivi_compattanti",
+        "spore_psichiche_silenziate",
+        "scheletro_idro_regolante",
+        "carapace_fase_variabile",
+        "sangue_piroforico"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "nano_rust_bloom",
@@ -3659,7 +3675,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -3686,7 +3701,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "ventriglio_gastroliti",
+        "respiro_a_scoppio",
+        "filamenti_digestivi_compattanti",
+        "nucleo_ovomotore_rotante",
+        "scheletro_idro_regolante"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "rust_scavenger",
@@ -3708,7 +3729,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -3735,7 +3755,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "nucleo_ovomotore_rotante",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante",
+        "carapace_fase_variabile",
+        "zampe_a_molla"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "sand_burrower",
@@ -3757,7 +3783,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
