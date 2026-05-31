@@ -250,7 +250,8 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
     - common_names = [legacy.display_name_it] (single-element list fallback)
     - classification = derived from clade_tag + preferred_biomes if available
     - trait_refs = derived from trait_plan field (if present)
-    - ecotypes = derived from role_tags (if present)
+    - ecotypes = [] (legacy role_tags are roles, NOT ecotype_cluster enum values;
+      real clusters are authored per-species in *_ecotypes.json)
     - rich fields (visual_description, risk_profile, interactions) = empty
       pending Phase 3 master-dd review.
     """
@@ -289,9 +290,13 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
             if isinstance(section, list):
                 trait_refs.extend(t for t in section if isinstance(t, str))
 
-    # ecotypes from role_tags (defensive).
     role_tags = legacy.get('role_tags', [])
-    ecotypes = role_tags if isinstance(role_tags, list) else []
+
+    # ecotypes: legacy role_tags (apex/predator/keystone...) are roles, NOT
+    # ecotype_cluster enum values. Leave empty; canonical ecotype clusters live
+    # in data/external/evo/species/<id>_ecotypes.json, authored per-species
+    # (schemas/evo/enums.json $defs/ecotype_cluster).
+    ecotypes: list = []
 
     sentience = legacy.get('sentience_index') or legacy.get('sentience_tier') or 'T1'
 

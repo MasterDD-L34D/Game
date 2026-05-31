@@ -39,6 +39,7 @@ def main() -> int:
     errors.extend(validate_ecosystem_pack(info_messages))
     errors.extend(validate_telemetry())
     errors.extend(validate_species_ecology())
+    errors.extend(validate_species_catalog_schema())
 
     if errors:
         sys.stderr.write("\n".join(errors) + "\n")
@@ -681,6 +682,62 @@ def validate_species_ecology() -> List[str]:
                 f"ma '{prey}'.prey_of non include '{predator}'"
             )
 
+    return errors
+
+
+# === species_catalog.json full-schema validation ==========================
+# Closes the CI gap where data/core/species/species_catalog.json was never
+# validated against schemas/evo/species_catalog.schema.json. The ajv-based
+# scripts/validate-dataset.cjs exists but is not wired into CI, so schema drift
+# (invalid `ecotypes` not in ecotype_cluster enum; `source` values missing from
+# the source enum) stayed latent on a green main. This validates the catalog
+# against the full JSON Schema using python jsonschema, resolving the cross-file
+# `enums.json` $ref via a referencing Registry keyed on each schema's $id.
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def validate_species_catalog_schema() -> List[str]:
+    schema_dir = _repo_root() / "schemas" / "evo"
+    schema_path = schema_dir / "species_catalog.schema.json"
+    enums_path = schema_dir / "enums.json"
+    catalog_path = _core_data_dir() / "species" / "species_catalog.json"
+    if not (schema_path.exists() and enums_path.exists() and catalog_path.exists()):
+        return []  # nothing to validate in this layout
+
+    try:
+        import jsonschema
+        from referencing import Registry, Resource
+        from referencing.jsonschema import DRAFT202012
+    except ImportError:
+        return [
+            "tools/py/requirements.txt: 'jsonschema>=4.18.0' richiesto per validare "
+            "species_catalog.json contro lo schema (pip install jsonschema)"
+        ]
+
+    try:
+        with schema_path.open("r", encoding="utf-8") as fh:
+            schema = json.load(fh)
+        with enums_path.open("r", encoding="utf-8") as fh:
+            enums = json.load(fh)
+        with catalog_path.open("r", encoding="utf-8") as fh:
+            catalog = json.load(fh)
+    except (json.JSONDecodeError, OSError) as exc:
+        return [f"{catalog_path}: impossibile leggere schema/dataset ({exc})"]
+
+    registry = Registry().with_resources(
+        [
+            (schema["$id"], Resource.from_contents(schema, default_specification=DRAFT202012)),
+            (enums["$id"], Resource.from_contents(enums, default_specification=DRAFT202012)),
+        ]
+    )
+    validator = jsonschema.Draft202012Validator(schema, registry=registry)
+
+    errors: List[str] = []
+    for err in sorted(validator.iter_errors(catalog), key=lambda e: list(e.absolute_path)):
+        loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
+        errors.append(f"{catalog_path}: /{loc}: {err.message}")
     return errors
 
 

@@ -81,8 +81,8 @@
       ],
       "sentience_index": "T1",
       "ecotypes": [
-        "estuario",
-        "lagune"
+        "Estuario Torbido",
+        "Laguna Quieta"
       ],
       "trait_refs": [
         "TR-1801",
@@ -151,8 +151,8 @@
       ],
       "sentience_index": "T2",
       "ecotypes": [
-        "chiome interne",
-        "radure umide"
+        "Radura Acida",
+        "Chioma Elettrofilo"
       ],
       "trait_refs": [
         "TR-1501",
@@ -311,8 +311,8 @@
       ],
       "sentience_index": "T2",
       "ecotypes": [
-        "dorsali rocciose",
-        "letto fluviale stagionale"
+        "Gole Ventose",
+        "Letti Fluviali"
       ],
       "trait_refs": [
         "TR-1101",
@@ -383,8 +383,8 @@
       ],
       "sentience_index": "T2",
       "ecotypes": [
-        "paludi di foresta",
-        "forre umide"
+        "Chioma Umida",
+        "Forre Umide"
       ],
       "trait_refs": [
         "TR-1201",
@@ -517,8 +517,8 @@
       ],
       "sentience_index": "T3",
       "ecotypes": [
-        "grotte umide",
-        "radure notturne"
+        "Cavernicolo",
+        "Radura Notturna"
       ],
       "trait_refs": [
         "TR-1301",
@@ -648,8 +648,8 @@
       ],
       "sentience_index": "T0",
       "ecotypes": [
-        "stagni",
-        "paludi"
+        "Stagno Quieto",
+        "Torrente Lento"
       ],
       "trait_refs": [
         "TR-1601",
@@ -715,8 +715,8 @@
       ],
       "sentience_index": "T5",
       "ecotypes": [
-        "cenge alte",
-        "prati alpini"
+        "Cenge Calcarenitiche",
+        "Dorsali Ventose"
       ],
       "trait_refs": [
         "TR-2001",
@@ -910,8 +910,8 @@
       ],
       "sentience_index": "T2",
       "ecotypes": [
-        "oasi calde",
-        "praterie arbustive"
+        "Oasi Termica",
+        "Prateria Arbustiva"
       ],
       "trait_refs": [
         "TR-1701",
@@ -978,7 +978,8 @@
       ],
       "sentience_index": "T3",
       "ecotypes": [
-        "pianure ventose"
+        "Pianure Ventose",
+        "Savanicola Notturno"
       ],
       "trait_refs": [
         "TR-1401",
@@ -1046,8 +1047,8 @@
       ],
       "sentience_index": "T3",
       "ecotypes": [
-        "bassa volta arborea",
-        "gole d’ombra"
+        "Canopy Ombrosa",
+        "Canyon Notturno"
       ],
       "trait_refs": [
         "TR-1901",
@@ -1504,11 +1505,7 @@
         "Solitario territoriale, raramente in branco"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "apex",
-        "predator",
-        "playable"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "coda_contrappeso",
         "midollo_iperattivo",
@@ -1571,11 +1568,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "scavenger",
-        "playable"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Keystone",
@@ -1635,11 +1628,7 @@
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "bridge",
-        "disperser",
-        "playable"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "ali_membrana_sonica",
         "canto_di_richiamo"
@@ -1694,10 +1683,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "intimidatore",
         "lamelle_shear"
@@ -1754,10 +1740,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "detritivore"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Keystone",
@@ -1810,10 +1793,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "bridge",
-        "scout"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "ali_fulminee",
         "membrane_pneumatofori"
@@ -1869,10 +1849,7 @@
         "Solitario territoriale, raramente in branco"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "apex",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "denti_ossidoferro",
         "carapaci_ferruginosi"
@@ -1926,10 +1903,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "ambusher"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "denti_silice_termici",
         "zampe_radianti"
@@ -1987,10 +1961,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "support",
-        "sentinel"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "artigli_vetrificati",
         "ghiandole_fango_calde"
@@ -2047,10 +2018,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "grazer"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "artigli_radice",
         "membrane_eliofiltranti"
@@ -2110,10 +2078,7 @@
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "bridge",
-        "disperser"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "carapace_segmenti_logici"
       ],
@@ -2166,10 +2131,7 @@
         "Ruolo ecologico secondario: bassa difesa diretta, dipende da rete trofica intatta"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "support",
-        "symbiont"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "biofilm_glow",
         "carapace_luminiscente_abissale"
@@ -2223,10 +2185,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Threat",
@@ -2281,10 +2240,7 @@
         "Specie ponte cross-bioma: migrazione stagionale prevedibile, vulnerabile in transito"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "bridge",
-        "scout"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "antenne_microonde_cavernose",
         "tentacoli_uncinati"
@@ -2338,11 +2294,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "playable",
-        "grazer",
-        "bridge"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Playable",
@@ -2397,10 +2349,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "filter_feeder"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Keystone",
@@ -2453,10 +2402,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "support",
-        "grazer"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Support",
@@ -2509,10 +2455,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "keystone",
-        "support"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "cartilagini_pseudometalliche",
         "camere_mirage"
@@ -2566,10 +2509,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "bridge",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Bridge",
@@ -2622,10 +2562,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "omnivore"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Threat",
@@ -2678,11 +2615,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "playable",
-        "scout",
-        "bridge"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Playable",
@@ -2737,10 +2670,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "support"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Keystone",
@@ -2793,10 +2723,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "ambusher"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Threat",
@@ -2849,10 +2776,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "bridge",
-        "disperser"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Bridge",
@@ -2905,10 +2829,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "forager"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Threat",
@@ -2962,10 +2883,7 @@
         "Mantenere vivo: rimozione collassa intera rete trofica del bioma"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "keystone",
-        "detritivore"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Keystone",
@@ -3018,10 +2936,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "bridge",
-        "grazer"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Bridge",
@@ -3074,10 +2989,7 @@
         "Solitario territoriale, raramente in branco"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "apex",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "ghiandole_condensa_ozono"
       ],
@@ -3136,11 +3048,7 @@
         "Ruolo ecologico secondario: bassa difesa diretta, dipende da rete trofica intatta"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "support",
-        "playable",
-        "grazer"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "circolazione_bifasica"
       ],
@@ -3194,10 +3102,7 @@
         "Risponde a stimoli immediati senza tattiche multi-step"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "threat",
-        "predator"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "clade_tag": "Threat",
@@ -3253,11 +3158,7 @@
         "Solitario territoriale, raramente in branco"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "apex",
-        "predator",
-        "pack_alpha"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "denti_seghettati",
         "artigli_sette_vie",
@@ -3340,12 +3241,7 @@
         "Solitario territoriale, raramente in branco"
       ],
       "sentience_index": "T3",
-      "ecotypes": [
-        "apex",
-        "predator",
-        "playable",
-        "storm-channeler"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "antenne_plasmatiche_tempesta",
         "sensori_geomagnetici",
@@ -3416,12 +3312,7 @@
         "Comportamento escalation post-confronto: aggressività cumulativa con stimoli ripetuti"
       ],
       "sentience_index": "T3",
-      "ecotypes": [
-        "apex",
-        "predator",
-        "playable",
-        "rage-assault"
-      ],
+      "ecotypes": [],
       "trait_refs": [
         "circolazione_supercritica",
         "sangue_piroforico",
