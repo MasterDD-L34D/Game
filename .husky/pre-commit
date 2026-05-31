@@ -45,3 +45,12 @@ if [ -n "$TRAIT_GATE_FILES" ] && command -v python >/dev/null 2>&1; then
     exit 1
   }
 fi
+
+# 2026-05-30 -- DECISIONS_LOG auto-sync (anti-drift #19). If a staged ADR changed,
+# regenerate the index so it never drifts. Non-blocking (CI `--check` = hard gate).
+if git diff --cached --name-only | grep -qE "^docs/adr/ADR-.*\.md$"; then
+  if command -v python >/dev/null 2>&1; then
+    python tools/generate_decisions_log.py && git add DECISIONS_LOG.md \
+      || echo "[pre-commit] WARN decisions-log regen failed -- run tools/generate_decisions_log.py"
+  fi
+fi
