@@ -39,6 +39,10 @@ jobs:
             --report reports/docs/governance_drift_report.json \
             --strict
 
+      - name: Decisions log auto-sync (required -- fail-on-diff, anti-drift #19)
+        id: decisions_log_sync
+        run: python tools/generate_decisions_log.py --check
+
       - name: Docs link integrity (warning-only)
         id: link_check
         continue-on-error: true
