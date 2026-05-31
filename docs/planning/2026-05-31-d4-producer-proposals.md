@@ -36,6 +36,42 @@ tags: [d4, worldgen, ecosystem, produttori, producer, triage, master-dd]
 
 ---
 
+## 0. Esito ricerca reuse-first nel SoT
+
+> Risposta a "cerca se ci sono riferimenti gia' pronti nell'ingest Pathfinder o negli ultimi approfondimenti".
+
+**Finding onesto: NON esiste un pool di specie-produttore dedicate.** Le 53 creature del catalogo + gli ingest (`incoming/species/`, `data/external/evo/`) sono TUTTE animali/consumatori (0 produttori, eccetto `sp_arenaceros_placidus` con `membrane_eliofiltranti`). Nel gioco i produttori sono **flora ambientale** (voci semplici negli ecosystem), non creature giocabili. Il riuso reale e' di 3 tipi:
+
+**(A) Vocabolario flora canonical** — riuso verbatim da `packs/.../ecosystems/`: `cianobatteri`, `alghe`, `alghe_cryofile`, `licheni_termocromici`, `muschi_permafrost`, `arbusti_xerofili`, `crostoni_criptofite`, `arbusti_pioneer`, `cactus-weaver`, `piante_superiori`.
+
+**(B) Pathfinder plant-type bestiary** (`incoming/pathfinder/bestiary1e_index.csv`, 43 creature plant-type) — mapping per ambiente (env tag -> bioma):
+
+| bioma                                | candidati Pathfinder (nome reale)                                                |
+| ------------------------------------ | -------------------------------------------------------------------------------- |
+| caverna                              | Basidirond, Myceloid, Violet Fungus, Phycomid, Vegepygmy (env=underground)       |
+| palude                               | Fungus Leshy, Shambling Mound, Giant Flytrap, Viper Vine (env=swamp)             |
+| foresta_temperata                    | Mandragora, Alraune, Quickwood, Tendriculos (env=temperate forest)               |
+| foresta_acida                        | Yellow Musk Creeper, Weedwhip, Tendriculos (env=forest+underground)              |
+| savana                               | Gourd Leshy, Jack-O'-Lantern, Leaf Leshy (env=hills+plains+forest)               |
+| pianura_salina_iperarida             | Saguaroi (env=warm deserts)                                                      |
+| reef_luminescente / atollo_obsidiana | Seaweed Leshy, Sargassum Fiend (env=ocean+coastline)                             |
+| frattura_abissale_sinaptica          | **Cerebric Fungus** (tema neurale perfetto), Mu Spore, Mindslaver Mold (env=any) |
+| canyons_risonanti                    | Jinmenju (env=hills+mountains)                                                   |
+| qualsiasi                            | Living Topiary, Moonflower, Irminsul (env=any land)                              |
+
+**(C) Concept-catalog flora** — `docs/planning/2026-04-25-creature-concept-catalog.md` (gli "ultimi approfondimenti": entita' progettate, non ancora promosse a catalogo). Sono creature da combattimento, ma 3 hanno natura autotrofa riusabile come produttore-tier:
+
+| concept id                             | bioma (gia' assegnato)            | tipo                | uso produttore                                                 |
+| -------------------------------------- | --------------------------------- | ------------------- | -------------------------------------------------------------- |
+| `lichene_emette` (Emitter Lichen)      | caverna                           | lichene statico     | SI — rimpiazza l'inventato `licheni_cavernicoli`               |
+| `ifa_psichedelica` (Psychedelic Hypha) | foresta_acida / foresta_miceliale | fungo statico       | SI — rimpiazza l'inventato `muschio_corrosivo` / `fungo_acido` |
+| `coralluna_palustre` (Marsh Coralmoon) | palude                            | corallo sessile     | parziale — affianca `canneti_palustri` (simbiosi algale)       |
+| trait `batteri_endosimbionti_chemio`   | abisso_vulcanico / frattura       | trait chemiosintesi | base concettuale per i produttori chemiosintetici proposti     |
+
+**Conclusione**: dove le tabelle sotto avevano pick "C (nuovo tematico)" a bassa confidenza, ora ci sono riferimenti reali (Pathfinder o concept-catalog) — vedi soprattutto `caverna`, `foresta_acida`, `palude`, `frattura_abissale_sinaptica`. Resta vero che il grosso della base trofica = vocabolario flora ambientale semplice (categoria A), coerente con come i canonical esistenti trattano i produttori.
+
+---
+
 ## 1. MERGE-into-canonical (2) — produttori GIA' presenti
 
 Non serve proporre niente: questi habitat hanno gia' un canonical ricco.
