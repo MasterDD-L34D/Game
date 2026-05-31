@@ -116,7 +116,7 @@ Non serve proporre niente: questi habitat hanno gia' un canonical ricco.
 
 ---
 
-## 2. NEW con produttori proposti (12)
+## 2. NEW con produttori proposti (13)
 
 ### savana _(gia' 1 produttore — completare)_
 
@@ -215,6 +215,8 @@ Consumer gia' presenti nel draft: arenaceros-placidus (ha `membrane_eliofiltrant
 | coralli_simbiotici    | C                                  | alta       | corallo = animale+alga simbiotica, base di tutti i reef |
 | seaweed_luminoso      | B (Seaweed Leshy ocean → adattato) | media      | alga marina animata, gia' nel Pathfinder bestiary       |
 
+> ⚠️ `reef_luminescente` = SINGLETON (1 sola specie). Opzione: aggiungere altre specie al bioma oppure fold in `atollo_obsidiana`.
+
 ---
 
 ### foresta_acida
@@ -249,17 +251,16 @@ Consumer gia' presenti nel draft: arenaceros-placidus (ha `membrane_eliofiltrant
 
 ---
 
-## 3. DEFER — habitat troppo esotici o sottili (4)
+## 3. DEFER — habitat troppo esotici o sottili (3)
 
-Questi 4 non hanno produttori naturali evidenti O sono singleton.
+Questi 3 non hanno produttori naturali evidenti.
 Consiglio: aspettare design intent master-dd prima di proporre flora.
 
-| habitat                    | problema                                                                           | opzione                                                          |
-| -------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| **mezzanotte_orbitale**    | Nessuna pianta esiste senza luce/gravita. Produttori = cristalli? energia cosmica? | Design call: chemiosintesi da radiazioni, oppure defer           |
-| **stratosfera_tempestosa** | Flora aerea = concetto non standard. Niente in Pathfinder o canonical.             | Design call: licheni_volanti / alghe_aeree, oppure defer         |
-| **steppe_algoritmiche**    | "Algoritmiche" = setting non-naturale? Flora = cristalli silicei?                  | Design call: cosa vuol dire questo bioma nel lore?               |
-| **reef_luminescente**      | (Gia' proposto sopra; ma e' singleton — 1 sola specie)                             | Aggiungere altre specie al bioma oppure fold in atollo_obsidiana |
+| habitat                    | problema                                                                           | opzione                                                  |
+| -------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **mezzanotte_orbitale**    | Nessuna pianta esiste senza luce/gravita. Produttori = cristalli? energia cosmica? | Design call: chemiosintesi da radiazioni, oppure defer   |
+| **stratosfera_tempestosa** | Flora aerea = concetto non standard. Niente in Pathfinder o canonical.             | Design call: licheni_volanti / alghe_aeree, oppure defer |
+| **steppe_algoritmiche**    | "Algoritmiche" = setting non-naturale? Flora = cristalli silicei?                  | Design call: cosa vuol dire questo bioma nel lore?       |
 
 ---
 
