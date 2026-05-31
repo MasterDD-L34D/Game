@@ -506,6 +506,89 @@ def cmd_report(args: argparse.Namespace, repo_root: Path) -> int:
 
 
 # ---------------------------------------------------------------------------
+# Subcommand: reconcile
+# ---------------------------------------------------------------------------
+
+def cmd_reconcile(args: argparse.Namespace, repo_root: Path) -> int:
+    """Reconcile the registry against on-disk frontmatter (anti-drift #19, follow-up #2489).
+
+    - Sync (default, SAFE): for entries with source_of_truth=True (the ONLY surface where
+      check_docs_governance emits frontmatter_registry_mismatch), copy any DEFAULT_REQUIRED_FIELDS
+      value that diverges from the doc's frontmatter back into the registry (frontmatter = truth).
+    - Prune (opt-in --prune, default OFF): drop entries whose path no longer exists. The validator
+      only ERRORs on path_missing (never removes) on purpose; prune is opt-in to avoid deleting
+      curated entries for docs temporarily absent on a branch.
+    - Writes preserving the current entry ORDER (NOT save_registry, which re-sorts) so the diff is
+      only the changed fields, never a reorder (the registry is not path-sorted today: 196 off).
+    """
+    # reuse the CHECK's frontmatter parser (strips YAML quotes + types bool/int) + its required-field
+    # list, so synced values equal exactly what check_docs_governance compares against.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from check_docs_governance import (  # noqa: E402
+        DEFAULT_REQUIRED_FIELDS,
+        parse_frontmatter as check_parse_frontmatter,
+    )
+
+    registry_path = repo_root / "docs" / "governance" / "docs_registry.json"
+    if not registry_path.exists():
+        print(f"[reconcile] Registry not found: {registry_path}", file=sys.stderr)
+        return 2
+
+    registry = load_registry(registry_path)
+    entries = registry.get("entries", [])
+    synced: list[tuple[str, str, Any, Any]] = []
+    pruned: list[str] = []
+    kept: list[dict[str, Any]] = []
+
+    for entry in entries:
+        rel = entry.get("path", "")
+        exists = bool(rel) and (repo_root / rel).exists()
+        if not exists:
+            pruned.append(rel)
+            # actually drop only when --prune AND applying; otherwise preserve the entry
+            if not (args.prune and not args.dry_run):
+                kept.append(entry)
+            continue
+        # sync only source_of_truth=True entries (= the validator's mismatch surface)
+        if entry.get("source_of_truth") is True:
+            fm = check_parse_frontmatter(repo_root / rel)
+            if fm:
+                for field in DEFAULT_REQUIRED_FIELDS:
+                    if field in fm and str(fm[field]) != str(entry.get(field)):
+                        synced.append((rel, field, entry.get(field), fm[field]))
+                        if not args.dry_run:
+                            entry[field] = fm[field]
+        kept.append(entry)
+
+    if not args.dry_run:
+        registry["entries"] = kept
+        # order-preserving write (no re-sort) + explicit LF (newline="\n" avoids the Windows
+        # write_text CRLF translation that would break the prettier-clean registry): only the
+        # changed values diff.
+        registry_path.write_text(
+            json.dumps(registry, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+
+    sync_verb = "Would sync" if args.dry_run else "Synced"
+    print(f"[reconcile] {sync_verb}: {len(synced)} field(s) (source_of_truth entries)")
+    for rel, field, old, new in synced:
+        print(f"  {rel}: {field} {old!r} -> {new!r}")
+    if pruned:
+        if args.prune:
+            prune_verb = "Would prune" if args.dry_run else "Pruned"
+            print(f"[reconcile] {prune_verb}: {len(pruned)} orphan entry(ies)")
+        else:
+            print(f"[reconcile] {len(pruned)} orphan entry(ies) found (pass --prune to remove):")
+        for rel in pruned:
+            print(f"  {rel}")
+    else:
+        print("[reconcile] 0 orphan entries")
+    return 0
+
+
+# ---------------------------------------------------------------------------
 # CLI entry point
 # ---------------------------------------------------------------------------
 
@@ -534,6 +617,18 @@ def parse_args() -> argparse.Namespace:
     # report
     sub.add_parser("report", help="Print coverage statistics.")
 
+    # reconcile
+    p_rec = sub.add_parser(
+        "reconcile",
+        help="Sync registry required-fields from frontmatter (source_of_truth entries) + optional --prune.",
+    )
+    p_rec.add_argument("--dry-run", action="store_true", help="Print sync/prune without writing.")
+    p_rec.add_argument(
+        "--prune",
+        action="store_true",
+        help="Remove entries whose path no longer exists (default: report only, never auto-remove).",
+    )
+
     return parser.parse_args()
 
 
@@ -549,6 +644,8 @@ def main() -> int:
         return cmd_populate_registry(args, repo_root)
     elif args.command == "report":
         return cmd_report(args, repo_root)
+    elif args.command == "reconcile":
+        return cmd_reconcile(args, repo_root)
     else:
         print(f"Unknown command: {args.command}", file=sys.stderr)
         return 1
