@@ -1,0 +1,20 @@
+schema_version: 1.0
+ecosistema:
+  id: CAVERNA
+  label: Caverna
+  biome_id: caverna
+  trofico:
+    produttori:
+    - lichene_emette
+    - funghi_chemiosintetici
+    consumatori:
+      primari:
+      - cryptolorca-medicata
+      secondari:
+      - perfusuas-pedes
+      - cavatympa-sonans
+      terziari: []
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
