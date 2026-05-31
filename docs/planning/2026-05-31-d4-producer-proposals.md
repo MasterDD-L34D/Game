@@ -72,6 +72,38 @@ tags: [d4, worldgen, ecosystem, produttori, producer, triage, master-dd]
 
 ---
 
+## ✅ SELEZIONE APPLICATA (Claude, autonoma — pending master-dd review)
+
+> User: "spunta i migliori da usare da solo". Ho scelto i produttori migliori
+> (reuse-first) e li ho **gia' applicati ai 18 draft YAML** (`docs/planning/ecosystems-draft/`).
+> ⚠️ Scelta autonoma Claude: master-dd puo' modificare prima del band-verify. Nessun
+> file canonical (`packs/.../ecosystems/`) toccato. I draft restano draft.
+
+| bioma                       | produttori applicati                                             | fonte                                   |
+| --------------------------- | ---------------------------------------------------------------- | --------------------------------------- |
+| badlands (MERGE)            | arbusti_xerofili, crostoni_criptofite, cianobatteri              | A canonical verbatim                    |
+| foresta_temperata (MERGE)   | piante_superiori, alghe, cianobatteri                            | A canonical verbatim                    |
+| savana                      | arbusti_xerofili, cianobatteri (+ arenaceros-placidus → primari) | A canonical                             |
+| caldera_glaciale            | alghe_cryofile, muschi_permafrost                                | A 100% canonical (cryosteppe)           |
+| canyons_risonanti           | licheni_termocromici, arbusti_xerofili                           | A 100% canonical                        |
+| pianura_salina_iperarida    | crostoni_criptofite, cianobatteri                                | A 100% canonical                        |
+| atollo_obsidiana            | alghe, cianobatteri                                              | A 100% canonical                        |
+| canopia_ionica              | piante_superiori, alghe                                          | A 100% canonical                        |
+| palude                      | canneti_palustri, alghe                                          | A (alghe) + reed                        |
+| dorsale_termale_tropicale   | cianobatteri, alghe_termali                                      | A (cianobatteri) + real                 |
+| caverna                     | lichene_emette, funghi_chemiosintetici                           | C concept-catalog + real                |
+| foresta_acida               | ifa_psichedelica, funghi_acidofili                               | C concept-catalog + real                |
+| abisso_vulcanico            | batteri_chemiosintetici, alghe_termofile                         | real chemo/photo                        |
+| frattura_abissale_sinaptica | batteri_chemiosintetici, alghe_bioluminescenti                   | real chemo/biolum                       |
+| reef_luminescente           | alghe, coralli_simbiotici                                        | A (alghe) + real reef base              |
+| stratosfera_tempestosa      | aeroplancton_fotosintetico                                       | ⚠️ real aerobiologia                    |
+| mezzanotte_orbitale         | funghi_melanici_radiotrofi                                       | ⚠️ real (funghi radiotrofi)             |
+| steppe_algoritmiche         | cianobatteri, licheni_termocromici                               | ⚠️ A canonical (placeholder lore-gated) |
+
+Esito: **18/18 draft ora hanno una base produttori** (food web non piu' rotto). 11/18 usano produttori canonical verbatim/pattern. I 3 ⚠️ (orbitale / stratosfera / steppe) restano lore-gated: pick difendibile real-science, ma master-dd conferma il senso nel setting.
+
+---
+
 ## 1. MERGE-into-canonical (2) — produttori GIA' presenti
 
 Non serve proporre niente: questi habitat hanno gia' un canonical ricco.

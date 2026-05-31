@@ -4,7 +4,9 @@ ecosistema:
   label: Steppe Algoritmiche
   biome_id: steppe_algoritmiche
   trofico:
-    produttori: []
+    produttori:
+    - cianobatteri
+    - licheni_termocromici
     consumatori:
       primari:
       - terracetus-ambulator
@@ -13,3 +15,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
