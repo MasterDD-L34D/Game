@@ -1,0 +1,15 @@
+schema_version: 1.0
+ecosistema:
+  id: MEZZANOTTE_ORBITALE
+  label: Mezzanotte Orbitale
+  biome_id: mezzanotte_orbitale
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari: []
+      terziari:
+      - noctipedis-umbrata
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
