@@ -154,3 +154,117 @@ test('selectNextNodes: single edge still exposes edge_types as a 1-element array
   assert.equal(res.candidates[0].edge_type, 'corridor');
   assert.deepEqual(res.candidates[0].edge_types, ['corridor']);
 });
+
+// --- TKT-WORLDGEN-GAPC fase 2 (arc-conditions, Stage 1) — ADR-2026-05-31 ACCEPTED.
+// Edge `conditions:` block = Dormans lock-and-key. Semantics (ADR D1): AND across
+// keys, OR within a list-value, fail-closed on missing state / unknown key,
+// passthrough (always eligible) when no conditions block (back-compat). v1 keys =
+// { season, prior_node_cleared }. NOTE: prior_node_cleared CONDITION is a
+// PREREQUISITE ("node Y must be cleared to traverse") — distinct from the :72
+// anti-revisit gate that excludes already-cleared TARGET nodes.
+function condGraph(conditions) {
+  return {
+    nodes: [
+      { id: 'A', weight: 0 },
+      { id: 'B', biome_id: 'biome_b', weight: 0.5 },
+    ],
+    edges: [{ from: 'A', to: 'B', type: 'seasonal_bridge', resistance: 0.6, conditions }],
+  };
+}
+
+test('arc-conditions: no conditions block -> always eligible (back-compat) + blocked []', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph(undefined),
+    clearedNodes: [],
+    season: 'summer',
+  });
+  assert.equal(res.candidates.length, 1);
+  assert.equal(res.candidates[0].node_id, 'B');
+  assert.deepEqual(res.blocked, []);
+});
+
+test('arc-conditions: season match -> eligible', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph({ season: ['winter'] }),
+    clearedNodes: [],
+    season: 'winter',
+  });
+  assert.equal(res.candidates.length, 1);
+  assert.equal(res.candidates[0].node_id, 'B');
+});
+
+test('arc-conditions: season mismatch -> blocked, reason all_blocked, blocked_by season', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph({ season: ['winter'] }),
+    clearedNodes: [],
+    season: 'summer',
+  });
+  assert.equal(res.candidates.length, 0);
+  assert.equal(res.reason, 'all_blocked');
+  assert.deepEqual(res.blocked, [{ node_id: 'B', blocked_by: 'season' }]);
+  assert.deepEqual(res.excluded, ['B']);
+});
+
+test('arc-conditions: season OR within a list-value', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph({ season: ['winter', 'autumn'] }),
+    clearedNodes: [],
+    season: 'autumn',
+  });
+  assert.equal(res.candidates.length, 1);
+});
+
+test('arc-conditions: season match is case-insensitive', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph({ season: ['winter'] }),
+    clearedNodes: [],
+    season: 'Winter',
+  });
+  assert.equal(res.candidates.length, 1);
+});
+
+test('arc-conditions: season fails closed when ctx.season is absent', () => {
+  const res = selectNextNodes('A', { graph: condGraph({ season: ['winter'] }), clearedNodes: [] });
+  assert.equal(res.candidates.length, 0);
+  assert.equal(res.blocked[0].blocked_by, 'season');
+});
+
+test('arc-conditions: prior_node_cleared requires the prerequisite node be cleared', () => {
+  const ok = selectNextNodes('A', {
+    graph: condGraph({ prior_node_cleared: ['X'] }),
+    clearedNodes: ['X'],
+  });
+  assert.equal(ok.candidates.length, 1, 'prerequisite X cleared -> eligible');
+  const no = selectNextNodes('A', {
+    graph: condGraph({ prior_node_cleared: ['X'] }),
+    clearedNodes: [],
+  });
+  assert.equal(no.candidates.length, 0, 'prerequisite X not cleared -> blocked');
+  assert.equal(no.blocked[0].blocked_by, 'prior_node_cleared');
+});
+
+test('arc-conditions: AND across keys (season + prior_node_cleared)', () => {
+  const cond = { season: ['winter'], prior_node_cleared: ['X'] };
+  const both = selectNextNodes('A', {
+    graph: condGraph(cond),
+    clearedNodes: ['X'],
+    season: 'winter',
+  });
+  assert.equal(both.candidates.length, 1, 'both pass -> eligible');
+  const half = selectNextNodes('A', {
+    graph: condGraph(cond),
+    clearedNodes: ['X'],
+    season: 'summer',
+  });
+  assert.equal(half.candidates.length, 0, 'one fails -> blocked');
+});
+
+test('arc-conditions: unknown condition key fails closed (band-safe)', () => {
+  const res = selectNextNodes('A', {
+    graph: condGraph({ min_pressure: 3 }),
+    clearedNodes: [],
+    season: 'winter',
+  });
+  assert.equal(res.candidates.length, 0);
+  assert.equal(res.blocked[0].blocked_by, 'min_pressure');
+});

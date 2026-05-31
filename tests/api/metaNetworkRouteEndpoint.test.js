@@ -132,3 +132,35 @@ test('meta-network/next: flag ON + unknown node -> applied:false no_node (back-c
   assert.equal(r.body.applied, false);
   assert.equal(r.body.reason, 'no_node');
 });
+
+// Fase 2 (arc-conditions, Stage 1, ADR-2026-05-31): the FORESTA_TEMPERATA ->
+// CRYOSTEPPE seasonal_bridge is gated `season: [winter]` in the real alpha graph.
+// The ?season= query param feeds the evaluator end-to-end (Gate-5 surface).
+test('meta-network/next: season=winter opens the winter seasonal_bridge', async (t) => {
+  process.env.META_NETWORK_ROUTING = 'true';
+  t.after(() => {
+    delete process.env.META_NETWORK_ROUTING;
+  });
+  const url = startTestServer(t);
+  const r = await get(`${url}/api/campaign/meta-network/next?from=FORESTA_TEMPERATA&season=winter`);
+  assert.equal(r.status, 200);
+  const targets = r.body.candidates.map((c) => c.node_id);
+  assert.ok(targets.includes('CRYOSTEPPE'), 'winter -> CRYOSTEPPE bridge eligible');
+});
+
+test('meta-network/next: season=summer locks the winter bridge (blocked surfaced)', async (t) => {
+  process.env.META_NETWORK_ROUTING = 'true';
+  t.after(() => {
+    delete process.env.META_NETWORK_ROUTING;
+  });
+  const url = startTestServer(t);
+  const r = await get(`${url}/api/campaign/meta-network/next?from=FORESTA_TEMPERATA&season=summer`);
+  assert.equal(r.status, 200);
+  const targets = r.body.candidates.map((c) => c.node_id);
+  assert.ok(!targets.includes('CRYOSTEPPE'), 'summer -> CRYOSTEPPE bridge locked');
+  assert.ok(
+    Array.isArray(r.body.blocked) &&
+      r.body.blocked.some((b) => b.node_id === 'CRYOSTEPPE' && b.blocked_by === 'season'),
+    'CRYOSTEPPE blocked_by season surfaced',
+  );
+});
