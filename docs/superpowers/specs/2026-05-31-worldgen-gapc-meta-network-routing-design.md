@@ -25,8 +25,8 @@ tags: [worldgen, meta-network, campaign, routing, dormans, mission-grammar, gap-
   (`meta_network_alpha.yaml`) invece della lista statica di `encounter_id`, con la grammatica di
   missione di Joris Dormans (lock-and-key, gating, percorso critico/opzionale).
 - **Come**: un nuovo `metaNetworkResolver` (loader read-only del grafo, clone di `ecosystemResolver`)
-  + una funzione pura `selectNextNode()` (clone del ruolo "thin filter" di `foodwebFilter`) wired
-  in `campaignEngine` / `routes/campaign.js` per la scelta del next-node.
+  - una funzione pura `selectNextNode()` (clone del ruolo "thin filter" di `foodwebFilter`) wired
+    in `campaignEngine` / `routes/campaign.js` per la scelta del next-node.
 - **Default invariato**: il path statico `encounter_id` resta il default; il graph routing e
   **opt-in dietro flag**; niente grafo / niente dati / niente mapping → **passthrough** al
   comportamento attuale (mai blocca la progressione — clone della garanzia "il filtro non svuota
@@ -59,13 +59,13 @@ resolver dovra' gestire archi paralleli.
 
 **Nodi** (righe 17-37) — i nodi sono **BIOMI**, non encounter:
 
-| node `id`        | `biome_id` (campo)   | `path` (ecosystem yaml)     | `weight` |
-| ---------------- | -------------------- | --------------------------- | -------- |
-| BADLANDS         | canyons_risonanti    | badlands.ecosystem.yaml     | 0.45     |
-| FORESTA_TEMPERATA| foresta_miceliale    | foresta_temperata...yaml    | 0.55     |
-| DESERTO_CALDO    | savana               | deserto_caldo.ecosystem.yaml| 0.40     |
-| CRYOSTEPPE       | mezzanotte_orbitale  | cryosteppe.ecosystem.yaml   | 0.40     |
-| ROVINE_PLANARI   | rovine_planari       | rovine_planari...yaml       | 0.50     |
+| node `id`         | `biome_id` (campo)  | `path` (ecosystem yaml)      | `weight` |
+| ----------------- | ------------------- | ---------------------------- | -------- |
+| BADLANDS          | canyons_risonanti   | badlands.ecosystem.yaml      | 0.45     |
+| FORESTA_TEMPERATA | foresta_miceliale   | foresta_temperata...yaml     | 0.55     |
+| DESERTO_CALDO     | savana              | deserto_caldo.ecosystem.yaml | 0.40     |
+| CRYOSTEPPE        | mezzanotte_orbitale | cryosteppe.ecosystem.yaml    | 0.40     |
+| ROVINE_PLANARI    | rovine_planari      | rovine_planari...yaml        | 0.50     |
 
 **Archi** (righe 38-110) — transizioni **ecologiche**, non archi di progressione con condizioni.
 Campi per arco: `from`, `to`, `type` (`corridor` ×6 / `trophic_spillover` ×3 / `seasonal_bridge` ×3),
@@ -127,14 +127,14 @@ grafo meta-network **non viene mai consultato**. Esistono **due picker duplicati
 
 Verificato leggendo i file shipped. GAP-C DEVE rispettare le stesse 6 invarianti:
 
-| # | Invariante                | GAP-A (`foodwebFilter` + `reinforcementSpawner`)                              | GAP-B (`crossEventEngine` + `session.js`)                       |
-| - | ------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| 1 | Loader read-only + cache  | `ecosystemResolver.js:59-90` `_load`/`getEcosystem` + `_resetCache():92-94`   | `crossEventEngine.js:46-60` `loadCrossEvents` + `_resetCache`   |
-| 2 | Thin fn pura + dep iniett. | `foodwebFilter.js:41-75` `filterReinforcementPool`, `opts.getEcosystem`        | `getCrossEventPressureDelta`, `opts.events`/`opts.path`         |
-| 3 | Kill-switch flag          | `reinforcementSpawner.js:168` `if (policy.foodweb_filter === false)`           | feature attiva via biome+season presenti (no-data → no-op)      |
-| 4 | Band-safe fallback        | `foodwebFilter.js:65-74` mai svuota il pool → reason `all_excluded_fallback`  | no biome/season → `[]`, load fail → delta 0                     |
-| 5 | Gate-5 surface            | `reinforcementSpawner.js:175-182` console JSON + `:302-306` campo strutturato | `crossEventEngine.js:85-101` `console.log(JSON.stringify({...}))` |
-| 6 | Unit test pattern         | `tests/worldgen/foodwebFilter.test.js` (8/8): passthrough+real+injected+BAND-NEUTRAL | `tests/worldgen/crossEventEngine.test.js` (9/9)          |
+| #   | Invariante                 | GAP-A (`foodwebFilter` + `reinforcementSpawner`)                                     | GAP-B (`crossEventEngine` + `session.js`)                         |
+| --- | -------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| 1   | Loader read-only + cache   | `ecosystemResolver.js:59-90` `_load`/`getEcosystem` + `_resetCache():92-94`          | `crossEventEngine.js:46-60` `loadCrossEvents` + `_resetCache`     |
+| 2   | Thin fn pura + dep iniett. | `foodwebFilter.js:41-75` `filterReinforcementPool`, `opts.getEcosystem`              | `getCrossEventPressureDelta`, `opts.events`/`opts.path`           |
+| 3   | Kill-switch flag           | `reinforcementSpawner.js:168` `if (policy.foodweb_filter === false)`                 | feature attiva via biome+season presenti (no-data → no-op)        |
+| 4   | Band-safe fallback         | `foodwebFilter.js:65-74` mai svuota il pool → reason `all_excluded_fallback`         | no biome/season → `[]`, load fail → delta 0                       |
+| 5   | Gate-5 surface             | `reinforcementSpawner.js:175-182` console JSON + `:302-306` campo strutturato        | `crossEventEngine.js:85-101` `console.log(JSON.stringify({...}))` |
+| 6   | Unit test pattern          | `tests/worldgen/foodwebFilter.test.js` (8/8): passthrough+real+injected+BAND-NEUTRAL | `tests/worldgen/crossEventEngine.test.js` (9/9)                   |
 
 ---
 
@@ -184,7 +184,7 @@ selectNextNode(currentNodeId, context, opts?) -> {
 ```
 
 - `context` (read-only, assemblato dal caller): `{ party_traits[], pressure, cleared_nodes[],
-  flags[], season, biome_affinity{} , progress }`. Tutti **gia disponibili** nel runtime
+flags[], season, biome_affinity{} , progress }`. Tutti **gia disponibili** nel runtime
   (campaign state, sessione, seasonalEngine, D4 biome-affinity del branch corrente).
 - `opts.getNode` / `opts.getOutgoingEdges` iniettabili (default = resolver) per test puri (clone
   `opts.getEcosystem` GAP-A `foodwebFilter.js:49-50`).
@@ -214,10 +214,10 @@ graph routing **opt-in**, default OFF. Proposta a 3 livelli (il caller usa il pr
 **Gate-5 surface** (clone `reinforcementSpawner.js:175-182` + `:302-306`):
 
 - `console.log(JSON.stringify({ component: 'meta-network-router', current_node, chosen, candidates,
-  reason }))` quando `applied` o `all_blocked_fallback`.
+reason }))` quando `applied` o `all_blocked_fallback`.
 - campo strutturato nel payload di `/advance` e `/summary`:
   `meta_network_routing: { applied, current_node, chosen, candidates, reason }` (replay/telemetry
-  + futura UI map-ahead §8).
+  - futura UI map-ahead §8).
 
 ### 2.4 Separazione simulazione/dato vs engine
 
@@ -240,29 +240,29 @@ e' gia il biome/grid del combat esistente; la **generazione** (rewrite) e' defer
 
 ### 3.1 Nodi/archi come grafo di missione
 
-| Concetto Dormans         | meta-network GAP-C                                                          |
-| ------------------------ | -------------------------------------------------------------------------- |
-| Mission node (task)      | nodo = bioma/regione = "clear this encounter/bioma"                         |
-| Edge (ordering/dep.)     | arco = transizione **traversabile solo se la condizione regge**            |
-| Lock                     | arco con condizione non soddisfatta (bloccato)                             |
-| Key                      | item/stato che soddisfa la condizione (trait, flag, prior-clear, pressure) |
-| Critical path            | nodi/archi `critical: true` da attraversare per completare la campagna     |
-| Optional / side          | nodi/archi non critici = rischio/ricompensa (StS/FTL)                      |
+| Concetto Dormans     | meta-network GAP-C                                                         |
+| -------------------- | -------------------------------------------------------------------------- |
+| Mission node (task)  | nodo = bioma/regione = "clear this encounter/bioma"                        |
+| Edge (ordering/dep.) | arco = transizione **traversabile solo se la condizione regge**            |
+| Lock                 | arco con condizione non soddisfatta (bloccato)                             |
+| Key                  | item/stato che soddisfa la condizione (trait, flag, prior-clear, pressure) |
+| Critical path        | nodi/archi `critical: true` da attraversare per completare la campagna     |
+| Optional / side      | nodi/archi non critici = rischio/ricompensa (StS/FTL)                      |
 
 ### 3.2 Vocabolario di arc-condition necessario
 
 Per esprimere lock-and-key servono condizioni sull'arco. **Tutte richiedono un'estensione di schema
 YAML** (un blocco `conditions:` sugli edge) → **data gate master-dd** (fase 2, §7.3-Q2). Proposta:
 
-| Condition            | Semantica (key/lock)                                  | Sorgente nel `context` (gia esistente)                    |
-| -------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| `requires_trait`     | il branco possiede il trait X (key esplicita)         | `party_traits` (campaign `acquiredTraits` / roster)       |
-| `requires_flag`      | flag permanente settato (Wildermyth choice→flag)      | `flags` (`campaign.permanentFlags`, route `/flag/record`) |
-| `prior_node_cleared` | lock-and-key puro: nodo Y vinto prima                 | `cleared_nodes` (chapters `outcome==='victory'`)          |
-| `min_pressure` / `max_pressure` | gate su Sistema pressure                  | `pressure` (sessione / hardcore / cross-event GAP-B)      |
-| `biome_affinity`     | affinita' bioma del branco ≥ soglia                   | `biome_affinity` (D4, branch `claude/d4-biome-affinity-spec`) |
-| `season`             | stagione corrente (lega seasonalEngine + cross_events)| `season` (`seasonalEngine` / `cross_events.yaml`)         |
-| `min_progress` / `act_gate` | gate su avanzamento campagna                   | `progress` (`computeProgress`)                            |
+| Condition                       | Semantica (key/lock)                                   | Sorgente nel `context` (gia esistente)                        |
+| ------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------- |
+| `requires_trait`                | il branco possiede il trait X (key esplicita)          | `party_traits` (campaign `acquiredTraits` / roster)           |
+| `requires_flag`                 | flag permanente settato (Wildermyth choice→flag)       | `flags` (`campaign.permanentFlags`, route `/flag/record`)     |
+| `prior_node_cleared`            | lock-and-key puro: nodo Y vinto prima                  | `cleared_nodes` (chapters `outcome==='victory'`)              |
+| `min_pressure` / `max_pressure` | gate su Sistema pressure                               | `pressure` (sessione / hardcore / cross-event GAP-B)          |
+| `biome_affinity`                | affinita' bioma del branco ≥ soglia                    | `biome_affinity` (D4, branch `claude/d4-biome-affinity-spec`) |
+| `season`                        | stagione corrente (lega seasonalEngine + cross_events) | `season` (`seasonalEngine` / `cross_events.yaml`)             |
+| `min_progress` / `act_gate`     | gate su avanzamento campagna                           | `progress` (`computeProgress`)                                |
 
 **MVP (fase 1)** usa **solo** condizioni derivabili da stato esistente **senza nuovi campi dato**:
 in pratica `prior_node_cleared` (da `cleared_nodes`) + flag `critical` topologico. Il resto
@@ -280,15 +280,15 @@ generative di Dormans (espandere uno start symbol in un grafo di missione runtim
 
 ## 4. Band-safety + back-compat (clone garanzie GAP-A/B)
 
-| Garanzia                     | Meccanismo GAP-C                                                                 |
-| ---------------------------- | ------------------------------------------------------------------------------- |
-| Default invariato            | `routing_mode` assente / flag OFF → path statico `encounter_id` identico a oggi  |
-| Niente grafo / dato          | resolver ritorna null → `selectNextNode` reason `no_graph` → passthrough statico |
-| Nodo corrente non mappabile  | reason `no_current_node` → passthrough statico                                   |
-| Nessun arco eleggibile       | reason `all_blocked_fallback` → passthrough statico (mai blocca la progressione) |
-| Determinismo                 | nessun RNG nella selezione MVP → stesso `context` = stesso next-node             |
-| Def canonico intatto         | `default_campaign_mvp` non modificato → flussi + test campaign esistenti invariati |
-| WR/calibrazione              | il routing non tocca stat/combat → bande hardcore_06/07 + badlands non sfiorate  |
+| Garanzia                    | Meccanismo GAP-C                                                                   |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| Default invariato           | `routing_mode` assente / flag OFF → path statico `encounter_id` identico a oggi    |
+| Niente grafo / dato         | resolver ritorna null → `selectNextNode` reason `no_graph` → passthrough statico   |
+| Nodo corrente non mappabile | reason `no_current_node` → passthrough statico                                     |
+| Nessun arco eleggibile      | reason `all_blocked_fallback` → passthrough statico (mai blocca la progressione)   |
+| Determinismo                | nessun RNG nella selezione MVP → stesso `context` = stesso next-node               |
+| Def canonico intatto        | `default_campaign_mvp` non modificato → flussi + test campaign esistenti invariati |
+| WR/calibrazione             | il routing non tocca stat/combat → bande hardcore_06/07 + badlands non sfiorate    |
 
 **Invariante killer (clone "il filtro non svuota mai il pool")**: il graph routing **non puo' mai
 lasciare la campagna senza next**. Se il grafo non produce un nodo eleggibile mappabile a un
@@ -376,13 +376,13 @@ BACKLOG: **~30-40h, POST-MVP, gate normale, NON priorita' automatica**. Breakdow
 
 ### 7.1 Fasi
 
-| Fase | Slice                                                                                   | Tocca dato? | Effort | Quando      |
-| ---- | --------------------------------------------------------------------------------------- | ----------- | ------ | ----------- |
-| 0    | Questo spec (design, no-impl)                                                            | no          | —      | ora         |
-| 1    | **MVP-now**: `metaNetworkResolver` + `selectNextNode` topologia/`prior_node_cleared` + peek wire + surface, **flag OFF default**, niente nuovi campi dato | no | ~8-12h | gate normale |
-| 2    | Arc-condition vocab (`requires_trait`/`min_pressure`/`biome_affinity`/`season`/…) → **estensione schema YAML `conditions` + mapping node→encounter** | **SI (data gate)** | ~10-14h | post master-dd verdict Q2 |
-| 3    | Choice surface player-facing (Into the Breach selezione + FTL map-ahead) — Gate-5 UI    | no (UI)     | ~6-8h  | post fase 2 |
-| 4    | **Deferito**: grammatica generativa Dormans (rewrite-rule → grafi) — POST-MVP           | dipende     | ~10h+  | non pianificato |
+| Fase | Slice                                                                                                                                                     | Tocca dato?        | Effort  | Quando                    |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- | ------------------------- |
+| 0    | Questo spec (design, no-impl)                                                                                                                             | no                 | —       | ora                       |
+| 1    | **MVP-now**: `metaNetworkResolver` + `selectNextNode` topologia/`prior_node_cleared` + peek wire + surface, **flag OFF default**, niente nuovi campi dato | no                 | ~8-12h  | gate normale              |
+| 2    | Arc-condition vocab (`requires_trait`/`min_pressure`/`biome_affinity`/`season`/…) → **estensione schema YAML `conditions` + mapping node→encounter**      | **SI (data gate)** | ~10-14h | post master-dd verdict Q2 |
+| 3    | Choice surface player-facing (Into the Breach selezione + FTL map-ahead) — Gate-5 UI                                                                      | no (UI)            | ~6-8h   | post fase 2               |
+| 4    | **Deferito**: grammatica generativa Dormans (rewrite-rule → grafi) — POST-MVP                                                                             | dipende            | ~10h+   | non pianificato           |
 
 Totale fasi 1-3 ≈ 24-34h (dentro la stima 30-40h; fase 4 esclusa = il margine).
 
@@ -423,12 +423,12 @@ grafo come consumatore runtime read-only senza rischi di calibrazione. Fase 2 e'
 
 ## 8. Reference games → scelte di design concrete
 
-| Gioco                     | Meccanica                                                       | Scelta GAP-C informata                                                                                   |
-| ------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Into the Breach**       | isola → scelta di N missioni su M, con preview reward/threat   | a un nodo con piu' archi uscenti, **presentare una scelta** di next-node con preview (bioma/threat/reward) invece di auto-pick → estende `choice_node` da branch binario a selezione su archi (§7.3-Q4, fase 3) |
-| **Slay the Spire / FTL**  | map node graph branching, nodi tipati, percorso scelto in anticipo, archi rischio/ricompensa | la meta-network **e' la mappa**; `node.weight` → probabilita'/difficolta'; `arc.resistance` → costo/rischio di traversata; presenza di apex nell'ecosistema → nodo "elite-like"; surface **map-ahead** dei nodi raggiungibili + condizioni (Gate-5, fase 3) |
-| **FTL (specifico)**       | non visiti tutto; fuel/time forzano la rotta                   | non ogni nodo raggiungibile in un run: gate `min_pressure`/`season` + percorso critico forzano routing **significativo** (fase 2) |
-| **Dormans grammars**      | mission vs space; lock-and-key; rewrite generativo             | adottare **mission graph + lock-and-key** (§3); tenere la **generazione** (rewrite) come fase 4 deferita per evitare il runtime-sim trap (§3.3) |
+| Gioco                    | Meccanica                                                                                    | Scelta GAP-C informata                                                                                                                                                                                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Into the Breach**      | isola → scelta di N missioni su M, con preview reward/threat                                 | a un nodo con piu' archi uscenti, **presentare una scelta** di next-node con preview (bioma/threat/reward) invece di auto-pick → estende `choice_node` da branch binario a selezione su archi (§7.3-Q4, fase 3)                                             |
+| **Slay the Spire / FTL** | map node graph branching, nodi tipati, percorso scelto in anticipo, archi rischio/ricompensa | la meta-network **e' la mappa**; `node.weight` → probabilita'/difficolta'; `arc.resistance` → costo/rischio di traversata; presenza di apex nell'ecosistema → nodo "elite-like"; surface **map-ahead** dei nodi raggiungibili + condizioni (Gate-5, fase 3) |
+| **FTL (specifico)**      | non visiti tutto; fuel/time forzano la rotta                                                 | non ogni nodo raggiungibile in un run: gate `min_pressure`/`season` + percorso critico forzano routing **significativo** (fase 2)                                                                                                                           |
+| **Dormans grammars**     | mission vs space; lock-and-key; rewrite generativo                                           | adottare **mission graph + lock-and-key** (§3); tenere la **generazione** (rewrite) come fase 4 deferita per evitare il runtime-sim trap (§3.3)                                                                                                             |
 
 ---
 
