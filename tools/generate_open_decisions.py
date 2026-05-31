@@ -17,9 +17,10 @@ Design: docs/superpowers/specs/2026-05-31-open-decisions-projection-design.md
 Checks (run by --check, alongside the R1 diff gate):
 - R2 (WARN): status=open with governed_by=ADR-NNN whose status is Accepted/Superseded -> verify.
 - R3 (WARN): status=resolved without resolved_by.
-- R4 (ERROR): duplicate id; malformed id; comment without a preceding OD heading.
+- R4 (ERROR): duplicate id; malformed id (not OD-NNN shape); comment id != heading id; comment without a preceding OD heading.
 - R5 (WARN): heading `✅` presence disagrees with comment status (cosmetic).
 - R6 (ERROR): id ends `-original-archive` XOR status=archived (must match both ways).
+- R7 (ERROR): an OD heading with no adjacent <!-- od ... --> comment (else its open decision is silently omitted from the index).
 
 Usage:
     python tools/generate_open_decisions.py            # rewrite OPEN_DECISIONS.md in place
@@ -96,6 +97,7 @@ def parse_records(text: str) -> tuple[list[ODRecord], list[str]]:
     records: list[ODRecord] = []
     errors: list[str] = []
     seen_ids: set[str] = set()
+    covered: set[int] = set()  # heading line-nums that have an adjacent od-comment (R7)
 
     # index heading lines
     headings: dict[int, tuple[str, str, bool, str]] = {}
@@ -121,9 +123,18 @@ def parse_records(text: str) -> tuple[list[ODRecord], list[str]]:
             errors.append(f"R4 ERROR L{i+1}: od-comment {fields['id']} has no OD heading above it")
             continue
         h_line = prev[-1]
+        covered.add(h_line)  # this heading has an adjacent od-comment (R7 satisfied)
         h_id, h_title, h_check, h_full = headings[h_line]
         od_id = fields["id"]
         status = fields["status"]
+        # R4: id must match the OD-NNN shape AND equal its heading id (a typo'd comment id must
+        # not become a canonical row, e.g. `id=oops` under `### [OD-100]`).
+        if not re.fullmatch(r"OD-[0-9.]+(?:-original-archive)?", od_id):
+            errors.append(f"R4 ERROR L{i+1}: malformed id '{od_id}' (expected OD-NNN)")
+            continue
+        if od_id != h_id:
+            errors.append(f"R4 ERROR L{i+1}: comment id '{od_id}' != heading id '{h_id}'")
+            continue
         if status not in VALID_STATUS:
             errors.append(f"R4 ERROR L{i+1}: {od_id} invalid status '{status}'")
             continue
@@ -169,6 +180,17 @@ def parse_records(text: str) -> tuple[list[ODRecord], list[str]]:
                 comment_line=i + 1,
             )
         )
+
+    # R7: every OD heading must carry an adjacent <!-- od ... --> comment. Without this, a new
+    # `### [OD-033]` whose author forgot the metadata line is silently skipped (the loop only scans
+    # comments) -> --check passes + the open decision is omitted from the index = the exact
+    # stale/missing-index drift this gate prevents.
+    for h_line in heading_order:
+        if h_line not in covered:
+            errors.append(
+                f"R7 ERROR L{h_line+1}: OD heading {headings[h_line][0]} has no adjacent <!-- od ... --> metadata"
+            )
+
     return records, errors
 
 

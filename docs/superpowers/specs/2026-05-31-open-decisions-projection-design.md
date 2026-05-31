@@ -168,8 +168,9 @@ Mirror di `generate_decisions_log.py`:
 ## Check — regole falsificabili
 
 - **R1 fail-on-diff** (ERROR): blocco "Aperte" rigenerato ≠ committato → exit 1. **Drift-killer primario.**
-- **R4 integrita id** (ERROR): id duplicato; id malformato (non `OD-…`); comment senza heading sopra.
+- **R4 integrita id** (ERROR): id duplicato; id malformato (non shape `OD-…`); comment id ≠ heading id (un typo `id=oops` sotto `### [OD-100]` non deve diventare riga canonica); comment senza heading sopra.
 - **R6 archive coherence** (ERROR): id finisce `-original-archive` ⟺ `status=archived` (bidirezionale).
+- **R7 heading-senza-comment** (ERROR, Codex #2492): una heading `### [OD-NNN]` senza `<!-- od ... -->` adiacente → il loop (che scansiona solo i commenti) la salta, `--check` passerebbe e l'OD aperta sparirebbe dall'indice = il drift che il gate previene. Ora ERROR.
 - **R2 semantico** (WARN, opzionale): per `status=open` con `governed_by=ADR-NNN`, se `adr_status`
   di quell'ADR ∈ {Accepted, Superseded} → WARN "OD aperto ma l'ADR governante e' accepted — verifica
   se di fatto risolto". Tier WARN perche' potrebbe essere governing-not-resolving. **NON inerte**
