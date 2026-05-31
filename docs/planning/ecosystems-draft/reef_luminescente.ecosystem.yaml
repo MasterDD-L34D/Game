@@ -1,0 +1,15 @@
+schema_version: 1.0
+ecosistema:
+  id: REEF_LUMINESCENTE
+  label: Reef Luminescente
+  biome_id: reef_luminescente
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari:
+      - lucinerva-filata
+      terziari: []
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT

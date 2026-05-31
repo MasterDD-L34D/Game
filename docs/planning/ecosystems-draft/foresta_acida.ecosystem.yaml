@@ -1,0 +1,15 @@
+schema_version: 1.0
+ecosistema:
+  id: FORESTA_ACIDA
+  label: Foresta Acida
+  biome_id: foresta_acida
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari: []
+      terziari:
+      - chemnotela-toxica
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
