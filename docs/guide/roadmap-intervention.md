@@ -40,15 +40,15 @@ docs/core/ SoT      →    40-ROADMAP (horizon)          →    ADR docs/adr/   
 
 ## Come intervenire — per intento
 
-| Vuoi…                                | Edita                                                          | Effetto auto                                              |
-| ------------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------- |
-| ri-prioritizzare / nuovo big-rock    | `docs/core/40-ROADMAP.md` (+ ticket in `BACKLOG.md`)           | — (PR doc normale, governance frontmatter)                |
-| nuovo ticket operativo               | `BACKLOG.md` → 🔴 Priorita alta                                | —                                                         |
-| spostare un gate / DoD milestone     | `EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md` (G0-G5)             | —                                                         |
-| **decisione ambigua** apri/chiudi    | `OPEN_DECISIONS.md` con schema `<!-- od id=OD-NNN status= -->` | lista "Aperte" **rigenerata** (gate R1 fail-on-diff + R7) |
-| **decisione architetturale** formale | nuovo ADR in `docs/adr/`                                       | `DECISIONS_LOG.md` **rigenerato** da solo (husky + CI)    |
-| design canonico (loop/specie/...)    | `docs/core/00-SOURCE-OF-TRUTH.md` + numbered                   | —                                                         |
-| pillar status P1-P6                  | `CLAUDE.md` sprint-context (hand — NON ancora auto-synced)     | — (vedi follow-up scoping)                                |
+| Vuoi…                                | Edita                                                           | Effetto auto                                              |
+| ------------------------------------ | --------------------------------------------------------------- | --------------------------------------------------------- |
+| ri-prioritizzare / nuovo big-rock    | `docs/core/40-ROADMAP.md` (+ ticket in `BACKLOG.md`)            | — (PR doc normale, governance frontmatter)                |
+| nuovo ticket operativo               | `BACKLOG.md` → 🔴 Priorita alta                                 | —                                                         |
+| spostare un gate / DoD milestone     | `EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md` (G0-G5)              | —                                                         |
+| **decisione ambigua** apri/chiudi    | `OPEN_DECISIONS.md` con schema `<!-- od id=OD-NNN status= -->`  | lista "Aperte" **rigenerata** (gate R1 fail-on-diff + R7) |
+| **decisione architetturale** formale | nuovo ADR in `docs/adr/`                                        | `DECISIONS_LOG.md` **rigenerato** da solo (husky + CI)    |
+| design canonico (loop/specie/...)    | `docs/core/00-SOURCE-OF-TRUTH.md` + numbered                    | —                                                         |
+| pillar status P1-P6                  | `docs/reports/PILLAR-LIVE-STATUS.md` (SOT unico, hand-attested) | — (NON le tabelle inline; freshness gate #2489)           |
 
 ## Regole d'oro (post-governance)
 
@@ -67,10 +67,14 @@ Prima: `MASTER_ROADMAP` hand-maintained, fermo 6 settimane = drift; `DECISIONS_L
 **proiezioni generate** con CI fail-on-diff → quando chiudi un item via ADR/OD l'indice si aggiorna, impossibile driftare.
 Intervieni in **un** posto.
 
-## Buco residuo (next governance target)
+## Pillar status — CONSOLIDATO 2026-06-01 (generatore REJECTED)
 
-Pillar status P1-P6 + sprint-context in `CLAUDE.md` = ancora **hand-maintained** (status sparso su 12 sezioni
-sprint-context, nessuna sorgente machine-readable). Stesso anti-pattern #19. Scoping del follow-up:
+Prima: status P1-P6 sparso su 3 superfici (CLAUDE.md ×12 sezioni + snapshot `02-PILASTRI` + `PILLAR-LIVE-STATUS.md`),
+contraddittorie. Un 4° generatore e' stato **proposto e BOCCIATO** da harsh-review (over-engineering per 6 valori
+soggettivi + il SOT esisteva gia'). **Soluzione = consolidamento**: SOT unico `docs/reports/PILLAR-LIVE-STATUS.md`,
+snapshot inline rimossi, 11 sezioni sprint-context archiviate in `docs/planning/sprint-context-history.md`. Lo status
+resta **hand-attested in un solo file**, tenuto onesto dal freshness gate #2489. **Pending master-dd**: riconciliare
+lo stato reale P1-P6 nel SOT (3 superfici divergevano). Dettaglio:
 [`docs/superpowers/specs/2026-06-01-pillar-status-autosync-scoping.md`](../superpowers/specs/2026-06-01-pillar-status-autosync-scoping.md).
 
 ## Riferimenti
