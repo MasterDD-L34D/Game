@@ -4,7 +4,9 @@ ecosistema:
   label: Foresta Acida
   biome_id: foresta_acida
   trofico:
-    produttori: []
+    produttori:
+    - ifa_psichedelica
+    - funghi_acidofili
     consumatori:
       primari: []
       secondari: []
@@ -13,3 +15,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

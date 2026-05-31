@@ -34,6 +34,7 @@ tags: [planning, gap-resolution, roadmap, design-data, atlas, waves]
 - **D3b — Adapter-first reframe (2026-05-30, post census #2454)**: la keystone Wave 3/4 e l'adapter ecologia->combat (deriva hp/mod/dc deterministici da threat_tier/role_trofico + trait modifier). Backfill-broad = YAGNI (solo biomi/specie toccati dal gameplay). Pilota verticale su badlands prima di generalizzare. GAP-C (mondo a inizio partita) resta POST-MVP.
 - **D5 — SPECIES_BY_JOB (RESOLVED 2026-05-30)**: SoT = `species.jobs_bias` (1:many, gia esistente, 23/81 specie); `SPECIES_BY_JOB` = indice inverso **DERIVATO** a build-time (job -> specie eligibili). **soft-gate** (player non hard-locked; jobs_bias resta anche AI-bias). Sostituire l'hardcoded map (`hardcoreScenario.js:90-95`) con l'indice derivato (anti-drift L-075). Backfill `jobs_bias` per coprire gli 11 job. **Impl deferita al player-roster UI** (unico consumer reale, non ancora wired -- YAGNI): la SHAPE e decisa, l'infra si costruisce col consumer.
 - **D6 — rovine_planari (RESOLVED 2026-05-30)**: **NON toccare hardcore_06/07** (content shipped + bande ratificate 15-25%/30-50%, revive-culture). Riempire le 10 specie rovine_planari come **NUOVO contenuto** (Wave 3/4, YAGNI: solo se il gameplay le tocca) per encounter futuri. Retrofit di hardcore_06/07 con specie reali = **decisione separata gated dopo** (richiede band re-ratify N=40).
+- **D7 -- Bestiary unify, Option 1 (RESOLVED 2026-05-30, PR #2490)**: il canon (53 SoT) e le creature gameplay (43 pack) erano due bestiari quasi disgiunti (audit CANON-RECONCILE: 1 sola sovrapposizione; le "85 schede" erano 38 trait-keeper + 4 evento + 43 creature). Verdetto master-dd = **UNIRE in un unico canon**. Esecuzione a 2 strati: **Strato 1 (DONE)** = promozione STRUTTURALE delle 22 creature dei biomi gameplay multi-specie (badlands/cryosteppe/deserto_caldo/foresta_temperata) in `species_catalog.json` (53->75) come stub flaggati `_promote_stub` (`source: gameplay-promote`); **Strato 2 (follow-up)** = authoring incrementale dei campi design. Esclusi di proposito: rovine_planari (D6), tutorial generics (placeholder scenario), thin-biomi (YAGNI). Dettaglio: `docs/planning/2026-05-30-canon-reconcile-audit.md`.
 
 ## Decisioni ANCORA pending (gate-ano Wave 3-4)
 
@@ -84,6 +85,40 @@ Outcome: combat engine fully wired (34/34); job expansion perks attivi. Smoke ob
 | TKT-TRAIT-RECONCILE        | 104 trait glossary senza meccanica + tassonomia 57->106                                                                                                                                                                                                   | data hygiene                                        | audit                 | -                            |
 
 Outcome: l'adapter sblocca la combat-usabilita del materiale esistente (pilota badlands verticale); il backfill diventa mirato (YAGNI) non broad. Foodweb consumer (#2447) riceve ecosistemi reali per i biomi che servono. NON prima di Wave 2.
+
+### Stato esecuzione Wave 3 (aggiornato 2026-05-30, post #2475 + #2490)
+
+- **TKT-ADAPTER-ECO-COMBAT** -- ✅ **DONE**. Phase 1 (#2460) + 2a pilota badlands (#2468) +
+  2b calibrazione N=40 (#2475, band badlands WR [0.40,0.60] ratificata GREEN, lever =
+  `turn_limit_defeat=37`, adapter DEFAULT_KNOBS invariati). Ref:
+  `docs/playtest/2026-05-30-badlands-pilot-calibration.md`.
+- **TKT-SPECIE-CANON-RECONCILE** -- ✅ **DONE (Strato 1)** via D7/#2490 (vedi sopra). Audit
+  completo + decisione unify + 22 promosse (53->75). Strato 2 = follow-up sotto.
+- **TKT-SPECIE-BIOME** -- ✅ **quasi-chiuso**: il claim "32/53 senza biome*affinity" e'
+  **STALE** -- ground-truth 2026-05-30 = **53/53 ce l'hanno**. Tool D4 (`suggest/apply*
+  biome_affinity`) shipped (#2466/#2473/#2476). Resta solo per-bioma se si estende un
+  ecosystem.yaml nuovo.
+- **TKT-ECO-YAML-GEN** -- 🟡 tool shipped (#2476); 5/20 biomi hanno ecosystem.yaml.
+  YAGNI: generare per-bioma quando entra nel gameplay.
+- **TKT-SPECIE-LIFECYCLE** -- 🟡 15/53 (38 mancanti). `seed_lifecycle_stubs.py` esiste.
+  Incrementale (data-gen, delegabile swarm).
+- **TKT-TRAIT-RECONCILE** -- 🔴 aperto (audit 104 glossary + tassonomia 57->106). HUB.
+
+#### Follow-up aperti da CANON-RECONCILE/D7 (nuovi ticket)
+
+| Ticket                       | Cosa                                                                                                                          | Mode            | Gate / nota                                                                                       |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle 22 stub `_promote_stub` (scientific_name, descrizioni, interactions, lifecycle), bioma-per-bioma | writer / swarm  | incrementale YAGNI; trovabili via `source==gameplay-promote`                                      |
+| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata)                     | data hygiene    | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere |
+| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire)         | balance         | assegnare tier = giudizio balance, fare se servono in combat                                      |
+| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                                              | writer/designer | **D6 LOCKED gate**; escluse dall'unify                                                            |
+
+Stato gate post-2026-05-30: il **critical-path Wave 3 (adapter) e CHIUSO**; CANON-RECONCILE
+Strato 1 chiuso. Resta backfill incrementale YAGNI (lifecycle/eco-yaml/strato2) + audit
+TRAIT-RECONCILE + i 4 follow-up sopra. Wave 4 (Pathfinder-seed): **solo il gate adapter e'
+sgombro** (✅). Il secondo gate -- `ecosystem.yaml` per bioma -- resta APERTO (5/20 biomi),
+e TKT-PATHFINDER-SEED dipende da ENTRAMBI (adapter + ecosystem.yaml): NON avviare il seed
+30-50h prima che gli ecosystem.yaml dei biomi target esistano (Codex #2491 P2).
 
 ## Wave 4 — content + Pathfinder seed (writer/designer; D2 DECISO; L2-L5 gated)
 
