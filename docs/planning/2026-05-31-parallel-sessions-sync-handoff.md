@@ -18,12 +18,15 @@ tags: [handoff, sync, parallel-sessions, governance, worldgen, d4]
 
 ## 1. Sync obbligatorio PRIMA di continuare
 
-main e' avanzato a **`ea3fbe83`**. Aggiorna il tuo branch prima di lavorare:
+main e' avanzato a **`94de23e2`**. Aggiorna il tuo branch prima di lavorare:
 
 ```bash
 git fetch origin main && git rebase origin/main
 # oppure, se hai un PR aperto: gh pr update-branch <tuoPR>   (tutti i branch aperti sono BEHIND)
 ```
+
+> ⚠️ Se ti eri gia' sincronizzato con la versione precedente di questo doc (su `34c4c901`), RIFALLO:
+> main e' +3 commit (#2492 OPEN_DECISIONS-gen, #2496 Wave3 Codex fix, #2497 questo doc).
 
 ## 2. PR landati su main oggi (puoi dipenderne)
 
@@ -56,11 +59,15 @@ git fetch origin main && git rebase origin/main
 
 ## 4. Continuazione per-sessione
 
+### Qualunque altra sessione
+
+Applica i punti 1-4 sopra + `git rebase origin/main` su `94de23e2`. Poi continua il tuo lavoro.
+
 ### Sessione WORLDGEN GAP-C (branch `claude/worldgen-gapc-fase2-*`)
 
 - I tuoi **#2487** (spec fase-2) + **#2488** (ADR fase-2) restano **DRAFT**, gated sul verdict master-dd per le
   arc-conditions (DATA-GATE, schema 2.0→2.1). Nessuno li ha toccati.
-- Rebase su `ea3fbe83`, poi continua il lavoro fase-2.
+- Sei behind: ri-sincronizza su `94de23e2`, poi continua il lavoro fase-2.
 
 ### Sessione D4 (branch `claude/d4-ecoyaml`)
 
