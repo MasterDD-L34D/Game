@@ -3489,9 +3489,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3540,9 +3538,7 @@
       },
       "constraints": [],
       "sentience_index": "T3",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3591,9 +3587,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3642,9 +3636,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3693,9 +3685,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3744,9 +3734,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3795,9 +3783,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "badlands"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3846,9 +3832,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3897,9 +3881,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3948,9 +3930,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -3999,9 +3979,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4050,9 +4028,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4101,9 +4077,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "cryosteppe"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4152,9 +4126,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "deserto_caldo"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4203,9 +4175,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "deserto_caldo"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4254,9 +4224,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "deserto_caldo"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4305,9 +4273,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "deserto_caldo"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4356,9 +4322,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "foresta_temperata"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4407,9 +4371,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "foresta_temperata"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4458,9 +4420,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "foresta_temperata"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4509,9 +4469,7 @@
       },
       "constraints": [],
       "sentience_index": "T1",
-      "ecotypes": [
-        "foresta_temperata"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
@@ -4560,9 +4518,7 @@
       },
       "constraints": [],
       "sentience_index": "T3",
-      "ecotypes": [
-        "foresta_temperata"
-      ],
+      "ecotypes": [],
       "trait_refs": [],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",

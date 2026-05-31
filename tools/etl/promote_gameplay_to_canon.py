@@ -89,7 +89,9 @@ def derive_entry(pack, biome, fid):
         "interactions": {"predates_on": [], "predated_by": []},
         "constraints": [],
         "sentience_index": sentience,
-        "ecotypes": [biome],
+        # ecotypes is a constrained vocab (enums.json ecotype_cluster), NOT a free biome
+        # name -> empty for stubs; Strato 2 assigns valid ecotype clusters.
+        "ecotypes": [],
         "trait_refs": [],                   # TODO map functional_tags -> TR-#### ids
         "lifecycle_yaml": None,             # TODO seed lifecycle stub
         # --- structural / provenance ---

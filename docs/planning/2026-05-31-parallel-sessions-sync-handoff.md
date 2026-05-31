@@ -18,7 +18,7 @@ tags: [handoff, sync, parallel-sessions, governance, worldgen, d4]
 
 ## 1. Sync obbligatorio PRIMA di continuare
 
-main e' avanzato a **`34c4c901`**. Aggiorna il tuo branch prima di lavorare:
+main e' avanzato a **`ea3fbe83`**. Aggiorna il tuo branch prima di lavorare:
 
 ```bash
 git fetch origin main && git rebase origin/main
@@ -30,9 +30,10 @@ git fetch origin main && git rebase origin/main
 | PR                | Cosa                                                                                                                      |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | #2489             | governance: `DECISIONS_LOG.md` ora GENERATO da `docs/adr/*.md` (`tools/generate_decisions_log.py`) + gate CI fail-on-diff |
+| #2492             | governance: `OPEN_DECISIONS.md` lista "Aperte" ora GENERATA (`tools/generate_open_decisions.py`) + gate CI fail-on-diff   |
 | #2493             | governance: nuovo subcommand `tools/docs_governance_migrator.py reconcile` (sync registry↔frontmatter + prune opt-in)     |
 | #2485 #2486 #2494 | D4 ecosystem (triage 18 draft + producer proposals + fix count NEW/DEFER)                                                 |
-| #2490 #2491       | Wave3 species canon-reconcile + D7 bestiary                                                                               |
+| #2490 #2491 #2496 | Wave3 species canon-reconcile + D7 bestiary (+ fix Codex P2)                                                              |
 
 ## 3. Tooling / processo NUOVO da rispettare (chiunque tocchi `docs/` o governance)
 
@@ -41,10 +42,11 @@ git fetch origin main && git rebase origin/main
    ```bash
    python tools/docs_governance_migrator.py reconcile            # --dry-run per preview; prune solo con --prune
    ```
-3. **IN ARRIVO** (PR **#2492**, pending master-dd, NON ancora su main): la lista "Aperte" di `OPEN_DECISIONS.md`
-   diventera' GENERATA da commenti `<!-- od id=OD-NNN status=open -->` per sezione. Quando #2492 sara' merged: per
-   aprire/chiudere un OD edita il commento + `python tools/generate_open_decisions.py`. Finche' non e' merged,
-   `OPEN_DECISIONS.md` resta hand-edit.
+3. **LIVE** (PR **#2492 MERGED** `ea3fbe83`): la lista "Aperte" di `OPEN_DECISIONS.md` e' ora GENERATA da commenti
+   `<!-- od id=OD-NNN status=open -->` per sezione (gate CI fail-on-diff + husky regen). NON editare a mano la lista:
+   per aprire un OD aggiungi la sezione `### [OD-NNN]` + il commento `<!-- od id=OD-NNN status=open -->`; per chiuderlo
+   aggiungi `✅` all'heading E `status=resolved resolved_by="..."` nel commento; poi `python tools/generate_open_decisions.py`
+   (o lascia fare al pre-commit husky). Ogni heading OD DEVE avere un commento adiacente (gate R7).
 4. **MERGE GATE**: prima di mergiare un PR controlla i commenti Codex, **NON solo la CI verde**:
    ```bash
    gh api repos/MasterDD-L34D/Game/pulls/<PR>/comments --jq length
@@ -58,7 +60,7 @@ git fetch origin main && git rebase origin/main
 
 - I tuoi **#2487** (spec fase-2) + **#2488** (ADR fase-2) restano **DRAFT**, gated sul verdict master-dd per le
   arc-conditions (DATA-GATE, schema 2.0→2.1). Nessuno li ha toccati.
-- Rebase su `34c4c901`, poi continua il lavoro fase-2.
+- Rebase su `ea3fbe83`, poi continua il lavoro fase-2.
 
 ### Sessione D4 (branch `claude/d4-ecoyaml`)
 
@@ -70,6 +72,5 @@ git fetch origin main && git rebase origin/main
 
 ## 5. Stato PR sessione governance (per contesto)
 
-- ✅ MERGED: #2489 (DECISIONS_LOG gen) · #2493 (registry reconcile) · #2494 (fix count D4)
-- 🧑 **#2492** OPEN — merge manuale master-dd (forbidden-path `.github/workflows/`):
-  `gh pr update-branch 2492 && gh pr merge 2492 --squash --delete-branch`
+- ✅ MERGED: #2489 (DECISIONS_LOG gen) · #2492 (OPEN_DECISIONS gen) · #2493 (registry reconcile) · #2494 (fix count D4) · #2495 (questo doc)
+- Anti-pattern #19 (tracker stale) chiuso end-to-end: DECISIONS_LOG + OPEN_DECISIONS generati, registry reconcile-able.
