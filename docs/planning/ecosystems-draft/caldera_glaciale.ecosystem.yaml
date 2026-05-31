@@ -4,7 +4,9 @@ ecosistema:
   label: Caldera Glaciale
   biome_id: caldera_glaciale
   trofico:
-    produttori: []
+    produttori:
+    - alghe_cryofile
+    - muschi_permafrost
     consumatori:
       primari:
       - rupicapra-sensoria
@@ -15,3 +17,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

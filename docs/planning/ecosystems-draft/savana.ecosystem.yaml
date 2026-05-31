@@ -5,9 +5,11 @@ ecosistema:
   biome_id: savana
   trofico:
     produttori:
-    - arenaceros-placidus
+    - arbusti_xerofili
+    - cianobatteri
     consumatori:
-      primari: []
+      primari:
+      - arenaceros-placidus
       secondari: []
       terziari:
       - dune-stalker
@@ -16,3 +18,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
