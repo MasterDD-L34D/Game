@@ -9,21 +9,20 @@ import suggest_biome_affinity as sba
 # --- D4 apply re-baseline ---------------------------------------------------
 # apply_biome_affinity.py (D4) closes the biome_affinity gap: post-apply all 53
 # catalog species carry a biome_affinity. The 32 tool/Claude-proposed ones are
-# tagged in _provenance with D4_PROV. Heuristic-QUALITY assertions below measure
-# against the EDITORIAL ground truth (the 21 species assigned before D4) via
-# _editorial_assigned(), so they stay meaningful and numerically stable after
-# apply; CATALOG-STATE assertions assert the new gap-closed reality (0 missing).
-D4_PROV = "d4-heuristic-suggest+master-dd-approve"
+# tagged in _provenance with sba.D4_PROVENANCE_TAG. Heuristic-QUALITY assertions
+# below measure against the EDITORIAL ground truth (the 21 species assigned before
+# D4) via sba.editorial_assigned() — the SAME filter the CLI golden-set gate uses
+# — so they stay meaningful and numerically stable after apply; CATALOG-STATE
+# assertions assert the new gap-closed reality (0 missing).
 
 
 def _editorial_assigned():
-    """The species assigned before D4 (the heuristic's golden ground truth):
-    assigned species WITHOUT the D4 provenance tag. Stable at 21 regardless of
-    how many suggestions the apply step writes."""
+    """Editorial ground truth = assigned species minus this tool's own D4
+    suggestions. Delegates to sba.editorial_assigned so the filter has ONE home
+    (the CLI), not a copy here."""
     species = sba.load_catalog()
     assigned, _ = sba.split_by_biome_affinity(species)
-    return [s for s in assigned
-            if (s.get("_provenance") or {}).get("biome_affinity") != D4_PROV]
+    return sba.editorial_assigned(assigned)
 
 
 def test_load_catalog_returns_53_species():
@@ -202,3 +201,20 @@ def test_main_refuses_canonical_data_dir_out():
     import pytest
     with pytest.raises(SystemExit):
         sba.main(["--out", str(sba.REPO_ROOT / "data/core/species/whatever.json")])
+
+
+def test_main_regenerates_draft_post_apply(tmp_path):
+    # Codex P2 regression: after apply_biome_affinity.py tags 32 species with the
+    # D4 provenance, the documented regen command (suggest --gate 0.45, which the
+    # apply tool's "draft not found" hint points to) must STILL pass the gate and
+    # write a draft. The gate is measured on the editorial truth, so it does not
+    # self-poison to ~34.7% over the polluted 53-species set.
+    import json
+    out = tmp_path / "draft.json"
+    rc = sba.main(["--out", str(out), "--gate", "0.45"])
+    assert rc == 0, "gate must pass on editorial truth post-apply (no GATE FAIL)"
+    assert out.exists()
+    data = json.loads(out.read_text(encoding="utf-8"))
+    assert "draft" in data
+    # gate measured on the editorial 21, not the full post-apply catalog
+    assert data["golden_set"]["predictable_total"] <= 21
