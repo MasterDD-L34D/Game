@@ -94,8 +94,8 @@ Outcome: l'adapter sblocca la combat-usabilita del materiale esistente (pilota b
   `docs/playtest/2026-05-30-badlands-pilot-calibration.md`.
 - **TKT-SPECIE-CANON-RECONCILE** -- ✅ **DONE (Strato 1)** via D7/#2490 (vedi sopra). Audit
   completo + decisione unify + 22 promosse (53->75). Strato 2 = follow-up sotto.
-- **TKT-SPECIE-BIOME** -- ✅ **quasi-chiuso**: il claim "32/53 senza biome_affinity" e'
-  **STALE** -- ground-truth 2026-05-30 = **53/53 ce l'hanno**. Tool D4 (`suggest/apply_
+- **TKT-SPECIE-BIOME** -- ✅ **quasi-chiuso**: il claim "32/53 senza biome*affinity" e'
+  **STALE** -- ground-truth 2026-05-30 = **53/53 ce l'hanno**. Tool D4 (`suggest/apply*
   biome_affinity`) shipped (#2466/#2473/#2476). Resta solo per-bioma se si estende un
   ecosystem.yaml nuovo.
 - **TKT-ECO-YAML-GEN** -- 🟡 tool shipped (#2476); 5/20 biomi hanno ecosystem.yaml.
@@ -106,16 +106,19 @@ Outcome: l'adapter sblocca la combat-usabilita del materiale esistente (pilota b
 
 #### Follow-up aperti da CANON-RECONCILE/D7 (nuovi ticket)
 
-| Ticket                       | Cosa                                                                                                   | Mode             | Gate / nota                                   |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------- | --------------------------------------------- |
-| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle 22 stub `_promote_stub` (scientific_name, descrizioni, interactions, lifecycle), bioma-per-bioma | writer / swarm   | incrementale YAGNI; trovabili via `source==gameplay-promote` |
-| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata) | data hygiene     | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere |
-| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire) | balance          | assegnare tier = giudizio balance, fare se servono in combat |
-| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                       | writer/designer  | **D6 LOCKED gate**; escluse dall'unify        |
+| Ticket                       | Cosa                                                                                                                          | Mode            | Gate / nota                                                                                       |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle 22 stub `_promote_stub` (scientific_name, descrizioni, interactions, lifecycle), bioma-per-bioma | writer / swarm  | incrementale YAGNI; trovabili via `source==gameplay-promote`                                      |
+| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata)                     | data hygiene    | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere |
+| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire)         | balance         | assegnare tier = giudizio balance, fare se servono in combat                                      |
+| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                                              | writer/designer | **D6 LOCKED gate**; escluse dall'unify                                                            |
 
 Stato gate post-2026-05-30: il **critical-path Wave 3 (adapter) e CHIUSO**; CANON-RECONCILE
 Strato 1 chiuso. Resta backfill incrementale YAGNI (lifecycle/eco-yaml/strato2) + audit
-TRAIT-RECONCILE + i 4 follow-up sopra. Wave 4 (Pathfinder-seed) ora sbloccabile (adapter ✅).
+TRAIT-RECONCILE + i 4 follow-up sopra. Wave 4 (Pathfinder-seed): **solo il gate adapter e'
+sgombro** (✅). Il secondo gate -- `ecosystem.yaml` per bioma -- resta APERTO (5/20 biomi),
+e TKT-PATHFINDER-SEED dipende da ENTRAMBI (adapter + ecosystem.yaml): NON avviare il seed
+30-50h prima che gli ecosystem.yaml dei biomi target esistano (Codex #2491 P2).
 
 ## Wave 4 — content + Pathfinder seed (writer/designer; D2 DECISO; L2-L5 gated)
 

@@ -7,9 +7,25 @@
 
 ---
 
+<!-- HOWTO: aprire un OD = nuova sezione `### [OD-NNN] …` + comment `<!-- od id=OD-NNN status=open -->`. chiudere = aggiungi ✅ all'heading E `status=resolved resolved_by="…"` nel comment, poi `python tools/generate_open_decisions.py` (o lascia fare al pre-commit husky). Lo stato canonico machine e' nel comment, NON nell'heading. -->
+
 ## Aperte
 
+<!-- gen:od-open -->
+
+_Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
+
+| OD                                                                                                            | Titolo                         | Livello                                        | Ref      |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------ | ---------------------------------------------- | -------- |
+| [OD-023](#od-023-phase-b-execution-date-verdict--day-5-anticipato-vs-day-8-canonical-vs-adr-amendment-path-d) | Phase B execution date verdict | workflow + ADR contract gate (date-discipline) | ADR-0021 |
+
+<!-- /gen:od-open -->
+
+> _Le sezioni dettagliate sotto includono anche decisioni risolte/archiviate; lo stato canonico e' nel comment `<!-- od -->` di ogni sezione — la lista sopra e' la proiezione delle sole `open`._
+
 ### [OD-032] hardcore_06 secondary band — blocker strutturale + design fork ✅ RISOLTA A+C 2026-05-21
+
+<!-- od id=OD-032 status=resolved resolved_by="RISOLTA A+C 2026-05-21" -->
 
 > **Verdict master-dd 2026-05-21: A+C.** A = banda canonica rivista alla realtà engine (N=40 evidence). C = enemy_damage knob wired per hc06 (capability per futuro timer-off path). Shipped:
 >
@@ -41,6 +57,8 @@
 
 ### [OD-024..031] ai-station ecosystem audit verdicts — ✅ 8/8 SHIPPED cross-stack 2026-05-14
 
+<!-- od id=OD-024..031 status=resolved resolved_by="8/8 SHIPPED cross-stack 2026-05-14" -->
+
 8 OD originati da PR #2260 ecosystem audit + ai-station re-analisi vault PR #5. Master-dd direction "finish work, not conservative". Tutti shipped via Envelope A+B+C cascade ~26h cross-stack.
 
 | OD  | Topic                            | Verdict ai-station                                   | Channel shipped                                        |
@@ -70,6 +88,8 @@
 
 ### [OD-023] Phase B execution date verdict — Day 5 anticipato vs Day 8 canonical vs ADR amendment Path D
 
+<!-- od id=OD-023 status=open -->
+
 - **Livello**: workflow + ADR contract gate (date-discipline)
 - **Stato**: **APERTA 2026-05-12** — user trigger phrase exact match pre-stage doc §5 invocata Day 5/8 (2026-05-12) invece target Day 7 (2026-05-14). Richiesto parere OOA + ai-station methods.
 - **Ambiguità**: 3 path scoring (3-agent OOA parallel):
@@ -85,6 +105,8 @@
 
 ### [OD-017] Phase B trigger 2/3 — Option α full social vs β solo hardware vs γ synthetic only ✅ RISOLTA 2026-05-08 (DOWNGRADE nice-to-have)
 
+<!-- od id=OD-017 status=resolved resolved_by="RISOLTA 2026-05-08 (DOWNGRADE nice-to-have)" -->
+
 - **Livello**: workflow + ADR contract gate
 - **Stato**: **risolta 2026-05-08** — master-dd verdict explicit "Phase B trigger 2/3 NON è hard gate, diventa nice-to-have. Probabilmente weekend se launcher 1-2 click usability OK."
 - **Verdict**: Phase B trigger condition §5 ADR-2026-05-05 **AMENDED** → trigger originale 4 conditions → 2 hard (Phase A 7gg grace + 0 critical regression) + 1 nice-to-have (4-amici social playtest). Phase B archive web v1 formal POST 2026-05-14 + zero-regression confirmed = automatic accept. Master-dd 4-amici weekend = supplement, NOT blocker.
@@ -94,6 +116,8 @@
 - **Source ref**: [ADR-2026-05-05 §5](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md) AMENDMENT 2026-05-08 + [docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md](docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md).
 
 ### [OD-017-original-archive] Phase B trigger 2/3 (PRE-AMENDMENT)
+
+<!-- od id=OD-017-original-archive status=archived -->
 
 - **Ambiguità**: ADR-2026-05-05 §5 trigger 2/3 require "1+ playtest pass post-cutover (4 amici + master-dd, full combat scenario)". Master-dd silenzioso Day 2/7. Window 7gg termina 2026-05-14. Tre path:
   - **Option α canonical** (4 amici Discord/WhatsApp + master-dd, ~1-2h userland, satisfies trigger ✅)
@@ -106,6 +130,8 @@
 - **Source ref**: [ADR-2026-05-05 §5](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md), [PR #2112](https://github.com/MasterDD-L34D/Game/pull/2112), [docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md](docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md), [docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md](docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md).
 
 ### [OD-018] Tier 2 PlayGodot integration — kill-60 verdict accept/reject ✅ RISOLTA 2026-05-08 (OVERRIDE keep both)
+
+<!-- od id=OD-018 status=resolved resolved_by="RISOLTA 2026-05-08 (OVERRIDE keep both)" -->
 
 - **Livello**: workflow (test infra)
 - **Stato**: **risolta 2026-05-08** — master-dd verdict explicit "no, vogliamo mantenere anche PlayGodot+GodotTestDriver. Lo avevamo scelto per un motivo. Servono per i test."
@@ -121,6 +147,8 @@
 
 ### [OD-018-original-archive] Tier 2 PlayGodot kill-60 verdict (PRE-OVERRIDE)
 
+<!-- od id=OD-018-original-archive status=archived -->
+
 - **Ambiguità**: handoff `docs/playtest/AGENT_DRIVEN_WORKFLOW.md` §"Adoption roadmap" lista PlayGodot Tier 2 ~5h post Phase A. Research PR #2110 reveal stima 5h era WRONG. Reality:
   - PlayGodot ~20-40h (custom Godot fork build + scons C++ + 2-platform maintenance)
   - GodotTestDriver ~10-15h (C# stack mismatch GDScript)
@@ -133,6 +161,8 @@
 
 ### [OD-019] Skiv Monitor scheduled fail fix — Option A repo toggle vs B/C/D workflow edit ✅ RISOLTA 2026-05-08 (Option A confirmed)
 
+<!-- od id=OD-019 status=resolved resolved_by="RISOLTA 2026-05-08 (Option A confirmed)" -->
+
 - **Livello**: ops (CI cosmetic)
 - **Stato**: **risolta 2026-05-08** — master-dd verdict explicit "A 1-click. Forensic puro repo setting toggle off post-data."
 - **Verdict**: **Option A repo setting toggle**. Master-dd manual action: Settings → Actions → General → Workflow permissions → check "Allow GitHub Actions to create and approve pull requests". 30s 1-click. Restore pre-2026-04-25 verde state. NON Claude action (repo settings = userland).
@@ -140,6 +170,8 @@
 - **Source ref**: [docs/reports/2026-05-08-skiv-monitor-rca.md](docs/reports/2026-05-08-skiv-monitor-rca.md) + master-dd verdict 2026-05-08.
 
 ### [OD-019-original-archive] Skiv Monitor fix (PRE-VERDICT)
+
+<!-- od id=OD-019-original-archive status=archived -->
 
 - **Ambiguità**: workflow `Skiv Monitor` 30/30 last runs failure (~12 days, post 2026-04-25 ultimo successo PR auto #1836). Root cause: `gh pr create` exit 1 perm denied. Branch `auto/skiv-monitor-update` push OK. 4 fix path:
   - **Option A** repo setting toggle (Settings → Actions → "Allow GitHub Actions to create PRs", 30s 1-click, 🟢 LOW risk)
@@ -153,6 +185,8 @@
 - **Source ref**: [docs/reports/2026-05-08-skiv-monitor-rca.md](docs/reports/2026-05-08-skiv-monitor-rca.md).
 
 ### [OD-020] Sprint Q+ pre-kickoff scope freeze — 5 sub-decisione ✅ RISOLTA 2026-05-08 (FULL deep scope)
+
+<!-- od id=OD-020 status=resolved resolved_by="RISOLTA 2026-05-08 (FULL deep scope)" -->
 
 - **Livello**: game (cross-stack ETL)
 - **Stato**: **risolta 2026-05-08** — master-dd verdict explicit "se intuisco bene mi chiedi se insistere sullo Sprint Q. Sì vogliamo insistere a farlo tutto approfonditamente."
@@ -172,6 +206,8 @@
 
 ### [OD-020-original-archive] Sprint Q+ scope freeze (PRE-VERDICT)
 
+<!-- od id=OD-020-original-archive status=archived -->
+
 - **Ambiguità**: Sprint Q+ LineageMergeService ETL chiusura GAP-12 audit godot-surface-coverage. 14-17h effort total. 5 sub-decisione master-dd richieste pre-kickoff:
   - **Q-1** Schema contract `lineage_ritual.schema.json` review obbligatorio (forbidden path `packages/contracts/`)
   - **Q-2** Prisma migration `Offspring { id, parent_a_id, parent_b_id, mutations, born_at, lineage_id }` master-dd manual approve (forbidden path `migrations/`)
@@ -185,6 +221,8 @@
 - **Source ref**: [docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md](docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md).
 
 ### [OD-021] Continuous synthetic monitoring Day 3-7 — confirm/reject Claude autonomous schedule ✅ RISOLTA 2026-05-08 (Option C ridotto)
+
+<!-- od id=OD-021 status=resolved resolved_by="RISOLTA 2026-05-08 (Option C ridotto)" -->
 
 - **Livello**: workflow
 - **Stato**: **risolta 2026-05-08** — master-dd verdict explicit "C" (modify cadence ridotto Day 3+5+7 only).
@@ -201,6 +239,8 @@
 - **Source ref**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + master-dd verdict 2026-05-08.
 
 ### [OD-022] evo-swarm pipeline cross-verification gate pre run #6 ✅ IMPLICIT ACCEPT 2026-05-08 sera (cross-repo evidence convergente)
+
+<!-- od id=OD-022 status=resolved resolved_by="IMPLICIT ACCEPT 2026-05-08 sera (cross-repo evidence convergente)" -->
 
 - **Livello**: workflow + pipeline contract (Atto 2 Scenario A "Integration drive")
 - **Trigger**: post merge PR #2108 `1cfd7220` (run #5 distillation honesty pass — 7/13 swarm claims hallucinated vs canonical Game).
@@ -226,6 +266,8 @@
 
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)
 
+<!-- od id=OD-021-original-archive status=archived -->
+
 - **Ambiguità**: PR #2112 Phase B synthetic supplement propone schedule Day 3-7 monitoring window: Claude rerun Tier 1 phone smoke harness ~5min/giorno per regression detection autonomous. Total ~25-30min cumulative cycle 7gg. Master-dd burden invariato.
 - **Perché conta**: regression detection earlier vs Day 7 master-dd verdict. Synthetic supplement evidence growing dataset pre-Phase-B-trigger. Zero-cost Claude vs ZERO master-dd action.
 - **Miglior default proposto**: **CONFIRM schedule**. Cadence proposta:
@@ -241,6 +283,8 @@
 
 ### [OD-014] P6 Fairness ammortizer — Tactics Ogre rewind/WORLD-Chariot pattern ✅ RISOLTA 2026-05-11 (IMPLEMENT ORA ACCEPTED-IMPL-SCOPED)
 
+<!-- od id=OD-014 status=resolved resolved_by="RISOLTA 2026-05-11 (IMPLEMENT ORA ACCEPTED-IMPL-SCOPED)" -->
+
 - **Livello**: game (combat fairness + anti-frustration ammortizer)
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT implement ora (~5-7h) NON deferred post-playtest.
 - **Verdict**: **IMPLEMENT ORA come safety valve player**. NON gate su playtest feedback. Rewind N times per battle + snapshot state pre-action.
@@ -251,6 +295,8 @@
 
 ### [OD-015] P2 Macro-loop campaign — Brigandine seasonal Organization Phase pattern ✅ RISOLTA 2026-05-11 (PROMUOVI priorità M14 ACCEPTED-SCOPED)
 
+<!-- od id=OD-015 status=resolved resolved_by="RISOLTA 2026-05-11 (PROMUOVI priorità M14 ACCEPTED-SCOPED)" -->
+
 - **Livello**: game (P2 evoluzione macro-loop campaign-wide)
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit PROMUOVI priorità M12+ → M14.
 - **Verdict**: **PROMUOVI priorità M14**. NON M12+ post-playtest deferred. Brigandine seasonal Organization Phase + Battle Phase 5-10 stagioni meta-loop scoped M14.
@@ -260,6 +306,8 @@
 - **Source ref**: master-dd verdict batch 2026-05-11 (A4 promotion grant) + F1+F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 + scope ticket bundle.
 
 ### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
+
+<!-- od id=OD-001 status=resolved resolved_by="FULL CLOSURE 2026-04-27 notte" -->
 
 - **Livello**: game + system
 - **Stato**: **FULL CLOSURE 2026-04-27 notte** — verdict user **Path A** confermato + PR #1877 superseded chiuso definitivamente. Sprint Nido Path A 4/4 SHIPPED end-to-end + UI Mating tab via combo:
@@ -292,6 +340,8 @@
 
 ### [OD-002] V6 UI TV dashboard polish — priorità vs playtest feedback ✅ RISOLTA 2026-05-11 (ACCEPT proattivo ORA)
 
+<!-- od id=OD-002 status=resolved resolved_by="RISOLTA 2026-05-11 (ACCEPT proattivo ORA)" -->
+
 - **Livello**: repo (frontend UI)
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT proattivo ora (~3-5h).
 - **Verdict**: **ACCEPT proattivo ORA**. NON deferred post-playtest. Polish iterativo + screenshot before/after senza dipendere da TKT-M11B-06.
@@ -302,6 +352,8 @@
 
 ### [OD-003] Triangle Strategy rollout sequence — M14-A/B vs M15 priorità ✅ RISOLTA 2026-05-11 (sequenza M14-A → M14-B → M15 ACCEPTED)
 
+<!-- od id=OD-003 status=resolved resolved_by="RISOLTA 2026-05-11 (sequenza M14-A → M14-B → M15 ACCEPTED)" -->
+
 - **Livello**: game + system
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT sequenza M14-A → M14-B → M15.
 - **Verdict**: **sequenza M14-A → M14-B → M15**. Non parallelizzata. 3 ticket scoped, NOT impl this session.
@@ -311,6 +363,8 @@
 - **Source ref**: master-dd verdict batch 2026-05-11 (A2 grant) + scope ticket bundle.
 
 ### [OD-004] Game-Database HTTP runtime Alt B — quando attivare ✅ RISOLTA 2026-05-11 (status quo flag-OFF confermato)
+
+<!-- od id=OD-004 status=resolved resolved_by="RISOLTA 2026-05-11 (status quo flag-OFF confermato)" -->
 
 - **Livello**: system + repo
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit status quo flag-OFF.
@@ -323,6 +377,8 @@
 
 ### [OD-005] Integrazione `Game Balance & Economy Tuning` skill (mcpmarket) ✅ RISOLTA 2026-05-11 (install ORA ACCEPTED)
 
+<!-- od id=OD-005 status=resolved resolved_by="RISOLTA 2026-05-11 (install ORA ACCEPTED)" -->
+
 - **Livello**: workflow
 - **Stato**: **risolta 2026-05-11** — master-dd verdict batch 11-decisioni explicit ACCEPT install proattivo ora (~30min).
 - **Verdict**: **install ORA** (NON deferred post-playtest). Test-driven adoption su `docs/playtest/*-calibration.md` raccolti + dataset balance esistenti.
@@ -332,6 +388,8 @@
 - **Source ref**: master-dd verdict batch 2026-05-11 (C6 grant) + scope ticket bundle.
 
 ### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
+
+<!-- od id=OD-008 status=resolved resolved_by="RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera" -->
 
 - **Livello**: game + system
 - **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — sostituisce verdict Opzione B precedente
@@ -354,6 +412,8 @@
 
 ### [OD-009] Ennea source canonical — `data/core/personality/` vs `packs/evo_tactics_pack/...` ✅ RISOLTA confermata 2026-04-25
 
+<!-- od id=OD-009 status=resolved resolved_by="RISOLTA confermata 2026-04-25" -->
+
 - **Livello**: system + repo
 - **Stato**: **risolta 2026-04-25 (user OK)** — vedi card M-2026-04-25-002 + M-2026-04-25-003
 - **Verdict confermato**: **Option 3 hybrid** (entrambi mantenuti):
@@ -371,6 +431,8 @@
 - **Ref**: card [M-2026-04-25-002](docs/museum/cards/enneagramma-mechanics-registry.md), [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
 
 ### [OD-010] Skiv voice palette default — Type 5 vs Type 7 ✅ RISOLTA confermata 2026-04-25
+
+<!-- od id=OD-010 status=resolved resolved_by="RISOLTA confermata 2026-04-25" -->
 
 - **Livello**: game + narrative
 - **Stato**: **risolta 2026-04-25 (user OK)** — skip-decision via A/B test data-driven
@@ -394,6 +456,8 @@
 
 ### [OD-011] Ancestors recovery scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
 
+<!-- od id=OD-011 status=resolved resolved_by="RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera" -->
+
 - **Livello**: game + system
 - **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — full scope upgrade da Path A solo a Path A + Path B insieme
 - **Verdict NEW**: **Opzione A FULL — recovery completo ~15-20h**:
@@ -415,6 +479,8 @@
 
 ### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront ✅ RISOLTA Path A+B 2026-04-26
 
+<!-- od id=OD-013 status=resolved resolved_by="RISOLTA Path A+B 2026-04-26" -->
+
 - **Livello**: game + system
 - **Stato**: **RISOLTA 2026-04-26** — verdict user A+B entrambi shipped. **Path A** branch `feat/d1a-mbti-phased-reveal` (PR #1848 merged): `mbtiSurface.js` helper + `/vc` + `/pf` extension `mbti_revealed` + `debriefPanel` `#db-mbti-section` UI + 12/12 test. Threshold 0.7 default (env `MBTI_REVEAL_THRESHOLD` A/B). **Path B** branch `feat/d1b-mbti-dialogue-color-codes`: palette canonical 8 colori in `data/core/personality/mbti_axis_palette.yaml` (WCAG AA ≥5.02:1) + `mbtiPalette.js` (loader/lookup/tag/contrast helpers) + `dialogueRender.js` (DOM-free renderer reveal-gated compose Path A) + CSS axis classes con hover tooltip + print-safe + 26/26 test. P4 🟡 → 🟡++ (Path A+B both shipped; integration narrativeEngine + render.js pendente). Card M-009 reuse_path completato.
 - **Stato precedente**: proposta 2026-04-25 (museum card [M-2026-04-25-009 Triangle Strategy](docs/museum/cards/personality-triangle-strategy-transfer.md) trigger)
@@ -430,6 +496,8 @@
 - **Ref**: card [M-2026-04-25-009 Triangle Strategy MBTI Transfer](docs/museum/cards/personality-triangle-strategy-transfer.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md), source [docs/research/triangle-strategy-transfer-plan.md](docs/research/triangle-strategy-transfer-plan.md).
 
 ### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
+
+<!-- od id=OD-012 status=resolved resolved_by="RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera" -->
 
 - **Livello**: game + system
 - **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — sostituisce single-shot con batch
@@ -453,6 +521,8 @@
 
 ### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only) ✅ RISOLTA 2026-04-28
 
+<!-- od id=OD-016 status=resolved resolved_by="RISOLTA 2026-04-28" -->
+
 - **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
 - **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3) — moved Aperte → Risolte 2026-05-08 sera (audit cleanup misplace)
 - **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
@@ -460,6 +530,8 @@
 - **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
 
 ### [OD-006] Master orchestrator prompt — adottare o no? ✅ RISOLTA
+
+<!-- od id=OD-006 status=resolved resolved_by="RISOLTA" -->
 
 - **Livello**: workflow
 - **Stato**: **risolta 2026-04-24**
@@ -472,6 +544,8 @@
 - **Ref**: audit readiness section C.5.
 
 ### [OD-007] Sprint 3 archivio — chiudere o deferrere? ✅ RISOLTA
+
+<!-- od id=OD-007 status=resolved resolved_by="RISOLTA" -->
 
 - **Livello**: workflow
 - **Stato**: **risolta 2026-04-24** (questa sessione)

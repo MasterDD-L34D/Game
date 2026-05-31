@@ -43,6 +43,10 @@ jobs:
         id: decisions_log_sync
         run: python tools/generate_decisions_log.py --check
 
+      - name: Open decisions auto-sync (required -- fail-on-diff, anti-drift #19)
+        id: open_decisions_sync
+        run: python tools/generate_open_decisions.py --check
+
       - name: Docs link integrity (warning-only)
         id: link_check
         continue-on-error: true
