@@ -53,7 +53,7 @@
     },
     "catalog": {
       "type": "array",
-      "description": "53 species entries (10 pack-v2-full-plus + 5 game-canonical-stub + 38 legacy-yaml-merge)",
+      "description": "75 species entries (53 canon [10 pack-v2-full-plus + 5 game-canonical-stub + 38 legacy-yaml-merge] + 22 gameplay-promote, Wave3 CANON-RECONCILE #2490)",
       "items": {
         "type": "object",
         "required": ["species_id", "source"],
@@ -175,7 +175,12 @@
           "epithet": { "type": ["string", "null"] },
           "source": {
             "type": "string",
-            "enum": ["pack-v2-full-plus", "game-canonical-stub", "legacy-yaml-merge"]
+            "enum": [
+              "pack-v2-full-plus",
+              "game-canonical-stub",
+              "legacy-yaml-merge",
+              "gameplay-promote"
+            ]
           },
           "merged_at": { "type": "string" },
           "_provenance": {
