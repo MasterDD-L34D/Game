@@ -4,7 +4,10 @@ ecosistema:
   label: Foresta Temperata
   biome_id: foresta_temperata
   trofico:
-    produttori: []
+    produttori:
+    - piante_superiori
+    - alghe
+    - cianobatteri
     consumatori:
       primari: []
       secondari:
@@ -14,3 +17,4 @@ ecosistema:
     - nebulocornis-mollis
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

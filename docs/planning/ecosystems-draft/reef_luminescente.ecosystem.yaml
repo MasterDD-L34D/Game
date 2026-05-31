@@ -4,7 +4,9 @@ ecosistema:
   label: Reef Luminescente
   biome_id: reef_luminescente
   trofico:
-    produttori: []
+    produttori:
+    - alghe
+    - coralli_simbiotici
     consumatori:
       primari: []
       secondari:
@@ -13,3 +15,4 @@ ecosistema:
     decompositori: []
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT
