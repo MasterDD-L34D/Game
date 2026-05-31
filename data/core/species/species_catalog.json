@@ -3907,7 +3907,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "sonno_emisferico_alternato",
+        "sacche_galleggianti_ascensoriali",
+        "occhi_infrarosso_composti"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "aurora_gull",
@@ -3929,7 +3935,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -3956,7 +3961,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "olfatto_risonanza_magnetica",
+        "criostasi_adattiva",
+        "zampe_a_molla"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "cryo_lynx",
@@ -3978,7 +3989,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4005,7 +4015,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "ventriglio_gastroliti",
+        "scheletro_idro_regolante",
+        "respiro_a_scoppio",
+        "carapace_fase_variabile",
+        "sacche_galleggianti_ascensoriali"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "steppe_bison_mini",
@@ -4027,7 +4043,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4054,7 +4069,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "filamenti_digestivi_compattanti",
+        "spore_psichiche_silenziate",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi",
+        "eco_interno_riflesso"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "thaw_rot",
@@ -4076,7 +4097,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4152,7 +4172,14 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "cactus_weaver",
@@ -4174,7 +4201,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4201,7 +4227,14 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "noctule_termico",
@@ -4223,7 +4256,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4250,7 +4282,14 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "silica_bloom",
@@ -4272,7 +4311,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4299,7 +4337,14 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "thermo_raptor",
@@ -4321,7 +4366,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4348,7 +4392,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "spore_psichiche_silenziate",
+        "lingua_tattile_trama",
+        "ghiandola_caustica",
+        "mimetismo_cromatico_passivo",
+        "filamenti_digestivi_compattanti"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "blight_micotico",
@@ -4370,7 +4420,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4446,7 +4495,13 @@
       "constraints": [],
       "sentience_index": "T1",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "empatia_coordinativa",
+        "tattiche_di_branco",
+        "risonanza_di_branco",
+        "focus_frazionato",
+        "occhi_infrarosso_composti"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "lupus_temperatus",
@@ -4468,7 +4523,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     },
@@ -4544,7 +4598,13 @@
       "constraints": [],
       "sentience_index": "T3",
       "ecotypes": [],
-      "trait_refs": [],
+      "trait_refs": [
+        "focus_frazionato",
+        "pathfinder",
+        "pianificatore",
+        "random",
+        "empatia_coordinativa"
+      ],
       "lifecycle_yaml": null,
       "source": "gameplay-promote",
       "legacy_slug": "sentinella_radice",
@@ -4566,7 +4626,6 @@
         "visual_description",
         "interactions",
         "constraints",
-        "trait_refs",
         "lifecycle_yaml"
       ]
     }
