@@ -1,11 +1,12 @@
 {
-  "version": "0.4.1",
+  "version": "0.4.2",
   "merged_at": "2026-05-15",
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
     "game_canonical_lifecycle": "data/core/species",
     "legacy_yaml_species": "/tmp/species_etl_source.yaml",
-    "legacy_yaml_expansion": "/tmp/species_expansion_etl_source.yaml"
+    "legacy_yaml_expansion": "/tmp/species_expansion_etl_source.yaml",
+    "gameplay_promote": "packs/evo_tactics_pack/data/species"
   },
   "sentience_assignment_method": {
     "pack_v2_plus_source": "sentience_index field verbatim",
@@ -14,17 +15,18 @@
     "phase_3_heuristic": "ADR-2026-05-15 Phase 3 Path Quick: functional_signature + risk_profile + interactions filled from clade_tag + trait_plan + foodweb cross-lookup. visual_description + symbiosis + constraints pending master-dd review."
   },
   "stats": {
-    "total_species": 53,
+    "total_species": 75,
     "by_source": {
       "pack-v2-full-plus": 10,
       "game-canonical-stub": 5,
-      "legacy-yaml-merge": 38
+      "legacy-yaml-merge": 38,
+      "gameplay-promote": 22
     },
     "by_sentience_tier": {
-      "T1": 22,
+      "T1": 42,
       "T2": 16,
       "T5": 3,
-      "T3": 6,
+      "T3": 8,
       "T0": 1,
       "T4": 5
     },
@@ -3464,6 +3466,1128 @@
         "constraints": "heuristic-pattern-C-mechanical",
         "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
+    },
+    {
+      "species_id": "echo_wing",
+      "scientific_name": "",
+      "common_names": [
+        "Echo Wing"
+      ],
+      "classification": {
+        "macro_class": "volatore_planatore",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "echo_wing",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "dispersore_ponte"
+      ],
+      "clade_tag": null,
+      "morphotype": "volatore_planatore",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "ferrocolonia_magnetotattica",
+      "scientific_name": "",
+      "common_names": [
+        "Ferrocolonia Magnetotattica"
+      ],
+      "classification": {
+        "macro_class": "ingegnere_radicante",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T3",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "ferrocolonia_magnetotattica",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "predatore_regolatore_simbionte"
+      ],
+      "clade_tag": null,
+      "morphotype": "ingegnere_radicante",
+      "threat_tier": "T2",
+      "encounter_role": "elite",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "magneto_ridge_hunter",
+      "scientific_name": "",
+      "common_names": [
+        "Magneto Ridge Hunter"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "magneto_ridge_hunter",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "nano_rust_bloom",
+      "scientific_name": "",
+      "common_names": [
+        "Nano Rust Bloom"
+      ],
+      "classification": {
+        "macro_class": "scavenger_corazzato",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "nano_rust_bloom",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "minaccia_microbica"
+      ],
+      "clade_tag": null,
+      "morphotype": "scavenger_corazzato",
+      "threat_tier": "T3",
+      "encounter_role": "boss",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "rust_scavenger",
+      "scientific_name": "",
+      "common_names": [
+        "Rust Scavenger"
+      ],
+      "classification": {
+        "macro_class": "scavenger_corazzato",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "rust_scavenger",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "ingegneri_ecosistema"
+      ],
+      "clade_tag": null,
+      "morphotype": "scavenger_corazzato",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "sand_burrower",
+      "scientific_name": "",
+      "common_names": [
+        "Sand Burrower"
+      ],
+      "classification": {
+        "macro_class": "cursoriale_quadrupede",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "sand_burrower",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "erbivoro_primario"
+      ],
+      "clade_tag": null,
+      "morphotype": "cursoriale_quadrupede",
+      "threat_tier": "T1",
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "slag_veil_ambusher",
+      "scientific_name": "",
+      "common_names": [
+        "Slag Veil Ambusher"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "badlands"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "badlands"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "slag_veil_ambusher",
+      "biome_affinity": "badlands",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "aurora_bridge_runner",
+      "scientific_name": "",
+      "common_names": [
+        "Aurora Bridge Runner"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "aurora_bridge_runner",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "aurora_gull",
+      "scientific_name": "",
+      "common_names": [
+        "Gabbiano d’Aurora"
+      ],
+      "classification": {
+        "macro_class": "volatore_planatore",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "aurora_gull",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "dispersore_ponte"
+      ],
+      "clade_tag": null,
+      "morphotype": "volatore_planatore",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "cryo_lynx",
+      "scientific_name": "",
+      "common_names": [
+        "Cryo Lynx"
+      ],
+      "classification": {
+        "macro_class": "cursoriale_quadrupede",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "cryo_lynx",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "predatore_terziario_apex"
+      ],
+      "clade_tag": null,
+      "morphotype": "cursoriale_quadrupede",
+      "threat_tier": "T3",
+      "encounter_role": "elite",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "steppe_bison_mini",
+      "scientific_name": "",
+      "common_names": [
+        "Bisonte Nano della Steppa"
+      ],
+      "classification": {
+        "macro_class": "cursoriale_quadrupede",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "steppe_bison_mini",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "ingegneri_ecosistema"
+      ],
+      "clade_tag": null,
+      "morphotype": "cursoriale_quadrupede",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "thaw_rot",
+      "scientific_name": "",
+      "common_names": [
+        "Thaw Rot"
+      ],
+      "classification": {
+        "macro_class": "scavenger_corazzato",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "thaw_rot",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "minaccia_microbica"
+      ],
+      "clade_tag": null,
+      "morphotype": "scavenger_corazzato",
+      "threat_tier": "T3",
+      "encounter_role": "boss",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "zephyr_spore_courier",
+      "scientific_name": "",
+      "common_names": [
+        "Zephyr Spore Courier"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "cryosteppe"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "cryosteppe"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "zephyr_spore_courier",
+      "biome_affinity": "cryosteppe",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "cactus_weaver",
+      "scientific_name": "",
+      "common_names": [
+        "Cactus Weaver"
+      ],
+      "classification": {
+        "macro_class": "ingegnere_radicante",
+        "habitat": "deserto_caldo"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "deserto_caldo"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "cactus_weaver",
+      "biome_affinity": "deserto_caldo",
+      "role_tags": [
+        "ingegneri_ecosistema"
+      ],
+      "clade_tag": null,
+      "morphotype": "ingegnere_radicante",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "noctule_termico",
+      "scientific_name": "",
+      "common_names": [
+        "Noctule Termico"
+      ],
+      "classification": {
+        "macro_class": "volatore_planatore",
+        "habitat": "deserto_caldo"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "deserto_caldo"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "noctule_termico",
+      "biome_affinity": "deserto_caldo",
+      "role_tags": [
+        "dispersore_ponte"
+      ],
+      "clade_tag": null,
+      "morphotype": "volatore_planatore",
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "silica_bloom",
+      "scientific_name": "",
+      "common_names": [
+        "Silica Bloom"
+      ],
+      "classification": {
+        "macro_class": "scavenger_corazzato",
+        "habitat": "deserto_caldo"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "deserto_caldo"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "silica_bloom",
+      "biome_affinity": "deserto_caldo",
+      "role_tags": [
+        "minaccia_microbica"
+      ],
+      "clade_tag": null,
+      "morphotype": "scavenger_corazzato",
+      "threat_tier": "T3",
+      "encounter_role": "boss",
+      "pack_path": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "thermo_raptor",
+      "scientific_name": "",
+      "common_names": [
+        "Thermo Raptor"
+      ],
+      "classification": {
+        "macro_class": "cursoriale_quadrupede",
+        "habitat": "deserto_caldo"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "deserto_caldo"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "thermo_raptor",
+      "biome_affinity": "deserto_caldo",
+      "role_tags": [
+        "predatore_terziario_apex"
+      ],
+      "clade_tag": null,
+      "morphotype": "cursoriale_quadrupede",
+      "threat_tier": "T3",
+      "encounter_role": "elite",
+      "pack_path": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "blight_micotico",
+      "scientific_name": "",
+      "common_names": [
+        "Blight Micotico"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "foresta_temperata"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "foresta_temperata"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "blight_micotico",
+      "biome_affinity": "foresta_temperata",
+      "role_tags": [
+        "minaccia_microbica"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": "T3",
+      "encounter_role": "boss",
+      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "glowcap_weaver",
+      "scientific_name": "",
+      "common_names": [
+        "Glowcap Weaver"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "foresta_temperata"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "foresta_temperata"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "glowcap_weaver",
+      "biome_affinity": "foresta_temperata",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "lupus_temperatus",
+      "scientific_name": "",
+      "common_names": [
+        "Lupo della Foresta"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "foresta_temperata"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "foresta_temperata"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "lupus_temperatus",
+      "biome_affinity": "foresta_temperata",
+      "role_tags": [
+        "predatore_terziario_apex"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": "T2",
+      "encounter_role": "elite",
+      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "myco_spire_warden",
+      "scientific_name": "",
+      "common_names": [
+        "Myco Spire Warden"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "foresta_temperata"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "foresta_temperata"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "myco_spire_warden",
+      "biome_affinity": "foresta_temperata",
+      "role_tags": [
+        "evento_ecologico"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": null,
+      "encounter_role": "minion",
+      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
+    },
+    {
+      "species_id": "sentinella_radice",
+      "scientific_name": "",
+      "common_names": [
+        "Sentinella Radice"
+      ],
+      "classification": {
+        "macro_class": "unknown",
+        "habitat": "foresta_temperata"
+      },
+      "functional_signature": "",
+      "visual_description": "",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": []
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": []
+      },
+      "constraints": [],
+      "sentience_index": "T3",
+      "ecotypes": [
+        "foresta_temperata"
+      ],
+      "trait_refs": [],
+      "lifecycle_yaml": null,
+      "source": "gameplay-promote",
+      "legacy_slug": "sentinella_radice",
+      "biome_affinity": "foresta_temperata",
+      "role_tags": [
+        "ingegneri_ecosistema"
+      ],
+      "clade_tag": null,
+      "morphotype": null,
+      "threat_tier": "T1",
+      "encounter_role": "ambient",
+      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+      "merged_at": "2026-05-31",
+      "_promote_stub": true,
+      "_todo_fields": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "visual_description",
+        "interactions",
+        "constraints",
+        "trait_refs",
+        "lifecycle_yaml"
+      ]
     }
   ]
 }

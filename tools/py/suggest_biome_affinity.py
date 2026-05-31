@@ -21,7 +21,12 @@ CANONICAL_DATA_DIR = REPO_ROOT / "data/core"
 def load_catalog(path: Path = CATALOG_PATH) -> list:
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
-    return data["catalog"]
+    # Wave3 CANON-RECONCILE: gameplay-promote entries are design-incomplete structural
+    # stubs whose biome_affinity is the native pack-dir biome (not editorial ground
+    # truth). Exclude them from this heuristic's scope (it suggests affinity for the
+    # original canon's unassigned species) -- same anti-self-poisoning spirit as the
+    # D4-provenance filter in train_trait_biome.
+    return [s for s in data["catalog"] if s.get("source") != "gameplay-promote"]
 
 
 def split_by_biome_affinity(species: list):
