@@ -189,6 +189,7 @@ const {
 } = require('./sessionHelpers');
 // Skiv ticket #5 (Sprint B): Defy verb — player counter-pressure agency.
 const { applyDefy: applyDefyAction, DEFY_SG_COST } = require('../services/combat/defyEngine');
+const { applyOvercharge: applyOverchargeAction } = require('../services/combat/overchargeEngine');
 const { createRoundBridge } = require('./sessionRoundBridge');
 // M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
 const {
@@ -2761,6 +2762,50 @@ function createSessionRouter(options = {}) {
         relief: outcome.relief,
         sg_cost: outcome.cost.sg,
         ap_penalty_next_turn: outcome.cost.ap_next_turn,
+      };
+      if (Array.isArray(session.events)) session.events.push(event);
+      res.json({
+        session_id: session.session_id,
+        actor_id: actor.id,
+        ...outcome,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // TKT-P6-AP3 — Overcharge verb (FFT "charge a big move" / Pillar 6).
+  // Body: { session_id, actor_id }. Validates actor is player-controlled +
+  // alive + not already overcharged this turn + SG >= OVERCHARGE_SG_COST (3);
+  // on success spends a full SG gauge and grants +1 ap_remaining THIS turn so a
+  // cost_ap:3 ability fits the 2-AP budget. The actor.status.overcharged guard
+  // is cleared by the end-of-round status decrement (once per turn). Symmetric
+  // twin of /defy (which trades SG for pressure relief at -1 AP next turn).
+  router.post('/overcharge', async (req, res, next) => {
+    try {
+      const body = req.body || {};
+      const { error, session } = resolveSession(body.session_id);
+      if (error) return res.status(error.status).json(error.body);
+      const actor = session.units.find((u) => u.id === body.actor_id);
+      if (!actor) {
+        return res.status(400).json({ error: 'actor_not_found', actor_id: body.actor_id || null });
+      }
+      const outcome = applyOverchargeAction(actor);
+      if (!outcome.ok) {
+        return res
+          .status(409)
+          .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
+      }
+      const event = {
+        event_type: 'overcharge',
+        actor_id: actor.id,
+        turn: Number(session.turn || 0),
+        sg_before: outcome.before.sg,
+        sg_after: outcome.after.sg,
+        ap_before: outcome.before.ap_remaining,
+        ap_after: outcome.after.ap_remaining,
+        sg_cost: outcome.cost.sg,
       };
       if (Array.isArray(session.events)) session.events.push(event);
       res.json({
