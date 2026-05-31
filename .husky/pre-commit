@@ -54,3 +54,13 @@ if git diff --cached --name-only | grep -qE "^docs/adr/ADR-.*\.md$"; then
       || echo "[pre-commit] WARN decisions-log regen failed -- run tools/generate_decisions_log.py"
   fi
 fi
+
+# 2026-05-31 -- OPEN_DECISIONS auto-sync (anti-drift #19, follow-up #2489). If
+# OPEN_DECISIONS.md is staged, regenerate the "Aperte" index so it never drifts.
+# Non-blocking (CI `--check` = hard gate).
+if git diff --cached --name-only | grep -qE "^OPEN_DECISIONS\.md$"; then
+  if command -v python >/dev/null 2>&1; then
+    python tools/generate_open_decisions.py && git add OPEN_DECISIONS.md \
+      || echo "[pre-commit] WARN open-decisions regen failed -- run tools/generate_open_decisions.py"
+  fi
+fi
