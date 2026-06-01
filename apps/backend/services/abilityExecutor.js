@@ -570,6 +570,148 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // TKT-JOB-PHASEC slice B5 pack_command runtime (OQ-MINION V4) — the beastmaster
+  // spends its own AP to issue ONE order (move | attack) to one of its minions, in
+  // the BM's turn. The minion attacks via performAttack (the minion is the attacker).
+  // Command range = 1 (adjacent) by default, raised to `range` by
+  // pack_command_extended_range. (minion_proximity_dmg is held — its data spec
+  // "minion adj BM AND target adj BM" is geometrically unsatisfiable for a melee
+  // minion under Manhattan adjacency; pending a master-dd interpretation, L-069.)
+  async function executePackCommand({ session, actor, ability, body }) {
+    const minionId = String(body.minion_id || '');
+    const minion = (session.units || []).find((u) => u && u.id === minionId);
+    if (!minion || !minion.is_minion || minion.owner_id !== actor.id) {
+      return { status: 400, body: { error: `pack_command: "${minionId}" non e' un tuo minion` } };
+    }
+    if ((minion.hp ?? 0) <= 0) {
+      return { status: 400, body: { error: 'pack_command: minion morto' } };
+    }
+    const rangePerk = Array.isArray(actor._perk_passives)
+      ? actor._perk_passives.find((p) => p && p.tag === 'pack_command_extended_range')
+      : null;
+    const cmdRange = rangePerk ? Number(rangePerk.payload && rangePerk.payload.range) || 5 : 1;
+    if (manhattanDistance(actor.position, minion.position) > cmdRange) {
+      return {
+        status: 400,
+        body: { error: `pack_command: minion fuori range comando (${cmdRange})` },
+      };
+    }
+    const order = body.order || {};
+    const apCost = Number(ability.cost_ap || 0);
+
+    if (order.type === 'move') {
+      const dest = order.position;
+      if (!dest || !Number.isFinite(Number(dest.x)) || !Number.isFinite(Number(dest.y))) {
+        return { status: 400, body: { error: 'pack_command: order.position richiesto per move' } };
+      }
+      if (manhattanDistance(minion.position, dest) > (Number(minion.mobility) || 1)) {
+        return {
+          status: 400,
+          body: { error: `pack_command: move oltre mobility (${minion.mobility})` },
+        };
+      }
+      const grid = session.grid || null;
+      if (
+        dest.x < 0 ||
+        dest.y < 0 ||
+        (grid && (dest.x >= Number(grid.width) || dest.y >= Number(grid.height ?? grid.width)))
+      ) {
+        return { status: 400, body: { error: 'pack_command: destinazione fuori griglia' } };
+      }
+      const occupied = (session.units || []).some(
+        (u) =>
+          u &&
+          u.id !== minion.id &&
+          (u.hp ?? 0) > 0 &&
+          u.position &&
+          u.position.x === Number(dest.x) &&
+          u.position.y === Number(dest.y),
+      );
+      if (occupied) return { status: 400, body: { error: 'pack_command: cella occupata' } };
+      minion.position = { x: Number(dest.x), y: Number(dest.y) };
+      actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        actor_id: actor.id,
+        action_type: 'ability',
+        ability_id: ability.ability_id,
+        effect_type: 'pack_command',
+        target_id: minion.id,
+        turn: session.turn,
+        ap_spent: apCost,
+        order: 'move',
+        minion_position: minion.position,
+        trait_effects: [],
+      });
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          ability_id: ability.ability_id,
+          effect_type: 'pack_command',
+          order: 'move',
+          minion_id: minion.id,
+          minion_position: minion.position,
+          ap_remaining: actor.ap_remaining,
+        },
+      };
+    }
+
+    if (order.type === 'attack') {
+      const target = (session.units || []).find((u) => u && u.id === String(order.target_id || ''));
+      if (!target || (target.hp ?? 0) <= 0) {
+        return { status: 400, body: { error: 'pack_command: target non valido' } };
+      }
+      if (target.controlled_by === minion.controlled_by) {
+        return { status: 400, body: { error: 'pack_command: no friendly fire' } };
+      }
+      if (manhattanDistance(minion.position, target.position) > 1) {
+        return {
+          status: 400,
+          body: { error: 'pack_command: target fuori range del minion (melee 1)' },
+        };
+      }
+      const res = performAttack(session, minion, target, { channel: null });
+      applySgEarn(minion, target, res.damageDealt);
+      actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        actor_id: actor.id,
+        action_type: 'ability',
+        ability_id: ability.ability_id,
+        effect_type: 'pack_command',
+        target_id: target.id,
+        turn: session.turn,
+        ap_spent: apCost,
+        order: 'attack',
+        minion_id: minion.id,
+        damage_dealt: res.damageDealt,
+        trait_effects: [],
+      });
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          ability_id: ability.ability_id,
+          effect_type: 'pack_command',
+          order: 'attack',
+          minion_id: minion.id,
+          target_id: target.id,
+          damage_dealt: res.damageDealt,
+          hit: !!(res.result && res.result.hit),
+          ap_remaining: actor.ap_remaining,
+        },
+      };
+    }
+
+    return {
+      status: 400,
+      body: { error: 'pack_command: order.type deve essere "move" o "attack"' },
+    };
+  }
+
   async function executeBuff({ session, actor, ability }) {
     // TKT-JOB-PHASEC slice A1b (Cat F 7/7, OQ-F verdict V1) — phenotype_shift is a
     // 1d6 random table + per-round use-cap + double-roll perk, not a fixed buff.
@@ -1757,6 +1899,11 @@ function createAbilityExecutor(deps) {
 
   // aoe_buff (sanctuary): area NxN centrata su body.position. Buff alleati.
   async function executeAoeBuff({ session, actor, ability, body }) {
+    // TKT-JOB-PHASEC slice B5 — pack_command is a minion order (move|attack), not an
+    // aoe_buff; divert to its runtime handler.
+    if (ability.ability_id === 'pack_command') {
+      return executePackCommand({ session, actor, ability, body });
+    }
     const center = body.position;
     if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per aoe_buff' } };
@@ -2143,9 +2290,31 @@ function createAbilityExecutor(deps) {
     if (!abilityId) {
       return { status: 400, body: { error: 'ability_id richiesto per action_type=ability' } };
     }
-    const ability = findAbility(abilityId);
-    if (!ability) {
+    const baseAbility = findAbility(abilityId);
+    if (!baseAbility) {
       return { status: 400, body: { error: `ability_id "${abilityId}" non trovata nel catalog` } };
+    }
+    // TKT-JOB-PHASEC (Codex #2546 P2): apply the actor's _perk_ability_mods (attached
+    // by progression but previously consumed by NO runtime path) to a CLONE of the
+    // catalog spec, so ability_mod perks are LIVE at the AP gate + in every handler:
+    // bm_r1_swift_command (pack_command cost_ap -1 -> free), bm_r3_quick_summon
+    // (summon_companion cost_pi -2), the aberrant damage_step/buff_duration mods, etc.
+    // Band-neutral — no sim unit carries expansion-job ability_mods (returns the base
+    // spec unchanged), so HC scenarios are byte-identical. Cost fields clamp at 0.
+    const abilityMods = Array.isArray(actor._perk_ability_mods) ? actor._perk_ability_mods : [];
+    const relevantMods = abilityMods.filter(
+      (m) => m && m.ability_id === baseAbility.ability_id && m.field,
+    );
+    let ability = baseAbility;
+    if (relevantMods.length > 0) {
+      ability = { ...baseAbility };
+      for (const m of relevantMods) {
+        const cur = Number(ability[m.field]);
+        if (Number.isFinite(cur)) {
+          ability[m.field] = cur + (Number(m.delta) || 0);
+          if (String(m.field).startsWith('cost_') && ability[m.field] < 0) ability[m.field] = 0;
+        }
+      }
     }
     const costAp = Number(ability.cost_ap || 0);
     const apAvailable = Number(actor.ap_remaining ?? actor.ap ?? 0);
