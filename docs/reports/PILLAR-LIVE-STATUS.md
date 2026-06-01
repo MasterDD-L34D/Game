@@ -60,9 +60,9 @@ related:
 
 ## Per-pillar dettaglio
 
-### P1 — Tattica leggibile (🟢 def++)
+### P1 — Tattica leggibile (🟢 confirmed) <!-- ratif. 2026-06-01; baseline 2026-04-28: def++ -->
 
-**Stato**: def++ (rinforzato da multipli sprint).
+**Stato 2026-04-28 (baseline storico)**: def++ (rinforzato da multipli sprint).
 
 **Componenti shipped**:
 - Combat round model (ADR-2026-04-15)
@@ -88,9 +88,9 @@ related:
 - **Surface re-verificata 2026-06-01**: surface debt **AZZERATO** — `MissionTimer` GAP-5 RISOLTO (HudView `%MissionTimerLabel` + tick caller + test) **E** `Reinforcement` telegraph GAP-6 RISOLTO (`main.gd:750-755` pre-spawn `push_battle_feed_event`). Entrambi i gap 2026-05-07 chiusi.
 - **Stato 🟢 confirmed → candidato restore `def++`** (↗): engine reinforced + surface ora pulita (zero debt residuo) → master-dd può restore `def++`.
 
-### P2 — Evoluzione emergente (🟢 def++)
+### P2 — Evoluzione emergente (🟢 def) <!-- ratif. 2026-06-01; baseline 2026-04-28: def++ -->
 
-**Stato**: def++ (Spore Moderate FULL stack + lifecycle + ecology).
+**Stato 2026-04-28 (baseline storico)**: def++ (Spore Moderate FULL stack + lifecycle + ecology).
 
 **Componenti shipped**:
 - Form evolution 16 MBTI (M12 Phase A+B+C+D)
@@ -113,9 +113,9 @@ related:
 - **Surface Godot**: #339 M2 generational succession (lifecycle attrition + true-death), #354/#356 genetics_api + offspring-ritual unify, #368/#370 mating vote UI phone, #375-#380 Nido hub (TV+phone, offspring ritual N3, N4 recruit/affinity/trust).
 - **Stato 🟢 def** (↔ reinforced): ciclo mating/nido ora con surface completa cross-stack + epigenome live-loop. Debt visual aspect_token resta polish, non bloccante.
 
-### P3 — Specie × Job (🟡++)
+### P3 — Specie × Job (🟢 candidato HARD) <!-- ratif. 2026-06-01; baseline 2026-04-28: 🟡++ -->
 
-**Stato**: 🟡++ (portrait surface + ecology schema).
+**Stato 2026-04-28 (baseline storico)**: 🟡++ (portrait surface + ecology schema).
 
 **Componenti shipped**:
 - 84 specie YAML + 7 job canonical
@@ -133,9 +133,9 @@ related:
 - **Surface**: Godot #357 PhoneTribesView emergent tribes (§22 meta-loop).
 - **Stato 🟢 candidato (HARD)** (↗ da `🟡++`): allinea HONEST-CHECK 2026-05-07 (🟢ⁿ confirmed) + CLAUDE v44.3 (🟢 cand HARD). Gate per `confirmed`/`def`: morphotype pool selector + points-buy build (resta).
 
-### P4 — Temperamenti MBTI/Ennea (🟢 def)
+### P4 — Temperamenti MBTI/Ennea (🟢 confirmed) <!-- ratif. 2026-06-01; baseline 2026-04-28: def -->
 
-**Stato**: def (engine completo + reveal diegetico Disco-style).
+**Stato 2026-04-28 (baseline storico)**: def (engine completo + reveal diegetico Disco-style).
 
 **Componenti shipped**:
 - 4 MBTI axes engine (E_I/S_N/T_F/J_P)
@@ -159,9 +159,9 @@ related:
 - **Surface Godot**: Bond storytelling #320-#338 — #332 DebriefView Bond Pairs UI (Gate-5 closure), #334 HudView BondStatsLabel, #330 Cronaca Bond filter chip, #321 BattleFeed bond witness, #331 BondTelemetry (preserva contratto M.7).
 - **Stato 🟢 confirmed** (↗): supera il down-revise 2026-05-07 (🟢 cand) — telemetria MBTI/Ennea ora visibile al player end-to-end. Gate per `def++`: counterpart Ennea voices.
 
-### P5 — Co-op vs Sistema (🟢 candidato)
+### P5 — Co-op vs Sistema (🟢 confirmed) <!-- ratif. 2026-06-01; baseline 2026-04-28: candidato -->
 
-**Stato**: cand (M11 stack live + Objective HUD; gate finale userland playtest).
+**Stato 2026-04-28 (baseline storico)**: cand (M11 stack live + Objective HUD; gate finale userland playtest).
 
 **Componenti shipped**:
 - M11 Phase A WebSocket lobby (#1680)
@@ -180,9 +180,9 @@ related:
 - **Surface Godot**: #342 Sistema-memory client + telegraph + Cronaca echo, CAMP-1/2/3 TV DebriefView mount on combat-end + #350 TV loop re-entry, #375-#380 Nido co-op hub.
 - **Stato 🟢 confirmed** (↗ da `cand`): allinea HONEST-CHECK 2026-05-07. **Caveat (verificato 2026-06-01)**: gap surface TV LobbyView room sync **ancora APERTO** (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente, nessun fix post-05-20; REST `/api/lobby/state?code=` esiste lato Game `routes/lobby.js:118`) + gate playtest live userland pendente per `🟢 def`.
 
-### P6 — Fairness (🟢)
+### P6 — Fairness (🟢 candidato reinforced) <!-- ratif. 2026-06-01; baseline 2026-04-28: 🟢 -->
 
-**Stato**: 🟢 (pseudoRng + tension gauge + body-part + wounded_perma).
+**Stato 2026-04-28 (baseline storico)**: 🟢 (pseudoRng + tension gauge + body-part + wounded_perma).
 
 **Componenti shipped**:
 - Pathfinder XP budget
