@@ -673,7 +673,34 @@ function createAbilityExecutor(deps) {
         };
       }
       const res = performAttack(session, minion, target, { channel: null });
-      applySgEarn(minion, target, res.damageDealt);
+      // minion_proximity_dmg (bm_r2_pack_focus): +N when the struck target is
+      // adjacent to the BM (the commanded bodyguard punishes threats on the master).
+      // L-069: the data's additional "minion adjacent to the BM" clause is
+      // geometrically unsatisfiable for a melee minion under Manhattan adjacency
+      // (a default-commandable minion is itself adjacent to the BM, dist 2 from any
+      // other BM-neighbour), so it is dropped pending a master-dd geometry ruling.
+      let proximityBonus = 0;
+      const proxPerk = Array.isArray(actor._perk_passives)
+        ? actor._perk_passives.find((p) => p && p.tag === 'minion_proximity_dmg')
+        : null;
+      if (
+        proxPerk &&
+        res.result &&
+        res.result.hit &&
+        Number(res.damageDealt) > 0 &&
+        manhattanDistance(target.position, actor.position) <= 1
+      ) {
+        const want = Number(proxPerk.payload && proxPerk.payload.damage) || 0;
+        const extra = Math.min(want, Number(target.hp) || 0);
+        if (extra > 0) {
+          target.hp = Math.max(0, Number(target.hp) - extra);
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+          }
+          proximityBonus = extra;
+        }
+      }
+      applySgEarn(minion, target, res.damageDealt + proximityBonus);
       actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
       await appendEvent(session, {
         ts: new Date().toISOString(),
@@ -687,7 +714,8 @@ function createAbilityExecutor(deps) {
         ap_spent: apCost,
         order: 'attack',
         minion_id: minion.id,
-        damage_dealt: res.damageDealt,
+        damage_dealt: res.damageDealt + proximityBonus,
+        proximity_bonus: proximityBonus,
         trait_effects: [],
       });
       return {
@@ -699,7 +727,8 @@ function createAbilityExecutor(deps) {
           order: 'attack',
           minion_id: minion.id,
           target_id: target.id,
-          damage_dealt: res.damageDealt,
+          damage_dealt: res.damageDealt + proximityBonus,
+          proximity_bonus: proximityBonus,
           hit: !!(res.result && res.result.hit),
           ap_remaining: actor.ap_remaining,
         },
