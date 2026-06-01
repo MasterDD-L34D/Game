@@ -953,6 +953,50 @@ function createAbilityExecutor(deps) {
     });
     applySgEarn(actor, target, res.damageDealt);
 
+    // TKT-JOB-PHASEC slice 4b (Cat F) — mutation_burst combat semantics. Base:
+    // MoS>=5 → 1 random status from the five {rage,panic,stunned,bleeding,fracture}
+    // (faithful to jobs_expansion description). Perks layer on top via
+    // computeMutationBurstPerkMods: perfect_mutation_burst forces all five
+    // (ignoring MoS) + a flat bonus damage step; mutation_status_extend adds turns.
+    // mutation_burst-only (ability semantics, NOT job-gated). Statuses decay via the
+    // generic sessionRoundBridge status loop; bonus damage drains post-hoc (the
+    // execution_attack pattern). Placed in performAttack's flow → traversed by the
+    // /round/execute priority_queue path (not inert in band-verify).
+    let mutationStatuses = [];
+    let mutationBonusDamage = 0;
+    if (ability.ability_id === 'mutation_burst' && res.result.hit && target.hp > 0) {
+      let mods = { extraTurns: 0, forceAllStatuses: false, bonusDamage: 0 };
+      try {
+        const { computeMutationBurstPerkMods } = require('./progression/progressionApply');
+        mods = computeMutationBurstPerkMods(actor);
+      } catch {
+        /* progression optional — non-blocking */
+      }
+      const MUTATION_STATUSES = ['rage', 'panic', 'stunned', 'bleeding', 'fracture'];
+      let toApply = [];
+      if (mods.forceAllStatuses) {
+        toApply = MUTATION_STATUSES.slice();
+      } else if (Number(res.result.mos) >= 5) {
+        toApply = [MUTATION_STATUSES[Math.floor(rng() * MUTATION_STATUSES.length)]];
+      }
+      const statusTurns = 1 + Math.max(0, Number(mods.extraTurns) || 0);
+      if (toApply.length > 0) {
+        if (!target.status) target.status = {};
+        for (const sid of toApply) {
+          target.status[sid] = Math.max(Number(target.status[sid]) || 0, statusTurns);
+          mutationStatuses.push({ id: sid, duration: statusTurns });
+        }
+      }
+      const bonus = Math.max(0, Number(mods.bonusDamage) || 0);
+      if (bonus > 0 && target.hp > 0) {
+        const extra = Math.min(bonus, target.hp);
+        target.hp = Math.max(0, target.hp - extra);
+        session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+        applySgEarn(actor, target, extra);
+        mutationBonusDamage = extra;
+      }
+    }
+
     const lifestealPct = Number(ability.lifesteal_pct || 0);
     let healed = 0;
     if (res.result.hit && res.damageDealt > 0 && lifestealPct > 0) {
@@ -968,13 +1012,18 @@ function createAbilityExecutor(deps) {
       actor.seed = Number(actor.seed || 0) + seedGain;
     }
 
+    // Total damage reported = the attack roll damage + any mutation bonus drained
+    // post-hoc (perfect_mutation_burst). mutationBonusDamage is 0 for every other
+    // case (Codex #2529 P2: don't undercount the reported damage_dealt).
+    const totalDamageDealt = res.damageDealt + mutationBonusDamage;
+
     const event = buildAttackEvent({
       session,
       actor,
       target,
       result: res.result,
       evaluation: res.evaluation,
-      damageDealt: res.damageDealt,
+      damageDealt: totalDamageDealt,
       hpBefore,
       targetPositionAtAttack,
       positional: res.positional || null,
@@ -985,6 +1034,8 @@ function createAbilityExecutor(deps) {
     event.ap_spent = Number(ability.cost_ap || 0);
     event.healing_applied = healed;
     event.seed_gain = seedGain;
+    if (mutationStatuses.length > 0) event.mutation_statuses = mutationStatuses;
+    if (mutationBonusDamage > 0) event.mutation_bonus_damage = mutationBonusDamage;
     if (res.parry) event.parry = res.parry;
     await appendEvent(session, event);
 
@@ -992,6 +1043,18 @@ function createAbilityExecutor(deps) {
       0,
       (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
     );
+
+    // TKT-JOB-PHASEC mutation_chain_on_kill (correct rebuild, Codex #2524): refund
+    // the AP just spent when a mutation_burst scores the KO → free re-cast. AFTER
+    // the spend (fixes P1) and scoped to mutation_burst's own kill (fixes P2).
+    if (ability.ability_id === 'mutation_burst' && res.result.hit && target.hp <= 0) {
+      try {
+        const { applyMutationChainRefund } = require('./progression/progressionApply');
+        applyMutationChainRefund(actor, Number(ability.cost_ap || 0));
+      } catch {
+        /* progression optional — non-blocking */
+      }
+    }
 
     return {
       status: 200,
@@ -1006,12 +1069,14 @@ function createAbilityExecutor(deps) {
           roll: res.result.roll,
           mos: res.result.mos,
           hit: res.result.hit,
-          damage_dealt: res.damageDealt,
+          damage_dealt: totalDamageDealt,
           target_hp: target.hp,
         },
         healing_applied: healed,
         actor_hp: actor.hp,
         seed_gain: seedGain,
+        mutation_statuses: mutationStatuses,
+        mutation_bonus_damage: mutationBonusDamage,
         ap_remaining: actor.ap_remaining,
       },
     };
@@ -1732,54 +1797,79 @@ function createAbilityExecutor(deps) {
         },
       };
     }
-    switch (ability.effect_type) {
-      case 'move_attack':
-        return executeMoveAttack({ session, actor, ability, body });
-      case 'attack_move':
-        return executeAttackMove({ session, actor, ability, body });
-      case 'buff':
-        return executeBuff({ session, actor, ability });
-      case 'heal':
-        return executeHeal({ session, actor, ability, body });
-      case 'multi_attack':
-        return executeMultiAttack({ session, actor, ability, body });
-      case 'attack_push':
-        return executeAttackPush({ session, actor, ability, body });
-      case 'debuff':
-        return executeDebuff({ session, actor, ability, body });
-      case 'ranged_attack':
-        return executeRangedAttack({ session, actor, ability, body });
-      case 'drain_attack':
-        return executeDrainAttack({ session, actor, ability, body });
-      case 'execution_attack':
-        return executeExecutionAttack({ session, actor, ability, body });
-      case 'shield':
-        return executeShield({ session, actor, ability, body });
-      case 'team_buff':
-        return executeTeamBuff({ session, actor, ability });
-      case 'team_heal':
-        return executeTeamHeal({ session, actor, ability });
-      case 'aoe_buff':
-        return executeAoeBuff({ session, actor, ability, body });
-      case 'aoe_debuff':
-        return executeAoeDebuff({ session, actor, ability, body });
-      case 'surge_aoe':
-        return executeSurgeAoe({ session, actor, ability, body });
-      case 'reaction':
-        return executeReaction({ session, actor, ability });
-      case 'aggro_pull':
-        return executeAggroPull({ session, actor, ability, body });
-      default:
-        return {
-          status: 501,
-          body: {
-            error: `effect_type "${ability.effect_type}" non implementato in MVP`,
-            ability_id: abilityId,
-            effect_type: ability.effect_type,
-            supported: Array.from(SUPPORTED_EFFECT_TYPES),
-          },
-        };
+    // PE-canon re-label (#2527): aberrant_overdrive's combat cost is `cost_sg`
+    // (NOT cost_pe — PE is campaign XP per 26-ECONOMY_CANONICAL). It is currently
+    // DECORATIVE (un-gated), consistent with the other cost_sg/cost_pt/cost_pp
+    // abilities. A real combat-cost gate is a separate economy-alignment follow-up:
+    // cost_sg values across abilities (3..100) are on inconsistent scales vs the
+    // SG pool (POOL_MAX=3), so a naive gate would break surge_aoe (cost_sg 75/100).
+    // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
+    // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
+    // (defense_after_silent). Set after the AP gate, before dispatch.
+    actor._last_ability_id = ability.ability_id;
+    const dispatch = () => {
+      switch (ability.effect_type) {
+        case 'move_attack':
+          return executeMoveAttack({ session, actor, ability, body });
+        case 'attack_move':
+          return executeAttackMove({ session, actor, ability, body });
+        case 'buff':
+          return executeBuff({ session, actor, ability });
+        case 'heal':
+          return executeHeal({ session, actor, ability, body });
+        case 'multi_attack':
+          return executeMultiAttack({ session, actor, ability, body });
+        case 'attack_push':
+          return executeAttackPush({ session, actor, ability, body });
+        case 'debuff':
+          return executeDebuff({ session, actor, ability, body });
+        case 'ranged_attack':
+          return executeRangedAttack({ session, actor, ability, body });
+        case 'drain_attack':
+          return executeDrainAttack({ session, actor, ability, body });
+        case 'execution_attack':
+          return executeExecutionAttack({ session, actor, ability, body });
+        case 'shield':
+          return executeShield({ session, actor, ability, body });
+        case 'team_buff':
+          return executeTeamBuff({ session, actor, ability });
+        case 'team_heal':
+          return executeTeamHeal({ session, actor, ability });
+        case 'aoe_buff':
+          return executeAoeBuff({ session, actor, ability, body });
+        case 'aoe_debuff':
+          return executeAoeDebuff({ session, actor, ability, body });
+        case 'surge_aoe':
+          return executeSurgeAoe({ session, actor, ability, body });
+        case 'reaction':
+          return executeReaction({ session, actor, ability });
+        case 'aggro_pull':
+          return executeAggroPull({ session, actor, ability, body });
+        default:
+          return {
+            status: 501,
+            body: {
+              error: `effect_type "${ability.effect_type}" non implementato in MVP`,
+              ability_id: abilityId,
+              effect_type: ability.effect_type,
+              supported: Array.from(SUPPORTED_EFFECT_TYPES),
+            },
+          };
+      }
+    };
+    const result = await dispatch();
+    // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
+    // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
+    // the sgTracker pattern (non-blocking if the module is unavailable).
+    if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
+      try {
+        const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
+        applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
+      } catch {
+        /* progression optional — non-blocking */
+      }
     }
+    return result;
   }
 
   return { executeAbility, findAbility, SUPPORTED_EFFECT_TYPES };

@@ -69,12 +69,12 @@ suggested_traits -> restano `[]`. Effetto: i tratti ora si attivano in combat (t
 
 ## Follow-up (nuovi ticket)
 
-| Ticket                 | Cosa                                                                                           | Effort  | Gate / nota                                                          |
-| ---------------------- | ---------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------- |
-| TKT-TRAIT-TRCODE-REMAP | rimappare i 50 `TR-####` -> slug glossary su 10 specie canon (o definirli)                     | audit+  | **headline**; serve la tabella TR-code originale o verdict master-dd |
-| TKT-TRAIT-ORPHAN-MECH  | aggiungere i 4 orphan-mechanic alla glossary via `index.json` source + `sync_missing_index.py` | piccolo | NON hand-edit glossary; passa dal source synced                      |
-| TKT-TRAIT-FLAVOR-MECH  | 106 flavor-only senza meccanica = backlog design (quali meritano un effetto)                   | design  | YAGNI: solo i tratti citati dalle specie gameplay-touched            |
-| TKT-CATALOG-REF-GUARD  | estendere lo guard CI per validare anche `species_catalog.json` trait_refs (oggi latente)      | piccolo | chiuderebbe sia i 50 TR-code sia regressioni future                  |
+| Ticket                 | Cosa                                                                                           | Effort  | Stato / nota                                                                                                                                           |
+| ---------------------- | ---------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| TKT-TRAIT-TRCODE-REMAP | rimappare i 50 `TR-####` -> slug glossary su 10 specie canon                                   | audit+  | ✅ **RESOLVED**: la mappa esisteva in-repo (`data/external/evo/traits/TR-####.json` campo `id`); 50/50 -> slug, tutti ∈ glossary; remappati in catalog |
+| TKT-CATALOG-REF-GUARD  | estendere il guard CI per validare anche `species_catalog.json` trait_refs (era latente)       | piccolo | ✅ **RESOLVED**: nuovo test in `envelope-b-data-integrity.test.js` (0 TR-code, 0 dangling); previene regressioni                                       |
+| TKT-TRAIT-ORPHAN-MECH  | aggiungere i 4 orphan-mechanic alla glossary via `index.json` source + `sync_missing_index.py` | piccolo | aperto -- NON hand-edit glossary; passa dal source synced                                                                                              |
+| TKT-TRAIT-FLAVOR-MECH  | 106 flavor-only senza meccanica = backlog design (quali meritano un effetto)                   | design  | aperto -- YAGNI: solo i tratti citati dalle specie gameplay-touched                                                                                    |
 
 ## Controlli
 
