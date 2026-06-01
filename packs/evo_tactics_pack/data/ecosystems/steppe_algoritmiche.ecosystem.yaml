@@ -1,16 +1,16 @@
 schema_version: 1.0
 ecosistema:
-  id: CANYONS_RISONANTI
-  label: Canyons Risonanti
-  biome_id: canyons_risonanti
+  id: STEPPE_ALGORITMICHE
+  label: Steppe Algoritmiche
+  biome_id: steppe_algoritmiche
   clima:
     temperatura_C:
-      media_annua: 16.0
-      min_mese_piu_freddo: -4.0
+      media_annua: 22.0
+      min_mese_piu_freddo: 5.0
       max_mese_piu_caldo: 38.0
     precipitazioni_mm:
-      totale_annuo: 180
-      indice_stagionalita: scarso
+      totale_annuo: 400
+      indice_stagionalita: gestito-irriguo
   composizione_aria:
     gas_maggiori_percento:
       N2: 78.08
@@ -18,25 +18,23 @@ ecosistema:
       Ar: 0.93
       CO2: 0.04
   abiotico:
-    salinita: fresh-arida
+    salinita: gestita-fresh
     nutrienti:
-      N: basso
-      P: medio
+      N: alto
+      P: alto
       K: alto
   trofico:
     produttori:
+    - cianobatteri
     - licheni_termocromici
-    - arbusti_xerofili
     consumatori:
-      primari: []
-      secondari:
-      - gulogluteus-scutiger
-      - ventornis-longiala
-      terziari:
-      - lithoraptor-acutornis
+      primari:
+      - terracetus-ambulator
+      secondari: []
+      terziari: []
     decompositori: []
-  note: 'Canyons Risonanti (clastic): labirinto ventoso di gole armoniche; forte escursione
-    termica, risonanza eolica.'
+  note: 'Steppe Algoritmiche (arid/agri-artificiale): pianure modulari coltivate da
+    IA agricole; base trofica = colture cianobatteriche gestite, pattern mutevoli.'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
