@@ -180,10 +180,59 @@ function listBiomeModifiers(registry) {
     }));
 }
 
+/**
+ * 2026-06-01 — read the player-invisible biome stress/narrative fields for a
+ * read-only diagnostic surface (catalog-mapping-audit §4). Exposes the DEAD
+ * biomes.yaml fields (stresswave, hazard.severity/stress_modifiers, narrative,
+ * npc_archetypes) so they are inspectable. Pure reader, ZERO combat effect
+ * (band-neutral) — does NOT feed pressure/spawn; that wire (stresswave→pressure)
+ * is a separate combat PR requiring band-verify.
+ *
+ * @param {string} biomeId
+ * @param {object} [registry]
+ * @returns {object|null}
+ */
+function getBiomeStressProfile(biomeId, registry) {
+  if (!biomeId || typeof biomeId !== 'string') return null;
+  const biomes = registry || loadBiomesConfig();
+  const cfg = biomes && biomes[biomeId];
+  if (!cfg || typeof cfg !== 'object') return null;
+  const hazard = cfg.hazard && typeof cfg.hazard === 'object' ? cfg.hazard : {};
+  return {
+    biome_id: biomeId,
+    stresswave: cfg.stresswave && typeof cfg.stresswave === 'object' ? cfg.stresswave : null,
+    hazard_severity: hazard.severity != null ? hazard.severity : null,
+    stress_modifiers:
+      hazard.stress_modifiers && typeof hazard.stress_modifiers === 'object'
+        ? hazard.stress_modifiers
+        : null,
+    narrative: cfg.narrative && typeof cfg.narrative === 'object' ? cfg.narrative : null,
+    npc_archetypes:
+      cfg.npc_archetypes && typeof cfg.npc_archetypes === 'object' ? cfg.npc_archetypes : null,
+  };
+}
+
+/**
+ * 2026-06-01 — list stress profiles for all biomes (readonly diagnostic).
+ *
+ * @param {object} [registry]
+ * @returns {Array<object>}
+ */
+function listBiomeStressProfiles(registry) {
+  const biomes = registry || loadBiomesConfig();
+  if (!biomes || typeof biomes !== 'object') return [];
+  return Object.keys(biomes)
+    .sort()
+    .map((biome_id) => getBiomeStressProfile(biome_id, biomes))
+    .filter(Boolean);
+}
+
 module.exports = {
   loadBiomesConfig,
   getBiomeModifiers,
   listBiomeModifiers,
+  getBiomeStressProfile,
+  listBiomeStressProfiles,
   applyEnemyHpMultiplier,
   _resetCache,
   DEFAULT_BIOMES_YAML,
