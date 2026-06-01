@@ -3,6 +3,26 @@ ecosistema:
   id: ABISSO_VULCANICO
   label: Abisso Vulcanico
   biome_id: abisso_vulcanico
+  clima:
+    temperatura_C:
+      media_annua: 48.0
+      min_mese_piu_freddo: 15.0
+      max_mese_piu_caldo: 95.0
+    precipitazioni_mm:
+      totale_annuo: 50
+      indice_stagionalita: scarso
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 70.0
+      O2: 16.0
+      Ar: 0.93
+      CO2: 6.0
+  abiotico:
+    salinita: saline-idrotermale
+    nutrienti:
+      N: medio
+      P: alto
+      K: medio
   trofico:
     produttori:
     - batteri_chemiosintetici
@@ -17,6 +37,9 @@ ecosistema:
       - magmocardium-furens
     decompositori:
     - basaltocara-scutata
+  note: 'Abisso Vulcanico (geothermal): camini di lava pressurizzata, shock termici;
+    chemiosintesi da sfiati solforosi (SO2/H2S).'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

@@ -3,6 +3,26 @@ ecosistema:
   id: FRATTURA_ABISSALE_SINAPTICA
   label: Frattura Abissale Sinaptica
   biome_id: frattura_abissale_sinaptica
+  clima:
+    temperatura_C:
+      media_annua: 4.0
+      min_mese_piu_freddo: 1.0
+      max_mese_piu_caldo: 12.0
+    precipitazioni_mm:
+      totale_annuo: 0
+      indice_stagionalita: abissale-acquatico
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 18.0
+      Ar: 0.93
+      CO2: 0.5
+  abiotico:
+    salinita: saline
+    nutrienti:
+      N: medio
+      P: alto
+      K: medio
   trofico:
     produttori:
     - batteri_chemiosintetici
@@ -20,6 +40,9 @@ ecosistema:
     decompositori:
     - simbionte-corallino-riflesso
     - radiluma-pendula
+  note: 'Frattura Abissale Sinaptica (deltaic/abyssal): stratificata 3 livelli, correnti
+    elettroluminescenti, pressione estrema (vault card 06).'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

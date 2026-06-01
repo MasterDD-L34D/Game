@@ -3,6 +3,26 @@ ecosistema:
   id: CANOPIA_IONICA
   label: Canopia Ionica
   biome_id: canopia_ionica
+  clima:
+    temperatura_C:
+      media_annua: 18.0
+      min_mese_piu_freddo: 6.0
+      max_mese_piu_caldo: 30.0
+    precipitazioni_mm:
+      totale_annuo: 1600
+      indice_stagionalita: perenne
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.04
+  abiotico:
+    salinita: fresh
+    nutrienti:
+      N: medio
+      P: medio
+      K: medio
   trofico:
     produttori:
     - piante_superiori
@@ -14,6 +34,9 @@ ecosistema:
       - soniptera-resonans
       - sonaraptor-dissonans
     decompositori: []
+  note: 'Canopia Ionica (canopy): foresta verticale sospesa da campi elettrostatici,
+    rampicanti conduttivi; ozono di traccia.'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT
