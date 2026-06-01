@@ -33,6 +33,9 @@ tags:
 > **Scopo**: master-dd sceglie _cosa_ costruire e _in che ordine_. NON costruire
 > tutto e quattro insieme. Cheapest-high-ROI prima; i fork pesanti (symbiont,
 > minion) per ultimi o deferred.
+>
+> **Numerazione**: gli slice sono numerati **in ordine di build** (slice 1 =
+> primo da costruire). L'ordine rispetta le dipendenze tra slice (vedi §3-§4).
 
 ## 0. TL;DR per master-dd (1 schermata)
 
@@ -53,12 +56,17 @@ leggerebbe, non perché manca il dispatch.
 
 | #   | Slice                           | Effort | Tag sbloccati | Fork?          |
 | --- | ------------------------------- | ------ | ------------- | -------------- |
-| 1   | `silent_step` last-ability      | XS     | 1             | no             |
-| 2   | PE pool (combat-scoped)         | S      | 1 (+1 ready)  | naming verdict |
-| 3   | Defense-passive eval + aura     | XS     | 1             | no             |
+| 1   | Defense-passive eval + aura     | XS     | 1             | no             |
+| 2   | `silent_step` last-ability      | XS     | 1             | no             |
+| 3   | PE pool (combat-scoped)         | S      | 1 (+1 ready)  | naming verdict |
 | 4   | Mutation/phenotype use-hook (F) | M      | 7             | no             |
 | 5   | Symbiont bond-redirect (C/D/G)  | L      | 8             | **sì**         |
 | 6   | Minion runtime (E + capstone C) | XL     | 8             | **sì**         |
+
+> **Ordine load-bearing**: slice 1 (def-eval) **prima** di slice 2 (silent_step)
+> perché `defense_after_silent` — il tag che slice 2 sblocca — **consuma il seam
+> difensivo che slice 1 costruisce**. Invertirli farebbe shippare uno slice 2 con
+> il tag ancora bloccato (fix Codex P2 #2506).
 
 **Raccomandazione**: ship 1→4 (≈10 tag, zero fork, ≈3-4 sessioni totali). POI
 decidi i 2 fork (5, 6) uno per volta. Il **minion (6)** è il candidato a restare
@@ -108,66 +116,88 @@ che i 4 sottosistemi + 2 micro-gap producono.
 
 ### 1c. Mappa COMPLETA dei 32 tag → stato + sottosistema
 
-| Tag                            | Job         | Stato          | Sblocco da                       |
-| ------------------------------ | ----------- | -------------- | -------------------------------- |
-| `apex_first_strike`            | stalker     | ✅ wired #2470 | —                                |
-| `random_double_dmg_chance`     | aberrant    | ✅ wired #2470 | —                                |
-| `kill_buff_attack`             | stalker     | ✅ wired #2474 | —                                |
-| `eternal_kill_buff`            | stalker     | ✅ wired #2474 | —                                |
-| `execution_bonus`              | stalker     | ✅ wired (pre) | —                                |
-| `isolated_target_bonus`        | stalker     | ✅ wired (pre) | —                                |
-| `defense_after_silent`         | stalker     | 🔴 blocked     | (1) silent_step last-ability     |
-| `first_kill_pe_bonus`          | stalker     | 🔴 blocked     | (2) PE pool                      |
-| `aura_defense_2tile`           | symbiont    | 🔴 blocked     | (3) defense-passive eval         |
-| `mutation_status_extend`       | aberrant    | 🔴 blocked     | (4) mutation use-hook            |
-| `phenotype_baseline_heal`      | aberrant    | 🔴 blocked     | (4) mutation use-hook            |
-| `mutation_chain_on_kill`       | aberrant    | 🔴 blocked     | (4) mutation use-hook + kill     |
-| `double_phenotype_roll`        | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)    |
-| `sg_on_mutation_burst`         | aberrant    | 🔴 blocked     | (4) mutation use-hook            |
-| `perfect_mutation_burst`       | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)    |
-| `phenotype_double_use`         | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)    |
-| `bond_redirect_strong`         | symbiont    | 🔴 blocked     | (5) symbiont bond                |
-| `dual_bond`                    | symbiont    | 🔴 blocked     | (5) symbiont bond                |
-| `bond_no_distance_limit`       | symbiont    | 🔴 blocked     | (5) symbiont bond                |
-| `bonded_death_grace`           | symbiont    | 🔴 blocked     | (5) symbiont bond                |
-| `emergency_full_redirect`      | symbiont    | 🔴 blocked     | (5) symbiont bond                |
-| `shared_hp_pool`               | symbiont    | 🔴 blocked     | (5) symbiont bond (invasivo)     |
-| `bonded_proximity_defense`     | symbiont    | 🔴 blocked     | (5) symbiont bond + (3) def-eval |
-| `chain_heal_adjacent`          | symbiont    | 🔴 blocked     | (5) symbiont bond (heal)         |
-| `minion_attack_buff`           | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `minion_proximity_dmg`         | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `encounter_start_buff_minions` | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `max_minions`                  | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `pack_command_extended_range`  | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `minion_resurrect_chance`      | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `alpha_pack_buff`              | beastmaster | 🔴 blocked     | (6) minion runtime               |
-| `minion_kill_pe_bonus`         | beastmaster | 🔴 blocked     | (6) minion + (2) PE (co-req)     |
+| Tag                            | Job         | Stato          | Sblocco da                          |
+| ------------------------------ | ----------- | -------------- | ----------------------------------- |
+| `apex_first_strike`            | stalker     | ✅ wired #2470 | —                                   |
+| `random_double_dmg_chance`     | aberrant    | ✅ wired #2470 | —                                   |
+| `kill_buff_attack`             | stalker     | ✅ wired #2474 | —                                   |
+| `eternal_kill_buff`            | stalker     | ✅ wired #2474 | —                                   |
+| `execution_bonus`              | stalker     | ✅ wired (pre) | —                                   |
+| `isolated_target_bonus`        | stalker     | ✅ wired (pre) | —                                   |
+| `aura_defense_2tile`           | symbiont    | 🔴 blocked     | (1) defense-passive eval            |
+| `defense_after_silent`         | stalker     | 🔴 blocked     | (2) silent_step + (1) def-eval seam |
+| `first_kill_pe_bonus`          | stalker     | 🔴 blocked     | (3) PE pool                         |
+| `mutation_status_extend`       | aberrant    | 🔴 blocked     | (4) mutation use-hook               |
+| `phenotype_baseline_heal`      | aberrant    | 🔴 blocked     | (4) mutation use-hook               |
+| `mutation_chain_on_kill`       | aberrant    | 🔴 blocked     | (4) mutation use-hook + kill        |
+| `double_phenotype_roll`        | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)       |
+| `sg_on_mutation_burst`         | aberrant    | 🔴 blocked     | (4) mutation use-hook               |
+| `perfect_mutation_burst`       | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)       |
+| `phenotype_double_use`         | aberrant    | 🔴 blocked     | (4) mutation use-hook (+roll)       |
+| `bond_redirect_strong`         | symbiont    | 🔴 blocked     | (5) symbiont bond                   |
+| `dual_bond`                    | symbiont    | 🔴 blocked     | (5) symbiont bond                   |
+| `bond_no_distance_limit`       | symbiont    | 🔴 blocked     | (5) symbiont bond                   |
+| `bonded_death_grace`           | symbiont    | 🔴 blocked     | (5) symbiont bond                   |
+| `emergency_full_redirect`      | symbiont    | 🔴 blocked     | (5) symbiont bond                   |
+| `shared_hp_pool`               | symbiont    | 🔴 blocked     | (5) symbiont bond (invasivo)        |
+| `bonded_proximity_defense`     | symbiont    | 🔴 blocked     | (5) symbiont bond + (1) def-eval    |
+| `chain_heal_adjacent`          | symbiont    | 🔴 blocked     | (5) symbiont bond (heal)            |
+| `minion_attack_buff`           | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `minion_proximity_dmg`         | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `encounter_start_buff_minions` | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `max_minions`                  | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `pack_command_extended_range`  | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `minion_resurrect_chance`      | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `alpha_pack_buff`              | beastmaster | 🔴 blocked     | (6) minion runtime                  |
+| `minion_kill_pe_bonus`         | beastmaster | 🔴 blocked     | (6) minion + (3) PE (co-req)        |
 
-Conteggio: **6 wired + 26 blocked = 32** ✓. Blocked per slice: (1)=1, (2)=1 pieno
-[+`minion_kill_pe_bonus` co-req], (3)=1, (4)=7, (5)=8, (6)=8. `minion_kill_pe_bonus`
-conta su (6) perché la sorgente-kill è il minion; PE è co-requisito.
+Conteggio: **6 wired + 26 blocked = 32** ✓. Blocked per slice: (1)=1, (2)=1,
+(3)=1 pieno [+`minion_kill_pe_bonus` co-req], (4)=7, (5)=8, (6)=8.
+`minion_kill_pe_bonus` conta su (6) perché la sorgente-kill è il minion; PE è
+co-requisito.
 
 ---
 
 ## 2. Per-subsystem scoping
 
 Effort in "sessioni" (1 sessione ≈ mezza giornata focalizzata spec+TDD+PR). Tutti
-multi-step; nessuno è un one-liner. Blast radius = quanti file core tocca.
+multi-step; nessuno è un one-liner. Blast radius = quanti file core tocca. Gli
+slice sono presentati **in ordine di build**.
 
-### Slice 1 — `silent_step` last-ability tracking (micro-gap)
+### Slice 1 — Defense-passive eval + `aura_defense_2tile`
 
-- **Cos'è**: `defense_after_silent` (st*r2_camo_protocol) vuole +2 def nel turno
-  \_dopo* aver usato `silent_step`. Serve sapere "l'ultima ability usata è stata
-  `silent_step`" a livello **ability-id**.
+- **Cos'è**: oggi esiste solo `computePerkDamageBonus` (offensivo). I tag passive
+  **difensivi** (`aura_defense_2tile`, e poi `defense_after_silent`,
+  `bonded_proximity_defense`) non hanno un punto di aggregazione. Serve un sibling
+  `computePerkDefenseBonus(actor, ctx)` chiamato nel damage-taken path.
+- **Seam**: nuova funzione gemella in `progressionApply.js` + hook nel punto dove
+  si calcola `dc`/DR del difensore (resolveAttack defender side). `aura_defense_2tile`
+  = 1 case (conta alleati entro Manhattan ≤2). Questo seam **serve anche** slice 2
+  (`defense_after_silent`) e slice 5 (`bonded_proximity_defense`) → è il
+  prerequisito comune, perciò va **per primo**.
+- **Effort**: **XS-S** (~0.5-1 sessione). **Blast radius**: medio (tocca il
+  defender side di resolveAttack — core damage path, ma additivo).
+- **Sblocca**: `aura_defense_2tile` (**1 tag**, standalone) + abilita slice 2 e
+  parte di slice 5.
+
+### Slice 2 — `silent_step` last-ability tracking (micro-gap)
+
+- **Cos'è**: `defense_after_silent` (`st_r2_camo_protocol`) vuole +2 def nel turno
+  **successivo** all'uso di `silent_step`. Serve sapere "l'ultima ability usata è
+  stata `silent_step`" a livello **ability-id**.
 - **Seam**: estendere il tracking esistente `last_action_type`
   (`sessionRoundBridge.js:1632,1687`, oggi coarse) con un `actor._last_ability_id`
   settato in `abilityExecutor` post-`appendEvent` (l'evento ha già `ability_id`).
-  Nuovo `case` in un eval **difensivo** (vedi slice 3) o in un decay end-of-round.
+  Il `case` `defense_after_silent` vive nell'**eval difensivo di slice 1** (che a
+  questo punto esiste già) o in un decay end-of-round.
+- **Dipendenza**: **richiede il seam difensivo di slice 1**. Da solo, slice 2 può
+  al massimo registrare `_last_ability_id` ma non applica il +2 def finché slice 1
+  non è landato — per questo slice 1 viene prima (fix Codex P2 #2506).
 - **Effort**: **XS** (~0.5 sessione). **Blast radius**: basso (1 campo + 1 set +
   1 case + 1 decay tick).
 - **Sblocca**: `defense_after_silent` (**1 tag**).
 
-### Slice 2 — PE pool (combat-scoped)
+### Slice 3 — PE pool (combat-scoped)
 
 - **Cos'è**: pool risorsa "Punti Evoluzione" usato da aberrant
   (`aberrant_overdrive` `cost_pe: 5` + trigger `PE>=5`) e guadagnato dai perk
@@ -178,26 +208,11 @@ multi-step; nessuno è un one-liner. Blast radius = quanti file core tocca.
   `applyPerkKillEffects` (`:232`, già l'hook kill). Spend/gate = check in
   `abilityExecutor` cost-resolution. `sgTracker.js` (accumulate/cap/per-turn-cap)
   è il template strutturale clonabile.
-- **Effort**: **S** (~1 sessione) _meccanicamente_. **MA** vedi §5-fork: collisione
-  naming con la PE meta (vedi OQ-PE).
+- **Effort**: **S** (~1 sessione) _meccanicamente_. **MA** vedi OQ-PE: collisione
+  naming con la PE meta.
 - **Blast radius**: medio (normaliseUnit + cost-resolution path + kill hook).
 - **Sblocca**: `first_kill_pe_bonus` (**1 tag pieno**) + prepara
-  `minion_kill_pe_bonus` (sblocca quando arriva il minion).
-
-### Slice 3 — Defense-passive eval + `aura_defense_2tile`
-
-- **Cos'è**: oggi esiste solo `computePerkDamageBonus` (offensivo). I tag passive
-  **difensivi** (`aura_defense_2tile`, e poi `bonded_proximity_defense`,
-  `defense_after_silent`) non hanno un punto di aggregazione. Serve un sibling
-  `computePerkDefenseBonus(actor, ctx)` chiamato nel damage-taken path.
-- **Seam**: nuova funzione gemella in `progressionApply.js` + hook nel punto dove
-  si calcola `dc`/DR del difensore (resolveAttack defender side). `aura_defense_2tile`
-  = 1 case (conta alleati entro Manhattan ≤2). Questo seam **serve anche** slice 1
-  (`defense_after_silent`) e slice 5 (`bonded_proximity_defense`) → investimento
-  che ammortizza.
-- **Effort**: **XS-S** (~0.5-1 sessione). **Blast radius**: medio (tocca il
-  defender side di resolveAttack — core damage path, ma additivo).
-- **Sblocca**: `aura_defense_2tile` (**1 tag**) + abilita slice 1 e parte di 5.
+  `minion_kill_pe_bonus` (sblocca quando arriva il minion, slice 6).
 
 ### Slice 4 — Mutation/phenotype use-hook (Cat F)
 
@@ -249,7 +264,7 @@ partner_id, redirect_pct, ... }`); (b) **intercettazione danno** nel damage
   - death/KO + targeting UX).
 - **Sblocca**: **8 tag** (`bond_redirect_strong`, `dual_bond`,
   `bond_no_distance_limit`, `bonded_death_grace`, `emergency_full_redirect`,
-  `shared_hp_pool`, `bonded_proximity_defense` [+ slice 3], `chain_heal_adjacent`).
+  `shared_hp_pool`, `bonded_proximity_defense` [+ slice 1], `chain_heal_adjacent`).
 
 ### Slice 6 — Minion runtime (Cat E + capstone C) — **FORK GRANDE**
 
@@ -267,7 +282,7 @@ partner_id, redirect_pct, ... }`); (b) **intercettazione danno** nel damage
 - **Sblocca**: **8 tag** (`minion_attack_buff`, `minion_proximity_dmg`,
   `encounter_start_buff_minions`, `max_minions`, `pack_command_extended_range`,
   `minion_resurrect_chance`, `alpha_pack_buff`, `minion_kill_pe_bonus` [co-req
-  PE]).
+  PE, slice 3]).
 - **Candidato DEFERRED / post-MVP**: ROI peggiore (8 tag / ~5 sessioni = 1.6) +
   design surface più grande + tocca co-op (rischio regressione P5).
 
@@ -280,34 +295,42 @@ partner_id, redirect_pct, ... }`); (b) **intercettazione danno** nel damage
                     ├── computePerkDamageBonus      (offensivo)   ✅ live
                     ├── applyPerkKillEffects         (on-kill)     ✅ live
                     ├── computePerkCombatModifiers   (mult/DR)     ✅ live
-                    └── [computePerkDefenseBonus]    (difensivo)   ← slice 3 (NEW)
+                    └── [computePerkDefenseBonus]    (difensivo)   ← slice 1 (NEW)
 
-  slice 1 silent_step ──► defense_after_silent           (usa slice 3 eval)
-  slice 2 PE pool ──────► first_kill_pe_bonus
+  slice 1 def-eval ─────► aura_defense_2tile          (seam difensivo, NO dep)
+                          └─ abilita slice 2 + parte di slice 5
+  slice 2 silent_step ──► defense_after_silent        (USA il seam di slice 1)
+  slice 3 PE pool ──────► first_kill_pe_bonus
                           minion_kill_pe_bonus  ◄── co-req ── slice 6 minion
-  slice 3 def-eval ─────► aura_defense_2tile
-                          bonded_proximity_defense ◄── anche slice 5
   slice 4 use-hook ─────► 7× Cat F          (sub-dep: random-roll OQ-F)
-  slice 5 bond  FORK ───► 8× Cat C/D/G      (riusa intercept-reroute hook)
+  slice 5 bond  FORK ───► 8× Cat C/D/G      (riusa intercept-reroute hook; usa slice 1 def-eval)
   slice 6 minion FORK ──► 8× Cat E + alpha  (nuovo unit type; tocca co-op)
 ```
 
+Archi di dipendenza espliciti: **slice 2 → slice 1** (def_after_silent usa il seam
+difensivo), **slice 5 → slice 1** (bonded_proximity_defense usa lo stesso seam),
+**slice 6 → slice 3** (minion_kill_pe_bonus usa il pool PE). Tutto il resto è
+indipendente.
+
 ### ROI ranking (tag sbloccati / effort)
+
+Ranking per ROI (non per ordine di build — l'ordine di build rispetta le
+dipendenze sopra).
 
 | Rank | Slice                 | Tag | Effort (sess) | ROI (tag/sess) | Fork   |
 | ---- | --------------------- | --- | ------------- | -------------- | ------ |
 | 1    | 4 — mutation use-hook | 7   | ~1.5          | **~4.7**       | no     |
-| 2    | 1 — silent_step       | 1   | ~0.5          | ~2.0           | no     |
-| 2    | 3 — def-eval + aura   | 1   | ~0.5-1        | ~1.5-2.0       | no     |
+| 2    | 2 — silent_step       | 1   | ~0.5          | ~2.0           | no     |
+| 2    | 1 — def-eval + aura   | 1   | ~0.5-1        | ~1.5-2.0       | no     |
 | 4    | 5 — symbiont bond     | 8   | ~4            | ~2.0           | sì     |
-| 5    | 2 — PE pool           | 1   | ~1            | ~1.0 (+ready)  | naming |
+| 5    | 3 — PE pool           | 1   | ~1            | ~1.0 (+ready)  | naming |
 | 6    | 6 — minion runtime    | 8   | ~5            | **~1.6**       | sì     |
 
 Note ROI:
 
 - **Slice 4 vince in bulk-ROI** (7 tag, nessun fork) — ma ha la sub-dep random-roll
   (OQ-F) che può alzarlo a ~M+M.
-- **Slice 2 (PE)** ha ROI assoluto basso (1 tag pieno) ma è **meccanicamente
+- **Slice 3 (PE)** ha ROI assoluto basso (1 tag pieno) ma è **meccanicamente
   minuscolo** (mirror sg/mp) e **compone** col minion (sblocca il 2° tag PE) →
   vale come fondamenta cheap.
 - **Slice 6 (minion)** ha il peggior ROI _e_ il blast radius maggiore _e_ tocca
@@ -317,27 +340,29 @@ Note ROI:
 
 ## 4. Recommended build SEQUENCE
 
-Cheapest-high-ROI prima. Ogni step = proprio `spec → TDD → PR` (pattern GAP-C).
-Step 1-4 sono **zero-fork** e si possono shippare in sequenza senza verdict di
-design (solo OQ-PE su step 2 e OQ-F su step 4).
+Cheapest-high-ROI prima, **rispettando le dipendenze**. Ogni step = proprio
+`spec → TDD → PR` (pattern GAP-C). Step 1-4 sono **zero-fork** e si possono
+shippare in sequenza senza verdict di design (solo OQ-PE su step 3 e OQ-F su
+step 4). Slice-number = ordine di build (vedi §0).
 
-| Ordine | Slice                     | Perché qui                                                               | Gate                   |
-| ------ | ------------------------- | ------------------------------------------------------------------------ | ---------------------- |
-| **1**  | silce 1 `silent_step`     | Cheapest assoluto, self-contained, riscalda il pattern last-ability      | —                      |
-| **2**  | slice 3 def-eval + aura   | Sblocca 1 tag MA crea il seam difensivo che serve a 1 e 5 (ammortizza)   | —                      |
-| **3**  | slice 2 PE pool           | Fondamenta cheap; enforce `cost_pe` aberrant; prepara minion-kill-PE     | **OQ-PE** (naming)     |
-| **4**  | slice 4 mutation use-hook | Best bulk-ROI (7 tag), nessun fork                                       | **OQ-F** (random-roll) |
-| **5**  | slice 5 symbiont bond     | Primo fork. Riusa intercept-reroute. 8 tag. Verdict design necessario    | **OQ-BOND**            |
-| **6**  | slice 6 minion runtime    | Fork più grande, ROI peggiore, tocca co-op → **valutare DEFER post-MVP** | **OQ-MINION**          |
+| Step  | Slice                     | Perché qui                                                                         | Gate                   |
+| ----- | ------------------------- | ---------------------------------------------------------------------------------- | ---------------------- |
+| **1** | slice 1 def-eval + aura   | Crea il seam difensivo + sblocca `aura_defense_2tile` standalone; prereq di 2 e 5  | —                      |
+| **2** | slice 2 `silent_step`     | Usa il seam di slice 1 per completare `defense_after_silent`; warm-up last-ability | —                      |
+| **3** | slice 3 PE pool           | Fondamenta cheap; enforce `cost_pe` aberrant; prepara minion-kill-PE               | **OQ-PE** (naming)     |
+| **4** | slice 4 mutation use-hook | Best bulk-ROI (7 tag), nessun fork                                                 | **OQ-F** (random-roll) |
+| **5** | slice 5 symbiont bond     | Primo fork. Riusa intercept-reroute + seam def di slice 1. 8 tag                   | **OQ-BOND**            |
+| **6** | slice 6 minion runtime    | Fork più grande, ROI peggiore, tocca co-op → **valutare DEFER post-MVP**           | **OQ-MINION**          |
 
 **Milestone "no-fork" (step 1-4)**: ~3-4 sessioni → **10 tag wired** (10/26 =
 38% dei bloccati) senza alcun fork architetturale né nuovo unit type. Ottimo
 punto di pausa/playtest prima di committare ai 2 fork pesanti.
 
-**Bundling opzionale**: step 1+2+3 sono tutti XS/S e tutti toccano
-`progressionApply.js` + il defender path → potrebbero essere **1 PR cluster
-"micro-passives + def-eval + PE foundation"** (~1.5 sessioni) invece di 3 PR
-separati, se master-dd preferisce meno overhead PR. Step 4/5/6 restano discreti.
+**Bundling opzionale**: step 1+2+3 sono tutti XS/S, ordinati per dipendenza, e
+tutti toccano `progressionApply.js` + il defender/kill path → potrebbero essere
+**1 PR cluster "def-eval + silent_step + PE foundation"** (~1.5 sessioni) invece
+di 3 PR separati, se master-dd preferisce meno overhead PR. Step 4/5/6 restano
+discreti.
 
 ---
 
@@ -441,7 +466,7 @@ chain/streak). Il grosso del lavoro è l'**hook on-ability-use** + la random-rol
 
 ## 8. Next action suggerita
 
-Master-dd sceglie **1 slice** (raccomandato: partire da step 1-2-3 bundle, o
-direttamente slice 4 se si vuole il bulk-ROL e si risponde a OQ-F). Quello slice
+Master-dd sceglie **1 slice** (raccomandato: partire dal bundle step 1-2-3, o
+direttamente slice 4 se si vuole il bulk-ROI e si risponde a OQ-F). Quello slice
 diventa la prossima spec dedicata `spec → TDD → PR`. I fork (5, 6) restano gated
 sui rispettivi OQ; il minion (6) è il candidato esplicito a deferred/post-MVP.
