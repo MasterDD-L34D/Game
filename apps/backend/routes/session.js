@@ -3199,7 +3199,9 @@ function createSessionRouter(options = {}) {
         (u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0,
       ).length;
       const playerAlive = session.units.filter(
-        (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
+        // TKT-JOB-PHASEC B5: minions are expendable (V4) — exclude from the
+        // party-wipe lose-condition so a lone surviving minion is not a "party".
+        (u) => u.controlled_by === 'player' && !u.is_minion && (u.hp ?? 0) > 0,
       ).length;
       // ADR-2026-04-20: objective evaluator prende precedenza su elimination
       // fallback quando encounter.objective.type è definito.
@@ -3227,7 +3229,8 @@ function createSessionRouter(options = {}) {
         try {
           const woundedPerma = require('../services/combat/woundedPerma');
           for (const u of session.units || []) {
-            if (u && u.controlled_by === 'player' && Number(u.hp || 0) <= 0) {
+            // B5: minions are expendable, not campaign units — never scar them.
+            if (u && u.controlled_by === 'player' && !u.is_minion && Number(u.hp || 0) <= 0) {
               woundedPerma.applyWound(u, session.lastMissionWoundedPerma);
             }
           }

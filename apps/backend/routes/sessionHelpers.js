@@ -103,6 +103,9 @@ function normaliseUnit(raw, fallbackIndex) {
     // M16 P0-1 — owner_id mapping player→unit per co-op Jackbox flow.
     // Set solo per unità player-controlled; enemy restano null.
     owner_id: input.owner_id ? String(input.owner_id) : null,
+    // TKT-JOB-PHASEC B5 — minion marker (expendable, beastmaster-summoned). Default
+    // false so every existing unit is a normal player/sistema unit (band-neutral).
+    is_minion: input.is_minion === true,
     name: input.name ? String(input.name) : null,
     form_id: input.form_id ? String(input.form_id) : null,
     resistance_archetype: resistanceArchetype,
