@@ -109,9 +109,9 @@ function normaliseUnit(raw, fallbackIndex) {
     // V5 SG pool — preserve from input so save-load + tests carry value through.
     // sgTracker.initUnit will keep this if already set, otherwise default to 0.
     sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
-    // TKT-JOB-PHASEC slice 3 — PE combat pool (OQ-PE verdict B: combat-scoped,
-    // separate from the meta evolution-PE). Earned via first_kill_pe_bonus,
-    // spent by aberrant cost_pe abilities. Default 0, preserved from input.
+    // PE-canon re-label (#2527): `pe` = campaign XP (26-ECONOMY_CANONICAL), NOT a
+    // combat resource. Preserved here as a read-only pass-through; combat NEVER
+    // writes it (the aberrant combat cost is cost_sg). Default 0.
     pe: Number.isFinite(Number(input.pe)) ? Number(input.pe) : 0,
     // Sprint Spore Moderate — preserve species_id (alias di species), applied_mutations,
     // mp pool, lineage_id. Necessari per:

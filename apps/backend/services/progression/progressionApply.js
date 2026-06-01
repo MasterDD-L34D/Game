@@ -16,12 +16,6 @@ const { ProgressionEngine } = require('./progressionEngine');
 const { createProgressionStore } = require('./progressionStore');
 // SG pool cap — perk SG earns must clamp to sgTracker POOL_MAX (Codex P2 #2524).
 const { POOL_MAX: SG_POOL_MAX } = require('../combat/sgTracker');
-// TKT-JOB-PHASEC OQ-PE (PE-complete): base PE earned per mutation_burst use.
-// Tunable. The aberrant job header declares resource_usage.primary = PE, but the
-// only PE-earn perks live on stalker/beastmaster (earn/spend were on different
-// jobs => aberrant_overdrive cost_pe:5 was uncastable). This gives aberrant a
-// base PE source via its signature action so overdrive is reachable by play.
-const PE_ON_MUTATION_BURST = 1;
 
 let _defaultEngine = null;
 let _defaultStore = null;
@@ -241,23 +235,6 @@ function applyPerkKillEffects(actor) {
   const out = { applied: [] };
   const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
   if (passives.length === 0) return out;
-
-  // TKT-JOB-PHASEC slice 3 — first_kill_pe_bonus: earn PE on the first kill of
-  // the encounter (guarded by _first_kill_pe_done). Independent of the attack
-  // buffs below, so it runs before the eternal/temp early-return.
-  const firstKillPe = passives.find((p) => p.tag === 'first_kill_pe_bonus');
-  if (firstKillPe && !actor._first_kill_pe_done) {
-    const amt = Number(firstKillPe.payload?.pe) || 0;
-    if (amt !== 0) {
-      actor.pe = Number(actor.pe || 0) + amt;
-      actor._first_kill_pe_done = true;
-      out.applied.push({
-        tag: 'first_kill_pe_bonus',
-        pe: amt,
-        source_perk_id: firstKillPe.source_perk_id,
-      });
-    }
-  }
 
   const eternal = passives.find((p) => p.tag === 'eternal_kill_buff');
   if (eternal) {
@@ -513,34 +490,6 @@ function applyMutationChainRefund(actor, costAp) {
 }
 
 /**
- * Base (non-perk) on-ability-use resource earn. Currently: aberrant earns PE on
- * mutation_burst, once per round (tracked via _pe_on_mb_round). Kept SEPARATE
- * from applyPerkAbilityUseEffects so the perk hook keeps its "no perks = no-op"
- * contract. Called post-2xx from executeAbility, alongside the perk hook.
- *
- * @param {object} actor - the unit that used the ability
- * @param {string} abilityId - the ability_id just resolved
- * @param {object} ctx - { round? } current round number for the per-round cap
- * @returns {{ applied: Array<object> }}
- */
-function applyBaseAbilityResourceEarn(actor, abilityId, ctx = {}) {
-  const out = { applied: [] };
-  if (!actor || abilityId !== 'mutation_burst') return out;
-  // Codex P2 #2526: PE is the aberrant resource and mutation_burst is the aberrant
-  // ability. executeAbility looks abilities up from the global catalog (not the
-  // actor's list), so without this gate a non-aberrant unit submitting
-  // ability_id:'mutation_burst' could farm PE to satisfy cost_pe gates.
-  if (actor.job !== 'aberrant') return out;
-  const round = ctx.round;
-  if (actor._pe_on_mb_round === round) return out;
-  const before = Number(actor.pe || 0);
-  actor.pe = before + PE_ON_MUTATION_BURST;
-  actor._pe_on_mb_round = round;
-  out.applied.push({ tag: 'pe_on_mutation_burst', pe: actor.pe - before });
-  return out;
-}
-
-/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -590,7 +539,6 @@ module.exports = {
   applyPerkKillEffects,
   applyPerkAbilityUseEffects,
   applyMutationChainRefund,
-  applyBaseAbilityResourceEarn,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start
