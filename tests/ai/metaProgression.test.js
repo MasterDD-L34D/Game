@@ -12,6 +12,7 @@ const assert = require('node:assert/strict');
 
 const {
   createMetaTracker,
+  createMetaStore,
   RECRUIT_AFFINITY_MIN,
   RECRUIT_TRUST_MIN,
   MATING_TRUST_MIN,
@@ -352,4 +353,97 @@ test('isolation: separate trackers do not share state', () => {
   const t2 = createMetaTracker();
   t1.updateAffinity('npc_1', 2);
   assert.equal(t2.listNpcs().length, 0);
+});
+
+// --- species enrichment (producer-side persist seam) ---
+
+test('sync recruit(npcId, speciesId): stores species_id on the npc', () => {
+  const tracker = createMetaTracker();
+  tracker.updateAffinity('npc_s', 1);
+  tracker.updateTrust('npc_s', 2);
+  const result = tracker.recruit('npc_s', 'dune_stalker');
+  assert.equal(result.success, true);
+  assert.equal(result.npc.species_id, 'dune_stalker');
+});
+
+test('sync recruit without speciesId: no species_id set (back-compat)', () => {
+  const tracker = createMetaTracker();
+  tracker.updateAffinity('npc_t', 1);
+  tracker.updateTrust('npc_t', 2);
+  const result = tracker.recruit('npc_t');
+  assert.equal(result.success, true);
+  assert.equal(result.npc.species_id, undefined);
+});
+
+test('sync recruit does NOT overwrite an existing species_id', () => {
+  const tracker = createMetaTracker();
+  tracker.updateAffinity('npc_u', 1);
+  tracker.updateTrust('npc_u', 2);
+  tracker.recruit('npc_u', 'first_sp');
+  const second = tracker.recruit('npc_u', 'second_sp');
+  assert.equal(second.success, false);
+});
+
+function makeFakePrisma(initialRelation = null) {
+  let rel = initialRelation;
+  return {
+    npcRelation: {
+      findUnique: async () => rel,
+      upsert: async () => rel,
+      create: async ({ data }) => {
+        rel = {
+          id: 'rel_1',
+          affinity: 0,
+          trust: 0,
+          recruited: false,
+          mated: false,
+          matingCooldown: 0,
+          traitIds: '[]',
+          speciesId: null,
+          ...data,
+        };
+        return rel;
+      },
+      update: async ({ data }) => {
+        rel = { ...rel, ...data };
+        return rel;
+      },
+    },
+  };
+}
+
+test('adapter recruit(npcId, speciesId): persists species + toNpcShape surfaces it', async () => {
+  const prisma = makeFakePrisma({
+    id: 'rel_1',
+    npcId: 'n1',
+    affinity: 1,
+    trust: 2,
+    recruited: false,
+    mated: false,
+    matingCooldown: 0,
+    traitIds: '[]',
+    speciesId: null,
+  });
+  const store = createMetaStore({ prisma, campaignId: 'run-1' });
+  const result = await store.recruit('n1', 'dune_stalker');
+  assert.equal(result.success, true);
+  assert.equal(result.npc.species_id, 'dune_stalker');
+});
+
+test('adapter recruit without speciesId: species_id stays undefined in shape', async () => {
+  const prisma = makeFakePrisma({
+    id: 'rel_1',
+    npcId: 'n2',
+    affinity: 1,
+    trust: 2,
+    recruited: false,
+    mated: false,
+    matingCooldown: 0,
+    traitIds: '[]',
+    speciesId: null,
+  });
+  const store = createMetaStore({ prisma, campaignId: 'run-1' });
+  const result = await store.recruit('n2');
+  assert.equal(result.success, true);
+  assert.equal(result.npc.species_id, undefined);
 });

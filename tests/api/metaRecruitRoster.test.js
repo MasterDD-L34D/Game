@@ -160,3 +160,44 @@ test('recruit with NO campaign_id — falls back to shared store (factory not ca
   await request(app).post('/api/meta/recruit').send({ npc_id: 'npc_Y' }).expect(200);
   assert.equal(factoryCalled, false);
 });
+
+test('recruit with species_id → store.recruit gets it AND roster spec carries it', async () => {
+  const rosterCalls = [];
+  let recruitArgs = null;
+  const fakeStore = {
+    recruit: async (npc_id, species_id) => {
+      recruitArgs = { npc_id, species_id };
+      return { success: true, npc: { npc_id, recruited: true, trait_ids: [], species_id } };
+    },
+    updateAffinity: async () => {},
+    updateTrust: async () => {},
+  };
+  const fakeRoster = {
+    upsert: async (campaignId, spec) => {
+      rosterCalls.push({ campaignId, spec });
+    },
+    get: async () => [],
+  };
+  const app = express();
+  app.use(express.json());
+  app.use('/api/meta', createMetaRouter({ store: fakeStore, rosterStore: fakeRoster }));
+  const res = await request(app)
+    .post('/api/meta/recruit')
+    .send({ npc_id: 'npc_sp', campaign_id: 'run-1', species_id: 'dune_stalker' })
+    .expect(200);
+  assert.equal(res.body.success, true);
+  assert.equal(recruitArgs.species_id, 'dune_stalker');
+  assert.equal(rosterCalls.length, 1);
+  assert.equal(rosterCalls[0].spec.species_id, 'dune_stalker');
+});
+
+test('recruit without species_id → roster spec has no species_id (back-compat)', async () => {
+  const rosterCalls = [];
+  const app = makeApp({ recruitResult: SUCCESS, rosterCalls });
+  await request(app)
+    .post('/api/meta/recruit')
+    .send({ npc_id: 'npc_ns', campaign_id: 'run-1' })
+    .expect(200);
+  assert.equal(rosterCalls.length, 1);
+  assert.equal(rosterCalls[0].spec.species_id, undefined);
+});

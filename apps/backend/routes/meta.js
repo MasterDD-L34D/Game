@@ -178,7 +178,7 @@ function createMetaRouter(opts = {}) {
   // Already-recruited gate is still respected via store.recruit reason.
   router.post('/recruit', async (req, res, next) => {
     try {
-      const { npc_id, source_session_id, affinity_at_recruit } = req.body || {};
+      const { npc_id, source_session_id, affinity_at_recruit, species_id } = req.body || {};
       if (!npc_id) return res.status(400).json({ error: 'npc_id required' });
 
       const campaignId = (req.body && req.body.campaign_id) || null;
@@ -196,7 +196,7 @@ function createMetaRouter(opts = {}) {
         await recruitStore.updateTrust(npc_id, 2);
       }
 
-      const result = await recruitStore.recruit(npc_id);
+      const result = await recruitStore.recruit(npc_id, species_id);
 
       // link-2 — persist the recruited NPC into the run-scoped party_rosters so
       // it shows in the Nido roster. Best-effort: a roster failure must never
@@ -206,6 +206,7 @@ function createMetaRouter(opts = {}) {
           await rosterStore.upsert(campaignId, {
             unit_id: npc_id,
             traits: (result.npc && result.npc.trait_ids) || [],
+            species_id: (result.npc && result.npc.species_id) || species_id || undefined,
           });
         } catch (err) {
           console.warn('[meta/recruit] roster upsert failed (best-effort):', err.message);

@@ -172,6 +172,7 @@ model NpcRelation {
   mated          Boolean       @default(false)
   matingCooldown Int           @default(0) @map("mating_cooldown")
   mbtiType       String?       @map("mbti_type")
+  speciesId      String?       @map("species_id")
   traitIds       String        @default("[]") @map("trait_ids") // JSON array
   createdAt      DateTime      @default(now()) @map("created_at")
   updatedAt      DateTime      @updatedAt @map("updated_at")
