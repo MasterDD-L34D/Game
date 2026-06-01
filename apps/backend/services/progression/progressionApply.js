@@ -471,6 +471,11 @@ function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
 function applyBaseAbilityResourceEarn(actor, abilityId, ctx = {}) {
   const out = { applied: [] };
   if (!actor || abilityId !== 'mutation_burst') return out;
+  // Codex P2 #2526: PE is the aberrant resource and mutation_burst is the aberrant
+  // ability. executeAbility looks abilities up from the global catalog (not the
+  // actor's list), so without this gate a non-aberrant unit submitting
+  // ability_id:'mutation_burst' could farm PE to satisfy cost_pe gates.
+  if (actor.job !== 'aberrant') return out;
   const round = ctx.round;
   if (actor._pe_on_mb_round === round) return out;
   const before = Number(actor.pe || 0);
