@@ -670,6 +670,7 @@ function createSessionRouter(options = {}) {
     let interceptResult = null;
     let bondReactionResult = null;
     let symbiontRedirectResult = null;
+    let symbiontPoolResult = null;
     let symbiontDeathGraceResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
@@ -833,6 +834,7 @@ function createSessionRouter(options = {}) {
           /* sgTracker optional */
         }
       }
+      const targetHpPreDamage = Number(target.hp); // pre-floor (V5 shared_hp_pool needs overkill)
       target.hp = Math.max(0, target.hp - damageDealt);
       if (target.hp === 0) {
         killOccurred = true;
@@ -888,12 +890,56 @@ function createSessionRouter(options = {}) {
           }
         }
       }
+      // TKT-JOB-PHASEC slice V5 (capstone sy_r6_one_soul) — shared_hp_pool. The
+      // symbiont + its primary bonded partner share a combined HP pool; the hit is
+      // split equally + both KO together when the pool empties. SUPERSEDES the
+      // redirect (mutual exclusion below) and bonded_death_grace (a dead symbiont
+      // can't grace). Uses the pre-floor target HP for the both-KO check.
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+        try {
+          symbiontPoolResult = require('../services/combat/symbiontBond').applySharedHpPool(
+            session,
+            target,
+            damageDealt,
+            targetHpPreDamage,
+          );
+          if (symbiontPoolResult) {
+            // killOccurred reflects the struck target's post-split HP (both_ko sets
+            // both to 0; otherwise the target may now survive on the shared pool).
+            killOccurred = Number(target.hp) <= 0;
+            if (
+              symbiontPoolResult.both_ko &&
+              !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
+              process.env.NODE_ENV !== 'test'
+            ) {
+              try {
+                // eslint-disable-next-line no-console
+                console.info(
+                  JSON.stringify({
+                    component: 'symbiont-bond',
+                    event: 'shared_hp_pool_both_ko',
+                    session_id: session.session_id || null,
+                    turn: session.turn,
+                    symbiont_id: symbiontPoolResult.symbiont_id,
+                    partner_id: symbiontPoolResult.partner_id,
+                  }),
+                );
+              } catch {
+                /* structured log best-effort */
+              }
+            }
+          }
+        } catch {
+          /* symbiont bond optional; never break the hit */
+        }
+      }
       // TKT-JOB-PHASEC slice B4a (OQ-BOND verdict V3) — symbiont bond redirect.
       // Fires on the residual damage AFTER intercept + companion bond (one absorb
       // layer per hit: gated on !interceptResult && !bondReactionResult). Moves a
       // share of the bonded partner's damage to the symbiont (capped at its HP),
-      // restoring the partner; resets killOccurred if the partner survives.
-      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+      // restoring the partner; resets killOccurred if the partner survives. Skipped
+      // when shared_hp_pool already handled the pair (mutual exclusion).
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult && !symbiontPoolResult) {
         try {
           const symbiontBond = require('../services/combat/symbiontBond');
           symbiontRedirectResult = symbiontBond.applyBondRedirect(session, target, damageDealt);
