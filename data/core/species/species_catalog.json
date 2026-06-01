@@ -3469,25 +3469,34 @@
     },
     {
       "species_id": "echo_wing",
-      "scientific_name": "",
+      "scientific_name": "Echopterus pollinifer",
       "common_names": [
-        "Echo Wing"
+        "Ala d'Eco"
       ],
       "classification": {
-        "macro_class": "volatore_planatore",
-        "habitat": "badlands"
+        "macro_class": "Volatore planatore / impollinatore-disperdente",
+        "habitat": "termiche e canyon dei calanchi ferrosi (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Planatore eco-orientato: naviga col riflesso interno e gli occhi a infrarosso, impollinando la cripto-flora e disperdendo i semi tra i calanchi.",
+      "visual_description": "Esile volatore dalle membrane translucide, grandi occhi composti e sacche ascensoriali che lo tengono in quota nelle termiche ferrose.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "nettare e polline (arbusti_xerofili, cripto-flora)"
+        ],
+        "predated_by": [
+          "dune_stalker",
+          "ferrocolonia_magnetotattica"
+        ],
+        "symbiosis": "Impollina arbusti_xerofili e crostoni_criptofite"
       },
-      "constraints": [],
+      "constraints": [
+        "Fragile nel volo radente",
+        "Dipende dalle termiche diurne"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3512,36 +3521,41 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
         "lifecycle_yaml"
-      ]
+      ],
+      "genus": "Echopterus",
+      "epithet": "pollinifer"
     },
     {
       "species_id": "ferrocolonia_magnetotattica",
-      "scientific_name": "",
+      "scientific_name": "Ferrocolonia magnetotacta",
       "common_names": [
         "Ferrocolonia Magnetotattica"
       ],
       "classification": {
-        "macro_class": "ingegnere_radicante",
-        "habitat": "badlands"
+        "macro_class": "Colonia radicante simbionte / predatore-regolatore",
+        "habitat": "affioramenti ferrosi magnetizzati (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Colonia radicante magnetotattica: si orienta lungo le linee di campo, regola i parassiti dell'ecosistema e immobilizza le prede con secrezioni rallentanti.",
+      "visual_description": "Aggregato coloniale ancorato al suolo ferroso, filamenti magnetosensibili e tessuti che mutano colore per mimetismo passivo.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "sand_burrower",
+          "parassiti dell'ecosistema"
+        ],
+        "predated_by": [
+          "dune_stalker"
+        ],
+        "symbiosis": "Controlla i parassiti (mutualismo con i produttori)"
       },
-      "constraints": [],
+      "constraints": [
+        "Sessile/semi-sessile, ancorata al substrato",
+        "Sangue piroforico: vulnerabile all'innesco termico"
+      ],
       "sentience_index": "T3",
       "ecotypes": [],
       "trait_refs": [
@@ -3566,14 +3580,10 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
         "lifecycle_yaml"
-      ]
+      ],
+      "genus": "Ferrocolonia",
+      "epithet": "magnetotacta"
     },
     {
       "species_id": "magneto_ridge_hunter",
@@ -3626,25 +3636,33 @@
     },
     {
       "species_id": "nano_rust_bloom",
-      "scientific_name": "",
+      "scientific_name": "Oxidospora pestifera",
       "common_names": [
-        "Nano Rust Bloom"
+        "Fioritura di Nano-Ruggine"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "badlands"
+        "macro_class": "Colonia microbica decompositrice / minaccia patogena",
+        "habitat": "carcasse e croste umide dei calanchi ferrosi (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Decompositore patogeno: dissolve carcasse e metallo con filamenti corrosivi e diffonde spore silenziate che colonizzano gli ospiti indeboliti.",
+      "visual_description": "Patina coloniale rosso-ferro che fiorisce a chiazze, filamenti capillari e spore opache sospese nell'aria secca.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "carcasse e detrito (decompositore)"
+        ],
+        "predated_by": [
+          "poche specie (deterrente patogeno)"
+        ],
+        "symbiosis": "Antagonista: patogeno opportunista sugli ospiti indeboliti"
       },
-      "constraints": [],
+      "constraints": [
+        "Si espande solo su substrato umido o carcasse",
+        "Inattiva nei picchi di aridita"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3669,36 +3687,41 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
         "lifecycle_yaml"
-      ]
+      ],
+      "genus": "Oxidospora",
+      "epithet": "pestifera"
     },
     {
       "species_id": "rust_scavenger",
-      "scientific_name": "",
+      "scientific_name": "Ferrivora saprophaga",
       "common_names": [
-        "Rust Scavenger"
+        "Spazzino della Ruggine"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "badlands"
+        "macro_class": "Saprofago corazzato / specie chiave",
+        "habitat": "calanchi ferrosi salini (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Specie chiave detritivora: compatta il detrito ferroso con filamenti digestivi e gastroliti, riciclando i metalli nel suolo e aprendo nicchie per i produttori.",
+      "visual_description": "Corpo tozzo e corazzato a piastre rugginose, mandibole trituranti e sacche ventrali gonfie di gastroliti.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "detrito organico ferroso",
+          "crostoni_criptofite"
+        ],
+        "predated_by": [
+          "dune_stalker"
+        ],
+        "symbiosis": "Arricchisce il suolo per i produttori (mutualismo indiretto)"
       },
-      "constraints": [],
+      "constraints": [
+        "Lento e poco difeso in campo aperto",
+        "Dipende dai pulse detritici stagionali"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3723,36 +3746,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
         "lifecycle_yaml"
-      ]
+      ],
+      "genus": "Ferrivora",
+      "epithet": "saprophaga"
     },
     {
       "species_id": "sand_burrower",
-      "scientific_name": "",
+      "scientific_name": "Arenofossor saliphilus",
       "common_names": [
-        "Sand Burrower"
+        "Scavatore delle Sabbie"
       ],
       "classification": {
-        "macro_class": "cursoriale_quadrupede",
-        "habitat": "badlands"
+        "macro_class": "Cursore quadrupede fossorio / detritivoro",
+        "habitat": "calanchi ferrosi salini (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Fossore quadrupede a balzi: scava gallerie con zampe a molla e scheletro idro-regolante, brucando cripto-flora e detrito sotto la crosta salina.",
+      "visual_description": "Corpo basso e corazzato a fasi variabili, arti molleggiati e carapace opaco color ruggine che lo mimetizza nel suolo ferroso.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "arbusti_xerofili",
+          "crostoni_criptofite"
+        ],
+        "predated_by": [
+          "ferrocolonia_magnetotattica",
+          "dune_stalker"
+        ],
+        "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Dipende dall'umidita sotto-crosta (scheletro idro-regolante)",
+        "Vulnerabile in superficie aperta agli apex"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3777,14 +3806,10 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
         "lifecycle_yaml"
-      ]
+      ],
+      "genus": "Arenofossor",
+      "epithet": "saliphilus"
     },
     {
       "species_id": "slag_veil_ambusher",
