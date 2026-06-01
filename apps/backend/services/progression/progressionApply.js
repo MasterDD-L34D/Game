@@ -654,6 +654,9 @@ function grantXpToSurvivors(units, amount, opts = {}) {
   const engine = opts.engine || getDefaultEngine();
   const store = opts.store || getDefaultStore();
   const campaignId = opts.campaignId ?? null;
+  // V6 A3 — the encounter's first-kill actor (surfaced by the combat debrief),
+  // consumed below by first_kill_pe_bonus.
+  const firstKillActorId = opts.firstKillActorId != null ? String(opts.firstKillActorId) : null;
   const out = [];
 
   if (!Array.isArray(units) || !Number.isFinite(Number(amount))) return out;
@@ -671,11 +674,27 @@ function grantXpToSurvivors(units, amount, opts = {}) {
       state = engine.seed(unit.id, unit.job);
       state = store.set(campaignId, unit.id, state);
     }
-    const result = engine.applyXp(state, amt);
+    // V6 A3 — per-unit PHASEC campaign-XP bonus (PE = campaign XP post-#2528):
+    //   first_kill_pe_bonus → +pe to the encounter's first-kill actor;
+    //   minion_kill_pe_bonus → +the BM's accumulated minion-kill PE (_minion_kill_pe,
+    //   tracked + capped per round in combat by executePackCommand).
+    let bonus = 0;
+    const phasecPassives = Array.isArray(unit._perk_passives) ? unit._perk_passives : [];
+    for (const p of phasecPassives) {
+      if (!p) continue;
+      if (p.tag === 'first_kill_pe_bonus' && firstKillActorId && unit.id === firstKillActorId) {
+        bonus += Number(p.payload && p.payload.pe) || 0;
+      } else if (p.tag === 'minion_kill_pe_bonus') {
+        bonus += Math.max(0, Number(unit._minion_kill_pe) || 0);
+      }
+    }
+    const grantAmt = amt + bonus;
+    const result = engine.applyXp(state, grantAmt);
     store.set(campaignId, unit.id, result.unit);
     out.push({
       unit_id: unit.id,
-      amount: amt,
+      amount: grantAmt,
+      bonus,
       level_before: result.level_before,
       level_after: result.level_after,
       leveled_up: result.leveled_up,

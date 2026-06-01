@@ -344,6 +344,10 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   return {
     session_id: session.session_id,
     turns_played: vcSnapshot.turns_played || 0,
+    // TKT-JOB-PHASEC V6 A3 — the encounter's first-kill actor (tracked in
+    // performAttack). The campaign-advance request echoes it so grantXpToSurvivors
+    // can apply first_kill_pe_bonus. Null when no kill occurred.
+    first_kill_actor_id: session?._first_kill_actor_id ?? null,
     // Economy
     economy: {
       pe_earned: peResult.per_actor,

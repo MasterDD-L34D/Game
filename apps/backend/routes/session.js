@@ -1072,6 +1072,11 @@ function createSessionRouter(options = {}) {
     // traverses. No-op when actor carries no kill perks.
     if (killOccurred) {
       applyPerkKillEffects(actor);
+      // TKT-JOB-PHASEC V6 A3 — record the encounter's FIRST kill actor (once).
+      // Surfaced by the debrief + consumed by grantXpToSurvivors' first_kill_pe_bonus.
+      if (session._first_kill_actor_id == null) {
+        session._first_kill_actor_id = actor.id;
+      }
     }
 
     // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,

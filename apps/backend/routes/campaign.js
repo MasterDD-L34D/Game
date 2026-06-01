@@ -231,7 +231,8 @@ function createCampaignRouter(options = {}) {
 
   // POST /api/campaign/advance
   router.post('/campaign/advance', (req, res) => {
-    const { id, outcome, pe_earned, pi_earned, survivors, xp_per_unit } = req.body || {};
+    const { id, outcome, pe_earned, pi_earned, survivors, xp_per_unit, first_kill_actor_id } =
+      req.body || {};
     if (!id) return res.status(400).json({ error: 'id richiesto' });
     if (!['victory', 'defeat', 'timeout'].includes(outcome)) {
       return res.status(400).json({ error: 'outcome deve essere victory|defeat|timeout' });
@@ -294,7 +295,8 @@ function createCampaignRouter(options = {}) {
               : null,
           ),
           amount,
-          { campaignId: id },
+          // V6 A3 — pass the debrief's first-kill actor so first_kill_pe_bonus lands.
+          { campaignId: id, firstKillActorId: first_kill_actor_id },
         );
       } catch (err) {
         xpGrants = [];
