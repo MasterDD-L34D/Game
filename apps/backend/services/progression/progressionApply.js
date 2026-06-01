@@ -251,6 +251,24 @@ function applyPerkKillEffects(actor) {
     }
   }
 
+  // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — mutation_chain_on_kill:
+  // after a KO scored via mutation_burst, refund AP to enable a "free" re-cast
+  // (AP-refund approximation; +2 = mutation_burst cost_ap, capped at actor.ap).
+  // Once per encounter (_mutation_chain_done). Reuses the slice-2 _last_ability_id.
+  const mutChain = passives.find((p) => p.tag === 'mutation_chain_on_kill');
+  if (mutChain && !actor._mutation_chain_done && actor._last_ability_id === 'mutation_burst') {
+    const refund = 2; // mutation_burst cost_ap (data/core/jobs_expansion.yaml)
+    const apMax = Number(actor.ap || actor.ap_remaining || 0);
+    const before = Number(actor.ap_remaining || 0);
+    actor.ap_remaining = Math.min(apMax, before + refund);
+    actor._mutation_chain_done = true;
+    out.applied.push({
+      tag: 'mutation_chain_on_kill',
+      ap_refunded: actor.ap_remaining - before,
+      source_perk_id: mutChain.source_perk_id,
+    });
+  }
+
   const eternal = passives.find((p) => p.tag === 'eternal_kill_buff');
   if (eternal) {
     const amt = Number(eternal.payload?.attack_mod) || 0;
@@ -396,6 +414,59 @@ function computePerkDefenseBonus(defender, ctx = {}) {
 }
 
 /**
+ * Apply on-ability-use perk effects (TKT-JOB-PHASEC slice 4, Cat F event-pure
+ * subset, OQ-F verdict A). Twin of applyPerkKillEffects but keyed on a
+ * SUCCESSFUL ability use — called post-2xx from executeAbility.
+ *
+ * - sg_on_mutation_burst (ABERRANT ab_r5_sg_synergy): earn SG on mutation_burst,
+ *   capped to one earn per round (payload.cap_per_round = 1; tracked via
+ *   _sg_on_mb_round). AP economy bounds repeats anyway.
+ * - phenotype_baseline_heal (ab_r3_self_healing_chaos): flat heal on
+ *   phenotype_shift, capped at max_hp.
+ *
+ * @param {object} actor — the unit that used the ability (reads _perk_passives)
+ * @param {string} abilityId — the ability_id just resolved
+ * @param {object} ctx — { round? } current round number for per-round caps
+ * @returns {{ applied: Array<object> }}
+ */
+function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  if (passives.length === 0 || !abilityId) return out;
+  const round = ctx.round;
+
+  for (const p of passives) {
+    if (p.tag === 'sg_on_mutation_burst' && abilityId === 'mutation_burst') {
+      if (actor._sg_on_mb_round !== round) {
+        const amt = Number(p.payload?.sg) || 0;
+        if (amt !== 0) {
+          actor.sg = Number(actor.sg || 0) + amt;
+          actor._sg_on_mb_round = round;
+          out.applied.push({
+            tag: 'sg_on_mutation_burst',
+            sg: amt,
+            source_perk_id: p.source_perk_id,
+          });
+        }
+      }
+    } else if (p.tag === 'phenotype_baseline_heal' && abilityId === 'phenotype_shift') {
+      const heal = Number(p.payload?.heal) || 0;
+      if (heal !== 0) {
+        const maxHp = Number(actor.max_hp || actor.hp || 0);
+        const before = Number(actor.hp || 0);
+        actor.hp = maxHp > 0 ? Math.min(maxHp, before + heal) : before + heal;
+        out.applied.push({
+          tag: 'phenotype_baseline_heal',
+          heal: actor.hp - before,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -443,6 +514,7 @@ module.exports = {
   computePerkCombatModifiers,
   computePerkDefenseBonus,
   applyPerkKillEffects,
+  applyPerkAbilityUseEffects,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start
