@@ -109,6 +109,10 @@ function normaliseUnit(raw, fallbackIndex) {
     // V5 SG pool — preserve from input so save-load + tests carry value through.
     // sgTracker.initUnit will keep this if already set, otherwise default to 0.
     sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
+    // PE-canon re-label (#2527): `pe` = campaign XP (26-ECONOMY_CANONICAL), NOT a
+    // combat resource. Preserved here as a read-only pass-through; combat NEVER
+    // writes it (the aberrant combat cost is cost_sg). Default 0.
+    pe: Number.isFinite(Number(input.pe)) ? Number(input.pe) : 0,
     // Sprint Spore Moderate — preserve species_id (alias di species), applied_mutations,
     // mp pool, lineage_id. Necessari per:
     // - mutationEngine slot-conflict + bingo hydration (PR #1916)
@@ -229,10 +233,13 @@ function resolveAttack({ actor, target, rng }) {
   const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
   // Ennea Cacciatore(8) evasion_bonus consumer: alza DC del target. Stesso slot
   // semantico di defense_mod_bonus ma stat distinto (decay separato + telemetria).
+  // TKT-JOB-PHASEC slice 1: perk defensive aura/self bonus, precomputed by the
+  // performAttack flow into target._perk_defense_bonus (0 when no perk fired).
   const dc =
     Number(baseDc) +
     Number(target.defense_mod_bonus || 0) +
-    Number(target.evasion_bonus_bonus || 0);
+    Number(target.evasion_bonus_bonus || 0) +
+    Number(target._perk_defense_bonus || 0);
   const mos = roll - dc;
   const hit = mos >= 0;
   let pt = 0;

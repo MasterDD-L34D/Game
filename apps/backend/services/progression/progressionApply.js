@@ -14,6 +14,8 @@
 
 const { ProgressionEngine } = require('./progressionEngine');
 const { createProgressionStore } = require('./progressionStore');
+// SG pool cap — perk SG earns must clamp to sgTracker POOL_MAX (Codex P2 #2524).
+const { POOL_MAX: SG_POOL_MAX } = require('../combat/sgTracker');
 
 let _defaultEngine = null;
 let _defaultStore = null;
@@ -313,6 +315,229 @@ function computePerkCombatModifiers(actor, target, ctx = {}) {
 }
 
 /**
+ * Compute perk DEFENSE bonus at attack resolve time — raises the defender's
+ * effective DC. Sibling of computePerkDamageBonus (offensive). Slice 1
+ * (TKT-JOB-PHASEC C-G prereq). Handles aura-type passives emitted by ALLIES
+ * (reads OTHER units' _perk_passives) — distinct from the offensive helpers
+ * which read the actor's own passives.
+ *
+ * @param {object} defender — the unit being attacked
+ * @param {object} ctx — { units?: Array<object> }
+ * @returns {{ bonus: number, applied: Array<{ tag, amount, source_perk_id, source_unit_id }> }}
+ */
+function computePerkDefenseBonus(defender, ctx = {}) {
+  const out = { bonus: 0, applied: [] };
+  if (!defender || !defender.position) return out;
+  const units = Array.isArray(ctx.units) ? ctx.units : [];
+
+  // Aura passives: an ally carrying the tag grants the bonus to allies in range.
+  for (const ally of units) {
+    if (!ally || ally.id === defender.id) continue;
+    if (ally.controlled_by !== defender.controlled_by) continue;
+    if (Number(ally.hp) <= 0) continue;
+    if (!ally.position) continue;
+    const passives = Array.isArray(ally._perk_passives) ? ally._perk_passives : [];
+    for (const p of passives) {
+      if (p.tag !== 'aura_defense_2tile') continue;
+      const range = Number(p.payload?.range) || 2;
+      const dist =
+        Math.abs(ally.position.x - defender.position.x) +
+        Math.abs(ally.position.y - defender.position.y);
+      if (dist <= range) {
+        const amt = Number(p.payload?.defense_mod) || 0;
+        if (amt !== 0) {
+          out.bonus += amt;
+          out.applied.push({
+            tag: 'aura_defense_2tile',
+            amount: amt,
+            source_perk_id: p.source_perk_id,
+            source_unit_id: ally.id,
+          });
+        }
+      }
+    }
+  }
+
+  // Self defensive passives on the defender, conditioned on combat state.
+  const selfPassives = Array.isArray(defender._perk_passives) ? defender._perk_passives : [];
+  for (const p of selfPassives) {
+    if (p.tag === 'defense_after_silent') {
+      // Exact "turn after silent_step" window, armed by the use-hook into
+      // _camo_silent_from/_to (= [useRound+1, useRound+duration]) and compared to
+      // ctx.round. No _last_ability_id reliance (Codex #2524: that field was stale
+      // on basic-attack turns) and no round-bridge decay (no priority_queue trap).
+      const round = ctx.round;
+      const from = Number(defender._camo_silent_from);
+      const to = Number(defender._camo_silent_to);
+      if (
+        round != null &&
+        Number.isFinite(from) &&
+        Number.isFinite(to) &&
+        round >= from &&
+        round <= to
+      ) {
+        const amt = Number(p.payload?.defense_mod) || 0;
+        if (amt !== 0) {
+          out.bonus += amt;
+          out.applied.push({
+            tag: 'defense_after_silent',
+            amount: amt,
+            source_perk_id: p.source_perk_id,
+            source_unit_id: defender.id,
+          });
+        }
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Apply on-ability-use perk effects (TKT-JOB-PHASEC slice 4, Cat F event-pure
+ * subset, OQ-F verdict A). Twin of applyPerkKillEffects but keyed on a
+ * SUCCESSFUL ability use — called post-2xx from executeAbility.
+ *
+ * - sg_on_mutation_burst (ABERRANT ab_r5_sg_synergy): earn SG on mutation_burst,
+ *   capped to one earn per round (payload.cap_per_round = 1; tracked via
+ *   _sg_on_mb_round). AP economy bounds repeats anyway.
+ * - phenotype_baseline_heal (ab_r3_self_healing_chaos): flat heal on
+ *   phenotype_shift, capped at max_hp.
+ *
+ * @param {object} actor — the unit that used the ability (reads _perk_passives)
+ * @param {string} abilityId — the ability_id just resolved
+ * @param {object} ctx — { round? } current round number for per-round caps
+ * @returns {{ applied: Array<object> }}
+ */
+function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  if (passives.length === 0 || !abilityId) return out;
+  const round = ctx.round;
+
+  for (const p of passives) {
+    if (p.tag === 'sg_on_mutation_burst' && abilityId === 'mutation_burst') {
+      if (actor._sg_on_mb_round !== round) {
+        const amt = Number(p.payload?.sg) || 0;
+        const before = Number(actor.sg || 0);
+        if (amt !== 0 && before < SG_POOL_MAX) {
+          actor.sg = Math.min(SG_POOL_MAX, before + amt);
+          actor._sg_on_mb_round = round;
+          out.applied.push({
+            tag: 'sg_on_mutation_burst',
+            sg: actor.sg - before,
+            source_perk_id: p.source_perk_id,
+          });
+        }
+      }
+    } else if (p.tag === 'phenotype_baseline_heal' && abilityId === 'phenotype_shift') {
+      const heal = Number(p.payload?.heal) || 0;
+      if (heal !== 0) {
+        const maxHp = Number(actor.max_hp || actor.hp || 0);
+        const before = Number(actor.hp || 0);
+        actor.hp = maxHp > 0 ? Math.min(maxHp, before + heal) : before + heal;
+        out.applied.push({
+          tag: 'phenotype_baseline_heal',
+          heal: actor.hp - before,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    } else if (p.tag === 'defense_after_silent' && abilityId === 'silent_step') {
+      // Arm the camo window: +defense_mod for `duration` rounds starting the turn
+      // AFTER silent_step. Read by computePerkDefenseBonus against ctx.round.
+      const dur = Number(p.payload?.duration) || 1;
+      if (round != null) {
+        actor._camo_silent_from = round + 1;
+        actor._camo_silent_to = round + dur;
+        out.applied.push({
+          tag: 'defense_after_silent',
+          armed_from: actor._camo_silent_from,
+          armed_to: actor._camo_silent_to,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+/**
+ * Refund the AP spent on a mutation_burst that scored a KO — the correct rebuild
+ * of mutation_chain_on_kill (TKT-JOB-PHASEC, Codex #2524). Called from
+ * executeDrainAttack AFTER the AP deduction (fixes the P1 timing where the kill
+ * hook ran before the spend) and only for mutation_burst's own kill (fixes the P2
+ * stale-_last_ability_id attribution). Once per encounter (_mutation_chain_done).
+ * The refund enables an immediate free re-cast.
+ *
+ * @param {object} actor — the unit whose mutation_burst scored the KO
+ * @param {number} costAp — the AP just spent (refunded, capped at actor.ap)
+ * @returns {{ applied: Array<object> }}
+ */
+function applyMutationChainRefund(actor, costAp) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  const mc = passives.find((p) => p.tag === 'mutation_chain_on_kill');
+  if (!mc || actor._mutation_chain_done) return out;
+  const apMax = Number(actor.ap || actor.ap_remaining || 0);
+  const before = Number(actor.ap_remaining || 0);
+  actor.ap_remaining = Math.min(apMax, before + (Number(costAp) || 0));
+  actor._mutation_chain_done = true;
+  out.applied.push({
+    tag: 'mutation_chain_on_kill',
+    ap_refunded: actor.ap_remaining - before,
+    source_perk_id: mc.source_perk_id,
+  });
+  return out;
+}
+
+/**
+ * Compute perk modifiers for mutation_burst's combat semantics (TKT-JOB-PHASEC
+ * slice 4b, Cat F). Read by executeDrainAttack on a mutation_burst hit to layer
+ * perk effects on top of the base MoS-gated random status:
+ *
+ * - mutation_status_extend (ABERRANT ab_r2_random_status_extra): +N turns to the
+ *   applied status duration.
+ * - perfect_mutation_burst (ABERRANT capstone ab_r6_perfect_aberrant): force ALL
+ *   five statuses (ignoring the MoS gate) + a flat bonus damage step.
+ *
+ * Pure reader — applies nothing itself, returns the modifiers for the caller to
+ * layer. Unlike the sibling perk helpers it does NOT early-return on empty
+ * passives (callers always invoke it for mutation_burst; the base MoS-status is
+ * ability semantics applied by the caller regardless of perks).
+ *
+ * @param {object} actor — the unit casting mutation_burst (reads _perk_passives)
+ * @returns {{ extraTurns: number, forceAllStatuses: boolean, bonusDamage: number, applied: Array<object> }}
+ */
+function computeMutationBurstPerkMods(actor) {
+  const out = { extraTurns: 0, forceAllStatuses: false, bonusDamage: 0, applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  for (const p of passives) {
+    if (p.tag === 'mutation_status_extend') {
+      const turns = Number(p.payload?.turns) || 0;
+      if (turns !== 0) {
+        out.extraTurns += turns;
+        out.applied.push({
+          tag: 'mutation_status_extend',
+          turns,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    } else if (p.tag === 'perfect_mutation_burst') {
+      const allStatuses = !!p.payload?.all_statuses;
+      const fixedDmg = Number(p.payload?.fixed_dmg) || 0;
+      if (allStatuses) out.forceAllStatuses = true;
+      out.bonusDamage += fixedDmg;
+      out.applied.push({
+        tag: 'perfect_mutation_burst',
+        all_statuses: allStatuses,
+        fixed_dmg: fixedDmg,
+        source_perk_id: p.source_perk_id,
+      });
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -358,7 +583,11 @@ module.exports = {
   applyProgressionToUnits,
   computePerkDamageBonus,
   computePerkCombatModifiers,
+  computePerkDefenseBonus,
   applyPerkKillEffects,
+  applyPerkAbilityUseEffects,
+  applyMutationChainRefund,
+  computeMutationBurstPerkMods,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start
