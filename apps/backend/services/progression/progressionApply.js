@@ -14,6 +14,8 @@
 
 const { ProgressionEngine } = require('./progressionEngine');
 const { createProgressionStore } = require('./progressionStore');
+// SG pool cap — perk SG earns must clamp to sgTracker POOL_MAX (Codex P2 #2524).
+const { POOL_MAX: SG_POOL_MAX } = require('../combat/sgTracker');
 
 let _defaultEngine = null;
 let _defaultStore = null;
@@ -396,6 +398,60 @@ function computePerkDefenseBonus(defender, ctx = {}) {
 }
 
 /**
+ * Apply on-ability-use perk effects (TKT-JOB-PHASEC slice 4, Cat F event-pure
+ * subset, OQ-F verdict A). Twin of applyPerkKillEffects but keyed on a
+ * SUCCESSFUL ability use — called post-2xx from executeAbility.
+ *
+ * - sg_on_mutation_burst (ABERRANT ab_r5_sg_synergy): earn SG on mutation_burst,
+ *   capped to one earn per round (payload.cap_per_round = 1; tracked via
+ *   _sg_on_mb_round). AP economy bounds repeats anyway.
+ * - phenotype_baseline_heal (ab_r3_self_healing_chaos): flat heal on
+ *   phenotype_shift, capped at max_hp.
+ *
+ * @param {object} actor — the unit that used the ability (reads _perk_passives)
+ * @param {string} abilityId — the ability_id just resolved
+ * @param {object} ctx — { round? } current round number for per-round caps
+ * @returns {{ applied: Array<object> }}
+ */
+function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  if (passives.length === 0 || !abilityId) return out;
+  const round = ctx.round;
+
+  for (const p of passives) {
+    if (p.tag === 'sg_on_mutation_burst' && abilityId === 'mutation_burst') {
+      if (actor._sg_on_mb_round !== round) {
+        const amt = Number(p.payload?.sg) || 0;
+        const before = Number(actor.sg || 0);
+        if (amt !== 0 && before < SG_POOL_MAX) {
+          actor.sg = Math.min(SG_POOL_MAX, before + amt);
+          actor._sg_on_mb_round = round;
+          out.applied.push({
+            tag: 'sg_on_mutation_burst',
+            sg: actor.sg - before,
+            source_perk_id: p.source_perk_id,
+          });
+        }
+      }
+    } else if (p.tag === 'phenotype_baseline_heal' && abilityId === 'phenotype_shift') {
+      const heal = Number(p.payload?.heal) || 0;
+      if (heal !== 0) {
+        const maxHp = Number(actor.max_hp || actor.hp || 0);
+        const before = Number(actor.hp || 0);
+        actor.hp = maxHp > 0 ? Math.min(maxHp, before + heal) : before + heal;
+        out.applied.push({
+          tag: 'phenotype_baseline_heal',
+          heal: actor.hp - before,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -443,6 +499,7 @@ module.exports = {
   computePerkCombatModifiers,
   computePerkDefenseBonus,
   applyPerkKillEffects,
+  applyPerkAbilityUseEffects,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start

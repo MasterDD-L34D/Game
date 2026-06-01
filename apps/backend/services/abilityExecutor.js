@@ -1807,6 +1807,17 @@ function createAbilityExecutor(deps) {
     if (costPe > 0 && result && Number(result.status) >= 200 && Number(result.status) < 300) {
       actor.pe = Math.max(0, Number(actor.pe || 0) - costPe);
     }
+    // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
+    // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
+    // the sgTracker pattern (non-blocking if the module is unavailable).
+    if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
+      try {
+        const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
+        applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
+      } catch {
+        /* progression optional — non-blocking */
+      }
+    }
     return result;
   }
 
