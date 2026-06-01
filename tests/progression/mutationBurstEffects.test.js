@@ -152,6 +152,8 @@ test('mutation_burst: perfect_mutation_burst applies all 5 statuses + flat bonus
   // performAttack stub deals 5 (20→15) then perfect drains a flat +6 (15→9).
   assert.strictEqual(target.hp, 9, 'flat +6 bonus damage drained post-attack');
   assert.strictEqual(res.body.mutation_bonus_damage, 6);
+  // Codex #2529 P2: reported damage_dealt must include the bonus (5 + 6 = 11).
+  assert.strictEqual(res.body.attack.damage_dealt, 11, 'damage_dealt includes the +6 bonus');
 });
 
 test('mutation_burst: a MISS applies no status', async () => {

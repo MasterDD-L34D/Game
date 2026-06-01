@@ -1012,13 +1012,18 @@ function createAbilityExecutor(deps) {
       actor.seed = Number(actor.seed || 0) + seedGain;
     }
 
+    // Total damage reported = the attack roll damage + any mutation bonus drained
+    // post-hoc (perfect_mutation_burst). mutationBonusDamage is 0 for every other
+    // case (Codex #2529 P2: don't undercount the reported damage_dealt).
+    const totalDamageDealt = res.damageDealt + mutationBonusDamage;
+
     const event = buildAttackEvent({
       session,
       actor,
       target,
       result: res.result,
       evaluation: res.evaluation,
-      damageDealt: res.damageDealt,
+      damageDealt: totalDamageDealt,
       hpBefore,
       targetPositionAtAttack,
       positional: res.positional || null,
@@ -1064,7 +1069,7 @@ function createAbilityExecutor(deps) {
           roll: res.result.roll,
           mos: res.result.mos,
           hit: res.result.hit,
-          damage_dealt: res.damageDealt,
+          damage_dealt: totalDamageDealt,
           target_hp: target.hp,
         },
         healing_applied: healed,
