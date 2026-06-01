@@ -347,7 +347,7 @@ jobs:
       unlock_r2:
         ability_id: aberrant_overdrive
         name_it: "Sovraccarico Aberrante"
-        description_it: "Trigger SG >= 3 (consuma il Surge Gauge): x2 damage sul prossimo attacco, ma -2 HP al Aberrant. Crit (MoS >= 8) infligge bleeding 3 turni."
+        description_it: "Sovraccarico: x2 damage sul prossimo attacco, ma -2 HP al Aberrant. Crit (MoS >= 8) infligge bleeding 3 turni."
         cost_ap: 1
         cost_pi: 10
         cost_sg: 3
