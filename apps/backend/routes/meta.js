@@ -113,6 +113,9 @@ function createMetaRouter(opts = {}) {
   const store =
     opts.store || createMetaStore({ prisma: opts.prisma, campaignId: opts.campaignId ?? null });
   const rosterStore = opts.rosterStore || (opts.prisma ? createRosterStore(opts.prisma) : null);
+  const metaStoreFactory =
+    opts.metaStoreFactory ||
+    (opts.prisma ? (cid) => createMetaStore({ prisma: opts.prisma, campaignId: cid }) : null);
 
   // OD-001 Path A Sprint B (2026-04-26): expose MBTI compat table for
   // debrief recruit UI scoring. Read-only, cached in-process. Returns
@@ -178,6 +181,9 @@ function createMetaRouter(opts = {}) {
       const { npc_id, source_session_id, affinity_at_recruit } = req.body || {};
       if (!npc_id) return res.status(400).json({ error: 'npc_id required' });
 
+      const campaignId = (req.body && req.body.campaign_id) || null;
+      const recruitStore = campaignId && metaStoreFactory ? metaStoreFactory(campaignId) : store;
+
       const affinityBypass =
         Number.isFinite(Number(affinity_at_recruit)) &&
         Number(affinity_at_recruit) >= RECRUIT_AFFINITY_BYPASS_THRESHOLD;
@@ -186,26 +192,23 @@ function createMetaRouter(opts = {}) {
         // Pre-seed affinity + trust so the store gate accepts. The store clamps
         // to [-2,+2] and [0,5]; values chosen to leave room for downstream
         // affinity/trust mutations.
-        await store.updateAffinity(npc_id, 1);
-        await store.updateTrust(npc_id, 2);
+        await recruitStore.updateAffinity(npc_id, 1);
+        await recruitStore.updateTrust(npc_id, 2);
       }
 
-      const result = await store.recruit(npc_id);
+      const result = await recruitStore.recruit(npc_id);
 
       // link-2 — persist the recruited NPC into the run-scoped party_rosters so
       // it shows in the Nido roster. Best-effort: a roster failure must never
       // block/alter the recruit response. species/job/hp default in rosterStore.
-      if (result && result.success && rosterStore) {
-        const campaignId = (req.body && req.body.campaign_id) || null;
-        if (campaignId) {
-          try {
-            await rosterStore.upsert(campaignId, {
-              unit_id: npc_id,
-              traits: (result.npc && result.npc.trait_ids) || [],
-            });
-          } catch (err) {
-            console.warn('[meta/recruit] roster upsert failed (best-effort):', err.message);
-          }
+      if (result && result.success && rosterStore && campaignId) {
+        try {
+          await rosterStore.upsert(campaignId, {
+            unit_id: npc_id,
+            traits: (result.npc && result.npc.trait_ids) || [],
+          });
+        } catch (err) {
+          console.warn('[meta/recruit] roster upsert failed (best-effort):', err.message);
         }
       }
 

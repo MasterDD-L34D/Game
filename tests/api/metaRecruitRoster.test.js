@@ -80,3 +80,83 @@ test('no rosterStore (DI absent) → recruit success, no throw', async () => {
     .expect(200);
   assert.equal(res.body.success, true);
 });
+
+test('recruit same npc_id in two campaigns — both succeed (campaign-scoped gate)', async () => {
+  const factoryCalls = [];
+  const perCampaign = {};
+  const metaStoreFactory = (cid) => {
+    factoryCalls.push(cid);
+    if (!perCampaign[cid]) {
+      const recruited = new Set();
+      perCampaign[cid] = {
+        updateAffinity: async () => {},
+        updateTrust: async () => {},
+        recruit: async (npc) => {
+          if (recruited.has(npc)) return { success: false, reason: 'gate_not_met' };
+          recruited.add(npc);
+          return { success: true, npc: { npc_id: npc, recruited: true, trait_ids: [] } };
+        },
+      };
+    }
+    return perCampaign[cid];
+  };
+  const rosterCalls = [];
+  const fakeRoster = {
+    upsert: async (cid, spec) => {
+      rosterCalls.push({ cid, spec });
+    },
+    get: async () => [],
+  };
+  const globalStore = {
+    recruit: async () => {
+      throw new Error('global store must NOT be used when campaign_id present');
+    },
+    updateAffinity: async () => {},
+    updateTrust: async () => {},
+  };
+  const app = express();
+  app.use(express.json());
+  app.use(
+    '/api/meta',
+    createMetaRouter({ store: globalStore, metaStoreFactory, rosterStore: fakeRoster }),
+  );
+  const a = await request(app)
+    .post('/api/meta/recruit')
+    .send({ npc_id: 'npc_X', campaign_id: 'A' })
+    .expect(200);
+  assert.equal(a.body.success, true);
+  const b = await request(app)
+    .post('/api/meta/recruit')
+    .send({ npc_id: 'npc_X', campaign_id: 'B' })
+    .expect(200);
+  assert.equal(
+    b.body.success,
+    true,
+    'campaign B not blocked by campaign A recruiting the same npc',
+  );
+  assert.equal(rosterCalls.length, 2);
+  assert.ok(factoryCalls.includes('A') && factoryCalls.includes('B'));
+});
+
+test('recruit with NO campaign_id — falls back to shared store (factory not called)', async () => {
+  let factoryCalled = false;
+  const sharedStore = {
+    recruit: async (id) => ({ success: true, npc: { npc_id: id, trait_ids: [] } }),
+    updateAffinity: async () => {},
+    updateTrust: async () => {},
+  };
+  const app = express();
+  app.use(express.json());
+  app.use(
+    '/api/meta',
+    createMetaRouter({
+      store: sharedStore,
+      metaStoreFactory: () => {
+        factoryCalled = true;
+      },
+      rosterStore: { upsert: async () => {}, get: async () => [] },
+    }),
+  );
+  await request(app).post('/api/meta/recruit').send({ npc_id: 'npc_Y' }).expect(200);
+  assert.equal(factoryCalled, false);
+});
