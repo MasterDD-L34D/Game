@@ -1,79 +1,69 @@
 ---
-title: 'Pillar-status auto-sync — scoping (follow-up #2489, 3rd governance target)'
+title: 'Pillar-status: generator REJECTED → consolidation (follow-up #2489, 3rd target)'
 workstream: ops-qa
 category: spec
-doc_status: draft
+doc_status: active
 doc_owner: claude-code
 last_verified: '2026-06-01'
 source_of_truth: false
 language: it
 review_cycle_days: 60
-tags: [governance, anti-drift, pillar-status, scoping, follow-up-2489, sprint-context]
+tags: [governance, anti-drift, pillar-status, consolidation, follow-up-2489, sprint-context]
 ---
 
-# Pillar-status auto-sync — scoping (NON ancora build)
+# Pillar-status — generator REJECTED, consolidation instead
 
-> Terzo target anti-pattern #19, dopo DECISIONS_LOG (#2489), OPEN_DECISIONS (#2492), registry-reconcile
-> (#2493). **Questo e' SOLO scoping** — il build richiede harsh-review SDMG prima (come la famiglia #2489).
-> Stato: `draft` finche' master-dd non sceglie target di proiezione + non passa harsh-review.
+> Terzo target anti-pattern #19 (dopo DECISIONS_LOG #2489, OPEN_DECISIONS #2492, registry-reconcile #2493).
+> **Lo scoping originale (un 4° generatore) e' stato BOCCIATO da harsh-review SDMG — giustamente.**
+> Premessa originale FALSA: il SOT pillar esiste gia'. Niente generatore; il fix e' consolidamento.
 
-## Ground-truth (MISURATO 2026-06-01, non asserito)
+## Harsh-review — VERDICT: REJECT-REDESIGN (ARCHON critic 4-pass, 2026-06-01, adottato)
 
-- **Definizione** pilastri P1-P6 = `docs/core/02-PILASTRI.md` (canonical, stabile).
-- **Status** pilastri (🟢/🟡/🔴 + qualifier `candidato`/`confirmed`/`hard`) = **prosa sparsa in `CLAUDE.md`**:
-  ~88 menzioni P1-P6 distribuite su **12 sezioni `## 🎮 Sprint context`** (ogni sessione ne appende una
-  nuova; le vecchie marcate `[SUPERSEDED]` ma NON rimosse → CLAUDE.md gonfia).
-- **Nessuna sorgente machine-readable** per lo status (grep `data/`/`packs/` = 0 file pillar-status; gli hit
-  sono substring non correlati). Lo status e' un **giudizio soggettivo di design**, non un conteggio.
+Lo scoping v1 proponeva `tools/generate_pillar_status.py` + fail-on-diff. Il critic ha trovato (verificato su file reali):
 
-## Problema (doppio)
+1. **Premessa FALSA** (EMPIRICA-1, 🔴): `docs/reports/PILLAR-LIVE-STATUS.md` **esiste gia'** —
+   `source_of_truth: true`, registry-tracked, tabella P1-P6 + Update protocol, designato SOT runtime dal
+   2026-04-28 (drift audit Opzione B). Lo scoping v1 grep-o' `data/`/`packs/` (dir sbagliate) e dichiaro'
+   "nessuna sorgente machine-readable" → **anti-pattern #8 (ground-truth non verificato)**. Il SOT non va
+   creato: va **ravvivato + applicato**.
+2. **fail-on-diff vacuo per un giudizio soggettivo** (LOGICA-2, 🔴): il gate cattura solo "hai editato la
+   proiezione invece della sorgente", **NON** "lo status e' stale/sbagliato" — il drift reale. Lo strumento
+   anti-stale corretto e' il **freshness gate** (gia' costruito #2489: warn/fail su eta' `last_verified`).
+   `PILLAR-LIVE-STATUS.md` e' gia' a 2026-05-06 / review_cycle 7 → >2x stale → il gate gia' lo segnalerebbe.
+3. **Over-engineering** (ALT-1, 🔴): 6 righe soggettive, low-frequency. Un 4° generatore + CI + husky per
+   evitare di ri-digitare 6 celle in 2 posti = sproporzionato vs #2489 (67 ADR fattuali, high-churn).
+4. **`data/derived/` = category error** (VALORI-1, 🔴): un giudizio umano autorato NON e' derived-data.
+5. **3 superfici contraddittorie** (EMPIRICA-3): CLAUDE.md prosa (×12 sezioni, L858 P1🟢 vs L939 "HONEST
+   CHECK" P1🟡) + snapshot inline `02-PILASTRI.md` + `PILLAR-LIVE-STATUS.md` → la migrazione e' una
+   **riconciliazione manuale master-dd**, non un'estrazione 6-righe "latest-wins".
 
-1. **Drift #19**: pillar-status hand-maintained su 12 sezioni → l'ultima vince ma le vecchie restano,
-   nessun single-source → un lettore non sa quale e' "the truth" senza scorrere 12 blocchi.
-2. **Bloat**: 12 sezioni sprint-context accumulate gonfiano `CLAUDE.md` (caricato ogni sessione = costo token).
+(Errore del critic, per onesta': EMPIRICA-5 diceva "#2492 generator assente su main" — falso, ha letto il
+clone su branch `claude/fix-ecotypes-enum` stale; verificato: `generate_open_decisions.py` + marker SONO su
+main. I finding core 1-5 reggono comunque.)
 
-## Caveat ONESTO (la crux — perche' NON e' un clone di DECISIONS_LOG)
+## Soluzione adottata — CONSOLIDAMENTO (zero nuovo tooling)
 
-DECISIONS_LOG si genera da un FATTO (ADR frontmatter `status`). OPEN_DECISIONS da un campo (`status=open`).
-**Pillar status NON e' un fatto derivabile**: "P6 🟢 candidato" e' un **giudizio umano** (quanto evidence basta
-per 🟢? candidato vs confirmed = call soggettiva). Quindi **"derive-don't-maintain" puro NON si applica**.
-Il fit realistico = **single-source attestation + projection** (come `last_verified`: l'umano attesta, una
-sola sorgente, proiettata ovunque) — NON auto-derivazione da test/git.
+1. **SOT unico** = `docs/reports/PILLAR-LIVE-STATUS.md` (gia' esiste, `source_of_truth: true`).
+2. **De-dup superfici** (FATTO in questo PR):
+   - `02-PILASTRI.md`: snapshot inline RIMOSSO → solo pointer al SOT.
+   - `CLAUDE.md`: 11 sezioni sprint-context storiche + pillar-audit 2026-04-20 archiviate in
+     `docs/planning/sprint-context-history.md`; resta solo la sprint-context corrente + un pointer al SOT.
+     (CLAUDE.md 1283 → 588 righe: de-bloat + de-drift; zero info lost.)
+3. **Riconciliazione stato reale P1-P6** = **GATED master-dd** (giudizio soggettivo su 3 superfici
+   contraddittorie). NON autonomo. Output atteso: `PILLAR-LIVE-STATUS.md` freshato + `last_verified` bump.
+4. **Freshness gate** (gia' #2489): punta al SOT; quando stale, segnala (warn graduato). Nessun fail-on-diff.
+5. **Niente `generate_pillar_status.py`.** Niente `data/derived/pillar_status.yaml`.
 
-## Approccio proposto (opzioni)
+## Stato
 
-- **A — single-source YAML + projection (RACCOMANDATO)**. `data/derived/pillar_status.yaml` (o blocco marker in
-  `02-PILASTRI.md`): per P1-P6 → `status` + `qualifier` + `evidence` (PR#/test refs) + `last_updated` (attestazione
-  umana). Generatore `tools/generate_pillar_status.py` proietta in un blocco `<!-- gen:pillar-status -->` (target
-  da decidere, vedi sotto) + CI fail-on-diff. Status resta human-attested → uccide il 12-section drift, NON finge
-  auto-derivazione. Riusa il pattern marker-inject + `--check` di `generate_decisions_log.py`.
-- **B — derive-from-evidence (RIGETTATO come primario)**. Mappare pillar→test/PR e auto-settare status: fragile
-  (mapping arbitrario, candidato-vs-confirmed = giudizio). Al massimo come **segnale advisory** ("evidence
-  suggerisce P6 stale, verifica") accanto allo status attestato, MAI come setter.
-
-## Decisioni pending (master-dd, gate pre-build)
-
-1. **Dove vive la sorgente**: `data/derived/pillar_status.yaml` vs blocco marker in `02-PILASTRI.md`.
-2. **Dove vive la proiezione**: nuovo `PILLAR_STATUS.md` root (come BACKLOG/OPEN_DECISIONS) vs blocco generato
-   dentro `02-PILASTRI.md` vs blocco nella sprint-context corrente di `CLAUDE.md`.
-3. **Sprint-context bloat** (sub-problema separato): archiviare le 11 sezioni `[SUPERSEDED]` in un
-   `docs/planning/sprint-context-history.md` lasciando solo la corrente in `CLAUDE.md`. Bundle o PR separato.
-
-## Build plan (GATED — non ora)
-
-Quando ripreso: research-lite (ri-verifica sorgenti) → harsh-review SDMG di questo scoping (falsify-before-build,
-come #2492/#2493 — il critic li ha salvati entrambi) → build (schema + migrate 6 pillar dalle 12 sezioni +
-generatore + `--check` + CI/husky) → QG (idempotenza + fail-on-diff + governance errors=0). Effort stimato medio.
-
-## Anti-pattern guard (SDMG)
-
-- Status resta **human-attested** (no falsa auto-derivazione di un giudizio soggettivo).
-- Single-source (uccide il 12-section drift) + marker-inject + fail-on-diff (riuso pattern #2489).
-- Sprint-context bloat = problema DISTINTO, non confonderlo con lo status-sync.
-- NON buildare senza harsh-review (la famiglia #2489 ha 3/3 spec migliorati dal critic; questo non e' eccezione).
+- ✅ FATTO (questo PR): 02-PILASTRI de-dup + CLAUDE.md archive + questo spec corretto + guida roadmap.
+- 🧑 PENDING master-dd: riconciliare lo stato reale P1-P6 in `PILLAR-LIVE-STATUS.md` (3 superfici divergono)
+  - bump `last_verified`. Poi il freshness gate #2489 lo tiene onesto.
+- (Opzionale futuro) escalare il freshness gate a fail-tier SOLO per il SOT pillar, se warn non basta — ma
+  #2489 ha deliberatamente tenuto freshness = warn globale; da valutare separatamente.
 
 ## Riferimenti
 
-- Famiglia #2489: `2026-05-30-governance-auto-sync-design.md`, `2026-05-31-open-decisions-projection-design.md`,
-  `2026-05-31-docs-registry-reconcile-design.md`. Guida roadmap: `docs/guide/roadmap-intervention.md`.
-- Sorgenti: `docs/core/02-PILASTRI.md` (def), `CLAUDE.md` sprint-context (status, 12 sezioni), `docs/planning/2026-04-20-pilastri-reality-audit.md`.
+- Famiglia #2489: `2026-05-30-governance-auto-sync-design.md` + `2026-05-31-open-decisions-projection-design.md`
+  - `2026-05-31-docs-registry-reconcile-design.md`. Guida: `docs/guide/roadmap-intervention.md`.
+- SOT pillar: `docs/reports/PILLAR-LIVE-STATUS.md`. Def: `docs/core/02-PILASTRI.md`. Archivio: `docs/planning/sprint-context-history.md`.

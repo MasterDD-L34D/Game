@@ -59,20 +59,10 @@ review_cycle_days: 14
 >
 > Pattern: separazione spec stable + runtime volatile (Opzione B drift audit).
 
-**Snapshot ultima verifica** (2026-04-28, post sprint α/β/γ/δ + Skiv personal sprint):
-
-|  #  | Pilastro             |  Stato   |
-| :-: | -------------------- | :------: |
-|  1  | P1 Tattica leggibile | 🟢 def++ |
-|  2  | P2 Evoluzione        | 🟢 def++ |
-|  3  | P3 Specie × Job      |   🟡++   |
-|  4  | P4 Temperamenti      |  🟢 def  |
-|  5  | P5 Co-op vs Sistema  | 🟢 cand  |
-|  6  | P6 Fairness          |    🟢    |
-
-Score: **5/6 🟢 def + 1/6 🟡++ (P3)**. Demo-ready confirmed.
-
-Per dettaglio per-pillar + delta history + cross-link PR sprint, consulta [`PILLAR-LIVE-STATUS.md`](../reports/PILLAR-LIVE-STATUS.md).
+**Snapshot inline RIMOSSO** (2026-06-01, consolidamento anti-drift #19): la tabella stato P1-P6
+viveva qui, in `CLAUDE.md`, e in `PILLAR-LIVE-STATUS.md` → 3 superfici che driftavano. Ora **single SOT**.
+Per lo stato runtime live (tabella + dettaglio per-pillar + delta history + cross-link PR), consulta
+**[`PILLAR-LIVE-STATUS.md`](../reports/PILLAR-LIVE-STATUS.md)** (SOT). NON ri-duplicare la tabella qui.
 
 ## Rapporto con baseline storiche
 

@@ -102,16 +102,35 @@ Outcome: l'adapter sblocca la combat-usabilita del materiale esistente (pilota b
   YAGNI: generare per-bioma quando entra nel gameplay.
 - **TKT-SPECIE-LIFECYCLE** -- 🟡 15/53 (38 mancanti). `seed_lifecycle_stubs.py` esiste.
   Incrementale (data-gen, delegabile swarm).
-- **TKT-TRAIT-RECONCILE** -- 🔴 aperto (audit 104 glossary + tassonomia 57->106). HUB.
+- **TKT-TRAIT-RECONCILE** -- ✅ **DONE** (2026-05-31, #2501/#2507). Audit: glossary 604 flavor /
+  active_effects 502 mechanic (4 orphan-mech, 106 flavor-only); 50 `TR-####` legacy refs su 10
+  specie canon erano dangling -> **remappati a slug glossary** (la mappa esisteva in
+  `data/external/evo/traits/TR-####.json`) + **guard CI** nuovo (`envelope-b` valida ogni
+  catalog trait_ref). Ref: `docs/planning/2026-05-31-trait-reconcile-audit.md`.
+
+#### Aggiornamento 2026-05-31 (sessione HUB lunga) -- Strato-2 + lifecycle + eventi
+
+- **TKT-SPECIE-STRATO2-AUTHOR** -- ✅ **DONE (derivabile)** (#2501/#2503/#2508/#2511). Le 22
+  creature `gameplay-promote`: **16 reali** ora hanno `trait_refs` (da suggested_traits glossary-
+  valid) + **prosa lore completa** (scientific_name/genus/epithet/classification/
+  functional_signature/visual_description/interactions/constraints), grounded su pack-data +
+  foodweb + naming-styleguide + voce "tassonomico/curioso/naturalista" (vault GM manuals come
+  metodo, no IP). Resta solo: lifecycle per-fase authoring (aspect/sprite, creativo) + ecotypes
+  cluster (vocab vincolato).
+- **TKT-SPECIE-LIFECYCLE (16 promosse)** -- ✅ **DONE stub** (#2514). 5-fasi grounded (biome-native)
+  per le 16 reali; linkati in catalog. Le altre 38 legacy = ancora da seedare (data-gen swarm).
+- **Eventi mal-promossi** -- ✅ **DONE** (#2515/#2517). 6 entry `role=evento_ecologico` (mis-promosse
+  da #2490) flaggate `is_event:true` (counts invariati) + filtro ETL `promote_gameplay_to_canon.py`
+  - esclusione dal `species-canonical-index.json` (mirror UI/Game-Database) con stats ricalcolati.
 
 #### Follow-up aperti da CANON-RECONCILE/D7 (nuovi ticket)
 
-| Ticket                       | Cosa                                                                                                                          | Mode            | Gate / nota                                                                                       |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------- |
-| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle 22 stub `_promote_stub` (scientific_name, descrizioni, interactions, lifecycle), bioma-per-bioma | writer / swarm  | incrementale YAGNI; trovabili via `source==gameplay-promote`                                      |
-| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata)                     | data hygiene    | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere |
-| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire)         | balance         | assegnare tier = giudizio balance, fare se servono in combat                                      |
-| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                                              | writer/designer | **D6 LOCKED gate**; escluse dall'unify                                                            |
+| Ticket                       | Cosa                                                                                                                  | Mode            | Gate / nota                                                                                                            |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| TKT-SPECIE-STRATO2-AUTHOR    | authoring campi design delle stub `_promote_stub`                                                                     | writer / swarm  | ✅ **derivabile DONE** (16/22, #2501..#2511); resta lifecycle per-fase authoring (creativo) + ecotypes cluster (vocab) |
+| TKT-SPECIE-TRAITKEEPER-RELOC | spostare 38 `*-trait-keeper` + 4 `evento-*` fuori da `packs/.../species/` (non-specie in cartella errata)             | data hygiene    | **gated**: serve consumer-trace completo (pack-catalog gen + biome trait loader) prima di muovere                      |
+| TKT-SPECIE-TIER-FIX          | 6 creature gameplay con solo `threat_tier` mancante (magneto-ridge/slag-veil/aurora-bridge/zephyr/glowcap/myco-spire) | balance         | assegnare tier = giudizio balance, fare se servono in combat                                                           |
+| TKT-D6-ROVINE-CONTENT        | 10 creature rovine_planari = nuovo contenuto D&D-style (threat_tier+role+design)                                      | writer/designer | **D6 LOCKED gate**; escluse dall'unify                                                                                 |
 
 Stato gate post-2026-05-30: il **critical-path Wave 3 (adapter) e CHIUSO**; CANON-RECONCILE
 Strato 1 chiuso. Resta backfill incrementale YAGNI (lifecycle/eco-yaml/strato2) + audit
