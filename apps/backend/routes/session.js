@@ -669,6 +669,7 @@ function createSessionRouter(options = {}) {
     let parryResult = null;
     let interceptResult = null;
     let bondReactionResult = null;
+    let symbiontRedirectResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
     // (elevation_delta + multiplier) on performAttack return so callers can
@@ -884,6 +885,30 @@ function createSessionRouter(options = {}) {
               killOccurred = false;
             }
           }
+        }
+      }
+      // TKT-JOB-PHASEC slice B4a (OQ-BOND verdict V3) — symbiont bond redirect.
+      // Fires on the residual damage AFTER intercept + companion bond (one absorb
+      // layer per hit: gated on !interceptResult && !bondReactionResult). Moves a
+      // share of the bonded partner's damage to the symbiont (capped at its HP),
+      // restoring the partner; resets killOccurred if the partner survives.
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+        try {
+          const symbiontBond = require('../services/combat/symbiontBond');
+          symbiontRedirectResult = symbiontBond.applyBondRedirect(session, target, damageDealt);
+          if (symbiontRedirectResult) {
+            if (target.hp > 0) killOccurred = false;
+            try {
+              const sgTracker = require('../services/combat/sgTracker');
+              const sym = session.units.find((u) => u.id === symbiontRedirectResult.symbiont_id);
+              if (sym)
+                sgTracker.accumulate(sym, { damage_taken: symbiontRedirectResult.redirected });
+            } catch {
+              /* sgTracker optional */
+            }
+          }
+        } catch {
+          /* symbiont bond optional; never break the hit */
         }
       }
       // TKT-ORPHAN-MORALE (SPRINT_013 successor): a critical hit (MoS >=

@@ -1322,7 +1322,93 @@ function createAbilityExecutor(deps) {
   // shield (energy_barrier): assorbi prossimi N HP danno per duration turni.
   // target.shield_hp consumato in performAttack pre-damage. Decay via
   // status.shield_buff in sessionRoundBridge.
+  // TKT-JOB-PHASEC slice B4a (OQ-BOND verdict V3) — symbiotic_bond pairs the
+  // symbiont with an ally (sets actor._bond + partner._bonded_by). Re-castable
+  // (moves the bond); with dual_bond a 2nd cast sets the secondary partner. The
+  // cast-time adjacency gate is dropped by bond_no_distance_limit. The redirect
+  // itself happens in performAttack via combat/symbiontBond.applyBondRedirect.
+  async function executeSymbioticBond({ session, actor, ability, body }) {
+    const targetId = String(body.target_id || '');
+    const target = session.units.find((u) => u.id === targetId);
+    if (!target || target.hp <= 0) {
+      return { status: 400, body: { error: `target "${targetId}" non valido (morto o assente)` } };
+    }
+    if (target.id === actor.id) {
+      return { status: 400, body: { error: 'symbiotic_bond non può legare se stesso' } };
+    }
+    if (target.controlled_by !== actor.controlled_by) {
+      return { status: 400, body: { error: 'symbiotic_bond richiede target alleato' } };
+    }
+    const cfg = require('./combat/symbiontBond').computeBondConfig(actor);
+    if (!cfg.no_distance_limit && manhattanDistance(actor.position, target.position) > 1) {
+      return { status: 400, body: { error: 'symbiotic_bond richiede alleato adiacente' } };
+    }
+    if (!actor._bond) {
+      actor._bond = {
+        partner_id: null,
+        redirect_pct: cfg.redirect_pct,
+        secondary_partner_id: null,
+        secondary_pct: 0,
+      };
+    }
+    actor._bond.redirect_pct = cfg.redirect_pct;
+    let slot = 'primary';
+    if (cfg.dual && actor._bond.partner_id && actor._bond.partner_id !== target.id) {
+      actor._bond.secondary_partner_id = target.id;
+      actor._bond.secondary_pct = cfg.secondary_pct;
+      slot = 'secondary';
+    } else {
+      const prev = actor._bond.partner_id;
+      if (prev && prev !== target.id && prev !== actor._bond.secondary_partner_id) {
+        const prevUnit = session.units.find((u) => u.id === prev);
+        if (prevUnit && prevUnit._bonded_by === actor.id) delete prevUnit._bonded_by;
+      }
+      actor._bond.partner_id = target.id;
+    }
+    target._bonded_by = actor.id;
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const redirectPct = slot === 'secondary' ? actor._bond.secondary_pct : actor._bond.redirect_pct;
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'bond',
+      target_id: target.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      bond_slot: slot,
+      redirect_pct: redirectPct,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'bond',
+        bonded: { partner_id: target.id, slot, redirect_pct: redirectPct },
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   async function executeShield({ session, actor, ability, body }) {
+    // TKT-JOB-PHASEC slice B4a — symbiotic_bond is a pairing, not a 0-hp shield.
+    if (ability.ability_id === 'symbiotic_bond') {
+      return executeSymbioticBond({ session, actor, ability, body });
+    }
     const targetId = String(body.target_id || actor.id);
     const target = session.units.find((u) => u.id === targetId);
     if (!target || target.hp <= 0) {
