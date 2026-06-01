@@ -31,7 +31,7 @@ species_archetypes:
       fisico: 80
       taglio: 80
       fuoco: 100
-      # balance-audit 2026-05-22: elettrico was a dead offensive channel (no archetype vulnerable). Armor conducts -> corazzato vuln 100->120. Candidate, needs N=40 ratify + lore sign-off.
+      # balance-audit 2026-05-22: elettrico was a dead offensive channel (no archetype vulnerable). Armor conducts -> corazzato vuln 100->120. RATIFIED #2381 (tune) + #2389 (N=40 EV-parity); OD-058 D4 downscope-A = dead-channel CLOSED. SoT canon: docs/core/00-SOURCE-OF-TRUTH.md §13.9.1.
       elettrico: 120
       psionico: 120
       mentale: 120
