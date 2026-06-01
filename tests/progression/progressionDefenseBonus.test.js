@@ -98,75 +98,51 @@ test('defender carries its own aura but does not buff itself', () => {
   assert.strictEqual(res.bonus, 0);
 });
 
-// --- slice 2: defense_after_silent (defender self-passive gated on last ability) ---
+// --- defense_after_silent: exact round-window (set by silent_step use-hook) ---
+// Window armed as [_camo_silent_from, _camo_silent_to] = [useRound+1, useRound+duration].
+const CAMO = {
+  tag: 'defense_after_silent',
+  payload: { defense_mod: 2, duration: 1 },
+  source_perk_id: 'st_r2',
+};
 
-test('defense_after_silent: defender granted when last ability was silent_step', () => {
-  const defender = unit(
-    'hero',
-    2,
-    2,
-    [
-      {
-        tag: 'defense_after_silent',
-        payload: { defense_mod: 2, duration: 1 },
-        source_perk_id: 'st_r2',
-      },
-    ],
-    { _last_ability_id: 'silent_step' },
-  );
-  const res = computePerkDefenseBonus(defender, { units: [defender] });
+test('defense_after_silent: granted while ctx.round is inside the camo window', () => {
+  const defender = unit('hero', 2, 2, [CAMO], { _camo_silent_from: 2, _camo_silent_to: 2 });
+  const res = computePerkDefenseBonus(defender, { units: [defender], round: 2 });
   assert.strictEqual(res.bonus, 2);
   assert.strictEqual(res.applied[0].tag, 'defense_after_silent');
 });
 
-test('defense_after_silent: no bonus when last ability was something else', () => {
-  const defender = unit(
-    'hero',
-    2,
-    2,
-    [
-      {
-        tag: 'defense_after_silent',
-        payload: { defense_mod: 2, duration: 1 },
-        source_perk_id: 'st_r2',
-      },
-    ],
-    { _last_ability_id: 'alpha_strike' },
-  );
-  const res = computePerkDefenseBonus(defender, { units: [defender] });
+test('defense_after_silent: no bonus on the silent_step turn itself (round < from)', () => {
+  const defender = unit('hero', 2, 2, [CAMO], { _camo_silent_from: 2, _camo_silent_to: 2 });
+  const res = computePerkDefenseBonus(defender, { units: [defender], round: 1 });
   assert.strictEqual(res.bonus, 0);
 });
 
-test('defense_after_silent: no bonus when no ability used yet', () => {
-  const defender = unit('hero', 2, 2, [
-    {
-      tag: 'defense_after_silent',
-      payload: { defense_mod: 2, duration: 1 },
-      source_perk_id: 'st_r2',
-    },
-  ]);
+test('defense_after_silent: no bonus after the window expires (round > to)', () => {
+  const defender = unit('hero', 2, 2, [CAMO], { _camo_silent_from: 2, _camo_silent_to: 2 });
+  const res = computePerkDefenseBonus(defender, { units: [defender], round: 3 });
+  assert.strictEqual(res.bonus, 0);
+});
+
+test('defense_after_silent: no bonus when the window was never armed', () => {
+  const defender = unit('hero', 2, 2, [CAMO]);
+  const res = computePerkDefenseBonus(defender, { units: [defender], round: 2 });
+  assert.strictEqual(res.bonus, 0);
+});
+
+test('defense_after_silent: no bonus when ctx.round is absent', () => {
+  const defender = unit('hero', 2, 2, [CAMO], { _camo_silent_from: 2, _camo_silent_to: 2 });
   const res = computePerkDefenseBonus(defender, { units: [defender] });
   assert.strictEqual(res.bonus, 0);
 });
 
 test('defense_after_silent + aura stack on the same defender', () => {
-  const defender = unit(
-    'hero',
-    2,
-    2,
-    [
-      {
-        tag: 'defense_after_silent',
-        payload: { defense_mod: 2, duration: 1 },
-        source_perk_id: 'st_r2',
-      },
-    ],
-    { _last_ability_id: 'silent_step' },
-  );
+  const defender = unit('hero', 2, 2, [CAMO], { _camo_silent_from: 2, _camo_silent_to: 2 });
   const sym = unit('sym', 3, 2, [
     { tag: 'aura_defense_2tile', payload: { defense_mod: 1, range: 2 }, source_perk_id: 'sy_r3' },
   ]);
-  const res = computePerkDefenseBonus(defender, { units: [defender, sym] });
+  const res = computePerkDefenseBonus(defender, { units: [defender, sym], round: 2 });
   assert.strictEqual(res.bonus, 3);
   assert.strictEqual(res.applied.length, 2);
 });
