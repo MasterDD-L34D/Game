@@ -898,13 +898,35 @@ function createSessionRouter(options = {}) {
           symbiontRedirectResult = symbiontBond.applyBondRedirect(session, target, damageDealt);
           if (symbiontRedirectResult) {
             if (target.hp > 0) killOccurred = false;
-            try {
-              const sgTracker = require('../services/combat/sgTracker');
-              const sym = session.units.find((u) => u.id === symbiontRedirectResult.symbiont_id);
-              if (sym)
-                sgTracker.accumulate(sym, { damage_taken: symbiontRedirectResult.redirected });
-            } catch {
-              /* sgTracker optional */
+            // SG: the targeted partner was already credited the full hit's
+            // damage_taken earlier in performAttack (the redirect is a heal-after-
+            // hit, not a re-hit) — re-crediting the symbiont here would double-count
+            // the redirected portion (Codex #2539 P2). A redirect that consumes the
+            // symbiont's last HP is a legitimate KO (V3 "capped at its HP"); it is a
+            // FRIENDLY unit, so it earns no enemy-kill rewards/pressure (parity with
+            // the companion bondReaction absorbing-ally death) and the round-level
+            // defeat sweep handles the lose-condition. Surface the down for telemetry.
+            if (
+              symbiontRedirectResult.symbiont_killed &&
+              !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
+              process.env.NODE_ENV !== 'test'
+            ) {
+              try {
+                // eslint-disable-next-line no-console
+                console.info(
+                  JSON.stringify({
+                    component: 'symbiont-bond',
+                    event: 'symbiont_downed_by_redirect',
+                    session_id: session.session_id || null,
+                    turn: session.turn,
+                    symbiont_id: symbiontRedirectResult.symbiont_id,
+                    target_id: symbiontRedirectResult.target_id,
+                    redirected: symbiontRedirectResult.redirected,
+                  }),
+                );
+              } catch {
+                /* structured log best-effort */
+              }
             }
           }
         } catch {
