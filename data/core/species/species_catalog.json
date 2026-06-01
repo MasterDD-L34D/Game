@@ -3506,7 +3506,7 @@
         "sacche_galleggianti_ascensoriali",
         "lingua_tattile_trama"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/echo_wing_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "echo_wing",
       "biome_affinity": "badlands",
@@ -3521,7 +3521,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Echopterus",
       "epithet": "pollinifer"
@@ -3565,7 +3566,7 @@
         "lingua_tattile_trama",
         "ventriglio_gastroliti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/ferrocolonia_magnetotattica_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "ferrocolonia_magnetotattica",
       "biome_affinity": "badlands",
@@ -3580,7 +3581,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Ferrocolonia",
       "epithet": "magnetotacta"
@@ -3672,7 +3674,7 @@
         "carapace_fase_variabile",
         "sangue_piroforico"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/nano_rust_bloom_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "nano_rust_bloom",
       "biome_affinity": "badlands",
@@ -3687,7 +3689,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Oxidospora",
       "epithet": "pestifera"
@@ -3731,7 +3734,7 @@
         "nucleo_ovomotore_rotante",
         "scheletro_idro_regolante"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/rust_scavenger_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "rust_scavenger",
       "biome_affinity": "badlands",
@@ -3746,7 +3749,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Ferrivora",
       "epithet": "saprophaga"
@@ -3791,7 +3795,7 @@
         "carapace_fase_variabile",
         "zampe_a_molla"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/sand_burrower_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "sand_burrower",
       "biome_affinity": "badlands",
@@ -3806,7 +3810,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Arenofossor",
       "epithet": "saliphilus"
@@ -3948,7 +3953,7 @@
         "sacche_galleggianti_ascensoriali",
         "occhi_infrarosso_composti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/aurora_gull_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "aurora_gull",
       "biome_affinity": "cryosteppe",
@@ -3963,7 +3968,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Glacilarus",
       "epithet": "borealis"
@@ -4005,7 +4011,7 @@
         "criostasi_adattiva",
         "zampe_a_molla"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/cryo_lynx_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "cryo_lynx",
       "biome_affinity": "cryosteppe",
@@ -4020,7 +4026,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Cryofelis",
       "epithet": "nivalis"
@@ -4064,7 +4071,7 @@
         "carapace_fase_variabile",
         "sacche_galleggianti_ascensoriali"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/steppe_bison_mini_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "steppe_bison_mini",
       "biome_affinity": "cryosteppe",
@@ -4079,7 +4086,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Nanobison",
       "epithet": "tundrae"
@@ -4122,7 +4130,7 @@
         "secrezione_rallentante_palmi",
         "eco_interno_riflesso"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/thaw_rot_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "thaw_rot",
       "biome_affinity": "cryosteppe",
@@ -4137,7 +4145,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Geliputris",
       "epithet": "liquefaciens"
@@ -4229,7 +4238,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/cactus_weaver_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "cactus_weaver",
       "biome_affinity": "deserto_caldo",
@@ -4244,7 +4253,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Cactotextor",
       "epithet": "hydrophorus"
@@ -4289,7 +4299,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/noctule_termico_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "noctule_termico",
       "biome_affinity": "deserto_caldo",
@@ -4304,7 +4314,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Thermonoctus",
       "epithet": "vagans"
@@ -4349,7 +4360,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/silica_bloom_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "silica_bloom",
       "biome_affinity": "deserto_caldo",
@@ -4364,7 +4375,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Siliciflora",
       "epithet": "pestifera"
@@ -4407,7 +4419,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/thermo_raptor_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "thermo_raptor",
       "biome_affinity": "deserto_caldo",
@@ -4422,7 +4434,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Thermoraptor",
       "epithet": "aridus"
@@ -4466,7 +4479,7 @@
         "mimetismo_cromatico_passivo",
         "filamenti_digestivi_compattanti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/blight_micotico_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "blight_micotico",
       "biome_affinity": "foresta_temperata",
@@ -4481,7 +4494,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Mycotabes",
       "epithet": "corruptor"
@@ -4571,7 +4585,7 @@
         "focus_frazionato",
         "occhi_infrarosso_composti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/lupus_temperatus_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "lupus_temperatus",
       "biome_affinity": "foresta_temperata",
@@ -4586,7 +4600,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Silvalupus",
       "epithet": "temperatus"
@@ -4674,7 +4689,7 @@
         "random",
         "empatia_coordinativa"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/sentinella_radice_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "sentinella_radice",
       "biome_affinity": "foresta_temperata",
@@ -4689,7 +4704,8 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "lifecycle_yaml"
+        "lifecycle_authoring",
+        "ecotypes"
       ],
       "genus": "Radicustos",
       "epithet": "vigilans"
