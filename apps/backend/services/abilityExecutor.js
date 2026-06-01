@@ -701,6 +701,20 @@ function createAbilityExecutor(deps) {
         }
       }
       applySgEarn(minion, target, res.damageDealt + proximityBonus);
+      // minion_kill_pe_bonus (bm_r5_apex_companion, V6 A3): when a minion kills, the
+      // BM earns +pe CAMPAIGN XP, capped 1/round. Accumulated on actor._minion_kill_pe;
+      // granted later by grantXpToSurvivors (PE = campaign XP per 26-ECONOMY).
+      if (Number(target.hp) <= 0) {
+        const mkPerk = Array.isArray(actor._perk_passives)
+          ? actor._perk_passives.find((p) => p && p.tag === 'minion_kill_pe_bonus')
+          : null;
+        if (mkPerk && actor._minion_kill_pe_round !== session.turn) {
+          actor._minion_kill_pe =
+            (Number(actor._minion_kill_pe) || 0) +
+            (Number(mkPerk.payload && mkPerk.payload.pe) || 0);
+          actor._minion_kill_pe_round = session.turn; // cap 1/round
+        }
+      }
       actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
       await appendEvent(session, {
         ts: new Date().toISOString(),
