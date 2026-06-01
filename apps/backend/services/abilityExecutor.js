@@ -451,11 +451,113 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // TKT-JOB-PHASEC slice B5 SPIKE POC (OQ-MINION verdict V4) — summon_companion
+  // spawns a real minion unit (controlled_by 'player' + owner_id = caster +
+  // is_minion), NOT a self hp_max buff. HP from buff_amount (5), atk +1, mob 3,
+  // spawned on an adjacent free in-grid tile (else 400), capped at MAX_MINIONS (2;
+  // max_minions perk raises it in a follow-up). Minions are expendable: excluded
+  // from the party-wipe lose-condition + the round-advance intent gate. AI /
+  // pack_command / the 8 minion tags are follow-up slices.
+  const MAX_MINIONS = 2;
+  async function executeSummonCompanion({ session, actor, ability }) {
+    // Cap counts only LIVE minions (Codex #2544 P2): dead minion records linger in
+    // session.units and must not permanently block re-summoning.
+    const existing = (session.units || []).filter(
+      (u) => u && u.is_minion && u.owner_id === actor.id && (u.hp ?? 0) > 0,
+    );
+    if (existing.length >= MAX_MINIONS) {
+      return {
+        status: 400,
+        body: { error: `cap minion raggiunto (${MAX_MINIONS})`, max_minions: MAX_MINIONS },
+      };
+    }
+    const pos = actor.position || { x: 0, y: 0 };
+    const grid = session.grid || null;
+    // Only LIVE units block a spawn tile (Codex #2544 P2): corpses don't occupy
+    // cells, matching the codebase's live-unit movement/occupancy semantics.
+    const occupied = new Set(
+      (session.units || [])
+        .filter((u) => u && u.position && (u.hp ?? 0) > 0)
+        .map((u) => `${u.position.x},${u.position.y}`),
+    );
+    const candidates = [
+      { x: pos.x + 1, y: pos.y },
+      { x: pos.x - 1, y: pos.y },
+      { x: pos.x, y: pos.y + 1 },
+      { x: pos.x, y: pos.y - 1 },
+    ];
+    const free = candidates.find((c) => {
+      if (c.x < 0 || c.y < 0) return false;
+      if (grid && (c.x >= Number(grid.width) || c.y >= Number(grid.height ?? grid.width)))
+        return false;
+      return !occupied.has(`${c.x},${c.y}`);
+    });
+    if (!free) {
+      return { status: 400, body: { error: 'nessuna tile adiacente libera per il minion' } };
+    }
+    const hp = Number(ability.buff_amount || 5);
+    const minion = {
+      id: `${actor.id}_minion_${existing.length + 1}_t${Number(session.turn) || 0}`,
+      controlled_by: 'player',
+      owner_id: actor.id,
+      is_minion: true,
+      hp,
+      max_hp: hp,
+      attack_mod: 1,
+      mobility: 3,
+      position: { x: free.x, y: free.y },
+      species: 'minion',
+      job: null,
+      status: {},
+      ap: 2,
+      ap_remaining: 2,
+    };
+    session.units.push(minion);
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'summon',
+      target_id: minion.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      minion: { id: minion.id, position: minion.position, hp: minion.hp },
+      minions_active: existing.length + 1,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'summon',
+        minion_id: minion.id,
+        minion_position: minion.position,
+        minions_active: existing.length + 1,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   async function executeBuff({ session, actor, ability }) {
     // TKT-JOB-PHASEC slice A1b (Cat F 7/7, OQ-F verdict V1) — phenotype_shift is a
     // 1d6 random table + per-round use-cap + double-roll perk, not a fixed buff.
     if (ability.ability_id === 'phenotype_shift') {
       return executePhenotypeShift({ session, actor, ability });
+    }
+    // TKT-JOB-PHASEC slice B5 — summon_companion spawns a minion, not a self-buff.
+    if (ability.ability_id === 'summon_companion') {
+      return executeSummonCompanion({ session, actor, ability });
     }
     const buffStat = ability.buff_stat;
     if (!buffStat) {
