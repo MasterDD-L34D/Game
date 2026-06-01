@@ -81,6 +81,18 @@ test('executeAbility: insufficient PE rejects with 400', async () => {
   assert.strictEqual(actor.pe, 0, 'PE not deducted on rejection');
 });
 
+test('executeAbility: PE NOT deducted when ability fails input validation (400)', async () => {
+  const ex = makeExecutor();
+  const actor = { id: 'ab', ap_remaining: 5, pe: 10, position: { x: 0, y: 0 }, attack_range: 5 };
+  const res = await ex.executeAbility({
+    session: { units: [actor], damage_taken: {} }, // no 'foe' target present
+    actor,
+    body: { ability_id: 'aberrant_overdrive', target_id: 'foe' }, // missing target -> 400
+  });
+  assert.strictEqual(res.status, 400);
+  assert.strictEqual(actor.pe, 10, 'PE must not be spent when the ability did not resolve');
+});
+
 test('executeAbility: sufficient PE deducts cost_pe', async () => {
   const ex = makeExecutor();
   const actor = { id: 'ab', ap_remaining: 5, pe: 10, position: { x: 0, y: 0 }, attack_range: 5 };
