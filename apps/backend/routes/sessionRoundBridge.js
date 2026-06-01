@@ -435,6 +435,24 @@ function createRoundBridge(deps) {
         capturedResults.beastBondReactions = Array.isArray(res.beast_bond_reactions)
           ? res.beast_bond_reactions
           : [];
+        // V5 shared_hp_pool (Codex #2542 P2): re-split a bonus through the pool
+        // RIGHT AFTER it lands, BEFORE the next bonus block reads target.hp — else a
+        // pooled target floored to 0 by focus_fire makes synergy read 0 and skip its
+        // stackable bonus. No-op for non-pool targets (applySharedHpPool -> null).
+        const resplitBonusThroughPool = (bonus) => {
+          if (!(bonus > 0)) return;
+          try {
+            const pr = require('../services/combat/symbiontBond').applySharedHpPool(
+              session,
+              target,
+              bonus,
+              Number(target.hp) + bonus,
+            );
+            if (pr) capturedResults.killOccurred = Number(target.hp) <= 0;
+          } catch {
+            /* symbiont bond optional */
+          }
+        };
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
@@ -452,6 +470,9 @@ function createRoundBridge(deps) {
               if (session.damage_taken) {
                 session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
               }
+              // Re-split focus_fire through the pool now, so the synergy block below
+              // reads the pool-restored HP (not a transient solo 0).
+              resplitBonusThroughPool(applied);
               if (target.hp <= 0 && !capturedResults.killOccurred) {
                 capturedResults.killOccurred = true;
               }
@@ -477,6 +498,7 @@ function createRoundBridge(deps) {
                 session.damage_taken[target.id] =
                   (session.damage_taken[target.id] || 0) + appliedSyn;
               }
+              resplitBonusThroughPool(appliedSyn);
               if (target.hp <= 0 && !capturedResults.killOccurred) {
                 capturedResults.killOccurred = true;
               }
@@ -485,30 +507,8 @@ function createRoundBridge(deps) {
           capturedResults.synergy = { ...synergyInfo, bonus_applied: appliedSyn };
           recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
         }
-        // V5 shared_hp_pool (Codex #2542 P2): the focus_fire/synergy bonuses above
-        // hit target.hp directly (after performAttack's pool split), bypassing the
-        // pool. If the target is a shared-pool member, re-split the cumulative bonus
-        // so the pair shares it + the both-KO invariant stays consistent. No-op for
-        // non-pool targets (applySharedHpPool returns null).
-        {
-          const poolBonus =
-            ((capturedResults.combo && capturedResults.combo.bonus_applied) || 0) +
-            ((capturedResults.synergy && capturedResults.synergy.bonus_applied) || 0);
-          if (poolBonus > 0) {
-            try {
-              const sb = require('../services/combat/symbiontBond');
-              const pr = sb.applySharedHpPool(
-                session,
-                target,
-                poolBonus,
-                Number(target.hp) + poolBonus,
-              );
-              if (pr) capturedResults.killOccurred = Number(target.hp) <= 0;
-            } catch {
-              /* symbiont bond optional */
-            }
-          }
-        }
+        // (shared_hp_pool re-split now runs inline per-bonus above, so each bonus
+        // sees the pool-restored HP — Codex #2542 P2.)
         for (const uOrch of next.units) {
           const uLegacy = session.units.find((u) => u.id === uOrch.id);
           if (uLegacy) {
@@ -1350,6 +1350,22 @@ function createRoundBridge(deps) {
 
           let combo = null;
           let synergy = null;
+          // V5 shared_hp_pool (Codex #2542 P2): re-split each bonus through the pool
+          // as it lands, so the next bonus reads pool-restored HP (not a transient
+          // solo 0). Mirror of realResolveAction. No-op for non-pool targets.
+          const resplitBonusThroughPool = (bonus) => {
+            if (!(bonus > 0)) return;
+            try {
+              require('../services/combat/symbiontBond').applySharedHpPool(
+                session,
+                target,
+                bonus,
+                Number(target.hp) + bonus,
+              );
+            } catch {
+              /* symbiont bond optional */
+            }
+          };
           if (!isSis) {
             const comboInfo = detectFocusFireCombo(session, actor, target);
             if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
@@ -1363,6 +1379,7 @@ function createRoundBridge(deps) {
                   session.damage_taken[target.id] =
                     (session.damage_taken[target.id] || 0) + applied;
                 }
+                resplitBonusThroughPool(applied);
               }
               combo = { ...comboInfo, bonus_applied: applied };
             }
@@ -1384,29 +1401,13 @@ function createRoundBridge(deps) {
                   session.damage_taken[target.id] =
                     (session.damage_taken[target.id] || 0) + appliedSyn;
                 }
+                resplitBonusThroughPool(appliedSyn);
               }
             }
             synergy = { ...synergyInfo, bonus_applied: appliedSyn };
             recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
           }
-          // V5 shared_hp_pool (Codex #2542 P2): re-split the focus_fire/synergy bonus
-          // through the pool (mirror of realResolveAction). No-op for non-pool targets.
-          {
-            const poolBonus =
-              ((combo && combo.bonus_applied) || 0) + ((synergy && synergy.bonus_applied) || 0);
-            if (poolBonus > 0) {
-              try {
-                require('../services/combat/symbiontBond').applySharedHpPool(
-                  session,
-                  target,
-                  poolBonus,
-                  Number(target.hp) + poolBonus,
-                );
-              } catch {
-                /* symbiont bond optional */
-              }
-            }
-          }
+          // (shared_hp_pool re-split now runs inline per-bonus above — Codex #2542 P2.)
 
           const event = buildAttackEvent({
             session,
