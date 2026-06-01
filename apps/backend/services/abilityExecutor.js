@@ -460,15 +460,24 @@ function createAbilityExecutor(deps) {
   // pack_command / the 8 minion tags are follow-up slices.
   const MAX_MINIONS = 2;
   async function executeSummonCompanion({ session, actor, ability }) {
+    // Owner perk mods (B5): cap (max_minions) + minion stat buffs (minion_attack_buff,
+    // alpha_pack_buff, encounter_start_buff_minions). Default cap MAX_MINIONS (2).
+    let perkMods = { cap: MAX_MINIONS, attackMod: 0, defenseMod: 0, startBuff: null };
+    try {
+      perkMods = require('./progression/progressionApply').computeMinionPerkMods(actor);
+    } catch {
+      /* progression optional */
+    }
+    const cap = Number(perkMods.cap) || MAX_MINIONS;
     // Cap counts only LIVE minions (Codex #2544 P2): dead minion records linger in
     // session.units and must not permanently block re-summoning.
     const existing = (session.units || []).filter(
       (u) => u && u.is_minion && u.owner_id === actor.id && (u.hp ?? 0) > 0,
     );
-    if (existing.length >= MAX_MINIONS) {
+    if (existing.length >= cap) {
       return {
         status: 400,
-        body: { error: `cap minion raggiunto (${MAX_MINIONS})`, max_minions: MAX_MINIONS },
+        body: { error: `cap minion raggiunto (${cap})`, max_minions: cap },
       };
     }
     const pos = actor.position || { x: 0, y: 0 };
@@ -503,7 +512,12 @@ function createAbilityExecutor(deps) {
       is_minion: true,
       hp,
       max_hp: hp,
-      attack_mod: 1,
+      // Combat-consumed fields (Codex #2545 P2): resolveAttack reads attacker `mod`
+      // (+ attack_mod_bonus) and target `dc` (+ defense_mod_bonus) — NOT attack_mod/
+      // defense_mod. Minion base = mod 1 (spec "attack_mod +1", a weak attacker) /
+      // dc 10 (weak defense, < the DEFAULT_DC 13 of a normal unit). Perks add here.
+      mod: 1 + Number(perkMods.attackMod || 0),
+      dc: 10 + Number(perkMods.defenseMod || 0),
       mobility: 3,
       position: { x: free.x, y: free.y },
       species: 'minion',
@@ -512,6 +526,13 @@ function createAbilityExecutor(deps) {
       ap: 2,
       ap_remaining: 2,
     };
+    // encounter_start_buff_minions: a temporary +atk buff on the freshly-summoned
+    // minion (the meaningful application — minions are summoned mid-combat, not at a
+    // literal encounter start). Standard {stat}_bonus + {stat}_buff duration form.
+    if (perkMods.startBuff && Number(perkMods.startBuff.attack_mod) > 0) {
+      minion.attack_mod_bonus = Number(perkMods.startBuff.attack_mod);
+      minion.status.attack_mod_buff = Number(perkMods.startBuff.duration) || 1;
+    }
     session.units.push(minion);
     actor.ap_remaining = Math.max(
       0,
