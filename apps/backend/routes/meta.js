@@ -31,6 +31,7 @@ const {
 } = require('../services/metaProgression');
 const { addFragments } = require('../services/rewards/skipFragmentStore');
 const { loadEpigenomeConfig, computeSpeciesMean } = require('../services/genetics/epigenome');
+const { createRosterStore } = require('../services/campaign/rosterStore');
 
 // OD-001 Path A Sprint B (2026-04-26): debrief-recruit affinity-bypass threshold.
 // Defeated enemies with affinity_at_recruit >= this value can be recruited
@@ -111,6 +112,7 @@ function createMetaRouter(opts = {}) {
   const router = Router();
   const store =
     opts.store || createMetaStore({ prisma: opts.prisma, campaignId: opts.campaignId ?? null });
+  const rosterStore = opts.rosterStore || (opts.prisma ? createRosterStore(opts.prisma) : null);
 
   // OD-001 Path A Sprint B (2026-04-26): expose MBTI compat table for
   // debrief recruit UI scoring. Read-only, cached in-process. Returns
@@ -189,6 +191,24 @@ function createMetaRouter(opts = {}) {
       }
 
       const result = await store.recruit(npc_id);
+
+      // link-2 — persist the recruited NPC into the run-scoped party_rosters so
+      // it shows in the Nido roster. Best-effort: a roster failure must never
+      // block/alter the recruit response. species/job/hp default in rosterStore.
+      if (result && result.success && rosterStore) {
+        const campaignId = (req.body && req.body.campaign_id) || null;
+        if (campaignId) {
+          try {
+            await rosterStore.upsert(campaignId, {
+              unit_id: npc_id,
+              traits: (result.npc && result.npc.trait_ids) || [],
+            });
+          } catch (err) {
+            console.warn('[meta/recruit] roster upsert failed (best-effort):', err.message);
+          }
+        }
+      }
+
       const payload = {
         ...result,
         ...(source_session_id ? { source_session_id } : {}),
