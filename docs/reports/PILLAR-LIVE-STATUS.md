@@ -50,11 +50,11 @@ related:
 
 **Score proposto** (⚠️ pending master-dd ratify): **6/6 🟢** (zero 🟡/🔴) — P2 🟢 def · P1/P4/P5 🟢 confirmed · P3 🟢 candidato HARD · P6 🟢 candidato reinforced. Engine LIVE verificato per tutti e 6; residuo = **surface caveat** (sotto).
 
-**Caveat residui da verificare (master-dd)**:
+**Caveat — verificati 2026-06-01** (ground-truth `gh` + grep):
 
-- **P5**: gap surface TV LobbyView remote room sync (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente) + gate **TKT-M11B-06 playtest live userland** ancora aperto per 🟢 def.
-- **P6**: workflow **`AI Sim Nightly` ultimo run su main = `failure`** → segnale drift calibrazione da verificare (può essere infra boot vs regressione reale); `xpBudget.auditEncounter` è wired engine ma surface = dev-log console (eccezione Gate-5, non gap player).
-- **P1**: surface Godot `MissionTimer` countdown (PARTIAL al 2026-05-07) + `Reinforcement` telegraph non ri-verificati post-maggio → ↘ da `def++` a `confirmed` finché surface re-audit.
+- **P1**: `MissionTimer` GAP-5 **RISOLTO** (verificato: `HudView %MissionTimerLabel` + tick caller in `encounter_runtime.gd` + test `test_mission_timer_hud_wire.gd`). Resta solo `Reinforcement` telegraph GAP-6 (~15min — pre-spawn warning assente in `main_reinforcement.gd`). Surface P1 quasi pulita → master-dd può valutare restore `def++`.
+- **P5**: gap surface TV LobbyView remote room sync **ancora APERTO** (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente — nessuna PR di fix post-2026-05-20). REST `/api/lobby/state?code=` **esiste** lato Game (`routes/lobby.js:118`, query-param non `:code`). Gate playtest live userland pendente (TKT-M11B-06 superseded → Phase B social playtest). Engine non impattato → 🟢 confirmed regge.
+- **P6**: drift **REALE, non infra** — nightly verde 5gg (05-27→05-31), regression #2513 il 06-01: profilo `balanced` WR **85% vs baseline 100% (−15pp)**, `aggressive`/`cautious` ✅, completion 100%. Probabile rumore N=40 (CI≈±15pp, L-069; baseline 100% = ceiling) su asse diverso dai hardcore scenari citati (#2362). Da osservare master-dd (re-run N=40 stessi seed). `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5).
 
 ---
 
@@ -85,7 +85,8 @@ related:
 
 - **Engine reinforced**: #2463 crit system + 4 Gate-5 orphan wired (Wave 2), #2470/#2474 job-expansion perks Cat A/B (on-kill + apex), #2481 Overcharge verb (SG→+1 AP), #2390 morale check on ally death, #2383 cumulativeStateTracker end-of-round, #2460 ecology→combat stat adapter, #2471 terrain wire flake reso deterministico.
 - **Surface Godot**: #372 `BeastBondReaction` LIVE nel combat engine Godot, #373 ERMES eco-band→SISTEMA attack scalar, #374 decay buff a turn-end.
-- **Proposto 🟢 confirmed** (↘ da `def++`): engine più ricco che mai, ma surface Godot `MissionTimer` countdown (PARTIAL al 2026-05-07) + `Reinforcement` telegraph non ri-verificati post-maggio → non riconfermo `def++` finché re-audit surface master-dd.
+- **Surface re-verificata 2026-06-01**: `MissionTimer` GAP-5 **RISOLTO** (HudView `%MissionTimerLabel` + tick caller `encounter_runtime.gd` + test `test_mission_timer_hud_wire.gd`); resta solo `Reinforcement` telegraph GAP-6 (~15min, pre-spawn warning assente in `main_reinforcement.gd`).
+- **Proposto 🟢 confirmed** (↘ da `def++`): engine più ricco che mai; surface ora quasi pulita (solo telegraph 15-min residuo) → master-dd può valutare restore `def++`.
 
 ### P2 — Evoluzione emergente (🟢 def++)
 
@@ -177,7 +178,7 @@ related:
 
 - **Sistema = antagonista con memoria** (M1 persistent learning): #2364 sistema-state read-only mirror route, #2371 CAMP-2 accumulation bridge (`/coop/combat/end` folds SistemaState), #2387 M1 live-loop validation con Postgres reale e2e, #2388 ADR Sistema Option B implemented, #2374 collision-resistant run.id. Campaign loop: #2469 N2 roster persist + `GET /api/campaign/roster`, #2483 GAP-C meta-network routing MVP, #2449 gated Nido hub phase.
 - **Surface Godot**: #342 Sistema-memory client + telegraph + Cronaca echo, CAMP-1/2/3 TV DebriefView mount on combat-end + #350 TV loop re-entry, #375-#380 Nido co-op hub.
-- **Proposto 🟢 confirmed** (↗ da `cand`): allinea HONEST-CHECK 2026-05-07. **Caveat**: gap surface TV LobbyView room sync (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente) + gate **TKT-M11B-06 playtest live userland** ancora master-dd per `🟢 def` definitivo.
+- **Proposto 🟢 confirmed** (↗ da `cand`): allinea HONEST-CHECK 2026-05-07. **Caveat (verificato 2026-06-01)**: gap surface TV LobbyView room sync **ancora APERTO** (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente, nessun fix post-05-20; REST `/api/lobby/state?code=` esiste lato Game `routes/lobby.js:118`) + gate playtest live userland pendente per `🟢 def`.
 
 ### P6 — Fairness (🟢)
 
@@ -200,7 +201,7 @@ related:
 **Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
 
 - **Calibration toolkit completo**: #2357 MAP-Elites Method D evaluator, #2361 Optuna parallel-internal (4-shard objective), #2360 drift_verify L-072 direction-test prior-baseline, #2358 staging-writer (Optuna/MAP-Elites mai clobber production); #2354 scenario_overrides + hc06 fix + calibration α P0 trio, #2365 revise hc06 band to engine reality + enemy_damage knob, #2359 hc07 3A iter2 in-band, #2362 handoff v44.5 — **entrambi hardcore in-band**; #2381→#2389 candidate trait tunes ratificati N=40 + EV-parity; #2344 Wave 5-7 cluster nerf.
-- **Proposto 🟢 candidato (reinforced)** (↔): il gate calibrazione (hardcore_07 80-100% OOB flaggato v44.3) è sostanzialmente chiuso. **Caveat**: workflow `AI Sim Nightly` ultimo run su main = `failure` (drift signal da verificare — infra boot vs regressione reale); `xpBudget.auditEncounter` è wired engine ma surface = dev-log console (eccezione Gate-5, non gap player). Gate per `🟢 def`: nightly verde stabile + N=10 hardcore_07 confirm post-nerf.
+- **Proposto 🟢 candidato (reinforced)** (↔): il gate calibrazione hardcore (hardcore_06/07, #2362) è sostanzialmente chiuso. **Caveat (verificato 2026-06-01)**: nightly regression #2513 il 06-01 = drift **REALE non infra** (profilo `balanced` WR 85% vs baseline 100%, −15pp; `aggressive`/`cautious` ✅; completion 100%), verde i 5gg precedenti → probabile rumore N=40 (CI±15pp, L-069) su asse diverso dai hardcore. `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5, non gap player). Gate per `🟢 def`: nightly `balanced` verde stabile + N=10 hardcore confirm.
 
 ---
 
@@ -225,7 +226,7 @@ Il debt surface 2026-05-07 è stato **in larga parte ripagato** dai 60 PR Godot 
 
 **Driver per pillar** (PR chiave): P1 #2463/#2470/#2474/#2481 + Godot #372 · P2 #2402/#2404/#2426/#2431 + Godot #339/#378 · P3 #2490 (catalogo 75)/#2470/#2474/#2507 · P4 #2465/#2467/#2461 + Godot #332/#334 · P5 #2371/#2387/#2483 + Godot CAMP/#375-#380 · P6 #2357/#2361/#2362/#2389.
 
-**Caveat residui (verifica master-dd)**: P5 gap TV LobbyView room sync (Godot QA 2026-05-20) + gate TKT-M11B-06 playtest userland; P6 `AI Sim Nightly` ultimo run main = `failure` (drift da verificare) + `xpBudget` surface dev-log only; P1 surface `MissionTimer`/`Reinforcement telegraph` non ri-verificati post-maggio (nessun re-audit surface completo dal 2026-05-07).
+**Caveat verificati 2026-06-01** (ground-truth `gh`+grep): P1 `MissionTimer` GAP-5 **RISOLTO** (HudView label + test), resta solo telegraph GAP-6 ~15min; P5 gap TV LobbyView sync **ancora APERTO** (no fix post-05-20, REST `/lobby/state?code=` esiste) + playtest userland pendente; P6 drift **REALE** #2513 (`balanced` −15pp, prob. rumore N=40 L-069, asse ≠ hardcore; `aggressive`/`cautious` ✅).
 
 ### 2026-04-28 (post sprint α/β/γ/δ + Skiv personal sprint + cross-PC sprint 1-11)
 
