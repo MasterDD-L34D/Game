@@ -124,9 +124,45 @@ function applyBondRedirect(session, target, damageDealt) {
   };
 }
 
+/**
+ * SYMBIONT sy_r5_sacrifice_grace (TKT-JOB-PHASEC B4b, V3) — when a bonded partner
+ * DIES, its (living) symbiont heals heal_pct of its max_hp + gains rage. Called
+ * from performAttack when a unit with _bonded_by drops to 0. No-op (null) if the
+ * partner is not bonded, the symbiont is missing/dead, or lacks the perk.
+ *
+ * @param {object} session — { units }
+ * @param {object} deadPartner — the bonded partner that just died (hp <= 0)
+ * @returns {object|null}
+ */
+function applyBondedDeathGrace(session, deadPartner) {
+  if (!session || !deadPartner || !deadPartner._bonded_by) return null;
+  const symbiont = (session.units || []).find((u) => u && u.id === deadPartner._bonded_by);
+  if (!symbiont || Number(symbiont.hp) <= 0) return null;
+  const grace = findPassive(symbiont, 'bonded_death_grace');
+  if (!grace) return null;
+  const healPct = Number(grace.payload && grace.payload.heal_pct) || 0.5;
+  const rageTurns = Number(grace.payload && grace.payload.rage_turns) || 0;
+  const maxHp = Number(symbiont.max_hp || symbiont.hp) || 0;
+  const before = Number(symbiont.hp) || 0;
+  const heal = Math.floor(maxHp * healPct);
+  symbiont.hp = maxHp > 0 ? Math.min(maxHp, before + heal) : before + heal;
+  if (rageTurns > 0) {
+    if (!symbiont.status) symbiont.status = {};
+    symbiont.status.rage = Math.max(Number(symbiont.status.rage) || 0, rageTurns);
+  }
+  return {
+    type: 'bonded_death_grace',
+    symbiont_id: symbiont.id,
+    partner_id: deadPartner.id,
+    healed: symbiont.hp - before,
+    rage_turns: rageTurns,
+  };
+}
+
 module.exports = {
   computeBondConfig,
   applyBondRedirect,
+  applyBondedDeathGrace,
   DEFAULT_REDIRECT_PCT,
   STRONG_REDIRECT_PCT,
   SECONDARY_REDIRECT_PCT,

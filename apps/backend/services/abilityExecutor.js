@@ -604,6 +604,36 @@ function createAbilityExecutor(deps) {
     const healed = Math.max(0, Math.min(rolled, Math.max(0, maxHp - hpBefore)));
     target.hp = hpBefore + healed;
 
+    // chain_heal_adjacent (SYMBIONT sy_r4, TKT-JOB-PHASEC B4b): shared_vitality
+    // also heals allies adjacent to the heal target (the bonded partner) at
+    // `factor` of the applied heal. Symbiont-only (gated on the perk + ability).
+    let chainHealed = null;
+    if (ability.ability_id === 'shared_vitality' && healed > 0) {
+      const perk = Array.isArray(actor._perk_passives)
+        ? actor._perk_passives.find((p) => p && p.tag === 'chain_heal_adjacent')
+        : null;
+      if (perk) {
+        const factor = Number(perk.payload && perk.payload.factor) || 0.5;
+        const chainAmt = Math.floor(healed * factor);
+        if (chainAmt > 0) {
+          chainHealed = [];
+          for (const u of session.units) {
+            if (!u || u.id === target.id || u.id === actor.id) continue;
+            if (u.controlled_by !== actor.controlled_by) continue;
+            if (Number(u.hp) <= 0 || !u.position) continue;
+            if (manhattanDistance(u.position, target.position) > 1) continue;
+            const uMax = Number(u.max_hp || u.hp || 0);
+            const uBefore = Number(u.hp || 0);
+            const applied = Math.max(0, Math.min(chainAmt, Math.max(0, uMax - uBefore)));
+            if (applied > 0) {
+              u.hp = uBefore + applied;
+              chainHealed.push({ unit_id: u.id, healed: applied });
+            }
+          }
+        }
+      }
+    }
+
     let removedStatus = null;
     if (ability.remove_status && target.status) {
       const prev = Number(target.status[ability.remove_status]) || 0;
@@ -635,6 +665,7 @@ function createAbilityExecutor(deps) {
       target_hp_before: hpBefore,
       target_hp_after: target.hp,
       removed_status: removedStatus,
+      chain_healed: chainHealed,
       trait_effects: [],
     };
     await appendEvent(session, event);
@@ -652,6 +683,7 @@ function createAbilityExecutor(deps) {
         target_hp_before: hpBefore,
         target_hp_after: target.hp,
         removed_status: removedStatus,
+        chain_healed: chainHealed,
         ap_remaining: actor.ap_remaining,
       },
     };

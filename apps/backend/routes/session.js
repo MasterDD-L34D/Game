@@ -670,6 +670,7 @@ function createSessionRouter(options = {}) {
     let interceptResult = null;
     let bondReactionResult = null;
     let symbiontRedirectResult = null;
+    let symbiontDeathGraceResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
     // (elevation_delta + multiplier) on performAttack return so callers can
@@ -927,6 +928,38 @@ function createSessionRouter(options = {}) {
               } catch {
                 /* structured log best-effort */
               }
+            }
+          }
+        } catch {
+          /* symbiont bond optional; never break the hit */
+        }
+      }
+      // TKT-JOB-PHASEC slice B4b — bonded_death_grace: if the attack still killed a
+      // bonded partner (redirect could not save it), its symbiont heals + rages.
+      if (killOccurred && target && target._bonded_by) {
+        try {
+          const symbiontBond = require('../services/combat/symbiontBond');
+          symbiontDeathGraceResult = symbiontBond.applyBondedDeathGrace(session, target);
+          if (
+            symbiontDeathGraceResult &&
+            !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
+            process.env.NODE_ENV !== 'test'
+          ) {
+            try {
+              // eslint-disable-next-line no-console
+              console.info(
+                JSON.stringify({
+                  component: 'symbiont-bond',
+                  event: 'bonded_death_grace',
+                  session_id: session.session_id || null,
+                  turn: session.turn,
+                  symbiont_id: symbiontDeathGraceResult.symbiont_id,
+                  partner_id: symbiontDeathGraceResult.partner_id,
+                  healed: symbiontDeathGraceResult.healed,
+                }),
+              );
+            } catch {
+              /* structured log best-effort */
             }
           }
         } catch {

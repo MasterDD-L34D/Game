@@ -387,6 +387,37 @@ function computePerkDefenseBonus(defender, ctx = {}) {
           });
         }
       }
+    } else if (p.tag === 'bonded_proximity_defense') {
+      // SYMBIONT sy_r2_resonance (TKT-JOB-PHASEC B4b): +per_ally defense for each
+      // ally adjacent to the bonded PARTNER (not the symbiont), capped at max.
+      // Reads defender._bond.partner_id (set by symbiotic_bond).
+      const bond = defender._bond;
+      const partner =
+        bond && bond.partner_id ? units.find((u) => u && u.id === bond.partner_id) : null;
+      if (partner && partner.position) {
+        const perAlly = Number(p.payload?.per_ally) || 1;
+        const maxBonus = Number(p.payload?.max) || 3;
+        let adjacent = 0;
+        for (const u of units) {
+          if (!u || u.id === defender.id || u.id === partner.id) continue;
+          if (u.controlled_by !== defender.controlled_by) continue;
+          if (Number(u.hp) <= 0 || !u.position) continue;
+          const d =
+            Math.abs(u.position.x - partner.position.x) +
+            Math.abs(u.position.y - partner.position.y);
+          if (d <= 1) adjacent += 1;
+        }
+        const amt = Math.min(adjacent * perAlly, maxBonus);
+        if (amt > 0) {
+          out.bonus += amt;
+          out.applied.push({
+            tag: 'bonded_proximity_defense',
+            amount: amt,
+            source_perk_id: p.source_perk_id,
+            source_unit_id: defender.id,
+          });
+        }
+      }
     }
   }
   return out;
