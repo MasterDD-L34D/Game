@@ -1,5 +1,5 @@
 {
-  "version": "0.4.2",
+  "version": "0.4.3",
   "merged_at": "2026-05-15",
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
@@ -3634,7 +3634,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "nano_rust_bloom",
@@ -3863,7 +3864,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "aurora_bridge_runner",
@@ -3912,7 +3914,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "aurora_gull",
@@ -4198,7 +4201,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "cactus_weaver",
@@ -4547,7 +4551,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "lupus_temperatus",
@@ -4653,7 +4658,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "sentinella_radice",
