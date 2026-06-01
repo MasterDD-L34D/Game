@@ -490,6 +490,54 @@ function applyMutationChainRefund(actor, costAp) {
 }
 
 /**
+ * Compute perk modifiers for mutation_burst's combat semantics (TKT-JOB-PHASEC
+ * slice 4b, Cat F). Read by executeDrainAttack on a mutation_burst hit to layer
+ * perk effects on top of the base MoS-gated random status:
+ *
+ * - mutation_status_extend (ABERRANT ab_r2_random_status_extra): +N turns to the
+ *   applied status duration.
+ * - perfect_mutation_burst (ABERRANT capstone ab_r6_perfect_aberrant): force ALL
+ *   five statuses (ignoring the MoS gate) + a flat bonus damage step.
+ *
+ * Pure reader — applies nothing itself, returns the modifiers for the caller to
+ * layer. Unlike the sibling perk helpers it does NOT early-return on empty
+ * passives (callers always invoke it for mutation_burst; the base MoS-status is
+ * ability semantics applied by the caller regardless of perks).
+ *
+ * @param {object} actor — the unit casting mutation_burst (reads _perk_passives)
+ * @returns {{ extraTurns: number, forceAllStatuses: boolean, bonusDamage: number, applied: Array<object> }}
+ */
+function computeMutationBurstPerkMods(actor) {
+  const out = { extraTurns: 0, forceAllStatuses: false, bonusDamage: 0, applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  for (const p of passives) {
+    if (p.tag === 'mutation_status_extend') {
+      const turns = Number(p.payload?.turns) || 0;
+      if (turns !== 0) {
+        out.extraTurns += turns;
+        out.applied.push({
+          tag: 'mutation_status_extend',
+          turns,
+          source_perk_id: p.source_perk_id,
+        });
+      }
+    } else if (p.tag === 'perfect_mutation_burst') {
+      const allStatuses = !!p.payload?.all_statuses;
+      const fixedDmg = Number(p.payload?.fixed_dmg) || 0;
+      if (allStatuses) out.forceAllStatuses = true;
+      out.bonusDamage += fixedDmg;
+      out.applied.push({
+        tag: 'perfect_mutation_burst',
+        all_statuses: allStatuses,
+        fixed_dmg: fixedDmg,
+        source_perk_id: p.source_perk_id,
+      });
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -539,6 +587,7 @@ module.exports = {
   applyPerkKillEffects,
   applyPerkAbilityUseEffects,
   applyMutationChainRefund,
+  computeMutationBurstPerkMods,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start
