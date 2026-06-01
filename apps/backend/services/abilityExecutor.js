@@ -1824,8 +1824,14 @@ function createAbilityExecutor(deps) {
     // the sgTracker pattern (non-blocking if the module is unavailable).
     if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
       try {
-        const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
+        const {
+          applyPerkAbilityUseEffects,
+          applyBaseAbilityResourceEarn,
+        } = require('./progression/progressionApply');
         applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
+        // TKT-JOB-PHASEC OQ-PE (PE-complete) — base aberrant PE earn on
+        // mutation_burst so aberrant_overdrive (cost_pe) is reachable by play.
+        applyBaseAbilityResourceEarn(actor, ability.ability_id, { round: session.turn });
       } catch {
         /* progression optional — non-blocking */
       }
