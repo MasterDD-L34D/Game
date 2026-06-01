@@ -1744,21 +1744,12 @@ function createAbilityExecutor(deps) {
         },
       };
     }
-    // TKT-JOB-PHASEC slice 3 — PE spend GATE (OQ-PE verdict B: combat-scoped
-    // pool). Reject before any side effect when PE is short. The deduction is
-    // DEFERRED until the executor resolves successfully (Codex P2 #2522), so a
-    // failed-input ability (400/501) never spends PE — mirrors the AP model.
-    const costPe = Number(ability.cost_pe || 0);
-    if (costPe > 0 && Number(actor.pe || 0) < costPe) {
-      return {
-        status: 400,
-        body: {
-          error: `PE insufficienti per ability (richiesti ${costPe}, disponibili ${Number(actor.pe || 0)})`,
-          pe: Number(actor.pe || 0),
-          cost_pe: costPe,
-        },
-      };
-    }
+    // PE-canon re-label (#2527): aberrant_overdrive's combat cost is `cost_sg`
+    // (NOT cost_pe — PE is campaign XP per 26-ECONOMY_CANONICAL). It is currently
+    // DECORATIVE (un-gated), consistent with the other cost_sg/cost_pt/cost_pp
+    // abilities. A real combat-cost gate is a separate economy-alignment follow-up:
+    // cost_sg values across abilities (3..100) are on inconsistent scales vs the
+    // SG pool (POOL_MAX=3), so a naive gate would break surge_aoe (cost_sg 75/100).
     // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
     // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
     // (defense_after_silent). Set after the AP gate, before dispatch.
@@ -1814,24 +1805,13 @@ function createAbilityExecutor(deps) {
       }
     };
     const result = await dispatch();
-    // TKT-JOB-PHASEC slice 3 (Codex P2 #2522) — commit the PE spend only after a
-    // successful (2xx) resolution; a failed-input ability (400/501) does not pay.
-    if (costPe > 0 && result && Number(result.status) >= 200 && Number(result.status) < 300) {
-      actor.pe = Math.max(0, Number(actor.pe || 0) - costPe);
-    }
     // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
     // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
     // the sgTracker pattern (non-blocking if the module is unavailable).
     if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
       try {
-        const {
-          applyPerkAbilityUseEffects,
-          applyBaseAbilityResourceEarn,
-        } = require('./progression/progressionApply');
+        const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
         applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
-        // TKT-JOB-PHASEC OQ-PE (PE-complete) — base aberrant PE earn on
-        // mutation_burst so aberrant_overdrive (cost_pe) is reachable by play.
-        applyBaseAbilityResourceEarn(actor, ability.ability_id, { round: session.turn });
       } catch {
         /* progression optional — non-blocking */
       }

@@ -319,7 +319,7 @@ jobs:
     fantasy_flavor: "Ogni mattina sei una nuova creatura. Non sai mai cosa diventerai oggi."
     initiative: 14
     attack_range: 2
-    resource_usage: { primary: PE, secondary: SG }
+    resource_usage: { primary: SG, secondary: PT }
     abilities:
       unlock_r1_1:
         ability_id: mutation_burst
@@ -347,10 +347,10 @@ jobs:
       unlock_r2:
         ability_id: aberrant_overdrive
         name_it: "Sovraccarico Aberrante"
-        description_it: "Trigger PE >= 5: x2 damage sul prossimo attacco, ma -2 HP al Aberrant. Crit (MoS >= 8) infligge bleeding 3 turni."
+        description_it: "Trigger SG >= 3 (consuma il Surge Gauge): x2 damage sul prossimo attacco, ma -2 HP al Aberrant. Crit (MoS >= 8) infligge bleeding 3 turni."
         cost_ap: 1
         cost_pi: 10
-        cost_pe: 5
+        cost_sg: 3
         effect_type: execution_attack
         damage_step_mod: 4
         target: enemy
@@ -658,10 +658,10 @@ perks:
           passive: { tag: mutation_status_extend, payload: { turns: 1 } }
       perk_b:
         id: ab_r2_pe_efficient
-        name_it: "Efficienza PE"
-        description_it: "aberrant_overdrive: cost_pe da 5 a 3."
+        name_it: "Efficienza Surge"
+        description_it: "aberrant_overdrive: cost_sg da 3 a 2."
         effect:
-          ability_mod: { ability_id: aberrant_overdrive, field: cost_pe, delta: -2 }
+          ability_mod: { ability_id: aberrant_overdrive, field: cost_sg, delta: -1 }
     level_4:
       perk_a:
         id: ab_r3_chaos_attack
