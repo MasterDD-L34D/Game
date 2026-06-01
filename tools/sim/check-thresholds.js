@@ -35,7 +35,7 @@ const BASELINE_WR = {
   aggressive_with_stickiness: 0.55, // K4 sticky 0.15 (PR #2147)
   aggressive_sticky_30: 0.6, // K4 sticky 0.30 (PR #2147)
   aggressive_commit_window: 1.0, // K4 Approach B explicit profile
-  balanced: 1.0, // historical 100% WR
+  balanced: 0.9, // empirical 3-data-points 2026-06-01: N=40 #2513 85.0% (6 timeout) + N=40 95.0% + N=100 99.0% -> combined 171/180 = 95.0%. Only loss mode = timeout @ max-rounds 40 (zero defeats: balanced wins every fight it finishes, variance is round-count near cap). 0.9 = conservative lower bound covering timeout-variance (worst night 85% = -5pp in-band; real regression <80% still trips). Was 1.0 placeholder -> false-positives #2513/#2158.
   cautious: 0.95, // empirical N=40 measurements 3-data-points 2026-05-10: #25609294902 95.0%, #25616775262 97.5%, sera userland 97.5% (avg 96.67%, 0.95 = conservative -1.67pp lower bound). Was 0.85 placeholder.
 };
 
