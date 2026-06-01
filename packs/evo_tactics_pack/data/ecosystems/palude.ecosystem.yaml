@@ -3,6 +3,26 @@ ecosistema:
   id: PALUDE
   label: Palude
   biome_id: palude
+  clima:
+    temperatura_C:
+      media_annua: 23.0
+      min_mese_piu_freddo: 12.0
+      max_mese_piu_caldo: 34.0
+    precipitazioni_mm:
+      totale_annuo: 1900
+      indice_stagionalita: perenne
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 76.0
+      O2: 19.0
+      Ar: 0.93
+      CO2: 0.6
+  abiotico:
+    salinita: brackish
+    nutrienti:
+      N: alto
+      P: alto
+      K: medio
   trofico:
     produttori:
     - canneti_palustri
@@ -18,6 +38,9 @@ ecosistema:
       - limnofalcis-serrata
       - siltovena-bifida
     decompositori: []
+  note: 'Palude Tossica (wetland): acque stagnanti bio-luminescenti, fauna mutagena,
+    esalazioni metaniche.'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT

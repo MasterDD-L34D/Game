@@ -3,6 +3,26 @@ ecosistema:
   id: CAVERNA
   label: Caverna
   biome_id: caverna
+  clima:
+    temperatura_C:
+      media_annua: 12.0
+      min_mese_piu_freddo: 10.0
+      max_mese_piu_caldo: 14.0
+    precipitazioni_mm:
+      totale_annuo: 60
+      indice_stagionalita: costante-stillicidio
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 19.5
+      Ar: 0.93
+      CO2: 0.3
+  abiotico:
+    salinita: fresh
+    nutrienti:
+      N: basso
+      P: medio
+      K: basso
   trofico:
     produttori:
     - lichene_emette
@@ -15,6 +35,9 @@ ecosistema:
       - cavatympa-sonans
       terziari: []
     decompositori: []
+  note: 'Caverna Risonante (subterranean): gallerie cristalline, eco e pressioni invertite;
+    termoclino stabile, niente luce solare.'
 _provenance:
   trofico: d4-ecoyaml-gen-heuristic-DRAFT
   produttori: d4-producer-selection-claude-reuse-first-DRAFT
+  clima_abiotico: d4-claude-design-proposal-grounded(biomes.yaml+vault-biomi-canonical+pf-gm)-DRAFT
