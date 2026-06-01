@@ -123,8 +123,7 @@ test('phenotype_shift: roll 6 → initiative +5 buff', async () => {
     actor,
     body: { ability_id: 'phenotype_shift' },
   });
-  assert.strictEqual(actor.initiative_bonus, 5);
-  assert.strictEqual(actor.status.initiative_buff, 2);
+  assert.strictEqual(actor.initiative, 5, 'bumps base initiative (the consumed field)');
 });
 
 test('phenotype_shift: base cap 1/round — 2nd cast same round → 400', async () => {
@@ -185,5 +184,5 @@ test('double_phenotype_roll: rolls twice, both outcomes apply', async () => {
   });
   assert.strictEqual(res.body.phenotype_rolls.length, 2, 'two rolls applied');
   assert.strictEqual(actor.attack_mod_bonus, 3, 'roll 1 applied');
-  assert.strictEqual(actor.defense_bonus, 3, 'roll 2 applied');
+  assert.strictEqual(actor.defense_mod_bonus, 3, 'roll 2 applied');
 });

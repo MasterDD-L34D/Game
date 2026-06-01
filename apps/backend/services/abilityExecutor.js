@@ -164,11 +164,13 @@ function createAbilityExecutor(deps) {
         applySelfBuff(actor, 'attack_mod', 3, dur);
         return { roll, stat: 'attack_mod', amount: 3, duration: dur };
       case 2:
-        applySelfBuff(actor, 'defense', 3, dur);
-        return { roll, stat: 'defense', amount: 3, duration: dur };
+        // defense_mod_bonus is the key resolveAttack/statusModifiers add to dc.
+        applySelfBuff(actor, 'defense_mod', 3, dur);
+        return { roll, stat: 'defense_mod', amount: 3, duration: dur };
       case 3:
-        applySelfBuff(actor, 'mobility', 2, dur);
-        return { roll, stat: 'mobility', amount: 2, duration: dur };
+        // move_bonus_bonus is the key validatePlayerIntent reads for move budget.
+        applySelfBuff(actor, 'move_bonus', 2, dur);
+        return { roll, stat: 'move_bonus', amount: 2, duration: dur };
       case 4: {
         const before = Number(actor.ap_remaining ?? actor.ap ?? 0);
         actor.ap_remaining = before + 1;
@@ -181,8 +183,11 @@ function createAbilityExecutor(deps) {
         return { roll, stat: 'heal', amount: actor.hp - before };
       }
       case 6:
-        applySelfBuff(actor, 'initiative', 5, dur);
-        return { roll, stat: 'initiative', amount: 5, duration: dur };
+        // initiative is read directly by roundOrchestrator.computeResolvePriority
+        // (unit.initiative); there is no consumed initiative_bonus buff field, so
+        // bump the base stat (mirrors progressionApply initiative bonuses).
+        actor.initiative = Number(actor.initiative || 0) + 5;
+        return { roll, stat: 'initiative', amount: 5 };
       default:
         return { roll, stat: 'none', amount: 0 };
     }
