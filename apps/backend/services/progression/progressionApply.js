@@ -538,6 +538,40 @@ function computeMutationBurstPerkMods(actor) {
 }
 
 /**
+ * Compute perk modifiers for phenotype_shift's 1d6 table (TKT-JOB-PHASEC slice
+ * A1b, Cat F 7/7, OQ-F verdict V1). Read by executePhenotypeShift:
+ *
+ * - double_phenotype_roll (ABERRANT ab_r5): roll the table twice, both outcomes
+ *   apply (extraRolls += 1).
+ * - phenotype_double_use (ABERRANT capstone): raise the per-round use cap to 2
+ *   (base cap is 1/round).
+ *
+ * Pure reader. Defaults { extraRolls: 0, usesCap: 1 } when no perks.
+ *
+ * @param {object} actor — reads _perk_passives
+ * @returns {{ extraRolls: number, usesCap: number, applied: Array<object> }}
+ */
+function computePhenotypeShiftPerkMods(actor) {
+  const out = { extraRolls: 0, usesCap: 1, applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  for (const p of passives) {
+    if (p.tag === 'double_phenotype_roll') {
+      out.extraRolls += 1;
+      out.applied.push({ tag: 'double_phenotype_roll', source_perk_id: p.source_perk_id });
+    } else if (p.tag === 'phenotype_double_use') {
+      const cap = Number(p.payload?.cap_per_round) || 2;
+      out.usesCap = Math.max(out.usesCap, cap);
+      out.applied.push({
+        tag: 'phenotype_double_use',
+        cap_per_round: cap,
+        source_perk_id: p.source_perk_id,
+      });
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -588,6 +622,7 @@ module.exports = {
   applyPerkAbilityUseEffects,
   applyMutationChainRefund,
   computeMutationBurstPerkMods,
+  computePhenotypeShiftPerkMods,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start

@@ -154,6 +154,45 @@ function createAbilityExecutor(deps) {
     actor[`${stat}_bonus`] = (actor[`${stat}_bonus`] || 0) + amount;
   }
 
+  // TKT-JOB-PHASEC slice A1b (Cat F, OQ-F verdict V1) — apply one phenotype_shift
+  // 1d6 outcome (Option A). Buff outcomes (1/2/3/6) use applySelfBuff; ap (4) is an
+  // immediate uncapped +1 (offsets the 1 ap cost = net free cast); heal (5) caps at
+  // max_hp. Returns the outcome descriptor for the event/response.
+  function applyPhenotypeOutcome(actor, roll, dur) {
+    switch (roll) {
+      case 1:
+        applySelfBuff(actor, 'attack_mod', 3, dur);
+        return { roll, stat: 'attack_mod', amount: 3, duration: dur };
+      case 2:
+        // defense_mod_bonus is the key resolveAttack/statusModifiers add to dc.
+        applySelfBuff(actor, 'defense_mod', 3, dur);
+        return { roll, stat: 'defense_mod', amount: 3, duration: dur };
+      case 3:
+        // move_bonus_bonus is the key validatePlayerIntent reads for move budget.
+        applySelfBuff(actor, 'move_bonus', 2, dur);
+        return { roll, stat: 'move_bonus', amount: 2, duration: dur };
+      case 4: {
+        const before = Number(actor.ap_remaining ?? actor.ap ?? 0);
+        actor.ap_remaining = before + 1;
+        return { roll, stat: 'ap', amount: 1 };
+      }
+      case 5: {
+        const maxHp = Number(actor.max_hp || actor.hp || 0);
+        const before = Number(actor.hp || 0);
+        actor.hp = maxHp > 0 ? Math.min(maxHp, before + 4) : before + 4;
+        return { roll, stat: 'heal', amount: actor.hp - before };
+      }
+      case 6:
+        // initiative is read directly by roundOrchestrator.computeResolvePriority
+        // (unit.initiative); there is no consumed initiative_bonus buff field, so
+        // bump the base stat (mirrors progressionApply initiative bonuses).
+        actor.initiative = Number(actor.initiative || 0) + 5;
+        return { roll, stat: 'initiative', amount: 5 };
+      default:
+        return { roll, stat: 'none', amount: 0 };
+    }
+  }
+
   async function executeMoveAttack({ session, actor, ability, body }) {
     const targetId = String(body.target_id || '');
     const target = session.units.find((u) => u.id === targetId);
@@ -413,6 +452,11 @@ function createAbilityExecutor(deps) {
   }
 
   async function executeBuff({ session, actor, ability }) {
+    // TKT-JOB-PHASEC slice A1b (Cat F 7/7, OQ-F verdict V1) — phenotype_shift is a
+    // 1d6 random table + per-round use-cap + double-roll perk, not a fixed buff.
+    if (ability.ability_id === 'phenotype_shift') {
+      return executePhenotypeShift({ session, actor, ability });
+    }
     const buffStat = ability.buff_stat;
     if (!buffStat) {
       return { status: 400, body: { error: 'buff_stat richiesto in ability spec' } };
@@ -453,6 +497,81 @@ function createAbilityExecutor(deps) {
         ability_id: ability.ability_id,
         effect_type: 'buff',
         buff_applied: { stat: buffStat, amount: amt, duration: dur },
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // TKT-JOB-PHASEC slice A1b (Cat F 7/7, OQ-F verdict V1). phenotype_shift rolls a
+  // 1d6 table (applyPhenotypeOutcome). double_phenotype_roll perk rolls twice (both
+  // apply); a base 1/round use-cap (phenotype_double_use capstone -> 2/round) gates
+  // re-casts. Perk mods come from progressionApply.computePhenotypeShiftPerkMods
+  // (lazy require, non-blocking). The cap check returns 400 BEFORE spending AP, so a
+  // blocked re-cast costs nothing and does not fire the post-2xx use-hook.
+  async function executePhenotypeShift({ session, actor, ability }) {
+    const round = session.turn;
+    let perkMods;
+    try {
+      perkMods = require('./progression/progressionApply').computePhenotypeShiftPerkMods(actor);
+    } catch {
+      perkMods = { extraRolls: 0, usesCap: 1, applied: [] };
+    }
+
+    if (actor._phenotype_use_round !== round) {
+      actor._phenotype_use_round = round;
+      actor._phenotype_use_count = 0;
+    }
+    if ((actor._phenotype_use_count || 0) >= perkMods.usesCap) {
+      return {
+        status: 400,
+        body: {
+          error: 'phenotype_shift: cap usi/round raggiunto',
+          cap_per_round: perkMods.usesCap,
+        },
+      };
+    }
+    actor._phenotype_use_count = (actor._phenotype_use_count || 0) + 1;
+
+    const dur = Number(ability.buff_duration || 2);
+    const rolls = 1 + Number(perkMods.extraRolls || 0);
+    const outcomes = [];
+    for (let i = 0; i < rolls; i += 1) {
+      const roll = Math.floor(rng() * 6) + 1;
+      outcomes.push(applyPhenotypeOutcome(actor, roll, dur));
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'buff',
+      target_id: actor.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      phenotype_rolls: outcomes,
+      perk_mods: perkMods.applied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'buff',
+        phenotype_rolls: outcomes,
+        perk_mods: perkMods.applied,
         ap_remaining: actor.ap_remaining,
       },
     };
