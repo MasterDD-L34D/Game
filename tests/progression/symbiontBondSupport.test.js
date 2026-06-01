@@ -173,7 +173,15 @@ test('chain_heal_adjacent: shared_vitality also heals allies adjacent to the tar
       { tag: 'chain_heal_adjacent', payload: { factor: 0.5 }, source_perk_id: 'sy_r4' },
     ],
   };
-  const target = { id: 'p', controlled_by: 'player', hp: 10, max_hp: 20, position: { x: 1, y: 0 } };
+  // target is THIS symbiont's bonded partner (chain heal is bond-scoped, Codex #2541 P2)
+  const target = {
+    id: 'p',
+    controlled_by: 'player',
+    hp: 10,
+    max_hp: 20,
+    position: { x: 1, y: 0 },
+    _bonded_by: 'sym',
+  };
   const adj = { id: 'adj', controlled_by: 'player', hp: 10, max_hp: 20, position: { x: 1, y: 1 } }; // adjacent to target
   const far = { id: 'far', controlled_by: 'player', hp: 10, max_hp: 20, position: { x: 9, y: 9 } };
   const res = await ex.executeAbility({
@@ -206,4 +214,28 @@ test('chain_heal_adjacent: absent → shared_vitality heals only the target', as
     body: { ability_id: 'shared_vitality', target_id: 'p' },
   });
   assert.strictEqual(adj.hp, 10, 'no chain heal without the perk');
+});
+
+test('chain_heal_adjacent: perk but UNbonded target → no chain (Codex #2541 P2)', async () => {
+  const ex = makeExecutor(() => 0.99);
+  const sym = {
+    id: 'sym',
+    job: 'symbiont',
+    controlled_by: 'player',
+    ap: 3,
+    ap_remaining: 3,
+    position: { x: 0, y: 0 },
+    _perk_passives: [
+      { tag: 'chain_heal_adjacent', payload: { factor: 0.5 }, source_perk_id: 'sy_r4' },
+    ],
+  };
+  // target is an ally but NOT bonded to this symbiont (no _bonded_by === 'sym')
+  const target = { id: 'p', controlled_by: 'player', hp: 10, max_hp: 20, position: { x: 1, y: 0 } };
+  const adj = { id: 'adj', controlled_by: 'player', hp: 10, max_hp: 20, position: { x: 1, y: 1 } };
+  await ex.executeAbility({
+    session: { units: [sym, target, adj], turn: 1 },
+    actor: sym,
+    body: { ability_id: 'shared_vitality', target_id: 'p' },
+  });
+  assert.strictEqual(adj.hp, 10, 'chain heal is bond-scoped — no chain on an unbonded ally');
 });

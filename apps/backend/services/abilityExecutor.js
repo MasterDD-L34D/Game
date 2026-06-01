@@ -605,10 +605,12 @@ function createAbilityExecutor(deps) {
     target.hp = hpBefore + healed;
 
     // chain_heal_adjacent (SYMBIONT sy_r4, TKT-JOB-PHASEC B4b): shared_vitality
-    // also heals allies adjacent to the heal target (the bonded partner) at
-    // `factor` of the applied heal. Symbiont-only (gated on the perk + ability).
+    // also heals allies adjacent to the heal target at `factor` of the applied
+    // heal — but ONLY when the target is THIS symbiont's bonded partner (Codex
+    // #2541 P2: the effect is scoped to the bond, primary or secondary, both of
+    // which set target._bonded_by === actor.id). Symbiont-only via the perk.
     let chainHealed = null;
-    if (ability.ability_id === 'shared_vitality' && healed > 0) {
+    if (ability.ability_id === 'shared_vitality' && healed > 0 && target._bonded_by === actor.id) {
       const perk = Array.isArray(actor._perk_passives)
         ? actor._perk_passives.find((p) => p && p.tag === 'chain_heal_adjacent')
         : null;
