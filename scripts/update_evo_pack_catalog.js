@@ -289,13 +289,32 @@ function main() {
   );
   if (fs.existsSync(CANONICAL_CATALOG_PATH)) {
     const canonical = readJson(CANONICAL_CATALOG_PATH);
-    const catalogEntries = Array.isArray(canonical.catalog) ? canonical.catalog : [];
+    const allCatalogEntries = Array.isArray(canonical.catalog) ? canonical.catalog : [];
+    // Wave3 consumer-wiring: this canonical index is the species-only SoT mirror
+    // consumed by the bestiary UI + Game-Database import. Exclude entries flagged
+    // is_event (role=evento_ecologico stubs mis-promoted by #2490, flagged by #2515):
+    // they are ecological events, not species. Combat consumers that legitimately want
+    // events read species_catalog.json directly and are unaffected.
+    const catalogEntries = allCatalogEntries.filter((entry) => entry.is_event !== true);
+    // Recompute stats from the species-only set so the mirror's metadata matches the
+    // species-only contract (copying canonical.stats would keep event-inclusive counts).
+    const speciesStats = { total_species: catalogEntries.length, by_source: {}, by_sentience_tier: {} };
+    for (const e of catalogEntries) {
+      if (e.source) speciesStats.by_source[e.source] = (speciesStats.by_source[e.source] || 0) + 1;
+      if (e.sentience_index)
+        speciesStats.by_sentience_tier[e.sentience_index] =
+          (speciesStats.by_sentience_tier[e.sentience_index] || 0) + 1;
+    }
+    if (canonical.stats && canonical.stats.catalog_synergies_count != null) {
+      speciesStats.catalog_synergies_count = canonical.stats.catalog_synergies_count;
+    }
     const canonicalIndex = {
       schema_version: canonical.version || '0.4.x',
       generated_at: nowIso,
       source: 'data/core/species/species_catalog.json',
       total_species: catalogEntries.length,
-      stats: canonical.stats || {},
+      events_excluded: allCatalogEntries.length - catalogEntries.length,
+      stats: speciesStats,
       // ADR-2026-05-15 Phase 4d Scope A — exposing full 53 canonical entries
       // with rich schema (clade_tag, role_tags, ecology, default_parts,
       // biome_affinity, legacy_slug, genus, epithet, sentience_index).
