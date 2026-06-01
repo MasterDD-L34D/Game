@@ -839,22 +839,9 @@ function createSessionRouter(options = {}) {
       if (target.hp === 0) {
         killOccurred = true;
       }
-      // Sprint α (Hard West 2 pattern): bravado AP refill su chain-kill player.
-      // Solo player (asimmetria risk/reward); cap actor.ap. Lazy require.
-      // Opt-in via BRAVADO_ENABLED=true (default OFF per back-compat con
-      // tutorial AP budget tests). Activation deferred a calibration sprint
-      // (segue pattern LOBBY_WS_ENABLED M11).
-      if (killOccurred && process.env.BRAVADO_ENABLED === 'true') {
-        try {
-          const { onKillRefill } = require('../services/combat/bravado');
-          const bravadoRes = onKillRefill(actor, target);
-          if (bravadoRes.refilled > 0) {
-            actor.bravado_refill_last = bravadoRes.refilled;
-          }
-        } catch {
-          /* bravado optional */
-        }
-      }
+      // NB Sprint α bravado AP refill MOVED to the final-killOccurred kill-hook
+      // (Codex #2542 P2): running it here granted a kill reward even when
+      // intercept/bond/shared_hp_pool later revived the target.
       // iter4 reaction engine: intercept reroute damage da target a alleato
       // adiacente con `intercept` armed. Restore target.hp + transfer to interceptor.
       if (damageDealt > 0) {
@@ -1159,6 +1146,21 @@ function createSessionRouter(options = {}) {
       // Surfaced by the debrief + consumed by grantXpToSurvivors' first_kill_pe_bonus.
       if (session._first_kill_actor_id == null) {
         session._first_kill_actor_id = actor.id;
+      }
+      // Sprint α (Hard West 2 pattern): bravado AP refill on a chain-kill. Moved
+      // here from the damage step (Codex #2542 P2) so it gates on the FINAL
+      // killOccurred — after intercept/bond/shared_hp_pool revives — and never
+      // rewards a kill the shared pool undid. Opt-in via BRAVADO_ENABLED=true.
+      if (process.env.BRAVADO_ENABLED === 'true') {
+        try {
+          const { onKillRefill } = require('../services/combat/bravado');
+          const bravadoRes = onKillRefill(actor, target);
+          if (bravadoRes.refilled > 0) {
+            actor.bravado_refill_last = bravadoRes.refilled;
+          }
+        } catch {
+          /* bravado optional */
+        }
       }
     }
 
