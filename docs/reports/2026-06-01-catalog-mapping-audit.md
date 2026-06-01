@@ -94,11 +94,13 @@ prima del merge. Deferred a un PR combat dedicato + band-verify.
 
 ## 4. Wire spedito — endpoint diagnostico biome stress-profile
 
-`GET /api/biomes/:id/stress-profile` (read-only, band-neutral): espone i campi
-`stresswave` (baseline/escalation_rate/event_thresholds) + `hazard.{severity,stress_modifiers}`
-+ `narrative.{tone,hooks}` + `npc_archetypes` — oggi caricati ma invisibili. Superficie
-Gate-5 = debug endpoint (player/dev legge il profilo stress di un bioma). Zero impatto
-combat (sola lettura) → band-neutral by construction. Vedi PR collegata.
+`GET /api/combat/biome-stress-profile/:id` (singolo bioma, 404 se ignoto) +
+`GET /api/combat/biome-stress-profiles` (tutti) — read-only, band-neutral. Espongono i
+campi `stresswave` (baseline/escalation_rate/event_thresholds) + `hazard.{severity,stress_modifiers}`
++ `narrative.{tone,hooks}` + `npc_archetypes` — oggi caricati ma invisibili. Registrati in
+`apps/backend/routes/combat.js` (sibling di `/api/combat/biome-modifiers`, pattern A6).
+Superficie Gate-5 = debug endpoint (player/dev legge il profilo stress di un bioma). Zero
+impatto combat (sola lettura) → band-neutral by construction. Vedi PR collegata.
 
 ## 5. Sintesi debito
 
