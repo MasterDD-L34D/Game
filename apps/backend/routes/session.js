@@ -669,6 +669,7 @@ function createSessionRouter(options = {}) {
     let parryResult = null;
     let interceptResult = null;
     let bondReactionResult = null;
+    let symbiontRedirectResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
     // (elevation_delta + multiplier) on performAttack return so callers can
@@ -884,6 +885,52 @@ function createSessionRouter(options = {}) {
               killOccurred = false;
             }
           }
+        }
+      }
+      // TKT-JOB-PHASEC slice B4a (OQ-BOND verdict V3) — symbiont bond redirect.
+      // Fires on the residual damage AFTER intercept + companion bond (one absorb
+      // layer per hit: gated on !interceptResult && !bondReactionResult). Moves a
+      // share of the bonded partner's damage to the symbiont (capped at its HP),
+      // restoring the partner; resets killOccurred if the partner survives.
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+        try {
+          const symbiontBond = require('../services/combat/symbiontBond');
+          symbiontRedirectResult = symbiontBond.applyBondRedirect(session, target, damageDealt);
+          if (symbiontRedirectResult) {
+            if (target.hp > 0) killOccurred = false;
+            // SG: the targeted partner was already credited the full hit's
+            // damage_taken earlier in performAttack (the redirect is a heal-after-
+            // hit, not a re-hit) — re-crediting the symbiont here would double-count
+            // the redirected portion (Codex #2539 P2). A redirect that consumes the
+            // symbiont's last HP is a legitimate KO (V3 "capped at its HP"); it is a
+            // FRIENDLY unit, so it earns no enemy-kill rewards/pressure (parity with
+            // the companion bondReaction absorbing-ally death) and the round-level
+            // defeat sweep handles the lose-condition. Surface the down for telemetry.
+            if (
+              symbiontRedirectResult.symbiont_killed &&
+              !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
+              process.env.NODE_ENV !== 'test'
+            ) {
+              try {
+                // eslint-disable-next-line no-console
+                console.info(
+                  JSON.stringify({
+                    component: 'symbiont-bond',
+                    event: 'symbiont_downed_by_redirect',
+                    session_id: session.session_id || null,
+                    turn: session.turn,
+                    symbiont_id: symbiontRedirectResult.symbiont_id,
+                    target_id: symbiontRedirectResult.target_id,
+                    redirected: symbiontRedirectResult.redirected,
+                  }),
+                );
+              } catch {
+                /* structured log best-effort */
+              }
+            }
+          }
+        } catch {
+          /* symbiont bond optional; never break the hit */
         }
       }
       // TKT-ORPHAN-MORALE (SPRINT_013 successor): a critical hit (MoS >=
