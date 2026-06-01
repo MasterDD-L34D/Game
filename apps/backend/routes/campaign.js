@@ -206,7 +206,7 @@ function createCampaignRouter(options = {}) {
   // a node on the meta-network graph. Flag-gated OFF by default — when
   // META_NETWORK_ROUTING !== 'true' it returns { enabled: false } and does NOT
   // touch campaign flow (band-safe / back-compat, Gate-5 surface without wiring
-  // into /advance). Query: ?from=<NODE_ID>&cleared=A,B&allow_revisit=1&season=winter
+  // into /advance). Query: ?from=<NODE_ID>&cleared=A,B&allow_revisit=1&campaign_id=<id>&season=winter
   // Fase 2 (arc-conditions, Stage 1, ADR-2026-05-31): edges may carry a
   // `conditions:` block (season / prior_node_cleared) = Dormans lock-and-key. The
   // `season` query param feeds the evaluator (live source =
@@ -224,10 +224,19 @@ function createCampaignRouter(options = {}) {
         ? req.query.cleared.split(',').map((s) => s.trim())
         : [];
     const allowRevisit = req.query.allow_revisit === '1' || req.query.allow_revisit === 'true';
-    // Fase 2 (arc-conditions, Stage 1): the current season feeds season-gated
-    // edges. Diagnostic source = ?season= (mirrors ?cleared=); the live campaign
-    // season is campaignSeasonalState.current_season.
-    const season = typeof req.query.season === 'string' ? req.query.season : undefined;
+    // Fase 2 (arc-conditions, Stage 1): season feeds season-gated edges. Prefer the
+    // LIVE campaign season (campaignSeasonalState, advanced via the seasonal routes)
+    // when ?campaign_id= is supplied; ?season= is a diagnostic override. Read-only
+    // .get() (NOT _getOrInitSeasonalState) so this diagnostic never creates seasonal
+    // state for an arbitrary id. Absent/unknown -> undefined -> season-gated edges
+    // fail-closed (band-safe).
+    const seasonOverride = typeof req.query.season === 'string' ? req.query.season : undefined;
+    const campaignId =
+      typeof req.query.campaign_id === 'string' ? req.query.campaign_id.trim() : '';
+    const liveSeason = campaignId
+      ? campaignSeasonalState.get(campaignId)?.current_season
+      : undefined;
+    const season = seasonOverride ?? liveSeason;
     const routing = selectNextNodes(from, { graph, clearedNodes, allowRevisit, season });
     return res.json({
       enabled: true,

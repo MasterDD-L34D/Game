@@ -164,3 +164,76 @@ test('meta-network/next: season=summer locks the winter bridge (blocked surfaced
     'CRYOSTEPPE blocked_by season surfaced',
   );
 });
+
+function postJson(url, body) {
+  return new Promise((resolve, reject) => {
+    const parsed = new URL(url);
+    const payload = JSON.stringify(body);
+    const req = http.request(
+      {
+        hostname: parsed.hostname,
+        port: parsed.port,
+        path: parsed.pathname + parsed.search,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'content-length': Buffer.byteLength(payload),
+        },
+      },
+      (res) => {
+        let data = '';
+        res.on('data', (c) => (data += c));
+        res.on('end', () =>
+          resolve({ status: res.statusCode, body: data ? JSON.parse(data) : null }),
+        );
+      },
+    );
+    req.on('error', reject);
+    req.end(payload);
+  });
+}
+
+// initialState = spring; advance-season 3x -> summer -> autumn -> winter.
+async function advanceToWinter(url, campaignId) {
+  for (let i = 0; i < 3; i++) {
+    await postJson(`${url}/api/campaign/seasonal/advance-season`, { campaign_id: campaignId });
+  }
+}
+
+// Codex P2 (#2509): the diagnostic must observe the LIVE campaign season
+// (campaignSeasonalState, advanced via the seasonal routes), not only ?season=.
+test('meta-network/next: live campaign season via campaign_id opens the winter bridge (no ?season=)', async (t) => {
+  process.env.META_NETWORK_ROUTING = 'true';
+  t.after(() => {
+    delete process.env.META_NETWORK_ROUTING;
+  });
+  const url = startTestServer(t);
+  await advanceToWinter(url, 'camp-live-winter');
+  const r = await get(
+    `${url}/api/campaign/meta-network/next?from=FORESTA_TEMPERATA&campaign_id=camp-live-winter`,
+  );
+  assert.equal(r.status, 200);
+  const targets = r.body.candidates.map((c) => c.node_id);
+  assert.ok(
+    targets.includes('CRYOSTEPPE'),
+    'live winter -> CRYOSTEPPE bridge open without ?season=',
+  );
+});
+
+test('meta-network/next: ?season= overrides the live campaign season', async (t) => {
+  process.env.META_NETWORK_ROUTING = 'true';
+  t.after(() => {
+    delete process.env.META_NETWORK_ROUTING;
+  });
+  const url = startTestServer(t);
+  await advanceToWinter(url, 'camp-override');
+  const r = await get(
+    `${url}/api/campaign/meta-network/next?from=FORESTA_TEMPERATA&campaign_id=camp-override&season=summer`,
+  );
+  assert.equal(r.status, 200);
+  const targets = r.body.candidates.map((c) => c.node_id);
+  assert.ok(
+    !targets.includes('CRYOSTEPPE'),
+    'summer override locks the bridge despite live winter',
+  );
+});
