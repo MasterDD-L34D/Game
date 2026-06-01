@@ -14,6 +14,8 @@
 
 const { ProgressionEngine } = require('./progressionEngine');
 const { createProgressionStore } = require('./progressionStore');
+// SG pool cap — perk SG earns must clamp to sgTracker POOL_MAX (Codex P2 #2524).
+const { POOL_MAX: SG_POOL_MAX } = require('../combat/sgTracker');
 
 let _defaultEngine = null;
 let _defaultStore = null;
@@ -251,24 +253,6 @@ function applyPerkKillEffects(actor) {
     }
   }
 
-  // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — mutation_chain_on_kill:
-  // after a KO scored via mutation_burst, refund AP to enable a "free" re-cast
-  // (AP-refund approximation; +2 = mutation_burst cost_ap, capped at actor.ap).
-  // Once per encounter (_mutation_chain_done). Reuses the slice-2 _last_ability_id.
-  const mutChain = passives.find((p) => p.tag === 'mutation_chain_on_kill');
-  if (mutChain && !actor._mutation_chain_done && actor._last_ability_id === 'mutation_burst') {
-    const refund = 2; // mutation_burst cost_ap (data/core/jobs_expansion.yaml)
-    const apMax = Number(actor.ap || actor.ap_remaining || 0);
-    const before = Number(actor.ap_remaining || 0);
-    actor.ap_remaining = Math.min(apMax, before + refund);
-    actor._mutation_chain_done = true;
-    out.applied.push({
-      tag: 'mutation_chain_on_kill',
-      ap_refunded: actor.ap_remaining - before,
-      source_perk_id: mutChain.source_perk_id,
-    });
-  }
-
   const eternal = passives.find((p) => p.tag === 'eternal_kill_buff');
   if (eternal) {
     const amt = Number(eternal.payload?.attack_mod) || 0;
@@ -439,12 +423,13 @@ function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
     if (p.tag === 'sg_on_mutation_burst' && abilityId === 'mutation_burst') {
       if (actor._sg_on_mb_round !== round) {
         const amt = Number(p.payload?.sg) || 0;
-        if (amt !== 0) {
-          actor.sg = Number(actor.sg || 0) + amt;
+        const before = Number(actor.sg || 0);
+        if (amt !== 0 && before < SG_POOL_MAX) {
+          actor.sg = Math.min(SG_POOL_MAX, before + amt);
           actor._sg_on_mb_round = round;
           out.applied.push({
             tag: 'sg_on_mutation_burst',
-            sg: amt,
+            sg: actor.sg - before,
             source_perk_id: p.source_perk_id,
           });
         }
