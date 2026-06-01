@@ -4,7 +4,7 @@ date: 2026-04-28
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-05-06'
+last_verified: '2026-06-01'
 source_of_truth: true
 language: it
 review_cycle_days: 7
@@ -14,6 +14,7 @@ related:
   - docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md
   - docs/reports/2026-04-27-situation-report-late.md
   - docs/reports/2026-04-28-canonical-doc-consolidation-plan.md
+  - docs/planning/sprint-context-history.md
 ---
 
 # PILLAR-LIVE-STATUS — runtime status canonical
@@ -29,18 +30,31 @@ related:
 
 ---
 
-## Stato corrente — 2026-04-28
+## Stato corrente — 2026-06-01 (⚠️ proposta Claude autonomous — pending master-dd ratify)
 
-|  #  | Pilastro             |    Stato    | Ultima verifica | Sprint chiusura |
-| :-: | -------------------- | :---------: | :-------------: | :-------------: |
-|  1  | P1 Tattica leggibile |  🟢 def++  |   2026-04-28   |   Sprint α + #1975 + #1976 + #1932 |
-|  2  | P2 Evoluzione        |  🟢 def++  |   2026-04-28   |   Spore Moderate FULL S1-S6 + #1918 + #1924 + #1967 |
-|  3  | P3 Specie × Job      |    🟡++    |   2026-04-28   |   #1960 portrait + #1967 ecology |
-|  4  | P4 Temperamenti      |   🟢 def   |   2026-04-28   |   #1966 + #1972 + #1945 + #1979 + #1983 |
-|  5  | P5 Co-op vs Sistema  |   🟢 cand  |   2026-04-28   |   M11 stack + #1976 Objective HUD; gate finale TKT-M11B-06 |
-|  6  | P6 Fairness          |    🟢      |   2026-04-28   |   pseudoRng + tension gauge + body-part + wounded_perma + #1990s Sprint 13 status engine wave A |
+> ⚠️ **PROPOSTA AUTONOMA CLAUDE — NON ratificata.** Gli stati nella colonna _"Proposto 2026-06-01"_ sono una proposta evidence-based da audit runtime fresh, **NON** un verdetto canonical. L'assegnazione soggettiva finale (glifo + qualifier) è di **master-dd** (`doc_owner`). Ratificare o correggere prima di trattare come canonical.
+>
+> **Metodo audit** (riconciliazione 3 surface divergenti — SOT 2026-04-28 / HONEST-CHECK 2026-05-07 / CLAUDE v44.3):
+>
+> - **Engine** (Game backend, questo repo): verificato LIVE su main `1aec1453` — `roundOrchestrator`/`metaProgression`/`mutationEngine`/`coopOrchestrator`/`vcScoring`/`enneaEffects`/`xpBudget`/`sistemaStateStore` tutti `require`-d nelle route (23 ref / 13 file); workflow CI `CI` + `Docs Governance` verdi su HEAD; catalogo specie single-SoT = **75** (verificato `data/core/species/species_catalog.json`).
+> - **Surface** (Godot-v2, repo `MasterDD-L34D/Game-Godot-v2`, NON clonato): inferita via `gh` da **60 PR merged maggio** (#320-#380) + QA spot docs. ⚠️ Nessun re-audit surface _completo_ dal `2026-05-07-godot-surface-coverage-audit.md` → surface da ri-verificare master-dd.
 
-**Score finale**: **5/6 🟢 def + 1/6 🟡++ (P3)**. **Demo-ready confirmed**.
+|  #  | Pilastro             | Stato 2026-04-28 (prev) | Proposto 2026-06-01 ⚠️    | Dir | Evidenza chiave maggio (PR)                                                          |
+| :-: | -------------------- | :---------------------: | :------------------------ | :-: | ----------------------------------------------------------------------------------- |
+|  1  | P1 Tattica leggibile |        🟢 def++         | 🟢 confirmed ⚠️           | ↘   | Engine #2463 crit+orphans · #2470/#2474 job-perks · #2481 overcharge · Godot #372 BeastBondReaction live |
+|  2  | P2 Evoluzione        |        🟢 def++         | 🟢 def ⚠️                 | ↔   | Engine #2402/#2404 epigenome Lamarck live-loop · #2426/#2431 mating+offspring · Godot #339 succession, #378 Nido ritual |
+|  3  | P3 Specie × Job      |          🟡++           | 🟢 candidato (HARD) ⚠️    | ↗   | Catalogo single-SoT 75 (#2490 canon-reconcile) · #2470/#2474 job-expansion perks · #2507 trait remap |
+|  4  | P4 Temperamenti      |         🟢 def          | 🟢 confirmed ⚠️           | ↗   | #2465/#2467/#2461 debrief→phone e2e + voices/conviction · Godot #332 Bond DebriefView, #334 HudView |
+|  5  | P5 Co-op vs Sistema  |         🟢 cand         | 🟢 confirmed ⚠️           | ↗   | #2371/#2387 Sistema M1 live-loop e2e (Postgres) · #2483 meta-network · Godot CAMP loop, #375-#380 Nido |
+|  6  | P6 Fairness          |          🟢             | 🟢 candidato (reinforced) ⚠️ | ↔ | #2362 both hardcore in-band · #2357/#2361 MAP-Elites+Optuna · #2389 N=40 ratify |
+
+**Score proposto** (⚠️ pending master-dd ratify): **6/6 🟢** (zero 🟡/🔴) — P2 🟢 def · P1/P4/P5 🟢 confirmed · P3 🟢 candidato HARD · P6 🟢 candidato reinforced. Engine LIVE verificato per tutti e 6; residuo = **surface caveat** (sotto).
+
+**Caveat residui da verificare (master-dd)**:
+
+- **P5**: gap surface TV LobbyView remote room sync (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente) + gate **TKT-M11B-06 playtest live userland** ancora aperto per 🟢 def.
+- **P6**: workflow **`AI Sim Nightly` ultimo run su main = `failure`** → segnale drift calibrazione da verificare (può essere infra boot vs regressione reale); `xpBudget.auditEncounter` è wired engine ma surface = dev-log console (eccezione Gate-5, non gap player).
+- **P1**: surface Godot `MissionTimer` countdown (PARTIAL al 2026-05-07) + `Reinforcement` telegraph non ri-verificati post-maggio → ↘ da `def++` a `confirmed` finché surface re-audit.
 
 ---
 
@@ -67,6 +81,12 @@ related:
 
 **Gate finale**: nessuno bloccante. Userland playtest live conferma demo.
 
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Engine reinforced**: #2463 crit system + 4 Gate-5 orphan wired (Wave 2), #2470/#2474 job-expansion perks Cat A/B (on-kill + apex), #2481 Overcharge verb (SG→+1 AP), #2390 morale check on ally death, #2383 cumulativeStateTracker end-of-round, #2460 ecology→combat stat adapter, #2471 terrain wire flake reso deterministico.
+- **Surface Godot**: #372 `BeastBondReaction` LIVE nel combat engine Godot, #373 ERMES eco-band→SISTEMA attack scalar, #374 decay buff a turn-end.
+- **Proposto 🟢 confirmed** (↘ da `def++`): engine più ricco che mai, ma surface Godot `MissionTimer` countdown (PARTIAL al 2026-05-07) + `Reinforcement` telegraph non ri-verificati post-maggio → non riconfermo `def++` finché re-audit surface master-dd.
+
 ### P2 — Evoluzione emergente (🟢 def++)
 
 **Stato**: def++ (Spore Moderate FULL stack + lifecycle + ecology).
@@ -86,6 +106,12 @@ related:
 
 **Gate finale**: aspect_token authoring 26 entries (~13h debt visual layer).
 
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Engine**: #2402 epigenome Fase-3 Lamarck-lite (engine + mating wire + speciation + Frammenti), #2404 live-loop per-creature persistence + accumulation + mating hydration + speciation, #2400 hybrid fusion engine, #2399 cross-lineage isolation, #2407 lineage-propagation sim; spore-fase1 reconciliation #2393-#2398 (E2E baseline + complexity-budget + bingo rebalance + 12 derived_ability_id); #2239 mutation 12/12 kinds complete; #2426 mating vote backend + #2431 server-side offspring birth on resolve.
+- **Surface Godot**: #339 M2 generational succession (lifecycle attrition + true-death), #354/#356 genetics_api + offspring-ritual unify, #368/#370 mating vote UI phone, #375-#380 Nido hub (TV+phone, offspring ritual N3, N4 recruit/affinity/trust).
+- **Proposto 🟢 def** (↔ reinforced): ciclo mating/nido ora con surface completa cross-stack + epigenome live-loop. Debt visual aspect_token resta polish, non bloccante.
+
 ### P3 — Specie × Job (🟡++)
 
 **Stato**: 🟡++ (portrait surface + ecology schema).
@@ -98,6 +124,13 @@ related:
 - Ecology schema (#1967): trophic_tier + pack_size + competes_with + ...
 
 **Gate per 🟢 def**: morphotype CoQ pool selector (~6h Min) + XCOM points-buy build allocation (~8h).
+
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Catalogo single-SoT**: migrato a SoT canonica unica (Q1 Option A, ADR-2026-05-15) e ora **75 specie** verificate (#2490 Wave3 CANON-RECONCILE unifica 22 creature gameplay nel canon, da 53), trait integrity #2507 (remap 50 codici TR dangling→glossary + catalog guard), lore prose Strato-2 #2508/#2511.
+- **Job**: #2470/#2474 job-expansion perks Cat A/B wired (`data/core/jobs_expansion.yaml` LIVE) — identità Job avanza oltre i 7 canonical.
+- **Surface**: Godot #357 PhoneTribesView emergent tribes (§22 meta-loop).
+- **Proposto 🟢 candidato (HARD)** (↗ da `🟡++`): allinea HONEST-CHECK 2026-05-07 (🟢ⁿ confirmed) + CLAUDE v44.3 (🟢 cand HARD). Gate per `confirmed`/`def`: morphotype pool selector + points-buy build (resta).
 
 ### P4 — Temperamenti MBTI/Ennea (🟢 def)
 
@@ -119,6 +152,12 @@ related:
 
 **Gate per 🟢 def++**: Ennea voices counterpart (gap noted Skiv) + altri sprint narrative reactivity.
 
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Surface chain CHIUSA** (anti-pattern Engine LIVE Surface DEAD risolto per P4): #2465 wire backend debrief payload → debrief panel, #2461 surface-wire personality voices + conviction badges, #2467 **e2e proof** debrief_payload arriva al phone su socket reale; #2277 vcSnapshotToDebriefPayload serializer (parità cross-stack), #2352 ennea-effects readonly diagnostic.
+- **Surface Godot**: Bond storytelling #320-#338 — #332 DebriefView Bond Pairs UI (Gate-5 closure), #334 HudView BondStatsLabel, #330 Cronaca Bond filter chip, #321 BattleFeed bond witness, #331 BondTelemetry (preserva contratto M.7).
+- **Proposto 🟢 confirmed** (↗): supera il down-revise 2026-05-07 (🟢 cand) — telemetria MBTI/Ennea ora visibile al player end-to-end. Gate per `def++`: counterpart Ennea voices.
+
 ### P5 — Co-op vs Sistema (🟢 candidato)
 
 **Stato**: cand (M11 stack live + Objective HUD; gate finale userland playtest).
@@ -133,6 +172,12 @@ related:
 - Skiv encounter solo vs pack (#1982) — base per future co-op pack scenarios
 
 **Gate finale**: TKT-M11B-06 playtest live userland (2-4 amici + ngrok + phone+TV). User-action only. Chiude P5 🟢 def definitivo.
+
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Sistema = antagonista con memoria** (M1 persistent learning): #2364 sistema-state read-only mirror route, #2371 CAMP-2 accumulation bridge (`/coop/combat/end` folds SistemaState), #2387 M1 live-loop validation con Postgres reale e2e, #2388 ADR Sistema Option B implemented, #2374 collision-resistant run.id. Campaign loop: #2469 N2 roster persist + `GET /api/campaign/roster`, #2483 GAP-C meta-network routing MVP, #2449 gated Nido hub phase.
+- **Surface Godot**: #342 Sistema-memory client + telegraph + Cronaca echo, CAMP-1/2/3 TV DebriefView mount on combat-end + #350 TV loop re-entry, #375-#380 Nido co-op hub.
+- **Proposto 🟢 confirmed** (↗ da `cand`): allinea HONEST-CHECK 2026-05-07. **Caveat**: gap surface TV LobbyView room sync (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente) + gate **TKT-M11B-06 playtest live userland** ancora master-dd per `🟢 def` definitivo.
 
 ### P6 — Fairness (🟢)
 
@@ -152,9 +197,35 @@ related:
 
 **Gate per 🟢 def**: calibration N=10 hardcore_07 win 30-50% (TKT-M11B-06 dependency).
 
+**Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
+
+- **Calibration toolkit completo**: #2357 MAP-Elites Method D evaluator, #2361 Optuna parallel-internal (4-shard objective), #2360 drift_verify L-072 direction-test prior-baseline, #2358 staging-writer (Optuna/MAP-Elites mai clobber production); #2354 scenario_overrides + hc06 fix + calibration α P0 trio, #2365 revise hc06 band to engine reality + enemy_damage knob, #2359 hc07 3A iter2 in-band, #2362 handoff v44.5 — **entrambi hardcore in-band**; #2381→#2389 candidate trait tunes ratificati N=40 + EV-parity; #2344 Wave 5-7 cluster nerf.
+- **Proposto 🟢 candidato (reinforced)** (↔): il gate calibrazione (hardcore_07 80-100% OOB flaggato v44.3) è sostanzialmente chiuso. **Caveat**: workflow `AI Sim Nightly` ultimo run su main = `failure` (drift signal da verificare — infra boot vs regressione reale); `xpBudget.auditEncounter` è wired engine ma surface = dev-log console (eccezione Gate-5, non gap player). Gate per `🟢 def`: nightly verde stabile + N=10 hardcore_07 confirm post-nerf.
+
 ---
 
 ## Delta history (snapshot temporali)
+
+### 2026-06-01 (reconciliation runtime audit fresh — ⚠️ Claude autonomous proposal, pending master-dd ratify)
+
+**Trigger**: SOT stale — tabella ferma al 2026-04-28, `last_verified` 2026-05-06, `review_cycle_days` 7 (→ >3x oltre il ciclo); ~6 settimane di lavoro maggio (#23xx-#24xx, entrambi i repo) non riflesse. Post governance consolidation **#2504** questo doc è l'**unica SOT** pillar (snapshot inline rimossi da `02-PILASTRI.md` → ora pointer, e da ~12 sezioni sprint-context CLAUDE.md → archiviate in `docs/planning/sprint-context-history.md`). Un 4° auto-generator per lo stato pillar è stato **rifiutato** (over-engineering per 6 valori soggettivi) → fix = riconciliazione manuale + freshness gate #2489.
+
+**Metodo**: audit runtime fresh cross-stack. **Engine** (Game, questo repo) verificato LIVE su main `1aec1453` — `roundOrchestrator`/`metaProgression`/`mutationEngine`/`coopOrchestrator`/`vcScoring`/`enneaEffects`/`xpBudget`/`sistemaStateStore`+`sistemaStateAccumulator` tutti `require`-d nelle route (23 ref/13 file); CI workflow `CI` + `Docs Governance` verdi; catalogo single-SoT 75 specie. **Surface** (Godot-v2, NON clonato) via `gh`: 60 PR merged maggio (#320-#380) + QA spot docs.
+
+**Riconciliazione 3 surface divergenti**:
+
+- **SOT 2026-04-28** (questo doc, pre-update): 5/6 🟢 def + 1/6 🟡++ (P3).
+- **HONEST-CHECK 2026-05-07** (`sprint-context-history.md`): down-revise P1→🟡 e P6→🟡 su debt surface (~67% Godot "Engine LIVE Surface DEAD"); γ leftover #204 risaliva P1+P6 a 🟢.
+- **CLAUDE v44.3 2026-05-20**: P3 🟢 cand HARD, P4 🟢 cand HARD, P5 🟢 confirmed HARD, P6 🟢 confirmed cand.
+
+Il debt surface 2026-05-07 è stato **in larga parte ripagato** dai 60 PR Godot di maggio (Bond storytelling DebriefView+HudView #332/#334, Sistema M1 telegraph+Cronaca echo, campaign loop CAMP TV re-entry, Nido hub phone+TV, BeastBondReaction live in combat #372). P4 "Engine LIVE Surface DEAD" **chiuso** (debrief payload→phone e2e #2467).
+
+**Da**: 5/6 🟢 def + 1/6 🟡++ (P3) [2026-04-28]
+**A (proposto ⚠️)**: 6/6 🟢 — P2 🟢 def · P1/P4/P5 🟢 confirmed · P3 🟢 candidato HARD · P6 🟢 candidato reinforced
+
+**Driver per pillar** (PR chiave): P1 #2463/#2470/#2474/#2481 + Godot #372 · P2 #2402/#2404/#2426/#2431 + Godot #339/#378 · P3 #2490 (catalogo 75)/#2470/#2474/#2507 · P4 #2465/#2467/#2461 + Godot #332/#334 · P5 #2371/#2387/#2483 + Godot CAMP/#375-#380 · P6 #2357/#2361/#2362/#2389.
+
+**Caveat residui (verifica master-dd)**: P5 gap TV LobbyView room sync (Godot QA 2026-05-20) + gate TKT-M11B-06 playtest userland; P6 `AI Sim Nightly` ultimo run main = `failure` (drift da verificare) + `xpBudget` surface dev-log only; P1 surface `MissionTimer`/`Reinforcement telegraph` non ri-verificati post-maggio (nessun re-audit surface completo dal 2026-05-07).
 
 ### 2026-04-28 (post sprint α/β/γ/δ + Skiv personal sprint + cross-PC sprint 1-11)
 
@@ -187,6 +258,7 @@ related:
 - **Vertical slice gameplay flow**: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](2026-04-27-stato-arte-completo-vertical-slice.md)
 - **Situation report cross-PC**: [`docs/reports/2026-04-27-situation-report-late.md`](2026-04-27-situation-report-late.md)
 - **Drift audit + consolidation plan**: [`docs/reports/2026-04-28-canonical-doc-consolidation-plan.md`](2026-04-28-canonical-doc-consolidation-plan.md)
+- **HONEST-CHECK surface audit 2026-05-07 + sprint-context archive** (riconciliazione 2026-06-01): [`docs/planning/sprint-context-history.md`](../planning/sprint-context-history.md)
 
 ---
 
