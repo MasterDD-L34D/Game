@@ -3488,8 +3488,8 @@
           "nettare e polline (arbusti_xerofili, cripto-flora)"
         ],
         "predated_by": [
-          "dune-stalker",
-          "ferrocolonia-magnetotattica"
+          "dune_stalker",
+          "ferrocolonia_magnetotattica"
         ],
         "symbiosis": "Impollina arbusti_xerofili e crostoni_criptofite"
       },
@@ -3544,11 +3544,11 @@
       },
       "interactions": {
         "predates_on": [
-          "sand-burrower",
+          "sand_burrower",
           "parassiti dell'ecosistema"
         ],
         "predated_by": [
-          "dune-stalker"
+          "dune_stalker"
         ],
         "symbiosis": "Controlla i parassiti (mutualismo con i produttori)"
       },
@@ -3714,7 +3714,7 @@
           "crostoni_criptofite"
         ],
         "predated_by": [
-          "dune-stalker"
+          "dune_stalker"
         ],
         "symbiosis": "Arricchisce il suolo per i produttori (mutualismo indiretto)"
       },
@@ -3773,8 +3773,8 @@
           "crostoni_criptofite"
         ],
         "predated_by": [
-          "ferrocolonia-magnetotattica",
-          "dune-stalker"
+          "ferrocolonia_magnetotattica",
+          "dune_stalker"
         ],
         "symbiosis": "nessuna"
       },
