@@ -907,6 +907,30 @@ function createSessionRouter(options = {}) {
             // killOccurred reflects the struck target's post-split HP (both_ko sets
             // both to 0; otherwise the target may now survive on the shared pool).
             killOccurred = Number(target.hp) <= 0;
+            // Codex #2542 P2: the SG accrual above credited the struck unit the full
+            // hit; reconcile to the split (refund the over-count from the struck unit,
+            // credit the counterpart its actual share) so the capstone does not distort
+            // SG-economy progression. Mirrors the damage_taken reconcile in the pool.
+            try {
+              const sgT = require('../services/combat/sgTracker');
+              const overCredit = damageDealt - (symbiontPoolResult.target_actual || 0);
+              if (overCredit > 0) {
+                sgT.initUnit(target);
+                const red =
+                  1 - Math.min(0.5, Math.max(0, Number(target.stress_reduction_bonus || 0)));
+                target.sg_taken_acc = Math.max(0, target.sg_taken_acc - overCredit * red);
+              }
+              const counterpart = (session.units || []).find(
+                (u) => u && u.id === symbiontPoolResult.counterpart_id,
+              );
+              if (counterpart && (symbiontPoolResult.counter_actual || 0) > 0) {
+                sgT.accumulate(counterpart, {
+                  damage_taken: symbiontPoolResult.counter_actual,
+                });
+              }
+            } catch {
+              /* sgTracker optional */
+            }
             if (
               symbiontPoolResult.both_ko &&
               !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
@@ -1077,6 +1101,19 @@ function createSessionRouter(options = {}) {
             session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + burst;
             if (target.hp === 0) {
               killOccurred = true;
+            }
+            // V5 shared_hp_pool (Codex #2542): the terrain burst lands AFTER the
+            // pool hook, bypassing it — re-split it too. No-op for non-pool targets.
+            try {
+              const pr = require('../services/combat/symbiontBond').applySharedHpPool(
+                session,
+                target,
+                burst,
+                Number(target.hp) + burst,
+              );
+              if (pr) killOccurred = Number(target.hp) <= 0;
+            } catch {
+              /* symbiont bond optional */
             }
           }
         }

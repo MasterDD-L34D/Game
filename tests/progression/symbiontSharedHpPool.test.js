@@ -38,6 +38,10 @@ test('shared_hp_pool: hit on the partner splits equally across the pair', () => 
   assert.strictEqual(symbiont.hp, 15, 'symbiont net took 5');
   assert.strictEqual(session.damage_taken.p, 5, 'partner damage_taken corrected to 5');
   assert.strictEqual(session.damage_taken.sym, 5, 'symbiont credited 5');
+  // Split actuals + counterpart id surfaced for the SG-accrual reconcile (Codex #2542).
+  assert.strictEqual(r.counterpart_id, 'sym', 'counterpart id is the symbiont');
+  assert.strictEqual(r.target_actual, 5, 'struck partner actually absorbed 5');
+  assert.strictEqual(r.counter_actual, 5, 'counterpart absorbed its 5 share');
 });
 
 test('shared_hp_pool: hit on the symbiont splits equally too', () => {

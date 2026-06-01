@@ -230,11 +230,14 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
     counterpart.hp = c;
   }
 
+  // The actual damage each side absorbed after the split (pool conserved:
+  // targetActual + counterActual === d, minus any drained overflow).
+  const targetActual = Math.max(0, preTarget - Number(target.hp));
+  const counterActual = Math.max(0, preCounter - Number(counterpart.hp));
+
   // Reconcile damage_taken: performAttack credited the struck unit the full `d`;
   // correct it to the actual split (refund the over-count, credit the counterpart).
   if (session.damage_taken) {
-    const targetActual = Math.max(0, preTarget - Number(target.hp));
-    const counterActual = Math.max(0, preCounter - Number(counterpart.hp));
     session.damage_taken[target.id] = Math.max(
       0,
       (session.damage_taken[target.id] || 0) - d + targetActual,
@@ -247,6 +250,9 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
     type: 'shared_hp_pool',
     symbiont_id: symbiont.id,
     partner_id: partner.id,
+    counterpart_id: counterpart.id,
+    target_actual: targetActual,
+    counter_actual: counterActual,
     both_ko: bothKo,
     pool_after: Math.max(0, poolAfter),
   };
