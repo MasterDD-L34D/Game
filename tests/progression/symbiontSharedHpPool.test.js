@@ -42,6 +42,7 @@ test('shared_hp_pool: hit on the partner splits equally across the pair', () => 
   assert.strictEqual(r.counterpart_id, 'sym', 'counterpart id is the symbiont');
   assert.strictEqual(r.target_actual, 5, 'struck partner actually absorbed 5');
   assert.strictEqual(r.counter_actual, 5, 'counterpart absorbed its 5 share');
+  assert.ok(!symbiont._pool_both_ko, 'no both-KO tag on a survivable split');
 });
 
 test('shared_hp_pool: hit on the symbiont splits equally too', () => {
@@ -61,6 +62,9 @@ test('shared_hp_pool: both KO when the pool empties', () => {
   assert.strictEqual(r.both_ko, true);
   assert.strictEqual(partner.hp, 0);
   assert.strictEqual(symbiont.hp, 0, 'both KO together');
+  // Codex #2542 P2: the counterpart is tagged so the bridge emits its kill ONLY
+  // on an actual pool both-KO (not merely a bonded unit that happens to be at 0).
+  assert.strictEqual(symbiont._pool_both_ko, true, 'counterpart tagged for kill emission');
 });
 
 test('shared_hp_pool: overkill on one member overflows into the pool (no premature death)', () => {

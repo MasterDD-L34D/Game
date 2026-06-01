@@ -218,6 +218,10 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
     target.hp = 0;
     counterpart.hp = 0;
     bothKo = true;
+    // Codex #2542 P2: definitive signal that THIS hit pool-KO'd the counterpart,
+    // so the bridge emits its kill ONLY on an actual pool both-KO (not merely a
+    // bonded unit that happens to be at 0). Consumed + cleared by the bridge.
+    counterpart._pool_both_ko = true;
   } else {
     // Equal split: the struck unit takes the ceil half, the counterpart the floor
     // half; overflow on either side is covered by the other (pool conserved).

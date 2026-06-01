@@ -1528,6 +1528,19 @@ function createRoundBridge(deps) {
         if (tgtLegacy && tgtOrch && tgtOrch.hp) {
           tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
         }
+        // V5 shared_hp_pool (Codex #2542 P1): a pool hit also mutates the bonded
+        // counterpart's HP, but this path syncs only actor+target back to
+        // roundState. Sync the counterpart too (harmless no-op if it didn't change)
+        // so its roundState HP isn't stale for later intents / UI / end-of-round.
+        const partnerId =
+          tgtLegacy && ((tgtLegacy._bond && tgtLegacy._bond.partner_id) || tgtLegacy._bonded_by);
+        if (partnerId) {
+          const cpLegacy = session.units.find((u) => u.id === partnerId);
+          const cpOrch = next.units.find((u) => u.id === partnerId);
+          if (cpLegacy && cpOrch && cpOrch.hp) {
+            cpOrch.hp.current = Number(cpLegacy.hp || 0);
+          }
+        }
       }
       return { nextState: next, turnLogEntry };
     };
@@ -1546,8 +1559,13 @@ function createRoundBridge(deps) {
     const partnerId = (target._bond && target._bond.partner_id) || target._bonded_by || null;
     if (!partnerId) return null;
     const cp = (session.units || []).find((u) => u && u.id === partnerId);
-    if (!cp || Number(cp.hp) > 0 || cp._pool_ko_emitted) return null;
+    // Codex #2542 P2: emit ONLY when applySharedHpPool actually pool-KO'd this cp
+    // this hit (the `_pool_both_ko` flag) — NOT for any bonded unit at 0. A
+    // dual_bond secondary (not pooled) or an already-dead symbiont must not emit
+    // a spurious extra kill/assist + pressure.
+    if (!cp || !cp._pool_both_ko || cp._pool_ko_emitted) return null;
     cp._pool_ko_emitted = true;
+    delete cp._pool_both_ko;
     await emitKillAndAssists(session, actor, cp, event);
     if (typeof session.sistema_pressure === 'number') {
       if (actor.controlled_by === 'player' && cp.controlled_by === 'sistema') {
@@ -1823,6 +1841,19 @@ function createRoundBridge(deps) {
         const tgtOrch = next.units.find((u) => u.id === String(action.target_id));
         if (tgtLegacy && tgtOrch && tgtOrch.hp) {
           tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
+        }
+        // V5 shared_hp_pool (Codex #2542 P1): a pool hit also mutates the bonded
+        // counterpart's HP, but this path syncs only actor+target back to
+        // roundState. Sync the counterpart too (harmless no-op if it didn't change)
+        // so its roundState HP isn't stale for later intents / UI / end-of-round.
+        const partnerId =
+          tgtLegacy && ((tgtLegacy._bond && tgtLegacy._bond.partner_id) || tgtLegacy._bonded_by);
+        if (partnerId) {
+          const cpLegacy = session.units.find((u) => u.id === partnerId);
+          const cpOrch = next.units.find((u) => u.id === partnerId);
+          if (cpLegacy && cpOrch && cpOrch.hp) {
+            cpOrch.hp.current = Number(cpLegacy.hp || 0);
+          }
         }
       }
       return { nextState: next, turnLogEntry };
