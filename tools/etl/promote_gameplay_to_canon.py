@@ -174,7 +174,7 @@ def main():
     catalog["stats"]["total_species"] = len(cat)
     catalog["stats"]["by_source"] = by_source
     catalog["stats"]["by_sentience_tier"] = by_sent
-    catalog["version"] = "0.4.2"
+    catalog["version"] = "0.4.3"  # 0.4.3 adds is_event semantics (evento_ecologico filter)
     if isinstance(catalog.get("source_provenance"), dict):
         catalog["source_provenance"]["gameplay_promote"] = "packs/evo_tactics_pack/data/species"
 
