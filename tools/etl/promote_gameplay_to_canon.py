@@ -16,8 +16,12 @@ Contract enforced by tests/api/envelope-b-data-integrity.test.js:
   - source-count asserts (new source 'gameplay-promote')
   - lifecycle_yaml=null only allowed for whitelisted sources
 
-Idempotent: skips species_id already in catalog. Not a creature: *-trait-keeper /
-evento-* are excluded (they are not species).
+Idempotent: skips species_id already in catalog. Not a creature, excluded:
+  - filename *-trait-keeper (biome trait carrier, not a species)
+  - filename evento-* (ecological event stub)
+  - role_trofico == evento_ecologico (ecological event regardless of filename;
+    closes the CANON-RECONCILE #2490 gap where event-role files lacking the
+    evento-* prefix, e.g. magneto-ridge-hunter, were wrongly promoted).
 
 Usage:
   python tools/etl/promote_gameplay_to_canon.py --biome badlands [--biome cryosteppe ...]
@@ -39,6 +43,7 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_PATH = os.path.join(REPO_ROOT, "data", "core", "species", "species_catalog.json")
 SPECIES_DIR = os.path.join(REPO_ROOT, "packs", "evo_tactics_pack", "data", "species")
 NEW_SOURCE = "gameplay-promote"
+EVENT_ROLE = "evento_ecologico"  # role_trofico marking an ecological event (not a species)
 
 # Design-rich fields left as stubs for Strato-2 incremental authoring.
 TODO_FIELDS = [
@@ -57,6 +62,13 @@ def norm(s):
 def is_creature(fid):
     return not (fid.endswith("-trait-keeper") or fid.endswith("_trait_keeper")
                 or fid.startswith("evento-") or fid.startswith("evento_"))
+
+
+def is_event(pack):
+    """True if the pack YAML is an ecological event (role_trofico=evento_ecologico),
+    not a biological species. Catches event-role files whose filename lacks the
+    evento-* prefix (CANON-RECONCILE #2490 gap)."""
+    return str(pack.get("role_trofico", "")).strip() == EVENT_ROLE
 
 
 def load_yaml(p):
@@ -133,7 +145,7 @@ def main():
     catalog = json.load(open(CATALOG_PATH, encoding="utf-8"))
     existing = {e["species_id"] for e in catalog["catalog"]}
 
-    added, skipped = [], []
+    added, skipped, excluded_events = [], [], []
     for biome in biomes:
         for p in sorted(glob.glob(os.path.join(SPECIES_DIR, biome, "*.yaml"))):
             fid = os.path.splitext(os.path.basename(p))[0]
@@ -143,7 +155,11 @@ def main():
             if sid in existing:
                 skipped.append(sid)
                 continue
-            entry = derive_entry(load_yaml(p), biome, fid)
+            pack = load_yaml(p)
+            if is_event(pack):
+                excluded_events.append(sid)  # ecological event, not a species
+                continue
+            entry = derive_entry(pack, biome, fid)
             catalog["catalog"].append(entry)
             existing.add(sid)
             added.append(sid)
@@ -164,6 +180,7 @@ def main():
 
     print(f"added {len(added)}: {added}")
     print(f"skipped (already canon) {len(skipped)}: {skipped}")
+    print(f"excluded events (role={EVENT_ROLE}) {len(excluded_events)}: {excluded_events}")
     print(f"catalog now {len(cat)} species; by_source={by_source}")
 
     if args.dry_run:
