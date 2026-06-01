@@ -1542,11 +1542,11 @@ function createRoundBridge(deps) {
   // in applySharedHpPool guarantees the counterpart was alive pre-hit, so a 0-HP
   // counterpart here means it died THIS hit. Mirrors the interceptor_killed chain.
   async function emitPoolCounterpartKo(session, actor, target, event) {
-    if (!target) return;
+    if (!target) return null;
     const partnerId = (target._bond && target._bond.partner_id) || target._bonded_by || null;
-    if (!partnerId) return;
+    if (!partnerId) return null;
     const cp = (session.units || []).find((u) => u && u.id === partnerId);
-    if (!cp || Number(cp.hp) > 0 || cp._pool_ko_emitted) return;
+    if (!cp || Number(cp.hp) > 0 || cp._pool_ko_emitted) return null;
     cp._pool_ko_emitted = true;
     await emitKillAndAssists(session, actor, cp, event);
     if (typeof session.sistema_pressure === 'number') {
@@ -1562,12 +1562,13 @@ function createRoundBridge(deps) {
         );
       }
     }
+    return cp;
   }
 
   async function postResolveKills(session, kills) {
     for (const { actor, target, event } of kills) {
       await emitKillAndAssists(session, actor, target, event);
-      await emitPoolCounterpartKo(session, actor, target, event);
+      const poolCp = await emitPoolCounterpartKo(session, actor, target, event);
       if (typeof session.sistema_pressure === 'number') {
         if (actor.controlled_by === 'player' && target.controlled_by === 'sistema') {
           session.sistema_pressure = applyPressureDelta(
@@ -1587,16 +1588,20 @@ function createRoundBridge(deps) {
       // panic (or rarely rage). Best-effort; never blocks the kill flow.
       try {
         const { moraleEventsForKill } = require('../services/combat/moraleOnKill');
-        const moraleEvents = moraleEventsForKill(target, session.units, {
-          sessionId: session.session_id,
-          turn: session.turn,
-          // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
-          // (this path runs after runWithSeed restored the global stream).
-          rng: makeHolderRng(session.combatRng),
-        });
-        for (const mEv of moraleEvents) {
-          // eslint-disable-next-line no-await-in-loop
-          await appendEvent(session, mEv);
+        // Includes the pool counterpart on a shared_hp_pool both-KO (Codex #2542)
+        // so its adjacent allies also make a morale check, not just the target's.
+        for (const victim of [target, poolCp].filter(Boolean)) {
+          const moraleEvents = moraleEventsForKill(victim, session.units, {
+            sessionId: session.session_id,
+            turn: session.turn,
+            // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
+            // (this path runs after runWithSeed restored the global stream).
+            rng: makeHolderRng(session.combatRng),
+          });
+          for (const mEv of moraleEvents) {
+            // eslint-disable-next-line no-await-in-loop
+            await appendEvent(session, mEv);
+          }
         }
       } catch (err) {
         // eslint-disable-next-line no-console
