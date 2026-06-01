@@ -1242,9 +1242,13 @@ function createRoundBridge(deps) {
     // TKT-JOB-PHASEC B5 minion_resurrect_chance (bm_r6 capstone) — runs LAST, after
     // all damage ticks have finalized this round's deaths. Revives dead minions whose
     // living owner has the perk (one roll per minion); emit the revive events.
+    // Seeded RNG (Codex #2547 P2): applyEndOfRoundSideEffects runs in async code
+    // AFTER runWithSeed restored the global stream, so — like the other async roll
+    // sites here (morale L~1208) — the revive roll must draw from the per-session
+    // holder, not the bridge-level `rng`, to stay deterministic for seeded playtests.
     const resurrectEvents = require('../services/combat/minionRuntime').applyMinionResurrect(
       session,
-      rng,
+      makeHolderRng(session.combatRng),
     );
     for (const ev of resurrectEvents) {
       await appendEvent(session, {
