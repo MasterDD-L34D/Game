@@ -144,6 +144,36 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     }
   });
 
+  test('ecological events flagged is_event (6) -- excluded from species-only consumers', () => {
+    // CANON-RECONCILE #2490 gap: 6 role_trofico=evento_ecologico stubs (lacking the
+    // evento-* filename prefix) were swept into the catalog. They STAY (source/count
+    // unchanged, counts hold) but carry is_event:true so species-only consumers
+    // (bestiary UI, trait/biome heuristics) skip them. promote_gameplay_to_canon.py
+    // now skips this role on future runs. See species_catalog.json v0.4.3.
+    const events = catalog.catalog.filter((e) => e.is_event === true);
+    assert.equal(events.length, 6, 'expected 6 evento_ecologico stubs flagged is_event');
+    for (const e of events) {
+      assert.ok(
+        (e.role_tags || []).includes('evento_ecologico'),
+        `${e.species_id} flagged is_event must carry role_tags evento_ecologico`,
+      );
+      assert.equal(
+        e.source,
+        'gameplay-promote',
+        `${e.species_id} stays gameplay-promote (counts hold)`,
+      );
+    }
+    // Inverse: every evento_ecologico entry must be flagged (no silent leak into species consumers).
+    const unflagged = catalog.catalog.filter(
+      (e) => (e.role_tags || []).includes('evento_ecologico') && e.is_event !== true,
+    );
+    assert.equal(
+      unflagged.length,
+      0,
+      `evento_ecologico entries missing is_event flag: ${unflagged.map((e) => e.species_id)}`,
+    );
+  });
+
   test('Pack v2-full-plus metadata merged (10 species)', () => {
     const pack = catalog.catalog.filter((e) => e.source === 'pack-v2-full-plus');
     assert.equal(pack.length, 10, 'expected 10 species merged from Pack v2-full-plus');

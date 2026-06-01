@@ -1,5 +1,5 @@
 {
-  "version": "0.4.2",
+  "version": "0.4.3",
   "merged_at": "2026-05-15",
   "source_provenance": {
     "pack_v2_full_plus": "/tmp/species_catalog_v0.2.0_backup.json",
@@ -3469,25 +3469,34 @@
     },
     {
       "species_id": "echo_wing",
-      "scientific_name": "",
+      "scientific_name": "Echopterus pollinifer",
       "common_names": [
-        "Echo Wing"
+        "Ala d'Eco"
       ],
       "classification": {
-        "macro_class": "volatore_planatore",
-        "habitat": "badlands"
+        "macro_class": "Volatore planatore / impollinatore-disperdente",
+        "habitat": "termiche e canyon dei calanchi ferrosi (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Planatore eco-orientato: naviga col riflesso interno e gli occhi a infrarosso, impollinando la cripto-flora e disperdendo i semi tra i calanchi.",
+      "visual_description": "Esile volatore dalle membrane translucide, grandi occhi composti e sacche ascensoriali che lo tengono in quota nelle termiche ferrose.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "nettare e polline (arbusti_xerofili, cripto-flora)"
+        ],
+        "predated_by": [
+          "dune_stalker",
+          "ferrocolonia_magnetotattica"
+        ],
+        "symbiosis": "Impollina arbusti_xerofili e crostoni_criptofite"
       },
-      "constraints": [],
+      "constraints": [
+        "Fragile nel volo radente",
+        "Dipende dalle termiche diurne"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3497,7 +3506,7 @@
         "sacche_galleggianti_ascensoriali",
         "lingua_tattile_trama"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/echo_wing_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "echo_wing",
       "biome_affinity": "badlands",
@@ -3512,36 +3521,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Echopterus",
+      "epithet": "pollinifer"
     },
     {
       "species_id": "ferrocolonia_magnetotattica",
-      "scientific_name": "",
+      "scientific_name": "Ferrocolonia magnetotacta",
       "common_names": [
         "Ferrocolonia Magnetotattica"
       ],
       "classification": {
-        "macro_class": "ingegnere_radicante",
-        "habitat": "badlands"
+        "macro_class": "Colonia radicante simbionte / predatore-regolatore",
+        "habitat": "affioramenti ferrosi magnetizzati (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Colonia radicante magnetotattica: si orienta lungo le linee di campo, regola i parassiti dell'ecosistema e immobilizza le prede con secrezioni rallentanti.",
+      "visual_description": "Aggregato coloniale ancorato al suolo ferroso, filamenti magnetosensibili e tessuti che mutano colore per mimetismo passivo.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "sand_burrower",
+          "parassiti dell'ecosistema"
+        ],
+        "predated_by": [
+          "dune_stalker"
+        ],
+        "symbiosis": "Controlla i parassiti (mutualismo con i produttori)"
       },
-      "constraints": [],
+      "constraints": [
+        "Sessile/semi-sessile, ancorata al substrato",
+        "Sangue piroforico: vulnerabile all'innesco termico"
+      ],
       "sentience_index": "T3",
       "ecotypes": [],
       "trait_refs": [
@@ -3551,7 +3566,7 @@
         "lingua_tattile_trama",
         "ventriglio_gastroliti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/ferrocolonia_magnetotattica_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "ferrocolonia_magnetotattica",
       "biome_affinity": "badlands",
@@ -3566,14 +3581,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Ferrocolonia",
+      "epithet": "magnetotacta"
     },
     {
       "species_id": "magneto_ridge_hunter",
@@ -3622,29 +3634,38 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "nano_rust_bloom",
-      "scientific_name": "",
+      "scientific_name": "Oxidospora pestifera",
       "common_names": [
-        "Nano Rust Bloom"
+        "Fioritura di Nano-Ruggine"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "badlands"
+        "macro_class": "Colonia microbica decompositrice / minaccia patogena",
+        "habitat": "carcasse e croste umide dei calanchi ferrosi (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Decompositore patogeno: dissolve carcasse e metallo con filamenti corrosivi e diffonde spore silenziate che colonizzano gli ospiti indeboliti.",
+      "visual_description": "Patina coloniale rosso-ferro che fiorisce a chiazze, filamenti capillari e spore opache sospese nell'aria secca.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "carcasse e detrito (decompositore)"
+        ],
+        "predated_by": [
+          "poche specie (deterrente patogeno)"
+        ],
+        "symbiosis": "Antagonista: patogeno opportunista sugli ospiti indeboliti"
       },
-      "constraints": [],
+      "constraints": [
+        "Si espande solo su substrato umido o carcasse",
+        "Inattiva nei picchi di aridita"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3654,7 +3675,7 @@
         "carapace_fase_variabile",
         "sangue_piroforico"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/nano_rust_bloom_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "nano_rust_bloom",
       "biome_affinity": "badlands",
@@ -3669,36 +3690,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Oxidospora",
+      "epithet": "pestifera"
     },
     {
       "species_id": "rust_scavenger",
-      "scientific_name": "",
+      "scientific_name": "Ferrivora saprophaga",
       "common_names": [
-        "Rust Scavenger"
+        "Spazzino della Ruggine"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "badlands"
+        "macro_class": "Saprofago corazzato / specie chiave",
+        "habitat": "calanchi ferrosi salini (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Specie chiave detritivora: compatta il detrito ferroso con filamenti digestivi e gastroliti, riciclando i metalli nel suolo e aprendo nicchie per i produttori.",
+      "visual_description": "Corpo tozzo e corazzato a piastre rugginose, mandibole trituranti e sacche ventrali gonfie di gastroliti.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "detrito organico ferroso",
+          "crostoni_criptofite"
+        ],
+        "predated_by": [
+          "dune_stalker"
+        ],
+        "symbiosis": "Arricchisce il suolo per i produttori (mutualismo indiretto)"
       },
-      "constraints": [],
+      "constraints": [
+        "Lento e poco difeso in campo aperto",
+        "Dipende dai pulse detritici stagionali"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3708,7 +3735,7 @@
         "nucleo_ovomotore_rotante",
         "scheletro_idro_regolante"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/rust_scavenger_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "rust_scavenger",
       "biome_affinity": "badlands",
@@ -3723,36 +3750,43 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Ferrivora",
+      "epithet": "saprophaga"
     },
     {
       "species_id": "sand_burrower",
-      "scientific_name": "",
+      "scientific_name": "Arenofossor saliphilus",
       "common_names": [
-        "Sand Burrower"
+        "Scavatore delle Sabbie"
       ],
       "classification": {
-        "macro_class": "cursoriale_quadrupede",
-        "habitat": "badlands"
+        "macro_class": "Cursore quadrupede fossorio / detritivoro",
+        "habitat": "calanchi ferrosi salini (Brulle Terre Ferrose)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Fossore quadrupede a balzi: scava gallerie con zampe a molla e scheletro idro-regolante, brucando cripto-flora e detrito sotto la crosta salina.",
+      "visual_description": "Corpo basso e corazzato a fasi variabili, arti molleggiati e carapace opaco color ruggine che lo mimetizza nel suolo ferroso.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "arbusti_xerofili",
+          "crostoni_criptofite"
+        ],
+        "predated_by": [
+          "ferrocolonia_magnetotattica",
+          "dune_stalker"
+        ],
+        "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Dipende dall'umidita sotto-crosta (scheletro idro-regolante)",
+        "Vulnerabile in superficie aperta agli apex"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3762,7 +3796,7 @@
         "carapace_fase_variabile",
         "zampe_a_molla"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/sand_burrower_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "sand_burrower",
       "biome_affinity": "badlands",
@@ -3777,14 +3811,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Arenofossor",
+      "epithet": "saliphilus"
     },
     {
       "species_id": "slag_veil_ambusher",
@@ -3833,7 +3864,8 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "aurora_bridge_runner",
@@ -3882,29 +3914,39 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "aurora_gull",
-      "scientific_name": "",
+      "scientific_name": "Glacilarus borealis",
       "common_names": [
-        "Gabbiano d’Aurora"
+        "Gabbiano d'Aurora"
       ],
       "classification": {
-        "macro_class": "volatore_planatore",
-        "habitat": "cryosteppe"
+        "macro_class": "Volatore planatore / disperdente-ponte",
+        "habitat": "ponti di ghiaccio e gradienti magnetici (Cryosteppe Magnetica)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Planatore migratore che sfrutta i gradienti termo-magnetici per coprire lunghe distanze, disperdendo spore e semi tra i lembi di permafrost.",
+      "visual_description": "Volatore slanciato dalle penne iridescenti che virano con la luce d'aurora, ali lunghe da aliante e zampe palmate per i suoli gelati.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "licheni_termocromici",
+          "alghe_cryofile"
+        ],
+        "predated_by": [
+          "cryo_lynx"
+        ],
+        "symbiosis": "Disperde spore di muschi_permafrost e licheni"
       },
-      "constraints": [],
+      "constraints": [
+        "Dipende dalle correnti ascensionali diurne",
+        "Vulnerabile al suolo durante le tempeste di ghiaccio"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3914,7 +3956,7 @@
         "sacche_galleggianti_ascensoriali",
         "occhi_infrarosso_composti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/aurora_gull_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "aurora_gull",
       "biome_affinity": "cryosteppe",
@@ -3929,36 +3971,40 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Glacilarus",
+      "epithet": "borealis"
     },
     {
       "species_id": "cryo_lynx",
-      "scientific_name": "",
+      "scientific_name": "Cryofelis nivalis",
       "common_names": [
-        "Cryo Lynx"
+        "Lince Criogenica"
       ],
       "classification": {
-        "macro_class": "cursoriale_quadrupede",
-        "habitat": "cryosteppe"
+        "macro_class": "Cursore quadrupede / predatore apex",
+        "habitat": "steppe criogeniche e creste innevate (Cryosteppe Magnetica)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Predatore apex da agguato: insegue le prede sul ghiaccio con artigli ramponanti e pelliccia termo-isolante, colpendo nei gradienti di temperatura.",
+      "visual_description": "Felino compatto dal manto folto screziato di bianco-azzurro, zampe larghe da neve e occhi riflettenti adattati alla penombra polare.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "steppe_bison_mini",
+          "aurora_gull"
+        ],
+        "predated_by": [],
+        "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Caccia inefficiente sopra lo zero termico",
+        "Territorio ampio: bassa densita di popolazione"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -3968,7 +4014,7 @@
         "criostasi_adattiva",
         "zampe_a_molla"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/cryo_lynx_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "cryo_lynx",
       "biome_affinity": "cryosteppe",
@@ -3983,36 +4029,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Cryofelis",
+      "epithet": "nivalis"
     },
     {
       "species_id": "steppe_bison_mini",
-      "scientific_name": "",
+      "scientific_name": "Nanobison tundrae",
       "common_names": [
         "Bisonte Nano della Steppa"
       ],
       "classification": {
-        "macro_class": "cursoriale_quadrupede",
-        "habitat": "cryosteppe"
+        "macro_class": "Cursore quadrupede / ingegnere d'ecosistema",
+        "habitat": "praterie criogeniche a muschio (Cryosteppe Magnetica)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Brucatore gregario ingegnere del suolo: pascola muschi e licheni in mandria, compattando la neve e fertilizzando il permafrost che apre nicchie ai produttori.",
+      "visual_description": "Erbivoro tarchiato dal vello lanoso e fitto, corna corte ricurve e zoccoli larghi che distribuiscono il peso sulla crosta gelata.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "muschi_permafrost",
+          "licheni_termocromici"
+        ],
+        "predated_by": [
+          "cryo_lynx"
+        ],
+        "symbiosis": "Fertilizza il suolo e dispersa propaguli (mutualismo con i produttori)"
       },
-      "constraints": [],
+      "constraints": [
+        "Dipende dalla copertura vegetale stagionale",
+        "Lento: vulnerabile in branco disperso"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4022,7 +4074,7 @@
         "carapace_fase_variabile",
         "sacche_galleggianti_ascensoriali"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/steppe_bison_mini_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "steppe_bison_mini",
       "biome_affinity": "cryosteppe",
@@ -4037,36 +4089,41 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Nanobison",
+      "epithet": "tundrae"
     },
     {
       "species_id": "thaw_rot",
-      "scientific_name": "",
+      "scientific_name": "Geliputris liquefaciens",
       "common_names": [
-        "Thaw Rot"
+        "Marciume del Disgelo"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "cryosteppe"
+        "macro_class": "Colonia microbica decompositrice / minaccia patogena",
+        "habitat": "sacche di disgelo e carcasse gelate (Cryosteppe Magnetica)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Decompositore criofilo: si attiva nei disgeli per liquefare i tessuti gelati, liberando nutrienti ma diffondendo marciume tra gli ospiti indeboliti dal freddo.",
+      "visual_description": "Patina viscida grigio-verde che fiorisce sulle superfici in disgelo, con filamenti gelatinosi e bolle di gas di fermentazione.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "carcasse gelate e detrito (decompositore)"
+        ],
+        "predated_by": [
+          "poche specie (deterrente patogeno)"
+        ],
+        "symbiosis": "Antagonista: marciume opportunista sugli ospiti criolesi"
       },
-      "constraints": [],
+      "constraints": [
+        "Attivo solo nei cicli di disgelo",
+        "Inerte sotto i picchi di gelo profondo"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4076,7 +4133,7 @@
         "secrezione_rallentante_palmi",
         "eco_interno_riflesso"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/thaw_rot_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "thaw_rot",
       "biome_affinity": "cryosteppe",
@@ -4091,14 +4148,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Geliputris",
+      "epithet": "liquefaciens"
     },
     {
       "species_id": "zephyr_spore_courier",
@@ -4147,29 +4201,37 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "cactus_weaver",
-      "scientific_name": "",
+      "scientific_name": "Cactotextor hydrophorus",
       "common_names": [
-        "Cactus Weaver"
+        "Tessitore di Cactus"
       ],
       "classification": {
-        "macro_class": "ingegnere_radicante",
-        "habitat": "deserto_caldo"
+        "macro_class": "Produttore radicante / ingegnere idrico",
+        "habitat": "dune vetrificate e lenti magnetiche sotterranee (Deserto Caldo Vetrificato)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Produttore ingegnere idrico: tesse reti di radici e fusti succulenti che captano e ridistribuiscono l'umidita profonda, creando isole d'ombra che sostengono la fauna.",
+      "visual_description": "Groviglio di fusti spinosi intrecciati a rete, tessuti cerosi color giada e radici fittonanti che affondano verso le lenti d'acqua.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
         "predates_on": [],
-        "predated_by": []
+        "predated_by": [
+          "silica_bloom",
+          "noctule_termico"
+        ],
+        "symbiosis": "Offre ombra e umidita ai consumatori (specie ombrello)"
       },
-      "constraints": [],
+      "constraints": [
+        "Crescita lentissima legata all'acqua profonda",
+        "Sessile: indifeso contro i brucatori"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4180,7 +4242,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/cactus_weaver_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "cactus_weaver",
       "biome_affinity": "deserto_caldo",
@@ -4195,36 +4257,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Cactotextor",
+      "epithet": "hydrophorus"
     },
     {
       "species_id": "noctule_termico",
-      "scientific_name": "",
+      "scientific_name": "Thermonoctus vagans",
       "common_names": [
-        "Noctule Termico"
+        "Nottola Termica"
       ],
       "classification": {
-        "macro_class": "volatore_planatore",
-        "habitat": "deserto_caldo"
+        "macro_class": "Volatore planatore notturno / disperdente-ponte",
+        "habitat": "cieli notturni e termiche residue del deserto (Deserto Caldo Vetrificato)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Volatore notturno che caccia insetti e sfrutta le termiche residue del crepuscolo, impollinando i fiori notturni e collegando le isole di vegetazione.",
+      "visual_description": "Piccolo volatore dalle ali membranose scure, grandi padiglioni auricolari per l'ecolocalizzazione e occhi adattati al buio.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "insetti notturni",
+          "nettare (cactus_weaver, arbusti_pioneer)"
+        ],
+        "predated_by": [
+          "thermo_raptor"
+        ],
+        "symbiosis": "Impollina i produttori a fioritura notturna"
       },
-      "constraints": [],
+      "constraints": [
+        "Attivo solo di notte (stress termico diurno)",
+        "Fragile nel volo radente"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4235,7 +4303,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/noctule_termico_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "noctule_termico",
       "biome_affinity": "deserto_caldo",
@@ -4250,36 +4318,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Thermonoctus",
+      "epithet": "vagans"
     },
     {
       "species_id": "silica_bloom",
-      "scientific_name": "",
+      "scientific_name": "Siliciflora pestifera",
       "common_names": [
-        "Silica Bloom"
+        "Fioritura di Silice"
       ],
       "classification": {
-        "macro_class": "scavenger_corazzato",
-        "habitat": "deserto_caldo"
+        "macro_class": "Colonia microbica silicea / minaccia patogena",
+        "habitat": "croste vetrificate e sabbie ioniche (Deserto Caldo Vetrificato)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Colonia silicea aggressiva: incrosta i produttori con strutture vetrose, sottraendo substrato e diffondendo schegge patogene nel vento di polvere.",
+      "visual_description": "Efflorescenza cristallina bianco-opalescente che cresce a placche taglienti, scintillante di micro-schegge silicee.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "cactus_weaver",
+          "cianobatteri_dune (substrato)"
+        ],
+        "predated_by": [
+          "poche specie (substrato siliceo non commestibile)"
+        ],
+        "symbiosis": "Antagonista: competitore-patogeno dei produttori"
       },
-      "constraints": [],
+      "constraints": [
+        "Espansione legata ai venti ionizzati",
+        "Fragile: le placche si frantumano sotto urto"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4290,7 +4364,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/silica_bloom_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "silica_bloom",
       "biome_affinity": "deserto_caldo",
@@ -4305,36 +4379,40 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Siliciflora",
+      "epithet": "pestifera"
     },
     {
       "species_id": "thermo_raptor",
-      "scientific_name": "",
+      "scientific_name": "Thermoraptor aridus",
       "common_names": [
-        "Thermo Raptor"
+        "Raptor Termico"
       ],
       "classification": {
-        "macro_class": "cursoriale_quadrupede",
-        "habitat": "deserto_caldo"
+        "macro_class": "Cursore quadrupede / predatore apex",
+        "habitat": "distese vetrificate iper-aride (Deserto Caldo Vetrificato)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Predatore apex termofilo: sfrutta il calore estremo che fiacca le prede, caricando in scatti brevi e letali nelle ore piu roventi.",
+      "visual_description": "Predatore bipede asciutto dalla pelle squamosa chiara riflettente, arti posteriori potenti e creste dorsali termo-disperdenti.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "noctule_termico",
+          "silica_bloom"
+        ],
+        "predated_by": [],
+        "symbiosis": "nessuna"
       },
-      "constraints": [],
+      "constraints": [
+        "Surriscalda se attivo troppo a lungo",
+        "Inattivo nelle notti fredde del deserto"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4345,7 +4423,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/thermo_raptor_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "thermo_raptor",
       "biome_affinity": "deserto_caldo",
@@ -4360,36 +4438,42 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Thermoraptor",
+      "epithet": "aridus"
     },
     {
       "species_id": "blight_micotico",
-      "scientific_name": "",
+      "scientific_name": "Mycotabes corruptor",
       "common_names": [
-        "Blight Micotico"
+        "Piaga Micotica"
       ],
       "classification": {
-        "macro_class": "unknown",
-        "habitat": "foresta_temperata"
+        "macro_class": "Colonia fungina patogena / decompositrice",
+        "habitat": "lettiera umida e cortecce dei corridoi fluviali (Foresta Temperata)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Fungo patogeno dei boschi: penetra le piante superiori con ife corrosive e libera spore che marciscono la lettiera, accelerando il ciclo detritico.",
+      "visual_description": "Chiazze fungine grigio-violacee che si estendono su tronchi e suolo, con corpi fruttiferi gonfi e velo di spore polverose.",
       "risk_profile": {
         "danger_level": 3,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "piante_superiori (parassita)",
+          "lettiera (decompositore)"
+        ],
+        "predated_by": [
+          "poche specie (deterrente patogeno)"
+        ],
+        "symbiosis": "Antagonista: patogeno delle piante superiori"
       },
-      "constraints": [],
+      "constraints": [
+        "Richiede umidita elevata costante",
+        "Regredisce nelle stagioni secche"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4399,7 +4483,7 @@
         "mimetismo_cromatico_passivo",
         "filamenti_digestivi_compattanti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/blight_micotico_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "blight_micotico",
       "biome_affinity": "foresta_temperata",
@@ -4414,14 +4498,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Mycotabes",
+      "epithet": "corruptor"
     },
     {
       "species_id": "glowcap_weaver",
@@ -4470,29 +4551,36 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "lupus_temperatus",
-      "scientific_name": "",
+      "scientific_name": "Silvalupus temperatus",
       "common_names": [
         "Lupo della Foresta"
       ],
       "classification": {
-        "macro_class": "unknown",
-        "habitat": "foresta_temperata"
+        "macro_class": "Cursore quadrupede / predatore apex",
+        "habitat": "boschi temperati e corridoi fluviali (Foresta Temperata)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Predatore sociale di vertice: caccia in branco coordinato i grandi erbivori, regolando le popolazioni di brucatori lungo i corridoi fluviali.",
+      "visual_description": "Canide robusto dal mantello fulvo-grigio fitto, mascelle potenti e andatura instancabile da inseguitore di resistenza.",
       "risk_profile": {
         "danger_level": 2,
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": []
+        "predates_on": [
+          "cervidi_erborivori"
+        ],
+        "predated_by": [],
+        "symbiosis": "Regola gli erbivori (controllo top-down del pascolo)"
       },
-      "constraints": [],
+      "constraints": [
+        "Dipende dal branco per le prede grandi",
+        "Territorio ampio: conflitti tra branchi"
+      ],
       "sentience_index": "T1",
       "ecotypes": [],
       "trait_refs": [
@@ -4502,7 +4590,7 @@
         "focus_frazionato",
         "occhi_infrarosso_composti"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/lupus_temperatus_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "lupus_temperatus",
       "biome_affinity": "foresta_temperata",
@@ -4517,14 +4605,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Silvalupus",
+      "epithet": "temperatus"
     },
     {
       "species_id": "myco_spire_warden",
@@ -4573,29 +4658,34 @@
         "constraints",
         "trait_refs",
         "lifecycle_yaml"
-      ]
+      ],
+      "is_event": true
     },
     {
       "species_id": "sentinella_radice",
-      "scientific_name": "",
+      "scientific_name": "Radicustos vigilans",
       "common_names": [
         "Sentinella Radice"
       ],
       "classification": {
-        "macro_class": "unknown",
-        "habitat": "foresta_temperata"
+        "macro_class": "Organismo radicante sessile / ingegnere d'ecosistema",
+        "habitat": "intrichi radicali e suolo dei boschi temperati (Foresta Temperata)"
       },
-      "functional_signature": "",
-      "visual_description": "",
+      "functional_signature": "Ingegnere radicante semi-sessile: collega le piante superiori in una rete micorrizica difensiva, segnalando e contenendo le minacce che attraversano il suolo.",
+      "visual_description": "Tronco-sentinella nodoso ricoperto di radici aeree sensoriali, con escrescenze a occhio che si schiudono al passaggio di intrusi.",
       "risk_profile": {
         "danger_level": 1,
         "vectors": []
       },
       "interactions": {
         "predates_on": [],
-        "predated_by": []
+        "predated_by": [],
+        "symbiosis": "Rete micorrizica con le piante superiori (mutualismo difensivo)"
       },
-      "constraints": [],
+      "constraints": [
+        "Sessile: nessuna mobilita",
+        "Reazione lenta agli stimoli rapidi"
+      ],
       "sentience_index": "T3",
       "ecotypes": [],
       "trait_refs": [
@@ -4605,7 +4695,7 @@
         "random",
         "empatia_coordinativa"
       ],
-      "lifecycle_yaml": null,
+      "lifecycle_yaml": "data/core/species/sentinella_radice_lifecycle.yaml",
       "source": "gameplay-promote",
       "legacy_slug": "sentinella_radice",
       "biome_affinity": "foresta_temperata",
@@ -4620,14 +4710,11 @@
       "merged_at": "2026-05-31",
       "_promote_stub": true,
       "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "lifecycle_yaml"
-      ]
+        "lifecycle_authoring",
+        "ecotypes"
+      ],
+      "genus": "Radicustos",
+      "epithet": "vigilans"
     }
   ]
 }
