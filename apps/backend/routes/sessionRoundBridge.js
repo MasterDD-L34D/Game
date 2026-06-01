@@ -773,6 +773,7 @@ function createRoundBridge(deps) {
       }
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
+        await emitPoolCounterpartKo(session, actor, target, event);
         // Sistema pressure (AI War pattern — sistema_pressure.yaml §deltas):
         //   player KO sistema  → +pg_kills_sis  (pressure sale)
         //   sistema KO player  → +sg_pg_down    (pressure cala, Sistema si placa)
@@ -1534,9 +1535,39 @@ function createRoundBridge(deps) {
     return { resolveFn, iaActions, playerActions, kills };
   }
 
+  // V5 shared_hp_pool (Codex #2542 P2): when a pool both-KO drops the struck
+  // target AND its bonded counterpart to 0 in one hit, the counterpart death is
+  // otherwise silent (kill plumbing only tracks `target`). Surface it: emit a
+  // kill/assist + pressure delta for the counterpart too. The living-members gate
+  // in applySharedHpPool guarantees the counterpart was alive pre-hit, so a 0-HP
+  // counterpart here means it died THIS hit. Mirrors the interceptor_killed chain.
+  async function emitPoolCounterpartKo(session, actor, target, event) {
+    if (!target) return;
+    const partnerId = (target._bond && target._bond.partner_id) || target._bonded_by || null;
+    if (!partnerId) return;
+    const cp = (session.units || []).find((u) => u && u.id === partnerId);
+    if (!cp || Number(cp.hp) > 0 || cp._pool_ko_emitted) return;
+    cp._pool_ko_emitted = true;
+    await emitKillAndAssists(session, actor, cp, event);
+    if (typeof session.sistema_pressure === 'number') {
+      if (actor.controlled_by === 'player' && cp.controlled_by === 'sistema') {
+        session.sistema_pressure = applyPressureDelta(
+          session.sistema_pressure,
+          PRESSURE_DELTAS.pg_kills_sis,
+        );
+      } else if (actor.controlled_by === 'sistema' && cp.controlled_by === 'player') {
+        session.sistema_pressure = applyPressureDelta(
+          session.sistema_pressure,
+          PRESSURE_DELTAS.sg_pg_down,
+        );
+      }
+    }
+  }
+
   async function postResolveKills(session, kills) {
     for (const { actor, target, event } of kills) {
       await emitKillAndAssists(session, actor, target, event);
+      await emitPoolCounterpartKo(session, actor, target, event);
       if (typeof session.sistema_pressure === 'number') {
         if (actor.controlled_by === 'player' && target.controlled_by === 'sistema') {
           session.sistema_pressure = applyPressureDelta(
