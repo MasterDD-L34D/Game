@@ -96,6 +96,16 @@ $defs:
         items:
           type: string
           pattern: '^[a-z0-9_]+$'
+      biome_class:
+        type: string
+      display_name_it:
+        type: string
+      display_name_en:
+        type: string
+      legacy_slug:
+        type: string
+      magnetic_field_strength:
+        type: number
       hazard:
         type: object
         additionalProperties: false
