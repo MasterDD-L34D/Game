@@ -114,7 +114,7 @@ test('summon: minion_attack_buff makes the minion atk 2 (base 1 + perk 1)', asyn
   const session = { units: [caster], turn: 1, grid: { width: 10, height: 10 } };
   await ex.executeAbility({ session, actor: caster, body: { ability_id: 'summon_companion' } });
   const minion = session.units.find((u) => u.is_minion);
-  assert.strictEqual(minion.attack_mod, 2);
+  assert.strictEqual(minion.mod, 2, 'combat-consumed mod: base 1 + perk 1');
 });
 
 test('summon: alpha_pack_buff gives the minion +atk +def', async () => {
@@ -125,8 +125,8 @@ test('summon: alpha_pack_buff gives the minion +atk +def', async () => {
   const session = { units: [caster], turn: 1, grid: { width: 10, height: 10 } };
   await ex.executeAbility({ session, actor: caster, body: { ability_id: 'summon_companion' } });
   const minion = session.units.find((u) => u.is_minion);
-  assert.strictEqual(minion.attack_mod, 2, 'base 1 + alpha 1');
-  assert.strictEqual(minion.defense_mod, 1);
+  assert.strictEqual(minion.mod, 2, 'combat-consumed mod: base 1 + alpha 1');
+  assert.strictEqual(minion.dc, 11, 'combat-consumed dc: base 10 + alpha 1');
 });
 
 test('summon: encounter_start_buff_minions arms a temporary atk buff on the minion', async () => {

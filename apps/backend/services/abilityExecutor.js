@@ -512,8 +512,12 @@ function createAbilityExecutor(deps) {
       is_minion: true,
       hp,
       max_hp: hp,
-      attack_mod: 1 + Number(perkMods.attackMod || 0),
-      defense_mod: Number(perkMods.defenseMod || 0),
+      // Combat-consumed fields (Codex #2545 P2): resolveAttack reads attacker `mod`
+      // (+ attack_mod_bonus) and target `dc` (+ defense_mod_bonus) — NOT attack_mod/
+      // defense_mod. Minion base = mod 1 (spec "attack_mod +1", a weak attacker) /
+      // dc 10 (weak defense, < the DEFAULT_DC 13 of a normal unit). Perks add here.
+      mod: 1 + Number(perkMods.attackMod || 0),
+      dc: 10 + Number(perkMods.defenseMod || 0),
       mobility: 3,
       position: { x: free.x, y: free.y },
       species: 'minion',
