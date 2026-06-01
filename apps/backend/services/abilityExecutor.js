@@ -451,11 +451,319 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // TKT-JOB-PHASEC slice B5 SPIKE POC (OQ-MINION verdict V4) — summon_companion
+  // spawns a real minion unit (controlled_by 'player' + owner_id = caster +
+  // is_minion), NOT a self hp_max buff. HP from buff_amount (5), atk +1, mob 3,
+  // spawned on an adjacent free in-grid tile (else 400), capped at MAX_MINIONS (2;
+  // max_minions perk raises it in a follow-up). Minions are expendable: excluded
+  // from the party-wipe lose-condition + the round-advance intent gate. AI /
+  // pack_command / the 8 minion tags are follow-up slices.
+  const MAX_MINIONS = 2;
+  async function executeSummonCompanion({ session, actor, ability }) {
+    // Owner perk mods (B5): cap (max_minions) + minion stat buffs (minion_attack_buff,
+    // alpha_pack_buff, encounter_start_buff_minions). Default cap MAX_MINIONS (2).
+    let perkMods = { cap: MAX_MINIONS, attackMod: 0, defenseMod: 0, startBuff: null };
+    try {
+      perkMods = require('./progression/progressionApply').computeMinionPerkMods(actor);
+    } catch {
+      /* progression optional */
+    }
+    const cap = Number(perkMods.cap) || MAX_MINIONS;
+    // Cap counts only LIVE minions (Codex #2544 P2): dead minion records linger in
+    // session.units and must not permanently block re-summoning.
+    const existing = (session.units || []).filter(
+      (u) => u && u.is_minion && u.owner_id === actor.id && (u.hp ?? 0) > 0,
+    );
+    if (existing.length >= cap) {
+      return {
+        status: 400,
+        body: { error: `cap minion raggiunto (${cap})`, max_minions: cap },
+      };
+    }
+    const pos = actor.position || { x: 0, y: 0 };
+    const grid = session.grid || null;
+    // Only LIVE units block a spawn tile (Codex #2544 P2): corpses don't occupy
+    // cells, matching the codebase's live-unit movement/occupancy semantics.
+    const occupied = new Set(
+      (session.units || [])
+        .filter((u) => u && u.position && (u.hp ?? 0) > 0)
+        .map((u) => `${u.position.x},${u.position.y}`),
+    );
+    const candidates = [
+      { x: pos.x + 1, y: pos.y },
+      { x: pos.x - 1, y: pos.y },
+      { x: pos.x, y: pos.y + 1 },
+      { x: pos.x, y: pos.y - 1 },
+    ];
+    const free = candidates.find((c) => {
+      if (c.x < 0 || c.y < 0) return false;
+      if (grid && (c.x >= Number(grid.width) || c.y >= Number(grid.height ?? grid.width)))
+        return false;
+      return !occupied.has(`${c.x},${c.y}`);
+    });
+    if (!free) {
+      return { status: 400, body: { error: 'nessuna tile adiacente libera per il minion' } };
+    }
+    const hp = Number(ability.buff_amount || 5);
+    const minion = {
+      id: `${actor.id}_minion_${existing.length + 1}_t${Number(session.turn) || 0}`,
+      controlled_by: 'player',
+      owner_id: actor.id,
+      is_minion: true,
+      hp,
+      max_hp: hp,
+      // Combat-consumed fields (Codex #2545 P2): resolveAttack reads attacker `mod`
+      // (+ attack_mod_bonus) and target `dc` (+ defense_mod_bonus) — NOT attack_mod/
+      // defense_mod. Minion base = mod 1 (spec "attack_mod +1", a weak attacker) /
+      // dc 10 (weak defense, < the DEFAULT_DC 13 of a normal unit). Perks add here.
+      mod: 1 + Number(perkMods.attackMod || 0),
+      dc: 10 + Number(perkMods.defenseMod || 0),
+      mobility: 3,
+      position: { x: free.x, y: free.y },
+      species: 'minion',
+      job: null,
+      status: {},
+      ap: 2,
+      ap_remaining: 2,
+    };
+    // encounter_start_buff_minions: a temporary +atk buff on the freshly-summoned
+    // minion (the meaningful application — minions are summoned mid-combat, not at a
+    // literal encounter start). Standard {stat}_bonus + {stat}_buff duration form.
+    if (perkMods.startBuff && Number(perkMods.startBuff.attack_mod) > 0) {
+      minion.attack_mod_bonus = Number(perkMods.startBuff.attack_mod);
+      minion.status.attack_mod_buff = Number(perkMods.startBuff.duration) || 1;
+    }
+    session.units.push(minion);
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'summon',
+      target_id: minion.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      minion: { id: minion.id, position: minion.position, hp: minion.hp },
+      minions_active: existing.length + 1,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'summon',
+        minion_id: minion.id,
+        minion_position: minion.position,
+        minions_active: existing.length + 1,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // TKT-JOB-PHASEC slice B5 pack_command runtime (OQ-MINION V4) — the beastmaster
+  // spends its own AP to issue ONE order (move | attack) to one of its minions, in
+  // the BM's turn. The minion attacks via performAttack (the minion is the attacker).
+  // Command range = 1 (adjacent) by default, raised to `range` by
+  // pack_command_extended_range. (minion_proximity_dmg is held — its data spec
+  // "minion adj BM AND target adj BM" is geometrically unsatisfiable for a melee
+  // minion under Manhattan adjacency; pending a master-dd interpretation, L-069.)
+  async function executePackCommand({ session, actor, ability, body }) {
+    const minionId = String(body.minion_id || '');
+    const minion = (session.units || []).find((u) => u && u.id === minionId);
+    if (!minion || !minion.is_minion || minion.owner_id !== actor.id) {
+      return { status: 400, body: { error: `pack_command: "${minionId}" non e' un tuo minion` } };
+    }
+    if ((minion.hp ?? 0) <= 0) {
+      return { status: 400, body: { error: 'pack_command: minion morto' } };
+    }
+    const rangePerk = Array.isArray(actor._perk_passives)
+      ? actor._perk_passives.find((p) => p && p.tag === 'pack_command_extended_range')
+      : null;
+    const cmdRange = rangePerk ? Number(rangePerk.payload && rangePerk.payload.range) || 5 : 1;
+    if (manhattanDistance(actor.position, minion.position) > cmdRange) {
+      return {
+        status: 400,
+        body: { error: `pack_command: minion fuori range comando (${cmdRange})` },
+      };
+    }
+    const order = body.order || {};
+    const apCost = Number(ability.cost_ap || 0);
+
+    if (order.type === 'move') {
+      const dest = order.position;
+      if (!dest || !Number.isFinite(Number(dest.x)) || !Number.isFinite(Number(dest.y))) {
+        return { status: 400, body: { error: 'pack_command: order.position richiesto per move' } };
+      }
+      if (manhattanDistance(minion.position, dest) > (Number(minion.mobility) || 1)) {
+        return {
+          status: 400,
+          body: { error: `pack_command: move oltre mobility (${minion.mobility})` },
+        };
+      }
+      const grid = session.grid || null;
+      if (
+        dest.x < 0 ||
+        dest.y < 0 ||
+        (grid && (dest.x >= Number(grid.width) || dest.y >= Number(grid.height ?? grid.width)))
+      ) {
+        return { status: 400, body: { error: 'pack_command: destinazione fuori griglia' } };
+      }
+      const occupied = (session.units || []).some(
+        (u) =>
+          u &&
+          u.id !== minion.id &&
+          (u.hp ?? 0) > 0 &&
+          u.position &&
+          u.position.x === Number(dest.x) &&
+          u.position.y === Number(dest.y),
+      );
+      if (occupied) return { status: 400, body: { error: 'pack_command: cella occupata' } };
+      minion.position = { x: Number(dest.x), y: Number(dest.y) };
+      actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        actor_id: actor.id,
+        action_type: 'ability',
+        ability_id: ability.ability_id,
+        effect_type: 'pack_command',
+        target_id: minion.id,
+        turn: session.turn,
+        ap_spent: apCost,
+        order: 'move',
+        minion_position: minion.position,
+        trait_effects: [],
+      });
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          ability_id: ability.ability_id,
+          effect_type: 'pack_command',
+          order: 'move',
+          minion_id: minion.id,
+          minion_position: minion.position,
+          ap_remaining: actor.ap_remaining,
+        },
+      };
+    }
+
+    if (order.type === 'attack') {
+      const target = (session.units || []).find((u) => u && u.id === String(order.target_id || ''));
+      if (!target || (target.hp ?? 0) <= 0) {
+        return { status: 400, body: { error: 'pack_command: target non valido' } };
+      }
+      if (target.controlled_by === minion.controlled_by) {
+        return { status: 400, body: { error: 'pack_command: no friendly fire' } };
+      }
+      if (manhattanDistance(minion.position, target.position) > 1) {
+        return {
+          status: 400,
+          body: { error: 'pack_command: target fuori range del minion (melee 1)' },
+        };
+      }
+      const res = performAttack(session, minion, target, { channel: null });
+      // minion_proximity_dmg (bm_r2_pack_focus): +N when the struck target is
+      // adjacent to the BM (the commanded bodyguard punishes threats on the master).
+      // L-069: the data's additional "minion adjacent to the BM" clause is
+      // geometrically unsatisfiable for a melee minion under Manhattan adjacency
+      // (a default-commandable minion is itself adjacent to the BM, dist 2 from any
+      // other BM-neighbour), so it is dropped pending a master-dd geometry ruling.
+      let proximityBonus = 0;
+      const proxPerk = Array.isArray(actor._perk_passives)
+        ? actor._perk_passives.find((p) => p && p.tag === 'minion_proximity_dmg')
+        : null;
+      if (
+        proxPerk &&
+        res.result &&
+        res.result.hit &&
+        Number(res.damageDealt) > 0 &&
+        manhattanDistance(target.position, actor.position) <= 1
+      ) {
+        const want = Number(proxPerk.payload && proxPerk.payload.damage) || 0;
+        const extra = Math.min(want, Number(target.hp) || 0);
+        if (extra > 0) {
+          target.hp = Math.max(0, Number(target.hp) - extra);
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+          }
+          proximityBonus = extra;
+        }
+      }
+      applySgEarn(minion, target, res.damageDealt + proximityBonus);
+      // minion_kill_pe_bonus (bm_r5_apex_companion, V6 A3): when a minion kills, the
+      // BM earns +pe CAMPAIGN XP, capped 1/round. Accumulated on actor._minion_kill_pe;
+      // granted later by grantXpToSurvivors (PE = campaign XP per 26-ECONOMY).
+      if (Number(target.hp) <= 0) {
+        const mkPerk = Array.isArray(actor._perk_passives)
+          ? actor._perk_passives.find((p) => p && p.tag === 'minion_kill_pe_bonus')
+          : null;
+        if (mkPerk && actor._minion_kill_pe_round !== session.turn) {
+          actor._minion_kill_pe =
+            (Number(actor._minion_kill_pe) || 0) +
+            (Number(mkPerk.payload && mkPerk.payload.pe) || 0);
+          actor._minion_kill_pe_round = session.turn; // cap 1/round
+        }
+      }
+      actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        actor_id: actor.id,
+        action_type: 'ability',
+        ability_id: ability.ability_id,
+        effect_type: 'pack_command',
+        target_id: target.id,
+        turn: session.turn,
+        ap_spent: apCost,
+        order: 'attack',
+        minion_id: minion.id,
+        damage_dealt: res.damageDealt + proximityBonus,
+        proximity_bonus: proximityBonus,
+        trait_effects: [],
+      });
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          ability_id: ability.ability_id,
+          effect_type: 'pack_command',
+          order: 'attack',
+          minion_id: minion.id,
+          target_id: target.id,
+          damage_dealt: res.damageDealt + proximityBonus,
+          proximity_bonus: proximityBonus,
+          hit: !!(res.result && res.result.hit),
+          ap_remaining: actor.ap_remaining,
+        },
+      };
+    }
+
+    return {
+      status: 400,
+      body: { error: 'pack_command: order.type deve essere "move" o "attack"' },
+    };
+  }
+
   async function executeBuff({ session, actor, ability }) {
     // TKT-JOB-PHASEC slice A1b (Cat F 7/7, OQ-F verdict V1) — phenotype_shift is a
     // 1d6 random table + per-round use-cap + double-roll perk, not a fixed buff.
     if (ability.ability_id === 'phenotype_shift') {
       return executePhenotypeShift({ session, actor, ability });
+    }
+    // TKT-JOB-PHASEC slice B5 — summon_companion spawns a minion, not a self-buff.
+    if (ability.ability_id === 'summon_companion') {
+      return executeSummonCompanion({ session, actor, ability });
     }
     const buffStat = ability.buff_stat;
     if (!buffStat) {
@@ -1634,6 +1942,11 @@ function createAbilityExecutor(deps) {
 
   // aoe_buff (sanctuary): area NxN centrata su body.position. Buff alleati.
   async function executeAoeBuff({ session, actor, ability, body }) {
+    // TKT-JOB-PHASEC slice B5 — pack_command is a minion order (move|attack), not an
+    // aoe_buff; divert to its runtime handler.
+    if (ability.ability_id === 'pack_command') {
+      return executePackCommand({ session, actor, ability, body });
+    }
     const center = body.position;
     if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per aoe_buff' } };
@@ -2020,9 +2333,31 @@ function createAbilityExecutor(deps) {
     if (!abilityId) {
       return { status: 400, body: { error: 'ability_id richiesto per action_type=ability' } };
     }
-    const ability = findAbility(abilityId);
-    if (!ability) {
+    const baseAbility = findAbility(abilityId);
+    if (!baseAbility) {
       return { status: 400, body: { error: `ability_id "${abilityId}" non trovata nel catalog` } };
+    }
+    // TKT-JOB-PHASEC (Codex #2546 P2): apply the actor's _perk_ability_mods (attached
+    // by progression but previously consumed by NO runtime path) to a CLONE of the
+    // catalog spec, so ability_mod perks are LIVE at the AP gate + in every handler:
+    // bm_r1_swift_command (pack_command cost_ap -1 -> free), bm_r3_quick_summon
+    // (summon_companion cost_pi -2), the aberrant damage_step/buff_duration mods, etc.
+    // Band-neutral — no sim unit carries expansion-job ability_mods (returns the base
+    // spec unchanged), so HC scenarios are byte-identical. Cost fields clamp at 0.
+    const abilityMods = Array.isArray(actor._perk_ability_mods) ? actor._perk_ability_mods : [];
+    const relevantMods = abilityMods.filter(
+      (m) => m && m.ability_id === baseAbility.ability_id && m.field,
+    );
+    let ability = baseAbility;
+    if (relevantMods.length > 0) {
+      ability = { ...baseAbility };
+      for (const m of relevantMods) {
+        const cur = Number(ability[m.field]);
+        if (Number.isFinite(cur)) {
+          ability[m.field] = cur + (Number(m.delta) || 0);
+          if (String(m.field).startsWith('cost_') && ability[m.field] < 0) ability[m.field] = 0;
+        }
+      }
     }
     const costAp = Number(ability.cost_ap || 0);
     const apAvailable = Number(actor.ap_remaining ?? actor.ap ?? 0);

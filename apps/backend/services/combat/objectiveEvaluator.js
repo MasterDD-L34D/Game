@@ -47,7 +47,13 @@ function ensureObjectiveState(session, objectiveType) {
 }
 
 function countFactionAlive(session, faction) {
-  return (session.units || []).filter((u) => u.controlled_by === faction && (u.hp ?? 0) > 0).length;
+  // TKT-JOB-PHASEC B5: minions are expendable (V4) — a lone surviving minion must
+  // NOT keep the player faction "alive" for objective wipe checks (else an
+  // objective-driven encounter stalls on wipe). Band-neutral (sistema units have
+  // no is_minion; default false on every existing unit).
+  return (session.units || []).filter(
+    (u) => u.controlled_by === faction && !u.is_minion && (u.hp ?? 0) > 0,
+  ).length;
 }
 
 function pointInBox(pos, box) {
@@ -276,7 +282,8 @@ register('escape', (session, enc, obj) => {
     };
   }
   const alivePGs = (session.units || []).filter(
-    (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
+    // B5: minions are expendable — exclude from the escape wipe check (see countFactionAlive).
+    (u) => u.controlled_by === 'player' && !u.is_minion && (u.hp ?? 0) > 0,
   );
   if (alivePGs.length === 0) {
     state.failed = true;

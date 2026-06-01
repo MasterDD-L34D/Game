@@ -603,6 +603,46 @@ function computePhenotypeShiftPerkMods(actor) {
 }
 
 /**
+ * Compute the BEASTMASTER owner's minion summon-time perk mods (TKT-JOB-PHASEC B5).
+ * Read by executeSummonCompanion to size the cap + buff the freshly-spawned minion:
+ *
+ * - max_minions (bm_r4): raise the active-minion cap (default 2).
+ * - minion_attack_buff (bm_r2): +attack_mod (base) on the minion.
+ * - alpha_pack_buff (bm_r6 capstone): +attack_mod / +defense_mod (base) on the minion.
+ * - encounter_start_buff_minions (bm_r3): a temporary +attack_mod buff (startBuff)
+ *   applied to the minion at spawn.
+ *
+ * Pure reader. Default { cap:2, attackMod:0, defenseMod:0, startBuff:null }.
+ *
+ * @param {object} owner — the beastmaster (reads _perk_passives)
+ * @returns {{ cap:number, attackMod:number, defenseMod:number, startBuff:object|null, applied:Array }}
+ */
+function computeMinionPerkMods(owner) {
+  const out = { cap: 2, attackMod: 0, defenseMod: 0, startBuff: null, applied: [] };
+  const passives = Array.isArray(owner?._perk_passives) ? owner._perk_passives : [];
+  for (const p of passives) {
+    if (p.tag === 'max_minions') {
+      out.cap = Math.max(out.cap, Number(p.payload?.cap) || out.cap);
+      out.applied.push({ tag: 'max_minions', cap: out.cap, source_perk_id: p.source_perk_id });
+    } else if (p.tag === 'minion_attack_buff') {
+      out.attackMod += Number(p.payload?.attack_mod) || 0;
+      out.applied.push({ tag: 'minion_attack_buff', source_perk_id: p.source_perk_id });
+    } else if (p.tag === 'alpha_pack_buff') {
+      out.attackMod += Number(p.payload?.attack_mod) || 0;
+      out.defenseMod += Number(p.payload?.defense_mod) || 0;
+      out.applied.push({ tag: 'alpha_pack_buff', source_perk_id: p.source_perk_id });
+    } else if (p.tag === 'encounter_start_buff_minions') {
+      out.startBuff = {
+        attack_mod: Number(p.payload?.attack_mod) || 0,
+        duration: Number(p.payload?.duration) || 1,
+      };
+      out.applied.push({ tag: 'encounter_start_buff_minions', source_perk_id: p.source_perk_id });
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -614,6 +654,9 @@ function grantXpToSurvivors(units, amount, opts = {}) {
   const engine = opts.engine || getDefaultEngine();
   const store = opts.store || getDefaultStore();
   const campaignId = opts.campaignId ?? null;
+  // V6 A3 — the encounter's first-kill actor (surfaced by the combat debrief),
+  // consumed below by first_kill_pe_bonus.
+  const firstKillActorId = opts.firstKillActorId != null ? String(opts.firstKillActorId) : null;
   const out = [];
 
   if (!Array.isArray(units) || !Number.isFinite(Number(amount))) return out;
@@ -631,11 +674,27 @@ function grantXpToSurvivors(units, amount, opts = {}) {
       state = engine.seed(unit.id, unit.job);
       state = store.set(campaignId, unit.id, state);
     }
-    const result = engine.applyXp(state, amt);
+    // V6 A3 — per-unit PHASEC campaign-XP bonus (PE = campaign XP post-#2528):
+    //   first_kill_pe_bonus → +pe to the encounter's first-kill actor;
+    //   minion_kill_pe_bonus → +the BM's accumulated minion-kill PE (_minion_kill_pe,
+    //   tracked + capped per round in combat by executePackCommand).
+    let bonus = 0;
+    const phasecPassives = Array.isArray(unit._perk_passives) ? unit._perk_passives : [];
+    for (const p of phasecPassives) {
+      if (!p) continue;
+      if (p.tag === 'first_kill_pe_bonus' && firstKillActorId && unit.id === firstKillActorId) {
+        bonus += Number(p.payload && p.payload.pe) || 0;
+      } else if (p.tag === 'minion_kill_pe_bonus') {
+        bonus += Math.max(0, Number(unit._minion_kill_pe) || 0);
+      }
+    }
+    const grantAmt = amt + bonus;
+    const result = engine.applyXp(state, grantAmt);
     store.set(campaignId, unit.id, result.unit);
     out.push({
       unit_id: unit.id,
-      amount: amt,
+      amount: grantAmt,
+      bonus,
       level_before: result.level_before,
       level_after: result.level_after,
       leveled_up: result.leveled_up,
@@ -654,6 +713,7 @@ module.exports = {
   applyMutationChainRefund,
   computeMutationBurstPerkMods,
   computePhenotypeShiftPerkMods,
+  computeMinionPerkMods,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start
