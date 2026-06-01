@@ -485,6 +485,30 @@ function createRoundBridge(deps) {
           capturedResults.synergy = { ...synergyInfo, bonus_applied: appliedSyn };
           recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
         }
+        // V5 shared_hp_pool (Codex #2542 P2): the focus_fire/synergy bonuses above
+        // hit target.hp directly (after performAttack's pool split), bypassing the
+        // pool. If the target is a shared-pool member, re-split the cumulative bonus
+        // so the pair shares it + the both-KO invariant stays consistent. No-op for
+        // non-pool targets (applySharedHpPool returns null).
+        {
+          const poolBonus =
+            ((capturedResults.combo && capturedResults.combo.bonus_applied) || 0) +
+            ((capturedResults.synergy && capturedResults.synergy.bonus_applied) || 0);
+          if (poolBonus > 0) {
+            try {
+              const sb = require('../services/combat/symbiontBond');
+              const pr = sb.applySharedHpPool(
+                session,
+                target,
+                poolBonus,
+                Number(target.hp) + poolBonus,
+              );
+              if (pr) capturedResults.killOccurred = Number(target.hp) <= 0;
+            } catch {
+              /* symbiont bond optional */
+            }
+          }
+        }
         for (const uOrch of next.units) {
           const uLegacy = session.units.find((u) => u.id === uOrch.id);
           if (uLegacy) {
@@ -1363,6 +1387,24 @@ function createRoundBridge(deps) {
             }
             synergy = { ...synergyInfo, bonus_applied: appliedSyn };
             recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
+          }
+          // V5 shared_hp_pool (Codex #2542 P2): re-split the focus_fire/synergy bonus
+          // through the pool (mirror of realResolveAction). No-op for non-pool targets.
+          {
+            const poolBonus =
+              ((combo && combo.bonus_applied) || 0) + ((synergy && synergy.bonus_applied) || 0);
+            if (poolBonus > 0) {
+              try {
+                require('../services/combat/symbiontBond').applySharedHpPool(
+                  session,
+                  target,
+                  poolBonus,
+                  Number(target.hp) + poolBonus,
+                );
+              } catch {
+                /* symbiont bond optional */
+              }
+            }
           }
 
           const event = buildAttackEvent({
