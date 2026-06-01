@@ -2290,9 +2290,31 @@ function createAbilityExecutor(deps) {
     if (!abilityId) {
       return { status: 400, body: { error: 'ability_id richiesto per action_type=ability' } };
     }
-    const ability = findAbility(abilityId);
-    if (!ability) {
+    const baseAbility = findAbility(abilityId);
+    if (!baseAbility) {
       return { status: 400, body: { error: `ability_id "${abilityId}" non trovata nel catalog` } };
+    }
+    // TKT-JOB-PHASEC (Codex #2546 P2): apply the actor's _perk_ability_mods (attached
+    // by progression but previously consumed by NO runtime path) to a CLONE of the
+    // catalog spec, so ability_mod perks are LIVE at the AP gate + in every handler:
+    // bm_r1_swift_command (pack_command cost_ap -1 -> free), bm_r3_quick_summon
+    // (summon_companion cost_pi -2), the aberrant damage_step/buff_duration mods, etc.
+    // Band-neutral — no sim unit carries expansion-job ability_mods (returns the base
+    // spec unchanged), so HC scenarios are byte-identical. Cost fields clamp at 0.
+    const abilityMods = Array.isArray(actor._perk_ability_mods) ? actor._perk_ability_mods : [];
+    const relevantMods = abilityMods.filter(
+      (m) => m && m.ability_id === baseAbility.ability_id && m.field,
+    );
+    let ability = baseAbility;
+    if (relevantMods.length > 0) {
+      ability = { ...baseAbility };
+      for (const m of relevantMods) {
+        const cur = Number(ability[m.field]);
+        if (Number.isFinite(cur)) {
+          ability[m.field] = cur + (Number(m.delta) || 0);
+          if (String(m.field).startsWith('cost_') && ability[m.field] < 0) ability[m.field] = 0;
+        }
+      }
     }
     const costAp = Number(ability.cost_ap || 0);
     const apAvailable = Number(actor.ap_remaining ?? actor.ap ?? 0);

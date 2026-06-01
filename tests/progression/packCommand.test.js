@@ -220,3 +220,22 @@ test('pack_command: rejects a unit that is not your minion', async () => {
   });
   assert.strictEqual(res.status, 400, 'cannot command an enemy');
 });
+
+test('pack_command: bm_r1_swift_command ability_mod makes the command free (cost_ap -1 → 0)', async () => {
+  const ex = makeExecutor();
+  const { bm, session } = setup();
+  // progression attaches this for the swift_command perk; executeAbility now applies it.
+  bm._perk_ability_mods = [{ ability_id: 'pack_command', field: 'cost_ap', delta: -1 }];
+  const apBefore = bm.ap_remaining;
+  const res = await ex.executeAbility({
+    session,
+    actor: bm,
+    body: {
+      ability_id: 'pack_command',
+      minion_id: 'm1',
+      order: { type: 'move', position: { x: 1, y: 2 } },
+    },
+  });
+  assert.strictEqual(res.status, 200, JSON.stringify(res.body));
+  assert.strictEqual(bm.ap_remaining, apBefore, 'free command — no AP spent');
+});
