@@ -56,10 +56,17 @@ for (const pool of ['sg','pt','pp']) {
 // on 2xx success: deduct actor[pool] -= cost  (mirror del modello AP-inside-handler #2522)
 ```
 
-Pool già su `normaliseUnit`: `sg` (sgTracker), `pt`, `pp` esistono come campi.
-Il deduct va sul success path (come `cost_pe` slice-3 #2522, Codex P2: deduce solo
-post-2xx). Il gate è meccanicamente piccolo — **il blocco è la SCALA**, non il
-codice.
+**Stato pool (ground-truth `normaliseUnit`, `sessionHelpers.js`)**: solo `sg` è un
+pool combat **seeded** (`:111`, via sgTracker); `pe` (`:115`) = XP campaign, `mp`
+(`:129`) = mutazioni. **`pt`/`pp` NON sono campi pool persistiti** su `normaliseUnit`
+(PT = roll per-round computato `:245`; PP compare solo ad-hoc in alcuni payload) —
+corretto da Codex #2530 P2. → il gate su PT/PP richiede **PRIMA di seedare i pool**
+(mirror `sg`) + definirne earn/reset (PP +1 crit / +1 kill; PT per-round cap 12, per
+SoT) = **parte dello scope OQ-ECON, non solo la scala**. Per `sg` il gate è
+meccanicamente piccolo (pool già esiste); per PT/PP va prima costruito il pool. Il
+deduct va sul success path (come `cost_pe` slice-3 #2522, Codex P2: deduce solo
+post-2xx). **Il blocco resta la SCALA + il pool-model PT/PP mancante**, non il
+dispatch.
 
 ### A2.4 — OQ-ECON (verdict master-dd — NON deciso da Claude)
 
