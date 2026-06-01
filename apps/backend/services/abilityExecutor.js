@@ -460,8 +460,10 @@ function createAbilityExecutor(deps) {
   // pack_command / the 8 minion tags are follow-up slices.
   const MAX_MINIONS = 2;
   async function executeSummonCompanion({ session, actor, ability }) {
+    // Cap counts only LIVE minions (Codex #2544 P2): dead minion records linger in
+    // session.units and must not permanently block re-summoning.
     const existing = (session.units || []).filter(
-      (u) => u && u.is_minion && u.owner_id === actor.id,
+      (u) => u && u.is_minion && u.owner_id === actor.id && (u.hp ?? 0) > 0,
     );
     if (existing.length >= MAX_MINIONS) {
       return {
@@ -471,9 +473,11 @@ function createAbilityExecutor(deps) {
     }
     const pos = actor.position || { x: 0, y: 0 };
     const grid = session.grid || null;
+    // Only LIVE units block a spawn tile (Codex #2544 P2): corpses don't occupy
+    // cells, matching the codebase's live-unit movement/occupancy semantics.
     const occupied = new Set(
       (session.units || [])
-        .filter((u) => u && u.position)
+        .filter((u) => u && u.position && (u.hp ?? 0) > 0)
         .map((u) => `${u.position.x},${u.position.y}`),
     );
     const candidates = [

@@ -143,3 +143,35 @@ test('objective elimination: a surviving minion does NOT prevent player_wipe (co
   assert.strictEqual(r.outcome, 'wipe', 'minion must not keep the party alive');
   assert.strictEqual(r.reason, 'player_wipe');
 });
+
+test('summon_companion: dead minions do NOT count toward the cap (Codex #2544 P2)', async () => {
+  const ex = makeExecutor();
+  const caster = bm();
+  const session = { units: [caster], turn: 1, grid: { width: 10, height: 10 } };
+  await ex.executeAbility({ session, actor: caster, body: { ability_id: 'summon_companion' } });
+  await ex.executeAbility({ session, actor: caster, body: { ability_id: 'summon_companion' } });
+  // both minions die
+  for (const u of session.units) if (u.is_minion) u.hp = 0;
+  const r = await ex.executeAbility({
+    session,
+    actor: caster,
+    body: { ability_id: 'summon_companion' },
+  });
+  assert.strictEqual(r.status, 200, 'dead minions free up the cap');
+  assert.strictEqual(session.units.filter((u) => u.is_minion && u.hp > 0).length, 1);
+});
+
+test('summon_companion: a corpse does NOT block a spawn tile (Codex #2544 P2)', async () => {
+  const ex = makeExecutor();
+  const caster = bm({ position: { x: 0, y: 0 } }); // in-grid neighbours: (1,0) and (0,1)
+  const corpseA = { id: 'cA', controlled_by: 'sistema', hp: 0, position: { x: 1, y: 0 } };
+  const corpseB = { id: 'cB', controlled_by: 'sistema', hp: 0, position: { x: 0, y: 1 } };
+  const session = { units: [caster, corpseA, corpseB], turn: 1, grid: { width: 10, height: 10 } };
+  const r = await ex.executeAbility({
+    session,
+    actor: caster,
+    body: { ability_id: 'summon_companion' },
+  });
+  assert.strictEqual(r.status, 200, 'corpses do not occupy spawn tiles');
+  assert.strictEqual(session.units.filter((u) => u.is_minion).length, 1);
+});
