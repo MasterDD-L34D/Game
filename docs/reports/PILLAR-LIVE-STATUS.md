@@ -52,9 +52,9 @@ related:
 
 **Caveat — verificati 2026-06-01** (ground-truth `gh` + grep):
 
-- **P1**: `MissionTimer` GAP-5 **RISOLTO** (verificato: `HudView %MissionTimerLabel` + tick caller in `encounter_runtime.gd` + test `test_mission_timer_hud_wire.gd`). Resta solo `Reinforcement` telegraph GAP-6 (~15min — pre-spawn warning assente in `main_reinforcement.gd`). Surface P1 quasi pulita → master-dd può valutare restore `def++`.
+- **P1**: surface debt **AZZERATO** — `MissionTimer` GAP-5 RISOLTO (`HudView %MissionTimerLabel` + tick caller `encounter_runtime.gd` + test `test_mission_timer_hud_wire.gd`) **E** `Reinforcement` telegraph GAP-6 RISOLTO (`main.gd:750-755`: `push_battle_feed_event("⚠ Rinforzi Sistema: N unità in arrivo!")` pre-spawn, Into the Breach rule — era nel file sbagliato al primo check). Entrambi i gap 2026-05-07 chiusi → master-dd può restore `def++`.
 - **P5**: gap surface TV LobbyView remote room sync **ancora APERTO** (Godot QA `2026-05-20-tv-ws-sync-gap-p3.md`, design-call pendente — nessuna PR di fix post-2026-05-20). REST `/api/lobby/state?code=` **esiste** lato Game (`routes/lobby.js:118`, query-param non `:code`). Gate playtest live userland pendente (TKT-M11B-06 superseded → Phase B social playtest). Engine non impattato → 🟢 confirmed regge.
-- **P6**: drift **REALE, non infra** — nightly verde 5gg (05-27→05-31), regression #2513 il 06-01: profilo `balanced` WR **85% vs baseline 100% (−15pp)**, `aggressive`/`cautious` ✅, completion 100%. Probabile rumore N=40 (CI≈±15pp, L-069; baseline 100% = ceiling) su asse diverso dai hardcore scenari citati (#2362). Da osservare master-dd (re-run N=40 stessi seed). `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5).
+- **P6**: regression #2513 (06-01, `balanced` −15pp) = **RUMORE N=40, NON regressione** — re-run N=40 indipendente (`balanced`/enc_tutorial_01/max-rounds 40, env nightly identico) = **WR 95.0%, −5.0pp, ✅ Clean** (`check-thresholds` "within tolerance"). Due N=40 a 85%/95% = swing ±10pp atteso (L-069); WR `balanced` reale ≈90-95%, baseline 100% stale → raccomandato recalibrare `BASELINE_WR.balanced` (~90%) in `tools/sim/check-thresholds.js` per stop falsi-positivi nightly (anche #2158 stesso pattern). `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5).
 
 ---
 
@@ -85,8 +85,8 @@ related:
 
 - **Engine reinforced**: #2463 crit system + 4 Gate-5 orphan wired (Wave 2), #2470/#2474 job-expansion perks Cat A/B (on-kill + apex), #2481 Overcharge verb (SG→+1 AP), #2390 morale check on ally death, #2383 cumulativeStateTracker end-of-round, #2460 ecology→combat stat adapter, #2471 terrain wire flake reso deterministico.
 - **Surface Godot**: #372 `BeastBondReaction` LIVE nel combat engine Godot, #373 ERMES eco-band→SISTEMA attack scalar, #374 decay buff a turn-end.
-- **Surface re-verificata 2026-06-01**: `MissionTimer` GAP-5 **RISOLTO** (HudView `%MissionTimerLabel` + tick caller `encounter_runtime.gd` + test `test_mission_timer_hud_wire.gd`); resta solo `Reinforcement` telegraph GAP-6 (~15min, pre-spawn warning assente in `main_reinforcement.gd`).
-- **Proposto 🟢 confirmed** (↘ da `def++`): engine più ricco che mai; surface ora quasi pulita (solo telegraph 15-min residuo) → master-dd può valutare restore `def++`.
+- **Surface re-verificata 2026-06-01**: surface debt **AZZERATO** — `MissionTimer` GAP-5 RISOLTO (HudView `%MissionTimerLabel` + tick caller + test) **E** `Reinforcement` telegraph GAP-6 RISOLTO (`main.gd:750-755` pre-spawn `push_battle_feed_event`). Entrambi i gap 2026-05-07 chiusi.
+- **Proposto 🟢 confirmed → candidato restore `def++`** (↗): engine reinforced + surface ora pulita (zero debt residuo) → master-dd può restore `def++`.
 
 ### P2 — Evoluzione emergente (🟢 def++)
 
@@ -201,7 +201,7 @@ related:
 **Aggiornamento 2026-06-01** (⚠️ proposta Claude — pending master-dd):
 
 - **Calibration toolkit completo**: #2357 MAP-Elites Method D evaluator, #2361 Optuna parallel-internal (4-shard objective), #2360 drift_verify L-072 direction-test prior-baseline, #2358 staging-writer (Optuna/MAP-Elites mai clobber production); #2354 scenario_overrides + hc06 fix + calibration α P0 trio, #2365 revise hc06 band to engine reality + enemy_damage knob, #2359 hc07 3A iter2 in-band, #2362 handoff v44.5 — **entrambi hardcore in-band**; #2381→#2389 candidate trait tunes ratificati N=40 + EV-parity; #2344 Wave 5-7 cluster nerf.
-- **Proposto 🟢 candidato (reinforced)** (↔): il gate calibrazione hardcore (hardcore_06/07, #2362) è sostanzialmente chiuso. **Caveat (verificato 2026-06-01)**: nightly regression #2513 il 06-01 = drift **REALE non infra** (profilo `balanced` WR 85% vs baseline 100%, −15pp; `aggressive`/`cautious` ✅; completion 100%), verde i 5gg precedenti → probabile rumore N=40 (CI±15pp, L-069) su asse diverso dai hardcore. `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5, non gap player). Gate per `🟢 def`: nightly `balanced` verde stabile + N=10 hardcore confirm.
+- **Proposto 🟢 candidato (reinforced)** (↔): il gate calibrazione hardcore (hardcore_06/07, #2362) è sostanzialmente chiuso. **Verificato 2026-06-01 (re-run N=40)**: regression #2513 (`balanced` −15pp) = **rumore N=40, NON regressione** — re-run indipendente N=40 (`balanced`/enc_tutorial_01/max-rounds 40, env nightly identico, backend locale :3334) = **WR 95.0%, −5.0pp, ✅ Clean** (`check-thresholds` "within tolerance"). Due N=40 a 85%/95% = swing ±10pp atteso (L-069); WR `balanced` reale ≈90-95%, baseline 100% stale → raccomandato recalibrare `BASELINE_WR.balanced` (~90%) in `tools/sim/check-thresholds.js` (anche #2158 stesso pattern). `xpBudget.auditEncounter` wired ma surface = dev-log (eccezione Gate-5, non gap player). Gate per `🟢 def`: baseline ricalibrato + N=10 hardcore confirm.
 
 ---
 
@@ -226,7 +226,7 @@ Il debt surface 2026-05-07 è stato **in larga parte ripagato** dai 60 PR Godot 
 
 **Driver per pillar** (PR chiave): P1 #2463/#2470/#2474/#2481 + Godot #372 · P2 #2402/#2404/#2426/#2431 + Godot #339/#378 · P3 #2490 (catalogo 75)/#2470/#2474/#2507 · P4 #2465/#2467/#2461 + Godot #332/#334 · P5 #2371/#2387/#2483 + Godot CAMP/#375-#380 · P6 #2357/#2361/#2362/#2389.
 
-**Caveat verificati 2026-06-01** (ground-truth `gh`+grep): P1 `MissionTimer` GAP-5 **RISOLTO** (HudView label + test), resta solo telegraph GAP-6 ~15min; P5 gap TV LobbyView sync **ancora APERTO** (no fix post-05-20, REST `/lobby/state?code=` esiste) + playtest userland pendente; P6 drift **REALE** #2513 (`balanced` −15pp, prob. rumore N=40 L-069, asse ≠ hardcore; `aggressive`/`cautious` ✅).
+**Caveat verificati 2026-06-01** (ground-truth `gh`+grep+sim re-run): P1 surface debt **AZZERATO** (GAP-5 MissionTimer + GAP-6 reinforcement telegraph `main.gd:750-755` entrambi risolti) → `def++` restorable; P5 gap TV LobbyView sync **ancora APERTO** (no fix post-05-20, REST `/lobby/state?code=` esiste) + playtest userland pendente; P6 #2513 `balanced` −15pp = **rumore N=40** (re-run N=40 = WR 95.0% ✅ Clean −5pp; baseline 100% stale → recalibrare ~90%).
 
 ### 2026-04-28 (post sprint α/β/γ/δ + Skiv personal sprint + cross-PC sprint 1-11)
 
