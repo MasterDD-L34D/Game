@@ -1239,6 +1239,27 @@ function createRoundBridge(deps) {
       console.warn('[morale-contagion] failed:', err && err.message ? err.message : err);
     }
 
+    // TKT-JOB-PHASEC B5 minion_resurrect_chance (bm_r6 capstone) — runs LAST, after
+    // all damage ticks have finalized this round's deaths. Revives dead minions whose
+    // living owner has the perk (one roll per minion); emit the revive events.
+    const resurrectEvents = require('../services/combat/minionRuntime').applyMinionResurrect(
+      session,
+      rng,
+    );
+    for (const ev of resurrectEvents) {
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'minion_resurrect',
+        actor_id: ev.owner_id,
+        target_id: ev.minion_id,
+        turn: session.turn,
+        result: 'revived',
+        hp_after: ev.hp_after,
+        trait_effects: [],
+      });
+    }
+
     return {
       hazardEvents,
       bleedingEvents,
@@ -1246,6 +1267,7 @@ function createRoundBridge(deps) {
       terrainDecayEvents,
       alphaEvents,
       thoughtEvents,
+      resurrectEvents,
     };
   }
 
