@@ -226,6 +226,22 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
       t += c;
       c = 0;
     }
+    // Codex #2542 P1: poolAfter > 0 means the bond keeps the pair UP — neither
+    // member may show a solo KO while the shared pool still has HP. The struck
+    // target is what performAttack tests for death, so guarantee it stays >= 1
+    // (borrow from the counterpart); then lift the counterpart off 0 when the
+    // pool can still afford it. At a 1-HP pool the struck target keeps the last HP.
+    if (t < 1) {
+      const need = 1 - t;
+      t = 1;
+      c -= need;
+    }
+    if (c < 1 && t > 1) {
+      const give = 1 - c;
+      c += give;
+      t -= give;
+    }
+    if (c < 0) c = 0;
     target.hp = t;
     counterpart.hp = c;
   }

@@ -70,7 +70,21 @@ test('shared_hp_pool: overkill on one member overflows into the pool (no prematu
   const r = applySharedHpPool(session, partner, 10, 3); // pool 23 - 10 = 13 > 0
   assert.strictEqual(r.both_ko, false);
   assert.strictEqual(partner.hp + symbiont.hp, 13, 'pool conserved at 13');
-  assert.ok(partner.hp >= 0 && symbiont.hp >= 0, 'no negative hp');
+  // Codex #2542 P1: no SOLO KO while the pool has HP — the struck target stays
+  // >= 1 (performAttack wont treat it as killed); the counterpart covers overflow.
+  assert.strictEqual(partner.hp, 1, 'struck partner survives on the pool (>=1)');
+  assert.strictEqual(symbiont.hp, 12, 'counterpart covered the lethal overflow');
+});
+
+test('shared_hp_pool: at a 1-HP pool the struck target keeps the last HP (no solo KO)', () => {
+  const { symbiont, partner } = pair({ hp: 5 }, { hp: 1 });
+  partner.hp = 0; // floored (took 5 vs 1)
+  const session = { units: [symbiont, partner], turn: 1, damage_taken: { p: 5 } };
+  const r = applySharedHpPool(session, partner, 5, 1); // pool 6 - 5 = 1 > 0
+  assert.strictEqual(r.both_ko, false, 'pool not empty -> pair still up');
+  assert.strictEqual(partner.hp, 1, 'struck target keeps the last pool HP (performAttack wont KO)');
+  assert.strictEqual(symbiont.hp, 0, 'counterpart spent; pair alive on the shared 1 HP');
+  assert.strictEqual(partner.hp + symbiont.hp, 1, 'pool conserved at 1');
 });
 
 test('shared_hp_pool: no perk → null (redirect/normal path applies instead)', () => {
