@@ -234,6 +234,23 @@ function applyPerkKillEffects(actor) {
   const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
   if (passives.length === 0) return out;
 
+  // TKT-JOB-PHASEC slice 3 — first_kill_pe_bonus: earn PE on the first kill of
+  // the encounter (guarded by _first_kill_pe_done). Independent of the attack
+  // buffs below, so it runs before the eternal/temp early-return.
+  const firstKillPe = passives.find((p) => p.tag === 'first_kill_pe_bonus');
+  if (firstKillPe && !actor._first_kill_pe_done) {
+    const amt = Number(firstKillPe.payload?.pe) || 0;
+    if (amt !== 0) {
+      actor.pe = Number(actor.pe || 0) + amt;
+      actor._first_kill_pe_done = true;
+      out.applied.push({
+        tag: 'first_kill_pe_bonus',
+        pe: amt,
+        source_perk_id: firstKillPe.source_perk_id,
+      });
+    }
+  }
+
   const eternal = passives.find((p) => p.tag === 'eternal_kill_buff');
   if (eternal) {
     const amt = Number(eternal.payload?.attack_mod) || 0;
@@ -313,6 +330,72 @@ function computePerkCombatModifiers(actor, target, ctx = {}) {
 }
 
 /**
+ * Compute perk DEFENSE bonus at attack resolve time — raises the defender's
+ * effective DC. Sibling of computePerkDamageBonus (offensive). Slice 1
+ * (TKT-JOB-PHASEC C-G prereq). Handles aura-type passives emitted by ALLIES
+ * (reads OTHER units' _perk_passives) — distinct from the offensive helpers
+ * which read the actor's own passives.
+ *
+ * @param {object} defender — the unit being attacked
+ * @param {object} ctx — { units?: Array<object> }
+ * @returns {{ bonus: number, applied: Array<{ tag, amount, source_perk_id, source_unit_id }> }}
+ */
+function computePerkDefenseBonus(defender, ctx = {}) {
+  const out = { bonus: 0, applied: [] };
+  if (!defender || !defender.position) return out;
+  const units = Array.isArray(ctx.units) ? ctx.units : [];
+
+  // Aura passives: an ally carrying the tag grants the bonus to allies in range.
+  for (const ally of units) {
+    if (!ally || ally.id === defender.id) continue;
+    if (ally.controlled_by !== defender.controlled_by) continue;
+    if (Number(ally.hp) <= 0) continue;
+    if (!ally.position) continue;
+    const passives = Array.isArray(ally._perk_passives) ? ally._perk_passives : [];
+    for (const p of passives) {
+      if (p.tag !== 'aura_defense_2tile') continue;
+      const range = Number(p.payload?.range) || 2;
+      const dist =
+        Math.abs(ally.position.x - defender.position.x) +
+        Math.abs(ally.position.y - defender.position.y);
+      if (dist <= range) {
+        const amt = Number(p.payload?.defense_mod) || 0;
+        if (amt !== 0) {
+          out.bonus += amt;
+          out.applied.push({
+            tag: 'aura_defense_2tile',
+            amount: amt,
+            source_perk_id: p.source_perk_id,
+            source_unit_id: ally.id,
+          });
+        }
+      }
+    }
+  }
+
+  // Self defensive passives on the defender, conditioned on combat state.
+  const selfPassives = Array.isArray(defender._perk_passives) ? defender._perk_passives : [];
+  for (const p of selfPassives) {
+    if (p.tag === 'defense_after_silent' && defender._last_ability_id === 'silent_step') {
+      // Active in the window after the defender used silent_step (tracked via
+      // _last_ability_id, set in abilityExecutor). Window approximated as "until
+      // the unit's next ability"; exact payload.duration turn-decay = follow-up.
+      const amt = Number(p.payload?.defense_mod) || 0;
+      if (amt !== 0) {
+        out.bonus += amt;
+        out.applied.push({
+          tag: 'defense_after_silent',
+          amount: amt,
+          source_perk_id: p.source_perk_id,
+          source_unit_id: defender.id,
+        });
+      }
+    }
+  }
+  return out;
+}
+
+/**
  * Grant XP to all player survivors. Used by campaign advance hook.
  *
  * @param {Array<object>} units
@@ -358,6 +441,7 @@ module.exports = {
   applyProgressionToUnits,
   computePerkDamageBonus,
   computePerkCombatModifiers,
+  computePerkDefenseBonus,
   applyPerkKillEffects,
   grantXpToSurvivors,
   resetDefaults,

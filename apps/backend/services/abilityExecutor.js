@@ -1732,54 +1732,82 @@ function createAbilityExecutor(deps) {
         },
       };
     }
-    switch (ability.effect_type) {
-      case 'move_attack':
-        return executeMoveAttack({ session, actor, ability, body });
-      case 'attack_move':
-        return executeAttackMove({ session, actor, ability, body });
-      case 'buff':
-        return executeBuff({ session, actor, ability });
-      case 'heal':
-        return executeHeal({ session, actor, ability, body });
-      case 'multi_attack':
-        return executeMultiAttack({ session, actor, ability, body });
-      case 'attack_push':
-        return executeAttackPush({ session, actor, ability, body });
-      case 'debuff':
-        return executeDebuff({ session, actor, ability, body });
-      case 'ranged_attack':
-        return executeRangedAttack({ session, actor, ability, body });
-      case 'drain_attack':
-        return executeDrainAttack({ session, actor, ability, body });
-      case 'execution_attack':
-        return executeExecutionAttack({ session, actor, ability, body });
-      case 'shield':
-        return executeShield({ session, actor, ability, body });
-      case 'team_buff':
-        return executeTeamBuff({ session, actor, ability });
-      case 'team_heal':
-        return executeTeamHeal({ session, actor, ability });
-      case 'aoe_buff':
-        return executeAoeBuff({ session, actor, ability, body });
-      case 'aoe_debuff':
-        return executeAoeDebuff({ session, actor, ability, body });
-      case 'surge_aoe':
-        return executeSurgeAoe({ session, actor, ability, body });
-      case 'reaction':
-        return executeReaction({ session, actor, ability });
-      case 'aggro_pull':
-        return executeAggroPull({ session, actor, ability, body });
-      default:
-        return {
-          status: 501,
-          body: {
-            error: `effect_type "${ability.effect_type}" non implementato in MVP`,
-            ability_id: abilityId,
-            effect_type: ability.effect_type,
-            supported: Array.from(SUPPORTED_EFFECT_TYPES),
-          },
-        };
+    // TKT-JOB-PHASEC slice 3 — PE spend GATE (OQ-PE verdict B: combat-scoped
+    // pool). Reject before any side effect when PE is short. The deduction is
+    // DEFERRED until the executor resolves successfully (Codex P2 #2522), so a
+    // failed-input ability (400/501) never spends PE — mirrors the AP model.
+    const costPe = Number(ability.cost_pe || 0);
+    if (costPe > 0 && Number(actor.pe || 0) < costPe) {
+      return {
+        status: 400,
+        body: {
+          error: `PE insufficienti per ability (richiesti ${costPe}, disponibili ${Number(actor.pe || 0)})`,
+          pe: Number(actor.pe || 0),
+          cost_pe: costPe,
+        },
+      };
     }
+    // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
+    // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
+    // (defense_after_silent). Set after the AP gate, before dispatch.
+    actor._last_ability_id = ability.ability_id;
+    const dispatch = () => {
+      switch (ability.effect_type) {
+        case 'move_attack':
+          return executeMoveAttack({ session, actor, ability, body });
+        case 'attack_move':
+          return executeAttackMove({ session, actor, ability, body });
+        case 'buff':
+          return executeBuff({ session, actor, ability });
+        case 'heal':
+          return executeHeal({ session, actor, ability, body });
+        case 'multi_attack':
+          return executeMultiAttack({ session, actor, ability, body });
+        case 'attack_push':
+          return executeAttackPush({ session, actor, ability, body });
+        case 'debuff':
+          return executeDebuff({ session, actor, ability, body });
+        case 'ranged_attack':
+          return executeRangedAttack({ session, actor, ability, body });
+        case 'drain_attack':
+          return executeDrainAttack({ session, actor, ability, body });
+        case 'execution_attack':
+          return executeExecutionAttack({ session, actor, ability, body });
+        case 'shield':
+          return executeShield({ session, actor, ability, body });
+        case 'team_buff':
+          return executeTeamBuff({ session, actor, ability });
+        case 'team_heal':
+          return executeTeamHeal({ session, actor, ability });
+        case 'aoe_buff':
+          return executeAoeBuff({ session, actor, ability, body });
+        case 'aoe_debuff':
+          return executeAoeDebuff({ session, actor, ability, body });
+        case 'surge_aoe':
+          return executeSurgeAoe({ session, actor, ability, body });
+        case 'reaction':
+          return executeReaction({ session, actor, ability });
+        case 'aggro_pull':
+          return executeAggroPull({ session, actor, ability, body });
+        default:
+          return {
+            status: 501,
+            body: {
+              error: `effect_type "${ability.effect_type}" non implementato in MVP`,
+              ability_id: abilityId,
+              effect_type: ability.effect_type,
+              supported: Array.from(SUPPORTED_EFFECT_TYPES),
+            },
+          };
+      }
+    };
+    const result = await dispatch();
+    // TKT-JOB-PHASEC slice 3 (Codex P2 #2522) — commit the PE spend only after a
+    // successful (2xx) resolution; a failed-input ability (400/501) does not pay.
+    if (costPe > 0 && result && Number(result.status) >= 200 && Number(result.status) < 300) {
+      actor.pe = Math.max(0, Number(actor.pe || 0) - costPe);
+    }
+    return result;
   }
 
   return { executeAbility, findAbility, SUPPORTED_EFFECT_TYPES };
