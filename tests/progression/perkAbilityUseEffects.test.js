@@ -4,15 +4,17 @@ const test = require('node:test');
 const assert = require('node:assert');
 const {
   applyPerkAbilityUseEffects,
+  applyMutationChainRefund,
 } = require('../../apps/backend/services/progression/progressionApply');
 const { createAbilityExecutor } = require('../../apps/backend/services/abilityExecutor');
 
 // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A: event-pure subset).
 // applyPerkAbilityUseEffects(actor, abilityId, ctx) — twin of applyPerkKillEffects,
-// fired post-2xx on a successful ability use. 2 tags: sg_on_mutation_burst (use),
-// phenotype_baseline_heal (use). mutation_chain_on_kill DEFERRED (Codex #2524:
-// needs the current-kill-ability context + a free-recast that survives the AP spend
-// — not cleanly event-pure).
+// fired post-2xx on a successful ability use. tags: sg_on_mutation_burst (use),
+// phenotype_baseline_heal (use), defense_after_silent (arms the camo window on
+// silent_step use). mutation_chain_on_kill = applyMutationChainRefund, called from
+// executeDrainAttack AFTER the AP spend on a mutation_burst KO (correct rebuild,
+// Codex #2524).
 
 // --- sg_on_mutation_burst ---
 
@@ -172,4 +174,97 @@ test('executeAbility wires the use-hook: phenotype_shift heals via phenotype_bas
     `expected 200, got ${res.status}: ${JSON.stringify(res.body)}`,
   );
   assert.strictEqual(actor.hp, 7, 'use-hook applied phenotype_baseline_heal post-2xx');
+});
+
+// --- defense_after_silent: silent_step use arms the camo window ---
+
+test('silent_step use arms the camo window for defense_after_silent', () => {
+  const actor = {
+    id: 'st',
+    _perk_passives: [
+      {
+        tag: 'defense_after_silent',
+        payload: { defense_mod: 2, duration: 1 },
+        source_perk_id: 'st_r2',
+      },
+    ],
+  };
+  applyPerkAbilityUseEffects(actor, 'silent_step', { round: 3 });
+  assert.strictEqual(actor._camo_silent_from, 4, 'window starts the turn AFTER (round+1)');
+  assert.strictEqual(actor._camo_silent_to, 4, 'window ends at round+duration');
+});
+
+test('silent_step use does not arm the window without the perk', () => {
+  const actor = { id: 'st', _perk_passives: [] };
+  applyPerkAbilityUseEffects(actor, 'silent_step', { round: 3 });
+  assert.strictEqual(actor._camo_silent_from, undefined);
+});
+
+// --- mutation_chain_on_kill: applyMutationChainRefund (post-spend, once/encounter) ---
+
+test('applyMutationChainRefund: refunds the spent AP once per encounter', () => {
+  const actor = {
+    id: 'ab',
+    ap: 4,
+    ap_remaining: 2,
+    _perk_passives: [
+      { tag: 'mutation_chain_on_kill', payload: { cap_per_encounter: 1 }, source_perk_id: 'ab_r4' },
+    ],
+  };
+  applyMutationChainRefund(actor, 2);
+  assert.strictEqual(actor.ap_remaining, 4, 'spent 2 AP refunded');
+  applyMutationChainRefund(actor, 2);
+  assert.strictEqual(actor.ap_remaining, 4, 'no second refund this encounter');
+});
+
+test('applyMutationChainRefund: caps the refund at max ap', () => {
+  const actor = {
+    id: 'ab',
+    ap: 3,
+    ap_remaining: 2,
+    _perk_passives: [{ tag: 'mutation_chain_on_kill', payload: {}, source_perk_id: 'ab_r4' }],
+  };
+  applyMutationChainRefund(actor, 2);
+  assert.strictEqual(actor.ap_remaining, 3, 'refund capped at actor.ap');
+});
+
+test('applyMutationChainRefund: no refund without the perk', () => {
+  const actor = { id: 'ab', ap: 4, ap_remaining: 2, _perk_passives: [] };
+  applyMutationChainRefund(actor, 2);
+  assert.strictEqual(actor.ap_remaining, 2);
+});
+
+test('executeDrainAttack refunds AP when mutation_burst scores a KO (free re-cast)', async () => {
+  const ex = createAbilityExecutor({
+    performAttack: (s, a, t) => {
+      t.hp = 0; // mutation_burst kills the target
+      return { damageDealt: 5, result: { hit: true, die: 18, roll: 22, mos: 6 } };
+    },
+    buildAttackEvent: () => ({}),
+    appendEvent: async () => {},
+    manhattanDistance: (p, q) => Math.abs(p.x - q.x) + Math.abs(p.y - q.y),
+  });
+  const actor = {
+    id: 'ab',
+    ap: 5,
+    ap_remaining: 5,
+    position: { x: 0, y: 0 },
+    attack_range: 5,
+    _perk_passives: [
+      { tag: 'mutation_chain_on_kill', payload: { cap_per_encounter: 1 }, source_perk_id: 'ab_r4' },
+    ],
+  };
+  const target = { id: 'foe', hp: 3, max_hp: 3, position: { x: 1, y: 0 } };
+  const res = await ex.executeAbility({
+    session: { units: [actor, target], turn: 1, damage_taken: {} },
+    actor,
+    body: { ability_id: 'mutation_burst', target_id: 'foe' },
+  });
+  assert.strictEqual(
+    res.status,
+    200,
+    `expected 200, got ${res.status}: ${JSON.stringify(res.body)}`,
+  );
+  // mutation_burst cost_ap=2 spent then refunded on the KO → net 0, free re-cast enabled.
+  assert.strictEqual(actor.ap_remaining, 5, 'AP refunded after the killing mutation_burst');
 });

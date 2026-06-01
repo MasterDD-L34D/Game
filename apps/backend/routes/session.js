@@ -606,6 +606,7 @@ function createSessionRouter(options = {}) {
     // resolveAttack via target._perk_defense_bonus. 0 when no perk fired.
     target._perk_defense_bonus = computePerkDefenseBonus(target, {
       units: session.units || [],
+      round: session.turn,
     }).bonus;
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({

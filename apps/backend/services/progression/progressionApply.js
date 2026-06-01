@@ -378,19 +378,31 @@ function computePerkDefenseBonus(defender, ctx = {}) {
   // Self defensive passives on the defender, conditioned on combat state.
   const selfPassives = Array.isArray(defender._perk_passives) ? defender._perk_passives : [];
   for (const p of selfPassives) {
-    if (p.tag === 'defense_after_silent' && defender._last_ability_id === 'silent_step') {
-      // Active in the window after the defender used silent_step (tracked via
-      // _last_ability_id, set in abilityExecutor). Window approximated as "until
-      // the unit's next ability"; exact payload.duration turn-decay = follow-up.
-      const amt = Number(p.payload?.defense_mod) || 0;
-      if (amt !== 0) {
-        out.bonus += amt;
-        out.applied.push({
-          tag: 'defense_after_silent',
-          amount: amt,
-          source_perk_id: p.source_perk_id,
-          source_unit_id: defender.id,
-        });
+    if (p.tag === 'defense_after_silent') {
+      // Exact "turn after silent_step" window, armed by the use-hook into
+      // _camo_silent_from/_to (= [useRound+1, useRound+duration]) and compared to
+      // ctx.round. No _last_ability_id reliance (Codex #2524: that field was stale
+      // on basic-attack turns) and no round-bridge decay (no priority_queue trap).
+      const round = ctx.round;
+      const from = Number(defender._camo_silent_from);
+      const to = Number(defender._camo_silent_to);
+      if (
+        round != null &&
+        Number.isFinite(from) &&
+        Number.isFinite(to) &&
+        round >= from &&
+        round <= to
+      ) {
+        const amt = Number(p.payload?.defense_mod) || 0;
+        if (amt !== 0) {
+          out.bonus += amt;
+          out.applied.push({
+            tag: 'defense_after_silent',
+            amount: amt,
+            source_perk_id: p.source_perk_id,
+            source_unit_id: defender.id,
+          });
+        }
       }
     }
   }
@@ -446,8 +458,51 @@ function applyPerkAbilityUseEffects(actor, abilityId, ctx = {}) {
           source_perk_id: p.source_perk_id,
         });
       }
+    } else if (p.tag === 'defense_after_silent' && abilityId === 'silent_step') {
+      // Arm the camo window: +defense_mod for `duration` rounds starting the turn
+      // AFTER silent_step. Read by computePerkDefenseBonus against ctx.round.
+      const dur = Number(p.payload?.duration) || 1;
+      if (round != null) {
+        actor._camo_silent_from = round + 1;
+        actor._camo_silent_to = round + dur;
+        out.applied.push({
+          tag: 'defense_after_silent',
+          armed_from: actor._camo_silent_from,
+          armed_to: actor._camo_silent_to,
+          source_perk_id: p.source_perk_id,
+        });
+      }
     }
   }
+  return out;
+}
+
+/**
+ * Refund the AP spent on a mutation_burst that scored a KO — the correct rebuild
+ * of mutation_chain_on_kill (TKT-JOB-PHASEC, Codex #2524). Called from
+ * executeDrainAttack AFTER the AP deduction (fixes the P1 timing where the kill
+ * hook ran before the spend) and only for mutation_burst's own kill (fixes the P2
+ * stale-_last_ability_id attribution). Once per encounter (_mutation_chain_done).
+ * The refund enables an immediate free re-cast.
+ *
+ * @param {object} actor — the unit whose mutation_burst scored the KO
+ * @param {number} costAp — the AP just spent (refunded, capped at actor.ap)
+ * @returns {{ applied: Array<object> }}
+ */
+function applyMutationChainRefund(actor, costAp) {
+  const out = { applied: [] };
+  const passives = Array.isArray(actor?._perk_passives) ? actor._perk_passives : [];
+  const mc = passives.find((p) => p.tag === 'mutation_chain_on_kill');
+  if (!mc || actor._mutation_chain_done) return out;
+  const apMax = Number(actor.ap || actor.ap_remaining || 0);
+  const before = Number(actor.ap_remaining || 0);
+  actor.ap_remaining = Math.min(apMax, before + (Number(costAp) || 0));
+  actor._mutation_chain_done = true;
+  out.applied.push({
+    tag: 'mutation_chain_on_kill',
+    ap_refunded: actor.ap_remaining - before,
+    source_perk_id: mc.source_perk_id,
+  });
   return out;
 }
 
@@ -500,6 +555,7 @@ module.exports = {
   computePerkDefenseBonus,
   applyPerkKillEffects,
   applyPerkAbilityUseEffects,
+  applyMutationChainRefund,
   grantXpToSurvivors,
   resetDefaults,
   // Test seam: the module-default store is the singleton the session /start

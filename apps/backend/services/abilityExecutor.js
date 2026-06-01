@@ -993,6 +993,18 @@ function createAbilityExecutor(deps) {
       (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
     );
 
+    // TKT-JOB-PHASEC mutation_chain_on_kill (correct rebuild, Codex #2524): refund
+    // the AP just spent when a mutation_burst scores the KO → free re-cast. AFTER
+    // the spend (fixes P1) and scoped to mutation_burst's own kill (fixes P2).
+    if (ability.ability_id === 'mutation_burst' && res.result.hit && target.hp <= 0) {
+      try {
+        const { applyMutationChainRefund } = require('./progression/progressionApply');
+        applyMutationChainRefund(actor, Number(ability.cost_ap || 0));
+      } catch {
+        /* progression optional — non-blocking */
+      }
+    }
+
     return {
       status: 200,
       body: {
