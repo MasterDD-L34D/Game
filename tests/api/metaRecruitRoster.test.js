@@ -27,7 +27,10 @@ function makeApp({ recruitResult, rosterCalls }) {
   return app;
 }
 
-const SUCCESS = (npc_id) => ({ success: true, npc: { npc_id, recruited: true, trait_ids: ['t_a'] } });
+const SUCCESS = (npc_id) => ({
+  success: true,
+  npc: { npc_id, recruited: true, trait_ids: ['t_a'] },
+});
 const FAIL = () => ({ success: false, reason: 'gate_not_met' });
 
 test('recruit success + campaign_id → rosterStore.upsert called with unit_id+traits', async () => {
@@ -63,7 +66,11 @@ test('recruit FAIL (gate_not_met) + campaign_id → upsert NOT called', async ()
 });
 
 test('no rosterStore (DI absent) → recruit success, no throw', async () => {
-  const fakeStore = { recruit: async (id) => SUCCESS(id), updateAffinity: async () => {}, updateTrust: async () => {} };
+  const fakeStore = {
+    recruit: async (id) => SUCCESS(id),
+    updateAffinity: async () => {},
+    updateTrust: async () => {},
+  };
   const app = express();
   app.use(express.json());
   app.use('/api/meta', createMetaRouter({ store: fakeStore })); // no rosterStore, no prisma

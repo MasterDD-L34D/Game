@@ -112,8 +112,7 @@ function createMetaRouter(opts = {}) {
   const router = Router();
   const store =
     opts.store || createMetaStore({ prisma: opts.prisma, campaignId: opts.campaignId ?? null });
-  const rosterStore =
-    opts.rosterStore || (opts.prisma ? createRosterStore(opts.prisma) : null);
+  const rosterStore = opts.rosterStore || (opts.prisma ? createRosterStore(opts.prisma) : null);
 
   // OD-001 Path A Sprint B (2026-04-26): expose MBTI compat table for
   // debrief recruit UI scoring. Read-only, cached in-process. Returns
