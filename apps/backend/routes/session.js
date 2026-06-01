@@ -1083,6 +1083,7 @@ function createSessionRouter(options = {}) {
           // Apply burst damage to occupant (still alive) — feeds back into HP.
           if (terrainReactionResult.burst_damage > 0 && target.hp > 0) {
             const burst = terrainReactionResult.burst_damage;
+            const preBurstHp = Number(target.hp); // pre-floor; the pool split needs the real pre-burst HP
             target.hp = Math.max(0, target.hp - burst);
             damageDealt += burst;
             session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + burst;
@@ -1096,7 +1097,7 @@ function createSessionRouter(options = {}) {
                 session,
                 target,
                 burst,
-                Number(target.hp) + burst,
+                preBurstHp,
               );
               if (pr) killOccurred = Number(target.hp) <= 0;
             } catch {

@@ -205,6 +205,12 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
   const counterpart = target.id === symbiont.id ? partner : symbiont;
   const preTarget = Number(targetHpPreDamage);
   const preCounter = Number(counterpart.hp);
+  // Codex #2542 P1: both members must be ALIVE for the pool to activate. The
+  // struck unit's pre-DAMAGE HP is used (it is floored to 0 by performAttack
+  // before this runs, so its live HP would falsely read dead); the counterpart
+  // uses its live HP. A symbiont downed outside this pool (e.g. via a secondary
+  // dual_bond redirect) must not pool or be resurrected to 1 by the split.
+  if (preTarget <= 0 || preCounter <= 0) return null;
   const poolAfter = preTarget + preCounter - d;
 
   let bothKo = false;

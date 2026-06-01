@@ -112,3 +112,31 @@ test('shared_hp_pool: unbonded unit → null', () => {
   const session = { units: [lone], turn: 1, damage_taken: {} };
   assert.strictEqual(applySharedHpPool(session, lone, 5, 15), null);
 });
+
+test('shared_hp_pool: a downed counterpart does NOT pool or get resurrected (Codex #2542 P1)', () => {
+  const { symbiont, partner } = pair({ hp: 0 }); // symbiont downed OUTSIDE this pool
+  partner.hp = 0; // struck partner floored; pre-damage HP (20) passed below
+  const session = { units: [symbiont, partner], turn: 1, damage_taken: { p: 10 } };
+  const r = applySharedHpPool(session, partner, 10, 20);
+  assert.strictEqual(r, null, 'no pool while the counterpart is already KO');
+  assert.strictEqual(symbiont.hp, 0, 'dead symbiont is NOT lifted back to 1 by the split');
+});
+
+test('shared_hp_pool: a struck unit already dead pre-damage → null', () => {
+  const { symbiont, partner } = pair();
+  partner.hp = 0;
+  const session = { units: [symbiont, partner], turn: 1, damage_taken: { p: 5 } };
+  assert.strictEqual(applySharedHpPool(session, partner, 5, 0), null, 'preTarget <= 0 -> no pool');
+});
+
+test('shared_hp_pool: a burst overkilling a 1-HP pool empties it (both KO) given the real pre-burst HP', () => {
+  // Codex #2542 P1 (caller): the terrain re-split must pass the PRE-burst HP (1),
+  // not the floored hp + burst (3) — otherwise pool 1+1-3 looks like 1 and survives.
+  const { symbiont, partner } = pair({ hp: 1 }, { hp: 1 });
+  partner.hp = 0; // floored by the burst
+  const session = { units: [symbiont, partner], turn: 1, damage_taken: { p: 3 } };
+  const r = applySharedHpPool(session, partner, 3, 1); // real pre-burst HP = 1
+  assert.strictEqual(r.both_ko, true, 'pool 1+1-3 <= 0 -> both KO together');
+  assert.strictEqual(partner.hp, 0);
+  assert.strictEqual(symbiont.hp, 0);
+});
