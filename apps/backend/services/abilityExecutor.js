@@ -1732,6 +1732,28 @@ function createAbilityExecutor(deps) {
         },
       };
     }
+    // TKT-JOB-PHASEC slice 3 — PE spend gate + deduction (OQ-PE verdict B:
+    // combat-scoped pool). Reject before any side effect when PE is short;
+    // deduct once the gate passes (cost_pe abilities are all valid execute paths).
+    const costPe = Number(ability.cost_pe || 0);
+    if (costPe > 0) {
+      const peAvailable = Number(actor.pe || 0);
+      if (peAvailable < costPe) {
+        return {
+          status: 400,
+          body: {
+            error: `PE insufficienti per ability (richiesti ${costPe}, disponibili ${peAvailable})`,
+            pe: peAvailable,
+            cost_pe: costPe,
+          },
+        };
+      }
+      actor.pe = Math.max(0, peAvailable - costPe);
+    }
+    // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
+    // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
+    // (defense_after_silent). Set after the AP gate, before dispatch.
+    actor._last_ability_id = ability.ability_id;
     switch (ability.effect_type) {
       case 'move_attack':
         return executeMoveAttack({ session, actor, ability, body });

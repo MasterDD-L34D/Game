@@ -196,6 +196,7 @@ const {
   applyProgressionToUnits,
   computePerkDamageBonus,
   computePerkCombatModifiers,
+  computePerkDefenseBonus,
   applyPerkKillEffects,
 } = require('../services/progression/progressionApply');
 // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
@@ -600,6 +601,12 @@ function createSessionRouter(options = {}) {
       };
     }
 
+    // TKT-JOB-PHASEC slice 1 — defensive perk aura/self bonus raises the target
+    // DC. Precomputed here (needs session.units for aura scan) and read by
+    // resolveAttack via target._perk_defense_bonus. 0 when no perk fired.
+    target._perk_defense_bonus = computePerkDefenseBonus(target, {
+      units: session.units || [],
+    }).bonus;
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
