@@ -110,6 +110,14 @@ function aggregate(runs) {
   const piSinkExercised = list.some(
     (r) => (Number(r && r.economy && r.economy.piSpentTotal) || 0) > 0,
   );
+  const piPickAttempts = list.reduce(
+    (s, r) => s + (Number(r && r.economy && r.economy.piPickAttempts) || 0),
+    0,
+  );
+  const piInsufficient = list.reduce(
+    (s, r) => s + (Number(r && r.economy && r.economy.piInsufficient) || 0),
+    0,
+  );
   const [eLo, eHi] = PROVISIONAL_BANDS.economy_flow;
   // Codex #2568 P2: build-power drift defaults to the neutral 1 when there is nothing to
   // measure (empty chapters / zero grants), which sits INSIDE the band. Guard on a real
@@ -121,14 +129,20 @@ function aggregate(runs) {
     build_power_avg: buildPowerAvg,
     build_power_drift: driftAvg,
     pi_sink_exercised: piSinkExercised,
+    pi_pick_attempts: piPickAttempts,
+    pi_insufficient: piInsufficient,
     has_signal: hasSignal,
     range: PROVISIONAL_BANDS.economy_flow,
     in_band: n > 0 && hasSignal && driftAvg >= eLo && driftAvg <= eHi,
     note: !hasSignal
       ? 'NO economy signal across the batch (zero XP/MP/PE) -> cannot certify economy_flow'
       : piSinkExercised
-        ? 'PE earned + build-power drift; PI sink exercised'
-        : 'PE earned + build-power drift; PI SINK NOT WIRED in the loop yet (real gap, not invented)',
+        ? `PE earned + build-power drift; PI sink exercised (${piPickAttempts} attempts)`
+        : piPickAttempts === 0
+          ? 'PE earned + build-power drift; PI sink wired (no pick opportunities this batch)'
+          : piInsufficient > 0
+            ? `PE earned + build-power drift; PI sink WIRED but unaffordable (${piPickAttempts} attempts, ${piInsufficient} insufficient_pi at the PE->PI 5:1 rate)`
+            : `PE earned + build-power drift; PI sink WIRED + attempted (${piPickAttempts}x) but no spend and no insufficiency -> picks blocked elsewhere (e.g. perk-job/level coverage)`,
   };
 
   // 4. relationship_progress: recruit rate + earned-affinity proof + mating, all firing =

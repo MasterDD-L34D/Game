@@ -116,6 +116,68 @@ test('aggregate: economy_flow runaway build-power drift (>2x) flagged out', () =
   assert.equal(r.metrics.economy_flow.in_band, false);
 });
 
+test('aggregate: economy_flow surfaces PI pick attempts + insufficiency (sink wired, fase-2c)', () => {
+  // The PI sink is now WIRED: a run can attempt hybrid picks but the economy may not afford
+  // them (attempts>0, spent=0, insufficient>0). The aggregator surfaces that honestly.
+  const r = aggregate([
+    synthRun({
+      economy: {
+        peEarnedTotal: 24,
+        xpGrantedTotal: 36,
+        mpEarnedTotal: 6,
+        piSpentTotal: 0,
+        piPickAttempts: 3,
+        piInsufficient: 3,
+      },
+    }),
+  ]);
+  const ef = r.metrics.economy_flow;
+  assert.equal(ef.pi_pick_attempts, 3);
+  assert.equal(ef.pi_insufficient, 3);
+  assert.equal(ef.pi_sink_exercised, false);
+  assert.match(ef.note, /unaffordable|insufficient/i);
+});
+
+test('aggregate: economy_flow reports PI sink exercised when PI is actually spent', () => {
+  const r = aggregate([
+    synthRun({
+      economy: {
+        peEarnedTotal: 30,
+        xpGrantedTotal: 36,
+        mpEarnedTotal: 6,
+        piSpentTotal: 5,
+        piPickAttempts: 1,
+        piInsufficient: 0,
+      },
+    }),
+  ]);
+  assert.equal(r.metrics.economy_flow.pi_sink_exercised, true);
+  assert.match(r.metrics.economy_flow.note, /sink exercised/i);
+});
+
+test('aggregate: economy_flow notes picks BLOCKED when attempted but neither spent nor insufficient', () => {
+  // The real cave_path case: the sim roster's job has no perk pair (409), so picks are
+  // attempted but never resolve -- NOT a PI-budget problem. The note must say "blocked",
+  // not "unaffordable" (the verify-first finding: stalker is not a perk-job).
+  const r = aggregate([
+    synthRun({
+      economy: {
+        peEarnedTotal: 24,
+        xpGrantedTotal: 36,
+        mpEarnedTotal: 6,
+        piSpentTotal: 0,
+        piPickAttempts: 18,
+        piInsufficient: 0,
+      },
+    }),
+  ]);
+  const ef = r.metrics.economy_flow;
+  assert.equal(ef.pi_pick_attempts, 18);
+  assert.equal(ef.pi_insufficient, 0);
+  assert.equal(ef.pi_sink_exercised, false);
+  assert.match(ef.note, /blocked/i);
+});
+
 test('aggregate: relationship_progress in band when recruit + earned-affinity + mating all fire', () => {
   const r = aggregate([synthRun(), synthRun()]);
   const rp = r.metrics.relationship_progress;
