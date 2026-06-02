@@ -175,6 +175,32 @@ test('Action 5a: wounded_perma absent → no penalty + active=false', () => {
   assert.equal(r.active, false);
 });
 
+test('OD-058 D2: yields to woundSystem when unit.status.wounds present (double-apply guard)', () => {
+  // When the new location-based woundSystem carries wounds, the legacy wounded_perma
+  // attack penalty must yield (return 0) so attack_mod is NOT penalized by BOTH systems.
+  const unit = {
+    id: 'a',
+    status: {
+      wounded_perma: { hp_penalty: 3, stacks: 3, severity: 'severe' },
+      wounds: [{ location: 'arti_anteriori', severity: 'grave', stat: 'attack_mod', malus: -2 }],
+    },
+  };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, 0);
+  assert.equal(r.active, false);
+  assert.equal(r.superseded, true);
+});
+
+test('OD-058 D2: legacy wounded_perma still fires when no woundSystem wounds (empty array)', () => {
+  const unit = {
+    id: 'a',
+    status: { wounded_perma: { hp_penalty: 2, stacks: 2, severity: 'medium' }, wounds: [] },
+  };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, -1);
+  assert.equal(r.active, true);
+});
+
 test('Action 5a: computeStatusModifiers wires wounded_perma medium into attackDelta', () => {
   const actor = {
     id: 'a',

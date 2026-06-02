@@ -269,6 +269,20 @@ scenario_overrides:
     enemy_damage_multiplier_override: 2.1
     rationale: '3A iter2 enemy_damage 1.8->2.1 (replace class). edm 2.2 N=40 WR 27.5% OOB-low (-2.5pp below floor). Slope ~8pp/0.1edm: 2.1 expect WR ~33-37% mid-band [30-50%]. iter1 enemy_count -1 rejected. PENDING N=40 ratify.'
 
+# ─── Wound location weights (OD-058 D2) ───────────────────────────────
+# SPEC-D2 §4: when a wound triggers (critico/KO), the body location is chosen
+# random-weighted. torso heaviest (large target), testa lightest (hard/critical hit).
+# Consumed by apps/backend/services/combat/woundSystem.js — DEFAULT_LOCATION_WEIGHTS
+# mirrors this table (drift-guarded by tests/scripts/damageCurvesIntegrity.test.js);
+# pickWeightedLocation iterates these in declared order.
+# Magnitudo per tier (lieve/media/grave = -1/-1/-2; testa-grave = -1 AP) + the
+# critico/KO trigger live in woundSystem.js. N=40 magnitude tuning = OD-058 D2 follow-up.
+wound_location_weights:
+  torso: 40
+  arti_anteriori: 25
+  arti_posteriori: 25
+  testa: 10
+
 # ─── Validation rules ─────────────────────────────────────────────────
 
 validation:
