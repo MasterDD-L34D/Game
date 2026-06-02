@@ -91,8 +91,15 @@ full-loop-runner.js (orchestratore)
   `metaPolicy.chooseMatings(pairs) → pairs[]` · `metaPolicy.spendAffinity(state) → actions[]`. Una policy =
   un modulo con questi 4 metodi puri (interface = boardgame.io bot pattern). MVP = `greedyPolicy`; fase-2 =
   `mbtiPolicy`, `randomPolicy` (mirror dei profili archetype combat).
-- `combatAdapter.runEncounter(scenarioId, roster, seed) → { outcome, telemetry }` — wrappa `ai-driven-sim`
-  passando il roster REALE della campagna e ritorna l'esito vero per `/campaign/advance`.
+- `combatAdapter.runEncounter(scenarioId, roster, seed) → { outcome, telemetry }` — esegue l'encounter con
+  il roster REALE della campagna e ritorna l'esito vero per `/campaign/advance`.
+  ⚠️ **Prerequisito fase-0 (Codex #2559 P2)**: `tests/smoke/ai-driven-sim.js` oggi **hardcoda** la party
+  (`Skiv` + `AiChar*`, righe ~456-464) prima di `/session/start` → wrappare il worker così com'è
+  IGNOREREBBE il roster di campagna (combat su party fissa → invarianti roster/attrition falsi-verdi).
+  Serve un **seam roster-injection**: parametro/env (`--roster <json>` / `FULL_LOOP_ROSTER`) che sostituisce
+  il blocco party hardcoded con il roster passato. Modifica piccola e isolata al TEST-harness (non l'engine),
+  TDD. Alternativa: il combatAdapter guida direttamente `/session/start`(roster reale)+`/round/execute` (path
+  kill-wire) riusando solo il loop di decisione di ai-driven-sim, non la sua party.
 
 ## 5. Data flow (sequenza del loop)
 
@@ -131,6 +138,10 @@ emit run JSONL
 4. Roster coerente: nessun PG duplicato/fantasma; morti rimossi; recruit aggiunge esattamente N; mating
    genera offspring con lineage valido (geneEncoder).
 5. Esito combat REALE propagato (no `outcome` finto): `pe_earned` da telemetria = quanto il backend accredita.
+6. **Identità roster (Codex #2559 P2)**: gli unit-id che combattono = gli id del roster di campagna corrente
+   (recruited/dead/offspring inclusi), NON la party hardcoded Skiv/AiChar. Senza questo, gli invarianti 4+
+   passerebbero su una party fissa fresca → falso-verde; questo invariante CHIUDE quel buco ed è il gate del
+   prerequisito fase-0 (il seam roster funziona davvero).
 
 **Output MVP**: `docs/playtest/<date>-full-loop-mvp/runs/*.jsonl` + `summary.json`. **Valore immediato**:
 cattura "Engine LIVE / Surface DEAD" + rotture d'integrazione meta-loop che oggi niente intercetta — alla
