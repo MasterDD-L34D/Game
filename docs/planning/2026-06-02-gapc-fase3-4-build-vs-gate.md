@@ -23,8 +23,9 @@ tags:
 # GAP-C fase-3/4 build-vs-gate — decisione H1
 
 > Deliverable gated del GOAL design-closure (§7.2, H1). La **decisione** (build-or-gate) e' Fase-1;
-> l'eventuale **build** e' Fase-2. Verdetto proposto = **GATE (POST-MVP)**, Claude-proposed pending
-> master-dd review. Le alternative sono preservate sotto + museum card M-2026-06-02-001.
+> l'eventuale **build** e' Fase-2. Verdetto = **GATE (POST-MVP)** RATIFICATO master-dd 2026-06-02
+> (build greenlit per una sessione dedicata futura, quando si attiva il flag). Alternative preservate
+> sotto + museum card M-2026-06-02-001.
 
 ## Stato verificato (verify-first 2026-06-02)
 
