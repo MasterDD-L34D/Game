@@ -29,8 +29,20 @@ async function applyMetaStep(http, { id, step }) {
       affinity_at_recruit: 1,
       campaign_id: id,
     });
-    if (r.status === 200 && r.body && r.body.success) recruited.push(npcId);
-    else failures.push({ npcId, status: r.status });
+    // Count a recruit only when the metaProgression store actually marked the NPC
+    // `recruited:true` (the canonical, DB-INDEPENDENT recruit state set in-memory),
+    // not merely a 200 (Codex #2563 P2): the `party_rosters` upsert in meta.js is
+    // best-effort/DB-dependent, so a 200 with a no-op roster write would otherwise
+    // false-green. This tracks the recruit MECHANIC (affinity->trust->recruited),
+    // not the party_rosters persistence layer (out of scope for the option-a seam).
+    const recruitedOk =
+      r.status === 200 &&
+      r.body &&
+      r.body.success === true &&
+      r.body.npc &&
+      r.body.npc.recruited === true;
+    if (recruitedOk) recruited.push(npcId);
+    else failures.push({ npcId, status: r.status, success: r.body && r.body.success });
   }
   return { recruited, failures };
 }
