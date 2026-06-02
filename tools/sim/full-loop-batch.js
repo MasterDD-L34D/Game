@@ -29,6 +29,7 @@ const { runFullLoop } = require('./full-loop-runner');
 const { aggregate, PROVISIONAL_BANDS } = require('./meta-band-aggregator');
 const greedyPolicy = require('./greedy-policy');
 const { makeMbtiPolicy } = require('./mbti-policy');
+const { traverse } = require('./meta-network-driver');
 
 // Canonical cave_path starter party (mirrors tests/sim/fullLoopRunner.test.js): a
 // dune_stalker + velox authored squad. The Nido recruits grow it as chapters clear.
@@ -243,9 +244,45 @@ function runToJsonl(r) {
   };
 }
 
-function buildSummary(results, config = {}) {
+// Default routing-coverage walk plan. A BADLANDS-only plan never reaches CRYOSTEPPE, so the
+// winter-gated bridge would stay unexercised (Codex #2572 P2). Starting at CRYOSTEPPE makes
+// the season gate decisive: in winter step 1 takes the CRYOSTEPPE -> FORESTA_TEMPERATA
+// bridge; without a season it is locked and the walk diverges to BADLANDS. The trio gives a
+// baseline + the bridge crossed + the bridge locked (divergence proof).
+const ROUTING_WALKS = [
+  { start: 'BADLANDS', season: null },
+  { start: 'CRYOSTEPPE', season: 'winter' },
+  { start: 'CRYOSTEPPE', season: null },
+];
+
+// fase-2c routing wiring: exercise the GAP-C meta-network routing graph in test-context
+// (only when META_NETWORK_ROUTING=true). Spins one in-process backend and traverses the
+// graph for each planned walk (default = ROUTING_WALKS, which crosses the season-gated
+// bridge), returning coverage. Lazy-requires createApp + supertest (same hermetic deal as
+// runOneReal). Never touches the live campaign -> band-safe.
+async function runRoutingCoverage({ walks = ROUTING_WALKS } = {}) {
+  const { createApp } = require('../../apps/backend/app');
+  const request = require('supertest');
+  const { app, close } = createApp({ databasePath: null });
+  const http = {
+    get: (p, query) =>
+      request(app)
+        .get(p)
+        .query(query || {})
+        .then((r) => ({ status: r.status, body: r.body })),
+  };
+  try {
+    const runs = [];
+    for (const w of walks) runs.push(await traverse(http, { start: w.start, season: w.season }));
+    return { enabled: runs.every((r) => r.enabled), walks, runs };
+  } finally {
+    if (typeof close === 'function') await close().catch(() => {});
+  }
+}
+
+function buildSummary(results, config = {}, routing) {
   const agg = aggregate(results);
-  return {
+  const summary = {
     config,
     n: agg.n,
     provisional: agg.provisional,
@@ -255,6 +292,10 @@ function buildSummary(results, config = {}) {
       total: agg.n,
     },
   };
+  // fase-2c: routing-graph coverage when META_NETWORK_ROUTING is on -> the flag stops being
+  // a no-op for the batch report (closes the band-report Finding 4). Omitted when off.
+  if (routing) summary.routing = routing;
+  return summary;
 }
 
 function band(metric) {
@@ -308,6 +349,23 @@ function buildReport(summary) {
     );
     lines.push('');
   }
+  if (summary.routing && Array.isArray(summary.routing.runs)) {
+    lines.push('## META_NETWORK_ROUTING coverage (GAP-C, test-context)');
+    lines.push('');
+    lines.push('| Start | Season | Nodes visited | Reasons | Terminal |');
+    lines.push('|---|---|---:|---|---|');
+    for (const run of summary.routing.runs) {
+      const cov = run.coverage || {};
+      lines.push(
+        `| ${run.start} | ${run.season || 'none'} | ${cov.nodes_visited || 0} | ${(cov.reasons || []).join(', ')} | ${run.terminalReason} |`,
+      );
+    }
+    lines.push('');
+    lines.push(
+      '> Flag exercised in TEST only -- the live act/chapter campaign is unchanged; PROD-enable of meta-network routing is a separate master-dd verdict.',
+    );
+    lines.push('');
+  }
   lines.push('Per-run records: `runs.jsonl`. Aggregate: `summary.json`.');
   lines.push('');
   return lines.join('\n');
@@ -351,13 +409,26 @@ async function main() {
       );
     },
   });
-  const summary = buildSummary(results, {
-    runs: args.runs,
-    branch: args.branch,
-    policy: args.policy,
-    commit: args.commit,
-    flags,
-  });
+  // fase-2c: when the routing flag is on, exercise the meta-network graph (test-context)
+  // so the flag is no longer a no-op for the report (band-report Finding 4).
+  let routing;
+  if (flags.META_NETWORK_ROUTING === 'true') {
+    routing = await runRoutingCoverage();
+    console.log(
+      `routing coverage: ${routing.runs.map((r) => `${r.start}/${r.season || 'none'}=${r.coverage.nodes_visited}n`).join(' ')}`,
+    );
+  }
+  const summary = buildSummary(
+    results,
+    {
+      runs: args.runs,
+      branch: args.branch,
+      policy: args.policy,
+      commit: args.commit,
+      flags,
+    },
+    routing,
+  );
   const report = buildReport(summary);
   const paths = writeArtifacts(outDir, { results, summary, report });
   const wallSec = ((Date.now() - t0) / 1000).toFixed(1);
@@ -387,6 +458,8 @@ module.exports = {
   resolvePolicy,
   runBatch,
   runOneReal,
+  runRoutingCoverage,
+  ROUTING_WALKS,
   buildSummary,
   buildReport,
   writeArtifacts,

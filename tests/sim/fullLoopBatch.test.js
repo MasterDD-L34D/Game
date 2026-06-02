@@ -18,6 +18,7 @@ const {
   runBatch,
   writeArtifacts,
   resolvePolicy,
+  ROUTING_WALKS,
 } = require('../../tools/sim/full-loop-batch');
 
 // Synthetic run-result (runFullLoop shape) for the pure-assembly tests.
@@ -241,4 +242,46 @@ test('runBatch: provenance records the hermetic env flags (Codex #2570 P2)', asy
   assert.ok('IDEA_ENGINE_STUB_ORCHESTRATOR' in f, 'stub-orchestrator flag recorded');
   assert.ok('IDEA_ENGINE_DISABLE_STATUS_REFRESH' in f, 'status-refresh flag recorded');
   assert.ok('META_NETWORK_ROUTING' in f, 'routing flag still recorded');
+});
+
+const ROUTING_FIXTURE = {
+  enabled: true,
+  start: 'BADLANDS',
+  runs: [
+    {
+      start: 'BADLANDS',
+      season: null,
+      terminalReason: 'all_cleared',
+      coverage: { nodes_visited: 4, reasons: ['eligible', 'filtered', 'all_cleared'] },
+    },
+  ],
+};
+
+test('buildSummary: includes routing coverage when provided (fase-2c routing wiring)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 }, ROUTING_FIXTURE);
+  assert.deepEqual(s.routing, ROUTING_FIXTURE);
+});
+
+test('buildSummary: omits routing when absent (flag off)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 });
+  assert.equal(s.routing, undefined);
+});
+
+test('ROUTING_WALKS: the default coverage plan exercises the winter bridge (Codex #2572 P2)', () => {
+  // A coverage plan of only BADLANDS starts never reaches CRYOSTEPPE -> the winter bridge
+  // stays unexercised. The default must include a CRYOSTEPPE/winter walk (crosses the
+  // bridge) so routing coverage genuinely hits the season-gated edge.
+  assert.ok(Array.isArray(ROUTING_WALKS) && ROUTING_WALKS.length >= 2, 'a multi-walk plan');
+  assert.ok(
+    ROUTING_WALKS.some((w) => w.start === 'CRYOSTEPPE' && w.season === 'winter'),
+    `plan exercises the winter bridge; got ${JSON.stringify(ROUTING_WALKS)}`,
+  );
+});
+
+test('buildReport: renders a routing-coverage section when present (closes Finding 4)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 }, ROUTING_FIXTURE);
+  const md = buildReport(s);
+  assert.match(md, /META_NETWORK_ROUTING|routing coverage/i);
+  assert.ok(md.includes('BADLANDS'), 'names the traversed node');
+  assert.ok(md.includes('all_cleared'), 'shows the terminal reason');
 });
