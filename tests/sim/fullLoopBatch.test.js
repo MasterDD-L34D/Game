@@ -231,3 +231,14 @@ test('runBatch: --policy greedy injects the greedy policy object', async () => {
   assert.equal(typeof seen[0].chooseRecruits, 'function', 'greedy policy object injected');
   assert.equal(results[0].provenance.policy, 'greedy');
 });
+
+test('runBatch: provenance records the hermetic env flags (Codex #2570 P2)', async () => {
+  // Importing full-loop-batch stubs the orchestrator + disables the status refresh, so the
+  // batch runtime differs from an unstubbed run. Provenance must capture that (not just
+  // META_NETWORK_ROUTING) so a reader of runs.jsonl knows the run was hermetic.
+  const results = await runBatch({ runs: 1, runOne: async () => synthRun() });
+  const f = results[0].provenance.flags;
+  assert.ok('IDEA_ENGINE_STUB_ORCHESTRATOR' in f, 'stub-orchestrator flag recorded');
+  assert.ok('IDEA_ENGINE_DISABLE_STATUS_REFRESH' in f, 'status-refresh flag recorded');
+  assert.ok('META_NETWORK_ROUTING' in f, 'routing flag still recorded');
+});

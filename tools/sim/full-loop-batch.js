@@ -209,9 +209,15 @@ async function runBatch(opts = {}) {
   return results;
 }
 
-// The fase-2c test-context flags the report should record alongside each run.
+// The env flags the report should record alongside each run: the fase-2c routing test-
+// context PLUS the hermetic stubs this batch applies (Codex #2570 P2 -- the stubbed runtime
+// differs from an unstubbed run, so provenance must capture it for reproducibility).
 function currentFlags() {
-  return { META_NETWORK_ROUTING: process.env.META_NETWORK_ROUTING || 'false' };
+  return {
+    META_NETWORK_ROUTING: process.env.META_NETWORK_ROUTING || 'false',
+    IDEA_ENGINE_STUB_ORCHESTRATOR: process.env.IDEA_ENGINE_STUB_ORCHESTRATOR || '0',
+    IDEA_ENGINE_DISABLE_STATUS_REFRESH: process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH || '0',
+  };
 }
 
 // Compact one run-result into a single JSONL line (per-run record).
