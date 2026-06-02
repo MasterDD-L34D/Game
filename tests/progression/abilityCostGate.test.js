@@ -163,3 +163,34 @@ test('SG NOT charged when the dispatch fails (no charge on non-2xx)', async () =
   assert.ok(res.status >= 400, `expected a failure status, got ${res.status}`);
   assert.strictEqual(actor.sg, 2, 'sg NOT charged on a failed dispatch');
 });
+
+test('SG spent BEFORE the ability damage-earn (Codex #2554 P2: cap does not eat the earn)', async () => {
+  // actor at cap (sg=3), numeric cost 2, attack deals heavy damage -> sgTracker earns.
+  // spend-first: 3 - 2 = 1, then the in-dispatch earn stacks on the reduced pool (-> >1).
+  // The buggy "capped-earn-then-deduct" order would drop the earn and leave sg=1.
+  _setAbilityForTest('test_sg_attack_earn', {
+    ability_id: 'test_sg_attack_earn',
+    effect_type: 'execution_attack',
+    cost_ap: 0,
+    cost_sg: 2,
+    damage_dice: '1d6',
+  });
+  const ex = createAbilityExecutor({
+    performAttack: () => ({ damageDealt: 40, result: { hit: true } }),
+    buildAttackEvent: () => ({}),
+    appendEvent: async () => {},
+    manhattanDistance: (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y),
+  });
+  const actor = mkActor(3);
+  const target = { id: 'foe', hp: 99, max_hp: 99, position: { x: 1, y: 0 } };
+  const res = await ex.executeAbility({
+    session: { units: [actor, target], turn: 1, damage_taken: {} },
+    actor,
+    body: { ability_id: 'test_sg_attack_earn', target_id: 'foe' },
+  });
+  assert.strictEqual(res.status, 200, JSON.stringify(res.body));
+  assert.ok(
+    actor.sg > 1,
+    `spend-before-earn keeps the earn (sg=${actor.sg} > 1); buggy order leaves 1`,
+  );
+});

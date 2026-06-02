@@ -2427,6 +2427,15 @@ function createAbilityExecutor(deps) {
     // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
     // (defense_after_silent). Set after the AP gate, before dispatch.
     actor._last_ability_id = ability.ability_id;
+    // H2 cost-gate (Codex #2554 P2): SPEND SG before dispatch so the ability's own
+    // damage-earn (sgTracker during the attack) stacks on the REDUCED pool instead of
+    // being dropped at the cap. Rolled back below on a non-2xx result (no charge on
+    // 400/501), mirroring the cost_ap / cost_pe (#2522) model.
+    let sgBefore = null;
+    if (costSg > 0) {
+      sgBefore = Number(actor.sg || 0);
+      actor.sg = sgConsumeAll ? 0 : Math.max(0, sgBefore - costSg);
+    }
     const dispatch = () => {
       switch (ability.effect_type) {
         case 'move_attack':
@@ -2478,14 +2487,17 @@ function createAbilityExecutor(deps) {
       }
     };
     const result = await dispatch();
+    const resolved2xx = result && Number(result.status) >= 200 && Number(result.status) < 300;
+    // H2 cost-gate (Codex #2554 P2): the SG spend ran BEFORE dispatch; roll it back
+    // if the ability did not resolve (no charge on 400/501). On success the spend
+    // stands and the in-dispatch earn already stacked on the reduced pool.
+    if (costSg > 0 && !resolved2xx) {
+      actor.sg = sgBefore;
+    }
     // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
     // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
     // the sgTracker pattern (non-blocking if the module is unavailable).
-    if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
-      // H2 cost-gate: charge SG only on a successful resolution (no charge on 400/501).
-      if (costSg > 0) {
-        actor.sg = sgConsumeAll ? 0 : Math.max(0, Number(actor.sg || 0) - costSg);
-      }
+    if (resolved2xx) {
       try {
         const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
         applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
