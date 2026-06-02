@@ -79,4 +79,12 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
   assert.ok(res.chapters.length >= 5, `multiple chapters played, got ${res.chapters.length}`);
   // Every recorded outcome is real (the combat actually ran, not a faked stamp).
   assert.ok(res.chapters.every((c) => ['victory', 'defeat', 'timeout'].includes(c.outcome)));
+  // fase-1b-2 Nido meta-step: the AI loop recruits via /api/meta/recruit on each
+  // cleared chapter -> the Nido seam is really exercised end-to-end, no failures.
+  assert.ok(res.recruited.length >= 5, `recruited across chapters, got ${res.recruited.length}`);
+  assert.deepEqual(
+    res.metaViolations,
+    [],
+    `no meta violations: ${JSON.stringify(res.metaViolations)}`,
+  );
 });
