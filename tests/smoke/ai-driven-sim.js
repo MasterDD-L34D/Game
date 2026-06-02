@@ -137,7 +137,7 @@ function attachWs(label, code, playerId, token) {
   });
 }
 
-// `dist` + `selectPlayerAction` now live in tools/sim/lib/combat-policy.js
+// `dist` + `selectPlayerAction` now live in tools/sim/combat-policy.js
 // (shared with the full-loop combatAdapter). Imported at the top of this file.
 
 // 2026-05-10 — YAML scenario loader (opt-in via AI_SIM_LOAD_YAML=1).
