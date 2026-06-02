@@ -80,11 +80,26 @@ sink side of the economy is never tested (surfaced honestly, not invented). buil
 (XP+MP) accrues flat (drift 1.25, in band). `mpEarnedTotal` is 0 because the runner does not
 send `encounter_meta` tier on advance — MP grants stay at the floor; XP carries the build power.
 
+> **UPDATE (since this baseline):** the PI sink is now **wired** — the runner attempts a hybrid
+> perk pick (`POST /api/progression/:unitId/pick`) for each leveled survivor with a PE-derived
+> PI budget (5:1). It still spends 0 in the canonical sim, but that is now **measured**, not
+> assumed: `pi_pick_attempts > 0` with `pi_insufficient = 0` → the picks are **blocked**, not
+> unaffordable. Verify-first found the cause: the sim roster's job (`stalker`) is not a perk-job
+> (perks.yaml covers skirmisher/vanguard/warden/artificer/invoker/ranger/harvester), so picks
+> 409; and at PE→PI 5:1 the budget would 402 anyway. → to actually exercise the sink, future
+> work needs a perk-job sim roster + a PE rate that affords the 5-PI pick.
+
 **4. `META_NETWORK_ROUTING` coverage is a no-op for the current runner.** The runner chooses
 paths via `driver.choose(branchKey)` → `/api/campaign/choose`, NOT the meta-network diagnostic
 endpoint that the `META_NETWORK_ROUTING` flag gates (`campaign.js:215`). Setting the flag does
 not change the runner. Routing-graph (`selectNextNodes`) coverage needs the runner wired to it
 — a separate slice, not a flag flip.
+
+> **UPDATE (since this baseline):** addressed by `tools/sim/meta-network-driver.js` — a
+> traversal harness walks the routing graph via the flag-gated endpoint, so with
+> `META_NETWORK_ROUTING=true` the batch report gains a routing-coverage section (the flag is no
+> longer a no-op in test-context). The live act/chapter campaign is unchanged; the PROD-enable
+> verdict stays master-dd's.
 
 ## For master-dd (ratify gate — L-069)
 

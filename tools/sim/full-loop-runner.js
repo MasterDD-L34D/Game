@@ -99,6 +99,45 @@ function sumGrants(arr, field) {
   return arr.reduce((s, g) => s + (Number(g && g[field]) || 0), 0);
 }
 
+// fase-2c PI sink: the first hybrid-pickable perk level (level 2 = 10 XP, reached after the
+// first victory; perks.yaml default hybrid cost = 5 PI).
+const PICK_LEVEL = 2;
+
+// Exercise the economy SINK: for each survivor that has reached PICK_LEVEL (xp_grants
+// level_after) and has not yet picked it, attempt a hybrid perk pick via the existing
+// /api/progression/:unitId/pick endpoint (band-safe: no engine change). `availablePi` is the
+// run's PE-derived PI budget (SoT PE->PI 5:1), decremented as picks land. A pick that the
+// budget can't afford returns 402 insufficient_pi -> surfaced (not hidden), so a too-tight
+// economy reads honestly instead of leaving piSpentTotal a hardcoded 0. Returns the spend
+// tally; `pickedLevels` (a Set of unit ids) carries across chapters to avoid double-picks.
+async function applyProgressionSpend(http, { id, xpGrants, availablePi, pickedLevels }) {
+  let spent = 0;
+  let attempts = 0;
+  let insufficient = 0;
+  let budget = Number.isFinite(Number(availablePi)) ? Number(availablePi) : 0;
+  for (const g of Array.isArray(xpGrants) ? xpGrants : []) {
+    const unitId = g && g.unit_id;
+    if (!unitId || pickedLevels.has(unitId)) continue;
+    if (!(Number(g.level_after) >= PICK_LEVEL)) continue;
+    attempts += 1;
+    const pick = await http.post(`/api/progression/${unitId}/pick`, {
+      level: PICK_LEVEL,
+      choice: 'hybrid',
+      campaign_id: id,
+      available_pi: budget,
+    });
+    if (pick.status === 200) {
+      const cost = Number(pick.body && pick.body.pi_cost) || 0;
+      spent += cost;
+      budget -= cost;
+      pickedLevels.add(unitId);
+    } else if (pick.status === 402) {
+      insufficient += 1;
+    }
+  }
+  return { spent, attempts, insufficient };
+}
+
 async function runFullLoop(http, opts = {}) {
   const {
     playerId,
@@ -131,7 +170,14 @@ async function runFullLoop(http, opts = {}) {
       recruitedSpecies: [],
       metaViolations: [],
       initialRosterSize,
-      economy: { peEarnedTotal: 0, xpGrantedTotal: 0, mpEarnedTotal: 0, piSpentTotal: 0 },
+      economy: {
+        peEarnedTotal: 0,
+        xpGrantedTotal: 0,
+        mpEarnedTotal: 0,
+        piSpentTotal: 0,
+        piPickAttempts: 0,
+        piInsufficient: 0,
+      },
     };
   }
   const id = startRes.body.campaign.id;
@@ -157,6 +203,12 @@ async function runFullLoop(http, opts = {}) {
   let peEarnedTotal = 0;
   let xpGrantedTotal = 0;
   let mpEarnedTotal = 0;
+  // fase-2c economy SINK: PI spent on hybrid perk picks (real now, no longer hardcoded 0).
+  // pickedLevels carries across chapters so a unit picks PICK_LEVEL at most once.
+  let piSpentTotal = 0;
+  let piPickAttempts = 0;
+  let piInsufficient = 0;
+  const pickedLevels = new Set();
 
   for (let step = 1; step <= maxChapters; step += 1) {
     const sum = await driver.summary(http, id);
@@ -203,6 +255,20 @@ async function runFullLoop(http, opts = {}) {
     if (combat.outcome === 'victory') peEarnedTotal += peEarned;
     xpGrantedTotal += xpGranted;
     mpEarnedTotal += mpEarned;
+    // PI sink: spend PE-derived PI (5:1) on a hybrid perk pick for any survivor that just
+    // reached the pick level. Runs on victory (xp_grants + level-ups only happen there).
+    if (combat.outcome === 'victory') {
+      const availablePi = Math.floor(peEarnedTotal / 5) - piSpentTotal;
+      const spend = await applyProgressionSpend(http, {
+        id,
+        xpGrants: adv.body && adv.body.xp_grants,
+        availablePi,
+        pickedLevels,
+      });
+      piSpentTotal += spend.spent;
+      piPickAttempts += spend.attempts;
+      piInsufficient += spend.insufficient;
+    }
     chapters.push({
       step,
       encounter: enc,
@@ -265,7 +331,14 @@ async function runFullLoop(http, opts = {}) {
     offspring,
     economyAffinityProven,
     initialRosterSize,
-    economy: { peEarnedTotal, xpGrantedTotal, mpEarnedTotal, piSpentTotal: 0 },
+    economy: {
+      peEarnedTotal,
+      xpGrantedTotal,
+      mpEarnedTotal,
+      piSpentTotal,
+      piPickAttempts,
+      piInsufficient,
+    },
   };
 }
 

@@ -112,10 +112,12 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
   );
   assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
-  // fase-2b economy telemetry: the runner aggregates the backend's REAL advance economy
-  // per run (PE earned per cleared chapter + backend-computed XP/MP grants). PI-spent is
-  // 0 because no shop/PI-sink is wired in the loop yet -- surfaced as a real gap, never
-  // invented. These feed meta-band-aggregator's economy_flow metric.
+  // fase-2b/2c economy telemetry: the runner aggregates the backend's REAL advance economy
+  // per run (PE earned per cleared chapter + backend-computed XP/MP grants). The PI SINK is
+  // now WIRED (fase-2c): the runner attempts a hybrid perk pick for leveled survivors. In the
+  // canonical sim it spends 0 -- not invented: the sim roster's job ('stalker') is not a
+  // perk-job, so picks 409 (and the PE->PI 5:1 rate would 402 anyway). That is surfaced
+  // honestly via piPickAttempts (the sink is exercised-as-attempted), not hidden.
   assert.equal(res.initialRosterSize, 2, 'initial authored roster size captured');
   assert.ok(res.economy, 'economy telemetry present');
   const clearedChapters = res.chapters.filter((c) => c.outcome === 'victory').length;
@@ -125,7 +127,11 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `PE earned = peEarned(3) x cleared chapters(${clearedChapters})`,
   );
   assert.ok(res.economy.xpGrantedTotal > 0, 'XP granted accrued from real victories');
-  assert.equal(res.economy.piSpentTotal, 0, 'no PI sink wired in the loop yet');
+  assert.equal(res.economy.piSpentTotal, 0, 'canonical sim cannot spend PI (job lacks perks)');
+  assert.ok(
+    res.economy.piPickAttempts > 0,
+    'PI sink wired: hybrid picks attempted for leveled survivors',
+  );
   // fase-2a scaled enemies: covered cave_path chapters (enc_tutorial_01/02, savana_01,
   // caverna_02) load real wave-1 rosters from YAML; the uncovered ones (tutorial_03/04/05,
   // tutorial_06_hardcore) fall back to the weak-fixed enemy. Assert BOTH paths run -> the
@@ -492,4 +498,76 @@ test('runFullLoop: a mbtiPolicy plays the real cave_path campaign end-to-end (fa
     `mbti policy recruited across chapters, got ${res.recruited.length}`,
   );
   assert.equal(res.economyAffinityProven, true, 'earned-affinity gate fired under the mbti policy');
+});
+
+// Shared fake http for the PI-sink tests: one victory chapter that COMPLETES the campaign
+// (skips the meta-step), a survivor at level 2 (xp_grants.level_after), and a /pick response
+// the test controls. `peEarned` drives the PE-derived PI budget (SoT 5:1).
+function piSinkHttp({ pickStatus, pickBody }) {
+  return {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        return {
+          status: 200,
+          body: {
+            campaign_completed: true,
+            xp_grants: [{ unit_id: 'hero_a', amount: 30, level_after: 2, leveled_up: true }],
+          },
+        };
+      }
+      if (path.startsWith('/api/progression/') && path.endsWith('/pick')) {
+        return { status: pickStatus, body: pickBody };
+      }
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state')
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+}
+
+const PI_ROSTER = [
+  { id: 'hero_a', max_hp: 30, job: 'stalker', position: { x: 1, y: 1 }, controlled_by: 'player' },
+];
+
+test('runFullLoop: PI sink spends on an affordable hybrid perk pick (fase-2c)', async () => {
+  // peEarned 30 -> after one victory peEarnedTotal 30 -> PI budget floor(30/5)=6 >= cost 5.
+  // The level-2 survivor's hybrid pick succeeds -> economy.piSpentTotal reflects the SINK.
+  const http = piSinkHttp({ pickStatus: 200, pickBody: { ok: true, pi_cost: 5 } });
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: PI_ROSTER,
+    peEarned: 30,
+    maxChapters: 3,
+  });
+  assert.equal(res.economy.piSpentTotal, 5, 'PI actually spent on the hybrid pick');
+  assert.equal(res.economy.piPickAttempts, 1, 'one pick attempted');
+  assert.equal(res.economy.piInsufficient, 0);
+});
+
+test('runFullLoop: PI sink records insufficient PI when the economy cannot afford it (fase-2c)', async () => {
+  // peEarned 3 (canonical) -> PI budget floor(3/5)=0 < cost 5 -> /pick 402 insufficient_pi.
+  // The sink is WIRED + attempted; the tight economy is surfaced honestly (not hidden).
+  const http = piSinkHttp({ pickStatus: 402, pickBody: { ok: false, error: 'insufficient_pi' } });
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: PI_ROSTER,
+    peEarned: 3,
+    maxChapters: 3,
+  });
+  assert.equal(res.economy.piSpentTotal, 0, 'nothing spent when unaffordable');
+  assert.equal(res.economy.piPickAttempts, 1, 'pick still attempted (sink wired)');
+  assert.equal(res.economy.piInsufficient, 1, 'insufficiency surfaced');
 });
