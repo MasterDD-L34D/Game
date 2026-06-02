@@ -683,6 +683,16 @@ function createSessionRouter(options = {}) {
       // separately for log via positionMod.damageBonus.
       const terrainDamageBonus = Number(positionMod.damageBonus) || 0;
       const baseDamage = 1 + result.pt + terrainDamageBonus;
+      // PT economy (26-ECONOMY §PT): the technique roll that feeds this hit's
+      // damage ALSO accumulates into the attacker's per-round PT pool (super-meter
+      // pattern — a hit builds meter while it deals damage). Additive + lazy-require
+      // (non-blocking, mirrors sgTracker/ppTracker); the pool is spent by cost_pt
+      // abilities (gated in executeAbility). Band-neutral: no sim party reads pt.
+      try {
+        require('../services/combat/ptTracker').earn(actor, result.pt);
+      } catch {
+        /* ptTracker optional */
+      }
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
       // e' strettamente adiacente al bersaglio (Manhattan == 1). Incentiva
       // la scelta tattica di entrare in mischia anche se skirmisher/ranger
@@ -1982,6 +1992,22 @@ function createSessionRouter(options = {}) {
       } catch {
         /* pp seed optional */
       }
+      // PT (Punti Tecnica) seed: `req.body.initial_pt = { unit_id: pool }` for
+      // save-load + integration tests (mirror initial_pp). No tutorial default (PT
+      // is EARNED from the attack technique roll via ptTracker, not gifted). Clamp
+      // 0..12 (ptTracker.POOL_MAX). PT resets per-round, so this is a round-start seed.
+      try {
+        const initialPt = req.body?.initial_pt;
+        if (initialPt && typeof initialPt === 'object') {
+          for (const [uid, pool] of Object.entries(initialPt)) {
+            const unit = (session.units || []).find((u) => u && u.id === uid);
+            if (!unit) continue;
+            unit.pt = Math.max(0, Math.min(12, Math.floor(Number(pool) || 0)));
+          }
+        }
+      } catch {
+        /* pt seed optional */
+      }
       // TKT-ORPHAN-WOUNDPERMA: re-apply persistent wounds carried by this
       // campaign (cross-encounter scar). initSessionMap on first sight; the read
       // path is live in statusModifiers.js (wounded_perma -> attack penalty) plus
@@ -2867,6 +2893,15 @@ function createSessionRouter(options = {}) {
       } else if (usePriorityQueue) {
         // End-of-round ticks minimali: bleeding + status decay + AP reset + turn++.
         // NO AI declare (già fatto via priority queue).
+        // PT pool (26-ECONOMY §PT) resets per-round here too: this inline branch is
+        // the canonical /round/execute end-of-round (it SKIPS handleTurnEndViaRound,
+        // Codex #2557 P1). Reset ALL units (mirror the bridge reset, no hp filter).
+        try {
+          const ptTracker = require('../services/combat/ptTracker');
+          for (const u of session.units || []) ptTracker.resetRound(u);
+        } catch {
+          /* ptTracker optional */
+        }
         for (const unit of session.units) {
           if (!unit || Number(unit.hp) <= 0) continue;
           // Bleeding tick
