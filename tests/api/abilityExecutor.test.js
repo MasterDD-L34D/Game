@@ -40,6 +40,19 @@ async function startSessionSgFull(app) {
   return { sid: startRes.body.session_id, state: startRes.body.state };
 }
 
+// H2 PP cost-gate (2026-06-02): every cost_pp (4..12) > POOL_MAX(3) -> consume-all
+// gate requires a FULL PP pool. Seed p_scout pp=3 (ally pools stay 0 so pp_grant
+// abilities still observably grant).
+async function startSessionPp(app) {
+  const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
+  assert.equal(scenario.status, 200);
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({ units: scenario.body.units, initial_pp: { p_scout: 3 } });
+  assert.equal(startRes.status, 200);
+  return { sid: startRes.body.session_id, state: startRes.body.state };
+}
+
 test('dash_strike: move_attack end-to-end, AP decremented, event emitted', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
@@ -229,7 +242,7 @@ test('blade_flurry: multi_attack esegue fino a attack_count hit', async (t) => {
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -354,7 +367,7 @@ test('kill_shot: execution_attack non triggera execute se target HP piena', asyn
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -468,7 +481,7 @@ test('resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in ran
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   // p_scout (1,2), p_tank (1,3) → distanza 1, range 3 da spec → entrambi affetti.
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
@@ -480,10 +493,15 @@ test('resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in ran
   assert.equal(res.body.effect_type, 'team_buff');
   assert.ok(Array.isArray(res.body.allies_affected));
   assert.ok(res.body.allies_affected.length >= 2, '>=2 allies (scout+tank)');
-  // Verifica pp_grant applicato a ciascuno
-  for (const a of res.body.allies_affected) {
+  // Codex #2555 P2: the caster (p_scout) consume-all-spent its PP to cast, so it must
+  // NOT refill itself via its own pp_grant -> only OTHER allies receive pp_grant.
+  const casterEntry = res.body.allies_affected.find((a) => a.unit_id === 'p_scout');
+  const otherEntries = res.body.allies_affected.filter((a) => a.unit_id !== 'p_scout');
+  assert.ok(otherEntries.length >= 1, '>=1 non-caster ally (tank)');
+  for (const a of otherEntries) {
     assert.equal(a.pp_grant, 2);
   }
+  assert.ok(!casterEntry || casterEntry.pp_grant === undefined, 'caster does NOT self-grant pp');
 });
 
 test('symbiotic_bloom: team_heal cura tutti gli alleati in range', async (t) => {
@@ -1294,7 +1312,7 @@ test('Sprint 8.1 dervish_whirlwind (r4 multi_attack): dispatch via skirmisher pa
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -1315,7 +1333,7 @@ test('Sprint 8.1 headshot (r4 execution_attack): dispatch via ranger path + exec
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -1383,7 +1401,7 @@ test('Sprint 8.1 shadow_assassinate (Stalker r4 expansion execution_attack): dis
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPp(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -1407,7 +1425,7 @@ test('Sprint 8 phantom_step (r3 move_attack): dispatch end-to-end via existing e
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid, state } = await startSession(app);
+  const { sid, state } = await startSessionPp(app);
   const scout = state.units.find((u) => u.id === 'p_scout');
   assert.ok(scout, 'scout presente nel tutorial_01');
 

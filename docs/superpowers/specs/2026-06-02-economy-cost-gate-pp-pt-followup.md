@@ -17,6 +17,16 @@ tags: [economy, cost-gate, pp-pool, pt-pool, phasec, pending-design, balance]
 > essendo band-neutral (nessuna sim usa queste ability), **non sono validabili via
 > band-verify** -> verdetto numerico master-dd. Estende la spec `2026-06-01-phasec-economy-cost-gate.md`.
 
+> **UPDATE 2026-06-02 (master-dd ha accordato autonomia di scelta su evidenza): PP cost-gate SHIPPED.**
+> Il SoT `26-ECONOMY` GIA fissa l'earn PP (+1 crit, +1 kill) e "Ultimate = 3 PP consume all" -> NON era
+> un verdetto balance ma canon-compliance. Wired: `ppTracker` (POOL_MAX 3) + earn in `session.js`
+> performAttack (crit/kill) + gate consume-all in `executeAbility` (tutti i cost_pp 4-12 > 3 ->
+> consume-all, NO rescale) + `initial_pp` seed (mirror initial_sg). Band-neutral (AI non decide su pp;
+> ability assenti dalle sim) -> AI 500/500. **Solo PT resta deferito** (pool spendibile NON wired +
+> costi gia coerenti <=12 + ruolo canonico = manovre, non ancora costruite). NOTA: i cost_pp rank-2
+> (blade_flurry 6 / resonance 4 / kill_shot 6 / deathmark 4) sono consume-all per cost-threshold; set
+> `cost_pp <= 3` per-ability se master-dd li vuole numerici (reversibile, come cataclysm).
+
 ## Stato (questo PR) -- SG cost-gate SHIPPED
 
 Implementato in `abilityExecutor.executeAbility` (option C, master-dd 2026-06-02):

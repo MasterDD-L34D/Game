@@ -1832,8 +1832,18 @@ function createAbilityExecutor(deps) {
         applySelfBuff(ally, buffStat, amount, duration);
         entry.buff = { stat: buffStat, amount, duration };
       }
-      if (ppGrant > 0) {
-        ally.pp = (Number(ally.pp) || 0) + ppGrant;
+      // H2 cost-gate (Codex #2555 P2): a cost_pp support ultimate must NOT refill its
+      // OWN caster via pp_grant (it just consume-all-spent the pool) -> grant only to
+      // OTHER allies. Clamp to POOL_MAX so a grant never overfills the 0..3 pool.
+      if (ppGrant > 0 && ally.id !== actor.id) {
+        const ppMax = (() => {
+          try {
+            return Number(require('./combat/ppTracker').POOL_MAX) || 3;
+          } catch {
+            return 3;
+          }
+        })();
+        ally.pp = Math.min(ppMax, (Number(ally.pp) || 0) + ppGrant);
         entry.pp_grant = ppGrant;
       }
       applied.push(entry);
@@ -2423,6 +2433,47 @@ function createAbilityExecutor(deps) {
         };
       }
     }
+    // H2 PP cost-gate (26-ECONOMY: "Ultimate = 3 PP consume all"). PP is per-encounter
+    // (0..3), earned +1 crit / +1 kill (ppTracker, wired in session.js performAttack).
+    // Every cost_pp in the catalog (4..12) exceeds POOL_MAX -> consume-all; the <=max
+    // numeric branch is kept for future-proofing. Spend before dispatch + rollback below.
+    let ppConsumeAll = false;
+    const costPp = Number(ability.cost_pp || 0);
+    if (costPp > 0) {
+      const ppPoolMax = (() => {
+        try {
+          return Number(require('./combat/ppTracker').POOL_MAX) || 3;
+        } catch {
+          return 3;
+        }
+      })();
+      const ppHave = Number(actor.pp || 0);
+      if (costPp > ppPoolMax) {
+        ppConsumeAll = true;
+        if (ppHave < ppPoolMax) {
+          return {
+            status: 400,
+            body: {
+              error: `PP insufficienti per ultimate (richiede il pool pieno ${ppPoolMax}, disponibili ${ppHave})`,
+              pool: 'pp',
+              cost: ppPoolMax,
+              have: ppHave,
+              consume_all: true,
+            },
+          };
+        }
+      } else if (ppHave < costPp) {
+        return {
+          status: 400,
+          body: {
+            error: `PP insufficienti per ability (richiesti ${costPp}, disponibili ${ppHave})`,
+            pool: 'pp',
+            cost: costPp,
+            have: ppHave,
+          },
+        };
+      }
+    }
     // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
     // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
     // (defense_after_silent). Set after the AP gate, before dispatch.
@@ -2435,6 +2486,11 @@ function createAbilityExecutor(deps) {
     if (costSg > 0) {
       sgBefore = Number(actor.sg || 0);
       actor.sg = sgConsumeAll ? 0 : Math.max(0, sgBefore - costSg);
+    }
+    let ppBefore = null;
+    if (costPp > 0) {
+      ppBefore = Number(actor.pp || 0);
+      actor.pp = ppConsumeAll ? 0 : Math.max(0, ppBefore - costPp);
     }
     const dispatch = () => {
       switch (ability.effect_type) {
@@ -2493,6 +2549,9 @@ function createAbilityExecutor(deps) {
     // stands and the in-dispatch earn already stacked on the reduced pool.
     if (costSg > 0 && !resolved2xx) {
       actor.sg = sgBefore;
+    }
+    if (costPp > 0 && !resolved2xx) {
+      actor.pp = ppBefore;
     }
     // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
     // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
