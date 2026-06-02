@@ -17,6 +17,16 @@
 
 ---
 
+## 🎯 NEXT GOAL (2026-06-02) — Design-closure (Fase 1) → Costruzione (Fase 2)
+
+> Doc di riferimento: [`docs/planning/2026-06-02-design-closure-goal.md`](docs/planning/2026-06-02-design-closure-goal.md). Handoff (con `/goal` paste): [`docs/planning/2026-06-02-goal-master-session-handoff.md`](docs/planning/2026-06-02-goal-master-session-handoff.md).
+
+- **FASE 1 — chiudi il design** (la maggior parte è GIA chiusa, verify-first): aperti reali = **H2** economy combat cost-gate (`cost_sg/pp/pt` decorativi vs SoT pools — verdetto master-dd, spec #2530-A2) + **H4** verifica copertura Cat F + **H8** 1-HP comment cleanup + **H9** OD-022/023 verify/archive + **H7** pillar surface-audit + **DECISIONE H1** GAP-C fase-3/4 (build-vs-gate).
+- **FASE 2 — costruisci** (post Fase 1): GAP-C fase-3/4 (Godot choice-UI + generative grammar) + feature sbloccate, seguendo le direttive + `docs/guide/games-source-index.md`.
+- ⚠️ **GIA SHIPPED, NON ricostruire**: PHASEC 32/32 (#2542), GAP-A (#2447), GAP-C fase-1/2 (#2509), campaign-XP (#2550), symbiont/minion (#2539-2549), ecosystem producers+wiring (#2510/#2447).
+
+---
+
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
 ### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
@@ -178,23 +188,23 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 
 **20 PR sera delta v36→v37**:
 
-| #   | PR                                                              | Squash     | Topic                                                                    |
-| --- | --------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------ |
-| 1   | [#2195](https://github.com/MasterDD-L34D/Game/pull/2195)        | `089cea2e` | V9+V10 reentry audit + C delete batch (3/4) + BACKLOG corrections        |
-| 2   | [#2196](https://github.com/MasterDD-L34D/Game/pull/2196)        | `299f9700` | QA reports regen post-#2195                                              |
-| 3   | [#2198](https://github.com/MasterDD-L34D/Game/pull/2198)        | `898d4968` | Phase B ACCEPTED Path γ default — master-dd verdict 2026-05-10           |
-| 4   | [#2199](https://github.com/MasterDD-L34D/Game/pull/2199)        | `e231423a` | Trait orphan ticket codification post-V10                                |
-| 5   | [#2200](https://github.com/MasterDD-L34D/Game/pull/2200)        | `862dde8b` | Sprint Q+ Q.A — Q-1 schema + Q-2 migration Offspring                     |
-| 6   | [#2201](https://github.com/MasterDD-L34D/Game/pull/2201)        | `f8f37904` | Sprint Q+ Q.B — Q-3 propagateOffspringRitual + Q-4 HTTP API + Q-5 bridge |
-| 7   | [#2202](https://github.com/MasterDD-L34D/Game/pull/2202)        | `41778bd1` | Sprint Q+ Q.C — Q-7 validator + Q-8 workflow gate                        |
-| 8   | [#2203](https://github.com/MasterDD-L34D/Game/pull/2203)        | `7092c24e` | Sprint Q+ Q-9 — Offspring Ritual UI surface DebriefView                  |
-| 9   | [#2204](https://github.com/MasterDD-L34D/Game/pull/2204)        | `bdf16717` | Sprint Q+ Q.E — Q-11 E2E test + Q-12 closure ADR                         |
-| 10  | [#2205](https://github.com/MasterDD-L34D/Game/pull/2205)        | `df87a4b5` | npm audit C surgical — trait-editor semver fix                           |
-| 11  | [#2206](https://github.com/MasterDD-L34D/Game/pull/2206)        | `86ec898b` | trait orphan A=keep biome-aligned assignment proposal                    |
-| 12  | [#2208](https://github.com/MasterDD-L34D/Game/pull/2208)        | `61042522` | trait orphan ASSIGN-A wave 0+1 — 14 traits / 12 species                  |
-| 13  | [#2209](https://github.com/MasterDD-L34D/Game/pull/2209)        | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species            |
-| 14  | [#2210](https://github.com/MasterDD-L34D/Game/pull/2210)        | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species    |
-| 15  | [#2211](https://github.com/MasterDD-L34D/Game/pull/2211)        | `25c124fc` | BACKLOG sync + ajv-cli investigation closure                             |
+| #   | PR                                                              | Squash     | Topic                                                                                 |
+| --- | --------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------- |
+| 1   | [#2195](https://github.com/MasterDD-L34D/Game/pull/2195)        | `089cea2e` | V9+V10 reentry audit + C delete batch (3/4) + BACKLOG corrections                     |
+| 2   | [#2196](https://github.com/MasterDD-L34D/Game/pull/2196)        | `299f9700` | QA reports regen post-#2195                                                           |
+| 3   | [#2198](https://github.com/MasterDD-L34D/Game/pull/2198)        | `898d4968` | Phase B ACCEPTED Path γ default — master-dd verdict 2026-05-10                        |
+| 4   | [#2199](https://github.com/MasterDD-L34D/Game/pull/2199)        | `e231423a` | Trait orphan ticket codification post-V10                                             |
+| 5   | [#2200](https://github.com/MasterDD-L34D/Game/pull/2200)        | `862dde8b` | Sprint Q+ Q.A — Q-1 schema + Q-2 migration Offspring                                  |
+| 6   | [#2201](https://github.com/MasterDD-L34D/Game/pull/2201)        | `f8f37904` | Sprint Q+ Q.B — Q-3 propagateOffspringRitual + Q-4 HTTP API + Q-5 bridge              |
+| 7   | [#2202](https://github.com/MasterDD-L34D/Game/pull/2202)        | `41778bd1` | Sprint Q+ Q.C — Q-7 validator + Q-8 workflow gate                                     |
+| 8   | [#2203](https://github.com/MasterDD-L34D/Game/pull/2203)        | `7092c24e` | Sprint Q+ Q-9 — Offspring Ritual UI surface DebriefView                               |
+| 9   | [#2204](https://github.com/MasterDD-L34D/Game/pull/2204)        | `bdf16717` | Sprint Q+ Q.E — Q-11 E2E test + Q-12 closure ADR                                      |
+| 10  | [#2205](https://github.com/MasterDD-L34D/Game/pull/2205)        | `df87a4b5` | npm audit C surgical — trait-editor semver fix                                        |
+| 11  | [#2206](https://github.com/MasterDD-L34D/Game/pull/2206)        | `86ec898b` | trait orphan A=keep biome-aligned assignment proposal                                 |
+| 12  | [#2208](https://github.com/MasterDD-L34D/Game/pull/2208)        | `61042522` | trait orphan ASSIGN-A wave 0+1 — 14 traits / 12 species                               |
+| 13  | [#2209](https://github.com/MasterDD-L34D/Game/pull/2209)        | `e189f4e4` | trait orphan ASSIGN-A wave 2 DEFENSIVE — 6 traits / 6 species                         |
+| 14  | [#2210](https://github.com/MasterDD-L34D/Game/pull/2210)        | `9c065375` | trait orphan ASSIGN-A wave 3+4 STATUS+SENSORY — 15 traits / 9 species                 |
+| 15  | [#2211](https://github.com/MasterDD-L34D/Game/pull/2211)        | `25c124fc` | BACKLOG sync + ajv-cli investigation closure                                          |
 | —   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | ✅ merged  | Game-Godot-v2 Q-10 OffspringRitualPanel + service (MERGED 2026-05-10, L-075 re-sweep) |
 
 (5 PR pre-cascade sera già contati in v36 cascade L3 section sotto.)

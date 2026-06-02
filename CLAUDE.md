@@ -400,7 +400,17 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
-## 🎮 Sprint context (aggiornato: 2026-05-20 late-notte — Multi-agent cascade wave 1-6 + A4 design-space — v44.3)
+## 🎮 Sprint context (aggiornato: 2026-06-02 — GOAL MASTER: PHASEC 32/32 + design-closure goal doc — v46)
+
+**Sessione 2026-06-02 (GOAL MASTER)**: **PHASEC job-expansion perks 32/32 COMPLETE** — capstone `shared_hp_pool` (#2542 `0f9be016`, 9 round Codex / ~14 fix) + Cat F 7/7 + symbiont 7/7 + minion 8/8 + V6 campaign-XP. Triage: #2509 GAP-C merged (`d05fe323`); D4 promote = già fatto (#2505/#2510). Costruito il **doc di riferimento GOAL a 2 fasi** (design-closure → costruzione): [`docs/planning/2026-06-02-design-closure-goal.md`](docs/planning/2026-06-02-design-closure-goal.md) (#2551 `235c41f8`), riferimento giochi = [`docs/guide/games-source-index.md`](docs/guide/games-source-index.md).
+
+**Scoperta-chiave (anti-pattern #19 ~7×)**: il **design è ~90% già chiuso** — 6 "buchi" risultati shipped sotto verify-first (GAP-A #2447, GAP-C fase-1/2 #2509, campaign-XP #2550, symbiont/minion, producers #2510, ecosystem→combat foodwebFilter). Fase-1 reale piccola = H2 economy cost-gate (verdetto master-dd) + micro. **Next session**: incolla il `/goal` da [`docs/planning/2026-06-02-goal-master-session-handoff.md`](docs/planning/2026-06-02-goal-master-session-handoff.md). 1-HP-tail rule RATIFICATA (both-KO a pool ≤1).
+
+**Resume trigger canonical**: _"leggi docs/planning/2026-06-02-design-closure-goal.md + handoff; Fase 1 chiudi design (verify-first OGNI riga — gran parte già shipped, aperto reale = H2 cost-gate) → Fase 2 build GAP-C fase-3/4 seguendo games-source-index"_.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-05-20 late-notte — Multi-agent cascade wave 1-6 + A4 design-space — v44.3) [SUPERSEDED v46]
 
 **Sessione 2026-05-20 (cascade wave 1-6, ~11h cumulative)**: **21 PR cross-repo shipped + merged main** (20 Game + 1 codemasterdd). Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical **6 wave consecutive** (3+2+3+3+1+2 agent + serial inline cleanup). Pilastri reinforced: 5/5 BACKLOG coop test gaps CLOSED + balance P1+P2+P3 cleanup + A4 design-space activation (ionico channel live) + 5 A6-pattern readonly diagnostic endpoint (starter-biomas/role-demands/aliena/status+biome/ennea-effects) + 17 offspring negative tests + 9 env flag documented + termico glass-cannon ratified.
 
