@@ -135,6 +135,26 @@ test('buildReport: markdown with the 5 metric rows + a PROVISIONAL WARN banner',
   }
 });
 
+test('buildReport: PI-sink note reflects the wired/blocked state, never "NOT wired" (Codex #2574 P2)', () => {
+  // The sink is wired now: attempts>0, spent=0, insufficient=0 (canonical blocked case). The
+  // report must reuse the aggregator's honest note, not the stale hard-coded "NOT wired" claim.
+  const results = [
+    synthRun({
+      economy: {
+        peEarnedTotal: 24,
+        xpGrantedTotal: 36,
+        mpEarnedTotal: 6,
+        piSpentTotal: 0,
+        piPickAttempts: 18,
+        piInsufficient: 0,
+      },
+    }),
+  ];
+  const md = buildReport(buildSummary(results, { runs: 1 }));
+  assert.ok(!/NOT wired/i.test(md), 'no stale "NOT wired" claim in the report');
+  assert.match(md, /blocked|WIRED/i, 'report reflects the wired/blocked state');
+});
+
 test('writeArtifacts: writes runs.jsonl (one line per run) + summary.json + report.md', () => {
   const results = [synthRun(), synthRun()].map((r, i) => {
     r.provenance = buildProvenance({

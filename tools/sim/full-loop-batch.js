@@ -346,10 +346,11 @@ function buildReport(summary) {
     );
   }
   lines.push('');
-  if (m.economy_flow && m.economy_flow.pi_sink_exercised === false) {
-    lines.push(
-      '> Note: PI sink (shop/build spend) is NOT wired in the loop yet -> economy_flow measures earn + build-power drift only (real gap, surfaced not invented).',
-    );
+  // Reuse the aggregator's economy_flow note (it already distinguishes exercised /
+  // unaffordable / blocked / wired) instead of a hard-coded claim that would go stale
+  // (Codex #2574 P2: the PI sink is now wired, so "NOT wired" was wrong).
+  if (m.economy_flow && m.economy_flow.note) {
+    lines.push(`> Note (economy_flow): ${m.economy_flow.note}`);
     lines.push('');
   }
   if (summary.routing && Array.isArray(summary.routing.runs)) {
