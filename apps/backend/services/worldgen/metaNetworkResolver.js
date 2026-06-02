@@ -11,7 +11,8 @@
 //   network:
 //     id: ET_NET_ALPHA
 //     nodes: [{ id, biome_id, path, weight }]
-//     edges: [{ from, to, type, resistance, seasonality, notes }]
+//     edges: [{ from, to, type, resistance, seasonality, notes, conditions? }]
+//       conditions (fase 2, schema 2.1): optional arc-condition map (lock-and-key)
 //
 // API:
 //   getNetwork()              -> { id, label, nodes:[...], edges:[...] } | null
@@ -67,6 +68,11 @@ function _load() {
     resistance: Number.isFinite(Number(e.resistance)) ? Number(e.resistance) : 0,
     seasonality: e.seasonality != null ? String(e.seasonality) : null,
     notes: e.notes != null ? String(e.notes) : null,
+    // Fase 2 (arc-conditions, schema 2.1): carry the edge `conditions:` block
+    // verbatim (ADR-2026-05-31). The resolver stays "dumb" — it does NOT
+    // interpret conditions; metaNetworkRouting evaluates them. Absent -> null.
+    // Without this pass-through the mapper would silently drop conditions.
+    conditions: e.conditions != null ? e.conditions : null,
   }));
 
   const nodeIndex = new Map();

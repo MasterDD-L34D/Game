@@ -68,3 +68,25 @@ test('getOutgoingEdges: case-insensitive on source node', () => {
   assert.equal(lower.length, upper.length, 'same edge count regardless of case');
   assert.ok(upper.length >= 1);
 });
+
+// --- TKT-WORLDGEN-GAPC fase 2 (arc-conditions, Stage 1) — ADR-2026-05-31 ACCEPTED.
+// The resolver must PASS THROUGH the new edge `conditions:` block (schema 2.1).
+// The mapper previously dropped unknown fields -> conditions would be a silent
+// no-op for routing. Resolver stays "dumb": it carries conditions verbatim,
+// routing interprets them.
+test('getOutgoingEdges: every edge exposes a conditions field (null when absent)', () => {
+  _resetCache();
+  const edges = getOutgoingEdges('BADLANDS');
+  for (const e of edges) assert.ok('conditions' in e, 'edge exposes conditions key');
+  const toForesta = edges.find((e) => e.to === 'FORESTA_TEMPERATA');
+  assert.equal(toForesta.conditions, null, 'corridor edge with no gate -> conditions null');
+});
+
+test('arc-conditions data: winter seasonal_bridge edges gate on season [winter]', () => {
+  _resetCache();
+  const edges = getOutgoingEdges('FORESTA_TEMPERATA');
+  const toCryo = edges.find((e) => e.to === 'CRYOSTEPPE');
+  assert.ok(toCryo, 'FORESTA_TEMPERATA -> CRYOSTEPPE present');
+  assert.ok(toCryo.conditions && Array.isArray(toCryo.conditions.season), 'season list present');
+  assert.deepEqual(toCryo.conditions.season, ['winter']);
+});
