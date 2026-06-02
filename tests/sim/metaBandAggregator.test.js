@@ -186,6 +186,21 @@ test('aggregate: roster_composition out of band when < 3 distinct roles (collaps
   assert.equal(r.metrics.roster_composition.in_band, false);
 });
 
+test('aggregate: roster_composition excludes UNKNOWN from diversity + dominance (Codex #2573 P2)', () => {
+  // An unmapped/typo species (roleOf -> UNKNOWN) must NOT count as a real ecological role:
+  // 2 valid roles + 1 unknown is NOT a healthy 3-role spread. UNKNOWN is tracked separately
+  // (unknown_count) to flag invalid telemetry, never inflating distinct_roles or dominance.
+  const r = aggregate([
+    synthRun({ recruitedSpecies: ['dune-stalker', 'sand-burrower', 'not-a-species'] }),
+  ]);
+  const rc = r.metrics.roster_composition;
+  assert.equal(rc.distinct_roles, 2, 'unknown not counted as a distinct role');
+  assert.equal(rc.unknown_count, 1, 'unknowns tracked separately');
+  assert.ok(!rc.dominant_roles.includes('UNKNOWN'), 'UNKNOWN never dominant');
+  assert.ok(!('UNKNOWN' in rc.role_profile), 'UNKNOWN kept out of the role profile');
+  assert.equal(rc.in_band, false, '2 real roles + 1 unknown is not a healthy 3-role spread');
+});
+
 test('aggregate: empty input -> n=0, every metric out of band, never throws', () => {
   const r = aggregate([]);
   assert.equal(r.n, 0);

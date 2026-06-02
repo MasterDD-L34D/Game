@@ -163,10 +163,19 @@ function aggregate(runs) {
   // roleOf). POLICY-SENSITIVE -> the dominant role(s) diverge by temperament (mbtiPolicy
   // recruits a different role mix than greedy), so P4 is MEASURABLE here even though the
   // quantity metrics above are policy-insensitive. Band: >= 3 distinct roles = healthy spread.
+  // UNKNOWN (a species outside the canonical role map -> a typo/unmapped recruit) is invalid
+  // telemetry, NOT a real ecological role: it is tracked separately (unknown_count) and kept
+  // OUT of role_profile / distinct_roles / dominance, so it can never inflate diversity or
+  // appear dominant and mask a collapsed roster (Codex #2573 P2).
   const roleProfile = {};
+  let unknownCount = 0;
   for (const r of list) {
     for (const sp of (r && r.recruitedSpecies) || []) {
       const role = roleOf(sp);
+      if (role === 'UNKNOWN') {
+        unknownCount += 1;
+        continue;
+      }
       roleProfile[role] = (roleProfile[role] || 0) + 1;
     }
   }
@@ -180,9 +189,10 @@ function aggregate(runs) {
     role_profile: roleProfile,
     distinct_roles: distinctRoles,
     dominant_roles: dominantRoles,
+    unknown_count: unknownCount,
     range: PROVISIONAL_BANDS.roster_composition,
     in_band: n > 0 && distinctRoles >= rcLo,
-    note: 'role_class profile of the recruited roster; dominant_roles diverge by policy -> P4 measurable (composition, not quantity)',
+    note: 'role_class profile of the recruited roster (UNKNOWN excluded, tracked as unknown_count); dominant_roles diverge by policy -> P4 measurable (composition, not quantity)',
   };
 
   return {
