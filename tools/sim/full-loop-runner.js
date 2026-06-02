@@ -88,6 +88,14 @@ function enemiesForChapter(step) {
   ];
 }
 
+// fase-2b: sum a backend grants array by a numeric field (advance `xp_grants` -> `amount`,
+// `mp_grants` -> `earned`). Tolerates a missing/empty array (non-victory advances grant
+// nothing) so the economy accrual never invents a value.
+function sumGrants(arr, field) {
+  if (!Array.isArray(arr)) return 0;
+  return arr.reduce((s, g) => s + (Number(g && g[field]) || 0), 0);
+}
+
 async function runFullLoop(http, opts = {}) {
   const { playerId, branchKey = 'cave_path', seed, peEarned = 3, maxChapters = 15 } = opts;
   // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
@@ -96,6 +104,9 @@ async function runFullLoop(http, opts = {}) {
   // invariant (starters U recruited-so-far).
   const roster = [...(opts.roster || [])];
   const knownIds = roster.map((u) => u.id);
+  // fase-2b: the AUTHORED starting party size (before any recruit grows the roster) is
+  // the denominator for roster_attrition (survivors / initial-roster over the arc).
+  const initialRosterSize = roster.length;
 
   const startRes = await driver.start(http, { playerId });
   if (startRes.status !== 201) {
@@ -106,6 +117,8 @@ async function runFullLoop(http, opts = {}) {
       finalRoster: [],
       recruited: [],
       metaViolations: [],
+      initialRosterSize,
+      economy: { peEarnedTotal: 0, xpGrantedTotal: 0, mpEarnedTotal: 0, piSpentTotal: 0 },
     };
   }
   const id = startRes.body.campaign.id;
@@ -121,6 +134,15 @@ async function runFullLoop(http, opts = {}) {
   let offspring = 0;
   let economyAffinityProven = false;
   let completed = false;
+  // fase-2b economy telemetry (read from the REAL advance response, never invented):
+  //   peEarnedTotal  -- PE rewarded per cleared (victory) chapter (campaign-XP currency);
+  //   xpGrantedTotal -- backend-granted survivor XP (advance.xp_grants[].amount);
+  //   mpEarnedTotal  -- backend-granted mutation points (advance.mp_grants[].earned);
+  //   piSpentTotal   -- PI sink (shop/build spend) is NOT wired in the loop yet -> 0
+  //                     (a real surfaced gap for economy_flow, not a fabricated number).
+  let peEarnedTotal = 0;
+  let xpGrantedTotal = 0;
+  let mpEarnedTotal = 0;
 
   for (let step = 1; step <= maxChapters; step += 1) {
     const sum = await driver.summary(http, id);
@@ -159,6 +181,14 @@ async function runFullLoop(http, opts = {}) {
       sourceRosterIds: knownIds,
     });
     if (v.length) violations.push({ step, v });
+    // Accrue per-chapter economy from the real advance payload. PE is the victory reward
+    // (gated on outcome); XP/MP grants are only emitted on victory, so the sums are 0 on
+    // defeat/timeout without a special case.
+    const xpGranted = sumGrants(adv.body && adv.body.xp_grants, 'amount');
+    const mpEarned = sumGrants(adv.body && adv.body.mp_grants, 'earned');
+    if (combat.outcome === 'victory') peEarnedTotal += peEarned;
+    xpGrantedTotal += xpGranted;
+    mpEarnedTotal += mpEarned;
     chapters.push({
       step,
       encounter: enc,
@@ -167,6 +197,8 @@ async function runFullLoop(http, opts = {}) {
       rosterIds: combat.rosterIds,
       enemiesSource,
       rounds: combat.rounds,
+      xpGranted,
+      mpEarned,
     });
 
     // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
@@ -216,7 +248,9 @@ async function runFullLoop(http, opts = {}) {
     economyRecruited,
     offspring,
     economyAffinityProven,
+    initialRosterSize,
+    economy: { peEarnedTotal, xpGrantedTotal, mpEarnedTotal, piSpentTotal: 0 },
   };
 }
 
-module.exports = { runFullLoop, enemiesForChapter };
+module.exports = { runFullLoop, enemiesForChapter, sumGrants };

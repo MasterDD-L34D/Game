@@ -111,6 +111,20 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
   );
   assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
+  // fase-2b economy telemetry: the runner aggregates the backend's REAL advance economy
+  // per run (PE earned per cleared chapter + backend-computed XP/MP grants). PI-spent is
+  // 0 because no shop/PI-sink is wired in the loop yet -- surfaced as a real gap, never
+  // invented. These feed meta-band-aggregator's economy_flow metric.
+  assert.equal(res.initialRosterSize, 2, 'initial authored roster size captured');
+  assert.ok(res.economy, 'economy telemetry present');
+  const clearedChapters = res.chapters.filter((c) => c.outcome === 'victory').length;
+  assert.equal(
+    res.economy.peEarnedTotal,
+    3 * clearedChapters,
+    `PE earned = peEarned(3) x cleared chapters(${clearedChapters})`,
+  );
+  assert.ok(res.economy.xpGrantedTotal > 0, 'XP granted accrued from real victories');
+  assert.equal(res.economy.piSpentTotal, 0, 'no PI sink wired in the loop yet');
   // fase-2a scaled enemies: covered cave_path chapters (enc_tutorial_01/02, savana_01,
   // caverna_02) load real wave-1 rosters from YAML; the uncovered ones (tutorial_03/04/05,
   // tutorial_06_hardcore) fall back to the weak-fixed enemy. Assert BOTH paths run -> the
@@ -262,4 +276,68 @@ test('runFullLoop: repeated runs on one app do not collide on courtship ids (Cod
     );
     assert.ok(r.offspring >= 1, `${label} offspring rolled, got ${r.offspring}`);
   }
+});
+
+test('runFullLoop: aggregates per-run economy telemetry from the backend advance (fase-2b)', async () => {
+  // Fake http with a controlled advance economy payload: a single victory chapter that
+  // COMPLETES the campaign (campaign_completed -> hasNextChapter false -> the meta-step
+  // is skipped), so the runner's economy aggregation is asserted EXACTLY against
+  // backend-shaped xp_grants (sum `amount`) + mp_grants (sum `earned`). No invention.
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance')
+        return {
+          status: 200,
+          body: {
+            campaign_completed: true,
+            xp_grants: [
+              { unit_id: 'hero_a', amount: 12 },
+              { unit_id: 'hero_b', amount: 12 },
+            ],
+            mp_grants: [{ unit_id: 'hero_a', earned: 3 }],
+          },
+        };
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state')
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'stalker',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    peEarned: 3,
+    maxChapters: 3,
+  });
+  assert.equal(res.completed, true);
+  assert.equal(res.initialRosterSize, 1, 'initial authored roster size captured');
+  assert.ok(res.economy, 'economy telemetry present');
+  assert.equal(res.economy.peEarnedTotal, 3, 'PE earned summed over cleared chapters (3 x 1)');
+  assert.equal(
+    res.economy.xpGrantedTotal,
+    24,
+    'XP granted summed from advance xp_grants (12 + 12)',
+  );
+  assert.equal(res.economy.mpEarnedTotal, 3, 'MP earned summed from advance mp_grants');
+  assert.equal(res.economy.piSpentTotal, 0, 'no PI sink wired in the loop yet (surfaced gap)');
 });
