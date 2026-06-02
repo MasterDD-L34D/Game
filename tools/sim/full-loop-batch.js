@@ -314,6 +314,8 @@ function metricValue(metric) {
   if (metric.recruit_rate !== undefined)
     return `recruit ${metric.recruit_rate}, aff ${metric.affinity_proven_rate}, mate ${metric.mating_rate}`;
   if (metric.offspring_avg !== undefined) return `offspring ${metric.offspring_avg}`;
+  if (metric.dominant_roles !== undefined)
+    return `dominant ${metric.dominant_roles.join('/') || 'none'}, ${metric.distinct_roles} roles`;
   return '-';
 }
 
@@ -336,6 +338,7 @@ function buildReport(summary) {
     'economy_flow',
     'relationship_progress',
     'offspring_viability',
+    'roster_composition',
   ]) {
     const metric = m[k];
     lines.push(

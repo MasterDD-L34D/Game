@@ -20,6 +20,7 @@ function synthRun(o = {}) {
     chapters,
     finalRoster: o.finalRoster ?? ['a', 'b'],
     recruited: o.recruited ?? ['r1', 'r2'],
+    recruitedSpecies: o.recruitedSpecies ?? ['dune-stalker', 'sand-burrower'],
     economyRecruited: o.economyRecruited ?? ['e1'],
     offspring: o.offspring ?? 1,
     economyAffinityProven: o.economyAffinityProven ?? true,
@@ -146,6 +147,58 @@ test('aggregate: offspring_viability out of band when no breeding happens', () =
   const r = aggregate([synthRun({ offspring: 0 }), synthRun({ offspring: 0 })]);
   assert.equal(r.metrics.offspring_viability.offspring_avg, 0);
   assert.equal(r.metrics.offspring_viability.in_band, false);
+});
+
+test('aggregate: roster_composition maps recruited species to role_class profile', () => {
+  // dune-stalker=APEX, ferrocolonia=PREDATOR, nano-rust-bloom=HAZARD -> 3 distinct roles.
+  const r = aggregate([
+    synthRun({
+      recruitedSpecies: ['dune-stalker', 'ferrocolonia-magnetotattica', 'nano-rust-bloom'],
+    }),
+  ]);
+  const rc = r.metrics.roster_composition;
+  assert.deepEqual(rc.role_profile, { APEX: 1, PREDATOR: 1, HAZARD: 1 });
+  assert.equal(rc.distinct_roles, 3);
+  assert.equal(rc.in_band, true); // >= 3 distinct roles = healthy spread
+});
+
+test('aggregate: roster_composition is POLICY-SENSITIVE (the P4 fix, dominant roles diverge)', () => {
+  // The headline finding was that quantity metrics are policy-insensitive. Composition is
+  // NOT: an APEX/PREDATOR-leaning roster and a HAZARD/PREY-leaning one yield DIFFERENT
+  // dominant roles -> P4 (temperament) becomes measurable.
+  const analyst = aggregate([
+    synthRun({ recruitedSpecies: ['dune-stalker', 'dune-stalker', 'ferrocolonia-magnetotattica'] }),
+  ]);
+  const explorer = aggregate([
+    synthRun({ recruitedSpecies: ['nano-rust-bloom', 'nano-rust-bloom', 'sand-burrower'] }),
+  ]);
+  assert.deepEqual(analyst.metrics.roster_composition.dominant_roles, ['APEX']);
+  assert.deepEqual(explorer.metrics.roster_composition.dominant_roles, ['HAZARD']);
+  assert.notDeepEqual(
+    analyst.metrics.roster_composition.dominant_roles,
+    explorer.metrics.roster_composition.dominant_roles,
+  );
+});
+
+test('aggregate: roster_composition out of band when < 3 distinct roles (collapsed)', () => {
+  const r = aggregate([synthRun({ recruitedSpecies: ['dune-stalker', 'dune-stalker'] })]);
+  assert.equal(r.metrics.roster_composition.distinct_roles, 1);
+  assert.equal(r.metrics.roster_composition.in_band, false);
+});
+
+test('aggregate: roster_composition excludes UNKNOWN from diversity + dominance (Codex #2573 P2)', () => {
+  // An unmapped/typo species (roleOf -> UNKNOWN) must NOT count as a real ecological role:
+  // 2 valid roles + 1 unknown is NOT a healthy 3-role spread. UNKNOWN is tracked separately
+  // (unknown_count) to flag invalid telemetry, never inflating distinct_roles or dominance.
+  const r = aggregate([
+    synthRun({ recruitedSpecies: ['dune-stalker', 'sand-burrower', 'not-a-species'] }),
+  ]);
+  const rc = r.metrics.roster_composition;
+  assert.equal(rc.distinct_roles, 2, 'unknown not counted as a distinct role');
+  assert.equal(rc.unknown_count, 1, 'unknowns tracked separately');
+  assert.ok(!rc.dominant_roles.includes('UNKNOWN'), 'UNKNOWN never dominant');
+  assert.ok(!('UNKNOWN' in rc.role_profile), 'UNKNOWN kept out of the role profile');
+  assert.equal(rc.in_band, false, '2 real roles + 1 unknown is not a healthy 3-role spread');
 });
 
 test('aggregate: empty input -> n=0, every metric out of band, never throws', () => {

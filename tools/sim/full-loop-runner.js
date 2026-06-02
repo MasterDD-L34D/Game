@@ -26,6 +26,7 @@ const { buildScenarioEnemies } = require('./scenario-enemies');
 // recruited ids + the resolved combat units + failures.
 async function applyMetaStep(http, { id, step, rosterSize = 0, policy = greedyPolicy }) {
   const recruited = [];
+  const species = [];
   const units = [];
   const failures = [];
   const picks = policy.chooseRecruits({ step });
@@ -48,6 +49,7 @@ async function applyMetaStep(http, { id, step, rosterSize = 0, policy = greedyPo
       r.body.npc.recruited === true;
     if (recruitedOk) {
       recruited.push(npcId);
+      species.push(speciesId);
       // Recruits line up in column x:2 (starters/enemies use x:1), distinct rows, so a
       // growing roster never overlaps a starting position.
       const position = { x: 2, y: ((rosterSize + i) % 8) + 1 };
@@ -56,7 +58,7 @@ async function applyMetaStep(http, { id, step, rosterSize = 0, policy = greedyPo
       failures.push({ npcId, status: r.status, success: r.body && r.body.success });
     }
   }
-  return { recruited, units, failures };
+  return { recruited, species, units, failures };
 }
 
 // Fresh per-mission copy of the alive roster: full HP + cleared status, original
@@ -126,6 +128,7 @@ async function runFullLoop(http, opts = {}) {
       violations: [{ step: 0, v: [`start status ${startRes.status} != 201`] }],
       finalRoster: [],
       recruited: [],
+      recruitedSpecies: [],
       metaViolations: [],
       initialRosterSize,
       economy: { peEarnedTotal: 0, xpGrantedTotal: 0, mpEarnedTotal: 0, piSpentTotal: 0 },
@@ -137,6 +140,7 @@ async function runFullLoop(http, opts = {}) {
   const chapters = [];
   const violations = [];
   const recruited = [];
+  const recruitedSpecies = [];
   const metaViolations = [];
   // fase-1b-3b Nido economy + breeding (separate from the combat-recruit above):
   // earned-affinity recruits + mating offspring, proving those seams are AI-played.
@@ -221,6 +225,7 @@ async function runFullLoop(http, opts = {}) {
     if (adv.status === 200 && combat.outcome === 'victory' && hasNextChapter) {
       const meta = await applyMetaStep(http, { id, step, rosterSize: roster.length, policy });
       recruited.push(...meta.recruited);
+      recruitedSpecies.push(...meta.species);
       for (const u of meta.units) {
         roster.push(u);
         aliveIds.push(u.id);
@@ -254,6 +259,7 @@ async function runFullLoop(http, opts = {}) {
     violations,
     finalRoster: aliveIds,
     recruited,
+    recruitedSpecies,
     metaViolations,
     economyRecruited,
     offspring,

@@ -9,6 +9,8 @@
 // (compute + place), not to assert canon. An anti-pattern guard (spec §7): these bands keep
 // the design SPACE healthy (Quality-Diversity) -- do NOT optimize to a single best run.
 
+const { roleOf } = require('./species-roles');
+
 const PROVISIONAL_BANDS = {
   // % campaigns completed over N runs. XCOM Long War 2: completable-but-hard.
   completion_rate: [0.4, 0.7],
@@ -23,6 +25,10 @@ const PROVISIONAL_BANDS = {
   relationship_progress: null,
   // mean offspring per run >= threshold (breeding is exercised). Niche + Spore. >=1.
   offspring_viability: [1, null],
+  // >= N distinct role_classes across the recruited roster (healthy spread, no collapse).
+  // POLICY-SENSITIVE: the dominant role(s) diverge by temperament -> this is where P4 is
+  // measurable (the quantity metrics above are policy-insensitive). >=3.
+  roster_composition: [3, null],
   note:
     'WARN: Claude-derived PROVISIONAL ranges (spec §7) -- pending master-dd ratify post-N=40 ' +
     '(L-069). NOT canon. Keep the design space healthy (Quality-Diversity); do not optimize ' +
@@ -153,6 +159,42 @@ function aggregate(runs) {
     note: 'mean offspring per run >= threshold; lineage diversity not tracked yet (deferred)',
   };
 
+  // 6. roster_composition: role_class profile of the recruited roster (recruitedSpecies ->
+  // roleOf). POLICY-SENSITIVE -> the dominant role(s) diverge by temperament (mbtiPolicy
+  // recruits a different role mix than greedy), so P4 is MEASURABLE here even though the
+  // quantity metrics above are policy-insensitive. Band: >= 3 distinct roles = healthy spread.
+  // UNKNOWN (a species outside the canonical role map -> a typo/unmapped recruit) is invalid
+  // telemetry, NOT a real ecological role: it is tracked separately (unknown_count) and kept
+  // OUT of role_profile / distinct_roles / dominance, so it can never inflate diversity or
+  // appear dominant and mask a collapsed roster (Codex #2573 P2).
+  const roleProfile = {};
+  let unknownCount = 0;
+  for (const r of list) {
+    for (const sp of (r && r.recruitedSpecies) || []) {
+      const role = roleOf(sp);
+      if (role === 'UNKNOWN') {
+        unknownCount += 1;
+        continue;
+      }
+      roleProfile[role] = (roleProfile[role] || 0) + 1;
+    }
+  }
+  const distinctRoles = Object.keys(roleProfile).length;
+  const maxFreq = Math.max(0, ...Object.values(roleProfile));
+  const dominantRoles = Object.keys(roleProfile)
+    .filter((k) => roleProfile[k] === maxFreq)
+    .sort();
+  const [rcLo] = PROVISIONAL_BANDS.roster_composition;
+  const roster_composition = {
+    role_profile: roleProfile,
+    distinct_roles: distinctRoles,
+    dominant_roles: dominantRoles,
+    unknown_count: unknownCount,
+    range: PROVISIONAL_BANDS.roster_composition,
+    in_band: n > 0 && distinctRoles >= rcLo,
+    note: 'role_class profile of the recruited roster (UNKNOWN excluded, tracked as unknown_count); dominant_roles diverge by policy -> P4 measurable (composition, not quantity)',
+  };
+
   return {
     n,
     provisional: true,
@@ -162,6 +204,7 @@ function aggregate(runs) {
       economy_flow,
       relationship_progress,
       offspring_viability,
+      roster_composition,
     },
   };
 }

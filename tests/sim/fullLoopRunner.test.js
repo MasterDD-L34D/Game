@@ -416,6 +416,12 @@ test('runFullLoop: drives the INJECTED opts.policy for the meta-step (fase-2c pl
     res.recruited.includes('spy_r1'),
     `recruited via the injected policy, not greedy; got ${JSON.stringify(res.recruited)}`,
   );
+  // Composition telemetry (fase-2c): the runner records the SPECIES of each combat-recruit
+  // so the aggregator can measure roster role_class composition (P4 divergence).
+  assert.ok(
+    res.recruitedSpecies.includes('dune-stalker'),
+    `recruited species recorded; got ${JSON.stringify(res.recruitedSpecies)}`,
+  );
 });
 
 test('runFullLoop: a mbtiPolicy plays the real cave_path campaign end-to-end (fase-2c)', async (t) => {

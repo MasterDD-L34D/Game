@@ -8,15 +8,9 @@
 // Deterministic, no RNG -> two runs of the same type make identical choices.
 
 const { RECRUIT_SPECIES_POOL, courtshipId } = require('./greedy-policy');
-
-// Canonical pool tagged by role_class (from greedy-policy RECRUIT_SPECIES_POOL comments).
-const SPECIES_ROLE = {
-  'dune-stalker': 'APEX',
-  'nano-rust-bloom': 'HAZARD',
-  'ferrocolonia-magnetotattica': 'PREDATOR',
-  'sand-burrower': 'PREY',
-  'rust-scavenger': 'SUPPORT',
-};
+// Canonical pool tagged by role_class -- shared with meta-band-aggregator (roster
+// composition) so both agree on ecological roles (single source).
+const { SPECIES_ROLE } = require('./species-roles');
 
 // Keirsey temperament -> role_class priority. Each temperament weights the roster
 // differently: Analyst (NT) power-first, Diplomat (NF) cohesion-first, Sentinel (SJ)
