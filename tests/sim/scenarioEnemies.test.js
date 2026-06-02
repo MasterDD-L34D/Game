@@ -1,7 +1,12 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildScenarioEnemies, TIER_HP, TIER_MOD } = require('../../tools/sim/scenario-enemies');
+const {
+  buildScenarioEnemies,
+  TIER_HP,
+  TIER_MOD,
+  GRID_SAFE_MAX,
+} = require('../../tools/sim/scenario-enemies');
 
 test('buildScenarioEnemies: loads a real encounter YAML -> scaled sistema units in runner shape', () => {
   // enc_tutorial_01 wave-1 = 2x predoni_nomadi (tier base).
@@ -18,6 +23,10 @@ test('buildScenarioEnemies: loads a real encounter YAML -> scaled sistema units 
   // runner enemy shape (same fields the weak-fixed enemy + combat-adapter use).
   assert.ok(e.ap >= 1 && e.mod >= 1 && e.dc > 0 && e.attack_range >= 1, 'combat-ready stats');
   assert.ok(e.position && typeof e.position.x === 'number' && typeof e.position.y === 'number');
+  assert.ok(
+    e.position.x <= GRID_SAFE_MAX && e.position.y <= GRID_SAFE_MAX,
+    `positions clamped on-grid (<= ${GRID_SAFE_MAX}), got ${JSON.stringify(e.position)}`,
+  );
   assert.deepEqual(e.status, {});
   assert.notEqual(enemies[0].id, enemies[1].id, 'distinct ids');
 });
@@ -29,6 +38,10 @@ test('buildScenarioEnemies: tiers scale hp/mod (base < elite < apex)', () => {
 
 test('buildScenarioEnemies: missing or unsupported YAML -> null (runner falls back)', () => {
   assert.equal(buildScenarioEnemies('enc_does_not_exist_zzz'), null, 'missing -> null');
-  // enc_escort_01 has an escort objective (unsupported by this loader) -> null -> fallback.
-  assert.equal(buildScenarioEnemies('enc_escort_01'), null, 'unsupported objective -> null');
+  // Only elimination is supported (the combat-adapter resolves victory = all foes dead).
+  // Non-elimination objectives -> null -> fallback, so we never misreport a survival/
+  // capture encounter as an elimination 'scenario' fight (Codex #2567 P2).
+  assert.equal(buildScenarioEnemies('enc_escort_01'), null, 'escort -> null');
+  assert.equal(buildScenarioEnemies('enc_tutorial_02'), null, 'survival -> null');
+  assert.equal(buildScenarioEnemies('enc_caverna_02'), null, 'capture_point -> null');
 });

@@ -29,9 +29,18 @@ const TIER_HP = { base: 7, elite: 10, apex: 14 };
 const TIER_MOD = { base: 1, elite: 2, apex: 4 };
 const TIER_DC = { base: 10, elite: 11, apex: 12 };
 
-// Objectives this loader can stage as a plain elimination-style fight. escort/capture
-// need extra unit materialization + policy support (deferred) -> null -> fallback.
-const SUPPORTED_OBJECTIVES = new Set(['elimination', 'survival']);
+// The sim sizes the grid from the PLAYER count (gridSizeFor), NOT the YAML grid_size, so
+// authored spawn points can land off-grid (e.g. x:7 on the 2-player 6x6). Clamp positions
+// to a conservative on-grid bound so the fight is well-formed. The authored per-encounter
+// grid is a fase-2c concern (would need modulation wiring).
+const GRID_SAFE_MAX = 5;
+
+// Only ELIMINATION encounters become scaled 'scenario' fights: the combat-adapter resolves
+// victory = all sistema dead (= elimination), so a survival/capture/escort encounter would
+// be a DIFFERENT fight than authored. We return null (-> fallback to the weak-fixed enemy)
+// instead of misreporting it as an elimination 'scenario' fight (Codex #2567 P2). Faithful
+// survival/capture staging + the authored grid are deferred to fase-2c.
+const SUPPORTED_OBJECTIVES = new Set(['elimination']);
 
 function buildScenarioEnemies(scenarioId) {
   const yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
@@ -62,6 +71,8 @@ function buildScenarioEnemies(scenarioId) {
       const pos = spawnPoints[spIdx % spawnPoints.length];
       spIdx += 1;
       const hp = TIER_HP[tier] || TIER_HP.base;
+      const px = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[0]) || 0));
+      const py = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[1]) || 0));
       enemies.push({
         id: `sis_${scenarioId}_${enemies.length + 1}`,
         species,
@@ -71,7 +82,7 @@ function buildScenarioEnemies(scenarioId) {
         mod: TIER_MOD[tier] || TIER_MOD.base,
         dc: TIER_DC[tier] || TIER_DC.base,
         attack_range: 1,
-        position: { x: pos[0], y: pos[1] },
+        position: { x: px, y: py },
         controlled_by: 'sistema',
         status: {},
       });
@@ -80,4 +91,4 @@ function buildScenarioEnemies(scenarioId) {
   return enemies.length ? enemies : null;
 }
 
-module.exports = { buildScenarioEnemies, TIER_HP, TIER_MOD, TIER_DC };
+module.exports = { buildScenarioEnemies, TIER_HP, TIER_MOD, TIER_DC, GRID_SAFE_MAX };
