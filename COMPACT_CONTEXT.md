@@ -5,7 +5,25 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-02 (late) — H2 economy COMPLETE + full-loop AI-playtest runner MVP (v47)
+## ⚡ Sessione corrente 2026-06-02 (notte) — full-loop fase-2 band-verify + composition/routing/PI-sink (v48)
+
+**8 PR merged main**: #2568 `ae855542` (fase-2b aggregatore 5 band-metriche + `full-loop-batch.js`) · #2569 `4a711aba` (fase-2c-1 policy pluggable + `mbti-policy.js`) · #2570 `60b5131f` (fase-2c-end report N=40 + batch ermetico) · #2571 `92185919` (goal-doc BUILD COMPLETE) · #2572 `548c7872` (routing wiring `meta-network-driver.js`) · #2573 `5403601c` (composizione/P4 `roster_composition`) · #2574 `0f680125` (PI-sink wired).
+
+**Findings**:
+
+- **P4 ora MISURABILE** (era il headline-finding): `roster_composition` e' POLICY-SENSITIVE — greedy domina `[APEX,HAZARD]`, mbti:ESFP `[HAZARD,PREY]`. Le 5 metriche-quantita' restano policy-insensitive by design.
+- **completion_rate 1.0 OOB** (troppo facile, varianza zero) → calibrazione difficolta' = precondizione per band non-degeneri (next buildable).
+- **PI-sink WIRED ma non spende** nel sim: piSpentTotal 0 / attempts 18 / insufficient 0 → BLOCCATO non unaffordable: job `stalker` NON e' perk-job (`perks.yaml`=skirmisher/…/harvester) → 409. Per spendere serve roster perk-job + PE piu' alto.
+- routing `META_NETWORK_ROUTING` esercitato in test-context (no-op chiuso); PROD = verdetto master-dd.
+- Metodo: TDD (sim 24→87), worktree isolati, band-safe (zero engine change), 9 Codex P2 risolti (2 stale-refired, non rifatti), auto-merge L3, AI 500/500.
+
+**Next entry point**: handoff `docs/planning/2026-06-02-full-loop-fase2-handoff.md` (8 PR + findings + NEXT + seam). Resume BUILDABLE = (a) calibra tier-table scaled-enemy finche' completion in 0.40-0.70 (N=10 probe→N=40 ratify, L-069); (b) roster perk-job per far spendere il PI-sink. Ratifica numeri band = master-dd (L-069). Memory: `project_full_loop_ai_playtest_runner.md`.
+
+**Blocker/note**: tutti i worktree `_gamewt-fl*`/`-comp`/`-pisink`/`-routing` rimossi (registry pruned; dir-on-disk lingering Windows-lock = innocuo). main checkout `C:/dev/Game` = altra sessione `fix-ecotypes-enum` WIP (MAI toccare/committare) — io ho lavorato SOLO in worktree off origin/main.
+
+---
+
+## Sessione 2026-06-02 (late) — H2 economy COMPLETE + full-loop AI-playtest runner MVP (v47)
 
 **6 PR merged + 1 open**: #2557 `9b057ccd` (PT economy slice) · #2558 `1e202354` (rescale=KEEP consume-all + museum M-2026-06-02-002) · #2559 `40620bcc` (full-loop runner SPEC, grounded, 2 round Codex) · #2561 `723b8548` (fase-0 combat-policy+combatAdapter) · #2562 `c151ce29` (fase-1b-1 campaign+combat join) · **#2563 OPEN** (fase-1b-2 Nido recruit, CI verde, lasciato aperto per Codex).
 
