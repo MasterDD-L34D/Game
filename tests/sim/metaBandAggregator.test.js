@@ -86,6 +86,22 @@ test('aggregate: economy_flow build-power drift ~1.0 (flat) in band + pi_sink ga
   assert.equal(ef.in_band, true);
 });
 
+test('aggregate: economy_flow rejects no-signal runs (Codex #2568 P2)', () => {
+  // Failed runs with NO reward telemetry (empty chapters + zero economy) -> buildPowerDrift
+  // returns the neutral 1, which sits INSIDE the drift band. economy_flow must NOT certify a
+  // healthy economy from zero signal (a backend regression that stops emitting XP/MP/PE, or
+  // an all-failed batch, must read out-of-band, not falsely green).
+  const noSignal = synthRun({
+    completed: false,
+    chapters: [],
+    economy: { peEarnedTotal: 0, xpGrantedTotal: 0, mpEarnedTotal: 0, piSpentTotal: 0 },
+  });
+  const r = aggregate([noSignal, noSignal]);
+  assert.equal(r.metrics.economy_flow.build_power_avg, 0);
+  assert.equal(r.metrics.economy_flow.has_signal, false);
+  assert.equal(r.metrics.economy_flow.in_band, false, 'no economy signal cannot be in band');
+});
+
 test('aggregate: economy_flow runaway build-power drift (>2x) flagged out', () => {
   const creep = synthRun({
     chapters: [

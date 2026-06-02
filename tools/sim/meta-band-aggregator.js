@@ -105,16 +105,24 @@ function aggregate(runs) {
     (r) => (Number(r && r.economy && r.economy.piSpentTotal) || 0) > 0,
   );
   const [eLo, eHi] = PROVISIONAL_BANDS.economy_flow;
+  // Codex #2568 P2: build-power drift defaults to the neutral 1 when there is nothing to
+  // measure (empty chapters / zero grants), which sits INSIDE the band. Guard on a real
+  // signal so a no-reward batch (backend regression that stops emitting XP/MP/PE, or an
+  // all-failed batch) reads out-of-band instead of falsely certifying a healthy economy.
+  const hasSignal = buildPowerAvg > 0;
   const economy_flow = {
     pe_earned_avg: peEarnedAvg,
     build_power_avg: buildPowerAvg,
     build_power_drift: driftAvg,
     pi_sink_exercised: piSinkExercised,
+    has_signal: hasSignal,
     range: PROVISIONAL_BANDS.economy_flow,
-    in_band: n > 0 && driftAvg >= eLo && driftAvg <= eHi,
-    note: piSinkExercised
-      ? 'PE earned + build-power drift; PI sink exercised'
-      : 'PE earned + build-power drift; PI SINK NOT WIRED in the loop yet (real gap, not invented)',
+    in_band: n > 0 && hasSignal && driftAvg >= eLo && driftAvg <= eHi,
+    note: !hasSignal
+      ? 'NO economy signal across the batch (zero XP/MP/PE) -> cannot certify economy_flow'
+      : piSinkExercised
+        ? 'PE earned + build-power drift; PI sink exercised'
+        : 'PE earned + build-power drift; PI SINK NOT WIRED in the loop yet (real gap, not invented)',
   };
 
   // 4. relationship_progress: recruit rate + earned-affinity proof + mating, all firing =
