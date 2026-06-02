@@ -1023,6 +1023,15 @@ function createSessionRouter(options = {}) {
           /* symbiont bond optional; never break the hit */
         }
       }
+      // H2 PP earn (26-ECONOMY: +1 PP on crit): the attacker banks PP on any critical
+      // hit, regardless of whether the target survives. Best-effort, non-blocking.
+      if (result.is_critical) {
+        try {
+          require('../services/combat/ppTracker').earnCrit(actor);
+        } catch {
+          /* ppTracker optional */
+        }
+      }
       // TKT-ORPHAN-MORALE (SPRINT_013 successor): a critical hit (MoS >=
       // CRIT_MOS_THRESHOLD, surfaced as result.is_critical) on a SURVIVING target
       // routes through the morale module (enemy_critical_hit) instead of the old
@@ -1143,6 +1152,12 @@ function createSessionRouter(options = {}) {
     // traverses. No-op when actor carries no kill perks.
     if (killOccurred) {
       applyPerkKillEffects(actor);
+      // H2 PP earn (26-ECONOMY: +1 PP on kill): the killer banks PP on the final kill.
+      try {
+        require('../services/combat/ppTracker').earnKill(actor);
+      } catch {
+        /* ppTracker optional */
+      }
       // TKT-JOB-PHASEC V6 A3 — record the encounter's FIRST kill actor (once).
       // Surfaced by the debrief + consumed by grantXpToSurvivors' first_kill_pe_bonus.
       if (session._first_kill_actor_id == null) {
@@ -1951,6 +1966,21 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* sgTracker optional */
+      }
+      // PP (Power Pool) seed: `req.body.initial_pp = { unit_id: pool }` for save-load
+      // + integration tests (mirror initial_sg). No tutorial default (PP is EARNED
+      // +1 crit / +1 kill via ppTracker, not gifted). Clamp 0..3 (POOL_MAX).
+      try {
+        const initialPp = req.body?.initial_pp;
+        if (initialPp && typeof initialPp === 'object') {
+          for (const [uid, pool] of Object.entries(initialPp)) {
+            const unit = (session.units || []).find((u) => u && u.id === uid);
+            if (!unit) continue;
+            unit.pp = Math.max(0, Math.min(3, Math.floor(Number(pool) || 0)));
+          }
+        }
+      } catch {
+        /* pp seed optional */
       }
       // TKT-ORPHAN-WOUNDPERMA: re-apply persistent wounds carried by this
       // campaign (cross-encounter scar). initSessionMap on first sight; the read
