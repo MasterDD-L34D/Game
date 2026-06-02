@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
 const { runFullLoop } = require('../../tools/sim/full-loop-runner');
+const { makeMbtiPolicy } = require('../../tools/sim/mbti-policy');
 
 function supertestHttp(app) {
   return {
@@ -340,4 +341,149 @@ test('runFullLoop: aggregates per-run economy telemetry from the backend advance
   );
   assert.equal(res.economy.mpEarnedTotal, 3, 'MP earned summed from advance mp_grants');
   assert.equal(res.economy.piSpentTotal, 0, 'no PI sink wired in the loop yet (surfaced gap)');
+});
+
+test('runFullLoop: drives the INJECTED opts.policy for the meta-step (fase-2c pluggable)', async () => {
+  // A 2-chapter fake: chapter 1 victory (not completed) -> the Nido meta-step fires and MUST
+  // use opts.policy (not the hardcoded greedy). Chapter 2 completes. A spy policy records its
+  // calls; the spy's recruit id surfacing in res.recruited proves the runner used it.
+  const calls = { recruits: 0, courtship: 0, mating: 0 };
+  const spyPolicy = {
+    chooseRecruits({ step }) {
+      calls.recruits += 1;
+      return [{ npcId: `spy_r${step}`, speciesId: 'dune-stalker' }];
+    },
+    chooseCourtship({ step, runId }) {
+      calls.courtship += 1;
+      return {
+        npcId: `spy_c_${runId}_${step}`,
+        speciesId: 'dune-stalker',
+        affinityDelta: 1,
+        trustDelta: 2,
+      };
+    },
+    chooseMating({ step }) {
+      calls.mating += 1;
+      return null;
+    },
+  };
+  let chapter = 0;
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        chapter += 1;
+        return { status: 200, body: { campaign_completed: chapter >= 2 } };
+      }
+      if (path === '/api/meta/recruit')
+        return { status: 200, body: { success: true, npc: { recruited: true } } };
+      if (path === '/api/meta/trust') return { status: 200, body: { can_recruit: true } };
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state')
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'stalker',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    policy: spyPolicy,
+    maxChapters: 3,
+  });
+  assert.equal(res.completed, true);
+  assert.ok(calls.recruits >= 1, 'injected policy.chooseRecruits used');
+  assert.ok(calls.courtship >= 1, 'injected policy.chooseCourtship used');
+  assert.ok(
+    res.recruited.includes('spy_r1'),
+    `recruited via the injected policy, not greedy; got ${JSON.stringify(res.recruited)}`,
+  );
+});
+
+test('runFullLoop: a mbtiPolicy plays the real cave_path campaign end-to-end (fase-2c)', async (t) => {
+  // The temperament-guided policy must satisfy the same runner contract as greedy: complete
+  // the campaign, recruit via the Nido seam, prove the earned-affinity gate. This is what the
+  // N=40 band-batch will run for each MBTI archetype to test P4 in the meta-loop.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = {
+    post: (p, body) =>
+      request(app)
+        .post(p)
+        .send(body)
+        .then((r) => ({ status: r.status, body: r.body })),
+    get: (p, query) =>
+      request(app)
+        .get(p)
+        .query(query || {})
+        .then((r) => ({ status: r.status, body: r.body })),
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'fl_mbti_esfp',
+    roster: [
+      {
+        id: 'hero_a',
+        species: 'dune_stalker',
+        job: 'stalker',
+        hp: 30,
+        max_hp: 30,
+        ap: 3,
+        mod: 20,
+        attack_range: 2,
+        initiative: 18,
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+        status: {},
+      },
+      {
+        id: 'hero_b',
+        species: 'velox',
+        job: 'stalker',
+        hp: 30,
+        max_hp: 30,
+        ap: 3,
+        mod: 18,
+        attack_range: 2,
+        initiative: 16,
+        position: { x: 1, y: 2 },
+        controlled_by: 'player',
+        status: {},
+      },
+    ],
+    branchKey: 'cave_path',
+    seed: 'fl2c-esfp',
+    policy: makeMbtiPolicy('ESFP'),
+    maxChapters: 15,
+  });
+  assert.equal(res.completed, true, `mbti campaign completed; chapters=${res.chapters.length}`);
+  assert.deepEqual(
+    res.violations,
+    [],
+    `no invariant violations: ${JSON.stringify(res.violations)}`,
+  );
+  assert.ok(
+    res.recruited.length >= 5,
+    `mbti policy recruited across chapters, got ${res.recruited.length}`,
+  );
+  assert.equal(res.economyAffinityProven, true, 'earned-affinity gate fired under the mbti policy');
 });
