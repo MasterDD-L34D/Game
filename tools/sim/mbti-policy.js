@@ -47,13 +47,21 @@ function orderedPool(mbti) {
   return [...RECRUIT_SPECIES_POOL].sort((a, b) => rank(a) - rank(b));
 }
 
+// A well-formed MBTI type: [E/I][N/S][T/F][J/P].
+const VALID_MBTI = /^[EI][NS][TF][JP]$/;
+
 // Build a policy bound to one MBTI type. Implements the same seam as greedy-policy, so it
-// drops into runFullLoop({ policy }) / applyNidoEconomy({ policy }) unchanged.
+// drops into runFullLoop({ policy }) / applyNidoEconomy({ policy }) unchanged. A mistyped
+// type is NORMALIZED to the default archetype (INTJ) so the recorded `.mbti` label always
+// reflects the temperament actually played -- never a fake 'XXXX' in provenance/reports
+// (Codex #2569 P2). orderedPool already falls back to NT for anything unrecognised.
 function makeMbtiPolicy(mbtiType = 'INTJ') {
-  const pool = orderedPool(mbtiType);
+  const raw = String(mbtiType || 'INTJ').toUpperCase();
+  const mbti = VALID_MBTI.test(raw) ? raw : 'INTJ';
+  const pool = orderedPool(mbti);
   const speciesForStep = (step) => pool[(step - 1) % pool.length];
   return {
-    mbti: String(mbtiType || 'INTJ').toUpperCase(),
+    mbti,
     chooseRecruits({ step } = {}) {
       return [{ npcId: `recruit_s${step}`, speciesId: speciesForStep(step) }];
     },

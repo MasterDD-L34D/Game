@@ -70,3 +70,13 @@ test('mbtiPolicy: unknown/garbage mbti defaults gracefully (no throw, canonical 
   const pick = p.chooseRecruits({ step: 1 })[0];
   assert.ok(RECRUIT_SPECIES_POOL.includes(pick.speciesId));
 });
+
+test('mbtiPolicy: invalid MBTI normalizes the recorded label (Codex #2569 P2)', () => {
+  // A mistyped type already falls back to the NT ordering, but it must NOT be recorded as a
+  // fake archetype: the .mbti label has to reflect the type actually PLAYED (INTJ default),
+  // so provenance/reports never show a nonexistent 'XXXX' archetype.
+  assert.equal(makeMbtiPolicy('XXXX').mbti, 'INTJ', 'garbage 4-char normalized');
+  assert.equal(makeMbtiPolicy('xyz').mbti, 'INTJ', 'malformed normalized');
+  assert.equal(makeMbtiPolicy('ESFP').mbti, 'ESFP', 'valid type preserved');
+  assert.equal(makeMbtiPolicy('esfp').mbti, 'ESFP', 'valid type case-normalized');
+});

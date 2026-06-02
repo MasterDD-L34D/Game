@@ -206,6 +206,8 @@ test('resolvePolicy: string -> policy object + label (greedy / mbti / mbti:TYPE)
   assert.equal(mDefault.policy.mbti, 'INTJ'); // default archetype
   const bad = resolvePolicy('nonsense');
   assert.equal(bad.label, 'greedy'); // graceful fallback
+  const badMbti = resolvePolicy('mbti:XXXX');
+  assert.equal(badMbti.label, 'mbti:INTJ', 'invalid mbti type normalized to the played archetype');
 });
 
 test('runBatch: --policy mbti:ESFP INJECTS the temperament policy + labels provenance (fase-2c)', async () => {
