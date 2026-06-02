@@ -571,3 +571,95 @@ test('runFullLoop: PI sink records insufficient PI when the economy cannot affor
   assert.equal(res.economy.piPickAttempts, 1, 'pick still attempted (sink wired)');
   assert.equal(res.economy.piInsufficient, 1, 'insufficiency surfaced');
 });
+
+test('runFullLoop: a skirmisher (perk-job) roster spends PI on the REAL progression engine (slice b)', async (t) => {
+  // The two PI-sink tests above STUB /pick. This one runs the REAL backend: it proves the
+  // engine accepts a perk-job pick + spends. The canonical sim roster's prior job ('stalker')
+  // is not a perk-job -> /api/progression/:id/pick 409s before the PI gate -> piSpentTotal
+  // stuck at 0 (see the stalker e2e above, line ~130). A real perk-job (skirmisher, present in
+  // BOTH perks.yaml and jobs.yaml) reaches engine.pickPerk; with an affording PE (5:1, hybrid
+  // cost 5 PI) the sink actually spends. This is the slice-b guard against a regression back to
+  // a non-perk job.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const skirmisherRoster = starterRoster().map((u) => ({ ...u, job: 'skirmisher' }));
+  const res = await runFullLoop(http, {
+    playerId: 'fl_pi_skirmisher',
+    roster: skirmisherRoster,
+    branchKey: 'cave_path',
+    seed: 'fl-pi-skirm',
+    peEarned: 30, // floor(30/5)=6 >= the 5-PI hybrid cost after the first victory
+    maxChapters: 15,
+  });
+  assert.ok(
+    res.economy.piSpentTotal >= 5,
+    `skirmisher reaches the real pickPerk -> at least one 5-PI hybrid pick spent; economy=${JSON.stringify(res.economy)}`,
+  );
+  assert.ok(res.economy.piPickAttempts > 0, 'hybrid picks attempted for leveled survivors');
+  // piInsufficient may be >0 transiently (two starters reach level 2 the same chapter; the
+  // PE->PI budget affords one, the other picks once PE refills next chapter) -- the point is
+  // the sink SPENDS, not that every attempt lands the same turn.
+});
+
+test('runFullLoop: an unclearable mission (timeout) ENDS the run -- one attempt, no infinite retry (slice a)', async () => {
+  // Calibrated scaled-enemy difficulty makes a mission unwinnable in 40 rounds -> timeout.
+  // The OLD runner re-fought the same chapter every step (up to maxChapters), so a timeout
+  // never failed the campaign -> completion_rate degenerately 1.0. The capped runner ends the
+  // campaign after a non-victory mission, so the scaled difficulty sets P(clear the gating
+  // missions) and completion_rate becomes a meaningful, tunable band metric.
+  let advances = 0;
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        advances += 1;
+        return { status: 200, body: {} }; // paused (non-victory) -> would retry under the old loop
+      }
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state') {
+        // A foe that never dies -> runEncounter never reaches victory -> timeout at maxRounds.
+        return {
+          status: 200,
+          body: {
+            units: [
+              { id: 'hero_a', controlled_by: 'player', hp: 30, position: { x: 1, y: 1 } },
+              { id: 'foe', controlled_by: 'sistema', hp: 99, position: { x: 4, y: 4 } },
+            ],
+            active_unit: 'hero_a',
+          },
+        };
+      }
+      if (path === '/api/campaign/summary') {
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      }
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'skirmisher',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 15,
+  });
+  assert.equal(res.completed, false, 'an unclearable mission fails the campaign');
+  assert.equal(
+    res.chapters.length,
+    1,
+    'exactly ONE mission attempt -- no 15x retry of the same chapter',
+  );
+  assert.equal(res.chapters[0].outcome, 'timeout');
+  assert.equal(advances, 1, 'advance called once (the run ended, it did not retry)');
+});

@@ -148,16 +148,28 @@ function aggregate(runs) {
   // 4. relationship_progress: recruit rate + earned-affinity proof + mating, all firing =
   // monotonic, non-stall.
   const recruitRate = round(mean(list.map((r) => ((r && r.recruited) || []).length)));
+  // affinity_proven_rate is CONDITIONAL on reaching the Nido step (a run with >=1 combat
+  // recruit ran the earned-affinity gate). A calibrated batch (completion < 0.9 by design)
+  // has runs that fail the gate mission BEFORE any recruit -> they never exercise the
+  // affinity gate, so counting them as "not proven" would conflate this metric with
+  // completion_rate (and make the two bands un-satisfiable together). Decoupled: among runs
+  // that reached the step, did the earned-affinity gate fire? (1.0 = always, the healthy case.)
+  const reachedStep = list.filter(
+    (r) => r && Array.isArray(r.recruited) && r.recruited.length > 0,
+  ).length;
   const affinityProvenRate =
-    n === 0 ? 0 : round(list.filter((r) => r && r.economyAffinityProven === true).length / n);
+    reachedStep === 0
+      ? 0
+      : round(list.filter((r) => r && r.economyAffinityProven === true).length / reachedStep);
   const matingRate = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
   const relationship_progress = {
     recruit_rate: recruitRate,
     affinity_proven_rate: affinityProvenRate,
+    reached_step: reachedStep,
     mating_rate: matingRate,
     range: null,
     in_band: n > 0 && recruitRate > 0 && affinityProvenRate >= 0.9 && matingRate > 0,
-    note: 'recruit + earned-affinity gate + mating all fire (monotonic, non-stall)',
+    note: 'recruit + earned-affinity gate (proven among runs that REACHED the step, decoupled from completion) + mating all fire',
   };
 
   // 5. offspring_viability: mean offspring per run >= threshold. Lineage diversity is NOT

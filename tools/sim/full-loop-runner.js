@@ -110,7 +110,10 @@ const PICK_LEVEL = 2;
 // budget can't afford returns 402 insufficient_pi -> surfaced (not hidden), so a too-tight
 // economy reads honestly instead of leaving piSpentTotal a hardcoded 0. Returns the spend
 // tally; `pickedLevels` (a Set of unit ids) carries across chapters to avoid double-picks.
-async function applyProgressionSpend(http, { id, xpGrants, availablePi, pickedLevels }) {
+async function applyProgressionSpend(
+  http,
+  { id, xpGrants, availablePi, pickedLevels, jobById, xpByUnit },
+) {
   let spent = 0;
   let attempts = 0;
   let insufficient = 0;
@@ -120,6 +123,24 @@ async function applyProgressionSpend(http, { id, xpGrants, availablePi, pickedLe
     if (!unitId || pickedLevels.has(unitId)) continue;
     if (!(Number(g.level_after) >= PICK_LEVEL)) continue;
     attempts += 1;
+    // Seed the unit in the ROUTE store before picking. campaign /advance auto-seeds in the
+    // progressionApply singleton, but createProgressionRouter() owns a SEPARATE store
+    // (pluginLoader injects none) -> the pick route would 404 the campaign-seeded unit (this,
+    // NOT the job, is why piSpentTotal was stuck at 0). A real frontend seeds progression via
+    // this same route, so the runner mirrors that faithful step. Seed with the unit's REAL
+    // accumulated XP so its level (= pick eligibility) is faithful; the job must be a perk-job
+    // (skirmisher) for /seed to accept it. (Unifying the two stores is an engine follow-up,
+    // out of scope for this band-safe sim slice.)
+    const job = jobById && typeof jobById.get === 'function' ? jobById.get(unitId) : null;
+    const xpTotal =
+      xpByUnit && typeof xpByUnit.get === 'function' ? Number(xpByUnit.get(unitId)) || 0 : 0;
+    if (job) {
+      await http.post(`/api/progression/${unitId}/seed`, {
+        job,
+        xp_total: xpTotal,
+        campaign_id: id,
+      });
+    }
     const pick = await http.post(`/api/progression/${unitId}/pick`, {
       level: PICK_LEVEL,
       choice: 'hybrid',
@@ -148,6 +169,10 @@ async function runFullLoop(http, opts = {}) {
     // fase-2c: pluggable meta-policy (greedy by default). mbtiPolicy swaps in temperament-
     // guided recruit/courtship/mating choices to test P4 across the band-batch.
     policy = greedyPolicy,
+    // fase-2c difficulty calibration: the scaling overlay applied to the scaled-enemy
+    // chapters (scenario-enemies). Faithful default = {} (no scaling); the band batch passes
+    // the calibrated knobs so completion_rate lands in band (Finding 1).
+    enemyScaling = {},
   } = opts;
   // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
   // faithful combat unit per cleared chapter. knownIds is the matching id universe so a
@@ -209,6 +234,9 @@ async function runFullLoop(http, opts = {}) {
   let piPickAttempts = 0;
   let piInsufficient = 0;
   const pickedLevels = new Set();
+  // Per-unit accumulated XP (sum of advance xp_grants[].amount), so the route-store seed
+  // before each pick reflects the unit's REAL level (= pick eligibility), not a fake value.
+  const xpByUnit = new Map();
 
   for (let step = 1; step <= maxChapters; step += 1) {
     const sum = await driver.summary(http, id);
@@ -222,7 +250,7 @@ async function runFullLoop(http, opts = {}) {
     // fase-2a scaled enemies: load the chapter's real encounter roster from YAML; fall
     // back to the weak-fixed enemy when the encounter has no YAML (cave_path: tutorial_03/
     // 04/05 + tutorial_06_hardcore) or an unsupported objective, so the loop still runs.
-    const scaledEnemies = buildScenarioEnemies(enc);
+    const scaledEnemies = buildScenarioEnemies(enc, enemyScaling);
     const enemies = scaledEnemies && scaledEnemies.length ? scaledEnemies : enemiesForChapter(step);
     const enemiesSource = scaledEnemies && scaledEnemies.length ? 'scenario' : 'fallback';
 
@@ -255,6 +283,12 @@ async function runFullLoop(http, opts = {}) {
     if (combat.outcome === 'victory') peEarnedTotal += peEarned;
     xpGrantedTotal += xpGranted;
     mpEarnedTotal += mpEarned;
+    // Accumulate per-unit XP from this advance so the pick-seed reflects the real level.
+    for (const g of (adv.body && adv.body.xp_grants) || []) {
+      if (g && g.unit_id) {
+        xpByUnit.set(g.unit_id, (xpByUnit.get(g.unit_id) || 0) + (Number(g.amount) || 0));
+      }
+    }
     // PI sink: spend PE-derived PI (5:1) on a hybrid perk pick for any survivor that just
     // reached the pick level. Runs on victory (xp_grants + level-ups only happen there).
     if (combat.outcome === 'victory') {
@@ -264,6 +298,8 @@ async function runFullLoop(http, opts = {}) {
         xpGrants: adv.body && adv.body.xp_grants,
         availablePi,
         pickedLevels,
+        jobById: new Map(roster.map((u) => [u.id, u.job])),
+        xpByUnit,
       });
       piSpentTotal += spend.spent;
       piPickAttempts += spend.attempts;
@@ -280,6 +316,14 @@ async function runFullLoop(http, opts = {}) {
       xpGranted,
       mpEarned,
     });
+
+    // One attempt per mission (slice a): a chapter the party fails to clear (timeout or
+    // defeat) ENDS the campaign run -- no infinite retry of the same chapter. With infinite
+    // retries every run eventually completes -> completion_rate is degenerately 1.0; capping
+    // it makes completion_rate a MEANINGFUL, tunable band metric (the scaled-enemy difficulty
+    // sets P(clear the gating missions) into the 0.4-0.7 band). Weak/faithful chapters always
+    // win first try, so this only bites at calibrated difficulty.
+    if (combat.outcome !== 'victory') break;
 
     // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
     // not just victory). Skipped on the campaign-completing chapter (Codex #2565 P2): a

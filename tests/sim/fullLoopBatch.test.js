@@ -19,6 +19,9 @@ const {
   writeArtifacts,
   resolvePolicy,
   ROUTING_WALKS,
+  runChildSeed,
+  peEarnedConfig,
+  calibrationScaling,
 } = require('../../tools/sim/full-loop-batch');
 
 // Synthetic run-result (runFullLoop shape) for the pure-assembly tests.
@@ -61,11 +64,104 @@ test('parseArgs: defaults + flag overrides', () => {
     'mbti',
     '--seed-base',
     '500',
+    '--isolate',
+    '--child-seed',
+    '1007',
   ]);
   assert.equal(o.runs, 40);
   assert.equal(o.branch, 'surface_path');
   assert.equal(o.policy, 'mbti');
   assert.equal(o.seedBase, 500);
+  assert.equal(o.isolate, true, '--isolate flag parsed');
+  assert.equal(o.childSeed, '1007', '--child-seed value parsed');
+});
+
+test('parseArgs: isolate defaults off, childSeed null', () => {
+  const d = parseArgs(['node', 'full-loop-batch.js']);
+  assert.equal(d.isolate, false);
+  assert.equal(d.childSeed, null);
+});
+
+test('runChildSeed: retries a crashing child, returns the result once it succeeds', () => {
+  // Simulates the Windows 0xC0000409 native crash: the child throws twice (non-zero exit),
+  // then the 3rd fresh process succeeds. Pure retry logic (spawn + read injected).
+  let calls = 0;
+  const spawn = () => {
+    calls += 1;
+    if (calls < 3) throw new Error('Command failed: 0xC0000409');
+  };
+  const readResult = () => ({ completed: true, seed: 's' });
+  const r = runChildSeed('1000', { spawn, readResult, retries: 3 });
+  assert.equal(r.ok, true);
+  assert.equal(r.attempts, 3, 'retried until the 3rd attempt succeeded');
+  assert.equal(r.result.completed, true);
+});
+
+test('runChildSeed: gives up after `retries` crashes (no infinite loop, error surfaced)', () => {
+  const spawn = () => {
+    throw new Error('persistent crash');
+  };
+  const r = runChildSeed('1000', { spawn, readResult: () => ({}), retries: 3 });
+  assert.equal(r.ok, false);
+  assert.equal(r.attempts, 3);
+  assert.match(r.error, /persistent crash/);
+});
+
+test('runChildSeed: an unparseable/empty child result is retried, not accepted', () => {
+  let calls = 0;
+  const spawn = () => {};
+  const readResult = () => {
+    calls += 1;
+    return calls < 2 ? null : { completed: false };
+  };
+  const r = runChildSeed('x', { spawn, readResult, retries: 3 });
+  assert.equal(r.ok, true);
+  assert.equal(r.attempts, 2, 'first (null) result rejected, second accepted');
+});
+
+test('peEarnedConfig: defaults to an affording rate; FL_PE_EARNED overrides', () => {
+  delete process.env.FL_PE_EARNED;
+  // 5:1 PE->PI, hybrid cost 5 PI -> need >=25 PE over the arc; default must afford a run
+  // that clears >=4 victory chapters (4 * default >= 25).
+  assert.ok(peEarnedConfig() * 4 >= 25, 'default PE affords the hybrid pick within the arc');
+  process.env.FL_PE_EARNED = '12';
+  try {
+    assert.equal(peEarnedConfig(), 12);
+  } finally {
+    delete process.env.FL_PE_EARNED;
+  }
+});
+
+test('calibrationScaling: FL_ENEMY_* env overrides each knob (robust to baked defaults)', () => {
+  for (const k of [
+    'FL_ENEMY_COUNT_MULT',
+    'FL_ENEMY_COUNT_ADD',
+    'FL_ENEMY_HP_MULT',
+    'FL_ENEMY_HP_ADD',
+    'FL_ENEMY_MOD_ADD',
+    'FL_ENEMY_DC_ADD',
+  ]) {
+    delete process.env[k];
+  }
+  // No env -> the BAKED calibration (N=10 probe -> N=40 ratify): countMult 5 + hpAdd 3 =
+  // 10 sistema units at ~10 HP. Locks the calibration so an accidental revert to neutral
+  // (which made completion a degenerate 1.0) is caught.
+  const baked = calibrationScaling();
+  assert.equal(baked.countMult, 5, 'baked countMult (calibration)');
+  assert.equal(baked.hpAdd, 3, 'baked hpAdd (calibration)');
+  process.env.FL_ENEMY_COUNT_MULT = '7';
+  process.env.FL_ENEMY_DC_ADD = '9';
+  try {
+    const s = calibrationScaling();
+    assert.equal(s.countMult, 7);
+    assert.equal(s.dcAdd, 9);
+    for (const k of ['countMult', 'countAdd', 'hpMult', 'hpAdd', 'modAdd', 'dcAdd']) {
+      assert.ok(Number.isFinite(s[k]), `${k} is numeric`);
+    }
+  } finally {
+    delete process.env.FL_ENEMY_COUNT_MULT;
+    delete process.env.FL_ENEMY_DC_ADD;
+  }
 });
 
 test('buildProvenance: carries seed + commit + policy + scenario-chain + flags', () => {
@@ -192,8 +288,17 @@ test('writeArtifacts: writes runs.jsonl (one line per run) + summary.json + repo
 
 test('runBatch: real in-process smoke (K=2) -> real run-results aggregate (fase-2b)', async (t) => {
   // Default runOne path: spin createApp per run, AI plays the whole loop, aggregate. Proves
-  // the batch wiring end-to-end on the real backend (slower than the pure tests).
-  const results = await runBatch({ runs: 2, seedBase: 7000, branch: 'cave_path', commit: 'smoke' });
+  // the batch WIRING end-to-end on the real backend (slower than the pure tests). Pins
+  // `enemyScaling: {}` (faithful, no calibration) so this smoke stays deterministic + tests
+  // wiring, NOT difficulty -- the calibrated difficulty is exercised by the N=40 band batch
+  // (see docs/playtest/2026-06-02-full-loop-band-report.md), not this 2-run smoke.
+  const results = await runBatch({
+    runs: 2,
+    seedBase: 7000,
+    branch: 'cave_path',
+    commit: 'smoke',
+    enemyScaling: {},
+  });
   assert.equal(results.length, 2);
   for (const r of results) {
     assert.equal(
@@ -209,9 +314,10 @@ test('runBatch: real in-process smoke (K=2) -> real run-results aggregate (fase-
   }
   const summary = buildSummary(results, { runs: 2, branch: 'cave_path' });
   assert.equal(summary.n, 2);
-  // With the current weak/scaled enemies the AI never loses -> completion 1.0, OUT of the
-  // provisional 0.40-0.70 band. That OUT-of-band result is the POINT: the band correctly
-  // flags "too easy" until enemy scaling/calibration (fase-2c) brings it into range.
+  // At faithful (un-calibrated) difficulty the AI never loses -> completion 1.0, OUT of the
+  // provisional 0.40-0.70 band. That the band flags this as "too easy" is the POINT; the
+  // baked calibrationScaling() default (asserted separately) is what brings completion into
+  // range for the real band batch.
   assert.equal(summary.metrics.completion_rate.value, 1);
   assert.equal(summary.metrics.completion_rate.in_band, false);
 });

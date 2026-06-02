@@ -198,6 +198,34 @@ test('aggregate: relationship_progress stalled (no recruit, no affinity) flagged
   assert.equal(r.metrics.relationship_progress.in_band, false);
 });
 
+test('aggregate: affinity_proven_rate is conditional on reaching the Nido step (decoupled from completion)', () => {
+  // A CALIBRATED batch (completion ~0.55) has runs that fail the gate mission before any
+  // recruit -> they never reach the Nido step. Those must NOT drag affinity_proven_rate down:
+  // the metric tests whether the earned-affinity gate FIRES when reached, not how often the
+  // campaign completes (that is completion_rate's job). Otherwise relationship_progress would
+  // be un-satisfiable whenever completion is intentionally < 0.9 (the two bands would conflict).
+  const reached = synthRun({
+    completed: true,
+    recruited: ['r1', 'r2'],
+    economyAffinityProven: true,
+  });
+  const failedEarly = synthRun({
+    completed: false,
+    recruited: [],
+    economyRecruited: [],
+    economyAffinityProven: false,
+    offspring: 0,
+  });
+  const r = aggregate([reached, failedEarly, failedEarly]); // 1 reached the step, 2 failed early
+  const rp = r.metrics.relationship_progress;
+  assert.equal(
+    rp.affinity_proven_rate,
+    1,
+    'proven among runs that reached the step (1/1), not 1/3',
+  );
+  assert.equal(rp.in_band, true, 'relationship band holds even when ~2/3 of runs fail the gate');
+});
+
 test('aggregate: offspring_viability in band when offspring rolled (>=1 avg)', () => {
   const r = aggregate([synthRun(), synthRun()]);
   const ov = r.metrics.offspring_viability;
