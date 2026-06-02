@@ -111,6 +111,19 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
   );
   assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
+  // fase-2a scaled enemies: covered cave_path chapters (enc_tutorial_01/02, savana_01,
+  // caverna_02) load real wave-1 rosters from YAML; the uncovered ones (tutorial_03/04/05,
+  // tutorial_06_hardcore) fall back to the weak-fixed enemy. Assert BOTH paths run -> the
+  // scenario loader is wired and the fallback keeps the loop completing.
+  const sources = res.chapters.map((c) => c.enemiesSource);
+  assert.ok(
+    sources.includes('scenario'),
+    `scaled enemies used on covered chapters; sources=${sources}`,
+  );
+  assert.ok(
+    sources.includes('fallback'),
+    `fallback used on uncovered chapters; sources=${sources}`,
+  );
 });
 
 test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory chapter (Codex #2563 P2)', async () => {
