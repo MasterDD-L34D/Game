@@ -51,7 +51,7 @@ test('executeAbility: aberrant_overdrive resolves without mutating unit.pe (cost
     job: 'aberrant',
     ap_remaining: 5,
     pe: 10, // campaign XP
-    sg: 0,
+    sg: 3, // H2 cost-gate (2026-06-02): aberrant_overdrive cost_sg=3 needs a full SG pool
     position: { x: 0, y: 0 },
     attack_range: 5,
   };

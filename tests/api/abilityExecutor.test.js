@@ -28,6 +28,18 @@ async function startSession(app) {
   return { sid: startRes.body.session_id, state: startRes.body.state };
 }
 
+// H2 cost-gate (2026-06-02): surge_aoe ultimates (cataclysm/apocalypse_ray) carry
+// cost_sg > POOL_MAX -> consume-all gate requires a FULL SG pool. Seed p_scout sg=3.
+async function startSessionSgFull(app) {
+  const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
+  assert.equal(scenario.status, 200);
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({ units: scenario.body.units, initial_sg: { p_scout: 3 } });
+  assert.equal(startRes.status, 200);
+  return { sid: startRes.body.session_id, state: startRes.body.state };
+}
+
 test('dash_strike: move_attack end-to-end, AP decremented, event emitted', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
@@ -549,7 +561,7 @@ test('cataclysm: surge_aoe danno area + stress_reset, shield-aware', async (t) =
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionSgFull(app);
   const res = await request(app)
     .post('/api/session/action')
     .send({
@@ -582,7 +594,9 @@ test('cataclysm surge_aoe: actor elevation 1 vs target 0 → multiplier 1.3 ripo
   // Usa scenario tutorial_01 ma muta units con elevation raise per p_scout.
   const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
   const units = scenario.body.units.map((u) => (u.id === 'p_scout' ? { ...u, elevation: 1 } : u));
-  const startRes = await request(app).post('/api/session/start').send({ units });
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({ units, initial_sg: { p_scout: 3 } });
   const sid = startRes.body.session_id;
   const res = await request(app)
     .post('/api/session/action')
@@ -1323,7 +1337,7 @@ test('Sprint 8.1 apocalypse_ray (r4 surge_aoe): dispatch via invoker path + stre
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionSgFull(app);
   const res = await request(app)
     .post('/api/session/action')
     .send({

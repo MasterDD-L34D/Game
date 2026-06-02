@@ -2371,12 +2371,58 @@ function createAbilityExecutor(deps) {
         },
       };
     }
-    // PE-canon re-label (#2527): aberrant_overdrive's combat cost is `cost_sg`
-    // (NOT cost_pe — PE is campaign XP per 26-ECONOMY_CANONICAL). It is currently
-    // DECORATIVE (un-gated), consistent with the other cost_sg/cost_pt/cost_pp
-    // abilities. A real combat-cost gate is a separate economy-alignment follow-up:
-    // cost_sg values across abilities (3..100) are on inconsistent scales vs the
-    // SG pool (POOL_MAX=3), so a naive gate would break surge_aoe (cost_sg 75/100).
+    // H2 economy combat cost-gate (master-dd verdict 2026-06-02 = option C hybrid).
+    // SG is the only MODELED combat pool (sgTracker POOL_MAX, seeded by normaliseUnit
+    // + earned on damage). Gate it here; deduct only on a 2xx dispatch (below),
+    // mirroring the cost_ap-inside-handler / cost_pe (#2522) "no charge on 400" model.
+    //   cost_sg <= POOL_MAX -> numeric gate (require >= cost_sg, deduct cost_sg).
+    //   cost_sg >  POOL_MAX -> consume-all (require FULL pool, drain to 0): the
+    //     inflated value (cataclysm 75 / apocalypse_ray 100 / perfect_mutation 80)
+    //     reads as "ultimate -> drains the gauge" per 26-ECONOMY ("Ultimate = consume
+    //     all"); no data rescale needed. NB cataclysm is rank-2 by label but its
+    //     cost_sg 75 is ultimate-tier -> treated consume-all; set cost_sg <= POOL_MAX
+    //     if master-dd wants it numeric.
+    // PP/PT are NOT modeled pools (PP un-seeded; PT a per-round dice roll) -> their
+    // cost_* stay DECORATIVE pending a pool-model + earn-curve verdict (follow-up
+    // docs/superpowers/specs/2026-06-02-economy-cost-gate-pp-pt-followup.md).
+    // Band-neutral: no sim/scenario party carries a cost_sg ability (HC byte-identical).
+    let sgConsumeAll = false;
+    const costSg = Number(ability.cost_sg || 0);
+    if (costSg > 0) {
+      const sgPoolMax = (() => {
+        try {
+          return Number(require('./combat/sgTracker').POOL_MAX) || 3;
+        } catch {
+          return 3;
+        }
+      })();
+      const sgHave = Number(actor.sg || 0);
+      if (costSg > sgPoolMax) {
+        sgConsumeAll = true;
+        if (sgHave < sgPoolMax) {
+          return {
+            status: 400,
+            body: {
+              error: `SG insufficienti per ultimate (richiede il pool pieno ${sgPoolMax}, disponibili ${sgHave})`,
+              pool: 'sg',
+              cost: sgPoolMax,
+              have: sgHave,
+              consume_all: true,
+            },
+          };
+        }
+      } else if (sgHave < costSg) {
+        return {
+          status: 400,
+          body: {
+            error: `SG insufficienti per ability (richiesti ${costSg}, disponibili ${sgHave})`,
+            pool: 'sg',
+            cost: costSg,
+            have: sgHave,
+          },
+        };
+      }
+    }
     // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
     // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
     // (defense_after_silent). Set after the AP gate, before dispatch.
@@ -2436,6 +2482,10 @@ function createAbilityExecutor(deps) {
     // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
     // the sgTracker pattern (non-blocking if the module is unavailable).
     if (result && Number(result.status) >= 200 && Number(result.status) < 300) {
+      // H2 cost-gate: charge SG only on a successful resolution (no charge on 400/501).
+      if (costSg > 0) {
+        actor.sg = sgConsumeAll ? 0 : Math.max(0, Number(actor.sg || 0) - costSg);
+      }
       try {
         const { applyPerkAbilityUseEffects } = require('./progression/progressionApply');
         applyPerkAbilityUseEffects(actor, ability.ability_id, { round: session.turn });
