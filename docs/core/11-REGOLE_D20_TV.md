@@ -48,7 +48,7 @@ Regole canoniche per turno, AP budget, syntax input. Chiude FRICTION #1-#3 dal p
 
 - **Libertà tattica**: player sceglie tempo/target senza template forzato (contro Halfway lesson "prescriptive turn = frustrating").
 - **Economy meaningful**: 2 attack vs move = trade-off esplicito damage-now vs position-now.
-- **AI symmetry**: Sistema gode stesso budget → asimmetria solo via profili AI + HP/DC, non via regole turno.
+- **AI symmetry**: Sistema gode stesso budget → asimmetria solo via profili AI + HP/DC, non via regole turno. **Eccezione canonica (OD-058 D1, ratify-as-built #2481)**: il verbo _Overcharge_ (spendi 3 SG → +1 AP questo turno, once-per-turn) è **player-only** (`actor.controlled_by === 'player'`; il SIS non può overcharge). Asimmetria deliberata che **supersede questa clausola di simmetria** limitatamente all'estensione AP via spesa risorsa esplicita (vedi §Varianti future).
 
 ### Enforcement
 
@@ -98,6 +98,7 @@ Tiebreak: priority desc, actor_id alfabetico asc, declaration order asc. Con `pr
 - Trait `ferocia_lampo` (placeholder): 2° attack guadagna bonus se MoS ≥10 al primo.
 - Job `berserker` (placeholder): 2° attack gratuito (ap_cost=0) sotto HP 25%.
 - Entrambi richiedono spec esplicita (non alterano regola base AP).
+- **Overcharge (canonico, OD-058 D1, ratify-as-built #2481)**: spendi **3 SG** (gauge piena, `POOL_MAX=3`) → **+1 AP** questo turno (ap_max 2 → 3), **once-per-turn** (`actor.status.overcharged`), **player-only**. A differenza dei placeholder qui sopra, questa variante **estende davvero** la regola base AP (2 → 3 con spesa risorsa esplicita) ed è il **supersede canonico** di "2 AP base" (freeze §7.1). Twin di _defy_ (spendi 2 SG → -1 AP turno successivo). Claim balance verso P6 gated da N=40 action-economy probe (anti-pattern #14/#15).
 
 ## Syntax mosse canonica (FRICTION #1)
 

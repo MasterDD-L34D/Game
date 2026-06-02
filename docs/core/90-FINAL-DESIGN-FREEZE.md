@@ -153,7 +153,7 @@ Regola di governance: ogni feature deve dichiarare in quale punto del loop impat
 
 - **iniziativa come reaction speed** (non piu' turn order rigido): semantica consolidata in [ADR-2026-04-15](../adr/ADR-2026-04-15-round-based-combat-model.md) e [`docs/combat/round-loop.md`](../combat/round-loop.md);
 - **round loop** shared planning → commit → ordered resolution sopra il resolver atomico;
-- 2 AP base + reazioni come intent first-class con trigger conditions;
+- 2 AP base, **esteso a 3 con spesa esplicita di 3 SG** (verbo _Overcharge_, once-per-turn, **player-only**) — superseded da OD-058 D1 / `ADR-2026-05-30-ap-extension-pt-sg` (ratify-as-built #2481, `overchargeEngine.js`); reazioni come intent first-class con trigger conditions;
 - attacco d20 vs CD target;
 - MoS con +1 step danno ogni +5;
 - PT generati da roll alti e MoS;
