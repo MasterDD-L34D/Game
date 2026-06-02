@@ -1644,6 +1644,14 @@ function createRoundBridge(deps) {
     resetRoundAttackTracker(session);
     // Skiv ticket #2: reset synergy cooldown + archivia last_round_synergies.
     resetRoundSynergyTracker(session);
+    // PT pool (26-ECONOMY §PT) is per-round: clear every unit's technique points at
+    // the round boundary (lazy-require, non-blocking). Earned again next round.
+    try {
+      const ptTracker = require('../services/combat/ptTracker');
+      for (const u of session.units || []) ptTracker.resetRound(u);
+    } catch {
+      /* ptTracker optional */
+    }
     session.roundState = adaptSessionToRoundState(session);
 
     const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
@@ -2058,6 +2066,13 @@ function createRoundBridge(deps) {
 
         resetRoundAttackTracker(session);
         resetRoundSynergyTracker(session);
+        // PT pool (26-ECONOMY §PT) resets per-round at the planning boundary.
+        try {
+          const ptTracker = require('../services/combat/ptTracker');
+          for (const u of session.units || []) ptTracker.resetRound(u);
+        } catch {
+          /* ptTracker optional */
+        }
 
         const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
 

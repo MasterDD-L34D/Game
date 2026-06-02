@@ -2392,10 +2392,12 @@ function createAbilityExecutor(deps) {
     //     all"); no data rescale needed. NB cataclysm is rank-2 by label but its
     //     cost_sg 75 is ultimate-tier -> treated consume-all; set cost_sg <= POOL_MAX
     //     if master-dd wants it numeric.
-    // PP/PT are NOT modeled pools (PP un-seeded; PT a per-round dice roll) -> their
-    // cost_* stay DECORATIVE pending a pool-model + earn-curve verdict (follow-up
-    // docs/superpowers/specs/2026-06-02-economy-cost-gate-pp-pt-followup.md).
-    // Band-neutral: no sim/scenario party carries a cost_sg ability (HC byte-identical).
+    // PP (#2555) and PT (this slice) are NOW modeled pools too: PP per-encounter
+    // (ppTracker, earned +1 crit/+1 kill), PT per-round (ptTracker, earned from the
+    // attack technique roll). Both gated below mirroring SG. PT maneuvers
+    // (perforazione/spinte/condizioni/combo) stay a follow-up sink (not yet discrete
+    // combat actions). Band-neutral: no sim/scenario party carries a
+    // cost_sg/cost_pp/cost_pt ability (HC byte-identical).
     let sgConsumeAll = false;
     const costSg = Number(ability.cost_sg || 0);
     if (costSg > 0) {
@@ -2474,6 +2476,49 @@ function createAbilityExecutor(deps) {
         };
       }
     }
+    // H2 PT cost-gate (26-ECONOMY §PT: pool 0..12, per-round; earned from the attack
+    // technique roll via ptTracker, wired in session.js performAttack). Every cost_pt
+    // in the catalog (3..10) is <= POOL_MAX(12) -> NUMERIC gate (require >= cost_pt,
+    // deduct EXACTLY cost_pt — NOT consume-all, since PT is a numeric tactical economy,
+    // not an ultimate-drain like PP/SG). The consume-all branch is dormant future-proof
+    // for any cost_pt > 12. Spend before dispatch + rollback below.
+    let ptConsumeAll = false;
+    const costPt = Number(ability.cost_pt || 0);
+    if (costPt > 0) {
+      const ptPoolMax = (() => {
+        try {
+          return Number(require('./combat/ptTracker').POOL_MAX) || 12;
+        } catch {
+          return 12;
+        }
+      })();
+      const ptHave = Number(actor.pt || 0);
+      if (costPt > ptPoolMax) {
+        ptConsumeAll = true;
+        if (ptHave < ptPoolMax) {
+          return {
+            status: 400,
+            body: {
+              error: `PT insufficienti per ultimate (richiede il pool pieno ${ptPoolMax}, disponibili ${ptHave})`,
+              pool: 'pt',
+              cost: ptPoolMax,
+              have: ptHave,
+              consume_all: true,
+            },
+          };
+        }
+      } else if (ptHave < costPt) {
+        return {
+          status: 400,
+          body: {
+            error: `PT insufficienti per ability (richiesti ${costPt}, disponibili ${ptHave})`,
+            pool: 'pt',
+            cost: costPt,
+            have: ptHave,
+          },
+        };
+      }
+    }
     // TKT-JOB-PHASEC slice 2 — track the last ability id used (ability-id
     // granular, finer than last_action_type). Consumed by computePerkDefenseBonus
     // (defense_after_silent). Set after the AP gate, before dispatch.
@@ -2491,6 +2536,11 @@ function createAbilityExecutor(deps) {
     if (costPp > 0) {
       ppBefore = Number(actor.pp || 0);
       actor.pp = ppConsumeAll ? 0 : Math.max(0, ppBefore - costPp);
+    }
+    let ptBefore = null;
+    if (costPt > 0) {
+      ptBefore = Number(actor.pt || 0);
+      actor.pt = ptConsumeAll ? 0 : Math.max(0, ptBefore - costPt);
     }
     const dispatch = () => {
       switch (ability.effect_type) {
@@ -2552,6 +2602,9 @@ function createAbilityExecutor(deps) {
     }
     if (costPp > 0 && !resolved2xx) {
       actor.pp = ppBefore;
+    }
+    if (costPt > 0 && !resolved2xx) {
+      actor.pt = ptBefore;
     }
     // TKT-JOB-PHASEC slice 4 (Cat F, OQ-F verdict A) — on-ability-use perk
     // effects, fired only on a successful (2xx) resolution. Lazy require mirrors
