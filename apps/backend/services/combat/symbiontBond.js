@@ -159,10 +159,150 @@ function applyBondedDeathGrace(session, deadPartner) {
   };
 }
 
+/**
+ * Identify a shared_hp_pool pair for `target`: returns { symbiont, partner } when
+ * `target` is a member of a pool (the symbiont carries shared_hp_pool + `target`
+ * is its PRIMARY bonded partner, or `target` IS that symbiont). Secondary
+ * (dual_bond) partners are NOT pooled. Null otherwise.
+ */
+function sharedPoolPair(session, target) {
+  if (!session || !target) return null;
+  let symbiont = null;
+  let partner = null;
+  if (target._bonded_by) {
+    symbiont = (session.units || []).find((u) => u && u.id === target._bonded_by);
+    partner = target;
+  } else if (target._bond && target._bond.partner_id) {
+    symbiont = target;
+    partner = (session.units || []).find((u) => u && u.id === target._bond.partner_id);
+  }
+  if (!symbiont || !partner) return null;
+  if (!findPassive(symbiont, 'shared_hp_pool')) return null;
+  if (!symbiont._bond || symbiont._bond.partner_id !== partner.id) return null; // primary only
+  return { symbiont, partner };
+}
+
+/**
+ * SYMBIONT capstone sy_r6_one_soul (TKT-JOB-PHASEC V5, OQ-BOND verdict V5) — the
+ * symbiont + its primary bonded partner share a combined HP pool: a hit is split
+ * equally across the pair and BOTH KO together when the pool empties. Hooked into
+ * performAttack AFTER the damage floor, in place of the redirect (mutual exclusion).
+ * `targetHpPreDamage` is the struck unit's HP BEFORE the floor (needed because the
+ * floor at 0 hides overkill, which the pool needs for the both-KO check).
+ *
+ * @param {object} session
+ * @param {object} target — the struck pool member (hp already floored by the caller)
+ * @param {number} damageDealt — the hit's damage
+ * @param {number} targetHpPreDamage — target.hp BEFORE the damage step
+ * @returns {object|null}
+ */
+function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
+  const pair = sharedPoolPair(session, target);
+  if (!pair) return null;
+  const d = Number(damageDealt) || 0;
+  if (d <= 0) return null;
+  const { symbiont, partner } = pair;
+  const counterpart = target.id === symbiont.id ? partner : symbiont;
+  const preTarget = Number(targetHpPreDamage);
+  const preCounter = Number(counterpart.hp);
+  // Codex #2542 P1: both members must be ALIVE for the pool to activate. The
+  // struck unit's pre-DAMAGE HP is used (it is floored to 0 by performAttack
+  // before this runs, so its live HP would falsely read dead); the counterpart
+  // uses its live HP. A symbiont downed outside this pool (e.g. via a secondary
+  // dual_bond redirect) must not pool or be resurrected to 1 by the split.
+  if (preTarget <= 0 || preCounter <= 0) return null;
+  const poolAfter = preTarget + preCounter - d;
+
+  let bothKo = false;
+  if (poolAfter <= 0) {
+    target.hp = 0;
+    counterpart.hp = 0;
+    bothKo = true;
+    // Codex #2542 P2: definitive signal that THIS hit pool-KO'd the counterpart,
+    // so the bridge emits its kill ONLY on an actual pool both-KO (not merely a
+    // bonded unit that happens to be at 0). Consumed + cleared by the bridge.
+    counterpart._pool_both_ko = true;
+  } else {
+    // Equal split: the struck unit takes the ceil half, the counterpart the floor
+    // half; overflow on either side is covered by the other (pool conserved).
+    const half = Math.floor(d / 2);
+    let t = preTarget - (d - half);
+    let c = preCounter - half;
+    if (t < 0) {
+      c += t;
+      t = 0;
+    }
+    if (c < 0) {
+      t += c;
+      c = 0;
+    }
+    // Codex #2542 P1: poolAfter > 0 means the bond keeps the pair UP — neither
+    // member may show a solo KO while the shared pool still has HP. The struck
+    // target is what performAttack tests for death, so guarantee it stays >= 1
+    // (borrow from the counterpart); then lift the counterpart off 0 when the
+    // pool can still afford it. At a 1-HP pool the struck target keeps the last HP.
+    if (t < 1) {
+      const need = 1 - t;
+      t = 1;
+      c -= need;
+    }
+    if (c < 1 && t > 1) {
+      const give = 1 - c;
+      c += give;
+      t -= give;
+    }
+    if (t < 1 || c < 1) {
+      // Codex #2542 P1: the remaining pool (a single odd HP) can't keep BOTH
+      // members >= 1. Per the capstone's "both KO together" invariant, the pair
+      // falls together rather than letting one silently drop to 0 while the other
+      // lives on (which the rest of the combat code would treat as a solo KO).
+      // NB Claude design call on the integer 1-HP tail (both-KO at pool <= 1) —
+      // pending master-dd review; the alternative "pin both at 1" creates a
+      // 1-damage immortality exploit at the tail.
+      target.hp = 0;
+      counterpart.hp = 0;
+      bothKo = true;
+      counterpart._pool_both_ko = true;
+    } else {
+      target.hp = t;
+      counterpart.hp = c;
+    }
+  }
+
+  // The actual damage each side absorbed after the split (pool conserved:
+  // targetActual + counterActual === d, minus any drained overflow).
+  const targetActual = Math.max(0, preTarget - Number(target.hp));
+  const counterActual = Math.max(0, preCounter - Number(counterpart.hp));
+
+  // Reconcile damage_taken: performAttack credited the struck unit the full `d`;
+  // correct it to the actual split (refund the over-count, credit the counterpart).
+  if (session.damage_taken) {
+    session.damage_taken[target.id] = Math.max(
+      0,
+      (session.damage_taken[target.id] || 0) - d + targetActual,
+    );
+    session.damage_taken[counterpart.id] =
+      (session.damage_taken[counterpart.id] || 0) + counterActual;
+  }
+
+  return {
+    type: 'shared_hp_pool',
+    symbiont_id: symbiont.id,
+    partner_id: partner.id,
+    counterpart_id: counterpart.id,
+    target_actual: targetActual,
+    counter_actual: counterActual,
+    both_ko: bothKo,
+    pool_after: Math.max(0, poolAfter),
+  };
+}
+
 module.exports = {
   computeBondConfig,
   applyBondRedirect,
   applyBondedDeathGrace,
+  applySharedHpPool,
+  sharedPoolPair,
   DEFAULT_REDIRECT_PCT,
   STRONG_REDIRECT_PCT,
   SECONDARY_REDIRECT_PCT,

@@ -670,6 +670,7 @@ function createSessionRouter(options = {}) {
     let interceptResult = null;
     let bondReactionResult = null;
     let symbiontRedirectResult = null;
+    let symbiontPoolResult = null;
     let symbiontDeathGraceResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
@@ -833,26 +834,14 @@ function createSessionRouter(options = {}) {
           /* sgTracker optional */
         }
       }
+      const targetHpPreDamage = Number(target.hp); // pre-floor (V5 shared_hp_pool needs overkill)
       target.hp = Math.max(0, target.hp - damageDealt);
       if (target.hp === 0) {
         killOccurred = true;
       }
-      // Sprint α (Hard West 2 pattern): bravado AP refill su chain-kill player.
-      // Solo player (asimmetria risk/reward); cap actor.ap. Lazy require.
-      // Opt-in via BRAVADO_ENABLED=true (default OFF per back-compat con
-      // tutorial AP budget tests). Activation deferred a calibration sprint
-      // (segue pattern LOBBY_WS_ENABLED M11).
-      if (killOccurred && process.env.BRAVADO_ENABLED === 'true') {
-        try {
-          const { onKillRefill } = require('../services/combat/bravado');
-          const bravadoRes = onKillRefill(actor, target);
-          if (bravadoRes.refilled > 0) {
-            actor.bravado_refill_last = bravadoRes.refilled;
-          }
-        } catch {
-          /* bravado optional */
-        }
-      }
+      // NB Sprint α bravado AP refill MOVED to the final-killOccurred kill-hook
+      // (Codex #2542 P2): running it here granted a kill reward even when
+      // intercept/bond/shared_hp_pool later revived the target.
       // iter4 reaction engine: intercept reroute damage da target a alleato
       // adiacente con `intercept` armed. Restore target.hp + transfer to interceptor.
       if (damageDealt > 0) {
@@ -888,12 +877,80 @@ function createSessionRouter(options = {}) {
           }
         }
       }
+      // TKT-JOB-PHASEC slice V5 (capstone sy_r6_one_soul) — shared_hp_pool. The
+      // symbiont + its primary bonded partner share a combined HP pool; the hit is
+      // split equally + both KO together when the pool empties. SUPERSEDES the
+      // redirect (mutual exclusion below) and bonded_death_grace (a dead symbiont
+      // can't grace). Uses the pre-floor target HP for the both-KO check.
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+        try {
+          symbiontPoolResult = require('../services/combat/symbiontBond').applySharedHpPool(
+            session,
+            target,
+            damageDealt,
+            targetHpPreDamage,
+          );
+          if (symbiontPoolResult) {
+            // killOccurred reflects the struck target's post-split HP (both_ko sets
+            // both to 0; otherwise the target may now survive on the shared pool).
+            killOccurred = Number(target.hp) <= 0;
+            // Codex #2542 P2: the SG accrual above credited the struck unit the full
+            // hit; reconcile to the split (refund the over-count from the struck unit,
+            // credit the counterpart its actual share) so the capstone does not distort
+            // SG-economy progression. Mirrors the damage_taken reconcile in the pool.
+            try {
+              const sgT = require('../services/combat/sgTracker');
+              const overCredit = damageDealt - (symbiontPoolResult.target_actual || 0);
+              if (overCredit > 0) {
+                sgT.initUnit(target);
+                const red =
+                  1 - Math.min(0.5, Math.max(0, Number(target.stress_reduction_bonus || 0)));
+                target.sg_taken_acc = Math.max(0, target.sg_taken_acc - overCredit * red);
+              }
+              const counterpart = (session.units || []).find(
+                (u) => u && u.id === symbiontPoolResult.counterpart_id,
+              );
+              if (counterpart && (symbiontPoolResult.counter_actual || 0) > 0) {
+                sgT.accumulate(counterpart, {
+                  damage_taken: symbiontPoolResult.counter_actual,
+                });
+              }
+            } catch {
+              /* sgTracker optional */
+            }
+            if (
+              symbiontPoolResult.both_ko &&
+              !process.env.IDEA_ENGINE_DISABLE_BOND_LOG &&
+              process.env.NODE_ENV !== 'test'
+            ) {
+              try {
+                // eslint-disable-next-line no-console
+                console.info(
+                  JSON.stringify({
+                    component: 'symbiont-bond',
+                    event: 'shared_hp_pool_both_ko',
+                    session_id: session.session_id || null,
+                    turn: session.turn,
+                    symbiont_id: symbiontPoolResult.symbiont_id,
+                    partner_id: symbiontPoolResult.partner_id,
+                  }),
+                );
+              } catch {
+                /* structured log best-effort */
+              }
+            }
+          }
+        } catch {
+          /* symbiont bond optional; never break the hit */
+        }
+      }
       // TKT-JOB-PHASEC slice B4a (OQ-BOND verdict V3) — symbiont bond redirect.
       // Fires on the residual damage AFTER intercept + companion bond (one absorb
       // layer per hit: gated on !interceptResult && !bondReactionResult). Moves a
       // share of the bonded partner's damage to the symbiont (capped at its HP),
-      // restoring the partner; resets killOccurred if the partner survives.
-      if (damageDealt > 0 && !interceptResult && !bondReactionResult) {
+      // restoring the partner; resets killOccurred if the partner survives. Skipped
+      // when shared_hp_pool already handled the pair (mutual exclusion).
+      if (damageDealt > 0 && !interceptResult && !bondReactionResult && !symbiontPoolResult) {
         try {
           const symbiontBond = require('../services/combat/symbiontBond');
           symbiontRedirectResult = symbiontBond.applyBondRedirect(session, target, damageDealt);
@@ -1026,11 +1083,25 @@ function createSessionRouter(options = {}) {
           // Apply burst damage to occupant (still alive) — feeds back into HP.
           if (terrainReactionResult.burst_damage > 0 && target.hp > 0) {
             const burst = terrainReactionResult.burst_damage;
+            const preBurstHp = Number(target.hp); // pre-floor; the pool split needs the real pre-burst HP
             target.hp = Math.max(0, target.hp - burst);
             damageDealt += burst;
             session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + burst;
             if (target.hp === 0) {
               killOccurred = true;
+            }
+            // V5 shared_hp_pool (Codex #2542): the terrain burst lands AFTER the
+            // pool hook, bypassing it — re-split it too. No-op for non-pool targets.
+            try {
+              const pr = require('../services/combat/symbiontBond').applySharedHpPool(
+                session,
+                target,
+                burst,
+                preBurstHp,
+              );
+              if (pr) killOccurred = Number(target.hp) <= 0;
+            } catch {
+              /* symbiont bond optional */
             }
           }
         }
@@ -1076,6 +1147,21 @@ function createSessionRouter(options = {}) {
       // Surfaced by the debrief + consumed by grantXpToSurvivors' first_kill_pe_bonus.
       if (session._first_kill_actor_id == null) {
         session._first_kill_actor_id = actor.id;
+      }
+      // Sprint α (Hard West 2 pattern): bravado AP refill on a chain-kill. Moved
+      // here from the damage step (Codex #2542 P2) so it gates on the FINAL
+      // killOccurred — after intercept/bond/shared_hp_pool revives — and never
+      // rewards a kill the shared pool undid. Opt-in via BRAVADO_ENABLED=true.
+      if (process.env.BRAVADO_ENABLED === 'true') {
+        try {
+          const { onKillRefill } = require('../services/combat/bravado');
+          const bravadoRes = onKillRefill(actor, target);
+          if (bravadoRes.refilled > 0) {
+            actor.bravado_refill_last = bravadoRes.refilled;
+          }
+        } catch {
+          /* bravado optional */
+        }
       }
     }
 
