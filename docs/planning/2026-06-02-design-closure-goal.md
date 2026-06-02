@@ -9,18 +9,25 @@ review_cycle_days: 30
 tags: [goal, design-closure, worldgen-gap-c, reference-games, sot, style, pending-design]
 ---
 
-# GOAL di riferimento — Design Closure (+ worldgen GAP-C frontier) (2026-06-02)
+# GOAL di riferimento — Fase 1 Design-Closure → Fase 2 Costruzione (2026-06-02)
 
 > **Questo è il doc operativo linkato dal `/goal`.** Il `/goal` (≤4000 char) dà solo
 > obiettivo + vincoli minimi e punta qui. Tutto il dettaglio — canon da consultare,
 > metodo di chiusura, inventario dei buchi di design — vive in questo file.
 >
-> **Scopo del GOAL (PRIMARIO = design-closure):**
+> **GOAL in 2 FASI SEQUENZIALI:**
 >
-> 1. **Design-closure** — chiudere/decidere i **buchi di design ancora in sospeso** (H2-H9, §3) usando il
->    canon (SoT + giochi di riferimento + knowledge archive + guide di design + Style), non a intuito.
-> 2. **Build frontier (gated)** — GAP-C fase 2-4 worldgen meta-network (H1). ⚠️ **GAP-A ecosystem→spawn
->    è GIÀ SHIPPED (#2447)** — NON ricostruirlo (vedi §4 + verify-first).
+> **🅰️ FASE 1 — Design-closure (PRIMA, obbligatoria):** chiudere/decidere **TUTTI** i buchi di design
+> ancora aperti (§3: H2/H4/H6/H7/H8/H9; H1/H3/H5 già ✅ shipped) usando il **canon** (SoT + Games Source
+> Index + knowledge archive + guide + Style), non a intuito. Per ogni buco → verdetto preso (se reversibile)
+> o ratificato master-dd (se gated). **Gate Fase 1→2: nessun design aperto resta indeciso.**
+>
+> **🅱️ FASE 2 — Costruzione (DOPO la Fase 1):** costruire le feature decise, seguendo **SEMPRE le direttive
+> concordate e usate finora** (museum-first · Gate-5 engine-wired · TDD red→green · flag OFF-default ·
+> band-verify · verify-first · ADR-0011 · auto-merge L3) **+ il `docs/guide/games-source-index.md`**
+> (catalogo completo giochi-fonte + ricerche; sezione "Mappa pilastri → top-3 source per pillar" +
+> "Anti-reference") come riferimento di design per ogni feature. Build frontier candidato: **GAP-C fase 2-4**
+> (H1) + qualsiasi feature sbloccata dai verdetti di Fase 1. ⚠️ **GAP-A è GIÀ SHIPPED (#2447)** — non ricostruire.
 
 ---
 
@@ -92,7 +99,12 @@ Per OGNI buco (vedi §3), in quest'ordine:
 | **H8**    | **1-HP-tail comment**                                                                      | RATIFICATO master-dd 2026-06-02 (both-KO a pool ≤1)                                                                                                                                                                                                            | — (deciso)                                                                                | `symbiontBond.js`                                                                                                                                                          | micro: togli "pending master-dd review" dal commento                                                                                                     | 🟢 micro-cleanup                                   |
 | **H9**    | **OD residui**                                                                             | OD-022 (evo-swarm gate, implicit-accept), OD-023 (Phase-B date, probabilmente MOOT post-cutover)                                                                                                                                                               | chiudere/archiviare?                                                                      | `OPEN_DECISIONS.md` (generato — NON editare a mano; usa `generate_open_decisions.py`)                                                                                      | verifica stato + archivia i moot                                                                                                                         | 🟢 reversibile (governance)                        |
 
-> **Sequenza consigliata** (solo i buchi APERTI; H1/H3/H5 ✅ già done): reversibili-prima → **H8** (micro cleanup) → **H7** (audit Gate-5 + wire surface-gap) → **H9** (OD governance). Poi batch verdetti gated master-dd: **H2** (economy cost-gate) + **H4** (Cat F roll-tags residui) + **H6** (ecosystem-tier design-Q). **H1** (GAP-C fase-2 build, data-gate) solo dopo spec + verdetto master-dd. NB il "build primario" NON è GAP-A (già shipped #2447); il grosso del GOAL è **design-closure** (decidere, non costruire) — e diverse voci risultano già chiuse: **verify-first OGNI riga**.
+> **Sequenza mappata sulle 2 fasi** (H1/H3/H5 ✅ già done):
+>
+> - **FASE 1 — decidi (chiudi il design)**: reversibili-prima → **H8** (micro cleanup) → **H7** (audit Gate-5 + wire surface-gap) → **H9** (OD governance); poi batch verdetti gated master-dd → **H2** (economy cost-gate) + **H4** (Cat F roll-tags residui) + **H6** (ecosystem-tier design-Q). Gate→Fase 2: tutti decisi/ratificati.
+> - **FASE 2 — costruisci (post Fase 1)**: **H1** (GAP-C fase-2 build, data-gate) + le feature sbloccate dai verdetti di Fase 1, seguendo `games-source-index.md` + le direttive (Gate-5/TDD/flag-OFF/band-verify/verify-first). ⚠️ GAP-A già shipped (#2447), non ricostruire.
+>
+> NB: **verify-first OGNI riga** (5× anti-pattern #19 questa sessione — 3 "buchi" risultati già shipped).
 
 ---
 
