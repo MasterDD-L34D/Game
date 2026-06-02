@@ -15,9 +15,8 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD                                                                                                            | Titolo                         | Livello                                        | Ref      |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------ | ---------------------------------------------- | -------- |
-| [OD-023](#od-023-phase-b-execution-date-verdict--day-5-anticipato-vs-day-8-canonical-vs-adr-amendment-path-d) | Phase B execution date verdict | workflow + ADR contract gate (date-discipline) | ADR-0021 |
+| OD  | Titolo | Livello | Ref |
+| --- | ------ | ------- | --- |
 
 <!-- /gen:od-open -->
 
@@ -86,9 +85,11 @@ _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i com
 
 ---
 
-### [OD-023] Phase B execution date verdict — Day 5 anticipato vs Day 8 canonical vs ADR amendment Path D
+### [OD-023] Phase B execution date verdict — Day 5 anticipato vs Day 8 canonical vs ADR amendment Path D ✅ MOOT post-cutover 2026-06-02
 
-<!-- od id=OD-023 status=open -->
+<!-- od id=OD-023 status=resolved resolved_by="MOOT post-cutover 2026-06-02 (date window 2026-05-14 expired)" -->
+
+> **Verdict 2026-06-02 (design-closure H9): MOOT.** La finestra decisionale (Path C ORA + Path A Day 8 = 2026-05-14) e' scaduta da settimane; il cutover Godot-v2 e' canonical (tutta la saga PHASEC/D4/GAP-C e' post-cutover). La domanda "anticipare Day 5 vs attendere Day 8" e' risolta dal tempo. Il precedente date-discipline resta preservato nel museum card M-2026-05-12-001 (Path B discard) + ADR-0021. Nessuna azione residua. Reversibile (governance).
 
 - **Livello**: workflow + ADR contract gate (date-discipline)
 - **Stato**: **APERTA 2026-05-12** — user trigger phrase exact match pre-stage doc §5 invocata Day 5/8 (2026-05-12) invece target Day 7 (2026-05-14). Richiesto parere OOA + ai-station methods.

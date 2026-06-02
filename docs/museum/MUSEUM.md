@@ -48,6 +48,7 @@
 - [Tier E Quick Wins (DuckDB + SPRT + LLM critic)](cards/telemetry-duckdb-stockfish-llm-critic-quick-wins.md) — **4/5** · P6 ops bundle ~10-15h, Pathfinder XP shipped #1894 · unintegrated
 - [NS2 Strategist + Frozen Synapse Replay](cards/coop-ns2-frozen-synapse-replay-asymmetric.md) — **4/5** · P5 replay cinematico + 5p+ asymmetric · unintegrated
 - [Coop WS Test Infra Patterns](cards/coop-ws-test-infra-patterns-2026-05-20.md) — **5/5** · 6 pattern riusabili per disconnect-race + host-transfer e2e · unintegrated
+- [GAP-C fase-3/4 build-vs-gate discard](cards/worldgen-gapc-fase3-4-autonomous-build-discard.md) — **4/5** · P5 worldgen routing UI/grammar gated POST-MVP, reuse on flag-ON · curated
 
 ---
 
