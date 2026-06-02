@@ -102,7 +102,7 @@ Per OGNI buco (vedi §3), in quest'ordine:
 
 > **Sequenza mappata sulle 2 fasi** (H1/H3/H5 ✅ già done):
 >
-> - **FASE 1 — decidi (chiudi il design)**: reversibili-prima → **H8** (micro cleanup) → **H7** (audit Gate-5 + wire surface-gap) → **H9** (OD governance); poi batch verdetti gated master-dd → **H2** (economy cost-gate) + **H4** (Cat F roll-tags residui) + **H6** (ecosystem-tier design-Q). Gate→Fase 2: tutti decisi/ratificati.
+> - **FASE 1 — decidi (chiudi il design)**: reversibili-prima → **H8** (micro cleanup) → **H7** (audit Gate-5 + wire surface-gap) → **H9** (OD governance); poi batch verdetti gated master-dd → **H2** (economy cost-gate, verdetto) + **H4** (verifica coverage esatta) + **DECISIONE H1** (GAP-C fase-3/4 build-vs-gate). Gate→Fase 2: tutti decisi/ratificati.
 > - **FASE 2 — costruisci (post Fase 1)**: **H1** (GAP-C fase-2 build, data-gate) + le feature sbloccate dai verdetti di Fase 1, seguendo `games-source-index.md` + le direttive (Gate-5/TDD/flag-OFF/band-verify/verify-first). ⚠️ GAP-A già shipped (#2447), non ricostruire.
 >
 > NB: **verify-first OGNI riga** (5× anti-pattern #19 questa sessione — 3 "buchi" risultati già shipped).
@@ -134,7 +134,7 @@ Per OGNI buco (vedi §3), in quest'ordine:
 
 ## §6 — STOP conditions (chiedi, non auto-decidere)
 
-- Verdetto design/balance su H1/H2/H3/H4/H5/H6 (gated master-dd).
+- Verdetto design/balance su **H2** + sul residuo **H1** (GAP-C fase-3/4) — gated master-dd. (H3/H5/H6 già chiusi ✅.)
 - Flag GAP-A ON in produzione (decisione master-dd).
 - Nuovo dep oltre l'esistente; schema/migration; forbidden path.
 - Band-verify fuori banda ostinato dopo tuning (L-069).
@@ -146,7 +146,7 @@ Per OGNI buco (vedi §3), in quest'ordine:
 
 1. Un **design-closure report** (`docs/reports/YYYY-MM-DD-design-closure.md`) con, per ogni buco lavorato:
    verdetto + citazione canon (SoT/gioco/ADR) + stato (deciso reversibile / pending master-dd / shipped).
-2. PR per i fix reversibili (H7 wire, H8 cleanup, H9 governance) + spec/brainstorm doc per i gated (H1/H2/H3/H4/H5/H6).
+2. PR per i fix reversibili (H7 wire, H8 cleanup, H9 governance) + spec/brainstorm doc per i gated (**H2** + residuo **H1** GAP-C).
 3. Museum card per ogni idea scartata (additive-only, `repo-archaeologist`).
 4. Memory update (`MEMORY.md` + `project_*`) + handoff a fine sessione.
 
