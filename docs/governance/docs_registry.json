@@ -8447,6 +8447,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/playtest/2026-06-02-full-loop-band-report.md",
+      "title": "Full-loop meta band-metrics - N=40 baseline (fase-2c)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-02",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
