@@ -140,3 +140,16 @@ test('player_classes resistance_archetype values ∈ known archetypes', () => {
     );
   }
 });
+
+test('wound_location_weights (OD-058 D2) present + matches woundSystem.DEFAULT_LOCATION_WEIGHTS', () => {
+  const data = loadCurves();
+  const woundSystem = require(
+    path.join(REPO_ROOT, 'apps', 'backend', 'services', 'combat', 'woundSystem'),
+  );
+  const w = data.wound_location_weights;
+  assert.ok(w && typeof w === 'object', 'missing wound_location_weights section');
+  // SPEC-D2 §4: torso heaviest (large target), testa lightest (hard/critical hit).
+  assert.ok(w.torso > w.testa, 'torso weight must exceed testa');
+  // Drift guard: YAML data-of-record must equal the in-code default/fallback.
+  assert.deepEqual(w, woundSystem.DEFAULT_LOCATION_WEIGHTS);
+});

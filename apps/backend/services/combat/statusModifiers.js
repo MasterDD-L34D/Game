@@ -83,6 +83,13 @@ function normalizeBleedingFractureSeverity(value) {
  */
 function computeWoundedPermaAttackPenalty(unit) {
   const status = (unit && unit.status) || {};
+  // OD-058 D2 double-apply guard: the location-based woundSystem (unit.status.wounds)
+  // supersedes this legacy wounded_perma attack penalty. When the new model carries any
+  // wound, yield here so attack_mod is NOT penalized by BOTH systems. (Zero current
+  // behavior change: nothing populates unit.status.wounds until the D2 live cutover PR.)
+  if (Array.isArray(status.wounds) && status.wounds.length > 0) {
+    return { penalty: 0, severity: 'light', active: false, superseded: true };
+  }
   const wp = status.wounded_perma;
   if (!wp || typeof wp !== 'object') {
     return { penalty: 0, severity: 'light', active: false };
