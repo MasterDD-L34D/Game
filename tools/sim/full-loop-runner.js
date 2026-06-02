@@ -179,7 +179,7 @@ async function runFullLoop(http, opts = {}) {
       // Nido economy + breeding seams (fase-1b-3b): earn affinity/trust -> recruit via
       // the canonical gate (no bypass) + roll a mating offspring. Default-store NPCs,
       // separate from the combat-recruit; offspring not resolved into combat (deferred).
-      const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands' });
+      const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands', runId: id });
       economyRecruited.push(...econ.earnedRecruits);
       offspring += econ.offspring;
       if (econ.affinityProven) economyAffinityProven = true;

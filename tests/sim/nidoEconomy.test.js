@@ -31,8 +31,8 @@ function fakeHttp() {
 
 test('applyNidoEconomy: earns the canonical gate + recruits no-bypass (economy proven)', async () => {
   const http = fakeHttp();
-  const out = await applyNidoEconomy(http, { step: 1, biomeId: 'badlands' });
-  assert.deepEqual(out.earnedRecruits, ['courtship_s1']);
+  const out = await applyNidoEconomy(http, { step: 1, biomeId: 'badlands', runId: 'run_x' });
+  assert.deepEqual(out.earnedRecruits, ['courtship_run_x_s1']);
   assert.equal(
     out.affinityProven,
     true,
@@ -48,11 +48,11 @@ test('applyNidoEconomy: earns the canonical gate + recruits no-bypass (economy p
 
 test('applyNidoEconomy: rolls a mating from step 2 (offspring counted, correct parents)', async () => {
   const http = fakeHttp();
-  const out = await applyNidoEconomy(http, { step: 2, biomeId: 'badlands' });
+  const out = await applyNidoEconomy(http, { step: 2, biomeId: 'badlands', runId: 'run_x' });
   assert.equal(out.offspring, 1, 'one offspring rolled');
   const mating = http.calls.find((c) => c.path === '/api/meta/mating/roll');
-  assert.deepEqual(mating.body.parent_a, { id: 'courtship_s1' });
-  assert.deepEqual(mating.body.parent_b, { id: 'courtship_s2' });
+  assert.deepEqual(mating.body.parent_a, { id: 'courtship_run_x_s1' });
+  assert.deepEqual(mating.body.parent_b, { id: 'courtship_run_x_s2' });
   assert.equal(mating.body.biome_id, 'badlands');
 });
 

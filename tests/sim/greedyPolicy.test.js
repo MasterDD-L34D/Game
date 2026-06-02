@@ -44,3 +44,16 @@ test('chooseMating: no pair before step 2, distinct courtship parents from step 
   assert.deepEqual(m, { parentA: 'courtship_s2', parentB: 'courtship_s3' });
   assert.notEqual(m.parentA, m.parentB);
 });
+
+test('chooseCourtship/chooseMating: runId scopes ids per run (no cross-run collision, Codex #2566 P2)', () => {
+  assert.equal(chooseCourtship({ step: 1, runId: 'r1' }).npcId, 'courtship_r1_s1');
+  // distinct runIds -> distinct courtship ids on the shared default meta store.
+  assert.notEqual(
+    chooseCourtship({ step: 1, runId: 'a' }).npcId,
+    chooseCourtship({ step: 1, runId: 'b' }).npcId,
+  );
+  assert.deepEqual(chooseMating({ step: 3, runId: 'r1' }), {
+    parentA: 'courtship_r1_s2',
+    parentB: 'courtship_r1_s3',
+  });
+});

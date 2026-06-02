@@ -211,3 +211,42 @@ test('runFullLoop: does NOT recruit on the campaign-completing chapter (Codex #2
   assert.deepEqual(res.recruited, [], 'no recruit on the completing chapter');
   assert.ok(!calls.includes('/api/meta/recruit'), 'meta/recruit not called on completion');
 });
+
+test('runFullLoop: repeated runs on one app do not collide on courtship ids (Codex #2566 P2)', async (t) => {
+  // The Nido economy courtship NPCs live on the default meta store (no campaign_id).
+  // With fixed ids, a second run on the same app would find them already-recruited
+  // (gate_not_met) -> economyRecruited 0 + metaViolations. Courtship ids must be scoped
+  // per run (campaign id) so a batch of full-loop sims on one process stays clean.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const run = (playerId, seed) =>
+    runFullLoop(http, {
+      playerId,
+      roster: starterRoster(),
+      branchKey: 'cave_path',
+      seed,
+      maxChapters: 15,
+    });
+
+  const r1 = await run('fl_batch1', 'b1');
+  const r2 = await run('fl_batch2', 'b2');
+
+  for (const [label, r] of [
+    ['run1', r1],
+    ['run2', r2],
+  ]) {
+    assert.deepEqual(
+      r.metaViolations,
+      [],
+      `${label} meta violations: ${JSON.stringify(r.metaViolations)}`,
+    );
+    assert.ok(
+      r.economyRecruited.length >= 1,
+      `${label} earned-recruit survives repeated runs, got ${r.economyRecruited.length}`,
+    );
+    assert.ok(r.offspring >= 1, `${label} offspring rolled, got ${r.offspring}`);
+  }
+});
