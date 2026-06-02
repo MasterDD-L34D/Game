@@ -11,21 +11,75 @@ tags: [economy, cost-gate, pp-pool, pt-pool, phasec, pending-design, balance]
 
 # Economy cost-gate follow-up — PP/PT pool model
 
-> Follow-up del verdetto master-dd 2026-06-02 su H2 (`= option C hybrid`). Lo **SG
-> cost-gate e' SHIPPED** (vedi sotto); **PP/PT restano decorativi** perche' gatearli
-> richiede prima di costruire un pool-model + earn-curve = leve di **balance** che,
-> essendo band-neutral (nessuna sim usa queste ability), **non sono validabili via
-> band-verify** -> verdetto numerico master-dd. Estende la spec `2026-06-01-phasec-economy-cost-gate.md`.
+> Follow-up del verdetto master-dd 2026-06-02 su H2 (`= option C hybrid`). Estende la spec
+> `2026-06-01-phasec-economy-cost-gate.md`.
+>
+> **STATO FINALE: SG (#2554) + PP (#2555) + PT (#2557) cost-gate TUTTI SHIPPED.** La framing originale
+> qui sotto ("PP/PT restano decorativi / earn-curve = leva balance non validabile -> verdetto master-dd")
+> e' **SUPERSEDED** dalle 2 UPDATE qui sotto: le earn-curve PP/PT erano GIA canon in `26-ECONOMY` (non
+> balance-pending) — vedi lezione currency-gate. Le sezioni storiche restano per provenance, ma leggi le
+> UPDATE + il verdetto rescale come stato corrente.
 
 > **UPDATE 2026-06-02 (master-dd ha accordato autonomia di scelta su evidenza): PP cost-gate SHIPPED.**
 > Il SoT `26-ECONOMY` GIA fissa l'earn PP (+1 crit, +1 kill) e "Ultimate = 3 PP consume all" -> NON era
 > un verdetto balance ma canon-compliance. Wired: `ppTracker` (POOL_MAX 3) + earn in `session.js`
 > performAttack (crit/kill) + gate consume-all in `executeAbility` (tutti i cost_pp 4-12 > 3 ->
 > consume-all, NO rescale) + `initial_pp` seed (mirror initial_sg). Band-neutral (AI non decide su pp;
-> ability assenti dalle sim) -> AI 500/500. **Solo PT resta deferito** (pool spendibile NON wired +
-> costi gia coerenti <=12 + ruolo canonico = manovre, non ancora costruite). NOTA: i cost_pp rank-2
-> (blade_flurry 6 / resonance 4 / kill_shot 6 / deathmark 4) sono consume-all per cost-threshold; set
-> `cost_pp <= 3` per-ability se master-dd li vuole numerici (reversibile, come cataclysm).
+> ability assenti dalle sim) -> AI 500/500.
+
+> **UPDATE 2026-06-02 (autonomia su evidenza): PT cost-gate + pool SHIPPED (#2557).** Stesso
+> currency-gate del PP: il SoT `26-ECONOMY §PT` GIA fissa pool 0..12 + reset per-round + earn
+> `nat15-19 +1 / nat20 +2 / +5 MoS +1` -> NON era balance-pending ma canon-compliance (la framing
+> "PT deferito / earn-curve = leva balance" qui sotto era SBAGLIATA: stessa lezione del PP). Il PT roll
+> si calcolava gia ma alimentava SOLO il danno (`1+pt`); ora alimenta ANCHE un pool spendibile
+> (super-meter: un colpo costruisce meter mentre infligge danno, danno INTOCCATO -> band-neutral).
+> Wired: `ptTracker` (POOL_MAX 12, resetRound) + earn in `performAttack` + gate numerico in
+> `executeAbility` (cost_pt 3..10 tutti <= 12 -> deduct esatto, NO rescale) + `initial_pt` seed +
+> surface `pt` in `publicSessionView` (Gate-5) + reset per-round ai due round-boundary. AI 500/500,
+> ptTracker 8 + ptCostGate 6 + ptEconomyWire 4. **Manovre** (perforazione/spinte/condizioni/combo)
+> deferite (non ancora azioni discrete). **Rescale rank-2 -> vedi verdetto sotto.**
+
+## Rescale rank-2 -> numerico — VERDETTO 2026-06-02 (autonomia su evidenza): KEEP consume-all
+
+Domanda residua (handoff `2026-06-02-h2-economy-handoff.md` §2): le ability rank-2 con costo gonfiato
+(cataclysm `cost_sg 75`; PP rank-2 blade_flurry 6 / resonance_amplifier 4 / kill_shot 6 / deathmark 4)
+oggi sono **consume-all per cost-threshold**. Vanno rescalate a numerico (`cost <= pool`)?
+
+**Verify-first (catalogo completo, currency-gate = leggi il SoT INTERO):**
+
+- **PP** (pool max 3): TUTTI i cost_pp del catalogo sono 4..12 (blade_flurry 6, resonance 4, kill_shot 6,
+  deathmark 4, phantom_step 5, arcane_renewal 5, hunter_mark 5, shadow_mark 5, dervish_whirlwind 10,
+  convergence_wave 10, headshot 12, shadow_assassinate 10). **ZERO cost_pp <= 3.** Il SoT `26-ECONOMY §PP`
+  dice **solo** "Ultimate = 3 PP consume all" — **non esiste un modello di spesa PP numerico in canon.**
+  Rescalare i rank-2 PP a `<=3` **INVENTEREBBE** una spesa PP sub-ultimate non canonica.
+  -> **Anti-canon. KEEP consume-all** (non e' una leva balance: e' canon-compliance).
+- **SG** (pool max 3): modello GIA MISTO — `synaptic_burst 2` + `aberrant_overdrive 3` sono **numerici**
+  (<= pool); `cataclysm 75` / `arcane_lance 40` / `apocalypse_ray 100` sono **consume-all** (ultimate-tier:
+  surge_aoe AoE + stress_reset). I valori gonfiati leggono come sentinella "ultimate -> scarica il gauge"
+  (intento autoriale, 26-ECONOMY "Ultimate = consume all"). Rescalare cataclysm a `<=3` lo trasformerebbe
+  da **ultimate AoE** a **AoE ripetibile economico** = cambio di **identita'** dell'ability.
+  -> **KEEP consume-all** (raccomandato). MA: a differenza del PP, SG **supporta** il numerico (precedente
+  synaptic/aberrant) -> il rescale di cataclysm e' una **leva reversibile master-dd** (non anti-canon).
+
+**Decisione (band-neutral, reversibile):** **NESSUN rescale.** PP resta consume-all (canon-mandato);
+gli ultimate SG (cataclysm/arcane_lance/apocalypse_ray) restano consume-all (intento + modello-misto
+gia coerente). L'opzione "rescale ultimate -> numerico" e' **preservata come leva master-dd** con i valori
+pronti, NON scartata per sempre -> museum card `M-2026-06-02-002`
+(`docs/museum/cards/economy-rescale-ultimates-numeric-discard.md`).
+
+**Se master-dd vuole il numerico** (override reversibile, 1 valore-dato per ability, nessun codice):
+
+| Ability (rank-2)    | Pool | Oggi (consume-all) | Numerico proposto |
+| ------------------- | :--: | -----------------: | ----------------: |
+| cataclysm           |  SG  |                 75 |          3 (≤cap) |
+| blade_flurry        |  PP  |                  6 |    2 (anti-canon) |
+| resonance_amplifier |  PP  |                  4 |    2 (anti-canon) |
+| kill_shot           |  PP  |                  6 |    2 (anti-canon) |
+| deathmark           |  PP  |                  4 |    2 (anti-canon) |
+
+> Nota: i valori PP-numerici sono elencati per completezza ma **sconsigliati** (anti-canon). Solo
+> cataclysm-numerico e' una leva legittima (SG mixed-model). Il gate-engine non cambia: abbassare il
+> dato sotto `pool` flippa automaticamente quell'ability da consume-all a numerico.
 
 ## Stato (questo PR) -- SG cost-gate SHIPPED
 
@@ -43,7 +97,11 @@ Implementato in `abilityExecutor.executeAbility` (option C, master-dd 2026-06-02
 - ⚠️ **NB cataclysm** e' `rank: 2` per label ma `cost_sg: 75` (ultimate-tier) -> trattato consume-all dal
   cost-threshold. Se master-dd lo vuole numerico, set `cost_sg <= 3` nel dato.
 
-## Residuo gated -- PP/PT (verdetto numerico master-dd)
+## Residuo gated -- PP/PT (verdetto numerico master-dd) — SUPERSEDED (PP #2555 + PT #2557 shipped)
+
+> ⚠️ **SUPERSEDED 2026-06-02**: questa sezione (PP/PT "non gatabili senza verdetto balance") era
+> SBAGLIATA — le earn-curve erano canon. PP e PT sono ora SHIPPED (vedi UPDATE in cima). Conservata
+> sotto per provenance / lezione currency-gate.
 
 ### Perche' NON e' stato gatato ora
 
