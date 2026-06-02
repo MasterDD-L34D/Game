@@ -15,6 +15,7 @@ const { runEncounter } = require('./combat-adapter');
 const { checkInvariants } = require('./full-loop-invariants');
 const greedyPolicy = require('./greedy-policy');
 const { resolveRecruitUnit } = require('./recruit-resolver');
+const { applyNidoEconomy } = require('./nido-economy');
 
 // Nido meta-step on a cleared chapter: the greedy policy recruits NPCs via the meta
 // seam (POST /api/meta/recruit, affinity_at_recruit bypass -> getOrCreate NPC), then
@@ -113,6 +114,11 @@ async function runFullLoop(http, opts = {}) {
   const violations = [];
   const recruited = [];
   const metaViolations = [];
+  // fase-1b-3b Nido economy + breeding (separate from the combat-recruit above):
+  // earned-affinity recruits + mating offspring, proving those seams are AI-played.
+  const economyRecruited = [];
+  let offspring = 0;
+  let economyAffinityProven = false;
   let completed = false;
 
   for (let step = 1; step <= maxChapters; step += 1) {
@@ -169,6 +175,15 @@ async function runFullLoop(http, opts = {}) {
         knownIds.push(u.id);
       }
       if (meta.failures.length) metaViolations.push({ step, failures: meta.failures });
+
+      // Nido economy + breeding seams (fase-1b-3b): earn affinity/trust -> recruit via
+      // the canonical gate (no bypass) + roll a mating offspring. Default-store NPCs,
+      // separate from the combat-recruit; offspring not resolved into combat (deferred).
+      const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands', runId: id });
+      economyRecruited.push(...econ.earnedRecruits);
+      offspring += econ.offspring;
+      if (econ.affinityProven) economyAffinityProven = true;
+      if (econ.failures.length) metaViolations.push({ step, econ: econ.failures });
     }
 
     if (adv.body && adv.body.choice_required) {
@@ -181,7 +196,17 @@ async function runFullLoop(http, opts = {}) {
     if (adv.status !== 200) break;
   }
 
-  return { completed, chapters, violations, finalRoster: aliveIds, recruited, metaViolations };
+  return {
+    completed,
+    chapters,
+    violations,
+    finalRoster: aliveIds,
+    recruited,
+    metaViolations,
+    economyRecruited,
+    offspring,
+    economyAffinityProven,
+  };
 }
 
 module.exports = { runFullLoop, enemiesForChapter };
