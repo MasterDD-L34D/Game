@@ -242,3 +242,34 @@ test('runBatch: provenance records the hermetic env flags (Codex #2570 P2)', asy
   assert.ok('IDEA_ENGINE_DISABLE_STATUS_REFRESH' in f, 'status-refresh flag recorded');
   assert.ok('META_NETWORK_ROUTING' in f, 'routing flag still recorded');
 });
+
+const ROUTING_FIXTURE = {
+  enabled: true,
+  start: 'BADLANDS',
+  runs: [
+    {
+      start: 'BADLANDS',
+      season: null,
+      terminalReason: 'all_cleared',
+      coverage: { nodes_visited: 4, reasons: ['eligible', 'filtered', 'all_cleared'] },
+    },
+  ],
+};
+
+test('buildSummary: includes routing coverage when provided (fase-2c routing wiring)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 }, ROUTING_FIXTURE);
+  assert.deepEqual(s.routing, ROUTING_FIXTURE);
+});
+
+test('buildSummary: omits routing when absent (flag off)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 });
+  assert.equal(s.routing, undefined);
+});
+
+test('buildReport: renders a routing-coverage section when present (closes Finding 4)', () => {
+  const s = buildSummary([synthRun()], { runs: 1 }, ROUTING_FIXTURE);
+  const md = buildReport(s);
+  assert.match(md, /META_NETWORK_ROUTING|routing coverage/i);
+  assert.ok(md.includes('BADLANDS'), 'names the traversed node');
+  assert.ok(md.includes('all_cleared'), 'shows the terminal reason');
+});
