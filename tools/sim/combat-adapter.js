@@ -14,7 +14,10 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
   const startBody = {
     units: [...(roster || []), ...(enemies || [])],
     scenario_id: scenarioId,
-    ...(seed ? { run_seed: seed } : {}),
+    // /api/session/start seeds the per-session deterministic RNG from `seed`
+    // (session.js:1637), NOT `run_seed` (that is the co-op WS world_confirm field).
+    // Codex #2561 P2 — sending `seed` makes full-loop encounters replayable.
+    ...(seed !== undefined && seed !== null && seed !== '' ? { seed } : {}),
   };
   const start = await http.post('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
@@ -53,11 +56,24 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
     }
-    await http.post('/api/session/action', {
+    // Codex #2561 P2 — map the policy action to the /api/session/action wire
+    // protocol: a move's destination field is `position` (session.js:2310-2319),
+    // while the shared policy emits it as `target_position`. attack stays as-is.
+    const wire =
+      action.action_type === 'move'
+        ? { action_type: 'move', position: action.target_position }
+        : action;
+    const act = await http.post('/api/session/action', {
       session_id: sessionId,
       actor_id: active.id,
-      ...action,
+      ...wire,
     });
+    // Codex #2561 P2 — if the action did not resolve (out of AP / blocked / 400),
+    // end the unit's turn so the loop advances instead of polling the same state
+    // forever (a move that can't complete would otherwise stick until maxRounds).
+    if (!act || act.status < 200 || act.status >= 300) {
+      await http.post('/api/session/turn/end', { session_id: sessionId });
+    }
   }
 
   const survivorIds = lastUnits

@@ -90,10 +90,9 @@ test('combatAdapter.runEncounter: uses the injected roster + returns a real outc
     maxRounds: 40,
   });
 
-  assert.ok(
-    ['victory', 'defeat', 'timeout'].includes(res.outcome),
-    `real outcome, got ${res.outcome}`,
-  );
+  // The roster moves into range (move action wired to `position`, Codex P2) and
+  // kills the weak enemy → victory, proving end-to-end combat actually works.
+  assert.equal(res.outcome, 'victory', `expected victory, got ${res.outcome}`);
   // Invariant #6 — roster identity: the combat's player ids == the injected roster ids.
   assert.deepEqual([...res.rosterIds].sort(), ['camp_a', 'camp_b']);
   // No foreign player ids (e.g. no hardcoded Skiv/AiChar leaked in).
@@ -102,4 +101,25 @@ test('combatAdapter.runEncounter: uses the injected roster + returns a real outc
     'survivors are roster members',
   );
   assert.ok(res.rounds >= 1 && res.rounds <= 40);
+});
+
+test('combatAdapter.runEncounter: a fixed seed replays deterministically (Codex #2561 P2)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const opts = {
+    roster: roster(),
+    enemies: enemies(),
+    scenarioId: 'full_loop_test',
+    seed: 'det-1',
+    maxRounds: 40,
+  };
+  const a = await runEncounter(http, opts);
+  const b = await runEncounter(http, opts);
+  // Same seed → identical outcome + step count (the `seed` field really reaches
+  // the per-session RNG; before the fix it was sent as `run_seed` and ignored).
+  assert.equal(a.outcome, b.outcome);
+  assert.equal(a.rounds, b.rounds);
 });
