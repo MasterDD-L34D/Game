@@ -1,55 +1,64 @@
 'use strict';
-// Full-loop AI-playtest runner — MVP fase-1b-1. Makes the AI play the WHOLE loop
-// end-to-end: a campaign chain where each chapter's combat is REALLY played (not a
-// faked `outcome:'victory'` stamp like campaignIntegration.test.js), the real
-// outcome feeds /campaign/advance, branch nodes are chosen, and survivors carry
-// across chapters (attrition). Per-step integration invariants are checked.
+// Full-loop AI-playtest runner. Makes the AI play the WHOLE loop end-to-end: a
+// campaign chain where each chapter's combat is REALLY played (not a faked
+// `outcome:'victory'` stamp), the real outcome feeds /campaign/advance, branch nodes
+// are chosen, survivors carry across chapters (attrition), and a cleared chapter
+// recruits an NPC into the Nido (fase-1b-2) that then FIGHTS the next mission as a
+// faithful, canon-derived unit (fase-1b-3a). Per-step integration invariants checked.
 //
-// Scope (fase-1b-1): the campaign+combat JOIN under AI-play + invariants. The Nido
-// meta-step (recruit/mating/affinity) + scaled-enemy balance bands = fase-1b-2/fase-2.
-// Enemies here are a weak deterministic set so the loop progresses to completion
-// (the value is the integration, not the difficulty curve).
+// Scope: the campaign + combat + Nido-recruit JOIN under AI-play + invariants. Enemies
+// here are a weak deterministic set so the loop progresses to completion (the value is
+// the integration; scaled-enemy balance bands + mating/affinity = fase-1b-3b/fase-2).
 
 const driver = require('./campaign-driver');
 const { runEncounter } = require('./combat-adapter');
 const { checkInvariants } = require('./full-loop-invariants');
 const greedyPolicy = require('./greedy-policy');
+const { resolveRecruitUnit } = require('./recruit-resolver');
 
-// Nido meta-step (fase-1b-2): after a cleared chapter the greedy policy recruits
-// NPCs via the meta seam (POST /api/meta/recruit, affinity_at_recruit bypass ->
-// getOrCreate NPC, gate satisfied). Recruits land in party_rosters (Nido); feeding
-// the recruit back into combat (stat-resolution) is fase-2. Returns recruited ids +
-// failures so the runner can assert the Nido seam was really exercised.
-async function applyMetaStep(http, { id, step }) {
+// Nido meta-step on a cleared chapter: the greedy policy recruits NPCs via the meta
+// seam (POST /api/meta/recruit, affinity_at_recruit bypass -> getOrCreate NPC), then
+// each recruit is resolved to a battle-ready PLAYER unit (recruit-resolver, faithful
+// canonical stats) so it can join combat next mission (attrition replacement). Returns
+// recruited ids + the resolved combat units + failures.
+async function applyMetaStep(http, { id, step, rosterSize = 0 }) {
   const recruited = [];
+  const units = [];
   const failures = [];
-  for (const npcId of greedyPolicy.chooseRecruits({ step })) {
+  const picks = greedyPolicy.chooseRecruits({ step });
+  for (let i = 0; i < picks.length; i += 1) {
+    const { npcId, speciesId } = picks[i];
     const r = await http.post('/api/meta/recruit', {
       npc_id: npcId,
+      species_id: speciesId,
       affinity_at_recruit: 1,
       campaign_id: id,
     });
     // Count a recruit only when the metaProgression store actually marked the NPC
-    // `recruited:true` (the canonical, DB-INDEPENDENT recruit state set in-memory),
-    // not merely a 200 (Codex #2563 P2): the `party_rosters` upsert in meta.js is
-    // best-effort/DB-dependent, so a 200 with a no-op roster write would otherwise
-    // false-green. This tracks the recruit MECHANIC (affinity->trust->recruited),
-    // not the party_rosters persistence layer (out of scope for the option-a seam).
+    // `recruited:true` (the canonical, DB-INDEPENDENT recruit state), not merely a 200
+    // (Codex #2563 P2): the party_rosters upsert is best-effort/DB-dependent.
     const recruitedOk =
       r.status === 200 &&
       r.body &&
       r.body.success === true &&
       r.body.npc &&
       r.body.npc.recruited === true;
-    if (recruitedOk) recruited.push(npcId);
-    else failures.push({ npcId, status: r.status, success: r.body && r.body.success });
+    if (recruitedOk) {
+      recruited.push(npcId);
+      // Recruits line up in column x:2 (starters/enemies use x:1), distinct rows, so a
+      // growing roster never overlaps a starting position.
+      const position = { x: 2, y: ((rosterSize + i) % 8) + 1 };
+      units.push(resolveRecruitUnit({ npcId, speciesId, position }));
+    } else {
+      failures.push({ npcId, status: r.status, success: r.body && r.body.success });
+    }
   }
-  return { recruited, failures };
+  return { recruited, units, failures };
 }
 
 // Fresh per-mission copy of the alive roster: full HP + cleared status, original
-// positions (each combat is a new session; survivors persist across missions, hp
-// is restored between missions — typical campaign convention).
+// positions (each combat is a new session; survivors persist across missions, hp is
+// restored between missions -- typical campaign convention).
 function freshRoster(roster, aliveIds) {
   return roster
     .filter((u) => aliveIds.includes(u.id))
@@ -77,11 +86,15 @@ function enemiesForChapter(step) {
   ];
 }
 
-async function runFullLoop(
-  http,
-  { playerId, roster, branchKey = 'cave_path', seed, peEarned = 3, maxChapters = 15 } = {},
-) {
-  const sourceRosterIds = (roster || []).map((u) => u.id);
+async function runFullLoop(http, opts = {}) {
+  const { playerId, branchKey = 'cave_path', seed, peEarned = 3, maxChapters = 15 } = opts;
+  // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
+  // faithful combat unit per cleared chapter. knownIds is the matching id universe so a
+  // recruited survivor is never flagged as a "foreign" combatant by the identity
+  // invariant (starters U recruited-so-far).
+  const roster = [...(opts.roster || [])];
+  const knownIds = roster.map((u) => u.id);
+
   const startRes = await driver.start(http, { playerId });
   if (startRes.status !== 201) {
     return {
@@ -89,11 +102,13 @@ async function runFullLoop(
       chapters: [],
       violations: [{ step: 0, v: [`start status ${startRes.status} != 201`] }],
       finalRoster: [],
+      recruited: [],
+      metaViolations: [],
     };
   }
   const id = startRes.body.campaign.id;
 
-  let aliveIds = [...sourceRosterIds];
+  let aliveIds = [...knownIds];
   const chapters = [];
   const violations = [];
   const recruited = [];
@@ -127,19 +142,28 @@ async function runFullLoop(
       outcome: combat.outcome,
       peEarned,
       survivors: aliveIds,
-      sourceRosterIds,
+      sourceRosterIds: knownIds,
     });
     if (v.length) violations.push({ step, v });
-    chapters.push({ step, encounter: enc, outcome: combat.outcome, survivors: aliveIds.length });
+    chapters.push({
+      step,
+      encounter: enc,
+      outcome: combat.outcome,
+      survivors: aliveIds.length,
+      rosterIds: combat.rosterIds,
+    });
 
-    // Nido meta-step on a TRULY cleared chapter (recruit). Gated on a 200 advance
-    // (Codex #2563 P2): if combat won but /campaign/advance rejected the chapter
-    // (409 finalized / 500 missing def / race), the campaign did NOT clear it, so
-    // we must NOT mutate Nido/meta state for it. Additive otherwise; failures ->
-    // metaViolations.
+    // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
+    // not just victory). Recruited units join the roster + alive pool so they fight the
+    // next mission -- the recruit -> combat feedback loop closed.
     if (adv.status === 200 && combat.outcome === 'victory') {
-      const meta = await applyMetaStep(http, { id, step });
+      const meta = await applyMetaStep(http, { id, step, rosterSize: roster.length });
       recruited.push(...meta.recruited);
+      for (const u of meta.units) {
+        roster.push(u);
+        aliveIds.push(u.id);
+        knownIds.push(u.id);
+      }
       if (meta.failures.length) metaViolations.push({ step, failures: meta.failures });
     }
 

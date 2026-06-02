@@ -87,6 +87,16 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     [],
     `no meta violations: ${JSON.stringify(res.metaViolations)}`,
   );
+  // fase-1b-3a recruit -> combat: a unit recruited on a cleared chapter is resolved to
+  // a faithful canon-derived player unit and JOINS the next mission's combat roster
+  // (attrition replacement). Assert recruit_s1 (recruited after chapter 1) actually
+  // fought a later chapter -> the recruit -> combat feedback loop is closed.
+  assert.ok(
+    res.chapters.slice(1).some((c) => (c.rosterIds || []).includes('recruit_s1')),
+    `a recruited unit fought a later chapter; chapters=${JSON.stringify(
+      res.chapters.map((c) => ({ step: c.step, rosterIds: c.rosterIds })),
+    )}`,
+  );
 });
 
 test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory chapter (Codex #2563 P2)', async () => {
