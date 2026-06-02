@@ -1,0 +1,164 @@
+'use strict';
+// fase-2b meta-band-aggregator: pure aggregation of N full-loop run-results into the 5
+// meta band-metrics (spec §7) + placement vs the PROVISIONAL ranges. Tested on synthetic
+// run-results so each metric + in-band flag is asserted exactly; the real-run wiring is
+// covered by the fullLoopBatch integration test.
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { aggregate, PROVISIONAL_BANDS } = require('../../tools/sim/meta-band-aggregator');
+
+// Minimal full-loop run-result shaped like runFullLoop's return, with only the fields the
+// aggregator reads. `chapters` carry per-chapter build-power (xpGranted + mpEarned).
+function synthRun(o = {}) {
+  const chapters = o.chapters || [
+    { outcome: 'victory', xpGranted: 12, mpEarned: 2 },
+    { outcome: 'victory', xpGranted: 12, mpEarned: 2 },
+    { outcome: 'victory', xpGranted: 12, mpEarned: 2 },
+  ];
+  return {
+    completed: o.completed ?? true,
+    chapters,
+    finalRoster: o.finalRoster ?? ['a', 'b'],
+    recruited: o.recruited ?? ['r1', 'r2'],
+    economyRecruited: o.economyRecruited ?? ['e1'],
+    offspring: o.offspring ?? 1,
+    economyAffinityProven: o.economyAffinityProven ?? true,
+    initialRosterSize: o.initialRosterSize ?? 4,
+    economy: o.economy || {
+      peEarnedTotal: 9,
+      xpGrantedTotal: 36,
+      mpEarnedTotal: 6,
+      piSpentTotal: 0,
+    },
+  };
+}
+
+test('aggregate: completion_rate = completed/N, in-band at 0.40-0.70', () => {
+  // 2 of 4 completed -> 0.50, inside the provisional 0.40-0.70 band.
+  const runs = [
+    synthRun(),
+    synthRun(),
+    synthRun({ completed: false }),
+    synthRun({ completed: false }),
+  ];
+  const r = aggregate(runs);
+  assert.equal(r.n, 4);
+  assert.equal(r.provisional, true);
+  assert.equal(r.metrics.completion_rate.value, 0.5);
+  assert.deepEqual(r.metrics.completion_rate.range, PROVISIONAL_BANDS.completion_rate);
+  assert.equal(r.metrics.completion_rate.in_band, true);
+});
+
+test('aggregate: completion_rate above band (all completed = too easy) flagged out', () => {
+  const runs = [synthRun(), synthRun(), synthRun()];
+  const r = aggregate(runs);
+  assert.equal(r.metrics.completion_rate.value, 1);
+  assert.equal(r.metrics.completion_rate.in_band, false);
+});
+
+test('aggregate: roster_attrition = survivors / units-that-fought, in (0,1)', () => {
+  // initial 4, 0 combat-recruits, 2 survivors -> 0.5 survivor ratio -> in band.
+  const lossy = synthRun({ initialRosterSize: 4, recruited: [], finalRoster: ['a', 'b'] });
+  const r = aggregate([lossy]);
+  assert.equal(r.metrics.roster_attrition.value, 0.5);
+  assert.equal(r.metrics.roster_attrition.in_band, true);
+});
+
+test('aggregate: roster_attrition = 1.0 (no losses) flagged out of band', () => {
+  // initial 2 + 2 combat-recruits = 4 fought, all 4 survive -> ratio 1.0 -> too easy.
+  const noLoss = synthRun({
+    initialRosterSize: 2,
+    recruited: ['r1', 'r2'],
+    finalRoster: ['a', 'b', 'r1', 'r2'],
+  });
+  const r = aggregate([noLoss]);
+  assert.equal(r.metrics.roster_attrition.value, 1);
+  assert.equal(r.metrics.roster_attrition.in_band, false);
+});
+
+test('aggregate: economy_flow build-power drift ~1.0 (flat) in band + pi_sink gap surfaced', () => {
+  const r = aggregate([synthRun(), synthRun()]);
+  const ef = r.metrics.economy_flow;
+  assert.equal(ef.pe_earned_avg, 9);
+  assert.equal(ef.build_power_avg, 42); // 36 xp + 6 mp
+  assert.equal(ef.build_power_drift, 1); // flat per-chapter build power
+  assert.equal(ef.pi_sink_exercised, false); // no PI sink wired in the loop yet
+  assert.equal(ef.in_band, true);
+});
+
+test('aggregate: economy_flow rejects no-signal runs (Codex #2568 P2)', () => {
+  // Failed runs with NO reward telemetry (empty chapters + zero economy) -> buildPowerDrift
+  // returns the neutral 1, which sits INSIDE the drift band. economy_flow must NOT certify a
+  // healthy economy from zero signal (a backend regression that stops emitting XP/MP/PE, or
+  // an all-failed batch, must read out-of-band, not falsely green).
+  const noSignal = synthRun({
+    completed: false,
+    chapters: [],
+    economy: { peEarnedTotal: 0, xpGrantedTotal: 0, mpEarnedTotal: 0, piSpentTotal: 0 },
+  });
+  const r = aggregate([noSignal, noSignal]);
+  assert.equal(r.metrics.economy_flow.build_power_avg, 0);
+  assert.equal(r.metrics.economy_flow.has_signal, false);
+  assert.equal(r.metrics.economy_flow.in_band, false, 'no economy signal cannot be in band');
+});
+
+test('aggregate: economy_flow runaway build-power drift (>2x) flagged out', () => {
+  const creep = synthRun({
+    chapters: [
+      { outcome: 'victory', xpGranted: 10, mpEarned: 0 },
+      { outcome: 'victory', xpGranted: 20, mpEarned: 0 },
+      { outcome: 'victory', xpGranted: 30, mpEarned: 0 },
+    ],
+  });
+  const r = aggregate([creep]);
+  assert.equal(r.metrics.economy_flow.build_power_drift, 3); // 30 / 10
+  assert.equal(r.metrics.economy_flow.in_band, false);
+});
+
+test('aggregate: relationship_progress in band when recruit + earned-affinity + mating all fire', () => {
+  const r = aggregate([synthRun(), synthRun()]);
+  const rp = r.metrics.relationship_progress;
+  assert.equal(rp.recruit_rate, 2); // 2 combat-recruits per run
+  assert.equal(rp.affinity_proven_rate, 1); // every run proved the earned gate
+  assert.equal(rp.mating_rate, 1); // 1 offspring per run
+  assert.equal(rp.in_band, true);
+});
+
+test('aggregate: relationship_progress stalled (no recruit, no affinity) flagged out', () => {
+  const stalled = synthRun({
+    recruited: [],
+    economyRecruited: [],
+    economyAffinityProven: false,
+    offspring: 0,
+  });
+  const r = aggregate([stalled]);
+  assert.equal(r.metrics.relationship_progress.in_band, false);
+});
+
+test('aggregate: offspring_viability in band when offspring rolled (>=1 avg)', () => {
+  const r = aggregate([synthRun(), synthRun()]);
+  const ov = r.metrics.offspring_viability;
+  assert.equal(ov.offspring_avg, 1);
+  assert.equal(ov.in_band, true);
+});
+
+test('aggregate: offspring_viability out of band when no breeding happens', () => {
+  const r = aggregate([synthRun({ offspring: 0 }), synthRun({ offspring: 0 })]);
+  assert.equal(r.metrics.offspring_viability.offspring_avg, 0);
+  assert.equal(r.metrics.offspring_viability.in_band, false);
+});
+
+test('aggregate: empty input -> n=0, every metric out of band, never throws', () => {
+  const r = aggregate([]);
+  assert.equal(r.n, 0);
+  for (const k of Object.keys(r.metrics)) {
+    assert.equal(r.metrics[k].in_band, false, `${k} out of band on empty input`);
+  }
+});
+
+test('PROVISIONAL_BANDS: documents WARN provenance (Claude-derived, pending master-dd)', () => {
+  // The bands are provisional ranges, not ratified numbers (L-069: master-dd ratifies the
+  // exact band post-N=40). The module must say so to prevent a downstream reader treating
+  // them as canon.
+  assert.match(PROVISIONAL_BANDS.note || '', /WARN|provisional|pending master-dd/i);
+});
