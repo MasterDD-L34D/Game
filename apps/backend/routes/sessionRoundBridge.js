@@ -439,19 +439,46 @@ function createRoundBridge(deps) {
         // RIGHT AFTER it lands, BEFORE the next bonus block reads target.hp — else a
         // pooled target floored to 0 by focus_fire makes synergy read 0 and skip its
         // stackable bonus. No-op for non-pool targets (applySharedHpPool -> null).
-        const resplitBonusThroughPool = (bonus) => {
-          if (!(bonus > 0)) return;
+        // V5 shared_hp_pool (Codex #2542 P2): apply a focus_fire/synergy bonus with
+        // its FULL value through the pool, so a low-HP pooled member doesn't starve
+        // the bonus (the bonded partner absorbs the overflow) and each stacked bonus
+        // reads pool-restored HP. Pre-credit the full bonus to damage_taken; the pool
+        // reconciles it (-extra + actual) when pooled, else fall back to the solo
+        // clamp (undo the over-credit). Returns the damage that actually landed.
+        const applyBonusThroughPool = (extra) => {
+          if (!(extra > 0)) return 0;
+          const hpNow = Number(target.hp || 0);
+          if (hpNow <= 0) return 0;
+          const soloApplied = Math.min(extra, hpNow);
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+          }
+          target.hp = hpNow - soloApplied; // tentative solo; the pool overrides when pooled
+          let pr = null;
           try {
-            const pr = require('../services/combat/symbiontBond').applySharedHpPool(
+            pr = require('../services/combat/symbiontBond').applySharedHpPool(
               session,
               target,
-              bonus,
-              Number(target.hp) + bonus,
+              extra,
+              hpNow,
             );
-            if (pr) capturedResults.killOccurred = Number(target.hp) <= 0;
           } catch {
             /* symbiont bond optional */
           }
+          if (pr) {
+            capturedResults.killOccurred = Number(target.hp) <= 0;
+            return extra;
+          }
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = Math.max(
+              0,
+              (session.damage_taken[target.id] || 0) - extra + soloApplied,
+            );
+          }
+          if (Number(target.hp) <= 0 && !capturedResults.killOccurred) {
+            capturedResults.killOccurred = true;
+          }
+          return soloApplied;
         };
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
@@ -461,21 +488,9 @@ function createRoundBridge(deps) {
         if (res.result && res.result.hit && comboInfo.is_combo) {
           let applied = 0;
           if (res.damageDealt > 0) {
-            const extra = comboInfo.bonus_damage;
-            const hpNow = Number(target.hp || 0);
-            applied = Math.min(extra, hpNow);
+            applied = applyBonusThroughPool(comboInfo.bonus_damage);
             if (applied > 0) {
-              target.hp = hpNow - applied;
               capturedResults.damageDealt = res.damageDealt + applied;
-              if (session.damage_taken) {
-                session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
-              }
-              // Re-split focus_fire through the pool now, so the synergy block below
-              // reads the pool-restored HP (not a transient solo 0).
-              resplitBonusThroughPool(applied);
-              if (target.hp <= 0 && !capturedResults.killOccurred) {
-                capturedResults.killOccurred = true;
-              }
             }
           }
           capturedResults.combo = { ...comboInfo, bonus_applied: applied };
@@ -487,28 +502,15 @@ function createRoundBridge(deps) {
         if (res.result && res.result.hit && synergyInfo.triggered) {
           let appliedSyn = 0;
           if (res.damageDealt > 0) {
-            const extra = synergyInfo.bonus_damage;
-            const hpNow = Number(target.hp || 0);
-            appliedSyn = Math.min(extra, hpNow);
+            appliedSyn = applyBonusThroughPool(synergyInfo.bonus_damage);
             if (appliedSyn > 0) {
-              target.hp = hpNow - appliedSyn;
               capturedResults.damageDealt =
                 Number(capturedResults.damageDealt || res.damageDealt) + appliedSyn;
-              if (session.damage_taken) {
-                session.damage_taken[target.id] =
-                  (session.damage_taken[target.id] || 0) + appliedSyn;
-              }
-              resplitBonusThroughPool(appliedSyn);
-              if (target.hp <= 0 && !capturedResults.killOccurred) {
-                capturedResults.killOccurred = true;
-              }
             }
           }
           capturedResults.synergy = { ...synergyInfo, bonus_applied: appliedSyn };
           recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
         }
-        // (shared_hp_pool re-split now runs inline per-bonus above, so each bonus
-        // sees the pool-restored HP — Codex #2542 P2.)
         for (const uOrch of next.units) {
           const uLegacy = session.units.find((u) => u.id === uOrch.id);
           if (uLegacy) {
@@ -1350,36 +1352,47 @@ function createRoundBridge(deps) {
 
           let combo = null;
           let synergy = null;
-          // V5 shared_hp_pool (Codex #2542 P2): re-split each bonus through the pool
-          // as it lands, so the next bonus reads pool-restored HP (not a transient
-          // solo 0). Mirror of realResolveAction. No-op for non-pool targets.
-          const resplitBonusThroughPool = (bonus) => {
-            if (!(bonus > 0)) return;
+          // V5 shared_hp_pool (Codex #2542 P2): apply a bonus with its FULL value
+          // through the pool (a low-HP pooled member doesn't starve it; the partner
+          // absorbs the overflow) + each stacked bonus reads pool-restored HP.
+          // Pre-credit the full bonus to damage_taken; the pool reconciles it when
+          // pooled, else fall back to the solo clamp. Returns the damage that landed.
+          // (This path detects kills via target.hp <= 0 below, so no killOccurred.)
+          const applyBonusThroughPool = (extra) => {
+            if (!(extra > 0)) return 0;
+            const hpNow = Number(target.hp || 0);
+            if (hpNow <= 0) return 0;
+            const soloApplied = Math.min(extra, hpNow);
+            if (session.damage_taken) {
+              session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+            }
+            target.hp = hpNow - soloApplied;
+            let pr = null;
             try {
-              require('../services/combat/symbiontBond').applySharedHpPool(
+              pr = require('../services/combat/symbiontBond').applySharedHpPool(
                 session,
                 target,
-                bonus,
-                Number(target.hp) + bonus,
+                extra,
+                hpNow,
               );
             } catch {
               /* symbiont bond optional */
             }
+            if (pr) return extra;
+            if (session.damage_taken) {
+              session.damage_taken[target.id] = Math.max(
+                0,
+                (session.damage_taken[target.id] || 0) - extra + soloApplied,
+              );
+            }
+            return soloApplied;
           };
           if (!isSis) {
             const comboInfo = detectFocusFireCombo(session, actor, target);
             if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
-              const extra = comboInfo.bonus_damage;
-              const hpNow = Number(target.hp || 0);
-              const applied = Math.min(extra, hpNow);
+              const applied = applyBonusThroughPool(comboInfo.bonus_damage);
               if (applied > 0) {
-                target.hp = hpNow - applied;
                 res.damageDealt = res.damageDealt + applied;
-                if (session.damage_taken) {
-                  session.damage_taken[target.id] =
-                    (session.damage_taken[target.id] || 0) + applied;
-                }
-                resplitBonusThroughPool(applied);
               }
               combo = { ...comboInfo, bonus_applied: applied };
             }
@@ -1391,17 +1404,9 @@ function createRoundBridge(deps) {
           if (res.result && res.result.hit && synergyInfo.triggered) {
             let appliedSyn = 0;
             if (res.damageDealt > 0) {
-              const extra = synergyInfo.bonus_damage;
-              const hpNow = Number(target.hp || 0);
-              appliedSyn = Math.min(extra, hpNow);
+              appliedSyn = applyBonusThroughPool(synergyInfo.bonus_damage);
               if (appliedSyn > 0) {
-                target.hp = hpNow - appliedSyn;
                 res.damageDealt = res.damageDealt + appliedSyn;
-                if (session.damage_taken) {
-                  session.damage_taken[target.id] =
-                    (session.damage_taken[target.id] || 0) + appliedSyn;
-                }
-                resplitBonusThroughPool(appliedSyn);
               }
             }
             synergy = { ...synergyInfo, bonus_applied: appliedSyn };

@@ -148,3 +148,16 @@ test('shared_hp_pool: a burst overkilling a 1-HP pool empties it (both KO) given
   assert.strictEqual(partner.hp, 0);
   assert.strictEqual(symbiont.hp, 0);
 });
+
+test('shared_hp_pool: a full bonus is absorbed by the pool when the struck member is low (Codex #2542 P2)', () => {
+  // The bridge passes the FULL bonus + the struck member's pre-bonus HP, so a
+  // +3 focus-fire on a 1-HP pooled member is covered by the 20-HP partner instead
+  // of being clamped to 1 and losing the other 2.
+  const { symbiont, partner } = pair({ hp: 20 }, { hp: 1 });
+  const session = { units: [symbiont, partner], turn: 1, damage_taken: {} };
+  const r = applySharedHpPool(session, partner, 3, 1); // full bonus 3, struck pre-HP 1
+  assert.strictEqual(r.both_ko, false);
+  assert.strictEqual(partner.hp + symbiont.hp, 18, 'pool 21 - 3 = 18 (the full 3 landed)');
+  assert.ok(partner.hp >= 1, 'struck member survives on the pool');
+  assert.strictEqual(r.counter_actual, 3, 'the bonded partner absorbed the full bonus');
+});
