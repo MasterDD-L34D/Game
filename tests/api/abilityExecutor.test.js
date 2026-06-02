@@ -493,10 +493,15 @@ test('resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in ran
   assert.equal(res.body.effect_type, 'team_buff');
   assert.ok(Array.isArray(res.body.allies_affected));
   assert.ok(res.body.allies_affected.length >= 2, '>=2 allies (scout+tank)');
-  // Verifica pp_grant applicato a ciascuno
-  for (const a of res.body.allies_affected) {
+  // Codex #2555 P2: the caster (p_scout) consume-all-spent its PP to cast, so it must
+  // NOT refill itself via its own pp_grant -> only OTHER allies receive pp_grant.
+  const casterEntry = res.body.allies_affected.find((a) => a.unit_id === 'p_scout');
+  const otherEntries = res.body.allies_affected.filter((a) => a.unit_id !== 'p_scout');
+  assert.ok(otherEntries.length >= 1, '>=1 non-caster ally (tank)');
+  for (const a of otherEntries) {
     assert.equal(a.pp_grant, 2);
   }
+  assert.ok(!casterEntry || casterEntry.pp_grant === undefined, 'caster does NOT self-grant pp');
 });
 
 test('symbiotic_bloom: team_heal cura tutti gli alleati in range', async (t) => {

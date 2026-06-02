@@ -1832,8 +1832,18 @@ function createAbilityExecutor(deps) {
         applySelfBuff(ally, buffStat, amount, duration);
         entry.buff = { stat: buffStat, amount, duration };
       }
-      if (ppGrant > 0) {
-        ally.pp = (Number(ally.pp) || 0) + ppGrant;
+      // H2 cost-gate (Codex #2555 P2): a cost_pp support ultimate must NOT refill its
+      // OWN caster via pp_grant (it just consume-all-spent the pool) -> grant only to
+      // OTHER allies. Clamp to POOL_MAX so a grant never overfills the 0..3 pool.
+      if (ppGrant > 0 && ally.id !== actor.id) {
+        const ppMax = (() => {
+          try {
+            return Number(require('./combat/ppTracker').POOL_MAX) || 3;
+          } catch {
+            return 3;
+          }
+        })();
+        ally.pp = Math.min(ppMax, (Number(ally.pp) || 0) + ppGrant);
         entry.pp_grant = ppGrant;
       }
       applied.push(entry);

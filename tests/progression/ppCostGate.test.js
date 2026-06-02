@@ -104,3 +104,26 @@ test('PP NOT charged on a failed dispatch (non-2xx rollback)', async () => {
   assert.ok(res.status >= 400, `expected a failure status, got ${res.status}`);
   assert.strictEqual(actor.pp, 3, 'pp rolled back on a failed dispatch');
 });
+
+test('cost_pp team_buff does NOT refill the caster via its own pp_grant (Codex #2555 P2)', async () => {
+  _setAbilityForTest('test_pp_teambuff', {
+    ability_id: 'test_pp_teambuff',
+    effect_type: 'team_buff',
+    cost_ap: 0,
+    cost_pp: 6,
+    pp_grant: 2,
+    range: 3,
+  });
+  const caster = mkActor(3); // full pool
+  const ally = {
+    id: 'ally',
+    controlled_by: caster.controlled_by,
+    hp: 10,
+    pp: 0,
+    position: { x: 1, y: 0 },
+  };
+  const res = await call(mkExecutor(), caster, { ability_id: 'test_pp_teambuff' }, [ally]);
+  assert.strictEqual(res.status, 200, JSON.stringify(res.body));
+  assert.strictEqual(caster.pp, 0, 'caster consume-all-spent the pool and did NOT self-refill');
+  assert.strictEqual(ally.pp, 2, 'the other ally received pp_grant');
+});
