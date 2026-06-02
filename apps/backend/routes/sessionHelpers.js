@@ -112,6 +112,9 @@ function normaliseUnit(raw, fallbackIndex) {
     // V5 SG pool — preserve from input so save-load + tests carry value through.
     // sgTracker.initUnit will keep this if already set, otherwise default to 0.
     sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
+    // PT pool (26-ECONOMY §PT) — per-round technique points (ptTracker, cap 12).
+    // Preserve from input so save-load + initial_pt seed carry the value through.
+    pt: Number.isFinite(Number(input.pt)) ? Number(input.pt) : 0,
     // PE-canon re-label (#2527): `pe` = campaign XP (26-ECONOMY_CANONICAL), NOT a
     // combat resource. Preserved here as a read-only pass-through; combat NEVER
     // writes it (the aberrant combat cost is cost_sg). Default 0.
@@ -403,6 +406,9 @@ function publicSessionView(session) {
       ...u,
       pp: u.pp || 0,
       sg: Number.isFinite(Number(u.sg)) ? Number(u.sg) : 0,
+      // PT pool (26-ECONOMY §PT) surfaced for Gate-5 (player sees the per-round
+      // technique budget driving cost_pt abilities + maneuvers).
+      pt: Number.isFinite(Number(u.pt)) ? Number(u.pt) : 0,
       stress_gauge: stressGauge,
       surge_ready: stressGauge >= 75,
       pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,

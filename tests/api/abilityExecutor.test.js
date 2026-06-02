@@ -53,6 +53,19 @@ async function startSessionPp(app) {
   return { sid: startRes.body.session_id, state: startRes.body.state };
 }
 
+// H2 PT cost-gate (2026-06-02): cost_pt abilities (3..10) are gated numerically
+// against the per-round PT pool. Seed p_scout pt=12 (full) so the support/control
+// abilities (symbiotic_bloom 4 / sanctuary 4 / lifegrove 10) dispatch observably.
+async function startSessionPt(app) {
+  const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
+  assert.equal(scenario.status, 200);
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({ units: scenario.body.units, initial_pt: { p_scout: 12 } });
+  assert.equal(startRes.status, 200);
+  return { sid: startRes.body.session_id, state: startRes.body.state };
+}
+
 test('dash_strike: move_attack end-to-end, AP decremented, event emitted', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
@@ -510,7 +523,7 @@ test('symbiotic_bloom: team_heal cura tutti gli alleati in range', async (t) => 
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPt(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
@@ -533,7 +546,7 @@ test("sanctuary: aoe_buff applica defense_mod ai allies nell'area", async (t) =>
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPt(app);
   // Centro AoE su p_tank (1,3). aoe_size=2 → ±1. p_scout (1,2) e p_tank (1,3) inclusi.
   const res = await request(app)
     .post('/api/session/action')
@@ -1379,7 +1392,7 @@ test('Sprint 8.1 lifegrove (r4 team_heal): dispatch via harvester path + remove_
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  const { sid } = await startSession(app);
+  const { sid } = await startSessionPt(app);
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
