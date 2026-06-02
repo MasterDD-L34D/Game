@@ -244,12 +244,23 @@ function runToJsonl(r) {
   };
 }
 
+// Default routing-coverage walk plan. A BADLANDS-only plan never reaches CRYOSTEPPE, so the
+// winter-gated bridge would stay unexercised (Codex #2572 P2). Starting at CRYOSTEPPE makes
+// the season gate decisive: in winter step 1 takes the CRYOSTEPPE -> FORESTA_TEMPERATA
+// bridge; without a season it is locked and the walk diverges to BADLANDS. The trio gives a
+// baseline + the bridge crossed + the bridge locked (divergence proof).
+const ROUTING_WALKS = [
+  { start: 'BADLANDS', season: null },
+  { start: 'CRYOSTEPPE', season: 'winter' },
+  { start: 'CRYOSTEPPE', season: null },
+];
+
 // fase-2c routing wiring: exercise the GAP-C meta-network routing graph in test-context
 // (only when META_NETWORK_ROUTING=true). Spins one in-process backend and traverses the
-// graph for each season (default + winter, to hit the season-gated bridges), returning
-// coverage. Lazy-requires createApp + supertest (same hermetic deal as runOneReal). Never
-// touches the live campaign -> band-safe.
-async function runRoutingCoverage({ start = 'BADLANDS', seasons = [null, 'winter'] } = {}) {
+// graph for each planned walk (default = ROUTING_WALKS, which crosses the season-gated
+// bridge), returning coverage. Lazy-requires createApp + supertest (same hermetic deal as
+// runOneReal). Never touches the live campaign -> band-safe.
+async function runRoutingCoverage({ walks = ROUTING_WALKS } = {}) {
   const { createApp } = require('../../apps/backend/app');
   const request = require('supertest');
   const { app, close } = createApp({ databasePath: null });
@@ -262,8 +273,8 @@ async function runRoutingCoverage({ start = 'BADLANDS', seasons = [null, 'winter
   };
   try {
     const runs = [];
-    for (const season of seasons) runs.push(await traverse(http, { start, season }));
-    return { enabled: runs.every((r) => r.enabled), start, runs };
+    for (const w of walks) runs.push(await traverse(http, { start: w.start, season: w.season }));
+    return { enabled: runs.every((r) => r.enabled), walks, runs };
   } finally {
     if (typeof close === 'function') await close().catch(() => {});
   }
@@ -448,6 +459,7 @@ module.exports = {
   runBatch,
   runOneReal,
   runRoutingCoverage,
+  ROUTING_WALKS,
   buildSummary,
   buildReport,
   writeArtifacts,

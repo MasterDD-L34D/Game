@@ -142,3 +142,20 @@ test('traverse: flag OFF -> enabled:false no-op', async (t) => {
     assert.equal(res.terminalReason, 'flag_off');
   });
 });
+
+test('traverse: a CRYOSTEPPE/winter walk CROSSES the winter bridge (Codex #2572 P2)', async (t) => {
+  // From BADLANDS the greedy walk never reaches CRYOSTEPPE, so a winter run from there leaves
+  // the season-gated bridge unexercised. Starting at CRYOSTEPPE makes the gate decisive:
+  // in winter, step 1 takes the CRYOSTEPPE -> FORESTA_TEMPERATA winter bridge (w0.55 > the
+  // BADLANDS alternative); without a season that edge is locked and the walk picks BADLANDS.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => close && (await close().catch(() => {})));
+  await withFlag('true', async () => {
+    const http = httpFor(app);
+    const winter = await traverse(http, { start: 'CRYOSTEPPE', season: 'winter' });
+    assert.equal(winter.path[0], 'CRYOSTEPPE');
+    assert.equal(winter.path[1], 'FORESTA_TEMPERATA', `winter bridge crossed; path=${winter.path}`);
+    const locked = await traverse(http, { start: 'CRYOSTEPPE', season: null });
+    assert.equal(locked.path[1], 'BADLANDS', `bridge locked without season; path=${locked.path}`);
+  });
+});

@@ -18,6 +18,7 @@ const {
   runBatch,
   writeArtifacts,
   resolvePolicy,
+  ROUTING_WALKS,
 } = require('../../tools/sim/full-loop-batch');
 
 // Synthetic run-result (runFullLoop shape) for the pure-assembly tests.
@@ -264,6 +265,17 @@ test('buildSummary: includes routing coverage when provided (fase-2c routing wir
 test('buildSummary: omits routing when absent (flag off)', () => {
   const s = buildSummary([synthRun()], { runs: 1 });
   assert.equal(s.routing, undefined);
+});
+
+test('ROUTING_WALKS: the default coverage plan exercises the winter bridge (Codex #2572 P2)', () => {
+  // A coverage plan of only BADLANDS starts never reaches CRYOSTEPPE -> the winter bridge
+  // stays unexercised. The default must include a CRYOSTEPPE/winter walk (crosses the
+  // bridge) so routing coverage genuinely hits the season-gated edge.
+  assert.ok(Array.isArray(ROUTING_WALKS) && ROUTING_WALKS.length >= 2, 'a multi-walk plan');
+  assert.ok(
+    ROUTING_WALKS.some((w) => w.start === 'CRYOSTEPPE' && w.season === 'winter'),
+    `plan exercises the winter bridge; got ${JSON.stringify(ROUTING_WALKS)}`,
+  );
 });
 
 test('buildReport: renders a routing-coverage section when present (closes Finding 4)', () => {
