@@ -68,6 +68,12 @@ identical placement. **P4 (temperament) cannot be detected by these metrics as d
 → detecting P4 needs a **composition/diversity metric** (roster role_class diversity +
 offspring lineage diversity — the `lineage_diversity` field is currently `null`/deferred).
 
+> **UPDATE (since this baseline):** addressed by the `roster_composition` metric — it maps
+> the recruited species to their role_class profile + dominant roles, which **do** diverge by
+> policy (greedy `[APEX, HAZARD]` vs mbti:ESFP `[HAZARD, PREY]`), so P4 is now measurable. The
+> quantity metrics above remain policy-insensitive by design. (offspring `lineage_diversity`
+> still deferred.)
+
 **3. `economy_flow` measures earn + build-power drift only — the PI sink is unexercised.**
 `piSpentTotal = 0` across all runs: the loop has no shop/PI-spend seam wired, so the
 sink side of the economy is never tested (surfaced honestly, not invented). build-power
