@@ -35,12 +35,12 @@ Il "Nord" qualità del progetto è l'**AI-playtest**: agenti AI giocano encounte
 in batch statistici, con verifica a **win-rate band** (`ai-driven-sim.js` + `batch-ai-runner.js` +
 `batch_calibrate_*.py` + MAP-Elites/Optuna). **Ma copre solo il combat.** Audit copertura full-loop:
 
-| Pezzo esistente                                     | Cosa fa                                                              | Limite                                                                |
-| --------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `tools/sim/ai-driven-sim.js` + `batch-ai-runner.js` | AI giocano combat reale (archetype × scenario), JSONL, win-rate band | **combat-only** (carica `encounters/*.yaml`, niente campaign/Nido)    |
-| `tests/api/campaignIntegration.test.js`             | E2E catena campagna (start→advance→choose→summary→end)               | esiti combat **FINTI** (`outcome:'victory'` stampato, non giocato)    |
-| `tools/playtest/phase_walkthrough.sh`               | Walkthrough coop phase-machine (lobby→…→debrief) via REST            | **scriptato** (5 player fissi), combat snapshot-only, no AI, no batch |
-| Nido / mating / recruit / affinity / trust          | backend live + test unitari/integrazione                             | **nessun AI-playtest batch** del meta-loop                            |
+| Pezzo esistente                                                          | Cosa fa                                                              | Limite                                                                |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `tools/sim/batch-ai-runner.js` → `tests/smoke/ai-driven-sim.js` (worker) | AI giocano combat reale (archetype × scenario), JSONL, win-rate band | **combat-only** (carica `encounters/*.yaml`, niente campaign/Nido)    |
+| `tests/api/campaignIntegration.test.js`                                  | E2E catena campagna (start→advance→choose→summary→end)               | esiti combat **FINTI** (`outcome:'victory'` stampato, non giocato)    |
+| `tools/playtest/phase_walkthrough.sh`                                    | Walkthrough coop phase-machine (lobby→…→debrief) via REST            | **scriptato** (5 player fissi), combat snapshot-only, no AI, no batch |
+| Nido / mating / recruit / affinity / trust                               | backend live + test unitari/integrazione                             | **nessun AI-playtest batch** del meta-loop                            |
 
 **Il gap esatto**: il combat è AI-giocato in isolamento; la campagna è testata con esiti finti; i due **non
 sono mai uniti sotto AI-play**. Nessuna band misura la salute del **meta-loop**. Conseguenza: bug
@@ -191,8 +191,11 @@ sui fork di balance soggettivi (no-anticipated-judgment) + museum card per gli s
 ## 9. GAP-C routing-graph + eng-graph (verifica) — direttiva #4
 
 **GAP-C (routing-graph del gioco)**: il flag `META_NETWORK_ROUTING` è OFF in prod (STOP master-dd). MA il
-runner può **attivarlo nel SUO contesto-test** (env `META_NETWORK_ROUTING=1` solo per i propri processi, come
-la sim setta `AI_SIM_LOAD_YAML=1`) → esercita il routing-graph Dormans (`selectNextNodes` → `candidates`,
+runner può **attivarlo nel SUO contesto-test** (env `META_NETWORK_ROUTING=true` solo per i propri processi).
+⚠️ **Valore esatto (Codex #2559 P2)**: la route checka `process.env.META_NETWORK_ROUTING === 'true'`
+(`campaign.js:215`), NON `'1'` — convenzione DIVERSA da `AI_SIM_LOAD_YAML === '1'`. Settare `=1` darebbe
+silenziosamente `{enabled:false}` → zero copertura routing-graph. Usare `=true`. Il runner →
+esercita il routing-graph Dormans (`selectNextNodes` → `candidates`,
 NON `.preview`) **senza accenderlo nel gioco live**. Beneficio: il meta-loop band ottiene copertura su
 **rotte ramificate diverse** (non solo la chain lineare) → validazione più ricca del routing + dati per
 decidere se/quando sbloccarlo in prod. **Lo sblocco-prod resta verdetto tuo**; il runner lo de-rischia
@@ -231,7 +234,7 @@ Phase-3 cognee GraphRAG, 691 nodi/1175 edge, sovrano Ryzen-Ollama). Due usi:
 
 ## 12. Provenienza
 
-- **Metodo Nord**: [[feedback-ai-playtest-is-the-nord]] + `tools/sim/ai-driven-sim.js` / `batch-ai-runner.js`.
+- **Metodo Nord**: [[feedback-ai-playtest-is-the-nord]] + `tools/sim/batch-ai-runner.js` → worker `tests/smoke/ai-driven-sim.js`.
 - **Seam meta**: `apps/backend/routes/campaign.js` (start/advance/choose/summary/meta-network/seasonal/ambitions)
   - route Nido/mating/recruit + `/coop/combat/end` (fold SistemaState).
 - **Esistente full-loop** (limiti): `tests/api/campaignIntegration.test.js`, `tools/playtest/phase_walkthrough.sh`,
