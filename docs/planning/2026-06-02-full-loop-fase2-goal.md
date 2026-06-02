@@ -29,6 +29,46 @@ meta-loop con band-metriche calibrate N=40 e ratificate da master-dd (come le ba
 Tre slice in sequenza: **2a scaled enemy** -> **2b band-metriche + aggregatore** -> **2c
 N=40 + mbtiPolicy + GAP-C routing + ratifica**.
 
+## Stato finale -- fase-2 BUILD COMPLETE (2026-06-02), ratify owner-gated
+
+> La parte COSTRUIBILE di fase-2 e' chiusa (4 PR su main). Resta SOLO la ratifica dei numeri
+> band ESATTI = master-dd (L-069, NON automatizzabile). Il report e' il deliverable "presentato
+> a master-dd".
+
+| Slice                              | PR               | Esito vs DoD           |
+| ---------------------------------- | ---------------- | ---------------------- |
+| 2a scaled enemy                    | #2567 `a87108b6` | MET (pre-sessione)     |
+| 2b band-metriche + aggregatore     | #2568 `ae855542` | MET                    |
+| 2c-1 policy pluggable + mbtiPolicy | #2569 `4a711aba` | MET                    |
+| 2c-end N=40 + report               | #2570 `60b5131f` | MET (deviazioni sotto) |
+
+**Deviazioni vs DoD 2c (oneste)**:
+
+1. **`(random)` policy NON girata** -- girati greedy + temperamenti MBTI (INTJ/ENFP/ESFP;
+   ISTJ omesso\*). Giustificazione: il finding chiave (metriche policy-insensitive) implica che
+   una policy random placerebbe IDENTICA -> zero segnale aggiunto. (\*ISTJ N=40 non girato:
+   crash transitorio Windows node `0xC0000409` x3; identico per costruzione.)
+2. **Report = singolo file** `docs/playtest/2026-06-02-full-loop-band-report.md` (non una dir
+   `<date>-full-loop-band/`) -- stesso intento, path piu' semplice + governance-friendly.
+3. **`META_NETWORK_ROUTING=true` test-context coverage NON raggiunta**: verify-first ha trovato
+   che il runner sceglie il path via `driver.choose(branchKey)` -> `/api/campaign/choose`, NON
+   l'endpoint meta-network che il flag gata (`campaign.js:215`). Il flag e' un NO-OP per il
+   runner -> coprire `selectNextNodes` richiede wiring runner->selectNextNodes (slice separata,
+   vicino al confine gated). Surfacizzato come Finding 4 del report.
+
+**Finding chiave**: le 5 band-metriche sono **POLICY-INSENSITIVE** -- greedy/INTJ/ENFP/ESFP
+placano IDENTICHE a N=40 (completion 1.0 OOB / attrition 0.333 / drift 1.25 / recruit 7 /
+offspring 6). mbtiPolicy diverge sulle SPECIE reclutate (unit-tested) ma le metriche misurano
+quantita'/rate NON composizione -> **P4 non misurabile** senza una metrica di composizione/
+diversita' (il `lineage_diversity` deferred).
+
+**Gated rispettati** (NON fatti, owner-verdict): ratifica band numbers, META_NETWORK_ROUTING in
+PROD, offspring->combat, affinity campaign-scoped.
+
+**Prossimi passi (tutti master-dd-gated)**: (1) ratificare i numeri band post-N=40; (2)
+calibrazione difficolta' (completion in 0.40-0.70); (3) metrica composizione/diversita' per P4;
+(4) seam PI-sink; (5) wiring runner->selectNextNodes + verdetto META_NETWORK_ROUTING PROD.
+
 ## Stato corrente (verify-first, 2026-06-02)
 
 | Slice                       | Cosa                                           | Stato  |
@@ -194,8 +234,13 @@ ma si verifica meglio dopo 2a.
 
 ## Resume trigger (`/goal`)
 
-> _"Leggi docs/planning/2026-06-02-full-loop-fase2-goal.md + memory project_full_loop. Costruisci
-> fase-2a (scaled-enemy: porta buildEnemiesFromYaml in tools/sim/scenario-enemies.js, mappa shape,
-> fallback su YAML mancante; verify-first il probe shape PRIMA) -> poi 2b (meta-band-aggregator +
-> batch) -> poi 2c (mbtiPolicy + META_NETWORK_ROUTING=true + N=40, band provisional §7, ratifica
-> master-dd). TDD, worktree isolato off origin/main, band-safe, babysit Codex, auto-merge L3."_
+> **fase-2 BUILD COMPLETE** (2a #2567 / 2b #2568 / 2c-policy #2569 / 2c-report #2570, tutti su
+> main). Il prossimo lavoro e' tutto **master-dd-gated** (vedi "Stato finale" sopra + il band
+> report `docs/playtest/2026-06-02-full-loop-band-report.md`): ratifica numeri band post-N=40
+> (L-069) -> poi le slice che il report espone (calibrazione difficolta', metrica
+> composizione/diversita' per P4, seam PI-sink, wiring runner->selectNextNodes). Niente da
+> ri-costruire in autonomo finche' master-dd non ratifica + prioritizza.
+>
+> \_(Trigger storico di build, ora chiuso: "fase-2a scaled-enemy -> 2b aggregatore -> 2c mbtiPolicy
+>
+> - N=40 + ratifica master-dd; TDD, worktree isolato, band-safe, babysit Codex, auto-merge L3.")\_
