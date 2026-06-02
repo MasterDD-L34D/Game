@@ -5,7 +5,23 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-05-21 — calibration P6 + TKT-ECO A-series closure (v45)
+## ⚡ Sessione corrente 2026-06-02 — GOAL MASTER: PHASEC 32/32 + design-closure goal doc (v46)
+
+**3 PR merged main**: #2542 `0f9be016` (PHASEC V5 `shared_hp_pool` capstone → **PHASEC 32/32 COMPLETE**, 9 round Codex/~14 fix) · #2509 `d05fe323` (GAP-C fase-2 arc-conditions Stage-1, triage merge) · #2551 `235c41f8` (doc di riferimento GOAL 2-fasi design-closure→build).
+
+**Findings**:
+
+- PHASEC job-expansion perks 32/32 (Cat F 7/7 + symbiont 7/7 + minion 8/8 + V6 campaign-XP + V5 shared_hp_pool). 1-HP-tail rule RATIFICATA (both-KO a pool ≤1).
+- D4 promote = **già fatto** (#2505/#2510) — non rifare.
+- **Design ~90% già chiuso** (anti-pattern #19 ~7×): 6 "buchi" risultati shipped sotto verify-first (GAP-A #2447, GAP-C fase-1/2 #2509, campaign-XP #2550, symbiont/minion, producers #2510, ecosystem→combat foodwebFilter legge `.ecosystem.yaml`). Fase-1 reale piccola = H2 cost-gate + micro.
+
+**Next entry point**: doc `docs/planning/2026-06-02-design-closure-goal.md` (GOAL 2-fasi) + handoff `docs/planning/2026-06-02-goal-master-session-handoff.md` (contiene il `/goal` paste). Resume = incolla il `/goal` dall'handoff.
+
+**Blocker**: main checkout `C:/dev/Game` = altra sessione (fix-ecotypes-enum WIP, MAI toccare). #2535 OD-058 woundSystem combat OPEN (collision se Fase-2 tocca combat).
+
+---
+
+## Sessione precedente 2026-05-21 — calibration P6 + TKT-ECO A-series closure (v45)
 
 **3 PR merged main**: #2365 (hc06 hardcore band revised to engine reality OD-032 A+C — defeat [0.40,0.55]→[0.75,0.85], timeout [0.15,0.25]→[0.00,0.05], WR kept + enemy_damage knob wired + no-op bug fix + **L-074** localhost→127.0.0.1 IPv6 stall fix across all calib tools) · #2366 (A5 biome pressure rating chip in debrief, Gate-5 surface — engine was already live #1864) · #2368 (BACKLOG closure A4-residue/A5/A6, all stale-but-shipped).
 
