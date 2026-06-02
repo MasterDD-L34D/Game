@@ -17,6 +17,7 @@ const {
   buildReport,
   runBatch,
   writeArtifacts,
+  resolvePolicy,
 } = require('../../tools/sim/full-loop-batch');
 
 // Synthetic run-result (runFullLoop shape) for the pure-assembly tests.
@@ -192,4 +193,41 @@ test('runBatch: real in-process smoke (K=2) -> real run-results aggregate (fase-
   // flags "too easy" until enemy scaling/calibration (fase-2c) brings it into range.
   assert.equal(summary.metrics.completion_rate.value, 1);
   assert.equal(summary.metrics.completion_rate.in_band, false);
+});
+
+test('resolvePolicy: string -> policy object + label (greedy / mbti / mbti:TYPE)', () => {
+  const g = resolvePolicy('greedy');
+  assert.equal(typeof g.policy.chooseRecruits, 'function');
+  assert.equal(g.label, 'greedy');
+  const m = resolvePolicy('mbti:ESFP');
+  assert.equal(m.policy.mbti, 'ESFP');
+  assert.equal(m.label, 'mbti:ESFP');
+  const mDefault = resolvePolicy('mbti');
+  assert.equal(mDefault.policy.mbti, 'INTJ'); // default archetype
+  const bad = resolvePolicy('nonsense');
+  assert.equal(bad.label, 'greedy'); // graceful fallback
+  const badMbti = resolvePolicy('mbti:XXXX');
+  assert.equal(badMbti.label, 'mbti:INTJ', 'invalid mbti type normalized to the played archetype');
+});
+
+test('runBatch: --policy mbti:ESFP INJECTS the temperament policy + labels provenance (fase-2c)', async () => {
+  const seen = [];
+  const fakeRunOne = async (runOpts) => {
+    seen.push(runOpts.policy);
+    return synthRun();
+  };
+  const results = await runBatch({ runs: 1, policy: 'mbti:ESFP', runOne: fakeRunOne });
+  assert.equal(seen[0].mbti, 'ESFP', 'the mbti policy object reaches runFullLoop');
+  assert.equal(results[0].provenance.policy, 'mbti:ESFP', 'provenance records the policy label');
+});
+
+test('runBatch: --policy greedy injects the greedy policy object', async () => {
+  const seen = [];
+  const fakeRunOne = async (runOpts) => {
+    seen.push(runOpts.policy);
+    return synthRun();
+  };
+  const results = await runBatch({ runs: 1, policy: 'greedy', runOne: fakeRunOne });
+  assert.equal(typeof seen[0].chooseRecruits, 'function', 'greedy policy object injected');
+  assert.equal(results[0].provenance.policy, 'greedy');
 });

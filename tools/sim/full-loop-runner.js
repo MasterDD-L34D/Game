@@ -18,16 +18,17 @@ const { resolveRecruitUnit } = require('./recruit-resolver');
 const { applyNidoEconomy } = require('./nido-economy');
 const { buildScenarioEnemies } = require('./scenario-enemies');
 
-// Nido meta-step on a cleared chapter: the greedy policy recruits NPCs via the meta
-// seam (POST /api/meta/recruit, affinity_at_recruit bypass -> getOrCreate NPC), then
+// Nido meta-step on a cleared chapter: the meta policy (greedy by default, mbti in fase-2c)
+// recruits NPCs via the meta seam (POST /api/meta/recruit, affinity_at_recruit bypass ->
+// getOrCreate NPC), then
 // each recruit is resolved to a battle-ready PLAYER unit (recruit-resolver, faithful
 // canonical stats) so it can join combat next mission (attrition replacement). Returns
 // recruited ids + the resolved combat units + failures.
-async function applyMetaStep(http, { id, step, rosterSize = 0 }) {
+async function applyMetaStep(http, { id, step, rosterSize = 0, policy = greedyPolicy }) {
   const recruited = [];
   const units = [];
   const failures = [];
-  const picks = greedyPolicy.chooseRecruits({ step });
+  const picks = policy.chooseRecruits({ step });
   for (let i = 0; i < picks.length; i += 1) {
     const { npcId, speciesId } = picks[i];
     const r = await http.post('/api/meta/recruit', {
@@ -97,7 +98,16 @@ function sumGrants(arr, field) {
 }
 
 async function runFullLoop(http, opts = {}) {
-  const { playerId, branchKey = 'cave_path', seed, peEarned = 3, maxChapters = 15 } = opts;
+  const {
+    playerId,
+    branchKey = 'cave_path',
+    seed,
+    peEarned = 3,
+    maxChapters = 15,
+    // fase-2c: pluggable meta-policy (greedy by default). mbtiPolicy swaps in temperament-
+    // guided recruit/courtship/mating choices to test P4 across the band-batch.
+    policy = greedyPolicy,
+  } = opts;
   // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
   // faithful combat unit per cleared chapter. knownIds is the matching id universe so a
   // recruited survivor is never flagged as a "foreign" combatant by the identity
@@ -209,7 +219,7 @@ async function runFullLoop(http, opts = {}) {
     // feedback loop closed.
     const hasNextChapter = !(adv.body && adv.body.campaign_completed);
     if (adv.status === 200 && combat.outcome === 'victory' && hasNextChapter) {
-      const meta = await applyMetaStep(http, { id, step, rosterSize: roster.length });
+      const meta = await applyMetaStep(http, { id, step, rosterSize: roster.length, policy });
       recruited.push(...meta.recruited);
       for (const u of meta.units) {
         roster.push(u);
@@ -221,7 +231,7 @@ async function runFullLoop(http, opts = {}) {
       // Nido economy + breeding seams (fase-1b-3b): earn affinity/trust -> recruit via
       // the canonical gate (no bypass) + roll a mating offspring. Default-store NPCs,
       // separate from the combat-recruit; offspring not resolved into combat (deferred).
-      const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands', runId: id });
+      const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands', runId: id, policy });
       economyRecruited.push(...econ.earnedRecruits);
       offspring += econ.offspring;
       if (econ.affinityProven) economyAffinityProven = true;

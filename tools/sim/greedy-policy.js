@@ -57,4 +57,10 @@ function chooseMating({ step, runId } = {}) {
   return { parentA: courtshipId(runId, step - 1), parentB: courtshipId(runId, step) };
 }
 
-module.exports = { chooseRecruits, chooseCourtship, chooseMating, RECRUIT_SPECIES_POOL };
+module.exports = {
+  chooseRecruits,
+  chooseCourtship,
+  chooseMating,
+  courtshipId,
+  RECRUIT_SPECIES_POOL,
+};

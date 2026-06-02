@@ -16,13 +16,16 @@
 
 const greedyPolicy = require('./greedy-policy');
 
-async function applyNidoEconomy(http, { step, biomeId, runId } = {}) {
+// fase-2c: `policy` is pluggable (greedy by default). mbtiPolicy varies the courted species
+// per temperament while keeping the same gate-satisfying deltas, so the earned-affinity
+// economy + breeding seams stay exercised under any policy.
+async function applyNidoEconomy(http, { step, biomeId, runId, policy = greedyPolicy } = {}) {
   const out = { earnedRecruits: [], offspring: 0, affinityProven: false, failures: [] };
 
   // (1) Affinity economy: earn affinity + trust, then recruit through the EARNED gate.
   // runId scopes the courtship ids per run (Codex #2566 P2) so repeated sims on one
   // process don't collide on the default meta store.
-  const c = greedyPolicy.chooseCourtship({ step, runId });
+  const c = policy.chooseCourtship({ step, runId });
   await http.post('/api/meta/affinity', { npc_id: c.npcId, delta: c.affinityDelta });
   const tr = await http.post('/api/meta/trust', { npc_id: c.npcId, delta: c.trustDelta });
   // can_recruit flipped true purely from the earned affinity/trust (no bypass involved).
@@ -48,7 +51,7 @@ async function applyNidoEconomy(http, { step, biomeId, runId } = {}) {
   }
 
   // (2) Breeding: roll a squad-mate mating once two courtship NPCs exist (step >= 2).
-  const mating = greedyPolicy.chooseMating({ step, runId });
+  const mating = policy.chooseMating({ step, runId });
   if (mating) {
     const m = await http.post('/api/meta/mating/roll', {
       parent_a: { id: mating.parentA },

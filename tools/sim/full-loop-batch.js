@@ -18,6 +18,8 @@ const path = require('node:path');
 const os = require('node:os');
 const { runFullLoop } = require('./full-loop-runner');
 const { aggregate, PROVISIONAL_BANDS } = require('./meta-band-aggregator');
+const greedyPolicy = require('./greedy-policy');
+const { makeMbtiPolicy } = require('./mbti-policy');
 
 // Canonical cave_path starter party (mirrors tests/sim/fullLoopRunner.test.js): a
 // dune_stalker + velox authored squad. The Nido recruits grow it as chapters clear.
@@ -134,9 +136,27 @@ async function runOneReal(runOpts) {
   }
 }
 
+// Resolve the --policy value into a { policy (object), label (string) } pair. Accepts a
+// string ('greedy' | 'mbti' | 'mbti:ESFP') or an already-built policy object. Anything
+// unrecognised falls back to greedy (never throws).
+function resolvePolicy(p) {
+  if (p && typeof p === 'object' && typeof p.chooseRecruits === 'function') {
+    return { policy: p, label: p.mbti ? `mbti:${p.mbti}` : 'custom' };
+  }
+  const s = String(p || 'greedy').toLowerCase();
+  if (s === 'mbti' || s.startsWith('mbti:')) {
+    const type = s.includes(':') ? String(p).split(':')[1].toUpperCase() : 'INTJ';
+    const policy = makeMbtiPolicy(type);
+    return { policy, label: `mbti:${policy.mbti}` };
+  }
+  return { policy: greedyPolicy, label: 'greedy' };
+}
+
 // Run K sims with monotonic deterministic seeds. `runOne` is injectable (tests pass a fake;
-// CLI uses runOneReal). Attaches provenance to each result. Sequential: each run owns a
-// fresh app, so there is no shared-store contention.
+// CLI uses runOneReal). Resolves the policy ONCE and injects the policy object into each
+// run (so --policy mbti:ESFP actually plays as ESFP), recording the label in provenance.
+// Attaches provenance to each result. Sequential: each run owns a fresh app, so there is no
+// shared-store contention.
 async function runBatch(opts = {}) {
   const {
     runs = 5,
@@ -151,6 +171,7 @@ async function runBatch(opts = {}) {
     runOne = runOneReal,
     onProgress,
   } = opts;
+  const { policy: policyImpl, label: policyLabel } = resolvePolicy(policy);
   const results = [];
   for (let i = 0; i < runs; i += 1) {
     const seed = String(seedBase + i);
@@ -160,6 +181,7 @@ async function runBatch(opts = {}) {
       branchKey: branch,
       seed,
       maxChapters,
+      policy: policyImpl,
     };
     const res = await runOne(runOpts);
     const scenarioChain = (res.chapters || []).map((c) => c.encounter);
@@ -167,7 +189,7 @@ async function runBatch(opts = {}) {
       runId: i,
       seed,
       commit,
-      policy,
+      policy: policyLabel,
       branch,
       scenarioChain,
       flags,
@@ -347,6 +369,7 @@ if (require.main === module) {
 module.exports = {
   parseArgs,
   buildProvenance,
+  resolvePolicy,
   runBatch,
   runOneReal,
   buildSummary,
