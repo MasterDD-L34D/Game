@@ -98,8 +98,9 @@ full-loop-runner.js (orchestratore)
   IGNOREREBBE il roster di campagna (combat su party fissa → invarianti roster/attrition falsi-verdi).
   Serve un **seam roster-injection**: parametro/env (`--roster <json>` / `FULL_LOOP_ROSTER`) che sostituisce
   il blocco party hardcoded con il roster passato. Modifica piccola e isolata al TEST-harness (non l'engine),
-  TDD. Alternativa: il combatAdapter guida direttamente `/session/start`(roster reale)+`/round/execute` (path
-  kill-wire) riusando solo il loop di decisione di ai-driven-sim, non la sua party.
+  TDD. **DECISO (master-dd 2026-06-02): Option A — seam `FULL_LOOP_ROSTER` in ai-driven-sim** (max riuso:
+  tutto il combat-sim — loop AI + telemetria + JSONL; min change ~10 righe). Scartata l'alternativa
+  "combatAdapter guida diretto `/session/start`+`/round/execute`" (duplicherebbe il loop guida-combat).
 
 ## 5. Data flow (sequenza del loop)
 
@@ -199,7 +200,9 @@ esercita il routing-graph Dormans (`selectNextNodes` → `candidates`,
 NON `.preview`) **senza accenderlo nel gioco live**. Beneficio: il meta-loop band ottiene copertura su
 **rotte ramificate diverse** (non solo la chain lineare) → validazione più ricca del routing + dati per
 decidere se/quando sbloccarlo in prod. **Lo sblocco-prod resta verdetto tuo**; il runner lo de-rischia
-giocandoci sopra prima.
+giocandoci sopra prima. **DECISO (master-dd 2026-06-02): l'MVP fase-1 usa la chain lineare**; il
+routing-graph test-context (`META_NETWORK_ROUTING=true`) si attiva in **fase-2**, quando l'integrazione è
+verde (un problema nuovo alla volta).
 
 **eng-graph (verifica struttura/governance, NON runtime di gioco)**: il vault ha un knowledge-graph
 d'ingegneria (`eng_graph_extract.py` → subsystems/modules → bridge-notes in `Atlas/engineering-moc.md`;
@@ -221,16 +224,24 @@ Phase-3 cognee GraphRAG, 691 nodi/1175 edge, sovrano Ryzen-Ollama). Due usi:
 - **eng-graph**: verify-first pre-build (query) + registrazione post-build (estrattore) — §9.
 - **Decisioni citate**: ogni scelta di design segue §8 (fonte citata; fork balance → markup pending master-dd).
 
-## 11. Domande aperte residue (per master-dd, post-grounding)
+## 11. Decisioni risolte + residuo gated
 
-> Le 5 domande v1 sono **risolte** dalle direttive (band=derivate+citate §7; policy=postmortem/GM §6;
-> metodo=§8; GAP-C=flag-test §9; compute=MVP N=10-20 → fase-2 N=40 §6/§7). Residuo gated:
+> Le 5 domande v1 + i 3 fork residui sono **RISOLTI** (master-dd 2026-06-02). Resta gated solo ciò che
+> richiede dati futuri o un flag-prod.
+
+**Risolti (master-dd 2026-06-02)**:
+
+- **Roster seam** → Option A: seam `FULL_LOOP_ROSTER` in ai-driven-sim (§4). Max riuso, min change.
+- **Scope arco MVP** → cave_path completo (~3-5 missioni). Estendibile.
+- **GAP-C timing** → MVP chain lineare; routing-graph test-context in fase-2 (§9).
+- (v1: band=derivate §7; policy=postmortem/GM §6; metodo=§8; compute=MVP N=10-20 → fase-2 N=40.)
+
+**Residuo gated (richiede dati / flag-prod)**:
 
 1. **Sblocco `META_NETWORK_ROUTING` in PROD** — il runner lo esercita in test-context; accenderlo nel gioco
-   live resta verdetto tuo (STOP). Il runner produce i dati per decidere.
-2. **Band-target finali** — i range §7 sono derivati+citati, ma i numeri esatti li ratifichi tu post-N=40
+   live resta verdetto tuo (STOP), guidato dai dati che il runner produce.
+2. **Band-target finali** — i range §7 sono derivati+citati; i numeri esatti li ratifichi tu post-N=40
    (come le band combat). `(⚠️ Claude-derived — pending master-dd ratify)`.
-3. **Scope arco MVP** — proposto cave_path completo (~3-5 missioni); estendibile.
 
 ## 12. Provenienza
 
