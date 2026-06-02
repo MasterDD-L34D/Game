@@ -97,6 +97,20 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
       res.chapters.map((c) => ({ step: c.step, rosterIds: c.rosterIds })),
     )}`,
   );
+  // fase-1b-3b Nido economy + breeding: the AI earns affinity/trust to satisfy the
+  // CANONICAL recruit gate (no affinity_at_recruit bypass) and rolls mating offspring ->
+  // both seams are really exercised end-to-end (separate from the combat-recruit;
+  // offspring are not resolved into combat yet).
+  assert.equal(
+    res.economyAffinityProven,
+    true,
+    'earned affinity/trust flipped the canonical recruit gate',
+  );
+  assert.ok(
+    res.economyRecruited.length >= 1,
+    `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
+  );
+  assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
 });
 
 test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory chapter (Codex #2563 P2)', async () => {
