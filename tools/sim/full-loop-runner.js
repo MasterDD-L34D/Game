@@ -154,9 +154,13 @@ async function runFullLoop(http, opts = {}) {
     });
 
     // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
-    // not just victory). Recruited units join the roster + alive pool so they fight the
-    // next mission -- the recruit -> combat feedback loop closed.
-    if (adv.status === 200 && combat.outcome === 'victory') {
+    // not just victory). Skipped on the campaign-completing chapter (Codex #2565 P2): a
+    // recruit there has no next mission to fight, so it would inflate finalRoster +
+    // recruit/attrition metrics with a unit that never entered combat. Recruited units
+    // join the roster + alive pool so they fight the next mission -- recruit -> combat
+    // feedback loop closed.
+    const hasNextChapter = !(adv.body && adv.body.campaign_completed);
+    if (adv.status === 200 && combat.outcome === 'victory' && hasNextChapter) {
       const meta = await applyMetaStep(http, { id, step, rosterSize: roster.length });
       recruited.push(...meta.recruited);
       for (const u of meta.units) {
