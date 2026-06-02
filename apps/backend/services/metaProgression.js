@@ -75,10 +75,11 @@ function createMetaTracker() {
     return npc.affinity >= RECRUIT_AFFINITY_MIN && npc.trust >= RECRUIT_TRUST_MIN && !npc.recruited;
   }
 
-  function recruit(npcId) {
+  function recruit(npcId, speciesId) {
     if (!canRecruit(npcId)) return { success: false, reason: 'gate_not_met' };
     const npc = getOrCreate(npcId);
     npc.recruited = true;
+    if (speciesId && !npc.species_id) npc.species_id = speciesId;
     return { success: true, npc };
   }
 
@@ -759,6 +760,7 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
       mated: relation.mated,
       mating_cooldown: relation.matingCooldown,
       mbti_type: relation.mbtiType || undefined,
+      species_id: relation.speciesId || undefined,
       trait_ids: parseJsonArray(relation.traitIds),
     };
   }
@@ -799,15 +801,17 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
     return rel.affinity >= RECRUIT_AFFINITY_MIN && rel.trust >= RECRUIT_TRUST_MIN && !rel.recruited;
   }
 
-  async function recruit(npcId) {
-    if (!usePrisma) return fallback.recruit(npcId);
+  async function recruit(npcId, speciesId) {
+    if (!usePrisma) return fallback.recruit(npcId, speciesId);
     const rel = await getOrCreateRelation(npcId);
     if (rel.affinity < RECRUIT_AFFINITY_MIN || rel.trust < RECRUIT_TRUST_MIN || rel.recruited) {
       return { success: false, reason: 'gate_not_met' };
     }
+    const data = { recruited: true };
+    if (speciesId && !rel.speciesId) data.speciesId = speciesId;
     const updated = await prisma.npcRelation.update({
       where: { id: rel.id },
-      data: { recruited: true },
+      data,
     });
     return { success: true, npc: toNpcShape(updated) };
   }

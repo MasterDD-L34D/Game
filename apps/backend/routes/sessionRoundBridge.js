@@ -435,6 +435,51 @@ function createRoundBridge(deps) {
         capturedResults.beastBondReactions = Array.isArray(res.beast_bond_reactions)
           ? res.beast_bond_reactions
           : [];
+        // V5 shared_hp_pool (Codex #2542 P2): re-split a bonus through the pool
+        // RIGHT AFTER it lands, BEFORE the next bonus block reads target.hp — else a
+        // pooled target floored to 0 by focus_fire makes synergy read 0 and skip its
+        // stackable bonus. No-op for non-pool targets (applySharedHpPool -> null).
+        // V5 shared_hp_pool (Codex #2542 P2): apply a focus_fire/synergy bonus with
+        // its FULL value through the pool, so a low-HP pooled member doesn't starve
+        // the bonus (the bonded partner absorbs the overflow) and each stacked bonus
+        // reads pool-restored HP. Pre-credit the full bonus to damage_taken; the pool
+        // reconciles it (-extra + actual) when pooled, else fall back to the solo
+        // clamp (undo the over-credit). Returns the damage that actually landed.
+        const applyBonusThroughPool = (extra) => {
+          if (!(extra > 0)) return 0;
+          const hpNow = Number(target.hp || 0);
+          if (hpNow <= 0) return 0;
+          const soloApplied = Math.min(extra, hpNow);
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+          }
+          target.hp = hpNow - soloApplied; // tentative solo; the pool overrides when pooled
+          let pr = null;
+          try {
+            pr = require('../services/combat/symbiontBond').applySharedHpPool(
+              session,
+              target,
+              extra,
+              hpNow,
+            );
+          } catch {
+            /* symbiont bond optional */
+          }
+          if (pr) {
+            capturedResults.killOccurred = Number(target.hp) <= 0;
+            return extra;
+          }
+          if (session.damage_taken) {
+            session.damage_taken[target.id] = Math.max(
+              0,
+              (session.damage_taken[target.id] || 0) - extra + soloApplied,
+            );
+          }
+          if (Number(target.hp) <= 0 && !capturedResults.killOccurred) {
+            capturedResults.killOccurred = true;
+          }
+          return soloApplied;
+        };
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
@@ -443,18 +488,9 @@ function createRoundBridge(deps) {
         if (res.result && res.result.hit && comboInfo.is_combo) {
           let applied = 0;
           if (res.damageDealt > 0) {
-            const extra = comboInfo.bonus_damage;
-            const hpNow = Number(target.hp || 0);
-            applied = Math.min(extra, hpNow);
+            applied = applyBonusThroughPool(comboInfo.bonus_damage);
             if (applied > 0) {
-              target.hp = hpNow - applied;
               capturedResults.damageDealt = res.damageDealt + applied;
-              if (session.damage_taken) {
-                session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
-              }
-              if (target.hp <= 0 && !capturedResults.killOccurred) {
-                capturedResults.killOccurred = true;
-              }
             }
           }
           capturedResults.combo = { ...comboInfo, bonus_applied: applied };
@@ -466,20 +502,10 @@ function createRoundBridge(deps) {
         if (res.result && res.result.hit && synergyInfo.triggered) {
           let appliedSyn = 0;
           if (res.damageDealt > 0) {
-            const extra = synergyInfo.bonus_damage;
-            const hpNow = Number(target.hp || 0);
-            appliedSyn = Math.min(extra, hpNow);
+            appliedSyn = applyBonusThroughPool(synergyInfo.bonus_damage);
             if (appliedSyn > 0) {
-              target.hp = hpNow - appliedSyn;
               capturedResults.damageDealt =
                 Number(capturedResults.damageDealt || res.damageDealt) + appliedSyn;
-              if (session.damage_taken) {
-                session.damage_taken[target.id] =
-                  (session.damage_taken[target.id] || 0) + appliedSyn;
-              }
-              if (target.hp <= 0 && !capturedResults.killOccurred) {
-                capturedResults.killOccurred = true;
-              }
             }
           }
           capturedResults.synergy = { ...synergyInfo, bonus_applied: appliedSyn };
@@ -749,6 +775,7 @@ function createRoundBridge(deps) {
       }
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
+        await emitPoolCounterpartKo(session, actor, target, event);
         // Sistema pressure (AI War pattern — sistema_pressure.yaml §deltas):
         //   player KO sistema  → +pg_kills_sis  (pressure sale)
         //   sistema KO player  → +sg_pg_down    (pressure cala, Sistema si placa)
@@ -1239,6 +1266,31 @@ function createRoundBridge(deps) {
       console.warn('[morale-contagion] failed:', err && err.message ? err.message : err);
     }
 
+    // TKT-JOB-PHASEC B5 minion_resurrect_chance (bm_r6 capstone) — runs LAST, after
+    // all damage ticks have finalized this round's deaths. Revives dead minions whose
+    // living owner has the perk (one roll per minion); emit the revive events.
+    // Seeded RNG (Codex #2547 P2): applyEndOfRoundSideEffects runs in async code
+    // AFTER runWithSeed restored the global stream, so — like the other async roll
+    // sites here (morale L~1208) — the revive roll must draw from the per-session
+    // holder, not the bridge-level `rng`, to stay deterministic for seeded playtests.
+    const resurrectEvents = require('../services/combat/minionRuntime').applyMinionResurrect(
+      session,
+      makeHolderRng(session.combatRng),
+    );
+    for (const ev of resurrectEvents) {
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'minion_resurrect',
+        actor_id: ev.owner_id,
+        target_id: ev.minion_id,
+        turn: session.turn,
+        result: 'revived',
+        hp_after: ev.hp_after,
+        trait_effects: [],
+      });
+    }
+
     return {
       hazardEvents,
       bleedingEvents,
@@ -1246,6 +1298,7 @@ function createRoundBridge(deps) {
       terrainDecayEvents,
       alphaEvents,
       thoughtEvents,
+      resurrectEvents,
     };
   }
 
@@ -1299,19 +1352,47 @@ function createRoundBridge(deps) {
 
           let combo = null;
           let synergy = null;
+          // V5 shared_hp_pool (Codex #2542 P2): apply a bonus with its FULL value
+          // through the pool (a low-HP pooled member doesn't starve it; the partner
+          // absorbs the overflow) + each stacked bonus reads pool-restored HP.
+          // Pre-credit the full bonus to damage_taken; the pool reconciles it when
+          // pooled, else fall back to the solo clamp. Returns the damage that landed.
+          // (This path detects kills via target.hp <= 0 below, so no killOccurred.)
+          const applyBonusThroughPool = (extra) => {
+            if (!(extra > 0)) return 0;
+            const hpNow = Number(target.hp || 0);
+            if (hpNow <= 0) return 0;
+            const soloApplied = Math.min(extra, hpNow);
+            if (session.damage_taken) {
+              session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + extra;
+            }
+            target.hp = hpNow - soloApplied;
+            let pr = null;
+            try {
+              pr = require('../services/combat/symbiontBond').applySharedHpPool(
+                session,
+                target,
+                extra,
+                hpNow,
+              );
+            } catch {
+              /* symbiont bond optional */
+            }
+            if (pr) return extra;
+            if (session.damage_taken) {
+              session.damage_taken[target.id] = Math.max(
+                0,
+                (session.damage_taken[target.id] || 0) - extra + soloApplied,
+              );
+            }
+            return soloApplied;
+          };
           if (!isSis) {
             const comboInfo = detectFocusFireCombo(session, actor, target);
             if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
-              const extra = comboInfo.bonus_damage;
-              const hpNow = Number(target.hp || 0);
-              const applied = Math.min(extra, hpNow);
+              const applied = applyBonusThroughPool(comboInfo.bonus_damage);
               if (applied > 0) {
-                target.hp = hpNow - applied;
                 res.damageDealt = res.damageDealt + applied;
-                if (session.damage_taken) {
-                  session.damage_taken[target.id] =
-                    (session.damage_taken[target.id] || 0) + applied;
-                }
               }
               combo = { ...comboInfo, bonus_applied: applied };
             }
@@ -1323,21 +1404,15 @@ function createRoundBridge(deps) {
           if (res.result && res.result.hit && synergyInfo.triggered) {
             let appliedSyn = 0;
             if (res.damageDealt > 0) {
-              const extra = synergyInfo.bonus_damage;
-              const hpNow = Number(target.hp || 0);
-              appliedSyn = Math.min(extra, hpNow);
+              appliedSyn = applyBonusThroughPool(synergyInfo.bonus_damage);
               if (appliedSyn > 0) {
-                target.hp = hpNow - appliedSyn;
                 res.damageDealt = res.damageDealt + appliedSyn;
-                if (session.damage_taken) {
-                  session.damage_taken[target.id] =
-                    (session.damage_taken[target.id] || 0) + appliedSyn;
-                }
               }
             }
             synergy = { ...synergyInfo, bonus_applied: appliedSyn };
             recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
           }
+          // (shared_hp_pool re-split now runs inline per-bonus above — Codex #2542 P2.)
 
           const event = buildAttackEvent({
             session,
@@ -1459,6 +1534,19 @@ function createRoundBridge(deps) {
         if (tgtLegacy && tgtOrch && tgtOrch.hp) {
           tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
         }
+        // V5 shared_hp_pool (Codex #2542 P1): a pool hit also mutates the bonded
+        // counterpart's HP, but this path syncs only actor+target back to
+        // roundState. Sync the counterpart too (harmless no-op if it didn't change)
+        // so its roundState HP isn't stale for later intents / UI / end-of-round.
+        const partnerId =
+          tgtLegacy && ((tgtLegacy._bond && tgtLegacy._bond.partner_id) || tgtLegacy._bonded_by);
+        if (partnerId) {
+          const cpLegacy = session.units.find((u) => u.id === partnerId);
+          const cpOrch = next.units.find((u) => u.id === partnerId);
+          if (cpLegacy && cpOrch && cpOrch.hp) {
+            cpOrch.hp.current = Number(cpLegacy.hp || 0);
+          }
+        }
       }
       return { nextState: next, turnLogEntry };
     };
@@ -1466,9 +1554,45 @@ function createRoundBridge(deps) {
     return { resolveFn, iaActions, playerActions, kills };
   }
 
+  // V5 shared_hp_pool (Codex #2542 P2): when a pool both-KO drops the struck
+  // target AND its bonded counterpart to 0 in one hit, the counterpart death is
+  // otherwise silent (kill plumbing only tracks `target`). Surface it: emit a
+  // kill/assist + pressure delta for the counterpart too. The living-members gate
+  // in applySharedHpPool guarantees the counterpart was alive pre-hit, so a 0-HP
+  // counterpart here means it died THIS hit. Mirrors the interceptor_killed chain.
+  async function emitPoolCounterpartKo(session, actor, target, event) {
+    if (!target) return null;
+    const partnerId = (target._bond && target._bond.partner_id) || target._bonded_by || null;
+    if (!partnerId) return null;
+    const cp = (session.units || []).find((u) => u && u.id === partnerId);
+    // Codex #2542 P2: emit ONLY when applySharedHpPool actually pool-KO'd this cp
+    // this hit (the `_pool_both_ko` flag) — NOT for any bonded unit at 0. A
+    // dual_bond secondary (not pooled) or an already-dead symbiont must not emit
+    // a spurious extra kill/assist + pressure.
+    if (!cp || !cp._pool_both_ko || cp._pool_ko_emitted) return null;
+    cp._pool_ko_emitted = true;
+    delete cp._pool_both_ko;
+    await emitKillAndAssists(session, actor, cp, event);
+    if (typeof session.sistema_pressure === 'number') {
+      if (actor.controlled_by === 'player' && cp.controlled_by === 'sistema') {
+        session.sistema_pressure = applyPressureDelta(
+          session.sistema_pressure,
+          PRESSURE_DELTAS.pg_kills_sis,
+        );
+      } else if (actor.controlled_by === 'sistema' && cp.controlled_by === 'player') {
+        session.sistema_pressure = applyPressureDelta(
+          session.sistema_pressure,
+          PRESSURE_DELTAS.sg_pg_down,
+        );
+      }
+    }
+    return cp;
+  }
+
   async function postResolveKills(session, kills) {
     for (const { actor, target, event } of kills) {
       await emitKillAndAssists(session, actor, target, event);
+      const poolCp = await emitPoolCounterpartKo(session, actor, target, event);
       if (typeof session.sistema_pressure === 'number') {
         if (actor.controlled_by === 'player' && target.controlled_by === 'sistema') {
           session.sistema_pressure = applyPressureDelta(
@@ -1488,16 +1612,20 @@ function createRoundBridge(deps) {
       // panic (or rarely rage). Best-effort; never blocks the kill flow.
       try {
         const { moraleEventsForKill } = require('../services/combat/moraleOnKill');
-        const moraleEvents = moraleEventsForKill(target, session.units, {
-          sessionId: session.session_id,
-          turn: session.turn,
-          // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
-          // (this path runs after runWithSeed restored the global stream).
-          rng: makeHolderRng(session.combatRng),
-        });
-        for (const mEv of moraleEvents) {
-          // eslint-disable-next-line no-await-in-loop
-          await appendEvent(session, mEv);
+        // Includes the pool counterpart on a shared_hp_pool both-KO (Codex #2542)
+        // so its adjacent allies also make a morale check, not just the target's.
+        for (const victim of [target, poolCp].filter(Boolean)) {
+          const moraleEvents = moraleEventsForKill(victim, session.units, {
+            sessionId: session.session_id,
+            turn: session.turn,
+            // Codex #2450 P1: keep the post-kill morale d20 inside the session RNG
+            // (this path runs after runWithSeed restored the global stream).
+            rng: makeHolderRng(session.combatRng),
+          });
+          for (const mEv of moraleEvents) {
+            // eslint-disable-next-line no-await-in-loop
+            await appendEvent(session, mEv);
+          }
         }
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -1719,6 +1847,19 @@ function createRoundBridge(deps) {
         const tgtOrch = next.units.find((u) => u.id === String(action.target_id));
         if (tgtLegacy && tgtOrch && tgtOrch.hp) {
           tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
+        }
+        // V5 shared_hp_pool (Codex #2542 P1): a pool hit also mutates the bonded
+        // counterpart's HP, but this path syncs only actor+target back to
+        // roundState. Sync the counterpart too (harmless no-op if it didn't change)
+        // so its roundState HP isn't stale for later intents / UI / end-of-round.
+        const partnerId =
+          tgtLegacy && ((tgtLegacy._bond && tgtLegacy._bond.partner_id) || tgtLegacy._bonded_by);
+        if (partnerId) {
+          const cpLegacy = session.units.find((u) => u.id === partnerId);
+          const cpOrch = next.units.find((u) => u.id === partnerId);
+          if (cpLegacy && cpOrch && cpOrch.hp) {
+            cpOrch.hp.current = Number(cpLegacy.hp || 0);
+          }
         }
       }
       return { nextState: next, turnLogEntry };

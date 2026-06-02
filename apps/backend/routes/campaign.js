@@ -206,8 +206,11 @@ function createCampaignRouter(options = {}) {
   // a node on the meta-network graph. Flag-gated OFF by default — when
   // META_NETWORK_ROUTING !== 'true' it returns { enabled: false } and does NOT
   // touch campaign flow (band-safe / back-compat, Gate-5 surface without wiring
-  // into /advance). Query: ?from=<NODE_ID>&cleared=A,B&allow_revisit=1
-  // Arc-conditions + node->encounter resolution are POST-MVP (spec §7).
+  // into /advance). Query: ?from=<NODE_ID>&cleared=A,B&allow_revisit=1&campaign_id=<id>&season=winter
+  // Fase 2 (arc-conditions, Stage 1, ADR-2026-05-31): edges may carry a
+  // `conditions:` block (season / prior_node_cleared) = Dormans lock-and-key. The
+  // `season` query param feeds the evaluator (live source =
+  // campaignSeasonalState.current_season). node->encounter resolution stays POST-MVP.
   router.get('/campaign/meta-network/next', (req, res) => {
     const enabled = process.env.META_NETWORK_ROUTING === 'true';
     if (!enabled) {
@@ -221,7 +224,20 @@ function createCampaignRouter(options = {}) {
         ? req.query.cleared.split(',').map((s) => s.trim())
         : [];
     const allowRevisit = req.query.allow_revisit === '1' || req.query.allow_revisit === 'true';
-    const routing = selectNextNodes(from, { graph, clearedNodes, allowRevisit });
+    // Fase 2 (arc-conditions, Stage 1): season feeds season-gated edges. Prefer the
+    // LIVE campaign season (campaignSeasonalState, advanced via the seasonal routes)
+    // when ?campaign_id= is supplied; ?season= is a diagnostic override. Read-only
+    // .get() (NOT _getOrInitSeasonalState) so this diagnostic never creates seasonal
+    // state for an arbitrary id. Absent/unknown -> undefined -> season-gated edges
+    // fail-closed (band-safe).
+    const seasonOverride = typeof req.query.season === 'string' ? req.query.season : undefined;
+    const campaignId =
+      typeof req.query.campaign_id === 'string' ? req.query.campaign_id.trim() : '';
+    const liveSeason = campaignId
+      ? campaignSeasonalState.get(campaignId)?.current_season
+      : undefined;
+    const season = seasonOverride ?? liveSeason;
+    const routing = selectNextNodes(from, { graph, clearedNodes, allowRevisit, season });
     return res.json({
       enabled: true,
       network_id: graph ? graph.id : null,
@@ -231,7 +247,8 @@ function createCampaignRouter(options = {}) {
 
   // POST /api/campaign/advance
   router.post('/campaign/advance', (req, res) => {
-    const { id, outcome, pe_earned, pi_earned, survivors, xp_per_unit } = req.body || {};
+    const { id, outcome, pe_earned, pi_earned, survivors, xp_per_unit, first_kill_actor_id } =
+      req.body || {};
     if (!id) return res.status(400).json({ error: 'id richiesto' });
     if (!['victory', 'defeat', 'timeout'].includes(outcome)) {
       return res.status(400).json({ error: 'outcome deve essere victory|defeat|timeout' });
@@ -294,7 +311,8 @@ function createCampaignRouter(options = {}) {
               : null,
           ),
           amount,
-          { campaignId: id },
+          // V6 A3 — pass the debrief's first-kill actor so first_kill_pe_bonus lands.
+          { campaignId: id, firstKillActorId: first_kill_actor_id },
         );
       } catch (err) {
         xpGrants = [];

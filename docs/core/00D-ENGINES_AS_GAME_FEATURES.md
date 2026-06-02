@@ -520,3 +520,38 @@ Usa questo file quando devi decidere:
 Se devi invece capire **dove leggere cosa nel repo**, usa `00C-WHERE_TO_USE_WHAT.md`.
 Se devi capire **cosa è canonico e cosa no**, usa `00B-CANONICAL_PROMOTION_MATRIX.md`.
 Se devi capire **cos'è Evo Tactics come gioco**, usa `00-GDD_MASTER.md`.
+
+---
+
+## 16. Motori Phase-2 — Stato di combattimento persistente
+
+> Canonizzazione **OD-058 D5** (verdetto 3A, master-dd Eduardo 2026-06-01). I 4 motori di "stato di combattimento persistente" entrano nel design-of-record. Specchio canonico: `00-SOURCE-OF-TRUTH.md §13.9`. Confine Phase-2 = SOLO questi 4 (vedi §16.5, anti catch-all).
+
+### 16.1 Morale → "Tenuta dello scontro"
+
+- **Ruolo tecnico**: trigger panic/rage stile Battle-Brothers (Game #2390, wire on ally-death).
+- **Come appare in gioco**: quando un alleato cade, la creatura _vacilla_ (panic) o si _infuria_ (rage) — la pressione emotiva del campo diventa leggibile, non solo gli HP.
+- **Beneficio**: il morale rende visibile il costo psicologico dello scontro.
+
+### 16.2 Ferite a locazione → "Dove fa male" (vedi D2)
+
+- **Ruolo tecnico**: hit-location → malus su stat principale; 4 locazioni (testa→mira/AP, torso→difesa, arti_ant→attacco, arti_post→mobilità) + 3 tier gravità (lieve/media/grave). Build = `woundSystem.js` (SPEC-D2).
+- **Come appare in gioco**: una ferita al torso abbassa la difesa, agli arti l'attacco o la mobilità, alla testa la mira (-1 AP solo se grave). Le ferite gravi diventano cicatrici cross-encounter.
+- **Beneficio**: il danno ha una geografia — "questa creatura zoppica", non solo "ha meno HP".
+
+### 16.3 Stato cumulativo → "Memoria del corpo"
+
+- **Ruolo tecnico**: `cumulativeStateTracker` (Game #2383), trigger mutazioni cumulative a fine round.
+- **Come appare in gioco**: il corpo registra lo stress accumulato e muta nel tempo — le forme parlano.
+- **Beneficio**: continuità tra round/encounter; l'evoluzione è conseguenza visibile dell'esperienza di combattimento.
+
+### 16.4 vcSnapshot coop → "Cronaca dello scontro" (vedi D3)
+
+- **Ruolo tecnico**: telemetria combat → scoring/debrief; in coop il server **ricostruisce** `vcSnapshot` dal ledger/event-log (D3 Opzione 2 — il combat resta client-side, SoT §24.1 non violata). Decision-of-record: `ADR-2026-05-30-coop-server-authoritative-combat`.
+- **Come appare in gioco**: il debrief post-missione mostra il contributo VC anche in coop, allineato al single-player.
+- **Beneficio**: lo scoring/evoluzione coop smette di essere cittadino-di-seconda-classe.
+
+### 16.5 Confine Phase-2 (anti catch-all)
+
+- **DENTRO**: i 4 motori sopra (morale, ferite-a-locazione, stato-cumulativo, vcSnapshot-coop).
+- **FUORI (esplicito)**: ogni altro motore — narrative, plugin, worldgen/Flow, Atlas, EventScheduler, AI-SIS — e la regola **overcharge-AP** (OD-058 D1: è una regola di combat, non un motore Phase-2). Un motore futuro NON è Phase-2 per default: ci entra solo con un verdetto esplicito.

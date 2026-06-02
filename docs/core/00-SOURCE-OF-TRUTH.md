@@ -20,15 +20,15 @@ _v5 (2026-04-16): merge visione prescrittiva da `evo_tactics_game_vision_reconst
 
 | Stato | Task                                             | Dettagli operativi                                                                                                                                                                                     |
 | ----- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ☑    | Visione generale ricostruita                     | Derivata soprattutto da [`01-VISIONE.md`](01-VISIONE.md), [`03-LOOP.md`](03-LOOP.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)       |
-| ☑    | Prima partita ricostruita                        | Supportata da [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) e [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)                                                                         |
-| ☑    | Worldgen ed ecosistemi ricostruiti               | Supportati da [`biomes.yaml`](../../data/core/biomes.yaml), `data/ecosystems/*`, `packs/evo_tactics_pack/data/ecosystems/*`                                                                            |
-| ☑    | Foodweb verificata                               | Confermata da `packs/evo_tactics_pack/data/foodwebs/*`, validator e network cross-bioma                                                                                                                |
-| ☑    | Sistema evolutivo specie-trait-forme ricostruito | Supportato da [`species.yaml`](../../data/core/species.yaml), [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md), `data/core/traits/*`                       |
-| ☑    | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) |
-| ☑    | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                         |
-| ☑    | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                        |
-| ☑    | Visione prescrittiva integrata (§20–§23)         | Merge da [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md) — contenuto nuovo (Tri-Sorgente, A.L.I.E.N.A., companion detail, loop prescrittivo)           |
+| ☑     | Visione generale ricostruita                     | Derivata soprattutto da [`01-VISIONE.md`](01-VISIONE.md), [`03-LOOP.md`](03-LOOP.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)       |
+| ☑     | Prima partita ricostruita                        | Supportata da [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) e [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)                                                                         |
+| ☑     | Worldgen ed ecosistemi ricostruiti               | Supportati da [`biomes.yaml`](../../data/core/biomes.yaml), `data/ecosystems/*`, `packs/evo_tactics_pack/data/ecosystems/*`                                                                            |
+| ☑     | Foodweb verificata                               | Confermata da `packs/evo_tactics_pack/data/foodwebs/*`, validator e network cross-bioma                                                                                                                |
+| ☑     | Sistema evolutivo specie-trait-forme ricostruito | Supportato da [`species.yaml`](../../data/core/species.yaml), [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md), `data/core/traits/*`                       |
+| ☑     | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) |
+| ☑     | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                         |
+| ☑     | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                        |
+| ☑     | Visione prescrittiva integrata (§20–§23)         | Merge da [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md) — contenuto nuovo (Tri-Sorgente, A.L.I.E.N.A., companion detail, loop prescrittivo)           |
 
 ---
 
@@ -498,17 +498,17 @@ La memoria che avevi era giusta: il gioco era più grande del puro combat, e il 
 
 | Stato | Task                                | Dettagli operativi                                                                                    |
 | ----- | ----------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| ☑    | 1. Leggere la visione               | [`docs/core/01-VISIONE.md`](01-VISIONE.md)                                                            |
-| ☑    | 2. Leggere il loop                  | [`docs/core/03-LOOP.md`](03-LOOP.md)                                                                  |
-| ☑    | 3. Leggere il freeze                | [`docs/core/90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)                                    |
-| ☑    | 4. Recuperare il feeling originario | [`docs/core/DesignDoc-Overview.md`](DesignDoc-Overview.md)                                            |
-| ☑    | 5. Leggere il flow giocabile        | [`docs/planning/17-SCREEN_FLOW.md`](../planning/17-SCREEN_FLOW.md)                                    |
-| ☑    | 6. Leggere la prima partita         | [`docs/planning/encounters/enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)        |
-| ☑    | 7. Leggere specie e Forme           | [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md)          |
-| ☑    | 8. Leggere biomi e Director         | [`28-NPC_BIOMI_SPAWN.md`](28-NPC_BIOMI_SPAWN.md), [`biomes.yaml`](../../data/core/biomes.yaml)        |
-| ☑    | 9. Leggere foodweb/ecosistemi       | `packs/evo_tactics_pack/data/ecosystems/*`, `packs/evo_tactics_pack/data/foodwebs/*`, `.../network/*` |
-| ☑    | 10. Leggere meta-loop               | [`27-MATING_NIDO.md`](27-MATING_NIDO.md), [`mating.yaml`](../../data/core/mating.yaml)                |
-| ☑    | 11. Promuovere un master doc        | Questo file è ora `docs/core/00-SOURCE-OF-TRUTH.md`                                                   |
+| ☑     | 1. Leggere la visione               | [`docs/core/01-VISIONE.md`](01-VISIONE.md)                                                            |
+| ☑     | 2. Leggere il loop                  | [`docs/core/03-LOOP.md`](03-LOOP.md)                                                                  |
+| ☑     | 3. Leggere il freeze                | [`docs/core/90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)                                    |
+| ☑     | 4. Recuperare il feeling originario | [`docs/core/DesignDoc-Overview.md`](DesignDoc-Overview.md)                                            |
+| ☑     | 5. Leggere il flow giocabile        | [`docs/planning/17-SCREEN_FLOW.md`](../planning/17-SCREEN_FLOW.md)                                    |
+| ☑     | 6. Leggere la prima partita         | [`docs/planning/encounters/enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)        |
+| ☑     | 7. Leggere specie e Forme           | [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md)          |
+| ☑     | 8. Leggere biomi e Director         | [`28-NPC_BIOMI_SPAWN.md`](28-NPC_BIOMI_SPAWN.md), [`biomes.yaml`](../../data/core/biomes.yaml)        |
+| ☑     | 9. Leggere foodweb/ecosistemi       | `packs/evo_tactics_pack/data/ecosystems/*`, `packs/evo_tactics_pack/data/foodwebs/*`, `.../network/*` |
+| ☑     | 10. Leggere meta-loop               | [`27-MATING_NIDO.md`](27-MATING_NIDO.md), [`mating.yaml`](../../data/core/mating.yaml)                |
+| ☑     | 11. Promuovere un master doc        | Questo file è ora `docs/core/00-SOURCE-OF-TRUTH.md`                                                   |
 
 ---
 
@@ -721,6 +721,25 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 | §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
 | §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
 | M14 Mutations (Path A)     | `mutationCatalogLoader.js` + `routes/mutations.js`        | 🟡 Foundation live (30 entries, 4 endpoint REST `/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 wire. Decoupled da V3 mating per design semantics 2026-04-25.                                                    |
+
+### 13.9 Motori Phase-2 — stato di combattimento persistente
+
+> Canonizzazione **OD-058 D5** (verdetto 3A, master-dd Eduardo 2026-06-01). I 4 motori di "stato di combattimento persistente" entrano nel design-of-record (chiude lo scope-creep di motori shippati senza backing SoT). Confine **Phase-2 = SOLO questi 4**; **FUORI = esplicito** (anti catch-all): qualsiasi altro motore (narrative, plugin, worldgen/Flow, Atlas, AI-SIS) e la regola overcharge-AP (D1, è una _regola_ di combat, non un _motore_ Phase-2) NON sono Phase-2. Un motore futuro non è Phase-2 per default.
+
+| Motore                   | Cosa fa                                                             | Stato                      | Owner-doc                                                     |
+| ------------------------ | ------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| `morale`                 | panic/rage on ally-death (stile Battle-Brothers)                    | SHIPPED #2390              | `00D §16.1`                                                   |
+| ferite a locazione       | hit-location → malus stat                                           | design `ready`, build D2   | SPEC-D2 / `00D §16.2`                                         |
+| `cumulativeStateTracker` | mutazioni cumulative end-of-round                                   | SHIPPED #2383              | `00D §16.3`                                                   |
+| vcSnapshot coop          | telemetria combat → scoring/debrief; server ricostruisce dal ledger | arch-gated, D3 (Opzione 2) | ADR-2026-05-30-coop-server-authoritative-combat / `00D §16.4` |
+
+Dettaglio diegetico per-motore: `00D-ENGINES_AS_GAME_FEATURES.md §16`. I 2 puntatori (ferite→D2, vcSnapshot→D3) restano gestiti dai rispettivi doc-of-record; D5 li integra, non li ridecide.
+
+#### 13.9.1 Canali di danno + matrice resistenze (OD-058 D4)
+
+Canali canonici (11): `fisico`, `taglio`, `fuoco`, `elettrico`, `psionico`, `mentale`, `gravita`, `ionico`, `earth`, `wind`, `dark`. Semantica `modifier_pct`: **100 = neutro, >100 = vulnerabile, <100 = resistente**. Dato-di-record = `packs/evo_tactics_pack/data/balance/species_resistances.yaml`.
+
+Dead-channel `elettrico` **CHIUSA** (D4 downscope-A): `corazzato elettrico: 120` (vulnerabile) shipped #2381 + N=40-ratify #2389 → il canale ha finalmente un bersaglio premiante. Enrichment residuo (1-2 nuovi trait elettrico + retune `bioelettrico`, oggi `elettrico: 70`) = ticket separato **TKT-D4-ENRICH** (NON OD-058-gating; gate = N=40 + scenario-probe elettrico dedicato corazzato-vs-attaccante, anti-pattern #14).
 
 ---
 
@@ -1335,7 +1354,7 @@ Per la mappa dettagliata di come i moduli tecnici del repo si traducono in featu
 
 | Sistema             | Descrittivo (§1–§19)              | Prescrittivo (§20–§23)                      |
 | ------------------- | --------------------------------- | ------------------------------------------- |
-| Progressione        | VC scoring + MBTI/Ennea operativi | Tri-Sorgente come ponte run↔identity (§20) |
+| Progressione        | VC scoring + MBTI/Ennea operativi | Tri-Sorgente come ponte run↔identity (§20)  |
 | Framework autoriali | Validator foodweb/trophic attivi  | A.L.I.E.N.A. come layer autoriale (§21)     |
 | Companion           | Concetto in design docs           | Funzioni specifiche per area UX (§22)       |
 | Loop                | Sequenza match documentata        | Loop completo con meta-loop integrato (§23) |

@@ -60,7 +60,9 @@ SCHEMA_TARGETS = (
         "https://game.schemas.local/catalog.schema.json",
     ),
     (_resolve_dataset_path("biomes.yaml"), "https://game.schemas.local/biome.schema.yaml"),
-    (_resolve_dataset_path("species.yaml"), "https://game.schemas.local/species.schema.yaml"),
+    # species.yaml was removed in the Q1 canonical migration (single SoT =
+    # data/core/species/species_catalog.json, validated against its schema by
+    # validate_datasets.validate_species_catalog_schema). No deleted-file target here.
 )
 
 
@@ -113,7 +115,7 @@ def validate_schemas() -> Tuple[Optional[List[Dict[str, Any]]], List[Issue]]:
     issues: List[Issue] = []
 
     for data_path, schema_id in SCHEMA_TARGETS:
-        relative_path = str(data_path.relative_to(REPO_ROOT))
+        relative_path = data_path.relative_to(REPO_ROOT).as_posix()
         entry: Dict[str, Any] = {
             "path": relative_path,
             "schema": schema_id,

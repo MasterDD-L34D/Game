@@ -1,9 +1,9 @@
-schema_version: 2.0
+schema_version: 2.1
 receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: e362055b1ea59deb44a2b73bfaf8de6d4270dcfe4b1646d57fd79573742de7c2
+  trace_hash: daa14cfa4bcc63136485c46c1b99275980b5d66865477d6b72990c826afeb1e3
 links:
   ecosystems:
   - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
@@ -66,12 +66,19 @@ network:
     resistance: 0.6
     seasonality: inverno
     notes: valichi nevosi con copertura forestale rada
+    # fase-2 arc-condition (ADR-2026-05-31, Stage 1): il valico nevoso si apre
+    # solo d'inverno (lock-and-key). `seasonality` resta flavor; il gate usa
+    # l'enum EN canonico (seasonalEngine.SEASONS).
+    conditions:
+      season: [winter]
   - from: CRYOSTEPPE
     to: FORESTA_TEMPERATA
     type: seasonal_bridge
     resistance: 0.65
     seasonality: inverno profondo
     notes: coltri di ghiaccio creano corridoi di transito sotto chioma
+    conditions:
+      season: [winter]
   - from: CRYOSTEPPE
     to: BADLANDS
     type: trophic_spillover

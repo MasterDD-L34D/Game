@@ -152,7 +152,10 @@ test('applyPerkAbilityUseEffects: no perks = no-op', () => {
 // --- wire: executeAbility fires the use-hook only post-2xx ---
 
 test('executeAbility wires the use-hook: phenotype_shift heals via phenotype_baseline_heal', async () => {
-  const ex = createAbilityExecutor({ appendEvent: async () => {} });
+  // rng=0 forces the phenotype_shift 1d6 roll to 1 (attack_mod buff, no hp change),
+  // isolating the phenotype_baseline_heal use-hook (slice A1b randomized the table,
+  // so a roll of 5 would itself heal and confound this assertion).
+  const ex = createAbilityExecutor({ appendEvent: async () => {}, rng: () => 0 });
   const actor = {
     id: 'ab',
     ap_remaining: 5,
