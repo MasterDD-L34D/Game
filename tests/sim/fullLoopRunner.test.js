@@ -87,6 +87,16 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     [],
     `no meta violations: ${JSON.stringify(res.metaViolations)}`,
   );
+  // fase-1b-3a recruit -> combat: a unit recruited on a cleared chapter is resolved to
+  // a faithful canon-derived player unit and JOINS the next mission's combat roster
+  // (attrition replacement). Assert recruit_s1 (recruited after chapter 1) actually
+  // fought a later chapter -> the recruit -> combat feedback loop is closed.
+  assert.ok(
+    res.chapters.slice(1).some((c) => (c.rosterIds || []).includes('recruit_s1')),
+    `a recruited unit fought a later chapter; chapters=${JSON.stringify(
+      res.chapters.map((c) => ({ step: c.step, rosterIds: c.rosterIds })),
+    )}`,
+  );
 });
 
 test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory chapter (Codex #2563 P2)', async () => {
@@ -134,4 +144,56 @@ test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory cha
   });
   assert.deepEqual(res.recruited, [], 'no recruit on a rejected advance');
   assert.ok(!calls.includes('/api/meta/recruit'), 'meta/recruit never called when advance != 200');
+});
+
+test('runFullLoop: does NOT recruit on the campaign-completing chapter (Codex #2565 P2)', async () => {
+  // A victory whose advance completes the campaign (campaign_completed:true) has no next
+  // mission, so recruiting there would inflate finalRoster/recruited with a unit that
+  // never fights. The meta-step must be skipped on the completing chapter.
+  const calls = [];
+  const http = {
+    post: async (path) => {
+      calls.push(path);
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        return { status: 200, body: { campaign_completed: true } };
+      }
+      if (path === '/api/meta/recruit') {
+        return { status: 200, body: { success: true, npc: { recruited: true } } };
+      }
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state') {
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      }
+      if (path === '/api/campaign/summary') {
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      }
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'stalker',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 3,
+  });
+  assert.equal(res.completed, true, 'campaign completed');
+  assert.deepEqual(res.recruited, [], 'no recruit on the completing chapter');
+  assert.ok(!calls.includes('/api/meta/recruit'), 'meta/recruit not called on completion');
 });
