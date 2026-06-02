@@ -120,9 +120,12 @@ async function runFullLoop(
     if (v.length) violations.push({ step, v });
     chapters.push({ step, encounter: enc, outcome: combat.outcome, survivors: aliveIds.length });
 
-    // Nido meta-step on a cleared chapter (recruit). Additive: never blocks the
-    // campaign flow; failures surface as metaViolations.
-    if (combat.outcome === 'victory') {
+    // Nido meta-step on a TRULY cleared chapter (recruit). Gated on a 200 advance
+    // (Codex #2563 P2): if combat won but /campaign/advance rejected the chapter
+    // (409 finalized / 500 missing def / race), the campaign did NOT clear it, so
+    // we must NOT mutate Nido/meta state for it. Additive otherwise; failures ->
+    // metaViolations.
+    if (adv.status === 200 && combat.outcome === 'victory') {
       const meta = await applyMetaStep(http, { id, step });
       recruited.push(...meta.recruited);
       if (meta.failures.length) metaViolations.push({ step, failures: meta.failures });

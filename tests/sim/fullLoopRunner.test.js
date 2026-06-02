@@ -88,3 +88,50 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `no meta violations: ${JSON.stringify(res.metaViolations)}`,
   );
 });
+
+test('runFullLoop: does NOT recruit when /campaign/advance rejects a victory chapter (Codex #2563 P2)', async () => {
+  // Fake http: combat wins (state has no enemies) but /campaign/advance returns 409
+  // (finalized/race). The campaign did NOT clear the chapter, so the Nido meta-step
+  // must be skipped -> /api/meta/recruit is never called.
+  const calls = [];
+  const http = {
+    post: async (path) => {
+      calls.push(path);
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') return { status: 409, body: { error: 'finalized' } };
+      if (path === '/api/meta/recruit') return { status: 200, body: { success: true } };
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state') {
+        // No alive sistema units -> runEncounter resolves to 'victory' immediately.
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      }
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'stalker',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 3,
+  });
+  assert.deepEqual(res.recruited, [], 'no recruit on a rejected advance');
+  assert.ok(!calls.includes('/api/meta/recruit'), 'meta/recruit never called when advance != 200');
+});
