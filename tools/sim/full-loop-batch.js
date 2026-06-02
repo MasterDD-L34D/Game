@@ -600,6 +600,10 @@ async function main() {
       commit: args.commit,
       flags,
       enemyScaling,
+      // Persist the PE-per-victory calibration too (Codex #2576 P2): FL_PE_EARNED changes PE
+      // totals + pi_sink affordability, so summary.config must carry it or two reports with
+      // the same enemyScaling could not be told apart / reproduced from summary.json.
+      peEarned,
     },
     routing,
   );
