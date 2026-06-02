@@ -23,7 +23,11 @@
 
 - **FASE 1 — chiudi il design** (la maggior parte è GIA chiusa, verify-first): aperti reali = **H2** economy combat cost-gate (`cost_sg/pp/pt` decorativi vs SoT pools — verdetto master-dd, spec #2530-A2) + **H4** verifica copertura Cat F + **H8** 1-HP comment cleanup + **H9** OD-022/023 verify/archive + **H7** pillar surface-audit + **DECISIONE H1** GAP-C fase-3/4 (build-vs-gate).
 - **FASE 2 — costruisci** (post Fase 1): GAP-C fase-3/4 (Godot choice-UI + generative grammar) + feature sbloccate, seguendo le direttive + `docs/guide/games-source-index.md`.
-- ⚠️ **GIA SHIPPED, NON ricostruire**: PHASEC 32/32 (#2542), GAP-A (#2447), GAP-C fase-1/2 (#2509), campaign-XP (#2550), symbiont/minion (#2539-2549), ecosystem producers+wiring (#2510/#2447).
+- ⚠️ **GIA SHIPPED, NON ricostruire**: PHASEC 32/32 (#2542), GAP-A (#2447), GAP-C fase-1/2 (#2509), campaign-XP (#2550), symbiont/minion (#2539-2549), ecosystem producers+wiring (#2510/#2447). **+ H2 ECONOMY COMPLETO** (SG #2554 / PP #2555 / PT #2557; rescale=KEEP consume-all #2558). **+ Full-loop AI-playtest runner MVP** (#2559 spec / #2561 fase-0 / #2562 fase-1b-1 / **#2563 fase-1b-2 OPEN-per-Codex**).
+
+### 🔵 OPEN/NEXT — Full-loop AI-playtest runner (estende l'AI-playtest combat→meta-loop)
+
+L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→choose→completed), `tools/sim/` 12/12 test. Handoff: `docs/planning/2026-06-02-full-loop-build-handoff.md`. **NEXT**: (1) Codex review #2563 (aspetta reset usage-limit) → merge; (2) **fase-1b-3** recruit→combat stat-resolution + mating/affinity; (3) **fase-2** enemy scaled (encounter YAML) + band-metriche N=40 (completion 40-70% XCOM-LW2, attrition, economy) + mbtiPolicy + routing test-context. Memory: `project_full_loop_ai_playtest_runner.md`.
 
 ---
 

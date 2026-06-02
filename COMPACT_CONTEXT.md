@@ -5,19 +5,21 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-02 — GOAL MASTER: PHASEC 32/32 + design-closure goal doc (v46)
+## ⚡ Sessione corrente 2026-06-02 (late) — H2 economy COMPLETE + full-loop AI-playtest runner MVP (v47)
 
-**3 PR merged main**: #2542 `0f9be016` (PHASEC V5 `shared_hp_pool` capstone → **PHASEC 32/32 COMPLETE**, 9 round Codex/~14 fix) · #2509 `d05fe323` (GAP-C fase-2 arc-conditions Stage-1, triage merge) · #2551 `235c41f8` (doc di riferimento GOAL 2-fasi design-closure→build).
+**6 PR merged + 1 open**: #2557 `9b057ccd` (PT economy slice) · #2558 `1e202354` (rescale=KEEP consume-all + museum M-2026-06-02-002) · #2559 `40620bcc` (full-loop runner SPEC, grounded, 2 round Codex) · #2561 `723b8548` (fase-0 combat-policy+combatAdapter) · #2562 `c151ce29` (fase-1b-1 campaign+combat join) · **#2563 OPEN** (fase-1b-2 Nido recruit, CI verde, lasciato aperto per Codex).
 
 **Findings**:
 
-- PHASEC job-expansion perks 32/32 (Cat F 7/7 + symbiont 7/7 + minion 8/8 + V6 campaign-XP + V5 shared_hp_pool). 1-HP-tail rule RATIFICATA (both-KO a pool ≤1).
-- D4 promote = **già fatto** (#2505/#2510) — non rifare.
-- **Design ~90% già chiuso** (anti-pattern #19 ~7×): 6 "buchi" risultati shipped sotto verify-first (GAP-A #2447, GAP-C fase-1/2 #2509, campaign-XP #2550, symbiont/minion, producers #2510, ecosystem→combat foodwebFilter legge `.ecosystem.yaml`). Fase-1 reale piccola = H2 cost-gate + micro.
+- **H2 ECONOMY COMPLETO** (SG+PP+PT cost-gate live; rescale deciso KEEP consume-all). Design-closure Fase-2 chiusa.
+- **Full-loop AI-playtest runner MVP**: l'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→choose→completed). Era il Nord-gap (meta-loop non-AI-played). 12/12 sim test, tutto in `tools/sim/` (zero engine change).
+- 🔴 Codex usage-limit a metà sessione → #2563 OPEN per review al ritorno (merge self-review-only autorizzato per i precedenti).
+- 🔴 main checkout `C:/dev/Game` node_modules era ROTTO (js-yaml mancante) → **riparato** `npm ci`.
+- (Earlier same-day v46: GOAL MASTER PHASEC 32/32 + design-closure — vedi `project_design_closure_2026_06_02.md`.)
 
-**Next entry point**: doc `docs/planning/2026-06-02-design-closure-goal.md` (GOAL 2-fasi) + handoff `docs/planning/2026-06-02-goal-master-session-handoff.md` (contiene il `/goal` paste). Resume = incolla il `/goal` dall'handoff.
+**Next entry point**: handoff `docs/planning/2026-06-02-full-loop-build-handoff.md` (stato completo + seam API + NEXT). Resume = (1) Codex review #2563 → merge; (2) fase-1b-3 (recruit→combat stat-resolution + mating); (3) fase-2 (enemy scaled + band N=40). Memory: `project_full_loop_ai_playtest_runner.md` + `feedback_ai_playtest_is_the_nord.md`.
 
-**Blocker**: main checkout `C:/dev/Game` = altra sessione (fix-ecotypes-enum WIP, MAI toccare). #2535 OD-058 woundSystem combat OPEN (collision se Fase-2 tocca combat).
+**Blocker/note**: worktree `_gamewt-fl1b2` NON rimosso (PR #2563 open). main checkout = altra sessione `fix-ecotypes-enum` WIP (MAI toccare/committare).
 
 ---
 
