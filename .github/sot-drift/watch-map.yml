@@ -5,8 +5,8 @@
   sot_ref: ["core/00-SOURCE-OF-TRUTH.md#24", "core/90-FINAL-DESIGN-FREEZE.md#21.3"]
   concept: "modello genetico D-HEIR/D-REPRO"
 - pattern: "apps/backend/services/combat/**"
-  sot_ref: ["core/10-SISTEMA_TATTICO.md", "core/11-REGOLE_D20_TV.md"]
-  concept: "combat d20 / round loop"
+  sot_ref: ["core/10-SISTEMA_TATTICO.md", "core/11-REGOLE_D20_TV.md", "core/26-ECONOMY_CANONICAL.md"]
+  concept: "combat d20 / round loop / economy (PT)"
 - pattern: "data/core/economy*"
   sot_ref: ["core/26-ECONOMY_CANONICAL.md"]
   concept: "economia PT/PP/SG"
