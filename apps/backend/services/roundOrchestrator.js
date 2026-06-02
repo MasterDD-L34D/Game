@@ -968,7 +968,10 @@ function shouldAutoAdvance(state, opts = {}) {
   const { requirePlayerOnly = false } = opts;
   const phase = state && state.round_phase;
   if (phase === PHASE_PLANNING) {
-    let units = (state.units || []).filter((u) => u && u.hp > 0);
+    // TKT-JOB-PHASEC B5: minions are commanded (pack_command, follow-up), not
+    // player-driven — they never declare their own intent, so they must NOT gate
+    // the round advance (else summoning one stalls planning forever).
+    let units = (state.units || []).filter((u) => u && u.hp > 0 && !u.is_minion);
     if (requirePlayerOnly) {
       units = units.filter((u) => u && u.controlled_by === 'player');
     }
