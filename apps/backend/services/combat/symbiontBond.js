@@ -251,9 +251,22 @@ function applySharedHpPool(session, target, damageDealt, targetHpPreDamage) {
       c += give;
       t -= give;
     }
-    if (c < 0) c = 0;
-    target.hp = t;
-    counterpart.hp = c;
+    if (t < 1 || c < 1) {
+      // Codex #2542 P1: the remaining pool (a single odd HP) can't keep BOTH
+      // members >= 1. Per the capstone's "both KO together" invariant, the pair
+      // falls together rather than letting one silently drop to 0 while the other
+      // lives on (which the rest of the combat code would treat as a solo KO).
+      // NB Claude design call on the integer 1-HP tail (both-KO at pool <= 1) —
+      // pending master-dd review; the alternative "pin both at 1" creates a
+      // 1-damage immortality exploit at the tail.
+      target.hp = 0;
+      counterpart.hp = 0;
+      bothKo = true;
+      counterpart._pool_both_ko = true;
+    } else {
+      target.hp = t;
+      counterpart.hp = c;
+    }
   }
 
   // The actual damage each side absorbed after the split (pool conserved:

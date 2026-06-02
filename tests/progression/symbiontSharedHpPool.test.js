@@ -80,15 +80,19 @@ test('shared_hp_pool: overkill on one member overflows into the pool (no prematu
   assert.strictEqual(symbiont.hp, 12, 'counterpart covered the lethal overflow');
 });
 
-test('shared_hp_pool: at a 1-HP pool the struck target keeps the last HP (no solo KO)', () => {
+test('shared_hp_pool: an odd 1-HP tail the split cannot share -> both KO together (no silent solo drop)', () => {
+  // Codex #2542 P1: poolAfter would be 1 (partner pre 1 + sym 5 - 5), but a single
+  // HP cannot keep BOTH members >= 1; rather than silently leave one at 0 while the
+  // other lives (which the rest of the combat code reads as a solo KO), the pair
+  // falls together (non-silent both-KO).
   const { symbiont, partner } = pair({ hp: 5 }, { hp: 1 });
   partner.hp = 0; // floored (took 5 vs 1)
   const session = { units: [symbiont, partner], turn: 1, damage_taken: { p: 5 } };
-  const r = applySharedHpPool(session, partner, 5, 1); // pool 6 - 5 = 1 > 0
-  assert.strictEqual(r.both_ko, false, 'pool not empty -> pair still up');
-  assert.strictEqual(partner.hp, 1, 'struck target keeps the last pool HP (performAttack wont KO)');
-  assert.strictEqual(symbiont.hp, 0, 'counterpart spent; pair alive on the shared 1 HP');
-  assert.strictEqual(partner.hp + symbiont.hp, 1, 'pool conserved at 1');
+  const r = applySharedHpPool(session, partner, 5, 1); // pool 1 + 5 - 5 = 1
+  assert.strictEqual(r.both_ko, true, 'cannot keep both >= 1 on a 1-HP pool -> both KO');
+  assert.strictEqual(partner.hp, 0);
+  assert.strictEqual(symbiont.hp, 0, 'both fall together, not a solo drop');
+  assert.strictEqual(symbiont._pool_both_ko, true, 'counterpart tagged for the kill emission');
 });
 
 test('shared_hp_pool: no perk → null (redirect/normal path applies instead)', () => {
