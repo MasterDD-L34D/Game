@@ -31,7 +31,8 @@ tags:
 GAP-C (worldgen meta-network routing) e' gia in parte LIVE, flag `META_NETWORK_ROUTING` **OFF-default**:
 
 - **Stage-1 routing** (#2483 `efa3e50d`): `metaNetworkRouting.selectNextNodes` (pure, Dormans
-  lock-and-key, eligible candidates + preview, deterministic weight-desc/id-asc, no RNG) +
+  lock-and-key, eligible candidates (node_id/biome_id/weight/edge_type), deterministic
+  weight-desc/id-asc, no RNG) +
   `metaNetworkResolver` (read-only graph loader) + `GET /api/campaign/meta-network/next` (diagnostic,
   Gate-5 console/replay). 5 nodi / 12 edge (nodi = biomi).
 - **fase-2 arc-conditions Stage-1** (#2509 `d05fe323`): `_evalEdgeConditions` (season +
@@ -46,8 +47,8 @@ meta_network graph proceduralmente invece che hand-authored).
 
 - **Into the Breach** (Tier S, "Mappa pilastri -> top-3" P5): la rotta isola->isola e' **hand-authored +
   random**, **interamente leggibile dal player** prima di sceglierla (zero hidden info). Modello per la
-  **fase-3 UI**: la scelta deve essere telegrafata (preview ricompensa/rischio per nodo) -> mappa sul
-  `preview` gia ritornato da `selectNextNodes`.
+  **fase-3 UI**: la scelta deve essere telegrafata (preview ricompensa/rischio per nodo) -> mappa sui
+  `candidates` ritornati da `selectNextNodes` (node_id/biome_id/weight/edge_type per nodo).
 - **Dormans mission/space grammar** (cross-game-extraction-MASTER §3 P5): grammar generativa
   lock-and-key per livelli/missioni. Modello per la **fase-4 generative grammar** (genera graph + edge +
   arc-conditions da regole invece che a mano).

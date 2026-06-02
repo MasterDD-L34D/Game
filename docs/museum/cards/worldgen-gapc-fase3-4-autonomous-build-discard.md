@@ -61,7 +61,7 @@ respinte: se master-dd attiva il flag, A = next-build, C = authoring-content, D 
 ## Reuse paths
 
 1. **Next-build plan**: quando master-dd greenlighta il flag -> spec fase-3 UI Into-the-Breach (preview
-   per nodo, DoD Gate-5 player-vede-<60s) consumando `selectNextNodes.preview`.
+   per nodo, DoD Gate-5 player-vede-<60s) consumando i `candidates` di `selectNextNodes`.
 2. **Reference-game lock**: Into the Breach (full-information route choice) per la UI; Dormans
    mission/space grammar per la fase-4. Anti-reference = roguelike map-RNG opaco (viola P1 leggibilita').
 3. **Pattern**: "feature flag-OFF foundation -> gate la surface finche' il flag non e' una decisione
