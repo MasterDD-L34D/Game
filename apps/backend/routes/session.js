@@ -2893,6 +2893,15 @@ function createSessionRouter(options = {}) {
       } else if (usePriorityQueue) {
         // End-of-round ticks minimali: bleeding + status decay + AP reset + turn++.
         // NO AI declare (già fatto via priority queue).
+        // PT pool (26-ECONOMY §PT) resets per-round here too: this inline branch is
+        // the canonical /round/execute end-of-round (it SKIPS handleTurnEndViaRound,
+        // Codex #2557 P1). Reset ALL units (mirror the bridge reset, no hp filter).
+        try {
+          const ptTracker = require('../services/combat/ptTracker');
+          for (const u of session.units || []) ptTracker.resetRound(u);
+        } catch {
+          /* ptTracker optional */
+        }
         for (const unit of session.units) {
           if (!unit || Number(unit.hp) <= 0) continue;
           // Bleeding tick

@@ -119,3 +119,20 @@ test('PT resets to 0 at the round boundary (per-round, /round/begin-planning)', 
   atk = await unit(app, sid, 'atk');
   assert.equal(atk.pt, 0, 'pool reset per-round');
 });
+
+test('PT resets to 0 after a priority-queue /round/execute (Codex #2557 P1)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // The canonical /round/execute priority_queue flow runs its OWN inline
+  // end-of-round ticks (skips handleTurnEndViaRound); the per-round PT reset must
+  // fire there too. Seed pt, run an empty round, assert it cleared.
+  const sid = await start(app, { initial_pt: { atk: 9 } });
+  const exec = await request(app)
+    .post('/api/session/round/execute')
+    .send({ session_id: sid, player_intents: [], ai_auto: false, priority_queue: true });
+  assert.equal(exec.status, 200, JSON.stringify(exec.body).slice(0, 200));
+  const atk = await unit(app, sid, 'atk');
+  assert.equal(atk.pt, 0, 'priority-queue end-of-round resets the PT pool');
+});
