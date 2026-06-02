@@ -13,6 +13,15 @@
 // exact numbers post-N=40 (L-069). This batch produces the PLACEMENT + report for that
 // human verdict; it never claims the bands as canon.
 
+// Make the batch HERMETIC: each run spins a fresh createApp, so at N=40 the per-app status
+// refresh + orchestrator worker pool open enough 127.0.0.1 connections to hit EADDRINUSE
+// mid-batch. Stub the orchestrator (no Python worker spawn -- the full loop never generates
+// species) and disable the status refresh (no background poll) so N>=40 runs reliably. Same
+// gates the test suites set (app.js:341 + app.js:434). Respect an explicit override.
+process.env.IDEA_ENGINE_STUB_ORCHESTRATOR = process.env.IDEA_ENGINE_STUB_ORCHESTRATOR || '1';
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH =
+  process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH || '1';
+
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
@@ -200,9 +209,15 @@ async function runBatch(opts = {}) {
   return results;
 }
 
-// The fase-2c test-context flags the report should record alongside each run.
+// The env flags the report should record alongside each run: the fase-2c routing test-
+// context PLUS the hermetic stubs this batch applies (Codex #2570 P2 -- the stubbed runtime
+// differs from an unstubbed run, so provenance must capture it for reproducibility).
 function currentFlags() {
-  return { META_NETWORK_ROUTING: process.env.META_NETWORK_ROUTING || 'false' };
+  return {
+    META_NETWORK_ROUTING: process.env.META_NETWORK_ROUTING || 'false',
+    IDEA_ENGINE_STUB_ORCHESTRATOR: process.env.IDEA_ENGINE_STUB_ORCHESTRATOR || '0',
+    IDEA_ENGINE_DISABLE_STATUS_REFRESH: process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH || '0',
+  };
 }
 
 // Compact one run-result into a single JSONL line (per-run record).
