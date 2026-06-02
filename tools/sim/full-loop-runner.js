@@ -16,6 +16,7 @@ const { checkInvariants } = require('./full-loop-invariants');
 const greedyPolicy = require('./greedy-policy');
 const { resolveRecruitUnit } = require('./recruit-resolver');
 const { applyNidoEconomy } = require('./nido-economy');
+const { buildScenarioEnemies } = require('./scenario-enemies');
 
 // Nido meta-step on a cleared chapter: the greedy policy recruits NPCs via the meta
 // seam (POST /api/meta/recruit, affinity_at_recruit bypass -> getOrCreate NPC), then
@@ -130,9 +131,16 @@ async function runFullLoop(http, opts = {}) {
       break;
     }
 
+    // fase-2a scaled enemies: load the chapter's real encounter roster from YAML; fall
+    // back to the weak-fixed enemy when the encounter has no YAML (cave_path: tutorial_03/
+    // 04/05 + tutorial_06_hardcore) or an unsupported objective, so the loop still runs.
+    const scaledEnemies = buildScenarioEnemies(enc);
+    const enemies = scaledEnemies && scaledEnemies.length ? scaledEnemies : enemiesForChapter(step);
+    const enemiesSource = scaledEnemies && scaledEnemies.length ? 'scenario' : 'fallback';
+
     const combat = await runEncounter(http, {
       roster: aliveRoster,
-      enemies: enemiesForChapter(step),
+      enemies,
       scenarioId: enc,
       seed: seed ? `${seed}-${step}` : undefined,
       maxRounds: 40,
@@ -157,6 +165,8 @@ async function runFullLoop(http, opts = {}) {
       outcome: combat.outcome,
       survivors: aliveIds.length,
       rosterIds: combat.rosterIds,
+      enemiesSource,
+      rounds: combat.rounds,
     });
 
     // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
