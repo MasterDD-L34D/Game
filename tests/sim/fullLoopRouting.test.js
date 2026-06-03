@@ -149,6 +149,11 @@ test('runFullLoop: flag ON walks the graph start->terminal, policy picks at the 
   );
   assert.equal(esfp.route[0], 'DESERTO_CALDO', 'same start node');
   assert.equal(esfp.route[1], 'CRYOSTEPPE', `SP prefers the seasonal route; route=${esfp.route}`);
+  // PR2: from CRYOSTEPPE the SP temperament takes the ungated seasonal_bridge to the new atoll.
+  assert.ok(
+    esfp.route.includes('ATOLLO_OBSIDIANA'),
+    `SP routes through the Atollo node; route=${esfp.route}`,
+  );
 
   // POLICY-SENSITIVE: the policies walk DIFFERENT routes from the same start.
   assert.notDeepEqual(greedy.route, intj.route, 'route is policy-sensitive (P4 hook)');

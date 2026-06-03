@@ -109,3 +109,18 @@ graph reaches a terminal in every season. Re-running the sim (all complete, 0 vi
 Three policies now pick **three different first nodes** (FORESTA / BADLANDS / CRYOSTEPPE) — a true
 3-way divergence. PR2 (the Atollo Obsidiana 6th node) follows in a separate PR, gated by the
 completability validator. Flag stays OFF; the prod flip awaits the N=40 graph-mode band-verify.
+
+## Graph expansion PR2 (Atollo Obsidiana 6th node)
+
+The 6th canonical biome-node `ATOLLO_OBSIDIANA` is now wired in: `CRYOSTEPPE → ATOLLO_OBSIDIANA`
+(ungated seasonal_bridge) + `ATOLLO_OBSIDIANA → ROVINE_PLANARI` (corridor). The completability
+validator confirms the 6-node graph reaches the terminal in every season and that Atollo is
+reachable. The SP temperament, which already routes to CRYOSTEPPE, now takes the seasonal bridge
+to the atoll:
+
+| Policy    | Route (nodes)                                                      |
+| --------- | ------------------------------------------------------------------ |
+| ESFP (SP) | DESERTO_CALDO → CRYOSTEPPE → **ATOLLO_OBSIDIANA** → ROVINE_PLANARI |
+
+The 6-node graph is now complete (all 4 canonical biomes from the vault canvas are nodes). Flag
+stays OFF; next is the N=40 graph-mode band-verify, then the owner-gated prod flip.
