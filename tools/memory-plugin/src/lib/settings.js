@@ -34,12 +34,20 @@ const DEFAULT_SETTINGS = {
   signalTurnsBefore: 3,
 };
 
+/**
+ * Ensures that the settings directory exists.
+ * @returns {void}
+ */
 function ensureSettingsDir() {
   if (!fs.existsSync(SETTINGS_DIR)) {
     fs.mkdirSync(SETTINGS_DIR, { recursive: true });
   }
 }
 
+/**
+ * Loads the settings from the settings file.
+ * @returns {Object} The loaded settings object.
+ */
 function loadSettings() {
   const settings = { ...DEFAULT_SETTINGS };
   try {
@@ -54,12 +62,24 @@ function loadSettings() {
   return settings;
 }
 
+/**
+ * Saves the given settings object to the settings file.
+ * @param {Object} settings - The settings to save.
+ * @returns {void}
+ */
 function saveSettings(settings) {
   ensureSettingsDir();
   const toSave = { ...settings };
   fs.writeFileSync(SETTINGS_FILE, JSON.stringify(toSave, null, 2));
 }
 
+/**
+ * Logs a debug message if debugging is enabled in settings.
+ * @param {Object} settings - The settings object containing the debug flag.
+ * @param {string} message - The message to log.
+ * @param {Object} [data] - Optional data to log along with the message.
+ * @returns {void}
+ */
 function debugLog(settings, message, data) {
   if (settings.debug) {
     const timestamp = new Date().toISOString();
@@ -69,6 +89,11 @@ function debugLog(settings, message, data) {
   }
 }
 
+/**
+ * Gets the list of tools to include, merging global settings and project configuration.
+ * @param {string} [cwd] - The current working directory.
+ * @returns {string[]} An array of tool names to include.
+ */
 function getIncludeTools(cwd) {
   const settings = loadSettings();
   const projectConfig = loadProjectConfig(cwd || process.cwd());
@@ -80,11 +105,22 @@ function getIncludeTools(cwd) {
   return merged.map((t) => t.toLowerCase());
 }
 
+/**
+ * Checks if a specific tool should be included based on the include list.
+ * @param {string} toolName - The name of the tool to check.
+ * @param {string[]} includeList - The list of included tools.
+ * @returns {boolean} True if the tool should be included, false otherwise.
+ */
 function shouldIncludeTool(toolName, includeList) {
   if (includeList.length === 0) return false;
   return includeList.includes(toolName.toLowerCase());
 }
 
+/**
+ * Gets the signal configuration, merging global settings and project configuration.
+ * @param {string} [cwd] - The current working directory.
+ * @returns {{enabled: boolean, keywords: string[], turnsBefore: number}} The signal configuration object.
+ */
 function getSignalConfig(cwd) {
   const settings = loadSettings();
   const projectConfig = loadProjectConfig(cwd || process.cwd());
