@@ -100,6 +100,14 @@ class CoopOrchestrator {
     this.worldVotes = new Map(); // player_id → scenario_id|null
     // S22-B -- per-player mating pair vote { player_id -> { pair_id, ts } }.
     this.matingVotes = new Map();
+    // GAP-C fase-3 -- per-player meta-network route vote { player_id ->
+    // { node_id, ts } } + the open candidate list. Phase-agnostic storage
+    // (mirror formPulses/revealAcks): the route choice is offered at the
+    // debrief->next-encounter transition when POST /api/campaign/advance
+    // returns >1 candidate. Open candidates (set by openRouteChoice) gate
+    // voteRoute, not a strict PHASES enum value.
+    this.routeVotes = new Map();
+    this.routeCandidates = null;
     this.debriefChoices = new Map();
     // 2026-05-06 narrative onboarding port — host single-choice identity
     // for entire branco. Pre-assigned trait propagated to all party
@@ -232,6 +240,8 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
+    this.routeVotes.clear();
+    this.routeCandidates = null;
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -270,6 +280,8 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
+    this.routeVotes.clear();
+    this.routeCandidates = null;
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
@@ -693,6 +705,91 @@ class CoopOrchestrator {
   }
 
   /**
+   * GAP-C fase-3 -- open a meta-network route choice. Stores the candidate
+   * list (from POST /api/campaign/advance route_choice.candidates) so phones
+   * can vote per node_id and routeTally can break a tie by candidate.weight
+   * (master-dd Q2). Clears any prior votes. Idempotent re-open replaces the
+   * candidates + resets votes. Candidates without a node_id are dropped.
+   *
+   * @param candidates - array of candidate objects (need node_id; weight used
+   *                     for tie-break, defaults to 0 when absent).
+   * @returns the stored (normalized) candidate array.
+   */
+  openRouteChoice(candidates = []) {
+    const list = Array.isArray(candidates) ? candidates.filter((c) => c && c.node_id != null) : [];
+    this.routeCandidates = list;
+    this.routeVotes.clear();
+    this._emit('route_choice_open', { candidates: list });
+    return list;
+  }
+
+  /**
+   * GAP-C fase-3 -- player votes for a meta-network route node_id. Mirror of
+   * voteWorld / voteMating. Idempotent re-vote (replaces). Requires an open
+   * route choice (openRouteChoice) AND node_id to be one of the open
+   * candidates. Returns the current routeTally.
+   */
+  voteRoute(playerId, nodeId, { allPlayerIds = [], connectedPlayerIds } = {}) {
+    if (!this.routeCandidates || this.routeCandidates.length === 0) {
+      throw new Error('route_choice_not_open');
+    }
+    if (!playerId) throw new Error('player_id_required');
+    if (nodeId == null || nodeId === '') throw new Error('node_id_required');
+    const valid = this.routeCandidates.some((c) => String(c.node_id) === String(nodeId));
+    if (!valid) throw new Error('invalid_route_node');
+    this.routeVotes.set(playerId, { node_id: nodeId, ts: this.now() });
+    this._emit('route_vote', { player_id: playerId, node_id: nodeId });
+    return this.routeTally(allPlayerIds, connectedPlayerIds);
+  }
+
+  /**
+   * GAP-C fase-3 -- tally route votes. Per-node counts + the leading node +
+   * quorum. Mirror of matingTally shape, BUT the tie-break is master-dd Q2:
+   * on equal votes the highest candidate.weight wins (the Godot
+   * RouteChoiceFlow.resolve_tie_break mirrors this client-side); node_id asc
+   * is the deterministic final fallback so equal-weight ties stay stable.
+   */
+  routeTally(allPlayerIds = [], connectedPlayerIds) {
+    const weightOf = (nodeId) => {
+      const c = (this.routeCandidates || []).find((x) => String(x.node_id) === String(nodeId));
+      const w = c ? Number(c.weight) : NaN;
+      return Number.isFinite(w) ? w : 0;
+    };
+    const counts = new Map();
+    const perPlayer = {};
+    for (const [pid, vote] of this.routeVotes.entries()) {
+      perPlayer[pid] = vote;
+      counts.set(vote.node_id, (counts.get(vote.node_id) || 0) + 1);
+    }
+    const tallies = Array.from(counts.entries())
+      .map(([node_id, votes]) => ({ node_id, votes, weight: weightOf(node_id) }))
+      .sort(
+        (x, y) =>
+          y.votes - x.votes || // most votes wins
+          y.weight - x.weight || // master-dd Q2 tie-break: highest weight
+          String(x.node_id).localeCompare(String(y.node_id)), // deterministic fallback
+      );
+    const voted = this.routeVotes.size;
+    const tally = {
+      tallies,
+      leading_node_id: tallies.length ? tallies[0].node_id : null,
+      total: allPlayerIds.length || voted,
+      pending: Math.max((allPlayerIds.length || voted) - voted, 0),
+      per_player: perPlayer,
+      candidates: this.routeCandidates || [],
+    };
+    if (Array.isArray(connectedPlayerIds)) {
+      const connected = connectedPlayerIds.filter(Boolean);
+      const connectedVoted = connected.filter((pid) => this.routeVotes.has(pid)).length;
+      tally.connected_total = connected.length;
+      tally.connected_voted = connectedVoted;
+      tally.connected_pending = Math.max(connected.length - connectedVoted, 0);
+      tally.all_connected_voted = connected.length > 0 && connectedVoted === connected.length;
+    }
+    return tally;
+  }
+
+  /**
    * S22-B Task 8 -- if mating quorum is met and not yet resolved, mark
    * resolved and return the winning pair (parsed ids). Idempotent: null on
    * subsequent calls or before quorum. Connected-only quorum (mirror world).
@@ -940,6 +1037,8 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
+    this.routeVotes.clear();
+    this.routeCandidates = null;
     this.formPulses.clear();
     this.revealAcks.clear();
     this._setPhase('world_setup');
