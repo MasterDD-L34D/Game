@@ -27,4 +27,10 @@ function choose(http, { id, branchKey } = {}) {
   return http.post('/api/campaign/choose', { id, branch_key: branchKey });
 }
 
-module.exports = { start, summary, advance, choose };
+// Slice C (live routing): resolve a meta-network branch by node_id (the co-op/solo/policy
+// pick), distinct from the legacy binary branch_key choose above.
+function chooseNode(http, { id, nodeId } = {}) {
+  return http.post('/api/campaign/choose', { id, node_id: nodeId });
+}
+
+module.exports = { start, summary, advance, choose, chooseNode };

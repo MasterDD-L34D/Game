@@ -207,6 +207,17 @@ async function runFullLoop(http, opts = {}) {
   }
   const id = startRes.body.campaign.id;
 
+  // Slice A (live routing, flag ON): the runner WALKS the meta-network graph instead of the
+  // static chapter chain. The encounter for each step comes from the campaign responses
+  // (start / advance / choose), and the meta-policy picks a node at a multi-candidate branch.
+  // Flag OFF -> graphMode false -> the static summary-driven walk below is unchanged.
+  const graphMode = process.env.META_NETWORK_ROUTING === 'true';
+  let graphNode = graphMode ? startRes.body.campaign?.currentNode || null : null;
+  let graphNextEnc = graphMode ? startRes.body.next_encounter_id || null : null;
+  // The ordered node route the run walked (graph mode) -> POLICY-SENSITIVE (P4): greedy vs
+  // an mbti temperament diverge at a branch. Empty in static mode.
+  const route = [];
+
   let aliveIds = [...knownIds];
   const chapters = [];
   const violations = [];
@@ -243,8 +254,17 @@ async function runFullLoop(http, opts = {}) {
   const xpByUnit = new Map();
 
   for (let step = 1; step <= maxChapters; step += 1) {
-    const sum = await driver.summary(http, id);
-    const enc = sum.body?.current_encounter?.encounter_id || `chapter_${step}`;
+    // Graph mode: serve the current node's encounter (carried from the prior advance/choose).
+    // Static mode: the def's current encounter from the summary. Both fall back to a synthetic
+    // id so an unmapped step still drives a combat.
+    let enc;
+    if (graphMode) {
+      if (graphNode) route.push(graphNode);
+      enc = graphNextEnc || `chapter_${step}`;
+    } else {
+      const sum = await driver.summary(http, id);
+      enc = sum.body?.current_encounter?.encounter_id || `chapter_${step}`;
+    }
     const aliveRoster = freshRoster(roster, aliveIds);
     if (aliveRoster.length === 0) {
       violations.push({ step, v: ['roster wiped before chapter'] });
@@ -358,7 +378,25 @@ async function runFullLoop(http, opts = {}) {
       if (econ.failures.length) metaViolations.push({ step, econ: econ.failures });
     }
 
-    if (adv.body && adv.body.choice_required) {
+    if (graphMode) {
+      // The advance either auto-advanced (single candidate) or surfaced a route choice. On a
+      // choice the meta-policy picks a node_id; otherwise carry the auto-advanced node. The
+      // served encounter for the next step is whatever the campaign returns.
+      if (adv.body && adv.body.choice_required && adv.body.route_choice) {
+        const cands = adv.body.route_choice.candidates || [];
+        const pick =
+          (typeof policy.chooseRoute === 'function'
+            ? policy.chooseRoute({ candidates: cands, step })
+            : null) ||
+          (cands[0] && cands[0].node_id);
+        const ch = await driver.chooseNode(http, { id, nodeId: pick });
+        graphNode = ch.body?.campaign?.currentNode || pick;
+        graphNextEnc = ch.body?.next_encounter_id || null;
+      } else {
+        graphNode = adv.body?.campaign?.currentNode || graphNode;
+        graphNextEnc = adv.body?.next_encounter_id || null;
+      }
+    } else if (adv.body && adv.body.choice_required) {
       await driver.choose(http, { id, branchKey });
     }
     if (adv.body && adv.body.campaign_completed) {
@@ -372,6 +410,7 @@ async function runFullLoop(http, opts = {}) {
     completed,
     chapters,
     violations,
+    route,
     finalRoster: aliveIds,
     recruited,
     recruitedSpecies,
