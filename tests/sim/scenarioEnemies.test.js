@@ -5,6 +5,7 @@ const {
   buildScenarioEnemies,
   TIER_HP,
   TIER_MOD,
+  TIER_DC,
   GRID_SAFE_MAX,
 } = require('../../tools/sim/scenario-enemies');
 
@@ -44,4 +45,43 @@ test('buildScenarioEnemies: missing or unsupported YAML -> null (runner falls ba
   assert.equal(buildScenarioEnemies('enc_escort_01'), null, 'escort -> null');
   assert.equal(buildScenarioEnemies('enc_tutorial_02'), null, 'survival -> null');
   assert.equal(buildScenarioEnemies('enc_caverna_02'), null, 'capture_point -> null');
+});
+
+// fase-2c difficulty calibration (Finding 1: completion_rate 1.0 OOB). The authored
+// encounters are 2-base-unit fights a 30-HP party crushes deterministically; the band
+// needs a tunable difficulty knob. `scaling` is the injected calibration the band batch
+// applies (faithful default = no scaling), kept here as a pure, testable param (no env
+// global). Count is the decisive lever (damage is ~1-3/hit, so 2 units can never out-race
+// a 60-HP party; more units can), with hp/mod/dc deltas for the fine knife-edge.
+
+test('buildScenarioEnemies: scaling.countMult multiplies the wave-1 unit count', () => {
+  // enc_tutorial_01 wave-1 = 2 units. x3 -> 6 distinct scaled units.
+  const enemies = buildScenarioEnemies('enc_tutorial_01', { countMult: 3 });
+  assert.equal(enemies.length, 6, '2 authored units x3 = 6 scaled');
+  assert.equal(new Set(enemies.map((e) => e.id)).size, 6, 'ids stay distinct after scaling');
+});
+
+test('buildScenarioEnemies: scaling.countAdd adds flat units per unitDef', () => {
+  assert.equal(buildScenarioEnemies('enc_tutorial_01', { countAdd: 2 }).length, 4, '2 + 2 = 4');
+});
+
+test('buildScenarioEnemies: scaling hp/mod/dc deltas tune the tier stats', () => {
+  const e = buildScenarioEnemies('enc_tutorial_01', {
+    hpMult: 2,
+    hpAdd: 1,
+    modAdd: 5,
+    dcAdd: 4,
+  })[0]; // base tier
+  assert.equal(e.hp, TIER_HP.base * 2 + 1, 'hp = base*hpMult + hpAdd');
+  assert.equal(e.max_hp, e.hp, 'max_hp tracks scaled hp');
+  assert.equal(e.mod, TIER_MOD.base + 5, 'mod = base + modAdd');
+  assert.equal(e.dc, TIER_DC.base + 4, 'dc = base + dcAdd');
+});
+
+test('buildScenarioEnemies: no scaling -> faithful authored count + tier defaults', () => {
+  const enemies = buildScenarioEnemies('enc_tutorial_01');
+  assert.equal(enemies.length, 2, 'no count scaling by default');
+  assert.equal(enemies[0].hp, TIER_HP.base, 'default base hp');
+  assert.equal(enemies[0].mod, TIER_MOD.base, 'default base mod');
+  assert.equal(enemies[0].dc, TIER_DC.base, 'default base dc');
 });

@@ -112,6 +112,26 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
   );
   assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
+  // lineage_diversity: the runner records each offspring's parent-species CROSS so the
+  // aggregator can measure breeding composition (the breeding P4 signal). greedy courts the
+  // badlands pool in order -> the step-2 mating breeds dune-stalker x nano-rust-bloom.
+  assert.ok(
+    res.offspringLineages.length >= 1,
+    `offspring lineages captured, got ${res.offspringLineages.length}`,
+  );
+  assert.ok(
+    res.offspringLineages.every(
+      (l) => Array.isArray(l.parentSpecies) && l.parentSpecies.length === 2,
+    ),
+    'each lineage record carries a 2-parent cross',
+  );
+  assert.ok(
+    res.offspringLineages.some(
+      (l) =>
+        JSON.stringify(l.parentSpecies) === JSON.stringify(['dune-stalker', 'nano-rust-bloom']),
+    ),
+    `greedy breeds the in-order pool cross; got ${JSON.stringify(res.offspringLineages.map((l) => l.parentSpecies))}`,
+  );
   // fase-2b/2c economy telemetry: the runner aggregates the backend's REAL advance economy
   // per run (PE earned per cleared chapter + backend-computed XP/MP grants). The PI SINK is
   // now WIRED (fase-2c): the runner attempts a hybrid perk pick for leveled survivors. In the
@@ -498,6 +518,85 @@ test('runFullLoop: a mbtiPolicy plays the real cave_path campaign end-to-end (fa
     `mbti policy recruited across chapters, got ${res.recruited.length}`,
   );
   assert.equal(res.economyAffinityProven, true, 'earned-affinity gate fired under the mbti policy');
+  // lineage_diversity is POLICY-SENSITIVE: ESFP courts a different species order than greedy
+  // (pool [nano-rust-bloom, sand-burrower, ...]), so its step-2 mating breeds a DIFFERENT cross
+  // (nano-rust-bloom x sand-burrower) than greedy's (dune-stalker x nano-rust-bloom above) ->
+  // P4 measurable in breeding in a REAL run, not only in the synthetic aggregator test.
+  assert.ok(
+    res.offspringLineages.some(
+      (l) =>
+        JSON.stringify(l.parentSpecies) === JSON.stringify(['nano-rust-bloom', 'sand-burrower']),
+    ),
+    `ESFP breeds its temperament-ordered cross; got ${JSON.stringify(res.offspringLineages.map((l) => l.parentSpecies))}`,
+  );
+});
+
+test('runFullLoop: records offspring lineages from the Nido breeding step (lineage_diversity)', async () => {
+  // ch1 + ch2 clear (the Nido economy step fires; mating starts at step 2) then ch3 completes.
+  // The runner must COLLECT each offspring's parent-species cross into res.offspringLineages so
+  // the aggregator can measure lineage_diversity. Deterministic fake (no enemies -> instant
+  // victory); greedy courts dune-stalker (s1) then nano-rust-bloom (s2) -> the step-2 cross.
+  let advances = 0;
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        advances += 1;
+        return { status: 200, body: { campaign_completed: advances >= 3 } };
+      }
+      if (path === '/api/meta/recruit')
+        return { status: 200, body: { success: true, npc: { recruited: true } } };
+      if (path === '/api/meta/trust') return { status: 200, body: { can_recruit: true } };
+      if (path === '/api/meta/mating/roll')
+        return { status: 200, body: { success: true, offspring: { lineage_id: 'lx', tier: 'B' } } };
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state')
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'skirmisher',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 5,
+  });
+  assert.equal(res.completed, true);
+  assert.ok(Array.isArray(res.offspringLineages), 'offspringLineages collected on the run-result');
+  assert.equal(
+    res.offspringLineages.length,
+    res.offspring,
+    'one lineage record per counted offspring (no double-count, no drop)',
+  );
+  assert.ok(res.offspringLineages.length >= 1, 'a step-2 breeding cross was captured');
+  assert.deepEqual(
+    res.offspringLineages[0].parentSpecies,
+    ['dune-stalker', 'nano-rust-bloom'],
+    'greedy step-2 cross (parentA = s1 courtship, parentB = s2 courtship)',
+  );
+  assert.equal(
+    res.offspringLineages[0].lineageId,
+    'lx',
+    'canonical lineage_id carried for provenance',
+  );
 });
 
 // Shared fake http for the PI-sink tests: one victory chapter that COMPLETES the campaign
@@ -570,4 +669,96 @@ test('runFullLoop: PI sink records insufficient PI when the economy cannot affor
   assert.equal(res.economy.piSpentTotal, 0, 'nothing spent when unaffordable');
   assert.equal(res.economy.piPickAttempts, 1, 'pick still attempted (sink wired)');
   assert.equal(res.economy.piInsufficient, 1, 'insufficiency surfaced');
+});
+
+test('runFullLoop: a skirmisher (perk-job) roster spends PI on the REAL progression engine (slice b)', async (t) => {
+  // The two PI-sink tests above STUB /pick. This one runs the REAL backend: it proves the
+  // engine accepts a perk-job pick + spends. The canonical sim roster's prior job ('stalker')
+  // is not a perk-job -> /api/progression/:id/pick 409s before the PI gate -> piSpentTotal
+  // stuck at 0 (see the stalker e2e above, line ~130). A real perk-job (skirmisher, present in
+  // BOTH perks.yaml and jobs.yaml) reaches engine.pickPerk; with an affording PE (5:1, hybrid
+  // cost 5 PI) the sink actually spends. This is the slice-b guard against a regression back to
+  // a non-perk job.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const skirmisherRoster = starterRoster().map((u) => ({ ...u, job: 'skirmisher' }));
+  const res = await runFullLoop(http, {
+    playerId: 'fl_pi_skirmisher',
+    roster: skirmisherRoster,
+    branchKey: 'cave_path',
+    seed: 'fl-pi-skirm',
+    peEarned: 30, // floor(30/5)=6 >= the 5-PI hybrid cost after the first victory
+    maxChapters: 15,
+  });
+  assert.ok(
+    res.economy.piSpentTotal >= 5,
+    `skirmisher reaches the real pickPerk -> at least one 5-PI hybrid pick spent; economy=${JSON.stringify(res.economy)}`,
+  );
+  assert.ok(res.economy.piPickAttempts > 0, 'hybrid picks attempted for leveled survivors');
+  // piInsufficient may be >0 transiently (two starters reach level 2 the same chapter; the
+  // PE->PI budget affords one, the other picks once PE refills next chapter) -- the point is
+  // the sink SPENDS, not that every attempt lands the same turn.
+});
+
+test('runFullLoop: an unclearable mission (timeout) ENDS the run -- one attempt, no infinite retry (slice a)', async () => {
+  // Calibrated scaled-enemy difficulty makes a mission unwinnable in 40 rounds -> timeout.
+  // The OLD runner re-fought the same chapter every step (up to maxChapters), so a timeout
+  // never failed the campaign -> completion_rate degenerately 1.0. The capped runner ends the
+  // campaign after a non-victory mission, so the scaled difficulty sets P(clear the gating
+  // missions) and completion_rate becomes a meaningful, tunable band metric.
+  let advances = 0;
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        advances += 1;
+        return { status: 200, body: {} }; // paused (non-victory) -> would retry under the old loop
+      }
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state') {
+        // A foe that never dies -> runEncounter never reaches victory -> timeout at maxRounds.
+        return {
+          status: 200,
+          body: {
+            units: [
+              { id: 'hero_a', controlled_by: 'player', hp: 30, position: { x: 1, y: 1 } },
+              { id: 'foe', controlled_by: 'sistema', hp: 99, position: { x: 4, y: 4 } },
+            ],
+            active_unit: 'hero_a',
+          },
+        };
+      }
+      if (path === '/api/campaign/summary') {
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      }
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'skirmisher',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 15,
+  });
+  assert.equal(res.completed, false, 'an unclearable mission fails the campaign');
+  assert.equal(
+    res.chapters.length,
+    1,
+    'exactly ONE mission attempt -- no 15x retry of the same chapter',
+  );
+  assert.equal(res.chapters[0].outcome, 'timeout');
+  assert.equal(advances, 1, 'advance called once (the run ended, it did not retry)');
 });

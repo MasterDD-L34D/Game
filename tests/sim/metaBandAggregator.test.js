@@ -23,6 +23,9 @@ function synthRun(o = {}) {
     recruitedSpecies: o.recruitedSpecies ?? ['dune-stalker', 'sand-burrower'],
     economyRecruited: o.economyRecruited ?? ['e1'],
     offspring: o.offspring ?? 1,
+    // Undefined by default (older run-result shape) so the aggregator's tolerance of a missing
+    // field is exercised; lineage tests pass an explicit array of { parentSpecies } records.
+    offspringLineages: o.offspringLineages,
     economyAffinityProven: o.economyAffinityProven ?? true,
     initialRosterSize: o.initialRosterSize ?? 4,
     economy: o.economy || {
@@ -198,6 +201,34 @@ test('aggregate: relationship_progress stalled (no recruit, no affinity) flagged
   assert.equal(r.metrics.relationship_progress.in_band, false);
 });
 
+test('aggregate: affinity_proven_rate is conditional on reaching the Nido step (decoupled from completion)', () => {
+  // A CALIBRATED batch (completion ~0.55) has runs that fail the gate mission before any
+  // recruit -> they never reach the Nido step. Those must NOT drag affinity_proven_rate down:
+  // the metric tests whether the earned-affinity gate FIRES when reached, not how often the
+  // campaign completes (that is completion_rate's job). Otherwise relationship_progress would
+  // be un-satisfiable whenever completion is intentionally < 0.9 (the two bands would conflict).
+  const reached = synthRun({
+    completed: true,
+    recruited: ['r1', 'r2'],
+    economyAffinityProven: true,
+  });
+  const failedEarly = synthRun({
+    completed: false,
+    recruited: [],
+    economyRecruited: [],
+    economyAffinityProven: false,
+    offspring: 0,
+  });
+  const r = aggregate([reached, failedEarly, failedEarly]); // 1 reached the step, 2 failed early
+  const rp = r.metrics.relationship_progress;
+  assert.equal(
+    rp.affinity_proven_rate,
+    1,
+    'proven among runs that reached the step (1/1), not 1/3',
+  );
+  assert.equal(rp.in_band, true, 'relationship band holds even when ~2/3 of runs fail the gate');
+});
+
 test('aggregate: offspring_viability in band when offspring rolled (>=1 avg)', () => {
   const r = aggregate([synthRun(), synthRun()]);
   const ov = r.metrics.offspring_viability;
@@ -209,6 +240,97 @@ test('aggregate: offspring_viability out of band when no breeding happens', () =
   const r = aggregate([synthRun({ offspring: 0 }), synthRun({ offspring: 0 })]);
   assert.equal(r.metrics.offspring_viability.offspring_avg, 0);
   assert.equal(r.metrics.offspring_viability.in_band, false);
+});
+
+test('aggregate: offspring_viability lineage_diversity counts distinct parent-species crosses', () => {
+  // The breeding analog of roster_composition: the offspring lineage is the CROSS that bred
+  // (parent species pair), keyed order-insensitively. Two runs breeding the same two crosses
+  // (one with reversed parent order) -> 2 distinct lineages, each counted across the batch.
+  const runs = [
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['nano-rust-bloom', 'sand-burrower'] },
+      ],
+    }),
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['nano-rust-bloom', 'dune-stalker'] }, // same cross, reversed order
+        { parentSpecies: ['sand-burrower', 'nano-rust-bloom'] },
+      ],
+    }),
+  ];
+  const ov = aggregate(runs).metrics.offspring_viability;
+  assert.equal(ov.lineage_diversity, 2, 'distinct crosses across the batch (order-insensitive)');
+  assert.deepEqual(ov.lineage_profile, {
+    'dune-stalker x nano-rust-bloom': 2,
+    'nano-rust-bloom x sand-burrower': 2,
+  });
+});
+
+test('aggregate: offspring_viability dominant lineage is POLICY-SENSITIVE (breeding P4 signal)', () => {
+  // The headline of lineage_diversity: the most-bred cross diverges by temperament, exactly as
+  // roster_composition's dominant_roles do. The distinct COUNT can match (both 2) while the
+  // dominant CROSS differs -> P4 is measurable in breeding, not just recruiting.
+  const greedy = aggregate([
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['ferrocolonia-magnetotattica', 'sand-burrower'] },
+      ],
+    }),
+  ]);
+  const esfp = aggregate([
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['nano-rust-bloom', 'sand-burrower'] },
+        { parentSpecies: ['nano-rust-bloom', 'sand-burrower'] },
+        { parentSpecies: ['dune-stalker', 'rust-scavenger'] },
+      ],
+    }),
+  ]);
+  assert.deepEqual(greedy.metrics.offspring_viability.dominant_lineages, [
+    'dune-stalker x nano-rust-bloom',
+  ]);
+  assert.deepEqual(esfp.metrics.offspring_viability.dominant_lineages, [
+    'nano-rust-bloom x sand-burrower',
+  ]);
+  assert.notDeepEqual(
+    greedy.metrics.offspring_viability.dominant_lineages,
+    esfp.metrics.offspring_viability.dominant_lineages,
+  );
+});
+
+test('aggregate: offspring_viability excludes UNKNOWN/missing parent species from lineage diversity', () => {
+  // A cross with an unmapped/typo or missing parent species (roleOf -> UNKNOWN) is invalid
+  // telemetry, not a real lineage: kept OUT of lineage_profile/diversity and tracked as
+  // unknown_lineage_count (mirrors roster_composition's UNKNOWN handling, Codex #2573 P2).
+  const r = aggregate([
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['dune-stalker', 'not-a-species'] },
+        { parentSpecies: [null, 'sand-burrower'] },
+      ],
+    }),
+  ]);
+  const ov = r.metrics.offspring_viability;
+  assert.equal(ov.lineage_diversity, 1, 'only the fully-mapped cross counts');
+  assert.equal(ov.unknown_lineage_count, 2, 'unmapped/missing crosses tracked separately');
+  assert.deepEqual(ov.lineage_profile, { 'dune-stalker x nano-rust-bloom': 1 });
+});
+
+test('aggregate: offspring_viability lineage_diversity is 0 when no lineages captured (back-compat)', () => {
+  // An older run-result with no offspringLineages must not break: lineage_diversity 0, empty
+  // profile, and in_band stays keyed on offspring_avg (lineage is ADDITIVE telemetry, it does
+  // not gate the band -> existing N=40 placements are unchanged).
+  const r = aggregate([synthRun({ offspring: 2 })]);
+  const ov = r.metrics.offspring_viability;
+  assert.equal(ov.lineage_diversity, 0);
+  assert.deepEqual(ov.lineage_profile, {});
+  assert.equal(ov.unknown_lineage_count, 0);
+  assert.equal(ov.in_band, true, 'offspring_avg >= 1 still drives in_band (lineage additive)');
 });
 
 test('aggregate: roster_composition maps recruited species to role_class profile', () => {

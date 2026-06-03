@@ -23,8 +23,9 @@ const yaml = require('js-yaml');
 const ENCOUNTER_DIR = path.resolve(__dirname, '..', '..', 'docs', 'planning', 'encounters');
 
 // Tier -> base combat stats (mirrors ai-driven-sim buildEnemiesFromYaml hp/mod table;
-// dc scales with tier so higher tiers are also harder to hit). Calibration of the exact
-// difficulty band is fase-2c (N=40), not this slice.
+// dc scales with tier so higher tiers are also harder to hit). These are the FAITHFUL
+// per-tier defaults; the band batch tunes difficulty on top via the `scaling` param below
+// (fase-2c calibration, Finding 1: completion_rate 1.0 OOB) -- never by mutating these.
 const TIER_HP = { base: 7, elite: 10, apex: 14 };
 const TIER_MOD = { base: 1, elite: 2, apex: 4 };
 const TIER_DC = { base: 10, elite: 11, apex: 12 };
@@ -42,7 +43,21 @@ const GRID_SAFE_MAX = 5;
 // survival/capture staging + the authored grid are deferred to fase-2c.
 const SUPPORTED_OBJECTIVES = new Set(['elimination']);
 
-function buildScenarioEnemies(scenarioId) {
+// `scaling` is the band-batch calibration overlay (fase-2c). Faithful default = {} (no
+// scaling = the authored 2-base-unit fight). countMult/countAdd scale the roster SIZE (the
+// decisive lever: damage is ~1-3/hit, so 2 units can never out-race a 60-HP party -- more
+// units can); hpMult/hpAdd + modAdd/dcAdd tune the per-unit knife-edge. Pure DI (no env
+// global) so it stays unit-testable + the batch records the values in provenance.
+function buildScenarioEnemies(scenarioId, scaling = {}) {
+  const s = scaling || {};
+  const num = (v, d) => (Number.isFinite(Number(v)) ? Number(v) : d);
+  const countMult = num(s.countMult, 1);
+  const countAdd = num(s.countAdd, 0);
+  const hpMult = num(s.hpMult, 1);
+  const hpAdd = num(s.hpAdd, 0);
+  const modAdd = num(s.modAdd, 0);
+  const dcAdd = num(s.dcAdd, 0);
+
   const yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
   if (!fs.existsSync(yamlPath)) return null;
 
@@ -65,12 +80,15 @@ function buildScenarioEnemies(scenarioId) {
   let spIdx = 0;
   for (const unitDef of wave1.units || []) {
     const tier = unitDef.tier || 'base';
-    const count = unitDef.count || 1;
+    const authoredCount = unitDef.count || 1;
+    const count = Math.max(1, Math.round(authoredCount * countMult) + countAdd);
     const species = unitDef.species || 'predoni_nomadi';
+    const hp = Math.max(1, Math.round((TIER_HP[tier] || TIER_HP.base) * hpMult) + hpAdd);
+    const mod = (TIER_MOD[tier] || TIER_MOD.base) + modAdd;
+    const dc = (TIER_DC[tier] || TIER_DC.base) + dcAdd;
     for (let i = 0; i < count; i += 1) {
       const pos = spawnPoints[spIdx % spawnPoints.length];
       spIdx += 1;
-      const hp = TIER_HP[tier] || TIER_HP.base;
       const px = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[0]) || 0));
       const py = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[1]) || 0));
       enemies.push({
@@ -79,8 +97,8 @@ function buildScenarioEnemies(scenarioId) {
         hp,
         max_hp: hp,
         ap: 2,
-        mod: TIER_MOD[tier] || TIER_MOD.base,
-        dc: TIER_DC[tier] || TIER_DC.base,
+        mod,
+        dc,
         attack_range: 1,
         position: { x: px, y: py },
         controlled_by: 'sistema',

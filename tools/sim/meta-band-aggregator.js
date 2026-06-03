@@ -148,29 +148,73 @@ function aggregate(runs) {
   // 4. relationship_progress: recruit rate + earned-affinity proof + mating, all firing =
   // monotonic, non-stall.
   const recruitRate = round(mean(list.map((r) => ((r && r.recruited) || []).length)));
+  // affinity_proven_rate is CONDITIONAL on reaching the Nido step (a run with >=1 combat
+  // recruit ran the earned-affinity gate). A calibrated batch (completion < 0.9 by design)
+  // has runs that fail the gate mission BEFORE any recruit -> they never exercise the
+  // affinity gate, so counting them as "not proven" would conflate this metric with
+  // completion_rate (and make the two bands un-satisfiable together). Decoupled: among runs
+  // that reached the step, did the earned-affinity gate fire? (1.0 = always, the healthy case.)
+  const reachedStep = list.filter(
+    (r) => r && Array.isArray(r.recruited) && r.recruited.length > 0,
+  ).length;
   const affinityProvenRate =
-    n === 0 ? 0 : round(list.filter((r) => r && r.economyAffinityProven === true).length / n);
+    reachedStep === 0
+      ? 0
+      : round(list.filter((r) => r && r.economyAffinityProven === true).length / reachedStep);
   const matingRate = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
   const relationship_progress = {
     recruit_rate: recruitRate,
     affinity_proven_rate: affinityProvenRate,
+    reached_step: reachedStep,
     mating_rate: matingRate,
     range: null,
     in_band: n > 0 && recruitRate > 0 && affinityProvenRate >= 0.9 && matingRate > 0,
-    note: 'recruit + earned-affinity gate + mating all fire (monotonic, non-stall)',
+    note: 'recruit + earned-affinity gate (proven among runs that REACHED the step, decoupled from completion) + mating all fire',
   };
 
-  // 5. offspring_viability: mean offspring per run >= threshold. Lineage diversity is NOT
-  // tracked yet (offspring species not captured by the runner -> deferred), surfaced honestly.
+  // 5. offspring_viability: mean offspring per run >= threshold (breeding is exercised).
   const offspringAvg = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
   const [oLo] = PROVISIONAL_BANDS.offspring_viability;
+  // lineage_diversity: the BREEDING analog of roster_composition. Each offspring's lineage is
+  // the CROSS that bred it (its two parent species), keyed order-insensitively. POLICY-SENSITIVE
+  // -> mbti courts a different species ORDER, so it breeds a different dominant cross: P4 is
+  // measurable in breeding, not only in recruiting (the quantity metrics -- offspring COUNT --
+  // are policy-insensitive). NOT keyed on the engine's lineage_id: that hashes the per-run
+  // courtship ids -> unique per run AND identical across policies -> no diversity/P4 signal.
+  // A cross with an UNKNOWN/missing parent species (roleOf -> UNKNOWN) is invalid telemetry, not
+  // a real lineage: kept OUT of the profile + tracked as unknown_lineage_count (mirrors the
+  // roster_composition UNKNOWN handling, Codex #2573 P2). Lineage is ADDITIVE telemetry: it does
+  // NOT gate in_band (offspring_avg alone does), so existing band placements are unchanged.
+  const lineageProfile = {};
+  let unknownLineageCount = 0;
+  for (const r of list) {
+    for (const lin of (r && r.offspringLineages) || []) {
+      const sp = (lin && lin.parentSpecies) || [];
+      const a = sp[0];
+      const b = sp[1];
+      if (!a || !b || roleOf(a) === 'UNKNOWN' || roleOf(b) === 'UNKNOWN') {
+        unknownLineageCount += 1;
+        continue;
+      }
+      const key = [a, b].sort().join(' x ');
+      lineageProfile[key] = (lineageProfile[key] || 0) + 1;
+    }
+  }
+  const lineageDiversity = Object.keys(lineageProfile).length;
+  const maxLineageFreq = Math.max(0, ...Object.values(lineageProfile));
+  const dominantLineages = Object.keys(lineageProfile)
+    .filter((k) => lineageProfile[k] === maxLineageFreq)
+    .sort();
   const offspring_viability = {
     offspring_avg: offspringAvg,
     viable_rate: 1, // the runner only counts mating rolls that returned a viable offspring
-    lineage_diversity: null, // deferred: offspring species/lineage not captured by the runner
+    lineage_diversity: lineageDiversity, // distinct parent-species crosses across the batch
+    lineage_profile: lineageProfile,
+    dominant_lineages: dominantLineages,
+    unknown_lineage_count: unknownLineageCount,
     range: PROVISIONAL_BANDS.offspring_viability,
     in_band: n > 0 && offspringAvg >= oLo,
-    note: 'mean offspring per run >= threshold; lineage diversity not tracked yet (deferred)',
+    note: 'mean offspring per run >= threshold; lineage_diversity = distinct parent-species crosses (dominant cross is POLICY-SENSITIVE -> P4 in breeding; UNKNOWN/missing parents excluded, tracked as unknown_lineage_count)',
   };
 
   // 6. roster_composition: role_class profile of the recruited roster (recruitedSpecies ->

@@ -25,19 +25,22 @@ process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH =
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
+const { execFileSync } = require('node:child_process');
 const { runFullLoop } = require('./full-loop-runner');
 const { aggregate, PROVISIONAL_BANDS } = require('./meta-band-aggregator');
 const greedyPolicy = require('./greedy-policy');
 const { makeMbtiPolicy } = require('./mbti-policy');
 const { traverse } = require('./meta-network-driver');
 
-// Canonical cave_path starter party (mirrors tests/sim/fullLoopRunner.test.js): a
-// dune_stalker + velox authored squad. The Nido recruits grow it as chapters clear.
+// Canonical cave_path starter party: a dune_stalker + velox authored squad. The Nido
+// recruits grow it as chapters clear. job = `skirmisher` (slice b): a real perk-job
+// (perks.yaml AND jobs.yaml) so the PI sink reaches the engine pick (the prior `stalker` was
+// neither -> /api/progression/:id/pick 409'd before the PI gate, piSpentTotal stuck at 0).
 const DEFAULT_ROSTER = [
   {
     id: 'hero_a',
     species: 'dune_stalker',
-    job: 'stalker',
+    job: 'skirmisher',
     hp: 30,
     max_hp: 30,
     ap: 3,
@@ -51,7 +54,7 @@ const DEFAULT_ROSTER = [
   {
     id: 'hero_b',
     species: 'velox',
-    job: 'stalker',
+    job: 'skirmisher',
     hp: 30,
     max_hp: 30,
     ap: 3,
@@ -73,6 +76,10 @@ function parseArgs(argv) {
     maxChapters: 15,
     out: '',
     commit: process.env.GIT_COMMIT || 'unknown',
+    // --isolate: run each seed in its own child process (Windows native-crash mitigation).
+    // --child-seed <n>: internal -- the per-seed child entry the isolate parent spawns.
+    isolate: false,
+    childSeed: null,
   };
   for (let i = 2; i < argv.length; i += 1) {
     const tok = argv[i];
@@ -98,6 +105,12 @@ function parseArgs(argv) {
         break;
       case '--commit':
         args.commit = next();
+        break;
+      case '--isolate':
+        args.isolate = true;
+        break;
+      case '--child-seed':
+        args.childSeed = next();
         break;
       default:
         if (tok && tok.startsWith('--')) console.warn(`unknown arg: ${tok}`);
@@ -178,6 +191,8 @@ async function runBatch(opts = {}) {
     roster = DEFAULT_ROSTER,
     playerPrefix = 'fl_batch',
     flags = currentFlags(),
+    enemyScaling = calibrationScaling(),
+    peEarned = peEarnedConfig(),
     runOne = runOneReal,
     onProgress,
   } = opts;
@@ -192,6 +207,8 @@ async function runBatch(opts = {}) {
       seed,
       maxChapters,
       policy: policyImpl,
+      enemyScaling,
+      peEarned,
     };
     const res = await runOne(runOpts);
     const scenarioChain = (res.chapters || []).map((c) => c.encounter);
@@ -208,6 +225,132 @@ async function runBatch(opts = {}) {
     if (typeof onProgress === 'function') onProgress(i + 1, runs, res);
   }
   return results;
+}
+
+// fase-2c difficulty calibration (band-report Finding 1: completion_rate 1.0 OOB). The band
+// batch fights the scaled-enemy chapters (enc_tutorial_01 + enc_savana_01, both 2x base) at
+// this difficulty so completion_rate lands in the provisional 0.4-0.7 band -- the faithful
+// 2-unit fight is crushed deterministically by the 30-HP starter party. The numbers below
+// are baked (the band report reproduces with `node full-loop-batch.js`, no special env);
+// each FL_ENEMY_* env var overrides one knob for the N=10->N=40 bisection (L-069/L-072/L-073:
+// N=10 probes direction, N=40 ratifies). Count is the decisive lever (damage ~1-3/hit means
+// 2 units can never out-race a 60-HP party; more units can).
+function calibrationScaling() {
+  const num = (name, d) => {
+    const v = Number(process.env[name]);
+    return Number.isFinite(v) ? v : d;
+  };
+  // Baked calibration (N=10 probe -> N=40 ratify, L-069): countMult 5 + hpAdd 3 = the gating
+  // elimination missions (enc_tutorial_01 + enc_savana_01, both 2x base) spawn 10 sistema
+  // units at ~10 HP (= 100 total HP). The 30-HP starter party clears ~100 HP within the
+  // 40-round mission limit ~60% of the time; the one-attempt-per-mission cap (full-loop-runner)
+  // turns the other ~40% (a mission that runs out the clock) into a campaign failure ->
+  // completion_rate lands in the provisional 0.4-0.7 band. Each FL_ENEMY_* env var overrides
+  // one knob for re-calibration. (hpAdd not hpMult: integer per-unit HP is the natural dial.)
+  return {
+    countMult: num('FL_ENEMY_COUNT_MULT', 5),
+    countAdd: num('FL_ENEMY_COUNT_ADD', 0),
+    hpMult: num('FL_ENEMY_HP_MULT', 1),
+    hpAdd: num('FL_ENEMY_HP_ADD', 3),
+    modAdd: num('FL_ENEMY_MOD_ADD', 0),
+    dcAdd: num('FL_ENEMY_DC_ADD', 0),
+  };
+}
+
+// fase-2c PI sink (slice b): the per-victory PE the runner converts to PI (SoT 5:1) to spend
+// on a hybrid perk pick. The faithful runner default (3) never affords the 5-PI pick over the
+// arc; the band batch raises it (FL_PE_EARNED, default 8) so a run clearing >=4 chapters
+// accrues >=32 PE = 6 PI >= cost. Paired with the skirmisher (perk-job) DEFAULT_ROSTER the
+// sink is actually exercised (the non-perk 'stalker' 409'd before reaching the PI gate).
+function peEarnedConfig() {
+  const v = Number(process.env.FL_PE_EARNED);
+  return Number.isFinite(v) && v > 0 ? v : 8;
+}
+
+// --- Subprocess isolation (Windows native-crash mitigation, --isolate) ------------------
+// The in-process batch spins a fresh createApp per run; at the calibrated difficulty (6-8
+// sistema units/fight) the accumulated per-round trait-effect + AI work trips a Windows
+// native crash (0xC0000409 STATUS_STACK_BUFFER_OVERRUN) mid-batch -- the same flakiness the
+// N=40 baseline hit (band report, ISTJ 3x). `--isolate` runs each seed in its OWN node
+// process (fresh memory == immune to the accumulation) and retries on a crash, so the band
+// batch reproduces reliably at the calibrated difficulty. Pure retry/collect logic (spawn +
+// read injected) is unit-tested; the real spawn re-invokes this file in `--child-seed` mode.
+function runChildSeed(seed, { spawn, readResult, retries = 3 } = {}) {
+  let lastErr = null;
+  for (let attempt = 1; attempt <= retries; attempt += 1) {
+    try {
+      spawn(seed); // throws (non-zero child exit) on a native crash
+      const result = readResult(seed);
+      if (result && typeof result === 'object') return { ok: true, result, attempts: attempt };
+      lastErr = new Error('child produced no parseable result');
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  return { ok: false, attempts: retries, error: String((lastErr && lastErr.message) || lastErr) };
+}
+
+// runOne replacement (injected into runBatch) that runs each seed in an isolated child
+// process. Returns the runFullLoop result shape on success; a crash-after-retries sentinel
+// (completed:false + _crashed) that main() filters OUT of N (logged, never silently counted).
+function makeChildRunOne({ policyLabel = 'greedy', branch = 'cave_path', maxChapters = 15 } = {}) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fl-iso-'));
+  return async (runOpts) => {
+    const seed = String(runOpts.seed);
+    const outFile = path.join(dir, `run-${seed}.json`);
+    const spawn = () => {
+      try {
+        fs.rmSync(outFile, { force: true });
+      } catch {
+        /* fresh slate per attempt */
+      }
+      // Inherit env so the child sees the same FL_ENEMY_*/FL_PE_EARNED calibration; drop the
+      // child's stdio (backend logs are noise + the result travels via the out file).
+      execFileSync(
+        process.execPath,
+        [
+          __filename,
+          '--child-seed',
+          seed,
+          '--policy',
+          policyLabel,
+          '--branch',
+          branch,
+          '--max-chapters',
+          String(maxChapters),
+          '--out',
+          outFile,
+        ],
+        { env: process.env, stdio: 'ignore', maxBuffer: 64 * 1024 * 1024 },
+      );
+    };
+    const readResult = () => JSON.parse(fs.readFileSync(outFile, 'utf8'));
+    const r = runChildSeed(seed, { spawn, readResult });
+    if (r.ok) return r.result;
+    console.warn(
+      `[isolate] seed ${seed} crashed after ${r.attempts} attempts (${r.error}) -- EXCLUDED from N (logged, not silently counted)`,
+    );
+    return { completed: false, _crashed: true, chapters: [], economy: {} };
+  };
+}
+
+// The per-seed child entry the isolate parent spawns: one full loop, result written as JSON
+// to --out (the parent reads it back). Same config path as the in-process runOne (calibration
+// + PE from env), so an isolated batch is identical to the in-process one minus the crash.
+async function runChildOnce(args) {
+  const { policy: policyImpl } = resolvePolicy(args.policy);
+  const res = await runOneReal({
+    playerId: `fl_iso_${args.childSeed}`,
+    roster: DEFAULT_ROSTER,
+    branchKey: args.branch,
+    seed: String(args.childSeed),
+    maxChapters: args.maxChapters,
+    policy: policyImpl,
+    enemyScaling: calibrationScaling(),
+    peEarned: peEarnedConfig(),
+  });
+  const out = args.out || path.join(os.tmpdir(), `fl-child-${args.childSeed}.json`);
+  fs.writeFileSync(out, JSON.stringify(res));
 }
 
 // The env flags the report should record alongside each run: the fase-2c routing test-
@@ -237,6 +380,8 @@ function runToJsonl(r) {
     recruited: (r.recruited || []).length,
     economy_recruited: (r.economyRecruited || []).length,
     offspring: r.offspring,
+    // Per-run breeding crosses (parent-species pairs) for traceability of lineage_diversity.
+    offspring_lineages: (r.offspringLineages || []).map((l) => l && l.parentSpecies),
     economy: r.economy,
     violations: r.violations || [],
     meta_violations: r.metaViolations || [],
@@ -313,7 +458,16 @@ function metricValue(metric) {
     return `drift ${metric.build_power_drift} (pe ${metric.pe_earned_avg}, bp ${metric.build_power_avg})`;
   if (metric.recruit_rate !== undefined)
     return `recruit ${metric.recruit_rate}, aff ${metric.affinity_proven_rate}, mate ${metric.mating_rate}`;
-  if (metric.offspring_avg !== undefined) return `offspring ${metric.offspring_avg}`;
+  if (metric.offspring_avg !== undefined) {
+    // Surface the breeding composition (the policy-sensitive signal) next to the count: the
+    // distinct-cross count + the dominant cross (the breeding analog of roster_composition's
+    // dominant role). dominant_lineages diverges by temperament -> P4 visible in the report.
+    const dom =
+      metric.dominant_lineages && metric.dominant_lineages.length
+        ? `, dominant ${metric.dominant_lineages.join('/')}`
+        : '';
+    return `offspring ${metric.offspring_avg}, ${metric.lineage_diversity ?? 0} lineages${dom}`;
+  }
   if (metric.dominant_roles !== undefined)
     return `dominant ${metric.dominant_roles.join('/') || 'none'}, ${metric.distinct_roles} roles`;
   return '-';
@@ -389,7 +543,11 @@ function writeArtifacts(outDir, { results, summary, report }) {
 
 async function main() {
   const args = parseArgs(process.argv);
+  // Isolate child entry: run ONE seed + write its result; the parent reads it back.
+  if (args.childSeed != null) return runChildOnce(args);
   const flags = currentFlags();
+  const enemyScaling = calibrationScaling();
+  const peEarned = peEarnedConfig();
   const outDir =
     args.out ||
     path.join(
@@ -398,21 +556,43 @@ async function main() {
       `batch-${new Date().toISOString().replace(/[:.]/g, '-')}`,
     );
   console.log(
-    `FULL-LOOP BATCH: ${args.runs} runs | branch=${args.branch} policy=${args.policy} seedBase=${args.seedBase} commit=${args.commit} flags=${JSON.stringify(flags)}`,
+    `FULL-LOOP BATCH: ${args.runs} runs | branch=${args.branch} policy=${args.policy} seedBase=${args.seedBase} commit=${args.commit} isolate=${args.isolate} peEarned=${peEarned} flags=${JSON.stringify(flags)} enemyScaling=${JSON.stringify(enemyScaling)}`,
   );
   const t0 = Date.now();
-  const results = await runBatch({
+  const runOne = args.isolate
+    ? makeChildRunOne({
+        policyLabel: args.policy,
+        branch: args.branch,
+        maxChapters: args.maxChapters,
+      })
+    : runOneReal;
+  const rawResults = await runBatch({
     ...args,
     flags,
+    enemyScaling,
+    peEarned,
+    runOne,
     onProgress: (done, total, res) => {
-      const outcome = res.completed
-        ? 'completed'
-        : (res.chapters || []).slice(-1)[0]?.outcome || 'incomplete';
+      const outcome = res._crashed
+        ? 'CRASHED'
+        : res.completed
+          ? 'completed'
+          : (res.chapters || []).slice(-1)[0]?.outcome || 'incomplete';
       process.stdout.write(
         `[${done}/${total}] ${outcome} chapters=${(res.chapters || []).length}\n`,
       );
     },
   });
+  // Crashed-after-retries seeds are EXCLUDED from N (logged, never silently counted as a
+  // non-completion -- that would bias completion_rate down). With fresh-process retries this
+  // is ~0; surfaced honestly when not.
+  const crashed = rawResults.filter((r) => r && r._crashed).length;
+  const results = rawResults.filter((r) => !(r && r._crashed));
+  if (crashed) {
+    console.warn(
+      `[isolate] ${crashed}/${rawResults.length} seeds crashed after retries -> EXCLUDED from N (N=${results.length}); re-run those seeds to fill the batch`,
+    );
+  }
   // fase-2c: when the routing flag is on, exercise the meta-network graph (test-context)
   // so the flag is no longer a no-op for the report (band-report Finding 4).
   let routing;
@@ -430,6 +610,11 @@ async function main() {
       policy: args.policy,
       commit: args.commit,
       flags,
+      enemyScaling,
+      // Persist the PE-per-victory calibration too (Codex #2576 P2): FL_PE_EARNED changes PE
+      // totals + pi_sink affordability, so summary.config must carry it or two reports with
+      // the same enemyScaling could not be told apart / reproduced from summary.json.
+      peEarned,
     },
     routing,
   );
@@ -469,4 +654,8 @@ module.exports = {
   writeArtifacts,
   runToJsonl,
   DEFAULT_ROSTER,
+  calibrationScaling,
+  peEarnedConfig,
+  runChildSeed,
+  makeChildRunOne,
 };
