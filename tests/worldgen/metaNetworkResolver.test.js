@@ -19,7 +19,7 @@ test('getNetwork: loads the alpha network graph', () => {
   const net = getNetwork();
   assert.ok(net, 'network loaded');
   assert.equal(net.id, 'ET_NET_ALPHA');
-  assert.ok(Array.isArray(net.nodes) && net.nodes.length === 5, '5 nodes');
+  assert.ok(Array.isArray(net.nodes) && net.nodes.length === 6, '6 nodes (Atollo added, PR2)');
   assert.ok(Array.isArray(net.edges) && net.edges.length >= 10, '>=10 edges');
 });
 
@@ -165,4 +165,20 @@ test('getOutgoingEdges: DESERTO_CALDO has the ungated seasonal_bridge to CRYOSTE
     types.has('corridor') && types.has('trophic_spillover') && types.has('seasonal_bridge'),
     'start node exposes all 3 edge types',
   );
+});
+
+// Expansion PR2: Atollo Obsidiana (4th canonical biome) becomes the 6th graph node, wired in from
+// CRYOSTEPPE (ungated seasonal_bridge) and out to the terminal ROVINE_PLANARI.
+test('getNetwork: ATOLLO_OBSIDIANA is the 6th node, wired in (CRYOSTEPPE) + out (ROVINE)', () => {
+  _resetCache();
+  const net = getNetwork();
+  assert.equal(net.nodes.length, 6, 'six nodes after Atollo');
+  const atollo = net.nodes.find((n) => n.id === 'ATOLLO_OBSIDIANA');
+  assert.ok(atollo, 'ATOLLO_OBSIDIANA node present');
+  assert.equal(atollo.biome_id, 'atollo_obsidiana');
+  assert.deepEqual(atollo.encounters, ['enc_tutorial_07_hardcore_pod_rush']);
+  const inEdge = getOutgoingEdges('CRYOSTEPPE').find((e) => e.to === 'ATOLLO_OBSIDIANA');
+  assert.ok(inEdge && inEdge.type === 'seasonal_bridge' && inEdge.conditions === null);
+  const outEdge = getOutgoingEdges('ATOLLO_OBSIDIANA').find((e) => e.to === 'ROVINE_PLANARI');
+  assert.ok(outEdge, 'ATOLLO_OBSIDIANA -> ROVINE_PLANARI present');
 });
