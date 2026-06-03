@@ -11,10 +11,11 @@ review_cycle_days: 30
 
 # Full-loop meta band-metrics — N=40 baseline (fase-2c)
 
-> **PROVISIONAL — pending master-dd ratify.** The band ranges below are Claude-derived
-> from the cited sources (goal doc / spec §7). They are **NOT** canon: master-dd ratifies
-> the exact band numbers post-N=40, exactly like the combat bands (L-069). This report
-> produces the PROCESS + the placement + the asks; it does not assert the bands as ratified.
+> **RATIFIED 2026-06-03 by master-dd** — see the "Ratification" section below. The band ranges
+> were Claude-derived from the cited sources (goal doc / spec §7) and are now the ratified working
+> bands (L-069), including the new `lineage_diversity` ≥ 3 gate. They remain a two-way door
+> (reversible — revisable when evidence warrants). This report holds the PROCESS + the placement +
+> the ratified verdicts.
 
 Closes the buildable arc of fase-2 of the full-loop AI-playtest runner: the AI now plays the
 whole meta-loop (campaign → real combat → Nido recruit → economy + breeding), and this is the
@@ -23,6 +24,29 @@ N=40 measurement of that loop against the 5 provisional band-metrics.
 - Goal: [`docs/planning/2026-06-02-full-loop-fase2-goal.md`](../planning/2026-06-02-full-loop-fase2-goal.md) §2c
 - Spec: [`docs/superpowers/specs/2026-06-02-full-loop-ai-playtest-runner-design.md`](../superpowers/specs/2026-06-02-full-loop-ai-playtest-runner-design.md) §7
 - Shipped: band aggregator + batch ([#2568](https://github.com/MasterDD-L34D/Game/pull/2568)), pluggable policy + mbtiPolicy ([#2569](https://github.com/MasterDD-L34D/Game/pull/2569))
+
+---
+
+## Ratification — master-dd, 2026-06-03
+
+> The decision sheet, ratified. These are now the working bands (L-069). A 🔄 **two-way door**:
+> reversible — revise when evidence warrants (disagree-and-commit: committed now, not frozen).
+
+| #   | Metric                  | Ratified band                  | greedy   | mbti:ESFP     | Verdict                                                                                                                |
+| --- | ----------------------- | ------------------------------ | -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 1   | `completion_rate`       | 0.40 – 0.70                    | 0.675 ✅ | 0.795 (above) | **KEEP 0.40–0.70.** ESFP-easier accepted as a documented temperament effect, NOT a band failure (no over-tune, L-070). |
+| 2   | `roster_attrition`      | (0, 1) exclusive               | 0.371 ✅ | 0.415 ✅      | Ratified as measured.                                                                                                  |
+| 3   | `economy_flow` (drift)  | 0.5 – 2.0                      | 1.04 ✅  | 1.16 ✅       | Ratified as measured.                                                                                                  |
+| 4   | `relationship_progress` | composite (all 3 fire)         | ✅       | ✅            | Ratified as measured.                                                                                                  |
+| 5   | `offspring_viability`   | offspring_avg ≥ 1              | 5.05 ✅  | 5.08 ✅       | Ratified as measured.                                                                                                  |
+| 6   | `roster_composition`    | ≥ 3 distinct roles             | 5 ✅     | 5 ✅          | Ratified ≥ 3.                                                                                                          |
+| 7   | **`lineage_diversity`** | **≥ 3 distinct crosses (NEW)** | 5 ✅     | 5 ✅          | **GATE ratified ≥ 3** (was provisional/informative). A breeding pool < 3 distinct crosses = collapse, flagged.         |
+
+**The new gate (item 7):** `lineage_diversity` is now a first-class **gated band metric** in
+`meta-band-aggregator.js` (range `[3, null]`, mirroring `roster_composition`), decoupled from
+`offspring_viability` (which stays "did breeding happen?" on the count). Both policies measure
+5 distinct crosses ≥ 3 → in band; the gate fires only if the breeding pool collapses to < 3
+distinct crosses. The other six placements are unchanged by promoting the gate.
 
 ---
 
@@ -114,9 +138,12 @@ N and logged, never counted) places it:
 its `dominant_roles` diverge (`[APEX, HAZARD]` vs `[HAZARD, PREY]`). ESFP courts the badlands
 pool in a different order (`[nano-rust-bloom, sand-burrower, …]`), so its squad-mate matings
 breed a different dominant cross than greedy's in-order pool. → **P4 (temperament) is now
-measurable in BREEDING, not only in recruiting.** `lineage_diversity` is ADDITIVE telemetry: it
-does NOT gate `offspring_viability.in_band` (the offspring count alone does), so the six band
-placements above are unchanged. `unknown_lineage_count = 0` (every cross maps to a canonical
+measurable in BREEDING, not only in recruiting.** **UPDATE (master-dd ratify 2026-06-03):**
+`lineage_diversity` is now a first-class **gated band metric** (≥ 3 distinct crosses, range
+`[3, null]`, mirroring `roster_composition`) — see the Ratification section above. It is decoupled
+from `offspring_viability` (which stays "did breeding happen" on the count); both policies measure
+5 distinct crosses ≥ 3 → in band, and the gate fires only on a breeding collapse to < 3 crosses, so
+the other six band placements are unchanged. `unknown_lineage_count = 0` (every cross maps to a canonical
 pool species). NOT keyed on the engine's `lineage_id`: that hashes the per-run courtship ids →
 unique per run AND identical across policies → no diversity/P4 signal (verified).
 

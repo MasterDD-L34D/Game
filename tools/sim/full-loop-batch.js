@@ -453,21 +453,17 @@ function band(metric) {
 
 function metricValue(metric) {
   if (!metric) return '-';
+  // lineage_diversity (its own gated metric): show the distinct-cross count + the dominant cross
+  // (the policy-sensitive breeding signal). Checked before the generic `value` branch because it
+  // also carries a numeric `value`.
+  if (metric.dominant_lineages !== undefined)
+    return `${metric.value} crosses, dominant ${metric.dominant_lineages.join('/') || 'none'}`;
   if (metric.value !== undefined) return metric.value;
   if (metric.build_power_drift !== undefined)
     return `drift ${metric.build_power_drift} (pe ${metric.pe_earned_avg}, bp ${metric.build_power_avg})`;
   if (metric.recruit_rate !== undefined)
     return `recruit ${metric.recruit_rate}, aff ${metric.affinity_proven_rate}, mate ${metric.mating_rate}`;
-  if (metric.offspring_avg !== undefined) {
-    // Surface the breeding composition (the policy-sensitive signal) next to the count: the
-    // distinct-cross count + the dominant cross (the breeding analog of roster_composition's
-    // dominant role). dominant_lineages diverges by temperament -> P4 visible in the report.
-    const dom =
-      metric.dominant_lineages && metric.dominant_lineages.length
-        ? `, dominant ${metric.dominant_lineages.join('/')}`
-        : '';
-    return `offspring ${metric.offspring_avg}, ${metric.lineage_diversity ?? 0} lineages${dom}`;
-  }
+  if (metric.offspring_avg !== undefined) return `offspring ${metric.offspring_avg}`;
   if (metric.dominant_roles !== undefined)
     return `dominant ${metric.dominant_roles.join('/') || 'none'}, ${metric.distinct_roles} roles`;
   return '-';
@@ -492,6 +488,7 @@ function buildReport(summary) {
     'economy_flow',
     'relationship_progress',
     'offspring_viability',
+    'lineage_diversity',
     'roster_composition',
   ]) {
     const metric = m[k];

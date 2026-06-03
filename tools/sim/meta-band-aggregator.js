@@ -29,6 +29,10 @@ const PROVISIONAL_BANDS = {
   // POLICY-SENSITIVE: the dominant role(s) diverge by temperament -> this is where P4 is
   // measurable (the quantity metrics above are policy-insensitive). >=3.
   roster_composition: [3, null],
+  // >= N distinct offspring crosses (parent-species pairs) across the batch. The breeding analog
+  // of roster_composition: the dominant cross is POLICY-SENSITIVE -> P4 in breeding. GATE >= 3
+  // (master-dd ratified 2026-06-03): a breeding pool collapsed to < 3 distinct crosses is unhealthy.
+  lineage_diversity: [3, null],
   note:
     'WARN: Claude-derived PROVISIONAL ranges (spec §7) -- pending master-dd ratify post-N=40 ' +
     '(L-069). NOT canon. Keep the design space healthy (Quality-Diversity); do not optimize ' +
@@ -172,19 +176,30 @@ function aggregate(runs) {
     note: 'recruit + earned-affinity gate (proven among runs that REACHED the step, decoupled from completion) + mating all fire',
   };
 
-  // 5. offspring_viability: mean offspring per run >= threshold (breeding is exercised).
+  // 5. offspring_viability: mean offspring per run >= threshold (did breeding happen at all).
+  // The lineage SPREAD of that breeding is the separate lineage_diversity metric (6) -- the count
+  // answers "did breeding happen", the diversity answers "is the breeding pool healthy".
   const offspringAvg = round(mean(list.map((r) => Number(r && r.offspring) || 0)));
   const [oLo] = PROVISIONAL_BANDS.offspring_viability;
-  // lineage_diversity: the BREEDING analog of roster_composition. Each offspring's lineage is
-  // the CROSS that bred it (its two parent species), keyed order-insensitively. POLICY-SENSITIVE
-  // -> mbti courts a different species ORDER, so it breeds a different dominant cross: P4 is
-  // measurable in breeding, not only in recruiting (the quantity metrics -- offspring COUNT --
-  // are policy-insensitive). NOT keyed on the engine's lineage_id: that hashes the per-run
-  // courtship ids -> unique per run AND identical across policies -> no diversity/P4 signal.
-  // A cross with an UNKNOWN/missing parent species (roleOf -> UNKNOWN) is invalid telemetry, not
-  // a real lineage: kept OUT of the profile + tracked as unknown_lineage_count (mirrors the
-  // roster_composition UNKNOWN handling, Codex #2573 P2). Lineage is ADDITIVE telemetry: it does
-  // NOT gate in_band (offspring_avg alone does), so existing band placements are unchanged.
+  const offspring_viability = {
+    offspring_avg: offspringAvg,
+    viable_rate: 1, // the runner only counts mating rolls that returned a viable offspring
+    range: PROVISIONAL_BANDS.offspring_viability,
+    in_band: n > 0 && offspringAvg >= oLo,
+    note: 'mean offspring per run >= threshold (breeding exercised); lineage spread = the separate lineage_diversity metric',
+  };
+
+  // 6. lineage_diversity: the BREEDING analog of roster_composition, a first-class GATED metric.
+  // Each offspring's lineage is the CROSS that bred it (its two parent species), keyed
+  // order-insensitively. POLICY-SENSITIVE -> mbti courts a different species ORDER, so it breeds a
+  // different dominant cross: P4 is measurable in breeding, not only in recruiting (the quantity
+  // metric offspring_avg is policy-insensitive). GATE >= 3 distinct crosses (master-dd ratified
+  // 2026-06-03): a breeding pool collapsed to < 3 distinct crosses is unhealthy, mirroring
+  // roster_composition's >= 3 roles. NOT keyed on the engine's lineage_id: that hashes the per-run
+  // courtship ids -> unique per run AND identical across policies -> no diversity/P4 signal. A
+  // cross with an UNKNOWN/missing parent species (roleOf -> UNKNOWN) is invalid telemetry, not a
+  // real lineage: kept OUT of the profile + tracked as unknown_lineage_count (mirrors
+  // roster_composition's UNKNOWN handling, Codex #2573 P2).
   const lineageProfile = {};
   let unknownLineageCount = 0;
   for (const r of list) {
@@ -200,24 +215,23 @@ function aggregate(runs) {
       lineageProfile[key] = (lineageProfile[key] || 0) + 1;
     }
   }
-  const lineageDiversity = Object.keys(lineageProfile).length;
+  const lineageDistinct = Object.keys(lineageProfile).length;
   const maxLineageFreq = Math.max(0, ...Object.values(lineageProfile));
   const dominantLineages = Object.keys(lineageProfile)
     .filter((k) => lineageProfile[k] === maxLineageFreq)
     .sort();
-  const offspring_viability = {
-    offspring_avg: offspringAvg,
-    viable_rate: 1, // the runner only counts mating rolls that returned a viable offspring
-    lineage_diversity: lineageDiversity, // distinct parent-species crosses across the batch
+  const [ldLo] = PROVISIONAL_BANDS.lineage_diversity;
+  const lineage_diversity = {
+    value: lineageDistinct,
     lineage_profile: lineageProfile,
     dominant_lineages: dominantLineages,
     unknown_lineage_count: unknownLineageCount,
-    range: PROVISIONAL_BANDS.offspring_viability,
-    in_band: n > 0 && offspringAvg >= oLo,
-    note: 'mean offspring per run >= threshold; lineage_diversity = distinct parent-species crosses (dominant cross is POLICY-SENSITIVE -> P4 in breeding; UNKNOWN/missing parents excluded, tracked as unknown_lineage_count)',
+    range: PROVISIONAL_BANDS.lineage_diversity,
+    in_band: n > 0 && lineageDistinct >= ldLo,
+    note: 'distinct parent-species crosses across the batch (>= 3 = healthy spread, no collapse); dominant cross is POLICY-SENSITIVE -> P4 in breeding; UNKNOWN/missing parents excluded, tracked as unknown_lineage_count',
   };
 
-  // 6. roster_composition: role_class profile of the recruited roster (recruitedSpecies ->
+  // 7. roster_composition: role_class profile of the recruited roster (recruitedSpecies ->
   // roleOf). POLICY-SENSITIVE -> the dominant role(s) diverge by temperament (mbtiPolicy
   // recruits a different role mix than greedy), so P4 is MEASURABLE here even though the
   // quantity metrics above are policy-insensitive. Band: >= 3 distinct roles = healthy spread.
@@ -262,6 +276,7 @@ function aggregate(runs) {
       economy_flow,
       relationship_progress,
       offspring_viability,
+      lineage_diversity,
       roster_composition,
     },
   };
