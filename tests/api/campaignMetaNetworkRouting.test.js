@@ -189,3 +189,37 @@ test('choose: flag ON without node_id falls through to the branch_key contract (
   assert.equal(ch.status, 400);
   assert.match(ch.body.error || '', /branch_key/, 'branch_key path executed, not node_id');
 });
+
+// Codex P2 (#2582): /choose node_id must require a PENDING route choice (the current node
+// just cleared), else a client could skip the start encounter and jump straight to the
+// terminal -> a victory-gate bypass. Right after /start clearedNodes is [] -> reject.
+test('choose: flag ON node_id with no pending choice (encounter not cleared) -> 409, no bypass', async (t) => {
+  enableFlag(t);
+  const url = startTestServer(t);
+  const s = await startCampaign(url);
+  const id = s.body.campaign.id;
+  // No /advance victory yet -> DESERTO_CALDO not cleared -> a choice is NOT pending.
+  const ch = await post(`${url}/api/campaign/choose`, { id, node_id: 'ROVINE_PLANARI' });
+  assert.equal(ch.status, 409, 'no pending route choice -> rejected');
+  // The campaign did NOT jump to the terminal route.
+  const st = await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' });
+  assert.equal(st.body.campaign.currentNode, 'DESERTO_CALDO', 'still at start, not bypassed');
+});
+
+// Codex P2 (#2582): /campaign/summary must reflect the GRAPH encounter in graph mode (not
+// the static tutorial chapter the campaign record still carries) so a client polling the
+// summary after /start sees what /advance actually serves.
+test('summary: flag ON reflects the current graph node encounter (not the static chapter)', async (t) => {
+  enableFlag(t);
+  const url = startTestServer(t);
+  const s = await startCampaign(url);
+  const id = s.body.campaign.id;
+  const sum = await req('GET', `${url}/api/campaign/summary?id=${id}`);
+  assert.equal(sum.status, 200);
+  assert.equal(
+    sum.body.current_encounter.encounter_id,
+    'enc_savana_01',
+    'summary serves the start node encounter, not enc_tutorial_01',
+  );
+  assert.equal(sum.body.current_encounter.node_id, 'DESERTO_CALDO');
+});

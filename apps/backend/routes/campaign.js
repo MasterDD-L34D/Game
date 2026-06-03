@@ -240,6 +240,19 @@ function createCampaignRouter(options = {}) {
     const defDoc = loadCampaignDef(campaign.campaignDefId);
     if (!defDoc) return res.status(500).json({ error: 'campaign def mancante' });
     const summary = summariseCampaign(campaign, defDoc);
+    // Slice A (Codex P2 #2582): in graph mode the campaign record still carries the static
+    // currentChapter, so the engine summary would report the static tutorial encounter.
+    // Override current_encounter with the current graph node's served encounter so a client
+    // polling /summary sees what /advance actually serves. Flag OFF -> summary unchanged.
+    if (_metaRoutingOn() && campaign.currentNode) {
+      const graph = metaNetworkResolver.getNetwork();
+      summary.current_encounter = {
+        encounter_id: encounterForNode(graph, campaign.currentNode),
+        node_id: campaign.currentNode,
+        is_choice_node: false,
+        choice: null,
+      };
+    }
     return res.json(summary);
   });
 
@@ -576,6 +589,16 @@ function createCampaignRouter(options = {}) {
       const clearedNodes = Array.isArray(graphCampaign.clearedNodes)
         ? graphCampaign.clearedNodes
         : [];
+      // Slice C victory-gate (Codex P2 #2582): a route choice is pending ONLY when the
+      // current node was just cleared -- the >1-candidate /advance marks it cleared WITHOUT
+      // advancing currentNode. Without this guard a client could /choose right after /start
+      // (clearedNodes []) and skip the node's encounter, jumping to the terminal route.
+      const clearedSet = new Set(clearedNodes.map(_normNode));
+      if (!clearedSet.has(_normNode(graphNode))) {
+        return res
+          .status(409)
+          .json({ error: `nessuna scelta di rotta pendente per il nodo ${graphNode}` });
+      }
       const route = selectNextNodes(graphNode, { graph, clearedNodes, season });
       const chosen = route.candidates.find((c) => _normNode(c.node_id) === _normNode(node_id));
       if (!chosen) {
