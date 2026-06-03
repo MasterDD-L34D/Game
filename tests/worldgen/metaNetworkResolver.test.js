@@ -149,3 +149,20 @@ test('getOutgoingEdges: DESERTO_CALDO has the 1A trophic edge to FORESTA + the 2
   assert.ok(toBadlands && toBadlands.type === 'corridor');
   assert.equal(toBadlands.conditions, null);
 });
+
+// Expansion PR1 (1A 3-way): add an ungated seasonal_bridge DESERTO_CALDO -> CRYOSTEPPE so the
+// start node exposes all three edge types at once (corridor + trophic + seasonal) -> NT/SJ, NF
+// and SP each pick a different node. `seasonality` is flavor only; no `conditions` gate.
+test('getOutgoingEdges: DESERTO_CALDO has the ungated seasonal_bridge to CRYOSTEPPE (3-way)', () => {
+  _resetCache();
+  const edges = getOutgoingEdges('DESERTO_CALDO');
+  const toCryo = edges.find((e) => e.to === 'CRYOSTEPPE');
+  assert.ok(toCryo, 'new DESERTO_CALDO -> CRYOSTEPPE edge present');
+  assert.equal(toCryo.type, 'seasonal_bridge');
+  assert.equal(toCryo.conditions, null, 'ungated (perennial) so the 3-way works year-round');
+  const types = new Set(edges.map((e) => e.type));
+  assert.ok(
+    types.has('corridor') && types.has('trophic_spillover') && types.has('seasonal_bridge'),
+    'start node exposes all 3 edge types',
+  );
+});

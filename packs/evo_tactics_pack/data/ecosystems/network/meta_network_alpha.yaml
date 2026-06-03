@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: c77628ef680d8cf839212497b701a399f4ded7ccafd4ae93652aa19c9c1d845f
+  trace_hash: df6addfca53a70e917b4ee75b54088fa655c6b6094de99a9ba6a85fca8c30664
 links:
   ecosystems:
   - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
@@ -141,6 +141,15 @@ network:
     resistance: 0.5
     seasonality: episodico
     notes: Spore e detrito eolico dalla savana alimentano i margini miceliali.
+  # Expansion PR1 (1A 3-way, ungated): perennial passage savana -> mezzanotte orbitale, so the
+  # start node exposes corridor(BADLANDS) + trophic(FORESTA) + seasonal_bridge(CRYOSTEPPE) at
+  # once -> NT/SJ, NF and SP each pick a different node. No `conditions` => always eligible.
+  - from: DESERTO_CALDO
+    to: CRYOSTEPPE
+    type: seasonal_bridge
+    resistance: 0.6
+    seasonality: perenne
+    notes: Correnti ascensionali notturne aprono un valico stabile verso la mezzanotte orbitale.
   bridge_species_map:
   - species_id: echo-wing
     roles:
