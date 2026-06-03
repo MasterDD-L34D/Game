@@ -159,6 +159,66 @@ test('selectNextNodes: single edge still exposes edge_types as a 1-element array
   assert.deepEqual(res.candidates[0].edge_types, ['corridor']);
 });
 
+// --- TKT-WORLDGEN-GAPC candidate preview enrichment: each candidate carries the encounter
+// the target node serves (encounter_id, MVP N=1 = first id) + its terminal-climax flag, so the
+// fase-3 Godot choice-UI can telegraph the destination (Into the Breach full-information) without
+// a second lookup. Node-derived (not edge-derived) -> computed once per target, parallel-edge safe.
+function previewGraph() {
+  return {
+    nodes: [
+      { id: 'A', weight: 0 },
+      { id: 'B', biome_id: 'biome_b', weight: 0.55, encounters: ['enc_b'], terminal: false },
+      {
+        id: 'Z',
+        biome_id: 'biome_z',
+        weight: 0.5,
+        encounters: ['enc_boss', 'enc_b2'],
+        terminal: true,
+      },
+      { id: 'N', biome_id: 'biome_n', weight: 0.4 }, // no encounters / no terminal flag
+    ],
+    edges: [
+      { from: 'A', to: 'B', type: 'corridor', resistance: 0.5 },
+      { from: 'A', to: 'Z', type: 'corridor', resistance: 0.5 },
+      { from: 'A', to: 'N', type: 'corridor', resistance: 0.5 },
+    ],
+  };
+}
+
+test('candidate preview: each candidate carries encounter_id (N=1) + terminal from the target node', () => {
+  const res = selectNextNodes('A', { graph: previewGraph(), clearedNodes: [] });
+  const byId = Object.fromEntries(res.candidates.map((c) => [c.node_id, c]));
+  assert.equal(byId.B.encounter_id, 'enc_b');
+  assert.equal(byId.B.terminal, false);
+  // N=1: the FIRST encounter is the node's encounter
+  assert.equal(byId.Z.encounter_id, 'enc_boss');
+  assert.equal(byId.Z.terminal, true, 'terminal climax flag surfaced for the UI');
+});
+
+test('candidate preview: encounter-less / flagless node -> encounter_id null + terminal false (back-compat)', () => {
+  const res = selectNextNodes('A', { graph: previewGraph(), clearedNodes: [] });
+  const n = res.candidates.find((c) => c.node_id === 'N');
+  assert.equal(n.encounter_id, null);
+  assert.equal(n.terminal, false);
+});
+
+test('candidate preview: parallel edges compute encounter_id/terminal once from the node', () => {
+  const g = {
+    nodes: [
+      { id: 'A', weight: 0 },
+      { id: 'B', weight: 0.5, encounters: ['enc_b'], terminal: true },
+    ],
+    edges: [
+      { from: 'A', to: 'B', type: 'trophic_spillover', resistance: 0.7 },
+      { from: 'A', to: 'B', type: 'corridor', resistance: 0.5 },
+    ],
+  };
+  const res = selectNextNodes('A', { graph: g, clearedNodes: [] });
+  assert.equal(res.candidates.length, 1);
+  assert.equal(res.candidates[0].encounter_id, 'enc_b');
+  assert.equal(res.candidates[0].terminal, true);
+});
+
 // --- TKT-WORLDGEN-GAPC fase 2 (arc-conditions, Stage 1) — ADR-2026-05-31 ACCEPTED.
 // Edge `conditions:` block = Dormans lock-and-key. Semantics (ADR D1): AND across
 // keys, OR within a list-value, fail-closed on missing state / unknown key,

@@ -3,7 +3,8 @@
 // Pure next-node selection over the meta-network graph. Q4 verdict =
 // player-choice (Into the Breach / Slay the Spire): given the current node and
 // campaign context, return the ELIGIBLE next-node candidates WITH preview
-// (biome, weight, edge type/resistance) for the player to pick — never an
+// (biome, weight, edge type/resistance, the encounter served + a terminal flag)
+// for the player to pick -- never an
 // auto-pick. The Godot HUD renders the choice (fase 3); the backend supplies the
 // candidates + a deterministic order so tests + replays are stable.
 //
@@ -36,7 +37,7 @@
 // Pure: graph + context injected; no I/O. Mirrors foodwebFilter's thin-transform
 // role. Returns:
 //   { applied, from, candidates:[{node_id, biome_id, weight, edge_type,
-//     resistance, seasonality, edge_types}], excluded:[node_id],
+//     resistance, seasonality, edge_types, encounter_id, terminal}], excluded:[node_id],
 //     blocked:[{node_id, blocked_by}], reason }
 //   reason ∈ no_graph | no_node | terminal | all_cleared | all_blocked |
 //            filtered | eligible
@@ -152,6 +153,12 @@ function selectNextNodes(currentNodeId, ctx = {}) {
         resistance,
         seasonality: e.seasonality ?? null,
         edge_types: [edgeType],
+        // Preview enrichment (fase-3 UI telegraph): the encounter this node serves
+        // (N=1 = first id) + terminal-climax flag. Node-derived -> stable across
+        // parallel edges (set once on creation); null/false when the node is
+        // missing or carries no encounters/terminal flag (back-compat).
+        encounter_id: encounterForNode(graph, e.to),
+        terminal: isTerminal(graph, e.to),
       });
       continue;
     }
