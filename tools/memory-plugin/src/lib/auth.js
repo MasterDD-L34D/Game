@@ -20,6 +20,11 @@ function ensureDir() {
   }
 }
 
+/**
+ * Loads credentials from the credentials file.
+ *
+ * @returns {Object|null} The parsed credentials object containing the apiKey if successful, or null if loading fails or apiKey is absent.
+ */
 function loadCredentials() {
   try {
     if (fs.existsSync(CREDENTIALS_FILE)) {
@@ -30,6 +35,12 @@ function loadCredentials() {
   return null;
 }
 
+/**
+ * Saves the provided API key to the credentials file.
+ *
+ * @param {string} apiKey - The API key to be saved.
+ * @returns {void}
+ */
 function saveCredentials(apiKey) {
   ensureDir();
   const data = {
@@ -39,6 +50,11 @@ function saveCredentials(apiKey) {
   fs.writeFileSync(CREDENTIALS_FILE, JSON.stringify(data, null, 2));
 }
 
+/**
+ * Clears the credentials by deleting the credentials file.
+ *
+ * @returns {void}
+ */
 function clearCredentials() {
   try {
     if (fs.existsSync(CREDENTIALS_FILE)) {
@@ -60,6 +76,11 @@ function openBrowser(url) {
   }
 }
 
+/**
+ * Starts the authentication flow by launching a local HTTP server and opening the browser.
+ *
+ * @returns {Promise<string>} A promise that resolves with the obtained API key, or rejects with an error if the flow fails or times out.
+ */
 function startAuthFlow() {
   return new Promise((resolve, reject) => {
     let resolved = false;
