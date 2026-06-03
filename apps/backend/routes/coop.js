@@ -69,6 +69,16 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
         payload: orch.worldTally(allPlayerIds(room), connectedPlayerIds(room)),
       });
     }
+    // GAP-C fase-3 — re-surface an open meta-network route choice (phase-agnostic:
+    // gated on open candidates, not a PHASES value). Keeps phones in sync on any
+    // coop-state rebroadcast while a route vote is in progress.
+    if (Array.isArray(orch.routeCandidates) && orch.routeCandidates.length > 0) {
+      room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
+      room.broadcast({
+        type: 'route_tally',
+        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+      });
+    }
     // M19 — debrief ready list if in debrief.
     if (orch.phase === 'debrief') {
       room.broadcast({
@@ -380,6 +390,41 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       return res.json({ phase: orch.phase, result });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'combat_end_failed' });
+    }
+  });
+
+  // GAP-C fase-3 — host opens a meta-network route choice. The host (TV) has
+  // just called POST /api/campaign/advance and received choice_required +
+  // route_choice.candidates (>1 eligible node). This stores them on the
+  // orchestrator + broadcasts `route_choice` (the render model) and the initial
+  // `route_tally` to phones so they can vote per node_id (route_vote WS intent
+  // -> route_tally). The winning node (tally.leading_node_id; tie-break =
+  // highest candidate.weight, master-dd Q2) feeds the host's POST
+  // /api/campaign/choose { id, node_id }. Flag-gated upstream: when
+  // META_NETWORK_ROUTING is OFF, /advance never returns choice_required, so the
+  // host never calls this (band-safe, zero campaign-flow change).
+  router.post('/coop/route/open', (req, res) => {
+    const { code, host_token: hostToken, candidates } = req.body || {};
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    if (!Array.isArray(candidates) || candidates.length === 0) {
+      return res.status(400).json({ error: 'candidates richiesto (array non vuoto)' });
+    }
+    try {
+      const stored = orch.openRouteChoice(candidates);
+      if (stored.length === 0) {
+        return res.status(400).json({ error: 'candidates privi di node_id' });
+      }
+      room.broadcast({ type: 'route_choice', payload: { candidates: stored } });
+      room.broadcast({
+        type: 'route_tally',
+        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+      });
+      return res.json({ ok: true, candidates: stored });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'route_open_failed' });
     }
   });
 
