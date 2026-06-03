@@ -45,9 +45,7 @@ describe('W8O-2 regression guard (anti-pattern #10: silent fix+test drop)', () =
     // Strip comments so a commented-out copy of the bump cannot satisfy the
     // guard (Codex P2 #2577: a future rewrite could leave `// _renderToken += 1`
     // while dropping the real statement -> false-negative). Match executable code.
-    const code = region
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*/g, '');
+    const code = region.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*/g, '');
     assert.match(
       code,
       /_renderToken\s*(\+=\s*1|\+\+)|\+\+\s*_renderToken/,
