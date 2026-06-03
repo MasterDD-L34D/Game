@@ -165,7 +165,7 @@ Node 18+ (22.19.0 rec) + npm 11+; Python 3.10+. Install: `npm ci` (root) + `npm 
 ## Contribution gates (from CONTRIBUTING.md)
 
 - PRs reference a passing release validator report; regressions block merge.
-- **Master DD approval** documented (comment/issue link) before merge — EXCEPT auto-merge L3 (below).
+- **Master DD approval** documented (comment/issue link) before merge — EXCEPT auto-merge L3 (below). **PR review (pre-merge, MANDATORY)**: leggi i commenti review (`gh api repos/MasterDD-L34D/Game/pulls/<N>/comments`) + triage P1 (block, fix obbligatorio) / P2 (should) / P3 (nice). No silent-merge senza risolvere i P1.
 - Include changelog entry + **03A rollback plan** in PR notes. Run `npm run format:check` + `npm run test` locally; frontend → also `npm run build` + `npm run preview`.
 - No binary archives under `reports/backups/**` (`npm run lint:backups` enforces) — upload externally + update `manifest.txt` per `docs/planning/REF_BACKUP_AND_ROLLBACK.md`, log in `logs/agent_activity.md`.
 - Husky Prettier pre-commit on staged files; re-run `npm run prepare` after fresh checkout.
