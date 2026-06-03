@@ -1,3 +1,8 @@
+/**
+ * Reads data from stdin and parses it as JSON.
+ *
+ * @returns {Promise<Object>} A promise that resolves to the parsed JSON object or an empty object.
+ */
 async function readStdin() {
   return new Promise((resolve, reject) => {
     let data = '';
@@ -17,10 +22,22 @@ async function readStdin() {
   });
 }
 
+/**
+ * Writes data to stdout as a JSON string.
+ *
+ * @param {Object} data The data object to be written.
+ * @returns {void}
+ */
 function writeOutput(data) {
   console.log(JSON.stringify(data));
 }
 
+/**
+ * Outputs a success message to stdout, optionally with additional context.
+ *
+ * @param {Object|null} [additionalContext=null] Optional additional context for the success message.
+ * @returns {void}
+ */
 function outputSuccess(additionalContext = null) {
   if (additionalContext) {
     writeOutput({
@@ -31,6 +48,12 @@ function outputSuccess(additionalContext = null) {
   }
 }
 
+/**
+ * Outputs an error message to stderr and a continuation message to stdout.
+ *
+ * @param {string} message The error message to log.
+ * @returns {void}
+ */
 function outputError(message) {
   console.error(`Supermemory: ${message}`);
   writeOutput({ continue: true, suppressOutput: true });
