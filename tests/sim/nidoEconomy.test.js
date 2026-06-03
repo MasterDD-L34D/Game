@@ -2,6 +2,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { applyNidoEconomy } = require('../../tools/sim/nido-economy');
+const { makeMbtiPolicy } = require('../../tools/sim/mbti-policy');
 
 // Fake http modelling the real meta seam (verified by _probe_3b against createApp):
 // affinity bump -> still gated; trust bump -> can_recruit flips true; recruit
@@ -54,6 +55,48 @@ test('applyNidoEconomy: rolls a mating from step 2 (offspring counted, correct p
   assert.deepEqual(mating.body.parent_a, { id: 'courtship_run_x_s1' });
   assert.deepEqual(mating.body.parent_b, { id: 'courtship_run_x_s2' });
   assert.equal(mating.body.biome_id, 'badlands');
+});
+
+test('applyNidoEconomy: captures offspring lineage parent species from the mating roll (breeding signal)', async () => {
+  const http = fakeHttp();
+  const out = await applyNidoEconomy(http, { step: 2, biomeId: 'badlands', runId: 'run_x' });
+  assert.equal(out.offspring, 1);
+  assert.equal(out.offspringLineages.length, 1, 'one lineage record per offspring rolled');
+  const lin = out.offspringLineages[0];
+  // greedy pool: courtship step1 -> dune-stalker (parentA), step2 -> nano-rust-bloom (parentB).
+  // The diversity metric keys on the PARENT SPECIES (policy-sensitive), not the per-run-unique
+  // lineage_id (a hash of the per-run courtship ids -> never collides, never diverges by policy).
+  assert.deepEqual(lin.parentSpecies, ['dune-stalker', 'nano-rust-bloom']);
+  assert.equal(lin.lineageId, 'l1', 'canonical lineage_id captured from the /mating/roll response');
+});
+
+test('applyNidoEconomy: offspring lineage species DIVERGE by policy (mbti breeds a different cross)', async () => {
+  // The headline of lineage_diversity: a temperament that courts a different species order
+  // breeds a different parent-species cross -> the breeding signal becomes policy-sensitive
+  // (the bare offspring COUNT is not). ESFP pool order = [nano-rust-bloom, sand-burrower, ...].
+  const greedyOut = await applyNidoEconomy(fakeHttp(), {
+    step: 2,
+    biomeId: 'badlands',
+    runId: 'run_g',
+  });
+  const esfpOut = await applyNidoEconomy(fakeHttp(), {
+    step: 2,
+    biomeId: 'badlands',
+    runId: 'run_e',
+    policy: makeMbtiPolicy('ESFP'),
+  });
+  assert.deepEqual(greedyOut.offspringLineages[0].parentSpecies, [
+    'dune-stalker',
+    'nano-rust-bloom',
+  ]);
+  assert.deepEqual(esfpOut.offspringLineages[0].parentSpecies, [
+    'nano-rust-bloom',
+    'sand-burrower',
+  ]);
+  assert.notDeepEqual(
+    greedyOut.offspringLineages[0].parentSpecies,
+    esfpOut.offspringLineages[0].parentSpecies,
+  );
 });
 
 test('applyNidoEconomy: a failed earned-recruit surfaces as a failure (no false green)', async () => {

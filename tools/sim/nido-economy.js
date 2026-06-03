@@ -20,7 +20,16 @@ const greedyPolicy = require('./greedy-policy');
 // per temperament while keeping the same gate-satisfying deltas, so the earned-affinity
 // economy + breeding seams stay exercised under any policy.
 async function applyNidoEconomy(http, { step, biomeId, runId, policy = greedyPolicy } = {}) {
-  const out = { earnedRecruits: [], offspring: 0, affinityProven: false, failures: [] };
+  const out = {
+    earnedRecruits: [],
+    offspring: 0,
+    // Per-offspring lineage records for the diversity metric (the breeding analog of
+    // roster_composition). parentSpecies is the policy-sensitive signal; lineageId/tier are
+    // captured from the /mating/roll response for provenance.
+    offspringLineages: [],
+    affinityProven: false,
+    failures: [],
+  };
 
   // (1) Affinity economy: earn affinity + trust, then recruit through the EARNED gate.
   // runId scopes the courtship ids per run (Codex #2566 P2) so repeated sims on one
@@ -58,10 +67,24 @@ async function applyNidoEconomy(http, { step, biomeId, runId, policy = greedyPol
       parent_b: { id: mating.parentB },
       biome_id: biomeId,
     });
-    if (m.status === 200 && m.body && m.body.success === true && m.body.offspring)
+    if (m.status === 200 && m.body && m.body.success === true && m.body.offspring) {
       out.offspring += 1;
-    else
+      // Capture the offspring lineage. parentSpecies = the cross that bred: parentA is the
+      // PREVIOUS step's courted species, parentB is this step's (chooseMating pairs courtship
+      // s-1 + s). This is the POLICY-SENSITIVE signal (mbti courts a different species order ->
+      // a different cross). The canonical lineage_id + tier come from the response (provenance);
+      // the diversity metric keys on parentSpecies, NOT lineage_id (a hash of the per-run
+      // courtship ids -> unique per run + identical across policies -> useless as a P4 signal).
+      const off = m.body.offspring;
+      const parentA = policy.chooseCourtship({ step: step - 1, runId });
+      out.offspringLineages.push({
+        parentSpecies: [parentA && parentA.speciesId, c.speciesId],
+        lineageId: (off && off.lineage_id) || null,
+        tier: off && off.tier != null ? off.tier : null,
+      });
+    } else {
       out.failures.push({ phase: 'mating', status: m.status, success: m.body && m.body.success });
+    }
   }
 
   return out;

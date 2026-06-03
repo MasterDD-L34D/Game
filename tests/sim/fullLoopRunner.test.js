@@ -112,6 +112,26 @@ test('runFullLoop: AI plays the cave_path campaign end-to-end with REAL combat -
     `at least one earned-gate (no-bypass) recruit, got ${res.economyRecruited.length}`,
   );
   assert.ok(res.offspring >= 1, `at least one mating offspring rolled, got ${res.offspring}`);
+  // lineage_diversity: the runner records each offspring's parent-species CROSS so the
+  // aggregator can measure breeding composition (the breeding P4 signal). greedy courts the
+  // badlands pool in order -> the step-2 mating breeds dune-stalker x nano-rust-bloom.
+  assert.ok(
+    res.offspringLineages.length >= 1,
+    `offspring lineages captured, got ${res.offspringLineages.length}`,
+  );
+  assert.ok(
+    res.offspringLineages.every(
+      (l) => Array.isArray(l.parentSpecies) && l.parentSpecies.length === 2,
+    ),
+    'each lineage record carries a 2-parent cross',
+  );
+  assert.ok(
+    res.offspringLineages.some(
+      (l) =>
+        JSON.stringify(l.parentSpecies) === JSON.stringify(['dune-stalker', 'nano-rust-bloom']),
+    ),
+    `greedy breeds the in-order pool cross; got ${JSON.stringify(res.offspringLineages.map((l) => l.parentSpecies))}`,
+  );
   // fase-2b/2c economy telemetry: the runner aggregates the backend's REAL advance economy
   // per run (PE earned per cleared chapter + backend-computed XP/MP grants). The PI SINK is
   // now WIRED (fase-2c): the runner attempts a hybrid perk pick for leveled survivors. In the
@@ -498,6 +518,85 @@ test('runFullLoop: a mbtiPolicy plays the real cave_path campaign end-to-end (fa
     `mbti policy recruited across chapters, got ${res.recruited.length}`,
   );
   assert.equal(res.economyAffinityProven, true, 'earned-affinity gate fired under the mbti policy');
+  // lineage_diversity is POLICY-SENSITIVE: ESFP courts a different species order than greedy
+  // (pool [nano-rust-bloom, sand-burrower, ...]), so its step-2 mating breeds a DIFFERENT cross
+  // (nano-rust-bloom x sand-burrower) than greedy's (dune-stalker x nano-rust-bloom above) ->
+  // P4 measurable in breeding in a REAL run, not only in the synthetic aggregator test.
+  assert.ok(
+    res.offspringLineages.some(
+      (l) =>
+        JSON.stringify(l.parentSpecies) === JSON.stringify(['nano-rust-bloom', 'sand-burrower']),
+    ),
+    `ESFP breeds its temperament-ordered cross; got ${JSON.stringify(res.offspringLineages.map((l) => l.parentSpecies))}`,
+  );
+});
+
+test('runFullLoop: records offspring lineages from the Nido breeding step (lineage_diversity)', async () => {
+  // ch1 + ch2 clear (the Nido economy step fires; mating starts at step 2) then ch3 completes.
+  // The runner must COLLECT each offspring's parent-species cross into res.offspringLineages so
+  // the aggregator can measure lineage_diversity. Deterministic fake (no enemies -> instant
+  // victory); greedy courts dune-stalker (s1) then nano-rust-bloom (s2) -> the step-2 cross.
+  let advances = 0;
+  const http = {
+    post: async (path) => {
+      if (path === '/api/campaign/start') return { status: 201, body: { campaign: { id: 'c' } } };
+      if (path === '/api/session/start') return { status: 200, body: { session_id: 's' } };
+      if (path === '/api/campaign/advance') {
+        advances += 1;
+        return { status: 200, body: { campaign_completed: advances >= 3 } };
+      }
+      if (path === '/api/meta/recruit')
+        return { status: 200, body: { success: true, npc: { recruited: true } } };
+      if (path === '/api/meta/trust') return { status: 200, body: { can_recruit: true } };
+      if (path === '/api/meta/mating/roll')
+        return { status: 200, body: { success: true, offspring: { lineage_id: 'lx', tier: 'B' } } };
+      return { status: 200, body: {} };
+    },
+    get: async (path) => {
+      if (path === '/api/session/state')
+        return {
+          status: 200,
+          body: {
+            units: [{ id: 'hero_a', controlled_by: 'player', hp: 30 }],
+            active_unit: 'hero_a',
+          },
+        };
+      if (path === '/api/campaign/summary')
+        return { status: 200, body: { current_encounter: { encounter_id: 'e1' } } };
+      return { status: 200, body: {} };
+    },
+  };
+  const res = await runFullLoop(http, {
+    playerId: 'p',
+    roster: [
+      {
+        id: 'hero_a',
+        max_hp: 30,
+        job: 'skirmisher',
+        position: { x: 1, y: 1 },
+        controlled_by: 'player',
+      },
+    ],
+    maxChapters: 5,
+  });
+  assert.equal(res.completed, true);
+  assert.ok(Array.isArray(res.offspringLineages), 'offspringLineages collected on the run-result');
+  assert.equal(
+    res.offspringLineages.length,
+    res.offspring,
+    'one lineage record per counted offspring (no double-count, no drop)',
+  );
+  assert.ok(res.offspringLineages.length >= 1, 'a step-2 breeding cross was captured');
+  assert.deepEqual(
+    res.offspringLineages[0].parentSpecies,
+    ['dune-stalker', 'nano-rust-bloom'],
+    'greedy step-2 cross (parentA = s1 courtship, parentB = s2 courtship)',
+  );
+  assert.equal(
+    res.offspringLineages[0].lineageId,
+    'lx',
+    'canonical lineage_id carried for provenance',
+  );
 });
 
 // Shared fake http for the PI-sink tests: one victory chapter that COMPLETES the campaign
