@@ -380,6 +380,8 @@ function runToJsonl(r) {
     recruited: (r.recruited || []).length,
     economy_recruited: (r.economyRecruited || []).length,
     offspring: r.offspring,
+    // Per-run breeding crosses (parent-species pairs) for traceability of lineage_diversity.
+    offspring_lineages: (r.offspringLineages || []).map((l) => l && l.parentSpecies),
     economy: r.economy,
     violations: r.violations || [],
     meta_violations: r.metaViolations || [],
@@ -456,7 +458,16 @@ function metricValue(metric) {
     return `drift ${metric.build_power_drift} (pe ${metric.pe_earned_avg}, bp ${metric.build_power_avg})`;
   if (metric.recruit_rate !== undefined)
     return `recruit ${metric.recruit_rate}, aff ${metric.affinity_proven_rate}, mate ${metric.mating_rate}`;
-  if (metric.offspring_avg !== undefined) return `offspring ${metric.offspring_avg}`;
+  if (metric.offspring_avg !== undefined) {
+    // Surface the breeding composition (the policy-sensitive signal) next to the count: the
+    // distinct-cross count + the dominant cross (the breeding analog of roster_composition's
+    // dominant role). dominant_lineages diverges by temperament -> P4 visible in the report.
+    const dom =
+      metric.dominant_lineages && metric.dominant_lineages.length
+        ? `, dominant ${metric.dominant_lineages.join('/')}`
+        : '';
+    return `offspring ${metric.offspring_avg}, ${metric.lineage_diversity ?? 0} lineages${dom}`;
+  }
   if (metric.dominant_roles !== undefined)
     return `dominant ${metric.dominant_roles.join('/') || 'none'}, ${metric.distinct_roles} roles`;
   return '-';

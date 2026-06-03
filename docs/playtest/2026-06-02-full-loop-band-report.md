@@ -92,6 +92,34 @@ HP of total enemy HP; 100 HP → 0.675, 104 HP → ~0.3) and risks an L-070 over
 difficulty is left at the greedy-in-band point and the per-policy spread is surfaced for the
 master-dd ratify (it may prefer to widen the band, accept the spread, or set a per-policy band).
 
+### Breeding composition — `lineage_diversity` (NEW, this PR)
+
+The deferred `offspring_viability.lineage_diversity` field is now implemented (closes the
+breeding half of Finding 2). Each offspring's lineage is the **cross that bred it** — its two
+parent species, keyed order-insensitively — so the metric is the breeding analog of
+`roster_composition`. The parent species are captured in `tools/sim/nido-economy.js` (the
+policy's courted species at the two mating steps; the canonical `lineage_id`/`tier` come from
+the `/mating/roll` response for provenance) and aggregated in
+`tools/sim/meta-band-aggregator.js`. A fresh calibrated `--isolate` batch on this branch
+(greedy N=39, mbti:ESFP N=30 — the Windows native crashes the baseline notes are excluded from
+N and logged, never counted) places it:
+
+| Policy    | lineage_diversity (distinct crosses) | dominant cross                      |
+| --------- | :----------------------------------: | ----------------------------------- |
+| greedy    |                  5                   | **dune-stalker x nano-rust-bloom**  |
+| mbti:ESFP |                  5                   | **nano-rust-bloom x sand-burrower** |
+
+**The distinct COUNT is policy-insensitive (5 = 5); the dominant CROSS diverges by temperament**
+— exactly the shape of `roster_composition`, whose `distinct_roles` is 5 for both policies while
+its `dominant_roles` diverge (`[APEX, HAZARD]` vs `[HAZARD, PREY]`). ESFP courts the badlands
+pool in a different order (`[nano-rust-bloom, sand-burrower, …]`), so its squad-mate matings
+breed a different dominant cross than greedy's in-order pool. → **P4 (temperament) is now
+measurable in BREEDING, not only in recruiting.** `lineage_diversity` is ADDITIVE telemetry: it
+does NOT gate `offspring_viability.in_band` (the offspring count alone does), so the six band
+placements above are unchanged. `unknown_lineage_count = 0` (every cross maps to a canonical
+pool species). NOT keyed on the engine's `lineage_id`: that hashes the per-run courtship ids →
+unique per run AND identical across policies → no diversity/P4 signal (verified).
+
 ### What changed beyond difficulty
 
 - **PI sink now SPENDS** (closes Finding 3, and **corrects its diagnosis**). The baseline blamed
@@ -170,7 +198,9 @@ offspring lineage diversity — the `lineage_diversity` field is currently `null
 > the recruited species to their role_class profile + dominant roles, which **do** diverge by
 > policy (greedy `[APEX, HAZARD]` vs mbti:ESFP `[HAZARD, PREY]`), so P4 is now measurable. The
 > quantity metrics above remain policy-insensitive by design. (offspring `lineage_diversity`
-> still deferred.)
+> is now implemented too — see "Breeding composition" above: distinct-cross COUNT is
+> policy-insensitive but the dominant breeding CROSS diverges by temperament, so P4 is
+> measurable in breeding as well as recruiting.)
 
 **3. `economy_flow` measures earn + build-power drift only — the PI sink is unexercised.**
 `piSpentTotal = 0` across all runs: the loop has no shop/PI-spend seam wired, so the
@@ -204,7 +234,9 @@ not change the runner. Routing-graph (`selectNextNodes`) coverage needs the runn
 1. **Ratify or adjust** the 5 provisional band ranges (the exact numbers are a human verdict).
 2. **Prioritise the next slices** the findings expose:
    - difficulty calibration so `completion_rate` enters band (Finding 1);
-   - a composition/diversity metric so P4 is measurable (Finding 2);
+   - a composition/diversity metric so P4 is measurable (Finding 2) — **shipped**:
+     `roster_composition` (recruiting) + `offspring_viability.lineage_diversity` (breeding),
+     both policy-sensitive on the dominant role/cross;
    - a PI-sink seam so `economy_flow` tests the sink (Finding 3);
    - runner → `selectNextNodes` wiring for routing coverage / a PROD-enable verdict (Finding 4).
 

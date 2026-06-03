@@ -217,6 +217,10 @@ async function runFullLoop(http, opts = {}) {
   // earned-affinity recruits + mating offspring, proving those seams are AI-played.
   const economyRecruited = [];
   let offspring = 0;
+  // Per-offspring lineage records (parent-species cross + canonical lineage_id) collected from
+  // the Nido breeding step, so the aggregator can measure lineage_diversity (the breeding P4
+  // signal). Additive telemetry alongside the offspring count.
+  const offspringLineages = [];
   let economyAffinityProven = false;
   let completed = false;
   // fase-2b economy telemetry (read from the REAL advance response, never invented):
@@ -349,6 +353,7 @@ async function runFullLoop(http, opts = {}) {
       const econ = await applyNidoEconomy(http, { step, biomeId: 'badlands', runId: id, policy });
       economyRecruited.push(...econ.earnedRecruits);
       offspring += econ.offspring;
+      offspringLineages.push(...(econ.offspringLineages || []));
       if (econ.affinityProven) economyAffinityProven = true;
       if (econ.failures.length) metaViolations.push({ step, econ: econ.failures });
     }
@@ -373,6 +378,7 @@ async function runFullLoop(http, opts = {}) {
     metaViolations,
     economyRecruited,
     offspring,
+    offspringLineages,
     economyAffinityProven,
     initialRosterSize,
     economy: {

@@ -37,6 +37,7 @@ function synthRun(o = {}) {
     recruited: o.recruited ?? ['r1'],
     economyRecruited: ['e1'],
     offspring: o.offspring ?? 1,
+    offspringLineages: o.offspringLineages,
     economyAffinityProven: true,
     initialRosterSize: o.initialRosterSize ?? 2,
     economy: o.economy || {
@@ -249,6 +250,33 @@ test('buildReport: PI-sink note reflects the wired/blocked state, never "NOT wir
   const md = buildReport(buildSummary(results, { runs: 1 }));
   assert.ok(!/NOT wired/i.test(md), 'no stale "NOT wired" claim in the report');
   assert.match(md, /blocked|WIRED/i, 'report reflects the wired/blocked state');
+});
+
+test('buildReport: surfaces offspring lineage_diversity + the dominant cross (breeding P4 signal)', () => {
+  // The offspring_viability row must show the distinct-cross count AND the dominant cross, so a
+  // reader sees breeding composition (the policy-sensitive signal), not just the offspring count.
+  const results = [
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['ferrocolonia-magnetotattica', 'sand-burrower'] },
+      ],
+    }),
+  ];
+  const md = buildReport(buildSummary(results, { runs: 1 }));
+  assert.match(md, /lineage/i, 'report surfaces lineage diversity');
+  assert.ok(md.includes('dune-stalker x nano-rust-bloom'), 'the dominant cross is shown');
+});
+
+test('runToJsonl: carries per-run offspring lineages (parent-species crosses) for traceability', () => {
+  const { runToJsonl } = require('../../tools/sim/full-loop-batch');
+  const line = runToJsonl(
+    synthRun({
+      offspringLineages: [{ parentSpecies: ['dune-stalker', 'nano-rust-bloom'], lineageId: 'l1' }],
+    }),
+  );
+  assert.deepEqual(line.offspring_lineages, [['dune-stalker', 'nano-rust-bloom']]);
 });
 
 test('writeArtifacts: writes runs.jsonl (one line per run) + summary.json + report.md', () => {
