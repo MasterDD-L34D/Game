@@ -5,12 +5,22 @@ const { getGitRoot } = require('./git-utils');
 const CONFIG_DIR = path.join('.claude', '.supermemory-claude');
 const CONFIG_FILE = 'config.json';
 
+/**
+ * Gets the path to the configuration file for the project.
+ * @param {string} cwd - The current working directory.
+ * @returns {string} The resolved path to the config file.
+ */
 function getConfigPath(cwd) {
   const gitRoot = getGitRoot(cwd);
   const basePath = gitRoot || cwd;
   return path.join(basePath, CONFIG_DIR, CONFIG_FILE);
 }
 
+/**
+ * Loads the project configuration if it exists.
+ * @param {string} cwd - The current working directory.
+ * @returns {Object|null} The parsed configuration object, or null if it cannot be loaded.
+ */
 function loadProjectConfig(cwd) {
   try {
     const configPath = getConfigPath(cwd);
@@ -21,6 +31,12 @@ function loadProjectConfig(cwd) {
   return null;
 }
 
+/**
+ * Saves the given configuration to the project config file.
+ * @param {string} cwd - The current working directory.
+ * @param {Object} config - The configuration data to save.
+ * @returns {string} The path where the configuration was saved.
+ */
 function saveProjectConfig(cwd, config) {
   const gitRoot = getGitRoot(cwd);
   const basePath = gitRoot || cwd;

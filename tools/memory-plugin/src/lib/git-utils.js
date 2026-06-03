@@ -1,6 +1,11 @@
 const { execSync } = require('node:child_process');
 const path = require('node:path');
 
+/**
+ * Gets the git root directory for the given working directory.
+ * @param {string} cwd The current working directory.
+ * @returns {string|null} The path to the git root directory, or null if not in a git repository.
+ */
 function getGitRoot(cwd) {
   const isolateWorktrees = process.env.SUPERMEMORY_ISOLATE_WORKTREES === 'true';
 
