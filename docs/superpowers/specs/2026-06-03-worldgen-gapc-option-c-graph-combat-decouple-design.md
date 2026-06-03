@@ -1,7 +1,7 @@
 ---
 title: 'GAP-C option-C -- decouple graph-mode combat from static encounters (draft-node fight delivery) design'
 date: 2026-06-03
-doc_status: proposed
+doc_status: accepted
 doc_owner: master-dd
 workstream: worldgen
 source_of_truth: false
@@ -17,7 +17,7 @@ tags: [worldgen-gap-c, meta-network, route-choice, encounters, combat, band-veri
 > the combat-delivery follow-up to the backend preview work (#2592 encounter_id/terminal, #2593
 > threat telegraph) and the fase-3 Godot route-choice UI (#2594 spec). Flag: `META_NETWORK_ROUTING`
 > (OFF in prod). This doc is a DECISION doc -- it lays out the difficulty-structure options and
-> recommends one; master-dd ratifies before any band-relevant build.
+> recommends one; **master-dd RATIFIED all 4 points 2026-06-03** (section 9) -- build C is unblocked.
 
 ## 1. Problem (empirically confirmed 2026-06-03)
 
@@ -93,8 +93,7 @@ the graph-mode band:
 | Trivialize      | Lower enemy hp/mods for draft nodes via `calibrationScaling`                                                    | Fits completion with one knob                                | Telegraph (dr3/elite) then mismatches a trivial fight |
 | Lower-band      | Accept a lower graph-mode completion target (re-ratify #2589 lower)                                             | Cheapest; bands already provisional                          | A real game-feel concession (lower win-rate)          |
 
-**Recommendation (Claude autonomous judgment -- pending master-dd review for criteria diversi:
-genre-fidelity vs author-cost vs run-length vs win-rate target).** Combine **Retry-allowance +
+**Recommendation -- RATIFIED by master-dd 2026-06-03.** Combine **Retry-allowance +
 soft-Ramp via existing `prior_node_cleared` gates**, keep the terminal (06_hardcore / 07_pod_rush)
 HARD as a satisfying climax. Rationale: route choice already evokes the Into-the-Breach / Slay-the-
 Spire map, where a chosen path escalates and some failure tolerance is genre-standard; this recovers
@@ -128,13 +127,13 @@ criteria.
   REAL telegraphed encounter (difficulty + waves match the card), and a full descent ends on the
   hardcore climax -- verifiable in <60s of play. Before: telegraph card, fallback fight.
 
-## 9. Owner decisions to ratify
+## 9. Owner decisions -- RATIFIED by master-dd 2026-06-03
 
-1. Difficulty-structure option(s) from section 5 (recommend Retry-allowance + soft-Ramp).
-2. Mechanism C1 vs C2 (recommend C1).
-3. Whether the terminal climax stays at the 06/07 hardcore tier.
-4. Graph-mode completion band target for re-ratify (keep #2589 wider band, or adjust).
+1. Difficulty structure: **Retry-allowance + soft-Ramp** (via existing `prior_node_cleared` gates).
+2. Mechanism: **C1** (mode-aware `loadEncounter(id, { graphMode })`).
+3. Terminal climax: **stays at the 06/07 hardcore tier**.
+4. Graph-mode completion band: **keep the #2589 wider band** (re-verify, do not lower).
 
-Until ratified, the drafts stay INERT in `encounters-draft/` (telegraph-only) and the flip delivers
-route choice with 2/6 real fights (MVP). This doc unblocks the build the moment the difficulty
-decision lands.
+Build C is UNBLOCKED. Next step: implement C1 behind `META_NETWORK_ROUTING` + graph-mode N=40
+band-verify (section 6), then resolve the drafts into graph-mode combat. Drafts stay INERT in
+`encounters-draft/` until C1 lands.
