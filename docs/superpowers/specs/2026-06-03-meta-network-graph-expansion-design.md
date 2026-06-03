@@ -75,13 +75,15 @@ Additive, flag-gated, owner-gated merges. Flag OFF → zero behavioural change (
   outgoing edges) is in the reachable set. Reuses the same condition semantics as
   `metaNetworkRouting._evalEdgeConditions` (extract a shared `evalEdgeConditions` or replicate the
   two Stage-1 evaluators — decide in the plan; prefer extract-and-share).
-- **Wiring (Gate-5, no behaviour change):** the validator runs in tests; optionally a server-start
-  `console.warn` if the shipped graph is non-completable (dev surface only, never throws).
+- **Wiring (Gate-5, no behaviour change; RATIFIED):** the validator runs in tests AND emits a
+  server-start `console.warn` if the shipped graph is non-completable (dev surface only, never
+  throws, no request-path impact).
 
 ### PR2 — Atollo Obsidiana node
 
-- **Data:** add node `ATOLLO_OBSIDIANA` (`biome_id: atollo_obsidiana`, weight ~0.45, `encounters:
-[<authored>]` — owner-ratified). Wire ≥1 in + ≥1 out edge so it is neither isolated nor a
+- **Data (RATIFIED):** add node `ATOLLO_OBSIDIANA` (`biome_id: atollo_obsidiana`, weight `0.45`,
+  `encounters: [enc_tutorial_07_hardcore_pod_rush]` — an unused hardcore encounter, thematically a
+  pre-climax atoll trial). Wire ≥1 in + ≥1 out edge so it is neither isolated nor a
   dead-end and the terminal stays reachable: proposed `CRYOSTEPPE → ATOLLO_OBSIDIANA` (corridor or
   trophic) + `ATOLLO_OBSIDIANA → ROVINE_PLANARI` (corridor). The PR1 validator MUST pass with the
   node added (that is the merge gate).
@@ -136,11 +138,14 @@ validators + `test_trace_hashes`; re-run the route report; AI 500/500 + sim gree
 (the "staging") → if bands hold, master-dd ratifies → **then** the PROD flag flip (separate PR/verdict;
 reversible by setting the flag OFF). Each PR is owner-gated (data + live-flow), not auto-L3.
 
-## 9. Open decisions for master-dd (ratify at the data-gate merges)
+## 9. Decisions — RATIFIED by master-dd (2026-06-03)
 
-1. PR1: the `DESERTO_CALDO → CRYOSTEPPE` seasonal_bridge being **ungated** (perennial) vs gated by a
-   non-winter season — ungated is required for a year-round 3-way; confirm.
-2. PR2: Atollo's **encounter** (authored from the existing pool, e.g. a hardcore/pod-rush or a fuzzy
-   tutorial id) + its **weight** + which node it attaches to (proposed CRYOSTEPPE in / ROVINE out).
-3. Whether the completability validator should also **warn at server start** (dev surface) or stay
-   test-only.
+1. ✅ `DESERTO_CALDO → CRYOSTEPPE` seasonal_bridge is **ungated** (perennial) — required for a
+   year-round 3-way branch.
+2. ✅ Atollo: `weight 0.45`, `encounters: [enc_tutorial_07_hardcore_pod_rush]`, attaches
+   `CRYOSTEPPE → ATOLLO_OBSIDIANA` (in) + `ATOLLO_OBSIDIANA → ROVINE_PLANARI` (out).
+3. ✅ The completability validator **warns at server start** (dev surface, never throws) in addition
+   to the test-suite checks.
+
+The data values above are still owner-confirmed at each PR's data-gate merge (standard practice),
+but the design intent is locked.
