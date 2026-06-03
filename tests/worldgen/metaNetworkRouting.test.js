@@ -14,7 +14,11 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-const { selectNextNodes } = require('../../apps/backend/services/worldgen/metaNetworkRouting');
+const {
+  selectNextNodes,
+  encounterForNode,
+  isTerminal,
+} = require('../../apps/backend/services/worldgen/metaNetworkRouting');
 
 // Minimal injected graph (mirrors meta_network_alpha shape).
 function graph() {
@@ -267,4 +271,37 @@ test('arc-conditions: unknown condition key fails closed (band-safe)', () => {
   });
   assert.equal(res.candidates.length, 0);
   assert.equal(res.blocked[0].blocked_by, 'min_pressure');
+});
+
+// --- TKT-WORLDGEN-GAPC slice A (live routing) — node->encounter + terminal helpers.
+// Pure lookups over the resolved graph: which encounter a node serves (MVP N=1 = the
+// first id) and whether a node is the terminal climax. Case-insensitive on the node id
+// (mirrors selectNextNodes _norm); back-compat null/false on a missing/encounter-less node.
+const routeGraph = {
+  nodes: [
+    { id: 'A', encounters: ['enc_x'], terminal: false },
+    { id: 'B', encounters: [], terminal: false },
+    { id: 'Z', encounters: ['enc_boss'], terminal: true },
+  ],
+};
+
+test('encounterForNode: returns the node primary encounter (N=1), case-insensitive', () => {
+  assert.equal(encounterForNode(routeGraph, 'A'), 'enc_x');
+  assert.equal(encounterForNode(routeGraph, 'a'), 'enc_x');
+  assert.equal(encounterForNode(routeGraph, 'Z'), 'enc_boss');
+});
+
+test('encounterForNode: null on a missing node, encounter-less node, or bad input', () => {
+  assert.equal(encounterForNode(routeGraph, 'MISSING'), null);
+  assert.equal(encounterForNode(routeGraph, 'B'), null, 'node with empty encounters -> null');
+  assert.equal(encounterForNode(routeGraph, null), null);
+  assert.equal(encounterForNode(null, 'A'), null, 'no graph -> null');
+});
+
+test('isTerminal: reflects node.terminal, false on missing / bad input', () => {
+  assert.equal(isTerminal(routeGraph, 'Z'), true);
+  assert.equal(isTerminal(routeGraph, 'z'), true, 'case-insensitive');
+  assert.equal(isTerminal(routeGraph, 'A'), false);
+  assert.equal(isTerminal(routeGraph, 'MISSING'), false);
+  assert.equal(isTerminal(null, 'Z'), false, 'no graph -> false');
 });

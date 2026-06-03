@@ -302,8 +302,15 @@ function createRoundBridge(deps) {
     if (!session || !session.roundState || !Array.isArray(session.roundState.units)) {
       return;
     }
+
+    const unitsById = new Map();
+    for (const u of session.units || []) {
+      const k = String(u.id);
+      if (!unitsById.has(k)) unitsById.set(k, u);
+    }
+
     for (const roundUnit of session.roundState.units) {
-      const sessionUnit = (session.units || []).find((u) => String(u.id) === String(roundUnit.id));
+      const sessionUnit = unitsById.get(String(roundUnit.id));
       if (!sessionUnit) continue;
       if (!sessionUnit.status) sessionUnit.status = {};
       if (!sessionUnit.status_intensity) sessionUnit.status_intensity = {};
@@ -344,7 +351,7 @@ function createRoundBridge(deps) {
       }
       if (applyMoraleStatus) {
         for (const pending of session._pendingMoraleStatus) {
-          const u = (session.units || []).find((x) => String(x.id) === String(pending.unit_id));
+          const u = unitsById.get(String(pending.unit_id));
           if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
         }
       }
