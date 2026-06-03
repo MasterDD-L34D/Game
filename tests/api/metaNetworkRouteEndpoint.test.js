@@ -81,6 +81,25 @@ test('meta-network/next: flag ON -> eligible candidates from the real alpha grap
   );
 });
 
+test('meta-network/next: flag ON -> candidates carry the rich threat telegraph (difficulty + tier)', async (t) => {
+  process.env.META_NETWORK_ROUTING = 'true';
+  t.after(() => {
+    delete process.env.META_NETWORK_ROUTING;
+  });
+  const url = startTestServer(t);
+  const r = await get(`${url}/api/campaign/meta-network/next?from=BADLANDS`);
+  assert.equal(r.status, 200);
+  const byId = Object.fromEntries(r.body.candidates.map((c) => [c.node_id, c]));
+  // DESERTO_CALDO serves enc_savana_01 (live encounters/, difficulty 2)
+  assert.equal(byId.DESERTO_CALDO.encounter_id, 'enc_savana_01');
+  assert.ok(byId.DESERTO_CALDO.threat, 'threat resolved for the destination encounter');
+  assert.equal(byId.DESERTO_CALDO.threat.difficulty_rating, 2);
+  assert.equal(byId.DESERTO_CALDO.threat.encounter_class, 'standard');
+  assert.ok(['base', 'elite', 'apex'].includes(byId.DESERTO_CALDO.threat.max_tier));
+  // FORESTA_TEMPERATA serves enc_caverna_02 (difficulty 3)
+  assert.equal(byId.FORESTA_TEMPERATA.threat.difficulty_rating, 3);
+});
+
 test('meta-network/next: flag ON + cleared filters a visited node', async (t) => {
   process.env.META_NETWORK_ROUTING = 'true';
   t.after(() => {
