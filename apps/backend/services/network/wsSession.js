@@ -2110,7 +2110,10 @@ function createWsServer({
             const connectedPids = Array.from(room.players.values())
               .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
               .map((p) => p.id);
-            room.broadcast({ type: 'route_tally', payload: orch.routeTally(allPids, connectedPids) });
+            room.broadcast({
+              type: 'route_tally',
+              payload: orch.routeTally(allPids, connectedPids),
+            });
           }
         } catch {
           // swallow -- best-effort re-broadcast.

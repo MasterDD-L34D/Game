@@ -250,7 +250,10 @@ async function bootRouteVote(phoneNames) {
   const code = created.code;
   const hostToken = created.host_token;
   const hostId = created.host_id;
-  const phones = phoneNames.map((name) => ({ name, ...lobby.joinRoom({ code, playerName: name }) }));
+  const phones = phoneNames.map((name) => ({
+    name,
+    ...lobby.joinRoom({ code, playerName: name }),
+  }));
   await post(baseUrl, '/api/coop/run/start', {
     code,
     host_token: hostToken,
@@ -270,7 +273,11 @@ async function bootRouteVote(phoneNames) {
 // must be rejected (host_cannot_intent) and must NOT land in the tally.
 test('route-vote P2-A: host cannot cast a route vote (arbiter-only)', async () => {
   const ctx = await bootRouteVote(['Ann']);
-  const hostWs = openWs(ctx.wsPort, { code: ctx.code, player_id: ctx.hostId, token: ctx.hostToken });
+  const hostWs = openWs(ctx.wsPort, {
+    code: ctx.code,
+    player_id: ctx.hostId,
+    token: ctx.hostToken,
+  });
   const annWs = openWs(ctx.wsPort, {
     code: ctx.code,
     player_id: ctx.phones[0].player_id,
@@ -284,7 +291,10 @@ test('route-vote P2-A: host cannot cast a route vote (arbiter-only)', async () =
 
     // Host attempts a route vote -> must be rejected, not accepted.
     hostWs.send(
-      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id },
+      }),
     );
     const err = await waitForMessage(hostWs, (m) => m.type === 'error', 2000);
     assert.equal(err.payload.code, 'host_cannot_intent', 'host route_vote rejected');
@@ -292,7 +302,10 @@ test('route-vote P2-A: host cannot cast a route vote (arbiter-only)', async () =
     // A real phone votes -> its route_vote_accepted tally counts exactly 1 (the host
     // vote was rejected, so it never landed in routeVotes; otherwise total would be 2).
     annWs.send(
-      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[1].node_id } }),
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'route_vote', node_id: ctx.candidates[1].node_id },
+      }),
     );
     const acc = await waitForMessage(annWs, (m) => m.type === 'route_vote_accepted', 2000);
     const totalVotes = (acc.payload.tally.tallies || []).reduce((s, t) => s + t.votes, 0);
@@ -310,9 +323,21 @@ test('route-vote P2-A: host cannot cast a route vote (arbiter-only)', async () =
 test('route-vote P1-A: non-voter disconnect re-broadcasts route_tally with reduced connected_total', async () => {
   const ctx = await bootRouteVote(['Ann', 'Bob', 'Cara']);
   const [ann, bob, cara] = ctx.phones;
-  const annWs = openWs(ctx.wsPort, { code: ctx.code, player_id: ann.player_id, token: ann.player_token });
-  const bobWs = openWs(ctx.wsPort, { code: ctx.code, player_id: bob.player_id, token: bob.player_token });
-  const caraWs = openWs(ctx.wsPort, { code: ctx.code, player_id: cara.player_id, token: cara.player_token });
+  const annWs = openWs(ctx.wsPort, {
+    code: ctx.code,
+    player_id: ann.player_id,
+    token: ann.player_token,
+  });
+  const bobWs = openWs(ctx.wsPort, {
+    code: ctx.code,
+    player_id: bob.player_id,
+    token: bob.player_token,
+  });
+  const caraWs = openWs(ctx.wsPort, {
+    code: ctx.code,
+    player_id: cara.player_id,
+    token: cara.player_token,
+  });
   try {
     await waitOpen(annWs);
     await waitOpen(bobWs);
@@ -323,14 +348,23 @@ test('route-vote P1-A: non-voter disconnect re-broadcasts route_tally with reduc
 
     // Ann + Bob vote; Cara (3rd connected) does NOT vote -> total 3, voted 2, pending 1.
     annWs.send(
-      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id },
+      }),
     );
     bobWs.send(
-      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id },
+      }),
     );
     await waitForMessage(
       annWs,
-      (m) => m.type === 'route_tally' && m.payload.connected_total === 3 && m.payload.connected_voted === 2,
+      (m) =>
+        m.type === 'route_tally' &&
+        m.payload.connected_total === 3 &&
+        m.payload.connected_voted === 2,
       2000,
     );
 
@@ -342,7 +376,11 @@ test('route-vote P1-A: non-voter disconnect re-broadcasts route_tally with reduc
       3000,
     );
     assert.equal(reTally.payload.connected_voted, 2, 'the remaining 2 connected both voted');
-    assert.equal(reTally.payload.all_connected_voted, true, 'quorum reached once the non-voter left');
+    assert.equal(
+      reTally.payload.all_connected_voted,
+      true,
+      'quorum reached once the non-voter left',
+    );
   } finally {
     annWs.close();
     bobWs.close();
