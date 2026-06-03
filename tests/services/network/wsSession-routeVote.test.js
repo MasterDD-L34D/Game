@@ -220,3 +220,133 @@ test('co-op smoke: 2 phones vote route node_ids -> host resolves leader to /choo
     delete process.env.META_NETWORK_ROUTING;
   }
 });
+
+// Shared boot for the route-vote edge tests (PR #2597 review fixes P2-A + P1-A):
+// campaign -> multi-candidate choice, room + N phones joined, run started, route opened.
+async function bootRouteVote(phoneNames) {
+  process.env.META_NETWORK_ROUTING = 'true';
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const wsPort = wsHandle.wss.address().port;
+  const app = express();
+  app.use(express.json());
+  app.use('/api', createCampaignRouter());
+  app.use('/api', createCoopRouter({ lobby, coopStore }));
+  const httpServer = app.listen(0);
+  const baseUrl = `http://127.0.0.1:${httpServer.address().port}`;
+
+  const started = await post(baseUrl, '/api/campaign/start', { player_id: 'route_edge_boot' });
+  const campaignId = started.body.campaign.id;
+  const adv = await post(baseUrl, '/api/campaign/advance', { id: campaignId, outcome: 'victory' });
+  const candidates = adv.body.route_choice.candidates;
+  assert.ok(candidates.length > 1, 'a genuine multi-candidate choice');
+
+  const created = lobby.createRoom({ hostName: 'TV' });
+  const code = created.code;
+  const hostToken = created.host_token;
+  const hostId = created.host_id;
+  const phones = phoneNames.map((name) => ({ name, ...lobby.joinRoom({ code, playerName: name }) }));
+  await post(baseUrl, '/api/coop/run/start', {
+    code,
+    host_token: hostToken,
+    scenario_stack: ['enc_demo_01'],
+  });
+  await post(baseUrl, '/api/coop/route/open', { code, host_token: hostToken, candidates });
+
+  async function cleanup() {
+    await new Promise((r) => httpServer.close(r));
+    await wsHandle.close();
+    delete process.env.META_NETWORK_ROUTING;
+  }
+  return { wsPort, code, hostToken, hostId, candidates, phones, cleanup };
+}
+
+// P2-A (review #2597): host is arbiter-only for route vote -- a host route_vote
+// must be rejected (host_cannot_intent) and must NOT land in the tally.
+test('route-vote P2-A: host cannot cast a route vote (arbiter-only)', async () => {
+  const ctx = await bootRouteVote(['Ann']);
+  const hostWs = openWs(ctx.wsPort, { code: ctx.code, player_id: ctx.hostId, token: ctx.hostToken });
+  const annWs = openWs(ctx.wsPort, {
+    code: ctx.code,
+    player_id: ctx.phones[0].player_id,
+    token: ctx.phones[0].player_token,
+  });
+  try {
+    await waitOpen(hostWs);
+    await waitOpen(annWs);
+    await waitForMessage(hostWs, (m) => m.type === 'hello');
+    await waitForMessage(annWs, (m) => m.type === 'hello');
+
+    // Host attempts a route vote -> must be rejected, not accepted.
+    hostWs.send(
+      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+    );
+    const err = await waitForMessage(hostWs, (m) => m.type === 'error', 2000);
+    assert.equal(err.payload.code, 'host_cannot_intent', 'host route_vote rejected');
+
+    // A real phone votes -> its route_vote_accepted tally counts exactly 1 (the host
+    // vote was rejected, so it never landed in routeVotes; otherwise total would be 2).
+    annWs.send(
+      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[1].node_id } }),
+    );
+    const acc = await waitForMessage(annWs, (m) => m.type === 'route_vote_accepted', 2000);
+    const totalVotes = (acc.payload.tally.tallies || []).reduce((s, t) => s + t.votes, 0);
+    assert.equal(totalVotes, 1, 'only the phone vote counted; host vote rejected, not in tally');
+  } finally {
+    hostWs.close();
+    annWs.close();
+    await ctx.cleanup();
+  }
+});
+
+// P1-A (review #2597): a non-voter disconnect during an open route choice must
+// re-broadcast route_tally with the departed player dropped from connected_total
+// (otherwise the host waits forever for a gone voter).
+test('route-vote P1-A: non-voter disconnect re-broadcasts route_tally with reduced connected_total', async () => {
+  const ctx = await bootRouteVote(['Ann', 'Bob', 'Cara']);
+  const [ann, bob, cara] = ctx.phones;
+  const annWs = openWs(ctx.wsPort, { code: ctx.code, player_id: ann.player_id, token: ann.player_token });
+  const bobWs = openWs(ctx.wsPort, { code: ctx.code, player_id: bob.player_id, token: bob.player_token });
+  const caraWs = openWs(ctx.wsPort, { code: ctx.code, player_id: cara.player_id, token: cara.player_token });
+  try {
+    await waitOpen(annWs);
+    await waitOpen(bobWs);
+    await waitOpen(caraWs);
+    await waitForMessage(annWs, (m) => m.type === 'hello');
+    await waitForMessage(bobWs, (m) => m.type === 'hello');
+    await waitForMessage(caraWs, (m) => m.type === 'hello');
+
+    // Ann + Bob vote; Cara (3rd connected) does NOT vote -> total 3, voted 2, pending 1.
+    annWs.send(
+      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+    );
+    bobWs.send(
+      JSON.stringify({ type: 'intent', payload: { action: 'route_vote', node_id: ctx.candidates[0].node_id } }),
+    );
+    await waitForMessage(
+      annWs,
+      (m) => m.type === 'route_tally' && m.payload.connected_total === 3 && m.payload.connected_voted === 2,
+      2000,
+    );
+
+    // Cara disconnects without voting -> P1-A must re-broadcast a tally with connected_total = 2.
+    caraWs.close();
+    const reTally = await waitForMessage(
+      annWs,
+      (m) => m.type === 'route_tally' && m.payload.connected_total === 2,
+      3000,
+    );
+    assert.equal(reTally.payload.connected_voted, 2, 'the remaining 2 connected both voted');
+    assert.equal(reTally.payload.all_connected_voted, true, 'quorum reached once the non-voter left');
+  } finally {
+    annWs.close();
+    bobWs.close();
+    caraWs.close();
+    await ctx.cleanup();
+  }
+});

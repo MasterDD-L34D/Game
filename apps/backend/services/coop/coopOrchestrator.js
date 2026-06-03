@@ -748,6 +748,12 @@ class CoopOrchestrator {
    * on equal votes the highest candidate.weight wins (the Godot
    * RouteChoiceFlow.resolve_tie_break mirrors this client-side); node_id asc
    * is the deterministic final fallback so equal-weight ties stay stable.
+   *
+   * P1-B (PR #2597 review): a disconnected player's vote PERSISTS in routeVotes
+   * (mirrors mating) until the next run-advance clears it. The connected_* fields
+   * self-heal via connectedPlayerIds, but the raw `tallies` still count a departed
+   * voter -- intentional, to survive a brief reconnect. Ratify-or-prune is Eduardo's
+   * call (review question 1); this comment documents the inherited invariant.
    */
   routeTally(allPlayerIds = [], connectedPlayerIds) {
     const weightOf = (nodeId) => {

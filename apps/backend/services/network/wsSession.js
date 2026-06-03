@@ -1669,6 +1669,16 @@ function createWsServer({
           // META_NETWORK_ROUTING is OFF the route choice is never opened, so a
           // stray route_vote just errors `route_choice_not_open` (band-safe).
           if (action === 'route_vote' && coopStore) {
+            // P2-A (PR #2597 review): host is arbiter-only for route vote, mirroring the
+            // combat `host_cannot_intent` guard (above). A host vote would land in
+            // routeVotes -- skewing the raw `tallies` -- while being excluded from the
+            // `connected_*` quorum, so the two views would disagree. Reject it.
+            if (playerId === room.hostId || room.players.get(playerId)?.role === 'host') {
+              socket.send(
+                JSON.stringify({ type: 'error', payload: { code: 'host_cannot_intent' } }),
+              );
+              return;
+            }
             try {
               const orch = coopStore.get(room.code);
               if (!orch) {
@@ -2088,6 +2098,24 @@ function createWsServer({
         type: 'player_disconnected',
         payload: { player_id: playerId },
       });
+      // P1-A (PR #2597 review): if a route choice is open, this disconnect changed the
+      // connected set -- re-broadcast route_tally so the host's connected_total/pending
+      // drops the departed player. Without it the host UI waits forever for a gone voter
+      // (every other lifecycle event re-surfaces the tally; the disconnect path did not).
+      if (coopStore && typeof coopStore.get === 'function') {
+        try {
+          const orch = coopStore.get(room.code);
+          if (orch && Array.isArray(orch.routeCandidates) && orch.routeCandidates.length > 0) {
+            const allPids = Array.from(room.players.values()).map((p) => p.id);
+            const connectedPids = Array.from(room.players.values())
+              .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+              .map((p) => p.id);
+            room.broadcast({ type: 'route_tally', payload: orch.routeTally(allPids, connectedPids) });
+          }
+        } catch {
+          // swallow -- best-effort re-broadcast.
+        }
+      }
       // TKT-M11B-05 — if the host's socket dropped, schedule an auto host
       // transfer. If the host reconnects before the grace window, the timer
       // is cleared in the hello/attach path above.
