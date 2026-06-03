@@ -53,7 +53,7 @@ distinct crosses. The other six placements are unchanged by promoting the gate.
 ## CALIBRATION UPDATE (2026-06-03) — completion_rate brought into band + PI sink exercised
 
 > This section supersedes the **placements** of the baseline below (kept as the historical
-> record). The provisional band RANGES are unchanged and remain master-dd's to ratify (L-069).
+> record). The band RANGES are unchanged; they were **RATIFIED 2026-06-03** (see "Ratification" above).
 
 The baseline found `completion_rate = 1.00` with zero variance (Finding 1). Calibrating it into
 band turned out to need more than "tune the enemy stats" — three structural facts about the
@@ -114,7 +114,7 @@ clear it slightly better, so ESFP completes more often (0.795, just above the ba
 (0.675). Calibrating greedy to the band centre (~0.55) is a razor's edge (combat variance ≈ ±7
 HP of total enemy HP; 100 HP → 0.675, 104 HP → ~0.3) and risks an L-070 overshoot, so the
 difficulty is left at the greedy-in-band point and the per-policy spread is surfaced for the
-master-dd ratify (it may prefer to widen the band, accept the spread, or set a per-policy band).
+master-dd ratify — now **resolved (2026-06-03): KEEP 0.40–0.70, per-policy spread accepted** (see "Ratification" above).
 
 ### Breeding composition — `lineage_diversity` (NEW, this PR)
 
@@ -256,19 +256,23 @@ not change the runner. Routing-graph (`selectNextNodes`) coverage needs the runn
 > longer a no-op in test-context). The live act/chapter campaign is unchanged; the PROD-enable
 > verdict stays master-dd's.
 
-## For master-dd (ratify gate — L-069)
+## For master-dd — status (ratify gate, L-069)
 
-1. **Ratify or adjust** the 5 provisional band ranges (the exact numbers are a human verdict).
-2. **Prioritise the next slices** the findings expose:
-   - difficulty calibration so `completion_rate` enters band (Finding 1);
-   - a composition/diversity metric so P4 is measurable (Finding 2) — **shipped**:
-     `roster_composition` (recruiting) + `offspring_viability.lineage_diversity` (breeding),
-     both policy-sensitive on the dominant role/cross;
-   - a PI-sink seam so `economy_flow` tests the sink (Finding 3);
-   - runner → `selectNextNodes` wiring for routing coverage / a PROD-enable verdict (Finding 4).
+1. **Band ranges — RATIFIED 2026-06-03** (see the "Ratification" section above). The 7 bands are
+   the working standard now, including the new `lineage_diversity` ≥ 3 gate. Reversible (two-way
+   door) — revise when evidence warrants.
+2. **Findings 1–4 — all addressed** (the band-safe slices the baseline exposed):
+   - difficulty calibration → `completion_rate` in band (Finding 1, shipped);
+   - composition/diversity for P4 → `roster_composition` (recruiting) + `lineage_diversity`
+     (breeding, now a first-class gated metric), both policy-sensitive on the dominant role/cross
+     (Finding 2, shipped);
+   - PI-sink seam → `economy_flow` exercises the sink (Finding 3, shipped);
+   - runner → `selectNextNodes` routing-coverage harness (Finding 4, shipped).
+3. **Still owner-gated (NOT in this report's scope):** GAP-A ecosystem→combat wiring (engine) +
+   `META_NETWORK_ROUTING` PROD-enable verdict. Deferred: offspring → combat.
 
-The exact band numbers are **not** ratified here. Nothing downstream consumes these ranges yet;
-they are inputs to the human verdict.
+The band numbers ARE ratified here (item 1); the only open items are the gated engine work
+(item 3). Nothing else in this report is pending a human verdict.
 
 ## Reproduce
 
