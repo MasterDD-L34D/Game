@@ -453,21 +453,17 @@ function band(metric) {
 
 function metricValue(metric) {
   if (!metric) return '-';
+  // lineage_diversity (its own gated metric): show the distinct-cross count + the dominant cross
+  // (the policy-sensitive breeding signal). Checked before the generic `value` branch because it
+  // also carries a numeric `value`.
+  if (metric.dominant_lineages !== undefined)
+    return `${metric.value} crosses, dominant ${metric.dominant_lineages.join('/') || 'none'}`;
   if (metric.value !== undefined) return metric.value;
   if (metric.build_power_drift !== undefined)
     return `drift ${metric.build_power_drift} (pe ${metric.pe_earned_avg}, bp ${metric.build_power_avg})`;
   if (metric.recruit_rate !== undefined)
     return `recruit ${metric.recruit_rate}, aff ${metric.affinity_proven_rate}, mate ${metric.mating_rate}`;
-  if (metric.offspring_avg !== undefined) {
-    // Surface the breeding composition (the policy-sensitive signal) next to the count: the
-    // distinct-cross count + the dominant cross (the breeding analog of roster_composition's
-    // dominant role). dominant_lineages diverges by temperament -> P4 visible in the report.
-    const dom =
-      metric.dominant_lineages && metric.dominant_lineages.length
-        ? `, dominant ${metric.dominant_lineages.join('/')}`
-        : '';
-    return `offspring ${metric.offspring_avg}, ${metric.lineage_diversity ?? 0} lineages${dom}`;
-  }
+  if (metric.offspring_avg !== undefined) return `offspring ${metric.offspring_avg}`;
   if (metric.dominant_roles !== undefined)
     return `dominant ${metric.dominant_roles.join('/') || 'none'}, ${metric.distinct_roles} roles`;
   return '-';
@@ -482,9 +478,13 @@ function buildReport(summary) {
     `Runs: **${summary.n}** | Completed: **${summary.completion.completed}/${summary.completion.total}** | Policy: \`${summary.config.policy || 'greedy'}\` | Branch: \`${summary.config.branch || 'cave_path'}\``,
   );
   lines.push('');
-  lines.push(`> **PROVISIONAL** -- ${PROVISIONAL_BANDS.note}`);
+  // Adaptive banner: once the aggregate flips `provisional` to false (master-dd ratified the
+  // bands, L-069), a regenerated report says RATIFIED instead of PROVISIONAL -- so it never
+  // contradicts the ratified decision sheet in the playtest doc (Codex #2580 P2).
+  const bandStatus = summary.provisional ? 'PROVISIONAL' : 'RATIFIED (master-dd, L-069)';
+  lines.push(`> **${bandStatus}** -- ${PROVISIONAL_BANDS.note}`);
   lines.push('');
-  lines.push('| Metric | Value | Provisional band | In band |');
+  lines.push('| Metric | Value | Band | In band |');
   lines.push('|---|---|---|:---:|');
   for (const k of [
     'completion_rate',
@@ -492,6 +492,7 @@ function buildReport(summary) {
     'economy_flow',
     'relationship_progress',
     'offspring_viability',
+    'lineage_diversity',
     'roster_composition',
   ]) {
     const metric = m[k];

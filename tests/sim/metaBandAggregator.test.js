@@ -47,7 +47,7 @@ test('aggregate: completion_rate = completed/N, in-band at 0.40-0.70', () => {
   ];
   const r = aggregate(runs);
   assert.equal(r.n, 4);
-  assert.equal(r.provisional, true);
+  assert.equal(r.provisional, false, 'bands ratified by master-dd 2026-06-03 (L-069)');
   assert.equal(r.metrics.completion_rate.value, 0.5);
   assert.deepEqual(r.metrics.completion_rate.range, PROVISIONAL_BANDS.completion_rate);
   assert.equal(r.metrics.completion_rate.in_band, true);
@@ -242,10 +242,11 @@ test('aggregate: offspring_viability out of band when no breeding happens', () =
   assert.equal(r.metrics.offspring_viability.in_band, false);
 });
 
-test('aggregate: offspring_viability lineage_diversity counts distinct parent-species crosses', () => {
-  // The breeding analog of roster_composition: the offspring lineage is the CROSS that bred
-  // (parent species pair), keyed order-insensitively. Two runs breeding the same two crosses
-  // (one with reversed parent order) -> 2 distinct lineages, each counted across the batch.
+test('aggregate: lineage_diversity counts distinct parent-species crosses (first-class metric, gated >= 3)', () => {
+  // lineage_diversity is its OWN band metric (the breeding analog of roster_composition): the
+  // offspring lineage is the CROSS that bred (parent species pair), keyed order-insensitively.
+  // Two runs breeding the same two crosses (one reversed) -> 2 distinct lineages. 2 < 3 -> OUT
+  // of band (master-dd ratified the >= 3 gate 2026-06-03).
   const runs = [
     synthRun({
       offspringLineages: [
@@ -260,18 +261,58 @@ test('aggregate: offspring_viability lineage_diversity counts distinct parent-sp
       ],
     }),
   ];
-  const ov = aggregate(runs).metrics.offspring_viability;
-  assert.equal(ov.lineage_diversity, 2, 'distinct crosses across the batch (order-insensitive)');
-  assert.deepEqual(ov.lineage_profile, {
+  const ld = aggregate(runs).metrics.lineage_diversity;
+  assert.equal(ld.value, 2, 'distinct crosses across the batch (order-insensitive)');
+  assert.deepEqual(ld.lineage_profile, {
     'dune-stalker x nano-rust-bloom': 2,
     'nano-rust-bloom x sand-burrower': 2,
   });
+  assert.equal(ld.in_band, false, '2 distinct crosses < 3 gate -> out of band');
 });
 
-test('aggregate: offspring_viability dominant lineage is POLICY-SENSITIVE (breeding P4 signal)', () => {
-  // The headline of lineage_diversity: the most-bred cross diverges by temperament, exactly as
-  // roster_composition's dominant_roles do. The distinct COUNT can match (both 2) while the
-  // dominant CROSS differs -> P4 is measurable in breeding, not just recruiting.
+test('aggregate: lineage_diversity in band at >= 3 distinct crosses (healthy spread)', () => {
+  const r = aggregate([
+    synthRun({
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['nano-rust-bloom', 'sand-burrower'] },
+        { parentSpecies: ['ferrocolonia-magnetotattica', 'rust-scavenger'] },
+      ],
+    }),
+  ]);
+  const ld = r.metrics.lineage_diversity;
+  assert.equal(ld.value, 3);
+  assert.equal(ld.in_band, true, '>= 3 distinct crosses = healthy, in band');
+});
+
+test('aggregate: lineage_diversity OUT when breeding collapses (< 3 crosses); offspring_viability still IN on count', () => {
+  // The gate's purpose: breeding HAPPENS (offspring counted -> offspring_viability in band) but
+  // the pool collapses to a single cross. lineage_diversity flags the collapse WITHOUT touching
+  // the count metric -> the two are decoupled (count = "did breeding happen", diversity =
+  // "is the breeding pool healthy"). This is why lineage_diversity is its own metric, not folded
+  // into offspring_viability's in_band.
+  const r = aggregate([
+    synthRun({
+      offspring: 4,
+      offspringLineages: [
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+        { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
+      ],
+    }),
+  ]);
+  assert.equal(
+    r.metrics.offspring_viability.in_band,
+    true,
+    'offspring counted -> count metric in band',
+  );
+  assert.equal(r.metrics.lineage_diversity.value, 1, 'collapsed to one cross');
+  assert.equal(r.metrics.lineage_diversity.in_band, false, 'collapse flagged by the >= 3 gate');
+});
+
+test('aggregate: lineage_diversity dominant cross is POLICY-SENSITIVE (breeding P4 signal)', () => {
+  // The headline: the most-bred cross diverges by temperament, exactly as roster_composition's
+  // dominant_roles do. The distinct COUNT can match (both 2) while the dominant CROSS differs ->
+  // P4 measurable in breeding, not just recruiting.
   const greedy = aggregate([
     synthRun({
       offspringLineages: [
@@ -290,21 +331,21 @@ test('aggregate: offspring_viability dominant lineage is POLICY-SENSITIVE (breed
       ],
     }),
   ]);
-  assert.deepEqual(greedy.metrics.offspring_viability.dominant_lineages, [
+  assert.deepEqual(greedy.metrics.lineage_diversity.dominant_lineages, [
     'dune-stalker x nano-rust-bloom',
   ]);
-  assert.deepEqual(esfp.metrics.offspring_viability.dominant_lineages, [
+  assert.deepEqual(esfp.metrics.lineage_diversity.dominant_lineages, [
     'nano-rust-bloom x sand-burrower',
   ]);
   assert.notDeepEqual(
-    greedy.metrics.offspring_viability.dominant_lineages,
-    esfp.metrics.offspring_viability.dominant_lineages,
+    greedy.metrics.lineage_diversity.dominant_lineages,
+    esfp.metrics.lineage_diversity.dominant_lineages,
   );
 });
 
-test('aggregate: offspring_viability excludes UNKNOWN/missing parent species from lineage diversity', () => {
+test('aggregate: lineage_diversity excludes UNKNOWN/missing parent species', () => {
   // A cross with an unmapped/typo or missing parent species (roleOf -> UNKNOWN) is invalid
-  // telemetry, not a real lineage: kept OUT of lineage_profile/diversity and tracked as
+  // telemetry, not a real lineage: kept OUT of lineage_profile/value and tracked as
   // unknown_lineage_count (mirrors roster_composition's UNKNOWN handling, Codex #2573 P2).
   const r = aggregate([
     synthRun({
@@ -315,22 +356,27 @@ test('aggregate: offspring_viability excludes UNKNOWN/missing parent species fro
       ],
     }),
   ]);
-  const ov = r.metrics.offspring_viability;
-  assert.equal(ov.lineage_diversity, 1, 'only the fully-mapped cross counts');
-  assert.equal(ov.unknown_lineage_count, 2, 'unmapped/missing crosses tracked separately');
-  assert.deepEqual(ov.lineage_profile, { 'dune-stalker x nano-rust-bloom': 1 });
+  const ld = r.metrics.lineage_diversity;
+  assert.equal(ld.value, 1, 'only the fully-mapped cross counts');
+  assert.equal(ld.unknown_lineage_count, 2, 'unmapped/missing crosses tracked separately');
+  assert.deepEqual(ld.lineage_profile, { 'dune-stalker x nano-rust-bloom': 1 });
 });
 
-test('aggregate: offspring_viability lineage_diversity is 0 when no lineages captured (back-compat)', () => {
-  // An older run-result with no offspringLineages must not break: lineage_diversity 0, empty
-  // profile, and in_band stays keyed on offspring_avg (lineage is ADDITIVE telemetry, it does
-  // not gate the band -> existing N=40 placements are unchanged).
+test('aggregate: lineage_diversity is 0 (out of band) when no lineages captured; offspring_viability stays IN on count', () => {
+  // An older run-result with no offspringLineages must not break: lineage_diversity value 0,
+  // empty profile, OUT of band (0 < 3). offspring_viability's in_band stays keyed on the count
+  // alone (lineage is a SEPARATE metric, so promoting the gate did not move the count metric).
   const r = aggregate([synthRun({ offspring: 2 })]);
-  const ov = r.metrics.offspring_viability;
-  assert.equal(ov.lineage_diversity, 0);
-  assert.deepEqual(ov.lineage_profile, {});
-  assert.equal(ov.unknown_lineage_count, 0);
-  assert.equal(ov.in_band, true, 'offspring_avg >= 1 still drives in_band (lineage additive)');
+  assert.equal(
+    r.metrics.offspring_viability.in_band,
+    true,
+    'offspring_avg >= 1 drives offspring_viability',
+  );
+  const ld = r.metrics.lineage_diversity;
+  assert.equal(ld.value, 0);
+  assert.deepEqual(ld.lineage_profile, {});
+  assert.equal(ld.unknown_lineage_count, 0);
+  assert.equal(ld.in_band, false, 'no crosses -> below the >= 3 gate');
 });
 
 test('aggregate: roster_composition maps recruited species to role_class profile', () => {
@@ -393,9 +439,10 @@ test('aggregate: empty input -> n=0, every metric out of band, never throws', ()
   }
 });
 
-test('PROVISIONAL_BANDS: documents WARN provenance (Claude-derived, pending master-dd)', () => {
-  // The bands are provisional ranges, not ratified numbers (L-069: master-dd ratifies the
-  // exact band post-N=40). The module must say so to prevent a downstream reader treating
-  // them as canon.
-  assert.match(PROVISIONAL_BANDS.note || '', /WARN|provisional|pending master-dd/i);
+test('PROVISIONAL_BANDS: note reflects the master-dd ratification (L-069), not "pending"', () => {
+  // The bands were ratified by master-dd 2026-06-03 (L-069). The note must reflect that (not the
+  // old "pending master-dd ratify") so a regenerated report does not contradict the ratified
+  // decision sheet (Codex #2580 P2). The QD anti-over-optimize guidance stays.
+  assert.match(PROVISIONAL_BANDS.note || '', /ratified|L-069/i);
+  assert.doesNotMatch(PROVISIONAL_BANDS.note || '', /pending master-dd/i);
 });

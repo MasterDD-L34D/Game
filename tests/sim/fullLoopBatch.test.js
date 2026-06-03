@@ -210,17 +210,20 @@ test('buildSummary: embeds the 5-metric aggregate over the batch', () => {
   const results = [synthRun(), synthRun(), synthRun({ completed: false })];
   const s = buildSummary(results, { runs: 3, policy: 'greedy' });
   assert.equal(s.n, 3);
-  assert.equal(s.provisional, true);
+  assert.equal(s.provisional, false, 'bands ratified by master-dd 2026-06-03 (L-069)');
   assert.ok(s.metrics.completion_rate, 'completion_rate metric present');
   assert.ok(s.metrics.offspring_viability, 'offspring_viability metric present');
   assert.equal(s.completion.completed, 2);
   assert.equal(s.completion.total, 3);
 });
 
-test('buildReport: markdown with the 5 metric rows + a PROVISIONAL WARN banner', () => {
+test('buildReport: markdown with the metric rows + a RATIFIED banner (not "PROVISIONAL", Codex #2580 P2)', () => {
+  // The bands are ratified now; a regenerated report must NOT label them PROVISIONAL/pending,
+  // else it contradicts the ratified decision sheet in the playtest doc.
   const s = buildSummary([synthRun(), synthRun()], { runs: 2 });
   const md = buildReport(s);
-  assert.match(md, /provisional|WARN|pending master-dd/i);
+  assert.match(md, /ratified|L-069/i);
+  assert.ok(!/PROVISIONAL/.test(md), 'no stale PROVISIONAL banner once ratified');
   for (const k of [
     'completion_rate',
     'roster_attrition',
@@ -252,21 +255,24 @@ test('buildReport: PI-sink note reflects the wired/blocked state, never "NOT wir
   assert.match(md, /blocked|WIRED/i, 'report reflects the wired/blocked state');
 });
 
-test('buildReport: surfaces offspring lineage_diversity + the dominant cross (breeding P4 signal)', () => {
-  // The offspring_viability row must show the distinct-cross count AND the dominant cross, so a
-  // reader sees breeding composition (the policy-sensitive signal), not just the offspring count.
+test('buildReport: renders the lineage_diversity row with its >= 3 gate + dominant cross (breeding P4)', () => {
+  // lineage_diversity is its own GATED band row now (>= 3 distinct crosses). The report row must
+  // show the distinct-cross count, the >= 3 band, AND the dominant cross (the policy-sensitive
+  // signal a reader needs to see breeding composition, not just the offspring count).
   const results = [
     synthRun({
       offspringLineages: [
         { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
         { parentSpecies: ['dune-stalker', 'nano-rust-bloom'] },
         { parentSpecies: ['ferrocolonia-magnetotattica', 'sand-burrower'] },
+        { parentSpecies: ['nano-rust-bloom', 'sand-burrower'] },
       ],
     }),
   ];
   const md = buildReport(buildSummary(results, { runs: 1 }));
-  assert.match(md, /lineage/i, 'report surfaces lineage diversity');
-  assert.ok(md.includes('dune-stalker x nano-rust-bloom'), 'the dominant cross is shown');
+  assert.match(md, /lineage_diversity/, 'report has a lineage_diversity row');
+  assert.ok(md.includes('>= 3'), 'shows the >= 3 gate band');
+  assert.ok(md.includes('dune-stalker x nano-rust-bloom'), 'shows the dominant cross');
 });
 
 test('runToJsonl: carries per-run offspring lineages (parent-species crosses) for traceability', () => {
