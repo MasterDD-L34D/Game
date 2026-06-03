@@ -440,6 +440,17 @@ function createApp(options = {}) {
   const deploymentNotifier = deploymentOptions.notifier;
   const app = express();
 
+  // Dev-surface guard (Gate-5): warn once at boot if the shipped meta-network graph can strand a
+  // graph-routed run. Never throws, no request-path impact; the flag-gated routing is unaffected.
+  try {
+    const { completabilityWarning } = require('./services/worldgen/metaNetworkCompletability');
+    const metaNetworkResolver = require('./services/worldgen/metaNetworkResolver');
+    const completabilityWarn = completabilityWarning(metaNetworkResolver.getNetwork());
+    if (completabilityWarn) console.warn(completabilityWarn);
+  } catch {
+    /* boot-time best-effort only */
+  }
+
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
 

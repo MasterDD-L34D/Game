@@ -91,3 +91,21 @@ FORESTA). Recruit spread tightened to 2-vs-3 (was 1-vs-3). A true simultaneous 3
 three edge types eligible at once) is still not present — the sparse 5-node graph can't host it
 without a dead-end risk; that is a larger graph-expansion item, not a tuning. **Recommendation:** the
 graph is now flip-ready for staging; the prod flag flip remains a separate owner verdict.
+
+## Graph expansion PR1 (3-way branch + completability validator)
+
+The "true 3-way branch" noted above as a graph-expansion item is now implemented (spec
+`docs/superpowers/specs/2026-06-03-meta-network-graph-expansion-design.md`): an **ungated
+`DESERTO_CALDO → CRYOSTEPPE` seasonal_bridge** so the start node exposes all three edge types at
+once, plus a pure **Dormans completability validator** (`metaNetworkCompletability.js`) proving the
+graph reaches a terminal in every season. Re-running the sim (all complete, 0 violations):
+
+| Policy    | Route (nodes)                                                              |
+| --------- | -------------------------------------------------------------------------- |
+| greedy    | DESERTO_CALDO → FORESTA_TEMPERATA → ROVINE_PLANARI                         |
+| INTJ (NT) | DESERTO_CALDO → BADLANDS → FORESTA_TEMPERATA → ROVINE_PLANARI              |
+| ESFP (SP) | DESERTO_CALDO → CRYOSTEPPE → BADLANDS → FORESTA_TEMPERATA → ROVINE_PLANARI |
+
+Three policies now pick **three different first nodes** (FORESTA / BADLANDS / CRYOSTEPPE) — a true
+3-way divergence. PR2 (the Atollo Obsidiana 6th node) follows in a separate PR, gated by the
+completability validator. Flag stays OFF; the prod flip awaits the N=40 graph-mode band-verify.
