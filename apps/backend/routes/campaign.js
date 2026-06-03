@@ -63,6 +63,7 @@ const {
   encounterForNode,
   isTerminal,
 } = require('../services/worldgen/metaNetworkRouting');
+const { enrichCandidatesWithThreat } = require('../services/worldgen/encounterThreat');
 
 // Slice A/C (live routing): is graph-routed campaign flow active? Read at request time
 // (the flag may flip between requests in tests). OFF (default) -> /start, /advance, /choose
@@ -297,6 +298,10 @@ function createCampaignRouter(options = {}) {
       enabled: true,
       network_id: graph ? graph.id : null,
       ...routing,
+      // Rich preview (Into the Breach telegraph): each candidate gains `threat` (difficulty +
+      // class + peak tier + spawn count) resolved from the encounter metadata. Additive +
+      // read-only (combat untouched). Overrides the `...routing` candidates spread above.
+      candidates: enrichCandidatesWithThreat(routing.candidates),
     });
   });
 
@@ -485,7 +490,7 @@ function createCampaignRouter(options = {}) {
         campaign: updated,
         next_encounter_id: null,
         choice_required: true,
-        route_choice: { candidates: route.candidates },
+        route_choice: { candidates: enrichCandidatesWithThreat(route.candidates) },
         ...evolveFlags,
         ...xpGrantsPayload,
         ...mpGrantsPayload,
