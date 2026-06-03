@@ -669,3 +669,189 @@ Handoff: [`docs/planning/2026-04-26-vision-gap-sprint-handoff.md`](docs/planning
 - **SoT v1→v4**: 13→19 sezioni, deep dive 12+ repo esterni (AncientBeast, wesnoth, yuka, GOApy, UtilityAI, easystarjs, honeycomb-grid, Colyseus)
 - **3 ADR nuovi**: Grid hex axial, Networking Colyseus, AI Utility Architecture
 - **hexGrid.js** (195 LOC): axial coordinates, Dijkstra flood-fill, A\* pathfinding, BFS range, LOS ray-cast (23 test)
+
+---
+
+## Sprint-context + gate-detail moved from CLAUDE.md (2026-06-03 context-files slim)
+
+> Moved 2026-06-03 from repo-root `CLAUDE.md` during context-files-standard slim (CLAUDE.md kept <200 lines; on-demand detail relocated here verbatim). Content below was previously inline in CLAUDE.md: the two most-recent inline sprint-context blocks (v46 + superseded v44.3), the full "No anticipated judgment" 2026-05-08 case study, and the detailed agent/skill 4-gate + Gate-5 DoD prose. The slimmed CLAUDE.md keeps the always-on directives and points here for the long-form rationale, case studies, and historical session logs.
+
+### ⚖ No anticipated judgment / completionist-preserve discarded (2026-05-08 sera)
+
+Friction concreta sessione 2026-05-08 sera: durante closure cumulative + OD audit, Claude shipped 3 anticipated judgment in canonical docs senza explicit user OK. User feedback: "mi preoccupano il punto 3 il 4 e il 5" → reframe via "player completista" lens.
+
+#### Pattern fix canonical
+
+**Completionist principle**: zero info lost. Quando subjective Claude judgment non è verificabile factual (gate da master-dd review), preserva tutto + caveat explicit + museum card per discarded items.
+
+#### Rule autonomous mode (Auto mode active OR generic "procedi"/"continua")
+
+- ✅ **OK factual cleanup**: move misplace section, fix typo, format align, aggregate data via gh raw count, verify-before-claim live test capture
+- ✅ **OK preserve + caveat**: subjective claim shippable se markup soft `(⚠️ Claude autonomous judgment — pending master-dd review for criteria diversi)` + breakdown alternativi value criteria preserved
+- ✅ **OK museum card per discarded**: ogni item Claude scarta (revert / soften / drop) → `docs/museum/cards/<topic>-<date>-discard.md` Dublin Core entry preserve + reuse paths + lifecycle additive-only
+- ❌ **NOT OK**: design decisions cross-doc linking gated user verdict senza markup soft (e.g., bundle OD-X ↔ OD-Y senza "Claude-proposed pending master-dd")
+- ❌ **NOT OK**: subjective value framing canonical pre master-dd review come fact (e.g., "ZERO actionable", "deceptively low", "Real signal-to-noise = ~0%")
+- ❌ **NOT OK**: silent discard senza museum card preservation
+
+#### Pattern markup canonical
+
+Subjective Claude judgment shippato canonical doc:
+
+> **<claim>** (⚠️ Claude autonomous judgment — pending master-dd review per criteri value diversi: <list 2-3 alternative interpretations>). <discarded items count> preservati [museum card M-YYYY-MM-DD-NNN](docs/museum/cards/<topic>-discard.md).
+
+#### Trigger consultation pre commit
+
+Prima di committare canonical doc edit autonomous chiedi:
+
+1. Sto facendo **factual cleanup** (path fix, format align, gh raw aggregation)? → ✅ procedi
+2. Sto facendo **design judgment gated** (bundle / scope / value framing)? → markup soft `(⚠️ Claude autonomous — pending master-dd review)`
+3. Sto **discarding items** (revert / soften / drop)? → museum card additive preserve
+
+#### Validato 2026-05-08 sera
+
+PR #2123 cross-link OD-022 ↔ OD-020 + 5 doc canonical "ZERO" framing → user spotted drift 3+4+5 → corrective approach via completionist principle: preserve + caveat + museum card M-2026-05-08-001 (10 discarded swarm claim items) shipped (this commit).
+
+**Lesson canonical**: in Auto mode autonomous, NEVER silent revert / soften / drop subjective items. Always preserve via museum card + caveat markup canonical. Future Claude legge regola, evita recurrence.
+
+### 🎮 Sprint context (aggiornato: 2026-06-02 — GOAL MASTER: PHASEC 32/32 + design-closure goal doc — v46)
+
+**Sessione 2026-06-02 (GOAL MASTER)**: **PHASEC job-expansion perks 32/32 COMPLETE** — capstone `shared_hp_pool` (#2542 `0f9be016`, 9 round Codex / ~14 fix) + Cat F 7/7 + symbiont 7/7 + minion 8/8 + V6 campaign-XP. Triage: #2509 GAP-C merged (`d05fe323`); D4 promote = già fatto (#2505/#2510). Costruito il **doc di riferimento GOAL a 2 fasi** (design-closure → costruzione): [`docs/planning/2026-06-02-design-closure-goal.md`](../../../planning/2026-06-02-design-closure-goal.md) (#2551 `235c41f8`), riferimento giochi = [`docs/guide/games-source-index.md`](../../../guide/games-source-index.md).
+
+**Scoperta-chiave (anti-pattern #19 ~7×)**: il **design è ~90% già chiuso** — 6 "buchi" risultati shipped sotto verify-first (GAP-A #2447, GAP-C fase-1/2 #2509, campaign-XP #2550, symbiont/minion, producers #2510, ecosystem→combat foodwebFilter). Fase-1 reale piccola = H2 economy cost-gate (verdetto master-dd) + micro. **Next session**: incolla il `/goal` da [`docs/planning/2026-06-02-goal-master-session-handoff.md`](../../../planning/2026-06-02-goal-master-session-handoff.md). 1-HP-tail rule RATIFICATA (both-KO a pool ≤1).
+
+**Resume trigger canonical**: _"leggi docs/planning/2026-06-02-design-closure-goal.md + handoff; Fase 1 chiudi design (verify-first OGNI riga — gran parte già shipped, aperto reale = H2 cost-gate) → Fase 2 build GAP-C fase-3/4 seguendo games-source-index"_.
+
+### 🎮 Sprint context (aggiornato: 2026-05-20 late-notte — Multi-agent cascade wave 1-6 + A4 design-space — v44.3) [SUPERSEDED v46]
+
+**Sessione 2026-05-20 (cascade wave 1-6, ~11h cumulative)**: **21 PR cross-repo shipped + merged main** (20 Game + 1 codemasterdd). Multi-agent dispatch pattern (`superpowers:dispatching-parallel-agents`) provato canonical **6 wave consecutive** (3+2+3+3+1+2 agent + serial inline cleanup). Pilastri reinforced: 5/5 BACKLOG coop test gaps CLOSED + balance P1+P2+P3 cleanup + A4 design-space activation (ionico channel live) + 5 A6-pattern readonly diagnostic endpoint (starter-biomas/role-demands/aliena/status+biome/ennea-effects) + 17 offspring negative tests + 9 env flag documented + termico glass-cannon ratified.
+
+**PR shipped main 2026-05-20 wave 6 addendum** (5 nuovi vs v44.2):
+
+| #   | PR                                                            | Wave | Topic                                                                         |
+| --- | ------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------- |
+| 17  | [Game #2349](https://github.com/MasterDD-L34D/Game/pull/2349) | 5    | Handoff doc v44.2 (16 PR cumulative)                                          |
+| 18  | [Game #2350](https://github.com/MasterDD-L34D/Game/pull/2350) | 5b   | Balance P2/P3 cleanup (termico desc + commit_window deprecated + gravita doc) |
+| 19  | [Game #2351](https://github.com/MasterDD-L34D/Game/pull/2351) | 5c   | A4 design-space activation: 2 ionico traits (scarica_ionica + arco_voltaico)  |
+| 20  | [Game #2352](https://github.com/MasterDD-L34D/Game/pull/2352) | 6    | Ennea-effects readonly diagnostic (A6 5th endpoint cumulative)                |
+
+**Pillar deltas v44.2 → v44.3**:
+
+- P3 Identità: 🟢 candidato HARD reinforced **+ ennea catalog surface** (4 trait readonly endpoint cumulativi expose canonical map)
+- P4 Temperamenti MBTI/Ennea: 🟢 candidato → 🟢 **candidato HARD reinforced** (ennea-effects readonly endpoint shipped + 9/9 archetype catalog frontend-preloadable)
+- P6 Fairness: 🟢 confirmed candidato post **A4 design-space activation** (ionico dead-channel closed + 2 new trait + termico practical exposure 15% → 21%)
+
+**Tool/skill stack proven (cumulative wave 1-6)**:
+
+- `superpowers:dispatching-parallel-agents` v5.1.0 — **proven 6 wave consecutive** ROI 4-6x
+- `superpowers:handoff` × 3 (v44 + v44.1/2 + v44.3)
+- `superpowers:fewer-permission-prompts` — 10 entries applied
+- 10 agent total dispatched cross wave: `coop-phase-validator` + `repo-archaeologist` × 2 + `Explore` × 3 + `general-purpose` × 5 + `balance-auditor` + `playtest-analyzer`
+- 2 museum cards (coop-ws-test-infra + session-debug-infra) score 5/5
+- AA01 lessons L-064/065/066/067/068 encoded (multi-agent ROI + Self-Mod HARD BLOCK + parallel session drift + cwd contamination recovery + **design-space activation via corpus balance**)
+
+**Balance audit verdict status (post wave 6)**:
+
+- ✅ P1 Wave 5-7 cluster nerf — SHIPPED #2344
+- ✅ P2 termico glass-cannon — RATIFIED (3-channel intentional, A4 corpus activated)
+- ✅ P2 artigli pick-rate — monitor flag (playtest-analyzer wave 6: no fresh post-nerf batch data, need N=10 hardcore_07 run)
+- ✅ P3 aggressive_commit_window — DEPRECATED #2350
+- ✅ P3 gravita reserved — DOC #2350 (B1 verdict KEEP)
+- ✅ A4 ionico design-space — ACTIVATED #2351 (2 trait shipped)
+
+**Playtest-analyzer wave 6 findings** (gated master-dd action):
+
+- 🔴 hardcore_07 WR 80-100% vs target 30-50% (4-5 batch runs out-of-band, all pre-Wave 5-7 data)
+- 🔴 hardcore_06 0% WR (party damage insufficient vs Apex+Critical boss, all pre-Wave 5-7)
+- 🟡 enc_tutorial_01 round=41 cap 14% stall rate (47/337 runs)
+- 🟡 MBTI vc telemetry not firing (vc_mbti null in 413 session logs)
+- 🟡 PI-shop trait_T3 acquisition <3% (economically unreachable in normal play)
+
+**Recommendation autonomous-defer master-dd**: run N=10 `batch_calibrate_hardcore07.py` post-Wave 5-7 nerf per verify drift (richiede backend + Python + ~10-15min userland).
+
+**Resume trigger phrase canonical** (next session):
+
+> _"verifica worktree cleanup post-master-dd + run N=10 batch_calibrate_hardcore07.py post-Wave 5-7 nerf per verify drift OR tackle Atlas Envelope C runtime gated playtest OR Sprint Q+ ETL Q-1+Q-2 forbidden path bundle"_
+
+A6 pattern provato 5x scalabile (starter-biomas + role-demands + aliena + status/biome + ennea). Coop infra COMPLETO. Balance ecosystem reinforced + design-space ionico activated. Prossima frontiera: P6 calibration verification post-nerf + P5 playtest live.
+
+### DoD nuovi agent / skill / feature — 4-gate policy (dichiarazione 2026-04-24)
+
+**Policy permanente**: ogni nuovo `.claude/agents/*.md`, `.claude/skills/*.md`, o feature non banale (>50 LOC runtime o user-facing) deve passare 4 gate sequenziali prima di essere dichiarato "ready". Niente asset "draft" committato come "done".
+
+**Gate 1 — Research investigation** (prima di scrivere):
+
+- Path reali via `grep` (NON fidarsi di CLAUDE.md — può essere obsoleto/aspirazionale)
+- Prior art (ADR, SoT, repo esterni già studiati), reference pattern
+- Use case concreto + metrica di successo (chi lo usa, cosa sblocca, come sappiamo che funziona)
+
+**Gate 2 — Smoke test** (dopo primo draft):
+
+- Invoke `general-purpose` subagent: "leggi `.claude/<path>` come istruzioni, esegui step-by-step su repo reale, produce il report, ritorna critique USABLE/NEEDS-FIX/REWRITE + fix line-by-line"
+- Test su stato degradato noto (dati mancanti, dir vuote, first-run)
+- Report smoke salvato in `docs/playtest/` o `docs/qa/YYYY-MM-DD-<asset>-smoke.md`
+
+**Gate 3 — Tuning** (post-test iterazione):
+
+- Applica le suggestion line-by-line dalla critique
+- Edge case handling + graceful degradation verificato
+- Se verdict REWRITE → stop, riconsidera scope, eventualmente taglia
+
+**Gate 4 — Optimization** (polish finale):
+
+- Context efficiency: data source priority, read budget cap
+- Prompt density: caveman voice, no redundancy, numbered steps
+- Anti-pattern guards: "DO NOT do X" list esplicita nel file
+- Escalation path: cosa fa l'agent se fallisce o a chi passa il controllo
+
+**Eccezioni** (lightweight, saltano alcuni gate):
+
+- One-off prompts in `.claude/prompts/` → solo Gate 1
+- Edit triviali (typo, path rename) → nessun gate
+- Research docs `docs/research/*` → Gate 1 obbligatorio (citazioni fonti), altri opzionali
+
+**Motivation**: l'agent `coop-phase-validator` del 2026-04-24 fu scritto "a tavolino" con path sbagliati (`phaseMachine.js` inesistente). Smoke test trovò il file reale (`coopOrchestrator.js`) via grep. Senza test = commit agent rotto. Policy deriva da lezione diretta.
+
+Ref memoria: [`feedback_smoke_test_agents_before_ready.md`](~/.claude/projects/C--Users-edusc-Desktop-gioco-Game/memory/feedback_smoke_test_agents_before_ready.md).
+
+### Gate 5 — Engine wired (dichiarazione 2026-04-27)
+
+**Policy permanente — ANTI-PATTERN "Engine LIVE Surface DEAD" KILLER**:
+
+Diagnosticato 2026-04-26: ~30% delle 61 voci catalogate (18/61) hanno **runtime built ma surface player dead**. Esempi shipped poi orphan:
+
+- enneaEffects.js 93 LOC mai `require` (revived PR #1825-1830 dopo audit)
+- objectiveEvaluator.js 5 obj types → 0 scenari runtime usavano non-elim
+- biomeSpawnBias.js → 1 scenario opt-in only
+- QBN engine 17 events → 0 chiamate session
+- Tactics Ogre HUD canonical doc → no implementation
+- Spore P2 fonte primaria → ZERO research doc (until PR #1895)
+
+**Regola**: ogni nuovo engine/service/library backend DEVE avere wire frontend (UI/HUD/CLI/log player-visible) **PRIMA di essere ship-ready**. Solo backend = WIP, **non production-ready**.
+
+**Checklist mandatory** pre-merge per nuova feature non triviale:
+
+1. ✅ Backend logic implementato + test
+2. ✅ Schema/contracts aggiornati
+3. ✅ **Surface player exists**: UI overlay / HUD widget / debrief field / log line / CLI output / debug endpoint
+4. ✅ Smoke E2E: utente reale può VEDERE l'effetto della feature in <60s di gameplay
+5. ✅ Documented in changelog: "Player vede X. Prima vedeva Y."
+
+**Eccezioni esplicite** (skip Gate 5 con justification):
+
+- Audit/telemetry internal (es. `xpBudget.auditEncounter` warn console) — surface = log developer
+- Refactor / cleanup tecnico (no behavior change)
+- Schema migration (no UX impact)
+- Methodology tooling (es. linter `lint_mutations.py`)
+
+**Anti-pattern check**: durante PR review chiedi sempre _"un player vede questa feature in 60s di gameplay?"_. Se risposta NO senza justification → blocca merge.
+
+**Motivation**: `mating_engine_orphan.md` museum card score 5/5. 469 LOC + 7 endpoint shipped 4 mesi fa, ZERO frontend. Decision blocking OD-001 ancora aperta. Costo opportunità enorme. Engine wired DoD previene la prossima volta.
+
+**Trigger consultation**:
+
+- Quando proponi nuovo agent/skill/feature
+- Quando audit identifica gap "engine X esiste ma..."
+- Quando spec doc dice "wire deferred / pending"
+- Quando review PR autonomous mode
+
+Ref memoria: vedi pattern dominante in [`docs/research/2026-04-26-cross-game-extraction-MASTER.md §4`](../../../research/2026-04-26-cross-game-extraction-MASTER.md), [`docs/research/2026-04-26-agent-integration-plan-DETAILED.md §4`](../../../research/2026-04-26-agent-integration-plan-DETAILED.md), [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md §C.2`](../../../reports/2026-04-27-stato-arte-completo-vertical-slice.md).
