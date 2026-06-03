@@ -194,4 +194,27 @@ function selectNextNodes(currentNodeId, ctx = {}) {
   return { applied: true, from: currentNodeId, candidates, excluded, blocked, reason };
 }
 
-module.exports = { selectNextNodes };
+// --- TKT-WORLDGEN-GAPC slice A (live routing) — node->encounter + terminal lookups.
+// Pure helpers over a resolved graph (metaNetworkResolver shape: nodes carry
+// encounters[] + terminal). selectNextNodes decides WHERE to go; these decide WHAT a
+// node serves and whether the run ends there.
+
+// The encounter a node serves. MVP N=1: the first id is the node's encounter (node =
+// region, 1:N, default N=1 — master-dd verdict). Case-insensitive on the node id;
+// null on a missing graph/node or an encounter-less node (fail-closed: surfaced, no serve).
+function encounterForNode(graph, nodeId) {
+  if (!graph || !Array.isArray(graph.nodes) || !nodeId) return null;
+  const n = graph.nodes.find((x) => _norm(x.id) === _norm(nodeId));
+  return n && Array.isArray(n.encounters) && n.encounters.length ? n.encounters[0] : null;
+}
+
+// Whether a node is the terminal climax (reaching + clearing it ends the run). Case-
+// insensitive; false on a missing graph/node (a graph that can strand a run is a data
+// bug caught by the completability assertion, not a crash here).
+function isTerminal(graph, nodeId) {
+  if (!graph || !Array.isArray(graph.nodes) || !nodeId) return false;
+  const n = graph.nodes.find((x) => _norm(x.id) === _norm(nodeId));
+  return !!(n && n.terminal);
+}
+
+module.exports = { selectNextNodes, encounterForNode, isTerminal };

@@ -58,7 +58,26 @@ const seasonalContentLoader = require('../services/campaign/seasonalContentLoade
 // arc-conditions (data gate) are POST-MVP — see spec
 // docs/superpowers/specs/2026-05-31-worldgen-gapc-meta-network-routing-design.md.
 const metaNetworkResolver = require('../services/worldgen/metaNetworkResolver');
-const { selectNextNodes } = require('../services/worldgen/metaNetworkRouting');
+const {
+  selectNextNodes,
+  encounterForNode,
+  isTerminal,
+} = require('../services/worldgen/metaNetworkRouting');
+
+// Slice A/C (live routing): is graph-routed campaign flow active? Read at request time
+// (the flag may flip between requests in tests). OFF (default) -> /start, /advance, /choose
+// behave exactly as the static chain (band-safe, reversible).
+function _metaRoutingOn() {
+  return process.env.META_NETWORK_ROUTING === 'true';
+}
+
+// Case-insensitive node id compare (mirrors metaNetworkRouting._norm) for cleared-set
+// membership + candidate validation.
+function _normNode(value) {
+  return String(value == null ? '' : value)
+    .trim()
+    .toLowerCase();
+}
 
 // In-memory seasonal state Map<campaign_id, state>. Per POC. Resettable via
 // _resetSeasonalState() per test isolation. Future iteration: integrate con
@@ -158,6 +177,29 @@ function createCampaignRouter(options = {}) {
     }
 
     const campaign = createCampaign(player_id, defId, { onboardingChoice, acquiredTraits });
+
+    // Slice A (live routing, flag ON): a graph-routed run begins at the authored
+    // start_node and serves its encounter from the graph; the static onboarding chain is
+    // skipped. Falls through to the static response below when the flag is OFF or the
+    // graph names no start_node (band-safe). currentNode/clearedNodes are additive fields.
+    if (_metaRoutingOn()) {
+      const graph = metaNetworkResolver.getNetwork();
+      const startNode = graph && graph.start_node ? graph.start_node : null;
+      if (startNode) {
+        const updated = updateCampaign(campaign.id, { currentNode: startNode, clearedNodes: [] });
+        return res.status(201).json({
+          campaign: updated,
+          next_encounter_id: encounterForNode(graph, startNode),
+          campaign_def: {
+            name: defDoc.name,
+            narrative_hook: defDoc.narrative_hook,
+            total_acts: defDoc.total_acts,
+            onboarding: onboarding || null,
+          },
+        });
+      }
+    }
+
     const firstAct = defDoc.acts[0];
     const firstEnc = (firstAct?.encounters || []).find((e) => !e.is_choice_node);
     return res.status(201).json({
@@ -198,6 +240,19 @@ function createCampaignRouter(options = {}) {
     const defDoc = loadCampaignDef(campaign.campaignDefId);
     if (!defDoc) return res.status(500).json({ error: 'campaign def mancante' });
     const summary = summariseCampaign(campaign, defDoc);
+    // Slice A (Codex P2 #2582): in graph mode the campaign record still carries the static
+    // currentChapter, so the engine summary would report the static tutorial encounter.
+    // Override current_encounter with the current graph node's served encounter so a client
+    // polling /summary sees what /advance actually serves. Flag OFF -> summary unchanged.
+    if (_metaRoutingOn() && campaign.currentNode) {
+      const graph = metaNetworkResolver.getNetwork();
+      summary.current_encounter = {
+        encounter_id: encounterForNode(graph, campaign.currentNode),
+        node_id: campaign.currentNode,
+        is_choice_node: false,
+        choice: null,
+      };
+    }
     return res.json(summary);
   });
 
@@ -265,11 +320,21 @@ function createCampaignRouter(options = {}) {
     const act = defDoc.acts.find((a) => a.act_idx === campaign.currentAct);
     if (!act) return res.status(500).json({ error: 'act corrente non trovato in def' });
 
+    // Slice A (live routing): in graph mode the "current" encounter is the one the current
+    // graph node serves (not the static chapter), so recordChapter + the defeat/timeout
+    // retry stay coherent. Flag OFF -> the static chapter encounter (byte-identical).
+    const graphMode = _metaRoutingOn();
+    const graph = graphMode ? metaNetworkResolver.getNetwork() : null;
+    const graphNode = graphMode && graph ? campaign.currentNode || graph.start_node : null;
+
     // Find current encounter in act via chapter_idx
     const currentEncEntry = (act.encounters || []).find(
       (e) => e.chapter_idx === campaign.currentChapter,
     );
-    const currentEncId = currentEncEntry?.encounter_id || null;
+    const currentEncId =
+      graphMode && graph
+        ? encounterForNode(graph, graphNode)
+        : currentEncEntry?.encounter_id || null;
 
     // Record chapter outcome
     const lastBranch =
@@ -374,6 +439,60 @@ function createCampaignRouter(options = {}) {
       });
     }
 
+    // Slice A (live routing, flag ON): traverse the graph instead of the static chain.
+    // Flag OFF -> falls through to the static act.encounters logic below (byte-identical).
+    if (graphMode && graph && graphNode) {
+      const clearedNodes = Array.isArray(campaign.clearedNodes) ? [...campaign.clearedNodes] : [];
+      if (!clearedNodes.some((c) => _normNode(c) === _normNode(graphNode))) {
+        clearedNodes.push(graphNode);
+      }
+      const season = campaignSeasonalState.get(id)?.current_season;
+      const route = selectNextNodes(graphNode, { graph, clearedNodes, season });
+      // Terminal climax OR no eligible next-node -> finish the run (reuse completion path).
+      if (isTerminal(graph, graphNode) || route.candidates.length === 0) {
+        updated = updateCampaign(id, {
+          finalState: 'completed',
+          completionPct: 1.0,
+          clearedNodes,
+          currentNode: graphNode,
+        });
+        return res.json({
+          campaign: updated,
+          next_encounter_id: null,
+          campaign_completed: true,
+          ...evolveFlags,
+          ...xpGrantsPayload,
+          ...mpGrantsPayload,
+        });
+      }
+      // Exactly one eligible node -> auto-advance + serve its encounter.
+      if (route.candidates.length === 1) {
+        const nextNode = route.candidates[0].node_id;
+        updated = updateCampaign(id, { currentNode: nextNode, clearedNodes });
+        return res.json({
+          campaign: updated,
+          next_encounter_id: encounterForNode(graph, nextNode),
+          ...evolveFlags,
+          ...xpGrantsPayload,
+          ...mpGrantsPayload,
+          ...dayPacingPayload,
+        });
+      }
+      // >1 eligible -> the players choose (co-op vote / solo / sim policy). Mark the node
+      // cleared but DON'T advance currentNode; /choose resolves against fresh candidates.
+      updated = updateCampaign(id, { clearedNodes, currentNode: graphNode });
+      return res.json({
+        campaign: updated,
+        next_encounter_id: null,
+        choice_required: true,
+        route_choice: { candidates: route.candidates },
+        ...evolveFlags,
+        ...xpGrantsPayload,
+        ...mpGrantsPayload,
+        ...dayPacingPayload,
+      });
+    }
+
     // Victory: advance chapter
     const nextChapterIdx = campaign.currentChapter + 1;
     const allEncounters = act.encounters || [];
@@ -449,8 +568,58 @@ function createCampaignRouter(options = {}) {
 
   // POST /api/campaign/choose
   router.post('/campaign/choose', (req, res) => {
-    const { id, branch_key } = req.body || {};
+    const { id, branch_key, node_id } = req.body || {};
     if (!id) return res.status(400).json({ error: 'id richiesto' });
+
+    // Slice C (live routing, flag ON + node_id present): the players chose a graph route
+    // node (co-op vote winner / solo pick / sim policy). Validate it is a current candidate
+    // of the campaign's graph node, then advance to it. Handled BEFORE the branch_key
+    // contract so the legacy path stays byte-identical when node_id is absent.
+    if (_metaRoutingOn() && node_id != null) {
+      const graphCampaign = getCampaign(id);
+      if (!graphCampaign) return res.status(404).json({ error: 'campaign non trovato' });
+      if (graphCampaign.finalState) {
+        return res
+          .status(409)
+          .json({ error: `campaign finalizzata (${graphCampaign.finalState})` });
+      }
+      const graph = metaNetworkResolver.getNetwork();
+      const graphNode = graphCampaign.currentNode || (graph && graph.start_node) || null;
+      const season = campaignSeasonalState.get(id)?.current_season;
+      const clearedNodes = Array.isArray(graphCampaign.clearedNodes)
+        ? graphCampaign.clearedNodes
+        : [];
+      // Slice C victory-gate (Codex P2 #2582): a route choice is pending ONLY when the
+      // current node was just cleared -- the >1-candidate /advance marks it cleared WITHOUT
+      // advancing currentNode. Without this guard a client could /choose right after /start
+      // (clearedNodes []) and skip the node's encounter, jumping to the terminal route.
+      const clearedSet = new Set(clearedNodes.map(_normNode));
+      if (!clearedSet.has(_normNode(graphNode))) {
+        return res
+          .status(409)
+          .json({ error: `nessuna scelta di rotta pendente per il nodo ${graphNode}` });
+      }
+      const route = selectNextNodes(graphNode, { graph, clearedNodes, season });
+      const chosen = route.candidates.find((c) => _normNode(c.node_id) === _normNode(node_id));
+      if (!chosen) {
+        return res
+          .status(400)
+          .json({ error: `node_id "${node_id}" non valido per il nodo ${graphNode}` });
+      }
+      const prevChoices = Array.isArray(graphCampaign.routeChoices)
+        ? graphCampaign.routeChoices
+        : [];
+      const updated = updateCampaign(id, {
+        currentNode: chosen.node_id,
+        routeChoices: [...prevChoices, chosen.node_id],
+      });
+      return res.json({
+        campaign: updated,
+        next_encounter_id: encounterForNode(graph, chosen.node_id),
+        node_id: chosen.node_id,
+      });
+    }
+
     if (!branch_key) return res.status(400).json({ error: 'branch_key richiesto' });
     const campaign = getCampaign(id);
     if (!campaign) return res.status(404).json({ error: 'campaign non trovato' });

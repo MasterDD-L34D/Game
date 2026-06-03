@@ -22,6 +22,17 @@ const TEMPERAMENT_PRIORITY = {
   SP: ['HAZARD', 'PREY', 'APEX', 'SUPPORT', 'PREDATOR'],
 };
 
+// fase-2c routing: Keirsey temperament -> meta-network edge-type preference. Each
+// temperament favours a different traversal STYLE at a multi-candidate branch -> the route
+// becomes policy-sensitive (P4) without changing WHICH nodes are eligible. NT/SJ favour the
+// direct corridor; NF the ecological trophic_spillover; SP the opportunistic seasonal_bridge.
+const ROUTE_EDGE_PRIORITY = {
+  NT: ['corridor', 'seasonal_bridge', 'trophic_spillover'],
+  NF: ['trophic_spillover', 'corridor', 'seasonal_bridge'],
+  SJ: ['corridor', 'trophic_spillover', 'seasonal_bridge'],
+  SP: ['seasonal_bridge', 'trophic_spillover', 'corridor'],
+};
+
 // 4-letter MBTI -> Keirsey group. Malformed input falls back to NT (never throws).
 function temperamentOf(mbti) {
   const t = String(mbti || '').toUpperCase();
@@ -58,6 +69,18 @@ function makeMbtiPolicy(mbtiType = 'INTJ') {
     mbti,
     chooseRecruits({ step } = {}) {
       return [{ npcId: `recruit_s${step}`, speciesId: speciesForStep(step) }];
+    },
+    // Routing pick: reorder the eligible candidates by this temperament's edge-type
+    // preference, then take the first. A stable sort (V8) keeps selectNextNodes' weight-desc
+    // order within an equal edge-type rank, so the choice stays deterministic.
+    chooseRoute({ candidates } = {}) {
+      if (!Array.isArray(candidates) || !candidates.length) return null;
+      const priority = ROUTE_EDGE_PRIORITY[temperamentOf(mbti)];
+      const rank = (c) => {
+        const idx = priority.indexOf(c.edge_type);
+        return idx === -1 ? priority.length : idx;
+      };
+      return [...candidates].sort((a, b) => rank(a) - rank(b))[0].node_id;
     },
     // Same gate-satisfying deltas as greedy (RECRUIT_AFFINITY_MIN=0, RECRUIT_TRUST_MIN=2);
     // temperament changes the courted SPECIES, not the gate, so the earned-recruit economy

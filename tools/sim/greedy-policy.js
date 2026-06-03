@@ -33,6 +33,13 @@ function chooseRecruits({ step } = {}) {
   return [{ npcId: `recruit_s${step}`, speciesId }];
 }
 
+// fase-2c routing: at a multi-candidate meta-network branch (selectNextNodes already orders
+// candidates weight DESC, node_id ASC), greedy takes the FIRST = "the strongest open route".
+// Deterministic, no RNG. Returns a node_id (or null on an empty branch).
+function chooseRoute({ candidates } = {}) {
+  return Array.isArray(candidates) && candidates.length ? candidates[0].node_id : null;
+}
+
 // Courtship NPCs live on the DEFAULT meta store (the affinity/trust endpoints ignore
 // campaign_id), so their ids MUST be scoped per run -- otherwise a second full-loop sim
 // on the same process finds them already-recruited (gate_not_met), breaking repeated
@@ -59,6 +66,7 @@ function chooseMating({ step, runId } = {}) {
 
 module.exports = {
   chooseRecruits,
+  chooseRoute,
   chooseCourtship,
   chooseMating,
   courtshipId,

@@ -90,3 +90,44 @@ test('arc-conditions data: winter seasonal_bridge edges gate on season [winter]'
   assert.ok(toCryo.conditions && Array.isArray(toCryo.conditions.season), 'season list present');
   assert.deepEqual(toCryo.conditions.season, ['winter']);
 });
+
+// --- TKT-WORLDGEN-GAPC slice A (live routing) — the node->encounter map. Each node
+// may serve encounter(s) (MVP N=1) + flag a terminal climax; the network may name a
+// start_node. The mapper must DEFAULT these additively (encounters -> [], terminal ->
+// false, start_node -> null) so the graph stays back-compatible when the data is
+// absent — mirrors the conditions strip fix (#2509).
+test('getNetwork: nodes always carry encounters (array) + terminal (boolean), defaulted', () => {
+  _resetCache();
+  const net = getNetwork();
+  for (const node of net.nodes) {
+    assert.ok(Array.isArray(node.encounters), `node ${node.id} encounters is an array`);
+    assert.equal(typeof node.terminal, 'boolean', `node ${node.id} terminal is boolean`);
+  }
+});
+
+test('getNetwork: exposes network.start_node (string|null)', () => {
+  _resetCache();
+  const net = getNetwork();
+  assert.ok(
+    net.start_node === null || typeof net.start_node === 'string',
+    'start_node is a string id or null',
+  );
+});
+
+// Slice A data-gate (owner-gated, spec §4 starter assignment — master-dd ratifies at
+// merge): the REAL alpha graph now names a start_node + a per-node encounter + a
+// terminal climax. Asserts the authored data is wired through the mapper end-to-end.
+test('getNetwork: real alpha graph carries the authored start_node + node encounters + terminal', () => {
+  _resetCache();
+  const net = getNetwork();
+  assert.equal(net.start_node, 'DESERTO_CALDO', 'start node = savana (spec §4)');
+  const byId = Object.fromEntries(net.nodes.map((n) => [n.id, n]));
+  assert.deepEqual(byId.DESERTO_CALDO.encounters, ['enc_savana_01']);
+  assert.deepEqual(byId.BADLANDS.encounters, ['enc_tutorial_03']);
+  assert.deepEqual(byId.FORESTA_TEMPERATA.encounters, ['enc_caverna_02']);
+  assert.deepEqual(byId.CRYOSTEPPE.encounters, ['enc_tutorial_04']);
+  assert.deepEqual(byId.ROVINE_PLANARI.encounters, ['enc_tutorial_05', 'enc_tutorial_06_hardcore']);
+  assert.equal(byId.ROVINE_PLANARI.terminal, true, 'ROVINE_PLANARI is the terminal climax');
+  // Non-terminal nodes default false.
+  assert.equal(byId.DESERTO_CALDO.terminal, false);
+});
