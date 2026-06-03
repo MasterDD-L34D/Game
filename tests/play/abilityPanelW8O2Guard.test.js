@@ -42,8 +42,14 @@ describe('W8O-2 regression guard (anti-pattern #10: silent fix+test drop)', () =
     // Window covering the clearAbilities() body (the token bump is its first
     // statement). Bounded slice keeps this robust to whatever follows.
     const region = src.slice(start, start + 600);
+    // Strip comments so a commented-out copy of the bump cannot satisfy the
+    // guard (Codex P2 #2577: a future rewrite could leave `// _renderToken += 1`
+    // while dropping the real statement -> false-negative). Match executable code.
+    const code = region
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/\/\/.*/g, '');
     assert.match(
-      region,
+      code,
       /_renderToken\s*(\+=\s*1|\+\+)|\+\+\s*_renderToken/,
       'clearAbilities() no longer invalidates the in-flight render token ' +
         '(_renderToken bump): this is the W8O-2 "barra si e buggata" resurrection ' +
