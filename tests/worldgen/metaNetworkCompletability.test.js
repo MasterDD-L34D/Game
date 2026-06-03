@@ -58,3 +58,17 @@ test('checkCompletable: the REAL alpha graph reaches a terminal in every season'
   const r = checkCompletable(net, { seasons: [null, 'spring', 'summer', 'autumn', 'winter'] });
   assert.equal(r.ok, true, `alpha graph completable; stranded=${JSON.stringify(r.stranded)}`);
 });
+
+// Expansion PR2: the 6-node graph (Atollo added) stays completable AND the new node is reachable
+// from the start (it sits on an ungated path CRYOSTEPPE -> ATOLLO -> ROVINE).
+const { _reachable } = require('../../apps/backend/services/worldgen/metaNetworkCompletability');
+
+test('checkCompletable: ATOLLO_OBSIDIANA is reachable + the 6-node graph stays completable', () => {
+  resolver._resetCache();
+  const net = resolver.getNetwork();
+  const r = checkCompletable(net, { seasons: [null, 'spring', 'summer', 'autumn', 'winter'] });
+  assert.equal(r.ok, true, `6-node graph completable; stranded=${JSON.stringify(r.stranded)}`);
+  const reach = _reachable(net, net.start_node, null);
+  // _reachable returns lowercased node keys.
+  assert.ok([...reach].includes('atollo_obsidiana'), 'ATOLLO_OBSIDIANA reachable from start');
+});
