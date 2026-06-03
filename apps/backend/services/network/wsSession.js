@@ -1009,6 +1009,17 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
   if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
     send({ type: 'world_tally', payload: orch.worldTally(allIds, connectedIds) });
   }
+  // GAP-C fase-3 — a route choice is phase-agnostic (gated on open candidates,
+  // not a PHASES value), so a reconnecting phone must re-receive the candidates
+  // + the live tally to render the vote view. Skipped when no choice is open.
+  if (
+    Array.isArray(orch.routeCandidates) &&
+    orch.routeCandidates.length > 0 &&
+    typeof orch.routeTally === 'function'
+  ) {
+    send({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
+    send({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
+  }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     send({
       type: 'debrief_ready_list',
@@ -1054,6 +1065,16 @@ function rebroadcastCoopState(room, orch) {
   }
   if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
     room.broadcast({ type: 'world_tally', payload: orch.worldTally(allIds, connectedIds) });
+  }
+  // GAP-C fase-3 — re-surface an open route choice after host transfer (mirror
+  // the reconnect snapshot above). Phase-agnostic: gated on open candidates.
+  if (
+    Array.isArray(orch.routeCandidates) &&
+    orch.routeCandidates.length > 0 &&
+    typeof orch.routeTally === 'function'
+  ) {
+    room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
+    room.broadcast({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
   }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     room.broadcast({
@@ -1639,6 +1660,59 @@ function createWsServer({
             }
             return;
           }
+          // GAP-C fase-3 — drain route_vote intents server-side via
+          // coopOrchestrator.voteRoute (mirror world_vote / mating_vote).
+          // Phone sends { action: 'route_vote', node_id } while a meta-network
+          // route choice is open (host opened it via POST /coop/route/open after
+          // /campaign/advance returned >1 candidate). Broadcasts route_tally +
+          // acks route_vote_accepted. Flag-gated upstream: when
+          // META_NETWORK_ROUTING is OFF the route choice is never opened, so a
+          // stray route_vote just errors `route_choice_not_open` (band-safe).
+          if (action === 'route_vote' && coopStore) {
+            // P2-A (PR #2597 review): host is arbiter-only for route vote, mirroring the
+            // combat `host_cannot_intent` guard (above). A host vote would land in
+            // routeVotes -- skewing the raw `tallies` -- while being excluded from the
+            // `connected_*` quorum, so the two views would disagree. Reject it.
+            if (playerId === room.hostId || room.players.get(playerId)?.role === 'host') {
+              socket.send(
+                JSON.stringify({ type: 'error', payload: { code: 'host_cannot_intent' } }),
+              );
+              return;
+            }
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const connectedPids = Array.from(room.players.values())
+                .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
+              const tally = orch.voteRoute(playerId, msg.payload?.node_id, {
+                allPlayerIds: allPids,
+                connectedPlayerIds: connectedPids,
+              });
+              logLobbyEvent('route_vote', {
+                code: room.code,
+                player_id: playerId,
+                node_id: msg.payload?.node_id || null,
+                leading_node_id: tally.leading_node_id,
+              });
+              room.broadcast({ type: 'route_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'route_vote_accepted', payload: { tally } }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'route_vote_failed' },
+                }),
+              );
+            }
+            return;
+          }
           // 2026-05-06 phone smoke W6 fix — drain lineage_choice (debrief
           // phase) server-side via coopOrchestrator.submitDebriefChoice.
           // Pre-fix the intent was relayed to host Godot → silent drop,
@@ -2024,6 +2098,27 @@ function createWsServer({
         type: 'player_disconnected',
         payload: { player_id: playerId },
       });
+      // P1-A (PR #2597 review): if a route choice is open, this disconnect changed the
+      // connected set -- re-broadcast route_tally so the host's connected_total/pending
+      // drops the departed player. Without it the host UI waits forever for a gone voter
+      // (every other lifecycle event re-surfaces the tally; the disconnect path did not).
+      if (coopStore && typeof coopStore.get === 'function') {
+        try {
+          const orch = coopStore.get(room.code);
+          if (orch && Array.isArray(orch.routeCandidates) && orch.routeCandidates.length > 0) {
+            const allPids = Array.from(room.players.values()).map((p) => p.id);
+            const connectedPids = Array.from(room.players.values())
+              .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+              .map((p) => p.id);
+            room.broadcast({
+              type: 'route_tally',
+              payload: orch.routeTally(allPids, connectedPids),
+            });
+          }
+        } catch {
+          // swallow -- best-effort re-broadcast.
+        }
+      }
       // TKT-M11B-05 — if the host's socket dropped, schedule an auto host
       // transfer. If the host reconnects before the grace window, the timer
       // is cleared in the hello/attach path above.
