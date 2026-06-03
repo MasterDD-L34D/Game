@@ -54,7 +54,7 @@ function _list(v) {
 }
 
 // Arc-condition evaluators (fase 2, Stage 1). Each is pure: (value, ctx) -> bool.
-// Adding a key here makes it "known"; unknown keys fail closed in _evalEdgeConditions.
+// Adding a key here makes it "known"; unknown keys fail closed in evalEdgeConditions.
 const _COND = {
   // Current campaign season is in the allowed set (EN enum, case-insensitive).
   // Reads ctx.season (e.g. campaignSeasonalState.current_season). Fail-closed
@@ -73,7 +73,7 @@ const _COND = {
 // Evaluate an edge's conditions against ctx. Returns { ok, blocked_by }.
 // No conditions / empty -> ok (passthrough). AND across keys; the first failing
 // or unknown key -> { ok:false, blocked_by:key }.
-function _evalEdgeConditions(conditions, ctx) {
+function evalEdgeConditions(conditions, ctx) {
   if (!conditions || typeof conditions !== 'object') return { ok: true, blocked_by: null };
   const keys = Object.keys(conditions);
   if (keys.length === 0) return { ok: true, blocked_by: null };
@@ -131,7 +131,7 @@ function selectNextNodes(currentNodeId, ctx = {}) {
       clearExcluded.add(e.to);
       continue;
     }
-    const cond = _evalEdgeConditions(e.conditions, ctx);
+    const cond = evalEdgeConditions(e.conditions, ctx);
     if (!cond.ok) {
       // Record once per target; a later parallel edge may still pass (OR).
       if (!condBlockedBy.has(toKey)) {
@@ -217,4 +217,4 @@ function isTerminal(graph, nodeId) {
   return !!(n && n.terminal);
 }
 
-module.exports = { selectNextNodes, encounterForNode, isTerminal };
+module.exports = { selectNextNodes, encounterForNode, isTerminal, evalEdgeConditions };

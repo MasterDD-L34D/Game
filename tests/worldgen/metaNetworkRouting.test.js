@@ -305,3 +305,16 @@ test('isTerminal: reflects node.terminal, false on missing / bad input', () => {
   assert.equal(isTerminal(routeGraph, 'MISSING'), false);
   assert.equal(isTerminal(null, 'Z'), false, 'no graph -> false');
 });
+
+// Expansion PR1: the edge-condition evaluator is now exported (shared with the completability
+// validator) so routing + completability agree on gate semantics (single source of truth).
+const { evalEdgeConditions } = require('../../apps/backend/services/worldgen/metaNetworkRouting');
+
+test('evalEdgeConditions: exported, shared gate eval (season + prior_node_cleared)', () => {
+  assert.deepEqual(evalEdgeConditions(null, {}), { ok: true, blocked_by: null });
+  assert.equal(evalEdgeConditions({ season: ['winter'] }, { season: 'winter' }).ok, true);
+  assert.equal(evalEdgeConditions({ season: ['winter'] }, { season: 'summer' }).ok, false);
+  assert.equal(evalEdgeConditions({ prior_node_cleared: ['X'] }, { clearedNodes: ['X'] }).ok, true);
+  assert.equal(evalEdgeConditions({ prior_node_cleared: ['X'] }, { clearedNodes: [] }).ok, false);
+  assert.equal(evalEdgeConditions({ min_pressure: 3 }, {}).ok, false, 'unknown key fails closed');
+});
