@@ -63,3 +63,31 @@ Both are **data-only** (YAML) tuning and are scoped in
 
 Routing works and is meaningful for P4. Safe to consider for staging. Recommend the graph-topology
 tuning (free, YAML-only) before the prod flag flip, which remains a separate owner verdict.
+
+## Post-tuning update (same PR set — graph-topology follow-up applied)
+
+The two notes above were addressed as **data-only** YAML edits to `meta_network_alpha.yaml`:
+
+- **1A** — added a `trophic_spillover` edge `DESERTO_CALDO → FORESTA_TEMPERATA`, so the start branch
+  now exposes `corridor` (BADLANDS) + `trophic_spillover` (FORESTA).
+- **2B** — gated the direct `DESERTO_CALDO → ROVINE_PLANARI` edge behind
+  `prior_node_cleared: [BADLANDS, FORESTA_TEMPERATA]`, closing the 2-node shortcut to the terminal.
+  (Only that edge is gated — gating `FORESTA → ROVINE` too would strand BADLANDS, a dead end, so the
+  terminal stays reachable via the arc.)
+
+Re-running the same 5-policy sim (all complete, 0 violations):
+
+| Policy    | Route (nodes)                                                 | Recruits |
+| --------- | ------------------------------------------------------------- | -------- |
+| greedy    | DESERTO_CALDO → FORESTA_TEMPERATA → ROVINE_PLANARI            | 2        |
+| ENFP (NF) | DESERTO_CALDO → FORESTA_TEMPERATA → ROVINE_PLANARI            | 2        |
+| ESFP (SP) | DESERTO_CALDO → FORESTA_TEMPERATA → ROVINE_PLANARI            | 2        |
+| INTJ (NT) | DESERTO_CALDO → BADLANDS → FORESTA_TEMPERATA → ROVINE_PLANARI | 3        |
+| ISTJ (SJ) | DESERTO_CALDO → BADLANDS → FORESTA_TEMPERATA → ROVINE_PLANARI | 3        |
+
+Outcome: **the 2-node shortcut is gone** (every route is now ≥3 nodes and passes through the
+mid-arc), and start divergence is `corridor` (NT/SJ → BADLANDS) vs `trophic` (greedy/NF/SP →
+FORESTA). Recruit spread tightened to 2-vs-3 (was 1-vs-3). A true simultaneous 3-way branch (all
+three edge types eligible at once) is still not present — the sparse 5-node graph can't host it
+without a dead-end risk; that is a larger graph-expansion item, not a tuning. **Recommendation:** the
+graph is now flip-ready for staging; the prod flag flip remains a separate owner verdict.

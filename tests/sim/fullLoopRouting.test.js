@@ -102,11 +102,12 @@ test('runFullLoop: flag ON walks the graph start->terminal, policy picks at the 
   assert.ok(Array.isArray(greedy.route), 'graph run records the node route');
   assert.equal(greedy.route[0], 'DESERTO_CALDO', 'starts at start_node');
   assert.equal(greedy.chapters[0].encounter, 'enc_savana_01', 'serves the start node encounter');
-  // greedy takes the weight-desc first candidate at the DESERTO_CALDO branch (ROVINE_PLANARI
-  // w0.5 > BADLANDS w0.45) -> the terminal climax -> a short route.
+  // Topology tuning: the terminal shortcut is gated (2B) and a trophic edge to FORESTA was
+  // added (1A). greedy now takes the weight-desc first candidate at DESERTO_CALDO =
+  // FORESTA_TEMPERATA (w0.55 > BADLANDS w0.45); ROVINE is no longer a start candidate.
   assert.equal(
     greedy.route[1],
-    'ROVINE_PLANARI',
+    'FORESTA_TEMPERATA',
     `greedy picks the strongest open route; route=${greedy.route}`,
   );
 
@@ -126,7 +127,7 @@ test('runFullLoop: flag ON walks the graph start->terminal, policy picks at the 
     `no invariant violations: ${JSON.stringify(intj.violations)}`,
   );
   assert.equal(intj.route[0], 'DESERTO_CALDO', 'same start node');
-  // The NT temperament prefers the corridor edge -> BADLANDS, NOT greedy's ROVINE_PLANARI.
+  // The NT temperament prefers the corridor edge -> BADLANDS, NOT greedy's FORESTA_TEMPERATA.
   assert.equal(intj.route[1], 'BADLANDS', `NT prefers the corridor route; route=${intj.route}`);
 
   // POLICY-SENSITIVE: the two policies walk DIFFERENT routes from the same start.

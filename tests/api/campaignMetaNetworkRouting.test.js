@@ -111,8 +111,12 @@ test('advance: flag ON multi-candidate node -> choice_required + candidates, cur
   assert.equal(adv.body.choice_required, true);
   assert.ok(adv.body.route_choice && Array.isArray(adv.body.route_choice.candidates));
   const ids = adv.body.route_choice.candidates.map((c) => c.node_id);
-  assert.equal(ids.length, 2, 'DESERTO_CALDO -> BADLANDS + ROVINE_PLANARI');
-  assert.ok(ids.includes('BADLANDS') && ids.includes('ROVINE_PLANARI'));
+  // Topology tuning: DESERTO_CALDO -> BADLANDS (corridor) + FORESTA_TEMPERATA (trophic, 1A).
+  // ROVINE_PLANARI is NOT a start candidate -- its direct edge is gated prior_node_cleared
+  // [BADLANDS, FORESTA_TEMPERATA] (2B) so the 2-node shortcut to the terminal is closed.
+  assert.equal(ids.length, 2, 'DESERTO_CALDO -> BADLANDS + FORESTA_TEMPERATA');
+  assert.ok(ids.includes('BADLANDS') && ids.includes('FORESTA_TEMPERATA'));
+  assert.ok(!ids.includes('ROVINE_PLANARI'), 'terminal shortcut gated (2B)');
   assert.equal(adv.body.campaign.currentNode, 'DESERTO_CALDO', 'does not advance until /choose');
   assert.deepEqual(
     adv.body.campaign.clearedNodes,
@@ -136,13 +140,20 @@ test('advance: flag ON single-candidate node -> auto-advances + serves the next 
   assert.equal(adv.body.next_encounter_id, 'enc_caverna_02');
 });
 
-test('advance: flag ON at the terminal node -> campaign completes', async (t) => {
+test('advance: flag ON reaches the terminal via the mid-arc -> campaign completes', async (t) => {
   enableFlag(t);
   const url = startTestServer(t);
   const s = await startCampaign(url);
   const id = s.body.campaign.id;
-  await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' }); // -> choice
-  await post(`${url}/api/campaign/choose`, { id, node_id: 'ROVINE_PLANARI' }); // terminal
+  // The terminal is gated (2B): a direct ROVINE choice from the start is rejected (not a
+  // candidate of DESERTO_CALDO until BADLANDS + FORESTA are cleared).
+  await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' }); // choice @ DESERTO
+  const shortcut = await post(`${url}/api/campaign/choose`, { id, node_id: 'ROVINE_PLANARI' });
+  assert.equal(shortcut.status, 400, 'terminal shortcut from start is gated');
+  // Walk the arc: DESERTO -> FORESTA -> (choice BADLANDS|ROVINE) -> ROVINE (terminal).
+  await post(`${url}/api/campaign/choose`, { id, node_id: 'FORESTA_TEMPERATA' });
+  await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' }); // choice @ FORESTA
+  await post(`${url}/api/campaign/choose`, { id, node_id: 'ROVINE_PLANARI' }); // now reachable
   const adv = await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' });
   assert.equal(adv.status, 200);
   assert.equal(adv.body.campaign_completed, true);

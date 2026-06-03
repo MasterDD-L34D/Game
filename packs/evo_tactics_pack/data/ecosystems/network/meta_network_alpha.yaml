@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: da178eebe5b6abbd1fe59775d99edd80b3a7a0ee30d1da4d41fd2b8a03b2d92a
+  trace_hash: c77628ef680d8cf839212497b701a399f4ded7ccafd4ae93652aa19c9c1d845f
 links:
   ecosystems:
   - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
@@ -127,6 +127,20 @@ network:
     resistance: 0.65
     seasonality: notte
     notes: Carovane planari sfruttano la quiete notturna per trasferire risorse.
+    # Topology follow-up 2B (data-only): il varco diretto al climax si apre solo dopo
+    # aver ripulito l'arco intermedio -> elimina la scorciatoia di 2 nodi al terminale.
+    # Il terminale resta raggiungibile via FORESTA_TEMPERATA -> ROVINE (no stranding).
+    conditions:
+      prior_node_cleared: [BADLANDS, FORESTA_TEMPERATA]
+  # Topology follow-up 1A (data-only): edge trophic dalla savana alla foresta, cosi' il
+  # bivio di partenza espone corridor(BADLANDS) + trophic(FORESTA) -> NT/SJ e NF/SP
+  # divergono al primo bivio (prima collassavano tutti su BADLANDS).
+  - from: DESERTO_CALDO
+    to: FORESTA_TEMPERATA
+    type: trophic_spillover
+    resistance: 0.5
+    seasonality: episodico
+    notes: Spore e detrito eolico dalla savana alimentano i margini miceliali.
   bridge_species_map:
   - species_id: echo-wing
     roles:
