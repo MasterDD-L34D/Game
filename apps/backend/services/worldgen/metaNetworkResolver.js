@@ -60,6 +60,12 @@ function _load() {
     biome_id: n.biome_id != null ? String(n.biome_id).trim() : null,
     path: n.path != null ? String(n.path) : null,
     weight: Number.isFinite(Number(n.weight)) ? Number(n.weight) : 0,
+    // Slice A (live routing): the encounter(s) a node serves (MVP N=1 -> the first id
+    // is the node's encounter) + a terminal climax flag. Additive + defaulted so the
+    // graph stays back-compatible when the data is absent (mirrors the conditions
+    // strip fix below: without this the mapper would silently drop encounters).
+    encounters: Array.isArray(n.encounters) ? n.encounters.map((x) => String(x)) : [],
+    terminal: !!n.terminal,
   }));
   const edges = (Array.isArray(net.edges) ? net.edges : []).map((e) => ({
     from: String(e.from || '').trim(),
@@ -86,7 +92,15 @@ function _load() {
   }
 
   _cache = {
-    network: { id: net.id || null, label: net.label || null, nodes, edges },
+    network: {
+      id: net.id || null,
+      label: net.label || null,
+      // Slice A: where a graph-routed run begins (network-level, additive). Trim to a
+      // string id; null when unset -> graph routing falls back to the static chain.
+      start_node: net.start_node != null ? String(net.start_node).trim() : null,
+      nodes,
+      edges,
+    },
     nodeIndex,
     edgesBySource,
   };

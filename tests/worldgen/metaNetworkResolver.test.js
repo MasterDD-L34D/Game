@@ -90,3 +90,26 @@ test('arc-conditions data: winter seasonal_bridge edges gate on season [winter]'
   assert.ok(toCryo.conditions && Array.isArray(toCryo.conditions.season), 'season list present');
   assert.deepEqual(toCryo.conditions.season, ['winter']);
 });
+
+// --- TKT-WORLDGEN-GAPC slice A (live routing) — the node->encounter map. Each node
+// may serve encounter(s) (MVP N=1) + flag a terminal climax; the network may name a
+// start_node. The mapper must DEFAULT these additively (encounters -> [], terminal ->
+// false, start_node -> null) so the graph stays back-compatible when the data is
+// absent — mirrors the conditions strip fix (#2509).
+test('getNetwork: nodes always carry encounters (array) + terminal (boolean), defaulted', () => {
+  _resetCache();
+  const net = getNetwork();
+  for (const node of net.nodes) {
+    assert.ok(Array.isArray(node.encounters), `node ${node.id} encounters is an array`);
+    assert.equal(typeof node.terminal, 'boolean', `node ${node.id} terminal is boolean`);
+  }
+});
+
+test('getNetwork: exposes network.start_node (string|null)', () => {
+  _resetCache();
+  const net = getNetwork();
+  assert.ok(
+    net.start_node === null || typeof net.start_node === 'string',
+    'start_node is a string id or null',
+  );
+});
