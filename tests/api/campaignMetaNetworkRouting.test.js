@@ -111,11 +111,13 @@ test('advance: flag ON multi-candidate node -> choice_required + candidates, cur
   assert.equal(adv.body.choice_required, true);
   assert.ok(adv.body.route_choice && Array.isArray(adv.body.route_choice.candidates));
   const ids = adv.body.route_choice.candidates.map((c) => c.node_id);
-  // Topology tuning: DESERTO_CALDO -> BADLANDS (corridor) + FORESTA_TEMPERATA (trophic, 1A).
-  // ROVINE_PLANARI is NOT a start candidate -- its direct edge is gated prior_node_cleared
-  // [BADLANDS, FORESTA_TEMPERATA] (2B) so the 2-node shortcut to the terminal is closed.
-  assert.equal(ids.length, 2, 'DESERTO_CALDO -> BADLANDS + FORESTA_TEMPERATA');
-  assert.ok(ids.includes('BADLANDS') && ids.includes('FORESTA_TEMPERATA'));
+  // Expansion PR1 (3-way): DESERTO_CALDO -> BADLANDS (corridor) + FORESTA_TEMPERATA (trophic) +
+  // CRYOSTEPPE (seasonal_bridge, ungated). ROVINE_PLANARI is NOT a start candidate -- its direct
+  // edge is gated prior_node_cleared [BADLANDS, FORESTA_TEMPERATA] (2B), shortcut stays closed.
+  assert.equal(ids.length, 3, 'DESERTO_CALDO -> BADLANDS + FORESTA_TEMPERATA + CRYOSTEPPE');
+  assert.ok(
+    ids.includes('BADLANDS') && ids.includes('FORESTA_TEMPERATA') && ids.includes('CRYOSTEPPE'),
+  );
   assert.ok(!ids.includes('ROVINE_PLANARI'), 'terminal shortcut gated (2B)');
   assert.equal(adv.body.campaign.currentNode, 'DESERTO_CALDO', 'does not advance until /choose');
   assert.deepEqual(
@@ -182,9 +184,10 @@ test('choose: flag ON node_id that is not a current candidate -> 400', async (t)
   const url = startTestServer(t);
   const s = await startCampaign(url);
   const id = s.body.campaign.id;
-  await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' }); // candidates: BADLANDS, ROVINE_PLANARI
-  const ch = await post(`${url}/api/campaign/choose`, { id, node_id: 'CRYOSTEPPE' });
-  assert.equal(ch.status, 400, 'CRYOSTEPPE is not reachable from DESERTO_CALDO');
+  await post(`${url}/api/campaign/advance`, { id, outcome: 'victory' }); // candidates: BADLANDS, FORESTA, CRYOSTEPPE
+  // ROVINE_PLANARI is gated (prior_node_cleared not met at the start) -> not a current candidate.
+  const ch = await post(`${url}/api/campaign/choose`, { id, node_id: 'ROVINE_PLANARI' });
+  assert.equal(ch.status, 400, 'gated ROVINE_PLANARI is not a candidate from DESERTO_CALDO');
 });
 
 test('choose: flag ON without node_id falls through to the branch_key contract (back-compat)', async (t) => {
