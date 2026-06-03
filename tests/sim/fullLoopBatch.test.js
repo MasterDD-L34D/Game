@@ -165,6 +165,27 @@ test('calibrationScaling: FL_ENEMY_* env overrides each knob (robust to baked de
   }
 });
 
+// Graph-mode re-calibration: shorter graph routes leave completion too high at the static hpAdd 3,
+// so META_NETWORK_ROUTING=true bumps the baked hpAdd to 4 (band centre); the static default stays 3.
+test('calibrationScaling: graph-mode (META_NETWORK_ROUTING) bumps baked hpAdd 3 -> 4', () => {
+  for (const k of ['FL_ENEMY_HP_ADD', 'FL_ENEMY_COUNT_MULT']) delete process.env[k];
+  const prev = process.env.META_NETWORK_ROUTING;
+  try {
+    delete process.env.META_NETWORK_ROUTING;
+    assert.equal(calibrationScaling().hpAdd, 3, 'static-chain default unchanged');
+    process.env.META_NETWORK_ROUTING = 'true';
+    assert.equal(calibrationScaling().hpAdd, 4, 'graph-mode re-calibrated default');
+    assert.equal(calibrationScaling().countMult, 5, 'countMult unchanged in graph mode');
+    // env override still wins over the graph-mode default.
+    process.env.FL_ENEMY_HP_ADD = '9';
+    assert.equal(calibrationScaling().hpAdd, 9, 'env override beats the graph-mode default');
+  } finally {
+    delete process.env.FL_ENEMY_HP_ADD;
+    if (prev === undefined) delete process.env.META_NETWORK_ROUTING;
+    else process.env.META_NETWORK_ROUTING = prev;
+  }
+});
+
 test('buildProvenance: carries seed + commit + policy + scenario-chain + flags', () => {
   const p = buildProvenance({
     runId: 3,

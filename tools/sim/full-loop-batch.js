@@ -247,11 +247,19 @@ function calibrationScaling() {
   // turns the other ~40% (a mission that runs out the clock) into a campaign failure ->
   // completion_rate lands in the provisional 0.4-0.7 band. Each FL_ENEMY_* env var overrides
   // one knob for re-calibration. (hpAdd not hpMult: integer per-unit HP is the natural dial.)
+  //
+  // Graph-mode re-calibration (META_NETWORK_ROUTING=true): the graph routes are SHORTER than the
+  // static cave_path (greedy 3 nodes, ESFP 5) so the static hpAdd 3 leaves completion too high
+  // (greedy 0.9 / ESFP 0.825, OOB). hpAdd 4 (graph-mode default) re-centres it (greedy ~0.65 in
+  // band; ESFP ~0.75 -- its recruit-snowball over the longer route keeps it marginally above 0.7,
+  // a known route-length effect). The HP curve is razor-steep (hpAdd 3->0.9, 4->0.65, 5->0.2),
+  // so 4 is the band centre. The static default (3) is unchanged -> the ratified static bands hold.
+  const graphMode = process.env.META_NETWORK_ROUTING === 'true';
   return {
     countMult: num('FL_ENEMY_COUNT_MULT', 5),
     countAdd: num('FL_ENEMY_COUNT_ADD', 0),
     hpMult: num('FL_ENEMY_HP_MULT', 1),
-    hpAdd: num('FL_ENEMY_HP_ADD', 3),
+    hpAdd: num('FL_ENEMY_HP_ADD', graphMode ? 4 : 3),
     modAdd: num('FL_ENEMY_MOD_ADD', 0),
     dcAdd: num('FL_ENEMY_DC_ADD', 0),
   };
