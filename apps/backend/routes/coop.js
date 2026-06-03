@@ -358,6 +358,10 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       survivors = [],
       debrief_payload: debriefPayload = null,
       sistema_observations: sistemaObservations = null,
+      // Task 5 debrief-recruit producer: optional array of NPC candidates for
+      // post-combat recruit (threaded onto run.debrief -> debrief_payload
+      // broadcast to phones alongside per_actor). Back-compat: absent -> null.
+      recruit_candidates: recruitCandidates = null,
     } = req.body || {};
     const room = authHost(code, hostToken);
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
@@ -370,6 +374,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
         survivors,
         debriefPayload,
         sistemaObservations,
+        recruitCandidates,
       });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, result });

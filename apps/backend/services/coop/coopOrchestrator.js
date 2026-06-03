@@ -844,6 +844,7 @@ class CoopOrchestrator {
     xpEarned = 0,
     debriefPayload = null,
     sistemaObservations = null,
+    recruitCandidates = null,
   } = {}) {
     if (this.phase !== 'combat') throw new Error('not_in_combat');
     this.run.outcome = outcome;
@@ -851,6 +852,13 @@ class CoopOrchestrator {
     this.run.partyXp += xpEarned;
     if (debriefPayload && typeof debriefPayload === 'object') {
       this.run.debrief = debriefPayload;
+    }
+    // Task 5 debrief-recruit producer: thread recruit_candidates onto run.debrief
+    // so it rides the existing debrief_payload broadcast to phones alongside
+    // per_actor. Only stored when a non-empty array is supplied. Back-compat:
+    // absent or empty -> no change to run.debrief.
+    if (Array.isArray(recruitCandidates) && recruitCandidates.length > 0) {
+      this.run.debrief = { ...(this.run.debrief || {}), recruit_candidates: recruitCandidates };
     }
     const emitPayload = { outcome, survivors, xp: xpEarned };
     if (debriefPayload && typeof debriefPayload === 'object') {
