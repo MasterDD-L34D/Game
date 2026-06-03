@@ -130,11 +130,37 @@ test('runFullLoop: flag ON walks the graph start->terminal, policy picks at the 
   // The NT temperament prefers the corridor edge -> BADLANDS, NOT greedy's FORESTA_TEMPERATA.
   assert.equal(intj.route[1], 'BADLANDS', `NT prefers the corridor route; route=${intj.route}`);
 
-  // POLICY-SENSITIVE: the two policies walk DIFFERENT routes from the same start.
+  // Expansion PR1 (3-way): SP prefers the seasonal_bridge -> CRYOSTEPPE, a THIRD distinct first
+  // pick (greedy->FORESTA, NT->BADLANDS, SP->CRYOSTEPPE).
+  const esfp = await runGraph(app, {
+    playerId: 'fl_route_esfp',
+    seed: 'route-e',
+    policy: makeMbtiPolicy('ESFP'),
+  });
+  assert.equal(
+    esfp.completed,
+    true,
+    `SP graph run completes; chapters=${JSON.stringify(esfp.chapters)}`,
+  );
+  assert.deepEqual(
+    esfp.violations,
+    [],
+    `no invariant violations: ${JSON.stringify(esfp.violations)}`,
+  );
+  assert.equal(esfp.route[0], 'DESERTO_CALDO', 'same start node');
+  assert.equal(esfp.route[1], 'CRYOSTEPPE', `SP prefers the seasonal route; route=${esfp.route}`);
+
+  // POLICY-SENSITIVE: the policies walk DIFFERENT routes from the same start.
   assert.notDeepEqual(greedy.route, intj.route, 'route is policy-sensitive (P4 hook)');
   assert.notEqual(
     greedy.route[1],
     intj.route[1],
-    'the policies diverge at the first multi-candidate branch',
+    'greedy and NT diverge at the first multi-candidate branch',
+  );
+  // True 3-way: three policies pick three different first nodes.
+  assert.equal(
+    new Set([greedy.route[1], intj.route[1], esfp.route[1]]).size,
+    3,
+    `3-way branch: ${greedy.route[1]} / ${intj.route[1]} / ${esfp.route[1]}`,
   );
 });
