@@ -210,17 +210,20 @@ test('buildSummary: embeds the 5-metric aggregate over the batch', () => {
   const results = [synthRun(), synthRun(), synthRun({ completed: false })];
   const s = buildSummary(results, { runs: 3, policy: 'greedy' });
   assert.equal(s.n, 3);
-  assert.equal(s.provisional, true);
+  assert.equal(s.provisional, false, 'bands ratified by master-dd 2026-06-03 (L-069)');
   assert.ok(s.metrics.completion_rate, 'completion_rate metric present');
   assert.ok(s.metrics.offspring_viability, 'offspring_viability metric present');
   assert.equal(s.completion.completed, 2);
   assert.equal(s.completion.total, 3);
 });
 
-test('buildReport: markdown with the 5 metric rows + a PROVISIONAL WARN banner', () => {
+test('buildReport: markdown with the metric rows + a RATIFIED banner (not "PROVISIONAL", Codex #2580 P2)', () => {
+  // The bands are ratified now; a regenerated report must NOT label them PROVISIONAL/pending,
+  // else it contradicts the ratified decision sheet in the playtest doc.
   const s = buildSummary([synthRun(), synthRun()], { runs: 2 });
   const md = buildReport(s);
-  assert.match(md, /provisional|WARN|pending master-dd/i);
+  assert.match(md, /ratified|L-069/i);
+  assert.ok(!/PROVISIONAL/.test(md), 'no stale PROVISIONAL banner once ratified');
   for (const k of [
     'completion_rate',
     'roster_attrition',

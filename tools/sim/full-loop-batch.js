@@ -478,9 +478,13 @@ function buildReport(summary) {
     `Runs: **${summary.n}** | Completed: **${summary.completion.completed}/${summary.completion.total}** | Policy: \`${summary.config.policy || 'greedy'}\` | Branch: \`${summary.config.branch || 'cave_path'}\``,
   );
   lines.push('');
-  lines.push(`> **PROVISIONAL** -- ${PROVISIONAL_BANDS.note}`);
+  // Adaptive banner: once the aggregate flips `provisional` to false (master-dd ratified the
+  // bands, L-069), a regenerated report says RATIFIED instead of PROVISIONAL -- so it never
+  // contradicts the ratified decision sheet in the playtest doc (Codex #2580 P2).
+  const bandStatus = summary.provisional ? 'PROVISIONAL' : 'RATIFIED (master-dd, L-069)';
+  lines.push(`> **${bandStatus}** -- ${PROVISIONAL_BANDS.note}`);
   lines.push('');
-  lines.push('| Metric | Value | Provisional band | In band |');
+  lines.push('| Metric | Value | Band | In band |');
   lines.push('|---|---|---|:---:|');
   for (const k of [
     'completion_rate',

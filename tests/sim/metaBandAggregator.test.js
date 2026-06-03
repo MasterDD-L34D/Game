@@ -47,7 +47,7 @@ test('aggregate: completion_rate = completed/N, in-band at 0.40-0.70', () => {
   ];
   const r = aggregate(runs);
   assert.equal(r.n, 4);
-  assert.equal(r.provisional, true);
+  assert.equal(r.provisional, false, 'bands ratified by master-dd 2026-06-03 (L-069)');
   assert.equal(r.metrics.completion_rate.value, 0.5);
   assert.deepEqual(r.metrics.completion_rate.range, PROVISIONAL_BANDS.completion_rate);
   assert.equal(r.metrics.completion_rate.in_band, true);
@@ -439,9 +439,10 @@ test('aggregate: empty input -> n=0, every metric out of band, never throws', ()
   }
 });
 
-test('PROVISIONAL_BANDS: documents WARN provenance (Claude-derived, pending master-dd)', () => {
-  // The bands are provisional ranges, not ratified numbers (L-069: master-dd ratifies the
-  // exact band post-N=40). The module must say so to prevent a downstream reader treating
-  // them as canon.
-  assert.match(PROVISIONAL_BANDS.note || '', /WARN|provisional|pending master-dd/i);
+test('PROVISIONAL_BANDS: note reflects the master-dd ratification (L-069), not "pending"', () => {
+  // The bands were ratified by master-dd 2026-06-03 (L-069). The note must reflect that (not the
+  // old "pending master-dd ratify") so a regenerated report does not contradict the ratified
+  // decision sheet (Codex #2580 P2). The QD anti-over-optimize guidance stays.
+  assert.match(PROVISIONAL_BANDS.note || '', /ratified|L-069/i);
+  assert.doesNotMatch(PROVISIONAL_BANDS.note || '', /pending master-dd/i);
 });

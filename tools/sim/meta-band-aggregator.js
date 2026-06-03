@@ -34,9 +34,9 @@ const PROVISIONAL_BANDS = {
   // (master-dd ratified 2026-06-03): a breeding pool collapsed to < 3 distinct crosses is unhealthy.
   lineage_diversity: [3, null],
   note:
-    'WARN: Claude-derived PROVISIONAL ranges (spec §7) -- pending master-dd ratify post-N=40 ' +
-    '(L-069). NOT canon. Keep the design space healthy (Quality-Diversity); do not optimize ' +
-    'to a single best run.',
+    'RATIFIED 2026-06-03 by master-dd (L-069): the working bands. Reversible (two-way door) -- ' +
+    'revise when evidence warrants. Keep the design space healthy (Quality-Diversity); do not ' +
+    'optimize to a single best run.',
 };
 
 function mean(arr) {
@@ -269,7 +269,7 @@ function aggregate(runs) {
 
   return {
     n,
-    provisional: true,
+    provisional: false, // RATIFIED by master-dd 2026-06-03 (L-069); reversible two-way door
     metrics: {
       completion_rate,
       roster_attrition,
