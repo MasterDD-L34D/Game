@@ -1,0 +1,87 @@
+# =============================================================================
+# DRAFT (Claude-proposed, pending master-dd ratify + band-verify) -- NOT promoted.
+# Lives in encounters-draft/ (inert: no loader/validator/sim reads this dir).
+# Node: ROVINE_PLANARI (rovine_planari) TERMINAL climax (secondary id in the node
+# encounters[], the boss). graph weight 0.5. Mirrors enc_hardcore_reinf_01 (same
+# biome/diff5/hardcore niche). resolve_parallel_key -> hardcore_06 (HC06 band ~15-25% WR).
+# Threat proposal: diff 5, hardcore class (1.4x + enrage), elimination + reinforcement.
+# Species = proven archetype labels (stats from tier table); master-dd may reskin.
+# =============================================================================
+
+encounter_id: enc_tutorial_06_hardcore
+name: 'Cuore delle Rovine'
+biome_id: rovine_planari
+grid_size: [10, 10]
+difficulty_rating: 5
+estimated_turns: 15
+encounter_class: hardcore
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 4]
+      - [9, 5]
+      - [9, 6]
+    units:
+      - species: guardiani_risonanza
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+      - species: custode_basalto
+        count: 1
+        tier: apex
+        ai_profile: flanking
+
+reinforcement_pool:
+  - unit_id: predoni_nomadi
+    weight: 3
+    max_spawns: 4
+    hp: 7
+    mod: 2
+    dc: 12
+    ai_profile: aggressive
+  - unit_id: guardiani_risonanza_elite
+    weight: 1
+    max_spawns: 2
+    hp: 10
+    mod: 3
+    dc: 13
+    ai_profile: flanking
+
+reinforcement_entry_tiles:
+  - [9, 0]
+  - [9, 9]
+  - [0, 0]
+  - [0, 9]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 4
+  min_distance_from_pg: 4
+
+conditions: []
+
+tags: [boss]
+
+didactic_focus:
+  - pressure_management
+  - reinforcement_timing
+  - ai_progress_reading
+
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: cenere_sospesa
+  accent_override: '#b8935a'
