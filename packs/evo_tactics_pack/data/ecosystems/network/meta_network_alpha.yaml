@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: df6addfca53a70e917b4ee75b54088fa655c6b6094de99a9ba6a85fca8c30664
+  trace_hash: 0126a8e9d2f3831c9be07c912ac8617200c541ba3bfa9b01dceaec93414adb1c
 links:
   ecosystems:
   - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
@@ -47,6 +47,13 @@ network:
     weight: 0.5
     encounters: [enc_tutorial_05, enc_tutorial_06_hardcore]
     terminal: true
+  # Expansion PR2: Atollo Obsidiana, the 4th canonical biome (vault canvas C-CANVAS_NPG_BIOMI),
+  # now the graph's 6th node. Reached from CRYOSTEPPE, exits to the terminal ROVINE.
+  - id: ATOLLO_OBSIDIANA
+    biome_id: atollo_obsidiana
+    path: packs/evo_tactics_pack/data/ecosystems/atollo_obsidiana.ecosystem.yaml
+    weight: 0.45
+    encounters: [enc_tutorial_07_hardcore_pod_rush]
   edges:
   - from: BADLANDS
     to: FORESTA_TEMPERATA
@@ -150,6 +157,20 @@ network:
     resistance: 0.6
     seasonality: perenne
     notes: Correnti ascensionali notturne aprono un valico stabile verso la mezzanotte orbitale.
+  # Expansion PR2: CRYOSTEPPE -> ATOLLO seasonal_bridge (ungated) so the SP temperament routes
+  # through the atoll; ATOLLO -> ROVINE corridor reaches the terminal (>=4 nodes, no shortcut).
+  - from: CRYOSTEPPE
+    to: ATOLLO_OBSIDIANA
+    type: seasonal_bridge
+    resistance: 0.55
+    seasonality: perenne
+    notes: Risacca obsidiana incanala i migratori dalle steppe orbitali verso l'atollo.
+  - from: ATOLLO_OBSIDIANA
+    to: ROVINE_PLANARI
+    type: corridor
+    resistance: 0.6
+    seasonality: estate
+    notes: Banchi corallini fossili formano un ponte verso le rovine planari.
   bridge_species_map:
   - species_id: echo-wing
     roles:
