@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: daa14cfa4bcc63136485c46c1b99275980b5d66865477d6b72990c826afeb1e3
+  trace_hash: da178eebe5b6abbd1fe59775d99edd80b3a7a0ee30d1da4d41fd2b8a03b2d92a
 links:
   ecosystems:
   - packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
@@ -14,27 +14,39 @@ links:
 network:
   id: ET_NET_ALPHA
   label: Evo-Tactics Meta‑Ecosystem Alpha
+  # Slice A (live routing, owner-gated): where a graph-routed run begins. The onboarding
+  # tutorials (enc_tutorial_01/02) stay static-only; graph mode routes the 5-node main arc.
+  start_node: DESERTO_CALDO
   nodes:
+  # Per-node `encounters` = the encounter(s) a node serves (MVP N=1 -> first id). `terminal`
+  # marks the climax: reaching + clearing it ends a graph-routed run. Starter assignment
+  # (spec section 4, biome-aligned where it fits) — master-dd ratifies at the data-gate merge.
   - id: BADLANDS
     biome_id: canyons_risonanti
     path: packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml
     weight: 0.45
+    encounters: [enc_tutorial_03]
   - id: FORESTA_TEMPERATA
     biome_id: foresta_miceliale
     path: packs/evo_tactics_pack/data/ecosystems/foresta_temperata.ecosystem.yaml
     weight: 0.55
+    encounters: [enc_caverna_02]
   - id: DESERTO_CALDO
     biome_id: savana
     path: packs/evo_tactics_pack/data/ecosystems/deserto_caldo.ecosystem.yaml
     weight: 0.4
+    encounters: [enc_savana_01]
   - id: CRYOSTEPPE
     biome_id: mezzanotte_orbitale
     path: packs/evo_tactics_pack/data/ecosystems/cryosteppe.ecosystem.yaml
     weight: 0.4
+    encounters: [enc_tutorial_04]
   - id: ROVINE_PLANARI
     biome_id: rovine_planari
     path: packs/evo_tactics_pack/data/ecosystems/rovine_planari.ecosystem.yaml
     weight: 0.5
+    encounters: [enc_tutorial_05, enc_tutorial_06_hardcore]
+    terminal: true
   edges:
   - from: BADLANDS
     to: FORESTA_TEMPERATA
