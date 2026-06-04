@@ -1841,10 +1841,13 @@ function createSessionRouter(options = {}) {
       // Non override se body.encounter già fornito (preserve scenario JS flow).
       let encounterPayload = req.body?.encounter ?? null;
       const encounterIdFromBody = req.body?.encounter_id;
+      // GAP-C option-C C1: a graph-routed session opts into the draft node-encounters
+      // (encounters-draft/) via body.graph_mode. Static/legacy callers omit it -> encounters/-only.
+      const graphMode = req.body?.graph_mode === true;
       if (!encounterPayload && encounterIdFromBody) {
         try {
           const { loadEncounter } = require('../services/combat/encounterLoader');
-          const loaded = loadEncounter(encounterIdFromBody);
+          const loaded = loadEncounter(encounterIdFromBody, { graphMode });
           if (loaded) encounterPayload = loaded;
         } catch (err) {
           console.warn('[session/start] encounterLoader failed:', err.message);

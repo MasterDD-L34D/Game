@@ -19,6 +19,8 @@ Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 v
 
 **Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`, `apps/backend/services/traitEffects.js`). Ex-`services/rules/` Python rimosso fisicamente in Phase 3 ([ADR-2026-04-19](../adr/ADR-2026-04-19-kill-python-rules-engine.md)).
 
+**Encounter source -- mode-aware (GAP-C option-C C1, 2026-06-04)**: `services/combat/encounterLoader.js` espone `loadEncounter(id, { graphMode })`. In graph mode (sessione avviata da una rotta meta-network via `/session/start { graph_mode: true }`) unisce `docs/planning/encounters-draft/` a `docs/planning/encounters/` (live vince sulle collisioni), cosi' tutti i 6 nodi della meta-network consegnano il loro fight reale telegrafato (prima 2/6, il climax terminale era degradato). I caller statici/legacy non passano opts -> restano `encounters/`-only -> le band ratificate di `cave_path` sono intatte. Flag `META_NETWORK_ROUTING` OFF in prod (il flip resta gated sulla band-verify). Spec: [option-C decouple](../superpowers/specs/2026-06-03-worldgen-gapc-option-c-graph-combat-decouple-design.md).
+
 Sezioni "File principali" sotto fanno riferimento storico ai path Python rimossi — preservate per archeologia git blame + ADR continuity. NON usare come fonte runtime: il codice non esiste più in main post-Phase-3.
 
 ---
