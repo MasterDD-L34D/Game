@@ -165,17 +165,30 @@ test('calibrationScaling: FL_ENEMY_* env overrides each knob (robust to baked de
   }
 });
 
-// Graph-mode re-calibration: shorter graph routes leave completion too high at the static hpAdd 3,
-// so META_NETWORK_ROUTING=true bumps the baked hpAdd to 4 (band centre); the static default stays 3.
-test('calibrationScaling: graph-mode (META_NETWORK_ROUTING) bumps baked hpAdd 3 -> 4', () => {
+// Graph-mode re-calibration (REAL draft rosters, option-C #2603): the draft nodes now fight their
+// REAL rosters, so the static overlay countMult 5 + hpAdd 4 is brutal (5x a hardcore roster -> 0/10).
+// META_NETWORK_ROUTING=true drops the baked overlay to countMult 3 + hpAdd 2 (N=40 greedy/ESFP/INTJ
+// land in the ratified wider band 0.4-0.85); the static default stays countMult 5 + hpAdd 3.
+test('calibrationScaling: graph-mode (META_NETWORK_ROUTING) re-calibrates to countMult 3 + hpAdd 2', () => {
   for (const k of ['FL_ENEMY_HP_ADD', 'FL_ENEMY_COUNT_MULT']) delete process.env[k];
   const prev = process.env.META_NETWORK_ROUTING;
   try {
     delete process.env.META_NETWORK_ROUTING;
-    assert.equal(calibrationScaling().hpAdd, 3, 'static-chain default unchanged');
+    assert.equal(calibrationScaling().hpAdd, 3, 'static-chain hpAdd default unchanged');
+    assert.equal(calibrationScaling().countMult, 5, 'static-chain countMult default unchanged');
+    assert.equal(calibrationScaling().dcAdd, 0, 'static-chain dcAdd default unchanged');
     process.env.META_NETWORK_ROUTING = 'true';
-    assert.equal(calibrationScaling().hpAdd, 4, 'graph-mode re-calibrated default');
-    assert.equal(calibrationScaling().countMult, 5, 'countMult unchanged in graph mode');
+    assert.equal(calibrationScaling().hpAdd, 2, 'graph-mode re-calibrated hpAdd (real rosters)');
+    assert.equal(
+      calibrationScaling().countMult,
+      3,
+      'graph-mode re-calibrated countMult (real rosters)',
+    );
+    assert.equal(
+      calibrationScaling().dcAdd,
+      1,
+      'graph-mode re-calibrated dcAdd (fine knob, real rosters)',
+    );
     // env override still wins over the graph-mode default.
     process.env.FL_ENEMY_HP_ADD = '9';
     assert.equal(calibrationScaling().hpAdd, 9, 'env override beats the graph-mode default');

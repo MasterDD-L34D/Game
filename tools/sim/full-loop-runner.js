@@ -274,7 +274,9 @@ async function runFullLoop(http, opts = {}) {
     // fase-2a scaled enemies: load the chapter's real encounter roster from YAML; fall
     // back to the weak-fixed enemy when the encounter has no YAML (cave_path: tutorial_03/
     // 04/05 + tutorial_06_hardcore) or an unsupported objective, so the loop still runs.
-    const scaledEnemies = buildScenarioEnemies(enc, enemyScaling);
+    // GAP-C option-C: in graph mode union encounters-draft/ (mirror combat C1) so the draft
+    // route nodes fight their REAL rosters -> the meta band-verify measures real difficulty.
+    const scaledEnemies = buildScenarioEnemies(enc, enemyScaling, { graphMode });
     const enemies = scaledEnemies && scaledEnemies.length ? scaledEnemies : enemiesForChapter(step);
     const enemiesSource = scaledEnemies && scaledEnemies.length ? 'scenario' : 'fallback';
 

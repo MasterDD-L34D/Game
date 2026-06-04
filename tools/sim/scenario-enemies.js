@@ -21,6 +21,14 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 
 const ENCOUNTER_DIR = path.resolve(__dirname, '..', '..', 'docs', 'planning', 'encounters');
+const ENCOUNTER_DRAFT_DIR = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'docs',
+  'planning',
+  'encounters-draft',
+);
 
 // Tier -> base combat stats (mirrors ai-driven-sim buildEnemiesFromYaml hp/mod table;
 // dc scales with tier so higher tiers are also harder to hit). These are the FAITHFUL
@@ -48,7 +56,7 @@ const SUPPORTED_OBJECTIVES = new Set(['elimination']);
 // decisive lever: damage is ~1-3/hit, so 2 units can never out-race a 60-HP party -- more
 // units can); hpMult/hpAdd + modAdd/dcAdd tune the per-unit knife-edge. Pure DI (no env
 // global) so it stays unit-testable + the batch records the values in provenance.
-function buildScenarioEnemies(scenarioId, scaling = {}) {
+function buildScenarioEnemies(scenarioId, scaling = {}, opts = {}) {
   const s = scaling || {};
   const num = (v, d) => (Number.isFinite(Number(v)) ? Number(v) : d);
   const countMult = num(s.countMult, 1);
@@ -58,7 +66,13 @@ function buildScenarioEnemies(scenarioId, scaling = {}) {
   const modAdd = num(s.modAdd, 0);
   const dcAdd = num(s.dcAdd, 0);
 
-  const yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
+  // GAP-C option-C band-verify: graph-mode runs union encounters-draft/ (mirror combat C1)
+  // so the 4 draft node-encounters fight their REAL rosters; static runs stay encounters/-only
+  // (the weak-fixed fallback) -> ratified static cave_path bands untouched.
+  let yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
+  if (!fs.existsSync(yamlPath) && opts.graphMode) {
+    yamlPath = path.join(ENCOUNTER_DRAFT_DIR, `${scenarioId}.yaml`);
+  }
   if (!fs.existsSync(yamlPath)) return null;
 
   let parsed;
