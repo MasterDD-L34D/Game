@@ -29,13 +29,20 @@ review_cycle_days: 30
 
 ## Remaining to the flip (dedicated session)
 
-### Phase 2 -- retry-allowance + soft-ramp (RATIFIED, unbuilt)
+### Phase 2 -- retry-allowance + soft-ramp -- ❌ DROPPED (2026-06-04)
 
-Spec section 9.1. Retry-allowance = graph mode permits re-attempt / reroute on a lost node (meta-loop run-structure). Where it lives: the campaign `/advance` defeat path (`apps/backend/routes/campaign.js`) today does "retry same" -- extend for a graph reroute / bounded re-attempt. Soft-ramp = mostly already in the data (`prior_node_cleared` edge gates). Needs its own brainstorm -> spec -> TDD. The measurement shows the terminal climax is the dominant killer -> retry-allowance directly addresses it.
+The N=10 0/10 that "motivated" retry-allowance was a **CALIBRATION ARTIFACT, not a climax gate**: at
+the AUTHORED overlay completion = 10/10 (the climax is winnable). See the band-verify
+`docs/playtest/2026-06-04-optionc-phase3-retune-band-verify.md`. **No retry mechanic is needed.**
 
-### Phase 3 -- band-verify + re-ratify (mandatory before flip-with-real-fights)
+### Phase 3 -- re-tune ✅ DONE (2026-06-04, `77021ca8`); re-ratify = the only gate left
 
-Spec section 6. 1) graph-mode N=40 via `tools/sim/full-loop-batch.js --runs 40` (`META_NETWORK_ROUTING=true`, greedy + MBTI sample). 2) **re-tune `calibrationScaling` graph-mode knobs on the REAL rosters** -- the current `hpAdd4` (#2589) was tuned for the fallback enemies and is now over-hard (even savana times out); sim-only, reversible via `FL_ENEMY_*`. 3) re-ratify the #2589 graph-mode bands with the new substrate (master-dd decision-handoff). 4) static `cave_path` N=40 unchanged regression.
+Re-tuned the graph-mode `calibrationScaling` overlay `countMult 5 + hpAdd 4 -> 3 + 2` (the stale
+default was tuned for the weak fallback enemies; `5x` an authored hardcore roster gave the 0/10).
+N=40: greedy 0.75 / ESFP 0.775 / INTJ 0.775, all inside the #2589-ratified wider band (0.4-0.85).
+Static `cave_path` default (cm5/hp3) unchanged -> no static re-ratify. **Owner re-ratify
+(master-dd):** ratify the ~0.77 centre (within 0.4-0.85), OR ask for a tighter ~0.6 (a harder
+overlay e.g. `cm3 + hpAdd 3` lowers it); also update the aggregator `PROVISIONAL_BANDS`. Then: the flip.
 
 ### Disambiguation insight (do this FIRST in the dedicated session)
 
