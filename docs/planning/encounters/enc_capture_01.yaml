@@ -40,10 +40,12 @@ waves:
       - [0, 9]
     units:
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 2
         tier: base
         ai_profile: aggressive
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 1
         tier: elite
         ai_profile: flanking
@@ -55,6 +57,7 @@ waves:
       - [9, 5]
     units:
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 2
         tier: base
         ai_profile: balanced
