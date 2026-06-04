@@ -36,7 +36,10 @@ const PROVISIONAL_BANDS = {
   note:
     'RATIFIED 2026-06-03 by master-dd (L-069): the working bands. Reversible (two-way door) -- ' +
     'revise when evidence warrants. Keep the design space healthy (Quality-Diversity); do not ' +
-    'optimize to a single best run.',
+    'optimize to a single best run. GRAPH-MODE RE-RATIFIED 2026-06-04 by master-dd (#2603): with ' +
+    'the real draft rosters + the cm3/hp2/dcAdd1 overlay, graph-mode completion lands ~0.66 ' +
+    '(N=40 greedy 0.675 / ESFP 0.70 / INTJ 0.60), inside this 0.4-0.7 band -- the fallback-era ' +
+    'wider 0.4-0.85 is superseded; completion_rate [0.4, 0.7] holds for both static and graph mode.',
 };
 
 function mean(arr) {
