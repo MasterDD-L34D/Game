@@ -251,9 +251,10 @@ function calibrationScaling() {
   // Graph-mode re-calibration (META_NETWORK_ROUTING=true, REAL draft rosters via option-C #2603):
   // once the draft node-encounters fight their REAL authored rosters (not the weak-fixed fallback),
   // the static overlay countMult 5 + hpAdd 4 is brutal (5x an authored hardcore roster -> 0/10).
-  // The real rosters are already substantial, so the graph overlay drops to countMult 3 + hpAdd 2:
-  // N=40 lands greedy + ESFP inside the 0.4-0.7 band (INTJ snowballs marginally above = a documented
-  // route/policy spread, QD-healthy). KEY: the original 0/10 was a CALIBRATION ARTIFACT of the stale
+  // The real rosters are already substantial, so the graph overlay drops to countMult 3 + hpAdd 2 +
+  // dcAdd 1 (dcAdd = the fine knob; the razor-steep HP curve cannot pin a tight centre on its own --
+  // hpAdd 2->3 jumps ~0.77->~0.2). N=40 lands all three policies in the tight 0.4-0.7 band (greedy
+  // 0.675 / ESFP 0.70 / INTJ 0.60). KEY: the original 0/10 was a CALIBRATION ARTIFACT of the stale
   // fallback-tuned overlay, NOT an inherent climax gate -- the terminal climax is winnable, so NO
   // retry-allowance mechanic is needed (option-C Phase 2 dropped). The static default (countMult 5,
   // hpAdd 3) is unchanged -> the ratified static cave_path bands hold.
@@ -264,7 +265,7 @@ function calibrationScaling() {
     hpMult: num('FL_ENEMY_HP_MULT', 1),
     hpAdd: num('FL_ENEMY_HP_ADD', graphMode ? 2 : 3),
     modAdd: num('FL_ENEMY_MOD_ADD', 0),
-    dcAdd: num('FL_ENEMY_DC_ADD', 0),
+    dcAdd: num('FL_ENEMY_DC_ADD', graphMode ? 1 : 0),
   };
 }
 

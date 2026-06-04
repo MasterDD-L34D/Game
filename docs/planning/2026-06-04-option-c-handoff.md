@@ -37,12 +37,15 @@ the AUTHORED overlay completion = 10/10 (the climax is winnable). See the band-v
 
 ### Phase 3 -- re-tune ✅ DONE (2026-06-04, `77021ca8`); re-ratify = the only gate left
 
-Re-tuned the graph-mode `calibrationScaling` overlay `countMult 5 + hpAdd 4 -> 3 + 2` (the stale
-default was tuned for the weak fallback enemies; `5x` an authored hardcore roster gave the 0/10).
-N=40: greedy 0.75 / ESFP 0.775 / INTJ 0.775, all inside the #2589-ratified wider band (0.4-0.85).
-Static `cave_path` default (cm5/hp3) unchanged -> no static re-ratify. **Owner re-ratify
-(master-dd):** ratify the ~0.77 centre (within 0.4-0.85), OR ask for a tighter ~0.6 (a harder
-overlay e.g. `cm3 + hpAdd 3` lowers it); also update the aggregator `PROVISIONAL_BANDS`. Then: the flip.
+Re-tuned the graph-mode `calibrationScaling` overlay `countMult 5 + hpAdd 4 -> countMult 3 + hpAdd 2
+
+- dcAdd 1`(the stale default was tuned for the weak fallback enemies;`5x`an authored hardcore
+roster gave the 0/10). master-dd picked the TIGHTER centre:`dcAdd 1`(the fine knob; hpAdd alone is
+razor-steep, 2->3 jumps 0.77->0.2). N=40: greedy 0.675 / ESFP 0.70 / INTJ 0.60 -- all inside the
+tight 0.4-0.7 band (~0.66 centre). Static`cave_path`default unchanged -> no static re-ratify.
+**Owner re-ratify (master-dd):** ratify ~0.66 + update the aggregator`PROVISIONAL_BANDS`. Then:
+merge; the Godot `graph_mode`consumer (🔴 Godot combat is LOCAL via`round_orchestrator`, NOT backend
+`/session/start` -> routed draft encounters need Godot-side loading, scope separately); the flip.
 
 ### Disambiguation insight (do this FIRST in the dedicated session)
 

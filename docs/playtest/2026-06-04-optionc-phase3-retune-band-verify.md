@@ -34,30 +34,34 @@ loads, that is `5x` an authored hardcore roster -> brutal -> 0/10.
 winnable (10/10 at authored). **Therefore retry-allowance (option-C Phase 2) is NOT needed and is
 dropped.** The fix is a single knob: the graph-mode overlay drops to `countMult 3 + hpAdd 2`.
 
-## N=40 ratify (countMult 3 + hpAdd 2, `--isolate`)
+## N=40 ratify (countMult 3 + hpAdd 2 + dcAdd 1, `--isolate`)
 
-| policy | completion        | vs #2589 ratified band (0.4-0.85) |
-| ------ | ----------------- | :-------------------------------: |
-| greedy | 30/40 = **0.75**  |                ✅                 |
-| ESFP   | 31/40 = **0.775** |                ✅                 |
-| INTJ   | 31/40 = **0.775** |                ✅                 |
+master-dd chose the TIGHTER ~0.6 centre over the easy ~0.77. The razor-steep HP curve cannot pin a
+tight centre (`hpAdd 2 -> 3` jumps ~0.77 -> ~0.2), so the fine knob is **`dcAdd`** (enemy defense;
+sim-only -- does NOT change the encounter telegraph or the actual game combat):
 
-Consistent ~0.77 across policies (the policy spread is tight at N=40, unlike the N=12 probe). This
-sits inside the **#2589-ratified wider band (0.4-0.85)** but **above the 0.4-0.7 PROVISIONAL** still
-shown by `meta-band-aggregator` (the aggregator's provisional was never widened to the ratified
-number). The razor-steep HP curve (a documented #2589 property) keeps integer knobs from pinning a
-tighter centre.
+| overlay (cm3 + hp2 +) | greedy    | ESFP     | INTJ     | centre            |
+| --------------------- | --------- | -------- | -------- | ----------------- |
+| dcAdd 0               | 0.75      | 0.775    | 0.775    | ~0.77 (easy)      |
+| **dcAdd 1 (ADOPTED)** | **0.675** | **0.70** | **0.60** | **~0.66 (tight)** |
+| dcAdd 2               | 0.375     | 0.575    | 0.45     | ~0.47 (hard)      |
+
+**Adopted `dcAdd 1`:** N=40 greedy 0.675 / ESFP 0.70 / INTJ 0.60 -- all inside the tight **0.4-0.7**
+band, INTJ right at the ~0.6 target. (`0.6` exactly is not pinnable; the integer-knob distribution
+is the QD-healthy reality the #2589 razor-steep property predicts.)
 
 ## What shipped + what is owner-gated
 
-- **Shipped (this PR):** `calibrationScaling()` graph-mode default `countMult 5 + hpAdd 4 -> 3 + 2`
-  (`tools/sim/full-loop-batch.js`); static default (`countMult 5 + hpAdd 3`) unchanged -> ratified
-  static `cave_path` bands hold (graph-only change, test-locked 25/25). Phase 2 dropped.
-- **Owner re-ratify (master-dd decision-handoff):** the graph-mode completion centre is ~0.77.
-  Ratify it as the band (it is within the already-ratified 0.4-0.85), OR ask for a tighter centre
-  (~0.6) -- a slightly harder overlay (e.g. `countMult 3 + hpAdd 3`) would lower it, at the cost of
-  the razor-steep variance. Also: update the aggregator's PROVISIONAL_BANDS to the ratified number.
-- **Then:** the flip (the only remaining option-C step) + the Godot `graph_mode:true` consumer wire.
+- **Shipped (this PR):** `calibrationScaling()` graph-mode default `countMult 5 + hpAdd 4 -> countMult
+3 + hpAdd 2 + dcAdd 1` (`tools/sim/full-loop-batch.js`); static default (`countMult 5 + hpAdd 3 +
+dcAdd 0`) unchanged -> ratified static `cave_path` bands hold (graph-only, test-locked 25/25).
+  option-C Phase 2 (retry-allowance) dropped.
+- **Owner re-ratify (master-dd):** completion centre ~0.66, inside the tight 0.4-0.7 band (the chosen
+  target). Update the `meta-band-aggregator` PROVISIONAL_BANDS to ratify it.
+- **Then:** merge; the Godot `graph_mode` consumer -- 🔴 the Godot game runs combat LOCALLY
+  (`round_orchestrator` + D20Resolver), NOT via the backend `/session/start`, so the routed draft
+  encounters need Godot-side loading (a GDScript C1 equivalent) -- NOT a one-line body flag, scope
+  separately before the flip; then the flip.
 
 ## Reproduce
 
