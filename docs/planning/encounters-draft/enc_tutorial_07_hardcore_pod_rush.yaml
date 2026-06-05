@@ -46,6 +46,7 @@ waves:
 
 reinforcement_pool:
   - unit_id: bracconieri_echomantici
+    species_id: anguis_magnetica
     weight: 4
     max_spawns: 6
     hp: 7

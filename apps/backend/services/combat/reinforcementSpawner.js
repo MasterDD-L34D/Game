@@ -267,6 +267,11 @@ function tick(session, encounter, opts = {}) {
     const newUnit = {
       id: unitId,
       species: entry.unit_id,
+      // GAP-C #418: carry the canonical species_id when the pool entry authors
+      // one (empty otherwise -> the no-canonical-species path, same contract as
+      // the initial-wave units). Lets a recruit/species consumer resolve the
+      // real creature instead of the archetype label.
+      species_id: entry.species_id || '',
       controlled_by: 'sistema',
       position: tile,
       hp: Number(entry.hp) || 8,

@@ -46,6 +46,7 @@ waves:
 
 reinforcement_pool:
   - unit_id: predoni_nomadi
+    species_id: gulogluteus_scutiger
     weight: 3
     max_spawns: 4
     hp: 7
@@ -53,6 +54,7 @@ reinforcement_pool:
     dc: 12
     ai_profile: aggressive
   - unit_id: guardiani_risonanza_elite
+    species_id: leviatano_risonante
     weight: 1
     max_spawns: 2
     hp: 10
