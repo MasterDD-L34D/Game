@@ -71,6 +71,44 @@ test('tick spawns 1 unit at Alert tier (budget 1)', () => {
   assert.deepEqual(spawn.spawn_tile, [9, 9]);
 });
 
+test('tick carries canonical species_id from pool entry to spawned unit (#418)', () => {
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter({
+    reinforcement_pool: [
+      {
+        unit_id: 'guardiani_risonanza_elite',
+        species_id: 'leviatano_risonante',
+        weight: 1.0,
+        max_spawns: 5,
+        hp: 10,
+        mod: 3,
+      },
+    ],
+  });
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.spawned.length, 1);
+  const spawned = session.units.find((u) => u.reinforcement === true);
+  assert.equal(spawned.species, 'guardiani_risonanza_elite', 'species keeps the archetype label');
+  assert.equal(
+    spawned.species_id,
+    'leviatano_risonante',
+    'canonical species_id propagated so a recruit consumer resolves the real creature',
+  );
+});
+
+test('tick leaves species_id empty when the pool entry authors none (back-compat)', () => {
+  const session = mockSession({ pressure: 30 });
+  const enc = mockEncounter(); // minion_01, no species_id
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.spawned.length, 1);
+  const spawned = session.units.find((u) => u.reinforcement === true);
+  assert.equal(
+    spawned.species_id,
+    '',
+    'unauthored pool entry -> empty species_id (no label fallback)',
+  );
+});
+
 test('tick spawns 4 units at Apex tier (budget 4)', () => {
   const session = mockSession({ pressure: 95 }); // Apex → budget 4
   const enc = mockEncounter({

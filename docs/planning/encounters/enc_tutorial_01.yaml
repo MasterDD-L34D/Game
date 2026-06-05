@@ -29,6 +29,7 @@ waves:
       - [7, 5]
     units:
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 2
         tier: base
         ai_profile: defensive

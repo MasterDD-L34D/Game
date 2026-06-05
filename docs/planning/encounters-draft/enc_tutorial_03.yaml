@@ -32,10 +32,12 @@ waves:
       - [9, 6]
     units:
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 2
         tier: base
         ai_profile: aggressive
       - species: custode_basalto
+        species_id: terracetus_ambulator
         count: 1
         tier: elite
         ai_profile: territorial
@@ -46,6 +48,7 @@ waves:
       - [8, 8]
     units:
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 2
         tier: base
         ai_profile: flanking

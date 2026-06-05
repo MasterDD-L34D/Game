@@ -31,10 +31,12 @@ waves:
       - [9, 5]
     units:
       - species: cartografi_subsonici
+        species_id: rupicapra_sensoria
         count: 2
         tier: base
         ai_profile: support
       - species: guardiani_risonanza
+        species_id: leviatano_risonante
         count: 1
         tier: elite
         ai_profile: territorial
@@ -45,10 +47,12 @@ waves:
       - [8, 8]
     units:
       - species: guardiani_risonanza
+        species_id: leviatano_risonante
         count: 1
         tier: elite
         ai_profile: aggressive
       - species: cartografi_subsonici
+        species_id: rupicapra_sensoria
         count: 1
         tier: base
         ai_profile: cautious

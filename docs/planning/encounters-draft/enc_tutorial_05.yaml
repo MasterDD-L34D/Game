@@ -32,10 +32,12 @@ waves:
       - [9, 6]
     units:
       - species: guardiani_risonanza
+        species_id: leviatano_risonante
         count: 2
         tier: elite
         ai_profile: territorial
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 1
         tier: base
         ai_profile: flanking
@@ -46,10 +48,12 @@ waves:
       - [5, 0]
     units:
       - species: custode_basalto
+        species_id: terracetus_ambulator
         count: 1
         tier: apex
         ai_profile: aggressive
       - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
         count: 1
         tier: elite
         ai_profile: flanking

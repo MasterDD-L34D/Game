@@ -34,16 +34,19 @@ waves:
       - [9, 7]
     units:
       - species: bracconieri_echomantici
+        species_id: anguis_magnetica
         count: 4
         tier: base
         ai_profile: aggressive
       - species: guardiani_risonanza
+        species_id: leviatano_risonante
         count: 1
         tier: elite
         ai_profile: territorial
 
 reinforcement_pool:
   - unit_id: bracconieri_echomantici
+    species_id: anguis_magnetica
     weight: 4
     max_spawns: 6
     hp: 7
