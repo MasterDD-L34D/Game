@@ -18,7 +18,16 @@ function validateDeviceEvent(ev) {
     return { ok: false, error: 'playerId required' };
   const tier = ev.tier == null ? DEFAULT_TIER_BY_CLASS[ev.kind] : ev.tier;
   if (!TIERS.has(tier)) return { ok: false, error: `invalid tier: ${tier}` };
-  return { ok: true, event: { ...ev, tier } };
+  // Whitelist-construct the persisted event: never spread the raw client object.
+  // A wholesale spread would let a client forge combat-reserved keys (actor_id,
+  // action_type, damage_dealt, result, first_blood) that the scoring / promotion
+  // pipeline would then count as real play. Only the device-event contract fields
+  // cross the wire; actor attribution is assigned server-side from the roster.
+  const event = { kind: ev.kind, type: ev.type, playerId: ev.playerId, tier };
+  if (ev.payload !== undefined) event.payload = ev.payload;
+  if (ev.value !== undefined) event.value = ev.value;
+  if (ev.flags !== undefined) event.flags = ev.flags;
+  return { ok: true, event };
 }
 
 module.exports = { TIERS, DEFAULT_TIER_BY_CLASS, validateDeviceEvent };

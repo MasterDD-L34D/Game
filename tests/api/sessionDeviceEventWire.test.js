@@ -87,3 +87,73 @@ test('device-event wire: raw events are rejected at the route (edge-first)', asy
   assert.equal(res.body.accepted, false);
   assert.match(res.body.reason, /raw|invalid/i);
 });
+
+test('device-event wire: forged combat keys are stripped (no scoring injection)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const sid = await startSession(app); // unit u1 controlled_by 'player' (not 'p1')
+  await request(app)
+    .post('/api/session/device-event')
+    .send({
+      session_id: sid,
+      event: {
+        kind: 'decision',
+        type: 'forged',
+        playerId: 'p1',
+        tier: 'public',
+        actor_id: 'u1',
+        action_type: 'attack',
+        result: 'hit',
+        damage_dealt: 9999,
+        first_blood: true,
+      },
+    });
+  const replay = await request(app).get(`/api/session/${sid}/replay`);
+  const injected = replay.body.events.find((e) => e.type === 'forged');
+  assert.ok(injected, 'event ingested');
+  assert.equal(injected.action_type, undefined, 'forged action_type stripped');
+  assert.equal(injected.damage_dealt, undefined, 'forged damage_dealt stripped');
+  assert.equal(injected.result, undefined, 'forged result stripped');
+  // client actor_id is not trusted; p1 controls no unit here, so none is bound.
+  assert.equal(injected.actor_id, undefined, 'client actor_id not honored (no roster match)');
+});
+
+test('device-event wire: a consented decision flag reaches conviction (server actor binding)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // unit controlled_by matches the device playerId -> server binds actor_id.
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({
+      units: [{ id: 'hero', controlled_by: 'p1', hp: 10, max_hp: 10, position: { x: 1, y: 1 } }],
+    });
+  const sid = startRes.body.session_id;
+
+  const dec = await request(app)
+    .post('/api/session/device-event')
+    .send({
+      session_id: sid,
+      event: {
+        kind: 'decision',
+        type: 'moral_choice',
+        playerId: 'p1',
+        tier: 'public',
+        flags: { sacrifice: true },
+      },
+    });
+  assert.equal(dec.body.accepted, true);
+
+  const vc = await request(app).get(`/api/session/${sid}/vc`);
+  assert.equal(vc.status, 200);
+  const axis =
+    vc.body.per_actor && vc.body.per_actor.hero && vc.body.per_actor.hero.conviction_axis;
+  assert.ok(axis, 'hero conviction_axis present');
+  assert.ok(
+    axis.morality > 50,
+    `sacrifice flag lifted morality above baseline (got ${axis.morality})`,
+  );
+});

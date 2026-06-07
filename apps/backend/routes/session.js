@@ -4139,6 +4139,14 @@ function createSessionRouter(options = {}) {
       const scratch = [];
       const result = ingestDeviceEvent(scratch, event, { profilingConsent: consent });
       if (result.accepted) {
+        // Server-side actor attribution: bind the device event to the player's
+        // controlled unit so the conviction / vcScoring pipeline can score it.
+        // Client-supplied actor_id is never trusted (the schema strips it); we
+        // derive it from the trusted session roster (controlled_by === playerId).
+        const owned = Array.isArray(session.units)
+          ? session.units.find((u) => u && u.controlled_by === result.event.playerId)
+          : null;
+        if (owned) result.event.actor_id = owned.id;
         await appendEvent(session, result.event);
       }
       return res.json({
