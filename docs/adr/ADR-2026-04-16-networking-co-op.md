@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-04-16: Networking architecture for co-op multiplayer'
-doc_status: draft
+doc_status: superseded
 doc_owner: combat-team
 workstream: combat
 last_verified: 2026-04-16
@@ -10,6 +10,8 @@ review_cycle_days: 14
 ---
 
 # ADR-2026-04-16: Networking architecture for co-op multiplayer
+
+> Superseded 2026-06-07 by ADR-2026-05-30-coop-server-authoritative-combat (ratifies Express WS server-authoritative).
 
 - **Data**: 2026-04-16
 - **Stato**: Proposed (draft)

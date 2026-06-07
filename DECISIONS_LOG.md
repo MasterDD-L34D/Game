@@ -20,7 +20,7 @@
 ## Index per data (cronologico)
 
 <!-- gen:adr-index -->
-_Generato da `tools/generate_decisions_log.py` (69 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
+_Generato da `tools/generate_decisions_log.py` (70 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
 
 | Data | ADR | Titolo | Status |
 | --- | --- | --- | --- |
@@ -33,15 +33,15 @@ _Generato da `tools/generate_decisions_log.py` (69 ADR). NON editare a mano: edi
 | 2026-04-15 | [ADR-2026-04-15-round-based-combat-model](docs/adr/ADR-2026-04-15-round-based-combat-model.md) | ADR-2026-04-15: Round-based combat model (shared planning → commit → ordered resolution) | Accepted |
 | 2026-04-16 | [ADR-2026-04-16-ai-architecture-utility](docs/adr/ADR-2026-04-16-ai-architecture-utility.md) | ADR-2026-04-16: AI Sistema — Utility AI Architecture | Accepted |
 | 2026-04-16 | [ADR-2026-04-16-grid-type-hex-axial](docs/adr/ADR-2026-04-16-grid-type-hex-axial.md) | ADR-2026-04-16: Grid Type — Hex con coordinate axial | Accepted |
-| 2026-04-16 | [ADR-2026-04-16-networking-co-op](docs/adr/ADR-2026-04-16-networking-co-op.md) | ADR-2026-04-16: Networking architecture for co-op multiplayer | Proposed |
-| 2026-04-16 | [ADR-2026-04-16-networking-colyseus](docs/adr/ADR-2026-04-16-networking-colyseus.md) | ADR-2026-04-16: Networking Co-op — Colyseus | Accepted |
+| 2026-04-16 | [ADR-2026-04-16-networking-co-op](docs/adr/ADR-2026-04-16-networking-co-op.md) | ADR-2026-04-16: Networking architecture for co-op multiplayer | Superseded |
+| 2026-04-16 | [ADR-2026-04-16-networking-colyseus](docs/adr/ADR-2026-04-16-networking-colyseus.md) | ADR-2026-04-16: Networking Co-op — Colyseus | Superseded |
 | 2026-04-16 | [ADR-2026-04-16-session-engine-round-migration](docs/adr/ADR-2026-04-16-session-engine-round-migration.md) | ADR-2026-04-16: Migrazione Node session engine al round-based combat model | Accepted |
 | 2026-04-17 | [ADR-2026-04-17-coop-scaling-4to8](docs/adr/ADR-2026-04-17-coop-scaling-4to8.md) | ADR 2026-04-17 — Co-op scaling: 4 → 8 giocatori | Accepted |
 | 2026-04-17 | [ADR-2026-04-17-utility-ai-default-activation](docs/adr/ADR-2026-04-17-utility-ai-default-activation.md) | ADR 2026-04-17 — Utility AI: Default Activation Decision | Accepted |
 | 2026-04-17 | [ADR-2026-04-17-xp-cipher-official-park](docs/adr/ADR-2026-04-17-xp-cipher-official-park.md) | ADR 2026-04-17 — XP Cipher: Official Park | Accepted |
 | 2026-04-18 | [ADR-2026-04-18-art-direction-placeholder](docs/adr/ADR-2026-04-18-art-direction-placeholder.md) | ADR 2026-04-18 — Art Direction canonical (naturalistic stylized) | Accepted |
 | 2026-04-18 | [ADR-2026-04-18-audio-direction-placeholder](docs/adr/ADR-2026-04-18-audio-direction-placeholder.md) | ADR 2026-04-18 — Audio Direction canonical (ambient organic + percussive) | Accepted |
-| 2026-04-18 | [ADR-2026-04-18-plan-reveal-round](docs/adr/ADR-2026-04-18-plan-reveal-round.md) | ADR 2026-04-18 — Plan & Reveal round model (contemporary hybrid) | Proposed |
+| 2026-04-18 | [ADR-2026-04-18-plan-reveal-round](docs/adr/ADR-2026-04-18-plan-reveal-round.md) | ADR 2026-04-18 — Plan & Reveal round model (contemporary hybrid) | Superseded |
 | 2026-04-18 | [ADR-2026-04-18-zero-cost-asset-policy](docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md) | ADR 2026-04-18 — Zero-cost asset policy + AI-generated legal framework | Accepted |
 | 2026-04-19 | [ADR-2026-04-19-kill-python-rules-engine](docs/adr/ADR-2026-04-19-kill-python-rules-engine.md) | ADR 2026-04-19 — Kill Python rules engine (services/rules/) | Accepted |
 | 2026-04-19 | [ADR-2026-04-19-reinforcement-spawn-engine](docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md) | ADR 2026-04-19 — Reinforcement spawn engine (Option B) | Accepted |
@@ -62,7 +62,7 @@ _Generato da `tools/generate_decisions_log.py` (69 ADR). NON editare a mano: edi
 | 2026-04-26 | [ADR-2026-04-26-m15-coop-ui-redesign](docs/adr/ADR-2026-04-26-m15-coop-ui-redesign.md) | ADR 2026-04-26 — M15 co-op UI redesign (Jackbox pattern phone+TV) | Accepted |
 | 2026-04-26 | [ADR-2026-04-26-multi-stage-encounter-schema](docs/adr/ADR-2026-04-26-multi-stage-encounter-schema.md) | ADR-2026-04-26 — Multi-stage encounter schema (HP threshold + form switch) | Proposed |
 | 2026-04-26 | [ADR-2026-04-26-parley-outcome-enum](docs/adr/ADR-2026-04-26-parley-outcome-enum.md) | ADR-2026-04-26 — Parley/accordo outcome enum extension | Proposed |
-| 2026-04-26 | [ADR-2026-04-26-pincer-followup-queue](docs/adr/ADR-2026-04-26-pincer-followup-queue.md) | ADR 2026-04-26 — Pincer follow-up intent queue (Triangle Strategy Mechanic 3B) | Proposed |
+| 2026-04-26 | [ADR-2026-04-26-pincer-followup-queue](docs/adr/ADR-2026-04-26-pincer-followup-queue.md) | ADR 2026-04-26 — Pincer follow-up intent queue (Triangle Strategy Mechanic 3B) | Superseded |
 | 2026-04-26 | [ADR-2026-04-26-sg-earn-mixed](docs/adr/ADR-2026-04-26-sg-earn-mixed.md) | ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed | Accepted |
 | 2026-04-26 | [ADR-2026-04-26-spore-part-pack-slots](docs/adr/ADR-2026-04-26-spore-part-pack-slots.md) | ADR-2026-04-26 — Spore part-pack slots — schema lock + Moderate scope | Accepted |
 | 2026-04-27 | [ADR-2026-04-27-ability-r3-r4-tier](docs/adr/ADR-2026-04-27-ability-r3-r4-tier.md) | ADR-2026-04-27: Ability r3/r4 tier progressive — Sprint 8 final closure Tier S #6 | Accepted |
@@ -91,6 +91,7 @@ _Generato da `tools/generate_decisions_log.py` (69 ADR). NON editare a mano: edi
 | 2026-05-18 | [ADR-2026-05-18-df-levels-integration-direction](docs/adr/ADR-2026-05-18-df-levels-integration-direction.md) | ADR-2026-05-18 — DF-Levels integration: direzione confermata + decision-matrix governata | Accepted |
 | 2026-05-18 | [ADR-2026-05-18-sistema-persistent-state-learning](docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md) | ADR-2026-05-18 — Sistema persistent cross-session state (learning AI, P5) | Accepted |
 | 2026-05-26 | [ADR-2026-05-26-deep-genetics-phase1-supersede-freeze](docs/adr/ADR-2026-05-26-deep-genetics-phase1-supersede-freeze.md) | ADR-2026-05-26 — Deep genetics Fase-1: scoped supersede of FINAL-DESIGN-FREEZE §21.3 | Accepted |
+| 2026-05-30 | [ADR-2026-05-30-coop-server-authoritative-combat](docs/adr/ADR-2026-05-30-coop-server-authoritative-combat.md) | ADR 2026-05-30 -- Co-op server-authoritative combat (vcSnapshot reconstruction) | Accepted |
 | 2026-05-31 | [ADR-2026-05-31-meta-network-arc-conditions-schema](docs/adr/ADR-2026-05-31-meta-network-arc-conditions-schema.md) | ADR-2026-05-31 — Meta-network edge arc-conditions schema (2.0 → 2.1) | Accepted |
 | 2026-06-07 | [ADR-2026-06-07-device-authority-tv-mirror-canon](docs/adr/ADR-2026-06-07-device-authority-tv-mirror-canon.md) | ADR 2026-06-07 -- Device-authority / TV-mirror canon + reconstruction-suite ratification | Accepted |
 <!-- /gen:adr-index -->
