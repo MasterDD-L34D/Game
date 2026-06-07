@@ -112,7 +112,7 @@ const STATUS_DURATION_CAPS = {
   slowed: 3,
   burning: 3,
   chilled: 2,
-  disoriented: 1,
+  disorient: 1,
 };
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
@@ -557,10 +557,13 @@ function createSessionRouter(options = {}) {
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - chilledPenalty;
     }
-    // Disoriented: -2 attack_mod_bonus (confusione sensoriale, dura 1 turno). Per-attack, revert post.
-    const disorientedPenalty = Number(actor.status?.disoriented) > 0 ? 2 : 0;
-    if (disorientedPenalty > 0) {
-      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientedPenalty;
+    // Disorient: -2 attack_mod_bonus (confusione sensoriale, dura 1 turno). Per-attack, revert post.
+    // Canonical key `disorient` (parity PART C 2026-06-07): aligns with the YAML/schema
+    // enum + roundOrchestrator + computeIntentPriority so the on_hit_status producer
+    // (PART A) actually triggers this malus.
+    const disorientPenalty = Number(actor.status?.disorient) > 0 ? 2 : 0;
+    if (disorientPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientPenalty;
     }
 
     // TKT-M14-A 2026-05-11 — Triangle Strategy elevation + terrain hit modifier.
@@ -646,9 +649,9 @@ function createSessionRouter(options = {}) {
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
     }
-    // Revert disoriented attack penalty (per-attack, non-persistente).
-    if (disorientedPenalty > 0) {
-      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientedPenalty;
+    // Revert disorient attack penalty (per-attack, non-persistente).
+    if (disorientPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientPenalty;
     }
     // TKT-M14-A — Revert elevation + terrain modifier deltas (per-attack, non-persistent).
     if (positionMod.attackBonus !== 0) {
@@ -673,6 +676,7 @@ function createSessionRouter(options = {}) {
     let symbiontPoolResult = null;
     let symbiontDeathGraceResult = null;
     let terrainReactionResult = null;
+    let onHitStatusResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
     // (elevation_delta + multiplier) on performAttack return so callers can
     // emit `elevation_multiplier` field for log/telemetry consumers.
@@ -1073,6 +1077,22 @@ function createSessionRouter(options = {}) {
         }
       }
 
+      // Combat parity GAP-1 (2026-06-07): on_hit_status producer hook. Ports
+      // STEP 3 of the removed Python resolver — for each ATTACKER trait that
+      // carries an `on_hit_status` block in trait_mechanics.yaml, the target
+      // rolls a save (d20 + tier vs trigger_dc); on a failed save the status is
+      // applied to target.status[status_id] (integer duration, decayed 1/round
+      // by sessionRoundBridge, read by statusModifiers/session status consumers
+      // e.g. the disorient attack malus). Fires only on a successful hit (this
+      // block is gated by `if (result.hit)`), uses the seeded `rng` for
+      // deterministic calibration, and is best-effort (never blocks the hit).
+      try {
+        const { applyOnHitStatuses } = require('../services/combat/onHitStatus');
+        onHitStatusResult = applyOnHitStatuses(actor, target, { rng });
+      } catch {
+        /* on_hit_status optional; never block the hit */
+      }
+
       // M14-A: terrain reaction post damage step (additive, non-blocking).
       // action.channel ("fuoco"/"ghiaccio"/...) maps to terrainReactions element.
       // Only fires for mapped channels; tile state mutated in session.tile_state_map.
@@ -1280,6 +1300,7 @@ function createSessionRouter(options = {}) {
       intercept: interceptResult,
       bond_reaction: bondReactionResult,
       terrain_reaction: terrainReactionResult,
+      on_hit_status: onHitStatusResult,
       positional: positionalInfo,
       biome_affinity: {
         actor: biomeAffActor.affinity,

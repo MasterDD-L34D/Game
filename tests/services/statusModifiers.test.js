@@ -74,6 +74,17 @@ test('computeStatusModifiers: target attuned → +1 def', () => {
   assert.equal(r.defenseDelta, 1);
 });
 
+// GAP-3 (parity-sweep 2026-06-07) — sbilanciato defense-malus: shield_bash (jobs.yaml)
+// writes target.status.sbilanciato but the resolver never read it (Python->Node
+// regression; schema combat.schema.json: "sbilanciato -1 defense_mod, 1 turno").
+test('computeStatusModifiers: target sbilanciato → -1 def (spinta/shield_bash exposure)', () => {
+  const actor = { id: 'a', status: {} };
+  const target = { id: 'b', status: { sbilanciato: 1 } };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.defenseDelta, -1);
+  assert.ok(r.log.some((e) => e.status === 'sbilanciato' && e.side === 'target'));
+});
+
 test('computeStatusModifiers: telepatic_link → reveal log only, no stat', () => {
   const actor = { id: 'a', status: { telepatic_link: 3 } };
   const target = { id: 'b', status: {} };

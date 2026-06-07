@@ -192,6 +192,14 @@ function computeStatusModifiers(actor, target, units = []) {
     defenseDelta -= 1;
     log.push({ status: 'frenzy', side: 'target', effect: '-1 defense_mod (rage exposure)' });
   }
+  if (isPositive(targetStatus.sbilanciato)) {
+    // GAP-3 (parity-sweep 2026-06-07) — spinta/shield_bash unbalances the target:
+    // lowered guard, -1 defense_mod (attacker gets an easier hit). Canonical
+    // intensity 1 (combat.schema.json). Writer = shield_bash (jobs.yaml); this is
+    // the missing read-path (Python resolver had it, dropped in Node migration).
+    defenseDelta -= 1;
+    log.push({ status: 'sbilanciato', side: 'target', effect: '-1 defense_mod (spinta exposure)' });
+  }
 
   // ─── Action 5a — wounded_perma severity → actor attack_mod penalty ────
   const wpActor = computeWoundedPermaAttackPenalty(actor);

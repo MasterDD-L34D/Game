@@ -255,8 +255,7 @@ traits:
       duration: 2
       intensity: 1
       trigger_dc: 12
-    on_hit_stress_delta: 0.05
-    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'). Balance audit 2026-04-25: cost_ap 3→2 (zero damage step, era over-priced vs altri status-only trait). Sprint 6: umbral_spore dark ability + resist dark+10."
+    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status giustificato dalla desc_it ('sedano e confondono'); on_hit_stress_delta RITIRATO (parity GAP-2, 2026-06-07: superseded da morale.js event-driven). Balance audit 2026-04-25: cost_ap 3→2 (zero damage step, era over-priced vs altri status-only trait). Sprint 6: umbral_spore dark ability + resist dark+10."
   nucleo_ovomotore_rotante:
     attack_mod: 0
     defense_mod: 0
@@ -628,8 +627,7 @@ traits:
       trigger_dc: 15
       duration: 2
       intensity: 1
-    on_hit_stress_delta: 0.05
-    notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta. Sprint 6: pressure_wave wind ability (sonic = pressure waveform)."
+    notes: "offensive (TRT-02): cannone sonico con disorientamento. on_hit_stress_delta RITIRATO (parity GAP-2, 2026-06-07: superseded da morale.js event-driven). Sprint 6: pressure_wave wind ability (sonic = pressure waveform)."
 
   # === Wave 5-7 backfill 2026-05-11 (TKT-P6-TRAIT-MECHANICS-SYNC) ===
   # 59 traits added: mirror data/core/traits/active_effects.yaml semantics.
