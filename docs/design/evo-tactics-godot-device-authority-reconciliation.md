@@ -5,11 +5,12 @@ type: design-spec
 doc_status: review_needed
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-06'
+last_verified: '2026-06-07'
 source_of_truth: false
 language: it
 review_cycle_days: 30
 tags: [evo-tactics, godot, device-authority, tv-mirror, coop, nido, route-vote]
+related: ADR-2026-06-07-device-authority-tv-mirror-canon
 ---
 
 # Evo-Tactics Godot Device-Authority Reconciliation

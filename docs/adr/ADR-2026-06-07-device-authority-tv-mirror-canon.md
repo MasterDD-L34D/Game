@@ -63,8 +63,11 @@ Questo ADR e i canon-edit associati vanno in un PR Eduardo-merge dedicato.
 
 ## Conseguenze
 
-- La roadmap SPEC-A..L e SPEC-K (device-authority reconciliation) hanno ora backing
-  canonico ratificato.
+- Questo ADR ratifica i 6 punti core sopra + le taxonomie di SPEC-K
+  (TV_MIRROR/DEVICE_INPUT/HOST_TECHNICAL/DEV_FALLBACK/LEGACY_TO_REMOVE) e SPEC-L
+  (LIVE/LIVE_GATED/LIVE_PARTIAL/CLIENT_LIVE/ENGINE_ONLY/DESIGN/STALE_DOC/OBSOLETE).
+  NON pre-ratifica le SPEC-A..J (non ancora scritte): ognuna avra' il suo review
+  quando redatta. La roadmap resta la mappa, non un blank-check.
 - I doc della suite restano `review_needed` per la rifinitura prosa; questo ADR ratifica
   la DIREZIONE, non ogni dettaglio testuale.
 - Il GDD/SoT/FREEZE vanno tenuti allineati a questi 6 punti (fix wording stale incluso,

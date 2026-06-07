@@ -5,11 +5,12 @@ type: design-spec
 doc_status: review_needed
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-06'
+last_verified: '2026-06-07'
 source_of_truth: false
 language: it
 review_cycle_days: 30
 tags: [evo-tactics, runtime-inventory, feature-gates, reconcile, live-partial-design]
+related: ADR-2026-06-07-device-authority-tv-mirror-canon
 ---
 
 # Evo-Tactics Runtime Feature Inventory Reconcile
@@ -57,16 +58,16 @@ prima rg/git log/test; poi design; poi codice
 
 ## 3. Gate e branch da controllare sempre
 
-| Gate / branch                                               | Lettura                                                                                     |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Game `origin/main`                                          | base corretta per giudicare route-vote, graph combat, recruit candidates, canonical species |
-| branch locale `claude/jules-test-coverage-batch-2026-06-03` | branch documentale/test vecchio: non usarlo come unico stato runtime                        |
-| `META_NETWORK_ROUTING`                                      | graph route Descent live ma owner-gated                                                     |
-| `NIDO_UNLOCKED`                                             | Nido hub live ma non default loop                                                           |
-| `policy.aliena_enforcement`                                 | ALIENA enforcement presente ma default-off                                                  |
-| `reinforcement_policy.enabled`                              | reinforcements per encounter, non globali                                                   |
-| `mission_timer.enabled`                                     | timer missione per encounter                                                                |
-| `MUTATION_MP_ENFORCE`                                       | economy mutation MP enforce ON salvo override esplicito                                     |
+| Gate / branch                  | Lettura                                                                                                                                                         |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Game `origin/main`             | base corretta per giudicare route-vote, graph combat, recruit candidates, canonical species                                                                     |
+| Game `main` (sync 2026-06-07)  | RISOLTO 2026-06-07: il vecchio branch `claude/jules-test-coverage-batch-2026-06-03` non esiste piu'; `main` contiene route-vote/#2597. Nessun realign pendente. |
+| `META_NETWORK_ROUTING`         | graph route Descent live ma owner-gated                                                                                                                         |
+| `NIDO_UNLOCKED`                | Nido hub live ma non default loop                                                                                                                               |
+| `policy.aliena_enforcement`    | ALIENA enforcement presente ma default-off                                                                                                                      |
+| `reinforcement_policy.enabled` | reinforcements per encounter, non globali                                                                                                                       |
+| `mission_timer.enabled`        | timer missione per encounter                                                                                                                                    |
+| `MUTATION_MP_ENFORCE`          | economy mutation MP enforce ON salvo override esplicito                                                                                                         |
 
 ## 4. Feature inventory
 
@@ -124,18 +125,18 @@ governati dal WEGO phone composer e dalla resa TV.
 
 ### 4.4 Lifecycle WS e device intents
 
-| Intent               | Stato Game                   | Stato Godot          | Prossima azione                                                         |
-| -------------------- | ---------------------------- | -------------------- | ----------------------------------------------------------------------- |
-| `world_vote`         | `LIVE`                       | `LIVE`               | migrarlo da accept/reject a contratto world/route piu' ricco dove serve |
-| `route_vote`         | `LIVE` su Game `origin/main` | `LIVE`               | riallineare branch e smoke device                                       |
-| `mating_vote`        | `LIVE`                       | `LIVE`               | collegare identity ledger formula-later                                 |
-| `lineage_choice`     | `LIVE`                       | `LIVE`               | chiarire Nido/lineage ritual ownership                                  |
-| `reveal_acknowledge` | `LIVE`                       | `LIVE`               | tenere come device read/ack signal                                      |
-| `form_pulse_submit`  | `LIVE`                       | `LIVE`               | promuovere a Device Input Ledger                                        |
-| `next_macro`         | `LIVE_PARTIAL`               | `LIVE_PARTIAL`       | host-gated legacy: SPEC-K/K-05                                          |
-| `nido_start_mission` | `LIVE_GATED/PARTIAL`         | `LIVE_GATED/PARTIAL` | migrare a quorum/ready device                                           |
-| `combat_action`      | `LIVE_PARTIAL`               | `LIVE_PARTIAL`       | SPEC-C WEGO composer                                                    |
-| `end_turn`           | `LIVE_PARTIAL`               | `LIVE_PARTIAL`       | SPEC-C WEGO composer                                                    |
+| Intent               | Stato Game            | Stato Godot    | Prossima azione                                                         |
+| -------------------- | --------------------- | -------------- | ----------------------------------------------------------------------- |
+| `world_vote`         | `LIVE`                | `LIVE`         | migrarlo da accept/reject a contratto world/route piu' ricco dove serve |
+| `route_vote`         | `LIVE` su Game `main` | `LIVE`         | smoke device multi-device (skew branch RISOLTO 2026-06-07)              |
+| `mating_vote`        | `LIVE`                | `LIVE`         | collegare identity ledger formula-later                                 |
+| `lineage_choice`     | `LIVE`                | `LIVE`         | chiarire Nido/lineage ritual ownership                                  |
+| `reveal_acknowledge` | `LIVE`                | `LIVE`         | tenere come device read/ack signal                                      |
+| `form_pulse_submit`  | `LIVE`                | `LIVE`         | promuovere a Device Input Ledger                                        |
+| `next_macro`         | `LIVE_PARTIAL`        | `LIVE_PARTIAL` | host-gated legacy: SPEC-K/K-05                                          |
+| `nido_start_mission` | `LIVE_GATED`          | `LIVE_GATED`   | host-gated + loop parziale: migrare a quorum/ready device               |
+| `combat_action`      | `LIVE_PARTIAL`        | `LIVE_PARTIAL` | SPEC-C WEGO composer                                                    |
+| `end_turn`           | `LIVE_PARTIAL`        | `LIVE_PARTIAL` | SPEC-C WEGO composer                                                    |
 
 Evidenza:
 

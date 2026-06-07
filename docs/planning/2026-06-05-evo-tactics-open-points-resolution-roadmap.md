@@ -5,11 +5,12 @@ type: resolution-roadmap
 doc_status: review_needed
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-06'
+last_verified: '2026-06-07'
 source_of_truth: false
 language: it
 review_cycle_days: 30
 tags: [evo-tactics, device-driven, tv-mirror, nido, custodi, tri-sorgente, aliena, ermes, combat]
+related: ADR-2026-06-07-device-authority-tv-mirror-canon
 ---
 
 # Evo-Tactics open points resolution roadmap
@@ -493,12 +494,14 @@ Pre-audit code-first prodotto il 2026-06-06:
 docs/planning/2026-06-06-game-godot-code-surface-reconcile.md
 ```
 
-Questo audit chiarisce anche il branch skew emerso su route vote: Godot v2 main
-contiene client e surface per `route_choice`/`route_tally`/`route_vote`, e Game
-`origin/main` contiene `POST /api/coop/route/open` + drain WS `route_vote`
-nel PR #2597. Il branch corrente Game del thread e' piu' vecchio e non contiene
-quei commit. Va quindi trattato come tema di riallineamento branch prima delle
-spec K/L, non come feature backend da re-implementare.
+Questo audit aveva segnalato un branch skew su route vote (Godot v2 main con
+client/surface `route_choice`/`route_tally`/`route_vote`; Game `origin/main` con
+`POST /api/coop/route/open` + drain WS `route_vote`, PR #2597; il branch
+documentale del thread era piu' vecchio). **Aggiornamento 2026-06-07 (currency
+re-verify):** lo skew e' RISOLTO -- Game e' su `main` sincronizzato (contiene
+#2597, verificato `git grep coop/route/open origin/main`) e il vecchio branch
+`claude/jules-test-coverage-batch-2026-06-03` non esiste piu'. Quindi route-vote
+NON va re-implementato (gia' su main) e NON resta nessun branch da riallineare.
 
 ## 4. Ordine consigliato
 
