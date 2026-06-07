@@ -86,6 +86,12 @@ Promemoria SPEC-A (sez. 5 regola 4): `secret` != nascosto-al-player. Il player v
 sempre i PROPRI dati (`private`); `secret` significa nascosto a tutti gli umani,
 visibile solo al Sistema.
 
+**Opt-in self-disclosure (ratificato 2026-06-08).** Oltre al promotion gate di sistema
+(`reveal_acknowledge`/debrief), il player PUO' promuovere volontariamente i PROPRI dati
+`private` a `public` (la propria forma, il proprio voto, il proprio consenso). Sempre
+player-initiated, mai imposto: default = `private`, opt-in = `public`. Si applica a
+F1/F2/F5/F6 (sez. 6).
+
 ## 3. Contratto per-surface
 
 Le 10 surface della roadmap SPEC-B. La matrice 3.0 e' il contratto sintetico
@@ -100,18 +106,18 @@ fork aperti (sez. 6). Dove una cella tocca un fork non canon-derivabile, rimanda
 
 ### 3.0 Matrice sintetica
 
-| Surface            | public (TV)                                                                          | private (device owner)                                                                 | aggregated (TV gruppo)                                 | secret (Sistema)                                     |
-| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------- |
-| 1 Lobby / join     | codice room, slot roster, presence, nome + ruolo-slot confermati                     | nome/identita' in editing pre-conferma                                                 | conteggio ready (N/M)                                  | device token, mapping player_id<->device, host_token |
-| 2 Form Pulse       | nulla per-player di default (vedi F1)                                                | micro-scenari + risposte, assi propri (Simbiosi/Predazione...), Forma personale        | radar/ripple di gruppo, tono del branco                | assi -> MBTI/Forma/conviction, custode bias indiv.   |
-| 3 World seed       | ecosistema (biome, pressione, tone), Custode/eco seed, reveal nascita run            | dettaglio filtrato per sensi/cognizione/ruolo/creatura                                 | come il Form Pulse aggregato ha piegato seed           | profilo Forma per-player che ha biasato il seed      |
-| 4 Route choice     | candidate cards, tally finale, route scelta (reveal), commit                         | voto pre-tally (node_id), preview route filtrata                                       | tally in corso, quorum/timeout countdown               | signal risk_posture dalla scelta                     |
-| 5 Planning combat  | stato di FASE planning, tensione del tavolo (NON il piano, NON readiness per-player) | creatura+controlli, preview NON canonica (draft), percezione filtrata, intent in comp. | readiness gruppo SOLO conteggio (N/M), mood "indeciso" | commit_latency, hesitation_score, preview_dwell      |
-| 6 Commit state     | intent rivelati DOPO commit (revealed_intents), risultato round                      | proprio lock/ready pre-reveal, proprio intent committato pre-reveal                    | conteggio locked/waiting (N/M)                         | timing commit (firmness conviction)                  |
-| 7 Nido             | vista comune, lineage tree pubblico, risorse comuni, Custode commentary              | creatura principale, party select, recruit accept, mating/offspring, rituali, export   | relazioni aggregate, mood branco                       | scoring affinity/trust interni, letture identita'    |
-| 8 Mating / recruit | recap, lista candidati, tally mating, offspring reveal, nuovo ingresso               | decisione recruit, bonding, mating vote pre-tally, mutation choice, rituale offspring  | mating tally in corso, sentiment                       | compatibility scoring, epigenome roll pre-reveal     |
-| 9 Tri-Sorgente     | dottrina/sedimentazione pubblica, esito scambio carte (vedi F4)                      | mano carte, 3 opzioni pre-scelta, offerta scambio pre-accept, frammenti da skip        | lean dottrinale collettivo                             | identita'/conviction scoring da scelte dottrinali    |
-| 10 Lethal confirm  | esistenza missione lethal-gated, esito (consenso raggiunto / parte)                  | la conferma del player coinvolto, dettaglio rischio sulla propria creatura             | stato "in attesa di consenso" (vedi F5)                | signal risk_posture dalla conferma                   |
+| Surface            | public (TV)                                                                           | private (device owner)                                                                 | aggregated (TV gruppo)                                 | secret (Sistema)                                     |
+| ------------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------- |
+| 1 Lobby / join     | codice room, slot roster, presence, nome + ruolo-slot confermati                      | nome/identita' in editing pre-conferma                                                 | conteggio ready (N/M)                                  | device token, mapping player_id<->device, host_token |
+| 2 Form Pulse       | nulla per-player di default; opt-in self-disclosure (F1)                              | micro-scenari + risposte, assi propri (Simbiosi/Predazione...), Forma personale        | radar/ripple di gruppo, tono del branco                | assi -> MBTI/Forma/conviction, custode bias indiv.   |
+| 3 World seed       | ecosistema (biome, pressione, tone), Custode/eco seed, reveal nascita run             | dettaglio filtrato per sensi/cognizione/ruolo/creatura                                 | come il Form Pulse aggregato ha piegato seed           | profilo Forma per-player che ha biasato il seed      |
+| 4 Route choice     | candidate cards, tally finale, route scelta (reveal), commit                          | voto pre-tally (node_id), preview route filtrata                                       | tally in corso, quorum/timeout countdown               | signal risk_posture dalla scelta                     |
+| 5 Planning combat  | stato di FASE planning, tensione del tavolo (NON il piano, NON readiness per-player)  | creatura+controlli, preview NON canonica (draft), percezione filtrata, intent in comp. | readiness gruppo SOLO conteggio (N/M), mood "indeciso" | commit_latency, hesitation_score, preview_dwell      |
+| 6 Commit state     | intent rivelati DOPO commit (revealed_intents), risultato round                       | proprio lock/ready pre-reveal, proprio intent committato pre-reveal                    | conteggio locked/waiting (N/M)                         | timing commit (firmness conviction)                  |
+| 7 Nido             | vista comune, lineage tree pubblico, risorse comuni, Custode commentary               | creatura principale, party select, recruit accept, mating/offspring, rituali, export   | relazioni aggregate, mood branco                       | scoring affinity/trust interni, letture identita'    |
+| 8 Mating / recruit | recap, lista candidati, tally mating, offspring reveal, nuovo ingresso                | decisione recruit, bonding, mating vote pre-tally, mutation choice, rituale offspring  | mating tally in corso, sentiment                       | compatibility scoring, epigenome roll pre-reveal     |
+| 9 Tri-Sorgente     | dottrina/sedimentazione pubblica, esito scambio carte; contenuto carta = private (F4) | mano carte, 3 opzioni pre-scelta, offerta scambio pre-accept, frammenti da skip        | lean dottrinale collettivo                             | identita'/conviction scoring da scelte dottrinali    |
+| 10 Lethal confirm  | esistenza missione lethal-gated, esito (consenso raggiunto / parte)                   | la conferma del player coinvolto, dettaglio rischio sulla propria creatura             | stato "in attesa" anonimo; coinvolto opt-in (F5)       | signal risk_posture dalla conferma                   |
 
 > TV mirror = colonne `public` + `aggregated`. Le colonne `private` + `secret` NON
 > raggiungono mai il canale TV (sez. 4).
@@ -139,6 +145,9 @@ Authority (SPEC-K): host tecnico crea il tavolo, device join. Visibilita':
   preferisce un mirror sobrio).
 - Custode NON scelto al join (reconstruction fase 1): eventuale seed/placeholder e'
   `public`, la rivelazione vera arriva dopo Form Pulse/world formation.
+- Onboarding narrativo (3 scelte identitarie, ADR-2026-06-07 punto 2): RATIFICATO
+  (F6, 2026-06-08) = `private` + opt-in (specchio di F1): le 3 scelte sono `private`,
+  confluiscono in `aggregated`/`secret`, il player puo' opt-in a mostrare l'identita'.
 
 ### 3.2 Form Pulse
 
@@ -150,8 +159,9 @@ Solitario/Sciame, Memoria/Istinto) -> alimentano MBTI/Forma, ecosistema, custode
   player vede i suoi) e i loro effetti di scoring sono `secret` (engine).
 - La TV mostra il **radar/ripple aggregato** del branco (`aggregated`): conferma
   "il gruppo ha risposto" senza esporre il profilo individuale.
-- Se la TV debba mostrare un esito per-player (es. "Eduardo = Esplorativo") e' un
-  fork: vedi **F1**. Di default la riga `public` per-player resta vuota.
+- RATIFICATO (F1, 2026-06-08): default SOLO aggregato (nessun esito per-player in TV);
+  il player puo' OPT-IN a mostrare la propria forma in TV (self-disclosure). Mai
+  per-player pubblico imposto.
 - Edge N=2: con 2 soli player il radar aggregato puo' rivelare il profilo dell'altro
   per differenza; l'edge va risolto in F1.
 
@@ -182,7 +192,9 @@ votano, il backend committa, la TV osserva tally e reveal. La TV non committa.
 - `aggregated`: il tally in corso (conteggi per opzione), il countdown quorum/timeout
   (SPEC-K 6.3: il timeout va mostrato in TV come risultato del tavolo, non scelta TV).
 - `secret`: il signal `risk_posture` derivato dalla scelta (SPEC-A sez. 6).
-- Se la TV mostri CHI ha votato cosa, o solo il tally: fork **F2**.
+- RATIFICATO (F2, 2026-06-08): default SOLO tally (voto `private` fino al commit);
+  ogni player puo' OPT-IN ad auto-rivelare il proprio voto, scegliendo se prima o dopo
+  il commit (stile reveal WEGO). Mai attribuzione imposta. Vale per world/route/mating.
 
 ### 3.5 Planning combat
 
@@ -202,6 +214,9 @@ readiness, tensione e pubblico recap". Dettaglio meccanico -> SPEC-C (WEGO compo
 - `secret`: i signal comportamentali `commit_latency`, `hesitation_score`,
   `preview_dwell` (SPEC-A sez. 6).
 - Invariante: la preview e' esplorazione PRIVATA; non e' canonica e non va in TV.
+- RATIFICATO (F3, 2026-06-08): il campo di battaglia in TV = UNIONE percettiva del
+  branco (somma di cio' che il branco vede); il device resta filtrato per-creatura. La
+  TV non e' onnisciente (premia lo scout). Vale anche per sez. 3.6 / round render (SPEC-D).
 
 ### 3.6 Commit state (WEGO reveal)
 
@@ -268,8 +283,9 @@ Dettaglio -> SPEC-G. Reconstruction: 3 opzioni; skip -> frammenti genetici.
   scambio PRIMA dell'accept, i frammenti genetici da skip.
 - `aggregated`: il lean dottrinale collettivo del branco.
 - `secret`: lo scoring identita'/conviction alimentato dalle scelte dottrinali.
-- Lo "scambio carte" e' esplicitamente "meccanica di informazione": se l'info della
-  carta scambiata diventi pubblica al tavolo o resti tra i due trader e' un fork: **F4**.
+- RATIFICATO (F4, 2026-06-08): il FATTO dello scambio + la sedimentazione dottrinale =
+  `public`; il CONTENUTO della carta resta `private` tra i due trader finche' non viene
+  giocato. Abilita intrigo/asimmetria informativa senza nascondere il patto.
 
 ### 3.10 Lethal confirmation
 
@@ -283,7 +299,8 @@ Dettaglio -> SPEC-J.
   dettaglio del rischio sulla propria creatura.
 - `aggregated`: lo stato "in attesa di consenso" (quanti devono ancora confermare).
 - `secret`: il signal `risk_posture` derivato dalla conferma.
-- Se la TV mostri i NOMI di chi deve ancora confermare o un "in attesa" anonimo: **F5**.
+- RATIFICATO (F5, 2026-06-08): default ANONIMO ("in attesa di consenso, 1 mancante");
+  il player coinvolto puo' OPT-IN a mostrarsi. Mai nomi imposti.
 - Requisito di consegna (cross-ref SPEC-J): la sollecitazione al device del player
   coinvolto deve essere una notifica prioritaria non silenziabile dal gameplay; il
   timeout/attesa mostrato in TV decorre solo dopo delivery-receipt dal backend,
@@ -354,9 +371,21 @@ sola basta -- serve la terna.
 
 ## 6. Decisioni aperte (per Eduardo)
 
-Fork NON canon-derivabili: l'esito non discende univocamente da SPEC-A/K/ADR. SPEC-B
-li lascia aperti (doc `review_needed`); Eduardo ratifica, poi la matrice sez. 3 si
-aggiorna di conseguenza.
+Fork NON canon-derivabili: l'esito non discende univocamente da SPEC-A/K/ADR.
+**RATIFICATI da Eduardo 2026-06-08** (matrice sez. 3 + note per-surface aggiornate).
+Pattern trasversale emerso: **opt-in self-disclosure** (sez. 2) -- il player puo'
+promuovere volontariamente i PROPRI dati `private` a `public`, mai imposto (F1/F2/F5/F6).
+
+| Fork | Esito ratificato (2026-06-08)                                                     |
+| ---- | --------------------------------------------------------------------------------- |
+| F1   | Aggregato di default + opt-in per-player (no esito pubblico imposto)              |
+| F2   | Solo tally di default + opt-in self-reveal del voto (pre/post commit, stile WEGO) |
+| F3   | Unione percettiva del branco (TV non onnisciente)                                 |
+| F4   | Esito scambio `public`, contenuto carta `private` tra i 2 trader                  |
+| F5   | Anonimo di default + opt-in del player coinvolto                                  |
+| F6   | `private` + opt-in (specchio di F1)                                               |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### F1 -- Esito Form Pulse: pubblico o privato?
 
@@ -411,11 +440,10 @@ ONNISCIENTE (tutto), l'UNIONE di cio' che il branco percepisce, o l'INTERSEZIONE
   regia.
 - **Raccomandazione:** A (interpretare "intersezione pubblica" come "cio' che e'
   pubblico per il tavolo" = unione percettiva del branco, non intersezione insiemistica).
-- **Nota (potenziale canon-derivabilita'):** la reconstruction (fase planning: "la TV
-  puo' mostrare intenzioni aggregate, zone di rischio, tensione, ma non deve rivelare
-  tutto se c'e' informazione privata") gia' esclude B (onnisciente) e C (TV vuota).
-  F3 potrebbe quindi NON essere un fork pieno ma una ratifica veloce di A: Eduardo
-  confermi se chiudere F3 come canon o tenerlo aperto.
+- **RATIFICATO 2026-06-08: A** (unione percettiva del branco). Coerente col canon
+  (reconstruction fase planning: "la TV puo' mostrare intenzioni aggregate, zone di
+  rischio, tensione, ma non deve rivelare tutto se c'e' informazione privata") che gia'
+  escludeva B (onnisciente) e C (TV vuota).
 
 ### F4 -- Scambio carte Tri-Sorgente: info pubblica o tra i due trader?
 
@@ -474,8 +502,10 @@ SPEC-B e' implementabile/chiudibile quando:
 3. nessuna surface legacy fa leak di `private`/`secret` alla TV: i leak-migration item
    (sez. 4.2) sono chiusi o ticketati con cross-ref SPEC-K;
 4. la promotion `private`/`secret` -> `public`/`aggregated` avviene solo via evento
-   esplicito (`reveal_acknowledge`/debrief), mai automatico;
-5. le Decisioni aperte F1-F6 sono ratificate da Eduardo PRIMA che SPEC-B passi da
-   `review_needed` ad `accepted`; la matrice sez. 3 e' aggiornata con gli esiti;
+   esplicito -- sistema (`reveal_acknowledge`/debrief) o player (opt-in self-disclosure
+   dei propri dati, sez. 2) -- mai automatico;
+5. le Decisioni aperte F1-F6 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 6) e la
+   matrice/note sez. 3 sono aggiornate con gli esiti; resta a Eduardo il flip
+   `review_needed` -> `accepted` al merge del PR;
 6. coerenza verificata con SPEC-A (tiers) e SPEC-K (authority): nessuna surface dove
    B contraddice l'authority di K (stesso surface, assi ortogonali).
