@@ -83,6 +83,16 @@ Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/co
 - **Task**: sed-sweep -> repoint a Node runtime (`apps/backend/services/combat/*`, `roundOrchestrator.js`, `abilityExecutor.js`) o marcare removed-per-ADR-2026-04-19. Delegabile (Jules/aider, meccanico). Low-urgency (comandi probabilmente inusati post-Node).
 - **Priorita'**: P3.
 
+### 🟢 P3 OPEN — Governance stale-doc burn-down campaign (progressive, 2026-06-07)
+
+docs-governance: **246 stale_document warnings (0 errori, non-blocking / warning-only)**. Batch-1 (adr+core, 37) DONE -> 21 re-verified-bumped + 16 real-issue residue (#2611). Tool ora skippa superseded (#2612).
+
+- **Pattern provato**: agent (NON Jules -- currency-judgment quality, doctrine) currency-verifica un dir-batch -> bump REGISTRY+frontmatter `last_verified` per i CURRENT (**NO blind-bump**) + flag DRIFTED/SUPERSEDED. 1 PR/batch.
+- **Meccanismo**: `stale_document` legge REGISTRY `last_verified` (bump REGISTRY + file frontmatter).
+- **Remaining ~6 dir-batch**: process+pipelines (~65), ops+traits+balance (~42), evo-tactics+guide+pack (~36), planning+playtest (~25), tutorials+appendici+frontend+reports+research+arch (~40), resto (~38).
+- **DRIFTED residue** -> fix-ticket separati (driver: `species.yaml` deprecato 05-15, pivot web->Godot, docs-reorg path-stale). Target = bump-stabili + converti-drift-in-ticket, **NON forced-0**.
+- **Priorita'**: P3, progressive (sessioni dedicate). Non-blocking (gate verde).
+
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
