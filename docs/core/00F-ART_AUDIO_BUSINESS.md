@@ -3,7 +3,7 @@ title: Art Direction, Audio Direction, Business Model — Decisioni canoniche
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-17
+last_verified: 2026-06-06
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -14,6 +14,13 @@ review_cycle_days: 30
 Registra le decisioni prese dal Master DD nella sessione serale **2026-04-17** su Art Direction, Audio Direction, Business Model e Identità Narrativa. Chiude gli 8 Open Questions marcati 🔴 in SoT §19 pre-2026-04-17.
 
 **Autorita'**: livello **A1** (hub canonico). In caso di conflitto con [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md) (A3), prevale il freeze.
+
+**Re-verify 2026-06-06**: business, art e audio restano validi. La parte
+narrativa va letta insieme a Skiv/Custodi: Pattern A Sistema-centric resta la
+base EA, ma Skiv e' gia' una forma concreta di Custode/companion persistente.
+I Custodi futuri possono vivere fuori dalla campagna, risincronizzarsi e
+rientrare con memoria nuova; la TV resta mirror/tavolo, tutte le scelte
+interattive passano dai device.
 
 Riferimenti: SoT §19 (Registro decisioni GDD), [`00B-CANONICAL_PROMOTION_MATRIX.md`](00B-CANONICAL_PROMOTION_MATRIX.md), `docs/reports/2026-04-17-audit-gap-implementativo-docs.md`.
 
@@ -156,23 +163,33 @@ freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT
 
 **Costo stimato**: 300-500 LOC ink, 0 nuove dipendenze, 0 refactor schema.
 
-### 4.3 Fase 2 (quando scriviamo storia): **Pattern B — Overlord + Custodi named** (Descent ibrido)
+### 4.3 Fase 2 (quando scriviamo storia): **Pattern B — Overlord + Custodi/Companion named** (Descent ibrido)
 
 **Trigger di transizione**: quando apriamo il workstream "narrative campaign / story mode" (post-EA playtest, previo green-light Master DD).
 
 **Perché B e non A puro**:
 
-- Storia significativa richiede POV umano (Custodi) che cresce arc-by-arc, non solo Sistema antagonista.
+- Storia significativa richiede POV companion/Custodi che cresce arc-by-arc,
+  non solo Sistema antagonista.
 - Descent Overlord + Heroes = equilibrio testato tra antagonista persistente + cast POV memorabile.
 - Ibrido preserva Pattern A (Sistema continua a parlare) e aggiunge 2-4 Custodi named come layer sopra — no strip, no rewrite.
 
 **Contenuto fase 2**:
 
-- Nuovo YAML `data/core/custodi.yaml` con 2-4 Custodi (background + barks + skill narrativi, no meccaniche).
+- Estendere il pool `data/core/companion/skiv_archetype_pool.yaml` o introdurre
+  un futuro `data/core/custodi.yaml` quando servono Custodi named oltre Skiv.
+- Custodi con background, barks, stato/memoria esportabile e skill narrativi.
+  Le meccaniche combat restano esplicite e gated, non implicite nel nome
+  narrativo.
 - Ink scenes multi-speaker (Sistema vs Custode vs Custode).
-- Custode scelto a inizio campagna (co-op: 1 Custode per player fino a 4; solo = scegli 1).
+- Il Custode non e' obbligatoriamente scelto nel join: puo' essere assegnato,
+  rivelato o confermato durante world setup, Form Pulse, Nido o campagna.
+  Quando incide sul controllo/player agency serve conferma del player.
 - Campaign arc strutturato: intro → 3-5 atti → climax → epilogo (Descent campaign book pattern).
 - Sistema rimane Overlord persistente cross-campaign.
+- Skiv resta il prototipo speciale e gia' vivo di questo modello: non e'
+  "il" template unico, ma prova che un Custode puo' avere lifecycle, voce,
+  pannello, feed e resync fuori dal singolo run.
 
 ### 4.4 Reference repos per fase 2 (story writing)
 
@@ -200,15 +217,17 @@ Tracciati ufficialmente per ispirazione quando apriamo workstream narrative. Cro
 
 ## 5. Implementation tracking
 
-| Area      | Deliverable                                              | Stato                                      | Owner          |
-| --------- | -------------------------------------------------------- | ------------------------------------------ | -------------- |
-| Art       | 3 reference moodboard draft                              | ⏳ prossimo sprint art                     | Master DD      |
-| Art       | Palette primarie 3 biomi pilota (savana/caverna/foresta) | ⏳ prossimo sprint art                     | Master DD      |
-| Audio     | Creature SFX spec bilingue                               | 🟡 DRAFT `docs/audio/creature-sfx-spec.md` | Audio lead TBD |
-| Narrativa | `narrative_voice` field in `ai_profiles.yaml`            | ⏳ task aperto                             | Backend        |
-| Narrativa | Ink knot briefing Sistema per pressure tier              | ⏳ task aperto                             | Writing        |
-| Business  | Steam Early Access page draft                            | ⏳ milestone pre-EA                        | Master DD      |
-| Business  | i18n scaffold EN translation pass                        | 🟡 DRAFT Q3                                | Loc lead TBD   |
+| Area      | Deliverable                                              | Stato                                                                                                                         | Owner          |
+| --------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| Art       | 3 reference moodboard draft                              | ⏳ prossimo sprint art                                                                                                        | Master DD      |
+| Art       | Palette primarie 3 biomi pilota (savana/caverna/foresta) | ⏳ prossimo sprint art                                                                                                        | Master DD      |
+| Audio     | Creature SFX spec bilingue                               | 🟡 DRAFT `docs/audio/creature-sfx-spec.md`                                                                                    | Audio lead TBD |
+| Narrativa | `narrative_voice` field in `ai_profiles.yaml`            | ⏳ task aperto                                                                                                                | Backend        |
+| Narrativa | Ink knot briefing Sistema per pressure tier              | ⏳ task aperto                                                                                                                | Writing        |
+| Narrativa | Skiv/Custode companion panel + feed + stato persistente  | live partial `apps/play/src/skivPanel.js`, `apps/backend/routes/skiv.js`, `apps/backend/services/skiv/companionStateStore.js` | Backend/UX     |
+| Narrativa | Custodi esportabili/resync generici                      | task aperto oltre prototipo Skiv                                                                                              | Backend/Design |
+| Business  | Steam Early Access page draft                            | ⏳ milestone pre-EA                                                                                                           | Master DD      |
+| Business  | i18n scaffold EN translation pass                        | 🟡 DRAFT Q3                                                                                                                   | Loc lead TBD   |
 
 ---
 

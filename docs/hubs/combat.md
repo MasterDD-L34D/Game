@@ -5,7 +5,7 @@ tags: [combat, rules-engine, d20, tactical]
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -19,8 +19,6 @@ Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 v
 
 **Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`, `apps/backend/services/traitEffects.js`). Ex-`services/rules/` Python rimosso fisicamente in Phase 3 ([ADR-2026-04-19](../adr/ADR-2026-04-19-kill-python-rules-engine.md)).
 
-**Encounter source -- mode-aware (GAP-C option-C C1, 2026-06-04)**: `services/combat/encounterLoader.js` espone `loadEncounter(id, { graphMode })`. In graph mode (sessione avviata da una rotta meta-network via `/session/start { graph_mode: true }`) unisce `docs/planning/encounters-draft/` a `docs/planning/encounters/` (live vince sulle collisioni), cosi' tutti i 6 nodi della meta-network consegnano il loro fight reale telegrafato (prima 2/6, il climax terminale era degradato). I caller statici/legacy non passano opts -> restano `encounters/`-only -> le band ratificate di `cave_path` sono intatte. Flag `META_NETWORK_ROUTING` OFF in prod (il flip resta gated sulla band-verify). Spec: [option-C decouple](../superpowers/specs/2026-06-03-worldgen-gapc-option-c-graph-combat-decouple-design.md).
-
 Sezioni "File principali" sotto fanno riferimento storico ai path Python rimossi — preservate per archeologia git blame + ADR continuity. NON usare come fonte runtime: il codice non esiste più in main post-Phase-3.
 
 ---
@@ -31,21 +29,21 @@ Il codice Python originariamente viveva in `services/rules/`, decoppiato dal gen
 
 ## Navigazione
 
-Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/README.md](../combat/README.md).
+Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/README.md](../combat/README.md). Il riferimento runtime corrente resta [combat-canon.md](../combat/combat-canon.md); gli altri documenti combat possono contenere path Python storici e ora hanno un banner di stato 2026-06-06.
 
 ### Quick links
 
-- [Combat overview + mappa doc](../combat/README.md)
+- [Combat overview + mappa doc](../combat/README.md) — mappa storica aggiornata con banner post-migrazione
 - [**Combat Canon Spec**](../combat/combat-canon.md) — specifica canonica unificata: action types, status shipping, timing, formule, non-scope (FD-020)
-- [Data flow end-to-end (diagrammi)](../combat/data-flow.md) — come i dati passano da encounter JSON a turn log
-- [Resolver API reference](../combat/resolver-api.md) — signature e semantica di ogni funzione pubblica
-- [**Round loop** (shared planning → commit → ordered resolution)](../combat/round-loop.md) — nuovo orchestratore di round sopra il resolver atomico (ADR-2026-04-15)
-- [Trait mechanics guide](../combat/trait-mechanics-guide.md) _(in arrivo, PR B2)_
-- [Status effects guide](../combat/status-effects-guide.md) _(in arrivo, PR B2)_
-- [Action types guide](../combat/action-types-guide.md) _(in arrivo, PR B2)_
-- [Worker bridge](../combat/worker-bridge.md) _(in arrivo, PR B3)_
-- [Determinism & RNG](../combat/determinism.md) _(in arrivo, PR B3)_
-- [Testing guide](../combat/testing.md) _(in arrivo, PR B3)_
+- [Data flow end-to-end (diagrammi)](../combat/data-flow.md) — semantic reference; path Python storici
+- [Resolver API reference](../combat/resolver-api.md) — historical Python API reference; non usare come runtime authority
+- [**Round loop** (shared planning → commit → ordered resolution)](../combat/round-loop.md) — semantic reference; runtime Node in `roundOrchestrator.js`
+- [Trait mechanics guide](../combat/trait-mechanics-guide.md) — semantic/data reference; verificare runtime su Node
+- [Status effects guide](../combat/status-effects-guide.md) — semantic reference; implementazione corrente Node
+- [Action types guide](../combat/action-types-guide.md) — semantic reference; implementazione corrente Node
+- [Worker bridge](../combat/worker-bridge.md) — historical reference only; worker Python rimosso
+- [Determinism & RNG](../combat/determinism.md) — semantic reference; verificare runtime su Node
+- [Testing guide](../combat/testing.md) — historical commands may mention Python tests; use Node suites listed below/current CI
 
 ## File principali
 
@@ -121,7 +119,7 @@ node --test tests/services/movementTraitEffects.test.js
 - **Parata contestata**: `resolve_parry()` implementata — tiro d20 reattivo del target con `parry_bonus`, opt-in via `action.parry_response`. Fallback a `PARRY_CD=12` se `attack_total` non fornito.
 - **PT spend**: `perforazione` (armor -2) e `spinta` (status sbilanciato sul target) implementati con consumo pool PT e validazione. Panic impedisce la spesa.
 - **Status effect**: bleeding (HP tick in begin_turn), fracture (step reduction), disorient (attack malus), rage (furia cieca), panic (malus + block PT) — tutti consumati dal resolver.
-- **Azioni abilità**: il campo `active_effects` dei trait esiste nello schema ma è **NOOP** — non viene consumato dal resolver. Deferred a Fase 3 (vedi [action-types-guide.md](../combat/action-types-guide.md) quando disponibile).
+- **Azioni abilità**: non sono più NOOP. Il runtime corrente passa da `apps/backend/services/abilityExecutor.js` e dai cataloghi job/trait; per scope shipping e cost-gate usa [combat-canon.md](../combat/combat-canon.md) come riferimento.
 - **Fairness caps (Pilastro 6)**: `DAMAGE_STEP_CAP=6` (step danno massimo dopo MoS + trait + status + buff — Surge Burst clampa qui), `PT_POOL_CAP=12` (pool PT massimo per unità). **Rev 2026-04-20 (P0 Q54 default A)**: **PP max=3** canonical (`Freeze §7.2`). **Ultimate costa 3 PP = consume all pool** (precedente "PP≥10" era errore doc). PT reset: **per-round** (P0 Q51 default B, coerente round-model ADR-04-15). Schema `combat.schema.json` aggiornato con campo `pp` su `combat_unit` e `pp_gained` su `roll_result`.
 - **Combat prediction** (W1): `predict_combat()` simula N=1000 attacchi, restituisce hit%/crit%/kill%/avg_damage/MoS/CD. Pure function, no side effects.
 - **Terrain defense** (W4): `terrain_defense_mod` aggiunto al calcolo CD. Terreno favorevole alza CD per il difensore.

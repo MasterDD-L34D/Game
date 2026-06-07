@@ -4,13 +4,15 @@ description: Come popolare e modificare trait_mechanics.yaml, la fonte unica dei
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Trait Mechanics Guide
+
+> **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
 Il file `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` è la **fonte unica di verità** per i valori meccanici dei trait consumati dal rules engine. Se un trait non è in questo file, per il resolver è come se non avesse effetti meccanici (viene silenziosamente ignorato in `aggregate_mod`).
 

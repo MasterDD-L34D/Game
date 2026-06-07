@@ -4,17 +4,19 @@ description: Indice dei documenti del rules engine d20 e navigazione per workstr
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
-source_of_truth: true
+last_verified: 2026-06-06
+source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Combat Workstream — Overview
 
-Il workstream **combat** raccoglie la documentazione del rules engine d20 di Evo Tactics: il sistema che risolve un turno di combattimento tattico a partire da un `CombatState` e una `action`, producendo il prossimo stato e una entry del turn log.
+> **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
-Il codice vive sotto `services/rules/` (~1,900 righe di Python, 82 test) e il contratto dati è in `packages/contracts/schemas/combat.schema.json`. La fonte unica per i valori meccanici dei trait è `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
+Il workstream **combat** raccoglie la documentazione del rules engine d20 di Evo Tactics: il sistema che risolve un turno di combattimento tattico a partire da uno stato di combat e una action, producendo il prossimo stato e una entry del turn log.
+
+Il runtime corrente vive in Node: `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js` e `apps/backend/services/combat/*`. Il contratto dati è in `packages/contracts/schemas/combat.schema.json`. La fonte unica per i valori meccanici dei trait è `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
 
 ## Mappa documentazione
 

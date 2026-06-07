@@ -3,7 +3,7 @@ title: 'Master-dd decisions outstanding 2026-05-08 — evidence-based + player-f
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-08
+last_verified: 2026-06-06
 source_of_truth: true
 language: it
 review_cycle_days: 7
@@ -18,6 +18,13 @@ tags: [decisions, evidence, player-friendly, phase-a, master-dd]
 # Master-dd decisions outstanding 2026-05-08
 
 > ✅ **CHIUSE 5/5 master-dd verdict 2026-05-08**: vedi sezione "Verdict finale" sotto. Doc preserved come reference + audit trail.
+
+> **2026-06-06 re-verify**: questo file non e' backlog attivo. Le 5 OD restano
+> utili come evidenza e razionale, ma lo stato corrente vive in K/L matrix,
+> OPEN_DECISIONS, BACKLOG e nei repo Game/Game-Godot-v2. In particolare Phase B
+> non deve essere riaperta come hard gate automatico; Skiv va letto anche come
+> prototipo Custode/companion persistente; le verifiche real-device correnti
+> sono K-07 e non questo piano OD.
 
 Doc canonical per master-dd review settimana 2026-05-08→14. **5 decisioni aperte** (OD-017→OD-021) tracciate canonical post sessione 2026-05-08 Day 2/7 monitoring window. Per ogni decisione: **contesto player-friendly + opzioni tecniche + raccomandazione + evidenze ricerca/museo**.
 

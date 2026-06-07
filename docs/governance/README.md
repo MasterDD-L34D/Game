@@ -5,7 +5,7 @@ tags: [docs, governance, dual-track]
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -84,5 +84,6 @@ Il contratto governance di questo README e' il livello **A0**; le altre decision
 
 1. Schema + registry + hub canonici.
 2. Tag massivo documenti critici.
-3. Gate CI warning-only.
-4. Promozione a gate required dopo stabilizzazione.
+3. Governance CI required per errori strutturali.
+4. Link integrity e trait mirror ancora warning-only.
+5. Burn-down progressivo dei warning `stale_document` con review mirata, non bump cieco.

@@ -20,7 +20,7 @@
 ## Index per data (cronologico)
 
 <!-- gen:adr-index -->
-_Generato da `tools/generate_decisions_log.py` (68 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
+_Generato da `tools/generate_decisions_log.py` (69 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
 
 | Data | ADR | Titolo | Status |
 | --- | --- | --- | --- |
@@ -92,6 +92,7 @@ _Generato da `tools/generate_decisions_log.py` (68 ADR). NON editare a mano: edi
 | 2026-05-18 | [ADR-2026-05-18-sistema-persistent-state-learning](docs/adr/ADR-2026-05-18-sistema-persistent-state-learning.md) | ADR-2026-05-18 — Sistema persistent cross-session state (learning AI, P5) | Accepted |
 | 2026-05-26 | [ADR-2026-05-26-deep-genetics-phase1-supersede-freeze](docs/adr/ADR-2026-05-26-deep-genetics-phase1-supersede-freeze.md) | ADR-2026-05-26 — Deep genetics Fase-1: scoped supersede of FINAL-DESIGN-FREEZE §21.3 | Accepted |
 | 2026-05-31 | [ADR-2026-05-31-meta-network-arc-conditions-schema](docs/adr/ADR-2026-05-31-meta-network-arc-conditions-schema.md) | ADR-2026-05-31 — Meta-network edge arc-conditions schema (2.0 → 2.1) | Accepted |
+| 2026-06-07 | [ADR-2026-06-07-device-authority-tv-mirror-canon](docs/adr/ADR-2026-06-07-device-authority-tv-mirror-canon.md) | ADR 2026-06-07 -- Device-authority / TV-mirror canon + reconstruction-suite ratification | Accepted |
 <!-- /gen:adr-index -->
 
 ## Index per tag

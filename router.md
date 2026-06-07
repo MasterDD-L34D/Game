@@ -3,7 +3,7 @@ title: ROUTER.md – Router automatico degli agenti (Game / Evo Tactics)
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -25,6 +25,10 @@ Il contenuto di questo file DEVE essere letto a inizio sessione Codex insieme a:
 - .ai/GLOBAL_PROFILE.md
 
 > Per il percorso di avvio e la lista dei documenti attivati da BOOT_PROFILE consulta il **Quick start / Indice rapido** in `AGENTS.md`; questo file descrive solo le regole di instradamento.
+
+> **2026-06-06 re-verify**: router ancora valido come convenzione legacy di
+> instradamento. Le skill/plugin/tool disponibili nella sessione corrente hanno
+> priorita' operativa quando il client li espone esplicitamente.
 
 ---
 

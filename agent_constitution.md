@@ -3,7 +3,7 @@ title: Agent Constitution – Game / Evo Tactics
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -13,6 +13,10 @@ review_cycle_days: 14
 
 Versione: 0.1  
 Ultimo aggiornamento: 2025-11-23
+
+> **2026-06-06 re-verify**: costituzione ancora valida come principi generali
+> non-SOT. Path e permessi storici sotto possono essere meno aggiornati della
+> mappa repo in `CLAUDE.md` e dei documenti governance.
 
 ---
 

@@ -3,7 +3,7 @@ title: Pilastri di Design (canonical 6-pilastri)
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -20,6 +20,8 @@ review_cycle_days: 14
 > **Decisione formal**: i 6 pilastri P1-P6 sono **canonical** (vedi
 > [`ADR-2026-04-27-pilastri-canonical-6.md`](../adr/ADR-2026-04-27-pilastri-canonical-6.md)).
 > Canvas A 4-pilastri è **historical baseline** (utile per intent originario, NON canonical).
+
+> **Re-verify 2026-06-06**: i 6 pilastri restano canonical. Aggiornamento interpretativo: P5 "TV condivisa" significa TV come mirror/tavolo/recap; l'input di gameplay vive sui device connessi. P2/P4 includono anche Form Pulse, telemetria MBTI e sedimentazione Nido/Tri-Sorgente; Skiv e' la forma canonica/prototipo del pattern Custode.
 
 ## I 6 pilastri canonical
 
@@ -42,8 +44,10 @@ review_cycle_days: 14
    (Simbiosi/Predazione, Esplorativo/Cauto, Agile/Robusto, Solitario/Sciame,
    Memoria/Istinto). Ref: [`docs/planning/2026-04-26-v3-canonical-flow-decisions.md §1.2`](../planning/2026-04-26-v3-canonical-flow-decisions.md).
 
-5. **P5 — Co-op vs Sistema** (TV condivisa): 4-8 player collaborativi vs antagonista AI
-   data-driven. Pattern proven: Jackbox room-code WebSocket (M11 LOCKED). Ref:
+5. **P5 — Co-op vs Sistema** (TV condivisa + device authority): 4-8 player
+   collaborativi vs antagonista AI data-driven. TV = mirror/tavolo/recap;
+   phone/browser = controller privato per scelte, voti, commit e Nido. Pattern
+   proven: Jackbox room-code WebSocket (M11 LOCKED). Ref:
    ADR-2026-04-20 m11-jackbox.
 
 6. **P6 — Fairness**: budget morfologico, cap sugli stack, counter espliciti, damage

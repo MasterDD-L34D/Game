@@ -3,7 +3,7 @@ title: Evo Tactics — Documentazione (indice legacy)
 doc_status: legacy_active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
@@ -14,6 +14,10 @@ review_cycle_days: 30
 > **Nota — Indice legacy.** Questo indice è mantenuto per compatibilità con i link esistenti nel codice e nei tracker. L'**entrypoint canonico** della documentazione è ora [`docs/hubs/README.md`](hubs/README.md) (workstream hubs), accompagnato dal `docs/governance/docs_registry.json` per la mappatura completa.
 >
 > I doc numerati sono stati spostati in [`docs/core/`](core/) durante la ristrutturazione di aprile 2026. Tutti i link sotto sono già aggiornati ai nuovi path.
+
+> **2026-06-06 re-verify**: indice legacy ancora utile come compat layer. Per
+> stato operativo corrente usare `docs/hubs/README.md`, `docs/governance/docs_registry.json`
+> e `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md`.
 
 > **Final Design Freeze v0.9.** La baseline canonica di design finale di Evo Tactics vive in [`docs/core/90-FINAL-DESIGN-FREEZE.md`](core/90-FINAL-DESIGN-FREEZE.md) (A3 source of truth). Il bundle esecutivo (roadmap, milestones & gates, backlog, playbook Codex, piano cross-repo) e' in [`docs/planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md`](planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md). Le regole di risoluzione conflitti tra fonti sono in [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).
 
@@ -48,7 +52,8 @@ review_cycle_days: 30
 
 - [ADR-2026-04-13: Rules Engine d20](adr/ADR-2026-04-13-rules-engine-d20.md) — decisioni architetturali per il motore regole tattico.
 - [Combat Hub](hubs/combat.md) — hub canonico del workstream combat.
-- Codice sorgente: `services/rules/` (resolver, hydration, demo CLI, worker).
+- Codice sorgente runtime: `apps/backend/services/combat/` (Node d20 canonical).
+  `services/rules/` e' riferimento storico/deprecato.
 
 ## Contenuti & Progressione
 

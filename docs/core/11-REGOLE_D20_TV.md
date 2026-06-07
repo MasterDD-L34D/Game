@@ -3,7 +3,7 @@ title: Adattamento TV/d20 — Regole canoniche turno
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -12,6 +12,13 @@ review_cycle_days: 14
 # Adattamento TV/d20
 
 Regole canoniche per turno, AP budget, syntax input. Chiude FRICTION #1-#3 dal playtest 2026-04-17. Autorità A1 (hub canonico).
+
+> **Re-verified 2026-06-06.** TV/shared screen = mirror/recap/table only;
+> gameplay input authority belongs to connected devices. Runtime combat current:
+> Node `roundOrchestrator.js`, `sessionRoundBridge.js`, `abilityExecutor.js`,
+> `/api/session/round/execute` and the planning/commit/resolve endpoints.
+> Python `services/rules/*` references below are historical and must not be used
+> as implementation targets.
 
 ## Setup TV/companion
 
@@ -91,14 +98,16 @@ Tiebreak: priority desc, actor_id alfabetico asc, declaration order asc. Con `pr
 
 **Modalità default** (`priority_queue=false`): dispatch in declaration order + `ai_auto` esegue `handleTurnEndViaRound` dopo (legacy behavior, compat).
 
-**CLI assistant**: [`tools/py/master_dm.py`](../../tools/py/master_dm.py) — REPL canonical syntax → batch endpoint.
+**CLI assistant**: il vecchio `tools/py/master_dm.py` non e' piu' presente.
+Usare API/phone/controller o harness dedicati che chiamano `/api/session/round/execute`
+e gli endpoint planning/commit/resolve.
 
 ### Varianti future (opt-in, non default)
 
 - Trait `ferocia_lampo` (placeholder): 2° attack guadagna bonus se MoS ≥10 al primo.
 - Job `berserker` (placeholder): 2° attack gratuito (ap_cost=0) sotto HP 25%.
 - Entrambi richiedono spec esplicita (non alterano regola base AP).
-- **Overcharge (canonico, OD-058 D1, ratify-as-built #2481)**: spendi **3 SG** (gauge piena, `POOL_MAX=3`) → **+1 AP** questo turno (ap_max 2 → 3), **once-per-turn** (`actor.status.overcharged`), **player-only**. A differenza dei placeholder qui sopra, questa variante **estende davvero** la regola base AP (2 → 3 con spesa risorsa esplicita) ed è il **supersede canonico** di "2 AP base" (freeze §7.1). Twin di _defy_ (spendi 2 SG → -1 AP turno successivo). Claim balance verso P6 gated da N=40 action-economy probe (anti-pattern #14/#15).
+- **Overcharge (canonico, OD-058 D1, ratify-as-built #2481)**: spendi **3 SG** (gauge piena, `POOL_MAX=3`) → **+1 AP** questo turno (ap*max 2 → 3), **once-per-turn** (`actor.status.overcharged`), **player-only**. A differenza dei placeholder qui sopra, questa variante **estende davvero** la regola base AP (2 → 3 con spesa risorsa esplicita) ed è il **supersede canonico** di "2 AP base" (freeze §7.1). Twin di \_defy* (spendi 2 SG → -1 AP turno successivo). Claim balance verso P6 gated da N=40 action-economy probe (anti-pattern #14/#15).
 
 ## Syntax mosse canonica (FRICTION #1)
 
@@ -131,7 +140,8 @@ p_tank: skip                           # passa turno
 
 - `atk <target>` valido solo se `distance(actor, target) ≤ actor.attack_range`.
 - Distance = **Manhattan** (`|dx| + |dy|`) su griglia quadrata.
-- Futuro (hex grid): distance axial-hex via `services/rules/hexGrid.py::distance()`.
+- Hex helpers correnti: `apps/backend/services/grid/hexGrid.js`. Questa sezione
+  resta square/Manhattan per la sintassi base descritta qui.
 
 ### Parser
 
@@ -174,16 +184,18 @@ Ogni ability specifica:
 
 ### Enforcement
 
-- **Runtime executor**: TODO follow-up PR (action_type `ability` in session route + effect dispatcher per `effect_type`).
+- **Runtime executor**: `apps/backend/services/abilityExecutor.js` esegue gli
+  `effect_type` live e applica cost-gate AP/SG/PP/PT dove previsto.
 - **Discoverability oggi**: Master/agent DM può curlare `GET /api/jobs/:job_id` durante playtest per lookup rapido.
-- **Fallback playtest senza executor**: Master applica manualmente effect (es. `dash_strike` = move 2 celle + attack con +1 mod se target non-adjacent a inizio turno), traccia evento raw come `ability` action_type placeholder.
 
 ## Ordine turno (initiative)
 
-**Fisso per round**: `P1 → S1 → P2 → S2 → …` alternato player/sistema per initiative decrescente.
+**Canonical round model**: planning condiviso -> commit -> resolve. I player e
+il Sistema dichiarano intent; la resolution queue ordina gli intent in base a
+reaction speed / priority, non a un turno sequenziale fisso.
 
 - Initiative risolta a inizio encounter (stat `initiative` per unità).
-- Ties: player prima di Sistema (asymmetric bias per leggibilità).
+- Ties: vedi `roundOrchestrator.js` e [combat-canon.md](../combat/combat-canon.md).
 - Initiative NON rirollata tra i round (elimina meta-gioco).
 
 ## Eventi grezzi per VC
@@ -201,8 +213,11 @@ Schema canonico in `packages/contracts/schemas/combat.schema.json`. Consumato da
 - FRICTION log completo: [`docs/playtests/2026-04-17/notes.md`](../playtests/2026-04-17/notes.md)
 - Sistema tattico: [`10-SISTEMA_TATTICO.md`](10-SISTEMA_TATTICO.md)
 - Combat hub: [`../hubs/combat.md`](../hubs/combat.md)
-- Rules engine: `services/rules/resolver.py` + `services/rules/demo_cli.py`
+- Runtime combat: `apps/backend/services/roundOrchestrator.js`,
+  `apps/backend/routes/sessionRoundBridge.js`,
+  `apps/backend/services/abilityExecutor.js`,
+  `apps/backend/services/combat/*`
 
 ---
 
-_Aggiornato 2026-04-17 post-playtest M1. Revisione ogni 14 giorni o dopo playtest successivo._
+_Aggiornato 2026-06-06 per runtime Node, TV mirror/device authority e burn-down governance stale._

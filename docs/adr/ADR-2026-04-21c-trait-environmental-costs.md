@@ -3,7 +3,7 @@ title: 'ADR 2026-04-21c — Costo ambientale trait (pilot 4 trait × 3 biomi)'
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-21'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -58,6 +58,17 @@ Rischio scope-creep 🔴 ALTO se generalizzato: 84 species × 10 trait × 7 biom
 
 **Idempotency**: marker `unit._biome_costs_applied = true` previene doppio apply. Session-scoped (no Prisma persistence).
 
+### Re-verify 2026-06-06
+
+La decisione resta valida e il pilot 4×3 è ancora presente in `data/core/balance/trait_environmental_costs.yaml`. Lo stato runtime, però, è avanzato rispetto al testo originale:
+
+- `apps/backend/services/traitEffects.js` conserva `loadTraitEnvironmentalCosts()` e `applyBiomeTraitCosts()` con cache, soft-fail e marker `_biome_costs_applied`.
+- `apps/backend/routes/session.js` non chiama più direttamente `applyBiomeTraitCosts()`; usa `applyBiomeEcoEffects()`, che combina ADR-21c + ERMES e applica un cap unificato +/-2 sui delta biome-origin.
+- `session.biome_costs_log` ora può contenere sia `adr21c` sia `ermes`, più `combined_delta`, `capped` e `band`; il campo resta session-scoped e non persiste su Prisma.
+- I test diretti `tests/ai/traitEnvironmentalCosts.test.js` continuano a coprire il pilot 4 trait × 3 biomi, neutralità di `rovine_planari`, idempotenza, unknown no-op e delta range.
+
+Quindi ADR-21c è da leggere come **layer statico/pilot** dentro il sistema biome-eco attuale, non come unico meccanismo ambientale runtime.
+
 ## Scope guard STRICT
 
 - **NO generalizzare** oltre 4×3 pilot pre-playtest validation. Aggiungere trait/biome #5 richiede nuova ADR.
@@ -86,8 +97,9 @@ Harness calibration: `tools/py/batch_calibrate_*.py` legge `session.biome_costs_
 **Negative / Debito**:
 
 - 12 cell tuning manuale — audit balance dipende da playtest qualitativo.
-- `unit.mobility` non ancora consumato da movement system → delta applicato ma silent per mobility finché consumer wire. M12+.
+- `unit.mobility` resta applicato come delta runtime; prima di promuovere il pilot serve verificare quali superfici movement/UI lo consumano o lo mostrano in modo leggibile.
 - Registry YAML non gated da schema AJV (pilot scope non giustifica schema JSON ora). Aggiungere se promosso.
+- Il log è diventato multi-layer (ADR-21c + ERMES): utile per debug, ma richiede copy/UI diegetica chiara se viene esposto a player.
 
 **Rischio mitigato**:
 

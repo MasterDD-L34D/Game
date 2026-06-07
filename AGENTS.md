@@ -3,7 +3,7 @@ title: AGENTS.md – Bootstrap per Codex
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -14,6 +14,11 @@ review_cycle_days: 14
 Progetto: Game / Evo Tactics
 
 Questo file reindirizza Codex al sistema di orchestrazione completo del progetto.
+
+> **2026-06-06 re-verify**: bootstrap ancora valido come indice non-SOT.
+> Per stato corrente, branch, comandi e guardrail live prevalgono `CLAUDE.md`,
+> `COMPACT_CONTEXT.md`, `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md`
+> e il registry governance.
 
 ## Istruzioni principali per gli agenti AI
 

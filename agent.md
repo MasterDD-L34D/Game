@@ -3,7 +3,7 @@ title: agent.md
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -26,6 +26,10 @@ Questo file definisce il **comportamento interno** dell’agente (il suo “sist
 - regole di coerenza e stile (Consistency Engine, Knowledge Map, Style Enforcement)
 
 > Per una vista d’insieme dei file da leggere all’avvio usa prima il **Quick start / Indice rapido** in `AGENTS.md`; questo documento resta il riferimento operativo dettagliato.
+
+> **2026-06-06 re-verify**: documento ancora valido come modello operativo
+> dettagliato legacy. Non sostituisce `CLAUDE.md`, `AGENTS.md` o le istruzioni
+> runtime del client attivo.
 
 Per il **bootstrap automatico** degli agenti nel repo _Game_, gli strumenti esterni (es. Codex)
 NON leggono direttamente questo file, ma seguono la catena:

@@ -3,7 +3,7 @@ title: Architettura AI Policy Engine (Evo-Tactics Playtest)
 doc_status: active
 doc_owner: flow-team
 workstream: flow
-last_verified: 2026-04-16
+last_verified: 2026-06-06
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -20,6 +20,13 @@ le estensioni sprint-012 (REGOLA_003 kite) e sprint-013 (stati emotivi).
 L'obiettivo: dare a chiunque lavori sull'IA (tu fra 6 mesi incluso)
 una mappa chiara di dove vive cosa e come aggiungere nuove regole,
 stati o metriche senza rompere quelle esistenti.
+
+**Re-verify 2026-06-06**: architettura ancora valida per la policy tattica
+del Sistema. Aggiornamenti rispetto allo snapshot 2026-04: `declareSistemaIntents`
+e' ora usato dal round bridge/session round model, `SistemaStateStore` +
+`SistemaStateAccumulator` aggiungono memoria persistente best-effort a livello
+run/campagna, mentre ERMES e ALIENA restano layer adiacenti (pressione ecologica,
+coerenza/enforcement gated), non sostituti del policy engine.
 
 ## Mappa dei file
 

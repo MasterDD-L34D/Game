@@ -5,7 +5,7 @@ tags: [governance, roadmap, alignment]
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -26,8 +26,8 @@ Questo documento conserva il piano completo approvato per il refactor documental
 1. Governance unificata (schema metadata + registry centrale)
 2. Hub canonici per workstream e unificazione entrypoint
 3. Matrice workstream-componenti-stato-owner-dipendenze
-4. Quality gate CI in warning-only
-5. Promozione graduale dei check a required
+4. Quality gate CI: governance required per errori, link/trait warning-only
+5. Burn-down graduale warning stale con review mirata
 
 ## Contratti introdotti
 
@@ -41,4 +41,5 @@ Questo documento conserva il piano completo approvato per il refactor documental
 - ogni workstream ha un hub canonico
 - i documenti source-of-truth hanno metadata validi
 - il drift report viene prodotto automaticamente
-- il passaggio a required avviene solo dopo stabilizzazione warning-only
+- il passaggio a required completo avviene solo dopo stabilizzazione warning-only
+  di link integrity, trait mirror e stale-document backlog

@@ -3,7 +3,7 @@ title: Evo-Tactics — Starter Monorepo
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-07
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -12,6 +12,10 @@ review_cycle_days: 14
 # 🦴 Evo-Tactics
 
 > **2026-05-07 — Cutover Phase A LIVE**: primary frontend = **Godot v2 phone HTML5** ([sibling repo](https://github.com/MasterDD-L34D/Game-Godot-v2), `dist/web/`). Web v1 (`apps/play/`) = secondary fallback alive (no archive yet). Phase B archive trigger post 7gg grace + 1+ playtest pass. Vedi [ADR-2026-05-05](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md).
+
+> **2026-06-06 re-verify**: questa README resta orientamento rapido non-SOT.
+> Per stato operativo corrente usare `COMPACT_CONTEXT.md`, `CLAUDE.md` e
+> `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md`.
 
 ## Why
 
@@ -26,10 +30,10 @@ Full pitch: [`docs/PITCH.md`](docs/PITCH.md).
 Monorepo polyglot. Mappa essenziale:
 
 - `apps/backend/` — Express API "Idea Engine" (porta 3334)
-- `apps/play/` — Browser 2D frontend (Vite, porta 5180) — gioco giocabile
-- `services/rules/` — rules engine d20 (Python): resolver, hydration, demo CLI
+- `apps/play/` — Browser 2D frontend (Vite, porta 5180) — fallback/web smoke
+- `apps/backend/services/combat/` — runtime combat d20 canonico Node
 - `services/generation/` — generatore specie (Node+Python worker pool)
-- `services/ai/` — AI Sistema (policy legacy + Utility AI opt-in per profile)
+- `apps/backend/services/ai/` — AI Sistema, intenti e SistemaState
 - `services/difficulty/`, `services/triSorgente/`, `services/replay/` — moduli Q-001
 - `packages/contracts/` — AJV schemas + TS types condivisi (seam tra backend/mock/dashboard)
 - `data/core/` — dataset canonici (species, biomes, traits, mating, difficulty, i18n, ui)
@@ -45,10 +49,10 @@ Versione completa/legacy del README precedente: [`docs/README_FULL_ARCHIVE.md`](
 
 Regole sempre attive:
 
-1. **Playtest-first**. Un playtest con post-it batte dieci dashboard. Vedi [`docs/playtests/`](docs/playtests/).
-2. **Commit prefix obbligatorio**: `play:` (gameplay) · `infra:` (CI/docker/build) · `data:` (YAML/dataset) · `doc:` (README/docs) · `cut:` (remove).
+1. **Playtest-first**. Un playtest con post-it batte dieci dashboard. Vedi `docs/playtest/`.
+2. **Commit prefix obbligatorio**: conventional commits lowercase (`feat:`, `fix:`, `docs:`, `chore:`, `test:`).
 3. **Max 1 MUST attiva** per volta. Vedi [`RESEARCH_TODO.md`](RESEARCH_TODO.md).
-4. **Guardrail Pilastro 5**: `apps/backend/routes/session.js` + `services/ai/` richiedono approval esplicita (vedi `CLAUDE.md`).
+4. **Guardrail Pilastro 5**: `apps/backend/routes/session.js`, round bridge, co-op e `apps/backend/services/ai/` richiedono verifica mirata (vedi `CLAUDE.md`).
 5. **DoD ogni sprint**: `node --test tests/ai/*.test.js` verde + `npm run format:check` clean + working tree pulito.
 
 Setup locale:
@@ -75,9 +79,13 @@ Pre-reading in ordine:
 6. [`docs/core/00-GDD_MASTER.md`](docs/core/00-GDD_MASTER.md) — GDD canonico
 7. [`docs/governance/QUARANTINE.md`](docs/governance/QUARANTINE.md) — coordinamento cross-branch
 
-Policy: prima di iniziare lavoro che supera 50 righe fuori `apps/backend/`, fermati e chiedi.
+Policy: per lavori ad alto impatto seguire `CLAUDE.md`/`AGENTS.md`; non usare
+questa README per bloccare cleanup fattuali o governance re-verify.
 
 ## Stato corrente
+
+> Snapshot storico. Per avanzamento live leggere `COMPACT_CONTEXT.md`,
+> `BACKLOG.md`, `OPEN_DECISIONS.md` e la K/L matrix.
 
 - Sprint 001–020 completati (vedi `CLAUDE.md` §sprint-context)
 - Q-001 open questions triage **✅ chiusa** (PR #1463), 8 follow-up PR mergiate (#1472-#1480)

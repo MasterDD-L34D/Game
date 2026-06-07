@@ -5,7 +5,7 @@ tags: [flow, generation, validation]
 doc_status: active
 doc_owner: flow-team
 workstream: flow
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -21,9 +21,9 @@ review_cycle_days: 14
 
 ## Documenti live
 
-- [Structure overview](../structure_overview.md)
-- [Pipeline templates](../PIPELINE_TEMPLATES.md)
-- [Data guidelines](../data-guidelines.md)
+- [Structure overview](../guide/structure_overview.md)
+- [Pipeline templates](../pipelines/PIPELINE_TEMPLATES.md)
+- [Data guidelines](../guide/data-guidelines.md)
 
 ## Gate principali
 

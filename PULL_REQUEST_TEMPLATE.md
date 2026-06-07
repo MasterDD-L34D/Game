@@ -3,7 +3,7 @@ title: Pull Request Template
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -15,7 +15,7 @@ review_cycle_days: 14
 
 ## Checklist guida stile & QA
 
-- [ ] Nessuna modifica a `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` nella finestra freeze 2025-11-25T12:05Z–2025-11-27T12:05Z (salvo rollback autorizzati Master DD)
+- [ ] Scope limitato e nessuna modifica non correlata a `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`
 - [ ] Validator di release **PASS senza regressioni** (allega percorso report). Il merge rimane bloccato finché esistono regressioni aperte nel validator
 - [ ] Approvazione **Master DD** registrata (link a commento/issue che conferma l'ok al merge)
 - [ ] Changelog allegato alla PR e **piano di rollback 03A** incluso (link o allegato nella sezione Note)
@@ -31,6 +31,7 @@ review_cycle_days: 14
 ## Testing
 
 - [ ] `npm run style:check`
+- [ ] `npm run docs:governance:check -- --strict` se la PR tocca documentazione o registry
 - [ ] Altro: <!-- specificare -->
 
 ## Piano di Rollback 03A

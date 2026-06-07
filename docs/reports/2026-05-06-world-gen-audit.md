@@ -3,7 +3,7 @@ title: 'World Gen Audit 2026-05-06 — pipeline canonical vs shipped + Q3 onboar
 doc_status: active
 doc_owner: pcg-level-design-illuminator
 workstream: dataset-pack
-last_verified: '2026-05-06'
+last_verified: '2026-06-06'
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
@@ -17,6 +17,11 @@ tags: [pcg, world-gen, audit, onboarding, biome, ermes, aliena]
 **Scope**: tutti i layer world generation — biome selection, scenario seed, encounter scaffold, worldEnricher, ERMES, ALIENA, tri-sorgente/foodweb, mondo-muta hooks.
 
 **Museum consulted first**: MUSEUM.md §worldgen — 6 card trovate (M-2026-04-26-012 score 5/5, M-2026-04-26-018 score 5/5 + 4 correlate). Provenance verificata.
+
+> **Re-verified 2026-06-06.** Historical audit retained as provenance for
+> worldgen/ERMES/ALIENA. Current implementation planning should use this
+> together with the 2026-06-06 reconstruction/K-L docs and later route-vote /
+> meta-network PRs.
 
 ---
 

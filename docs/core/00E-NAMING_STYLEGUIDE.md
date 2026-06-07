@@ -3,7 +3,7 @@ title: Naming Styleguide — Specie e Biomi (Bilingue IT/EN)
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-16
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 30
@@ -14,6 +14,12 @@ review_cycle_days: 30
 Style guide canonica per il naming di specie e biomi in Evo Tactics. Stratifica nomi tecnici (codice) e nomi player-facing (display) con supporto bilingue.
 
 **Autorita'**: livello **A1** (hub). Vincoli formali al livello A2 (schema). Vedi [`00B-CANONICAL_PROMOTION_MATRIX.md`](00B-CANONICAL_PROMOTION_MATRIX.md).
+
+**Re-verify 2026-06-06**: nessuna regola formale cambia. Lo stesso split
+codice/display vale per Custodi, Skiv, tribe/job/route ids, Forme e companion
+portable: slug e id restano ASCII stabili, mentre nomi, descrizioni e voce
+player-facing possono essere localizzati. Non rinominare slug legacy senza
+migration esplicita.
 
 ## Principio di base
 
