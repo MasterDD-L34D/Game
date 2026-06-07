@@ -51,7 +51,8 @@ mbti_axes:
   # S_N: new_tiles = exploration (N), setup_ratio = methodical (S), evasion_ratio = improvisation (N)
   S_N: {formula: "1 - 0.4*new_tiles + 0.3*setup_ratio - 0.3*evasion_ratio"}
   T_F: {formula: "1 - 0.5*utility_actions + 0.5*support_bias"}
-  J_P: {formula: "1 - 0.6*setup - 0.2*time_to_commit + 0.2*last_second"}
+  # SPEC-A: + commit_latency_norm term (device deliberation -> Perceiving) when present.
+  J_P: {formula: "1 - 0.6*setup - 0.2*time_to_commit + 0.2*last_second - 0.3*commit_latency_norm"}
 ennea_themes:
   # VC Calibration iter1 (2026-04-17): soglie abbassate per indici
   # con weight parziali (cohesion/explore/setup/tilt). Vedi
