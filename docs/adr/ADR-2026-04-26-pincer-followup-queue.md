@@ -1,6 +1,6 @@
 ---
 title: 'ADR 2026-04-26 — Pincer follow-up intent queue (Triangle Strategy Mechanic 3B)'
-doc_status: draft
+doc_status: superseded
 doc_owner: claude-code
 workstream: combat
 last_verified: '2026-04-26'
@@ -15,6 +15,8 @@ related:
 ---
 
 # ADR-2026-04-26 · Pincer follow-up intent queue
+
+> Superseded 2026-06-07: design goal absorbed by shipped flank/rear/elevation positional system (`sessionHelpers.computePositionalDamage`); hex `detectPincer` orphaned vs live {x,y} runtime; chain-actions = combat-canon §6 non-scope. `pushFollowup` NOT built.
 
 **Stato**: 🟡 **DRAFT** — scope-in per next session (M14-D). Nessuna implementazione
 in PR corrente (#1740 P1).

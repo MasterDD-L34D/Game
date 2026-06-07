@@ -1,6 +1,7 @@
 ---
 title: 'ADR 2026-04-18 — Plan & Reveal round model (contemporary hybrid)'
-doc_status: draft
+doc_status: superseded
+superseded_by: ADR-2026-06-07-device-authority-tv-mirror-canon
 doc_owner: master-dd
 workstream: combat
 last_verified: 2026-04-18
@@ -15,6 +16,8 @@ related:
 ---
 
 # ADR-2026-04-18 · Plan & Reveal round model
+
+> Superseded 2026-06-07 by ADR-2026-06-07: the plan->commit->event-log->reveal model is now ratified canon + live (`docs/combat/round-loop.md`). Unabsorbed = threat-preview UI overlay + `fog_of_intent` toggle = device-surface, deferred to a device/UI SPEC.
 
 **Stato**: 🟡 DRAFT — proposta design post-research M4, awaiting playtest validation before ACCEPTED
 **Trigger**: user feedback #1600 playtest + research `docs/core/44-HUD-LAYOUT-REFERENCES.md`

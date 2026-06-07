@@ -54,6 +54,7 @@ Trigger: `docs/combat/README.md` SoT-flip review -- il README era `source_of_tru
 - **Task**: audit parita' def-by-def (~70 def Python da `d0c86c60~1:services/rules/*` vs Node `apps/backend/services/combat/*`). Delegabile (read+grep meccanico, Jules/LLM-locale + verifica). Home = SPEC-L (`runtime-feature-inventory-reconcile`).
 - **Priorita'**: P2, NON urgente (Node gira/funziona/testato). Dopo SPEC-K.
 - **DONE 2026-06-07** (sub-agent grep-verified, ~70 def vs Node): migrazione SOSTANZIALMENTE completa (resolver/round_orchestrator/hydration/grid/trait_effects portati; worker/demo obsoleti; damage-model divergenza intenzionale). **4 GAP** in stress/mental + PT-maneuver -> ticket sotto.
+- Related decisions 2026-06-07: ADR pincer/plan-reveal/networking-colyseus/networking-co-op = SUPERSEDED; new ADR-2026-05-30-coop-server-authoritative-combat written.
 
 ### 🔴 OPEN — Stress / on-hit-status mental layer: port-to-Node O retire orphaned yaml (da parity-sweep 2026-06-07)
 
@@ -62,8 +63,8 @@ Bug funzionale: effetti-trait progettati silenziosamente INERTI su Node + dati `
 - **GAP-1 (HIGH)**: `on_hit_status` + `trigger_dc` (SV d20+tier -> disorient/panic on hit) = LIVE yaml (multi-trait), ZERO consumer Node (`grep on_hit_status apps/` = 0).
 - **GAP-2 (HIGH)**: `on_hit_stress_delta` + breakpoint stress (rage@0.5 / panic@0.75) = LIVE yaml, nessuna logica Node -> loop "attacchi -> stress -> auto rage/panic" assente.
 - **GAP-3 (MEDIUM)**: `spinta` -> `sbilanciato` -> defense-malus: status scritto (shield_bash) ma mai LETTO come malus nel resolver.
-- **GAP-4 (LOW)**: swarm HP-scaling attacks -> NEEDS-HUMAN-CHECK (prob dead-on-arrival anche in Python).
-- **Decisione (Eduardo)**: portare il mental-state layer in `performAttack`, O ritirare i campi yaml orfani. Ref: `resolver.py` (d0c86c60~1) STEP3 vs `apps/backend/routes/session.js` performAttack + `traitEffects.js`.
+- **GAP-4 (DROP 2026-06-07)**: swarm `scaling_attacks` -- morto ovunque, mai dato live, esisteva solo nel Python rimosso; `multi_attack` copre lo spazio. No-action.
+- **Decisione (Eduardo)**: portare il mental-state layer in `performAttack`, O ritirare i campi yaml orfani. Ref: `resolver.py` (d0c86c60~1) STEP3 vs `apps/backend/routes/session.js` performAttack + `traitEffects.js`. DECISO 2026-06-07: D1 = HYBRID (PORT `on_hit_status` 13 trait in performAttack + RETIRE `on_hit_stress_delta` 2 trait); GAP-3 `sbilanciato` = WIRE-IT (statusModifiers read-path). -> code-batch pending.
 
 ### 🟢 P2 DONE 2026-06-07 — Sprint Impronta (aa01/cap-\*) = SUPERSEDE (design non-canonico)
 

@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-04-16: Networking Co-op — Colyseus'
-doc_status: active
+doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-16
@@ -10,6 +10,8 @@ review_cycle_days: 30
 ---
 
 # ADR-2026-04-16: Networking Co-op — Colyseus
+
+> Superseded 2026-06-07 by ADR-2026-05-30-coop-server-authoritative-combat: Express WS server-authoritative chosen, NOT Colyseus.
 
 - **Data**: 2026-04-16
 - **Stato**: Proposto
