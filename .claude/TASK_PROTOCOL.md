@@ -85,7 +85,7 @@ Ogni task "done" deve passare almeno:
 6. ✅ Agent `schema-ripple` consultato (se touch `packages/contracts/`)
 
 Se touch `vcScoring.js` o `policy.js` → aggiorna `docs/architecture/ai-policy-engine.md`.
-Se touch `services/rules/` → aggiorna `docs/hubs/combat.md`.
+Se touch il combat runtime Node (`apps/backend/services/combat/`, `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/session.js`) → aggiorna `docs/hubs/combat.md`. (Il motore Python `services/rules/` e' stato rimosso, ADR-2026-04-19.)
 
 ### Fase 7 — Aggiornamento memoria
 

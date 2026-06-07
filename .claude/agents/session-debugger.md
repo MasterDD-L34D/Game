@@ -14,9 +14,9 @@ You are a session engine debugger for Evo-Tactics. Trace the action flow from HT
 HTTP POST /action
   → apps/backend/routes/session.js (createSessionRouter)
     → apps/backend/routes/sessionRoundBridge.js (round flow wrappers)
-      → apps/backend/services/roundOrchestrator.js (round state machine)
-        → services/rules/resolver.py (atomic d20 resolution)
-        → services/rules/round_orchestrator.py (round-level orchestration)
+      → apps/backend/services/roundOrchestrator.js (round state machine + round-level orchestration)
+        → apps/backend/routes/session.js performAttack/resolveAttack (atomic d20 resolution)
+        → apps/backend/services/combat/resistanceEngine.js (resistance/defense resolution)
         → apps/backend/services/traitEffects.js (2-pass trait effect application)
       → apps/backend/services/vcScoring.js (20+ raw metrics → 6 aggregate → MBTI/Ennea)
 ```
@@ -27,10 +27,10 @@ HTTP POST /action
 
 User describes bug. Classify:
 
-- **Wrong damage** → resolver.py / trait_mechanics.yaml / hydration.py
-- **Wrong status** → resolver.py apply_status / active_effects.yaml
+- **Wrong damage** → session.js resolveAttack / trait_mechanics.yaml / combat/resistanceEngine.js
+- **Wrong status** → session.js + statusModifiers / active_effects.yaml
 - **Action rejected** → session.js validation / sessionHelpers.js / PT check
-- **Round stuck** → roundOrchestrator.js state transition / round_orchestrator.py
+- **Round stuck** → roundOrchestrator.js state transition
 - **Wrong VC score** → vcScoring.js metric calculation
 - **AI misbehavior** → services/ai/policy.js / declareSistemaIntents.js / ai_intent_scores.yaml
 - **Trait not applying** → traitEffects.js / active_effects.yaml missing entry
@@ -46,8 +46,8 @@ Key files by area:
 - **Helpers**: `apps/backend/services/sessionHelpers.js` (248 LOC — pure functions)
 - **Constants**: `apps/backend/services/sessionConstants.js` (58 LOC)
 - **Round orchestrator**: `apps/backend/services/roundOrchestrator.js`
-- **Resolver**: `services/rules/resolver.py` — `resolve_action`, `begin_turn`, `resolve_parry`
-- **Hydration**: `services/rules/hydration.py` — loads trait_mechanics.yaml values
+- **Resolver (d20)**: `apps/backend/routes/session.js` — `performAttack` / `resolveAttack`, begin-turn / parry handling (Python `services/rules/resolver.py` removed ADR-2026-04-19)
+- **Resistance/defense**: `apps/backend/services/combat/resistanceEngine.js` (Python `services/rules/hydration.py` removed ADR-2026-04-19; trait_mechanics.yaml now loaded by the Node runtime)
 - **Trait effects**: `apps/backend/services/traitEffects.js` — 2-pass: pre-action + post-action
 - **Active effects**: `data/core/traits/active_effects.yaml` — trait definitions
 - **VC scoring**: `apps/backend/services/vcScoring.js` — raw metrics → aggregates
@@ -108,7 +108,7 @@ If untested → suggest test case.
 
 ## Critical rules
 
-- NEVER suggest hardcoding trait logic in resolver — traits go in active_effects.yaml ONLY
+- NEVER suggest hardcoding trait logic in the resolver — traits go in active_effects.yaml ONLY
 - NEVER modify raw event schema shape
 - If touching session.js → regola 50 righe applies
-- If fix touches services/rules/ → docs/hubs/combat.md must be updated
+- If fix touches the combat runtime (`apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`, `apps/backend/services/combat/*`) → docs/hubs/combat.md must be updated (the Python `services/rules/` engine was removed ADR-2026-04-19)

@@ -27,8 +27,8 @@ For each pillar, assess current state AND alignment with reference patterns:
 **P1 — Tattica leggibile (FFT)**
 Reference: **wesnoth** (combat prediction, terrain defense), **boardgame.io** (round flow), **Frozen Synapse** (simultaneous turns), **Halfway** (grid readability)
 
-- Check: `services/rules/resolver.py` — does `predict_combat()` exist and work?
-- Check: terrain defense modifier implemented? (`grep "terrain_defense\|defense_mod" services/rules/ data/core/`)
+- Check: `apps/backend/routes/session.js` — does attack resolution (`performAttack`/`resolveAttack`) work? (Python `services/rules/resolver.py` removed ADR-2026-04-19; no `predict_combat()` Node equiv yet)
+- Check: terrain defense modifier implemented? (`grep "terrain_defense\|defense_mod" apps/backend/services/combat/ data/core/`)
 - Check: all decision numbers surfaced? (hit%, damage range, MoS thresholds, cooldown — per Halfway lesson)
 - Wesnoth pattern W1 (combat prediction): implemented? W4 (terrain defense): implemented?
 
@@ -70,9 +70,11 @@ Reference: **wesnoth** (20yr balance), **Machinations** (economy modeling), **Ba
 
 From `docs/planning/tactical-architecture-patterns.md`, check which of the 16 patterns are implemented:
 
+<!-- DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19). Greps repointed to apps/backend/services/combat/. NB: predict_combat() was a Python-only symbol and has no Node equivalent yet, so W1 will report NO until a Node prediction path lands. -->
+
 ```bash
-grep -rl "predict_combat" services/rules/ 2>/dev/null && echo "W1 combat prediction: YES" || echo "W1: NO"
-grep -rl "terrain_defense" services/rules/ data/core/ 2>/dev/null && echo "W4 terrain defense: YES" || echo "W4: NO"
+grep -rl "predict_combat" apps/backend/ 2>/dev/null && echo "W1 combat prediction: YES" || echo "W1: NO"
+grep -rl "terrain_defense" apps/backend/services/combat/ data/core/ 2>/dev/null && echo "W4 terrain defense: YES" || echo "W4: NO"
 grep -rl "ai_intent_scores" data/core/ apps/backend/ 2>/dev/null && echo "W3 AI intent registry: YES" || echo "W3: NO"
 grep -rl "statusEffectsMachine\|roundStatechart" apps/backend/ 2>/dev/null && echo "X1/X2 xstate FSM: YES" || echo "X1/X2: NO"
 grep -rl "sistemaActor" apps/backend/ 2>/dev/null && echo "X3 Sistema actor model: YES" || echo "X3: NO"
@@ -98,8 +100,10 @@ git log --oneline --name-only -10 | grep -E "(\.github/workflows/|packages/contr
 
 Hardcoded trait check:
 
+<!-- DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19); grep repointed to apps/backend/services/ (Node runtime). -->
+
 ```bash
-grep -rn "artigli_sette_vie\|coda_frusta_cinetica\|scheletro_idro_regolante" services/rules/ apps/backend/routes/session*.js --include="*.js" --include="*.py" | grep -v "fallback\|test\|#\|//" | head -5
+grep -rn "artigli_sette_vie\|coda_frusta_cinetica\|scheletro_idro_regolante" apps/backend/services/ apps/backend/routes/session*.js --include="*.js" | grep -v "fallback\|test\|#\|//" | head -5
 ```
 
 ### 5. Game-Database sync check

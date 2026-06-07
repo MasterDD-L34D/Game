@@ -6,6 +6,8 @@ user_invocable: true
 
 # Combat Sim
 
+> **DEPRECATED 2026-06-07**: services/rules removed (ADR-2026-04-19). Runtime = apps/backend/services/combat/_ (+ `apps/backend/routes/session.js performAttack/resolveAttack`, `apps/backend/services/roundOrchestrator.js`). Every `python3 services/rules/_` invocation below is BROKEN -- this command needs a Node rewrite or removal.
+
 Quick combat simulation using the Python rules engine.
 
 ## Arguments
@@ -16,6 +18,8 @@ Optional: species names, trait sets, or "random" for default matchup.
 
 ### 1. Check Python environment
 
+> DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19). Runtime = apps/backend/services/combat/\*. The command below is BROKEN (no `services/rules/`); needs a Node rewrite or removal.
+
 ```bash
 PYTHONPATH=services/rules python3 -c "from resolver import resolve_action; print('Rules engine OK')" 2>&1
 ```
@@ -23,6 +27,8 @@ PYTHONPATH=services/rules python3 -c "from resolver import resolve_action; print
 If fails → check `pip install -r tools/py/requirements.txt`.
 
 ### 2. Run simulation
+
+> DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19). Both invocations below are BROKEN. Runtime = apps/backend/services/combat/\* (+ `apps/backend/routes/session.js`); needs a Node sim harness.
 
 **Quick predict (N=1000 simulated attacks):**
 

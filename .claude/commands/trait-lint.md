@@ -42,8 +42,10 @@ Check:
 
 ### 3. Hardcoded trait check
 
+<!-- DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19); grep repointed to the Node runtime (apps/backend/services/ + routes/session*.js). -->
+
 ```bash
-grep -rn "artigli_sette_vie\|coda_frusta_cinetica\|scheletro_idro_regolante\|criostasi_adattiva" services/rules/ apps/backend/routes/session*.js apps/backend/services/ --include="*.js" --include="*.py" | grep -v "fallback\|test\|comment\|#"
+grep -rn "artigli_sette_vie\|coda_frusta_cinetica\|scheletro_idro_regolante\|criostasi_adattiva" apps/backend/routes/session*.js apps/backend/services/ --include="*.js" | grep -v "fallback\|test\|comment\|#"
 ```
 
 Only the hardcoded fallback set in generation orchestrator is acceptable. Any other occurrence = violation.
