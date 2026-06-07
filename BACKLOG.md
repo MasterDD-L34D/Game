@@ -46,6 +46,32 @@ Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-cur
 | ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
 | TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
+### 🟢 P2 OPEN — Python->Node combat parity sweep (2026-06-07)
+
+Trigger: `docs/combat/README.md` SoT-flip review -- il README era `source_of_truth:true` ma descriveva il combat come Python `services/rules/*` (rimosso `d0c86c60` Phase-3 / ADR-2026-04-19); runtime canonical = Node.
+**Superficial check 2026-06-07**: surface migrata (resolver->`resistanceEngine.js`+`abilityExecutor.js`, round_orchestrator->`roundOrchestrator.js`, grid->`services/grid/hexGrid.js` [esiste -- la nota SoT "hexGrid M12+ planned" e' STANTIA], worker/demo_cli obsoleti by-design). MA precedente `resistance-engine-gap` (M5/M6: Python aveva `apply_resistance`, Node no, scoperto tardi) prova che gap def-level possono nascondersi.
+
+- **Task**: audit parita' def-by-def (~70 def Python da `d0c86c60~1:services/rules/*` vs Node `apps/backend/services/combat/*`). Delegabile (read+grep meccanico, Jules/LLM-locale + verifica). Home = SPEC-L (`runtime-feature-inventory-reconcile`).
+- **Priorita'**: P2, NON urgente (Node gira/funziona/testato). Dopo SPEC-K.
+
+### 🟢 P2 OPEN — Sprint Impronta (aa01/cap-\*) reuse-vs-supersede assessment (2026-06-07)
+
+Materiale era disk-only Lenovo (April 25-28); backuppato su `origin/aa01/cap-*` (13 branch) 2026-06-07. "Sprint Impronta Ondata 1" = sistema imprint/onboarding/primo-minuto:
+
+- backend: biome resolver (CAP-11), player telemetry (CAP-12), `onboarding_v2` schema + `/campaign/start/v2` (CAP-14), imprint phase in `coopOrchestrator` (CAP-15), REST `/coop/imprint/*` (CAP-15b).
+- frontend web `apps/play` `onboardingPanelV2` (CAP-14b, superseded da pivot Godot 04-29) + prototipo `prototypes/imprint-v2`.
+- **Rilevanza**: mappa sul canon ratificato ADR-2026-06-07 pt2 (onboarding-60s + Form Pulse). Backend = condiviso (Game=backend SoT anche Godot) -> possibile fondazione riusabile; frontend web = morto.
+- **Task**: diff endpoints/schema sprint vs main corrente -> reuse (backend) vs supersede (frontend) per-pezzo. Home = SPEC-A (Device Input Ledger) / Form-Pulse.
+- **Priorita'**: P2. Pairs con la build Form-Pulse/onboarding della roadmap.
+
+### 🟢 P3 OPEN — Stale services/rules (dead Python) doc/config refs cleanup (2026-06-07)
+
+Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/configs still cite `services/rules/*` Python (REMOVED `d0c86c60` / ADR-2026-04-19) as if alive -- misfire if run. NOT touched by weekend Codex (pre-existing staleness).
+
+- `.claude/agents/session-debugger.md` (resolver/round_orchestrator/hydration as live), `.claude/agents/balance-auditor.md` (`PYTHONPATH=services/rules`), `.claude/commands/{combat-sim,monitor,trait-lint,sprint-close}.md` + `.claude/TASK_PROTOCOL.md` (run/grep `services/rules`), `docs/PILLARS_STATUS.md` (pillar source), `docs/README_FULL_ARCHIVE.md` (engine "risiede in services/rules" + `demo_cli.py`).
+- **Task**: sed-sweep -> repoint a Node runtime (`apps/backend/services/combat/*`, `roundOrchestrator.js`, `abilityExecutor.js`) o marcare removed-per-ADR-2026-04-19. Delegabile (Jules/aider, meccanico). Low-urgency (comandi probabilmente inusati post-Node).
+- **Priorita'**: P3.
+
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
