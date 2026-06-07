@@ -39,13 +39,13 @@ The spec's sez.4 describes a "signal-bus routes to engines". The VERIFY proved t
 
 - Modify: `docs/design/evo-tactics-device-input-ledger.md` (sez. 4.1 component 4 + 4.2 data flow)
 
-- [ ] **Step 1: Edit sez.4.1 component 4** -- replace "instrada i `signal_events` agli engine LIVE come input aggiuntivi" with: "arricchisce `session.events` con decision-events flaggati (`event.flags.*`) + campi behavioral; gli engine LIVE li consumano via la pipeline esistente `vcScoring.computeRawMetrics` -> `computeMbtiAxes` / `evaluateConviction`. Il ledger NON instrada a un bus parallelo."
+- [x] **Step 1: Edit sez.4.1 component 4** -- replace "instrada i `signal_events` agli engine LIVE come input aggiuntivi" with: "arricchisce `session.events` con decision-events flaggati (`event.flags.*`) + campi behavioral; gli engine LIVE li consumano via la pipeline esistente `vcScoring.computeRawMetrics` -> `computeMbtiAxes` / `evaluateConviction`. Il ledger NON instrada a un bus parallelo."
 
-- [ ] **Step 2: Edit sez.4.2 data flow** -- change `deviceInputLedger { record decision ; route signal -> engine }` to `deviceInputLedger { validate + tier-tag ; enrich session.events } -> vcScoring.computeRawMetrics (pipeline esistente) -> axes/conviction`.
+- [x] **Step 2: Edit sez.4.2 data flow** -- change `deviceInputLedger { record decision ; route signal -> engine }` to `deviceInputLedger { validate + tier-tag ; enrich session.events } -> vcScoring.computeRawMetrics (pipeline esistente) -> axes/conviction`.
 
-- [ ] **Step 3: Add a note** under sez.10 VERIFY: "RISOLTO 2026-06-07: engine API = event-log-driven (vcScoring.computeRawMetrics + convictionEngine event.flags). Integrazione via enrichment, non routing-bus."
+- [x] **Step 3: Add a note** under sez.10 VERIFY: "RISOLTO 2026-06-07: engine API = event-log-driven (vcScoring.computeRawMetrics + convictionEngine event.flags). Integrazione via enrichment, non routing-bus."
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add docs/design/evo-tactics-device-input-ledger.md
@@ -66,7 +66,7 @@ The wire contract. Pure module, fully groundable -- this is also Plan 2's depend
 - Create: `apps/backend/services/deviceInput/eventSchema.js`
 - Test: `tests/services/deviceInput/eventSchema.test.js`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```js
 const { test } = require('node:test');
@@ -114,12 +114,12 @@ test('invalid tier is rejected', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `node --test tests/services/deviceInput/eventSchema.test.js`
 Expected: FAIL (module not found).
 
-- [ ] **Step 3: Write minimal implementation**
+- [x] **Step 3: Write minimal implementation**
 
 ```js
 // apps/backend/services/deviceInput/eventSchema.js
@@ -149,12 +149,12 @@ function validateDeviceEvent(ev) {
 module.exports = { TIERS, DEFAULT_TIER_BY_CLASS, validateDeviceEvent };
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `node --test tests/services/deviceInput/eventSchema.test.js`
 Expected: PASS (5/5).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/backend/services/deviceInput/eventSchema.js tests/services/deviceInput/eventSchema.test.js
@@ -175,7 +175,7 @@ Pure function: the TV broadcast may only carry `public` + `aggregated`. Fully gr
 - Create: `apps/backend/services/deviceInput/tierFilter.js`
 - Test: `tests/services/deviceInput/tierFilter.test.js`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```js
 const { test } = require('node:test');
@@ -209,12 +209,12 @@ test('missing tier is treated as not-TV-visible (fail-closed)', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `node --test tests/services/deviceInput/tierFilter.test.js`
 Expected: FAIL (module not found).
 
-- [ ] **Step 3: Write minimal implementation**
+- [x] **Step 3: Write minimal implementation**
 
 ```js
 // apps/backend/services/deviceInput/tierFilter.js
@@ -229,12 +229,12 @@ function filterForTvMirror(events) {
 module.exports = { TV_VISIBLE_TIERS, filterForTvMirror };
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `node --test tests/services/deviceInput/tierFilter.test.js`
 Expected: PASS (3/3).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/backend/services/deviceInput/tierFilter.js tests/services/deviceInput/tierFilter.test.js
@@ -255,17 +255,17 @@ Trace-Id: <uuidv7>"
 - Modify: `apps/backend/services/convictionEngine.js` (`classifyEvent`, ~line 106)
 - Test: extend `tests/services/convictionEngine.test.js` (or the existing conviction test)
 
-- [ ] **Step 1: READ FIRST (no placeholder).** Read `apps/backend/services/convictionEngine.js` lines 106-246 (`classifyEvent` body + `DELTA` table at line 54). Identify how existing events map to {utility, liberty, morality} deltas and the exact shape `classifyEvent` returns (delta object or null). Record the existing flag handling.
+- [x] **Step 1: READ FIRST (no placeholder).** Read `apps/backend/services/convictionEngine.js` lines 106-246 (`classifyEvent` body + `DELTA` table at line 54). Identify how existing events map to {utility, liberty, morality} deltas and the exact shape `classifyEvent` returns (delta object or null). Record the existing flag handling.
 
-- [ ] **Step 2: Write the failing test** -- after the read, write a test asserting that a decision-event carrying `flags.refuse_order` produces a positive `liberty` delta and `flags.sacrifice`/`flags.mercy` produce a `morality` delta, using the SAME return shape observed in Step 1. (Write the concrete assertions against the real `evaluateConviction`/`classifyEvent` signature.)
+- [x] **Step 2: Write the failing test** -- after the read, write a test asserting that a decision-event carrying `flags.refuse_order` produces a positive `liberty` delta and `flags.sacrifice`/`flags.mercy` produce a `morality` delta, using the SAME return shape observed in Step 1. (Write the concrete assertions against the real `evaluateConviction`/`classifyEvent` signature.)
 
-- [ ] **Step 3: Run test -- expect FAIL** (flags not yet honored).
+- [x] **Step 3: Run test -- expect FAIL** (flags not yet honored).
 
-- [ ] **Step 4: Implement** -- extend `classifyEvent` to read `event.flags.{refuse_order, sacrifice, mercy}` and emit the corresponding bounded delta (reuse the existing `DELTA` magnitudes; do NOT invent new scales). Keep null-return for events without semantics.
+- [x] **Step 4: Implement** -- extend `classifyEvent` to read `event.flags.{refuse_order, sacrifice, mercy}` and emit the corresponding bounded delta (reuse the existing `DELTA` magnitudes; do NOT invent new scales). Keep null-return for events without semantics.
 
-- [ ] **Step 5: Run test -- expect PASS** + run the full conviction suite to confirm no regression.
+- [x] **Step 5: Run test -- expect PASS** + run the full conviction suite to confirm no regression.
 
-- [ ] **Step 6: Commit** (`feat(conviction): honor explicit event.flags for liberty/morality deltas` + ADR-0011 trailers).
+- [x] **Step 6: Commit** (`feat(conviction): honor explicit event.flags for liberty/morality deltas` + ADR-0011 trailers).
 
 ---
 
@@ -279,17 +279,17 @@ Feed `commit_latency` / `hesitation_score` / `preview_dwell` (carried on signal-
 - Modify: telemetry YAML (`DEFAULT_TELEMETRY_PATH` near line 86)
 - Test: extend `tests/api/` vcScoring/mbti coverage
 
-- [ ] **Step 1: READ FIRST.** Read `apps/backend/services/vcScoring.js` lines 132-260 (`computeRawMetrics`) + 503-675 (`computeAggregateIndices`, `computeMbtiAxes`, `computeMbtiAxesIter2`). Read the telemetry YAML at `DEFAULT_TELEMETRY_PATH`. Record: the exact `raw` object shape, how weights are keyed, and which axes map J/P + S/N + E/I.
+- [x] **Step 1: READ FIRST.** Read `apps/backend/services/vcScoring.js` lines 132-260 (`computeRawMetrics`) + 503-675 (`computeAggregateIndices`, `computeMbtiAxes`, `computeMbtiAxesIter2`). Read the telemetry YAML at `DEFAULT_TELEMETRY_PATH`. Record: the exact `raw` object shape, how weights are keyed, and which axes map J/P + S/N + E/I.
 
-- [ ] **Step 2: Write the failing test** -- assert that an events array containing signal-events with `commit_latency` (high) raises the raw metric used for the J/P axis in the direction documented in SPEC-A (long deliberation -> P). Use the real `computeRawMetrics`/`computeMbtiAxes` signatures from Step 1.
+- [x] **Step 2: Write the failing test** -- assert that an events array containing signal-events with `commit_latency` (high) raises the raw metric used for the J/P axis in the direction documented in SPEC-A (long deliberation -> P). Use the real `computeRawMetrics`/`computeMbtiAxes` signatures from Step 1.
 
-- [ ] **Step 3: Run test -- expect FAIL.**
+- [x] **Step 3: Run test -- expect FAIL.**
 
-- [ ] **Step 4: Implement** -- in `computeRawMetrics`, accumulate the behavioral fields from signal-events into new raw keys (e.g. `raw.avgCommitLatency`, `raw.hesitationRate`, `raw.previewDwell`); add their weights to the telemetry YAML so `computeAggregateIndices`/`computeMbtiAxes` fold them. Keep deterministic; bound contributions (anti-noise, mirror existing dead-band logic at line 610).
+- [x] **Step 4: Implement** -- in `computeRawMetrics`, accumulate the behavioral fields from signal-events into new raw keys (e.g. `raw.avgCommitLatency`, `raw.hesitationRate`, `raw.previewDwell`); add their weights to the telemetry YAML so `computeAggregateIndices`/`computeMbtiAxes` fold them. Keep deterministic; bound contributions (anti-noise, mirror existing dead-band logic at line 610).
 
-- [ ] **Step 5: Run test -- expect PASS** + full vcScoring/mbti suite green (no regression on existing axes).
+- [x] **Step 5: Run test -- expect PASS** + full vcScoring/mbti suite green (no regression on existing axes).
 
-- [ ] **Step 6: Commit** (`feat(vcScoring): fold device behavioral signals into raw metrics + telemetry weights` + trailers).
+- [x] **Step 6: Commit** (`feat(vcScoring): fold device behavioral signals into raw metrics + telemetry weights` + trailers).
 
 ---
 
@@ -303,7 +303,7 @@ Feed `commit_latency` / `hesitation_score` / `preview_dwell` (carried on signal-
 - Test: `tests/services/deviceInput/ingest.test.js`
 - Modify (after read): `apps/backend/routes/session.js` / `wsSession.js` to call the facade + carry the consent flag.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```js
 const { test } = require('node:test');
@@ -352,9 +352,9 @@ test('invalid (raw) event is rejected regardless of consent', () => {
 });
 ```
 
-- [ ] **Step 2: Run test -- expect FAIL** (module not found).
+- [x] **Step 2: Run test -- expect FAIL** (module not found).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```js
 // apps/backend/services/deviceInput/index.js
@@ -375,11 +375,11 @@ function ingest(sessionEvents, deviceEvent, { profilingConsent = false } = {}) {
 module.exports = { ingest };
 ```
 
-- [ ] **Step 4: Run test -- expect PASS** (4/4).
+- [x] **Step 4: Run test -- expect PASS** (4/4).
 
-- [ ] **Step 5: Commit** (`feat(device-input): ingest facade with consent gate + decision-only degrade` + trailers).
+- [x] **Step 5: Commit** (`feat(device-input): ingest facade with consent gate + decision-only degrade` + trailers).
 
-- [ ] **Step 6: Wire into routes (after read).** Read the WS drain handlers in `services/network/wsSession.js` + `routes/session.js`, then route incoming device events through `ingest(...)`, apply `filterForTvMirror(...)` on the TV broadcast path, and thread `profilingConsent` from session/onboarding state. Add a route-level integration test mirroring the existing `tests/api/session*Wire.test.js` pattern.
+- [x] **Step 6: Wire into routes (after read).** Read the WS drain handlers in `services/network/wsSession.js` + `routes/session.js`, then route incoming device events through `ingest(...)`, apply `filterForTvMirror(...)` on the TV broadcast path, and thread `profilingConsent` from session/onboarding state. Add a route-level integration test mirroring the existing `tests/api/session*Wire.test.js` pattern.
 
 ---
 
