@@ -4,6 +4,19 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { enrichWorld } = require('../../../apps/backend/services/coop/worldEnricher');
+const ermesExporter = require('../../../apps/backend/services/coop/ermesExporter');
+const path = require('node:path');
+
+// Hermetic ERMES seam: force getErmesForBiome onto a nonexistent report path so
+// assertions exercise the deterministic STATIC_FALLBACKS, independent of whether a
+// local gitignored prototype report
+// (prototypes/ermes_lab/outputs/latest_eco_pressure_report.json) happens to be on
+// disk. Real static-fallback code path still runs; computeRoleGap preserved.
+const NO_ERMES_REPORT = path.join(__dirname, '__no_ermes_report__.json');
+const staticErmes = {
+  ...ermesExporter,
+  getErmesForBiome: (b) => ermesExporter.getErmesForBiome(b, { reportPath: NO_ERMES_REPORT }),
+};
 
 test('enrichWorld empty biomeId returns empty payload', () => {
   const r = enrichWorld({ biomeId: '' });
@@ -14,7 +27,7 @@ test('enrichWorld empty biomeId returns empty payload', () => {
 });
 
 test('enrichWorld savana returns full W5 schema', () => {
-  const r = enrichWorld({ biomeId: 'savana', runSeed: 42 });
+  const r = enrichWorld({ biomeId: 'savana', runSeed: 42 }, { ermesExporter: staticErmes });
   // world
   assert.equal(r.world.biome_id, 'savana');
   assert.ok(typeof r.world.biome_label_it === 'string' && r.world.biome_label_it.length > 0);
