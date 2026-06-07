@@ -378,8 +378,8 @@ Il player non vede ERMES come tool, vede il bioma che reagisce.
 | Piano originario  | `docs/planning/2026-04-29-ermes-integration-plan.md`        |
 | Lab               | `prototypes/ermes_lab/`                                     |
 | Backend exporter  | `apps/backend/services/coop/ermesExporter.js`               |
-| Trait costs       | `apps/backend/services/ai/applyErmesBiomeTraitCosts.js`     |
-| Eco effects       | `apps/backend/services/combat/applyBiomeEcoEffects.js`      |
+| Trait costs       | `apps/backend/services/traitEffects.js`                     |
+| Eco effects       | `apps/backend/services/traitEffects.js`                     |
 | Godot role gap    | `C:/dev/Game-Godot-v2/scripts/session/ermes_role_gap.gd`    |
 | Godot world setup | `C:/dev/Game-Godot-v2/scripts/session/world_setup_state.gd` |
 | Godot reveal      | `C:/dev/Game-Godot-v2/scripts/ui/world_seed_reveal_view.gd` |
@@ -463,7 +463,7 @@ route, rischi e lettura del mondo.
 Secondo Design-Data Atlas:
 
 - 20 biomi top-level.
-- 5 ecosystem YAML trofici.
+- 5 ecosystem YAML trofici (Atlas snapshot; il repo ora ne contiene ~21 sotto `packs/evo_tactics_pack/data/ecosystems/`).
 - 5 foodweb YAML.
 - Meta-network originariamente 5 nodi/11 archi, poi espanso con Atollo Obsidiana
   e routing graph.
@@ -487,7 +487,7 @@ Secondo Design-Data Atlas:
 | Biomi             | `data/core/biomes.yaml`                                            |
 | Ecosystems        | `packs/evo_tactics_pack/data/ecosystems/`                          |
 | Foodwebs          | `packs/evo_tactics_pack/data/foodwebs/`                            |
-| Meta-network      | `packs/evo_tactics_pack/ecosystems/network/`                       |
+| Meta-network      | `packs/evo_tactics_pack/data/ecosystems/network/`                  |
 | Worldgen services | `apps/backend/services/worldgen/`, `apps/backend/services/combat/` |
 
 **Stato**
@@ -532,9 +532,9 @@ del branco.
 
 **Stato**
 
-LIVE data, PARTIAL lifecycle/parts completeness. `data/core/species.yaml` non e'
-piu' fonte viva: la migrazione al catalogo unico ha spostato il SoT runtime su
-`data/core/species/species_catalog.json`.
+LIVE data, PARTIAL lifecycle/parts completeness. `data/core/species.yaml` e'
+stato rimosso: la migrazione al catalogo unico lo ha eliminato e spostato il SoT
+runtime su `data/core/species/species_catalog.json`.
 
 ### 5.8 Parti del corpo, Morph e ferite
 
@@ -670,7 +670,7 @@ Il planning expansion identifica:
 | Expansion jobs     | `data/core/jobs_expansion.yaml`                          |
 | Perks              | `data/core/progression/perks.yaml`                       |
 | Progression engine | `apps/backend/services/progression/progressionEngine.js` |
-| Ability executor   | `apps/backend/services/combat/abilityExecutor.js`        |
+| Ability executor   | `apps/backend/services/abilityExecutor.js`               |
 
 **Stato**
 
@@ -741,15 +741,15 @@ Esempi input:
 
 **Dove vive**
 
-| Tipo               | Path                                                      |
-| ------------------ | --------------------------------------------------------- |
-| Forme core         | `docs/core/22-FORME_BASE_16.md`                           |
-| Naming audit       | `docs/reports/2026-04-26-forme-naming-integration.md`     |
-| MBTI forms         | `data/core/forms/mbti_forms.yaml`                         |
-| VC scoring backend | `apps/backend/services/vcScoring.js`                      |
-| VC scoring Godot   | `C:/dev/Game-Godot-v2/scripts/scoring/vc_scoring.gd`      |
-| MBTI Godot         | `C:/dev/Game-Godot-v2/scripts/scoring/vc_scoring_mbti.gd` |
-| Ennea data         | `packs/evo_tactics_pack/tools/py/ennea/`                  |
+| Tipo               | Path                                                  |
+| ------------------ | ----------------------------------------------------- |
+| Forme core         | `docs/core/22-FORME_BASE_16.md`                       |
+| Naming audit       | `docs/reports/2026-04-26-forme-naming-integration.md` |
+| MBTI forms         | `data/core/forms/mbti_forms.yaml`                     |
+| VC scoring backend | `apps/backend/services/vcScoring.js`                  |
+| VC scoring Godot   | `C:/dev/Game-Godot-v2/scripts/ai/vc_scoring.gd`       |
+| MBTI Godot         | `C:/dev/Game-Godot-v2/scripts/ai/vc_scoring_mbti.gd`  |
+| Ennea data         | `packs/evo_tactics_pack/tools/py/ennea/`              |
 
 **Stato**
 
@@ -842,7 +842,7 @@ avere trigger, slot/corpo, costo, effetto, aspetto e memoria.
 | Spore ADR         | `docs/adr/ADR-2026-04-26-spore-part-pack-slots.md`           |
 | Auto-trigger ADR  | `docs/adr/ADR-2026-05-10-mutation-auto-trigger-evaluator.md` |
 | Mutation catalog  | `data/core/mutations/mutation_catalog.yaml`                  |
-| Mutation engine   | `apps/backend/services/mutationEngine.js`                    |
+| Mutation engine   | `apps/backend/services/mutations/mutationEngine.js`          |
 | Trigger evaluator | `apps/backend/services/combat/mutationTriggerEvaluator.js`   |
 | Round wire        | `apps/backend/routes/sessionRoundBridge.js`                  |
 
@@ -1078,7 +1078,7 @@ Le PR H2 e full-loop hanno reso piu' misurabili:
 | Tipo               | Path                                                     |
 | ------------------ | -------------------------------------------------------- |
 | Economy canon      | `docs/core/26-ECONOMY_CANONICAL.md`                      |
-| Ability executor   | `apps/backend/services/combat/abilityExecutor.js`        |
+| Ability executor   | `apps/backend/services/abilityExecutor.js`               |
 | Progression engine | `apps/backend/services/progression/progressionEngine.js` |
 | Band aggregator    | `tools/sim/meta-band-aggregator.js`                      |
 | Full-loop batch    | `tools/sim/full-loop-batch.js`                           |
@@ -1398,9 +1398,10 @@ Follow-up code-first collegato:
 - `docs/planning/2026-06-06-game-godot-code-surface-reconcile.md`
 
 Nota di lettura: il follow-up non cambia la direzione ratificata TV/device, ma
-separa il codice storico host-driven dai percorsi piu' recenti device-driven e
-identifica un branch skew preciso su route vote: assente nel branch corrente
-Game del thread, gia' presente su Game `origin/main` e Godot `origin/main`.
+separa il codice storico host-driven dai percorsi piu' recenti device-driven.
+Update route vote: ora e' LIVE su Game `origin/main` ed e' presente anche in
+questo branch (PR #2597 merged -- `coopOrchestrator.js` voteRoute +
+`wsSession.js` drain `route_vote`); lo skew local-branch precedente e' risolto.
 
 ### A. Drift chiusi da non riaprire
 
@@ -1436,18 +1437,18 @@ deve considerare H2 come build avanzata, non come "unico verdetto aperto".
 Questi sistemi non cambiano la visione TV/device, ma sono parte del gioco reale
 e vanno collegati alle fasi corrette.
 
-| Sistema runtime                | Dove vive                                                     | Dove entra nel flow                                                                   |
-| ------------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `senseReveal`                  | `apps/backend/services/combat/senseReveal.js`                 | info asimmetrica device; creature con sensi diversi vedono segnali diversi            |
-| `telepathicReveal`             | `apps/backend/services/combat/telepathicReveal.js`            | preview/intelligence filtrata, non TV authority                                       |
-| `rewindBuffer`                 | `apps/backend/services/combat/rewindBuffer.js`                | fairness/debug/replay; eventuale undo solo se esplicitamente concesso dal device flow |
-| `defyEngine`                   | `apps/backend/services/combat/defyEngine.js`                  | pushback Sistema, failure-as-lore e momenti di resistenza                             |
-| `overchargeEngine`             | `apps/backend/services/combat/overchargeEngine.js`            | economia SG/AP e scelta di rischio in combat                                          |
-| `missionTimer`                 | `apps/backend/services/combat/missionTimer.js`                | pressione round-by-round, resa TV come clock/urgenza                                  |
-| `reinforcementSpawner`         | `apps/backend/services/combat/reinforcementSpawner.js`        | telegraph Sistema/ERMES; surface TV/device deve mostrarlo prima dello spawn           |
-| `tunicGlyphs` / codex          | `apps/backend/services/codex/tunicGlyphs.js`, `codexState.js` | layer Codex/decifrazione, unlock e memoria campagna                                   |
-| `diaryStore`                   | `apps/backend/services/diary/diaryStore.js`                   | cronaca per-creatura/Custode esportabile                                              |
-| `rewardOffer` / reward economy | `apps/backend/services/rewards/`, `rewardEconomy.js`          | Tri-Sorgente, sedimentazione e reward post-round/post-missione                        |
+| Sistema runtime                | Dove vive                                                                  | Dove entra nel flow                                                                   |
+| ------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `senseReveal`                  | `apps/backend/services/combat/senseReveal.js`                              | info asimmetrica device; creature con sensi diversi vedono segnali diversi            |
+| `telepathicReveal`             | `apps/backend/services/combat/telepathicReveal.js`                         | preview/intelligence filtrata, non TV authority                                       |
+| `rewindBuffer`                 | `apps/backend/services/combat/rewindBuffer.js`                             | fairness/debug/replay; eventuale undo solo se esplicitamente concesso dal device flow |
+| `defyEngine`                   | `apps/backend/services/combat/defyEngine.js`                               | pushback Sistema, failure-as-lore e momenti di resistenza                             |
+| `overchargeEngine`             | `apps/backend/services/combat/overchargeEngine.js`                         | economia SG/AP e scelta di rischio in combat                                          |
+| `missionTimer`                 | `apps/backend/services/combat/missionTimer.js`                             | pressione round-by-round, resa TV come clock/urgenza                                  |
+| `reinforcementSpawner`         | `apps/backend/services/combat/reinforcementSpawner.js`                     | telegraph Sistema/ERMES; surface TV/device deve mostrarlo prima dello spawn           |
+| `tunicGlyphs` / codex          | `apps/backend/services/codex/tunicGlyphs.js`, `codexState.js`              | layer Codex/decifrazione, unlock e memoria campagna                                   |
+| `diaryStore`                   | `apps/backend/services/diary/diaryStore.js`                                | cronaca per-creatura/Custode esportabile                                              |
+| `rewardOffer` / reward economy | `apps/backend/services/rewards/`, `apps/backend/services/rewardEconomy.js` | Tri-Sorgente, sedimentazione e reward post-round/post-missione                        |
 
 ### C. Gap ancora veri dopo il secondo passaggio
 

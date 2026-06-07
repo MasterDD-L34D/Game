@@ -72,7 +72,7 @@ Bioma -> Ecosistema -> Missione -> Planning condivisa -> Resolve -> Debrief
 -> Nuova missione
 ```
 
-Fonte: `docs/core/00-SOURCE-OF-TRUTH.md` linea 1339.
+Fonte: `docs/core/00-SOURCE-OF-TRUTH.md` linea 1349.
 
 ## 2. La sequenza completa corretta
 
@@ -150,8 +150,8 @@ Il Form Pulse non finisce nella lobby. La campagna continua a osservare i player
 Fonti attuali:
 
 - `apps/backend/services/vcScoring.js`
-- `C:/dev/Game-Godot-v2/scripts/scoring/vc_scoring.gd`
-- `C:/dev/Game-Godot-v2/scripts/scoring/vc_scoring_mbti.gd`
+- `C:/dev/Game-Godot-v2/scripts/ai/vc_scoring.gd`
+- `C:/dev/Game-Godot-v2/scripts/ai/vc_scoring_mbti.gd`
 
 L'intento:
 
@@ -310,7 +310,7 @@ Sistema = Overlord persistente
 Custodi named = layer sopra, non rewrite
 ```
 
-Fonte: `docs/core/00-SOURCE-OF-TRUTH.md` linee 1204-1208.
+Fonte: `docs/core/00-SOURCE-OF-TRUTH.md` linee 1214-1218.
 
 ### Fase 8 - Nodo/missione/route choice
 
@@ -507,7 +507,7 @@ Recruit recente:
 
 ```text
 combat end host -> recruit_candidates -> /api/coop/combat/end
--> debrief_payload -> phone compatibility/recruit -> /api/meta/recruit -> Nido
+-> debrief_payload -> phone compatibility/recruit -> /api/v1/meta/recruit -> Nido
 ```
 
 Fonte: `C:/dev/Game-Godot-v2/docs/godot-v2/sprints/handoff-2026-06-03-debrief-recruit-producer.md`
@@ -1013,14 +1013,13 @@ Manca ancora la surface completa TV/phone:
 
 Controllo cross-repo 2026-06-06:
 
-- `C:/dev/Game-Godot-v2/scripts/phone/phone_nido_view.gd` descrive oggi il
-  phone Nido come mirror read-only e dice che "the host drives Nido upgrades
-  from the TV";
+- il `host drives` storico e' linguaggio SPEC-K segnalato per il ritiro, non lo
+  stato attuale dei file live;
+- `C:/dev/Game-Godot-v2/scripts/phone/phone_nido_view.gd` afferma gia' che le
+  azioni Nido appartengono ai device connessi e che la view resta mirror
+  read-only in attesa delle action tab K-04;
 - `C:/dev/Game-Godot-v2/scripts/ui/nido_hub_view.gd` e' una TV hub view
-  read-only/render, ma la documentazione locale Godot conserva ancora il
-  linguaggio "host drives";
-- questo confligge con la decisione ratificata in chat: la TV non prende input
-  di gameplay.
+  read-only/render, coerente col target TV mirror.
 
 Riconciliazione target:
 
