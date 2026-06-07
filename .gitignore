@@ -114,3 +114,8 @@ apps/backend/public/phone/
 
 # 2026-05-21 staging-writer fix (issue #2356) -- ephemeral calibration candidate
 data/core/balance/damage_curves.staging.yaml
+
+# Playtest parallel-hardcore run artifacts (raw shards/streams/logs).
+# Historical runs already committed stay tracked; this stops NEW runs from
+# cluttering git status. To intentionally keep a run: git add -f.
+docs/playtest/parallel-hardcore_*
