@@ -162,13 +162,15 @@ diagnostica. La direzione va allineata con
 
 ## 5. Code reality minima
 
-`C:/dev/Game` branch corrente durante l'audit:
+`C:/dev/Game` durante l'audit (stato 2026-06-06):
 
-- branch: `claude/jules-test-coverage-batch-2026-06-03`;
+- branch (storico): `claude/jules-test-coverage-batch-2026-06-03`;
 - HEAD audit: `7f7f99af`;
-- `origin/main`: `3e2546e2`;
-- nota: route-vote e diversi fix meta-network sono su `origin/main`, non
-  necessariamente nel branch corrente.
+- `origin/main`: `3e2546e2`.
+
+**Currency re-verify 2026-06-07:** lo skew e' chiuso -- il branch storico non
+esiste piu', Game e' su `main` sincronizzato e route-vote/meta-network (#2597)
+sono su `main`. Nessun realign pendente; non re-implementare.
 
 `C:/dev/Game-Godot-v2` durante l'audit:
 
