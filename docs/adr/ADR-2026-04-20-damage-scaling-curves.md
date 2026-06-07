@@ -3,7 +3,7 @@ title: 'ADR 2026-04-20 — Damage scaling curves (difficulty as feature, not tun
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-20'
+last_verified: '2026-06-07'
 source_of_truth: false
 language: it
 review_cycle_days: 30

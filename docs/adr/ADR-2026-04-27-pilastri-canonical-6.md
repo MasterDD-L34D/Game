@@ -3,7 +3,7 @@ title: 'ADR-2026-04-27: Pilastri canonical — 6-pilastri (P1-P6) wins'
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-27
+last_verified: 2026-06-07
 source_of_truth: false
 language: it-en
 review_cycle_days: 30

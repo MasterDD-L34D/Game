@@ -2,7 +2,7 @@
 doc_status: active
 doc_owner: master-dd
 workstream: dataset-pack
-last_verified: '2026-04-16'
+last_verified: '2026-06-07'
 source_of_truth: false
 language: it
 review_cycle_days: 30
