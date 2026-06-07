@@ -3,7 +3,7 @@ title: Final Design Freeze v0.9 — Evo Tactics
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -27,6 +27,8 @@ Il freeze e' stato consolidato usando come base:
 - materiali sorgente esterni ora **gia' assorbiti nel repo** sotto `data/core/`, `packs/evo_tactics_pack/data/` e `docs/` (provenance storica: pacchetto parametrico `evo_tactics_param_synergy_v8_3` e devkit/validator `EvoTactics_FullRepo_v1.0`, non piu' usati come fonte runtime).
 
 Obiettivo: trasformare documentazione sparsa in una decisione di produzione chiara, chiudendo scope, sistemi core, contenuti minimi, regole di tuning, validazione e dipendenze tra repo.
+
+**Re-verify 2026-06-06**: freeze ancora valido come vincolo prodotto. Stato operativo aggiornato: `Game` resta backend/runtime SoT; `Game-Godot-v2` e' la surface TV/phone attiva; TV/shared screen e' mirror/tavolo/recap, mentre input e conferme gameplay appartengono ai device. Nido/recruit/mating, route-choice, Form Pulse, ERMES/ALIENA e Custodi/Skiv sono in vari stati `LIVE_PARTIAL`/`LIVE_GATED`; party-select da Nido, Tri-Sorgente orchestrata e device-authority hardening restano build/gate successivi.
 
 ## 0.1 Roadmap & Execution Files
 
@@ -81,14 +83,14 @@ Path reali del repo `Game`, leggibili dal rules engine e dai validator:
 
 ### 2.3 Fonti di supporto (tooling)
 
-Validator e smoke tool veramente presenti nel repo:
+Validator e smoke tool veramente presenti nel repo. Nota 2026-06-06: i tool Python sotto `services/rules/*` sono storici/deprecati per il runtime combat; il runtime canonical e' Node (`apps/backend/routes/session.js`, `apps/backend/services/combat/*`, `apps/backend/services/roundOrchestrator.js`).
 
-- `services/rules/resolver.py`, `services/rules/round_orchestrator.py`, `services/rules/hydration.py` — rules engine Python.
-- `services/rules/demo_cli.py` — CLI dimostrativa + smoke combat.
+- `services/rules/resolver.py`, `services/rules/round_orchestrator.py`, `services/rules/hydration.py` — rules engine Python legacy, riferimento storico.
+- `services/rules/demo_cli.py` — CLI dimostrativa legacy.
 - `tools/py/game_cli.py` — validator datasets + ecosystem pack (`validate-datasets`, `validate-ecosystem-pack`).
 - `tools/check_docs_governance.py` — validator docs (schema + registry + strict mode).
 - `scripts/run_deploy_checks.sh` — gate di deploy.
-- `tests/test_resolver.py`, `tests/test_hydration.py`, `tests/test_round_orchestrator.py` — regression pytest del rules engine.
+- `tests/test_resolver.py`, `tests/test_hydration.py`, `tests/test_round_orchestrator.py` — regression pytest legacy.
 - `tests/api/contracts-combat.test.js`, `tests/api/contracts-trait-mechanics.test.js` — contract tests lato Node.
 
 ## 3. Visione e promessa del prodotto

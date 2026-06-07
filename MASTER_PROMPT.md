@@ -3,7 +3,7 @@ title: MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -13,6 +13,10 @@ review_cycle_days: 14
 
 Questo file contiene un prompt da incollare all’inizio di ogni nuova sessione
 di ChatGPT/Codex quando lavori sul repo **Game / Evo Tactics**.
+
+> **2026-06-06 re-verify**: prompt legacy utile per bootstrap manuale.
+> Le sessioni Codex/Claude moderne devono comunque rispettare `CLAUDE.md`,
+> `AGENTS.md`, `.ai/BOOT_PROFILE.md` e i guardrail correnti del repo.
 
 ---
 

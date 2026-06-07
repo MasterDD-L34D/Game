@@ -5,7 +5,7 @@ tags: [dataset, pack, taxonomy]
 doc_status: active
 doc_owner: data-pack-team
 workstream: dataset-pack
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -22,8 +22,8 @@ review_cycle_days: 14
 ## Documenti live
 
 - [README pack](../evo-tactics-pack/README.md)
-- [Traits alignment](../traits_evo_pack_alignment.md)
-- [Migration targeted workplan](../migration_targeted_workplan.md)
+- [Traits alignment](../traits/traits_evo_pack_alignment.md)
+- [FAQ validatori](../guide/faq.md)
 
 ## Gate principali
 

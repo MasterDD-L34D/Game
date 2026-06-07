@@ -5,7 +5,7 @@ tags: [governance, index, dual-track]
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-13
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 30
@@ -20,8 +20,11 @@ Entry-point canonico unico:
 Entrypoint legacy mantenuti attivi in dual-track:
 
 - `docs/README.md` -> canonical hub
-- `docs/INDEX.md` -> canonical hub
 - `docs/00-INDEX.md` -> canonical hub
+
+Entrypoint legacy non presente nel checkout corrente:
+
+- `docs/INDEX.md` -> non esiste; non ricreare senza decisione governance.
 
 Regola operativa:
 

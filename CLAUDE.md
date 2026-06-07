@@ -3,7 +3,7 @@ title: CLAUDE.md
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-06-03
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -119,6 +119,7 @@ A fine sessione significativa (≥2 PR mergiati O nuovo agent/skill) aggiorna SE
 ## Repository layout (high-level)
 
 npm workspaces (root `package.json`):
+
 - `apps/backend/` — Express "Idea Engine" API (entry `index.js`, Prisma under `apps/backend/prisma/`). Serves `/api/*` incl. `/api/v1/generation/species`, `/api/v1/atlas/*`, `/api/mock/*`, `/api/ideas/*`.
 - `services/generation/` — Node/Python bridge (`SpeciesBuilder`, `TraitCatalog`, biome synthesizer, validators). Python orchestrator (`orchestrator.py`) called from Node via pool in `config/orchestrator.json`.
 - `apps/backend/services/combat/` — Node combat logic canonical: `resistanceEngine.js`, `reinforcementSpawner.js`, `objectiveEvaluator.js` (replaced ex-`services/rules/` Python, ADR-2026-04-19).
@@ -136,7 +137,9 @@ README "Settori e dipendenze" = canonical dependency map (Flow/Atlas/backend/dat
 **Frontmatter required** for every new `.md` in `docs/` (except `docs/generated/`). Schema: `docs/governance/docs_metadata.schema.json`. Run `python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --strict` before commit (CI: `.github/workflows/docs-governance.yml`). Adding/moving docs → update `docs_registry.json` atomically same PR (`tools/docs_governance_migrator.py` for bulk).
 
 ## Common commands
+
 Node 18+ (22.19.0 rec) + npm 11+; Python 3.10+. Install: `npm ci` (root) + `npm --prefix tools/ts install` + `pip install -r tools/py/requirements.txt` (+`requirements-dev.txt`). `npm run prepare` wires Husky.
+
 - **Dev stack**: `npm run start:api` (backend `http://0.0.0.0:3334`, override `PORT`; NeDB default `data/idea_engine.db`, Prisma/Postgres if `DATABASE_URL`). Port 3334 since Apr 2026 to avoid Game-Database 3333, see `docs/adr/ADR-2026-04-14-game-database-topology.md`. `docker compose up` — Postgres + backend (auto Prisma bootstrap, marker `.docker-prisma-bootstrapped`).
 - **Tests**: `npm run test` (=`test:backend`). `npm run test:api` — Node `--test tests/api/*.test.js` + multiple `tsx` specs + `node --test tests/server/generationSnapshot.spec.js` + deploy-checks (most set `ORCHESTRATOR_AUTOCLOSE_MS=2000` — keep it). One Node file: `node --test tests/api/<file>.test.js` (`--test-name-pattern '<name>'`). One tsx spec: `./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts`. tools/ts: `npm --prefix tools/ts test` (Playwright-only `npm run test:web`). Python: `PYTHONPATH=tools/py pytest`. Docs gen: `npm run test:docs-generator`. AI/session: `node --test tests/ai/*.test.js` (45 test).
 - **Build/lint/format**: `npm run build` · `npm run ci:stack` (lint:stack + test:backend, mirrors CI) · `npm run lint:stack` (Prettier) · `npm run format` / `format:check` · `npm run schema:lint` (AJV YAML `schemas/evo/`) · `npm run docs:lint` / `docs:smoke` · `npm run style:check` (trait style linter).
@@ -144,6 +147,7 @@ Node 18+ (22.19.0 rec) + npm 11+; Python 3.10+. Install: `npm ci` (root) + `npm 
 - **Database**: `npm run db:migrate` / `db:migrate:down` / `db:migrate:status` (`scripts/db/run_migrations.py`). `npm run dev:setup --workspace apps/backend` (prisma generate + migrate deploy + db seed).
 
 ## Architecture notes (read multiple files)
+
 - **Generation (Flow)**: HTTP → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`orchestrator.py`) via worker pool. Inputs normalized; trait validation fail → hardcoded fallback set logged as structured JSON. Responses = `blueprint`+`validation`+`meta` — don't change shape without `packages/contracts` + dashboard renderers.
 - **Combat (Rules Engine d20)**: runtime Node canonical in `apps/backend/services/combat/` + `roundOrchestrator.js` (round phases planning→commit→resolve) + `traitEffects.js` (2-pass). Mechanical values: `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`. Payload schema: `packages/contracts/schemas/combat.schema.json`. Hub: `docs/hubs/combat.md`; [ADR-2026-04-19](docs/adr/ADR-2026-04-19-kill-python-rules-engine.md).
 - **Session engine** (round model since ADR-2026-04-16): 4 moduli — `session.js`, `sessionRoundBridge.js`, `sessionHelpers.js`, `sessionConstants.js`. Round model ON by default. AI SIS uses `declareSistemaIntents.js`. Raw event schema `{action_type,turn,actor_id,target_id,damage_dealt,result,position_from,position_to}` — used by vcScoring, don't break.

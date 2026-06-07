@@ -4,13 +4,15 @@ description: Catalog dei 5 status effect implementati e procedura per aggiungern
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Status Effects Guide
+
+> **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
 Il rules engine supporta **5 status effect** nella Phase 2: `bleeding`, `fracture`, `disorient`, `rage`, `panic`. Questo documento li cataloga uno per uno, spiega come vengono triggerati e consumati, e fornisce la procedura per aggiungerne di nuovi.
 

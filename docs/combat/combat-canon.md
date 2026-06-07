@@ -5,7 +5,7 @@ tags: [combat, rules-engine, d20, canon]
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-18
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -29,6 +29,12 @@ apply_status` nella colonna _Implementazione_ sotto sono **naming legacy**
 > reconciliation per-riga della colonna _Implementazione_ ai moduli Node
 > esatti (naming-only, non semantico) — vedi
 > `EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md §6`.
+>
+> **Re-verified 2026-06-06.** Path Node canonici ancora presenti:
+> `apps/backend/services/roundOrchestrator.js`,
+> `apps/backend/services/combat/*`, `apps/backend/routes/sessionRoundBridge.js`
+> e `apps/backend/services/abilityExecutor.js`. Nessun cambio semantico applicato
+> in questa revisione; solo burn-down governance stale.
 
 ## 1. Action types shipping
 

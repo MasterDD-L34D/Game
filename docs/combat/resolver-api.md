@@ -4,13 +4,15 @@ description: API reference del modulo services/rules/resolver.py con signature, 
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Resolver API Reference
+
+> **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
 API reference del modulo `services/rules/resolver.py`. Il resolver è **puro**: nessun I/O, nessuno stato globale, nessun randomness interno (l'RNG è passato come argomento). Ogni funzione che "muta" lo stato in realtà produce una deep copy.
 

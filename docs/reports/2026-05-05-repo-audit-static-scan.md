@@ -3,7 +3,7 @@ title: "Repo audit static scan 2026-05-05"
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-05
+last_verified: 2026-06-06
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -20,6 +20,11 @@ tags: [audit, orphan, dead-code, stub, gate5, yaml, traits, pre-cutover]
 > **Scope**: pre-cutover Phase A (ADR-2026-05-05) static scan. Game/ + Game-Godot-v2. Identifies orphan code, dead routes, stub registry tier matrix, Engine LIVE Surface DEAD (Gate 5) violations, YAML data orphans.
 >
 > **3 agents parallel** — run 2026-05-05. Agent 1: Game/ backend. Agent 2: Godot v2. Agent 3: cross-stack YAML.
+>
+> **Re-verified 2026-06-06.** Historical audit snapshot retained as planning
+> evidence, not live SoT. Use newer reconstruction/K-L docs for current build
+> routing; findings below remain useful as provenance unless superseded by later
+> PRs/docs.
 
 ---
 

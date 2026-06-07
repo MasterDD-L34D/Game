@@ -3,13 +3,20 @@ title: Evo Final Design — Source Authority Map
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
 ---
 
 # Evo Final Design — Source Authority Map
+
+> **2026-06-06 re-verify**: la gerarchia di autorita resta valida. Aggiornamenti
+> operativi: per TV/device, Nido, Custodi/Skiv, ALIENA/ERMES, route-vote e
+> SPEC-K/L leggere anche la ricostruzione TV/device e la K/L operational matrix.
+> La TV e' mirror/tavolo, non input authority; i device sono la superficie di
+> scelta/commit. I planning storici non riaprono gap gia' live/gated su Game
+> `origin/main` o Game-Godot-v2 `main`.
 
 ## 1. Scopo
 
@@ -79,27 +86,30 @@ la versione piu recente e canonica vince.
 
 ## 5. Matrice domanda -> fonte da consultare per prima
 
-| Domanda                                                                   | Prima fonte da leggere                                                            | Seconda fonte                                         | Terza fonte             |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------- |
-| Questo file deve esistere? dove va? con che metadata?                     | `docs/governance/docs_registry.json`                                              | `docs/governance/README.md`                           | `CLAUDE.md`             |
-| Il runtime puo dipendere da Game-Database?                                | `docs/adr/ADR-2026-04-14-game-database-topology.md`                               | `docs/hubs/backend.md` / hub rilevante                | freeze                  |
-| Quali regole combat sono in scope shipping?                               | `docs/hubs/combat.md`                                                             | `docs/combat/README.md`                               | freeze                  |
-| Qual e il round loop di combat / modello di fase planning-commit-resolve? | `docs/combat/round-loop.md`                                                       | `docs/adr/ADR-2026-04-15-round-based-combat-model.md` | `docs/hubs/combat.md`   |
-| Cos'e' il resolver atomico e quali API espone?                            | `docs/combat/resolver-api.md`                                                     | `services/rules/resolver.py`                          | `docs/combat/README.md` |
-| Quali numeri o mapping sono veri?                                         | `data/core/*` / `packs/evo_tactics_pack/data/*`                                   | `packages/contracts/schemas/*`                        | freeze                  |
-| Qual e il prodotto che stiamo chiudendo?                                  | freeze                                                                            | `docs/core/01-VISIONE.md` / overview                  | deep research / Canvas  |
-| Come deve lavorare Codex/Claude?                                          | `AGENTS.md` / `.ai/BOOT_PROFILE.md` / `docs/ops/COMMAND_LIBRARY.md` / `CLAUDE.md` | playbook Codex                                        | roadmap                 |
-| Una roadmap storica del 2025 e ancora valida?                             | freeze                                                                            | authority map                                         | file storico stesso     |
+| Domanda                                                                   | Prima fonte da leggere                                                            | Seconda fonte                                                   | Terza fonte              |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------ |
+| Questo file deve esistere? dove va? con che metadata?                     | `docs/governance/docs_registry.json`                                              | `docs/governance/README.md`                                     | `CLAUDE.md`              |
+| Il runtime puo dipendere da Game-Database?                                | `docs/adr/ADR-2026-04-14-game-database-topology.md`                               | `docs/hubs/backend.md` / hub rilevante                          | freeze                   |
+| Quali regole combat sono in scope shipping?                               | `docs/hubs/combat.md`                                                             | `docs/combat/README.md`                                         | freeze                   |
+| Qual e il round loop di combat / modello di fase planning-commit-resolve? | `docs/combat/round-loop.md`                                                       | `docs/adr/ADR-2026-04-15-round-based-combat-model.md`           | `docs/hubs/combat.md`    |
+| Qual e il contratto TV/device/join/Nido corrente?                         | `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`  | `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md` | Game/Godot code surfaces |
+| Qual e lo stato operativo feature -> path -> gate -> next ticket?         | `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md`                   | SPEC-K/SPEC-L e code-surface reconcile                          | BACKLOG / OPEN_DECISIONS |
+| Skiv e Custodi sono sistemi separati?                                     | `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`  | `docs/core/00F-ART_AUDIO_BUSINESS.md`                           | `docs/skiv/CANONICAL.md` |
+| Cos'e' il resolver atomico e quali API espone?                            | `docs/combat/resolver-api.md`                                                     | `services/rules/resolver.py`                                    | `docs/combat/README.md`  |
+| Quali numeri o mapping sono veri?                                         | `data/core/*` / `packs/evo_tactics_pack/data/*`                                   | `packages/contracts/schemas/*`                                  | freeze                   |
+| Qual e il prodotto che stiamo chiudendo?                                  | freeze                                                                            | `docs/core/01-VISIONE.md` / overview                            | deep research / Canvas   |
+| Come deve lavorare Codex/Claude?                                          | `AGENTS.md` / `.ai/BOOT_PROFILE.md` / `docs/ops/COMMAND_LIBRARY.md` / `CLAUDE.md` | playbook Codex                                                  | roadmap                  |
+| Una roadmap storica del 2025 e ancora valida?                             | freeze                                                                            | authority map                                                   | file storico stesso      |
 
 ## 6. Guardrail per agenti ed esecutori
 
 | Stato | Task                                        | Dettagli operativi                                                                                                              |
 | ----- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Non promuovere automaticamente file storici | Canvas, action items e checklist storiche non diventano canonici senza passaggio esplicito nel freeze o nei documenti canonici. |
-| ☑    | Non usare il DB come scorciatoia di design  | `Game-Database` non risolve conflitti aperti nel design finale e non diventa runtime authority nel freeze.                      |
-| ☑    | Non hardcodare verita dati nei documenti    | Se un numero o mapping vive in YAML/schema, il documento deve puntare a quella fonte.                                           |
-| ☑    | Non inventare comandi agente                | Seguire `AGENTS.md`, `.ai/BOOT_PROFILE.md`, `docs/ops/COMMAND_LIBRARY.md` e `CLAUDE.md`.                                        |
-| ☑    | Escalare i conflitti veri                   | Se due fonti di pari livello sembrano incompatibili, aprire nota di conflitto invece di scegliere arbitrariamente.              |
+| ☑     | Non promuovere automaticamente file storici | Canvas, action items e checklist storiche non diventano canonici senza passaggio esplicito nel freeze o nei documenti canonici. |
+| ☑     | Non usare il DB come scorciatoia di design  | `Game-Database` non risolve conflitti aperti nel design finale e non diventa runtime authority nel freeze.                      |
+| ☑     | Non hardcodare verita dati nei documenti    | Se un numero o mapping vive in YAML/schema, il documento deve puntare a quella fonte.                                           |
+| ☑     | Non inventare comandi agente                | Seguire `AGENTS.md`, `.ai/BOOT_PROFILE.md`, `docs/ops/COMMAND_LIBRARY.md` e `CLAUDE.md`.                                        |
+| ☑     | Escalare i conflitti veri                   | Se due fonti di pari livello sembrano incompatibili, aprire nota di conflitto invece di scegliere arbitrariamente.              |
 
 ## 7. Decisioni immediate di merge
 

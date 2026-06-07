@@ -3,7 +3,7 @@ title: 2026-04-29 Master execution plan v3 — post Godot pivot decision
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-07
+last_verified: 2026-06-06
 source_of_truth: true
 language: it
 review_cycle_days: 14
@@ -19,6 +19,15 @@ related:
 ---
 
 # Master execution plan v3 — post Godot pivot decision
+
+> **2026-06-06 re-verify**: questo piano resta source-of-truth storico per il
+> pivot Godot e perche' il lavoro si e' spostato su Game-Godot-v2, ma non va
+> letto come backlog quotidiano corrente. Per stato operativo usare
+> [`2026-06-06-evo-tactics-kl-operational-matrix.md`](2026-06-06-evo-tactics-kl-operational-matrix.md),
+> [`2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`](2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md)
+> e il branch allineato a `Game origin/main` / `Game-Godot-v2 main`.
+> Route-vote, graph combat, recruit canonical e Nido gated non sono gap assenti:
+> vanno trattati come feature live/gated da smokeare o completare con SPEC-E/K/L.
 
 > **2026-05-07 — Fase 3 Phase A LIVE**: cutover Godot v2 ACCEPTED ([ADR-2026-05-05](../adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md)). Primary frontend = Godot v2 phone HTML5, web v1 secondary fallback. Monitoring window 7gg grace started. Phase B archive trigger post 7gg + 1+ playtest pass.
 
@@ -238,13 +247,13 @@ E0-E6 shipped PR #2009 + #2010:
 
 | Stato |  Fase  | Task                         | Output                                               |
 | ----- | :----: | ---------------------------- | ---------------------------------------------------- |
-| ☑    |   E0   | Doc integration              | `docs/planning/2026-04-29-ermes-integration-plan.md` |
-| ☑    |   E1   | Prototype isolated           | `prototypes/ermes_lab/` directory                    |
-| ☑    |   E2   | CLI + deterministic sim      | `ermes_sim.py`                                       |
-| ☑    |   E3   | Dashboard optional           | `ermes_dashboard.py`                                 |
-| ☑    |   E4   | JSON export                  | `outputs/latest_eco_pressure_report.json`            |
-| ☑    |   E5   | Experiment loop              | `scoring.py`                                         |
-| ☑    |   E6   | Codex validation             | tests + README                                       |
+| ☑     |   E0   | Doc integration              | `docs/planning/2026-04-29-ermes-integration-plan.md` |
+| ☑     |   E1   | Prototype isolated           | `prototypes/ermes_lab/` directory                    |
+| ☑     |   E2   | CLI + deterministic sim      | `ermes_sim.py`                                       |
+| ☑     |   E3   | Dashboard optional           | `ermes_dashboard.py`                                 |
+| ☑     |   E4   | JSON export                  | `outputs/latest_eco_pressure_report.json`            |
+| ☑     |   E5   | Experiment loop              | `scoring.py`                                         |
+| ☑     |   E6   | Codex validation             | tests + README                                       |
 | ☐     | **E7** | **Future runtime candidate** | crossEventEngine design only                         |
 | ☐     | **E8** | **Future foodweb candidate** | ecosystemLoader design only                          |
 

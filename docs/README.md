@@ -3,13 +3,17 @@ title: Docs (indice)
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Docs (indice)
+
+> **2026-06-06 re-verify**: indice non-SOT, mantenuto per orientamento e link
+> storici. L'entrypoint canonico resta `docs/hubs/README.md`; per stato
+> feature/gate leggere la K/L operational matrix.
 
 ## Final Design Freeze v0.9 (baseline canonica)
 
@@ -63,7 +67,7 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 
 - **Flow** – orchestratore e validator (`services/generation/`, `tools/py`, `tools/ts`) sincronizzati con i dataset `data/core/`.
 - **Atlas** – webapp Vite (`webapp/`) e pannelli statici (`docs/test-interface/`) basati su snapshot `data/derived/` e fallback `webapp/public/data/`.
-- **Backend Idea Engine** – servizi Express (`server/`, `services/`) che espongono API consumate da Flow e Atlas e producono artefatti in `reports/`.
+- **Backend Idea Engine** – servizi Express (`apps/backend/`, `services/`) che espongono API consumate da Flow e Atlas e producono artefatti in `reports/`.
 - **Dataset & pack** – fonte unica (`data/`, `packs/`, `reports/`) che alimenta gli altri settori; ogni modifica richiede la verifica incrociata dei workflow (`npm run test:api`, `npm run webapp:deploy`).
 
 ## Procedure post-ottobre 2025
@@ -73,7 +77,7 @@ Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con S
 ### Decisioni architetturali
 
 - **ADR-XXX — Refactor CLI, determinismo e pipeline HUD**: `docs/adr/ADR-XXX-refactor-cli.md` raccoglie le motivazioni fornite dal team lead e formalizza le opzioni valutate, gli impatti sugli strumenti (`roll_pack`, `hud_alerts.ts`) e i follow-up richiesti.
-- **ADR-2026-04-13 — Rules Engine d20**: `docs/adr/ADR-2026-04-13-rules-engine-d20.md` descrive l'architettura del motore regole d20 (`services/rules/`). Vedi anche `docs/hubs/combat.md` per il canonical hub.
+- **ADR-2026-04-13 / 2026-04-19 — Combat d20**: `docs/adr/ADR-2026-04-13-rules-engine-d20.md` conserva la decisione d20; il runtime canonico corrente e' Node in `apps/backend/services/combat/` dopo `docs/adr/ADR-2026-04-19-kill-python-rules-engine.md`. Vedi anche `docs/hubs/combat.md`.
 
 1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/generated/pr-summaries/` (`sync-<AAAAMMGG>.md`) e annota la versione CLI attiva (`game-cli version --json`).
 2. **Aggiornamento checklist** — segna in `docs/process/` lo stato milestone, collega la sessione Git (`logs/playtests/<data>-vc`) e aggiungi il link al log CLI giornaliero (es. `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o `logs/cli/<slug>-YYYYMMDDTHHMMSSZ.log` generato con `--label`).

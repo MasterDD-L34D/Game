@@ -3,6 +3,11 @@ title: "MBTI + Ennea System Audit — 2026-05-06"
 workstream: cross-cutting
 category: report
 doc_status: draft
+doc_owner: narrative-design-illuminator
+last_verified: 2026-06-06
+source_of_truth: false
+language: it-en
+review_cycle_days: 30
 tags: [narrative, audit, P4, MBTI, Enneagramma, pillar-4]
 created: 2026-05-06
 ---
@@ -11,6 +16,11 @@ created: 2026-05-06
 
 **Trigger**: master-dd sospetta discrepancies design originale vs shipped per P4 (MBTI + Ennea).
 **Scope**: 2 sistemi interconnessi. 12 fonti lette direttamente. Output: drift matrix + reality check P4 pillar status.
+
+> **Re-verified 2026-06-06.** Historical drift audit retained as provenance.
+> Runtime references for `mbtiSurface`, `mbtiPalette`, `vcScoring` and Ennea
+> hooks still exist, but current planning should reconcile this with the
+> 2026-06-06 reconstruction/K-L docs before opening new build tickets.
 
 ---
 

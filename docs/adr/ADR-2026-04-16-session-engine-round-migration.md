@@ -3,7 +3,7 @@ title: 'ADR-2026-04-16: Migrazione Node session engine al round-based combat mod
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -12,9 +12,14 @@ review_cycle_days: 14
 # ADR-2026-04-16: Migrazione Node session engine al round-based combat model
 
 - **Data**: 2026-04-16
-- **Stato**: Proposed
+- **Stato**: Accepted / implemented
 - **Owner**: Combat Team + Backend Team
 - **Stakeholder**: AI Policy Engine (sistemaTurnRunner), Frontend Playtest (client HTML), QA Automation (45 test AI)
+
+> **Re-verified 2026-06-06.** La migrazione descritta qui e' implementata nel
+> runtime Node. Le sezioni che parlano di Python come reference implementation
+> sono storiche; la catena corrente e' `roundOrchestrator.js` +
+> `sessionRoundBridge.js` + `abilityExecutor.js`.
 
 ## Contesto
 

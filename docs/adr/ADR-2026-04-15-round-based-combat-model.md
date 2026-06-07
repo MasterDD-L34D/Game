@@ -3,7 +3,7 @@ title: 'ADR-2026-04-15: Round-based combat model (shared planning → commit →
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -15,6 +15,13 @@ review_cycle_days: 14
 - **Stato**: Accepted
 - **Owner**: Team Combat & Rules Engine
 - **Stakeholder**: Frontend (UI di planning), Backend (session engine), QA Automation (test determinismo), Narrative Ops (fluff di round simultaneo)
+
+> **Re-verified 2026-06-06.** Decisione semantica ancora valida:
+> planning condiviso -> commit -> ordered resolution. I path Python citati sotto
+> sono storia pre-Phase-3; runtime corrente in Node:
+> `apps/backend/services/roundOrchestrator.js`,
+> `apps/backend/routes/sessionRoundBridge.js`,
+> `apps/backend/services/abilityExecutor.js` e `apps/backend/services/combat/*`.
 
 ## Contesto
 

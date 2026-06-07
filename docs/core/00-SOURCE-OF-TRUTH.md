@@ -2,7 +2,7 @@
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -15,6 +15,8 @@ _Base ricostruita dalla copia `Game.zip` del repo attuale. Questo documento non 
 _v3 (2026-04-16): aggiunte §14–§18 (Grid, Level Design, Networking, Screen Flow, Audience)._
 _v4 (2026-04-16): deep dive 4 aree (Grid, AI, Level Design, Networking) da 12+ repo esterni. §14-§16 arricchite con pattern concreti e raccomandazioni. §17 formalizzata con mermaid. §19 aggiunta: registro 28 decisioni GDD (12 chiuse, 9 proposte, 7 bloccate). AI SIS §13.5 arricchita con roadmap Utility AI._
 _v5 (2026-04-16): merge visione prescrittiva da `evo_tactics_game_vision_reconstructed.md`. §20–§23 aggiungono Tri-Sorgente, A.L.I.E.N.A., companion detail, engine-to-feature mapping. Doc sorgente convertito in redirect._
+
+_Re-verify 2026-06-06_: la tesi resta valida, ma lo stato runtime e' avanzato. TV/shared screen = mirror/tavolo/recap, non input authority; device collegati = superficie di scelte/commit/voti/Nido. Game-Godot-v2 e' surface attiva TV/phone; Game resta backend/runtime SoT. Nido/recruit/mating, route-choice, Form Pulse, Custodi/Skiv e vari ledger sono ora `LIVE_PARTIAL` o `LIVE_GATED`, non solo design. Vedi `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md` e `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md`.
 
 ## Stato lettura
 
@@ -62,7 +64,11 @@ Il progetto non è solo un combat system.
 
 ## 2. Come iniziava davvero una prima partita
 
-La forma più concreta del flow iniziale non è solo nel loop alto livello, ma in [`docs/planning/17-SCREEN_FLOW.md`](../planning/17-SCREEN_FLOW.md).
+La forma più concreta del flow iniziale non è solo nel loop alto livello. Oggi va letta attraverso tre livelli:
+
+1. onboarding narrativo 60s (`51-ONBOARDING-60S.md`);
+2. Form Pulse / micro-input device per Forma, MBTI e world/custode bias;
+3. tutorial giocato (`17-SCREEN_FLOW.md` + `enc_tutorial_01.yaml`).
 
 ### Flow completo della sessione
 
@@ -72,7 +78,7 @@ Il repo descrive questa sequenza:
 
 ### Prima partita vera
 
-La prima partita era pensata come **tutorial giocato**, non come schermata teorica.
+La prima partita era pensata come **ingresso identitario + tutorial giocato**, non come schermata teorica.
 
 Il file [`docs/planning/encounters/enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml) mostra un esempio molto chiaro:
 
@@ -100,6 +106,8 @@ Doveva essere:
 [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) e [`DesignDoc-Overview.md`](DesignDoc-Overview.md) convergono su questo:
 
 - onboarding sotto i 10 minuti;
+- primo minuto identitario con 3 scelte e timeout;
+- input sui device, TV solo mirror/briefing/tally;
 - preset di Forme;
 - direttive assistite;
 - tutorial integrato nei primi encounter;
@@ -328,6 +336,8 @@ Questa è la vera dorsale del progetto.
 
 Questo asse esiste ancora chiaramente.
 
+Correzione 2026-06-06: "TV-first" non significa "TV controlla". La TV e' tavolo condiviso, mirror, recap e regia; i device collegati sono controller privati e authority per scelte, draft, commit round, route vote, Nido, mating, Tri-Sorgente e gestione creatura.
+
 [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md) parla di:
 
 - schermo condiviso;
@@ -368,8 +378,8 @@ Descrive una companion per:
 Il repo descrive una sessione tipo come:
 
 - gruppo da salotto;
-- TV come spazio condiviso;
-- companion come spazio personale o tattico;
+- TV come spazio condiviso/read-only;
+- companion/device come spazio personale, tattico e decisionale;
 - briefing e debrief brevi;
 - partita cooperativa;
 - evoluzione visibile alla fine.
@@ -700,27 +710,27 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 
 ### 13.8 Mappa design → codice
 
-| Sezione design             | Modulo implementato                                       | Stato                                                                                                                                                                                                                                          |
-| -------------------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| §1 Tesi / Combat           | `roundOrchestrator.js`, `resolver.py`                     | Operativo                                                                                                                                                                                                                                      |
-| §2 Prima partita           | `enc_tutorial_01.yaml` + session engine                   | Definito, non giocabile end-to-end                                                                                                                                                                                                             |
-| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs                       | Dati completi, generatore non runtime                                                                                                                                                                                                          |
-| §4 Foodweb                 | Validators + data YAML                                    | Validazione completa, non runtime                                                                                                                                                                                                              |
-| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml` | Dati + hydration operativi                                                                                                                                                                                                                     |
-| §6 TV + companion          | Design docs                                               | Solo design, nessun frontend                                                                                                                                                                                                                   |
-| §7 Narrativa               | `narrativeEngine.js` + inkjs                              | Engine operativo, contenuti minimi                                                                                                                                                                                                             |
-| §8 Mappa 4 livelli         | —                                                         | Framework concettuale                                                                                                                                                                                                                          |
-| §10 Meta-loop Nido         | `mating.yaml`, `27-MATING_NIDO.md`                        | Solo dati, non implementato                                                                                                                                                                                                                    |
-| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                         | 🟢 candidato VC + MBTI operativi · Ennea effects **9/9** wired runtime mechanical full (5/5 stat consumer live: attack/defense_mod, move_bonus, stress_reduction, evasion_bonus) ([M-006](../museum/cards/enneagramma-enneaeffects-orphan.md)) |
-| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                                                                                                                                                                                                                         |
-| Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                                                                                                                                                                                                                          |
-| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                | 🟢 Engine operativo, 23 test                                                                                                                                                                                                                   |
-| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                | 🟢 Schema + dati validati                                                                                                                                                                                                                      |
-| §16 Networking/Co-op       | M11 Jackbox WS LIVE (`ws@8.18.3`, port 3341)              | 🟢 Phase A+B+C shipped (ADR-2026-04-20). Colyseus tier-2 fallback solo se scale > 100 player concorrenti                                                                                                                                       |
-| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                                                                                                                                                                                                                                |
-| §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
-| §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
-| M14 Mutations (Path A)     | `mutationCatalogLoader.js` + `routes/mutations.js`        | 🟡 Foundation live (30 entries, 4 endpoint REST `/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 wire. Decoupled da V3 mating per design semantics 2026-04-25.                                                    |
+| Sezione design             | Modulo implementato                                                     | Stato                                                                                                                                                                                                                                          |
+| -------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §1 Tesi / Combat           | `roundOrchestrator.js`, Node combat services                            | Operativo; Python e' riferimento storico, non runtime canonical                                                                                                                                                                                |
+| §2 Prima partita           | `51-ONBOARDING-60S.md`, `enc_tutorial_01.yaml`, campaign/session engine | Onboarding backend + tutorial data presenti; device/Godot picker UX da chiudere                                                                                                                                                                |
+| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs, meta-network routing               | Dati completi; routing meta-network live gated (`META_NETWORK_ROUTING`)                                                                                                                                                                        |
+| §4 Foodweb                 | Validators + data YAML + spawn filters                                  | Validazione completa; parti runtime foodweb/spawn live o gated                                                                                                                                                                                 |
+| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml`               | Dati + hydration operativi                                                                                                                                                                                                                     |
+| §6 TV + companion          | Game-Godot-v2 TV/phone surfaces + design docs                           | LIVE_PARTIAL: TV mirror/read-only, device input; K-01/K-06/K-07 hardening in corso                                                                                                                                                             |
+| §7 Narrativa               | `narrativeEngine.js` + inkjs                                            | Engine operativo, contenuti minimi                                                                                                                                                                                                             |
+| §8 Mappa 4 livelli         | —                                                                       | Framework concettuale                                                                                                                                                                                                                          |
+| §10 Meta-loop Nido         | `mating.yaml`, meta routes, Nido/recruit/mating Godot surfaces          | LIVE_GATED/PARTIAL: Nido hub, recruit, mating, offspring ritual; party-select da Nido e quorum device ancora SPEC-E                                                                                                                            |
+| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                                       | 🟢 candidato VC + MBTI operativi · Ennea effects **9/9** wired runtime mechanical full (5/5 stat consumer live: attack/defense_mod, move_bonus, stress_reduction, evasion_bonus) ([M-006](../museum/cards/enneagramma-enneaeffects-orphan.md)) |
+| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                                 | Operativo, data-driven                                                                                                                                                                                                                         |
+| Status system              | `statusEffectsMachine.js`                                               | Operativo (xstate v5)                                                                                                                                                                                                                          |
+| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                              | 🟢 Engine operativo, 23 test                                                                                                                                                                                                                   |
+| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                              | 🟢 Schema + dati validati                                                                                                                                                                                                                      |
+| §16 Networking/Co-op       | M11 Jackbox WS LIVE (`ws@8.18.3`, port 3341)                            | 🟢 Phase A+B+C shipped (ADR-2026-04-20). Colyseus tier-2 fallback solo se scale > 100 player concorrenti                                                                                                                                       |
+| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                                           | ✅ Formalizzato                                                                                                                                                                                                                                |
+| §18 Audience/Accessibilità | —                                                                       | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
+| §19 Decisioni GDD          | 28 domande                                                              | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
+| M14 Mutations (Path A)     | `mutationCatalogLoader.js` + `routes/mutations.js`                      | 🟡 Foundation live (30 entries, 4 endpoint REST `/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 wire. Decoupled da V3 mating per design semantics 2026-04-25.                                                    |
 
 ### 13.9 Motori Phase-2 — stato di combattimento persistente
 

@@ -4,13 +4,15 @@ description: Modello shared-planning → commit → ordered-resolution. Orchestr
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # Combat Round Loop
+
+> **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
 Questo documento descrive il loop di round del rules engine di Evo-Tactics, introdotto in `services/rules/round_orchestrator.py`. Il modello è intenzionalmente costruito **sopra** il resolver atomico esistente (`services/rules/resolver.py`), senza modificarlo: il resolver resta il motore di singole intenzioni, l'orchestratore aggiunge la semantica di round simultaneo.
 

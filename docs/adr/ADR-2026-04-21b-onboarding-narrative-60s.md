@@ -3,7 +3,7 @@ title: 'ADR 2026-04-21b — Onboarding narrativo 60s (3 scelte identitarie pre-A
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-21'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -34,6 +34,15 @@ Audit 4-agent consolidated (2026-04-20) classifica "Narrative arc framework" com
 
 **Shippa onboarding 60s canonical come spec design A3** (doc + YAML extension + ADR). **NON implementazione frontend in questo PR** — deferred M11+ post-Jackbox.
 
+### Re-verify 2026-06-06
+
+Questa ADR resta valida come intent design, ma lo stato tecnico non è più "spec only":
+
+- `data/core/campaign/default_campaign_mvp.yaml` contiene ancora `onboarding:` con 3 scelte e trait `zampe_a_molla`, `pelle_elastomera`, `denti_seghettati`.
+- `apps/backend/routes/campaign.js` accetta già `POST /api/campaign/start { initial_trait_choice }`, espone `campaign_def.onboarding`, salva `campaign.onboardingChoice` e applica `acquiredTraits[]`.
+- `apps/backend/services/coop/coopOrchestrator.js` contiene anche la fase `onboarding` e `submitOnboardingChoice()`, ma il commento/contratto runtime storico è ancora host-only.
+- Product correction 2026-06-06: la TV/shared screen è solo mirror/tavolo/recap. La scelta di onboarding, come ogni input di gioco, deve essere autoritativa dai device connessi. Se esiste un "host token" tecnico, non va descritto come agency della TV.
+
 ### Spec canonical (da `docs/core/51-ONBOARDING-60S.md`)
 
 1. **Timing hard cap 60 secondi**. Briefing 10s + deliberation 30s + transition 10s + 10s buffer.
@@ -61,9 +70,10 @@ Esteso `data/core/campaign/default_campaign_mvp.yaml` con `onboarding:` root sec
 
 ### Negative
 
-- **Spec sola**: player demo vedranno Phase B solo M11+ (frontend picker UI)
+- **Frontend/Godot incompleto**: backend Phase B verificato, ma player demo richiedono ancora picker/device UX.
 - **No voice-over / animation**: 3 card + audio line 10s = minimalist. Potrebbe sentirsi "povero" vs Vertical Slice HTML reference.
 - **Permanent trait**: se player regrets choice, no respec. Solo replay campagna.
+- **Co-op wording drift**: alcuni commenti/flow Godot più recenti parlano ancora di scelta host-only. Questo è un gap di riallineamento, non una nuova regola di design.
 
 ### Rollback
 
@@ -83,8 +93,8 @@ Esteso `data/core/campaign/default_campaign_mvp.yaml` con `onboarding:` root sec
 ## Implementation phase tracking
 
 - **Phase A** (questo PR, ~4-8h): doc + YAML + ADR. Shippable oggi.
-- **Phase B** (M11+, ~6-10h): `apps/play/src/onboardingPanel.js` + backend `/api/campaign/start` accept `initial_trait_choice`. Frontend choice picker.
-- **Phase C** (post-Jackbox, ~2h): co-op sync — host fa choice vincolante per roster multi-player. Deferred M12+.
+- **Phase B** (M11+, ~6-10h): `apps/play/src/onboardingPanel.js` + backend `/api/campaign/start` accept `initial_trait_choice`. Backend route verified shipped 2026-06-06; frontend/Godot surface still needs device UX audit.
+- **Phase C** (post-Jackbox, ~2h): co-op sync device-authority. Connected devices submit/confirm; TV mirrors briefing, timer, tally and final resolved choice. No TV/host gameplay input authority.
 
 ## Criteri successo
 

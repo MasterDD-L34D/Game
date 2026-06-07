@@ -3,7 +3,7 @@ title: 'ADR-2026-04-29: Pivot Godot immediate — drop Sprint G.2b BG3-lite Plus
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-29
+last_verified: 2026-06-06
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -56,6 +56,16 @@ User esplicito: **rebuild Godot meglio**. Pivot decision-altering accepted.
 3. **ACCELERATE Sprint M onset** — incorporate Sprint K Donchitos cherry-pick in Sprint M.1 (6-8d cap)
 4. **MANDATORY 3 spike pre Sprint N** — M.5 cross-stack + M.6 CI minimal + M.7 phone composer Godot HTML5
 5. **PRESERVE 16 PR shipped** — backend services + asset Legacy + research docs + ERMES = NOT lost, become reference for Godot port specs
+
+### Re-verify 2026-06-06
+
+Questa ADR resta la decisione sorgente del pivot, ma molte sezioni operative sono ormai storiche:
+
+- `C:\dev\Game-Godot-v2` esiste ed è il repo Godot v2 attivo. `origin/main` è avanzato oltre il bootstrap; il branch locale `codex/k01-k06-godot-surface-audit` contiene audit device-authority e piani Nido/party-select.
+- Il backend Express è stato preservato come previsto: Game/ continua a ospitare session, co-op WS, route-vote, campaign/meta-network, Nido/recruit/mating, persistence e simulazioni.
+- Godot v2 non è più solo Sprint M onset: PRD-BUILD-STATUS Godot v2 indica combat/co-op WS/Nido/recruit/mating/route-choice client come live o partial, con residui concentrati su party-select da Nido, Tri-Sorgente surface, device-authority hardening e real-device verification.
+- Direzione prodotto aggiornata 2026-06-06: TV/shared screen = mirror/tavolo/recap/regia; input di gioco su device connessi. Questo supersede wording legacy "host drives" nei doc/flow Godot.
+- Work items correnti collegati: K-01/K-06 audit cleanup, K-07 real-device smoke, SPEC-E Nido Groups / Party Select. Questi sono follow-up diretti del pivot, non riapertura del web-stack co-op debug.
 
 ## 3. Rationale (3 reason cross-check + risk agent convergent)
 

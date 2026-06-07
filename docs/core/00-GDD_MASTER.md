@@ -3,7 +3,7 @@ title: GDD Master — Entrypoint Canonico Evo Tactics
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -21,6 +21,8 @@ Questo documento e' il **punto di ingresso unico** per il game design di Evo Tac
 - [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md) — scope shipping e sistemi congelati (A3)
 - [`00B-CANONICAL_PROMOTION_MATRIX.md`](00B-CANONICAL_PROMOTION_MATRIX.md) — classificazione ufficiale 10 sistemi
 
+**Re-verify 2026-06-06**: questo hub resta valido, ma va letto insieme alla ricostruzione TV/device del 2026-06-05 e alla matrice K/L del 2026-06-06. Correzioni operative: TV/shared screen e' mirror/tavolo/recap, non superficie di input; i device collegati sono l'autorita' delle scelte; onboarding 60s + Form Pulse precedono/affiancano il tutorial giocato; Game-Godot-v2 e' la surface attiva, mentre Game resta backend/runtime SoT.
+
 ---
 
 ## 1. Tesi di design
@@ -35,9 +37,13 @@ Evo Tactics e' un gioco tattico cooperativo a turni con progressione evolutiva l
 
 ## 2. Prima partita / onboarding
 
-La prima esperienza e' un **tutorial giocato** (non manuale): preset di creature, briefing 2-3 frasi, si impara facendo. Onboarding sotto i 10 minuti. Primo encounter: 6 turni, savana, niente hazard, focus su movimento/attacco/copertura/MoS.
+La prima esperienza combina:
 
-→ [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §2 | [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) | [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)
+- **onboarding narrativo 60s**: 3 scelte identitarie pre-Act 0, trait iniziale di branco, input dai device;
+- **Form Pulse / micro-input**: assi di Forma e MBTI raccolti dai device e mostrati come aggregato sulla TV;
+- **tutorial giocato**: preset di creature, briefing 2-3 frasi, si impara facendo. Primo encounter: 6 turni, savana, niente hazard, focus su movimento/attacco/copertura/MoS.
+
+→ [`51-ONBOARDING-60S.md`](51-ONBOARDING-60S.md) | [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §2 | [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) | [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)
 
 ---
 
@@ -78,7 +84,7 @@ L'asse di progressione collega tutti i livelli:
 
 ## 6. Framing TV-first + companion app
 
-Il gioco e' progettato per il **salotto**: TV come schermo principale (griglia, creature, azioni), companion app su cellulare (info dettagliate, draft, inventario, telemetria personale). Esperienza condivisa, non single-screen.
+Il gioco e' progettato per il **salotto**: TV come tavolo/mirror condiviso (griglia, creature, round recap, regia e memoria comune), device personali come superficie di input (scelte, draft, commit, Nido, mating, Tri-Sorgente, telemetria personale). Esperienza condivisa, non single-screen, con autorita' gameplay sui device collegati.
 
 → [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md) | [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md) | [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §6
 
@@ -94,7 +100,7 @@ Il mondo e' governato da un'entita' antagonista (il **Sistema**) che rappresenta
 
 ## 8. Tri-Sorgente — progressione a carte post-scontro
 
-Sistema centrale di progressione run-based. Dopo ogni scontro/evento vengono offerte **3 carte + Skip**:
+Sistema centrale di progressione run-based e sedimentazione dottrinale. Dopo ogni scontro/evento vengono offerte **3 carte + Skip**, con spazio futuro per scelte narrative/dottrinali e scambio/eco di carte tra player:
 
 - **Roll** — bioma/tier determinano tabella e grant
 - **Personalita'** — Enneagram/MBTI → pesi di preferenza
@@ -117,6 +123,7 @@ Il Freeze lo include come **meta-slice controllata** (non simulazione totale):
 - **Nido**: moduli base (Dormitori, Bio-Lab, Resonance Anchor, Hangar) tier 0-3, costi risorse, Security Rating vs threat bioma
 - **Eredita' e Mutazioni**: 2 gene slot genitori + 1 mutazione ambiente. T1/T2 richiedono Nido ≥2
 - **Rituali**: Convergenza, Veglia Resonance, Consiglio del Nido
+- **Custodi/Companion**: Skiv e' la forma canonica concreta del pattern Custode; i Custodi possono vivere come entita' persistenti/esportabili e rientrare in campagna con memoria/resync.
 
 → [`27-MATING_NIDO.md`](27-MATING_NIDO.md) | [`Mating-Reclutamento-Nido.md`](Mating-Reclutamento-Nido.md) | [`mating.yaml`](../../data/core/mating.yaml)
 

@@ -3,7 +3,7 @@ title: AGENT_WORKFLOW_GUIDE.md – Guida passo passo per usare gli agenti
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -21,6 +21,10 @@ cambiano i file:
 - `agent.md`
 - `agents/*`
 - `.ai/*`
+
+> **2026-06-06 re-verify**: guida conservata come workflow legacy/non-SOT.
+> Per lavori autonomi moderni usare anche `CLAUDE.md`, `AGENTS.md` e
+> `.ai/BOOT_PROFILE.md`; questa guida non riapre gate gia' chiusi nei planning.
 
 ---
 

@@ -3,7 +3,7 @@ title: 'Onboarding narrativo 60s — 3 scelte identitarie pre-Act 0'
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-21'
+last_verified: '2026-06-06'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -20,6 +20,8 @@ related:
 **Authority**: A3 canonical. Chiude **L05 P0 narrative arc framework** (audit 4-agent 2026-04-20).
 
 **Trigger**: exploration-note deck v2 (2026-04-20) Nota 3 — "i primi 60 secondi non devono spiegare regole, devono far scegliere qualcosa di identitario".
+
+**Re-verify 2026-06-06**: contenuto ancora canonico. `data/core/campaign/default_campaign_mvp.yaml` conserva `onboarding:`; `apps/backend/routes/campaign.js` espone `campaign_def.onboarding` e applica `initial_trait_choice` a `campaign.onboardingChoice` + `acquiredTraits[]`; `tests/api/campaignRoutes.test.js` copre default, option_b, option_c e fallback invalido. Il flow co-op/Godot in `apps/backend/services/coop/coopOrchestrator.js` ha una fase `onboarding`, ma il vecchio wording host-only va trattato come debito di riallineamento: la TV è mirror, gli input arrivano dai device.
 
 ## TL;DR
 
@@ -87,6 +89,13 @@ Disco Elysium pattern: choice diegetic prima di ogni spiegazione meccanica.
 - Trait applicato a TUTTI i PG del roster (identità condivisa di branco, non singolo)
 - Trait **permanent** per tutta la campagna (non respec MVP)
 
+### Device/TV authority
+
+- La TV/shared screen mostra briefing, timer, tally/recap e transizione narrativa: è tavolo/mirror, non controller.
+- La scelta viene espressa dai device connessi. In single-player può coincidere con un solo device; in co-op serve una policy device-authority esplicita per conferma/quorum.
+- Se il backend usa un host token per sicurezza o orchestrazione, quel token non equivale a "la TV decide".
+- Per il branch co-op/Godot il codice storico `submitOnboardingChoice()` è ancora host-only: da considerare gap tecnico da riallineare prima di dichiarare completa la device UX.
+
 ## Integration con campaign YAML
 
 Estensione schema `data/core/campaign/default_campaign_mvp.yaml`:
@@ -128,6 +137,7 @@ onboarding:
 
   next_encounter: enc_tutorial_01 # Act 0 chapter 1
 
+
 # ... acts continue as-is
 ```
 
@@ -156,9 +166,9 @@ Validation rules schema:
 
 **Phase A (doc, questo PR)**: design doc + YAML extend + ADR. Zero code.
 
-**Phase B (M11-adjacent)**: frontend choice picker UI in `apps/play/src/onboardingPanel.js` + backend `/api/campaign/start` accept `initial_trait_choice` field.
+**Phase B (M11-adjacent)**: frontend choice picker UI in `apps/play/src/onboardingPanel.js` + backend `/api/campaign/start` accept `initial_trait_choice` field. Backend API verified shipped 2026-06-06; picker/device surface still needs audit.
 
-**Phase C (post-M11 Jackbox)**: co-op sync — host fa la scelta vincolante per intero roster party. Deferred.
+**Phase C (post-M11 Jackbox)**: co-op sync device-authority — connected devices submit/confirm; TV mirrors state and final resolved choice. Deferred.
 
 ## Criteri successo
 
@@ -182,7 +192,7 @@ Fallimento criteri = re-design pre-flight, non ship degradato.
 - Audio briefing 10s: voce umana recorded o TTS generated?
 - Choice card icons: custom SVG o reuse trait icons esistenti?
 - Skip button per replay? Freeze-first: NO. Replay campaign = ripeti choice.
-- Mobile UX (se M11 Jackbox fa phone-controller): choice solo su phone host o broadcast TV + phone input host only?
+- Mobile UX resolved direction 2026-06-06: input sui device connessi, TV solo mirror/broadcast. Restano da specificare quorum, timeout e sostituzione scelta in co-op.
 
 Questo è onboarding identità, non tutorial. Regole si spiegano dopo.
 

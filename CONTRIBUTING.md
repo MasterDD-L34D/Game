@@ -3,7 +3,7 @@ title: Linee guida per contribuire
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-06-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -14,6 +14,10 @@ review_cycle_days: 14
 Grazie per l'interesse nel progetto! Questa guida copre il setup minimo,
 gli script principali e il flusso di revisione per proporre modifiche in modo
 coerente con le pipeline CI.
+
+> **2026-06-06 re-verify**: guida ancora valida come quick start non-SOT.
+> Per comandi aggiornati e guardrail live prevale `CLAUDE.md`; per docs usare
+> sempre `npm run docs:governance:check -- --strict` prima del commit.
 
 ## Setup rapido dell'ambiente
 
@@ -31,13 +35,15 @@ Il repository usa [npm workspaces](https://docs.npmjs.com/cli/v10/using-npm/work
 per orchestrare strumenti e webapp. I comandi principali sono già esposti nel
 `package.json` di root e delegano ai workspace pertinenti.
 
-| Script            | Descrizione                                                    |
-| ----------------- | -------------------------------------------------------------- |
-| `npm run dev`     | Avvia il server Vite della webapp (`webapp`).                  |
-| `npm run build`   | Esegue `build` su tutti i workspace che espongono lo script.   |
-| `npm run test`    | Esegue i test API/TS e i test unitari della webapp.            |
-| `npm run preview` | Avvia `vite preview` della webapp dopo un build locale.        |
-| `npm run format`  | Applica Prettier ai file supportati. Usa `format:check` in CI. |
+| Script                                      | Descrizione                                                    |
+| ------------------------------------------- | -------------------------------------------------------------- |
+| `npm run play:dev`                          | Avvia il frontend web fallback `apps/play`.                    |
+| `npm run start:api`                         | Avvia il backend Express sulla porta configurata.              |
+| `npm run build`                             | Esegue `build` su tutti i workspace che espongono lo script.   |
+| `npm run test`                              | Esegue la baseline backend (`npm run test:backend`).           |
+| `npm run ci:stack`                          | Esegue lint stack + test backend, vicino alla CI principale.   |
+| `npm run format`                            | Applica Prettier ai file supportati. Usa `format:check` in CI. |
+| `npm run docs:governance:check -- --strict` | Verifica registry/frontmatter docs.                            |
 
 Per eseguire uno script in un workspace specifico puoi usare `npm run <script>
 --workspace <nome-workspace>`.

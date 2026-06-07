@@ -8,7 +8,7 @@ tags:
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -43,7 +43,9 @@ Per un nuovo contributor o agente la sequenza di lettura consigliata e':
 - [README docs](../README.md)
 - [00-INDEX](../00-INDEX.md)
 
-Questi restano disponibili ma non sono il source of truth primario.
+`docs/README.md` e `docs/00-INDEX.md` restano disponibili ma non sono il
+source of truth primario. `docs/INDEX.md` non esiste nel checkout corrente e
+non va ricreato senza decisione governance.
 
 ## Governance Plans
 
