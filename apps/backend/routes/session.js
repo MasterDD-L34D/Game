@@ -44,6 +44,10 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// SPEC-A Device Input Ledger: validate + consent-gate device events into the
+// session event log, and tier-filter the TV-mirror channel (public + aggregated).
+const { ingest: ingestDeviceEvent } = require('../services/deviceInput');
+const { filterForTvMirror } = require('../services/deviceInput/tierFilter');
 // TKT-ORPHAN-VCSNAP — Game-side serializer that flattens a vc snapshot to the
 // Godot-parity debrief_payload (sentience_tier + conviction_axis + ennea_archetype).
 const { vcSnapshotToDebriefPayload } = require('../services/coop/vcSnapshotToDebriefPayload');
@@ -4107,6 +4111,63 @@ function createSessionRouter(options = {}) {
   // Le 4 route qui sotto abilitano il nuovo modello round-based
   // (shared-planning → commit → resolve) descritto in
   // ADR-2026-04-16-session-engine-round-migration.md e implementato
+
+  // ────────────────────────────────────────────────────────────────
+  // SPEC-A Device Input Ledger — device-event ingest + TV-mirror view
+  // ────────────────────────────────────────────────────────────────
+  //
+  // POST /api/session/device-event
+  //   body: { session_id, event, profilingConsent? }
+  //   - validates the device event (schema + tier) and consent-gates `signal`
+  //     events (behavioral profiling is opt-in; decision-events always pass);
+  //   - accepted events append to session.events via the canonical appendEvent
+  //     (action_index + persist) so the existing vcScoring / convictionEngine
+  //     pipeline consumes them. Raw events never cross the wire.
+  //   - profilingConsent, when a boolean is provided, persists on the session.
+  //   Spec: docs/design/evo-tactics-device-input-ledger.md
+  router.post('/device-event', async (req, res, next) => {
+    try {
+      const { session_id, event, profilingConsent } = req.body || {};
+      const { error, session } = resolveSession(session_id);
+      if (error) return res.status(error.status).json(error.body);
+      if (typeof profilingConsent === 'boolean') {
+        session.profilingConsent = profilingConsent;
+      }
+      const consent = session.profilingConsent === true;
+      // ingest() is the pure validate + consent-gate facade; run it against a
+      // scratch buffer, then append the accepted event canonically.
+      const scratch = [];
+      const result = ingestDeviceEvent(scratch, event, { profilingConsent: consent });
+      if (result.accepted) {
+        await appendEvent(session, result.event);
+      }
+      return res.json({
+        accepted: result.accepted,
+        reason: result.reason || null,
+        profiling_consent: consent,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // GET /api/session/tv-mirror?session_id=...
+  //   Returns the TV-mirror-safe slice of the event log: only `public` +
+  //   `aggregated` tiered events (fail-closed; untagged events are stripped).
+  //   The cinematic / spectator channel (SPEC-D, Plan 2) consumes this.
+  router.get('/tv-mirror', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.query.session_id);
+      if (error) return res.status(error.status).json(error.body);
+      const events = Array.isArray(session.events) ? session.events : [];
+      return res.json({
+        session_id: session.session_id,
+        events: filterForTvMirror(events),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 
   // Round endpoints mounted from sessionRoundBridge.js (token optimization).
   roundBridge.mountRoundEndpoints(router);
