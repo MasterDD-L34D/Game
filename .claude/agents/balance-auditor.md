@@ -55,9 +55,12 @@ From trait_mechanics:
 - Flag traits where PT cost seems misaligned with effect magnitude
 - Check if 3 PT/turn budget allows meaningful choices (can a unit use 2+ traits per turn?)
 
-### 5. Combat simulation (if Python available)
+### 5. Combat simulation
+
+> **DEPRECATED 2026-06-07**: the Python rules engine was removed (ADR-2026-04-19). The old `PYTHONPATH=services/rules python3 -c "from resolver import predict_combat ..."` invocation below no longer works -- `services/rules/` does not exist. The combat runtime is now Node (`apps/backend/services/combat/*`, `apps/backend/routes/session.js performAttack/resolveAttack`, `apps/backend/services/roundOrchestrator.js`). No drop-in Node equivalent of `predict_combat()` is wired yet; this step needs a Node sim harness or removal. Until then, base the audit on the static data sources above (steps 1-4).
 
 ```bash
+# DEPRECATED -- services/rules removed (ADR-2026-04-19). Kept for historical reference only.
 PYTHONPATH=services/rules python3 -c "
 from resolver import predict_combat
 import json
@@ -66,7 +69,7 @@ print(json.dumps(result, indent=2, default=str))
 " 2>&1
 ```
 
-Parse results for:
+If a Node sim becomes available, parse results for:
 
 - Win rate symmetry (should be 45-55% for mirror matchups)
 - Average combat length (too short = alpha strike meta, too long = stall meta)

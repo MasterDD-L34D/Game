@@ -265,13 +265,11 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ## Combat / Rules Engine
 
-Il motore regole d20 per il loop tattico risiede in `services/rules/` (resolver, hydration, demo CLI, worker bridge). I valori di bilanciamento meccanico dei trait sono in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`. Per simulare un turno di combattimento:
+> **NOTA 2026-06-07**: il motore regole Python `services/rules/` (resolver, hydration, demo CLI, worker bridge) e' stato RIMOSSO (ADR-2026-04-19, commit d0c86c60). Il runtime d20 e' ora interamente Node in `apps/backend/`. La vecchia invocazione `python3 services/rules/demo_cli.py` non esiste piu'.
 
-```bash
-PYTHONPATH=services/rules python3 services/rules/demo_cli.py
-```
+Il motore regole d20 per il loop tattico vive in `apps/backend/` (Node): risoluzione attacco in `apps/backend/routes/session.js` (`performAttack`/`resolveAttack`), orchestrazione round in `apps/backend/services/roundOrchestrator.js`, servizi combat in `apps/backend/services/combat/` (es. `resistanceEngine.js`). I valori di bilanciamento meccanico dei trait sono in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
 
-Per dettagli architetturali consultare `docs/adr/ADR-2026-04-13-rules-engine-d20.md` e il canonical hub `docs/hubs/combat.md`.
+Per dettagli architetturali consultare `docs/adr/ADR-2026-04-19-kill-python-rules-engine.md` (rimozione del runtime Python; supersede la porzione runtime di `docs/adr/ADR-2026-04-13-rules-engine-d20.md`) e il canonical hub `docs/hubs/combat.md`.
 
 ## Dataset & Ecosystem Pack
 

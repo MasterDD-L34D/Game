@@ -46,9 +46,11 @@ If hits found → list them with commit hash and author. Verify signaling happen
 
 ### 5. Doc update verification
 
+<!-- DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19); combat-runtime doc-update check repointed to the Node combat paths (apps/backend/services/combat/, roundOrchestrator.js, routes/session.js). -->
+
 ```bash
 git diff --name-only HEAD~10..HEAD | grep -E "(vcScoring|policy\.js)" && echo "CHECK: docs/architecture/ai-policy-engine.md updated?" || true
-git diff --name-only HEAD~10..HEAD | grep -E "services/rules/" && echo "CHECK: docs/hubs/combat.md updated?" || true
+git diff --name-only HEAD~10..HEAD | grep -E "apps/backend/services/combat/|apps/backend/services/roundOrchestrator\.js|apps/backend/routes/session\.js" && echo "CHECK: docs/hubs/combat.md updated?" || true
 ```
 
 ### 6. Generate sprint summary

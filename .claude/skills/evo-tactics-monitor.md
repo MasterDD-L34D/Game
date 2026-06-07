@@ -35,11 +35,13 @@ If any hits: flag as guardrail touch — verify it was signaled/approved.
 
 ### 3. Check hardcoded traits
 
+<!-- DEPRECATED 2026-06-07: services/rules removed (ADR-2026-04-19); diff path repointed to the Node runtime (apps/backend/services/ + routes/session*.js). -->
+
 ```bash
-git diff HEAD~5..HEAD -- services/rules/ apps/backend/routes/session*.js | grep -E "(artigli|coda_frusta|scheletro|criostasi)" | head -10
+git diff HEAD~5..HEAD -- apps/backend/services/ apps/backend/routes/session*.js | grep -E "(artigli|coda_frusta|scheletro|criostasi)" | head -10
 ```
 
-Trait logic must live in `data/core/traits/active_effects.yaml`, never hardcoded in resolver/session code.
+Trait logic must live in `data/core/traits/active_effects.yaml`, never hardcoded in the Node session/combat code.
 
 ### 4. Check schema parity
 
