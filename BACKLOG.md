@@ -64,6 +64,14 @@ Materiale era disk-only Lenovo (April 25-28); backuppato su `origin/aa01/cap-*` 
 - **Task**: diff endpoints/schema sprint vs main corrente -> reuse (backend) vs supersede (frontend) per-pezzo. Home = SPEC-A (Device Input Ledger) / Form-Pulse.
 - **Priorita'**: P2. Pairs con la build Form-Pulse/onboarding della roadmap.
 
+### 🟢 P3 OPEN — Stale services/rules (dead Python) doc/config refs cleanup (2026-06-07)
+
+Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/configs still cite `services/rules/*` Python (REMOVED `d0c86c60` / ADR-2026-04-19) as if alive -- misfire if run. NOT touched by weekend Codex (pre-existing staleness).
+
+- `.claude/agents/session-debugger.md` (resolver/round_orchestrator/hydration as live), `.claude/agents/balance-auditor.md` (`PYTHONPATH=services/rules`), `.claude/commands/{combat-sim,monitor,trait-lint,sprint-close}.md` + `.claude/TASK_PROTOCOL.md` (run/grep `services/rules`), `docs/PILLARS_STATUS.md` (pillar source), `docs/README_FULL_ARCHIVE.md` (engine "risiede in services/rules" + `demo_cli.py`).
+- **Task**: sed-sweep -> repoint a Node runtime (`apps/backend/services/combat/*`, `roundOrchestrator.js`, `abilityExecutor.js`) o marcare removed-per-ADR-2026-04-19. Delegabile (Jules/aider, meccanico). Low-urgency (comandi probabilmente inusati post-Node).
+- **Priorita'**: P3.
+
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
