@@ -141,12 +141,6 @@
           }
         },
         "on_hit_status": { "$ref": "#/$defs/on_hit_status" },
-        "on_hit_stress_delta": {
-          "type": "number",
-          "minimum": -1,
-          "maximum": 1,
-          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success. Coerente con Frattura draft ('stress 0.05 on hit' delle larve). Il Balancer popola solo trait psi/sensoriali dove la description lo giustifica."
-        },
         "notes": { "type": "string" }
       },
       "additionalProperties": false

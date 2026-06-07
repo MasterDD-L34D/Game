@@ -178,13 +178,15 @@ test('trait_mechanics.yaml rispetta cost_ap derivato da fattore_mantenimento_ene
   assert.equal(t.criostasi_adattiva.cost_ap, 3, 'Alto -> 3');
 });
 
-test('Fase 8: spore_psichiche_silenziate ha on_hit_status e on_hit_stress_delta popolati', () => {
+test('parity GAP-2: spore_psichiche_silenziate ha on_hit_status; on_hit_stress_delta RETIRED', () => {
   const catalog = loadCatalog();
   const spore = catalog.traits.spore_psichiche_silenziate;
   assert.ok(spore, 'spore_psichiche_silenziate presente');
-  assert.ok(spore.on_hit_status, 'on_hit_status presente');
+  assert.ok(spore.on_hit_status, 'on_hit_status presente (ported in PART A)');
   assert.equal(spore.on_hit_status.status_id, 'disorient');
-  assert.ok(typeof spore.on_hit_stress_delta === 'number' && spore.on_hit_stress_delta > 0);
+  // on_hit_stress_delta retired (HYBRID decision 2026-06-07): superseded by the
+  // event-driven morale.js stress path. The field must no longer be present.
+  assert.equal(spore.on_hit_stress_delta, undefined, 'on_hit_stress_delta retired');
 });
 
 test('traitMechanics schema rifiuta on_hit_status con status_id non canonico', () => {
@@ -214,7 +216,10 @@ test('traitMechanics schema rifiuta on_hit_status con status_id non canonico', (
   );
 });
 
-test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', () => {
+test('parity GAP-2: traitMechanics schema rifiuta on_hit_stress_delta (campo ritirato)', () => {
+  // on_hit_stress_delta retired (HYBRID decision 2026-06-07). The schema no
+  // longer defines it, so with additionalProperties:false any trait carrying it
+  // must be rejected as an unknown property.
   const validator = buildValidator();
   const broken = {
     schema_version: '0.2.0',
@@ -226,7 +231,7 @@ test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', ()
         cost_ap: 1,
         resistances: [],
         active_effects: [],
-        on_hit_stress_delta: 1.5,
+        on_hit_stress_delta: 0.05,
       },
     },
   };

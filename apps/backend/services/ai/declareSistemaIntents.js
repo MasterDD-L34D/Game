@@ -218,13 +218,13 @@ function createDeclareSistemaIntents(deps) {
     // Helper inline: ripicka target escludendo IDs gia' presi.
     // Mantenuto inline per non allargare l'API pubblica di pickLowestHpEnemy.
     // Phase A status-awareness: a parità di HP (±2 PT), preferisce target debuffati
-    // (slowed/disoriented/chilled/marked riducono efficacia del target).
+    // (slowed/disorient/chilled/marked riducono efficacia del target).
     function hasDebuffStatus(unit) {
       const s = unit?.status;
       if (!s) return false;
       return (
         Number(s.slowed) > 0 ||
-        Number(s.disoriented) > 0 ||
+        Number(s.disorient) > 0 ||
         Number(s.chilled) > 0 ||
         Number(s.marked) > 0
       );
