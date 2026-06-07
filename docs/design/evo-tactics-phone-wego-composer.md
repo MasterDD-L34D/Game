@@ -122,14 +122,15 @@ begin-planning -> [PLANNING] -> compose N intent (declare/undo, preview)
 
 ### 4.2 Preview NON canonica
 
-- Esiste la FUNZIONE server `previewRound` (deep-copy: NESSUN AP/HP/roll/log consumato,
-  Fase 9 `preview_round deep copy`), ma NON e' esposta come endpoint dal bridge (manca
-  `/preview-round`). Dove gira la preview = **fork G5** (stima client-side vs nuovo
-  endpoint server): vedi sez. 8.
+- RATIFICATO (G5, 2026-06-08): la preview e' una **stima client-side** (v1, niente
+  endpoint; porta aperta a `/preview-round` in v2). La FUNZIONE server `previewRound`
+  (deep-copy, NESSUN AP/HP/roll/log consumato) resta il riferimento di determinismo, ma
+  NON e' chiamata dal device in v1.
+- RATIFICATO (G4, 2026-06-08): resa come **ghost-preview adattiva** sul device
+  (proiezione translucida dell'effetto, stile Into the Breach) che mostra hit-chance +
+  range; mai un tiro singolo, mai l'rng del round (no seed-leak).
 - La preview e' `private` (solo il device owner) e NON e' canonica: non e' l'esito
   reale, e non va mai in TV (SPEC-B 3.5, leak-migration sez. 7).
-- Cosa mostra la preview (fedelta') = **fork G4** (aspettato/range vs sample singolo),
-  con vincolo: NON deve usare l'rng del round (leak del seed).
 
 ### 4.3 Multi-intent entro AP
 
@@ -183,8 +184,9 @@ uno strato UX device-side SOPRA la fase globale.
   tecnico/timer (atto tecnico, non scelta TV; SPEC-K). Il timer e' server-authoritative
   (start noto a tutti i device); il countdown e' `aggregated` in TV (SPEC-B 3.4/3.6).
 - Chi non committa entro il timeout riceve una **fallback policy** per la propria
-  creatura. La policy = **fork G2** (hold/defend safe vs ripeti-ultimo vs
-  AI-suggested auto-commit vs skip): vedi sez. 8.
+  creatura. RATIFICATO (G2, 2026-06-08): **AI-suggested auto-commit** (il Sistema
+  propone e committa), trasparente nel recap e sovrascrivibile dal player nel round
+  successivo (safeguard agency).
 - Il loop non si blocca mai per un device lento/disconnesso: il backend e'
   autoritativo e applica la fallback (graceful degrade, SPEC-A sez. 8).
 
@@ -313,7 +315,18 @@ event) vanno sul wire. Mai il raw.
 
 ## 8. Decisioni aperte (per Eduardo)
 
-Fork non canon-derivabili. SPEC-C li lascia aperti; Eduardo ratifica.
+Fork non canon-derivabili. **RATIFICATI da Eduardo 2026-06-08** (note per-capability
+sez. 4 aggiornate di conseguenza).
+
+| Fork | Esito ratificato (2026-06-08)                                                           |
+| ---- | --------------------------------------------------------------------------------------- |
+| G1   | Undo per-intent (clear+replay con ledger AP locale)                                     |
+| G2   | AI-suggested auto-commit al timeout (+ safeguard: trasparente, override nel round dopo) |
+| G3   | Ready locale + contatore N/M monotono (no timing-tell)                                  |
+| G4   | Atteso + range, reso come ghost-preview adattiva sul device (stile Into the Breach)     |
+| G5   | Stima client-side v1 (porta aperta a `/preview-round` server in v2)                     |
+
+Sotto: opzioni/rationale originali (storia della decisione).
 
 ### G1 -- Granularita' undo: per-intent o clear-all?
 
@@ -325,7 +338,7 @@ deve offrire "annulla ultima azione" o solo "azzera tutto"?
   miglior UX multi-intent; costo = logica di replay device-side.
 - **Opzione B -- solo clear-all.** Mappa 1:1 sul backend. Tradeoff: semplice, ma UX
   povera (perdi tutto per correggere un'azione).
-- **Raccomandazione:** A.
+- **Raccomandazione:** A. **RATIFICATO 2026-06-08: A** (per-intent via clear+replay).
 
 ### G2 -- Fallback policy al timeout
 
@@ -338,6 +351,9 @@ Cosa fa la creatura di chi non committa entro il timer?
 - **Opzione C -- AI-suggested auto-commit.** Il Sistema propone e auto-committa.
   Tradeoff: round utile, ma toglie agency e puo' sorprendere.
 - **Raccomandazione:** A di default; C come opzione di tavolo (toggle).
+- **RATIFICATO 2026-06-08: C** (AI-suggested auto-commit). Safeguard agency: la mossa
+  AI-suggested deve essere trasparente (segnalata come tale nel recap) e il player la
+  puo' sovrascrivere nel round successivo; mai una scelta irreversibile.
 
 ### G3 -- Readiness per-player e timing-tell (commit globale)
 
@@ -353,6 +369,7 @@ il composer espone un "ready" per-player e come la TV lo aggrega senza leak.
   `ready`/`uncommit` per-player (oggi assente): alto blast-radius sul round model, e il
   decremento del contatore resta un timing-tell da mascherare.
 - **Raccomandazione:** A (evita un redesign del commit globale e chiude il leak).
+- **RATIFICATO 2026-06-08: A** (ready locale + contatore monotono).
 
 ### G4 -- Fedelta' della preview non canonica
 
@@ -367,6 +384,9 @@ con un sample reale rivelerebbe il roll e rischierebbe desync col risultato vero
 - **Opzione C -- distribuzione completa.** Istogramma esiti. Tradeoff: massima
   informazione, ma UI pesante e troppo "risolto".
 - **Raccomandazione:** A.
+- **RATIFICATO 2026-06-08: A**, reso come **ghost-preview adattiva** sul device
+  (proiezione translucida dell'effetto/mossa, stile Into the Breach), aggiornata mentre
+  il player compone. Mai un tiro singolo; mai l'rng del round.
 
 ### G5 -- Dove gira la preview (delivery)
 
@@ -382,6 +402,8 @@ NON la espone (manca `/preview-round`). Come fa il composer a fare la preview?
   rischio di accoppiare la preview all'rng del round (mitigare con rng separato, G4).
 - **Raccomandazione:** A per la v1 (semplice, niente backend nuovo); B se la formula
   client diverge troppo dal resolver.
+- **RATIFICATO 2026-06-08: A** (stima client-side v1; porta aperta a `/preview-round`
+  server in v2 se la formula client driftta). Alimenta la ghost-preview di G4.
 
 ## 9. Acceptance
 
@@ -394,8 +416,8 @@ SPEC-C e' implementabile/chiudibile quando:
 2. il composer usa gli endpoint LIVE (`/round/begin-planning`, `/declare-intent`,
    `/clear-intent/:actorId`, `/undo-action`, `/commit-round`) come SEQUENZA (non un body
    monolitico) e NON reimplementa il round model;
-3. la preview non consuma risorse e resta `private`; risolti G5 (stima client-side o
-   nuovo `/preview-round`) e G4 (cosa mostra, senza usare l'rng del round);
+3. la preview non consuma risorse e resta `private`; ratificata come ghost-preview
+   client-side (G4+G5: atteso+range, mai l'rng del round);
 4. la visibilita' rispetta SPEC-B: preview/intent/stato per-player `private`, solo il
    conteggio MONOTONO N/M + countdown in TV, intent `public` solo dopo il reveal
    simultaneo, signal `secret`; contract-test che la TV non riceve readiness per-player
@@ -406,7 +428,7 @@ SPEC-C e' implementabile/chiudibile quando:
    il raw resta sul device;
 7. GAP da chiudere prima dell'implementazione end-to-end: wiring reazioni
    (`/declare-reaction` assente, 4.9) e delivery della preview (G5);
-8. le Decisioni aperte G1-G5 sono ratificate da Eduardo prima del flip
-   `review_needed` -> `accepted`;
+8. le Decisioni aperte G1-G5 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 8) e le
+   note sez. 4 aggiornate; resta a Eduardo il flip `review_needed` -> `accepted` al merge;
 9. coerenza con SPEC-A (signal), SPEC-B (visibilita'), SPEC-D (il commit produce
    l'event-log che SPEC-D rende), SPEC-K (authority device, TV non-planning).
