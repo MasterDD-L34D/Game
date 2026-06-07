@@ -46,23 +46,33 @@ Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-cur
 | ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
 | TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
 
-### 🟢 P2 OPEN — Python->Node combat parity sweep (2026-06-07)
+### 🟢 P2 DONE 2026-06-07 — Python->Node combat parity sweep -> 4 GAP (2 HIGH actionable)
 
 Trigger: `docs/combat/README.md` SoT-flip review -- il README era `source_of_truth:true` ma descriveva il combat come Python `services/rules/*` (rimosso `d0c86c60` Phase-3 / ADR-2026-04-19); runtime canonical = Node.
 **Superficial check 2026-06-07**: surface migrata (resolver->`resistanceEngine.js`+`abilityExecutor.js`, round_orchestrator->`roundOrchestrator.js`, grid->`services/grid/hexGrid.js` [esiste -- la nota SoT "hexGrid M12+ planned" e' STANTIA], worker/demo_cli obsoleti by-design). MA precedente `resistance-engine-gap` (M5/M6: Python aveva `apply_resistance`, Node no, scoperto tardi) prova che gap def-level possono nascondersi.
 
 - **Task**: audit parita' def-by-def (~70 def Python da `d0c86c60~1:services/rules/*` vs Node `apps/backend/services/combat/*`). Delegabile (read+grep meccanico, Jules/LLM-locale + verifica). Home = SPEC-L (`runtime-feature-inventory-reconcile`).
 - **Priorita'**: P2, NON urgente (Node gira/funziona/testato). Dopo SPEC-K.
+- **DONE 2026-06-07** (sub-agent grep-verified, ~70 def vs Node): migrazione SOSTANZIALMENTE completa (resolver/round_orchestrator/hydration/grid/trait_effects portati; worker/demo obsoleti; damage-model divergenza intenzionale). **4 GAP** in stress/mental + PT-maneuver -> ticket sotto.
 
-### 🟢 P2 OPEN — Sprint Impronta (aa01/cap-\*) reuse-vs-supersede assessment (2026-06-07)
+### 🔴 OPEN — Stress / on-hit-status mental layer: port-to-Node O retire orphaned yaml (da parity-sweep 2026-06-07)
+
+Bug funzionale: effetti-trait progettati silenziosamente INERTI su Node + dati `trait_mechanics.yaml` orfani.
+
+- **GAP-1 (HIGH)**: `on_hit_status` + `trigger_dc` (SV d20+tier -> disorient/panic on hit) = LIVE yaml (multi-trait), ZERO consumer Node (`grep on_hit_status apps/` = 0).
+- **GAP-2 (HIGH)**: `on_hit_stress_delta` + breakpoint stress (rage@0.5 / panic@0.75) = LIVE yaml, nessuna logica Node -> loop "attacchi -> stress -> auto rage/panic" assente.
+- **GAP-3 (MEDIUM)**: `spinta` -> `sbilanciato` -> defense-malus: status scritto (shield_bash) ma mai LETTO come malus nel resolver.
+- **GAP-4 (LOW)**: swarm HP-scaling attacks -> NEEDS-HUMAN-CHECK (prob dead-on-arrival anche in Python).
+- **Decisione (Eduardo)**: portare il mental-state layer in `performAttack`, O ritirare i campi yaml orfani. Ref: `resolver.py` (d0c86c60~1) STEP3 vs `apps/backend/routes/session.js` performAttack + `traitEffects.js`.
+
+### 🟢 P2 DONE 2026-06-07 — Sprint Impronta (aa01/cap-\*) = SUPERSEDE (design non-canonico)
 
 Materiale era disk-only Lenovo (April 25-28); backuppato su `origin/aa01/cap-*` (13 branch) 2026-06-07. "Sprint Impronta Ondata 1" = sistema imprint/onboarding/primo-minuto:
 
 - backend: biome resolver (CAP-11), player telemetry (CAP-12), `onboarding_v2` schema + `/campaign/start/v2` (CAP-14), imprint phase in `coopOrchestrator` (CAP-15), REST `/coop/imprint/*` (CAP-15b).
 - frontend web `apps/play` `onboardingPanelV2` (CAP-14b, superseded da pivot Godot 04-29) + prototipo `prototypes/imprint-v2`.
-- **Rilevanza**: mappa sul canon ratificato ADR-2026-06-07 pt2 (onboarding-60s + Form Pulse). Backend = condiviso (Game=backend SoT anche Godot) -> possibile fondazione riusabile; frontend web = morto.
-- **Task**: diff endpoints/schema sprint vs main corrente -> reuse (backend) vs supersede (frontend) per-pezzo. Home = SPEC-A (Device Input Ledger) / Form-Pulse.
-- **Priorita'**: P2. Pairs con la build Form-Pulse/onboarding della roadmap.
+- **VERDETTO 2026-06-07** (sub-agent grep-verified): **SUPERSEDE**. Il backend implementa un modello onboarding NON-canonico (4 body-part choices -> biome via `biomeResolver`) che CONFLIGGE col canon (1-trait/branco + biome-via-route-choice) e in 2 punti REGREDIREBBE main (imprint-phase collassa character_creation+world_setup che main tiene separati; host-token start = anti device-authority). NON merge -- branch preservati su `origin/aa01/cap-*`.
+- **1 REUSE narrow (P3, gated-behind-spec)**: `PlayerRunTelemetry` (store+route+Prisma, `vcSnapshot`+`selectedForm` cross-run) = allineato Form-Pulse/MBTI canon (ADR-2026-06-07 pt3), standalone. Valutare lift SOLO dopo design-spec (no canon-home attuale).
 
 ### 🟢 P3 OPEN — Stale services/rules (dead Python) doc/config refs cleanup (2026-06-07)
 
