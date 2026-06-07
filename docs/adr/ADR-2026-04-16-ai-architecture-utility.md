@@ -3,7 +3,7 @@ title: 'ADR-2026-04-16: AI Sistema — Utility AI Architecture'
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-16
+last_verified: 2026-06-07
 source_of_truth: false
 language: it-en
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: 'ADR-2026-04-24: M13 P6 — Hardcore mission timer + pod activation (Long
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-24
+last_verified: 2026-06-07
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
@@ -227,6 +227,6 @@ pod activation). **Ma un riferimento file è ROTTO** (audit veracità ADR
   storico = snapshot pre-rinomina, NON path corrente.
 
 **Trattamento**: decisione invariata; il path nel corpo/frontmatter =
-*riferimento storico rotto*, NON puntatore valido. Target canonico →
+_riferimento storico rotto_, NON puntatore valido. Target canonico →
 `ADR-2026-04-19-reinforcement-spawn-engine.md`. (Addendum-only:
 governance ADR non riscrive link nel corpo; pointer corretto qui.)
