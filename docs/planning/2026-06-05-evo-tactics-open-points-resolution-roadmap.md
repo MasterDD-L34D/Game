@@ -524,8 +524,19 @@ Estensioni allo scope delle spec esistenti:
 | SPEC-I | A2 StressWave telegraph; A9 population tick; A13 biome-wound cross-run; B6 ERMES briefing surface                                                                                                             |
 | SPEC-K | A6 biome-form landing; A10 trait-env-costs wiring; B11 difficulty profiles (engine pervasivo); B12 route weighting                                                                                            |
 
-Verifica git puntuale residua prima di scrivere ticket "build": C3 (facing per-unit),
-C6 (jobs runtime). Mechanics-depth MED (C1/C4/C10) = scope opzionale di SPEC-C, non blocking.
+Verifica git RISOLTA 2026-06-08 (ground-truth):
+
+- **C3 facing/rear-crit** = NON costruito (esistono solo `is_flank`/`is_critical` in
+  `apps/backend/services/combat/archetypePassives.js`; nessuna facing-direction per-unit).
+  E' una mechanic combat-rules (non un SPEC device): build = rules engine; surface =
+  SPEC-C 4.2 (preview mostra rischio facing/rear) + SPEC-D callout (beat rear-crit).
+- **C6 jobs expansion** = DATA-ONLY (`data/core/jobs_expansion.yaml` non runtime-wired;
+  i 4 job Stalker/Beastmaster/Aberrant non nel job resolver -- "Symbiont" live = bond
+  mechanic, non il job). E' job-system/content (non un SPEC device): build = job resolver
+  - 4 definizioni; surface = SPEC-E 4 (party-select mostra il job).
+
+Mechanics-depth MED (C1/C3/C4/C10) + content (C6) = track separato dalle surface SPEC;
+entrano nei ticket build quando la surface relativa li richiede, gated kill-60.
 
 ### SPEC-M: Onboarding Identity Flow
 
