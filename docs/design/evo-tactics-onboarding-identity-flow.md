@@ -41,15 +41,15 @@ visibilita' SPEC-B. SPEC-M ALIMENTA gli engine LIVE, non li riscrive.
 
 ## 2. Baseline LIVE (verificato 2026-06-08, non ricostruire)
 
-| Engine / artefatto                                     | Ruolo / stato                                                                                                                                                                                       |
-| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `coopOrchestrator.submitOnboardingChoice` (#2638)      | **Per-player LIVE**: `{allPlayerIds}` -> `onboardingChoices` Map + readiness-gate (advance solo se tutti submettono) + `onboardingReadyList()`. Senza -> legacy host-only single (backward-compat). |
-| `routes/campaign.js` `POST /api/campaign/start`        | `initial_trait_choice` (option_a/b/c) -> `acquiredTraits[]` (LIVE). Le 3 trait in `active_effects.yaml` + `default_campaign_mvp.yaml` (`onboarding:`).                                              |
-| `coopOrchestrator.submitFormPulse` + `form_pulse_list` | Form Pulse backend LIVE (axes per-player, store, broadcast, ready-gate; phone W4/W7). UX micro-scenari swipe = DESIGN-ONLY (Godot).                                                                 |
-| `vcScoring.js` / `convictionEngine.js`                 | VC axes + MBTI + Ennea + Conviction scoring LIVE. Consumer (soft) degli assi onboarding/Form Pulse.                                                                                                 |
-| `51-ONBOARDING-60S.md` (A3, source_of_truth:true)      | Canon: flusso 60s, 3 opzioni A/B/C, timer 30s, auto-select A. Modello canon = 1 scelta per il branco (vedi MA1).                                                                                    |
-| ADR-2026-04-21b                                        | Onboarding narrativo 60s: 3 scelte identitarie pre-Act-0 + trait pre-slot.                                                                                                                          |
-| `coopOrchestrator` DEBT host-only                      | `submitOnboardingChoice` legacy ha guard `host_only`; da rimuovere/estendere lato wsSession+Godot (sez. 5, follow-up cross-repo).                                                                   |
+| Engine / artefatto                                     | Ruolo / stato                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `coopOrchestrator.submitOnboardingChoice` (#2638)      | **Per-player: metodo orchestrator LIVE** (`{allPlayerIds}` -> `onboardingChoices` Map + readiness-gate + `onboardingReadyList()`); senza -> legacy host-only single. NB END-TO-END NON wired: `wsSession` passa ancora `{hostId}` (legacy), il path per-player non e' attivato live (sez. 5). |
+| `routes/campaign.js` `POST /api/campaign/start`        | `initial_trait_choice` (option_a/b/c) -> `acquiredTraits[]` (LIVE). Le 3 trait in `active_effects.yaml` + `default_campaign_mvp.yaml` (`onboarding:`).                                                                                                                                        |
+| `coopOrchestrator.submitFormPulse` + `form_pulse_list` | Form Pulse backend LIVE (axes per-player, store, broadcast, ready-gate; phone W4/W7). UX micro-scenari swipe = DESIGN-ONLY (Godot).                                                                                                                                                           |
+| `vcScoring.js` / `convictionEngine.js`                 | VC axes + MBTI + Ennea + Conviction scoring LIVE da telemetria. NB (verificato): NON leggono ancora gli assi Form Pulse -- `formPulses` e' stored/broadcast in coopOrchestrator ma il wiring FP->VC NON esiste (design gap, sez. 6/8).                                                        |
+| `51-ONBOARDING-60S.md` (A3, source_of_truth:true)      | Canon: flusso 60s, 3 opzioni A/B/C, timer 30s, auto-select A. Modello canon = 1 scelta per il branco (vedi MA1).                                                                                                                                                                              |
+| ADR-2026-04-21b                                        | Onboarding narrativo 60s: 3 scelte identitarie pre-Act-0 + trait pre-slot.                                                                                                                                                                                                                    |
+| `coopOrchestrator` DEBT host-only                      | `submitOnboardingChoice` legacy ha guard `host_only`; da rimuovere/estendere lato wsSession+Godot (sez. 5, follow-up cross-repo).                                                                                                                                                             |
 
 Invarianti ereditate:
 
@@ -68,16 +68,20 @@ Estensione device-driven del canon 51-ONBOARDING-60S (i tempi restano):
 
 ```text
 [00:00] splash "Sopravvivi all'Apex"
-[00:10] briefing audio (2-3 frasi): "Il tuo branco e' stato marcato. Come vuoi che ti ricordino?"
+[00:10] briefing audio (2-3 frasi) "Il tuo branco e' stato marcato. Come vuoi che ti ricordino?"
+        IN PARALLELO: Form Pulse 5 micro-scenari swipe (~10s, sez. 6) DENTRO la finestra briefing
 [00:20] 3 scelte identitarie (sez. 4) -- input PER-PLAYER dal device (sez. 5), 30s, auto-A
 [00:50] transizione "Cosi' sara'."
 [01:00] enter enc_tutorial_01 (Act 0)
 ```
 
-Estensioni oltre il canon (oggi DESIGN-ONLY lato UX):
+Il Form Pulse gira IN PARALLELO al briefing audio (lo swipe avviene mentre l'audio parla),
+cosi' NON consuma budget extra -- il 60s hard-cap del canon resta rispettato (briefing 10s +
+scelta 30s + transizione 10s + splash). Se in playtest il Form Pulse non sta nei 10s, il 60s
+va rivisto esplicitamente (sub-decisione MA3).
 
-- **Form Pulse** (sez. 6): 5 micro-scenari swipe (~15s) tra briefing e scelta, che spostano
-  i pesi VC.
+Estensioni POST-onboarding (fase world-setup, DOPO i 60s; oggi DESIGN-ONLY):
+
 - **Biome-form affinity landing** (sez. 7, V3 B4): il mondo atterra nel bioma piu' affine
   alla Forma emergente del branco.
 - **Social/clan ritual** (sez. 7, V3 B5): prima interazione ecologica (help/hinder/ignore).
@@ -111,9 +115,15 @@ Estensione device-authority del canon (che era 1-scelta-per-branco host-driven):
   aggiornato a passare `allPlayerIds` + broadcast `onboarding_ready_list` + advance gate su
   all-ready QUANDO il client Godot invia `onboarding_choice` per-player. Finche' Godot non e'
   aggiornato, il gate per-player resta opt-in backend.
-- Timer/auto-select (sez. 4): in per-player, l'auto-select A scatta per i player non-pronti
-  alla scadenza (cosi' il gate non va in deadlock); il timeout va mostrato in TV come stato
-  del tavolo (SPEC-K), il consenso/scelta resta device.
+- Timer/auto-select (sez. 4): in per-player, alla scadenza i player non-pronti ricevono
+  auto-select A (anti-deadlock). **Gap backend (da costruire):** oggi NON esiste un timeout
+  server-side onboarding in coopOrchestrator/wsSession (il 30s e' solo YAML); senza, un player
+  disconnesso BLOCCA il readiness-gate all'infinito. Serve un timeout server-side
+  (`deliberation_timeout` dal campaign YAML) che emetta un auto-A sintetico per i mancanti +
+  avanzi. Il timeout va mostrato in TV come stato del tavolo (SPEC-K); la scelta resta device.
+- **Solo-play:** `allPlayerIds=[playerId]` -> il gate degenera a ready-immediato al primo
+  submit (se `allPlayerIds` vuoto -> modalita' legacy host-only).
+- **Late-join** (player connesso DOPO l'advance): riceve auto-A/default; non riapre la fase.
 
 ## 6. Form Pulse
 
@@ -121,7 +131,10 @@ Estensione device-authority del canon (che era 1-scelta-per-branco host-driven):
   Cauto, Agile/Robusto, Solitario/Sciame, Memoria/Istinto). NON e' un test psicologico.
 - Backend LIVE (`submitFormPulse` + `form_pulse_list`, per-player + ready); UX swipe = Godot
   DESIGN-ONLY.
-- Effetto: SPOSTA i pesi VC/Forma (soft), non li fissa. Magnitudine del weight = fork **MA3**.
+- Effetto INTESO: spostare (soft) i pesi VC/Forma. **Stato reale (verificato): NON wired** --
+  `formPulses` e' stored + broadcast, ma `vcScoring.js`/`convictionEngine.js` non leggono gli
+  assi. Il transform `formPulses -> VC axis delta` (soft+bounded) e' da costruire (acceptance
+  #4). Magnitudine del weight (quando wired) = fork **MA3**.
 - Authority/visibilita' = SPEC-B sez. 3.2 + F1 (TV = radar aggregato di default; per-player
   opt-in, mai imposto). SPEC-M esegue, non ridecide.
 
@@ -137,23 +150,26 @@ Estensione device-authority del canon (che era 1-scelta-per-branco host-driven):
 
 ## 8. Mapping VC / MBTI / Ennea / Conviction
 
-- Gli assi onboarding + Form Pulse + ritual alimentano (soft) il VC engine (`vcScoring.js`)
-  e il Conviction tracker (`convictionEngine.js`) -- engine-owned, SPEC-M non li ridefinisce.
+- INTENTO: gli assi onboarding + Form Pulse + ritual alimentano (soft) il VC engine
+  (`vcScoring.js`) + Conviction (`convictionEngine.js`) -- engine-owned, SPEC-M non li
+  ridefinisce. **Stato reale (verificato): il wiring NON esiste** -- gli assi `formPulses` sono
+  stored/broadcast ma nessuno scorer li legge. Costruirlo (transform `formPulses -> VC axis
+delta`, soft+bounded) e' un prerequisito implementativo (acceptance #4), non gia' LIVE.
 - **Anti-pattern (museum `personality-mbti-gates-ghost`):** i signal sono input MORBIDI; non
   fissano un archetipo ne' hard-gate-ano rami futuri. Coerente con SPEC-G TS2 / SPEC-H HA.
 - Il bias Custode (ADR-2026-06-07 punto 4) consuma l'aggregato del Form Pulse (non per-player).
 
 ## 9. Visibilita' (eredita SPEC-B)
 
-| Dato onboarding                           | Tier               | Razionale                                                               |
-| ----------------------------------------- | ------------------ | ----------------------------------------------------------------------- |
-| Scelta identitaria del singolo (3-choice) | `private` + opt-in | F6 ratificato: privata, opt-in self-disclosure; mai imposta in TV.      |
-| Risposte Form Pulse + assi del singolo    | `private`          | il player vede i propri; effetti di scoring = `secret` (engine).        |
-| Radar/ripple Form Pulse del branco        | `aggregated`       | F1: TV mostra l'aggregato; per-player solo opt-in.                      |
-| Esito ritual / Forma emergente del branco | `aggregated`       | mood del branco; il per-player resta privato.                           |
-| Scoring VC/MBTI/Ennea/Conviction          | `secret`           | engine-only (come gli altri scoring).                                   |
-| Readiness onboarding (N/M submitted)      | `aggregated`       | conteggio readiness in TV (no timing-tell per-player; mirror planning). |
-| Bioma di landing + ecosistema             | `public`           | reveal del mondo (TV), gia' coperto SPEC-B 3.3.                         |
+| Dato onboarding                           | Tier               | Razionale                                                                                                                                                                                                             |
+| ----------------------------------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scelta identitaria del singolo (3-choice) | `private` + opt-in | F6 ratificato: privata, opt-in self-disclosure; mai imposta in TV.                                                                                                                                                    |
+| Risposte Form Pulse + assi del singolo    | `private`          | il player vede i propri; effetti di scoring = `secret` (engine).                                                                                                                                                      |
+| Radar/ripple Form Pulse del branco        | `aggregated`       | F1: TV mostra l'aggregato; per-player solo opt-in.                                                                                                                                                                    |
+| Esito ritual / Forma emergente del branco | `aggregated`       | mood del branco; il per-player resta privato.                                                                                                                                                                         |
+| Scoring VC/MBTI/Ennea/Conviction          | `secret`           | engine-only (come gli altri scoring).                                                                                                                                                                                 |
+| Readiness onboarding (N/M submitted)      | `aggregated`       | SOLO conteggio in TV. NB: `onboarding_ready_list`/`onboarding_chosen` verso TV DEVONO strippare `option_key`/`trait_id` (inviare `{player_id, ready}`); il contenuto della scelta va solo al device del singolo (F6). |
+| Bioma di landing + ecosistema             | `public`           | reveal del mondo (TV), gia' coperto SPEC-B 3.3.                                                                                                                                                                       |
 
 ## 10. Relazione con altre spec
 
@@ -179,17 +195,23 @@ adotta il per-player input; resta da decidere la SEMANTICA dell'applicazione (MA
 Il canon 51-ONBOARDING (A3) = 1 scelta -> 1 trait per TUTTO il branco. Il per-player (#2638)
 da' a ogni device una scelta. A chi si applica il trait scelto?
 
-- **Opzione A -- trait per-creatura (raccomandata).** Ogni player sceglie l'identita' della
-  PROPRIA creatura (party eterogeneo). Tradeoff: piena device-authority + diversita' di
-  party; supera il canon "1 trait per branco" (riconciliazione esplicita 51-ONBOARDING).
-- **Opzione B -- per-player vote -> 1 trait branco.** Ogni device vota; l'esito aggregato
-  da' un solo trait al branco (preserva il canon). Tradeoff: fedele al canon, ma "device
-  input" diventa un voto, non una scelta identitaria personale.
-- **Opzione C -- ibrido**: trait personale + un trait-branco emergente dall'aggregato.
-  Tradeoff: ricco, ma due effetti da bilanciare + UI.
-- **Raccomandazione:** A (riconcilia 51-ONBOARDING su device-authority; il backend #2638 gia'
-  mappa per-player). Richiede aggiornare/superare 51-ONBOARDING-60S (A3) con nota di
-  supersede sull'asse modello.
+- **Opzione A -- trait per-creatura.** Ogni player sceglie l'identita' della PROPRIA creatura
+  (party eterogeneo). Tradeoff: piena device-authority + diversita'. **MA SUPERA il canon A3**
+  (51-ONBOARDING-60S = "1 trait condiviso di branco, non singolo", source_of_truth:true) +
+  richiede una MODIFICA DATA-MODEL: oggi `POST /api/campaign/start` applica UN solo
+  `acquiredTraits=[traitId]` condiviso (`campaign.js`:176); per-creatura serve un trait-array
+  per-creatura (o piu' campaign run, o nuovo endpoint). **Gate governance:** adottabile SOLO
+  con un ADR che supersede esplicitamente 51-ONBOARDING-60S (un doc review_needed NON puo'
+  sovrascrivere silenziosamente un A3 source_of_truth:true).
+- **Opzione B -- per-player vote -> 1 trait branco (canon-compatible).** Ogni device vota; il
+  voto aggregato da' un solo trait al branco. Tradeoff: device-authority sull'INPUT senza
+  superare il canon (nessun ADR, nessuna modifica data-model); il "device input" e' un voto,
+  non una scelta identitaria personale.
+- **Opzione C -- ibrido**: trait personale + trait-branco emergente. Tradeoff: ricco, ma due
+  effetti da bilanciare + UI + comunque il gate-ADR di A.
+- **Decisione = Eduardo.** B e' l'UNICA canon-compatibile senza ADR. A/C richiedono PRIMA un
+  ADR-supersede di 51-ONBOARDING-60S + la modifica data-model campaign. Nessuna opzione
+  raccomandata d'ufficio (rispetto authority A3).
 
 ### MA2 -- Gesto di input (swipe vs tap) + accessibilita'
 
@@ -198,7 +220,8 @@ Il Form Pulse assume "swipe". Canonizzarlo?
 - **Opzione A -- swipe + fallback tap (raccomandata).** Swipe come gesto primario, tap
   alternativo (accessibilita' motoria). Tradeoff: copre disabilita' senza perdere il feel.
 - **Opzione B -- solo swipe.** Piu' coeso, ma esclude accessibilita'.
-- **Raccomandazione:** A (review accessibilita' con SPEC-K).
+- **Decisione = SPEC-K** (gesto/accessibilita' = surface Godot): MA2 e' una scelta di SPEC-K,
+  SPEC-M la consuma. Direzione: swipe + fallback tap (mai swipe-only).
 
 ### MA3 -- Magnitudine soft del Form Pulse + ritual
 
@@ -228,12 +251,15 @@ SPEC-M e' implementabile/chiudibile quando:
 
 1. la catena 60s (sez. 3) rispetta il canon 51-ONBOARDING (budget/timer/auto-A) con input
    device per-player;
-2. le 3 scelte identitarie (sez. 4) sono wired al `initial_trait_choice` LIVE, con la
-   semantica MA1 decisa (trait per-creatura vs branco);
+2. le 3 scelte sono wired al `initial_trait_choice` LIVE, con la semantica MA1 decisa; se
+   MA1=A/C, l'ADR-supersede di 51-ONBOARDING-60S e' filato + il data-model campaign
+   (trait per-creatura, non `acquiredTraits` singolo condiviso) e' esteso;
 3. il modello per-player (#2638) e' wired end-to-end: wsSession passa `allPlayerIds` +
-   broadcast `onboarding_ready_list` + Godot invia `onboarding_choice` per-player + debito
+   broadcast `onboarding_ready_list` (con strip choice-content, sez. 9) + Godot invia
+   `onboarding_choice` per-player + timeout server-side anti-deadlock (sez. 5) + debito
    host-only rimosso (Gate-5 cross-repo);
-4. il Form Pulse (sez. 6) sposta i pesi VC in modo bounded (MA3) con UX swipe (MA2) + ready;
+4. il wiring `formPulses -> VC axis delta` (oggi ASSENTE, verificato) e' costruito
+   (soft+bounded, MA3); il Form Pulse sposta DAVVERO i pesi VC, con UX swipe (MA2/SPEC-K) + ready;
 5. biome-form landing (MA4) + social ritual sono wired (oggi DESIGN-ONLY);
 6. il mapping VC/MBTI/Ennea/Conviction resta soft (no hard-gate), engine-owned;
 7. la visibilita' (sez. 9) e' coerente con SPEC-B (scelta `private`+opt-in F6, Form Pulse
