@@ -1736,14 +1736,42 @@ function createSessionRouter(options = {}) {
       if (biomeIdRaw) {
         try {
           const biomeCostsRegistry = loadTraitEnvironmentalCosts();
+          // SPEC-P A13 read-side: if this biome is wounded (campaign cross-run state),
+          // the eco effect is harsher (woundedStep, folded into the ER2 +/-2 cap).
+          // PROPOSED magnitude = 1 band (DEGRADE_STEP); ratify N=40. Best-effort lookup.
+          let woundedStep = 0;
+          try {
+            const cid = req.body?.campaign_id;
+            if (cid) {
+              const { getCampaign } = require('../services/campaign/campaignStore');
+              const camp = getCampaign(cid);
+              if (
+                camp &&
+                Array.isArray(camp.woundedBiomes) &&
+                camp.woundedBiomes.includes(biomeIdRaw)
+              ) {
+                woundedStep = 1;
+              }
+            }
+          } catch {
+            /* best-effort -- biome eco still applies without the wound amplifier */
+          }
           units = units.map((u) => {
             if (!u) return u;
             const clone = { ...u };
-            const log = applyBiomeEcoEffects(clone, biomeIdRaw, { biomeCostsRegistry });
+            const log = applyBiomeEcoEffects(clone, biomeIdRaw, {
+              biomeCostsRegistry,
+              woundedStep,
+            });
             // FASE 3 P4: capture biome-level eco band (uniform across units, set
             // even for med where no delta is applied) for the diegetic chip.
             if (log && log.band) ermesBand = log.band;
-            if (log && (log.adr21c.length || log.ermes.length)) {
+            if (
+              log &&
+              (log.adr21c.length ||
+                log.ermes.length ||
+                Object.keys(log.combined_delta || {}).length)
+            ) {
               biomeCostsLog.push({ unit_id: clone.id, ...log });
             }
             return clone;
