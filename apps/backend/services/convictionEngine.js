@@ -111,9 +111,15 @@ function classifyEvent(event) {
   if (event.action_type === 'sacrifice') return { ...DELTA.SACRIFICE };
 
   const flags = event.flags || {};
+
+  // SPEC-A device-input ledger: explicit semantic flags on decision-events,
+  // honored regardless of action_type. Reuse existing bounded DELTA magnitudes.
+  if (flags.refuse_order === true) return { ...DELTA.REFUSE_ORDER };
+  if (flags.sacrifice === true) return { ...DELTA.SACRIFICE };
+  if (flags.mercy === true) return { ...DELTA.KILL_MERCY };
+
   // Kill semantic split.
   if (event.action_type === 'kill' || (event.action_type === 'attack' && event.result === 'kill')) {
-    if (flags.mercy === true) return { ...DELTA.KILL_MERCY };
     // Pragma kill on low HP target (no mercy flag, target was weak).
     if (Number.isFinite(event.target_hp_before) && event.target_hp_before <= 3) {
       return { ...DELTA.KILL_LOW_HP_NO_MERCY };

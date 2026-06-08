@@ -78,7 +78,7 @@ hard-gate. I signal sono input morbidi, mai cancelli netti.
    - `decision_events` (canonici). Mai raw. Mai dalla TV.
 4. **`deviceInputLedger` (backend, nuovo, thin).**
    - valida + registra i `decision_events` (campaign / debrief / Custodi);
-   - instrada i `signal_events` agli engine LIVE come input aggiuntivi;
+   - arricchisce `session.events` con decision-events flaggati (`event.flags.*`) + campi behavioral; gli engine LIVE li consumano via la pipeline esistente `vcScoring.computeRawMetrics` -> `computeMbtiAxes` / `evaluateConviction` (il ledger NON instrada a un bus parallelo);
    - applica il tier di visibilita' (sez. 5) e decide cosa la TV puo' mirror-are.
 5. **Consumers (esistenti).** Engine di scoring -> effetti gia' live (recruit,
    mating, Nido, ERMES/ALIENA, Tri-Sorgente, debrief). Alimentati, non sostituiti.
@@ -90,7 +90,8 @@ raw (device, effimero)
   -> derive (device)
   -> [signal_events + decision_events, tier-tagged]
   -> wire
-  -> deviceInputLedger { record decision ; route signal -> engine }
+  -> deviceInputLedger { validate + tier-tag ; enrich session.events }
+  -> vcScoring.computeRawMetrics (pipeline esistente) -> axes/conviction
   -> effetti di campagna esistenti
   -> debrief / Custodi
 ```
@@ -191,6 +192,7 @@ Acceptance: la spec e' implementabile quando i signal v1 hanno schema + derivazi
   `convictionEngine` / `mbti*` / `vcScore` va letta sul codice e confermata
   prima di redigere il piano (Currency Gate). Il mapping in sez. 6 e' proposto,
   non ancora verificato contro l'API.
+  - **RISOLTO 2026-06-07**: engine API = event-log-driven (`vcScoring.computeRawMetrics` + `convictionEngine` `event.flags`). Integrazione via enrichment di `session.events`, non routing-bus.
 - **VERIFY device buffer**: capacita'/lifecycle del buffer raw lato Godot
   (memoria, scarto) da dimensionare con il client.
 - **Full-loop metric**: indicare quali metriche del full-loop runner misureranno
