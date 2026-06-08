@@ -98,8 +98,8 @@ Event-store narrativo cross-session SOPRA il combat event-log.
 - **Keystone:** SPEC-P (A3 failure-as-lore emette chronicle_event; A13 biome-wound cross-run
   legge la cronaca del bioma). M-7 = primo nel build-order (fan-out dipendenze).
 - **Build-order (verificato):** M-7 (chronicle/store, definisce l'interfaccia append) PRIMA ->
-  M-2 (identity, consuma l'append) -> M-4 (Sistema legibility) -> M-3 (lineage). M-1 (heirloom
-  greenfield) + M-5 (nota design) + M-6 (audit) = post/parallel.
+  M-2 (identity, consuma l'append) -> M-4 (Sistema legibility) -> M-3/M-1 (L3 insieme, QF4=both;
+  M-1 heirloom e' greenfield = build extra). M-5 (nota design) + M-6 (audit) = parallel.
 
 ## 5. L1 -- Identity-earned (M-2, Wildermyth/Triangle Strategy)
 
@@ -163,9 +163,23 @@ Event-store narrativo cross-session SOPRA il combat event-log.
 - **SPEC-B/A**: visibilita' (sez. 10) + tier.
 - **SPEC-L**: traccia lo stato (chronicle/identity 404; reuse LIVE).
 
-## 12. Decisioni aperte (per Eduardo)
+## 12. Decisioni
 
 Fork etichetta `QF#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA/MA/OA).
+
+**Ratificate (Eduardo 2026-06-08):**
+
+| Fork | Esito ratificato (2026-06-08)                                                         |
+| ---- | ------------------------------------------------------------------------------------- |
+| QF1  | Nuovo `services/chronicle` per-BRANCO (diaryStore resta per-unit; no double-store)    |
+| QF2  | Name emergence auto da lifecycle (Hatchling->Juvenile->Apex+MBTI->Legacy)             |
+| QF3  | Hidden SOLO cross-incontro; intra-round sempre telegrafato (WEGO); first-use generico |
+| QF4  | L3 COMPLETO nell'MVP: M-3 named-mutation + **M-1 heirloom (greenfield, build extra)** |
+
+NB QF4=both: M-1 (heirloom) e' greenfield (0 hit oggi) -> piu' lavoro di build nell'MVP; il
+build-order resta M-7 -> M-2 -> M-4 -> M-3/M-1 (L3 insieme).
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### QF1 -- Architettura dello store cronaca
 
@@ -241,8 +255,9 @@ SPEC-Q e' implementabile/chiudibile quando:
 2. **L1 identita' (M-2):** `services/identity` legge lifecycle + sentience_tier + scar
    (`woundedPerma`) e produce nome/portrait/storia; modello name-emergence deciso (QF2);
    reveal = promotion-gate (SPEC-B);
-3. **L3 (M-1/M-3):** scope/timing deciso (QF4); se M-3, contratto Game-side agganciato a
-   `lineagePropagator` + draft Godot;
+3. **L3 (M-1 + M-3, QF4=both nell'MVP):** M-3 named-mutation contratto Game-side agganciato a
+   `lineagePropagator` + draft Godot; M-1 heirloom (greenfield) costruito con provenance
+   tracciata + cronaca entry-type `heirloom`;
 4. **L2/P5 (M-4):** regola reveal in `declareSistemaIntents` + addendum SPEC-H; il reveal si
    applica SOLO alla tattica evolutiva cross-incontro -- gli intent intra-round del Sistema
    restano telegrafati pre-commit (WEGO invariante), primo-uso = intent generico + reveal
