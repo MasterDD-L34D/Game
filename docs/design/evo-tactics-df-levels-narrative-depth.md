@@ -42,18 +42,18 @@ non lo rimpiazza).
 
 ## 2. Baseline LIVE (verificato 2026-06-08, non ricostruire)
 
-| Engine / artefatto                                         | Ruolo / stato                                                                                                         |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `routes/sessionRoundBridge.js`                             | Combat event-log per-round LIVE. La cronaca (M-7) ci sta SOPRA, non lo rimpiazza.                                     |
-| `services/combat/woundedPerma.js` + `woundSystem.js`       | Scar-as-stat (SPEC-J). M-2 identity riusa lo scar come layer narrativo.                                               |
-| `services/generation/lineagePropagator.js`                 | Mating/lineage Game-side LIVE. M-3 named-mutation lineage vi si aggancia.                                             |
-| `data/core/mutations/mutation_catalog.yaml`                | 36 mutazioni; **24 con `derived_ability_id` null** -> M-6 visual-swap likely 0-runtime (verify).                      |
-| `services/narrative/qbnEngine.js` + `tools/py/skiv_qbn.py` | QBN non-LLM LIVE (+ inkjs). M-7 chronicle usa template parametrici QBN, non LLM.                                      |
-| `services/ai/declareSistemaIntents.js`                     | Intents Sistema. M-4 hidden-ability reveal vi aggiunge la regola soglia + addendum SPEC-H.                            |
-| `sentience_tier` (skiv_archetype_pool / mutagen_events)    | Dato sentience LIVE (#1808) -- input per M-2 identity tier.                                                           |
-| museum `creature-wildermyth-battle-scar-portrait.md`       | Reuse-path M-2: portrait overlay da evento formativo.                                                                 |
-| `/api/v1/session/:id/*` route pattern                      | Pattern endpoint esistente (`/:id/objective`, `/:id/aliena-telemetry`...) -> dove vivra' `/:id/chronicle*`.           |
-| **404 greenfield**                                         | `services/{identity,eventlog,chronicle}`; endpoint chronicle; named heirloom/artifact (0 hit); hidden-ability design. |
+| Engine / artefatto                                         | Ruolo / stato                                                                                                                        |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `routes/sessionRoundBridge.js`                             | Combat event-log per-round LIVE. La cronaca (M-7) ci sta SOPRA, non lo rimpiazza.                                                    |
+| `services/combat/woundedPerma.js` + `woundSystem.js`       | Scar-as-stat (SPEC-J). M-2 identity riusa lo scar come layer narrativo.                                                              |
+| `services/generation/lineagePropagator.js`                 | Mating/lineage Game-side LIVE. M-3 named-mutation lineage vi si aggancia.                                                            |
+| `data/core/mutations/mutation_catalog.yaml`                | 36 mutazioni; **24 con `derived_ability_id` null** -> M-6 visual-swap likely 0-runtime (verify).                                     |
+| `services/narrative/qbnEngine.js` + `tools/py/skiv_qbn.py` | QBN non-LLM LIVE (+ inkjs). M-7 chronicle usa template parametrici QBN, non LLM.                                                     |
+| `services/ai/declareSistemaIntents.js`                     | Intents Sistema. M-4 hidden-ability reveal vi aggiunge la regola soglia + addendum SPEC-H.                                           |
+| `sentience_tier` (skiv_archetype_pool / mutagen_events)    | Dato sentience LIVE (#1808) -- input per M-2 identity tier.                                                                          |
+| museum `creature-wildermyth-battle-scar-portrait.md`       | Reuse-path M-2: portrait overlay da evento formativo.                                                                                |
+| `/api/v1/session/:id/*` route pattern                      | Pattern endpoint esistente (`/:id/objective`, `/:id/aliena-telemetry`...) -> dove vivra' `/:id/chronicle*`.                          |
+| **404 greenfield**                                         | `services/{identity,eventlog}` (chronicle store+API ora LIVE -- vedi sez.4); named heirloom/artifact (0 hit); hidden-ability design. |
 
 **NB diaryStore (verificato, reuse-first P1):** `services/diary/diaryStore.js` + `routes/diary.js`
 sono LIVE = diary PER-UNIT cross-session (Pillar 5; JSONL append-only,
@@ -91,8 +91,10 @@ Event-store narrativo cross-session SOPRA il combat event-log.
 - **Sorgente:** eventi narrativi salienti (nascita/morte/mutazione/scar/legacy/failure)
   emessi dagli altri sistemi (SPEC-J wound, SPEC-P failure, M-2 identity, M-3 lineage) come
   `chronicle_event { type, actor_id, run_id, ts, payload, tier }`.
-- **Contratto API (nuovo, pattern `/api/v1/session/:id/*`):** `POST /:id/chronicle-event`
-  (append) + `GET /:id/chronicle` (read, filtrabile per actor/tipo/run). Store = QF1.
+- **Contratto API (LIVE, QF1-A):** `services/chronicle/chronicleStore.js` (JSONL per-branco) +
+  `POST /api/chronicle/:run_id` (append) + `GET /api/chronicle/:run_id` (read, filtrabile
+  `?type=` / `?actor_id=`) + `/summary`. 9 event-type whitelist + tier public/private/secret.
+  Emitter (A3 `run_failed`, M-2 `creature_named`, M-3 `mutation_lineage`...) + viewer = follow-up.
 - **Viewer + Memory-mode home:** Loop Hero visual-emergence, Slay-the-Princess branching-state
   memory, DF template parametrici (QBN/inkjs LIVE, non LLM). Surface Godot = SPEC-K/D consumer.
 - **Keystone:** SPEC-P (A3 failure-as-lore emette chronicle_event; A13 biome-wound cross-run
