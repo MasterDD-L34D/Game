@@ -132,9 +132,15 @@ strength in [0, 1], default 0 (OFF)
 - `strength = 1`: `factor = aggregate` -- entry incoerente ~0 (soft-veto), coerente
   invariata.
 - `0 < strength < 1`: down-weight parziale e proporzionale degli incoerenti.
-- Telemetria: ogni spawn modulato porta `_aliena_enforcement = { strength, aggregate,
-factor }`; il sample ALIENA include `enforcement_factor` + `strength` cosi' il tuning e'
-  data-informed (quale strength ha soppresso quale entry).
+- Telemetria (stato reale, verificato): ogni spawn modulato porta `_aliena_enforcement =
+{ strength, aggregate, factor }` SULL'ENTRY IN-MEMORY. NON e' ancora propagato al buffer
+  drenato da `GET /api/session/:id/aliena-telemetry`: quel buffer (`aliena_coherence_telemetry`)
+  e' alimentato dal callback diagnostico `emitAlienaCoherence` (opt-in via
+  `aliena_coherence_telemetry === true`, itera il pool PRE-bias = coerenza-identita', non la
+  soppressione effettiva) ed emette solo `{ entry_id, biome_id, aggregate, sub_scores }`.
+  Propagare `enforcement_factor` + `strength` nel sample drenato (per un tuning data-informed)
+  e' l'INTENT del design 2026-05-29, da implementare al flip di attivazione (HA1) -- NON e'
+  gia' live.
 - Errore: scorer-throw -> `factor = 1` (graceful), mai blocca.
 
 Cio' che SPEC-H aggiunge al meccanismo:
@@ -159,8 +165,10 @@ A.L.I.E.N.A. = **A**mbiente, **L**inee evolutive, **I**mpianto morfo-fisiologico
 Contratto di authoring:
 
 - Ogni entry Codex (specie/bioma/concept/event) dichiara le **6 dimensioni** A.L.I.E.N.A.
-  come chiavi YAML obbligatorie (`data/codex/{id}.yaml`, 100-300 char ciascuna,
-  TV-readable). Questo e' il punto in cui bio/eco/ancoraggio diventano dati, non prosa.
+  come chiavi YAML obbligatorie in `data/codex/{id}.yaml` (100-300 char ciascuna,
+  TV-readable). Le chiavi esatte (schema codex 2026-04-27): `A_ambiente`, `L_linee_evolutive`,
+  `I_impianto`, `E_ecologia`, `N_norme_socio`, `A_ancoraggio_narrativo`. Questo e' il punto
+  in cui bio/eco/ancoraggio diventano dati, non prosa.
 - I campi che lo scorer runtime legge (`narrative_hooks`/`lore_ref`/`narrative_tag` per
   l'ancoraggio; tag affix/archetipo + appartenenza al pool canonico per
   plausibilita'/coerenza_eco) devono essere popolati coerentemente con le 6 dimensioni:
@@ -292,19 +300,24 @@ Le 6 dimensioni A.L.I.E.N.A. + la rubrica: gate hard (blocca CI/PR) o soft (warn
 - **Opzione C -- soft pieno.** Solo warn. Tradeoff: nessun attrito, ma entry senza dati
   ALIENA passano e il runtime degrada a neutro silenzioso.
 - **Raccomandazione:** A.
+- **Implementazione + migrazione (qualunque opzione):** il gate non esiste ancora -- la
+  docs-governance CI (`tools/check_docs_governance.py`) valida il frontmatter, NON lo schema
+  delle entry `data/codex/*.yaml`; serve un check dedicato (AJV su uno schema codex in
+  `packages/contracts/schemas/`, o uno script `tools/py` analogo). Il gate HARD si applica
+  alle entry NUOVE e a quelle MODIFICATE post-merge; le entry esistenti hanno una finestra di
+  migrazione (pattern `tools/docs_governance_migrator.py`), senza rompere la CI al primo PR.
 
-### HA3 -- Scope del soft-enforcement
+### HA3 -- Scope del soft-enforcement (DERIVATA, non un fork aperto)
 
-Oggi il soft-enforcement modula solo lo spawn (`reinforcementSpawner`). Estenderlo?
+Lo scope attuale e' DERIVABILE dal canon, non un fork da ratificare: §21 + design 2026-05-29
+hanno chiuso il meccanismo a SPAWN-ONLY (`reinforcementSpawner` / `biomeSpawnBias`), con
+hard-veto e conditional-event-trigger esplicitamente DEFERRED (YAGNI). Quindi: oggi
+spawn-only, punto.
 
-- **Opzione A -- spawn-only (raccomandata).** Restare sulla selezione di spawn. Tradeoff:
-  superficie minima, contratto chiaro, mirror del design 2026-05-29.
-- **Opzione B -- estendere a reward/mutazioni.** Modulare anche pool reward / suggerimenti
-  mutazione con la coerenza. Tradeoff: piu' coerenza pervasiva, ma piu' superfici da tarare
-  - rischio di intrecciare con SPEC-G (carte) e l'economia.
-- **Opzione C -- full (ogni superficie con un pool).** Tradeoff: massimo, ma esplode il
-  tuning.
-- **Raccomandazione:** A ora; B post-dati come estensione mirata.
+Resta solo una nota di estensione FUTURA (non una decisione ora): estendere la modulazione a
+reward pool / suggerimenti mutazione (rischio: superfici extra da tarare + intreccio con
+SPEC-G/economia) sarebbe un'estensione mirata POST-dati, da aprire come fork proprio quando
+ci saranno dati di tuning -- non e' richiesta a Eduardo adesso.
 
 ### HA4 -- Enforcement delle tone guardrails
 
@@ -343,8 +356,12 @@ SPEC-H e' implementabile/chiudibile quando:
 1. i 3 sub-score runtime sono documentati e mappati a bio-plausibility / ecological
    plausibility / narrative anchoring (sez. 3);
 2. il contratto del soft-enforcement (strength-knob, default-OFF, formula `factor`, floor
-   epsilon, graceful, telemetria) e' fissato e il gate di attivazione (HA1) deciso, con il
-   gate N=40 sul bioma pilota (cross-ref SPEC-I sez. 8);
+   epsilon, graceful) e' fissato e il gate di attivazione (HA1) deciso. Il gate e'
+   autocontenuto qui (non blocca su SPEC-I): flip `enabled:true` + `strength` target SOLO
+   dopo un playtest N=40 sul bioma pilota (`enc_badlands_pilot_01`) con win-rate dentro la
+   banda + nessuna regressione fuori banda; SPEC-I sez. 8 e' la fonte condivisa del pattern,
+   non un prerequisito. La propagazione di `enforcement_factor` nel sample telemetria (sez. 4)
+   e' parte dell'implementazione del flip;
 3. gli authoring gate (6 dimensioni A.L.I.E.N.A. obbligatorie + rubrica) sono definiti con
    la durezza decisa in HA2, e i campi che il runtime legge sono coperti dal gate;
 4. le tone guardrails (sez. 6) sono enumerate e il loro meccanismo di enforcement (HA4)
@@ -352,6 +369,12 @@ SPEC-H e' implementabile/chiudibile quando:
 5. il surfacing Codex/wiki (contenuto 6-dim condiviso con l'authoring, unlock, fallback) e'
    contrattualizzato e la visibilita' della coerenza (HA5) decisa;
 6. la visibilita' e' coerente con SPEC-B (coherence/enforcement `secret`, contenuto Codex
-   `public`, unlock `private`) -- nessuna surface dove ALIENA contraddice il contratto B;
-7. le Decisioni aperte HA1-HA5 sono ratificate da Eduardo; il flip `review_needed` ->
-   `accepted` al merge del PR resta a lui (`source_of_truth:false` finche' non lo decide).
+   `public`, unlock `private`) -- nessuna surface dove ALIENA contraddice il contratto B; la
+   doctrine "ALIENA non player-facing" e' verificabile (es. `grep -ri 'aliena' data/codex/` =
+   0 hit nei campi content/heading/subtitle e nei template briefing/bark);
+7. le sorgenti draft citate (`docs/design/2026-04-27-codex-aliena-hades-schema.md` doc_status
+   draft; `docs/planning/draft-narrative-lore.md` bozza) sono promosse/ratificate prima della
+   chiusura piena dei criteri 4-5, oppure il loro contenuto e' inlineato qui;
+8. le Decisioni aperte HA1, HA2, HA4, HA5 sono ratificate da Eduardo (HA3 = derivata, non
+   richiede ratifica); il flip `review_needed` -> `accepted` al merge del PR resta a lui
+   (`source_of_truth:false` finche' non lo decide).
