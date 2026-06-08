@@ -183,12 +183,27 @@ delta`, soft+bounded) e' un prerequisito implementativo (acceptance #4), non gia
 - **SPEC-H/G** (ALIENA/Tri-Sorgente): il soft-signal no-hard-gate e' lo stesso pattern.
 - **SPEC-L**: traccia lo stato (per-player backend LIVE; UX device + landing/ritual design).
 
-## 11. Decisioni aperte (per Eduardo)
+## 11. Decisioni
 
 Fork etichetta `MA#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA).
 
-**Gia' ratificato (2026-06-08):** modello PER-PLAYER (map + readiness-gate, #2638) -- SPEC-M
-adotta il per-player input; resta da decidere la SEMANTICA dell'applicazione (MA1).
+**Ratificate (Eduardo 2026-06-08):** modello PER-PLAYER (map + readiness-gate, #2638) +:
+
+| Fork | Esito ratificato (2026-06-08)                                                                |
+| ---- | -------------------------------------------------------------------------------------------- |
+| MA1  | **Ibrido**: trait personale per-creatura + trait-branco emergente dall'aggregato (opzione C) |
+| MA2  | Delegato a SPEC-K (gesto/accessibilita' = surface Godot): swipe + fallback tap               |
+| MA3  | Delta soft bounded + ratifica N=40 (anti-hard-gate)                                          |
+| MA4  | Scelta tra 2-3 candidati affini (Descent-style), in world-setup post-60s                     |
+
+**ATTENZIONE -- MA1=ibrido carica un gate governance:** include il trait per-creatura (opzione
+A), quindi SUPERA il canon A3 `51-ONBOARDING-60S` (branco-shared, source_of_truth:true) +
+richiede una MODIFICA DATA-MODEL campaign (oggi `acquiredTraits` e' un singolo trait
+condiviso). **Prerequisito (non-negoziabile):** un ADR che supersede esplicitamente
+51-ONBOARDING-60S + estende il data-model, PRIMA di implementare MA1 (acceptance #2). La parte
+"trait-branco emergente" resta canon-compatibile; la parte "per-creatura" no.
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### MA1 -- Semantica per-player: trait del singolo o del branco?
 
