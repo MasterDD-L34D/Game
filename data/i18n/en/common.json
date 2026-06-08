@@ -116,5 +116,80 @@
     "deaf_hoh_enabled": "Deaf/HoH mode enabled",
     "colorblind_enabled": "Colorblind mode enabled",
     "reduce_motion_enabled": "Reduce motion enabled"
+  },
+  "biome_label": {
+    "savana": "Savanna",
+    "caverna": "Cavern",
+    "caverna_risonante": "Resonant Cavern",
+    "caverna_sotterranea": "Underground Cavern",
+    "foresta": "Forest",
+    "pianura_aperta": "Open Plain",
+    "rovine_planari": "Planar Ruins",
+    "abisso_vulcanico": "Volcanic Abyss",
+    "atollo_obsidiana": "Obsidian Atoll",
+    "cattedrale_apex": "Apex Cathedral",
+    "frattura_stellare": "Stellar Fracture"
+  },
+  "biome_eco": {
+    "low": "Calm biome",
+    "med": "Balanced biome",
+    "high": "Tense biome"
+  },
+  "ennea_archetype": {
+    "1": "Reformer",
+    "2": "Coordinator",
+    "3": "Conqueror",
+    "4": "Individualist",
+    "5": "Architect",
+    "6": "Loyalist",
+    "7": "Explorer",
+    "8": "Hunter",
+    "9": "Stoic"
+  },
+  "ennea_beat": {
+    "victory_solo": "Victory",
+    "defeat_critical": "Defeat",
+    "combat_attack_committed": "Attack",
+    "combat_defense_braced": "Defense",
+    "exploration_new_tile": "Exploration",
+    "low_hp_warning": "Crisis"
+  },
+  "ennea_desc": {
+    "1": "Methodical setup, high precision.",
+    "2": "Team cohesion.",
+    "3": "Aggression and risk.",
+    "4": "Resilience in the critical zone.",
+    "5": "Methodical strategy, low risk.",
+    "6": "Vigilance and active support.",
+    "7": "Discovery and mobility.",
+    "8": "Targeted hit-and-run.",
+    "9": "Endurance under pressure."
+  },
+  "voice_tier": {
+    "whisper": "whisper",
+    "voice": "voice",
+    "shout": "shout"
+  },
+  "mbti_axis_detail": {
+    "E_I": {
+      "label": "Social energy",
+      "lo": "Extraversion",
+      "hi": "Introversion"
+    },
+    "S_N": {
+      "label": "Perception",
+      "lo": "Intuition",
+      "hi": "Sensing"
+    },
+    "T_F": {
+      "label": "Decision",
+      "lo": "Feeling",
+      "hi": "Thinking"
+    },
+    "J_P": {
+      "label": "Style",
+      "lo": "Perceiving",
+      "hi": "Judging"
+    }
   }
 }

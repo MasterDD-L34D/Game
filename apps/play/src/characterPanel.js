@@ -22,6 +22,7 @@
 
 import { api } from './api.js';
 import { renderPortraitPanel } from './portraitPanel.js';
+import { t } from './i18n.js';
 
 const STATE = {
   overlayEl: null,
@@ -30,13 +31,38 @@ const STATE = {
   lastVc: null,
 };
 
-// Italian axis labels (allineato a apps/backend/services/mbtiSurface.js).
-const AXIS_LABELS = {
-  E_I: { label: 'Energia sociale', lo: 'Estroversione', hi: 'Introversione' },
-  S_N: { label: 'Percezione', lo: 'Intuizione', hi: 'Sensazione' },
-  T_F: { label: 'Decisione', lo: 'Sentimento', hi: 'Pensiero' },
-  J_P: { label: 'Stile', lo: 'Percezione', hi: 'Giudizio' },
-};
+// SPEC-N PR-5 (NF3): axis + ennea labels migrated to the i18n loader (data/i18n
+// SSOT). IT values unchanged (mbti_axis_detail/ennea_archetype/ennea_desc.it ==
+// old hardcoded maps); EN now covered. Allineato a backend/services/mbtiSurface.js.
+export function axisLabel(axis) {
+  const base = `mbti_axis_detail.${axis}`;
+  return {
+    label: t(`${base}.label`),
+    lo: t(`${base}.lo`),
+    hi: t(`${base}.hi`),
+  };
+}
+
+// Pure: ennea archetype_id ('Architetto(5)') -> IT label/desc via i18n.
+// Number parsed from id parens; empty string if unknown.
+function enneaNum(id) {
+  const m = /\((\d)\)/.exec(String(id || ''));
+  return m ? m[1] : null;
+}
+export function enneaLabel(id) {
+  const n = enneaNum(id);
+  if (!n) return '';
+  const key = `ennea_archetype.${n}`;
+  const v = t(key);
+  return v === key ? '' : v;
+}
+export function enneaDesc(id) {
+  const n = enneaNum(id);
+  if (!n) return '';
+  const key = `ennea_desc.${n}`;
+  const v = t(key);
+  return v === key ? '' : v;
+}
 
 // Sprint v3.5 — Conviction badge color palette (mirror backend mbtiSurface.AXIS_COLORS).
 const CONVICTION_COLORS = {
@@ -50,25 +76,18 @@ const CONVICTION_BADGE_DURATION_MS = 3000;
 let _convictionBadgeTimer = null;
 const _seenBadgeKeys = new Set();
 
-// Ennea archetypes label/icon (italiano evocativo, no numeri).
+// Ennea archetype icons (locale-neutral UI). Labels + descriptions = i18n SSOT
+// (enneaLabel/enneaDesc -> ennea_archetype/ennea_desc namespaces).
 const ENNEA_META = {
-  'Riformatore(1)': { icon: '⚖️', label: 'Riformatore', desc: 'Setup metodico, alta precisione.' },
-  'Coordinatore(2)': { icon: '🤝', label: 'Coordinatore', desc: 'Coesione di squadra.' },
-  'Conquistatore(3)': { icon: '🔥', label: 'Conquistatore', desc: 'Aggressione e rischio.' },
-  'Individualista(4)': {
-    icon: '🌙',
-    label: 'Individualista',
-    desc: 'Resilienza in zona critica.',
-  },
-  'Architetto(5)': {
-    icon: '🏛️',
-    label: 'Architetto',
-    desc: 'Strategia metodica, basso rischio.',
-  },
-  'Lealista(6)': { icon: '🛡️', label: 'Lealista', desc: 'Vigilanza e supporto attivo.' },
-  'Esploratore(7)': { icon: '🧭', label: 'Esploratore', desc: 'Scoperta e mobilità.' },
-  'Cacciatore(8)': { icon: '🏹', label: 'Cacciatore', desc: 'Mordi-e-fuggi mirato.' },
-  'Stoico(9)': { icon: '🗿', label: 'Stoico', desc: 'Endurance sotto pressione.' },
+  'Riformatore(1)': { icon: '⚖️' },
+  'Coordinatore(2)': { icon: '🤝' },
+  'Conquistatore(3)': { icon: '🔥' },
+  'Individualista(4)': { icon: '🌙' },
+  'Architetto(5)': { icon: '🏛️' },
+  'Lealista(6)': { icon: '🛡️' },
+  'Esploratore(7)': { icon: '🧭' },
+  'Cacciatore(8)': { icon: '🏹' },
+  'Stoico(9)': { icon: '🗿' },
 };
 
 function injectStyles() {
@@ -319,7 +338,7 @@ function renderMbtiSection(actorVc) {
 
   const axisRows = ['E_I', 'S_N', 'T_F', 'J_P']
     .map((axis) => {
-      const labels = AXIS_LABELS[axis];
+      const labels = axisLabel(axis);
       const entry = axes[axis];
       const revealed = revealedMap.revealed[axis];
       const hidden = revealedMap.hidden[axis];
@@ -369,12 +388,14 @@ function renderEnneaSection(actorVc) {
   }
   const cards = archetypes
     .map((a) => {
-      const meta = ENNEA_META[a.id] || { icon: '◯', label: a.id, desc: '' };
+      const meta = ENNEA_META[a.id] || { icon: '◯' };
+      const label = enneaLabel(a.id) || a.id;
+      const desc = enneaDesc(a.id);
       const cls = a.triggered ? 'ennea-badge triggered' : 'ennea-badge';
       return `
         <div class="${cls}" data-archetype="${escapeHtml(a.id)}">
-          <span class="ennea-icon">${meta.icon}</span><span class="ennea-label">${escapeHtml(meta.label)}</span>
-          <div class="ennea-desc">${escapeHtml(meta.desc)}</div>
+          <span class="ennea-icon">${meta.icon}</span><span class="ennea-label">${escapeHtml(label)}</span>
+          <div class="ennea-desc">${escapeHtml(desc)}</div>
         </div>
       `;
     })

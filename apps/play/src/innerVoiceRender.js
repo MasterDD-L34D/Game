@@ -17,13 +17,18 @@
 // Color-coding: backend wraps `voice_it` in `<mbti axis="X">...</mbti>` via
 // mbtiTaggedLine; here we colorize it (forceReveal — the voice IS the reveal).
 import { renderMbtiTaggedHtml } from './dialogueRender.js';
+import { t } from './i18n.js';
 
-// Tier label IT for the intensity badge (whisper → shout).
-const TIER_LABEL_IT = {
-  whisper: 'sussurro',
-  voice: 'voce',
-  shout: 'grido',
-};
+// SPEC-N PR-5 (NF3): tier label migrated to the i18n loader (data/i18n SSOT).
+// IT values unchanged (voice_tier.it == old TIER_LABEL_IT); EN now covered.
+// Pure: tier -> IT label via i18n; raw tier fallback if unknown.
+export function tierLabel(tier) {
+  const id = String(tier || '');
+  if (!id) return '';
+  const key = `voice_tier.${id}`;
+  const label = t(key);
+  return label === key ? id : label;
+}
 
 // Pure: inner voice payload → HTML card. Empty string if payload invalid.
 export function formatInnerVoiceLine(voice) {
@@ -39,10 +44,10 @@ export function formatInnerVoiceLine(voice) {
   const axisAttr = axis ? ` data-axis="${escapeHtml(axis)}"` : '';
   const label = String(voice.label || '').trim();
   const tier = String(voice.tier || '').trim();
-  const tierLabel = TIER_LABEL_IT[tier] || tier;
+  const tierText = tierLabel(tier);
   const labelHtml = label ? `<span class="db-inner-voice-label">${escapeHtml(label)}</span>` : '';
-  const tierHtml = tierLabel
-    ? `<span class="db-inner-voice-tier">${escapeHtml(tierLabel)}</span>`
+  const tierHtml = tierText
+    ? `<span class="db-inner-voice-tier">${escapeHtml(tierText)}</span>`
     : '';
   const poleIcon = pole ? `<span class="db-inner-voice-pole">${escapeHtml(pole)}</span>` : '';
   return `<div class="db-inner-voice${poleCls}"${actorAttr}${poleAttr}${axisAttr}>
@@ -92,5 +97,4 @@ export function renderInnerVoices(sectionEl, listEl, payload) {
   listEl.innerHTML = html;
 }
 
-// Test hook: expose TIER_LABEL_IT for parity tests.
-export const _internals = { TIER_LABEL_IT };
+// tierLabel() is exported directly above for i18n parity tests (SPEC-N PR-5).

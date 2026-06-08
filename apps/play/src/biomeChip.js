@@ -15,20 +15,9 @@
 
 'use strict';
 
-// Pure: biome_id → IT label umano. Mappa canonical, fallback caps trasformazione.
-const BIOME_LABELS = {
-  savana: 'Savana',
-  caverna: 'Caverna',
-  caverna_risonante: 'Caverna risonante',
-  caverna_sotterranea: 'Caverna sotterranea',
-  foresta: 'Foresta',
-  pianura_aperta: 'Pianura aperta',
-  rovine_planari: 'Rovine planari',
-  abisso_vulcanico: 'Abisso vulcanico',
-  atollo_obsidiana: 'Atollo di Obsidiana',
-  cattedrale_apex: "Cattedrale dell'Apex",
-  frattura_stellare: 'Frattura stellare',
-};
+// SPEC-N PR-5 (NF3): label-maps migrated to the i18n loader (data/i18n SSOT).
+// IT values unchanged (biome_label/biome_eco.it == old hardcoded maps); EN now covered.
+import { t } from './i18n.js';
 
 const BIOME_ICONS = {
   savana: '🌾',
@@ -50,7 +39,9 @@ const DEFAULT_ICON = '🌍';
 export function labelForBiome(biomeId) {
   if (!biomeId) return '';
   const key = String(biomeId).toLowerCase();
-  if (BIOME_LABELS[key]) return BIOME_LABELS[key];
+  const i18nKey = `biome_label.${key}`;
+  const label = t(i18nKey);
+  if (label !== i18nKey) return label;
   // Fallback: snake_case → Title Case
   return key
     .split('_')
@@ -83,16 +74,10 @@ export function pressureTier(biomeModifiers) {
 // ADR "Per il giocatore" doctrine: il nome "ERMES" non appare MAI al player.
 // low = calmo, med = in equilibrio, high = in tensione. Unknown → ''.
 export function ecoBandLabel(band) {
-  switch (band) {
-    case 'low':
-      return 'Bioma calmo';
-    case 'med':
-      return 'Bioma in equilibrio';
-    case 'high':
-      return 'Bioma in tensione';
-    default:
-      return '';
-  }
+  if (!band) return '';
+  const i18nKey = `biome_eco.${band}`;
+  const label = t(i18nKey);
+  return label === i18nKey ? '' : label;
 }
 
 // Pure: payload → HTML chip. Returns empty string se biome_id mancante.

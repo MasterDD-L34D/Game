@@ -22,30 +22,41 @@
 // `<mbti axis="X">...</mbti>` via mbtiTaggedLine usando il polo dominante
 // dell'attore; qui lo renderizziamo a colori (forceReveal — la voce È il reveal).
 import { renderMbtiTaggedHtml } from './dialogueRender.js';
+import { t } from './i18n.js';
 
 // Mapping archetype_id → metadata UI (icon + label + color).
 // Color = Disco-Elysium thought cabinet aesthetic (subtle gradient bg).
 const ARCHETYPE_META = {
-  'Riformatore(1)': { icon: '◉', label: 'Riformatore', cls: 'archetype-1' },
-  'Coordinatore(2)': { icon: '◈', label: 'Coordinatore', cls: 'archetype-2' },
-  'Conquistatore(3)': { icon: '◆', label: 'Conquistatore', cls: 'archetype-3' },
-  'Individualista(4)': { icon: '◇', label: 'Individualista', cls: 'archetype-4' },
-  'Architetto(5)': { icon: '⌬', label: 'Architetto', cls: 'archetype-5' },
-  'Lealista(6)': { icon: '◬', label: 'Lealista', cls: 'archetype-6' },
-  'Esploratore(7)': { icon: '✦', label: 'Esploratore', cls: 'archetype-7' },
-  'Cacciatore(8)': { icon: '⬢', label: 'Cacciatore', cls: 'archetype-8' },
-  'Stoico(9)': { icon: '○', label: 'Stoico', cls: 'archetype-9' },
+  'Riformatore(1)': { icon: '◉', cls: 'archetype-1' },
+  'Coordinatore(2)': { icon: '◈', cls: 'archetype-2' },
+  'Conquistatore(3)': { icon: '◆', cls: 'archetype-3' },
+  'Individualista(4)': { icon: '◇', cls: 'archetype-4' },
+  'Architetto(5)': { icon: '⌬', cls: 'archetype-5' },
+  'Lealista(6)': { icon: '◬', cls: 'archetype-6' },
+  'Esploratore(7)': { icon: '✦', cls: 'archetype-7' },
+  'Cacciatore(8)': { icon: '⬢', cls: 'archetype-8' },
+  'Stoico(9)': { icon: '○', cls: 'archetype-9' },
 };
 
-// Beat label IT per UI tooltip / hint.
-const BEAT_LABEL_IT = {
-  victory_solo: 'Vittoria',
-  defeat_critical: 'Sconfitta',
-  combat_attack_committed: 'Attacco',
-  combat_defense_braced: 'Difesa',
-  exploration_new_tile: 'Esplorazione',
-  low_hp_warning: 'Crisi',
-};
+// SPEC-N PR-5 (NF3): archetype + beat labels migrated to the i18n loader
+// (data/i18n SSOT). IT values unchanged (ennea_archetype/ennea_beat.it == old
+// hardcoded maps); EN now covered. Archetype number parsed from id parens.
+export function archetypeLabel(archetypeId) {
+  const m = /\((\d)\)/.exec(String(archetypeId || ''));
+  if (!m) return '';
+  const key = `ennea_archetype.${m[1]}`;
+  const label = t(key);
+  return label === key ? '' : label;
+}
+
+// Pure: beat_id -> IT label via i18n; raw beat_id fallback if unknown.
+export function beatLabel(beatId) {
+  const id = String(beatId || '');
+  if (!id) return '';
+  const key = `ennea_beat.${id}`;
+  const label = t(key);
+  return label === key ? id : label;
+}
 
 // Pure: voice payload → HTML card. Empty string se payload invalido.
 export function formatVoiceLine(voice) {
@@ -56,16 +67,17 @@ export function formatVoiceLine(voice) {
   if (!archetypeId || !text) return '';
   const meta = ARCHETYPE_META[archetypeId];
   if (!meta) return '';
+  const label = archetypeLabel(archetypeId);
   const beatId = String(voice.beat_id || '').trim();
-  const beatLabel = BEAT_LABEL_IT[beatId] || beatId;
+  const beatText = beatLabel(beatId);
   const actorAttr = actorId ? ` data-actor-id="${escapeHtml(actorId)}"` : '';
-  const beatHtml = beatLabel
-    ? `<span class="db-ennea-voice-beat">${escapeHtml(beatLabel)}</span>`
+  const beatHtml = beatText
+    ? `<span class="db-ennea-voice-beat">${escapeHtml(beatText)}</span>`
     : '';
   return `<div class="db-ennea-voice ${meta.cls}"${actorAttr}>
     <div class="db-ennea-voice-header">
       <span class="db-ennea-voice-icon">${meta.icon}</span>
-      <span class="db-ennea-voice-label">${escapeHtml(meta.label)}</span>
+      <span class="db-ennea-voice-label">${escapeHtml(label)}</span>
       ${beatHtml}
     </div>
     <div class="db-ennea-voice-text">"${renderMbtiTaggedHtml(text, null, { forceReveal: true })}"</div>
@@ -110,8 +122,7 @@ export function renderEnneaVoices(sectionEl, listEl, payload) {
   listEl.innerHTML = html;
 }
 
-// Test hook: expose ARCHETYPE_META + BEAT_LABEL_IT for parity tests.
+// Test hook: expose ARCHETYPE_META (icon + cls) for palette tests.
 export const _internals = {
   ARCHETYPE_META,
-  BEAT_LABEL_IT,
 };
