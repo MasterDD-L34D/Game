@@ -130,9 +130,20 @@ private). Nessuna riga SPEC-B dedicata richiesta.
 - **SPEC-K** (device authority/Godot surface): il loader (PR-3) vive lato Godot/frontend (NF1).
 - **SPEC-L**: traccia lo stato (scaffold+parity LIVE; loader/migration/split TODO).
 
-## 10. Decisioni aperte (per Eduardo)
+## 10. Decisioni
 
 Fork etichetta `NF#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA/MA/OA/QF).
+
+**Ratificate (Eduardo 2026-06-08):**
+
+| Fork | Esito ratificato (2026-06-08)                                                         |
+| ---- | ------------------------------------------------------------------------------------- |
+| NF1  | Loader `t()` frontend/Godot only (backend non localizza; B/C scartate)                |
+| NF2  | Skip schema formale -- il parity validator basta                                      |
+| NF3  | Migrazione incrementale per-surface (mission-console prima, poi debito apps/play)     |
+| NF4  | Normalizzare data/i18n a single-brace `{var}` (vue-i18n) + aggiornare il parity regex |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### NF1 -- Dove vive il loader `t()` (PR-3)
 
