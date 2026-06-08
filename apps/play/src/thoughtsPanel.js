@@ -7,6 +7,9 @@
 // Depends on: api.thoughts(sid) + getSelectedUnit.
 
 import { api } from './api.js';
+// SPEC-N PR-4 (NF3): MBTI axis labels migrated to the i18n loader (data/i18n SSOT).
+// IT values unchanged (mbti_axis.it == old AXIS_LABELS); EN now covered.
+import { t } from './i18n.js';
 
 const STATE = {
   overlayEl: null,
@@ -15,12 +18,6 @@ const STATE = {
   lastData: null,
   catalog: null,
   lastActionError: null,
-};
-
-const AXIS_LABELS = {
-  E_I: 'Estroversione ⇄ Introversione',
-  S_N: 'Sensazione ⇄ Intuizione',
-  J_P: 'Giudicare ⇄ Percepire',
 };
 
 function injectStyles() {
@@ -417,7 +414,7 @@ function renderAxis(axis, ctx) {
     .join('');
   return `
     <div class="thoughts-axis">
-      <div class="thoughts-axis-head">${escapeHtml(AXIS_LABELS[axis])}</div>
+      <div class="thoughts-axis-head">${escapeHtml(t('mbti_axis.' + axis))}</div>
       <div class="thoughts-tiers">${cards}</div>
     </div>
   `;

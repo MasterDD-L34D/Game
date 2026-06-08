@@ -72,6 +72,12 @@
     "survival": "Sopravvivi",
     "escape": "Fuggi"
   },
+  "mbti_axis": {
+    "E_I": "Estroversione ⇄ Introversione",
+    "S_N": "Sensazione ⇄ Intuizione",
+    "T_F": "Pensiero ⇄ Sentimento",
+    "J_P": "Giudicare ⇄ Percepire"
+  },
   "result": {
     "victory": "Vittoria",
     "defeat": "Sconfitta",

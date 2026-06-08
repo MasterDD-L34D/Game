@@ -72,6 +72,12 @@
     "survival": "Survive",
     "escape": "Escape"
   },
+  "mbti_axis": {
+    "E_I": "Extraversion ⇄ Introversion",
+    "S_N": "Sensing ⇄ Intuition",
+    "T_F": "Thinking ⇄ Feeling",
+    "J_P": "Judging ⇄ Perceiving"
+  },
   "result": {
     "victory": "Victory",
     "defeat": "Defeat",
