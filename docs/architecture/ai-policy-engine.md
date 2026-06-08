@@ -321,6 +321,14 @@ position from/to su move    └─ new_tiles ───────┘           
 Vedi `apps/backend/services/vcScoring.js` e `data/core/telemetry.yaml`
 per i pesi dei singoli indici e le condizioni dei themes.
 
+> **SPEC-M Form Pulse -> VC (2026-06-08)**: gli assi del Form Pulse onboarding
+> (`session.formPulses`, aggregati per branco) applicano un nudge SOFT + BOUNDED
+> (`applyFormPulseDelta`, `services/formPulseVc.js`; cap `MAX_FP_VC_DELTA`, clamp01)
+> agli assi MBTI dentro `buildVcSnapshot` -- no-op se `formPulses` assente (backward
+> compat). Il mapping creatura->MBTI (`PROPOSED_FP_VC_MAPPING`) e' una PROPOSTA da
+> ratificare (MA3, master-dd); la magnitudine va tarata a N=40. Input MORBIDI: nessun
+> hard-gate / archetipo fisso (museum `personality-mbti-gates-ghost`).
+
 > **SPEC-A device input ledger (2026-06-07)**: i signal behavioral del device
 > (`commit_latency`, `hesitation_score`, `preview_dwell`) confluiscono come raw
 > metrics aggiuntive (`commit_latency_norm`, `hesitation_rate`, `preview_dwell_norm`)

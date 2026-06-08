@@ -46,7 +46,7 @@ visibilita' SPEC-B. SPEC-M ALIMENTA gli engine LIVE, non li riscrive.
 | `coopOrchestrator.submitOnboardingChoice` (#2638)      | **Per-player: metodo orchestrator LIVE** (`{allPlayerIds}` -> `onboardingChoices` Map + readiness-gate + `onboardingReadyList()`); senza -> legacy host-only single. NB END-TO-END NON wired: `wsSession` passa ancora `{hostId}` (legacy), il path per-player non e' attivato live (sez. 5). |
 | `routes/campaign.js` `POST /api/campaign/start`        | `initial_trait_choice` (option_a/b/c) -> `acquiredTraits[]` (LIVE). Le 3 trait in `active_effects.yaml` + `default_campaign_mvp.yaml` (`onboarding:`).                                                                                                                                        |
 | `coopOrchestrator.submitFormPulse` + `form_pulse_list` | Form Pulse backend LIVE (axes per-player, store, broadcast, ready-gate; phone W4/W7). UX micro-scenari swipe = DESIGN-ONLY (Godot).                                                                                                                                                           |
-| `vcScoring.js` / `convictionEngine.js`                 | VC axes + MBTI + Ennea + Conviction scoring LIVE da telemetria. NB (verificato): NON leggono ancora gli assi Form Pulse -- `formPulses` e' stored/broadcast in coopOrchestrator ma il wiring FP->VC NON esiste (design gap, sez. 6/8).                                                        |
+| `vcScoring.js` / `convictionEngine.js`                 | VC axes + MBTI + Ennea + Conviction scoring LIVE da telemetria. NB (verificato): FP->VC ora wired: `buildVcSnapshot` applica il nudge soft (`formPulseVc`, no-op se `formPulses` assente); mapping=PROPOSTA (MA3), `convictionEngine`=follow-up (sez. 6/8).                                   |
 | `51-ONBOARDING-60S.md` (A3, source_of_truth:true)      | Canon: flusso 60s, 3 opzioni A/B/C, timer 30s, auto-select A. Modello canon = 1 scelta per il branco (vedi MA1).                                                                                                                                                                              |
 | ADR-2026-04-21b                                        | Onboarding narrativo 60s: 3 scelte identitarie pre-Act-0 + trait pre-slot.                                                                                                                                                                                                                    |
 | `coopOrchestrator` DEBT host-only                      | `submitOnboardingChoice` legacy ha guard `host_only`; da rimuovere/estendere lato wsSession+Godot (sez. 5, follow-up cross-repo).                                                                                                                                                             |
@@ -131,10 +131,12 @@ Estensione device-authority del canon (che era 1-scelta-per-branco host-driven):
   Cauto, Agile/Robusto, Solitario/Sciame, Memoria/Istinto). NON e' un test psicologico.
 - Backend LIVE (`submitFormPulse` + `form_pulse_list`, per-player + ready); UX swipe = Godot
   DESIGN-ONLY.
-- Effetto INTESO: spostare (soft) i pesi VC/Forma. **Stato reale (verificato): NON wired** --
-  `formPulses` e' stored + broadcast, ma `vcScoring.js`/`convictionEngine.js` non leggono gli
-  assi. Il transform `formPulses -> VC axis delta` (soft+bounded) e' da costruire (acceptance
-  #4). Magnitudine del weight (quando wired) = fork **MA3**.
+- Effetto INTESO: spostare (soft) i pesi VC/Forma. **Stato: transform LIVE (2026-06-08)** --
+  `services/formPulseVc.js` (`applyFormPulseDelta`, soft+bounded, clamp01) e' wired in
+  `vcScoring.buildVcSnapshot` (legge `session.formPulses` aggregati per branco, no-op se
+  assente). Il mapping creatura->MBTI (`PROPOSED_FP_VC_MAPPING`) = PROPOSTA da ratificare
+  (fork **MA3**); la magnitudine (`MAX_FP_VC_DELTA`) va tarata N=40. `convictionEngine` non
+  ancora wired (MVP = MBTI).
 - Authority/visibilita' = SPEC-B sez. 3.2 + F1 (TV = radar aggregato di default; per-player
   opt-in, mai imposto). SPEC-M esegue, non ridecide.
 
@@ -152,9 +154,10 @@ Estensione device-authority del canon (che era 1-scelta-per-branco host-driven):
 
 - INTENTO: gli assi onboarding + Form Pulse + ritual alimentano (soft) il VC engine
   (`vcScoring.js`) + Conviction (`convictionEngine.js`) -- engine-owned, SPEC-M non li
-  ridefinisce. **Stato reale (verificato): il wiring NON esiste** -- gli assi `formPulses` sono
-  stored/broadcast ma nessuno scorer li legge. Costruirlo (transform `formPulses -> VC axis
-delta`, soft+bounded) e' un prerequisito implementativo (acceptance #4), non gia' LIVE.
+  ridefinisce. **Stato: wiring LIVE (2026-06-08)** -- `formPulseVc.applyFormPulseDelta` e'
+  invocato da `buildVcSnapshot` sugli assi MBTI (soft+bounded, no-op se `formPulses` assente).
+  Resta da ratificare il mapping (MA3) + tarare la magnitudine (N=40); `convictionEngine` =
+  follow-up.
 - **Anti-pattern (museum `personality-mbti-gates-ghost`):** i signal sono input MORBIDI; non
   fissano un archetipo ne' hard-gate-ano rami futuri. Coerente con SPEC-G TS2 / SPEC-H HA.
 - Il bias Custode (ADR-2026-06-07 punto 4) consuma l'aggregato del Form Pulse (non per-player).
@@ -273,8 +276,9 @@ SPEC-M e' implementabile/chiudibile quando:
    broadcast `onboarding_ready_list` (con strip choice-content, sez. 9) + Godot invia
    `onboarding_choice` per-player + timeout server-side anti-deadlock (sez. 5) + debito
    host-only rimosso (Gate-5 cross-repo);
-4. il wiring `formPulses -> VC axis delta` (oggi ASSENTE, verificato) e' costruito
-   (soft+bounded, MA3); il Form Pulse sposta DAVVERO i pesi VC, con UX swipe (MA2/SPEC-K) + ready;
+4. il wiring `formPulses -> VC axis delta` e' costruito (LIVE: `formPulseVc` soft+bounded in
+   `buildVcSnapshot`, no-op se assente); restano da ratificare il mapping (MA3) + tarare la
+   magnitudine N=40 + plumbing `session.formPulses` al call-site + UX swipe (MA2/SPEC-K);
 5. biome-form landing (MA4) + social ritual sono wired (oggi DESIGN-ONLY);
 6. il mapping VC/MBTI/Ennea/Conviction resta soft (no hard-gate), engine-owned;
 7. la visibilita' (sez. 9) e' coerente con SPEC-B (scelta `private`+opt-in F6, Form Pulse
