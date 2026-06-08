@@ -20,7 +20,7 @@
 ## Index per data (cronologico)
 
 <!-- gen:adr-index -->
-_Generato da `tools/generate_decisions_log.py` (70 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
+_Generato da `tools/generate_decisions_log.py` (71 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
 
 | Data | ADR | Titolo | Status |
 | --- | --- | --- | --- |
@@ -94,6 +94,7 @@ _Generato da `tools/generate_decisions_log.py` (70 ADR). NON editare a mano: edi
 | 2026-05-30 | [ADR-2026-05-30-coop-server-authoritative-combat](docs/adr/ADR-2026-05-30-coop-server-authoritative-combat.md) | ADR 2026-05-30 -- Co-op server-authoritative combat (vcSnapshot reconstruction) | Accepted |
 | 2026-05-31 | [ADR-2026-05-31-meta-network-arc-conditions-schema](docs/adr/ADR-2026-05-31-meta-network-arc-conditions-schema.md) | ADR-2026-05-31 — Meta-network edge arc-conditions schema (2.0 → 2.1) | Accepted |
 | 2026-06-07 | [ADR-2026-06-07-device-authority-tv-mirror-canon](docs/adr/ADR-2026-06-07-device-authority-tv-mirror-canon.md) | ADR 2026-06-07 -- Device-authority / TV-mirror canon + reconstruction-suite ratification | Accepted |
+| 2026-06-08 | [ADR-2026-06-08-i18n-unify-data-i18n](docs/adr/ADR-2026-06-08-i18n-unify-data-i18n.md) | ADR 2026-06-08 -- i18n: unificare su data/i18n come sorgente unica (QA3) | Accepted |
 <!-- /gen:adr-index -->
 
 ## Index per tag

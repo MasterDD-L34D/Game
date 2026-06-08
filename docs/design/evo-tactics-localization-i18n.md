@@ -30,8 +30,8 @@ hardcoded.
 
 - Struttura namespace: `common` / `combat` / `tutorial` / `narrative` (oggi tutte dentro
   `common.json`; split in file separati = PR-5).
-- Formato: `data/i18n/{it,en}/<namespace>.json` + `_schema/i18n.schema.json` + AJV
-  (schema + AJV = PR-2, da costruire).
+- Formato: `data/i18n/{it,en}/<namespace>.json`. Validazione parity GIA' LIVE (PR-2,
+  `validate_i18n_parity.py`); schema JSON formale (`_schema/`) opzionale oltre la parity.
 - Convenzione key + fallback: dal punto di vista del consumer, `locale=en` con key mancante
   -> fallback a `it` (en -> it; default it -- mirror mission-console DEFAULT_LOCALE=it /
   FALLBACK_LOCALE=en).
@@ -41,7 +41,8 @@ hardcoded.
   debito esistente (es. `apps/play/biomeChip.js` BIOME_LABELS IT-hardcoded) = PR-4
   migration, non bloccante qui.
 - **QA3 ratificato (2026-06-08)**: `data/i18n/` = sorgente unica; mission-console + le
-  nuove surface migrano a consumarlo (loader PR-3). Richiede ADR + ticket migrazione.
+  nuove surface migrano a consumarlo (loader PR-3). Backing: `ADR-2026-06-08-i18n-unify-data-i18n`;
+  ticket migrazione = PR-4.
 
 ## Dipendenze
 
@@ -55,9 +56,12 @@ PARTIAL (NON design-only -- correzione retro-review):
   (2026-04-17), 10 namespace popolati dentro `common` (ui/menu/combat/status/objective/
   result/settings/errors/difficulty/accessibility) + `_meta.completion_percent: 5`. NON
   sono stub vuoti.
-- **Manca**: `_schema/i18n.schema.json` + AJV (PR-2); loader runtime + `t()` backend
-  (PR-3); split namespace combat/tutorial/narrative in file separati (oggi sezioni dentro
-  `common.json`; PR-5).
+- **Validazione LIVE**: `npm run i18n:check` -> `tools/py/validate_i18n_parity.py`
+  (i18n-strategy "PR-2 of 6": key-parity + no-placeholder + mustache + completion_percent).
+  Gia' fatto -- NON un deliverable aperto.
+- **Manca**: loader runtime + `t()` (PR-3); migration mission-console -> data/i18n (PR-4);
+  split namespace combat/tutorial/narrative in file separati (oggi sezioni dentro
+  `common.json`; PR-5). Schema JSON formale = opzionale (la parity check copre il grosso).
 - **Backend**: nessun loader i18n reale (il prefisso `i18n:traits.*` e' solo convenzione
   di naming, non runtime).
 - **mission-console** ha gia' un runtime vue-i18n COMPLETO ma con locali PROPRI
@@ -65,6 +69,7 @@ PARTIAL (NON design-only -- correzione retro-review):
 
 ## Output consigliato
 
-NON ricreare lo scaffold (esiste). Sequenza: (1) `_schema/i18n.schema.json` + AJV (PR-2);
-(2) loader runtime + `t()` (PR-3); (3) ADR unificazione `data/i18n` vs mission-console
-(QA3) + ticket migrazione (PR-4); (4) split namespace combat/tutorial/narrative (PR-5).
+NON ricreare lo scaffold (esiste) ne' la validazione (PR-2 `validate_i18n_parity.py` LIVE).
+QA3 unify ratificato -> `ADR-2026-06-08-i18n-unify-data-i18n`. Sequenza residua: (1) loader
+runtime + `t()` (PR-3); (2) migration mission-console -> data/i18n + debito esistente (PR-4);
+(3) split namespace combat/tutorial/narrative (PR-5).
