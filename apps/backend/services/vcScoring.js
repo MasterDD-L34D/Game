@@ -36,6 +36,13 @@ const DEFAULT_TELEMETRY_PATH = path.resolve(
 
 const SCORING_VERSION = '0.1.0';
 
+// SPEC-A device input ledger: behavioral signal normalization ceilings + J/P fold weight.
+// Deterministic, bounded (anti-noise): avg signal value / ceiling, clamped to [0,1].
+const COMMIT_LATENCY_CEILING_MS = 3000; // avg commit deliberation ms at which signal saturates
+const HESITATION_CEILING = 5; // avg hesitation units (undo + option-switch) saturating
+const PREVIEW_DWELL_CEILING_MS = 4000; // avg preview dwell ms saturating
+const JP_COMMIT_LATENCY_WEIGHT = 0.3; // J/P fold weight: high commit_latency -> Perceiving
+
 // Raw metrics derivabili dai log post-SPRINT_003 fase 0.
 // L'ordine non conta, ma e' la lista autoritativa usata dalla
 // rinormalizzazione dei pesi.
@@ -199,6 +206,13 @@ function computeRawMetrics(events, units, gridSize = 6) {
       prev_action_type: null,
       concrete_action_count: 0,
       abstract_action_count: 0,
+      // SPEC-A device input ledger: behavioral signal accumulators (sum + count).
+      commit_latency_sum: 0,
+      commit_latency_count: 0,
+      hesitation_sum: 0,
+      hesitation_count: 0,
+      preview_dwell_sum: 0,
+      preview_dwell_count: 0,
     };
   }
 
@@ -227,6 +241,28 @@ function computeRawMetrics(events, units, gridSize = 6) {
 
   for (const event of events) {
     if (!event) continue;
+
+    // SPEC-A device input ledger: behavioral signal-events (kind 'signal') carry a
+    // numeric `value`; accumulate per actor (bucket by actor_id, fallback playerId)
+    // and never touch combat counters.
+    if (event.kind === 'signal') {
+      const sigBucket = perActor[event.actor_id] || perActor[event.playerId];
+      const sigValue = Number(event.value);
+      if (sigBucket && Number.isFinite(sigValue)) {
+        if (event.type === 'commit_latency') {
+          sigBucket.commit_latency_sum += sigValue;
+          sigBucket.commit_latency_count += 1;
+        } else if (event.type === 'hesitation_score') {
+          sigBucket.hesitation_sum += sigValue;
+          sigBucket.hesitation_count += 1;
+        } else if (event.type === 'preview_dwell') {
+          sigBucket.preview_dwell_sum += sigValue;
+          sigBucket.preview_dwell_count += 1;
+        }
+      }
+      continue;
+    }
+
     const actorId = event.actor_id;
     // Le azioni IA hanno actor_id="sistema" ma il metrics sono sempre
     // attribuiti allo unit reale. Usiamo ia_controlled_unit quando
@@ -440,6 +476,23 @@ function computeRawMetrics(events, units, gridSize = 6) {
     // <=1 non derivabile (nessuna transizione possibile).
     const actionSwitchRate = iter2Total > 1 ? bucket.action_switches / (iter2Total - 1) : null;
 
+    // SPEC-A device input ledger: normalized behavioral signals (null when absent so
+    // axes fall back to legacy formulas; clamp01 bounds anti-noise).
+    const commitLatencyNorm =
+      bucket.commit_latency_count > 0
+        ? clamp01(
+            bucket.commit_latency_sum / bucket.commit_latency_count / COMMIT_LATENCY_CEILING_MS,
+          )
+        : null;
+    const hesitationRate =
+      bucket.hesitation_count > 0
+        ? clamp01(bucket.hesitation_sum / bucket.hesitation_count / HESITATION_CEILING)
+        : null;
+    const previewDwellNorm =
+      bucket.preview_dwell_count > 0
+        ? clamp01(bucket.preview_dwell_sum / bucket.preview_dwell_count / PREVIEW_DWELL_CEILING_MS)
+        : null;
+
     finalRaw[unitId] = {
       attacks_started: attacksStarted,
       attack_hit_rate: attackHitRate,
@@ -468,6 +521,10 @@ function computeRawMetrics(events, units, gridSize = 6) {
       enemy_target_ratio: enemyTargetRatio,
       concrete_action_ratio: concreteActionRatio,
       action_switch_rate: actionSwitchRate,
+      // SPEC-A device input ledger: behavioral signals (null when no consented signal).
+      commit_latency_norm: commitLatencyNorm,
+      hesitation_rate: hesitationRate,
+      preview_dwell_norm: previewDwellNorm,
     };
   }
 
@@ -573,10 +630,23 @@ function computeMbtiAxes(raw) {
 
   // J_P: Judging vs Perceiving
   const setupProxy = clamp01(raw.setup_ratio);
+  // SPEC-A device input ledger: long commit deliberation -> Perceiving (lower value).
+  // Folded only when present; absent -> identical to the legacy two-term formula.
+  const commitLatencyNorm = clamp01(raw.commit_latency_norm);
   if (setupProxy !== null && timeToCommit !== null) {
-    const totalWeight = 0.6 + 0.2;
-    const normalised = 1 - (0.6 / totalWeight) * setupProxy - (0.2 / totalWeight) * timeToCommit;
-    axes.J_P = { value: clamp01(normalised), coverage: 'partial' };
+    if (commitLatencyNorm !== null) {
+      const totalWeight = 0.6 + 0.2 + JP_COMMIT_LATENCY_WEIGHT;
+      const normalised =
+        1 -
+        (0.6 / totalWeight) * setupProxy -
+        (0.2 / totalWeight) * timeToCommit -
+        (JP_COMMIT_LATENCY_WEIGHT / totalWeight) * commitLatencyNorm;
+      axes.J_P = { value: clamp01(normalised), coverage: 'partial' };
+    } else {
+      const totalWeight = 0.6 + 0.2;
+      const normalised = 1 - (0.6 / totalWeight) * setupProxy - (0.2 / totalWeight) * timeToCommit;
+      axes.J_P = { value: clamp01(normalised), coverage: 'partial' };
+    }
   }
 
   return axes;

@@ -321,6 +321,13 @@ position from/to su move    └─ new_tiles ───────┘           
 Vedi `apps/backend/services/vcScoring.js` e `data/core/telemetry.yaml`
 per i pesi dei singoli indici e le condizioni dei themes.
 
+> **SPEC-A device input ledger (2026-06-07)**: i signal behavioral del device
+> (`commit_latency`, `hesitation_score`, `preview_dwell`) confluiscono come raw
+> metrics aggiuntive (`commit_latency_norm`, `hesitation_rate`, `preview_dwell_norm`)
+> in `computeRawMetrics`. `commit_latency_norm` e' foldato nell'asse J_P (lunga
+> deliberazione -> Perceiving) solo quando presente; assente -> formula legacy
+> invariata. Ref: `docs/design/evo-tactics-device-input-ledger.md`.
+
 ## Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1)
 
 Architettura Utility AI formalizzata in [ADR-2026-04-16](../adr/ADR-2026-04-16-ai-architecture-utility.md), attivazione gradual via feature flag data-driven formalizzata in [ADR-2026-04-17](../adr/ADR-2026-04-17-utility-ai-default-activation.md) (Opzione C).
