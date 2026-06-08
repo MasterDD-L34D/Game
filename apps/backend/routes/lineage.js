@@ -33,9 +33,13 @@ const {
 const { propagateOffspringRitual } = require('../services/lineage/offspringRitual');
 const offspringStore = require('../services/lineage/offspringStore');
 const { loadMutationsCanonical, listCanonicalIds } = require('../services/lineage/mutationsLoader');
+// SPEC-Q M-3 -- chronicle the offspring-birth mutation_lineage event.
+const { emitMutationLineage } = require('../services/chronicle/chronicleEmitters');
 
-function createLineageRouter() {
+function createLineageRouter(options = {}) {
   const router = Router();
+  // SPEC-Q M-3 -- chronicle baseDir (test override; prod uses chronicleStore default).
+  const chronicleBaseDir = options.chronicle && options.chronicle.baseDir;
 
   /**
    * POST /propagate — body { legacyUnit, species_id, biome_id }.
@@ -204,7 +208,7 @@ function createLineageRouter() {
    */
   router.post('/offspring-ritual', async (req, res) => {
     try {
-      const { session_id, parent_a_id, parent_b_id, mutations } = req.body || {};
+      const { session_id, parent_a_id, parent_b_id, mutations, campaign_id } = req.body || {};
       // Lookup parents in offspringStore per inherit lineage_id se exists.
       // Se parent_a_id non è un offspring (es UnitProgression first-gen), getById
       // returns null e propagateOffspringRitual genera new lineage_id.
@@ -230,6 +234,23 @@ function createLineageRouter() {
         parentB,
         mutations,
       });
+      // SPEC-Q M-3 -- chronicle the offspring-birth mutation_lineage event (best-effort,
+      // dormant if no campaign_id passed). Never breaks the ritual response.
+      if (campaign_id) {
+        try {
+          emitMutationLineage(
+            {
+              campaign_id,
+              mutations: offspring && offspring.mutations,
+              lineage_id: offspring && offspring.lineage_id,
+              source: 'offspring_birth',
+            },
+            { baseDir: chronicleBaseDir },
+          );
+        } catch {
+          /* best-effort -- chronicle must never break the ritual */
+        }
+      }
       return res.status(201).json(offspring);
     } catch (err) {
       const msg = String(err.message || '');

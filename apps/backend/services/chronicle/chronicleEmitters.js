@@ -4,8 +4,9 @@
 //
 // Keystone link (SPEC-P A3 failure-as-lore): a failed run is a narrative event.
 // `emitRunFailed` is called best-effort at session end (routes/session.js) so the
-// chronicle starts receiving real events. M-2 creature_named / M-3 mutation_lineage
-// emitters land when those systems (identity service / named-mutation) are built.
+// chronicle starts receiving real events. M-3 `emitMutationLineage` (below) fires on
+// lineage propagation (legacy death @ session.js + offspring birth @ routes/lineage.js).
+// M-2 creature_named lands via the identity service.
 // =============================================================================
 
 'use strict';
@@ -44,4 +45,41 @@ function emitRunFailed(session, opts = {}) {
   );
 }
 
-module.exports = { emitRunFailed, DEFEAT_OUTCOMES };
+/**
+ * Append a `mutation_lineage` chronicle event when mutations propagate through a
+ * lineage -- legacy death (a dying unit's mutations enter the species/biome pool)
+ * or offspring birth (a newborn carries selected mutations). M-3, completes the
+ * M-7 keystone (4/4 emitters). Best-effort: no campaign_id / no mutations -> no-op.
+ * Never throws (combat / ritual must not break on chronicle failure).
+ *
+ * @param ctx  { campaign_id, mutations:string[], species_id?, biome_id?, lineage_id?, source?, actor_id? }
+ * @param opts { baseDir? }
+ */
+function emitMutationLineage(ctx, opts = {}) {
+  if (!ctx || typeof ctx !== 'object') return { ok: false, error: 'no_ctx' };
+  const runId = ctx.campaign_id;
+  if (!runId) return { ok: false, error: 'no_campaign_id' };
+  const mutations = Array.isArray(ctx.mutations)
+    ? ctx.mutations.filter((m) => typeof m === 'string' && m)
+    : [];
+  if (mutations.length === 0) return { ok: false, error: 'no_mutations' };
+  return appendEvent(
+    runId,
+    {
+      type: 'mutation_lineage',
+      actor_id: ctx.actor_id || null,
+      tier: 'public',
+      payload: {
+        mutations,
+        count: mutations.length,
+        species_id: ctx.species_id || null,
+        biome_id: ctx.biome_id || null,
+        lineage_id: ctx.lineage_id || null,
+        source: ctx.source || null,
+      },
+    },
+    { baseDir: opts.baseDir },
+  );
+}
+
+module.exports = { emitRunFailed, emitMutationLineage, DEFEAT_OUTCOMES };
