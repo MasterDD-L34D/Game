@@ -100,10 +100,10 @@ Invarianti ereditate:
 
 - mission-console migra dai locali co-locati a `data/i18n` (un solo key-space, QA3).
 - Debito esistente (literali IT hardcoded) -> migrato a key. Inventario verificato: ~8 file in
-  `apps/play/src/` con label-map IT (`biomeChip` BIOME*LABELS, `objectivePanel` TYPE_LABELS
-  *dup* `objective.*`, `ui` STATUS_LABELS *dup* `status.*`, `enneaVoiceRender` /
-  `innerVoiceRender` / `thoughtsPanel` / `characterPanel` / `speciesNames`) + mission-console
-  (~100 key). Grep: `grep -rlE "const [A-Z*]\*LABELS|\_IT\b" apps/play/src/`. Approccio
+  `apps/play/src/` con label-map IT -- `biomeChip` (`BIOME_LABELS`), `objectivePanel`
+  (`TYPE_LABELS`, dup di `objective.*`), `ui` (`STATUS_LABELS`, dup di `status.*`),
+  `enneaVoiceRender`, `innerVoiceRender`, `thoughtsPanel`, `characterPanel`, `speciesNames`
+  -- piu' mission-console (~100 key). Inventario: `grep -rln LABELS apps/play/src/`. Approccio
   (incrementale per-surface vs big-bang) = fork NF3.
 - Le nuove surface (Spec A..Q UI) nascono gia' key-based (gate sez. 7).
 
