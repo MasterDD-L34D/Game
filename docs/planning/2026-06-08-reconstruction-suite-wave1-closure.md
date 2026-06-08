@@ -80,17 +80,24 @@ promuovere i propri dati `private` a `public`, mai imposto):
   telepatica non reveal WEGO; `threat_preview` dal begin-planning successivo). Verificare
   sempre sul codice reale (`roundOrchestrator.js`, `sessionRoundBridge.js`) prima di shippare.
 
-## 4. Wave-2 (residuo roadmap) -- prossimo
+## 4. Wave-2 -- DRAFT + fork ratificati (2026-06-08)
 
-| Spec   | Oggetto                                                             |
-| ------ | ------------------------------------------------------------------- |
-| SPEC-E | Nido groups, party select, tribe (gruppo sociale per-player)        |
-| SPEC-F | Custode portable (Skiv template, memoria/resync/incontri/ritorno)   |
-| SPEC-G | Tri-Sorgente esteso (reward + dottrina + scambio carte; chiude F4)  |
-| SPEC-J | Lethal consent + wound rituals (per-player consent; chiude F5/3.10) |
+Tutti e 4 draftati, harsh-reviewed (ARCHON critic-redteam, API-fidelity ground-truthed),
+fork ratificati da Eduardo. PR draft (review_needed, Eduardo-merge):
 
-Entry point: roadmap sez. 4 + i doc Wave-1 come riferimento (le Wave-2 ereditano
-tassonomia SPEC-A, visibilita' SPEC-B, authority SPEC-K).
+| Spec   | PR    | Oggetto                                                      | Fork ratificati               |
+| ------ | ----- | ------------------------------------------------------------ | ----------------------------- |
+| SPEC-E | #2626 | Nido groups, party select, tribe (gruppo sociale per-player) | E1-E6                         |
+| SPEC-F | #2627 | Custode portable (Skiv template, memoria/resync/incontri)    | FC1-FC4                       |
+| SPEC-G | #2628 | Tri-Sorgente esteso (reward + dottrina + scambio carte; F4)  | TS1-TS4                       |
+| SPEC-J | #2629 | Lethal consent + wound rituals (per-player consent; F5/3.10) | J1/J3/J4/J5 (J2 canon-closed) |
+
+Tutte le Wave-2 ereditano tassonomia SPEC-A, visibilita' SPEC-B, authority SPEC-K, e
+agganciano gli engine LIVE (mating/lineage/rosterStore per E; companionStateStore per F;
+rewardOffer per G; woundSystem #2535 per J) senza reimplementarli.
+
+Wave-2 residuo (non in questa sessione): SPEC-H (ALIENA enforcement/lore), SPEC-I (ERMES
+runtime pressure). Entry point: roadmap sez. 4.
 
 ## 5. Note operative
 
