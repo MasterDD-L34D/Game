@@ -359,6 +359,34 @@ test('declareReaction rejects unsupported event', () => {
   );
 });
 
+test('declareReaction keeps the unit main intent (separate economy, no wipe)', () => {
+  let state = makeState({ round_phase: PHASE_PLANNING });
+  state = declareIntent(state, 'alpha', attackAction('alpha', 'bravo')).nextState;
+  state = declareReaction(
+    state,
+    'alpha',
+    { type: 'parry', parry_bonus: 1 },
+    { event: 'attacked' },
+  ).nextState;
+  const mainIntents = state.pending_intents.filter((i) => i.unit_id === 'alpha' && i.action);
+  const reactions = state.pending_intents.filter(
+    (i) => i.unit_id === 'alpha' && i.reaction_trigger,
+  );
+  assert.equal(mainIntents.length, 1, 'main intent survives the reaction');
+  assert.equal(reactions.length, 1, 'reaction registered alongside');
+});
+
+test('declareReaction replaces only the prior reaction of the same unit', () => {
+  let state = makeState({ round_phase: PHASE_PLANNING });
+  state = declareReaction(state, 'alpha', { type: 'parry' }, { event: 'attacked' }).nextState;
+  state = declareReaction(state, 'alpha', { type: 'counter' }, { event: 'damaged' }).nextState;
+  const reactions = state.pending_intents.filter(
+    (i) => i.unit_id === 'alpha' && i.reaction_trigger,
+  );
+  assert.equal(reactions.length, 1, 'one reaction per unit (prior replaced)');
+  assert.equal(reactions[0].reaction_payload.type, 'counter', 'latest reaction kept');
+});
+
 test('declareReaction rejects unsupported payload type', () => {
   const state = makeState({ round_phase: PHASE_PLANNING });
   assert.throws(
