@@ -185,7 +185,15 @@ per-player, signal comportamentali. Se gli arrivassero, sarebbe un leak SPEC-B (
 
 ## 9. Decisioni aperte (per Eduardo)
 
-Fork non canon-derivabili. SPEC-D li lascia aperti; Eduardo ratifica.
+Fork non canon-derivabili. **RATIFICATI da Eduardo 2026-06-08** (tutti opzione A).
+
+| Fork | Esito ratificato (2026-06-08)                                                   |
+| ---- | ------------------------------------------------------------------------------- |
+| H1   | Salience-ranked camera (kill > reazione/combo > crit > normale > move)          |
+| H2   | Parallelismo cosmetico, ordine causale preservato (focus_fire in sequenza)      |
+| H3   | Deterministica-locale (stesso event-log -> stessi beat, niente protocollo sync) |
+| H4   | Battle feed: highlights + numeri opzionali                                      |
+| H5   | Telegraph pubblico del round successivo (Into the Breach), guard SIS-only       |
 
 ### H1 -- Policy di selezione dei camera beat
 
@@ -199,7 +207,7 @@ Cosa determina la priorita'/il focus della camera tra le entry della queue?
 - **Opzione C -- narrative-weighted.** Pesa anche context (ERMES/ALIENA/Custode) e
   storia del branco. Tradeoff: piu' cinematografico, ma piu' stato e rischio di "regia
   che pensa troppo".
-- **Raccomandazione:** A (B come fallback se la salience non e' disponibile).
+- **Raccomandazione:** A (B come fallback se la salience non e' disponibile). **RATIFICATO 2026-06-08: A.**
 
 ### H2 -- Riordino/parallelismo dei beat per ritmo
 
@@ -215,6 +223,7 @@ strettamente sequenziale?
 - **Raccomandazione:** A. Vincolo: il parallelismo cosmetico e' ammesso SOLO tra azioni
   senza dipendenza causale (nessuna e' trigger/reazione dell'altra, nessuna modifica il
   target dell'altra prima del suo roll -- es. il focus_fire va mostrato in sequenza).
+  **RATIFICATO 2026-06-08: A.**
 
 ### H3 -- Sincronizzazione cross-schermo
 
@@ -226,7 +235,7 @@ la cinematica e' identica e sincronizzata, deterministica-locale, o libera?
   Tradeoff: niente protocollo di sync, ma timing leggermente diverso tra schermi.
 - **Opzione B -- broadcast sincronizzato.** Il backend/host scandisce i beat per tutti.
   Tradeoff: identico ovunque, ma serve un canale di regia e tolleranza alle latenze.
-- **Raccomandazione:** A (B solo se il sync diventa requisito di spettacolo/stream).
+- **Raccomandazione:** A (B solo se il sync diventa requisito di spettacolo/stream). **RATIFICATO 2026-06-08: A.**
 
 ### H4 -- Verbosita' e numeri nel battle feed
 
@@ -239,7 +248,7 @@ Il feed sintetico mostra ogni azione o solo highlights? Con numeri (danni) o nar
   "backend-log mostrato" (cio' che Fase 11 vuole evitare).
 - **Opzione C -- solo narrativo (niente numeri).** Tradeoff: cinematografico, ma nasconde
   informazione `public` utile a capire il round.
-- **Raccomandazione:** A.
+- **Raccomandazione:** A. **RATIFICATO 2026-06-08: A.**
 
 ### H5 -- Telegraph del round successivo (threat_preview) nel recap
 
@@ -255,7 +264,7 @@ del round dopo (stile Into the Breach) o no?
   gia' `public` (oggi e' cosi'); se includesse foresight per-player va ri-filtrato (SPEC-B).
 - **Opzione B -- niente telegraph.** Solo recap del round appena risolto. Tradeoff: piu'
   tensione/incertezza, ma il planning device dopo e' piu' alla cieca.
-- **Raccomandazione:** A (telegraph = abilitatore del WEGO informato).
+- **Raccomandazione:** A (telegraph = abilitatore del WEGO informato). **RATIFICATO 2026-06-08: A.**
 
 ## 10. Acceptance
 
@@ -275,8 +284,8 @@ SPEC-D e' implementabile/chiudibile quando:
    cosi' una regia local-only converge su piu' schermi;
 5. l'ordine causale e' preservato (reazione dopo trigger, KO dopo colpo) anche con
    parallelismo cosmetico (H2);
-6. le Decisioni aperte H1-H5 sono ratificate da Eduardo prima del flip
-   `review_needed` -> `accepted`;
+6. le Decisioni aperte H1-H5 sono ratificate da Eduardo (FATTO 2026-06-08, tutte A,
+   sez. 9); resta a Eduardo il flip `review_needed` -> `accepted` al merge;
 7. coerenza con SPEC-C (le azioni committate `player_actions`/`ia_actions` sono l'input
    d'apertura), SPEC-B (solo public/aggregato), SPEC-K (surface TV_MIRROR, non committa),
    SPEC-A (signal esclusi).
