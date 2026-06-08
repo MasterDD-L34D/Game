@@ -152,7 +152,17 @@ campo `companion_card_signature` stesso))` (`signatureFor`). Il server verifica
 ## 9. Decisioni aperte (per Eduardo)
 
 Fork non canon-derivabili (gran parte del framework e' gia' ADR-2026-04-27). Etichetta
-`FC#` per non confondere con i fork F1-F6 di SPEC-B.
+`FC#` per non confondere con i fork F1-F6 di SPEC-B. **RATIFICATI da Eduardo 2026-06-08**
+(tutti opzione A).
+
+| Fork | Esito ratificato (2026-06-08)                                                     |
+| ---- | --------------------------------------------------------------------------------- |
+| FC1  | Resync additivo, home-authoritative (canon vince sui conflitti)                   |
+| FC2  | Incontri async = memoria/eventi verificati, NO stat-boost diretto                 |
+| FC3  | Estrazione = Custode named + companion maturo (no export di massa)                |
+| FC4  | Trust v1 = signature + rate-limit (firma=integrita' non autenticita'; B se abuso) |
+
+Sotto: opzioni/rationale originali (storia della decisione).
 
 ### FC1 -- Policy di resync al rientro
 
@@ -225,7 +235,7 @@ SPEC-F e' implementabile/chiudibile quando:
 4. import/crossbreed/resync rispettano i default ADR-04-27 (cap 10, cooldown 1/campagna,
    rate-limit 10/h, signature-verify); resync non regredisce il canon (FC1);
 5. `voice_diary_portable` esce solo opt-in (SPEC-B self-disclosure);
-6. le Decisioni aperte FC1-FC4 sono ratificate da Eduardo prima del flip
-   `review_needed` -> `accepted`;
+6. le Decisioni aperte FC1-FC4 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 9, tutte
+   A); resta a Eduardo il flip `review_needed` -> `accepted` al merge;
 7. coerenza con SPEC-A (export-tier), SPEC-B (card public-only), SPEC-E (estrazione da
    sotto-branco), Skiv canonical (template, non sostituito).
