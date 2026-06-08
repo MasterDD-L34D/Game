@@ -72,6 +72,8 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts =
       opts.acquiredTraitsByCreature && typeof opts.acquiredTraitsByCreature === 'object'
         ? { ...opts.acquiredTraitsByCreature }
         : {},
+    // SPEC-P A13 -- biomi feriti cross-run (degrade bounded, cap 2). Persistito qui.
+    woundedBiomes: Array.isArray(opts.woundedBiomes) ? [...opts.woundedBiomes] : [],
     // Sprint 3 §III (2026-04-27) — Wildermyth choice→permanent flag pattern.
     // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #12 Wildermyth.
     // Each flag = { key, value, source_chapter, recorded_at, narrative? }.

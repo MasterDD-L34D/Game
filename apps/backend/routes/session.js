@@ -3458,6 +3458,36 @@ function createSessionRouter(options = {}) {
       } catch {
         /* best-effort -- never blocks session end */
       }
+      // SPEC-P A13 -- wound/heal the biome cross-run (persist on campaign). Best-effort.
+      try {
+        const campaignId = session.campaign_id;
+        const biomeId = session.biome_id;
+        if (campaignId && biomeId) {
+          const { getCampaign, updateCampaign } = require('../services/campaign/campaignStore');
+          const {
+            woundBiome,
+            healBiome,
+            emitBiomeWound,
+          } = require('../services/worldgen/biomeWound');
+          const { DEFEAT_OUTCOMES } = require('../services/chronicle/chronicleEmitters');
+          const camp = getCampaign(campaignId);
+          if (camp) {
+            const cur = Array.isArray(camp.woundedBiomes) ? camp.woundedBiomes : [];
+            if (DEFEAT_OUTCOMES.has(session.outcome)) {
+              const r = woundBiome(cur, biomeId);
+              if (r.added) {
+                updateCampaign(campaignId, { woundedBiomes: r.wounded });
+                emitBiomeWound(campaignId, biomeId, { baseDir: chronicleBaseDir });
+              }
+            } else if (session.outcome === 'victory') {
+              const r = healBiome(cur, biomeId);
+              if (r.healed) updateCampaign(campaignId, { woundedBiomes: r.wounded });
+            }
+          }
+        }
+      } catch {
+        /* best-effort -- never blocks session end */
+      }
       // M1 -- persist Sistema learning (best-effort, never blocks session end).
       try {
         if (session.campaign_id) {

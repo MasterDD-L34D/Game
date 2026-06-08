@@ -125,8 +125,13 @@ SPEC-I resta read-side della pressione.
 **Stato: mechanism LIVE (2026-06-08).** `apps/backend/services/worldgen/biomeWound.js`:
 `woundBiome` (cap 2 PA2, idempotente, no-mutate) + `healBiome` (recupero anti-brick) +
 `pressureDelta` (N feriti -> delta SPEC-I, HARD-bounded ER2 +/-2, PA4) + `emitBiomeWound` ->
-chronicle (M-7). Magnitudine `PRESSURE_PER_BIOME` = PROPOSED (ratify N=40, PA2). Follow-up:
-persistenza meta-network (`metaNetworkResolver`) + trigger (wound su run-fail) + recupero wired.
+chronicle (M-7). Magnitudine `PRESSURE_PER_BIOME` = PROPOSED (ratify N=40, PA2).
+
+**Trigger + persist LIVE (2026-06-08).** A session-end (`routes/session.js`, best-effort):
+sconfitta nel bioma -> `woundBiome` + persist su `campaign.woundedBiomes` (cross-run) +
+`emitBiomeWound`; vittoria nel bioma ferito -> `healBiome` (recupero). Cap 2 rispettato.
+Integration test 3/3 (wound/heal/cap). Follow-up: il read-side SPEC-I (consumare
+`campaign.woundedBiomes` -> `pressureDelta` nella pressione ERMES).
 
 Contratto del degrado:
 

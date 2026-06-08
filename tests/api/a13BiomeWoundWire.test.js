@@ -1,0 +1,80 @@
+// A13 biome-wound wiring integration -- SPEC-P (session-end triggers wound/heal,
+// persisted cross-run on the campaign; emits biome_wound to the chronicle).
+
+'use strict';
+
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const request = require('supertest');
+
+const { createApp } = require('../../apps/backend/app');
+const { getCampaign } = require('../../apps/backend/services/campaign/campaignStore');
+const { getChronicle } = require('../../apps/backend/services/chronicle/chronicleStore');
+
+function tmp() {
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'a13-wire-'));
+}
+const DEAD = [
+  { id: 'p1', controlled_by: 'player', hp: 0, max_hp: 10, position: { x: 0, y: 0 } },
+  { id: 's1', controlled_by: 'sistema', hp: 5, max_hp: 5, position: { x: 5, y: 5 } },
+];
+const WIN = [
+  { id: 'p1', controlled_by: 'player', hp: 10, max_hp: 10, position: { x: 0, y: 0 } },
+  { id: 's1', controlled_by: 'sistema', hp: 0, max_hp: 5, position: { x: 5, y: 5 } },
+];
+
+async function runEnd(app, campaignId, units, biomeId) {
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units, campaign_id: campaignId, biome_id: biomeId });
+  return request(app).post('/api/session/end').send({ session_id: ss.body.session_id });
+}
+
+test('A13: defeat in a biome wounds it (persist on campaign + biome_wound chronicle)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_pl1' });
+  const cid = start.body.campaign.id;
+  const end = await runEnd(app, cid, DEAD, 'badlands');
+  assert.equal(end.body.outcome, 'wipe');
+  assert.deepEqual(getCampaign(cid).woundedBiomes, ['badlands']);
+  const wounds = getChronicle(cid, { baseDir }).filter((e) => e.type === 'biome_wound');
+  assert.equal(wounds.length, 1);
+  assert.equal(wounds[0].payload.biome_id, 'badlands');
+});
+
+test('A13: win in a wounded biome heals it (recovery, anti-brick)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_pl2' });
+  const cid = start.body.campaign.id;
+  await runEnd(app, cid, DEAD, 'tundra'); // wound it
+  assert.deepEqual(getCampaign(cid).woundedBiomes, ['tundra']);
+  await runEnd(app, cid, WIN, 'tundra'); // win there -> heal
+  assert.deepEqual(getCampaign(cid).woundedBiomes, []);
+});
+
+test('A13: cap respected -- 3rd wounded biome rejected (max 2)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_pl3' });
+  const cid = start.body.campaign.id;
+  await runEnd(app, cid, DEAD, 'b_one');
+  await runEnd(app, cid, DEAD, 'b_two');
+  await runEnd(app, cid, DEAD, 'b_three'); // over cap -> not added
+  assert.deepEqual(getCampaign(cid).woundedBiomes.sort(), ['b_one', 'b_two']);
+});
