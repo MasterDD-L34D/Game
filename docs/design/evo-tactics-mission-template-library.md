@@ -98,7 +98,7 @@ Dopo SPEC-O, `docs/planning/encounters/` copre tutti i 6 tipi (12 template schem
 
 | Tipo          | Template (esempi)                                                                       | Stato                      |
 | ------------- | --------------------------------------------------------------------------------------- | -------------------------- |
-| elimination   | `enc_tutorial_01/02`, `enc_savana_01`, `enc_caverna_02`, ...                            | pre-esistenti              |
+| elimination   | `enc_tutorial_01`, `enc_savana_01`, `enc_hardcore_reinf_01`                             | pre-esistenti              |
 | capture_point | `enc_capture_01`, `enc_caverna_02`                                                      | pre-esistenti              |
 | escort        | `enc_escort_01`                                                                         | pre-esistente              |
 | survival      | `enc_survival_01`, `enc_frattura_03`, `enc_tutorial_02`, `enc_savana_skiv_solo_vs_pack` | pre-esistenti              |
@@ -163,9 +163,19 @@ Dopo SPEC-O, `docs/planning/encounters/` copre tutti i 6 tipi (12 template schem
 - **SPEC-L**: traccia lo stato (engine 6/6 LIVE; template 6/6 schema-validi; calibrazione +
   integrazioni D/I = pending).
 
-## 12. Decisioni aperte (per Eduardo)
+## 12. Decisioni
 
 Fork etichetta `OA#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA/MA).
+
+**Ratificate (Eduardo 2026-06-08):**
+
+| Fork | Esito ratificato (2026-06-08)                                                           |
+| ---- | --------------------------------------------------------------------------------------- |
+| OA1  | SPEC-O dichiara `mission_type` (= objective.type); SPEC-D/SPEC-I aprono addendum loro   |
+| OA2  | Un solo runner + param `mission_type` (estende SUPPORTED_OBJECTIVES + driver objective) |
+| OA3  | Resta `difficulty_rating` + moltiplicatore classe (MVP); DifficultyCalculator deferito  |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### OA1 -- Ownership dell'integrazione mission_type (SPEC-D + SPEC-I)
 
