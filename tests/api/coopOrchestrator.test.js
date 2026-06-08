@@ -178,7 +178,7 @@ test('startOnboarding transitions lobby → onboarding', () => {
   assert.ok(run.id.startsWith('run_'));
 });
 
-test('submitOnboardingChoice host-only + auto-advance to character_creation', () => {
+test('submitOnboardingChoice legacy host-only + auto-advance (no roster)', () => {
   const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
   co.startOnboarding();
   const choice = {
@@ -188,14 +188,50 @@ test('submitOnboardingChoice host-only + auto-advance to character_creation', ()
     narrative: 'Non saremo mai abbastanza forti.',
     auto_selected: false,
   };
-  // Non-host rejected with host_only.
+  // Legacy mode (no allPlayerIds): non-host rejected with host_only.
   assert.throws(() => co.submitOnboardingChoice('p_other', choice, { hostId: 'p_h' }), /host_only/);
-  // Host accepted, auto-advance to character_creation.
+  // Host accepted, auto-advance to character_creation (single-choice for branco).
   const result = co.submitOnboardingChoice('p_h', choice, { hostId: 'p_h' });
   assert.equal(co.phase, 'character_creation');
   assert.equal(result.option_key, 'option_a');
   assert.equal(result.trait_id, 'zampe_a_molla');
   assert.equal(co.onboardingChoice.trait_id, 'zampe_a_molla');
+});
+
+test('submitOnboardingChoice per-player map + readiness-gate (SPEC-M)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startOnboarding();
+  const ids = ['p1', 'p2'];
+  const mk = (k, t) => ({ option_key: k, trait_id: t });
+  // p1 submits own choice (per-player mode) — NOT all ready, phase stays onboarding.
+  // No host_only gate in per-player mode (p1 is not the host, accepted).
+  co.submitOnboardingChoice('p1', mk('option_a', 'zampe_a_molla'), { allPlayerIds: ids });
+  assert.equal(co.phase, 'onboarding');
+  assert.equal(co.onboardingChoices.size, 1);
+  let ready = co.onboardingReadyList(ids);
+  assert.equal(ready.find((r) => r.player_id === 'p1').ready, true);
+  assert.equal(ready.find((r) => r.player_id === 'p2').ready, false);
+  // p2 submits — all expected submitted, auto-advance to character_creation.
+  co.submitOnboardingChoice('p2', mk('option_b', 'pelle_elastomera'), { allPlayerIds: ids });
+  assert.equal(co.phase, 'character_creation');
+  assert.equal(co.onboardingChoices.size, 2);
+  assert.equal(co.onboardingChoices.get('p2').trait_id, 'pelle_elastomera');
+  ready = co.onboardingReadyList(ids);
+  assert.ok(ready.every((r) => r.ready));
+});
+
+test('submitOnboardingChoice per-player rejects ghost not in roster', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startOnboarding();
+  assert.throws(
+    () =>
+      co.submitOnboardingChoice(
+        'ghost',
+        { option_key: 'a', trait_id: 't' },
+        { allPlayerIds: ['p1', 'p2'] },
+      ),
+    /player_not_in_room/,
+  );
 });
 
 test('submitOnboardingChoice rejects invalid choice + wrong phase', () => {
