@@ -26,8 +26,9 @@ progetto.
 
 1. `docs/planning/2026-06-05-evo-tactics-open-points-resolution-roadmap.md`
    - entrypoint operativo;
-   - contiene baseline ratificata, decisioni aperte chiuse, roadmap SPEC-A...P
-     (sez. 3bis = gap-extensions harvest + Wave-4 M/N/O/P, 2026-06-08);
+   - contiene baseline ratificata, decisioni aperte chiuse, roadmap SPEC-A...Q
+     (sez. 3bis = gap-extensions + Wave-4 M/N/O/P; sez. 3ter = game-reference DF-levels ->
+     SPEC-Q, 2026-06-08);
    - usare per capire cosa va fatto subito.
 2. `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`
    - ricostruzione del flusso player-facing;
