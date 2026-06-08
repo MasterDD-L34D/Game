@@ -92,9 +92,10 @@ Invarianti ereditate:
 **Stato: LIVE (2026-06-08).** `apps/play/src/i18nCore.js` (puro: `createT`/`resolveKey`/
 `interpolate`, testato) + `apps/play/src/i18n.js` (bind a `data/i18n` via Vite JSON import).
 NF1=frontend (apps/play), `fallbackLocale=it`. Interpolation single-brace `{var}` (NF4 LIVE).
-PR-4 (NF3 incrementale) avviato: `objectivePanel` migrato a `t('objective_short.*')` (IT
-invariato + EN coperto); restano ~7 label-map (biomeChip/ui/...) + mission-console (interop
-JSON-attribute risolto: `import ... with { type: 'json' }`).
+PR-4 (NF3 incrementale) avviato: `objectivePanel` -> `t('objective_short.*')` + `thoughtsPanel`
+-> `t('mbti_axis.*')` (IT invariato + EN coperto); restano ~6 label-map (biomeChip/ui/
+characterPanel/enneaVoiceRender/...) + mission-console (interop JSON-attribute risolto:
+`import ... with { type: 'json' }`).
 
 - `t(key, params?, locale?)`: risolve la key, applica i params, fallback a IT (sorgente
   completa), ritorna la stringa. NON-LLM, deterministico.
