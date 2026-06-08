@@ -74,18 +74,18 @@ PARTIAL | PARKED.
 
 ## C. PARTIAL / mechanics depth (MED)
 
-| #   | Candidato                                                        | Stato                       | Dove             |
-| --- | ---------------------------------------------------------------- | --------------------------- | ---------------- |
-| C1  | Status effects v2: tier Shaping + Resonance (squad-aura)         | Wave A LIVE, questi no      | estende SPEC-C/D |
-| C2  | AP extension +1 via spesa PT/SG (sblocca 5 abilita', verdict 1A) | ADR skeleton                | estende SPEC-C   |
-| C3  | Facing + rear crit (pincer LIVE, facing per-unit da verificare)  | da verificare               | estende SPEC-C/D |
-| C4  | Push / ledge / collision damage                                  | DESIGN-ONLY                 | estende SPEC-C   |
-| C5  | Sentience tiers T1-T6 come asse-dato specie                      | OD-024 verdict pending      | estende SPEC-D/H |
-| C6  | Jobs expansion 4 (Stalker/Symbiont/Beastmaster/Aberrant)         | YAML, runtime?              | estende SPEC-E   |
-| C7  | Mating ennea 9/9 (oggi 3/9)                                      | PARTIAL                     | estende SPEC-E   |
-| C8  | Beast Bond espansione oltre 6 coppie                             | 6 LIVE                      | estende SPEC-E   |
-| C9  | AI micro-personality profiles per archetipo                      | enneaVoice LIVE, profili no | estende SPEC-G   |
-| C10 | Move syntax disambiguation (grammatica azioni phone)             | DESIGN-ONLY                 | estende SPEC-C   |
+| #   | Candidato                                                            | Stato                                                                | Dove                                |
+| --- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------- |
+| C1  | Status effects v2: tier Shaping + Resonance (squad-aura)             | Wave A LIVE, questi no                                               | estende SPEC-C/D                    |
+| C2  | AP extension +1 via spesa PT/SG (sblocca 5 abilita', verdict 1A)     | ADR skeleton                                                         | estende SPEC-C                      |
+| C3  | Facing + rear crit (solo is_flank/is_critical; facing-dir NON built) | DESIGN-ONLY (mechanic combat-rules)                                  | surface SPEC-C 4.2 + SPEC-D callout |
+| C4  | Push / ledge / collision damage                                      | DESIGN-ONLY                                                          | estende SPEC-C                      |
+| C5  | Sentience tiers T1-T6 come asse-dato specie                          | OD-024 verdict pending                                               | estende SPEC-D/H                    |
+| C6  | Jobs expansion 4 (Stalker/Symbiont/Beastmaster/Aberrant)             | DATA-ONLY (jobs_expansion.yaml non wired; Symbiont-job != bond live) | surface SPEC-E 4 party-select       |
+| C7  | Mating ennea 9/9 (oggi 3/9)                                          | PARTIAL                                                              | estende SPEC-E                      |
+| C8  | Beast Bond espansione oltre 6 coppie                                 | 6 LIVE                                                               | estende SPEC-E                      |
+| C9  | AI micro-personality profiles per archetipo                          | enneaVoice LIVE, profili no                                          | estende SPEC-G                      |
+| C10 | Move syntax disambiguation (grammatica azioni phone)                 | DESIGN-ONLY                                                          | estende SPEC-C                      |
 
 ## D. NEW Spec-M..P (create 2026-06-08)
 
