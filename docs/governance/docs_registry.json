@@ -8619,6 +8619,19 @@
       "track": "new"
     },
     {
+      "path": "docs/planning/2026-06-08-reconstruction-suite-wave1-closure.md",
+      "title": "Evo-Tactics reconstruction-suite Wave-1 closure handoff",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/planning/2026-06-06-evo-tactics-reconstruction-suite-index.md",
       "title": "Evo-Tactics reconstruction suite index",
       "doc_status": "review_needed",
@@ -8686,6 +8699,19 @@
     {
       "path": "docs/design/evo-tactics-custode-portable-framework.md",
       "title": "Evo-Tactics Custode Portable Framework (SPEC-F)",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "flow",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/design/evo-tactics-nido-groups-and-tribe.md",
+      "title": "Evo-Tactics Nido Groups, Party Select and Tribe (SPEC-E)",
       "doc_status": "review_needed",
       "doc_owner": "master-dd",
       "workstream": "flow",
