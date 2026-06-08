@@ -514,8 +514,10 @@ function declareReaction(state, unitId, reactionPayload, trigger) {
   }
 
   const nextState = _deepClone(state || {});
+  // Separate economy (SPEC-C): a reaction replaces only the unit's PRIOR reaction,
+  // never its main intents (declareIntent APPENDs those). Keep mains, drop old reaction.
   const pending = (nextState.pending_intents || []).filter(
-    (i) => String(i.unit_id || '') !== String(unitId),
+    (i) => !(String(i.unit_id || '') === String(unitId) && i.reaction_trigger),
   );
   const sourceFilter = trigger && trigger.source_any_of;
   const normalisedTrigger = {

@@ -8684,6 +8684,32 @@
       "track": "new"
     },
     {
+      "path": "docs/design/evo-tactics-phone-wego-composer.md",
+      "title": "Evo-Tactics Phone WEGO Combat Composer (SPEC-C)",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "flow",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/design/evo-tactics-tv-device-information-contract.md",
+      "title": "Evo-Tactics TV/Device Information Contract (SPEC-B)",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "flow",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/design/evo-tactics-runtime-feature-inventory-reconcile.md",
       "title": "Evo-Tactics Runtime Feature Inventory Reconcile",
       "doc_status": "review_needed",

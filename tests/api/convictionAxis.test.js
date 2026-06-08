@@ -140,3 +140,48 @@ test('vcScoring: buildVcSnapshot per_actor includes conviction_axis (debrief sur
     `morality after assist >= baseline, got ${snap.per_actor.unit_1.conviction_axis.morality}`,
   );
 });
+
+test('convictionEngine: classifyEvent explicit flags.refuse_order -> liberty+ (SPEC-A)', () => {
+  const delta = classifyEvent({
+    action_type: 'decision',
+    actor_id: 'unit_1',
+    flags: { refuse_order: true },
+  });
+  assert.ok(delta);
+  assert.equal(delta.liberty, 4);
+});
+
+test('convictionEngine: classifyEvent explicit flags.sacrifice -> morality+, utility- (SPEC-A)', () => {
+  const delta = classifyEvent({
+    action_type: 'decision',
+    actor_id: 'unit_1',
+    flags: { sacrifice: true },
+  });
+  assert.ok(delta);
+  assert.equal(delta.morality, 5);
+  assert.equal(delta.utility, -3);
+});
+
+test('convictionEngine: classifyEvent explicit flags.mercy on non-kill decision -> morality+ (SPEC-A)', () => {
+  const delta = classifyEvent({
+    action_type: 'decision',
+    actor_id: 'unit_1',
+    flags: { mercy: true },
+  });
+  assert.ok(delta);
+  assert.equal(delta.morality, 5);
+  assert.equal(delta.utility, -2);
+});
+
+test('convictionEngine: explicit flags accumulate via evaluateConviction (SPEC-A)', () => {
+  const events = [
+    { action_type: 'decision', actor_id: 'unit_1', flags: { refuse_order: true } },
+    { action_type: 'decision', actor_id: 'unit_1', flags: { sacrifice: true } },
+  ];
+  const result = evaluateConviction(events, [{ id: 'unit_1' }]);
+  // refuse_order (lib+4) -> lib=54 ; sacrifice (mor+5, util-3) -> mor=55, util=47
+  assert.equal(result.unit_1.liberty, 54);
+  assert.equal(result.unit_1.morality, 55);
+  assert.equal(result.unit_1.utility, 47);
+  assert.equal(result.unit_1.events_classified, 2);
+});
