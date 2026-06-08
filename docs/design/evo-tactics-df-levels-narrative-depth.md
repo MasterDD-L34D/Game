@@ -74,13 +74,13 @@ Invarianti ereditate:
 
 ## 3. DF-levels coperti
 
-| Livello | Cosa                                           | SPEC-Q gap     | Stato                  |
-| ------- | ---------------------------------------------- | -------------- | ---------------------- |
-| L1      | Identita' guadagnata (name/portrait/storia)    | M-2            | greenfield             |
-| L2/P5   | Sistema leggibile (abilita' nascoste reveal)   | M-4            | 0 design               |
-| L3      | Eredita' tangibile (heirloom + named-mutation) | M-1, M-3       | M-1 0; M-3 Godot-draft |
-| L4      | Cronaca cross-session                          | M-7 (keystone) | chronicle 404          |
-| P3/P2   | Job-identity constraint / visual-swap verify   | M-5, M-6       | design/verify          |
+| Livello | Cosa                                           | SPEC-Q gap     | Stato                       |
+| ------- | ---------------------------------------------- | -------------- | --------------------------- |
+| L1      | Identita' guadagnata (name/portrait/storia)    | M-2            | greenfield                  |
+| L2/P5   | Sistema leggibile (abilita' nascoste reveal)   | M-4            | 0 design                    |
+| L3      | Eredita' tangibile (heirloom + named-mutation) | M-1, M-3       | M-1 0; M-3 Godot-draft      |
+| L4      | Cronaca cross-session                          | M-7 (keystone) | store+API LIVE; viewer TODO |
+| P3/P2   | Job-identity constraint / visual-swap verify   | M-5, M-6       | design/verify               |
 
 L0 (needs/biome-rules) e L5 = POST-MVP gated (non-scopo).
 
