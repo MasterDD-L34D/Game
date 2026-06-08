@@ -37,14 +37,12 @@ test('buildScenarioEnemies: tiers scale hp/mod (base < elite < apex)', () => {
   assert.ok(TIER_MOD.base < TIER_MOD.elite && TIER_MOD.elite < TIER_MOD.apex, 'mod scales by tier');
 });
 
-test('buildScenarioEnemies: missing or unsupported YAML -> null (runner falls back)', () => {
+test('buildScenarioEnemies: missing YAML -> null; OA2 -> non-elim objectives supported', () => {
   assert.equal(buildScenarioEnemies('enc_does_not_exist_zzz'), null, 'missing -> null');
-  // Only elimination is supported (the combat-adapter resolves victory = all foes dead).
-  // Non-elimination objectives -> null -> fallback, so we never misreport a survival/
-  // capture encounter as an elimination 'scenario' fight (Codex #2567 P2).
-  assert.equal(buildScenarioEnemies('enc_escort_01'), null, 'escort -> null');
-  assert.equal(buildScenarioEnemies('enc_tutorial_02'), null, 'survival -> null');
-  assert.equal(buildScenarioEnemies('enc_caverna_02'), null, 'capture_point -> null');
+  // OA2 (SPEC-O): non-elimination objectives are now SUPPORTED -> authored roster (not
+  // null). The combat-adapter objective-driver (zone-pursuit + objective-outcome) makes
+  // them complete in the sim, so they no longer fall back to the weak fixed enemy.
+  assert.ok(buildScenarioEnemies('enc_caverna_02'), 'capture_point -> roster (OA2)');
 });
 
 // fase-2c difficulty calibration (Finding 1: completion_rate 1.0 OOB). The authored

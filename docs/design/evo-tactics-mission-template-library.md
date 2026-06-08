@@ -41,16 +41,16 @@ ALIMENTA gli engine LIVE (objectiveEvaluator, encounterLoader), non li riscrive.
 
 ## 2. Baseline LIVE (verificato 2026-06-08, non ricostruire)
 
-| Engine / artefatto                                        | Ruolo / stato                                                                                                                |
-| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `services/combat/objectiveEvaluator.js` (ADR-2026-04-20)  | Registry LIVE di TUTTI e 6 i tipi (elimination/capture_point/escort/sabotage/survival/escape) -> {completed,failed,outcome}. |
-| `services/combat/encounterLoader.js`                      | Carica encounter schema-validi da `docs/planning/encounters/` (+ `encounters-draft/` in graphMode).                          |
-| `schemas/evo/encounter.schema.json`                       | Schema encounter: `objective.type` enum (6 tipi), `waves`, `player_spawn`, `grid_size`, `difficulty_rating`, `tags` (enum).  |
-| `tools/py/author_encounter.py`                            | Authoring + validazione struttura vs schema; `tests/scripts/encounterSchema.test.js` valida tutti i template (AJV).          |
-| `docs/planning/encounters/*.yaml`                         | **12 template schema-validi** (post-SPEC-O): 6/6 tipi coperti (vedi sez. 5).                                                 |
-| `data/core/missions/skydock_siege.yaml`                   | TUNE-LOG (formato `groups`/`party_vc`, NON schema-encounter) -- distinto dai template.                                       |
-| `tools/sim/full-loop-runner.js`                           | Runner full-loop; usa `completion_rate`. NB: NON e' mission-type-aware (scenario fisso) -- vedi sez. 9 / OA2.                |
-| difficulty: `difficulty_rating` (schema 1-5) + class mult | `hardcoreScenario`/`tutorialScenario` moltiplicatore per classe. NESSUN modulo DifficultyCalculator (OA3).                   |
+| Engine / artefatto                                        | Ruolo / stato                                                                                                                                     |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `services/combat/objectiveEvaluator.js` (ADR-2026-04-20)  | Registry LIVE di TUTTI e 6 i tipi (elimination/capture_point/escort/sabotage/survival/escape) -> {completed,failed,outcome}.                      |
+| `services/combat/encounterLoader.js`                      | Carica encounter schema-validi da `docs/planning/encounters/` (+ `encounters-draft/` in graphMode).                                               |
+| `schemas/evo/encounter.schema.json`                       | Schema encounter: `objective.type` enum (6 tipi), `waves`, `player_spawn`, `grid_size`, `difficulty_rating`, `tags` (enum).                       |
+| `tools/py/author_encounter.py`                            | Authoring + validazione struttura vs schema; `tests/scripts/encounterSchema.test.js` valida tutti i template (AJV).                               |
+| `docs/planning/encounters/*.yaml`                         | **12 template schema-validi** (post-SPEC-O): 6/6 tipi coperti (vedi sez. 5).                                                                      |
+| `data/core/missions/skydock_siege.yaml`                   | TUNE-LOG (formato `groups`/`party_vc`, NON schema-encounter) -- distinto dai template.                                                            |
+| `tools/sim/full-loop-runner.js`                           | Runner full-loop; `completion_rate`. OA2 LIVE: mission-type-aware via `combat-adapter` objective-outcome + `combat-policy` zone-pursuit (sez. 9). |
+| difficulty: `difficulty_rating` (schema 1-5) + class mult | `hardcoreScenario`/`tutorialScenario` moltiplicatore per classe. NESSUN modulo DifficultyCalculator (OA3).                                        |
 
 Invarianti ereditate:
 
@@ -133,12 +133,14 @@ Dopo SPEC-O, `docs/planning/encounters/` copre tutti i 6 tipi (12 template schem
 ## 9. Calibrazione full-loop
 
 - Metrica: `completion_rate` target **0.40-0.70** per template (mirror band full-loop).
-- **Prerequisito (verificato) -- la calibrazione dei tipi non-elimination e' OGGI IMPOSSIBILE:**
-  `tools/sim/scenario-enemies.js` ha `SUPPORTED_OBJECTIVES = {elimination}` (`:52`) -> per
-  qualsiasi altro tipo `buildScenarioEnemies` ritorna null -> il runner cade sul nemico-fisso
-  DEBOLE -> `completion_rate` degenera (~1.0, non misurabile). Serve (OA2): (a) estendere
-  `SUPPORTED_OBJECTIVES`, (b) un DRIVER che guidi le meccaniche objective non-elim nel loop sim
-  (hold zone / escape race / escort survival), (c) `mission_type`-awareness del runner.
+- **OA2 LIVE (2026-06-08): la calibrazione non-elimination e' ora possibile.** (a)
+  `SUPPORTED_OBJECTIVES` esteso a tutti e 6 i tipi (`scenario-enemies.js`); (b) DRIVER
+  objective-aware (`combat-policy` zone-pursuit + hold: i PG vanno verso `target_zone` e
+  tengono la zona) + objective-OUTCOME (`combat-adapter` legge l'evaluation: completed->victory
+  / failed->defeat, NON solo elimination); (c) il runner e' mission-type-aware. Verificato:
+  `enc_sabotage_01` completa via objective con un nemico immortale (hp300) = NON elimination.
+  Elimination resta a costo-zero (poll evaluation solo per non-elim -> nessuna regressione/flake).
+  Residuo: tuning `completion_rate` N=40 + traversal multi-unit con `min_units_in_zone>1`.
 - Gate di promozione: un template passa da DRAFT a "ratificato" solo con `completion_rate`
   in banda su N=40 (mirror SPEC-I/ERMES gate), senza regressione fuori banda.
 
@@ -219,9 +221,10 @@ SPEC-O e' implementabile/chiudibile quando:
 
 1. i 6 tipi-obiettivo (sez. 3) hanno ciascuno >=1 template schema-valido in
    `docs/planning/encounters/` (FATTO: 6/6, `encounterSchema.test.js` verde);
-2. OA2 e' risolto+implementato (`SUPPORTED_OBJECTIVES` esteso in scenario-enemies.js + driver
-   objective non-elim nel runner) E i 2 nuovi template (sabotage/escape) sono CALIBRATI
-   (`completion_rate` 0.40-0.70 su N=40 col ROSTER REALE, non il nemico-fisso) -- oggi DRAFT;
+2. OA2 e' risolto+implementato (LIVE: `SUPPORTED_OBJECTIVES` esteso + driver zone-pursuit
+   (`combat-policy`) + objective-outcome (`combat-adapter`)); resta la CALIBRAZIONE dei template
+   sabotage/escape (`completion_rate` 0.40-0.70 su N=40 col ROSTER REALE) + traversal
+   `min_units_in_zone>1` -- oggi DRAFT;
 3. l'integrazione `mission_type` con SPEC-D (scene grammar) + SPEC-I (pressione per tipo) e'
    contrattualizzata secondo l'ownership OA1 (addendum D/I);
 4. il difficulty profile (OA3) e' deciso (field+mult vs DifficultyCalculator);
