@@ -277,6 +277,18 @@ float secret) e' INTENZIONALE e va mantenuto distinto (ER4).
 Fork NON canon-derivabili: l'esito non discende univocamente da ADR-2026-05-29 / ADR-21c /
 roadmap. Etichetta `ER#` per evitare clash con gli altri fork (F/G/H/E/FC/TS/J/HA).
 
+**RATIFICATI da Eduardo 2026-06-08.** Sintesi:
+
+| Fork | Esito ratificato (2026-06-08)                                                          |
+| ---- | -------------------------------------------------------------------------------------- |
+| ER1  | Modificatore soft entro il cap (role gap -> ~+1, dentro il budget +/-2, con telegraph) |
+| ER2  | Budget unico condiviso per-stat (ADR-21c + ERMES + role gap -> un solo clamp +/-2)     |
+| ER3  | Banda + hint di direzione diegetico (mai il numero)                                    |
+| ER4  | Separate, telegraph distinti (ERMES banda diegetica vs sistema_pressure meter)         |
+| ER5  | Badlands first, poi espansione (gate N=40 win-rate band, no regressione fuori banda)   |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
+
 ### ER1 -- Effetto runtime del role gap
 
 Il role gap e' calcolato + esposto, ma il suo effetto su gioco e' sotto-specificato.
