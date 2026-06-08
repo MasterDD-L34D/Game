@@ -66,14 +66,14 @@ Invarianti ereditate:
 
 Ogni tipo ha un evaluator LIVE (`objectiveEvaluator.js`) + campi `objective.*` nello schema:
 
-| Tipo            | Campi `objective`                                      | Win / evaluator                               |
-| --------------- | ------------------------------------------------------ | --------------------------------------------- |
-| `elimination`   | (default; nessun campo extra)                          | SIS HP=0 (fallback)                           |
-| `capture_point` | `target_zone`, `hold_turns`, `min_units_in_zone`       | PG in zona per N turni consecutivi            |
-| `escort`        | `escort_target`, `target_zone` (extract)               | escort_target vivo + in extract_zone          |
-| `sabotage`      | `target_zone`, `sabotage_turns_required`, `time_limit` | PG in zona N turni entro il time_limit        |
-| `survival`      | `survive_turns`                                        | player vivo AND turn >= survive_turns         |
-| `escape`        | `target_zone`, `time_limit`                            | TUTTI i PG in target_zone entro il time_limit |
+| Tipo            | Campi `objective`                                      | Win / evaluator                                                                                                                |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `elimination`   | (default; nessun campo extra)                          | SIS HP=0 (fallback)                                                                                                            |
+| `capture_point` | `target_zone`, `hold_turns`, `min_units_in_zone`       | PG in zona per N turni consecutivi                                                                                             |
+| `escort`        | `escort_target`, `target_zone` (extract)               | escort_target vivo + in extract_zone                                                                                           |
+| `sabotage`      | `target_zone`, `sabotage_turns_required`, `time_limit` | PG in zona N turni CUMULATIVI entro il time_limit (NB: evaluator hardcoda inZone>=1, IGNORA `min_units_in_zone` -- engine gap) |
+| `survival`      | `survive_turns`                                        | player vivo AND turn >= survive_turns                                                                                          |
+| `escape`        | `target_zone`, `time_limit`                            | TUTTI i PG in target_zone entro il time_limit                                                                                  |
 
 - `loss_conditions` (ADR-2026-04-20) decouplano la sconfitta: `time_limit` + `player_wipe`.
 - Il fallimento di un obiettivo emette outcome (`objective_failed`/`wipe`/`timeout`) = trigger
@@ -96,17 +96,18 @@ Contratto template (`schemas/evo/encounter.schema.json`):
 
 Dopo SPEC-O, `docs/planning/encounters/` copre tutti i 6 tipi (12 template schema-validi):
 
-| Tipo          | Template (esempi)                                            | Stato                      |
-| ------------- | ------------------------------------------------------------ | -------------------------- |
-| elimination   | `enc_tutorial_01/02`, `enc_savana_01`, `enc_caverna_02`, ... | pre-esistenti              |
-| capture_point | `enc_capture_01` (+1)                                        | pre-esistenti              |
-| escort        | `enc_escort_01`                                              | pre-esistente              |
-| survival      | `enc_survival_01` (+ altri)                                  | pre-esistenti              |
-| **sabotage**  | `enc_sabotage_01` (Detonazione nel Cuore)                    | **+ SPEC-O #2640 (DRAFT)** |
-| **escape**    | `enc_escape_01` (Fuga dalla Faglia)                          | **+ SPEC-O #2640 (DRAFT)** |
+| Tipo          | Template (esempi)                                                                       | Stato                      |
+| ------------- | --------------------------------------------------------------------------------------- | -------------------------- |
+| elimination   | `enc_tutorial_01/02`, `enc_savana_01`, `enc_caverna_02`, ...                            | pre-esistenti              |
+| capture_point | `enc_capture_01`, `enc_caverna_02`                                                      | pre-esistenti              |
+| escort        | `enc_escort_01`                                                                         | pre-esistente              |
+| survival      | `enc_survival_01`, `enc_frattura_03`, `enc_tutorial_02`, `enc_savana_skiv_solo_vs_pack` | pre-esistenti              |
+| **sabotage**  | `enc_sabotage_01` (Detonazione nel Cuore)                                               | **+ SPEC-O #2640 (DRAFT)** |
+| **escape**    | `enc_escape_01` (Fuga dalla Faglia)                                                     | **+ SPEC-O #2640 (DRAFT)** |
 
 - I 2 nuovi sono schema-validi (15/15 test) ma **NON calibrati** (roster/wave provvisori,
-  mirror degli esistenti). Calibrazione = sez. 9.
+  mirror degli esistenti); NB l'AI-profile `aggressive` va rivisto in calibrazione (es.
+  escape: il nemico dovrebbe INSEGUIRE, non presidiare). Calibrazione = sez. 9.
 
 ## 6. Integrazione SPEC-D (mission_type -> scene grammar) [PROPOSTA]
 
@@ -132,20 +133,23 @@ Dopo SPEC-O, `docs/planning/encounters/` copre tutti i 6 tipi (12 template schem
 ## 9. Calibrazione full-loop
 
 - Metrica: `completion_rate` target **0.40-0.70** per template (mirror band full-loop).
-- **Prerequisito (verificato):** `tools/sim/full-loop-runner.js` NON e' mission-type-aware
-  (scenario fisso); per calibrare i 6 tipi serve estenderlo con `mission_type`/scenari
-  per-template. Approccio = fork OA2.
+- **Prerequisito (verificato) -- la calibrazione dei tipi non-elimination e' OGGI IMPOSSIBILE:**
+  `tools/sim/scenario-enemies.js` ha `SUPPORTED_OBJECTIVES = {elimination}` (`:52`) -> per
+  qualsiasi altro tipo `buildScenarioEnemies` ritorna null -> il runner cade sul nemico-fisso
+  DEBOLE -> `completion_rate` degenera (~1.0, non misurabile). Serve (OA2): (a) estendere
+  `SUPPORTED_OBJECTIVES`, (b) un DRIVER che guidi le meccaniche objective non-elim nel loop sim
+  (hold zone / escape race / escort survival), (c) `mission_type`-awareness del runner.
 - Gate di promozione: un template passa da DRAFT a "ratificato" solo con `completion_rate`
   in banda su N=40 (mirror SPEC-I/ERMES gate), senza regressione fuori banda.
 
 ## 10. Visibilita' (eredita SPEC-B)
 
-| Dato mission                              | Tier     | Razionale                                                          |
-| ----------------------------------------- | -------- | ------------------------------------------------------------------ |
-| Tipo-obiettivo + obiettivo della missione | `public` | il tavolo sa cosa fa la missione (TV); coperto SPEC-B route/world. |
-| Wave / roster nemico (pre-spawn)          | `secret` | non si rivela il roster futuro (sorpresa tattica); engine-side.    |
-| Stato obiettivo (progress, hold count)    | `public` | parte del combat condiviso (TV), via event-log.                    |
-| `difficulty_rating` del template          | `public` | leggibilita' (stelle 1-5).                                         |
+| Dato mission                              | Tier     | Razionale                                                                                                                                                         |
+| ----------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tipo-obiettivo + obiettivo della missione | `public` | il tavolo sa cosa fa la missione (TV). NB: SPEC-B non ha riga esplicita per objective-type/difficulty -> SPEC-O la PROPONE (addendum SPEC-B, come SPEC-I sez. 9). |
+| Wave / roster nemico (pre-spawn)          | `secret` | non si rivela il roster futuro (sorpresa tattica); engine-side.                                                                                                   |
+| Stato obiettivo (progress, hold count)    | `public` | parte del combat condiviso (TV), via event-log.                                                                                                                   |
+| `difficulty_rating` del template          | `public` | leggibilita' (stelle 1-5).                                                                                                                                        |
 
 ## 11. Relazione con altre spec
 
@@ -182,8 +186,10 @@ tipo). Chi possiede il contratto?
 Per calibrare `completion_rate` per tipo serve estendere il runner.
 
 - **Opzione A -- parametro `mission_type` sul runner (raccomandata).** Un solo runner che
-  carica il template (encounterLoader) + applica l'objective evaluator del tipo. Tradeoff:
-  riusa l'engine objective LIVE; un solo harness.
+  carica il template (encounterLoader) + applica l'objective evaluator del tipo. **Scope reale
+  (verificato):** include (1) estendere `SUPPORTED_OBJECTIVES` in `scenario-enemies.js` (oggi
+  solo elimination), (2) un driver objective non-elim nel loop sim (hold/escape/escort
+  survival), oltre al param. Tradeoff: riusa l'engine objective LIVE; un solo harness.
 - **Opzione B -- scenari per-template dedicati.** Uno scenario sim per ogni tipo. Tradeoff:
   piu' controllo per-tipo, ma 6 harness da mantenere.
 - **Raccomandazione:** A (carica il template reale, niente duplicazione).
@@ -203,8 +209,9 @@ SPEC-O e' implementabile/chiudibile quando:
 
 1. i 6 tipi-obiettivo (sez. 3) hanno ciascuno >=1 template schema-valido in
    `docs/planning/encounters/` (FATTO: 6/6, `encounterSchema.test.js` verde);
-2. i 2 nuovi template (sabotage/escape) sono CALIBRATI (`completion_rate` 0.40-0.70 su N=40),
-   il che richiede il runner mission-type-aware (OA2) -- oggi DRAFT;
+2. OA2 e' risolto+implementato (`SUPPORTED_OBJECTIVES` esteso in scenario-enemies.js + driver
+   objective non-elim nel runner) E i 2 nuovi template (sabotage/escape) sono CALIBRATI
+   (`completion_rate` 0.40-0.70 su N=40 col ROSTER REALE, non il nemico-fisso) -- oggi DRAFT;
 3. l'integrazione `mission_type` con SPEC-D (scene grammar) + SPEC-I (pressione per tipo) e'
    contrattualizzata secondo l'ownership OA1 (addendum D/I);
 4. il difficulty profile (OA3) e' deciso (field+mult vs DifficultyCalculator);
