@@ -12,8 +12,11 @@
 import { createT } from './i18nCore.js';
 // data/i18n = sorgente unica (ADR-2026-06-08 QA3). Oggi solo `common.json`
 // (10 namespace dentro); lo split per-namespace = PR-5.
-import itCommon from '../../../data/i18n/it/common.json';
-import enCommon from '../../../data/i18n/en/common.json';
+// Import attributes (`with { type: 'json' }`) -- required by node ESM (test runner)
+// and supported by Vite 8; without them node dynamic-import of any module importing
+// this file throws ERR_IMPORT_ATTRIBUTE_MISSING (breaks the migrated modules' tests).
+import itCommon from '../../../data/i18n/it/common.json' with { type: 'json' };
+import enCommon from '../../../data/i18n/en/common.json' with { type: 'json' };
 
 const MESSAGES = { it: itCommon, en: enCommon };
 

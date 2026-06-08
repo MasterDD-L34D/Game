@@ -32,7 +32,7 @@
   "combat": {
     "your_turn": "Il tuo turno",
     "system_turn": "Turno del Sistema",
-    "round": "Round {{n}}",
+    "round": "Round {n}",
     "hit": "Colpito",
     "miss": "Mancato",
     "critical": "Critico!",
@@ -43,9 +43,9 @@
     "defend": "Difendi",
     "ability": "Abilità",
     "end_turn": "Fine turno",
-    "damage_dealt": "Danno inflitto: {{n}}",
-    "damage_taken": "Danno subito: {{n}}",
-    "hp_remaining": "HP: {{current}} / {{max}}"
+    "damage_dealt": "Danno inflitto: {n}",
+    "damage_taken": "Danno subito: {n}",
+    "hp_remaining": "HP: {current} / {max}"
   },
   "status": {
     "panic": "Panico",
@@ -58,11 +58,19 @@
   },
   "objective": {
     "elimination": "Elimina tutti i nemici",
-    "capture_point": "Cattura il punto per {{n}} turni",
-    "escort": "Proteggi {{target}}",
-    "sabotage": "Sabota in meno di {{n}} turni",
-    "survival": "Sopravvivi {{n}} turni",
+    "capture_point": "Cattura il punto per {n} turni",
+    "escort": "Proteggi {target}",
+    "sabotage": "Sabota in meno di {n} turni",
+    "survival": "Sopravvivi {n} turni",
     "escape": "Raggiungi l'uscita"
+  },
+  "objective_short": {
+    "elimination": "Elimina i nemici",
+    "capture_point": "Tieni la zona",
+    "escort": "Scorta il bersaglio",
+    "sabotage": "Sabotaggio",
+    "survival": "Sopravvivi",
+    "escape": "Fuggi"
   },
   "result": {
     "victory": "Vittoria",

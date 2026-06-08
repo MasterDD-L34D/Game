@@ -7,7 +7,7 @@ Verifica parity chiavi fra locale bundles in data/i18n/*/ (it + en al lancio).
 Checks:
 1. Ogni locale ha stesse chiavi (nessuna chiave manca in un locale)
 2. Nessun valore TODO / MISSING / placeholder
-3. Interpolation params (Mustache {{var}}) coerenti fra locale
+3. Interpolation params (single-brace {var}, NF4) coerenti fra locale
 4. _meta.completion_percent coerente con actual translation
 
 Usage:
@@ -30,7 +30,7 @@ import re
 import sys
 from typing import Dict, List, Set, Tuple
 
-MUSTACHE_RE = re.compile(r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}")
+MUSTACHE_RE = re.compile(r"\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}")
 PLACEHOLDER_MARKERS = ("TODO", "MISSING", "FIXME", "XXX")
 
 
