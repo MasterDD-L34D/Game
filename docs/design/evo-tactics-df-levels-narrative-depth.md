@@ -94,9 +94,9 @@ Event-store narrativo cross-session SOPRA il combat event-log.
 - **Contratto API (LIVE, QF1-A):** `services/chronicle/chronicleStore.js` (JSONL per-branco) +
   `POST /api/chronicle/:run_id` (append) + `GET /api/chronicle/:run_id` (read, filtrabile
   `?type=` / `?actor_id=`) + `/summary`. 9 event-type whitelist + tier public/private/secret.
-  Emitter A3 `run_failed` = LIVE (`chronicleEmitters.emitRunFailed`, best-effort a session-end
-  su `session.campaign_id` + outcome di sconfitta). M-2 `creature_named` / M-3 `mutation_lineage`
-  (servizi non ancora costruiti) + Memory-mode viewer (Godot) = follow-up.
+  Emitter A3 `run_failed` = LIVE (`chronicleEmitters.emitRunFailed`, best-effort a session-end).
+  M-2 `creature_named` = LIVE (`identityService.emitCreatureNamed`, sez.5). M-3 `mutation_lineage`
+  (servizio non costruito) + Memory-mode viewer (Godot) = follow-up.
 - **Viewer + Memory-mode home:** Loop Hero visual-emergence, Slay-the-Princess branching-state
   memory, DF template parametrici (QBN/inkjs LIVE, non LLM). Surface Godot = SPEC-K/D consumer.
 - **Keystone:** SPEC-P (A3 failure-as-lore emette chronicle_event; A13 biome-wound cross-run
