@@ -805,7 +805,7 @@ function createApp(options = {}) {
   // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
   app.use('/api', createFeedbackRouter(options.feedback || {}));
   // M10 Phase B: campaign persistence + branching (ADR-2026-04-21)
-  app.use('/api', createCampaignRouter(options.campaign || {}));
+  app.use('/api', createCampaignRouter({ ...(options.campaign || {}), coopStore }));
   // V2 Tri-Sorgente post-match reward (2026-04-26 sprint V2)
   app.use('/api', createRewardsRouter());
   // Tunic decipher Codex (2026-04-27 §H.4 ADOPT) — glyph language progression

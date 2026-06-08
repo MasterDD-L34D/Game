@@ -45,6 +45,8 @@ const {
 } = require('../services/campaign/ambitionService');
 const { grantXpToSurvivors } = require('../services/progression/progressionApply');
 const { loadXpCurve } = require('../services/progression/progressionLoader');
+// MA1 part 2 (ADR-2026-06-08) -- emergent shared branco trait from the Form Pulse aggregate.
+const { emergeBrancoTraitFromPulses } = require('../services/identity/brancoTraitEmergence');
 
 // TKT-P2 Brigandine seasonal — Phase C routes (engine Phase A #2251 + content Phase B #2252).
 const seasonalEngine = require('../services/campaign/seasonalEngine');
@@ -140,6 +142,10 @@ function computeEvolveOpportunity(outcome, peEarned) {
 
 function createCampaignRouter(options = {}) {
   const router = express.Router();
+  // MA1 part 2: coopStore (optional, injected by app.js) lets /start read the branco
+  // Form Pulse to emerge the shared branco trait. Absent (tests / solo without a coop
+  // run) -> dormant, per-creature traits only.
+  const coopStore = options.coopStore || null;
 
   // POST /api/campaign/start
   // Body: { player_id, campaign_def_id?, initial_trait_choice? }
@@ -194,11 +200,28 @@ function createCampaignRouter(options = {}) {
       }
     }
 
-    const campaign = createCampaign(player_id, defId, {
+    let campaign = createCampaign(player_id, defId, {
       onboardingChoice,
       acquiredTraits,
       acquiredTraitsByCreature,
     });
+
+    // MA1 part 2 (ADR-2026-06-08): emergent branco trait from the aggregated Form
+    // Pulse. Dormant until the Godot Form-Pulse UX populates coopStore formPulses
+    // (no FP / branco indeciso -> no-op; the branco keeps only per-creature traits).
+    if (coopStore && typeof coopStore.getFormPulses === 'function') {
+      const emergent = emergeBrancoTraitFromPulses(coopStore.getFormPulses(campaign.id));
+      if (emergent) {
+        const mergedTraits = campaign.acquiredTraits.includes(emergent.trait_id)
+          ? campaign.acquiredTraits
+          : [...campaign.acquiredTraits, emergent.trait_id];
+        campaign =
+          updateCampaign(campaign.id, {
+            emergentBrancoTrait: emergent,
+            acquiredTraits: mergedTraits,
+          }) || campaign;
+      }
+    }
 
     // Slice A (live routing, flag ON): a graph-routed run begins at the authored
     // start_node and serves its encounter from the graph; the static onboarding chain is
