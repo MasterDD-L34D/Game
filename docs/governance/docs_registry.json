@@ -8658,6 +8658,19 @@
       "track": "new"
     },
     {
+      "path": "docs/planning/2026-06-08-game-reference-gap-harvest.md",
+      "title": "Game-reference gap harvest -- DF-levels (RECONCILIATION-MASTER vs piani)",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/planning/2026-06-06-evo-tactics-reconstruction-suite-index.md",
       "title": "Evo-Tactics reconstruction suite index",
       "doc_status": "review_needed",
@@ -8751,6 +8764,19 @@
     {
       "path": "docs/design/evo-tactics-failure-as-lore.md",
       "title": "Evo-Tactics SPEC-P Failure-as-Lore Loop",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "flow",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/design/evo-tactics-df-levels-narrative-depth.md",
+      "title": "Evo-Tactics SPEC-Q DF-Levels Narrative and Simulation Depth",
       "doc_status": "review_needed",
       "doc_owner": "master-dd",
       "workstream": "flow",
