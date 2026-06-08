@@ -122,6 +122,12 @@ Il fallimento e' un trigger di scoperta Codex (pattern Hades, B14):
 QA1 (ratificato): **SPEC-P possiede il write-side di A13** (degrado biome cross-run);
 SPEC-I resta read-side della pressione.
 
+**Stato: mechanism LIVE (2026-06-08).** `apps/backend/services/worldgen/biomeWound.js`:
+`woundBiome` (cap 2 PA2, idempotente, no-mutate) + `healBiome` (recupero anti-brick) +
+`pressureDelta` (N feriti -> delta SPEC-I, HARD-bounded ER2 +/-2, PA4) + `emitBiomeWound` ->
+chronicle (M-7). Magnitudine `PRESSURE_PER_BIOME` = PROPOSED (ratify N=40, PA2). Follow-up:
+persistenza meta-network (`metaNetworkResolver`) + trigger (wound su run-fail) + recupero wired.
+
 Contratto del degrado:
 
 - Un bioma in cui la run fallisce diventa "ferito": stato persistente cross-run sulla
@@ -273,9 +279,9 @@ SPEC-P e' implementabile/chiudibile quando:
    in PA1, e consuma l'output J5 (QA2);
 3. l'aggancio Codex (sez. 5) emette eventi che il consumer SPEC-H raccoglie (no Codex
    costruito qui);
-4. il degrado meta-network (sez. 6, A13 write-side) ha la NATURA decisa in PA4; se meccanico,
-   e' bounded col cap PA2 + la funzione di mapping `N biomi degradati -> delta pressione`
-   ENTRO il cap ER2 di SPEC-I, + una via di recupero;
+4. il degrado meta-network (sez. 6, A13 write-side) -- NATURA PA4 (entrambi); mechanism LIVE
+   (`biomeWound`: cap PA2 + mapping `N -> delta` bounded ER2 + recupero); restano persistenza
+   meta-network + trigger + magnitudine N=40;
 5. il telegraph (sez. 7) e il recovery-telegraph (PA3) sono diegetici (nessun float, nessuna
    sigla; visibile PRE-run; il wire StressWave va attivato lato combat);
 6. l'invariante anti-brick (sez. 8) e' verificabile con un test AUTOMATICO esplicito (es.
