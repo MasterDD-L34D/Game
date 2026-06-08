@@ -50,12 +50,13 @@ richiede esplicitamente questo ADR come prerequisito non-negoziabile PRIMA dell'
 
 ## Conseguenze
 
-- **Follow-up GATED (Eduardo)**: l'edit effettivo di `51-ONBOARDING-60S` (A3 SoT) per
-  riflettere il modello per-creatura NON e' in questo ADR. L'ADR REGISTRA la decisione (il gate
-  richiesto da MA1); l'edit dell'A3 SoT resta owner-gated.
-- **Impl GATED**: la modifica data-model campaign (`campaign.js`, `default_campaign_mvp.yaml`,
-  `tests/api/campaignRoutes.test.js`) + il wiring per-creatura (il `coopOrchestrator` e' gia'
-  per-player #2638) = follow-up implementativi separati.
+- **SoT EDIT DONE (2026-06-08, Eduardo greenlit):** `51-ONBOARDING-60S` (A3 SoT) aggiornato al
+  modello per-creatura (MA1 note + TL;DR + last_verified).
+- **Data-model DONE (2026-06-08):** `campaign.acquiredTraitsByCreature { creatureId: traitId }`
+  (`campaignStore.createCampaign`) + `campaign.js` accetta `initial_trait_choices` (per-creatura)
+  con fallback-per-creatura; `acquiredTraits[]` = union backward-compat (legacy single = degenere).
+  Test `campaignRoutes` 36/36 (3 per-creature + 33 backward-compat). Residuo: trait-branco
+  emergente (Form Pulse aggregato) + wiring roster->creatura (mapping player->unit).
 - **Canon-compatibile** la parte "trait-branco emergente" (aggregato, gia' previsto dal Form
   Pulse / bias Custode ADR-2026-06-07 punto 4); SOLO la parte "per-creatura" supera l'A3.
 - **MA1 sbloccato**: con questo ADR ACCEPTED, l'acceptance #2 di SPEC-M e' soddisfatta per la

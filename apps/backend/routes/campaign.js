@@ -147,7 +147,8 @@ function createCampaignRouter(options = {}) {
   //   → resolves trait via campaign.onboarding.choices[] (V1 Phase B).
   //   → applied to roster as acquiredTraits[] (shared branco).
   router.post('/campaign/start', (req, res) => {
-    const { player_id, campaign_def_id, initial_trait_choice } = req.body || {};
+    const { player_id, campaign_def_id, initial_trait_choice, initial_trait_choices } =
+      req.body || {};
     if (!player_id || typeof player_id !== 'string') {
       return res.status(400).json({ error: 'player_id richiesto (string)' });
     }
@@ -163,21 +164,41 @@ function createCampaignRouter(options = {}) {
     const onboarding = getOnboarding(defDoc);
     let onboardingChoice = null;
     let acquiredTraits = [];
+    let acquiredTraitsByCreature = {};
     if (onboarding && Array.isArray(onboarding.choices) && onboarding.choices.length > 0) {
-      const requested = typeof initial_trait_choice === 'string' ? initial_trait_choice : null;
       const validKeys = onboarding.choices.map((c) => c.option_key);
-      const effectiveKey =
-        requested && validKeys.includes(requested)
-          ? requested
-          : onboarding.default_choice_on_timeout || validKeys[0];
-      const traitId = resolveOnboardingTrait(defDoc, effectiveKey);
-      if (traitId) {
-        onboardingChoice = { option_key: effectiveKey, trait_id: traitId };
-        acquiredTraits = [traitId];
+      const defaultKey = onboarding.default_choice_on_timeout || validKeys[0];
+      const resolveKey = (k) => (typeof k === 'string' && validKeys.includes(k) ? k : defaultKey);
+      // MA1 (ADR-2026-06-08): per-creature choices map { creatureId: option_key }. Each
+      // invalid key falls back to the default INDIVIDUALLY. Legacy single choice = shared.
+      if (
+        initial_trait_choices &&
+        typeof initial_trait_choices === 'object' &&
+        !Array.isArray(initial_trait_choices)
+      ) {
+        for (const [creatureId, key] of Object.entries(initial_trait_choices)) {
+          const tid = resolveOnboardingTrait(defDoc, resolveKey(key));
+          if (tid) acquiredTraitsByCreature[creatureId] = tid;
+        }
+        // backward-compat: acquiredTraits = union of per-creature traits.
+        acquiredTraits = [...new Set(Object.values(acquiredTraitsByCreature))];
+      } else {
+        const effectiveKey = resolveKey(
+          typeof initial_trait_choice === 'string' ? initial_trait_choice : null,
+        );
+        const traitId = resolveOnboardingTrait(defDoc, effectiveKey);
+        if (traitId) {
+          onboardingChoice = { option_key: effectiveKey, trait_id: traitId };
+          acquiredTraits = [traitId];
+        }
       }
     }
 
-    const campaign = createCampaign(player_id, defId, { onboardingChoice, acquiredTraits });
+    const campaign = createCampaign(player_id, defId, {
+      onboardingChoice,
+      acquiredTraits,
+      acquiredTraitsByCreature,
+    });
 
     // Slice A (live routing, flag ON): a graph-routed run begins at the authored
     // start_node and serves its encounter from the graph; the static onboarding chain is

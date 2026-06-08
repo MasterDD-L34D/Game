@@ -3,7 +3,7 @@ title: 'Onboarding narrativo 60s — 3 scelte identitarie pre-Act 0'
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-06-06'
+last_verified: '2026-06-08'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -23,9 +23,11 @@ related:
 
 **Re-verify 2026-06-06**: contenuto ancora canonico. `data/core/campaign/default_campaign_mvp.yaml` conserva `onboarding:`; `apps/backend/routes/campaign.js` espone `campaign_def.onboarding` e applica `initial_trait_choice` a `campaign.onboardingChoice` + `acquiredTraits[]`; `tests/api/campaignRoutes.test.js` copre default, option_b, option_c e fallback invalido. Il flow co-op/Godot in `apps/backend/services/coop/coopOrchestrator.js` ha una fase `onboarding`, ma il vecchio wording host-only va trattato come debito di riallineamento: la TV è mirror, gli input arrivano dai device.
 
+**MA1 2026-06-08 (ADR-2026-06-08-onboarding-per-creature-trait, SUPERSEDE):** il modello canonico passa da "1 trait condiviso di branco" a **per-creatura** -- ogni player sceglie il trait della PROPRIA creatura -- + un **trait-branco emergente** dall'aggregato (Form Pulse). Data-model LIVE: `campaign.acquiredTraitsByCreature { creatureId: traitId }` (`campaign.js` accetta `initial_trait_choices`); `acquiredTraits[]` resta come union backward-compat (legacy single-choice = caso degenere). Tempi / 3-opzioni / auto-A invariati. Residuo: trait-branco emergente (Form Pulse aggregato) + wiring roster per-creatura.
+
 ## TL;DR
 
-Prima di Act 0 (tutorial_01), player compie **1 scelta identitaria** in 60 secondi. La scelta determina un trait iniziale pre-assegnato a tutto il branco. **Nessuna spiegazione regole in minute-0**. Regole introdotte nel tutorial_01 stesso (Act 0 chapter 1).
+Prima di Act 0 (tutorial_01), ogni player compie **1 scelta identitaria** in 60 secondi. La scelta determina un trait iniziale **per-creatura** (+ trait-branco emergente) -- MA1, vedi nota sopra; il modello legacy = trait condiviso di branco (caso degenere). **Nessuna spiegazione regole in minute-0**. Regole introdotte nel tutorial_01 stesso (Act 0 chapter 1).
 
 ## Motivazione
 
