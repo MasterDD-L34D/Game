@@ -185,6 +185,11 @@ Invariante P1: **nessuno stato rende la campagna ingiocabile.**
   (SPEC-O non ha epilogo run-end).
 - **SPEC-B/A**: visibilita' (sez. 9) + tier enforcement.
 - **SPEC-L**: traccia lo stato (0-built oggi) del loop failure-as-lore.
+- **SPEC-Q** (DF-levels narrative depth, in arrivo #2639): l'epilogo run-end + il degrado
+  cross-run (A13) + i frammenti di lore persistono nel **Chronicle/EventLog cross-session
+  (M-7)** + Memory-mode viewer -- SPEC-P possiede il write-side, SPEC-Q M-7 lo store + la
+  resa storica (gli heirloom/named-mutation L3 M-1/M-3 possono comparire nell'epilogo).
+  SPEC-Q gia' dichiara la dipendenza inversa ("failure usa chronicle").
 
 ## 11. Decisioni
 
