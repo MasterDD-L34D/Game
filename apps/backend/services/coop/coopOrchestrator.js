@@ -113,6 +113,9 @@ class CoopOrchestrator {
     // for entire branco. Pre-assigned trait propagated to all party
     // members on character_creation transition.
     this.onboardingChoice = null; // { option_key, trait_id, label, narrative, auto_selected, ts }
+    // SPEC-M (ADR-2026-06-07 device-authority) — per-player onboarding choices.
+    // player_id -> normalized choice. Readiness-gated advance (mirror characters).
+    this.onboardingChoices = new Map();
     // 2026-05-06 phone smoke W8b — track per-player reveal acknowledgment
     // for the UI-only `world_seed_reveal` transient phase. When all
     // expected players ack, auto-advance world_seed_reveal → world_setup.
@@ -246,6 +249,7 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.onboardingChoice = null;
+    this.onboardingChoices.clear();
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
     return this.run;
@@ -286,28 +290,41 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.onboardingChoice = null;
+    this.onboardingChoices.clear();
     this._setPhase('onboarding');
     this._emit('run_started', { run_id: this.run.id, with_onboarding: true });
     return this.run;
   }
 
   /**
-   * 2026-05-06 narrative onboarding port — host submits identity choice
-   * for entire branco. Auto-advances onboarding → character_creation on
-   * success. Host-only enforcement: only `hostId` may submit. Choice
-   * object pre-resolved by caller from campaign onboarding YAML.
+   * Onboarding identity choice. Two modes (SPEC-M, ADR-2026-06-07 device-authority):
+   *  - **per-player** (`allPlayerIds` provided): each device player submits its OWN
+   *    choice; stored in `onboardingChoices` Map; auto-advances onboarding ->
+   *    character_creation ONLY when ALL expected players have submitted (readiness gate).
+   *    No host gate -- each player owns its identity input.
+   *  - **legacy single-choice** (no `allPlayerIds`): host submits one choice for the
+   *    branco and it advances immediately; host-only enforced. Backward-compatible with
+   *    the 2026-05-06 narrative onboarding port (current wsSession caller) until the Godot
+   *    client is updated to send per-player onboarding_choice.
+   * `onboardingChoice` (singular) mirrors the last submitter for legacy consumers.
    *
-   * @param playerId — submitting player (must equal hostId)
+   * @param playerId — submitting player
    * @param choice — { option_key, trait_id, label, narrative, auto_selected }
-   * @param hostId — current host player id (host-only gate)
+   * @param opts.allPlayerIds — expected device players (enables per-player readiness)
+   * @param opts.hostId — host player id (legacy host-only gate when no allPlayerIds)
    */
-  submitOnboardingChoice(playerId, choice, { hostId } = {}) {
+  submitOnboardingChoice(playerId, choice, { allPlayerIds = [], hostId } = {}) {
     if (this.phase !== 'onboarding') throw new Error('not_in_onboarding');
     if (!playerId) throw new Error('player_id_required');
-    if (hostId && playerId !== hostId) throw new Error('host_only');
+    const expected = new Set((Array.isArray(allPlayerIds) ? allPlayerIds : []).filter(Boolean));
+    const perPlayer = expected.size > 0;
+    // Legacy single-choice mode: host-only gate. Per-player mode: any expected player.
+    if (!perPlayer && hostId && playerId !== hostId) throw new Error('host_only');
     if (!choice || !choice.option_key || !choice.trait_id) {
       throw new Error('choice_invalid');
     }
+    // Per-player mode: reject a ghost client not in the current roster.
+    if (perPlayer && !expected.has(playerId)) throw new Error('player_not_in_room');
     const normalized = {
       option_key: String(choice.option_key),
       trait_id: String(choice.trait_id),
@@ -317,10 +334,33 @@ class CoopOrchestrator {
       submitted_by: playerId,
       submitted_at: this.now(),
     };
-    this.onboardingChoice = normalized;
+    this.onboardingChoices.set(playerId, normalized);
+    this.onboardingChoice = normalized; // legacy mirror (last submitter)
     this._emit('onboarding_chosen', normalized);
-    this._setPhase('character_creation');
+    if (perPlayer) {
+      const allReady = Array.from(expected).every((pid) => this.onboardingChoices.has(pid));
+      if (allReady) this._setPhase('character_creation');
+    } else {
+      // Legacy: a single choice for the branco advances immediately.
+      this._setPhase('character_creation');
+    }
     return normalized;
+  }
+
+  /**
+   * Per-player onboarding ready-state snapshot for broadcast (SPEC-M).
+   * Mirrors characterReadyList: one entry per expected device player.
+   */
+  onboardingReadyList(allPlayerIds = []) {
+    return (Array.isArray(allPlayerIds) ? allPlayerIds : []).map((pid) => {
+      const ch = this.onboardingChoices.get(pid);
+      return {
+        player_id: pid,
+        option_key: ch?.option_key || null,
+        trait_id: ch?.trait_id || null,
+        ready: Boolean(ch),
+      };
+    });
   }
 
   /**
