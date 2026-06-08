@@ -2184,6 +2184,63 @@ function createRoundBridge(deps) {
       }
     });
 
+    // SPEC-C reaction wiring: expose the existing orchestrator declareReaction
+    // (engine was LIVE, route was DEAD). Mirrors /declare-intent; the engine
+    // validates phase + trigger event + payload type + predicates + cooldown.
+    router.post('/declare-reaction', (req, res, next) => {
+      try {
+        const {
+          session_id: sessionId,
+          actor_id: actorId,
+          reaction_trigger: reactionTrigger,
+          reaction_payload: reactionPayload,
+        } = req.body || {};
+        const { error, session } = resolveSession(sessionId);
+        if (error) return res.status(error.status).json(error.body);
+        if (!actorId || typeof actorId !== 'string') {
+          return res.status(400).json({ error: 'actor_id richiesto (string)' });
+        }
+        if (!reactionTrigger || typeof reactionTrigger !== 'object') {
+          return res
+            .status(400)
+            .json({ error: "reaction_trigger richiesto (object con campo 'event')" });
+        }
+        if (!reactionPayload || typeof reactionPayload !== 'object') {
+          return res
+            .status(400)
+            .json({ error: "reaction_payload richiesto (object con campo 'type')" });
+        }
+
+        const state = ensureRoundState(session);
+        let current = state;
+        if (current.round_phase !== PHASE_PLANNING) {
+          current = roundOrchestrator.beginRound(current).nextState;
+          session.roundState = current;
+          startPlanningTimer(session);
+        }
+        const { nextState } = roundOrchestrator.declareReaction(
+          current,
+          actorId,
+          reactionPayload,
+          reactionTrigger,
+        );
+        session.roundState = nextState;
+        res.json({
+          session_id: session.session_id,
+          round_phase: nextState.round_phase,
+          pending_intents: nextState.pending_intents,
+        });
+      } catch (err) {
+        if (
+          err &&
+          /round_phase|unit_id|reaction|predicate|cooldown_rounds/.test(String(err.message || ''))
+        ) {
+          return res.status(400).json({ error: err.message });
+        }
+        next(err);
+      }
+    });
+
     router.post('/clear-intent/:actorId', (req, res, next) => {
       try {
         const sessionId = (req.body && req.body.session_id) || req.query.session_id;
