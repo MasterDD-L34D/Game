@@ -1,0 +1,60 @@
+# =============================================================================
+# Encounter: "Fuga dalla Faglia" -- Escape
+# Difficulty: 3/5 - Grid: 12x10 - Bioma: rovine_planari
+# Objective: portare TUTTI i PG nella zona di estrazione [10,8,11,9] entro il
+#            time_limit; gli inseguitori spawnano alle spalle della party.
+# Pilastro coverage: 1 (tattica leggibile) -- obiettivo non-elimination
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-20 (objective evaluator escape)
+# SPEC-O: completa la copertura dei 6 tipi-obiettivo (escape era mancante).
+# NB DRAFT: roster/wave NON ancora calibrati -- il gate completion_rate
+#           0.40-0.70 richiede un full-loop-runner mission-type-aware (vedi SPEC-O).
+# =============================================================================
+
+encounter_id: enc_escape_01
+name: 'Fuga dalla Faglia'
+biome_id: rovine_planari
+grid_size: [12, 10]
+difficulty_rating: 3
+estimated_turns: 10
+encounter_class: standard
+
+objective:
+  type: escape
+  target_zone: [10, 8, 11, 9]
+  time_limit: 10
+  loss_conditions:
+    time_limit: 10
+    player_wipe: true
+
+player_spawn:
+  - [0, 0]
+  - [0, 1]
+  - [1, 0]
+  - [1, 1]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [0, 9]
+      - [2, 9]
+    units:
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 2
+        tier: base
+        ai_profile: aggressive
+  - wave_id: 2
+    turn_trigger: 3
+    spawn_points:
+      - [0, 5]
+      - [5, 9]
+    units:
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 1
+        tier: base
+        ai_profile: aggressive
+
+tags: [standard, timed]
