@@ -123,3 +123,52 @@ test('combatAdapter.runEncounter: a fixed seed replays deterministically (Codex 
   assert.equal(a.outcome, b.outcome);
   assert.equal(a.rounds, b.rounds);
 });
+
+// OA2 (SPEC-O): a NON-elimination objective completes via the objective-driver + the
+// objective-outcome wiring (sabotage progress while in the zone), NOT elimination.
+test('combatAdapter.runEncounter: OA2 -- sabotage objective completes (not elimination)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  // One unit in the sabotage zone [4,4,6,6]; a TOUGH FAR foe (hp 300) that cannot be
+  // killed -> victory MUST come from the objective (sabotage ticks), proving OA2.
+  const roster = [
+    {
+      id: 'c1',
+      hp: 60,
+      max_hp: 60,
+      ap: 4,
+      mod: 20,
+      attack_range: 2,
+      initiative: 18,
+      position: { x: 4, y: 4 },
+      controlled_by: 'player',
+      status: {},
+    },
+  ];
+  const toughFoe = [
+    {
+      id: 'f1',
+      hp: 300,
+      max_hp: 300,
+      ap: 1,
+      mod: 0,
+      dc: 1,
+      attack_range: 1,
+      initiative: 1,
+      position: { x: 9, y: 9 },
+      controlled_by: 'sistema',
+      status: {},
+    },
+  ];
+  const res = await runEncounter(http, {
+    roster,
+    enemies: toughFoe,
+    scenarioId: 'enc_sabotage_01',
+    seed: 'oa2-test',
+    maxRounds: 120, // ample margin: sabotage ticks slowly via turn/end; avoid edge flake
+  });
+  assert.equal(res.outcome, 'victory', `expected objective victory, got ${res.outcome}`);
+});

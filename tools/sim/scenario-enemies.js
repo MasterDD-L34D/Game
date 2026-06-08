@@ -49,7 +49,19 @@ const GRID_SAFE_MAX = 5;
 // be a DIFFERENT fight than authored. We return null (-> fallback to the weak-fixed enemy)
 // instead of misreporting it as an elimination 'scenario' fight (Codex #2567 P2). Faithful
 // survival/capture staging + the authored grid are deferred to fase-2c.
-const SUPPORTED_OBJECTIVES = new Set(['elimination']);
+// OA2 (SPEC-O): all 6 objective types get their authored scaled roster -- the
+// combat-adapter objective-driver (combat-policy zone-pursuit) + objective-outcome
+// make non-elimination encounters actually complete in the sim, so completion_rate
+// is a meaningful band metric (was: only 'elimination', non-elim fell back to a
+// weak fixed enemy -> degenerate calibration).
+const SUPPORTED_OBJECTIVES = new Set([
+  'elimination',
+  'capture_point',
+  'sabotage',
+  'escort',
+  'survival',
+  'escape',
+]);
 
 // `scaling` is the band-batch calibration overlay (fase-2c). Faithful default = {} (no
 // scaling = the authored 2-base-unit fight). countMult/countAdd scale the roster SIZE (the

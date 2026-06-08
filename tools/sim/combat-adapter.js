@@ -28,11 +28,44 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
   let rounds = 0;
   let outcome = 'timeout';
   let lastUnits = [];
+  // OA2 (SPEC-O): fetch the objective ONCE -- config drives the policy. Only a
+  // NON-elimination objective polls the live evaluation in-loop; elimination keeps the
+  // alive-count outcome, so the common full-loop path adds ZERO per-round /objective
+  // calls (no evaluator churn -> no flake / no determinism break, Codex #2561).
+  let objective = null;
+  let pollObjective = false;
+  try {
+    const ob = (await http.get(`/api/session/${sessionId}/objective`)).body;
+    if (ob && ob.objective) {
+      objective = ob.objective;
+      pollObjective = !!(objective.type && objective.type !== 'elimination');
+    }
+  } catch {
+    /* objective optional -> elimination fallback */
+  }
   while (rounds < maxRounds) {
     rounds += 1;
     const st = await http.get('/api/session/state', { session_id: sessionId });
     const units = (st.body && st.body.units) || [];
     lastUnits = units;
+    // Non-elimination objective: poll the live evaluation for the outcome.
+    if (pollObjective) {
+      try {
+        const ev = (await http.get(`/api/session/${sessionId}/objective`)).body;
+        if (ev && ev.evaluation) {
+          if (ev.evaluation.completed) {
+            outcome = 'victory';
+            break;
+          }
+          if (ev.evaluation.failed) {
+            outcome = 'defeat';
+            break;
+          }
+        }
+      } catch {
+        /* fall back to alive-count */
+      }
+    }
     const players = units.filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0);
     const foes = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
     if (foes.length === 0) {
@@ -51,7 +84,7 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
     }
-    const action = selectPlayerAction(active, units);
+    const action = selectPlayerAction(active, units, objective);
     if (!action) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
