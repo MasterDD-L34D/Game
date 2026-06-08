@@ -185,6 +185,55 @@ test('sabotage: fails on timeout', () => {
   assert.equal(r.outcome, 'timeout');
 });
 
+test('sabotage: does NOT progress when fewer than min_units_in_zone', () => {
+  const session = mkSession({
+    turn: 1,
+    units: [
+      { id: 'p1', controlled_by: 'player', position: [4, 4], hp: 10 },
+      { id: 's1', controlled_by: 'sistema', position: [9, 9], hp: 5 },
+    ],
+  });
+  const enc = {
+    objective: {
+      type: 'sabotage',
+      target_zone: [3, 3, 5, 5],
+      sabotage_turns_required: 2,
+      min_units_in_zone: 2,
+      time_limit: 10,
+    },
+  };
+  const r1 = evaluateObjective(session, enc);
+  assert.equal(r1.progress.sabotage_progress, 0); // 1 PG in zone, need 2 -> no progress
+  session.turn = 2;
+  const r2 = evaluateObjective(session, enc);
+  assert.equal(r2.progress.sabotage_progress, 0);
+  assert.equal(r2.completed, false);
+});
+
+test('sabotage: progresses when min_units_in_zone met', () => {
+  const session = mkSession({
+    turn: 1,
+    units: [
+      { id: 'p1', controlled_by: 'player', position: [4, 4], hp: 10 },
+      { id: 'p2', controlled_by: 'player', position: [5, 5], hp: 10 },
+      { id: 's1', controlled_by: 'sistema', position: [9, 9], hp: 5 },
+    ],
+  });
+  const enc = {
+    objective: {
+      type: 'sabotage',
+      target_zone: [3, 3, 5, 5],
+      sabotage_turns_required: 2,
+      min_units_in_zone: 2,
+      time_limit: 10,
+    },
+  };
+  evaluateObjective(session, enc);
+  session.turn = 2;
+  const r = evaluateObjective(session, enc);
+  assert.equal(r.completed, true); // 2 PGs in zone -> progresses -> completes
+});
+
 // ── survival ──
 
 test('survival: completes when turn >= survive_turns AND player alive', () => {

@@ -199,6 +199,7 @@ register('sabotage', (session, enc, obj) => {
   const state = ensureObjectiveState(session, 'sabotage');
   const zone = obj.target_zone;
   const required = Number(obj.sabotage_turns_required) || Number(obj.hold_turns) || 2;
+  const minUnits = Number(obj.min_units_in_zone) || 1;
   const turn = Number(session.turn) || 0;
 
   if (timeLimitExceeded(session, obj.time_limit || obj.loss_conditions?.time_limit)) {
@@ -225,7 +226,7 @@ register('sabotage', (session, enc, obj) => {
   const inZone = playersInZone(session, zone).length;
   if (turn > state.last_tick_turn) {
     state.progress.sabotage_progress =
-      inZone >= 1
+      inZone >= minUnits
         ? (state.progress.sabotage_progress || 0) + 1
         : state.progress.sabotage_progress || 0;
     state.last_tick_turn = turn;
