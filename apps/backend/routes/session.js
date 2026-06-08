@@ -1172,7 +1172,23 @@ function createSessionRouter(options = {}) {
         const speciesId = target.species_id || target.species || null;
         const biomeId = session.biome_id || null;
         if (speciesId && biomeId) {
-          propagateLineage(target, speciesId, biomeId);
+          const prop = propagateLineage(target, speciesId, biomeId);
+          // SPEC-Q M-3 -- chronicle the mutation_lineage event (best-effort, never blocks).
+          try {
+            const { emitMutationLineage } = require('../services/chronicle/chronicleEmitters');
+            emitMutationLineage(
+              {
+                campaign_id: session.campaign_id,
+                mutations: prop && prop.written_traits,
+                species_id: speciesId,
+                biome_id: biomeId,
+                source: 'legacy_death',
+              },
+              { baseDir: chronicleBaseDir },
+            );
+          } catch {
+            /* best-effort -- chronicle must never break combat */
+          }
         }
       } catch (err) {
         // Non-blocking: lineage failure must never break combat.
