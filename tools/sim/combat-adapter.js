@@ -14,6 +14,12 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
   const startBody = {
     units: [...(roster || []), ...(enemies || [])],
     scenario_id: scenarioId,
+    // OA2 (#2662 regression fix): /api/session/start loads the encounter -- and thus its
+    // objective (session.encounter, read by GET /:id/objective) -- from `encounter_id`, NOT
+    // `scenario_id` (that is telemetry-only). Without it session.encounter is null, the
+    // objective evaluation is null, pollObjective never fires, and a NON-elimination encounter
+    // (survival/capture/sabotage) can only win by elimination -> a real roster times out.
+    ...(scenarioId ? { encounter_id: scenarioId } : {}),
     // /api/session/start seeds the per-session deterministic RNG from `seed`
     // (session.js:1637), NOT `run_seed` (that is the co-op WS world_confirm field).
     // Codex #2561 P2 — sending `seed` makes full-loop encounters replayable.

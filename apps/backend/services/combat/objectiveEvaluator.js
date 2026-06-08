@@ -58,7 +58,12 @@ function countFactionAlive(session, faction) {
 
 function pointInBox(pos, box) {
   if (!pos || !box || box.length < 4) return false;
-  const [x, y] = pos;
+  // Unit positions are `{x, y}` objects throughout the engine; accept that shape (and a
+  // legacy `[x, y]` array, defensively). The old `const [x, y] = pos` array-destructure threw
+  // `TypeError: pos is not iterable` on the real object shape -> 500 in /turn/end + a caught
+  // null evaluation in /objective, so zone objectives (capture/escort/escape) never completed.
+  const x = Array.isArray(pos) ? pos[0] : pos.x;
+  const y = Array.isArray(pos) ? pos[1] : pos.y;
   const [x1, y1, x2, y2] = box;
   const minX = Math.min(x1, x2);
   const maxX = Math.max(x1, x2);
