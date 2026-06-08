@@ -2494,6 +2494,44 @@ function createRoundBridge(deps) {
         next(err);
       }
     });
+
+    // SPEC-C G5: expose previewRound as the v2 server preview (engine was LIVE,
+    // route DEAD). Non-canonical estimate via a NEUTRAL rng (expected outcome,
+    // never the round's real combatRng per G5) and NON-MUTATING -- the engine
+    // clones internally and the route never persists session.roundState.
+    router.post('/preview-round', (req, res, next) => {
+      try {
+        const sessionId = req.body && req.body.session_id;
+        const { error, session } = resolveSession(sessionId);
+        if (error) return res.status(error.status).json(error.body);
+        if (!session.roundState) {
+          return res
+            .status(400)
+            .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+        }
+        const result = roundOrchestrator.previewRound(
+          session.roundState,
+          null,
+          () => 0.5,
+          placeholderResolveAction,
+        );
+        res.json({
+          session_id: session.session_id,
+          preview: true,
+          round_phase: result.nextState.round_phase,
+          turn_log_entries: result.turnLogEntries,
+          resolution_queue: result.resolutionQueue,
+          reactions_triggered: result.reactionsTriggered,
+          skipped: result.skipped,
+          units: result.nextState.units,
+        });
+      } catch (err) {
+        if (err && /round_phase/.test(String(err.message || ''))) {
+          return res.status(400).json({ error: err.message });
+        }
+        next(err);
+      }
+    });
   }
 
   return {
