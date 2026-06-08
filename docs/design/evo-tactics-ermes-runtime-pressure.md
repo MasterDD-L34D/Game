@@ -130,6 +130,12 @@ La pressione di bioma e' la banda discreta di `eco_pressure_score`
   defense_mod/mobility/rest_recovery/attack_mod) e `encounter_bias.ambush` (spawn_weight_mod);
   queste si bandano solo col report completo (lo static fallback porta il solo
   eco_pressure_score). Vedi sez. 6 per l'applicazione + cap.
+- Copertura asimmetrica (verificato): STATIC_FALLBACKS copre 7 biomi (savana, caverna,
+  atollo_obsidiana, foresta_temperata, badlands, rovine_planari, cryosteppe_convergence);
+  `BIOME_ROLE_DEMANDS` ne copre 13. Conseguenza: 8 biomi senza eco fallback proprietario
+  ricadono su NEUTRAL 0.5 -> banda med -> delta_mod 0 (nessun modificatore eco finche' il
+  report runtime non li popola); rovine_planari e cryosteppe_convergence hanno eco fallback
+  ma nessun role demand (role_gap sempre vuoto li').
 
 ## 5. Role gap
 
@@ -153,26 +159,42 @@ role_gap[ruolo] = presenti[ruolo] - richiesti[ruolo]
   sotto-specificato a oggi = fork ER1. Qualunque effetto scelto rientra comunque nel cap
   +/-2 combinato (sez. 6).
 
-## 6. Modificatori runtime bounded + cap +/-2 combinato
+## 6. Modificatori runtime bounded + cap +/-2 combinato (due layer)
 
-I modificatori sono SEMPRE bounded. Il consumer `applyErmesBiomeTraitCosts`:
+I modificatori sono SEMPRE bounded, su DUE layer di cap (verificato sul codice): NON basta
+il layer ERMES-interno.
+
+Layer interno (ERMES-solo) -- `traitEffects.applyErmesBiomeTraitCosts`:
 
 ```text
-totalDelta[stat] = sum( delta delle bande attive su quella stat )
+totalDelta[stat] = sum( delta delle bande ERMES attive su quella stat )
 applicato        = _clampDelta(totalDelta[stat], capDelta)   // capDelta = max_delta_any_stat = 2
 ```
 
-- **Cap +/-2 combinato (per-stat):** il delta accumulato da TUTTE le bande attive su una
-  stat e' clampato a [-2, +2]. "Combinato" significa: piu' bande possono spingere la stessa
-  stat, ma la somma e' comunque limitata a +/-2 (mirror ADR-21c). Nessuno stacking opaco.
-- **`max_delta_per_round: 2`** -- limite anche per round.
-- **`max_buckets_active_per_unit: 3`** -- al massimo 3 bande attive su una singola unit
-  (leggibilita' di gameplay: niente unit con 6 modificatori simultanei).
-- Se il role gap (ER1) avra' un effetto su stat/difficolta', deve passare per lo STESSO
-  budget +/-2 combinato (un'unica riserva per stat), non aggiungere un cap parallelo =
-  fork ER2.
-- Guards: dato mancante -> banda low / no-op (`soft_fail`), mai un modificatore non
-  bounded.
+Layer esterno / orchestratore (ADR-2026-05-29 FASE 3) -- `traitEffects.applyBiomeEcoEffects`:
+
+```text
+// esegue ADR-21c applyBiomeTraitCosts + ERMES applyErmesBiomeTraitCosts, poi:
+delta_combinato[stat] = (unit[stat] dopo) - (unit[stat] prima)   // snapshot/diff
+applicato             = clamp(delta_combinato[stat], -2, +2)     // BIOME_ECO_COMBINED_CAP
+// campi: attack_mod_bonus, defense_mod_bonus, mobility, rest_recovery
+```
+
+- **Il cap +/-2 "combinato" e' il layer ESTERNO:** vincola la SOMMA di ADR-21c (trait
+  costs ecologici) + ERMES per-stat a [-2, +2]. ERMES NON ha un budget +/-2 indipendente da
+  ADR-21c -- i due si sommano e si clampa una volta sola (lo snapshot/diff preserva i bonus
+  non-biome gia' sul campo). Questo e' piu' restrittivo del solo layer interno.
+- **Stat target (verificato):** `eco_pressure_score.delta_mod` va su `attack_mod` +
+  `defense_mod`; le bande `mutation_bias.*` portano i loro delta su `defense_mod` /
+  `mobility` / `rest_recovery` / `attack_mod`. Quindi mobility e rest_recovery NON sono
+  toccate dall'eco_pressure, solo dai mutation_bias.
+- **`max_delta_per_round: 2`** + **`max_buckets_active_per_unit: 3`** (max 3 bande attive
+  per unit -- leggibilita'). NB: il clamp interno e' applicato dopo OGNI banda (intermedio);
+  per i valori correnti (delta in {-1..+2}) il risultato e' identico all'accumulo-poi-clamp.
+- Se il role gap (ER1) avra' un effetto su stat, deve passare per lo STESSO budget esterno
+  +/-2 (un'unica riserva ADR-21c + ERMES + role gap per stat), non un cap parallelo = fork
+  ER2.
+- Guards: dato mancante -> banda low / no-op (`soft_fail`), mai un modificatore non bounded.
 
 ## 7. Telegraph player-facing (diegetico, no numero opaco)
 
@@ -183,9 +205,13 @@ Il telegraph e' come la pressione diventa leggibile SENZA esporre il float o la 
   equilibrio / in tensione". Tooltip: "... (reazione del bioma ai tratti in gioco)".
 - **Pressure tier** (`pressureTier`, TKT-ECO-A5): da `biomeModifiers` (hp_mult /
   pressure_initial_bonus / pressure_mult) -> indicatore `elevated` (warning) o `severe`
-  (doppio warning), col tooltip che esplicita HP nemici / pressure init / tick.
+  (doppio warning), col tooltip che esplicita HP nemici / pressure init / tick. NB:
+  `pressureTier` deriva dalla difficolta' STATICA del bioma, NON da `eco_pressure_score`
+  ERMES -- e' un segnale distinto nel `biomeChip` (disabilitare ERMES non lo spegne).
 - **Doctrine:** "ERMES" non compare; nessun numero grezzo (`eco_pressure_score 0.62` resta
-  interno). Il giocatore legge uno STATO diegetico, non una metrica.
+  interno). Il giocatore legge uno STATO diegetico, non una metrica. (Residuo da pulire: il
+  commento in `ermesExporter.js` linea 19 mostra ancora "Pressione ecosistemica: 62%",
+  pre-banda -- da aggiornare alla doctrine corrente; non e' player-facing.)
 - **Granularita':** oggi il telegraph e' a banda (3 stati) + warning di pressure. Se
   aggiungere un hint di DIREZIONE/quale-stat (es. "i predatori sono piu' aggressivi" =
   attacco in salita) = fork ER3 (mai il numero).
@@ -214,16 +240,18 @@ L'attivazione segue il pattern L-069 (start-values) + N-sample authority (N=40 r
 
 ## 9. Visibilita' (eredita SPEC-B)
 
-Applicazione della tassonomia 4-tier (SPEC-A) e del contratto SPEC-B al caso ERMES:
+Applicazione della tassonomia 4-tier (SPEC-A) al caso ERMES. NB: SPEC-B (matrice sez. 3.0)
+NON aveva righe per `eco_pressure_score` / `role_gap`; SPEC-I le ESTENDE -- per i segnali
+ERMES la riga canonica di visibilita' e' questa tabella, non SPEC-B (che non li copriva):
 
-| Dato ERMES                                         | Tier         | Razionale                                                                                   |
-| -------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------- |
-| `eco_pressure_score` (float grezzo), `bias` grezzo | `secret`     | input interno; il nome ERMES non surfacing -> il float non lascia gli engine.               |
-| Banda diegetica ("Bioma in tensione")              | `public`     | e' il telegraph voluto -- HUD/TV lo mostrano a tutti.                                       |
-| Modificatori applicati alle unit (stat in campo)   | `public`     | i numeri di combat sono nel campo condiviso (gia' coperto SPEC-B 3.5/3.6).                  |
-| `role_gap` grezzo                                  | `aggregated` | composizione del branco; la TV ne mostra al piu' l'aggregato/hint, non un per-player crudo. |
-| Hint role gap di onboarding (per-player)           | `private`    | suggerimento sul device del singolo (es. "manca un esploratore"); non imposto in TV.        |
-| `sistema_pressure` (integer 0..100)                | `public`     | per design e' un meter esplicito con leve (AI War) -- contrasto deliberato con ERMES eco.   |
+| Dato ERMES                                         | Tier         | Razionale                                                                                        |
+| -------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| `eco_pressure_score` (float grezzo), `bias` grezzo | `secret`     | input interno; il nome ERMES non surfacing -> il float non lascia gli engine.                    |
+| Banda diegetica ("Bioma in tensione")              | `public`     | e' il telegraph voluto -- HUD/TV lo mostrano a tutti.                                            |
+| Modificatori applicati alle unit (stat in campo)   | `public`     | i numeri di combat sono nel campo condiviso; SPEC-B non aveva righe ERMES -- SPEC-I le AGGIUNGE. |
+| `role_gap` grezzo                                  | `aggregated` | composizione del branco; la TV ne mostra al piu' l'aggregato/hint, non un per-player crudo.      |
+| Hint role gap di onboarding (per-player)           | `private`    | suggerimento sul device del singolo (es. "manca un esploratore"); non imposto in TV.             |
+| `sistema_pressure` (integer 0..100)                | `public`     | per design e' un meter esplicito con leve (AI War) -- contrasto deliberato con ERMES eco.        |
 
 Coerenza con la doctrine: il float ERMES resta `secret`, la banda diegetica e l'effetto
 sono `public`. Il contrasto `sistema_pressure` (meter public) vs ERMES eco (banda public,
@@ -233,7 +261,8 @@ float secret) e' INTENZIONALE e va mantenuto distinto (ER4).
 
 - **SPEC-A** (device-input-ledger): eredita tassonomia 4-tier + `tierFilter`; il float
   ERMES `secret` non lascia gli engine.
-- **SPEC-B** (info contract): sez. 9 applica la matrice di visibilita' al caso ERMES.
+- **SPEC-B** (info contract): sez. 9 ESTENDE la matrice di visibilita' con le righe ERMES
+  (eco_pressure_score / role_gap / modificatori), assenti dalla matrice 3.0 di SPEC-B.
 - **SPEC-H** (ALIENA enforcement/lore): spec gemella. ALIENA = coerenza (CHI spawna),
   ERMES = pressione ecologica (QUANTO premono i modificatori). Condividono la doctrine "il
   nome di sistema non e' player-facing", il bounded-output e il gate N=40.
@@ -261,21 +290,30 @@ Il role gap e' calcolato + esposto, ma il suo effetto su gioco e' sotto-specific
   conseguenze (rischia di sembrare ornamentale).
 - **Opzione C -- scaling duro (numero nemici/HP).** Tradeoff: effetto forte e leggibile, ma
   fuori dal paradigma bounded e potenzialmente punitivo per party piccoli.
-- **Raccomandazione:** A (con gate N=40, sez. 8).
+- **Rischio da verificare (qualunque opzione su stat):** nei biomi ad alta eco_pressure il
+  cap esterno +/-2 (sez. 6) puo' essere gia' saturo, neutralizzando il modificatore da role
+  gap proprio dove servirebbe. Mitigazione: targettare una dimensione diversa (es.
+  `spawn_weight_mod` o il tier), non una `attack_mod` gia' spinta dall'eco.
+- **Raccomandazione:** A (con gate N=40, sez. 8; targeting da risolvere vs cap esterno).
 
 ### ER2 -- Semantica del cap combinato tra sorgenti
 
-Il cap +/-2 oggi e' per-stat sui bucket di `applyErmesBiomeTraitCosts`. Quando piu'
-sorgenti (eco bande + role gap ER1 + altro) spingono la stessa stat, qual e' il budget?
+Stato attuale (verificato, sez. 6): il layer esterno `applyBiomeEcoEffects` GIA' condivide
+un solo budget +/-2 per-stat tra ADR-21c + ERMES. Il fork riguarda le sorgenti NUOVE: il
+role gap (ER1) e ogni futura sorgente entrano in quel budget o ne aprono uno parallelo?
 
-- **Opzione A -- budget unico condiviso per-stat (raccomandata).** Tutte le sorgenti ERMES
-  condividono UN solo +/-2 per stat (si sommano, poi si clampa una volta). Tradeoff: niente
-  stacking nascosto, e' il modello piu' leggibile e anti-"numero opaco".
-- **Opzione B -- cap per-sorgente.** Ogni sorgente ha il suo +/-2. Tradeoff: piu' effetto
-  totale possibile (fino a +/-4 reali), ma reintroduce stacking poco trasparente.
-- **Opzione C -- mantenere per-stat sui soli bucket (stato attuale), role gap a parte.**
-  Tradeoff: minimo cambiamento, ma lascia ambiguo cosa succede quando i segnali si sommano.
-- **Raccomandazione:** A.
+- **Opzione A -- budget unico condiviso per-stat (raccomandata).** Role gap + future
+  sorgenti si sommano dentro lo STESSO +/-2 esterno (ADR-21c + ERMES + role gap -> un clamp
+  solo). Tradeoff: niente stacking nascosto, modello piu' leggibile e anti-"numero opaco";
+  estende la semantica gia' in codice. Costo: il role gap puo' essere assorbito dal cap
+  (vedi ER1).
+- **Opzione B -- cap per-sorgente.** Ogni sorgente ha il suo +/-2 (effetto totale fino a
+  +/-4+). Tradeoff: il role gap "si sente" sempre, ma reintroduce lo stacking opaco che la
+  spec vuole evitare.
+- **Opzione C -- role gap fuori dal budget stat (su spawn/tier).** Il role gap non tocca le
+  stat ma una dimensione separata (spawn weight / tier). Tradeoff: niente conflitto col cap,
+  ma e' una superficie d'effetto in piu' da tarare.
+- **Raccomandazione:** A (con il targeting di ER1 risolto per non auto-annullarsi).
 
 ### ER3 -- Granularita' del telegraph
 
@@ -327,15 +365,17 @@ SPEC-I e' implementabile/chiudibile quando:
    surface le confonde in un unico numero;
 2. le bande low/med/high della pressione di bioma + le relative soglie/telegraph sono
    documentate (sez. 4) e l'input continuo non raggiunge mai i modificatori;
-3. il role gap e' definito come segnale (sez. 5) e il suo effetto runtime (ER1) deciso,
-   entro il cap +/-2 combinato;
-4. i modificatori runtime sono bounded e il cap +/-2 combinato (semantica ER2) e' fissato
-   con `max_delta_per_round` e `max_buckets_active_per_unit`;
+3. (a) il role gap e' definito come segnale calcolato+esposto (sez. 5, gia' LIVE); (b) il
+   suo effetto runtime (ER1) e' ratificato + il targeting risolto vs cap esterno;
+4. i modificatori runtime sono bounded sui DUE layer (interno ERMES + esterno
+   `BIOME_ECO_COMBINED_CAP`, sez. 6) e la semantica del budget per le sorgenti nuove (ER2,
+   opzione ratificata) e' fissata con `max_delta_per_round` + `max_buckets_active_per_unit`;
 5. il telegraph player-facing e' diegetico (nessun float, nessuna sigla) con la granularita'
    decisa in ER3;
 6. il pilota (ER5) e il gate N=40 sono definiti, con il pilota badlands LIVE come baseline
    GREEN;
-7. la visibilita' e' coerente con SPEC-B (float `secret`, banda/effetto `public`, role gap
-   `aggregated`/hint `private`) -- nessuna surface dove ERMES contraddice il contratto B;
+7. le righe di visibilita' ERMES (float `secret`, banda/effetto `public`, role gap
+   `aggregated`/hint `private`) sono fissate qui (sez. 9 ESTENDE SPEC-B, che non le aveva);
+   se SPEC-B viene aggiornata, la riga ERMES vi confluisce senza contraddizioni;
 8. le Decisioni aperte ER1-ER5 sono ratificate da Eduardo; il flip `review_needed` ->
    `accepted` al merge del PR resta a lui (`source_of_truth:false` finche' non lo decide).
