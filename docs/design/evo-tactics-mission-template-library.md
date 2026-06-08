@@ -46,13 +46,23 @@ TV Cinematic Director ed ERMES abbiano una grammatica di missione condivisa.
 
 ## Stato runtime (git-verify 2026-06-08)
 
-DESIGN/PARTIAL: 6 tipi documentati (`15-LEVEL_DESIGN`); `schemas/evo/encounter.schema.json`
-esiste con i 6 tipi nell'enum `objective.type`. `data/core/missions/skydock_siege.yaml` e'
-un TUNE-LOG (source_logs + adjustments per tier), NON un encounter-template schema-valido --
-i 6 template da costruire devono conformarsi a encounter.schema.json. Costruire i template =
-content production (gate kill-60 = playtest N>=10 per template; 50-righe = PR fuori
-apps/backend/ <50 LOC o approval). I 3 output (template / estensione Director+ERMES /
-calibrazione) possono viaggiare in PR separati.
+COPERTURA 6/6 (aggiornata via ground-truth 2026-06-08; NON "1 solo encounter"): l'engine
+objective e' LIVE -- `objectiveEvaluator.js` (ADR-2026-04-20) registra TUTTI e 6 i tipi
+(elimination/capture_point/escort/sabotage/survival/escape); `encounterLoader.js` carica gli
+encounter schema-validi da `docs/planning/encounters/`. Stato reale:
+
+- **10 encounter schema-validi gia' presenti** in `docs/planning/encounters/` -- coprivano
+  4/6 tipi (elimination, capture_point, escort, survival).
+- **+2 questo lavoro (SPEC-O)**: `enc_sabotage_01.yaml` + `enc_escape_01.yaml` -> **6/6 tipi
+  coperti**. Schema-validi (`tests/scripts/encounterSchema.test.js` 15/15), caricati da
+  encounterLoader, valutabili da objectiveEvaluator.
+- `data/core/missions/skydock_siege.yaml` resta un TUNE-LOG (formato `groups`/`party_vc`
+  diverso, non schema-encounter) -- distinto dai template.
+- **NON ancora calibrati (DRAFT)**: il gate `completion_rate` 0.40-0.70 per template richiede
+  un `full-loop-runner` mission-type-aware (oggi scenario fisso) -- prerequisito di tooling,
+  non costruito. I roster/wave dei 2 nuovi sono provvisori (mirror degli esistenti).
+- Restano le estensioni SPEC-D/I (hook `mission_type`) come delta da proporre (vedi Deve
+  coprire).
 
 ## Output consigliato
 
