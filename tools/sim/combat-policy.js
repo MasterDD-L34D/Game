@@ -100,7 +100,13 @@ function stepTowardZone(actor, zone, units) {
 function selectPlayerAction(actor, units, objective) {
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
-  const zone = objective && objective.config && objective.config.target_zone;
+  // bug C (#2662-era OA2): GET /:id/objective + the evaluator carry `target_zone` at the TOP
+  // level (matching the encounter YAML), NOT under `.config`. Reading only `config.target_zone`
+  // left `zone` undefined -> zone-pursuit never fired -> players never moved to the
+  // capture/sabotage/escape zone -> those objectives could not complete. Prefer top-level.
+  const zone =
+    (objective && objective.target_zone) ||
+    (objective && objective.config && objective.config.target_zone);
   if (ZONE_PURSUIT_OBJECTIVES.has(objType) && Array.isArray(zone) && zone.length >= 4) {
     if (!inZone(actor.position, zone)) {
       // OA2 fix (item 7): pursue a DISTINCT free zone tile + route around allies
