@@ -46,7 +46,7 @@ l'infra esistente, non la ricostruisce.
 | `apps/mission-console/src/locales/`                       | Runtime vue-i18n COMPLETO ma con locali PROPRI (DEFAULT_LOCALE=it, FALLBACK_LOCALE=en); NON consuma data/i18n.                                                                                       |
 | `docs/architecture/i18n-strategy.md` (LOCAL, active)      | Roadmap PR-1..PR-6 (scaffold/parity/loader/migration/split/CI-gate).                                                                                                                                 |
 | `ADR-2026-06-08-i18n-unify-data-i18n` (QA3)               | data/i18n = SSOT; mission-console + nuove surface migrano; en->it fallback; gate no-hardcoded forward-only.                                                                                          |
-| **404 / da costruire**                                    | loader runtime + `t()` (PR-3); migration mission-console (PR-4); split namespace separati (PR-5); schema formale (opz).                                                                              |
+| **404 / da costruire**                                    | migration mission-console + label-map apps/play (PR-4); split namespace separati (PR-5); schema formale (opz). (loader PR-3 = LIVE, sez.5)                                                           |
 
 Invarianti ereditate:
 
@@ -61,14 +61,14 @@ Invarianti ereditate:
 
 ## 3. Roadmap di consegna (i18n-strategy PR-1..PR-6)
 
-| PR   | Cosa                                                  | Stato            |
-| ---- | ----------------------------------------------------- | ---------------- |
-| PR-1 | scaffold `data/i18n/{it,en}/common.json`              | **DONE** (#1463) |
-| PR-2 | parity validator (`validate_i18n_parity.py`)          | **DONE**         |
-| PR-3 | loader runtime + `t()` helper                         | TODO (NF1)       |
-| PR-4 | migration mission-console -> data/i18n + debito       | TODO (NF3)       |
-| PR-5 | split namespace combat/tutorial/narrative (file sep.) | TODO             |
-| PR-6 | CI gate completion_percent + no-hardcoded             | TODO             |
+| PR   | Cosa                                                  | Stato                |
+| ---- | ----------------------------------------------------- | -------------------- |
+| PR-1 | scaffold `data/i18n/{it,en}/common.json`              | **DONE** (#1463)     |
+| PR-2 | parity validator (`validate_i18n_parity.py`)          | **DONE**             |
+| PR-3 | loader runtime + `t()` helper                         | **DONE** (apps/play) |
+| PR-4 | migration mission-console -> data/i18n + debito       | TODO (NF3)           |
+| PR-5 | split namespace combat/tutorial/narrative (file sep.) | TODO                 |
+| PR-6 | CI gate completion_percent + no-hardcoded             | TODO                 |
 
 > NB allineamento: la sequenza canonica resta `i18n-strategy.md`. La tabella SPEC-N raggruppa
 > per fase logica; in strategy PR-5 = content-fill combat/tutorial, PR-6 = Ink bilingue export.
@@ -88,6 +88,11 @@ Invarianti ereditate:
 - Convenzione key: dot-notation per dominio (es. `combat.your_turn`, `ui.confirm`).
 
 ## 5. Loader runtime + `t()` (PR-3)
+
+**Stato: LIVE (2026-06-08).** `apps/play/src/i18nCore.js` (puro: `createT`/`resolveKey`/
+`interpolate`, testato) + `apps/play/src/i18n.js` (bind a `data/i18n` via Vite JSON import).
+NF1=frontend (apps/play), `fallbackLocale=it`. Interpolation Mustache `{{var}}` (NF4 `{var}` =
+PR-4). I label-map hardcoded NON sono ancora migrati a `t()` (PR-4, NF3 incrementale).
 
 - `t(key, params?, locale?)`: risolve la key, applica i params, fallback a IT (sorgente
   completa), ritorna la stringa. NON-LLM, deterministico.
@@ -193,8 +198,8 @@ SPEC-N e' implementabile/chiudibile quando:
 
 1. lo scaffold (`data/i18n/{it,en}/common.json`) + la parity (`validate_i18n_parity.py`) sono
    LIVE (FATTO: PR-1/PR-2);
-2. il loader `t()` (PR-3) e' costruito con `fallbackLocale=it` (sorgente completa), nel layer
-   deciso da NF1;
+2. il loader `t()` (PR-3) e' costruito (LIVE: `apps/play/src/i18nCore.js` + `i18n.js`,
+   `fallbackLocale=it`, NF1 frontend); la migrazione dei consumer (label-map) = PR-4;
 3. lo schema formale e' deciso (NF2: skip o build);
 4. la migrazione (PR-4) su `data/i18n` segue l'approccio NF3, con il debito hardcoded
    (biomeChip/briefing) migrato o ticketato;
