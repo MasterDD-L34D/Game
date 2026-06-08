@@ -55,6 +55,12 @@ non lo rimpiazza).
 | `/api/v1/session/:id/*` route pattern                      | Pattern endpoint esistente (`/:id/objective`, `/:id/aliena-telemetry`...) -> dove vivra' `/:id/chronicle*`.           |
 | **404 greenfield**                                         | `services/{identity,eventlog,chronicle}`; endpoint chronicle; named heirloom/artifact (0 hit); hidden-ability design. |
 
+**NB diaryStore (verificato, reuse-first P1):** `services/diary/diaryStore.js` + `routes/diary.js`
+sono LIVE = diary PER-UNIT cross-session (Pillar 5; JSONL append-only,
+`data/derived/unit_diaries/<unit_id>.jsonl`, event_type whitelist incl. mutation_acquired /
+form_evolved / job_changed; appendEntry/getDiary/tailDiary). La cronaca M-7 e' per-BRANCO; NON
+va duplicato -- o estende diaryStore o e' uno store separato giustificato dallo scope (QF1).
+
 Invarianti ereditate:
 
 - **ADR-2026-05-18 DF-levels:** la direzione DF-levels e' la mappa di profondita' (L0-L5);
@@ -91,6 +97,9 @@ Event-store narrativo cross-session SOPRA il combat event-log.
   memory, DF template parametrici (QBN/inkjs LIVE, non LLM). Surface Godot = SPEC-K/D consumer.
 - **Keystone:** SPEC-P (A3 failure-as-lore emette chronicle_event; A13 biome-wound cross-run
   legge la cronaca del bioma). M-7 = primo nel build-order (fan-out dipendenze).
+- **Build-order (verificato):** M-7 (chronicle/store, definisce l'interfaccia append) PRIMA ->
+  M-2 (identity, consuma l'append) -> M-4 (Sistema legibility) -> M-3 (lineage). M-1 (heirloom
+  greenfield) + M-5 (nota design) + M-6 (audit) = post/parallel.
 
 ## 5. L1 -- Identity-earned (M-2, Wildermyth/Triangle Strategy)
 
@@ -133,14 +142,14 @@ Event-store narrativo cross-session SOPRA il combat event-log.
 
 ## 10. Visibilita' (eredita SPEC-B)
 
-| Dato SPEC-Q                                   | Tier                 | Razionale                                                            |
-| --------------------------------------------- | -------------------- | -------------------------------------------------------------------- |
-| Cronaca pubblica del branco (eventi salienti) | `public`             | memoria del tavolo (TV/Memory-mode home), come recap/lineage SPEC-B. |
-| Cronaca per-creatura del player (dettaglio)   | `private`            | sul device del proprietario.                                         |
-| Identita' emergente (nome/portrait/storia)    | `public` (al reveal) | il reveal nome/MBTI e' un promotion-gate (mirror offspring SPEC-B).  |
-| Scoring sentience/MBTI interno                | `secret`             | engine-only.                                                         |
-| Abilita' nemica nascosta (M-4) pre-reveal     | `secret`             | nascosta finche' la soglia non la rivela (diegetico, QF3).           |
-| Heirloom/named-mutation provenance            | `public`             | lignaggio = memoria condivisa (Nido lineage tree).                   |
+| Dato SPEC-Q                                   | Tier                 | Razionale                                                                                                 |
+| --------------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------- |
+| Cronaca pubblica del branco (eventi salienti) | `public`             | memoria del tavolo (TV/Memory-mode home), come recap/lineage SPEC-B.                                      |
+| Cronaca per-creatura del player (dettaglio)   | `private`            | sul device del proprietario.                                                                              |
+| Identita' emergente (nome/portrait/storia)    | `public` (al reveal) | il reveal nome/MBTI e' un promotion-gate (mirror offspring SPEC-B).                                       |
+| Scoring sentience/MBTI interno                | `secret`             | engine-only.                                                                                              |
+| Abilita' nemica nascosta (M-4) pre-reveal     | `secret`             | nascosta finche' la soglia non la rivela; il REVEAL (evento ALIENA, post-uso) e' `public` TV+device. QF3. |
+| Heirloom/named-mutation provenance            | `public`             | lignaggio = memoria condivisa (Nido lineage tree).                                                        |
 
 ## 11. Relazione con altre spec
 
@@ -160,14 +169,21 @@ Fork etichetta `QF#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA/MA/OA).
 
 ### QF1 -- Architettura dello store cronaca
 
-Dove vive l'event-store cross-session?
+Il vero asse NON e' topologico ma di SCOPE: la cronaca e' per-UNIT (come `diaryStore` gia'
+LIVE) o per-BRANCO/tavolo (storia condivisa, Memory-mode home)?
 
-- **Opzione A -- nuovo `services/chronicle` + persistenza (raccomandata).** Servizio
-  dedicato, store su NeDB (default) / Prisma (se `DATABASE_URL`), endpoint `/:id/chronicle*`.
-  Tradeoff: pulito, separato dal combat-log; coerente con la topologia backend.
-- **Opzione B -- estendere il combat event-log.** Riusa `sessionRoundBridge`. Tradeoff: meno
-  superfici, ma mescola per-round (combat) e cross-session (narrativa) = il combat-log gonfia.
-- **Raccomandazione:** A (cronaca = layer separato, sopra il combat-log).
+- **Opzione A -- nuovo `services/chronicle` per-BRANCO + persistenza (raccomandata).** Store
+  dedicato (NeDB default / Prisma se `DATABASE_URL`), endpoint `/:id/chronicle*`, scope
+  branco/sessione. Tradeoff: pulito per la storia del tavolo (TV Memory-mode); il per-unit
+  resta su `diaryStore`. Giustificazione vs diaryStore = lo SCOPE (branco != unit).
+- **Opzione B -- estendere `diaryStore`** (aggiungere `actor_id`/`run_id`/`tier` + scope branco
+  a whitelist+schema). Tradeoff: reuse-first massimo (1 solo store cross-session); ma diaryStore
+  e' nato per-unit -> va generalizzato a branco senza rompere i consumer attuali.
+- **Opzione C -- estendere il combat event-log (`sessionRoundBridge`).** Scartata: per-round
+  vs cross-session = il combat-log gonfia.
+- **Raccomandazione:** A (chronicle per-branco separato; diaryStore resta per-unit); B se si
+  preferisce un unico store cross-session. In ogni caso NON un secondo store per-unit
+  (anti double-store con diaryStore).
 
 ### QF2 -- Modello di name emergence (M-2)
 
@@ -196,7 +212,11 @@ Tensione doctrine: telegraph P1 (tutto visibile pre-commit, ItB/WEGO) vs Sistema
   profondita' Sistema-impara (M-4 diventa solo cosmetico).
 - **Opzione C -- hidden anche intra-round.** Massima tensione AI-War; ma rompe l'invariante
   WEGO (telegraph P1) -- scartata salvo override esplicito.
-- **Raccomandazione:** A (hidden cross-incontro, telegraph intra-round preservato).
+- **Primo uso (edge):** la prima attivazione di un'abilita' nascosta e' comunque telegrafata
+  intra-round come intent GENERICO (WEGO non si rompe); il reveal diegetico (cosa fosse + che
+  evolvera') avviene POST-uso a soglia via ALIENA.
+- **Raccomandazione:** A (hidden cross-incontro; intra-round SEMPRE telegrafato pre-commit;
+  primo-uso = intent generico + reveal post-uso).
 
 ### QF4 -- Scope/timing L3 (M-1 heirloom + M-3 named-mutation Game-side)
 
@@ -223,10 +243,12 @@ SPEC-Q e' implementabile/chiudibile quando:
    reveal = promotion-gate (SPEC-B);
 3. **L3 (M-1/M-3):** scope/timing deciso (QF4); se M-3, contratto Game-side agganciato a
    `lineagePropagator` + draft Godot;
-4. **L2/P5 (M-4):** regola reveal in `declareSistemaIntents` + addendum SPEC-H, con il confine
-   telegraph-vs-hidden deciso (QF3, WEGO preservato);
-5. **M-5 (P3):** il principio "1 job = 1 domanda" e' enunciato (SPEC-E/sibling) come gate
-   anti-feature-accumulation;
+4. **L2/P5 (M-4):** regola reveal in `declareSistemaIntents` + addendum SPEC-H; il reveal si
+   applica SOLO alla tattica evolutiva cross-incontro -- gli intent intra-round del Sistema
+   restano telegrafati pre-commit (WEGO invariante), primo-uso = intent generico + reveal
+   post-uso (QF3 opzione A);
+5. **M-5 (P3, nota design -- non un done-gate di SPEC-Q):** il principio "1 job = 1 domanda" e'
+   documentato in SPEC-E/sibling con back-ref a SPEC-Q M-5;
 6. **M-6 (P2):** audit delle 24 mutazioni `derived_ability_id` null completato (0-runtime
    confermato o -> SPEC-K);
 7. la visibilita' (sez. 10) e' coerente con SPEC-B (cronaca public/private, identita' al
