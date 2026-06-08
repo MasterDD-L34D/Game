@@ -15,8 +15,12 @@
 //     }
 //   }
 //
-// Doctrine: ERMES system name NEVER surfaces to player. Output is
-// diegetic (eco_pressure_score → "Pressione ecosistemica: 62%").
+// Doctrine (player-facing): the ERMES system name NEVER surfaces to the
+// player, and the raw eco_pressure_score float is NEVER shown as a
+// percentage. Player-side (apps/play/src/biomeChip.js `ecoBandLabel`,
+// FASE 3 P4) maps the score to a diegetic 3-band descriptor:
+//   low -> "Bioma calmo", med -> "Bioma in equilibrio",
+//   high -> "Bioma in tensione".
 
 'use strict';
 
