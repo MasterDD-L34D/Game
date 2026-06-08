@@ -605,6 +605,27 @@ corrette da `ADR-2026-05-18-df-levels` Game-side. Piani Game OK; vault = archivi
 non-governing. Nessuna azione piano per R-1/R-2/R-4/R-5; R-3 (Wildermyth understated)
 = il gap reale M-2.
 
+### Estensioni tattiche/recruit/economy (games-source-index KM sweep 2026-06-08)
+
+Secondo controllo KM: catalogo SoT `docs/guide/games-source-index.md` (overlay) +
+non-index (deep-research/Flint/Cards/memorie). KM largely esaurita (DRY-check: la
+maggioranza delle fonti = zero nuovi). 6 residui game-reference NON in nessuna spec,
+distribuiti come estensioni. Dettaglio: `docs/planning/2026-06-08-game-reference-gap-harvest.md`.
+
+| #   | Feature (gioco)                                                | Pillar | Stato git                                                          | Estende                   |
+| --- | -------------------------------------------------------------- | ------ | ------------------------------------------------------------------ | ------------------------- |
+| G-1 | pact_difficulty_menu (Hades/Monster Train)                     | P6     | engine LIVE (`pact_shards:0..5` /api/campaign/start), surface DEAD | SPEC-K                    |
+| G-2 | support_relation_arcs (Fire Emblem)                            | P3+P4  | recruit/affinity/narrativeEngine LIVE, trigger dialogo no          | SPEC-G + SPEC-E           |
+| G-3 | charm_boss_recruit (Tactics Ogre)                              | P3     | parley ADR esiste, dialogue-recruit mid-combat no                  | SPEC-H + SPEC-E           |
+| G-4 | tribe synergy + cross-party unlock (Wildfrost/Cobalt/Backpack) | P3+P5  | 0 same-species party-passive                                       | SPEC-E                    |
+| G-5 | Banner Saga caravan supply (attrition tra missioni)            | P6     | 0 campaign-resource-drain                                          | SPEC-J / nuovo (POST-MVP) |
+| G-6 | Banner Saga permadeath opt-in (hardcore)                       | P6     | 0 permadeath flag (woundedPerma = scar, non death)                 | SPEC-J (POST-MVP)         |
+
+Dedup: Invisible Inc hidden-abilities = M-4 (sopra); counter-delay = C1 (sez.3bis status v2);
+three-horizons = annotation SPEC-B/K. PARKED-OK (non revivere): gene_grid_bingo (S6 freeze
+ADR-05-26), Astrea dice (OD-013), organ_system (museum M-023 post-S6), Cobalt position-cond
+(deferred), Dicey/Beglitched (metodologia), deepgame (GPT-scaffold unrelated).
+
 ### SPEC-Q: DF-Levels Narrative and Simulation Depth
 
 Obiettivo: portare la profondita' DF-levels (identita' guadagnata L1, eredita' L3,
