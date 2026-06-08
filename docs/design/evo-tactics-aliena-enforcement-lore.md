@@ -225,8 +225,9 @@ Contratto di surfacing:
   mating_success); entry locked visibili ma oscurate ("incontra X per sbloccare").
 - **Nome di sistema:** "ALIENA" NON compare nel Codex player-facing; il Codex parla di
   ambiente/evoluzione/ecologia in linguaggio diegetico.
-- **Coherence score nel Codex:** se e quanto il punteggio di coerenza (o un suo proxy
-  diegetico) sia mostrato al giocatore = fork HA5 (di default: `secret`, vedi sez. 8).
+- **Coherence score nel Codex (HA5=B ratificato):** il punteggio grezzo resta `secret`; il
+  Codex ne mostra un proxy DIEGETICO aggregato (descrittore qualitativo, es. "specie
+  endemica" / "presenza inattesa"), mai il numero (sez. 8).
 
 ## 8. Visibilita' (eredita SPEC-B)
 
@@ -240,11 +241,12 @@ sez. 3) al caso ALIENA:
 | Esito visibile dell'enforcement (CHI compare in campo) | `public`  | le creature spawnate sono nel campo combat (gia' coperto da SPEC-B righe 3.5/3.6).           |
 | Contenuto Codex (6-dim A.L.I.E.N.A., lore)             | `public`  | e' lore -- mostrabile su TV/Codex; e' il canale diegetico voluto.                            |
 | Stato unlock Codex per-player                          | `private` | il progresso Codex del singolo (localStorage) e' suo; eventuale aggregato di branco a parte. |
+| Proxy diegetico di coerenza nel Codex (HA5=B)          | `public`  | descrittore qualitativo derivato dallo score (es. "specie endemica"), MAI il numero grezzo.  |
 
 Coerenza con la doctrine: il punteggio resta `secret` (il giocatore non vede "coerenza
-0.62"), la lore e l'effetto restano visibili. Se HA5 sceglie di esporre un proxy
-diegetico, resta comunque un descrittore (mai il numero grezzo) -- mirror del trattamento
-ERMES (SPEC-I sez. 6).
+0.62"), la lore e l'effetto restano visibili. HA5=B (ratificato 2026-06-08): il Codex
+espone un proxy DIEGETICO (descrittore qualitativo, mai il numero grezzo) -- mirror del
+trattamento ERMES (SPEC-I sez. 6).
 
 ## 9. Relazione con altre spec
 
@@ -268,6 +270,17 @@ ERMES (SPEC-I sez. 6).
 Fork NON canon-derivabili: l'esito non discende univocamente da §21 / design 2026-05-29 /
 ADR / roadmap. Etichetta `HA#` per evitare clash con i fork delle altre spec
 (F/G/H-di-SPEC-D/E/FC/TS/J/ER).
+
+**RATIFICATI da Eduardo 2026-06-08** (HA3 = derivata, non un fork). Sintesi:
+
+| Fork | Esito ratificato (2026-06-08)                                                      |
+| ---- | ---------------------------------------------------------------------------------- |
+| HA1  | Pilota + gate N=40 (OFF globale; attiva a strength basso su badlands, poi espande) |
+| HA2  | Ibrido (HARD su presenza 6-dim + campi runtime, SOFT su qualita' rubrica)          |
+| HA4  | Checklist umana + lint macchina su sottoinsieme (termini vietati, tag tono)        |
+| HA5  | Hint diegetico aggregato (descrittore qualitativo, MAI il numero grezzo)           |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### HA1 -- Attivazione del soft-enforcement: quando e quanto?
 
@@ -348,6 +361,9 @@ Il Codex mostra al giocatore un proxy della coerenza ALIENA?
 - **Opzione C -- score per-specie esposto.** Mostrare "coerenza 0.62". Tradeoff: massima
   trasparenza, ma viola la doctrine e trasforma la coerenza in numero opaco.
 - **Raccomandazione:** A; B come estensione diegetica eventuale, mai C.
+- **RATIFICATO 2026-06-08: B** (hint diegetico aggregato: descrittore qualitativo tipo
+  "specie endemica" / "presenza inattesa", mai il numero). Lo score grezzo resta `secret`;
+  il Codex ne mostra il proxy diegetico (sez. 7-8).
 
 ## 11. Acceptance
 
