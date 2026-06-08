@@ -151,6 +151,17 @@ missione flaggata lethal (public: tutti sanno che e' a rischio)
 ## 10. Decisioni aperte (per Eduardo)
 
 Fork non canon-derivabili (il `woundSystem` 3-tier e' LIVE; lethal/rituali = design).
+**RATIFICATI da Eduardo 2026-06-08** (tutti opzione A; J2 chiuso da canon point-9).
+
+| Fork | Esito ratificato (2026-06-08)                                         |
+| ---- | --------------------------------------------------------------------- |
+| J1   | KO non-lethal = roll-ferita (Battle Brothers; lieve/media/grave-scar) |
+| J2   | (CHIUSO da canon: mission-gated, point-9 -- non un fork)              |
+| J3   | Rituale Nido = heal O transform, scelta del player (transform=lore)   |
+| J4   | Succession su morte + ritiro volontario (scelta player, SPEC-E E2)    |
+| J5   | Failure-as-lore: lineage automatica, Custode opt-in (SPEC-F)          |
+
+Sotto: opzioni/rationale originali (storia della decisione).
 
 ### J1 -- Conseguenza del KO non-lethal
 
@@ -218,7 +229,7 @@ SPEC-J e' implementabile/chiudibile quando:
 4. i rituali Nido (heal/transform) sono device-owned, costano risorse (E6), esito `public`;
 5. la succession aggancia SPEC-E E2 (scelta del player); trigger esatto (morte vs morte+grave) = J4;
 6. il failure-as-lore porta i caduti nella lineage (+ Custode opt-in, SPEC-F);
-7. le Decisioni aperte J1, J3, J4, J5 sono ratificate da Eduardo (J2 chiuso da canon)
-   prima del flip `review_needed` -> `accepted`;
+7. le Decisioni aperte J1, J3, J4, J5 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 10,
+   tutte A; J2 chiuso da canon); resta a Eduardo il flip `review_needed` -> `accepted`;
 8. coerenza con SPEC-B (3.10/F5), SPEC-K (6.4), SPEC-E (E2/E6), SPEC-F (Custode), SPEC-A
    (risk_posture secret), SPEC-D (death beat).
