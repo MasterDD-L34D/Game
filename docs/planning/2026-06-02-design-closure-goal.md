@@ -15,6 +15,8 @@ tags: [goal, design-closure, worldgen-gap-c, reference-games, sot, style, pendin
 > obiettivo + vincoli minimi e punta qui. Tutto il dettaglio — canon da consultare,
 > metodo di chiusura, inventario dei buchi di design — vive in questo file.
 >
+> **(!) SUPERSEDED 2026-06-08** -- frontier rimpiazzato dalla reconstruction suite SPEC-A..L (`docs/planning/2026-06-06-evo-tactics-reconstruction-suite-index.md` + `docs/planning/2026-06-05-evo-tactics-open-points-resolution-roadmap.md`). Goal storico. Residui (verify-first 2026-06-08): **PT economy slice = SHIPPED #2557** (non ricostruire); **GAP-C fase-3/4** = gated POST-MVP cross-repo Godot (non attivo); restano solo def-gate minori **P5** TV LobbyView room-sync (P3, design-call) + **P4** Ennea voices -> `docs/reports/PILLAR-LIVE-STATUS.md`.
+>
 > **GOAL in 2 FASI SEQUENZIALI:**
 >
 > **🅰️ FASE 1 — Design-closure (PRIMA, obbligatoria):** chiudere/decidere **TUTTI** i buchi di design
