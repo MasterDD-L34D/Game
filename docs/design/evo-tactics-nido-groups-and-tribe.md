@@ -75,7 +75,7 @@ branco_comune (party)
       - mating_pairs[]             # coppie / breeding in corso
       - lineage[]                  # storia genealogica del sotto-branco
       - custode_ref?               # Custode opzionale legato (popolato da SPEC-F)
-  - eligible_pool[]                # creature libere/eleggibili (esistenza/owner = E4)
+  - eligible_pool[]                # SOLO creature unassigned (MVP/owned riservati, E4)
   - shared_resources               # PE/PI/SG/PP/PT comuni
   - lineage_tree                   # genealogia pubblica del branco
 tribu' = emergente da sub_pack persistenti + lineage profonda (vedi E3)
@@ -90,24 +90,24 @@ tribu' = emergente da sub_pack persistenti + lineage profonda (vedi E3)
 
 ## 4. Contratto di surface (device-authority + visibilita' SPEC-B)
 
-| Surface                    | Authority (SPEC-K) | public (TV)                       | private (device)                   | aggregated                                             | secret                    |
-| -------------------------- | ------------------ | --------------------------------- | ---------------------------------- | ------------------------------------------------------ | ------------------------- |
-| Creatura principale (MVP)  | device             | MVP pubblico del branco           | scelta/cambio MVP                  | --                                                     | --                        |
-| Party select               | device             | composizione party committata     | selezione dal proprio sotto-branco | --                                                     | --                        |
-| Creature libere/eleggibili | device             | pool pubblico se E4=A (cond.)     | shortlist filtrata del player      | --                                                     | --                        |
-| Reclute                    | device             | lista candidati, ingresso roster  | accept/reject sul device           | --                                                     | compatibility scoring     |
-| Trust/affinity             | -- (lettura)       | --                                | valori delle PROPRIE creature      | coesione branco (categoria, non pair; SPEC-B 3.7 edge) | scoring interno           |
-| Mating/breeding            | device             | tally + offspring reveal          | mating vote/scelta pre-tally       | mating tally in corso                                  | epigenome roll pre-reveal |
-| Offspring                  | device             | offspring reveal (promotion gate) | rituale sul device                 | --                                                     | epigenome pre-reveal      |
-| Successione                | device (consent)   | esito successione                 | conferma del player owner          | "in attesa" del consenso owner                         | --                        |
-| Nido shared resources      | device/quorum (E6) | pool comune + spese               | proposta di spesa pre-commit       | --                                                     | --                        |
-| Tribu' (nascita)           | sistema            | reveal nascita tribu'             | --                                 | sedimentazione                                         | trigger interno (E3)      |
+| Surface                    | Authority (SPEC-K) | public (TV)                                          | private (device)                   | aggregated                                             | secret                    |
+| -------------------------- | ------------------ | ---------------------------------------------------- | ---------------------------------- | ------------------------------------------------------ | ------------------------- |
+| Creatura principale (MVP)  | device             | MVP pubblico del branco                              | scelta/cambio MVP                  | --                                                     | --                        |
+| Party select               | device             | composizione party committata                        | selezione dal proprio sotto-branco | --                                                     | --                        |
+| Creature libere/eleggibili | device             | pool pubblico: solo unassigned (MVP/owned riservati) | shortlist filtrata del player      | --                                                     | --                        |
+| Reclute                    | device             | lista candidati, ingresso roster                     | accept/reject sul device           | --                                                     | compatibility scoring     |
+| Trust/affinity             | -- (lettura)       | --                                                   | valori delle PROPRIE creature      | coesione branco (categoria, non pair; SPEC-B 3.7 edge) | scoring interno           |
+| Mating/breeding            | device             | tally + offspring reveal                             | mating vote/scelta pre-tally       | mating tally in corso                                  | epigenome roll pre-reveal |
+| Offspring                  | device             | offspring reveal (promotion gate)                    | rituale sul device                 | --                                                     | epigenome pre-reveal      |
+| Successione                | device (consent)   | esito successione                                    | conferma del player owner          | "in attesa" del consenso owner                         | --                        |
+| Nido shared resources      | device/quorum (E6) | pool comune + spese                                  | proposta di spesa pre-commit       | --                                                     | --                        |
+| Tribu' (nascita)           | sistema            | reveal nascita tribu'                                | --                                 | sedimentazione                                         | trigger interno (E3)      |
 
 Dettaglio visibilita' = SPEC-B 3.7 (Nido) + 3.8 (mating/recruit). SPEC-E NON ri-tabula i
 tier: rimanda a SPEC-B. Qui aggiunge solo il modello sociale sotto-stante.
 
-> Bozza contratto: le celle condizionate a fork aperti (eligible-pool -> E4; authority
-> spesa risorse -> E6) sono provvisorie finche' E4/E6 non sono ratificati (sez. 8).
+> Fork ratificati 2026-06-08 (E1-E6, sez. 8): eligible-pool = solo creature unassigned
+> (MVP/owned riservati all'owner); spesa risorse = quorum del branco. Tabella allineata.
 
 ## 5. Branco comune vs gruppi sociali (la distinzione)
 
@@ -142,7 +142,18 @@ tier: rimanda a SPEC-B. Qui aggiunge solo il modello sociale sotto-stante.
 
 ## 8. Decisioni aperte (per Eduardo)
 
-Fork non canon-derivabili. SPEC-E li lascia aperti; Eduardo ratifica.
+Fork non canon-derivabili. **RATIFICATI da Eduardo 2026-06-08**.
+
+| Fork | Esito ratificato (2026-06-08)                                                          |
+| ---- | -------------------------------------------------------------------------------------- |
+| E1   | Cap soft (MVP + 3-4 secondarie attive; roster Nido illimitato)                         |
+| E2   | Successione = scelta del player (default suggerito bond/lineage max)                   |
+| E3   | Nascita tribu' ibrida: soglia sblocca + scelta narrativa conferma                      |
+| E4   | Pool comune + claim device; MVP/owned RISERVATI all'owner (solo unassigned claimabili) |
+| E5   | Trasferimento via consenso bilaterale (principio; dettaglio rifinito con SPEC-G)       |
+| E6   | Spesa risorse = quorum/voto del branco (proposta device + tally TV)                    |
+
+Sotto: opzioni/rationale originali (storia della decisione).
 
 ### E1 -- Cap dimensione sotto-branco
 
@@ -235,7 +246,7 @@ SPEC-E e' implementabile/chiudibile quando:
    (device-owned party/MVP/recruit/mating; per-player consent per successione);
 4. successione, recruit, mating, offspring sono device-owned con consent dove tocca
    agency (SPEC-K 6.4);
-5. le Decisioni aperte E1-E6 sono ratificate da Eduardo prima del flip
-   `review_needed` -> `accepted`;
+5. le Decisioni aperte E1-E6 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 8);
+   resta a Eduardo il flip `review_needed` -> `accepted` al merge;
 6. coerenza con SPEC-B (visibilita'), SPEC-C (sotto-branco = unita' combat), SPEC-F
    (Custode estraibile), SPEC-G (scambio), SPEC-J (ferite), SPEC-K (authority).
