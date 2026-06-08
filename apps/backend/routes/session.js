@@ -271,6 +271,8 @@ function createSessionRouter(options = {}) {
   const router = Router();
   const repoRoot = path.resolve(__dirname, '..', '..', '..');
   const logsDir = options.logsDir || path.join(repoRoot, 'logs');
+  // SPEC-Q M-7 -- chronicle store baseDir (test override; prod uses store default).
+  const chronicleBaseDir = options.chronicle && options.chronicle.baseDir;
   // TKT-PLAYTEST-SEED: default to the canonical seedable provider so a seed
   // pinned at /start propagates to every combat draw. defaultRng === Math.random
   // behavior until seeded, so production is unchanged.
@@ -3441,6 +3443,13 @@ function createSessionRouter(options = {}) {
         debrief = buildDebriefSummary(session, vcSnapshot, peResult);
       } catch {
         // vc + debrief are best-effort -- don't block session end
+      }
+      // SPEC-Q M-7 -- chronicle the failed run (A3 failure-as-lore). Best-effort.
+      try {
+        const { emitRunFailed } = require('../services/chronicle/chronicleEmitters');
+        emitRunFailed(session, { baseDir: chronicleBaseDir });
+      } catch {
+        /* best-effort -- never blocks session end */
       }
       // M1 -- persist Sistema learning (best-effort, never blocks session end).
       try {

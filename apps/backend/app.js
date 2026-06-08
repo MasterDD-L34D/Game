@@ -797,7 +797,10 @@ function createApp(options = {}) {
   }
   const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
   const coopStore = createCoopStore({ lobby });
-  app.use('/api/session', createSessionRouter({ ...(options.session || {}), coopStore }));
+  app.use(
+    '/api/session',
+    createSessionRouter({ ...(options.session || {}), coopStore, chronicle: options.chronicle }),
+  );
   app.use('/api/party', createPartyRouter());
   // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
   app.use('/api', createFeedbackRouter(options.feedback || {}));
