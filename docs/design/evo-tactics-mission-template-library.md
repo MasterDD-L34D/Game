@@ -66,14 +66,14 @@ Invarianti ereditate:
 
 Ogni tipo ha un evaluator LIVE (`objectiveEvaluator.js`) + campi `objective.*` nello schema:
 
-| Tipo            | Campi `objective`                                      | Win / evaluator                                                                                                                |
-| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `elimination`   | (default; nessun campo extra)                          | SIS HP=0 (fallback)                                                                                                            |
-| `capture_point` | `target_zone`, `hold_turns`, `min_units_in_zone`       | PG in zona per N turni consecutivi                                                                                             |
-| `escort`        | `escort_target`, `target_zone` (extract)               | escort_target vivo + in extract_zone                                                                                           |
-| `sabotage`      | `target_zone`, `sabotage_turns_required`, `time_limit` | PG in zona N turni CUMULATIVI entro il time_limit (NB: evaluator hardcoda inZone>=1, IGNORA `min_units_in_zone` -- engine gap) |
-| `survival`      | `survive_turns`                                        | player vivo AND turn >= survive_turns                                                                                          |
-| `escape`        | `target_zone`, `time_limit`                            | TUTTI i PG in target_zone entro il time_limit                                                                                  |
+| Tipo            | Campi `objective`                                                           | Win / evaluator                                                                       |
+| --------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `elimination`   | (default; nessun campo extra)                                               | SIS HP=0 (fallback)                                                                   |
+| `capture_point` | `target_zone`, `hold_turns`, `min_units_in_zone`                            | PG in zona per N turni consecutivi                                                    |
+| `escort`        | `escort_target`, `target_zone` (extract)                                    | escort_target vivo + in extract_zone                                                  |
+| `sabotage`      | `target_zone`, `sabotage_turns_required`, `time_limit`, `min_units_in_zone` | PG (>= `min_units_in_zone`, default 1) in zona N turni CUMULATIVI entro il time_limit |
+| `survival`      | `survive_turns`                                                             | player vivo AND turn >= survive_turns                                                 |
+| `escape`        | `target_zone`, `time_limit`                                                 | TUTTI i PG in target_zone entro il time_limit                                         |
 
 - `loss_conditions` (ADR-2026-04-20) decouplano la sconfitta: `time_limit` + `player_wipe`.
 - Il fallimento di un obiettivo emette outcome (`objective_failed`/`wipe`/`timeout`) = trigger
