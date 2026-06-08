@@ -23,6 +23,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 const { evaluateConviction } = require('./convictionEngine');
+// SPEC-M acceptance #4 — Form Pulse -> VC axis soft+bounded nudge (no-op if absent).
+const { applyFormPulseDelta, aggregateFormPulses } = require('./formPulseVc');
 
 const DEFAULT_TELEMETRY_PATH = path.resolve(
   __dirname,
@@ -992,9 +994,12 @@ function buildVcSnapshot(session, config) {
   // (MBTI 4-axis + Ennea 9-arch + Conviction 3-axis + Sentience tier).
   // Cross-link: docs/governance/open-decisions/OD-024-031-verdict-record.md
   const sentienceByActor = _resolveSentienceTiers(units, session);
+  // SPEC-M #4: aggregate per-player Form Pulse once (branco). null => no-op (back-compat).
+  const fpAxesAgg = session?.formPulses ? aggregateFormPulses(session.formPulses) : null;
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
-    const mbti = axesFn(rawMetrics);
+    const mbtiRaw = axesFn(rawMetrics);
+    const mbti = fpAxesAgg ? applyFormPulseDelta(mbtiRaw, fpAxesAgg) : mbtiRaw;
     const ennea = computeEnneaArchetypes(aggregate, config, rawMetrics);
     perActor[unitId] = {
       raw_metrics: rawMetrics,
