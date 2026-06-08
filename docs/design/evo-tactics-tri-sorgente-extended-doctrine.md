@@ -135,6 +135,16 @@ prima di giocare la carta.
 ## 8. Decisioni aperte (per Eduardo)
 
 Fork non canon-derivabili. Etichetta `TS#` per non confondere con i fork G1-G5 di SPEC-C.
+**RATIFICATI da Eduardo 2026-06-08** (tutti opzione A).
+
+| Fork | Esito ratificato (2026-06-08)                                                |
+| ---- | ---------------------------------------------------------------------------- |
+| TS1  | Controllo reale solo con consenso, ambito limitato (no coercizione)          |
+| TS2  | Dottrina = soft-bias (FairMath/weight + cap/decay), mai hard-gate            |
+| TS3  | Sedimentazione single-campaign + eco cross-campaign via Custode (SPEC-F)     |
+| TS4  | Scambio: SPEC-F per card persistenti, medium leggero in-session per dottrina |
+
+Sotto: opzioni/rationale originali (storia della decisione).
 
 ### TS1 -- Carte "controllo reale": quale ambito e' ammesso?
 
@@ -198,8 +208,8 @@ SPEC-G e' implementabile/chiudibile quando:
    (SPEC-B 3.9); la dottrina e' soft-bias non hard-gate (TS2);
 4. lo scambio carte rispetta SPEC-B F4 (esito `public`, contenuto `private`) + consenso
    bilaterale;
-5. le Decisioni aperte TS1-TS4 sono ratificate da Eduardo prima del flip
-   `review_needed` -> `accepted`;
+5. le Decisioni aperte TS1-TS4 sono ratificate da Eduardo (FATTO 2026-06-08, sez. 8, tutte
+   A); resta a Eduardo il flip `review_needed` -> `accepted` al merge;
 6. coerenza con SPEC-B (visibilita'/F4), SPEC-E (E5 transfer), SPEC-F (card Custode),
    SPEC-A (signal soft, no hard-gate), SPEC-K (consenso device per controllo reale);
 7. test anti-agency-theft: una carta `controllo reale` senza consenso NON altera lo stato
