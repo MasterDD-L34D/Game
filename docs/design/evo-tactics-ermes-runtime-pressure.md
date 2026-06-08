@@ -48,6 +48,11 @@ riscrive.
 - SPEC-I NON decide i valori-seme delle bande/cap (engine-owned, start-values L-069, lock
   = playtest N=40, sez. 8).
 - SPEC-I NON tocca l'authority device/surface (SPEC-K).
+- SPEC-I NON possiede il write-side del degrado cross-run (**A13** biome-wound): quello e'
+  **SPEC-P** (QA1, ratificato 2026-06-08). SPEC-I copre il read-side della pressione +,
+  in futuro, il segnale **A2** StressWave (telegraph) -- oggi il wire `stresswave->pressure`
+  e' DEAD (`biomeModifiers.js`:188). La riga roadmap 3bis che assegna A2/A13 a SPEC-I va
+  letta con questo split.
 
 Complementarieta' in una riga:
 
