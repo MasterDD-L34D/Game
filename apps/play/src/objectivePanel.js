@@ -13,14 +13,9 @@
 
 'use strict';
 
-const TYPE_LABELS = {
-  elimination: 'Elimina i nemici',
-  capture_point: 'Tieni la zona',
-  escort: 'Scorta il bersaglio',
-  sabotage: 'Sabotaggio',
-  survival: 'Sopravvivi',
-  escape: 'Fuggi',
-};
+// SPEC-N PR-4 (NF3): label-map migrated to the i18n loader (data/i18n SSOT).
+// IT values unchanged (objective_short.it == old TYPE_LABELS); EN now covered.
+import { t } from './i18n.js';
 
 const TYPE_ICONS = {
   elimination: '⚔',
@@ -34,8 +29,10 @@ const TYPE_ICONS = {
 // Pure: type → label IT (caps tag). Falls back a type stesso se sconosciuto.
 export function labelForObjectiveType(type) {
   if (!type) return '—';
-  const label = TYPE_LABELS[type];
-  return label || String(type).replace(/_/g, ' ').toUpperCase();
+  const key = `objective_short.${type}`;
+  const label = t(key);
+  // loader returns the key itself when missing -> humanized fallback for unknown types
+  return label === key ? String(type).replace(/_/g, ' ').toUpperCase() : label;
 }
 
 // Pure: type → icon emoji.

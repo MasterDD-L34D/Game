@@ -32,7 +32,7 @@
   "combat": {
     "your_turn": "Your Turn",
     "system_turn": "System Turn",
-    "round": "Round {{n}}",
+    "round": "Round {n}",
     "hit": "Hit",
     "miss": "Miss",
     "critical": "Critical!",
@@ -43,9 +43,9 @@
     "defend": "Defend",
     "ability": "Ability",
     "end_turn": "End Turn",
-    "damage_dealt": "Damage dealt: {{n}}",
-    "damage_taken": "Damage taken: {{n}}",
-    "hp_remaining": "HP: {{current}} / {{max}}"
+    "damage_dealt": "Damage dealt: {n}",
+    "damage_taken": "Damage taken: {n}",
+    "hp_remaining": "HP: {current} / {max}"
   },
   "status": {
     "panic": "Panic",
@@ -58,11 +58,19 @@
   },
   "objective": {
     "elimination": "Eliminate all enemies",
-    "capture_point": "Hold the point for {{n}} turns",
-    "escort": "Protect {{target}}",
-    "sabotage": "Sabotage within {{n}} turns",
-    "survival": "Survive {{n}} turns",
+    "capture_point": "Hold the point for {n} turns",
+    "escort": "Protect {target}",
+    "sabotage": "Sabotage within {n} turns",
+    "survival": "Survive {n} turns",
     "escape": "Reach the exit"
+  },
+  "objective_short": {
+    "elimination": "Eliminate enemies",
+    "capture_point": "Hold the zone",
+    "escort": "Escort the target",
+    "sabotage": "Sabotage",
+    "survival": "Survive",
+    "escape": "Escape"
   },
   "result": {
     "victory": "Victory",

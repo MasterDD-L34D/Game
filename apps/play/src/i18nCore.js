@@ -4,11 +4,11 @@
 //
 // NF1 (ratified): il loader vive frontend (apps/play). Fallback = IT (sorgente
 // autorata completa; EN ~5% -> un EN player vede IT, non key grezze).
-// Interpolation: Mustache {{var}} (matches data/i18n + parity validator).
-//   NF4 ({var} normalize) e' un follow-up PR-4 (atomico con mission-console).
+// Interpolation: single-brace {var} (NF4 ratified; vue-i18n Named Interpolation,
+// matches data/i18n + the parity validator).
 // =============================================================================
 
-const MUSTACHE_RE = /\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}/g;
+const PARAM_RE = /\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}/g;
 
 /**
  * Resolve a dot-notation key (es. "ui.confirm") against a locale bundle.
@@ -29,12 +29,12 @@ export function resolveKey(bundle, key) {
 }
 
 /**
- * Replace {{var}} tokens with params[var]. Tokens whose param is missing are
+ * Replace {var} tokens with params[var]. Tokens whose param is missing are
  * left untouched (visible in dev -> flags a missing param).
  */
 export function interpolate(str, params) {
   if (typeof str !== 'string' || !params || typeof params !== 'object') return str;
-  return str.replace(MUSTACHE_RE, (m, k) =>
+  return str.replace(PARAM_RE, (m, k) =>
     params[k] !== undefined && params[k] !== null ? String(params[k]) : m,
   );
 }

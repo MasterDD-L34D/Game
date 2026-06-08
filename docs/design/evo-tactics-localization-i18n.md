@@ -61,14 +61,14 @@ Invarianti ereditate:
 
 ## 3. Roadmap di consegna (i18n-strategy PR-1..PR-6)
 
-| PR   | Cosa                                                  | Stato                |
-| ---- | ----------------------------------------------------- | -------------------- |
-| PR-1 | scaffold `data/i18n/{it,en}/common.json`              | **DONE** (#1463)     |
-| PR-2 | parity validator (`validate_i18n_parity.py`)          | **DONE**             |
-| PR-3 | loader runtime + `t()` helper                         | **DONE** (apps/play) |
-| PR-4 | migration mission-console -> data/i18n + debito       | TODO (NF3)           |
-| PR-5 | split namespace combat/tutorial/narrative (file sep.) | TODO                 |
-| PR-6 | CI gate completion_percent + no-hardcoded             | TODO                 |
+| PR   | Cosa                                                  | Stato                           |
+| ---- | ----------------------------------------------------- | ------------------------------- |
+| PR-1 | scaffold `data/i18n/{it,en}/common.json`              | **DONE** (#1463)                |
+| PR-2 | parity validator (`validate_i18n_parity.py`)          | **DONE**                        |
+| PR-3 | loader runtime + `t()` helper                         | **DONE** (apps/play)            |
+| PR-4 | migration mission-console -> data/i18n + debito       | WIP (objectivePanel + NF4 done) |
+| PR-5 | split namespace combat/tutorial/narrative (file sep.) | TODO                            |
+| PR-6 | CI gate completion_percent + no-hardcoded             | TODO                            |
 
 > NB allineamento: la sequenza canonica resta `i18n-strategy.md`. La tabella SPEC-N raggruppa
 > per fase logica; in strategy PR-5 = content-fill combat/tutorial, PR-6 = Ink bilingue export.
@@ -79,10 +79,10 @@ Invarianti ereditate:
 - Namespace: `common` / `combat` / `tutorial` / `narrative`. Oggi tutto dentro `common.json`;
   lo split in file separati = PR-5. Schema formale `_schema/i18n.schema.json` = NF2 (opzionale
   oltre la parity).
-- Formato file: `data/i18n/{it,en}/<namespace>.json`. Interpolazione Mustache `{{var}}`
-  (gia' validata da PR-2). NB: mission-console usa single-brace `{var}` (vue-i18n nativo) ->
-  divergenza di formato, normalizzazione in migrazione = fork NF4.
-- Pluralizzazione: Mustache non gestisce plurali/genere; le stringhe `{{n}}` possono mostrare
+- Formato file: `data/i18n/{it,en}/<namespace>.json`. Interpolazione single-brace `{var}`
+  (NF4 LIVE 2026-06-08: convertito da `{{var}}`, allineato a vue-i18n/mission-console; parity
+  validator + loader aggiornati).
+- Pluralizzazione: `{var}` non gestisce plurali/genere; le stringhe `{n}` possono mostrare
   grammatica errata per n=1 in IT (es. "1 turni"). ICU MessageFormat = post-MVP (debito noto,
   i18n-strategy).
 - Convenzione key: dot-notation per dominio (es. `combat.your_turn`, `ui.confirm`).
@@ -91,8 +91,10 @@ Invarianti ereditate:
 
 **Stato: LIVE (2026-06-08).** `apps/play/src/i18nCore.js` (puro: `createT`/`resolveKey`/
 `interpolate`, testato) + `apps/play/src/i18n.js` (bind a `data/i18n` via Vite JSON import).
-NF1=frontend (apps/play), `fallbackLocale=it`. Interpolation Mustache `{{var}}` (NF4 `{var}` =
-PR-4). I label-map hardcoded NON sono ancora migrati a `t()` (PR-4, NF3 incrementale).
+NF1=frontend (apps/play), `fallbackLocale=it`. Interpolation single-brace `{var}` (NF4 LIVE).
+PR-4 (NF3 incrementale) avviato: `objectivePanel` migrato a `t('objective_short.*')` (IT
+invariato + EN coperto); restano ~7 label-map (biomeChip/ui/...) + mission-console (interop
+JSON-attribute risolto: `import ... with { type: 'json' }`).
 
 - `t(key, params?, locale?)`: risolve la key, applica i params, fallback a IT (sorgente
   completa), ritorna la stringa. NON-LLM, deterministico.

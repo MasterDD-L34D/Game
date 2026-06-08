@@ -1,4 +1,4 @@
-// apps/play i18n loader core -- SPEC-N PR-3 (t() + fallback IT + {{var}} interp).
+// apps/play i18n loader core -- SPEC-N PR-3 (t() + fallback IT + {var} interp, NF4).
 // Pure ESM module (no JSON import) -> dynamic-import from CJS test (tests/play pattern).
 
 'use strict';
@@ -12,8 +12,8 @@ async function load() {
 
 const MESSAGES = {
   it: {
-    ui: { confirm: 'Conferma', greet: 'Ciao {{name}}' },
-    combat: { turns: 'Sopravvivi {{n}} turni' },
+    ui: { confirm: 'Conferma', greet: 'Ciao {name}' },
+    combat: { turns: 'Sopravvivi {n} turni' },
   },
   en: { ui: { confirm: 'Confirm' } },
 };
@@ -37,7 +37,7 @@ describe('createT', () => {
     assert.equal(t('ui.greet', { name: 'Y' }), 'Ciao Y');
   });
 
-  test('interpolates {{var}} params', async () => {
+  test('interpolates {var} params', async () => {
     const { createT } = await load();
     const t = createT(MESSAGES, { defaultLocale: 'it' });
     assert.equal(t('combat.turns', { n: 3 }), 'Sopravvivi 3 turni');
@@ -55,10 +55,10 @@ describe('createT', () => {
     assert.equal(t('nope.not_here'), 'nope.not_here');
   });
 
-  test('leaves {{var}} untouched when param absent', async () => {
+  test('leaves {var} untouched when param absent', async () => {
     const { createT } = await load();
     const t = createT(MESSAGES, { defaultLocale: 'it' });
-    assert.equal(t('ui.greet'), 'Ciao {{name}}');
+    assert.equal(t('ui.greet'), 'Ciao {name}');
   });
 });
 
@@ -73,7 +73,7 @@ describe('resolveKey / interpolate', () => {
 
   test('interpolate handles multiple + numeric params', async () => {
     const { interpolate } = await load();
-    assert.equal(interpolate('{{a}}/{{b}}', { a: 1, b: 2 }), '1/2');
+    assert.equal(interpolate('{a}/{b}', { a: 1, b: 2 }), '1/2');
     assert.equal(interpolate('no params', null), 'no params');
   });
 });
