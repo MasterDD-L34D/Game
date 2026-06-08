@@ -194,7 +194,15 @@ Invariante P1: **nessuno stato rende la campagna ingiocabile.**
   cross-run (fence speculare in SPEC-I).
 - **QA2** -- J5 vs SPEC-P: layered + sequenced (J5 per-creatura prima; epilogo SPEC-P dopo).
 
-**Aperte (per Eduardo)** -- fork etichetta `PA#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA):
+| Fork | Esito ratificato (2026-06-08)                                                             |
+| ---- | ----------------------------------------------------------------------------------------- |
+| PA1  | SPEC-P possiede il contratto epilogo run-end (SPEC-D resta round-scoped)                  |
+| PA2  | Cap stretto + recupero (~2 biomi max, step 1 banda, recupero vincendo nel bioma ferito)   |
+| PA3  | Descrittore diegetico PRE-run (selezione missione) + stato "alert" sopra soglia           |
+| PA4  | Entrambi (meccanico bounded ER2 + narrativo/Codex); serve il mapping N-biomi -> pressione |
+
+Sotto: opzioni/rationale originali di ogni fork (storia della decisione). Fork etichetta
+`PA#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA):
 
 ### PA1 -- Ownership della surface epilogo run-end
 
