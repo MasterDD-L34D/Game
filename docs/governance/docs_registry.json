@@ -8684,6 +8684,19 @@
       "track": "new"
     },
     {
+      "path": "docs/design/evo-tactics-custode-portable-framework.md",
+      "title": "Evo-Tactics Custode Portable Framework (SPEC-F)",
+      "doc_status": "review_needed",
+      "doc_owner": "master-dd",
+      "workstream": "flow",
+      "last_verified": "2026-06-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/design/evo-tactics-phone-wego-composer.md",
       "title": "Evo-Tactics Phone WEGO Combat Composer (SPEC-C)",
       "doc_status": "review_needed",
