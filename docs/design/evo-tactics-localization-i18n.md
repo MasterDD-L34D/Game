@@ -53,8 +53,10 @@ Invarianti ereditate:
 - **QA3 (ADR-2026-06-08):** `data/i18n` e' la sorgente unica; nessun secondo key-space.
 - **Backend: nessun loader i18n reale** (il prefisso `i18n:traits.*` e' convenzione di
   naming, non runtime). La localizzazione e' frontend/Godot (vedi NF1).
-- **Fallback en->it** dal punto di vista del consumer (locale=en, key mancante -> it; default
-  it). Mirror mission-console.
+- **Default locale = it; `fallbackLocale = it`** (ogni locale con key mancante -> IT, la
+  sorgente autorata completa; EN oggi ~5% -> un EN player vede IT, non key grezze). NB:
+  mission-console oggi usa `fallbackLocale=en` (scelta legacy verificata in `locales/index.ts`)
+  -> da riallineare a `it` in PR-4.
 - **No-LLM:** le stringhe sono autorate, non generate a runtime.
 
 ## 3. Roadmap di consegna (i18n-strategy PR-1..PR-6)
@@ -68,19 +70,27 @@ Invarianti ereditate:
 | PR-5 | split namespace combat/tutorial/narrative (file sep.) | TODO             |
 | PR-6 | CI gate completion_percent + no-hardcoded             | TODO             |
 
+> NB allineamento: la sequenza canonica resta `i18n-strategy.md`. La tabella SPEC-N raggruppa
+> per fase logica; in strategy PR-5 = content-fill combat/tutorial, PR-6 = Ink bilingue export.
+> Split-namespace + CI-gate sono fasi parallele; l'Ink bilingue export = post-MVP.
+
 ## 4. Struttura namespace + convenzione key
 
 - Namespace: `common` / `combat` / `tutorial` / `narrative`. Oggi tutto dentro `common.json`;
   lo split in file separati = PR-5. Schema formale `_schema/i18n.schema.json` = NF2 (opzionale
   oltre la parity).
 - Formato file: `data/i18n/{it,en}/<namespace>.json`. Interpolazione Mustache `{{var}}`
-  (gia' validata da PR-2).
+  (gia' validata da PR-2). NB: mission-console usa single-brace `{var}` (vue-i18n nativo) ->
+  divergenza di formato, normalizzazione in migrazione = fork NF4.
+- Pluralizzazione: Mustache non gestisce plurali/genere; le stringhe `{{n}}` possono mostrare
+  grammatica errata per n=1 in IT (es. "1 turni"). ICU MessageFormat = post-MVP (debito noto,
+  i18n-strategy).
 - Convenzione key: dot-notation per dominio (es. `combat.your_turn`, `ui.confirm`).
 
 ## 5. Loader runtime + `t()` (PR-3)
 
-- `t(key, params?, locale?)`: risolve la key, applica i params Mustache, fallback en->it,
-  ritorna la stringa. NON-LLM, deterministico.
+- `t(key, params?, locale?)`: risolve la key, applica i params, fallback a IT (sorgente
+  completa), ritorna la stringa. NON-LLM, deterministico.
 - **Dove vive il loader = fork NF1** (frontend-only Godot/mission-console vs backend vs
   package condiviso). Default ragionato: frontend/Godot (la localizzazione e' player-facing;
   un loader backend e' prematuro -- nessuna surface backend lo richiede oggi).
@@ -89,9 +99,12 @@ Invarianti ereditate:
 ## 6. Migrazione su data/i18n (PR-4, QA3)
 
 - mission-console migra dai locali co-locati a `data/i18n` (un solo key-space, QA3).
-- Debito esistente (literali IT hardcoded, es. `apps/play/biomeChip.js` BIOME_LABELS;
-  `briefingVariations.js`) -> migrato a key. Approccio (incrementale per-surface vs big-bang)
-  = fork NF3.
+- Debito esistente (literali IT hardcoded) -> migrato a key. Inventario verificato: ~8 file in
+  `apps/play/src/` con label-map IT (`biomeChip` BIOME*LABELS, `objectivePanel` TYPE_LABELS
+  *dup* `objective.*`, `ui` STATUS_LABELS *dup* `status.*`, `enneaVoiceRender` /
+  `innerVoiceRender` / `thoughtsPanel` / `characterPanel` / `speciesNames`) + mission-console
+  (~100 key). Grep: `grep -rlE "const [A-Z*]\*LABELS|\_IT\b" apps/play/src/`. Approccio
+  (incrementale per-surface vs big-bang) = fork NF3.
 - Le nuove surface (Spec A..Q UI) nascono gia' key-based (gate sez. 7).
 
 ## 7. Policy no-hardcoded-strings (forward-only)
@@ -151,18 +164,32 @@ Fork etichetta `NF#` (anti-clash con F/G/H/E/FC/TS/J/HA/ER/QA/PA/MA/OA/QF).
   pesante.
 - **Raccomandazione:** A.
 
+### NF4 -- Formato interpolazione (normalizzazione in migrazione)
+
+mission-console usa single-brace `{var}` (vue-i18n); data/i18n usa Mustache `{{var}}`. La
+migrazione (PR-4) + il loader (PR-3) devono allineare il formato.
+
+- **Opzione A -- normalizzare data/i18n a `{var}` (raccomandata).** Named Interpolation
+  vue-i18n standard; aggiornare il regex del parity validator (tool nostro). Tradeoff: un solo
+  formato ovunque, allineato al consumer LIVE (mission-console).
+- **Opzione B -- tenere Mustache `{{var}}`** e convertire le stringhe mission-console
+  `{var}` -> `{{var}}` in PR-4. Tradeoff: validator invariato; conversione a carico di PR-4.
+- **Raccomandazione:** A (formato vue-i18n unico; il validator e' nostro, facile da aggiornare).
+
 ## 11. Acceptance
 
 SPEC-N e' implementabile/chiudibile quando:
 
 1. lo scaffold (`data/i18n/{it,en}/common.json`) + la parity (`validate_i18n_parity.py`) sono
    LIVE (FATTO: PR-1/PR-2);
-2. il loader `t()` (PR-3) e' costruito con fallback en->it, nel layer deciso da NF1;
+2. il loader `t()` (PR-3) e' costruito con `fallbackLocale=it` (sorgente completa), nel layer
+   deciso da NF1;
 3. lo schema formale e' deciso (NF2: skip o build);
 4. la migrazione (PR-4) su `data/i18n` segue l'approccio NF3, con il debito hardcoded
    (biomeChip/briefing) migrato o ticketato;
-5. lo split namespace (PR-5) separa combat/tutorial/narrative quando il volume lo giustifica;
+5. lo split namespace (PR-5) separa combat/tutorial/narrative in file dedicati (trigger: un
+   namespace supera ~30 key non-`common`); Ink bilingue export = post-MVP (strategy PR-6);
 6. la policy no-hardcoded e' applicata forward-only (gate dopo PR-3) + CI (PR-6);
 7. le nuove surface (Spec A..Q) consumano key, non literali;
-8. NF1-NF3 sono ratificati da Eduardo; il flip `review_needed` -> `accepted` al merge resta a
+8. NF1-NF4 sono ratificati da Eduardo; il flip `review_needed` -> `accepted` al merge resta a
    lui (`source_of_truth:false`).
