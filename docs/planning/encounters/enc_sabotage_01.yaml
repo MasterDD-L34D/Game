@@ -23,7 +23,8 @@ objective:
   type: sabotage
   target_zone: [4, 4, 6, 6]
   sabotage_turns_required: 3
-  min_units_in_zone: 1
+  # NB: il sabotage evaluator hardcoda inZone >= 1 (ignora min_units_in_zone -- engine gap,
+  # vedi SPEC-O sez. 3); non si imposta per non dare un contratto fantasma.
   time_limit: 12
   loss_conditions:
     time_limit: 12
