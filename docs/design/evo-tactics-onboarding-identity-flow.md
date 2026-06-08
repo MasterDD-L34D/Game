@@ -62,11 +62,20 @@ DESIGN/PARTIAL (NON design-only -- correzione retro-review):
   `zampe_a_molla`/`pelle_elastomera`/`denti_seghettati`) + `default_campaign_mvp.yaml`
   (sezione `onboarding:`).
 - **VC axes + MBTI/Conviction scoring: LIVE** (`vcScoring.js`, `convictionEngine.js`).
-- **DEBT host-only**: `coopOrchestrator.submitOnboardingChoice` ha guard `host_only`
-  residuo (L25 + enforcement) -- da estendere a tutti i device prima della surface
-  device-driven SPEC-K.
+- **Per-player onboarding model: backend LIVE** (SPEC-M, 2026-06-08) --
+  `coopOrchestrator.submitOnboardingChoice(playerId, choice, { allPlayerIds })` ora
+  dual-mode: con `allPlayerIds` ogni device player submette la PROPRIA scelta
+  (`onboardingChoices` Map) + readiness-gate (advance a character_creation solo quando
+  TUTTI hanno submesso) + `onboardingReadyList()` per broadcast (mirror characterReadyList).
+  Senza `allPlayerIds` resta la modalita' legacy host-only single-choice (backward-compat,
+  niente regressione del flusso Godot attuale). TDD: 8/8 `coopOrchestrator.test.js`.
+- **Follow-up wiring (Gate-5, cross-repo)**: `wsSession.js` onboarding handler resta in
+  modalita' legacy (passa `{ hostId }`); va aggiornato a passare `allPlayerIds` +
+  broadcast `onboarding_ready_list` + advance gate su all-ready QUANDO il client Godot
+  invia `onboarding_choice` per-player (oggi invia host-only). Finche' Godot non e'
+  aggiornato, il gate per-player resta opt-in lato backend.
 - DESIGN-ONLY resta solo: la UX device (swipe micro-scenari + social/clan ritual) + il
-  Godot char-creation device-driven (sostituzione slider).
+  Godot char-creation device-driven (sostituzione slider) + il wiring wsSession sopra.
 
 ## Output consigliato
 
