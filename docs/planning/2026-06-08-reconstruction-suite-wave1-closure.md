@@ -96,7 +96,7 @@ tassonomia SPEC-A, visibilita' SPEC-B, authority SPEC-K).
 
 - Tutti i doc Wave-1 restano `doc_status: review_needed` + `source_of_truth: false`:
   la DIREZIONE e i fork sono ratificati, la prosa resta rivedibile. Il flip ad `accepted`
-  - `source_of_truth` e' Eduardo-gated (canon-status change).
+  e `source_of_truth` e' Eduardo-gated (canon-status change).
 - Governance: errors=0 su tutta la suite (warnings = backlog stale-doc progressivo, #2614).
 - Lesson di sessione: dopo `EnterWorktree`, i path assoluti `C:\dev\Game\...` colpiscono
   il MAIN repo non il worktree -- usare path worktree-assoluti o relativi
