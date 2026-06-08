@@ -45,15 +45,15 @@ anti-brick. SPEC-P ALIMENTA gli engine LIVE, non li riscrive.
 
 ## 2. Baseline LIVE (verificato 2026-06-08, non ricostruire)
 
-| Engine / artefatto                                                  | Ruolo / stato                                                                                                                                          |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `coopOrchestrator.run.outcome`                                      | Esito run: `victory` / `retreated` (retreat) / defeat-wipe / timeout (debrief). E' la SORGENTE del trigger run-fail.                                   |
-| `services/worldgen/metaNetwork{Resolver,Routing,Completability}.js` | Meta-network arc-conditions LIVE (ADR-2026-05-31, GAP-C #2509); flag `META_NETWORK_ROUTING` OFF di default. NESSUN degrado cross-run.                  |
-| `services/combat/biomeModifiers.getBiomeStressProfile`              | StressWave struct (`stresswave`, hazard) esposta read-only; il wire `stresswave -> pressure/spawn` e' DEAD (`:188` "separate combat PR, band-verify"). |
-| SPEC-J `woundSystem` + sez. 7                                       | Morte/ferite per-creatura + J3 (cicatrice->trait) + J5 (lineage/Custode). LIVE/design. Input dell'epilogo.                                             |
-| SPEC-H Codex (`data/codex/*.yaml`, `apps/play/src/codexPanel.js`)   | Codex Hades + A.L.I.E.N.A. 6-dim. Consumer degli eventi lore dell'epilogo (B14 progressive wiki).                                                      |
-| SPEC-F export Custode                                               | Veicolo del frammento di lore (`voice_diary_portable`, o nuovo `failure_lore_fragment`).                                                               |
-| event-log deterministico                                            | Sorgente di verita' degli eventi run; l'epilogo emette eventi tier-tagged (SPEC-A).                                                                    |
+| Engine / artefatto                                                  | Ruolo / stato                                                                                                                                                                      |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `coopOrchestrator.run.outcome`                                      | Esito run. SOLO `retreated` e' server-set (retreat); gli altri = host-authoritative (POST /api/coop/end, default victory). Sorgente del trigger run-fail (vedi provenienza sotto). |
+| `services/worldgen/metaNetwork{Resolver,Routing,Completability}.js` | Meta-network arc-conditions LIVE (ADR-2026-05-31, GAP-C #2509); flag `META_NETWORK_ROUTING` OFF di default. NESSUN degrado cross-run.                                              |
+| `services/combat/biomeModifiers.getBiomeStressProfile`              | StressWave struct (`stresswave`, hazard) esposta read-only; il wire `stresswave -> pressure/spawn` e' DEAD (`:188` "separate combat PR, band-verify").                             |
+| SPEC-J `woundSystem` + sez. 7                                       | Morte/ferite per-creatura + J3 (cicatrice->trait) + J5 (lineage/Custode). LIVE/design. Input dell'epilogo.                                                                         |
+| SPEC-H Codex (`data/codex/*.yaml`, `apps/play/src/codexPanel.js`)   | Codex Hades + A.L.I.E.N.A. 6-dim. Consumer degli eventi lore dell'epilogo (B14 progressive wiki).                                                                                  |
+| SPEC-F export Custode                                               | Veicolo del frammento di lore (`voice_diary_portable`, o nuovo `failure_lore_fragment`).                                                                                           |
+| event-log deterministico                                            | Sorgente di verita' degli eventi run; l'epilogo emette eventi tier-tagged (SPEC-A).                                                                                                |
 
 Invarianti ereditate:
 
@@ -64,6 +64,12 @@ Invarianti ereditate:
 - **Bounded-output** (mirror ADR-21c/SPEC-I): il degrado meta-network ha un cap; nessuno stato
   rende la campagna ingiocabile.
 - **ADR-2026-06-07 punto 6:** failure/StressWave tra i sistemi runtime da inventariare (SPEC-L).
+- **Provenienza outcome (verificato):** nel path SESSIONE l'engine auto-detecta `wipe`
+  (`session.js:3405`, playerAlive=0) + `timeout`/`objective_failed` (`objectiveEvaluator`).
+  Nel path COOP, `run.outcome` e' impostato da `POST /api/coop/end` (il Godot host passa
+  l'outcome; default victory) -- solo `retreated` e' server-set. Il trigger run-fail (sez. 3)
+  legge `run.outcome` a valle, ma nel coop il BRIDGE host deve passare l'outcome corretto
+  (contratto host aperto, SPEC-C/D).
 
 ## 3. Trigger run-fail
 
@@ -77,7 +83,10 @@ Il loop si attiva quando `run.outcome` non e' `victory`. Quattro trigger canonic
 | timeout          | `time_limit` superato -> `outcome: timeout`         | sabotage/escape/escort (SPEC-O)     |
 
 Ogni trigger emette un evento `run_failed { outcome, encounter_id, biome_id }` (event-log,
-tier `public`) che apre l'epilogo (sez. 4).
+tier `public`) che apre l'epilogo (sez. 4). NB provenienza (sez. 2): nel path coop la
+rilevazione wipe/timeout/objective_failed e' host-authoritative (il Godot host passa
+l'outcome a `/api/coop/end`); il server auto-detecta solo nel path sessione. Il trigger
+legge `run.outcome` a valle, indipendentemente dal path.
 
 ## 4. Epilogo run-end (surface contract)
 
@@ -94,7 +103,9 @@ Contratto (chi-possiede-PA1-a-parte):
 - **Payload tier (SPEC-B):** recap esito + bioma ferito = `public` (TV); il dettaglio
   per-creatura del giocatore (grief-state, scelte) = `private` (device); identita' dei caduti
   = opt-in self-disclosure (mirror SPEC-B F5). Vedi sez. 9.
-- **Durata/skip:** ~60s, skippabile a recap sintetico (anti-cutscene-punitiva, sez. 8).
+- **Durata/skip:** tempo-design target ~60s (da calibrare playtest), skippabile a un recap
+  sintetico minimo = `[esito run] + [bioma ferito] + [n. caduti]` (~5s, nessun numero grezzo)
+  -- anti-cutscene-punitiva (sez. 8).
 
 ## 5. Wiki/Codex progressivo (SPEC-H)
 
@@ -118,9 +129,11 @@ Contratto del degrado:
 - **Bounded (cap):** il degrado e' limitato -- valore concreto del cap = fork **PA2**
   (es. max N biomi degradati simultanei + step di degrado limitato + recupero automatico
   dopo M run vinte). NESSUN cap -> rischio brick (vietato, sez. 8).
-- **Effetto:** il bioma ferito alza la pressione ecologica (input a SPEC-I read-side) e/o
-  apre rami narrativi; l'effetto sui modificatori passa per il cap bounded di SPEC-I
-  (+/-2 combinato, ER2) -- SPEC-P non aggiunge un cap parallelo sulle stat.
+- **Natura dell'effetto (fork PA4):** meccanico (alza la pressione ERMES, input SPEC-I
+  read-side), narrativo (rami/Codex), o entrambi. Se meccanico, serve la funzione di mapping
+  `N biomi degradati -> delta pressione SPEC-I` ENTRO il cap ER2 (+/-2 combinato), da definire
+  PRIMA di ratificare PA2 (altrimenti PA2 e ER2 si overconstrain). SPEC-P non aggiunge un cap
+  parallelo sulle stat.
 - **Recupero:** una via di recupero DEVE esistere (vincere nel bioma ferito lo risana) per
   garantire l'anti-brick (sez. 8).
 
@@ -142,8 +155,8 @@ Invariante P1: **nessuno stato rende la campagna ingiocabile.**
 - Cap sul degrado (PA2) + via di recupero sempre presente (sez. 6).
 - **Recovery leggibile (PA3):** il giocatore DEVE poter capire che la campagna e' ancora
   vincibile dopo fallimenti consecutivi -- il degrado e la via di recupero sono telegrafati
-  in modo diegetico (no degrado silenzioso che "sembra" brick). Forma del telegraph di
-  recupero = fork PA3.
+  in modo diegetico (no degrado silenzioso che "sembra" brick), **visibili PRE-run** (schermata
+  selezione missione), non solo in-run. Forma + timing del telegraph di recupero = fork PA3.
 - Anti-punizione UX: l'epilogo e' skippabile (sez. 4); il framing e' "la sconfitta e'
   memoria", mai patronizzante.
 
@@ -167,8 +180,9 @@ Invariante P1: **nessuno stato rende la campagna ingiocabile.**
 - **SPEC-H** (ALIENA/Codex): consumer degli eventi lore dell'epilogo (B14 progressive wiki).
 - **SPEC-F** (Custode portable): veicolo del frammento di lore (export).
 - **SPEC-D** (TV director): round-scoped; l'epilogo run-end e' surface separata (PA1).
-- **SPEC-O** (mission templates): i fallimenti obiettivo (sabotage/escape/escort timeout)
-  sono trigger run-fail (sez. 3).
+- **SPEC-O** (mission templates): possiede i `loss_condition` per tipo missione; SPEC-P
+  consuma l'outcome finale del RUN, non i failure locali encounter. Nessun overlap oggi
+  (SPEC-O non ha epilogo run-end).
 - **SPEC-B/A**: visibilita' (sez. 9) + tier enforcement.
 - **SPEC-L**: traccia lo stato (0-built oggi) del loop failure-as-lore.
 
@@ -211,11 +225,31 @@ Quanto e' "bounded" il degrado?
 Come il player capisce che la campagna e' ancora vincibile?
 
 - **Opzione A -- descrittore diegetico di bioma + hint recupero (raccomandata).** "Bioma in
-  cicatrice -- una vittoria qui lo risana"; mai numeri. Tradeoff: leggibile, coerente
-  doctrine.
+  cicatrice -- una vittoria qui lo risana"; mai numeri. **Timing:** il descrittore e'
+  visibile PRE-run (schermata selezione missione), non solo in-run -- altrimenti la pressione
+  aumentata appare opaca (viola no-numero-opaco). Sopra una soglia di biomi degradati
+  (~`PA2 cap - 1`) il telegraph passa a stato "alert" con hint recupero esplicito. Tradeoff:
+  leggibile, coerente doctrine.
 - **Opzione B -- indicatore meta-map esplicito** (icona degrado sulla mappa campagna).
   Tradeoff: chiarissimo, ma piu' UI + meno diegetico.
-- **Raccomandazione:** A; B come complemento meta-map eventuale.
+- **Raccomandazione:** A (con telegraph PRE-run); B come complemento meta-map eventuale.
+
+### PA4 -- Natura del degrado del bioma ferito
+
+Il degrado (sez. 6) e' meccanico, narrativo, o entrambi? (Fork emerso dalla harsh-review: la
+disgiunzione "e/o" di sez. 6 va decisa perche' vincola PA2.)
+
+- **Opzione A -- meccanico (pressione ERMES).** Il bioma ferito alza la pressione SPEC-I
+  (read-side) entro il cap ER2. Richiede la funzione di mapping `N biomi degradati -> delta
+pressione` definita PRIMA di ratificare PA2 (anti-overconstrain PA2<->ER2). Tradeoff: "si
+  sente", ma va bilanciato (N=40).
+- **Opzione B -- solo narrativo/Codex.** Apre rami narrativi + sblocca Codex, zero effetto
+  bilanciamento; il cap PA2 e' puramente narrativo. Tradeoff: zero rischio bilanciamento, ma
+  il degrado non ha peso meccanico.
+- **Opzione C -- entrambi (raccomandata).** Meccanico (bounded ER2) + narrativo. Tradeoff:
+  arco completo, ma richiede sia il mapping PA2<->ER2 sia il contenuto narrativo.
+- **Raccomandazione:** C (con mapping PA2<->ER2 esplicito); B come fallback MVP se il
+  bilanciamento slitta.
 
 ## 12. Acceptance
 
@@ -226,13 +260,15 @@ SPEC-P e' implementabile/chiudibile quando:
    in PA1, e consuma l'output J5 (QA2);
 3. l'aggancio Codex (sez. 5) emette eventi che il consumer SPEC-H raccoglie (no Codex
    costruito qui);
-4. il degrado meta-network (sez. 6, A13 write-side) e' bounded con il cap deciso in PA2 +
-   una via di recupero, passando per il cap +/-2 di SPEC-I (ER2) per gli effetti su stat;
+4. il degrado meta-network (sez. 6, A13 write-side) ha la NATURA decisa in PA4; se meccanico,
+   e' bounded col cap PA2 + la funzione di mapping `N biomi degradati -> delta pressione`
+   ENTRO il cap ER2 di SPEC-I, + una via di recupero;
 5. il telegraph (sez. 7) e il recovery-telegraph (PA3) sono diegetici (nessun float, nessuna
-   sigla; il wire StressWave va attivato lato combat);
-6. l'invariante anti-brick (sez. 8) e' verificabile: nessuna sequenza di fallimenti rende la
-   campagna ingiocabile (test meta-network + recovery path);
+   sigla; visibile PRE-run; il wire StressWave va attivato lato combat);
+6. l'invariante anti-brick (sez. 8) e' verificabile con un test AUTOMATICO esplicito (es.
+   N>=5 run fallite consecutive sullo stesso bioma -> `metaNetworkCompletability` conferma la
+   campagna ancora completabile + recovery path raggiungibile), non solo design-rationale;
 7. la visibilita' (sez. 9) e' coerente con SPEC-B (degrado grezzo `secret`, recap/telegraph
    `public`, dettaglio caduto `private`, identita' opt-in);
-8. QA1/QA2 restano ratificati e PA1-PA3 sono ratificati da Eduardo; il flip
+8. QA1/QA2 restano ratificati e PA1-PA4 sono ratificati da Eduardo; il flip
    `review_needed` -> `accepted` al merge resta a lui (`source_of_truth:false`).
