@@ -577,6 +577,69 @@ A3 (+A13/A2/B14). Dipende da SPEC-J/I/F/D. Stato: DESIGN-ONLY.
 docs/design/evo-tactics-failure-as-lore.md
 ```
 
+## 3ter. Gap game-reference DF-levels 2026-06-08
+
+Ultimo controllo "feature collegate a giochi non rappresentate nei piani":
+harvest da `Spaces/Dev/Evo-Tactics/core/RECONCILIATION-MASTER.md` (A5 vault, 31
+giochi -> DF-levels L0-L5) + `docs/adr/ADR-2026-05-18-df-levels-integration-direction.md`
+(Game, ground-truth corretto), git-verificato. Dettaglio + provenienza:
+`docs/planning/2026-06-08-game-reference-gap-harvest.md`.
+
+**Blind-spot**: le Spec A..P coprono SUPERFICI device/TV; il reframe ha saltato la
+PROFONDITA' narrativa/simulativa dei reference-game (DF-levels L1-L5). 7 feature
+game-linked genuinamente mancanti -> raggruppate in SPEC-Q.
+
+| #   | Feature (gioco)                                                          | Livello | Stato git                           | Casa              |
+| --- | ------------------------------------------------------------------------ | ------- | ----------------------------------- | ----------------- |
+| M-7 | Chronicle/Memory-mode narrative (event-store cross-session + viewer)     | L4      | combat-log LIVE, chronicle 404      | SPEC-Q (keystone) |
+| M-2 | Identity-earned: name emergence + portrait overlay + storia (Wildermyth) | L1      | services/identity 404 (scar=SPEC-J) | SPEC-Q            |
+| M-1 | Named heirlooms/artefatti con storia (FFT)                               | L3      | 0 hit                               | SPEC-Q            |
+| M-3 | Named-mutation lineage -- contratto Game-side (Godot-v2 ha draft)        | L3      | solo Godot-v2                       | SPEC-Q            |
+| M-4 | Hidden/evolving enemy abilities reveal (Invisible Inc)                   | L2/P5   | 0 design                            | SPEC-Q + SPEC-H   |
+| M-5 | "Ogni job = 1 domanda core" design-constraint (Dicey Dungeons)           | P3      | non tracciato                       | SPEC-Q + SPEC-E   |
+| M-6 | Visual-swap su mutazione (Spore) -- verify                               | P2      | likely 0-runtime                    | SPEC-Q + SPEC-K   |
+
+**Misrappresentazioni** (R-1..R-5): label stale nel vault A5 `RECONCILIATION-MASTER`
+(Triangle Strategy / Sentience-data / AI-War-Sistema = in realta' SHIPPED), gia'
+corrette da `ADR-2026-05-18-df-levels` Game-side. Piani Game OK; vault = archivio
+non-governing. Nessuna azione piano per R-1/R-2/R-4/R-5; R-3 (Wildermyth understated)
+= il gap reale M-2.
+
+### Estensioni tattiche/recruit/economy (games-source-index KM sweep 2026-06-08)
+
+Secondo controllo KM: catalogo SoT `docs/guide/games-source-index.md` (overlay) +
+non-index (deep-research/Flint/Cards/memorie). KM largely esaurita (DRY-check: la
+maggioranza delle fonti = zero nuovi). 6 residui game-reference NON in nessuna spec,
+distribuiti come estensioni. Dettaglio: `docs/planning/2026-06-08-game-reference-gap-harvest.md`.
+
+| #   | Feature (gioco)                                                | Pillar | Stato git                                                          | Estende                   |
+| --- | -------------------------------------------------------------- | ------ | ------------------------------------------------------------------ | ------------------------- |
+| G-1 | pact_difficulty_menu (Hades/Monster Train)                     | P6     | engine LIVE (`pact_shards:0..5` /api/campaign/start), surface DEAD | SPEC-K                    |
+| G-2 | support_relation_arcs (Fire Emblem)                            | P3+P4  | recruit/affinity/narrativeEngine LIVE, trigger dialogo no          | SPEC-G + SPEC-E           |
+| G-3 | charm_boss_recruit (Tactics Ogre)                              | P3     | parley ADR esiste, dialogue-recruit mid-combat no                  | SPEC-H + SPEC-E           |
+| G-4 | tribe synergy + cross-party unlock (Wildfrost/Cobalt/Backpack) | P3+P5  | 0 same-species party-passive                                       | SPEC-E                    |
+| G-5 | Banner Saga caravan supply (attrition tra missioni)            | P6     | 0 campaign-resource-drain                                          | SPEC-J / nuovo (POST-MVP) |
+| G-6 | Banner Saga permadeath opt-in (hardcore)                       | P6     | 0 permadeath flag (woundedPerma = scar, non death)                 | SPEC-J (POST-MVP)         |
+
+Dedup: Invisible Inc hidden-abilities = M-4 (sopra); counter-delay = C1 (sez.3bis status v2);
+three-horizons = annotation SPEC-B/K. PARKED-OK (non revivere): gene_grid_bingo (S6 freeze
+ADR-05-26), Astrea dice (OD-013), organ_system (museum M-023 post-S6), Cobalt position-cond
+(deferred), Dicey/Beglitched (metodologia), deepgame (GPT-scaffold unrelated).
+
+### SPEC-Q: DF-Levels Narrative and Simulation Depth
+
+Obiettivo: portare la profondita' DF-levels (identita' guadagnata L1, eredita' L3,
+cronaca L4, intelligenza Sistema leggibile L2/P5) che il reframe device/TV ha saltato
+come blocco. Authority origine = A5 vault RECONCILIATION-MASTER (research, non-governing)
+-> qui design contract Game. Recupera M-1..M-7. Dipende da SPEC-J (scar->identity),
+SPEC-P (failure usa chronicle), SPEC-D (cinematic legge event-log), SPEC-E (job-identity),
+SPEC-H (ALIENA reveal), SPEC-K (visual). Stato: DESIGN-ONLY (services/{identity,eventlog,
+chronicle} 404; combat event-log + woundedPerma scar LIVE = riuso, non ricostruire).
+
+```text
+docs/design/evo-tactics-df-levels-narrative-depth.md
+```
+
 ## 4. Ordine consigliato
 
 ### Wave 1 - Contratti di esperienza
@@ -619,8 +682,9 @@ Le **nuove spec** (ordine consigliato):
 14. SPEC-M Onboarding Identity Flow -- dopo SPEC-A/B/K.
 15. SPEC-O Mission Template Library -- dopo SPEC-D/I.
 16. SPEC-P Failure-as-lore -- dopo SPEC-J/I/F.
+17. SPEC-Q DF-levels narrative/simulation depth -- M-7 Chronicle/EventLog keystone prima (A3/A13 dipendono), poi L1/L3 + Sistema legibility.
 
-Production track (art/audio/asset) = binario separato, fuori Spec A..P (scelta triage).
+Production track (art/audio/asset) = binario separato, fuori Spec A..Q (scelta triage).
 Gate kill-60 applicato ai candidati Spec-M..P prima del build.
 
 ## 5. Ticket build derivabili
