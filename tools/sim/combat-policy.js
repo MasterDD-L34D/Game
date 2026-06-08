@@ -31,17 +31,82 @@ function stepToward(actor, dest) {
   return { action_type: 'move', target_position };
 }
 
+// OA2 (item 7): tiles occupied by OTHER live units -- move targets the backend
+// rejects with 400 "casella occupata" (session.js "niente overlap").
+function occupiedSet(units, selfId) {
+  const occ = new Set();
+  for (const u of units || []) {
+    if (!u || u.id === selfId || !u.position || (u.hp ?? 0) <= 0) continue;
+    occ.add(`${u.position.x},${u.position.y}`);
+  }
+  return occ;
+}
+
+// Nearest (Manhattan) zone tile not occupied by a live unit. Deterministic
+// tie-break (x then y ascending). Null only if EVERY zone tile is taken.
+function nearestFreeZoneTile(pos, zone, occ) {
+  let best = null;
+  let bestD = Infinity;
+  for (let x = zone[0]; x <= zone[2]; x += 1) {
+    for (let y = zone[1]; y <= zone[3]; y += 1) {
+      if (occ.has(`${x},${y}`)) continue;
+      const d = Math.abs(pos.x - x) + Math.abs(pos.y - y);
+      if (d < bestD) {
+        bestD = d;
+        best = { x, y };
+      }
+    }
+  }
+  return best;
+}
+
+// Step toward a DISTINCT free zone tile, routing around occupied tiles: primary
+// axis, then secondary axis, then a perpendicular sidestep. Lets 2+ units occupy
+// the zone (min_units_in_zone > 1) instead of funneling onto one entry tile where
+// the 2nd unit blocks forever. Null only if fully boxed (caller holds the tick
+// rather than spamming a move the backend rejects).
+function stepTowardZone(actor, zone, units) {
+  const occ = occupiedSet(units, actor.id);
+  const dest = nearestFreeZoneTile(actor.position, zone, occ) || {
+    x: Math.round((zone[0] + zone[2]) / 2),
+    y: Math.round((zone[1] + zone[3]) / 2),
+  };
+  const { x, y } = actor.position;
+  const dx = Math.sign(dest.x - x);
+  const dy = Math.sign(dest.y - y);
+  const primaryX = Math.abs(dest.x - x) >= Math.abs(dest.y - y);
+  const ordered = primaryX
+    ? [
+        { x: x + dx, y },
+        { x, y: y + dy },
+        { x, y: y + 1 },
+        { x, y: y - 1 },
+      ]
+    : [
+        { x, y: y + dy },
+        { x: x + dx, y },
+        { x: x + 1, y },
+        { x: x - 1, y },
+      ];
+  for (const c of ordered) {
+    if (c.x === x && c.y === y) continue; // no-op (axis delta 0)
+    if (c.x < 0 || c.y < 0) continue; // off-board lower bound
+    if (occ.has(`${c.x},${c.y}`)) continue; // would be rejected by occupancy
+    return { action_type: 'move', target_position: c };
+  }
+  return null; // boxed in -> hold this tick
+}
+
 function selectPlayerAction(actor, units, objective) {
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
   const zone = objective && objective.config && objective.config.target_zone;
   if (ZONE_PURSUIT_OBJECTIVES.has(objType) && Array.isArray(zone) && zone.length >= 4) {
     if (!inZone(actor.position, zone)) {
-      const centroid = {
-        x: Math.round((zone[0] + zone[2]) / 2),
-        y: Math.round((zone[1] + zone[3]) / 2),
-      };
-      return stepToward(actor, centroid);
+      // OA2 fix (item 7): pursue a DISTINCT free zone tile + route around allies
+      // so min_units_in_zone > 1 objectives are satisfiable (was: a shared
+      // centroid funneled every unit to one tile -> 2nd unit blocked outside).
+      return stepTowardZone(actor, zone, units);
     }
     // IN zone: HOLD. Attack only an already-in-range enemy; NEVER leave the zone to
     // chase a far foe (that would break the hold and the objective would never tick).
