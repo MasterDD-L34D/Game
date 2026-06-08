@@ -3434,6 +3434,13 @@ function createSessionRouter(options = {}) {
       let vcSnapshot = null;
       let debrief = null;
       try {
+        // SPEC-M FP->VC plumb: attach the branco Form Pulse (if a coop room is
+        // linked) so the debrief VC reflects the soft nudge. Dormant until the
+        // Form Pulse UX (Godot) populates it; no-op otherwise (backward compat).
+        if (coopStore && session.campaign_id && !session.formPulses) {
+          const fp = coopStore.getFormPulses(session.campaign_id);
+          if (fp) session.formPulses = fp;
+        }
         vcSnapshot = buildVcSnapshot(session, telemetryConfig);
         const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
         const peResult = computeSessionPE(vcSnapshot, {

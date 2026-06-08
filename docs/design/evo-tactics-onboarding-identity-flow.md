@@ -277,8 +277,9 @@ SPEC-M e' implementabile/chiudibile quando:
    `onboarding_choice` per-player + timeout server-side anti-deadlock (sez. 5) + debito
    host-only rimosso (Gate-5 cross-repo);
 4. il wiring `formPulses -> VC axis delta` e' costruito (LIVE: `formPulseVc` soft+bounded in
-   `buildVcSnapshot`, no-op se assente); restano da ratificare il mapping (MA3) + tarare la
-   magnitudine N=40 + plumbing `session.formPulses` al call-site + UX swipe (MA2/SPEC-K);
+   `buildVcSnapshot`) + plumbing al call-site del debrief (`coopStore.getFormPulses` per
+   `campaign_id`, dormiente finche' la UX Form Pulse Godot non popola gli assi); restano da
+   ratificare il mapping (MA3) + tarare la magnitudine N=40 + UX swipe (MA2/SPEC-K);
 5. biome-form landing (MA4) + social ritual sono wired (oggi DESIGN-ONLY);
 6. il mapping VC/MBTI/Ennea/Conviction resta soft (no hard-gate), engine-owned;
 7. la visibilita' (sez. 9) e' coerente con SPEC-B (scelta `private`+opt-in F6, Form Pulse

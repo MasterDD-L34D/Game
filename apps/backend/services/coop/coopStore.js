@@ -61,7 +61,17 @@ function createCoopStore({ lobby } = {}) {
     return false;
   }
 
-  return { getOrCreate, get, remove, list, clear, linkSession };
+  // SPEC-M FP->VC plumb -- resolve the branco Form Pulse map by campaign_id
+  // (run.id == campaign_id). Lets the combat session feed formPulses to vcScoring.
+  function getFormPulses(campaignId) {
+    if (!campaignId) return null;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) return orch.formPulses || null;
+    }
+    return null;
+  }
+
+  return { getOrCreate, get, remove, list, clear, linkSession, getFormPulses };
 }
 
 module.exports = { createCoopStore };
