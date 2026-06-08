@@ -503,6 +503,69 @@ re-verify):** lo skew e' RISOLTO -- Game e' su `main` sincronizzato (contiene
 `claude/jules-test-coverage-batch-2026-06-03` non esiste piu'. Quindi route-vote
 NON va re-implementato (gia' su main) e NON resta nessun branch da riallineare.
 
+## 3bis. Gap recuperati 2026-06-08 (harvest eng-graph + Planning/archive)
+
+Harvest 2026-06-08 da eng-graph (corpus vault) + `docs/planning/**` + `docs/archive/**`,
+git-verificato. Dettaglio + provenienza: `docs/planning/2026-06-08-spec-a-l-gap-harvest.md`.
+Triage utente: tutti i cluster accettati. Pattern dominante = **Engine LIVE / Surface
+DEAD** (engine gia' runtime, manca surface device/TV) -- coerente col riframe Spec A..L.
+
+Estensioni allo scope delle spec esistenti:
+
+| Target | Gap recuperati                                                                                                                                                                                                |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPEC-B | A1 info-mondo asimmetrica per-device (DESIGN); A7 mini-map diegetica TV/phone; A8 replay payload shape; B6 ERMES briefing public/private                                                                      |
+| SPEC-C | B7 SG/PT gauge phone (tracker live); B8 PI-shop draft; B9 rewind button (buffer live); C2 AP+1 (verdict 1A, 5 abilita' morte); C1 status v2 Shaping/Resonance; C3 facing/rear; C4 push/ledge; C10 move-syntax |
+| SPEC-D | A8 replay endpoint; A14 weather diegetic; B10 narrative ink depth (engine live); C5 sentience-tier scene complexity                                                                                           |
+| SPEC-E | B1 FormEvolution surface (engine live); B2 seasonal org-phase; B3 tribe identity; B4 Nido unlock gate; B5 conviction recruit; C6 jobs expansion; C7 mating ennea 9/9; C8 beast-bond                           |
+| SPEC-F | B14 Custodi portano frammenti wiki/lore                                                                                                                                                                       |
+| SPEC-G | B13 MBTI/Ennea color render (palette live); C9 AI archetype voice profiles                                                                                                                                    |
+| SPEC-H | B14 progressive wiki (Hades Codex) via ALIENA                                                                                                                                                                 |
+| SPEC-I | A2 StressWave telegraph; A9 population tick; A13 biome-wound cross-run; B6 ERMES briefing surface                                                                                                             |
+| SPEC-K | A6 biome-form landing; A10 trait-env-costs wiring; B11 difficulty profiles (engine pervasivo); B12 route weighting                                                                                            |
+
+Verifica git puntuale residua prima di scrivere ticket "build": C3 (facing per-unit),
+C6 (jobs runtime). Mechanics-depth MED (C1/C4/C10) = scope opzionale di SPEC-C, non blocking.
+
+### SPEC-M: Onboarding Identity Flow
+
+Obiettivo: primi ~60s device-driven (3 scelte pre-Act-0 + Form Pulse 5-swipe +
+biome-form landing + social test) che seedano Forma/bioma/Custode, al posto dello
+slider MVP/debug. Recupera A4/A5/A6/A12. Dipende da SPEC-A/B/K. Stato: DESIGN-ONLY.
+
+```text
+docs/design/evo-tactics-onboarding-identity-flow.md
+```
+
+### SPEC-N: Localization i18n Scaffold
+
+Obiettivo: scaffold i18n it/en (namespace common/combat/tutorial/narrative) come
+fondazione orizzontale; launch-blocker pubblico EN; basso costo. Recupera
+`architecture/i18n-strategy.md`. Stato: DESIGN-ONLY.
+
+```text
+docs/design/evo-tactics-localization-i18n.md
+```
+
+### SPEC-O: Mission Template Library
+
+Obiettivo: 6 tipi-obiettivo come template YAML (oggi 1 tunato), integrati con
+SPEC-D (grammatica scene) e SPEC-I (pressione per tipo). Recupera A11. Stato: PARTIAL.
+
+```text
+docs/design/evo-tactics-mission-template-library.md
+```
+
+### SPEC-P: Failure-as-Lore Loop
+
+Obiettivo: loop run-fail come arco narrativo persistente bounded (epilogo -> wiki/
+Codex -> degrado meta-network), distinto dalla morte per-creatura (SPEC-J). Recupera
+A3 (+A13/A2/B14). Dipende da SPEC-J/I/F/D. Stato: DESIGN-ONLY.
+
+```text
+docs/design/evo-tactics-failure-as-lore.md
+```
+
 ## 4. Ordine consigliato
 
 ### Wave 1 - Contratti di esperienza
@@ -533,6 +596,21 @@ Motivo: definiscono persistenza, gruppi sociali, successione e rientro Custodi.
 
 Motivo: legano comportamento, dottrina, coerenza e pressione ecologica alle
 scelte di campagna.
+
+### Wave 4 - Gap recuperati 2026-06-08
+
+Le **estensioni** (tabella sez. 3bis) si assorbono nello scope delle spec esistenti
+(B/C/D/E/F/G/H/I/K) -- non riordinano le wave 1-3.
+
+Le **nuove spec** (ordine consigliato):
+
+13. SPEC-N Localization i18n -- orizzontale, basso costo, prima possibile.
+14. SPEC-M Onboarding Identity Flow -- dopo SPEC-A/B/K.
+15. SPEC-O Mission Template Library -- dopo SPEC-D/I.
+16. SPEC-P Failure-as-lore -- dopo SPEC-J/I/F.
+
+Production track (art/audio/asset) = binario separato, fuori Spec A..P (scelta triage).
+Gate kill-60 applicato ai candidati Spec-M..P prima del build.
 
 ## 5. Ticket build derivabili
 
