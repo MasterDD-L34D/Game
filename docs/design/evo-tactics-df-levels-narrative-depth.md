@@ -50,7 +50,8 @@ Authority origine = A5 vault (research, non-governing) -> qui design contract Ga
   nome+MBTI reveal -> Legacy figura storica.
 - Portrait/sprite overlay da evento formativo (cicatrice visibile, non solo stat).
 - Scar-as-stat-malus = SPEC-J `woundedPerma` (riusa); qui = il LAYER identita' narrativa.
-- `services/identity` = 404 greenfield; museum card M-2026-04-27-004 ha reuse-path.
+- `services/identity` = 404 greenfield; museum card `creature-wildermyth-battle-scar-portrait.md`
+  ha reuse-path (portrait overlay da evento formativo).
 
 ### L3 -- Legacy artifacts (M-1 FFT + M-3 Wildermyth)
 
