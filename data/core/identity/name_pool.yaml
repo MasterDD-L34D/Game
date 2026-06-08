@@ -1,0 +1,29 @@
+# SPEC-Q M-2 -- identity name pool (name emergence by lifecycle stage).
+#
+# PROPOSED content (ratify: master-dd / MA). This file is the RATIFIABLE knob:
+# the identityService mechanism (stage-gating + deterministic pick + emit) is fixed,
+# but WHICH names live here is a design/content decision -- edit freely.
+#
+# Deterministic: identityService picks names[hash(creature.id) % len] so a creature
+# keeps the same name across stage advances (Juvenile -> Apex -> Legacy).
+_meta:
+  proposed: true
+  ratify: master-dd (content)
+  source: SPEC-Q M-2
+names:
+  - Vega
+  - Esca
+  - Brace
+  - Lama
+  - Cardo
+  - Spina
+  - Onda
+  - Lince
+  - Ruga
+  - Cinabro
+  - Greto
+  - Falco
+  - Ambra
+  - Solco
+  - Nembo
+  - Tana
