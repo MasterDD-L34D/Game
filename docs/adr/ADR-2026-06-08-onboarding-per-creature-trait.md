@@ -53,9 +53,9 @@ richiede esplicitamente questo ADR come prerequisito non-negoziabile PRIMA dell'
 - **Follow-up GATED (Eduardo)**: l'edit effettivo di `51-ONBOARDING-60S` (A3 SoT) per
   riflettere il modello per-creatura NON e' in questo ADR. L'ADR REGISTRA la decisione (il gate
   richiesto da MA1); l'edit dell'A3 SoT resta owner-gated.
-- **Impl GATED**: la modifica data-model campaign (`campaign.js` + `default_campaign_mvp.yaml`
-  - `tests/api/campaignRoutes.test.js`) + il wiring per-creatura (il `coopOrchestrator` e' gia'
-    per-player #2638) = follow-up implementativi separati.
+- **Impl GATED**: la modifica data-model campaign (`campaign.js`, `default_campaign_mvp.yaml`,
+  `tests/api/campaignRoutes.test.js`) + il wiring per-creatura (il `coopOrchestrator` e' gia'
+  per-player #2638) = follow-up implementativi separati.
 - **Canon-compatibile** la parte "trait-branco emergente" (aggregato, gia' previsto dal Form
   Pulse / bias Custode ADR-2026-06-07 punto 4); SOLO la parte "per-creatura" supera l'A3.
 - **MA1 sbloccato**: con questo ADR ACCEPTED, l'acceptance #2 di SPEC-M e' soddisfatta per la
