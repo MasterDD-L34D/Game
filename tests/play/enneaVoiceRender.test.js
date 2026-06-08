@@ -62,16 +62,26 @@ describe('formatVoiceLine — pure HTML formatter', () => {
     }
   });
 
-  test('beat_id mapping IT — known beats translate to label', async () => {
-    const { formatVoiceLine, _internals } = await loadModule();
-    assert.equal(_internals.BEAT_LABEL_IT.victory_solo, 'Vittoria');
-    assert.equal(_internals.BEAT_LABEL_IT.defeat_critical, 'Sconfitta');
+  test('beat_id mapping IT — known beats translate to label (i18n)', async () => {
+    const { formatVoiceLine, beatLabel } = await loadModule();
+    assert.equal(beatLabel('victory_solo'), 'Vittoria');
+    assert.equal(beatLabel('defeat_critical'), 'Sconfitta');
     const html = formatVoiceLine({
       archetype_id: 'Cacciatore(8)',
       beat_id: 'defeat_critical',
       text: 'tear',
     });
     assert.ok(html.includes('Sconfitta'));
+  });
+
+  test('archetypeLabel — id parens → IT label via i18n (SPEC-N PR-5)', async () => {
+    const { archetypeLabel } = await loadModule();
+    assert.equal(archetypeLabel('Riformatore(1)'), 'Riformatore');
+    assert.equal(archetypeLabel('Architetto(5)'), 'Architetto');
+    assert.equal(archetypeLabel('Stoico(9)'), 'Stoico');
+    assert.equal(archetypeLabel('Unknown(99)'), ''); // 2-digit / no key → empty
+    assert.equal(archetypeLabel('garbage'), ''); // no parens → empty
+    assert.equal(archetypeLabel(null), '');
   });
 
   test('unknown beat_id falls back to raw beat_id (no exception)', async () => {

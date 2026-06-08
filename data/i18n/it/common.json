@@ -116,5 +116,80 @@
     "deaf_hoh_enabled": "Modalità Sordi/HoH attiva",
     "colorblind_enabled": "Modalità Daltonismo attiva",
     "reduce_motion_enabled": "Riduci animazioni attivo"
+  },
+  "biome_label": {
+    "savana": "Savana",
+    "caverna": "Caverna",
+    "caverna_risonante": "Caverna risonante",
+    "caverna_sotterranea": "Caverna sotterranea",
+    "foresta": "Foresta",
+    "pianura_aperta": "Pianura aperta",
+    "rovine_planari": "Rovine planari",
+    "abisso_vulcanico": "Abisso vulcanico",
+    "atollo_obsidiana": "Atollo di Obsidiana",
+    "cattedrale_apex": "Cattedrale dell'Apex",
+    "frattura_stellare": "Frattura stellare"
+  },
+  "biome_eco": {
+    "low": "Bioma calmo",
+    "med": "Bioma in equilibrio",
+    "high": "Bioma in tensione"
+  },
+  "ennea_archetype": {
+    "1": "Riformatore",
+    "2": "Coordinatore",
+    "3": "Conquistatore",
+    "4": "Individualista",
+    "5": "Architetto",
+    "6": "Lealista",
+    "7": "Esploratore",
+    "8": "Cacciatore",
+    "9": "Stoico"
+  },
+  "ennea_beat": {
+    "victory_solo": "Vittoria",
+    "defeat_critical": "Sconfitta",
+    "combat_attack_committed": "Attacco",
+    "combat_defense_braced": "Difesa",
+    "exploration_new_tile": "Esplorazione",
+    "low_hp_warning": "Crisi"
+  },
+  "ennea_desc": {
+    "1": "Setup metodico, alta precisione.",
+    "2": "Coesione di squadra.",
+    "3": "Aggressione e rischio.",
+    "4": "Resilienza in zona critica.",
+    "5": "Strategia metodica, basso rischio.",
+    "6": "Vigilanza e supporto attivo.",
+    "7": "Scoperta e mobilità.",
+    "8": "Mordi-e-fuggi mirato.",
+    "9": "Endurance sotto pressione."
+  },
+  "voice_tier": {
+    "whisper": "sussurro",
+    "voice": "voce",
+    "shout": "grido"
+  },
+  "mbti_axis_detail": {
+    "E_I": {
+      "label": "Energia sociale",
+      "lo": "Estroversione",
+      "hi": "Introversione"
+    },
+    "S_N": {
+      "label": "Percezione",
+      "lo": "Intuizione",
+      "hi": "Sensazione"
+    },
+    "T_F": {
+      "label": "Decisione",
+      "lo": "Sentimento",
+      "hi": "Pensiero"
+    },
+    "J_P": {
+      "label": "Stile",
+      "lo": "Percezione",
+      "hi": "Giudizio"
+    }
   }
 }
