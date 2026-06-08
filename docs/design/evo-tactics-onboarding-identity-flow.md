@@ -269,9 +269,10 @@ SPEC-M e' implementabile/chiudibile quando:
 
 1. la catena 60s (sez. 3) rispetta il canon 51-ONBOARDING (budget/timer/auto-A) con input
    device per-player;
-2. le 3 scelte sono wired al `initial_trait_choice` LIVE, con la semantica MA1 decisa; se
-   MA1=A/C, l'ADR-supersede di 51-ONBOARDING-60S e' filato + il data-model campaign
-   (trait per-creatura, non `acquiredTraits` singolo condiviso) e' esteso;
+2. **MA1 LIVE (2026-06-08):** ADR-supersede di 51-ONBOARDING-60S filato + A3 SoT aggiornato +
+   data-model campaign esteso (`acquiredTraitsByCreature { creatureId: traitId }`, `campaign.js`
+   accetta `initial_trait_choices`, `acquiredTraits[]` = union backward-compat). Residuo:
+   trait-branco emergente (Form Pulse aggregato) + wiring roster->creatura;
 3. il modello per-player (#2638) e' wired end-to-end: wsSession passa `allPlayerIds` +
    broadcast `onboarding_ready_list` (con strip choice-content, sez. 9) + Godot invia
    `onboarding_choice` per-player + timeout server-side anti-deadlock (sez. 5) + debito

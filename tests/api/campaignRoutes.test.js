@@ -121,6 +121,45 @@ test('POST /api/campaign/start: initial_trait_choice option_c → denti_seghetta
   assert.equal(res.body.campaign.onboardingChoice.trait_id, 'denti_seghettati');
 });
 
+// MA1 (ADR-2026-06-08): per-creature onboarding traits + backward-compat.
+test('POST /api/campaign/start: per-creature initial_trait_choices -> acquiredTraitsByCreature', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choices: { c1: 'option_a', c2: 'option_b' },
+  });
+  assert.equal(res.status, 201);
+  const c = res.body.campaign;
+  assert.equal(c.acquiredTraitsByCreature.c1, 'zampe_a_molla');
+  assert.equal(c.acquiredTraitsByCreature.c2, 'pelle_elastomera');
+  // backward-compat: acquiredTraits = union of per-creature traits
+  assert.deepEqual([...c.acquiredTraits].sort(), ['pelle_elastomera', 'zampe_a_molla']);
+});
+
+test('POST /api/campaign/start: per-creature invalid key falls back to default per creature', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choices: { c1: 'bogus', c2: 'option_c' },
+  });
+  assert.equal(res.status, 201);
+  const c = res.body.campaign;
+  assert.equal(c.acquiredTraitsByCreature.c1, 'zampe_a_molla'); // fallback default (option_a)
+  assert.equal(c.acquiredTraitsByCreature.c2, 'denti_seghettati');
+});
+
+test('POST /api/campaign/start: legacy single choice -> empty per-creature map (backward compat)', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choice: 'option_b',
+  });
+  assert.equal(res.status, 201);
+  const c = res.body.campaign;
+  assert.deepEqual(c.acquiredTraits, ['pelle_elastomera']); // unchanged shared
+  assert.deepEqual(c.acquiredTraitsByCreature, {}); // legacy -> no per-creature map
+});
+
 test('POST /api/campaign/start: invalid initial_trait_choice fallback su default', async (t) => {
   const { url } = startTestServer(t);
   const res = await request('POST', `${url}/api/campaign/start`, {

@@ -66,6 +66,12 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts =
     // V1 Onboarding Phase B — trait permanent pre-Act 0 shared roster
     onboardingChoice: opts.onboardingChoice || null, // { option_key, trait_id }
     acquiredTraits: Array.isArray(opts.acquiredTraits) ? [...opts.acquiredTraits] : [],
+    // MA1 (ADR-2026-06-08) -- per-creature onboarding traits { creatureId: traitId }.
+    // Empty for legacy single-choice (degenere = trait condiviso via acquiredTraits).
+    acquiredTraitsByCreature:
+      opts.acquiredTraitsByCreature && typeof opts.acquiredTraitsByCreature === 'object'
+        ? { ...opts.acquiredTraitsByCreature }
+        : {},
     // Sprint 3 §III (2026-04-27) — Wildermyth choice→permanent flag pattern.
     // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #12 Wildermyth.
     // Each flag = { key, value, source_chapter, recorded_at, narrative? }.
