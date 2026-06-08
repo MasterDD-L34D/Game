@@ -5,7 +5,7 @@ type: suite-index
 doc_status: review_needed
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-06'
+last_verified: '2026-06-08'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -26,7 +26,8 @@ progetto.
 
 1. `docs/planning/2026-06-05-evo-tactics-open-points-resolution-roadmap.md`
    - entrypoint operativo;
-   - contiene baseline ratificata, decisioni aperte chiuse, roadmap SPEC-A...L;
+   - contiene baseline ratificata, decisioni aperte chiuse, roadmap SPEC-A...P
+     (sez. 3bis = gap-extensions harvest + Wave-4 M/N/O/P, 2026-06-08);
    - usare per capire cosa va fatto subito.
 2. `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`
    - ricostruzione del flusso player-facing;
@@ -143,11 +144,13 @@ campagna.
 
 ERMES e' gia' ponte runtime/lab in parte presente: exporter, runtime deltas,
 runner e input di debrief. Va governato come pressione ecologica leggibile,
-non come mutatore opaco.
+non come mutatore opaco. Contratto = **SPEC-I**
+(`docs/design/evo-tactics-ermes-runtime-pressure.md`, su main #2632).
 
 ALIENA va trattata come enforcement progressivo e configurabile, non solo come
 diagnostica. La direzione va allineata con
-`docs/planning/draft-narrative-lore.md`.
+`docs/planning/draft-narrative-lore.md`. Contratto = **SPEC-H**
+(`docs/design/evo-tactics-aliena-enforcement-lore.md`, su main #2631).
 
 ## 4. Correzioni importanti rispetto a snapshot vecchi
 
