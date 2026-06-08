@@ -78,3 +78,48 @@ test('A13: cap respected -- 3rd wounded biome rejected (max 2)', async (t) => {
   await runEnd(app, cid, DEAD, 'b_three'); // over cap -> not added
   assert.deepEqual(getCampaign(cid).woundedBiomes.sort(), ['b_one', 'b_two']);
 });
+
+// SPEC-I read-side: a session in a wounded biome gets a harsher eco (within ER2).
+const LIVE_ECO = [
+  {
+    id: 'p1',
+    controlled_by: 'player',
+    hp: 10,
+    max_hp: 10,
+    attack_mod_bonus: 0,
+    defense_mod_bonus: 0,
+    position: { x: 0, y: 0 },
+  },
+  { id: 's1', controlled_by: 'sistema', hp: 5, max_hp: 5, position: { x: 5, y: 5 } },
+];
+
+test('A13 read-side: session in a wounded biome gets a harsher eco debuff (within ER2)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_rs' });
+  const cid = start.body.campaign.id;
+  await runEnd(app, cid, DEAD, 'savana'); // wound savana
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
+  const log = (ss.body.biomeCostsLog || []).find((x) => x.unit_id === 'p1');
+  assert.ok(log, 'wounded biome surfaces an eco cost log');
+  assert.equal(log.combined_delta.attack_mod_bonus, -1); // wounded debuff, capped at ER2
+});
+
+test('A13 read-side: non-wounded biome -> no wounded eco debuff (backward compat)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_rs2' });
+  const cid = start.body.campaign.id;
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
+  assert.deepEqual(ss.body.biomeCostsLog || [], []); // fresh biome -> no debuff
+});

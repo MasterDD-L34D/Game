@@ -130,8 +130,13 @@ chronicle (M-7). Magnitudine `PRESSURE_PER_BIOME` = PROPOSED (ratify N=40, PA2).
 **Trigger + persist LIVE (2026-06-08).** A session-end (`routes/session.js`, best-effort):
 sconfitta nel bioma -> `woundBiome` + persist su `campaign.woundedBiomes` (cross-run) +
 `emitBiomeWound`; vittoria nel bioma ferito -> `healBiome` (recupero). Cap 2 rispettato.
-Integration test 3/3 (wound/heal/cap). Follow-up: il read-side SPEC-I (consumare
-`campaign.woundedBiomes` -> `pressureDelta` nella pressione ERMES).
+Integration test 3/3 (wound/heal/cap).
+
+**Read-side SPEC-I LIVE (2026-06-08).** A `/session/start`, se il bioma e' in
+`campaign.woundedBiomes`, `applyBiomeEcoEffects` riceve un `woundedStep` (debuff eco di 1 banda)
+ripiegato nello STESSO cap ER2 (+/-2): un bioma ferito = combat piu' duro, mai oltre il cap.
+Integration 2/2 (wounded debuff / fresh no-op). Magnitudine `woundedStep`=1 = PROPOSED (N=40).
+Residuo: emergent branco-trait + esposizione del degrado nel descrittore pre-run (PA3).
 
 Contratto del degrado:
 

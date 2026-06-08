@@ -65,3 +65,33 @@ test('R6 gate: never writes creature_epigenome.bias', () => {
   applyBiomeEcoEffects(u, 'b', { biomeCostsRegistry: REG, bucketed: ERMES_LOW });
   assert.equal(u.creature_epigenome, undefined);
 });
+
+// SPEC-P A13 read-side: a wounded biome harshens the eco effect, within the ER2 cap.
+test('A13 woundedStep: wounded biome debuffs eco bonuses (within ER2 cap)', () => {
+  _resetBiomeCostCache();
+  const u = unit();
+  applyBiomeEcoEffects(u, 'b', { woundedStep: 1 });
+  assert.equal(u.attack_mod_bonus, -1); // wounded -1
+  assert.equal(u.defense_mod_bonus, -1);
+});
+
+test('A13 woundedStep: stacks with eco debuff but stays clamped at ER2 (-2)', () => {
+  _resetBiomeCostCache();
+  const u = unit();
+  const log = applyBiomeEcoEffects(u, 'b', {
+    biomeCostsRegistry: REG,
+    bucketed: ERMES_LOW,
+    woundedStep: 1,
+  });
+  // attack: 21c -2 + ermes -1 + wounded -1 = -4 raw -> clamped to -2 (ER2)
+  assert.equal(u.attack_mod_bonus, -2);
+  assert.equal(log.capped, true);
+});
+
+test('A13 woundedStep: absent/0 -> no-op (backward compat)', () => {
+  _resetBiomeCostCache();
+  const u = unit();
+  applyBiomeEcoEffects(u, 'b', {});
+  assert.equal(u.attack_mod_bonus, 0);
+  assert.equal(u.defense_mod_bonus, 0);
+});

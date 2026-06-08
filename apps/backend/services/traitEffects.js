@@ -795,6 +795,14 @@ function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
     ermes = [];
   }
 
+  // SPEC-P A13 read-side: a wounded biome harshens the eco effect (debuff the eco
+  // bonuses), folded into the SAME +/-2 cap (ER2) by the loop below. woundedStep =
+  // PROPOSED magnitude (caller passes DEGRADE_STEP if the biome is wounded; ratify N=40).
+  const woundedStep = Number(opts.woundedStep) || 0;
+  if (woundedStep > 0) {
+    for (const f of BIOME_ECO_FIELDS) unit[f] = Number(unit[f] || 0) - woundedStep;
+  }
+
   const combined_delta = {};
   let capped = false;
   for (const f of BIOME_ECO_FIELDS) {
