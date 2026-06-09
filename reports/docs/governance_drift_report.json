@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-08T14:23:09+00:00",
+  "generated_at": "2026-06-09T22:54:23+00:00",
   "summary": {
-    "total": 251,
+    "total": 253,
     "errors": 0,
-    "warnings": 251
+    "warnings": 253
   },
   "issues": [
     {
@@ -1035,6 +1035,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-08"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md",
       "message": "Documento stale: revisione scaduta il 2026-06-07"
     },
@@ -1307,6 +1313,12 @@
       "code": "stale_document",
       "path": "docs/research/2026-05-08-od-022-validator-pre-design.md",
       "message": "Documento stale: revisione scaduta il 2026-06-07"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/PILLAR-LIVE-STATUS.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-08"
     },
     {
       "level": "warning",
