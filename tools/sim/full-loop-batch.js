@@ -256,16 +256,24 @@ function calibrationScaling() {
   // hpAdd 2->3 jumps ~0.77->~0.2). N=40 lands all three policies in the tight 0.4-0.7 band (greedy
   // 0.675 / ESFP 0.70 / INTJ 0.60). KEY: the original 0/10 was a CALIBRATION ARTIFACT of the stale
   // fallback-tuned overlay, NOT an inherent climax gate -- the terminal climax is winnable, so NO
-  // retry-allowance mechanic is needed (option-C Phase 2 dropped). The static default (countMult 5,
-  // hpAdd 3) is unchanged -> the ratified static cave_path bands hold.
+  // retry-allowance mechanic is needed (option-C Phase 2 dropped).
+  //
+  // Post-#2669 re-calibration (OA2 objective-completion fix): A/B/C restored survival/capture/
+  // sabotage/escape completion (they used to fall through to elimination), so at the old static
+  // cm5/hp3 the AI completed MORE -> completion_rate rose ~0.6 -> 0.825 (OOB-high). Re-tuned the
+  // static default UP via the FINE knobs (dcAdd + modAdd, both 1): hpAdd/countMult are too coarse
+  // (hpAdd 4 -> 0.4 low-edge, countMult 6 -> 0.0). cm5/hp3/dcAdd1/modAdd1 lands greedy N=49 at
+  // completion 0.51 -- dead centre of the ratified 0.4-0.7 band, all 7 meta-metrics in-band
+  // (master-dd ratify 2026-06-09, L-069). NB graph-mode (cm3/hp2/dc1) is NOT re-verified post-fix
+  // -> re-run META_NETWORK_ROUTING=true N=40 before trusting its band.
   const graphMode = process.env.META_NETWORK_ROUTING === 'true';
   return {
     countMult: num('FL_ENEMY_COUNT_MULT', graphMode ? 3 : 5),
     countAdd: num('FL_ENEMY_COUNT_ADD', 0),
     hpMult: num('FL_ENEMY_HP_MULT', 1),
     hpAdd: num('FL_ENEMY_HP_ADD', graphMode ? 2 : 3),
-    modAdd: num('FL_ENEMY_MOD_ADD', 0),
-    dcAdd: num('FL_ENEMY_DC_ADD', graphMode ? 1 : 0),
+    modAdd: num('FL_ENEMY_MOD_ADD', graphMode ? 0 : 1),
+    dcAdd: num('FL_ENEMY_DC_ADD', 1),
   };
 }
 
