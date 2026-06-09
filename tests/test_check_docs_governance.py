@@ -427,6 +427,98 @@ class TestValidateRegistry:
 
 
 # ---------------------------------------------------------------------------
+# find_unregistered_documents (disk->registry scan)
+# ---------------------------------------------------------------------------
+
+
+class TestFindUnregisteredDocuments:
+    def test_governed_unregistered_doc_raises_warning(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        rogue = make_valid_entry(path="docs/design/rogue.md")
+        write_md_with_frontmatter(tmp_path / "docs/design/rogue.md", rogue)
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issue_codes(issues) == ["unregistered_document"]
+        assert issues[0].level == "warning"
+        assert issues[0].path == "docs/design/rogue.md"
+
+    def test_registered_doc_not_flagged(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issues == []
+
+    def test_generated_dir_exempt(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        gen = make_valid_entry(path="docs/generated/autogen.md")
+        write_md_with_frontmatter(tmp_path / "docs/generated/autogen.md", gen)
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issues == []
+
+    def test_md_without_frontmatter_ignored(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        plain = tmp_path / "docs" / "notes.md"
+        plain.write_text("# Plain notes\nNo frontmatter.\n", encoding="utf-8")
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issues == []
+
+    def test_frontmatter_without_doc_status_ignored(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        md = tmp_path / "docs" / "loose.md"
+        md.write_text("---\ntitle: Loose\n---\n# Body\n", encoding="utf-8")
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issues == []
+
+    def test_baseline_path_suppressed(self, tmp_path: Path):
+        entry = make_valid_entry(source_of_truth=True)
+        setup_repo(tmp_path, entries=[entry])
+        registry = make_valid_registry(entries=[entry])
+        legacy = make_valid_entry(path="docs/planning/legacy.md")
+        write_md_with_frontmatter(tmp_path / "docs/planning/legacy.md", legacy)
+        issues = validator.find_unregistered_documents(
+            tmp_path, registry, baseline={"docs/planning/legacy.md"}
+        )
+        assert issues == []
+
+    def test_missing_docs_dir_returns_empty(self, tmp_path: Path):
+        registry = make_valid_registry(entries=[make_valid_entry()])
+        issues = validator.find_unregistered_documents(tmp_path, registry)
+        assert issues == []
+
+
+# ---------------------------------------------------------------------------
+# load_scan_baseline
+# ---------------------------------------------------------------------------
+
+
+class TestLoadScanBaseline:
+    def test_missing_file_returns_empty_set(self, tmp_path: Path):
+        assert validator.load_scan_baseline(tmp_path / "nope.json") == set()
+
+    def test_reads_known_paths(self, tmp_path: Path):
+        path = tmp_path / "baseline.json"
+        path.write_text(
+            json.dumps({"unregistered_known": ["docs/a.md", "docs/b.md"]}),
+            encoding="utf-8",
+        )
+        assert validator.load_scan_baseline(path) == {"docs/a.md", "docs/b.md"}
+
+    def test_tolerates_utf8_bom(self, tmp_path: Path):
+        path = tmp_path / "baseline.json"
+        payload = json.dumps({"unregistered_known": ["docs/a.md"]})
+        path.write_bytes(b"\xef\xbb\xbf" + payload.encode("utf-8"))
+        assert validator.load_scan_baseline(path) == {"docs/a.md"}
+
+
+# ---------------------------------------------------------------------------
 # write_report
 # ---------------------------------------------------------------------------
 
@@ -626,3 +718,42 @@ class TestMainCli:
         )
         rc = validator.main()
         assert rc == 1
+
+    def test_main_unregistered_doc_warning_does_not_fail_strict(
+        self, monkeypatch, tmp_path: Path
+    ):
+        # Governed doc on disk, absent from registry -> warning in report,
+        # but --strict (errors-only gating) still exits 0.
+        rogue = make_valid_entry(path="docs/design/rogue.md")
+        write_md_with_frontmatter(tmp_path / "docs/design/rogue.md", rogue)
+        rc = self._run_main(monkeypatch, tmp_path, extra_args=["--strict"])
+        assert rc == 0
+        report = json.loads(
+            (tmp_path / "reports/docs/test_report.json").read_text(encoding="utf-8")
+        )
+        codes = [issue["code"] for issue in report["issues"]]
+        assert "unregistered_document" in codes
+        flagged = next(
+            i for i in report["issues"] if i["code"] == "unregistered_document"
+        )
+        assert flagged["level"] == "warning"
+        assert flagged["path"] == "docs/design/rogue.md"
+
+    def test_main_scan_baseline_suppresses_known_legacy(
+        self, monkeypatch, tmp_path: Path
+    ):
+        rogue = make_valid_entry(path="docs/design/rogue.md")
+        write_md_with_frontmatter(tmp_path / "docs/design/rogue.md", rogue)
+        baseline_path = tmp_path / "docs" / "governance" / "registry_scan_baseline.json"
+        baseline_path.parent.mkdir(parents=True, exist_ok=True)
+        baseline_path.write_text(
+            json.dumps({"unregistered_known": ["docs/design/rogue.md"]}),
+            encoding="utf-8",
+        )
+        rc = self._run_main(monkeypatch, tmp_path, extra_args=["--strict"])
+        assert rc == 0
+        report = json.loads(
+            (tmp_path / "reports/docs/test_report.json").read_text(encoding="utf-8")
+        )
+        codes = [issue["code"] for issue in report["issues"]]
+        assert "unregistered_document" not in codes
