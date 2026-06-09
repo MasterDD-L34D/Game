@@ -75,33 +75,33 @@ test('unknown biome falls back to savana pool', () => {
 
 // --- MBTI voice modifier ---
 
-test('T-dominant assigns solitari modifier', () => {
+test('Predazione assigns fredda_analitica', () => {
   reset();
-  const c = pick({ biomeId: 'savana', formAxes: { T: 0.85, F: 0.15, N: 0.5, S: 0.5 } });
+  const c = pick({ biomeId: 'savana', formAxes: { symbiosis_predation: 0.85 } });
   assert.equal(c.voice_modifier, 'fredda_analitica');
 });
 
-test('F-dominant assigns simbionti modifier', () => {
+test('Simbiosi assigns empatica_branco', () => {
   reset();
-  const c = pick({ biomeId: 'savana', formAxes: { T: 0.2, F: 0.8, N: 0.5, S: 0.5 } });
+  const c = pick({ biomeId: 'savana', formAxes: { symbiosis_predation: -0.85 } });
   assert.equal(c.voice_modifier, 'empatica_branco');
 });
 
-test('N-dominant assigns esploratori modifier', () => {
+test('Esplorazione assigns visionaria_intuitiva', () => {
   reset();
-  const c = pick({ biomeId: 'savana', formAxes: { T: 0.5, F: 0.5, N: 0.8, S: 0.2 } });
+  const c = pick({ biomeId: 'savana', formAxes: { explore_caution: -0.85 } });
   assert.equal(c.voice_modifier, 'visionaria_intuitiva');
 });
 
-test('S-dominant assigns sensoriali modifier', () => {
+test('Cauto assigns sensoriale_presente', () => {
   reset();
-  const c = pick({ biomeId: 'savana', formAxes: { T: 0.5, F: 0.5, N: 0.2, S: 0.8 } });
+  const c = pick({ biomeId: 'savana', formAxes: { explore_caution: 0.85 } });
   assert.equal(c.voice_modifier, 'sensoriale_presente');
 });
 
 test('neutral axes no modifier', () => {
   reset();
-  const c = pick({ biomeId: 'savana', formAxes: { T: 0.5, F: 0.5, N: 0.5, S: 0.5 } });
+  const c = pick({ biomeId: 'savana', formAxes: {} });
   assert.equal(c.voice_modifier, '');
 });
 

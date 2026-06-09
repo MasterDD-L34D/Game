@@ -56,10 +56,10 @@ test('enrichWorld B3 hybrid override Skiv canonical', () => {
   assert.equal(r.custode.voice_modifier, 'canonical');
 });
 
-test('enrichWorld MBTI bias propagates to custode', () => {
+test('enrichWorld creature-axis bias propagates to custode', () => {
   const r = enrichWorld({
     biomeId: 'savana',
-    formAxes: { T: 0.85, F: 0.15, N: 0.5, S: 0.5 },
+    formAxes: { symbiosis_predation: 0.85 },
   });
   assert.equal(r.custode.voice_modifier, 'fredda_analitica');
 });

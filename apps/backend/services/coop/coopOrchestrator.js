@@ -10,6 +10,7 @@ const { createSistemaStateStore } = require('../ai/sistemaStateStore');
 const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergence');
+const { aggregateFormPulses } = require('../formPulseVc');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -507,7 +508,13 @@ class CoopOrchestrator {
         // role reported as fully under-represented (false negative).
         enrichedWorld = enricher.enrichWorld({
           biomeId,
-          formAxes: formAxes || {},
+          // #2679 -- fall back to the aggregated form-pulse creature axes when the
+          // caller passes none (Godot confirm_world omits form_axes); lets the
+          // companion voice reflect the branco lean.
+          formAxes:
+            formAxes && Object.keys(formAxes).length
+              ? formAxes
+              : aggregateFormPulses(this.formPulses),
           party: Array.from(this.characters.values()),
           runSeed: Number.isFinite(runSeed) ? runSeed : 0,
           trainerCanonical: Boolean(trainerCanonical),
