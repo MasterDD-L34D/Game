@@ -2378,6 +2378,14 @@ body.ability-target-mode canvas#grid {
   letter-spacing: 0.05em;
   font-size: 0.78rem;
 }
+/* SPEC-P PA3 (#2677) — wounded-biome telegraph. Diegetic, scar-red tint so the
+   anti-brick degrade is visible at a glance (no raw number, SPEC-P doctrine). */
+.biome-chip .biome-wounded {
+  color: #d98a8a;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
 
 /* Action 7 (ADR-2026-04-28 §Action 7) — CT bar lookahead 3 turni HUD top-strip.
  * FFT-style temporal legibility: current actor pulse + 3 slot futuri con arrow
