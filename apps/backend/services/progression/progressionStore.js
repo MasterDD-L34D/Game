@@ -12,9 +12,9 @@ function makeKey(campaignId, unitId) {
 function prismaSupports(prisma) {
   return Boolean(
     prisma &&
-      prisma.unitProgression &&
-      typeof prisma.unitProgression.upsert === 'function' &&
-      typeof prisma.unitProgression.findMany === 'function',
+    prisma.unitProgression &&
+    typeof prisma.unitProgression.upsert === 'function' &&
+    typeof prisma.unitProgression.findMany === 'function',
   );
 }
 

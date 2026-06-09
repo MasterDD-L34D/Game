@@ -31,7 +31,12 @@
               </GlossaryTooltip>
             </button>
           </div>
-          <button v-if="activeTraitFilters.length" type="button" class="biome-setup__reset" @click="clearTraitFilters">
+          <button
+            v-if="activeTraitFilters.length"
+            type="button"
+            class="biome-setup__reset"
+            @click="clearTraitFilters"
+          >
             Reset filtri
           </button>
         </InsightCard>
@@ -45,13 +50,17 @@
               <label>
                 <span>Hazard dominante</span>
                 <select v-model="state.hazard">
-                  <option v-for="option in hazardOptions" :key="option" :value="option">{{ option }}</option>
+                  <option v-for="option in hazardOptions" :key="option" :value="option">
+                    {{ option }}
+                  </option>
                 </select>
               </label>
               <label>
                 <span>Clima operativo</span>
                 <select v-model="state.climate">
-                  <option v-for="option in climateOptions" :key="option" :value="option">{{ option }}</option>
+                  <option v-for="option in climateOptions" :key="option" :value="option">
+                    {{ option }}
+                  </option>
                 </select>
               </label>
             </fieldset>
@@ -69,14 +78,21 @@
             <fieldset>
               <legend>Seed grafico</legend>
               <div class="biome-setup__seed">
-                <input v-model="state.graphicSeed" type="text" placeholder="Inserisci seed procedurale" />
+                <input
+                  v-model="state.graphicSeed"
+                  type="text"
+                  placeholder="Inserisci seed procedurale"
+                />
                 <button type="button" @click="randomizeSeed">Random</button>
               </div>
             </fieldset>
 
             <footer class="biome-setup__actions">
               <button type="submit" :disabled="!canSynthesize">Invoca biomeSynthesizer</button>
-              <p>Il seed e i ruoli selezionati verranno passati come contesto obbligatorio per i nodi rigenerati.</p>
+              <p>
+                Il seed e i ruoli selezionati verranno passati come contesto obbligatorio per i nodi
+                rigenerati.
+              </p>
             </footer>
           </form>
         </div>
@@ -99,7 +115,11 @@
           <ul>
             <li v-for="item in validationDigest" :key="item.id" :class="`status-${item.status}`">
               <div class="biome-setup__validator-title">
-                <TraitChip :label="item.biome" variant="validator" :icon="statusIcon(item.status)" />
+                <TraitChip
+                  :label="item.biome"
+                  variant="validator"
+                  :icon="statusIcon(item.status)"
+                />
                 <span>{{ item.label }}</span>
               </div>
               <p>{{ item.message }}</p>
@@ -188,7 +208,8 @@ const traitFilterOptions = computed(() => {
       return;
     }
     source.forEach((entry) => {
-      const id = typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
+      const id =
+        typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
       if (!id) return;
       if (!map.has(id)) {
         map.set(id, {
@@ -263,12 +284,27 @@ const statusIndicators = computed(() => {
   if (state.climate) {
     items.push({ id: 'climate', label: 'Clima', value: state.climate, tone: 'neutral' });
   }
-  items.push({ id: 'roles', label: 'Ruoli', value: state.requiredRoles.length || 0, tone: 'success' });
+  items.push({
+    id: 'roles',
+    label: 'Ruoli',
+    value: state.requiredRoles.length || 0,
+    tone: 'success',
+  });
   if (activeTraitFilters.value.length) {
-    items.push({ id: 'filters', label: 'Filtri tratti', value: activeTraitFilters.value.length, tone: 'neutral' });
+    items.push({
+      id: 'filters',
+      label: 'Filtri tratti',
+      value: activeTraitFilters.value.length,
+      tone: 'neutral',
+    });
   }
   if (graphState.nodes.length) {
-    items.push({ id: 'nodes', label: 'Nodi mappa', value: graphState.nodes.length, tone: 'neutral' });
+    items.push({
+      id: 'nodes',
+      label: 'Nodi mappa',
+      value: graphState.nodes.length,
+      tone: 'neutral',
+    });
   }
   return items;
 });
@@ -308,7 +344,9 @@ const createConnectionState = (connection) => ({
 
 const syncGraph = () => {
   graphState.nodes = (props.graph?.nodes || []).map((node) => createNodeState(node));
-  graphState.connections = (props.graph?.connections || []).map((connection) => createConnectionState(connection));
+  graphState.connections = (props.graph?.connections || []).map((connection) =>
+    createConnectionState(connection),
+  );
 };
 
 const bumpIntensity = (node) => {
@@ -390,11 +428,9 @@ const queueSynthesis = () => {
   });
 };
 
-watch(
-  () => [props.config?.hazard, props.config?.climate, props.config?.graphicSeed],
-  syncConfig,
-  { immediate: true },
-);
+watch(() => [props.config?.hazard, props.config?.climate, props.config?.graphicSeed], syncConfig, {
+  immediate: true,
+});
 
 watch(
   () => props.config?.requiredRoles && [...props.config.requiredRoles],
@@ -404,11 +440,9 @@ watch(
   { immediate: true },
 );
 
-watch(
-  () => [props.graph?.nodes?.length, props.graph?.connections?.length],
-  syncGraph,
-  { immediate: true },
-);
+watch(() => [props.graph?.nodes?.length, props.graph?.connections?.length], syncGraph, {
+  immediate: true,
+});
 
 function statusIcon(status) {
   if (!status) return '◈';

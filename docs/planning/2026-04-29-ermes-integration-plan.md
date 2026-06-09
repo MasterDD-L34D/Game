@@ -76,8 +76,8 @@ ERMES è:
 
 | Stato | Fase | Task                     | Output                            |
 | ----- | ---- | ------------------------ | --------------------------------- |
-| ☐→☑  | E0   | Doc integration          | questo file                       |
-| ☐→☑  | E1   | Prototype isolated       | `prototypes/ermes_lab/`           |
+| ☐→☑   | E0   | Doc integration          | questo file                       |
+| ☐→☑   | E1   | Prototype isolated       | `prototypes/ermes_lab/`           |
 | ☐     | E2   | CLI + deterministic sim  | `ermes_sim.py`                    |
 | ☐     | E3   | Dashboard optional       | `ermes_dashboard.py`              |
 | ☐     | E4   | JSON export              | `latest_eco_pressure_report.json` |

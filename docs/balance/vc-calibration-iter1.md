@@ -26,10 +26,10 @@ Prima analisi VC scoring vs dati osservati nei batch playtest tutorial. Iterazio
 | Index        | Derivable                                                   | Observed (tutorial)                    | Ennea trigger            |
 | ------------ | ----------------------------------------------------------- | -------------------------------------- | ------------------------ |
 | **aggro**    | ✅ full (4/4 weights)                                       | moderate (~74% hit, 1 first_blood/run) | borderline 0.55-0.70     |
-| **risk**     | ⚠ partial (3/5 — self_heal e overcap_guard null)           | low (avg enemy dmg 1.0/run)            | **MAI** triggera (>0.55) |
+| **risk**     | ⚠ partial (3/5 — self_heal e overcap_guard null)            | low (avg enemy dmg 1.0/run)            | **MAI** triggera (>0.55) |
 | **cohesion** | ❌ partial (formation_time + support_actions null)          | —                                      | **MAI** (>0.70)          |
 | **setup**    | ❌ null (overwatch + trap + cover_before_attack tutti null) | —                                      | **MAI**                  |
-| **explore**  | ⚠ partial (1/3 — solo new_tiles)                           | low (~0.14 su grid 6x6)                | **MAI** (>0.70)          |
+| **explore**  | ⚠ partial (1/3 — solo new_tiles)                            | low (~0.14 su grid 6x6)                | **MAI** (>0.70)          |
 | **tilt**     | ❌ non wired in snapshot                                    | null                                   | **MAI**                  |
 
 **Conseguenza**: 4/6 archetipi Ennea **irraggiungibili** dal tutorial. Solo `Conquistatore(3)` e `Cacciatore(8)` triggerabili.

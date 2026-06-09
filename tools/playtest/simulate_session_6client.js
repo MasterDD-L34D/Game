@@ -33,11 +33,41 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3334';
 
 // Player profiles — realistic 5-player mix per playtest #2 plan.
 const PLAYER_PROFILES = [
-  { name: 'Alice', species: 'elastovaranus_hydrus', job: 'guerriero', mbti: 'ENTJ', ennea: 'Conquistatore(3)' },
-  { name: 'Bob', species: 'gulogluteus_scutiger', job: 'custode', mbti: 'ISFJ', ennea: 'Lealista(6)' },
-  { name: 'Chiara', species: 'perfusuas_pedes', job: 'esploratore', mbti: 'ENFP', ennea: 'Esploratore(7)' },
-  { name: 'Dario', species: 'rupicapra_sensoria', job: 'tessitore', mbti: 'INTJ', ennea: 'Architetto(5)' },
-  { name: 'Elena', species: 'soniptera_resonans', job: 'guerriero', mbti: 'ESTP', ennea: 'Cacciatore(8)' },
+  {
+    name: 'Alice',
+    species: 'elastovaranus_hydrus',
+    job: 'guerriero',
+    mbti: 'ENTJ',
+    ennea: 'Conquistatore(3)',
+  },
+  {
+    name: 'Bob',
+    species: 'gulogluteus_scutiger',
+    job: 'custode',
+    mbti: 'ISFJ',
+    ennea: 'Lealista(6)',
+  },
+  {
+    name: 'Chiara',
+    species: 'perfusuas_pedes',
+    job: 'esploratore',
+    mbti: 'ENFP',
+    ennea: 'Esploratore(7)',
+  },
+  {
+    name: 'Dario',
+    species: 'rupicapra_sensoria',
+    job: 'tessitore',
+    mbti: 'INTJ',
+    ennea: 'Architetto(5)',
+  },
+  {
+    name: 'Elena',
+    species: 'soniptera_resonans',
+    job: 'guerriero',
+    mbti: 'ESTP',
+    ennea: 'Cacciatore(8)',
+  },
 ];
 
 const INTEROCEPTION_TRAITS = [
@@ -93,10 +123,26 @@ function emitCombatEvents(sessionId, actorId, profile) {
   for (let i = 0; i < attacks; i++) {
     const latency = Math.max(20, rngGauss(70, 25));
     const trait_effects = [];
-    if (rngFloat() < 0.35) trait_effects.push({ trait: 'propriocezione', triggered: true, effect: 'proprioception_balance' });
-    if (rngFloat() < 0.25) trait_effects.push({ trait: 'equilibrio_vestibolare', triggered: true, effect: 'vestibular_advantage' });
-    if (rngFloat() < 0.15) trait_effects.push({ trait: 'nocicezione', triggered: true, effect: 'nociception_reactive' });
-    if (rngFloat() < 0.18) trait_effects.push({ trait: 'termocezione', triggered: true, effect: 'thermoception_resist' });
+    if (rngFloat() < 0.35)
+      trait_effects.push({
+        trait: 'propriocezione',
+        triggered: true,
+        effect: 'proprioception_balance',
+      });
+    if (rngFloat() < 0.25)
+      trait_effects.push({
+        trait: 'equilibrio_vestibolare',
+        triggered: true,
+        effect: 'vestibular_advantage',
+      });
+    if (rngFloat() < 0.15)
+      trait_effects.push({ trait: 'nocicezione', triggered: true, effect: 'nociception_reactive' });
+    if (rngFloat() < 0.18)
+      trait_effects.push({
+        trait: 'termocezione',
+        triggered: true,
+        effect: 'thermoception_resist',
+      });
     events.push({
       session_id: sessionId,
       action_type: 'attack',
@@ -112,7 +158,18 @@ function emitCombatEvents(sessionId, actorId, profile) {
 function emitPromotion(sessionId, actorId, profile) {
   // 85% chance promotion fires; tier weighted (more veteran/captain than elite/master).
   if (rngFloat() > 0.85) return null;
-  const tiers = ['veteran', 'veteran', 'veteran', 'veteran', 'captain', 'captain', 'captain', 'elite', 'elite', 'master'];
+  const tiers = [
+    'veteran',
+    'veteran',
+    'veteran',
+    'veteran',
+    'captain',
+    'captain',
+    'captain',
+    'elite',
+    'elite',
+    'master',
+  ];
   return {
     session_id: sessionId,
     action_type: 'promotion',
@@ -296,7 +353,9 @@ async function main() {
   console.log(`API requests: ${apiResults.length} (${failed} failed)`);
   console.log(`API latency: p50=${p50}ms p95=${p95}ms`);
   console.log(`Output: ${outputPath}`);
-  console.log(`\nNext: python tools/py/playtest_2_analyzer.py --telemetry ${outputPath} --output docs/playtest/2026-05-14-live-tunnel-report.md`);
+  console.log(
+    `\nNext: python tools/py/playtest_2_analyzer.py --telemetry ${outputPath} --output docs/playtest/2026-05-14-live-tunnel-report.md`,
+  );
 }
 
 main().catch((err) => {

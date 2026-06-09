@@ -1,7 +1,11 @@
 <template>
   <section class="console-layout">
     <RouterView v-slot="slotProps">
-      <component :is="slotProps.Component" v-bind="slotProps.route.props || {}" @notify="forwardNotification" />
+      <component
+        :is="slotProps.Component"
+        v-bind="slotProps.route.props || {}"
+        @notify="forwardNotification"
+      />
     </RouterView>
   </section>
 </template>

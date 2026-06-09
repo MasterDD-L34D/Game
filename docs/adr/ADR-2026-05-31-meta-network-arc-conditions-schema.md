@@ -132,7 +132,7 @@ rotta out-of-state).
 | Riuso albero `trigger_conditions` mutation (`kind:` + 12 evaluator) | rifiutato | combat-event-driven vs state-snapshot; troppo verboso per 12 archi a mano; complessità non necessaria  |
 | Tabella `conditions` separata keyed-by-edge-id                      | rifiutato | indirection inutile per un grafo piccolo scritto a mano; inline (FTL events.xml) più manutenibile      |
 | Gate sulla `seasonality` it-free-text esistente                     | rifiutato | `estate/notte`, `tarda_inverno`, `episodico` = parsing fragile; campo `conditions.season` EN esplicito |
-| Campo dato `lock_reason` per-arco                                   | rifiutato | drift testo↔logica + costo per-arco; motivo generato dal codice (D3)                                  |
+| Campo dato `lock_reason` per-arco                                   | rifiutato | drift testo↔logica + costo per-arco; motivo generato dal codice (D3)                                   |
 
 ## Reference games (informano le scelte)
 

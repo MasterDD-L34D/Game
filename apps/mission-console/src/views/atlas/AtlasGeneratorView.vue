@@ -7,7 +7,8 @@
           {{ generatorStatus.label }}
         </p>
         <p class="atlas-generator__meta">
-          Ultima run: {{ generatorRunLabel }} · Dataset: {{ generatorMetrics.datasetSpeciesTotal }} specie
+          Ultima run: {{ generatorRunLabel }} · Dataset:
+          {{ generatorMetrics.datasetSpeciesTotal }} specie
         </p>
       </div>
       <div class="atlas-generator__actions">
@@ -61,7 +62,9 @@
       <article class="atlas-generator__panel atlas-generator__panel--chart">
         <header>
           <h3>Tempo di generazione</h3>
-          <span>{{ generatorMetrics.generationTimeMs ? `${generatorMetrics.generationTimeMs}ms` : 'N/D' }}</span>
+          <span>{{
+            generatorMetrics.generationTimeMs ? `${generatorMetrics.generationTimeMs}ms` : 'N/D'
+          }}</span>
         </header>
         <SparklineChart :points="generatorStreams.generationTime" color="#6366f1" />
       </article>

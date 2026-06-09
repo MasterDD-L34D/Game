@@ -74,7 +74,7 @@ Drift sync 2026-05-04 ([plan-v3-drift-sync](../planning/2026-05-04-plan-v3-drift
 
 | #   | Item                       |    Stato     | Note                          |
 | --- | -------------------------- | :----------: | ----------------------------- |
-| D1  | ERMES E7-E8 runtime bridge | ⏸ deferred  | Plan v3 explicit "non gating" |
+| D1  | ERMES E7-E8 runtime bridge |  ⏸ deferred  | Plan v3 explicit "non gating" |
 | D2  | Web v1 archive cleanup     | post-cutover | Solo dopo cutover Accepted    |
 
 ## 3. Decision matrix scenarios

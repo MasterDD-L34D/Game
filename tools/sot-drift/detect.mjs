@@ -34,12 +34,22 @@ export function parseWatchMap(text) {
     const line = raw.replace(/\s+$/, '');
     if (/^\s*#/.test(line) || line.trim() === '') continue;
     const item = line.match(/^-\s+pattern:\s*"(.+)"\s*$/);
-    if (item) { cur = { pattern: item[1], sot_ref: [], concept: '' }; entries.push(cur); continue; }
+    if (item) {
+      cur = { pattern: item[1], sot_ref: [], concept: '' };
+      entries.push(cur);
+      continue;
+    }
     if (!cur) continue;
     const ref = line.match(/^\s+sot_ref:\s*(\[.*\])\s*$/);
-    if (ref) { cur.sot_ref = JSON.parse(ref[1]); continue; }
+    if (ref) {
+      cur.sot_ref = JSON.parse(ref[1]);
+      continue;
+    }
     const con = line.match(/^\s+concept:\s*"(.+)"\s*$/);
-    if (con) { cur.concept = con[1]; continue; }
+    if (con) {
+      cur.concept = con[1];
+      continue;
+    }
   }
   return entries;
 }
@@ -54,7 +64,10 @@ if (process.argv[1]) {
     const mapPath = process.argv[2];
     const filesPath = process.argv[3];
     const map = parseWatchMap(readFileSync(mapPath, 'utf8'));
-    const files = readFileSync(filesPath, 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+    const files = readFileSync(filesPath, 'utf8')
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean);
     const matches = matchChanges(map, files);
     process.stdout.write(JSON.stringify(matches, null, 2));
   }

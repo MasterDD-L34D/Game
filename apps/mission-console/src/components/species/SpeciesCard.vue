@@ -77,11 +77,18 @@ const props = defineProps({
   },
 });
 
-const name = computed(() => props.species?.display_name || props.species?.name || props.species?.id || 'Specie');
-const archetype = computed(() => props.species?.archetype || props.species?.role || 'Profilo non definito');
+const name = computed(
+  () => props.species?.display_name || props.species?.name || props.species?.id || 'Specie',
+);
+const archetype = computed(
+  () => props.species?.archetype || props.species?.role || 'Profilo non definito',
+);
 const rarity = computed(() => props.species?.rarity || props.species?.statistics?.rarity || '');
 const threat = computed(() => {
-  const tier = props.species?.threatTier || props.species?.statistics?.threat_tier || props.species?.balance?.threat_tier;
+  const tier =
+    props.species?.threatTier ||
+    props.species?.statistics?.threat_tier ||
+    props.species?.balance?.threat_tier;
   if (!tier) return '';
   return String(tier).replace(/^T/i, '');
 });
@@ -92,9 +99,19 @@ const traits = computed(() => ({
   optional: props.species?.traits?.optional || props.species?.optional_traits || [],
 }));
 const energyProfile = computed(
-  () => props.species?.energyProfile || props.species?.energy_profile || props.species?.statistics?.energy_profile || '—',
+  () =>
+    props.species?.energyProfile ||
+    props.species?.energy_profile ||
+    props.species?.statistics?.energy_profile ||
+    '—',
 );
-const habitats = computed(() => props.species?.habitats || props.species?.habitat || props.species?.morphology?.environments || []);
+const habitats = computed(
+  () =>
+    props.species?.habitats ||
+    props.species?.habitat ||
+    props.species?.morphology?.environments ||
+    [],
+);
 const coverage = computed(() => {
   const value = props.species?.telemetry?.coverage || props.species?.statistics?.coverage;
   if (typeof value !== 'number') return '';

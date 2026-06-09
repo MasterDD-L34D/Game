@@ -25,7 +25,7 @@
 #   - tests/api/airplaneReconnect.test.js (Node-level grace timing, 5 test)
 
 config:
-  target: "{{ $env.TARGET_URL }}"
+  target: '{{ $env.TARGET_URL }}'
   defaults:
     headers:
       Content-Type: 'application/json'

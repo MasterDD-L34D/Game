@@ -73,8 +73,8 @@ HTTP :3334                    WebSocket :3341
 | `state`               |    S→C    | `{ version, payload }` broadcast                        |
 | `intent`              |    C→S    | payload arbitrary (non-host only)                       |
 | `intent`              |    S→C    | `{ id, from, payload, ts }` relay a host                |
-| `chat`                |   C↔S    | `{ from, name, text, ts }` broadcast                    |
-| `ping`/`pong`         |   C↔S    | `{ t }` keepalive                                       |
+| `chat`                |    C↔S    | `{ from, name, text, ts }` broadcast                    |
+| `ping`/`pong`         |    C↔S    | `{ t }` keepalive                                       |
 | `error`               |    S→C    | `{ code, message? }`                                    |
 | `room_closed`         |    S→C    | `{ reason }` broadcast su close host                    |
 

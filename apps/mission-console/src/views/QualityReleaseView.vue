@@ -3,8 +3,8 @@
     <header class="flow-view__header">
       <h2>Quality &amp; Release</h2>
       <p>
-        Coordinamento tra orchestrator e runtime validator per assicurare che i branch siano pronti alla
-        pubblicazione.
+        Coordinamento tra orchestrator e runtime validator per assicurare che i branch siano pronti
+        alla pubblicazione.
       </p>
     </header>
 
@@ -36,8 +36,8 @@
       <header class="quality-release__section-header">
         <h3>Console editoriale</h3>
         <p>
-          Programma rilasci per il dataset Nebula, monitora gli stream di validazione e coordina le notifiche al team
-          prima della promozione.
+          Programma rilasci per il dataset Nebula, monitora gli stream di validazione e coordina le
+          notifiche al team prima della promozione.
         </p>
       </header>
       <div class="release-console">
@@ -132,7 +132,9 @@
                 </button>
               </footer>
             </li>
-            <li v-if="!plannedReleases.length" class="release-console__empty">Nessun rilascio pianificato.</li>
+            <li v-if="!plannedReleases.length" class="release-console__empty">
+              Nessun rilascio pianificato.
+            </li>
           </ul>
         </section>
 
@@ -147,7 +149,8 @@
                 </span>
               </header>
               <p class="release-console__stream-meta">
-                Ultimo evento · {{ formatTimestamp(stream.lastEvent) }} · Pending {{ stream.pending }}
+                Ultimo evento · {{ formatTimestamp(stream.lastEvent) }} · Pending
+                {{ stream.pending }}
               </p>
               <footer>
                 <button
@@ -158,7 +161,11 @@
                 >
                   Avvia monitoraggio
                 </button>
-                <button type="button" class="release-console__action" @click="refreshStream(stream)">
+                <button
+                  type="button"
+                  class="release-console__action"
+                  @click="refreshStream(stream)"
+                >
                   Aggiorna stato
                 </button>
                 <button
@@ -189,7 +196,11 @@
                 Ultimo invio · {{ formatTimestamp(notification.lastTriggeredAt) }}
               </p>
               <footer>
-                <button type="button" class="release-console__action" @click="notifyTeam(notification)">
+                <button
+                  type="button"
+                  class="release-console__action"
+                  @click="notifyTeam(notification)"
+                >
                   Invia aggiornamento
                 </button>
               </footer>
@@ -211,13 +222,23 @@
       <aside class="release-console__guide">
         <h4>Guida rapida alla release Nebula</h4>
         <ol>
-          <li>Verifica che il pacchetto abbia superato la validazione automatica dal workflow publishing.</li>
-          <li>Usa la sezione “Programmazione rilascio” per schedulare staging e raccogliere le approvazioni obbligatorie.</li>
-          <li>Attiva il monitoraggio degli stream QA e invia la notifica al team quando il gate di approvazione è verde.</li>
+          <li>
+            Verifica che il pacchetto abbia superato la validazione automatica dal workflow
+            publishing.
+          </li>
+          <li>
+            Usa la sezione “Programmazione rilascio” per schedulare staging e raccogliere le
+            approvazioni obbligatorie.
+          </li>
+          <li>
+            Attiva il monitoraggio degli stream QA e invia la notifica al team quando il gate di
+            approvazione è verde.
+          </li>
         </ol>
         <p>
-          Tutte le azioni sono sincronizzate con lo stato persistente in <code>services/publishing/workflowState.json</code> e
-          vengono riportate nei log sottostanti.
+          Tutte le azioni sono sincronizzate con lo stato persistente in
+          <code>services/publishing/workflowState.json</code> e vengono riportate nei log
+          sottostanti.
         </p>
       </aside>
     </section>
@@ -246,7 +267,12 @@
           </p>
           <p v-if="speciesCheck.error" class="quality-check__error">{{ speciesCheck.error }}</p>
           <footer>
-            <button type="button" class="quality-check__action" :disabled="speciesCheck.running" @click="runSpeciesCheck">
+            <button
+              type="button"
+              class="quality-check__action"
+              :disabled="speciesCheck.running"
+              @click="runSpeciesCheck"
+            >
               {{ speciesCheck.running ? 'In corso…' : 'Esegui batch specie' }}
             </button>
           </footer>
@@ -261,7 +287,12 @@
           </p>
           <p v-if="biomeCheck.error" class="quality-check__error">{{ biomeCheck.error }}</p>
           <footer>
-            <button type="button" class="quality-check__action" :disabled="biomeCheck.running" @click="runBiomeCheck">
+            <button
+              type="button"
+              class="quality-check__action"
+              :disabled="biomeCheck.running"
+              @click="runBiomeCheck"
+            >
               {{ biomeCheck.running ? 'In corso…' : 'Sanitizza bioma' }}
             </button>
           </footer>
@@ -276,7 +307,12 @@
           </p>
           <p v-if="foodwebCheck.error" class="quality-check__error">{{ foodwebCheck.error }}</p>
           <footer>
-            <button type="button" class="quality-check__action" :disabled="foodwebCheck.running" @click="runFoodwebCheck">
+            <button
+              type="button"
+              class="quality-check__action"
+              :disabled="foodwebCheck.running"
+              @click="runFoodwebCheck"
+            >
               {{ foodwebCheck.running ? 'In corso…' : 'Valida foodweb' }}
             </button>
           </footer>
@@ -287,7 +323,9 @@
     <section class="quality-release__suggestions" v-if="suggestions.length">
       <header class="quality-release__section-header">
         <h3>Suggerimenti di correzione</h3>
-        <p>Applica fix automatici o rigenera selezioni specifiche sulla base dei risultati runtime.</p>
+        <p>
+          Applica fix automatici o rigenera selezioni specifiche sulla base dei risultati runtime.
+        </p>
       </header>
       <ul class="quality-suggestions">
         <li
@@ -325,7 +363,10 @@
             v-for="option in scopeOptions"
             :key="option.value"
             type="button"
-            :class="['quality-logs__filter', { 'quality-logs__filter--active': option.value === scopeFilter }]"
+            :class="[
+              'quality-logs__filter',
+              { 'quality-logs__filter--active': option.value === scopeFilter },
+            ]"
             @click="scopeFilter = option.value"
           >
             {{ option.label }}
@@ -351,7 +392,11 @@
         </div>
       </div>
       <ul class="quality-logs">
-        <li v-for="log in filteredLogs" :key="log.id" :class="['quality-log', `quality-log--${log.level}`]">
+        <li
+          v-for="log in filteredLogs"
+          :key="log.id"
+          :class="['quality-log', `quality-log--${log.level}`]"
+        >
           <div class="quality-log__meta">
             <span class="quality-log__scope">{{ displayScope(log.scope) }}</span>
             <time class="quality-log__time">{{ formatTimestamp(log.timestamp) }}</time>
@@ -368,7 +413,11 @@
 
 <script setup>
 import { computed, reactive, ref, toRefs, watch } from 'vue';
-import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService';
+import {
+  validateBiome,
+  validateFoodweb,
+  validateSpeciesBatch,
+} from '../services/runtimeValidationService';
 import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
 import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.ts';
 
@@ -445,7 +494,8 @@ function normalisePackage(pkg) {
 }
 
 function normaliseSchedule(entry) {
-  const packageId = entry?.packageId || entry?.id || `pkg-${Math.random().toString(36).slice(2, 8)}`;
+  const packageId =
+    entry?.packageId || entry?.id || `pkg-${Math.random().toString(36).slice(2, 8)}`;
   const environment = entry?.environment || 'staging';
   const approvals = Array.isArray(entry?.approvals) ? [...entry.approvals] : [];
   return {
@@ -486,7 +536,9 @@ function syncReleaseConsole() {
   const packages = Array.isArray(payload.packages) ? payload.packages.map(normalisePackage) : [];
   const schedule = Array.isArray(payload.schedule) ? payload.schedule.map(normaliseSchedule) : [];
   const streams = Array.isArray(payload.streams) ? payload.streams.map(normaliseStream) : [];
-  const watchers = Array.isArray(payload.watchers) ? payload.watchers.map((item) => ({ ...item })) : [];
+  const watchers = Array.isArray(payload.watchers)
+    ? payload.watchers.map((item) => ({ ...item }))
+    : [];
   const notifications = Array.isArray(payload.notifications)
     ? payload.notifications.map(normaliseNotification)
     : [];
@@ -509,7 +561,7 @@ watch(
   () => {
     syncReleaseConsole();
   },
-  { deep: true }
+  { deep: true },
 );
 
 const releaseNotesHtml = computed(() => {
@@ -628,9 +680,10 @@ function appendLogs(kind, entries = []) {
   const eventName = kind === 'publishing' ? `quality.${kind}` : `validator.${kind}`;
   payload.forEach((logEntry, index) => {
     const original = entries[index];
-    const data = typeof original === 'string'
-      ? { message: logEntry.message, level: logEntry.level }
-      : original;
+    const data =
+      typeof original === 'string'
+        ? { message: logEntry.message, level: logEntry.level }
+        : original;
     logClientEvent(eventName, {
       id: logEntry.id,
       scope: logEntry.scope,
@@ -1401,7 +1454,9 @@ function exportQaLogs(format = 'json') {
   border-radius: 999px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .release-console__action:disabled {
@@ -1687,7 +1742,9 @@ function exportQaLogs(format = 'json') {
   font-size: 0.85rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .quality-logs__export:hover {

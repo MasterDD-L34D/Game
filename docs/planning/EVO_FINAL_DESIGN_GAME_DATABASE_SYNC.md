@@ -26,10 +26,10 @@ Serve a evitare due errori:
 
 | Stato | Task                                   | Dettagli operativi                                                                           |
 | ----- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| ☑    | `Game` resta runtime source of truth   | Backend gameplay, generation pipeline, rules engine e cataloghi runtime leggono file locali. |
-| ☑    | `Game-Database` resta CMS taxonomy     | Editing, consultazione, REST API e import target.                                            |
-| ☑    | Integrazione supportata oggi           | Build-time / manual import Game → Game-Database.                                             |
-| ☑    | Integrazione non supportata nel freeze | Game <- HTTP runtime come requisito di gameplay.                                             |
+| ☑     | `Game` resta runtime source of truth   | Backend gameplay, generation pipeline, rules engine e cataloghi runtime leggono file locali. |
+| ☑     | `Game-Database` resta CMS taxonomy     | Editing, consultazione, REST API e import target.                                            |
+| ☑     | Integrazione supportata oggi           | Build-time / manual import Game → Game-Database.                                             |
+| ☑     | Integrazione non supportata nel freeze | Game <- HTTP runtime come requisito di gameplay.                                             |
 
 ## 3. Dati condivisi e dati esclusivi
 
@@ -53,11 +53,11 @@ Serve a evitare due errori:
 
 | Stato | Task                                     | Dettagli operativi                                   |
 | ----- | ---------------------------------------- | ---------------------------------------------------- |
-| ☑    | Step 1 — aggiornare Game                 | Chiudere dati e documenti nel repo `Game`.           |
-| ☑    | Step 2 — rigenerare cataloghi            | Eseguire `npm run sync:evo-pack` lato Game.          |
-| ☑    | Step 3 — lanciare import                 | Lato Game-Database eseguire `npm run evo:import`.    |
-| ☑    | Step 4 — usare dry-run quando opportuno  | `--dry-run` e `--verbose` per verifiche controllate. |
-| ☑    | Step 5 — loggare esiti sul lato corretto | I log import vanno sul Game-Database, non sul Game.  |
+| ☑     | Step 1 — aggiornare Game                 | Chiudere dati e documenti nel repo `Game`.           |
+| ☑     | Step 2 — rigenerare cataloghi            | Eseguire `npm run sync:evo-pack` lato Game.          |
+| ☑     | Step 3 — lanciare import                 | Lato Game-Database eseguire `npm run evo:import`.    |
+| ☑     | Step 4 — usare dry-run quando opportuno  | `--dry-run` e `--verbose` per verifiche controllate. |
+| ☑     | Step 5 — loggare esiti sul lato corretto | I log import vanno sul Game-Database, non sul Game.  |
 
 ## 5. Runbook minimo di sync
 
@@ -87,9 +87,9 @@ npm run evo:import --repo /path/assoluto/al/repo/Game
 
 | Stato | Task                                 | Dettagli operativi                                                        |
 | ----- | ------------------------------------ | ------------------------------------------------------------------------- |
-| ☑    | Dopo chiusura di una slice dati      | Species, trait, biome, glossary o catalog data stabilizzati.              |
-| ☑    | Prima di una review cross-repo       | Quando Master DD o maintainer DB devono verificare allineamento taxonomy. |
-| ☑    | Prima di una milestone release-ready | Per evitare drift negli strumenti di consultazione.                       |
+| ☑     | Dopo chiusura di una slice dati      | Species, trait, biome, glossary o catalog data stabilizzati.              |
+| ☑     | Prima di una review cross-repo       | Quando Master DD o maintainer DB devono verificare allineamento taxonomy. |
+| ☑     | Prima di una milestone release-ready | Per evitare drift negli strumenti di consultazione.                       |
 | ☐     | Non a ogni micro-patch               | Evitare rumore e import inutili durante tuning ancora instabile.          |
 
 ## 7. Pattern di automazione

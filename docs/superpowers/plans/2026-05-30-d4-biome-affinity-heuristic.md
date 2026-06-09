@@ -33,6 +33,7 @@ Lo split apply-script (merge nel catalogo) è un plan separato post-review maste
 ## Task 1: Catalog loader + biome-id list
 
 **Files:**
+
 - Create: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -136,6 +137,7 @@ git commit -m "feat(worldgen): D4 catalog loader + biome-id list (suggest_biome_
 ## Task 2: Trait→biome map (inverted from the 21 assigned)
 
 **Files:**
+
 - Modify: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -168,6 +170,7 @@ def test_trait_map_vote_counts_match_assigned():
 ```
 
 Add to the imports at top of test file:
+
 ```python
 from collections import Counter
 ```
@@ -211,6 +214,7 @@ git commit -m "feat(worldgen): D4 trait->biome map inverted from assigned specie
 ## Task 3: Keyword→biome signal (secondary)
 
 **Files:**
+
 - Modify: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -302,6 +306,7 @@ git commit -m "feat(worldgen): D4 keyword->biome lexical signal"
 ## Task 4: Combined per-species scorer
 
 **Files:**
+
 - Modify: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -391,6 +396,7 @@ git commit -m "feat(worldgen): D4 combined per-species biome scorer"
 ## Task 5: Golden-set validation (the HARD gate)
 
 **Files:**
+
 - Modify: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -473,6 +479,7 @@ git commit -m "feat(worldgen): D4 golden-set leave-one-out validation"
 ## Task 6: CLI — golden-set gate + draft generation
 
 **Files:**
+
 - Modify: `tools/py/suggest_biome_affinity.py`
 - Test: `tests/test_suggest_biome_affinity.py`
 
@@ -592,23 +599,27 @@ git commit -m "feat(worldgen): D4 CLI golden-set gate + draft generation"
 ## Task 7: Run the gate live + record the verdict
 
 **Files:**
+
 - Run only (no code change); record outcome.
 
 - [ ] **Step 1: Run the heuristic against real data**
 
 Run: `PYTHONPATH=tools/py python tools/py/suggest_biome_affinity.py`
 Expected: prints `[golden-set] top-1 accuracy XX.X% (n/21) gate=60%` then either:
+
 - `[GATE PASS] draft of 32 suggestions written ...` (accuracy ≥60%), OR
 - `[GATE FAIL] heuristic below threshold. NOT generating draft.` + list of misses (accuracy <60%)
 
 - [ ] **Step 2: Branch on the verdict**
 
 **If GATE PASS:**
+
 - Draft is at `docs/planning/2026-05-30-biome-affinity-draft.json`.
 - This plan is COMPLETE. Hand the draft to master-dd for review (apply-script = separate plan).
 - Report: accuracy %, count of high-confidence (≥0.5) vs low-confidence suggestions.
 
 **If GATE FAIL:**
+
 - Do NOT generate or commit any draft.
 - Report to master-dd: real accuracy %, the miss list, and the 3 options from the spec §3:
   (a) improve signals, (b) manual assignment, (c) abandon D4.

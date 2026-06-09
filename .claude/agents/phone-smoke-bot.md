@@ -64,14 +64,14 @@ You DO NOT cover (master-dd hands-on residue):
 
 ### Step 2: choose harness
 
-| Bug class | Tool |
-|---|---|
-| State machine regression (defer, broadcast, phase) | Pattern A Browser MCP 2-tab OR Pattern B Playwright multi-context |
-| Multi-client scaling 4+ | Pattern B Playwright multi-context (preferred over MCP for >2 contexts) |
-| WS load / throughput | Pattern C Artillery WS scenarios |
-| Visual regression UI | Pattern B + canvas-grid helper |
-| Pre-merge regression gate | Pattern B Playwright (deterministic, replayable) |
-| Live runtime verify | Pattern A Chrome MCP (visual feedback per step) |
+| Bug class                                          | Tool                                                                    |
+| -------------------------------------------------- | ----------------------------------------------------------------------- |
+| State machine regression (defer, broadcast, phase) | Pattern A Browser MCP 2-tab OR Pattern B Playwright multi-context       |
+| Multi-client scaling 4+                            | Pattern B Playwright multi-context (preferred over MCP for >2 contexts) |
+| WS load / throughput                               | Pattern C Artillery WS scenarios                                        |
+| Visual regression UI                               | Pattern B + canvas-grid helper                                          |
+| Pre-merge regression gate                          | Pattern B Playwright (deterministic, replayable)                        |
+| Live runtime verify                                | Pattern A Chrome MCP (visual feedback per step)                         |
 
 ### Step 3: drive simulation
 
@@ -105,6 +105,7 @@ PHONE_BASE_URL=http://localhost:3334 npm --prefix tools/ts run test:phone:smoke
 ### Step 5: lock bug via unit test PRE-fix
 
 If bug found, write failing test at logic layer:
+
 - Composer state: `tests/unit/test_phone_composer_view_*.gd` (GUT)
 - WS handler dispatch: `tests/api/*.test.js` (Node test runner)
 - Defer guard: vedi PR #205 `test_phone_composer_view_nonhost_transition.gd` esempio

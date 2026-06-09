@@ -68,7 +68,7 @@ Phase A Day 2/7 monitoring window 2026-05-08. Tier 2 PlayGodot integration liste
 | Tool             | Original estimate | Revised reality |  Delta  | Why                                                                                                                |
 | ---------------- | :---------------: | :-------------: | :-----: | ------------------------------------------------------------------------------------------------------------------ |
 | PlayGodot full   |        ~5h        |   **~20-40h**   | +15-35h | Godot fork scons build (~8h first-time) + CI custom build pipeline (~6h) + 2-platform maintenance (~6-26h ongoing) |
-| GodotTestDriver  |        ~2h        |   **~10-15h**   | +8-13h  | C# enable .NET (~4h) + sample fixture port (~3h) + GDScript ↔ C# bridge ergonomics (~3-8h)                        |
+| GodotTestDriver  |        ~2h        |   **~10-15h**   | +8-13h  | C# enable .NET (~4h) + sample fixture port (~3h) + GDScript ↔ C# bridge ergonomics (~3-8h)                         |
 | GUT scenario ext | (not in roadmap)  |    **~3-5h**    |    -    | Add scenario fixture pattern + 5 cross-feature integration test                                                    |
 
 ## 3. Risk analysis

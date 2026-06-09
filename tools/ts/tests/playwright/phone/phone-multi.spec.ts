@@ -44,10 +44,7 @@ type LobbyListResponse = {
   count: number;
 };
 
-async function createLobby(
-  page: Page,
-  hostName: string,
-): Promise<LobbyCreateResponse> {
+async function createLobby(page: Page, hostName: string): Promise<LobbyCreateResponse> {
   const response = await page.request.post('/api/lobby/create', {
     data: { host_name: hostName },
     headers: { 'Content-Type': 'application/json' },
@@ -56,11 +53,7 @@ async function createLobby(
   return (await response.json()) as LobbyCreateResponse;
 }
 
-async function joinLobby(
-  page: Page,
-  code: string,
-  playerName: string,
-): Promise<LobbyJoinResponse> {
+async function joinLobby(page: Page, code: string, playerName: string): Promise<LobbyJoinResponse> {
   const response = await page.request.post('/api/lobby/join', {
     data: { code, player_name: playerName },
     headers: { 'Content-Type': 'application/json' },
@@ -87,9 +80,7 @@ async function spawnPhoneContext(
 }
 
 test.describe('phone smoke — lobby lifecycle', () => {
-  test('host create + player join = room intact + host preserved', async ({
-    browser,
-  }) => {
+  test('host create + player join = room intact + host preserved', async ({ browser }) => {
     // Spawn 2 isolated contexts (host + player phone surrogate).
     const host = await spawnPhoneContext(browser);
     const player = await spawnPhoneContext(browser);
@@ -106,24 +97,18 @@ test.describe('phone smoke — lobby lifecycle', () => {
       const room = lobby.rooms.find((r) => r.code === created.code);
       expect(room, `room ${created.code} present`).toBeDefined();
       expect(room!.closed, 'B7 regression check: room not closed').toBe(false);
-      expect(room!.host_id, 'B7 regression check: host_id preserved').toBe(
-        created.host_id,
-      );
+      expect(room!.host_id, 'B7 regression check: host_id preserved').toBe(created.host_id);
       expect(room!.players.length).toBe(2);
       const hostPlayer = room!.players.find((p) => p.id === created.host_id);
       expect(hostPlayer!.role, 'B7 regression check: host role preserved').toBe('host');
-      expect(
-        room!.players.find((p) => p.id === joined.player_id)!.role,
-      ).toBe('player');
+      expect(room!.players.find((p) => p.id === joined.player_id)!.role).toBe('player');
     } finally {
       await host.context.close();
       await player.context.close();
     }
   });
 
-  test('B5 baseline: state_version field present + numeric on fresh lobby', async ({
-    browser,
-  }) => {
+  test('B5 baseline: state_version field present + numeric on fresh lobby', async ({ browser }) => {
     // Baseline check that state_version field is exposed by /api/lobby/list
     // and is a non-negative integer. Full B5 phase_change broadcast wire
     // (host phase intent → state_version increment + versioned event to

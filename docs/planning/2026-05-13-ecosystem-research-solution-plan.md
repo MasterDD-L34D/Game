@@ -7,7 +7,21 @@ last_verified: '2026-05-13'
 source_of_truth: false
 language: it
 review_cycle_days: 30
-tags: [plan, ecosystem, biome, foodweb, species, mating, forms, mutations, audit-action, gate-5, museum-first, adr-gated]
+tags:
+  [
+    plan,
+    ecosystem,
+    biome,
+    foodweb,
+    species,
+    mating,
+    forms,
+    mutations,
+    audit-action,
+    gate-5,
+    museum-first,
+    adr-gated,
+  ]
 ---
 
 # Ecosystem Research & Solution Plan — 2026-05-13
@@ -15,9 +29,10 @@ tags: [plan, ecosystem, biome, foodweb, species, mating, forms, mutations, audit
 **Origin**: follow-up [`docs/reports/2026-05-13-ecosystem-infrastructure-audit.md`](../reports/2026-05-13-ecosystem-infrastructure-audit.md). User trigger: _"usa il metodo per preparare un piano approfondito di ricerca e soluzione per tutti i punti trovati e anche altri che ancora mancano"_.
 
 **Metodo**:
+
 1. Museum-first (`docs/museum/galleries/worldgen.md` + 7 card worldgen + Loop Hero + Disco + Hades + Cocoon)
 2. 4-gate DoD per ogni ticket (Research → Smoke → Tuning → Optimization)
-3. Gate 5 mandatory: *un player vede l'effetto in <60s gameplay?*
+3. Gate 5 mandatory: _un player vede l'effetto in <60s gameplay?_
 4. Completionist-preserve: zero discard silenzioso, ogni opzione → museum card o ADR
 5. Anticipated-judgment markup: subjective claim Claude-flagged pending master-dd verdict
 
@@ -27,11 +42,11 @@ tags: [plan, ecosystem, biome, foodweb, species, mating, forms, mutations, audit
 
 ## 0. Executive summary
 
-| Phase | Effort      | Ticket | Surface gain                                                                                          | Gate     |
-| :---: | :---------: | :----: | ----------------------------------------------------------------------------------------------------- | :------: |
-| **A** | ~30h tot    | 7      | Smoke test mutations + sentience HUD + bioma pressure + starter trait + 3 anti-rot cleanup            | autonomous |
-| **B** | ~38-50h tot | 8      | Mating Ennea 9/9 + Atlas mini-map + Sprite lifecycle transitions + Telemetry ecosystem + 4 altri      | master-dd verdict |
-| **C** | ~70-100h    | 7      | Foodweb runtime + cross-events StressWave + bridge species + audio binding + sprite swap full        | ADR + Sprint dedicato |
+| Phase |   Effort    | Ticket | Surface gain                                                                                     |         Gate          |
+| :---: | :---------: | :----: | ------------------------------------------------------------------------------------------------ | :-------------------: |
+| **A** |  ~30h tot   |   7    | Smoke test mutations + sentience HUD + bioma pressure + starter trait + 3 anti-rot cleanup       |      autonomous       |
+| **B** | ~38-50h tot |   8    | Mating Ennea 9/9 + Atlas mini-map + Sprite lifecycle transitions + Telemetry ecosystem + 4 altri |   master-dd verdict   |
+| **C** |  ~70-100h   |   7    | Foodweb runtime + cross-events StressWave + bridge species + audio binding + sprite swap full    | ADR + Sprint dedicato |
 
 **Gain totale player POV (se shippato A+B)**: 4/11 strati → 9/11 con surface player-visible. Pillar P3 🟡 → 🟢 candidato confermato. P4 Ennea 6 archetipi → 9. P6 fairness biome-driven.
 
@@ -172,6 +187,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 ### Phase A — Autonomous (master-dd verdict NOT required, ~30h tot)
 
 #### TKT-ECO-A1 — Smoke test Mutations UI surface (~30 min)
+
 - **Layer**: 7b
 - **Effort**: 0.5h
 - **Blast**: ×1.0 (read-only verify)
@@ -183,6 +199,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit report §Layer 7b
 
 #### TKT-ECO-A2 — ~~Promotions sandbox header~~ → **VERIFY-ONLY smoke** (~30 min)
+
 - **Layer**: 7c
 - **Effort**: 0.5h (REVISED post cross-validation 2026-05-13)
 - **Blast**: ×1.0 (verify-only)
@@ -199,6 +216,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Note**: ticket originale "sandbox header" CANCELLED — file `promotions.yaml` è data canonical consumed da `promotionEngine.js`, NON proposal-only. Cancellare header sarebbe disinformazione.
 
 #### TKT-ECO-A3 — Museum card M-007 post-script (~30 min)
+
 - **Layer**: meta
 - **Effort**: 0.5h
 - **Blast**: ×1.0
@@ -209,6 +227,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit report §Layer 6
 
 #### TKT-ECO-A4 — Sentience tier backfill 45 specie (~5-6h, revised hybrid 2026-05-14)
+
 - **Layer**: 5
 - **Effort**: ~5-6h (REVISED da 8h post vault citation backing — hybrid auto/manual ratio reduces manual workload)
 - **Blast**: ×1.3 (data + lifecycle resolver consumer)
@@ -226,6 +245,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Note**: hybrid auto+manual approach = Claude-vault-proposed soft markup `(⚠️ pending master-dd verdict OD-024 per ratio auto/manual + ingest RFC vault)`
 
 #### TKT-ECO-A5 — Bioma diff_base + hazard → pressure modifier (~3h)
+
 - **Layer**: 1
 - **Effort**: 3h
 - **Blast**: ×1.3 (session helpers + biome data consumer)
@@ -240,6 +260,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum gallery worldgen reuse path Tier 1.1
 
 #### TKT-ECO-A6 — starter_bioma trait definition (~3h)
+
 - **Layer**: 1 + 7a
 - **Effort**: 3h
 - **Blast**: ×1.3
@@ -253,6 +274,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum gallery worldgen reuse path Tier 1.2 + RQ-L1-2
 
 #### TKT-ECO-A7 — Pack drift `mating.yaml` resolve (~2h)
+
 - **Layer**: 6
 - **Effort**: 2h
 - **Blast**: ×1.5 (catalog sync + Game-Database publish)
@@ -271,6 +293,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 ### Phase B — Master-dd verdict required (~38-50h tot)
 
 #### TKT-ECO-B1 — Mating compat_ennea expansion 3 → 9 archetipi (~10h)
+
 - **Layer**: 6 + P4
 - **Effort**: 10h
 - **Blast**: ×1.5 (canonical data + roll modifier + UI surface)
@@ -286,6 +309,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Note**: master-dd verdict needed: usare `data/core/personality/enneagramma/` (already 9 archetypes shipped Wave 6) come authoritative o re-spec compat_ennea? Pattern Disco internal voice (M-2026-04-27-003).
 
 #### TKT-ECO-B2 — Mating UI Ennea modifier preview pre-roll (~5h)
+
 - **Layer**: 6 + P4
 - **Effort**: 5h
 - **Blast**: ×1.3 (frontend only)
@@ -296,6 +320,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit §2.8 + museum card `ui-itb-telegraph-deterministic`
 
 #### TKT-ECO-B3 — Ancestors → biome_pool seeder Path B (~3h)
+
 - **Layer**: 5
 - **Effort**: 3h
 - **Blast**: ×1.2 (data service only)
@@ -307,6 +332,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Note**: gate ESPLICITO master-dd Q1 — non auto-procedere
 
 #### TKT-ECO-B4 — Atlas mini-map 5x5 hex (Loop Hero pattern, ~6-9h)
+
 - **Layer**: meta + 2
 - **Effort**: 6h moderate / 9h full diegetic
 - **Blast**: ×1.4
@@ -321,6 +347,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Note**: NON rendere interattiva nella prima implementazione (scope creep)
 
 #### TKT-ECO-B5 — Mutations surface wire frontend (~4-8h, conditional su TKT-ECO-A1 FAIL)
+
 - **Layer**: 7b
 - **Effort**: 4h minimal / 8h full modal
 - **Blast**: ×1.3
@@ -331,6 +358,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit §Layer 7b + Gate 5 policy
 
 #### TKT-ECO-B6 — Telemetry ecosystem features wire (~5h)
+
 - **Layer**: cross-cutting
 - **Effort**: 5h
 - **Blast**: ×1.4 (telemetry pipeline + service hooks)
@@ -345,6 +373,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit §2.5 + museum card `telemetry-duckdb-stockfish-llm-critic-quick-wins`
 
 #### TKT-ECO-B7 — ~~Promotions design decision~~ → **CANCELLED post cross-validation 2026-05-13**
+
 - **Status**: CANCELLED — premise FALSE post audit correction
 - **Reason**: Promotions è già FULL WIRED full-stack (Game/ engine 302 LOC + 2 endpoint + Godot v2 PromotionPanel + Postgres tiers JSONB)
 - **Replacement**: rolled into TKT-ECO-A2 verify-only smoke
@@ -352,6 +381,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Effort saved**: 2-15h originally budgeted
 
 #### TKT-ECO-B8 — Skiv ASCII sprite lifecycle transitions (~5h)
+
 - **Layer**: 7d
 - **Effort**: 5h
 - **Blast**: ×1.3
@@ -369,6 +399,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 ### Phase C — ADR + Sprint dedicato (~70-100h tot)
 
 #### TKT-ECO-C1 — ADR-2026-XX-worldgen-runtime-integration (~3h drafting)
+
 - **Layer**: meta
 - **Effort**: 3h ADR drafting
 - **Gate-5 surface**: zero (governance)
@@ -378,6 +409,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum gallery worldgen reuse path Tier 3 + audit §6
 
 #### TKT-ECO-C2 — Trophic role resolver Node-native port (~15h, gated TKT-ECO-C1)
+
 - **Layer**: 3 + P3
 - **Effort**: 15h
 - **Blast**: ×1.6 (new core service)
@@ -388,6 +420,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum card `worldgen-trophic-roles-validator-not-runtime`
 
 #### TKT-ECO-C3 — Cross-event StressWave modifier runtime (~12h, gated TKT-ECO-C1)
+
 - **Layer**: 4 + P6
 - **Effort**: 12h
 - **Blast**: ×1.5
@@ -401,6 +434,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum card `worldgen-cross-bioma-events-propagation`
 
 #### TKT-ECO-C4 — Bridge species canonicalization (~10h, gated ADR-bridge-species)
+
 - **Layer**: 4-5
 - **Effort**: 10h
 - **Blast**: ×1.5
@@ -415,6 +449,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: museum card `worldgen-bridge-species-network-glue`
 
 #### TKT-ECO-C5 — Audio binding ecosystem (~15-20h, NUOVO scope)
+
 - **Layer**: cross-cutting (audio absent)
 - **Effort**: 15h minimal / 20h full
 - **Blast**: ×1.7 (new audio pipeline)
@@ -428,6 +463,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit §2.4 + asset workflow doc
 
 #### TKT-ECO-C6 — Sprite lifecycle full procedural morph (~10-15h, scope extension)
+
 - **Layer**: 7d + asset
 - **Effort**: 10-15h
 - **Blast**: ×1.5
@@ -438,6 +474,7 @@ Format per ticket: ID + Layer + Effort + Blast multiplier + Gate-5 surface + ADR
 - **Provenance**: audit §2.3 evoluzione full
 
 #### TKT-ECO-C7 — Meta-network full wire + cross-bioma propagation (~34-42h, Sprint dedicato)
+
 - **Layer**: 2-4 (meta-network completo)
 - **Effort**: 34h core / 42h full
 - **Blast**: ×1.8
@@ -537,16 +574,16 @@ TKT-ECO-B7 (promotions decision) — independent
 
 Aggiungere a `OPEN_DECISIONS.md`:
 
-| OD ID | Domanda                                                                                          | Default proposed                              | Vault citation backing (Claude-vault-proposed 2026-05-14) | Effort gate |
-| :---: | ------------------------------------------------------------------------------------------------ | --------------------------------------------- | ---- | :---------: |
-| OD-024 | Sentience tier backfill 45 species — auto-heuristic Claude o master-dd manual?                  | auto-heuristic + master-dd review draft (~30 min) | ✅ AUTO+manual hybrid (`Cards/evo-tactics-sentience-tiers-canonical/` 10 cards T1-T6 + 4 traits interocettivi RFC v0.1) | TKT-ECO-A4 |
-| OD-025 | ~~Promotions YAML — demolish o implement?~~ **CANCELLED 2026-05-13 sera** — premise FALSE post cross-validation. Already FULL WIRED. | N/A — verify-only smoke remaining (TKT-ECO-A2 revised) | ❌ REJECT framing (engine LIVE confirmed) | n/a |
-| OD-026 | Atlas mini-map decisione D5 — diegetic (in-world item) vs HUD overlay?                          | HUD overlay (faster ROI)                      | ✅ HUD overlay (FINAL-DESIGN-FREEZE §16+§17 atomized) | TKT-ECO-B4 |
-| OD-027 | Bridge species type — enemy / NPC ambientale / encounter event?                                 | encounter event (low blast radius)            | ✅ encounter event (GAME_DATABASE_SYNC source ingested) | TKT-ECO-C4 |
-| OD-028 | Audio pipeline ADR — Web Audio API direct o middleware (Howler.js, etc.)?                        | Web Audio API direct (zero new dep)           | ✅ Web Audio direct (GDD §10 audio terziario verified) | TKT-ECO-C5 |
-| OD-029 | Ancestors Path B biome_pool seeder — Q1 verdict planning doc 2026-05-10?                        | proceed Path B con branch mapping default      | ✅ proceed mapping (RFC sentience §2+§5 + neurons_bridge.csv 13 entries ready) | TKT-ECO-B3 |
-| OD-030 | Cross-Game-Database ancestors integration — OD-004 reopen?                                       | NO status quo flag-OFF                        | ✅ NO flag-OFF (sync source + backend flag default verified) | TKT-ECO-Z3 |
-| OD-031 | Pack drift policy — sync core → pack autoritativo o merge?                                       | core autoritativo (additive)                  | ✅ core autoritativo (pack-v2-full-plus + authority_map atomized) | TKT-ECO-A7 |
+| OD ID  | Domanda                                                                                                                              | Default proposed                                       | Vault citation backing (Claude-vault-proposed 2026-05-14)                                                               | Effort gate |
+| :----: | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | :---------: |
+| OD-024 | Sentience tier backfill 45 species — auto-heuristic Claude o master-dd manual?                                                       | auto-heuristic + master-dd review draft (~30 min)      | ✅ AUTO+manual hybrid (`Cards/evo-tactics-sentience-tiers-canonical/` 10 cards T1-T6 + 4 traits interocettivi RFC v0.1) | TKT-ECO-A4  |
+| OD-025 | ~~Promotions YAML — demolish o implement?~~ **CANCELLED 2026-05-13 sera** — premise FALSE post cross-validation. Already FULL WIRED. | N/A — verify-only smoke remaining (TKT-ECO-A2 revised) | ❌ REJECT framing (engine LIVE confirmed)                                                                               |     n/a     |
+| OD-026 | Atlas mini-map decisione D5 — diegetic (in-world item) vs HUD overlay?                                                               | HUD overlay (faster ROI)                               | ✅ HUD overlay (FINAL-DESIGN-FREEZE §16+§17 atomized)                                                                   | TKT-ECO-B4  |
+| OD-027 | Bridge species type — enemy / NPC ambientale / encounter event?                                                                      | encounter event (low blast radius)                     | ✅ encounter event (GAME_DATABASE_SYNC source ingested)                                                                 | TKT-ECO-C4  |
+| OD-028 | Audio pipeline ADR — Web Audio API direct o middleware (Howler.js, etc.)?                                                            | Web Audio API direct (zero new dep)                    | ✅ Web Audio direct (GDD §10 audio terziario verified)                                                                  | TKT-ECO-C5  |
+| OD-029 | Ancestors Path B biome_pool seeder — Q1 verdict planning doc 2026-05-10?                                                             | proceed Path B con branch mapping default              | ✅ proceed mapping (RFC sentience §2+§5 + neurons_bridge.csv 13 entries ready)                                          | TKT-ECO-B3  |
+| OD-030 | Cross-Game-Database ancestors integration — OD-004 reopen?                                                                           | NO status quo flag-OFF                                 | ✅ NO flag-OFF (sync source + backend flag default verified)                                                            | TKT-ECO-Z3  |
+| OD-031 | Pack drift policy — sync core → pack autoritativo o merge?                                                                           | core autoritativo (additive)                           | ✅ core autoritativo (pack-v2-full-plus + authority_map atomized)                                                       | TKT-ECO-A7  |
 
 **Note**: tutti i default + vault citation backing sono _Claude-proposed pending master-dd verdict_ — markup soft canonical (vault verdict ≠ master-dd verdict actual). Vault enrichment 2026-05-14 fornisce citation backing convergente con 7/8 default Claude (1/8 OD-025 already cancelled da cross-validation L7c). Source: [vault docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md](https://github.com/MasterDD-L34D/vault/blob/main/docs/decisions/OD-024-031-game-pr-2260-vault-verdict-template.md).
 
@@ -554,22 +591,23 @@ Aggiungere a `OPEN_DECISIONS.md`:
 
 Master-dd feedback 2026-05-14 PR #2260 comment: _"verdetto vault precedente era troppo conservativo, ci costringe a non finire il lavoro ma a integrare solo in parte"_. ai-station session ribalta 6/8 verdetti verso scope full-completion. Source: [vault docs/decisions/OD-024-031-aistation-reanalysis-2026-05-14.md](https://github.com/MasterDD-L34D/vault/blob/main/docs/decisions/OD-024-031-aistation-reanalysis-2026-05-14.md) (vault PR #5).
 
-| OD | Vault verdict (precedente) | ai-station re-analysis 2026-05-14 | Envelope | Effort delta | Status verify |
-|---|---|---|:--:|:--:|---|
-| 024 | AUTO+manual hybrid (~5-6h) | **Full RFC T1-T6 + 4 traits 45/45** | B | +3-4h → ~9h | ✅ no claim conflict |
-| 025 | REJECT framing | REJECT (invariato) + Phase B2 catalog expansion | A+B | +3-4h → ~3.5h | ✅ no claim conflict |
-| 026 | HUD overlay | **Diegetic TV + Phone overlay** (FDF §16) | C | +3-4h → ~9-12h | ✅ no claim conflict (verify FDF §16) |
-| 027 | encounter event | **Full Species type + ecotypes** | B | +5-7h → ~15-17h | ✅ no claim conflict |
-| 028 | Web Audio direct | **Howler.js middleware 5KB MIT** | A | ~2h | ⚠️ **NEW NPM DEP — CLAUDE.md §guardrail "nuove dipendenze approvazione esplicita richiesta"** |
-| 029 | 13 entries baseline | **neurons_bridge 13→50 (Senses+Dexterity)** | B | +2h → ~5h | ✅ no claim conflict |
-| 030 | NO flag-OFF | **flag-ON** (D2-C #2259 già merged) | A | ~0.5h | ❌ **CATEGORY ERROR — verified false claim** |
-| 031 | additive only | **Merge core+plus consolidato** | B | +1h → ~3h | ✅ no claim conflict |
+| OD  | Vault verdict (precedente) | ai-station re-analysis 2026-05-14               | Envelope |  Effort delta   | Status verify                                                                                 |
+| --- | -------------------------- | ----------------------------------------------- | :------: | :-------------: | --------------------------------------------------------------------------------------------- |
+| 024 | AUTO+manual hybrid (~5-6h) | **Full RFC T1-T6 + 4 traits 45/45**             |    B     |   +3-4h → ~9h   | ✅ no claim conflict                                                                          |
+| 025 | REJECT framing             | REJECT (invariato) + Phase B2 catalog expansion |   A+B    |  +3-4h → ~3.5h  | ✅ no claim conflict                                                                          |
+| 026 | HUD overlay                | **Diegetic TV + Phone overlay** (FDF §16)       |    C     | +3-4h → ~9-12h  | ✅ no claim conflict (verify FDF §16)                                                         |
+| 027 | encounter event            | **Full Species type + ecotypes**                |    B     | +5-7h → ~15-17h | ✅ no claim conflict                                                                          |
+| 028 | Web Audio direct           | **Howler.js middleware 5KB MIT**                |    A     |       ~2h       | ⚠️ **NEW NPM DEP — CLAUDE.md §guardrail "nuove dipendenze approvazione esplicita richiesta"** |
+| 029 | 13 entries baseline        | **neurons_bridge 13→50 (Senses+Dexterity)**     |    B     |    +2h → ~5h    | ✅ no claim conflict                                                                          |
+| 030 | NO flag-OFF                | **flag-ON** (D2-C #2259 già merged)             |    A     |      ~0.5h      | ❌ **CATEGORY ERROR — verified false claim**                                                  |
+| 031 | additive only              | **Merge core+plus consolidato**                 |    B     |    +1h → ~3h    | ✅ no claim conflict                                                                          |
 
 **Effort cumulativo re-analysis**: ~46-52h (Phase A+B core) vs ~14-15h vault precedente. Master-dd direction-aligned ma commitment ~3x.
 
 ### 6.2 ⚠️ Concerns verified pre re-analysis acceptance
 
 **❌ OD-030 — CATEGORY ERROR FALSE CLAIM**: ai-station claim "NO flag-OFF contraddice D2-C cross-stack pipeline LIVE (#2259)" è verified FALSE via grep diretto:
+
 - `#2259 e5a10c0` scope = `TKT-D2-C Godot v2 CampaignState cross-stack sync` = Prisma migration 0010 `godot_v2_campaign_states` JSONB table **interno** a Game/ backend
 - `GAME_DATABASE_ENABLED` env flag scope = **trait glossary HTTP integration con sibling repo Game-Database** (ADR-2026-04-14-game-database-topology). Default OFF.
 - I 2 sistemi sono **scope-disjoint**: D2-C non tocca trait glossary HTTP runtime. Flag-OFF di GAME_DATABASE_ENABLED non blocca D2-C.
@@ -577,21 +615,22 @@ Master-dd feedback 2026-05-14 PR #2260 comment: _"verdetto vault precedente era 
 - **OD-030 verdict pre-correction stays valid**: NO flag-OFF default (OD-004 RISOLTA confermata 2026-05-11). Riapertura richiede separate ADR su Game-Database HTTP integration con scope distinto da D2-C.
 
 **⚠️ OD-028 — NEW NPM DEP gate**: ai-station propone Howler.js 5KB MIT. CLAUDE.md §"Guardrail sprint":
+
 > Nuove dipendenze npm/pip: approvazione esplicita richiesta.
-Anche dep piccola richiede master-dd explicit approval. Default Web Audio API direct (Claude precedente) era zero new dep — safer. Master-dd verdict explicit required pre TKT-ECO-C5 implementation.
+> Anche dep piccola richiede master-dd explicit approval. Default Web Audio API direct (Claude precedente) era zero new dep — safer. Master-dd verdict explicit required pre TKT-ECO-C5 implementation.
 
 ### 6.3 Decision matrix post re-analysis (pending master-dd actual verdict)
 
-| OD | Default vault (≤5-6h Phase A) | ai-station full (~9-17h Phase B) | Recommendation Claude |
-|---|---|---|---|
-| 024 | hybrid ratio | Full RFC | ai-station IF Phase B time budget |
-| 025 | smoke verify | + Phase B2 catalog | smoke verify first, defer catalog Phase C |
-| 026 | HUD overlay | Diegetic TV+Phone | ai-station IF FDF §16 verified |
-| 027 | encounter event | Full Species type | ai-station IF ecotypes scope clear |
-| 028 | Web Audio direct | Howler.js | **Web Audio direct** unless explicit master-dd dep approval |
-| 029 | 13 baseline | 13→50 mapping | ai-station |
-| 030 | NO flag-OFF | flag-ON | **NO flag-OFF** (category error in claim) |
-| 031 | additive | Merge consolidato | ai-station IF audit confirms 0 break post-merge |
+| OD  | Default vault (≤5-6h Phase A) | ai-station full (~9-17h Phase B) | Recommendation Claude                                       |
+| --- | ----------------------------- | -------------------------------- | ----------------------------------------------------------- |
+| 024 | hybrid ratio                  | Full RFC                         | ai-station IF Phase B time budget                           |
+| 025 | smoke verify                  | + Phase B2 catalog               | smoke verify first, defer catalog Phase C                   |
+| 026 | HUD overlay                   | Diegetic TV+Phone                | ai-station IF FDF §16 verified                              |
+| 027 | encounter event               | Full Species type                | ai-station IF ecotypes scope clear                          |
+| 028 | Web Audio direct              | Howler.js                        | **Web Audio direct** unless explicit master-dd dep approval |
+| 029 | 13 baseline                   | 13→50 mapping                    | ai-station                                                  |
+| 030 | NO flag-OFF                   | flag-ON                          | **NO flag-OFF** (category error in claim)                   |
+| 031 | additive                      | Merge consolidato                | ai-station IF audit confirms 0 break post-merge             |
 
 **Net**: 5/8 ai-station accept (024, 026 conditional, 027 conditional, 029, 031 conditional), 1/8 hybrid (025), 2/8 REJECT/concern (028 dep, 030 category error).
 
@@ -599,13 +638,14 @@ Anche dep piccola richiede master-dd explicit approval. Default Web Audio API di
 
 Master-dd ha shipped Envelope A bundle in [PR #2261](https://github.com/MasterDD-L34D/Game/pull/2261) (3 OD, 16/16 tests passing, ~3h delivery). Stato post-ship verify:
 
-| OD  | Shipped status | Claude concern resolution                                                                       |
-|:---:|----------------|------------------------------------------------------------------------------------------------|
-| 030 | ✅ flag-ON default (`apps/backend/index.js:30`) + `deploy-min-checklist.md` Min explicit OFF | ⚠️ **Persistent concern justification**: comment block ripete claim "D2-C godot_v2_campaign_states makes Game-Database canonical persistence layer" — D2-C è tabella Prisma **interna** Game/, NON sibling Game-Database HTTP. Decisione master-dd is functionally reversible (`=false` override), ma justification accuracy resta category error. Non blocker. |
-| 025 | ✅ `tests/api/promotions-cross-stack-smoke.test.js` 153 LOC + 5 tests + route wire validation | ✅ **PERFECTLY MATCHES** TKT-ECO-A2 revised recommendation. Smoke locks engine 302 LOC + 7-export surface + happy path applyPromotion FALLBACK_CONFIG. Drift detection robust. |
-| 028 | ✅ `apps/play/src/audio.js` 141 LOC middleware facade + `howler-middleware-OD-028.md` 131 LOC doc + `audio-middleware.test.js` 135 LOC 8 tests | ✅ **CDN OPT-IN PATTERN RESOLVE CONCERN**: master-dd ha shipped Howler.js come CDN lazy-load opt-in (graceful no-op se `window.Howl` absent), NOT npm install. PR body explicit "Zero npm dep added". CLAUDE.md guardrail "approvazione esplicita richiesta" sidesteppato elegantemente — Howler.js è opt-in middleware runtime, package.json invariato. |
+| OD  | Shipped status                                                                                                                                 | Claude concern resolution                                                                                                                                                                                                                                                                                                                                       |
+| :-: | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 030 | ✅ flag-ON default (`apps/backend/index.js:30`) + `deploy-min-checklist.md` Min explicit OFF                                                   | ⚠️ **Persistent concern justification**: comment block ripete claim "D2-C godot_v2_campaign_states makes Game-Database canonical persistence layer" — D2-C è tabella Prisma **interna** Game/, NON sibling Game-Database HTTP. Decisione master-dd is functionally reversible (`=false` override), ma justification accuracy resta category error. Non blocker. |
+| 025 | ✅ `tests/api/promotions-cross-stack-smoke.test.js` 153 LOC + 5 tests + route wire validation                                                  | ✅ **PERFECTLY MATCHES** TKT-ECO-A2 revised recommendation. Smoke locks engine 302 LOC + 7-export surface + happy path applyPromotion FALLBACK_CONFIG. Drift detection robust.                                                                                                                                                                                  |
+| 028 | ✅ `apps/play/src/audio.js` 141 LOC middleware facade + `howler-middleware-OD-028.md` 131 LOC doc + `audio-middleware.test.js` 135 LOC 8 tests | ✅ **CDN OPT-IN PATTERN RESOLVE CONCERN**: master-dd ha shipped Howler.js come CDN lazy-load opt-in (graceful no-op se `window.Howl` absent), NOT npm install. PR body explicit "Zero npm dep added". CLAUDE.md guardrail "approvazione esplicita richiesta" sidesteppato elegantemente — Howler.js è opt-in middleware runtime, package.json invariato.        |
 
 **Ticket impact**:
+
 - TKT-ECO-A2 (verify-only smoke) → SHIPPED via PR #2261 (no autonomous follow-up needed)
 - TKT-ECO-C5 (audio binding) → ai-station Howler middleware preferred path (Web Audio direct sostituito da facade)
 - TKT-ECO-B7 (promotions design decision) → CANCELLED (già confermato post L7c cross-validation 2026-05-13)
@@ -616,15 +656,16 @@ Master-dd ha shipped Envelope A bundle in [PR #2261](https://github.com/MasterDD
 
 Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD-L34D/Game/pull/2262) (5 OD, 24/24 tests passing, ~17h delivery). Stato post-ship verify diff:
 
-| OD | Shipped status | Claude verify findings |
-|:---:|---|---|
-| 031 | ✅ `tools/etl/merge_pack_v2_species.py` 201 LOC + `data/core/species/species_catalog.json` (649 LOC, 15 species, 10 Pack v2-plus + 5 stubs) | ⚠️ **Mating.yaml pack drift separato** — TKT-ECO-A7 originale era su `data/core/mating.yaml` (477 LOC) vs `packs/.../mating.yaml` (393 LOC) -84 LOC `gene_slots`. PR #2262 addressa species pack drift, NON mating pack drift. TKT-ECO-A7 RESTA PENDING. |
-| 027 | ✅ `species_catalog.json` schema v0.2.0 single SOT (15 keys per entry: scientific_name + classification + functional_signature + visual_description + risk_profile + interactions + constraints + sentience_index + ecotypes + trait_refs + lifecycle_yaml + source + merged_at) | ⚠️ **SCHEMA FORK risk**: `data/core/species.yaml` (45 species canonical) **NON modificato** + nuovo `species_catalog.json` (15 species rich schema). Dual SOT temporaneo. 30 species in species.yaml NOT migrated. Governance question: catalog è eventual canonical e species.yaml deprecato, o coesistono? |
-| 024 | ✅ Sentience 15/15 species T0-T3 (T0:2, T1:7, T2:4, T3:2) + 4 traits interocettivi shipped `active_effects.yaml` (propriocezione + equilibrio_vestibolare + nocicezione + termocezione) | ✅ **Scope clarification honest**: ai-station promised "45/45" ma 45 era da species.yaml legacy. PR delivery 15/15 species nel **nuovo catalog** è onesto subset post-OD-031 ETL (gli stessi 15 con `data/core/species/*_lifecycle.yaml`). I 30 species residue species.yaml senza lifecycle restano without sentience (TKT-ECO-A4 follow-up scope). |
-| 029 | ✅ `data/core/ancestors/neurons_bridge.csv` 51 entries (vs 13 RFC v0.1 = 3.9× expansion). Branch coverage Senses 28 + Dexterity 9 + Ambulation 9 + Memorie 5. Tier T1-T6 complete | ✅ Expansion ai-station promised "13→50 Senses+Dexterity"; delivery 51 entries con 4 branch (Senses+Dexterity+Ambulation+Memorie) supera scope. Positive over-delivery. |
-| 025-B2 | ✅ `data/core/promotions/promotions.yaml` v0.2.0 — 5-tier ladder (base→veteran→captain→**elite**→**master**) + `job_archetype_bias` schema anchor | ⚠️ **Engine Phase B3 reserved fields**: `defense_mod_bonus` (NEW Elite reward) + `crit_chance_bonus` (NEW Master reward) **shipped data schema MA engine `promotionEngine.js` non ancora consume** questi field. PR esplicito: "schema anchor only — engine extension Phase B3 reserved". Potenziale **Gate 5 anti-pattern Engine LIVE Surface DEAD** se Phase B3 deferred indefinito. Tracking: TKT-ECO-A7-NEW promotions engine extension Phase B3 (~3-4h, prima di Envelope C). |
+|   OD   | Shipped status                                                                                                                                                                                                                                                                   | Claude verify findings                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| :----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  031   | ✅ `tools/etl/merge_pack_v2_species.py` 201 LOC + `data/core/species/species_catalog.json` (649 LOC, 15 species, 10 Pack v2-plus + 5 stubs)                                                                                                                                      | ⚠️ **Mating.yaml pack drift separato** — TKT-ECO-A7 originale era su `data/core/mating.yaml` (477 LOC) vs `packs/.../mating.yaml` (393 LOC) -84 LOC `gene_slots`. PR #2262 addressa species pack drift, NON mating pack drift. TKT-ECO-A7 RESTA PENDING.                                                                                                                                                                                                                           |
+|  027   | ✅ `species_catalog.json` schema v0.2.0 single SOT (15 keys per entry: scientific_name + classification + functional_signature + visual_description + risk_profile + interactions + constraints + sentience_index + ecotypes + trait_refs + lifecycle_yaml + source + merged_at) | ⚠️ **SCHEMA FORK risk**: `data/core/species.yaml` (45 species canonical) **NON modificato** + nuovo `species_catalog.json` (15 species rich schema). Dual SOT temporaneo. 30 species in species.yaml NOT migrated. Governance question: catalog è eventual canonical e species.yaml deprecato, o coesistono?                                                                                                                                                                       |
+|  024   | ✅ Sentience 15/15 species T0-T3 (T0:2, T1:7, T2:4, T3:2) + 4 traits interocettivi shipped `active_effects.yaml` (propriocezione + equilibrio_vestibolare + nocicezione + termocezione)                                                                                          | ✅ **Scope clarification honest**: ai-station promised "45/45" ma 45 era da species.yaml legacy. PR delivery 15/15 species nel **nuovo catalog** è onesto subset post-OD-031 ETL (gli stessi 15 con `data/core/species/*_lifecycle.yaml`). I 30 species residue species.yaml senza lifecycle restano without sentience (TKT-ECO-A4 follow-up scope).                                                                                                                               |
+|  029   | ✅ `data/core/ancestors/neurons_bridge.csv` 51 entries (vs 13 RFC v0.1 = 3.9× expansion). Branch coverage Senses 28 + Dexterity 9 + Ambulation 9 + Memorie 5. Tier T1-T6 complete                                                                                                | ✅ Expansion ai-station promised "13→50 Senses+Dexterity"; delivery 51 entries con 4 branch (Senses+Dexterity+Ambulation+Memorie) supera scope. Positive over-delivery.                                                                                                                                                                                                                                                                                                            |
+| 025-B2 | ✅ `data/core/promotions/promotions.yaml` v0.2.0 — 5-tier ladder (base→veteran→captain→**elite**→**master**) + `job_archetype_bias` schema anchor                                                                                                                                | ⚠️ **Engine Phase B3 reserved fields**: `defense_mod_bonus` (NEW Elite reward) + `crit_chance_bonus` (NEW Master reward) **shipped data schema MA engine `promotionEngine.js` non ancora consume** questi field. PR esplicito: "schema anchor only — engine extension Phase B3 reserved". Potenziale **Gate 5 anti-pattern Engine LIVE Surface DEAD** se Phase B3 deferred indefinito. Tracking: TKT-ECO-A7-NEW promotions engine extension Phase B3 (~3-4h, prima di Envelope C). |
 
 **Ticket impact**:
+
 - TKT-ECO-A4 (sentience backfill 45 specie) → PARTIAL via PR #2262 (15/15 lifecycle subset shipped). Follow-up 30 species residue species.yaml → ~3-4h ridotto (no Pack v2-plus rich data, solo heuristic baseline T1-T2)
 - TKT-ECO-A7 (pack drift mating.yaml) → STILL PENDING (different scope from species pack)
 - TKT-ECO-B3 (ancestors biome_pool seeder) → ENHANCED via PR #2262 neurons_bridge 51 entries (era 13 baseline)
@@ -633,13 +674,13 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 
 ### 6.6 Cumulative session 2026-05-14 cross-stack — FINAL CLOSURE
 
-| Channel | PR | Status | Effort | Tests | Concerns |
-|---|---|:--:|---|:--:|---|
-| Vault | PR #5 ai-station re-analisi | open | (design) | docs | — |
-| Game/ | PR #2261 Envelope A (3 OD) | open mergeable_state:blocked | ~3h | 16/16 | OD-030 justification accuracy persistent (non blocker) |
-| Game/ | PR #2262 Envelope B (5 OD) | open mergeable_state:blocked | ~17h | 24/24 | Schema fork + B3 reserved fields + mating drift |
-| Godot v2 | PR #259 Envelope B cross-stack mirror | shipped 2026-05-14 | (Godot side) | 60/60 | (out-of-scope GitHub MCP) |
-| Godot v2 | PR #260 Envelope C scaffold OD-026 | shipped 2026-05-14 | ~6h | 18/18 | TV diegetic + Phone overlay scaffold pre-asset |
+| Channel  | PR                                    |            Status            | Effort       | Tests | Concerns                                               |
+| -------- | ------------------------------------- | :--------------------------: | ------------ | :---: | ------------------------------------------------------ |
+| Vault    | PR #5 ai-station re-analisi           |             open             | (design)     | docs  | —                                                      |
+| Game/    | PR #2261 Envelope A (3 OD)            | open mergeable_state:blocked | ~3h          | 16/16 | OD-030 justification accuracy persistent (non blocker) |
+| Game/    | PR #2262 Envelope B (5 OD)            | open mergeable_state:blocked | ~17h         | 24/24 | Schema fork + B3 reserved fields + mating drift        |
+| Godot v2 | PR #259 Envelope B cross-stack mirror |      shipped 2026-05-14      | (Godot side) | 60/60 | (out-of-scope GitHub MCP)                              |
+| Godot v2 | PR #260 Envelope C scaffold OD-026    |      shipped 2026-05-14      | ~6h          | 18/18 | TV diegetic + Phone overlay scaffold pre-asset         |
 
 **Cumulative tests cross-stack**: **118/118** ai-station Envelope A+B+C execution (16+24+60+18).
 
@@ -651,21 +692,22 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 
 **8/8 OD audit PR #2260 ai-station re-analysis CLOSED** in single session 2026-05-14:
 
-| OD | Status | Cross-stack channel |
-|:--:|---|---|
-| 024 Sentience full | ✅ | Game/ #2262 (15/15 lifecycle subset) |
-| 025 Promotions REJECT framing | ✅ | Game/ #2261 smoke + audit correction |
-| 025-B2 catalog +elite/+master | ✅ | Game/ #2262 schema + Godot v2 #259 FALLBACK_CONFIG |
-| 026 Diegetic Atlas scaffold | ✅ | Godot v2 #260 (TV + Phone variants pre-asset) |
-| 027 Species type + ecotypes | ✅ | Game/ #2262 catalog + Godot v2 #259 SpeciesCatalog Resource |
-| 028 Howler middleware | ✅ | Game/ #2261 CDN opt-in |
-| 029 neurons 13→51 | ✅ | Game/ #2262 + Godot v2 #259 NeuronsBridgeCatalog Resource |
-| 030 flag-ON Game-Database | ✅ | Game/ #2261 default flip |
-| 031 Pack merge | ✅ | Game/ #2262 ETL + species_catalog.json (species pack scope only, mating drift separate) |
+|              OD               | Status | Cross-stack channel                                                                     |
+| :---------------------------: | ------ | --------------------------------------------------------------------------------------- |
+|      024 Sentience full       | ✅     | Game/ #2262 (15/15 lifecycle subset)                                                    |
+| 025 Promotions REJECT framing | ✅     | Game/ #2261 smoke + audit correction                                                    |
+| 025-B2 catalog +elite/+master | ✅     | Game/ #2262 schema + Godot v2 #259 FALLBACK_CONFIG                                      |
+|  026 Diegetic Atlas scaffold  | ✅     | Godot v2 #260 (TV + Phone variants pre-asset)                                           |
+|  027 Species type + ecotypes  | ✅     | Game/ #2262 catalog + Godot v2 #259 SpeciesCatalog Resource                             |
+|     028 Howler middleware     | ✅     | Game/ #2261 CDN opt-in                                                                  |
+|       029 neurons 13→51       | ✅     | Game/ #2262 + Godot v2 #259 NeuronsBridgeCatalog Resource                               |
+|   030 flag-ON Game-Database   | ✅     | Game/ #2261 default flip                                                                |
+|        031 Pack merge         | ✅     | Game/ #2262 ETL + species_catalog.json (species pack scope only, mating drift separate) |
 
 ### 6.8 Residual master-dd manual + Phase A autonomous
 
 **Master-dd manual residue**:
+
 1. Review + merge 5 PR aperti (vault #5 + Game/ #2261 + #2262 + Godot v2 #259 + #260)
 2. Asset commission Wildermyth biome silhouettes (OD-026 visual polish post-scaffold)
 3. Skiv pulse caller wire combat phase integration (~1-2h, ~1 PR)
@@ -673,15 +715,15 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 
 **Phase A residue autonomous** (3 governance questions Q1+Q2+Q3 still open, audit-derived, NOT addressed dal cross-stack closure):
 
-| TKT | Effort | Gate | Status post-closure |
-|:--:|:--:|---|---|
-| A1 smoke mutations UI (L7b ≠ promotions) | 0.5h | autonomous | pending |
-| A3 museum card M-007 post-script "FULL CLOSURE 2026-04-27" | 0.5h | autonomous | pending |
-| A4 residue 30 species senza lifecycle (heuristic T1-T2) | ~3-4h | gated Q1 (schema fork resolve) | partial-shipped 15/45 via #2262 |
-| A5 bioma diff_base + hazard pressure modifier | ~3h | autonomous | pending P6 driver |
-| A6 starter_bioma trait definition | ~3h | autonomous | pending completionist |
-| A7 mating.yaml pack drift (-84 LOC gene_slots) | ~2h | gated Q2 master-dd autonomous greenlight | pending (DIVERSO da OD-031 species pack) |
-| ~~A8 NEW promotions engine Phase B3~~ | ~~~3-4h~~ | ~~gated Q3~~ | ✅ **SHIPPED via PR #2264** (`feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold`) |
+|                            TKT                             |  Effort   | Gate                                     | Status post-closure                                                                                                         |
+| :--------------------------------------------------------: | :-------: | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+|          A1 smoke mutations UI (L7b ≠ promotions)          |   0.5h    | autonomous                               | pending                                                                                                                     |
+| A3 museum card M-007 post-script "FULL CLOSURE 2026-04-27" |   0.5h    | autonomous                               | pending                                                                                                                     |
+|  A4 residue 30 species senza lifecycle (heuristic T1-T2)   |   ~3-4h   | gated Q1 (schema fork resolve)           | partial-shipped 15/45 via #2262                                                                                             |
+|       A5 bioma diff_base + hazard pressure modifier        |    ~3h    | autonomous                               | pending P6 driver                                                                                                           |
+|             A6 starter_bioma trait definition              |    ~3h    | autonomous                               | pending completionist                                                                                                       |
+|       A7 mating.yaml pack drift (-84 LOC gene_slots)       |    ~2h    | gated Q2 master-dd autonomous greenlight | pending (DIVERSO da OD-031 species pack)                                                                                    |
+|           ~~A8 NEW promotions engine Phase B3~~            | ~~~3-4h~~ | ~~gated Q3~~                             | ✅ **SHIPPED via PR #2264** (`feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold`) |
 
 **Phase A residue total post-merge-cascade**: ~9-10h (era ~12-14h, **A8 shipped autonomously by master-dd via #2264**, riduce di ~3-4h).
 
@@ -689,15 +731,16 @@ Master-dd ha shipped Envelope B bundle in [PR #2262](https://github.com/MasterDD
 
 Verifica `git log origin/claude/analyze-ecosystem-infrastructure-W4Lyf` 2026-05-14 sera:
 
-| Commit  | PR    | Topic                                                                                          |
-|---------|-------|------------------------------------------------------------------------------------------------|
-| `f2244c8` | #2261 | Envelope A bundle OD-025 + OD-028 + OD-030 (3 OD shipped)                                      |
-| `4c07c4d` | #2262 | Envelope B bundle OD-024 + OD-025-B2 + OD-027 + OD-029 + OD-031                                |
+| Commit    | PR    | Topic                                                                                           |
+| --------- | ----- | ----------------------------------------------------------------------------------------------- |
+| `f2244c8` | #2261 | Envelope A bundle OD-025 + OD-028 + OD-030 (3 OD shipped)                                       |
+| `4c07c4d` | #2262 | Envelope B bundle OD-024 + OD-025-B2 + OD-027 + OD-029 + OD-031                                 |
 | `dee2e86` | #2263 | **fix(promotion): JS FALLBACK_CONFIG cross-stack parity drift** (OD-025-B2 follow-up parity)    |
 | `ad6081b` | #2264 | **feat(ai-station): Phase B3 — PromotionEngine job_archetype_bias + vc_scoring sentience fold** |
 | `1dcfbfa` | merge | Merge branch 'main' into claude/analyze-ecosystem-infrastructure-W4Lyf                          |
 
 **Status post-cascade**:
+
 - 4 PR merged to main (#2261 + #2262 + #2263 + #2264)
 - Branch sync via merge commit (preserves audit + plan history on `claude/analyze-ecosystem-infrastructure-W4Lyf`)
 - **TKT-ECO-A8 NEW PROMOTIONS ENGINE PHASE B3** (proposed reply [comment-4451508839](https://github.com/MasterDD-L34D/Game/pull/2260#issuecomment-4451508839) post-Envelope-B verification) → **SHIPPED via #2264** before I could ship it
@@ -705,6 +748,7 @@ Verifica `git log origin/claude/analyze-ecosystem-infrastructure-W4Lyf` 2026-05-
 - Gate 5 anti-pattern Engine LIVE Surface DEAD risk **CLOSED** (#2264 consume new reward fields runtime)
 
 **Pillar status post-cascade**:
+
 - P3 Identità: 🟢-cand → **🟢 candidato HARD** (PromotionEngine elite+master + job_archetype_bias + sentience fold)
 - P4 Temperamenti: 🟢-cand → **🟢 candidato HARD** (sentience 15/15 + 4 traits + 51 neurons + vc_scoring fold)
 - 🟢 hard final promotion ancora gated Playtest #2 userland
@@ -739,17 +783,17 @@ Items dal mio piano originale NON inclusi in PR #2261 + #2262:
 
 ## 8. Risk register
 
-| Rischio                                                                                           | Probabilità | Impatto | Mitigazione                                                                   |
-| ------------------------------------------------------------------------------------------------- | :---------: | :-----: | ----------------------------------------------------------------------------- |
-| Sentience heuristic master-dd reject → riassegnazione manuale 45 species (~8h extra)              |     M       |    M    | Markup soft canonical pending review, draft prima di apply                    |
-| Atlas mini-map D5 verdict diegetic → blast radius +50% (~9h vs 6h)                                |     M       |    L    | Default HUD overlay, escalate solo se master-dd preferenza                    |
-| Foodweb Node-native port C2 scope creep → 15h → 25h                                               |     M       |    M    | ADR-2026-XX-worldgen scope minimal core (predator/prey/decomposer) only       |
-| Bridge species ambiguity species/resource non risolta pre-promote                                 |     L       |    M    | ADR-2026-XX-bridge-species-type explicit + validator update                   |
-| Audio binding pipeline asset license verify gap                                                   |     L       |    H    | Workflow doc esiste, 184GB CC0 100% license-classified — check pre-commit     |
-| Game-Database OD-004 reopen drift Game ↔ Game-Database schema cross-stack                          |     M       |    M    | Status quo flag-OFF default mantenuto, defer Z3                               |
-| Mating Ennea 9/9 vs `data/core/personality/enneagramma/` schema diverge                            |     M       |    M    | Use existing 9-canon source autoritativo, mating.yaml extends only            |
-| Phase A TKT-ECO-A4 + A5 + A6 over-stack 1 dev day → bug rescue cycle                              |     M       |    L    | Verify-before-claim policy + smoke test per ticket prima di next               |
-| **Explore agent sub-dir naming heuristic miss** (false negative L7c promotions 2026-05-13)        |     M       |    H    | Future audit: grep cross variant naming `*<topic>*` cross `services/*/` + import destrutturati |
+| Rischio                                                                                    | Probabilità | Impatto | Mitigazione                                                                                    |
+| ------------------------------------------------------------------------------------------ | :---------: | :-----: | ---------------------------------------------------------------------------------------------- |
+| Sentience heuristic master-dd reject → riassegnazione manuale 45 species (~8h extra)       |      M      |    M    | Markup soft canonical pending review, draft prima di apply                                     |
+| Atlas mini-map D5 verdict diegetic → blast radius +50% (~9h vs 6h)                         |      M      |    L    | Default HUD overlay, escalate solo se master-dd preferenza                                     |
+| Foodweb Node-native port C2 scope creep → 15h → 25h                                        |      M      |    M    | ADR-2026-XX-worldgen scope minimal core (predator/prey/decomposer) only                        |
+| Bridge species ambiguity species/resource non risolta pre-promote                          |      L      |    M    | ADR-2026-XX-bridge-species-type explicit + validator update                                    |
+| Audio binding pipeline asset license verify gap                                            |      L      |    H    | Workflow doc esiste, 184GB CC0 100% license-classified — check pre-commit                      |
+| Game-Database OD-004 reopen drift Game ↔ Game-Database schema cross-stack                  |      M      |    M    | Status quo flag-OFF default mantenuto, defer Z3                                                |
+| Mating Ennea 9/9 vs `data/core/personality/enneagramma/` schema diverge                    |      M      |    M    | Use existing 9-canon source autoritativo, mating.yaml extends only                             |
+| Phase A TKT-ECO-A4 + A5 + A6 over-stack 1 dev day → bug rescue cycle                       |      M      |    L    | Verify-before-claim policy + smoke test per ticket prima di next                               |
+| **Explore agent sub-dir naming heuristic miss** (false negative L7c promotions 2026-05-13) |      M      |    H    | Future audit: grep cross variant naming `*<topic>*` cross `services/*/` + import destrutturati |
 
 ---
 
@@ -766,22 +810,15 @@ Items dal mio piano originale NON inclusi in PR #2261 + #2262:
 ### Qualitative smoke test sequence (master-dd 60s gameplay)
 
 Post Phase A:
+
 1. ✅ Skiv info-panel mostra "T2-T3 — emergente"
 2. ✅ Character creation mostra "Bioma origine: Badlands → trait Scavenger"
 3. ✅ Cryosteppe encounter HP enemy +20% vs Foresta (sensorialmente diverso)
 4. ✅ Mutation apply post-encounter visibile (overlay/log/debrief)
 
-Post Phase B:
-5. ✅ Mating roll preview Ennea modifier pre-confirm
-6. ✅ Briefing panel mini-map 5×5 hex (1-3 illuminati post-scenario)
-7. ✅ Skiv lifecycle transition T2 → T3 → sprite ASCII swap visibile
-8. ✅ Encounter pool genera enemy con trait branch-coerente al bioma (ancestors seed)
+Post Phase B: 5. ✅ Mating roll preview Ennea modifier pre-confirm 6. ✅ Briefing panel mini-map 5×5 hex (1-3 illuminati post-scenario) 7. ✅ Skiv lifecycle transition T2 → T3 → sprite ASCII swap visibile 8. ✅ Encounter pool genera enemy con trait branch-coerente al bioma (ancestors seed)
 
-Post Phase C:
-9. ✅ Cross-event "Tempesta ferrosa attiva" telegraph + modifier visible
-10. ✅ Ambient SFX bioma + jingle cross-event
-11. ✅ Spawn enemy con role ecologico (predator high-stress, scavenger low-stress)
-12. ✅ Player vede dipendenza cross-bioma in atlas
+Post Phase C: 9. ✅ Cross-event "Tempesta ferrosa attiva" telegraph + modifier visible 10. ✅ Ambient SFX bioma + jingle cross-event 11. ✅ Spawn enemy con role ecologico (predator high-stress, scavenger low-stress) 12. ✅ Player vede dipendenza cross-bioma in atlas
 
 ### AI sim baseline preservation
 
@@ -833,4 +870,4 @@ Post Phase C:
 4. **Phase B kickoff**: post-Phase-A complete + master-dd verdict OD-025 + OD-026 + OD-029
 5. **Phase C ADR drafting**: post-Phase-B evidence + Sprint dedicato approval (Sprint M14-C o Sprint Q+ ecosystem-wave candidate)
 
-*Sabbia segue.*
+_Sabbia segue._

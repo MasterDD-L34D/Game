@@ -111,8 +111,8 @@ const firstTab = computed(() => {
 const internalTab = ref(firstTab.value);
 const tabRefs = ref([]);
 
-const activeTabMeta = computed(() =>
-  normalizedTabs.value.find((tab) => tab.id === internalTab.value) || null,
+const activeTabMeta = computed(
+  () => normalizedTabs.value.find((tab) => tab.id === internalTab.value) || null,
 );
 
 watch(
@@ -123,17 +123,14 @@ watch(
   { flush: 'post' },
 );
 
-watch(
-  firstTab,
-  (value) => {
-    if (!value) {
-      return;
-    }
-    if (internalTab.value !== value) {
-      internalTab.value = value;
-    }
-  },
-);
+watch(firstTab, (value) => {
+  if (!value) {
+    return;
+  }
+  if (internalTab.value !== value) {
+    internalTab.value = value;
+  }
+});
 
 watch(
   () => props.modelValue,
@@ -213,11 +210,14 @@ function onTabKeydown(event, index) {
   gap: 1.5rem;
   padding: 1.75rem;
   border-radius: 2rem;
-  background: radial-gradient(circle at 10% -20%, rgba(122, 196, 255, 0.18), transparent 55%),
+  background:
+    radial-gradient(circle at 10% -20%, rgba(122, 196, 255, 0.18), transparent 55%),
     radial-gradient(circle at 100% 0%, rgba(158, 123, 255, 0.15), transparent 65%),
     var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: inset 0 0 0 1px rgba(122, 196, 255, 0.1), 0 25px 60px rgba(5, 9, 18, 0.65);
+  box-shadow:
+    inset 0 0 0 1px rgba(122, 196, 255, 0.1),
+    0 25px 60px rgba(5, 9, 18, 0.65);
 }
 
 .nebula-shell__frame::after {
@@ -326,7 +326,10 @@ function onTabKeydown(event, index) {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.75rem;
-  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
 .nebula-shell__tab:hover,

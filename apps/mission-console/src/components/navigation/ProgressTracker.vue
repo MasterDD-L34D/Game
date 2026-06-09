@@ -45,7 +45,11 @@
             @click="$emit('navigate', step.id)"
             :aria-label="`Vai alla fase ${step.title}`"
           >
-            <StateToken :label="statusLabel(step.status)" :variant="statusVariant(step.status)" compact />
+            <StateToken
+              :label="statusLabel(step.status)"
+              :variant="statusVariant(step.status)"
+              compact
+            />
             <span class="progress-card__index">#{{ step.index + 1 }}</span>
           </button>
         </header>
@@ -186,7 +190,9 @@ const completionPercent = (metrics) => {
   display: grid;
   gap: 0.75rem;
   min-height: 180px;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .progress-card--active {

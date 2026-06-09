@@ -23,10 +23,10 @@ Template riusabili estratti dai 4 `_*.cmd` ad-hoc generati durante PR #2393 / PR
 
 ## File
 
-| File | Scopo |
-|---|---|
-| `branch-and-pr.cmd` | Template parametrico: branch nuovo + test run + commit + push + draft PR |
-| `commit-multiline-example.cmd` | Esempio di commit multi-line Conventional Commits (5 sezioni `-m`) |
+| File                           | Scopo                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------ |
+| `branch-and-pr.cmd`            | Template parametrico: branch nuovo + test run + commit + push + draft PR |
+| `commit-multiline-example.cmd` | Esempio di commit multi-line Conventional Commits (5 sezioni `-m`)       |
 
 ## Convenzioni assunte
 

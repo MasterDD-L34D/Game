@@ -71,12 +71,12 @@ con un blocco `ecology` opzionale per food web machine-readable
 
 ## Bidirectional consistency check (Pulverator ↔ Skiv)
 
-| Edge                      | Direzione                            | Verificato          |
-| ------------------------- | ------------------------------------ | ------------------- |
+| Edge                      | Direzione                           | Verificato          |
+| ------------------------- | ----------------------------------- | ------------------- |
 | competes_with             | dune_stalker ↔ pulverator_gregarius | OK                  |
 | mutualism_with (indirect) | dune_stalker ↔ pulverator_gregarius | OK                  |
-| scavenges_from            | pulverator_gregarius → dune_stalker  | OK (one-way valido) |
-| preys_on / prey_of        | n/a (entrambi apex)                  | n/a                 |
+| scavenges_from            | pulverator_gregarius → dune_stalker | OK (one-way valido) |
+| preys_on / prey_of        | n/a (entrambi apex)                 | n/a                 |
 
 ## Decisioni esecutive prese durante la sessione
 

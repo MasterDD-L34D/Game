@@ -293,7 +293,7 @@ che non sapevo di sapere.", "L'ombra mi parla. Ascolto."]`
 | ---- | ------------------------------------ | ----- | ------ | -------- | --------------- | --------------- |
 | F-01 | Lifecycle phase + sprite in monitor  | 5/5   | ~2h    | P4+P3+P2 | unintegrated    | YES             |
 | F-02 | warning_zone + narrative_beat diary  | 4/5   | ~1.5h  | P4+P5    | unintegrated    | YES             |
-| F-03 | Diary store ↔ monitor bridge        | 5/5   | ~2h    | P4+P5    | deferred        | YES             |
+| F-03 | Diary store ↔ monitor bridge         | 5/5   | ~2h    | P4+P5    | deferred        | YES             |
 | F-04 | Voice palette eventi interni (6 +)   | 4/5   | ~1h    | P4       | deferred        | YES             |
 | F-05 | Bond Vega/Rhodo render mancante      | 3/5   | ~0.5h  | P5+P4    | forgotten       | YES (quick win) |
 | F-06 | Sentience tier hardcoded vs derivato | 3/5   | ~1h    | P4       | unintegrated    | next sprint     |

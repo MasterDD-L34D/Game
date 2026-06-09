@@ -133,12 +133,12 @@ Sprint Q+ blocks:
 
 ## 6. Risks + mitigation
 
-| Risk                                                    | Impact | Mitigation                                                                                                                                                          |
-| ------------------------------------------------------- | :----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Prisma migration rompe Phase A baseline                 |  HIGH  | Migrazione in branch isolato, regression test Game/ + Godot v2 main pre-merge. Migration auto-merge L3 BLOCKED (forbidden path `migrations/`) — master-dd manual.   |
-| HTTPClient Godot timeout WAN RTT                        |  MED   | 5s timeout + retry-once + graceful fallback (ritual outcome locale, sync deferred via campaign_state.tres)                                                          |
-| 30s ritual timer rompe pause game                       |  MED   | `set_process_mode(PROCESS_MODE_ALWAYS)` + `Engine.set_time_scale(0)` su gameplay node mirror N.7 spec §8                                                            |
-| Offspring infinite chain → DB bloat                     |  LOW   | Cap `MAX_WOUNDS_PER_UNIT = 5` + cascade delete on unit retire (Prisma onDelete)                                                                                     |
+| Risk                                                   | Impact | Mitigation                                                                                                                                                          |
+| ------------------------------------------------------ | :----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Prisma migration rompe Phase A baseline                |  HIGH  | Migrazione in branch isolato, regression test Game/ + Godot v2 main pre-merge. Migration auto-merge L3 BLOCKED (forbidden path `migrations/`) — master-dd manual.   |
+| HTTPClient Godot timeout WAN RTT                       |  MED   | 5s timeout + retry-once + graceful fallback (ritual outcome locale, sync deferred via campaign_state.tres)                                                          |
+| 30s ritual timer rompe pause game                      |  MED   | `set_process_mode(PROCESS_MODE_ALWAYS)` + `Engine.set_time_scale(0)` su gameplay node mirror N.7 spec §8                                                            |
+| Offspring infinite chain → DB bloat                    |  LOW   | Cap `MAX_WOUNDS_PER_UNIT = 5` + cascade delete on unit retire (Prisma onDelete)                                                                                     |
 | Cross-stack regression Game/ ↔ Godot v2 contract drift |  MED   | Schema contract `packages/contracts/schemas/lineage_ritual.schema.json` NEW, AJV validate both sides. forbidden path `packages/contracts/` = master-dd manual gate. |
 
 ## 7. Decisione richiesta master-dd pre-Sprint-Q-kickoff

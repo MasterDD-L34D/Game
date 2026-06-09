@@ -10,7 +10,12 @@
           role="listitem"
           :aria-current="item.current ? 'page' : undefined"
         >
-          <RouterLink v-if="!item.current" :to="item.to" class="app-breadcrumbs__link" :aria-label="t('breadcrumbs.goTo', { label: item.label })">
+          <RouterLink
+            v-if="!item.current"
+            :to="item.to"
+            class="app-breadcrumbs__link"
+            :aria-label="t('breadcrumbs.goTo', { label: item.label })"
+          >
             <span>{{ item.label }}</span>
           </RouterLink>
           <span v-else class="app-breadcrumbs__current" aria-current="page">{{ item.label }}</span>
@@ -20,7 +25,12 @@
 
     <div class="app-breadcrumbs__meta">
       <p v-if="description" class="app-breadcrumbs__description">{{ description }}</p>
-      <ul v-if="tokens.length" class="app-breadcrumbs__tokens" :aria-label="t('breadcrumbs.contextState')" role="list">
+      <ul
+        v-if="tokens.length"
+        class="app-breadcrumbs__tokens"
+        :aria-label="t('breadcrumbs.contextState')"
+        role="list"
+      >
         <li v-for="token in tokens" :key="token.id">
           <StateToken :label="token.label" :variant="token.variant" :icon="token.icon" />
         </li>

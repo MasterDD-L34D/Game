@@ -28,27 +28,27 @@ Replica `docs/research/2026-05-26-fase1-schema-ripple-audit.md`:
 
 ## 2. Target verificati (path empirici, esistono)
 
-| Servizio | Path | Esiste |
-|---|---|---|
-| traitRepository | `apps/backend/services/traitRepository.js` | SI |
-| traitEffects | `apps/backend/services/traitEffects.js` (+3 ref) | SI |
-| biomePoolLoader | `apps/backend/services/combat/biomePoolLoader.js` | SI |
-| biomeSpawnBias | `apps/backend/services/combat/biomeSpawnBias.js` (+4 ref) | SI |
-| formPackRecommender | `apps/backend/services/forms/formPackRecommender.js` (+1 ref) | SI |
-| catalog | `apps/backend/services/catalog.js` (+34 ref cross-cutting) | SI |
-| report | `apps/backend/report.js` (+9 ref) | SI |
-| beastBondReaction | `apps/backend/services/combat/beastBondReaction.js` (+2 ref) | SI |
-| coop/biomeAdapter | `apps/backend/services/coop/biomeAdapter.js` | SI |
+| Servizio            | Path                                                          | Esiste |
+| ------------------- | ------------------------------------------------------------- | ------ |
+| traitRepository     | `apps/backend/services/traitRepository.js`                    | SI     |
+| traitEffects        | `apps/backend/services/traitEffects.js` (+3 ref)              | SI     |
+| biomePoolLoader     | `apps/backend/services/combat/biomePoolLoader.js`             | SI     |
+| biomeSpawnBias      | `apps/backend/services/combat/biomeSpawnBias.js` (+4 ref)     | SI     |
+| formPackRecommender | `apps/backend/services/forms/formPackRecommender.js` (+1 ref) | SI     |
+| catalog             | `apps/backend/services/catalog.js` (+34 ref cross-cutting)    | SI     |
+| report              | `apps/backend/report.js` (+9 ref)                             | SI     |
+| beastBondReaction   | `apps/backend/services/combat/beastBondReaction.js` (+2 ref)  | SI     |
+| coop/biomeAdapter   | `apps/backend/services/coop/biomeAdapter.js`                  | SI     |
 
 ## 3. Findings
 
 ### 3.1 Coupling consumer trait schema diretto
 
-| Path | Linee | Pattern | Verdict |
-|---|---|---|---|
-| `apps/backend/services/traitRepository.js:571` | `schema_version: '2.0', trait_glossary: 'data/core/traits/glossary.json'` | HARDCODED 2.0 in output index.json | **VERDE**: il repository GIA emette 2.0. Drift inverso (doc 1.0 vs runtime 2.0) sanato dal bump. |
-| `apps/backend/services/traitRepository.js:954` | `typeof legacyIndex.schema_version === 'string'` | Legge schema_version come stringa generica | VERDE: tolerante a entrambi 1.0 e 2.0 stringa. |
-| `apps/backend/services/coop/biomeAdapter.js:115` | `(k) => k !== 'version' && k !== 'schema_version' && !k.startsWith('_')` | Filter iteration esplicitamente skip-aware | VERDE: il bump non rompe l'iter pool. |
+| Path                                             | Linee                                                                     | Pattern                                    | Verdict                                                                                          |
+| ------------------------------------------------ | ------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `apps/backend/services/traitRepository.js:571`   | `schema_version: '2.0', trait_glossary: 'data/core/traits/glossary.json'` | HARDCODED 2.0 in output index.json         | **VERDE**: il repository GIA emette 2.0. Drift inverso (doc 1.0 vs runtime 2.0) sanato dal bump. |
+| `apps/backend/services/traitRepository.js:954`   | `typeof legacyIndex.schema_version === 'string'`                          | Legge schema_version come stringa generica | VERDE: tolerante a entrambi 1.0 e 2.0 stringa.                                                   |
+| `apps/backend/services/coop/biomeAdapter.js:115` | `(k) => k !== 'version' && k !== 'schema_version' && !k.startsWith('_')`  | Filter iteration esplicitamente skip-aware | VERDE: il bump non rompe l'iter pool.                                                            |
 
 ### 3.2 Coupling indiretto (schema_version generico, NON trait-specific)
 

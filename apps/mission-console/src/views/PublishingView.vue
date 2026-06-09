@@ -19,7 +19,9 @@
       </article>
       <article class="flow-card flow-card--action">
         <h3 class="flow-card__title">Prossime azioni</h3>
-        <p class="flow-card__body">Coordinare il QA narrativo e validare la sincronizzazione media.</p>
+        <p class="flow-card__body">
+          Coordinare il QA narrativo e validare la sincronizzazione media.
+        </p>
       </article>
     </div>
 
@@ -78,7 +80,9 @@
               <p>{{ notification.message }}</p>
             </div>
             <footer>
-              <span v-if="notification.recipients?.length">{{ notification.recipients.join(', ') }}</span>
+              <span v-if="notification.recipients?.length">{{
+                notification.recipients.join(', ')
+              }}</span>
               <time>{{ notification.time }}</time>
             </footer>
           </li>
@@ -130,10 +134,12 @@ const workflowSteps = computed(() => {
   ];
 });
 
-const historyEntries = computed(() => (Array.isArray(publishing.value.history) ? publishing.value.history : []));
+const historyEntries = computed(() =>
+  Array.isArray(publishing.value.history) ? publishing.value.history : [],
+);
 
 const notificationEntries = computed(() =>
-  Array.isArray(publishing.value.notifications) ? publishing.value.notifications : []
+  Array.isArray(publishing.value.notifications) ? publishing.value.notifications : [],
 );
 
 function statusLabel(status) {

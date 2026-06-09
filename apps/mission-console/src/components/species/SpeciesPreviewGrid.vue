@@ -5,12 +5,7 @@
       <slot name="filters"></slot>
     </header>
     <p v-if="error" class="species-preview-grid__error" role="alert">{{ error }}</p>
-    <p
-      v-else-if="loading"
-      class="species-preview-grid__loading"
-      role="status"
-      aria-live="polite"
-    >
+    <p v-else-if="loading" class="species-preview-grid__loading" role="status" aria-live="polite">
       Generazione in corso...
     </p>
     <div v-else-if="previews.length" class="species-preview-grid__cards" role="list">
@@ -22,7 +17,9 @@
       >
         <header class="species-preview-card__header">
           <h4>{{ preview.blueprint?.display_name || preview.blueprint?.id }}</h4>
-          <span class="species-preview-card__badge">{{ preview.blueprint?.statistics?.threat_tier || 'T?' }}</span>
+          <span class="species-preview-card__badge">{{
+            preview.blueprint?.statistics?.threat_tier || 'T?'
+          }}</span>
         </header>
         <p class="species-preview-card__summary">{{ preview.blueprint?.summary }}</p>
         <dl class="species-preview-card__stats">

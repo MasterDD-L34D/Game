@@ -29,7 +29,7 @@ related:
 | Godot anticipa plan v3      | Combat stubs ported                           | ✅ 9/14 ported (vs plan v3 deferred) |
 | NOT yet shipped Godot       | Asset Legacy Skiv portrait + lifecycle stages |           ❌ gap concreto            |
 | NOT yet shipped Godot       | Cutover Fase 3 decision gate                  |      🟡 ADR PROPOSED 2026-05-05      |
-| NOT yet shipped Godot       | ERMES E7-E8 runtime bridge                    |        ⏸ deferred (correct)         |
+| NOT yet shipped Godot       | ERMES E7-E8 runtime bridge                    |         ⏸ deferred (correct)         |
 | NOT yet shipped Godot       | Character creation TV scene Bible §0          |           ❌ gap concreto            |
 | NOT yet shipped Godot       | Phone composer real-device smoke              |    🟡 GUIDA SHIPPED, EXEC PENDING    |
 | **NEW drift discovered**    | Ennea taxonomy schema mismatch 9 vs 6         |       ✅ RESOLVED #167 + #2041       |
@@ -187,11 +187,11 @@ Effort residual: ~10-15h Sprint Q polish. Non-gating Fase 3 cutover.
 | Skiv portrait (recap card) 256×256              | Path 3 (signature)             | P0 Sprint M.3 | ❌ NOT shipped Godot |
 | Skiv lifecycle 5 stages 64×64 atlas             | Path 1+3 ibrido (LPC base)     | P0 Sprint M.3 | ❌ NOT shipped Godot |
 | Skiv run cycle anim 8-frame 64×64 atlas         | Path 1 ibrido (LPC + override) | P0 Sprint M.3 | ❌ NOT shipped Godot |
-| Skiv echolocation visual (Light2D + Particle2D) | native Godot 2D                | P1 Sprint N.6 |          ⏸          |
+| Skiv echolocation visual (Light2D + Particle2D) | native Godot 2D                | P1 Sprint N.6 |          ⏸           |
 | Skiv idle vocal SFX 1-2s OGG                    | Path 2 AI o Sonniss CC0        | P2 Sprint M.3 |    ❌ NOT shipped    |
 | Skiv combat roar SFX 0.5-1s OGG                 | Path 2 AI o Sonniss CC0        | P2 Sprint M.3 |    ❌ NOT shipped    |
 | Skiv attack VFX 32×32 atlas 5-frame             | Path 1 Kenney VFX              | P1 Sprint M.3 |    ❌ NOT shipped    |
-| Skiv death anim 64×64 atlas 8-frame             | Path 3 signature               | P1 Sprint N.6 |          ⏸          |
+| Skiv death anim 64×64 atlas 8-frame             | Path 3 signature               | P1 Sprint N.6 |          ⏸           |
 
 **Godot reality `assets/legacy/`** (verified gh api 2026-05-04):
 

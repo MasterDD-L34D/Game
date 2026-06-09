@@ -1,9 +1,5 @@
 import { test, expect } from '@playwright/test';
-import {
-  sampleCanvasGrid,
-  countNonEmptyCells,
-  colorMatchesApprox,
-} from './lib/canvasGrid.js';
+import { sampleCanvasGrid, countNonEmptyCells, colorMatchesApprox } from './lib/canvasGrid.js';
 
 // Canvas visual regression smoke (Tier 1 #3 adoption post 2026-05-07).
 //

@@ -69,9 +69,9 @@ const BLACKLIST_FIELDS = Object.freeze([
 function prismaSupportsSkivCompanion(prisma) {
   return Boolean(
     prisma &&
-      prisma.skivCompanionState &&
-      typeof prisma.skivCompanionState.upsert === 'function' &&
-      typeof prisma.skivCompanionState.findUnique === 'function',
+    prisma.skivCompanionState &&
+    typeof prisma.skivCompanionState.upsert === 'function' &&
+    typeof prisma.skivCompanionState.findUnique === 'function',
   );
 }
 

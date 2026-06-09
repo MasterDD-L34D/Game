@@ -77,12 +77,12 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 5. Encounter & Biome Engine
 
-| Campo                  | Descrizione                              | Esempio Evo-Tactics                                                                                     |
-| ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **Generator**          | Algoritmo o script usato.                | `docs/mission-console/data/flow/generation/species.json` (seed `mission-helix-023`).                    |
-| **Spotlight**          | Focus meccanico.                         | Scontro "Cavitation Rift" che premia mutazioni Aquatic Support.                                         |
+| Campo                  | Descrizione                             | Esempio Evo-Tactics                                                                                     |
+| ---------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Generator**          | Algoritmo o script usato.               | `docs/mission-console/data/flow/generation/species.json` (seed `mission-helix-023`).                    |
+| **Spotlight**          | Focus meccanico.                        | Scontro "Cavitation Rift" che premia mutazioni Aquatic Support.                                         |
 | **Compatibilità MBTI** | Mappatura missione ↔ profili giocatore. | Vanguard → ENTJ, Support → INFJ (ref `docs/evo-tactics-pack/species-index.json`).                       |
-| **Load**               | Come vengono caricati gli encounter.     | Precompilati via `docs/mission-console/data/flow/generation/species-preview.json` con fallback runtime. |
+| **Load**               | Come vengono caricati gli encounter.    | Precompilati via `docs/mission-console/data/flow/generation/species-preview.json` con fallback runtime. |
 
 **Checklist**
 

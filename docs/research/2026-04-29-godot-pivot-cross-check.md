@@ -98,7 +98,7 @@ related:
 | Sprint M.2             |       2g        | Plugin Asset Library priority install                                           |
 | Sprint M.3             |      2-3g       | Asset Legacy import                                                             |
 | Sprint M.4             |       1g        | Reference codebase study application                                            |
-| Sprint M.5             |       4h        | Cross-stack spike Godot HTML5 ↔ Express WS MANDATORY                           |
+| Sprint M.5             |       4h        | Cross-stack spike Godot HTML5 ↔ Express WS MANDATORY                            |
 | Sprint M.6             |       3h        | CI minimal Godot project MANDATORY                                              |
 | Sprint M.7             |       2g        | Phone composer Godot HTML5 spike MANDATORY P5 gate                              |
 | GATE 0                 |       3h        | Failure-model parity check (Sprint N.7 ELEVATE pre Sprint N.1)                  |

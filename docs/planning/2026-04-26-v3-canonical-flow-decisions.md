@@ -184,7 +184,7 @@ Pendenti, aspetto chiusura.
 
 | ID  | Question                                                                                                                   | Owner                           | Note                                                         |
 | --- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------ |
-| Q1  | Mapping concreto 5 axes UI ↔ 4 MBTI engine — formula, edge case Agile/Robusto, Memoria/Istinto                            | master-dd + agent telemetria VC | Iter2 default ON gestisce 4 MBTI; serve definire i 5 axes UI |
+| Q1  | Mapping concreto 5 axes UI ↔ 4 MBTI engine — formula, edge case Agile/Robusto, Memoria/Istinto                             | master-dd + agent telemetria VC | Iter2 default ON gestisce 4 MBTI; serve definire i 5 axes UI |
 | Q2  | Wiki in-game pattern Hades Codex — schema entry, unlock trigger, persistenza cross-run                                     | master-dd                       | ⏳ agent skiv-narrator può proporre pattern                  |
 | Q3  | Forma I-X naming canonical (5-stage Skiv vs 10-stage user proposal)                                                        | master-dd                       | ⏳ agent forme-naming in volo                                |
 | Q4  | Evento mutageno spec — cosa è esattamente, come trigger in-encounter, effetti runtime                                      | master-dd                       | ⏳ agent swarm-drop-redig in volo                            |

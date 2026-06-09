@@ -42,14 +42,14 @@ A.L.I.E.N.A. era progettato come metodo design, non wiki player. Integrazione in
 
 ## A.L.I.E.N.A. → UI mapping
 
-| A.L.I.E.N.A. field         | UI tab       | Player-facing content (semplificato)                     |
-| -------------------------- | ------------ | -------------------------------------------------------- |
-| **A** Ambiente             | "Ambiente"   | 3-4 fatti chiave (luce, gravità, venti, substrato)       |
-| **L** Linee evolutive      | "Evoluzione" | 2-3 tagline pressures (es. "Bassa luce → echolocation")  |
+| A.L.I.E.N.A. field         | UI tab       | Player-facing content (semplificato)                    |
+| -------------------------- | ------------ | ------------------------------------------------------- |
+| **A** Ambiente             | "Ambiente"   | 3-4 fatti chiave (luce, gravità, venti, substrato)      |
+| **L** Linee evolutive      | "Evoluzione" | 2-3 tagline pressures (es. "Bassa luce → echolocation") |
 | **I** Impianto morfo-fisio | "Forma"      | Icon list (🦵locomotion, 👁senses, ⚖weight) + 1-2 frasi |
-| **E** Ecologia & comport   | "Ecologia"   | Ruolo trofico + habitat + threat level ⭐⭐⭐⭐          |
-| **N** Norme socio (opt)    | "Società"    | Se senziente: 2-3 feature culturali                      |
-| **A** Ancoraggio narr      | "Narrazione" | Theme + relazione Sistema + story hook                   |
+| **E** Ecologia & comport   | "Ecologia"   | Ruolo trofico + habitat + threat level ⭐⭐⭐⭐         |
+| **N** Norme socio (opt)    | "Società"    | Se senziente: 2-3 feature culturali                     |
+| **A** Ancoraggio narr      | "Narrazione" | Theme + relazione Sistema + story hook                  |
 
 **Player vs designer detail**:
 

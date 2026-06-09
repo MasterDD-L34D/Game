@@ -3,7 +3,11 @@
     <button type="button" class="species-quick-actions__button" @click="$emit('export')">
       Esporta scheda
     </button>
-    <button type="button" class="species-quick-actions__button species-quick-actions__button--secondary" @click="$emit('save')">
+    <button
+      type="button"
+      class="species-quick-actions__button species-quick-actions__button--secondary"
+      @click="$emit('save')"
+    >
       Salva nel pack
     </button>
   </div>
@@ -28,7 +32,9 @@ defineEmits(['export', 'save']);
   padding: 0.6rem 1.1rem;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .species-quick-actions__button:hover {

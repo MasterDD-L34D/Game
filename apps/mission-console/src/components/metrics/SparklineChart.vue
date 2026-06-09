@@ -33,7 +33,12 @@
       <span>{{ summaryDisplay.trend }}</span>
     </figcaption>
   </figure>
-  <div v-else :class="['sparkline', 'sparkline--empty', variantClass]" role="status" aria-live="polite">
+  <div
+    v-else
+    :class="['sparkline', 'sparkline--empty', variantClass]"
+    role="status"
+    aria-live="polite"
+  >
     <span class="visually-hidden">Nessuna telemetria disponibile</span>
   </div>
 </template>
@@ -76,7 +81,7 @@ const variantClass = computed(() => (props.variant === 'demo' ? 'sparkline--demo
 const validPoints = computed(() =>
   (props.points || [])
     .map((value) => (Number.isFinite(value) ? Number(value) : 0))
-    .filter((value) => Number.isFinite(value))
+    .filter((value) => Number.isFinite(value)),
 );
 
 const viewBoxWidth = computed(() => Math.max((validPoints.value.length - 1) * 24, 24));
@@ -95,7 +100,9 @@ const normalizedPoints = computed(() => {
   });
 });
 
-const polylinePoints = computed(() => normalizedPoints.value.map((point) => `${point.x},${point.y}`).join(' '));
+const polylinePoints = computed(() =>
+  normalizedPoints.value.map((point) => `${point.x},${point.y}`).join(' '),
+);
 
 const lastPoint = computed(() => {
   if (!normalizedPoints.value.length) {
@@ -118,9 +125,11 @@ const summaryStats = computed(() => {
   const min = Math.min(...validPoints.value);
   const max = Math.max(...validPoints.value);
   const latest = lastValue.value;
-  const previous = validPoints.value.length > 1 ? validPoints.value[validPoints.value.length - 2] : latest;
+  const previous =
+    validPoints.value.length > 1 ? validPoints.value[validPoints.value.length - 2] : latest;
   const trendRaw = latest - previous;
-  const average = validPoints.value.reduce((sum, value) => sum + value, 0) / validPoints.value.length;
+  const average =
+    validPoints.value.reduce((sum, value) => sum + value, 0) / validPoints.value.length;
   return {
     min,
     max,
@@ -144,9 +153,12 @@ const summaryDisplay = computed(() => {
     };
   }
   const { min, max, latest, trendRaw, average } = summaryStats.value;
-  const trendLabel = trendRaw === 0 ? 'Trend: stabile' : trendRaw > 0
-      ? `Trend: +${numberFormatter.format(trendRaw)}`
-      : `Trend: ${numberFormatter.format(trendRaw)}`;
+  const trendLabel =
+    trendRaw === 0
+      ? 'Trend: stabile'
+      : trendRaw > 0
+        ? `Trend: +${numberFormatter.format(trendRaw)}`
+        : `Trend: ${numberFormatter.format(trendRaw)}`;
   return {
     min: `Min: ${numberFormatter.format(min)}`,
     max: `Max: ${numberFormatter.format(max)}`,
@@ -160,7 +172,12 @@ const summaryLabelText = computed(() => {
     return `${props.summaryLabel}: nessun dato disponibile`;
   }
   const { min, max, latest, trendRaw } = summaryStats.value;
-  const trendLabel = trendRaw === 0 ? 'stabile' : trendRaw > 0 ? `in aumento di ${numberFormatter.format(trendRaw)}` : `in calo di ${numberFormatter.format(Math.abs(trendRaw))}`;
+  const trendLabel =
+    trendRaw === 0
+      ? 'stabile'
+      : trendRaw > 0
+        ? `in aumento di ${numberFormatter.format(trendRaw)}`
+        : `in calo di ${numberFormatter.format(Math.abs(trendRaw))}`;
   return `${props.summaryLabel}: minimo ${numberFormatter.format(min)}, massimo ${numberFormatter.format(max)}, ultimo valore ${numberFormatter.format(latest)}, andamento ${trendLabel}.`;
 });
 </script>

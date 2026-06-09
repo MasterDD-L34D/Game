@@ -22,9 +22,9 @@ function makeKey(sessionId, unitId) {
 function prismaSupportsForms(prisma) {
   return Boolean(
     prisma &&
-      prisma.formSessionState &&
-      typeof prisma.formSessionState.upsert === 'function' &&
-      typeof prisma.formSessionState.findMany === 'function',
+    prisma.formSessionState &&
+    typeof prisma.formSessionState.upsert === 'function' &&
+    typeof prisma.formSessionState.findMany === 'function',
   );
 }
 

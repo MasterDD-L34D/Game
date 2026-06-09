@@ -46,6 +46,7 @@ Audit report originale §Layer 7c affermava:
 ```
 
 Plan derivato:
+
 - TKT-ECO-A2 — "Promotions sandbox header" (~10 min)
 - TKT-ECO-B7 — "Promotions demolish vs implement" (2-15h)
 - OD-025 — "Promotions YAML demolish o implement?" default `demolish + sandbox header`
@@ -77,6 +78,7 @@ $ grep -n "promotion-eligibility\|/promote" apps/backend/routes/session.js
 ```
 
 **Cross-stack live (Godot v2 + Postgres confirmed da Godot session)**:
+
 - Godot v2 engine `promotion_engine.gd` (PR #226)
 - Godot v2 UI `PromotionPanel.tscn` (PR #243)
 - Godot v2 caller wire E3 (PR #252)
@@ -89,9 +91,11 @@ $ grep -n "promotion-eligibility\|/promote" apps/backend/routes/session.js
 **Pattern miss #1 — sub-dir naming heuristic literal**:
 
 Explore agent in T1 audit task ha ricevuto prompt:
+
 > "**Layer 7 Creature giocabili + Evoluzioni**: ... `apps/backend/services/` cerca `form*.js`, `mutation*.js`, `promotion*.js`, `evolution*.js`, `dynamicEvents*`"
 
 Agent ha eseguito approssimativamente:
+
 ```bash
 ls apps/backend/services/ | grep -iE "form|mutation|promotion|evolution"
 ```
@@ -101,6 +105,7 @@ Restituendo solo top-level dirs/files. Il pattern `progression/promotionEngine.j
 **Pattern miss #2 — import destrutturato non literal**:
 
 Routes `session.js:208`:
+
 ```js
 const { evaluatePromotion, applyPromotion } = require('../services/progression/promotionEngine');
 ```
@@ -120,6 +125,7 @@ Museum non aveva card per L7c Promotions (nessuna card promotion-related). Assen
 ### Lesson 1 — Future Explore agent inventory pattern
 
 **Pattern do**: per "engine inventory cross-domain", grep cross varianti naming:
+
 ```bash
 # DON'T (literal sub-dir):
 ls apps/backend/services/ | grep "promotion"
@@ -133,6 +139,7 @@ grep -rn "Promotion\|promotion" apps/backend/services apps/backend/routes \
 ### Lesson 2 — Import destrutturato detection
 
 Cerca cross-pattern import:
+
 ```bash
 grep -rn "require.*progression\|require.*promotion" apps/backend/routes/
 grep -rn "from.*progression\|from.*promotion" apps/backend/routes/

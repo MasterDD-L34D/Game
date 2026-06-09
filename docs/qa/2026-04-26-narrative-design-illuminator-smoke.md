@@ -49,7 +49,7 @@ Surface mista: onboarding runtime + tutorial briefing static + thought panel UI.
 | ------------------------------ | :--------: | ------------------------------------------------- |
 | Player agency preserved        | 🟡 PARTIAL | Onboarding OK, tutorial briefing 0 choices        |
 | State reactive (prior choice)  | 🔴 MISSING | Nessun mention di MBTI/ennea/choice pre-briefing  |
-| Failure valid path             |   ⚠ NA    | No skill check nei briefing (combat only)         |
+| Failure valid path             |    ⚠ NA    | No skill check nei briefing (combat only)         |
 | Pacing (not combat-interrupt)  |   🟢 OK    | Briefing pre-combat, Thought reveal out-of-combat |
 | Voice/tone consistent          |   🟢 OK    | Tono tecnico-militare in tutto                    |
 | Accessibility (readable, skip) | 🟡 PARTIAL | Skip button OK, no TTS                            |

@@ -100,7 +100,7 @@ Nessun residuo Sprint P/Q. Piano v3 §P e §Q marcati CLOSED.
 | Biome data portati     | 9 (originale)                  | **20/20** (222%) — biome_aliases merged, 13 adjacency via W4.5.1         |
 | GUT parity gate        | ≥250/384                       | **594/594 (154%)** — gate #45 SHA `f1dc591`                              |
 | Runtime biome services | deferred                       | ✅ shipped W7.x (#129+#130+#136+#137+#138)                               |
-| LDtk integration       | "futura"                       | ⏸ ancora deferred (non blocker, nessun cambio)                          |
+| LDtk integration       | "futura"                       | ⏸ ancora deferred (non blocker, nessun cambio)                           |
 | click-to-target        | "tactical input pass deferred" | ✅ shipped W7.x #128 SHA `84a2b2b`                                       |
 
 **Durata reale Sprint Q**: Q.1+Q.2 in 2 PR lo stesso giorno (2026-04-30). Runtime services shipped

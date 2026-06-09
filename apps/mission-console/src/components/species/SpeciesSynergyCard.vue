@@ -1,5 +1,10 @@
 <template>
-  <button type="button" class="synergy-card" :class="{ 'synergy-card--flipped': flipped }" @click="toggle">
+  <button
+    type="button"
+    class="synergy-card"
+    :class="{ 'synergy-card--flipped': flipped }"
+    @click="toggle"
+  >
     <div class="synergy-card__face synergy-card__face--front">
       <span class="synergy-card__icon" aria-hidden="true">∞</span>
       <p class="synergy-card__title">{{ title }}</p>

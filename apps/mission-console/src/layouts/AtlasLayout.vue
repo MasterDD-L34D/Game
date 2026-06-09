@@ -31,7 +31,11 @@
       />
     </section>
 
-    <AtlasCollectionProgress :metrics="dataset.metrics" :dataset="dataset" :highlights="dataset.highlights" />
+    <AtlasCollectionProgress
+      :metrics="dataset.metrics"
+      :dataset="dataset"
+      :highlights="dataset.highlights"
+    />
 
     <nav v-if="links.length" class="atlas-layout__nav" aria-label="Sottosezioni atlas">
       <RouterLink
@@ -46,7 +50,13 @@
     </nav>
 
     <RouterView v-slot="{ Component }">
-      <component :is="Component" :dataset="dataset" :is-demo="isDemo" :is-offline="isOffline" @notify="forwardNotification" />
+      <component
+        :is="Component"
+        :dataset="dataset"
+        :is-demo="isDemo"
+        :is-offline="isOffline"
+        @notify="forwardNotification"
+      />
     </RouterView>
 
     <DemoDiagnosticsPanel v-if="isDemo" class="atlas-layout__diagnostics" />
@@ -80,8 +90,12 @@ const emit = defineEmits(['notify']);
 
 const route = useRoute();
 const router = useRouter();
-const { title: navigationTitle, description: navigationDescription, breadcrumbs, tokens: navigationTokens } =
-  useNavigationMeta();
+const {
+  title: navigationTitle,
+  description: navigationDescription,
+  breadcrumbs,
+  tokens: navigationTokens,
+} = useNavigationMeta();
 
 const dataset = atlasDataset;
 const totals = atlasTotals;
@@ -117,9 +131,7 @@ const statusLabel = computed(() => {
 });
 
 const releaseTokens = computed(() =>
-  props.isOffline
-    ? [{ id: 'release-offline', label: 'Sync offline', variant: 'warning' }]
-    : [],
+  props.isOffline ? [{ id: 'release-offline', label: 'Sync offline', variant: 'warning' }] : [],
 );
 
 const releaseWindowDescription = computed(() => `Curatori · ${dataset.curator || 'Da definire'}`);
@@ -130,7 +142,9 @@ const overviewMetrics = computed(() => {
   const targetBiomes = Number(dataset.metrics?.biomes) || totals.biomes;
   const currentBiomes = Array.isArray(dataset.biomes) ? dataset.biomes.length : totals.biomes;
   const targetEncounters = Number(dataset.metrics?.encounters) || totals.encounters;
-  const currentEncounters = Array.isArray(dataset.encounters) ? dataset.encounters.length : totals.encounters;
+  const currentEncounters = Array.isArray(dataset.encounters)
+    ? dataset.encounters.length
+    : totals.encounters;
 
   return [
     {
@@ -264,7 +278,10 @@ function forwardNotification(payload) {
   color: #1d4ed8;
   text-decoration: none;
   font-weight: 600;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .atlas-layout__nav-link:hover {

@@ -22,40 +22,41 @@ review_cycle_days: 14
 
 ### 1.1 Consumer hooks — TUTTI presenti
 
-| Stato       | File                          | Linea(e) | Effetto                          |
-| ----------- | ----------------------------- | --------- | -------------------------------- |
-| `slowed`    | `sessionHelpers.js`           | 698       | `applyApRefill`: -1 AP (min 1)  |
-| `marked`    | `session.js`                  | 597–600   | +1 dmg next hit, mark consumato |
-| `burning`   | `session.js`                  | 1217+     | DoT 2 PT/turno (3 path)         |
-| `chilled`   | `session.js` + helpers        | 513–517 + 697 | -1 atk pre/revert + -1 AP   |
-| `disoriented`| `session.js`                 | 518–522   | -2 atk pre/revert (1T)          |
+| Stato         | File                   | Linea(e)      | Effetto                         |
+| ------------- | ---------------------- | ------------- | ------------------------------- |
+| `slowed`      | `sessionHelpers.js`    | 698           | `applyApRefill`: -1 AP (min 1)  |
+| `marked`      | `session.js`           | 597–600       | +1 dmg next hit, mark consumato |
+| `burning`     | `session.js`           | 1217+         | DoT 2 PT/turno (3 path)         |
+| `chilled`     | `session.js` + helpers | 513–517 + 697 | -1 atk pre/revert + -1 AP       |
+| `disoriented` | `session.js`           | 518–522       | -2 atk pre/revert (1T)          |
 
 ### 1.2 STATUS_DURATION_CAPS — TUTTI presenti
 
 `session.js:101–113`:
+
 ```javascript
 slowed: 3, marked: 2, burning: 3, chilled: 2, disoriented: 1
 ```
 
 ### 1.3 Trait produttori (active_effects.yaml) — TUTTI presenti
 
-| Trait               | Stato        | Linea YAML | Trigger            |
-| ------------------- | ------------ | ---------- | ------------------ |
-| `tela_appiccicosa`  | `slowed`     | ~9451      | hit any range      |
-| `marchio_predatorio`| `marked`     | ~9471      | hit any range      |
-| `respiro_acido`     | `burning`    | ~9430      | hit any range      |
-| `aura_glaciale`     | `chilled`    | ~9386      | hit any range      |
-| `sussurro_psichico` | `disoriented`| ~9408      | hit + min_mos 5    |
+| Trait                | Stato         | Linea YAML | Trigger         |
+| -------------------- | ------------- | ---------- | --------------- |
+| `tela_appiccicosa`   | `slowed`      | ~9451      | hit any range   |
+| `marchio_predatorio` | `marked`      | ~9471      | hit any range   |
+| `respiro_acido`      | `burning`     | ~9430      | hit any range   |
+| `aura_glaciale`      | `chilled`     | ~9386      | hit any range   |
+| `sussurro_psichico`  | `disoriented` | ~9408      | hit + min_mos 5 |
 
 ### 1.4 Test coverage — 42/42 PASS
 
-| File                          | Tests |
-| ----------------------------- | ----: |
-| `statusEffectsSlowed.test.js` | 3     |
-| `statusEffectsMarked.test.js` | 3     |
-| `statusEffectsBurning.test.js`| 8     |
-| `statusEffectsPhaseA.test.js` | 28    |
-| **Totale**                    | **42**|
+| File                           |  Tests |
+| ------------------------------ | -----: |
+| `statusEffectsSlowed.test.js`  |      3 |
+| `statusEffectsMarked.test.js`  |      3 |
+| `statusEffectsBurning.test.js` |      8 |
+| `statusEffectsPhaseA.test.js`  |     28 |
+| **Totale**                     | **42** |
 
 Baseline AI test totale: 220 pass / 10 fail (fail = infrastruttura: js-yaml +
 supertest mancanti — pre-esistenti, non regressioni Phase A).
@@ -78,6 +79,7 @@ Traits da aggiungere: `aura_glaciale`, `tela_appiccicosa`, `marchio_predatorio`,
 decisioni AI. Comportamento AI identico a unità sane.
 
 Opportunità:
+
 - `slowed` target → AI lo preferisce (mobilità ridotta, facile da raggiungere)
 - `disoriented` target → AI lo attacca (probabilità hit aumentata per 1T)
 - `marked` target → AI coordina attacchi su di esso per consumare il bonus
@@ -90,6 +92,7 @@ extension o `targetSelectionScore` weight — non tocca resolver, non tocca sche
 ### 2.3 Priority 2 — Gate 5 HUD surface ⚠️ MANCANTE (out of scope sessione)
 
 Nessuno dei 5 stati ha surface player-visible. Gate 5 violation.
+
 - Status icon sprite/emoji sotto unit (Godot v2) o HUD overlay (web)
 - Log entry panel quando applicato
 - Tooltip turns rimanenti
@@ -113,9 +116,9 @@ trait YAML (active_effects.yaml, SPRINT_020)
 
 ## 4. Priorità sessione 2026-05-09
 
-| PR  | Scope                       | Effort   | Rischio |
-| --- | --------------------------- | -------- | ------- |
-| A   | Glossary sync (5 trait)     | ~20 min  | Zero    |
-| B   | policy.js AI slowed/disoriented/marked | ~1-2h | Basso |
+| PR  | Scope                                  | Effort  | Rischio |
+| --- | -------------------------------------- | ------- | ------- |
+| A   | Glossary sync (5 trait)                | ~20 min | Zero    |
+| B   | policy.js AI slowed/disoriented/marked | ~1-2h   | Basso   |
 
 HUD surface → deferred sprint successivo (Gate 5 debt backlog).

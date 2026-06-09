@@ -3,8 +3,8 @@
     <header class="atlas-world__header">
       <h3>World Builder</h3>
       <p>
-        Blueprint ambientali con preset già filtrati per il branch Nebula. Ogni ambiente include hazard stabilizzati e
-        corridoi di ingaggio suggeriti.
+        Blueprint ambientali con preset già filtrati per il branch Nebula. Ogni ambiente include
+        hazard stabilizzati e corridoi di ingaggio suggeriti.
       </p>
     </header>
 

@@ -25,13 +25,13 @@ Phase A. Attualmente assenti (grep 0 match), bloccano `trait-lint` CI check.
 
 ### Entry da aggiungere
 
-| Trait ID             | label_it                   | label_en              | Stato      |
-| -------------------- | -------------------------- | --------------------- | ---------- |
-| `tela_appiccicosa`   | Tela Appiccicosa           | Sticky Web            | slowed     |
-| `marchio_predatorio` | Marchio Predatorio         | Predatory Mark        | marked     |
-| `respiro_acido`      | Respiro Acido              | Acid Breath           | burning    |
-| `aura_glaciale`      | Aura Glaciale              | Glacial Aura          | chilled    |
-| `sussurro_psichico`  | Sussurro Psichico          | Psychic Whisper       | disoriented|
+| Trait ID             | label_it           | label_en        | Stato       |
+| -------------------- | ------------------ | --------------- | ----------- |
+| `tela_appiccicosa`   | Tela Appiccicosa   | Sticky Web      | slowed      |
+| `marchio_predatorio` | Marchio Predatorio | Predatory Mark  | marked      |
+| `respiro_acido`      | Respiro Acido      | Acid Breath     | burning     |
+| `aura_glaciale`      | Aura Glaciale      | Glacial Aura    | chilled     |
+| `sussurro_psichico`  | Sussurro Psichico  | Psychic Whisper | disoriented |
 
 ### Description strategy
 
@@ -108,6 +108,7 @@ function hasDebuffStatus(unit) {
 ```
 
 Modificare `reduce` in `pickTargetExcluding`:
+
 ```javascript
 return candidates.reduce((best, c) => {
   if (!best) return c;
