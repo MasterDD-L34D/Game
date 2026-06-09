@@ -101,9 +101,11 @@ test('units without explicit max_hp/speed stay neutral (current hp never leaks)'
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
+  // Explicit speed:null (not just absent): Number(null) === 0 is finite, so a
+  // careless guard would normalise it to speed 0 -> agile pinned Robusto-ish.
   const noStats = STAT_UNITS.map((u) => {
     const { speed, max_hp, ...rest } = u;
-    return { ...rest, id: u.id };
+    return { ...rest, id: u.id, speed: null };
   });
   const startRes = await request(app).post('/api/session/start').send({ units: noStats });
   const sid = startRes.body.session_id || startRes.body.id;

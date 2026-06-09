@@ -97,8 +97,10 @@ function normaliseUnit(raw, fallbackIndex) {
     // the personality agile_robust axis; same lesson as morale_mod above:
     // silently-stripped fields never reach their consumer). Absent -> null
     // (the axis degrades to 0.5 neutral by design).
+    // Explicit null guard too: Number(null) === 0 is finite, so a bare
+    // isFinite check would turn an explicit `speed: null` into speed 0.
     speed:
-      input.speed !== undefined && Number.isFinite(Number(input.speed))
+      input.speed !== undefined && input.speed !== null && Number.isFinite(Number(input.speed))
         ? Number(input.speed)
         : null,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
