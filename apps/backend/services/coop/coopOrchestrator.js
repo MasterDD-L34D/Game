@@ -9,6 +9,7 @@ const { foldObservations } = require('../ai/sistemaStateAccumulator');
 const { createSistemaStateStore } = require('../ai/sistemaStateStore');
 const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
+const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergence');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -126,6 +127,9 @@ class CoopOrchestrator {
     // UI-only `form_pulse` transient phase can populate without strict
     // coupling to PHASES enum (mirror revealAcks pattern).
     this.formPulses = new Map(); // player_id → { axes: {k:Number}, ts }
+    // #2674 -- shared branco trait emergent from the aggregated Form Pulse;
+    // tracked so re-submits swap cleanly. null until all_ready emerges.
+    this.emergentBrancoTrait = null;
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -248,6 +252,7 @@ class CoopOrchestrator {
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
+    this.emergentBrancoTrait = null;
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
     this._setPhase('character_creation');
@@ -289,6 +294,7 @@ class CoopOrchestrator {
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
+    this.emergentBrancoTrait = null;
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
     this._setPhase('onboarding');
@@ -621,12 +627,49 @@ class CoopOrchestrator {
     const readyCount = this.formPulses.size;
     const allReady =
       expected.size > 0 && Array.from(expected).every((pid) => this.formPulses.has(pid));
+    const emergent = allReady ? this._applyBrancoTraitEmergence() : null;
     return {
       ready_count: readyCount,
       total,
       all_ready: allReady,
       submitted: Array.from(this.formPulses.keys()),
+      emergent_branco_trait: emergent,
     };
+  }
+
+  /**
+   * #2674 -- emerge the shared branco trait from this.formPulses and apply it to
+   * every submitted character. Mechanism-only (threshold + mapping stay PROPOSED).
+   * Idempotent: re-emergence with the same trait is a no-op; a changed dominant
+   * axis swaps (strip prior tracked id, add new). Player-chosen traits untouched.
+   * NB only fires for canonical creature-axis input; phone MBTI axes yield no
+   * emergent (axis-vocabulary contract = separate issue).
+   */
+  _applyBrancoTraitEmergence() {
+    const next = emergeBrancoTraitFromPulses(this.formPulses);
+    const prevId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
+    const nextId = next && next.trait_id;
+    if (prevId === nextId) {
+      this.emergentBrancoTrait = next || null;
+      return next || null;
+    }
+    if (prevId) {
+      for (const ch of this.characters.values()) {
+        if (Array.isArray(ch.traits)) {
+          const i = ch.traits.indexOf(prevId);
+          if (i !== -1) ch.traits.splice(i, 1);
+        }
+      }
+    }
+    if (nextId) {
+      for (const ch of this.characters.values()) {
+        if (!Array.isArray(ch.traits)) ch.traits = [];
+        if (!ch.traits.includes(nextId)) ch.traits.push(nextId);
+      }
+      this._emit('branco_trait_emerged', { ...next });
+    }
+    this.emergentBrancoTrait = next || null;
+    return next || null;
   }
 
   /**
@@ -1086,6 +1129,7 @@ class CoopOrchestrator {
     this.routeVotes.clear();
     this.routeCandidates = null;
     this.formPulses.clear();
+    this.emergentBrancoTrait = null;
     this.revealAcks.clear();
     this._setPhase('world_setup');
     return { action: 'next_scenario', index: this.run.currentIndex };
