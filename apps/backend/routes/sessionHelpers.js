@@ -495,6 +495,9 @@ function publicSessionView(session) {
     // FASE 3 P4 -- biome eco band (low/med/high) for the diegetic biome chip
     // descriptor ("Bioma calmo/in equilibrio/in tensione"). Null if no biome.
     ermes_band: session.ermes_band || null,
+    // SPEC-P PA3 read-side -- wounded-biome flag (A13 cross-run); the surface
+    // telegraphs it diegetically pre/in-run (anti-brick, no raw number).
+    biome_wounded: !!session.biome_wounded,
     // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
     campaign_id: session.campaign_id || null,
     sistema_state: session.sistema_state || { units_observed: {} },

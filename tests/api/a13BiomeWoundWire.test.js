@@ -123,3 +123,38 @@ test('A13 read-side: non-wounded biome -> no wounded eco debuff (backward compat
     .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
   assert.deepEqual(ss.body.biomeCostsLog || [], []); // fresh biome -> no debuff
 });
+
+// SPEC-P PA3 read-side: the wounded-biome state is telegraphed (anti-brick) -- the
+// player must SEE pre/in-run that the biome is wounded, not just feel the debuff.
+test('A13 PA3: wounded biome exposes biome_wounded:true in /session/state', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_pa3' });
+  const cid = start.body.campaign.id;
+  await runEnd(app, cid, DEAD, 'savana'); // wound savana
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
+  const sid = ss.body.session_id || ss.body.id;
+  const state = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(state.body.biome_wounded, true, 'wounded biome telegraphed in /state');
+});
+
+test('A13 PA3: fresh biome -> biome_wounded:false (backward compat)', async (t) => {
+  const baseDir = tmp();
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_pa3b' });
+  const cid = start.body.campaign.id;
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
+  const sid = ss.body.session_id || ss.body.id;
+  const state = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(state.body.biome_wounded, false);
+});
