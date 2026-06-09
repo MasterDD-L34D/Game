@@ -3532,6 +3532,34 @@ function createSessionRouter(options = {}) {
       } catch {
         /* best-effort -- never blocks session end */
       }
+      // SPEC-P sez.4/5 -- assemble the failure epilogue + codex hook on run-fail.
+      // Reads the UPDATED woundedBiomes (after the A13 block above). No-op on
+      // victory / no campaign_id. Best-effort -- never blocks session end.
+      try {
+        const { emitFailureEpilogue } = require('../services/narrative/failureEpilogue');
+        const { getCampaign } = require('../services/campaign/campaignStore');
+        const camp = session.campaign_id ? getCampaign(session.campaign_id) : null;
+        const fallen = (session.units || [])
+          .filter((u) => u && u.controlled_by === 'player' && (u.hp ?? 0) <= 0)
+          .map((u) => ({
+            id: u.id,
+            species: u.species || u.species_id || null,
+            name: u.name || u.label || null,
+          }));
+        emitFailureEpilogue(
+          {
+            campaign_id: session.campaign_id,
+            outcome: session.outcome,
+            biome_id: session.biome_id,
+            encounter_id: session.encounter_id,
+            woundedBiomes: camp ? camp.woundedBiomes : [],
+            fallen,
+          },
+          { baseDir: chronicleBaseDir },
+        );
+      } catch {
+        /* best-effort -- chronicle must never break session end */
+      }
       // M1 -- persist Sistema learning (best-effort, never blocks session end).
       try {
         if (session.campaign_id) {
