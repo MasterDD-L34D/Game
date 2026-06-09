@@ -43,6 +43,8 @@ const ALLOWED_EVENT_TYPES = new Set([
   'biome_wound', // A13 biome-wound cross-run (SPEC-P)
   'heirloom_created', // M-1 named heirloom (FFT)
   'mutation_lineage', // M-3 named-mutation lineage (Wildermyth/Godot)
+  'run_epilogue', // SPEC-P sez.4 failure epilogue (run-end lore payload)
+  'codex_update', // SPEC-P sez.5 Codex discovery hook on failure (B14/Hades)
 ]);
 
 const ALLOWED_TIERS = new Set(['public', 'private', 'secret']);
