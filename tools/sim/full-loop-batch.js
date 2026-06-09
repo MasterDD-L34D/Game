@@ -28,6 +28,7 @@ const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 const { runFullLoop } = require('./full-loop-runner');
 const { aggregate, PROVISIONAL_BANDS } = require('./meta-band-aggregator');
+const { aggregatePersonality, renderPersonalityMd } = require('./personality-axes-aggregator');
 const greedyPolicy = require('./greedy-policy');
 const { makeMbtiPolicy } = require('./mbti-policy');
 const { traverse } = require('./meta-network-driver');
@@ -405,6 +406,9 @@ function runToJsonl(r) {
     economy: r.economy,
     violations: r.violations || [],
     meta_violations: r.metaViolations || [],
+    // Opt 3 N=40 evidence (#2679): per-mission per-unit personality axes
+    // (additive; [] on older runners / capture failures).
+    personality_samples: r.personalitySamples || [],
     provenance: r.provenance,
   };
 }
@@ -460,6 +464,10 @@ function buildSummary(results, config = {}, routing) {
   // fase-2c: routing-graph coverage when META_NETWORK_ROUTING is on -> the flag stops being
   // a no-op for the batch report (closes the band-report Finding 4). Omitted when off.
   if (routing) summary.routing = routing;
+  // Opt 3 N=40 evidence (#2679): personality-axes distribution aggregate, only
+  // when the runner captured samples (additive; band consumers unaffected).
+  const personality = aggregatePersonality(results);
+  if (personality.n_samples > 0) summary.personality = personality;
   return summary;
 }
 
@@ -544,6 +552,14 @@ function buildReport(summary) {
       '> Flag exercised in TEST only -- the live act/chapter campaign is unchanged; PROD-enable of meta-network routing is a separate master-dd verdict.',
     );
     lines.push('');
+  }
+  // Opt 3 N=40 evidence (#2679): personality-axes distribution section, only
+  // when the summary carries samples (additive; older batches render unchanged).
+  if (summary.personality) {
+    const section = renderPersonalityMd(summary.personality);
+    if (section) {
+      lines.push(section);
+    }
   }
   lines.push('Per-run records: `runs.jsonl`. Aggregate: `summary.json`.');
   lines.push('');
