@@ -118,7 +118,30 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
   const survivorIds = lastUnits
     .filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0)
     .map((u) => u.id);
-  return { outcome, rounds, rosterIds, survivorIds };
+
+  // Opt 3 N=40 evidence (#2679): read the NON-destructive GET /:id/vc and lift
+  // debrief_payload.per_actor[uid].personality_axes per unit (faction-tagged via
+  // rosterIds). Best-effort -- a failed /vc returns [] and never blocks the
+  // outcome (the session stays alive exactly as before; /vc does not finalize).
+  let personalityUnits = [];
+  try {
+    const vc = await http.get(`/api/session/${sessionId}/vc`);
+    const perActor =
+      vc && vc.status === 200 && vc.body && vc.body.debrief_payload
+        ? vc.body.debrief_payload.per_actor || {}
+        : {};
+    personalityUnits = Object.entries(perActor)
+      .filter(([, entry]) => entry && typeof entry === 'object' && entry.personality_axes)
+      .map(([unitId, entry]) => ({
+        unit_id: unitId,
+        faction: rosterIds.includes(unitId) ? 'player' : 'sistema',
+        axes: entry.personality_axes,
+      }));
+  } catch {
+    personalityUnits = [];
+  }
+
+  return { outcome, rounds, rosterIds, survivorIds, personalityUnits };
 }
 
 module.exports = { runEncounter };

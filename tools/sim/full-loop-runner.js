@@ -220,6 +220,9 @@ async function runFullLoop(http, opts = {}) {
 
   let aliveIds = [...knownIds];
   const chapters = [];
+  // Opt 3 N=40 evidence (#2679): per-mission per-unit personality axes captured
+  // by the combat adapter (GET /:id/vc debrief_payload). Additive telemetry.
+  const personalitySamples = [];
   const violations = [];
   const recruited = [];
   const recruitedSpecies = [];
@@ -288,6 +291,10 @@ async function runFullLoop(http, opts = {}) {
       maxRounds: 40,
     });
     aliveIds = combat.survivorIds;
+    // Personality evidence: only missions where the capture yielded units.
+    if (Array.isArray(combat.personalityUnits) && combat.personalityUnits.length) {
+      personalitySamples.push({ step, encounter: enc, units: combat.personalityUnits });
+    }
     const survivors = roster
       .filter((u) => aliveIds.includes(u.id))
       .map((u) => ({ id: u.id, job: u.job }));
@@ -411,6 +418,7 @@ async function runFullLoop(http, opts = {}) {
   return {
     completed,
     chapters,
+    personalitySamples,
     violations,
     route,
     finalRoster: aliveIds,
