@@ -27,9 +27,12 @@ const MAX_FP_VC_DELTA = 0.05;
 // PROPOSED (ratify via MA3, master-dd). FP creature axis -> { mbti, sign }.
 // sign=+1 => il +pole dell'asse-creatura ALZA il valore dell'asse-MBTI mappato.
 // MBTI axis value in [0,1]; clamp01 dopo il delta.
+// Direzioni allineate alla CONVENZIONE ENGINE (deriveMbtiType letterOrUncertain:
+// value HIGH = I/S/T/J) -- verdetto master-dd 2026-06-10 (#2679 Q4): il sign E_I
+// era invertito ("+Sciame -> +E_I extraversion proxy" spingeva verso Introvert).
 const PROPOSED_FP_VC_MAPPING = {
-  // +pole = Sciame (sociale) -> +E_I (extraversion proxy)
-  solitary_swarm: { mbti: 'E_I', sign: +1 },
+  // +pole = Sciame (sociale) -> spinge verso E = ABBASSA E_I (engine: HIGH = I).
+  solitary_swarm: { mbti: 'E_I', sign: -1 },
   // +pole = Cauto (concreto) -> +S_N (sensing proxy)
   explore_caution: { mbti: 'S_N', sign: +1 },
   // +pole = Predazione (freddo/calcolo) -> +T_F (thinking proxy)

@@ -93,6 +93,16 @@ function normaliseUnit(raw, fallbackIndex) {
     // checkMorale). It was silently stripped at /start, so the morale system could
     // never apply a per-unit modifier. Additive, default 0 (back-compat).
     morale_mod: Number.isFinite(Number(input.morale_mod)) ? Number(input.morale_mod) : 0,
+    // Verdetto #2679 Q2-bis (2026-06-10) — preserve `speed` (optional stat for
+    // the personality agile_robust axis; same lesson as morale_mod above:
+    // silently-stripped fields never reach their consumer). Absent -> null
+    // (the axis degrades to 0.5 neutral by design).
+    // Explicit null guard too: Number(null) === 0 is finite, so a bare
+    // isFinite check would turn an explicit `speed: null` into speed 0.
+    speed:
+      input.speed !== undefined && input.speed !== null && Number.isFinite(Number(input.speed))
+        ? Number(input.speed)
+        : null,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
     initiative,
