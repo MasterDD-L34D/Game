@@ -139,21 +139,24 @@ Auth: JWT honored quando configurato. CORS-enabled.
 **Card status**: 🟢 **SUPERSEDED — engine NOW FULL WIRED end-to-end**.
 
 OD-001 Path A "Activate" verdict 2026-04-27 ha shipped frontend wire end-to-end:
+
 - Sprint A nestHub panel + biome_arc unlock — [PR #1876](https://github.com/MasterDD-L34D/Game/pull/1876)
 - Sprint C backend mating roll + 3-tier offspring — [PR #1879](https://github.com/MasterDD-L34D/Game/pull/1879)
 - Lineage tab UI nestHub — [PR #1911](https://github.com/MasterDD-L34D/Game/pull/1911)
 - PR #1877 closed-superseded (51K LOC stale frontend conflict)
 
 **Ground truth verificata 2026-05-13** via grep diretto:
+
 - `apps/backend/services/metaProgression.js` cresciuto 469 → **1053 LOC** (+584 LOC post-2026-04-25)
 - `apps/backend/routes/meta.js` cresciuto 119 → **328 LOC** (7 endpoint + sub-route)
-- `apps/play/src/api.js:352-390` — 7 fetch helpers wired con comment "OD-001 Path A V3 Mating/Nido — 7 endpoint /api/meta/* (2026-04-26)"
+- `apps/play/src/api.js:352-390` — 7 fetch helpers wired con comment "OD-001 Path A V3 Mating/Nido — 7 endpoint /api/meta/\* (2026-04-26)"
 - `apps/play/src/nestHub.js` — squad UI + lista NPC recruited + lineage tab
 - `apps/play/src/debriefPanel.js:680` — fetch `/api/meta/compat` graceful fallback
 - `apps/play/src/offspringRitualPanel.js` — 6-canonical mutation choice post-mating
 - Test coverage: `tests/services/metaProgression.{mating,lineage}.test.js` ~600 LOC
 
 **Pillar impact**:
+
 - P2 Evoluzione emergente 🟡 → 🟢 candidato (mating engine + offspring + recruit fully consumed)
 - P3 Identità Specie × Job 🟡 → 🟢 candidato (debrief recruit + lineage tab visibili)
 

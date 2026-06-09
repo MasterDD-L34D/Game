@@ -22,8 +22,8 @@ I **giocatori** guidano una squadra di creature attraverso questo ecosistema, ce
 
 ### Tono
 
-| Asse                     | Posizione Evo-Tactics                                        |
-| ------------------------ | ------------------------------------------------------------ |
+| Asse                    | Posizione Evo-Tactics                                        |
+| ----------------------- | ------------------------------------------------------------ |
 | Serio ↔ Umoristico      | 70% serio, 30% meraviglia (non umorismo)                     |
 | Realistico ↔ Fantastico | Fantastico bio-plausibile (evoluzione accelerata, non magia) |
 | Epico ↔ Intimo          | Intimo — piccole squadre, non eserciti                       |

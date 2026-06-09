@@ -73,7 +73,7 @@ Backend PID 33004 launch UTC 2026-05-08, killed clean post-harness, port 3334 fr
 | phase-flow-ws combat → debrief → ended e2e endCombat REST + retreat next_macro   |   ✅   | 873ms | Full lifecycle close                   |
 | phase-flow-ws Iter3 item 3 host disconnect+reconnect within 90s grace preserved  |   ✅   | 31.0s | Reconnect grace lobbyHostTransferGrace |
 | phase-flow-ws Iter3 item 2 WS RTT p95 baseline (proxy for 5R combat p95)         |   ✅   | 429ms | Latency baseline localhost             |
-| phase-flow-ws Iter3 item 1 Cloudflare tunnel WAN RTT (env-gated)                 |   ⏸   |     — | TUNNEL_URL unset → skip (expected)     |
+| phase-flow-ws Iter3 item 1 Cloudflare tunnel WAN RTT (env-gated)                 |   ⏸    |     — | TUNNEL_URL unset → skip (expected)     |
 
 **Verdict synthetic**: Tier 1 functional gate **PASS** — zero regression vs Day 1 baseline shipped sessione 2026-05-07.
 

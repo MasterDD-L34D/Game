@@ -298,7 +298,11 @@ function main() {
     const catalogEntries = allCatalogEntries.filter((entry) => entry.is_event !== true);
     // Recompute stats from the species-only set so the mirror's metadata matches the
     // species-only contract (copying canonical.stats would keep event-inclusive counts).
-    const speciesStats = { total_species: catalogEntries.length, by_source: {}, by_sentience_tier: {} };
+    const speciesStats = {
+      total_species: catalogEntries.length,
+      by_source: {},
+      by_sentience_tier: {},
+    };
     for (const e of catalogEntries) {
       if (e.source) speciesStats.by_source[e.source] = (speciesStats.by_source[e.source] || 0) + 1;
       if (e.sentience_index)

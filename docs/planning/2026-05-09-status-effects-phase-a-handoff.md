@@ -18,20 +18,20 @@ review_cycle_days: 14
 **Finding audit**: runtime già su main (implementato 2026-04-27, handoff `2026-04-27-status-effects-phase-a-handoff.md`).
 **Pivot**: 2 PR sui gap residui effettivi.
 
-| PR     | Branch                        | Scope                                     | CI      | Tests         |
-| ------ | ----------------------------- | ----------------------------------------- | ------- | ------------- |
-| [#2138](https://github.com/MasterDD-L34D/Game/pull/2138) | `feat/status-phase-a-glossary` | Glossary sync: 5 trait Phase A in glossary.json | ✅ verde | 42/42 (invariato) |
-| [#2139](https://github.com/MasterDD-L34D/Game/pull/2139) | `feat/status-phase-a-policy`   | AI policy: debuff target preference       | in progress | 52/52 (+10) |
+| PR                                                       | Branch                         | Scope                                           | CI          | Tests             |
+| -------------------------------------------------------- | ------------------------------ | ----------------------------------------------- | ----------- | ----------------- |
+| [#2138](https://github.com/MasterDD-L34D/Game/pull/2138) | `feat/status-phase-a-glossary` | Glossary sync: 5 trait Phase A in glossary.json | ✅ verde    | 42/42 (invariato) |
+| [#2139](https://github.com/MasterDD-L34D/Game/pull/2139) | `feat/status-phase-a-policy`   | AI policy: debuff target preference             | in progress | 52/52 (+10)       |
 
 ## Stato runtime Phase A su main (completo da 2026-04-27)
 
-| Stato        | Consumer hook                          | Trait produttore       | Cap | Tests |
-| ------------ | -------------------------------------- | ---------------------- | --- | ----- |
-| `slowed`     | `sessionHelpers.js:698` -1 AP reset    | `tela_appiccicosa`     | 3T  | ✅    |
-| `marked`     | `session.js:597` +1 dmg next hit       | `marchio_predatorio`   | 2T  | ✅    |
-| `burning`    | `session.js:1217` DoT 2 PT/T           | `respiro_acido`        | 3T  | ✅    |
-| `chilled`    | `session.js:513` + `helpers:697`       | `aura_glaciale`        | 2T  | ✅    |
-| `disoriented`| `session.js:518` -2 atk 1T            | `sussurro_psichico`    | 1T  | ✅    |
+| Stato         | Consumer hook                       | Trait produttore     | Cap | Tests |
+| ------------- | ----------------------------------- | -------------------- | --- | ----- |
+| `slowed`      | `sessionHelpers.js:698` -1 AP reset | `tela_appiccicosa`   | 3T  | ✅    |
+| `marked`      | `session.js:597` +1 dmg next hit    | `marchio_predatorio` | 2T  | ✅    |
+| `burning`     | `session.js:1217` DoT 2 PT/T        | `respiro_acido`      | 3T  | ✅    |
+| `chilled`     | `session.js:513` + `helpers:697`    | `aura_glaciale`      | 2T  | ✅    |
+| `disoriented` | `session.js:518` -2 atk 1T          | `sussurro_psichico`  | 1T  | ✅    |
 
 ## Cosa è stato fatto questa sessione
 
@@ -58,6 +58,7 @@ review_cycle_days: 14
 ### Gate 5 — HUD surface (Priority 2, deferred)
 
 Nessuno dei 5 stati ha surface player-visible. Gate 5 violation.
+
 - **Scope**: Godot v2 `unit_info_panel.gd` + combat log
 - **Effort**: ~3-4h frontend
 - **Trigger consigliato**: sessione Godot v2 post-Day 7 monitoring

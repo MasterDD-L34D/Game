@@ -35,8 +35,8 @@ tags: [playtest, analysis, agent-test]
 | Scenario                               | Source doc          | N runs | Win       | Loss | Timeout   | Win rate % | Target | Status                         |
 | -------------------------------------- | ------------------- | ------ | --------- | ---- | --------- | ---------- | ------ | ------------------------------ |
 | tutorial_01 (2 nomad)                  | 2026-04-17 sweep    | 6      | 4         | 0    | 2 partial | 67%        | 80%    | 🟢 (within ±10pp on N=6)       |
-| tutorial_02 (hunter+2 nomad)           | 2026-04-17 sweep    | 1      | 1\*       | 0    | 0         | 100%\*     | 80%    | ⚠ N=1 no power                |
-| tutorial_03 (2 guard + fumarole)       | 2026-04-17 sweep    | 1      | 0 partial | 0    | 1         | 0%         | 50%    | ⚠ N=1 no power                |
+| tutorial_02 (hunter+2 nomad)           | 2026-04-17 sweep    | 1      | 1\*       | 0    | 0         | 100%\*     | 80%    | ⚠ N=1 no power                 |
+| tutorial_03 (2 guard + fumarole)       | 2026-04-17 sweep    | 1      | 0 partial | 0    | 1         | 0%         | 50%    | ⚠ N=1 no power                 |
 | tutorial_04 (3 misti + acid pool)      | 2026-04-17 sweep    | 1      | 1         | 0    | 0         | 100%       | 30%    | 🔴 +70pp (N=1)                 |
 | tutorial_05 (e_apex boss)              | 2026-04-17 sweep    | 1      | 1         | 0    | 0         | 100%       | 20%    | 🔴 +80pp (N=1)                 |
 | hardcore_06 iter0 baseline             | 2026-04-18 calib    | 13     | 11        | 0    | 2         | 84.6%      | 15-25% | 🔴 +59pp                       |

@@ -45,7 +45,9 @@
             <p v-if="entry.error" class="demo-diagnostics__error">{{ entry.error }}</p>
             <p v-else class="demo-diagnostics__message">{{ entry.message }}</p>
           </li>
-          <li v-if="!recentFetches.length" class="demo-diagnostics__empty">Nessuna richiesta registrata</li>
+          <li v-if="!recentFetches.length" class="demo-diagnostics__empty">
+            Nessuna richiesta registrata
+          </li>
         </ol>
       </section>
 
@@ -57,17 +59,25 @@
         <ol class="demo-diagnostics__list">
           <li v-for="metric in recentMetrics" :key="metric.id">
             <div class="demo-diagnostics__list-header">
-              <span class="demo-diagnostics__badge demo-diagnostics__badge--metric">{{ metric.name }}</span>
-              <span class="demo-diagnostics__list-value">{{ formatMetricValue(metric.value) }}</span>
+              <span class="demo-diagnostics__badge demo-diagnostics__badge--metric">{{
+                metric.name
+              }}</span>
+              <span class="demo-diagnostics__list-value">{{
+                formatMetricValue(metric.value)
+              }}</span>
             </div>
             <p class="demo-diagnostics__meta">
               <span v-if="metric.rating">Valutazione: {{ metric.rating }}</span>
               <span v-if="metric.delta !== undefined">Δ {{ metric.delta.toFixed(2) }}</span>
               <span>🕒 {{ formatTime(metric.timestamp) }}</span>
             </p>
-            <p v-if="metric.navigationType" class="demo-diagnostics__message">Navigation: {{ metric.navigationType }}</p>
+            <p v-if="metric.navigationType" class="demo-diagnostics__message">
+              Navigation: {{ metric.navigationType }}
+            </p>
           </li>
-          <li v-if="!recentMetrics.length" class="demo-diagnostics__empty">Metriche non ancora disponibili</li>
+          <li v-if="!recentMetrics.length" class="demo-diagnostics__empty">
+            Metriche non ancora disponibili
+          </li>
         </ol>
       </section>
 
@@ -85,7 +95,9 @@
             </div>
             <p class="demo-diagnostics__message">{{ log.message }}</p>
           </li>
-          <li v-if="!recentLogs.length" class="demo-diagnostics__empty">Nessun log critico registrato</li>
+          <li v-if="!recentLogs.length" class="demo-diagnostics__empty">
+            Nessun log critico registrato
+          </li>
         </ol>
       </section>
     </div>

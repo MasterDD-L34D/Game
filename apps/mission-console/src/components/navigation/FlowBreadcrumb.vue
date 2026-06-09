@@ -1,11 +1,7 @@
 <template>
   <nav class="flow-breadcrumb" aria-label="Percorso di generazione">
     <ol class="flow-breadcrumb__list">
-      <li
-        v-for="step in steps"
-        :key="step.id"
-        class="flow-breadcrumb__item"
-      >
+      <li v-for="step in steps" :key="step.id" class="flow-breadcrumb__item">
         <button
           type="button"
           class="flow-breadcrumb__link"
@@ -72,7 +68,10 @@ defineEmits(['navigate']);
   padding: 0.35rem 0.9rem;
   color: inherit;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 .flow-breadcrumb__link--active,

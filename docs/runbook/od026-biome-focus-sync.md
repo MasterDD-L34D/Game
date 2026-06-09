@@ -44,6 +44,7 @@ dependency entirely. It is **not** fabricated and **not** a stub.
    gh api repos/MasterDD-L34D/Game-Godot-v2/contents/data/derived/atlas-telemetry/biome-focus.jsonl \
      --jq '.content' | base64 -d > data/derived/atlas-telemetry/biome-focus.jsonl
    ```
+
 3. Commit the change. The bridge picks it up automatically (local-first
    read, no code change needed).
 

@@ -34,7 +34,9 @@
       <ul class="encounter-panel__slot-list">
         <li v-for="slot in activeSeed.slots" :key="slot.id" class="encounter-panel__slot">
           <header>
-            <h4>{{ slot.title }} <span class="encounter-panel__slot-qty">× {{ slot.quantity }}</span></h4>
+            <h4>
+              {{ slot.title }} <span class="encounter-panel__slot-qty">× {{ slot.quantity }}</span>
+            </h4>
           </header>
           <ul class="encounter-panel__specimen-list">
             <li v-for="specimen in slot.species" :key="specimen.id">
@@ -90,14 +92,14 @@ watch(
   () => props.encounter,
   () => {
     selectedVariant.value = props.initialVariant;
-  }
+  },
 );
 
 watch(
   () => props.initialVariant,
   (value) => {
     selectedVariant.value = value;
-  }
+  },
 );
 
 const hasVariants = computed(() => (props.encounter?.variants?.length || 0) > 1);
@@ -121,14 +123,16 @@ const normalizedVariants = computed(() => {
 
 const activeSeed = computed(() => {
   const index = Math.min(Math.max(selectedVariant.value, 0), normalizedVariants.value.length - 1);
-  return normalizedVariants.value[index] || {
-    summary: '',
-    description: '',
-    slots: [],
-    metrics: { threat: { tier: 'T?' } },
-    parametersList: [],
-    warnings: [],
-  };
+  return (
+    normalizedVariants.value[index] || {
+      summary: '',
+      description: '',
+      slots: [],
+      metrics: { threat: { tier: 'T?' } },
+      parametersList: [],
+      warnings: [],
+    }
+  );
 });
 
 const encounter = computed(() => {
@@ -137,7 +141,11 @@ const encounter = computed(() => {
   }
   return {
     templateName: props.encounter.templateName || props.encounter.template_id || 'Encounter',
-    biomeName: props.encounter.biomeName || props.encounter.biome?.name || props.encounter.biome?.id || 'Biome sconosciuto',
+    biomeName:
+      props.encounter.biomeName ||
+      props.encounter.biome?.name ||
+      props.encounter.biome?.id ||
+      'Biome sconosciuto',
     variants: normalizedVariants.value,
   };
 });

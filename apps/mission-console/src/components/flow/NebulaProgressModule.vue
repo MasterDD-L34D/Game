@@ -30,7 +30,10 @@
         <h3>{{ card.title }}</h3>
         <p>{{ card.body }}</p>
         <div v-if="card.progress !== undefined" class="nebula-progress__bar">
-          <div class="nebula-progress__bar-fill" :style="{ width: `${Math.min(Math.max(card.progress, 0), 100)}%` }"></div>
+          <div
+            class="nebula-progress__bar-fill"
+            :style="{ width: `${Math.min(Math.max(card.progress, 0), 100)}%` }"
+          ></div>
         </div>
       </article>
     </div>
@@ -55,7 +58,11 @@
         </header>
         <p v-if="telemetryAnnouncement" class="visually-hidden">{{ telemetryAnnouncement }}</p>
         <ul role="list">
-          <li v-for="entry in evolutionMatrix" :key="entry.id" :data-mode="entry.telemetryMode === 'live' ? 'live' : 'demo'">
+          <li
+            v-for="entry in evolutionMatrix"
+            :key="entry.id"
+            :data-mode="entry.telemetryMode === 'live' ? 'live' : 'demo'"
+          >
             <header class="nebula-progress__telemetry-header">
               <span class="nebula-progress__species">{{ entry.name }}</span>
               <span class="nebula-progress__badge" :data-tone="entry.readinessTone">
@@ -73,15 +80,22 @@
               :points="entry.telemetryHistory"
               :color="sparklineColor(entry.readinessTone)"
               :variant="entry.telemetryMode !== 'live' ? 'demo' : 'live'"
-              :summary-label="t('components.nebulaProgress.telemetry.summaryLabel', { name: entry.name })"
+              :summary-label="
+                t('components.nebulaProgress.telemetry.summaryLabel', { name: entry.name })
+              "
             />
             <div class="nebula-progress__evolution">
-              <div class="nebula-progress__evolution-fill" :style="{ width: `${entry.telemetryCoverage}%` }"></div>
+              <div
+                class="nebula-progress__evolution-fill"
+                :style="{ width: `${entry.telemetryCoverage}%` }"
+              ></div>
               <span class="nebula-progress__evolution-label">{{ entry.telemetryLabel }}</span>
             </div>
             <footer class="nebula-progress__telemetry-footer">
               <span>{{ entry.telemetryTimestamp }}</span>
-              <span>{{ t('components.nebulaProgress.telemetry.owner', { owner: entry.telemetryOwner }) }}</span>
+              <span>{{
+                t('components.nebulaProgress.telemetry.owner', { owner: entry.telemetryOwner })
+              }}</span>
             </footer>
           </li>
         </ul>
@@ -89,8 +103,12 @@
     </div>
 
     <footer class="nebula-progress__share">
-      <button type="button" @click="copyEmbed">{{ t('components.nebulaProgress.actions.copyCanvas') }}</button>
-      <button type="button" @click="downloadJson">{{ t('components.nebulaProgress.actions.exportJson') }}</button>
+      <button type="button" @click="copyEmbed">
+        {{ t('components.nebulaProgress.actions.copyCanvas') }}
+      </button>
+      <button type="button" @click="downloadJson">
+        {{ t('components.nebulaProgress.actions.exportJson') }}
+      </button>
       <output v-if="shareStatus" role="status" aria-live="polite">{{ shareStatus }}</output>
     </footer>
   </section>
@@ -144,12 +162,18 @@ const telemetryStatus = computed(() => {
   return {
     ...defaultStatus,
     ...incoming,
-    label: incoming.label || (incoming.offline ? t('components.nebulaProgress.telemetry.statusDemo') : defaultStatus.label),
+    label:
+      incoming.label ||
+      (incoming.offline
+        ? t('components.nebulaProgress.telemetry.statusDemo')
+        : defaultStatus.label),
   };
 });
 
 const telemetryAnnouncement = computed(() => {
-  const offlineEntries = (props.evolutionMatrix || []).filter((entry) => entry.telemetryMode !== 'live');
+  const offlineEntries = (props.evolutionMatrix || []).filter(
+    (entry) => entry.telemetryMode !== 'live',
+  );
   if (telemetryStatus.value.offline) {
     const label = telemetryStatus.value.label;
     if (offlineEntries.length) {
@@ -243,7 +267,8 @@ function sparklineColor(tone) {
 .nebula-progress {
   display: grid;
   gap: 1.5rem;
-  background: radial-gradient(circle at top left, rgba(122, 196, 255, 0.12), transparent 55%),
+  background:
+    radial-gradient(circle at top left, rgba(122, 196, 255, 0.12), transparent 55%),
     radial-gradient(circle at bottom right, rgba(158, 123, 255, 0.12), transparent 45%),
     var(--color-bg-surface);
   padding: 2rem;
@@ -503,7 +528,9 @@ function sparklineColor(tone) {
   padding: 0.65rem 1.15rem;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .nebula-progress__share button:hover {

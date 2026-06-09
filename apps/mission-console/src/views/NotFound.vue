@@ -4,7 +4,9 @@
       <span class="not-found__tag">{{ t('views.notFound.tag') }}</span>
       <h1>{{ t('views.notFound.title') }}</h1>
       <p>{{ t('views.notFound.body') }}</p>
-      <RouterLink :to="{ name: 'console-home' }" class="not-found__link">{{ t('views.notFound.cta') }}</RouterLink>
+      <RouterLink :to="{ name: 'console-home' }" class="not-found__link">{{
+        t('views.notFound.cta')
+      }}</RouterLink>
     </div>
     <div class="not-found__bg" aria-hidden="true"></div>
   </section>
@@ -74,7 +76,9 @@ const { t } = useI18n();
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .not-found__link:hover {
@@ -85,7 +89,8 @@ const { t } = useI18n();
 .not-found__bg {
   height: 100%;
   border-radius: 1.75rem;
-  background: radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.18), transparent 60%),
+  background:
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.18), transparent 60%),
     radial-gradient(circle at 75% 25%, rgba(14, 165, 233, 0.18), transparent 55%),
     radial-gradient(circle at 50% 75%, rgba(99, 102, 241, 0.15), transparent 55%),
     linear-gradient(135deg, rgba(226, 232, 240, 0.95), rgba(248, 250, 252, 0.75));

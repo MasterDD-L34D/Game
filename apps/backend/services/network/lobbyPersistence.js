@@ -18,11 +18,11 @@
 function prismaSupportsLobby(prisma) {
   return Boolean(
     prisma &&
-      prisma.lobbySession &&
-      typeof prisma.lobbySession.upsert === 'function' &&
-      typeof prisma.lobbySession.findMany === 'function' &&
-      prisma.lobbyPlayer &&
-      typeof prisma.lobbyPlayer.upsert === 'function',
+    prisma.lobbySession &&
+    typeof prisma.lobbySession.upsert === 'function' &&
+    typeof prisma.lobbySession.findMany === 'function' &&
+    prisma.lobbyPlayer &&
+    typeof prisma.lobbyPlayer.upsert === 'function',
   );
 }
 

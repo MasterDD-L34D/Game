@@ -4,8 +4,8 @@
       <div>
         <h2>Modalità demo attiva</h2>
         <p>
-          Il dataset {{ datasetInfo.title }} è disponibile in modalità offline coordinata e la console mantiene
-          sincronizzazioni di supporto per garantire la continuità operativa.
+          Il dataset {{ datasetInfo.title }} è disponibile in modalità offline coordinata e la
+          console mantiene sincronizzazioni di supporto per garantire la continuità operativa.
         </p>
         <ul class="nebula-atlas-view__banner-meta">
           <li>
@@ -64,7 +64,12 @@
 
       <div class="nebula-atlas-view__grid" v-else>
         <div class="nebula-atlas-view__metrics">
-          <article v-for="card in summaryCards" :key="card.id" class="nebula-atlas-view__metric" :data-tone="card.tone">
+          <article
+            v-for="card in summaryCards"
+            :key="card.id"
+            class="nebula-atlas-view__metric"
+            :data-tone="card.tone"
+          >
             <h4>{{ card.label }}</h4>
             <strong>{{ card.value }}</strong>
           </article>
@@ -88,7 +93,11 @@
           </ul>
         </div>
 
-        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="Copertura QA">
+        <div
+          class="nebula-atlas-view__chart"
+          :data-live="isLive ? 'true' : 'false'"
+          aria-label="Copertura QA"
+        >
           <header>
             <h4>Copertura QA media</h4>
             <span>{{ moduleState.telemetryCoverageAverage }}%</span>
@@ -96,7 +105,11 @@
           <SparklineChart :points="coverageStream" color="#61d5ff" :variant="chartVariant" />
         </div>
 
-        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="Incidenti telemetria">
+        <div
+          class="nebula-atlas-view__chart"
+          :data-live="isLive ? 'true' : 'false'"
+          aria-label="Incidenti telemetria"
+        >
           <header>
             <h4>Incidenti ultimi 7 giorni</h4>
             <span>{{ incidentStream.reduce((acc, value) => acc + value, 0) }}</span>
@@ -104,7 +117,11 @@
           <SparklineChart :points="incidentStream" color="#ff6982" :variant="chartVariant" />
         </div>
 
-        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="High priority">
+        <div
+          class="nebula-atlas-view__chart"
+          :data-live="isLive ? 'true' : 'false'"
+          aria-label="High priority"
+        >
           <header>
             <h4>High priority</h4>
             <span>{{ highPriorityStream.reduce((acc, value) => acc + value, 0) }}</span>
@@ -118,7 +135,9 @@
               <h4>Generatore Nebula</h4>
               <small>{{ generatorSourceLabel }}</small>
             </div>
-            <span class="nebula-atlas-view__badge" :data-tone="generatorTone">{{ generatorStatusLabel }}</span>
+            <span class="nebula-atlas-view__badge" :data-tone="generatorTone">{{
+              generatorStatusLabel
+            }}</span>
           </header>
 
           <p class="nebula-atlas-view__generator-meta">Ultima run: {{ generatorRunLabel }}</p>
@@ -177,8 +196,12 @@
       <footer class="nebula-atlas-view__footer">
         <span>{{ lastEventLabel }}</span>
         <div class="nebula-atlas-view__controls">
-          <button type="button" class="nebula-atlas-view__refresh" @click="refresh">Aggiorna ora</button>
-          <button type="button" class="nebula-atlas-view__refresh" @click="activateDemo">Carica mock</button>
+          <button type="button" class="nebula-atlas-view__refresh" @click="refresh">
+            Aggiorna ora
+          </button>
+          <button type="button" class="nebula-atlas-view__refresh" @click="activateDemo">
+            Carica mock
+          </button>
         </div>
       </footer>
     </section>
@@ -273,8 +296,18 @@ const summaryCards = computed(() => {
   const summary = moduleState.telemetrySummary.value;
   return [
     { id: 'total', label: 'Eventi totali', value: summary.total, tone: 'neutral' },
-    { id: 'open', label: 'Eventi aperti', value: summary.open, tone: summary.open > 0 ? 'warning' : 'success' },
-    { id: 'high', label: 'Priorità alta', value: summary.highPriority, tone: summary.highPriority > 0 ? 'critical' : 'neutral' },
+    {
+      id: 'open',
+      label: 'Eventi aperti',
+      value: summary.open,
+      tone: summary.open > 0 ? 'warning' : 'success',
+    },
+    {
+      id: 'high',
+      label: 'Priorità alta',
+      value: summary.highPriority,
+      tone: summary.highPriority > 0 ? 'critical' : 'neutral',
+    },
     { id: 'ack', label: 'Acknowledged', value: summary.acknowledged, tone: 'success' },
   ];
 });
@@ -367,7 +400,11 @@ function formatRunTimestamp(timestamp) {
 }
 
 const generatorStatusLabel = computed(() => generatorStatusState.value.label);
-const generatorRunLabel = computed(() => formatRunTimestamp(generatorStatusState.value.generatedAt || generatorStatusState.value.updatedAt));
+const generatorRunLabel = computed(() =>
+  formatRunTimestamp(
+    generatorStatusState.value.generatedAt || generatorStatusState.value.updatedAt,
+  ),
+);
 const generatorSourceLabel = computed(() => generatorStatusState.value.sourceLabel);
 
 const generatorTone = computed(() => {
@@ -526,7 +563,9 @@ const activateDemo = () => {
   color: #ffecc2;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 
 .nebula-atlas-view__banner-button:hover {
@@ -800,7 +839,9 @@ const activateDemo = () => {
   color: #c9e7ff;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 
 .nebula-atlas-view__refresh:hover {

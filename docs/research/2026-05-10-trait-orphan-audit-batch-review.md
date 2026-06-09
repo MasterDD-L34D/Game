@@ -177,7 +177,7 @@ Note: the prior audit reference of "59 orphans" likely counted a subset of the w
 | pelli_fitte                  | T2   | fisiologico | damage_reduction        | not assigned  | A       |
 | sensori_sismici              | T2   | fisiologico | extra_damage            | not assigned  | A       |
 
-### Wave 6 — MENTALE / CUORE (mente*\*, cervello*_, cuore\__, midollo\_\*)
+### Wave 6 — MENTALE / CUORE (mente*\*, cervello*\_, cuore\_\_, midollo\_\*)
 
 | trait_id                          | tier | category    | effect.kind            | orphan reason | verdict |
 | --------------------------------- | ---- | ----------- | ---------------------- | ------------- | ------- |

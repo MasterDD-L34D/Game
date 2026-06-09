@@ -27,7 +27,10 @@
             :x2="positionFor(connection.to).x"
             :y2="positionFor(connection.to).y"
             :stroke-width="1.5 + connection.weight * 0.6"
-            :class="['synthesis-map__connection', `synthesis-map__connection--w${connection.weight}`]"
+            :class="[
+              'synthesis-map__connection',
+              `synthesis-map__connection--w${connection.weight}`,
+            ]"
           />
         </g>
         <g class="synthesis-map__nodes">
@@ -37,9 +40,14 @@
             class="synthesis-map__node"
             :transform="`translate(${positionFor(node.id).x} ${positionFor(node.id).y})`"
           >
-            <circle :r="18" :class="[`synthesis-map__node-circle`, `synthesis-map__node-circle--${node.type}`]" />
+            <circle
+              :r="18"
+              :class="[`synthesis-map__node-circle`, `synthesis-map__node-circle--${node.type}`]"
+            />
             <text class="synthesis-map__node-label" y="32">{{ node.label }}</text>
-            <text class="synthesis-map__node-metric" y="-26">{{ formatIntensity(node.intensity) }}</text>
+            <text class="synthesis-map__node-metric" y="-26">
+              {{ formatIntensity(node.intensity) }}
+            </text>
           </g>
         </g>
       </svg>
@@ -66,7 +74,9 @@
               <strong>{{ prettyConnection(connection) }}</strong>
               <span>Intensità {{ connection.weight }}</span>
             </div>
-            <button type="button" @click="$emit('regenerate:connection', connection.id)">Rigenera</button>
+            <button type="button" @click="$emit('regenerate:connection', connection.id)">
+              Rigenera
+            </button>
           </li>
         </ul>
       </section>
@@ -157,7 +167,9 @@ const prettyConnection = (connection) => {
   padding: 0.55rem 0.95rem;
   color: #f0f4ff;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .synthesis-map__action:hover {
@@ -284,7 +296,9 @@ const prettyConnection = (connection) => {
   color: #f0f4ff;
   cursor: pointer;
   font-size: 0.75rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .synthesis-map__legend button:hover {

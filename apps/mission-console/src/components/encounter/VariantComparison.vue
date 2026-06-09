@@ -22,7 +22,9 @@
       <article v-for="variant in selectedVariants" :key="variant.id" class="comparison-card">
         <header>
           <h4>{{ variant.summary }}</h4>
-          <span class="comparison-card__badge">{{ metricsByVariant[variant.id]?.threat?.tier || 'T?' }}</span>
+          <span class="comparison-card__badge">{{
+            metricsByVariant[variant.id]?.threat?.tier || 'T?'
+          }}</span>
         </header>
         <p class="comparison-card__description">{{ variant.description }}</p>
         <section class="comparison-card__metrics">
@@ -41,17 +43,16 @@
         <section class="comparison-card__parameters">
           <h5>Parametri</h5>
           <ul>
-            <li
-              v-for="(parameter, parameterId) in variant.parameters"
-              :key="parameterId"
-            >
+            <li v-for="(parameter, parameterId) in variant.parameters" :key="parameterId">
               {{ parameterLabel(parameterId) }}: <strong>{{ parameter.label }}</strong>
             </li>
           </ul>
         </section>
         <footer class="comparison-card__actions">
           <button type="button" @click="exportVariant(variant.id, 'pack')">Esporta nel pack</button>
-          <button type="button" @click="exportVariant(variant.id, 'builder')">Invia a Encounter Builder</button>
+          <button type="button" @click="exportVariant(variant.id, 'builder')">
+            Invia a Encounter Builder
+          </button>
         </footer>
       </article>
     </div>
@@ -84,7 +85,7 @@ const props = defineProps({
 });
 
 const selectedVariants = computed(() =>
-  props.variants.filter((variant) => props.selectedIds.includes(variant.id))
+  props.variants.filter((variant) => props.selectedIds.includes(variant.id)),
 );
 
 function toggleVariant(variantId) {

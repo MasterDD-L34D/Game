@@ -13,7 +13,10 @@
 
     <div v-if="derivedTraits.length" class="species-biology__section">
       <h3>Tratti derivati</h3>
-      <ul class="species-biology__trait-list species-biology__trait-list--derived" data-testid="derived-traits">
+      <ul
+        class="species-biology__trait-list species-biology__trait-list--derived"
+        data-testid="derived-traits"
+      >
         <li v-for="trait in derivedTraits" :key="trait">{{ trait }}</li>
       </ul>
     </div>
@@ -27,7 +30,9 @@
 
     <div v-if="behaviourTags.length || drives.length" class="species-biology__section">
       <h3>Comportamento</h3>
-      <p v-if="behaviourTags.length" class="species-biology__behaviour-tags">{{ behaviourTags.join(', ') }}</p>
+      <p v-if="behaviourTags.length" class="species-biology__behaviour-tags">
+        {{ behaviourTags.join(', ') }}
+      </p>
       <ul v-if="drives.length" class="species-biology__list">
         <li v-for="drive in drives" :key="drive">{{ drive }}</li>
       </ul>

@@ -164,8 +164,8 @@ export function useSpeciesGenerator(options: SpeciesGeneratorOptions = {}) {
       const cachedSummary = summariseValidation(cached.result?.validation || {});
       const fallbackUsed = Boolean(
         cached.result?.meta?.fallback_used ??
-          cached.result?.meta?.fallbackUsed ??
-          cached.result?.meta?.fallback_active,
+        cached.result?.meta?.fallbackUsed ??
+        cached.result?.meta?.fallback_active,
       );
       log('species.cache.hit', {
         level: 'info',

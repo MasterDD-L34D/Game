@@ -42,7 +42,11 @@ import LanguageSelector from './components/navigation/LanguageSelector.vue';
 import { useNavigationMeta } from './state/navigationMeta';
 
 const route = useRoute();
-const { breadcrumbs: breadcrumbItems, description: pageDescription, tokens: stateTokens } = useNavigationMeta();
+const {
+  breadcrumbs: breadcrumbItems,
+  description: pageDescription,
+  tokens: stateTokens,
+} = useNavigationMeta();
 const { t } = useI18n();
 
 const mainLinks = computed(() => {
@@ -89,9 +93,9 @@ const mainLinks = computed(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at 0 0, rgba(46, 67, 112, 0.35), transparent 60%),
-    radial-gradient(circle at 100% 0, rgba(32, 58, 89, 0.35), transparent 55%),
-    var(--color-bg-body);
+  background:
+    radial-gradient(circle at 0 0, rgba(46, 67, 112, 0.35), transparent 60%),
+    radial-gradient(circle at 100% 0, rgba(32, 58, 89, 0.35), transparent 55%), var(--color-bg-body);
   color: var(--color-text-primary);
 }
 
@@ -131,7 +135,10 @@ const mainLinks = computed(() => {
   color: var(--color-text-secondary);
   background: rgba(38, 52, 88, 0.55);
   border: 1px solid var(--color-border-accent);
-  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease;
 }
 
 .app-shell__nav-link:hover {

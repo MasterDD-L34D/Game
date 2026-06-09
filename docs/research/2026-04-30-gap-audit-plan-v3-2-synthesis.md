@@ -258,7 +258,7 @@ Deferred Phase 4 — non backfillable senza run reale. NO action.
 |       T1 basic       |  23   | anguis_magnetica, perfusuas_pedes, sp_ferriscroba_detrita, sp_lithoraptor_acutornis, ...             |
 |    T2 instinctive    |  15   | dune_stalker, chemnotela_toxica, elastovaranus_hydrus, gulogluteus_scutiger, soniptera_resonans, ... |
 |   **T3 cognitive**   | **3** | simbionte_corallino_riflesso (Support), terracetus_ambulator (Keystone), umbra_alaris (Playable)     |
-| **T4 proto-sapient** | **0** | ⚠ GAP confirmed                                                                                     |
+| **T4 proto-sapient** | **0** | ⚠ GAP confirmed                                                                                      |
 |   T5 full sapient    |   3   | polpo_araldo_sinaptico (Keystone), leviatano_risonante (Apex), rupicapra_sensoria (Keystone)         |
 
 T4 = 0 = bridge gap T3 → T5 vuoto. Risk: tier ladder discontinua, advancement Spore (P2 Pilastro) salta T4 → fastlane T3→T5 senza rituale intermedio.

@@ -69,7 +69,7 @@ Main repo HEAD post-pull: `51d9df4e` (= post-Day-2-closure #2116 memory save).
 | phase-flow-ws combat → debrief → ended e2e endCombat REST + retreat next_macro   |   ✅   | 839ms | Full lifecycle close                   |
 | phase-flow-ws Iter3 item 3 host disconnect+reconnect within 90s grace preserved  |   ✅   | 30.9s | Reconnect grace lobbyHostTransferGrace |
 | phase-flow-ws Iter3 item 2 WS RTT p95 baseline (proxy for 5R combat p95)         |   ✅   | 441ms | Latency baseline localhost             |
-| phase-flow-ws Iter3 item 1 Cloudflare tunnel WAN RTT (env-gated)                 |   ⏸   |     — | TUNNEL_URL unset → skip (expected)     |
+| phase-flow-ws Iter3 item 1 Cloudflare tunnel WAN RTT (env-gated)                 |   ⏸    |     — | TUNNEL_URL unset → skip (expected)     |
 
 **Verdict synthetic**: Tier 1 functional gate **PASS** — zero regression vs iter1 Day 2 (2026-05-08).
 

@@ -46,7 +46,7 @@ Lobby è funzionale pre-playtest (room code + roster + start button), ma **zero 
 | -------------------------- | :---------: | ---------------------------------------------------------------- | ----------------------------------- |
 | Font ≥24pt on TV           | 🔴 **FAIL** | `.chip font-size: 0.85rem ≈ 14px` (line 16), sidebar 0.9-0.95rem | Bump min a `1.5rem` per TV view     |
 | Safe area ≥5%              | 🟡 PARTIAL  | Padding interno 14-24px, no `env(safe-area-inset)` CSS           | Add iOS/TV safe-area-inset          |
-| Contrast ≥4.5:1            | ⚠ UNKNOWN  | Richiede verifica colori concreti                                | Run contrast-checker automated      |
+| Contrast ≥4.5:1            |  ⚠ UNKNOWN  | Richiede verifica colori concreti                                | Run contrast-checker automated      |
 | Color + symbol             | 🟡 PARTIAL  | Player status solo color dots (online/offline)                   | Add shape redundant (● ■ ▲)         |
 | Intent preview             | 🔴 MISSING  | Lobby view = roster only                                         | Wire StS-style floating icon combat |
 | Threat zone toggle         | 🔴 MISSING  | No L-press equivalent                                            | Phone button + WS broadcast         |

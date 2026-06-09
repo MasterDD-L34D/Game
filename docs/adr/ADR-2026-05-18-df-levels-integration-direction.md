@@ -84,9 +84,9 @@ decision-matrix corretta; (c) chiuda lo sprawl di 4 doc paralleli.
 
 Regola (verdetto 2026-05-29, fix P0.1 harsh-review): L0-L5 e' **annotazione
 descrittiva subordinata al gate dei 6 pilastri** (`vault core/02-PILASTRI` =
-source_of_truth), NON un secondo gate parallelo. Il gate che approva/blocca un
+source*of_truth), NON un secondo gate parallelo. Il gate che approva/blocca un
 feature restano i 6 pilastri; L0-L5 = lente narrativa di profondita'-emergenza
-(serve a *descrivere* dove un feature aggiunge story-depth, non a deciderlo in/out).
+(serve a \_descrivere* dove un feature aggiunge story-depth, non a deciderlo in/out).
 Euristica informale OK ("questo sprint tocca quale livello?"), MA non e' un cancello
 autonomo. Evita il doppio-gate = doppia superficie di sprawl (la cosa che questo
 ADR dichiara di combattere).
@@ -222,7 +222,7 @@ L0-L5 declassato a lente**.
      opzionale, NON bloccante. Artefatto-gate = `canonical-suite.yaml` + BACKLOG `Short` M1.
    - **(b) regola same-increment-surface**: ogni sprint L2-L5 shippa engine + payoff
      player-visibile + debrief NELLO STESSO incremento, o non shippa (roadmap
-     `evo-state-roadmap` §82-83). Cross-run NON de-rischia: e' un *moltiplicatore* di
+     `evo-state-roadmap` §82-83). Cross-run NON de-rischia: e' un _moltiplicatore_ di
      surface-dead. Precedente di creep gia' avvenuto: il figlio S7 (feature L2) e'
      stato costruito PRIMA del suo verdetto.
 5. **Figlio #2328 (Sistema S7)**: Option B **gia' SHIPPED** (units_observed + threat,

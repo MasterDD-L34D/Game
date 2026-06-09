@@ -55,8 +55,8 @@ Sprint Q+ scope freeze master-dd verdict OD-020 Day 2/7 = FULL Q.A→Q.E (12 tic
 
 | Pre-req                                                       | Status                                        |
 | ------------------------------------------------------------- | --------------------------------------------- |
-| Phase A ACCEPTED + 7gg grace target 2026-05-14                | ⏸ Day 3/7 monitoring in progress             |
-| Phase B trigger 2/3 (master-dd nice-to-have weekend playtest) | ⏸ silenzio Day 2+3, optional weekend         |
+| Phase A ACCEPTED + 7gg grace target 2026-05-14                | ⏸ Day 3/7 monitoring in progress              |
+| Phase B trigger 2/3 (master-dd nice-to-have weekend playtest) | ⏸ silenzio Day 2+3, optional weekend          |
 | 0 critical bug regression Phase A                             | ✅ Day 1+2+3 zero regression                  |
 | OD-020 verdict FULL Q.A→Q.E                                   | ✅ master-dd Day 2/7                          |
 | OD-022 evidence convergente cross-repo                        | ✅ #2128 swarm-side + #2129 Game-side         |

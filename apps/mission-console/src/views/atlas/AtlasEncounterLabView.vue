@@ -3,8 +3,8 @@
     <header class="atlas-encounter__header">
       <h3>Encounter Lab</h3>
       <p>
-        Varianti Nebula già filtrate per il laboratorio incontri. Ogni scenario eredita slot e squadre dalla pipeline QA e
-        mette in evidenza approvazioni mancanti.
+        Varianti Nebula già filtrate per il laboratorio incontri. Ogni scenario eredita slot e
+        squadre dalla pipeline QA e mette in evidenza approvazioni mancanti.
       </p>
     </header>
 
@@ -52,7 +52,11 @@
               <li v-for="approval in encounter.approvals" :key="approval">{{ approval }}</li>
             </ul>
           </div>
-          <button type="button" class="atlas-encounter__notify" @click="emitNotification(encounter)">
+          <button
+            type="button"
+            class="atlas-encounter__notify"
+            @click="emitNotification(encounter)"
+          >
             Notifica team QA
           </button>
         </footer>
@@ -81,7 +85,9 @@ const props = defineProps({
   },
 });
 
-const encounters = computed(() => (Array.isArray(props.dataset.encounters) ? props.dataset.encounters : []));
+const encounters = computed(() =>
+  Array.isArray(props.dataset.encounters) ? props.dataset.encounters : [],
+);
 
 function badgeState(readiness) {
   if (!readiness) return 'unknown';
@@ -125,7 +131,8 @@ function emitNotification(encounter) {
 .atlas-encounter__card {
   padding: 2rem;
   border-radius: 1.35rem;
-  background: radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.18), transparent 55%),
+  background:
+    radial-gradient(circle at 0% 0%, rgba(30, 64, 175, 0.18), transparent 55%),
     radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.18), transparent 55%),
     rgba(15, 23, 42, 0.92);
   color: #f8fafc;
@@ -264,7 +271,9 @@ function emitNotification(encounter) {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.18s ease, transform 0.18s ease;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
 }
 
 .atlas-encounter__notify:hover {

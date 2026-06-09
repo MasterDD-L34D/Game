@@ -17,7 +17,9 @@ Godot-side render validation + a continuity-validation methodology (see Gaps).
 ## What was validated
 
 ### 1. Logic level -- 18/18 PASS
+
 `node --test` on:
+
 - `tests/ai/sistemaStateStore.test.js` -- DI store: `upsert` then `get`
   round-trip (asserts `kills_vs_sistema=3` reads back), stub-safety (absent
   model -> `{}` / no-op), null campaignId, best-effort throw-swallow.
@@ -27,6 +29,7 @@ Godot-side render validation + a continuity-validation methodology (see Gaps).
 - `tests/ai/sistemaStateAccumulator.test.js`.
 
 ### 2. Real-Postgres e2e -- PASS
+
 Method (one-shot ground-truth, not a CI test): a throwaway PostgreSQL 17
 instance + `prisma migrate deploy` (migrations 0001-0013, incl.
 `0011_sistema_state`) + a node script exercising the real
@@ -66,7 +69,7 @@ path had never been exercised. It has now.
    read route across a full run. Cross-repo (Game backend + Game-Godot-v2),
    heavier (coordination, ngrok playbook `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`).
 2. **Continuity-validation methodology (research)** -- there is no established
-   method/fixture for cross-session memory *continuity* ("run N `units_observed`
+   method/fixture for cross-session memory _continuity_ ("run N `units_observed`
    correctly surfaces in run N+1's brief"). The calibration harness
    (`tools/py/calibrate_parallel.py`) measures combat win-rate, not memory
    continuity. Pass/fail criteria for "remembers correctly" must be designed.
@@ -76,7 +79,7 @@ path had never been exercised. It has now.
 ## Environment notes
 
 - Docker Desktop crashed on this PC (`initializing Inference manager: ...
-  dockerInference: The file cannot be accessed`), so the e2e used a **standalone
+dockerInference: The file cannot be accessed`), so the e2e used a **standalone
   PostgreSQL 17** (winget `PostgreSQL.PostgreSQL.17`, unattended, port 5432,
   `game` DB). The Game backend now has a working local Postgres on Ryzen.
 - The live e2e was a one-shot proof, not added to CI (the suite intentionally

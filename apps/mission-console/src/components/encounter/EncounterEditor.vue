@@ -30,7 +30,9 @@
             >
               <header>
                 <h5>{{ variant.summary }}</h5>
-                <span class="variant-card__badge">{{ metricsByVariant[variant.id]?.threat?.tier || 'T?' }}</span>
+                <span class="variant-card__badge">{{
+                  metricsByVariant[variant.id]?.threat?.tier || 'T?'
+                }}</span>
               </header>
               <p>{{ variant.description }}</p>
               <footer class="variant-card__footer">
@@ -40,7 +42,9 @@
                   class="variant-card__action"
                   @click.stop="emit('toggle-comparison', variant.id)"
                 >
-                  {{ comparisonSelection.includes(variant.id) ? 'Rimuovi dal confronto' : 'Confronta' }}
+                  {{
+                    comparisonSelection.includes(variant.id) ? 'Rimuovi dal confronto' : 'Confronta'
+                  }}
                 </button>
               </footer>
             </article>
@@ -67,7 +71,9 @@
                 {{ option.label }}
               </option>
             </select>
-            <small>{{ options.find((option) => option.value === parameterSelections[parameterId])?.summary }}</small>
+            <small>{{
+              options.find((option) => option.value === parameterSelections[parameterId])?.summary
+            }}</small>
           </div>
         </div>
         <p v-else>Nessuna variante selezionata.</p>
@@ -100,7 +106,9 @@
 
     <footer class="encounter-editor__footer">
       <button type="button" :disabled="activeStep === 0" @click="goPrevious">Indietro</button>
-      <button type="button" :disabled="activeStep >= steps.length - 1" @click="goNext">Avanti</button>
+      <button type="button" :disabled="activeStep >= steps.length - 1" @click="goNext">
+        Avanti
+      </button>
     </footer>
   </section>
 </template>
@@ -153,11 +161,14 @@ watch(
       emits('select-variant', props.variants[0].id);
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
-const activeVariant = computed(() =>
-  props.variants.find((variant) => variant.id === props.selectedVariantId) || props.variants[0] || null
+const activeVariant = computed(
+  () =>
+    props.variants.find((variant) => variant.id === props.selectedVariantId) ||
+    props.variants[0] ||
+    null,
 );
 
 const parameterSelections = reactive({});
@@ -175,7 +186,7 @@ watch(
       parameterSelections[parameterId] = value.value;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const parameterOptions = computed(() => {
@@ -210,7 +221,7 @@ function onParameterChange(parameterId) {
     return;
   }
   const value = parameterOptions.value[parameterId]?.find(
-    (option) => option.value === parameterSelections[parameterId]
+    (option) => option.value === parameterSelections[parameterId],
   );
   if (!value) {
     return;
@@ -285,7 +296,9 @@ function goNext() {
   border: 1px solid transparent;
   color: inherit;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .encounter-editor__step:hover {
@@ -342,7 +355,9 @@ function goNext() {
   display: grid;
   gap: 0.5rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .variant-card:hover {

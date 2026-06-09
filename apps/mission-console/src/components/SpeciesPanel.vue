@@ -23,7 +23,10 @@
           </div>
         </div>
 
-        <div v-else-if="currentTab === 'biology'" class="species-panel__section species-panel__section--grid">
+        <div
+          v-else-if="currentTab === 'biology'"
+          class="species-panel__section species-panel__section--grid"
+        >
           <SpeciesBiology
             :core-traits="coreTraits"
             :derived-traits="derivedTraits"
@@ -60,7 +63,10 @@
           </SpeciesBiology>
         </div>
 
-        <div v-else-if="currentTab === 'telemetry'" class="species-panel__section species-panel__section--columns">
+        <div
+          v-else-if="currentTab === 'telemetry'"
+          class="species-panel__section species-panel__section--columns"
+        >
           <SpeciesStatistics :statistics="statistics" :synergy="formattedSynergy">
             <p v-if="metaInfo" class="species-panel__meta-text">{{ metaInfo }}</p>
           </SpeciesStatistics>
@@ -74,10 +80,15 @@
               </li>
             </ul>
           </div>
-          <div v-if="previewError" class="species-panel__error" role="alert">{{ previewError }}</div>
+          <div v-if="previewError" class="species-panel__error" role="alert">
+            {{ previewError }}
+          </div>
         </div>
 
-        <div v-else-if="currentTab === 'synergies'" class="species-panel__section species-panel__section--synergy">
+        <div
+          v-else-if="currentTab === 'synergies'"
+          class="species-panel__section species-panel__section--synergy"
+        >
           <div class="species-panel__synergy-grid" v-if="synergyCards.length">
             <SpeciesSynergyCard
               v-for="card in synergyCards"
@@ -94,7 +105,12 @@
             :error="previewError"
           >
             <template #filters>
-              <button type="button" class="species-panel__refresh" @click="refreshPreviews" :disabled="isPreviewLoading">
+              <button
+                type="button"
+                class="species-panel__refresh"
+                @click="refreshPreviews"
+                :disabled="isPreviewLoading"
+              >
                 Aggiorna batch
               </button>
             </template>
@@ -372,13 +388,13 @@ const telemetryInfo = computed(() => {
 });
 
 const synergyCards = computed(() => {
-  const entries = Array.isArray(props.species?.traits?.synergy)
-    ? props.species.traits.synergy
-    : [];
-  const breakdown = props.species?.statistics?.synergy_breakdown || props.species?.statistics?.synergies || {};
+  const entries = Array.isArray(props.species?.traits?.synergy) ? props.species.traits.synergy : [];
+  const breakdown =
+    props.species?.statistics?.synergy_breakdown || props.species?.statistics?.synergies || {};
   return entries.map((entry, index) => {
     const key = typeof entry === 'string' ? entry : entry?.id || String(index);
-    const label = typeof entry === 'string' ? entry : entry?.label || entry?.name || `Sinergia ${index + 1}`;
+    const label =
+      typeof entry === 'string' ? entry : entry?.label || entry?.name || `Sinergia ${index + 1}`;
     let note = '';
     if (Array.isArray(breakdown)) {
       const record = breakdown[index];
@@ -446,8 +462,8 @@ watch(
   () => {
     activeTab.value = 'overview';
     traitFilters.value = {
-      core: uniqueSorted([... (coreTraits.value || [])]),
-      derived: uniqueSorted([... (derivedTraits.value || [])]),
+      core: uniqueSorted([...(coreTraits.value || [])]),
+      derived: uniqueSorted([...(derivedTraits.value || [])]),
     };
     previewCards.value = Array.isArray(props.previewBatch) ? props.previewBatch : [];
     previewError.value = '';

@@ -10,7 +10,9 @@
       >
         <header class="nebula-timeline__header">
           <span class="nebula-timeline__title">{{ entry.title }}</span>
-          <time v-if="entry.timestamp" class="nebula-timeline__time">{{ formatTimestamp(entry.timestamp) }}</time>
+          <time v-if="entry.timestamp" class="nebula-timeline__time">{{
+            formatTimestamp(entry.timestamp)
+          }}</time>
         </header>
         <p class="nebula-timeline__summary">{{ entry.summary }}</p>
         <p v-if="entry.meta" class="nebula-timeline__meta">{{ entry.meta }}</p>

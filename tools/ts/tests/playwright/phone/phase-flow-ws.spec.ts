@@ -688,9 +688,7 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
       });
       expect(confirmRes.ok(), 'world/confirm world_setup→combat').toBeTruthy();
       // Drain phase_change broadcasts from advance + confirm
-      await playerWs.waitFor(
-        (m) => m.type === 'phase_change' && m.payload?.phase === 'combat',
-      );
+      await playerWs.waitFor((m) => m.type === 'phase_change' && m.payload?.phase === 'combat');
 
       // Combat → debrief via REST host-only (apps/backend/routes/coop.js:247).
       const endRes = await page.request.post('/api/coop/combat/end', {
@@ -709,12 +707,8 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
       // broadcastCoopState path (room.broadcast type=phase_change, NO version)
       // — verify both peers see the debrief phase entry.
       await Promise.all([
-        hostWs.waitFor(
-          (m) => m.type === 'phase_change' && m.payload?.phase === 'debrief',
-        ),
-        playerWs.waitFor(
-          (m) => m.type === 'phase_change' && m.payload?.phase === 'debrief',
-        ),
+        hostWs.waitFor((m) => m.type === 'phase_change' && m.payload?.phase === 'debrief'),
+        playerWs.waitFor((m) => m.type === 'phase_change' && m.payload?.phase === 'debrief'),
       ]);
 
       // Drain pre-end next_macro_accepted noise if any (defensive).
@@ -817,9 +811,12 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
 
     try {
       // Sanity: host preserved baseline
-      const beforeList = await page.request
-        .get('/api/lobby/list')
-        .then((r) => r.json() as Promise<{ rooms: Array<{ code: string; closed: boolean; host_id: string }> }>);
+      const beforeList = await page.request.get('/api/lobby/list').then(
+        (r) =>
+          r.json() as Promise<{
+            rooms: Array<{ code: string; closed: boolean; host_id: string }>;
+          }>,
+      );
       const beforeRoom = beforeList.rooms.find((r) => r.code === lobby.code);
       expect(beforeRoom?.closed).toBe(false);
       expect(beforeRoom?.host_id).toBe(lobby.host_id);
@@ -838,14 +835,15 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
       await new Promise((r) => setTimeout(r, 30_000));
 
       // Mid-grace state check: host_id MUST still be the original host
-      const midList = await page.request
-        .get('/api/lobby/list')
-        .then((r) => r.json() as Promise<{ rooms: Array<{ code: string; closed: boolean; host_id: string }> }>);
+      const midList = await page.request.get('/api/lobby/list').then(
+        (r) =>
+          r.json() as Promise<{
+            rooms: Array<{ code: string; closed: boolean; host_id: string }>;
+          }>,
+      );
       const midRoom = midList.rooms.find((r) => r.code === lobby.code);
       expect(midRoom?.closed, 'room MUST stay open during grace').toBe(false);
-      expect(midRoom?.host_id, 'host preserved within 30s of 90s grace').toBe(
-        lobby.host_id,
-      );
+      expect(midRoom?.host_id, 'host preserved within 30s of 90s grace').toBe(lobby.host_id);
 
       // Reconnect host WS with same token (mimics phone OS toggling airplane off)
       const reconnectedHost = openWs(base, {
@@ -865,13 +863,14 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
 
         // Final: NO host_transferred fired during the entire window
         const transferFired = playerWs.buf.some((m) => m.type === 'host_transferred');
-        expect(transferFired, 'host_transferred MUST NOT fire within grace window').toBe(
-          false,
-        );
+        expect(transferFired, 'host_transferred MUST NOT fire within grace window').toBe(false);
 
-        const afterList = await page.request
-          .get('/api/lobby/list')
-          .then((r) => r.json() as Promise<{ rooms: Array<{ code: string; closed: boolean; host_id: string }> }>);
+        const afterList = await page.request.get('/api/lobby/list').then(
+          (r) =>
+            r.json() as Promise<{
+              rooms: Array<{ code: string; closed: boolean; host_id: string }>;
+            }>,
+        );
         const afterRoom = afterList.rooms.find((r) => r.code === lobby.code);
         expect(afterRoom?.host_id, 'host_id stable post-reconnect').toBe(lobby.host_id);
       } finally {
@@ -884,9 +883,7 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
     }
   });
 
-  test('Iter3 item 2 — WS RTT p95 baseline (proxy for 5R combat p95)', async ({
-    browser,
-  }) => {
+  test('Iter3 item 2 — WS RTT p95 baseline (proxy for 5R combat p95)', async ({ browser }) => {
     // Sample WS roundtrip p95 via N=20 phase-change broadcast cycles.
     // Each cycle: host send `phase` intent → player receives versioned
     // `phase_change` event. Measure delta between send timestamp and recv.
@@ -944,9 +941,7 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
         if (recvDelta >= 0 && msg) samples.push(recvDelta);
       }
 
-      expect(samples.length, 'collected at least 15 valid samples').toBeGreaterThanOrEqual(
-        15,
-      );
+      expect(samples.length, 'collected at least 15 valid samples').toBeGreaterThanOrEqual(15);
 
       // p95 calculation
       samples.sort((a, b) => a - b);

@@ -19,6 +19,8 @@ const sanitized = computed(() => {
   if (!props.source) {
     return '';
   }
-  return props.kind === 'markdown' ? renderMarkdownToSafeHtml(props.source) : sanitizeHtml(props.source);
+  return props.kind === 'markdown'
+    ? renderMarkdownToSafeHtml(props.source)
+    : sanitizeHtml(props.source);
 });
 </script>

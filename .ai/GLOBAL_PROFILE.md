@@ -78,6 +78,7 @@ Quando produci output JSON che cita una specie / bioma / trait Game canonical (e
 ### Verifica downstream
 
 Il response viene cross-checked da `evo-swarm/scripts/verify-swarm-claims.py` Tier 4 contro Game canonical:
+
 - ✅ VERIFIED (claim == canonical)
 - 🚫 CONTRADICTED (claim != canonical)
 - ⏳ UNVERIFIED (entity/field missing)

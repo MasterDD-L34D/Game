@@ -4,7 +4,11 @@ import assert from 'node:assert/strict';
 import { matchChanges, parseWatchMap } from './detect.mjs';
 
 const MAP = [
-  { pattern: 'apps/backend/services/genetics/**', sot_ref: ['core/00-SOURCE-OF-TRUTH.md#24'], concept: 'genetic' },
+  {
+    pattern: 'apps/backend/services/genetics/**',
+    sot_ref: ['core/00-SOURCE-OF-TRUTH.md#24'],
+    concept: 'genetic',
+  },
   { pattern: 'data/core/economy*', sot_ref: ['core/26-ECONOMY_CANONICAL.md'], concept: 'economy' },
 ];
 

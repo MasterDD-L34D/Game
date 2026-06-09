@@ -117,13 +117,13 @@ related:
 
 | Stato | Fase | Task                         | Output                                               |
 | ----- | ---- | ---------------------------- | ---------------------------------------------------- |
-| ☑    | E0   | Doc integration              | `docs/planning/2026-04-29-ermes-integration-plan.md` |
-| ☑    | E1   | Prototype isolated           | `prototypes/ermes_lab/`                              |
-| ☑    | E2   | CLI + deterministic sim      | `ermes_sim.py`                                       |
-| ☑    | E3   | Dashboard optional           | `ermes_dashboard.py`                                 |
-| ☑    | E4   | JSON export                  | `latest_eco_pressure_report.json`                    |
-| ☑    | E5   | Experiment loop              | `scoring.py`                                         |
-| ☑    | E6   | Codex validation             | tests + README                                       |
+| ☑     | E0   | Doc integration              | `docs/planning/2026-04-29-ermes-integration-plan.md` |
+| ☑     | E1   | Prototype isolated           | `prototypes/ermes_lab/`                              |
+| ☑     | E2   | CLI + deterministic sim      | `ermes_sim.py`                                       |
+| ☑     | E3   | Dashboard optional           | `ermes_dashboard.py`                                 |
+| ☑     | E4   | JSON export                  | `latest_eco_pressure_report.json`                    |
+| ☑     | E5   | Experiment loop              | `scoring.py`                                         |
+| ☑     | E6   | Codex validation             | tests + README                                       |
 | ☐     | E7   | **Future runtime candidate** | crossEventEngine design only                         |
 | ☐     | E8   | **Future foodweb candidate** | ecosystemLoader design only                          |
 

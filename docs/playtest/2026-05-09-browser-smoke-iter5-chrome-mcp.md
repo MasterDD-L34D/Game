@@ -214,7 +214,7 @@ Master-dd vede solo narrative beat passare, nessuna scelta utente. Sprint M.6 na
 | Submit button    | text-only generic                  | yellow (host) / cyan (player) high-contrast       | web v1 better           |
 | Form fields      | 5 (incl 3 tecnici visible)         | 3 host (nome+campagna+max) / 2 player (code+nome) | web v1 cleaner          |
 | Deep-link demote | ❌ Crea stanza still clickable     | ✅ `.card-secondary` opacity 0.55                 | web v1 fix shipped      |
-| Status feedback  | text label                         | colored span + emoji ✓/⚠                         | web v1 redundancy       |
+| Status feedback  | text label                         | colored span + emoji ✓/⚠                          | web v1 redundancy       |
 | QR code          | ❌ no                              | ✅ api.qrserver.com 200x200                       | web v1 only             |
 | Copy URL button  | ❌ no                              | ✅ 📋 button                                      | web v1 only             |
 | Footer credits   | none                               | "M11 Phase B · Jackbox · ADR-2026-04-20"          | web v1 contextual       |

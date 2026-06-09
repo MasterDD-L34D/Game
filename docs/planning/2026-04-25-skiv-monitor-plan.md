@@ -77,7 +77,7 @@ State delta da event type:
 | PR merged + label `feat/p2-*` | Form evolve opportunity +1, PE +5   | _"Sento il guscio cambiare. Allenatore..."_       |
 | PR merged + label `feat/p3-*` | XP +20, perk_pending++              | _"Il branco si organizza. Imparo un nome nuovo."_ |
 | PR merged + label `feat/p4-*` | MBTI confidence ±5, cabinet_event   | _"Voce nuova nella stanza interna."_              |
-| PR merged + label `feat/p5-*` | Bond ♥ +1 (random co-op)           | _"Ho sentito un altro respiro vicino."_           |
+| PR merged + label `feat/p5-*` | Bond ♥ +1 (random co-op)            | _"Ho sentito un altro respiro vicino."_           |
 | PR merged + label `feat/p6-*` | Pressure Tier shift                 | _"Sistema preme. Sabbia vibra."_                  |
 | PR merged + path `data/core/` | Trait pool refresh                  | _"Memoria genetica risistema indici."_            |
 | PR merged + path `services/`  | Combat awareness +                  | _"Riflessi affilati."_                            |

@@ -7,12 +7,17 @@
           v-for="option in severityOptions"
           :key="option.value"
           type="button"
-          :class="['species-timeline__filter', { 'species-timeline__filter--active': option.value === severityFilter }]"
+          :class="[
+            'species-timeline__filter',
+            { 'species-timeline__filter--active': option.value === severityFilter },
+          ]"
           @click="severityFilter = option.value"
         >
           <span class="species-timeline__filter-icon">{{ option.icon }}</span>
           <span class="species-timeline__filter-label">{{ option.label }}</span>
-          <span class="species-timeline__filter-count">{{ severityCounts[option.value] || 0 }}</span>
+          <span class="species-timeline__filter-count">{{
+            severityCounts[option.value] || 0
+          }}</span>
         </button>
       </div>
     </div>
@@ -115,7 +120,9 @@ const hasEntries = computed(() => normalisedEntries.value.length > 0);
   display: grid;
   gap: 0.9rem;
   border: 1px solid rgba(96, 213, 255, 0.12);
-  box-shadow: 0 0 0 1px rgba(96, 213, 255, 0.05), 0 12px 28px rgba(5, 10, 18, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(96, 213, 255, 0.05),
+    0 12px 28px rgba(5, 10, 18, 0.6);
 }
 
 .species-timeline--empty {
@@ -208,7 +215,9 @@ const hasEntries = computed(() => normalisedEntries.value.length > 0);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: grid;
   gap: 0.45rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   backdrop-filter: blur(6px);
 }
 

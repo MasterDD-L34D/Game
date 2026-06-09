@@ -32,9 +32,10 @@ related_doc:
 
 > STATUS: **ACCEPTED — Option B RATIFIED (verdetto master-dd 2026-05-29)**, gate
 > playtest attivo (vedi "Verdetto master-dd"). Il subset Option B (`units_observed`
-> + threat, Prisma) e' shippato + validato (e2e PASS 2026-05-25). Ratify formale dato
-> in valutazione congiunta DF (parent `ADR-2026-05-18-df-levels`, Q5), post
-> harsh-review. Vedi "Implementation status" + "Verdetto master-dd" sotto.
+>
+> - threat, Prisma) e' shippato + validato (e2e PASS 2026-05-25). Ratify formale dato
+>   in valutazione congiunta DF (parent `ADR-2026-05-18-df-levels`, Q5), post
+>   harsh-review. Vedi "Implementation status" + "Verdetto master-dd" sotto.
 
 ## Implementation status (2026-05-25)
 

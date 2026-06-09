@@ -89,7 +89,9 @@ const { t } = useI18n();
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .console-hub__card h2 {

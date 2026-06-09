@@ -52,25 +52,25 @@ _Ultimo evento: wf-25677986153 · aggiornato 2026-05-11T17:53:05Z_
 
 ## Eventi recenti (ultimi 10)
 
-- `2026-05-11T14:57:40` · **workflow_failed**  — 
+- `2026-05-11T14:57:40` · **workflow_failed** —
   > 🦎 _Il branco non mi segue. Mi evita. La differenza conta._
-- `2026-05-11T14:45:41` · **workflow_passed**  — 
+- `2026-05-11T14:45:41` · **workflow_passed** —
   > 🦎 _Macchina canta giusto. Sono in attesa._
-- `2026-05-11T14:42:14` · **workflow_passed**  — 
+- `2026-05-11T14:42:14` · **workflow_passed** —
   > 🦎 _vento allineato. Bene così._
-- `2026-05-11T14:39:49` · **workflow_passed**  — 
+- `2026-05-11T14:39:49` · **workflow_passed** —
   > 🦎 _Tutto in posto. sole alto. Respiro._
-- `2026-05-11T14:39:31` · **pr_merged** #2250 — 
+- `2026-05-11T14:39:31` · **pr_merged** #2250 —
   > 🦎 _Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione._
-- `2026-05-11T14:38:59` · **workflow_passed**  — 
+- `2026-05-11T14:38:59` · **workflow_passed** —
   > 🦎 _Verde compatto. Quiete._
-- `2026-05-11T14:38:58` · **workflow_passed**  — 
+- `2026-05-11T14:38:58` · **workflow_passed** —
   > 🦎 _Sistema dice sì. Allenatore sorride._
-- `2026-05-11T14:36:31` · **workflow_passed**  — 
+- `2026-05-11T14:36:31` · **workflow_passed** —
   > 🦎 _Verde compatto. Quiete._
-- `2026-05-11T14:36:30` · **workflow_passed**  — 
+- `2026-05-11T14:36:30` · **workflow_passed** —
   > 🦎 _Tutto in posto. Respiro._
-- `2026-05-11T14:33:53` · **workflow_passed**  — 
+- `2026-05-11T14:33:53` · **workflow_passed** —
   > 🦎 _Macchina canta giusto. Bene così._
 
 > 🦎 _Sabbia segue._
