@@ -128,3 +128,12 @@ cancellati), 3 stash vecchi (apr 2026), 5 worktree (`_gamewt-d4`, `_gamewt-gapc2
   diceva "->accepted" per errore). item 3 = **gate dominante** (blocca 8 spec A/B/C/D/E/K/M/P);
   candidate flip-now = SPEC-N + SPEC-L (judgment master-dd).
 - **item 6 (mutation_lineage M-3) = DONE** dalla sessione parallela (#2668, M-7 keystone 4/4).
+
+## Pointer 2026-06-09 (Ryzen): FP-gap dettagliato in issue #2674
+
+Il "gap backend coop `run.id==campaign.id`" del Form Pulse keystone (sopra, item 3) e' ora
+dettagliato + azionabile in **issue #2674**: root cause (2 path identita'-campagna DISCONNESSI --
+REST `/api/campaign/start` uuid fresco vs coop orchestrator `run.id`), 2 fix-direction
+(**A** wire i consumer FP nel path coop / **B** `campaign.id == run.id` al coop campaign-start),
+file toccati + impatto (sblocca branco-trait #2666 + FP->VC SPEC-M + name-emergence M-2, oggi
+Engine-LIVE/Surface-DEAD). Da prendere quando si fa la **Form Pulse UX** lato backend.
