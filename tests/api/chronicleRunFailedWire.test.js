@@ -43,9 +43,13 @@ test('session /end with defeat (wipe) appends run_failed to the campaign chronic
   assert.equal(end.body.outcome, 'wipe');
 
   const chron = getChronicle('run_wire_test', { baseDir });
-  assert.equal(chron.length, 1);
-  assert.equal(chron[0].type, 'run_failed');
-  assert.equal(chron[0].payload.outcome, 'wipe');
+  const rf = chron.find((e) => e.type === 'run_failed');
+  assert.ok(rf, 'run_failed event present');
+  assert.equal(rf.payload.outcome, 'wipe');
+  // SPEC-P: the same run-fail now also assembles the failure epilogue (best-effort wire).
+  const ep = chron.find((e) => e.type === 'run_epilogue');
+  assert.ok(ep, 'run_epilogue event present');
+  assert.equal(ep.payload.outcome, 'wipe');
 });
 
 test('session /end with no campaign_id -> no chronicle event (no_campaign_id no-op)', async (t) => {

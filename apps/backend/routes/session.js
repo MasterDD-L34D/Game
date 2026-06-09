@@ -1749,6 +1749,7 @@ function createSessionRouter(options = {}) {
       const biomeIdRaw = req.body?.biome_id || req.body?.encounter?.biome_id || null;
       let biomeCostsLog = [];
       let ermesBand = null;
+      let biomeWounded = false; // SPEC-P PA3 -- wounded-biome flag (read-side telegraph)
       if (biomeIdRaw) {
         try {
           const biomeCostsRegistry = loadTraitEnvironmentalCosts();
@@ -1772,6 +1773,8 @@ function createSessionRouter(options = {}) {
           } catch {
             /* best-effort -- biome eco still applies without the wound amplifier */
           }
+          // SPEC-P PA3 read-side: surface the wounded-biome state (anti-brick telegraph).
+          biomeWounded = woundedStep > 0;
           units = units.map((u) => {
             if (!u) return u;
             const clone = { ...u };
@@ -2005,6 +2008,9 @@ function createSessionRouter(options = {}) {
         // FASE 3 P4: biome-level eco band (low/med/high) for the diegetic biome
         // chip descriptor ("Bioma calmo/in equilibrio/in tensione").
         ermes_band: ermesBand,
+        // SPEC-P PA3 read-side -- the biome is wounded this run (A13 cross-run).
+        // Diegetic flag for the anti-brick telegraph; the surface renders "bioma ferito".
+        biome_wounded: biomeWounded,
         // QW1 (M-018): runtime knobs derivati da biomes.yaml diff_base +
         // hazard.stress_modifiers. Esposto via /api/session/state per debug
         // + future UI hint. Consumed da round bridge (pressure_mult tick) e
@@ -3531,6 +3537,34 @@ function createSessionRouter(options = {}) {
         }
       } catch {
         /* best-effort -- never blocks session end */
+      }
+      // SPEC-P sez.4/5 -- assemble the failure epilogue + codex hook on run-fail.
+      // Reads the UPDATED woundedBiomes (after the A13 block above). No-op on
+      // victory / no campaign_id. Best-effort -- never blocks session end.
+      try {
+        const { emitFailureEpilogue } = require('../services/narrative/failureEpilogue');
+        const { getCampaign } = require('../services/campaign/campaignStore');
+        const camp = session.campaign_id ? getCampaign(session.campaign_id) : null;
+        const fallen = (session.units || [])
+          .filter((u) => u && u.controlled_by === 'player' && (u.hp ?? 0) <= 0)
+          .map((u) => ({
+            id: u.id,
+            species: u.species || u.species_id || null,
+            name: u.name || u.label || null,
+          }));
+        emitFailureEpilogue(
+          {
+            campaign_id: session.campaign_id,
+            outcome: session.outcome,
+            biome_id: session.biome_id,
+            encounter_id: session.encounter_id,
+            woundedBiomes: camp ? camp.woundedBiomes : [],
+            fallen,
+          },
+          { baseDir: chronicleBaseDir },
+        );
+      } catch {
+        /* best-effort -- chronicle must never break session end */
       }
       // M1 -- persist Sistema learning (best-effort, never blocks session end).
       try {
