@@ -40,6 +40,8 @@ function synthRun(o = {}) {
     offspringLineages: o.offspringLineages,
     economyAffinityProven: true,
     initialRosterSize: o.initialRosterSize ?? 2,
+    // Opt 3 N=40 evidence (#2679): optional personality samples passthrough.
+    personalitySamples: o.personalitySamples,
     economy: o.economy || {
       peEarnedTotal: 6,
       xpGrantedTotal: 24,
@@ -329,6 +331,42 @@ test('runToJsonl: carries per-run offspring lineages (parent-species crosses) fo
     }),
   );
   assert.deepEqual(line.offspring_lineages, [['dune-stalker', 'nano-rust-bloom']]);
+});
+
+// Opt 3 N=40 evidence (#2679) -- personality samples thread runner -> jsonl ->
+// summary -> report (additive; absent samples leave every artifact unchanged).
+test('personality samples: jsonl passthrough + summary.personality + report section', () => {
+  const { runToJsonl } = require('../../tools/sim/full-loop-batch');
+  const samples = [
+    {
+      step: 1,
+      encounter: 'enc_tutorial_01',
+      units: [
+        {
+          unit_id: 'hero_a',
+          faction: 'player',
+          axes: {
+            symbiosis_predation: 0.9,
+            explore_caution: 0.6,
+            solitary_swarm: 0.7,
+            memory_instinct: 0.4,
+            agile_robust: 0.5,
+          },
+        },
+      ],
+    },
+  ];
+  const line = runToJsonl(synthRun({ personalitySamples: samples }));
+  assert.deepEqual(line.personality_samples, samples);
+  const summary = buildSummary([synthRun({ personalitySamples: samples })], { runs: 1 });
+  assert.ok(summary.personality, 'summary carries the personality aggregate');
+  assert.equal(summary.personality.n_samples, 1);
+  const md = buildReport(summary);
+  assert.match(md, /Personality axes \(Opt 3 OUTPUT\)/, 'report renders the evidence section');
+  // No samples -> no section, no summary key (band report unchanged).
+  const bare = buildSummary([synthRun()], { runs: 1 });
+  assert.equal(bare.personality, undefined);
+  assert.ok(!/Personality axes/.test(buildReport(bare)));
 });
 
 test('writeArtifacts: writes runs.jsonl (one line per run) + summary.json + report.md', () => {
