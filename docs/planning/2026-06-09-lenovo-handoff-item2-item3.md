@@ -103,3 +103,28 @@ cancellati), 3 stash vecchi (apr 2026), 5 worktree (`_gamewt-d4`, `_gamewt-gapc2
   collidere (es. il backend / ollama gia' up dal 06-08 18:54).
 - item 1 (flip SPEC-A..Q review_needed->accepted) = owner-gated, indipendente dalla macchina.
 - item 6 (mutation_lineage) = forbidden path `services/generation/` -> nodo master-dd.
+
+## Status update 2026-06-09 (sessione Lenovo)
+
+> Il blocco sopra e' la consegna originale Ryzen; questo riflette cosa Lenovo ha chiuso/avviato. Cross-ref: item-1 spec-readiness map #2672.
+
+- **item 2 (N=40 OA2 calib) = DONE.** La currency-re-run ha scoperto una cascade di 3 bug
+  OA2 objective-completion (#2662-era): combat-adapter mandava `scenario_id` non `encounter_id`;
+  `objectiveEvaluator.pointInBox` faceva `const [x,y]=pos` su posizioni `{x,y}`; combat-policy
+  leggeva `objective.config.target_zone` invece del top-level. Fix **#2669** (`a37aae8c`) ->
+  full-loop completion 0.0 -> 0.825 (OOB-high: i fix fanno completare di piu') -> re-cal **#2670**
+  (`aeaf459f`) baked `cm5/hp3/dcAdd1/modAdd1` -> N=49 completion **0.51** (centro 0.4-0.7, 7/7
+  metriche in-band, L-069 ratify). **Residuo**: il tool per-template `batch_calibrate_non_elim.py`
+  NON ha objective-aware player AI -> non misura le zone-template; l'harness objective-aware e' la
+  full-loop (ora funzionante). SPEC-O ora vicina al flip (vedi #2672).
+- **item 3 (Godot) = STARTED.** Surface scelta = **chronicle viewer** (Memory-mode) = residuo
+  item-3 di **SPEC-P** (#2672). Spec + piano TDD/GUT pronti su branch `claude/phone-chronicle-viewer`
+  (worktree `_ggv2wt-chronicle`): `docs/superpowers/{specs,plans}/2026-06-09-phone-chronicle-viewer.*`.
+  Impl pending (6 task: formatter+api+view+mount+wire Nido->composer+build-status row -> PR Godot-v2).
+  Surface item-3 NON partite: **Form Pulse keystone** (gap backend coop `run.id==campaign.id`,
+  sblocca 3 engine dormienti) + device char-creation.
+- **item 1**: vedi **#2672**. **CORREZIONE load-bearing**: target del flip = `active`, NON `accepted`
+  (`accepted` non e' uno stato valido in `docs_registry.json` -> governance error; il bullet sopra
+  diceva "->accepted" per errore). item 3 = **gate dominante** (blocca 8 spec A/B/C/D/E/K/M/P);
+  candidate flip-now = SPEC-N + SPEC-L (judgment master-dd).
+- **item 6 (mutation_lineage M-3) = DONE** dalla sessione parallela (#2668, M-7 keystone 4/4).
