@@ -32,6 +32,26 @@ test('PROPOSED_FP_VC_MAPPING maps to valid MBTI axes only', () => {
   }
 });
 
+// Verdetto master-dd 2026-06-10 (#2679 Q4): direction semantics pinned to the
+// ENGINE letter convention (deriveMbtiType: E_I value HIGH = Introvert). A
+// +Sciame swipe (solitary_swarm +1, social pole) must push E_I toward E =
+// DOWN; the old sign +1 nudged toward Solitario (inverted vs intent).
+test('+Sciame swipe pushes E_I toward Extraversion (engine convention: down)', () => {
+  const out = applyFormPulseDelta(axes(), { solitary_swarm: 1 });
+  assert.ok(out.E_I.value < 0.5, `+Sciame must LOWER E_I (toward E); got ${out.E_I.value}`);
+});
+
+test('+Predazione/+Cauto/+Memoria keep their engine-consistent directions', () => {
+  const out = applyFormPulseDelta(axes(), {
+    symbiosis_predation: 1, // Predazione -> T (HIGH)
+    explore_caution: 1, // Cauto -> S (HIGH)
+    memory_instinct: 1, // Memoria -> J (HIGH)
+  });
+  assert.ok(out.T_F.value > 0.5);
+  assert.ok(out.S_N.value > 0.5);
+  assert.ok(out.J_P.value > 0.5);
+});
+
 test('applyFormPulseDelta: nudges mapped axis by sign*input*maxDelta', () => {
   // pick a known mapping entry
   const [fpKey, cfg] = Object.entries(PROPOSED_FP_VC_MAPPING)[0];

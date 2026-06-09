@@ -11,14 +11,16 @@
 // MIRROR: Game-Godot-v2 scripts/ai/personality_axes.gd (parity fixtures in both
 // test suites). Stat normalization is an ADAPTER concern (stack scales differ).
 //
-// GOVERNANCE -- PROPOSED constants (ratify N=40, SPEC-M item 2, NOT fiat):
-// blend weights + stat bounds below. Flagged inconsistencies (NOT resolved
-// here, same N=40 batch):
-//   - J_P: input formPulseVc maps memory_instinct <-> J_P; this output spends
-//     J_P in explore_caution and derives memory_instinct behaviourally.
-//   - E_I: PROPOSED_FP_VC_MAPPING comments "+Sciame -> +E_I (extraversion
-//     proxy)" but the engine convention is E_I HIGH = Introvert; this output
-//     uses the engine convention (solitary_swarm = 1 - E_I).
+// GOVERNANCE -- RATIFIED-PROVISIONAL (verdetto master-dd 2026-06-10, N=40
+// backend probe Game#2688 + docs/reports/2026-06-10-personality-axes-n40-
+// evidence.md): blend weights + stat bounds below are OPERATIVE DEFAULTS,
+// re-validate on real player data (the probe had a single AI policy -> axis
+// variance compressed). Known accepted findings (Q1 verdict: defer until
+// varied data): F1 T_F saturation under combat-only play; F3 structural
+// sym~memory collinearity via the vcScoring `utility_actions = setup_ratio`
+// proxy. Closed flags: E_I input sign FIXED in formPulseVc (engine letter
+// convention); J_P input<->output divergence ratified AS DESIGNED (input
+// nudge and output derivation are different measurements and coexist).
 // Spec: Game-Godot-v2 docs/superpowers/specs/
 //   2026-06-09-personality-axes-output-derivation-design.md
 // =============================================================================
@@ -34,7 +36,7 @@ const AXIS_KEYS = [
 
 const NEUTRAL = 0.5;
 
-// PROPOSED (N=40): blend weights.
+// RATIFIED-PROVISIONAL (master-dd 2026-06-10; re-validate on player data).
 const EXPLORE_SN_WEIGHT = 0.6;
 const EXPLORE_JP_WEIGHT = 0.4;
 const MEMORY_SWITCH_WEIGHT = 0.5;
@@ -42,7 +44,10 @@ const MEMORY_SETUP_WEIGHT = 0.5;
 const AGILE_SPEED_WEIGHT = 0.7;
 const AGILE_HP_WEIGHT = 0.3;
 
-// PROPOSED (N=40): backend species-scale stat bounds (research-suggested).
+// RATIFIED-PROVISIONAL (master-dd 2026-06-10): backend species-scale bounds.
+// A canonical per-species base-stats dataset does NOT exist yet (the research
+// species.yaml is a ghost); when it lands these become data-derived (#2679
+// follow-up ticket). Until then hardcoded defaults + clamp01 at the edges.
 const STAT_BOUNDS = {
   speed: { min: 1, max: 6 },
   hp: { min: 6, max: 20 },

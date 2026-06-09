@@ -113,6 +113,26 @@ coverage parziale E_I/S_N su unita' a vita breve, non bug.
 - Solo backend stack; la superficie giocatore (Godot, VcScoringMbti euristico
   + CT bounds) ha pipeline input diversa -> probe Godot separato se serve.
 
+## Verdetto master-dd (2026-06-10, Q1-Q4 + Q2-bis)
+
+- **Q1 (F1 saturazione + F3 collinearita')**: DEFER su dati vari -- nessun
+  cambio formula da dati single-policy (dottrina vault vc-calibration-iter1
+  "no config change senza N>=50 sessioni varie"). Rivalutare al primo playtest
+  player reale. F1/F3 = finding ACCETTATI e documentati, non bug aperti.
+- **Q2 + Q2-bis (F2 agile backend)**: threading `unitStatsById` nelle route
+  /end + /:id/vc IMPLEMENTATO (+ passthrough `speed` in normaliseUnit, che lo
+  strippava -- stesso pattern del fix morale_mod). Bounds restano hardcoded
+  RATIFIED-PROVISIONAL: il dataset stat-per-specie NON esiste (species.yaml
+  della research = fantasma; species_catalog.json senza stats numeriche) ->
+  ticket dedicato come prerequisito dei bounds data-derived.
+- **Q3 (costanti)**: PROPOSED -> **RATIFIED-PROVISIONAL** come default
+  operativi con condizione "re-validate su dati player" (commenti aggiornati
+  in personalityAxes.js / personality_axes.gd / debrief_view.gd).
+- **Q4 (flag input)**: E_I sign FIXATO in formPulseVc (engine letter
+  convention: +Sciame ora abbassa E_I verso Extraversion; prima nudgava verso
+  Solitario). J_P ratificato AS-DESIGNED (input nudge != output derivation,
+  misure diverse che coesistono) -- flag chiuso senza code change.
+
 ## Riproduzione
 
 ```

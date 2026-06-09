@@ -3679,13 +3679,40 @@ function createSessionRouter(options = {}) {
         // TKT-ORPHAN-VCSNAP: server-derived flat 3-layer payload so phones/Godot
         // DebriefView get the pinned shape without re-deriving client-side
         // (serializer null-safe -> {per_actor:{}} when vcSnapshot is null).
-        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot),
+        // Verdetto #2679 Q2-bis: thread unit stats so agile_robust is evaluable
+        // (N=40 F2: the axis was dead without unitStatsById).
+        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot, unitStatsById(session)),
         debrief,
       });
     } catch (err) {
       next(err);
     }
   });
+
+  // Verdetto #2679 Q2-bis (2026-06-10) -- per-unit stats for the personality
+  // agile_robust derivation. speed + EXPLICIT max_hp only: current hp never
+  // leaks into the "birth physique" axis (end-of-mission damage is not
+  // physique). Units without stats are omitted -> the axis degrades to the
+  // 0.5 neutral by design. NB: a canonical per-species base-stats dataset does
+  // NOT exist yet (the research's species.yaml is a ghost) -- when it lands,
+  // bounds become data-derived (see the #2679 follow-up ticket).
+  function unitStatsById(session) {
+    const out = {};
+    for (const u of (session && session.units) || []) {
+      if (!u || !u.id) continue;
+      const stats = {};
+      // Explicit null/undefined guards: Number(null) === 0 is finite, so a
+      // bare Number.isFinite check would turn "no speed" into speed 0.
+      if (u.speed !== null && u.speed !== undefined && Number.isFinite(Number(u.speed))) {
+        stats.speed = Number(u.speed);
+      }
+      if (u.max_hp !== null && u.max_hp !== undefined && Number.isFinite(Number(u.max_hp))) {
+        stats.hp_max = Number(u.max_hp);
+      }
+      if (Object.keys(stats).length) out[u.id] = stats;
+    }
+    return out;
+  }
 
   // 2026-05-30 P4 debrief wire — GET /:id/debrief. Non-destructive sibling of
   // POST /end: returns the same buildDebriefSummary payload (ennea_voices /
@@ -3754,8 +3781,9 @@ function createSessionRouter(options = {}) {
       }
       // TKT-ORPHAN-VCSNAP: attach the flat Godot-parity payload (additive;
       // serializer reads only per_actor, so legacy consumers are unaffected).
+      // Verdetto #2679 Q2-bis: unit stats threaded (agile_robust evaluable).
       if (snapshot && typeof snapshot === 'object') {
-        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot);
+        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot, unitStatsById(session));
       }
       res.json(snapshot);
     } catch (err) {
