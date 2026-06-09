@@ -18,13 +18,16 @@
 //       <uid>: {
 //         sentience_tier: "T0"-"T6",
 //         conviction_axis: { utility, liberty, morality },  // 3 keys, int
-//         ennea_archetype: "<canonical IT name>"             // single primary
+//         ennea_archetype: "<canonical IT name>",            // single primary
+//         personality_axes: { <5 EN creature keys>: float }  // optional, Opt 3 #2679
 //       }
 //     }
 //   }
 //
 // Cross-stack contract: PR #276 schema parity snapshot Godot v2.
 'use strict';
+
+const { deriveFromVcActor, hasSignal } = require('../personalityAxes');
 
 const CANONICAL_AXIS_KEYS = ['utility', 'liberty', 'morality'];
 
@@ -34,7 +37,7 @@ const CANONICAL_AXIS_KEYS = ['utility', 'liberty', 'morality'];
  * @param {object} vcSnapshot — output of vcScoring.buildVcSnapshot(session, config)
  * @returns {object} debrief_payload `{per_actor: {<uid>: {...3 layers...}}}`
  */
-function vcSnapshotToDebriefPayload(vcSnapshot) {
+function vcSnapshotToDebriefPayload(vcSnapshot, unitStatsById = null) {
   const payload = { per_actor: {} };
   if (!vcSnapshot || typeof vcSnapshot !== 'object') return payload;
   const perActor = vcSnapshot.per_actor;
@@ -78,6 +81,19 @@ function vcSnapshotToDebriefPayload(vcSnapshot) {
       // never emits bare strings).
       else if (typeof ennea[0] === 'string') {
         entry.ennea_archetype = ennea[0];
+      }
+    }
+
+    // Opt 3 OUTPUT (#2679) -- additive personality_axes fold (PROPOSED
+    // constants, ratify N=40). Skipped when the actor carries no derivable
+    // signal (pure-neutral pentagon = payload bloat). Mirror: Godot
+    // DebriefState.to_debrief_payload personality_axes fold.
+    if (hasSignal(actorData)) {
+      const stats =
+        unitStatsById && typeof unitStatsById === 'object' ? unitStatsById[uid] || null : null;
+      const personality = deriveFromVcActor(actorData, stats);
+      if (personality) {
+        entry.personality_axes = personality;
       }
     }
 

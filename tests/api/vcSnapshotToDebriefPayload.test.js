@@ -182,3 +182,43 @@ test('mixed triggered/untriggered picks first triggered', () => {
   const out = vcSnapshotToDebriefPayload(_snap({ pg: actor }));
   assert.equal(out.per_actor.pg.ennea_archetype, 'enn_b');
 });
+
+// Opt 3 OUTPUT (#2679) -- additive personality_axes fold.
+test('personality_axes: folded additively when actor has signal', () => {
+  const actor = _fullActor();
+  actor.mbti_axes = {
+    T_F: { value: 0.9, coverage: 'full' },
+    E_I: { value: 0.2, coverage: 'full' },
+    S_N: { value: 0.7, coverage: 'full' },
+    J_P: { value: 0.6, coverage: 'full' },
+  };
+  actor.raw_metrics = { action_switch_rate: 0.25, setup_ratio: 0.8 };
+  const out = vcSnapshotToDebriefPayload(_snap({ u1: actor }), {
+    u1: { speed: 3.5, hp_max: 13 },
+  });
+  const axes = out.per_actor.u1.personality_axes;
+  assert.ok(axes, 'personality_axes expected');
+  assert.ok(Math.abs(axes.symbiosis_predation - 0.9) < 1e-9);
+  assert.ok(Math.abs(axes.solitary_swarm - 0.8) < 1e-9);
+  // speed 3.5 in [1,6] -> 0.5; hp 13 in [6,20] -> 0.5 -> agile_robust 0.5
+  assert.ok(Math.abs(axes.agile_robust - 0.5) < 1e-9);
+});
+
+test('personality_axes: omitted when no derivable signal (back-compat)', () => {
+  const actor = _fullActor({ sent: { tier: 'T1', source: 'default-fallback' } });
+  actor.mbti_axes = { T_F: null, E_I: null, S_N: null, J_P: null };
+  actor.raw_metrics = {};
+  const out = vcSnapshotToDebriefPayload(_snap({ u1: actor }));
+  assert.equal('personality_axes' in out.per_actor.u1, false);
+  assert.equal(out.per_actor.u1.sentience_tier, 'T1');
+});
+
+test('personality_axes: no unitStats arg -> agile_robust neutral (back-compat single-arg call)', () => {
+  const actor = _fullActor();
+  actor.mbti_axes = { T_F: { value: 1, coverage: 'full' } };
+  const out = vcSnapshotToDebriefPayload(_snap({ u1: actor }));
+  const axes = out.per_actor.u1.personality_axes;
+  assert.ok(axes);
+  assert.equal(axes.symbiosis_predation, 1);
+  assert.equal(axes.agile_robust, 0.5);
+});
