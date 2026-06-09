@@ -7,6 +7,8 @@ source_of_truth: true
 language: it
 last_verified: '2026-05-09'
 tags: [ai, balance, calibration, sprt, utility-brain, aggressive-profile]
+doc_owner: platform-docs
+review_cycle_days: 14
 ---
 
 # Balance Illuminator: Profilo Aggressive — enc_tutorial_01
