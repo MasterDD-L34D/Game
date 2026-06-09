@@ -23,28 +23,46 @@ import { renderEnneaVoices } from './enneaVoiceRender.js';
 // TKT-P4-CONVICTION-BADGES: Triangle Strategy conviction badges, debrief surface.
 import { renderInnerVoices } from './innerVoiceRender.js';
 import { renderConvictionBadges } from './convictionBadgeRender.js';
+// NF3 PR-6: ennea labels/descs via the i18n loader (data/i18n SSOT, shared with
+// characterPanel/enneaVoiceRender). IT values byte-identical; EN now covered.
+import { t } from './i18n.js';
 
 // Sprint Surface-DEAD ennea archetypes — 9 archetypes player surface in debrief.
-// Mirror ENNEA_META da characterPanel.js (kept self-contained per debrief scope).
+// NF3 PR-6: icons stay inline (locale-neutral); labels + descs = i18n SSOT
+// (ennea_archetype / ennea_desc), shared with characterPanel/enneaVoiceRender.
 const ENNEA_META = {
-  'Riformatore(1)': { icon: '⚖️', label: 'Riformatore', desc: 'Setup metodico, alta precisione.' },
-  'Coordinatore(2)': { icon: '🤝', label: 'Coordinatore', desc: 'Coesione di squadra.' },
-  'Conquistatore(3)': { icon: '🔥', label: 'Conquistatore', desc: 'Aggressione e rischio.' },
-  'Individualista(4)': {
-    icon: '🌙',
-    label: 'Individualista',
-    desc: 'Resilienza in zona critica.',
-  },
-  'Architetto(5)': {
-    icon: '🏛️',
-    label: 'Architetto',
-    desc: 'Strategia metodica, basso rischio.',
-  },
-  'Lealista(6)': { icon: '🛡️', label: 'Lealista', desc: 'Vigilanza e supporto attivo.' },
-  'Esploratore(7)': { icon: '🧭', label: 'Esploratore', desc: 'Scoperta e mobilità.' },
-  'Cacciatore(8)': { icon: '🏹', label: 'Cacciatore', desc: 'Mordi-e-fuggi mirato.' },
-  'Stoico(9)': { icon: '🗿', label: 'Stoico', desc: 'Endurance sotto pressione.' },
+  'Riformatore(1)': { icon: '⚖️' },
+  'Coordinatore(2)': { icon: '🤝' },
+  'Conquistatore(3)': { icon: '🔥' },
+  'Individualista(4)': { icon: '🌙' },
+  'Architetto(5)': { icon: '🏛️' },
+  'Lealista(6)': { icon: '🛡️' },
+  'Esploratore(7)': { icon: '🧭' },
+  'Cacciatore(8)': { icon: '🏹' },
+  'Stoico(9)': { icon: '🗿' },
 };
+
+// NF3 PR-6: ennea archetype_id ('Architetto(5)') -> IT label/desc via the i18n
+// loader (ennea_archetype / ennea_desc). Number parsed from id parens; empty
+// string if unknown (caller falls back to the raw id).
+function enneaNum(id) {
+  const m = /\((\d)\)/.exec(String(id || ''));
+  return m ? m[1] : null;
+}
+function enneaLabel(id) {
+  const n = enneaNum(id);
+  if (!n) return '';
+  const key = `ennea_archetype.${n}`;
+  const v = t(key);
+  return v === key ? '' : v;
+}
+function enneaDesc(id) {
+  const n = enneaNum(id);
+  if (!n) return '';
+  const key = `ennea_desc.${n}`;
+  const v = t(key);
+  return v === key ? '' : v;
+}
 
 function escapeEnneaHtml(s) {
   return String(s || '').replace(
@@ -470,13 +488,15 @@ export function wireDebriefPanel(overlay, bridge) {
         const id = typeof a === 'string' ? a : a?.id;
         const triggered = typeof a === 'string' ? true : !!a?.triggered;
         if (!id) return '';
-        const meta = ENNEA_META[id] || { icon: '◯', label: id, desc: '' };
+        const meta = ENNEA_META[id] || { icon: '◯' };
+        const label = enneaLabel(id) || id;
+        const desc = enneaDesc(id);
         const cls = triggered ? 'db-ennea-badge triggered' : 'db-ennea-badge';
         return `
           <div class="${cls}" data-archetype="${escapeEnneaHtml(id)}">
             <span class="db-ennea-icon">${meta.icon}</span>
-            <span class="db-ennea-label">${escapeEnneaHtml(meta.label)}</span>
-            <div class="db-ennea-desc">${escapeEnneaHtml(meta.desc)}</div>
+            <span class="db-ennea-label">${escapeEnneaHtml(label)}</span>
+            <div class="db-ennea-desc">${escapeEnneaHtml(desc)}</div>
           </div>
         `;
       })
