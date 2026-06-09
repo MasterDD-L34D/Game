@@ -306,3 +306,87 @@ describe('ecoBandLabel + eco descriptor (FASE 3 P4)', () => {
     assert.ok(c._attrs.title.includes('Bioma calmo'));
   });
 });
+
+// SPEC-P PA3 — wounded-biome diegetic telegraph (#2677 read-side -> surface).
+// A13 cross-run: a biome wounded by a failed expedition reacts more harshly.
+// Anti-brick doctrine (SPEC-P sez.8): the degrade MUST be telegraphed, no raw number.
+describe('woundedLabel + wounded telegraph (SPEC-P PA3)', () => {
+  function fakeContainer() {
+    const classList = new Set();
+    const attrs = {};
+    return {
+      innerHTML: '',
+      classList: {
+        add: (...c) => c.forEach((x) => classList.add(x)),
+        remove: (...c) => c.forEach((x) => classList.delete(x)),
+        contains: (x) => classList.has(x),
+      },
+      setAttribute: (k, v) => {
+        attrs[k] = v;
+      },
+      removeAttribute: (k) => {
+        delete attrs[k];
+      },
+      _attrs: attrs,
+    };
+  }
+
+  test('woundedLabel(true) → diegetic IT label (never a raw number)', async () => {
+    const { woundedLabel } = await loadModule();
+    assert.equal(woundedLabel(true), 'Bioma ferito');
+    assert.ok(!/\d/.test(woundedLabel(true)));
+  });
+
+  test('woundedLabel falsy → empty string', async () => {
+    const { woundedLabel } = await loadModule();
+    assert.equal(woundedLabel(false), '');
+    assert.equal(woundedLabel(null), '');
+    assert.equal(woundedLabel(undefined), '');
+    assert.equal(woundedLabel(0), '');
+  });
+
+  test('formatBiomeChip — wounded flag appends biome-wounded span + label', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('savana', null, null, true);
+    assert.ok(html.includes('biome-wounded'));
+    assert.ok(html.includes('Bioma ferito'));
+    assert.ok(html.includes('data-wounded="true"'));
+  });
+
+  test('formatBiomeChip — no wounded span when flag false/omitted (backward compat)', async () => {
+    const { formatBiomeChip } = await loadModule();
+    assert.ok(!formatBiomeChip('savana', null, null, false).includes('biome-wounded'));
+    assert.ok(!formatBiomeChip('savana').includes('biome-wounded'));
+    assert.ok(!formatBiomeChip('savana', { hp_mult: 1.05 }, 'high').includes('biome-wounded'));
+  });
+
+  test('formatBiomeChip — wounded coexists with pressure tier + eco band', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip(
+      'abisso_vulcanico',
+      { hp_mult: 1.15, pressure_initial_bonus: 15 },
+      'high',
+      true,
+    );
+    assert.ok(html.includes('biome-pressure-severe'));
+    assert.ok(html.includes('biome-eco-high'));
+    assert.ok(html.includes('biome-wounded'));
+    assert.ok(html.includes('Bioma ferito'));
+  });
+
+  test('renderBiomeChip — wounded descriptor in body + tooltip', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'savana', null, null, true);
+    assert.ok(c.innerHTML.includes('Bioma ferito'));
+    assert.ok(c._attrs.title.includes('ferito'));
+  });
+
+  test('renderBiomeChip — no wounded marker when flag false (backward compat)', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'savana', null, null, false);
+    assert.ok(!c.innerHTML.includes('biome-wounded'));
+    assert.ok(!c._attrs.title.includes('ferito'));
+  });
+});

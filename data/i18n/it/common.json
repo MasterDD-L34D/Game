@@ -135,6 +135,10 @@
     "med": "Bioma in equilibrio",
     "high": "Bioma in tensione"
   },
+  "biome_wounded": {
+    "label": "Bioma ferito",
+    "tooltip": "porta le cicatrici di una spedizione fallita; l'ecosistema reagisce con più durezza"
+  },
   "ennea_archetype": {
     "1": "Riformatore",
     "2": "Coordinatore",

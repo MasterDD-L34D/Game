@@ -80,10 +80,27 @@ export function ecoBandLabel(band) {
   return label === i18nKey ? '' : label;
 }
 
+// Pure: wounded flag → diegetic IT label (SPEC-P PA3, #2677 read-side).
+// A13 cross-run: a biome wounded by a failed expedition reacts more harshly.
+// Anti-brick doctrine (SPEC-P sez.8): degrade MUST be telegraphed, NO raw number.
+// Falsy flag → '' (no marker). Hard fallback so the telegraph never shows a raw key.
+export function woundedLabel(biomeWounded) {
+  if (!biomeWounded) return '';
+  const i18nKey = 'biome_wounded.label';
+  const label = t(i18nKey);
+  return label === i18nKey ? 'Bioma ferito' : label;
+}
+
 // Pure: payload → HTML chip. Returns empty string se biome_id mancante.
 // Optional biomeModifiers param adds pressure indicator (TKT-ECO-A5).
 // Optional ermesBand (low/med/high) adds eco descriptor (FASE 3 P4).
-export function formatBiomeChip(biomeId, biomeModifiers = null, ermesBand = null) {
+// Optional biomeWounded (bool) adds wounded telegraph (SPEC-P PA3, #2677).
+export function formatBiomeChip(
+  biomeId,
+  biomeModifiers = null,
+  ermesBand = null,
+  biomeWounded = false,
+) {
   if (!biomeId) return '';
   const icon = iconForBiome(biomeId);
   const label = labelForBiome(biomeId);
@@ -96,11 +113,16 @@ export function formatBiomeChip(biomeId, biomeModifiers = null, ermesBand = null
   const ecoHtml = ecoLabel
     ? `<span class="biome-eco biome-eco-${ermesBand}" data-band="${ermesBand}">${escapeHtml(ecoLabel)}</span>`
     : '';
+  const woundedTxt = woundedLabel(biomeWounded);
+  const woundedHtml = woundedTxt
+    ? `<span class="biome-wounded" data-wounded="true">🩸 ${escapeHtml(woundedTxt)}</span>`
+    : '';
   return (
     `<span class="biome-icon">${icon}</span>` +
     `<span class="biome-label">${escapeHtml(label)}</span>` +
     pressureHtml +
-    ecoHtml
+    ecoHtml +
+    woundedHtml
   );
 }
 
@@ -121,9 +143,15 @@ function escapeHtml(s) {
 // Side effect: render biome chip into HUD container element.
 // Idempotent — sostituisce innerHTML. Hide via .biome-hidden class quando biome_id null.
 // TKT-ECO-A5 — optional biomeModifiers param surface pressure tier indicator.
-export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null, ermesBand = null) {
+export function renderBiomeChip(
+  containerEl,
+  biomeId,
+  biomeModifiers = null,
+  ermesBand = null,
+  biomeWounded = false,
+) {
   if (!containerEl || typeof containerEl.innerHTML !== 'string') return;
-  const html = formatBiomeChip(biomeId, biomeModifiers, ermesBand);
+  const html = formatBiomeChip(biomeId, biomeModifiers, ermesBand, biomeWounded);
   if (!html) {
     containerEl.innerHTML = '';
     containerEl.classList.add('biome-hidden');
@@ -148,6 +176,14 @@ export function renderBiomeChip(containerEl, biomeId, biomeModifiers = null, erm
   const ecoLabel = ecoBandLabel(ermesBand);
   if (ecoLabel) {
     tooltip += ` · ${ecoLabel} (reazione del bioma ai tratti in gioco).`;
+  }
+  // SPEC-P PA3: wounded descriptor in tooltip (diegetic, anti-brick, no raw number).
+  const woundedTxt = woundedLabel(biomeWounded);
+  if (woundedTxt) {
+    const wKey = 'biome_wounded.tooltip';
+    const wTip = t(wKey);
+    const wDesc = wTip === wKey ? 'porta le cicatrici di una spedizione fallita' : wTip;
+    tooltip += ` · ${woundedTxt}: ${wDesc}.`;
   }
   containerEl.setAttribute('title', tooltip);
 }

@@ -1177,7 +1177,10 @@ function refreshBiomeChip() {
   const biomeModifiers = state.world?.biome_modifiers || null;
   // FASE 3 P4 — eco band (low/med/high) diegetic descriptor on the chip.
   const ermesBand = state.world?.ermes_band || null;
-  renderBiomeChip(containerEl, biomeId, biomeModifiers, ermesBand);
+  // SPEC-P PA3 (#2677) — wounded-biome flag (anti-brick telegraph). Top-level
+  // in publicSessionView (sibling of biome_id/ermes_band), so state.world.biome_wounded.
+  const biomeWounded = !!state.world?.biome_wounded;
+  renderBiomeChip(containerEl, biomeId, biomeModifiers, ermesBand, biomeWounded);
 }
 
 // Action 7 (ADR-2026-04-28 §Action 7) — refresh CT bar HUD lookahead 3 turni.

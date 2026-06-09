@@ -135,6 +135,10 @@
     "med": "Balanced biome",
     "high": "Tense biome"
   },
+  "biome_wounded": {
+    "label": "Wounded biome",
+    "tooltip": "it bears the scars of a failed expedition; the ecosystem reacts more harshly"
+  },
   "ennea_archetype": {
     "1": "Reformer",
     "2": "Coordinator",
