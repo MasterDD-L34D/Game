@@ -150,6 +150,9 @@ test('calibrationScaling: FL_ENEMY_* env overrides each knob (robust to baked de
   const baked = calibrationScaling();
   assert.equal(baked.countMult, 5, 'baked countMult (calibration)');
   assert.equal(baked.hpAdd, 3, 'baked hpAdd (calibration)');
+  // post-#2669 re-cal (OA2-completion fix raised completion -> re-tuned UP via the fine knobs).
+  assert.equal(baked.dcAdd, 1, 'baked dcAdd (post-#2669 re-cal, fine knob)');
+  assert.equal(baked.modAdd, 1, 'baked modAdd (post-#2669 re-cal, fine knob)');
   process.env.FL_ENEMY_COUNT_MULT = '7';
   process.env.FL_ENEMY_DC_ADD = '9';
   try {
@@ -176,7 +179,16 @@ test('calibrationScaling: graph-mode (META_NETWORK_ROUTING) re-calibrates to cou
     delete process.env.META_NETWORK_ROUTING;
     assert.equal(calibrationScaling().hpAdd, 3, 'static-chain hpAdd default unchanged');
     assert.equal(calibrationScaling().countMult, 5, 'static-chain countMult default unchanged');
-    assert.equal(calibrationScaling().dcAdd, 0, 'static-chain dcAdd default unchanged');
+    assert.equal(
+      calibrationScaling().dcAdd,
+      1,
+      'static-chain dcAdd (post-#2669 re-cal, fine knob)',
+    );
+    assert.equal(
+      calibrationScaling().modAdd,
+      1,
+      'static-chain modAdd (post-#2669 re-cal, fine knob)',
+    );
     process.env.META_NETWORK_ROUTING = 'true';
     assert.equal(calibrationScaling().hpAdd, 2, 'graph-mode re-calibrated hpAdd (real rosters)');
     assert.equal(
