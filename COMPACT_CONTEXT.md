@@ -5,7 +5,19 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-02 (notte) — full-loop fase-2 band-verify + composition/routing/PI-sink (v48)
+## ⚡ Sessione corrente 2026-06-09 (sessione B) — maintenance + hygiene + health-sweep
+
+**5 PR merged (3 repo)**: #2681 `73c7699f` biomeChip "bioma ferito" telegraph (SPEC-P PA3, surface WEB di `biome_wounded` #2677) · #2682 `ddf3efed` + #2684 `01267f13` Game **Prettier-clean 100%** (debito 115->0, workflow forbidden incluso consenso DD) · #178 `fbe3b7b1` Game-Database `.gitattributes eol=lf` (CRLF cross-OS) · #457 `1d8f13b3` Game-Godot-v2 autofree-race fix (test, GUT 5/5 clean).
+
+**+ health-sweep 3 repo** (`reports/2026-06-09-routine-health-sweep.md`): nessun fallimento CI-gating (Game/DB WARN-only, Godot GREEN). **+ 2 harsh-review** (general-purpose red-team) su #178/#457 -> APPROVE, claim ri-verificati su codice reale.
+
+**Catch metodologici**: (1) CRLF DB = git-config locale (index gia' LF), fix = `.gitattributes eol=lf` non `--renormalize`; (2) `prettier --list-different .` aggancia untracked -> `git add` di lista rischia committare .md senza frontmatter (governance fail) -> stage esplicito + escludi forbidden a monte; (3) GUT autofree-during-emit -> fix nel TEST (`await process_frame`), non product.
+
+**Next entry point**: item-1 doc-flip SPEC-N/L `review_needed`->`active` (owner-gated, mappa #2672). Lenovo: item3 Godot + #2674. Handoff: `docs/planning/2026-06-09-maintenance-hygiene-handoff.md`. Sessione precedente (10 PR reconstruction closure) = #2678 / `2026-06-09-reconstruction-residuals-closure-handoff.md`.
+
+---
+
+## Sessione 2026-06-02 (notte) — full-loop fase-2 band-verify + composition/routing/PI-sink (v48)
 
 **8 PR merged main**: #2568 `ae855542` (fase-2b aggregatore 5 band-metriche + `full-loop-batch.js`) · #2569 `4a711aba` (fase-2c-1 policy pluggable + `mbti-policy.js`) · #2570 `60b5131f` (fase-2c-end report N=40 + batch ermetico) · #2571 `92185919` (goal-doc BUILD COMPLETE) · #2572 `548c7872` (routing wiring `meta-network-driver.js`) · #2573 `5403601c` (composizione/P4 `roster_composition`) · #2574 `0f680125` (PI-sink wired).
 
