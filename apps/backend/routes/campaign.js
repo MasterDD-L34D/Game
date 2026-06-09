@@ -209,6 +209,9 @@ function createCampaignRouter(options = {}) {
     // MA1 part 2 (ADR-2026-06-08): emergent branco trait from the aggregated Form
     // Pulse. Dormant until the Godot Form-Pulse UX populates coopStore formPulses
     // (no FP / branco indeciso -> no-op; the branco keeps only per-creature traits).
+    // #2674 -- coop branco emergence now fires in coopOrchestrator
+    // (_applyBrancoTraitEmergence, on form_pulse all_ready). This REST path is the
+    // SOLO no-op: getFormPulses(campaign.id) finds no coop orch keyed by run.id.
     if (coopStore && typeof coopStore.getFormPulses === 'function') {
       const emergent = emergeBrancoTraitFromPulses(coopStore.getFormPulses(campaign.id));
       if (emergent) {
