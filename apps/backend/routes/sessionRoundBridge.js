@@ -337,12 +337,17 @@ function createRoundBridge(deps) {
       }
     }
 
-    // TKT-ORPHAN-MORALE: re-apply morale statuses (panic/rage) that performAttack
-    // stashed during this resolve. The loop above rebuilds unit.status from the
-    // orchestrator's tracked array and would otherwise wipe a panic set mid-attack;
-    // draining here gives every attack resolver (player + AI + legacy) consistent
-    // behavior in one place. Best-effort; never blocks the round.
-    if (Array.isArray(session._pendingMoraleStatus) && session._pendingMoraleStatus.length) {
+    // TKT-ORPHAN-MORALE + TKT-D4-ENRICH (#2533): re-apply statuses that
+    // performAttack stashed during this resolve — morale (panic/rage), GAP-1
+    // on_hit_status (trait_mechanics) and SPRINT_018 apply_status trait
+    // effects all share this drain channel. The loop above rebuilds
+    // unit.status from the orchestrator's tracked array and would otherwise
+    // wipe anything set mid-attack; draining here gives every attack resolver
+    // (player + AI + legacy) consistent behavior in one place, and the next
+    // adaptSessionToRoundState promotes the re-applied keys to tracked
+    // orchestrator statuses (universal decay included). Best-effort; never
+    // blocks the round.
+    if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
       let applyMoraleStatus = null;
       try {
         ({ applyMoraleStatus } = require('../services/combat/morale'));
@@ -350,12 +355,12 @@ function createRoundBridge(deps) {
         applyMoraleStatus = null;
       }
       if (applyMoraleStatus) {
-        for (const pending of session._pendingMoraleStatus) {
+        for (const pending of session._pendingStatusApplies) {
           const u = unitsById.get(String(pending.unit_id));
           if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
         }
       }
-      session._pendingMoraleStatus = [];
+      session._pendingStatusApplies = [];
     }
   }
 
@@ -439,6 +444,10 @@ function createRoundBridge(deps) {
         capturedResults.bondReaction = res.bond_reaction || null;
         capturedResults.terrainReaction = res.terrain_reaction || null;
         capturedResults.positional = res.positional || null;
+        // TKT-D4-ENRICH (#2533): surface the status producers in the wrapped
+        // result (probe/telemetry need the applied list; it was dropped here).
+        capturedResults.onHitStatus = res.on_hit_status || null;
+        capturedResults.statusApplies = Array.isArray(res.status_applies) ? res.status_applies : [];
         capturedResults.beastBondReactions = Array.isArray(res.beast_bond_reactions)
           ? res.beast_bond_reactions
           : [];
@@ -824,6 +833,10 @@ function createRoundBridge(deps) {
       terrain_reaction: capturedResults.terrainReaction || null,
       beast_bond_reactions: Array.isArray(capturedResults.beastBondReactions)
         ? capturedResults.beastBondReactions
+        : [],
+      on_hit_status: capturedResults.onHitStatus || null,
+      status_applies: Array.isArray(capturedResults.statusApplies)
+        ? capturedResults.statusApplies
         : [],
       state: publicSessionView(session),
       round_wrapper: true,
