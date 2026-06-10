@@ -18,8 +18,24 @@ const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload
 // drain WS (#2707/#2708): l'host conta SOLO se e' il submitter corrente o
 // possiede gia' un PG (host-plays); la TV-mirror (mai input) resta esclusa.
 const { lifecycleQuorumPids } = require('../services/network/wsSession');
+// OD-058 D3 (#2531) -- server-side vcSnapshot replay dal ledger della sessione
+// combat linkata (coopStore.linkSession): il debrief coop non e' piu'
+// trust-the-host.
+const {
+  isLedgerReplayEnabled,
+  replayDebriefFromLedger,
+} = require('../services/coop/vcLedgerReplay');
+const { isDeepStrictEqual } = require('node:util');
 
-function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = null } = {}) {
+function createCoopRouter({
+  lobby,
+  coopStore,
+  metaStoreFactory = null,
+  prisma = null,
+  // OD-058 D3 -- read-only accessor (session router getSessionById) for the
+  // linked combat session; absent -> legacy host-payload behavior.
+  getCombatSession = null,
+} = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
   if (!coopStore) throw new Error('createCoopRouter: coopStore required');
   const router = express.Router();
@@ -386,16 +402,65 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
+      // OD-058 D3 (#2531) -- replay-from-event-log: quando una sessione combat
+      // server-side e' linkata (coopStore.linkSession) e il suo ledger ha
+      // eventi attribuiti ad attori, il server ricostruisce vcSnapshot +
+      // debrief_payload dal PROPRIO ledger (stesso path vcScoring del flusso
+      // single: buildVcSnapshot -> vcSnapshotToDebriefPayload) e il payload
+      // host viene ignorato (divergenza loggata + surfaced). Fallback host:
+      // nessuna sessione linkata / ledger inerte (solo lifecycle, combat
+      // client-side Godot) / kill switch COOP_VC_LEDGER_REPLAY=0. Outcome,
+      // survivors e xp restano host-reported (Opzione 2: la resolution del
+      // combat resta client-side; qui si sposta SOLO la derivazione VC).
+      let effectiveDebrief = debriefPayload;
+      let debriefSource = debriefPayload ? 'host' : null;
+      let hostPayloadDivergent = null;
+      if (isLedgerReplayEnabled() && typeof getCombatSession === 'function' && orch.sessionId) {
+        try {
+          const combatSession = getCombatSession(orch.sessionId);
+          if (combatSession) {
+            // SPEC-M FP->VC parity con /end (routes/session.js): il branco
+            // Form Pulse della run viene idratato nel replay (no-op se vuoto).
+            const formPulses =
+              typeof coopStore.getFormPulses === 'function'
+                ? coopStore.getFormPulses(orch.run?.id)
+                : null;
+            const replay = replayDebriefFromLedger(combatSession, { formPulses });
+            if (replay && replay.actor_events_count > 0) {
+              if (debriefPayload) {
+                hostPayloadDivergent = !isDeepStrictEqual(debriefPayload, replay.debrief_payload);
+                if (hostPayloadDivergent) {
+                  console.warn(
+                    `[coop] debrief_payload host divergente dal ledger replay (code=${code}, session=${orch.sessionId}) -- server-authoritative`,
+                  );
+                }
+              }
+              effectiveDebrief = replay.debrief_payload;
+              debriefSource = 'ledger_replay';
+            }
+          }
+        } catch (replayErr) {
+          // Best-effort: il replay non blocca MAI la chiusura del combat.
+          console.warn(`[coop] ledger replay fallito (code=${code}):`, replayErr.message);
+        }
+      }
       const result = orch.endCombat({
         outcome,
         xpEarned,
         survivors,
-        debriefPayload,
+        debriefPayload: effectiveDebrief,
         sistemaObservations,
         recruitCandidates,
       });
       broadcastCoopState(room, orch);
-      return res.json({ phase: orch.phase, result });
+      return res.json({
+        phase: orch.phase,
+        result,
+        // OD-058 D3 -- additive: provenance del debrief ('ledger_replay' |
+        // 'host' | null) + divergenza host vs replay (null = non applicabile).
+        debrief_source: debriefSource,
+        host_payload_divergent: hostPayloadDivergent,
+      });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'combat_end_failed' });
     }

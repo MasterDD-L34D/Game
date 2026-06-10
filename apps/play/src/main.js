@@ -39,6 +39,8 @@ import {
 } from './predictPreviewOverlay.js';
 import { renderObjectiveBar } from './objectivePanel.js';
 import { renderBiomeChip } from './biomeChip.js';
+// Gate-5 #2716 — one-shot diegetic hint at the first overcharge of the run.
+import { maybeShowOverchargeHint } from './overchargeHint.js';
 import { renderCtBar } from './ctBar.js';
 import { renderAmbitionHud } from './ambitionHud.js';
 import {
@@ -1314,6 +1316,9 @@ async function refresh() {
     refreshObjectiveBar();
     // Sprint 11 (Surface-DEAD #6): refresh biome chip post-state-fetch.
     refreshBiomeChip();
+    // Gate-5 #2716: first-overcharge-of-the-run diegetic hint (false->true
+    // transition of overcharge_used_this_run, publicSessionView additive field).
+    maybeShowOverchargeHint(prev, state.world);
     // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar lookahead 3 turni.
     refreshCtBar();
     // Action 6 (ADR-2026-04-28 §Action 6): refresh ambition HUD long-arc.
