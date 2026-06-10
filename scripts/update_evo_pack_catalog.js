@@ -11,6 +11,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
+const { writeJsonFileFormatted } = require('./utils/jsonio');
+
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
 
@@ -42,9 +44,13 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
+// Generation timestamps are ignored when deciding whether a file changed, so
+// re-runs without semantic deltas keep the committed files (and their
+// timestamps) untouched instead of churning every mirror.
+const TIMESTAMP_KEYS = ['generated_at', 'last_synced_at'];
+
 function writeJson(filePath, data) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
+  return writeJsonFileFormatted(filePath, data, { ignoreKeys: TIMESTAMP_KEYS });
 }
 
 function loadYaml(filePath) {
@@ -133,7 +139,7 @@ function extractSpeciesSummary(entry) {
   });
 }
 
-function main() {
+async function main() {
   if (!fs.existsSync(CATALOG_PATH)) {
     throw new Error('catalog_data.json non trovato.');
   }
@@ -249,7 +255,7 @@ function main() {
 
   catalog.generated_at = nowIso;
 
-  writeJson(CATALOG_PATH, cleanObject(catalog));
+  await writeJson(CATALOG_PATH, cleanObject(catalog));
 
   // Generate species registry files.
   const speciesOutputDir = path.join(PACK_DOCS_DIR, 'species');
@@ -257,7 +263,7 @@ function main() {
 
   const speciesSummaries = [];
   for (const [speciesId, data] of speciesDetails.entries()) {
-    writeJson(path.join(speciesOutputDir, `${speciesId}.json`), data);
+    await writeJson(path.join(speciesOutputDir, `${speciesId}.json`), data);
     speciesSummaries.push(extractSpeciesSummary(data));
   }
 
@@ -270,10 +276,10 @@ function main() {
     species: speciesSummaries,
   };
 
-  writeJson(path.join(speciesOutputDir, 'index.json'), speciesIndex);
+  await writeJson(path.join(speciesOutputDir, 'index.json'), speciesIndex);
 
   // Fallback index for docs/public mirrors.
-  writeJson(path.join(PACK_DOCS_DIR, 'species-index.json'), speciesIndex);
+  await writeJson(path.join(PACK_DOCS_DIR, 'species-index.json'), speciesIndex);
 
   // ADR-2026-05-15 Phase 4d Scope A — emit canonical index from species_catalog.json
   // (53 species single SOT post Phase 1-4c.7). Parallel to species-index.json
@@ -349,7 +355,7 @@ function main() {
       })),
       catalog_synergies: canonical.catalog_synergies || [],
     };
-    writeJson(path.join(PACK_DOCS_DIR, 'species-canonical-index.json'), canonicalIndex);
+    await writeJson(path.join(PACK_DOCS_DIR, 'species-canonical-index.json'), canonicalIndex);
   } else {
     console.warn(
       '[evo-pack-catalog] species_catalog.json not found, skipping Phase 4d Scope A canonical mirror emit',
@@ -357,4 +363,7 @@ function main() {
   }
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
