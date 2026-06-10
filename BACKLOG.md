@@ -96,8 +96,8 @@ docs-governance: **365 stale_document warnings (0 errori, non-blocking / warning
   - TKT-STALE-B2-REORG-PATHS -- link path-stale post docs-reorg (fix 1-riga ciascuno): qa_reporting_schema (7 link), feedback_collection_pipeline (5), telemetry (1x3), bug-template, demo-release, clone-setup, project-setup-todo (8), trait_data_reference, incoming_triage, incoming_review_log.
   - TKT-STALE-B2-CI-DRIFT -- doc CI descrivono workflow cancellati/pre-split: ci.md (3/4 workflow morti), ci-pipeline.md (job monolitico inesistente), ci-gap-analysis.md, gh-cli-manual-dispatch.md (9/18 workflow morti), traits_checklist sez. 5-6, web_pipeline (deploy-test-interface rimosso #1400) -> riscrivi vs `.github/workflows/` attuali o archivia.
   - TKT-STALE-B2-DEAD-PROCESS -- processi morti, retire/rewrite owner-gated: token-rotation (`ops_api_token` zero usi nel codice; token reali TRAIT_EDITOR/TRAITS_API scoperti), tooling_maintenance_log (mai eseguito), trait_rollout_plan (gate QA mai esistiti in git), telemetry_ingestion_pipeline (infra mai costruita), incoming_agent_streams + incoming_review_log + incoming_triage (pipeline AG-\* archiviata 2026-04-14).
-  - TKT-STALE-B2-SUPERSEDE -- ratifica flip `doc_status: superseded` (owner-gated, come #2612): vc_playtest_plan (by `docs/process/CANONICAL-AI-PLAYTEST.md`) + incoming_triage_pipeline (by `docs/hubs/incoming.md`).
-  - TKT-STALE-B2-AIRTABLE -- incident_reporting_table: SoT incident = Airtable/Slack esterni, non verificabile da repo -> conferma master-dd se ancora attivo.
+  - ~~TKT-STALE-B2-SUPERSEDE~~ **DONE 2026-06-10** (verdetti master-dd): vc_playtest_plan + incoming_triage_pipeline flippati `superseded` (frontmatter+registry, pointer ai canonici).
+  - ~~TKT-STALE-B2-AIRTABLE~~ **DONE 2026-06-10** (verdetto master-dd): processo ATTIVO, SoT esterna Airtable/Slack -> doc `active` + nota external-SoT + review_cycle 180gg.
   - Nota: 22 dei 32 CURRENT bumpati = record storici accurati (15 log Frattura + sprint/ticket/handoff datati) = candidate `doc_status: archived` (esenta dal ciclo stale; flip owner-gated, non urgente).
 - **Priorita'**: P3, progressive (sessioni dedicate). Non-blocking (gate verde).
 

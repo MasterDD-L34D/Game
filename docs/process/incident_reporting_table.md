@@ -1,13 +1,17 @@
 ---
 title: Registro Segnalazioni Cross-Team — Implementazione Operativa
-doc_status: draft
+doc_status: active
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-05-06
+last_verified: 2026-06-10
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 180
 ---
+
+> **NOTA SoT ESTERNA** (verdetto master-dd 2026-06-10): il processo incident e'
+> ATTIVO ma la fonte di verita' vive su Airtable/Slack (non verificabile dal repo):
+> review manuale, ciclo lungo (180gg).
 
 # Registro Segnalazioni Cross-Team — Implementazione Operativa
 

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-10T20:02:53+00:00",
+  "generated_at": "2026-06-10T20:08:41+00:00",
   "summary": {
-    "total": 365,
+    "total": 362,
     "errors": 0,
-    "warnings": 365
+    "warnings": 362
   },
   "issues": [
     {
@@ -969,12 +969,6 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/process/incident_reporting_table.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/incoming_agent_streams.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
@@ -988,12 +982,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/process/incoming_triage.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/incoming_triage_pipeline.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -1048,12 +1036,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/process/traits_checklist.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/vc_playtest_plan.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {

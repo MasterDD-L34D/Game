@@ -1,13 +1,17 @@
 ---
 title: Pipeline operativo agentica per il triage della cartella `incoming/`
-doc_status: draft
+doc_status: superseded
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-05-06
+last_verified: 2026-06-10
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
+> **SUPERSEDED** (verdetto master-dd 2026-06-10, burn-down STALE-B2 #2726): la SoT
+> del workstream incoming e' [docs/hubs/incoming.md](../hubs/incoming.md) (2026-06-06).
+> Questa pipeline resta come storia.
 
 # Pipeline operativo agentica per il triage della cartella `incoming/`
 
