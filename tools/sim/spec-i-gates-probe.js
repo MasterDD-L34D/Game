@@ -1,8 +1,9 @@
 'use strict';
 // SPEC-I N=40 gates probe (ER1 role-gap / ER6 stresswave events).
 //
-// Both effects shipped flag-gated OFF (spec sez.8: ON solo post playtest N=40 GREEN,
-// verdetto master-dd):
+// Both effects shipped flag-gated OFF (spec sez.8) -- gate PASSED 2026-06-10:
+// the N=40 evidence below ratified the flip to default ON (opt-out 'false');
+// the probe pins the flag per-arm explicitly either way:
 //   ER1 -- `ERMES_ROLE_GAP_ENABLED` (#2704): party missing a BIOME_ROLE_DEMANDS role
 //          -> +1 (PROPOSED) on ONE enemy stat (max-headroom BIOME_ECO_FIELD, ER2 +/-2
 //          shared cap) at /api/session/start. The full-loop band roster uses job
@@ -132,11 +133,14 @@ const EFFECTS = {
     scenario: 'enc_hardcore_reinf_01',
     biomeId: 'badlands',
     seedPrefix: 'er1',
+    // Post-flip 2026-06-10 (default engine ON): every arm pins the flag
+    // EXPLICITLY -- off arms opt-out with 'false', on arms pin 'true'.
     arms: {
-      off_gap: { env: {}, jobs: ER1_GAP_JOBS },
-      off_gap2: { env: {}, jobs: ER1_GAP_JOBS }, // control replicate = noise floor
+      off_gap: { env: { ERMES_ROLE_GAP_ENABLED: 'false' }, jobs: ER1_GAP_JOBS },
+      // control replicate = noise floor
+      off_gap2: { env: { ERMES_ROLE_GAP_ENABLED: 'false' }, jobs: ER1_GAP_JOBS },
       on_gap: { env: { ERMES_ROLE_GAP_ENABLED: 'true' }, jobs: ER1_GAP_JOBS },
-      off_full: { env: {}, jobs: ER1_FULL_JOBS },
+      off_full: { env: { ERMES_ROLE_GAP_ENABLED: 'false' }, jobs: ER1_FULL_JOBS },
       on_full: { env: { ERMES_ROLE_GAP_ENABLED: 'true' }, jobs: ER1_FULL_JOBS },
     },
     deltas: [
@@ -169,9 +173,11 @@ const EFFECTS = {
     // armed+consumed but lands on a tick that cannot spawn: ER6's measurable
     // mechanical effect at sim fidelity is the rescue heal.
     pressureStart: 30,
+    // Post-flip 2026-06-10 (default engine ON): every arm pins the flag
+    // EXPLICITLY -- off arms opt-out with 'false', on arms pin 'true'.
     arms: {
-      off: { env: {} },
-      off2: { env: {} }, // control replicate = noise floor
+      off: { env: { STRESSWAVE_EVENTS_ENABLED: 'false' } },
+      off2: { env: { STRESSWAVE_EVENTS_ENABLED: 'false' } }, // noise floor
       on: { env: { STRESSWAVE_EVENTS_ENABLED: 'true' } },
     },
     deltas: [
@@ -459,9 +465,10 @@ async function main() {
     }
     return aggregateDir(args, effect);
   }
-  // Guard: the probe owns the flag for the whole batch -- a pre-set env would make
-  // the OFF arms silently ON (the worst kind of A/A).
-  if (process.env[effect.flag] === 'true') {
+  // Guard: the probe owns the flag for the whole batch. Every arm pins it
+  // explicitly ('true'/'false'), so a pre-set env would be silently masked --
+  // refuse instead of measuring an ambiguous environment.
+  if (process.env[effect.flag] !== undefined) {
     console.error(
       `${effect.flag} is already set in the environment -- unset it (the probe owns the toggle)`,
     );

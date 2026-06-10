@@ -123,6 +123,18 @@ Paired per-seed (stessi 40 seed):
    (anti-pattern N-sample). Accettare il claim al livello "centro stimato in
    banda + delta paired al floor"?
 
+## Verdetto (master-dd 2026-06-10, sessione interattiva)
+
+- [x] **Q1 flip: ON.** Safe-by-measurement: la spec vuole un nudge SOFT
+  anti-comp-degenerate, mai punitivo; effetto=floor coerente con l'intento.
+  Flip eseguito IN QUESTA PR: `ERMES_ROLE_GAP_ENABLED` default ON
+  (`!== 'false'`), opt-out esplicito.
+- [x] **Q2 step=1: RATIFIED-PROVISIONAL** -- re-validate su player data quando
+  il tier arriva (pattern #2693).
+- [x] **Q3 claim banda: ACCETTATO** al livello "centro stimato in banda +
+  delta paired al floor" (N~150 non aggiunge decisione; anti-pattern
+  N-sample).
+
 ## Caveat strutturali
 
 - Policy sim = attacchi base + zone pursuit: floor conservativo del +1
@@ -158,7 +170,7 @@ GIT_COMMIT=be4f3af9f node tools/sim/spec-i-gates-probe.js --effect er1 \
 ## Stato gate
 
 Harness party role-aware costruito (chiude il gap "job skirmisher -> ER1
-no-op in sim") + N=40 paired eseguito: il gate sez.8 di SPEC-I per ER1 ha la
-sua evidence. Il flip di `ERMES_ROLE_GAP_ENABLED` (e l'eventuale ri-taratura
-dello step) resta verdetto master-dd sulle domande sopra. NESSUN flag
-flippato da questa PR (L-069).
+no-op in sim") + N=40 paired eseguito + verdetto master-dd reso (sezione
+sopra): **gate sez.8 PASSED, flip a default ON eseguito in questa PR** (con i
+test legacy default-OFF migrati a opt-out esplicito). Il probe pinna il flag
+per-arm in modo esplicito, quindi resta riusabile identico post-flip.

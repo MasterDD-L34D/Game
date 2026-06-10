@@ -93,12 +93,15 @@ test('aggregateStresswave: rates over n, turn stats over firing runs only', () =
   assert.equal(agg.last_spawn_turn.mean, 7);
 });
 
-test('EFFECTS wiring: flags + control arms OFF + effect arms ON', () => {
+test('EFFECTS wiring: flags pinned EXPLICITLY per arm (post-flip: default engine ON)', () => {
   assert.equal(EFFECTS.er1.flag, 'ERMES_ROLE_GAP_ENABLED');
   assert.equal(EFFECTS.er6.flag, 'STRESSWAVE_EVENTS_ENABLED');
-  assert.equal(EFFECTS.er1.arms.off_gap.env.ERMES_ROLE_GAP_ENABLED, undefined);
+  // Off arms MUST opt-out explicitly ('false'): with the engine default ON an
+  // unset env would silently turn the control arms into effect arms.
+  assert.equal(EFFECTS.er1.arms.off_gap.env.ERMES_ROLE_GAP_ENABLED, 'false');
+  assert.equal(EFFECTS.er1.arms.off_full.env.ERMES_ROLE_GAP_ENABLED, 'false');
   assert.equal(EFFECTS.er1.arms.on_gap.env.ERMES_ROLE_GAP_ENABLED, 'true');
-  assert.equal(EFFECTS.er6.arms.off.env.STRESSWAVE_EVENTS_ENABLED, undefined);
+  assert.equal(EFFECTS.er6.arms.off.env.STRESSWAVE_EVENTS_ENABLED, 'false');
   assert.equal(EFFECTS.er6.arms.on.env.STRESSWAVE_EVENTS_ENABLED, 'true');
   // ER6 collects exactly the two raw event streams the evidence needs.
   assert.deepEqual(EFFECTS.er6.collectEvents, ['stresswave_event', 'reinforcement_spawn']);

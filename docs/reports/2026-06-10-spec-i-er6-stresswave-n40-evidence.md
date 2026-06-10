@@ -116,6 +116,24 @@ Paired per-seed (stessi 40 seed):
    timeout-artifact. Accettare il ceiling-caveat o indicare un altro scenario
    di misura?
 
+## Verdetto (master-dd 2026-06-10, sessione interattiva)
+
+- [x] **Q1 flip: ON.** Il valore misurato di ER6 = layer eventi/telegraph
+  diegetico senza swing meccanico, coerente con la lettera "event-trigger
+  bounded, anti death-spiral"; l'overrun diventera' attivo col fix #2724.
+  Flip eseguito IN QUESTA PR: `STRESSWAVE_EVENTS_ENABLED` default ON
+  (`!== 'false'`), opt-out esplicito.
+- [x] **Q2 magnitudini: SPLIT.** `RESCUE_HEAL_HP=2` RATIFIED-PROVISIONAL
+  (re-validate player data); `OVERRUN_BUDGET_BONUS=1` resta PROPOSED fino a
+  fix #2724 + re-run N=40 (probe pronto: `--modulation duo_hardcore` per il
+  board 10x10 con gli entry tiles authored).
+- [x] **Q3 punto di misura: ceiling-caveat ACCETTATO** (il segno non cambia
+  lungo la ladder cA6/cA7/cA8 e il paired delta resta al floor).
+
+Nota post-flip: i prossimi batch full-loop band vedranno ER6 attivo sui biomi
+con dati stresswave (effetto atteso ~floor, ma la provenance dei batch va
+letta con il flag default ON in mente).
+
 ## Caveat strutturali
 
 - Policy sim condivisa = attacchi base + zone pursuit: i delta sono il floor
@@ -147,7 +165,7 @@ GIT_COMMIT=be4f3af9f node tools/sim/spec-i-gates-probe.js --effect er6 \
 
 ## Stato gate
 
-Harness costruito + N=40 paired eseguito: il gate sez.8 di SPEC-I per ER6 ha
-la sua evidence. Il flip di `STRESSWAVE_EVENTS_ENABLED` (e l'eventuale
-ri-taratura di RESCUE_HEAL_HP / il re-run overrun post-#2724) resta verdetto
-master-dd sulle domande sopra. NESSUN flag flippato da questa PR (L-069).
+Harness costruito + N=40 paired eseguito + verdetto master-dd reso (sezione
+sopra): **gate sez.8 PASSED, flip a default ON eseguito in questa PR** (test
+legacy default-OFF migrati a opt-out esplicito). Residuo aperto: re-run N=40
+overrun post-fix #2724 prima di ratificare `OVERRUN_BUDGET_BONUS`.

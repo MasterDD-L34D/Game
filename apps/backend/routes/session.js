@@ -1830,12 +1830,15 @@ function createSessionRouter(options = {}) {
           // SPEC-P PA3 read-side: surface the wounded-biome state (anti-brick telegraph).
           biomeWounded = woundedStep > 0;
           // SPEC-I ER1 (ratificato 2026-06-08) -- party role gap -> +1 soft sui
-          // NEMICI (max-headroom stat, dentro il cap ER2 condiviso). Flag-gated
-          // default OFF: spec sez.8, l'effetto passa ON solo post playtest N=40
-          // GREEN (verdetto master-dd). Party legacy senza ruoli canonici ERMES
-          // (job non in BIOME_ROLE_DEMANDS) -> no-op conservativo. Step PROPOSED=1.
+          // NEMICI (max-headroom stat, dentro il cap ER2 condiviso). Gate N=40
+          // sez.8 PASSED: flip default ON ratificato master-dd 2026-06-10
+          // (evidence docs/reports/2026-06-10-spec-i-er1-role-gap-n40-evidence.md:
+          // effetto paired = noise floor, WR in banda, no-op party completo).
+          // Opt-out esplicito ERMES_ROLE_GAP_ENABLED='false'. Party legacy senza
+          // ruoli canonici ERMES (job non in BIOME_ROLE_DEMANDS) -> no-op
+          // conservativo. Step=1 RATIFIED-PROVISIONAL (re-validate player data).
           let roleGapStep = 0;
-          if (process.env.ERMES_ROLE_GAP_ENABLED === 'true') {
+          if (process.env.ERMES_ROLE_GAP_ENABLED !== 'false') {
             try {
               const {
                 computeRoleGap,
