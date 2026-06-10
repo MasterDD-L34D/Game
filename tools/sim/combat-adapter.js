@@ -138,16 +138,19 @@ async function runEncounter(
   let personalityUnits = [];
   try {
     const vc = await http.get(`/api/session/${sessionId}/vc`);
-    const perActor =
-      vc && vc.status === 200 && vc.body && vc.body.debrief_payload
-        ? vc.body.debrief_payload.per_actor || {}
-        : {};
+    const ok = vc && vc.status === 200 && vc.body;
+    const perActor = ok && vc.body.debrief_payload ? vc.body.debrief_payload.per_actor || {} : {};
+    // fp-delta probe input (MA3 N=40): mbti_axes live on the RAW snapshot
+    // per_actor (GET /:id/vc returns full buildVcSnapshot); the pinned
+    // debrief_payload schema (#276) deliberately omits them.
+    const rawActor = ok ? vc.body.per_actor || {} : {};
     personalityUnits = Object.entries(perActor)
       .filter(([, entry]) => entry && typeof entry === 'object' && entry.personality_axes)
       .map(([unitId, entry]) => ({
         unit_id: unitId,
         faction: rosterIds.includes(unitId) ? 'player' : 'sistema',
         axes: entry.personality_axes,
+        mbti_axes: (rawActor[unitId] && rawActor[unitId].mbti_axes) || null,
       }));
   } catch {
     personalityUnits = [];
