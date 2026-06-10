@@ -8868,10 +8868,10 @@
     {
       "path": "docs/design/evo-tactics-ermes-runtime-pressure.md",
       "title": "Evo-Tactics ERMES Runtime Pressure Contract (SPEC-I)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
-      "last_verified": "2026-06-08",
+      "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30,
