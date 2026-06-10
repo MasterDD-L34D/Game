@@ -5,7 +5,7 @@ type: session-handoff
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-09'
+last_verified: '2026-06-10'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -13,6 +13,14 @@ tags: [evo-tactics, reconstruction, item1, doc-status, governance, spec-readines
 ---
 
 # Item 1 spec-readiness map (2026-06-09)
+
+> **CHECKPOINT 2026-06-10 (sera): questa mappa e' BASELINE STORICA** -- scritta il
+> 2026-06-09, superata dagli eventi della mega-sessione 2026-06-10 (L-075: la tabella
+> sotto dice ancora "NO flip" per spec ormai active). Stato flip REALE = registry
+> (`doc_status`): **6/17 active** (I/K/L/M/N/O). I gate citati sotto per I/M/O sono
+> PASSATI (N=40 #2725 + #2701 + #2669/#2670); restano 11 review_needed
+> (A/B/C/D/E/F/G/H/J/P/Q) -- per il prossimo flip usare verify-first sul gate +
+> registry-sync atomico (pattern #2689), NON questa tabella.
 
 Item 1 = portare le 17 `docs/design/evo-tactics-*.md` da `doc_status: review_needed`
 allo stato "done". Questa mappa dice QUALI sono davvero flippabili e CHE gate le blocca.

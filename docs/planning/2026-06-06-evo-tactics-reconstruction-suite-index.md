@@ -5,7 +5,7 @@ type: suite-index
 doc_status: review_needed
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-08'
+last_verified: '2026-06-10'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -13,6 +13,12 @@ tags: [evo-tactics, reconstruction, roadmap, godot, device-driven, tv-mirror]
 ---
 
 # Evo-Tactics reconstruction suite index
+
+> **STATUS CHECKPOINT 2026-06-10**: ricostruzione COMPLETATA sul piano design (17/17
+> spec scritte, fork tutti ratificati) e in gran parte sul runtime (engine principali
+> BUILT, ER1/ER6/wound-V2 default ON, OD-058 chiuso). Lo stato vivo NON e' in questa
+> suite: registry per le spec, SPEC-L inventory per il runtime, CLAUDE.md sprint
+> context + handoff `2026-06-10-mega-session-closure-handoff.md` per i residui.
 
 Questo documento e' l'ingresso unico alla ricostruzione Evo-Tactics prodotta
 tra il 2026-06-05 e il 2026-06-06.
