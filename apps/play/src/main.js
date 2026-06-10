@@ -1555,11 +1555,7 @@ async function startNewSession() {
           `🗺 Campagna ${summary?.id || lobbyBridge.session.campaign_id} avviata (live-mirror ON)`,
         );
       } else {
-        appendLog(
-          logEl,
-          `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`,
-          'error',
-        );
+        appendLog(logEl, `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`, 'error');
       }
     } catch (err) {
       appendLog(logEl, `✖ campagna bootstrap: ${err?.message || err}`, 'error');
