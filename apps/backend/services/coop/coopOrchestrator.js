@@ -1192,6 +1192,13 @@ class CoopOrchestrator {
     throw new Error(`force_advance_not_allowed_from:${this.phase}`);
   }
 
+  /**
+   * Advance to the next scenario or end the run.
+   * @returns { action: 'ended' } | { action: 'next_scenario', index } — plus
+   *   an ADDITIVE `creature_named: [{ actor_id, player_id, name, stage,
+   *   mbti_reveal }]` key when M-2 name emergence fires on this advance
+   *   (juvenile naming / apex reveal). Consumers must not strict-match shape.
+   */
   advanceScenarioOrEnd() {
     if (!this.run) throw new Error('no_run');
     this.run.currentIndex += 1;
