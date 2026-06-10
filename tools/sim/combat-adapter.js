@@ -11,7 +11,24 @@ const { selectPlayerAction } = require('./combat-policy');
 
 async function runEncounter(
   http,
-  { roster, enemies, scenarioId, seed, maxRounds = 40, campaignId, biomeId, endSession } = {},
+  {
+    roster,
+    enemies,
+    scenarioId,
+    seed,
+    maxRounds = 40,
+    campaignId,
+    biomeId,
+    endSession,
+    // OD-058 D1 N=40 (issue #2531): opt-in overcharge exercise. 'greedy' = the active
+    // player unit spends a full SG gauge (sg >= 3, once per turn) via POST /overcharge
+    // before its action, so the probe actually exercises the verb (anti-pattern #14).
+    // Absent -> byte-identical adapter behavior.
+    overcharge = null,
+    // OD-058 D1: optional SG seed map { unit_id: pool } threaded into /start
+    // (session.js initial_sg, clamp 0..3) for the worst-case first-turn arm.
+    initialSg = null,
+  } = {},
 ) {
   const rosterIds = (roster || []).map((u) => u.id);
   const startBody = {
@@ -32,6 +49,7 @@ async function runEncounter(
     // the eco profile the wound amplifies. Absent -> byte-identical start body.
     ...(campaignId ? { campaign_id: campaignId } : {}),
     ...(biomeId ? { biome_id: biomeId } : {}),
+    ...(initialSg && typeof initialSg === 'object' ? { initial_sg: initialSg } : {}),
   };
   const start = await http.post('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
@@ -42,6 +60,9 @@ async function runEncounter(
   let rounds = 0;
   let outcome = 'timeout';
   let lastUnits = [];
+  // OD-058 D1 action-economy counters (always returned, 0 when the opt is off).
+  let overchargeUses = 0;
+  let playerAttacks = 0;
   // A13 PA3 telegraph: /session/state exposes biome_wounded (session-static, set at
   // /start from the campaign's woundedBiomes). Captured for the wound-exposure metric.
   let biomeWounded = false;
@@ -102,6 +123,20 @@ async function runEncounter(
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
     }
+    // OD-058 D1: greedy overcharge -- spend the full gauge before acting whenever
+    // available (sg >= 3 = POOL_MAX, not already overcharged this turn). 409s are
+    // not counted (the guard makes them unreachable; belt-and-braces only).
+    if (
+      overcharge === 'greedy' &&
+      Number(active.sg || 0) >= 3 &&
+      !(active.status && Number(active.status.overcharged) > 0)
+    ) {
+      const oc = await http.post('/api/session/overcharge', {
+        session_id: sessionId,
+        actor_id: active.id,
+      });
+      if (oc && oc.status >= 200 && oc.status < 300) overchargeUses += 1;
+    }
     const action = selectPlayerAction(active, units, objective);
     if (!action) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
@@ -124,6 +159,8 @@ async function runEncounter(
     // forever (a move that can't complete would otherwise stick until maxRounds).
     if (!act || act.status < 200 || act.status >= 300) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
+    } else if (wire.action_type === 'attack') {
+      playerAttacks += 1;
     }
   }
 
@@ -173,7 +210,17 @@ async function runEncounter(
     }
   }
 
-  return { outcome, rounds, rosterIds, survivorIds, personalityUnits, biomeWounded, ended };
+  return {
+    outcome,
+    rounds,
+    rosterIds,
+    survivorIds,
+    personalityUnits,
+    biomeWounded,
+    ended,
+    overchargeUses,
+    playerAttacks,
+  };
 }
 
 module.exports = { runEncounter };
