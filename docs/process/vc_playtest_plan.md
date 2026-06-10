@@ -1,13 +1,17 @@
 ---
 title: Playtest VC Mirati alla Telemetria
-doc_status: draft
+doc_status: superseded
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-05-06
+last_verified: 2026-06-10
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
+> **SUPERSEDED** (verdetto master-dd 2026-06-10, burn-down STALE-B2 #2726): il
+> paradigma playtest e' AI-driven dal 2026-05-29 -- canonico =
+> [CANONICAL-AI-PLAYTEST](CANONICAL-AI-PLAYTEST.md). Questo piano resta come storia.
 
 # Playtest VC Mirati alla Telemetria
 
