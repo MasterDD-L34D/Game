@@ -139,6 +139,9 @@
     "label": "Wounded biome",
     "tooltip": "it bears the scars of a failed expedition; the ecosystem reacts more harshly"
   },
+  "overcharge_hint": {
+    "label": "The System reacts to your stolen tempo"
+  },
   "ennea_archetype": {
     "1": "Reformer",
     "2": "Coordinator",

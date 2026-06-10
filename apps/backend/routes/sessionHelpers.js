@@ -512,6 +512,11 @@ function publicSessionView(session) {
     // telegraph diegetico public-tier (mai il valore wave, ER3). Flag-gated:
     // resta null finche' STRESSWAVE_EVENTS_ENABLED non e' ON.
     stresswave_event: session.stresswave_event_latest || null,
+    // Gate-5 #2716 -- first-overcharge-of-the-run flag (set once by POST
+    // /overcharge, persists for the whole run). The web surface watches the
+    // false->true transition to fire the one-shot diegetic hint ("il Sistema
+    // reagisce al tuo tempo rubato") -- public tier, no raw numbers (ER3).
+    overcharge_used_this_run: !!session.overcharge_used,
     // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
     campaign_id: session.campaign_id || null,
     sistema_state: session.sistema_state || { units_observed: {} },
