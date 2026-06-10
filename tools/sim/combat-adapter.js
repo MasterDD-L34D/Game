@@ -28,6 +28,27 @@ async function runEncounter(
     // OD-058 D1: optional SG seed map { unit_id: pool } threaded into /start
     // (session.js initial_sg, clamp 0..3) for the worst-case first-turn arm.
     initialSg = null,
+    // SPEC-I N=40 gates: opt-in raw-event collector (action_type allowlist). The
+    // state response only carries a tail-30 events window, so the adapter
+    // accumulates it at every poll (+ one final sweep) and dedupes across
+    // overlapping windows. Absent -> byte-identical adapter behavior.
+    collectEvents = null,
+    // SPEC-I ER1 proof: opt-in snapshot of the FIRST state poll's units (pre-any-
+    // action = /start output only, before AI abilities pollute shared bonus
+    // fields). Absent -> byte-identical adapter behavior.
+    captureFirstState = false,
+    // SPEC-I ER6: opt-in pressure floor. The reinforcement spawner gates its tier
+    // on session.pressure (set ONLY by /start pressure_start, never updated
+    // in-fight), so without it the pool never spawns and the overrun budget bonus
+    // is structurally a no-op. Threads BOTH start knobs (pressure_start for the
+    // spawner tier + sistema_pressure_start for the AI dial) so the scenario is
+    // coherent. Absent -> byte-identical start body.
+    pressureStart = null,
+    // SPEC-I ER6: opt-in party modulation preset (data/core/party.yaml). The grid
+    // auto-scales from the DEPLOYED count (1-4 -> 6x6), which strands authored
+    // 10x10 reinforcement entry tiles off-grid; a preset (e.g. 'duo_hardcore',
+    // deployed 8 -> 10x10) restores the authored board. Absent -> byte-identical.
+    modulation = null,
   } = {},
 ) {
   const rosterIds = (roster || []).map((u) => u.id);
@@ -50,6 +71,10 @@ async function runEncounter(
     ...(campaignId ? { campaign_id: campaignId } : {}),
     ...(biomeId ? { biome_id: biomeId } : {}),
     ...(initialSg && typeof initialSg === 'object' ? { initial_sg: initialSg } : {}),
+    ...(Number.isFinite(Number(pressureStart)) && pressureStart !== null
+      ? { pressure_start: Number(pressureStart), sistema_pressure_start: Number(pressureStart) }
+      : {}),
+    ...(modulation ? { modulation } : {}),
   };
   const start = await http.post('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
@@ -66,6 +91,24 @@ async function runEncounter(
   // A13 PA3 telegraph: /session/state exposes biome_wounded (session-static, set at
   // /start from the campaign's woundedBiomes). Captured for the wound-exposure metric.
   let biomeWounded = false;
+  // SPEC-I event collector state (only when opted): dedupe key spans the raw-event
+  // identity fields (reinforcement_spawn carries a unique spawned actor_id; the
+  // stresswave one-shots are unique per result+turn).
+  const collectSet =
+    Array.isArray(collectEvents) && collectEvents.length ? new Set(collectEvents) : null;
+  const collectedEvents = [];
+  const seenEventKeys = new Set();
+  let firstStateUnits = null;
+  const sweepEvents = (body) => {
+    if (!collectSet || !body || !Array.isArray(body.events)) return;
+    for (const ev of body.events) {
+      if (!ev || !collectSet.has(ev.action_type)) continue;
+      const key = `${ev.action_type}|${ev.turn}|${ev.actor_id ?? ''}|${ev.result ?? ''}`;
+      if (seenEventKeys.has(key)) continue;
+      seenEventKeys.add(key);
+      collectedEvents.push(ev);
+    }
+  };
   // OA2 (SPEC-O): fetch the objective ONCE -- config drives the policy. Only a
   // NON-elimination objective polls the live evaluation in-loop; elimination keeps the
   // alive-count outcome, so the common full-loop path adds ZERO per-round /objective
@@ -87,6 +130,8 @@ async function runEncounter(
     const units = (st.body && st.body.units) || [];
     lastUnits = units;
     if (st.body && st.body.biome_wounded) biomeWounded = true;
+    sweepEvents(st.body);
+    if (captureFirstState && firstStateUnits === null) firstStateUnits = units;
     // Non-elimination objective: poll the live evaluation for the outcome.
     if (pollObjective) {
       try {
@@ -168,6 +213,17 @@ async function runEncounter(
     .filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0)
     .map((u) => u.id);
 
+  // SPEC-I event collector: one post-loop sweep so events emitted by the final
+  // commit (after the last in-loop poll) still land in the tail window.
+  if (collectSet) {
+    try {
+      const fin = await http.get('/api/session/state', { session_id: sessionId });
+      sweepEvents(fin && fin.body);
+    } catch {
+      /* best-effort -- the in-loop sweeps already carry the early one-shots */
+    }
+  }
+
   // Opt 3 N=40 evidence (#2679): read the NON-destructive GET /:id/vc and lift
   // debrief_payload.per_actor[uid].personality_axes per unit (faction-tagged via
   // rosterIds). Best-effort -- a failed /vc returns [] and never blocks the
@@ -213,6 +269,7 @@ async function runEncounter(
   return {
     outcome,
     rounds,
+    sessionId,
     rosterIds,
     survivorIds,
     personalityUnits,
@@ -220,6 +277,8 @@ async function runEncounter(
     ended,
     overchargeUses,
     playerAttacks,
+    collectedEvents,
+    firstStateUnits,
   };
 }
 
