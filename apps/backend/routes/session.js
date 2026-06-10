@@ -1072,8 +1072,8 @@ function createSessionRouter(options = {}) {
             // from the orchestrator's tracked list, wiping a panic set mid-resolve.
             // Stash it on the session so the sync re-applies it afterward — one place
             // that covers every attack resolver (player + AI + legacy direction).
-            if (!Array.isArray(session._pendingMoraleStatus)) session._pendingMoraleStatus = [];
-            session._pendingMoraleStatus.push({
+            if (!Array.isArray(session._pendingStatusApplies)) session._pendingStatusApplies = [];
+            session._pendingStatusApplies.push({
               unit_id: target.id,
               status: critMoraleResult.status,
               duration: critMoraleResult.duration,
@@ -1096,6 +1096,25 @@ function createSessionRouter(options = {}) {
       try {
         const { applyOnHitStatuses } = require('../services/combat/onHitStatus');
         onHitStatusResult = applyOnHitStatuses(actor, target, { rng });
+        // TKT-D4-ENRICH (#2533): the direct target.status write above is wiped
+        // by syncStatusesFromRoundState in the round model (the orchestrator
+        // never tracked it) — same failure morale had. Stash on the pending
+        // drain channel so the post-sync re-apply persists it; the next
+        // adaptSessionToRoundState then promotes it to a tracked orchestrator
+        // status (decay included). Duration honors STATUS_DURATION_CAPS.
+        if (onHitStatusResult && Array.isArray(onHitStatusResult.applied)) {
+          for (const a of onHitStatusResult.applied) {
+            const cap = STATUS_DURATION_CAPS[a.status_id];
+            if (!Array.isArray(session._pendingStatusApplies)) {
+              session._pendingStatusApplies = [];
+            }
+            session._pendingStatusApplies.push({
+              unit_id: target.id,
+              status: a.status_id,
+              duration: cap !== undefined ? Math.min(cap, a.duration) : a.duration,
+            });
+          }
+        }
       } catch {
         /* on_hit_status optional; never block the hit */
       }
@@ -1276,6 +1295,19 @@ function createSessionRouter(options = {}) {
         const cap = STATUS_DURATION_CAPS[s.stato];
         const merged = Math.max(current, s.turns);
         unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
+        // TKT-D4-ENRICH (#2533): persist through the round-model status sync
+        // (same drain channel as morale/on_hit_status — see comment at the
+        // on_hit_status block above). Without this, SPRINT_018 apply_status
+        // trait effects last only until syncStatusesFromRoundState rebuilds
+        // the dict (i.e. they never survive the round in the round model).
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: unit.id,
+          status: s.stato,
+          duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+        });
       }
     }
 

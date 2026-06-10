@@ -101,6 +101,17 @@ Paired per-seed (stessi 40 seed):
    abilita' cost_ap 3 (burst piu' efficiente, forse MENO kill-events/pressure).
    Re-validate su player data quando il tier arriva (pattern #2693).
 
+## Verdetto (master-dd 2026-06-10, sessione interattiva)
+
+- [x] **Q1 coupling pressure: INTENZIONALE, ratify-as-built.** Overcharge =
+  scelta tattica con costo strategico ("borrow tempo dal Sistema: il prestito
+  ha interesse"), anti-spam emergente senza knob. L'accredito P6 puo' citare
+  questa evidence.
+- [x] **Q2 telegraph: SI, hint leggero** -- ticket separato #2716 (Gate-5
+  surface, non gating).
+- [x] **Q3 fidelity**: re-validate su player data quando il tier arriva
+  (pattern #2693, policy standard).
+
 ## Caveat strutturali
 
 - La policy sim condivisa fa SOLO attacchi base (1 AP) e mai abilita' cost_ap

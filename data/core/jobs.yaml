@@ -2042,6 +2042,21 @@ trait_abilities:
     buff_stat: defense_mod
     buff_amount: 2
     buff_duration: 3
+  magnetic_overload:
+    ability_id: magnetic_overload
+    name_it: Sovraccarico Magnetico
+    cost_ap: 2
+    cost_pi: 0
+    effect_type: damage
+    target: enemy
+    rank: 1
+    source: trait
+    source_trait_id: elettromagnete_biologico
+    damage_dice:
+      count: 1
+      sides: 8
+      modifier: 1
+    channel: elettrico
   magnetic_sense:
     ability_id: magnetic_sense
     name_it: Senso Magnetico
@@ -2457,6 +2472,18 @@ trait_abilities:
       sides: 8
       modifier: 1
     channel: ionico
+  voltaic_web:
+    ability_id: voltaic_web
+    name_it: Rete Voltaica
+    cost_ap: 2
+    cost_pi: 0
+    effect_type: apply_status
+    target: enemy
+    rank: 1
+    source: trait
+    source_trait_id: seta_conduttiva_elettrica
+    status_id: disorient
+    status_duration: 1
   vortex_spin:
     ability_id: vortex_spin
     name_it: Vortice Cinetico
