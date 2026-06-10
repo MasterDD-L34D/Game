@@ -67,6 +67,18 @@ test('emergeIdentity: same creature id -> same name (stable identity)', () => {
   assert.equal(a.name, b.name); // name stays stable across stage advances
 });
 
+test('emergeIdentity: named stage with empty pool -> anonymous (no {anonymous:false, name:null})', () => {
+  const id = emergeIdentity({ id: 'u1' }, { stage: 'apex', pool: [] });
+  assert.equal(id.stage, 'apex');
+  assert.equal(id.anonymous, true);
+  assert.equal(id.name, null);
+  assert.equal(id.mbti_reveal, false);
+  // legacy stage: same fallback, no legacy flag on anonymous identity
+  const leg = emergeIdentity({ id: 'u1' }, { stage: 'legacy', pool: [] });
+  assert.equal(leg.anonymous, true);
+  assert.equal('legacy' in leg, false);
+});
+
 test('emergeIdentity: unknown/missing stage -> anonymous', () => {
   assert.equal(emergeIdentity({ id: 'u1' }, { stage: 'whoknows', pool: POOL }).anonymous, true);
   assert.equal(emergeIdentity({ id: 'u1' }, { pool: POOL }).anonymous, true);
