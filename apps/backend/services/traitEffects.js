@@ -803,6 +803,29 @@ function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
     for (const f of BIOME_ECO_FIELDS) unit[f] = Number(unit[f] || 0) - woundedStep;
   }
 
+  // SPEC-I ER1 (ratificato 2026-06-08): party role gap -> +1 soft su UNA stat
+  // dell'unit (caller la passa SOLO per i nemici: "alza la pressione"). Targeting
+  // = mitigazione spec sez.11/ER1: la stat col MAX headroom verso +cap (mai una
+  // gia' spinta dall'eco); budget ER2 +/-2 condiviso (il clamp sotto vale anche
+  // qui). Se tutto saturo -> assorbito (applied null, ER2 opzione A by design).
+  // step PROPOSED = 1 (caller); ratify N=40 (gate sez.8).
+  const roleGapStep = Number(opts.roleGapStep) || 0;
+  let roleGapLog;
+  if (roleGapStep > 0) {
+    let target = null;
+    let bestHeadroom = 0;
+    for (const f of BIOME_ECO_FIELDS) {
+      const delta = Number(unit[f] || 0) - base[f];
+      const headroom = BIOME_ECO_COMBINED_CAP - delta;
+      if (headroom > bestHeadroom) {
+        bestHeadroom = headroom;
+        target = f;
+      }
+    }
+    if (target) unit[target] = Number(unit[target] || 0) + roleGapStep;
+    roleGapLog = { applied: target, step: roleGapStep };
+  }
+
   const combined_delta = {};
   let capped = false;
   for (const f of BIOME_ECO_FIELDS) {
@@ -816,7 +839,7 @@ function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
   const ecoItem = Array.isArray(ermes)
     ? ermes.find((a) => a && a.bucket === 'eco_pressure_score')
     : null;
-  return {
+  const out = {
     adr21c,
     ermes,
     combined_delta,
@@ -824,6 +847,8 @@ function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
     biome_id: biomeId,
     band: ecoItem ? ecoItem.band : null,
   };
+  if (roleGapLog) out.role_gap = roleGapLog; // ER1 telegraph (additive, public tier)
+  return out;
 }
 
 /**

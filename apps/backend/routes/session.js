@@ -1778,12 +1778,42 @@ function createSessionRouter(options = {}) {
           }
           // SPEC-P PA3 read-side: surface the wounded-biome state (anti-brick telegraph).
           biomeWounded = woundedStep > 0;
+          // SPEC-I ER1 (ratificato 2026-06-08) -- party role gap -> +1 soft sui
+          // NEMICI (max-headroom stat, dentro il cap ER2 condiviso). Flag-gated
+          // default OFF: spec sez.8, l'effetto passa ON solo post playtest N=40
+          // GREEN (verdetto master-dd). Party legacy senza ruoli canonici ERMES
+          // (job non in BIOME_ROLE_DEMANDS) -> no-op conservativo. Step PROPOSED=1.
+          let roleGapStep = 0;
+          if (process.env.ERMES_ROLE_GAP_ENABLED === 'true') {
+            try {
+              const {
+                computeRoleGap,
+                BIOME_ROLE_DEMANDS,
+              } = require('../services/coop/ermesExporter');
+              const ermesRoles = new Set(
+                Object.values(BIOME_ROLE_DEMANDS).flatMap((d) => Object.keys(d)),
+              );
+              const partyJobs = units
+                .filter(
+                  (u) => u && u.controlled_by === 'player' && ermesRoles.has(String(u.job || '')),
+                )
+                .map((u) => String(u.job));
+              if (partyJobs.length) {
+                const gap = computeRoleGap(partyJobs, biomeIdRaw);
+                if (Object.values(gap).some((v) => Number(v) < 0)) roleGapStep = 1;
+              }
+            } catch {
+              /* best-effort -- biome eco still applies without the role-gap nudge */
+            }
+          }
           units = units.map((u) => {
             if (!u) return u;
             const clone = { ...u };
             const log = applyBiomeEcoEffects(clone, biomeIdRaw, {
               biomeCostsRegistry,
               woundedStep,
+              // ER1: "alza la pressione" = only enemy units get the nudge.
+              roleGapStep: clone.controlled_by === 'player' ? 0 : roleGapStep,
             });
             // FASE 3 P4: capture biome-level eco band (uniform across units, set
             // even for med where no delta is applied) for the diegetic chip.

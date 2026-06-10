@@ -60,6 +60,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - `apps/backend/services/combat/timeOfDayModifier.js` — Wesnoth time-of-day modifier (lawful/chaotic/neutral × dawn/day/dusk/night) wired in `session.js#performAttack` (Sprint 1 PR #1934, Tier S #5)
 - `apps/backend/services/combat/defenderAdvantageModifier.js` — AI War defender's advantage asymmetric (player→sistema gated, +1 def CD su SIS-defender) (Sprint 1 PR #1934, Tier S #10)
 - `apps/backend/services/species/biomeAffinity.js` — Subnautica habitat lifecycle modifier per phase (preferred biome → +1 atk/+1 def, non-affine → -1 def, apex_free) wired in `session.js#performAttack` (Sprint 2 PR #1935, Tier A #9)
+- `apps/backend/services/traitEffects.js#applyBiomeEcoEffects` — orchestratore eco unificato ADR-21c + ERMES + A13 woundedStep + **ER1 role gap** (SPEC-I, ratificato 2026-06-08): party senza un ruolo demanded dal bioma → +1 soft su UNA stat dei nemici, targeting max-headroom (mai una stat gia' spinta dall'eco), dentro il budget ER2 +/-2 condiviso. Flag-gated `ERMES_ROLE_GAP_ENABLED` default OFF (spec sez.8: ON solo post playtest N=40 GREEN, verdetto master-dd). Caller `session.js` start: ruoli canonici da `BIOME_ROLE_DEMANDS`, party legacy senza ruoli → no-op conservativo. Telegraph: `role_gap` in `biomeCostsLog` (public tier sez.9).
 
 ### Tool di generazione
 
