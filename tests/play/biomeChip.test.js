@@ -390,3 +390,65 @@ describe('woundedLabel + wounded telegraph (SPEC-P PA3)', () => {
     assert.ok(!c._attrs.title.includes('ferito'));
   });
 });
+
+// SPEC-I ER6 -- StressWave event telegraph (4o descrittore, diegetico).
+// L'evento one-shot (rescue/overrun) viene annunciato al crossing della
+// soglia; mai il valore wave (ER3: banda + hint, niente numeri).
+describe('stresswaveEventLabel + telegraph (SPEC-I ER6)', () => {
+  function fakeContainer() {
+    const classList = new Set();
+    const attrs = {};
+    return {
+      innerHTML: '',
+      classList: {
+        add: (...c) => c.forEach((x) => classList.add(x)),
+        remove: (...c) => c.forEach((x) => classList.delete(x)),
+        contains: (x) => classList.has(x),
+      },
+      setAttribute: (k, v) => {
+        attrs[k] = v;
+      },
+      removeAttribute: (k) => {
+        delete attrs[k];
+      },
+      _attrs: attrs,
+    };
+  }
+
+  test('rescue/overrun → diegetic IT labels (never a raw number)', async () => {
+    const { stresswaveEventLabel } = await loadModule();
+    assert.equal(stresswaveEventLabel('rescue'), 'Soccorso in arrivo');
+    assert.equal(stresswaveEventLabel('overrun'), 'Ondata in arrivo');
+    assert.ok(!/\d/.test(stresswaveEventLabel('rescue')));
+  });
+
+  test('falsy / unknown event → empty string', async () => {
+    const { stresswaveEventLabel } = await loadModule();
+    assert.equal(stresswaveEventLabel(null), '');
+    assert.equal(stresswaveEventLabel(undefined), '');
+    assert.equal(stresswaveEventLabel(''), '');
+    assert.equal(stresswaveEventLabel('sync_window'), '');
+  });
+
+  test('formatBiomeChip — stresswave event renders 4th descriptor', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('abisso_vulcanico', null, 'high', false, { event: 'overrun' });
+    assert.ok(html.includes('biome-stresswave'));
+    assert.ok(html.includes('Ondata in arrivo'));
+    assert.ok(html.includes('data-stresswave="overrun"'));
+  });
+
+  test('formatBiomeChip — no stresswave span without event (backward compat)', async () => {
+    const { formatBiomeChip } = await loadModule();
+    const html = formatBiomeChip('savana', null, null, false);
+    assert.ok(!html.includes('biome-stresswave'));
+  });
+
+  test('renderBiomeChip — stresswave event in body (coexists with wounded)', async () => {
+    const { renderBiomeChip } = await loadModule();
+    const c = fakeContainer();
+    renderBiomeChip(c, 'savana', null, null, true, { event: 'rescue' });
+    assert.ok(c.innerHTML.includes('Bioma ferito'));
+    assert.ok(c.innerHTML.includes('Soccorso in arrivo'));
+  });
+});
