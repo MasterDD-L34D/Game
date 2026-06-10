@@ -113,13 +113,15 @@ le ability -- vedi F3.
 
 ## Ratifica (master-dd)
 
-- [ ] Q1 -- trait A `elettromagnete_biologico` (extra +1 MoS5, ability 1d8+1
-      elettrico, resist +10): valori ok?
-- [ ] Q2 -- trait C `seta_conduttiva_elettrica` (disorient dc13 durata 1=cap,
-      ability voltaic_web, resist +10): valori ok? (cap disorient=1 canonico
-      mantiene la finestra intra-round; alzare il cap = decisione separata)
-- [ ] Q3 -- retune `bioelettrico elettrico: 80`: ok?
-- [ ] Q4 -- F3 floor-granularity: accettata come identita' (premio via ability)
-      o aprire ticket rebalance?
+- [x] Q1 -- trait A `elettromagnete_biologico` (extra +1 MoS5, ability 1d8+1
+      elettrico, resist +10): **RATIFICATO** (RATIFIED-PROVISIONAL).
+- [x] Q2 -- trait C `seta_conduttiva_elettrica` (disorient dc13 durata 1=cap,
+      ability voltaic_web, resist +10): **RATIFICATO** (RATIFIED-PROVISIONAL;
+      cap disorient=1 resta canonico).
+- [x] Q3 -- retune `bioelettrico elettrico: 80`: **RATIFICATO**.
+- [x] Q4 -- F3 floor-granularity: **IDENTITA' DEL CANALE** -- elettrico =
+      burst/ability, non chip; differenziazione voluta tra canali, nessun
+      ticket rebalance.
 
-Verdetto: _(pending)_
+Verdetto: **master-dd 2026-06-10 (sessione interattiva)** -- tutti i valori
+RATIFIED-PROVISIONAL (re-validate on player data, tier #2693).
