@@ -8,7 +8,9 @@
 //
 // MECHANISM (objective, tested): bounded wound set + cap + recovery + pressure
 // mapping (within ER2) + biome_wound chronicle emit (M-7).
-// MAGNITUDE (`PRESSURE_PER_BIOME`) = PROPOSED, ratify N=40 (PA2, mirror SPEC-I gate).
+// MAGNITUDE (`PRESSURE_PER_BIOME`) = RATIFIED-PROVISIONAL (master-dd 2026-06-10,
+// N=40 evidence #2702: trigger 15/15 live, debuff SIMMETRICO intenzionale =
+// ferita ecologica/segnaletica, net-impact ~0 by design; re-validate player data).
 //
 // Persistence (the wounded set lives cross-run in the meta-network state,
 // `services/worldgen/metaNetworkResolver`) + the TRIGGER (wound on run-fail in a
@@ -22,7 +24,7 @@ const { appendEvent } = require('../chronicle/chronicleStore');
 const MAX_WOUNDED_BIOMES = 2; // PA2: cap stretto
 const ER2_PRESSURE_CAP = 2; // PA4: within ER2 +/-2 combined cap (anti overconstrain)
 const DEGRADE_STEP = 1; // PA2: 1 eco-band step per wound
-const PRESSURE_PER_BIOME = 1; // PROPOSED magnitude -- ratify N=40 (PA2)
+const PRESSURE_PER_BIOME = 1; // RATIFIED-PROVISIONAL (master-dd 2026-06-10, PA2)
 
 /**
  * Mark a biome wounded (additive, capped, idempotent). Pure: returns a new array.
