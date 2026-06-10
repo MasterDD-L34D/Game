@@ -139,6 +139,9 @@
     "label": "Bioma ferito",
     "tooltip": "porta le cicatrici di una spedizione fallita; l'ecosistema reagisce con più durezza"
   },
+  "overcharge_hint": {
+    "label": "Il Sistema reagisce al tuo tempo rubato"
+  },
   "ennea_archetype": {
     "1": "Riformatore",
     "2": "Coordinatore",
