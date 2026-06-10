@@ -1821,7 +1821,13 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              // Finding P2 residue 2026-06-10 -- TV-mirror host never sends
+              // reveal_acknowledge (Godot: only phone_composer_view.gd acks;
+              // the TV reveal_complete is a local transition). Counting it in
+              // allPids stalled all_ready forever -> phones stuck on the
+              // reveal screen. Role-aware quorum, same as character_create /
+              // lineage_choice above.
+              const allPids = lifecycleQuorumPids(room, orch, playerId);
               const status = orch.acknowledgeReveal(playerId, { allPlayerIds: allPids });
               room.broadcast({
                 type: 'reveal_ack_list',
