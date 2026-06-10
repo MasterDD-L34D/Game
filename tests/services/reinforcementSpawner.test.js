@@ -461,3 +461,45 @@ test('GAP-A: no biome_id -> filter passthrough (no_biome)', () => {
   assert.equal(res.foodweb_filter.reason, 'no_biome');
   assert.ok(res.spawned.length > 0);
 });
+
+// #2724 -- position format drift: il round model porta position {x,y} (object),
+// lo spawner leggeva SOLO array -> manhattanDistance NaN -> farFromAllPG false
+// per ogni tile con un PG vivo -> rinforzi MAI spawnati in partita reale.
+test('#2724: spawns with object-format {x,y} PG positions (round model)', () => {
+  const session = mockSession({
+    units: [
+      { id: 'p1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 10 },
+      { id: 'p2', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 10 },
+    ],
+  });
+  const res = tick(session, mockEncounter(), { rng: () => 0.5 });
+  assert.ok(!res.reason || res.reason === 'spawned', `expected spawn, got skip: ${res.reason}`);
+  assert.equal(res.spawned.length, 1, 'Alert budget 1 -> one spawn');
+});
+
+test('#2724: occupied tile detected with object-format positions', () => {
+  const session = mockSession({
+    units: [
+      // un'unit object-position SOPRA l'entry tile [9,9] -> tile occupato
+      { id: 'p1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 10 },
+      { id: 'blocker', controlled_by: 'sistema', position: { x: 9, y: 9 }, hp: 5 },
+    ],
+  });
+  const enc = mockEncounter({ reinforcement_entry_tiles: [[9, 9]] });
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.spawned.length, 0, 'only tile is occupied -> no spawn');
+});
+
+test('#2724: spawned unit position matches the session format (object when PGs are objects)', () => {
+  const session = mockSession({
+    units: [{ id: 'p1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 10 }],
+  });
+  const res = tick(session, mockEncounter(), { rng: () => 0.5 });
+  assert.equal(res.spawned.length, 1);
+  const spawned = session.units.find((u) => u.id === res.spawned[0].spawned_unit_id);
+  assert.ok(spawned, 'unit added to session');
+  assert.ok(
+    spawned.position && typeof spawned.position === 'object' && !Array.isArray(spawned.position),
+    `expected {x,y} position, got ${JSON.stringify(spawned.position)}`,
+  );
+});
