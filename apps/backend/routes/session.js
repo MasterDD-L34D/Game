@@ -51,6 +51,9 @@ const { filterForTvMirror } = require('../services/deviceInput/tierFilter');
 // TKT-ORPHAN-VCSNAP — Game-side serializer that flattens a vc snapshot to the
 // Godot-parity debrief_payload (sentience_tier + conviction_axis + ennea_archetype).
 const { vcSnapshotToDebriefPayload } = require('../services/coop/vcSnapshotToDebriefPayload');
+// OD-058 D3 (#2531) -- unitStatsById moved to the shared ledger-replay module
+// (single canonical impl for the /end + /:id/vc + coop replay paths).
+const { unitStatsById } = require('../services/coop/vcLedgerReplay');
 // P4 Thought Cabinet: Phase 1 (threshold unlock) + Phase 2 (research → internalize).
 const {
   evaluateThoughts: evaluateMbtiThoughts,
@@ -3825,30 +3828,8 @@ function createSessionRouter(options = {}) {
     }
   });
 
-  // Verdetto #2679 Q2-bis (2026-06-10) -- per-unit stats for the personality
-  // agile_robust derivation. speed + EXPLICIT max_hp only: current hp never
-  // leaks into the "birth physique" axis (end-of-mission damage is not
-  // physique). Units without stats are omitted -> the axis degrades to the
-  // 0.5 neutral by design. NB: a canonical per-species base-stats dataset does
-  // NOT exist yet (the research's species.yaml is a ghost) -- when it lands,
-  // bounds become data-derived (see the #2679 follow-up ticket).
-  function unitStatsById(session) {
-    const out = {};
-    for (const u of (session && session.units) || []) {
-      if (!u || !u.id) continue;
-      const stats = {};
-      // Explicit null/undefined guards: Number(null) === 0 is finite, so a
-      // bare Number.isFinite check would turn "no speed" into speed 0.
-      if (u.speed !== null && u.speed !== undefined && Number.isFinite(Number(u.speed))) {
-        stats.speed = Number(u.speed);
-      }
-      if (u.max_hp !== null && u.max_hp !== undefined && Number.isFinite(Number(u.max_hp))) {
-        stats.hp_max = Number(u.max_hp);
-      }
-      if (Object.keys(stats).length) out[u.id] = stats;
-    }
-    return out;
-  }
+  // Verdetto #2679 Q2-bis unitStatsById: ora canonical in
+  // services/coop/vcLedgerReplay.js (OD-058 D3, condiviso col replay coop).
 
   // 2026-05-30 P4 debrief wire — GET /:id/debrief. Non-destructive sibling of
   // POST /end: returns the same buildDebriefSummary payload (ennea_voices /
@@ -4467,6 +4448,15 @@ function createSessionRouter(options = {}) {
 
   // Round endpoints mounted from sessionRoundBridge.js (token optimization).
   roundBridge.mountRoundEndpoints(router);
+
+  // OD-058 D3 (#2531) -- expose a read-only session accessor so the coop
+  // router can replay the event ledger of the linked combat session
+  // (coopStore.linkSession) server-side at /coop/combat/end. Exact-id lookup
+  // only (no activeSessionId fallback: the coop link is always explicit).
+  router.getSessionById = (sessionId) => {
+    if (!sessionId) return null;
+    return sessions.get(String(sessionId)) || null;
+  };
 
   return router;
 }
