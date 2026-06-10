@@ -2923,6 +2923,9 @@ function createSessionRouter(options = {}) {
             actor,
             target,
             requestedCapPt: 0,
+            // M6-#1b channel routing: senza questo il round path (default ON)
+            // forzava ogni attacco a "fisico" e i resist di canale erano no-op.
+            channel: typeof action.channel === 'string' ? action.channel : null,
           });
           results.push({ actor_id: actor.id, action_type: 'attack', result: wrapped });
         } else if (action.type === 'move') {
