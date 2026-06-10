@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-10T00:47:38+00:00",
+  "generated_at": "2026-06-10T00:58:33+00:00",
   "summary": {
-    "total": 398,
+    "total": 397,
     "errors": 0,
-    "warnings": 398
+    "warnings": 397
   },
   "issues": [
     {
@@ -1613,12 +1613,6 @@
       "code": "stale_document",
       "path": "docs/adr/ADR-2026-04-28-grid-type-square-final.md",
       "message": "Documento stale: revisione scaduta il 2026-05-28"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/adr/ADR-2026-05-02-species-ecology-schema.md",
-      "message": "Campo doc_status differente tra frontmatter (proposed) e registry (draft)"
     },
     {
       "level": "warning",

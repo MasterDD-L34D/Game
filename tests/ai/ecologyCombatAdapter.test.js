@@ -12,6 +12,7 @@ const assert = require('node:assert/strict');
 const {
   deriveCombatStats,
   roleClassFor,
+  speedForMorphotype,
   DEFAULT_KNOBS,
 } = require('../../apps/backend/services/worldgen/ecologyCombatAdapter');
 
@@ -99,6 +100,31 @@ test('deriveCombatStats: attack_range from morphotype (volatore -> 2, else 1)', 
   const noMorpho = { ...T1_PREDATOR };
   delete noMorpho.morphotype;
   assert.equal(deriveCombatStats(noMorpho).attack_range, 1); // default melee
+});
+
+test('speedForMorphotype: archetype -> 1..6 band (#2691 agile_robust input)', () => {
+  assert.equal(speedForMorphotype('volatore_planatore'), 6); // flyer
+  assert.equal(speedForMorphotype('cursoriale_quadrupede'), 5); // cursorial
+  assert.equal(speedForMorphotype('bipede_agile'), 5);
+  assert.equal(speedForMorphotype('anfibio_agile'), 5);
+  assert.equal(speedForMorphotype('predatore_apex_bipede'), 4); // mobile predator
+  assert.equal(speedForMorphotype('umanoide_lanciatore'), 3); // average ground
+  assert.equal(speedForMorphotype('bipede_armato'), 3);
+  assert.equal(speedForMorphotype('scavenger_corazzato'), 2); // slow armored
+  assert.equal(speedForMorphotype('bipede_corazzato'), 2);
+  assert.equal(speedForMorphotype('ingegnere_radicante'), 1); // rooted
+  assert.equal(speedForMorphotype(null), 3); // unknown/missing -> average
+  assert.equal(speedForMorphotype(undefined), 3);
+  assert.equal(speedForMorphotype('boh_sconosciuto'), 3);
+});
+
+test('deriveCombatStats: speed derived from morphotype (band-neutral new field)', () => {
+  assert.equal(deriveCombatStats(T3_APEX).speed, 5); // cursoriale_quadrupede
+  const flyer = { ...T1_PREDATOR, morphotype: 'volatore_planatore' };
+  assert.equal(deriveCombatStats(flyer).speed, 6);
+  const noMorpho = { ...T1_PREDATOR };
+  delete noMorpho.morphotype;
+  assert.equal(deriveCombatStats(noMorpho).speed, 3); // default average
 });
 
 test('deriveCombatStats: traits passthrough from genetic_traits.core', () => {

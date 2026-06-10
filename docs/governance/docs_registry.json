@@ -9206,10 +9206,10 @@
     {
       "path": "docs/adr/ADR-2026-05-02-species-ecology-schema.md",
       "title": "ADR-2026-05-02: Species ecology schema extension (food web machine-readable)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "dataset-curator",
       "workstream": "cross-cutting",
-      "last_verified": "2026-05-02",
+      "last_verified": "2026-06-10",
       "source_of_truth": true,
       "language": "it",
       "review_cycle_days": 180,

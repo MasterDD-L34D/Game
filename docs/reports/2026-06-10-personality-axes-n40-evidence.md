@@ -139,3 +139,75 @@ coverage parziale E_I/S_N su unita' a vita breve, non bug.
 GIT_COMMIT=<sha> node tools/sim/full-loop-batch.js --runs 40 --isolate \
   --policy greedy --branch cave_path --out reports/sim/personality-n40-<date>
 ```
+
+## Addendum 2026-06-10 -- F2 RISOLTO (#2691: dataset base-stats + bounds data-derived)
+
+> Follow-up claude-autonomous del verdetto Q2-bis. Riporta evidenza; il flip dei
+> bounds RATIFIED-PROVISIONAL -> data-derived e' il deliverable richiesto
+> dall'issue #2691 (master-dd-authorized). (claude autonomous -- pending
+> master-dd review della derivazione prose-based.)
+
+F2 diceva: `agile_robust` morto backend-side (sd 0.000) perche' le unita' non
+portavano `speed` (il threading route era il primo gap, fixato in #2693). Il
+secondo gap era l'assenza di un dataset stat-per-specie: i bounds di
+normalizzazione erano hardcoded RATIFIED-PROVISIONAL e nessuna unita' del sim
+aveva un valore `speed`. Entrambi ora chiusi.
+
+### Cosa e' stato costruito (#2691)
+
+1. **Dataset canonico** `data/core/species/base_stats.yaml` -- `speed` + `hp_max`
+   per le 15 specie canoniche (ADR-2026-05-15: 10 `pack-v2-full-plus` + 5
+   `game-canonical-stub`). Le specie canoniche NON hanno stat numeriche: l'unico
+   segnale design e' la prosa del catalog (`functional_signature` +
+   `visual_description`). Ogni valore e' derivato da quella prosa via rubrica
+   documentata (`_meta` nel file), con l'evidenza citata in `speed_basis` /
+   `hp_basis` per specie -- NON fiat. `speed` e' uno stat NUOVO (l'engine combat
+   legge `initiative`, mai `speed`): introdurlo e' band-neutral.
+2. **Loader** `apps/backend/services/speciesBaseStats.js` -- `deriveStatBounds()`
+   calcola min/max reale del dataset (cache); `personalityAxes.deriveFromVcActor`
+   ora usa questi bounds come default, con fallback ai vecchi hardcoded
+   (speed 1-6 / hp 6-20) se il dataset manca/e' malformato (mai throw).
+3. **Wiring sim** -- `ecologyCombatAdapter.deriveCombatStats` emette `speed` dalla
+   morfotipo (`speedForMorphotype`, stessa scala 1-6 della rubrica del dataset):
+   i recruit del sim (specie con `morphotype` reale) portano speed variato
+   (1/2/5) end-to-end fino a `unitStatsById`. Starter `DEFAULT_ROSTER` con `speed`
+   esplicito.
+
+### Bounds: RATIFIED-PROVISIONAL -> DATA-DERIVED
+
+| bound | prima (hardcoded) | ora (da base_stats.yaml) |
+| --- | --- | --- |
+| speed | {1, 6} | {1, 6} (invariato: rubrica gia' 1-6) |
+| hp | {6, 20} | **{5, 22}** (proteus_plasma T0 frail 5 .. leviatano/terracetus colossus 22) |
+
+### Re-probe N=40 (commit di questo PR, `--out personality-n40-2026-06-10-databounds`)
+
+39 run validi (1 escluso: stesso crash nativo 0xC0000409 noto), meta-band 7/7 in
+band (completion_rate 0.513 in 0.4-0.7) -> rappresentativo. `agile_robust`:
+
+| metrica | F2 (originale) | re-probe (data-derived) |
+| --- | --- | --- |
+| n | 2153 | 2059 |
+| mean | 0.500 | 0.479 |
+| **sd** | **0.000** | **0.075** |
+| min / max | 0.500 / 0.500 | 0.140 / 0.735 |
+| neutral_rate | 1.000 | 0.669 |
+| faction player | 0.50 (morto) | **0.44 (vivo)** |
+| faction sistema | 0.50 | 0.50 (neutro) |
+
+L'asse e' VIVO: varianza reale (sd 0.075, spread 0.140-0.735), degenerate-rate
+0.000, faction player non piu' neutra. Gli altri 4 assi invariati entro il
+rumore (nessuna regressione). La faction **sistema resta neutra by design**: i
+nemici da `scenario-enemies.js` (tier-table) non hanno `morphotype` autorato ->
+nessuno `speed` -> asse 0.5 (onesto: la fisicita' dei nemici non e' autorata,
+non e' un bug). Il segnale `agile_robust` vive sulla faction player+recruit.
+
+### Limiti residui (invariati)
+
+- Una sola policy (greedy) -> varianza comportamentale degli ALTRI assi ancora
+  compressa (F1/F4 restano finding accettati). `agile_robust` invece dipende da
+  stat fisiche (speed/hp), non dal comportamento -> e' gia' discriminante con una
+  policy sola.
+- I valori `speed`/`hp_max` delle 15 specie sono prose-derived (rubrica
+  documentata), non da una fonte numerica design (che non esiste). Master-dd
+  ratifica la derivazione; il dataset e' una leva reversibile (two-way door).

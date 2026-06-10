@@ -37,6 +37,9 @@ const { traverse } = require('./meta-network-driver');
 // recruits grow it as chapters clear. job = `skirmisher` (slice b): a real perk-job
 // (perks.yaml AND jobs.yaml) so the PI sink reaches the engine pick (the prior `stalker` was
 // neither -> /api/progression/:id/pick 409'd before the PI gate, piSpentTotal stuck at 0).
+// #2691: `speed` populated so the starters exercise the personality agile_robust axis too
+// (dune_stalker = base_stats.yaml 5; velox = fast-skirmisher default 5). Recruits get their
+// speed from the morphotype adapter (ecologyCombatAdapter.speedForMorphotype).
 const DEFAULT_ROSTER = [
   {
     id: 'hero_a',
@@ -44,6 +47,7 @@ const DEFAULT_ROSTER = [
     job: 'skirmisher',
     hp: 30,
     max_hp: 30,
+    speed: 5,
     ap: 3,
     mod: 20,
     attack_range: 2,
@@ -58,6 +62,7 @@ const DEFAULT_ROSTER = [
     job: 'skirmisher',
     hp: 30,
     max_hp: 30,
+    speed: 5,
     ap: 3,
     mod: 18,
     attack_range: 2,
