@@ -796,8 +796,10 @@ function applyBiomeEcoEffects(unit, biomeId, opts = {}) {
   }
 
   // SPEC-P A13 read-side: a wounded biome harshens the eco effect (debuff the eco
-  // bonuses), folded into the SAME +/-2 cap (ER2) by the loop below. woundedStep =
-  // PROPOSED magnitude (caller passes DEGRADE_STEP if the biome is wounded; ratify N=40).
+  // bonuses), folded into the SAME +/-2 cap (ER2) by the loop below. woundedStep
+  // magnitude = RATIFIED-PROVISIONAL (master-dd 2026-06-10, N=40 evidence #2702):
+  // debuff SIMMETRICO su tutte le unit = ferita ecologica/segnaletica intenzionale,
+  // net-impact ~0 by design (re-validate on player data).
   const woundedStep = Number(opts.woundedStep) || 0;
   if (woundedStep > 0) {
     for (const f of BIOME_ECO_FIELDS) unit[f] = Number(unit[f] || 0) - woundedStep;

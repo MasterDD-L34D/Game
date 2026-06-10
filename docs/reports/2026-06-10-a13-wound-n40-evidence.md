@@ -98,3 +98,15 @@ node tools/sim/full-loop-batch.js --runs 40 --a13 --isolate --out <dir>/live
 Trigger A13: **LIVE e verificato N=40** (fix-A #2703). Magnitude: evidence
 raccolta; il numero e' "effetto netto ~0 per costruzione simmetrica" -- la
 ratifica e' una design call (domande sopra), non piu' un buco di misura.
+
+## Verdetto (master-dd 2026-06-10, sessione interattiva)
+
+- [x] **Q1 simmetria: INTENZIONALE** -- lettura ecologica ("il bioma soffre per
+  tutti"): la ferita e' firma narrativa/telegraph, non punizione. Anti
+  death-spiral (chi ha perso non viene punito doppio); la durezza direzionale
+  futura arriva da ER6/ER7 (eventi/popolazione, bounded), non dal wound.
+- [x] **Q2 magnitude: RATIFICATA** -- `woundedStep=1` + `PRESSURE_PER_BIOME=1`
+  -> **RATIFIED-PROVISIONAL** (re-validate on player data, tier #2693).
+- [x] **Q3 potenza**: non necessaria per questo verdetto (la natura segnaletica
+  e' by-design, non serve misurare un effetto che non deve esserci); metrica
+  eco-cost diretta resta l'opzione se la re-validazione player la richiede.
