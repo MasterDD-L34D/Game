@@ -11531,6 +11531,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/reports/2026-06-10-a13-wound-n40-evidence.md",
+      "title": "A13 biome-wound magnitude -- N=40 evidence (trigger-gap finding)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-10",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/reports/2026-06-10-personality-axes-n40-evidence.md",
       "title": "Personality axes (Opt 3 OUTPUT) -- N=40 ratification evidence",
       "doc_status": "active",

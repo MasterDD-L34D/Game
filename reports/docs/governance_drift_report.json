@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-09T23:45:49+00:00",
+  "generated_at": "2026-06-10T01:32:56+00:00",
   "summary": {
-    "total": 395,
+    "total": 398,
     "errors": 0,
-    "warnings": 395
+    "warnings": 398
   },
   "issues": [
     {
@@ -1635,6 +1635,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/adr/ADR-2026-05-10-sprint-q-plus-lineage-merge-shipped.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/architecture/difficulty-integration.md",
       "message": "Documento stale: revisione scaduta il 2026-05-17"
     },
@@ -2357,6 +2363,18 @@
       "code": "stale_document",
       "path": "docs/research/2026-05-09-k4-stickiness-implementation.md",
       "message": "Documento stale: revisione scaduta il 2026-05-23"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-05-10-ancestors-297-reentry-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/research/2026-05-10-trait-orphan-audit-batch-review.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-09"
     },
     {
       "level": "warning",

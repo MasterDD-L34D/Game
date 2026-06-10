@@ -158,3 +158,28 @@ test('A13 PA3: fresh biome -> biome_wounded:false (backward compat)', async (t) 
   const state = await request(app).get('/api/session/state').query({ session_id: sid });
   assert.equal(state.body.biome_wounded, false);
 });
+
+// A13 N=40 control arm: A13_WOUND_READ_DISABLED=1 neutralizes ONLY the read-side
+// amplifier (woundedStep stays 0 -> no debuff, no PA3 telegraph). Write-side
+// (wound persist) untouched, so the A/B isolates the PROPOSED magnitude from the
+// other cross-run systems (sistema learning M1, woundedPerma). Default OFF.
+test('A13 read-side env-guard: A13_WOUND_READ_DISABLED=1 -> no debuff, no telegraph', async (t) => {
+  const baseDir = tmp();
+  process.env.A13_WOUND_READ_DISABLED = '1';
+  const { app, close } = createApp({ databasePath: null, chronicle: { baseDir } });
+  t.after(async () => {
+    delete process.env.A13_WOUND_READ_DISABLED;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const start = await request(app).post('/api/campaign/start').send({ player_id: 'a13_env' });
+  const cid = start.body.campaign.id;
+  await runEnd(app, cid, DEAD, 'savana'); // wound persists (write-side untouched)
+  assert.deepEqual(getCampaign(cid).woundedBiomes, ['savana']);
+  const ss = await request(app)
+    .post('/api/session/start')
+    .send({ units: LIVE_ECO, campaign_id: cid, biome_id: 'savana' });
+  assert.deepEqual(ss.body.biomeCostsLog || [], []); // amplifier neutralized
+  const sid = ss.body.session_id || ss.body.id;
+  const state = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(state.body.biome_wounded, false); // telegraph follows the knob
+});
