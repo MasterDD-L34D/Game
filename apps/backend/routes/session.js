@@ -306,6 +306,8 @@ function createSessionRouter(options = {}) {
   // In-memory (dev/demo; lossy on process restart) -> true cross-restart permanence
   // needs DB backing (future follow-up); unbounded growth acceptable (few campaign ids).
   const woundedPermaByCampaign = new Map();
+  // OD-058 D3 -- V2 scar persistence (grave wounds), supersedes woundedPerma.
+  const woundsV2ByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
   const coopStore = options.coopStore || null;
@@ -1082,6 +1084,21 @@ function createSessionRouter(options = {}) {
         } catch {
           /* morale optional; never block the hit */
         }
+      }
+
+      // OD-058 D3 write-trigger (verdetto master-dd 2026-06-10 Q2): crit ->
+      // ferita `lieve`, KO -> `grave`. Solo PG (no minion, B5); flag-aware
+      // (WOUND_LOCATION_V2, default ON post-cutover). status.wounds e' esente
+      // dal wipe del round-sync (PERSISTENT_STATUS_KEYS, sessionRoundBridge).
+      try {
+        const { maybeApplyCombatWound } = require('../services/combat/woundSystem');
+        maybeApplyCombatWound(target, {
+          isCritical: !!result.is_critical,
+          isKo: Number(target.hp || 0) <= 0,
+          rng,
+        });
+      } catch {
+        /* wound system best-effort; never block the hit */
       }
 
       // Combat parity GAP-1 (2026-06-07): on_hit_status producer hook. Ports
@@ -2161,20 +2178,38 @@ function createSessionRouter(options = {}) {
       // the reduced max_hp applied here. Best-effort; never blocks the start.
       if (session.campaign_id) {
         try {
-          const woundedPerma = require('../services/combat/woundedPerma');
-          let woundMap = woundedPermaByCampaign.get(session.campaign_id);
-          if (!woundMap) {
-            woundMap = woundedPerma.initSessionMap();
-            woundedPermaByCampaign.set(session.campaign_id, woundMap);
-          }
-          session.lastMissionWoundedPerma = woundMap;
-          for (const u of session.units || []) {
-            if (u && u.controlled_by === 'player') {
-              woundedPerma.restoreOnEncounterStart(u, woundMap);
+          const woundSystem = require('../services/combat/woundSystem');
+          if (woundSystem.isReadApplyEnabled()) {
+            // OD-058 D3 (verdetto 2026-06-10): V2 scar restore -- grave wounds
+            // persist cross-encounter via the campaign-scoped map; the legacy
+            // woundedPerma HP-penalty path is superseded (runs only on opt-out).
+            let woundMapV2 = woundsV2ByCampaign.get(session.campaign_id);
+            if (!woundMapV2) {
+              woundMapV2 = woundSystem.initSessionMap();
+              woundsV2ByCampaign.set(session.campaign_id, woundMapV2);
+            }
+            session.lastMissionWounds = woundMapV2;
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player' && !u.is_minion) {
+                woundSystem.restoreGraveWounds(u, woundMapV2);
+              }
+            }
+          } else {
+            const woundedPerma = require('../services/combat/woundedPerma');
+            let woundMap = woundedPermaByCampaign.get(session.campaign_id);
+            if (!woundMap) {
+              woundMap = woundedPerma.initSessionMap();
+              woundedPermaByCampaign.set(session.campaign_id, woundMap);
+            }
+            session.lastMissionWoundedPerma = woundMap;
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player') {
+                woundedPerma.restoreOnEncounterStart(u, woundMap);
+              }
             }
           }
         } catch {
-          /* woundedPerma optional; never block the start */
+          /* wound persistence optional; never block the start */
         }
       }
       sessions.set(sessionId, session);
@@ -3544,8 +3579,19 @@ function createSessionRouter(options = {}) {
       // unit takes a persistent wound into the campaign-scoped map so the next
       // encounter of this playthrough restores the scar (see /start restore).
       // Best-effort; never blocks session end.
-      if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
-        try {
+      try {
+        const woundSystemEnd = require('../services/combat/woundSystem');
+        if (woundSystemEnd.isReadApplyEnabled()) {
+          // OD-058 D3: persist grave wounds (scar) on ANY outcome -- le
+          // cicatrici restano comunque; lieve/media sono encounter-scoped.
+          if (session.lastMissionWounds) {
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player' && !u.is_minion) {
+                woundSystemEnd.persistGraveWounds(u, session.lastMissionWounds);
+              }
+            }
+          }
+        } else if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
           const woundedPerma = require('../services/combat/woundedPerma');
           for (const u of session.units || []) {
             // B5: minions are expendable, not campaign units — never scar them.
@@ -3553,9 +3599,9 @@ function createSessionRouter(options = {}) {
               woundedPerma.applyWound(u, session.lastMissionWoundedPerma);
             }
           }
-        } catch {
-          /* woundedPerma optional */
         }
+      } catch {
+        /* wound persistence optional */
       }
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).

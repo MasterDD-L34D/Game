@@ -237,3 +237,91 @@ test('SEVERITIES + LOCATIONS canonical enums', () => {
   assert.deepEqual(SEVERITIES, ['lieve', 'media', 'grave']);
   assert.deepEqual(LOCATIONS, ['testa', 'torso', 'arti_anteriori', 'arti_posteriori']);
 });
+
+// OD-058 D3 cutover (verdetti master-dd 2026-06-10): write-trigger + flip flag.
+const ws = require('../../apps/backend/services/combat/woundSystem');
+
+test('rollLocation: weighted pick deterministic by rng, all locations reachable', () => {
+  const { rollLocation, LOCATIONS, DEFAULT_LOCATION_WEIGHTS } = ws;
+  // torso 40 / arti_ant 25 / arti_post 25 / testa 10 -> cumulative 0.0..1.0
+  assert.equal(
+    rollLocation(() => 0.0),
+    'torso',
+  );
+  assert.equal(
+    rollLocation(() => 0.39),
+    'torso',
+  );
+  assert.equal(
+    rollLocation(() => 0.41),
+    'arti_anteriori',
+  );
+  assert.equal(
+    rollLocation(() => 0.66),
+    'arti_posteriori',
+  );
+  assert.equal(
+    rollLocation(() => 0.95),
+    'testa',
+  );
+  assert.ok(LOCATIONS.includes(rollLocation(Math.random)));
+  assert.equal(
+    Object.values(DEFAULT_LOCATION_WEIGHTS).reduce((a, b) => a + b, 0),
+    100,
+  );
+});
+
+test('D3 flip: isReadApplyEnabled default ON, opt-out via WOUND_LOCATION_V2=false', (t) => {
+  const { isReadApplyEnabled } = ws;
+  delete process.env.WOUND_LOCATION_V2;
+  t.after(() => delete process.env.WOUND_LOCATION_V2);
+  assert.equal(isReadApplyEnabled(), true, 'default ON post-cutover (verdetto Q3)');
+  process.env.WOUND_LOCATION_V2 = 'false';
+  assert.equal(isReadApplyEnabled(), false, 'explicit opt-out');
+  process.env.WOUND_LOCATION_V2 = 'true';
+  assert.equal(isReadApplyEnabled(), true);
+});
+
+// D3 write-trigger (verdetto Q2: crit -> lieve, KO -> grave; solo PG, no minion).
+test('maybeApplyCombatWound: crit on surviving player -> lieve wound', (t) => {
+  delete process.env.WOUND_LOCATION_V2;
+  t.after(() => delete process.env.WOUND_LOCATION_V2);
+  const u = { id: 'p1', controlled_by: 'player', hp: 5, status: {} };
+  const out = ws.maybeApplyCombatWound(u, { isCritical: true, isKo: false, rng: () => 0.0 });
+  assert.equal(out.applied, true);
+  assert.equal(u.status.wounds.length, 1);
+  assert.equal(u.status.wounds[0].severity, 'lieve');
+  assert.equal(u.status.wounds[0].location, 'torso'); // rng 0.0 -> heaviest
+});
+
+test('maybeApplyCombatWound: KO player -> grave wound (even without crit)', (t) => {
+  delete process.env.WOUND_LOCATION_V2;
+  t.after(() => delete process.env.WOUND_LOCATION_V2);
+  const u = { id: 'p1', controlled_by: 'player', hp: 0, status: {} };
+  const out = ws.maybeApplyCombatWound(u, { isCritical: false, isKo: true, rng: () => 0.5 });
+  assert.equal(out.applied, true);
+  assert.equal(u.status.wounds[0].severity, 'grave');
+});
+
+test('maybeApplyCombatWound: enemy / minion / flag-off -> no wound', (t) => {
+  t.after(() => delete process.env.WOUND_LOCATION_V2);
+  delete process.env.WOUND_LOCATION_V2;
+  const enemy = { id: 'e1', controlled_by: 'sistema', hp: 0, status: {} };
+  assert.equal(ws.maybeApplyCombatWound(enemy, { isKo: true, rng: () => 0 }).applied, false);
+  const minion = { id: 'm1', controlled_by: 'player', is_minion: true, hp: 0, status: {} };
+  assert.equal(ws.maybeApplyCombatWound(minion, { isKo: true, rng: () => 0 }).applied, false);
+  process.env.WOUND_LOCATION_V2 = 'false';
+  const pg = { id: 'p1', controlled_by: 'player', hp: 0, status: {} };
+  assert.equal(ws.maybeApplyCombatWound(pg, { isKo: true, rng: () => 0 }).applied, false);
+  assert.equal(pg.status.wounds, undefined);
+});
+
+test('maybeApplyCombatWound: no trigger (no crit, no KO) -> no wound', (t) => {
+  delete process.env.WOUND_LOCATION_V2;
+  t.after(() => delete process.env.WOUND_LOCATION_V2);
+  const u = { id: 'p1', controlled_by: 'player', hp: 5, status: {} };
+  assert.equal(
+    ws.maybeApplyCombatWound(u, { isCritical: false, isKo: false, rng: () => 0 }).applied,
+    false,
+  );
+});
