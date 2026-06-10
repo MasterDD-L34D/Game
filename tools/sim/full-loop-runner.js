@@ -17,6 +17,7 @@ const greedyPolicy = require('./greedy-policy');
 const { resolveRecruitUnit } = require('./recruit-resolver');
 const { applyNidoEconomy } = require('./nido-economy');
 const { buildScenarioEnemies } = require('./scenario-enemies');
+const { biomeForEncounter } = require('./encounter-biome');
 
 // Nido meta-step on a cleared chapter: the meta policy (greedy by default, mbti in fase-2c)
 // recruits NPCs via the meta seam (POST /api/meta/recruit, affinity_at_recruit bypass ->
@@ -173,6 +174,13 @@ async function runFullLoop(http, opts = {}) {
     // chapters (scenario-enemies). Faithful default = {} (no scaling); the band batch passes
     // the calibrated knobs so completion_rate lands in band (Finding 1).
     enemyScaling = {},
+    // A13 N=40 evidence (SPEC-I gate, opt-in -- default OFF = status quo byte-identical):
+    // links each chapter session to the campaign (campaign_id + biome_id), fires the
+    // session-end pipeline (wound write-side) and allows BOUNDED retries of a failed
+    // chapter (the REAL product flow: campaign /advance returns retry:true on defeat).
+    // The retry is what makes wound->re-fight-the-wounded-biome observable in-run.
+    a13 = false,
+    a13MaxRetries = 1,
   } = opts;
   // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
   // faithful combat unit per cleared chapter. knownIds is the matching id universe so a
@@ -220,6 +228,9 @@ async function runFullLoop(http, opts = {}) {
 
   let aliveIds = [...knownIds];
   const chapters = [];
+  // A13: attempt counter for the CURRENT encounter (1 = first try, 2+ = retry).
+  let lastEnc = null;
+  let attemptsThisEnc = 0;
   // Opt 3 N=40 evidence (#2679): per-mission per-unit personality axes captured
   // by the combat adapter (GET /:id/vc debrief_payload). Additive telemetry.
   const personalitySamples = [];
@@ -283,12 +294,23 @@ async function runFullLoop(http, opts = {}) {
     const enemies = scaledEnemies && scaledEnemies.length ? scaledEnemies : enemiesForChapter(step);
     const enemiesSource = scaledEnemies && scaledEnemies.length ? 'scenario' : 'fallback';
 
+    // A13: per-encounter attempt bookkeeping + the roster that ENTERED this attempt
+    // (restored on a retry -- the "riprova missione" convention: fresh attempt, no
+    // attrition carry from the failed try).
+    attemptsThisEnc = enc === lastEnc ? attemptsThisEnc + 1 : 1;
+    lastEnc = enc;
+    const entryAliveIds = [...aliveIds];
+    const biomeId = a13 ? biomeForEncounter(enc) : null;
+
     const combat = await runEncounter(http, {
       roster: aliveRoster,
       enemies,
       scenarioId: enc,
       seed: seed ? `${seed}-${step}` : undefined,
       maxRounds: 40,
+      // A13: link the session to the campaign (read-side woundedStep at /start) and
+      // fire /end (write-side wound/heal persist). Off -> byte-identical adapter call.
+      ...(a13 ? { campaignId: id, biomeId, endSession: true } : {}),
     });
     aliveIds = combat.survivorIds;
     // Personality evidence: only missions where the capture yielded units.
@@ -348,6 +370,10 @@ async function runFullLoop(http, opts = {}) {
       rounds: combat.rounds,
       xpGranted,
       mpEarned,
+      // A13 evidence fields (absent when a13 off -> chapter shape unchanged).
+      ...(a13
+        ? { biome_id: biomeId, biome_wounded: !!combat.biomeWounded, attempt: attemptsThisEnc }
+        : {}),
     });
 
     // One attempt per mission (slice a): a chapter the party fails to clear (timeout or
@@ -356,7 +382,18 @@ async function runFullLoop(http, opts = {}) {
     // it makes completion_rate a MEANINGFUL, tunable band metric (the scaled-enemy difficulty
     // sets P(clear the gating missions) into the 0.4-0.7 band). Weak/faithful chapters always
     // win first try, so this only bites at calibrated difficulty.
-    if (combat.outcome !== 'victory') break;
+    //
+    // A13 exception (opt-in): the real product flow RETRIES a failed chapter (campaign
+    // /advance returns retry:true + the same encounter). Bounded by a13MaxRetries so the
+    // run still fails when the retries are exhausted (completion stays meaningful within
+    // the a13 arms; cross-arm A/B uses the SAME retry rules so the comparison is fair).
+    if (combat.outcome !== 'victory') {
+      if (a13 && attemptsThisEnc <= a13MaxRetries) {
+        aliveIds = entryAliveIds; // riprova: fresh attempt with the entering roster
+        continue;
+      }
+      break;
+    }
 
     // Nido meta-step on a TRULY cleared chapter (Codex #2563 P2: gated on a 200 advance,
     // not just victory). Skipped on the campaign-completing chapter (Codex #2565 P2): a

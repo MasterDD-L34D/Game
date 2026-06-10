@@ -9,7 +9,10 @@
 
 const { selectPlayerAction } = require('./combat-policy');
 
-async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds = 40 } = {}) {
+async function runEncounter(
+  http,
+  { roster, enemies, scenarioId, seed, maxRounds = 40, campaignId, biomeId, endSession } = {},
+) {
   const rosterIds = (roster || []).map((u) => u.id);
   const startBody = {
     units: [...(roster || []), ...(enemies || [])],
@@ -24,6 +27,11 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
     // (session.js:1637), NOT `run_seed` (that is the co-op WS world_confirm field).
     // Codex #2561 P2 — sending `seed` makes full-loop encounters replayable.
     ...(seed !== undefined && seed !== null && seed !== '' ? { seed } : {}),
+    // A13 N=40 evidence (SPEC-I gate): campaign_id links the session to the campaign
+    // (read-side woundedStep lookup at /start, session.js:1761) and biome_id selects
+    // the eco profile the wound amplifies. Absent -> byte-identical start body.
+    ...(campaignId ? { campaign_id: campaignId } : {}),
+    ...(biomeId ? { biome_id: biomeId } : {}),
   };
   const start = await http.post('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
@@ -34,6 +42,9 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
   let rounds = 0;
   let outcome = 'timeout';
   let lastUnits = [];
+  // A13 PA3 telegraph: /session/state exposes biome_wounded (session-static, set at
+  // /start from the campaign's woundedBiomes). Captured for the wound-exposure metric.
+  let biomeWounded = false;
   // OA2 (SPEC-O): fetch the objective ONCE -- config drives the policy. Only a
   // NON-elimination objective polls the live evaluation in-loop; elimination keeps the
   // alive-count outcome, so the common full-loop path adds ZERO per-round /objective
@@ -54,6 +65,7 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
     const st = await http.get('/api/session/state', { session_id: sessionId });
     const units = (st.body && st.body.units) || [];
     lastUnits = units;
+    if (st.body && st.body.biome_wounded) biomeWounded = true;
     // Non-elimination objective: poll the live evaluation for the outcome.
     if (pollObjective) {
       try {
@@ -144,7 +156,24 @@ async function runEncounter(http, { roster, enemies, scenarioId, seed, maxRounds
     personalityUnits = [];
   }
 
-  return { outcome, rounds, rosterIds, survivorIds, personalityUnits };
+  // A13 write-side trigger (opt-in): POST /api/session/end runs the session-end
+  // pipeline (wound/heal persist on campaign.woundedBiomes + chronicle + epilogue,
+  // session.js:3511). On a run-level failure the adapter DECLARES the outcome
+  // (fix-A #2703, downgrade-only server-side): the board alone cannot see a
+  // mission-clock timeout (both factions alive -> 'abandon' -> no wound).
+  // Best-effort -- a failed /end never blocks the outcome.
+  let ended = false;
+  if (endSession) {
+    try {
+      const declared = outcome === 'timeout' || outcome === 'defeat' ? { outcome } : {};
+      const end = await http.post('/api/session/end', { session_id: sessionId, ...declared });
+      ended = !!(end && end.status >= 200 && end.status < 300);
+    } catch {
+      ended = false;
+    }
+  }
+
+  return { outcome, rounds, rosterIds, survivorIds, personalityUnits, biomeWounded, ended };
 }
 
 module.exports = { runEncounter };

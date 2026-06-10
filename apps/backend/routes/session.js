@@ -1756,9 +1756,12 @@ function createSessionRouter(options = {}) {
           // SPEC-P A13 read-side: if this biome is wounded (campaign cross-run state),
           // the eco effect is harsher (woundedStep, folded into the ER2 +/-2 cap).
           // PROPOSED magnitude = 1 band (DEGRADE_STEP); ratify N=40. Best-effort lookup.
+          // A13_WOUND_READ_DISABLED=1 (default OFF) = N=40 control arm: neutralizes
+          // ONLY this amplifier (write-side persist untouched) so the A/B isolates
+          // the PROPOSED magnitude from the other campaign-linked cross-run systems.
           let woundedStep = 0;
           try {
-            const cid = req.body?.campaign_id;
+            const cid = process.env.A13_WOUND_READ_DISABLED === '1' ? null : req.body?.campaign_id;
             if (cid) {
               const { getCampaign } = require('../services/campaign/campaignStore');
               const camp = getCampaign(cid);
@@ -3487,6 +3490,21 @@ function createSessionRouter(options = {}) {
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       else outcome = 'abandon';
+      // A13 fix-A (#2703): the board cannot see a RUN-LEVEL failure (elimination
+      // map + mission clock expired -> both factions alive -> 'abandon'), so the
+      // client/sim may DECLARE it. Downgrade-only trust (mirror of /campaign/advance
+      // where outcome is already client-declared): accepted enum is the declarable
+      // failure subset {timeout, defeat, objective_failed} and only over a
+      // board-derived abandon/draw -- a board win is never downgraded (heal stays
+      // unspoofable) and a wipe can only come from the board (woundedPerma intact).
+      const declaredOutcome = typeof body.outcome === 'string' ? body.outcome : null;
+      if (
+        declaredOutcome &&
+        ['timeout', 'defeat', 'objective_failed'].includes(declaredOutcome) &&
+        (outcome === 'abandon' || outcome === 'draw')
+      ) {
+        outcome = declaredOutcome;
+      }
       // TKT-ORPHAN-WOUNDPERMA (write-path): on a player wipe, each KO'd player
       // unit takes a persistent wound into the campaign-scoped map so the next
       // encounter of this playthrough restores the scar (see /start restore).
