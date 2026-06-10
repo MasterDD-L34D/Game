@@ -21,7 +21,9 @@
 
 'use strict';
 
-// Soft cap per asse (MA3: ratify magnitude via N=40). Piccolo = nudge, non gate.
+// Soft cap per asse -- GOVERNANCE: RATIFIED-PROVISIONAL (verdetto master-dd
+// 2026-06-10, N=40 paired probe: 2234 campioni/40 run, flip~0% = nudge non gate;
+// re-validate on player data). Evidence: docs/reports/2026-06-10-fp-vc-delta-n40-evidence.md
 const MAX_FP_VC_DELTA = 0.05;
 
 // PROPOSED (ratify via MA3, master-dd). FP creature axis -> { mbti, sign }.
