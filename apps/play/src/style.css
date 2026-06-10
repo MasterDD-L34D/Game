@@ -2387,6 +2387,43 @@ body.ability-target-mode canvas#grid {
   white-space: nowrap;
 }
 
+/* Gate-5 #2716 — overcharge first-use strategic-cost hint. One-shot diegetic
+   toast (no raw numbers, ER3 doctrine): fade in, hold, fade out; node removed
+   by JS after 6s (overchargeHint.js TOAST_MS keeps the timings in sync). */
+.overcharge-hint-toast {
+  position: fixed;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 8px 16px;
+  background: rgba(20, 16, 8, 0.92);
+  border: 1px solid #b8923e;
+  border-radius: 8px;
+  color: #e8c97a;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: overcharge-hint-fade 6s ease forwards;
+}
+@keyframes overcharge-hint-fade {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-6px);
+  }
+  8% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* Action 7 (ADR-2026-04-28 §Action 7) — CT bar lookahead 3 turni HUD top-strip.
  * FFT-style temporal legibility: current actor pulse + 3 slot futuri con arrow
  * separator. Pillar P1 chiusura gap "chi muove dopo".

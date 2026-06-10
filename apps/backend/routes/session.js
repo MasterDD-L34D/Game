@@ -3227,6 +3227,10 @@ function createSessionRouter(options = {}) {
           .status(409)
           .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
       }
+      // Gate-5 #2716 — first overcharge of the run. Set once, never cleared
+      // in-run; publicSessionView exposes it as overcharge_used_this_run so
+      // the web surface can fire the diegetic strategic-cost hint exactly once.
+      session.overcharge_used = true;
       const event = {
         event_type: 'overcharge',
         actor_id: actor.id,
