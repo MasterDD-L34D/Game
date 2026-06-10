@@ -318,10 +318,14 @@ function createRoundBridge(deps) {
 
       // 1. Rimuovi status dal dict legacy che non sono più nello roundState
       //    (decaied to 0 o rimossi). `statuses` array è source-of-truth post-orchestrator.
+      //    OD-058 D3: le chiavi PERSISTENTI (wounds V2 + legacy wounded_perma) NON
+      //    sono effetti round-tracked -- esenti dal wipe (il rebuild le cancellava).
       const liveIds = new Set(
         (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
       );
+      const PERSISTENT_STATUS_KEYS = new Set(['wounds', 'wounded_perma']);
       for (const id of Object.keys(sessionUnit.status)) {
+        if (PERSISTENT_STATUS_KEYS.has(id)) continue;
         if (!liveIds.has(id)) {
           delete sessionUnit.status[id];
           delete sessionUnit.status_intensity[id];
