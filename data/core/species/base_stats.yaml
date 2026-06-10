@@ -1,0 +1,121 @@
+# Species base-stats dataset (canonical) -- speed + hp_max per species.
+#
+# Issue #2691 (prereq of #2679 Q2-bis): the personality `agile_robust` axis
+# normalizes a unit's `speed` + `hp_max` into [0,1] (apps/backend/services/
+# personalityAxes.js). Until this file existed those normalization bounds were
+# hardcoded RATIFIED-PROVISIONAL (speed 1-6 / hp 6-20); the research's
+# `data/core/species.yaml` was a ghost and `species_catalog.json` carries no
+# numeric stats. This dataset makes the bounds DATA-DERIVED.
+#
+# SCOPE: the 15 canonical species (ADR-2026-05-15) = 10 `pack-v2-full-plus` +
+# 5 `game-canonical-stub` in species_catalog.json. These have NO numeric
+# speed/hp; the only physique/mobility design signal is the catalog PROSE
+# (`functional_signature` + `visual_description`). Per the issue ("se la fonte
+# design non copre una specie, documenta la derivazione"), each value below is
+# derived from that prose via the rubric in `_meta`, with the evidence quoted
+# in `speed_basis` / `hp_basis`. NOT fiat: every number traces to a catalog
+# field. `speed` is a NEW stat (the combat engine reads `initiative`, never
+# `speed`) -- introducing it is band-neutral.
+#
+# COHERENCE: `speed` uses the same 1-6 archetype scale as the runtime
+# morphotype->speed rubric in ecologyCombatAdapter.js (SPEED_BY_ARCHETYPE), so
+# sim units (recruits, whose species carry a real `morphotype`) normalize
+# against the same bounds these authored values produce.
+version: '1.0.0'
+authored: '2026-06-10'
+authored_by: claude-code (issue #2691)
+
+_meta:
+  speed_rubric:
+    # locomotion archetype (from functional_signature + visual_description) -> 1..6
+    '1': sessile / rooted (coral colony, rooting engineer)
+    '2': slow heavy (colossus, low-slung armored, amoeboid pseudopod crawl)
+    '3': average ground / drifting swarm / soft cephalopod
+    '4': mobile multi-limb scuttler / agile predator
+    '5': cursorial / climber / serpentine glide / coiled-spring reptile
+    '6': winged flyer / glider
+  hp_rubric:
+    # body build (from visual_description) -> hp_max band
+    '5': frail (amorphous mass, larval, tiny)
+    '8': light (slender, winged, serpentine, agile)
+    '11': medium (average / muscular mid build)
+    '16': heavy (massive, plated, armored, robust-low)
+    '22': colossal (colossus, leviathan)
+
+# Derived STAT_BOUNDS over this dataset: speed {min 1, max 6}, hp {min 5, max 22}.
+species:
+  anguis_magnetica:
+    speed: 5
+    hp_max: 8
+    speed_basis: "serpentine glide -- fsig 'scivolamento silente riduci-attrito', vis 'movimenti fluidi senza rumore'"
+    hp_basis: "light slender eel -- vis 'serpiforme lucido'"
+  chemnotela_toxica:
+    speed: 3
+    hp_max: 16
+    speed_basis: "ground trap-builder spider -- fsig 'seta elettroconduttiva per trappole' (ambush, not pursuit)"
+    hp_basis: "heavy -- vis 'ragno massiccio', 'addome rigonfio'"
+  dune_stalker:
+    speed: 5
+    hp_max: 11
+    speed_basis: "cursorial -- badlands source carries morphotype 'cursoriale_quadrupede'; burrow-ambush stalker (Skiv)"
+    hp_basis: "medium predator -- no colossus/armor prose; Threat-clade T2 ambusher"
+  elastovaranus_hydrus:
+    speed: 5
+    hp_max: 11
+    speed_basis: "coiled-spring reptile -- vis 'postura semiflessa pronta allo scatto'"
+    hp_basis: "medium muscular -- vis 'rettile allungato', 'fasci muscolari evidenti'"
+  gulogluteus_scutiger:
+    speed: 2
+    hp_max: 16
+    speed_basis: "low-slung slow -- vis 'robusto e basso', 'zampe corte'"
+    hp_basis: "heavy armored -- vis 'regione glutea corazzata', fsig 'placca cheratinizzata'"
+  leviatano_risonante:
+    speed: 2
+    hp_max: 22
+    speed_basis: "slow giant -- T5 Apex resonant leviathan (name + tier; prose empty stub)"
+    hp_basis: "colossal -- leviathan, T5 Apex"
+  perfusuas_pedes:
+    speed: 4
+    hp_max: 16
+    speed_basis: "multi-limb scuttler -- vis 'centinaia di arti corti e rapidi'"
+    hp_basis: "armored plated -- vis 'corpo allungato corazzato da placche flessibili'"
+  polpo_araldo_sinaptico:
+    speed: 3
+    hp_max: 11
+    speed_basis: "soft cephalopod -- synaptic herald octopus (name; prose empty stub)"
+    hp_basis: "medium soft-bodied -- octopus, no skeleton (name; prose empty stub)"
+  proteus_plasma:
+    speed: 2
+    hp_max: 5
+    speed_basis: "amoeboid pseudopod crawl -- vis 'estroflessioni pseudopodiali costanti'"
+    hp_basis: "frail -- vis 'massa semi-trasparente', T0 amoeba"
+  rupicapra_sensoria:
+    speed: 5
+    hp_max: 8
+    speed_basis: "climber -- fsig 'arrampicata estrema', vis 'zoccoli con micro-lamelle adesive', 'erbivoro agile'"
+    hp_basis: "light -- 'erbivoro agile' goat-like build"
+  sciame_larve_neurali:
+    speed: 3
+    hp_max: 5
+    speed_basis: "drifting swarm -- neural larvae swarm (name; prose empty stub)"
+    hp_basis: "frail individual -- larval swarm (name; prose empty stub)"
+  simbionte_corallino_riflesso:
+    speed: 1
+    hp_max: 11
+    speed_basis: "sessile -- reflexive coral symbiont (name; prose empty stub)"
+    hp_basis: "medium durable -- calcified coral colony, Support clade (name; prose empty stub)"
+  soniptera_resonans:
+    speed: 6
+    hp_max: 8
+    speed_basis: "flyer -- fsig 'volo fine a latenza ridotta', vis 'addome segmentato aerodinamico'"
+    hp_basis: "light winged -- vis 'insetto alato', translucent wings"
+  terracetus_ambulator:
+    speed: 2
+    hp_max: 22
+    speed_basis: "slow ventral crawl -- fsig 'locomozione a tappeto ventrale', vis 'arti vestigiali'"
+    hp_basis: "colossal -- vis 'colosso tondeggiante', 'pelle spessa e rugosa'"
+  umbra_alaris:
+    speed: 6
+    hp_max: 8
+    speed_basis: "flyer -- vis 'volo felpato e manovrato', 'volatile nero'"
+    hp_basis: "light winged -- vis 'volatile nero opaco', 'sagoma che assorbe la luce'"

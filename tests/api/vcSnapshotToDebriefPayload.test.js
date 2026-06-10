@@ -10,6 +10,7 @@ const {
   vcSnapshotToDebriefPayload,
   CANONICAL_AXIS_KEYS,
 } = require('../../apps/backend/services/coop/vcSnapshotToDebriefPayload');
+const { deriveStatBounds } = require('../../apps/backend/services/speciesBaseStats');
 
 function _snap(perActor) {
   return { session_id: 'test', per_actor: perActor, meta: {} };
@@ -200,8 +201,15 @@ test('personality_axes: folded additively when actor has signal', () => {
   assert.ok(axes, 'personality_axes expected');
   assert.ok(Math.abs(axes.symbiosis_predation - 0.9) < 1e-9);
   assert.ok(Math.abs(axes.solitary_swarm - 0.8) < 1e-9);
-  // speed 3.5 in [1,6] -> 0.5; hp 13 in [6,20] -> 0.5 -> agile_robust 0.5
-  assert.ok(Math.abs(axes.agile_robust - 0.5) < 1e-9);
+  // #2691: agile_robust normalizes against the data-derived bounds. speed 3.5 ->
+  // 0.5; hp_max 13 -> (13-hpMin)/(hpMax-hpMin). Compute from the live bounds.
+  const b = deriveStatBounds();
+  const hpNorm = (13 - b.hp.min) / (b.hp.max - b.hp.min);
+  const expectedAgile = 0.7 * (1 - 0.5) + 0.3 * hpNorm;
+  assert.ok(
+    Math.abs(axes.agile_robust - expectedAgile) < 1e-9,
+    `agile_robust expected ${expectedAgile}, got ${axes.agile_robust}`,
+  );
 });
 
 test('personality_axes: omitted when no derivable signal (back-compat)', () => {

@@ -114,13 +114,31 @@ test('deriveFromVcActor: real vcSnapshot per_actor shape', () => {
     },
     raw_metrics: { action_switch_rate: 0.25, setup_ratio: 0.8 },
   };
-  const axes = deriveFromVcActor(actor, { speed: 3.5, hp_max: 13 });
+  // Explicit bounds keep this a pure-math fixture independent of the dataset
+  // (#2691 made the DEFAULT bounds data-derived; covered separately below).
+  const bounds = { speed: { min: 1, max: 6 }, hp: { min: 6, max: 20 } };
+  const axes = deriveFromVcActor(actor, { speed: 3.5, hp_max: 13 }, { bounds });
   assert.ok(Math.abs(axes.symbiosis_predation - 0.9) < 1e-9);
   assert.ok(Math.abs(axes.solitary_swarm - 0.8) < 1e-9);
   assert.ok(Math.abs(axes.explore_caution - (0.6 * 0.7 + 0.4 * 0.6)) < 1e-9);
   assert.ok(Math.abs(axes.memory_instinct - (0.5 * 0.75 + 0.5 * 0.8)) < 1e-9);
   // speed 3.5 in [1,6] -> 0.5; hp 13 in [6,20] -> 0.5 -> agile_robust 0.5
   assert.ok(Math.abs(axes.agile_robust - 0.5) < 1e-9);
+});
+
+test('deriveFromVcActor: default bounds are data-derived (#2691 base_stats.yaml)', () => {
+  const actor = {
+    mbti_axes: { T_F: { value: 0.9 } },
+    raw_metrics: {},
+  };
+  // Dataset bounds: speed [1,6], hp [5,22]. hp_max 13 -> (13-5)/17 = 0.470...,
+  // speed 3.5 -> 0.5. agile_robust = 0.7*(1-0.5) + 0.3*0.470... != 0.5 (it would
+  // be exactly 0.5 only under the old hardcoded hp [6,20] midpoint).
+  const axes = deriveFromVcActor(actor, { speed: 3.5, hp_max: 13 });
+  const hpNorm = (13 - 5) / (22 - 5);
+  const expected = 0.7 * (1 - 0.5) + 0.3 * hpNorm;
+  assert.ok(Math.abs(axes.agile_robust - expected) < 1e-9, `got ${axes.agile_robust}`);
+  assert.ok(Math.abs(axes.agile_robust - 0.5) > 1e-6, 'data-derived must differ from old 0.5');
 });
 
 test('deriveFromVcActor: null-coverage axes + no stats -> per-axis neutral', () => {

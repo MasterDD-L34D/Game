@@ -13,13 +13,22 @@ const assert = require('node:assert/strict');
 const request = require('supertest');
 
 const { createApp } = require('../../apps/backend/app');
+const { deriveStatBounds } = require('../../apps/backend/services/speciesBaseStats');
+
+// #2691: the route normalizes against the DATA-DERIVED bounds (base_stats.yaml),
+// so compute the expected agile_robust from those bounds rather than hardcoding
+// it (stays correct if the dataset is re-authored). hero_stat: speed 4, max_hp 13.
+const BOUNDS = deriveStatBounds();
+const SPEED_NORM = (4 - BOUNDS.speed.min) / (BOUNDS.speed.max - BOUNDS.speed.min);
+const HP_NORM = (13 - BOUNDS.hp.min) / (BOUNDS.hp.max - BOUNDS.hp.min);
+const EXPECTED_AGILE = 0.7 * (1 - SPEED_NORM) + 0.3 * HP_NORM;
 
 const STAT_UNITS = [
   {
     id: 'hero_stat',
     species: 'dune_stalker',
-    // Backend species-scale stats: speed 4 in [1,6] -> 0.6; max_hp 13 in
-    // [6,20] -> 0.5 -> agile_robust = 0.7*(1-0.6) + 0.3*0.5 = 0.43.
+    // Backend species-scale stats -> agile_robust = 0.7*(1-speed_norm) +
+    // 0.3*hp_norm against the data-derived bounds (EXPECTED_AGILE above).
     speed: 4,
     max_hp: 13,
     hp: 13,
@@ -75,9 +84,11 @@ test('GET /:id/vc threads unit stats -> agile_robust reflects speed/max_hp', asy
   const entry = res.body.debrief_payload.per_actor.hero_stat;
   assert.ok(entry && entry.personality_axes, 'personality_axes present for the actor');
   assert.ok(
-    Math.abs(entry.personality_axes.agile_robust - 0.43) < 1e-9,
-    `agile_robust from stats expected 0.43, got ${entry.personality_axes.agile_robust}`,
+    Math.abs(entry.personality_axes.agile_robust - EXPECTED_AGILE) < 1e-9,
+    `agile_robust expected ${EXPECTED_AGILE}, got ${entry.personality_axes.agile_robust}`,
   );
+  // F2 regression guard: stats make the axis non-neutral (was sd 0.000 @ 0.5).
+  assert.ok(Math.abs(entry.personality_axes.agile_robust - 0.5) > 1e-6, 'agile_robust not neutral');
 });
 
 test('POST /end threads unit stats into the final debrief_payload', async (t) => {
@@ -91,8 +102,8 @@ test('POST /end threads unit stats into the final debrief_payload', async (t) =>
   const entry = res.body.debrief_payload.per_actor.hero_stat;
   assert.ok(entry && entry.personality_axes, 'personality_axes present for the actor');
   assert.ok(
-    Math.abs(entry.personality_axes.agile_robust - 0.43) < 1e-9,
-    `agile_robust from stats expected 0.43, got ${entry.personality_axes.agile_robust}`,
+    Math.abs(entry.personality_axes.agile_robust - EXPECTED_AGILE) < 1e-9,
+    `agile_robust expected ${EXPECTED_AGILE}, got ${entry.personality_axes.agile_robust}`,
   );
 });
 

@@ -132,6 +132,22 @@ function attackRangeFor(morphotype) {
   return 1;
 }
 
+// #2691 -- locomotion archetype (morphotype) -> speed [1..6]. Mirrors the
+// data/core/species/base_stats.yaml speed_rubric so sim units (recruits, which
+// carry a real morphotype) normalize against the SAME bounds the authored
+// canonical dataset produces (speciesBaseStats.deriveStatBounds). `speed` is a
+// personality-axis input only (agile_robust); the combat engine reads
+// `initiative`, never `speed`, so emitting it is BAND-NEUTRAL.
+function speedForMorphotype(morphotype) {
+  const m = morphotype ? String(morphotype).toLowerCase() : '';
+  if (/volat|planat|alato|aviano|aeri/.test(m)) return 6; // winged flyer
+  if (/radicant|sessil|corallin|ancorat/.test(m)) return 1; // rooted / sessile
+  if (/corazzat|scutiger|placcat|blindat/.test(m)) return 2; // slow armored
+  if (/cursorial|agile|saltator|natator|anfibio|serpent|scivol/.test(m)) return 5; // cursorial/climber/glide
+  if (/apex.*biped|predator.*biped|cacciator/.test(m)) return 4; // mobile predator
+  return 3; // average ground / unknown / missing
+}
+
 /**
  * Derive deterministic BASE combat stats for a species from its ecology fields.
  *
@@ -176,6 +192,9 @@ function deriveCombatStats(species, opts = {}) {
     dc,
     guardia,
     attack_range: attackRangeFor(sp.morphotype),
+    // #2691 -- personality agile_robust input (NOT a combat stat; engine uses
+    // initiative). Recruited sim units carry it through to unitStatsById.
+    speed: speedForMorphotype(sp.morphotype),
     traits,
     job,
     _adapter: { tier, role_class: roleClass, warnings },
@@ -185,6 +204,7 @@ function deriveCombatStats(species, opts = {}) {
 module.exports = {
   deriveCombatStats,
   roleClassFor,
+  speedForMorphotype,
   attackRangeFor,
   normalizeTier,
   loadKnobs,

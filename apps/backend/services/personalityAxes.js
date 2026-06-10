@@ -26,6 +26,8 @@
 // =============================================================================
 'use strict';
 
+const { deriveStatBounds } = require('./speciesBaseStats');
+
 const AXIS_KEYS = [
   'symbiosis_predation',
   'explore_caution',
@@ -44,10 +46,13 @@ const MEMORY_SETUP_WEIGHT = 0.5;
 const AGILE_SPEED_WEIGHT = 0.7;
 const AGILE_HP_WEIGHT = 0.3;
 
-// RATIFIED-PROVISIONAL (master-dd 2026-06-10): backend species-scale bounds.
-// A canonical per-species base-stats dataset does NOT exist yet (the research
-// species.yaml is a ghost); when it lands these become data-derived (#2679
-// follow-up ticket). Until then hardcoded defaults + clamp01 at the edges.
+// DATA-DERIVED bounds (#2691): the default backend species-scale bounds are now
+// the min/max of data/core/species/base_stats.yaml (15 canonical species, speed
+// + hp_max), loaded + cached by speciesBaseStats.deriveStatBounds(). STAT_BOUNDS
+// below is the HARDCODED FALLBACK (the pre-#2691 RATIFIED-PROVISIONAL defaults),
+// used verbatim when the dataset is missing/empty/malformed. Callers normally let
+// deriveFromVcActor pick the data-derived bounds; opts.bounds still overrides.
+// Resolves #2679 Q2-bis (bounds flip RATIFIED-PROVISIONAL -> data-derived).
 const STAT_BOUNDS = {
   speed: { min: 1, max: 6 },
   hp: { min: 6, max: 20 },
@@ -142,14 +147,15 @@ function hasSignal(actorEntry) {
  * @param {object} actorEntry — per_actor[uid] (mbti_axes {value,coverage},
  *   raw_metrics {action_switch_rate, setup_ratio})
  * @param {object|null} unitStats — { speed, hp_max } in backend species scale
- * @param {object} [opts] — { bounds } override for STAT_BOUNDS
+ * @param {object} [opts] — { bounds } override; default = data-derived
+ *   (speciesBaseStats.deriveStatBounds, fallback STAT_BOUNDS)
  * @returns {object|null} 5-axis map, or null on non-object actorEntry
  */
 function deriveFromVcActor(actorEntry, unitStats = null, opts = {}) {
   if (!actorEntry || typeof actorEntry !== 'object') return null;
   const axes = actorEntry.mbti_axes || {};
   const raw = actorEntry.raw_metrics || {};
-  const bounds = opts.bounds || STAT_BOUNDS;
+  const bounds = opts.bounds || deriveStatBounds();
   return deriveAxes({
     t_f: axisValue(axes.T_F),
     e_i: axisValue(axes.E_I),
