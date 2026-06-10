@@ -1,6 +1,7 @@
-// SPEC-I ER6 -- wire integration: flag ON, la wave del bioma cresce col turno
-// e al crossing della soglia rescue il soccorso scatta one-shot (heal player
-// + telegraph nello state). Flag OFF (default) -> nessun campo, nessun effetto.
+// SPEC-I ER6 -- wire integration: la wave del bioma cresce col turno e al
+// crossing della soglia rescue il soccorso scatta one-shot (heal player +
+// telegraph nello state). Post-flip 2026-06-10: default (env unset) = ON;
+// opt-out esplicito 'false' -> nessun campo, nessun effetto.
 'use strict';
 
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
@@ -34,8 +35,8 @@ async function advanceTurns(app, sessionId, n) {
   }
 }
 
-test('ER6 flag ON: rescue fires at threshold -> player healed + state telegraph', async (t) => {
-  process.env.STRESSWAVE_EVENTS_ENABLED = 'true';
+test('ER6 default ON (env unset): rescue fires at threshold -> player healed + state telegraph', async (t) => {
+  delete process.env.STRESSWAVE_EVENTS_ENABLED;
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     delete process.env.STRESSWAVE_EVENTS_ENABLED;
@@ -54,10 +55,11 @@ test('ER6 flag ON: rescue fires at threshold -> player healed + state telegraph'
   assert.ok(p1.hp > 4, `expected p1 healed above 4, got ${p1.hp}`);
 });
 
-test('ER6 flag OFF (default): no stresswave_event, no heal', async (t) => {
-  delete process.env.STRESSWAVE_EVENTS_ENABLED;
+test('ER6 opt-out (false): no stresswave_event, no heal', async (t) => {
+  process.env.STRESSWAVE_EVENTS_ENABLED = 'false';
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
+    delete process.env.STRESSWAVE_EVENTS_ENABLED;
     if (typeof close === 'function') await close().catch(() => {});
   });
 

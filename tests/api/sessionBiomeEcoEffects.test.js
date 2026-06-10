@@ -51,14 +51,14 @@ test('session/start surfaces ERMES band in biomeCostsLog (cryosteppe HIGH)', asy
   );
 });
 
-// SPEC-I ER1 -- role gap wire: flag-gated (default OFF, spec sez.8: ON solo
-// post N=40 GREEN). Con flag ON e party senza un ruolo demanded dal bioma,
-// i nemici ricevono +1 soft (max-headroom stat) dentro il cap ER2.
-test('ER1 flag ON: missing demanded role -> role_gap applied to enemy units only', async (t) => {
-  process.env.ERMES_ROLE_GAP_ENABLED = 'true';
+// SPEC-I ER1 -- role gap wire: gate N=40 sez.8 PASSED, default ON (flip
+// master-dd 2026-06-10), opt-out esplicito 'false'. Con party senza un ruolo
+// demanded dal bioma, i nemici ricevono +1 soft (max-headroom stat) dentro il
+// cap ER2.
+test('ER1 default ON (env unset): missing demanded role -> role_gap applied to enemy units only', async (t) => {
+  delete process.env.ERMES_ROLE_GAP_ENABLED;
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
-    delete process.env.ERMES_ROLE_GAP_ENABLED;
     if (typeof close === 'function') await close().catch(() => {});
   });
 
@@ -83,9 +83,11 @@ test('ER1 flag ON: missing demanded role -> role_gap applied to enemy units only
   }
 });
 
-test('ER1 flag OFF (default): no role_gap in log even with missing role', async (t) => {
+test('ER1 opt-out (false): no role_gap in log even with missing role', async (t) => {
+  process.env.ERMES_ROLE_GAP_ENABLED = 'false';
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
+    delete process.env.ERMES_ROLE_GAP_ENABLED;
     if (typeof close === 'function') await close().catch(() => {});
   });
 
