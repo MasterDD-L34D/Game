@@ -1096,6 +1096,47 @@ function rebroadcastCoopState(room, orch) {
 }
 
 /**
+ * Item-3 follow-up (#2679 / M-2 #2697) -- broadcast the ADDITIVE
+ * `creature_named` transitions folded into an advanceScenarioOrEnd() result.
+ * Pre-fix the array reached ONLY the last lineage submitter (socket ack
+ * `lineage_choice_accepted.advance`) and the next_macro path (inside
+ * `next_macro_committed.advance`); `nido_start_mission_accepted` dropped it
+ * entirely ({phase} only). The Godot client dedupes per transition
+ * (actor|stage|mbti), so the double delivery on the next_macro path is safe.
+ */
+function broadcastCreatureNamed(room, advance) {
+  if (!room || typeof room.broadcast !== 'function') return;
+  const named = advance && Array.isArray(advance.creature_named) ? advance.creature_named : [];
+  if (!named.length) return;
+  room.broadcast({ type: 'creature_named', payload: { named } });
+}
+
+/**
+ * Finding P2 2026-06-10 (item-3 AI playtest, finding 2) -- role-aware quorum
+ * for the lifecycle ready-gates (character_create / lineage_choice drains).
+ * A TV-as-mirror host (ADR-2026-06-07: TV = splash/mirror, never input)
+ * never submits: counting it in `allPlayerIds` stalls the orchestrator gates
+ * (expected.size === characters.size, debriefChoices.size >= expected.size)
+ * forever. But a hard host filter would break the legacy phone-only flow
+ * where the host phone PLAYS and submits its own PG: the phase would advance
+ * before the host PG lands, or bounce it via the F-3 player_not_in_room
+ * gate. Self-selecting quorum: the host counts only while it acts as a
+ * player -- it is the current submitter, or it already owns a character.
+ * Mirrors routes/coop.js allPlayerIds() host exclusion (Codex P2 #2073) for
+ * the TV-mirror case.
+ */
+function lifecycleQuorumPids(room, orch, submitterId) {
+  return Array.from(room.players.values())
+    .filter(
+      (p) =>
+        (p.id !== room.hostId && p.role !== 'host') ||
+        p.id === submitterId ||
+        Boolean(orch.characters?.has?.(p.id)),
+    )
+    .map((p) => p.id);
+}
+
+/**
  * Attach a WebSocketServer to an existing http.Server, gated on path.
  * Alternatively, pass `port` to spawn a standalone server (useful for tests).
  *
@@ -1459,7 +1500,7 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const allPids = lifecycleQuorumPids(room, orch, playerId);
               const speciesId =
                 typeof msg.payload?.species_id === 'string' ? msg.payload.species_id : '';
               const formIdRaw = typeof msg.payload?.form_id === 'string' ? msg.payload.form_id : '';
@@ -1726,7 +1767,7 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const allPids = lifecycleQuorumPids(room, orch, playerId);
               const choice = {
                 mutations_to_leave: Array.isArray(msg.payload?.mutations_to_leave)
                   ? msg.payload.mutations_to_leave
@@ -1742,6 +1783,9 @@ function createWsServer({
                   ready_list: orch.debriefReadyList(allPids),
                 },
               });
+              // M-2 (#2697): name transitions must reach the whole branco,
+              // not just this (last) submitter via the ack below.
+              broadcastCreatureNamed(room, advance);
               if (advance?.action === 'ended') {
                 room.publishPhaseChange('ended');
               } else if (orch.phase === 'world_setup') {
@@ -1881,6 +1925,10 @@ function createWsServer({
                   advance: result.advance || null,
                 },
               });
+              // M-2 (#2697): dedicated broadcast for uniformity with the
+              // lineage/nido paths (client dedupe absorbs the overlap with
+              // next_macro_committed.advance above).
+              broadcastCreatureNamed(room, result.advance);
               if (result.phase === 'world_setup') {
                 room.publishPhaseChange('world_setup');
               } else if (result.phase === 'ended') {
@@ -1918,6 +1966,9 @@ function createWsServer({
                 return;
               }
               const result = orch.startMissionFromNido(playerId, { hostId: room.hostId });
+              // M-2 (#2697): pre-fix the {phase}-only ack dropped the naming
+              // transitions carried by result.advance.
+              broadcastCreatureNamed(room, result.advance);
               if (result.phase === 'world_setup') {
                 room.publishPhaseChange('world_setup');
               } else if (result.phase === 'ended') {
