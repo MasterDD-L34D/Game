@@ -1348,6 +1348,7 @@ async function refresh() {
         events: state.world.events,
         pressure: state.world.pressure,
         threatPreview: state.threatPreview,
+        overcharge_used_this_run: !!state.world?.overcharge_used_this_run,
       });
     }
     // Animation loop
@@ -1554,7 +1555,11 @@ async function startNewSession() {
           `🗺 Campagna ${summary?.id || lobbyBridge.session.campaign_id} avviata (live-mirror ON)`,
         );
       } else {
-        appendLog(logEl, `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`, 'error');
+        appendLog(
+          logEl,
+          `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`,
+          'error',
+        );
       }
     } catch (err) {
       appendLog(logEl, `✖ campagna bootstrap: ${err?.message || err}`, 'error');

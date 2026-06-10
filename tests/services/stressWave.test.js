@@ -2,7 +2,8 @@
 // bounded: wave session-local (baseline + escalation_rate * turno) sui dati
 // biomes.yaml finora dormienti; al PRIMO crossing di una soglia scatta UN
 // evento one-shot (rescue = heal player bounded, overrun = +1 reinforcement
-// budget SIS). Flag STRESSWAVE_EVENTS_ENABLED default OFF (gate N=40, sez.8).
+// budget SIS). Gate N=40 sez.8 PASSED: flag STRESSWAVE_EVENTS_ENABLED default
+// ON (flip master-dd 2026-06-10), opt-out esplicito 'false'.
 'use strict';
 
 const test = require('node:test');
@@ -67,8 +68,17 @@ test('checkCrossings: fires each threshold ONCE, in order, when wave crosses', (
   );
 });
 
-test('applyStressWaveTick: flag OFF (default) -> no-op', () => {
+test('applyStressWaveTick: default (env unset) = ON post-flip 2026-06-10 -> fires', (t) => {
   delete process.env.STRESSWAVE_EVENTS_ENABLED;
+  t.after(() => delete process.env.STRESSWAVE_EVENTS_ENABLED);
+  const s = mkSession(4); // wave 0.60 -> rescue
+  const out = applyStressWaveTick(s);
+  assert.ok(out && out.fired.includes('rescue'));
+});
+
+test('applyStressWaveTick: opt-out esplicito (false) -> no-op', (t) => {
+  process.env.STRESSWAVE_EVENTS_ENABLED = 'false';
+  t.after(() => delete process.env.STRESSWAVE_EVENTS_ENABLED);
   const s = mkSession(10);
   const out = applyStressWaveTick(s);
   assert.equal(out, null);
