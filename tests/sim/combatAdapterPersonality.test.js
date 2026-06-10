@@ -87,6 +87,37 @@ test('captures per-unit personality_axes from /:id/vc, faction-tagged', async ()
   );
 });
 
+test('captures per-unit mbti_axes alongside personality_axes (fp-delta probe input)', async () => {
+  const MBTI = {
+    E_I: { value: 0.62, coverage: 0.8 },
+    S_N: { value: 0.48, coverage: 0.7 },
+  };
+  const http = makeFakeHttp({
+    vcBody: {
+      // mbti_axes lives on the RAW snapshot per_actor (GET /:id/vc returns the
+      // full buildVcSnapshot), NOT inside the pinned debrief_payload schema.
+      per_actor: {
+        hero_a: { mbti_axes: MBTI },
+      },
+      debrief_payload: {
+        per_actor: {
+          hero_a: { sentience_tier: 'T2', personality_axes: AXES },
+          foe_1: { sentience_tier: 'T1', personality_axes: AXES }, // no mbti -> null
+        },
+      },
+    },
+  });
+  const res = await runEncounter(http, {
+    roster: [{ id: 'hero_a', controlled_by: 'player', hp: 10 }],
+    enemies: [{ id: 'foe_1', controlled_by: 'sistema', hp: 4 }],
+    scenarioId: 'enc_x',
+  });
+  const hero = res.personalityUnits.find((u) => u.unit_id === 'hero_a');
+  const foe = res.personalityUnits.find((u) => u.unit_id === 'foe_1');
+  assert.deepEqual(hero.mbti_axes, MBTI);
+  assert.equal(foe.mbti_axes, null);
+});
+
 test('failed /vc -> personalityUnits [] (never blocks the outcome)', async () => {
   const http = makeFakeHttp({ vcStatus: 500, vcBody: {} });
   const res = await runEncounter(http, {
