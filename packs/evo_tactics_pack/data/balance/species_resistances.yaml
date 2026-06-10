@@ -48,7 +48,14 @@ species_archetypes:
       fisico: 120
       taglio: 100
       fuoco: 100
-      elettrico: 70
+      # TKT-D4-ENRICH #2533 (2026-06-10): retune 70->80 post-vuln matrix. Con le
+      # prime fonti di danno `elettrico` live (elettromagnete_biologico +
+      # seta_conduttiva_elettrica) il -30% over-shieldava il canale appena
+      # aperto; 80 allinea alla famiglia elettrica (ionico 80, wind 90) e lascia
+      # bioelettrico il piu' resistente della matrice sul canale. SPEC-D4 sez.6
+      # ("offensivo paga, difensivo non over-shielda"). PROPOSED -- ratify
+      # master-dd su evidence N=40 (#2533).
+      elettrico: 80
       psionico: 100
       mentale: 100
       gravita: 100

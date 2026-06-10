@@ -532,6 +532,71 @@ traits:
       sensoriale. Resist canalico +15%, damage_step +1 (vedi trait_mechanics.yaml).
       2026-05-20 PR #2351 ship A4 design-space ionico attivazione.
 
+  elettromagnete_biologico:
+    # TKT-D4-ENRICH #2533 (2026-06-10): SPEC-D4 PROPOSTA A -- offensivo
+    # anti-corazza canale `elettrico` (sinergia vuln corazzato elettrico:120,
+    # SoT 13.9.1). Attiva il trait catalogo Offensivo/Elettrico esistente
+    # (data/traits/offensivo/elettromagnete_biologico.json, usage_tag breaker).
+    # NOTA runtime: primo trait con `resistances` in active_effects -- il
+    # combat runtime legge i resist trait SOLO da questo file
+    # (session.js performAttack -> traitRegistry[tid].resistances).
+    # Valori PROPOSED -- ratify master-dd post N=40 (probe elettrica #2533).
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: magnetic_overload
+    resistances:
+      - { channel: elettrico, modifier_pct: 10 }
+    description_it: |
+      Elettromagnete biologico. Il campo magnetico corporeo si scarica nel
+      punto d'impatto: colpo riuscito con MoS >= 5 infligge 1 PT extra
+      (magnetic_overload). Contro bersagli corazzati il canale elettrico
+      sfrutta la vulnerabilita' della matrice (elettrico: 120). Ability
+      attiva Sovraccarico Magnetico (1d8+1 elettrico, vedi jobs.yaml).
+      Resist canale elettrico +10% (il campo proprio scherma le scariche).
+      Consolida lo stub electromanta 2026-05-10 (PR #2164, trigger
+      ranged_attack mai esercitato runtime) -- lineage: museum
+      M-2026-04-25-005 magnetic_rift tier ladder, electromanta_abyssalis.
+
+  seta_conduttiva_elettrica:
+    # TKT-D4-ENRICH #2533 (2026-06-10): SPEC-D4 PROPOSTA C -- debuff/control.
+    # Estende lo shock->disorient (arco_voltaico) in trait control dedicato
+    # canale `elettrico`. Status canonico `disorient` (combat.schema.json
+    # status_id enum) -- consumer live: attack -2 (session.js), action_speed
+    # -1/intensity (roundOrchestrator), AI target-bias (policy.js).
+    # Coordinamento D1 overcharge: NESSUN effetto -AP (no overlap tetto-AP).
+    # Valori PROPOSED -- ratify master-dd post N=40 (probe elettrica #2533).
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: disorient
+      turns: 1
+      log_tag: voltaic_web_disorient
+    resistances:
+      - { channel: elettrico, modifier_pct: 10 }
+    description_it: |
+      Seta conduttiva elettrica. I fili intessuti scaricano la carica sul
+      bersaglio agganciato: colpo riuscito con MoS >= 5 applica disorient
+      (1 turno, cap canonico STATUS_DURATION_CAPS) per scarica al sistema
+      nervoso. Identita' control del canale elettrico: nessun danno extra,
+      il valore e' la finestra tattica (attack -2 + action_speed -1).
+      Ability attiva Rete Voltaica (apply_status disorient, vedi jobs.yaml).
+      Resist canale elettrico +10% (la seta mette a terra le scariche).
+
   ali_membrana_sonica:
     tier: T1
     category: traumatico
@@ -10108,23 +10173,13 @@ traits:
   # ============================================================================
   # 2026-05-10 D1 T4 electromanta_abyssalis trait activation (PR #2164 proposal)
   # ============================================================================
-  # 2 high-priority orphan trait promoted con stub conservative.
-  # Apex T4 frattura_abissale_sinaptica species core trait_plan dependencies.
-
-  elettromagnete_biologico:
-    tier: T2
-    category: offensivo
-    applies_to: actor
-    trigger:
-      action_type: ranged_attack
-    effect:
-      kind: extra_damage
-      amount: 2
-      log_tag: electromanta_em_pulse
-    description_it: |
-      Elettromagnete biologico: +2 damage ranged (em_pulse). Active
-      bioelectric field weapon-grade T4 intentional use. Apex predator
-      magnetic mastery (museum M-2026-04-25-005 magnetic_rift tier ladder).
+  # 1 high-priority orphan trait promoted con stub conservative
+  # (scivolamento_magnetico). Apex T4 frattura_abissale_sinaptica deps.
+  # NB 2026-06-10 TKT-D4-ENRICH (#2533): lo stub gemello
+  # `elettromagnete_biologico` (trigger `ranged_attack`, mai matchato da
+  # passesBasicTriggers -> no-op runtime dal 2026-05-10) e' stato consolidato
+  # nell'entry canale-elettrico in testa al file (blocco post arco_voltaico):
+  # la chiave duplicata rompeva js-yaml load -> INTERO trait registry {} no-op.
 
   scivolamento_magnetico:
     tier: T1
