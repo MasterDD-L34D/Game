@@ -324,3 +324,125 @@ test('P2 back-compat: legacy host-plays debrief -> advance only after the host c
     await wsHandle.close();
   }
 });
+
+// P2 residue -- reveal_acknowledge drain (UI-only world_seed_reveal phase).
+// Same stall class as finding 2: the drain counted the host in allPids and
+// coopOrchestrator.acknowledgeReveal returns all_ready only when EVERY
+// expected pid acked. Ground-truth (Game-Godot-v2): only the phone composer
+// sends reveal_acknowledge (phone_composer_view.gd); the TV reveal view
+// (world_seed_reveal_view.gd reveal_complete) is a local transition that
+// sends NOTHING -> a TV-mirror host never acks and publishPhaseChange
+// ('world_setup') never fires, phones stuck in MODE_WORLD_REVEAL (mode swap
+// only happens on phase_change). Back-compat: the legacy host phone DOES
+// render the reveal view and acks -> it must stay in the quorum when it
+// owns a character.
+const revealIntent = JSON.stringify({
+  type: 'intent',
+  payload: { action: 'reveal_acknowledge' },
+});
+
+test('P2 reveal: TV-mirror host never acks -> reveal gate closes with players only', async () => {
+  const { lobby, coopStore, wsHandle, port } = await startServer();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Alice' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+
+    const hostWs = openWs(port, {
+      code: room.code,
+      player_id: room.host_id,
+      token: room.host_token,
+    });
+    const p1Ws = openWs(port, { code: room.code, player_id: p1.player_id, token: p1.player_token });
+    const p2Ws = openWs(port, { code: room.code, player_id: p2.player_id, token: p2.player_token });
+    await Promise.all([waitOpen(hostWs), waitOpen(p1Ws), waitOpen(p2Ws)]);
+    await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'hello'),
+      waitForMessage(p1Ws, (m) => m.type === 'hello'),
+      waitForMessage(p2Ws, (m) => m.type === 'hello'),
+    ]);
+
+    p1Ws.send(revealIntent);
+    const first = await waitForMessage(p1Ws, (m) => m.type === 'reveal_acknowledge_accepted');
+    assert.equal(first.payload.status.all_ready, false, 'gate still open after first player');
+
+    p2Ws.send(revealIntent);
+    const last = await waitForMessage(p2Ws, (m) => m.type === 'reveal_acknowledge_accepted');
+
+    // THE stall: pre-fix the host (never an acker) kept the reveal gate
+    // open forever -> no world_setup, phones stuck on the reveal screen.
+    assert.equal(last.payload.status.all_ready, true);
+    await Promise.all([
+      waitForMessage(hostWs, isWorldSetup),
+      waitForMessage(p1Ws, isWorldSetup),
+      waitForMessage(p2Ws, isWorldSetup),
+    ]);
+
+    // reveal_ack_list broadcast must not surface a phantom host row.
+    const list = await waitForMessage(
+      p1Ws,
+      (m) => m.type === 'reveal_ack_list' && m.payload.length === 2,
+    );
+    assert.ok(
+      list.payload.every((e) => e.player_id !== room.host_id),
+      'host must not appear in the reveal ack list',
+    );
+
+    hostWs.close();
+    p1Ws.close();
+    p2Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('P2 reveal back-compat: legacy host-plays reveal -> world_setup only after the host ack', async () => {
+  const { lobby, coopStore, wsHandle, port } = await startServer();
+  try {
+    const room = lobby.createRoom({ hostName: 'HostPhone' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Alice' });
+
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+    // Host phone played the run: it owns a character -> stays in the quorum.
+    // Only the host PG is seeded (gate stays open) so orch.phase does not
+    // reach world_setup before the WS connects -- the connect-time coop
+    // rebroadcast would emit a spurious phase_change world_setup and void
+    // the "no early advance" assertion below.
+    orch.submitCharacter(
+      room.host_id,
+      { name: 'Capo', form_id: 'form_dune_stalker', species_id: 'dune_stalker' },
+      { allPlayerIds: [room.host_id, p1.player_id] },
+    );
+
+    const hostWs = openWs(port, {
+      code: room.code,
+      player_id: room.host_id,
+      token: room.host_token,
+    });
+    const p1Ws = openWs(port, { code: room.code, player_id: p1.player_id, token: p1.player_token });
+    await Promise.all([waitOpen(hostWs), waitOpen(p1Ws)]);
+    await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'hello'),
+      waitForMessage(p1Ws, (m) => m.type === 'hello'),
+    ]);
+
+    p1Ws.send(revealIntent);
+    const first = await waitForMessage(p1Ws, (m) => m.type === 'reveal_acknowledge_accepted');
+    assert.equal(first.payload.status.all_ready, false, 'gate must wait for the playing host');
+    await assert.rejects(waitForMessage(p1Ws, isWorldSetup, 400), /timeout/);
+
+    hostWs.send(revealIntent);
+    const last = await waitForMessage(hostWs, (m) => m.type === 'reveal_acknowledge_accepted');
+    assert.equal(last.payload.status.all_ready, true);
+    await Promise.all([waitForMessage(hostWs, isWorldSetup), waitForMessage(p1Ws, isWorldSetup)]);
+
+    hostWs.close();
+    p1Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
