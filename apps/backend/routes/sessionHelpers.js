@@ -781,6 +781,19 @@ function applyApRefill(unit) {
   if (Number(unit.status?.defy_penalty) > 0) cap = Math.max(0, cap - 1);
   if (Number(unit.status?.chilled) > 0) cap = Math.max(1, cap - 1);
   if (Number(unit.status?.slowed) > 0) cap = Math.max(1, cap - 1);
+  // OD-058 D2 read-apply (flag-gated, #2531): testa-grave wound = -1 AP at refill
+  // (SPEC-D2 §8.4 graduato). Floor 0 like defy_penalty (never negative). Lazy
+  // require avoids touching this module's top-level imports for a default-OFF
+  // path. Flag OFF (default) = no-op, refill byte-identical.
+  try {
+    const woundSystem = require('../services/combat/woundSystem');
+    if (woundSystem.isReadApplyEnabled()) {
+      const apMalus = Number(woundSystem.computeWoundMaluses(unit).ap) || 0;
+      if (apMalus !== 0) cap = Math.max(0, cap + apMalus);
+    }
+  } catch {
+    /* wound read-apply optional; never block the refill */
+  }
   unit.ap_remaining = cap;
 }
 
