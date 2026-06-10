@@ -55,8 +55,9 @@ function withFlag(value, fn) {
   }
 }
 
-test('flag OFF (default): wounds produce NO attack/defense delta (status quo)', () => {
-  withFlag(null, () => {
+// D3 cutover (verdetto 2026-06-10): default e' ON -- l'opt-out e' esplicito.
+test('flag OFF (explicit opt-out): wounds produce NO attack/defense delta', () => {
+  withFlag('false', () => {
     const actor = unitWith([wound('arti_anteriori', 'grave')]);
     const r = computeStatusModifiers(actor, cleanTarget(), []);
     assert.equal(r.attackDelta, 0);
@@ -124,8 +125,8 @@ test('flag ON: wound presence still yields legacy wounded_perma (no double-apply
   });
 });
 
-test('flag OFF: applyApRefill ignores wound ap malus (status quo)', () => {
-  withFlag(null, () => {
+test('flag OFF (explicit opt-out): applyApRefill ignores wound ap malus', () => {
+  withFlag('false', () => {
     const u = unitWith([wound('testa', 'grave')], { ap: 2 });
     applyApRefill(u);
     assert.equal(u.ap_remaining, 2);
