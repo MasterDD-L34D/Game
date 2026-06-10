@@ -5,7 +5,7 @@ type: resolution-roadmap
 doc_status: review_needed
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-07'
+last_verified: '2026-06-10'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -14,6 +14,18 @@ related: ADR-2026-06-07-device-authority-tv-mirror-canon
 ---
 
 # Evo-Tactics open points resolution roadmap
+
+> **STATUS CHECKPOINT 2026-06-10 (sera) -- leggere PRIMA delle sezioni storiche.**
+> La suite SPEC A..Q e' SCRITTA 17/17; lo stato per-spec NON vive piu' qui (anti-drift
+> #19): la verita' e' `docs_registry.json` (doc_status) + SPEC-L runtime inventory
+> (`docs/design/evo-tactics-runtime-feature-inventory-reconcile.md`, stato LIVE/GATED
+> per engine). Snapshot al checkpoint: **6/17 active** (I/K/L/M/N/O), 11 review_needed
+> (A/B/C/D/E/F/G/H/J/P/Q). Engine SHIPPED e ACCESI: ER1 role-gap + ER6 StressWave
+> (default ON, N=40 PASSED #2725), wound V2 (default ON #2720), FP->VC + name
+> emergence + chronicle M-7 + A13 wound + vcSnapshot ledger replay (#2722). ER7
+> population BUILT flag-OFF (#2723). OD-058 CHIUSO 13/13. Residui correnti e entry
+> point = `docs/planning/2026-06-10-mega-session-closure-handoff.md` + CLAUDE.md
+> sprint context (v52).
 
 Questo documento traduce la ricostruzione del 2026-06-05 in lavoro chiudibile.
 Fa parte della suite indicizzata in:
