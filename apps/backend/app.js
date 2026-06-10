@@ -797,10 +797,15 @@ function createApp(options = {}) {
   }
   const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
   const coopStore = createCoopStore({ lobby });
-  app.use(
-    '/api/session',
-    createSessionRouter({ ...(options.session || {}), coopStore, chronicle: options.chronicle }),
-  );
+  // OD-058 D3 (#2531): keep the router instance -- it exposes getSessionById,
+  // the read-only accessor the coop router uses to replay the linked combat
+  // session's event ledger server-side at /coop/combat/end.
+  const sessionRouter = createSessionRouter({
+    ...(options.session || {}),
+    coopStore,
+    chronicle: options.chronicle,
+  });
+  app.use('/api/session', sessionRouter);
   app.use('/api/party', createPartyRouter());
   // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
   app.use('/api', createFeedbackRouter(options.feedback || {}));
@@ -822,7 +827,17 @@ function createApp(options = {}) {
   // roll offspring server-side (WS handler + REST parity). Prisma-gated; the
   // resolver degrades gracefully when prisma is absent (dev/demo/tests).
   const metaStoreFactory = (campaignId) => createMetaStore({ prisma: repo.prisma, campaignId });
-  app.use('/api', createCoopRouter({ lobby, coopStore, metaStoreFactory, prisma: repo.prisma }));
+  app.use(
+    '/api',
+    createCoopRouter({
+      lobby,
+      coopStore,
+      metaStoreFactory,
+      prisma: repo.prisma,
+      // OD-058 D3: ledger-replay seam (server-side vcSnapshot at combat end).
+      getCombatSession: sessionRouter.getSessionById,
+    }),
+  );
   // 2026-05-20 — Combat readonly diagnostic (status-penalties + biome-modifiers).
   app.use('/api/combat', createCombatRouter());
   app.use('/api', createCompanionRouter());

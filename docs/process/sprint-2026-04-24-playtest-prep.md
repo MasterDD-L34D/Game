@@ -4,7 +4,7 @@ workstream: ops-qa
 category: sprint-close
 doc_status: active
 doc_owner: master-dd
-last_verified: '2026-04-24'
+last_verified: 2026-06-10
 source_of_truth: false
 language: it
 review_cycle_days: 30
