@@ -49,6 +49,19 @@ test('tick skips when policy disabled (default OFF)', () => {
   assert.equal(res.spawned.length, 0);
 });
 
+// SPEC-I ER6 -- overrun one-shot: opts.budgetBonus extends the tier budget
+// for THIS tick only (consume-once at the caller). Bounded by max_total_spawns.
+test('tick honours opts.budgetBonus on top of tier budget (ER6 overrun)', () => {
+  const session = mockSession(); // pressure 30 -> Alert, budget 1
+  const enc = mockEncounter();
+  const base = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(base.budget_used, 1, 'baseline Alert budget is 1');
+
+  const boosted = tick(mockSession(), mockEncounter(), { rng: () => 0.5, budgetBonus: 1 });
+  assert.equal(boosted.budget_used, 2, 'bonus +1 -> budget 2');
+  assert.equal(boosted.spawned.length, 2);
+});
+
 test('tick skips at Calm tier (below min_tier Alert)', () => {
   const session = mockSession({ pressure: 10 }); // Calm
   const enc = mockEncounter();

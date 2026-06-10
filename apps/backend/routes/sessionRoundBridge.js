@@ -39,6 +39,7 @@ const {
   resetRoundSynergyTracker,
 } = require('../services/combat/synergyDetector');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
+const { applyStressWaveTick } = require('../services/combat/stressWave');
 // TKT-PLAYTEST-SEED (P2): per-session RNG scoping for combat round resolution.
 // Installs session.combatRng around each (synchronous) resolveRoundPure so a
 // seeded calibration session's stream is isolated from concurrent sessions.
@@ -1902,6 +1903,7 @@ function createRoundBridge(deps) {
     await persistEvents(session);
     session.turn += 1;
     sgBeginTurnAll(session);
+    applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
 
     // Round decay (AI War pattern — sistema_pressure.yaml §deltas.round_decay):
     // pressure cala di 1 per round senza eventi di victory/defeat.
@@ -1924,8 +1926,12 @@ function createRoundBridge(deps) {
     // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
     // session.encounter undefined → both modules return no-op.
     // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+    // SPEC-I ER6: consume the one-shot overrun bonus armed by stressWave.
+    const stresswaveBonus = Number(session._stresswaveOverrunBonus) || 0;
+    if (stresswaveBonus) session._stresswaveOverrunBonus = 0;
     const reinforcementResult = reinforcementTick(session, session.encounter, {
       rng: makeHolderRng(session.combatRng),
+      budgetBonus: stresswaveBonus,
     });
     for (const rec of reinforcementResult.spawned || []) {
       if (rec.skipped) continue;
@@ -2379,6 +2385,7 @@ function createRoundBridge(deps) {
         await persistEvents(session);
         session.turn += 1;
         sgBeginTurnAll(session);
+        applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
 
         if (typeof session.sistema_pressure === 'number') {
           session.sistema_pressure = applyPressureDelta(
@@ -2395,8 +2402,12 @@ function createRoundBridge(deps) {
         // ADR-2026-04-19 + 04-20 wiring (commit-round path).
         // Graceful no-op if session.encounter undefined.
         // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+        // SPEC-I ER6: consume the one-shot overrun bonus armed by stressWave.
+        const stresswaveBonus = Number(session._stresswaveOverrunBonus) || 0;
+        if (stresswaveBonus) session._stresswaveOverrunBonus = 0;
         const reinforcementResult = reinforcementTick(session, session.encounter, {
           rng: makeHolderRng(session.combatRng),
+          budgetBonus: stresswaveBonus,
         });
         for (const rec of reinforcementResult.spawned || []) {
           if (rec.skipped) continue;
