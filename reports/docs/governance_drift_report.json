@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-10T19:42:22+00:00",
+  "generated_at": "2026-06-10T20:02:53+00:00",
   "summary": {
-    "total": 397,
+    "total": 365,
     "errors": 0,
-    "warnings": 397
+    "warnings": 365
   },
   "issues": [
     {
@@ -657,18 +657,6 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/pipelines/FAS2D_step1_briefing.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/pipelines/Frattura_Abissale_Sinaptica_pipeline_run.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
@@ -693,85 +681,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step1.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step10.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step2.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step3.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step4.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step5.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step6.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step7.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step8.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step9.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_SIMULATION_Frattura_Abissale_Sinaptica.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/PIPELINE_SPECIE_BIOMA_Frattura_Abissale_Sinaptica.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -807,25 +717,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/pipelines/drive_sync.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/ema-metrics.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/pipelines/gh-cli-manual-dispatch.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/pipelines/roadmap_generator.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -1053,24 +945,6 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/process/README.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/action-items.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/bug-intake.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/bug-template.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
@@ -1125,31 +999,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/process/localization.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/milestones.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/operations_calendar.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/project-setup-todo.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/qa_hud.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -1161,24 +1011,6 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/process/sentience_rollout_plan.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/sprint-2026-04-24-playtest-prep.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-24"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/sprint-2026-04-25-parallel-validation.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-09"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/telemetry.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
@@ -1186,12 +1018,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/process/telemetry_ingestion_pipeline.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/ticket-2025-10-27-playwright-deploy-checks.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -1209,19 +1035,7 @@
     {
       "level": "warning",
       "code": "stale_document",
-      "path": "docs/process/training/trait_style_session.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
       "path": "docs/process/trait_data_reference.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/trait_review.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {
@@ -1240,12 +1054,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/process/vc_playtest_plan.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-20"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/process/web_handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-05-20"
     },
     {

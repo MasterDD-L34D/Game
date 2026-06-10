@@ -29,7 +29,9 @@
 const { computeSistemaTier } = require('../../routes/sessionHelpers');
 const { defaultRng } = require('./pseudoRng');
 // TKT-WORLDGEN-GAPA (2026-05-29): foodweb whitelist filter for the spawn pool.
-const { filterReinforcementPool } = require('../worldgen/foodwebFilter');
+const { filterReinforcementPool, applyPopulationToPool } = require('../worldgen/foodwebFilter');
+// SPEC-I ER7: cross-run population state shapes the spawn pool (flag-gated OFF).
+const biomePopulation = require('../worldgen/biomePopulation');
 
 const DEFAULT_MIN_DISTANCE_FROM_PG = 3; // Manhattan
 const TIER_LABEL_ORDER = ['Calm', 'Alert', 'Escalated', 'Critical', 'Apex'];
@@ -182,6 +184,34 @@ function tick(session, encounter, opts = {}) {
         excluded: foodwebMeta.excluded,
       }),
     );
+  }
+  // SPEC-I ER7 (flag-gated OFF): second-stage shaping by the cross-run biome
+  // population (depleted role excluded, abundant weighted up). Best-effort +
+  // band-safe (applyPopulationToPool never empties the pool). Zero new code path
+  // when the flag is off.
+  if (biomePopulation.isEnabled() && foodwebBiomeId && session && session.campaign_id) {
+    try {
+      const { getCampaign } = require('../campaign/campaignStore');
+      const camp = getCampaign(session.campaign_id);
+      const biomePop = camp && camp.biomePopulation ? camp.biomePopulation[foodwebBiomeId] : null;
+      if (biomePop) {
+        const shaped = applyPopulationToPool(pool, foodwebBiomeId, biomePop);
+        if (shaped.applied) {
+          pool = shaped.pool;
+          console.log(
+            JSON.stringify({
+              component: 'reinforcement-population-shape',
+              biome_id: foodwebBiomeId,
+              reason: shaped.reason,
+              excluded: shaped.excluded,
+              boosted: shaped.boosted,
+            }),
+          );
+        }
+      }
+    } catch {
+      /* best-effort; never blocks spawn */
+    }
   }
   const entryTiles = encounter?.reinforcement_entry_tiles;
   if (!Array.isArray(pool) || pool.length === 0) {

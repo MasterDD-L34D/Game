@@ -12231,6 +12231,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/reports/2026-06-10-er7-biome-population-build-evidence.md",
+      "title": "SPEC-I ER7 -- biome population tick BUILT flag-gated (build + PROPOSED knobs)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-10",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

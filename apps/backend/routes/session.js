@@ -3673,7 +3673,18 @@ function createSessionRouter(options = {}) {
               }
             } else if (session.outcome === 'victory') {
               const r = healBiome(cur, biomeId);
-              if (r.healed) updateCampaign(campaignId, { woundedBiomes: r.wounded });
+              const patch = {};
+              if (r.healed) patch.woundedBiomes = r.wounded;
+              // SPEC-I ER7 -- run vinto = apex predator rimosso dal bioma.
+              // Segnale one-shot per il population tick (consumato + azzerato dal
+              // season-tick). Flag-gated BIOME_POPULATION_ENABLED: no-op se OFF.
+              if (require('../services/worldgen/biomePopulation').isEnabled()) {
+                patch.apexPressureByBiome = {
+                  ...(camp.apexPressureByBiome || {}),
+                  [biomeId]: true,
+                };
+              }
+              if (Object.keys(patch).length) updateCampaign(campaignId, patch);
             }
           }
         }
