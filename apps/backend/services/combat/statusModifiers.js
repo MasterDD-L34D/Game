@@ -31,6 +31,10 @@
 
 'use strict';
 
+// OD-058 D2 read-apply (#2531): location-wound maluses, applied flag-gated inside
+// computeStatusModifiers. Same-dir require, no cycle (woundSystem is pure/standalone).
+const woundSystem = require('./woundSystem');
+
 // Action 5a (2026-04-29) — wounded_perma severity 3-tier attack_mod scaling.
 // Battle Brothers attrition pattern: ferita compromettente compromette accuracy.
 // Mapping integer (attack_mod e' integer scale d20 — 1 step ~5-7% hit chance):
@@ -199,6 +203,42 @@ function computeStatusModifiers(actor, target, units = []) {
     // the missing read-path (Python resolver had it, dropped in Node migration).
     defenseDelta -= 1;
     log.push({ status: 'sbilanciato', side: 'target', effect: '-1 defense_mod (spinta exposure)' });
+  }
+
+  // ─── OD-058 D2 read-apply (flag-gated, #2531) — location wounds → deltas ───
+  // Actor wounds: attack_mod (arti_anteriori) + accuracy (testa lieve/media) both
+  // reduce the d20 to-hit, so they fold into attackDelta (logged separately).
+  // Target wounds: defense_mod (torso) lowers the DC (easier to hit).
+  // mobility (arti_posteriori) has NO engine consumer (no move-range stat) ->
+  // intentionally inert here; ap is applied at refill (sessionHelpers.applyApRefill).
+  // Flag OFF (default) = zero delta, status quo byte-identical.
+  if (woundSystem.isReadApplyEnabled()) {
+    const wmActor = woundSystem.computeWoundMaluses(actor);
+    if (wmActor.attack_mod !== 0) {
+      attackDelta += wmActor.attack_mod;
+      log.push({
+        status: 'wound',
+        side: 'actor',
+        effect: `${wmActor.attack_mod} attack_mod (location wound)`,
+      });
+    }
+    if (wmActor.accuracy !== 0) {
+      attackDelta += wmActor.accuracy;
+      log.push({
+        status: 'wound',
+        side: 'actor',
+        effect: `${wmActor.accuracy} accuracy (testa wound, to-hit)`,
+      });
+    }
+    const wmTarget = woundSystem.computeWoundMaluses(target);
+    if (wmTarget.defense_mod !== 0) {
+      defenseDelta += wmTarget.defense_mod;
+      log.push({
+        status: 'wound',
+        side: 'target',
+        effect: `${wmTarget.defense_mod} defense_mod (location wound)`,
+      });
+    }
   }
 
   // ─── Action 5a — wounded_perma severity → actor attack_mod penalty ────

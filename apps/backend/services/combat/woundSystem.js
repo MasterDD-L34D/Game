@@ -131,6 +131,17 @@ function computeWoundMaluses(unit) {
   return out;
 }
 
+/**
+ * OD-058 D2 read-apply flag (issue #2531). The staged engine shipped with NO consumer
+ * for computeWoundMaluses; behind this flag statusModifiers (attack/accuracy/defense)
+ * and applyApRefill (ap) actually apply the maluses. Default OFF = status quo
+ * byte-identical. Read per-call so probe arms can toggle it within one process.
+ * Flip ON = master-dd verdict post N=40 magnitude evidence (L-069).
+ */
+function isReadApplyEnabled() {
+  return process.env.WOUND_LOCATION_V2 === 'true';
+}
+
 /** Empty cross-encounter map { [unit_id]: Array<grave wound> }. */
 function initSessionMap() {
   return {};
@@ -223,6 +234,7 @@ module.exports = {
   woundEffect,
   applyWound,
   computeWoundMaluses,
+  isReadApplyEnabled,
   initSessionMap,
   persistGraveWounds,
   restoreOnEncounterStart,
