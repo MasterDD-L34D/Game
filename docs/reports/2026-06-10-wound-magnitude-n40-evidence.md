@@ -128,6 +128,18 @@ control identici distano 13pp -> quello E' il noise floor):
    per-tiro (hit-rate dal log eventi -- il -2 e' gia' provato esattamente li',
    F1). Da decidere solo se il verdetto su Q1 chiede re-misura.
 
+## Verdetto (master-dd 2026-06-10, sessione interattiva)
+
+- [x] **Q1 magnitudo -1/-1/-2: AS-IS, RATIFIED-PROVISIONAL** (re-validate on
+  player data). La ferita e' firma per-tiro/telegraph, non punizione da
+  outcome -- famiglia verdetto A13 "segnaletica anti death-spiral".
+- [x] **Q2 trigger->severity: AS-PROPOSED, RATIFICATO** -- crit -> `lieve`
+  (encounter-scoped), KO -> `grave` (eredita il ruolo cross-encounter di
+  woundedPerma). Sblocca il cutover.
+- [x] **Q3 flip `WOUND_LOCATION_V2` + cutover live**: prossimo lavoro
+  post-merge (box D3 tracker #2531, stessa sessione).
+- [x] **Q4 potenza**: N/A (Q1 ratificata as-is, nessuna re-misura richiesta).
+
 ## Stato gate D2
 
 - Box "N=40 post-build magnitudo": evidence raccolta (sopra). Ratifica = DD.
