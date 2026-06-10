@@ -133,6 +133,7 @@ const {
 // ADR-2026-05-29 FASE 3: applyBiomeEcoEffects replaces inline ADR-21c block.
 // Runs ADR-21c + ERMES + unified +/-2 cap. applyBiomeTraitCosts no longer used directly.
 const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../services/traitEffects');
+const { applyStressWaveTick } = require('../services/combat/stressWave');
 // QW1 (M-018 worldgen card): biome diff_base + stress_modifiers → runtime
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
@@ -1665,6 +1666,7 @@ function createSessionRouter(options = {}) {
       session.active_unit = nextId;
       session.turn += 1;
       sgBeginTurnAll(session);
+      applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
     }
 
     return { iaActions, bleedingEvents };
@@ -3068,6 +3070,7 @@ function createSessionRouter(options = {}) {
         }
         session.turn += 1;
         sgBeginTurnAll(session);
+        applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
       }
 
       const eventsEmitted = session.events.slice(eventsCountBefore);

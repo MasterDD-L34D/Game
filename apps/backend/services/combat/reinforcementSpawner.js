@@ -215,7 +215,11 @@ function tick(session, encounter, opts = {}) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'max_total_reached' };
   }
 
-  const budget = Math.min(Number(tier.reinforcement_budget) || 0, remaining);
+  // SPEC-I ER6 -- overrun one-shot: opts.budgetBonus (default 0) extends the
+  // tier budget for THIS tick only; the caller consumes the session flag once.
+  // Still bounded by max_total_spawns (`remaining`).
+  const budgetBonus = Math.max(0, Number(opts.budgetBonus) || 0);
+  const budget = Math.min((Number(tier.reinforcement_budget) || 0) + budgetBonus, remaining);
   if (budget <= 0) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'tier_budget_zero' };
   }

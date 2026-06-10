@@ -91,15 +91,33 @@ export function woundedLabel(biomeWounded) {
   return label === i18nKey ? 'Bioma ferito' : label;
 }
 
+// Pure: StressWave event → diegetic IT label (SPEC-I ER6, opzione C ratificata).
+// Annuncia l'evento one-shot al crossing della soglia; mai il valore wave (ER3).
+// Eventi senza effetto meccanico wired (support/salvage/...) → '' a meno che
+// i18n li definisca (`biome_stresswave.<event>`).
+const STRESSWAVE_FALLBACKS = {
+  rescue: 'Soccorso in arrivo',
+  overrun: 'Ondata in arrivo',
+};
+export function stresswaveEventLabel(event) {
+  if (!event || typeof event !== 'string') return '';
+  const i18nKey = `biome_stresswave.${event}`;
+  const label = t(i18nKey);
+  if (label !== i18nKey) return label;
+  return STRESSWAVE_FALLBACKS[event] || '';
+}
+
 // Pure: payload → HTML chip. Returns empty string se biome_id mancante.
 // Optional biomeModifiers param adds pressure indicator (TKT-ECO-A5).
 // Optional ermesBand (low/med/high) adds eco descriptor (FASE 3 P4).
 // Optional biomeWounded (bool) adds wounded telegraph (SPEC-P PA3, #2677).
+// Optional stresswaveEvent ({event} | null) adds ER6 one-shot event telegraph.
 export function formatBiomeChip(
   biomeId,
   biomeModifiers = null,
   ermesBand = null,
   biomeWounded = false,
+  stresswaveEvent = null,
 ) {
   if (!biomeId) return '';
   const icon = iconForBiome(biomeId);
@@ -117,12 +135,18 @@ export function formatBiomeChip(
   const woundedHtml = woundedTxt
     ? `<span class="biome-wounded" data-wounded="true">🩸 ${escapeHtml(woundedTxt)}</span>`
     : '';
+  const swEvent = stresswaveEvent && stresswaveEvent.event ? String(stresswaveEvent.event) : null;
+  const swTxt = swEvent ? stresswaveEventLabel(swEvent) : '';
+  const swHtml = swTxt
+    ? `<span class="biome-stresswave biome-stresswave-${escapeHtml(swEvent)}" data-stresswave="${escapeHtml(swEvent)}">⚡ ${escapeHtml(swTxt)}</span>`
+    : '';
   return (
     `<span class="biome-icon">${icon}</span>` +
     `<span class="biome-label">${escapeHtml(label)}</span>` +
     pressureHtml +
     ecoHtml +
-    woundedHtml
+    woundedHtml +
+    swHtml
   );
 }
 
@@ -149,9 +173,10 @@ export function renderBiomeChip(
   biomeModifiers = null,
   ermesBand = null,
   biomeWounded = false,
+  stresswaveEvent = null,
 ) {
   if (!containerEl || typeof containerEl.innerHTML !== 'string') return;
-  const html = formatBiomeChip(biomeId, biomeModifiers, ermesBand, biomeWounded);
+  const html = formatBiomeChip(biomeId, biomeModifiers, ermesBand, biomeWounded, stresswaveEvent);
   if (!html) {
     containerEl.innerHTML = '';
     containerEl.classList.add('biome-hidden');

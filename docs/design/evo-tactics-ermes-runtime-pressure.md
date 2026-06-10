@@ -460,6 +460,8 @@ SPEC-I e' implementabile/chiudibile quando:
 
 **STATO FLIP (2026-06-10, verdetto master-dd):** `doc_status: active`. Acceptance 1-8
 soddisfatti: engine ERMES LIVE, pilota badlands N=40 GREEN, ER1 wired flag-gated
-(PR #2704), ER1-ER7 TUTTI ratificati. Forward-work tracciato (NON gate del flip): build
-ER6 (event-trigger StressWave), build ER7 (population state), hint role-gap `private`
-per-device (item 3 Godot), N=40 flag-ON di ER1 con party role-aware.
+(PR #2704), ER1-ER7 TUTTI ratificati. Forward-work tracciato (NON gate del flip):
+~~build ER6~~ **BUILT flag-gated** (stesso giorno: `combat/stressWave.js`, flag
+`STRESSWAVE_EVENTS_ENABLED` OFF, magnitudini PROPOSED -> N=40), build ER7 (population
+state), hint role-gap `private` per-device (item 3 Godot), N=40 flag-ON di ER1 con
+party role-aware, N=40 flag-ON di ER6.

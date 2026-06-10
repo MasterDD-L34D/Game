@@ -508,6 +508,10 @@ function publicSessionView(session) {
     // SPEC-P PA3 read-side -- wounded-biome flag (A13 cross-run); the surface
     // telegraphs it diegetically pre/in-run (anti-brick, no raw number).
     biome_wounded: !!session.biome_wounded,
+    // SPEC-I ER6 -- ultimo evento StressWave scattato ({event, turn} | null),
+    // telegraph diegetico public-tier (mai il valore wave, ER3). Flag-gated:
+    // resta null finche' STRESSWAVE_EVENTS_ENABLED non e' ON.
+    stresswave_event: session.stresswave_event_latest || null,
     // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
     campaign_id: session.campaign_id || null,
     sistema_state: session.sistema_state || { units_observed: {} },
