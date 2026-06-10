@@ -20,6 +20,7 @@ const MECHANICS_PATH = path.join(
   'trait_mechanics.yaml',
 );
 const INVENTORY_PATH = path.join(REPO_ROOT, 'docs', 'catalog', 'traits_inventory.json');
+const ACTIVE_EFFECTS_PATH = path.join(REPO_ROOT, 'data', 'core', 'traits', 'active_effects.yaml');
 
 const SCHEMA_ID = 'contracts://trait-mechanics/catalog';
 
@@ -331,4 +332,47 @@ test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
       );
     }
   }
+});
+
+test('P2 wiring fix 2026-06-10: resistances trait_mechanics specchiate in active_effects (runtime SoT)', () => {
+  // Il combat runtime (session.js performAttack -> loadActiveTraitRegistry)
+  // legge le resistances trait SOLO da active_effects.yaml: una resistance
+  // dichiarata solo in trait_mechanics.yaml e' un no-op silenzioso in
+  // produzione (bug P2 trovato durante TKT-D4-ENRICH #2533, pattern fix
+  // PR #2715 elettromagnete_biologico / seta_conduttiva_elettrica).
+  const catalog = loadCatalog();
+  const active = yaml.load(fs.readFileSync(ACTIVE_EFFECTS_PATH, 'utf8'));
+  assert.ok(active && typeof active.traits === 'object', 'active_effects.yaml parseabile');
+
+  const normalize = (list) =>
+    JSON.stringify(
+      (list || [])
+        .map((r) => ({ channel: r.channel, modifier_pct: r.modifier_pct }))
+        .sort((a, b) => a.channel.localeCompare(b.channel)),
+    );
+
+  const problems = [];
+  for (const [id, entry] of Object.entries(catalog.traits)) {
+    const mechRes = Array.isArray(entry.resistances) ? entry.resistances : [];
+    if (mechRes.length === 0) continue;
+    const aeEntry = active.traits[id];
+    if (!aeEntry) {
+      problems.push(`${id}: entry assente in active_effects.yaml`);
+      continue;
+    }
+    if (!Array.isArray(aeEntry.resistances)) {
+      problems.push(`${id}: campo resistances assente in active_effects.yaml (runtime no-op)`);
+      continue;
+    }
+    if (normalize(aeEntry.resistances) !== normalize(mechRes)) {
+      problems.push(
+        `${id}: resistances divergenti — mechanics=${normalize(mechRes)} active_effects=${normalize(aeEntry.resistances)}`,
+      );
+    }
+  }
+  assert.deepEqual(
+    problems,
+    [],
+    `ogni trait con resistances in trait_mechanics.yaml deve avere mirror identico in active_effects.yaml:\n${problems.join('\n')}`,
+  );
 });
