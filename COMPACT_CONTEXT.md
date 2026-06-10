@@ -5,7 +5,17 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-09 (sessione B) — maintenance + hygiene + health-sweep
+## ⚡ Sessione corrente 2026-06-10 (mega-sessione D/E, Ryzen, ~24h) — governance + SPEC-M/I + OD-058 + chip-rounds
+
+**~30 PR merged** (#2694..#2730), main `83666daa4`. **OD-058 CHIUSO 13/13** (wound V2 default ON, vcSnapshot coop server-authoritative dal ledger, electric ratificato). **SPEC-M + SPEC-I flip `active`** (item-1 = 6/17: I/K/L/M/N/O): MA3+name_pool 32+delta 0.05 ratificati; ER1 role-gap + ER6 StressWave **default ON** (N=40 gates PASSED #2725), ER7 population BUILT flag-OFF. Governance: check disk->registry `unregistered_document` + 246 legacy registrati (938 entry) + burn-down b2 -> **stale 362** / mismatch 0. Quorum coop family coerente (TV-mirror vs host-plays, WS+REST). **Fix critico #2730**: rinforzi round-model MAI spawnati (position array vs `{x,y}`, issue #2724 era closed col bug VIVO). Health-sweep finale: **~3930 test 0 fail**.
+
+**Catch-radice sessione**: junction-chain (`<worktree>/node_modules -> main` + npm-workspace `@game/* -> sorgenti`) = 2 wipe da 655 file via `rm`/`--force` MSYS — recovery 100% (tutto tracked), regola: `cmd rmdir` di ogni junction PRIMA di rimuovere. + npm ci parziale silenzioso (probe sempre). + 7 verdetti DD trascritti negli evidence doc PRIMA dei merge.
+
+**Next entry point**: (1) re-run N=40 **overrun** post-#2730 -> ratifica `OVERRUN_BUDGET_BONUS` (ultimo PROPOSED ER6, flag gia' ON); (2) N=40 **ER7** flag-ON; (3) item-1 flip 11 spec; (4) stale batch-3; (5) role-gap hint private (Lenovo). Handoff: `docs/planning/2026-06-10-mega-session-closure-handoff.md`.
+
+---
+
+## Sessione 2026-06-09 (sessione B) — maintenance + hygiene + health-sweep
 
 **5 PR merged (3 repo)**: #2681 `73c7699f` biomeChip "bioma ferito" telegraph (SPEC-P PA3, surface WEB di `biome_wounded` #2677) · #2682 `ddf3efed` + #2684 `01267f13` Game **Prettier-clean 100%** (debito 115->0, workflow forbidden incluso consenso DD) · #178 `fbe3b7b1` Game-Database `.gitattributes eol=lf` (CRLF cross-OS) · #457 `1d8f13b3` Game-Godot-v2 autofree-race fix (test, GUT 5/5 clean).
 
