@@ -36,8 +36,23 @@ const biomePopulation = require('../worldgen/biomePopulation');
 const DEFAULT_MIN_DISTANCE_FROM_PG = 3; // Manhattan
 const TIER_LABEL_ORDER = ['Calm', 'Alert', 'Escalated', 'Critical', 'Apex'];
 
+// #2724 -- position format drift: authored tiles are arrays [x,y], runtime
+// round-model units carry {x,y} objects. Normalize both; unknown -> null.
+function coordOf(p) {
+  if (Array.isArray(p) && p.length >= 2) return [Number(p[0]), Number(p[1])];
+  if (p && typeof p === 'object' && Number.isFinite(Number(p.x)) && Number.isFinite(Number(p.y))) {
+    return [Number(p.x), Number(p.y)];
+  }
+  return null;
+}
+
 function manhattanDistance(a, b) {
-  return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+  const ca = coordOf(a);
+  const cb = coordOf(b);
+  // unknown coords -> Infinity (= "far"): mirrors the pre-existing permissive
+  // `!pg.position` branch in farFromAllPG (absent position never blocks a tile).
+  if (!ca || !cb) return Infinity;
+  return Math.abs(ca[0] - cb[0]) + Math.abs(ca[1] - cb[1]);
 }
 
 function tierMeetsMin(currentLabel, minLabel) {
@@ -51,9 +66,11 @@ function isWalkable(tile, session) {
   const [x, y] = tile;
   const grid = session.grid || { width: 10, height: 10 };
   if (x < 0 || y < 0 || x >= grid.width || y >= grid.height) return false;
-  const occupied = (session.units || []).some(
-    (u) => (u.hp ?? 0) > 0 && u.position && u.position[0] === x && u.position[1] === y,
-  );
+  const occupied = (session.units || []).some((u) => {
+    if ((u.hp ?? 0) <= 0) return false;
+    const c = coordOf(u.position);
+    return !!c && c[0] === x && c[1] === y;
+  });
   return !occupied;
 }
 
@@ -307,7 +324,11 @@ function tick(session, encounter, opts = {}) {
       // real creature instead of the archetype label.
       species_id: entry.species_id || '',
       controlled_by: 'sistema',
-      position: tile,
+      // #2724: spawn in the SESSION's position format (object when the round
+      // model is live) so downstream distance/attack math stays coherent.
+      position: (session.units || []).some((u) => u && u.position && !Array.isArray(u.position))
+        ? { x: tile[0], y: tile[1] }
+        : tile,
       hp: Number(entry.hp) || 8,
       hp_max: Number(entry.hp) || 8,
       ap: 2,
