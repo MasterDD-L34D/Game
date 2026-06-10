@@ -79,6 +79,11 @@ function emergeIdentity(creature, opts = {}) {
   const pool = Array.isArray(opts.pool) ? opts.pool : loadNamePool(opts);
   const seed = (creature && creature.id) || '';
   const name = pickName(pool, seed);
+  // Empty/unloadable pool -> no name emerged: identity stays anonymous
+  // (never {anonymous:false, name:null}).
+  if (name == null) {
+    return { stage, anonymous: true, name: null, mbti_reveal: false };
+  }
   const identity = {
     stage,
     anonymous: false,
