@@ -160,6 +160,30 @@ test('POST /overcharge: event appended to session.events', async (t) => {
   assert.equal(ev.ap_after, 3);
 });
 
+test('Gate-5 #2716: overcharge_used_this_run false pre, true post, persists across turns', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const sid = await startSession(app, [basePlayer({ sg: 3 }), baseSistema()]);
+  // Pre: fresh run, flag false in the public view.
+  const pre = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(pre.status, 200);
+  assert.equal(pre.body.overcharge_used_this_run, false, 'fresh run -> false');
+  // First overcharge flips it (response state + GET /state agree).
+  const r = await request(app)
+    .post('/api/session/overcharge')
+    .send({ session_id: sid, actor_id: 'p1' });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.state.overcharge_used_this_run, true, 'flipped in response state');
+  // Persists across turn ends (first-of-the-RUN, not per-turn).
+  const turn = await request(app).post('/api/session/turn/end').send({ session_id: sid });
+  assert.equal(turn.status, 200);
+  const post = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(post.status, 200);
+  assert.equal(post.body.overcharge_used_this_run, true, 'still true after turn end');
+});
+
 test('POST /overcharge: the guard clears after a round so it can be reused later', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
