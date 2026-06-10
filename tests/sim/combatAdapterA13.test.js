@@ -96,6 +96,50 @@ test('endSession -> POST /api/session/end fires with session_id (write-side trig
   assert.ok(end, '/end called');
   assert.equal(end.body.session_id, 's1');
   assert.equal(res.ended, true);
+  // Victory: no declared outcome (the board sees it; downgrade-only anyway).
+  assert.equal('outcome' in end.body, false);
+});
+
+test('endSession on a FAILED fight -> /end carries the declared outcome (fix-A #2703)', async () => {
+  // Foe never dies + hero alive -> adapter times out at maxRounds -> the board
+  // alone would say 'abandon'; the adapter DECLARES the run-level timeout.
+  const calls = [];
+  const http = {
+    calls,
+    post: async (p, body) => {
+      calls.push({ method: 'post', p, body });
+      if (p === '/api/session/start') return { status: 200, body: { session_id: 's1' } };
+      if (p === '/api/session/end') return { status: 200, body: { outcome: 'timeout' } };
+      return { status: 200, body: {} };
+    },
+    get: async (p, query) => {
+      calls.push({ method: 'get', p, query });
+      if (p === '/api/session/state') {
+        return {
+          status: 200,
+          body: {
+            units: [
+              { id: 'hero_a', controlled_by: 'player', hp: 10, position: { x: 1, y: 1 } },
+              { id: 'foe_1', controlled_by: 'sistema', hp: 99, position: { x: 5, y: 5 } },
+            ],
+            active_unit: 'hero_a',
+          },
+        };
+      }
+      return { status: 404, body: {} };
+    },
+  };
+  const res = await runEncounter(http, {
+    roster: ROSTER,
+    enemies: [{ id: 'foe_1', controlled_by: 'sistema', hp: 99, position: { x: 5, y: 5 } }],
+    campaignId: 'camp_1',
+    biomeId: 'savana',
+    endSession: true,
+    maxRounds: 3,
+  });
+  assert.equal(res.outcome, 'timeout');
+  const end = calls.find((c) => c.p === '/api/session/end');
+  assert.equal(end.body.outcome, 'timeout', 'run-level failure declared to /end');
 });
 
 test('failed /end -> best-effort: outcome intact, ended:false', async () => {

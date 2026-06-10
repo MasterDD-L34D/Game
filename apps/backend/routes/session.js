@@ -3460,6 +3460,21 @@ function createSessionRouter(options = {}) {
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       else outcome = 'abandon';
+      // A13 fix-A (#2703): the board cannot see a RUN-LEVEL failure (elimination
+      // map + mission clock expired -> both factions alive -> 'abandon'), so the
+      // client/sim may DECLARE it. Downgrade-only trust (mirror of /campaign/advance
+      // where outcome is already client-declared): accepted enum is the declarable
+      // failure subset {timeout, defeat, objective_failed} and only over a
+      // board-derived abandon/draw -- a board win is never downgraded (heal stays
+      // unspoofable) and a wipe can only come from the board (woundedPerma intact).
+      const declaredOutcome = typeof body.outcome === 'string' ? body.outcome : null;
+      if (
+        declaredOutcome &&
+        ['timeout', 'defeat', 'objective_failed'].includes(declaredOutcome) &&
+        (outcome === 'abandon' || outcome === 'draw')
+      ) {
+        outcome = declaredOutcome;
+      }
       // TKT-ORPHAN-WOUNDPERMA (write-path): on a player wipe, each KO'd player
       // unit takes a persistent wound into the campaign-scoped map so the next
       // encounter of this playthrough restores the scar (see /start restore).

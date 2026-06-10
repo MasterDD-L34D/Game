@@ -158,11 +158,15 @@ async function runEncounter(
 
   // A13 write-side trigger (opt-in): POST /api/session/end runs the session-end
   // pipeline (wound/heal persist on campaign.woundedBiomes + chronicle + epilogue,
-  // session.js:3511). Best-effort -- a failed /end never blocks the outcome.
+  // session.js:3511). On a run-level failure the adapter DECLARES the outcome
+  // (fix-A #2703, downgrade-only server-side): the board alone cannot see a
+  // mission-clock timeout (both factions alive -> 'abandon' -> no wound).
+  // Best-effort -- a failed /end never blocks the outcome.
   let ended = false;
   if (endSession) {
     try {
-      const end = await http.post('/api/session/end', { session_id: sessionId });
+      const declared = outcome === 'timeout' || outcome === 'defeat' ? { outcome } : {};
+      const end = await http.post('/api/session/end', { session_id: sessionId, ...declared });
       ended = !!(end && end.status >= 200 && end.status < 300);
     } catch {
       ended = false;
