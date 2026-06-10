@@ -2251,4 +2251,8 @@ module.exports = {
   generateRoomCode,
   ROOM_CODE_ALPHABET,
   ROOM_CODE_LENGTH,
+  // #2709: shared with routes/coop.js so the REST lifecycle quorum stays in
+  // lockstep with the WS drains (#2707/#2708) -- one self-selecting rule,
+  // no third copy of the host-exclusion bug.
+  lifecycleQuorumPids,
 };

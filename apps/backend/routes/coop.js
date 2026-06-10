@@ -14,6 +14,10 @@ const express = require('express');
 const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
 const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
 const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload');
+// #2709 -- REST lifecycle quorum role-aware, stesso self-selecting rule dei
+// drain WS (#2707/#2708): l'host conta SOLO se e' il submitter corrente o
+// possiede gia' un PG (host-plays); la TV-mirror (mai input) resta esclusa.
+const { lifecycleQuorumPids } = require('../services/network/wsSession');
 
 function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = null } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
@@ -37,18 +41,22 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     return p ? { room, player: p } : null;
   }
 
-  function allPlayerIds(room) {
-    return Array.from(room.players.values())
-      .filter((p) => p.id !== room.hostId && p.role !== 'host')
-      .map((p) => p.id);
+  // #2709 -- role-aware REST quorum (mirror WS lifecycleQuorumPids #2707/#2708):
+  // host counts only as current submitter or once it owns a PG (host-plays);
+  // a TV-mirror host (never inputs) stays out, so players-only rooms advance.
+  function quorumPids(room, orch, submitterId = null) {
+    if (!room) return [];
+    return lifecycleQuorumPids(room, orch, submitterId);
   }
 
-  // B-NEW-1 fix 2026-05-08 — connected (WS-attached) non-host player ids.
-  // Used by world vote quorum so a disconnected peer doesn't block phase
-  // advance. Mirror of allPlayerIds with extra `connected` filter.
-  function connectedPlayerIds(room) {
+  // B-NEW-1 fix 2026-05-08 — connected (WS-attached) player ids, used by the
+  // vote quorums so a disconnected peer doesn't block phase advance. #2709:
+  // same role-aware quorum as above, restricted to `connected` peers.
+  function connectedQuorumPids(room, orch) {
+    if (!room) return [];
+    const quorum = new Set(lifecycleQuorumPids(room, orch, null));
     return Array.from(room.players.values())
-      .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
+      .filter((p) => quorum.has(p.id) && p.connected)
       .map((p) => p.id);
   }
 
@@ -60,13 +68,13 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     });
     room.broadcast({
       type: 'character_ready_list',
-      payload: orch.characterReadyList(allPlayerIds(room)),
+      payload: orch.characterReadyList(quorumPids(room, orch, null)),
     });
     // M18 — tally world votes if in setup phase.
     if (orch.phase === 'world_setup') {
       room.broadcast({
         type: 'world_tally',
-        payload: orch.worldTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.worldTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
     }
     // GAP-C fase-3 — re-surface an open meta-network route choice (phase-agnostic:
@@ -76,7 +84,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
       room.broadcast({
         type: 'route_tally',
-        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.routeTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
     }
     // M19 — debrief ready list if in debrief.
@@ -85,12 +93,12 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
         type: 'debrief_ready_list',
         payload: {
           outcome: orch.run?.outcome || 'victory',
-          ready_list: orch.debriefReadyList(allPlayerIds(room)),
+          ready_list: orch.debriefReadyList(quorumPids(room, orch, null)),
         },
       });
       room.broadcast({
         type: 'mating_tally',
-        payload: orch.matingTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.matingTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
       // 2026-05-15 Bundle C follow-up — surface per-actor 4-layer psicologico
       // payload to phone clients when host attached it via /coop/combat/end
@@ -161,7 +169,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       const spec = orch.submitCharacter(
         playerId,
         { name, form_id, species_id, job_id },
-        { allPlayerIds: allPlayerIds(room) },
+        { allPlayerIds: quorumPids(room, orch, playerId) },
       );
       // B-NEW-5 fix 2026-05-08 — skip rebroadcast on idempotent resubmit.
       if (!spec._deduplicated) {
@@ -184,7 +192,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const room = lobby.getRoom(code);
     return res.json({
       snapshot: orch.snapshot(),
-      character_ready_list: room ? orch.characterReadyList(allPlayerIds(room)) : [],
+      character_ready_list: room ? orch.characterReadyList(quorumPids(room, orch, null)) : [],
     });
   });
 
@@ -205,8 +213,8 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       const tally = orch.voteWorld(playerId, {
         scenarioId,
         accept,
-        allPlayerIds: allPlayerIds(room),
-        connectedPlayerIds: connectedPlayerIds(room),
+        allPlayerIds: quorumPids(room, orch, playerId),
+        connectedPlayerIds: connectedQuorumPids(room, orch),
       });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, tally });
@@ -228,8 +236,8 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
-      const allPids = allPlayerIds(room);
-      const connectedPids = connectedPlayerIds(room);
+      const allPids = quorumPids(room, orch, playerId);
+      const connectedPids = connectedQuorumPids(room, orch);
       const tally = orch.voteMating(playerId, pairId, {
         allPlayerIds: allPids,
         connectedPlayerIds: connectedPids,
@@ -321,7 +329,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
       const result = orch.submitDebriefChoice(playerId, choice, {
-        allPlayerIds: allPlayerIds(room),
+        allPlayerIds: quorumPids(room, orch, playerId),
       });
       broadcastCoopState(room, orch);
       return res.json({
@@ -420,7 +428,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       room.broadcast({ type: 'route_choice', payload: { candidates: stored } });
       room.broadcast({
         type: 'route_tally',
-        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.routeTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
       return res.json({ ok: true, candidates: stored });
     } catch (err) {
