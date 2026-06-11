@@ -5,7 +5,7 @@ type: handoff
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-06-11
+last_verified: 2026-06-10
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -33,24 +33,13 @@ prossima sessione = questo doc + riga Sessione D/E in CLAUDE.md.
 
 ## Residui APERTI (prossima sessione, ordine consigliato)
 
-1. ~~**Re-run N=40 overrun ER6**~~ **DONE 2026-06-11 (#2734)**: `OVERRUN_BUDGET_BONUS=1`
-   **RATIFIED as-built** (semantica nicchia biomi fast-escalation, outcome-neutro ISO).
-   Evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md`.
-2. ~~**N=40 ER7 flag-ON**~~ **DONE 2026-06-11 (#2735 -> main `ded481f6d`)**: 3 magnitudini
-   (`RECOVERY_SEASONS=2` / `ABUNDANCE_SEASONS=2` / `ABUNDANT_WEIGHT_MULT=2`) **RATIFIED
-   as-built**; esclusione `depleted` = conseguenza ecologica INTENZIONALE (A13-like); flag
-   `BIOME_POPULATION_ENABLED` **tenuto OFF** (verdetto DD). Evidence a 2 layer (season-tick
-   trace deterministico + spawn-shaping N=40 ISO su encounter probe foodweb-aligned),
-   `docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md`. **Forward-work**: flip-ON
-   deferito a pilot su encounter badlands REALE (stat canoniche `deriveCombatStats`, non il
-   probe differenziato) -> conferma in banda, poi flip default ON.
-3. **Item-1 flip**: ground-truth verify-first 2026-06-11 (main `ded481f6d`) = **5/17 active**
-   (I/L/M/N/O) -- NON 6: SPEC-K = `review_needed` su registry+frontmatter (coerenti, no
-   drift) -> il "6/17 (I/K/L/M/N/O)" era L-075 over-count (K mai flippato). **12 review_needed**:
-   7 gated su **item-3 Godot/Lenovo** (A/B/C/D/E/K/P -- A confermata Godot-client dalla sua
-   sez.4.1) + 5 design-impl-pure DA COSTRUIRE (F/G/H/J/Q). Nessun flip pulito-by-verify resta
-   su Ryzen: item-1 = territorio Godot/Lenovo o build design-pure. Pattern flip (quando
-   azionabile): verify-first gate + registry-sync atomico (#2689).
+1. **Re-run N=40 overrun ER6** (sbloccato da #2730): `tools/sim/spec-i-gates-probe.js --effect er6`
+   con spawner funzionante -> evidence -> ratifica DD `OVERRUN_BUDGET_BONUS` (ULTIMO knob
+   PROPOSED di ER6; il flag e' gia' ON, l'evento overrun ora ha effetto reale).
+2. **N=40 ER7 flag-ON** (`BIOME_POPULATION_ENABLED`): pilot badlands, evidence -> ratifica
+   accensione population tick (build #2723 pronto, magnitudini PROPOSED).
+3. **Item-1 flip**: 11 spec `review_needed` (A/B/C/D/E/F/G/H/J/P/Q) -- 6/17 active
+   (I/K/L/M/N/O). Pattern: verify-first gate + registry-sync atomico (#2689).
 4. **Stale batch-3**: 362 warning (batch-1 adr+core e batch-2 process+pipelines DONE;
    ticket residui TKT-STALE-B2-\* in BACKLOG sez. campagna).
 5. **Hint role-gap private per-device** (SPEC-I forward-work, item-3 Godot/Lenovo).
@@ -76,20 +65,3 @@ remove --force` MSYS le attraversa e cancella i SORGENTI. Rimozione = `cmd rmdir
 Main `83666daa4` · health-sweep ~3930 test 0 fail (api 1563/1564 + ai 502 + services 1264 +
 sim/play/scripts 598) · governance errors=0 / stale 362 / mismatch 0 · format:check verde ·
 ambiente npm sano (387 pkg / 129 bin) · pipeline PR vuota.
-
-## Update 2026-06-11 (follow-up sessions ER6/ER7)
-
-Residui #1 + #2 CHIUSI in due sessioni di follow-up (Ryzen):
-
-- **#1 ER6 overrun** -> #2734 merged (RATIFIED as-built).
-- **#2 ER7 population N=40** -> #2735 merged, **main ora `ded481f6d`** (3 magnitudini
-  RATIFIED, esclusione depleted intenzionale A13-like, flag tenuto OFF; forward-work =
-  flip-ON su pilot encounter reale). Nuovo harness `tools/sim/er7-season-trace.js` +
-  effect `er7` in `spec-i-gates-probe.js`. Codex P2 fixato + thread risolto.
-- **#3 item-1** istruito verify-first: count reale **5/17 active** (correzione L-075 del
-  "6/17" -- SPEC-K mai flippato, Godot-gated). SPEC-A non flippabile su Ryzen (Godot-client).
-  Item-1 = territorio Godot/Lenovo o build design-pure F/G/H/J/Q. Verdetto DD: sessione
-  chiusa (item-1 non avanza pulito da qui).
-
-Residui ancora aperti: #3 (item-1, vedi sopra), #4 (stale batch-3), #5 (hint role-gap
-Godot), #6 (igiene). ER7 flip-ON default = nuovo forward-work.

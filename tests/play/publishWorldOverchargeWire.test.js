@@ -60,9 +60,9 @@ describe('publishWorld wire guards (#2716, #2733, Godot mirror parity)', () => {
 
     assert.match(
       code,
-      /phase:\s*lobbyBridge\._currentPhase\s*\|\|\s*'combat'/,
+      /phase:\s*lobbyBridge\._currentPhase\s*&&\s*lobbyBridge\._currentPhase\s*!==\s*'idle'\s*\?\s*lobbyBridge\._currentPhase\s*:\s*'combat'/,
       'publishWorld payload must forward phase from lobbyBridge._currentPhase ' +
-        'for the TV snapshot map (Game #2733).',
+        'and normalize "idle" to "combat" for the TV snapshot map (Game #2733).',
     );
   });
 
