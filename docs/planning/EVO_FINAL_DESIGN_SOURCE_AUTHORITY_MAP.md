@@ -84,12 +84,32 @@ non **cosa** diventa canonico nel design.
 I Canvas valgono come baseline storica ricca. Se un punto e stato riallineato in hub, ADR, core data o freeze,
 la versione piu recente e canonica vince.
 
+### 4.6 Provenienza del taxonomy content (Game-Database, RFC #4 -- ratificato 2026-06-11)
+
+Game-Database e' la source-of-truth UPSTREAM del taxonomy content (prima ondata: traits)
+che alimenta `packs/evo_tactics_pack/docs/catalog/*` e i derivati `data/core/traits/*`:
+una `TaxonomyVersion` con status `released` (immutabile, versionata, auditata) e' l'origine
+canonica del contenuto; i file in questo repo restano la verita' meccanica A2 per il runtime.
+Attivazione a fasi (RFC Game-Database `docs/rfc/2026-06-11-bidirectional-sync.md`):
+
+- **Oggi (fase S1)**: flusso import-only invariato -- i file pack di questo repo sono
+  l'input e nessun file e' generato dal DB. Questa regola dichiara la direzione ratificata,
+  non cambia ancora il flusso.
+- **Da S2 (export-on-release)**: i file taxonomy generati arrivano SOLO via branch+PR
+  (header `GENERATED FROM Game-Database <tag>`), passano `evo-import-gate` (round-trip
+  errori=0) e il merge resta umano (Eduardo). Un edit manuale a un file generato = drift:
+  va riportato nel DB, non difeso nel file.
+- In conflitto sul CONTENUTO taxonomy tra un released snapshot DB e un file pack non
+  generato/non aggiornato: vince la released version DB; la correzione passa da un nuovo
+  export PR, mai da edit divergenti su entrambi i lati.
+
 ## 5. Matrice domanda -> fonte da consultare per prima
 
 | Domanda                                                                   | Prima fonte da leggere                                                            | Seconda fonte                                                   | Terza fonte              |
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------ |
 | Questo file deve esistere? dove va? con che metadata?                     | `docs/governance/docs_registry.json`                                              | `docs/governance/README.md`                                     | `CLAUDE.md`              |
 | Il runtime puo dipendere da Game-Database?                                | `docs/adr/ADR-2026-04-14-game-database-topology.md`                               | `docs/hubs/backend.md` / hub rilevante                          | freeze                   |
+| Da dove proviene il taxonomy content del pack catalog?                    | sezione 4.6 (Game-Database released version, RFC #4)                              | Game-Database `docs/rfc/2026-06-11-bidirectional-sync.md`       | `data/core/*` (A2)       |
 | Quali regole combat sono in scope shipping?                               | `docs/hubs/combat.md`                                                             | `docs/combat/README.md`                                         | freeze                   |
 | Qual e il round loop di combat / modello di fase planning-commit-resolve? | `docs/combat/round-loop.md`                                                       | `docs/adr/ADR-2026-04-15-round-based-combat-model.md`           | `docs/hubs/combat.md`    |
 | Qual e il contratto TV/device/join/Nido corrente?                         | `docs/planning/2026-06-05-evo-tactics-tv-device-campaign-flow-reconstruction.md`  | `docs/planning/2026-06-06-evo-tactics-kl-operational-matrix.md` | Game/Godot code surfaces |
