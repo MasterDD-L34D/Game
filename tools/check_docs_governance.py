@@ -232,7 +232,19 @@ def validate_registry(repo_root: Path, registry: dict[str, Any]) -> list[Issue]:
                 issues.append(Issue("error", "invalid_review_cycle", rel_path, f"review_cycle_days invalido: {cycle}"))
             else:
                 due = lv_date + timedelta(days=cycle)
-                _retired_statuses = {"superseded", "deprecated", "archived"}
+                # Statuti non-living: documenti che per definizione NON sono
+                # soggetti a re-verifica periodica umana, quindi non vanno mai
+                # flaggati stale (allinea historical_ref/generated alla semantica
+                # gia' applicata a superseded/deprecated/archived).
+                #   - historical_ref: record datato (snapshot/riferimento storico)
+                #   - generated: autogenerato (mai rivisto a mano)
+                _retired_statuses = {
+                    "superseded",
+                    "deprecated",
+                    "archived",
+                    "historical_ref",
+                    "generated",
+                }
                 if due < today and entry.get("doc_status") not in _retired_statuses:
                     issues.append(Issue("warning", "stale_document", rel_path, f"Documento stale: revisione scaduta il {due.isoformat()}"))
 
