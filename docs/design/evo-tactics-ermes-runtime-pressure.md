@@ -408,6 +408,13 @@ cresce per turno scoperto; a soglia scatta "Protocollo di soccorso" (rinforzi al
   significato ai thresholds con effetto leggibile e contenuto; due eventi da tarare.
 - **Esito ratificato:** C. Build = forward-work, flag default OFF + gate N=40 (pattern
   ER1/sez. 8: ON solo post playtest GREEN, verdetto master-dd).
+- **Knob update 2026-06-11**: `OVERRUN_BUDGET_BONUS=1` **RATIFIED** post re-run N=40
+  ISO con spawner fixato (#2730). Semantica as-built = nicchia: il +1 consume-once
+  morde solo se il crossing overrun atterra on-grid (<=t8 al tier Alert -- abisso si';
+  t9+ = tick gia' cap-clamped, no-op: atollo/badlands/caldera/canyons/canopia).
+  Outcome-neutro al punto di misura. Evidence:
+  `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md`. Fork carry-over
+  (bonus persiste fino a tick spawnabile) -> TKT-ER6-CARRYOVER (BACKLOG).
 
 ### ER7 -- A9 population tick: ecosistema che evolve cross-run (RATIFICATO 2026-06-10: A)
 

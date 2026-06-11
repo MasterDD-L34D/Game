@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-10T23:03:01+00:00",
+  "generated_at": "2026-06-11T10:24:13+00:00",
   "summary": {
-    "total": 362,
+    "total": 367,
     "errors": 0,
-    "warnings": 362
+    "warnings": 367
   },
   "issues": [
     {
@@ -921,6 +921,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/playtest/2026-05-11-tkt-m14-b-conviction-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md",
       "message": "Documento stale: revisione scaduta il 2026-06-07"
     },
@@ -1313,6 +1319,12 @@
       "code": "stale_document",
       "path": "docs/playtest/2026-05-08-phone-smoke-results-day3-friends.md",
       "message": "Documento stale: revisione scaduta il 2026-06-07"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-05-11-thought-cabinet-adoption-check.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-10"
     },
     {
       "level": "warning",
@@ -1877,6 +1889,24 @@
       "code": "stale_document",
       "path": "docs/playtest/2026-05-09-fase2-batch-ai-runner.md",
       "message": "Documento stale: revisione scaduta il 2026-06-08"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-05-11-phase-b-day-4-monitor.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-05-11-phase-b-day-5-monitor-anticipated.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-10"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/2026-05-14-phase-b-day-7-formal-closure-prestage.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-10"
     },
     {
       "level": "warning",

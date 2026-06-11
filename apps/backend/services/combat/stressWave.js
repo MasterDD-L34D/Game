@@ -19,9 +19,13 @@
 // 2026-06-10 (evidence docs/reports/2026-06-10-spec-i-er6-stresswave-n40-evidence.md:
 // eventi deterministici 40/40, rescue WR-neutro al floor). Opt-out esplicito
 // `STRESSWAVE_EVENTS_ENABLED='false'`. RESCUE_HEAL_HP = RATIFIED-PROVISIONAL
-// (re-validate player data); OVERRUN_BUDGET_BONUS resta PROPOSED: strutturalmente
-// no-op finche' lo spawner non spawna con PG vivi (bug #2724) -> re-run N=40
-// post-fix prima della ratifica.
+// (re-validate player data); OVERRUN_BUDGET_BONUS = RATIFIED (master-dd
+// 2026-06-11, post-fix #2730, evidence
+// docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md): +1 consume-once
+// sul primo tick spawner post-crossing -- morde solo se la soglia overrun
+// scatta on-grid (<=t8 al tier Alert: abisso si'; t9+ = tick gia' cap-clamped,
+// no-op). Outcome-neutro N=40 ISO. Nicchia by design per biomi
+// fast-escalation; fork carry-over = TKT-ER6-CARRYOVER (BACKLOG).
 // Telegraph: evento nel raw event stream (`action_type: 'stresswave_event'`,
 // pattern reinforcement_spawn) + `session.stresswave_event_latest` (public
 // tier, diegetico -- mai il numero wave, ER3).
@@ -31,7 +35,8 @@ const { getBiomeStressProfile } = require('./biomeModifiers');
 
 // RATIFIED-PROVISIONAL (master-dd 2026-06-10, evidence N=40): heal one-shot.
 const RESCUE_HEAL_HP = 2;
-// PROPOSED (no-op a runtime finche' #2724 aperto; re-run N=40 post-fix).
+// RATIFIED (master-dd 2026-06-11, evidence 2026-06-11-spec-i-er6-overrun-n40):
+// +1 spawn sul primo tick post-crossing quando on-grid (nicchia, vedi header).
 const OVERRUN_BUDGET_BONUS = 1;
 // Eventi con effetto meccanico wired; le altre soglie = telegraph-only.
 const MECHANICAL_EVENTS = new Set(['rescue', 'overrun']);
