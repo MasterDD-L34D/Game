@@ -18,7 +18,7 @@ all'indice aggregato `data/traits/index.json`.
 
 Guida operativa completa: [docs/traits_scheda_operativa.md](traits_scheda_operativa.md).
 Ritorno rapido alla guida autori: [README_HOWTO_AUTHOR_TRAIT.md](README_HOWTO_AUTHOR_TRAIT.md).
-Contesto Evo Pack v2 e mapping `trait_code → id`: [Guida Evo Tactics Pack v2](../core/Guida_Evo_Tactics_Pack_v2.md).
+Contesto Evo Pack v2 e mapping `trait_code → id`: [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md).
 
 Gli obiettivi principali del template sono:
 
@@ -34,7 +34,7 @@ Gli obiettivi principali del template sono:
 > **Nota:** prima di aprire una PR assicurati che ogni nuovo trait sia presente
 > nel glossario (`data/core/traits/glossary.json`) con almeno `label_it`,
 > `label_en`, `description_it` e `description_en`. Il flusso dettagliato è
-> descritto in [docs/catalog/trait_reference.md](../catalog/trait_reference.md).
+> descritto in [docs/catalog/trait_reference.md](catalog/trait_reference.md).
 
 ## Schema base obbligatorio
 

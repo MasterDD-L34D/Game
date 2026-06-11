@@ -24,16 +24,16 @@ updated: 2025-12-19
 - [Template PTPF seed](evo-tactics/guides/ptpf-seed-template.md) — versione originaria di riferimento rapido.
 - [Codex seed](evo-tactics/guides/codex-readme.md) — indice veloce dei materiali Evo-Tactics e dei validator.
 - [Security & Ops Playbook (archivio)](archive/evo-tactics/guides/security-ops.md) — archiviato (ROL-03); include workflow audit, rotazioni credenziali e incident response.
-- [Integration Log (archivio)](../archive/evo-tactics/integration-log.md) — cronologia DOC-01/DOC-02/DOC-03 conservata per riferimento storico.
+- [Integration Log (archivio)](archive/evo-tactics/integration-log.md) — cronologia DOC-01/DOC-02/DOC-03 conservata per riferimento storico.
 - [Archivio storico](archive/evo-tactics/README.md) — testo introduttivo pre-normalizzazione conservato per contesto.
 
 ## Trait — workflow e reference
 
-- [Scheda operativa trait](../traits/traits_scheda_operativa.md) — requisiti minimi, checklist automatica e flusso end-to-end.
-- [Template dati](../traits/traits_template.md) — schema JSON canonico con esempi per tipologia.
+- [Scheda operativa trait](traits_scheda_operativa.md) — requisiti minimi, checklist automatica e flusso end-to-end.
+- [Template dati](traits_template.md) — schema JSON canonico con esempi per tipologia.
 - [Guida autori](README_HOWTO_AUTHOR_TRAIT.md) — percorso rapido glossario → file trait → validazioni.
-- [Trait Reference & Glossario](../catalog/trait_reference.md) — label/description approvate e sincronizzazione glossario/localizzazioni.
-- [Trait Reference Manual (omnibus)](../traits/trait_reference_manual.md) — indice dei capitoli tematici in `docs/traits-manuale/`.
+- [Trait Reference & Glossario](catalog/trait_reference.md) — label/description approvate e sincronizzazione glossario/localizzazioni.
+- [Trait Reference Manual (omnibus)](trait_reference_manual.md) — indice dei capitoli tematici in `docs/traits-manuale/`.
 
 ## Appendici
 
@@ -49,10 +49,10 @@ updated: 2025-12-19
 
 ## Ops & analytics
 
-- [Analytics Toolkit](../reports/analytics-toolkit.md) — rigenerazione dashboard trait, note interpretative e monitor sentience.
-- [Site audit](../ops/site-audit.md) — checklist di verifica pagine statiche e fix di accessibilità.
-- [Diff workflow](../ops/workflow_diff.md) — comparativa pipeline staging/prod per individuare gap di deploy.
-- [Playbook MongoDB](../ops/handbook/mongodb.md) — linee guida operative per setup e manutenzione cluster Mongo.
-- [Walkthrough demo VC](../presentations/walkthrough-demo-vc.md) — guida narrata per presentazioni HUD/SquadSync/export telemetria.
+- [Analytics Toolkit](analysis/analytics-toolkit.md) — rigenerazione dashboard trait, note interpretative e monitor sentience.
+- [Site audit](ops/site-audit.md) — checklist di verifica pagine statiche e fix di accessibilità.
+- [Diff workflow](ops/workflow_diff.md) — comparativa pipeline staging/prod per individuare gap di deploy.
+- [Playbook MongoDB](ops/handbook/mongodb.md) — linee guida operative per setup e manutenzione cluster Mongo.
+- [Walkthrough demo VC](presentations/walkthrough-demo-vc.md) — guida narrata per presentazioni HUD/SquadSync/export telemetria.
 
 Aggiorna questa pagina quando vengono aggiunti nuovi materiali o archiviati documenti esistenti, assicurandoti di mantenere coerenti i riferimenti incrociati.

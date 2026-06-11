@@ -14,7 +14,7 @@ review_cycle_days: 14
 ## Accesso rapido
 
 - [Scheda operativa trait](traits_scheda_operativa.md) — requisiti minimi, flusso end-to-end e comandi rapidi.
-- [Guida Evo Tactics Pack v2](../core/Guida_Evo_Tactics_Pack_v2.md) — mapping `trait_code → id`/label i18n e plus opzionali.
+- [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md) — mapping `trait_code → id`/label i18n e plus opzionali.
 - [Guida autori trait](README_HOWTO_AUTHOR_TRAIT.md) — checklist PR e pipeline operativa.
 
 Questo piano elenca le attività prioritarie dopo il completamento delle integrazioni attuali. Ogni area indica obiettivi, output attesi e strumenti/comandi da usare, seguendo la guida `docs/Guida_Evo_Tactics_Pack_v2.md` e la scheda operativa (`docs/traits_scheda_operativa.md`).

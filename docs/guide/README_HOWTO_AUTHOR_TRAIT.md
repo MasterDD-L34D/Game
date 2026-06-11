@@ -3,7 +3,7 @@ title: Come scrivere o aggiornare un trait
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-11'
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -17,18 +17,18 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 ## 1. Prima di iniziare
 
-- Consulta la [scheda operativa completa](../traits/traits_scheda_operativa.md) per
+- Consulta la [scheda operativa completa](./traits_scheda_operativa.md) per
   campi, vincoli e checklist; se ti serve il contesto completo su mapping
-  Evo v2 ↔ repository, passa per la [Guida Evo Tactics Pack v2](../core/Guida_Evo_Tactics_Pack_v2.md)
-  e il [template dati](../traits/traits_template.md) invece di duplicare regole.
-- Tieni a portata il [piano operativo prossimo ciclo](../traits/next_steps_trait_migration.md) per seguire le priorità correnti su conversione tratti, riordino documentazione e QA.
+  Evo v2 ↔ repository, passa per la [Guida Evo Tactics Pack v2](./Guida_Evo_Tactics_Pack_v2.md)
+  e il [template dati](./traits_template.md) invece di duplicare regole.
+- Tieni a portata il [piano operativo prossimo ciclo](./next_steps_trait_migration.md) per seguire le priorità correnti su conversione tratti, riordino documentazione e QA.
 
 ### Compatibilità Evo Pack v2
 
 Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento a `traits_evo_pack_alignment.md`, che mappa i campi Evo (`trait_code`, `testability`, `cost_profile`, metriche UCUM) sui campi minimi del repo (`id` snake_case, `label` i18n, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`; `data_origin` è raccomandato) e descrive il flusso glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
 
 1. Identifica il ruolo narrativo e tattico del trait (slot, tier, macro-tipologia).
-2. Recupera i riferimenti dal [template dati](../traits/traits_template.md) e dai
+2. Recupera i riferimenti dal [template dati](traits_template.md) e dai
    report correnti (`reports/trait_fields_by_type.json`, `reports/trait_texts.json`).
 3. Allinea label e descrizioni con il team di design/localization prima di
    procedere agli update dei file.
@@ -51,7 +51,7 @@ Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento
 1. Duplica lo scheletro minimo dal template e salva in `data/traits/<tipologia>/<id>.json`.
 2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`,
    `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `sinergie`, `conflitti`).
-   - Per sinergie/conflitti usa solo gli `id` repository (nessun `trait_code`), come indicato nel box di esempio della [Guida Evo](../core/Guida_Evo_Tactics_Pack_v2.md#avvertenza-migrazione-pack--%E2%86%92-repository-game).
+   - Per sinergie/conflitti usa solo gli `id` repository (nessun `trait_code`), come indicato nel box di esempio della [Guida Evo](./Guida_Evo_Tactics_Pack_v2.md#avvertenza-migrazione-pack--%E2%86%92-repository-game).
    - I campi aggiuntivi del pack (`metrics`, `cost_profile`, `testability`, ecc.) restano facoltativi: portali nel repository solo se compatibili con lo schema base.
 3. Inserisci i testi come stringhe reali **solo** se stai creando il trait da
    zero; al termine eseguirai lo script di sincronizzazione che li convertirà in

@@ -14,7 +14,7 @@ review_cycle_days: 14
 ## Scopo e stato
 
 - Bozza per allineare concept narrativi sandbox con traiettorie di trait e note di bilanciamento.
-- Fonte primaria dei concept: [Sandbox Lore: Concept Narrativi e Archetipi](../../planning/research/lore_concepts.md).
+- Fonte primaria dei concept: [Sandbox Lore: Concept Narrativi e Archetipi](../../design/sandbox/lore_concepts.md).
 - Pensata per iterazioni rapide con curatori di specie/biomi e per raccogliere il feedback di bilanciamento prima della promozione fuori dalla sandbox.
 
 ## Concept narrativi attivi

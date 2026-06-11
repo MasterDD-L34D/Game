@@ -3,7 +3,7 @@ title: Tutorial rapido · Adaptive engine SquadSync
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-11'
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -35,7 +35,7 @@ Questa guida collega l'ETL canary di SquadSync con il motore adaptive, i test au
 
 ## 3. Pubblicare i risultati
 
-- Aggiorna il Canvas [Sync HUD · dicembre 2025](../frontend/feature-updates.md#sync-hud--dicembre-2025) con note su spike adaptive e ack rate.
+- Aggiorna il Canvas [Sync HUD · dicembre 2025](../Canvas/feature-updates.md#sync-hud--dicembre-2025) con note su spike adaptive e ack rate.
 - Condividi in `#feedback-enhancements` il riepilogo dei test, allegando il mock `assets/analytics/squadsync_mock.svg` e linkando la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`).【F:assets/analytics/squadsync_mock.svg†L1-L58】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】
 
 ## 4. Collegare feedback e backlog

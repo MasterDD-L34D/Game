@@ -13,13 +13,13 @@ review_cycle_days: 14
 
 ## Accesso rapido
 
-- [Scheda operativa dei trait](../traits/traits_scheda_operativa.md)
+- [Scheda operativa dei trait](./traits_scheda_operativa.md)
 - [Guida autore tratti](./README_HOWTO_AUTHOR_TRAIT.md)
-- [Template dati dei tratti](../traits/traits_template.md)
-- [Scala di senzienza (T0–T5)](../guide/README_SENTIENCE.md)
+- [Template dati dei tratti](./traits_template.md)
+- [Scala di senzienza (T0–T5)](./README_SENTIENCE.md)
 - [Aggregato tratti Evo](../data/external/evo/traits/traits_aggregate.json)
 - [Catalogo specie Evo](../data/external/evo/species/species_catalog.json)
-- [Piano operativo prossimo ciclo](../traits/next_steps_trait_migration.md)
+- [Piano operativo prossimo ciclo](./next_steps_trait_migration.md)
 
 ## Introduzione
 
@@ -38,15 +38,15 @@ La guida è pensata per essere salvata nella cartella `docs/` del progetto e off
 
 ## Compatibilità Evo Pack v2
 
-Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale, consulta la mappa di allineamento campi e le regole di naming in `docs/traits_evo_pack_alignment.md`. Il documento spiega come convertire i codici `TR-xxxx` in `id` snake_case, come impostare `label` i18n e come usare il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`). Per il dettaglio dei campi minimi dello schema e delle regex rimanda alla [scheda operativa dei trait](../traits/traits_scheda_operativa.md) e al [template dati](../traits/traits_template.md).
+Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale, consulta la mappa di allineamento campi e le regole di naming in `docs/traits_evo_pack_alignment.md`. Il documento spiega come convertire i codici `TR-xxxx` in `id` snake_case, come impostare `label` i18n e come usare il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`). Per il dettaglio dei campi minimi dello schema e delle regex rimanda alla [scheda operativa dei trait](./traits_scheda_operativa.md) e al [template dati](./traits_template.md).
 
 > **Box riepilogo conversione `trait_code` → `id`/`label` (campi repo obbligatori)**
 >
 > - Flusso: aggiorna il glossario (`data/core/traits/glossary.json`), crea/aggiorna il file del tratto con `id` snake_case e riferimenti `label` i18n, poi lancia i validator/sync (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`).
 > - Naming: `trait_code` Evo diventa `id` snake_case coerente con il label (nome file JSON); il `label` del tratto punta a `i18n:traits.<id>.label` (e viene valorizzato nel glossario).
-> - Obbligatori nel repository (schema minimo): `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` (schema e regex in [scheda operativa](../traits/traits_scheda_operativa.md) e [template](../traits/traits_template.md)). `data_origin` resta consigliato ma non fa parte del set minimo.
+> - Obbligatori nel repository (schema minimo): `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` (schema e regex in [scheda operativa](./traits_scheda_operativa.md) e [template](./traits_template.md)). `data_origin` resta consigliato ma non fa parte del set minimo.
 > - Esempio minimo: `trait_code` `TR-0420` “Vortice Termico” → `id` `vortice_termico`; `label` nel file tratto: `i18n:traits.vortice_termico.label`; i campi `label_it`/`label_en` sono nel glossario.
-> - Riferimento completo alle regole e agli esempi in [docs/traits_evo_pack_alignment.md](../traits/traits_evo_pack_alignment.md) per evitare ambiguità di naming.
+> - Riferimento completo alle regole e agli esempi in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md) per evitare ambiguità di naming.
 
 ---
 
@@ -60,14 +60,14 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna; evita alias TR-xxxx nei JSON del repository.
 > - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
 > - **Nota su `data_origin`**: raccomandato per il tracciamento editoriale (slug da `docs/editorial/trait_sources.json`), ma non richiesto dallo schema minimo.
-> - Rimandi: [scheda operativa dei trait](../traits/traits_scheda_operativa.md), [guida autore](./README_HOWTO_AUTHOR_TRAIT.md), [template dati](../traits/traits_template.md) e [piano operativo prossimo ciclo](../traits/next_steps_trait_migration.md).
+> - Rimandi: [scheda operativa dei trait](./traits_scheda_operativa.md), [guida autore](./README_HOWTO_AUTHOR_TRAIT.md), [template dati](./traits_template.md) e [piano operativo prossimo ciclo](./next_steps_trait_migration.md).
 >
 > **Box campi opzionali/consigliati (Evo Pack v2)**
 >
 > - **metrics** (UCUM): consigliate per descrivere prestazioni e range; non sono obbligatorie per l'import in `data/traits/*.json`.
 > - **cost_profile**: suggerito per indicare i costi energetici (`rest`/`burst`/`sustained`).
 > - **testability**: raccomandato per fornire `observable` e `scene_prompt`, utile nei pacchetti ma non richiesto dai validator del repository.
-> - Altri campi estesi (es. `applicability`, `completion_flags`) restano facoltativi per il repository: se usati nel pack, convertili solo se compatibili con lo schema [riassunto nel template](../traits/traits_template.md#schema-base-obbligatorio).
+> - Altri campi estesi (es. `applicability`, `completion_flags`) restano facoltativi per il repository: se usati nel pack, convertili solo se compatibili con lo schema [riassunto nel template](./traits_template.md#schema-base-obbligatorio).
 > - Nota: questi campi aggiuntivi non diventano obbligatori nei file `data/traits/*.json`; rimuovili o mantienili solo se lo schema li supporta senza deroghe ai requisiti minimi sopra.
 >
 > **Esempio mappatura `trait_code` → `id`/`label`**
@@ -85,7 +85,7 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 - **risk_profile**: pericolosità su scala 0–3 e vettori (tossine, patogeni, onde d’urto…).
 - **interactions**: elenco di prede tipiche, predatori, eventuali simbiosi/parassitismi (descrivere il patto biologico quando esiste).
 - **constraints**: almeno due limitazioni o trade-off (costi metabolici elevati, necessità di ambienti specifici, contromisure note).
-- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei [documenti di riferimento](../guide/README_SENTIENCE.md).
+- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei [documenti di riferimento](README_SENTIENCE.md).
 - **ecotypes**: etichette delle varianti ecologiche (vedi sezione _Ecotipi_). I dettagli delle varianti sono in file separati sotto `ecotypes/`.
 - **trait_refs**: array di codici che puntano ai tratti (file in `traits/`). Ogni specie deve avere 5–9 tratti totali, coprendo tutti gli assi possibili:
   - locomozione/manipolazione
@@ -97,7 +97,7 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 
 Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 
-**Campi minimi richiesti dal repository** (fonte canonica: [scheda operativa dei trait](../traits/traits_scheda_operativa.md)):
+**Campi minimi richiesti dal repository** (fonte canonica: [scheda operativa dei trait](./traits_scheda_operativa.md)):
 
 - **id**: snake_case allineato al nome file JSON, derivato dal `trait_code`.
 - **label**: puntare a `i18n:traits.<id>.label`; le stringhe localizzate vivono nel glossario/i18n, non nel file tratto.
@@ -105,7 +105,7 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 - **fattore_mantenimento_energetico**: _Basso, Medio_ o _Alto_, indicativo del costo per mantenere il tratto attivo.
 - **tier**: T1–T6 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi. Allineato a Sentience Track T1-T6 (vedi sezione sotto). **Nota**: esiste scala disgiunta `trait_T1/T2/T3` per trait acquistabili runtime (vedi `PI-Pacchetti-Forme.md`) — NON confondere con tier generale 1-6.
 - **slot**: elenco opzionale per definire ruoli speciali o raggruppamenti (può restare vuoto).
-- **sinergie** e **conflitti**: liste di `id` trait (non `trait_code`). Nel pack puoi mostrare entrambi come alias, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](../traits/traits_evo_pack_alignment.md)).
+- **sinergie** e **conflitti**: liste di `id` trait (non `trait_code`). Nel pack puoi mostrare entrambi come alias, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md)).
 - **data_origin**: usare solo gli slug ufficiali.
 - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
 
@@ -178,7 +178,7 @@ Per rendere il database coerente, si seguono regole precise per nomi e descrizio
 Per aggiornare schede esistenti alla versione v2 si consiglia di seguire questa procedura:
 
 1. **Mappare i campi**
-   Convertire i vecchi campi nei nuovi (es. `categoria` → `famiglia_tipologia`; `costo_energetico` → `fattore_mantenimento_energetico`), aggiungendo i campi mancanti (`sinergie`, `conflitti`, ecc.). Nei pacchetti Evo è consigliato integrare anche `metrics`, `cost_profile` e `testability`, ma non sono necessari per l'import nei JSON finali in `data/traits/*.json` (requisiti minimi sempre nella [scheda operativa](../traits/traits_scheda_operativa.md)).
+   Convertire i vecchi campi nei nuovi (es. `categoria` → `famiglia_tipologia`; `costo_energetico` → `fattore_mantenimento_energetico`), aggiungendo i campi mancanti (`sinergie`, `conflitti`, ecc.). Nei pacchetti Evo è consigliato integrare anche `metrics`, `cost_profile` e `testability`, ma non sono necessari per l'import nei JSON finali in `data/traits/*.json` (requisiti minimi sempre nella [scheda operativa](./traits_scheda_operativa.md)).
 
 2. **Aggiornare unità**  
    Assicurarsi che tutte le metriche usino simboli UCUM (`°C` → `Cel`, `bpm` → `/min`, `km/h` → `m/s`). Quando necessario convertire i valori.
@@ -282,7 +282,7 @@ Per garantire la coerenza del database si consiglia di eseguire regolarmente il 
   - `python tools/py/collect_trait_fields.py ...`
   - `python scripts/sync_trait_locales.py ...`
 
-  Seguono i wrapper dettagliati nella [Checklist di validazione automatica in `docs/traits_scheda_operativa.md`](../traits/traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi).
+  Seguono i wrapper dettagliati nella [Checklist di validazione automatica in `docs/traits_scheda_operativa.md`](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi).
 
 - **Validazione per pacchetti esterni**
   Per pacchetti distribuiti fuori dal repo Game (ad esempio contributi terzi o bundle separati) si può usare facoltativamente `scripts/validate.sh` che invoca `ajv-cli`. Preferirlo quando:
@@ -381,7 +381,7 @@ La guida rapida per l’autore di tratti fornisce una checklist operativa per sc
 Questo documento definisce che cos’è un trait (unità atomica riusabile di funzionalità e morfologia) e descrive in modo approfondito i campi obbligatori e opzionali. Tra i punti chiave:
 
 - **Dizionario campi**
-  - campi minimi per il repository (come da [scheda operativa](../traits/traits_scheda_operativa.md)):
+  - campi minimi per il repository (come da [scheda operativa](./traits_scheda_operativa.md)):
     - `id`, `label` i18n,
     - `famiglia_tipologia`,
     - `fattore_mantenimento_energetico`,
@@ -1163,7 +1163,7 @@ I **gate di qualità** da rispettare in ogni PR includono:
 
 ## Come applicarlo nel repo Game
 
-Per integrare nuovi tratti o pacchetti in questo repository, segui il [flusso operativo end-to-end](../traits/traits_scheda_operativa.md#box-flusso-operativo-end-to-end): prepara tassonomia e glossario, compila il file usando il [template dati](../traits/traits_template.md), valida schema e contenuti con i comandi della [checklist automatica](../traits/traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi), sincronizza le localizzazioni e chiudi la PR riportando gli esiti QA.
+Per integrare nuovi tratti o pacchetti in questo repository, segui il [flusso operativo end-to-end](traits_scheda_operativa.md#box-flusso-operativo-end-to-end): prepara tassonomia e glossario, compila il file usando il [template dati](traits_template.md), valida schema e contenuti con i comandi della [checklist automatica](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi), sincronizza le localizzazioni e chiudi la PR riportando gli esiti QA.
 
 ## Conclusioni e prospettive
 

@@ -1345,7 +1345,10 @@ async function refresh() {
         round: state.world.round,
         active_id: state.world.active_unit,
         active_unit: state.world.active_unit,
-        phase: lobbyBridge._currentPhase && lobbyBridge._currentPhase !== 'idle' ? lobbyBridge._currentPhase : 'combat',
+        phase:
+          lobbyBridge._currentPhase && lobbyBridge._currentPhase !== 'idle'
+            ? lobbyBridge._currentPhase
+            : 'combat',
         units: state.world.units,
         events: state.world.events,
         pressure: state.world.pressure,

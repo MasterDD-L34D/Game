@@ -3,7 +3,7 @@ title: Guida CLI modulare
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-11'
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -76,7 +76,7 @@ Il caricamento dei profili avviene secondo queste regole:
 ### Rotazione token del profilo `support`
 
 Il profilo `support` include il blocco `token_rotation` concordato con
-Support/QA. Il playbook è registrato in [`docs/support/token-rotation.md`](../process/token-rotation.md)
+Support/QA. Il playbook è registrato in [`docs/support/token-rotation.md`](../support/token-rotation.md)
 che dettaglia finestra temporale, owner e canali di notifica. La CLI espone la
 variabile `GAME_CLI_ESCALATION_PLAYBOOK` per puntare al documento di riferimento.
 
@@ -133,7 +133,7 @@ alla validazione degli asset incoming vengono salvati in
 
 La pipeline di Continuous Integration (`.github/workflows/ci.yml`) invoca
 `./scripts/cli_smoke.sh` dopo i test TypeScript/Python per garantire che i
-profili CLI restino coerenti. Il documento [`docs/ci-pipeline.md`](../pipelines/ci-pipeline.md)
+profili CLI restino coerenti. Il documento [`docs/ci-pipeline.md`](../ci-pipeline.md)
 riporta la sequenza aggiornata degli step. Per gli asset incoming è disponibile
 il workflow manuale [`incoming-smoke.yml`](../../.github/workflows/incoming-smoke.yml)
 che lancia `./scripts/cli_smoke.sh --profile staging_incoming` e carica come

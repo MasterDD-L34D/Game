@@ -3,7 +3,7 @@ title: Trait Editor API payloads
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-11'
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -11,7 +11,7 @@ review_cycle_days: 14
 
 # Trait Editor API payloads
 
-La seguente documentazione descrive i payload normalizzati esposti dal backend del Trait Editor. Per una panoramica operativa del workflow e dell'integrazione con l'interfaccia editoriale consulta anche [Trait Editor standalone — Setup, sviluppo e deploy](trait-editor.md) e il capitolo dedicato nella manualistica ([Workflow & strumenti](./manuale/05-workflow-strumenti.md)).
+La seguente documentazione descrive i payload normalizzati esposti dal backend del Trait Editor. Per una panoramica operativa del workflow e dell'integrazione con l'interfaccia editoriale consulta anche [Trait Editor standalone — Setup, sviluppo e deploy](trait-editor.md) e il capitolo dedicato nella manualistica ([Workflow & strumenti](traits-manuale/05-workflow-strumenti.md)).
 
 ## Indice normalizzato (`GET /api/traits/index`)
 
@@ -125,4 +125,4 @@ Il ripristino richiede gli stessi vincoli di concorrenza del `PUT`. È possibile
 
 ## Allineamento con il Trait Editor
 
-Il Trait Editor (sia nella variante integrata che nello standalone) si aspetta i formati descritti sopra per poter sincronizzare l'indice e i salvataggi. Prima di effettuare operazioni mass batch, rivedi il [workflow operativo del Trait Editor](./manuale/06-standalone-trait-editor.md) per assicurarti di configurare correttamente variabili ambiente, sorgenti dati e controlli di versione.
+Il Trait Editor (sia nella variante integrata che nello standalone) si aspetta i formati descritti sopra per poter sincronizzare l'indice e i salvataggi. Prima di effettuare operazioni mass batch, rivedi il [workflow operativo del Trait Editor](traits-manuale/06-standalone-trait-editor.md) per assicurarti di configurare correttamente variabili ambiente, sorgenti dati e controlli di versione.

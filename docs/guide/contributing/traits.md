@@ -3,7 +3,7 @@ title: Guida rapida al contributo trait
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-11'
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -18,18 +18,18 @@ alle checklist di processo già presenti nel repository e al vademecum operativo
 
 ## Riferimenti chiave
 
-| Risorsa                                                                  | Descrizione                                                                                         |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| [Template dati trait](../../traits/traits_template.md)                   | Spiega struttura, campi obbligatori e sezioni opzionali dei file in `data/traits`.                  |
-| [Trait Reference & Glossario](../../catalog/trait_reference.md)          | Elenca label/description approvate e workflow per sincronizzare il glossario con le localizzazioni. |
-| [Trait Data Reference & Workflow](../../process/trait_data_reference.md) | Dettaglia percorso manuale, editor schema-driven e script collegati.                                |
-| [Checklist iterativa tratti](../../process/traits_checklist.md)          | Elenca i gate di QA, telemetria e deploy da attraversare prima della consegna.                      |
+| Risorsa                                                               | Descrizione                                                                                         |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [Template dati trait](../traits_template.md)                          | Spiega struttura, campi obbligatori e sezioni opzionali dei file in `data/traits`.                  |
+| [Trait Reference & Glossario](../catalog/trait_reference.md)          | Elenca label/description approvate e workflow per sincronizzare il glossario con le localizzazioni. |
+| [Trait Data Reference & Workflow](../process/trait_data_reference.md) | Dettaglia percorso manuale, editor schema-driven e script collegati.                                |
+| [Checklist iterativa tratti](../process/traits_checklist.md)          | Elenca i gate di QA, telemetria e deploy da attraversare prima della consegna.                      |
 
 ## Template e struttura
 
 - Ogni tratto deve rispettare lo schema JSON condiviso in
   `config/schemas/trait.schema.json` come descritto nel [template dati
-  ufficiale](../../traits/traits_template.md). I campi obbligatori includono `id`,
+  ufficiale](../traits_template.md). I campi obbligatori includono `id`,
   `label`, `famiglia_tipologia`, `slot`, `tier`, `mutazione_indotta`,
   `uso_funzione`, `spinta_selettiva`, `sinergie` e `conflitti`. I vincoli di
   formato (`^[a-z0-9_]+$`, valori non vuoti, array normalizzati) vengono
@@ -87,7 +87,7 @@ abilita l'audit trail né i controlli sui ruoli).
 1. Aggiorna `data/core/traits/glossary.json` con label/description ufficiali
    almeno per `it` ed `en`, validando il file con `python -m json.tool`.
 2. Integra (o modifica) il trait in `data/traits/<tipologia>/<id>.json` seguendo
-   il [template](../../traits/traits_template.md). Durante l'editing i campi testuali
+   il [template](../traits_template.md). Durante l'editing i campi testuali
    possono contenere stringhe reali.
 3. Genera report campi + glossario:
    ```bash
@@ -150,7 +150,7 @@ abilita l'audit trail né i controlli sui ruoli).
 
 ### Aggiunta di un nuovo tratto "shell_reactive"
 
-1. Duplica il [template JSON](../../traits/traits_template.md#scheletro-minimo) in
+1. Duplica il [template JSON](../traits_template.md#scheletro-minimo) in
    `data/traits/difesa/shell_reactive.json`, compilando i campi obbligatori e le
    sezioni opzionali pertinenti.
 2. Aggiorna `data/core/traits/glossary.json` aggiungendo label e riferimento al

@@ -3,7 +3,7 @@ title: Docs Incoming — dispatcher
 doc_status: active
 doc_owner: incoming-archivist
 workstream: incoming
-last_verified: '2026-06-11'
+last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Docs Incoming — dispatcher
 
-Dispatcher operativo per i file residui in `docs/incoming/**`. Dopo il triage batch (PR #1310, #1311) questa directory contiene solo **2 file attivi** legati al workstream 01B in report-only. La fonte canonica della tabella di triage incoming vive in [`docs/planning/REF_INCOMING_CATALOG.md`](../archive/planning-reference/REF_INCOMING_CATALOG.md); questo README serve solo come landing snello per chi entra in `docs/incoming/`.
+Dispatcher operativo per i file residui in `docs/incoming/**`. Dopo il triage batch (PR #1310, #1311) questa directory contiene solo **2 file attivi** legati al workstream 01B in report-only. La fonte canonica della tabella di triage incoming vive in [`docs/planning/REF_INCOMING_CATALOG.md`](../planning/REF_INCOMING_CATALOG.md); questo README serve solo come landing snello per chi entra in `docs/incoming/`.
 
 ## Stato file attivi
 
@@ -22,7 +22,7 @@ Dispatcher operativo per i file residui in `docs/incoming/**`. Dopo il triage ba
 
 ## Dove trovare il resto
 
-- **Triage catalog completo** con gap list storica, ticket chiusi e stato workstream 01B/01C: [`docs/planning/REF_INCOMING_CATALOG.md`](../archive/planning-reference/REF_INCOMING_CATALOG.md).
+- **Triage catalog completo** con gap list storica, ticket chiusi e stato workstream 01B/01C: [`docs/planning/REF_INCOMING_CATALOG.md`](../planning/REF_INCOMING_CATALOG.md).
 - **Hub workstream**: [`docs/hubs/incoming.md`](../hubs/incoming.md).
 - **Audit trail** (freeze window, riaperture, gate closures): `logs/agent_activity.md`.
 - **File storici** (snapshot 2025-11-15, 2025-12-19 cleanup, decompressed pack legacy): spostati in [`docs/archive/historical-snapshots/`](../archive/historical-snapshots/) da PR #1310.

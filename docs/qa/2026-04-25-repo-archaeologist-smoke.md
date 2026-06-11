@@ -111,7 +111,7 @@ Frontmatter Dublin Core fillable con dati REALI: `git_sha_first: f28b30015`, `la
 
 ### Files creati
 
-- [.claude/agents/repo-archaeologist.md](../../.claude/agents/repo-archaeologist.md) — agent definition (~480 LOC)
+- [.claude/agents/repo-archaeologist.md](../.claude/agents/repo-archaeologist.md) — agent definition (~480 LOC)
 - [docs/museum/MUSEUM.md](../museum/MUSEUM.md) — index file pattern Hades Codex (~110 LOC, cap 200)
 - [docs/museum/README.md](../museum/README.md) — guida d'uso per altri agent (~70 LOC)
 - `docs/museum/excavations/.gitkeep`, `cards/.gitkeep`, `galleries/.gitkeep` — bootstrap subdirs

@@ -3,7 +3,7 @@ title: Macro-Economy — Source/Pool/Sink flow (Machinations diagram)
 doc_status: active
 doc_owner: claude-code
 workstream: dataset-pack
-last_verified: '2026-06-11'
+last_verified: '2026-04-25'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -25,7 +25,7 @@ related:
 
 # Macro-Economy — flusso Source / Pool / Sink
 
-> Artifact P0 prodotto da [`economy-design-illuminator`](../../.claude/agents/economy-design-illuminator.md).
+> Artifact P0 prodotto da [`economy-design-illuminator`](.claude/agents/economy-design-illuminator.md).
 > Pattern: Machinations.io visual sim (P0 #1 nel pattern library dell'agente).
 > **Scope**: progression macro — campaign-level. **Complementare** (non duplicato) a [`MACHINATIONS_MODELS.md`](MACHINATIONS_MODELS.md), che modella combat micro (d20, PT pool, damage cap, status decay).
 
@@ -212,7 +212,7 @@ Identificati **5 gap** tramite cross-walk source ↔ sink. Severity: 🔴 = pinc
 
 ## Feedback loop annotations
 
-Per [pattern P0 #2 dell'agente](../../.claude/agents/economy-design-illuminator.md):
+Per [pattern P0 #2 dell'agente](.claude/agents/economy-design-illuminator.md):
 
 - **Positive loop** `K2 → S1` (PI shop → trait unlock → combat win): runaway risk se trait T2/T3 boost > +30% damage. Counterforce: pressure tier scaling (V7 biome bias) + mission timer (M13 P6).
 - **Positive loop** `K1 → S2` (Form evolve → VC bonus): runaway risk se Form-of-the-month dominante. Counterforce: confidence threshold 0.55 evita evolve verso form lontane (auto-balance).
