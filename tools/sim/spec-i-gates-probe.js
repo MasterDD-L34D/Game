@@ -32,6 +32,15 @@
 //   node tools/sim/spec-i-gates-probe.js --effect er6 --runs 40 --seed-base 52000 \
 //     --scaling '{...}' --out reports/sim/er6-stresswave-n40-<date>
 //
+// PROTOCOLLO EVIDENCE-GRADE (pack 06-10 + 06-11): UN processo per arm
+// (`--arms off` / `--arms off2` / `--arms on` in invocazioni separate) poi
+// `--aggregate --out <dir>` -- il batch same-process contamina le armi via
+// stato modulo-globale combat (+0.20 fantasma, pack 06-10; -17pp fantasma,
+// pack 06-11). Per ER6 su board authored: `--modulation duo_hardcore`
+// (senza: roster 4 -> grid 6x6 -> entry tiles 10x10 off-grid -> spawner
+// muto). Floor check per-gamba: scarta la gamba se off2-off e' anomalo
+// (TKT-SIM-PROBE-ENTROPY: atollo +0.33 tra armi identiche, 2026-06-11).
+//
 // Caveat (carried into the reports): scenario-enemies builds the WAVE-1 roster only
 // (authored later waves are not staged by the sim); the shared policy does basic
 // attacks + zone pursuit, so deltas are the sim-fidelity floor of the real swing.
@@ -164,14 +173,15 @@ const EFFECTS = {
     // budget 2) the cap fills before t8 and the bonus is a no-op again.
     // Measurement-point choice (L-069), override with --pressure-start.
     //
-    // KNOWN LIMIT (carried into the evidence): even at Alert tier the spawner
-    // never actually spawns while a PG is alive -- reinforcementSpawner
-    // farFromAllPG/isWalkable read position as ARRAY ([x,y]) but runtime units
-    // carry {x,y} objects, so the min-distance check is NaN>=min = false for
-    // every entry tile (pre-existing engine bug, found by this probe's pilot;
-    // see the evidence doc + issue). The overrun budget bonus is therefore
-    // armed+consumed but lands on a tick that cannot spawn: ER6's measurable
-    // mechanical effect at sim fidelity is the rescue heal.
+    // FIXED 2026-06-11 (#2730): l'array-vs-{x,y} position drift scoperto dal
+    // pilot di questo probe e' chiuso -- lo spawner spawna con PG vivi.
+    // Evidence re-run (2026-06-11-spec-i-er6-overrun-n40): griglia tick
+    // t2/5/8/11 al tier Alert, cap 4 -> l'overrun +1 morde SOLO se il
+    // crossing atterra on-grid <=t8 (abisso t8: (2,5,8,8) vs (2,5,8,11)
+    // 40/40); a t9+ il bonus cade su un tick gia' cap-clamped = no-op
+    // (atollo). RICHIEDE --modulation duo_hardcore: senza, il roster 4
+    // auto-scala la grid a 6x6 e gli entry tiles authored 10x10 sono
+    // off-grid (spawner muto a prescindere dal fix).
     pressureStart: 30,
     // Post-flip 2026-06-10 (default engine ON): every arm pins the flag
     // EXPLICITLY -- off arms opt-out with 'false', on arms pin 'true'.

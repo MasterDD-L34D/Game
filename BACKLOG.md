@@ -101,6 +101,13 @@ docs-governance: **365 stale_document warnings (0 errori, non-blocking / warning
   - Nota: 22 dei 32 CURRENT bumpati = record storici accurati (15 log Frattura + sprint/ticket/handoff datati) = candidate `doc_status: archived` (esenta dal ciclo stale; flip owner-gated, non urgente).
 - **Priorita'**: P3, progressive (sessioni dedicate). Non-blocking (gate verde).
 
+### 🟢 P3 OPEN — ER6 overrun follow-up: fork carry-over + harness entropy (2026-06-11)
+
+Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifica `OVERRUN_BUDGET_BONUS=1` as-built, nicchia on-grid <=t8):
+
+- **TKT-ER6-CARRYOVER** (design fork, non bloccante): semantica carry-over del bonus overrun (persiste fino al primo tick spawnabile O spawn-tick immediato al crossing) -> knob significativo in TUTTI i biomi stresswave invece che solo abisso. Richiede nuova N=40 + verdetto master-dd (la ratifica corrente copre l'as-built consume-once).
+- **TKT-SIM-PROBE-ENTROPY** (harness reliability): gamba atollo ISO = floor +0.33 tra armi byte-identiche in processi separati (abisso -0.03 pulito) -- entropia process-level non-seedata in un path biome-specifico travolge il paired design. Investigare rng non-seedato (candidati: foodweb/eco path), fixare o documentare. Finche' aperto: ogni N=40 famiglia spec-i-gates-probe riporta il floor della propria gamba e scarta gambe anomale.
+
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.
