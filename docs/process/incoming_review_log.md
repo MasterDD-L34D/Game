@@ -3,7 +3,7 @@ title: Incoming Review — Registro sessioni agentiche
 doc_status: draft
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-05-06
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -11,7 +11,7 @@ review_cycle_days: 14
 
 # Incoming Review — Registro sessioni agentiche
 
-`AG-Orchestrator` annota ogni sessione asincrona seguendo il [template](../templates/incoming_triage_meeting.md). Le nuove sezioni vengono aggiunte in cima al file.
+`AG-Orchestrator` annota ogni sessione asincrona seguendo il [template](../guide/templates/incoming_triage_meeting.md). Le nuove sezioni vengono aggiunte in cima al file.
 
 > Nota: il Support Hub (`docs/index.html`) legge la prima sezione datata per mostrare l'ultimo report. Mantieni il formato `## YYYY-MM-DD — Facilitatore: ...` e aggiorna il link HTML dopo ogni triage.
 

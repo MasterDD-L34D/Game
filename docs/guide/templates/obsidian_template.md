@@ -48,6 +48,6 @@ updated: 2025-11-22
 
 ---
 
-> Questo template garantisce coerenza con il PTPF e integra struttura, traccia e playtest in un unico ambiente locale. In caso di dubbi sui campi dati rimanda alla [scheda operativa trait](../traits_scheda_operativa.md) e alla [Guida Evo Tactics Pack v2](../Guida_Evo_Tactics_Pack_v2.md).
+> Questo template garantisce coerenza con il PTPF e integra struttura, traccia e playtest in un unico ambiente locale. In caso di dubbi sui campi dati rimanda alla [scheda operativa trait](../../traits/traits_scheda_operativa.md) e alla [Guida Evo Tactics Pack v2](../../core/Guida_Evo_Tactics_Pack_v2.md).
 
 **[END Obsidian Template]**
