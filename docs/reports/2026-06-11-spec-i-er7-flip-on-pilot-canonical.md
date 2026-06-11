@@ -21,7 +21,12 @@ probe dipendeva da stat DIFFERENZIATE a mano (prey hp5/mod1 vs apex hp12/mod4), 
 una proprieta' intrinseca di ER7. Questo pilot rimisura con le stat CANONICHE delle
 specie foodweb badlands per decidere il flip-ON.
 
-**VERDETTO master-dd: IN ATTESA** (domanda strutturata posta; L-069).
+**VERDETTO master-dd 2026-06-11: FLIP-ON ratificato.** Su domanda strutturata (L-069):
+`BIOME_POPULATION_ENABLED` flippato **default ON** (opt-out '!= false', pattern ER6 #2725),
+scope pilota `ER7_PILOT_BIOMES=['badlands']`. Motivazione: effetto combat outcome-neutro
+con le stat reali + band-safe per costruzione + mechanism confermato. Surface: i segnali
+narrativi escono gia' nel chronicle (viewer Godot M-7); il telegraph diegetico dedicato
+dello stato bioma resta forward-work item-3.
 
 ## Measurement-point: stat canoniche, non differenziate
 
@@ -97,10 +102,11 @@ piu' dura", A13-like): la DIREZIONE narrativa resta voluta, ma la MAGNITUDINE co
 le stat reali e' trascurabile -- ER7 e' un segnale ecologico/narrativo (composizione del
 branco rinforzi) piu' che una leva di difficolta'.
 
-## Decisione richiesta a master-dd
+## Decisione (verdetto master-dd 2026-06-11)
 
-Flip-ON di `BIOME_POPULATION_ENABLED` default (opt-out `!= 'false'`, pattern ER6 #2725),
-pilot badlands? Le 3 magnitudini sono gia' RATIFIED; il pilot canonico mostra effetto
-combat benigno + band-safe per costruzione.
+**Flip-ON ratificato**: `BIOME_POPULATION_ENABLED` flippato default ON (opt-out
+`!= 'false'`) nello stesso PR -- `biomePopulation.isEnabled()` + comment + 3 test legacy
+"flag OFF default" aggiornati al pattern opt-out. Scope pilota invariato (badlands).
+Forward-work residuo: telegraph diegetico Godot (item-3) + espansione bioma-per-bioma.
 
 Evidence only -- il flip e' verdetto master-dd (L-069).

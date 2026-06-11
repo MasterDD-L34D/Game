@@ -51,7 +51,7 @@ const { emergeBrancoTraitFromPulses } = require('../services/identity/brancoTrai
 // TKT-P2 Brigandine seasonal — Phase C routes (engine Phase A #2251 + content Phase B #2252).
 const seasonalEngine = require('../services/campaign/seasonalEngine');
 const seasonalContentLoader = require('../services/campaign/seasonalContentLoader');
-// SPEC-I ER7 -- A9 population tick (flag-gated BIOME_POPULATION_ENABLED, OFF).
+// SPEC-I ER7 -- A9 population tick (BIOME_POPULATION_ENABLED, default ON 2026-06-11).
 const biomePopulation = require('../services/worldgen/biomePopulation');
 
 // TKT-WORLDGEN-GAPC MVP fase 1 — meta-network campaign routing (read-only).

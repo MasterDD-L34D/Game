@@ -445,8 +445,11 @@ spawn whitelist da ecosystem.yaml).
   `ABUNDANT_WEIGHT_MULT=2` **RATIFIED** as-built post N=40 (evidence
   `docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md`: timeline deterministica
   - spawn-shaping mechanism fired, esclusione `depleted` = conseguenza ecologica
-    INTENZIONALE A13-like). Flag `BIOME_POPULATION_ENABLED` tenuto OFF (verdetto master-dd):
-    flip-ON deferito a un pilot su encounter badlands reale (pattern ER1 #2704).
+    INTENZIONALE A13-like). Flag `BIOME_POPULATION_ENABLED` **flippato default ON
+    2026-06-11** (opt-out '!= false', pattern ER6 #2725) dopo il pilot su stat canoniche
+    (`docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md`: effetto combat
+    outcome-neutro con le stat reali -- il -0.25 del probe era artefatto). Scope badlands;
+    telegraph diegetico Godot = forward-work item-3.
 
 ## 12. Acceptance
 

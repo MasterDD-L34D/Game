@@ -27,10 +27,12 @@
 // GOVERNANCE: magnitudini RECOVERY_SEASONS / ABUNDANCE_SEASONS / ABUNDANT_WEIGHT_MULT
 // (foodwebFilter) RATIFIED as-built 2026-06-11 (N=40 evidence
 // docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md). Flag
-// `BIOME_POPULATION_ENABLED` tenuto default OFF per verdetto master-dd: accensione
-// deferita a un pilot su encounter badlands REALE (pattern ER1 #2704 wired-ratified,
-// flag-OFF). L'esclusione del ruolo `depleted` = conseguenza ecologica INTENZIONALE
-// ("bioma depleted = combat piu' duro", A13-like) -- NON una regressione di banda.
+// `BIOME_POPULATION_ENABLED` **default ON** (flip 2026-06-11, opt-out '!= false';
+// pilot canonico docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md =
+// effetto combat OUTCOME-NEUTRO con le stat reali, band-safe per costruzione; il
+// -0.25 del probe differenziato era artefatto). L'esclusione del ruolo `depleted` =
+// conseguenza ecologica INTENZIONALE (segnale composizione branco-rinforzi, A13-like).
+// Scope pilota: ER7_PILOT_BIOMES (badlands).
 // =============================================================================
 
 const STATES = Object.freeze({
@@ -53,7 +55,9 @@ const ABUNDANCE_SEASONS = 2;
 const SIGNAL_ROLE = Object.freeze({ apexOverhunted: 'apex', biomeWounded: 'prey' });
 
 function isEnabled() {
-  return process.env.BIOME_POPULATION_ENABLED === 'true';
+  // Default ON post pilot canonico (flip 2026-06-11, pattern ER6 #2725): opt-out
+  // esplicito con 'false'.
+  return process.env.BIOME_POPULATION_ENABLED !== 'false';
 }
 
 /** Fresh population: ogni ruolo tracciato parte `stable`, seasons 0. */
