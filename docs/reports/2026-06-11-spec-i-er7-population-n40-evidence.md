@@ -19,8 +19,13 @@ Chiude il residuo #2 dell'handoff 2026-06-10: playtest N=40 con
 #2723 (`RECOVERY_SEASONS`, `ABUNDANCE_SEASONS`, `ABUNDANT_WEIGHT_MULT`) + decidere
 l'accensione del population tick (pilot badlands).
 
-**VERDETTO master-dd: IN ATTESA** (domanda strutturata posta; L-069: il documento
-RIPORTA l'evidenza, il flip-ON e la ratifica magnitudini sono verdetto di Eduardo).
+**VERDETTO master-dd 2026-06-11: magnitudini RATIFIED as-built, flag tenuto OFF.**
+Su domanda strutturata (L-069): (1) `RECOVERY_SEASONS=2` / `ABUNDANCE_SEASONS=2`
+**RATIFIED**; (2) `ABUNDANT_WEIGHT_MULT=2` **RATIFIED**; (3) esclusione `depleted`
+= conseguenza ecologica **INTENZIONALE** (A13-like, "bioma depleted = combat piu'
+duro"); (4) flag `BIOME_POPULATION_ENABLED` **resta OFF** -- knob ratificati ma
+accensione deferita a un pilot su encounter badlands REALE (stat canoniche, non
+probe differenziato), pattern ER1 #2704 (wired-ratified, flag-OFF).
 
 Design ratificato: `docs/design/evo-tactics-ermes-runtime-pressure.md` sez. ER7.
 Build-record: `docs/reports/2026-06-10-er7-biome-population-build-evidence.md`.
@@ -133,25 +138,26 @@ DIFFERENZIAZIONE STAT scelta per il probe (prey hp5 vs apex hp12), NON una propr
 intrinseca di ER7: in un encounter reale le specie foodweb portano le loro stat
 canoniche (`deriveCombatStats`), quindi lo swing in partita sara' diverso.
 
-## Decisioni richieste a master-dd (ratifica)
+## Decisioni (verdetto master-dd 2026-06-11)
 
 1. `RECOVERY_SEASONS=2` / `ABUNDANCE_SEASONS=2`: timeline Finding 1 leggibile e
-   simmetrica. Ratifica as-built?
+   simmetrica. **-> RATIFIED as-built.**
 2. `ABUNDANT_WEIGHT_MULT=2`: meccanismo fired (apex share +67% rel), outcome-neutro
-   in banda. Ratifica as-built?
+   in banda. **-> RATIFIED as-built.**
 3. Esclusione `depleted` (binaria, nessun knob): effetto reale -0.25, direzione
-   "ferita ecologica = piu' duro" coerente con A13, ma marginalmente sotto banda nel
-   probe differenziato. Accettare come conseguenza ecologica intenzionale (come
-   `woundedStep` A13), oppure aprire un fork per ammorbidirla (es. weight-DOWN della
-   prey invece di esclusione netta)?
-4. Flip-ON `BIOME_POPULATION_ENABLED` default (pilot badlands), oppure tenere il flag
-   OFF e ratificare solo le magnitudini (accensione separata)?
+   "ferita ecologica = piu' duro" coerente con A13. **-> conseguenza ecologica
+   INTENZIONALE** (accettata come `woundedStep` A13); nessun fork esclusione-soft.
+4. Flip-ON `BIOME_POPULATION_ENABLED`: **-> flag tenuto OFF.** Knob ratificati ma
+   accensione deferita a un pilot su encounter badlands REALE (stat canoniche);
+   pattern ER1 #2704 (wired-ratified, flag-OFF). Il flip-ON diventa forward-work.
 
 ## Forward-work (NON gate di questa evidenza)
 
+- **Flip-ON deferito** (decisione 4): pilot su encounter badlands REALE (pool foodweb
+  con stat canoniche `deriveCombatStats`, non il probe differenziato) -> conferma
+  l'impatto in banda con le stat vere, poi flip `BIOME_POPULATION_ENABLED` default ON.
 - Espansione bioma-per-bioma post-flip (mirror ER5, un bioma alla volta dietro N=40).
 - Surface Godot: telegraph diegetico dello stato bioma (item 3, Lenovo).
 - Affinare il proxy `apexOverhunted` (kill-heavy reale per-ruolo vs run vinto).
-- Eventuale fork esclusione-soft (decisione 3) -> richiederebbe nuova N=40.
 
 Evidence only -- il flip e la ratifica sono verdetto master-dd (L-069, spec sez. 8).
