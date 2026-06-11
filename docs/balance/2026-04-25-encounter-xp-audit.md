@@ -3,7 +3,7 @@ title: Encounter XP Budget Audit (2026-04-25)
 doc_status: active
 doc_owner: claude-code
 workstream: dataset-pack
-last_verified: '2026-04-25'
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -17,7 +17,7 @@ tags:
 
 # Encounter XP Budget Audit
 
-Pathfinder-inspired difficulty audit. Closes [pcg-level-design-illuminator P1](.claude/agents/pcg-level-design-illuminator.md). Ratio = enemy_power / (party_power × difficulty_multiplier).
+Pathfinder-inspired difficulty audit. Closes [pcg-level-design-illuminator P1](../../.claude/agents/pcg-level-design-illuminator.md). Ratio = enemy_power / (party_power × difficulty_multiplier).
 
 ## ⚠️ Lettura del verdetto
 

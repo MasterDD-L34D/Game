@@ -3,7 +3,7 @@ title: Pipeline di raccolta feedback
 doc_status: draft
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-05-06
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -58,7 +58,7 @@ Questa guida descrive in dettaglio il flusso operativo per raccogliere, filtrare
 ## 7. Risorse correlate
 
 - [Tutorial form feedback](../tutorials/feedback-form.md)
-- [Linee guida playtest](../playtest-log-guidelines.md)
-- [Schema telemetria VC](../24-TELEMETRIA_VC.md)
+- [Linee guida playtest](../qa/playtest-log-guidelines.md)
+- [Schema telemetria VC](../core/24-TELEMETRIA_VC.md)
 
 > Mantieni questa pagina aggiornata ad ogni revisione del processo: annota in `docs/changelog.md` le modifiche rilevanti in modo da garantire tracciabilità.

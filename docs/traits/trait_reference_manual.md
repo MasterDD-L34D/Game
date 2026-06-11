@@ -15,12 +15,12 @@ Questo file rappresenta il punto di ingresso unico per il manuale dei tratti. Il
 
 ## Struttura del manuale
 
-- [01 — Introduzione](traits-manuale/01-introduzione.md)
-- [02 — Modello dati](traits-manuale/02-modello-dati.md)
-- [03 — Tassonomia famiglie](traits-manuale/03-tassonomia-famiglie.md)
-- [04 — Collegamenti cross-dataset](traits-manuale/04-collegamenti-cross-dataset.md)
-- [05 — Workflow e strumenti](traits-manuale/05-workflow-strumenti.md)
-- [06 — Standalone Trait Editor](traits-manuale/06-standalone-trait-editor.md)
+- [01 — Introduzione](./manuale/01-introduzione.md)
+- [02 — Modello dati](./manuale/02-modello-dati.md)
+- [03 — Tassonomia famiglie](./manuale/03-tassonomia-famiglie.md)
+- [04 — Collegamenti cross-dataset](./manuale/04-collegamenti-cross-dataset.md)
+- [05 — Workflow e strumenti](./manuale/05-workflow-strumenti.md)
+- [06 — Standalone Trait Editor](./manuale/06-standalone-trait-editor.md)
 - [README del manuale](traits-manuale/README.md)
 
 ### Nuovi trait ambientali – Frattura Abissale Sinaptica
