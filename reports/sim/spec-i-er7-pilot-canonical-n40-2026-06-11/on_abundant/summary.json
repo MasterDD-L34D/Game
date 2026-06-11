@@ -1,0 +1,69 @@
+{
+  "arm": "on_abundant",
+  "args": {
+    "effect": "er7",
+    "runs": 40,
+    "seedBase": 72000,
+    "out": "reports/sim/spec-i-er7-pilot-canonical-n40-2026-06-11",
+    "commit": "c85710fb0",
+    "scaling": {
+      "countAdd": 7,
+      "hpAdd": 4,
+      "modAdd": 6,
+      "dcAdd": 1
+    },
+    "band": [
+      0.4,
+      0.6
+    ],
+    "arms": [
+      "on_abundant"
+    ],
+    "scenario": "enc_badlands_foodweb_pilot_01"
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 0.575,
+    "win_ci95": [
+      0.4219480043605999,
+      0.7149083147518411
+    ],
+    "timeouts": 0,
+    "rounds": {
+      "mean": 113.55,
+      "sd": 9.201309828720179,
+      "ci95": [
+        110.69848454146634,
+        116.40151545853365
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 68.55,
+      "sd": 6.050852874828517,
+      "ci95": [
+        66.67482126663849,
+        70.4251787333615
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 1.05,
+      "sd": 0.9594335935919799,
+      "ci95": [
+        0.7526684488957635,
+        1.3473315511042365
+      ],
+      "n": 40
+    }
+  }
+}
