@@ -12,6 +12,10 @@
 'use strict';
 
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+// OD-058 D3 cutover (verdetto 2026-06-10): il path legacy woundedPerma gira
+// SOLO in opt-out esplicito -- il default e' il wound-location system V2
+// (tests/api/woundCutoverWire.test.js). Questo file pinna il contratto legacy.
+process.env.WOUND_LOCATION_V2 = 'false';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');

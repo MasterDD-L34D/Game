@@ -77,6 +77,21 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts =
     emergentBrancoTrait: opts.emergentBrancoTrait || null,
     // SPEC-P A13 -- biomi feriti cross-run (degrade bounded, cap 2). Persistito qui.
     woundedBiomes: Array.isArray(opts.woundedBiomes) ? [...opts.woundedBiomes] : [],
+    // SPEC-I ER7 -- popolazione discreta per ruolo trofico, cross-run. Avanza a
+    // season-tick (campaign.js advance-season). { [biomeId]: { apex|prey|... :
+    // { state:'abundant'|'stable'|'depleted', seasons:int } } }. Vuoto = nessun
+    // segnale ancora; flag-gated BIOME_POPULATION_ENABLED.
+    biomePopulation:
+      opts.biomePopulation && typeof opts.biomePopulation === 'object'
+        ? { ...opts.biomePopulation }
+        : {},
+    // SPEC-I ER7 -- segnale apex-overhunted per-bioma (run vinto = apex predator
+    // rimosso). Settato a fine run, consumato + azzerato dal season-tick.
+    // { [biomeId]: true }.
+    apexPressureByBiome:
+      opts.apexPressureByBiome && typeof opts.apexPressureByBiome === 'object'
+        ? { ...opts.apexPressureByBiome }
+        : {},
     // Sprint 3 §III (2026-04-27) — Wildermyth choice→permanent flag pattern.
     // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #12 Wildermyth.
     // Each flag = { key, value, source_chapter, recorded_at, narrative? }.

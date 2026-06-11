@@ -10,6 +10,8 @@ const { createSistemaStateStore } = require('../ai/sistemaStateStore');
 const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergence');
+const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
+const { aggregateFormPulses } = require('../formPulseVc');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -18,6 +20,18 @@ const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergenc
 // crypto.randomUUID() is collision-resistant; the `run_` prefix is preserved.
 function newRunId() {
   return `run_${crypto.randomUUID()}`;
+}
+
+// M-2 (#2679 residual) -- PROPOSED lifecycle-stage proxy for the coop run.
+// QF2 ratified the MODEL (auto da lifecycle: Hatchling anonima -> Juvenile nome
+// -> Apex nome+MBTI reveal -> Legacy) but the creature lifecycle stage is not a
+// coded field yet (identityService header). In a coop run the progression proxy
+// is: >=1 scenario cleared -> juvenile; run completed -> apex. Legacy stays out
+// of run scope (lineage/death, SPEC-J/M-3). Mapping = PROPOSED, ratify N=40/MA3
+// alongside the name-pool content.
+function proposedStageByProgression(cleared, runComplete) {
+  if (runComplete) return 'apex';
+  return cleared >= 1 ? 'juvenile' : 'hatchling';
 }
 
 // 2026-05-06 narrative onboarding port — `onboarding` phase added per
@@ -76,6 +90,8 @@ class CoopOrchestrator {
     sistemaStateStore = null,
     rosterStore = null,
     nidoUnlocked = false,
+    chronicleBaseDir = null,
+    namePool = null,
   } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
@@ -130,6 +146,14 @@ class CoopOrchestrator {
     // #2674 -- shared branco trait emergent from the aggregated Form Pulse;
     // tracked so re-submits swap cleanly. null until all_ready emerges.
     this.emergentBrancoTrait = null;
+    // M-2 (#2679 residual) -- emergent identity per creature (unit_id ->
+    // { stage, anonymous, name, mbti_reveal }). ADDITIVE layer: the player's
+    // character.name is never overwritten (QF2-C hybrid compatible). Persists
+    // across scenario advances (the name is earned, not re-rolled); cleared on
+    // run start. chronicleBaseDir/namePool = DI seams (tests; prod defaults).
+    this.creatureIdentities = new Map();
+    this.chronicleBaseDir = chronicleBaseDir || null;
+    this.namePool = Array.isArray(namePool) ? namePool : null;
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -253,6 +277,7 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.emergentBrancoTrait = null;
+    this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
     this._setPhase('character_creation');
@@ -295,6 +320,7 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.emergentBrancoTrait = null;
+    this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
     this._setPhase('onboarding');
@@ -507,7 +533,13 @@ class CoopOrchestrator {
         // role reported as fully under-represented (false negative).
         enrichedWorld = enricher.enrichWorld({
           biomeId,
-          formAxes: formAxes || {},
+          // #2679 -- fall back to the aggregated form-pulse creature axes when the
+          // caller passes none (Godot confirm_world omits form_axes); lets the
+          // companion voice reflect the branco lean.
+          formAxes:
+            formAxes && Object.keys(formAxes).length
+              ? formAxes
+              : aggregateFormPulses(this.formPulses),
           party: Array.from(this.characters.values()),
           runSeed: Number.isFinite(runSeed) ? runSeed : 0,
           trainerCanonical: Boolean(trainerCanonical),
@@ -670,6 +702,55 @@ class CoopOrchestrator {
     }
     this.emergentBrancoTrait = next || null;
     return next || null;
+  }
+
+  /**
+   * M-2 (#2679 residual) -- name-emergence call-site, mirror of the #2680
+   * branco-trait pattern. Called on run progression (advanceScenarioOrEnd),
+   * NOT on form_pulse: QF2 keeps the Hatchling anonymous at creation; the
+   * name is earned by surviving scenarios. Chronicle events key on run.id
+   * (the coop-side id where formPulses/characters live -- the #2674 gap).
+   *
+   * Idempotent: emits (chronicle `creature_named` + WS `creature_named`)
+   * only on identity TRANSITIONS -- anonymous->named (juvenile) and
+   * mbti_reveal upgrade (apex). Same-stage re-entry is a no-op; the name is
+   * deterministic per unit id (stable across advances). Whole-branco stage
+   * advance (no survivor gating) = part of the PROPOSED mapping.
+   *
+   * @param stage — lifecycle stage from proposedStageByProgression
+   * @returns array of emitted { actor_id, player_id, name, stage, mbti_reveal }
+   */
+  _applyNameEmergence(stage) {
+    if (!this.run) return [];
+    const emitted = [];
+    for (const ch of this.characters.values()) {
+      const unitId = ch.unit_id || `pg_${ch.player_id}`;
+      const prev = this.creatureIdentities.get(unitId) || null;
+      const identity = emergeIdentity(
+        { id: unitId, species: ch.species_id },
+        this.namePool ? { stage, pool: this.namePool } : { stage },
+      );
+      this.creatureIdentities.set(unitId, identity);
+      const named = !identity.anonymous && Boolean(identity.name);
+      const becameNamed = named && (!prev || prev.anonymous || !prev.name);
+      const revealUpgrade = named && prev && !prev.mbti_reveal && identity.mbti_reveal;
+      if (!becameNamed && !revealUpgrade) continue;
+      emitCreatureNamed(
+        this.run.id,
+        { actor_id: unitId, identity },
+        { baseDir: this.chronicleBaseDir },
+      );
+      const evt = {
+        actor_id: unitId,
+        player_id: ch.player_id,
+        name: identity.name,
+        stage: identity.stage,
+        mbti_reveal: identity.mbti_reveal,
+      };
+      this._emit('creature_named', evt);
+      emitted.push(evt);
+    }
+    return emitted;
   }
 
   /**
@@ -1111,14 +1192,27 @@ class CoopOrchestrator {
     throw new Error(`force_advance_not_allowed_from:${this.phase}`);
   }
 
+  /**
+   * Advance to the next scenario or end the run.
+   * @returns { action: 'ended' } | { action: 'next_scenario', index } — plus
+   *   an ADDITIVE `creature_named: [{ actor_id, player_id, name, stage,
+   *   mbti_reveal }]` key when M-2 name emergence fires on this advance
+   *   (juvenile naming / apex reveal). Consumers must not strict-match shape.
+   */
   advanceScenarioOrEnd() {
     if (!this.run) throw new Error('no_run');
     this.run.currentIndex += 1;
+    // M-2 -- run progression is the PROPOSED lifecycle proxy: emergence fires
+    // here (scenario cleared / run complete), before phase transition, so the
+    // creature_named event lands at the debrief->advance moment.
+    const cleared = this.run.currentIndex;
     if (this.run.currentIndex >= this.run.scenarioStack.length) {
+      const named = this._applyNameEmergence(proposedStageByProgression(cleared, true));
       this._setPhase('ended');
       this._emit('run_ended', { run_id: this.run.id });
-      return { action: 'ended' };
+      return { action: 'ended', ...(named.length ? { creature_named: named } : {}) };
     }
+    const named = this._applyNameEmergence(proposedStageByProgression(cleared, false));
     this.characters.forEach((ch) => {
       ch.ready = true; // carry over
     });
@@ -1132,7 +1226,11 @@ class CoopOrchestrator {
     this.emergentBrancoTrait = null;
     this.revealAcks.clear();
     this._setPhase('world_setup');
-    return { action: 'next_scenario', index: this.run.currentIndex };
+    return {
+      action: 'next_scenario',
+      index: this.run.currentIndex,
+      ...(named.length ? { creature_named: named } : {}),
+    };
   }
 
   snapshot() {

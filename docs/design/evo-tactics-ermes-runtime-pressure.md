@@ -2,10 +2,10 @@
 title: 'Evo-Tactics ERMES Runtime Pressure Contract (SPEC-I)'
 date: 2026-06-08
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-08'
+last_verified: '2026-06-10'
 source_of_truth: false
 review_cycle_days: 30
 language: it
@@ -49,9 +49,11 @@ riscrive.
   = playtest N=40, sez. 8).
 - SPEC-I NON tocca l'authority device/surface (SPEC-K).
 - SPEC-I NON possiede il write-side del degrado cross-run (**A13** biome-wound): quello e'
-  **SPEC-P** (QA1, ratificato 2026-06-08). SPEC-I copre il read-side della pressione +,
-  in futuro, il segnale **A2** StressWave (telegraph) -- oggi il wire `stresswave->pressure`
-  e' DEAD (`biomeModifiers.js`:188). La riga roadmap 3bis che assegna A2/A13 a SPEC-I va
+  **SPEC-P** (QA1, ratificato 2026-06-08). SPEC-I copre il read-side della pressione + il
+  segnale **A2** StressWave: il wire e' stato a lungo DEAD (`biomeModifiers.js`:188);
+  il design e' ora ratificato come **fork ER6** (event-trigger bounded, 2026-06-10) --
+  build = forward-work flag-gated. Il tick popolazione **A9** e' il fork **ER7** (stato
+  discreto bounded, 2026-06-10). La riga roadmap 3bis che assegna A2/A9/A13 a SPEC-I va
   letta con questo split.
 
 Complementarieta' in una riga:
@@ -292,6 +294,13 @@ roadmap. Etichetta `ER#` per evitare clash con gli altri fork (F/G/H/E/FC/TS/J/H
 | ER4  | Separate, telegraph distinti (ERMES banda diegetica vs sistema_pressure meter)         |
 | ER5  | Badlands first, poi espansione (gate N=40 win-rate band, no regressione fuori banda)   |
 
+**RATIFICATI da Eduardo 2026-06-10** (istruttoria ground-truth in sessione, agenti A2/A9):
+
+| Fork | Esito ratificato (2026-06-10)                                                               |
+| ---- | ------------------------------------------------------------------------------------------- |
+| ER6  | A2 StressWave = event-trigger bounded (one-shot a soglia + telegraph chip), flag OFF + N=40 |
+| ER7  | A9 population tick = stato discreto bounded per ruolo trofico, season-tick, pilot + N=40    |
+
 Sotto: opzioni/rationale originali di ogni fork (storia della decisione).
 
 ### ER1 -- Effetto runtime del role gap
@@ -374,6 +383,65 @@ Quali biomi/trait nel pilota e quale metrica esatta promuove?
   N=40 non copre la varianza tra biomi.
 - **Raccomandazione:** A.
 
+### ER6 -- A2 StressWave: wire dei dati dormienti (RATIFICATO 2026-06-10: C)
+
+Ground-truth (istruttoria 2026-06-10): 20/28 biomi hanno `stresswave` in
+`data/core/biomes.yaml` (`baseline` 0.26-0.37, `escalation_rate` 0.04-0.06,
+`event_thresholds` rescue 0.50-0.60 / overrun 0.70-0.84 + support/salvage/hive_alert/
+sync_window rari) -- TUTTO engine-dead: `getBiomeStressProfile` e' un pure reader
+diagnostico, zero consumer dei thresholds. Canvas storico (C-CANVAS_NPG_BIOMI): la wave
+cresce per turno scoperto; a soglia scatta "Protocollo di soccorso" (rinforzi alleati) o
+"Overrun" (ondata nemica). Nota doctrine: `sistema_pressure` e' GIA' seminato dal bioma
+(`pressure_initial_bonus` da `diff_base`), quindi una fonte-bioma non e' di per se' eresia.
+
+- **Opzione A -- feed continuo del meter.** `baseline + escalation*turno` alimenta
+  `sistema_pressure` per round. Tradeoff: massima vita ai dati, canvas-fedele, ma rimodella
+  la curva pressione/intent su TUTTI i biomi -> band-impact alto, N=40 pesante.
+- **Opzione B -- telegraph-only.** Quarto descrittore nel biomeChip (warning a soglia),
+  zero effetto meccanico. Tradeoff: zero band-risk ma promessa vuota al player (warning che
+  non si avvera) -- ornamentale come ER1-B.
+- **Opzione C -- event-trigger bounded (RATIFICATA).** La wave cresce per-turno
+  session-local (`baseline + escalation_rate * turno`, nessun feed del meter); al PRIMO
+  crossing di una soglia scatta UN evento one-shot bounded: `overrun` = +1 reinforcement
+  budget SIS (dentro `reinforcement_policy` esistente), `rescue` = soccorso player one-shot;
+  telegraph diegetico al crossing (4o slot biomeChip, spazio verificato). Tradeoff: da'
+  significato ai thresholds con effetto leggibile e contenuto; due eventi da tarare.
+- **Esito ratificato:** C. Build = forward-work, flag default OFF + gate N=40 (pattern
+  ER1/sez. 8: ON solo post playtest GREEN, verdetto master-dd).
+- **Knob update 2026-06-11**: `OVERRUN_BUDGET_BONUS=1` **RATIFIED** post re-run N=40
+  ISO con spawner fixato (#2730). Semantica as-built = nicchia: il +1 consume-once
+  morde solo se il crossing overrun atterra on-grid (<=t8 al tier Alert -- abisso si';
+  t9+ = tick gia' cap-clamped, no-op: atollo/badlands/caldera/canyons/canopia).
+  Outcome-neutro al punto di misura. Evidence:
+  `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md`. Fork carry-over
+  (bonus persiste fino a tick spawnabile) -> TKT-ER6-CARRYOVER (BACKLOG).
+
+### ER7 -- A9 population tick: ecosistema che evolve cross-run (RATIFICATO 2026-06-10: A)
+
+Ground-truth (istruttoria 2026-06-10): definizione originaria = "Worldgen population tick
+(Lotka-Volterra su foodwebs)" (gap-harvest 2026-06-08 + RESCUE-FORGOTTEN, ~80 LOC
+pseudocode, eventi `local_extinction`/`population_boom`); runtime = greenfield totale.
+WARNING museum (worldgen-stack card + PCG audit): UO 1997 = MAI simulare il foodweb a
+runtime col player libero; pattern sani = Rimworld/DF (stato discreto, modifier flat,
+worldgen frozen in-play). Architettura pronta: `seasonalEngine` (tick season monotone),
+`campaign.woundedBiomes` (prototipo persistence per-bioma A13), `foodwebFilter` (consumer
+spawn whitelist da ecosystem.yaml).
+
+- **Opzione A -- stato discreto bounded per ruolo trofico (RATIFICATA).**
+  `campaign.biomePopulation[biomeId]` = stato per ruolo trofico (abundant/stable/depleted,
+  MAI numeri continui); avanza SOLO a season-tick con regole flat (es. kill-heavy apex nel
+  run precedente -> apex `depleted`; bioma ferito A13 -> prey `depleted`); consumer =
+  `foodwebFilter` (ruolo `depleted` escluso dalla spawn whitelist, `abundant` pesato su);
+  `local_extinction`/`population_boom` = permanentFlags narrativi (pattern Wildermyth gia'
+  LIVE). Tradeoff: leggibile, anti-UO compliant, niente tuning di equazioni.
+- **Opzione B -- Lotka-Volterra discreto per-season.** Contatori per specie con equazioni
+  predator-prey. Tradeoff: fedele al dossier RESCUE ma e' simulazione vera (anti-pattern
+  museum), rischio convergenza/estinzione di massa, tuning costoso multi-bioma.
+- **Opzione C -- defer post-MVP.** Tradeoff: zero costo ora, ma il segnale ecologico
+  cross-run resta solo wound-driven (A13), senza recupero/boom.
+- **Esito ratificato:** A. Build = forward-work; pilot su 1 bioma (badlands, mirror ER5) +
+  gate N=40 prima dell'espansione.
+
 ## 12. Acceptance
 
 SPEC-I e' implementabile/chiudibile quando:
@@ -396,3 +464,18 @@ SPEC-I e' implementabile/chiudibile quando:
    se SPEC-B viene aggiornata, la riga ERMES vi confluisce senza contraddizioni;
 8. le Decisioni aperte ER1-ER5 sono ratificate da Eduardo; il flip `review_needed` ->
    `accepted` al merge del PR resta a lui (`source_of_truth:false` finche' non lo decide).
+
+**STATO FLIP (2026-06-10, verdetto master-dd):** `doc_status: active`. Acceptance 1-8
+soddisfatti: engine ERMES LIVE, pilota badlands N=40 GREEN, ER1 wired flag-gated
+(PR #2704), ER1-ER7 TUTTI ratificati. Forward-work tracciato (NON gate del flip):
+~~build ER6~~ **BUILT flag-gated** (stesso giorno: `combat/stressWave.js`, flag
+`STRESSWAVE_EVENTS_ENABLED` OFF, magnitudini PROPOSED -> N=40),
+~~build ER7~~ **BUILT flag-gated** (`worldgen/biomePopulation.js` stato discreto
+per ruolo trofico abundant/stable/depleted; advance al season-tick
+`campaign.js advance-season`; consumer `foodwebFilter.applyPopulationToPool` +
+`ecosystemResolver.getSpeciesRoles`; segnali biomeWounded [A13] + apexOverhunted
+[run vinto]; eventi `local_extinction`/`population_boom` = permanentFlags; flag
+`BIOME_POPULATION_ENABLED` OFF, pilot badlands, magnitudini
+RECOVERY_SEASONS/ABUNDANCE_SEASONS/ABUNDANT_WEIGHT_MULT PROPOSED -> N=40),
+hint role-gap `private` per-device (item 3 Godot), N=40 flag-ON di ER1 con
+party role-aware, N=40 flag-ON di ER6, N=40 flag-ON di ER7.

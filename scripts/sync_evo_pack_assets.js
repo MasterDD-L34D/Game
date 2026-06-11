@@ -8,7 +8,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const { readJsonFile, writeJsonFile } = require('./utils/jsonio');
+const { readJsonFile, writeJsonFileFormatted } = require('./utils/jsonio');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
@@ -74,6 +74,13 @@ function ensureDir(targetPath) {
 }
 
 function copyFile(sourcePath, targetPath) {
+  // Skip identical targets so repeated syncs do not churn mtimes.
+  if (fs.existsSync(targetPath)) {
+    const source = fs.readFileSync(sourcePath);
+    if (source.equals(fs.readFileSync(targetPath))) {
+      return;
+    }
+  }
   ensureDir(targetPath);
   fs.copyFileSync(sourcePath, targetPath);
 }
@@ -110,34 +117,41 @@ function updatePathFields(value) {
   return value;
 }
 
-function rewriteJsonWithMutator(sourcePath, targetPath, mutator) {
+async function rewriteJsonWithMutator(sourcePath, targetPath, mutator) {
   const data = readJsonFile(sourcePath);
   const mutated = mutator(data) ?? data;
-  writeJsonFile(targetPath, mutated);
+  // Strict comparison (no ignored keys): mirrors must track the pack source
+  // byte-for-byte semantics, timestamps included. The skip only avoids
+  // rewriting identical content with churned formatting.
+  await writeJsonFileFormatted(targetPath, mutated, { ignoreKeys: [] });
 }
 
-function syncMirrorFile(sourcePath, targetPath, rewritePaths) {
-  if (rewritePaths && path.extname(sourcePath) === '.json') {
-    rewriteJsonWithMutator(sourcePath, targetPath, updatePathFields);
+async function syncMirrorFile(sourcePath, targetPath, rewritePaths) {
+  // JSON mirrors always go through the semantic writer: a byte copy would
+  // clobber prettier-formatted committed mirrors with the JSON.stringify
+  // style (and CRLF line endings) of the pack sources.
+  if (path.extname(sourcePath) === '.json') {
+    const mutator = rewritePaths ? updatePathFields : (data) => data;
+    await rewriteJsonWithMutator(sourcePath, targetPath, mutator);
     return;
   }
   copyFile(sourcePath, targetPath);
 }
 
-function syncAssets() {
-  ASSET_MAP.forEach(({ source, targets, rewritePaths }) => {
+async function syncAssets() {
+  for (const { source, targets, rewritePaths } of ASSET_MAP) {
     const sourcePath = path.join(PACK_DOCS_DIR, source);
     if (!fs.existsSync(sourcePath)) {
       console.warn(`Asset mancante: ${sourcePath}`);
-      return;
+      continue;
     }
-    targets.forEach((targetName) => {
+    for (const targetName of targets) {
       const docsTarget = path.join(DOCS_TARGET, targetName);
       const publicTarget = path.join(PUBLIC_TARGET, targetName);
-      syncMirrorFile(sourcePath, docsTarget, rewritePaths);
-      syncMirrorFile(sourcePath, publicTarget, rewritePaths);
-    });
-  });
+      await syncMirrorFile(sourcePath, docsTarget, rewritePaths);
+      await syncMirrorFile(sourcePath, publicTarget, rewritePaths);
+    }
+  }
 
   // Copy trait category index used by the generator fallback.
   const traitIndexSource = path.join(DOCS_TARGET, 'traits');
@@ -158,15 +172,18 @@ function syncAssets() {
   const speciesDir = path.join(PACK_DOCS_DIR, 'species');
   if (fs.existsSync(speciesDir)) {
     const entries = fs.readdirSync(speciesDir, { withFileTypes: true });
-    entries.forEach((entry) => {
-      if (!entry.isFile()) return;
+    for (const entry of entries) {
+      if (!entry.isFile()) continue;
       const sourcePath = path.join(speciesDir, entry.name);
       const docsTarget = path.join(DOCS_TARGET, 'species', entry.name);
       const publicTarget = path.join(PUBLIC_TARGET, 'species', entry.name);
-      syncMirrorFile(sourcePath, docsTarget, true);
-      syncMirrorFile(sourcePath, publicTarget, true);
-    });
+      await syncMirrorFile(sourcePath, docsTarget, true);
+      await syncMirrorFile(sourcePath, publicTarget, true);
+    }
   }
 }
 
-syncAssets();
+syncAssets().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

@@ -93,6 +93,16 @@ function normaliseUnit(raw, fallbackIndex) {
     // checkMorale). It was silently stripped at /start, so the morale system could
     // never apply a per-unit modifier. Additive, default 0 (back-compat).
     morale_mod: Number.isFinite(Number(input.morale_mod)) ? Number(input.morale_mod) : 0,
+    // Verdetto #2679 Q2-bis (2026-06-10) — preserve `speed` (optional stat for
+    // the personality agile_robust axis; same lesson as morale_mod above:
+    // silently-stripped fields never reach their consumer). Absent -> null
+    // (the axis degrades to 0.5 neutral by design).
+    // Explicit null guard too: Number(null) === 0 is finite, so a bare
+    // isFinite check would turn an explicit `speed: null` into speed 0.
+    speed:
+      input.speed !== undefined && input.speed !== null && Number.isFinite(Number(input.speed))
+        ? Number(input.speed)
+        : null,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
     initiative,
@@ -498,6 +508,15 @@ function publicSessionView(session) {
     // SPEC-P PA3 read-side -- wounded-biome flag (A13 cross-run); the surface
     // telegraphs it diegetically pre/in-run (anti-brick, no raw number).
     biome_wounded: !!session.biome_wounded,
+    // SPEC-I ER6 -- ultimo evento StressWave scattato ({event, turn} | null),
+    // telegraph diegetico public-tier (mai il valore wave, ER3). Flag-gated:
+    // resta null finche' STRESSWAVE_EVENTS_ENABLED non e' ON.
+    stresswave_event: session.stresswave_event_latest || null,
+    // Gate-5 #2716 -- first-overcharge-of-the-run flag (set once by POST
+    // /overcharge, persists for the whole run). The web surface watches the
+    // false->true transition to fire the one-shot diegetic hint ("il Sistema
+    // reagisce al tuo tempo rubato") -- public tier, no raw numbers (ER3).
+    overcharge_used_this_run: !!session.overcharge_used,
     // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
     campaign_id: session.campaign_id || null,
     sistema_state: session.sistema_state || { units_observed: {} },
@@ -767,6 +786,19 @@ function applyApRefill(unit) {
   if (Number(unit.status?.defy_penalty) > 0) cap = Math.max(0, cap - 1);
   if (Number(unit.status?.chilled) > 0) cap = Math.max(1, cap - 1);
   if (Number(unit.status?.slowed) > 0) cap = Math.max(1, cap - 1);
+  // OD-058 D2 read-apply (flag-gated, #2531): testa-grave wound = -1 AP at refill
+  // (SPEC-D2 §8.4 graduato). Floor 0 like defy_penalty (never negative). Lazy
+  // require avoids touching this module's top-level imports for a default-OFF
+  // path. Flag OFF (default) = no-op, refill byte-identical.
+  try {
+    const woundSystem = require('../services/combat/woundSystem');
+    if (woundSystem.isReadApplyEnabled()) {
+      const apMalus = Number(woundSystem.computeWoundMaluses(unit).ap) || 0;
+      if (apMalus !== 0) cap = Math.max(0, cap + apMalus);
+    }
+  } catch {
+    /* wound read-apply optional; never block the refill */
+  }
   unit.ap_remaining = cap;
 }
 

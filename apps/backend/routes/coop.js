@@ -14,8 +14,28 @@ const express = require('express');
 const { listBiomeRoleDemands } = require('../services/coop/ermesExporter');
 const { listAlienaSummaries } = require('../services/coop/alienaGenerator');
 const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload');
+// #2709 -- REST lifecycle quorum role-aware, stesso self-selecting rule dei
+// drain WS (#2707/#2708): l'host conta SOLO se e' il submitter corrente o
+// possiede gia' un PG (host-plays); la TV-mirror (mai input) resta esclusa.
+const { lifecycleQuorumPids } = require('../services/network/wsSession');
+// OD-058 D3 (#2531) -- server-side vcSnapshot replay dal ledger della sessione
+// combat linkata (coopStore.linkSession): il debrief coop non e' piu'
+// trust-the-host.
+const {
+  isLedgerReplayEnabled,
+  replayDebriefFromLedger,
+} = require('../services/coop/vcLedgerReplay');
+const { isDeepStrictEqual } = require('node:util');
 
-function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = null } = {}) {
+function createCoopRouter({
+  lobby,
+  coopStore,
+  metaStoreFactory = null,
+  prisma = null,
+  // OD-058 D3 -- read-only accessor (session router getSessionById) for the
+  // linked combat session; absent -> legacy host-payload behavior.
+  getCombatSession = null,
+} = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
   if (!coopStore) throw new Error('createCoopRouter: coopStore required');
   const router = express.Router();
@@ -37,18 +57,22 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     return p ? { room, player: p } : null;
   }
 
-  function allPlayerIds(room) {
-    return Array.from(room.players.values())
-      .filter((p) => p.id !== room.hostId && p.role !== 'host')
-      .map((p) => p.id);
+  // #2709 -- role-aware REST quorum (mirror WS lifecycleQuorumPids #2707/#2708):
+  // host counts only as current submitter or once it owns a PG (host-plays);
+  // a TV-mirror host (never inputs) stays out, so players-only rooms advance.
+  function quorumPids(room, orch, submitterId = null) {
+    if (!room) return [];
+    return lifecycleQuorumPids(room, orch, submitterId);
   }
 
-  // B-NEW-1 fix 2026-05-08 — connected (WS-attached) non-host player ids.
-  // Used by world vote quorum so a disconnected peer doesn't block phase
-  // advance. Mirror of allPlayerIds with extra `connected` filter.
-  function connectedPlayerIds(room) {
+  // B-NEW-1 fix 2026-05-08 — connected (WS-attached) player ids, used by the
+  // vote quorums so a disconnected peer doesn't block phase advance. #2709:
+  // same role-aware quorum as above, restricted to `connected` peers.
+  function connectedQuorumPids(room, orch) {
+    if (!room) return [];
+    const quorum = new Set(lifecycleQuorumPids(room, orch, null));
     return Array.from(room.players.values())
-      .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
+      .filter((p) => quorum.has(p.id) && p.connected)
       .map((p) => p.id);
   }
 
@@ -60,13 +84,13 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     });
     room.broadcast({
       type: 'character_ready_list',
-      payload: orch.characterReadyList(allPlayerIds(room)),
+      payload: orch.characterReadyList(quorumPids(room, orch, null)),
     });
     // M18 — tally world votes if in setup phase.
     if (orch.phase === 'world_setup') {
       room.broadcast({
         type: 'world_tally',
-        payload: orch.worldTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.worldTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
     }
     // GAP-C fase-3 — re-surface an open meta-network route choice (phase-agnostic:
@@ -76,7 +100,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
       room.broadcast({
         type: 'route_tally',
-        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.routeTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
     }
     // M19 — debrief ready list if in debrief.
@@ -85,12 +109,12 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
         type: 'debrief_ready_list',
         payload: {
           outcome: orch.run?.outcome || 'victory',
-          ready_list: orch.debriefReadyList(allPlayerIds(room)),
+          ready_list: orch.debriefReadyList(quorumPids(room, orch, null)),
         },
       });
       room.broadcast({
         type: 'mating_tally',
-        payload: orch.matingTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.matingTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
       // 2026-05-15 Bundle C follow-up — surface per-actor 4-layer psicologico
       // payload to phone clients when host attached it via /coop/combat/end
@@ -161,7 +185,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       const spec = orch.submitCharacter(
         playerId,
         { name, form_id, species_id, job_id },
-        { allPlayerIds: allPlayerIds(room) },
+        { allPlayerIds: quorumPids(room, orch, playerId) },
       );
       // B-NEW-5 fix 2026-05-08 — skip rebroadcast on idempotent resubmit.
       if (!spec._deduplicated) {
@@ -184,7 +208,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const room = lobby.getRoom(code);
     return res.json({
       snapshot: orch.snapshot(),
-      character_ready_list: room ? orch.characterReadyList(allPlayerIds(room)) : [],
+      character_ready_list: room ? orch.characterReadyList(quorumPids(room, orch, null)) : [],
     });
   });
 
@@ -205,8 +229,8 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       const tally = orch.voteWorld(playerId, {
         scenarioId,
         accept,
-        allPlayerIds: allPlayerIds(room),
-        connectedPlayerIds: connectedPlayerIds(room),
+        allPlayerIds: quorumPids(room, orch, playerId),
+        connectedPlayerIds: connectedQuorumPids(room, orch),
       });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, tally });
@@ -228,8 +252,8 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
-      const allPids = allPlayerIds(room);
-      const connectedPids = connectedPlayerIds(room);
+      const allPids = quorumPids(room, orch, playerId);
+      const connectedPids = connectedQuorumPids(room, orch);
       const tally = orch.voteMating(playerId, pairId, {
         allPlayerIds: allPids,
         connectedPlayerIds: connectedPids,
@@ -321,7 +345,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
       const result = orch.submitDebriefChoice(playerId, choice, {
-        allPlayerIds: allPlayerIds(room),
+        allPlayerIds: quorumPids(room, orch, playerId),
       });
       broadcastCoopState(room, orch);
       return res.json({
@@ -378,16 +402,65 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
+      // OD-058 D3 (#2531) -- replay-from-event-log: quando una sessione combat
+      // server-side e' linkata (coopStore.linkSession) e il suo ledger ha
+      // eventi attribuiti ad attori, il server ricostruisce vcSnapshot +
+      // debrief_payload dal PROPRIO ledger (stesso path vcScoring del flusso
+      // single: buildVcSnapshot -> vcSnapshotToDebriefPayload) e il payload
+      // host viene ignorato (divergenza loggata + surfaced). Fallback host:
+      // nessuna sessione linkata / ledger inerte (solo lifecycle, combat
+      // client-side Godot) / kill switch COOP_VC_LEDGER_REPLAY=0. Outcome,
+      // survivors e xp restano host-reported (Opzione 2: la resolution del
+      // combat resta client-side; qui si sposta SOLO la derivazione VC).
+      let effectiveDebrief = debriefPayload;
+      let debriefSource = debriefPayload ? 'host' : null;
+      let hostPayloadDivergent = null;
+      if (isLedgerReplayEnabled() && typeof getCombatSession === 'function' && orch.sessionId) {
+        try {
+          const combatSession = getCombatSession(orch.sessionId);
+          if (combatSession) {
+            // SPEC-M FP->VC parity con /end (routes/session.js): il branco
+            // Form Pulse della run viene idratato nel replay (no-op se vuoto).
+            const formPulses =
+              typeof coopStore.getFormPulses === 'function'
+                ? coopStore.getFormPulses(orch.run?.id)
+                : null;
+            const replay = replayDebriefFromLedger(combatSession, { formPulses });
+            if (replay && replay.actor_events_count > 0) {
+              if (debriefPayload) {
+                hostPayloadDivergent = !isDeepStrictEqual(debriefPayload, replay.debrief_payload);
+                if (hostPayloadDivergent) {
+                  console.warn(
+                    `[coop] debrief_payload host divergente dal ledger replay (code=${code}, session=${orch.sessionId}) -- server-authoritative`,
+                  );
+                }
+              }
+              effectiveDebrief = replay.debrief_payload;
+              debriefSource = 'ledger_replay';
+            }
+          }
+        } catch (replayErr) {
+          // Best-effort: il replay non blocca MAI la chiusura del combat.
+          console.warn(`[coop] ledger replay fallito (code=${code}):`, replayErr.message);
+        }
+      }
       const result = orch.endCombat({
         outcome,
         xpEarned,
         survivors,
-        debriefPayload,
+        debriefPayload: effectiveDebrief,
         sistemaObservations,
         recruitCandidates,
       });
       broadcastCoopState(room, orch);
-      return res.json({ phase: orch.phase, result });
+      return res.json({
+        phase: orch.phase,
+        result,
+        // OD-058 D3 -- additive: provenance del debrief ('ledger_replay' |
+        // 'host' | null) + divergenza host vs replay (null = non applicabile).
+        debrief_source: debriefSource,
+        host_payload_divergent: hostPayloadDivergent,
+      });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'combat_end_failed' });
     }
@@ -420,7 +493,7 @@ function createCoopRouter({ lobby, coopStore, metaStoreFactory = null, prisma = 
       room.broadcast({ type: 'route_choice', payload: { candidates: stored } });
       room.broadcast({
         type: 'route_tally',
-        payload: orch.routeTally(allPlayerIds(room), connectedPlayerIds(room)),
+        payload: orch.routeTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
       return res.json({ ok: true, candidates: stored });
     } catch (err) {

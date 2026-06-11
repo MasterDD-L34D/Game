@@ -51,6 +51,9 @@ const { filterForTvMirror } = require('../services/deviceInput/tierFilter');
 // TKT-ORPHAN-VCSNAP — Game-side serializer that flattens a vc snapshot to the
 // Godot-parity debrief_payload (sentience_tier + conviction_axis + ennea_archetype).
 const { vcSnapshotToDebriefPayload } = require('../services/coop/vcSnapshotToDebriefPayload');
+// OD-058 D3 (#2531) -- unitStatsById moved to the shared ledger-replay module
+// (single canonical impl for the /end + /:id/vc + coop replay paths).
+const { unitStatsById } = require('../services/coop/vcLedgerReplay');
 // P4 Thought Cabinet: Phase 1 (threshold unlock) + Phase 2 (research → internalize).
 const {
   evaluateThoughts: evaluateMbtiThoughts,
@@ -133,6 +136,7 @@ const {
 // ADR-2026-05-29 FASE 3: applyBiomeEcoEffects replaces inline ADR-21c block.
 // Runs ADR-21c + ERMES + unified +/-2 cap. applyBiomeTraitCosts no longer used directly.
 const { loadTraitEnvironmentalCosts, applyBiomeEcoEffects } = require('../services/traitEffects');
+const { applyStressWaveTick } = require('../services/combat/stressWave');
 // QW1 (M-018 worldgen card): biome diff_base + stress_modifiers → runtime
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
@@ -305,6 +309,8 @@ function createSessionRouter(options = {}) {
   // In-memory (dev/demo; lossy on process restart) -> true cross-restart permanence
   // needs DB backing (future follow-up); unbounded growth acceptable (few campaign ids).
   const woundedPermaByCampaign = new Map();
+  // OD-058 D3 -- V2 scar persistence (grave wounds), supersedes woundedPerma.
+  const woundsV2ByCampaign = new Map();
   let activeSessionId = null; // PR-1 §22 coop-WS surface — optional coop orchestrator store; when present,
   // /start links the new session id back by campaign_id (== run.id).
   const coopStore = options.coopStore || null;
@@ -1071,8 +1077,8 @@ function createSessionRouter(options = {}) {
             // from the orchestrator's tracked list, wiping a panic set mid-resolve.
             // Stash it on the session so the sync re-applies it afterward — one place
             // that covers every attack resolver (player + AI + legacy direction).
-            if (!Array.isArray(session._pendingMoraleStatus)) session._pendingMoraleStatus = [];
-            session._pendingMoraleStatus.push({
+            if (!Array.isArray(session._pendingStatusApplies)) session._pendingStatusApplies = [];
+            session._pendingStatusApplies.push({
               unit_id: target.id,
               status: critMoraleResult.status,
               duration: critMoraleResult.duration,
@@ -1081,6 +1087,21 @@ function createSessionRouter(options = {}) {
         } catch {
           /* morale optional; never block the hit */
         }
+      }
+
+      // OD-058 D3 write-trigger (verdetto master-dd 2026-06-10 Q2): crit ->
+      // ferita `lieve`, KO -> `grave`. Solo PG (no minion, B5); flag-aware
+      // (WOUND_LOCATION_V2, default ON post-cutover). status.wounds e' esente
+      // dal wipe del round-sync (PERSISTENT_STATUS_KEYS, sessionRoundBridge).
+      try {
+        const { maybeApplyCombatWound } = require('../services/combat/woundSystem');
+        maybeApplyCombatWound(target, {
+          isCritical: !!result.is_critical,
+          isKo: Number(target.hp || 0) <= 0,
+          rng,
+        });
+      } catch {
+        /* wound system best-effort; never block the hit */
       }
 
       // Combat parity GAP-1 (2026-06-07): on_hit_status producer hook. Ports
@@ -1095,6 +1116,25 @@ function createSessionRouter(options = {}) {
       try {
         const { applyOnHitStatuses } = require('../services/combat/onHitStatus');
         onHitStatusResult = applyOnHitStatuses(actor, target, { rng });
+        // TKT-D4-ENRICH (#2533): the direct target.status write above is wiped
+        // by syncStatusesFromRoundState in the round model (the orchestrator
+        // never tracked it) — same failure morale had. Stash on the pending
+        // drain channel so the post-sync re-apply persists it; the next
+        // adaptSessionToRoundState then promotes it to a tracked orchestrator
+        // status (decay included). Duration honors STATUS_DURATION_CAPS.
+        if (onHitStatusResult && Array.isArray(onHitStatusResult.applied)) {
+          for (const a of onHitStatusResult.applied) {
+            const cap = STATUS_DURATION_CAPS[a.status_id];
+            if (!Array.isArray(session._pendingStatusApplies)) {
+              session._pendingStatusApplies = [];
+            }
+            session._pendingStatusApplies.push({
+              unit_id: target.id,
+              status: a.status_id,
+              duration: cap !== undefined ? Math.min(cap, a.duration) : a.duration,
+            });
+          }
+        }
       } catch {
         /* on_hit_status optional; never block the hit */
       }
@@ -1275,6 +1315,19 @@ function createSessionRouter(options = {}) {
         const cap = STATUS_DURATION_CAPS[s.stato];
         const merged = Math.max(current, s.turns);
         unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
+        // TKT-D4-ENRICH (#2533): persist through the round-model status sync
+        // (same drain channel as morale/on_hit_status — see comment at the
+        // on_hit_status block above). Without this, SPRINT_018 apply_status
+        // trait effects last only until syncStatusesFromRoundState rebuilds
+        // the dict (i.e. they never survive the round in the round model).
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: unit.id,
+          status: s.stato,
+          duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+        });
       }
     }
 
@@ -1665,6 +1718,7 @@ function createSessionRouter(options = {}) {
       session.active_unit = nextId;
       session.turn += 1;
       sgBeginTurnAll(session);
+      applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
     }
 
     return { iaActions, bleedingEvents };
@@ -1756,9 +1810,12 @@ function createSessionRouter(options = {}) {
           // SPEC-P A13 read-side: if this biome is wounded (campaign cross-run state),
           // the eco effect is harsher (woundedStep, folded into the ER2 +/-2 cap).
           // PROPOSED magnitude = 1 band (DEGRADE_STEP); ratify N=40. Best-effort lookup.
+          // A13_WOUND_READ_DISABLED=1 (default OFF) = N=40 control arm: neutralizes
+          // ONLY this amplifier (write-side persist untouched) so the A/B isolates
+          // the PROPOSED magnitude from the other campaign-linked cross-run systems.
           let woundedStep = 0;
           try {
-            const cid = req.body?.campaign_id;
+            const cid = process.env.A13_WOUND_READ_DISABLED === '1' ? null : req.body?.campaign_id;
             if (cid) {
               const { getCampaign } = require('../services/campaign/campaignStore');
               const camp = getCampaign(cid);
@@ -1775,12 +1832,45 @@ function createSessionRouter(options = {}) {
           }
           // SPEC-P PA3 read-side: surface the wounded-biome state (anti-brick telegraph).
           biomeWounded = woundedStep > 0;
+          // SPEC-I ER1 (ratificato 2026-06-08) -- party role gap -> +1 soft sui
+          // NEMICI (max-headroom stat, dentro il cap ER2 condiviso). Gate N=40
+          // sez.8 PASSED: flip default ON ratificato master-dd 2026-06-10
+          // (evidence docs/reports/2026-06-10-spec-i-er1-role-gap-n40-evidence.md:
+          // effetto paired = noise floor, WR in banda, no-op party completo).
+          // Opt-out esplicito ERMES_ROLE_GAP_ENABLED='false'. Party legacy senza
+          // ruoli canonici ERMES (job non in BIOME_ROLE_DEMANDS) -> no-op
+          // conservativo. Step=1 RATIFIED-PROVISIONAL (re-validate player data).
+          let roleGapStep = 0;
+          if (process.env.ERMES_ROLE_GAP_ENABLED !== 'false') {
+            try {
+              const {
+                computeRoleGap,
+                BIOME_ROLE_DEMANDS,
+              } = require('../services/coop/ermesExporter');
+              const ermesRoles = new Set(
+                Object.values(BIOME_ROLE_DEMANDS).flatMap((d) => Object.keys(d)),
+              );
+              const partyJobs = units
+                .filter(
+                  (u) => u && u.controlled_by === 'player' && ermesRoles.has(String(u.job || '')),
+                )
+                .map((u) => String(u.job));
+              if (partyJobs.length) {
+                const gap = computeRoleGap(partyJobs, biomeIdRaw);
+                if (Object.values(gap).some((v) => Number(v) < 0)) roleGapStep = 1;
+              }
+            } catch {
+              /* best-effort -- biome eco still applies without the role-gap nudge */
+            }
+          }
           units = units.map((u) => {
             if (!u) return u;
             const clone = { ...u };
             const log = applyBiomeEcoEffects(clone, biomeIdRaw, {
               biomeCostsRegistry,
               woundedStep,
+              // ER1: "alza la pressione" = only enemy units get the nudge.
+              roleGapStep: clone.controlled_by === 'player' ? 0 : roleGapStep,
             });
             // FASE 3 P4: capture biome-level eco band (uniform across units, set
             // even for med where no delta is applied) for the diegetic chip.
@@ -2094,20 +2184,38 @@ function createSessionRouter(options = {}) {
       // the reduced max_hp applied here. Best-effort; never blocks the start.
       if (session.campaign_id) {
         try {
-          const woundedPerma = require('../services/combat/woundedPerma');
-          let woundMap = woundedPermaByCampaign.get(session.campaign_id);
-          if (!woundMap) {
-            woundMap = woundedPerma.initSessionMap();
-            woundedPermaByCampaign.set(session.campaign_id, woundMap);
-          }
-          session.lastMissionWoundedPerma = woundMap;
-          for (const u of session.units || []) {
-            if (u && u.controlled_by === 'player') {
-              woundedPerma.restoreOnEncounterStart(u, woundMap);
+          const woundSystem = require('../services/combat/woundSystem');
+          if (woundSystem.isReadApplyEnabled()) {
+            // OD-058 D3 (verdetto 2026-06-10): V2 scar restore -- grave wounds
+            // persist cross-encounter via the campaign-scoped map; the legacy
+            // woundedPerma HP-penalty path is superseded (runs only on opt-out).
+            let woundMapV2 = woundsV2ByCampaign.get(session.campaign_id);
+            if (!woundMapV2) {
+              woundMapV2 = woundSystem.initSessionMap();
+              woundsV2ByCampaign.set(session.campaign_id, woundMapV2);
+            }
+            session.lastMissionWounds = woundMapV2;
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player' && !u.is_minion) {
+                woundSystem.restoreGraveWounds(u, woundMapV2);
+              }
+            }
+          } else {
+            const woundedPerma = require('../services/combat/woundedPerma');
+            let woundMap = woundedPermaByCampaign.get(session.campaign_id);
+            if (!woundMap) {
+              woundMap = woundedPerma.initSessionMap();
+              woundedPermaByCampaign.set(session.campaign_id, woundMap);
+            }
+            session.lastMissionWoundedPerma = woundMap;
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player') {
+                woundedPerma.restoreOnEncounterStart(u, woundMap);
+              }
             }
           }
         } catch {
-          /* woundedPerma optional; never block the start */
+          /* wound persistence optional; never block the start */
         }
       }
       sessions.set(sessionId, session);
@@ -2856,6 +2964,9 @@ function createSessionRouter(options = {}) {
             actor,
             target,
             requestedCapPt: 0,
+            // M6-#1b channel routing: senza questo il round path (default ON)
+            // forzava ogni attacco a "fisico" e i resist di canale erano no-op.
+            channel: typeof action.channel === 'string' ? action.channel : null,
           });
           results.push({ actor_id: actor.id, action_type: 'attack', result: wrapped });
         } else if (action.type === 'move') {
@@ -3035,6 +3146,7 @@ function createSessionRouter(options = {}) {
         }
         session.turn += 1;
         sgBeginTurnAll(session);
+        applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
       }
 
       const eventsEmitted = session.events.slice(eventsCountBefore);
@@ -3121,6 +3233,10 @@ function createSessionRouter(options = {}) {
           .status(409)
           .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
       }
+      // Gate-5 #2716 — first overcharge of the run. Set once, never cleared
+      // in-run; publicSessionView exposes it as overcharge_used_this_run so
+      // the web surface can fire the diegetic strategic-cost hint exactly once.
+      session.overcharge_used = true;
       const event = {
         event_type: 'overcharge',
         actor_id: actor.id,
@@ -3457,12 +3573,38 @@ function createSessionRouter(options = {}) {
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       else outcome = 'abandon';
+      // A13 fix-A (#2703): the board cannot see a RUN-LEVEL failure (elimination
+      // map + mission clock expired -> both factions alive -> 'abandon'), so the
+      // client/sim may DECLARE it. Downgrade-only trust (mirror of /campaign/advance
+      // where outcome is already client-declared): accepted enum is the declarable
+      // failure subset {timeout, defeat, objective_failed} and only over a
+      // board-derived abandon/draw -- a board win is never downgraded (heal stays
+      // unspoofable) and a wipe can only come from the board (woundedPerma intact).
+      const declaredOutcome = typeof body.outcome === 'string' ? body.outcome : null;
+      if (
+        declaredOutcome &&
+        ['timeout', 'defeat', 'objective_failed'].includes(declaredOutcome) &&
+        (outcome === 'abandon' || outcome === 'draw')
+      ) {
+        outcome = declaredOutcome;
+      }
       // TKT-ORPHAN-WOUNDPERMA (write-path): on a player wipe, each KO'd player
       // unit takes a persistent wound into the campaign-scoped map so the next
       // encounter of this playthrough restores the scar (see /start restore).
       // Best-effort; never blocks session end.
-      if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
-        try {
+      try {
+        const woundSystemEnd = require('../services/combat/woundSystem');
+        if (woundSystemEnd.isReadApplyEnabled()) {
+          // OD-058 D3: persist grave wounds (scar) on ANY outcome -- le
+          // cicatrici restano comunque; lieve/media sono encounter-scoped.
+          if (session.lastMissionWounds) {
+            for (const u of session.units || []) {
+              if (u && u.controlled_by === 'player' && !u.is_minion) {
+                woundSystemEnd.persistGraveWounds(u, session.lastMissionWounds);
+              }
+            }
+          }
+        } else if (outcome === 'wipe' && session.lastMissionWoundedPerma) {
           const woundedPerma = require('../services/combat/woundedPerma');
           for (const u of session.units || []) {
             // B5: minions are expendable, not campaign units — never scar them.
@@ -3470,9 +3612,9 @@ function createSessionRouter(options = {}) {
               woundedPerma.applyWound(u, session.lastMissionWoundedPerma);
             }
           }
-        } catch {
-          /* woundedPerma optional */
         }
+      } catch {
+        /* wound persistence optional */
       }
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
@@ -3531,7 +3673,18 @@ function createSessionRouter(options = {}) {
               }
             } else if (session.outcome === 'victory') {
               const r = healBiome(cur, biomeId);
-              if (r.healed) updateCampaign(campaignId, { woundedBiomes: r.wounded });
+              const patch = {};
+              if (r.healed) patch.woundedBiomes = r.wounded;
+              // SPEC-I ER7 -- run vinto = apex predator rimosso dal bioma.
+              // Segnale one-shot per il population tick (consumato + azzerato dal
+              // season-tick). Flag-gated BIOME_POPULATION_ENABLED: no-op se OFF.
+              if (require('../services/worldgen/biomePopulation').isEnabled()) {
+                patch.apexPressureByBiome = {
+                  ...(camp.apexPressureByBiome || {}),
+                  [biomeId]: true,
+                };
+              }
+              if (Object.keys(patch).length) updateCampaign(campaignId, patch);
             }
           }
         }
@@ -3679,13 +3832,18 @@ function createSessionRouter(options = {}) {
         // TKT-ORPHAN-VCSNAP: server-derived flat 3-layer payload so phones/Godot
         // DebriefView get the pinned shape without re-deriving client-side
         // (serializer null-safe -> {per_actor:{}} when vcSnapshot is null).
-        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot),
+        // Verdetto #2679 Q2-bis: thread unit stats so agile_robust is evaluable
+        // (N=40 F2: the axis was dead without unitStatsById).
+        debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot, unitStatsById(session)),
         debrief,
       });
     } catch (err) {
       next(err);
     }
   });
+
+  // Verdetto #2679 Q2-bis unitStatsById: ora canonical in
+  // services/coop/vcLedgerReplay.js (OD-058 D3, condiviso col replay coop).
 
   // 2026-05-30 P4 debrief wire — GET /:id/debrief. Non-destructive sibling of
   // POST /end: returns the same buildDebriefSummary payload (ennea_voices /
@@ -3754,8 +3912,9 @@ function createSessionRouter(options = {}) {
       }
       // TKT-ORPHAN-VCSNAP: attach the flat Godot-parity payload (additive;
       // serializer reads only per_actor, so legacy consumers are unaffected).
+      // Verdetto #2679 Q2-bis: unit stats threaded (agile_robust evaluable).
       if (snapshot && typeof snapshot === 'object') {
-        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot);
+        snapshot.debrief_payload = vcSnapshotToDebriefPayload(snapshot, unitStatsById(session));
       }
       res.json(snapshot);
     } catch (err) {
@@ -4303,6 +4462,15 @@ function createSessionRouter(options = {}) {
 
   // Round endpoints mounted from sessionRoundBridge.js (token optimization).
   roundBridge.mountRoundEndpoints(router);
+
+  // OD-058 D3 (#2531) -- expose a read-only session accessor so the coop
+  // router can replay the event ledger of the linked combat session
+  // (coopStore.linkSession) server-side at /coop/combat/end. Exact-id lookup
+  // only (no activeSessionId fallback: the coop link is always explicit).
+  router.getSessionById = (sessionId) => {
+    if (!sessionId) return null;
+    return sessions.get(String(sessionId)) || null;
+  };
 
   return router;
 }

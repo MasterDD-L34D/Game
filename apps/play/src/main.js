@@ -39,6 +39,8 @@ import {
 } from './predictPreviewOverlay.js';
 import { renderObjectiveBar } from './objectivePanel.js';
 import { renderBiomeChip } from './biomeChip.js';
+// Gate-5 #2716 — one-shot diegetic hint at the first overcharge of the run.
+import { maybeShowOverchargeHint } from './overchargeHint.js';
 import { renderCtBar } from './ctBar.js';
 import { renderAmbitionHud } from './ambitionHud.js';
 import {
@@ -1180,7 +1182,10 @@ function refreshBiomeChip() {
   // SPEC-P PA3 (#2677) — wounded-biome flag (anti-brick telegraph). Top-level
   // in publicSessionView (sibling of biome_id/ermes_band), so state.world.biome_wounded.
   const biomeWounded = !!state.world?.biome_wounded;
-  renderBiomeChip(containerEl, biomeId, biomeModifiers, ermesBand, biomeWounded);
+  // SPEC-I ER6 — ultimo evento StressWave ({event, turn} | null), telegraph
+  // one-shot diegetico (flag-gated lato backend, default null).
+  const stresswaveEvent = state.world?.stresswave_event || null;
+  renderBiomeChip(containerEl, biomeId, biomeModifiers, ermesBand, biomeWounded, stresswaveEvent);
 }
 
 // Action 7 (ADR-2026-04-28 §Action 7) — refresh CT bar HUD lookahead 3 turni.
@@ -1311,6 +1316,9 @@ async function refresh() {
     refreshObjectiveBar();
     // Sprint 11 (Surface-DEAD #6): refresh biome chip post-state-fetch.
     refreshBiomeChip();
+    // Gate-5 #2716: first-overcharge-of-the-run diegetic hint (false->true
+    // transition of overcharge_used_this_run, publicSessionView additive field).
+    maybeShowOverchargeHint(prev, state.world);
     // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar lookahead 3 turni.
     refreshCtBar();
     // Action 6 (ADR-2026-04-28 §Action 6): refresh ambition HUD long-arc.
@@ -1340,6 +1348,7 @@ async function refresh() {
         events: state.world.events,
         pressure: state.world.pressure,
         threatPreview: state.threatPreview,
+        overcharge_used_this_run: !!state.world?.overcharge_used_this_run,
       });
     }
     // Animation loop

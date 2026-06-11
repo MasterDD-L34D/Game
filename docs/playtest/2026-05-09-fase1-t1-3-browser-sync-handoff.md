@@ -6,6 +6,7 @@ doc_owner: master-dd
 last_verified: 2026-05-09
 source_of_truth: true
 language: it
+review_cycle_days: 14
 ---
 
 # FASE 1 T1.3 — Browser sync spectator harness

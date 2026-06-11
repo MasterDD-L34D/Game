@@ -85,13 +85,28 @@ Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/co
 
 ### 🟢 P3 OPEN — Governance stale-doc burn-down campaign (progressive, 2026-06-07)
 
-docs-governance: **246 stale_document warnings (0 errori, non-blocking / warning-only)**. Batch-1 (adr+core, 37) DONE -> 21 re-verified-bumped + 16 real-issue residue (#2611). Tool ora skippa superseded (#2612).
+docs-governance: **365 stale_document warnings (0 errori, non-blocking / warning-only)** -- base 250 -> 397 col bulk-register #2695 (246 legacy entrate nel conteggio), poi batch-2 -32. Batch-1 (adr+core, 37) DONE -> 21 re-verified-bumped + 16 real-issue residue (#2611). Batch-2 (process+pipelines, 64) DONE -> 32 re-verified-bumped + 32 residue (29 DRIFTED + 2 SUPERSEDED-da-ratificare + 1 NEEDS-HUMAN) -> ticket TKT-STALE-B2-\* sotto. Tool ora skippa superseded/deprecated/archived (#2612).
 
 - **Pattern provato**: agent (NON Jules -- currency-judgment quality, doctrine) currency-verifica un dir-batch -> bump REGISTRY+frontmatter `last_verified` per i CURRENT (**NO blind-bump**) + flag DRIFTED/SUPERSEDED. 1 PR/batch.
 - **Meccanismo**: `stale_document` legge REGISTRY `last_verified` (bump REGISTRY + file frontmatter).
-- **Remaining ~6 dir-batch**: process+pipelines (~65), ops+traits+balance (~42), evo-tactics+guide+pack (~36), planning+playtest (~25), tutorials+appendici+frontend+reports+research+arch (~40), resto (~38).
+- **Remaining ~5 dir-batch**: ops+traits+balance (~42), evo-tactics+guide+pack (~36), planning+playtest (~25), tutorials+appendici+frontend+reports+research+arch (~40), resto (~38). (Conteggi pre-#2695, da ricalcolare a inizio batch.)
 - **DRIFTED residue** -> fix-ticket separati (driver: `species.yaml` deprecato 05-15, pivot web->Godot, docs-reorg path-stale). Target = bump-stabili + converti-drift-in-ticket, **NON forced-0**.
+- **Batch-2 residue tickets** (fix separati, dettaglio per-doc nella PR batch-2):
+  - TKT-STALE-B2-SPECIESYAML -- script QA hardcodano `data/core/species.yaml` rimosso (#2271): `scripts/qa/frattura_abissale_validations.py:94` + `scripts/qa/check_biome_feature.py:69`; doc colpiti: Frattura pipeline_run, BIOME_FEATURE_CHECKS, GOLDEN_PATH\*, PIPELINE_SPECIES_BIOMES_STANDARD, PIPELINE_TEMPLATES, PIPELINE_TRAIT_STANDARD -> fix script o re-frame storico.
+  - TKT-STALE-B2-REORG-PATHS -- link path-stale post docs-reorg (fix 1-riga ciascuno): qa_reporting_schema (7 link), feedback_collection_pipeline (5), telemetry (1x3), bug-template, demo-release, clone-setup, project-setup-todo (8), trait_data_reference, incoming_triage, incoming_review_log.
+  - TKT-STALE-B2-CI-DRIFT -- doc CI descrivono workflow cancellati/pre-split: ci.md (3/4 workflow morti), ci-pipeline.md (job monolitico inesistente), ci-gap-analysis.md, gh-cli-manual-dispatch.md (9/18 workflow morti), traits_checklist sez. 5-6, web_pipeline (deploy-test-interface rimosso #1400) -> riscrivi vs `.github/workflows/` attuali o archivia.
+  - TKT-STALE-B2-DEAD-PROCESS -- processi morti, retire/rewrite owner-gated: token-rotation (`ops_api_token` zero usi nel codice; token reali TRAIT_EDITOR/TRAITS_API scoperti), tooling_maintenance_log (mai eseguito), trait_rollout_plan (gate QA mai esistiti in git), telemetry_ingestion_pipeline (infra mai costruita), incoming_agent_streams + incoming_review_log + incoming_triage (pipeline AG-\* archiviata 2026-04-14).
+  - ~~TKT-STALE-B2-SUPERSEDE~~ **DONE 2026-06-10** (verdetti master-dd): vc_playtest_plan + incoming_triage_pipeline flippati `superseded` (frontmatter+registry, pointer ai canonici).
+  - ~~TKT-STALE-B2-AIRTABLE~~ **DONE 2026-06-10** (verdetto master-dd): processo ATTIVO, SoT esterna Airtable/Slack -> doc `active` + nota external-SoT + review_cycle 180gg.
+  - Nota: 22 dei 32 CURRENT bumpati = record storici accurati (15 log Frattura + sprint/ticket/handoff datati) = candidate `doc_status: archived` (esenta dal ciclo stale; flip owner-gated, non urgente).
 - **Priorita'**: P3, progressive (sessioni dedicate). Non-blocking (gate verde).
+
+### 🟢 P3 OPEN — ER6 overrun follow-up: fork carry-over + harness entropy (2026-06-11)
+
+Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifica `OVERRUN_BUDGET_BONUS=1` as-built, nicchia on-grid <=t8):
+
+- **TKT-ER6-CARRYOVER** (design fork, non bloccante): semantica carry-over del bonus overrun (persiste fino al primo tick spawnabile O spawn-tick immediato al crossing) -> knob significativo in TUTTI i biomi stresswave invece che solo abisso. Richiede nuova N=40 + verdetto master-dd (la ratifica corrente copre l'as-built consume-once).
+- **TKT-SIM-PROBE-ENTROPY** (harness reliability): gamba atollo ISO = floor +0.33 tra armi byte-identiche in processi separati (abisso -0.03 pulito) -- entropia process-level non-seedata in un path biome-specifico travolge il paired design. Investigare rng non-seedato (candidati: foodweb/eco path), fixare o documentare. Finche' aperto: ogni N=40 famiglia spec-i-gates-probe riporta il floor della propria gamba e scarta gambe anomale.
 
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 

@@ -10,12 +10,12 @@
 // HP is left intact (SPEC §7): fragility now arrives via -defense, not raw HP cuts.
 // Data model: unit.status.wounds = Array<{ location, severity, stat, malus }>.
 //
-// NOTE (OD-058 D2 staged cutover): this PR ships the engine + read-path + data table.
-// The LIVE woundedPerma HP-penalty wire (session.js KO/wipe + statusModifiers attack
-// penalty) is deprecated-in-favor-of this module but cut over in a follow-up PR, so the
-// two systems do NOT double-apply (computeWoundMaluses reads unit.status.wounds; the
-// legacy woundedPerma reads unit.status.wounded_perma — disjoint fields). N=40 magnitude
-// probe (dedicated wound scenario, anti-pattern #14) is also a follow-up.
+// CUTOVER D3 COMPLETO (verdetti master-dd 2026-06-10, evidence #2714): flag
+// WOUND_LOCATION_V2 default ON (opt-out 'false' = kill switch); write-trigger
+// live in performAttack (crit -> lieve, KO -> grave, solo PG); persistence
+// grave cross-encounter via woundsV2ByCampaign (session.lastMissionWounds);
+// legacy woundedPerma (HP-penalty) gira SOLO in opt-out. Round-sync: status.wounds
+// e' esente dal wipe (PERSISTENT_STATUS_KEYS, sessionRoundBridge).
 
 'use strict';
 
@@ -131,6 +131,45 @@ function computeWoundMaluses(unit) {
   return out;
 }
 
+/**
+ * OD-058 D2 read-apply flag (issue #2531). The staged engine shipped with NO consumer
+ * for computeWoundMaluses; behind this flag statusModifiers (attack/accuracy/defense)
+ * and applyApRefill (ap) actually apply the maluses. Default OFF = status quo
+ * Read per-call so probe arms can toggle it within one process.
+ * D3 cutover (verdetto master-dd 2026-06-10, evidence #2714): default ON --
+ * magnitudo -1/-1/-2 RATIFIED-PROVISIONAL (firma segnaletica, famiglia A13);
+ * opt-out esplicito WOUND_LOCATION_V2=false (kill switch).
+ */
+function isReadApplyEnabled() {
+  return process.env.WOUND_LOCATION_V2 !== 'false';
+}
+
+/**
+ * Weighted location roll (SPEC §4) -- rng injectable (session RNG at the
+ * caller, Codex #2450 pattern). Falls back to torso on degenerate rng.
+ */
+function rollLocation(rng) {
+  const r = typeof rng === 'function' ? Number(rng()) : Math.random();
+  const roll = Number.isFinite(r) ? Math.max(0, Math.min(0.999999, r)) : 0;
+  return pickWeightedLocation(DEFAULT_LOCATION_WEIGHTS, roll);
+}
+
+/**
+ * D3 write-trigger (verdetto master-dd 2026-06-10, Q2): crit -> `lieve`,
+ * KO -> `grave`. Solo PG reali (player, non minion -- B5: i minion sono
+ * expendable, mai scarred). Flag-aware (stesso kill switch del read-apply).
+ * KO vince sul crit (un colpo critico che uccide = ferita grave).
+ */
+function maybeApplyCombatWound(unit, { isCritical = false, isKo = false, rng } = {}) {
+  if (!isReadApplyEnabled()) return { applied: false, wound: null };
+  if (!unit || unit.controlled_by !== 'player' || unit.is_minion) {
+    return { applied: false, wound: null };
+  }
+  if (!isKo && !isCritical) return { applied: false, wound: null };
+  const severity = isKo ? 'grave' : 'lieve';
+  return applyWound(unit, rollLocation(rng), severity);
+}
+
 /** Empty cross-encounter map { [unit_id]: Array<grave wound> }. */
 function initSessionMap() {
   return {};
@@ -185,6 +224,38 @@ function clearEncounterWounds(unit) {
   return before - unit.status.wounds.length;
 }
 
+/**
+ * D3 persistence (scar write): copy the unit's `grave` wounds into the
+ * campaign-scoped map (mirror of the old woundedPerma role). Lieve/media
+ * wounds are encounter-scoped and never persisted.
+ */
+function persistGraveWounds(unit, sessionMap) {
+  if (!unit || !unit.id || !sessionMap || typeof sessionMap !== 'object') return 0;
+  const graves = (
+    unit.status && Array.isArray(unit.status.wounds) ? unit.status.wounds : []
+  ).filter((w) => w && w.severity === 'grave');
+  if (!graves.length) return 0;
+  sessionMap[unit.id] = graves.map((w) => ({ ...w }));
+  return graves.length;
+}
+
+/**
+ * D3 persistence (scar restore at /start): re-inject persisted grave wounds
+ * onto the unit (dedup per location via applyWound's own grave-per-location cap).
+ */
+function restoreGraveWounds(unit, sessionMap) {
+  if (!unit || !unit.id || !sessionMap || typeof sessionMap !== 'object') return 0;
+  const saved = sessionMap[unit.id];
+  if (!Array.isArray(saved) || !saved.length) return 0;
+  let restored = 0;
+  for (const w of saved) {
+    if (!w || w.severity !== 'grave') continue;
+    const out = applyWound(unit, w.location, 'grave');
+    if (out.applied) restored += 1;
+  }
+  return restored;
+}
+
 /** Wipe all persisted scars (e.g., on full heal / new playthrough). */
 function clearSession(sessionMap) {
   if (!sessionMap || typeof sessionMap !== 'object') return 0;
@@ -222,7 +293,12 @@ module.exports = {
   MALUS_STATS,
   woundEffect,
   applyWound,
+  rollLocation,
+  maybeApplyCombatWound,
+  persistGraveWounds,
+  restoreGraveWounds,
   computeWoundMaluses,
+  isReadApplyEnabled,
   initSessionMap,
   persistGraveWounds,
   restoreOnEncounterStart,

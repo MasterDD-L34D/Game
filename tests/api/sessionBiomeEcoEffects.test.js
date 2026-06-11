@@ -51,6 +51,61 @@ test('session/start surfaces ERMES band in biomeCostsLog (cryosteppe HIGH)', asy
   );
 });
 
+// SPEC-I ER1 -- role gap wire: gate N=40 sez.8 PASSED, default ON (flip
+// master-dd 2026-06-10), opt-out esplicito 'false'. Con party senza un ruolo
+// demanded dal bioma, i nemici ricevono +1 soft (max-headroom stat) dentro il
+// cap ER2.
+test('ER1 default ON (env unset): missing demanded role -> role_gap applied to enemy units only', async (t) => {
+  delete process.env.ERMES_ROLE_GAP_ENABLED;
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const units = (await getTutorialUnits(app)).map((u) =>
+    u.controlled_by === 'player' ? { ...u, job: 'guerriero' } : u,
+  );
+  // badlands demand = { guerriero: 1, esploratore: 1 } -> esploratore mancante.
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({ units, biome_id: 'badlands' })
+    .expect(200);
+
+  const log = res.body.biomeCostsLog || [];
+  const withGap = log.filter((e) => e.role_gap && e.role_gap.applied);
+  assert.ok(withGap.length > 0, `expected role_gap entries; log=${JSON.stringify(log)}`);
+  const playerIds = new Set(units.filter((u) => u.controlled_by === 'player').map((u) => u.id));
+  for (const entry of withGap) {
+    assert.ok(
+      !playerIds.has(entry.unit_id),
+      `role_gap must hit enemies only, got ${entry.unit_id}`,
+    );
+  }
+});
+
+test('ER1 opt-out (false): no role_gap in log even with missing role', async (t) => {
+  process.env.ERMES_ROLE_GAP_ENABLED = 'false';
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    delete process.env.ERMES_ROLE_GAP_ENABLED;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const units = (await getTutorialUnits(app)).map((u) =>
+    u.controlled_by === 'player' ? { ...u, job: 'guerriero' } : u,
+  );
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({ units, biome_id: 'badlands' })
+    .expect(200);
+
+  const log = res.body.biomeCostsLog || [];
+  assert.ok(
+    log.every((e) => !e.role_gap),
+    `expected no role_gap with flag OFF; log=${JSON.stringify(log)}`,
+  );
+});
+
 test('session/start without biome_id -> no biome eco log', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {

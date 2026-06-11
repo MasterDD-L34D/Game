@@ -8,11 +8,12 @@
 // DUE livelli, distinti per governance:
 //   - MECCANISMO (oggettivo): nudge soft + bounded + clamp01, no-mutate. Testato.
 //   - MAPPING (soggettivo): quale asse-creatura spinge quale asse-MBTI e in che
-//     direzione. `PROPOSED_FP_VC_MAPPING` e' una PROPOSTA -- va ratificata via MA3
-//     (master-dd); le direzioni qui sotto sono un default ragionato, non un fiat.
+//     direzione. `PROPOSED_FP_VC_MAPPING` -- GOVERNANCE: RATIFIED-PROVISIONAL
+//     (verdetto MA3 master-dd 2026-06-10; re-validate on player data, tier #2693).
 //
-// Magnitudine (`MAX_FP_VC_DELTA`) = soft cap per asse; valore esatto da ratificare
-// con N=40 (MA3 anti-hard-gate). Anti-pattern museum `personality-mbti-gates-ghost`:
+// Magnitudine (`MAX_FP_VC_DELTA`) = soft cap per asse; valore esatto da tarare
+// con N=40 FP-attivo (MA3 anti-hard-gate, batch dedicato -- il batch #2688 non
+// esercita formPulseVc). Anti-pattern museum `personality-mbti-gates-ghost`:
 // i signal sono input MORBIDI, non fissano archetipo ne' hard-gate-ano rami.
 //
 // Convenzione input FP: ogni asse-creatura in [-1, +1] (direzione swipe). Il "+pole"
@@ -21,15 +22,20 @@
 
 'use strict';
 
-// Soft cap per asse (MA3: ratify magnitude via N=40). Piccolo = nudge, non gate.
+// Soft cap per asse -- GOVERNANCE: RATIFIED-PROVISIONAL (verdetto master-dd
+// 2026-06-10, N=40 paired probe: 2234 campioni/40 run, flip~0% = nudge non gate;
+// re-validate on player data). Evidence: docs/reports/2026-06-10-fp-vc-delta-n40-evidence.md
 const MAX_FP_VC_DELTA = 0.05;
 
-// PROPOSED (ratify via MA3, master-dd). FP creature axis -> { mbti, sign }.
+// RATIFIED-PROVISIONAL (MA3, master-dd 2026-06-10). FP creature axis -> { mbti, sign }.
 // sign=+1 => il +pole dell'asse-creatura ALZA il valore dell'asse-MBTI mappato.
 // MBTI axis value in [0,1]; clamp01 dopo il delta.
+// Direzioni allineate alla CONVENZIONE ENGINE (deriveMbtiType letterOrUncertain:
+// value HIGH = I/S/T/J) -- verdetto master-dd 2026-06-10 (#2679 Q4): il sign E_I
+// era invertito ("+Sciame -> +E_I extraversion proxy" spingeva verso Introvert).
 const PROPOSED_FP_VC_MAPPING = {
-  // +pole = Sciame (sociale) -> +E_I (extraversion proxy)
-  solitary_swarm: { mbti: 'E_I', sign: +1 },
+  // +pole = Sciame (sociale) -> spinge verso E = ABBASSA E_I (engine: HIGH = I).
+  solitary_swarm: { mbti: 'E_I', sign: -1 },
   // +pole = Cauto (concreto) -> +S_N (sensing proxy)
   explore_caution: { mbti: 'S_N', sign: +1 },
   // +pole = Predazione (freddo/calcolo) -> +T_F (thinking proxy)

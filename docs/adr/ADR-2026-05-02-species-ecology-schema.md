@@ -1,9 +1,9 @@
 ---
 title: 'ADR-2026-05-02: Species ecology schema extension (food web machine-readable)'
-doc_status: proposed
+doc_status: active
 doc_owner: dataset-curator
 workstream: cross-cutting
-last_verified: 2026-05-02
+last_verified: 2026-06-10
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -18,7 +18,10 @@ related:
 # ADR-2026-05-02: Species ecology schema extension (food web machine-readable)
 
 - **Data**: 2026-05-02
-- **Stato**: PROPOSED
+- **Stato**: ACTIVE (flip 2026-06-10, verdetto master-dd su ground-truth: schema integrato
+  in `schemas/evo/species.schema.json`, dati backfillati PR #1967, validator live.
+  Debito tracciato: wiring runtime campi relazionali `prey_of`/`preys_on` = Phase 2
+  deferred, TKT-ADAPTER-ECO-COMBAT #2460)
 - **Owner**: Dataset curator + Backend
 - **Stakeholder**: Pilastro 2 (Evoluzione emergente), Pilastro 3 (Specie×Job),
   generation pipeline (Flow), encounter authoring CLI

@@ -85,18 +85,18 @@ function _resolveBiomePool(pool, biomeId, allowFallback = true) {
 }
 
 function _resolveVoiceModifier(pool, formAxes = {}) {
+  // #2679 -- reads creature axes (signed [-1,+1]); aligned to formPulseVc
+  // (symbiosis_predation <-> T_F, explore_caution <-> S_N). Was MBTI T/F/N/S.
+  //   +Predazione -> fredda_analitica   / -Simbiosi -> empatica_branco
+  //   -Esplorazione -> visionaria_intuitiva / +Cauto -> sensoriale_presente
   const threshold = 0.6;
-  const t = Number.isFinite(formAxes.T) ? formAxes.T : 0.5;
-  const f = Number.isFinite(formAxes.F) ? formAxes.F : 0.5;
-  const n = Number.isFinite(formAxes.N) ? formAxes.N : 0.5;
-  const s = Number.isFinite(formAxes.S) ? formAxes.S : 0.5;
+  const sp = Number.isFinite(formAxes.symbiosis_predation) ? formAxes.symbiosis_predation : 0;
+  const ec = Number.isFinite(formAxes.explore_caution) ? formAxes.explore_caution : 0;
   const mods = (pool && pool.generative_rules && pool.generative_rules.mbti_personality_bias) || {};
-  if (t >= threshold && t > f) return mods.solitari_t_high?.voice_modifier || 'fredda_analitica';
-  if (f >= threshold && f > t) return mods.simbionti_f_high?.voice_modifier || 'empatica_branco';
-  if (n >= threshold && n > s)
-    return mods.esploratori_n_high?.voice_modifier || 'visionaria_intuitiva';
-  if (s >= threshold && s > n)
-    return mods.sensoriali_s_high?.voice_modifier || 'sensoriale_presente';
+  if (sp >= threshold) return mods.solitari_t_high?.voice_modifier || 'fredda_analitica';
+  if (sp <= -threshold) return mods.simbionti_f_high?.voice_modifier || 'empatica_branco';
+  if (ec <= -threshold) return mods.esploratori_n_high?.voice_modifier || 'visionaria_intuitiva';
+  if (ec >= threshold) return mods.sensoriali_s_high?.voice_modifier || 'sensoriale_presente';
   return '';
 }
 
@@ -141,7 +141,7 @@ function _resolveEnneaArchetype(pool, biomeOriginId) {
  * @param {object} opts
  * @param {string} [opts.poolPath]            — skiv_archetype_pool.yaml path
  * @param {string} opts.biomeId               — primary biome slug
- * @param {object} [opts.formAxes]            — party MBTI {T,F,N,S} ∈ [0,1]
+ * @param {object} [opts.formAxes]            -- party creature axes signed [-1,+1]
  * @param {number} [opts.runSeed=0]           — deterministic name+closing seed
  * @param {boolean} [opts.trainerCanonical]   — B3 hybrid override flag
  * @returns {object} CompanionInstance or {} when pool missing

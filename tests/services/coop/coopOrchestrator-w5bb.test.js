@@ -115,3 +115,12 @@ test('confirmWorld preserves backward-compat (legacy callers)', () => {
   assert.equal(result.enriched_world, null);
   assert.equal(orch.enrichedWorld, null);
 });
+
+test('confirmWorld with no formAxes uses aggregated form pulses for companion voice (#2679)', () => {
+  const orch = buildOrch();
+  // Player submits a creature-axis form pulse leaning Predazione.
+  orch.submitFormPulse('p_a', { axes: { symbiosis_predation: 0.85 } }, { allPlayerIds: ['p_a'] });
+  // confirmWorld omits formAxes (Godot host does) -> falls back to this.formPulses.
+  const result = orch.confirmWorld({ scenarioId: 'enc_tutorial_01', biomeId: 'savana' });
+  assert.equal(result.enriched_world.custode.voice_modifier, 'fredda_analitica');
+});

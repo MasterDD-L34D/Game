@@ -32,7 +32,7 @@ const companionPickerDefault = require('../companion/companionPicker');
  *
  * @param {object} input
  * @param {string} input.biomeId — primary biome slug
- * @param {object} [input.formAxes] — party MBTI {T,F,N,S}
+ * @param {object} [input.formAxes] -- party creature axes signed [-1,+1]
  * @param {Array} [input.party] — W5.5: Array of player dicts with .job_id
  *   (or Array[String] job_ids) — used by ermes role_gap compute
  * @param {number} [input.runSeed=0] — deterministic name+closing seed

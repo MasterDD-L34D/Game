@@ -28,6 +28,8 @@ const os = require('node:os');
 const { execFileSync } = require('node:child_process');
 const { runFullLoop } = require('./full-loop-runner');
 const { aggregate, PROVISIONAL_BANDS } = require('./meta-band-aggregator');
+const { aggregatePersonality, renderPersonalityMd } = require('./personality-axes-aggregator');
+const { aggregateA13, renderA13Md } = require('./a13-wound-aggregator');
 const greedyPolicy = require('./greedy-policy');
 const { makeMbtiPolicy } = require('./mbti-policy');
 const { traverse } = require('./meta-network-driver');
@@ -36,6 +38,9 @@ const { traverse } = require('./meta-network-driver');
 // recruits grow it as chapters clear. job = `skirmisher` (slice b): a real perk-job
 // (perks.yaml AND jobs.yaml) so the PI sink reaches the engine pick (the prior `stalker` was
 // neither -> /api/progression/:id/pick 409'd before the PI gate, piSpentTotal stuck at 0).
+// #2691: `speed` populated so the starters exercise the personality agile_robust axis too
+// (dune_stalker = base_stats.yaml 5; velox = fast-skirmisher default 5). Recruits get their
+// speed from the morphotype adapter (ecologyCombatAdapter.speedForMorphotype).
 const DEFAULT_ROSTER = [
   {
     id: 'hero_a',
@@ -43,6 +48,7 @@ const DEFAULT_ROSTER = [
     job: 'skirmisher',
     hp: 30,
     max_hp: 30,
+    speed: 5,
     ap: 3,
     mod: 20,
     attack_range: 2,
@@ -57,6 +63,7 @@ const DEFAULT_ROSTER = [
     job: 'skirmisher',
     hp: 30,
     max_hp: 30,
+    speed: 5,
     ap: 3,
     mod: 18,
     attack_range: 2,
@@ -80,6 +87,10 @@ function parseArgs(argv) {
     // --child-seed <n>: internal -- the per-seed child entry the isolate parent spawns.
     isolate: false,
     childSeed: null,
+    // --a13: A13 wound N=40 evidence mode (campaign-linked sessions + /end + bounded
+    // retries). Default OFF = the band batch is byte-identical to the status quo.
+    a13: false,
+    a13MaxRetries: 1,
   };
   for (let i = 2; i < argv.length; i += 1) {
     const tok = argv[i];
@@ -111,6 +122,12 @@ function parseArgs(argv) {
         break;
       case '--child-seed':
         args.childSeed = next();
+        break;
+      case '--a13':
+        args.a13 = true;
+        break;
+      case '--a13-max-retries':
+        args.a13MaxRetries = Math.max(0, Number(next()));
         break;
       default:
         if (tok && tok.startsWith('--')) console.warn(`unknown arg: ${tok}`);
@@ -193,6 +210,8 @@ async function runBatch(opts = {}) {
     flags = currentFlags(),
     enemyScaling = calibrationScaling(),
     peEarned = peEarnedConfig(),
+    a13 = false,
+    a13MaxRetries = 1,
     runOne = runOneReal,
     onProgress,
   } = opts;
@@ -209,6 +228,7 @@ async function runBatch(opts = {}) {
       policy: policyImpl,
       enemyScaling,
       peEarned,
+      ...(a13 ? { a13: true, a13MaxRetries } : {}),
     };
     const res = await runOne(runOpts);
     const scenarioChain = (res.chapters || []).map((c) => c.encounter);
@@ -313,7 +333,13 @@ function runChildSeed(seed, { spawn, readResult, retries = 3 } = {}) {
 // runOne replacement (injected into runBatch) that runs each seed in an isolated child
 // process. Returns the runFullLoop result shape on success; a crash-after-retries sentinel
 // (completed:false + _crashed) that main() filters OUT of N (logged, never silently counted).
-function makeChildRunOne({ policyLabel = 'greedy', branch = 'cave_path', maxChapters = 15 } = {}) {
+function makeChildRunOne({
+  policyLabel = 'greedy',
+  branch = 'cave_path',
+  maxChapters = 15,
+  a13 = false,
+  a13MaxRetries = 1,
+} = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fl-iso-'));
   return async (runOpts) => {
     const seed = String(runOpts.seed);
@@ -340,6 +366,7 @@ function makeChildRunOne({ policyLabel = 'greedy', branch = 'cave_path', maxChap
           String(maxChapters),
           '--out',
           outFile,
+          ...(a13 ? ['--a13', '--a13-max-retries', String(a13MaxRetries)] : []),
         ],
         { env: process.env, stdio: 'ignore', maxBuffer: 64 * 1024 * 1024 },
       );
@@ -368,6 +395,7 @@ async function runChildOnce(args) {
     policy: policyImpl,
     enemyScaling: calibrationScaling(),
     peEarned: peEarnedConfig(),
+    ...(args.a13 ? { a13: true, a13MaxRetries: args.a13MaxRetries } : {}),
   });
   const out = args.out || path.join(os.tmpdir(), `fl-child-${args.childSeed}.json`);
   fs.writeFileSync(out, JSON.stringify(res));
@@ -381,6 +409,9 @@ function currentFlags() {
     META_NETWORK_ROUTING: process.env.META_NETWORK_ROUTING || 'false',
     IDEA_ENGINE_STUB_ORCHESTRATOR: process.env.IDEA_ENGINE_STUB_ORCHESTRATOR || '0',
     IDEA_ENGINE_DISABLE_STATUS_REFRESH: process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH || '0',
+    // A13 N=40 control arm: '1' = read-side amplifier neutralized (wound still persists).
+    // Provenance MUST carry it -- it is the A/B discriminator between the two batches.
+    A13_WOUND_READ_DISABLED: process.env.A13_WOUND_READ_DISABLED || '0',
   };
 }
 
@@ -405,6 +436,22 @@ function runToJsonl(r) {
     economy: r.economy,
     violations: r.violations || [],
     meta_violations: r.metaViolations || [],
+    // Opt 3 N=40 evidence (#2679): per-mission per-unit personality axes
+    // (additive; [] on older runners / capture failures).
+    personality_samples: r.personalitySamples || [],
+    // A13 N=40 evidence: per-attempt wound trail (only when the runner ran in a13
+    // mode -- chapters then carry attempt/biome fields). Absent otherwise.
+    ...(chapters.some((c) => c && 'attempt' in c)
+      ? {
+          a13_chapters: chapters.map((c) => ({
+            encounter: c.encounter,
+            outcome: c.outcome,
+            attempt: c.attempt,
+            biome_id: c.biome_id,
+            biome_wounded: c.biome_wounded,
+          })),
+        }
+      : {}),
     provenance: r.provenance,
   };
 }
@@ -460,6 +507,13 @@ function buildSummary(results, config = {}, routing) {
   // fase-2c: routing-graph coverage when META_NETWORK_ROUTING is on -> the flag stops being
   // a no-op for the batch report (closes the band-report Finding 4). Omitted when off.
   if (routing) summary.routing = routing;
+  // Opt 3 N=40 evidence (#2679): personality-axes distribution aggregate, only
+  // when the runner captured samples (additive; band consumers unaffected).
+  const personality = aggregatePersonality(results);
+  if (personality.n_samples > 0) summary.personality = personality;
+  // A13 N=40 evidence: wound-exposure aggregate, only when the batch ran in a13
+  // mode (config.a13) -- a default batch's summary is unchanged.
+  if (config.a13) summary.a13 = aggregateA13(results);
   return summary;
 }
 
@@ -545,6 +599,28 @@ function buildReport(summary) {
     );
     lines.push('');
   }
+  // Opt 3 N=40 evidence (#2679): personality-axes distribution section, only
+  // when the summary carries samples (additive; older batches render unchanged).
+  if (summary.personality) {
+    const section = renderPersonalityMd(summary.personality);
+    if (section) {
+      lines.push(section);
+    }
+  }
+  // A13 N=40 evidence: wound-exposure section (a13 batches only). The banner says
+  // which ARM this batch is (control = read-side disabled) so the two artifacts
+  // cannot be confused.
+  if (summary.a13) {
+    const disabled =
+      summary.config && summary.config.flags
+        ? summary.config.flags.A13_WOUND_READ_DISABLED === '1'
+        : false;
+    lines.push(
+      `> A13 arm: **${disabled ? 'CONTROL (read-side disabled)' : 'WOUND-LIVE (PRESSURE_PER_BIOME=1)'}**`,
+    );
+    lines.push('');
+    lines.push(renderA13Md(summary.a13));
+  }
   lines.push('Per-run records: `runs.jsonl`. Aggregate: `summary.json`.');
   lines.push('');
   return lines.join('\n');
@@ -577,7 +653,7 @@ async function main() {
       `batch-${new Date().toISOString().replace(/[:.]/g, '-')}`,
     );
   console.log(
-    `FULL-LOOP BATCH: ${args.runs} runs | branch=${args.branch} policy=${args.policy} seedBase=${args.seedBase} commit=${args.commit} isolate=${args.isolate} peEarned=${peEarned} flags=${JSON.stringify(flags)} enemyScaling=${JSON.stringify(enemyScaling)}`,
+    `FULL-LOOP BATCH: ${args.runs} runs | branch=${args.branch} policy=${args.policy} seedBase=${args.seedBase} commit=${args.commit} isolate=${args.isolate} a13=${args.a13}${args.a13 ? `(maxRetries=${args.a13MaxRetries})` : ''} peEarned=${peEarned} flags=${JSON.stringify(flags)} enemyScaling=${JSON.stringify(enemyScaling)}`,
   );
   const t0 = Date.now();
   const runOne = args.isolate
@@ -585,6 +661,8 @@ async function main() {
         policyLabel: args.policy,
         branch: args.branch,
         maxChapters: args.maxChapters,
+        a13: args.a13,
+        a13MaxRetries: args.a13MaxRetries,
       })
     : runOneReal;
   const rawResults = await runBatch({
@@ -636,6 +714,10 @@ async function main() {
       // totals + pi_sink affordability, so summary.config must carry it or two reports with
       // the same enemyScaling could not be told apart / reproduced from summary.json.
       peEarned,
+      // A13 mode + retry bound: summary.a13 gates on this, and the two N=40 arms are
+      // only reproducible if the config records the retry rules they shared.
+      a13: args.a13,
+      a13MaxRetries: args.a13MaxRetries,
     },
     routing,
   );

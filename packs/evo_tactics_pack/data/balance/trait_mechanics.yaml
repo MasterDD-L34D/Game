@@ -1609,3 +1609,54 @@ traits:
       intensity: 1
       trigger_dc: 14
     notes: "2026-05-20 balance A4 (wave 3): ionico damage + on-hit disorient (mirror dark `umbral_spore` pattern). EV 5.5 a AP 2 con damage_step +1. trigger_dc 14 medio (vs umbral_spore 12, vortice 15). Resist ionico +15 (above scarica_ionica baseline)."
+
+  # 2026-06-10 TKT-D4-ENRICH (#2533, post-OD-058 D4 downscope-A): canale
+  # `elettrico` enrichment. Corazzato elettrico:120 shipped #2381 + N=40 #2389
+  # ha chiuso la dead-channel lato bersaglio; questi 2 trait sono le prime
+  # FONTI di danno/control `elettrico` (prima: 0 trait sul canale, solo
+  # `ionico` proxy). SPEC-D4 sez.5: elettromagnete_biologico = PROPOSTA A
+  # (offensivo anti-corazza), seta_conduttiva_elettrica = PROPOSTA C
+  # (debuff/control, estende shock->disorient). PROPOSTA B (chain/AoE)
+  # scartata in questo ticket: richiede meccanica nuova in abilityExecutor
+  # (issue #2533 la gate-a esplicitamente). Valori PROPOSED -- ratify
+  # master-dd su evidence N=40 probe dedicata (corazzato + attaccante
+  # elettrico, vedi docs/reports/2026-06-10-electric-channel-n40-evidence.md).
+  elettromagnete_biologico:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances:
+      - { channel: elettrico, modifier_pct: 10 }
+    active_effects:
+      - ability_id: magnetic_overload
+        name_it: "Sovraccarico Magnetico"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: elettrico
+        target: enemy
+    notes: "2026-06-10 TKT-D4-ENRICH: elettrico damage anti-corazza (SPEC-D4 PROPOSTA A). EV 5.5 a AP 2 (parity arco_voltaico); vs corazzato (elettrico 120) EV effettiva 6.6 -- il premio anti-tank passa dalla matrice, non dai dadi. Resist elettrico +10. PROPOSED, ratify N=40 #2533."
+
+  seta_conduttiva_elettrica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances:
+      - { channel: elettrico, modifier_pct: 10 }
+    active_effects:
+      - ability_id: voltaic_web
+        name_it: "Rete Voltaica"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: disorient
+      duration: 1
+      intensity: 1
+      trigger_dc: 13
+    notes: "2026-06-10 TKT-D4-ENRICH: elettrico control dedicato (SPEC-D4 PROPOSTA C, estende shock->disorient di arco_voltaico). Zero damage bonus: identita' = finestra tattica (disorient 1T cap canonico: attack -2 + action_speed -1). trigger_dc 13 (sopra umbral_spore 12, sotto arco_voltaico 14: control e' il mestiere del trait). Coordinato D1: nessun -AP. Resist elettrico +10. PROPOSED, ratify N=40 #2533."

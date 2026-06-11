@@ -39,6 +39,7 @@ const {
   resetRoundSynergyTracker,
 } = require('../services/combat/synergyDetector');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
+const { applyStressWaveTick } = require('../services/combat/stressWave');
 // TKT-PLAYTEST-SEED (P2): per-session RNG scoping for combat round resolution.
 // Installs session.combatRng around each (synchronous) resolveRoundPure so a
 // seeded calibration session's stream is isolated from concurrent sessions.
@@ -317,10 +318,14 @@ function createRoundBridge(deps) {
 
       // 1. Rimuovi status dal dict legacy che non sono più nello roundState
       //    (decaied to 0 o rimossi). `statuses` array è source-of-truth post-orchestrator.
+      //    OD-058 D3: le chiavi PERSISTENTI (wounds V2 + legacy wounded_perma) NON
+      //    sono effetti round-tracked -- esenti dal wipe (il rebuild le cancellava).
       const liveIds = new Set(
         (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
       );
+      const PERSISTENT_STATUS_KEYS = new Set(['wounds', 'wounded_perma']);
       for (const id of Object.keys(sessionUnit.status)) {
+        if (PERSISTENT_STATUS_KEYS.has(id)) continue;
         if (!liveIds.has(id)) {
           delete sessionUnit.status[id];
           delete sessionUnit.status_intensity[id];
@@ -337,12 +342,17 @@ function createRoundBridge(deps) {
       }
     }
 
-    // TKT-ORPHAN-MORALE: re-apply morale statuses (panic/rage) that performAttack
-    // stashed during this resolve. The loop above rebuilds unit.status from the
-    // orchestrator's tracked array and would otherwise wipe a panic set mid-attack;
-    // draining here gives every attack resolver (player + AI + legacy) consistent
-    // behavior in one place. Best-effort; never blocks the round.
-    if (Array.isArray(session._pendingMoraleStatus) && session._pendingMoraleStatus.length) {
+    // TKT-ORPHAN-MORALE + TKT-D4-ENRICH (#2533): re-apply statuses that
+    // performAttack stashed during this resolve — morale (panic/rage), GAP-1
+    // on_hit_status (trait_mechanics) and SPRINT_018 apply_status trait
+    // effects all share this drain channel. The loop above rebuilds
+    // unit.status from the orchestrator's tracked array and would otherwise
+    // wipe anything set mid-attack; draining here gives every attack resolver
+    // (player + AI + legacy) consistent behavior in one place, and the next
+    // adaptSessionToRoundState promotes the re-applied keys to tracked
+    // orchestrator statuses (universal decay included). Best-effort; never
+    // blocks the round.
+    if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
       let applyMoraleStatus = null;
       try {
         ({ applyMoraleStatus } = require('../services/combat/morale'));
@@ -350,12 +360,12 @@ function createRoundBridge(deps) {
         applyMoraleStatus = null;
       }
       if (applyMoraleStatus) {
-        for (const pending of session._pendingMoraleStatus) {
+        for (const pending of session._pendingStatusApplies) {
           const u = unitsById.get(String(pending.unit_id));
           if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
         }
       }
-      session._pendingMoraleStatus = [];
+      session._pendingStatusApplies = [];
     }
   }
 
@@ -439,6 +449,10 @@ function createRoundBridge(deps) {
         capturedResults.bondReaction = res.bond_reaction || null;
         capturedResults.terrainReaction = res.terrain_reaction || null;
         capturedResults.positional = res.positional || null;
+        // TKT-D4-ENRICH (#2533): surface the status producers in the wrapped
+        // result (probe/telemetry need the applied list; it was dropped here).
+        capturedResults.onHitStatus = res.on_hit_status || null;
+        capturedResults.statusApplies = Array.isArray(res.status_applies) ? res.status_applies : [];
         capturedResults.beastBondReactions = Array.isArray(res.beast_bond_reactions)
           ? res.beast_bond_reactions
           : [];
@@ -824,6 +838,10 @@ function createRoundBridge(deps) {
       terrain_reaction: capturedResults.terrainReaction || null,
       beast_bond_reactions: Array.isArray(capturedResults.beastBondReactions)
         ? capturedResults.beastBondReactions
+        : [],
+      on_hit_status: capturedResults.onHitStatus || null,
+      status_applies: Array.isArray(capturedResults.statusApplies)
+        ? capturedResults.statusApplies
         : [],
       state: publicSessionView(session),
       round_wrapper: true,
@@ -1889,6 +1907,7 @@ function createRoundBridge(deps) {
     await persistEvents(session);
     session.turn += 1;
     sgBeginTurnAll(session);
+    applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
 
     // Round decay (AI War pattern — sistema_pressure.yaml §deltas.round_decay):
     // pressure cala di 1 per round senza eventi di victory/defeat.
@@ -1911,8 +1930,12 @@ function createRoundBridge(deps) {
     // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
     // session.encounter undefined → both modules return no-op.
     // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+    // SPEC-I ER6: consume the one-shot overrun bonus armed by stressWave.
+    const stresswaveBonus = Number(session._stresswaveOverrunBonus) || 0;
+    if (stresswaveBonus) session._stresswaveOverrunBonus = 0;
     const reinforcementResult = reinforcementTick(session, session.encounter, {
       rng: makeHolderRng(session.combatRng),
+      budgetBonus: stresswaveBonus,
     });
     for (const rec of reinforcementResult.spawned || []) {
       if (rec.skipped) continue;
@@ -2366,6 +2389,7 @@ function createRoundBridge(deps) {
         await persistEvents(session);
         session.turn += 1;
         sgBeginTurnAll(session);
+        applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
 
         if (typeof session.sistema_pressure === 'number') {
           session.sistema_pressure = applyPressureDelta(
@@ -2382,8 +2406,12 @@ function createRoundBridge(deps) {
         // ADR-2026-04-19 + 04-20 wiring (commit-round path).
         // Graceful no-op if session.encounter undefined.
         // Codex #2450 P1: reinforcement pool pick draws from the session RNG too.
+        // SPEC-I ER6: consume the one-shot overrun bonus armed by stressWave.
+        const stresswaveBonus = Number(session._stresswaveOverrunBonus) || 0;
+        if (stresswaveBonus) session._stresswaveOverrunBonus = 0;
         const reinforcementResult = reinforcementTick(session, session.encounter, {
           rng: makeHolderRng(session.combatRng),
+          budgetBonus: stresswaveBonus,
         });
         for (const rec of reinforcementResult.spawned || []) {
           if (rec.skipped) continue;

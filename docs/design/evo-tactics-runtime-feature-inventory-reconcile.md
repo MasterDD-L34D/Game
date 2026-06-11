@@ -2,10 +2,10 @@
 title: 'Evo-Tactics Runtime Feature Inventory Reconcile'
 date: 2026-06-06
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-07'
+last_verified: '2026-06-10'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -152,17 +152,18 @@ gia' product-ready e quali sono ancora host legacy o partial.
 
 ### 4.5 Worldgen, Descent, ERMES, ALIENA
 
-| Sistema                    | Stato          | Evidenza                                                            | Surface                       | Prossima azione                        |
-| -------------------------- | -------------- | ------------------------------------------------------------------- | ----------------------------- | -------------------------------------- |
-| Meta-network graph routing | `LIVE_GATED`   | `metaNetworkRouting.js`, resolver/completability tests              | campaign API + Godot route UI | flip `META_NETWORK_ROUTING` dopo smoke |
-| Graph route real combat    | `LIVE_GATED`   | Game #2601/#2603 on `origin/main`, encounter loader graphMode tests | Godot routed roster           | branch alignment                       |
-| Foodweb spawn filter       | `LIVE`         | `worldgen/foodwebFilter.js`, reinforcement tests                    | backend spawn behavior        | telegraph ERMES/ALIENA                 |
-| Cross-event pressure       | `LIVE`         | `worldgen/crossEventEngine.js`, tests                               | session pressure              | surface debrief/world reveal           |
-| Seasonal loop              | `LIVE_PARTIAL` | `seasonalEngine.js`, campaign seasonal routes/tests                 | API + Godot seasonal client   | decide product loop                    |
-| ERMES exporter/role gap    | `LIVE_PARTIAL` | `ermesExporter.js`, `ermesRunner.js`, tests, Godot role gap         | world reveal/debrief          | SPEC-I runtime pressure                |
-| ALIENA scorer              | `LIVE`         | `authorial/alienaCoherence.js`, tests                               | diagnostics/surface           | link to lore enforcement               |
-| ALIENA enforcement         | `LIVE_GATED`   | `biomeSpawnBias.js`, `reinforcementSpawner.js`, policy tests        | backend spawn bias            | decide soft-on campaigns               |
-| ALIENA telemetry           | `LIVE_PARTIAL` | `alienaTelemetryEndpoint`, Godot `aliena_api.gd`                    | phone chart/world reveal      | unify product copy                     |
+| Sistema                    | Stato          | Evidenza                                                                                                                                               | Surface                       | Prossima azione                        |
+| -------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- | -------------------------------------- |
+| Meta-network graph routing | `LIVE_GATED`   | `metaNetworkRouting.js`, resolver/completability tests                                                                                                 | campaign API + Godot route UI | flip `META_NETWORK_ROUTING` dopo smoke |
+| Graph route real combat    | `LIVE_GATED`   | Game #2601/#2603 on `origin/main`, encounter loader graphMode tests                                                                                    | Godot routed roster           | branch alignment                       |
+| Foodweb spawn filter       | `LIVE`         | `worldgen/foodwebFilter.js`, reinforcement tests                                                                                                       | backend spawn behavior        | telegraph ERMES/ALIENA                 |
+| Cross-event pressure       | `LIVE`         | `worldgen/crossEventEngine.js`, tests                                                                                                                  | session pressure              | surface debrief/world reveal           |
+| Seasonal loop              | `LIVE_PARTIAL` | `seasonalEngine.js`, campaign seasonal routes/tests                                                                                                    | API + Godot seasonal client   | decide product loop                    |
+| ERMES exporter/role gap    | `LIVE_PARTIAL` | `ermesExporter.js`, `ermesRunner.js`, tests, Godot role gap; ER1 effect wire BUILT flag-gated OFF (`ERMES_ROLE_GAP_ENABLED`, spec sez.8: ON post N=40) | world reveal/debrief          | SPEC-I runtime pressure                |
+| StressWave events (ER6)    | `LIVE_GATED`   | `combat/stressWave.js` (+spawner `budgetBonus`, 4 turn-sites, chip 4o slot); flag `STRESSWAVE_EVENTS_ENABLED` OFF, magnitudini PROPOSED (N=40)         | biomeChip + state telegraph   | N=40 flag-ON, poi ratify magnitudini   |
+| ALIENA scorer              | `LIVE`         | `authorial/alienaCoherence.js`, tests                                                                                                                  | diagnostics/surface           | link to lore enforcement               |
+| ALIENA enforcement         | `LIVE_GATED`   | `biomeSpawnBias.js`, `reinforcementSpawner.js`, policy tests                                                                                           | backend spawn bias            | decide soft-on campaigns               |
+| ALIENA telemetry           | `LIVE_PARTIAL` | `alienaTelemetryEndpoint`, Godot `aliena_api.gd`                                                                                                       | phone chart/world reveal      | unify product copy                     |
 
 Decisione:
 

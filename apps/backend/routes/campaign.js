@@ -51,6 +51,8 @@ const { emergeBrancoTraitFromPulses } = require('../services/identity/brancoTrai
 // TKT-P2 Brigandine seasonal — Phase C routes (engine Phase A #2251 + content Phase B #2252).
 const seasonalEngine = require('../services/campaign/seasonalEngine');
 const seasonalContentLoader = require('../services/campaign/seasonalContentLoader');
+// SPEC-I ER7 -- A9 population tick (flag-gated BIOME_POPULATION_ENABLED, OFF).
+const biomePopulation = require('../services/worldgen/biomePopulation');
 
 // TKT-WORLDGEN-GAPC MVP fase 1 — meta-network campaign routing (read-only).
 // Surfaces the eligible next-node candidates (player-choice, Into the Breach)
@@ -96,6 +98,63 @@ function _getOrInitSeasonalState(campaignId) {
     campaignSeasonalState.set(campaignId, seasonalEngine.initialState());
   }
   return campaignSeasonalState.get(campaignId);
+}
+
+// SPEC-I ER7 -- pilot scope (mirror ER5): un bioma alla volta dietro il gate
+// N=40. Espansione = aggiungere biomi qui (PROPOSED).
+const ER7_PILOT_BIOMES = ['badlands'];
+
+// SPEC-I ER7 -- avanza la popolazione discreta dei biomi-pilota di UN season-
+// tick. Segnali: biomeWounded (campaign.woundedBiomes, A13) + apexOverhunted
+// (campaign.apexPressureByBiome, run vinto -> apex rimosso, one-shot consumato
+// qui). Eventi -> permanentFlags narrativi (Wildermyth pattern). Flag-gated +
+// best-effort: flag OFF / no campaign / errore -> null, mai blocca la stagione.
+function _advanceBiomePopulationTick(campaignId) {
+  try {
+    if (!biomePopulation.isEnabled()) return null;
+    const camp = getCampaign(campaignId);
+    if (!camp) return null;
+    const wounded = new Set(Array.isArray(camp.woundedBiomes) ? camp.woundedBiomes : []);
+    const apexPressure =
+      camp.apexPressureByBiome && typeof camp.apexPressureByBiome === 'object'
+        ? camp.apexPressureByBiome
+        : {};
+    const curPop =
+      camp.biomePopulation && typeof camp.biomePopulation === 'object' ? camp.biomePopulation : {};
+    const nextPop = { ...curPop };
+    const nextApex = { ...apexPressure };
+    let changed = false;
+    for (const biomeId of ER7_PILOT_BIOMES) {
+      const signals = {
+        biomeWounded: wounded.has(biomeId),
+        apexOverhunted: !!apexPressure[biomeId],
+      };
+      // Niente stato e nessun segnale -> niente da fare per questo bioma.
+      if (!curPop[biomeId] && !signals.biomeWounded && !signals.apexOverhunted) continue;
+      const { population, events } = biomePopulation.advanceBiomePopulation(
+        curPop[biomeId],
+        signals,
+      );
+      nextPop[biomeId] = population;
+      delete nextApex[biomeId]; // one-shot consumato
+      changed = true;
+      for (const ev of events) {
+        recordPermanentFlag(campaignId, {
+          key: `${ev.type}:${biomeId}:${ev.role}`,
+          value: true,
+          narrative:
+            ev.type === 'local_extinction'
+              ? `Il ruolo ${ev.role} si e' rarefatto in ${biomeId}.`
+              : `Il ruolo ${ev.role} prospera in ${biomeId}.`,
+        });
+      }
+    }
+    if (!changed) return null;
+    updateCampaign(campaignId, { biomePopulation: nextPop, apexPressureByBiome: nextApex });
+    return nextPop;
+  } catch {
+    return null; // mai bloccare l'avanzamento stagione
+  }
 }
 
 // M12 Phase D — evolve opportunity trigger threshold (ADR-2026-04-23 addendum).
@@ -871,7 +930,10 @@ function createCampaignRouter(options = {}) {
     try {
       const next = seasonalEngine.advanceSeason(prev);
       campaignSeasonalState.set(campaignId, next);
-      return res.json({ campaign_id: campaignId, state: next });
+      // SPEC-I ER7 -- avanza l'ecosistema discreto allo stesso season-tick.
+      // null se flag OFF (default) / no campaign -> response back-compat.
+      const biome_population = _advanceBiomePopulationTick(campaignId);
+      return res.json({ campaign_id: campaignId, state: next, biome_population });
     } catch (err) {
       return res.status(500).json({ error: 'advance_season_failed', detail: err.message });
     }
