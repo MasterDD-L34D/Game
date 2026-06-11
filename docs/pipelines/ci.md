@@ -3,7 +3,7 @@ title: Workflow CI e QA
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -11,7 +11,7 @@ review_cycle_days: 14
 
 # Workflow CI e QA
 
-Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descrivendo i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline `CI` principale. L'inventario dettagliato di tutti i workflow e degli script locali si trova in [docs/planning/ci-inventory.md](planning/ci-inventory.md).
+Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descrivendo i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline `CI` principale. L'inventario dettagliato di tutti i workflow e degli script locali si trova in [docs/planning/ci-inventory.md](../archive/planning-reference/ci-inventory.md).
 
 ## Panoramica rapida
 

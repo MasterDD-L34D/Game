@@ -3,7 +3,7 @@ title: Trait Reference & Glossario Allineato
 doc_status: active
 doc_owner: data-pack-team
 workstream: dataset-pack
-last_verified: 2026-05-06
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -46,14 +46,14 @@ registrata nel glossario prima di eseguire gli script di sincronizzazione.
 
 ## Sinergia con gli altri documenti
 
-- [Template dati trait](../traits_template.md) descrive i campi obbligatori e
+- [Template dati trait](../traits/traits_template.md) descrive i campi obbligatori e
   opzionali presenti nei file del catalogo.
-- [Scheda operativa dei trait](../traits_scheda_operativa.md) collega le label
+- [Scheda operativa dei trait](../traits/traits_scheda_operativa.md) collega le label
   approvate del glossario al flusso operativo di editing e sincronizzazione.
 - [Processo di localizzazione](../process/localization.md) dettaglia gli step
   operativi per estrarre, revisionare e consegnare i testi a traduttori e
   revisori.
-- [Guida contributiva trait](../contributing/traits.md) fornisce checklist e
+- [Guida contributiva trait](../guide/contributing/traits.md) fornisce checklist e
   strumenti da seguire prima di aprire una PR.
 
 Seguendo il flusso qui sopra si garantisce che le varianti locali dei trait

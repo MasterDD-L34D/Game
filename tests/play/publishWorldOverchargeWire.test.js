@@ -29,8 +29,8 @@ function stripComments(src) {
   return src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*/g, '');
 }
 
-describe('publishWorld overcharge wire (Gate-5 #2716, Godot mirror Game-Godot-v2#467)', () => {
-  test('host publishWorld payload forwards overcharge_used_this_run from state.world', () => {
+describe('publishWorld wire guards (#2716, #2733, Godot mirror parity)', () => {
+  test('host publishWorld payload forwards overcharge, actor keys, and phase (#2733)', () => {
     const src = fs.readFileSync(MAIN, 'utf8');
     const start = src.indexOf('lobbyBridge.publishWorld({');
     assert.notEqual(
@@ -42,12 +42,27 @@ describe('publishWorld overcharge wire (Gate-5 #2716, Godot mirror Game-Godot-v2
     // Bounded window over the payload object literal: big enough to cover the
     // whole trimmed payload, small enough not to match unrelated code below.
     const code = stripComments(src.slice(start, start + 600));
+
     assert.match(
       code,
       /overcharge_used_this_run:\s*!!state\.world\?\.overcharge_used_this_run/,
       'publishWorld payload must forward overcharge_used_this_run (coerced bool) ' +
         'so phone clients witness the false->true transition and fire the ' +
         'diegetic hint (PhoneOverchargeHint, Game-Godot-v2 PR #467).',
+    );
+
+    assert.match(
+      code,
+      /active_id:\s*state\.world\.active_unit/,
+      'publishWorld payload must forward active_id mapped from active_unit (since active_id ' +
+        'is undefined in publicSessionView), fixing Game #2733.',
+    );
+
+    assert.match(
+      code,
+      /phase:\s*lobbyBridge\._currentPhase\s*&&\s*lobbyBridge\._currentPhase\s*!==\s*'idle'\s*\?\s*lobbyBridge\._currentPhase\s*:\s*'combat'/,
+      'publishWorld payload must forward phase from lobbyBridge._currentPhase ' +
+        'and normalize "idle" to "combat" for the TV snapshot map (Game #2733).',
     );
   });
 

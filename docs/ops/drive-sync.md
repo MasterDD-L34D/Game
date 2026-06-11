@@ -3,7 +3,7 @@ title: Sincronizzazione YAML ↔ Google Sheets
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: '2026-06-11'
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -153,7 +153,7 @@ Quando le quote vengono esaurite, Apps Script registra errori `Exceeded maximum 
 - Programmare una verifica trimestrale delle quote App Script e dei log di esecuzione (`Executions` panel) per individuare errori di parsing.
 - Aggiornare la libreria js-yaml testando l'URL in un ambiente di staging prima di cambiare `DRIVE_SYNC_YAML_LIB_URL`.
 - Usare `removeAutoSyncTriggers()` prima di rigenerare i trigger con un nuovo intervallo.
-- Annotare gli Spreadsheet generati e i relativi link in [`docs/checklist/milestones.md`](checklist/milestones.md) per mantenere la tracciabilità delle sincronizzazioni.
+- Annotare gli Spreadsheet generati e i relativi link in [`docs/checklist/milestones.md`](../process/milestones.md) per mantenere la tracciabilità delle sincronizzazioni.
 
 ## Timeline rilasci telemetry-export
 

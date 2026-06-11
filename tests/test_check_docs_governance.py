@@ -307,6 +307,21 @@ class TestValidateRegistry:
         stale = next(i for i in issues if i.code == "stale_document")
         assert stale.level == "warning"
 
+    @pytest.mark.parametrize(
+        "status",
+        ["superseded", "deprecated", "archived", "historical_ref", "generated"],
+    )
+    def test_non_living_status_skips_stale(self, tmp_path: Path, status: str):
+        # Statuti non-living (record datati / autogenerati) non vanno mai flaggati
+        # stale, anche con last_verified ben oltre il review_cycle.
+        old_date = (date.today() - timedelta(days=365)).isoformat()
+        entry = make_valid_entry(
+            last_verified=old_date, review_cycle_days=14, doc_status=status
+        )
+        setup_repo(tmp_path, entries=[entry])
+        issues = validator.validate_registry(tmp_path, make_valid_registry(entries=[entry]))
+        assert "stale_document" not in issue_codes(issues)
+
     def test_path_missing_raises_error(self, tmp_path: Path):
         entry = make_valid_entry(path="docs/missing.md")
         registry = make_valid_registry(
