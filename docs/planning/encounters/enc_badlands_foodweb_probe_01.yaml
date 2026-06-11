@@ -1,0 +1,121 @@
+# =============================================================================
+# Encounter: "Catena Trofica Ferrosa" -- ER7 population-shaping probe
+# Difficulty: 4/5 - Grid: 10x10 - Bioma: badlands
+# Objective: elimination; SIS ha reinforcement_pool attivo (ADR-2026-04-19).
+#
+# SCOPO (NON un encounter di campagna): measurement-point per la gamba combat
+# del gate N=40 SPEC-I ER7 (population tick). A differenza di enc_hardcore_reinf_01
+# (pool predoni_nomadi OFF-foodweb -> applyPopulationToPool = no-op strutturale),
+# QUI il reinforcement_pool e' allineato al foodweb badlands
+# (packs/evo_tactics_pack/data/ecosystems/badlands.ecosystem.yaml) cosi' che lo
+# shaping ER7 (ruolo depleted escluso, abundant pesato su) abbia qualcosa su cui
+# mordere. Stat differenziate per ruolo (prey deboli / meso medi / apex forti) =>
+# la composizione spawn ha peso combat reale -> il gate banda e' informativo.
+# L-069: measurement-point scelto dall'analista, documentato; NON un dato canonico.
+#
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-19 (reinforcementSpawner) + SPEC-I ER7 (biomePopulation)
+# =============================================================================
+
+encounter_id: enc_badlands_foodweb_probe_01
+name: 'Catena Trofica Ferrosa'
+biome_id: badlands
+grid_size: [10, 10]
+difficulty_rating: 4
+estimated_turns: 18
+encounter_class: hardcore
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [5, 4]
+      - [5, 5]
+      - [5, 6]
+    units:
+      # wave-1 stats vengono dalla tier-table di scenario-enemies (non dal pool):
+      # base hp7/mod1, elite hp10/mod2, apex hp14/mod4.
+      - species: echo-wing
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+      - species: dune-stalker
+        count: 1
+        tier: apex
+        ai_profile: flanking
+
+# Reinforcement pool ALLINEATO al foodweb badlands. unit_id = nome specie
+# ecosystem.yaml (sand-burrower/rust-scavenger=prey primari, echo-wing=meso
+# secondari, dune-stalker/ferrimordax-rutilus=apex terziari). Stat differenziate
+# per ruolo trofico: prey deboli, meso medi, apex forti.
+reinforcement_pool:
+  - unit_id: sand-burrower # prey (primari)
+    weight: 3
+    max_spawns: 6
+    hp: 5
+    mod: 1
+    dc: 10
+    ai_profile: defensive
+  - unit_id: rust-scavenger # prey (primari)
+    weight: 3
+    max_spawns: 6
+    hp: 5
+    mod: 1
+    dc: 10
+    ai_profile: defensive
+  - unit_id: echo-wing # mesopredator (secondari)
+    weight: 2
+    max_spawns: 6
+    hp: 8
+    mod: 2
+    dc: 12
+    ai_profile: aggressive
+  - unit_id: dune-stalker # apex (terziari)
+    weight: 1
+    max_spawns: 6
+    hp: 12
+    mod: 4
+    dc: 13
+    ai_profile: flanking
+  - unit_id: ferrimordax-rutilus # apex (terziari)
+    weight: 1
+    max_spawns: 6
+    hp: 12
+    mod: 4
+    dc: 13
+    ai_profile: flanking
+
+reinforcement_entry_tiles:
+  - [9, 0]
+  - [9, 9]
+  - [0, 0]
+  - [0, 9]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 6
+  min_distance_from_pg: 4
+
+conditions: []
+
+# NB tags vincolati dall'enum di schemas/evo/encounter.schema.json (no "probe"/
+# "sim"); lo scopo probe e' documentato nell'header. boss+standard come
+# enc_hardcore_reinf_01.
+tags: [boss, standard]
+
+didactic_focus:
+  - reinforcement_timing
+  - ecology_pressure
+
+narrative: {}

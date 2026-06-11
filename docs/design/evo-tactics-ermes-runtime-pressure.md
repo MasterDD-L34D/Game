@@ -441,6 +441,12 @@ spawn whitelist da ecosystem.yaml).
   cross-run resta solo wound-driven (A13), senza recupero/boom.
 - **Esito ratificato:** A. Build = forward-work; pilot su 1 bioma (badlands, mirror ER5) +
   gate N=40 prima dell'espansione.
+- **Knob update 2026-06-11**: `RECOVERY_SEASONS=2`, `ABUNDANCE_SEASONS=2`,
+  `ABUNDANT_WEIGHT_MULT=2` **RATIFIED** as-built post N=40 (evidence
+  `docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md`: timeline deterministica
+  - spawn-shaping mechanism fired, esclusione `depleted` = conseguenza ecologica
+    INTENZIONALE A13-like). Flag `BIOME_POPULATION_ENABLED` tenuto OFF (verdetto master-dd):
+    flip-ON deferito a un pilot su encounter badlands reale (pattern ER1 #2704).
 
 ## 12. Acceptance
 

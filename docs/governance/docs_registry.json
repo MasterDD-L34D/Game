@@ -12270,6 +12270,32 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md",
+      "title": "SPEC-I ER7 population tick -- N=40 flag-ON evidence (ratifica magnitudini)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md",
+      "title": "SPEC-I ER7 flip-ON pilot -- encounter badlands stat-canoniche (N=40)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-11",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
