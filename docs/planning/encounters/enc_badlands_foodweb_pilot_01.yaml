@@ -1,0 +1,120 @@
+# =============================================================================
+# Encounter: "Brulle Ferrose -- Pilota ER7 Stat-Canoniche"
+# Difficulty: 4/5 - Grid: 10x10 - Bioma: badlands
+# Objective: elimination; SIS ha reinforcement_pool attivo (ADR-2026-04-19).
+#
+# SCOPO: il pilot "reale" del forward-work ER7 (vedi
+# docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md, decisione 4).
+# A differenza di enc_badlands_foodweb_probe_01 (stat DIFFERENZIATE a mano per
+# rendere il gate banda informativo), QUI il reinforcement_pool porta le stat
+# CANONICHE delle specie foodweb badlands, derivate da
+# ecologyCombatAdapter.deriveCombatStats (vedi badlandsPilotScenario.js):
+#   sand-burrower (prey)               hp4  mod2 dc11
+#   rust-scavenger (prey)              hp4  mod2 dc11
+#   echo-wing (mesopredator)           hp4  mod2 dc11 range2
+#   ferrocolonia-magnetotattica (meso) hp7  mod2 dc12
+#   dune-stalker (apex)                hp13 mod3 dc14
+# Cosi' lo swing combat dell'esclusione/boost ER7 e' misurato con le stat VERE
+# di partita, non con una differenziazione scelta dall'analista (L-069). Se il
+# pilot resta in banda [0.40,0.60] -> evidenza per il flip-ON default.
+# NB stat hardcoded = snapshot deriveCombatStats al 2026-06-11; se l'adapter o
+# le specie cambiano, rigenerare (probe-only, non un encounter di campagna).
+#
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-19 (reinforcementSpawner) + SPEC-I ER7 (biomePopulation)
+# =============================================================================
+
+encounter_id: enc_badlands_foodweb_pilot_01
+name: 'Brulle Ferrose -- Pilota ER7 Stat-Canoniche'
+biome_id: badlands
+grid_size: [10, 10]
+difficulty_rating: 4
+estimated_turns: 18
+encounter_class: hardcore
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [5, 4]
+      - [5, 5]
+      - [5, 6]
+    units:
+      - species: echo-wing
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+      - species: dune-stalker
+        count: 1
+        tier: apex
+        ai_profile: flanking
+
+# Reinforcement pool = foodweb badlands con stat CANONICHE (deriveCombatStats).
+reinforcement_pool:
+  - unit_id: sand-burrower # prey (primari)
+    weight: 3
+    max_spawns: 6
+    hp: 4
+    mod: 2
+    dc: 11
+    ai_profile: defensive
+  - unit_id: rust-scavenger # prey (primari)
+    weight: 3
+    max_spawns: 6
+    hp: 4
+    mod: 2
+    dc: 11
+    ai_profile: defensive
+  - unit_id: echo-wing # mesopredator (secondari)
+    weight: 1
+    max_spawns: 6
+    hp: 4
+    mod: 2
+    dc: 11
+    ai_profile: aggressive
+  - unit_id: ferrocolonia-magnetotattica # mesopredator (secondari)
+    weight: 1
+    max_spawns: 6
+    hp: 7
+    mod: 2
+    dc: 12
+    ai_profile: aggressive
+  - unit_id: dune-stalker # apex (terziari)
+    weight: 1
+    max_spawns: 6
+    hp: 13
+    mod: 3
+    dc: 14
+    ai_profile: flanking
+
+reinforcement_entry_tiles:
+  - [9, 0]
+  - [9, 9]
+  - [0, 0]
+  - [0, 9]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 3
+  max_total_spawns: 6
+  min_distance_from_pg: 4
+
+conditions: []
+
+tags: [boss, standard]
+
+didactic_focus:
+  - reinforcement_timing
+  - ecology_pressure
+
+narrative: {}
