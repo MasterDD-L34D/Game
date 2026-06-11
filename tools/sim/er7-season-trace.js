@@ -110,6 +110,16 @@ async function runSequence() {
       const res = await request('POST', `${base}/api/campaign/seasonal/advance-season`, {
         campaign_id: camp.id,
       });
+      // Fail LOUDLY on a route error: as committed evidence, a 4xx/5xx must not be
+      // silently recorded as season:null/n/a -- two failed runs would still be
+      // byte-identical and pass the determinism check (false green). (Codex P2.)
+      if (res.status !== 200) {
+        throw new Error(
+          `advance-season "${step.label}" -> HTTP ${res.status} (evidence invalid): ${JSON.stringify(
+            res.body,
+          )}`,
+        );
+      }
       // eslint-disable-next-line no-await-in-loop
       const after = campaignStore.getCampaign(camp.id);
       const flags = (after.permanentFlags || [])
@@ -132,11 +142,26 @@ async function runSequence() {
 
   // Per-tick event = the flag(s) new this step vs the previous cumulative set.
   let prevFlags = new Set();
+  const allEvents = [];
   for (const row of timeline) {
     const cur = new Set(row.flags_total);
-    row.event = row.flags_total.filter((k) => !prevFlags.has(k)).join(', ') || '-';
+    const fresh = row.flags_total.filter((k) => !prevFlags.has(k));
+    row.event = fresh.join(', ') || '-';
+    allEvents.push(...fresh);
     prevFlags = cur;
     delete row.flags_total;
+  }
+  // Sanity: the scripted sequence MUST exhibit both transition events. Zero =
+  // the population machine never ran (flag off / wiring regression) -> the
+  // deterministic-but-empty timeline is NOT valid evidence (companion to the
+  // per-tick HTTP check above; Codex P2 hardening).
+  const hasExtinction = allEvents.some((k) => k.startsWith('local_extinction:'));
+  const hasBoom = allEvents.some((k) => k.startsWith('population_boom:'));
+  if (!hasExtinction || !hasBoom) {
+    throw new Error(
+      `season trace produced no ${!hasExtinction ? 'local_extinction' : 'population_boom'} event ` +
+        '-- population machine did not run (flag off or regression); timeline is not valid evidence',
+    );
   }
   return timeline;
 }
