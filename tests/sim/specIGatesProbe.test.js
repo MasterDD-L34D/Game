@@ -12,6 +12,9 @@ const {
   maxEnemyAtkBonus,
   extractStresswave,
   aggregateStresswave,
+  extractSpawnComposition,
+  aggregateEr7,
+  buildBiomePopulation,
   EFFECTS,
   ER1_GAP_JOBS,
   ER1_FULL_JOBS,
@@ -93,6 +96,56 @@ test('aggregateStresswave: rates over n, turn stats over firing runs only', () =
   assert.equal(agg.last_spawn_turn.mean, 7);
 });
 
+test('extractSpawnComposition: parses species from reinforcement_spawn actor_id', () => {
+  const out = extractSpawnComposition([
+    { action_type: 'reinforcement_spawn', turn: 3, actor_id: 'reinf_1_sand-burrower' },
+    { action_type: 'reinforcement_spawn', turn: 6, actor_id: 'reinf_2_dune-stalker' },
+    { action_type: 'reinforcement_spawn', turn: 9, actor_id: 'reinf_3_sand-burrower' },
+    { action_type: 'stresswave_event', turn: 4, result: 'rescue' }, // ignored
+  ]);
+  assert.equal(out.spawns, 3);
+  assert.deepEqual(out.spawn_species, { 'sand-burrower': 2, 'dune-stalker': 1 });
+});
+
+test('extractSpawnComposition: no spawns -> empty', () => {
+  assert.deepEqual(extractSpawnComposition([]), { spawns: 0, spawn_species: {} });
+});
+
+test('aggregateEr7: prey/meso/apex shares from real badlands role map', () => {
+  // sand-burrower=prey, echo-wing=mesopredator, dune-stalker=apex (ecosystem.yaml).
+  const agg = aggregateEr7(
+    [
+      { spawn_species: { 'sand-burrower': 2, 'dune-stalker': 1, 'echo-wing': 1 } },
+      { spawn_species: { 'sand-burrower': 2, 'echo-wing': 2 } },
+    ],
+    'badlands',
+  );
+  // 8 spawns total: prey 4, meso 3, apex 1.
+  assert.equal(agg.spawns_per_run, 4); // 8 / 2 runs
+  assert.equal(agg.prey_share, 0.5);
+  assert.equal(agg.meso_share, 0.375);
+  assert.equal(agg.apex_share, 0.125);
+  assert.equal(agg.by_species['sand-burrower'], 2); // 4 / 2 runs
+});
+
+test('aggregateEr7: depleted-prey arm shows prey_share 0 (effect-fired proof)', () => {
+  // What the on_depleted arm looks like: prey species never spawn.
+  const agg = aggregateEr7(
+    [{ spawn_species: { 'dune-stalker': 2, 'echo-wing': 1, 'ferrimordax-rutilus': 1 } }],
+    'badlands',
+  );
+  assert.equal(agg.prey_share, 0);
+  assert.ok(agg.apex_share > 0);
+});
+
+test('buildBiomePopulation: defaults stable, override pins one role', () => {
+  const pop = buildBiomePopulation('badlands', { prey: 'depleted' });
+  assert.equal(pop.badlands.prey.state, 'depleted');
+  assert.equal(pop.badlands.apex.state, 'stable');
+  assert.equal(pop.badlands.mesopredator.state, 'stable');
+  assert.equal(pop.badlands.prey.seasons, 0);
+});
+
 test('EFFECTS wiring: flags pinned EXPLICITLY per arm (post-flip: default engine ON)', () => {
   assert.equal(EFFECTS.er1.flag, 'ERMES_ROLE_GAP_ENABLED');
   assert.equal(EFFECTS.er6.flag, 'STRESSWAVE_EVENTS_ENABLED');
@@ -105,4 +158,13 @@ test('EFFECTS wiring: flags pinned EXPLICITLY per arm (post-flip: default engine
   assert.equal(EFFECTS.er6.arms.on.env.STRESSWAVE_EVENTS_ENABLED, 'true');
   // ER6 collects exactly the two raw event streams the evidence needs.
   assert.deepEqual(EFFECTS.er6.collectEvents, ['stresswave_event', 'reinforcement_spawn']);
+  // ER7 (population shaping): flag pinned both ways, campaign-seeded arms, spawn
+  // events collected for the composition observable.
+  assert.equal(EFFECTS.er7.flag, 'BIOME_POPULATION_ENABLED');
+  assert.equal(EFFECTS.er7.seedCampaign, true);
+  assert.equal(EFFECTS.er7.arms.off.env.BIOME_POPULATION_ENABLED, 'false');
+  assert.equal(EFFECTS.er7.arms.on_depleted.env.BIOME_POPULATION_ENABLED, 'true');
+  assert.equal(EFFECTS.er7.arms.on_depleted.popState.prey, 'depleted');
+  assert.equal(EFFECTS.er7.arms.on_abundant.popState.apex, 'abundant');
+  assert.deepEqual(EFFECTS.er7.collectEvents, ['reinforcement_spawn']);
 });
