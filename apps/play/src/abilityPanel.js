@@ -1,5 +1,6 @@
 // Ability panel — fetch /api/jobs, render clickable abilities per unit selezionata.
 
+import { t } from './i18n.js';
 import { api } from './api.js';
 
 let jobCache = null;
@@ -46,13 +47,13 @@ export async function renderAbilities(unit, state, onAbility) {
   if (myToken !== _renderToken) return; // stale call — no DOM mutation, lascia render più recente
   container.innerHTML = '';
   if (!detail || !Array.isArray(detail.abilities) || detail.abilities.length === 0) {
-    container.innerHTML = `<div class="ab-empty">Nessuna ability per ${unit.job}</div>`;
+    container.innerHTML = `<div class="ab-empty">${t('ability.empty', { job: unit.job })}</div>`;
     return;
   }
   // Clear ancora prima append (sicurezza contro fetch precedenti in volo)
   container.innerHTML = '';
 
-  titleEl.textContent = `Abilities · ${unit.job}`;
+  titleEl.textContent = t('ability.title', { job: unit.job });
   for (const ab of detail.abilities) {
     const abilityId = ab.ability_id || ab.id;
     const label = ab.name_it || ab.label_it || ab.name || ab.label || abilityId || '???';
@@ -78,9 +79,9 @@ export async function renderAbilities(unit, state, onAbility) {
     row.innerHTML = `
       <div class="ab-head">
         <strong>${label}</strong>
-        <span class="ab-cost">AP ${apCost}</span>
+        <span class="ab-cost">${t('ability.cost_ap', { ap: apCost })}</span>
       </div>
-      <div class="ab-effect"><code>${ab.effect_type || '—'}</code> · ${tgt || 'self'}${ab.cost_pi ? ` · PI ${ab.cost_pi}` : ''}</div>
+      <div class="ab-effect"><code>${ab.effect_type || '—'}</code> · ${tgt || t('ability.self')}${ab.cost_pi ? ` · ${t('ability.cost_pi', { pi: ab.cost_pi })}` : ''}</div>
       <div class="ab-desc">${desc}</div>
     `;
     row.addEventListener('click', () => {
