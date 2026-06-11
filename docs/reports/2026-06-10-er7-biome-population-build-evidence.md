@@ -62,10 +62,6 @@ specie del ruolo depleted dalla spawn whitelist e pesa su quelle abundant.
 
 ## Magnitudini PROPOSED (ratify N=40)
 
-> **UPDATE 2026-06-11**: le 3 magnitudini sotto sono **RATIFIED as-built** post N=40
-> (verdetto master-dd, evidence `docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md`).
-> Flag `BIOME_POPULATION_ENABLED` tenuto OFF (flip-ON deferito a pilot su encounter reale).
-
 | Knob | Valore | File |
 |------|--------|------|
 | `RECOVERY_SEASONS` | 2 | `biomePopulation.js` |

@@ -24,13 +24,9 @@
 // whitelist, abundant pesato su). Persistence = campaign.biomePopulation
 // (pattern campaign.woundedBiomes).
 //
-// GOVERNANCE: magnitudini RECOVERY_SEASONS / ABUNDANCE_SEASONS / ABUNDANT_WEIGHT_MULT
-// (foodwebFilter) RATIFIED as-built 2026-06-11 (N=40 evidence
-// docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md). Flag
-// `BIOME_POPULATION_ENABLED` tenuto default OFF per verdetto master-dd: accensione
-// deferita a un pilot su encounter badlands REALE (pattern ER1 #2704 wired-ratified,
-// flag-OFF). L'esclusione del ruolo `depleted` = conseguenza ecologica INTENZIONALE
-// ("bioma depleted = combat piu' duro", A13-like) -- NON una regressione di banda.
+// GOVERNANCE: flag `BIOME_POPULATION_ENABLED` default OFF -- spec sez.8: ON solo
+// post playtest N=40 GREEN (verdetto master-dd, pattern ER1/ER6). Magnitudini
+// RECOVERY_SEASONS / ABUNDANCE_SEASONS = PROPOSED, ratify N=40.
 // =============================================================================
 
 const STATES = Object.freeze({
@@ -43,9 +39,9 @@ const STATES = Object.freeze({
 // (produttori/decompositori non rinforzano mai -> non tracciati).
 const TRACKED_ROLES = Object.freeze(['apex', 'mesopredator', 'prey']);
 
-// RATIFIED 2026-06-11 (N=40): season quiete prima che un ruolo `depleted` recuperi.
+// PROPOSED (ratify N=40): season quiete prima che un ruolo `depleted` recuperi.
 const RECOVERY_SEASONS = 2;
-// RATIFIED 2026-06-11 (N=40): season prima che una `abundant` decada a `stable`
+// PROPOSED (ratify N=40): season prima che una `abundant` decada a `stable`
 // (una volta che la causa -- apex depleted -- e' rientrata).
 const ABUNDANCE_SEASONS = 2;
 
