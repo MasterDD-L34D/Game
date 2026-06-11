@@ -2,66 +2,68 @@
 // Toggle: '?' key o bottone top-right. Default OPEN prima sessione (onboarding),
 // poi default CLOSED (localStorage key 'evo:help-seen').
 
+import { t } from './i18n.js';
+
 const HELP_SEEN_KEY = 'evo:help-seen';
 
-const HELP_HTML = `
+const getHelpHtml = () => `
   <div class="help-panel-card">
     <header class="help-panel-header">
-      <h2>🦴 Come si gioca</h2>
-      <button class="help-panel-close" id="help-close" title="Chiudi (ESC)">✕</button>
+      <h2>${t('help.title')}</h2>
+      <button class="help-panel-close" id="help-close" title="${t('help.close_tooltip')}">✕</button>
     </header>
     <div class="help-panel-body">
       <section>
-        <h3>Obiettivo</h3>
-        <p>Sopravvivi al Sistema. Azzera gli HP di tutti i nemici (rombi rossi) prima che il Sistema azzeri i tuoi (triangoli blu).</p>
+        <h3>${t('help.section_objective')}</h3>
+        <p>${t('help.objective_desc')}</p>
       </section>
 
       <section>
-        <h3>Controlli</h3>
+        <h3>${t('help.section_controls')}</h3>
         <ul>
-          <li><b>Click unità tua</b> (blu) → seleziona</li>
-          <li><b>Click cella vuota</b> → muovi (1 AP per cella)</li>
-          <li><b>Click nemico</b> (rosso) → attacco base (1 AP)</li>
-          <li><b>Click ability</b> (barra in basso) → seleziona skill, poi click target</li>
-          <li><b>Fine turno</b> → passa turno al Sistema</li>
-          <li><b>ESC</b> → annulla ability pending / azione pending</li>
-          <li><b>?</b> → apri/chiudi questo pannello</li>
+          <li>${t('help.ctrl_select')}</li>
+          <li>${t('help.ctrl_move')}</li>
+          <li>${t('help.ctrl_attack')}</li>
+          <li>${t('help.ctrl_ability')}</li>
+          <li>${t('help.ctrl_end')}</li>
+          <li>${t('help.ctrl_cancel')}</li>
+          <li>${t('help.ctrl_help')}</li>
         </ul>
       </section>
 
       <section>
-        <h3>Punteggi e risorse</h3>
+        <h3>${t('help.section_resources')}</h3>
         <ul>
-          <li><b>HP</b> (barra sopra unità): vita. A 0 = KO.</li>
-          <li><b>AP</b> (Action Points): budget azione per turno. Attaccare = 1 AP, muovere di N celle = N AP.</li>
-          <li><b>PT</b> (Pressure): la barra in alto mostra la pressione del Sistema. Più sale, più il Sistema è aggressivo (tier Calm → Vigilant → Aggressive → Apex).</li>
+          <li>${t('help.res_hp')}</li>
+          <li>${t('help.res_ap')}</li>
+          <li>${t('help.res_pt')}</li>
         </ul>
       </section>
 
       <section>
-        <h3>Icone unità</h3>
+        <h3>${t('help.section_icons')}</h3>
         <ul>
-          <li><span class="help-icon help-icon-player">▲</span> <b>Triangolo blu</b> = tua unità</li>
-          <li><span class="help-icon help-icon-sistema">◆</span> <b>Rombo rosso</b> = Sistema (nemico)</li>
-          <li><span class="help-icon help-icon-intent">✊</span> <b>Pugno rosso sopra nemico</b> = intento attacco al prossimo turno</li>
-          <li><span class="help-icon help-icon-warn">!</span> <b>Punto esclamativo arancio</b> = status panico</li>
-          <li><span class="help-icon help-icon-stun">★</span> <b>Stella viola</b> = stordito</li>
-          <li><span class="help-icon help-icon-bleed">☽</span> <b>Luna rosa</b> = sanguinamento</li>
+          <li><span class="help-icon help-icon-player">▲</span> ${t('help.icon_player')}</li>
+          <li><span class="help-icon help-icon-sistema">◆</span> ${t('help.icon_system')}</li>
+          <li><span class="help-icon help-icon-intent">✊</span> ${t('help.icon_intent')}</li>
+          <li><span class="help-icon help-icon-warn">!</span> ${t('help.icon_warn')}</li>
+          <li><span class="help-icon help-icon-stun">★</span> ${t('help.icon_stun')}</li>
+          <li><span class="help-icon help-icon-bleed">☽</span> ${t('help.icon_bleed')}</li>
         </ul>
       </section>
 
       <section>
-        <h3>Suggerimenti tattici</h3>
+        <h3>${t('help.section_tactics')}</h3>
         <ul>
-          <li><b>Coordinati</b>: 2+ player stesso target stesso turno = combo focus-fire (+1 danno)</li>
-          <li><b>Ability usano AP</b>: leggi il costo prima di spendere</li>
-          <li><b>Terreno conta</b>: celle erba/pietra danno bonus difesa</li>
-          <li><b>Sistema impara</b>: se sei aggressivo, diventerà aggressivo</li>
+          <li>${t('help.tac_coord')}</li>
+          <li>${t('help.tac_ap')}</li>
+          <li>${t('help.tac_terrain')}</li>
+          <li>${t('help.tac_system')}</li>
         </ul>
       </section>
 
       <footer class="help-panel-footer">
-        <span>Premi <kbd>?</kbd> o <kbd>ESC</kbd> per chiudere.</span>
+        <span>${t('help.footer')}</span>
       </footer>
     </div>
   </div>
@@ -76,7 +78,7 @@ function ensureRoot() {
   _rootEl = document.createElement('div');
   _rootEl.id = 'help-panel';
   _rootEl.className = 'help-panel hidden';
-  _rootEl.innerHTML = HELP_HTML;
+  _rootEl.innerHTML = getHelpHtml();
   document.body.appendChild(_rootEl);
   _rootEl.addEventListener('click', (ev) => {
     if (ev.target === _rootEl) closeHelp();

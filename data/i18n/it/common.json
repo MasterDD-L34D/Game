@@ -198,5 +198,53 @@
       "lo": "Percezione",
       "hi": "Giudizio"
     }
+  },
+  "ability": {
+    "empty": "Nessuna ability per {job}",
+    "title": "Abilities · {job}",
+    "cost_ap": "AP {ap}",
+    "cost_pi": "PI {pi}",
+    "self": "self"
+  },
+  "forms": {
+    "title": "🧬 Evoluzione Form",
+    "evolved": "✓ Evoluta in {new_form} ({label}) · PE {pe_after}",
+    "btn_evolve": "Evolvi",
+    "conf": "conf"
+  },
+  "help": {
+    "title": "🦴 Come si gioca",
+    "close_tooltip": "Chiudi (ESC)",
+    "section_objective": "Obiettivo",
+    "objective_desc": "Sopravvivi al Sistema. Azzera gli HP di tutti i nemici (rombi rossi) prima che il Sistema azzeri i tuoi (triangoli blu).",
+    "section_controls": "Controlli",
+    "ctrl_select": "<b>Click unità tua</b> (blu) → seleziona",
+    "ctrl_move": "<b>Click cella vuota</b> → muovi (1 AP per cella)",
+    "ctrl_attack": "<b>Click nemico</b> (rosso) → attacco base (1 AP)",
+    "ctrl_ability": "<b>Click ability</b> (barra in basso) → seleziona skill, poi click target",
+    "ctrl_end": "<b>Fine turno</b> → passa turno al Sistema",
+    "ctrl_cancel": "<b>ESC</b> → annulla ability pending / azione pending",
+    "ctrl_help": "<b>?</b> → apri/chiudi questo pannello",
+    "section_resources": "Punteggi e risorse",
+    "res_hp": "<b>HP</b> (barra sopra unità): vita. A 0 = KO.",
+    "res_ap": "<b>AP</b> (Action Points): budget azione per turno. Attaccare = 1 AP, muovere di N celle = N AP.",
+    "res_pt": "<b>PT</b> (Pressure): la barra in alto mostra la pressione del Sistema. Più sale, più il Sistema è aggressivo (tier Calm → Vigilant → Aggressive → Apex).",
+    "section_icons": "Icone unità",
+    "icon_player": "<b>Triangolo blu</b> = tua unità",
+    "icon_system": "<b>Rombo rosso</b> = Sistema (nemico)",
+    "icon_intent": "<b>Pugno rosso sopra nemico</b> = intento attacco al prossimo turno",
+    "icon_warn": "<b>Punto esclamativo arancio</b> = status panico",
+    "icon_stun": "<b>Stella viola</b> = stordito",
+    "icon_bleed": "<b>Luna rosa</b> = sanguinamento",
+    "section_tactics": "Suggerimenti tattici",
+    "tac_coord": "<b>Coordinati</b>: 2+ player stesso target stesso turno = combo focus-fire (+1 danno)",
+    "tac_ap": "<b>Ability usano AP</b>: leggi il costo prima di spendere",
+    "tac_terrain": "<b>Terreno conta</b>: celle erba/pietra danno bonus difesa",
+    "tac_system": "<b>Sistema impara</b>: se sei aggressivo, diventerà aggressivo",
+    "footer": "Premi <kbd>?</kbd> o <kbd>ESC</kbd> per chiudere."
+  },
+  "onboarding": {
+    "trait_label": "Trait: {trait_id}",
+    "default_transition": "Così sarà."
   }
 }

@@ -198,5 +198,53 @@
       "lo": "Perceiving",
       "hi": "Judging"
     }
+  },
+  "ability": {
+    "empty": "No ability for {job}",
+    "title": "Abilities - {job}",
+    "cost_ap": "AP {ap}",
+    "cost_pi": "PI {pi}",
+    "self": "self"
+  },
+  "forms": {
+    "title": "Form Evolution",
+    "evolved": "Evolved into {new_form} ({label}) - PE {pe_after}",
+    "btn_evolve": "Evolve",
+    "conf": "conf"
+  },
+  "help": {
+    "title": "How to play",
+    "close_tooltip": "Close (ESC)",
+    "section_objective": "Objective",
+    "objective_desc": "Survive the System. Reduce all enemy HP (red diamonds) to 0 before the System reduces yours (blue triangles) to 0.",
+    "section_controls": "Controls",
+    "ctrl_select": "<b>Click your unit</b> (blue) → select",
+    "ctrl_move": "<b>Click empty cell</b> → move (1 AP per cell)",
+    "ctrl_attack": "<b>Click enemy</b> (red) → basic attack (1 AP)",
+    "ctrl_ability": "<b>Click ability</b> (bottom bar) → select skill, then click target",
+    "ctrl_end": "<b>End turn</b> → pass turn to System",
+    "ctrl_cancel": "<b>ESC</b> → cancel pending ability / pending action",
+    "ctrl_help": "<b>?</b> → open/close this panel",
+    "section_resources": "Scores and resources",
+    "res_hp": "<b>HP</b> (bar above unit): life. At 0 = KO.",
+    "res_ap": "<b>AP</b> (Action Points): action budget per turn. Attack = 1 AP, move N cells = N AP.",
+    "res_pt": "<b>PT</b> (Pressure): the top bar shows the System's pressure. The higher it goes, the more aggressive the System becomes (tier Calm → Vigilant → Aggressive → Apex).",
+    "section_icons": "Unit icons",
+    "icon_player": "<b>Blue triangle</b> = your unit",
+    "icon_system": "<b>Red diamond</b> = System (enemy)",
+    "icon_intent": "<b>Red fist above enemy</b> = attack intent next turn",
+    "icon_warn": "<b>Orange exclamation mark</b> = panic status",
+    "icon_stun": "<b>Purple star</b> = stunned",
+    "icon_bleed": "<b>Pink moon</b> = bleeding",
+    "section_tactics": "Tactical tips",
+    "tac_coord": "<b>Coordinate</b>: 2+ players same target same turn = focus-fire combo (+1 damage)",
+    "tac_ap": "<b>Abilities use AP</b>: read the cost before spending",
+    "tac_terrain": "<b>Terrain matters</b>: grass/stone cells give defense bonus",
+    "tac_system": "<b>System learns</b>: if you are aggressive, it will become aggressive",
+    "footer": "Press <kbd>?</kbd> or <kbd>ESC</kbd> to close."
+  },
+  "onboarding": {
+    "trait_label": "Trait: {trait_id}",
+    "default_transition": "So it shall be."
   }
 }

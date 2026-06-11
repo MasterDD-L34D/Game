@@ -12,6 +12,7 @@
 // Consumer: apps/play/src/main.js attaches a header button '🧬 Evo'.
 // Ref ADR-2026-04-23-m12-phase-a.
 
+import { t } from './i18n.js';
 import { api } from './api.js';
 
 const STATE = {
@@ -153,9 +154,9 @@ function buildOverlay() {
   overlay.id = 'forms-overlay';
   overlay.className = 'forms-overlay';
   overlay.innerHTML = `
-    <div class="forms-card" role="dialog" aria-label="Evoluzione Form">
+    <div class="forms-card" role="dialog" aria-label="${t('forms.title')}">
       <div class="forms-card-head">
-        <h2>🧬 Evoluzione Form</h2>
+        <h2>${t('forms.title')}</h2>
         <span class="unit-chip" id="forms-unit-chip">—</span>
         <button type="button" class="close-btn" id="forms-close">✕</button>
       </div>
@@ -226,8 +227,8 @@ function renderOptions(options) {
       </div>
       <div class="confidence-bar"><div class="fill" style="width:${(pct * 100).toFixed(0)}%"></div></div>
       <div class="row-bottom">
-        <span>conf ${(pct * 100).toFixed(0)}% · PE ${opt.pe_cost}/${opt.pe_available}</span>
-        <button type="button" class="evolve-btn" data-form="${opt.target_form_id}" ${opt.eligible ? '' : 'disabled'}>Evolvi</button>
+        <span>${t('forms.conf')} ${(pct * 100).toFixed(0)}% · PE ${opt.pe_cost}/${opt.pe_available}</span>
+        <button type="button" class="evolve-btn" data-form="${opt.target_form_id}" ${opt.eligible ? '' : 'disabled'}>${t('forms.btn_evolve')}</button>
       </div>
       ${reasonTxt ? `<div class="reasons">✖ ${reasonTxt}</div>` : ''}
     `;
@@ -306,7 +307,7 @@ async function handleEvolveClick(opt) {
     return;
   }
   setStatus(
-    `✓ Evoluta in ${res.data.delta.new_form_id} (${res.data.delta.label}) · PE ${res.data.delta.pe_after}`,
+    t('forms.evolved', { new_form: res.data.delta.new_form_id, label: res.data.delta.label, pe_after: res.data.delta.pe_after }),
     'ok',
   );
   // M12 Phase D — fire side-effect hook so host can render animation/popup/log.

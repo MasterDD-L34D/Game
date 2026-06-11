@@ -5,6 +5,8 @@
 //
 // API:
 //   openOnboardingPanel({ onboarding, onPick }) → Promise<option_key>
+
+import { t } from './i18n.js';
 //
 // onboarding shape (from /api/campaign/start campaign_def.onboarding):
 //   { timing_seconds, deliberation_timeout_seconds, default_choice_on_timeout,
@@ -103,7 +105,7 @@ export async function openOnboardingPanel({ onboarding, onPick } = {}) {
       card.appendChild(el('h3', { class: 'onboarding-card-label' }, [choice.label]));
       card.appendChild(el('p', { class: 'onboarding-card-narrative' }, [`"${choice.narrative}"`]));
       card.appendChild(
-        el('small', { class: 'onboarding-card-trait' }, [`Trait: ${choice.trait_id}`]),
+        el('small', { class: 'onboarding-card-trait' }, [t('onboarding.trait_label', { trait_id: choice.trait_id })]),
       );
       card.addEventListener('click', () => {
         Array.from(cardGrid.children).forEach((c) => c.classList.remove('selected'));
@@ -152,7 +154,7 @@ export async function openOnboardingPanel({ onboarding, onPick } = {}) {
     stage.innerHTML = '';
     const transition = el('div', { class: 'onboarding-transition' }, [
       el('p', { class: 'onboarding-transition-line' }, [
-        onboarding.transition?.line || 'Così sarà.',
+        onboarding.transition?.line || t('onboarding.default_transition'),
       ]),
     ]);
     stage.appendChild(transition);
