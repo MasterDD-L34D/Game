@@ -2039,18 +2039,6 @@
       "description_it": "Biofilm Iperarido permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida.",
       "description_en": "Biofilm Iperarido allow squads to synchronise allied organisms and mutualistic flows within pianura salina iperarida."
     },
-    "body-length": {
-      "label_it": "Lunghezza corpo",
-      "label_en": "Lunghezza corpo",
-      "description_it": "Lunghezza media dal muso alla base della coda per individui adulti.",
-      "description_en": "Lunghezza media dal muso alla base della coda per individui adulti."
-    },
-    "body-mass": {
-      "label_it": "Massa corporea",
-      "label_en": "Massa corporea",
-      "description_it": "Peso medio degli adulti in condizioni ottimali.",
-      "description_en": "Peso medio degli adulti in condizioni ottimali."
-    },
     "bozzolo_magnetico": {
       "label_it": "Bozzolo Magnetico",
       "label_en": "Magnetic Cocoon",
@@ -2506,12 +2494,6 @@
       "label_en": "Denti Tuning Fork",
       "description_it": "Denti Tuning Fork permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caverna risonante.",
       "description_en": "Denti Tuning Fork allow squads to redistribute load and modulate structural rigidity within caverna risonante."
-    },
-    "diet": {
-      "label_it": "Dieta prevalente",
-      "label_en": "Dieta prevalente",
-      "description_it": "Categoria alimentare prevalente osservata in natura.",
-      "description_en": "Categoria alimentare prevalente osservata in natura."
     },
     "echi_risonanti": {
       "label_it": "Echi Risonanti",
@@ -3394,12 +3376,6 @@
       "label_en": "Chemo-Sonic Systems",
       "description_it": "Mappare spazio e correnti d’aria senza vista.",
       "description_en": "Map space and airflow without sight."
-    },
-    "social-structure": {
-      "label_it": "Struttura sociale",
-      "label_en": "Struttura sociale",
-      "description_it": "Organizzazione sociale tipica rilevata in natura.",
-      "description_en": "Organizzazione sociale tipica rilevata in natura."
     },
     "sonno_emisferico_alternato": {
       "label_it": "sonno_emisferico_alternato",
