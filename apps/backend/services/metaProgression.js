@@ -742,9 +742,18 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
 
   async function getOrCreateRelation(npcId) {
     if (!usePrisma) return null;
-    const existing = await prisma.npcRelation.findUnique({
-      where: { campaignId_npcId: { campaignId, npcId } },
-    });
+    // G4 #2746 — compound unique (campaignId, npcId) has campaignId String?:
+    // the real Prisma client rejects findUnique with a null member
+    // (PrismaClientValidationError). Global store (campaignId null) must use
+    // findFirst; in Postgres NULL never collides on the unique index, so
+    // findFirst is the correct "the global row" lookup. The findFirst+create
+    // race is the same as the pre-existing findUnique+create one.
+    const existing =
+      campaignId === null
+        ? await prisma.npcRelation.findFirst({ where: { campaignId: null, npcId } })
+        : await prisma.npcRelation.findUnique({
+            where: { campaignId_npcId: { campaignId, npcId } },
+          });
     if (existing) return existing;
     return prisma.npcRelation.create({
       data: { campaignId, npcId },
@@ -818,7 +827,12 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
 
   async function getNestRecord() {
     if (!usePrisma) return null;
-    const existing = await prisma.nestState.findUnique({ where: { campaignId } });
+    // G4 #2746 — NestState.campaignId is String? @unique: real client rejects
+    // findUnique({ where: { campaignId: null } }). See getOrCreateRelation.
+    const existing =
+      campaignId === null
+        ? await prisma.nestState.findFirst({ where: { campaignId: null } })
+        : await prisma.nestState.findUnique({ where: { campaignId } });
     if (existing) return existing;
     return prisma.nestState.create({
       data: { campaignId, level: 0, biome: null, requirementsMet: false },
