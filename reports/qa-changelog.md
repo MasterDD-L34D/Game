@@ -1,18 +1,14 @@
 # QA export changelog
 
-Generato: 2026-05-29T01:06:32.371607Z
-Baseline precedente: 2026-05-10T15:06:28.062394Z
+Generato: 2026-06-12T00:11:09.302609Z
+Baseline precedente: 2026-05-29T01:06:32.371607Z
 
 ## Metriche baseline
 - Tratti totali: 254 (0 vs precedente)
-- Glossario OK: 254 (+1 vs precedente)
-- Glossario mancanti: 0 (-1 vs precedente)
+- Glossario OK: 254 (0 vs precedente)
+- Glossario mancanti: 0 (0 vs precedente)
 - Mismatch matrice: 76 (0 vs precedente)
 - Tratti con conflitti: 34 (0 vs precedente)
-
-### tratti senza glossario
-- Risolti:
-  - antenne_waveguide
 
 ## Highlights UI
 - Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
@@ -36,7 +32,7 @@ Baseline precedente: 2026-05-10T15:06:28.062394Z
 - Tratti validati: 0 (0 vs precedente)
 
 ## Badge QA
-- Tratti passed: 254 (+1 vs precedente)
+- Tratti passed: 254 (0 vs precedente)
 - Conflitti badge: 34 (0 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_
