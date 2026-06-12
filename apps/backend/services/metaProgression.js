@@ -740,24 +740,43 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
   const usePrisma = prismaSupportsMeta(prisma);
   const fallback = usePrisma ? null : createMetaTracker();
 
+  // G4 #2746 Codex P2 — Postgres unique on nullable campaign_id does NOT
+  // reject a second NULL row, so the global-store findFirst+create race can
+  // produce duplicates (unlike the non-null findUnique+create race, which
+  // fails loudly with P2002). Mitigation: serialize first-creation in-process
+  // (single backend process serves these routes) and order reads by createdAt
+  // so any stray duplicate is never read again (oldest row = canonical).
+  const GLOBAL_ROW_ORDER = [{ createdAt: 'asc' }, { id: 'asc' }];
+  const _globalRelCreate = new Map(); // npcId → in-flight create promise
+  let _globalNestCreate = null;
+
   async function getOrCreateRelation(npcId) {
     if (!usePrisma) return null;
+    if (campaignId !== null) {
+      const existing = await prisma.npcRelation.findUnique({
+        where: { campaignId_npcId: { campaignId, npcId } },
+      });
+      if (existing) return existing;
+      return prisma.npcRelation.create({
+        data: { campaignId, npcId },
+      });
+    }
     // G4 #2746 — compound unique (campaignId, npcId) has campaignId String?:
     // the real Prisma client rejects findUnique with a null member
-    // (PrismaClientValidationError). Global store (campaignId null) must use
-    // findFirst; in Postgres NULL never collides on the unique index, so
-    // findFirst is the correct "the global row" lookup. The findFirst+create
-    // race is the same as the pre-existing findUnique+create one.
-    const existing =
-      campaignId === null
-        ? await prisma.npcRelation.findFirst({ where: { campaignId: null, npcId } })
-        : await prisma.npcRelation.findUnique({
-            where: { campaignId_npcId: { campaignId, npcId } },
-          });
-    if (existing) return existing;
-    return prisma.npcRelation.create({
-      data: { campaignId, npcId },
+    // (PrismaClientValidationError). Global store must use findFirst.
+    const existing = await prisma.npcRelation.findFirst({
+      where: { campaignId: null, npcId },
+      orderBy: GLOBAL_ROW_ORDER,
     });
+    if (existing) return existing;
+    let pending = _globalRelCreate.get(npcId);
+    if (!pending) {
+      pending = prisma.npcRelation
+        .create({ data: { campaignId: null, npcId } })
+        .finally(() => _globalRelCreate.delete(npcId));
+      _globalRelCreate.set(npcId, pending);
+    }
+    return pending;
   }
 
   function toNpcShape(relation) {
@@ -827,16 +846,29 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
 
   async function getNestRecord() {
     if (!usePrisma) return null;
+    if (campaignId !== null) {
+      const existing = await prisma.nestState.findUnique({ where: { campaignId } });
+      if (existing) return existing;
+      return prisma.nestState.create({
+        data: { campaignId, level: 0, biome: null, requirementsMet: false },
+      });
+    }
     // G4 #2746 — NestState.campaignId is String? @unique: real client rejects
-    // findUnique({ where: { campaignId: null } }). See getOrCreateRelation.
-    const existing =
-      campaignId === null
-        ? await prisma.nestState.findFirst({ where: { campaignId: null } })
-        : await prisma.nestState.findUnique({ where: { campaignId } });
-    if (existing) return existing;
-    return prisma.nestState.create({
-      data: { campaignId, level: 0, biome: null, requirementsMet: false },
+    // findUnique({ where: { campaignId: null } }). See getOrCreateRelation for
+    // the null-row duplicate rationale (Codex P2).
+    const existing = await prisma.nestState.findFirst({
+      where: { campaignId: null },
+      orderBy: GLOBAL_ROW_ORDER,
     });
+    if (existing) return existing;
+    if (!_globalNestCreate) {
+      _globalNestCreate = prisma.nestState
+        .create({ data: { campaignId: null, level: 0, biome: null, requirementsMet: false } })
+        .finally(() => {
+          _globalNestCreate = null;
+        });
+    }
+    return _globalNestCreate;
   }
 
   async function canMate(npcId) {

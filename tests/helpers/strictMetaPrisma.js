@@ -16,6 +16,19 @@ function prismaValidationError(message) {
   return err;
 }
 
+function applyOrderBy(rows, orderBy) {
+  if (!orderBy) return rows;
+  const specs = Array.isArray(orderBy) ? orderBy : [orderBy];
+  return [...rows].sort((a, b) => {
+    for (const spec of specs) {
+      const [field, dir] = Object.entries(spec)[0];
+      if (a[field] < b[field]) return dir === 'desc' ? 1 : -1;
+      if (a[field] > b[field]) return dir === 'desc' ? -1 : 1;
+    }
+    return 0;
+  });
+}
+
 function makeStrictMetaPrisma() {
   const relations = [];
   const nests = [];
@@ -26,6 +39,8 @@ function makeStrictMetaPrisma() {
     nestFindUnique: 0,
     nestFindFirst: 0,
   };
+  // Monotonic createdAt so orderBy createdAt is deterministic in tests.
+  const nextCreatedAt = () => new Date(Date.UTC(2026, 0, 1, 0, 0, 0, seq));
 
   return {
     _rows: { relations, nests },
@@ -43,16 +58,15 @@ function makeStrictMetaPrisma() {
           relations.find((r) => r.campaignId === key.campaignId && r.npcId === key.npcId) || null
         );
       },
-      findFirst: async ({ where } = {}) => {
+      findFirst: async ({ where, orderBy } = {}) => {
         calls.npcFindFirst += 1;
         const w = where || {};
-        return (
-          relations.find(
-            (r) =>
-              (!('campaignId' in w) || r.campaignId === w.campaignId) &&
-              (!('npcId' in w) || r.npcId === w.npcId),
-          ) || null
+        const matches = relations.filter(
+          (r) =>
+            (!('campaignId' in w) || r.campaignId === w.campaignId) &&
+            (!('npcId' in w) || r.npcId === w.npcId),
         );
+        return applyOrderBy(matches, orderBy)[0] || null;
       },
       findMany: async ({ where } = {}) => {
         const w = where || {};
@@ -60,7 +74,8 @@ function makeStrictMetaPrisma() {
       },
       create: async ({ data }) => {
         const row = {
-          id: `rel_${seq++}`,
+          id: `rel_${seq}`,
+          createdAt: nextCreatedAt(),
           affinity: 0,
           trust: 0,
           recruited: false,
@@ -71,6 +86,7 @@ function makeStrictMetaPrisma() {
           mbtiType: null,
           ...data,
         };
+        seq += 1;
         relations.push(row);
         return row;
       },
@@ -97,19 +113,22 @@ function makeStrictMetaPrisma() {
         calls.nestFindUnique += 1;
         return nests.find((n) => n.campaignId === where.campaignId) || null;
       },
-      findFirst: async ({ where } = {}) => {
+      findFirst: async ({ where, orderBy } = {}) => {
         calls.nestFindFirst += 1;
         const w = where || {};
-        return nests.find((n) => !('campaignId' in w) || n.campaignId === w.campaignId) || null;
+        const matches = nests.filter((n) => !('campaignId' in w) || n.campaignId === w.campaignId);
+        return applyOrderBy(matches, orderBy)[0] || null;
       },
       create: async ({ data }) => {
         const row = {
-          id: `nest_${seq++}`,
+          id: `nest_${seq}`,
+          createdAt: nextCreatedAt(),
           level: 0,
           biome: null,
           requirementsMet: false,
           ...data,
         };
+        seq += 1;
         nests.push(row);
         return row;
       },
