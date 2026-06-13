@@ -117,3 +117,28 @@ test('adapter mode falls back to in-memory when no DATABASE_URL', async () => {
   const npc = await store.updateAffinity('npc_fallback_01', 1);
   assert.equal(npc.affinity, 1);
 });
+
+// ─── G4 #2746 — prisma-backed GLOBAL store (campaignId null) ───────────────
+// With Prisma+Postgres the real client rejects findUnique on null unique-key
+// members → GET /api/meta/npg and GET /api/v1/meta/nest answered 500
+// PrismaClientValidationError. Strict mock reproduces real-client semantics
+// (see tests/helpers/strictMetaPrisma.js).
+
+test('G4 #2746: GET /npg + /nest return 200 with prisma-backed global store', async () => {
+  const express = require('express');
+  const { createMetaRouter } = require('../../apps/backend/routes/meta');
+  const { makeStrictMetaPrisma } = require('../helpers/strictMetaPrisma');
+
+  const prisma = makeStrictMetaPrisma();
+  const app = express();
+  app.use(express.json());
+  app.use('/api/meta', createMetaRouter({ prisma, campaignId: null }));
+
+  const npg = await request(app).get('/api/meta/npg').expect(200);
+  assert.ok(Array.isArray(npg.body.npcs));
+  assert.equal(npg.body.nest.level, 0);
+  assert.equal(npg.body.nest.requirements_met, false);
+
+  const nest = await request(app).get('/api/meta/nest').expect(200);
+  assert.deepEqual(nest.body, { level: 0, biome: null, requirements_met: false });
+});

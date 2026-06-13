@@ -447,3 +447,96 @@ test('adapter recruit without speciesId: species_id stays undefined in shape', a
   assert.equal(result.success, true);
   assert.equal(result.npc.species_id, undefined);
 });
+
+// ─── G4 #2746 — global store (campaignId null) vs real Prisma semantics ─────
+// Real client rejects findUnique with null unique-key members
+// (PrismaClientValidationError). The strict mock reproduces that; before the
+// fix these tests blow up exactly like GET /api/meta/npg and /api/v1/meta/nest
+// did against Prisma+Postgres.
+
+const { makeStrictMetaPrisma } = require('../helpers/strictMetaPrisma');
+
+test('G4 #2746: global store getNest() works under real-client null semantics', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: null });
+  const nest = await store.getNest();
+  assert.deepEqual(nest, { level: 0, biome: null, requirements_met: false });
+  // Null scope must never hit the unique lookup (real client would throw).
+  assert.equal(prisma._calls.nestFindUnique, 0);
+});
+
+test('G4 #2746: global store getNest() reuses the single global row', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: null });
+  await store.getNest();
+  await store.getNest();
+  assert.equal(prisma._rows.nests.length, 1);
+  assert.equal(prisma._rows.nests[0].campaignId, null);
+});
+
+test('G4 #2746: global store mutation (updateAffinity) does not throw', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: null });
+  const npc = await store.updateAffinity('npc_g4', 1);
+  assert.equal(npc.npc_id, 'npc_g4');
+  assert.equal(npc.affinity, 1);
+  assert.equal(prisma._calls.npcFindUnique, 0);
+});
+
+test('G4 #2746 regression: per-campaign store keeps the findUnique path', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: 'camp-1' });
+  await store.updateAffinity('npc_a', 1);
+  const nest = await store.getNest();
+  assert.equal(nest.level, 0);
+  assert.ok(prisma._calls.npcFindUnique >= 1);
+  assert.ok(prisma._calls.nestFindUnique >= 1);
+  assert.equal(prisma._calls.npcFindFirst, 0);
+  assert.equal(prisma._calls.nestFindFirst, 0);
+});
+
+// Codex P2 (PR #2748): Postgres unique on nullable campaign_id does NOT
+// reject a second NULL row → concurrent first reads could create duplicate
+// global rows, and findFirst without ordering reads an arbitrary one.
+
+test('G4 #2746 P2: concurrent first getNest() creates a single global row', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: null });
+  await Promise.all([store.getNest(), store.getNest(), store.getNest()]);
+  assert.equal(prisma._rows.nests.length, 1);
+});
+
+test('G4 #2746 P2: stray duplicate global nest rows → reads converge on oldest', async () => {
+  const prisma = makeStrictMetaPrisma();
+  // Seed duplicates out of order: newer row first in insertion order.
+  await prisma.nestState.create({
+    data: { campaignId: null, level: 2, biome: 'tundra', createdAt: new Date('2026-02-02') },
+  });
+  await prisma.nestState.create({
+    data: { campaignId: null, level: 1, biome: 'savana', createdAt: new Date('2026-01-01') },
+  });
+  const store = createMetaStore({ prisma, campaignId: null });
+  const nest = await store.getNest();
+  assert.equal(nest.biome, 'savana'); // oldest = canonical
+  assert.equal(nest.level, 1);
+});
+
+test('G4 #2746 P2: concurrent first relation access creates a single row per npc', async () => {
+  const prisma = makeStrictMetaPrisma();
+  const store = createMetaStore({ prisma, campaignId: null });
+  await Promise.all([store.canRecruit('npc_dup'), store.canRecruit('npc_dup')]);
+  assert.equal(prisma._rows.relations.filter((r) => r.npcId === 'npc_dup').length, 1);
+});
+
+test('G4 #2746 P2: stray duplicate global relation rows → reads converge on oldest', async () => {
+  const prisma = makeStrictMetaPrisma();
+  await prisma.npcRelation.create({
+    data: { campaignId: null, npcId: 'npc_c', affinity: 2, createdAt: new Date('2026-02-02') },
+  });
+  await prisma.npcRelation.create({
+    data: { campaignId: null, npcId: 'npc_c', affinity: 0, createdAt: new Date('2026-01-01') },
+  });
+  const store = createMetaStore({ prisma, campaignId: null });
+  const npc = await store.updateAffinity('npc_c', 1);
+  assert.equal(npc.affinity, 1); // oldest row (affinity 0) +1, not newer (2)+1
+});
