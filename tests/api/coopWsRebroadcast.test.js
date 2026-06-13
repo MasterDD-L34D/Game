@@ -126,6 +126,13 @@ test('F-1: host transfer after drop rebroadcasts coop phase_change to survivors'
       2000,
     );
     assert.equal(phaseMsg.payload.phase, 'world_setup');
+    // G1 #2746 — host-transfer rebroadcast must be versioned so the Godot
+    // phone accepts it (raw broadcast frames were dropped as unknown_type).
+    assert.equal(
+      typeof phaseMsg.version,
+      'number',
+      'host-transfer phase_change must carry version',
+    );
     // Also should receive character_ready_list snapshot.
     const readyMsg = await waitForMessage(p1Ws, (m) => m.type === 'character_ready_list', 2000);
     assert.ok(Array.isArray(readyMsg.payload));
@@ -164,6 +171,54 @@ test('F-1: host transfer without coopStore is no-op (backward compat)', async ()
     // Wait past grace window and ensure room did not close unexpectedly.
     await new Promise((resolve) => setTimeout(resolve, 250));
     assert.equal(lobby.getRoom(room.code)?.hostId, p1.player_id);
+
+    p1Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('G1 #2746: fresh-join coop snapshot phase_change carries version', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+    // Drive orchestrator into world_setup so the per-socket connect snapshot
+    // emits a phase_change frame (reason: 'reconnect').
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+    orch.submitCharacter(
+      p1.player_id,
+      { name: 'Bobby', form_id: 'istj_custode' },
+      { allPlayerIds: [p1.player_id] },
+    );
+    assert.equal(orch.phase, 'world_setup');
+
+    const p1Ws = openWs(port, {
+      code: room.code,
+      player_id: p1.player_id,
+      token: p1.player_token,
+    });
+    await waitOpen(p1Ws);
+    // Snapshot phase_change is pushed right after hello on connect.
+    const snap = await waitForMessage(
+      p1Ws,
+      (m) => m.type === 'phase_change' && m.payload?.reason === 'reconnect',
+      2000,
+    );
+    assert.equal(snap.payload.phase, 'world_setup');
+    assert.equal(
+      typeof snap.version,
+      'number',
+      'fresh-join snapshot phase_change must carry version',
+    );
 
     p1Ws.close();
   } finally {

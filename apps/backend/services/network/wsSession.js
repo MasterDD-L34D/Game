@@ -999,8 +999,13 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
       // best-effort
     }
   };
+  // G1 #2746 — stamp the current stateVersion on the per-socket connect
+  // snapshot so the Godot phone accepts the phase_change frame (unversioned
+  // frames were dropped as unknown_type). This is a targeted replay, not a
+  // new event: it reflects the room's current version without bumping it.
   send({
     type: 'phase_change',
+    version: room.stateVersion ?? 0,
     payload: buildPhaseChangePayload(orch, { reason: 'reconnect' }),
   });
   if (typeof orch.characterReadyList === 'function') {
@@ -1053,10 +1058,15 @@ function rebroadcastCoopState(room, orch) {
   const connectedIds = Array.from(room.players.values())
     .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
     .map((p) => p.id);
-  room.broadcast({
-    type: 'phase_change',
-    payload: buildPhaseChangePayload(orch, { reason: 'host_transferred' }),
-  });
+  // G1 #2746 — versioned publish so the Godot phone accepts the host-transfer
+  // phase_change (raw frames were dropped as unknown_type). Fallback to raw
+  // broadcast only if the room lacks publishEvent (defensive).
+  const htPayload = buildPhaseChangePayload(orch, { reason: 'host_transferred' });
+  if (typeof room.publishEvent === 'function') {
+    room.publishEvent('phase_change', htPayload);
+  } else {
+    room.broadcast({ type: 'phase_change', payload: htPayload });
+  }
   if (typeof orch.characterReadyList === 'function') {
     room.broadcast({
       type: 'character_ready_list',
