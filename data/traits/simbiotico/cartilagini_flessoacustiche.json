@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.cartilagini_flessoacustiche.debolezza",
+  "famiglia_tipologia": "Simbiotico/Cooperativo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "cartilagini_flessoacustiche",
+  "label": "i18n:traits.cartilagini_flessoacustiche.label",
+  "mutazione_indotta": "i18n:traits.cartilagini_flessoacustiche.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Cartilagini Flessoacustiche ottimizza le operazioni simbiotico nelle condizioni di caverna risonante.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "mucillagine_simbionte_mangrovie",
+    "nodi_micorrizici_oracolari"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "cooperazione",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.cartilagini_flessoacustiche.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.cartilagini_flessoacustiche.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

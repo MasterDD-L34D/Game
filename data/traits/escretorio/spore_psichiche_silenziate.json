@@ -1,0 +1,86 @@
+{
+  "conflitti": [
+    "respiro_a_scoppio"
+  ],
+  "debolezza": "i18n:traits.spore_psichiche_silenziate.debolezza",
+  "famiglia_tipologia": "Escretorio/Psichico",
+  "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
+  "id": "spore_psichiche_silenziate",
+  "label": "i18n:traits.spore_psichiche_silenziate.label",
+  "mutazione_indotta": "i18n:traits.spore_psichiche_silenziate.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "empatia_coordinativa",
+    "cervello_a_bassa_latenza",
+    "tattiche_di_branco",
+    "campo_di_interferenza_acustica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "cap_pt",
+      "starter_bioma",
+      "job_ability:invoker/sincronia"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "INFJ",
+      "INTJ"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "B",
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "psichico",
+    "core": "escretorio"
+  },
+  "spinta_selettiva": "i18n:traits.spore_psichiche_silenziate.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.spore_psichiche_silenziate.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "sustain"
+  ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

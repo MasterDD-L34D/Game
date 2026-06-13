@@ -1,0 +1,66 @@
+{
+  "id": "scivolamento_magnetico",
+  "label": "i18n:traits.scivolamento_magnetico.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "integumento_bipolare"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.scivolamento_magnetico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.scivolamento_magnetico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.scivolamento_magnetico.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "velocita_max",
+      "value": 4,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Percorre 50 m su sabbia in 20 s",
+    "scene_prompt": "Cronometra su tre substrati diversi"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Sfrutta vene ferromagnetiche e superfici metalliche presenti in rovine terrestri per creare portanza."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000304"
+    ]
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "terrestre"
+  },
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "debolezza": "i18n:traits.scivolamento_magnetico.debolezza"
+}

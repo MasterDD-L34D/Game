@@ -1,0 +1,59 @@
+{
+  "id": "metabolismo_di_condivisione_energetica",
+  "label": "i18n:traits.metabolismo_di_condivisione_energetica.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Fisiologico/Metabolico",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "corna_psico_conduttive"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.metabolismo_di_condivisione_energetica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.metabolismo_di_condivisione_energetica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.metabolismo_di_condivisione_energetica.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "consumo_o2",
+      "value": 50,
+      "unit": "L/min"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Ripristino FC di infortunato accelerato",
+    "scene_prompt": "Misura lattato prima/dopo contatto"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Le riserve energetiche si scambiano facilmente in colonie ravvicinate che convivono in tane terrestri."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "metabolico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.metabolismo_di_condivisione_energetica.debolezza"
+}

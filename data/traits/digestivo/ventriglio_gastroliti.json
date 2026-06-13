@@ -1,0 +1,66 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.ventriglio_gastroliti.debolezza",
+  "famiglia_tipologia": "Digestivo/Alimentare",
+  "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+  "id": "ventriglio_gastroliti",
+  "label": "i18n:traits.ventriglio_gastroliti.label",
+  "mutazione_indotta": "i18n:traits.ventriglio_gastroliti.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_dustsense",
+    "appendici_thermotattiche",
+    "batteri_endosimbionti_chemio",
+    "branchie_solfatiche",
+    "carapace_segmenti_logici",
+    "circolazione_cooling_loop",
+    "coda_stabilizzatrice_filo",
+    "cuticole_cerose",
+    "enzimi_chelanti",
+    "filamenti_digestivi_compattanti",
+    "flagelli_ancoranti",
+    "ghiandole_grafene",
+    "grassi_termici",
+    "luminescenza_aurorale"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "alimentare",
+    "core": "digestivo"
+  },
+  "spinta_selettiva": "i18n:traits.ventriglio_gastroliti.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.ventriglio_gastroliti.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

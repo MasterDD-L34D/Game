@@ -1,0 +1,82 @@
+# =============================================================================
+# Encounter: "Solo Contro il Branco" — Skiv personal Goal 1
+# Difficulty: 4/5 · Grid: 8x8 · Bioma: savana
+# Skiv (dune_stalker Lv 4 mature) solo vs 3 Pulverator (1 alpha + 2 beta).
+# Win: NON eliminazione → survive 5 round + mark alpha (target_zone surrogate).
+# Fail (party_wipe): Skiv KO → wounded_perma cicatrice persistent durata sessione.
+#
+# Source: docs/planning/2026-04-27-skiv-personal-sprint-handoff.md §2 Goal 1
+# Pattern source: enc_savana_pack_clash (party vs pack) inverso solo + survival.
+# Schema: schemas/evo/encounter.schema.json (objective.type=survival).
+#
+# Win/Fail mapping (schema-compliant):
+#   objective.type: survival
+#   objective.survive_turns: 5  (tag pack alpha verificato post-encounter via
+#                                target.status.marked > 0 — handoff custom_win:
+#                                {survive_rounds: 5, mark_alpha: true})
+#   objective.loss_conditions.player_wipe: true
+#     → on player_wipe runtime applica wounded_perma a Skiv via woundedPerma.js
+#       hook (apps/backend/services/combat/woundedPerma.js, persistence map
+#       session.lastMissionWoundedPerma cross-encounter).
+#
+# Calibration target: win 35-45% (durissimo). Vedi
+#   tools/py/batch_calibrate_skiv_solo_pack.py + report
+#   docs/playtest/2026-04-28-skiv-solo-pack-calibration.md.
+# =============================================================================
+
+encounter_id: enc_savana_skiv_solo_vs_pack
+name: 'Solo Contro il Branco'
+biome_id: savana
+grid_size: [8, 8]
+difficulty_rating: 4
+estimated_turns: 7
+encounter_class: hardcore
+
+objective:
+  type: survival
+  survive_turns: 5
+  loss_conditions:
+    player_wipe: true
+
+# Skiv Lv 4 mature al centro griglia. Pulverator pack convergono close-range
+# da N/S/E (Manhattan 3-4) per garantire pressure 1° round.
+player_spawn:
+  - [3, 3]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [4, 5]
+      - [6, 3]
+      - [3, 6]
+    units:
+      - species: pulverator_gregarius
+        count: 1
+        tier: apex
+        ai_profile: aggressive
+      - species: pulverator_gregarius
+        count: 2
+        tier: elite
+        ai_profile: balanced
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 4
+
+tags: [standard]
+
+didactic_focus:
+  - solo_survival
+  - mark_alpha
+  - wounded_perma_consequence
+
+narrative:
+  briefing_ink: stories/skiv_solo_vs_pack_briefing.ink.json
+  debrief_ink: stories/skiv_solo_vs_pack_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: tensione_mistero
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

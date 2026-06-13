@@ -1,0 +1,69 @@
+{
+  "id": "scheletro_pneumatico_a_maglie",
+  "label": "i18n:traits.scheletro_pneumatico_a_maglie.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "cinghia_iper_ciliare",
+    "canto_infrasonico_tattico",
+    "rete_filtro_polmonare",
+    "siero_anti_gelo_naturale"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.scheletro_pneumatico_a_maglie.mutazione_indotta",
+  "uso_funzione": "i18n:traits.scheletro_pneumatico_a_maglie.uso_funzione",
+  "spinta_selettiva": "i18n:traits.scheletro_pneumatico_a_maglie.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 20,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Spostamento 5 km senza affaticamento eccessivo",
+    "scene_prompt": "Test su piastra di forza per massa apparente"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Le maglie pneumatiche dissipano urti da cadute e balzi su terreno terrestre irregolare."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "terrestre"
+  },
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "debolezza": "i18n:traits.scheletro_pneumatico_a_maglie.debolezza"
+}

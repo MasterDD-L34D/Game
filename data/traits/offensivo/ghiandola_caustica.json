@@ -1,0 +1,81 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.ghiandola_caustica.debolezza",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
+  "id": "ghiandola_caustica",
+  "label": "i18n:traits.ghiandola_caustica.label",
+  "mutazione_indotta": "i18n:traits.ghiandola_caustica.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Secrezioni caustiche contrastano muffe e liane delle foreste miceliali, sterilizzando il passaggio."
+      }
+    }
+  ],
+  "sinergie": [
+    "enzimi_chelanti",
+    "respiro_a_scoppio",
+    "campo_di_interferenza_acustica",
+    "sistemi_chimio_sonici"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "guardia_situazionale",
+      "sigillo_forma"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ISTP",
+      "ESTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A"
+  ],
+  "slot_profile": {
+    "complementare": "assalto",
+    "core": "offensivo"
+  },
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    }
+  ],
+  "spinta_selettiva": "i18n:traits.ghiandola_caustica.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.ghiandola_caustica.uso_funzione",
+  "usage_tags": [
+    "breaker"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

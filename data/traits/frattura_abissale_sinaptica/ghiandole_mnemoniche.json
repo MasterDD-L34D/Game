@@ -1,0 +1,36 @@
+{
+  "id": "ghiandole_mnemoniche",
+  "label": "i18n:traits.ghiandole_mnemoniche.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Supporto/Copia",
+  "fattore_mantenimento_energetico": "Medio: le secrezioni mnesiche vanno rigenerate e distribuite.",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.ghiandole_mnemoniche.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ghiandole_mnemoniche.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ghiandole_mnemoniche.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T2",
+        "notes": "Attive nella soglia crepuscolare per conservare ricordi stabili dentro la foschia psionica."
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.ghiandole_mnemoniche.debolezza"
+}

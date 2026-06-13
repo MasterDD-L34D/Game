@@ -1,0 +1,5 @@
+
+> docs:lint
+> python tools/check_site_links.py docs
+
+Tutti i collegamenti interni risultano validi.

@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.sensori_geomagnetici.debolezza",
+  "famiglia_tipologia": "Sensoriale/Navigazione",
+  "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
+  "id": "sensori_geomagnetici",
+  "label": "i18n:traits.sensori_geomagnetici.label",
+  "mutazione_indotta": "i18n:traits.sensori_geomagnetici.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "pianure_magnetiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_fase_variabile",
+    "eco_interno_riflesso"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "navigazione",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.sensori_geomagnetici.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.sensori_geomagnetici.uso_funzione",
+  "usage_tags": [
+    "scout"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "pianure_magnetiche"
+  ],
+  "data_origin": "controllo_psionico"
+}

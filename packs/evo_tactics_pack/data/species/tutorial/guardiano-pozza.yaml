@@ -1,0 +1,62 @@
+id: guardiano_pozza
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Guardiano della Pozza
+display_name_en: Pond Warden
+biomes:
+  - mangrovieto_cinetico
+  - paludi_gas_luminescenti
+role_trofico: predatore_acquatico_agile
+functional_tags:
+  - nemico_tutorial
+  - skirmisher_ranged
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+  tutorial_phantom: true
+path: ../../packs/evo_tactics_pack/data/species/tutorial/guardiano-pozza.yaml
+balance:
+  rarity: R1
+  threat_tier: T2
+  encounter_role: threat
+playable_unit: false
+morphotype: anfibio_agile
+jobs_bias:
+  - skirmisher
+combat_baseline:
+  hp: 3
+  ap: 2
+  mod: 2
+  dc: 11
+  attack_range: 2
+  guardia: 0
+  ai_profile: aggressive
+variants:
+  - role: lanciere
+    hp: 5
+    ap: 2
+    mod: 3
+    dc: 12
+    traits:
+      - denti_seghettati
+  - role: corriere
+    hp: 3
+    ap: 3
+    mod: 2
+    dc: 11
+used_in_encounters:
+  - enc_tutorial_04
+description: |
+  Guardiano anfibio della pozza, range 2. Tre varianti nel tutorial 04:
+  lanciere (tank con bleeding via denti_seghettati), corriere (mobile ap 3).
+  Introdurre status bleeding via trait.
+  Stub M5-#3 (P0-D audit fix 2026-04-19).
+receipt:
+  source: M5-#3.stub
+  author: claude-agent
+  date: '2026-04-19'
+  note: phantom species stub, baseline estratto da tutorialScenario.js

@@ -1,0 +1,64 @@
+{
+  "conflitti": [
+    "polmoni_cristallini_alta_quota"
+  ],
+  "debolezza": "i18n:traits.branchie_osmotiche_salmastra.debolezza",
+  "famiglia_tipologia": "Respiratorio/Osmoregolazione",
+  "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
+  "id": "branchie_osmotiche_salmastra",
+  "label": "i18n:traits.branchie_osmotiche_salmastra.label",
+  "mutazione_indotta": "i18n:traits.branchie_osmotiche_salmastra.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "delta_salmastri"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Estuari psionici dove l'acqua dolce e marina si mescolano creando gradienti forti.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "mucillagine_simbionte_mangrovie",
+    "scheletro_idro_regolante"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/Symbiosis",
+      "boardgame:DominantSpecies/Adaptation",
+      "hud:EstuarioPsi"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Amfibio_Oracolare"
+    ],
+    "tabelle_random": [
+      "tabella:osmosi_psionica"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "osmoregolazione",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "i18n:traits.branchie_osmotiche_salmastra.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.branchie_osmotiche_salmastra.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "delta_salmastri"
+  ],
+  "data_origin": "controllo_psionico"
+}

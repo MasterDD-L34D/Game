@@ -1,0 +1,60 @@
+# Mapping legacy biome identifiers to new canonical biomes.
+# Each alias entry must resolve to a key present in data/core/biomes.yaml.
+aliases:
+  "Foresta temperata umida":
+    canonical: foresta_miceliale
+    status: legacy
+    notes: "Classe climatica legacy delle specie VC, riallineata al profilo miceliale aggiornato."
+  foresta_temperata_umida:
+    canonical: foresta_miceliale
+    status: legacy
+    notes: "Variante snake_case della foresta temperata umida utilizzata nei patch pack."
+  foresta_temperata:
+    canonical: foresta_miceliale
+    status: migrated
+    notes: "Slug storico VC migrato sulla Foresta Miceliale con rete fungina espansa."
+  badlands:
+    canonical: dorsale_termale_tropicale
+    status: migrated
+    notes: "Vecchie badlands ferromagnetiche riallineate alla nuova dorsale termale tropicale."
+  deserto_caldo:
+    canonical: abisso_vulcanico
+    status: migrated
+    notes: "Slug caldo aurorale sostituito dal nuovo profilo Abisso Vulcanico."
+  cryosteppe:
+    canonical: mezzanotte_orbitale
+    status: migrated
+    notes: "Classe permafrost legacy collegata alla stazione Mezzanotte Orbitale."
+  savanna:
+    canonical: savana
+    notes: "Forma inglese mantenuta per retro-compatibilità con canvas storici."
+  caverna_risonante:
+    canonical: caverna
+    notes: "Alias storico per la Caverna Risonante."
+  stratosfera:
+    canonical: stratosfera_tempestosa
+    notes: "Slug abbreviato usato negli snapshot precedenti della stratosfera."
+  canopia_psionica_leggera:
+    canonical: canopia_ionica
+    status: expansion
+    notes: "Nodo T1 per le colture psioniche leggere, collegato alla canopia ionica verticale."
+  falde_magnetiche_psioniche:
+    canonical: dorsale_termale_tropicale
+    status: expansion
+    notes: "Classe T2 che sfrutta le dorsali termali per amplificare i gradienti magnetici psionici."
+  orbita_psionica_inversa:
+    canonical: mezzanotte_orbitale
+    status: expansion
+    notes: "Classe T3 apex ambientata nella Mezzanotte Orbitale e nei suoi loop gravitazionali."
+  sinaptic_trench:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Alias operativo per la Frattura Abissale Sinaptica e le sue dorsali fotofase."
+  trench_sinaptico_profondo:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Variante deepwater per referenziare la Frattura Nera e i cori voidsong."
+  scarpata_fotofase:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Alias T1 legato alle creste superficiali luminescenti del nuovo bioma."

@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.vello_condensatore_nebbie.debolezza",
+  "famiglia_tipologia": "Tegumentario/Idratazione",
+  "fattore_mantenimento_energetico": "Basso (Strutture passive a microfilo)",
+  "id": "vello_condensatore_nebbie",
+  "label": "i18n:traits.vello_condensatore_nebbie.label",
+  "mutazione_indotta": "i18n:traits.vello_condensatore_nebbie.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foreste_nubose"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Canopie immerse in nebbia costante con risonanza umida e lampi bioluminescenti.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "bulbi_radici_permafrost"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "idratazione",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "i18n:traits.vello_condensatore_nebbie.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.vello_condensatore_nebbie.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foreste_nubose"
+  ],
+  "data_origin": "controllo_psionico"
+}

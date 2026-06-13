@@ -1,0 +1,57 @@
+{
+  "conflitti": [
+    "criostasi_adattiva"
+  ],
+  "debolezza": "i18n:traits.piume_solari_fotovoltaiche.debolezza",
+  "famiglia_tipologia": "Tegumentario/Energetico",
+  "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
+  "id": "piume_solari_fotovoltaiche",
+  "label": "i18n:traits.piume_solari_fotovoltaiche.label",
+  "mutazione_indotta": "i18n:traits.piume_solari_fotovoltaiche.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "altipiani_solari"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Altipiani ad alta insolazione dove le correnti psioniche amplificano la luce.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "membrane_eliofiltranti",
+    "sacche_spore_stratosferiche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "energetico",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "i18n:traits.piume_solari_fotovoltaiche.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.piume_solari_fotovoltaiche.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "altipiani_solari"
+  ],
+  "data_origin": "controllo_psionico"
+}

@@ -1,0 +1,255 @@
+{
+  "waves": {
+    "duration_minutes": 23.299999999999997,
+    "breakdown": [
+      {
+        "wave": 1,
+        "base_xp": 120.0,
+        "bonus_xp": 0.0,
+        "total_xp": 120.0
+      },
+      {
+        "wave": 2,
+        "base_xp": 138.0,
+        "bonus_xp": 0.0,
+        "total_xp": 138.0
+      },
+      {
+        "wave": 3,
+        "base_xp": 156.0,
+        "bonus_xp": 45.0,
+        "total_xp": 201.0
+      },
+      {
+        "wave": 4,
+        "base_xp": 174.0,
+        "bonus_xp": 0.0,
+        "total_xp": 174.0
+      },
+      {
+        "wave": 5,
+        "base_xp": 192.0,
+        "bonus_xp": 0.0,
+        "total_xp": 192.0
+      },
+      {
+        "wave": 6,
+        "base_xp": 210.0,
+        "bonus_xp": 105.0,
+        "total_xp": 315.0
+      }
+    ],
+    "base_total_xp": 1425.0
+  },
+  "difficulties": {
+    "story": {
+      "scalar": 0.82,
+      "target": {
+        "xp_total": 1175,
+        "duration_minutes": 23.3,
+        "level_gain": 1.02
+      },
+      "classes": {
+        "sentinel": {
+          "total_xp": 1168.5,
+          "wave_breakdown": [
+            98.4,
+            113.16,
+            164.82,
+            142.68,
+            157.44,
+            258.3
+          ],
+          "completion_component": 233.7,
+          "target_xp": 1175,
+          "delta_vs_target_pct": -0.5532,
+          "xp_per_minute": 50.1502
+        },
+        "helix": {
+          "total_xp": 1209.3975,
+          "wave_breakdown": [
+            101.844,
+            117.1206,
+            170.5887,
+            147.6738,
+            162.9504,
+            267.3405
+          ],
+          "completion_component": 241.8795,
+          "target_xp": 1175,
+          "delta_vs_target_pct": 2.9274,
+          "xp_per_minute": 51.9055
+        },
+        "cipher": {
+          "total_xp": 1127.6025,
+          "wave_breakdown": [
+            94.956,
+            109.1994,
+            159.0513,
+            137.6862,
+            151.9296,
+            249.2595
+          ],
+          "completion_component": 225.5205,
+          "target_xp": 1175,
+          "delta_vs_target_pct": -4.0338,
+          "xp_per_minute": 48.395
+        }
+      },
+      "average_total_xp": 1168.5
+    },
+    "standard": {
+      "scalar": 1.0,
+      "target": {
+        "xp_total": 1425,
+        "duration_minutes": 23.3,
+        "level_gain": 1.28
+      },
+      "classes": {
+        "sentinel": {
+          "total_xp": 1425.0,
+          "wave_breakdown": [
+            120.0,
+            138.0,
+            201.0,
+            174.0,
+            192.0,
+            315.0
+          ],
+          "completion_component": 285.0,
+          "target_xp": 1425,
+          "delta_vs_target_pct": 0.0,
+          "xp_per_minute": 61.1588
+        },
+        "helix": {
+          "total_xp": 1474.875,
+          "wave_breakdown": [
+            124.2,
+            142.83,
+            208.035,
+            180.09,
+            198.72,
+            326.025
+          ],
+          "completion_component": 294.975,
+          "target_xp": 1425,
+          "delta_vs_target_pct": 3.5,
+          "xp_per_minute": 63.2994
+        },
+        "cipher": {
+          "total_xp": 1375.125,
+          "wave_breakdown": [
+            115.8,
+            133.17,
+            193.965,
+            167.91,
+            185.28,
+            303.975
+          ],
+          "completion_component": 275.025,
+          "target_xp": 1425,
+          "delta_vs_target_pct": -3.5,
+          "xp_per_minute": 59.0182
+        }
+      },
+      "average_total_xp": 1425.0
+    },
+    "veteran": {
+      "scalar": 1.17,
+      "target": {
+        "xp_total": 1675,
+        "duration_minutes": 23.3,
+        "level_gain": 1.52
+      },
+      "classes": {
+        "sentinel": {
+          "total_xp": 1667.25,
+          "wave_breakdown": [
+            140.4,
+            161.46,
+            235.17,
+            203.58,
+            224.64,
+            368.55
+          ],
+          "completion_component": 333.45,
+          "target_xp": 1675,
+          "delta_vs_target_pct": -0.4627,
+          "xp_per_minute": 71.5558
+        },
+        "helix": {
+          "total_xp": 1725.6036,
+          "wave_breakdown": [
+            145.314,
+            167.1111,
+            243.4009,
+            210.7053,
+            232.5024,
+            381.4492
+          ],
+          "completion_component": 345.1207,
+          "target_xp": 1675,
+          "delta_vs_target_pct": 3.0211,
+          "xp_per_minute": 74.0602
+        },
+        "cipher": {
+          "total_xp": 1608.8961,
+          "wave_breakdown": [
+            135.486,
+            155.8089,
+            226.939,
+            196.4547,
+            216.7776,
+            355.6507
+          ],
+          "completion_component": 321.7792,
+          "target_xp": 1675,
+          "delta_vs_target_pct": -3.9465,
+          "xp_per_minute": 69.0513
+        }
+      },
+      "average_total_xp": 1667.2499
+    }
+  },
+  "profiles": {
+    "helix_cipher": {
+      "label": "Helix + Cipher (support blend)",
+      "notes": "Tuning VC 12/11: pesi 55/45 per misurare la copertura Cipher durante i picchi Aeon.",
+      "mix": {
+        "cipher": 0.45,
+        "helix": 0.55
+      },
+      "targets": {
+        "story": {
+          "xp_total": 1175.0
+        },
+        "standard": {
+          "xp_total": 1430.0
+        },
+        "veteran": {
+          "xp_total": 1675.0
+        }
+      },
+      "difficulties": {
+        "story": {
+          "total_xp": 1172.5898,
+          "target_xp": 1175.0,
+          "delta_vs_target_pct": -0.2051,
+          "xp_per_minute": 50.3257
+        },
+        "standard": {
+          "total_xp": 1429.9875,
+          "target_xp": 1430.0,
+          "delta_vs_target_pct": -0.0009,
+          "xp_per_minute": 61.3729
+        },
+        "veteran": {
+          "total_xp": 1673.0852,
+          "target_xp": 1675.0,
+          "delta_vs_target_pct": -0.1143,
+          "xp_per_minute": 71.8062
+        }
+      }
+    }
+  }
+}

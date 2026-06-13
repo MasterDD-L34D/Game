@@ -1,0 +1,250 @@
+{
+  "_meta": {
+    "locale": "en",
+    "language_name": "English",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-04-17",
+    "completion_percent": 5
+  },
+  "ui": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "save": "Save",
+    "load": "Load",
+    "settings": "Settings",
+    "exit": "Exit",
+    "loading": "Loading…"
+  },
+  "menu": {
+    "new_game": "New Game",
+    "continue": "Continue",
+    "load_game": "Load Game",
+    "settings": "Settings",
+    "credits": "Credits",
+    "quit": "Quit Game"
+  },
+  "combat": {
+    "your_turn": "Your Turn",
+    "system_turn": "System Turn",
+    "round": "Round {n}",
+    "hit": "Hit",
+    "miss": "Miss",
+    "critical": "Critical!",
+    "blocked": "Blocked",
+    "dodged": "Dodged",
+    "attack": "Attack",
+    "move": "Move",
+    "defend": "Defend",
+    "ability": "Ability",
+    "end_turn": "End Turn",
+    "damage_dealt": "Damage dealt: {n}",
+    "damage_taken": "Damage taken: {n}",
+    "hp_remaining": "HP: {current} / {max}"
+  },
+  "status": {
+    "panic": "Panic",
+    "rage": "Rage",
+    "stunned": "Stunned",
+    "focused": "Focused",
+    "confused": "Confused",
+    "bleeding": "Bleeding",
+    "fracture": "Fracture"
+  },
+  "objective": {
+    "elimination": "Eliminate all enemies",
+    "capture_point": "Hold the point for {n} turns",
+    "escort": "Protect {target}",
+    "sabotage": "Sabotage within {n} turns",
+    "survival": "Survive {n} turns",
+    "escape": "Reach the exit"
+  },
+  "objective_short": {
+    "elimination": "Eliminate enemies",
+    "capture_point": "Hold the zone",
+    "escort": "Escort the target",
+    "sabotage": "Sabotage",
+    "survival": "Survive",
+    "escape": "Escape"
+  },
+  "mbti_axis": {
+    "E_I": "Extraversion ⇄ Introversion",
+    "S_N": "Sensing ⇄ Intuition",
+    "T_F": "Thinking ⇄ Feeling",
+    "J_P": "Judging ⇄ Perceiving"
+  },
+  "result": {
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "draw": "Draw",
+    "retry": "Retry",
+    "continue_story": "Continue Story"
+  },
+  "settings": {
+    "category_gameplay": "Gameplay",
+    "category_audio": "Audio",
+    "category_video": "Video",
+    "category_controls": "Controls",
+    "category_accessibility": "Accessibility",
+    "category_language": "Language",
+    "volume_master": "Master Volume",
+    "volume_music": "Music",
+    "volume_sfx": "Sound Effects",
+    "difficulty": "Difficulty",
+    "language_select": "Select Language"
+  },
+  "errors": {
+    "network_offline": "No network connection",
+    "save_failed": "Save failed",
+    "load_failed": "Load failed",
+    "invalid_action": "Invalid action",
+    "out_of_range": "Out of range",
+    "not_enough_pt": "Not enough PT"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "normal": "Normal",
+    "hard": "Hard",
+    "nightmare": "Nightmare"
+  },
+  "accessibility": {
+    "deaf_hoh_enabled": "Deaf/HoH mode enabled",
+    "colorblind_enabled": "Colorblind mode enabled",
+    "reduce_motion_enabled": "Reduce motion enabled"
+  },
+  "biome_label": {
+    "savana": "Savanna",
+    "caverna": "Cavern",
+    "caverna_risonante": "Resonant Cavern",
+    "caverna_sotterranea": "Underground Cavern",
+    "foresta": "Forest",
+    "pianura_aperta": "Open Plain",
+    "rovine_planari": "Planar Ruins",
+    "abisso_vulcanico": "Volcanic Abyss",
+    "atollo_obsidiana": "Obsidian Atoll",
+    "cattedrale_apex": "Apex Cathedral",
+    "frattura_stellare": "Stellar Fracture"
+  },
+  "biome_eco": {
+    "low": "Calm biome",
+    "med": "Balanced biome",
+    "high": "Tense biome"
+  },
+  "biome_wounded": {
+    "label": "Wounded biome",
+    "tooltip": "it bears the scars of a failed expedition; the ecosystem reacts more harshly"
+  },
+  "overcharge_hint": {
+    "label": "The System reacts to your stolen tempo"
+  },
+  "ennea_archetype": {
+    "1": "Reformer",
+    "2": "Coordinator",
+    "3": "Conqueror",
+    "4": "Individualist",
+    "5": "Architect",
+    "6": "Loyalist",
+    "7": "Explorer",
+    "8": "Hunter",
+    "9": "Stoic"
+  },
+  "ennea_beat": {
+    "victory_solo": "Victory",
+    "defeat_critical": "Defeat",
+    "combat_attack_committed": "Attack",
+    "combat_defense_braced": "Defense",
+    "exploration_new_tile": "Exploration",
+    "low_hp_warning": "Crisis"
+  },
+  "ennea_desc": {
+    "1": "Methodical setup, high precision.",
+    "2": "Team cohesion.",
+    "3": "Aggression and risk.",
+    "4": "Resilience in the critical zone.",
+    "5": "Methodical strategy, low risk.",
+    "6": "Vigilance and active support.",
+    "7": "Discovery and mobility.",
+    "8": "Targeted hit-and-run.",
+    "9": "Endurance under pressure."
+  },
+  "voice_tier": {
+    "whisper": "whisper",
+    "voice": "voice",
+    "shout": "shout"
+  },
+  "mbti_axis_detail": {
+    "E_I": {
+      "label": "Social energy",
+      "lo": "Extraversion",
+      "hi": "Introversion"
+    },
+    "S_N": {
+      "label": "Perception",
+      "lo": "Intuition",
+      "hi": "Sensing"
+    },
+    "T_F": {
+      "label": "Decision",
+      "lo": "Feeling",
+      "hi": "Thinking"
+    },
+    "J_P": {
+      "label": "Style",
+      "lo": "Perceiving",
+      "hi": "Judging"
+    }
+  },
+  "ability": {
+    "empty": "No ability for {job}",
+    "title": "Abilities - {job}",
+    "cost_ap": "AP {ap}",
+    "cost_pi": "PI {pi}",
+    "self": "self"
+  },
+  "forms": {
+    "title": "Form Evolution",
+    "evolved": "Evolved into {new_form} ({label}) - PE {pe_after}",
+    "btn_evolve": "Evolve",
+    "conf": "conf"
+  },
+  "help": {
+    "title": "How to play",
+    "close_tooltip": "Close (ESC)",
+    "section_objective": "Objective",
+    "objective_desc": "Survive the System. Reduce all enemy HP (red diamonds) to 0 before the System reduces yours (blue triangles) to 0.",
+    "section_controls": "Controls",
+    "ctrl_select": "<b>Click your unit</b> (blue) → select",
+    "ctrl_move": "<b>Click empty cell</b> → move (1 AP per cell)",
+    "ctrl_attack": "<b>Click enemy</b> (red) → basic attack (1 AP)",
+    "ctrl_ability": "<b>Click ability</b> (bottom bar) → select skill, then click target",
+    "ctrl_end": "<b>End turn</b> → pass turn to System",
+    "ctrl_cancel": "<b>ESC</b> → cancel pending ability / pending action",
+    "ctrl_help": "<b>?</b> → open/close this panel",
+    "section_resources": "Scores and resources",
+    "res_hp": "<b>HP</b> (bar above unit): life. At 0 = KO.",
+    "res_ap": "<b>AP</b> (Action Points): action budget per turn. Attack = 1 AP, move N cells = N AP.",
+    "res_pt": "<b>PT</b> (Pressure): the top bar shows the System's pressure. The higher it goes, the more aggressive the System becomes (tier Calm → Vigilant → Aggressive → Apex).",
+    "section_icons": "Unit icons",
+    "icon_player": "<b>Blue triangle</b> = your unit",
+    "icon_system": "<b>Red diamond</b> = System (enemy)",
+    "icon_intent": "<b>Red fist above enemy</b> = attack intent next turn",
+    "icon_warn": "<b>Orange exclamation mark</b> = panic status",
+    "icon_stun": "<b>Purple star</b> = stunned",
+    "icon_bleed": "<b>Pink moon</b> = bleeding",
+    "section_tactics": "Tactical tips",
+    "tac_coord": "<b>Coordinate</b>: 2+ players same target same turn = focus-fire combo (+1 damage)",
+    "tac_ap": "<b>Abilities use AP</b>: read the cost before spending",
+    "tac_terrain": "<b>Terrain matters</b>: grass/stone cells give defense bonus",
+    "tac_system": "<b>System learns</b>: if you are aggressive, it will become aggressive",
+    "footer": "Press <kbd>?</kbd> or <kbd>ESC</kbd> to close."
+  },
+  "onboarding": {
+    "trait_label": "Trait: {trait_id}",
+    "default_transition": "So it shall be."
+  }
+}

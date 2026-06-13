@@ -1,0 +1,80 @@
+# =============================================================================
+# Encounter: "Ultimo Fiato" — Survival Hardcore
+# Difficulty: 4/5 · Grid: 8×8 · Bioma: caverna (canonical biomes.yaml)
+# Objective: sopravvivere 10 turni contro wave continue.
+# Pilastro coverage: 1 (tattica leggibile) — obiettivo endurance
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-20 (objective evaluator survival)
+# =============================================================================
+
+encounter_id: enc_survival_01
+name: 'Ultimo Fiato'
+biome_id: caverna
+grid_size: [8, 8]
+difficulty_rating: 4
+estimated_turns: 10
+# M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
+encounter_class: hardcore
+
+objective:
+  type: survival
+  survive_turns: 10
+  loss_conditions:
+    player_wipe: true
+
+player_spawn:
+  - [3, 3]
+  - [3, 4]
+  - [4, 3]
+  - [4, 4]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [0, 0]
+      - [7, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: aggressive
+
+  - wave_id: 2
+    turn_trigger: 3
+    spawn_points:
+      - [7, 0]
+      - [0, 7]
+    units:
+      - species: predoni_nomadi
+        count: 2
+        tier: base
+        ai_profile: balanced
+
+  - wave_id: 3
+    turn_trigger: 6
+    spawn_points:
+      - [0, 3]
+      - [7, 4]
+    units:
+      - species: predoni_nomadi
+        count: 1
+        tier: elite
+        ai_profile: aggressive
+
+conditions: []
+
+tags: [survival, standard]
+
+didactic_focus:
+  - endurance
+  - ap_economy
+  - position_retention
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: claustrofobia
+  lighting: bassa_puntiforme
+  particle_effect: bioluminescenza_drift

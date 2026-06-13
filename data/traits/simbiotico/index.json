@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "simbiotico"
+      ]
+    }
+  },
+  "traits": [
+    "antenne_reagenti",
+    "artigli_scivolo_silente",
+    "biofilm_iperarido",
+    "bulbi_radici_permafrost",
+    "camere_nutrienti_vent",
+    "cartilagini_flessoacustiche",
+    "chioma_parassita_canopica",
+    "ciste_salmastre",
+    "coralli_partner",
+    "denti_silice_termici",
+    "epitelio_fosforescente",
+    "ghiandole_cambio_salino",
+    "ghiandole_nebbia_acida",
+    "lamelle_sincroniche",
+    "membrane_planata_vectored",
+    "mucillagine_simbionte_mangrovie",
+    "nodi_micorrizici_oracolari",
+    "sacche_spore_stratosferiche",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "type": "simbiotico"
+}

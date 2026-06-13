@@ -1,0 +1,65 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.bulbi_radici_permafrost.debolezza",
+  "famiglia_tipologia": "Simbiotico/Nutrizione",
+  "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
+  "id": "bulbi_radici_permafrost",
+  "label": "i18n:traits.bulbi_radici_permafrost.label",
+  "mutazione_indotta": "i18n:traits.bulbi_radici_permafrost.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "permafrost_psionico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Suoli congelati con vene energetiche che alimentano radici coscienti.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "chioma_parassita_canopica",
+    "nodi_micorrizici_oracolari",
+    "vello_condensatore_nebbie"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:DominantSpecies/Fertility",
+      "boardgame:Evolution/Cooperation",
+      "hud:RootMesh_Psi"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Archivio_Subglaciale",
+      "HUD:Radice_Proxy"
+    ],
+    "tabelle_random": [
+      "tabella:riserva_empatica"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nutrizione",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.bulbi_radici_permafrost.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.bulbi_radici_permafrost.uso_funzione",
+  "usage_tags": [
+    "support",
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "permafrost_psionico"
+  ],
+  "data_origin": "controllo_psionico"
+}

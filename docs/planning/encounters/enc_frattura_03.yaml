@@ -1,0 +1,113 @@
+# =============================================================================
+# Encounter Prototipo 3: Hard — "Il Canto dello Strappo"
+# Difficulty: 5/5 · Grid: 12×12 · Bioma: frattura_abissale_sinaptica
+# Scopo: multi-obiettivo, 3+ wave, StressWave, status, tutte le meccaniche
+# Schema: schemas/evo/encounter.schema.json
+#
+# NOTE: Original design had 3 branching objectives (disinnescare/accordo/fuga).
+# Schema supports single objective — using survival as primary.
+# Multi-objective design preserved in docs/planning/ narrative docs.
+# =============================================================================
+
+encounter_id: enc_frattura_03
+name: 'Il Canto dello Strappo'
+biome_id: frattura_abissale_sinaptica
+grid_size: [12, 12]
+difficulty_rating: 5
+estimated_turns: 16
+# M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
+# Multi-wave survival, no singolo boss — damage scaling enemy-wide.
+encounter_class: hardcore
+
+objective:
+  type: survival
+  survive_turns: 12
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [0, 7]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [6, 2]
+      - [6, 9]
+      - [4, 5]
+    units:
+      - species: araldi_fotofase
+        count: 2
+        tier: base
+        affixes: [luminescente]
+        ai_profile: patrol
+      - species: sciami_memetici
+        count: 1
+        tier: base
+        affixes: [sinaptico]
+        ai_profile: aggressive
+
+  - wave_id: 2
+    turn_trigger: 4
+    spawn_points:
+      - [8, 1]
+      - [8, 10]
+    units:
+      - species: sciami_memetici
+        count: 2
+        tier: elite
+        affixes: [sinaptico, elettrico_profondo]
+        ai_profile: flanking
+
+  - wave_id: 3
+    turn_trigger: 8
+    spawn_points:
+      - [11, 3]
+      - [11, 8]
+    units:
+      - species: leviatani_risonanti
+        count: 1
+        tier: apex
+        affixes: [gravitazionale, pressione_estrema]
+        ai_profile: territorial
+      - species: cori_voidsong
+        count: 2
+        tier: elite
+        affixes: [sinaptico]
+        ai_profile: support
+
+  - wave_id: 4
+    turn_trigger: 12
+    spawn_points:
+      - [5, 0]
+      - [5, 11]
+    units:
+      - species: custodi_coralli
+        count: 2
+        tier: elite
+        affixes: [luminescente, pressione_estrema]
+        ai_profile: aggressive
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 4
+  - type: stress_wave
+    trigger_turn: 6
+    effect: terrain_deform
+  - type: stress_wave
+    trigger_turn: 10
+    effect: gravitic_inversion
+  - type: terrain_collapse
+    trigger_turn: 3
+    effect: memory_fog
+
+tags: [boss, survival, storm]
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: tensione_mistero
+  lighting: bassa_bioluminescente
+  particle_effect: onde_sinaptiche
+  accent_override: '#3d1e5a'

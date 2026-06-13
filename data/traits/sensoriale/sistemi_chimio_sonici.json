@@ -1,0 +1,62 @@
+{
+  "id": "sistemi_chimio_sonici",
+  "label": "i18n:traits.sistemi_chimio_sonici.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "locomozione_miriapode_ibrida",
+    "ghiandola_caustica"
+  ],
+  "conflitti": [
+    "estroflessione_gastrica_acida"
+  ],
+  "mutazione_indotta": "i18n:traits.sistemi_chimio_sonici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.sistemi_chimio_sonici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.sistemi_chimio_sonici.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "banda_uditiva_max",
+      "value": 120000,
+      "unit": "Hz"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Evita ostacoli a 10 m in fumo denso",
+    "scene_prompt": "Tunnel con curve cieche + generatore di fumo"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Combina feromoni e impulsi sonici che si diffondono bene nell'aria e nel sottobosco terrestri."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "sensoriale",
+    "complementare": "uditivoolfattivo"
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.sistemi_chimio_sonici.debolezza"
+}

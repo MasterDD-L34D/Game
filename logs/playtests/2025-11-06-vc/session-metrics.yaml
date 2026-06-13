@@ -1,0 +1,11 @@
+session_id: "validation-2025-11-06"
+build_attempted: "client-r2821a"
+status: "blocked"
+blockers:
+  - "Client build non disponibile nell'ambiente di test; impossibile aggiornare da client-r2821."
+  - "Scenario BAL-03 non eseguibile senza applicazione."
+notes:
+  - "Documentazione SESSION-2025-02-26.md non riporta i passaggi dettagliati per setup BAL-03/ondata 4; necessari chiarimenti dal team QA."
+  - "Fix pathfinding (#143) da validare in un ambiente con il client."
+log_archives: []
+telemetry_exports: []

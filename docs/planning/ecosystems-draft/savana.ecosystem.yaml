@@ -1,0 +1,21 @@
+schema_version: 1.0
+ecosistema:
+  id: SAVANA
+  label: Savana
+  biome_id: savana
+  trofico:
+    produttori:
+    - arbusti_xerofili
+    - cianobatteri
+    consumatori:
+      primari:
+      - arenaceros-placidus
+      secondari: []
+      terziari:
+      - dune-stalker
+      - arenavolux-sagittalis
+      - pulverator-gregarius
+    decompositori: []
+_provenance:
+  trofico: d4-ecoyaml-gen-heuristic-DRAFT
+  produttori: d4-producer-selection-claude-reuse-first-DRAFT

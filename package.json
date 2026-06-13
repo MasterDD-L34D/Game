@@ -1,0 +1,78 @@
+{
+  "name": "game-monorepo-shim",
+  "private": true,
+  "workspaces": [
+    "apps/backend",
+    "apps/mission-console",
+    "apps/play",
+    "packages/*",
+    "tools/ts",
+    "services/eventsScheduler"
+  ],
+  "scripts": {
+    "dev:stack": "node scripts/run-dev-stack.cjs",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test:backend",
+    "test:docs-generator": "npx vitest run --config vitest.config.docs-generator.ts",
+    "test:web": "npm run test:web --workspace tools/ts",
+    "test:backend": "npm run test:api",
+    "test:stack": "node scripts/run-test-stack.cjs",
+    "lint:stack": "node scripts/lint-stack.mjs",
+    "lint:backups": "node tools/check_backups_binary.js",
+    "schema:lint": "python tools/automation/evo_schema_lint.py schemas/evo",
+    "i18n:check": "python tools/py/validate_i18n_parity.py --root data/i18n",
+    "i18n:check:strict": "python tools/py/validate_i18n_parity.py --root data/i18n --strict",
+    "ci:stack": "npm run lint:stack && npm run test:backend",
+    "test:api": "node scripts/run-test-api.cjs",
+    "test:load:lobby": "npx artillery@2.0.31 run tests/load/lobby-flood.yml",
+    "start:api": "node apps/backend/index.js",
+    "start:console": "node scripts/serve-mission-console.mjs",
+    "docs:lint": "python tools/check_site_links.py docs",
+    "docs:smoke": "node scripts/docs-smoke.js",
+    "docs:governance:check": "python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --report reports/docs/governance_drift_report.json",
+    "docs:governance:strict": "python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --report reports/docs/governance_drift_report.json --strict",
+    "build:idea-taxonomy": "node scripts/build-idea-taxonomy.js",
+    "drive:generate-approved": "node tools/drive/generate-approved-assets.mjs",
+    "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
+    "drive-sync": "node tools/drive/sync-approved-assets.mjs",
+    "stage:publishing": "node services/publishing/staging.js",
+    "export:qa": "node scripts/run-export-qa.cjs",
+    "build:evo-tactics-pack": "node scripts/build_evo_tactics_pack_dist.mjs",
+    "build:evo-tactics-pack:offline": "node scripts/build_evo_tactics_pack_dist.mjs --offline-stub",
+    "preview:docs-generator": "node scripts/preview_evo_tactics_pack_dist.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "style:check": "node scripts/trait_style_check.js",
+    "prepare": "node scripts/husky-install.cjs",
+    "sync:evo-pack": "node scripts/update_evo_pack_catalog.js && node scripts/sync_evo_pack_assets.js",
+    "docs:scan": "python tools/docs_governance_migrator.py scan --report reports/docs/migration_scan.json",
+    "docs:migrate": "python tools/docs_governance_migrator.py generate-frontmatter",
+    "docs:migrate:dry": "python tools/docs_governance_migrator.py generate-frontmatter --dry-run",
+    "docs:migrate:report": "python tools/docs_governance_migrator.py report",
+    "play:dev": "npm run dev --workspace apps/play",
+    "play:build": "npm run build --workspace apps/play",
+    "demo:build": "npm run build --workspace apps/play",
+    "demo:start": "node scripts/run-demo.cjs",
+    "demo": "npm run demo:build && npm run demo:start",
+    "demo:tunnel": "node scripts/run-demo-tunnel.cjs"
+  },
+  "lint-staged": {
+    "*.{js,cjs,mjs,ts,tsx,jsx,json,md,yml,yaml,css,html}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "ajv-cli": "^5.0.0",
+    "husky": "^9.1.6",
+    "js-yaml": "^4.1.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.3.3",
+    "supertest": "^6.3.4",
+    "tsx": "^4.19.0",
+    "wait-on": "^8.0.2"
+  },
+  "dependencies": {
+    "inkjs": "^2.4.0",
+    "xstate": "^5.30.0"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.lamelle_sincroniche.debolezza",
+  "famiglia_tipologia": "Simbiotico/Cooperativo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "lamelle_sincroniche",
+  "label": "i18n:traits.lamelle_sincroniche.label",
+  "mutazione_indotta": "i18n:traits.lamelle_sincroniche.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "steppe_algoritmiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Lamelle Sincroniche ottimizza le operazioni simbiotico nelle condizioni di steppe algoritmiche.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "mucillagine_simbionte_mangrovie",
+    "nodi_micorrizici_oracolari"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "cooperazione",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "i18n:traits.lamelle_sincroniche.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.lamelle_sincroniche.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "steppe_algoritmiche"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

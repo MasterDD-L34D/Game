@@ -1,0 +1,36 @@
+{
+  "id": "bioantenne_gravitiche",
+  "label": "i18n:traits.bioantenne_gravitiche.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Sensore/Gravitazionale",
+  "fattore_mantenimento_energetico": "Alto: le antenne restano polarizzate sullo shear gravitazionale continuo.",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.bioantenne_gravitiche.mutazione_indotta",
+  "uso_funzione": "i18n:traits.bioantenne_gravitiche.uso_funzione",
+  "spinta_selettiva": "i18n:traits.bioantenne_gravitiche.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T3",
+        "notes": "Attive nella frattura nera, dove i gradienti gravitazionali forniscono il segnale portante per mantenere il coro di fondo."
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.bioantenne_gravitiche.debolezza"
+}

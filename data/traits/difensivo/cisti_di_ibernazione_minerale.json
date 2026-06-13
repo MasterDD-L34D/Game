@@ -1,0 +1,60 @@
+{
+  "id": "cisti_di_ibernazione_minerale",
+  "label": "i18n:traits.cisti_di_ibernazione_minerale.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Difensivo/Resistenze",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "moltiplicazione_per_fusione",
+    "fagocitosi_assorbente"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.cisti_di_ibernazione_minerale.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cisti_di_ibernazione_minerale.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cisti_di_ibernazione_minerale.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "tolleranza_termica",
+      "value": 120,
+      "unit": "K"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Sopravvive a 80 Cel per 10 min",
+    "scene_prompt": "Test termico/pressione con risveglio successivo"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Le cisti si mineralizzano compattando sedimenti terrestri a protezione durante l'ibernazione."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "resistenze"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.cisti_di_ibernazione_minerale.debolezza"
+}

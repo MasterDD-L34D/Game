@@ -1,0 +1,59 @@
+{
+  "id": "rostro_linguale_prensile",
+  "label": "i18n:traits.rostro_linguale_prensile.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Manipolativo/Alimentare",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "coda_prensile_muscolare"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.rostro_linguale_prensile.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rostro_linguale_prensile.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rostro_linguale_prensile.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "lunghezza_estensione",
+      "value": 2,
+      "unit": "m"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Estrae oggetto a 2 m in 3 s",
+    "scene_prompt": "Recupero uovo da cavità senza frattura"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "La lingua prensile si aggancia a crepe e tronchi terrestri per estrarre prede e resina."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "manipolativo",
+    "complementare": "alimentare"
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.rostro_linguale_prensile.debolezza"
+}

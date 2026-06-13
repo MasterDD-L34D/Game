@@ -1,0 +1,426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.schemas.local/trait.schema.json",
+  "title": "Trait (definizione base)",
+  "description": "Schema canonico per le voci in data/traits.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "label",
+    "famiglia_tipologia",
+    "fattore_mantenimento_energetico",
+    "tier",
+    "slot",
+    "sinergie",
+    "conflitti",
+    "mutazione_indotta",
+    "uso_funzione",
+    "spinta_selettiva"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/trait_id",
+      "description": "Identificatore canonico uguale al nome file."
+    },
+    "label": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Nome localizzato del tratto (riferimento i18n o stringa senza spazi di bordo)."
+    },
+    "famiglia_tipologia": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$",
+      "description": "Macro-tipologia funzionale nel formato <Macro>/<Sotto>."
+    },
+    "fattore_mantenimento_energetico": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Costo narrativo/energetico del tratto."
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^T[1-6]$",
+      "description": "Tier di progressione (formato Tn)."
+    },
+    "slot": {
+      "type": "array",
+      "description": "Slot occupati dal tratto (può essere vuoto).",
+      "items": {
+        "$ref": "#/$defs/slot_letter"
+      },
+      "uniqueItems": true
+    },
+    "slot_profile": {
+      "$ref": "#/$defs/slot_profile"
+    },
+    "sinergie": {
+      "type": "array",
+      "description": "Lista di ID di trait sinergici.",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true
+    },
+    "conflitti": {
+      "type": "array",
+      "description": "Lista di ID di trait in conflitto.",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true
+    },
+    "biome_tags": {
+      "type": "array",
+      "description": "Elenco di biomi secondari o affinità ambientali.",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true
+    },
+    "requisiti_ambientali": {
+      "type": "array",
+      "description": "Vincoli ambientali opzionali.",
+      "items": {
+        "$ref": "#/$defs/requisito_ambientale"
+      }
+    },
+    "mutazione_indotta": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Descrizione sintetica della mutazione (i18n o stringa ripulita)."
+    },
+    "uso_funzione": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Uso o funzione principale."
+    },
+    "spinta_selettiva": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Motivazione evolutiva o tattica."
+    },
+    "species_affinity": {
+      "type": "array",
+      "description": "Elenco di specie associate al tratto con ruoli e pesi normalizzati.",
+      "items": {
+        "$ref": "#/$defs/species_affinity_entry"
+      }
+    },
+    "debolezza": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Limitazioni o vulnerabilità note."
+    },
+    "sinergie_pi": {
+      "$ref": "#/$defs/sinergie_pi"
+    },
+    "usage_tags": {
+      "type": "array",
+      "description": "Tag normalizzati per ruolo tattico/funzionale (es. scout, breaker).",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true
+    },
+    "data_origin": {
+      "$ref": "#/$defs/slug",
+      "description": "Identificatore del pacchetto o fonte editoriale del tratto."
+    },
+    "completion_flags": {
+      "type": "object",
+      "description": "Indicatori booleani per segnalare lacune editoriali o collegamenti completati.",
+      "additionalProperties": false,
+      "properties": {
+        "has_biome": {
+          "type": "boolean",
+          "description": "True se il tratto ha vincoli o tag di bioma compilati."
+        },
+        "has_species_link": {
+          "type": "boolean",
+          "description": "True se il tratto è collegato a una o più specie."
+        }
+      },
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "type": "boolean"
+        }
+      }
+    },
+    "morph_structure": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Descrizione sintetica della struttura morfologica."
+    },
+    "primary_function": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Funzione primaria in linguaggio libero o riferimento i18n."
+    },
+    "cryptozoo_name": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Nome colloquiale o in codice usato sul campo."
+    },
+    "functional_description": {
+      "$ref": "#/$defs/i18n_or_trimmed",
+      "description": "Descrizione funzionale estesa."
+    },
+    "metrics": {
+      "type": "array",
+      "description": "Lista di metriche quantitative associate al tratto.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value", "unit"],
+        "properties": {
+          "name": {
+            "$ref": "#/$defs/trimmed_string"
+          },
+          "value": {
+            "type": ["number", "string"]
+          },
+          "unit": {
+            "$ref": "#/$defs/ucum_unit",
+            "description": "Unità UCUM normalizzata (es. m/s, Cel, 1)."
+          },
+          "conditions": {
+            "type": "string",
+            "pattern": "^\\S(?:.*\\S)?$"
+          }
+        }
+      }
+    },
+    "metabolic_cost": {
+      "type": "string",
+      "enum": ["Basso", "Medio", "Alto"]
+    },
+    "cost_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "burst": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "sustained": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        }
+      }
+    },
+    "trigger": {
+      "$ref": "#/$defs/i18n_or_trimmed"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trimmed_string"
+      }
+    },
+    "ecological_impact": {
+      "$ref": "#/$defs/i18n_or_trimmed"
+    },
+    "output_effects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trimmed_string"
+      }
+    },
+    "testability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observable": {
+          "$ref": "#/$defs/trimmed_string"
+        },
+        "scene_prompt": {
+          "$ref": "#/$defs/trimmed_string"
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trimmed_string"
+          }
+        },
+        "envo_terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^http://purl\\.obolibrary\\.org/obo/ENVO_\\d+$"
+          }
+        },
+        "notes": {
+          "$ref": "#/$defs/trimmed_string"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$",
+      "description": "Versione SemVer del tratto."
+    },
+    "versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created", "updated", "author"],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": {
+          "$ref": "#/$defs/trimmed_string"
+        }
+      }
+    },
+    "notes": {
+      "$ref": "#/$defs/trimmed_string"
+    }
+  },
+  "$defs": {
+    "trait_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "species_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "trimmed_string": {
+      "type": "string",
+      "pattern": "^\\S(?:.*\\S)?$"
+    },
+    "i18n_or_trimmed": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$"
+    },
+    "ucum_unit": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9%*/._^()\\[\\]\\-\u00b7\u22c5]+$"
+    },
+    "slot_letter": {
+      "type": "string",
+      "pattern": "^[A-Z]$"
+    },
+    "species_affinity_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["species_id", "roles", "weight"],
+      "properties": {
+        "species_id": {
+          "$ref": "#/$defs/species_id"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slug"
+          }
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "slot_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core", "complementare"],
+      "properties": {
+        "core": {
+          "$ref": "#/$defs/trimmed_string"
+        },
+        "complementare": {
+          "$ref": "#/$defs/trimmed_string"
+        }
+      }
+    },
+    "requisito_ambientale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condizioni", "fonte"],
+      "properties": {
+        "capacita_richieste": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "condizioni": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["biome_class"],
+          "properties": {
+            "biome_class": {
+              "$ref": "#/$defs/slug"
+            }
+          }
+        },
+        "fonte": {
+          "$ref": "#/$defs/slug"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "expansion": {
+              "$ref": "#/$defs/slug"
+            },
+            "tier": {
+              "type": "string",
+              "pattern": "^T[1-6]$"
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "sinergie_pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["co_occorrenze", "combo_totale", "forme", "tabelle_random"],
+      "properties": {
+        "co_occorrenze": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "combo_totale": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "forme": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "tabelle_random": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

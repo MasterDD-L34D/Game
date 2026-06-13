@@ -1,0 +1,22 @@
+{
+  "id": "TKT-CROSS-TUNIC-DECIPHER-CODEX",
+  "title": "Tunic decipher Codex pages — narrative-decifrabile sopra Hades Codex panel",
+  "pillar": "cross-cutting",
+  "effort_hours": 5,
+  "donor_game": {
+    "name": "Tunic",
+    "tier": "indie-research",
+    "matrix_anchor": "docs/research/2026-04-27-indie-concept-rubabili.md (pending push)"
+  },
+  "agent_owner": "narrative-design-illuminator",
+  "status": "merged",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md#h4",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Decision codified 2026-04-27 §H.4 ADOPT (TOP RECOMMENDATION ROI 8/10). Codex entry pages con glyph language progressively-decipherable. Layer sopra Hades Codex panel spec'd (M-2026-04-27-005 economy-hades-multi-currency-pact-menu). Fits A.L.I.E.N.A. wiki in-game progressiva. Player sblocca decifrazione via gameplay events (kills enemy archetype X N volte → unlock 1 glyph famiglia). Inizio: 5 glyph pilot + 1 page sample. Cross-pillar P4 (MBTI hints in glyph art) + cross-narrative.",
+  "blockers": [],
+  "museum_card": "docs/museum/cards/economy-hades-multi-currency-pact-menu.md",
+  "merged_pr": 1937,
+  "merged_at": "2026-04-27"
+}

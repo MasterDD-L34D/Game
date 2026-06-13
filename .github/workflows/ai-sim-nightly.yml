@@ -1,0 +1,327 @@
+name: AI Sim Nightly
+
+# FASE 5 — nightly autonomous AI-vs-AI batch sim per drift detection.
+# Esegue tools/sim/batch-ai-runner.js sul backend locale (no tunnel
+# Cloudflare in CI), aggrega summary.json, confronta WR per-profile vs
+# baseline threshold + emette notifica via GitHub Issue su regression.
+#
+# Trigger:
+#   - cron 02:00 UTC daily
+#   - workflow_dispatch (manual)
+#
+# Outputs:
+#   - artifact `ai-sim-nightly-<run_id>` con runs/ + summary.json + report.md
+#   - GitHub Issue label `ai-sim-regression` se WR drift > 10pp OR completion < 95%
+#
+# Cross-ref:
+#   - tools/sim/batch-ai-runner.js (batch worker)
+#   - tests/smoke/ai-driven-sim.js (per-run sim harness)
+#   - packs/evo_tactics_pack/data/balance/ai_profiles.yaml (profile keys)
+#   - docs/research/2026-05-09-k4-commit-window-implementation.md (current baseline)
+
+on:
+  schedule:
+    # 02:00 UTC every day — off-peak, 10h after master-dd typical session end.
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      seed_count:
+        description: 'Seed count per profile'
+        type: number
+        default: 40
+      profiles:
+        description: 'Comma-separated profile keys'
+        type: string
+        default: 'aggressive,balanced,cautious'
+      max_rounds:
+        description: 'Max rounds per sim'
+        type: number
+        default: 40
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  # Baseline thresholds (PR #2149 verdict 2026-05-09):
+  #   aggressive (utility ON + commit_window 2)  100% WR  — alert <90% (ΔWR -10pp)
+  #   balanced                                   100% WR  — alert <90%
+  #   cautious                                   ~85% WR  — alert <75%
+  # Completion gate: ALL profiles must have completion_rate >= 0.95
+  # Drift gate: any profile WR shift > ±10pp vs canonical baseline
+  WR_DRIFT_THRESHOLD_PP: '10'
+  COMPLETION_RATE_FLOOR: '0.95'
+  # Lobby WS port. Source canonical: apps/backend/index.js:48 `LOBBY_WS_PORT || '3341'`.
+  # NIT-1 fix 2026-05-10: workflow-level env reference (single source override) vs
+  # hardcoded literal nelle step env. Future CI override = edit single line here.
+  LOBBY_WS_PORT: '3341'
+
+jobs:
+  sim:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start backend
+        run: |
+          mkdir -p /tmp/ai-sim-nightly
+          PORT=3334 nohup node apps/backend/index.js > /tmp/ai-sim-nightly/backend.log 2>&1 &
+          echo $! > /tmp/ai-sim-nightly/backend.pid
+          # Wait for health endpoint
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3334/api/health > /dev/null 2>&1; then
+              echo "Backend ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3334/api/health || (cat /tmp/ai-sim-nightly/backend.log; exit 1)
+
+      - name: Run AI batch sweep
+        id: sweep
+        env:
+          TUNNEL: http://127.0.0.1:3334
+          # Lobby WS port: top-level env LOBBY_WS_PORT (default 3341).
+          # Cloudflare tunnel collapses HTTP+WS onto one host; CI direct
+          # localhost keeps them split → must override explicitly.
+          AI_SIM_WS_URL: ws://127.0.0.1:${{ env.LOBBY_WS_PORT }}/ws
+          AI_SIM_LOG_DIR: /tmp/ai-sim-nightly/runs-tmp
+        run: |
+          mkdir -p /tmp/ai-sim-runs
+          SEEDS="${{ github.event.inputs.seed_count || 40 }}"
+          PROFILES="${{ github.event.inputs.profiles || 'aggressive,balanced,cautious' }}"
+          MAX_ROUNDS="${{ github.event.inputs.max_rounds || 40 }}"
+          node tools/sim/batch-ai-runner.js \
+            --seed-count "$SEEDS" \
+            --concurrency 2 \
+            --profiles "$PROFILES" \
+            --max-rounds "$MAX_ROUNDS"
+          # batch-ai-runner emits to /tmp/ai-sim-runs/batch-<ISO>/
+          BATCH_DIR=$(ls -dt /tmp/ai-sim-runs/batch-* | head -1)
+          echo "batch_dir=$BATCH_DIR" >> $GITHUB_OUTPUT
+          cp -r "$BATCH_DIR" /tmp/ai-sim-nightly/batch-current
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f /tmp/ai-sim-nightly/backend.pid ]; then
+            kill "$(cat /tmp/ai-sim-nightly/backend.pid)" 2>/dev/null || true
+          fi
+
+      - name: Evaluate thresholds
+        id: eval
+        run: |
+          # Disable bash -e for this step so a non-zero exit from
+          # check-thresholds.js (regression detected) does not abort
+          # the run before STATUS capture + GITHUB_OUTPUT write.
+          # NIT-3 2026-05-10: check-thresholds.js exit-code contract:
+          #   exit 0 = clean (all profiles within tolerance)
+          #   exit 1 = regression (drift > wr-drift-pp OR completion < floor)
+          # See `tools/sim/check-thresholds.js` line 17-19 header comment.
+          set +e
+          node tools/sim/check-thresholds.js \
+            --summary /tmp/ai-sim-nightly/batch-current/summary.json \
+            --completion-floor "${COMPLETION_RATE_FLOOR}" \
+            --wr-drift-pp "${WR_DRIFT_THRESHOLD_PP}" \
+            --out /tmp/ai-sim-nightly/threshold-report.md \
+            >> $GITHUB_STEP_SUMMARY
+          STATUS=$?
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          if [ $STATUS -ne 0 ]; then
+            echo "regression=true" >> $GITHUB_OUTPUT
+          else
+            echo "regression=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      # Envelope A A5 — playtest #2 telemetry bridge + analyzer.
+      # Runs AFTER batch + threshold eval, BEFORE artifact upload, so the
+      # analyzer report + machine JSON ride along in the same artifact.
+      # No workflow_dispatch of other workflows; rides this existing cron.
+      # Synthetic sim runs count toward the analyzer --min-sample 30 gate
+      # (no userland required). First ~5 nightly runs are baseline-bootstrap
+      # — this step does NOT add regression gating (no `exit 1` here);
+      # the existing check-thresholds.js remains the only WR drift gate.
+      - name: Playtest #2 telemetry bridge + analyzer
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          BATCH_DIR=/tmp/ai-sim-nightly/batch-current
+          if [ ! -d "$BATCH_DIR/runs" ]; then
+            echo "No batch runs dir ($BATCH_DIR/runs) — skipping playtest #2 analysis"
+            exit 0
+          fi
+          node tools/sim/telemetry-bridge.js --in "$BATCH_DIR"
+          DATE=$(date -u +%Y-%m-%d)
+          REPORT="/tmp/ai-sim-nightly/playtest-2-report-${DATE}.md"
+          METRICS="/tmp/ai-sim-nightly/playtest-2-metrics-${DATE}.json"
+          python tools/py/playtest_2_analyzer.py \
+            --telemetry "$BATCH_DIR/playtest-2-telemetry.jsonl" \
+            --output "$REPORT" \
+            --json-out "$METRICS" \
+            --min-sample 30
+          echo "## Playtest #2 analyzer" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          sed -n '1,24p' "$REPORT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "$METRICS" > /tmp/ai-sim-nightly/.metrics-path
+
+      # Envelope B / B1+B3 — pillar-metric regression baselines + bootstrap
+      # guard. Reads the analyzer metrics.json, compares vs the committed
+      # rolling baseline (tools/sim/pillar-baseline.json), folds this run in
+      # with --update. PT2-D: the first BOOTSTRAP_MIN runs only accumulate
+      # (script suppresses alerts itself; exit 0). Not a hard gate here —
+      # surfaces via issue (B3) / board delta (B4).
+      - name: Pillar regression baselines
+        id: pillar
+        if: always()
+        continue-on-error: true
+        run: |
+          set +e
+          METRICS=$(cat /tmp/ai-sim-nightly/.metrics-path 2>/dev/null || true)
+          if [ -z "$METRICS" ] || [ ! -f "$METRICS" ]; then
+            echo "No analyzer metrics.json — skipping pillar baselines"
+            echo "pillar_alert=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          PREV_VERDICT=$(node -e "try{console.log(require('./tools/sim/pillar-baseline.json').verdict||'')}catch{console.log('')}")
+          node tools/sim/check-pillar-baselines.js \
+            --metrics "$METRICS" \
+            --baseline tools/sim/pillar-baseline.json \
+            --out /tmp/ai-sim-nightly/pillar-report-${DATE}.md \
+            --status-out /tmp/ai-sim-nightly/pillar-status.json \
+            --update \
+            >> $GITHUB_STEP_SUMMARY
+          STATUS=$?
+          ALERT=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').alert?'true':'false')}catch{console.log('false')}")
+          NEW_VERDICT=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').verdict||'')}catch{console.log('')}")
+          VCHG=$(node -e "try{console.log(require('/tmp/ai-sim-nightly/pillar-status.json').verdict_changed?'true':'false')}catch{console.log('false')}")
+          echo "pillar_alert=$ALERT" >> $GITHUB_OUTPUT
+          echo "verdict_changed=$VCHG" >> $GITHUB_OUTPUT
+          echo "prev_verdict=$PREV_VERDICT" >> $GITHUB_OUTPUT
+          echo "new_verdict=$NEW_VERDICT" >> $GITHUB_OUTPUT
+          # B4 — cross-repo board delta. The workflow GITHUB_TOKEN is
+          # repo-scoped to Game and CANNOT open a PR to codemasterdd, so we
+          # do NOT fake an automated cross-repo PR. Instead, on a verdict
+          # change, write a board-delta handoff doc into the artifact; the
+          # codemasterdd EXECUTION-BOARD.md row (OD-044) is synced via a
+          # manual/cron PR using that delta as the source of truth.
+          if [ "$VCHG" = "true" ]; then
+            DELTA=/tmp/ai-sim-nightly/playtest-2-board-delta-${DATE}.md
+            {
+              echo "# playtest#2 board delta — ${DATE}"
+              echo ""
+              echo "**OD-044 pillar verdict change**: \`${PREV_VERDICT:-<bootstrap>}\` → \`${NEW_VERDICT}\`"
+              echo ""
+              echo "Sync target: \`MasterDD-L34D/codemasterdd-ai-station\` →"
+              echo "\`docs/cross-repo/EXECUTION-BOARD.md\` row **playtest#2 automation (OD-044)**."
+              echo ""
+              echo "This is a MANUAL-HANDOFF step: the Game workflow token is"
+              echo "repo-scoped and cannot PR cross-repo. Open the codemasterdd"
+              echo "PR from this delta (or via the periodic board-sync cron)."
+              echo ""
+              echo '## Pillar status snapshot'
+              echo '```json'
+              cat /tmp/ai-sim-nightly/pillar-status.json
+              echo '```'
+            } > "$DELTA"
+            echo "board_delta=$DELTA" >> $GITHUB_OUTPUT
+          fi
+
+      # B3 — commit the updated rolling baseline + generated report via PR,
+      # NOT auto-commit to main (PT2-C). Token is contents+PR scoped.
+      - name: Open baseline-update PR
+        if: github.event_name == 'schedule' && steps.pillar.outputs.pillar_alert != ''
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          DATE=$(date -u +%Y-%m-%d)
+          if git diff --quiet -- tools/sim/pillar-baseline.json; then
+            echo "Baseline unchanged — no PR needed"
+            exit 0
+          fi
+          BRANCH="auto/playtest2-baseline-${DATE}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          mkdir -p docs/playtest
+          cp "/tmp/ai-sim-nightly/playtest-2-report-${DATE}.md" "docs/playtest/playtest-2-${DATE}.md" 2>/dev/null || true
+          git add tools/sim/pillar-baseline.json docs/playtest/playtest-2-${DATE}.md 2>/dev/null || git add tools/sim/pillar-baseline.json
+          git commit -m "chore(playtest2): nightly pillar baseline + report ${DATE}"
+          git push origin "$BRANCH" --force
+          gh pr create \
+            --title "playtest#2 nightly baseline ${DATE}" \
+            --body "Automated rolling pillar baseline update + analyzer report. Generated by ai-sim-nightly (PT2-C: PR delivery, never auto-commit to main)." \
+            --label "playtest-2,automated" \
+            --base main --head "$BRANCH" \
+            --repo "${{ github.repository }}" || echo "PR may already exist for $BRANCH"
+
+      - name: Open pillar regression issue
+        if: steps.pillar.outputs.pillar_alert == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          BODY=$(cat /tmp/ai-sim-nightly/pillar-report-${DATE}.md)
+          TITLE="playtest#2 pillar regression — $DATE"
+          # Reuse existing issues:write token (no new perms). Update an open
+          # issue with the same label set if present, else create one.
+          EXISTING=$(gh issue list --repo "${{ github.repository }}" \
+            --label "playtest-2,automated" --state open \
+            --search "pillar regression" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "${{ github.repository }}" --body "$BODY"
+          else
+            gh issue create --title "$TITLE" --body "$BODY" \
+              --label "playtest-2,automated" --repo "${{ github.repository }}"
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-sim-nightly-${{ github.run_id }}
+          path: |
+            /tmp/ai-sim-nightly/batch-current/
+            /tmp/ai-sim-nightly/threshold-report.md
+            /tmp/ai-sim-nightly/playtest-2-report-*.md
+            /tmp/ai-sim-nightly/playtest-2-metrics-*.json
+            /tmp/ai-sim-nightly/pillar-report-*.md
+            /tmp/ai-sim-nightly/pillar-status.json
+            /tmp/ai-sim-nightly/playtest-2-board-delta-*.md
+            /tmp/ai-sim-nightly/backend.log
+          retention-days: 14
+
+      - name: Open regression issue
+        if: steps.eval.outputs.regression == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          BODY=$(cat /tmp/ai-sim-nightly/threshold-report.md)
+          gh issue create \
+            --title "AI sim nightly regression — $DATE" \
+            --body "$BODY" \
+            --label "ai-sim-regression,automated" \
+            --repo "${{ github.repository }}"
+
+      - name: Fail job on regression
+        if: steps.eval.outputs.regression == 'true'
+        run: |
+          echo "::error::AI sim nightly regression detected — see issue + artifact"
+          exit 1

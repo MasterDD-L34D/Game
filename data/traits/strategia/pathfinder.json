@@ -1,0 +1,87 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.pathfinder.debolezza",
+  "famiglia_tipologia": "Esplorazione/Tattico",
+  "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+  "id": "pathfinder",
+  "label": "i18n:traits.pathfinder.label",
+  "mutazione_indotta": "i18n:traits.pathfinder.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Ottimizzato per seguire gallerie e radici intrecciate tipiche dei biomi miceliali, evitando sacche di spore."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_microonde_cavernose",
+    "biofilm_glow",
+    "camere_mirage",
+    "colonne_vibromagnetiche",
+    "membrane_captura_rugiada",
+    "ghiaccio_piezoelettrico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "starter_bioma",
+      "guardia_situazionale"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "ENFP",
+      "ESTP",
+      "ISTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A"
+  ],
+  "slot_profile": {
+    "complementare": "ricognizione",
+    "core": "strategia"
+  },
+  "biome_tags": [
+    "foresta_acida",
+    "foresta_miceliale"
+  ],
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "data_origin": "controllo_psionico",
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "spinta_selettiva": "i18n:traits.pathfinder.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.pathfinder.uso_funzione"
+}

@@ -1,0 +1,84 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.focus_frazionato.debolezza",
+  "famiglia_tipologia": "Strategico/Psionico",
+  "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
+  "id": "focus_frazionato",
+  "label": "i18n:traits.focus_frazionato.label",
+  "mutazione_indotta": "i18n:traits.focus_frazionato.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Il multitasking mentale nasce dalla gestione di molteplici minacce ravvicinate nelle foreste miceliali fitte."
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_fulminee",
+    "antenne_plasmatiche_tempesta",
+    "antenne_waveguide",
+    "baffi_mareomotori",
+    "branchie_eoliche",
+    "capillari_fluoridici",
+    "cervelletto_equilibrio_statico",
+    "coda_balanciere",
+    "cuore_multicamera_bassa_pressione",
+    "echi_risonanti",
+    "filamenti_superconduttivi",
+    "ghiandole_eco_mappanti",
+    "ghiandole_resina_conduttiva",
+    "lamine_scudo_silice",
+    "midollo_antivibrazione",
+    "frusta_fiammeggiante",
+    "random",
+    "spore_psichiche_silenziate"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "job_ability:invoker/sincronia",
+      "sigillo_forma",
+      "starter_bioma"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "ENTP",
+      "INFJ",
+      "INTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "psionico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "i18n:traits.focus_frazionato.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.focus_frazionato.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

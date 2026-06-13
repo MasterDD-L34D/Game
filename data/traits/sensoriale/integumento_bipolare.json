@@ -1,0 +1,62 @@
+{
+  "id": "integumento_bipolare",
+  "label": "i18n:traits.integumento_bipolare.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "scivolamento_magnetico",
+    "bozzolo_magnetico",
+    "elettromagnete_biologico"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.integumento_bipolare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.integumento_bipolare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.integumento_bipolare.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "sens_magnetica",
+      "value": 1e-06,
+      "unit": "T"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Mantiene rotta con EM artificiale",
+    "scene_prompt": "Labirinto con bobine Helmholtz"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Il mantello polarizzato disperde calore e cariche in climi terrestri secchi o tempeste di polvere."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000304",
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "slot_profile": {
+    "core": "sensoriale",
+    "complementare": "magnetoricettivo"
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.integumento_bipolare.debolezza"
+}

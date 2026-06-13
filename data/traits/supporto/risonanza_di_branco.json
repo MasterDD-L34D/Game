@@ -1,0 +1,82 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.risonanza_di_branco.debolezza",
+  "famiglia_tipologia": "Supporto/Coordinativo",
+  "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
+  "id": "risonanza_di_branco",
+  "label": "i18n:traits.risonanza_di_branco.label",
+  "mutazione_indotta": "i18n:traits.risonanza_di_branco.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Le vibrazioni di branco viaggiano attraverso il micelio umido, mantenendo il gruppo sincronizzato."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_eco_turbina",
+    "antenne_plasmatiche_tempesta",
+    "artigli_acidofagi",
+    "batteri_termofili_endosimbiosi",
+    "branchie_turbina",
+    "carapace_luminiscente_abissale",
+    "carapaci_ferruginosi",
+    "cavita_risonanti_tundra",
+    "circolazione_doppia",
+    "coda_stabilizzatrice_geiser",
+    "cuticole_neutralizzanti",
+    "enzimi_chelatori_rapidi",
+    "foliage_fotocatodico",
+    "ghiandole_inchiostro_luce",
+    "gusci_criovetro",
+    "luminescenza_hydrotermica",
+    "aura_scudo_radianza"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "guardia_situazionale",
+      "starter_bioma"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "ENFJ",
+      "INFP",
+      "ISFJ"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "B",
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "coordinazione",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "i18n:traits.risonanza_di_branco.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.risonanza_di_branco.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

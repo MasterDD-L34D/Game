@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects — SPA-like fallback per sub-route.
+# Index = game shell, /lobby.html = room picker.
+# Nessuna 404, fall-through su index per route non fisici.
+
+/lobby  /lobby.html  200
+/play   /index.html  200

@@ -1,0 +1,66 @@
+{
+  "id": "ectotermia_dinamica",
+  "label": "i18n:traits.ectotermia_dinamica.label",
+  "data_origin": "incoming_tr1100_pack",
+  "famiglia_tipologia": "Fisiologico/Termico",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "ipertrofia_muscolare_massiva",
+    "rostro_emostatico_litico"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.ectotermia_dinamica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ectotermia_dinamica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ectotermia_dinamica.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "tolleranza_termica",
+      "value": 20,
+      "unit": "K"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Mantiene output a 10 Cel ambientali",
+    "scene_prompt": "Prova in camera fredda"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Regola il metabolismo seguendo le oscillazioni termiche giornaliere dei biomi terrestri."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "termico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.ectotermia_dinamica.debolezza"
+}

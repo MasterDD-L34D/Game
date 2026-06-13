@@ -1,0 +1,55 @@
+name: QA KPI & Visual Monitor
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+env:
+  # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,
+  # setup-python, upload-artifact, ecc.). Evita deprecation warning Node 20
+  # (rimosso 2026-09-16). Vedi https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  kpi-visual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r tools/py/requirements.txt
+
+      - name: Install Playwright browsers
+        run: |
+          python -m playwright install --with-deps chromium
+
+      - name: Run structural validation with metrics export
+        run: |
+          python tests/validate_dashboard.py --metrics-output metrics.json
+
+      - name: Check KPI deviations
+        run: |
+          python tools/py/report_kpi_alerts.py --metrics metrics.json
+
+      - name: Run visual regression
+        run: |
+          python tools/py/visual_regression.py compare --tolerance 0.08 --engine auto
+
+      - name: Upload visual report artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-report
+          path: |
+            logs/visual_runs
+            metrics.json
+          if-no-files-found: warn

@@ -1,0 +1,28 @@
+{
+  "species": {
+    "scientific_name": "Umbra alaris",
+    "common_names": ["Uccello Ombra"],
+    "classification": {
+      "macro_class": "Aves",
+      "habitat": "foreste pluviali e canyon notturni"
+    },
+    "functional_signature": "Invisibilità ottica quasi totale e visione potenziata nel buio; attacchi ipotermici silenziosi.",
+    "visual_description": "Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.",
+    "risk_profile": {
+      "danger_level": 2,
+      "vectors": ["ipotermia localizzata"]
+    },
+    "interactions": {
+      "predates_on": ["roditori", "piccoli marsupiali"],
+      "predated_by": ["rapaci più grandi"],
+      "symbiosis": "nessuna"
+    },
+    "constraints": [
+      "Efficacia ridotta in nebbia densa (diffusione)",
+      "Bioluminescenza può tradire la posizione a distanza ravvicinata"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": ["Canopy Ombrosa", "Canyon Notturno"],
+    "trait_refs": ["TR-1901", "TR-1902", "TR-1903", "TR-1904", "TR-1905"]
+  }
+}

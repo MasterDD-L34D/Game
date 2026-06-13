@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/contracts/tri-sorgente.schema.json",
+  "title": "Tri-Sorgente Card Offer Contract",
+  "description": "Request/response schema for /api/v1/tri-sorgente/offer (Q-001 T3.2). Mirror services/generation/ worker pattern.",
+  "type": "object",
+  "oneOf": [{ "$ref": "#/$defs/request" }, { "$ref": "#/$defs/response" }],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "required": ["actor_id", "biome_id", "recent_actions_counts"],
+      "additionalProperties": false,
+      "properties": {
+        "actor_id": { "type": "string", "minLength": 1 },
+        "biome_id": { "type": "string", "minLength": 1 },
+        "recent_actions_counts": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "pools_override": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "R": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "A": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "P": { "type": "integer", "minimum": 1, "maximum": 20 }
+          }
+        },
+        "seed": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": ["offers", "skip_economy", "meta"],
+      "additionalProperties": false,
+      "properties": {
+        "offers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["card_id", "score", "softmax_prob"],
+            "additionalProperties": false,
+            "properties": {
+              "card_id": { "type": "string", "minLength": 1 },
+              "score": { "type": "number" },
+              "softmax_prob": { "type": "number", "minimum": 0, "maximum": 1 },
+              "breakdown": {
+                "type": "object",
+                "additionalProperties": { "type": "number" }
+              }
+            }
+          }
+        },
+        "skip_economy": {
+          "type": "object",
+          "required": ["fg_values", "cap_per_act"],
+          "additionalProperties": false,
+          "properties": {
+            "fg_values": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 0 },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "cap_per_act": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "meta": {
+          "type": "object",
+          "required": ["seed", "export_version"],
+          "additionalProperties": true,
+          "properties": {
+            "seed": { "type": "integer" },
+            "export_version": { "type": "integer", "minimum": 1 },
+            "pool_ids": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "timestamp": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

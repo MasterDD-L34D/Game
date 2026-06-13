@@ -1,0 +1,60 @@
+{
+  "id": "occhi_analizzatori_di_tensione",
+  "label": "i18n:traits.occhi_analizzatori_di_tensione.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "seta_conduttiva_elettrica",
+    "articolazioni_a_leva_idraulica"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.occhi_analizzatori_di_tensione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.occhi_analizzatori_di_tensione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.occhi_analizzatori_di_tensione.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "acuita_visiva",
+      "value": 0.92,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Rileva filo scarico vs carico",
+    "scene_prompt": "Test scelta su trame con diversa polarizzazione"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Lettori di stress funzionano su cavi e rocce tese tipiche di rovine terrestri, rilevando microfratture."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "sensoriale",
+    "complementare": "visivo"
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.occhi_analizzatori_di_tensione.debolezza"
+}

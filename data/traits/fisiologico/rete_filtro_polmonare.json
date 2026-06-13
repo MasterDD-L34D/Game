@@ -1,0 +1,59 @@
+{
+  "id": "rete_filtro_polmonare",
+  "label": "i18n:traits.rete_filtro_polmonare.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Fisiologico/Respiratorio",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "scheletro_pneumatico_a_maglie"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.rete_filtro_polmonare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rete_filtro_polmonare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rete_filtro_polmonare.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "consumo_O2",
+      "value": 800,
+      "unit": "L/min"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Incremento massa senza ingesta solida",
+    "scene_prompt": "Camera aerosol con micro-fitoplancton"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "La rete trattiene spore e polveri diffuse nei biomi terrestri ventilati, proteggendo i polmoni."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "respiratorio"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.rete_filtro_polmonare.debolezza"
+}

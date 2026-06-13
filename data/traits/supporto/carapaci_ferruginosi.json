@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.carapaci_ferruginosi.debolezza",
+  "famiglia_tipologia": "Supporto/Logistico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "carapaci_ferruginosi",
+  "label": "i18n:traits.carapaci_ferruginosi.label",
+  "mutazione_indotta": "i18n:traits.carapaci_ferruginosi.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "abisso_vulcanico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Carapaci Ferruginosi ottimizza le operazioni supporto nelle condizioni di abisso vulcanico.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "logistico",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "i18n:traits.carapaci_ferruginosi.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.carapaci_ferruginosi.uso_funzione",
+  "usage_tags": [
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "abisso_vulcanico"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

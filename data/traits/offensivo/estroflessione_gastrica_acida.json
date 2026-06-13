@@ -1,0 +1,62 @@
+{
+  "id": "estroflessione_gastrica_acida",
+  "label": "i18n:traits.estroflessione_gastrica_acida.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "artiglio_cinetico_a_urto",
+    "ermafroditismo_cronologico"
+  ],
+  "conflitti": [
+    "sistemi_chimio_sonici"
+  ],
+  "mutazione_indotta": "i18n:traits.estroflessione_gastrica_acida.mutazione_indotta",
+  "uso_funzione": "i18n:traits.estroflessione_gastrica_acida.uso_funzione",
+  "spinta_selettiva": "i18n:traits.estroflessione_gastrica_acida.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "pressione_getto",
+      "value": 50000,
+      "unit": "Pa"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Disgrega 1 kg gel proteico in < 60 s",
+    "scene_prompt": "Versa su supporto standard e misura tempo liquefazione"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": "La proiezione acida è efficace in cavità e superfici terrestri dove si possono dissolvere ostacoli solidi."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "chimico"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.estroflessione_gastrica_acida.debolezza"
+}

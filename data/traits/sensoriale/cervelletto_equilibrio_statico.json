@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.cervelletto_equilibrio_statico.debolezza",
+  "famiglia_tipologia": "Sensoriale/Analitico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "cervelletto_equilibrio_statico",
+  "label": "i18n:traits.cervelletto_equilibrio_statico.label",
+  "mutazione_indotta": "i18n:traits.cervelletto_equilibrio_statico.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_ionica"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Cervelletto Equilibrio Statico ottimizza le operazioni sensoriale nelle condizioni di canopia ionica.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "analitico",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "i18n:traits.cervelletto_equilibrio_statico.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.cervelletto_equilibrio_statico.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopia_ionica"
+  ],
+  "data_origin": "coverage_q4_2025"
+}

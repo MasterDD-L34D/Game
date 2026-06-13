@@ -1,0 +1,94 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.coda_frusta_cinetica.debolezza",
+  "famiglia_tipologia": "Locomotorio/Difensivo",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+  "id": "coda_frusta_cinetica",
+  "label": "i18n:traits.coda_frusta_cinetica.label",
+  "mutazione_indotta": "i18n:traits.coda_frusta_cinetica.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_ioniche",
+    "antenne_flusso_mareale",
+    "antenne_wideband",
+    "artigli_induzione",
+    "artigli_sette_vie",
+    "barbigli_sensori_plasma",
+    "biochip_memoria",
+    "branchie_metalloidi",
+    "camere_anticorrosione",
+    "capillari_fotovoltaici",
+    "cartilagini_biofibre",
+    "chemiorecettori_bromuro",
+    "circolazione_supercritica",
+    "coda_contrappeso",
+    "coda_stabilizzatrice_vortex",
+    "cuscinetti_elettrostatici",
+    "denti_chelatanti",
+    "enzimi_antifase_termica",
+    "enzimi_metanoossidanti",
+    "filamenti_termoconduzione",
+    "foliaggio_spugna",
+    "ghiandole_fango_calde",
+    "ghiandole_iodoattive",
+    "ghiandole_ventosa",
+    "gusci_magnesio",
+    "linfa_tampone",
+    "mantelli_geotermici",
+    "mucose_aderenza_sonica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "i18n:traits.coda_frusta_cinetica.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.coda_frusta_cinetica.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "falde_magnetiche_psioniche",
+    "orbita_psionica_inversa"
+  ],
+  "data_origin": "controllo_psionico"
+}

@@ -1,0 +1,19 @@
+{
+  "data/species.yaml": "data/core/species.yaml",
+  "data/traits": "data/core/traits",
+  "data/biomes.yaml": "data/core/biomes.yaml",
+  "data/biome_aliases.yaml": "data/core/biome_aliases.yaml",
+  "data/missions": "data/core/missions",
+  "data/game_functions.yaml": "data/core/game_functions.yaml",
+  "data/mating.yaml": "data/core/mating.yaml",
+  "data/telemetry.yaml": "data/core/telemetry.yaml",
+  "data/hud": "data/core/hud",
+  "data/analysis": "data/derived/analysis",
+  "data/exports": "data/derived/exports",
+  "data/mock": "data/derived/mock",
+  "data/test-fixtures": "data/derived/test-fixtures",
+  "data/auto_external_sources.yaml": "data/external/auto_external_sources.yaml",
+  "data/chatgpt": "data/external/chatgpt",
+  "data/chatgpt_sources.yaml": "data/external/chatgpt_sources.yaml",
+  "data/drive": "data/external/drive"
+}

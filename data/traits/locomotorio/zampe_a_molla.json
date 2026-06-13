@@ -1,0 +1,77 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.zampe_a_molla.debolezza",
+  "famiglia_tipologia": "Mobilità/Cinetico",
+  "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
+  "id": "zampe_a_molla",
+  "label": "i18n:traits.zampe_a_molla.label",
+  "mutazione_indotta": "i18n:traits.zampe_a_molla.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "tier": "T1",
+        "notes": "Le molle organiche comprimono il tappeto miceliale elastico delle foreste fungine per salti controllati."
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_ioniche",
+    "antenne_wideband",
+    "artigli_sghiaccio_glaciale",
+    "barbigli_sensori_plasma",
+    "branchie_metalloidi",
+    "capillari_fotovoltaici",
+    "chemiorecettori_bromuro",
+    "coda_contrappeso",
+    "cuscinetti_elettrostatici",
+    "enzimi_antifase_termica",
+    "filamenti_termoconduzione",
+    "ghiandole_fango_calde",
+    "ghiandole_ventosa",
+    "linfa_tampone",
+    "mucose_aderenza_sonica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "cap_pt",
+      "guardia_situazionale",
+      "job_ability:skirmisher/dash_cut"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ESTP",
+      "ISFP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "B"
+  ],
+  "slot_profile": {
+    "complementare": "propulsione",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "i18n:traits.zampe_a_molla.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.zampe_a_molla.uso_funzione",
+  "usage_tags": [
+    "scout"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ],
+  "data_origin": "controllo_psionico"
+}

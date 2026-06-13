@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "generator": "flint_status_stdlib (fallback)",
+    "version": "0.2.0-stdlib",
+    "generated_at": "2026-04-24T00:19:49.925324+00:00",
+    "repo_root": "C:\\dev\\Game",
+    "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
+  },
+  "snapshot": {
+    "dirty_files_count": 2,
+    "recent_commits_count": 10,
+    "gameplay_ratio": 0.3,
+    "consecutive_infra_commits": 0,
+    "is_drifting": false,
+    "recent_commits": [
+      {
+        "sha": "c633ae7f",
+        "kind": "GAMEPLAY",
+        "message_first_line": "chore(swarm): register gameplay-prototyper + combat-engineer + sync runtime state",
+        "files_count": 0
+      },
+      {
+        "sha": "d319404e",
+        "kind": "GAMEPLAY",
+        "message_first_line": "docs(planning): M11 Phase B→TKT-05 close + next session handoff (P5 🟢 pending playtest) (#1687)",
+        "files_count": 0
+      },
+      {
+        "sha": "d97eb5f8",
+        "kind": "ALTRO",
+        "message_first_line": "feat(network): M11 TKT-M11B-05 — host-transfer on disconnect (FIFO first-come) (#1685)",
+        "files_count": 0
+      },
+      {
+        "sha": "583be2a8",
+        "kind": "ALTRO",
+        "message_first_line": "feat(network): M11 Phase C — host TV roster panel + ngrok playbook (TKT-04/06 partial) (#1684)",
+        "files_count": 0
+      },
+      {
+        "sha": "d14b2655",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(network): M11 Phase B+ — phone intent UI + host relay + campaign mirror (TKT-01/02/03) (#1686)",
+        "files_count": 0
+      },
+      {
+        "sha": "d35dde92",
+        "kind": "ALTRO",
+        "message_first_line": "feat(network): M11 Phase B — Jackbox lobby frontend + TV spectator + WS client (P5) (#1682)",
+        "files_count": 0
+      },
+      {
+        "sha": "6d722e40",
+        "kind": "DOCS",
+        "message_first_line": "docs(planning): M11 Phase A close + Phase B handoff + CLAUDE.md sync (#1681)",
+        "files_count": 0
+      },
+      {
+        "sha": "db4325f0",
+        "kind": "ALTRO",
+        "message_first_line": "feat(network): M11 Phase A — Jackbox room-code WebSocket backend (P5) (#1680)",
+        "files_count": 0
+      },
+      {
+        "sha": "3272f844",
+        "kind": "INFRA",
+        "message_first_line": "feat(meta): Prisma persistence adapter for metaProgression (Prompt B / L06 partial) (#1679)",
+        "files_count": 0
+      },
+      {
+        "sha": "cc35e2d2",
+        "kind": "ALTRO",
+        "message_first_line": "feat(balance): trait environmental costs pilot 4×3 (#1674) (#1678)",
+        "files_count": 0
+      }
+    ]
+  },
+  "last_spoke_unix": null
+}

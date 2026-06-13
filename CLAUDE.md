@@ -1,0 +1,208 @@
+---
+title: CLAUDE.md
+doc_status: active
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-06-06
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+
+# CLAUDE.md
+
+Guidance for Claude Code (claude.ai/code) working in this repository. Loaded in full every session — kept lean (always-on rules + pointers). Long-form rationale, case studies, and historical session logs live in `docs/` (linked inline).
+
+## Index (read first)
+
+- **Onboarding fast**: `PROJECT_BRIEF.md` + `COMPACT_CONTEXT.md` before this file; "Sprint context" pointer (bottom) for live state.
+- **Always-on behavior** (this file): caveman mode · autonomous execution · worktree/path discipline · encoding · output limits · verify-before-done · commit hygiene. Direct commands — follow every session.
+- **Canonical design + build status**: "Canonical PRD" below. **Repo layout / commands / architecture / conventions / safety guardrails**: sections below (inline, load-bearing).
+- **Agent/automation (Codex)**: `AGENTS.md` + `.ai/BOOT_PROFILE.md` — Claude Code need not read them; listed so you recognize Codex commands.
+
+## 🪨 Caveman mode (always on for coding tasks)
+
+Terse like caveman. Technical substance exact. Only fluff die. Drop: articles, filler (just/really/basically), pleasantries, hedging. Fragments OK.
+
+Off: `stop caveman` / `normal mode` — On: `/caveman`. Auto-exceptions (normal prose): security warnings, irreversible actions, multi-step sequences where fragment ambiguity risks misread, user confused or repeating.
+
+## 🔁 Autonomous Execution (always on)
+
+- **Non fermarsi prematuramente**: continua fino a goal esplicito O blocking error reale. "Perché ci fermiamo?" già detto in passato → quel pattern è proibito.
+- **Surface blocker, don't end session**: se mancano prerequisiti (file, dipendenza, env), riporta blocco esplicito + proponi 2-3 path alternativi. Non inventare il piano mancante.
+- **Verify config changes**: dopo ogni edit a `*.json`/`*.yaml`/`.env`/config service → (1) re-read file, (2) restart/reload servizio se applicable, (3) probe live (test API call / `curl /health`). Mai "configurato X" senza i 3 step.
+- **Stop-on-missing-prereq**: handoff/planning file referenziato non esiste → FERMA e chiedi. Non auto-creare il piano mancante per "salvare" la sessione.
+- **Go-signal open-ended** (_"prossimo punto"_, _"continuiamo"_, _"procedi"_): nessun protocollo dedicato. Applica Autonomous Execution + **verifica ground-truth prima di lavorare item ⏳/🟡** (`git fetch origin main` poi `grep` impl + `git log origin/main | grep <ticket>` + check artifact — marker=ipotesi, git=verità, anti-pattern #19) + **FERMATI** per irreversibile / owner-gated / forbidden-path / fork architetturale.
+
+## 🌳 Worktree & Path Discipline
+
+3 sessioni hanno editato main repo invece del worktree.
+
+- **Pre-edit check**: `pwd` + `git rev-parse --show-toplevel` prima di edit non triviali se incerto. CLAUDE_WORKING_DIR ha priorità sui path assunti dalla memoria.
+- **Worktree detection**: se `pwd` contiene `.claude/worktrees/<slug>/`, sei in worktree isolato — edit qui, NON nel main repo.
+- **Missing file = ASK**: path referenziato inesistente (`docs/planning/2026-XX-XX-*.md`, ADR, handoff) → chiedi prima di fabbricare; lista candidati via `ls`/`find`.
+- **Auto-enforced**: hook `PreToolUse` `.claude/hooks/pre-edit-worktree-guard.sh` (warn-only) → `[worktree-guard] WARN` quando target è fuori worktree. Se vedi il warn, ferma e verifica intent.
+
+## 🔤 Encoding Discipline
+
+PR #1776: glossary.json aveva 37 char mojibake `Ã` da `json.dump` cross-platform (CI-invisible until fail).
+
+- **Sempre encoding esplicito**: `open(path, encoding='utf-8')` per read; `open(path,'w',encoding='utf-8')` + `json.dump(..., ensure_ascii=False, indent=2)` per write. Nessun default implicito.
+- **Restore-from-git**: file con mojibake → NON correggere in-place (doppia corruzione). Restore da `git show origin/main:<path>` + ri-applica con UTF-8 esplicito.
+- **Auto-enforced**: hook `PostToolUse` `.claude/hooks/post-edit-validate.sh` → `[hook] WARN: N mojibake sequences (Ã)` per >5 occorrenze.
+
+## 📤 Output Token Limits
+
+- **Long deliverables → file**: audit, multi-file summary, analisi ≥30 righe → scrivi in `docs/reports/YYYY-MM-DD-<slug>.md` o `docs/playtest/`, poi referenzia path. NON dump inline.
+- **Recap concisi**: end-of-turn = 1-2 frasi. Tabelle PR / ranked list ≤10 righe inline OK; oltre → file.
+- **Tool result siphon**: Read/Bash >2000 char e serve solo summary → riassumi in 5 bullet + referenzia il file.
+
+## 📡 System Notification Handling
+
+Ripetizioni identiche (stesso messaggio/error 2+ volte) = system signal (loop tool/hook/notifier), NON il user — diagnostica il sender, non rispondere conversazionalmente. Subagent stesso-pattern timeout 2x → FERMA (investiga prompt size/tool config), no 5+ retry. `<user-prompt-submit-hook>` e simili sono hook — riconosci il tag.
+
+## ✅ Verify Before Claim Done (anti-rescue)
+
+`/insights` 2026-04-25: 25 buggy_code incidents (top friction). First-pass ships con bug → rescue pass costoso. Prima di dichiarare done / scrivere "✅ X works" / committare:
+
+1. **Run tests applicable** al diff: `node --test tests/<area>/*.test.js` (backend), `pytest tests/test_<area>.py` (tools/py), `npm run format:check` (≥3 file), `python tools/check_docs_governance.py` (docs).
+2. **Diff vs intent**: rileggi `git diff` — niente file fuori scope, schema breaking senza ADR, hardcode invece di config/data, mock/stub al posto di logic vera.
+3. **Smoke probe live** se backend: `curl /api/<endpoint>` o flow E2E minimal. Mai "wired" senza un colpo di test.
+
+Skip se: edit puramente cosmetic, single-file doc ≤30 LOC, read-only ops. Skill `/verify-done` (`.claude/skills/verify-done.md`) orchestra il flow. Anti-pattern: "ha compilato"/"i test dovrebbero passare" senza eseguire.
+
+## ⚖ No anticipated judgment (autonomous mode)
+
+In Auto mode / "procedi"/"continua": ✅ OK factual cleanup (move/typo/format/aggregate, verify-before-claim). Subjective Claude judgment gated master-dd → preserva + caveat soft `(⚠️ Claude autonomous — pending master-dd review)` + **museum card** per ogni item discarded (`docs/museum/cards/<topic>-<date>-discard.md`, additive-only). MAI silent revert/soften/drop, MAI subjective value framing canonical come fact. Caso studio + pattern markup completo → [archive 2026-05-08](docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md).
+
+## 🦎 Skiv canonical creature
+
+**Skiv** (`Arenavenator vagans` / `dune_stalker`) = creatura canonical recap-card. User: _"non voglio perderlo!"_. Hub: [`docs/skiv/CANONICAL.md`](docs/skiv/CANONICAL.md) (identity + persona + sprint plan + recap format). Skill: `/skiv` (`.claude/skills/skiv.md`) — render da `data/core/species.yaml` + `species/dune_stalker_lifecycle.yaml` + `data/derived/skiv_saga.json`. Voice: italiano, prima persona, metafore desertiche, closing _"Sabbia segue."_. Anti-pattern: NON reinventare persona; SEMPRE grep YAML reale prima di citare data.
+
+## 🏛 Museum-first protocol
+
+**PRIMA** di WebSearch / repo dig su dominio nuovo, consulta [`docs/museum/MUSEUM.md`](docs/museum/MUSEUM.md) (card Dublin-Core con provenance + reuse path + effort/blast-radius). Tutti gli agent leggono museum; solo `repo-archaeologist` scrive (lifecycle excavated→curated→reviewed→revived|rejected, additive-only). Trigger: domain research nuovo / architectural decision / reuse estimation. NO per bug-fix puntuali o tweak parametri. Anti-pattern: citare museum come fonte canonical (è "idee da valutare", NON `data/core/`); auto-revive senza ADR + user OK.
+
+## 🔑 API Keys & Secrets
+
+- **Canonical**: TUTTI i secret vivono in `~/.config/api-keys/keys.env`. Mai in repo `.env*`.
+- **Read**: `source ~/.config/api-keys/keys.env` o `os.environ.get('KEY_NAME')`.
+- **Repo `.env*` = vietato per secrets**: solo fixture pubblici / `.env.example` vuoti.
+- **Auto-enforced**: hook `pre-edit-env-keys-guard.sh` (warn-only) → `[env-keys-guard] WARN` per `.env*` fuori dal path canonico.
+
+## 💾 Memory Save Ritual (end-of-session)
+
+A fine sessione significativa (≥2 PR mergiati O nuovo agent/skill) aggiorna SENZA prompt: (1) `COMPACT_CONTEXT.md`, (2) handoff doc, (3) memory file persistent, (4) `BACKLOG.md` (chiudi ticket completati con SHA, add residui), (5) `MEMORY.md` index (1 riga ≤150 char per nuovo file). Skip micro-fix singolo. Don't leave stale: ticket "open" con PR mergiato → mark closed.
+
+## 📝 Commit & Hook Hygiene
+
+- **Lowercase prefix**: `feat:`/`fix:`/`docs:`/`chore:` — NON `Feat:`/`FEAT:` (commit-msg hook blocca uppercase).
+- **Body length cap**: rispetta commit-guard (`cat .git/hooks/commit-msg` se incerto). Long body → PR description.
+- **Stderr ordering hook**: `cmd 2>/dev/null` OK; `cmd >/dev/null 2>&1` sopprime entrambi; `cmd 2>&1 >/dev/null` è BUGGY (stderr leak).
+- **Hook self-block**: NON skippare con `--no-verify`. Investiga il messaggio, fixa il commit body, retenta.
+
+---
+
+## 📜 Canonical PRD — READ FIRST (design + build status)
+
+> Unified PRD EXISTS — stop re-deriving design/build.
+
+- **Design / loop / Nido / mating / specie / narrative** → repo-local `docs/core/00-SOURCE-OF-TRUTH.md` (v5 canonical) + `docs/core/{01-VISIONE,03-LOOP,17-SCREEN_FLOW,20-SPECIE_E_PARTI,27-MATING_NIDO,90-FINAL-DESIGN-FREEZE}.md`. 28 GDD OQ all CLOSED (§19). Loop = §23. _(Upstream A5 = vault `Spaces/Dev/Evo-Tactics/core/` — not resolvable from a Game checkout; use repo-local copies.)_
+- **Build status** → SoT **§13 is STALE** (web-v1, pre-Godot-pivot AND pre M1/CAMP). Cross-stack live status (sibling): https://github.com/MasterDD-L34D/Game-Godot-v2/blob/main/docs/godot-v2/PRD-BUILD-STATUS-GODOT-V2.md (🔵 rows = backend-built-here). Backend meta-loop (nest/mating/geneEncoder/campaignEngine/affinity/trust) BUILT here but unported to Godot.
+
+## Project overview
+
+**Evo-Tactics** = co-op tactical game (d20-based, modular evolutionary progression), polyglot monorepo: YAML datasets, Python + TypeScript CLIs, an Express "Idea Engine" backend, a Vue/Vite dashboard, publishing/validation pipelines. Most docs/commits/comments are **Italian** — match that when editing docs; code identifiers stay English.
+
+**Bootstrap files** (archivio operativo, Sprint 0-3): root — `PROJECT_BRIEF.md` (identità), `COMPACT_CONTEXT.md` (snapshot 30s), `DECISIONS_LOG.md` (index 30 ADR), `MODEL_ROUTING.md`, `LIBRARY.md`, `PROMPT_LIBRARY.md`, `BACKLOG.md`, `OPEN_DECISIONS.md`; `.claude/` — `TASK_PROTOCOL.md` (7-fasi), `SAFE_CHANGES.md` (🟢/🟡/🔴), `prompts/`. Leggi `PROJECT_BRIEF` + `COMPACT_CONTEXT` prima di CLAUDE.md.
+
+## Repository layout (high-level)
+
+npm workspaces (root `package.json`):
+
+- `apps/backend/` — Express "Idea Engine" API (entry `index.js`, Prisma under `apps/backend/prisma/`). Serves `/api/*` incl. `/api/v1/generation/species`, `/api/v1/atlas/*`, `/api/mock/*`, `/api/ideas/*`.
+- `services/generation/` — Node/Python bridge (`SpeciesBuilder`, `TraitCatalog`, biome synthesizer, validators). Python orchestrator (`orchestrator.py`) called from Node via pool in `config/orchestrator.json`.
+- `apps/backend/services/combat/` — Node combat logic canonical: `resistanceEngine.js`, `reinforcementSpawner.js`, `objectiveEvaluator.js` (replaced ex-`services/rules/` Python, ADR-2026-04-19).
+- `packages/contracts/` — shared JSON Schema + TS types (backend, CLI mocks, dashboard); `packages/ui/` — shared UI components.
+- `tools/py/` — unified Python CLI (`game_cli.py`), validators, showcase builders; `tools/ts/` — TS CLI + Node/Playwright tests.
+- `packs/evo_tactics_pack/` — Ecosystem Pack v1.7 (data, validators, HTML reports `out/validation/`); `data/` — canonical YAML datasets (species/biomes/traits/telemetry) + `data/derived/`, SoT for Flow/Atlas/pack validators.
+- `services/{eventsScheduler,publishing,export,moderation,squadsync}/` — Node micro-services; `scripts/` — automation; `tests/` — cross-cutting suites (api/server/generation/scripts/events + `tests/test_*.py`).
+
+README "Settori e dipendenze" = canonical dependency map (Flow/Atlas/backend/datasets). **Change a dataset in `data/core/` → regenerate mocks AND re-run backend suite**, not just the validator you edited.
+
+## Documentation layout
+
+`docs/` organized by **workstream**; governance enforces frontmatter via `tools/check_docs_governance.py` (CI-required, strict). Only `docs/00-INDEX.md` (legacy) and `docs/README.md` at root. Key dirs: `docs/core/` (canonical design spine `01-VISIONE`..`40-ROADMAP`), `docs/hubs/` (combat/flow/atlas/backend/dataset-pack/ops-qa/incoming/cross-cutting), `docs/governance/` (registry = SoT `docs_registry.json`), `docs/adr/`, `docs/guide/`, dataset-pack dirs (`docs/{traits,biomes,species,balance,catalog,evo-tactics,evo-tactics-pack}/`), flow (`docs/{pipelines,architecture}/`), atlas (`docs/frontend/`), ops-qa (`docs/{process,qa,ci,playtest,ops,logs,reports,tutorials}/`), `docs/planning/`, `docs/incoming/` (3 active files), `docs/generated/` (autogen, frontmatter-exempt), `docs/archive/`.
+
+**Frontmatter required** for every new `.md` in `docs/` (except `docs/generated/`). Schema: `docs/governance/docs_metadata.schema.json`. Run `python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --strict` before commit (CI: `.github/workflows/docs-governance.yml`). Adding/moving docs → update `docs_registry.json` atomically same PR (`tools/docs_governance_migrator.py` for bulk).
+
+## Common commands
+
+Node 18+ (22.19.0 rec) + npm 11+; Python 3.10+. Install: `npm ci` (root) + `npm --prefix tools/ts install` + `pip install -r tools/py/requirements.txt` (+`requirements-dev.txt`). `npm run prepare` wires Husky.
+
+- **Dev stack**: `npm run start:api` (backend `http://0.0.0.0:3334`, override `PORT`; NeDB default `data/idea_engine.db`, Prisma/Postgres if `DATABASE_URL`). Port 3334 since Apr 2026 to avoid Game-Database 3333, see `docs/adr/ADR-2026-04-14-game-database-topology.md`. `docker compose up` — Postgres + backend (auto Prisma bootstrap, marker `.docker-prisma-bootstrapped`).
+- **Tests**: `npm run test` (=`test:backend`). `npm run test:api` — Node `--test tests/api/*.test.js` + multiple `tsx` specs + `node --test tests/server/generationSnapshot.spec.js` + deploy-checks (most set `ORCHESTRATOR_AUTOCLOSE_MS=2000` — keep it). One Node file: `node --test tests/api/<file>.test.js` (`--test-name-pattern '<name>'`). One tsx spec: `./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts`. tools/ts: `npm --prefix tools/ts test` (Playwright-only `npm run test:web`). Python: `PYTHONPATH=tools/py pytest`. Docs gen: `npm run test:docs-generator`. AI/session: `node --test tests/ai/*.test.js` (45 test).
+- **Build/lint/format**: `npm run build` · `npm run ci:stack` (lint:stack + test:backend, mirrors CI) · `npm run lint:stack` (Prettier) · `npm run format` / `format:check` · `npm run schema:lint` (AJV YAML `schemas/evo/`) · `npm run docs:lint` / `docs:smoke` · `npm run style:check` (trait style linter).
+- **Dataset/validation** when changing `data/core/` or pack data: (1) `python3 tools/py/game_cli.py validate-datasets`; (2) `validate-ecosystem-pack --json-out ... --html-out ...`; (3) ~~`npm run mock:generate`~~ removed (PR #1343); (4) `pytest tests/scripts/test_trace_hashes.py` + `node --test tests/scripts/sync_evo_pack_assets.test.js tests/services/biomeSynthesizerMetadata.test.js`; (5) `npm run sync:evo-pack`. Other: `make evo-list|evo-plan|evo-run`, `make evo-validate`, `make update-tracker`. `scripts/daily_tracker_refresh.py` owns the `chore: aggiorna riepilogo PR giornaliero` README sections — don't hand-edit.
+- **Database**: `npm run db:migrate` / `db:migrate:down` / `db:migrate:status` (`scripts/db/run_migrations.py`). `npm run dev:setup --workspace apps/backend` (prisma generate + migrate deploy + db seed).
+
+## Architecture notes (read multiple files)
+
+- **Generation (Flow)**: HTTP → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`orchestrator.py`) via worker pool. Inputs normalized; trait validation fail → hardcoded fallback set logged as structured JSON. Responses = `blueprint`+`validation`+`meta` — don't change shape without `packages/contracts` + dashboard renderers.
+- **Combat (Rules Engine d20)**: runtime Node canonical in `apps/backend/services/combat/` + `roundOrchestrator.js` (round phases planning→commit→resolve) + `traitEffects.js` (2-pass). Mechanical values: `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`. Payload schema: `packages/contracts/schemas/combat.schema.json`. Hub: `docs/hubs/combat.md`; [ADR-2026-04-19](docs/adr/ADR-2026-04-19-kill-python-rules-engine.md).
+- **Session engine** (round model since ADR-2026-04-16): 4 moduli — `session.js`, `sessionRoundBridge.js`, `sessionHelpers.js`, `sessionConstants.js`. Round model ON by default. AI SIS uses `declareSistemaIntents.js`. Raw event schema `{action_type,turn,actor_id,target_id,damage_dealt,result,position_from,position_to}` — used by vcScoring, don't break.
+- **Contracts are the seam**: `packages/contracts` AJV schemas + TS types loaded by backend (live validation). Schema change ripples to backend tests — keep `apps/backend/app.js` AJV registration in sync with `packages/contracts/index.js`.
+- **Mock parity**: `/api/mock/*` serve static JSON under `apps/backend/data/` + `docs/mission-console/data/` (regenerator removed PR #1343, hand-curated now). **Auth**: routes honor JWT (`AUTH_SECRET`/`AUTH_AUDIENCE`/`AUTH_ISSUER`/`AUTH_ROLES_CLAIM`) when configured, else open; legacy `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` protect trait routes (roles reviewer/editor/admin).
+- **Trait Editor**: separate Vite app `apps/trait-editor/` — read `docs/traits/trait-editor.md` first. **Mission Console**: pre-built Vue 3 bundle `docs/mission-console/` (GitHub Pages); source NOT in repo (`apps/dashboard/` removed #1343).
+- **Sibling repo**: `MasterDD-L34D/Game-Database` (taxonomy CMS) imports trait/species/biome from this repo's `packs/evo_tactics_pack/docs/catalog/` (build-time, unidirectional Game → Game-Database via `npm run evo:import`). HTTP runtime (Alt B) feature-flagged OFF (`GAME_DATABASE_ENABLED=false`); when on, fetches `GET /api/traits/glossary`. Contract: `packages/contracts/schemas/glossary.schema.json`. Ports: Game backend 3334, Game-Database 3333, its Postgres 5433. Full: [`ADR-2026-04-14-game-database-topology.md`](docs/adr/ADR-2026-04-14-game-database-topology.md).
+
+## Token optimization (context budget)
+
+**DO NOT read unless explicitly needed** (large): `docs/governance/docs_registry.json` (196KB, governance scripts only) · `.ai/` (Codex-only) · `docs/planning/EVO_FINAL_DESIGN_*.md` (836KB, read sections via offset/limit) · `apps/backend/routes/session.js` (1967 LOC, grep first). Prefer `grep -n` to find line numbers, then `Read` with `offset`+`limit`.
+
+## Agent / automation conventions (Codex-only)
+
+> Codex agent orchestration, NOT Claude Code. Claude Code does not need `AGENTS.md`, `.ai/BOOT_PROFILE.md`, or per-agent profiles — listed so you recognize user references.
+
+`AGENTS.md` + `.ai/BOOT_PROFILE.md` define STRICT MODE for Codex (auto routing + macro-command library). Prompts like `COMANDO: GOLDEN_PATH_FEATURE ...` / `AGENTE: trait-curator` map to Codex flows, not Claude Code. Don't invent new `COMANDO:` semantics or slugs. Per-agent profiles under `.ai/<agente>/`.
+
+## Contribution gates (from CONTRIBUTING.md)
+
+- PRs reference a passing release validator report; regressions block merge.
+- **Master DD approval** documented (comment/issue link) before merge — EXCEPT auto-merge L3 (below). **PR review (pre-merge, MANDATORY)**: leggi i commenti review (`gh api repos/MasterDD-L34D/Game/pulls/<N>/comments`) + triage P1 (block, fix obbligatorio) / P2 (should) / P3 (nice). No silent-merge senza risolvere i P1.
+- Include changelog entry + **03A rollback plan** in PR notes. Run `npm run format:check` + `npm run test` locally; frontend → also `npm run build` + `npm run preview`.
+- No binary archives under `reports/backups/**` (`npm run lint:backups` enforces) — upload externally + update `manifest.txt` per `docs/planning/REF_BACKUP_AND_ROLLBACK.md`, log in `logs/agent_activity.md`.
+- Husky Prettier pre-commit on staged files; re-run `npm run prepare` after fresh checkout.
+
+**Auto-merge L3** (ACCEPTED 2026-05-07, [ADR](docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md)): Claude-shipped PR auto-merge via `gh pr merge --squash --auto --delete-branch` only if ALL 7 gates green — (1) CI 100% green, (2) Codex review resolved, (3) format + governance green, (4) test baseline preserved (AI ≥382), (5) ZERO files in forbidden paths (`.github/workflows/`, `migrations/`, `packages/contracts/`, `services/generation/`, `services/rules/`), (6) no 50-line violation outside `apps/backend/`, (7) no new npm/pip deps. OUT of scope (master-dd manual): multi-author, schema breaking, migration, new dep, direct push main. Master-dd veto via revert / branch protection / "stop auto-merge" / supersede ADR.
+
+## Session workflow + platform notes (Claude Code)
+
+Pattern codificati in memory (`feedback_*.md` under `C:/Users/edusc/.claude/projects/C--Users-edusc-Desktop-gioco-Game/memory/`): `feedback_claude_workflow_consolidated.md` (8 pattern), `feedback_meta_checkpoint_directive.md` (`/meta-checkpoint`), `reference_flint_optimization_guide.md`. Auto-loaded via `MEMORY.md`. Primary working dir is Windows, shell is bash (Git Bash/MSYS) — use Unix paths and `/dev/null`, not `NUL`. Line endings managed by `.gitattributes`/Prettier; don't fight them.
+
+---
+
+## 🎮 Sprint context (live pointer)
+
+> **Current sprint** (v51, 2026-06-09 -- reconstruction-residuals CLOSURE): v50 engine-BUILT chiusa. Ryzen 10 PR (#2664-#2677, main `3f1a9ffb7`) + Lenovo (item2 N=40 DONE 0.51-in-band + item3 Godot viewer #452 avviato). DONE: NF3 i18n grind (tutti i pannelli -> `t()`); Memory-mode chronicle END-TO-END (M-7 4/4 emitter #2668 + phone viewer #452); branco-trait #2666 (dormant); M-3 mutation*lineage #2668; OA2 nav+calib (item2); SPEC-P backend loop-glue (epilogo+codex #2676, PA3 `biome_wounded` #2677). Residuo (tuo/Lenovo): item 1 flip 17 SPEC `review_needed -> active` (**NON `accepted`** = governance error; candidate SPEC-N/L/O, do-last, mappa #2672); item 3 Godot (Form Pulse UX + device char-creation); **issue #2674** Form Pulse backend link (sblocca 3 engine dormienti). Handoff ingresso: `docs/planning/2026-06-09-reconstruction-residuals-closure-handoff.md`.
+> **Sessione B 2026-06-09** (maintenance/hygiene, post-closure -- Ryzen): +5 PR su 3 repo. #2681 `73c7699f` biomeChip "bioma ferito" telegraph (SPEC-P PA3 surface WEB LIVE, consuma `biome_wounded` di #2677) · #2682 `ddf3efed` + #2684 `01267f13` Game **Prettier-clean 100%** (debito 115->0, workflow forbidden incluso con consenso DD) · #178 `fbe3b7b1` Game-Database `.gitattributes eol=lf` (CRLF cross-OS) · #457 `1d8f13b3` Game-Godot-v2 autofree-race fix (test, GUT 5/5 clean). + **health-sweep 3 repo** (`reports/2026-06-09-routine-health-sweep.md`, no CI-gating fail) + 2 harsh-review APPROVE. Residuo invariato (item 1 flip / item 3 Godot / #2674). Handoff: `docs/planning/2026-06-09-maintenance-hygiene-handoff.md`.
+> **Sessione C 2026-06-10** (item-1 flip, go-signal master-dd -- Ryzen): **#2689** flip SPEC-N (i18n, fondazione DONE #2664/#2671) + SPEC-L (ref-matrix living-doc) `review_needed -> active` + registry-sync atomico (frontmatter+registry; fix drift title SPEC-N "Scaffold"->"spec piena" + mismatch `51-ONBOARDING-60S` residuo #2668) + health-sweep report committato (dead-ref #2686 sanato). Governance strict: errors=0, mismatch=0. Follow-up stessa sessione: **repo setting `allow_auto_merge` flippato ON** (gap ADR-L3 vs GitHub config, catch #2689) + **SPEC-O flip -> `active`** (gate item2 N=40 verificato DONE #2669/#2670). Item-1 residuo: 14 spec `review_needed`; next candidate SPEC-I (serve A13/N=40). Item 3 Godot / #2674 invariati (Lenovo).
+> **Sessione D 2026-06-10** (governance disk->registry + residual-sync cross-machine -- Ryzen): **#2694** `36b840a53` validator check disk->registry `unregistered_document` (warning-only, TDD 63 test, baseline ratchet) + **#2695** `6f98752bd` bulk-register **246 doc legacy** (registry 692->938 entry append-only, baseline svuotata -> check full-on; 16 status remap, 20 ws infer, 6 frontmatter SoT completati). Residui governance: 394 `stale_document` legacy (smaltimento = review/retire separato) + 1 mismatch noto `ADR-2026-05-02-species-ecology-schema` (frontmatter `proposed` fuori enum vs registry `draft`, decisione status = DD). **Residual-sync** (Lenovo Game #2687/#2688/#2693 + Godot #452-#462): **issue #2674 CLOSED** -> 3 engine dormienti SBLOCCATI (FP->VC companion voice LIVE `aaef74093`+#2687 debrief fold; branco-trait #2666 attivabile; name-emergence M-2); item 3 **Form Pulse UX SHIPPED** (#455 phone 5-axis input + #456 TV radar + #460 output radar + #462 residue) -> resta SOLO device char-creation; N=40 personality-axes **RATIFIED-PROVISIONAL** #2688/#2693 (verdetto E_I sign fix; tier-flip residue Godot #462). Item 1: 3/17 active (N/L/O); next flip candidate = SPEC-M (FP-gate caduto, resta name_pool N=40) poi SPEC-I (A2/A9/B6 surface + N=40). Zero collisioni governance cross-machine: doc Lenovo gia' coperti (evidence N=40 registrato da #2695). **Follow-up stessa sessione (sera)**: 3 verdetti master-dd eseguiti -- ADR-2026-05-02 ecology `proposed->active` (ground-truth: schema+dati+validator live) + MA3 mapping RATIFIED-PROVISIONAL + name_pool 16->32 ratificato (PR ratifiche); `MAX_FP_VC_DELTA=0.05` tarato N=40 paired (probe `tools/sim/fp-delta-probe.js`, 2234 campioni/40 run, flip~0% = anti-hard-gate OK, evidence `docs/reports/2026-06-10-fp-vc-delta-n40-evidence.md`) -> RATIFIED-PROVISIONAL; **SPEC-M flip -> `active`** (gate 5/5: FP UX Godot + plumbing #2674 + mapping + name_pool + delta). Item 1: **4/17 active** (N/L/O/M); next = SPEC-I (A2/A9/B6 surface). Lenovo parallelo sera: #2697 name-emergence call-site + #2698 agile_robust bounds + #2700 empty-pool fix (file disgiunti, zero conflitti). **SPEC-I chiusa stessa notte**: verify-first (B6-public banda ERMES web GIA' live end-to-end; N=40 pilota GIA' GREEN) -> residuo vero = ER1 effetto role-gap ratificato-mai-costruito -> **#2704** wire flag-gated OFF (`ERMES_ROLE_GAP_ENABLED`, spec sez.8 lettera: ON solo post N=40; TDD 19 test); fork A2/A9 = istruttoria 2-agent ground-truth -> **ER6** (StressWave event-trigger bounded, dati 20/28 biomi dormienti) + **ER7** (population tick = stato discreto per ruolo trofico anti-UO, season-tick) RATIFICATI -> **SPEC-I flip active** (acceptance 1-8 ok, build ER6/ER7/B6-private = forward-work). Item 1: **5/17 active** (N/L/O/M/I); next candidate = SPEC-K (item3 Godot audit) o design-puri F/G/H/J/Q. **Mattina 2026-06-10 (sync + A13 closure)**: Lenovo notte = item-3 identity surfaces SHIPPED (GGv2 #463/#464/#465 playtest co-op PASS + Game #2706 broadcast creature_named); merged da me #2707 (fix stallo char-creation: quorum host TV-mirror) + #2702 (harness A13 N=40 + **fix-A #2703 GIA' incluso server-side**, verify-first catch); issue #2703 CLOSED. Verdetto DD: **A13 simmetria = INTENZIONALE** (ferita ecologica/segnaletica, anti death-spiral; durezza direzionale futura = ER6/ER7) + magnitude `woundedStep=1`/`PRESSURE_PER_BIOME=1` **RATIFIED-PROVISIONAL** (evidence #2702: trigger 15/15 live, net-impact ~0 by design). Forward-work SPEC-I residuo: build ER6, build ER7, N=40 flag-ON ER1 (party role-aware). **CHIUSURA GIORNATA (Sessione E, sera/notte -- v52)**: mega-sessione COMPLETA, ~30 PR (#2694..#2730). OD-058 **CHIUSO 13/13** (#2531: D2-cutover wound V2 default ON #2720, D3 vcSnapshot ledger replay #2722, electric ratificato #2715); SPEC-I ER6 build #2712 + ER7 build flag-OFF #2723 + **N=40 gates PASSED -> ER1+ER6 default ON #2725**; quorum family WS+REST #2707/#2708/#2711; hint overcharge #2721/#2727; governance burn-down b2 + verdetti STALE-B2 (stale 397->**362**) #2726/#2728; **fix critico #2730** (spawner position drift #2724: rinforzi round-model MAI spawnati -- issue era closed col bug vivo); health-sweep finale ~3930 test 0 fail. Catch-radice: junction-chain node_modules worktree->main = 2 wipe da 655 file (recovery 100%, regola in MEMORY.md). **Residui v52**: (1) re-run N=40 overrun post-#2730 -> ratifica `OVERRUN_BUDGET_BONUS` (ultimo PROPOSED ER6); (2) N=40 ER7 flag-ON; (3) item-1 flip 11 spec (6/17 active: I/K/L/M/N/O); (4) stale batch-3 (362, ticket TKT-STALE-B2-* in BACKLOG); (5) hint role-gap private device (Lenovo). Handoff ingresso: `docs/planning/2026-06-10-mega-session-closure-handoff.md`.
+> **SUPERSEDED v50** (2026-06-08 -- reconstruction suite SPEC-A..Q SHIPPED + engines BUILT): resume = *"leggi `docs/planning/2026-06-06-evo-tactics-reconstruction-suite-index.md` (ingresso unico) + entrypoint `docs/planning/2026-06-05-evo-tactics-open-points-resolution-roadmap.md` (roadmap SPEC-A..Q; sez. 3bis gap-extensions, 3ter DF-levels). Stato 2026-06-08 (PR #2639-#2662, ~27): suite design-spec SPEC-A..Q TUTTE su main (`doc_status: review_needed`); **spec-piena TUTTE** -- H/I/J + M/N/O/P/Q. **Engine BUILT (backend, TDD, knob soggettivi flagged PROPOSED -> ratify N=40)**: Chronicle M-7 (`services/chronicle` + 3 emitter run*failed/creature_named/biome_wound) · FP->VC (`formPulseVc` + plumb debrief) · M-2 `identityService` (name emergence + name_pool.yaml) · A13 `biomeWound` COMPLETO (trigger+persist `campaign.woundedBiomes` + read-side eco-debuff ER2) · MA1 per-creatura (`campaign.acquiredTraitsByCreature` + A3 SoT `51-ONBOARDING` aggiornato, ADR-2026-06-08) · OA2 objective-driver (`combat-policy` zone-pursuit + `combat-adapter` objective-outcome, SUPPORTED_OBJECTIVES 6/6) · i18n loader (`apps/play/src/i18n*`) +interop-fix(import-attributes) +NF4 +2 label-map migrati. Backend Gate-5 (#2618/#2622/#2623). Principio = opt-in self-disclosure. Residuo (NON bloccante, tuo): flip review_needed->accepted; ratifiche MA3/N=40 (FP-VC mapping, name-pool, A13/woundedStep magnitude); surface Godot (Form Pulse UX, Memory-mode viewer, char-creation device); ~6 i18n label-map (NF3 grind, 2/8 fatti); emergent branco-trait; M-3 mutation_lineage; min_units_in_zone>1 traversal + completion_rate N=40 (OA2). Handoff: `docs/planning/2026-06-08-reconstruction-suite-wave1-closure.md`."\*
+> **SUPERSEDED v46** `2026-06-02-design-closure-goal.md` (frontier GAP-C/economy): design chiuso. Residui verify-first 2026-06-08 (`git log -S` = verita): **PT economy slice = SHIPPED #2557** (`ptTracker`per-round pool +`cost_pt`gate numerico + rollback;`ptTracker.test.js`/`ptCostGate.test.js`/`ptEconomyWire.test.js`-- NON ricostruire); **GAP-C fase-3/4** = gated POST-MVP ratificato, cross-repo Godot (museum discard card, non attivo); restano solo def-gate minori **P5** TV LobbyView room-sync (P3, design-call pendente) + **P4** Ennea voices counterpart ->`docs/reports/PILLAR-LIVE-STATUS.md`. NB: new-roadmap riga 164 "cost-gate SG/PP/PT done" = CORRETTA (verify confermato, PT live). Anti-pattern #19 freshness gate #2489.
+> **Pillar status runtime (SOT)** = [`docs/reports/PILLAR-LIVE-STATUS.md`](docs/reports/PILLAR-LIVE-STATUS.md) (NON tabelle inline — driftavano). P1-P6 def = [`docs/core/02-PILASTRI.md`](docs/core/02-PILASTRI.md). Anti-drift #19 freshness gate #2489, see [`docs/guide/roadmap-intervention.md`](docs/guide/roadmap-intervention.md).
+> **Sprint-context storico** (v44.2 → 2026-04-20) = [`docs/planning/sprint-context-history.md`](docs/planning/sprint-context-history.md). Full v46 + superseded v44.3 inline blocks moved 2026-06-03 → [archive](docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md).
+
+### Guardrail sprint (non negoziabili)
+
+**Non toccare senza segnalare**: `.github/workflows/` (CI) · `migrations/` (schema DB) · `packages/contracts/` (schema condivisi, ripple backend+mock) · `services/generation/` (generatore specie). **Regola 50 righe**: task >50 righe nuove fuori da `apps/backend/` → ferma, segnala, aspetta conferma. **Trait**: solo in `data/core/traits/active_effects.yaml`, mai hardcoded nel resolver. **Nuove dipendenze npm/pip**: approvazione esplicita.
+
+### Definition of Done (ogni sprint)
+
+1. `node --test tests/ai/*.test.js` → verde · 2. `npm run format:check` → verde · 3. `git status` pulito · 4. nessun nuovo file in cartelle vietate · 5. toccato `vcScoring.js`/`policy.js` → aggiorna `docs/architecture/ai-policy-engine.md` · 6. toccato `apps/backend/services/combat/` o `roundOrchestrator.js` → aggiorna `docs/hubs/combat.md`.
+
+**DoD nuovi agent / skill / feature** — 4-gate policy (research → smoke test → tuning → optimization) + **Gate 5 Engine wired** (backend DEVE avere surface player-visible PRIMA di ship-ready; "Engine LIVE Surface DEAD" killer). Full prose + motivation + checklists + esempi → [archive](docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md). Ref memoria: `feedback_smoke_test_agents_before_ready.md`.
+
+## 🎨 Asset workflow (canonical 2026-04-29)
+
+Per creare/acquisire asset visivi/audio: workflow doc [`docs/guide/asset-creation-workflow.md`](docs/guide/asset-creation-workflow.md) (Path 1 Kenney+modify / Path 2 AI Retro Diffusion + human edit / Path 3 reference legali + redraw). Workspace locale out-of-repo (gitignored DMCA mitigation): `~/Documents/evo-tactics-refs/` (CC0+PD+Sonniss license-classified). Backup meta repo private [`evo-tactics-refs-meta`](https://github.com/MasterDD-L34D/evo-tactics-refs-meta). Skill `/asset-workflow`. Trigger: _"asset workflow / Skiv asset / Path 1|2|3 / crea icona|sprite|SFX"_. **Anti-pattern** (ADR-2026-04-18): NO commit reference asset a repo (DMCA fastlane public), NO trace su sprite proprietary, NO paint-over fan-rip, NO AI img2img da proprietary, NO style prompt artisti viventi.

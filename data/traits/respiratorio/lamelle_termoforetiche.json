@@ -1,0 +1,55 @@
+{
+  "conflitti": [
+    "criostasi_adattiva"
+  ],
+  "debolezza": "i18n:traits.lamelle_termoforetiche.debolezza",
+  "famiglia_tipologia": "Respiratorio/Termoregolazione",
+  "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
+  "id": "lamelle_termoforetiche",
+  "label": "i18n:traits.lamelle_termoforetiche.label",
+  "mutazione_indotta": "i18n:traits.lamelle_termoforetiche.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "sorgenti_geotermiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Habitat idrotermali psionici dove il calore e la pressione variano rapidamente.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "sangue_piroforico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "termoregolazione",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "i18n:traits.lamelle_termoforetiche.spinta_selettiva",
+  "tier": "T2",
+  "uso_funzione": "i18n:traits.lamelle_termoforetiche.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "sorgenti_geotermiche"
+  ],
+  "data_origin": "controllo_psionico"
+}

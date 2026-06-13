@@ -1,0 +1,60 @@
+{
+  "id": "filtro_metallofago",
+  "label": "i18n:traits.filtro_metallofago.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Alimentazione/Digestione",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "elettromagnete_biologico",
+    "bozzolo_magnetico"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.filtro_metallofago.mutazione_indotta",
+  "uso_funzione": "i18n:traits.filtro_metallofago.uso_funzione",
+  "spinta_selettiva": "i18n:traits.filtro_metallofago.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 12,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Livelli Fe plasmatico stabili",
+    "scene_prompt": "Profilo ematico su dieta priva di Fe"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Funziona in ambienti terrestri con polveri e ossidi metallici nel terreno da filtrare e metabolizzare."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "slot_profile": {
+    "core": "alimentazione",
+    "complementare": "digestione"
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.filtro_metallofago.debolezza"
+}

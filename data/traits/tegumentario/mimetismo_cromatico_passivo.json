@@ -1,0 +1,81 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.mimetismo_cromatico_passivo.debolezza",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Basso (Fase passiva)",
+  "id": "mimetismo_cromatico_passivo",
+  "label": "i18n:traits.mimetismo_cromatico_passivo.label",
+  "mutazione_indotta": "i18n:traits.mimetismo_cromatico_passivo.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_membrana_sonica",
+    "appendici_risonanti_marea",
+    "artigli_sette_vie",
+    "barriere_miasma_glaciale",
+    "branchie_microfiltri",
+    "capsule_paracadute",
+    "circolazione_bifasica",
+    "coda_coppia_retroattiva",
+    "cute_resistente_sali",
+    "enzimi_antipredatori_algali",
+    "filtri_planctonici",
+    "ghiandole_fango_coesivo",
+    "giunti_antitorsione",
+    "lingua_cristallina",
+    "mucose_barofile",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "i18n:traits.mimetismo_cromatico_passivo.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.mimetismo_cromatico_passivo.uso_funzione",
+  "usage_tags": [
+    "tank"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "canopia_psionica_leggera",
+    "falde_magnetiche_psioniche"
+  ],
+  "data_origin": "controllo_psionico"
+}

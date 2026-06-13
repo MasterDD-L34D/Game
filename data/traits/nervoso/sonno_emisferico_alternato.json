@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "i18n:traits.sonno_emisferico_alternato.debolezza",
+  "famiglia_tipologia": "Nervoso/Omeostatico",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
+  "id": "sonno_emisferico_alternato",
+  "label": "i18n:traits.sonno_emisferico_alternato.label",
+  "mutazione_indotta": "i18n:traits.sonno_emisferico_alternato.mutazione_indotta",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "artigli_sghiaccio_glaciale",
+    "occhi_infrarosso_composti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "omeostatico",
+    "core": "nervoso"
+  },
+  "spinta_selettiva": "i18n:traits.sonno_emisferico_alternato.spinta_selettiva",
+  "tier": "T1",
+  "uso_funzione": "i18n:traits.sonno_emisferico_alternato.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "sustain"
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "caverna_risonante"
+  ],
+  "data_origin": "controllo_psionico"
+}

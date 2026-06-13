@@ -1,0 +1,18 @@
+{
+  "id": "TKT-META-BATTLE-BROTHERS-ATB-ROSTER",
+  "title": "Battle Brothers initiative timeline ATB + roster persistence",
+  "pillar": "P1",
+  "effort_hours": 16,
+  "donor_game": {
+    "name": "Battle Brothers",
+    "tier": "B",
+    "matrix_anchor": "docs/research/2026-04-26-tier-b-extraction-matrix.md#11-battle-brothers-2017"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Initiative timeline ATB visual già HUD ref. Estensione: roster persistence cross-mission + XP transfer parziale on death."
+}

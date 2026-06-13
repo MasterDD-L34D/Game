@@ -1,0 +1,69 @@
+# =============================================================================
+# DRAFT (Claude-proposed, pending master-dd ratify + band-verify) -- NOT promoted.
+# Lives in encounters-draft/ (inert: no loader/validator/sim reads this dir).
+# Node: CRYOSTEPPE (mezzanotte_orbitale), graph weight 0.4 -- mid arc.
+# Threat proposal: diff 3, standard, elimination. Curve peer of enc_tutorial_03.
+# Species = proven archetype labels (stats from tier table); master-dd may reskin.
+# =============================================================================
+
+encounter_id: enc_tutorial_04
+name: 'Sentinelle della Mezzanotte'
+biome_id: mezzanotte_orbitale
+grid_size: [10, 10]
+difficulty_rating: 3
+estimated_turns: 12
+encounter_class: standard
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [1, 4]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 4]
+      - [9, 5]
+    units:
+      - species: cartografi_subsonici
+        species_id: rupicapra_sensoria
+        count: 2
+        tier: base
+        ai_profile: support
+      - species: guardiani_risonanza
+        species_id: leviatano_risonante
+        count: 1
+        tier: elite
+        ai_profile: territorial
+  - wave_id: 2
+    turn_trigger: 5
+    spawn_points:
+      - [8, 1]
+      - [8, 8]
+    units:
+      - species: guardiani_risonanza
+        species_id: leviatano_risonante
+        count: 1
+        tier: elite
+        ai_profile: aggressive
+      - species: cartografi_subsonici
+        species_id: rupicapra_sensoria
+        count: 1
+        tier: base
+        ai_profile: cautious
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 4
+
+tags: [standard, night]
+
+visual_mood:
+  mood_tag: astratto_digitale
+  lighting: diffusa_violacea
+  particle_effect: onde_sinaptiche

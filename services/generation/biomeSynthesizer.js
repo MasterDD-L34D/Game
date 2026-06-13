@@ -1,0 +1,853 @@
+const fs = require('node:fs/promises');
+const fsSync = require('node:fs');
+const path = require('node:path');
+
+const { createSpeciesBuilder, buildPathfinderProfile } = require('./speciesBuilder');
+const { createRuntimeValidator } = require('./runtimeValidator');
+
+const ROLE_FLAG_SET = new Set(['apex', 'keystone', 'bridge', 'threat', 'event']);
+const ROLE_TROPHIC_LABELS = {
+  apex: 'predatore_terziario_apex',
+  keystone: 'ingegneri_ecosistema',
+  bridge: 'dispersore_ponte',
+  threat: 'minaccia_microbica',
+  event: 'evento_ecologico',
+};
+
+function slugify(value) {
+  if (!value) return '';
+  return String(value)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+
+function titleCase(value) {
+  if (!value) return '';
+  return String(value)
+    .split(/[_\s-]+/g)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function hashSeed(seed) {
+  if (seed === null || seed === undefined) {
+    return null;
+  }
+  const str = String(seed);
+  let hash = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+  }
+  return hash || 1;
+}
+
+function createRng(seed) {
+  const hashed = hashSeed(seed);
+  if (!hashed) {
+    return Math.random;
+  }
+  let state = hashed % 2147483647;
+  if (state <= 0) {
+    state += 2147483646;
+  }
+  return () => {
+    state = (state * 16807) % 2147483647;
+    return (state - 1) / 2147483646;
+  };
+}
+
+function randomId(prefix, rng) {
+  const suffix = Math.floor((rng() || Math.random()) * 1e8)
+    .toString(36)
+    .padStart(5, '0')
+    .slice(-5);
+  return `${prefix}_${suffix}`;
+}
+
+async function loadJson(filePath) {
+  const buffer = await fs.readFile(filePath, 'utf8');
+  return JSON.parse(buffer);
+}
+
+function injectPoolMetadata(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return { pools: [] };
+  }
+
+  const manifestMetadata =
+    payload.metadata && typeof payload.metadata === 'object' ? payload.metadata : {};
+  const schemaVersion =
+    manifestMetadata.schema_version ??
+    (Object.prototype.hasOwnProperty.call(payload, 'schema_version')
+      ? payload.schema_version
+      : null);
+  const updatedAt =
+    manifestMetadata.updated_at ??
+    (Object.prototype.hasOwnProperty.call(payload, 'updated_at') ? payload.updated_at : null);
+
+  const pools = Array.isArray(payload.pools) ? payload.pools : [];
+  const poolsWithMetadata = pools.map((pool) => {
+    if (!pool || typeof pool !== 'object') {
+      return pool;
+    }
+    const metadata = { ...(pool.metadata || {}) };
+    if (schemaVersion && !metadata.schema_version) {
+      metadata.schema_version = schemaVersion;
+    }
+    if (updatedAt && !metadata.updated_at) {
+      metadata.updated_at = updatedAt;
+    }
+    return {
+      ...pool,
+      metadata,
+    };
+  });
+
+  return {
+    ...payload,
+    pools: poolsWithMetadata,
+  };
+}
+
+function normaliseTraitGlossary(glossary) {
+  const map = new Map();
+  if (!glossary || typeof glossary !== 'object' || !glossary.traits) {
+    return map;
+  }
+  Object.entries(glossary.traits).forEach(([id, entry]) => {
+    if (!id) return;
+    const label = entry?.label_it || entry?.label_en || titleCase(id);
+    const descriptionIt = entry?.description_it || null;
+    const descriptionEn = entry?.description_en || null;
+    const description = descriptionIt || descriptionEn || null;
+    map.set(id, {
+      id,
+      label,
+      description,
+      description_it: descriptionIt,
+      description_en: descriptionEn,
+    });
+  });
+  return map;
+}
+
+function ensureArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  return [value];
+}
+
+function translatePathfinderStatblock(statblock, context = {}) {
+  const fallbackTraits = ensureArray(context.fallbackTraits);
+  return buildPathfinderProfile(statblock, {
+    biomeId: context.biomeId || null,
+    fallbackTraits,
+  });
+}
+
+function pickMany(array, count, rng) {
+  const source = Array.from(array ?? []);
+  const picked = [];
+  for (let i = 0; i < count && source.length; i += 1) {
+    const index = Math.floor((rng() || Math.random()) * source.length);
+    picked.push(source.splice(index, 1)[0]);
+  }
+  return picked;
+}
+
+function shuffle(array, rng) {
+  const clone = Array.from(array ?? []);
+  for (let i = clone.length - 1; i > 0; i -= 1) {
+    const j = Math.floor((rng() || Math.random()) * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
+  }
+  return clone;
+}
+
+function matchesClimate(pool, requested) {
+  if (!requested) return true;
+  const tags = ensureArray(pool?.climate_tags).map((tag) => String(tag).toLowerCase());
+  const wanted = String(requested).toLowerCase();
+  if (!tags.length) return false;
+  return tags.some((tag) => tag === wanted || tag.includes(wanted) || wanted.includes(tag));
+}
+
+function computeScore(pool, constraints, traitGlossary) {
+  let score = 1;
+  if (constraints.hazard && pool?.hazard?.severity === constraints.hazard) {
+    score += 6;
+  }
+  if (constraints.climate && matchesClimate(pool, constraints.climate)) {
+    score += 4;
+  }
+  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
+  if (requiredRoles.length) {
+    const roles = new Set((pool?.role_templates ?? []).map((template) => template.role));
+    requiredRoles.forEach((role) => {
+      if (roles.has(role)) {
+        score += 2;
+      }
+    });
+  }
+  const preferredTags = ensureArray(constraints.preferredTags)
+    .map((tag) => String(tag).toLowerCase())
+    .filter(Boolean);
+  if (preferredTags.length) {
+    const traitIds = [...(pool?.traits?.core ?? []), ...(pool?.traits?.support ?? [])];
+    const labels = traitIds.map((traitId) =>
+      (traitGlossary.get(traitId)?.label || traitId).toLowerCase(),
+    );
+    preferredTags.forEach((tag) => {
+      if (labels.some((label) => label.includes(tag) || tag.includes(label))) {
+        score += 1;
+      }
+    });
+  }
+  return score;
+}
+
+function pickCandidatePools(pools, constraints, traitGlossary) {
+  const minSize = Number.isFinite(constraints.minSize) ? constraints.minSize : 0;
+  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
+  const filtered = (pools ?? []).filter((pool) => {
+    if (!pool) return false;
+    const maxSize = pool?.size?.max ?? pool?.size?.min ?? 0;
+    if (minSize && maxSize < minSize) {
+      return false;
+    }
+    if (constraints.hazard && pool?.hazard?.severity !== constraints.hazard) {
+      return false;
+    }
+    if (constraints.climate && !matchesClimate(pool, constraints.climate)) {
+      return false;
+    }
+    if (
+      requiredRoles.length &&
+      requiredRoles.some(
+        (role) => !(pool?.role_templates ?? []).some((template) => template.role === role),
+      )
+    ) {
+      return false;
+    }
+    return true;
+  });
+  const candidates = (filtered.length ? filtered : (pools ?? [])).map((pool) => ({
+    pool,
+    score: computeScore(pool, constraints, traitGlossary),
+  }));
+  if (!candidates.length) {
+    throw new Error('Nessun pool di tratti disponibile per la sintesi dei biomi');
+  }
+  candidates.sort((a, b) => b.score - a.score);
+  return candidates;
+}
+
+function buildFlags(role) {
+  const flags = {};
+  if (ROLE_FLAG_SET.has(role)) {
+    flags[role] = true;
+  }
+  if (role === 'apex') {
+    flags.threat = true;
+  }
+  return flags;
+}
+
+function ensureTraits(pool) {
+  const core = Array.isArray(pool?.traits?.core) ? pool.traits.core : [];
+  const support = Array.isArray(pool?.traits?.support) ? pool.traits.support : [];
+  return { core, support };
+}
+
+function selectTraits(pool, rng) {
+  const { core, support } = ensureTraits(pool);
+  const supportPick = pickMany(support, Math.min(2, support.length), rng);
+  const combined = Array.from(new Set([...core, ...supportPick]));
+  return combined;
+}
+
+function cloneAffinity(entries) {
+  if (!Array.isArray(entries)) return [];
+  return entries
+    .map((entry) => ({
+      species_id: entry?.species_id || entry?.speciesId || null,
+      roles: Array.isArray(entry?.roles) ? entry.roles.filter(Boolean) : [],
+      weight: Number.isFinite(entry?.weight) ? entry.weight : Number.parseFloat(entry?.weight) || 0,
+    }))
+    .filter((entry) => entry.species_id);
+}
+
+function processTraitUsage(entry, usageTags) {
+  const traitUsage = Array.isArray(entry.usage_tags) ? entry.usage_tags.filter(Boolean) : [];
+  traitUsage.forEach((tag) => usageTags.add(tag));
+  return traitUsage;
+}
+
+function processCompletionFlags(entry, completionFlags) {
+  const flags =
+    entry.completion_flags && typeof entry.completion_flags === 'object'
+      ? entry.completion_flags
+      : {};
+  Object.entries(flags).forEach(([key, value]) => {
+    if (typeof value === 'boolean') {
+      completionFlags[key] = completionFlags[key] || value;
+    }
+  });
+  return flags;
+}
+
+function processSpeciesAffinity(entry, affinityMap) {
+  const affinityEntries = cloneAffinity(entry.species_affinity);
+  affinityEntries.forEach((affinity) => {
+    const speciesId = affinity.species_id;
+    if (!speciesId) return;
+    if (!affinityMap.has(speciesId)) {
+      affinityMap.set(speciesId, { species_id: speciesId, roles: new Set(), weight: 0 });
+    }
+    const bucket = affinityMap.get(speciesId);
+    bucket.weight += Number.isFinite(affinity.weight) ? affinity.weight : 0;
+    affinity.roles.forEach((role) => bucket.roles.add(role));
+  });
+  return affinityEntries;
+}
+
+function formatSpeciesAffinity(affinityMap) {
+  return Array.from(affinityMap.values())
+    .map((entry) => ({
+      species_id: entry.species_id,
+      roles: Array.from(entry.roles).sort(),
+      weight: Math.round(entry.weight * 1000) / 1000,
+    }))
+    .sort((a, b) => b.weight - a.weight || a.species_id.localeCompare(b.species_id));
+}
+
+function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
+  if (!traitCatalog || typeof traitCatalog.get !== 'function') {
+    return { usage_tags: [], species_affinity: [], completion_flags: {}, per_trait: {} };
+  }
+  const usageTags = new Set();
+  const completionFlags = {};
+  const affinityMap = new Map();
+  const perTrait = {};
+
+  traitIds.forEach((traitId) => {
+    const entry = traitCatalog.get(traitId);
+    if (!entry || typeof entry !== 'object') return;
+
+    const id = entry.id || traitId;
+    const traitUsage = processTraitUsage(entry, usageTags);
+    const flags = processCompletionFlags(entry, completionFlags);
+    const affinityEntries = processSpeciesAffinity(entry, affinityMap);
+
+    perTrait[id] = {
+      usage_tags: [...traitUsage],
+      completion_flags: { ...flags },
+      species_affinity: affinityEntries,
+    };
+  });
+
+  return {
+    usage_tags: Array.from(usageTags).sort(),
+    species_affinity: formatSpeciesAffinity(affinityMap),
+    completion_flags: completionFlags,
+    per_trait: perTrait,
+  };
+}
+
+function mapTraitDetails(traits, traitGlossary, traitCatalog) {
+  return traits.map((traitId) => {
+    const glossaryEntry = traitGlossary.get(traitId) || {};
+    const catalogEntry =
+      traitCatalog && typeof traitCatalog.get === 'function' ? traitCatalog.get(traitId) : null;
+    return {
+      id: traitId,
+      label: glossaryEntry.label || titleCase(traitId),
+      description: glossaryEntry.description || null,
+      description_it: glossaryEntry.description_it || null,
+      description_en: glossaryEntry.description_en || null,
+      usage_tags: Array.isArray(catalogEntry?.usage_tags) ? [...catalogEntry.usage_tags] : [],
+      completion_flags: catalogEntry?.completion_flags ? { ...catalogEntry.completion_flags } : {},
+      species_affinity: catalogEntry?.species_affinity
+        ? cloneAffinity(catalogEntry.species_affinity)
+        : [],
+    };
+  });
+}
+
+function inferTier(role, explicitTier) {
+  if (Number.isFinite(explicitTier)) {
+    return explicitTier;
+  }
+  switch (role) {
+    case 'apex':
+      return 4;
+    case 'keystone':
+      return 3;
+    case 'threat':
+      return 3;
+    case 'bridge':
+      return 2;
+    case 'event':
+      return 2;
+    default:
+      return 2;
+  }
+}
+
+async function registerSpeciesTemplate(
+  template,
+  pool,
+  biomeId,
+  traitGlossary,
+  traitCatalog,
+  rng,
+  speciesBuilder,
+) {
+  if (!template) return null;
+  const role = template.role || 'specialist';
+  const baseId = slugify(`${pool.id}-${role}-${template.label || role}`) || randomId('spec', rng);
+  const id = `${baseId}-${Math.floor((rng() || Math.random()) * 1e5)
+    .toString(36)
+    .padStart(3, '0')}`;
+  const flags = buildFlags(role);
+  const tier = inferTier(role, template.tier);
+  const preferredTraits = ensureArray(template.preferred_traits);
+  const traitLabels = mapTraitDetails(preferredTraits, traitGlossary, traitCatalog);
+  let builderProfile = null;
+  if (speciesBuilder) {
+    try {
+      builderProfile = await speciesBuilder.buildProfile(preferredTraits, {
+        baseName: template.label || titleCase(`${role}-${pool.id}`),
+        random: () => rng(),
+      });
+    } catch (error) {
+      builderProfile = null;
+    }
+  }
+
+  const fallbackMetadata = buildTraitMetadataFromCatalog(preferredTraits, traitCatalog);
+
+  const profile = builderProfile || {
+    id,
+    display_name: template.label || titleCase(`${role}-${pool.id}`),
+    summary: template.summary || null,
+    description: template.summary || null,
+    morphology: null,
+    behavior: null,
+    statistics: {
+      threat_tier: `T${tier}`,
+      rarity: null,
+      energy_profile: null,
+      synergy_score: null,
+    },
+    traits: { core: preferredTraits, derived: [], conflicts: [], metadata: fallbackMetadata },
+  };
+
+  return {
+    role,
+    speciesData: {
+      id: profile.id || id,
+      display_name: profile.display_name || template.label || titleCase(`${role}-${pool.id}`),
+      role_trofico: `${ROLE_TROPHIC_LABELS[role] || role}_${pool.id}`,
+      functional_tags: ensureArray(template.functional_tags),
+      flags,
+      summary: profile.summary || template.summary || null,
+      description: profile.description || template.summary || null,
+      biomes: [biomeId],
+      synthetic: true,
+      syntheticTier: tier,
+      balance: { threat_tier: profile.statistics?.threat_tier || `T${tier}` },
+      source_traits: preferredTraits,
+      source_pool: pool.id,
+      trait_labels: traitLabels,
+      derived_traits: profile.traits?.derived || [],
+      conflicting_traits: profile.traits?.conflicts || [],
+      morphology: profile.morphology || null,
+      behavior_profile: profile.behavior || null,
+      statistics: profile.statistics || { threat_tier: `T${tier}` },
+      trait_metadata: profile.traits?.metadata || null,
+      usage_tags: Array.isArray(profile.traits?.metadata?.usage_tags)
+        ? profile.traits.metadata.usage_tags
+        : [],
+      completion_flags: profile.traits?.metadata?.completion_flags || {},
+      species_affinity: Array.isArray(profile.traits?.metadata?.species_affinity)
+        ? profile.traits.metadata.species_affinity
+        : [],
+    },
+  };
+}
+
+async function buildSpecies(
+  pool,
+  biomeId,
+  traitGlossary,
+  traitCatalog,
+  constraints,
+  rng,
+  speciesBuilder,
+  runtimeValidator,
+) {
+  const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
+  const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
+  const shuffled = shuffle(templates, rng);
+  const species = [];
+  const takenRoles = new Set();
+
+  const register = async (template) => {
+    const result = await registerSpeciesTemplate(
+      template,
+      pool,
+      biomeId,
+      traitGlossary,
+      traitCatalog,
+      rng,
+      speciesBuilder,
+    );
+    if (result) {
+      species.push(result.speciesData);
+      takenRoles.add(result.role);
+    }
+  };
+
+  for (const template of shuffled) {
+    // eslint-disable-next-line no-await-in-loop
+    await register(template);
+  }
+
+  for (const role of preferredRoles) {
+    if (takenRoles.has(role)) continue;
+    const fallback = templates.find((template) => template.role === role);
+    if (fallback) {
+      // eslint-disable-next-line no-await-in-loop
+      await register(fallback);
+    }
+  }
+
+  let validation = null;
+  let correctedSpecies = species;
+  if (
+    runtimeValidator &&
+    typeof runtimeValidator.validateSpeciesBatch === 'function' &&
+    species.length
+  ) {
+    try {
+      const result = await runtimeValidator.validateSpeciesBatch(species, { biomeId });
+      validation = {
+        messages: Array.isArray(result?.messages) ? result.messages : [],
+        discarded: Array.isArray(result?.discarded) ? result.discarded : [],
+      };
+      if (result && Array.isArray(result.corrected) && result.corrected.length) {
+        correctedSpecies = result.corrected;
+      } else if (result && Array.isArray(result.discarded) && result.discarded.length) {
+        const discarded = new Set(result.discarded.map((item) => String(item)));
+        correctedSpecies = species.filter((entry) => !discarded.has(String(entry.id)));
+      }
+    } catch (error) {
+      validation = { error: error.message };
+    }
+  }
+
+  return { entries: correctedSpecies, validation };
+}
+
+function countRoles(species) {
+  const counts = { apex: 0, keystone: 0, bridge: 0, threat: 0, event: 0 };
+  species.forEach((entry) => {
+    const flags = entry?.flags ?? {};
+    Object.entries(flags).forEach(([flag, active]) => {
+      if (active && counts[flag] !== undefined) {
+        counts[flag] += 1;
+      }
+    });
+  });
+  return counts;
+}
+
+function summariseRolePresence(species) {
+  const presence = new Set();
+  species.forEach((entry) => {
+    Object.entries(entry?.flags ?? {}).forEach(([flag, active]) => {
+      if (active) {
+        presence.add(flag);
+      }
+    });
+  });
+  return Array.from(presence);
+}
+
+async function buildBiomeFromPool(
+  pool,
+  context,
+  traitGlossary,
+  traitCatalog,
+  rng,
+  speciesBuilder,
+  runtimeValidator,
+) {
+  const traits = selectTraits(pool, rng);
+  const traitDetails = mapTraitDetails(traits, traitGlossary, traitCatalog);
+  const id = randomId(slugify(pool.id) || 'bioma', rng);
+  const poolMin = pool?.size?.min ?? 3;
+  const poolMax = pool?.size?.max ?? poolMin;
+  const requestedMin = Number.isFinite(context?.minSize) ? context.minSize : poolMin;
+  const effectiveMin = Math.min(poolMax, Math.max(poolMin, requestedMin));
+  const range = Math.max(poolMax - effectiveMin, 0);
+  const zoneCount =
+    effectiveMin + (range > 0 ? Math.floor((rng() || Math.random()) * (range + 1)) : 0);
+  const speciesResult = await buildSpecies(
+    pool,
+    id,
+    traitGlossary,
+    traitCatalog,
+    context,
+    rng,
+    speciesBuilder,
+    runtimeValidator,
+  );
+  const species = speciesResult.entries || [];
+  const roleCounts = countRoles(species);
+  const rolePresence = summariseRolePresence(species);
+  const signature = traitDetails.map((trait) => trait.label).join(' · ');
+
+  let biome = {
+    id,
+    label: `${pool.label} sintetico`,
+    synthetic: true,
+    summary: pool.summary || null,
+    description: pool.summary || null,
+    parents: [
+      {
+        id: pool.id,
+        label: pool.label,
+        type: 'trait_pool',
+        climate: pool.climate_tags ?? [],
+      },
+    ],
+    affixes: traits.map((traitId) => slugify(traitId)),
+    hazard: pool.hazard || null,
+    ecology: pool.ecology || null,
+    traits: {
+      ids: traits,
+      details: traitDetails,
+      climate: pool.climate_tags ?? [],
+    },
+    manifest: {
+      trait_pool: pool.id,
+      trait_count: traits.length,
+      species_counts: roleCounts,
+      role_presence: rolePresence,
+    },
+    metrics: {
+      zoneCount,
+      hazardSeverity: pool?.hazard?.severity || 'unknown',
+      resourceRichness: ensureArray(pool?.ecology?.primary_resources).length,
+    },
+    signature,
+    species,
+  };
+
+  const validationReport = {};
+  if (
+    speciesResult.validation &&
+    (speciesResult.validation.error ||
+      (Array.isArray(speciesResult.validation.messages) &&
+        speciesResult.validation.messages.length) ||
+      (Array.isArray(speciesResult.validation.discarded) &&
+        speciesResult.validation.discarded.length))
+  ) {
+    validationReport.species = speciesResult.validation;
+  }
+
+  if (runtimeValidator && typeof runtimeValidator.validateBiome === 'function') {
+    try {
+      const biomeValidation = await runtimeValidator.validateBiome(biome, {
+        defaultHazard: pool?.hazard?.id || null,
+      });
+      if (
+        biomeValidation &&
+        biomeValidation.corrected &&
+        typeof biomeValidation.corrected === 'object'
+      ) {
+        biome = { ...biome, ...biomeValidation.corrected };
+      }
+      if (biomeValidation && Array.isArray(biomeValidation.messages)) {
+        validationReport.biome = biomeValidation.messages;
+      }
+    } catch (error) {
+      validationReport.biomeError = error.message;
+    }
+  }
+
+  if (Object.keys(validationReport).length) {
+    biome.validation = validationReport;
+  }
+
+  return biome;
+}
+
+function resolveDataPath(dataRoot, segments = []) {
+  const targetSegments = Array.isArray(segments) ? segments : [segments];
+  const corePath = path.join(dataRoot, 'core', ...targetSegments);
+  if (fsSync.existsSync(corePath)) {
+    return corePath;
+  }
+  return path.join(dataRoot, ...targetSegments);
+}
+
+function createBiomeSynthesizer(options = {}) {
+  const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
+  const traitGlossaryPath =
+    options.traitGlossaryPath || resolveDataPath(dataRoot, ['traits', 'glossary.json']);
+  const traitPoolPath =
+    options.traitPoolPath || resolveDataPath(dataRoot, ['traits', 'biome_pools.json']);
+  const catalogService = options.catalogService || null;
+  const speciesBuilderInstance = createSpeciesBuilder(
+    options.speciesBuilder ||
+      (catalogService
+        ? {
+            catalogLoader: () => catalogService.loadTraitCatalog(),
+          }
+        : {
+            catalogPath: path.resolve(
+              __dirname,
+              '..',
+              '..',
+              'docs',
+              'catalog',
+              'catalog_data.json',
+            ),
+          }),
+  );
+  const runtimeValidator =
+    options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
+
+  let loaded = null;
+  let loadingPromise = null;
+
+  async function load() {
+    if (loaded) return loaded;
+    if (loadingPromise) return loadingPromise;
+    if (catalogService) {
+      loadingPromise = Promise.all([
+        catalogService.loadTraitGlossary(),
+        catalogService.loadBiomePools(),
+        speciesBuilderInstance.ensureCatalog(),
+      ])
+        .then(([glossary, pools, catalog]) => {
+          const traitGlossary = normaliseTraitGlossary(glossary);
+          const poolsWithMetadata = injectPoolMetadata(pools);
+          const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
+          loaded = { traitGlossary, poolList, traitCatalog: catalog };
+          return loaded;
+        })
+        .finally(() => {
+          loadingPromise = null;
+        });
+      return loadingPromise;
+    }
+    loadingPromise = Promise.all([
+      loadJson(traitGlossaryPath),
+      loadJson(traitPoolPath),
+      speciesBuilderInstance.ensureCatalog(),
+    ])
+      .then(([glossary, pools, catalog]) => {
+        const traitGlossary = normaliseTraitGlossary(glossary);
+        const poolsWithMetadata = injectPoolMetadata(pools);
+        const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
+        loaded = { traitGlossary, poolList, traitCatalog: catalog };
+        return loaded;
+      })
+      .finally(() => {
+        loadingPromise = null;
+      });
+    return loadingPromise;
+  }
+
+  async function generate(options = {}) {
+    const { traitGlossary, poolList, traitCatalog } = await load();
+    const { count = 1, constraints = {}, seed = null } = options;
+    if (!poolList.length) {
+      throw new Error('Nessun pool definito per la generazione dei biomi');
+    }
+    const rng = createRng(seed);
+    const candidates = pickCandidatePools(poolList, constraints, traitGlossary);
+    const queue = [...candidates];
+    const result = [];
+
+    for (let i = 0; i < Math.max(1, count); i += 1) {
+      if (!queue.length) {
+        queue.push(...candidates);
+      }
+      const total = queue.reduce((sum, entry) => sum + (entry.score || 1), 0);
+      const threshold = (rng() || Math.random()) * (total || queue.length);
+      let cumulative = 0;
+      let pickedIndex = 0;
+      for (let index = 0; index < queue.length; index += 1) {
+        const weight = queue[index].score || 1;
+        cumulative += weight;
+        if (threshold <= cumulative) {
+          pickedIndex = index;
+          break;
+        }
+      }
+      const [entry] = queue.splice(pickedIndex, 1);
+      // eslint-disable-next-line no-await-in-loop
+      const biome = await buildBiomeFromPool(
+        entry.pool,
+        constraints,
+        traitGlossary,
+        traitCatalog,
+        rng,
+        speciesBuilderInstance,
+        runtimeValidator,
+      );
+      result.push(biome);
+    }
+
+    return {
+      biomes: result,
+      constraints: {
+        requested: constraints,
+        applied: {
+          hazard: constraints.hazard || null,
+          climate: constraints.climate || null,
+          requiredRoles: ensureArray(constraints.requiredRoles).filter((role) =>
+            ROLE_FLAG_SET.has(role),
+          ),
+          preferredTags: ensureArray(constraints.preferredTags),
+          minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : null,
+        },
+        poolCount: poolList.length,
+      },
+    };
+  }
+
+  async function reload() {
+    loaded = null;
+    if (catalogService && typeof catalogService.reload === 'function') {
+      await catalogService.reload();
+    }
+    return load();
+  }
+
+  return {
+    load,
+    reload,
+    generate,
+  };
+}
+
+module.exports = {
+  createBiomeSynthesizer,
+  translatePathfinderStatblock,
+};

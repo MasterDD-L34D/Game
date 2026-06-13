@@ -1,0 +1,128 @@
+{
+  "scenario": "enc_tutorial_07_hardcore_pod_rush",
+  "runs": [
+    {
+      "run": 1,
+      "outcome": "victory",
+      "rounds": 10,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 2,
+      "outcome": "victory",
+      "rounds": 7,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 3,
+      "outcome": "victory",
+      "rounds": 9,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 4,
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 5,
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 6,
+      "outcome": "victory",
+      "rounds": 7,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 7,
+      "outcome": "victory",
+      "rounds": 14,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 8,
+      "outcome": "victory",
+      "rounds": 13,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 9,
+      "outcome": "victory",
+      "rounds": 6,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    },
+    {
+      "run": 10,
+      "outcome": "victory",
+      "rounds": 8,
+      "timer_expired": false,
+      "players_alive": 3,
+      "enemies_alive": 0,
+      "kills": 3,
+      "losses": 1,
+      "kd": 3.0
+    }
+  ],
+  "summary": {
+    "n": 10,
+    "win_rate": 100.0,
+    "defeat_rate": 0.0,
+    "timeout_rate": 0.0,
+    "timer_expire_rate": 0.0,
+    "rounds_avg": 10.1,
+    "rounds_median": 9.5,
+    "kd_avg": 3.0,
+    "target_band": "win 30-50%",
+    "in_band": false,
+    "elapsed_s": 269.1
+  }
+}

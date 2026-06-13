@@ -1,0 +1,66 @@
+{
+  "id": "cinghia_iper_ciliare",
+  "label": "i18n:traits.cinghia_iper_ciliare.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "scheletro_pneumatico_a_maglie"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.cinghia_iper_ciliare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cinghia_iper_ciliare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cinghia_iper_ciliare.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "velocita_max",
+      "value": 1.2,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Percorre 100 m su ghiaia in < 90 s",
+    "scene_prompt": "Rileva tracce ciliate su impronte"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": "Le micro-ciglie aderiscono a superfici rugose terrestri, convertendo attrito in trazione stabile."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "terrestre"
+  },
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
+  },
+  "debolezza": "i18n:traits.cinghia_iper_ciliare.debolezza"
+}

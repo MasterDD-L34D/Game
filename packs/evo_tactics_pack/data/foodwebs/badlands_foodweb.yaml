@@ -1,0 +1,111 @@
+pack_slug: badlands
+display_name_it: "Foodweb Calanchi Ferrosi"
+display_name_en: "Ferrous Badlands Foodweb"
+biome_slug: badlands
+biome_legacy_slug: badlands
+nodes:
+- id: arbusti_xerofili
+  node_id: arbusti_xerofili
+  legacy_slug: arbusti_xerofili
+  display_name_it: "Arbusti Xerofili"
+  display_name_en: "Xerophyte Shrubs"
+  kind: resource
+- id: crostoni_criptofite
+  node_id: crostoni_criptofite
+  legacy_slug: crostoni_criptofite
+  display_name_it: "Croste Criptofite"
+  display_name_en: "Cryptophyte Crusts"
+  kind: resource
+- id: cianobatteri
+  node_id: cianobatteri
+  legacy_slug: cianobatteri
+  display_name_it: "Cianobatteri"
+  display_name_en: "Cyanobacteria"
+  kind: resource
+- id: sand-burrower
+  node_id: sand-burrower
+  legacy_slug: sand_burrower
+  display_name_it: "Scavatore di Sabbia"
+  display_name_en: "Sand Burrower"
+  kind: species
+- id: rust-scavenger
+  node_id: rust-scavenger
+  legacy_slug: rust_scavenger
+  display_name_it: "Spazzino Ferroso"
+  display_name_en: "Rust Scavenger"
+  kind: species
+- id: echo-wing
+  node_id: echo-wing
+  legacy_slug: echo_wing
+  display_name_it: "Ala Risonante"
+  display_name_en: "Echo Wing"
+  kind: species
+- id: ferrocolonia-magnetotattica
+  node_id: ferrocolonia-magnetotattica
+  legacy_slug: ferrocolonia_magnetotattica
+  display_name_it: "Ferrocolonia Magnetotattica"
+  display_name_en: "Magnetotactic Ferrocolony"
+  kind: resource
+- id: dune-stalker
+  node_id: dune-stalker
+  legacy_slug: dune_stalker
+  display_name_it: "Predatore delle Dune"
+  display_name_en: "Dune Stalker"
+  kind: species
+- id: nano-rust-bloom
+  node_id: nano-rust-bloom
+  legacy_slug: nano_rust_bloom
+  display_name_it: "Fioritura Nano-Ferro"
+  display_name_en: "Nano Rust Bloom"
+  kind: hazard
+- id: evento-tempesta-ferrosa
+  node_id: evento-tempesta-ferrosa
+  legacy_slug: evento_tempesta_ferrosa
+  display_name_it: "Evento Tempesta Ferrosa"
+  display_name_en: "Ferrous Storm Event"
+  kind: hazard
+- id: detrito
+  node_id: detrito
+  legacy_slug: detrito
+  display_name_it: "Detrito"
+  display_name_en: "Detritus"
+  kind: resource
+- id: carcasse
+  node_id: carcasse
+  legacy_slug: carcasse
+  display_name_it: "Carcasse"
+  display_name_en: "Carcasses"
+  kind: resource
+edges:
+- from: arbusti_xerofili
+  to: sand-burrower
+  type: herbivory
+  weight: 0.6
+- from: crostoni_criptofite
+  to: sand-burrower
+  type: grazing
+  weight: 0.4
+- from: sand-burrower
+  to: dune-stalker
+  type: predation
+  weight: 0.7
+- from: detrito
+  to: rust-scavenger
+  type: detritus
+  weight: 0.8
+- from: rust-scavenger
+  to: ferrocolonia-magnetotattica
+  type: mutualism
+  weight: 0.3
+- from: echo-wing
+  to: arbusti_xerofili
+  type: dispersal
+  weight: 0.5
+- from: nano-rust-bloom
+  to: rust-scavenger
+  type: suppression
+  weight: 0.6
+- from: carcasse
+  to: rust-scavenger
+  type: scavenging
+  weight: 0.5
