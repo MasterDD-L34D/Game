@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-13T22:08:23.387724Z",
+  "generated_at": "2026-06-13T22:24:21.724133Z",
   "summary": {
     "total_traits": 254,
     "glossary_ok": 254,
@@ -14942,7 +14942,7 @@
     },
     {
       "id": "filamenti_digestivi_compattanti",
-      "label": "Filamento materiali digeriti",
+      "label": "Filamenti Digestivi Compattanti",
       "tier": "T2",
       "coverage": {
         "core": 8,
