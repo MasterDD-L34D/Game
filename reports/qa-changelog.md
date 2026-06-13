@@ -1,6 +1,6 @@
 # QA export changelog
 
-Generato: 2026-06-12T00:11:09.302609Z
+Generato: 2026-06-13T22:08:23.387724Z
 Baseline precedente: 2026-06-12T00:11:09.302609Z
 
 ## Metriche baseline
