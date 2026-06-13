@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T00:11:09.302609Z",
+  "generated_at": "2026-06-13T22:08:23.387724Z",
   "summary": {
     "total_traits": 254,
     "glossary_ok": 254,
@@ -2802,7 +2802,7 @@
     },
     {
       "id": "artigli_sette_vie",
-      "label": "artigli_sette_vie",
+      "label": "Artigli a Sette Vie",
       "tier": "T1",
       "coverage": {
         "core": 5,
@@ -6984,7 +6984,7 @@
     },
     {
       "id": "carapace_fase_variabile",
-      "label": "carapace_fase_variabile",
+      "label": "Carapace a Variazione di Fase",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -10147,7 +10147,7 @@
     },
     {
       "id": "coda_frusta_cinetica",
-      "label": "coda_frusta_cinetica",
+      "label": "Coda a Frusta Cinetica",
       "tier": "T1",
       "coverage": {
         "core": 5,
@@ -11680,7 +11680,7 @@
     },
     {
       "id": "criostasi_adattiva",
-      "label": "criostasi_adattiva",
+      "label": "Criostasi",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -12262,7 +12262,7 @@
     },
     {
       "id": "cuticole_cerose",
-      "label": "cuticole_cerose",
+      "label": "Cuticole Cerose",
       "tier": "T1",
       "coverage": {
         "core": 7,
@@ -13075,7 +13075,7 @@
     },
     {
       "id": "eco_interno_riflesso",
-      "label": "eco_interno_riflesso",
+      "label": "Riflesso dell'Eco Interno",
       "tier": "T2",
       "coverage": {
         "core": 6,
@@ -13650,7 +13650,7 @@
     },
     {
       "id": "empatia_coordinativa",
-      "label": "empatia_coordinativa",
+      "label": "Empatia Coordinativa",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -14942,7 +14942,7 @@
     },
     {
       "id": "filamenti_digestivi_compattanti",
-      "label": "filamenti_digestivi_compattanti",
+      "label": "Filamento materiali digeriti",
       "tier": "T2",
       "coverage": {
         "core": 8,
@@ -16224,7 +16224,7 @@
     },
     {
       "id": "focus_frazionato",
-      "label": "focus_frazionato",
+      "label": "Focus Frazionato",
       "tier": "T1",
       "coverage": {
         "core": 4,
@@ -16823,7 +16823,7 @@
     },
     {
       "id": "ghiandola_caustica",
-      "label": "ghiandola_caustica",
+      "label": "Ghiandola Caustica",
       "tier": "T1",
       "coverage": {
         "core": 1,
@@ -18679,7 +18679,7 @@
     },
     {
       "id": "grassi_termici",
-      "label": "grassi_termici",
+      "label": "Grassi Termici",
       "tier": "T1",
       "coverage": {
         "core": 7,
@@ -20189,7 +20189,7 @@
     },
     {
       "id": "lingua_tattile_trama",
-      "label": "lingua_tattile_trama",
+      "label": "Lingua Tattile Trama-Sensibile",
       "tier": "T1",
       "coverage": {
         "core": 2,
@@ -21931,7 +21931,7 @@
     },
     {
       "id": "mimetismo_cromatico_passivo",
-      "label": "mimetismo_cromatico_passivo",
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
       "tier": "T1",
       "coverage": {
         "core": 6,
@@ -23016,7 +23016,7 @@
     },
     {
       "id": "nucleo_ovomotore_rotante",
-      "label": "nucleo_ovomotore_rotante",
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
       "tier": "T1",
       "coverage": {
         "core": 4,
@@ -23490,7 +23490,7 @@
     },
     {
       "id": "occhi_infrarosso_composti",
-      "label": "occhi_infrarosso_composti",
+      "label": "Occhi Composti ad Infrarosso",
       "tier": "T1",
       "coverage": {
         "core": 2,
@@ -23605,7 +23605,7 @@
     },
     {
       "id": "olfatto_risonanza_magnetica",
-      "label": "olfatto_risonanza_magnetica",
+      "label": "Olfatto di Risonanza Magnetica",
       "tier": "T2",
       "coverage": {
         "core": 6,
@@ -23951,7 +23951,7 @@
     },
     {
       "id": "pathfinder",
-      "label": "pathfinder",
+      "label": "Pathfinder",
       "tier": "T1",
       "coverage": {
         "core": 1,
@@ -24300,7 +24300,7 @@
     },
     {
       "id": "pianificatore",
-      "label": "pianificatore",
+      "label": "Pianificatore",
       "tier": "T1",
       "coverage": {
         "core": 1,
@@ -24889,7 +24889,7 @@
     },
     {
       "id": "random",
-      "label": "random",
+      "label": "Trait Random",
       "tier": "T1",
       "coverage": {
         "core": 0,
@@ -25009,7 +25009,7 @@
     },
     {
       "id": "respiro_a_scoppio",
-      "label": "respiro_a_scoppio",
+      "label": "Respiro a scoppio",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -25241,7 +25241,7 @@
     },
     {
       "id": "risonanza_di_branco",
-      "label": "risonanza_di_branco",
+      "label": "Risonanza di Branco",
       "tier": "T1",
       "coverage": {
         "core": 2,
@@ -25717,7 +25717,7 @@
     },
     {
       "id": "sacche_galleggianti_ascensoriali",
-      "label": "sacche_galleggianti_ascensoriali",
+      "label": "Sacche galleggianti ascensoriali",
       "tier": "T1",
       "coverage": {
         "core": 7,
@@ -25952,7 +25952,7 @@
     },
     {
       "id": "sangue_piroforico",
-      "label": "sangue_piroforico",
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -26199,7 +26199,7 @@
     },
     {
       "id": "scheletro_idro_regolante",
-      "label": "scheletro_idro_regolante",
+      "label": "Scheletro Idro-Regolante",
       "tier": "T1",
       "coverage": {
         "core": 6,
@@ -26792,7 +26792,7 @@
     },
     {
       "id": "secrezione_rallentante_palmi",
-      "label": "secrezione_rallentante_palmi",
+      "label": "Mani secernano liquido rallentante",
       "tier": "T1",
       "coverage": {
         "core": 2,
@@ -27738,7 +27738,7 @@
     },
     {
       "id": "sonno_emisferico_alternato",
-      "label": "sonno_emisferico_alternato",
+      "label": "Dormire con solo metà cervello alla volta",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -27967,7 +27967,7 @@
     },
     {
       "id": "spore_psichiche_silenziate",
-      "label": "spore_psichiche_silenziate",
+      "label": "Spora Psichica Silenziosa",
       "tier": "T1",
       "coverage": {
         "core": 4,
@@ -28320,7 +28320,7 @@
     },
     {
       "id": "struttura_elastica_amorfa",
-      "label": "struttura_elastica_amorfa",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
       "tier": "T1",
       "coverage": {
         "core": 8,
@@ -28451,7 +28451,7 @@
     },
     {
       "id": "tattiche_di_branco",
-      "label": "tattiche_di_branco",
+      "label": "Tattiche di Branco",
       "tier": "T1",
       "coverage": {
         "core": 1,
@@ -29041,7 +29041,7 @@
     },
     {
       "id": "ventriglio_gastroliti",
-      "label": "ventriglio_gastroliti",
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
       "tier": "T1",
       "coverage": {
         "core": 3,
@@ -29401,7 +29401,7 @@
     },
     {
       "id": "zampe_a_molla",
-      "label": "zampe_a_molla",
+      "label": "Zampe a Molla",
       "tier": "T1",
       "coverage": {
         "core": 0,
