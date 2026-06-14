@@ -1,8 +1,8 @@
 // SPEC-I ER7 -- wire integration: il season-tick (POST advance-season) avanza
 // la popolazione discreta dei biomi-pilota. Flag ON: bioma ferito (A13) ->
 // prey depleted; apex pressure (run vinto) -> apex depleted + segnale one-shot
-// consumato; eventi -> permanentFlags. Flag OFF (default) -> biome_population
-// null, nessuna mutazione del campaign (band-safe / back-compat).
+// consumato; eventi -> permanentFlags. Flag default ON (opt-out 'false') -> con
+// 'false' biome_population null, nessuna mutazione del campaign (band-safe / back-compat).
 'use strict';
 
 const test = require('node:test');
