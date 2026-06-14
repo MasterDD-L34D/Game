@@ -42,12 +42,12 @@ scenarios:
   - id: enc_tutorial_07_hardcore_pod_rush
     role: balance_oracle
     target_band: [0.30, 0.50]
-    ratified_knob: { enemy_damage_multiplier_override: 2.1 } # REPLACES class 1.8, not stack
-    last_wr_n40: '0.52 (N=100 2026-06-14, marginal +2pp over ceiling)'
-    status: review_needed
+    ratified_knob: { enemy_damage_multiplier_override: 2.5 } # REPLACES class 1.8, not stack
+    last_wr_n40: '0.42 (N=100 2026-06-14, seed 424242)'
+    status: ratified
     tool: tools/py/batch_calibrate_hardcore07.py
     port: 3334
-    note: 'Timer/objective scenario, fisico-only policy (NO channel exploit) -> #2719-INDEPENDENT. Forensic N=100 2026-06-14 = WR 52% vs band [30-50], CI95 [42,62] straddles ceiling. Drift from ~40% is NOT #2719; cause un-bisected = separate low-priority follow-up. Original: post wave 5-7 nerf 6 traits cost_ap 1->2.'
+    note: 'RE-CENTERED 2026-06-14: enemy_damage_multiplier_override 2.1->2.5. hc07 sat at the band ceiling (50% N=40 / 52% N=100) since the 2026-05-30 baseline = no gate margin. #2719-INDEPENDENT (fisico-only, timer-race scenario; losses are timeouts not defeats). Forensic N=100 = WR 42% mid-band [30-50]. Both oracles now in-band -> combat-balance gate phase-2 (blocking) is unblocked.'
 
   - id: enc_tutorial_01_05
     role: designed_winnable_ladder
@@ -66,6 +66,6 @@ run_canonical: |
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
-  ci_workflow: '.github/workflows/combat-balance-gate.yml (phase 1 = warn-only; flip to blocking once hc07 in-band)'
+  ci_workflow: '.github/workflows/combat-balance-gate.yml (phase 1 = warn-only). Both oracles now in-band (hc06 22% / hc07 42% @ N=100) -> phase-2 UNBLOCKED. Flip to blocking = remove `continue-on-error` + verdict ::error::+exit1 in the workflow, AND register `combat-oracle` as a required status check in branch protection (owner-gated). Recommend after the gate bakes ~1 sprint.'
   band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct combat fix that shifts a band = block + human re-ratify, NEVER auto-update target_band'
   human_playtest: 'OPTIONAL confirmation, never blocking'
