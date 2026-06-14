@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    timeout-minutes: 25
+    timeout-minutes: 35
     # PHASE 2 (re-flipped 2026-06-14 pm): blocking. hc06 was re-calibrated on the CI
     # runtime node 22 (boss_hp 1.04 -> 1.02 = 23% in-band on BOTH node 22 and node 24;
     # the earlier node-24-only 1.04 read 12.5% OOB on node 22). Both oracles in-band on
@@ -88,7 +88,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pyyaml
 
-      - name: Run canonical balance oracles (N=40, seed 424242, shards 4)
+      - name: Run canonical balance oracles (N=100, seed 424242, shards 4)
         id: oracle
         continue-on-error: true
         env:
@@ -97,8 +97,12 @@ jobs:
         run: |
           mkdir -p /tmp/oracle
           set +e
+          # N=100 (NOT 40): hc06's boss_hp lever is razor-steep, so the N=40 and N=100
+          # seed subsets sample to different WR at the same value (1.02 = 12.5% @ N=40 vs
+          # 23% @ N=100). The gate N MUST match the ratification N (100, seed-pinned =
+          # deterministic) or it false-fails. ~2-3 min on CI.
           python tools/py/playtest_canonical.py \
-            --n 40 --shards 4 --base-port 3360 \
+            --n 100 --shards 4 --base-port 3360 \
             --label ci-${{ github.run_id }} \
             --out-dir /tmp/oracle
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
@@ -106,7 +110,7 @@ jobs:
       - name: Write step summary
         if: always()
         run: |
-          echo "## Combat balance oracle (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Combat balance oracle (N=100, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           cat /tmp/oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the oracle run failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
