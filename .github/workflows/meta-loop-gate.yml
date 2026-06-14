@@ -49,18 +49,15 @@ env:
 
 jobs:
   meta-loop-oracle:
-    # Windows runner = the dev/prod OS (Evo-Tactics is Windows-only). The meta-loop
-    # metrics are robust cross-OS (they passed on ubuntu too), but the oracle is gated
-    # on Windows for parity with combat-balance-gate + because the runner has Windows-
-    # specific handling (--isolate native-crash mitigation). See CANONICAL sec 3.
-    runs-on: windows-latest
+    # ubuntu = cheaper + the meta-loop metrics are robust cross-runtime (they passed on
+    # both ubuntu and windows). NB the canonical runtime for any FUTURE band ratify is
+    # node 22 (the CI + repo-recommended version), not whatever the dev box runs. See
+    # CANONICAL-AI-PLAYTEST.md sec 3.
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-    timeout-minutes: 30
+    timeout-minutes: 25
     continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 (after the runner is seed-pinned).
-    defaults:
-      run:
-        shell: bash # run: steps use bash syntax -> Git Bash on the Windows runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -80,11 +77,11 @@ jobs:
         env:
           GIT_COMMIT: ${{ github.sha }}
         run: |
-          mkdir -p _metaloop
+          mkdir -p /tmp/metaloop
           set +e
           node tools/sim/full-loop-batch.js \
             --runs 40 --seed-base 424242 --isolate --gate \
-            --out _metaloop
+            --out /tmp/metaloop
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Write step summary
@@ -92,7 +89,7 @@ jobs:
         run: |
           echo "## Meta-loop band gate (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          cat _metaloop/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+          cat /tmp/metaloop/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the batch failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload meta-loop report
@@ -100,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: meta-loop-${{ github.run_id }}
-          path: _metaloop/
+          path: /tmp/metaloop/
           retention-days: 14
 
       - name: Verdict (phase 1 = warn-only)
