@@ -52,9 +52,15 @@ function createCoopStore({ lobby } = {}) {
       if (orch?.run?.id === campaignId) {
         orch.setSessionId(sessionId);
         // Mirror onto the lobby room so the VERSIONED publishPhaseChange
-        // (the channel the phone composer consumes) carries session_id.
+        // (the channel the phone composer consumes) carries session_id +
+        // campaign_id. G2 #2746 — room.campaignId was never set, so every
+        // versioned phase_change shipped campaign_id: null and the Godot
+        // phone lost the CampaignState link (run.id == campaign_id).
         const room = lobby?.getRoom?.(orch.roomCode);
-        if (room) room.sessionId = sessionId;
+        if (room) {
+          room.sessionId = sessionId;
+          room.campaignId = campaignId;
+        }
         return true;
       }
     }

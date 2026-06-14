@@ -1610,7 +1610,12 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              // G5 #2746 — role-aware quorum so the TV-mirror host is not
+              // counted in worldTally.total (the phone saw "2 waiting / 3
+              // total" with 2 players). Mirrors lifecycleQuorumPids used by
+              // character_create / lineage_choice (#2707/#2708): host counts
+              // only when it actually plays (submitter or owns a character).
+              const allPids = lifecycleQuorumPids(room, orch, playerId);
               // B-NEW-1 fix 2026-05-08 — connected-only quorum so phone
               // smoke does not stall when 2nd player WS dropped mid-vote.
               const connectedPids = Array.from(room.players.values())
@@ -1949,6 +1954,12 @@ function createWsServer({
                 room.publishPhaseChange('world_setup');
               } else if (result.phase === 'ended') {
                 room.publishPhaseChange('ended');
+              } else if (result.phase === 'nido') {
+                // G3 #2746 — Nido-hub gate: next_macro routes to 'nido' when
+                // unlocked. Pre-fix no phase_change was published for nido, so
+                // phones could not enter MODE_NIDO (host had to send `phase nido`
+                // manually). 'nido' is whitelisted in KNOWN_PHASES.
+                room.publishPhaseChange('nido');
               }
               socket.send(
                 JSON.stringify({
