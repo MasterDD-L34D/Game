@@ -55,13 +55,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    timeout-minutes: 25
-    continue-on-error: true # REVERTED to PHASE 1 warn-only 2026-06-14. hc06 reads
-    # 12.5% (OOB-low) on the CI node 22 vs 22% on the node-24 dev box: the calibration
-    # was done on the wrong node/V8 version (the steep boss_hp lever amplifies float
-    # deltas between node versions; it is NOT an OS thing -- ubuntu AND windows runners
-    # both read 12.5% on node 22). Do not block on a band mis-calibrated for the gate's
-    # runtime. Re-flip to phase-2 after hc06 is re-calibrated on node 22 (CANONICAL sec 3).
+    timeout-minutes: 35
+    # PHASE 2 (re-flipped 2026-06-14 pm): blocking. hc06 was re-calibrated on the CI
+    # runtime node 22 (boss_hp 1.04 -> 1.02 = 23% in-band on BOTH node 22 and node 24;
+    # the earlier node-24-only 1.04 read 12.5% OOB on node 22). Both oracles in-band on
+    # node 22 -> passes baseline, fails only on a real future drift. Hard mechanical
+    # block (required status check) DEFERRED (master-dd Option 1) -- the red X suffices.
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -89,7 +88,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pyyaml
 
-      - name: Run canonical balance oracles (N=40, seed 424242, shards 4)
+      - name: Run canonical balance oracles (N=100, seed 424242, shards 4)
         id: oracle
         continue-on-error: true
         env:
@@ -98,8 +97,12 @@ jobs:
         run: |
           mkdir -p /tmp/oracle
           set +e
+          # N=100 (NOT 40): hc06's boss_hp lever is razor-steep, so the N=40 and N=100
+          # seed subsets sample to different WR at the same value (1.02 = 12.5% @ N=40 vs
+          # 23% @ N=100). The gate N MUST match the ratification N (100, seed-pinned =
+          # deterministic) or it false-fails. ~2-3 min on CI.
           python tools/py/playtest_canonical.py \
-            --n 40 --shards 4 --base-port 3360 \
+            --n 100 --shards 4 --base-port 3360 \
             --label ci-${{ github.run_id }} \
             --out-dir /tmp/oracle
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
@@ -107,7 +110,7 @@ jobs:
       - name: Write step summary
         if: always()
         run: |
-          echo "## Combat balance oracle (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Combat balance oracle (N=100, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           cat /tmp/oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the oracle run failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
@@ -120,10 +123,11 @@ jobs:
           path: /tmp/oracle/
           retention-days: 14
 
-      - name: Verdict (phase 1 = warn-only)
+      - name: Verdict (phase 2 = blocking)
         if: always()
         run: |
           if [ "${{ steps.oracle.outputs.exit_code }}" != "0" ]; then
-            echo "::warning title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). NOTE: hc06 is currently mis-calibrated for the CI node 22 (re-calibration pending, CANONICAL sec 3). If this is a correct combat fix, follow the band re-ratify protocol (sec 9). PHASE 1 = warn-only."
+            echo "::error title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this is a correct combat fix, follow the band re-ratify protocol (CANONICAL-AI-PLAYTEST.md sec 9) -- re-calibrate on node 22 (sec 3 rule 8), then re-run. PHASE 2 = blocking."
+            exit 1
           fi
           echo "All canonical oracles in-band."
