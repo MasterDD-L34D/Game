@@ -5,7 +5,21 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-10 (mega-sessione D/E, Ryzen, ~24h) — governance + SPEC-M/I + OD-058 + chip-rounds
+## ⚡ Sessione corrente 2026-06-14 (Lenovo) — issue #2746 coop-WS gaps CLOSURE backend-side
+
+**3 PR merged (issue #2746, gap dal playtest AI GGv2 item-5/6)**: #2748 `662fc761` **G4** (store meta globale campaignId null -> findFirst su unique nullable; `GET /api/meta/npg`+`/v1/meta/nest` da 500 a 200; +Codex P2 dup-row serialize+orderBy) · #2751 `087f60cd` **G1** (phase_change broadcast versionato su 3 emitter coop-WS -> publishEvent/version; phone Godot non scarta piu' i frame = no schermo vuoto) · #2756 `e02764f2` **G2+G3+G5** (campaign_id mirror in linkSession + nido broadcast nel drain next_macro + world_tally esclude host TV; +Codex P2 reject host-vote non-giocante).
+
+**Issue #2746 backend-side COMPLETO** (G1-G5 tutti mergiati). ~18 test TDD nuovi, ogni PR regression coop/WS + AI 510/510 verde. 2 Codex P2 reali indirizzati+resolved.
+
+**G4 provato live** (Lenovo, Postgres portable NON Docker -- engine pipe admin-only): backend reale con Prisma+Postgres -> 5 endpoint da 500 a 200. Teardown completo.
+
+**Catch metodologici**: (1) `lobby.createRoom()` ritorna descriptor, NON la Room viva -> asserisci su `lobby.getRoom(code)`; (2) world_tally arriva 2x (snapshot connect accept:0 + post-voto) -> predicate `accept>=1`; (3) G5 NON usare `lifecycleQuorumPids` per il denominatore (self-include submitter -> host vota e voteWorld persiste -> accept>total) = set voter indipendente dal submitter + gate `not_a_player`; (4) Docker su Lenovo morto -> Postgres portable `pg_ctl -D C:\dev\tools\pgdata-game`.
+
+**Next entry point**: re-check QA phone Godot (lane GGv2, ~15min) -- B3 affinity-half + conferma visiva G1/G2/G3/G5. NON e' codice Game. Handoff: `docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md`. Post-conferma -> chiudi #2746.
+
+---
+
+## ⚡ Sessione 2026-06-10 (mega-sessione D/E, Ryzen, ~24h) — governance + SPEC-M/I + OD-058 + chip-rounds
 
 **~30 PR merged** (#2694..#2730), main `83666daa4`. **OD-058 CHIUSO 13/13** (wound V2 default ON, vcSnapshot coop server-authoritative dal ledger, electric ratificato). **SPEC-M + SPEC-I flip `active`** (item-1 = 6/17: I/K/L/M/N/O): MA3+name_pool 32+delta 0.05 ratificati; ER1 role-gap + ER6 StressWave **default ON** (N=40 gates PASSED #2725), ER7 population BUILT flag-OFF. Governance: check disk->registry `unregistered_document` + 246 legacy registrati (938 entry) + burn-down b2 -> **stale 362** / mismatch 0. Quorum coop family coerente (TV-mirror vs host-plays, WS+REST). **Fix critico #2730**: rinforzi round-model MAI spawnati (position array vs `{x,y}`, issue #2724 era closed col bug VIVO). Health-sweep finale: **~3930 test 0 fail**.
 

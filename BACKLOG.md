@@ -726,6 +726,17 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 
 **P2.3 sentience T4 audit** — completed 2026-05-07 (T4=0 confirmed, 46 species across 2 catalog file). Distribution T0:2 / T1:23 / T2:15 / T3:3 / T4:**0** / T5:3. Bridge gap T3→T5. Candidate A `umbra_alaris` (Playable, Skiv-bond ritual T3→T4 trigger) + Candidate B `terracetus_ambulator` (Keystone, legacy ritual T3→T4 trigger). ADR formal deferred post-cutover Phase B + 1+ playtest. Default fallback no signal entro 2026-06-01: promote A only. Synthesis: [`docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md §P2.3`](docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md).
 
+### ✅ Issue #2746 coop WS/REST contract gaps closed (backend-side) 2026-06-14 — GGv2 playtest item-5/6
+
+5 gap di contratto coop trovati dal playtest AI GGv2 item-5/6 (report `Game-Godot-v2/docs/godot-v2/qa/2026-06-12-item5-item6-ai-playtest.md`). Tutti mergiati. Handoff: `docs/planning/2026-06-14-issue-2746-coop-ws-closure-handoff.md`.
+
+- [x] ~~**G4 [P2] npg/nest 500 Prisma reale**~~ → **✅ CHIUSO** [PR #2748](https://github.com/MasterDD-L34D/Game/pull/2748) `662fc761`. Store meta globale (campaignId null) usa `findFirst` su unique nullable (il client reale rigetta findUnique con null su unique key). +Codex P2: dup-row globale -> create serializzato in-process + read orderBy createdAt,id. Verificato live (Postgres portable Lenovo) 500->200.
+- [x] ~~**G1 [P1] phase_change non versionata**~~ → **✅ CHIUSO** [PR #2751](https://github.com/MasterDD-L34D/Game/pull/2751) `087f60cd`. 3 emitter coop-WS (broadcastCoopState + host-transfer rebroadcast + fresh-join snapshot) mandavano phase_change raw -> Godot scartava come unknown_type (schermo vuoto). Fix: `publishEvent('phase_change', ...)` versionato + `version: room.stateVersion` sul snapshot.
+- [x] ~~**G2 [P2] campaign_id null sul canale versionato**~~ → **✅ CHIUSO** [PR #2756](https://github.com/MasterDD-L34D/Game/pull/2756) `e02764f2`. `coopStore.linkSession` ora mirrora `room.campaignId` (oltre a sessionId).
+- [x] ~~**G3 [P2] phase nido mai broadcastata**~~ → **✅ CHIUSO** PR #2756 `e02764f2`. Drain `next_macro` aggiunge ramo `publishPhaseChange('nido')`.
+- [x] ~~**G5 [P3] world_tally conta host TV**~~ → **✅ CHIUSO** PR #2756 `e02764f2`. Quorum role-aware (host conta solo se gioca) + gate `not_a_player` (Codex P2: evita accept>total).
+- [ ] **Residuo (lane GGv2, NON Game)**: re-check QA visivo phone Godot (B3 affinity-half + conferma G1/G2/G3/G5). ~15min Lenovo. Post-conferma -> chiudi #2746.
+
 ### ✅ Coop WS audit 6/6 closed 2026-05-06 — gap matrix complete
 
 3 PR shipped main close audit `docs/reports/2026-05-06-coop-phase-ws-audit.md`. Harness 18 PASS / 0 FAIL / 0 GAP. 5/5 lifecycle action drained server-side (character_create + form_pulse_submit + lineage_choice + reveal_acknowledge + next_macro).
