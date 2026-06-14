@@ -999,8 +999,13 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
       // best-effort
     }
   };
+  // G1 #2746 — stamp the current stateVersion on the per-socket connect
+  // snapshot so the Godot phone accepts the phase_change frame (unversioned
+  // frames were dropped as unknown_type). This is a targeted replay, not a
+  // new event: it reflects the room's current version without bumping it.
   send({
     type: 'phase_change',
+    version: room.stateVersion ?? 0,
     payload: buildPhaseChangePayload(orch, { reason: 'reconnect' }),
   });
   if (typeof orch.characterReadyList === 'function') {
@@ -1053,10 +1058,15 @@ function rebroadcastCoopState(room, orch) {
   const connectedIds = Array.from(room.players.values())
     .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
     .map((p) => p.id);
-  room.broadcast({
-    type: 'phase_change',
-    payload: buildPhaseChangePayload(orch, { reason: 'host_transferred' }),
-  });
+  // G1 #2746 — versioned publish so the Godot phone accepts the host-transfer
+  // phase_change (raw frames were dropped as unknown_type). Fallback to raw
+  // broadcast only if the room lacks publishEvent (defensive).
+  const htPayload = buildPhaseChangePayload(orch, { reason: 'host_transferred' });
+  if (typeof room.publishEvent === 'function') {
+    room.publishEvent('phase_change', htPayload);
+  } else {
+    room.broadcast({ type: 'phase_change', payload: htPayload });
+  }
   if (typeof orch.characterReadyList === 'function') {
     room.broadcast({
       type: 'character_ready_list',
@@ -1600,7 +1610,27 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              // G5 #2746 — eligible voters = device players; the TV-mirror
+              // host counts only when it actually plays (owns a character).
+              // Computed independently of the submitter (NOT lifecycleQuorumPids,
+              // whose submitter self-include would let a non-playing host vote
+              // into the set) so the tally denominator stays stable across
+              // votes. The membership gate then rejects a non-playing host vote
+              // BEFORE voteWorld persists it -- otherwise the stored host vote
+              // would be counted by worldTally while a later submitter recomputes
+              // allPids without the host, yielding accept > total / false quorum
+              // (Codex P2 #2756).
+              const allPids = Array.from(room.players.values())
+                .filter(
+                  (p) =>
+                    (p.id !== room.hostId && p.role !== 'host') ||
+                    Boolean(orch.characters?.has?.(p.id)),
+                )
+                .map((p) => p.id);
+              if (!allPids.includes(playerId)) {
+                socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_a_player' } }));
+                return;
+              }
               // B-NEW-1 fix 2026-05-08 — connected-only quorum so phone
               // smoke does not stall when 2nd player WS dropped mid-vote.
               const connectedPids = Array.from(room.players.values())
@@ -1939,6 +1969,12 @@ function createWsServer({
                 room.publishPhaseChange('world_setup');
               } else if (result.phase === 'ended') {
                 room.publishPhaseChange('ended');
+              } else if (result.phase === 'nido') {
+                // G3 #2746 — Nido-hub gate: next_macro routes to 'nido' when
+                // unlocked. Pre-fix no phase_change was published for nido, so
+                // phones could not enter MODE_NIDO (host had to send `phase nido`
+                // manually). 'nido' is whitelisted in KNOWN_PHASES.
+                room.publishPhaseChange('nido');
               }
               socket.send(
                 JSON.stringify({
