@@ -3,7 +3,7 @@
 # Machine-readable list of canonical scenarios + ratified bands + run config.
 # Paradigm (2026-05-29): AI-driven multi-policy = gate/oracle; human = optional.
 version: 1
-last_verified: '2026-05-29'
+last_verified: '2026-06-14'
 
 # N-ladder (L-069/L-073): 10 probe (+-30pp) / 40 ratify (+-15pp) / 100 forensic (+-10pp)
 n_ladder:
@@ -32,22 +32,22 @@ scenarios:
   - id: enc_tutorial_06_hardcore
     role: balance_oracle
     target_band: [0.15, 0.25]
-    ratified_knob: { boss_hp_multiplier: 0.65 }
-    last_wr_n40: '0.15-0.25'
+    ratified_knob: { boss_hp_multiplier: 1.04 }
+    last_wr_n40: '0.22 (N=100 2026-06-14, seed 424242)'
     status: ratified
     tool: tools/py/batch_calibrate_hardcore06.py
     port: 3340
-    note: 'iter3 turn_limit_defeat null = overshoot WR 0.85 REJECTED. Source #2381 ratify.'
+    note: 'RE-RATIFIED 2026-06-14 post-#2719 channel-routing fix: boss_hp_multiplier 0.65->1.04 (N=100 WR 22%, def 78%, timeout 0%). git-bisect proved #2719 (f5387e66) unlocked the greedy psionico exploit -> the old 0.65 band was measured under the channel bug. Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null overshoot 0.85 still REJECTED.'
 
   - id: enc_tutorial_07_hardcore_pod_rush
     role: balance_oracle
     target_band: [0.30, 0.50]
     ratified_knob: { enemy_damage_multiplier_override: 2.1 } # REPLACES class 1.8, not stack
-    last_wr_n40: '0.30-0.40'
-    status: in_band
+    last_wr_n40: '0.52 (N=100 2026-06-14, marginal +2pp over ceiling)'
+    status: review_needed
     tool: tools/py/batch_calibrate_hardcore07.py
     port: 3334
-    note: 'post wave 5-7 nerf (6 traits cost_ap 1->2) = -40-60pp WR. Timer-driven scenario.'
+    note: 'Timer/objective scenario, fisico-only policy (NO channel exploit) -> #2719-INDEPENDENT. Forensic N=100 2026-06-14 = WR 52% vs band [30-50], CI95 [42,62] straddles ceiling. Drift from ~40% is NOT #2719; cause un-bisected = separate low-priority follow-up. Original: post wave 5-7 nerf 6 traits cost_ap 1->2.'
 
   - id: enc_tutorial_01_05
     role: designed_winnable_ladder
@@ -66,4 +66,6 @@ run_canonical: |
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
+  ci_workflow: '.github/workflows/combat-balance-gate.yml (phase 1 = warn-only; flip to blocking once hc07 in-band)'
+  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct combat fix that shifts a band = block + human re-ratify, NEVER auto-update target_band'
   human_playtest: 'OPTIONAL confirmation, never blocking'

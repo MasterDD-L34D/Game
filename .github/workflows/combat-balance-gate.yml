@@ -1,0 +1,124 @@
+name: Combat Balance Gate
+
+# Per-PR canonical balance-oracle gate (the missing guardrail behind #2719).
+#
+# WHY: docs/process/CANONICAL-AI-PLAYTEST.md sec 5 declares the merge gate as
+# "touched-scenario WR in-band @ N=40", but it was never wired per-PR -- only
+# the weekly playtest-2 sweep existed. So PR #2719 (a CORRECT channel-routing
+# fix) silently pushed canonical oracle hardcore_06 from 17% to 53% WR and sat
+# undetected for days (caught later by a forensic N=100 sweep + git-bisect).
+# With the reconstruction suite (SPEC A..Q) shipping combat changes ~daily,
+# this WILL recur. This gate re-runs the canonical oracles on combat-touching
+# PRs and surfaces any band drift before merge.
+#
+# Determinism: the canonical runner pins seed 424242 and splits it across
+# --shards 4 (per-shard seed offsets). CI MUST use the SAME shards count + seed
+# as ratification, else the sampled runs differ. Do not change --shards here
+# without re-ratifying the bands. host 127.0.0.1 + LOBBY_WS_ENABLED=false +
+# DAMAGE_CURVES_PATH are all handled inside playtest_canonical.py.
+#
+# PHASE 1 (current): warn-only. The job carries `continue-on-error: true` and
+# the verdict step emits a ::warning:: (never blocks merge). Reason: hc07 is
+# still marginally OOB (52% vs [30-50], #2719-independent, un-bisected) so a
+# blocking gate would freeze merges on a pre-existing issue.
+# PHASE 2 (flip once hc07 is in-band): remove `continue-on-error` and change the
+# verdict step's ::warning:: -> ::error:: + `exit 1`. Then register this as a
+# required status check in branch protection.
+#
+# Band-invalidation protocol (correct-fix shifts a band): see
+# docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- block + human re-ratify, never
+# auto-update target_band.
+
+on:
+  pull_request:
+    paths:
+      - 'apps/backend/services/combat/**'
+      - 'apps/backend/routes/session*.js'
+      - 'apps/backend/services/ai/**'
+      - 'apps/backend/services/hardcoreScenario.js'
+      - 'apps/backend/services/tutorialScenario.js'
+      - 'data/core/balance/**'
+      - 'data/core/traits/active_effects.yaml'
+      - 'packs/evo_tactics_pack/data/balance/**'
+      - 'tools/py/batch_calibrate_hardcore*.py'
+      - 'tools/py/calibrate_parallel.py'
+      - 'tools/py/playtest_canonical.py'
+      - 'docs/playtest/canonical-suite.yaml'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  combat-oracle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 25
+    continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 blocking.
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-pyyaml
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
+
+      - name: Run canonical balance oracles (N=40, seed 424242, shards 4)
+        id: oracle
+        continue-on-error: true
+        env:
+          LOBBY_WS_ENABLED: 'false'
+          ORCHESTRATOR_AUTOCLOSE_MS: '2000'
+        run: |
+          mkdir -p /tmp/oracle
+          set +e
+          python tools/py/playtest_canonical.py \
+            --n 40 --shards 4 --base-port 3360 \
+            --label ci-${{ github.run_id }} \
+            --out-dir /tmp/oracle
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Write step summary
+        if: always()
+        run: |
+          echo "## Combat balance oracle (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+            || echo "(no report produced -- the oracle run failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload oracle report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: combat-oracle-${{ github.run_id }}
+          path: /tmp/oracle/
+          retention-days: 14
+
+      - name: Verdict (phase 1 = warn-only)
+        if: always()
+        run: |
+          if [ "${{ steps.oracle.outputs.exit_code }}" != "0" ]; then
+            echo "::warning title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this PR is a correct combat fix, follow the band re-ratify protocol: docs/process/CANONICAL-AI-PLAYTEST.md sec 9. PHASE 1 = warn-only, not blocking."
+          else
+            echo "All canonical oracles in-band."
+          fi
