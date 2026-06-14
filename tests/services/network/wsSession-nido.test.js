@@ -131,6 +131,68 @@ test('N1: nido_start_mission intent -> startMissionFromNido -> phase_change worl
   }
 });
 
+test('G3 #2746: next_macro -> nido phase broadcasts phase_change(nido) to phones', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01', 'enc_tutorial_02'] });
+    // Post-combat debrief + Nido unlocked: next_macro must route to the nido
+    // hub. Pre-fix the drain only published world_setup/ended -> phones never
+    // saw phase_change(nido) and could not enter MODE_NIDO (gap G3).
+    orch.phase = 'debrief';
+    orch._nidoUnlocked = true;
+
+    const hostWs = openWs(port, {
+      code: room.code,
+      player_id: room.host_id,
+      token: room.host_token,
+    });
+    const p1Ws = openWs(port, {
+      code: room.code,
+      player_id: p1.player_id,
+      token: p1.player_token,
+    });
+    await Promise.all([waitOpen(hostWs), waitOpen(p1Ws)]);
+    await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'hello'),
+      waitForMessage(p1Ws, (m) => m.type === 'hello'),
+    ]);
+
+    hostWs.send(
+      JSON.stringify({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } }),
+    );
+
+    // Host ack confirms the orch advanced into the nido phase.
+    const ack = await waitForMessage(hostWs, (m) => m.type === 'next_macro_accepted', 2000);
+    assert.equal(ack.payload.phase, 'nido');
+
+    // Both phones must receive a versioned phase_change(nido).
+    const [hostPc, p1Pc] = await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'phase_change' && m.payload?.phase === 'nido', 2000),
+      waitForMessage(p1Ws, (m) => m.type === 'phase_change' && m.payload?.phase === 'nido', 2000),
+    ]);
+    assert.equal(hostPc.payload.phase, 'nido');
+    assert.equal(p1Pc.payload.phase, 'nido');
+    assert.equal(typeof hostPc.version, 'number');
+
+    hostWs.close();
+    p1Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
 test('N1: nido_start_mission by non-host returns error not_host', async () => {
   const lobby = new LobbyService();
   const coopStore = createCoopStore({ lobby });
