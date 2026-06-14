@@ -127,8 +127,11 @@ Per risultati ri-ottenibili:
    NON e' un fatto di OS: ubuntu-runner e windows-runner danno lo STESSO 12.5% su node 22. Quindi
    calibra + gate sulla STESSA versione node (22). Il determinismo seed (TKT-PLAYTEST-SEED) e'
    garantito DENTRO una versione node, non tra versioni. hc07 (leva piatta) e' robusto
-   cross-runtime (42% ovunque); hc06 (leva ripida) no -> candidato a banda piu' larga o leva
-   meno ripida quando lo si ri-calibra su node 22.
+   cross-runtime (42% ovunque). **RISOLTO 2026-06-14 (pm)**: ri-calibrato hc06 su node 22
+   (nvm-windows) -> `boss_hp 1.04 -> 1.02` = WR 23% in-banda su node 22 E node 24 (1.02-1.03 =
+   plateau prima del cliff 1.04, cross-runtime-robusto; il 1.04 era uno spot node-sensibile
+   sfortunato sul cliff). hc06 resta leva-ripida -> se serve piu' margine = banda piu' larga o
+   leva meno ripida (design-call). Dev box: `nvm install 22 && nvm use 22` per calibrare.
 
 ## 4. Scenari canonici + bande ratificate (stato 2026-05-29)
 

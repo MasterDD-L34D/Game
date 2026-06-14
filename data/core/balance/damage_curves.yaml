@@ -250,6 +250,13 @@ player_classes:
 
 scenario_overrides:
   enc_tutorial_06_hardcore:
+    # NODE-22 RE-CALIBRATE 2026-06-14 (pm): boss_hp_multiplier 1.04 -> 1.02. The 1.04
+    # value (history below) was calibrated on a node-24 dev box (22%); on the CANONICAL
+    # runtime node 22 (CI + repo-recommended 22.19.0) 1.04 reads 12.5% OOB-low -- the
+    # steep lever is node/V8-sensitive near the cliff. 1.02 reads WR 23% in-band on BOTH
+    # node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust (a plateau before the
+    # 1.04 cliff). Calibrate on node 22 (CANONICAL sec 3 rule 8). hc07 robust (42% all nodes).
+    # --- HISTORY ---
     # RE-RATIFY 2026-06-14 (post-#2719): boss_hp_multiplier 0.65 -> 1.04.
     # git-bisect proved #2719 f5387e66 (channel-routing fix: /round/execute now
     # honors action.channel) flipped hc06 17% (parent #2717) -> 51% OOB. The
@@ -265,8 +272,8 @@ scenario_overrides:
     # iter5 OPTUNA REJECTED (2026-05-21): boss 0.866+limit 31 -> N=40 WR 30% OOB
     # (L-073 optimizer-on-N=20-noise). iter2 (boss 0.65) = N=40 WR 15% confirmed
     # BUT under the channel bug. docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
-    boss_hp_multiplier: 1.04
-    rationale: 'RE-RATIFIED 2026-06-14 post-#2719 (channel-routing fix): boss_hp_multiplier 0.65 -> 1.04. git-bisect root-caused the 0.65 -> 53% drift to #2719 unlocking the greedy psionico exploit (band was ratified under the channel bug). Forensic N=100 seed 424242: WR 22% in-band [15-25], defeat 78% [75-85], timeout 0% [0-5]. Steep lever near band; CI gate guards recurrence. Pre-#2719 history: iter2 boss 0.65 = WR 15% (measured under the bug).'
+    boss_hp_multiplier: 1.02
+    rationale: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02. 1.04 was tuned on node 24 (22%) but reads 12.5% OOB-low on the canonical node 22 (CI/prod); the steep lever is node/V8-sensitive at the cliff. 1.02 = WR 23% in-band [15-25] on BOTH node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust. Root cause was #2719 (channel-routing fix unlocked the greedy psionico exploit; band had been ratified under the bug). Calibrate on node 22 (CANONICAL sec 3 rule 8). Pre-#2719: iter2 boss 0.65 = WR 15% (under the bug).'
 
   enc_tutorial_07_hardcore_pod_rush:
     # RE-CENTER 2026-06-14 (PR #2753 follow-up): enemy_damage_multiplier_override

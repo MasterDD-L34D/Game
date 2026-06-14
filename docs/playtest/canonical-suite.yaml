@@ -32,12 +32,12 @@ scenarios:
   - id: enc_tutorial_06_hardcore
     role: balance_oracle
     target_band: [0.15, 0.25]
-    ratified_knob: { boss_hp_multiplier: 1.04 }
-    last_wr_n40: '0.22 (N=100 2026-06-14, seed 424242)'
+    ratified_knob: { boss_hp_multiplier: 1.02 }
+    last_wr_n40: '0.23 (N=100 2026-06-14 on node 22, seed 424242; also 0.23 on node 24 = cross-runtime-robust)'
     status: ratified
     tool: tools/py/batch_calibrate_hardcore06.py
     port: 3340
-    note: 'RE-RATIFIED 2026-06-14 post-#2719 channel-routing fix: boss_hp_multiplier 0.65->1.04 (N=100 WR 22%, def 78%, timeout 0%). git-bisect proved #2719 (f5387e66) unlocked the greedy psionico exploit -> the old 0.65 band was measured under the channel bug. Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null overshoot 0.85 still REJECTED. CAVEAT 2026-06-14: the 22% was measured on node 24 (dev box); on node 22 (CI + repo-recommended runtime) hc06 reads 12.5% OOB-low -> RE-CALIBRATION on node 22 PENDING (CANONICAL sec 8); 1.04 is NOT the final node-22 value.'
+    note: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02 (N=100 WR 23% in-band [15-25]). The interim 1.04 was tuned on node 24 (22%) but read 12.5% OOB-low on the canonical node 22 (CI/prod) -- the steep lever is node/V8-sensitive at the cliff. 1.02 = 23% on BOTH node 22 AND node 24 = cross-runtime-robust (plateau before the 1.04 cliff). Root cause = #2719 (channel-routing fix unlocked the greedy psionico exploit; band ratified under the bug, git-bisect). Calibrate on node 22 (CANONICAL sec 3 rule 8). Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null 0.85 still REJECTED.'
 
   - id: enc_tutorial_07_hardcore_pod_rush
     role: balance_oracle
@@ -66,7 +66,7 @@ run_canonical: |
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
-  ci_workflow_combat: '.github/workflows/combat-balance-gate.yml (PHASE 1 = warn-only, REVERTED from phase-2 2026-06-14). hc06 reads 12.5% (OOB-low) on the CI node 22 vs 22% on the node-24 dev box -- the 1.04 calibration was done on the wrong node/V8 version (the steep boss_hp lever amplifies float deltas between node versions; NOT an OS thing: ubuntu AND windows runners both read 12.5% on node 22). FOLLOW-UP: re-calibrate hc06 on node 22 (CANONICAL-AI-PLAYTEST.md sec 3 rule 8 + sec 9) then re-flip to phase-2. hc07 robust (42% all runtimes).'
+  ci_workflow_combat: '.github/workflows/combat-balance-gate.yml (PHASE 2 = fails red on OOB; re-flipped 2026-06-14 pm after the node-22 re-calibration). hc06 boss_hp 1.04 -> 1.02 = 23% in-band on node 22 (CI runtime) AND node 24 (dev) = cross-runtime-robust; hc07 42%. Lesson: the steep hc06 lever is node/V8-sensitive at the cliff -- calibrate on node 22 (CANONICAL sec 3 rule 8); NOT an OS thing (ubuntu and windows runners agreed at 12.5% on node 22). Hard mechanical block (required status check) DEFERRED (master-dd Option 1) -- red X suffices.'
   ci_workflow_metaloop: '.github/workflows/meta-loop-gate.yml (PHASE 1 = warn-only, STATISTICAL). Runs `node tools/sim/full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate`; bands SoT = tools/sim/meta-band-aggregator.js (7 metrics, master-dd ratified 2026-06-03). Phase-2 follow-up: seed-pin the full-loop runner (recruit/mate/attrition currently vary per seed) -> bit-deterministic -> blocking.'
   band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct change that shifts a ratified band (combat OR meta-loop) = block + human re-ratify, NEVER auto-update the band'
   human_playtest: 'OPTIONAL confirmation, never blocking'

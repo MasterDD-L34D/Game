@@ -25,14 +25,14 @@ test('GET /api/tutorial/enc_tutorial_06_hardcore returns 14 units + recommended 
     assert.equal(enemies.length, 6);
     const boss = enemies.find((u) => u.id === 'e_apex_boss');
     assert.ok(boss);
-    // RE-RATIFY 2026-06-14 (PR #2753, post-#2719): scenario_overrides
-    // boss_hp_multiplier 0.65 -> 1.04, applied at build time. HP 40 (raw) ->
-    // 42 (post override, round(40*1.04)). The old 0.65/26 band was ratified
-    // UNDER the #2719 channel-routing bug (git-bisect); re-ratified at N=100
-    // WR 22%. See docs/playtest/2026-06-14-canonical-forensic-n100.md.
-    assert.equal(boss.hp, 42); // re-ratify: round(base 40 * 1.04) = 42
+    // NODE-22 RE-CALIBRATE 2026-06-14: scenario_overrides boss_hp_multiplier
+    // 1.04 -> 1.02, applied at build time. HP 40 (raw) -> 41 (round(40*1.02)).
+    // 1.04 was tuned on node 24 (22%) but reads 12.5% OOB-low on the canonical
+    // node 22 (CI/prod); 1.02 = WR 23% in-band on BOTH node versions. Root cause
+    // was #2719 (channel-routing fix). See docs/playtest/2026-06-14-canonical-forensic-n100.md.
+    assert.equal(boss.hp, 41); // re-calibrate node-22: round(base 40 * 1.02) = 41
     assert.equal(boss._hp_base, 40, 'override preserves raw HP audit trail');
-    assert.equal(boss._hp_scenario_multiplier, 1.04, 'override factor logged');
+    assert.equal(boss._hp_scenario_multiplier, 1.02, 'override factor logged');
     assert.equal(boss.mod, 3); // iter 4 (M14-C): 5→3 per compensare elevation +30%
     assert.equal(boss.guardia, 4); // iter 2: 3→4
     assert.equal(boss.attack_range, 3); // iter 2: 2→3
