@@ -120,6 +120,15 @@ Per risultati ri-ottenibili:
 5. **SEED RNG pinnato** — **WIRED** (TKT-PLAYTEST-SEED, 2026-05-30): `batch_calibrate_hardcore0{6,7}.py --seed` propaga il seed a `/api/session/start`, che pinna la RNG combat seedabile (`apps/backend/services/combat/pseudoRng.js` `defaultRng`/`seedRng`). 2 run stesso seed = JSON bit-identici (smoke verde). Unseeded = `Math.random` (zero regressione prod). Run i usa `seed+i` (intero batch riproducibile).
 6. **Policy fissate**: il set multi-policy (1.1) e' parte del contratto, non ad-hoc.
 7. **Output archiviato**: `docs/playtest/YYYY-MM-DD-<scenario>-<phase>.json` + report `docs/playtest/YYYY-MM-DD-<scenario>-illuminator.md`.
+8. **Runtime canonico = node 22** (la versione CI + repo-recommended `22.19.0`); MAI calibrare
+   su un'altra versione node del dev box (2026-06-14). Il sim combat NON e' bit-deterministico
+   cross-runtime: la leva ripida di hc06 amplifica un delta float/RNG tra versioni V8 -> a seed
+   identico hc06 legge **12.5% su node 22 (CI ubuntu E windows) vs 22% su node 24 (dev box)**.
+   NON e' un fatto di OS: ubuntu-runner e windows-runner danno lo STESSO 12.5% su node 22. Quindi
+   calibra + gate sulla STESSA versione node (22). Il determinismo seed (TKT-PLAYTEST-SEED) e'
+   garantito DENTRO una versione node, non tra versioni. hc07 (leva piatta) e' robusto
+   cross-runtime (42% ovunque); hc06 (leva ripida) no -> candidato a banda piu' larga o leva
+   meno ripida quando lo si ri-calibra su node 22.
 
 ## 4. Scenari canonici + bande ratificate (stato 2026-05-29)
 
@@ -216,6 +225,28 @@ l'exploit di canale (`CHANNEL_EXPLOIT_MAP`). Un gate secondario su policy `rando
 (mechanic-robust, gia' in `--policy all`) misurerebbe la difficolta' dell'encounter
 indipendente dallo skill = piu' diagnostico. Richiede ratificare `random_target_band`
 a N=40 per oracolo.
+
+## 10. Meta-loop gate (2026-06-14)
+
+Estensione del gate combat al **meta-loop** (campaign / Nido / mating / recruit). Il runner
+full-loop (`tools/sim/full-loop-runner.js` + `full-loop-batch.js`) gioca il loop intero
+in-process; `tools/sim/meta-band-aggregator.js` piazza **7 band-metric ratificate**
+(master-dd 2026-06-03, L-069): completion_rate [0.4-0.7], roster_attrition (0,1),
+economy_flow drift [0.5-2.0], relationship_progress (composite), offspring_viability >=1,
+lineage_diversity >=3, roster_composition >=3.
+
+Gate: `.github/workflows/meta-loop-gate.yml` -- per-PR sui path meta-loop, gira
+`full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate` (exit 1 se una metrica e'
+OOB). **PHASE 1 = warn-only**. Diagnosi 2026-06-14 (N=40 su main): tutte e 7 in-banda
+(meta-loop sano, nessun drift) -> il gate blinda lo stato. Stesso buco pre-#2719 di combat:
+runner + invarianti c'erano, il band-gate no.
+
+**Caveat -- gate STATISTICO** (non bit-deterministico come combat): il full-loop runner e'
+solo parzialmente seed-pinnato (completion/lineage/roles stabili per `--seed-base`, ma
+recruit/mate/attrition variano run-to-run). Le bande hanno margine -> un meta-#2719 le spinge
+chiaramente fuori, il rumore no. **Follow-up per phase-2 (blocking)**: seed-pin completo del
+runner (pinnare l'RNG combat dentro il loop, come `pseudoRng`/TKT-PLAYTEST-SEED di combat) ->
+bit-deterministico -> rimuovi `continue-on-error` dal workflow.
 
 ## Riferimenti
 

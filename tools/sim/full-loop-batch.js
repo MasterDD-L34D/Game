@@ -91,6 +91,11 @@ function parseArgs(argv) {
     // retries). Default OFF = the band batch is byte-identical to the status quo.
     a13: false,
     a13MaxRetries: 1,
+    // --gate: exit 1 if any ratified meta band-metric is out of band (CI gate mode).
+    // Default OFF = diagnostic mode (always exit 0 on completion). The batch is NOT
+    // bit-deterministic per seed (recruit/mate/attrition vary), so this is a STATISTICAL
+    // gate -- the bands carry margin; use it warn-only until the runner is fully seed-pinned.
+    gate: false,
   };
   for (let i = 2; i < argv.length; i += 1) {
     const tok = argv[i];
@@ -128,6 +133,9 @@ function parseArgs(argv) {
         break;
       case '--a13-max-retries':
         args.a13MaxRetries = Math.max(0, Number(next()));
+        break;
+      case '--gate':
+        args.gate = true;
         break;
       default:
         if (tok && tok.startsWith('--')) console.warn(`unknown arg: ${tok}`);
@@ -735,6 +743,31 @@ async function main() {
   console.log(
     'NOTE: bands are PROVISIONAL (Claude-derived) -- master-dd ratifies exact numbers post-N=40 (L-069).',
   );
+
+  // --gate (CI gate mode): exit 1 if any ratified meta band-metric is out of band.
+  // STATISTICAL gate -- the runner is not fully seed-pinned (recruit/mate/attrition vary
+  // per seed), so the bands carry margin; wire this warn-only until the runner is bit-
+  // deterministic. Default (no --gate) = diagnostic, always exit 0 on completion.
+  if (args.gate) {
+    // Incomplete sample guard (Codex #2762 P2): --isolate excludes _crashed seeds from N
+    // (summary.n = surviving runs). A subset that still lands in-band must NOT certify the
+    // batch -- a silently-reduced sample is a gate failure, not a pass.
+    const incomplete = summary.n !== args.runs;
+    const failed = Object.keys(summary.metrics).filter((k) => !summary.metrics[k].in_band);
+    if (incomplete || failed.length > 0) {
+      console.error(
+        '\n[gate] META-LOOP GATE FAIL: ' +
+          (incomplete
+            ? `sample incomplete (${summary.n}/${args.runs} runs -- crashed seeds excluded); `
+            : '') +
+          (failed.length ? `out of band: ${failed.join(', ')}; ` : '') +
+          'see report. If a correct change shifts a band, follow the band-invalidation ' +
+          'protocol (docs/process/CANONICAL-AI-PLAYTEST.md sec 9).',
+      );
+      process.exit(1);
+    }
+    console.log(`\n[gate] all meta band-metrics in-band (full sample ${summary.n}/${args.runs}).`);
+  }
 }
 
 if (require.main === module) {
