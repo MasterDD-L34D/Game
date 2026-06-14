@@ -33,7 +33,9 @@
 // SPEC-I ER7 -- applyPopulationToPool(pool, biomeId, biomePopulation, opts?):
 //   second-stage shaping that consumes the cross-run population state (per
 //   trophic role). A `depleted` role's species are excluded; an `abundant`
-//   role's species get their weight bumped (ABUNDANT_WEIGHT_MULT, PROPOSED).
+//   role's species get their weight bumped (ABUNDANT_WEIGHT_MULT, RATIFIED
+//   2026-06-11 N=40). The depleted-exclusion is an INTENTIONAL ecological
+//   difficulty consequence (A13-like), not a band regression -- see the evidence.
 //   Same band-safety contract: no population / no role pressure -> passthrough,
 //   and excluding everything falls back to the input pool (never empties it).
 //   Pure (clones boosted entries). Flag-gated by the caller (spawner) via
@@ -44,7 +46,7 @@
 const ecosystemResolver = require('./ecosystemResolver');
 const biomePopulation = require('./biomePopulation');
 
-// PROPOSED (ratify N=40): peso extra alle specie di un ruolo `abundant`.
+// RATIFIED 2026-06-11 (N=40): peso extra alle specie di un ruolo `abundant`.
 const ABUNDANT_WEIGHT_MULT = 2;
 
 function _norm(value) {

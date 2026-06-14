@@ -117,6 +117,76 @@ function aggregateStresswave(runs) {
   };
 }
 
+// ER7 per-run spawn-composition extraction. The cross-run biome population shapes
+// the reinforcement pool (depleted role excluded, abundant role weighted up); the
+// observable is therefore the SPECIES MIX of what actually spawned. The raw
+// reinforcement_spawn event carries actor_id = `reinf_<n>_<unit_id>` (the species
+// is the suffix), so we tally species per run.
+function extractSpawnComposition(events) {
+  const out = { spawns: 0, spawn_species: {} };
+  for (const ev of events || []) {
+    if (!ev || ev.action_type !== 'reinforcement_spawn') continue;
+    const m = /^reinf_\d+_(.+)$/.exec(String(ev.actor_id || ''));
+    const species = m ? m[1] : String(ev.actor_id || 'unknown');
+    out.spawns += 1;
+    out.spawn_species[species] = (out.spawn_species[species] || 0) + 1;
+  }
+  return out;
+}
+
+// ER7 arm aggregate: spawn composition by species + by trophic role + the
+// prey/meso/apex shares (the effect-fired proof, anti-pattern #14). The role map
+// is the SAME `ecosystemResolver.getSpeciesRoles` the consumer uses, so a depleted
+// prey arm shows prey_share -> 0 and an abundant apex arm shows apex_share bumped.
+function aggregateEr7(runs, biomeId) {
+  const rs = Array.isArray(runs) ? runs : [];
+  const n = rs.length || 1;
+  let roleMap = {};
+  try {
+    roleMap =
+      require('../../apps/backend/services/worldgen/ecosystemResolver').getSpeciesRoles(biomeId) ||
+      {};
+  } catch {
+    roleMap = {};
+  }
+  const speciesTotals = {};
+  const roleTotals = { prey: 0, mesopredator: 0, apex: 0, other: 0 };
+  let spawnTotal = 0;
+  for (const r of rs) {
+    const sp = (r && r.spawn_species) || {};
+    for (const [species, c] of Object.entries(sp)) {
+      speciesTotals[species] = (speciesTotals[species] || 0) + c;
+      const role = roleMap[species];
+      const bucket = role === 'prey' || role === 'mesopredator' || role === 'apex' ? role : 'other';
+      roleTotals[bucket] += c;
+      spawnTotal += c;
+    }
+  }
+  const bySpecies = {};
+  for (const [s, t] of Object.entries(speciesTotals)) bySpecies[s] = t / n;
+  const byRole = {};
+  for (const [role, t] of Object.entries(roleTotals)) byRole[role] = t / n;
+  return {
+    spawns_per_run: spawnTotal / n,
+    by_species: bySpecies,
+    by_role: byRole,
+    prey_share: spawnTotal ? roleTotals.prey / spawnTotal : 0,
+    meso_share: spawnTotal ? roleTotals.mesopredator / spawnTotal : 0,
+    apex_share: spawnTotal ? roleTotals.apex / spawnTotal : 0,
+  };
+}
+
+// ER7 campaign seed: a fixed cross-run population state per arm. The spawner reads
+// campaign.biomePopulation[biomeId] (per-role discrete state); the season-tick that
+// produces it is exercised separately (er7-season-trace.js). Every role defaults to
+// `stable`; `overrides` pins the arm's pressure (e.g. { prey: 'depleted' }).
+function buildBiomePopulation(biomeId, overrides) {
+  const merged = { apex: 'stable', mesopredator: 'stable', prey: 'stable', ...(overrides || {}) };
+  const pop = {};
+  for (const [role, state] of Object.entries(merged)) pop[role] = { state, seasons: 0 };
+  return { [biomeId]: pop };
+}
+
 // ---------------------------------------------------------------------------
 // Effect definitions
 // ---------------------------------------------------------------------------
@@ -195,6 +265,44 @@ const EFFECTS = {
       ['on - off (ER6 effect)', 'off', 'on'],
     ],
   },
+  er7: {
+    flag: 'BIOME_POPULATION_ENABLED',
+    // Measurement-point (L-069): the authored hardcore/sabotage badlands encounters
+    // carry an OFF-foodweb reinforcement pool (predoni_nomadi), so the population
+    // shaping (applyPopulationToPool) is a STRUCTURAL no-op there -- the same
+    // trap as ER1 (band roster) / ER6 (6x6 grid). enc_badlands_foodweb_probe_01
+    // is a probe-only encounter whose pool IS the badlands foodweb (prey
+    // sand-burrower/rust-scavenger weak, meso echo-wing med, apex
+    // dune-stalker/ferrimordax-rutilus strong) so the depleted-exclusion +
+    // abundant-boost actually bite, and the differentiated stats make the WR band
+    // gate informative (excluding weak prey / boosting strong apex shifts
+    // difficulty). Same 10x10 + Alert-floor setup as ER6.
+    scenario: 'enc_badlands_foodweb_probe_01',
+    biomeId: 'badlands',
+    seedPrefix: 'er7',
+    collectEvents: ['reinforcement_spawn'],
+    extractEvents: extractSpawnComposition,
+    // ER7 reads campaign.biomePopulation[biomeId]; seed a fixed per-arm state.
+    seedCampaign: true,
+    pressureStart: 30,
+    modulation: 'duo_hardcore',
+    // off arms pin the flag 'false' (engine default ON since #2725 is ER1/ER6;
+    // ER7's own flag stays OFF default -- pin both ways for hygiene). off carries
+    // the same depleted campaign so the ONLY cross-arm difference vs on_depleted is
+    // the flag. on_abundant uses an apex-abundant campaign; its baseline is still
+    // `off` (flag-off = shaping skipped REGARDLESS of the campaign state).
+    arms: {
+      off: { env: { BIOME_POPULATION_ENABLED: 'false' }, popState: { prey: 'depleted' } },
+      off2: { env: { BIOME_POPULATION_ENABLED: 'false' }, popState: { prey: 'depleted' } },
+      on_depleted: { env: { BIOME_POPULATION_ENABLED: 'true' }, popState: { prey: 'depleted' } },
+      on_abundant: { env: { BIOME_POPULATION_ENABLED: 'true' }, popState: { apex: 'abundant' } },
+    },
+    deltas: [
+      ['off2 - off (noise floor)', 'off', 'off2'],
+      ['on_depleted - off (prey exclusion)', 'off', 'on_depleted'],
+      ['on_abundant - off (apex boost)', 'off', 'on_abundant'],
+    ],
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -236,6 +344,17 @@ async function runArm({ effect, armName, armDef, runs, seedBase, scaling, onRun 
         `scenario "${effect.scenario}" did not yield a YAML roster (anti-#14: no fallback)`,
       );
     }
+    // ER7: seed a fixed cross-run population state for this arm. The spawner reads
+    // campaign.biomePopulation[biomeId]; one campaign per arm, shared by all seeds
+    // (the population is the arm's fixed condition; combat never mutates it here).
+    let campaignId = null;
+    if (effect.seedCampaign && armDef.popState) {
+      const campaignStore = require('../../apps/backend/services/campaign/campaignStore');
+      const camp = campaignStore.createCampaign('er7-probe', 'def', {
+        biomePopulation: buildBiomePopulation(effect.biomeId, armDef.popState),
+      });
+      campaignId = camp.id;
+    }
     for (let i = 0; i < runs; i += 1) {
       const seed = `${effect.seedPrefix}-${seedBase + i}`;
       const roster = armDef.jobs ? rosterWithJobs(armDef.jobs) : probeRoster();
@@ -248,6 +367,7 @@ async function runArm({ effect, armName, armDef, runs, seedBase, scaling, onRun 
         biomeId: effect.biomeId,
         seed,
         maxRounds: 160,
+        ...(campaignId ? { campaignId } : {}),
         ...(effect.collectEvents ? { collectEvents: effect.collectEvents } : {}),
         ...(effect.pressureStart != null ? { pressureStart: effect.pressureStart } : {}),
         ...(effect.modulation ? { modulation: effect.modulation } : {}),
@@ -262,7 +382,8 @@ async function runArm({ effect, armName, armDef, runs, seedBase, scaling, onRun 
         playerAttacks: res.playerAttacks,
         survivors: (res.survivorIds || []).length,
       };
-      if (effect.collectEvents) Object.assign(rec, extractStresswave(res.collectedEvents));
+      if (effect.collectEvents)
+        Object.assign(rec, (effect.extractEvents || extractStresswave)(res.collectedEvents));
       if (armDef.jobs) rec.enemy_atk_bonus = maxEnemyAtkBonus(res.firstStateUnits);
       records.push(rec);
       if (onRun) onRun(rec, i, armName);
@@ -373,6 +494,29 @@ function renderReport({ effectKey, effect, args, summaries, deltas, extras }) {
     }
     lines.push('');
   }
+  if (extras && extras.er7) {
+    lines.push('ER7 spawn composition (mean per run -- effect-fired proof, anti-#14):');
+    lines.push('');
+    lines.push(
+      '| arm | spawns/run | prey share | meso share | apex share | by species (mean/run) |',
+    );
+    lines.push('| --- | --- | --- | --- | --- | --- |');
+    for (const [arm, v] of Object.entries(extras.er7)) {
+      const sp = Object.entries(v.by_species || {})
+        .map(([s, c]) => `${s}:${fmt(c, 2)}`)
+        .join(', ');
+      lines.push(
+        `| ${arm} | ${fmt(v.spawns_per_run, 1)} | ${fmt(v.prey_share)} | ${fmt(v.meso_share)} | ${fmt(
+          v.apex_share,
+        )} | ${sp} |`,
+      );
+    }
+    lines.push('');
+    lines.push(
+      `Reference band (report-only, task gate): WR [${fmt(args.band[0])}, ${fmt(args.band[1])}].`,
+    );
+    lines.push('');
+  }
   lines.push('## Paired deltas (same seeds)');
   lines.push('');
   lines.push('| pair | pairs | win-rate delta | rounds delta (CI95) | flips L->W / W->L |');
@@ -433,6 +577,11 @@ function aggregateDir(args, effect) {
   if (args.effect === 'er6') {
     extras.er6 = Object.fromEntries(
       Object.entries(armRuns).map(([arm, runs]) => [arm, aggregateStresswave(runs)]),
+    );
+  }
+  if (args.effect === 'er7') {
+    extras.er7 = Object.fromEntries(
+      Object.entries(armRuns).map(([arm, runs]) => [arm, aggregateEr7(runs, effect.biomeId)]),
     );
   }
   fs.writeFileSync(
@@ -540,6 +689,11 @@ async function main() {
       Object.entries(armRuns).map(([arm, runs]) => [arm, aggregateStresswave(runs)]),
     );
   }
+  if (args.effect === 'er7') {
+    extras.er7 = Object.fromEntries(
+      Object.entries(armRuns).map(([arm, runs]) => [arm, aggregateEr7(runs, effect.biomeId)]),
+    );
+  }
   fs.writeFileSync(
     path.join(outDir, 'summary.json'),
     JSON.stringify({ args, summaries, deltas, extras }, null, 2),
@@ -556,6 +710,9 @@ module.exports = {
   maxEnemyAtkBonus,
   extractStresswave,
   aggregateStresswave,
+  extractSpawnComposition,
+  aggregateEr7,
+  buildBiomePopulation,
   EFFECTS,
   ER1_GAP_JOBS,
   ER1_FULL_JOBS,

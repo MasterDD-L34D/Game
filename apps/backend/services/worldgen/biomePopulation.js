@@ -24,9 +24,15 @@
 // whitelist, abundant pesato su). Persistence = campaign.biomePopulation
 // (pattern campaign.woundedBiomes).
 //
-// GOVERNANCE: flag `BIOME_POPULATION_ENABLED` default OFF -- spec sez.8: ON solo
-// post playtest N=40 GREEN (verdetto master-dd, pattern ER1/ER6). Magnitudini
-// RECOVERY_SEASONS / ABUNDANCE_SEASONS = PROPOSED, ratify N=40.
+// GOVERNANCE: magnitudini RECOVERY_SEASONS / ABUNDANCE_SEASONS / ABUNDANT_WEIGHT_MULT
+// (foodwebFilter) RATIFIED as-built 2026-06-11 (N=40 evidence
+// docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md). Flag
+// `BIOME_POPULATION_ENABLED` **default ON** (flip 2026-06-11, opt-out '!= false';
+// pilot canonico docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md =
+// effetto combat OUTCOME-NEUTRO con le stat reali, band-safe per costruzione; il
+// -0.25 del probe differenziato era artefatto). L'esclusione del ruolo `depleted` =
+// conseguenza ecologica INTENZIONALE (segnale composizione branco-rinforzi, A13-like).
+// Scope pilota: ER7_PILOT_BIOMES (badlands).
 // =============================================================================
 
 const STATES = Object.freeze({
@@ -39,9 +45,9 @@ const STATES = Object.freeze({
 // (produttori/decompositori non rinforzano mai -> non tracciati).
 const TRACKED_ROLES = Object.freeze(['apex', 'mesopredator', 'prey']);
 
-// PROPOSED (ratify N=40): season quiete prima che un ruolo `depleted` recuperi.
+// RATIFIED 2026-06-11 (N=40): season quiete prima che un ruolo `depleted` recuperi.
 const RECOVERY_SEASONS = 2;
-// PROPOSED (ratify N=40): season prima che una `abundant` decada a `stable`
+// RATIFIED 2026-06-11 (N=40): season prima che una `abundant` decada a `stable`
 // (una volta che la causa -- apex depleted -- e' rientrata).
 const ABUNDANCE_SEASONS = 2;
 
@@ -49,7 +55,9 @@ const ABUNDANCE_SEASONS = 2;
 const SIGNAL_ROLE = Object.freeze({ apexOverhunted: 'apex', biomeWounded: 'prey' });
 
 function isEnabled() {
-  return process.env.BIOME_POPULATION_ENABLED === 'true';
+  // Default ON post pilot canonico (flip 2026-06-11, pattern ER6 #2725): opt-out
+  // esplicito con 'false'.
+  return process.env.BIOME_POPULATION_ENABLED !== 'false';
 }
 
 /** Fresh population: ogni ruolo tracciato parte `stable`, seasons 0. */

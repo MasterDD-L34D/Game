@@ -108,8 +108,11 @@ test('advance-season flag ON x2: apex stays depleted -> prey trophic release + p
   assert.ok(after.permanentFlags.some((f) => f.key === 'population_boom:badlands:prey'));
 });
 
-test('advance-season flag OFF (default): biome_population null, campaign untouched', async (t) => {
-  delete process.env.BIOME_POPULATION_ENABLED;
+test('advance-season flag OFF (opt-out "false"): biome_population null, campaign untouched', async (t) => {
+  // Post flip 2026-06-11 the flag is default ON -> the OFF path is opt-out 'false'
+  // (deleting the env var now = ON). Tests the no-op / back-compat branch explicitly.
+  process.env.BIOME_POPULATION_ENABLED = 'false';
+  t.after(() => delete process.env.BIOME_POPULATION_ENABLED);
   const { url } = startTestServer(t);
   const camp = campaignStore.createCampaign('p1', 'def', { woundedBiomes: ['badlands'] });
 
