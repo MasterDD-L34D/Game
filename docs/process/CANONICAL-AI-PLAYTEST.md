@@ -205,7 +205,11 @@ Quando un PR di combat porta un oracolo fuori banda:
 **Caveat storico**: qualunque banda ratificata PRIMA di #2719 (2026-06-10) e' stata
 misurata sotto il channel-bug (tutto-fisico) -> potenzialmente stale dove la policy
 usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.04, N=100 WR 22%).
-hc07 = fisico-only, **#2719-INDEPENDENT** (resta marginale 52%, follow-up separato).
+hc07 ri-centrato (enemy_damage_multiplier_override 2.1 -> 2.5, N=100 WR 42%; era al
+ceiling 50-52% dal baseline 2026-05-30, **#2719-INDEPENDENT** fisico-only timer-race).
+**Entrambi gli oracoli ora in-band -> gate phase-2 (blocking) SBLOCCATO** (flip = rimuovi
+`continue-on-error` + verdict ::error::+exit1 nel workflow, AND registra `combat-oracle`
+come required status check in branch protection [owner]; consigliato dopo ~1 sprint di bake).
 
 **Robustezza oracolo (follow-up)**: hc06 e' fragile perche' la policy greedy hardcoda
 l'exploit di canale (`CHANNEL_EXPLOIT_MAP`). Un gate secondario su policy `random`
