@@ -120,6 +120,13 @@ Per risultati ri-ottenibili:
 5. **SEED RNG pinnato** — **WIRED** (TKT-PLAYTEST-SEED, 2026-05-30): `batch_calibrate_hardcore0{6,7}.py --seed` propaga il seed a `/api/session/start`, che pinna la RNG combat seedabile (`apps/backend/services/combat/pseudoRng.js` `defaultRng`/`seedRng`). 2 run stesso seed = JSON bit-identici (smoke verde). Unseeded = `Math.random` (zero regressione prod). Run i usa `seed+i` (intero batch riproducibile).
 6. **Policy fissate**: il set multi-policy (1.1) e' parte del contratto, non ad-hoc.
 7. **Output archiviato**: `docs/playtest/YYYY-MM-DD-<scenario>-<phase>.json` + report `docs/playtest/YYYY-MM-DD-<scenario>-illuminator.md`.
+8. **OS = Windows (dev + prod), MAI Linux** (2026-06-14). Il sim combat NON e' deterministico
+   cross-OS: la leva ripida di hc06 amplifica un piccolo delta RNG/float tra OS -> a seed
+   identico hc06 legge **12.5% su Linux/ubuntu vs 22% su Windows**. Evo-Tactics gira
+   Windows-only (dev Lenovo+Ryzen, prod evo-tactics.com su Lenovo via cloudflared). Quindi
+   l'oracle CI **DEVE** girare su `windows-latest` (`combat-balance-gate.yml` /
+   `meta-loop-gate.yml`), non ubuntu, o valida la realta' sbagliata. Calibra SEMPRE sull'OS
+   del gate/prod. Il determinismo seed (TKT-PLAYTEST-SEED) e' garantito DENTRO un OS, non tra OS.
 
 ## 4. Scenari canonici + bande ratificate (stato 2026-05-29)
 

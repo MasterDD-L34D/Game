@@ -49,11 +49,18 @@ env:
 
 jobs:
   meta-loop-oracle:
-    runs-on: ubuntu-latest
+    # Windows runner = the dev/prod OS (Evo-Tactics is Windows-only). The meta-loop
+    # metrics are robust cross-OS (they passed on ubuntu too), but the oracle is gated
+    # on Windows for parity with combat-balance-gate + because the runner has Windows-
+    # specific handling (--isolate native-crash mitigation). See CANONICAL sec 3.
+    runs-on: windows-latest
     permissions:
       contents: read
-    timeout-minutes: 25
+    timeout-minutes: 30
     continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 (after the runner is seed-pinned).
+    defaults:
+      run:
+        shell: bash # run: steps use bash syntax -> Git Bash on the Windows runner
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -73,11 +80,11 @@ jobs:
         env:
           GIT_COMMIT: ${{ github.sha }}
         run: |
-          mkdir -p /tmp/metaloop
+          mkdir -p _metaloop
           set +e
           node tools/sim/full-loop-batch.js \
             --runs 40 --seed-base 424242 --isolate --gate \
-            --out /tmp/metaloop
+            --out _metaloop
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Write step summary
@@ -85,7 +92,7 @@ jobs:
         run: |
           echo "## Meta-loop band gate (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          cat /tmp/metaloop/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+          cat _metaloop/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the batch failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload meta-loop report
@@ -93,7 +100,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: meta-loop-${{ github.run_id }}
-          path: /tmp/metaloop/
+          path: _metaloop/
           retention-days: 14
 
       - name: Verdict (phase 1 = warn-only)

@@ -52,10 +52,18 @@ env:
 
 jobs:
   combat-oracle:
-    runs-on: ubuntu-latest
+    # Oracle MUST run on the dev/prod OS (Windows). The combat RNG is NOT cross-OS
+    # deterministic: on Linux/ubuntu hc06 reads 12.5% vs 22% on Windows (the steep
+    # boss_hp lever amplifies a small RNG/float OS delta). Evo-Tactics dev + prod are
+    # Windows-only -> gate on Windows or it validates the wrong reality. See
+    # CANONICAL-AI-PLAYTEST.md sec 3 (repro contract).
+    runs-on: windows-latest
     permissions:
       contents: read
-    timeout-minutes: 25
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash # run: steps use bash syntax -> Git Bash on the Windows runner
     # PHASE 2 (2026-06-14): blocking. The job fails when an oracle is OOB. Both
     # oracles are in-band on main (hc06 22% / hc07 42% @ N=100), so this passes on
     # the current baseline; it fails only when a future combat change shifts a band
@@ -96,12 +104,12 @@ jobs:
           LOBBY_WS_ENABLED: 'false'
           ORCHESTRATOR_AUTOCLOSE_MS: '2000'
         run: |
-          mkdir -p /tmp/oracle
+          mkdir -p _oracle
           set +e
           python tools/py/playtest_canonical.py \
             --n 40 --shards 4 --base-port 3360 \
             --label ci-${{ github.run_id }} \
-            --out-dir /tmp/oracle
+            --out-dir _oracle
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Write step summary
@@ -109,7 +117,7 @@ jobs:
         run: |
           echo "## Combat balance oracle (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          cat /tmp/oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+          cat _oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the oracle run failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload oracle report
@@ -117,7 +125,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: combat-oracle-${{ github.run_id }}
-          path: /tmp/oracle/
+          path: _oracle/
           retention-days: 14
 
       - name: Verdict (phase 2 = blocking)
