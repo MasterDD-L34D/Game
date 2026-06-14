@@ -749,16 +749,24 @@ async function main() {
   // per seed), so the bands carry margin; wire this warn-only until the runner is bit-
   // deterministic. Default (no --gate) = diagnostic, always exit 0 on completion.
   if (args.gate) {
+    // Incomplete sample guard (Codex #2762 P2): --isolate excludes _crashed seeds from N
+    // (summary.n = surviving runs). A subset that still lands in-band must NOT certify the
+    // batch -- a silently-reduced sample is a gate failure, not a pass.
+    const incomplete = summary.n !== args.runs;
     const failed = Object.keys(summary.metrics).filter((k) => !summary.metrics[k].in_band);
-    if (failed.length > 0) {
+    if (incomplete || failed.length > 0) {
       console.error(
-        `\n[gate] META-LOOP OUT OF BAND: ${failed.join(', ')} -- a ratified meta band-metric ` +
-          'left its range (see report). If this is a correct change that shifts a band, follow ' +
-          'the band-invalidation protocol (docs/process/CANONICAL-AI-PLAYTEST.md sec 9).',
+        '\n[gate] META-LOOP GATE FAIL: ' +
+          (incomplete
+            ? `sample incomplete (${summary.n}/${args.runs} runs -- crashed seeds excluded); `
+            : '') +
+          (failed.length ? `out of band: ${failed.join(', ')}; ` : '') +
+          'see report. If a correct change shifts a band, follow the band-invalidation ' +
+          'protocol (docs/process/CANONICAL-AI-PLAYTEST.md sec 9).',
       );
       process.exit(1);
     }
-    console.log('\n[gate] all meta band-metrics in-band.');
+    console.log(`\n[gate] all meta band-metrics in-band (full sample ${summary.n}/${args.runs}).`);
   }
 }
 

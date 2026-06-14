@@ -35,6 +35,11 @@ on:
       - 'apps/backend/routes/campaign*.js'
       - 'apps/backend/routes/meta*.js'
       - 'apps/backend/routes/progression*.js'
+      # the loop's combat leg posts /api/session/start + loads authored encounter
+      # rosters via tools/sim/scenario-enemies.js (Codex #2762 P2)
+      - 'apps/backend/routes/session*.js'
+      - 'docs/planning/encounters/**'
+      - 'docs/planning/encounters-draft/**'
       - 'data/core/**'
       - 'tools/sim/**'
   workflow_dispatch:
