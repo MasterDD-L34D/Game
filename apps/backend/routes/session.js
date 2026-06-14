@@ -3677,8 +3677,13 @@ function createSessionRouter(options = {}) {
               if (r.healed) patch.woundedBiomes = r.wounded;
               // SPEC-I ER7 -- run vinto = apex predator rimosso dal bioma.
               // Segnale one-shot per il population tick (consumato + azzerato dal
-              // season-tick). Flag-gated BIOME_POPULATION_ENABLED: no-op se OFF.
-              if (require('../services/worldgen/biomePopulation').isEnabled()) {
+              // season-tick). Gated su flag ON **E** scope pilota: il season-tick
+              // (campaign.js) consuma solo ER7_PILOT_BIOMES, quindi scrivere il
+              // segnale per un bioma fuori scope lo lascerebbe non-consumato per
+              // sempre (pollution + applied-later se il pilota si espande -- Codex
+              // P2 #2763). Single-source del pilot-set = biomePopulation.
+              const _biomePop = require('../services/worldgen/biomePopulation');
+              if (_biomePop.isEnabled() && _biomePop.isPilotBiome(biomeId)) {
                 patch.apexPressureByBiome = {
                   ...(camp.apexPressureByBiome || {}),
                   [biomeId]: true,

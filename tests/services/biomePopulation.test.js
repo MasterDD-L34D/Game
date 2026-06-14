@@ -19,12 +19,22 @@ const {
   TRACKED_ROLES,
   RECOVERY_SEASONS,
   ABUNDANCE_SEASONS,
+  ER7_PILOT_BIOMES,
+  isPilotBiome,
   isEnabled,
   initBiomePopulation,
   advanceBiomePopulation,
   depletedRoles,
   abundantRoles,
 } = require('../../apps/backend/services/worldgen/biomePopulation');
+
+test('isPilotBiome: badlands in scope, altri biomi fuori (gate scrittura segnali, Codex P2)', () => {
+  assert.ok(ER7_PILOT_BIOMES.includes('badlands'));
+  assert.equal(isPilotBiome('badlands'), true);
+  assert.equal(isPilotBiome('abisso_vulcanico'), false);
+  assert.equal(isPilotBiome('rovine_planari'), false);
+  assert.equal(isPilotBiome(undefined), false);
+});
 
 test('isEnabled: flag default ON (flip 2026-06-11, opt-out)', (t) => {
   const saved = process.env.BIOME_POPULATION_ENABLED;

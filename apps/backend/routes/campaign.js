@@ -101,8 +101,9 @@ function _getOrInitSeasonalState(campaignId) {
 }
 
 // SPEC-I ER7 -- pilot scope (mirror ER5): un bioma alla volta dietro il gate
-// N=40. Espansione = aggiungere biomi qui (PROPOSED).
-const ER7_PILOT_BIOMES = ['badlands'];
+// N=40. Single-source in biomePopulation (riusato dal victory-hook session.js per
+// gate la scrittura dei segnali allo stesso scope -- Codex P2 #2763).
+const ER7_PILOT_BIOMES = biomePopulation.ER7_PILOT_BIOMES;
 
 // SPEC-I ER7 -- avanza la popolazione discreta dei biomi-pilota di UN season-
 // tick. Segnali: biomeWounded (campaign.woundedBiomes, A13) + apexOverhunted

@@ -54,6 +54,17 @@ const ABUNDANCE_SEASONS = 2;
 // Ruolo colpito da ciascun segnale di run (regola flat, sez. ER7).
 const SIGNAL_ROLE = Object.freeze({ apexOverhunted: 'apex', biomeWounded: 'prey' });
 
+// SPEC-I ER7 -- scope del pilota (mirror ER5): un bioma alla volta dietro il gate
+// N=40. Single-source: il season-tick (campaign.js) lo itera e il victory-hook
+// (session.js) ci gate la scrittura dei segnali, cosi' i biomi fuori scope non
+// accumulano apexPressure mai consumati (flag default-ON -- Codex P2 #2763).
+const ER7_PILOT_BIOMES = Object.freeze(['badlands']);
+
+/** Un bioma e' nello scope del pilota ER7? (case-sensitive sui biome_id canonici). */
+function isPilotBiome(biomeId) {
+  return ER7_PILOT_BIOMES.includes(biomeId);
+}
+
 function isEnabled() {
   // Default ON post pilot canonico (flip 2026-06-11, pattern ER6 #2725): opt-out
   // esplicito con 'false'.
@@ -166,6 +177,8 @@ module.exports = {
   RECOVERY_SEASONS,
   ABUNDANCE_SEASONS,
   SIGNAL_ROLE,
+  ER7_PILOT_BIOMES,
+  isPilotBiome,
   isEnabled,
   initBiomePopulation,
   advanceBiomePopulation,
