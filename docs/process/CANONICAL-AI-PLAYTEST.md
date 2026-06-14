@@ -178,6 +178,41 @@ Questi riferimenti al playtest umano come gate/oracolo sono **declassati a opzio
 - `CLAUDE.md` / `COMPACT_CONTEXT.md` (Game) sprint-context "4 amici" gate — flag: vedi questo doc
 - `docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md` G7 RC sign-off — resta milestone RC, NON gate-dev
 
+## 9. Band invalidation da correct-fix (protocollo, 2026-06-14)
+
+**Caso #2719** (2026-06-10): un bug-fix CORRETTO (channel routing -- `/round/execute`
+ora passa `action.channel`; prima ogni attacco di round era `fisico`) ha sbloccato
+l'exploit `psionico` della policy hc06 contro boss/elite corazzati -> hc06 da 17%
+(padre #2717) a 51% OOB. La banda 15-25% era stata ratificata SOTTO il bug. NON e'
+una regressione da revertare -- e' la banda a essere stale. git-bisect + forensic
+N=100: `docs/playtest/2026-06-14-canonical-forensic-n100.md`. Gate mancante: la
+SoT (sez. 5) dichiarava il merge-gate ma non era wired per-PR -> #2719 e' passato.
+
+**Regola** (mirror Stockfish fishtest: la soglia e' decisione UMANA, mai auto-derivata).
+Quando un PR di combat porta un oracolo fuori banda:
+
+1. Il gate CI `.github/workflows/combat-balance-gate.yml` segnala (phase 1 = warn;
+   phase 2 = block).
+2. Classifica: e' un BUG (-> fixa/reverta, la banda resta giusta) o un FIX corretto
+   che sposta la banda (-> ri-taratura)? Usa git-bisect per la ground-truth.
+3. Se fix corretto: ri-tara il knob a **N>=40** (L-073: MAI scegliere il valore da
+   N<=20) e ri-ratifica a **N=100** forensic; se il lever e' steep, N=100 obbligatorio.
+4. Aggiorna `canonical-suite.yaml` (`ratified_knob` + `last_wr_n40` + `note`) **e** il
+   knob in `data/core/balance/` atomicamente. Documenta vecchia banda / nuova / perche'.
+5. **MAI auto-aggiornare `target_band` in CI.** Bande = human-ratified, machine-verified.
+6. Approvazione master-dd esplicita prima del merge.
+
+**Caveat storico**: qualunque banda ratificata PRIMA di #2719 (2026-06-10) e' stata
+misurata sotto il channel-bug (tutto-fisico) -> potenzialmente stale dove la policy
+usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.04, N=100 WR 22%).
+hc07 = fisico-only, **#2719-INDEPENDENT** (resta marginale 52%, follow-up separato).
+
+**Robustezza oracolo (follow-up)**: hc06 e' fragile perche' la policy greedy hardcoda
+l'exploit di canale (`CHANNEL_EXPLOIT_MAP`). Un gate secondario su policy `random`
+(mechanic-robust, gia' in `--policy all`) misurerebbe la difficolta' dell'encounter
+indipendente dallo skill = piu' diagnostico. Richiede ratificare `random_target_band`
+a N=40 per oracolo.
+
 ## Riferimenti
 
 - Metodologia: `.claude/agents/balance-illuminator.md` (calibration + research) + `docs/research/2026-05-20-calibration-knob-patterns-industry.md`
