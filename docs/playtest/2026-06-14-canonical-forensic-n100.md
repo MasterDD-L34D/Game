@@ -2,12 +2,13 @@
 
 > Date: 2026-06-14 | PC: Lenovo (edusc) | Commit: `eb78814d` (origin/main) | Worktree: `Game-forensic` (clean)
 > Method: canonical suite-runner `playtest_canonical.py --n 100 --shards 4` (forensic tier, L-073), seed `424242` (pinned, reproducible).
-> Verdict: **BOTH OUT-OF-BAND (high)**. hc06 = **hard regression** (53% vs 15-25%). hc07 = **marginal** (52% vs 30-50%, within CI of ceiling). Difficulty ladder **collapsed/flattened**.
-> Action: **diagnosis + flag only — NO knob applied** (L-070/L-073: tuning is master-dd's). Re-tune/re-ratify gated on master-dd.
+> Verdict: **BOTH OUT-OF-BAND (high)**. hc06 = **53% vs 15-25%**. hc07 = **52% vs 30-50%** (marginal, within CI of ceiling). Difficulty ladder **flattened**.
+> Root cause: **CONFIRMED by git-bisect = #2719 `f5387e66`** (channel-routing fix). Parent #2717 = 17% in-band → #2719 = 51% OOB. The fix is correct; the band was ratified under the prior bug. **#2725 ER1 = REFUTED** (A/B inert).
+> Action: **diagnosis only — NO knob applied** (L-070/L-073: tuning is master-dd's). Recommended = **re-tune + re-ratify hc06 at N=40** against post-#2719 combat. Do NOT revert #2719.
 
 ## TL;DR
 
-Forensic N=100 of the two canonical `balance_oracle` scenarios on current `origin/main` shows **both scenarios sit at a ~52-53% coin-flip win rate**, well above their ratified bands. The intended difficulty ladder (hc06 should be the _hardest_ scenario at 15-25%, hc07 easier at 30-50%) has **inverted/flattened**: hc06 ≈ hc07 ≈ coin-flip. The uniform upward shift (large on the elimination scenario, small on the timer scenario) points to a **global combat-power change since the ratify dates (~2026-05-26)** rather than a per-scenario knob drift. This is a metric-first diagnosis; root-cause confirmation + any tuning is deferred to master-dd.
+Forensic N=100 of the two canonical `balance_oracle` scenarios on current `origin/main` shows **both scenarios sit at a ~52-53% coin-flip win rate**, well above their ratified bands. The intended difficulty ladder (hc06 should be the _hardest_ scenario at 15-25%, hc07 easier at 30-50%) has **inverted/flattened**: hc06 ≈ hc07 ≈ coin-flip. The uniform upward shift (large on the elimination scenario, small on the timer scenario) pointed to a global combat change; **git-bisect confirms it = a single commit, #2719 (`f5387e66`), a channel-routing _bug fix_** that unlocked the hc06 policy's `psionico` exploit against the armored boss/elites (parent #2717 = 17% in-band → #2719 = 51% OOB at N=100). The band was ratified under the prior bug, so it is now stale. Any tuning/re-ratify is deferred to master-dd.
 
 ## Results (N=100, seed 424242, greedy policy)
 
@@ -52,21 +53,25 @@ Composite metric (`0.50·WR + 0.25·KD + 0.25·PE`, anti false-balanced):
 - The ladder no longer discriminates difficulty: the scenario meant to be the _punishing_ one (hc06) is now **as winnable as the easier one**. hc06 has lost its identity.
 - The **asymmetry is itself diagnostic**: a global player-buff / enemy-nerf differentially inflates an _elimination_ scenario (hc06, kill-gated → +28pp) far more than a _timer_ scenario (hc07, clock-gated → +2pp). This is the signature of a **combat-power shift**, not two independent per-scenario config drifts.
 
-## Root-cause hypotheses (FLAG for master-dd — NOT confirmed, NOT bisected)
+## Root cause — CONFIRMED by git-bisect (`a81fe108`..`eb78814d`, 281 commits)
 
-The regression is on `eb78814d` vs the ratify state (hc06 #2381, ~2026-05-26). Combat-touching commits landed since then; the uniform-upward-shift signature points at a **global** change. Top candidates to investigate first (highest blast-radius on raw combat power):
+Bisected with the identical harness (seed 424242, greedy, N=40/step → N=100 confirm on the boundary pair). Exact flip pinpointed at **one commit**:
 
-1. **#2725 `28690f9b` — "SPEC-I ER1/ER6 N=40 gates PASSED — role-aware harness + flip default ON"**: an ER1 _role-gap_ combat effect was **flipped from default-OFF to default-ON**. A combat modifier newly active in every fight is the strongest single suspect for a uniform WR lift. _(Cross-check: was the N=40 gate that flipped it run against the canonical hardcore oracles, or only its own SPEC-I harness? If the latter, hc06/hc07 were never re-checked post-flip.)_
-2. **#2720 `e1064339` / #2714 / #2535 — OD-058 wound system cutover (flip ON)**: location→stat-malus. If wounds land asymmetrically (or the cutover changed enemy effectiveness), it shifts combat power.
-3. **#2698 `c81d1ec8` — data-derived `agile_robust` / base-stats bounds**: touches the stat source (hp/speed) feeding units.
-4. **#2719 `f5387e66` — trait resistances mirror + channel-routing round path**: changes how channel/resistance routing resolves damage.
+| Commit                                                                                        | hc06 WR (N=100) | Band 15-25% |
+| --------------------------------------------------------------------------------------------- | --------------- | ----------- |
+| `a81fe108` (2026-05-30 baseline)                                                              | 16.0%           | in-band ✓   |
+| `7f39b3bd` (#2717, parent of culprit)                                                         | **17.0%**       | in-band ✓   |
+| **`f5387e66` (#2719)** — `fix(combat): trait resistances mirror + channel routing round path` | **51.0%**       | **OOB ✗**   |
 
-Lower-prior (claimed band-neutral at ship, but worth a sanity re-check now): economy gates #2557/#2555, PHASEC perks, A13/ER read-side eco effects.
+**Mechanism** (from the #2719 commit body + the hc06 policy): #2719's "Root-cause 2" fixed `/round/execute`, which **was not passing `action.channel` to `handleLegacyAttackViaRound` → every round attack resolved as `fisico` (physical)**. The hc06 batch policy (`CHANNEL_EXPLOIT_MAP`) attacks the boss + elite hunters with **`psionico`** to exploit their `corazzato` (armored) weakness. Under the bug those attacks were silently downgraded to physical → armor resisted → scenario hard (17%). Post-fix the psionico exploit lands → boss/elites melt → scenario easy (51%).
 
-> **Recommended first step (master-dd):** before any re-tune, confirm whether the global combat shift is _intended_ (e.g., ER1-ON is a deliberate new baseline) or _accidental_. The fix differs:
->
-> - **Accidental** → identify/correct the offending change; re-run this N=100 to confirm the bands return.
-> - **Intended/permanent** → the ratified bands are stale; **re-ratify** the scenario knobs at N=40 against the new baseline.
+**This is a legitimate bug fix, NOT a break — do not revert #2719.** The consequence is that the hc06 band (15-25%) was **ratified under the channel-routing bug** (all-physical round combat) and is now stale. Correct action = **re-tune + re-ratify** hc06 against post-#2719 (correct) channel routing.
+
+**REFUTED suspects** (tested, ruled out — not hand-waved):
+
+- **#2725 ER1 role-gap (default-ON flip)** — A/B with `ERMES_ROLE_GAP_ENABLED=false` gave **byte-identical** results (0/100 runs changed). ER1 (`session.js:1844`) only fires inside the biome-eco path: it needs a `biome_id` **and** party `job`s in `BIOME_ROLE_DEMANDS`; the hc06 batch passes neither → inert. That same biome-gated block makes **#2720 wound-cutover / #2535 / A13 / ER2** almost certainly inert for hc06 too (no `biome_id` in the batch).
+
+> ⚠️ **Broader flag:** the channel-routing bug was live through an entire calibration era (until #2719, 2026-06-10). Any balance band ratified before that date — measured under all-physical round combat — may be **stale** wherever the player/AI policy relied on channel exploits. hc07 (+2pp, timer-gated) is only marginally affected; re-check any other oracle the same way.
 
 ## Proposed knobs — _diagnosis-derived directions, NOT applied_ (tuning = master-dd, L-070/L-073)
 
