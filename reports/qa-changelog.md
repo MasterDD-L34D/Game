@@ -1,7 +1,7 @@
 # QA export changelog
 
 Generato: 2026-06-13T22:24:21.724133Z
-Baseline precedente: 2026-06-13T22:08:23.387724Z
+Baseline precedente: 2026-06-13T22:24:21.724133Z
 
 ## Metriche baseline
 - Tratti totali: 254 (0 vs precedente)
