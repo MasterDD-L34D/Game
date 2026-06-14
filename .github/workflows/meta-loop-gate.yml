@@ -1,0 +1,101 @@
+name: Meta-Loop Gate
+
+# Per-PR meta-loop balance-oracle gate -- the campaign/Nido/mating/recruit analog of
+# combat-balance-gate.yml. The full-loop AI-playtest runner (tools/sim/full-loop-batch.js)
+# plays the WHOLE loop end-to-end in-process (real combat per chapter -> /campaign/advance
+# -> Nido recruit -> mating), and meta-band-aggregator places 7 ratified band-metrics
+# (master-dd ratified 2026-06-03, L-069): completion_rate, roster_attrition, economy_flow,
+# relationship_progress, offspring_viability, lineage_diversity, roster_composition.
+#
+# WHY: the combat oracle was wired per-PR (after #2719 slipped) but the META-LOOP had the
+# runner + invariant tests yet NO balance-band gate -- the exact pre-#2719 condition for the
+# campaign/economy loop. This closes it so a meta-loop band drift can't merge silently.
+#
+# STATISTICAL gate (not bit-deterministic): the full-loop runner is only partially seed-pinned
+# (completion/lineage/roles are stable per --seed-base, but recruit/mate/attrition vary), so
+# this is a statistical check, NOT the bit-identical kind combat uses. The ratified bands carry
+# margin (e.g. completion 0.475 sits mid-band [0.4,0.7]) so a real regression trips it while
+# noise does not. PHASE 1 = warn-only (continue-on-error) until the runner is fully seed-pinned
+# (follow-up) -> then phase-2 blocking, like combat.
+#
+# --isolate runs each seed in its own child process (mitigates the documented mid-batch
+# EADDRINUSE / Windows native-crash at higher N). Pure node, in-process backend -- no shards,
+# no Python, no ports to manage.
+
+on:
+  pull_request:
+    paths:
+      - 'apps/backend/services/campaign/**'
+      - 'apps/backend/services/coop/**'
+      - 'apps/backend/services/mating/**'
+      - 'apps/backend/services/meta/**'
+      - 'apps/backend/services/metaProgression.js'
+      - 'apps/backend/services/progression/**'
+      - 'apps/backend/services/combat/**'
+      - 'apps/backend/routes/campaign*.js'
+      - 'apps/backend/routes/meta*.js'
+      - 'apps/backend/routes/progression*.js'
+      - 'data/core/**'
+      - 'tools/sim/**'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  meta-loop-oracle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 25
+    continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 (after the runner is seed-pinned).
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full-loop meta band gate (N=40, seed 424242, --isolate)
+        id: oracle
+        continue-on-error: true
+        env:
+          GIT_COMMIT: ${{ github.sha }}
+        run: |
+          mkdir -p /tmp/metaloop
+          set +e
+          node tools/sim/full-loop-batch.js \
+            --runs 40 --seed-base 424242 --isolate --gate \
+            --out /tmp/metaloop
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Write step summary
+        if: always()
+        run: |
+          echo "## Meta-loop band gate (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          cat /tmp/metaloop/report.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
+            || echo "(no report produced -- the batch failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload meta-loop report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: meta-loop-${{ github.run_id }}
+          path: /tmp/metaloop/
+          retention-days: 14
+
+      - name: Verdict (phase 1 = warn-only)
+        if: always()
+        run: |
+          if [ "${{ steps.oracle.outputs.exit_code }}" != "0" ]; then
+            echo "::warning title=Meta-loop band out-of-band::A ratified meta band-metric (completion / attrition / economy / relationship / offspring / lineage / roster) left its range, or the batch failed. See the step summary. If this is a correct change that shifts a band, follow the band-invalidation protocol (docs/process/CANONICAL-AI-PLAYTEST.md sec 9). PHASE 1 = warn-only (statistical gate, not blocking)."
+          else
+            echo "All meta band-metrics in-band."
+          fi

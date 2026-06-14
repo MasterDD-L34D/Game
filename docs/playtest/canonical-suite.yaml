@@ -66,6 +66,7 @@ run_canonical: |
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
-  ci_workflow: '.github/workflows/combat-balance-gate.yml (phase 1 = warn-only). Both oracles now in-band (hc06 22% / hc07 42% @ N=100) -> phase-2 UNBLOCKED. Flip to blocking = remove `continue-on-error` + verdict ::error::+exit1 in the workflow, AND register `combat-oracle` as a required status check in branch protection (owner-gated). Recommend after the gate bakes ~1 sprint.'
-  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct combat fix that shifts a band = block + human re-ratify, NEVER auto-update target_band'
+  ci_workflow_combat: '.github/workflows/combat-balance-gate.yml (PHASE 2 = fails red on OOB; both oracles in-band hc06 22% / hc07 42% @ N=100, #2753/#2760/#2761). Hard mechanical block (required status check) DEFERRED by master-dd 2026-06-14 -- the red X is sufficient for the team; registering combat-oracle as required needs a path-filter-skip redesign first (footgun: blocks non-combat PRs).'
+  ci_workflow_metaloop: '.github/workflows/meta-loop-gate.yml (PHASE 1 = warn-only, STATISTICAL). Runs `node tools/sim/full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate`; bands SoT = tools/sim/meta-band-aggregator.js (7 metrics, master-dd ratified 2026-06-03). Phase-2 follow-up: seed-pin the full-loop runner (recruit/mate/attrition currently vary per seed) -> bit-deterministic -> blocking.'
+  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct change that shifts a ratified band (combat OR meta-loop) = block + human re-ratify, NEVER auto-update the band'
   human_playtest: 'OPTIONAL confirmation, never blocking'

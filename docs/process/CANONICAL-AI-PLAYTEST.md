@@ -217,6 +217,28 @@ l'exploit di canale (`CHANNEL_EXPLOIT_MAP`). Un gate secondario su policy `rando
 indipendente dallo skill = piu' diagnostico. Richiede ratificare `random_target_band`
 a N=40 per oracolo.
 
+## 10. Meta-loop gate (2026-06-14)
+
+Estensione del gate combat al **meta-loop** (campaign / Nido / mating / recruit). Il runner
+full-loop (`tools/sim/full-loop-runner.js` + `full-loop-batch.js`) gioca il loop intero
+in-process; `tools/sim/meta-band-aggregator.js` piazza **7 band-metric ratificate**
+(master-dd 2026-06-03, L-069): completion_rate [0.4-0.7], roster_attrition (0,1),
+economy_flow drift [0.5-2.0], relationship_progress (composite), offspring_viability >=1,
+lineage_diversity >=3, roster_composition >=3.
+
+Gate: `.github/workflows/meta-loop-gate.yml` -- per-PR sui path meta-loop, gira
+`full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate` (exit 1 se una metrica e'
+OOB). **PHASE 1 = warn-only**. Diagnosi 2026-06-14 (N=40 su main): tutte e 7 in-banda
+(meta-loop sano, nessun drift) -> il gate blinda lo stato. Stesso buco pre-#2719 di combat:
+runner + invarianti c'erano, il band-gate no.
+
+**Caveat -- gate STATISTICO** (non bit-deterministico come combat): il full-loop runner e'
+solo parzialmente seed-pinnato (completion/lineage/roles stabili per `--seed-base`, ma
+recruit/mate/attrition variano run-to-run). Le bande hanno margine -> un meta-#2719 le spinge
+chiaramente fuori, il rumore no. **Follow-up per phase-2 (blocking)**: seed-pin completo del
+runner (pinnare l'RNG combat dentro il loop, come `pseudoRng`/TKT-PLAYTEST-SEED di combat) ->
+bit-deterministico -> rimuovi `continue-on-error` dal workflow.
+
 ## Riferimenti
 
 - Metodologia: `.claude/agents/balance-illuminator.md` (calibration + research) + `docs/research/2026-05-20-calibration-knob-patterns-industry.md`
