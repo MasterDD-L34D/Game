@@ -4148,7 +4148,7 @@
       }
     },
     "filamenti_digestivi_compattanti": {
-      "label": "Filamento materiali digeriti",
+      "label": "Filamenti Digestivi Compattanti",
       "famiglia_tipologia": "Digestivo/Escretorio",
       "fattore_mantenimento_energetico": "Basso (Passivo)",
       "tier": "T2",
