@@ -250,15 +250,23 @@ player_classes:
 
 scenario_overrides:
   enc_tutorial_06_hardcore:
-    # iter5 OPTUNA REJECTED (2026-05-21): Method A TPE 3-trial converged
-    # boss 0.866 + limit 31 → N=20 WR 15% BUT N=40 ratify → WR 30% OOB-high.
-    # L-073 META-LESSON: Optuna optimized on N=20 objective = converged to
-    # noise (trial 1 lucky-low 3/20). Optimizer inherited L-069 flaw.
-    # Rollback iter5. iter2 (boss 0.65 alone) restored = N=40 WR 15% confirmed.
-    # FUTURE: Optuna n_per_trial MUST be >=40 OR converges to noise.
-    # Vedi docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
-    boss_hp_multiplier: 0.65
-    rationale: 'iter2 N=40 WR 15% in-band primary RESTORED. iter5 Optuna (boss 0.866 + limit 31) REJECTED N=40 WR 30% OOB-high (L-073 optimizer-on-noise). Secondary metrics (defeat 85%) deferred Sprint M14 N=40-objective Optuna OR MAP-Elites.'
+    # RE-RATIFY 2026-06-14 (post-#2719): boss_hp_multiplier 0.65 -> 1.04.
+    # git-bisect proved #2719 f5387e66 (channel-routing fix: /round/execute now
+    # honors action.channel) flipped hc06 17% (parent #2717) -> 51% OOB. The
+    # greedy policy's `psionico` exploit vs the corazzato boss/elites was a no-op
+    # under the prior bug (every round attack was physical); the fix unlocked it
+    # -> 0.65 too weak. The 15-25% band had been ratified UNDER the bug. Forensic
+    # N=100 @ canonical seed 424242: boss 1.04 -> WR 22% (def 78%, timeout 0%) =
+    # all 3 class bands met. Lever is STEEP near band (1.0->27%, 1.05->12.5% N=40)
+    # -> the combat-balance CI gate + band-invalidation protocol
+    # (docs/process/CANONICAL-AI-PLAYTEST.md sec 9) guard recurrence.
+    # Evidence: docs/playtest/2026-06-14-canonical-forensic-n100.md
+    # --- HISTORY (pre-#2719, channel-bug era; band measured under the bug) ---
+    # iter5 OPTUNA REJECTED (2026-05-21): boss 0.866+limit 31 -> N=40 WR 30% OOB
+    # (L-073 optimizer-on-N=20-noise). iter2 (boss 0.65) = N=40 WR 15% confirmed
+    # BUT under the channel bug. docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
+    boss_hp_multiplier: 1.04
+    rationale: 'RE-RATIFIED 2026-06-14 post-#2719 (channel-routing fix): boss_hp_multiplier 0.65 -> 1.04. git-bisect root-caused the 0.65 -> 53% drift to #2719 unlocking the greedy psionico exploit (band was ratified under the channel bug). Forensic N=100 seed 424242: WR 22% in-band [15-25], defeat 78% [75-85], timeout 0% [0-5]. Steep lever near band; CI gate guards recurrence. Pre-#2719 history: iter2 boss 0.65 = WR 15% (measured under the bug).'
 
   enc_tutorial_07_hardcore_pod_rush:
     # 3A iter2 (2026-05-21): enemy_damage_multiplier_override 2.2 (REPLACES
