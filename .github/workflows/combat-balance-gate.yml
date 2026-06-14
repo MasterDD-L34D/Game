@@ -17,13 +17,14 @@ name: Combat Balance Gate
 # without re-ratifying the bands. host 127.0.0.1 + LOBBY_WS_ENABLED=false +
 # DAMAGE_CURVES_PATH are all handled inside playtest_canonical.py.
 #
-# PHASE 1 (current): warn-only. The job carries `continue-on-error: true` and
-# the verdict step emits a ::warning:: (never blocks merge). Reason: hc07 is
-# still marginally OOB (52% vs [30-50], #2719-independent, un-bisected) so a
-# blocking gate would freeze merges on a pre-existing issue.
-# PHASE 2 (flip once hc07 is in-band): remove `continue-on-error` and change the
-# verdict step's ::warning:: -> ::error:: + `exit 1`. Then register this as a
-# required status check in branch protection.
+# PHASE 2 (current, 2026-06-14): blocking. The verdict step emits ::error:: +
+# `exit 1` when an oracle is OOB, failing the job. Both oracles are in-band on
+# main (hc06 22% / hc07 42% @ N=100, PR #2753 + #2760) so it passes on baseline.
+# PHASE 1 was warn-only (`continue-on-error`) until hc07 was re-centered.
+# FINAL STEP to make it actually block merge: register `combat-oracle` as a
+# required status check in branch protection (owner-gated, set once). Until then
+# the gate shows a hard red X on OOB but does not technically block.
+# Rollback to warn-only: re-add `continue-on-error: true` on the job.
 #
 # Band-invalidation protocol (correct-fix shifts a band): see
 # docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- block + human re-ratify, never
@@ -55,7 +56,12 @@ jobs:
     permissions:
       contents: read
     timeout-minutes: 25
-    continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 blocking.
+    # PHASE 2 (2026-06-14): blocking. The job fails when an oracle is OOB. Both
+    # oracles are in-band on main (hc06 22% / hc07 42% @ N=100), so this passes on
+    # the current baseline; it fails only when a future combat change shifts a band
+    # -> follow the band-invalidation protocol (CANONICAL-AI-PLAYTEST.md sec 9).
+    # To actually block merge, `combat-oracle` must also be a required status check
+    # in branch protection (owner-gated, set once).
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -114,11 +120,11 @@ jobs:
           path: /tmp/oracle/
           retention-days: 14
 
-      - name: Verdict (phase 1 = warn-only)
+      - name: Verdict (phase 2 = blocking)
         if: always()
         run: |
           if [ "${{ steps.oracle.outputs.exit_code }}" != "0" ]; then
-            echo "::warning title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this PR is a correct combat fix, follow the band re-ratify protocol: docs/process/CANONICAL-AI-PLAYTEST.md sec 9. PHASE 1 = warn-only, not blocking."
-          else
-            echo "All canonical oracles in-band."
+            echo "::error title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this PR is a correct combat fix, follow the band re-ratify protocol: docs/process/CANONICAL-AI-PLAYTEST.md sec 9, then re-run. PHASE 2 = blocking."
+            exit 1
           fi
+          echo "All canonical oracles in-band."
