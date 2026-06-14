@@ -78,10 +78,18 @@ function createCoopRouter({
 
   function broadcastCoopState(room, orch) {
     if (!room || typeof room.broadcast !== 'function') return;
-    room.broadcast({
-      type: 'phase_change',
-      payload: buildPhaseChangePayload(orch),
-    });
+    // G1 #2746 — route phase_change through the VERSIONED publisher so the
+    // Godot phone accepts the frame (raw broadcast had no `version` key and
+    // was dropped as unknown_type -> blank screen). publishEvent version-stamps
+    // + ledger-records while broadcasting the same rich payload. Fallback to a
+    // raw broadcast only if the room lacks publishEvent (defensive; real Room
+    // always has it).
+    const phasePayload = buildPhaseChangePayload(orch);
+    if (typeof room.publishEvent === 'function') {
+      room.publishEvent('phase_change', phasePayload);
+    } else {
+      room.broadcast({ type: 'phase_change', payload: phasePayload });
+    }
     room.broadcast({
       type: 'character_ready_list',
       payload: orch.characterReadyList(quorumPids(room, orch, null)),
