@@ -7,8 +7,8 @@
 //   - apex depleted + prey non ferita -> prey `abundant` (trophic release)
 //   - recovery dopo N season quiete
 // Eventi local_extinction/population_boom = permanentFlags narrativi.
-// Flag BIOME_POPULATION_ENABLED default OFF (gate N=40, spec sez.8). Magnitudini
-// (RECOVERY_SEASONS/ABUNDANCE_SEASONS) = PROPOSED, ratify N=40.
+// Flag BIOME_POPULATION_ENABLED default ON (flip 2026-06-11, opt-out '!= false').
+// Magnitudini (RECOVERY_SEASONS/ABUNDANCE_SEASONS) RATIFIED N=40.
 'use strict';
 
 const test = require('node:test');
@@ -19,6 +19,8 @@ const {
   TRACKED_ROLES,
   RECOVERY_SEASONS,
   ABUNDANCE_SEASONS,
+  ER7_PILOT_BIOMES,
+  isPilotBiome,
   isEnabled,
   initBiomePopulation,
   advanceBiomePopulation,
@@ -26,8 +28,27 @@ const {
   abundantRoles,
 } = require('../../apps/backend/services/worldgen/biomePopulation');
 
-test('isEnabled: flag default OFF', () => {
+test('isPilotBiome: badlands in scope, altri biomi fuori (gate scrittura segnali, Codex P2)', () => {
+  assert.ok(ER7_PILOT_BIOMES.includes('badlands'));
+  assert.equal(isPilotBiome('badlands'), true);
+  assert.equal(isPilotBiome('abisso_vulcanico'), false);
+  assert.equal(isPilotBiome('rovine_planari'), false);
+  assert.equal(isPilotBiome(undefined), false);
+});
+
+test('isEnabled: flag default ON (flip 2026-06-11, opt-out)', (t) => {
+  const saved = process.env.BIOME_POPULATION_ENABLED;
   delete process.env.BIOME_POPULATION_ENABLED;
+  t.after(() => {
+    if (saved === undefined) delete process.env.BIOME_POPULATION_ENABLED;
+    else process.env.BIOME_POPULATION_ENABLED = saved;
+  });
+  assert.equal(isEnabled(), true);
+});
+
+test('isEnabled: opt-out OFF when env === "false"', (t) => {
+  process.env.BIOME_POPULATION_ENABLED = 'false';
+  t.after(() => delete process.env.BIOME_POPULATION_ENABLED);
   assert.equal(isEnabled(), false);
 });
 
