@@ -132,3 +132,74 @@ test('G5 #2746: world_vote tally total excludes the TV-mirror host', async () =>
     await wsHandle.close();
   }
 });
+
+test('G5 #2746 (Codex P2): non-playing host world_vote rejected, tally stays consistent', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Cat' });
+
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+    orch._setPhase('world_setup');
+
+    const hostWs = openWs(port, {
+      code: room.code,
+      player_id: room.host_id,
+      token: room.host_token,
+    });
+    const p1Ws = openWs(port, { code: room.code, player_id: p1.player_id, token: p1.player_token });
+    const p2Ws = openWs(port, { code: room.code, player_id: p2.player_id, token: p2.player_token });
+    await Promise.all([waitOpen(hostWs), waitOpen(p1Ws), waitOpen(p2Ws)]);
+    await Promise.all([
+      waitForMessage(hostWs, (m) => m.type === 'hello'),
+      waitForMessage(p1Ws, (m) => m.type === 'hello'),
+      waitForMessage(p2Ws, (m) => m.type === 'hello'),
+    ]);
+
+    // The TV-mirror host (no character) sends a world_vote: must be rejected,
+    // NOT persisted (else it pollutes the tally numerator while the denominator
+    // recomputes without the host -> accept > total).
+    hostWs.send(
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'world_vote', scenario_id: 'enc_tutorial_01', choice: 'accept' },
+      }),
+    );
+    const hostErr = await waitForMessage(hostWs, (m) => m.type === 'error', 2000);
+    assert.equal(hostErr.payload.code, 'not_a_player', 'non-playing host vote rejected');
+
+    // Now a real player votes; the tally must reflect only the 2 players.
+    p1Ws.send(
+      JSON.stringify({
+        type: 'intent',
+        payload: { action: 'world_vote', scenario_id: 'enc_tutorial_01', choice: 'accept' },
+      }),
+    );
+    const tallyMsg = await waitForMessage(
+      p2Ws,
+      (m) => m.type === 'world_tally' && m.payload?.accept >= 1,
+      2000,
+    );
+    const tally = tallyMsg.payload;
+    assert.equal(tally.total, 2, `total must be 2 players (got ${tally.total})`);
+    assert.equal(tally.accept, 1, `only p1 counted, host vote not persisted (got ${tally.accept})`);
+    assert.ok(tally.accept <= tally.total, 'accept must never exceed total');
+    assert.equal(tally.pending, 1, `p2 still pending (got ${tally.pending})`);
+
+    hostWs.close();
+    p1Ws.close();
+    p2Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});

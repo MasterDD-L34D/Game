@@ -1610,12 +1610,27 @@ function createWsServer({
                 );
                 return;
               }
-              // G5 #2746 — role-aware quorum so the TV-mirror host is not
-              // counted in worldTally.total (the phone saw "2 waiting / 3
-              // total" with 2 players). Mirrors lifecycleQuorumPids used by
-              // character_create / lineage_choice (#2707/#2708): host counts
-              // only when it actually plays (submitter or owns a character).
-              const allPids = lifecycleQuorumPids(room, orch, playerId);
+              // G5 #2746 — eligible voters = device players; the TV-mirror
+              // host counts only when it actually plays (owns a character).
+              // Computed independently of the submitter (NOT lifecycleQuorumPids,
+              // whose submitter self-include would let a non-playing host vote
+              // into the set) so the tally denominator stays stable across
+              // votes. The membership gate then rejects a non-playing host vote
+              // BEFORE voteWorld persists it -- otherwise the stored host vote
+              // would be counted by worldTally while a later submitter recomputes
+              // allPids without the host, yielding accept > total / false quorum
+              // (Codex P2 #2756).
+              const allPids = Array.from(room.players.values())
+                .filter(
+                  (p) =>
+                    (p.id !== room.hostId && p.role !== 'host') ||
+                    Boolean(orch.characters?.has?.(p.id)),
+                )
+                .map((p) => p.id);
+              if (!allPids.includes(playerId)) {
+                socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_a_player' } }));
+                return;
+              }
               // B-NEW-1 fix 2026-05-08 — connected-only quorum so phone
               // smoke does not stall when 2nd player WS dropped mid-vote.
               const connectedPids = Array.from(room.players.values())
