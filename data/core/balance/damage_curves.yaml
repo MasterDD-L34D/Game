@@ -250,6 +250,13 @@ player_classes:
 
 scenario_overrides:
   enc_tutorial_06_hardcore:
+    # NODE-22 RE-CALIBRATE 2026-06-14 (pm): boss_hp_multiplier 1.04 -> 1.02. The 1.04
+    # value (history below) was calibrated on a node-24 dev box (22%); on the CANONICAL
+    # runtime node 22 (CI + repo-recommended 22.19.0) 1.04 reads 12.5% OOB-low -- the
+    # steep lever is node/V8-sensitive near the cliff. 1.02 reads WR 23% in-band on BOTH
+    # node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust (a plateau before the
+    # 1.04 cliff). Calibrate on node 22 (CANONICAL sec 3 rule 8). hc07 robust (42% all nodes).
+    # --- HISTORY ---
     # RE-RATIFY 2026-06-14 (post-#2719): boss_hp_multiplier 0.65 -> 1.04.
     # git-bisect proved #2719 f5387e66 (channel-routing fix: /round/execute now
     # honors action.channel) flipped hc06 17% (parent #2717) -> 51% OOB. The
@@ -265,17 +272,24 @@ scenario_overrides:
     # iter5 OPTUNA REJECTED (2026-05-21): boss 0.866+limit 31 -> N=40 WR 30% OOB
     # (L-073 optimizer-on-N=20-noise). iter2 (boss 0.65) = N=40 WR 15% confirmed
     # BUT under the channel bug. docs/playtest/2026-05-21-optuna-l073-noise-convergence.md
-    boss_hp_multiplier: 1.04
-    rationale: 'RE-RATIFIED 2026-06-14 post-#2719 (channel-routing fix): boss_hp_multiplier 0.65 -> 1.04. git-bisect root-caused the 0.65 -> 53% drift to #2719 unlocking the greedy psionico exploit (band was ratified under the channel bug). Forensic N=100 seed 424242: WR 22% in-band [15-25], defeat 78% [75-85], timeout 0% [0-5]. Steep lever near band; CI gate guards recurrence. Pre-#2719 history: iter2 boss 0.65 = WR 15% (measured under the bug).'
+    boss_hp_multiplier: 1.02
+    rationale: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02. 1.04 was tuned on node 24 (22%) but reads 12.5% OOB-low on the canonical node 22 (CI/prod); the steep lever is node/V8-sensitive at the cliff. 1.02 = WR 23% in-band [15-25] on BOTH node 22 AND node 24 (N=100 seed 424242) = cross-runtime-robust. Root cause was #2719 (channel-routing fix unlocked the greedy psionico exploit; band had been ratified under the bug). Calibrate on node 22 (CANONICAL sec 3 rule 8). Pre-#2719: iter2 boss 0.65 = WR 15% (under the bug).'
 
   enc_tutorial_07_hardcore_pod_rush:
-    # 3A iter2 (2026-05-21): enemy_damage_multiplier_override 2.2 (REPLACES
-    # class hardcore 1.8). 3A iter1 (enemy_count -1) REJECTED inverted direction
-    # (WR 60->70%). iter2 path B: enemies hit harder = party takes more dmg =
-    # LOWER WR toward target [30-50%]. Direction probe N=10 then N=40 ratify.
-    # Replaces (not stacks) class 1.8. Vedi docs/playtest/2026-05-20-hardcore-07-3a-overshoot.md
-    enemy_damage_multiplier_override: 2.1
-    rationale: '3A iter2 enemy_damage 1.8->2.1 (replace class). edm 2.2 N=40 WR 27.5% OOB-low (-2.5pp below floor). Slope ~8pp/0.1edm: 2.1 expect WR ~33-37% mid-band [30-50%]. iter1 enemy_count -1 rejected. PENDING N=40 ratify.'
+    # RE-CENTER 2026-06-14 (PR #2753 follow-up): enemy_damage_multiplier_override
+    # 2.1 -> 2.5. hc07 had drifted to the band CEILING (50% N=40 / 52% N=100,
+    # in-band but no margin) -> perpetual edge-warning on the new combat-balance
+    # CI gate. #2719-INDEPENDENT (fisico-only policy, no channel exploit; verified
+    # by git-bisect on hc06; hc07 was 50% already at the 2026-05-30 baseline).
+    # Re-centered to mid-band: forensic N=100 seed 424242 -> WR 42% (timeout 58%
+    # = timer-race loss by design; defeat 0%). hc07 losses are timeouts, so the
+    # class defeat/timeout bands (an elimination concept) do NOT apply -- only the
+    # WR band [30-50] gates hc07.
+    # --- HISTORY ---
+    # 3A iter2 (2026-05-21): edm 2.1 (REPLACES class hardcore 1.8). iter1
+    # (enemy_count -1) REJECTED inverted dir. 2026-05-20-hardcore-07-3a-overshoot.md
+    enemy_damage_multiplier_override: 2.5
+    rationale: 'RE-CENTERED 2026-06-14: enemy_damage_multiplier_override 2.1 -> 2.5 (replaces class 1.8). hc07 sat at the band ceiling (50% N=40 / 52% N=100) since the 2026-05-30 baseline = no margin for the combat-balance gate. #2719-independent (fisico-only, timer-race). Forensic N=100 seed 424242: WR 42% in-band [30-50], timeout 58% (timer-loss by design). edm sweep N=40: 2.1->50, 2.3->47.5, 2.5->42.5, 2.7->42.5.'
 
 # ─── Wound location weights (OD-058 D2) ───────────────────────────────
 # SPEC-D2 §4: when a wound triggers (critico/KO), the body location is chosen

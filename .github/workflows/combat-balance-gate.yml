@@ -17,13 +17,14 @@ name: Combat Balance Gate
 # without re-ratifying the bands. host 127.0.0.1 + LOBBY_WS_ENABLED=false +
 # DAMAGE_CURVES_PATH are all handled inside playtest_canonical.py.
 #
-# PHASE 1 (current): warn-only. The job carries `continue-on-error: true` and
-# the verdict step emits a ::warning:: (never blocks merge). Reason: hc07 is
-# still marginally OOB (52% vs [30-50], #2719-independent, un-bisected) so a
-# blocking gate would freeze merges on a pre-existing issue.
-# PHASE 2 (flip once hc07 is in-band): remove `continue-on-error` and change the
-# verdict step's ::warning:: -> ::error:: + `exit 1`. Then register this as a
-# required status check in branch protection.
+# PHASE 2 (current, 2026-06-14): blocking. The verdict step emits ::error:: +
+# `exit 1` when an oracle is OOB, failing the job. Both oracles are in-band on
+# main (hc06 22% / hc07 42% @ N=100, PR #2753 + #2760) so it passes on baseline.
+# PHASE 1 was warn-only (`continue-on-error`) until hc07 was re-centered.
+# FINAL STEP to make it actually block merge: register `combat-oracle` as a
+# required status check in branch protection (owner-gated, set once). Until then
+# the gate shows a hard red X on OOB but does not technically block.
+# Rollback to warn-only: re-add `continue-on-error: true` on the job.
 #
 # Band-invalidation protocol (correct-fix shifts a band): see
 # docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- block + human re-ratify, never
@@ -54,8 +55,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    timeout-minutes: 25
-    continue-on-error: true # PHASE 1 warn-only. Remove for phase-2 blocking.
+    timeout-minutes: 35
+    # PHASE 2 (re-flipped 2026-06-14 pm): blocking. hc06 was re-calibrated on the CI
+    # runtime node 22 (boss_hp 1.04 -> 1.02 = 23% in-band on BOTH node 22 and node 24;
+    # the earlier node-24-only 1.04 read 12.5% OOB on node 22). Both oracles in-band on
+    # node 22 -> passes baseline, fails only on a real future drift. Hard mechanical
+    # block (required status check) DEFERRED (master-dd Option 1) -- the red X suffices.
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -83,7 +88,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pyyaml
 
-      - name: Run canonical balance oracles (N=40, seed 424242, shards 4)
+      - name: Run canonical balance oracles (N=100, seed 424242, shards 4)
         id: oracle
         continue-on-error: true
         env:
@@ -92,8 +97,12 @@ jobs:
         run: |
           mkdir -p /tmp/oracle
           set +e
+          # N=100 (NOT 40): hc06's boss_hp lever is razor-steep, so the N=40 and N=100
+          # seed subsets sample to different WR at the same value (1.02 = 12.5% @ N=40 vs
+          # 23% @ N=100). The gate N MUST match the ratification N (100, seed-pinned =
+          # deterministic) or it false-fails. ~2-3 min on CI.
           python tools/py/playtest_canonical.py \
-            --n 40 --shards 4 --base-port 3360 \
+            --n 100 --shards 4 --base-port 3360 \
             --label ci-${{ github.run_id }} \
             --out-dir /tmp/oracle
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
@@ -101,7 +110,7 @@ jobs:
       - name: Write step summary
         if: always()
         run: |
-          echo "## Combat balance oracle (N=40, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Combat balance oracle (N=100, seed 424242)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           cat /tmp/oracle/ci-${{ github.run_id }}-canonical-suite.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null \
             || echo "(no report produced -- the oracle run failed before writing; see job log)" >> "$GITHUB_STEP_SUMMARY"
@@ -114,11 +123,11 @@ jobs:
           path: /tmp/oracle/
           retention-days: 14
 
-      - name: Verdict (phase 1 = warn-only)
+      - name: Verdict (phase 2 = blocking)
         if: always()
         run: |
           if [ "${{ steps.oracle.outputs.exit_code }}" != "0" ]; then
-            echo "::warning title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this PR is a correct combat fix, follow the band re-ratify protocol: docs/process/CANONICAL-AI-PLAYTEST.md sec 9. PHASE 1 = warn-only, not blocking."
-          else
-            echo "All canonical oracles in-band."
+            echo "::error title=Combat balance oracle out-of-band::A canonical oracle WR left its ratified band (see step summary). If this is a correct combat fix, follow the band re-ratify protocol (CANONICAL-AI-PLAYTEST.md sec 9) -- re-calibrate on node 22 (sec 3 rule 8), then re-run. PHASE 2 = blocking."
+            exit 1
           fi
+          echo "All canonical oracles in-band."

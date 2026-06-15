@@ -32,22 +32,22 @@ scenarios:
   - id: enc_tutorial_06_hardcore
     role: balance_oracle
     target_band: [0.15, 0.25]
-    ratified_knob: { boss_hp_multiplier: 1.04 }
-    last_wr_n40: '0.22 (N=100 2026-06-14, seed 424242)'
+    ratified_knob: { boss_hp_multiplier: 1.02 }
+    last_wr_n40: '0.23 (N=100 2026-06-14 on node 22, seed 424242; also 0.23 on node 24 = cross-runtime-robust)'
     status: ratified
     tool: tools/py/batch_calibrate_hardcore06.py
     port: 3340
-    note: 'RE-RATIFIED 2026-06-14 post-#2719 channel-routing fix: boss_hp_multiplier 0.65->1.04 (N=100 WR 22%, def 78%, timeout 0%). git-bisect proved #2719 (f5387e66) unlocked the greedy psionico exploit -> the old 0.65 band was measured under the channel bug. Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null overshoot 0.85 still REJECTED.'
+    note: 'NODE-22 RE-CALIBRATED 2026-06-14: boss_hp_multiplier 1.04 -> 1.02 (N=100 WR 23% in-band [15-25]). The interim 1.04 was tuned on node 24 (22%) but read 12.5% OOB-low on the canonical node 22 (CI/prod) -- the steep lever is node/V8-sensitive at the cliff. 1.02 = 23% on BOTH node 22 AND node 24 = cross-runtime-robust (plateau before the 1.04 cliff). Root cause = #2719 (channel-routing fix unlocked the greedy psionico exploit; band ratified under the bug, git-bisect). Calibrate on node 22 (CANONICAL sec 3 rule 8). Evidence docs/playtest/2026-06-14-canonical-forensic-n100.md. iter3 turn_limit null 0.85 still REJECTED.'
 
   - id: enc_tutorial_07_hardcore_pod_rush
     role: balance_oracle
     target_band: [0.30, 0.50]
-    ratified_knob: { enemy_damage_multiplier_override: 2.1 } # REPLACES class 1.8, not stack
-    last_wr_n40: '0.52 (N=100 2026-06-14, marginal +2pp over ceiling)'
-    status: review_needed
+    ratified_knob: { enemy_damage_multiplier_override: 2.5 } # REPLACES class 1.8, not stack
+    last_wr_n40: '0.42 (N=100 2026-06-14, seed 424242)'
+    status: ratified
     tool: tools/py/batch_calibrate_hardcore07.py
     port: 3334
-    note: 'Timer/objective scenario, fisico-only policy (NO channel exploit) -> #2719-INDEPENDENT. Forensic N=100 2026-06-14 = WR 52% vs band [30-50], CI95 [42,62] straddles ceiling. Drift from ~40% is NOT #2719; cause un-bisected = separate low-priority follow-up. Original: post wave 5-7 nerf 6 traits cost_ap 1->2.'
+    note: 'RE-CENTERED 2026-06-14: enemy_damage_multiplier_override 2.1->2.5. hc07 sat at the band ceiling (50% N=40 / 52% N=100) since the 2026-05-30 baseline = no gate margin. #2719-INDEPENDENT (fisico-only, timer-race scenario; losses are timeouts not defeats). Forensic N=100 = WR 42% mid-band [30-50]. Both oracles now in-band -> combat-balance gate phase-2 (blocking) is unblocked.'
 
   - id: enc_tutorial_01_05
     role: designed_winnable_ladder
@@ -66,6 +66,7 @@ run_canonical: |
 
 gate:
   merge: 'AI regression tests/ai/*.test.js green AND touched-scenario WR in-band @ N=40 AND no crash/contract-ripple'
-  ci_workflow: '.github/workflows/combat-balance-gate.yml (phase 1 = warn-only; flip to blocking once hc07 in-band)'
-  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct combat fix that shifts a band = block + human re-ratify, NEVER auto-update target_band'
+  ci_workflow_combat: '.github/workflows/combat-balance-gate.yml (PHASE 2 = fails red on OOB; re-flipped 2026-06-14 pm after the node-22 re-calibration). hc06 boss_hp 1.04 -> 1.02 = 23% in-band on node 22 (CI runtime) AND node 24 (dev) = cross-runtime-robust; hc07 42%. Lesson: the steep hc06 lever is node/V8-sensitive at the cliff -- calibrate on node 22 (CANONICAL sec 3 rule 8); NOT an OS thing (ubuntu and windows runners agreed at 12.5% on node 22). Hard mechanical block (required status check) DEFERRED (master-dd Option 1) -- red X suffices.'
+  ci_workflow_metaloop: '.github/workflows/meta-loop-gate.yml (PHASE 1 = warn-only, STATISTICAL). Runs `node tools/sim/full-loop-batch.js --runs 40 --seed-base 424242 --isolate --gate`; bands SoT = tools/sim/meta-band-aggregator.js (7 metrics, master-dd ratified 2026-06-03). Phase-2 follow-up: seed-pin the full-loop runner (recruit/mate/attrition currently vary per seed) -> bit-deterministic -> blocking.'
+  band_invalidation_protocol: 'docs/process/CANONICAL-AI-PLAYTEST.md sec 9 -- a correct change that shifts a ratified band (combat OR meta-loop) = block + human re-ratify, NEVER auto-update the band'
   human_playtest: 'OPTIONAL confirmation, never blocking'
