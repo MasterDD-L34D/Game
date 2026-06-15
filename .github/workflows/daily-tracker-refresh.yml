@@ -14,6 +14,9 @@ env:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,9 +30,28 @@ jobs:
         run: python -m pip install --upgrade pip && pip install PyYAML
       - name: Aggiorna tracker e README
         run: python scripts/daily_tracker_refresh.py --export-json reports/daily_tracker_summary.json
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'chore: refresh tracker index'
-          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
-          branch: main
+      - name: Open tracker-refresh PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          # main e' protetto: il bot github-actions non puo' pushare diretto
+          # (403 -> git-auto-commit-action exit 128). Consegna via PR branch +
+          # auto-PR, idioma riusato da ai-sim-nightly (B3) e skiv-monitor.
+          if git diff --quiet -- docs/00-INDEX.md; then
+            echo "Tracker index invariato -- nessun PR necessario"
+            exit 0
+          fi
+          BRANCH="automation/daily-tracker-refresh"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add docs/00-INDEX.md
+          git commit -m "chore: refresh tracker index"
+          git push origin "$BRANCH" --force
+          gh pr create \
+            --title "chore: daily tracker index refresh" \
+            --body "Auto-refresh indice tracker (docs/00-INDEX.md) generato da scripts/daily_tracker_refresh.py. main e' protetto: consegna via PR (mai auto-commit diretto su main). Rollback: git revert <sha> oppure chiudi il PR." \
+            --label "automation" \
+            --base main --head "$BRANCH" \
+            --repo "${{ github.repository }}" || echo "PR gia' esistente per $BRANCH (aggiornato via force-push)"
