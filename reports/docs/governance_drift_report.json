@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-14T11:03:53+00:00",
+  "generated_at": "2026-06-15T07:08:00+00:00",
   "summary": {
-    "total": 343,
+    "total": 349,
     "errors": 0,
-    "warnings": 343
+    "warnings": 349
   },
   "issues": [
     {
@@ -1605,6 +1605,30 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/planning/2026-05-15-handoff-cross-pc-pr2271-closure.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-15-phase-4d-game-database-migration-prep.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-15-phase-4d-scope-b-game-database-pr-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-05-15-session-closure-cumulative-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/planning/2026-05-20-parallel-cascade-multi-agent-handoff.md",
       "message": "Documento stale: revisione scaduta il 2026-06-03"
     },
@@ -2063,6 +2087,18 @@
       "code": "stale_document",
       "path": "docs/superpowers/specs/2026-05-30-ecologia-combat-disconnect-strategy.md",
       "message": "Documento stale: revisione scaduta il 2026-06-13"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-05-31-worldgen-gapc-fase2-arc-conditions-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/superpowers/specs/2026-05-31-worldgen-gapc-meta-network-routing-design.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-14"
     }
   ]
 }
