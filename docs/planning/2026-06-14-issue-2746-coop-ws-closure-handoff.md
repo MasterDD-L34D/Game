@@ -56,14 +56,15 @@ Tutto il lavoro Game e' chiuso. L'unica cosa che resta = **validare i fix sul ph
    node apps/backend/index.js   # log atteso: "[lobby-ws] Prisma hydrate" (no warn stub)
    ```
    NB: Docker Desktop su Lenovo NON parte (engine pipe admin-only); usare il Postgres portable.
-2. **Phone run** (Godot): build phone + `node tools/playtest/host_driver.mjs --base http://localhost:3334 --out tools/playtest/smoke_logs/<run>` -> drive nido (frame-pump, vedi gotchas del report) -> assert:
-   - **B3 affinity-half**: pannello Relazioni MODE_NIDO renderizza NPG + Aff/Fid (non piu' placeholder "Nessun NPG conosciuto"). Server gia' verificato 500->200 in G4.
+2. **Seed dello store NPG globale (CHIAVE per B3)**: `GET /api/meta/npg` legge lo store GLOBALE (`createMetaStore campaignId:null`, `pluginLoader.js`); il recruit per-campaign NON lo popola. Post-fix npg torna `200 {npcs:[]}` -> il pannello Relazioni resta su "Nessun NPG conosciuto" finche' vuoto. Seeda con PowerShell-native (in PS 5.1 `curl` = alias di Invoke-WebRequest, i flag `-X/-d` falliscono): `Invoke-RestMethod -Method Post -Uri .../api/meta/affinity -ContentType application/json -Body '{"npc_id":"npc_recheck","delta":1}'` + idem `/trust` con `delta:2` -> poi npg ha la riga.
+3. **Phone run** (Godot): build phone + `node tools/playtest/host_driver.mjs --base http://localhost:3334 --out tools/playtest/smoke_logs/<run>` -> drive nido (frame-pump, vedi gotchas del report) -> assert:
+   - **B3 affinity-half**: pannello Relazioni MODE_NIDO renderizza la riga NPG seedata (Aff/Fid), non piu' placeholder. Server gia' verificato 500->200 in G4.
    - **G1/G3**: il phone monta gli schermi su `phase_change` versionati (no schermo vuoto); entra in MODE_NIDO server-driven su next_macro.
    - **G2**: i frame portano `campaign_id` non-null.
    - **G5**: tally mostra "N totali" = solo i player (host TV escluso).
-3. **Reference**: report `Game-Godot-v2/docs/godot-v2/qa/2026-06-12-item5-item6-ai-playtest.md` (sez. Stack del run + Gotchas frame-pump).
-4. **Estimated effort**: ~15-20 min (lane Lenovo, client interattivo).
-5. **Post-conferma**: chiudi issue #2746.
+4. **Reference**: report `Game-Godot-v2/docs/godot-v2/qa/2026-06-12-item5-item6-ai-playtest.md` -- sez. **"Re-check #2746 (runbook)"** (backend + seed + assert, copia operativa) + "Stack del run" + "Gotchas frame-pump".
+5. **Estimated effort**: ~15-20 min (lane Lenovo, client interattivo).
+6. **Post-conferma**: chiudi issue #2746.
 
 ## Memory candidates
 
