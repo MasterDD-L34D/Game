@@ -41,23 +41,26 @@ Tier-floor mapping (dal TKT, identico Godot):
 | 4     | 75                     | Critical  |
 | 5     | 95                     | Apex      |
 
-Changes:
+Changes -- un solo helper `effectivePressure(p, floor)` applicato a **TUTTI** i siti di derivazione tier (Codex P2 #2771: floor parziale = parita' ancora rotta):
 
-1. `aiProgressMeter.js`:
-   - `effectivePressure(p, floor)` = `max(p, FLOOR_MIN[floor])` (FLOOR_MIN = `{1:0, 2:25, 3:50, 4:75, 5:95}`; 0 / unset / out-of-range -> nessun floor).
-   - thread `floor` in `tierForPressure(p, floor)`, `nextTier(p, floor)`, `getProgressMeterState(session)` (legge `session.pressure_tier_floor`).
-2. `declareSistemaIntents.js`:
-   - `intentsCapForPressure(p, floor)` + thread `floor` in `declareIntents(...)`.
-3. Plumbing: al session-init copiare `encounter.pressure_tier_floor` -> `session.pressure_tier_floor` (sito: dove `session.js` carica l'encounter; passthrough come `difficulty_rating` / `encounter_class`).
-4. **Back-compat invariant**: floor 0 / unset / out-of-range -> comportamento identico pre-A2. Tutti i test esistenti passano senza modifica.
+0. **Helper condiviso** `effectivePressure(p, floor)` = `max(p, FLOOR_MIN[floor])` (FLOOR_MIN = `{1:0, 2:25, 3:50, 4:75, 5:95}`; 0 / unset / out-of-range -> nessun floor). SoT singola, riusata da tutti i punti sotto.
+1. **`sessionHelpers.js` -- gate CANONICO** (`computeSistemaTier` / `SISTEMA_PRESSURE_TIERS`, `sessionHelpers.js:751-762`, driven da `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml`): questo tier gate **intents_per_round + unlocked_intent_types + reinforcement_budget** (single dial, da yaml). Applicare `effectivePressure(pressure, floor)` PRIMA di `computeSistemaTier` al call-site `publicSessionView` (`sessionHelpers.js:430` -> `sistema_tier` :451).
+2. **`reinforcementSpawner.js:241`**: `computeSistemaTier(effectivePressure(session.pressure ?? 0, floor))` -> reinforcement budget floored.
+3. **`aiProgressMeter.js`**: thread `floor` in `tierForPressure` / `nextTier` / `getProgressMeterState` (meter di visibilita'; mirror dei tier canonici).
+4. **`declareSistemaIntents.js`**: `intentsCapForPressure(p, floor)` + thread `floor` in `declareIntents(...)`.
+5. **Plumbing**: session-init copia `encounter.pressure_tier_floor` -> `session.pressure_tier_floor` (passthrough come `difficulty_rating` / `encounter_class`).
+6. **NB campo pressure inconsistente**: `publicSessionView` / `aiProgressMeter` leggono `session.sistema_pressure`, `reinforcementSpawner` legge `session.pressure ?? 0`. Il floor va applicato al campo che alimenta ogni `computeSistemaTier`; al build riconciliare/confermare quale campo e' canonico.
+7. **Back-compat invariant**: floor 0 / unset / out-of-range -> identico pre-A2. Tutti i test esistenti passano senza modifica.
 
 ## Test (mirror Godot)
 
 - `effectivePressure` con floor (boundary 0 / 1 / 5 / out-of-range).
-- `tierForPressure` / `nextTier` con floor.
-- `intentsCapForPressure` con floor.
+- `computeSistemaTier(effectivePressure(p, floor))` -- gate canonico (intents + reinforcement budget + intent types).
+- `publicSessionView.sistema_tier` floored (injection `session.pressure_tier_floor`).
+- reinforcement budget floored (`reinforcementSpawner` con floor).
+- `tierForPressure` / `nextTier` / `intentsCapForPressure` con floor.
 - `getProgressMeterState` con `session.pressure_tier_floor` injection.
-- regression: floor unset -> identico (baseline AI test invariato).
+- regression: floor unset -> identico (baseline AI + reinforcement invariato).
 
 ## Gate balance (owner-gated, BLOCCANTE)
 
@@ -75,10 +78,12 @@ A1 (#2769) ha gia' settato floor 1-4 su 10 encounter. Cablare il consumer **atti
 
 ## Scope / files
 
-- `apps/backend/services/ai/aiProgressMeter.js` (engine).
+- `apps/backend/routes/sessionHelpers.js` -- `computeSistemaTier` / `SISTEMA_PRESSURE_TIERS` (gate CANONICO) + `publicSessionView` sistema_tier + helper `effectivePressure`.
+- `apps/backend/services/combat/reinforcementSpawner.js` -- budget floored (`:241`).
+- `apps/backend/services/ai/aiProgressMeter.js` (meter visibilita').
 - `apps/backend/services/ai/declareSistemaIntents.js` (intents).
-- plumbing session-init (`session.js` / `sessionHelpers.js`).
-- test `tests/ai/*` + harness N=40.
+- plumbing session-init (`session.js`).
+- test `tests/ai/*` + `tests/combat/*` reinforcement + harness N=40.
 - Out of scope: ri-calibrazione dei valori floor (ratifica master-dd separata); HUD surface (gia' Godot-side).
 
 ## Riferimenti
@@ -86,4 +91,4 @@ A1 (#2769) ha gia' settato floor 1-4 su 10 encounter. Cablare il consumer **atti
 - Godot canonical design: `Game-Godot-v2/docs/godot-v2/design/tkt-pressure-tier-encounter.md` (PR #221).
 - ADR vault: `ADR-2026-05-10-pressure-tier-scaling-pillar-conflict`.
 - A1: #2744 / PR #2769 (schema + 10 YAML).
-- Backend Sistema: `apps/backend/services/ai/aiProgressMeter.js`, `apps/backend/services/ai/declareSistemaIntents.js`.
+- Backend Sistema (gate canonico): `apps/backend/routes/sessionHelpers.js` (`computeSistemaTier` / `SISTEMA_PRESSURE_TIERS`) + `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml`; visibility: `aiProgressMeter.js`; intents: `declareSistemaIntents.js`; budget: `reinforcementSpawner.js`.
