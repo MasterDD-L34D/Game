@@ -424,12 +424,17 @@ function publicSessionView(session) {
       pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,
     };
   });
-  const pressure = Number.isFinite(Number(session.sistema_pressure))
+  const rawPressure = Number.isFinite(Number(session.sistema_pressure))
     ? Number(session.sistema_pressure)
     : 0;
-  // A2: apply the per-encounter pressure_tier_floor BEFORE deriving the tier.
-  // Flag OFF (default) -> effectivePressure returns `pressure` unchanged.
-  const tier = computeSistemaTier(effectivePressure(pressure, session.pressure_tier_floor));
+  // A2: apply the per-encounter pressure_tier_floor BEFORE deriving the tier AND
+  // expose the *effective* pressure (not raw) so the client meter -- which
+  // recomputes label/bar/cap client-side from sistema_pressure -- stays consistent
+  // with sistema_tier when the flag is ON (Codex P2 #2773). Flag OFF (default):
+  // sistema_pressure is already clamped 0..100 (applyPressureDelta) so
+  // effectivePressure == raw -> byte-identical.
+  const pressure = effectivePressure(rawPressure, session.pressure_tier_floor);
+  const tier = computeSistemaTier(pressure);
   // Atlas live in-match telemetry (pressure player-side, momentum, warnings)
   const atlas = buildAtlasLive(session);
   return {

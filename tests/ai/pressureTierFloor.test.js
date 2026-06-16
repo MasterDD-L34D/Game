@@ -149,8 +149,10 @@ test('publicSessionView: flag ON + floor 4 -> sistema_tier Critical', () => {
   withFlag('true', () => {
     const view = publicSessionView(mockSessionForView({ pressure_tier_floor: 4 }));
     assert.equal(view.sistema_tier.label, 'Critical');
-    // sistema_pressure surface stays the RAW value (floor only shapes the tier).
-    assert.equal(view.sistema_pressure, 0);
+    // Codex P2 #2773: sistema_pressure surface = EFFECTIVE (floored) so the client
+    // meter (recomputed client-side from sistema_pressure) stays consistent with
+    // sistema_tier when the flag is ON. floor 4 -> FLOOR_MIN 75 (Critical).
+    assert.equal(view.sistema_pressure, 75);
   });
 });
 
@@ -158,6 +160,8 @@ test('publicSessionView: flag OFF + floor 4 -> sistema_tier Calm (back-compat)',
   withFlag('false', () => {
     const view = publicSessionView(mockSessionForView({ pressure_tier_floor: 4 }));
     assert.equal(view.sistema_tier.label, 'Calm');
+    // back-compat: flag OFF -> sistema_pressure stays the raw (clamped) value.
+    assert.equal(view.sistema_pressure, 0);
   });
 });
 
