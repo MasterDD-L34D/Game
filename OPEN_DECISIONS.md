@@ -15,12 +15,29 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD  | Titolo | Livello | Ref |
-| --- | ------ | ------- | --- |
+| OD                                                                                | Titolo                                                           | Livello          | Ref   |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------- | ----- |
+| [OD-059](#od-059-1673-biomememory----reuse-cumulativebiometurns-vs-nuova-tabella) | #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella | P2 (parked M12+) | #1673 |
 
 <!-- /gen:od-open -->
 
 > _Le sezioni dettagliate sotto includono anche decisioni risolte/archiviate; lo stato canonico e' nel comment `<!-- od -->` di ogni sezione — la lista sopra e' la proiezione delle sole `open`._
+
+### [OD-059] #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella
+
+<!-- od id=OD-059 status=open -->
+
+- **Livello**: P2 (parked M12+)
+
+**Domanda**: come realizzare BiomeMemory (#1673 -- bonus adattativo persistente per-unita per-bioma) se/quando promossa? Cross-reference 2026-06-16 (workflow multi-agente, verificato avversarialmente): NON coperta da nessuna SPEC A..Q. Ma esiste gia' il primitivo runtime `FormSessionState.cumulativeBiomeTurns` (JSONB `{biome_class:int}`, `apps/backend/prisma/schema.prisma:294`, migration `0007_cumulative_biome_turns`) -- stesso shape per-unita x per-biome-class, gia' con consumer mutazioni (`apps/backend/services/combat/mutationTriggerEvaluator.js:168-175`), ma write-side ORFANO (`BACKLOG.md:465`).
+
+**Opzioni**:
+
+- **A (default raccomandato)** -- riuso del contatore esistente: cablare il write-side condiviso (end-of-encounter increment; sblocca anche le mutazioni-bioma read-side gia' shipped) + estendere il payload con kind `stat_bump` accanto alla mutazione. NO nuova tabella. Bonus read-only narrativo (consume al session-init, non spendable) -> rispetta il freeze 4a-economia (SoT 19.3, `docs/core/90-FINAL-DESIGN-FREEZE.md:559-561`).
+- **B** -- nuova tabella Prisma `BiomeMemory` come da proposta originale #1673. Rischio "quarta economia" (il triage 2026-04 l'ha parcheggiata proprio per questo).
+- **C** -- resta parcheggiata, nessuna azione (stato attuale, default se non promossa).
+
+**Default proposto**: A se master-dd promuove; altrimenti C. Promozione a SPEC = de-facto nuovo ER8 in SPEC-I (ultima esistente ER7, per-bioma). Cross-ref: museum M-2026-04-25-011 (`docs/museum/cards/architecture-biome-memory-trait-cost.md`), issue #1673, `BACKLOG.md:465`.
 
 ### [OD-032] hardcore_06 secondary band — blocker strutturale + design fork ✅ RISOLTA A+C 2026-05-21
 
