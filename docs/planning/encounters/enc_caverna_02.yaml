@@ -19,6 +19,13 @@ objective:
   type: capture_point
   target_zone: [4, 4, 5, 5]
   hold_turns: 3
+  # A2 follow-up (#2774): capture_point senza loss timer -> attrition runaway
+  # con pressure_tier_floor ON (artefatto -0.25 standard nell'evidenza N=40).
+  # time_limit generoso (estimated_turns 12 + buffer) cap l'attrition senza
+  # indurire l'encounter (10 sarebbe piu' stretto dell'estimate -> rischio
+  # timeout-artefatto opposto).
+  loss_conditions:
+    time_limit: 14
 
 player_spawn:
   - [0, 4]
