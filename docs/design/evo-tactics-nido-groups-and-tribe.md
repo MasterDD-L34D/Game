@@ -2,10 +2,10 @@
 title: 'Evo-Tactics Nido Groups, Party Select and Tribe (SPEC-E)'
 date: 2026-06-08
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-08'
+last_verified: '2026-06-17'
 source_of_truth: false
 review_cycle_days: 30
 language: it
