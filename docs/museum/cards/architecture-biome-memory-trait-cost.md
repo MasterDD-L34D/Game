@@ -16,7 +16,7 @@ related_pillars: [P2, P3]
 status: curated
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-25
-last_verified: 2026-04-25
+last_verified: 2026-06-16
 ---
 
 # BiomeMemory + Costo ambientale trait (concept-exploration buried)
@@ -80,11 +80,30 @@ Questa card + M-2026-04-25-005 magnetic_rift (biome-gated) + V7 biome spawn bias
 - V7: biome-aware spawn bias (creature offered match biome)
 - M-011 (this): biome memory + per-biome trait cost (long-term coevoluzione)
 
+## Correlazione runtime (#1673, 2026-06-16)
+
+Cross-reference issue #1673 vs suite SPEC A..Q (workflow multi-agente, verdetto verificato avversarialmente -- vedi nota anti-allucinazione in fondo).
+
+**Verdetto copertura: NON coperta** da nessuna SPEC A..Q (0 match `biome_memory`/`encounters_survived`/`stat_bump` in `docs/design/`, `docs/superpowers/specs/`, roadmap `docs/planning/2026-06-05-*`). La spec piu' vicina = SPEC-I ER7 population tick (`docs/design/evo-tactics-ermes-runtime-pressure.md:419-452`, `campaign.biomePopulation`), ma e' per-BIOMA -- l'inverso del per-UNITA di #1673.
+
+**Primitivo runtime gia' esistente (il legame profondo con la memoria-gioco):** `FormSessionState.cumulativeBiomeTurns` (JSONB `{biome_class:int}`, `apps/backend/prisma/schema.prisma:294`, migration `0007_cumulative_biome_turns`). Stesso shape per-unita x per-biome-class che #1673 propone come `encounters_survived per-bioma`. Gia' in Prisma, gia' con consumer: `apps/backend/services/combat/mutationTriggerEvaluator.js:168-175` (case `cumulative_turns_biome`: `turns >= threshold` -> sblocca MUTAZIONE).
+
+**Gap reale = write-side ORFANO:** il contatore non viene mai incrementato. `apps/backend/routes/sessionRoundBridge.js:1241-1246` cabla solo `cumulativeAllyAdjacentTurns` + `cumulativeTraitActive`, NON biome. Residuo esplicito `BACKLOG.md:465` ("Aggregate update logic cumulative_biome_turns end-of-encounter increment").
+
+**Implicazione per #1673:** il primitivo dati (shape per-unita x per-bioma) esiste gia', ma `FormSessionState` e' **session-scoped** -- riga keyed `(sessionId, unitId)`, `sessionId` fresh per combat (`apps/backend/routes/session.js:402`), write + carry-over orfani -> la label schema `cross_session` e' aspirazionale, NON ancora reale (Codex P2 su PR #2770). Quindi il riuso "wire solo l'increment" NON basta. MVP #1673 = (a) wire write-side increment (sblocca anche le mutazioni-bioma read-side gia' shipped), (b) **layer campaign-scoped / carry-over**: persistere il contatore per `(campaign_id, unit)` cross-mission (precedente: store `apps/backend/routes/session.js:3734` keyed `campaign_id`; campaign state `woundedBiomes`/`biomePopulation`), (c) payload kind `stat_bump`. Si puo' evitare una tabella dedicata se il campaign-scope vive su campaign state JSON; `NestState` (`schema.prisma:216-226`, 1 solo biome/campagna) resta inadatto. Decisione tracciata in OPEN_DECISIONS OD-059.
+
+**Freeze 4a-economia (SoT 19.3, `docs/core/90-FINAL-DESIGN-FREEZE.md:559-561`):** mitigato riusando il contatore shipped + tenendo il bonus read-only narrativo (consume al session-init, non spendable), come Chronicle/memory-mode -- NON come risorsa spendibile.
+
+**Triage confermato: PARCHEGGIATA M12+** -- solo correlazione documentale, no build. Promozione a SPEC (de-facto nuovo ER8 in SPEC-I, ultima esistente ER7) solo su decisione master-dd.
+
+> Nota anti-allucinazione: il primo verdetto del workflow citava un aggancio "SPEC-I ER8" -- VERIFICATO INESISTENTE da 3/3 scettici (la scala ERMES si ferma a ER7, `evo-tactics-ermes-runtime-pressure.md:419`). Correlato reale = `cumulativeBiomeTurns`, non una nota SPEC inesistente.
+
 ## Concrete reuse paths
 
 1. **Minimal — Skiv pilot 1 trait × 1 biome (P0, ~3h)**
 
    Validate BiomeMemory pattern on Skiv before scaling:
+
    - Aggiungi `data/core/biomes.yaml` extension per `atollo_ossidiana` con `memory: { last_visitors: [], residence_scores: {} }` (placeholder structure)
    - Tick rule in `roundOrchestrator.tickCampaignTurn()`: post-encounter update memory per Skiv
    - Spawn engine: read residence_score → +10% spawn rate magnetic_rift_resonance per altri swarm
@@ -94,6 +113,7 @@ Questa card + M-2026-04-25-005 magnetic_rift (biome-gated) + V7 biome spawn bias
 2. **Moderate — Costo ambientale trait pilot 4×3 (P1, ~8h)**
 
    Test combinatorial complexity via small grid:
+
    - Pick 4 trait + 3 biome (es. thermoregulation_cold/warm × arctic/desert/savana)
    - Extend `active_effects.yaml` per-trait `cost_modifier_by_biome`
    - PE cost calc integration
@@ -103,6 +123,7 @@ Questa card + M-2026-04-25-005 magnetic_rift (biome-gated) + V7 biome spawn bias
 3. **Full — Both notes shipped (P2, ~16-20h)**
 
    Long-term ecosystem layer:
+
    - BiomeMemory across all biomes + all creatures
    - Per-biome trait cost full grid (192 entries)
    - UI HUD biome-affinity hint (link Triangle Proposal B color codes M-009)

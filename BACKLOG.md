@@ -462,7 +462,7 @@ User canonical resume trigger 2026-05-09 sera "verifica primo nightly cron run 2
 **Residue deferred non-blocking**:
 
 - Mutation Phase 5 stub kinds (4: ally_killed_adjacent, ally_adjacent_turns, assisted_kill_count, trait_active_cumulative)
-- Aggregate update logic cumulative_biome_turns (end-of-encounter increment)
+- Aggregate update logic cumulative_biome_turns (end-of-encounter increment) -- write-side ORFANO; pre-req CONDIVISO: mutazioni-bioma (read-side live `mutationTriggerEvaluator.js:168-175`) + eventuale #1673 BiomeMemory (riuso contatore per-unita x per-bioma, NON nuova tabella; vedi museum M-2026-04-25-011)
 - Lifecycle 5-fasi YAML 5 T4 species (master-dd design gate)
 - Sprite assets 5 T4 species (skipped verdict #D)
 - npm audit fix 18 vulnerabilities

@@ -29,6 +29,7 @@ name: 'Solo Contro il Branco'
 biome_id: savana
 grid_size: [8, 8]
 difficulty_rating: 4
+pressure_tier_floor: 3
 estimated_turns: 7
 encounter_class: hardcore
 
