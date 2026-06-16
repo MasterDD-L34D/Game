@@ -155,12 +155,43 @@ test('realistic interleave (fail, fail, recover, re-fail) stays bounded + comple
   assert.equal(checkCompletable(net, { seasons: ALL_SEASONS }).ok, true);
 });
 
-test('defensive: wounding a non-node biome never strands the graph (topology-invariant)', () => {
+test('non-node wound is bounded + RECOVERABLE (heal) -- recovery is mechanism-level, not routing-gated', () => {
+  // `caverna` is an encounter-only biome, NOT a meta-network node. A run can still wound it
+  // (woundBiome keys on session.biome_id), consuming a slot. The anti-brick guarantee for
+  // such a wound is NOT graph-routing (there is no node to route to) but the HEAL mechanism:
+  // a victory in that same encounter clears it (healBiome keys on biome_id, node or not), so
+  // the slot is never permanently stuck. Asserting only the wound-independent checkCompletable
+  // would prove nothing about this wound (Codex PR #2777 P2) -- prove the recovery instead.
   const net = realNetwork();
-  // `caverna` is an encounter biome, not a meta-network node -> wounding it cannot
-  // touch graph topology; the campaign stays completable.
+  const map = biomeToNode(net);
+  assert.ok(!map.has('caverna'), 'fixture is genuinely a non-node biome');
+
   let wounded = [];
   for (let i = 0; i < 5; i++) wounded = applyDefeat(wounded, 'caverna');
-  assert.deepEqual(wounded, ['caverna']);
+  assert.deepEqual(wounded, ['caverna']); // bounded (idempotent), one slot consumed
+  assert.ok(pressureDelta(wounded) <= ER2_PRESSURE_CAP); // never escalates past ER2
+
+  // recovery: a victory in caverna heals it -> the slot is freed, no permanent stuck state.
+  const healed = healBiome(wounded, 'caverna');
+  assert.equal(healed.healed, true);
+  assert.deepEqual(healed.wounded, []);
+  assert.equal(pressureDelta(healed.wounded), 0);
+});
+
+test('mixed wound at cap (1 node + 1 non-node) -> not bricked: completable + node recovery routable + non-node healable', () => {
+  // The exact Codex scenario: a non-node biome consumes one of the two slots. Prove it is
+  // NOT a brick on every axis: (a) campaign stays completable, (b) the node-biome wound has a
+  // routable recovery node, (c) the non-node wound is still healable (mechanism-level), and
+  // (d) pressure stays pinned at the ER2 cap, never above.
+  const net = realNetwork();
+  const map = biomeToNode(net);
+  let wounded = [];
+  wounded = applyDefeat(wounded, 'caverna'); // non-node slot
+  wounded = applyDefeat(wounded, 'savana'); // node slot (DESERTO_CALDO = start)
+  assert.equal(wounded.length, MAX_WOUNDED_BIOMES);
+
   assert.equal(checkCompletable(net, { seasons: ALL_SEASONS }).ok, true);
+  assert.ok(nodeReachableSomeSeason(net, map.get('savana')), 'node wound recovery routable');
+  assert.equal(healBiome(wounded, 'caverna').healed, true); // non-node wound recoverable
+  assert.equal(pressureDelta(wounded), ER2_PRESSURE_CAP); // never above ER2 even at cap
 });
