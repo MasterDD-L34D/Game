@@ -17,6 +17,12 @@
 
 'use strict';
 
+// A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
+// sessionHelpers owns the single effectivePressure SoT (flag-gated, default OFF).
+// reinforcementSpawner already requires sessionHelpers top-level; sessionHelpers
+// only lazy-requires this module inside publicSessionView, so no circular hazard.
+const { effectivePressure } = require('../../routes/sessionHelpers');
+
 // Mirror sistema_pressure tier definitions da declareSistemaIntents.js.
 // Centralizza qui per single source-of-truth + evitare circular dep.
 const PRESSURE_TIERS = [
@@ -67,7 +73,12 @@ function getProgressMeterState(session) {
     };
   }
 
-  const pressure = Number(session.sistema_pressure || 0);
+  // A2: apply the per-encounter pressure_tier_floor before deriving the meter
+  // tier/next (flag OFF -> effectivePressure returns the value unchanged). The
+  // surfaced `pressure` reflects the effective value so the HUD mirrors the
+  // floored tier (parity with Godot-v2 PR #221).
+  const rawPressure = Number(session.sistema_pressure || 0);
+  const pressure = effectivePressure(rawPressure, session.pressure_tier_floor);
   const tier = tierForPressure(pressure);
   const next = nextTier(pressure);
   const distance = next ? Math.max(0, next.threshold - pressure) : null;
