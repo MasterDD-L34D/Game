@@ -12309,6 +12309,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/design/2026-06-16-pressure-tier-floor-backend-mirror.md",
+      "title": "Pressure Tier Floor -- Backend Sistema Mirror (A2 di #2744)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-06-16",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
