@@ -39,6 +39,10 @@
 const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
+// A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
+// sessionHelpers owns the single effectivePressure SoT (flag-gated, default OFF).
+// No circular hazard: sessionHelpers requires ./policy, not this module.
+const { effectivePressure } = require('../../routes/sessionHelpers');
 
 // K4 Approach B — commit-window anti-flip guard helpers.
 // Detect direction reversal (oscillation) between consecutive utility-brain
@@ -107,8 +111,10 @@ const PRESSURE_TIER_INTENT_CAP = [
   { threshold: 95, intents_per_round: 4 }, // Apex (tutorial_05 BOSS baseline)
 ];
 
-function intentsCapForPressure(pressure) {
-  const p = Number.isFinite(Number(pressure)) ? Math.max(0, Math.min(100, Number(pressure))) : 0;
+// A2: optional `floor` (encounter.pressure_tier_floor) raises the effective
+// pressure before the cap lookup. flag OFF / floor unset -> identical to pre-A2.
+function intentsCapForPressure(pressure, floor) {
+  const p = effectivePressure(pressure, floor);
   let cap = PRESSURE_TIER_INTENT_CAP[0].intents_per_round;
   for (const t of PRESSURE_TIER_INTENT_CAP) {
     if (p >= t.threshold) cap = t.intents_per_round;
@@ -202,7 +208,8 @@ function createDeclareSistemaIntents(deps) {
     // AI War pattern: pressure-driven intent cap.
     // Tier piu' alto (player vincente) → SIS dichiara piu' intents.
     // Calm: 1 intent/round, Critical/Apex: 3.
-    const intentsCap = intentsCapForPressure(session.sistema_pressure);
+    // A2: per-encounter pressure_tier_floor (flag OFF -> no-op = back-compat).
+    const intentsCap = intentsCapForPressure(session.sistema_pressure, session.pressure_tier_floor);
 
     const intents = [];
     const decisions = [];
@@ -515,4 +522,8 @@ function createDeclareSistemaIntents(deps) {
   };
 }
 
-module.exports = { createDeclareSistemaIntents, computePersistentHighThreat };
+module.exports = {
+  createDeclareSistemaIntents,
+  computePersistentHighThreat,
+  intentsCapForPressure,
+};

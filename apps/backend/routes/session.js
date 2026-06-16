@@ -2092,6 +2092,11 @@ function createSessionRouter(options = {}) {
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
         // 2026-04-26: anche YAML-loaded via encounter_id (PCG G1 wire).
         encounter: encounterPayload,
+        // A2 (TKT-PRESSURE-TIER-ENCOUNTER): passthrough del floor per-encounter
+        // verso il Sistema (computeSistemaTier / aiProgressMeter / declareSistemaIntents
+        // / reinforcementSpawner via effectivePressure). Flag-gated OFF di default
+        // -> il valore e' inerte finche' PRESSURE_TIER_FLOOR_ENABLED!=='true'.
+        pressure_tier_floor: encounterPayload?.pressure_tier_floor ?? null,
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,

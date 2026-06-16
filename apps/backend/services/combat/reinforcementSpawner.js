@@ -26,7 +26,7 @@
 
 'use strict';
 
-const { computeSistemaTier } = require('../../routes/sessionHelpers');
+const { computeSistemaTier, effectivePressure } = require('../../routes/sessionHelpers');
 const { defaultRng } = require('./pseudoRng');
 // TKT-WORLDGEN-GAPA (2026-05-29): foodweb whitelist filter for the spawn pool.
 const { filterReinforcementPool, applyPopulationToPool } = require('../worldgen/foodwebFilter');
@@ -238,7 +238,11 @@ function tick(session, encounter, opts = {}) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'no_entry_tiles' };
   }
 
-  const tier = computeSistemaTier(session.pressure ?? 0);
+  // A2: floor the budget-driving pressure with the per-encounter tier floor
+  // (flag OFF -> effectivePressure returns the input unchanged = back-compat).
+  const tier = computeSistemaTier(
+    effectivePressure(session.pressure ?? 0, session.pressure_tier_floor),
+  );
   const minTier = policy.min_tier || 'Alert';
   if (!tierMeetsMin(tier.label, minTier)) {
     return {

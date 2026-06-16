@@ -79,6 +79,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - `packs/evo_tactics_pack/data/balance/movement_profiles.yaml` — profili movimento (heavy/medium/light) con terrain cost multiplier. Pattern W6.
 - `packs/evo_tactics_pack/data/balance/species_resistances.yaml` — matrice resistenze per 5 archetipi specie (corazzato/bioelettrico/psionico/termico/adattivo). Pattern W2.
 - `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml` — AI War "AI Progress" meter: 5 tier da Calm (0) a Apex (95) con intents_per_round + reinforcement_budget + unlocked_intent_types. Gate capabilities SIS via `computeSistemaTier()` in `sessionHelpers.js`.
+- **A2 pressure_tier_floor** (TKT-PRESSURE-TIER-ENCOUNTER, mirror Godot-v2 PR #221): helper `effectivePressure(p, floor)` in `sessionHelpers.js` alza la pressure _effettiva_ per-encounter (`encounter.pressure_tier_floor` 1-5, FLOOR_MIN 0/25/50/75/95) PRIMA di OGNI derivazione tier -- publicSessionView `sistema_tier`, `reinforcementSpawner` budget (`:241`), `aiProgressMeter`, `declareSistemaIntents` `intentsCapForPressure`. Flag `PRESSURE_TIER_FLOOR_ENABLED` **default OFF** (back-compat byte-identical: con flag OFF `effectivePressure` = clamp identico al pre-A2). Flip-ON gated da N=40 band-verify + ratifica master-dd dei valori floor (NON calibrati). Spec: `docs/design/2026-06-16-pressure-tier-floor-backend-mirror.md`.
 - `packs/evo_tactics_pack/pack_manifest.yaml` — manifest esplicito di tutti i file dati del pack. Pattern O2.
 
 ## Invarianti di design combat

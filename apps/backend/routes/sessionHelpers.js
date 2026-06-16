@@ -427,7 +427,9 @@ function publicSessionView(session) {
   const pressure = Number.isFinite(Number(session.sistema_pressure))
     ? Number(session.sistema_pressure)
     : 0;
-  const tier = computeSistemaTier(pressure);
+  // A2: apply the per-encounter pressure_tier_floor BEFORE deriving the tier.
+  // Flag OFF (default) -> effectivePressure returns `pressure` unchanged.
+  const tier = computeSistemaTier(effectivePressure(pressure, session.pressure_tier_floor));
   // Atlas live in-match telemetry (pressure player-side, momentum, warnings)
   const atlas = buildAtlasLive(session);
   return {
@@ -765,6 +767,37 @@ function computeSistemaTier(pressure) {
   return tier;
 }
 
+// A2 (TKT-PRESSURE-TIER-ENCOUNTER, mirror Godot-v2 PR #221).
+// encounter.pressure_tier_floor (int 1-5) raises the *effective* Sistema
+// pressure for a single encounter (early easier / late harder) without a
+// global pressure buff that would break first-encounter fairness (P6).
+//
+// FLOOR_MIN maps a floor level to the minimum effective pressure it enforces.
+// Mirrors the canonical tier thresholds (0/25/50/75/95 = Calm/Alert/Escalated/
+// Critical/Apex). Floor 0 / unset / out-of-range = no floor.
+const FLOOR_MIN = Object.freeze({ 1: 0, 2: 25, 3: 50, 4: 75, 5: 95 });
+
+// Feature flag (default OFF). When OFF, effectivePressure returns the input
+// pressure clamped exactly like computeSistemaTier already does -> back-compat
+// byte-identical. Flip-ON only after N=40 band-verify + master-dd ratify.
+function isPressureTierFloorEnabled() {
+  return process.env.PRESSURE_TIER_FLOOR_ENABLED === 'true';
+}
+
+// Pure helper: effective pressure after applying the per-encounter tier floor.
+// - flag OFF -> input pressure clamped 0..100 (identical to pre-A2).
+// - flag ON + floor integer in [1,5] -> max(clamped pressure, FLOOR_MIN[floor]).
+// - floor 0 / unset / out-of-range -> no floor (clamped pressure only).
+// Single source of truth reused by every tier-derivation call-site so a
+// partial floor does not re-break cross-stack parity (Codex P2 #2771).
+function effectivePressure(pressure, floor) {
+  const p = Number.isFinite(Number(pressure)) ? Math.max(0, Math.min(100, Number(pressure))) : 0;
+  if (!isPressureTierFloorEnabled()) return p;
+  const f = Number(floor);
+  if (!Number.isInteger(f) || f < 1 || f > 5) return p;
+  return Math.max(p, FLOOR_MIN[f]);
+}
+
 function applyPressureDelta(current, delta) {
   const base = Number.isFinite(Number(current)) ? Number(current) : 0;
   const d = Number.isFinite(Number(delta)) ? Number(delta) : 0;
@@ -845,6 +878,9 @@ module.exports = {
   facingFromMove,
   predictCombat,
   computeSistemaTier,
+  effectivePressure,
+  isPressureTierFloorEnabled,
+  FLOOR_MIN,
   applyPressureDelta,
   SISTEMA_PRESSURE_TIERS,
   PRESSURE_DELTAS,
