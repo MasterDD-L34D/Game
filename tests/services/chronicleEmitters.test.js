@@ -11,6 +11,7 @@ const path = require('node:path');
 const {
   emitRunFailed,
   emitMutationLineage,
+  emitHeirloom,
 } = require('../../apps/backend/services/chronicle/chronicleEmitters');
 const { getChronicle } = require('../../apps/backend/services/chronicle/chronicleStore');
 
@@ -122,4 +123,90 @@ test('emitMutationLineage: no mutations -> no_mutations no-op (dormant)', () => 
 test('emitMutationLineage: null/invalid ctx -> no_ctx', () => {
   assert.equal(emitMutationLineage(null).error, 'no_ctx');
   assert.equal(emitMutationLineage('x').error, 'no_ctx');
+});
+
+// SPEC-Q M-1 -- heirloom emitter (L3 named artifact, FFT provenance lineage->object).
+test('emitHeirloom: legacy_death appends a heirloom_created event with provenance', () => {
+  const baseDir = tmp();
+  const out = emitHeirloom(
+    {
+      campaign_id: 'c1',
+      creature_id: 'u_apex',
+      creature_name: 'Vorshak',
+      species_id: 'dune_stalker',
+      biome_id: 'savana',
+      lineage_id: 'lin_3',
+      mutations: ['rage_simple_to_super'],
+      source: 'legacy_death',
+    },
+    { baseDir },
+  );
+  assert.equal(out.ok, true);
+  const chron = getChronicle('c1', { baseDir });
+  assert.equal(chron.length, 1);
+  assert.equal(chron[0].type, 'heirloom_created');
+  assert.equal(chron[0].tier, 'public');
+  assert.equal(chron[0].actor_id, 'u_apex');
+  assert.equal(chron[0].payload.creature_name, 'Vorshak');
+  assert.equal(chron[0].payload.species_id, 'dune_stalker');
+  assert.equal(chron[0].payload.biome_id, 'savana');
+  assert.equal(chron[0].payload.lineage_id, 'lin_3');
+  assert.deepEqual(chron[0].payload.mutations, ['rage_simple_to_super']);
+  assert.equal(chron[0].payload.source, 'legacy_death');
+  // Provenance must yield a non-empty, deterministic heirloom name.
+  assert.equal(typeof chron[0].payload.heirloom_name, 'string');
+  assert.ok(chron[0].payload.heirloom_name.length > 0);
+});
+
+test('emitHeirloom: heirloom_name is deterministic for the same provenance', () => {
+  const ctx = { campaign_id: 'c', creature_name: 'Vorshak', mutations: ['rage_simple_to_super'] };
+  const a = emitHeirloom(ctx, { baseDir: tmp() });
+  const b = emitHeirloom(ctx, { baseDir: tmp() });
+  assert.equal(a.event.payload.heirloom_name, b.event.payload.heirloom_name);
+});
+
+test('emitHeirloom: explicit heirloom_name overrides the derived one', () => {
+  const baseDir = tmp();
+  emitHeirloom(
+    { campaign_id: 'c', species_id: 'cryo_lynx', heirloom_name: 'Zanna del Primo Gelo' },
+    { baseDir },
+  );
+  assert.equal(getChronicle('c', { baseDir })[0].payload.heirloom_name, 'Zanna del Primo Gelo');
+});
+
+test('emitHeirloom: species_id alone is enough provenance (no personal name)', () => {
+  const baseDir = tmp();
+  const out = emitHeirloom({ campaign_id: 'c', species_id: 'cryo_lynx' }, { baseDir });
+  assert.equal(out.ok, true);
+  assert.equal(getChronicle('c', { baseDir })[0].payload.species_id, 'cryo_lynx');
+});
+
+test('emitHeirloom: no provenance (no name, no species) -> no_provenance no-op', () => {
+  const baseDir = tmp();
+  const out = emitHeirloom({ campaign_id: 'c' }, { baseDir });
+  assert.equal(out.ok, false);
+  assert.equal(out.error, 'no_provenance');
+  assert.equal(getChronicle('c', { baseDir }).length, 0);
+});
+
+test('emitHeirloom: no campaign_id -> no_campaign_id (no event)', () => {
+  const baseDir = tmp();
+  const out = emitHeirloom({ creature_name: 'X' }, { baseDir });
+  assert.equal(out.ok, false);
+  assert.equal(out.error, 'no_campaign_id');
+  assert.equal(fs.readdirSync(baseDir).length, 0);
+});
+
+test('emitHeirloom: null/invalid ctx -> no_ctx', () => {
+  assert.equal(emitHeirloom(null).error, 'no_ctx');
+  assert.equal(emitHeirloom('x').error, 'no_ctx');
+});
+
+test('emitHeirloom: filters non-string mutations', () => {
+  const baseDir = tmp();
+  emitHeirloom(
+    { campaign_id: 'c', species_id: 'sp', mutations: ['ok', '', null, 7, 'ok2'] },
+    { baseDir },
+  );
+  assert.deepEqual(getChronicle('c', { baseDir })[0].payload.mutations, ['ok', 'ok2']);
 });

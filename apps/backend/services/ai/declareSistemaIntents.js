@@ -138,6 +138,57 @@ function computePersistentHighThreat(session) {
   return false;
 }
 
+// SPEC-Q M-4 (L2/P5 Sistema legibility) -- hidden evolving-tactic reveal.
+// QF3-A (ratified 2026-06-08): a Sistema unit's *evolving cross-encounter*
+// tactic is hidden until a use-threshold reveals it diegetically (delivery =
+// ALIENA, SPEC-H consumer). Default threshold 3 ("es. dopo 3 usi", SPEC-Q sez.7)
+// -- a knob pending master-dd ratify; flip is owner-gated.
+const DEFAULT_HIDDEN_ABILITY_THRESHOLD = 3;
+
+/**
+ * Pure detector for hidden-ability reveals. Reads (never mutates) session.units
+ * and an optional config { enabled, defaultThreshold }. Returns reveal records;
+ * [] unless BOTH the flag is on (config.enabled) AND a Sistema unit carries an
+ * `hidden_ability` descriptor whose accumulated cross-encounter `uses` has met
+ * its threshold. This NEVER produces or alters an intent -- the WEGO telegraph
+ * invariant (intra-round intents visible pre-commit) is preserved by construction,
+ * and encounters with no descriptor are 100% unaffected (band-neutral).
+ *
+ * @param session { units: [{ controlled_by, hidden_ability?: { id, uses, reveal_threshold?, revealed?, label_it? } }] }
+ * @param config  { enabled?: boolean, defaultThreshold?: number }
+ * @returns Array<{ unit_id, ability_id, uses, threshold, tier, label_it, doctrine }>
+ */
+function detectHiddenAbilityReveals(session, config) {
+  const cfg = config || {};
+  if (!cfg.enabled) return [];
+  if (!session || !Array.isArray(session.units)) return [];
+  const defaultThreshold = Number.isFinite(Number(cfg.defaultThreshold))
+    ? Number(cfg.defaultThreshold)
+    : DEFAULT_HIDDEN_ABILITY_THRESHOLD;
+  const reveals = [];
+  for (const actor of session.units) {
+    if (!actor || actor.controlled_by !== 'sistema') continue;
+    const ha = actor.hidden_ability;
+    if (!ha || typeof ha !== 'object' || !ha.id) continue;
+    if (ha.revealed === true) continue; // caller persists revealed -> no double reveal
+    const threshold = Number.isFinite(Number(ha.reveal_threshold))
+      ? Number(ha.reveal_threshold)
+      : defaultThreshold;
+    const uses = Number(ha.uses) || 0;
+    if (uses < threshold) continue; // pre-threshold: tactic stays hidden, intent stays generic
+    reveals.push({
+      unit_id: actor.id,
+      ability_id: ha.id,
+      uses,
+      threshold,
+      tier: 'public', // the REVEAL is public TV+device (SPEC-Q sez.10); pre-reveal ability = secret
+      label_it: typeof ha.label_it === 'string' ? ha.label_it : null,
+      doctrine: 'cross_encounter', // QF3-A: evolving cross-incontro tactic only
+    });
+  }
+  return reveals;
+}
+
 function createDeclareSistemaIntents(deps) {
   const {
     pickLowestHpEnemy,
@@ -149,6 +200,7 @@ function createDeclareSistemaIntents(deps) {
     difficultyProfile = {}, // { selection: 'argmax'|'weighted_top3'|'random', noise: 0-1 }
     computeThreatIndex, // AI War pattern: optional, injected from threatAssessment.js
     threatConfig, // override per threat thresholds (from ai_intent_scores.yaml → threat)
+    hiddenAbilityReveal = null, // SPEC-Q M-4 { enabled, defaultThreshold } -- flag OFF default
   } = deps || {};
 
   /**
@@ -189,7 +241,7 @@ function createDeclareSistemaIntents(deps) {
    */
   return function declareSistemaIntents(session) {
     if (!session || !Array.isArray(session.units)) {
-      return { intents: [], decisions: [] };
+      return { intents: [], decisions: [], reveals: [] };
     }
     const effectiveGrid = session.grid?.width || gridSize;
 
@@ -518,7 +570,11 @@ function createDeclareSistemaIntents(deps) {
       });
     }
 
-    return { intents, decisions };
+    // SPEC-Q M-4 -- reveal records emitted OFF THE SIDE (never touches intents).
+    // WEGO invariant: intra-round intents above are unchanged by reveal logic.
+    const reveals = detectHiddenAbilityReveals(session, hiddenAbilityReveal);
+
+    return { intents, decisions, reveals };
   };
 }
 
@@ -526,4 +582,6 @@ module.exports = {
   createDeclareSistemaIntents,
   computePersistentHighThreat,
   intentsCapForPressure,
+  detectHiddenAbilityReveals,
+  DEFAULT_HIDDEN_ABILITY_THRESHOLD,
 };

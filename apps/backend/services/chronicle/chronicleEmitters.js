@@ -82,4 +82,74 @@ function emitMutationLineage(ctx, opts = {}) {
   );
 }
 
-module.exports = { emitRunFailed, emitMutationLineage, DEFEAT_OUTCOMES };
+/**
+ * Derive a deterministic, data-driven heirloom name from its provenance.
+ * No new flavor pool (avoids a content-ratify gate): the name is built from the
+ * provenance label (creature name or species id) plus the most salient mutation
+ * id when present. Stable for the same inputs (no RNG, no timestamp).
+ *
+ * @param provenanceName  string -- creature name or species id
+ * @param mutations       string[] -- salient mutations (first = most salient)
+ * @returns string
+ */
+function deriveHeirloomName(provenanceName, mutations) {
+  const salient = Array.isArray(mutations) && mutations.length > 0 ? mutations[0] : null;
+  if (salient) return `Reliquia ${salient} di ${provenanceName}`;
+  return `Reliquia di ${provenanceName}`;
+}
+
+/**
+ * Append a `heirloom_created` chronicle event -- M-1 named heirloom/artifact
+ * (FFT pattern: a notable creature's legacy crystallizes into a named, tangible
+ * artifact with tracked provenance, lineage->object). Completes L3 alongside
+ * M-3 mutation_lineage. Best-effort: no campaign_id / no provenance -> no-op.
+ * Never throws (combat / ritual must not break on chronicle failure).
+ *
+ * Tier `public`: heirloom provenance is shared Nido lineage memory (SPEC-Q sez.10).
+ *
+ * @param ctx  { campaign_id, creature_id?, creature_name?, species_id?, biome_id?,
+ *               lineage_id?, mutations?:string[], heirloom_name?, source?, actor_id? }
+ * @param opts { baseDir? }
+ */
+function emitHeirloom(ctx, opts = {}) {
+  if (!ctx || typeof ctx !== 'object') return { ok: false, error: 'no_ctx' };
+  const runId = ctx.campaign_id;
+  if (!runId) return { ok: false, error: 'no_campaign_id' };
+  // Provenance: an heirloom must commemorate something (a named figure or a species).
+  const provenanceName = ctx.creature_name || ctx.species_id || null;
+  if (!provenanceName) return { ok: false, error: 'no_provenance' };
+  const mutations = Array.isArray(ctx.mutations)
+    ? ctx.mutations.filter((m) => typeof m === 'string' && m)
+    : [];
+  const heirloomName =
+    typeof ctx.heirloom_name === 'string' && ctx.heirloom_name
+      ? ctx.heirloom_name
+      : deriveHeirloomName(provenanceName, mutations);
+  return appendEvent(
+    runId,
+    {
+      type: 'heirloom_created',
+      actor_id: ctx.actor_id || ctx.creature_id || null,
+      tier: 'public',
+      payload: {
+        heirloom_name: heirloomName,
+        creature_id: ctx.creature_id || null,
+        creature_name: ctx.creature_name || null,
+        species_id: ctx.species_id || null,
+        biome_id: ctx.biome_id || null,
+        lineage_id: ctx.lineage_id || null,
+        mutations,
+        source: ctx.source || null,
+      },
+    },
+    { baseDir: opts.baseDir },
+  );
+}
+
+module.exports = {
+  emitRunFailed,
+  emitMutationLineage,
+  emitHeirloom,
+  deriveHeirloomName,
+  DEFEAT_OUTCOMES,
+};
