@@ -15,12 +15,29 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD  | Titolo | Livello | Ref |
-| --- | ------ | ------- | --- |
+| OD                                                                                | Titolo                                                           | Livello          | Ref   |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------- | ----- |
+| [OD-059](#od-059-1673-biomememory----reuse-cumulativebiometurns-vs-nuova-tabella) | #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella | P2 (parked M12+) | #1673 |
 
 <!-- /gen:od-open -->
 
 > _Le sezioni dettagliate sotto includono anche decisioni risolte/archiviate; lo stato canonico e' nel comment `<!-- od -->` di ogni sezione — la lista sopra e' la proiezione delle sole `open`._
+
+### [OD-059] #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella
+
+<!-- od id=OD-059 status=open -->
+
+- **Livello**: P2 (parked M12+)
+
+**Domanda**: come realizzare BiomeMemory (#1673 -- bonus adattativo persistente per-unita per-bioma) se/quando promossa? Cross-reference 2026-06-16 (workflow multi-agente, verificato avversarialmente): NON coperta da nessuna SPEC A..Q. Ma esiste gia' il primitivo runtime `FormSessionState.cumulativeBiomeTurns` (JSONB `{biome_class:int}`, `apps/backend/prisma/schema.prisma:294`, migration `0007_cumulative_biome_turns`) -- stesso shape per-unita x per-biome-class, gia' con consumer mutazioni (`apps/backend/services/combat/mutationTriggerEvaluator.js:168-175`), ma write-side ORFANO (`BACKLOG.md:465`) **e session-scoped** (key `(sessionId, unitId)`, `sessionId` fresh per combat `apps/backend/routes/session.js:402` + carry-over assente -> NON persiste cross-mission as-is; la label schema `cross_session` e' aspirazionale).
+
+**Opzioni** (perno = lo storage cross-mission, non il semplice increment):
+
+- **A (default raccomandato)** -- riuso dello _shape_ `cumulativeBiomeTurns` + **carry-over campaign-scoped**: wire write-side increment (end-of-encounter; sblocca anche le mutazioni-bioma read-side gia' shipped) **+ adapter che persiste il contatore su uno store keyed `(campaign_id, unit)`** (al session-init semina dal campaign store, a fine-encounter scrive). Evita una tabella dedicata se il carry-over vive su campaign state JSON (precedente: `woundedBiomes`/`biomePopulation`, store `apps/backend/routes/session.js:3734`). Bonus read-only narrativo (freeze 19.3, `docs/core/90-FINAL-DESIGN-FREEZE.md:559-561`).
+- **B** -- store campaign-scoped esplicito: colonna/JSON su campaign state `{unit_id:{biome:count}}` (come woundedBiomes) **oppure** tabella Prisma dedicata `BiomeMemory`. Persistenza cross-mission garantita by-design; rischio "quarta economia" solo se diventa risorsa spendibile (triage 2026-04).
+- **C** -- resta parcheggiata, nessuna azione (stato attuale, default se non promossa).
+
+**Default proposto**: A se master-dd promuove; altrimenti C. **NB (Codex P2)**: il semplice "wire increment su `FormSessionState`" NON basta -- `FormSessionState` e' session-scoped (key `(sessionId, unitId)`, `sessionId` fresh per combat), quindi i contatori resterebbero orfani sotto la vecchia sessione e il bonus non sopravvivrebbe alla missione successiva; serve comunque un layer campaign-scoped o un carry-over al session-init. Promozione a SPEC = de-facto nuovo ER8 in SPEC-I (ultima esistente ER7, per-bioma). Cross-ref: museum M-2026-04-25-011 (`docs/museum/cards/architecture-biome-memory-trait-cost.md`), issue #1673, `BACKLOG.md:465`.
 
 ### [OD-032] hardcore_06 secondary band — blocker strutturale + design fork ✅ RISOLTA A+C 2026-05-21
 
