@@ -160,6 +160,17 @@ degrado.
 
 - Oggi il wire `stresswave -> pressure/spawn` e' DEAD (`biomeModifiers.js:188`): da attivare
   (combat PR + band-verify) prima dell'uso runtime.
+- **Riconciliazione 2026-06-17 (verificato, ground-truth):** la riga sopra precede ER6. Il wire
+  StressWave combat-side E' STATO attivato da SPEC-I ER6
+  (`apps/backend/services/combat/stressWave.js`, ratificato 2026-06-10 opz. C, flag
+  `STRESSWAVE_EVENTS_ENABLED` default ON, gate N=40 PASSED) come EVENT-TRIGGER bounded
+  (rescue/overrun one-shot), NON come feed continuo `stresswave -> sistema_pressure`: l'ASSENZA di
+  quel feed e' INTENZIONALE (doctrine sez.3; `docs/hubs/combat.md:65` "NESSUN feed di
+  sistema_pressure"). Il `biomeModifiers.js:188` citato sopra e' il reader read-only diagnostico
+  (`getBiomeStressProfile`), non il wire runtime -- che vive in `stressWave.js` e consuma quel
+  reader. Telegraph diegetico LIVE: raw event `stresswave_event` + `stresswave_event_latest`
+  (public tier) + 4o slot biomeChip. Quindi acceptance #5, lato "wire StressWave attivato lato
+  combat", e' SODDISFATTA per-design via ER6 (NON un gap da costruire); il flip resta a master-dd.
 - Telegraph diegetico (mirror SPEC-I biomeChip): il bioma ferito si legge come descrittore
   ("bioma in cicatrice / instabile"), mai come numero. Granularita' direzionale eventuale =
   coerente con ER3.
@@ -287,6 +298,11 @@ SPEC-P e' implementabile/chiudibile quando:
 1. i 4 trigger run-fail (sez. 3) emettono `run_failed` tier-tagged dall'event-log;
 2. l'epilogo run-end (sez. 4) ha trigger + payload + tier definiti, con l'ownership decisa
    in PA1, e consuma l'output J5 (QA2);
+   - _[Verificato 2026-06-17: BACKEND MET -- `apps/backend/services/narrative/failureEpilogue.js`
+     (`buildEpilogue` payload tier-`public` + consuma J5 `fallen` + `emitFailureEpilogue` ->
+     chronicle `run_epilogue` + `codex_update`), WIRED a `routes/session.js:3704-3731`, 16 test
+     `tests/services/failureEpilogue.test.js`. La resa diegetica (voce Skiv/Custode) = surface PA1
+     Godot (item-3, cross-repo) by design -- backend assembla i DATA.]_
 3. l'aggancio Codex (sez. 5) emette eventi che il consumer SPEC-H raccoglie (no Codex
    costruito qui);
 4. il degrado meta-network (sez. 6, A13 write-side) -- NATURA PA4 (entrambi); mechanism LIVE
@@ -294,9 +310,18 @@ SPEC-P e' implementabile/chiudibile quando:
    meta-network + trigger + magnitudine N=40;
 5. il telegraph (sez. 7) e il recovery-telegraph (PA3) sono diegetici (nessun float, nessuna
    sigla; visibile PRE-run; il wire StressWave va attivato lato combat);
+   - _[Riconciliazione 2026-06-17: "wire StressWave attivato lato combat" = SODDISFATTO per-design
+     via ER6 (`stressWave.js`, default ON, event-trigger; NESSUN feed pressure by design) -- vedi
+     sez.7. Il telegraph IN-run e' gia' LIVE (biomeChip + `stresswave_event`). Il "visibile PRE-run"
+     (PA3, schermata selezione missione) resta surface Godot cross-repo (item-3, residuo noto sez.6),
+     NON un gap backend.]_
 6. l'invariante anti-brick (sez. 8) e' verificabile con un test AUTOMATICO esplicito (es.
    N>=5 run fallite consecutive sullo stesso bioma -> `metaNetworkCompletability` conferma la
    campagna ancora completabile + recovery path raggiungibile), non solo design-rationale;
+   - _[Costruito 2026-06-17: test automatico `tests/services/failureLoreAntiBrick.test.js` (7 test:
+     N>=5 fail consecutivi stesso bioma -> set bounded (idempotente+cap) + `checkCompletable` ok ogni
+     stagione + recovery node raggiungibile + heal-exit + worst-case cap-many distinti + control
+     oracle-teeth). MET.]_
 7. la visibilita' (sez. 9) e' coerente con SPEC-B (degrado grezzo `secret`, recap/telegraph
    `public`, dettaglio caduto `private`, identita' opt-in);
 8. QA1/QA2 restano ratificati e PA1-PA4 sono ratificati da Eduardo; il flip
