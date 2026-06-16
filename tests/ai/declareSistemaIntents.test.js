@@ -671,8 +671,8 @@ test('does not mutate session or units', () => {
 
 test('returns empty when session is null or missing units', () => {
   const declare = buildDeclare();
-  assert.deepEqual(declare(null), { intents: [], decisions: [] });
-  assert.deepEqual(declare({}), { intents: [], decisions: [] });
+  assert.deepEqual(declare(null), { intents: [], decisions: [], reveals: [] });
+  assert.deepEqual(declare({}), { intents: [], decisions: [], reveals: [] });
 });
 
 // ─────────────────────────────────────────────────────────────────

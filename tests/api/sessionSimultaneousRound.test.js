@@ -37,6 +37,38 @@ test('begin-planning: SIS declares intents in shared planning phase', async (t) 
   assert.ok(sisIntent, 'sis intent must be present in pending_intents');
   assert.ok(Array.isArray(res.body.sistema_decisions));
   assert.ok(res.body.sistema_decisions.length >= 1);
+  // SPEC-Q M-4: reveal contract is surfaced (empty by default -- flag OFF).
+  assert.ok(Array.isArray(res.body.sistema_reveals), 'sistema_reveals surfaced as array');
+  assert.equal(res.body.sistema_reveals.length, 0, 'no reveal when flag OFF');
+});
+
+test('begin-planning: SPEC-Q M-4 reveal surfaces end-to-end when flag ON + data authored', async (t) => {
+  const prior = process.env.SISTEMA_HIDDEN_ABILITY_REVEAL;
+  process.env.SISTEMA_HIDDEN_ABILITY_REVEAL = 'true';
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (prior === undefined) delete process.env.SISTEMA_HIDDEN_ABILITY_REVEAL;
+    else process.env.SISTEMA_HIDDEN_ABILITY_REVEAL = prior;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  // Sistema unit carries an evolving hidden tactic already at the reveal threshold.
+  const units = twoUnits({ sisPos: { x: 3, y: 2 } });
+  units[1].hidden_ability = { id: 'adaptive_swarm', uses: 3, label_it: 'Sciame Adattivo' };
+  const sid = await startSession(app, units);
+
+  const res = await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
+
+  assert.equal(res.body.sistema_reveals.length, 1, 'reveal surfaced through to the response');
+  const r = res.body.sistema_reveals[0];
+  assert.equal(r.unit_id, 'sis');
+  assert.equal(r.ability_id, 'adaptive_swarm');
+  assert.equal(r.threshold, 3);
+  assert.equal(r.tier, 'public');
+  assert.equal(r.label_it, 'Sciame Adattivo');
 });
 
 test('round simultaneo end-to-end: begin → player intent → commit auto_resolve', async (t) => {

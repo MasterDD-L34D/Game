@@ -159,6 +159,14 @@ function normaliseUnit(raw, fallbackIndex) {
     ...(input.default_parts && typeof input.default_parts === 'object'
       ? { default_parts: input.default_parts }
       : {}),
+    // SPEC-Q M-4 -- preserve the optional hidden_ability descriptor (evolving
+    // cross-encounter tactic { id, uses, reveal_threshold?, revealed?, label_it? }).
+    // Without this the descriptor would be dropped at /start and the reveal could
+    // never fire end-to-end ("Engine LIVE Surface DEAD"). Additive + back-compat:
+    // only set when input declares an object.
+    ...(input.hidden_ability && typeof input.hidden_ability === 'object'
+      ? { hidden_ability: input.hidden_ability }
+      : {}),
   };
   // 2026-05-06 TKT-P3-FORM-STAT-APPLIER — apply form stat_seed delta to
   // baseline. Pre-fix: form_id was cosmetic only — NO mech link to combat.

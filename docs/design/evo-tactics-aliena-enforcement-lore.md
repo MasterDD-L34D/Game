@@ -264,6 +264,14 @@ trattamento ERMES (SPEC-I sez. 6).
 - **SPEC-K** (device authority): ortogonale; SPEC-H non tocca chi guida le surface.
 - **SPEC-L** (runtime feature inventory): traccia lo stato LIVE/PARTIAL/OFF dello scorer,
   del soft-enforcement (default-OFF) e del Codex.
+- **SPEC-Q** (DF-levels narrative depth, M-4) -- ADDENDUM SPEC-H: la regola di reveal delle
+  abilita' nemiche nascoste/evolventi vive in `services/ai/declareSistemaIntents.js`
+  (`detectHiddenAbilityReveals`, SPEC-Q); ALIENA e' il canale di consegna diegetica del
+  reveal. Il reveal scatta SOLO sulla tattica evolutiva cross-incontro a soglia (default 3
+  usi -- knob master-dd; flag `SISTEMA_HIDDEN_ABILITY_REVEAL` OFF). L'invariante WEGO (intent
+  intra-round telegrafati pre-commit) resta intatto: il reveal e' emesso a parte
+  (`reveals[]`), non altera mai gli intent (QF3-A). Tier: ability pre-reveal `secret`, evento
+  di reveal `public` TV+device (eredita SPEC-B). Primo uso = intent generico, reveal post-soglia.
 
 ## 10. Decisioni aperte (per Eduardo)
 

@@ -1214,14 +1214,33 @@ function createSessionRouter(options = {}) {
         if (speciesId && biomeId) {
           const prop = propagateLineage(target, speciesId, biomeId);
           // SPEC-Q M-3 -- chronicle the mutation_lineage event (best-effort, never blocks).
+          // SPEC-Q M-1 -- the same legacy death crystallizes a named heirloom
+          // (FFT provenance, lineage->object). Both are best-effort; emitters are
+          // unit-tested in tests/services/chronicleEmitters.test.js.
           try {
-            const { emitMutationLineage } = require('../services/chronicle/chronicleEmitters');
+            const {
+              emitMutationLineage,
+              emitHeirloom,
+            } = require('../services/chronicle/chronicleEmitters');
             emitMutationLineage(
               {
                 campaign_id: session.campaign_id,
                 mutations: prop && prop.written_traits,
                 species_id: speciesId,
                 biome_id: biomeId,
+                source: 'legacy_death',
+              },
+              { baseDir: chronicleBaseDir },
+            );
+            emitHeirloom(
+              {
+                campaign_id: session.campaign_id,
+                creature_id: target.id,
+                creature_name: target.name || target.display_name || null,
+                species_id: speciesId,
+                biome_id: biomeId,
+                lineage_id: target.lineage_id || null,
+                mutations: target.applied_mutations,
                 source: 'legacy_death',
               },
               { baseDir: chronicleBaseDir },
@@ -1570,6 +1589,14 @@ function createSessionRouter(options = {}) {
     // selection. See apps/backend/services/ai/threatAssessment.js + audit
     // 2026-05-07 (orphan engine wire).
     computeThreatIndex,
+    // SPEC-Q M-4: hidden evolving-tactic reveal (QF3-A). Flag OFF by default; flip
+    // is owner-gated (threshold knob pending master-dd ratify). Reveal logic is
+    // pure + data-gated so this is band-neutral when off or when no encounter
+    // carries a hidden_ability descriptor.
+    hiddenAbilityReveal: {
+      enabled: process.env.SISTEMA_HIDDEN_ABILITY_REVEAL === 'true',
+      defaultThreshold: Number(process.env.SISTEMA_HIDDEN_ABILITY_THRESHOLD) || undefined,
+    },
   });
 
   // Round bridge factory — all round-model functions live in sessionRoundBridge.js.
