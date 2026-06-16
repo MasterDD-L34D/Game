@@ -2109,7 +2109,11 @@ function createRoundBridge(deps) {
         session.roundState = adaptSessionToRoundState(session);
         session.roundState = roundOrchestrator.beginRound(session.roundState).nextState;
 
-        const { intents: sisIntents, decisions: sisDecisions } = declareSistemaIntents(session);
+        const {
+          intents: sisIntents,
+          decisions: sisDecisions,
+          reveals: sisReveals = [],
+        } = declareSistemaIntents(session);
         let cur = session.roundState;
         for (const { unit_id, action } of sisIntents) {
           cur = roundOrchestrator.declareIntent(cur, unit_id, action).nextState;
@@ -2146,6 +2150,10 @@ function createRoundBridge(deps) {
           pending_intents: session.roundState.pending_intents,
           sistema_decisions: sisDecisions,
           sistema_intents_count: sisIntents.length,
+          // SPEC-Q M-4: hidden evolving-tactic reveals (QF3-A). Empty unless the
+          // SISTEMA_HIDDEN_ABILITY_REVEAL flag is on AND a Sistema unit hit its
+          // threshold. Consumed by the ALIENA/Godot surface (SPEC-H/SPEC-K).
+          sistema_reveals: sisReveals,
           threat_preview: threatPreview,
           revealed_intents: revealedIntents,
           hazard_events: hazardEvents,
