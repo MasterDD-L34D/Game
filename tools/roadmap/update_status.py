@@ -410,6 +410,7 @@ def write_status_markdown(
             species_samples=format_samples(species_metrics.samples_species),
         )
     )
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content)
     return content
 
