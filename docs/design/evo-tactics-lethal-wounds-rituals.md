@@ -233,3 +233,27 @@ SPEC-J e' implementabile/chiudibile quando:
    tutte A; J2 chiuso da canon); resta a Eduardo il flip `review_needed` -> `accepted`;
 8. coerenza con SPEC-B (3.10/F5), SPEC-K (6.4), SPEC-E (E2/E6), SPEC-F (Custode), SPEC-A
    (risk_posture secret), SPEC-D (death beat).
+
+## 11. Verdetti master-dd 2026-06-17 (consent-timeout + flip)
+
+Backend SPEC-J COMPLETE end-to-end (death-model #2789 + ritual #2790 + consent #2792 +
+bridge #2794 + auto-timer sez.5 trigger-a #2798), flag `LETHAL_MISSIONS_ENABLED` default OFF.
+Due design-call decise (evidence: workflow ricerca 5-finder + synth-critic, vedi handoff
+2026-06-17 continuazione-3):
+
+- **Consent auto-timeout value = `DEFAULT_TIMEOUT_MS` 120000 RATIFIED-PROVISIONAL.** Tuning
+  value, non balance-lever; consistente con il ghost-timeout coop 120s. L'early-confirm
+  esiste gia' (round -> `granted` appena TUTTI confermano), quindi il timeout morde SOLO il
+  path non-responder ed e' osservabile solo quando il client Godot renderizza la countdown
+  (item-3). Re-tune (probabile verso ~90s, UX-evidence) SOLO con dati device-roundtrip +
+  playtest co-op reale. Per un consent-gate di permadeath err-long e' la scelta sicura
+  (clock stretto = soft-resolve non voluto sotto pressione sociale).
+- **Flip `LETHAL_MISSIONS_ENABLED=true` = DEFERRED** (NON flippare ora). Gate-5 surface-dead:
+  0 encounter `lethal: true` in data + 0 handler `lethal_consent_*` nel client Godot-v2
+  (broadcast unversioned -> silent drop) + backend inerte. Flip gated su TUTTI: (1) >=1
+  encounter lethal authored, (2) Godot consent UI [prompt + countdown + handler
+  open/waiting/resolved + confirm-sender + fallen/death surface + host-cancel], (3)
+  lethal-mission N=40 / co-op playtest che prova la choreography end-to-end, (4) verdetto
+  master-dd. Stesso pattern del defer `META_NETWORK_ROUTING` (validate-then-flip). NB: il
+  lavoro Godot lato item-3 NON e' ancora tracciato in `Game-Godot-v2/docs/godot-v2/`.
+- Reversibile: il flip e' env + restart; nessuna urgenza, validate-then-flip.

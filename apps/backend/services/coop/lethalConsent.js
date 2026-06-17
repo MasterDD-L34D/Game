@@ -21,9 +21,14 @@
 
 'use strict';
 
-// PROPOSED default (master-dd to ratify). 120s: long enough for a player to read
-// the non-silenceable prompt + confirm on their device, short enough to not
-// stall the table. Tuning value, not a balance lever.
+// RATIFIED-PROVISIONAL (master-dd verdict 2026-06-17). 120s: long enough for a
+// player to read the non-silenceable prompt + confirm on their device, short
+// enough to not stall the table. Tuning value, not a balance lever. Consistent
+// with the coop WS ghost-timeout (120s). NOTE: the round resolves the instant
+// EVERY at-risk player confirms (see confirm() -> _allConfirmed -> granted), so
+// this timeout only bites the NON-RESPONDER path; the value is observable only
+// once the Godot client renders the consent countdown (item-3). Re-tune (likely
+// down toward ~90s) only with device-roundtrip latency + co-op playtest data.
 const DEFAULT_TIMEOUT_MS = 120000;
 
 const SOFT_STATUSES = new Set(['pending', 'timeout_soft', 'fallback_soft']);
