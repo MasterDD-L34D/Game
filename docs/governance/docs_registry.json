@@ -12361,6 +12361,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/planning/2026-06-17-session-handoff-continuation.md",
+      "title": "Handoff continuazione 2026-06-17 -- A2 prod-deploy LIVE + 4 PR (SPEC-A/F + OD-059 + hc06)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-17",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
