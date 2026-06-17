@@ -1,46 +1,5 @@
 {
   "generated_at": null,
   "note": "Accepted known violations -- gate enforces NO NEW. Shrink as debt closes.",
-  "baseline": [
-    {
-      "rule": "biome-refs",
-      "entity": "guardiano_pozza",
-      "ref": "mangrovieto_cinetico"
-    },
-    {
-      "rule": "biome-refs",
-      "entity": "guardiano_pozza",
-      "ref": "paludi_gas_luminescenti"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "corazze_ferro_magnetico",
-      "ref": "ossidazione_rapida"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "membrane_fotoconvoglianti",
-      "ref": "affaticamento_oculare"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "nebbia_mnesica",
-      "ref": "immunoscossa"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "secrezioni_antistatiche",
-      "ref": "corrosione_instabile"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "squame_diffusori_ionici",
-      "ref": "overcharge_cronico"
-    },
-    {
-      "rule": "synergy-conflict-closure",
-      "entity": "vortice_nera_flash",
-      "ref": "stress_spike"
-    }
-  ]
+  "baseline": []
 }

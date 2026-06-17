@@ -4,8 +4,7 @@ resistance_archetype: adattivo
 display_name: Guardiano della Pozza
 display_name_en: Pond Warden
 biomes:
-  - mangrovieto_cinetico
-  - paludi_gas_luminescenti
+  - palude
 role_trofico: predatore_acquatico_agile
 functional_tags:
   - nemico_tutorial
