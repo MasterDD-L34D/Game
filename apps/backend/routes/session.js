@@ -3366,6 +3366,32 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // GET /api/session/:id/nido/scars — SPEC-J item-3 (Track A prereq for the phone
+  // Nido ritual UI). Lists, per unit, the `grave` scars available for a ritual
+  // (heal/transform). The public session state does not carry this, so the device
+  // needs this read to know WHICH creature + WHICH location to offer. Only units
+  // with >=1 grave scar are returned (the ritual-able set). Mirrors the ritual
+  // POST's data source (nidoRitual.graveWoundsOf on session.units).
+  router.get('/:id/nido/scars', (req, res) => {
+    const { error, session } = resolveSession(req.params.id);
+    if (error) return res.status(error.status).json(error.body);
+    const nidoRitual = require('../services/combat/nidoRitual');
+    const units = (session.units || [])
+      .map((u) => ({
+        unit_id: u && u.id,
+        name: (u && u.name) || null,
+        species_id: (u && u.species_id) || null,
+        scars: nidoRitual.graveWoundsOf(u).map((w) => ({
+          location: w.location,
+          severity: w.severity,
+          ...(w.stat ? { stat: w.stat } : {}),
+          ...(w.malus != null ? { malus: w.malus } : {}),
+        })),
+      }))
+      .filter((u) => u.unit_id && u.scars.length > 0);
+    return res.json({ session_id: session.session_id, units });
+  });
+
   // POST /api/session/:id/nido/ritual — SPEC-J sez.6 Nido wound ritual (J3).
   // Heal or transform a creature's `grave` scar. The ritual ACTION is `private`
   // (device-owned, SPEC-K 7.6); its esito is `public` (chronicle scar_healed /
