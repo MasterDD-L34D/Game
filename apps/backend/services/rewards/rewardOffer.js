@@ -16,6 +16,8 @@
 
 'use strict';
 
+const { resolvePowerLevel } = require('./rewardPowerLevel');
+
 const DEFAULT_TEMPERATURE = 0.7;
 const DEFAULT_OFFER_SIZE = 3;
 
@@ -210,8 +212,13 @@ function buildOffer(pool, context = {}) {
   const sampledIdx = softmaxSample(scores, offerSize, rng, temperature);
   const offers = sampledIdx.map((i) => {
     const c = pool[i];
+    // SPEC-G sez. 4: every offered card carries a resolved power_level (fail-closed
+    // to `suggerimento` if YAML omits/garbles it). Inert metadata — never touches
+    // scoring/selection above; only normalizes the surfaced card object.
+    const card =
+      c.power_level === resolvePowerLevel(c) ? c : { ...c, power_level: resolvePowerLevel(c) };
     return {
-      card: c,
+      card,
       score: scores[i],
       components: {
         base: BASE_BY_RARITY[c.rarity || 'common'] || 1.0,
