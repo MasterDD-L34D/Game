@@ -532,6 +532,11 @@ function publicSessionView(session) {
     // false->true transition to fire the one-shot diegetic hint ("il Sistema
     // reagisce al tuo tempo rubato") -- public tier, no raw numbers (ER3).
     overcharge_used_this_run: !!session.overcharge_used,
+    // SPEC-J sez.8 -- existence of a lethal-gated mission is `public` (everyone
+    // knows the run is at risk). The per-player consent + anonymous "waiting"
+    // state are NOT here (private / aggregated, produced by the PR2 consent
+    // state-machine). Default false -> non-lethal soft-death run.
+    lethal: !!session.lethal,
     // M1 ADR-2026-05-18 -- campaign scope + Sistema learning state (read-only surface).
     campaign_id: session.campaign_id || null,
     sistema_state: session.sistema_state || { units_observed: {} },

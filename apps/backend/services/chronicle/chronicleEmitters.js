@@ -146,10 +146,52 @@ function emitHeirloom(ctx, opts = {}) {
   );
 }
 
+/**
+ * Append a `creature_death` chronicle event when a creature dies in a lethal
+ * mission (SPEC-J failure-as-lore J5 + SPEC-D death beat). Reuses the existing
+ * `creature_death` chronicle type -- a soft-death KO is NOT a death (the creature
+ * falls and recovers), so only the lethal path emits this. The fall is `public`
+ * (the branco always remembers its dead -- J5 opzione A: lineage automatica),
+ * and by default opens the succession of a new MVP (SPEC-E E2 / J4 -- carried as
+ * `succession_trigger` so SPEC-E can consume it without re-deriving the trigger).
+ * Best-effort: no campaign_id / no creature -> no-op. Never throws (combat must
+ * not break on a chronicle slip).
+ *
+ * @param ctx  { campaign_id, creature_id, creature_name?, species_id?, biome_id?,
+ *               lineage_id?, encounter_id?, turn?, succession_trigger? }
+ * @param opts { baseDir? }
+ */
+function emitCreatureFell(ctx, opts = {}) {
+  if (!ctx || typeof ctx !== 'object') return { ok: false, error: 'no_ctx' };
+  const runId = ctx.campaign_id;
+  if (!runId) return { ok: false, error: 'no_campaign_id' };
+  if (!ctx.creature_id) return { ok: false, error: 'no_creature' };
+  return appendEvent(
+    runId,
+    {
+      type: 'creature_death',
+      actor_id: ctx.creature_id,
+      tier: 'public',
+      payload: {
+        creature_id: ctx.creature_id,
+        creature_name: ctx.creature_name || null,
+        species_id: ctx.species_id || null,
+        biome_id: ctx.biome_id || null,
+        lineage_id: ctx.lineage_id || null,
+        encounter_id: ctx.encounter_id || null,
+        turn: Number.isFinite(Number(ctx.turn)) ? Number(ctx.turn) : null,
+        succession_trigger: ctx.succession_trigger !== false,
+      },
+    },
+    { baseDir: opts.baseDir },
+  );
+}
+
 module.exports = {
   emitRunFailed,
   emitMutationLineage,
   emitHeirloom,
+  emitCreatureFell,
   deriveHeirloomName,
   DEFEAT_OUTCOMES,
 };
