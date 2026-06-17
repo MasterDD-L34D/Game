@@ -53,6 +53,32 @@ orthogonal to WR (outcome) and KD (combat efficiency). Ground truth of the mecha
 - Only `pressure_final` is emitted per run today; the full per-round trajectory
   (`pressure_samples`) exists internally but is not surfaced (batch_calibrate_hardcore06.py:743).
 
+### 1.2 External standards alignment (last30days + literature, 2026-06-18)
+
+Grounded the design against external practice before committing (gap-audit ethos). The
+experiment-first composite is standard-aligned, and Evo is ahead on the load-bearing axis:
+
+- **AI/sim players to predict engagement + difficulty is the established method** (Roohi et
+  al., "Predicting Game Engagement and Difficulty Using AI Players", arXiv 2107.12061; "Difficulty
+  Modelling ... combining player analytics and simulated data", arXiv 2401.17436). Evo's
+  AI-driven batch-sim playtest IS this method -- not a gap.
+- **Engagement = challenge-skill balance (flow theory)** (game-engagement-theory; dynamic-
+  difficulty-balancing literature). Tension is operationalized as *sustained challenge relative
+  to skill*. PE-as-tension maps directly: a healthy encounter keeps the AI in the "flow channel"
+  (challenging but winnable). This reinforces candidates A/B (sustained engagement) over C
+  (apex-only), and gives PE an academic name (challenge-engagement, not a bespoke coinage).
+- **Win-rate alone is insufficient** -- the composite's whole premise. Community discourse
+  (r/gamedesign "tropes that look like depth but aren't"; "rewarding clever resource use vs
+  punishing safe hoarding") is exactly the degenerate-but-fine-looking play the anti-false-
+  balanced composite must catch.
+- **Load-bearing caveat:** most engagement metrics in the literature rely on REAL-player
+  telemetry (biometrics, churn, session length) -- NOT transferable to a deterministic AI-sim
+  gate. The standard that transfers is "AI players predict difficulty/engagement"; the one that
+  does NOT is "engagement via human telemetry". So PE MUST be a sim-derivable proxy
+  (pressure-trajectory) -- which is exactly this design's constraint, and the reason the
+  negative-result branch (sec 4.5) falls back to a sim-derivable contestedness proxy
+  (turns/dmg = a challenge-skill margin), itself flow-aligned.
+
 ## 2. Goal / scope
 
 Define `pe_ratio` (a 0..1, higher=healthier tension signal) **empirically** -- pick the
