@@ -15,9 +15,9 @@ const { createCoopRouter } = require('../../apps/backend/routes/coop');
 const { createCoopStore } = require('../../apps/backend/services/coop/coopStore');
 const { LobbyService } = require('../../apps/backend/services/network/wsSession');
 
-function buildApp() {
+function buildApp({ orchestratorOptions } = {}) {
   const lobby = new LobbyService();
-  const coopStore = createCoopStore({ lobby });
+  const coopStore = createCoopStore({ lobby, orchestratorOptions });
   const broadcasts = [];
   const origGetRoom = lobby.getRoom.bind(lobby);
   lobby.getRoom = function (code) {
@@ -118,6 +118,42 @@ test('POST /coop/lethal/cancel: missing host_token -> 403', async () => {
   const { code } = await setupRun(app);
   const res = await request(app).post('/api/coop/lethal/cancel').send({ code });
   assert.equal(res.status, 403);
+});
+
+test('POST /coop/lethal/open: auto-timeout fires -> broadcasts soft resolution (sez.5 trigger-a, no host action)', async () => {
+  // Inject a fake scheduler into the orchestrator (via coopStore DI) so the
+  // auto-timeout is deterministic. fire() invokes the captured timer callback.
+  const timers = [];
+  const orchestratorOptions = {
+    now: () => 0,
+    setTimeoutFn(cb, delay) {
+      const h = { cb, delay, cleared: false, unref: () => h };
+      timers.push(h);
+      return h;
+    },
+    clearTimeoutFn(h) {
+      if (h) h.cleared = true;
+    },
+  };
+  const { app, broadcasts, coopStore } = buildApp({ orchestratorOptions });
+  const { code, hostToken } = await setupRun(app);
+  await request(app)
+    .post('/api/coop/lethal/open')
+    .send({ code, host_token: hostToken, at_risk_player_ids: ['p1', 'p2'], timeout_ms: 1000 });
+  broadcasts.length = 0;
+
+  // Player never responds; advance the orchestrator clock past the timeout and
+  // fire the armed timer (simulating wall-clock elapse).
+  coopStore.get(code).now = () => 1000;
+  assert.equal(timers.length, 1, 'auto-timeout timer armed at open');
+  timers[0].cb();
+
+  const ev = broadcasts.find((b) => b.msg.type === 'lethal_consent_resolved');
+  assert.ok(ev, 'auto-timeout broadcasts lethal_consent_resolved');
+  assert.equal(ev.msg.payload.outcome, 'soft', 'auto-timeout resolves to soft (NON parte lethal)');
+  assert.equal(ev.msg.payload.consent.status, 'timeout_soft');
+  // F5: the auto-resolution broadcast must NOT leak the per-player roster.
+  assert.equal(ev.msg.payload.consent.at_risk, undefined);
 });
 
 test('POST /coop/lethal/open: missing host_token -> 403', async () => {

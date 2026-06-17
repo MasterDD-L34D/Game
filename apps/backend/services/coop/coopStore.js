@@ -5,7 +5,7 @@
 
 const { CoopOrchestrator } = require('./coopOrchestrator');
 
-function createCoopStore({ lobby } = {}) {
+function createCoopStore({ lobby, orchestratorOptions = {} } = {}) {
   const orchestrators = new Map();
 
   function getOrCreate(roomCode) {
@@ -15,7 +15,10 @@ function createCoopStore({ lobby } = {}) {
       const room = lobby?.getRoom?.(code);
       orchestrators.set(
         code,
+        // orchestratorOptions = DI seam (e.g. setTimeoutFn for the SPEC-J
+        // auto-timeout in tests); roomCode/hostId always win.
         new CoopOrchestrator({
+          ...orchestratorOptions,
           roomCode: code,
           hostId: room?.hostId || null,
         }),
@@ -31,7 +34,15 @@ function createCoopStore({ lobby } = {}) {
 
   function remove(roomCode) {
     if (!roomCode) return false;
-    return orchestrators.delete(String(roomCode).toUpperCase());
+    const code = String(roomCode).toUpperCase();
+    // SPEC-J: drain any armed lethal-consent auto-timeout before evicting the
+    // orchestrator, else the timer closure pins the (now orphaned) orchestrator
+    // + room for up to timeout_ms and fires a broadcast into a dead room.
+    const orch = orchestrators.get(code);
+    if (orch && typeof orch._clearLethalConsentTimer === 'function') {
+      orch._clearLethalConsentTimer();
+    }
+    return orchestrators.delete(code);
   }
 
   function list() {

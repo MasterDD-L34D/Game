@@ -93,11 +93,18 @@ class CoopOrchestrator {
     nidoUnlocked = false,
     chronicleBaseDir = null,
     namePool = null,
+    setTimeoutFn = setTimeout,
+    clearTimeoutFn = clearTimeout,
   } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
     this.hostId = hostId || null;
     this.now = now;
+    // SPEC-J sez.5 trigger-(a) -- wall-clock scheduler for the automatic
+    // lethal-consent timeout (DI seam, default globals; tests inject a fake).
+    // Pure helpers stay time-source-free; only the auto-timer needs real time.
+    this._setTimeoutFn = typeof setTimeoutFn === 'function' ? setTimeoutFn : setTimeout;
+    this._clearTimeoutFn = typeof clearTimeoutFn === 'function' ? clearTimeoutFn : clearTimeout;
     // N1 Nido-hub — pre-seeded unlock flag (DI seam for tests + server-side
     // room construction). When true, debrief advance routes to 'nido' instead
     // of directly to world_setup. env NIDO_UNLOCKED=true also activates the
@@ -168,6 +175,9 @@ class CoopOrchestrator {
     // null = no round open. Set by openLethalConsent; the anonymous snapshot is
     // what the coop transport broadcasts (F5: no per-player roster).
     this.lethalConsent = null;
+    // SPEC-J sez.5 trigger-(a) -- handle of the one-shot auto-timeout timer for
+    // the open round (null = none scheduled). Cleared on any resolution / reset.
+    this._lethalConsentTimer = null;
   }
 
   _getWorldEnricher() {
@@ -285,6 +295,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this._clearLethalConsentTimer(); // SPEC-J: drop any armed auto-timeout
     this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
@@ -329,6 +340,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this._clearLethalConsentTimer(); // SPEC-J: drop any armed auto-timeout
     this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('onboarding');
     this._emit('run_started', { run_id: this.run.id, with_onboarding: true });
@@ -968,16 +980,67 @@ class CoopOrchestrator {
 
   // === SPEC-J sez.5 -- lethal consent (per-player device confirm, NOT quorum) ===
 
+  /** SPEC-J sez.5 trigger-(a) -- cancel the pending auto-timeout timer, if any. */
+  _clearLethalConsentTimer() {
+    if (this._lethalConsentTimer) {
+      this._clearTimeoutFn(this._lethalConsentTimer);
+      this._lethalConsentTimer = null;
+    }
+  }
+
   /**
    * Open a lethal-consent round for the at-risk players (those whose creature
    * participates in the lethal mission, SPEC-K 6.4). Host-initiated (the route
    * layer authorizes). Emits `lethal_consent_open` with the anonymous snapshot.
+   *
+   * SPEC-J sez.5 trigger-(a): for a `pending` round (>=1 at-risk player) this
+   * also arms a one-shot wall-clock timer at the round's `timeout_ms`. When it
+   * fires it auto-resolves the round to `timeout_soft` (NON parte lethal) with no
+   * host action -- the spec's "device online ma nessuna risposta -> timeout". The
+   * optional `onTimeout(snapshot, outcome)` callback lets the transport broadcast
+   * the resolution; it fires ONLY from the timer path (manual confirm/cancel
+   * paths broadcast themselves, so no double-broadcast). The timeout VALUE is a
+   * master-dd design-call (lethalConsent.DEFAULT_TIMEOUT_MS, PROPOSED); this only
+   * wires the firing.
    * @returns the anonymous snapshot (F5: counts only).
    */
-  openLethalConsent(atRiskPlayerIds = [], { timeoutMs } = {}) {
+  openLethalConsent(atRiskPlayerIds = [], { timeoutMs, onTimeout } = {}) {
+    this._clearLethalConsentTimer();
     this.lethalConsent = consentSM.open(atRiskPlayerIds, { now: this.now(), timeoutMs });
     const snap = consentSM.snapshot(this.lethalConsent);
     this._emit('lethal_consent_open', snap);
+    if (this.lethalConsent.status === 'pending' && this.lethalConsent.timeout_ms > 0) {
+      // Exact deadline captured at schedule time -> passed to the sweep as `now`
+      // so a sub-ms-early libuv fire still satisfies the elapsed check (see
+      // evalLethalConsentTimeout). Independent of state at fire time (which may
+      // have been reset to null by a run advance/reset).
+      const deadline = this.lethalConsent.opened_at + this.lethalConsent.timeout_ms;
+      const handle = this._setTimeoutFn(() => {
+        this._lethalConsentTimer = null;
+        // Re-validate via the shared sweep: only acts on a still-`pending`
+        // round, so a granted/already-soft round (race) is a no-op.
+        const before = this.lethalConsent && this.lethalConsent.status;
+        const resolved = this.evalLethalConsentTimeout({ now: deadline });
+        if (
+          typeof onTimeout === 'function' &&
+          before === 'pending' &&
+          this.lethalConsent &&
+          this.lethalConsent.status !== 'pending'
+        ) {
+          // State is already resolved; a transport failure here must never
+          // crash the timer callback (unhandled throw in setTimeout = process
+          // crash). Swallow like _emit does.
+          try {
+            onTimeout(resolved, consentSM.outcome(this.lethalConsent));
+          } catch {
+            // swallow transport error
+          }
+        }
+      }, this.lethalConsent.timeout_ms);
+      // Never let the auto-timeout keep the process alive (tests, graceful exit).
+      if (handle && typeof handle.unref === 'function') handle.unref();
+      this._lethalConsentTimer = handle;
+    }
     return snap;
   }
 
@@ -994,6 +1057,7 @@ class CoopOrchestrator {
     const snap = consentSM.snapshot(this.lethalConsent);
     this._emit('lethal_consent_confirmed', snap);
     if (before === 'pending' && this.lethalConsent.status === 'granted') {
+      this._clearLethalConsentTimer(); // round resolved -> auto-timeout moot
       this._emit('lethal_consent_resolved', { outcome: 'granted', snapshot: snap });
     }
     return snap;
@@ -1003,15 +1067,25 @@ class CoopOrchestrator {
    * Anti-deadlock sweep (sez.5): resolve a still-pending round to soft when the
    * timeout has elapsed (post delivery-receipt) or delivery failed. Emits
    * `lethal_consent_resolved` on a soft resolution. Safe to call repeatedly.
+   *
+   * `now` override: the auto-timer (sez.5 trigger-a) passes the exact round
+   * deadline (opened_at + timeout_ms). The firing is decided by libuv's
+   * monotonic clock while elapsed is measured against Date.now() -- the two can
+   * disagree by ~1ms, so a plain this.now() re-check could read elapsed as
+   * `timeout_ms - 1` and leave the round stuck pending forever (the "unattended
+   * fallback" silently fails). Pinning `now` to the deadline makes the timer's
+   * resolution deterministic. Defaults to this.now() for the manual paths.
    * @returns the anonymous snapshot.
    */
-  evalLethalConsentTimeout({ deliveryFailed = false } = {}) {
+  evalLethalConsentTimeout({ deliveryFailed = false, now } = {}) {
     if (!this.lethalConsent) return null;
     const before = this.lethalConsent.status;
     if (deliveryFailed) this.lethalConsent = consentSM.markDeliveryFailed(this.lethalConsent);
-    this.lethalConsent = consentSM.evalTimeout(this.lethalConsent, { now: this.now() });
+    const evalNow = now === undefined ? this.now() : now;
+    this.lethalConsent = consentSM.evalTimeout(this.lethalConsent, { now: evalNow });
     const snap = consentSM.snapshot(this.lethalConsent);
     if (before === 'pending' && this.lethalConsent.status !== 'pending') {
+      this._clearLethalConsentTimer(); // round resolved -> auto-timeout moot
       this._emit('lethal_consent_resolved', {
         outcome: consentSM.outcome(this.lethalConsent),
         snapshot: snap,
@@ -1272,6 +1346,10 @@ class CoopOrchestrator {
    */
   advanceScenarioOrEnd() {
     if (!this.run) throw new Error('no_run');
+    // SPEC-J: drop any armed auto-timeout before leaving the scenario (covers
+    // both the `ended` and `next_scenario` branches below; consent is per-
+    // scenario, the timer must never outlive its round).
+    this._clearLethalConsentTimer();
     this.run.currentIndex += 1;
     // M-2 -- run progression is the PROPOSED lifecycle proxy: emergence fires
     // here (scenario cleared / run complete), before phase transition, so the
