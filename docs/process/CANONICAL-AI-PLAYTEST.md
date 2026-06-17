@@ -137,7 +137,7 @@ Per risultati ri-ottenibili:
 
 Manifest macchina-leggibile: [`docs/playtest/canonical-suite.yaml`](../playtest/canonical-suite.yaml).
 
-| Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)              | Stato                                                      |
+| Scenario                            | Band target       | Knob ratificato                                             | WR (ratified)          | Stato                                                      |
 | ----------------------------------- | ----------------- | ----------------------------------------------------------- | ---------------------- | ---------------------------------------------------------- |
 | `enc_tutorial_06_hardcore`          | 15-30%            | `boss_hp_multiplier: 1.02`                                  | 23% (N=100 2026-06-14) | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
 | `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.5` (REPLACE class 1.8) | 42% (N=100 2026-06-14) | IN-BAND                                                    |
