@@ -250,3 +250,23 @@ node tools/sim/pressure-floor-probe.js --aggregate --out $OUT
 - Bande: `data/core/balance/damage_curves.yaml`.
 - Godot canonical: `Game-Godot-v2/docs/godot-v2/design/tkt-pressure-tier-encounter.md` (PR #221).
 - Pattern N=40 ratify-grade: `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md`.
+
+## Verdetto master-dd 2026-06-17 -- floor magnitude RATIFIED-PROVISIONAL
+
+Decisione (evidence: workflow ricerca + synth-critic, vedi handoff 2026-06-17 cont-3).
+A2 e' gia' LIVE in prod (flag flippato ON 2026-06-17) -> "defer" sarebbe non-protettivo
+(lascerebbe valori attivi non-ratificati). Verdetto:
+
+- **Magnitudini floor RATIFIED-PROVISIONAL** (tutorial=1 no-op / standard=2 Alert@25 /
+  elite-solo=3 Escalated@50 / hardcore=4 Critical@75). Il N=40 prova SAFETY non OPTIMALITY:
+  delta WR ON-vs-OFF nel rumore (flag-OFF byte-identical), unico bite robusto =
+  `enc_hardcore_reinf_01` (floor 4, sola pool reinforcement: spawn 0->4, defeat->timeout
+  +8.1pp). La policy greedy del sim SATURA sopra il target umano -> "provisional", non
+  "final".
+- **Re-tune solo UPWARD, pending dati umani** (zero evidenza per downward; sim semmai
+  indica valori conservativi). Ratifica finale = playtest umano, non sim.
+- **Author-guard SHIPPED** (`tools/js/validate_encounter_difficulty.js`): `pressure_tier_floor`
+  deve essere intero [0,5] (range schema) E `<= difficulty_rating` -- impedisce di authorare
+  un encounter early/low-difficulty con floor alto (P6 first-encounter fairness). Regola
+  meccanica derivata dai valori ratificati (tutti i 14 encounter attuali la rispettano);
+  blocca solo mis-authoring futuro. Test: `tests/difficulty/validator.test.js`.

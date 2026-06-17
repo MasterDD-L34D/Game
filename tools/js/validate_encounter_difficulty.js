@@ -89,6 +89,26 @@ function main() {
       continue;
     }
 
+    // A2 author-guard (master-dd verdict 2026-06-17, ratify-provisional + author
+    // guard). The per-encounter pressure_tier_floor raises the *starting* Sistema
+    // pressure tier; an early / low-difficulty encounter must NOT be authored
+    // with a high floor (P6 first-encounter fairness). Mechanical rule, derived
+    // from the ratified values (all current encounters satisfy floor <=
+    // difficulty_rating): floor must be an integer in [0,5] (schema range) AND
+    // not exceed the encounter's own difficulty_rating.
+    if (enc.pressure_tier_floor !== undefined && enc.pressure_tier_floor !== null) {
+      const floor = Number(enc.pressure_tier_floor);
+      if (!Number.isInteger(floor) || floor < 0 || floor > 5) {
+        errors.push(
+          `${file}: invalid pressure_tier_floor (${enc.pressure_tier_floor}) -- must be an integer 0-5`,
+        );
+      } else if (floor > declared) {
+        errors.push(
+          `${file}: pressure_tier_floor (${floor}) exceeds difficulty_rating (${declared}) -- early/low-difficulty encounter cannot start at a high Sistema pressure tier (A2 author-guard)`,
+        );
+      }
+    }
+
     // Biome lookup: default difficulty_base=1.0 (biome registry integration futura)
     const biomeData = { difficulty_base: 1.0 };
     const computed = calculateDifficultyRating(enc, biomeData, config);
