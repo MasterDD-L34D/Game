@@ -167,6 +167,24 @@ test('auto-timer: no at-risk players -> granted, no timer scheduled', () => {
   assert.equal(sched.timers.length, 0, 'no timer for a trivially-granted round');
 });
 
+test('auto-timer: a non-positive timeout_ms still arms a timer at the default (Codex P2)', () => {
+  // A host supplying timeout_ms: 0 must NOT disable the unattended fallback;
+  // the state machine normalizes it to DEFAULT_TIMEOUT_MS, so a pending round
+  // always gets an armed timer.
+  const sched = fakeScheduler();
+  const orch = new CoopOrchestrator({
+    roomCode: 'ABCD',
+    hostId: 'h1',
+    now: () => 0,
+    setTimeoutFn: sched.setTimeoutFn,
+    clearTimeoutFn: sched.clearTimeoutFn,
+  });
+  const snap = orch.openLethalConsent(['p1'], { timeoutMs: 0 });
+  assert.equal(snap.status, 'pending');
+  assert.equal(sched.timers.length, 1, 'timer armed despite timeoutMs=0');
+  assert.ok(sched.timers[0].delay > 0, 'armed at the normalized default, not 0');
+});
+
 test('auto-timer: re-opening clears the previous timer before scheduling a new one', () => {
   const sched = fakeScheduler();
   const orch = new CoopOrchestrator({

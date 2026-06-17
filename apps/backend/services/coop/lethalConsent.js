@@ -44,7 +44,15 @@ function open(atRiskPlayerIds, { now = 0, timeoutMs = DEFAULT_TIMEOUT_MS } = {})
     at_risk,
     confirmed: {},
     opened_at: Number(now) || 0,
-    timeout_ms: Number.isFinite(Number(timeoutMs)) ? Number(timeoutMs) : DEFAULT_TIMEOUT_MS,
+    // Invariant: a consent round ALWAYS carries a positive timeout, so the
+    // auto-timeout (orchestrator sez.5 trigger-a) is always armable. A
+    // non-finite OR non-positive caller value (0 / negative) falls back to the
+    // PROPOSED default -- a "0 timeout" must never silently disable the
+    // unattended fallback and let a non-responsive device hang the round.
+    timeout_ms:
+      Number.isFinite(Number(timeoutMs)) && Number(timeoutMs) > 0
+        ? Number(timeoutMs)
+        : DEFAULT_TIMEOUT_MS,
     delivery_failed: false,
     status: at_risk.length === 0 ? 'granted' : 'pending',
     resolved_at: at_risk.length === 0 ? Number(now) || 0 : null,
