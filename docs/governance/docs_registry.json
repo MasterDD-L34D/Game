@@ -8894,7 +8894,7 @@
     {
       "path": "docs/design/evo-tactics-tv-device-information-contract.md",
       "title": "Evo-Tactics TV/Device Information Contract (SPEC-B)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
       "last_verified": "2026-06-08",

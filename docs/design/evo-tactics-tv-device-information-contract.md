@@ -2,7 +2,7 @@
 title: 'Evo-Tactics TV/Device Information Contract (SPEC-B)'
 date: 2026-06-08
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
 last_verified: '2026-06-08'
