@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-05-29T01:06:32.371607Z",
+  "generated_at": "2026-06-17T19:01:30.175781Z",
   "summary": {
     "total_traits": 254,
     "glossary_ok": 254,
     "glossary_missing": 0,
     "matrix_ok": 178,
     "matrix_mismatch": 76,
-    "with_conflicts": 34,
+    "with_conflicts": 28,
     "matrix_only_traits": 44
   },
   "checks": {
     "traits": {
       "passed": 254,
       "total": 254,
-      "conflicts": 34,
+      "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 76
     }
@@ -128,10 +128,6 @@
         "conflicts": 1
       },
       {
-        "id": "corazze_ferro_magnetico",
-        "conflicts": 1
-      },
-      {
         "id": "estroflessione_gastrica_acida",
         "conflicts": 1
       },
@@ -152,19 +148,23 @@
         "conflicts": 1
       },
       {
-        "id": "membrane_fotoconvoglianti",
-        "conflicts": 1
-      },
-      {
         "id": "mucillagine_simbionte_mangrovie",
         "conflicts": 1
       },
       {
-        "id": "nebbia_mnesica",
+        "id": "nodi_micorrizici_oracolari",
         "conflicts": 1
       },
       {
-        "id": "nodi_micorrizici_oracolari",
+        "id": "nucleo_ovomotore_rotante",
+        "conflicts": 1
+      },
+      {
+        "id": "organi_sismici_cutanei",
+        "conflicts": 1
+      },
+      {
+        "id": "piume_solari_fotovoltaiche",
         "conflicts": 1
       }
     ]
