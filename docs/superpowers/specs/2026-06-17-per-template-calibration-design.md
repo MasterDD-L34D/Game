@@ -146,22 +146,45 @@ go to Optuna (joint search) rather than sequential hand-tuning.
 
 ## 5. Safety-gated auto-ratify (KNOB to production)
 
-`--auto-ratify` is a maintainer-invoked flag, NEVER set in CI. Production write of the KNOB
-happens only if ALL hold:
+`--auto-ratify` is a maintainer-invoked flag, NEVER set in CI. It produces a fully-gated
+PROPOSAL (staging write + report + provenance sidecar); the actual production write requires a
+SECOND explicit `--confirm-prod` (owner decision 2026-06-17: proposal + 2nd-confirm keeps the
+human commit as the SDMG falsifier). Production write of the KNOB happens only if ALL hold:
 1. N=100 forensic run completed (not just N=40).
-2. composite_metric in-band at N=100 (not WR-only -- anti false-balanced, CANONICAL sec 1.3).
-3. seed-pinned bit-identical re-verify passes.
-4. **band-invalidation check (sec 9)**: the run tunes the knob to the EXISTING band; it does NOT
-   redefine the band. If the detector (sec 6) flags that the band itself is stale, auto-ratify
-   ABORTS and routes to human re-ratify (a band change is never automated).
-5. atomic write to `damage_curves.yaml` + `ratified_knob` updated in the manifest, with a
-   provenance stamp (seed, n, composite, CI, git_commit, Coding-Agent/Trace-Id).
+2. composite_metric computable AND in-band at N=100 (not WR-only -- anti false-balanced,
+   CANONICAL sec 1.3). **FAIL-CLOSED**: today the batch aggregate emits neither `pe_ratio` nor
+   `kd_ratio`, so the composite is `None` and this gate aborts. No WR-only fallback inside the
+   gate (that would silently diverge from the manifest contract, the #2719 class). Unblock = a
+   follow-up wires `pe_ratio` + `kd_ratio` into the aggregate (and defines a composite band --
+   the scalar composite has no band in the manifest today; see P4 PR note).
+3. seed-pinned bit-identical re-verify passes -- FAIL-CLOSED: requires a stored baseline, the
+   canonical node 22 (determinism is within-runtime only, CANONICAL sec 3 rule 8), and an
+   identical run plan (shards + N, since seed offsets are cumulative-N).
+4. **band-invalidation check -- STRUCTURAL, P5-independent (P4 ships before P5)**: the write
+   surface is knob-only BY CONSTRUCTION (it can write `ratified_knob` + the `scenario_overrides`
+   knob field; it is statically incapable of writing `target_band` -- asserted in code + test).
+   AND it aborts unless, at the SAME forensic N=100 run, WR (gate-4b) AND composite (gate-2) land
+   inside the EXISTING band. If the freshly-tuned knob cannot reach the band, that inability IS
+   the stale-band signal (#2719) -> abort + route to human re-ratify, band NOT modified. P5's
+   `detect_stale_bands.py` later adds the PROACTIVE/nightly advisory issue-filing; P4's per-write
+   safety does NOT depend on it. (Authority: assert against the machine-readable contract
+   `canonical-suite.yaml` `band_invalidation_protocol` + spec sec 2/5, which reconcile TO
+   CANONICAL sec 9 -- sec 9 literally bans auto-updating `target_band` IN CI.)
+5. atomic write to `damage_curves.yaml` + `ratified_knob` updated in the manifest (comment-
+   preserving, two-phase tmp + `os.replace` with a post-write read-back reconcile that both files
+   agree), plus a provenance SIDECAR JSON (never inline in the runtime-parsed YAML). Stamp:
+   seed, n, named composite (formula + value, `null` if uncomputable -- surfaced not faked), CI
+   (real Wilson interval on the N=100 win count, or `null` + reason -- never a fabricated
+   placeholder), git_commit, Coding-Agent/Trace-Id (captured fresh -- no reusable producer exists).
 
 Default (no flag): staging write + report only; human ratifies. This is the CANONICAL-compliant
-default; auto-ratify is the opt-in, evidence-heavy fast path.
+default; auto-ratify is the opt-in, evidence-heavy fast path -- and even then a second
+`--confirm-prod` is required to touch production.
 
-**SDMG gate**: before `--auto-ratify` is enabled for real use, the gate logic gets a
-harsh-reviewer falsification pass (ADR-0026 #7). Until then it ships behind the flag, off.
+**SDMG gate**: before `--auto-ratify` + `--confirm-prod` is enabled for real use, the gate logic
+gets a harsh-reviewer falsification pass (ADR-0026 #7). Until then it ships behind the flags, off,
+and -- because gate-2 fail-closes on the `None` composite -- the live prod write is unreachable by
+design (P4 = honest gate machinery + atomic writer; the metrics wiring is a follow-up).
 
 ## 6. Advisory stale-band detector (`detect_stale_bands.py`)
 
