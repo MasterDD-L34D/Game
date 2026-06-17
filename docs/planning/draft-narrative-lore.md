@@ -1,7 +1,23 @@
-# Narrative & Lore — DRAFT
+---
+title: 'Narrative and Lore -- framing + tone guardrails (canonical)'
+date: 2026-06-17
+doc_status: active
+doc_owner: master-dd
+workstream: cross-cutting
+last_verified: '2026-06-17'
+source_of_truth: false
+language: it
+review_cycle_days: 30
+tags: [evo-tactics, narrative, lore, tone, guardrails, aliena]
+---
 
-> Bozza GDD. Da promuovere in docs/core/ dopo review.
-> NON duplica `docs/planning/research/lore_concepts.md` — lo inquadra in struttura narrativa coerente.
+# Narrative and Lore -- framing + tone guardrails
+
+> Promosso 2026-06-17 (SPEC-H crit-7): sorgente canonica dei tone-guardrail (asse
+> serio/meraviglia, fantastico bio-plausibile, intimo, suggerito) referenziata da
+> `docs/design/evo-tactics-aliena-enforcement-lore.md` sez.2/6. Relocation in
+> `docs/core/` = follow-up opzionale (non richiesto da crit-7).
+> NON duplica `docs/planning/research/lore_concepts.md` -- lo inquadra in struttura narrativa coerente.
 
 ## Scopo
 

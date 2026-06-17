@@ -8855,7 +8855,7 @@
     {
       "path": "docs/design/evo-tactics-aliena-enforcement-lore.md",
       "title": "Evo-Tactics ALIENA Enforcement and Narrative Lore (SPEC-H)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
       "last_verified": "2026-06-08",
@@ -9505,7 +9505,7 @@
     {
       "path": "docs/design/2026-04-27-codex-aliena-hades-schema.md",
       "title": "Codex in-game — container Hades + schema A.L.I.E.N.A. 6-dim (spec)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-27",
@@ -12397,6 +12397,19 @@
       "last_verified": "2026-06-17",
       "source_of_truth": false,
       "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/planning/draft-narrative-lore.md",
+      "title": "Narrative and Lore -- framing + tone guardrails (canonical)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-17",
+      "source_of_truth": false,
+      "language": "it",
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"

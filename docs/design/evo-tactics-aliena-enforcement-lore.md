@@ -2,7 +2,7 @@
 title: 'Evo-Tactics ALIENA Enforcement and Narrative Lore (SPEC-H)'
 date: 2026-06-08
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
 last_verified: '2026-06-08'
@@ -402,3 +402,23 @@ SPEC-H e' implementabile/chiudibile quando:
 8. le Decisioni aperte HA1, HA2, HA4, HA5 sono ratificate da Eduardo (HA3 = derivata, non
    richiede ratifica); il flip `review_needed` -> `accepted` al merge del PR resta a lui
    (`source_of_truth:false` finche' non lo decide).
+
+## 12. Flip verdict 2026-06-17 -- doc_status active (contract+ratifica completa)
+
+Master-dd verdict (item-1 flip-plan, ultima spec): **flip review_needed -> `active`** (NB:
+target governance = `active`, non `accepted` -- `accepted` non e' un valore valido in
+`docs_registry.json`). Tutti i criteri sez.11 sono soddisfatti:
+
+- crit 1-5: contract fissato + forks **HA1/HA2/HA4/HA5 RATIFICATI 2026-06-08** (sez.10), HA3
+  derivata. crit 6: doctrine SPEC-B verificata (`grep -ri aliena data/codex/` = 0 hit
+  player-facing nei campi content/heading). **crit 7 RISOLTO**: i 2 source-doc promossi
+  (`2026-04-27-codex-aliena-hades-schema.md` draft->active; `draft-narrative-lore.md`
+  frontmatter + active + registrato). crit 8: forks ratificati.
+- **doc-flip != implementazione**: l'acceptance sez.11 e' contract+ratifica; il
+  validator-CI HA2 (presence-check 6-dim) + la surface Codex 6-dim backend
+  (`codexPanel.js` oggi TUNIC-glyph) + il flip runtime `enabled:true`/`strength` +
+  propagazione `enforcement_factor` (post N=40 su `enc_badlands_pilot_01`) = **forward-work
+  tracciato in BACKLOG**, NON blocker del doc-flip (precedent SPEC-I/K). La machinery
+  baseline (sez.2) e' LIVE default-OFF. Runtime HA1 resta OFF.
+
+Con questo flip **item-1 = 17/17 active** (suite reconstruction SPEC-A..Q completa a doc-level).
