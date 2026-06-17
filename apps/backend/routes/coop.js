@@ -509,6 +509,62 @@ function createCoopRouter({
     }
   });
 
+  // SPEC-J sez.5 -- host opens a lethal-consent round. The host (TV), having a
+  // lethal-flagged mission, supplies the at-risk player ids (those whose creature
+  // participates, SPEC-K 6.4). The server opens the round on the orchestrator +
+  // broadcasts the anonymous waiting snapshot (`lethal_consent_open`, F5: counts
+  // only). Players then confirm via the `lethal_consent_confirm` WS intent. The
+  // round resolves to `granted` only when EVERY at-risk player confirms; anti-
+  // deadlock (timeout / delivery-fail) resolves to soft (NON parte lethal).
+  router.post('/coop/lethal/open', (req, res) => {
+    const {
+      code,
+      host_token: hostToken,
+      at_risk_player_ids: atRisk,
+      timeout_ms: timeoutMs,
+    } = req.body || {};
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    // Codex/coop-validator: empty (or all-non-string) at-risk would trivially
+    // grant -> lethal would proceed with NOBODY having confirmed. A lethal
+    // mission MUST name its at-risk players; reject otherwise (mirror route/open).
+    const ids = Array.isArray(atRisk) ? atRisk.filter((x) => typeof x === 'string' && x) : [];
+    if (ids.length === 0) {
+      return res
+        .status(400)
+        .json({ error: 'at_risk_player_ids richiesto (array di id non vuoto)' });
+    }
+    try {
+      const snap = orch.openLethalConsent(ids, { timeoutMs });
+      room.broadcast({ type: 'lethal_consent_open', payload: snap });
+      return res.json({ ok: true, consent: snap });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'lethal_open_failed' });
+    }
+  });
+
+  // SPEC-J sez.5 -- host aborts a stuck lethal-consent round (deterministic
+  // anti-deadlock escape: the always-on TV arbiter can always resolve a round
+  // where a player never responds). Resolves the pending round to soft (NON
+  // parte lethal) + broadcasts the resolution. The AUTOMATIC timeout timer
+  // (sez.5 trigger a) is a follow-up; this guarantees "mai loop bloccato" now.
+  router.post('/coop/lethal/cancel', (req, res) => {
+    const { code, host_token: hostToken } = req.body || {};
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    const snap = orch.evalLethalConsentTimeout({ deliveryFailed: true });
+    if (!snap) return res.status(409).json({ error: 'no_consent_round_open' });
+    room.broadcast({
+      type: 'lethal_consent_resolved',
+      payload: { outcome: orch.lethalConsentOutcome(), consent: snap },
+    });
+    return res.json({ ok: true, outcome: orch.lethalConsentOutcome(), consent: snap });
+  });
+
   return router;
 }
 

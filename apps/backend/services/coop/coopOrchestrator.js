@@ -12,6 +12,7 @@ const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergence');
 const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
 const { aggregateFormPulses } = require('../formPulseVc');
+const consentSM = require('./lethalConsent');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -163,6 +164,10 @@ class CoopOrchestrator {
     // PR-1 §22 coop-WS surface — combat session id (POST /api/session/start)
     // linked back via coopStore.linkSession so phase_change can surface it.
     this.sessionId = null;
+    // SPEC-J sez.5 -- per-player lethal-consent round (pure state in lethalConsent.js).
+    // null = no round open. Set by openLethalConsent; the anonymous snapshot is
+    // what the coop transport broadcasts (F5: no per-player roster).
+    this.lethalConsent = null;
   }
 
   _getWorldEnricher() {
@@ -280,6 +285,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
     return this.run;
@@ -323,6 +329,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('onboarding');
     this._emit('run_started', { run_id: this.run.id, with_onboarding: true });
     return this.run;
@@ -957,6 +964,70 @@ class CoopOrchestrator {
       tally.all_connected_voted = connected.length > 0 && connectedVoted === connected.length;
     }
     return tally;
+  }
+
+  // === SPEC-J sez.5 -- lethal consent (per-player device confirm, NOT quorum) ===
+
+  /**
+   * Open a lethal-consent round for the at-risk players (those whose creature
+   * participates in the lethal mission, SPEC-K 6.4). Host-initiated (the route
+   * layer authorizes). Emits `lethal_consent_open` with the anonymous snapshot.
+   * @returns the anonymous snapshot (F5: counts only).
+   */
+  openLethalConsent(atRiskPlayerIds = [], { timeoutMs } = {}) {
+    this.lethalConsent = consentSM.open(atRiskPlayerIds, { now: this.now(), timeoutMs });
+    const snap = consentSM.snapshot(this.lethalConsent);
+    this._emit('lethal_consent_open', snap);
+    return snap;
+  }
+
+  /**
+   * An at-risk player confirms (WS intent, socket-bound identity). Emits
+   * `lethal_consent_confirmed`; when the round resolves to `granted` it also
+   * emits `lethal_consent_resolved`. Throws when no round is open.
+   * @returns the anonymous snapshot.
+   */
+  confirmLethalConsent(playerId) {
+    if (!this.lethalConsent) throw new Error('lethal_consent_not_open');
+    const before = this.lethalConsent.status;
+    this.lethalConsent = consentSM.confirm(this.lethalConsent, playerId, { now: this.now() });
+    const snap = consentSM.snapshot(this.lethalConsent);
+    this._emit('lethal_consent_confirmed', snap);
+    if (before === 'pending' && this.lethalConsent.status === 'granted') {
+      this._emit('lethal_consent_resolved', { outcome: 'granted', snapshot: snap });
+    }
+    return snap;
+  }
+
+  /**
+   * Anti-deadlock sweep (sez.5): resolve a still-pending round to soft when the
+   * timeout has elapsed (post delivery-receipt) or delivery failed. Emits
+   * `lethal_consent_resolved` on a soft resolution. Safe to call repeatedly.
+   * @returns the anonymous snapshot.
+   */
+  evalLethalConsentTimeout({ deliveryFailed = false } = {}) {
+    if (!this.lethalConsent) return null;
+    const before = this.lethalConsent.status;
+    if (deliveryFailed) this.lethalConsent = consentSM.markDeliveryFailed(this.lethalConsent);
+    this.lethalConsent = consentSM.evalTimeout(this.lethalConsent, { now: this.now() });
+    const snap = consentSM.snapshot(this.lethalConsent);
+    if (before === 'pending' && this.lethalConsent.status !== 'pending') {
+      this._emit('lethal_consent_resolved', {
+        outcome: consentSM.outcome(this.lethalConsent),
+        snapshot: snap,
+      });
+    }
+    return snap;
+  }
+
+  /** Anonymous snapshot (F5) of the current round, or null when none is open. */
+  lethalConsentSnapshot() {
+    return this.lethalConsent ? consentSM.snapshot(this.lethalConsent) : null;
+  }
+
+  /** 'granted' only when every at-risk player confirmed; else 'soft'. */
+  lethalConsentOutcome() {
+    return consentSM.outcome(this.lethalConsent);
   }
 
   /**
