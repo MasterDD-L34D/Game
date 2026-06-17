@@ -8712,7 +8712,7 @@
     {
       "path": "docs/design/evo-tactics-godot-device-authority-reconciliation.md",
       "title": "Evo-Tactics Godot Device-Authority Reconciliation",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
       "last_verified": "2026-06-06",
@@ -8803,7 +8803,7 @@
     {
       "path": "docs/design/evo-tactics-lethal-wounds-rituals.md",
       "title": "Evo-Tactics Lethal Consent and Wound Rituals (SPEC-J)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
       "last_verified": "2026-06-08",
@@ -8829,7 +8829,7 @@
     {
       "path": "docs/design/evo-tactics-custode-portable-framework.md",
       "title": "Evo-Tactics Custode Portable Framework (SPEC-F)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
       "last_verified": "2026-06-08",

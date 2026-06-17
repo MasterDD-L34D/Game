@@ -2,7 +2,7 @@
 title: 'Evo-Tactics Godot Device-Authority Reconciliation'
 date: 2026-06-06
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
 last_verified: '2026-06-07'
@@ -571,3 +571,17 @@ Godot:
 - `C:/dev/Game-Godot-v2/scripts/main_debrief.gd`
 - `C:/dev/Game-Godot-v2/scripts/ui/tv_mating_panel.gd`
 - `C:/dev/Game-Godot-v2/scripts/phone/main_phone_offspring_mount.gd`
+
+## 13. Flip verdict 2026-06-17 -- doc_status active = design ratificato, NON surface completa
+
+Master-dd verdict (item-1 flip-plan, evidence = flip-readiness workflow): **flip-as-
+ratification**. `doc_status: review_needed -> active` registra che il CANON device-authority
+e' RATIFICATO ([ADR-2026-06-07](ADR-2026-06-07-device-authority-tv-mirror-canon.md) ACCEPTED) +
+il seam architetturale e' stabile (SPEC-B visibility e SPEC-J consent gia' ci dipendono).
+
+**NON significa che la sez.9 acceptance sia tutta soddisfatta** (verify-before-done, anti-Gate-5
+laundering): criterio 3 (route-vote distinzione, PR #2597) e 7 (per-device action wires) = MET;
+1/2/4 = PARTIAL (dev-fallback marcati); **5 (Nido phone actions) e 9 (playtest TV+telefoni) = UNMET**.
+Il completamento sez.9 = **item-3 Godot build-residue**, tracciato come K-01..K-07 (sez.10) in
+`BACKLOG.md`. Precedent: SPEC-I/A/G flippate active con forward-work esplicito + runtime/surface
+gated separatamente. Nessuna superficie non-costruita e' spacciata per fatta.
