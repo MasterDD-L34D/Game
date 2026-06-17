@@ -14,6 +14,11 @@ tags: [evo-tactics, reconstruction, item1, doc-status, governance, spec-readines
 
 # Item 1 spec-readiness map (2026-06-09)
 
+> ✅ **ITEM-1 COMPLETE 2026-06-17: 17/17 SPEC a `doc_status: active`.** Mappa CHIUSA (storica).
+> Tutte SPEC-A..Q flippate; ultimi flip J/F/K (#2816), B (#2818), H (#2820 flip-as-ratification).
+> Forward-work residuo = SOLO build (Godot K-01..K-07 + SPEC-H impl + N=40 flip), in `BACKLOG.md` +
+> piano coordinato `docs/planning/2026-06-17-post-item1-coordinated-plan.md`. NON usare la tabella sotto.
+
 > **CHECKPOINT 2026-06-10 (sera): questa mappa e' BASELINE STORICA** -- scritta il
 > 2026-06-09, superata dagli eventi della mega-sessione 2026-06-10 (L-075: la tabella
 > sotto dice ancora "NO flip" per spec ormai active). Stato flip REALE = registry
