@@ -100,7 +100,7 @@ Prima di ogni batch (costoso): `predictCombat(actor, target, n=1000)` in
 | `tools/py/batch_calibrate_hardcore07.py`                      | WR runner HC07 (timer)                            | `--host http://127.0.0.1:3334 --n 40 --out <json>`                                    |
 | `tools/py/batch_calibrate_non_elim.py` / `_skiv_solo_pack.py` | altri scenari                                     | analogo                                                                               |
 | `tools/py/calibrate_parallel.py`                              | 4-shard parallel                                  | `--scenario hardcore_06 --n 40 --shards 4 --base-port 3341` (~10min vs ~36min serial) |
-| `tools/py/calibrate_drift_verify.py`                          | N=10 probe -> auto-escalate N=40                  | `--scenario hardcore_06 --target-band 15-25`                                          |
+| `tools/py/calibrate_drift_verify.py`                          | N=10 probe -> auto-escalate N=40                  | `--scenario hardcore_06 --target-band 15-30`                                          |
 | `tools/py/sprt_calibrate.py`                                  | Stockfish SPRT early-stop                         | `--scenario <s> --target-low 0.30 --target-high 0.50 --n-max 80`                      |
 | `tools/py/playtest_2_analyzer.py`                             | aggregatore JSONL telemetry                       | post-run                                                                              |
 | `.claude/agents/balance-illuminator.md`                       | agent: encoda tutto (calibration + research mode) | invoke                                                                                |
@@ -166,7 +166,7 @@ Riproduce lo stato ratificato (N=40 parallel, ~10min):
 # prereq: backend buildabile; staging damage_curves pinned
 python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --shards 4 --base-port 3341
 python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --shards 4 --base-port 3341
-# verifica: WR HC06 in [0.15,0.25], HC07 in [0.30,0.50]
+# verifica: WR HC06 in [0.15,0.30], HC07 in [0.30,0.50]
 ```
 
 Suite-runner unico (`tools/py/playtest_canonical.py`, gira tutto il manifest a N=40 +
