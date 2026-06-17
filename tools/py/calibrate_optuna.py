@@ -70,7 +70,7 @@ BACKEND_INDEX = REPO_ROOT / "apps" / "backend" / "index.js"
 SCENARIO_CFG = {
     "hardcore_06": {
         "scenario_id": "enc_tutorial_06_hardcore",
-        "target_band": (0.15, 0.25),
+        "target_band": (0.15, 0.30),
         "target_center": 0.20,
         "batch_script": "batch_calibrate_hardcore06.py",
         # OD-032 A+C: boss_hp = difficulty/WR lever; enemy_damage = lethality lever
@@ -89,10 +89,11 @@ SCENARIO_CFG = {
         "fixed_overrides": {"turn_limit_defeat_override": 41},
         "extra_batch_args": ["--encounter-class", "hardcore"],
         # Multi-band objective = CANONICAL hardcore target_bands (damage_curves.yaml
-        # hardcore: win 15-25%, defeat 75-85%, timeout 0-5%, revised OD-032
-        # 2026-05-21). WR primary-weighted (hard constraint). See parse_objective_multiband.
+        # hardcore: win 15-30%, defeat 75-85%, timeout 0-5%, revised OD-032
+        # 2026-05-21; WR upper widened 25->30% 2026-06-17 master-dd decision A).
+        # WR primary-weighted (hard constraint). See parse_objective_multiband.
         "secondary_bands": {
-            "win_rate": (0.15, 0.25),
+            "win_rate": (0.15, 0.30),
             "defeat_rate": (0.75, 0.85),
             "timeout_rate": (0.00, 0.05),
         },

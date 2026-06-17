@@ -42,9 +42,11 @@ def test_load_missing_class_returns_none():
 def test_hardcore_bands_match_adr():
     """OD-032 (2026-05-21) band revised to engine reality: hardcore win 15-25%,
     defeat 75-85%, timeout 0-5%. turn_limit_defeat=25 converts unresolved games
-    to defeat at turn 25 (M7 anti-stalemate timer) → timeout ~0 structurally."""
+    to defeat at turn 25 (M7 anti-stalemate timer) -> timeout ~0 structurally.
+    2026-06-17 (master-dd decision A): WR upper widened 25->30% (asymmetric;
+    absorbs hc06 steep boss_hp-lever upper variance, knob unchanged ~22-23%)."""
     b = load_target_bands("hardcore")
-    assert b["win_rate"] == [0.15, 0.25]
+    assert b["win_rate"] == [0.15, 0.30]
     assert b["defeat_rate"] == [0.75, 0.85]
     assert b["timeout_rate"] == [0.00, 0.05]
 
@@ -58,7 +60,7 @@ def test_boss_bands_match_adr():
 
 def test_verdict_green_when_in_band():
     b = load_target_bands("hardcore")
-    # win 0.20 in [0.15,0.25], defeat 0.80 in [0.75,0.85], timeout 0.02 in [0.00,0.05]
+    # win 0.20 in [0.15,0.30], defeat 0.80 in [0.75,0.85], timeout 0.02 in [0.00,0.05]
     v, _ = verdict_for(0.20, 0.80, 0.02, b)
     assert v == "GREEN"
 
@@ -66,8 +68,8 @@ def test_verdict_green_when_in_band():
 def test_verdict_amber_within_5pp():
     """±5pp tolerance da band edge."""
     b = load_target_bands("hardcore")
-    # win_rate 0.28 is 3pp sopra hi (0.25) → AMBER; defeat+timeout in-band
-    v, reasons = verdict_for(0.28, 0.80, 0.02, b)
+    # win_rate 0.33 is 3pp sopra hi (0.30) -> AMBER; defeat+timeout in-band
+    v, reasons = verdict_for(0.33, 0.80, 0.02, b)
     assert v == "AMBER"
     assert any("win_rate" in r for r in reasons)
 

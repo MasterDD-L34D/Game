@@ -106,7 +106,7 @@ test('getTargetBands: returns 3 rate ranges for class', () => {
   loadDamageCurves();
   const bands = getTargetBands('hardcore');
   assert.ok(bands);
-  assert.deepEqual(bands.win_rate, [0.15, 0.25]);
+  assert.deepEqual(bands.win_rate, [0.15, 0.3]);
   assert.deepEqual(bands.defeat_rate, [0.75, 0.85]);
   assert.deepEqual(bands.timeout_rate, [0.0, 0.05]);
 });

@@ -47,7 +47,7 @@ BACKEND_INDEX = REPO_ROOT / "apps" / "backend" / "index.js"
 SCENARIO_MAP = {
     "hardcore_06": {
         "script": "batch_calibrate_hardcore06.py",
-        "target_band": (0.15, 0.25),
+        "target_band": (0.15, 0.30),
         "scenario_id": "enc_tutorial_06_hardcore",
         "encounter_class": "hardcore",
         "extra_args": ["--encounter-class", "hardcore"],
