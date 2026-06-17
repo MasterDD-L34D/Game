@@ -15,6 +15,7 @@ const {
   runRules,
   partitionByBaseline,
   checkCanonConsistency,
+  loadCanonIndex,
 } = require('../../scripts/check-canon-consistency.cjs');
 
 // Minimal index fixture helpers -- only the slices each rule needs.
@@ -109,6 +110,17 @@ describe('rule: biome-refs', () => {
 
   test('missing/optional biome field -> not a violation', () => {
     const index = idx({ biomeIds, species: [{ species_id: 'no_biome_sp' }] });
+    assert.deepEqual(ruleBiomeRefs(index), []);
+  });
+
+  test('case-insensitive match (loadCanonIndex lowercases ids + aliases) -> no violation', () => {
+    // The real index stores lowercased {biome ids UNION aliases}; an UPPERCASE
+    // ref (e.g. echo-wing FORESTA_TEMPERATA / CRYOSTEPPE) must resolve.
+    const index = idx({
+      biomeIds: new Set(['badlands']),
+      species: [{ species_id: 'shout', biome_affinity: 'BADLANDS' }],
+      packCreatures: [{ id: 'shout-c', biomes: ['Badlands'] }],
+    });
     assert.deepEqual(ruleBiomeRefs(index), []);
   });
 });
@@ -255,14 +267,16 @@ describe('e2e: real canon vs committed baseline (CI gate)', () => {
     );
   });
 
-  // Negative control (L-041): proves the gate is not vacuous -- the real dataset
-  // DOES contain known debt, so against an empty baseline it MUST surface as new.
-  test('negative control: known debt surfaces as NEW against an empty baseline', () => {
-    const { violations } = checkCanonConsistency({ datasetRoot, baselinePath });
-    const { newViolations } = partitionByBaseline(violations, []);
+  // Negative control (L-041): proves the gate is not vacuous. The real dataset is now
+  // clean (baseline empty), so we INJECT a synthetic dangling ref and assert it is caught
+  // as a NEW violation -- debt-independent (does not rely on pre-existing debt existing).
+  test('negative control: an injected dangling biome ref is caught as a NEW violation', () => {
+    const index = loadCanonIndex({ datasetRoot });
+    index.species.push({ species_id: '__nc_synthetic__', biome_affinity: '__no_such_biome__' });
+    const { newViolations } = partitionByBaseline(runRules(index), []);
     assert.ok(
-      newViolations.length > 0,
-      'expected the real dataset to contain baselined debt (gate must be able to fail)',
+      newViolations.some((v) => v.entity === '__nc_synthetic__'),
+      'gate must detect an injected dangling ref (not vacuous)',
     );
   });
 });

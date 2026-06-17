@@ -1,6 +1,6 @@
 # QA export changelog
 
-Generato: 2026-06-13T22:24:21.724133Z
+Generato: 2026-06-17T19:01:30.175781Z
 Baseline precedente: 2026-06-13T22:24:21.724133Z
 
 ## Metriche baseline
@@ -8,7 +8,7 @@ Baseline precedente: 2026-06-13T22:24:21.724133Z
 - Glossario OK: 254 (0 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
 - Mismatch matrice: 76 (0 vs precedente)
-- Tratti con conflitti: 34 (0 vs precedente)
+- Tratti con conflitti: 28 (-6 vs precedente)
 
 ## Highlights UI
 - Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
@@ -33,6 +33,6 @@ Baseline precedente: 2026-06-13T22:24:21.724133Z
 
 ## Badge QA
 - Tratti passed: 254 (0 vs precedente)
-- Conflitti badge: 34 (0 vs precedente)
+- Conflitti badge: 28 (-6 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_

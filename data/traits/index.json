@@ -2558,9 +2558,7 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "ossidazione_rapida"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.corazze_ferro_magnetico.mutazione_indotta",
       "uso_funzione": "i18n:traits.corazze_ferro_magnetico.uso_funzione",
       "spinta_selettiva": "i18n:traits.corazze_ferro_magnetico.spinta_selettiva",
@@ -2808,9 +2806,7 @@
       "tier": "T1",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "affaticamento_oculare"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.membrane_fotoconvoglianti.mutazione_indotta",
       "uso_funzione": "i18n:traits.membrane_fotoconvoglianti.uso_funzione",
       "spinta_selettiva": "i18n:traits.membrane_fotoconvoglianti.spinta_selettiva",
@@ -2841,9 +2837,7 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "immunoscossa"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.nebbia_mnesica.mutazione_indotta",
       "uso_funzione": "i18n:traits.nebbia_mnesica.uso_funzione",
       "spinta_selettiva": "i18n:traits.nebbia_mnesica.spinta_selettiva",
@@ -3091,9 +3085,7 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "corrosione_instabile"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.secrezioni_antistatiche.mutazione_indotta",
       "uso_funzione": "i18n:traits.secrezioni_antistatiche.uso_funzione",
       "spinta_selettiva": "i18n:traits.secrezioni_antistatiche.spinta_selettiva",
@@ -3186,9 +3178,7 @@
       "tier": "T1",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "overcharge_cronico"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.squame_diffusori_ionici.mutazione_indotta",
       "uso_funzione": "i18n:traits.squame_diffusori_ionici.uso_funzione",
       "spinta_selettiva": "i18n:traits.squame_diffusori_ionici.spinta_selettiva",
@@ -3219,9 +3209,7 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [],
-      "conflitti": [
-        "stress_spike"
-      ],
+      "conflitti": [],
       "mutazione_indotta": "i18n:traits.vortice_nera_flash.mutazione_indotta",
       "uso_funzione": "i18n:traits.vortice_nera_flash.uso_funzione",
       "spinta_selettiva": "i18n:traits.vortice_nera_flash.spinta_selettiva",

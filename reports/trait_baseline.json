@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-06-13T22:24:21.724133Z",
+  "generated_at": "2026-06-17T19:01:30.175781Z",
   "summary": {
     "total_traits": 254,
     "glossary_ok": 254,
     "glossary_missing": 0,
     "matrix_ok": 178,
     "matrix_mismatch": 76,
-    "with_conflicts": 34,
+    "with_conflicts": 28,
     "matrix_only_traits": 44
   },
   "traits": [
@@ -11228,9 +11228,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "ossidazione_rapida"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -21364,9 +21362,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "affaticamento_oculare"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -22668,9 +22664,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "immunoscossa"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -26925,9 +26919,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "corrosione_instabile"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -28100,9 +28092,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "overcharge_cronico"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -29298,9 +29288,7 @@
         "glossary": "ok",
         "matrix": "mismatch"
       },
-      "conflicts": [
-        "stress_spike"
-      ],
+      "conflicts": [],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",

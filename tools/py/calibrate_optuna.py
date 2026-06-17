@@ -104,8 +104,10 @@ SCENARIO_CFG = {
         "target_center": 0.40,
         "batch_script": "batch_calibrate_hardcore07.py",
         "knob_space": {
-            "enemy_count_modifier": ("int", -2, 2),
-            # Future: add enemy_damage_multiplier_override once knob implemented
+            # hc07 WR lever = enemy_damage_multiplier_override (ratified 2.5 -> 42% WR,
+            # damage_curves.yaml). enemy_count -1 was REJECTED (inverted dir, 3a iter1) --
+            # it is NOT the WR lever, so searching it cannot reproduce the ratified value.
+            "enemy_damage_multiplier_override": ("float", 1.5, 2.5),
         },
         "extra_batch_args": [],
     },
