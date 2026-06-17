@@ -72,8 +72,16 @@ encounter_classes:
     # low enemy_damage) -- fragile (iter7 hit 67% uncontrolled) and re-opens the
     # stalemate M7 closed. enemy_damage_multiplier_override knob now wired for
     # hc06 (OD-032 C) if that path is pursued.
+    # 2026-06-17 (master-dd decision A, decision backlog): WR upper bound widened
+    # 0.25 -> 0.30 (ASYMMETRIC: lower 0.15 unchanged). hc06's boss_hp lever is
+    # razor-steep + node/V8-sensitive at the cliff (see #2764 node-22 re-cal),
+    # so the upper tail varies more than a flat knob would; the wider ceiling
+    # absorbs that variance without touching the calibrated knob. WR stays
+    # ~22-23% @ N=100 (boss_hp 1.02, ratified #2764) = in-band by construction;
+    # no re-calibration, tolerance increase only. (B2 gate-policy-random = the
+    # other half of decision A; its dossier is uncommitted -> NOT implemented.)
     target_bands:
-      win_rate: [0.15, 0.25]
+      win_rate: [0.15, 0.30]
       defeat_rate: [0.75, 0.85]
       timeout_rate: [0.00, 0.05]
     # M7-#2 Phase E iter7 (post iter6 RED wr 63.3%): 1.4 → 1.8 (+0.4).
