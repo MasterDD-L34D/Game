@@ -67,3 +67,17 @@ test('accumulate: missing unitId or biomeId -> no-op returning a clone (no garba
   assert.deepEqual(accumulate({ p1: { savana: 3 } }, 'p1', null, 5), { p1: { savana: 3 } });
   assert.deepEqual(accumulate({ p1: { savana: 3 } }, '', '', 5), { p1: { savana: 3 } });
 });
+
+test('accumulate: GUARDRAIL rejects prototype-pollution keys (Codex P1) -- no global poison', () => {
+  // unitId = __proto__ would otherwise index Object.prototype and poison every object.
+  for (const evil of ['__proto__', 'constructor', 'prototype']) {
+    const r1 = accumulate({ p1: { savana: 3 } }, evil, 'savana', 9);
+    assert.deepEqual(r1, { p1: { savana: 3 } }, `reserved unitId ${evil} -> no-op clone`);
+    const r2 = accumulate({ p1: { savana: 3 } }, 'p1', evil, 9);
+    assert.deepEqual(r2, { p1: { savana: 3 } }, `reserved biomeId ${evil} -> no-op clone`);
+  }
+  // No prototype anywhere was polluted by any of the above writes.
+  assert.equal({}.savana, undefined, 'Object.prototype not polluted');
+  assert.equal({}.polluted, undefined, 'no stray polluted key');
+  assert.equal(Object.prototype.savana, undefined, 'Object.prototype clean');
+});
