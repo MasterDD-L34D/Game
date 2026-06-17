@@ -26,3 +26,12 @@ def test_analyze_corpus_selects_least_collinear():
     assert rep["selected"] in ("A_sustained_threat", "B_time_avg", "C_apex_reach")
     names = [r["name"] for r in rep["ranked"]]
     assert names.index("A_sustained_threat") < names.index("B_time_avg")
+
+
+def test_synthetic_corpus_smoke():
+    from pe_experiment import synthetic_corpus
+    corpus = synthetic_corpus(n=20, seed_bias=0.5)
+    assert len(corpus) == 20
+    rep = analyze_corpus(corpus)
+    assert "ranked" in rep and len(rep["ranked"]) == 3
+    assert "verdict" in rep

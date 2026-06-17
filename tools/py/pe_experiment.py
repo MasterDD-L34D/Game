@@ -42,16 +42,58 @@ def analyze_corpus(corpus, eased_run=None):
                             eased_value=eased_value)
 
 
+def synthetic_corpus(n=20, seed_bias=0.5):
+    """Deterministic synthetic corpus for the dry-run smoke (no backend, no randomness):
+    half wins / half losses, with pressure stats that mimic the real collinearity
+    (wins -> higher mean/pmax) so the analysis exercises end-to-end."""
+    corpus = []
+    for i in range(n):
+        won = (i % 2 == 0)
+        mean = 90.0 if won else 60.0
+        corpus.append({
+            "outcome": "victory" if won else "defeat",
+            "pressure_frac_ge75": 0.9 if won else 0.3,
+            "pressure_mean": mean,
+            "pressure_pmax": 99.0 if won else 80.0,
+        })
+    return corpus
+
+
+def make_corpus_from_backend(repo, scenario_key, *, seed=424242, n=100, shards=4):
+    """BACKEND-DEPENDENT maintainer path: run calibrate_parallel seed-pinned on node 22, read
+    the merged runs (each now carrying the per-run pressure stats), return the corpus.
+    Validated by the maintainer on a real run; not unit-tested (no backend in CI)."""
+    import json
+    import subprocess
+    import tempfile
+    tmp = Path(tempfile.gettempdir())
+    cmd = [sys.executable, str(Path(repo) / "tools/py/calibrate_parallel.py"),
+           "--scenario", scenario_key, "--n", str(n), "--seed", str(seed),
+           "--shards", str(shards), "--out-dir", str(tmp), "--label", "pe-exp"]
+    subprocess.run(cmd, cwd=repo, check=True)
+    merged = sorted(tmp.glob("*pe-exp*.json"), key=lambda p: p.stat().st_mtime)
+    data = json.loads(merged[-1].read_text(encoding="utf-8")) if merged else {}
+    return data.get("runs", [])
+
+
 def main():
     import argparse
     import json
 
     ap = argparse.ArgumentParser(description="PE_ratio orthogonality experiment (analysis)")
-    ap.add_argument("--corpus", required=True,
+    ap.add_argument("--corpus", required=False,
                     help="JSON: a list of run records (pressure_frac_ge75/pressure_mean/"
                          "pressure_pmax/outcome), e.g. the merged calibrate_parallel runs.")
     ap.add_argument("--eased", help="optional JSON: one trivialized-knob run record (discrimination).")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="analyze a deterministic synthetic corpus (no backend); smoke only")
     args = ap.parse_args()
+    if args.dry_run:
+        print(json.dumps(analyze_corpus(synthetic_corpus()), indent=2))
+        return 0
+    if not args.corpus:
+        print("--corpus <runs.json> required (or --dry-run)", file=sys.stderr)
+        return 2
     corpus = json.loads(Path(args.corpus).read_text(encoding="utf-8"))
     if isinstance(corpus, dict):
         corpus = corpus.get("runs", [])
