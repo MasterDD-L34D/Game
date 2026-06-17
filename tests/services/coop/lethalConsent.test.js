@@ -47,6 +47,13 @@ test('confirm: an at-risk player confirms; all confirmed -> granted', () => {
   assert.equal(lc.outcome(s), 'granted');
 });
 
+test('confirm: a confirm at now=0 counts (timestamp 0 must not read as unconfirmed)', () => {
+  let s = lc.open(['p1'], { now: 0, timeoutMs: 5000 });
+  s = lc.confirm(s, 'p1', { now: 0 });
+  assert.equal(s.status, 'granted', 'ts=0 confirm must resolve to granted');
+  assert.equal(lc.snapshot(s).confirmed_count, 1);
+});
+
 test('confirm: a non-at-risk player is ignored (cannot grant for others)', () => {
   let s = lc.open(['p1'], { now: 0 });
   s = lc.confirm(s, 'intruder', { now: 5 });

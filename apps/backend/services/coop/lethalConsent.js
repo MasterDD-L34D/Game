@@ -51,8 +51,15 @@ function open(atRiskPlayerIds, { now = 0, timeoutMs = DEFAULT_TIMEOUT_MS } = {})
   };
 }
 
+// Presence check by own-key, NOT truthiness: a confirm stores the timestamp,
+// which is 0 at t=0 (falsy) -- `state.confirmed[id]` would wrongly read as
+// "not confirmed". hasOwnProperty is timestamp-value-agnostic.
+function _hasConfirmed(state, id) {
+  return Object.prototype.hasOwnProperty.call(state.confirmed, id);
+}
+
 function _allConfirmed(state) {
-  return state.at_risk.length > 0 && state.at_risk.every((id) => state.confirmed[id]);
+  return state.at_risk.length > 0 && state.at_risk.every((id) => _hasConfirmed(state, id));
 }
 
 /**
@@ -106,7 +113,7 @@ function snapshot(state) {
       status: 'pending',
     };
   const total = state.at_risk.length;
-  const confirmed_count = state.at_risk.filter((id) => state.confirmed[id]).length;
+  const confirmed_count = state.at_risk.filter((id) => _hasConfirmed(state, id)).length;
   return {
     total,
     confirmed_count,

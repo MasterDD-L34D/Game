@@ -1296,6 +1296,11 @@ class CoopOrchestrator {
     this.formPulses.clear();
     this.emergentBrancoTrait = null;
     this.revealAcks.clear();
+    // Codex #2794 P1: consent is per-scenario (a lethal mission = a scenario),
+    // but the run keeps the same run.id == campaign_id across scenarios. Without
+    // this, a consent granted for scenario A would still resolve `granted` for
+    // scenario B's KO bridge -> a stale-consent permadeath. Clear it on advance.
+    this.lethalConsent = null;
     this._setPhase('world_setup');
     return {
       action: 'next_scenario',
