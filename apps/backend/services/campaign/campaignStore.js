@@ -77,6 +77,16 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts =
     emergentBrancoTrait: opts.emergentBrancoTrait || null,
     // SPEC-P A13 -- biomi feriti cross-run (degrade bounded, cap 2). Persistito qui.
     woundedBiomes: Array.isArray(opts.woundedBiomes) ? [...opts.woundedBiomes] : [],
+    // OD-059 (#1673) -- campaign-scoped READ-ONLY NARRATIVE biome-familiarity
+    // carry-over `{ [unitId]: { [biomeId]: turns } }`. Accumulates ACROSS the
+    // encounters/sessions of one run (the carry-over `unit.cumulative_biome_turns`
+    // -- session-scoped, mechanical, inert -- never gave). SEPARATE namespace from
+    // that primitive; never coupled. Narrative-only: read by the debrief surface,
+    // read by NO combat resolver / mutation / reinforcement / pressure (band-safe).
+    biomeMemory:
+      opts.biomeMemory && typeof opts.biomeMemory === 'object'
+        ? structuredClone(opts.biomeMemory)
+        : {},
     // SPEC-I ER7 -- popolazione discreta per ruolo trofico, cross-run. Avanza a
     // season-tick (campaign.js advance-season). { [biomeId]: { apex|prey|... :
     // { state:'abundant'|'stable'|'depleted', seasons:int } } }. Vuoto = nessun
@@ -192,6 +202,46 @@ function getPermanentFlag(id, key) {
   return list.find((f) => f.key === key) || null;
 }
 
+/**
+ * OD-059 (#1673) -- accumulate per-unit per-biome familiarity turns onto the
+ * campaign (READ-ONLY NARRATIVE carry-over). Additive via the pure
+ * `biomeMemory.accumulate` (immutable) + `updateCampaign`. Calling this across the
+ * separate sessions of the SAME campaign run accumulates (the OD-059 fix).
+ *
+ * Band-safe by construction: writes ONLY `campaign.biomeMemory`. Never touches
+ * `unit.cumulative_biome_turns` (the mechanical/inert primitive) or any combat
+ * state. Returns the updated campaign, or null when the campaign is not found.
+ *
+ * @param {string} id campaign id
+ * @param {string} unitId player unit id
+ * @param {string} biomeId biome id
+ * @param {number} delta turns to add for this encounter
+ * @returns {object|null}
+ */
+function recordBiomeTurns(id, unitId, biomeId, delta) {
+  const cur = _campaigns.get(id);
+  if (!cur) return null;
+  const { accumulate } = require('./biomeMemory');
+  const next = accumulate(cur.biomeMemory || {}, unitId, biomeId, delta);
+  return updateCampaign(id, { biomeMemory: next });
+}
+
+/**
+ * OD-059 -- read accessor for one unit's biome-familiarity map. Pure read, never
+ * mutates. Returns a clone `{ [biomeId]: turns }`, or `{}` when the campaign /
+ * unit is unknown.
+ *
+ * @param {string} id campaign id
+ * @param {string} unitId player unit id
+ * @returns {object} `{ [biomeId]: int }`
+ */
+function getBiomeMemory(id, unitId) {
+  const cur = _campaigns.get(id);
+  if (!cur || !unitId) return {};
+  const inner = (cur.biomeMemory || {})[unitId];
+  return inner && typeof inner === 'object' ? { ...inner } : {};
+}
+
 function deleteCampaign(id) {
   const cur = _campaigns.get(id);
   if (!cur) return false;
@@ -215,6 +265,8 @@ module.exports = {
   recordChapter,
   recordPermanentFlag,
   getPermanentFlag,
+  recordBiomeTurns,
+  getBiomeMemory,
   deleteCampaign,
   _resetStore,
 };
