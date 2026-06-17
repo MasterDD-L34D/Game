@@ -140,10 +140,14 @@ test('resolveKoOutcome: bad unit -> soft, never throws', () => {
 
 // --- markCreatureFallen (state mutation, pure of I/O) --------------------
 
-test('markCreatureFallen: sets fallen state, hp=0, returns descriptor', () => {
+test('markCreatureFallen: sets the fallen marker TOP-LEVEL (survives round-sync), hp=0', () => {
   const u = playerUnit({ hp: 5, species_id: 'dune_stalker', name: 'Skiv' });
   const desc = lethalDeath.markCreatureFallen(u, { encounter_id: 'enc_x', turn: 4 });
-  assert.equal(u.status.fallen, true);
+  // Codex #2789 P2: status.* is rebuilt by syncStatusesFromRoundState (only
+  // wounds/wounded_perma whitelisted) -> the canonical marker MUST be top-level
+  // (publicSessionView spreads ...u, so clients see it; round-sync never touches
+  // top-level unit fields).
+  assert.equal(u.fallen, true);
   assert.equal(u.alive, false);
   assert.equal(u.hp, 0);
   assert.equal(desc.fallen, true);
@@ -155,9 +159,9 @@ test('markCreatureFallen: sets fallen state, hp=0, returns descriptor', () => {
 });
 
 test('markCreatureFallen: idempotent (already fallen -> no error, stays fallen)', () => {
-  const u = playerUnit({ status: { fallen: true } });
+  const u = playerUnit({ fallen: true });
   const desc = lethalDeath.markCreatureFallen(u, {});
-  assert.equal(u.status.fallen, true);
+  assert.equal(u.fallen, true);
   assert.equal(desc.fallen, true);
   assert.equal(desc.already_fallen, true);
 });
@@ -208,7 +212,7 @@ test('applyLethalKoIfDead: target not KO (hp>0) -> soft, no emit, not fallen', (
     const r = lethalDeath.applyLethalKoIfDead(u, lethalSession(), { emitCreatureFell: emit });
     assert.equal(r.outcome, 'soft');
     assert.equal(emit.calls.length, 0);
-    assert.notEqual(u.status.fallen, true);
+    assert.notEqual(u.fallen, true);
   });
 });
 
@@ -220,7 +224,7 @@ test('applyLethalKoIfDead: kill switch OFF (default) -> soft, not fallen, no emi
     assert.equal(r.outcome, 'soft');
     assert.equal(r.reason, 'lethal_disabled');
     assert.equal(emit.calls.length, 0);
-    assert.notEqual(u.status.fallen, true);
+    assert.notEqual(u.fallen, true);
   });
 });
 
@@ -231,7 +235,7 @@ test('applyLethalKoIfDead: enabled + lethal + consent + player KO -> death, fall
     const r = lethalDeath.applyLethalKoIfDead(u, lethalSession(), { emitCreatureFell: emit });
     assert.equal(r.outcome, 'death');
     assert.equal(r.fallen, true);
-    assert.equal(u.status.fallen, true);
+    assert.equal(u.fallen, true);
     assert.equal(emit.calls.length, 1);
     assert.equal(emit.calls[0].campaign_id, 'camp_1');
     assert.equal(emit.calls[0].creature_id, 'p1');
@@ -240,6 +244,19 @@ test('applyLethalKoIfDead: enabled + lethal + consent + player KO -> death, fall
     assert.equal(emit.calls[0].turn, 6);
     // biome falls back to the session biome when the unit carries none.
     assert.equal(emit.calls[0].biome_id, 'badlands');
+  });
+});
+
+test('applyLethalKoIfDead: encounter_id falls back to the stored YAML payload', () => {
+  // Codex #2789 P2: /api/session/start loads the YAML into session.encounter but
+  // never assigns session.encounter_id -> provenance would be null. Resolve it
+  // from session.encounter.{encounter_id,id}.
+  withLethalEnv('true', () => {
+    const u = playerUnit({ hp: 0 });
+    const emit = fakeEmitter();
+    const sess = lethalSession({ encounter_id: undefined, encounter: { id: 'enc_yaml_07' } });
+    lethalDeath.applyLethalKoIfDead(u, sess, { emitCreatureFell: emit });
+    assert.equal(emit.calls[0].encounter_id, 'enc_yaml_07');
   });
 });
 
@@ -257,7 +274,7 @@ test('applyLethalKoIfDead: lethal mission WITHOUT consent -> soft, not fallen, n
     assert.equal(r.outcome, 'soft');
     assert.equal(r.reason, 'no_consent');
     assert.equal(emit.calls.length, 0);
-    assert.notEqual(u.status.fallen, true);
+    assert.notEqual(u.fallen, true);
   });
 });
 
@@ -270,6 +287,6 @@ test('applyLethalKoIfDead: a throwing emitter still records the death (chronicle
     const r = lethalDeath.applyLethalKoIfDead(u, lethalSession(), { emitCreatureFell: boom });
     assert.equal(r.outcome, 'death');
     assert.equal(r.fallen, true);
-    assert.equal(u.status.fallen, true);
+    assert.equal(u.fallen, true);
   });
 });

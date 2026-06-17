@@ -77,9 +77,14 @@ function resolveKoOutcome(unit, ctx = {}) {
  */
 function markCreatureFallen(unit, opts = {}) {
   if (!unit || typeof unit !== 'object' || !unit.id) return { fallen: false };
-  const alreadyFallen = !!(unit.status && unit.status.fallen);
-  if (!unit.status || typeof unit.status !== 'object') unit.status = {};
-  unit.status.fallen = true;
+  const alreadyFallen = !!unit.fallen;
+  // Codex #2789 P2: the canonical marker is TOP-LEVEL (`unit.fallen`), NOT under
+  // `unit.status`. syncStatusesFromRoundState (sessionRoundBridge) rebuilds
+  // `unit.status` from the orchestrator status list and only whitelists
+  // wounds/wounded_perma, so a `status.fallen` would be wiped after the next
+  // round sync. Top-level unit fields are never rebuilt and publicSessionView
+  // spreads `...u`, so clients + later consumers see `fallen`.
+  unit.fallen = true;
   unit.alive = false;
   unit.hp = 0;
   const desc = {
@@ -104,6 +109,20 @@ function markCreatureFallen(unit, opts = {}) {
  */
 function isConsentGranted(session) {
   return !!(session && session.lethalConsent && session.lethalConsent.granted === true);
+}
+
+/**
+ * Resolve the encounter id for death provenance. Codex #2789 P2: /api/session/start
+ * loads the YAML payload into `session.encounter` but never assigns
+ * `session.encounter_id`, so reading that field alone yields null for YAML
+ * encounters. Fall back to the stored payload's `encounter_id` / `id`.
+ */
+function resolveEncounterId(session) {
+  if (!session || typeof session !== 'object') return null;
+  if (session.encounter_id) return session.encounter_id;
+  const enc = session.encounter;
+  if (enc && typeof enc === 'object') return enc.encounter_id || enc.id || null;
+  return null;
 }
 
 /**
@@ -134,7 +153,7 @@ function applyLethalKoIfDead(target, session, deps = {}) {
   });
   if (outcome.outcome !== 'death') return outcome;
   const desc = markCreatureFallen(target, {
-    encounter_id: session && session.encounter_id,
+    encounter_id: resolveEncounterId(session),
     turn: session && session.turn,
   });
   try {
