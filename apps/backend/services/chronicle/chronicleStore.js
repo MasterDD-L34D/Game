@@ -38,6 +38,8 @@ const ALLOWED_EVENT_TYPES = new Set([
   'creature_death',
   'mutation_acquired',
   'scar_earned', // SPEC-J wound -> narrative layer
+  'scar_healed', // SPEC-J sez.6 Nido ritual outcome (clean recovery)
+  'scar_transformed', // SPEC-J sez.6 Nido ritual outcome (failure-as-lore mark)
   'legacy_formed', // M-2 legacy figure
   'run_failed', // A3 failure-as-lore (SPEC-P)
   'biome_wound', // A13 biome-wound cross-run (SPEC-P)

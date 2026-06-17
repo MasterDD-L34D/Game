@@ -3358,6 +3358,71 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // POST /api/session/:id/nido/ritual — SPEC-J sez.6 Nido wound ritual (J3).
+  // Heal or transform a creature's `grave` scar. The ritual ACTION is `private`
+  // (device-owned, SPEC-K 7.6); its esito is `public` (chronicle scar_healed /
+  // scar_transformed). Operates on the live scar (status.wounds + the persisted
+  // cross-encounter map session.lastMissionWounds). Resource cost (SPEC-E E6) is
+  // NOT enforced here — the campaign resource pool is Godot/client-owned
+  // (godotV2State); the caller is trusted to have paid. 409 when no scar.
+  //   body: { unit_id, location, kind: 'heal'|'transform' }
+  router.post('/:id/nido/ritual', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const body = req.body || {};
+      const unitId = String(body.unit_id || '').trim();
+      const location = String(body.location || '').trim();
+      const kind = body.kind;
+      if (!unitId || !location) {
+        return res.status(400).json({ error: 'unit_id + location richiesti' });
+      }
+      if (kind !== 'heal' && kind !== 'transform') {
+        return res.status(400).json({ error: "kind deve essere 'heal' o 'transform'" });
+      }
+      const unit = (session.units || []).find((u) => u && String(u.id) === unitId);
+      if (!unit) return res.status(404).json({ error: `unit ${unitId} non in sessione` });
+      const nidoRitual = require('../services/combat/nidoRitual');
+      const sessionMap = session.lastMissionWounds || null;
+      const result =
+        kind === 'heal'
+          ? nidoRitual.healScar(unit, location, { sessionMap })
+          : nidoRitual.transformScar(unit, location, { sessionMap });
+      const okFlag = kind === 'heal' ? result.healed : result.transformed;
+      if (!okFlag) {
+        return res.status(409).json({ error: 'ritual_unavailable', reason: result.reason, kind });
+      }
+      // esito public -> chronicle (best-effort, never blocks the ritual).
+      try {
+        require('../services/chronicle/chronicleEmitters').emitScarRitual({
+          campaign_id: session.campaign_id,
+          creature_id: unit.id,
+          creature_name: unit.name || null,
+          species_id: unit.species_id || null,
+          kind,
+          location,
+          mark: result.mark || null,
+          turn: session.turn,
+        });
+      } catch {
+        /* chronicle best-effort */
+      }
+      return res.json({
+        session_id: session.session_id,
+        ritual: {
+          kind,
+          unit_id: unit.id,
+          location,
+          scar: result.scar || null,
+          mark: result.mark || null,
+        },
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // TKT-M15 — Promotion engine endpoints.
   //
   // GET /api/session/:id/promotion-eligibility — return all units' promotion

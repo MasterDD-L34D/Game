@@ -187,11 +187,52 @@ function emitCreatureFell(ctx, opts = {}) {
   );
 }
 
+/**
+ * Append a scar-ritual outcome event (SPEC-J sez.6 / J3). The Nido ritual ACTION
+ * is `private` (device-owned), but its ESITO is `public` -- the branco sees the
+ * creature healed or transformed. `kind:'heal'` -> `scar_healed`;
+ * `kind:'transform'` -> `scar_transformed` (carries the failure-as-lore `mark`).
+ * Best-effort: no campaign_id / no creature / bad kind -> no-op. Never throws.
+ *
+ * @param ctx  { campaign_id, creature_id, kind:'heal'|'transform', location?,
+ *               mark?, species_id?, creature_name?, turn?, actor_id? }
+ * @param opts { baseDir? }
+ */
+function emitScarRitual(ctx, opts = {}) {
+  if (!ctx || typeof ctx !== 'object') return { ok: false, error: 'no_ctx' };
+  const runId = ctx.campaign_id;
+  if (!runId) return { ok: false, error: 'no_campaign_id' };
+  if (!ctx.creature_id) return { ok: false, error: 'no_creature' };
+  if (ctx.kind !== 'heal' && ctx.kind !== 'transform') {
+    return { ok: false, error: 'invalid_kind' };
+  }
+  const type = ctx.kind === 'transform' ? 'scar_transformed' : 'scar_healed';
+  return appendEvent(
+    runId,
+    {
+      type,
+      actor_id: ctx.actor_id || ctx.creature_id,
+      tier: 'public',
+      payload: {
+        creature_id: ctx.creature_id,
+        creature_name: ctx.creature_name || null,
+        species_id: ctx.species_id || null,
+        kind: ctx.kind,
+        location: ctx.location || null,
+        mark: ctx.kind === 'transform' ? ctx.mark || null : null,
+        turn: Number.isFinite(Number(ctx.turn)) ? Number(ctx.turn) : null,
+      },
+    },
+    { baseDir: opts.baseDir },
+  );
+}
+
 module.exports = {
   emitRunFailed,
   emitMutationLineage,
   emitHeirloom,
   emitCreatureFell,
+  emitScarRitual,
   deriveHeirloomName,
   DEFEAT_OUTCOMES,
 };
