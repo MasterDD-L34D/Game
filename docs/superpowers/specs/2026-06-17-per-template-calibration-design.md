@@ -189,16 +189,40 @@ design (P4 = honest gate machinery + atomic writer; the metrics wiring is a foll
 ## 6. Advisory stale-band detector (`detect_stale_bands.py`)
 
 Runs on-demand and nightly (extend `ai-sim-nightly.yml`, advisory job). For each ratified
-scenario: run N=40 (seed-pinned) -> if WR/composite OOB AND AI regression tests green (i.e. a
-*correct* change shifted the band, the #2719 signature):
-- Open a GitHub issue using the CANONICAL sec 9 band-invalidation template (scenario, old band,
-  observed WR/composite, suspected culprit via git-bisect hint, N used, seed).
+balance-oracle scenario: run N=40 (seed-pinned) -> if the WR/composite OOB is a *real* drift (a
+*correct* change shifted the band, the #2719 signature -- WR OOB AND AI regression green):
+- Surface a CANDIDATE using the CANONICAL sec 9 fields (scenario, old band [from the STRUCTURED
+  `target_band`, never the note prose], observed WR/composite, suspected culprit via git-bisect
+  HINT, N used, seed). It is a SYMPTOM, not a verdict: the detector CANNOT classify bug-vs-stale
+  (that is a human git-bisect, CANONICAL sec 9 step 2), so the issue is worded as a candidate.
 - NEVER edits the band or the knob. Pure signal.
-- Label `sot-drift-candidate` / `band-invalidation` for human triage + re-ratify.
+- Intended labels `sot-drift-candidate` / `band-invalidation` for human triage + re-ratify.
+
+**False-positive discipline (load-bearing -- from the P5 verify+red-team):** (1) runtime-assert
+canonical node 22 or no verdict (determinism is within-runtime only; the steep hc06 lever reads
+12.5% vs 22% across V8 versions = the #2764 trap); (2) measure the RATIFIED knob, abort if staging
+diverged (the iter3-overshoot transient); (3) **CI-overlap, not point-over-edge** -- flag only if
+the N=40 Wilson CI is band-DISJOINT (hc06's `[0.15,0.30]` vs +-15pp CI is the worst geometry);
+(4) composite is uncomputable today (`pe_ratio` absent, same gap as P4) -> the detector DEGRADES
+GRACEFULLY to WR-only and annotates `composite-pending` (it is ADVISORY, so unlike P4's fail-closed
+write gate it must NOT go silent -- but it must NOT present WR-OK as a clean composite bill of
+health). git-bisect culprit is a HINT (scoped balance+combat commits since the band was ratified),
+NOT an authoritative bisect (no per-commit sim re-run).
+
+**Delivery (owner decision 2026-06-18):** P5 ships the DETECTION core + an injectable seed-pinned
+runner + a `--dry-run`/print-JSON CLI + hermetic tests -- advisory-only, prints candidates, NEVER
+writes. **DEFERRED to a follow-up:** the live `gh issue` emission, the nightly CI job wiring, and
+creating the `band-invalidation` label. Rationale: the label does not yet exist (`gh issue create`
+would hard-fail) and the existing `tools/sot-drift/flag-issue.sh` already produces
+`sot-drift-candidate` (a semantically-different path-drift signal) -- a live P5 emitter would need a
+P5-exclusive dedup discriminator to avoid clobbering it. Emission lands once the SDMG corpus is green.
 
 **SDMG gate**: detector is advisory-only until a harsh-reviewer falsification pass validates its
-true/false-positive behavior on known cases (#2719, #2764, iter3-overshoot). Only then could a
-future ADR consider promoting any of its signals to a gate.
+true/false-positive behavior on known cases (#2719 = MUST flag; #2764 node-drift + iter3-overshoot
+= MUST stay silent). The pass criteria are an explicit checklist (TP on #2719; TN on #2764 at node
+22 + the ratified knob; TN on iter3 transients), not a demo. Only then could a future ADR consider
+promoting any signal to a gate -- and promotion additionally requires (CANONICAL sec 9) a human
+re-ratify at N=100 + the owner registering a required check; never auto-promoted.
 
 ## 7. Optuna integration (first-class, dep approved 2026-06-17)
 
