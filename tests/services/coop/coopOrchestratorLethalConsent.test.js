@@ -80,6 +80,21 @@ test('startRun clears a stale consent round (no carry-over across runs)', () => 
   assert.equal(orch.lethalConsentSnapshot(), null, 'pending round must not survive a new run');
 });
 
+test('advanceScenarioOrEnd clears consent (Codex #2794 P1: no stale-consent across scenarios)', () => {
+  const orch = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1', now: () => 0 });
+  orch.startRun({ scenarioStack: ['e1', 'e2'] });
+  orch.openLethalConsent(['p1'], { timeoutMs: 5000 });
+  orch.confirmLethalConsent('p1'); // granted for scenario A
+  assert.equal(orch.lethalConsentOutcome(), 'granted');
+  orch.advanceScenarioOrEnd(); // -> scenario B (same run.id)
+  assert.equal(
+    orch.lethalConsentSnapshot(),
+    null,
+    'consent must NOT carry into the next scenario (fresh confirm required)',
+  );
+  assert.equal(orch.lethalConsentOutcome(), 'soft');
+});
+
 test('evalLethalConsentTimeout (deliveryFailed) resolves a pending round to soft (host-cancel path)', () => {
   const orch = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'h1', now: () => 0 });
   const events = listen(orch);

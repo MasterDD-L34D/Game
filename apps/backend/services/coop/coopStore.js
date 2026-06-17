@@ -77,7 +77,31 @@ function createCoopStore({ lobby } = {}) {
     return null;
   }
 
-  return { getOrCreate, get, remove, list, clear, linkSession, getFormPulses };
+  // SPEC-J PR2b bridge -- resolve a coop run's lethal-consent outcome by
+  // campaign_id (run.id == campaign_id), mirror of getFormPulses. The combat
+  // session (PR1 death gate) PULLs this on a KO: 'granted' only when every
+  // at-risk player confirmed, 'soft' while pending/timed-out, null when no
+  // round is open (no lethal-consent context for this run).
+  function getLethalConsentOutcome(campaignId) {
+    if (!campaignId) return null;
+    for (const orch of orchestrators.values()) {
+      if (orch?.run?.id === campaignId) {
+        return orch.lethalConsentSnapshot() ? orch.lethalConsentOutcome() : null;
+      }
+    }
+    return null;
+  }
+
+  return {
+    getOrCreate,
+    get,
+    remove,
+    list,
+    clear,
+    linkSession,
+    getFormPulses,
+    getLethalConsentOutcome,
+  };
 }
 
 module.exports = { createCoopStore };
