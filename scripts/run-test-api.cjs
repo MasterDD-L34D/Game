@@ -41,6 +41,13 @@ const steps = [
   // subtree -> single-* glob suffices (no nesting). Verified passing standalone
   // + in-batch (2026-06-17).
   'node --test tests/worldgen/*.test.js',
+  // tests/difficulty/** was also CI-orphaned (anti-pattern #10): calculator +
+  // validator specs never matched a glob above, so the A2 encounter author-guard
+  // (validate_encounter_difficulty.js: pressure_tier_floor <= difficulty_rating)
+  // would NOT actually block a mis-authored encounter at merge. The validator
+  // test runs the script against every real encounter (errors=0), so wiring this
+  // glob makes the guard an enforced gate. Flat subtree -> single-* glob.
+  'node --test tests/difficulty/*.test.js',
 ];
 
 const baseEnv = {
