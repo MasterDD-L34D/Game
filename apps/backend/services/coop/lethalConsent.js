@@ -115,7 +115,13 @@ function evalTimeout(state, { now = 0 } = {}) {
   return state;
 }
 
-/** Anonymous aggregate (F5): counts only, never the per-player roster. */
+/**
+ * Anonymous aggregate (F5): counts only, never the per-player roster.
+ * `timeout_ms` is the round's configured duration (a constant, NOT a roster ->
+ * F5-safe): SPEC-J item-3 J2 -- the Godot client renders the consent countdown
+ * from it instead of hardcoding DEFAULT_TIMEOUT_MS, so a future re-tune of the
+ * value does not desync the client. 0 when no round is open.
+ */
 function snapshot(state) {
   if (!state)
     return {
@@ -124,6 +130,7 @@ function snapshot(state) {
       pending_count: 0,
       all_confirmed: false,
       status: 'pending',
+      timeout_ms: 0,
     };
   const total = state.at_risk.length;
   const confirmed_count = state.at_risk.filter((id) => _hasConfirmed(state, id)).length;
@@ -133,6 +140,7 @@ function snapshot(state) {
     pending_count: Math.max(0, total - confirmed_count),
     all_confirmed: total > 0 && confirmed_count === total,
     status: state.status,
+    timeout_ms: state.timeout_ms,
   };
 }
 
