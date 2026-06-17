@@ -235,9 +235,28 @@ frontiera + J1 + J2 + esecuzione-Godot). Master-dd = **vai** (tutti consigliati)
   roadmap entry + issue). NON buildabile dal repo Game (repo separato, fuori auto-merge L3).
 - Sessione totale (cont 3-5) = **#2798 #2799 #2800 #2801 #2803** + chip Godot.
 
+## Continuazione 6 -- SPEC-J Godot consent surface SHIPPED (chip -> GGv2 #477)
+
+La chip `task_1162a9a2` ha concluso -> **Game-Godot-v2 PR #477 `2508537b` MERGED** (review adversariale:
+spec-faithful, GUT + gdformat green, 7 test, 0 Codex). Il loop lethal-consent e' ora **player-visible
+END-TO-END** (flag OFF):
+
+- `coop_ws_peer.gd`: 4 signal+case (open/waiting = snapshot diretto; resolved/confirm_accepted = unwrap
+  {outcome,consent}) -> niente piu' unknown_type toast.
+- `coop_api.cancel_lethal` (POST /coop/lethal/cancel; NESSUN open-builder = round aperto server-side).
+- phone overlay+wire: J1 confirm-a-tutti, J2 ProgressBar da `snapshot.timeout_ms` (consuma #2803, NO
+  hardcode), J4 lock + "in attesa del branco (N/M)" + dismiss-on-resolved.
+- TV panel: J3 conteggi anonimi + countdown + bottone host-cancel dedicato.
+- `main_lethal_consent.gd` observer: single-dismissal path (cancel -> backend -> resolved broadcast ->
+  dismiss, no double-free). F5 counts-only su entrambe le superfici.
+
+**Flip-gate `LETHAL_MISSIONS_ENABLED`**: (1) Godot consent UI **DONE** #477; (2) author >=1 encounter
+`lethal:true` = TODO; (3) lethal-mission N=40/playtest = TODO; (4) master-dd. -> flip ancora DEFERRED,
+ma il gate UI (l'unico Gate-5 surface-dead) e' CHIUSO.
+
 ## Next frontier (blocked-build, build-vero)
 
-- **SPEC-J backend = DONE e2e** (auto-timer incluso); timeout RATIFIED-PROVISIONAL; residui = SPEC-E (transform-trait/cost) + item-3 (Godot UI = sblocca flip + rende osservabile la countdown) + flip (DEFERRED, master-dd).
+- **SPEC-J**: backend e2e + **Godot consent UI DONE (#477)**; path-to-flip residuo = author >=1 encounter lethal + lethal-mission N=40 + master-dd flip. Nido **ritual UI** = slice item-3 successiva (chip). SPEC-E transform-trait/cost = balance.
 - **A2** = LIVE + magnitude RATIFIED-PROVISIONAL + author-guard CI-enforced; residuo = re-tune UPWARD-only post-playtest-umano (no sim).
 - **H** aliena-enforcement: infra ALIENA GIA' robusta (spawn-bias/reinforcement/telemetry/
   coherence/generator/calibrate); residuo = authoring-gate validator + telemetry + flip (N=40).

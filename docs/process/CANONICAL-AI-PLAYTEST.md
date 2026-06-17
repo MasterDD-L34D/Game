@@ -100,7 +100,7 @@ Prima di ogni batch (costoso): `predictCombat(actor, target, n=1000)` in
 | `tools/py/batch_calibrate_hardcore07.py`                      | WR runner HC07 (timer)                            | `--host http://127.0.0.1:3334 --n 40 --out <json>`                                    |
 | `tools/py/batch_calibrate_non_elim.py` / `_skiv_solo_pack.py` | altri scenari                                     | analogo                                                                               |
 | `tools/py/calibrate_parallel.py`                              | 4-shard parallel                                  | `--scenario hardcore_06 --n 40 --shards 4 --base-port 3341` (~10min vs ~36min serial) |
-| `tools/py/calibrate_drift_verify.py`                          | N=10 probe -> auto-escalate N=40                  | `--scenario hardcore_06 --target-band 15-25`                                          |
+| `tools/py/calibrate_drift_verify.py`                          | N=10 probe -> auto-escalate N=40                  | `--scenario hardcore_06 --target-band 15-30`                                          |
 | `tools/py/sprt_calibrate.py`                                  | Stockfish SPRT early-stop                         | `--scenario <s> --target-low 0.30 --target-high 0.50 --n-max 80`                      |
 | `tools/py/playtest_2_analyzer.py`                             | aggregatore JSONL telemetry                       | post-run                                                                              |
 | `.claude/agents/balance-illuminator.md`                       | agent: encoda tutto (calibration + research mode) | invoke                                                                                |
@@ -137,11 +137,11 @@ Per risultati ri-ottenibili:
 
 Manifest macchina-leggibile: [`docs/playtest/canonical-suite.yaml`](../playtest/canonical-suite.yaml).
 
-| Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)                   | Stato                                                      |
-| ----------------------------------- | ----------------- | ----------------------------------------------------------- | --------------------------- | ---------------------------------------------------------- |
-| `enc_tutorial_06_hardcore`          | 15-25%            | `boss_hp_multiplier: 0.65`                                  | 15-25% (iter2 + #2381)      | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
-| `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.1` (REPLACE class 1.8) | 30-40% (post-wave 5-7 nerf) | IN-BAND                                                    |
-| `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy                | NON balance-oracle (ladder di apprendimento)               |
+| Scenario                            | Band target       | Knob ratificato                                             | WR (ratified)          | Stato                                                      |
+| ----------------------------------- | ----------------- | ----------------------------------------------------------- | ---------------------- | ---------------------------------------------------------- |
+| `enc_tutorial_06_hardcore`          | 15-30%            | `boss_hp_multiplier: 1.02`                                  | 23% (N=100 2026-06-14) | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
+| `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.5` (REPLACE class 1.8) | 42% (N=100 2026-06-14) | IN-BAND                                                    |
+| `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy           | NON balance-oracle (ladder di apprendimento)               |
 
 Fonte knob: `data/core/balance/damage_curves.yaml`. Fonte dati: `docs/playtest/2026-05-20-*`, `2026-05-21-*`, `2026-05-26-ratify-2381-balance.md`.
 
@@ -166,7 +166,7 @@ Riproduce lo stato ratificato (N=40 parallel, ~10min):
 # prereq: backend buildabile; staging damage_curves pinned
 python tools/py/calibrate_parallel.py --scenario hardcore_06 --n 40 --shards 4 --base-port 3341
 python tools/py/calibrate_parallel.py --scenario hardcore_07 --n 40 --shards 4 --base-port 3341
-# verifica: WR HC06 in [0.15,0.25], HC07 in [0.30,0.50]
+# verifica: WR HC06 in [0.15,0.30], HC07 in [0.30,0.50]
 ```
 
 Suite-runner unico (`tools/py/playtest_canonical.py`, gira tutto il manifest a N=40 +
@@ -216,7 +216,9 @@ Quando un PR di combat porta un oracolo fuori banda:
 
 **Caveat storico**: qualunque banda ratificata PRIMA di #2719 (2026-06-10) e' stata
 misurata sotto il channel-bug (tutto-fisico) -> potenzialmente stale dove la policy
-usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.04, N=100 WR 22%).
+usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.02, N=100 WR 23%
+su node 22 E node 24 = cross-runtime-robust; il 1.04 era interim node-24-only [22%] ma
+OOB-low 12.5% sul canonical node 22 -- ri-calibrato su node 22, sec 3 rule 8).
 hc07 ri-centrato (enemy_damage_multiplier_override 2.1 -> 2.5, N=100 WR 42%; era al
 ceiling 50-52% dal baseline 2026-05-30, **#2719-INDEPENDENT** fisico-only timer-race).
 **Entrambi gli oracoli ora in-band -> gate phase-2 (blocking) SBLOCCATO** (flip = rimuovi

@@ -86,8 +86,9 @@ la versione piu recente e canonica vince.
 
 ### 4.6 Provenienza del taxonomy content (Game-Database, RFC #4 -- ratificato 2026-06-11)
 
-Game-Database e' la source-of-truth UPSTREAM del taxonomy content (prima ondata: traits)
-che alimenta `packs/evo_tactics_pack/docs/catalog/*` e i derivati `data/core/traits/*`:
+Game-Database e' la source-of-truth UPSTREAM del taxonomy content (prima ondata: traits;
+seconda ondata: species, RFC #4 "Species S2") che alimenta
+`packs/evo_tactics_pack/docs/catalog/*` e i derivati `data/core/traits/*`:
 una `TaxonomyVersion` con status `released` (immutabile, versionata, auditata) e' l'origine
 canonica del contenuto; i file in questo repo restano la verita' meccanica A2 per il runtime.
 Attivazione a fasi (RFC Game-Database `docs/rfc/2026-06-11-bidirectional-sync.md`):
@@ -99,6 +100,14 @@ Attivazione a fasi (RFC Game-Database `docs/rfc/2026-06-11-bidirectional-sync.md
   (header `GENERATED FROM Game-Database <tag>`), passano `evo-import-gate` (round-trip
   errori=0) e il merge resta umano (Eduardo). Un edit manuale a un file generato = drift:
   va riportato nel DB, non difeso nel file.
+- **Seconda ondata -- species (RFC #4 "Species S2", ratificato 2026-06-17)**: superficie
+  export = SOLO i file per-slug `packs/evo_tactics_pack/docs/catalog/species/<slug>.json`
+  del catalog-tier (sourceFiles include `species_catalog_file`). Le species
+  ecosystem-derived e i file `index` / `canonical-index` NON sono esportati: restano
+  rigenerati downstream dal tooling Game. Il marker per le species e' la chiave JSON
+  top-level `_generated_from: "Game-Database <tag>"` (+ `generated_at`), non lo header
+  testuale dei traits; per il resto vale lo stesso gate S2 (trigger CLI manuale, branch+PR
+  dall'operatore locale, `evo-import-gate` round-trip errori=0, merge Eduardo).
 - In conflitto sul CONTENUTO taxonomy tra un released snapshot DB e un file pack non
   generato/non aggiornato: vince la released version DB; la correzione passa da un nuovo
   export PR, mai da edit divergenti su entrambi i lati.
