@@ -29,10 +29,13 @@ function rulePromotionLadderMonotonic(index) {
 
 function ruleBiomeRefs(index) {
   const violations = [];
+  // biomeIds is the lowercased set of {canonical ids UNION aliases} (loadCanonIndex);
+  // resolve refs case-insensitively so alias/case variants are not false-positives.
   const biomeIds = index.biomeIds || new Set();
+  const has = (ref) => biomeIds.has(String(ref).toLowerCase());
   for (const sp of index.species || []) {
     const aff = sp.biome_affinity;
-    if (typeof aff === 'string' && aff && !biomeIds.has(aff)) {
+    if (typeof aff === 'string' && aff && !has(aff)) {
       violations.push({
         rule: 'biome-refs',
         severity: 'error',
@@ -44,7 +47,7 @@ function ruleBiomeRefs(index) {
   }
   for (const c of index.packCreatures || []) {
     for (const b of c.biomes || []) {
-      if (!biomeIds.has(b)) {
+      if (!has(b)) {
         violations.push({
           rule: 'biome-refs',
           severity: 'error',
@@ -180,9 +183,7 @@ function violationKey(v) {
 }
 
 function partitionByBaseline(violations, baseline) {
-  const baselineKeys = new Set(
-    (baseline || []).map((b) => `${b.rule}::${b.entity}::${b.ref}`),
-  );
+  const baselineKeys = new Set((baseline || []).map((b) => `${b.rule}::${b.entity}::${b.ref}`));
   const newViolations = [];
   const baselinedViolations = [];
   for (const v of violations) {
@@ -202,6 +203,14 @@ function loadCanonIndex({ datasetRoot }) {
 
   const catalog = readJson('data/core/species/species_catalog.json').catalog || [];
   const biomes = readYaml('packs/evo_tactics_pack/data/biomes.yaml').biomes || {};
+  // Resolvable biome refs = canonical ids UNION declared aliases, lowercased
+  // (biomes.yaml `aliases:`). A ref is valid if it matches an id OR an alias,
+  // case-insensitively -- aliases are a documented reference mechanism.
+  const biomeIds = new Set();
+  for (const [key, b] of Object.entries(biomes)) {
+    biomeIds.add(String(key).toLowerCase());
+    for (const a of (b && b.aliases) || []) biomeIds.add(String(a).toLowerCase());
+  }
   const jobs = readYaml('data/core/jobs.yaml').jobs || {};
   const promotions = readYaml('data/core/promotions/promotions.yaml') || {};
   const glossaryTraits = readJson('data/core/traits/glossary.json').traits || {};
@@ -238,7 +247,7 @@ function loadCanonIndex({ datasetRoot }) {
   return {
     species: catalog,
     packCreatures,
-    biomeIds: new Set(Object.keys(biomes)),
+    biomeIds,
     jobIds: new Set(Object.keys(jobs)),
     glossaryTraits,
     glossarySlugs: new Set(Object.keys(glossaryTraits)),
@@ -307,20 +316,30 @@ if (require.main === module) {
     fs.writeFileSync(
       baselinePath,
       JSON.stringify(
-        { generated_at: null, note: 'Accepted known violations -- gate enforces NO NEW. Shrink as debt closes.', baseline },
+        {
+          generated_at: null,
+          note: 'Accepted known violations -- gate enforces NO NEW. Shrink as debt closes.',
+          baseline,
+        },
         null,
         2,
       ) + '\n',
     );
-    console.log(`[canon-consistency] wrote baseline: ${baseline.length} entries -> ${baselinePath}`);
+    console.log(
+      `[canon-consistency] wrote baseline: ${baseline.length} entries -> ${baselinePath}`,
+    );
     process.exit(0);
   }
 
   const { newViolations, summary } = checkCanonConsistency({ datasetRoot, baselinePath });
-  console.log(`[canon-consistency] total=${summary.all.total} baselined=${summary.all.total - summary.new.total} new=${summary.new.total}`);
+  console.log(
+    `[canon-consistency] total=${summary.all.total} baselined=${summary.all.total - summary.new.total} new=${summary.new.total}`,
+  );
   console.log(`  by-rule (all): ${JSON.stringify(summary.all.byRule)}`);
   if (newViolations.length) {
-    console.error(`::error::canon-consistency: ${newViolations.length} NEW violation(s) (not in baseline):`);
+    console.error(
+      `::error::canon-consistency: ${newViolations.length} NEW violation(s) (not in baseline):`,
+    );
     for (const v of newViolations.slice(0, 50)) {
       console.error(`  [${v.rule}] ${v.entity} -> ${v.ref}: ${v.message}`);
     }

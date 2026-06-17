@@ -111,6 +111,17 @@ describe('rule: biome-refs', () => {
     const index = idx({ biomeIds, species: [{ species_id: 'no_biome_sp' }] });
     assert.deepEqual(ruleBiomeRefs(index), []);
   });
+
+  test('case-insensitive match (loadCanonIndex lowercases ids + aliases) -> no violation', () => {
+    // The real index stores lowercased {biome ids UNION aliases}; an UPPERCASE
+    // ref (e.g. echo-wing FORESTA_TEMPERATA / CRYOSTEPPE) must resolve.
+    const index = idx({
+      biomeIds: new Set(['badlands']),
+      species: [{ species_id: 'shout', biome_affinity: 'BADLANDS' }],
+      packCreatures: [{ id: 'shout-c', biomes: ['Badlands'] }],
+    });
+    assert.deepEqual(ruleBiomeRefs(index), []);
+  });
 });
 
 describe('rule: job-bias-enum', () => {
