@@ -1,8 +1,8 @@
 # PROJECT_BRIEF — Evo-Tactics
 
 > **Scope**: identità stabile del progetto. Non cambia tra sessioni. Letto in 90 secondi.
-> **Aggiornato**: 2026-04-24
-> **Sorgenti**: `CLAUDE.md` (Project overview, Pillar audit), `docs/core/01-VISIONE.md`, `docs/core/90-FINAL-DESIGN-FREEZE.md`.
+> **Aggiornato**: 2026-06-17 (reconcile gate-stance + currency: gate AI-driven, frontend Godot-v2, repo path)
+> **Sorgenti**: `CLAUDE.md` (Project overview, Pillar audit), `docs/core/01-VISIONE.md`, `docs/core/90-FINAL-DESIGN-FREEZE.md`, `docs/process/CANONICAL-AI-PLAYTEST.md` (gate authority).
 
 ---
 
@@ -10,10 +10,10 @@
 
 - **Nome**: **Evo-Tactics**
 - **Tipo**: co-op tactical game (d20-based) + modular evolutionary progression + turn-based hex combat
-- **Stato attuale**: MVP co-op M16-M20 chiuso (2026-04-26), Vision Gap V1-V7 6/7 chiusi, 411/411 test verdi, playtest live TKT-M11B-06 pendente
+- **Stato attuale**: MVP co-op M16-M20 chiuso, Vision Gap V1-V7 6/7 chiusi, test suite verde (Node+Python+Playwright); gate = AI-driven batch-sim (WR in-band N=40, `docs/process/CANONICAL-AI-PLAYTEST.md`), playtest umano TKT-M11B-06 = conferma opzionale
 - **Owner / team**: Eduardo Scarpelli (single dev + AI pair: Claude Code principale, Codex bot CI)
-- **Repo**: `C:/Users/edusc/Desktop/gioco/Game/` (branch default `main`, Node 22.19.0, Python 3.10+)
-- **Repo sibling**: `MasterDD-L34D/Game-Database` (taxonomy CMS, integrazione HTTP Alt B scaffolded flag-OFF)
+- **Repo**: `C:/dev/Game/` (branch default `main`, Node 22 — engines `>=22 <23`, Python 3.10+)
+- **Repo sibling**: `MasterDD-L34D/Game-Godot-v2` (frontend canonico Godot 4.x — surface TV/phone attiva; Game = backend/runtime/sim/canon SoT) + `MasterDD-L34D/Game-Database` (taxonomy CMS, integrazione HTTP Alt B scaffolded flag-OFF)
 
 ## Scopo
 
@@ -37,7 +37,7 @@
 
 ### Vincoli tecnici hard
 
-- **Monorepo polyglot**: Node 18+ (22.19.0 rec), npm 11+, Python 3.10+, Prisma+Postgres opzionale (default NeDB)
+- **Monorepo polyglot**: Node 22 (engines `>=22 <23`), npm 11+, Python 3.10+, Prisma+Postgres opzionale (default NeDB)
 - **Rules engine Python DEPRECATED** (M6-#4 2026-04-19): porting a Node `apps/backend/services/combat/`. No new feature su `services/rules/`
 - **Contracts seam**: `packages/contracts/` è source-of-truth schema — ogni cambio ripple su backend + mock + dashboard
 - **Dataset canonical**: `data/core/` + `packs/evo_tactics_pack/data/` — cambi richiedono validator pipeline (vedi CLAUDE.md "Dataset workflows")
@@ -62,7 +62,7 @@
 
 ## Materiali esistenti
 
-- **Repo**: `C:/Users/edusc/Desktop/gioco/Game/` — branch corrente `claude/distracted-volhard-2f84a5` sync con `origin/main`
+- **Repo**: `C:/dev/Game/` — branch default `main`
 - **Documentazione canonical**: `CLAUDE.md` (spine progetto, ~500 righe), `docs/core/01-VISIONE.md`, `docs/core/90-FINAL-DESIGN-FREEZE.md`, `docs/core/DesignDoc-Overview.md`
 - **Hub workstream**: `docs/hubs/{combat,flow,atlas,backend,dataset-pack,ops-qa,incoming,cross-cutting}.md`
 - **ADR**: `docs/adr/` (30 decisioni registrate, index in `DECISIONS_LOG.md`)
@@ -75,19 +75,19 @@
 
 ## Problemi attuali
 
-- **P5 Co-op**: 🟡 runtime shipped (M11 Phase A-C + TKT-05), ma TKT-M11B-06 playtest live userland pendente (unico blocco umano → 🟢)
-- **P6 Fairness**: 🟢 candidato, hardcore 06/07 calibration harness `tools/py/batch_calibrate_hardcore07.py` da eseguire userland (target 30-50% win)
+- **P5 Co-op**: 🟡 runtime shipped (M11 Phase A-C + TKT-05); gate = AI-driven batch-sim (WR in-band N=40) + test verdi (`docs/process/CANONICAL-AI-PLAYTEST.md`). TKT-M11B-06 playtest umano declassato a conferma opzionale, non bloccante
+- **P6 Fairness**: 🟢 candidato, hardcore 06/07 calibration harness `tools/py/batch_calibrate_hardcore07.py` = AI batch-sim gate N=40 (target 30-50% win in-band)
 - **M13 P3 Phase B wire**: campaign advance XP grant + combat resolver 5 passive tags live, UI progressionPanel live, ma balance pass 448 builds validazione non automatizzata
 - **V3 Mating/Nido**: deferred (~20h post-MVP)
 - **V6 UI TV dashboard polish**: deferred (~6h post-playtest)
 
 ## Metriche di successo
 
-- **Short-term (next 2 sprint)**: TKT-M11B-06 playtest live completato (4 amici, <90min, zero crash) → P5 🟢 definitivo
+- **Short-term (next 2 sprint)**: P5 co-op gate verde via AI batch-sim (WR in-band N=40 + test verdi); TKT-M11B-06 playtest umano (4 amici, <90min) = conferma opzionale non bloccante
 - **Mid-term (next 6 sprint)**: 6/6 pilastri 🟢 o 🟢 candidato validato, MVP demo giocabile 2-8 player
 - **Long-term**: ciclo evoluzione Spore-core (P2 full Form, Phase D+) + 30+ mission campaign (3 big arc narrativi)
-- **Technical health**: 411+/411 test verdi, guardrail sprint zero violazioni, ci pipeline <10 min
+- **Technical health**: test suite verde (Node+Python+Playwright), guardrail sprint zero violazioni, ci pipeline <10 min
 
 ## Prossimo passo singolo più utile
 
-**TKT-M11B-06 playtest live 2-4 amici** — userland, unico bloccante umano, chiude P5 🟢 definitivo e sblocca feedback per V6 UI polish.
+**P5 co-op chiude via gate AI-driven** (WR in-band N=40 + test verdi, `docs/process/CANONICAL-AI-PLAYTEST.md`). TKT-M11B-06 playtest umano 2-4 amici resta conferma opzionale (non bloccante) per feedback V6 UI.
