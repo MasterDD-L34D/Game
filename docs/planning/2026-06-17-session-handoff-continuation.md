@@ -73,10 +73,14 @@ Magnitudine floor = review post-Godot-playtest #2 (solo UP).
   `[lobby-ws] Prisma hydrate: 3 room(s) restored`, zero prisma:error. Coop lobby persistence LIVE.
   NOTE: `pg_ctl start` NON sopravvive a reboot host (nessun servizio auto-start) = follow-up.
 
-## Item-1: 13/17 active
+## Item-1: 15/17 active (aggiornato 2026-06-17 flip J/F/K)
 
-active (13): I, K, L, M, N, O, C, D, E, P, Q, **A**, **G**.
-blocked (4): B (gated SPEC-K), F (slice 3 gated), H (aliena), J (lethal-wounds).
+> 🔴 CORREZIONE anti-pattern #19: il "13/17" sotto era SBAGLIATO -- listava **K** (godot-device-authority)
+> come active mentre git lo aveva `review_needed`. Pre-flip reale = **12/17**. Post-flip J/F/K = **15/17**.
+
+active (15): A, C, D, E, G, I, L, M, N, O, P, Q + **J**, **F**, **K** (flip 2026-06-17).
+review_needed (2): **B** (quick-win: manca contract-test planning-phase ~30 LOC -> poi flip -> 16/17),
+**H** (do-last: HA2 authoring-validator + Codex 6-dim surface + promozione 2 source-doc = ingegneria).
 
 ## Flagged a master-dd (verify-first, NON fabbricati)
 
@@ -253,6 +257,26 @@ END-TO-END** (flag OFF):
 **Flip-gate `LETHAL_MISSIONS_ENABLED`**: (1) Godot consent UI **DONE** #477; (2) author >=1 encounter
 `lethal:true` = TODO; (3) lethal-mission N=40/playtest = TODO; (4) master-dd. -> flip ancora DEFERRED,
 ma il gate UI (l'unico Gate-5 surface-dead) e' CHIUSO.
+
+## Continuazione 7 -- piano-spec item-1: flip J/F/K (12 -> 15/17)
+
+Master-dd "procediamo con il piano degli spec" -> **flip-readiness workflow** (5 finder B/F/H/J/K vs
+acceptance-criteria git-verificati + Godot cross-repo) -> synth-critic -> AskUserQuestion (4 Q) ->
+**vai** (tutti consigliati). 🔴 Ground-truth: era **12/17** non 13 (K era review_needed, handoff stale).
+
+- **SPEC-J flip -> active**: 9/9 criteri OWN git-met (backend e2e + Godot consent UI #477 + forks
+  J1/J3/J4/J5 ratificati + timeout RATIFIED-PROVISIONAL). doc-flip != runtime-flag (LETHAL resta OFF).
+- **SPEC-F flip -> active**: slices 0-3 shipped (#2783/#2796) + policies ratificate ADR-04-27; residui
+  (cooldown durable/lineage/QR) = forward-work non-blocker.
+- **SPEC-K flip -> active = flip-as-ratification** (master-dd opt B): canon device-authority RATIFICATO
+  (ADR-2026-06-07 ACCEPTED); sez.9 acceptance surface NON completa (5 Nido-actions + 9 device-playtest
+  UNMET) -> K-01..K-07 (sez.10) = item-3 build-residue, **depositati in BACKLOG** (l'audit ha trovato
+  che non erano mai tracciati) + nota spec sez.13 (NON spacciare surface non-costruite per fatte,
+  precedent SPEC-I/A/G).
+- **B = quick-win** (PR successiva: contract-test planning-phase ~30 LOC poi flip -> 16/17). **H = do-last**
+  (ingegneria: HA2 validator + Codex surface + source-promotion; runtime HA1 resta OFF post-N=40).
+- Flip registry-atomico (frontmatter + docs_registry, 3 entry); governance errors=0; doc-flip NON tocca
+  runtime-flag.
 
 ## Next frontier (blocked-build, build-vero)
 
