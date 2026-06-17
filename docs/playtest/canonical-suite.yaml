@@ -49,7 +49,9 @@ scenarios:
     ratified_knob: { enemy_damage_multiplier_override: 2.5 } # REPLACES class 1.8, not stack
     # G2 P1: knob search space (single SoT; parity-guarded vs calibrate_optuna.py SCENARIO_CFG)
     knob_space:
-      enemy_count_modifier: { type: int, min: -2, max: 2 }
+      # hc07 WR lever = enemy_damage_multiplier_override (ratified 2.5 -> 42% WR,
+      # damage_curves.yaml). enemy_count -1 was REJECTED (inverted dir, 3a iter1).
+      enemy_damage_multiplier_override: { type: float, min: 1.5, max: 2.5 }
     last_wr_n40: '0.42 (N=100 2026-06-14, seed 424242)'
     status: ratified
     tool: tools/py/batch_calibrate_hardcore07.py

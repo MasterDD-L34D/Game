@@ -45,3 +45,18 @@ def test_objective_falls_back_to_global_composite(manifest):
 def test_unknown_scenario_raises(manifest):
     with pytest.raises(KeyError):
         get_scenario(manifest, "nope_does_not_exist")
+
+
+def test_ratified_knob_lever_is_in_knob_space(manifest):
+    # Every ratified_knob lever MUST appear in the scenario's knob_space, else a
+    # manifest-driven calibration/Optuna path would search a lever that cannot
+    # reproduce the ratified value (the hc07 enemy_damage_multiplier_override case).
+    for sc in manifest["scenarios"]:
+        ks = sc.get("knob_space")
+        rk = sc.get("ratified_knob")
+        if not ks or not rk:
+            continue
+        for lever in rk:
+            assert lever in ks, (
+                f"{sc['id']}: ratified knob '{lever}' not in knob_space {list(ks)}"
+            )

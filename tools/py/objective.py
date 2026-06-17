@@ -10,17 +10,27 @@ from __future__ import annotations
 
 import re
 
-_TERM = re.compile(r"([0-9]*\.?[0-9]+)\s*\*\s*([A-Za-z_]\w*)")
+# A term is exactly ``<coef>*<metric_name>`` (with optional surrounding space).
+# Anchored: the WHOLE term must match, so trailing garbage / unsupported operators
+# (e.g. '-') surface as an error instead of being silently mis-evaluated.
+_TERM = re.compile(r"^\s*([0-9]*\.?[0-9]+)\s*\*\s*([A-Za-z_]\w*)\s*$")
 
 
 def evaluate_metric(expr, metrics):  # noqa: ANN001
-    """Evaluate a linear ``<coef>*<metric> + ...`` expression.
+    """Evaluate a linear ``<coef>*<metric> + ...`` expression (weighted sum, '+' only).
 
-    Raises KeyError if a referenced metric is absent from ``metrics``.
+    Raises ValueError on a malformed/empty expression (so bad YAML config surfaces
+    instead of producing a false calibration score); KeyError if a referenced
+    metric is absent from ``metrics``.
     """
+    if not expr or not expr.strip():
+        raise ValueError(f"empty objective expression: {expr!r}")
     total = 0.0
-    terms = _TERM.findall(expr or "")
-    for coef, name in terms:
+    for part in expr.split("+"):
+        m = _TERM.match(part)
+        if not m:
+            raise ValueError(f"malformed objective term {part!r} in {expr!r}")
+        coef, name = m.group(1), m.group(2)
         if name not in metrics:
             raise KeyError(name)
         total += float(coef) * float(metrics[name])

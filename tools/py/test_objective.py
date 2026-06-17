@@ -27,3 +27,20 @@ def test_single_term():
 def test_missing_metric_raises():
     with pytest.raises(KeyError):
         evaluate_metric("0.5*win_rate + 0.5*unknown", {"win_rate": 0.4})
+
+
+def test_rejects_trailing_garbage():
+    # Partial-match must not silently score; an unparseable term raises.
+    with pytest.raises(ValueError):
+        evaluate_metric("0.50*win_rate + bad", {"win_rate": 0.4})
+
+
+def test_rejects_subtraction():
+    # Only '+' weighted sums are supported; '-' is not silently treated as '+'.
+    with pytest.raises(ValueError):
+        evaluate_metric("0.50*win_rate - 0.25*kd_ratio", {"win_rate": 0.4, "kd_ratio": 0.8})
+
+
+def test_rejects_empty():
+    with pytest.raises(ValueError):
+        evaluate_metric("", {})
