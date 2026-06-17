@@ -180,9 +180,39 @@ item-1 **invariato 13/17** (SPEC-J resta `review_needed`; auto-timer non flippa 
 = item-3 Godot UI + flip). **Residui SPEC-J ora**: SPEC-E (transform-trait/cost) + item-3 (Godot UI) + flip
 (master-dd post lethal-mission N=40).
 
+## Continuazione 4 -- 3 design-call decise (consent-timeout / lethal-flip / A2 floor)
+
+Master-dd ha chiesto le domande nel formato preferito "con evidenze e ricerche". Eseguito
+**workflow di ricerca** (5 finder: UX-web + repo-precedent + flip-readiness Game + flip-readiness
+Godot + A2-balance, schema'd) -> **synth-critic** (overclaim-flagged). Poi AskUserQuestion (3
+domande, consigliato-first). Master-dd = **vai** (accettati i 3 consigliati). 1 PR esecuzione.
+
+- **Q1 consent auto-timeout = RATIFY-PROVISIONAL @ 120000ms.** Tuning value, consistente col
+  ghost-timeout coop 120s. Ground-truth: l'early-confirm GIA' esiste (round -> granted appena
+  TUTTI confermano) -> il timeout morde SOLO il path non-responder; osservabile solo quando Godot
+  renderizza la countdown (item-3). Re-tune verso ~90s (UX-evidence) SOLO con dati device-roundtrip
+  - playtest. Comment `lethalConsent.js` PROPOSED -> RATIFIED-PROVISIONAL.
+- **Q2 flip `LETHAL_MISSIONS_ENABLED` = DEFERRED.** Verificato Gate-5 surface-dead: 0 encounter
+  `lethal:true` in data + 0 handler `lethal_consent_*` in Game-Godot-v2 (broadcast unversioned ->
+  silent drop) + backend inerte. Flip gated su: >=1 encounter lethal + Godot consent UI + N=40/
+  playtest + master-dd. Mirror del defer META_NETWORK_ROUTING. NB: lavoro Godot item-3 NON tracciato
+  in Game-Godot-v2. Registrato in spec lethal-wounds sez.11.
+- **Q3 A2 floor magnitude = RATIFY-PROVISIONAL + author-guard.** A2 gia' LIVE in prod -> defer
+  non-protettivo. N=40 = SAFETY non OPTIMALITY (sim greedy satura sopra banda umana) -> provisional,
+  re-tune UPWARD-only pending playtest. **Author-guard SHIPPED**: `validate_encounter_difficulty.js`
+  enforces `pressure_tier_floor` intero [0,5] E `<= difficulty_rating` (early/low-diff encounter
+  non puo' partire a tier alto, P6). Tutti i 14 encounter passano.
+
+- **PR #2800 `bad2d6e1`** (`feat(a2): encounter floor author-guard + ratify SPEC-J/A2 verdicts`):
+  author-guard (codice) + comment/doc ratifications (Q1/Q2/Q3). 🔴 **Codex P2** (reale): tests/
+  difficulty/\*_ era CI-orphaned (anti-pattern #10) -> wirato `tests/difficulty/_.test.js`in`scripts/run-test-api.cjs`(commit`dc776981`) cosi' il guard gate i merge davvero. Tests:
+  validator 7/7, difficulty 25/25, AI 543/543, governance errors=0.
+- Sessione totale = **3 PR** (#2798 auto-timer + #2799 handoff + #2800 verdicts).
+
 ## Next frontier (blocked-build, build-vero)
 
-- **SPEC-J backend = DONE e2e** (auto-timer incluso); residui = SPEC-E (transform-trait/cost) + item-3 (Godot UI) + flip (master-dd).
+- **SPEC-J backend = DONE e2e** (auto-timer incluso); timeout RATIFIED-PROVISIONAL; residui = SPEC-E (transform-trait/cost) + item-3 (Godot UI = sblocca flip + rende osservabile la countdown) + flip (DEFERRED, master-dd).
+- **A2** = LIVE + magnitude RATIFIED-PROVISIONAL + author-guard CI-enforced; residuo = re-tune UPWARD-only post-playtest-umano (no sim).
 - **H** aliena-enforcement: infra ALIENA GIA' robusta (spawn-bias/reinforcement/telemetry/
   coherence/generator/calibrate); residuo = authoring-gate validator + telemetry + flip (N=40).
   3 design-call aperti HA1/HA2/HA4 (rec ma non ratificati). NON 0-code.
