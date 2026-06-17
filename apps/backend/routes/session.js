@@ -1111,7 +1111,15 @@ function createSessionRouter(options = {}) {
       // flagged lethal AND per-player device consent is granted (PR2). With the
       // kill switch unset + no consent producer this is inert (band-neutral).
       // Best-effort, never blocks the hit.
+      // PR2b bridge: PULL the per-player consent outcome from the linked coop
+      // run (mirror getFormPulses; run.id == campaign_id) so PR2's consent gates
+      // PR1's death. Read fresh each KO (a round can flip pending->granted). null
+      // outcome (no round) leaves session.lethalConsent untouched -> soft.
       try {
+        if (coopStore && session.campaign_id) {
+          const consentOutcome = coopStore.getLethalConsentOutcome(session.campaign_id);
+          if (consentOutcome) session.lethalConsent = { granted: consentOutcome === 'granted' };
+        }
         require('../services/combat/lethalDeath').applyLethalKoIfDead(target, session);
       } catch {
         /* lethal-death best-effort; never block the hit */
