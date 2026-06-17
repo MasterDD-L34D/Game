@@ -2,10 +2,10 @@
 title: 'Evo-Tactics Device Input Ledger (SPEC-A)'
 date: 2026-06-07
 type: design-spec
-doc_status: review_needed
+doc_status: active
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-07'
+last_verified: '2026-06-17'
 source_of_truth: false
 language: it
 review_cycle_days: 30

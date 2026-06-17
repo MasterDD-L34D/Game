@@ -8920,10 +8920,10 @@
     {
       "path": "docs/design/evo-tactics-device-input-ledger.md",
       "title": "Evo-Tactics Device Input Ledger (SPEC-A)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
-      "last_verified": "2026-06-07",
+      "last_verified": "2026-06-17",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30,
