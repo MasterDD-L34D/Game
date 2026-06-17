@@ -73,13 +73,15 @@ Magnitudine floor = review post-Godot-playtest #2 (solo UP).
   `[lobby-ws] Prisma hydrate: 3 room(s) restored`, zero prisma:error. Coop lobby persistence LIVE.
   NOTE: `pg_ctl start` NON sopravvive a reboot host (nessun servizio auto-start) = follow-up.
 
-## Item-1: 16/17 active (aggiornato 2026-06-17 flip J/F/K + B)
+## Item-1: 17/17 active -- COMPLETE (2026-06-17)
 
 > 🔴 CORREZIONE anti-pattern #19: il "13/17" storico era SBAGLIATO -- listava **K** (godot-device-authority)
-> come active mentre git lo aveva `review_needed`. Pre-flip reale = **12/17**. Flip J/F/K -> 15/17; flip B -> **16/17**.
+> come active mentre git lo aveva `review_needed`. Pre-flip reale = **12/17**. Flip J/F/K -> 15/17; flip B -> 16/17; flip H -> **17/17**.
 
-active (16): A, C, D, E, G, I, L, M, N, O, P, Q + **J**, **F**, **K** (flip 2026-06-17) + **B** (flip 2026-06-17, dopo contract-test planning-phase `tvPlanningReadinessContract.test.js`).
-review_needed (1): **H** (do-last: HA2 authoring-validator + Codex 6-dim surface + promozione 2 source-doc = ingegneria; runtime HA1 resta OFF post-N=40). **= ultima spec item-1.**
+active (17 = TUTTE): A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q. **Suite reconstruction SPEC-A..Q completa a doc-level.**
+
+- Flip 2026-06-17: J/F/K (#2816) + B (#2818, dopo contract-test `tvPlanningReadinessContract.test.js`) + H (flip-as-ratification, crit-7 source-doc promossi).
+- **Forward-work (NON doc-flip blocker, in BACKLOG)**: K-01..K-07 (Godot device-authority surfaces) + SPEC-H impl (HA2-CI-validator + Codex 6-dim surface + HA1 flip post-N=40). Runtime-flag (LETHAL/HA1) restano OFF.
 
 ## Flagged a master-dd (verify-first, NON fabbricati)
 

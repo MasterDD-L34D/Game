@@ -33,6 +33,27 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### 🟡 OPEN — SPEC-H ALIENA enforcement implementation-residue (2026-06-17)
+
+Spec `docs/design/evo-tactics-aliena-enforcement-lore.md` flippata `active` 2026-06-17 come
+**design ratificato** (HA1/HA2/HA4/HA5 ratificati 2026-06-08; acceptance sez.11 = contract+
+ratifica). La machinery baseline (sez.2) e' LIVE default-OFF; questi sono i pezzi di
+IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
+
+- **HA2-CI-validator** — authoring-gate presence-check: ogni `data/codex/{id}.yaml` ha le 6
+  chiavi A.L.I.E.N.A. (`A_ambiente`/`L_linee_evolutive`/`I_impianto`/`E_ecologia`/
+  `N_norme_socio`/`A_ancoraggio_narrativo`) + i campi runtime-read; HARD su presenza, SOFT su
+  rubrica (HA2 ibrido). 🔴 location-decision: `codex.schema.json` in `packages/contracts`
+  (FORBIDDEN-PATH = master-dd) vs validator in `tools/py` -- da decidere prima del build.
+- **Codex 6-dim surface** — `apps/play/src/codexPanel.js` oggi TUNIC-glyph; renderizzare le 6
+  dimensioni (content `public`) + unlock QBN + proxy diegetico HA5 (descrittore qualitativo,
+  MAI score grezzo). Gate-5 player-visible.
+- **HA1 flip runtime** — `enabled:true` + `strength` target SOLO post playtest N=40 su
+  `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
+  `enforcement_factor` nel sample telemetria (sez.4). master-dd.
+
+Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
+
 ### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17)
 
 Spec `docs/design/evo-tactics-godot-device-authority-reconciliation.md` flippata `active`
