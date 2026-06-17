@@ -537,7 +537,18 @@ function createCoopRouter({
         .json({ error: 'at_risk_player_ids richiesto (array di id non vuoto)' });
     }
     try {
-      const snap = orch.openLethalConsent(ids, { timeoutMs });
+      // SPEC-J sez.5 trigger-(a): arm the automatic timeout. If no at-risk
+      // player responds before timeout_ms the orchestrator resolves the round
+      // to soft on its own and invokes onTimeout, which broadcasts the
+      // resolution so devices dismiss the waiting UI -- no host action needed
+      // ("mai loop bloccato"). The manual confirm (WS) / cancel (REST) paths
+      // broadcast themselves, so onTimeout fires ONLY from the timer.
+      const snap = orch.openLethalConsent(ids, {
+        timeoutMs,
+        onTimeout: (consent, outcome) => {
+          room.broadcast({ type: 'lethal_consent_resolved', payload: { outcome, consent } });
+        },
+      });
       room.broadcast({ type: 'lethal_consent_open', payload: snap });
       return res.json({ ok: true, consent: snap });
     } catch (err) {
@@ -548,8 +559,10 @@ function createCoopRouter({
   // SPEC-J sez.5 -- host aborts a stuck lethal-consent round (deterministic
   // anti-deadlock escape: the always-on TV arbiter can always resolve a round
   // where a player never responds). Resolves the pending round to soft (NON
-  // parte lethal) + broadcasts the resolution. The AUTOMATIC timeout timer
-  // (sez.5 trigger a) is a follow-up; this guarantees "mai loop bloccato" now.
+  // parte lethal) + broadcasts the resolution. Complements the AUTOMATIC timeout
+  // timer (sez.5 trigger a, armed at /coop/lethal/open): this is the immediate
+  // host-initiated override; the timer is the unattended fallback. Either way,
+  // "mai loop bloccato".
   router.post('/coop/lethal/cancel', (req, res) => {
     const { code, host_token: hostToken } = req.body || {};
     const room = authHost(code, hostToken);

@@ -34,6 +34,16 @@ test('open: default timeout is a finite proposed value (design-call param)', () 
   assert.ok(Number.isFinite(s.timeout_ms) && s.timeout_ms > 0);
 });
 
+test('open: a non-positive timeout falls back to the default (never disables the auto-fallback)', () => {
+  // Codex P2: timeout_ms 0 / negative would leave a pending round with no
+  // armable auto-timeout -> a non-responsive device could hang it. Normalize.
+  for (const bad of [0, -1, -5000]) {
+    const s = lc.open(['p1'], { now: 0, timeoutMs: bad });
+    assert.equal(s.status, 'pending');
+    assert.equal(s.timeout_ms, lc.DEFAULT_TIMEOUT_MS, `timeoutMs=${bad} -> default`);
+  }
+});
+
 // --- confirm -------------------------------------------------------------
 
 test('confirm: an at-risk player confirms; all confirmed -> granted', () => {
