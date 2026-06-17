@@ -91,7 +91,7 @@ blocked (4): B (gated SPEC-K), F (slice 3 gated), H (aliena), J (lethal-wounds).
   controllo_reale cards). Sorgenti narrativa/dottrinale (sez.3) = slice futura. `tri-sorgente.schema.json`
   = orphan non validato dalla route live (forbidden-path, lasciato).
 
-## Continuazione 2 -- SPEC-J lethal-wounds backend (2 PR, frontier)
+## Continuazione 2 -- SPEC-J lethal-wounds backend (3 PR + docs, frontier)
 
 Ground-truth correction (anti-pattern #19): l'handoff diceva "J = 0 codice grosso"
 -- SBAGLIATO. J1 (KO -> `grave` wound) + criterion-3 (`woundSystem`) GIA' LIVE
@@ -114,23 +114,35 @@ tutti A, 2026-06-08; J2 canon) -> impl pura, zero design-call aperti.
   sez.6) + `POST /api/session/:id/nido/ritual`. **Verify-first finding**: NESSUN pool
   risorse backend (campaign obj + `godotV2State` senza PE/PI -> risorse Godot/client-owned)
   -> verdict master-dd = build mechanism+chronicle, **cost (SPEC-E E6) deferred**.
+- **#2792 `eac6d85a`** PR2 -- lethal consent state machine + coop transport:
+  `services/coop/lethalConsent.js` (puro: open/confirm/markDeliveryFailed/evalTimeout/
+  snapshot/outcome; per-player NON quorum SPEC-K 6.4 -- granted solo se TUTTI gli at-risk
+  confermano; anti-deadlock -> soft [timeout post-receipt OR delivery-fail]; granted mai
+  declassato; snapshot anonimo F5 counts-only; timeout VALUE = param PROPOSED 120s) +
+  CoopOrchestrator (open/confirm/evalTimeout/snapshot/outcome + `_emit`; reset su
+  startRun/startOnboarding) + `POST /coop/lethal/open` (host, rifiuta at-risk vuoto/non-string)
+  - `POST /coop/lethal/cancel` (host anti-deadlock escape -> soft) + `lethal_consent_confirm`
+    WS intent (socket-bound id) + broadcast waiting/resolved. **Review adversariale
+    `coop-phase-validator` -> 3 P1 fixate** (empty-grant, run-reset mancante, anti-deadlock
+    escape) ognuna con regression test.
 
 item-1 **invariato 13/17** (SPEC-J resta `review_needed` = slice parziali, non flippabile).
-AI 543/543 + combat-oracle + meta-loop-oracle green su entrambe.
+AI 543/543 + combat-oracle + meta-loop-oracle green su tutte. 4 PR sessione (PR1/PR3/PR2 + docs).
 
 ### Residui SPEC-J (gated, NON fabbricare)
 
-- **PR2 consent state-machine**: per-player device confirm (SPEC-K 6.4) + waiting
-  anonimo+opt-in (SPEC-B 3.10/F5) + anti-deadlock (timeout post-receipt + delivery-fail
-  fallback). Backend buildable (come coop-WS gaps). Design-call = valore timeout (tuning).
-  Produce `session.lethalConsent.granted` (oggi assente -> soft fallback).
+- **PR2b** = (1) AUTOMATIC timeout timer (sez.5 trigger a; oggi host-cancel = escape
+  deterministico, "mai loop bloccato"); (2) **consent->death bridge** = settare il
+  `lethalConsent.granted` della session combat linkata cosi' il death-gate di PR1 si attiva
+  -> connector cross-module session<->coop (via coopStore/`orch.sessionId`). **FORK ARCHITETTURALE
+  push-vs-pull** (coop scrive session, vs session legge coopStore on-KO) = decisione master-dd.
 - **transform -> trait mechanical** (scar -> tratto reale) + **ritual resource-cost** (E6) = SPEC-E/balance.
-- **Godot device UI** (consent + ritual private device-owned, SPEC-K 7.6) = item-3 cross-repo.
-- **flip `LETHAL_MISSIONS_ENABLED=true` = master-dd**, solo post-PR2 consent + lethal-mission N=40/playtest.
+- **Godot device UI** (consent prompt + ritual private device-owned, SPEC-K 7.6) = item-3 cross-repo.
+- **flip `LETHAL_MISSIONS_ENABLED=true` + valore timeout consent = master-dd**, solo post-bridge + lethal-mission N=40/playtest.
 
 ## Next frontier (blocked-build, build-vero)
 
-- **PR2 SPEC-J consent state-machine** (continua SPEC-J; design ratificato, 1 design-call timeout).
+- **PR2b SPEC-J** = consent->death bridge (FORK push-vs-pull = master-dd) + auto-timeout-timer -> sblocca lethal end-to-end.
 - **H** aliena-enforcement: infra ALIENA GIA' robusta (spawn-bias/reinforcement/telemetry/
   coherence/generator/calibrate); residuo = authoring-gate validator + telemetry + flip (N=40).
   3 design-call aperti HA1/HA2/HA4 (rec ma non ratificati). NON 0-code.
