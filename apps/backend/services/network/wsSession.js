@@ -1784,6 +1784,48 @@ function createWsServer({
             }
             return;
           }
+          // SPEC-J sez.5 — drain lethal_consent_confirm intents (per-player
+          // device confirm, socket-bound identity; NOT quorum). Phone sends
+          // { action: 'lethal_consent_confirm' } after the host opened the round
+          // (POST /coop/lethal/open). Broadcasts the anonymous waiting snapshot
+          // (lethal_consent_waiting, F5) + acks. A non-at-risk confirm is a no-op
+          // (the orchestrator ignores it). No open round -> lethal_consent_not_open.
+          if (action === 'lethal_consent_confirm' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const snap = orch.confirmLethalConsent(playerId);
+              room.broadcast({ type: 'lethal_consent_waiting', payload: snap });
+              // When the last at-risk player confirms, surface the resolution
+              // explicitly so clients dismiss the waiting UI (don't make them
+              // parse `status` out of the waiting snapshot).
+              if (snap.status === 'granted') {
+                room.broadcast({
+                  type: 'lethal_consent_resolved',
+                  payload: { outcome: 'granted', consent: snap },
+                });
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'lethal_consent_confirm_accepted',
+                  payload: { consent: snap },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'lethal_consent_confirm_failed' },
+                }),
+              );
+            }
+            return;
+          }
           // 2026-05-06 phone smoke W6 fix — drain lineage_choice (debrief
           // phase) server-side via coopOrchestrator.submitDebriefChoice.
           // Pre-fix the intent was relayed to host Godot → silent drop,
