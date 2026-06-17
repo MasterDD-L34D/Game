@@ -34,6 +34,13 @@ const steps = [
   'node --test tests/services/*.test.js',
   'node --test tests/services/*/*.test.js',
   'node --test tests/ai/*.test.js',
+  // tests/worldgen/** was likewise CI-orphaned (anti-pattern #10): 7 files
+  // (meta-network resolver/routing/completability, foodweb filter/population,
+  // cross-event engine, encounter threat) never matched by any glob above, so a
+  // refactor dropping meta-network / foodweb behavior would stay green. Flat
+  // subtree -> single-* glob suffices (no nesting). Verified passing standalone
+  // + in-batch (2026-06-17).
+  'node --test tests/worldgen/*.test.js',
 ];
 
 const baseEnv = {
