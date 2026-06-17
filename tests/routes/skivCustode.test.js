@@ -64,6 +64,16 @@ function makeStoreStub(seed = {}) {
       const s = states.get(lineageId);
       return s && Array.isArray(s.crossbreed_history) ? [...s.crossbreed_history] : [];
     },
+    // Slice 3 write path: append a crossbreed event to the lineage history
+    // (mirror of the real store.addCrossbreedEvent, FIFO cap 10).
+    addCrossbreedEvent(lineageId, event) {
+      const s = states.get(lineageId);
+      if (!s) throw new Error(`addCrossbreedEvent: no state for ${lineageId}`);
+      const ts = event.ts || '2026-06-17T00:00:00Z';
+      s.crossbreed_history = [...(s.crossbreed_history || []), { ...event, ts }].slice(-10);
+      states.set(lineageId, s);
+      return s;
+    },
     signatureFor,
     _states: states,
   };
@@ -334,4 +344,165 @@ test('POST /skiv/crossbreed missing partner_card_json → 400', async () => {
   const r = await postJson(app, '/api/skiv/crossbreed', { lineage_id: lineageId });
   assert.equal(r.status, 400);
   assert.equal(r.body.error, 'partner_card_required');
+});
+
+// ─── Slice 3: POST /api/skiv/crossbreed/confirm (persist + cooldown + rate-limit) ───
+
+const LINEAGE = 'skiv-savana-2026-0427-test';
+
+function rollStubOk() {
+  return (input) => ({
+    success: true,
+    offspring: { lineage_id: 'offspring-confirmed', gene_slots: {} },
+    tier: 'gold',
+    visual_hints: { glow: true },
+    _rng_is_fn: typeof input.context?.rng === 'function',
+  });
+}
+
+test('POST /skiv/crossbreed/confirm valid → 200 confirmed + PERSISTS to history', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  let captured = null;
+  const app = buildApp({
+    store,
+    rollMatingOffspring: (input) => {
+      captured = input;
+      return rollStubOk()(input);
+    },
+  });
+  const r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    biome_id: 'caverna',
+    campaign_id: 'camp-A',
+  });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.confirmed, true);
+  assert.equal(r.body.offspring.lineage_id, 'offspring-confirmed');
+  assert.equal(r.body.tier, 'gold'); // schema-valid engine tier (no-glow/gold/rainbow)
+  // engine got a seeded rng (preview-integrity) + a numeric crossbreed_seed echoed.
+  assert.equal(typeof captured.context.rng, 'function');
+  assert.equal(typeof r.body.crossbreed_seed, 'number');
+  // PERSISTED: schema-compliant event (skiv_companion item is
+  // additionalProperties:false -> with_lineage_id, NOT campaign_id/partner_lineage_id).
+  // Cooldown campaign_id is tracked in-memory, never on the history item.
+  const hist = store.getCrossbreedHistory(LINEAGE);
+  assert.equal(hist.length, 1);
+  assert.equal(hist[0].with_lineage_id, 'partner-lineage-9999');
+  assert.equal(hist[0].offspring_lineage_id, 'offspring-confirmed');
+  assert.equal(hist[0].campaign_id, undefined); // NOT persisted (schema-forbidden)
+});
+
+test('POST /skiv/crossbreed/confirm seed echo: a passed crossbreed_seed is reused (preview-match)', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'camp-seed',
+    crossbreed_seed: 123456,
+  });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.crossbreed_seed, 123456);
+});
+
+test('POST /skiv/crossbreed/confirm cooldown: 2nd confirm same campaign → 409', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const body = {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'camp-dup',
+  };
+  const r1 = await postJson(app, '/api/skiv/crossbreed/confirm', body);
+  assert.equal(r1.status, 200);
+  const r2 = await postJson(app, '/api/skiv/crossbreed/confirm', body);
+  assert.equal(r2.status, 409);
+  assert.equal(r2.body.error, 'crossbreed_cooldown_active');
+});
+
+test('POST /skiv/crossbreed/confirm different campaigns are allowed (cooldown is per-campaign)', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const mk = (cid) => ({
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: cid,
+  });
+  assert.equal((await postJson(app, '/api/skiv/crossbreed/confirm', mk('c1'))).status, 200);
+  assert.equal((await postJson(app, '/api/skiv/crossbreed/confirm', mk('c2'))).status, 200);
+});
+
+test('POST /skiv/crossbreed/confirm missing campaign_id → 400', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'campaign_id_required');
+});
+
+test('POST /skiv/crossbreed/confirm rate-limit: 11th request in-window → 429', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  let last;
+  for (let i = 0; i < 11; i += 1) {
+    last = await postJson(app, '/api/skiv/crossbreed/confirm', {
+      lineage_id: LINEAGE,
+      partner_card_json: makePartnerCard(),
+      campaign_id: `camp-rl-${i}`, // distinct campaigns -> cooldown never trips
+    });
+  }
+  assert.equal(last.status, 429);
+  assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST /skiv/crossbreed/confirm re-uses the validation gates (404 / 400 / 422)', async () => {
+  // 404 unknown local
+  let app = buildApp({ store: makeStoreStub(), rollMatingOffspring: rollStubOk() });
+  let r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: 'nope',
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'c',
+  });
+  assert.equal(r.status, 404);
+  // 400 signature mismatch
+  app = buildApp({
+    store: makeStoreStub({ [LINEAGE]: makeShareState() }),
+    rollMatingOffspring: rollStubOk(),
+  });
+  const bad = makePartnerCard();
+  bad.companion_card_signature = 'deadbeef'.repeat(8);
+  r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: bad,
+    campaign_id: 'c',
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'signature_mismatch');
+  // 422 narrative partner (no species_id)
+  app = buildApp({
+    store: makeStoreStub({ [LINEAGE]: makeShareState() }),
+    rollMatingOffspring: rollStubOk(),
+  });
+  r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard({ species_id: undefined }),
+    campaign_id: 'c',
+  });
+  assert.equal(r.status, 422);
+  assert.equal(r.body.error, 'crossbreed_requires_biological');
+});
+
+test('POST /skiv/crossbreed (proposal, slice 2) now returns a crossbreed_seed for preview-match', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const r = await postJson(app, '/api/skiv/crossbreed', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+  });
+  assert.equal(r.status, 200);
+  assert.equal(typeof r.body.crossbreed_seed, 'number');
 });
