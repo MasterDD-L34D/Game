@@ -13,6 +13,7 @@ const {
   emitMutationLineage,
   emitHeirloom,
   emitCreatureFell,
+  emitScarRitual,
 } = require('../../apps/backend/services/chronicle/chronicleEmitters');
 const { getChronicle } = require('../../apps/backend/services/chronicle/chronicleStore');
 
@@ -269,4 +270,75 @@ test('emitCreatureFell: no campaign_id -> no_campaign_id (no event)', () => {
 test('emitCreatureFell: null/invalid ctx -> no_ctx (never throws)', () => {
   assert.equal(emitCreatureFell(null).error, 'no_ctx');
   assert.equal(emitCreatureFell('x').error, 'no_ctx');
+});
+
+// SPEC-J sez.6 -- scar ritual outcome (heal/transform), public esito.
+test('emitScarRitual: heal -> public scar_healed event', () => {
+  const baseDir = tmp();
+  const out = emitScarRitual(
+    {
+      campaign_id: 'c1',
+      creature_id: 'u1',
+      kind: 'heal',
+      location: 'torso',
+      species_id: 'dune_stalker',
+    },
+    { baseDir },
+  );
+  assert.equal(out.ok, true);
+  const ev = getChronicle('c1', { baseDir })[0];
+  assert.equal(ev.type, 'scar_healed');
+  assert.equal(ev.tier, 'public');
+  assert.equal(ev.actor_id, 'u1');
+  assert.equal(ev.payload.kind, 'heal');
+  assert.equal(ev.payload.location, 'torso');
+  assert.equal(ev.payload.species_id, 'dune_stalker');
+});
+
+test('emitScarRitual: transform -> scar_transformed with the narrative mark', () => {
+  const baseDir = tmp();
+  const out = emitScarRitual(
+    {
+      campaign_id: 'c2',
+      creature_id: 'u2',
+      kind: 'transform',
+      location: 'arti_anteriori',
+      mark: {
+        id: 'scar_arti_anteriori',
+        origin_location: 'arti_anteriori',
+        origin_stat: 'attack_mod',
+      },
+    },
+    { baseDir },
+  );
+  assert.equal(out.ok, true);
+  const ev = getChronicle('c2', { baseDir })[0];
+  assert.equal(ev.type, 'scar_transformed');
+  assert.equal(ev.payload.kind, 'transform');
+  assert.equal(ev.payload.mark.id, 'scar_arti_anteriori');
+});
+
+test('emitScarRitual: invalid kind -> invalid_kind no-op', () => {
+  const baseDir = tmp();
+  const out = emitScarRitual({ campaign_id: 'c', creature_id: 'u', kind: 'banish' }, { baseDir });
+  assert.equal(out.ok, false);
+  assert.equal(out.error, 'invalid_kind');
+  assert.equal(getChronicle('c', { baseDir }).length, 0);
+});
+
+test('emitScarRitual: no creature_id -> no_creature; no campaign_id -> no_campaign_id', () => {
+  const baseDir = tmp();
+  assert.equal(
+    emitScarRitual({ campaign_id: 'c', kind: 'heal' }, { baseDir }).error,
+    'no_creature',
+  );
+  assert.equal(
+    emitScarRitual({ creature_id: 'u', kind: 'heal' }, { baseDir }).error,
+    'no_campaign_id',
+  );
+});
+
+test('emitScarRitual: null/invalid ctx -> no_ctx (never throws)', () => {
+  assert.equal(emitScarRitual(null).error, 'no_ctx');
+  assert.equal(emitScarRitual('x').error, 'no_ctx');
 });
