@@ -1104,6 +1104,19 @@ function createSessionRouter(options = {}) {
         /* wound system best-effort; never block the hit */
       }
 
+      // SPEC-J slice 1: lethal-death resolution (sez. 3/5/7, forks J1/J4/J5).
+      // Default soft-death: a KO is NOT permadeath. A real death (creature
+      // leaves the roster + creature_death chronicle beat / succession trigger)
+      // only fires when LETHAL_MISSIONS_ENABLED==='true' AND the mission is
+      // flagged lethal AND per-player device consent is granted (PR2). With the
+      // kill switch unset + no consent producer this is inert (band-neutral).
+      // Best-effort, never blocks the hit.
+      try {
+        require('../services/combat/lethalDeath').applyLethalKoIfDead(target, session);
+      } catch {
+        /* lethal-death best-effort; never block the hit */
+      }
+
       // Combat parity GAP-1 (2026-06-07): on_hit_status producer hook. Ports
       // STEP 3 of the removed Python resolver — for each ATTACKER trait that
       // carries an `on_hit_status` block in trait_mechanics.yaml, the target
@@ -2124,6 +2137,11 @@ function createSessionRouter(options = {}) {
         // / reinforcementSpawner via effectivePressure). Flag-gated OFF di default
         // -> il valore e' inerte finche' PRESSURE_TIER_FLOOR_ENABLED!=='true'.
         pressure_tier_floor: encounterPayload?.pressure_tier_floor ?? null,
+        // SPEC-J: per-mission lethal flag (default-off, point-9). Source =
+        // encounter payload `lethal:true` or req.body.lethal. Strict boolean.
+        // Inert unless LETHAL_MISSIONS_ENABLED && per-player consent (PR2);
+        // markCreatureFallen never fires otherwise (band-neutral).
+        lethal: encounterPayload?.lethal === true || req.body?.lethal === true,
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,

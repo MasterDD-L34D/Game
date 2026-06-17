@@ -12,6 +12,7 @@ const {
   emitRunFailed,
   emitMutationLineage,
   emitHeirloom,
+  emitCreatureFell,
 } = require('../../apps/backend/services/chronicle/chronicleEmitters');
 const { getChronicle } = require('../../apps/backend/services/chronicle/chronicleStore');
 
@@ -209,4 +210,63 @@ test('emitHeirloom: filters non-string mutations', () => {
     { baseDir },
   );
   assert.deepEqual(getChronicle('c', { baseDir })[0].payload.mutations, ['ok', 'ok2']);
+});
+
+// SPEC-J -- creature_death emitter (failure-as-lore J5 + SPEC-D death beat).
+test('emitCreatureFell: a lethal death appends a public creature_death event', () => {
+  const baseDir = tmp();
+  const out = emitCreatureFell(
+    {
+      campaign_id: 'c1',
+      creature_id: 'u_apex',
+      creature_name: 'Vorshak',
+      species_id: 'dune_stalker',
+      biome_id: 'savana',
+      lineage_id: 'lin_3',
+      encounter_id: 'enc_lethal_01',
+      turn: 9,
+    },
+    { baseDir },
+  );
+  assert.equal(out.ok, true);
+  const chron = getChronicle('c1', { baseDir });
+  assert.equal(chron.length, 1);
+  assert.equal(chron[0].type, 'creature_death');
+  assert.equal(chron[0].tier, 'public');
+  assert.equal(chron[0].actor_id, 'u_apex');
+  assert.equal(chron[0].payload.creature_name, 'Vorshak');
+  assert.equal(chron[0].payload.species_id, 'dune_stalker');
+  assert.equal(chron[0].payload.biome_id, 'savana');
+  assert.equal(chron[0].payload.lineage_id, 'lin_3');
+  assert.equal(chron[0].payload.encounter_id, 'enc_lethal_01');
+  assert.equal(chron[0].payload.turn, 9);
+  // Succession trigger (SPEC-E E2 / J4): default true (a fall opens succession).
+  assert.equal(chron[0].payload.succession_trigger, true);
+});
+
+test('emitCreatureFell: succession_trigger can be opted out (e.g. non-MVP creature)', () => {
+  const baseDir = tmp();
+  emitCreatureFell({ campaign_id: 'c', creature_id: 'u2', succession_trigger: false }, { baseDir });
+  assert.equal(getChronicle('c', { baseDir })[0].payload.succession_trigger, false);
+});
+
+test('emitCreatureFell: no creature_id -> no_creature no-op (a fall commemorates a creature)', () => {
+  const baseDir = tmp();
+  const out = emitCreatureFell({ campaign_id: 'c' }, { baseDir });
+  assert.equal(out.ok, false);
+  assert.equal(out.error, 'no_creature');
+  assert.equal(getChronicle('c', { baseDir }).length, 0);
+});
+
+test('emitCreatureFell: no campaign_id -> no_campaign_id (no event)', () => {
+  const baseDir = tmp();
+  const out = emitCreatureFell({ creature_id: 'u1' }, { baseDir });
+  assert.equal(out.ok, false);
+  assert.equal(out.error, 'no_campaign_id');
+  assert.equal(fs.readdirSync(baseDir).length, 0);
+});
+
+test('emitCreatureFell: null/invalid ctx -> no_ctx (never throws)', () => {
+  assert.equal(emitCreatureFell(null).error, 'no_ctx');
+  assert.equal(emitCreatureFell('x').error, 'no_ctx');
 });
