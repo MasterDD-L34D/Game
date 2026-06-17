@@ -137,11 +137,11 @@ Per risultati ri-ottenibili:
 
 Manifest macchina-leggibile: [`docs/playtest/canonical-suite.yaml`](../playtest/canonical-suite.yaml).
 
-| Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)                   | Stato                                                      |
-| ----------------------------------- | ----------------- | ----------------------------------------------------------- | --------------------------- | ---------------------------------------------------------- |
-| `enc_tutorial_06_hardcore`          | 15-25%            | `boss_hp_multiplier: 0.65`                                  | 15-25% (iter2 + #2381)      | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
-| `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.1` (REPLACE class 1.8) | 30-40% (post-wave 5-7 nerf) | IN-BAND                                                    |
-| `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy                | NON balance-oracle (ladder di apprendimento)               |
+| Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)              | Stato                                                      |
+| ----------------------------------- | ----------------- | ----------------------------------------------------------- | ---------------------- | ---------------------------------------------------------- |
+| `enc_tutorial_06_hardcore`          | 15-25%            | `boss_hp_multiplier: 0.65`                                  | 15-25% (iter2 + #2381) | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
+| `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.5` (REPLACE class 1.8) | 42% (N=100 2026-06-14) | IN-BAND                                                    |
+| `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy           | NON balance-oracle (ladder di apprendimento)               |
 
 Fonte knob: `data/core/balance/damage_curves.yaml`. Fonte dati: `docs/playtest/2026-05-20-*`, `2026-05-21-*`, `2026-05-26-ratify-2381-balance.md`.
 
