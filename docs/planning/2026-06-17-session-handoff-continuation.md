@@ -18,21 +18,31 @@ presentato a master-dd via AskUserQuestion -> 4 verdetti eseguiti + A2 deployato
 
 ## TL;DR
 
-- **4 PR mergiate**: SPEC-A flip (item-1 -> 12/17), SPEC-F routes slices 0-2, OD-059
-  biome-memory, hc06 band-widen.
+- **6 verdetti backlog eseguiti + 7 PR + A2 prod-deploy + Postgres restore**.
 - **A2 `pressure_tier_floor` LIVE in prod** (deploy + flip, verificato end-to-end).
-- Decision backlog: A2=flip-ON, hc06=banda A, SPEC-A=flip, OD-059=A reuse -- TUTTI eseguiti.
+- **SPEC-A + SPEC-G flippate -> active**; **item-1 = 13/17**.
+- Decision backlog: A2=flip-ON / hc06=banda A / SPEC-A=flip / OD-059=A reuse / G=build+flip /
+  Postgres=avvia -- TUTTI eseguiti.
 
-## PR mergiate (4)
+## PR mergiate (7)
 
-| PR    | Scope                                         | SHA      |
-| ----- | --------------------------------------------- | -------- |
-| #2782 | flip SPEC-A review_needed -> active (12/17)   | 28a37e52 |
-| #2783 | SPEC-F custode /share + /crossbreed-propose   | 5927cb7d |
-| #2784 | OD-059 campaign biome-memory (read-only narr) | abcc28f6 |
-| #2785 | hc06 band-widen 0.15-0.25 -> 0.15-0.30 (A)    | 2e0b9622 |
+| PR     | Scope                                         | SHA      |
+| ------ | --------------------------------------------- | -------- |
+| #2782  | flip SPEC-A review_needed -> active           | 28a37e52 |
+| #2783  | SPEC-F custode /share + /crossbreed-propose   | 5927cb7d |
+| #2784  | OD-059 campaign biome-memory (read-only narr) | abcc28f6 |
+| #2785  | hc06 band-widen 0.15-0.25 -> 0.15-0.30 (A)    | 2e0b9622 |
+| #2786  | handoff continuazione                         | ae09e825 |
+| #2787  | SPEC-G power_level + anti-agency offer-layer  | 52e5252e |
+| (this) | flip SPEC-G + handoff/pointer final           | --       |
 
-main HEAD = `2e0b9622`.
+## SPEC-G (#2787) -- MVP slice + flip
+
+`power_level` metadata su 17 carte reward (ratificato master-dd: 16 `suggerimento` + 1 `vista`
+[`rwd_apex_scent`] + 0 `controllo_reale`; enum snake; fail-closed -> `suggerimento`) + helper
+`rewardPowerLevel.js` + anti-agency test offer-layer. **Band-neutral** (metadata inerte, 0 consumer),
+unflagged, zero forbidden-path. **SPEC-G flippata -> active** (forward-work residue: controllo_reale
+apply+consent = SPEC-K; sorgenti narrativa/dottrinale sez.3 = slice futura). 23/23 + AI 543/543.
 
 ## A2 -- DEPLOYATO + LIVE in prod (2026-06-17, Lenovo CODEMASTERDD)
 
@@ -57,15 +67,16 @@ Magnitudine floor = review post-Godot-playtest #2 (solo UP).
 
 - **Prod worktree `_gamewt-lenovo-host` @ `5927cb7d`** = behind main di 2 commit (#2784 OD-059
   narrativo + #2785 hc06 band-tooling = non-prod-critical; dati A2 presenti). Prossimo deploy li porta.
-- **Postgres NON gira su Lenovo** (no listener 5432/5433; `DATABASE_URL` in
-  `_gamewt-lenovo-host/.env`) -> coop lobby Prisma hydrate fallisce graceful
-  (`lobbyPersistence.js:112`, pre-esistente, NON dal deploy). Core session = NeDB/in-mem OK.
-  Decision: avviare Postgres portable se serve persistenza coop in prod.
+- **Postgres prod RIPRISTINATO** (master-dd "avvia"): portable PG 16.4 avviato
+  (`C:/dev/tools/pgsql/bin/pg_ctl.exe -D C:/dev/tools/pgdata-game -l .../server.log start`,
+  listener 5432; `DATABASE_URL=...@localhost:5432/game`) + backend restart -> boot log
+  `[lobby-ws] Prisma hydrate: 3 room(s) restored`, zero prisma:error. Coop lobby persistence LIVE.
+  NOTE: `pg_ctl start` NON sopravvive a reboot host (nessun servizio auto-start) = follow-up.
 
-## Item-1: 12/17 active
+## Item-1: 13/17 active
 
-active (12): I, K, L, M, N, O, C, D, E, P, Q, **A**.
-blocked (5): B (gated SPEC-K), F (slice 3 gated), G (tri-sorgente), H (aliena), J (lethal-wounds).
+active (13): I, K, L, M, N, O, C, D, E, P, Q, **A**, **G**.
+blocked (4): B (gated SPEC-K), F (slice 3 gated), H (aliena), J (lethal-wounds).
 
 ## Flagged a master-dd (verify-first, NON fabbricati)
 
@@ -76,11 +87,13 @@ blocked (5): B (gated SPEC-K), F (slice 3 gated), G (tri-sorgente), H (aliena), 
 - **OD-059 design-call** (deferred, structured-data only shipped): copy narrativa, soglie,
   semantica turn-delta (default `session.turn`/unit), se mai meccanico (= N=40).
 - **#2785 P2**: master-dd ha scelto class-wide as-is (A); per-scenario override = follow-up se serve.
+- **SPEC-G controllo_reale apply+consent** = SPEC-K-coupled (nessun card-apply path oggi -> 0
+  controllo_reale cards). Sorgenti narrativa/dottrinale (sez.3) = slice futura. `tri-sorgente.schema.json`
+  = orphan non validato dalla route live (forbidden-path, lasciato).
 
 ## Next frontier (blocked-build, build-vero)
 
-- **G** tri-sorgente: `power_level` 0 hit in `data/core/rewards/` + test anti-agency assente.
-  Valori power_level = DESIGN-CALL (master-dd).
-- **H** aliena-enforcement: N=40 ALIENA pilot + authoring-gate 6-dim (piu' grosso).
+- **H** aliena-enforcement: N=40 ALIENA pilot + authoring-gate 6-dim (piu' grosso, design-heavy).
 - **J** lethal-wounds: layer lethal/consenso/rituali/succession = 0 codice (build grosso).
-- Oppure: A2 magnitude post-playtest Godot; item-3 Godot cross-repo.
+- **B** tv-device-info + **F slice 3**: gated SPEC-K / 3 design-call.
+- Oppure: A2 magnitude post-playtest Godot; item-3 Godot cross-repo; Postgres auto-start service.
