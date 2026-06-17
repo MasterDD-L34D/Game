@@ -77,6 +77,37 @@ test('nido/ritual: no scar at location -> 409 ritual_unavailable (no_scar)', asy
   assert.equal(res.body.reason, 'no_scar');
 });
 
+test('GET nido/scars: lists grave scars per unit (drives the ritual UI)', async (t) => {
+  // SPEC-J item-3 (Track A prereq): the phone Nido ritual UI must know WHICH
+  // creatures have a grave scar + at WHICH location to offer heal/transform. The
+  // public session state does not carry that list, so this read exposes it. Only
+  // units WITH >=1 grave scar are listed (the ritual-able set).
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid, pgId } = await startWithScar(app, 'torso');
+  const res = await request(app).get(`/api/session/${sid}/nido/scars`);
+  assert.equal(res.status, 200, JSON.stringify(res.body).slice(0, 200));
+  assert.equal(res.body.session_id, sid);
+  const u = res.body.units.find((x) => x.unit_id === pgId);
+  assert.ok(u, 'unit with a grave scar is listed');
+  assert.equal(u.scars.length, 1);
+  assert.equal(u.scars[0].location, 'torso');
+  assert.equal(u.scars[0].severity, 'grave');
+  // every listed unit is ritual-able (>=1 grave scar) -- no scar-free noise.
+  assert.ok(res.body.units.every((x) => Array.isArray(x.scars) && x.scars.length > 0));
+});
+
+test('GET nido/scars: unknown session -> 404', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).get('/api/session/no_such_session/nido/scars');
+  assert.equal(res.status, 404);
+});
+
 test('nido/ritual: invalid kind -> 400; unknown unit -> 404', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
