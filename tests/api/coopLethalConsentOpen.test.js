@@ -65,6 +65,9 @@ test('POST /coop/lethal/open: broadcasts anonymous lethal_consent_open snapshot'
   assert.ok(ev, 'lethal_consent_open must be broadcast');
   assert.equal(ev.msg.payload.total, 2);
   assert.equal(ev.msg.payload.status, 'pending');
+  // SPEC-J item-3 J2: the open broadcast carries the round timeout_ms so the
+  // Godot client drives its countdown without hardcoding the design value.
+  assert.equal(ev.msg.payload.timeout_ms, 5000);
   // F5: the broadcast must NOT leak the per-player roster.
   assert.equal(ev.msg.payload.at_risk, undefined);
 });

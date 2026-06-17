@@ -123,6 +123,20 @@ test('snapshot: anonymous counts only, no player ids/names leaked', () => {
   assert.equal(snap.confirmed, undefined);
 });
 
+test('snapshot: carries timeout_ms (round duration) for the client countdown', () => {
+  // SPEC-J item-3 J2: the Godot client renders a countdown but must NOT hardcode
+  // the design value. The anonymous snapshot carries the round timeout_ms (a
+  // duration constant, not a roster -> F5-safe) so open/waiting broadcasts let
+  // the device drive its countdown.
+  const s = lc.open(['p1', 'p2'], { now: 0, timeoutMs: 5000 });
+  assert.equal(lc.snapshot(s).timeout_ms, 5000);
+  // A non-positive timeoutMs normalized to the default still surfaces it.
+  const d = lc.open(['p1'], { now: 0, timeoutMs: 0 });
+  assert.equal(lc.snapshot(d).timeout_ms, lc.DEFAULT_TIMEOUT_MS);
+  // Empty/no-round snapshot is shape-stable (timeout_ms present, 0).
+  assert.equal(lc.snapshot(null).timeout_ms, 0);
+});
+
 // --- outcome / isGranted -------------------------------------------------
 
 test('isGranted: true only on granted, false on every soft state', () => {
