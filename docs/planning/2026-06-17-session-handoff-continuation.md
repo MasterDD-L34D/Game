@@ -209,6 +209,32 @@ domande, consigliato-first). Master-dd = **vai** (accettati i 3 consigliati). 1 
   validator 7/7, difficulty 25/25, AI 543/543, governance errors=0.
 - Sessione totale = **3 PR** (#2798 auto-timer + #2799 handoff + #2800 verdicts).
 
+## Continuazione 5 -- next-frontier scelta = item-3 Godot SPEC-J consent surface
+
+Master-dd ha chiesto "sempre le domande". Eseguito **workflow next-frontier** (4 finder: H-aliena +
+item-3 Godot + B/F/E residue + frontier-value, web+repo) -> synth-critic. AskUserQuestion (4 domande:
+frontiera + J1 + J2 + esecuzione-Godot). Master-dd = **vai** (tutti consigliati).
+
+- **Frontiera scelta = item-3 Godot SPEC-J lethal-consent surface.** Gate-5 (engine-LIVE/surface-DEAD
+  = ~0 valore) = vincolo binding; SPEC-J = unica superficie genuinamente morta ad alto valore
+  (verificato: 0 handler `lethal_consent` in Game-Godot-v2 `coop_ws_peer.gd` -> broadcast cadono in
+  unknown_type toast). 🔑 **Falsificazione**: la UI route-choice META_NETWORK e' GIA' costruita (#401)
+  -> il suo flip e' puro env-flip master-dd, NON un build. H aliena = backend-su-machinery-LIVE
+  (aggiunge inventario engine-invisibili = anti-pattern Gate-5); label HA1/HA2/HA4 = solo handoff,
+  NON nello spec SPEC-H (review_needed).
+- **J1 at-risk targeting = show-confirm-a-tutti no-op-safe** (zero backend, F5-clean; confirm
+  non-at-risk e' gia' un no-op backend).
+- **J2 countdown = timeout_ms nello snapshot -> SHIPPED PR #2803 `6671cdc7`** (`snapshot()` porta
+  `timeout_ms` = durata round, F5-safe non-roster; cavalca open/waiting broadcast; il client guida il
+  countdown senza hardcodare 120000 [valore RATIFIED-PROVISIONAL, andra' verso ~90s]). coop 335/335,
+  AI 543/543, 0 Codex finding.
+- **J3 TV = conteggi anonimi + countdown + bottone host-cancel**; **J4 phone = lock + "in attesa del
+  branco (N/M)" + dismiss-on-resolved**, host-cancel = bottone TV dedicato (non long-press).
+- **Esecuzione Godot = CHIP cross-repo spawnata** `task_1162a9a2` (Game-Godot-v2: 4 signal+case in
+  coop_ws_peer.gd mirror route_tally + confirm-sender + PhoneLethalConsentWire overlay + TV panel +
+  roadmap entry + issue). NON buildabile dal repo Game (repo separato, fuori auto-merge L3).
+- Sessione totale (cont 3-5) = **#2798 #2799 #2800 #2801 #2803** + chip Godot.
+
 ## Next frontier (blocked-build, build-vero)
 
 - **SPEC-J backend = DONE e2e** (auto-timer incluso); timeout RATIFIED-PROVISIONAL; residui = SPEC-E (transform-trait/cost) + item-3 (Godot UI = sblocca flip + rende osservabile la countdown) + flip (DEFERRED, master-dd).
