@@ -3728,6 +3728,54 @@ function createSessionRouter(options = {}) {
       } catch {
         /* best-effort -- never blocks session end */
       }
+      // OD-059 (#1673) -- accumulate campaign-scoped READ-ONLY NARRATIVE
+      // biome-familiarity for each surviving player unit. Carry-over: persists
+      // ACROSS the encounters/sessions of one run (the inert session-scoped
+      // `unit.cumulative_biome_turns` never did). Band-safe: writes ONLY
+      // `campaign.biomeMemory`; reads NO combat state; touches NO mechanical
+      // primitive. Best-effort -- never blocks session end.
+      //
+      // turn-delta = `session.turn` (the encounter's total round count at /end),
+      // applied per SURVIVING player unit. DESIGN-KNOB (REVERSIBLE, flagged for
+      // master-dd): the exact delta semantics -- always vs victory-only vs
+      // rounds-alive vs a flat +1 -- is a narrative-tuning call, not a mechanical
+      // one (no band impact either way). Simplest defensible default chosen here.
+      try {
+        const campaignId = session.campaign_id;
+        const biomeId = session.biome_id;
+        if (campaignId && biomeId) {
+          const { recordBiomeTurns } = require('../services/campaign/campaignStore');
+          const turnDelta = Number.isFinite(session.turn) ? session.turn : 0;
+          const survivors = (session.units || []).filter(
+            // B5: minions are expendable, not campaign creatures -- exclude.
+            (u) => u && u.controlled_by === 'player' && !u.is_minion && (u.hp ?? 0) > 0,
+          );
+          for (const u of survivors) {
+            recordBiomeTurns(campaignId, u.id, biomeId, turnDelta);
+          }
+        }
+      } catch {
+        /* best-effort -- biome-memory carry-over never blocks session end */
+      }
+      // OD-059 read-only surface: structured biome-familiarity for the player
+      // unit(s) of THIS encounter, for the debrief/end payload. STRUCTURED DATA
+      // only `{ [unitId]: { [biomeId]: turns } }` -- no prose copy; narrative
+      // rendering + thresholds = master-dd / Godot design-call. Pure read; never
+      // mutates combat state. {} when no campaign / no familiarity yet.
+      let biomeFamiliarity = {};
+      try {
+        if (session.campaign_id) {
+          const { getBiomeMemory } = require('../services/campaign/campaignStore');
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player' && !u.is_minion) {
+              const mem = getBiomeMemory(session.campaign_id, u.id);
+              if (mem && Object.keys(mem).length) biomeFamiliarity[u.id] = mem;
+            }
+          }
+        }
+      } catch {
+        biomeFamiliarity = {};
+      }
       // SPEC-P sez.4/5 -- assemble the failure epilogue + codex hook on run-fail.
       // Reads the UPDATED woundedBiomes (after the A13 block above). No-op on
       // victory / no campaign_id. Best-effort -- never blocks session end.
@@ -3873,6 +3921,10 @@ function createSessionRouter(options = {}) {
         // (N=40 F2: the axis was dead without unitStatsById).
         debrief_payload: vcSnapshotToDebriefPayload(vcSnapshot, unitStatsById(session)),
         debrief,
+        // OD-059 (#1673) -- READ-ONLY NARRATIVE biome-familiarity carry-over.
+        // Structured data only `{ [unitId]: { [biomeId]: turns } }`; {} when no
+        // campaign. Narrative rendering + thresholds = master-dd / Godot.
+        biome_familiarity: biomeFamiliarity,
       });
     } catch (err) {
       next(err);
