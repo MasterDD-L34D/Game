@@ -32,38 +32,73 @@ def orchestrate(
     max_bisect=8,
     probe_n=10,
     ratify_n=40,
+    optuna_search=None,
+    optuna_trials=8,
+    optuna_n_per_trial=20,
+    seed=42,
 ):
-    """Tune a single knob to land WR in `band`, using `runner(knob_values, n) -> metrics`.
+    """Tune a scenario's KNOB(s) to land WR in `band`, using `runner(knob_values, n) -> metrics`.
 
-    P2: probe -> ratify -> single-knob direction-aware bisection. Returns a result dict
-    {status, knob, metrics, composite, band, n_used, history}. status is 'in-band' if a
-    ratify run lands in band, else 'not-converged' (best-so-far reported).
+    Escalation (P3): a single tunable knob uses probe -> ratify -> direction-aware
+    bisection; if bisection cannot converge it escalates to the OPTUNA stage. More than
+    one tunable knob cannot be tuned by single-knob bisection, so it goes straight to
+    OPTUNA (joint Bayesian search, L-070). `optuna_search(knob_space, runner, *, score_fn,
+    n_trials, n_per_trial, seed, start_knob) -> best_knob` is injectable (the real
+    calibrate_optuna core in production, a deterministic fake in tests); when None it is
+    lazily imported. Returns {status, knob, metrics, composite, band, n_used, history};
+    status is 'in-band' if a ratify run lands in band, else 'not-converged'.
     """
     history = []
     if not knob_space:
         return {"status": "not-converged", "knob": dict(start_knob), "metrics": {},
                 "composite": None, "band": band, "n_used": 0, "history": history}
+
+    def run_full(knob_values, n, stage):
+        m = runner({**start_knob, **knob_values}, n)
+        wr = m["win_rate"]
+        # Gates on WR (in_band). Composite is best-effort for the report: if the runner
+        # did not emit every objective term (e.g. pe_ratio not yet wired in the batch
+        # aggregate), composite stays None rather than crashing. Composite-driven gating
+        # is a P4 concern.
+        try:
+            comp = evaluate_metric(objective_metric, m) if objective_metric else None
+        except KeyError:
+            comp = None
+        history.append({"stage": stage, "knob": dict(knob_values), "win_rate": wr, "n": n})
+        return m, wr, comp
+
+    def result(status, knob_values, m, comp):
+        return {"status": status, "knob": dict(knob_values), "metrics": m, "composite": comp,
+                "band": band, "n_used": ratify_n, "history": history}
+
+    def band_score(m):
+        # Minimize: distance of WR to band-center, steep penalty when OOB (so the search
+        # is pushed inside the existing band, never asked to redefine it -- CANONICAL sec 9).
+        wr = m["win_rate"]
+        center = (band[0] + band[1]) / 2.0
+        oob = 0.0 if in_band(wr, band) else min(abs(wr - band[0]), abs(wr - band[1]))
+        return abs(wr - center) + 5.0 * oob
+
+    def optuna_stage():
+        search = optuna_search
+        if search is None:
+            from calibrate_optuna import optuna_search as _impl  # noqa: E402
+            search = _impl
+        best = search(knob_space, runner, score_fn=band_score, n_trials=optuna_trials,
+                      n_per_trial=optuna_n_per_trial, seed=seed, start_knob=start_knob)
+        m2, wr2, c2 = run_full(best, ratify_n, "ratify")
+        return result("in-band" if in_band(wr2, band) else "not-converged", best, m2, c2)
+
+    # >1 tunable knob: single-knob bisection cannot tune jointly -> OPTUNA (joint search).
+    if len(knob_space) > 1:
+        return optuna_stage()
+
     name = next(iter(knob_space))
     spec = knob_space[name]
     lo, hi = float(spec["min"]), float(spec["max"])
 
     def run(x, n, stage):
-        m = runner({**start_knob, name: x}, n)
-        wr = m["win_rate"]
-        # P2 gates on WR (in_band). Composite is best-effort for the report: if the
-        # runner did not emit every objective term (e.g. pe_ratio not yet wired in the
-        # batch aggregate), composite stays None rather than crashing. Composite-driven
-        # gating is a P3/P4 concern.
-        try:
-            comp = evaluate_metric(objective_metric, m) if objective_metric else None
-        except KeyError:
-            comp = None
-        history.append({"stage": stage, "knob": {name: x}, "win_rate": wr, "n": n})
-        return m, wr, comp
-
-    def result(status, x, m, comp):
-        return {"status": status, "knob": {name: x}, "metrics": m, "composite": comp,
-                "band": band, "n_used": ratify_n, "history": history}
+        return run_full({name: x}, n, stage)
 
     # PROBE at the starting knob; if in band, RATIFY and finalize.
     x0 = float(start_knob[name])
@@ -71,7 +106,7 @@ def orchestrate(
     if in_band(wr, band):
         m2, wr2, c2 = run(x0, ratify_n, "ratify")
         if in_band(wr2, band):
-            return result("in-band", x0, m2, c2)
+            return result("in-band", {name: x0}, m2, c2)
 
     # BISECTION (single knob, L-070). Bracket [lo,hi]; monotonic WR.
     _ml, wrlo, _ = run(lo, probe_n, "bisect")
@@ -88,23 +123,24 @@ def orchestrate(
         if in_band(wr, band):
             m2, wr2, c2 = run(mid, ratify_n, "ratify")
             if in_band(wr2, band):
-                return result("in-band", mid, m2, c2)
+                return result("in-band", {name: mid}, m2, c2)
         if increasing:
             a, b = (mid, b) if wr < target else (a, mid)
         else:
             a, b = (a, mid) if wr < target else (mid, b)
 
-    # Exhausted: ratify the best-so-far; report converged-or-not.
+    # Bisection exhausted: ratify best-so-far; if still OOB, escalate to OPTUNA.
     mid, _wr, _m, _comp = best
     m2, wr2, c2 = run(mid, ratify_n, "ratify")
-    status = "in-band" if in_band(wr2, band) else "not-converged"
-    return result(status, mid, m2, c2)
+    if in_band(wr2, band):
+        return result("in-band", {name: mid}, m2, c2)
+    return optuna_stage()
 
 
 def orchestrate_scenario(scenario_id, *, manifest, runner, **kw):
     """Resolve band / knob_space / start (ratified) / objective / escalation from the
-    suite manifest and run `orchestrate`. The tunable lever is the FIRST knob in the
-    scenario's knob_space (P2 single-knob); other ratified knobs are held fixed."""
+    suite manifest and run `orchestrate`. A single-knob scenario tunes that lever (held
+    others fixed); a multi-knob scenario goes to the joint OPTUNA stage (P3)."""
     from suite_manifest import (  # noqa: E402
         get_scenario,
         scenario_band,
@@ -133,6 +169,8 @@ def orchestrate_scenario(scenario_id, *, manifest, runner, **kw):
         runner=runner,
         probe_n=kw.pop("probe_n", esc.get("probe_n", 10)),
         ratify_n=kw.pop("ratify_n", esc.get("ratify_n", 40)),
+        optuna_trials=kw.pop("optuna_trials", esc.get("optuna_trials", 8)),
+        optuna_n_per_trial=kw.pop("optuna_n_per_trial", esc.get("optuna_n_per_trial", 20)),
         **kw,
     )
 
