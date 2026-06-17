@@ -145,15 +145,44 @@ AI 543/543 + combat-oracle + meta-loop-oracle green su tutte. **5 PR sessione** 
 
 ### Residui SPEC-J (gated, NON fabbricare)
 
-- **AUTOMATIC timeout timer** (sez.5 trigger a, timeout non-presidiato): oggi `POST /coop/lethal/cancel`
-  (host) e' l'escape deterministico ("mai loop bloccato") -> il timer auto e' polish, non un buco di hang.
+- ~~**AUTOMATIC timeout timer** (sez.5 trigger a)~~ -> **DONE** (PR #2798 `3a8051a7`, vedi Continuazione 3 sotto).
 - **transform -> trait mechanical** (scar -> tratto reale) + **ritual resource-cost** (E6) = SPEC-E/balance.
 - **Godot device UI** (consent prompt + ritual private device-owned, SPEC-K 7.6) = item-3 cross-repo.
 - **flip `LETHAL_MISSIONS_ENABLED=true` + valore timeout consent = master-dd**, solo post lethal-mission N=40/playtest.
 
+## Continuazione 3 -- SPEC-J auto-timer (sez.5 trigger-a) SHIPPED
+
+Sessione fresca continuazione: master-dd via AskUserQuestion -> **SPEC-J auto-timer** (default consigliato,
+last buildable-autonomo residue). 1 PR merged.
+
+- **PR #2798 `3a8051a7`** (`feat(spec-j): automatic lethal-consent timeout timer`): one-shot wall-clock
+  timer armato a `openLethalConsent`; allo scadere di `timeout_ms` auto-risolve il round `pending` a
+  `timeout_soft` (NON parte lethal) senza azione host ("mai loop bloccato"). Prima: solo confirm-all /
+  host-cancel / eval-manuale risolvevano -> device online-no-risposta restava pending fino a host-cancel.
+  - Scheduler `setTimeoutFn`/`clearTimeoutFn` injectable (default globals, `.unref()`ed); `coopStore`
+    ha ora `orchestratorOptions` (DI seam). `onTimeout(snap,outcome)` callback da `/coop/lethal/open`
+    broadcasta `lethal_consent_resolved` -- fira SOLO dal timer (no double-broadcast coi path manuali).
+    Timer clear su: confirm->granted / eval-resolution / startRun / startOnboarding / advanceScenarioOrEnd
+    / coopStore.remove.
+  - **VALUE-NEUTRAL**: il valore 120s (`DEFAULT_TIMEOUT_MS`) resta PROPOSED design-call master-dd; la PR
+    wira solo il firing. Band-neutral / default-OFF (`LETHAL_MISSIONS_ENABLED`); pull-only.
+  - **Adversarial review `coop-phase-validator`** (agent-scanner -> REUSE) ha trovato 3 bug reali fixati
+    pre-merge: P1-B dual-clock race (libuv-monotonic decide il fire vs Date.now per l'elapsed -> fire
+    sub-ms-early = round bloccato pending in silenzio; fix = eval `now` pinnato all'esatto deadline),
+    P1-A leak timer in `advanceScenarioOrEnd`, P2-A leak timer in `coopStore.remove`. **Codex P2** fixato:
+    `timeout_ms` non-positivo (0/neg) -> normalizza a DEFAULT in `consentSM.open`.
+  - Test: auto-timer 13 + SM +1 + e2e route +1. **coop 334/334, AI 543/543**, prettier+CI green.
+  - 🔴 lesson: `setTimeout` NON e' bit-coupled a `Date.now` (due clock distinti) -> un timer che
+    ri-controlla l'elapsed con un clock diverso da quello che ha deciso il fire puo' lasciare lo stato
+    irrisolto; pinna il timestamp di eval al deadline schedulato.
+
+item-1 **invariato 13/17** (SPEC-J resta `review_needed`; auto-timer non flippa uno SPEC, chiusura piena
+= item-3 Godot UI + flip). **Residui SPEC-J ora**: SPEC-E (transform-trait/cost) + item-3 (Godot UI) + flip
+(master-dd post lethal-mission N=40).
+
 ## Next frontier (blocked-build, build-vero)
 
-- **SPEC-J backend = DONE e2e**; residui = auto-timer (small) + SPEC-E (transform-trait/cost) + item-3 (Godot UI) + flip (master-dd).
+- **SPEC-J backend = DONE e2e** (auto-timer incluso); residui = SPEC-E (transform-trait/cost) + item-3 (Godot UI) + flip (master-dd).
 - **H** aliena-enforcement: infra ALIENA GIA' robusta (spawn-bias/reinforcement/telemetry/
   coherence/generator/calibrate); residuo = authoring-gate validator + telemetry + flip (N=40).
   3 design-call aperti HA1/HA2/HA4 (rec ma non ratificati). NON 0-code.
