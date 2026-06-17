@@ -24,6 +24,12 @@ const {
   addFragments,
   getFragments,
 } = require('../../apps/backend/services/rewards/skipFragmentStore');
+const {
+  resolvePowerLevel,
+  POWER_LEVELS,
+  DEFAULT_POWER_LEVEL,
+} = require('../../apps/backend/services/rewards/rewardPowerLevel');
+const { loadPool } = require('../../apps/backend/services/rewards/rewardPoolLoader');
 const { createApp } = require('../../apps/backend/app');
 
 // ─── Pure function tests ──────────────────────────────────────────────
@@ -82,6 +88,41 @@ test('scoreCard: composite score respects weights', () => {
   const score = scoreCard(card, ctx);
   // base 1.0 + roll 1.0 + synergy 0.5 = 2.5
   assert.ok(score > 2.0, `expected >2.0, got ${score}`);
+});
+
+// ─── SPEC-G power_level resolver (anti-agency) ─────────────────────────
+
+test('resolvePowerLevel: valid enum member passes through', () => {
+  assert.equal(resolvePowerLevel({ power_level: 'suggerimento' }), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: 'vista' }), 'vista');
+  assert.equal(resolvePowerLevel({ power_level: 'controllo_reale' }), 'controllo_reale');
+});
+
+test('resolvePowerLevel: missing / garbage fails closed to suggerimento', () => {
+  assert.equal(DEFAULT_POWER_LEVEL, 'suggerimento');
+  assert.equal(resolvePowerLevel({}), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: undefined }), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: null }), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: 'CONTROLLO_REALE' }), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: 'controllo reale' }), 'suggerimento');
+  assert.equal(resolvePowerLevel({ power_level: 42 }), 'suggerimento');
+  assert.equal(resolvePowerLevel(null), 'suggerimento');
+  assert.equal(resolvePowerLevel(undefined), 'suggerimento');
+});
+
+test('buildOffer: every offered card carries a valid power_level (fail-closed)', () => {
+  const pool = Array.from({ length: 6 }, (_, i) => ({
+    id: `c${i}`,
+    rarity: 'common',
+    roll_bucket: i + 1,
+    // intentionally NO power_level → must fail-closed to suggerimento
+  }));
+  const result = buildOffer(pool, { seed: 7, rollBucket: 3, offerSize: 4 });
+  assert.ok(result.offers.length > 0);
+  for (const o of result.offers) {
+    assert.ok(POWER_LEVELS.includes(o.card.power_level), `unexpected: ${o.card.power_level}`);
+    assert.equal(o.card.power_level, 'suggerimento');
+  }
 });
 
 test('softmaxSample: respects n without replacement', () => {
@@ -155,6 +196,75 @@ test('POST /api/rewards/offer: returns 3 offers from MVP pool', async (t) => {
   assert.equal(res.body.pool_id, 'reward_pool_mvp');
   assert.equal(res.body.offers.length, 3);
   assert.equal(res.body.skip_available, true);
+});
+
+// ─── SPEC-G anti-agency (offer layer) ──────────────────────────────────
+
+test('MVP pool: every card declares a valid power_level + ZERO controllo_reale', () => {
+  const poolDoc = loadPool('reward_pool_mvp');
+  assert.ok(poolDoc && Array.isArray(poolDoc.cards), 'MVP pool loads');
+  assert.ok(poolDoc.cards.length > 0, 'MVP pool non-empty');
+  for (const card of poolDoc.cards) {
+    const lvl = resolvePowerLevel(card);
+    assert.ok(POWER_LEVELS.includes(lvl), `${card.id}: ${lvl}`);
+    assert.notEqual(
+      lvl,
+      'controllo_reale',
+      `${card.id} is controllo_reale — needs SPEC-K consent path, not in MVP pool`,
+    );
+  }
+  // Ratified 2026-06-17: rwd_apex_scent = vista; all others = suggerimento.
+  const apex = poolDoc.cards.find((c) => c.id === 'rwd_apex_scent');
+  assert.ok(apex, 'rwd_apex_scent present');
+  assert.equal(resolvePowerLevel(apex), 'vista');
+});
+
+test('POST /api/rewards/offer: offered cards carry power_level, none controllo_reale', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app)
+    .post('/api/rewards/offer')
+    .send({ campaign_id: 'c_pl', actor_id: 'u_pl', roll_bucket: 10, seed: 42 });
+  assert.equal(res.status, 200);
+  assert.ok(res.body.offers.length > 0);
+  for (const o of res.body.offers) {
+    assert.ok(POWER_LEVELS.includes(o.card.power_level), `unexpected: ${o.card.power_level}`);
+    assert.notEqual(o.card.power_level, 'controllo_reale');
+  }
+});
+
+test('POST /api/rewards/offer: payload carries only offering actor cards (no other-player private content)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app)
+    .post('/api/rewards/offer')
+    .send({ campaign_id: 'c_agency', actor_id: 'owner_actor', roll_bucket: 10, seed: 42 });
+  assert.equal(res.status, 200);
+  // Offer is scoped to the single requesting actor: actor_id echoes the requester
+  // and there is no per-other-player card content in the payload (no controllo_reale
+  // card targeting another actor can leak here — SPEC-K territory, not built).
+  assert.equal(res.body.actor_id, 'owner_actor');
+  const topLevelKeys = Object.keys(res.body).sort();
+  assert.deepEqual(topLevelKeys, [
+    'actor_id',
+    'campaign_id',
+    'offer_size',
+    'offers',
+    'pool_id',
+    'skip_available',
+    'skip_fragment_delta',
+  ]);
+  // Each offer entry exposes only the standard card/score/components shape — no
+  // foreign-actor identity or private state riding along.
+  for (const o of res.body.offers) {
+    assert.deepEqual(Object.keys(o).sort(), ['card', 'components', 'score']);
+    assert.ok(!('target_actor_id' in o.card), 'no foreign-actor target on card');
+    assert.ok(!('owner_id' in o.card), 'no foreign owner_id on card');
+  }
 });
 
 test('POST /api/rewards/skip: increments fragments', async (t) => {

@@ -1,7 +1,7 @@
 # V2 Tri-Sorgente — reward card pool seed (MVP).
 #
-# Pool piccolo (15 carte) per tutorial + Act 1. Espandibile.
-# Carta shape: { id, label, rarity, roll_bucket?, synergy_tags[],
+# Pool piccolo (17 carte) per tutorial + Act 1. Espandibile.
+# Carta shape: { id, label, rarity, power_level, roll_bucket?, synergy_tags[],
 #   personality_weights[], action_affinities[], exclusion_tags?,
 #   max_copies?, effect: {type, params} }
 #
@@ -10,6 +10,17 @@
 # Personality weights: { mbti?: "INTJ", ennea?: "5", weight: 0..2 }
 # Action affinities: { action: "attack_executed", weight: 0..1 }
 # Effect types: trait_grant | stat_bonus | ability_unlock | pe_bonus
+#
+# power_level (SPEC-G sez. 4, master-dd ratified 2026-06-17) — modello di potere
+# della carta, sicurezza di agency ("niente furto di agency opaco"):
+#   suggerimento    — bias morbido (FairMath/weight) su scoring/opzioni future.
+#   vista           — rivela informazione (telegraph, lore, intel).
+#   controllo_reale — concede controllo tangibile su un ALTRO actor; richiede
+#                     consenso esplicito su device privato (SPEC-K, non costruito).
+# Default fail-closed: carta senza power_level valido -> trattata come suggerimento.
+# Metadata inerte (zero consumer comportamentale: scoring/selection/apply non lo
+# leggono). Tutte le carte MVP = suggerimento, ECCETTO rwd_apex_scent = vista.
+# ZERO carte controllo_reale (nessuna agisce su un altro actor oggi).
 
 schema_version: '1.0'
 pool_id: reward_pool_mvp
@@ -18,6 +29,7 @@ cards:
   - id: rwd_claws_sharp
     label: 'Artigli affilati'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 5
     synergy_tags: [offense, melee]
     personality_weights:
@@ -32,6 +44,7 @@ cards:
   - id: rwd_elastic_skin
     label: 'Pelle elastica'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 3
     synergy_tags: [defense, tank]
     personality_weights:
@@ -46,6 +59,7 @@ cards:
   - id: rwd_spring_legs
     label: 'Zampe a molla'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 7
     synergy_tags: [mobility, skirmisher]
     personality_weights:
@@ -60,6 +74,7 @@ cards:
   - id: rwd_whip_tail
     label: 'Coda frusta cinetica'
     rarity: uncommon
+    power_level: suggerimento
     roll_bucket: 9
     synergy_tags: [offense, ranged]
     personality_weights:
@@ -73,6 +88,7 @@ cards:
   - id: rwd_serrated_teeth
     label: 'Denti seghettati'
     rarity: uncommon
+    power_level: suggerimento
     roll_bucket: 12
     synergy_tags: [offense, bleeding]
     personality_weights:
@@ -87,6 +103,7 @@ cards:
   - id: rwd_hydro_regul
     label: 'Scheletro idro-regolante'
     rarity: rare
+    power_level: suggerimento
     roll_bucket: 14
     synergy_tags: [defense, utility]
     personality_weights:
@@ -100,6 +117,7 @@ cards:
   - id: rwd_pe_boost_5
     label: 'Rivelazione tattica (+5 PE)'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 2
     synergy_tags: [progression]
     personality_weights: []
@@ -112,6 +130,7 @@ cards:
   - id: rwd_pe_boost_10
     label: 'Epifania (+10 PE)'
     rarity: uncommon
+    power_level: suggerimento
     roll_bucket: 11
     synergy_tags: [progression]
     personality_weights: []
@@ -124,6 +143,7 @@ cards:
   - id: rwd_stat_hp_plus
     label: 'Resistenza incrementata'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 6
     synergy_tags: [defense, tank]
     personality_weights:
@@ -139,6 +159,7 @@ cards:
   - id: rwd_stat_atk_plus
     label: 'Aggressività crescente'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 8
     synergy_tags: [offense, melee]
     personality_weights:
@@ -154,6 +175,7 @@ cards:
   - id: rwd_stat_def_plus
     label: 'Postura difensiva'
     rarity: common
+    power_level: suggerimento
     roll_bucket: 4
     synergy_tags: [defense]
     personality_weights:
@@ -169,6 +191,7 @@ cards:
   - id: rwd_surge_burst
     label: 'Burst Surge'
     rarity: rare
+    power_level: suggerimento
     roll_bucket: 16
     synergy_tags: [offense, burst]
     personality_weights:
@@ -183,6 +206,7 @@ cards:
   - id: rwd_focus_stance
     label: 'Focus mentale'
     rarity: uncommon
+    power_level: suggerimento
     roll_bucket: 10
     synergy_tags: [utility, buff]
     personality_weights:
@@ -197,6 +221,7 @@ cards:
   - id: rwd_support_heal
     label: 'Cura empatica'
     rarity: uncommon
+    power_level: suggerimento
     roll_bucket: 13
     synergy_tags: [support, heal]
     personality_weights:
@@ -211,6 +236,8 @@ cards:
   - id: rwd_apex_scent
     label: "Traccia dell'Apex"
     rarity: epic
+    # vista: rivela informazione (telegraph/intel narrativo), nessun controllo su altri.
+    power_level: vista
     roll_bucket: 18
     synergy_tags: [utility, narrative]
     personality_weights:
@@ -230,6 +257,7 @@ cards:
   - id: rwd_anomaly_resilienza_temporale
     label: "Anomalia: Resilienza Temporale"
     rarity: legendary
+    power_level: suggerimento
     roll_bucket: 20
     synergy_tags: [anomaly, transformative, defense, time]
     personality_weights:
@@ -244,6 +272,7 @@ cards:
   - id: rwd_anomaly_simbiosi_apex
     label: "Anomalia: Simbiosi Apex"
     rarity: legendary
+    power_level: suggerimento
     roll_bucket: 20
     synergy_tags: [anomaly, transformative, mating, evolve]
     personality_weights:
