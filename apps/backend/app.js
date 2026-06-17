@@ -41,6 +41,8 @@ const { createSkivRouter } = require('./routes/skiv');
 // Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
 const { createSpeciesWikiRouter } = require('./routes/speciesWiki');
 const { createCoopStore } = require('./services/coop/coopStore');
+// SPEC-F -- Custode portable companion store singleton (share/crossbreed routes).
+const { createCompanionStateStore } = require('./services/skiv/companionStateStore');
 // S22-B Task 8 -- metaStore factory for server-side offspring roll on mating quorum.
 const { createMetaStore } = require('./services/metaProgression');
 const { LobbyService } = require('./services/network/wsSession');
@@ -840,7 +842,12 @@ function createApp(options = {}) {
   );
   // 2026-05-20 — Combat readonly diagnostic (status-penalties + biome-modifiers).
   app.use('/api/combat', createCombatRouter());
-  app.use('/api', createCompanionRouter());
+  // SPEC-F -- companion store singleton threaded into the companion router so
+  // the Custode /skiv/share + /skiv/crossbreed routes can read/propose. Prisma
+  // write-through when the delegate is present; in-memory fallback otherwise
+  // (mirrors coopStore at :799). rollMatingOffspring defaults inside the router.
+  const companionStore = createCompanionStateStore({ prisma: repo.prisma });
+  app.use('/api', createCompanionRouter({ store: companionStore }));
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
   app.use('/api', createDiaryRouter(options.diary || {}));
