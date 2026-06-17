@@ -33,6 +33,24 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17)
+
+Spec `docs/design/evo-tactics-godot-device-authority-reconciliation.md` flippata `active`
+2026-06-17 come **design ratificato** (ADR-2026-06-07); la sez.9 acceptance (surface) NON e'
+completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2), tracciati qui
+(l'audit ha trovato che non erano mai stati depositati). Stato vs audit flip-readiness:
+
+- **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — PENDING.
+- **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — PENDING.
+- **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
+- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — PENDING (criterio sez.9.5 UNMET).
+- **K-05** Next mission quorum — PENDING.
+- **K-06** Wording cleanup ("host drives" residui) — PENDING.
+- **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
+
+Dipendenti gia' flippati che poggiano su questo seam: SPEC-J (consent UI #477) + SPEC-B (visibility).
+Runtime/surface = item-3 Godot, NON blocca il doc-flip (precedent SPEC-I/A/G).
+
 ### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 
 Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-currency-reconcile.md`) + worldgen-pcg-audit (2026-04-26). Museum cards M-013/M-014/M-016 + gallery worldgen.
