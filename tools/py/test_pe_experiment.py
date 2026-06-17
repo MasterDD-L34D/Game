@@ -30,7 +30,7 @@ def test_analyze_corpus_selects_least_collinear():
 
 def test_synthetic_corpus_smoke():
     from pe_experiment import synthetic_corpus
-    corpus = synthetic_corpus(n=20, seed_bias=0.5)
+    corpus = synthetic_corpus(n=20)
     assert len(corpus) == 20
     rep = analyze_corpus(corpus)
     assert "ranked" in rep and len(rep["ranked"]) == 3

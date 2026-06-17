@@ -97,12 +97,16 @@ CANONICAL sec 9); promoting any gate from advisory (separate SDMG track).
 ## 3. Design (design-for-isolation)
 
 ### 3.1 Sim instrumentation (additive, deterministic)
-`batch_calibrate_*.py aggregate()` gains per-scenario pressure-trajectory stats, aggregated
-over the run set (the per-run `pressure_samples` are surfaced, not just `pressure_final`):
-- `pressure_mean` (mean over all rounds of all runs),
-- `pressure_tier_fractions` (share of rounds in each tier: calm/alert/escalated/critical/apex),
-- `apex_reach_rate` (fraction of runs that touched pressure >= 95).
-Additive keys; no behavior change; seed-pinned -> deterministic.
+The per-run result gains compact pressure-trajectory stats (from `pressure_stats(pressure_samples)`):
+`pressure_mean`, `pressure_frac_ge75` (share of rounds in the dangerous Critical+Apex tiers,
+pressure >= 75), `pressure_pmax`. `batch_calibrate_*.py aggregate()` then surfaces the
+aggregated forms over the run set:
+- `pressure_mean_avg` (mean of per-run `pressure_mean`),
+- `pressure_frac_ge75_avg` (mean of per-run sustained-threat fraction),
+- `apex_reach_rate` (fraction of runs whose `pressure_pmax` reached >= 95).
+(As-shipped PR1 keys -- the per-run `pressure_frac_ge75` + `pressure_mean` + `pressure_pmax`
+are exactly what candidates A/B/C consume; a full per-tier histogram is YAGNI until a future
+candidate needs it.) Additive keys; no behavior change; seed-pinned -> deterministic.
 
 ### 3.2 PE candidates (`tools/py/pe_candidates.py`, pure)
 Each maps the trajectory stats -> a 0..1 value (higher = more sustained tension):

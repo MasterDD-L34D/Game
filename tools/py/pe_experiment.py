@@ -25,7 +25,15 @@ def run_to_stats(run):
 
 
 def analyze_corpus(corpus, eased_run=None):
-    """Compute each candidate's per-run values + outcomes, then the selection report."""
+    """Compute each candidate's per-run values + outcomes, then the selection report.
+
+    The PRIMARY result is |corr(candidate, won)| (least collinear = selected) -- read this
+    as the decision. If an `eased_run` (a deliberately-trivialized-knob run) is given, an
+    ADVISORY `discrimination` field compares the eased run's tension against the MEAN tension
+    over this corpus (the corpus IS the ratified-knob runs, so its mean = mean ratified-knob
+    tension). NB this secondary check is itself susceptible to the WR/pressure collinearity
+    the experiment measures (an easy eased run can read HIGH pressure), so it can mislead --
+    advisory only, not the selection criterion."""
     per_candidate = {name: [] for name in CANDIDATES}
     wons = []
     for run in corpus:
@@ -42,10 +50,12 @@ def analyze_corpus(corpus, eased_run=None):
                             eased_value=eased_value)
 
 
-def synthetic_corpus(n=20, seed_bias=0.5):
+def synthetic_corpus(n=20):
     """Deterministic synthetic corpus for the dry-run smoke (no backend, no randomness):
     half wins / half losses, with pressure stats that mimic the real collinearity
-    (wins -> higher mean/pmax) so the analysis exercises end-to-end."""
+    (wins -> higher mean/pmax) so the analysis exercises end-to-end. Every candidate is
+    collinear with wins here BY CONSTRUCTION, so the dry-run correctly reports a
+    negative-result -- it only proves the harness runs end-to-end, not a real selection."""
     corpus = []
     for i in range(n):
         won = (i % 2 == 0)
@@ -66,14 +76,15 @@ def make_corpus_from_backend(repo, scenario_key, *, seed=424242, n=100, shards=4
     import json
     import subprocess
     import tempfile
-    tmp = Path(tempfile.gettempdir())
+    out_dir = Path(tempfile.mkdtemp(prefix="pe-exp-"))  # fresh dir: no stale-file masquerade
     cmd = [sys.executable, str(Path(repo) / "tools/py/calibrate_parallel.py"),
            "--scenario", scenario_key, "--n", str(n), "--seed", str(seed),
-           "--shards", str(shards), "--out-dir", str(tmp), "--label", "pe-exp"]
+           "--shards", str(shards), "--out-dir", str(out_dir), "--label", "pe-exp"]
     subprocess.run(cmd, cwd=repo, check=True)
-    merged = sorted(tmp.glob("*pe-exp*.json"), key=lambda p: p.stat().st_mtime)
-    data = json.loads(merged[-1].read_text(encoding="utf-8")) if merged else {}
-    return data.get("runs", [])
+    merged = sorted(out_dir.glob("*pe-exp*.json"), key=lambda p: p.stat().st_mtime)
+    if not merged:
+        raise RuntimeError(f"calibrate_parallel produced no output under {out_dir} -- cannot build corpus")
+    return json.loads(merged[-1].read_text(encoding="utf-8")).get("runs", [])
 
 
 def main():
