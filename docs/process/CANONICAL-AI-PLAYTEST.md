@@ -139,7 +139,7 @@ Manifest macchina-leggibile: [`docs/playtest/canonical-suite.yaml`](../playtest/
 
 | Scenario                            | Band target       | Knob ratificato                                             | WR (N=40)                   | Stato                                                      |
 | ----------------------------------- | ----------------- | ----------------------------------------------------------- | --------------------------- | ---------------------------------------------------------- |
-| `enc_tutorial_06_hardcore`          | 15-25%            | `boss_hp_multiplier: 0.65`                                  | 15-25% (iter2 + #2381)      | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
+| `enc_tutorial_06_hardcore`          | 15-30%            | `boss_hp_multiplier: 1.02`                                  | 23% (N=100 2026-06-14)      | RATIFIED. iter3 `turn_limit null` = overshoot 85% REJECTED |
 | `enc_tutorial_07_hardcore_pod_rush` | 30-50%            | `enemy_damage_multiplier_override: 2.1` (REPLACE class 1.8) | 30-40% (post-wave 5-7 nerf) | IN-BAND                                                    |
 | `enc_tutorial_01..05`               | designed-winnable | n/a                                                         | ~100% greedy                | NON balance-oracle (ladder di apprendimento)               |
 
@@ -216,7 +216,9 @@ Quando un PR di combat porta un oracolo fuori banda:
 
 **Caveat storico**: qualunque banda ratificata PRIMA di #2719 (2026-06-10) e' stata
 misurata sotto il channel-bug (tutto-fisico) -> potenzialmente stale dove la policy
-usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.04, N=100 WR 22%).
+usa channel-exploit. hc06 ri-ratificato (boss_hp_multiplier 0.65 -> 1.02, N=100 WR 23%
+su node 22 E node 24 = cross-runtime-robust; il 1.04 era interim node-24-only [22%] ma
+OOB-low 12.5% sul canonical node 22 -- ri-calibrato su node 22, sec 3 rule 8).
 hc07 ri-centrato (enemy_damage_multiplier_override 2.1 -> 2.5, N=100 WR 42%; era al
 ceiling 50-52% dal baseline 2026-05-30, **#2719-INDEPENDENT** fisico-only timer-race).
 **Entrambi gli oracoli ora in-band -> gate phase-2 (blocking) SBLOCCATO** (flip = rimuovi
