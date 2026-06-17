@@ -82,8 +82,12 @@ blocked (4): B (gated SPEC-K), F (slice 3 gated), H (aliena), J (lethal-wounds).
 
 - **B2 gate-policy-random** (seconda meta hc06 option A): dossier 2026-06-17 NON committato
   in repo -> non implementato. Band-widen (parte chiara) shipped; B2 serve il dossier.
-- **SPEC-F slice 3** (`/crossbreed/confirm` + cooldown/rate-limit): 3 design-call aperti
-  (cooldown enforcement, +Nido materialization, diary-consent persistence). Slices 0-2 LIVE.
+- ~~**SPEC-F slice 3**~~ **DONE #2796 `a085009b`**: i "3 design-call" erano POLICIES
+  GIA' RATIFICATE (ADR-04-27: cooldown 1/campagna, rate-limit 10/h, history cap 10) -- NON
+  aperti (verify-first). `POST /crossbreed/confirm` (commit + rate-limit + cooldown in-memory
+  - seeded preview-match) shipped. Cooldown in-memory perche' `crossbreed_history` schema =
+    additionalProperties:false (no `campaign_id` field) -> durable = master-dd/contracts. Residui:
+    durable cooldown + offspring->playable lineage (SPEC-E) + QR/card export.
 - **OD-059 design-call** (deferred, structured-data only shipped): copy narrativa, soglie,
   semantica turn-delta (default `session.turn`/unit), se mai meccanico (= N=40).
 - **#2785 P2**: master-dd ha scelto class-wide as-is (A); per-scenario override = follow-up se serve.
