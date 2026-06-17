@@ -12374,6 +12374,32 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-17-canon-consistency-checker-design.md",
+      "title": "Canon-consistency checker (cross-entity semantic gate, beyond schema)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-17",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-17-per-template-calibration-design.md",
+      "title": "Per-template / per-objective calibration orchestrator (auto-tune knob to band)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-17",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
