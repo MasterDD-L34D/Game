@@ -91,9 +91,48 @@ blocked (4): B (gated SPEC-K), F (slice 3 gated), H (aliena), J (lethal-wounds).
   controllo_reale cards). Sorgenti narrativa/dottrinale (sez.3) = slice futura. `tri-sorgente.schema.json`
   = orphan non validato dalla route live (forbidden-path, lasciato).
 
+## Continuazione 2 -- SPEC-J lethal-wounds backend (2 PR, frontier)
+
+Ground-truth correction (anti-pattern #19): l'handoff diceva "J = 0 codice grosso"
+-- SBAGLIATO. J1 (KO -> `grave` wound) + criterion-3 (`woundSystem`) GIA' LIVE
+(`maybeApplyCombatWound`, default ON, wired in performAttack, #2535/#2714). SPEC-J
+serviva solo il LAYER lethal sopra il substrato. Design FULLY ratificato (J1-J5
+tutti A, 2026-06-08; J2 canon) -> impl pura, zero design-call aperti.
+
+- **#2789 `315b41da`** PR1 -- lethal-death model: `services/combat/lethalDeath.js`
+  (puro: soft-death default, per-mission `lethal` flag strict, per-player consent
+  gate fail-closed, `markCreatureFallen` -> top-level `unit.fallen`, orchestrator
+  `applyLethalKoIfDead`) + `emitCreatureFell` (riusa tipo chronicle `creature_death`;
+  J5 lineage-auto + SPEC-D beat + `succession_trigger` SPEC-E E2) + wire nel KO-path
+  performAttack + `publicSessionView.lethal` (sez.8 public). Band-neutral: kill switch
+  `LETHAL_MISSIONS_ENABLED` default OFF + nessun consent-producer + 0 encounter lethal
+  -> ogni KO = soft = oggi. 2 Codex P2 verified-vs-source + fixed (fallen marker
+  top-level vs round-sync wipe; encounter_id provenance fallback).
+- **#2790 `7d8abfdb`** PR3 -- Nido ritual heal/transform (J3): `services/combat/nidoRitual.js`
+  (heal rimuove grave scar + malus; transform -> deterministic narrative `mark`,
+  failure-as-lore) + `emitScarRitual` (`scar_healed`/`scar_transformed`, public esito
+  sez.6) + `POST /api/session/:id/nido/ritual`. **Verify-first finding**: NESSUN pool
+  risorse backend (campaign obj + `godotV2State` senza PE/PI -> risorse Godot/client-owned)
+  -> verdict master-dd = build mechanism+chronicle, **cost (SPEC-E E6) deferred**.
+
+item-1 **invariato 13/17** (SPEC-J resta `review_needed` = slice parziali, non flippabile).
+AI 543/543 + combat-oracle + meta-loop-oracle green su entrambe.
+
+### Residui SPEC-J (gated, NON fabbricare)
+
+- **PR2 consent state-machine**: per-player device confirm (SPEC-K 6.4) + waiting
+  anonimo+opt-in (SPEC-B 3.10/F5) + anti-deadlock (timeout post-receipt + delivery-fail
+  fallback). Backend buildable (come coop-WS gaps). Design-call = valore timeout (tuning).
+  Produce `session.lethalConsent.granted` (oggi assente -> soft fallback).
+- **transform -> trait mechanical** (scar -> tratto reale) + **ritual resource-cost** (E6) = SPEC-E/balance.
+- **Godot device UI** (consent + ritual private device-owned, SPEC-K 7.6) = item-3 cross-repo.
+- **flip `LETHAL_MISSIONS_ENABLED=true` = master-dd**, solo post-PR2 consent + lethal-mission N=40/playtest.
+
 ## Next frontier (blocked-build, build-vero)
 
-- **H** aliena-enforcement: N=40 ALIENA pilot + authoring-gate 6-dim (piu' grosso, design-heavy).
-- **J** lethal-wounds: layer lethal/consenso/rituali/succession = 0 codice (build grosso).
+- **PR2 SPEC-J consent state-machine** (continua SPEC-J; design ratificato, 1 design-call timeout).
+- **H** aliena-enforcement: infra ALIENA GIA' robusta (spawn-bias/reinforcement/telemetry/
+  coherence/generator/calibrate); residuo = authoring-gate validator + telemetry + flip (N=40).
+  3 design-call aperti HA1/HA2/HA4 (rec ma non ratificati). NON 0-code.
 - **B** tv-device-info + **F slice 3**: gated SPEC-K / 3 design-call.
 - Oppure: A2 magnitude post-playtest Godot; item-3 Godot cross-repo; Postgres auto-start service.
