@@ -8816,10 +8816,10 @@
     {
       "path": "docs/design/evo-tactics-tri-sorgente-extended-doctrine.md",
       "title": "Evo-Tactics Tri-Sorgente Extended Doctrine (SPEC-G)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "flow",
-      "last_verified": "2026-06-08",
+      "last_verified": "2026-06-17",
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30,
