@@ -241,8 +241,8 @@ def test_analyze_candidate_abs_corr():
 def test_selection_report_ranks_least_collinear_first():
     wons = [False, True, False, True, False, True]
     per_candidate = {
-        "collinear": [0.1, 0.9, 0.1, 0.9, 0.1, 0.9],     # tracks wins -> high |corr|
-        "orthogonal": [0.5, 0.5, 0.6, 0.4, 0.55, 0.45],  # ~flat vs wins -> low |corr|
+        "collinear": [0.1, 0.9, 0.1, 0.9, 0.1, 0.9],   # tracks wins -> abs_corr 1.0
+        "orthogonal": [0.4, 0.4, 0.6, 0.6, 0.5, 0.5],   # equal win/loss means -> abs_corr 0.0
     }
     eased = {"collinear": 0.05, "orthogonal": 0.2}   # trivialized-run candidate values
     ratified = {"collinear": 0.5, "orthogonal": 0.5}
