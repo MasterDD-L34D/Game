@@ -67,51 +67,124 @@ DAMAGE_CURVES = REPO_ROOT / "data" / "core" / "balance" / "damage_curves.yaml"
 STAGING_CURVES = REPO_ROOT / "data" / "core" / "balance" / "damage_curves.staging.yaml"
 BACKEND_INDEX = REPO_ROOT / "apps" / "backend" / "index.js"
 
-SCENARIO_CFG = {
+# Optuna-only search config that is NOT duplicated elsewhere. The band + knob_space are
+# the single SoT in the manifest (docs/playtest/canonical-suite.yaml), read by
+# _scenario_cfg below -- G2 P3 removed the duplicated SCENARIO_CFG band/knob_space copy
+# (the parity-guarded #2719 footgun class). What remains here is genuinely optuna-only:
+# target_center (asymmetric, != band mean for hc06), the pinned non-search overrides, the
+# batch CLI args, and the multi-band defeat/timeout sub-bands. The win_rate sub-band is
+# injected from the manifest band by _scenario_cfg so it can never drift.
+_OPTUNA_EXTRAS = {
     "hardcore_06": {
         "scenario_id": "enc_tutorial_06_hardcore",
-        "target_band": (0.15, 0.30),
         "target_center": 0.20,
         "batch_script": "batch_calibrate_hardcore06.py",
-        # OD-032 A+C: boss_hp = difficulty/WR lever; enemy_damage = lethality lever
-        # (high dmg -> faster wipes). turn_limit PINNED 41 (>= MAX_ROUNDS 40 =
-        # disabled) — carried from the OD-032 C ALT probe that tried to open a
-        # timeout-middle band. That band proved UNREACHABLE: hc06 combat resolves
-        # win/wipe within 40 rounds, so timeout ~0 even timer-off (see the hardcore
-        # comment in damage_curves.yaml + OD-032 A). Objective therefore targets the
-        # CANONICAL defeat-heavy band below, not the old middle band. Searching
-        # turn_limit wastes ~76% of trials in a dead zone, so it stays a
-        # fixed_override not a knob.
-        "knob_space": {
-            "boss_hp_multiplier": ("float", 0.50, 1.30),
-            "enemy_damage_multiplier_override": ("float", 1.0, 2.5),
-        },
+        # OD-032 A+C: boss_hp = difficulty/WR lever; enemy_damage = lethality lever (high
+        # dmg -> faster wipes). turn_limit PINNED 41 (>= MAX_ROUNDS 40 = disabled) -- the
+        # OD-032 C ALT timeout-middle band proved UNREACHABLE (hc06 resolves win/wipe within
+        # 40 rounds, timeout ~0 even timer-off). Searching turn_limit wastes ~76% of trials
+        # in a dead zone, so it stays a fixed_override not a knob.
         "fixed_overrides": {"turn_limit_defeat_override": 41},
         "extra_batch_args": ["--encounter-class", "hardcore"],
         # Multi-band objective = CANONICAL hardcore target_bands (damage_curves.yaml
-        # hardcore: win 15-30%, defeat 75-85%, timeout 0-5%, revised OD-032
-        # 2026-05-21; WR upper widened 25->30% 2026-06-17 master-dd decision A).
-        # WR primary-weighted (hard constraint). See parse_objective_multiband.
-        "secondary_bands": {
-            "win_rate": (0.15, 0.30),
+        # hardcore: defeat 75-85%, timeout 0-5%, revised OD-032 2026-05-21). The win_rate
+        # sub-band is sourced from the manifest band by _scenario_cfg (kept out here to
+        # avoid re-introducing the band dup). WR primary-weighted (parse_objective_multiband).
+        "secondary_bands_extra": {
             "defeat_rate": (0.75, 0.85),
             "timeout_rate": (0.00, 0.05),
         },
     },
     "hardcore_07": {
         "scenario_id": "enc_tutorial_07_hardcore_pod_rush",
-        "target_band": (0.30, 0.50),
         "target_center": 0.40,
         "batch_script": "batch_calibrate_hardcore07.py",
-        "knob_space": {
-            # hc07 WR lever = enemy_damage_multiplier_override (ratified 2.5 -> 42% WR,
-            # damage_curves.yaml). enemy_count -1 was REJECTED (inverted dir, 3a iter1) --
-            # it is NOT the WR lever, so searching it cannot reproduce the ratified value.
-            "enemy_damage_multiplier_override": ("float", 1.5, 2.5),
-        },
         "extra_batch_args": [],
     },
 }
+
+
+def _norm_spec(spec):
+    """Normalize a knob spec to (kind, lo, hi). Accepts a manifest dict
+    {type,min,max[,step]} or an optuna-style (kind, lo, hi) tuple."""
+    if isinstance(spec, dict):
+        return spec["type"], float(spec["min"]), float(spec["max"])
+    kind, lo, hi = spec
+    return kind, float(lo), float(hi)
+
+
+_MANIFEST_CACHE = {}
+
+
+def _manifest():
+    m = _MANIFEST_CACHE.get("m")
+    if m is None:
+        from suite_manifest import DEFAULT_MANIFEST_PATH, load_manifest
+        m = load_manifest(DEFAULT_MANIFEST_PATH)
+        _MANIFEST_CACHE["m"] = m
+    return m
+
+
+def _scenario_cfg(scenario):
+    """Effective per-scenario config: band + knob_space sourced from the manifest (single
+    SoT), merged with the optuna-only _OPTUNA_EXTRAS. knob_space is returned in optuna
+    (kind, lo, hi) tuple form; the multi-band win_rate sub-band is injected from the
+    manifest band (so it can never diverge from the gate band)."""
+    from suite_manifest import scenario_band, scenario_knob_space
+
+    extra = _OPTUNA_EXTRAS[scenario]
+    sid = extra["scenario_id"]
+    band = tuple(scenario_band(_manifest(), sid))
+    knob_space = {n: _norm_spec(s) for n, s in scenario_knob_space(_manifest(), sid).items()}
+    cfg = {
+        "scenario_id": sid,
+        "target_band": band,
+        "target_center": extra["target_center"],
+        "knob_space": knob_space,
+        "batch_script": extra.get("batch_script"),
+        "extra_batch_args": extra.get("extra_batch_args", []),
+    }
+    if "fixed_overrides" in extra:
+        cfg["fixed_overrides"] = extra["fixed_overrides"]
+    sbe = extra.get("secondary_bands_extra")
+    if sbe:
+        cfg["secondary_bands"] = {"win_rate": band, **sbe}
+    return cfg
+
+
+def optuna_search(knob_space, runner, *, score_fn, n_trials=8, n_per_trial=20, seed=42,
+                  start_knob=None):
+    """Backend-free Optuna TPE search core (G2 P3, injectable).
+
+    For each trial: suggest knob values from `knob_space` (manifest dict {type,min,max} or
+    (kind,lo,hi) tuple form both accepted), call `runner(knob_values, n_per_trial) -> metrics`,
+    and minimize `score_fn(metrics)`. `runner` is injectable: the real backend harness in
+    production, a deterministic fake in tests (no Game backend). `start_knob` supplies any
+    held-fixed knobs, merged into every runner call. Returns the best searched knob dict
+    (merge with start_knob for the ratify run). The orchestrator's OPTUNA stage calls this.
+    """
+    import optuna
+
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    base = dict(start_knob or {})
+    n_startup = min(5, max(2, n_trials // 2))
+    sampler = optuna.samplers.TPESampler(seed=seed, n_startup_trials=n_startup)
+    study = optuna.create_study(direction="minimize", sampler=sampler)
+
+    def objective(trial):
+        kv = {}
+        for name, spec in knob_space.items():
+            kind, lo, hi = _norm_spec(spec)
+            if kind == "float":
+                kv[name] = round(trial.suggest_float(name, lo, hi), 3)
+            elif kind == "int":
+                kv[name] = trial.suggest_int(name, int(lo), int(hi))
+            else:
+                raise ValueError(f"unknown knob kind: {kind}")
+        return float(score_fn(runner({**base, **kv}, n_per_trial)))
+
+    study.optimize(objective, n_trials=n_trials)
+    return dict(study.best_params)
 
 
 def health_check(host, timeout=2):
@@ -265,7 +338,7 @@ def run_batch(scenario, host, n, label, log_dir, curves_path=None):
     curves_path (OD-032 no-op-bug fix): pass DAMAGE_CURVES_PATH to the batch CLIENT
     so its scenario-override parser reads the staging candidate (not production).
     """
-    cfg = SCENARIO_CFG[scenario]
+    cfg = _scenario_cfg(scenario)
     script = TOOLS_PY / cfg["batch_script"]
     out_path = log_dir / f"{label}.json"
     jsonl_path = log_dir / f"{label}.jsonl"
@@ -374,7 +447,7 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
     untouched). Imports calibrate_parallel helpers.
     """
     import importlib
-    cfg = SCENARIO_CFG[scenario]
+    cfg = _scenario_cfg(scenario)
     cp = importlib.import_module("calibrate_parallel")
     cp_cfg = cp.SCENARIO_MAP[scenario]  # calibrate_parallel cfg (key "script", not "batch_script")
 
@@ -457,7 +530,7 @@ def make_objective_parallel(scenario, n_per_trial, shards, base_port, log_dir):
 
 def make_objective(scenario, host, n_per_trial, log_dir, backend_proc_ref):
     """Returns Optuna objective function closure (single-backend serial)."""
-    cfg = SCENARIO_CFG[scenario]
+    cfg = _scenario_cfg(scenario)
 
     def objective(trial):
         # Suggest knob values from posterior.
@@ -513,7 +586,7 @@ def make_objective(scenario, host, n_per_trial, log_dir, backend_proc_ref):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--scenario", choices=list(SCENARIO_CFG.keys()), required=True)
+    p.add_argument("--scenario", choices=list(_OPTUNA_EXTRAS.keys()), required=True)
     p.add_argument("--n-trials", type=int, default=8, help="Optuna trials (default 8)")
     p.add_argument("--n-per-trial", type=int, default=40,
                    help="Batch N per trial (default 40 — ratify-grade per L-073). "
@@ -543,7 +616,7 @@ def main():
               file=sys.stderr)
         return 1
 
-    cfg = SCENARIO_CFG[args.scenario]
+    cfg = _scenario_cfg(args.scenario)
     label = args.label or time.strftime("%Y-%m-%d-%H%M%S")
     log_dir = REPO_ROOT / args.out_dir / f"optuna-{args.scenario}-{label}"
     log_dir.mkdir(parents=True, exist_ok=True)
