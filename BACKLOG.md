@@ -40,20 +40,23 @@ Spec `docs/design/evo-tactics-aliena-enforcement-lore.md` flippata `active` 2026
 ratifica). La machinery baseline (sez.2) e' LIVE default-OFF; questi sono i pezzi di
 IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
 
-- **HA2-CI-validator** — authoring-gate presence-check: ogni `data/codex/{id}.yaml` ha le 6
-  chiavi A.L.I.E.N.A. (`A_ambiente`/`L_linee_evolutive`/`I_impianto`/`E_ecologia`/
-  `N_norme_socio`/`A_ancoraggio_narrativo`) + i campi runtime-read; HARD su presenza, SOFT su
-  rubrica (HA2 ibrido). 🔴 location-decision: `codex.schema.json` in `packages/contracts`
-  (FORBIDDEN-PATH = master-dd) vs validator in `tools/py` -- da decidere prima del build.
+- **HA2-CI-validator** — **DONE 2026-06-18** (PR #2833 `f300bfe3`): `tools/js/validate_codex_aliena.js`
+  HARD su presenza 6-dim + content, SOFT su rubrica (100-300char / ancoraggio-hook / unlock-triggers);
+  NO spawn-threshold (anti-pattern sez.5). Enforced via `scripts/run-test-api.cjs` (tests/codex 6/6).
+  Location risolta = `tools/js` (NON contracts -> evitato forbidden-path; HARD-presence non serve schema).
 - **Codex 6-dim surface** — **DONE 2026-06-18** (e2e): backend `GET /api/v1/codex/entries`
   (#2828 `fc4418da`, secret-leak guarded) + frontend "Specie" tab `apps/play/src/codexPanel.js`
   (#2829 `ef45b035`, 6-dim accordion diegetico + Skiv footer + localStorage unlock) + unlock
-  through play (#2830 `0f6b29ab`, `encounter_completed` -> `markCodexEntrySeen`). RESIDUO:
-  proxy diegetico HA5 (descrittore qualitativo da score = **design-call band-cutoff master-dd**),
-  biome-aware Skiv pool, `species.yaml` fallback per entry senza codex yaml.
+  through play (#2830 `0f6b29ab`).
+- **HA5 proxy diegetico** — **DONE 2026-06-18** (PR #2835 `fe842537`): `presence_descriptor`
+  (specie endemica / presenza adattata / presenza inattesa, bande ratificate). Verify-first =
+  runtime scorer disallineato (combat pool↔ecosistema, no codex species) -> proxy codex-native
+  3-dim su dati authored (master-dd verdict); score resta secret. Residuo minore: biome-aware
+  Skiv pool, `species.yaml` fallback, cross-check species-side runtime-fields (scorer).
 - **HA1 flip runtime** — `enabled:true` + `strength` target SOLO post playtest N=40 su
   `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
-  `enforcement_factor` nel sample telemetria (sez.4). master-dd.
+  `enforcement_factor` nel sample telemetria (sez.4). master-dd + harness G2. **Unico residuo
+  sostanziale SPEC-H** (la machinery e la surface sono complete).
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
 
