@@ -36,6 +36,8 @@ const { createCompanionRouter } = require('./routes/companion');
 const { createDiaryRouter } = require('./routes/diary');
 // SPEC-Q M-7 — per-branco cross-session chronicle (narrative depth L4)
 const { createChronicleRouter } = require('./routes/chronicle');
+// Creature dossier -- per-creature story-card composed from the chronicle (attachment surface)
+const { createCreatureDossierRouter } = require('./routes/creatureDossier');
 // Skiv-as-Monitor — git-event-driven creature feed (2026-04-25)
 const { createSkivRouter } = require('./routes/skiv');
 // Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
@@ -854,6 +856,8 @@ function createApp(options = {}) {
 
   // SPEC-Q M-7 — per-branco chronicle (cross-session narrative event-store).
   app.use('/api', createChronicleRouter(options.chronicle || {}));
+  // Creature dossier -- joins the chronicle into a per-creature story-card (read-only).
+  app.use('/api', createCreatureDossierRouter(options.chronicle || {}));
 
   // Skiv-as-Monitor — git-event-driven creature feed (2026-04-25).
   // Reads data/derived/skiv_monitor/{state.json, feed.jsonl} produced by
