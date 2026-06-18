@@ -4,17 +4,21 @@
   "path": "../../packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml",
   "biomes": ["badlands"],
   "display_name": "Spazzino Ferroso",
-  "balance": { "encounter_role": "ambient" },
+  "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": false,
   "morphotype": null,
-  "vc": {},
+  "vc": { "aggro": 0.2, "risk": 0.2, "cohesion": 0.7, "setup": 0.6, "explore": 0.4, "tilt": 0.2 },
   "spawn_rules": { "densita": "low" },
   "environment_affinity": {},
   "hazards_expected": [],
   "derived_from_environment": {},
   "jobs_bias": [],
   "telemetry": null,
-  "genetic_traits": null,
+  "genetic_traits": {
+    "core": ["ventriglio_gastroliti", "filamenti_digestivi_compattanti", "enzimi_chelanti"],
+    "optional": ["respiro_a_scoppio", "nucleo_ovomotore_rotante"],
+    "synergy": []
+  },
   "services_links": null,
   "description": null,
   "receipt": {
@@ -22,5 +26,5 @@
     "author": "master-dd",
     "note": "promoted from species_catalog.json legacy-yaml-merge; clade/role canonical per ADR-2026-05-15; trait_refs empty in canon; balance pending calibration"
   },
-  "last_synced_at": "2026-06-18T12:58:43.570Z"
+  "last_synced_at": "2026-06-18T13:57:15.489Z"
 }
