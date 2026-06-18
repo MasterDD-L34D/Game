@@ -82,6 +82,14 @@ SCENARIO_MAP = {
         "encounter_class": "badlands_ambient",
         "extra_args": ["--encounter-class", "badlands_ambient"],
     },
+    # S2 (2026-06-18): foresta_temperata adapter pilot (exercises the 2 #2850 grazers).
+    "foresta_pilot_01": {
+        "script": "batch_calibrate_foresta_pilot_01.py",
+        "target_band": (0.40, 0.60),
+        "scenario_id": "enc_foresta_pilot_01",
+        "encounter_class": "foresta_pilot",
+        "extra_args": ["--encounter-class", "foresta_pilot"],
+    },
 }
 
 
