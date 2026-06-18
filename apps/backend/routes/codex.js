@@ -130,7 +130,9 @@ function createCodexRouter() {
     if (!entry) {
       return res.status(404).json({ error: `codex entry '${req.params.id}' non trovata` });
     }
-    res.json({ entry });
+    // HA5 (sez.7): diegetic presence descriptor (public); the raw coherence proxy
+    // stays secret. Sibling of `entry` so the cached entry object is not mutated.
+    res.json({ entry, presence_descriptor: codexEntries.presenceDescriptor(entry) });
   });
 
   return router;
