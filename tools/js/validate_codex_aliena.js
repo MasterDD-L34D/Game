@@ -13,13 +13,25 @@
  *   SOFT (warn)   -- content length outside the 100-500 char TV-readable band
  *     (max re-derived from the real corpus, 2026-06-18 audit); A_ancoraggio lacks
  *     a narrative hook (story_hook_it / lore_seed_it /
- *     sistema_relation); unlock.triggers empty.
+ *     sistema_relation); unlock.triggers empty; the id matches no sistema/enemy
+ *     species in any canonical roster (orphan -- can never unlock through play).
+ *
+ * Namespace cross-check (SPEC-K, HA2 follow-up): the unlock hook
+ * (apps/play/src/main.js) reveals an entry only when a `controlled_by==='sistema'`
+ * unit's species slug (`species_id || species`) EQUALS the entry id. So an entry
+ * whose id is in no roster is dead content. collectInPlaySpecies() unions the two
+ * authored roster sources -- scenario builders (apps/backend/services/{tutorial,
+ * hardcore}Scenario.js, non-player units) + encounters (data/encounters/*.yaml
+ * groups[].species_hint) -- and the orphan check warns (SOFT) when an id is
+ * missing. It runs ONLY against the canonical data/codex (a custom --codex dir is
+ * a fixture with no roster context, so the cross-check is skipped there).
  *
  * This guard checks PRESENCE + quality of the authored data; it does NOT impose a
  * coherence-score spawn threshold (anti-pattern, sez.5 -- the strength knob stays
  * a continuous runtime value). The scorer's runtime-read fields
  * (narrative_hooks / lore_ref / narrative_tag) live on the species/spawn entries,
- * not these codex files; the cross-file species-side check is a follow-up.
+ * not these codex files; that species-side runtime-field check is a separate
+ * follow-up (orthogonal to this id<->roster namespace check).
  *
  * Usage:
  *   node tools/js/validate_codex_aliena.js [--codex DIR] [--strict]
@@ -72,8 +84,91 @@ function parseArgs(argv) {
   return out;
 }
 
+// The two canonical roster modules (non-player units carry `species`/`species_id`).
+const SCENARIO_REL_PATHS = [
+  'apps/backend/services/tutorialScenario',
+  'apps/backend/services/hardcoreScenario',
+];
+
+// Collect the set of species slugs that appear as a NON-PLAYER combatant in any
+// canonical roster -- the universe a codex entry id must be in to ever unlock
+// through play. Best-effort: a source that fails to load degrades to a note, not
+// a crash (the orphan check is skipped only if BOTH sources yield nothing).
+//
+// Returns { species: Set<string>, sources: { scenario, encounters }, notes: [] }.
+function collectInPlaySpecies(repoRoot) {
+  const species = new Set();
+  const sources = { scenario: false, encounters: false };
+  const notes = [];
+
+  // 1) Scenario builders -- require the module + run every build*() factory, keep
+  //    units whose controlled_by !== 'player' (the sistema/enemy roster).
+  for (const rel of SCENARIO_REL_PATHS) {
+    try {
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      const mod = require(path.resolve(repoRoot, rel));
+      for (const [key, val] of Object.entries(mod)) {
+        if (typeof val !== 'function' || !/^build/.test(key)) continue;
+        let units;
+        try {
+          units = val();
+        } catch {
+          continue; // a factory that needs args -> skip, do not crash the gate
+        }
+        if (!Array.isArray(units)) continue;
+        for (const u of units) {
+          if (!u || u.controlled_by === 'player') continue;
+          const slug = u.species_id || u.species;
+          if (slug) {
+            species.add(String(slug));
+            sources.scenario = true;
+          }
+        }
+      }
+    } catch (err) {
+      notes.push(`scenario roster ${rel} unavailable: ${err.message}`);
+    }
+  }
+
+  // 2) Encounters -- data/encounters/*.yaml groups[].species_hint (these rosters
+  //    are non-party by construction; the party is a separate field).
+  const encDir = path.resolve(repoRoot, 'data/encounters');
+  try {
+    if (fs.existsSync(encDir)) {
+      const encFiles = fs
+        .readdirSync(encDir)
+        .filter((f) => f.endsWith('.yaml') || f.endsWith('.yml'));
+      for (const f of encFiles) {
+        let parsed;
+        try {
+          parsed = yaml.load(fs.readFileSync(path.join(encDir, f), 'utf8'));
+        } catch {
+          continue;
+        }
+        const groups = parsed && Array.isArray(parsed.groups) ? parsed.groups : [];
+        for (const g of groups) {
+          const slug = g && g.species_hint;
+          if (slug) {
+            species.add(String(slug));
+            sources.encounters = true;
+          }
+        }
+      }
+    } else {
+      notes.push(`encounter roster dir not found: ${encDir}`);
+    }
+  } catch (err) {
+    notes.push(`encounter roster source unavailable: ${err.message}`);
+  }
+
+  return { species, sources, notes };
+}
+
 // Validate a single parsed codex file. Pushes into errors/warnings (mutated).
-function validateEntry(file, parsed, errors, warnings) {
+// `universe` (optional Set<string>): when provided, the entry id is cross-checked
+// against the in-play species set and an orphan id warns (SOFT). null/undefined
+// skips the cross-check (fixture mode -- no roster context).
+function validateEntry(file, parsed, errors, warnings, universe = null) {
   const entry = parsed && parsed.codex_entry;
   if (!entry || typeof entry !== 'object') {
     errors.push(`${file}: missing top-level codex_entry`);
@@ -120,6 +215,14 @@ function validateEntry(file, parsed, errors, warnings) {
     warnings.push(`${id}: unlock.triggers is empty (entry can never unlock)`);
   }
 
+  // SOFT (SPEC-K namespace): the unlock hook keys on a sistema unit's species
+  // slug, so an id absent from every roster can never unlock through play.
+  if (universe && entry.id && !universe.has(String(entry.id))) {
+    warnings.push(
+      `${id}: id matches no sistema/enemy species in any scenario or encounter roster -> cannot unlock through play (orphan entry)`,
+    );
+  }
+
   return { id, dims: present };
 }
 
@@ -143,6 +246,21 @@ function main() {
   const warnings = [];
   const rows = [];
 
+  // Namespace cross-check (SPEC-K) runs ONLY against the canonical data/codex (the
+  // default dir). A custom --codex dir is a fixture with no roster context, so an
+  // "orphan" there would be meaningless noise -> universe stays null (skip).
+  const defaultDir = path.resolve(repoRoot, 'data/codex');
+  let universe = null;
+  if (codexDir === defaultDir) {
+    const collected = collectInPlaySpecies(repoRoot);
+    for (const note of collected.notes) warnings.push(`roster source: ${note}`);
+    if (collected.sources.scenario || collected.sources.encounters) {
+      universe = collected.species;
+    } else {
+      warnings.push('namespace cross-check skipped: no roster source produced any species');
+    }
+  }
+
   for (const file of files.sort()) {
     let parsed;
     try {
@@ -151,7 +269,7 @@ function main() {
       errors.push(`${file}: YAML parse error: ${err.message}`);
       continue;
     }
-    rows.push(validateEntry(file, parsed, errors, warnings));
+    rows.push(validateEntry(file, parsed, errors, warnings, universe));
   }
 
   console.log('[codex-aliena] A.L.I.E.N.A. authoring-gate audit (HA2)');
@@ -170,4 +288,13 @@ function main() {
   process.exit(0);
 }
 
-main();
+module.exports = {
+  ALIENA_DIMENSION_KEYS,
+  CONTENT_MIN,
+  CONTENT_MAX,
+  parseArgs,
+  collectInPlaySpecies,
+  validateEntry,
+};
+
+if (require.main === module) main();
