@@ -62,6 +62,14 @@ jobs:
               - 'packs/**'
               - 'reports/**'
               - 'config/schemas/**'
+              # Phase A / L1 generation-enforcement: editing the evo-pack
+              # generator (or the shared write/marker utils) must re-run the
+              # regenerate-and-diff gate in dataset-checks, otherwise a generator
+              # change that alters output would skip the freshness check.
+              - 'scripts/update_evo_pack_catalog.js'
+              - 'scripts/sync_evo_pack_assets.js'
+              - 'scripts/utils/generatedMarker.js'
+              - 'scripts/utils/jsonio.js'
             deploy:
               - 'scripts/trait_audit.py'
               - 'scripts/run_deploy_checks.sh'
@@ -432,6 +440,24 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
+      # Phase A / L1 generation-enforcement (see
+      # docs/planning/2026-06-18-taxonomy-reconciliation-plan.md): regenerate the
+      # evo-pack species catalog and fail if the working tree drifts. Makes any
+      # stale or hand-edited generated file (catalog_data.json, per-file species,
+      # indexes, docs/ + public/ mirrors) impossible to merge by construction.
+      # The generator is idempotent (timestamps ignored via TIMESTAMP_KEYS, the
+      # marker is a static string), so a clean tree means source == derived.
+      # MUST stay before the trait-regen steps below, which write into the tree
+      # (reports/, data/derived/) -- a whole-tree diff is only valid while the
+      # checkout is still pristine.
+      - name: Verify evo-pack catalog is regenerated (no drift)
+        run: |
+          npm run sync:evo-pack
+          if ! git diff --exit-code; then
+            echo "::error::Generated evo-pack catalog files are out of date or hand-edited. Run 'npm run sync:evo-pack' locally and commit the result."
+            exit 1
+          fi
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -523,6 +549,9 @@ jobs:
 
       - name: Verify species trait references have glossary entries
         run: node --test tests/scripts/speciesTraitReferences.test.js
+
+      - name: Verify generated DO-NOT-EDIT marker presence
+        run: node --test tests/scripts/generatedMarkerPresence.test.js
 
       - name: Upload trait style guide report
         if: always()

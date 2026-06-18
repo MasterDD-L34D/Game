@@ -12,6 +12,7 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 
 const { writeJsonFileFormatted } = require('./utils/jsonio');
+const { GENERATED_MARKER } = require('./utils/generatedMarker');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DEFAULT_PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
@@ -255,7 +256,7 @@ async function main() {
 
   catalog.generated_at = nowIso;
 
-  await writeJson(CATALOG_PATH, cleanObject(catalog));
+  await writeJson(CATALOG_PATH, { _generated: GENERATED_MARKER, ...cleanObject(catalog) });
 
   // Generate species registry files.
   const speciesOutputDir = path.join(PACK_DOCS_DIR, 'species');
@@ -263,13 +264,17 @@ async function main() {
 
   const speciesSummaries = [];
   for (const [speciesId, data] of speciesDetails.entries()) {
-    await writeJson(path.join(speciesOutputDir, `${speciesId}.json`), data);
+    await writeJson(path.join(speciesOutputDir, `${speciesId}.json`), {
+      _generated: GENERATED_MARKER,
+      ...data,
+    });
     speciesSummaries.push(extractSpeciesSummary(data));
   }
 
   speciesSummaries.sort((a, b) => a.id.localeCompare(b.id));
 
   const speciesIndex = {
+    _generated: GENERATED_MARKER,
     schema_version: '1.0',
     generated_at: nowIso,
     total_species: speciesSummaries.length,
@@ -319,6 +324,7 @@ async function main() {
       speciesStats.catalog_synergies_count = canonical.stats.catalog_synergies_count;
     }
     const canonicalIndex = {
+      _generated: GENERATED_MARKER,
       schema_version: canonical.version || '0.4.x',
       generated_at: nowIso,
       source: 'data/core/species/species_catalog.json',
