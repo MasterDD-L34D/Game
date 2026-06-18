@@ -120,6 +120,9 @@ export const api = {
     jsonFetch(
       `/api/codex/page/${encodeURIComponent(pageId)}?campaign_id=${encodeURIComponent(campaignId || '')}`,
     ),
+  // SPEC-H — A.L.I.E.N.A. 6-dim Codex entries (diegetic species lore).
+  codexEntries: () => jsonFetch('/api/v1/codex/entries'),
+  codexEntry: (id) => jsonFetch(`/api/v1/codex/entries/${encodeURIComponent(id || '')}`),
   commitRound: (sid, autoResolve = true) =>
     jsonFetch('/api/session/commit-round', {
       method: 'POST',
