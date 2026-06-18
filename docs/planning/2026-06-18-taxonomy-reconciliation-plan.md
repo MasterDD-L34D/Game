@@ -46,7 +46,7 @@ industry standard converges on five rules:
 1. **One canonical source per entity; GENERATE the derived views, never
    hand-author them.** (DRY / SSOT: "every piece of knowledge [has] a single,
    unambiguous, authoritative representation"; the "imposed duplication" fix is
-   an *active* build-time generator.)
+   an _active_ build-time generator.)
 2. **Mark generated files DO-NOT-EDIT and enforce generation in CI** -- a
    `regenerate && git diff --exit-code` (golden-file) gate makes drift between
    source and derived **impossible by construction**. Determinism required (no
@@ -81,12 +81,12 @@ the shape gate; `tests/scripts/speciesTraitReferences.test.js` (species
 
 ## 3. Gap inventory (all entities, worst -> best)
 
-| Entity | Representations | Real gaps found | Risk |
-| --- | --- | --- | --- |
-| **Biomes** | 4 (`data/core/biomes.yaml`, `biomes_expansion.yaml`, `biome_aliases.yaml`, `packs/.../data/biomes.yaml`) | `biomes_expansion.yaml` (20 biomes) unregistered in pack enrollment; alias mapping without merge enforcement; no equivalence gate; schema v1.0 vs v2.0 | **Critical** |
-| **Ecosystems** | 3-4 (`data/ecosystems/*.ecosystem.yaml`, `packs/.../data/ecosystems/*`, orphan `docs/planning/ecosystems-draft/`) | REAL roster divergence (badlands 5 -> 8 species between core and pack); orphan draft folder | **High** |
-| **Species** | 3 (`data/core/species/species_catalog.json` 75, `catalog_data.json` roster 21, per-file `docs/catalog/species/*.json` 21) | `role_tags:'playable'` (8 legacy, undeployed) vs `playable_unit:true` (8 deployed) overload = two answers to "playable"; 4 `evento_*` roster-only (is_event, generator-filtered); cross-layer parity unchecked | **High** |
-| **Traits** | 3 primary + 5 derived (auto-synced via `traits-sync.yml`) | single auto-synced SoT (cleanest); 60+ per-biome trait-keeper sidecars lack back-concordance to glossary | **Medium** |
+| Entity         | Representations                                                                                                           | Real gaps found                                                                                                                                                                                                | Risk         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| **Biomes**     | 4 (`data/core/biomes.yaml`, `biomes_expansion.yaml`, `biome_aliases.yaml`, `packs/.../data/biomes.yaml`)                  | `biomes_expansion.yaml` (20 biomes) unregistered in pack enrollment; alias mapping without merge enforcement; no equivalence gate; schema v1.0 vs v2.0                                                         | **Critical** |
+| **Ecosystems** | 3-4 (`data/ecosystems/*.ecosystem.yaml`, `packs/.../data/ecosystems/*`, orphan `docs/planning/ecosystems-draft/`)         | REAL roster divergence (badlands 5 -> 8 species between core and pack); orphan draft folder                                                                                                                    | **High**     |
+| **Species**    | 3 (`data/core/species/species_catalog.json` 75, `catalog_data.json` roster 21, per-file `docs/catalog/species/*.json` 21) | `role_tags:'playable'` (8 legacy, undeployed) vs `playable_unit:true` (8 deployed) overload = two answers to "playable"; 4 `evento_*` roster-only (is_event, generator-filtered); cross-layer parity unchecked | **High**     |
+| **Traits**     | 3 primary + 5 derived (auto-synced via `traits-sync.yml`)                                                                 | single auto-synced SoT (cleanest); 60+ per-biome trait-keeper sidecars lack back-concordance to glossary                                                                                                       | **Medium**   |
 
 Note: species per-file == roster (21==21, identical ids) -- no orphan files. The
 58 catalog species not in the roster are designed-but-undeployed backlog (by
@@ -131,12 +131,14 @@ Each phase is a separate worktree-isolated PR through `evo-import-gate` +
 ## 6. Decisions
 
 **Ratified (this session):**
+
 - DB-as-SoT for taxonomy authoring is DEFERRED to S3+ (a single Game-led
   authoring migration; not now). File = authoring SoT, DB = downstream shadow +
   trait-export-SoT.
 - Reconciliation is file-side (generator + checker + schema), per the standard.
 
 **Pending (Eduardo):**
+
 - **Tier semantics** -- the canonical partition: full-catalog (75 designed) /
   deployed (21 roster = per-file) / events (`is_event`, catalog_data-only) /
   playable. Confirm the field + meaning.
@@ -164,3 +166,40 @@ Each phase is a separate worktree-isolated PR through `evo-import-gate` +
   `tests/scripts/speciesTraitReferences.test.js`, `schemas/evo/species_catalog.schema.json`.
 - Generator: `scripts/update_evo_pack_catalog.js` + `scripts/sync_evo_pack_assets.js` (`npm run sync:evo-pack`).
 - Standards: see section 2 source list.
+
+## 8. Outcome (2026-06-18)
+
+- **Phase A -- SHIPPED** (#2832): species generation-enforcement (DO-NOT-EDIT
+  `_generated` marker + regenerate-and-diff gate via `git status --porcelain`).
+- **Phase B -- SHIPPED** (#2837): added `roster-species-canon` (inv1, clean) +
+  `ecosystem-roster-parity` (inv3) rules to `check-canon-consistency.cjs`.
+  Recon DROPPED inv2 (biome enrollment = dead-def S3 debt, overlaps `biome-refs`)
+  and inv4 (trait-keeper = empty stub sidecars; the "violations" were
+  `services_links` ecosystem-service refs, not traits -- already covered).
+- **5 ghost species -- DEPLOYED honest-stub** (#2850): the legacy `ecosystem-roster-parity`
+  baseline ghosts were brought into the game as honest uncalibrated stubs
+  (encounter_role only + empty vc + canon-truth traits); baseline shrunk to `[]`.
+  Real balance/vc deferred to AI-playtest calibration.
+- **Phase C -- SKIPPED.** The "playable overload" premise does not hold: the
+  three "playable" signals are near-disjoint distinct concepts, not a redundant
+  double-authoring -- (a) `clade_tag: Playable` (7, a taxonomy clade), (b)
+  `role_tags: 'playable'` (8 canon, a design-intent/backlog tag), (c)
+  `playable_unit: true` (8 roster, a deploy flag). The `role_tags:'playable'`
+  and `playable_unit` sets have ZERO overlap; the deployed playable_unit set has clade=null and
+  role_tags-playable=false. Collapsing them would conflate taxonomy + intent +
+  deploy-state (over-unify, plan rule 5). The "tier" is already derivable
+  (deployed = in roster; backlog = canon-not-roster; event = `is_event` /
+  `flags.event`), so a stored `tier` field is YAGNI. No conflation/drift exists
+  today. A stored tier field + collapse is NOT pursued.
+- **Phase D -- SHIPPED**: per-entity shape schemas `schemas/evo/biome.schema.json`
+  and `schemas/evo/ecosystem.schema.json`, validated in `validate_datasets.py`
+  (`validate_biome_schema` and `validate_ecosystem_schema`, mirroring the
+  species_catalog full-schema gate). Required fields = the set present on all
+  current records; `additionalProperties: true` permits per-record extras.
+  SCOPE: the biome schema guards top-level record completeness only (nested
+  shapes are enforced by the procedural `validate_biomes()`); the ecosystem
+  schema governs the `data/ecosystems/*.ecosystem.yaml` shape only (the
+  `packs/.../data/ecosystems/` files have a different shape, governed by
+  `run_all_validators.py`). Negative-control (bad docs caught: 13 biome / 8
+  ecosystem) verified with the real jsonschema; a committed regression test is
+  deferred to the repo-root `jsonschema/` shadow cleanup (else it would no-op).
