@@ -200,10 +200,126 @@ function buildBadlandsUnits01() {
   return [...players, ...enemies];
 }
 
+// --- S1 calibration scenarios (2026-06-18): ferrimordax elite + ambient pair. ---
+// NEW scenarios (NOT the ratified pilot): give the #2850 species their own dedicated
+// per-role bands without disturbing enc_badlands_pilot_01's ratified [0.40,0.60].
+// Reuse loadBadlandsSpecies + deriveCombatStats + the authored quartet.
+
+// Elite: ferrimordax-rutilus (T3 -> APEX) anchors a harder encounter. Band [0.15,0.30].
+const BADLANDS_ELITE_ENEMY_IDS = [
+  'ferrimordax-rutilus', // T3 predatore_terziario -> APEX (sole elite anchor)
+  'ferrocolonia-magnetotattica', // T2 predatore_regolatore_simbionte -> PREDATOR
+  'sand-burrower', // T1 erbivoro_primario -> PREY
+  'nano-rust-bloom', // T3 minaccia_microbica -> HAZARD
+];
+
+// Ambient: the two new ambient badlands species carry their derived stats into the
+// roster; sand-burrower/ferrocolonia fill it to a real encounter. Band [0.40,0.60].
+const BADLANDS_AMBIENT_ENEMY_IDS = [
+  'rubrospina-velox', // T1 consumatore_secondario -> PREDATOR
+  'ferriscroba-detrita', // T1 decompositore -> SUPPORT
+  'sand-burrower', // T1 erbivoro_primario -> PREY
+  'ferrocolonia-magnetotattica', // T2 predatore_regolatore_simbionte -> PREDATOR
+];
+
+const BADLANDS_ELITE_SCENARIO_01 = {
+  id: 'enc_badlands_elite_01',
+  name: 'Brulle Ferrose -- Martellatore Apex',
+  biome_id: 'badlands',
+  encounter_class: 'badlands_elite',
+  difficulty_rating: 8,
+  estimated_turns: 16,
+  grid_size: 10,
+  objective: { type: 'elimination' },
+  objective_text: 'Sopravvivi al Martellatore Ferroso e alla sua scorta.',
+  sistema_pressure_start: 85,
+  recommended_modulation: 'quartet',
+  calibration_status: 'ratified-2026-06-18', // S1: N=100 WR 0.16 in-band [0.15,0.30] (edm 1.85)
+};
+
+const BADLANDS_AMBIENT_SCENARIO_01 = {
+  id: 'enc_badlands_ambient_01',
+  name: 'Brulle Ferrose -- Fauna Minore',
+  biome_id: 'badlands',
+  encounter_class: 'badlands_ambient',
+  difficulty_rating: 4,
+  estimated_turns: 14,
+  grid_size: 10,
+  objective: { type: 'elimination' },
+  objective_text: 'Disperdi la fauna minore delle Brulle Ferrose.',
+  sistema_pressure_start: 60,
+  recommended_modulation: 'quartet',
+  calibration_status: 'designed-winnable', // S1: not a balance-oracle (winnable flavor, master-dd 2026-06-18)
+};
+
+/** The fixed authored player quartet (identical to the pilot; biome-orthogonal). */
+function _quartetPlayers() {
+  return [
+    _player(
+      'p_skirmisher',
+      'skirmisher',
+      { x: 1, y: 8 },
+      { hp: 10, ap: 2, mod: 3, dc: 12, guardia: 0, attack_range: 1 },
+    ),
+    _player(
+      'p_ranger',
+      'ranger',
+      { x: 1, y: 6 },
+      { hp: 10, ap: 2, mod: 3, dc: 12, guardia: 0, attack_range: 2 },
+    ),
+    _player(
+      'p_vanguard',
+      'vanguard',
+      { x: 1, y: 4 },
+      { hp: 14, ap: 2, mod: 2, dc: 14, guardia: 1, attack_range: 1 },
+    ),
+    _player(
+      'p_warden',
+      'warden',
+      { x: 1, y: 2 },
+      { hp: 11, ap: 2, mod: 2, dc: 13, guardia: 1, attack_range: 2 },
+    ),
+  ];
+}
+
+/** Build adapter-derived enemies from a roster id list (shares ENEMY_POSITIONS). */
+function _buildEnemiesFrom(enemyIds) {
+  return enemyIds.map((id, i) => {
+    const stats = deriveCombatStats(loadBadlandsSpecies(id));
+    return {
+      ...stats,
+      id: `e_${id.replace(/-/g, '_')}`,
+      species: id,
+      max_hp: stats.hp,
+      position: ENEMY_POSITIONS[i] || { x: 7, y: 7 },
+      facing: 'W',
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      elevation: 0,
+      job: stats.job || 'vanguard',
+    };
+  });
+}
+
+function buildBadlandsEliteUnits01() {
+  return [..._quartetPlayers(), ..._buildEnemiesFrom(BADLANDS_ELITE_ENEMY_IDS)];
+}
+
+function buildBadlandsAmbientUnits01() {
+  return [..._quartetPlayers(), ..._buildEnemiesFrom(BADLANDS_AMBIENT_ENEMY_IDS)];
+}
+
 module.exports = {
   BADLANDS_SCENARIO_01,
   BADLANDS_ENEMY_IDS,
   buildBadlandsUnits01,
   loadBadlandsSpecies,
   _resetCache,
+  // S1 calibration scenarios
+  BADLANDS_ELITE_SCENARIO_01,
+  BADLANDS_ELITE_ENEMY_IDS,
+  buildBadlandsEliteUnits01,
+  BADLANDS_AMBIENT_SCENARIO_01,
+  BADLANDS_AMBIENT_ENEMY_IDS,
+  buildBadlandsAmbientUnits01,
 };
