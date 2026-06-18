@@ -177,7 +177,7 @@ function createTutorialRouter() {
       ...BADLANDS_AMBIENT_SCENARIO_01,
       units: buildBadlandsAmbientUnits01(),
       usage:
-        'POST units + modulation="quartet". S1 ambient (rubrospina-velox + ferriscroba-detrita). Band [0.40,0.60] proposal.',
+        'POST units + modulation="quartet". S1 ambient (rubrospina-velox + ferriscroba-detrita). Designed-winnable, winnable-floor [0.70,1.00] (NOT a balance-oracle).',
     });
   });
 
