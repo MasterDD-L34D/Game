@@ -177,6 +177,7 @@ function getOrCreatePanel() {
       </div>
       <nav class="codex-tabs" role="tablist">
         <button class="codex-tab active" data-tab="pagine" role="tab">📜 Pagine</button>
+        <button class="codex-tab" data-tab="specie" role="tab">🐾 Specie</button>
         <button class="codex-tab" data-tab="glifi" role="tab">⌬ Glifi</button>
         <button class="codex-tab" data-tab="tips" role="tab">💡 Tips</button>
         <button class="codex-tab" data-tab="glossario" role="tab">📖 Glossario</button>
@@ -185,6 +186,7 @@ function getOrCreatePanel() {
       </nav>
       <div class="codex-panel-body">
         <div class="codex-tab-content" data-tab-content="pagine"></div>
+        <div class="codex-tab-content hidden" data-tab-content="specie"></div>
         <div class="codex-tab-content hidden" data-tab-content="glifi"></div>
         <div class="codex-tab-content hidden" data-tab-content="tips"></div>
         <div class="codex-tab-content hidden" data-tab-content="glossario"></div>
@@ -219,6 +221,7 @@ function renderTabContent(tabName) {
   const container = document.querySelector(`[data-tab-content="${tabName}"]`);
   if (!container) return;
   if (tabName === 'pagine') renderPagineTab(container);
+  else if (tabName === 'specie') renderSpecieTab(container);
   else if (tabName === 'glifi') renderGlifiTab(container);
   else if (tabName === 'tips') renderTipsTab(container);
   else if (tabName === 'glossario') renderGlossarioTab(container);
@@ -293,6 +296,210 @@ function renderGlifiTab(el) {
     .catch((err) => {
       el.innerHTML = `<p class="codex-intro">Errore: ${err?.message || err}</p>`;
     });
+}
+
+// ─── SPEC-H — Specie tab (A.L.I.E.N.A. 6-dim diegetic Codex) ───────────────
+// Renders the diegetic species entries from GET /api/v1/codex/entries. Container
+// Hades-style: sidebar entry list (unlock-gated) + entry detail (6 accordion
+// sections + Skiv-note footer). The "A.L.I.E.N.A." name is NOT player-facing
+// (SPEC-H sez.7) — the tab is "Specie" and the section headings are diegetic.
+// Coherence score stays secret (never served); HA5 proxy is a follow-up.
+
+// 6 canonical dimensions, in order. Headings come from the entry data (diegetic).
+const ALIENA_DIM_ORDER = [
+  'A_ambiente',
+  'L_linee_evolutive',
+  'I_impianto',
+  'E_ecologia',
+  'N_norme_socio',
+  'A_ancoraggio_narrativo',
+];
+
+// Per-player unlock state (SPEC-H sez.8 = private, client-side localStorage).
+const CODEX_SEEN_PREFIX = 'evo:codex-seen-';
+
+function isCodexEntryUnlocked(id) {
+  try {
+    const v = JSON.parse(localStorage.getItem(CODEX_SEEN_PREFIX + id) || 'null');
+    return !!(v && v.unlocked);
+  } catch {
+    return false;
+  }
+}
+
+// Mark a Codex entry discovered (QBN unlock). Called by gameplay events
+// (encounter_completed / mating_success / ...). Wiring the triggers into the
+// combat/debrief flow is a follow-up; this surface already reads the state.
+export function markCodexEntrySeen(id, trigger = 'encounter_completed') {
+  if (!id) return;
+  try {
+    localStorage.setItem(
+      CODEX_SEEN_PREFIX + id,
+      JSON.stringify({ unlocked: true, ts: new Date().toISOString(), trigger }),
+    );
+  } catch {
+    /* localStorage unavailable — non-fatal */
+  }
+}
+
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(
+    /[&<>"]/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c],
+  );
+}
+
+// Specie tab state: which entry detail is open (null = sidebar list view).
+let _specieSelectedId = null;
+const _skivLastDraw = {}; // entry_id -> last drawn index (no-repeat)
+
+function renderSpecieTab(el) {
+  if (_specieSelectedId) renderSpecieDetail(el, _specieSelectedId);
+  else renderSpecieList(el);
+}
+
+function renderSpecieList(el) {
+  el.innerHTML = `<p class="codex-intro">Caricamento bestiario...</p>`;
+  api
+    .codexEntries()
+    .then((r) => {
+      if (!r.ok) {
+        el.innerHTML = `<p class="codex-intro">Errore caricamento specie: ${escHtml(r.data?.error || r.status)}</p>`;
+        return;
+      }
+      const entries = Array.isArray(r.data?.entries) ? r.data.entries : [];
+      if (!entries.length) {
+        el.innerHTML = `<p class="codex-intro">Nessuna specie nel bestiario.</p>`;
+        return;
+      }
+      const withState = entries.map((e) => ({ ...e, _unlocked: isCodexEntryUnlocked(e.id) }));
+      const unlockedCount = withState.filter((e) => e._unlocked).length;
+      // Sorted: unlocked first, then locked — each alphabetical by display name.
+      withState.sort((a, b) => {
+        if (a._unlocked !== b._unlocked) return a._unlocked ? -1 : 1;
+        return String(a.display_name_it).localeCompare(String(b.display_name_it));
+      });
+      el.innerHTML = `
+        <p class="codex-intro">
+          Bestiario — ${unlockedCount}/${entries.length} specie scoperte.
+          Le specie ███████ si rivelano incontrandole sul campo.
+        </p>
+        <ul class="codex-specie-list">
+          ${withState.map((e) => renderSpecieRow(e)).join('')}
+        </ul>`;
+      el.querySelectorAll('.codex-specie-row.unlocked').forEach((row) => {
+        row.addEventListener('click', () => {
+          _specieSelectedId = row.dataset.entryId;
+          renderSpecieTab(el);
+        });
+      });
+    })
+    .catch((err) => {
+      el.innerHTML = `<p class="codex-intro">Errore: ${escHtml(err?.message || err)}</p>`;
+    });
+}
+
+function renderSpecieRow(e) {
+  if (!e._unlocked) {
+    return `<li class="codex-specie-row locked" data-entry-id="${escHtml(e.id)}">
+      <div class="codex-specie-head"><span class="codex-specie-lock" aria-hidden="true">🔒</span>
+        <strong class="codex-specie-name">??? <span class="codex-specie-type">${escHtml(e.type)}</span></strong></div>
+      <div class="codex-specie-hint">${escHtml(e.unlock?.locked_preview || 'Incontra questa specie per sbloccarla.')}</div>
+    </li>`;
+  }
+  return `<li class="codex-specie-row unlocked" data-entry-id="${escHtml(e.id)}" role="button" tabindex="0">
+    <div class="codex-specie-head"><span class="codex-specie-lock unlocked" aria-hidden="true">🟢</span>
+      <strong class="codex-specie-name">${escHtml(e.display_name_it)}</strong></div>
+    <div class="codex-specie-sub">${escHtml(e.subtitle_it || e.display_name_en)}</div>
+  </li>`;
+}
+
+function renderSpecieDetail(el, id) {
+  el.innerHTML = `<p class="codex-intro">Caricamento...</p>`;
+  api
+    .codexEntry(id)
+    .then((r) => {
+      if (!r.ok || !r.data?.entry) {
+        el.innerHTML = `<p class="codex-intro">Specie non trovata.</p>`;
+        return;
+      }
+      const entry = r.data.entry;
+      const dims = entry.aliena_dimensions || {};
+      const sections = ALIENA_DIM_ORDER.filter((k) => dims[k])
+        .map((k) => renderDimSection(dims[k]))
+        .join('');
+      el.innerHTML = `
+        <div class="codex-actions-row">
+          <button class="codex-btn" id="codex-specie-back">← Bestiario</button>
+        </div>
+        <div class="codex-specie-detail">
+          <div class="codex-specie-detail-head">
+            <strong class="codex-specie-title">${escHtml(entry.display_name_it)}</strong>
+            <span class="codex-specie-en">${escHtml(entry.display_name_en || '')}</span>
+            <div class="codex-specie-subtitle">${escHtml(entry.subtitle_it || '')}</div>
+          </div>
+          ${sections}
+          ${renderSkivFooter(entry)}
+        </div>`;
+      el.querySelector('#codex-specie-back')?.addEventListener('click', () => {
+        _specieSelectedId = null;
+        renderSpecieTab(el);
+      });
+      wireSkivFooter(el, entry);
+    })
+    .catch((err) => {
+      el.innerHTML = `<p class="codex-intro">Errore: ${escHtml(err?.message || err)}</p>`;
+    });
+}
+
+function renderDimSection(dim) {
+  const facts = dim.key_facts || dim.pressures || dim.senses;
+  const factsHtml =
+    Array.isArray(facts) && facts.length
+      ? `<ul class="codex-dim-facts">${facts.map((f) => `<li>${escHtml(f)}</li>`).join('')}</ul>`
+      : '';
+  const impact = dim.game_impact
+    ? `<div class="codex-dim-impact">${escHtml(dim.game_impact)}</div>`
+    : '';
+  return `<details class="codex-dim">
+    <summary class="codex-dim-heading">${escHtml(dim.heading || '')}</summary>
+    <div class="codex-dim-body">
+      <p class="codex-dim-content">${escHtml(dim.content || '')}</p>
+      ${factsHtml}
+      ${impact}
+    </div>
+  </details>`;
+}
+
+// Skiv-instance note (diegetic, first-person). QBN-style no-repeat draw. Biome-
+// aware pool selection is a follow-up — for now the default pool. NEVER renders
+// stat/score: pure sensory lore (hades-schema rule).
+function drawSkivNote(entry) {
+  const note = entry.skiv_instance_note || {};
+  const pools = note.voice_pool || {};
+  const pool = Array.isArray(pools.default) ? pools.default : [];
+  if (!pool.length) return '';
+  let idx = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && idx === _skivLastDraw[entry.id]) idx = (idx + 1) % pool.length;
+  _skivLastDraw[entry.id] = idx;
+  return pool[idx];
+}
+
+function renderSkivFooter(entry) {
+  const note = drawSkivNote(entry);
+  if (!note) return '';
+  return `<div class="codex-skiv-note">
+    <div class="codex-skiv-text">${escHtml(note)}</div>
+    <button class="codex-btn codex-skiv-redraw" title="Nuova nota">🎲 nuova nota</button>
+  </div>`;
+}
+
+function wireSkivFooter(el, entry) {
+  el.querySelector('.codex-skiv-redraw')?.addEventListener('click', () => {
+    const note = drawSkivNote(entry);
+    const textEl = el.querySelector('.codex-skiv-text');
+    if (textEl && note) textEl.textContent = note;
+  });
 }
 
 // Bundle B.3 — Pagine (decipher tab). Fetch da /api/v1/codex/pages?session_id=...
