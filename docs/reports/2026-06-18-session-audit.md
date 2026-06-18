@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Session audit -- 2026-06-18 build-residui (post-merge adversarial review)
 
-> Method: Workflow 7 adversarial reviewers (1/PR, refute-by-default, ground-truth git show) + synth-critic (verify/dedup/cross-cutting/fix-plan). 8 agents, 19 raw findings -> 18 verified (1 refuted). Codex did NOT review the 6 Game PRs (rate-limit); GGv2 #481 yes (2 P2 fixed pre-merge). All confirmed findings have since been FIXED -- see Resolution at the bottom.
+> Method: Workflow 7 adversarial reviewers (1/PR, refute-by-default, ground-truth git show) + synth-critic (verify/dedup/cross-cutting/fix-plan). 8 agents, 19 raw findings -> 18 verified (1 refuted). Codex did NOT review the 6 Game PRs (rate-limit); GGv2 #481 yes (2 P2 fixed pre-merge). All confirmed findings have since been RESOLVED -- mostly fixed in code, one (the #2830 namespace) documentation-only / accepted-risk; see Resolution at the bottom.
 
 ## Verdict
 
@@ -150,13 +150,14 @@ The 2026-06-18 session work is largely sound and SPEC-faithful. I adversarially 
 11. P3 (mechanical, frontend) -- #2829 a11y + #2830 threshold: add a keydown(Enter/Space) handler to unlocked rows (or drop role=button/tabindex); and either drop unlock.threshold from served metadata or implement counting in markCodexEntrySeen with a hook-comment documenting the binary semantics. Both latent/benign today; batch into a frontend-polish PR.
 12. No action -- #2826 '9/9' provenance: REFUTED. The suite genuinely has 9 tests on origin/main; the commit count is correct.
 
-## Resolution (2026-06-18 -- all shipped)
+## Resolution (2026-06-18)
 
 - P1 CI gate gap -> PR #2838 (data/codex/** added to stack paths-filter).
-- P2 secret allowlist (#2828/#2835) -> PR #2839 (projection + clone) + PR #2841 (recursive nested scrub, Codex P2 follow-up).
+- P2 secret allowlist (#2828/#2835) -> PR #2839 (projection + clone) + PR #2841 (recursive nested scrub, Codex P2 follow-up) + a follow-up PR scoping the scrub to the score containers only (Codex P2 on #2841: a generic public 'strength' was over-scrubbed).
 - P2 HA5 semantics -> PR #2839 (bands renamed ecological -> archival: scheda completa/parziale/frammentaria).
 - P2 HA2 band -> PR #2843 (CONTENT_MAX 300 -> 500, corpus-derived).
-- P2 frontend detail dead-end + '0' msg + a11y + unlock-contract + threshold doc -> PR #2842.
-- P2 GGv2 freed-view guard (#481) -> chip task_66e248f4 (cross-repo).
+- P2 frontend detail dead-end + '0' msg + a11y + threshold doc -> PR #2842.
+- P2 #2830 namespace -> **DOCUMENTATION-ONLY / accepted risk** (PR #2842). Verify-first superseded the original "propagate species_hint -> unit.species_id" plan: the unlock already keys on the unit's species slug, and only 1 codex entry (dune_stalker) exists today + unlocks via the tutorial waves. The contract (codex id == sistema unit species slug) is documented in the main.js hook. NOT propagated in the scenario builders -- a future codex entry whose id does not match a sistema unit's species slug would silently fail to unlock; revisit when authoring more entries (Codex P2 on #2844).
+- P2 GGv2 freed-view guard (#481) -> GGv2 #486 (caller + inside-method guards, Codex P2 caught + fixed in-PR).
 - P3 observability / force-param / mating coverage / dead list field -> PR #2839.
 - Refuted: #2826 '9/9' provenance (the commit count was correct).

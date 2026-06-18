@@ -164,10 +164,13 @@ test('projectPublicEntry drops top-level unknown AND nested secret-named keys', 
         heading: 'Ecologia',
         content: 'public lore',
         coherence: 0.8, // NESTED secret -> dropped by scrub
-        sub_scores: { plausibilita: 1 }, // nested secret container -> dropped
+        sub_scores: { plausibilita: 1 }, // nested secret container -> dropped wholesale
       },
       A_ancoraggio_narrativo: { heading: 'Anc', content: 'lore', story_hook_it: 'h' },
     },
+    // public 'strength' must SURVIVE (Codex P2 on #2841: scrub scoped to score
+    // containers, not the generic 'strength' / sub-score leaf names).
+    synergies: [{ id: 'echo_backstab', strength: 'high', note_it: 'public' }],
   };
   const projected = projectPublicEntry(crafted);
   const blob = JSON.stringify(projected);
@@ -180,8 +183,10 @@ test('projectPublicEntry drops top-level unknown AND nested secret-named keys', 
   assert.equal(
     projected.aliena_dimensions.E_ecologia.sub_scores,
     undefined,
-    'nested sub_scores scrubbed',
+    'nested sub_scores scrubbed (wholesale -> plausibilita gone too)',
   );
+  // public 'strength' under an allowlisted container survives (not over-scrubbed).
+  assert.equal(projected.synergies[0].strength, 'high', "public 'strength' preserved");
   for (const secret of ['alien_fit', 'coherence', 'sub_scores', 'plausibilita']) {
     assert.ok(!blob.includes(secret), `secret '${secret}' must not survive projection`);
   }
