@@ -65,25 +65,11 @@ scenarios:
     tool: tools/py/batch_calibrate_*.py
     note: 'Tutorial = learning ladder, designed-winnable (greedy ~100% WR). NOT a difficulty target.'
 
-  - id: enc_badlands_elite_01
-    role: balance_oracle
-    target_band: [0.15, 0.30]
-    ratified_knob: { badlands_elite.enemy_damage_multiplier: 1.85 }
-    knob_space:
-      enemy_damage_multiplier: { type: float, min: 1.0, max: 2.5 }
-    last_wr_n40: '0.16 (N=100 2026-06-18 seed 424242, edm 1.85)'
-    status: ratified
-    tool: tools/py/batch_calibrate_badlands_elite_01.py
-    port: 3400
-    note: 'S1 (#2850 follow-up): ferrimordax-rutilus (T3 apex) solo-anchor + escort. STEEP LEVER (hc06-style): edm 1.8->0.29 / 1.85->0.16 / 1.9->0.16; ratified on the 0.16 floor plateau. FOLLOW-UP design-call: widen band or flatter knob for margin. Adapter role-map extended (predatore_terziario->APEX).'
-
-  - id: enc_badlands_ambient_01
-    role: designed_winnable_ladder
-    target_band: null
-    status: not_balance_oracle
-    tool: tools/py/batch_calibrate_badlands_ambient_01.py
-    port: 3400
-    note: 'S1: rubrospina-velox + ferriscroba-detrita (T1 ambient flavor). DESIGNED-WINNABLE, NOT a balance-oracle (master-dd 2026-06-18): the pair die before dealing damage -> party sweeps (WR ~1.0 even at edm 2.2). Winnable-floor smoke band [0.70,1.00] in calibrate_parallel SCENARIO_MAP; adapter stats confirmed sane (PREDATOR/SUPPORT).'
+# NB: the badlands adapter scenarios (pilot / elite / ambient) are intentionally NOT in this
+# gated oracle manifest (mirrors enc_badlands_pilot_01's absence) -- they are ratified in
+# data/core/balance/damage_curves.yaml + docs/playtest/2026-06-18-badlands-s1-calibration.md,
+# and runnable via calibrate_parallel SCENARIO_MAP, but kept OUT of the per-PR combat gate
+# (the elite is a steep lever; gating on it would import hc06-style fragility).
 
 # Canonical run (parallel, ~10min N=40). One-command suite = tools/py/playtest_canonical.py (TKT-PLAYTEST-SUITE, SHIPPED 2026-05-30).
 run_canonical: |
