@@ -13,7 +13,7 @@ review_cycle_days: 30
 
 > Brainstormed 2026-06-17 (gap-audit G3, cross-repo AI-gamedev-standards report). Adds a
 > **semantic cross-entity** consistency layer on top of the existing shape-only schema
-> validation. `validate-dataset.cjs` (AJV) and the current guard tests cover *shape* and a
+> validation. `validate-dataset.cjs` (AJV) and the current guard tests cover _shape_ and a
 > few foreign-key classes (trait_refs -> glossary, TR-code remap, base-53 invariant); they do
 > **not** cover biome/job referential integrity, trait synergy/conflict closure, promotion
 > ladder monotonicity, or i18n coverage. This spec defines a focused checker that closes
@@ -71,7 +71,7 @@ Rule-registry pattern (design-for-isolation: each rule independently understanda
   - `RULES` — array of `{ id, description, severity: 'error', run(index) -> Violation[] }`.
     Five entries (sec 4). Adding/removing a rule = editing this array.
   - `checkCanonConsistency({datasetRoot, baselinePath})` -> `{ violations, newViolations,
-    baselinedViolations, summary }`. Runs all rules, partitions each violation against the
+baselinedViolations, summary }`. Runs all rules, partitions each violation against the
     baseline by stable key.
   - CLI entry (guarded `import.meta`/`require.main` per L-038 — verify OUTPUT not just exit):
     prints report grouped by rule (error/warn counts, cited entity+ref), exits 1 iff
@@ -95,16 +95,16 @@ timestamps), so baseline diffs are meaningful.
 
 ## 4. The 5 rules
 
-| id | inputs | violation when | severity |
-|----|--------|----------------|----------|
-| `biome-refs` | species `biomes[]`, catalog `biome_affinity`; biomes.yaml ids | a referenced biome id ∉ biomes.yaml | error |
-| `job-bias-enum` | species `jobs_bias[]` / `job_bias_map`; jobs.yaml role tags | a job/role ref ∉ jobs.yaml enum | error |
-| `synergy-conflict-closure` | active_effects.yaml `sinergie[]`/`conflitti[]`; glossary slugs | a synergy/conflict slug ∉ glossary, OR a trait lists itself as own conflict | error |
-| `promotion-ladder-monotonic` | promotions.yaml tiers `kills_min` | sequence base<veteran<captain<elite<master not strictly increasing | error |
-| `i18n-coverage` | every referenced trait slug; glossary `label_it`/`label_en` | a referenced trait missing `label_it` or `label_en` | error (debt -> baseline) |
+| id                           | inputs                                                         | violation when                                                              | severity                 |
+| ---------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------ |
+| `biome-refs`                 | species `biomes[]`, catalog `biome_affinity`; biomes.yaml ids  | a referenced biome id ∉ biomes.yaml                                         | error                    |
+| `job-bias-enum`              | species `jobs_bias[]` / `job_bias_map`; jobs.yaml role tags    | a job/role ref ∉ jobs.yaml enum                                             | error                    |
+| `synergy-conflict-closure`   | active_effects.yaml `sinergie[]`/`conflitti[]`; glossary slugs | a synergy/conflict slug ∉ glossary, OR a trait lists itself as own conflict | error                    |
+| `promotion-ladder-monotonic` | promotions.yaml tiers `kills_min`                              | sequence base<veteran<captain<elite<master not strictly increasing          | error                    |
+| `i18n-coverage`              | every referenced trait slug; glossary `label_it`/`label_en`    | a referenced trait missing `label_it` or `label_en`                         | error (debt -> baseline) |
 
 All `error`. The pre-existing i18n / closure debt is absorbed by the baseline at adoption, so
-"all-error" does not break CI; only *new* breakage of any rule blocks a PR.
+"all-error" does not break CI; only _new_ breakage of any rule blocks a PR.
 
 Each rule is a pure `(index) -> Violation[]`; no I/O, no cross-rule state. A rule that finds
 its inputs absent (e.g. an optional field) returns `[]` (missing-optional is not a violation;
@@ -161,5 +161,39 @@ only dangling-present is).
 ## 9. Delivery
 
 Single PR on `feat/canon-consistency-checker` (this branch). TDD order: index loader + 1 rule
-+ its unit test green, then remaining rules, then baseline + wrapper, then `--write-baseline`
-adoption commit. Owner-gated merge (Eduardo). Spec input to `writing-plans`.
+
+- its unit test green, then remaining rules, then baseline + wrapper, then `--write-baseline`
+  adoption commit. Owner-gated merge (Eduardo). Spec input to `writing-plans`.
+
+## 10. Phase B extension -- taxonomy reconciliation (2026-06-18)
+
+Two rules added under the taxonomy-reconciliation plan
+(`docs/planning/2026-06-18-taxonomy-reconciliation-plan.md`, Phase B / L3):
+
+- **roster-species-canon** (inv1): every deployed-roster species
+  (`packs/evo_tactics_pack/docs/catalog/catalog_data.json` `species[]`) must be in the
+  canonical catalog (`data/core/species/species_catalog.json`, by `species_id` or
+  `legacy_slug`, hyphen/underscore-normalised) OR be flagged as an event
+  (`flags.event`). Real data: CLEAN (0 violations) -- adopted as drift-prevention.
+- **ecosystem-roster-parity** (inv3): for every ecosystem present on both the core
+  (`data/ecosystems/<id>.ecosystem.yaml`) and pack
+  (`packs/.../data/ecosystems/<id>.ecosystem.yaml`) sides, the trofico species roster
+  must match. Real data: 5 ghost refs (deprecated `legacy_slug` species lingering in the
+  pack roster -- badlands x3, foresta_temperata x2) -> BASELINE-adopted as known debt;
+  the gate enforces NO-NEW. Closing the debt (legacy_slug remap/removal) is a separate
+  data task.
+
+Two plan invariants were intentionally NOT added after recon:
+
+- **inv2 (biome enrollment)**: the 20 expansion biomes in `biomes_expansion.yaml` are
+  defined-but-unenrolled, referenced only by deprecated archive data; this is S3+
+  design-debt, and live dangling biome refs are already covered by the existing
+  `biome-refs` rule. Skipped to avoid baselining 20 dead-definition entries.
+- **inv4 (trait-keeper back-concordance)**: the per-biome trait-keeper sidecars are empty
+  auto-generated stubs; the apparent "violations" were `services_links` entries
+  (`regolazione:`/`supporto:` = ecosystem-service links, NOT traits). Real trait refs are
+  already covered by `synergy-conflict-closure` + the `speciesTraitReferences` guard.
+  Dropped as a category error.
+
+The `stack` path-filter now also triggers on the checker script + the baseline file so a
+change to either re-runs the e2e gate (`test:api`).

@@ -161,6 +161,73 @@ function ruleI18nCoverage(index) {
   return violations;
 }
 
+// Normalise a species id so the hyphen (roster/pack) vs underscore (canonical
+// catalog) convention does not produce false positives. Lowercase + '-' -> '_'.
+function normSpeciesId(id) {
+  return String(id == null ? '' : id)
+    .toLowerCase()
+    .replace(/-/g, '_');
+}
+
+// Rule (Phase B / inv1): every deployed-roster species (catalog_data.json) must
+// be present in the canonical catalog (species_catalog.json, by species_id or
+// legacy_slug) OR be flagged as an event. Catches roster entries that drift away
+// from the canonical taxonomy without an event exemption.
+function ruleRosterSpeciesCanon(index) {
+  const violations = [];
+  const canon = index.canonicalIds || new Set(); // normalised species_id UNION legacy_slug
+  for (const sp of index.deployedRoster || []) {
+    if (sp && sp.event) continue; // event species are allowed without a canonical entry
+    if (!canon.has(normSpeciesId(sp && sp.id))) {
+      violations.push({
+        rule: 'roster-species-canon',
+        severity: 'error',
+        entity: sp && sp.id,
+        ref: 'species_catalog.json',
+        message: `deployed roster species '${sp && sp.id}' is neither in the canonical catalog nor flagged as an event`,
+      });
+    }
+  }
+  return violations;
+}
+
+// Rule (Phase B / inv3): for every ecosystem defined on BOTH the core
+// (data/ecosystems) and pack (packs/.../data/ecosystems) sides, the trofico
+// species roster must match. Catches stale/ghost species lingering in one source
+// after a rename or deprecation (e.g. legacy_slug refs in the pack roster).
+function ruleEcosystemRosterParity(index) {
+  const violations = [];
+  const rosters = index.ecosystemRosters || {};
+  for (const [eco, sides] of Object.entries(rosters)) {
+    const core = sides && sides.core;
+    const pack = sides && sides.pack;
+    if (!core || !pack) continue; // only compare ecosystems present on both sides
+    for (const s of pack) {
+      if (!core.has(s)) {
+        violations.push({
+          rule: 'ecosystem-roster-parity',
+          severity: 'error',
+          entity: eco,
+          ref: s,
+          message: `ecosystem '${eco}' species '${s}' is in the pack roster but not the core roster`,
+        });
+      }
+    }
+    for (const s of core) {
+      if (!pack.has(s)) {
+        violations.push({
+          rule: 'ecosystem-roster-parity',
+          severity: 'error',
+          entity: eco,
+          ref: s,
+          message: `ecosystem '${eco}' species '${s}' is in the core roster but not the pack roster`,
+        });
+      }
+    }
+  }
+  return violations;
+}
+
 // Rule registry. Add/remove a rule by editing this array.
 const RULES = [
   { id: 'biome-refs', severity: 'error', run: ruleBiomeRefs },
@@ -168,6 +235,8 @@ const RULES = [
   { id: 'synergy-conflict-closure', severity: 'error', run: ruleSynergyConflictClosure },
   { id: 'promotion-ladder-monotonic', severity: 'error', run: rulePromotionLadderMonotonic },
   { id: 'i18n-coverage', severity: 'error', run: ruleI18nCoverage },
+  { id: 'roster-species-canon', severity: 'error', run: ruleRosterSpeciesCanon },
+  { id: 'ecosystem-roster-parity', severity: 'error', run: ruleEcosystemRosterParity },
 ];
 
 function runRules(index) {
@@ -244,6 +313,64 @@ function loadCanonIndex({ datasetRoot }) {
     });
   }
 
+  // Deployed roster (catalog_data.json species[]): id + event flag. Optional.
+  let rosterDoc = {};
+  try {
+    rosterDoc = readJson('packs/evo_tactics_pack/docs/catalog/catalog_data.json');
+  } catch {
+    rosterDoc = {};
+  }
+  const deployedRoster = (Array.isArray(rosterDoc.species) ? rosterDoc.species : []).map((sp) => ({
+    id: sp && sp.id,
+    event: !!(sp && sp.flags && sp.flags.event),
+  }));
+
+  // Canonical species ids (species_id UNION legacy_slug), normalised for the
+  // hyphen/underscore convention so roster refs resolve.
+  const canonicalIds = new Set();
+  for (const sp of catalog) {
+    if (sp && sp.species_id) canonicalIds.add(normSpeciesId(sp.species_id));
+    if (sp && sp.legacy_slug) canonicalIds.add(normSpeciesId(sp.legacy_slug));
+  }
+
+  // Ecosystem trofico rosters per id, on the core and pack sides.
+  const flattenRoster = (doc) => {
+    const set = new Set();
+    const tr = doc && doc.ecosistema && doc.ecosistema.trofico;
+    if (!tr) return set;
+    const add = (arr) => {
+      for (const s of arr || []) set.add(s);
+    };
+    add(tr.produttori);
+    const cons = tr.consumatori || {};
+    add(cons.primari);
+    add(cons.secondari);
+    add(cons.terziari);
+    add(tr.decompositori);
+    return set;
+  };
+  const collectRosters = (dir) => {
+    const out = {};
+    const abs = path.join(datasetRoot, dir);
+    if (!fs.existsSync(abs)) return out;
+    for (const name of fs.readdirSync(abs)) {
+      if (!String(name).endsWith('.ecosystem.yaml')) continue;
+      const ecoId = String(name).replace(/\.ecosystem\.yaml$/, '');
+      try {
+        out[ecoId] = flattenRoster(readYaml(path.join(dir, name)));
+      } catch {
+        /* skip unreadable */
+      }
+    }
+    return out;
+  };
+  const coreRosters = collectRosters('data/ecosystems');
+  const packRosters = collectRosters('packs/evo_tactics_pack/data/ecosystems');
+  const ecosystemRosters = {};
+  for (const id of new Set([...Object.keys(coreRosters), ...Object.keys(packRosters)])) {
+    ecosystemRosters[id] = { core: coreRosters[id] || null, pack: packRosters[id] || null };
+  }
+
   return {
     species: catalog,
     packCreatures,
@@ -253,6 +380,9 @@ function loadCanonIndex({ datasetRoot }) {
     glossarySlugs: new Set(Object.keys(glossaryTraits)),
     indexTraits,
     promotions,
+    deployedRoster,
+    canonicalIds,
+    ecosystemRosters,
   };
 }
 
@@ -285,6 +415,8 @@ module.exports = {
   ruleJobBiasEnum,
   ruleSynergyConflictClosure,
   ruleI18nCoverage,
+  ruleRosterSpeciesCanon,
+  ruleEcosystemRosterParity,
   runRules,
   partitionByBaseline,
   violationKey,
