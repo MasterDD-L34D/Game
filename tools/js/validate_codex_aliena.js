@@ -10,8 +10,9 @@
  *   HARD (error)  -- every data/codex/{id}.yaml entry declares all 6 keys
  *     (A_ambiente / L_linee_evolutive / I_impianto / E_ecologia / N_norme_socio /
  *     A_ancoraggio_narrativo) and each has non-empty `content`.
- *   SOFT (warn)   -- content length outside the spec's 100-300 char TV-readable
- *     band; A_ancoraggio lacks a narrative hook (story_hook_it / lore_seed_it /
+ *   SOFT (warn)   -- content length outside the 100-500 char TV-readable band
+ *     (max re-derived from the real corpus, 2026-06-18 audit); A_ancoraggio lacks
+ *     a narrative hook (story_hook_it / lore_seed_it /
  *     sistema_relation); unlock.triggers empty.
  *
  * This guard checks PRESENCE + quality of the authored data; it does NOT impose a
@@ -51,9 +52,13 @@ const ALIENA_DIMENSION_KEYS = [
   'A_ancoraggio_narrativo',
 ];
 
-// Spec sez.5: each dimension content is 100-300 char, TV-readable (SOFT band).
+// SOFT TV-readable length band. Spec sez.5 says 100-300, but the 2026-06-18 audit
+// showed the real authored corpus (dune_stalker dimensions 368-493 char) sits well
+// over that ceiling -- the band warned on 100% of real content (zero signal +
+// --strict footgun). CONTENT_MAX re-derived from the corpus to 500 (the actual
+// TV-readable ceiling); master-dd ratified. CONTENT_MIN keeps the spec floor.
 const CONTENT_MIN = 100;
-const CONTENT_MAX = 300;
+const CONTENT_MAX = 500;
 
 function parseArgs(argv) {
   const out = { codexDir: 'data/codex', strict: false };
@@ -91,10 +96,10 @@ function validateEntry(file, parsed, errors, warnings) {
       continue;
     }
     present += 1;
-    // SOFT: TV-readable length band (spec sez.5: 100-300 char).
+    // SOFT: TV-readable length band (100-500, corpus-derived -- see CONTENT_MAX).
     if (content.length < CONTENT_MIN || content.length > CONTENT_MAX) {
       warnings.push(
-        `${id}: dimension '${key}' content length ${content.length} outside 100-300 char band`,
+        `${id}: dimension '${key}' content length ${content.length} outside ${CONTENT_MIN}-${CONTENT_MAX} char band`,
       );
     }
   }
