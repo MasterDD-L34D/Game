@@ -11,14 +11,14 @@ const SCRIPT = path.join(__dirname, '..', '..', 'tools', 'js', 'validate_codex_a
 const REPO_ROOT = path.join(__dirname, '..', '..');
 
 const SIX_DIMS = `
-    A_ambiente: { heading: Ambiente, content: '${'a'.repeat(150)}' }
-    L_linee_evolutive: { heading: Linee, content: '${'b'.repeat(150)}' }
-    I_impianto: { heading: Impianto, content: '${'c'.repeat(150)}' }
-    E_ecologia: { heading: Ecologia, content: '${'d'.repeat(150)}' }
-    N_norme_socio: { heading: Norme, content: '${'e'.repeat(150)}' }
+    A_ambiente: { heading: Ambiente, content: '${'a'.repeat(400)}' }
+    L_linee_evolutive: { heading: Linee, content: '${'b'.repeat(400)}' }
+    I_impianto: { heading: Impianto, content: '${'c'.repeat(400)}' }
+    E_ecologia: { heading: Ecologia, content: '${'d'.repeat(400)}' }
+    N_norme_socio: { heading: Norme, content: '${'e'.repeat(400)}' }
     A_ancoraggio_narrativo:
       heading: Ancoraggio
-      content: '${'f'.repeat(150)}'
+      content: '${'f'.repeat(400)}'
       story_hook_it: 'Un gancio narrativo.'`;
 
 function wellFormed(id) {
@@ -118,7 +118,7 @@ test('validator warns (non-strict pass, strict fail) on short content', () => {
     writeFixture(dir, 'short.yaml', body);
     const r = run(dir);
     assert.equal(r.status, 0, 'short content is a warning, not an error (non-strict)');
-    assert.match(r.stdout, /outside 100-300 char band/);
+    assert.match(r.stdout, /outside 100-500 char band/);
     const strict = run(dir, ['--strict']);
     assert.equal(strict.status, 1, 'strict mode fails on warnings');
   } finally {
