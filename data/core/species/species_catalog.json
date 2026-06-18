@@ -2405,7 +2405,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [
-          "lupus-temperatus"
+          "lupus_temperatus"
         ],
         "symbiosis": "nessuna"
       },
@@ -2958,7 +2958,7 @@
       "interactions": {
         "predates_on": [],
         "predated_by": [
-          "lupus-temperatus"
+          "lupus_temperatus"
         ],
         "symbiosis": "Il pascolo selettivo apre clearings tra le canopie dove le specie eliofile prosperano: ogni traccia di erba consumata diventa nicchia di luce per il sottobosco. Mangiando, costruisce — anche se non sa di farlo."
       },

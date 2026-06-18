@@ -65,6 +65,12 @@ scenarios:
     tool: tools/py/batch_calibrate_*.py
     note: 'Tutorial = learning ladder, designed-winnable (greedy ~100% WR). NOT a difficulty target.'
 
+# NB: the badlands adapter scenarios (pilot / elite / ambient) are intentionally NOT in this
+# gated oracle manifest (mirrors enc_badlands_pilot_01's absence) -- they are ratified in
+# data/core/balance/damage_curves.yaml + docs/playtest/2026-06-18-badlands-s1-calibration.md,
+# and runnable via calibrate_parallel SCENARIO_MAP, but kept OUT of the per-PR combat gate
+# (the elite is a steep lever; gating on it would import hc06-style fragility).
+
 # Canonical run (parallel, ~10min N=40). One-command suite = tools/py/playtest_canonical.py (TKT-PLAYTEST-SUITE, SHIPPED 2026-05-30).
 run_canonical: |
   # One command (pins canonical_seed for a bit-identical gate; --no-seed = fresh statistical sample):

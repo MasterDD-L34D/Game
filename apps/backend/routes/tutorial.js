@@ -34,6 +34,10 @@ const { selectBriefing } = require('../services/narrative/briefingVariations');
 const {
   BADLANDS_SCENARIO_01,
   buildBadlandsUnits01,
+  BADLANDS_ELITE_SCENARIO_01,
+  buildBadlandsEliteUnits01,
+  BADLANDS_AMBIENT_SCENARIO_01,
+  buildBadlandsAmbientUnits01,
 } = require('../services/worldgen/badlandsPilotScenario');
 
 // Optional briefing variation: when ?variant_seed=N is passed, swap the
@@ -156,6 +160,24 @@ function createTutorialRouter() {
       units: buildBadlandsUnits01(),
       usage:
         'POST units + modulation="quartet". Pilota adapter ecologia->combat (enemies = deriveCombatStats da specie badlands reali). Band calibration phase 2b.',
+    });
+  });
+
+  router.get('/enc_badlands_elite_01', (_req, res) => {
+    res.json({
+      ...BADLANDS_ELITE_SCENARIO_01,
+      units: buildBadlandsEliteUnits01(),
+      usage:
+        'POST units + modulation="quartet". S1 elite (ferrimordax-rutilus apex anchor). Band [0.15,0.30] proposal.',
+    });
+  });
+
+  router.get('/enc_badlands_ambient_01', (_req, res) => {
+    res.json({
+      ...BADLANDS_AMBIENT_SCENARIO_01,
+      units: buildBadlandsAmbientUnits01(),
+      usage:
+        'POST units + modulation="quartet". S1 ambient (rubrospina-velox + ferriscroba-detrita). Designed-winnable, winnable-floor [0.70,1.00] (NOT a balance-oracle).',
     });
   });
 
