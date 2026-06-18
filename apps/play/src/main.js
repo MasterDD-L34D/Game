@@ -287,6 +287,15 @@ function redraw() {
       // every enemy species faced (trigger `encounter_completed`). Any outcome
       // counts (you encountered them). markCodexEntrySeen is a no-op for species
       // without a codex entry, so this is safe for the whole sistema roster.
+      //
+      // CONTRACT (2026-06-18 audit P2): unlock keys on the unit's species slug
+      // (species_id preferred, else species). A codex entry unlocks iff its id
+      // EQUALS that slug. Today only dune_stalker has an entry, and it appears as
+      // a sistema unit in the tutorial waves (species:'dune_stalker') -> it
+      // unlocks. Archetype-labelled enemies (apex_predatore, ...) have no entry,
+      // so their localStorage keys are harmless orphans. When authoring a new
+      // codex entry, its id MUST match the sistema unit's species slug or it will
+      // never unlock through play.
       try {
         const encounteredSpecies = new Set(
           (state.world.units || [])

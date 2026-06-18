@@ -327,9 +327,15 @@ function isCodexEntryUnlocked(id) {
   }
 }
 
-// Mark a Codex entry discovered (QBN unlock). Called by gameplay events
-// (encounter_completed / mating_success / ...). Wiring the triggers into the
-// combat/debrief flow is a follow-up; this surface already reads the state.
+// Mark a Codex entry discovered (QBN unlock). `id` MUST equal a codex entry id
+// (== the unit's species slug; see main.js unlock hook). Called by gameplay
+// events (encounter_completed / mating_success / ...).
+//
+// BINARY unlock (2026-06-18 audit P3): the first matching trigger unlocks the
+// entry permanently; the served unlock.threshold (default 1) is NOT counted. All
+// authored entries are threshold:1 today, so this is correct -- a future
+// threshold>1 entry would still unlock on the first trigger. Documented here
+// rather than implemented since no entry needs counting yet.
 export function markCodexEntrySeen(id, trigger = 'encounter_completed') {
   if (!id) return;
   try {
@@ -364,7 +370,10 @@ function renderSpecieList(el) {
     .codexEntries()
     .then((r) => {
       if (!r.ok) {
-        el.innerHTML = `<p class="codex-intro">Errore caricamento specie: ${escHtml(r.data?.error || r.status)}</p>`;
+        // status 0 = network drop (jsonFetch resolves {ok:false,status:0}); show a
+        // human message instead of a bare "0" (2026-06-18 audit P3).
+        const reason = r.data?.error || (r.status ? `errore ${r.status}` : 'backend offline?');
+        el.innerHTML = `<p class="codex-intro">Errore caricamento specie: ${escHtml(reason)}</p>`;
         return;
       }
       const entries = Array.isArray(r.data?.entries) ? r.data.entries : [];
@@ -388,9 +397,18 @@ function renderSpecieList(el) {
           ${withState.map((e) => renderSpecieRow(e)).join('')}
         </ul>`;
       el.querySelectorAll('.codex-specie-row.unlocked').forEach((row) => {
-        row.addEventListener('click', () => {
+        const open = () => {
           _specieSelectedId = row.dataset.entryId;
           renderSpecieTab(el);
+        };
+        row.addEventListener('click', open);
+        // a11y (2026-06-18 audit P3): rows advertise role=button + tabindex=0, so
+        // honor keyboard activation (Enter / Space) -- not just mouse click.
+        row.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            open();
+          }
         });
       });
     })
@@ -414,13 +432,29 @@ function renderSpecieRow(e) {
   </li>`;
 }
 
+// Detail error escape (2026-06-18 audit P2): the error/catch branches used to
+// overwrite the container with no back button while leaving _specieSelectedId set
+// -> renderSpecieTab routes back to the same failing fetch (player stuck). Always
+// render a working "<- Bestiario" escape that resets the selection to the list.
+function _renderSpecieError(el, msg) {
+  el.innerHTML = `
+    <div class="codex-actions-row">
+      <button class="codex-btn" id="codex-specie-back">← Bestiario</button>
+    </div>
+    <p class="codex-intro">${escHtml(msg)}</p>`;
+  el.querySelector('#codex-specie-back')?.addEventListener('click', () => {
+    _specieSelectedId = null;
+    renderSpecieTab(el);
+  });
+}
+
 function renderSpecieDetail(el, id) {
   el.innerHTML = `<p class="codex-intro">Caricamento...</p>`;
   api
     .codexEntry(id)
     .then((r) => {
       if (!r.ok || !r.data?.entry) {
-        el.innerHTML = `<p class="codex-intro">Specie non trovata.</p>`;
+        _renderSpecieError(el, 'Specie non trovata.');
         return;
       }
       const entry = r.data.entry;
@@ -454,7 +488,7 @@ function renderSpecieDetail(el, id) {
       wireSkivFooter(el, entry);
     })
     .catch((err) => {
-      el.innerHTML = `<p class="codex-intro">Errore: ${escHtml(err?.message || err)}</p>`;
+      _renderSpecieError(el, `Errore: ${err?.message || err}`);
     });
 }
 
