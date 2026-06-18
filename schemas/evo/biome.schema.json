@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://game.example.com/schemas/evo/biome.schema.json",
   "title": "Evo Tactics Biome Catalog (data/core/biomes.yaml)",
-  "$comment": "Phase D / L4 per-entity shape schema for the canonical biome catalog. Validates the per-biome record shape under the `biomes` map; the vc_adapt/mutations/frequencies config sections are permitted (additionalProperties) but not constrained here. Required fields = the set present on ALL current biome records; additionalProperties:true permits per-biome extras (aliases, magnetic_field_strength, future).",
+  "$comment": "Phase D / L4 per-entity shape schema for the canonical biome catalog (data/core/biomes.yaml). SCOPE: guards TOP-LEVEL record completeness only -- each biome record must carry the set of fields present on ALL current records; additionalProperties:true permits per-biome extras (aliases, magnetic_field_strength, future), and the vc_adapt/mutations/frequencies config sections are permitted but not constrained. The NESTED shapes (hazard/narrative/npc_archetypes/stresswave sub-fields) are intentionally NOT required here -- their internal structure is enforced by the procedural validate_biomes() in tools/py/validate_datasets.py. (A separate, stricter config/schemas/biome.schema.yaml exists but is only meta-validated, not run against the data.)",
   "type": "object",
   "required": ["biomes"],
   "properties": {

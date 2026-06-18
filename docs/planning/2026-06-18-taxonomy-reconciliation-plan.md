@@ -192,7 +192,14 @@ Each phase is a separate worktree-isolated PR through `evo-import-gate` +
   `flags.event`), so a stored `tier` field is YAGNI. No conflation/drift exists
   today. A stored tier field + collapse is NOT pursued.
 - **Phase D -- SHIPPED**: per-entity shape schemas `schemas/evo/biome.schema.json`
-  - `schemas/evo/ecosystem.schema.json`, validated in `validate_datasets.py`
-    (`validate_biome_schema` + `validate_ecosystem_schema`, mirroring the
-    species_catalog full-schema gate). Required fields = the set present on all
-    current records; `additionalProperties: true` permits per-record extras.
+  and `schemas/evo/ecosystem.schema.json`, validated in `validate_datasets.py`
+  (`validate_biome_schema` and `validate_ecosystem_schema`, mirroring the
+  species_catalog full-schema gate). Required fields = the set present on all
+  current records; `additionalProperties: true` permits per-record extras.
+  SCOPE: the biome schema guards top-level record completeness only (nested
+  shapes are enforced by the procedural `validate_biomes()`); the ecosystem
+  schema governs the `data/ecosystems/*.ecosystem.yaml` shape only (the
+  `packs/.../data/ecosystems/` files have a different shape, governed by
+  `run_all_validators.py`). Negative-control (bad docs caught: 13 biome / 8
+  ecosystem) verified with the real jsonschema; a committed regression test is
+  deferred to the repo-root `jsonschema/` shadow cleanup (else it would no-op).

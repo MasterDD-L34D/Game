@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://game.example.com/schemas/evo/ecosystem.schema.json",
   "title": "Evo Tactics Ecosystem (data/ecosystems/*.ecosystem.yaml)",
-  "$comment": "Phase D / L4 per-entity shape schema for the canonical ecosystem files. Required fields = the set present on ALL current ecosystem files; additionalProperties:true permits extras (e.g. links.npg_dir). The trofico roster shape is validated loosely (cross-file roster equivalence is enforced by the ecosystem-roster-parity rule in check-canon-consistency.cjs, not here).",
+  "$comment": "Phase D / L4 per-entity shape schema for the canonical ecosystem files. SCOPE: governs the data/ecosystems/*.ecosystem.yaml shape ONLY (the small set of core authored ecosystems). The packs/evo_tactics_pack/data/ecosystems/ files have a DIFFERENT shape (no receipt/links/rules, plus a _provenance block) and are governed by the pack validator (run_all_validators.py via validate_ecosystem_pack), NOT this schema. Required fields = the set present on ALL current data/ecosystems files; additionalProperties:true permits extras (e.g. links.npg_dir). The trofico roster shape is validated loosely (cross-file roster equivalence is enforced by the ecosystem-roster-parity rule in check-canon-consistency.cjs, not here).",
   "type": "object",
   "required": ["schema_version", "receipt", "ecosistema", "links", "rules"],
   "properties": {
