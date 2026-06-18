@@ -214,7 +214,8 @@ const BADLANDS_ELITE_ENEMY_IDS = [
 ];
 
 // Ambient: the two new ambient badlands species carry their derived stats into the
-// roster; sand-burrower/ferrocolonia fill it to a real encounter. Band [0.40,0.60].
+// roster; sand-burrower/ferrocolonia fill it to a real encounter. Designed-winnable,
+// winnable-floor [0.70,1.00] (NOT a balance-oracle -- the T1 flavor pair sweep).
 const BADLANDS_AMBIENT_ENEMY_IDS = [
   'rubrospina-velox', // T1 consumatore_secondario -> PREDATOR
   'ferriscroba-detrita', // T1 decompositore -> SUPPORT

@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """Batch calibration runner -- enc_badlands_ambient_01 (S1 2026-06-18 ambient, rubrospina + ferriscroba).
 
-Copy of batch_calibrate_hardcore06.py retargeted to the badlands adapter pilot.
+Copy of batch_calibrate_hardcore06.py retargeted to the badlands 01 scenario.
 The enemy roster is derived by ecologyCombatAdapter from real badlands species
 (no apex boss). Greedy player policy (atk-closest), AI auto. N=30 default.
-Target band: win_rate [0.40, 0.60] (encounter_class 'badlands_ambient', damage_curves.yaml).
+Target band: win_rate [0.70, 1.00] (winnable floor; designed-winnable, NOT a balance-oracle) (encounter_class 'badlands_ambient', damage_curves.yaml).
 
 Differences vs hardcore06:
-  - SCENARIO_ID = enc_badlands_pilot_01
-  - run_one sends encounter_class='badlands' in /session/start body so the backend
-    applies the badlands class multiplier (1.0 neutral) -- this makes calibration
-    mirror real play, where the scenario's encounter_class resolves to 'badlands'.
+  - SCENARIO_ID = enc_badlands_ambient_01
+  - run_one sends encounter_class='badlands_ambient' in /session/start body so the backend
+    applies the badlands_ambient class multiplier -- this makes calibration
+    mirror real play, where the scenario's encounter_class resolves to 'badlands_ambient'.
     (hardcore06 omitted it and silently ran at the 'standard' default 1.2x.)
   - CHANNEL_EXPLOIT_MAP empty: no boss/elite vuln mapping; all attacks 'fisico'.
-  - default --encounter-class 'badlands'.
+  - default --encounter-class 'badlands_ambient'.
 
 PERF / HANG NOTE (2026-05-21): default --host uses 127.0.0.1, NOT "localhost".
 The backend binds IPv4 (0.0.0.0); on Windows "localhost" resolves IPv6 ::1 first
@@ -929,7 +929,7 @@ def main():
                          "Vedi memory feedback_probe_before_batch.md")
     ap.add_argument("--encounter-class", default="badlands_ambient",
                     help="M7-#2 Phase D: class key da damage_curves.yaml. "
-                         "Default 'badlands' (enc_badlands_pilot_01 adapter pilot). "
+                         "Default 'badlands_ambient' (enc_badlands_ambient_01). "
                          "Valori: tutorial|tutorial_advanced|standard|hardcore|boss|badlands")
     ap.add_argument("--biome-id", default=None,
                     help="ERMES FASE 3 P2: set req.body.biome_id to exercise biome eco "
