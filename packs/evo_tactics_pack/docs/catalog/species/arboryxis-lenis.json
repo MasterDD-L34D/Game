@@ -16,7 +16,7 @@
   "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": false,
   "morphotype": "brucatore_arboricolo",
-  "jobs_bias": [],
+  "jobs_bias": ["skirmisher"],
   "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
   "path": "../../data/species/foresta_temperata/arboryxis-lenis.yaml",
   "vc": {
@@ -35,7 +35,8 @@
   },
   "derived_from_environment": {
     "suggested_traits": ["empatia_coordinativa"],
-    "optional_traits": ["focus_frazionato"]
+    "optional_traits": ["focus_frazionato"],
+    "jobs_bias": ["skirmisher"]
   },
   "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
@@ -45,7 +46,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2026-06-18",
-    "trace_hash": "80de1c901646ce5f4aa8bb08878e9546513cffe21c2d2e7fe340431d80d87de2"
+    "trace_hash": "a773f9686d94847c2cb22cea5306371fe1a0ab61f5bafedc80799576bbabc25b"
   },
-  "last_synced_at": "2026-06-18T11:32:42.386Z"
+  "last_synced_at": "2026-06-18T11:53:16.097Z"
 }

@@ -16,7 +16,7 @@
   "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": true,
   "morphotype": "cursoriale_spinato",
-  "jobs_bias": [],
+  "jobs_bias": ["skirmisher"],
   "hazards_expected": [
     "collassi di scarpate",
     "iron_shards",
@@ -44,7 +44,8 @@
   },
   "derived_from_environment": {
     "suggested_traits": ["struttura_elastica_amorfa", "coda_frusta_cinetica"],
-    "optional_traits": ["olfatto_risonanza_magnetica"]
+    "optional_traits": ["olfatto_risonanza_magnetica"],
+    "jobs_bias": ["skirmisher"]
   },
   "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
@@ -54,7 +55,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2026-06-18",
-    "trace_hash": "ab7c4aeab925811fd9fd4f52d07531f1e96a3d6f5f96dd7334e0e5b1b2381304"
+    "trace_hash": "6a4e8b3fe5e4a74c2f3cfd0ae5f7a28633550b1860207d3ead3d0c7acbb21e84"
   },
-  "last_synced_at": "2026-06-18T11:32:42.386Z"
+  "last_synced_at": "2026-06-18T11:53:16.097Z"
 }

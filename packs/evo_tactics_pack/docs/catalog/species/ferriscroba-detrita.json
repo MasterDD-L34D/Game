@@ -16,7 +16,7 @@
   "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": true,
   "morphotype": "scavenger_corazzato",
-  "jobs_bias": [],
+  "jobs_bias": ["warden"],
   "hazards_expected": [
     "collassi di scarpate",
     "iron_shards",
@@ -40,7 +40,8 @@
   },
   "derived_from_environment": {
     "suggested_traits": ["ventriglio_gastroliti", "filamenti_digestivi_compattanti"],
-    "optional_traits": ["respiro_a_scoppio"]
+    "optional_traits": ["respiro_a_scoppio"],
+    "jobs_bias": ["warden"]
   },
   "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": {
@@ -54,7 +55,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2026-06-18",
-    "trace_hash": "25da3f39339648d41631a79ec0f3c96d4bd2fc032fdcfc96682f1e9418b7e80b"
+    "trace_hash": "c554ecde0d509e9a2e42ddcfbf33807f7bcae696f92e7a7fd2b0ed8d227dccf7"
   },
-  "last_synced_at": "2026-06-18T11:32:42.386Z"
+  "last_synced_at": "2026-06-18T11:53:16.097Z"
 }

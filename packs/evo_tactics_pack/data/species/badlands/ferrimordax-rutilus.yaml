@@ -59,6 +59,8 @@ derived_from_environment:
   - carapaci_ferruginosi
   optional_traits:
   - olfatto_risonanza_magnetica
+  jobs_bias:
+  - vanguard
 jobs_bias:
 - vanguard
 telemetry:
@@ -75,4 +77,4 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2026-06-18'
-  trace_hash: ab10430303ea06038a06f8a07f20d2c7e92ba2ffe5abcaf7e88dfae06e63244e
+  trace_hash: d65e7fa7cb0a17a36479a459e751d0d4c578852ea10a9441407bde6df888e2a2

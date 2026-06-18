@@ -16,7 +16,7 @@
   "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": false,
   "morphotype": "cervide_brucatore",
-  "jobs_bias": [],
+  "jobs_bias": ["warden"],
   "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
   "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml",
   "vc": { "aggro": 0.2, "risk": 0.3, "cohesion": 0.75, "setup": 0.6, "explore": 0.45, "tilt": 0.2 },
@@ -32,7 +32,8 @@
   },
   "derived_from_environment": {
     "suggested_traits": ["empatia_coordinativa"],
-    "optional_traits": ["focus_frazionato"]
+    "optional_traits": ["focus_frazionato"],
+    "jobs_bias": ["warden"]
   },
   "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
@@ -42,7 +43,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2026-06-18",
-    "trace_hash": "ab612605f5d9d8f92a60a7d94ac868027c7bb8d8db608d3dedc8a812430ebc9b"
+    "trace_hash": "d5f9457c216d0eae36ef79428ceb2d2b1f227600e07ba534b50986e0e03786a0"
   },
-  "last_synced_at": "2026-06-18T11:32:42.386Z"
+  "last_synced_at": "2026-06-18T11:53:16.097Z"
 }

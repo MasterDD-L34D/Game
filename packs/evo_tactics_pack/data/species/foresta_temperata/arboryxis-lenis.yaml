@@ -50,6 +50,8 @@ derived_from_environment:
   - empatia_coordinativa
   optional_traits:
   - focus_frazionato
+  jobs_bias:
+  - skirmisher
 jobs_bias:
 - skirmisher
 telemetry:
@@ -61,4 +63,4 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2026-06-18'
-  trace_hash: 80de1c901646ce5f4aa8bb08878e9546513cffe21c2d2e7fe340431d80d87de2
+  trace_hash: a773f9686d94847c2cb22cea5306371fe1a0ab61f5bafedc80799576bbabc25b

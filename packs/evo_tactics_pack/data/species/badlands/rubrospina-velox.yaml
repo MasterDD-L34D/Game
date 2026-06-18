@@ -59,6 +59,8 @@ derived_from_environment:
   - coda_frusta_cinetica
   optional_traits:
   - olfatto_risonanza_magnetica
+  jobs_bias:
+  - skirmisher
 jobs_bias:
 - skirmisher
 telemetry:
@@ -70,4 +72,4 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2026-06-18'
-  trace_hash: ab7c4aeab925811fd9fd4f52d07531f1e96a3d6f5f96dd7334e0e5b1b2381304
+  trace_hash: 6a4e8b3fe5e4a74c2f3cfd0ae5f7a28633550b1860207d3ead3d0c7acbb21e84

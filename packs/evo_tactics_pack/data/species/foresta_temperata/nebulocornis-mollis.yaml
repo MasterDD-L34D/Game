@@ -51,6 +51,8 @@ derived_from_environment:
   - empatia_coordinativa
   optional_traits:
   - focus_frazionato
+  jobs_bias:
+  - warden
 jobs_bias:
 - warden
 telemetry:
@@ -62,4 +64,4 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2026-06-18'
-  trace_hash: ab612605f5d9d8f92a60a7d94ac868027c7bb8d8db608d3dedc8a812430ebc9b
+  trace_hash: d5f9457c216d0eae36ef79428ceb2d2b1f227600e07ba534b50986e0e03786a0
