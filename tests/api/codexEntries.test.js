@@ -165,11 +165,12 @@ test('projectPublicEntry drops top-level unknown AND nested secret-named keys', 
         content: 'public lore',
         coherence: 0.8, // NESTED secret -> dropped by scrub
         sub_scores: { plausibilita: 1 }, // nested secret container -> dropped wholesale
+        coerenza_eco: 0.9, // bare score LEAF directly under a dimension -> scrubbed (#2847)
       },
       A_ancoraggio_narrativo: { heading: 'Anc', content: 'lore', story_hook_it: 'h' },
     },
-    // public 'strength' must SURVIVE (Codex P2 on #2841: scrub scoped to score
-    // containers, not the generic 'strength' / sub-score leaf names).
+    // public 'strength' must SURVIVE (Codex P2 on #2841: scrub scoped, 'strength'
+    // is a generic public word, not a scorer term).
     synergies: [{ id: 'echo_backstab', strength: 'high', note_it: 'public' }],
   };
   const projected = projectPublicEntry(crafted);
@@ -185,9 +186,16 @@ test('projectPublicEntry drops top-level unknown AND nested secret-named keys', 
     undefined,
     'nested sub_scores scrubbed (wholesale -> plausibilita gone too)',
   );
+  // bare score LEAF directly under a dimension is scrubbed (#2847 -- not only the
+  // container; the HA2 gate does not reject extra dimension fields).
+  assert.equal(
+    projected.aliena_dimensions.E_ecologia.coerenza_eco,
+    undefined,
+    'bare sub-score leaf under a dimension scrubbed',
+  );
   // public 'strength' under an allowlisted container survives (not over-scrubbed).
   assert.equal(projected.synergies[0].strength, 'high', "public 'strength' preserved");
-  for (const secret of ['alien_fit', 'coherence', 'sub_scores', 'plausibilita']) {
+  for (const secret of ['alien_fit', 'coherence', 'sub_scores', 'plausibilita', 'coerenza_eco']) {
     assert.ok(!blob.includes(secret), `secret '${secret}' must not survive projection`);
   }
   // public content survives + the dimension key A_ancoraggio_narrativo is NOT scrubbed.

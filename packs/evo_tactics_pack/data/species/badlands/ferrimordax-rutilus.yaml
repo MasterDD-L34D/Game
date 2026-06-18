@@ -1,0 +1,33 @@
+id: ferrimordax-rutilus
+schema_version: '1.7'
+notes: 'stub provvisorio -- identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc uncalibrated, pending AI-playtest; interactions/foodweb deferred to master-dd.'
+display_name: Martellatore Ferroso
+biomes:
+- badlands
+role_trofico: predatore_terziario
+functional_tags: []
+flags:
+  apex: true
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  densita: low
+vc: {}
+balance:
+  encounter_role: elite
+genetic_traits:
+  core:
+  - denti_ossidoferro
+  - carapaci_ferruginosi
+  optional: []
+  synergy: []
+environment_affinity: {}
+derived_from_environment: {}
+receipt:
+  source: legacy-catalog-promote
+  author: master-dd
+  note: 'promoted from species_catalog.json legacy-yaml-merge; clade/role/trait_refs canonical per ADR-2026-05-15; balance pending calibration'

@@ -40,11 +40,14 @@ ecosistema:
       secondari:
       - ferrocolonia-magnetotattica
       - echo-wing
+      - rubrospina-velox
       terziari:
       - dune-stalker
+      - ferrimordax-rutilus
     decompositori:
     - nano-rust-bloom
     - evento-tempesta-ferrosa
+    - ferriscroba-detrita
   note: Ecosistema desertico magnetizzato con pulse detritici stagionali.
 links:
   species_dir: packs/evo_tactics_pack/data/species/badlands
