@@ -61,6 +61,26 @@ test('GET /session/:id/debrief is NON-destructive — session survives', async (
   assert.equal(second.status, 200, 'debrief fetch is idempotent');
 });
 
+test('GET /session/:id/debrief exposes vc_per_actor (#2850 S3 telemetry harness)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const sid = await startSession(app);
+  const res = await request(app).get(`/api/session/${sid}/debrief`);
+
+  assert.equal(res.status, 200);
+  assert.ok('vc_per_actor' in res.body, 'response carries a vc_per_actor key');
+  // null OR an object keyed by unit id; each entry carries aggregate_indices.
+  if (res.body.vc_per_actor !== null) {
+    assert.equal(typeof res.body.vc_per_actor, 'object');
+    for (const entry of Object.values(res.body.vc_per_actor)) {
+      assert.ok('aggregate_indices' in entry, 'per_actor entry carries aggregate_indices');
+    }
+  }
+});
+
 test('GET /session/:id/debrief echoes the ?outcome gate', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {

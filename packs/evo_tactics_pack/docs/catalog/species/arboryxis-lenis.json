@@ -7,7 +7,14 @@
   "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": false,
   "morphotype": null,
-  "vc": { "aggro": 0.2, "risk": 0.2, "cohesion": 0.4, "setup": 0.6, "explore": 0.7, "tilt": 0.2 },
+  "vc": {
+    "aggro": 0.22,
+    "risk": 0.36,
+    "cohesion": 0.4,
+    "setup": 0.6,
+    "explore": 0.05,
+    "tilt": 0.2
+  },
   "spawn_rules": { "densita": "low" },
   "environment_affinity": {},
   "hazards_expected": [],
@@ -26,5 +33,5 @@
     "author": "master-dd",
     "note": "promoted from species_catalog.json legacy-yaml-merge; clade/role canonical per ADR-2026-05-15; trait_refs empty in canon; balance pending calibration"
   },
-  "last_synced_at": "2026-06-18T13:57:15.489Z"
+  "last_synced_at": "2026-06-18T21:09:19.437Z"
 }
