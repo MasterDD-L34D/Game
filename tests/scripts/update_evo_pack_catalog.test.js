@@ -8,6 +8,7 @@ const { spawnSync } = require('node:child_process');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const ORIGINAL_SCRIPT = path.join(REPO_ROOT, 'scripts', 'update_evo_pack_catalog.js');
 const ORIGINAL_JSONIO = path.join(REPO_ROOT, 'scripts', 'utils', 'jsonio.js');
+const ORIGINAL_GENERATED_MARKER = path.join(REPO_ROOT, 'scripts', 'utils', 'generatedMarker.js');
 
 // Script copies run from a temp dir without node_modules; NODE_PATH lets
 // js-yaml and the lazy prettier require resolve against the repo install.
@@ -31,6 +32,7 @@ function buildFixture(t) {
   fs.mkdirSync(path.join(scriptsDir, 'utils'), { recursive: true });
   fs.copyFileSync(ORIGINAL_SCRIPT, path.join(scriptsDir, 'update_evo_pack_catalog.js'));
   fs.copyFileSync(ORIGINAL_JSONIO, path.join(scriptsDir, 'utils', 'jsonio.js'));
+  fs.copyFileSync(ORIGINAL_GENERATED_MARKER, path.join(scriptsDir, 'utils', 'generatedMarker.js'));
 
   const packRoot = path.join(tempRoot, 'packs', 'evo_tactics_pack');
   const catalogDir = path.join(packRoot, 'docs', 'catalog');
