@@ -1,31 +1,5 @@
 {
   "generated_at": null,
   "note": "Accepted known violations -- gate enforces NO NEW. Shrink as debt closes.",
-  "baseline": [
-    {
-      "rule": "ecosystem-roster-parity",
-      "entity": "badlands",
-      "ref": "rubrospina-velox"
-    },
-    {
-      "rule": "ecosystem-roster-parity",
-      "entity": "badlands",
-      "ref": "ferrimordax-rutilus"
-    },
-    {
-      "rule": "ecosystem-roster-parity",
-      "entity": "badlands",
-      "ref": "ferriscroba-detrita"
-    },
-    {
-      "rule": "ecosystem-roster-parity",
-      "entity": "foresta_temperata",
-      "ref": "nebulocornis-mollis"
-    },
-    {
-      "rule": "ecosystem-roster-parity",
-      "entity": "foresta_temperata",
-      "ref": "arboryxis-lenis"
-    }
-  ]
+  "baseline": []
 }

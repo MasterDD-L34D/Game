@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: 855c6f966ea766edac4ac36d55828f04081acfbcad998b4a0634173c7f875914
+  trace_hash: 9cd24d241eebf8d6b7f29084db4ab3c8e8f29aae4d568755884db14561133238
 ecosistema:
   id: FORESTA_TEMPERATA
   label: Foresta Temperata Demo
@@ -37,6 +37,8 @@ ecosistema:
       primari:
       - cervidi_erborivori
       - impollinatori_misti
+      - nebulocornis-mollis
+      - arboryxis-lenis
       secondari:
       - lupus-temperatus
       terziari:

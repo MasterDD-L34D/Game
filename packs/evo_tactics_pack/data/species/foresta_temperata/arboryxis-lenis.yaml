@@ -1,0 +1,64 @@
+id: arboryxis-lenis
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Vagabondo della Volta
+biomes:
+- foresta_temperata
+role_trofico: consumatore_primario
+functional_tags:
+- corridoio_ecologico
+- brucatore
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: true
+  threat: false
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+playable_unit: false
+morphotype: brucatore_arboricolo
+vc:
+  aggro: 0.25
+  risk: 0.35
+  cohesion: 0.55
+  setup: 0.5
+  explore: 0.7
+  tilt: 0.25
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno_freddo
+  densita: mid
+environment_affinity:
+  biome_class: foresta_miceliale
+  koppen:
+  - Cfb
+  hazards_expected:
+  - alluvioni lampo
+  - incendi sporadici
+hazards_expected:
+- alluvioni lampo
+- incendi sporadici
+derived_from_environment:
+  suggested_traits:
+  - empatia_coordinativa
+  optional_traits:
+  - focus_frazionato
+jobs_bias:
+- skirmisher
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+genetic_traits: []
+description: i18n:species.arboryxis-lenis.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2026-06-18'
+  trace_hash: 80de1c901646ce5f4aa8bb08878e9546513cffe21c2d2e7fe340431d80d87de2
