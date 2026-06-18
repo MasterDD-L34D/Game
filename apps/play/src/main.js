@@ -290,12 +290,20 @@ function redraw() {
       //
       // CONTRACT (2026-06-18 audit P2): unlock keys on the unit's species slug
       // (species_id preferred, else species). A codex entry unlocks iff its id
-      // EQUALS that slug. Today only dune_stalker has an entry, and it appears as
-      // a sistema unit in the tutorial waves (species:'dune_stalker') -> it
-      // unlocks. Archetype-labelled enemies (apex_predatore, ...) have no entry,
-      // so their localStorage keys are harmless orphans. When authoring a new
-      // codex entry, its id MUST match the sistema unit's species slug or it will
-      // never unlock through play.
+      // EQUALS that slug. Archetype-labelled enemies (apex_predatore, ...) have
+      // no entry, so their localStorage keys are harmless orphans. When authoring
+      // a new codex entry, its id MUST match a sistema unit's species slug in a
+      // roster that is actually played, or it will never unlock. The HA2 validator
+      // (tools/js/validate_codex_aliena.js, SPEC-K namespace cross-check) warns on
+      // ids absent from every scenario/encounter roster.
+      //
+      // REACHABILITY GAP (SPEC-K, 2026-06-18 verify-first -- BACKLOG): the only
+      // authored entry, dune_stalker, is controlled_by:'player' in EVERY wired
+      // scenario wave, so it never enters this sistema-filtered set there. Its only
+      // non-player appearance is the enc_savana_pack_clash encounter (apex_neutral),
+      // which no routing references yet. So in the default flow ~0 codex entries are
+      // currently unlockable (Gate-5 gap). Fix = wire the savana encounter OR add
+      // dune_stalker as a sistema enemy in a wave (content/balance, master-dd).
       try {
         const encounteredSpecies = new Set(
           (state.world.units || [])
