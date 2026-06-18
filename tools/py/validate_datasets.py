@@ -40,6 +40,8 @@ def main() -> int:
     errors.extend(validate_telemetry())
     errors.extend(validate_species_ecology())
     errors.extend(validate_species_catalog_schema())
+    errors.extend(validate_biome_schema())
+    errors.extend(validate_ecosystem_schema())
 
     if errors:
         sys.stderr.write("\n".join(errors) + "\n")
@@ -738,6 +740,81 @@ def validate_species_catalog_schema() -> List[str]:
     for err in sorted(validator.iter_errors(catalog), key=lambda e: list(e.absolute_path)):
         loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
         errors.append(f"{catalog_path}: /{loc}: {err.message}")
+    return errors
+
+
+# === biome / ecosystem per-entity shape validation (Phase D / L4) ============
+# Extends the species_catalog full-schema gate to the canonical biome catalog
+# (data/core/biomes.yaml) and ecosystem files (data/ecosystems/*.ecosystem.yaml)
+# against schemas/evo/biome.schema.json + ecosystem.schema.json. These schemas
+# are self-contained (no cross-file $ref) so no referencing Registry is needed.
+
+def _self_contained_validator(schema_path: Path):
+    import jsonschema
+
+    with schema_path.open("r", encoding="utf-8") as fh:
+        schema = json.load(fh)
+    return jsonschema.Draft202012Validator(schema)
+
+
+def validate_biome_schema() -> List[str]:
+    schema_path = _repo_root() / "schemas" / "evo" / "biome.schema.json"
+    biomes_path = _core_data_dir() / "biomes.yaml"
+    if not (schema_path.exists() and biomes_path.exists()):
+        return []  # nothing to validate in this layout
+
+    try:
+        import jsonschema  # noqa: F401
+    except ImportError:
+        return [
+            "tools/py/requirements.txt: 'jsonschema>=4.18.0' richiesto per validare "
+            "biomes.yaml contro lo schema (pip install jsonschema)"
+        ]
+
+    try:
+        validator = _self_contained_validator(schema_path)
+        with biomes_path.open("r", encoding="utf-8") as fh:
+            data = yaml.safe_load(fh)
+    except (json.JSONDecodeError, yaml.YAMLError, OSError) as exc:
+        return [f"{biomes_path}: impossibile leggere schema/dataset ({exc})"]
+
+    errors: List[str] = []
+    for err in sorted(validator.iter_errors(data), key=lambda e: list(e.absolute_path)):
+        loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
+        errors.append(f"{biomes_path}: /{loc}: {err.message}")
+    return errors
+
+
+def validate_ecosystem_schema() -> List[str]:
+    schema_path = _repo_root() / "schemas" / "evo" / "ecosystem.schema.json"
+    eco_dir = _data_dir() / "ecosystems"
+    if not (schema_path.exists() and eco_dir.exists()):
+        return []  # nothing to validate in this layout
+
+    try:
+        import jsonschema  # noqa: F401
+    except ImportError:
+        return [
+            "tools/py/requirements.txt: 'jsonschema>=4.18.0' richiesto per validare "
+            "gli ecosystem contro lo schema (pip install jsonschema)"
+        ]
+
+    try:
+        validator = _self_contained_validator(schema_path)
+    except (json.JSONDecodeError, OSError) as exc:
+        return [f"{schema_path}: impossibile leggere lo schema ({exc})"]
+
+    errors: List[str] = []
+    for eco_path in sorted(eco_dir.glob("*.ecosystem.yaml")):
+        try:
+            with eco_path.open("r", encoding="utf-8") as fh:
+                data = yaml.safe_load(fh)
+        except (yaml.YAMLError, OSError) as exc:
+            errors.append(f"{eco_path}: impossibile leggere ({exc})")
+            continue
+        for err in sorted(validator.iter_errors(data), key=lambda e: list(e.absolute_path)):
+            loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
+            errors.append(f"{eco_path}: /{loc}: {err.message}")
     return errors
 
 
