@@ -121,10 +121,32 @@ ritual UI = gia' shipped Godot #479). **2 PR merged + 2 findings BACKLOG'd.**
 3. Refutato un falso anti-pattern-#10: `tests/codex/*.test.js` e' GIA' wired in
    `scripts/run-test-api.cjs` (il mio grep STEPS troncava a riga 57).
 
+### Dossier frontier (attachment surface, scelto via metodo congiunto)
+
+Prossimo workstream scelto via **metodo congiunto** (last30days genre signal + Workflow synth-critic
+6-finder x candidato). Segnale: permadeath = #1 emotional vector MA paga solo con attaccamento
+PRE-costruito. Synth-critic rank #1 (8.5): creature dossier = precondizione che fa "atterrare" il
+permadeath SPEC-J gia' costruito (flag OFF).
+
+- **#2856 `07996aea`** `GET /api/creature/:run_id/:actor_id/dossier`
+  (`apps/backend/routes/creatureDossier.js`): chronicle-join story-card (name + scars + mutations +
+  biome_wounds + fate + timeline + summary). public-tier **fail-closed** (SPEC-B sez.10 anti-leak),
+  `?limit` cap timeline. 9 test, adversarial review `caveman:cavecrew-reviewer` 6/6 clean (+P3
+  timeline-cap fixato). Verify-first corregge il finder: `lineagePropagator` keyed `(species,biome)`
+  NON `(run,actor)` -> il chronicle E' la fonte d'identita' durable. Pure-read, 0 deps/forbidden-path.
+- **Godot surface = chip `task_5282cb53`** (cross-repo GGv2): `creature_dossier_api.gd` +
+  story-card view (read-only), GUT/gdformat. Pattern prereq-Game-then-Godot (scars #2823 / recruit
+  #2826). Scope OUT: evolution-tree (non esiste nel data model). In-flight async.
+- **Sequencing-call surfaced (master-dd)**: il dossier dovrebbe GATARE il flip
+  `LETHAL_MISSIONS_ENABLED` (permadeath prima dell'attaccamento-surface = frustrazione non catarsi).
+
 ### Note operative
 
-- Codex rate-limited su entrambe le PR (0 comments = "non ha guardato") -> adversarial review =
+- Codex rate-limited su tutte le PR (0 comments = "non ha guardato") -> adversarial review =
   controllo compensativo (lesson `lesson_codex_ratelimit_audit_compensating`). Ri-check post-merge: 0.
 - Worktree miei rimossi; restano paralleli (lenovo-host prod, taxonomy, spec-j-lethal leftover).
-- **Next-entry candidati**: SPEC-H HA1 flip (N=40 gated via G2), Track A Godot K-0x (chip),
-  prod-hardening (Postgres auto-start), o i 2 findings sopra (content/design master-dd).
+- **Next-entry candidati**: dossier Godot chip in-flight (`task_5282cb53`); **SPEC-K K-05 next-mission
+  quorum** (runner-up joint-method, backend conflict-free: throw host_only `coopOrchestrator.js:1217`
+  -> missionReadyTally mirror route-vote #2597); SPEC-H HA1 flip (N=40 gated via G2); SPEC-F crossbreed
+  Godot surface (backend dead-surface); prod-hardening (Postgres auto-start); findings content/design
+  (codex unlock-reachability + ancoraggio + dossier-gates-flip) = master-dd.
