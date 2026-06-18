@@ -81,7 +81,7 @@ const FORESTA_PILOT_SCENARIO_01 = {
   objective: { type: 'elimination' },
   objective_text: 'Disperdi la fauna ostile del Bosco Specchio.',
   sistema_pressure_start: 72,
-  recommended_modulation: 'quartet',
+  recommended_modulation: 'full', // 10x10 grid: enemy positions reach 8,8 (quartet=6x6 -> off-grid). The ratified calibration uses 'full'.
   calibration_status: 'ratified-2026-06-18', // S2: N=100 WR 0.50 in-band [0.40,0.60] (neutral edm)
 };
 

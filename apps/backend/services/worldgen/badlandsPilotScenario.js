@@ -87,7 +87,7 @@ const BADLANDS_SCENARIO_01 = {
   objective: { type: 'elimination' },
   objective_text: 'Elimina la fauna ostile delle Brulle Ferrose.',
   sistema_pressure_start: 70,
-  recommended_modulation: 'quartet',
+  recommended_modulation: 'full', // 10x10 grid: enemy positions reach 8,8 (quartet=6x6 -> off-grid). The ratified calibration uses 'full'.
   calibration_status: 'ratified-2026-05-30', // phase 2b N=40x3 GREEN, WR ~0.51
 };
 
@@ -234,7 +234,7 @@ const BADLANDS_ELITE_SCENARIO_01 = {
   objective: { type: 'elimination' },
   objective_text: 'Sopravvivi al Martellatore Ferroso e alla sua scorta.',
   sistema_pressure_start: 85,
-  recommended_modulation: 'quartet',
+  recommended_modulation: 'full', // 10x10 grid: enemy positions reach 8,8 (quartet=6x6 -> off-grid). The ratified calibration uses 'full'.
   calibration_status: 'ratified-2026-06-18', // S1: N=100 WR 0.16 in-band [0.15,0.30] (edm 1.85)
 };
 
@@ -249,7 +249,7 @@ const BADLANDS_AMBIENT_SCENARIO_01 = {
   objective: { type: 'elimination' },
   objective_text: 'Disperdi la fauna minore delle Brulle Ferrose.',
   sistema_pressure_start: 60,
-  recommended_modulation: 'quartet',
+  recommended_modulation: 'full', // 10x10 grid: enemy positions reach 8,8 (quartet=6x6 -> off-grid). The ratified calibration uses 'full'.
   calibration_status: 'designed-winnable', // S1: not a balance-oracle (winnable flavor, master-dd 2026-06-18)
 };
 
