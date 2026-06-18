@@ -12,6 +12,8 @@ const {
   ruleJobBiasEnum,
   ruleSynergyConflictClosure,
   ruleI18nCoverage,
+  ruleRosterSpeciesCanon,
+  ruleEcosystemRosterParity,
   runRules,
   partitionByBaseline,
   checkCanonConsistency,
@@ -30,6 +32,9 @@ function idx(partial) {
       glossaryTraits: {},
       indexTraits: [],
       promotions: { tier_ladder: [], thresholds: {} },
+      deployedRoster: [],
+      canonicalIds: new Set(),
+      ecosystemRosters: {},
     },
     partial,
   );
@@ -216,6 +221,81 @@ describe('rule: i18n-coverage', () => {
   });
 });
 
+describe('rule: roster-species-canon', () => {
+  test('roster species present in canonical catalog -> no violation', () => {
+    const index = idx({
+      deployedRoster: [{ id: 'dune-stalker', event: false }],
+      canonicalIds: new Set(['dune_stalker']),
+    });
+    assert.deepEqual(ruleRosterSpeciesCanon(index), []);
+  });
+
+  test('roster event species absent from catalog -> no violation (event-allowed)', () => {
+    const index = idx({
+      deployedRoster: [{ id: 'evento-tempesta-ferrosa', event: true }],
+      canonicalIds: new Set(),
+    });
+    assert.deepEqual(ruleRosterSpeciesCanon(index), []);
+  });
+
+  test('roster species neither in catalog nor event-flagged -> violation', () => {
+    const index = idx({
+      deployedRoster: [{ id: 'ghost-sp', event: false }],
+      canonicalIds: new Set(['dune_stalker']),
+    });
+    const v = ruleRosterSpeciesCanon(index);
+    assert.equal(v.length, 1);
+    assert.equal(v[0].rule, 'roster-species-canon');
+    assert.equal(v[0].severity, 'error');
+    assert.equal(v[0].entity, 'ghost-sp');
+  });
+
+  test('dash/underscore normalization between roster and catalog -> no violation', () => {
+    const index = idx({
+      deployedRoster: [{ id: 'aurora-gull', event: false }],
+      canonicalIds: new Set(['aurora_gull']),
+    });
+    assert.deepEqual(ruleRosterSpeciesCanon(index), []);
+  });
+});
+
+describe('rule: ecosystem-roster-parity', () => {
+  test('core roster == pack roster -> no violation', () => {
+    const index = idx({
+      ecosystemRosters: { badlands: { core: new Set(['a', 'b']), pack: new Set(['a', 'b']) } },
+    });
+    assert.deepEqual(ruleEcosystemRosterParity(index), []);
+  });
+
+  test('species in pack but not core -> violation on the ecosystem', () => {
+    const index = idx({
+      ecosystemRosters: { badlands: { core: new Set(['a']), pack: new Set(['a', 'ghost-sp']) } },
+    });
+    const v = ruleEcosystemRosterParity(index);
+    assert.equal(v.length, 1);
+    assert.equal(v[0].rule, 'ecosystem-roster-parity');
+    assert.equal(v[0].entity, 'badlands');
+    assert.equal(v[0].ref, 'ghost-sp');
+  });
+
+  test('species in core but not pack -> violation', () => {
+    const index = idx({
+      ecosystemRosters: { foresta: { core: new Set(['a', 'x']), pack: new Set(['a']) } },
+    });
+    const v = ruleEcosystemRosterParity(index);
+    assert.equal(v.length, 1);
+    assert.equal(v[0].entity, 'foresta');
+    assert.equal(v[0].ref, 'x');
+  });
+
+  test('ecosystem present on only one side -> skipped (no false positive)', () => {
+    const index = idx({
+      ecosystemRosters: { only_core: { core: new Set(['a']), pack: null } },
+    });
+    assert.deepEqual(ruleEcosystemRosterParity(index), []);
+  });
+});
+
 describe('runRules (registry aggregation)', () => {
   test('aggregates violations from all rules', () => {
     const index = idx({
@@ -277,6 +357,35 @@ describe('e2e: real canon vs committed baseline (CI gate)', () => {
     assert.ok(
       newViolations.some((v) => v.entity === '__nc_synthetic__'),
       'gate must detect an injected dangling ref (not vacuous)',
+    );
+  });
+
+  // Negative control for roster-species-canon (inv1): the gate must catch a
+  // deployed roster species that is neither canonical nor event-flagged.
+  test('negative control: an injected non-canon roster species is caught as a NEW violation', () => {
+    const index = loadCanonIndex({ datasetRoot });
+    index.deployedRoster.push({ id: '__nc_roster__', event: false });
+    const { newViolations } = partitionByBaseline(runRules(index), []);
+    assert.ok(
+      newViolations.some((v) => v.rule === 'roster-species-canon' && v.entity === '__nc_roster__'),
+      'gate must detect an injected non-canon roster species (not vacuous)',
+    );
+  });
+
+  // Negative control for ecosystem-roster-parity (inv3): the gate must catch a
+  // species that exists on one side of an ecosystem roster but not the other.
+  test('negative control: an injected ecosystem roster mismatch is caught as a NEW violation', () => {
+    const index = loadCanonIndex({ datasetRoot });
+    index.ecosystemRosters.__nc_eco__ = {
+      core: new Set(['__nc_keep__']),
+      pack: new Set(['__nc_keep__', '__nc_ghost__']),
+    };
+    const { newViolations } = partitionByBaseline(runRules(index), []);
+    assert.ok(
+      newViolations.some(
+        (v) => v.rule === 'ecosystem-roster-parity' && v.ref === '__nc_ghost__',
+      ),
+      'gate must detect an injected ecosystem roster mismatch (not vacuous)',
     );
   });
 });

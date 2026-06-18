@@ -93,6 +93,11 @@ jobs:
               # stack-quality, the job that executes it).
               - 'scripts/run-test-api.cjs'
               - 'scripts/run-test-stack.cjs'
+              # canon-consistency gate (G3): editing the checker or its accepted
+              # baseline must re-run test:api (the e2e canon gate lives there),
+              # else a checker/baseline change skips the very gate it defines.
+              - 'scripts/check-canon-consistency.cjs'
+              - 'data/core/canon-consistency-baseline.json'
               - 'apps/backend/**'
               - 'services/**/*.js'
               - 'tests/**/*.js'

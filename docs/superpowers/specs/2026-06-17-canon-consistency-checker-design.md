@@ -163,3 +163,36 @@ only dangling-present is).
 Single PR on `feat/canon-consistency-checker` (this branch). TDD order: index loader + 1 rule
 + its unit test green, then remaining rules, then baseline + wrapper, then `--write-baseline`
 adoption commit. Owner-gated merge (Eduardo). Spec input to `writing-plans`.
+
+## 10. Phase B extension -- taxonomy reconciliation (2026-06-18)
+
+Two rules added under the taxonomy-reconciliation plan
+(`docs/planning/2026-06-18-taxonomy-reconciliation-plan.md`, Phase B / L3):
+
+- **roster-species-canon** (inv1): every deployed-roster species
+  (`packs/evo_tactics_pack/docs/catalog/catalog_data.json` `species[]`) must be in the
+  canonical catalog (`data/core/species/species_catalog.json`, by `species_id` or
+  `legacy_slug`, hyphen/underscore-normalised) OR be flagged as an event
+  (`flags.event`). Real data: CLEAN (0 violations) -- adopted as drift-prevention.
+- **ecosystem-roster-parity** (inv3): for every ecosystem present on both the core
+  (`data/ecosystems/<id>.ecosystem.yaml`) and pack
+  (`packs/.../data/ecosystems/<id>.ecosystem.yaml`) sides, the trofico species roster
+  must match. Real data: 5 ghost refs (deprecated `legacy_slug` species lingering in the
+  pack roster -- badlands x3, foresta_temperata x2) -> BASELINE-adopted as known debt;
+  the gate enforces NO-NEW. Closing the debt (legacy_slug remap/removal) is a separate
+  data task.
+
+Two plan invariants were intentionally NOT added after recon:
+
+- **inv2 (biome enrollment)**: the 20 expansion biomes in `biomes_expansion.yaml` are
+  defined-but-unenrolled, referenced only by deprecated archive data; this is S3+
+  design-debt, and live dangling biome refs are already covered by the existing
+  `biome-refs` rule. Skipped to avoid baselining 20 dead-definition entries.
+- **inv4 (trait-keeper back-concordance)**: the per-biome trait-keeper sidecars are empty
+  auto-generated stubs; the apparent "violations" were `services_links` entries
+  (`regolazione:`/`supporto:` = ecosystem-service links, NOT traits). Real trait refs are
+  already covered by `synergy-conflict-closure` + the `speciesTraitReferences` guard.
+  Dropped as a category error.
+
+The `stack` path-filter now also triggers on the checker script + the baseline file so a
+change to either re-runs the e2e gate (`test:api`).
