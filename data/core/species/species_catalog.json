@@ -1600,7 +1600,7 @@
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "master-dd-approved-2026-06-18"
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -1884,7 +1884,7 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "master-dd-approved-2026-06-18"
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2444,7 +2444,7 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "master-dd-approved-2026-06-18"
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2669,7 +2669,7 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "needs-master-dd",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "master-dd-approved-2026-06-18"
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
@@ -2997,7 +2997,7 @@
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "master-dd-approved-2026-06-18"
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
       }
     },
     {
