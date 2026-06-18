@@ -133,6 +133,44 @@ test('POST /api/meta/nest/setup + GET /api/meta/nest roundtrip', async () => {
   }
 });
 
+// 2026-06-18 audit P3: the npg-enrich test covered can_recruit true/false + the
+// can_mate=false (not-recruited) path, but never the can_mate=TRUE positive nor
+// the nest-not-ready discriminator (the 5-condition mating gate had zero positive
+// coverage -> a re-tune of MATING_TRUST_MIN or a flipped sub-condition passed CI).
+test('GET /api/meta/npg can_mate true only when recruited + trust>=3 + nest ready', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    // Build an npc that clears recruit (affinity>=0, trust>=2) then mating trust (>=3).
+    await request(app)
+      .post('/api/meta/affinity')
+      .send({ npc_id: 'npc_mate_01', delta: 1 })
+      .expect(200);
+    await request(app)
+      .post('/api/meta/trust')
+      .send({ npc_id: 'npc_mate_01', delta: 3 })
+      .expect(200);
+    await request(app).post('/api/meta/recruit').send({ npc_id: 'npc_mate_01' }).expect(200);
+
+    // Nest NOT ready yet -> can_mate must stay false despite recruited + trust>=3.
+    let res = await request(app).get('/api/meta/npg').expect(200);
+    let npc = res.body.npcs.find((n) => n.npc_id === 'npc_mate_01');
+    assert.ok(npc, 'seeded npc present');
+    assert.equal(npc.can_recruit, false, 'already recruited -> not recruitable');
+    assert.equal(npc.can_mate, false, 'nest not ready -> mate gate closed');
+
+    // Make the nest ready -> can_mate flips true.
+    await request(app)
+      .post('/api/meta/nest/setup')
+      .send({ biome: 'savana', requirements_met: true })
+      .expect(200);
+    res = await request(app).get('/api/meta/npg').expect(200);
+    npc = res.body.npcs.find((n) => n.npc_id === 'npc_mate_01');
+    assert.equal(npc.can_mate, true, 'recruited + trust>=3 + nest ready -> can_mate');
+  } finally {
+    await close();
+  }
+});
+
 test('POST /api/meta/mating 400 on missing party_member', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {
