@@ -6,9 +6,10 @@
 //
 // SPEC-H sez.8 invariant: the coherence SCORE is `secret` (engine-only,
 // computed separately by services/authorial/alienaCoherence.js — it is NOT in
-// these YAML files). This loader therefore surfaces only PUBLIC lore. The HA5
-// diegetic proxy (qualitative descriptor derived from the secret score) is a
-// follow-up and is deliberately NOT computed here.
+// these YAML files). This loader surfaces only PUBLIC lore, and enforces that
+// structurally: getCodexEntry returns a PROJECTED clone with only an allowlist
+// of known public keys (fail-closed) so a future authored entry cannot leak a
+// novel score-bearing field (2026-06-18 audit hardening).
 //
 // Unlock-state is client-side (localStorage `evo:codex-seen-{id}`, SPEC-H sez.8
 // = private). This module serves entry CONTENT + unlock METADATA (triggers /
@@ -36,16 +37,21 @@ const ALIENA_DIMENSION_KEYS = [
 // `secret`). The runtime scorer (alienaCoherence.js) operates on combat
 // spawn-pool vs ecosystem-biome pairs, which do NOT align with a browse-time
 // codex species in its narrative home biome (the canonical biomes carry no
-// role_templates / species roster). So HA5 derives a codex-NATIVE coherence
-// proxy from the entry's own authored 6-dim data, reusing the method's frozen
-// 3-dim weights (plausibilita .4 / coerenza_eco .4 / ancoraggio .2). This
-// measures AUTHORING coherence -- the right lens for a Codex. The raw proxy
-// stays internal; only the band descriptor is surfaced. Bands ratified
-// 2026-06-18 (master-dd): >=0.66 endemica / >=0.33 adattata / else inattesa.
+// role_templates / species roster). So HA5 derives a codex-NATIVE proxy from the
+// entry's own authored 6-dim data, reusing the method's frozen 3-dim weights
+// (.4 / .4 / .2). The raw proxy stays internal; only the band descriptor surfaces.
+//
+// 2026-06-18 audit (master-dd ratified): the proxy actually measures AUTHORING
+// COMPLETENESS (which dimensions carry content + cross_ref + a narrative hook),
+// NOT ecological fit -- a content-rich species drops band purely by removing
+// link arrays, with no prose change. So the descriptors are ARCHIVAL-completeness
+// in-world language ("scheda completa/parziale/frammentaria"), honest about what
+// the proxy reads. They are NOT an ecological-belonging claim ("endemica" was
+// misleading -- renamed). Bands: >=0.66 completa / >=0.33 parziale / else frammentaria.
 const PRESENCE_BANDS = [
-  { min: 0.66, descriptor: 'specie endemica' },
-  { min: 0.33, descriptor: 'presenza adattata' },
-  { min: 0, descriptor: 'presenza inattesa' },
+  { min: 0.66, descriptor: 'scheda completa' },
+  { min: 0.33, descriptor: 'scheda parziale' },
+  { min: 0, descriptor: 'scheda frammentaria' },
 ];
 
 function _dimContent(dims, key) {
@@ -100,6 +106,37 @@ function presenceDescriptor(entry) {
   return PRESENCE_BANDS[PRESENCE_BANDS.length - 1].descriptor;
 }
 
+// SECRET invariant (sez.8) enforced structurally: the codex YAML is served only
+// through this allowlist. Any top-level key NOT listed here is dropped before
+// serialization (fail-closed), so a future entry that embeds a score-bearing
+// field under a novel key (alien_fit, coerenza_eco, ...) cannot leak. All six
+// listed keys are public lore (2026-06-18 audit hardening).
+const PUBLIC_ENTRY_KEYS = [
+  'id',
+  'type',
+  'display_name_it',
+  'display_name_en',
+  'subtitle_it',
+  'unlock',
+  'aliena_dimensions',
+  'skiv_instance_note',
+  'variants',
+  'traits_core',
+  'traits_optional',
+  'synergies',
+];
+
+// Project an entry to the public allowlist + deep-clone, so the served object
+// (a) carries no unrecognized field and (b) cannot mutate the process-wide cache.
+function projectPublicEntry(entry) {
+  if (!entry || typeof entry !== 'object') return entry;
+  const out = {};
+  for (const k of PUBLIC_ENTRY_KEYS) {
+    if (k in entry) out[k] = entry[k];
+  }
+  return structuredClone(out);
+}
+
 // Worktree vs deployed path candidates (mirror routes/meta.js + services/codex).
 function candidateDirs() {
   return [
@@ -111,9 +148,12 @@ function candidateDirs() {
 let _cache = null;
 
 // Load + parse every data/codex/*.yaml entry. Best-effort: a malformed file is
-// skipped, never throws (a single bad authoring file must not 500 the Codex).
-function loadCodexEntries() {
-  if (_cache) return _cache;
+// skipped, never throws (a single bad authoring file must not 500 the Codex) --
+// but the skip is now OBSERVABLE (structured warn), since the HA2 validator is
+// the only other thing that would catch it (2026-06-18 audit). `force` bypasses
+// the process cache (mirrors codexState.loadCodexPages) for in-process reload.
+function loadCodexEntries(force = false) {
+  if (_cache && !force) return _cache;
   const entries = [];
   for (const dir of candidateDirs()) {
     if (!fs.existsSync(dir)) continue;
@@ -123,9 +163,19 @@ function loadCodexEntries() {
         const raw = fs.readFileSync(path.join(dir, file), 'utf8');
         const parsed = yaml.load(raw);
         const entry = parsed && parsed.codex_entry;
-        if (entry && entry.id) entries.push(entry);
-      } catch {
-        /* skip malformed entry — best-effort */
+        if (entry && entry.id) {
+          entries.push(entry);
+        } else {
+          console.warn(
+            JSON.stringify({
+              evt: 'codex_entry_skip',
+              file,
+              reason: entry ? 'missing codex_entry.id' : 'no codex_entry',
+            }),
+          );
+        }
+      } catch (err) {
+        console.warn(JSON.stringify({ evt: 'codex_entry_skip', file, reason: err.message }));
       }
     }
     if (entries.length) break; // first candidate dir that yields entries wins
@@ -143,7 +193,9 @@ function summarize(entry) {
     display_name_it: entry.display_name_it || entry.id,
     display_name_en: entry.display_name_en || '',
     subtitle_it: entry.subtitle_it || '',
-    presence_descriptor: presenceDescriptor(entry),
+    // presence_descriptor is detail-only (the list view never renders it) -- not
+    // serialized on summaries to avoid carrying it into the locked/obscured
+    // sidebar context (2026-06-18 audit P3).
     unlock: {
       triggers: Array.isArray(unlock.triggers) ? unlock.triggers : [],
       threshold: Number.isFinite(unlock.threshold) ? unlock.threshold : 1,
@@ -156,8 +208,12 @@ function listCodexEntries() {
   return loadCodexEntries().map(summarize);
 }
 
+// Detail entry: allowlisted + deep-cloned (fail-closed secret guard + no cache
+// mutation). presenceDescriptor still resolves -- aliena_dimensions is public.
 function getCodexEntry(id) {
-  return loadCodexEntries().find((e) => e.id === id) || null;
+  const found = loadCodexEntries().find((e) => e.id === id);
+  if (!found) return null;
+  return projectPublicEntry(found);
 }
 
 // Test hook — clears the in-process cache (no production caller).

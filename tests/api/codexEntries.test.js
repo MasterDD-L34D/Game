@@ -41,26 +41,67 @@ test('GET /api/v1/codex/entries lists codex entry summaries', async () => {
   }
 });
 
-// HA5 (sez.7/8): the Codex surfaces a DIEGETIC presence descriptor derived from a
-// codex-native coherence proxy. The descriptor is public; the raw proxy stays
-// secret (never serialized). Bands ratified 2026-06-18.
-const VALID_DESCRIPTORS = ['specie endemica', 'presenza adattata', 'presenza inattesa'];
+// HA5 (sez.7/8): the Codex surfaces a DIEGETIC descriptor derived from a
+// codex-native proxy. It is DETAIL-ONLY (not on list summaries), the raw proxy
+// stays secret, and the bands are archival-completeness (renamed post-2026-06-18
+// audit: the proxy measures authoring completeness, not ecological fit).
+const VALID_DESCRIPTORS = ['scheda completa', 'scheda parziale', 'scheda frammentaria'];
+const PUBLIC_ENTRY_KEYS = [
+  'id',
+  'type',
+  'display_name_it',
+  'display_name_en',
+  'subtitle_it',
+  'unlock',
+  'aliena_dimensions',
+  'skiv_instance_note',
+  'variants',
+  'traits_core',
+  'traits_optional',
+  'synergies',
+];
 
-test('codex list + detail carry an HA5 presence_descriptor (diegetic, never the raw number)', async () => {
+test('HA5 descriptor is detail-only, archival-honest, and never leaks the raw score', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {
     const list = await request(app).get('/api/v1/codex/entries').expect(200);
-    const dune = list.body.entries.find((e) => e.id === 'dune_stalker');
-    assert.ok(VALID_DESCRIPTORS.includes(dune.presence_descriptor), 'list descriptor is diegetic');
-    // dune_stalker is a richly authored, well-grounded entry -> endemic.
-    assert.equal(dune.presence_descriptor, 'specie endemica');
+    // Descriptor is detail-only -> must NOT appear on list summaries.
+    for (const e of list.body.entries) {
+      assert.equal(e.presence_descriptor, undefined, 'list summary carries no descriptor');
+    }
 
     const detail = await request(app).get('/api/v1/codex/entries/dune_stalker').expect(200);
-    assert.equal(detail.body.presence_descriptor, 'specie endemica');
-    // The raw proxy must NOT leak: no numeric coherence field on the response.
+    assert.ok(
+      VALID_DESCRIPTORS.includes(detail.body.presence_descriptor),
+      'descriptor is diegetic',
+    );
+    assert.equal(detail.body.presence_descriptor, 'scheda completa'); // fully authored
+
+    // Raw proxy must NOT leak under any field name (allowlist guard, both routes).
     const blob = JSON.stringify(list.body) + JSON.stringify(detail.body);
     for (const secret of ['aggregate', 'sub_scores', 'coherence', 'enforcement_factor']) {
       assert.ok(!blob.includes(secret), `secret '${secret}' must not be serialized`);
+    }
+  } finally {
+    await close();
+  }
+});
+
+test('detail entry is projected to the public allowlist (fail-closed secret guard)', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const list = await request(app).get('/api/v1/codex/entries').expect(200);
+    // Fetch the detail of EVERY listed entry and assert no unknown top-level key.
+    for (const summary of list.body.entries) {
+      const res = await request(app)
+        .get(`/api/v1/codex/entries/${encodeURIComponent(summary.id)}`)
+        .expect(200);
+      for (const key of Object.keys(res.body.entry)) {
+        assert.ok(
+          PUBLIC_ENTRY_KEYS.includes(key),
+          `entry '${summary.id}' exposes non-allowlisted key '${key}'`,
+        );
+      }
     }
   } finally {
     await close();
