@@ -442,19 +442,26 @@ jobs:
 
       # Phase A / L1 generation-enforcement (see
       # docs/planning/2026-06-18-taxonomy-reconciliation-plan.md): regenerate the
-      # evo-pack species catalog and fail if the working tree drifts. Makes any
-      # stale or hand-edited generated file (catalog_data.json, per-file species,
-      # indexes, docs/ + public/ mirrors) impossible to merge by construction.
-      # The generator is idempotent (timestamps ignored via TIMESTAMP_KEYS, the
-      # marker is a static string), so a clean tree means source == derived.
+      # evo-pack catalog and fail if the working tree drifts. Makes any stale,
+      # hand-edited, OR missing generated file (catalog_data.json, per-file
+      # species, the species indexes, and their docs/ + public/ mirrors)
+      # impossible to merge by construction. The generator is idempotent
+      # (timestamps ignored via TIMESTAMP_KEYS, the marker is a static string),
+      # so a clean tree means source == derived.
+      # Uses `git status --porcelain` (not `git diff`) so NET-NEW untracked
+      # generated files (e.g. a newly added species emitting a new species/*.json)
+      # are caught too -- `git diff` alone would fail open on them.
       # MUST stay before the trait-regen steps below, which write into the tree
-      # (reports/, data/derived/) -- a whole-tree diff is only valid while the
+      # (reports/, data/derived/) -- the drift check is only valid while the
       # checkout is still pristine.
       - name: Verify evo-pack catalog is regenerated (no drift)
         run: |
           npm run sync:evo-pack
-          if ! git diff --exit-code; then
-            echo "::error::Generated evo-pack catalog files are out of date or hand-edited. Run 'npm run sync:evo-pack' locally and commit the result."
+          drift="$(git status --porcelain)"
+          if [ -n "$drift" ]; then
+            echo "::error::Generated evo-pack catalog files are out of date, hand-edited, or missing. Run 'npm run sync:evo-pack' locally and commit the result."
+            echo "$drift"
+            git diff
             exit 1
           fi
 
