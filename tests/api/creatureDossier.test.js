@@ -187,6 +187,40 @@ test('GET dossier -- secret/private tier events are fail-closed excluded (SPEC-B
   assert.equal(d.timeline[0].tier, 'public');
 });
 
+test('GET dossier -- ?limit caps the timeline (structured summary stays full)', async (t) => {
+  const app = mkApp(t, tmpBaseDir());
+  for (let i = 0; i < 5; i++) {
+    await seed(app, 'run1', {
+      type: 'mutation_acquired',
+      actor_id: 'skiv',
+      payload: { mutation_id: `m${i}` },
+    });
+  }
+  const r = await request(app).get('/api/creature/run1/skiv/dossier?limit=3');
+  assert.equal(r.status, 200);
+  const d = r.body;
+  assert.equal(d.timeline.length, 3, 'timeline capped to limit');
+  assert.equal(d.timeline_truncated, true);
+  assert.equal(d.event_count, 5, 'full count preserved');
+  assert.equal(d.mutations.length, 5, 'structured fields stay full');
+  assert.equal(d.summary.total, 5);
+  // most-recent kept, chronological order preserved
+  assert.equal(d.timeline[2].payload.mutation_id, 'm4');
+});
+
+test('composeDossier -- default timeline cap is generous (no truncation under 100)', () => {
+  const evs = Array.from({ length: 10 }, (_, i) => ({
+    ts: `2026-06-${String(i + 1).padStart(2, '0')}T00:00:00Z`,
+    type: 'mutation_acquired',
+    actor_id: 'a1',
+    tier: 'public',
+    payload: { mutation_id: `m${i}` },
+  }));
+  const d = composeDossier(evs, { run_id: 'r1', actor_id: 'a1' });
+  assert.equal(d.timeline.length, 10);
+  assert.equal(d.timeline_truncated, false);
+});
+
 test('GET dossier -- 400 on missing actor_id segment is not possible (route requires it); blank run handled', async (t) => {
   const app = mkApp(t, tmpBaseDir());
   // unknown run -> empty card, still 200 (mirrors chronicle route semantics)

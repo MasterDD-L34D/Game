@@ -41,10 +41,16 @@ const MUTATION_TYPES = {
 // emitter writes `tier:'public'`, so this is a no-op now + a structural guard
 // for later (mirrors the codex secret-invariant). An authenticated owner-view
 // that also shows `private` events is a follow-up.
-function composeDossier(events, { run_id, actor_id }) {
+function composeDossier(events, { run_id, actor_id, timeline_limit }) {
   const list = (Array.isArray(events) ? events : []).filter(
     (ev) => ev && (ev.tier == null || ev.tier === 'public'),
   );
+  // Bound the timeline payload (the structured fields below stay full-fidelity).
+  // Default 100, clamp 1..500 (mirrors the chronicle tail cap). The structured
+  // summary/scars/mutations/fate always reflect the WHOLE public record.
+  const limit = Number.isFinite(Number(timeline_limit))
+    ? Math.max(1, Math.min(500, Number(timeline_limit)))
+    : 100;
 
   let name = null;
   let stage = null;
@@ -94,7 +100,8 @@ function composeDossier(events, { run_id, actor_id }) {
     scars,
     mutations,
     biome_wounds: biomeWounds,
-    timeline,
+    timeline: timeline.slice(-limit),
+    timeline_truncated: timeline.length > limit,
     summary: { total: list.length, by_type: byType },
   };
 }
@@ -106,9 +113,16 @@ function createCreatureDossierRouter(opts = {}) {
   router.get('/creature/:run_id/:actor_id/dossier', (req, res, next) => {
     try {
       const { run_id: runId, actor_id: actorId } = req.params;
+      const timelineLimit = Number.parseInt(req.query.limit, 10);
       // getChronicle returns [] for unknown run -> empty (anonymous) card, 200.
       const events = getChronicle(runId, { actor_id: actorId, baseDir });
-      res.json(composeDossier(events, { run_id: runId, actor_id: actorId }));
+      res.json(
+        composeDossier(events, {
+          run_id: runId,
+          actor_id: actorId,
+          timeline_limit: Number.isFinite(timelineLimit) ? timelineLimit : undefined,
+        }),
+      );
     } catch (err) {
       next(err);
     }
