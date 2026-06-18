@@ -51,6 +51,13 @@ const DEFAULT_KNOBS = {
     ingegneri_ecosistema: 'SUPPORT',
     minaccia_microbica: 'HAZARD',
     evento_ecologico: 'HAZARD',
+    // legacy promoted-stub roles (#2850 5 species; calibration-faithful mapping, S1
+    // 2026-06-18). Blast radius = only those 5 use these names. Canonical role_trofico
+    // kept as-is (master-dd field); the registry-warning is tracked as a follow-up.
+    predatore_terziario: 'APEX',
+    consumatore_secondario: 'PREDATOR',
+    consumatore_primario: 'PREY',
+    decompositore: 'SUPPORT',
   },
 };
 

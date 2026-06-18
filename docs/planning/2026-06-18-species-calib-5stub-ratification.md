@@ -142,3 +142,21 @@ manual `prettier --write` pre-commit, gates green, Eduardo merges.
    proposed, or flag specific species to revise?
 3. **vc heuristic**: OK to ship S0 with the heuristic vc above (refined later in S3 from telemetry),
    matching the reference-species convention?
+
+## S1 outcomes (executed 2026-06-18)
+
+Master-dd ratified the originals (everything-now / propose-ratify / dedicated bands). S0 shipped
+PR #2855. S1 corrections (master-dd via AskUserQuestion, data-driven):
+
+- **Role mapping**: extended `ecologyCombatAdapter` ROLE_TROFICO_MAP (predatore_terziario->APEX,
+  consumatore_secondario->PREDATOR, consumatore_primario->PREY, decompositore->SUPPORT). Blast
+  radius = only these 5. Canonical role_trofico kept; registry warning = follow-up.
+- **No pilot reuse**: adding the trio to the ratified pilot (5->7 enemies) would break its ratified
+  [0.40,0.60] band. Built NEW scenarios instead (master-dd confirmed).
+- **enc_badlands_elite_01** (ferrimordax solo-anchor): RATIFIED edm 1.85 -> WR 0.16, N=100, in-band
+  [0.15,0.30]. STEEP LEVER (hc06-style); FOLLOW-UP: widen band / flatter knob. Evidence:
+  `docs/playtest/2026-06-18-badlands-s1-calibration.md`.
+- **enc_badlands_ambient_01** (rubrospina+ferriscroba): DESIGNED-WINNABLE, NOT a balance-oracle
+  (the T1 flavor pair sweep at WR 1.0 even at edm 2.2). Re-classified (master-dd).
+
+S2 (foresta) + S3 (vc telemetry) follow as separate PRs.
