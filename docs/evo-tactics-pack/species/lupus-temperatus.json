@@ -13,21 +13,10 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
-  "balance": {
-    "rarity": "R2",
-    "threat_tier": "T2",
-    "encounter_role": "elite"
-  },
+  "balance": { "rarity": "R2", "threat_tier": "T2", "encounter_role": "elite" },
   "playable_unit": false,
   "morphotype": null,
-  "vc": {
-    "aggro": 0.6,
-    "risk": 0.5,
-    "cohesion": 0.7,
-    "setup": 0.4,
-    "explore": 0.5,
-    "tilt": 0.3
-  },
+  "vc": { "aggro": 0.6, "risk": 0.5, "cohesion": 0.7, "setup": 0.4, "explore": 0.5, "tilt": 0.3 },
   "spawn_rules": {
     "orario": ["crepuscolo", "notte"],
     "meteo": ["sereno_freddo"],
@@ -44,10 +33,7 @@
     "optional_traits": ["focus_frazionato", "occhi_infrarosso_composti"]
   },
   "jobs_bias": [],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.lupus-temperatus.description",

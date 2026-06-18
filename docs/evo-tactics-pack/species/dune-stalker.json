@@ -13,21 +13,10 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
-  "balance": {
-    "rarity": "R3",
-    "threat_tier": "T3",
-    "encounter_role": "elite"
-  },
+  "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "elite" },
   "playable_unit": false,
   "morphotype": "cursoriale_quadrupede",
-  "vc": {
-    "aggro": 0.7,
-    "risk": 0.6,
-    "cohesion": 0.4,
-    "setup": 0.5,
-    "explore": 0.6,
-    "tilt": 0.4
-  },
+  "vc": { "aggro": 0.7, "risk": 0.6, "cohesion": 0.4, "setup": 0.5, "explore": 0.6, "tilt": 0.4 },
   "spawn_rules": {
     "orario": ["notte", "crepuscolo"],
     "meteo": ["tempesta_sabbia_magnetica"],
@@ -68,10 +57,7 @@
     "jobs_bias": ["vanguard", "warden"]
   },
   "jobs_bias": ["vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": {
     "core": ["artigli_sette_vie", "scheletro_idro_regolante", "struttura_elastica_amorfa"],
     "optional": [

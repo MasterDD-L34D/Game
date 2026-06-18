@@ -7,10 +7,7 @@
       "id": "aurora-gull",
       "display_name": "Gabbiano d’Aurora",
       "role_trofico": "dispersore_ponte",
-      "functional_tags": [
-        "impollinatore",
-        "dispersore_semi"
-      ],
+      "functional_tags": ["impollinatore", "dispersore_semi"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -19,20 +16,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "cryosteppe"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["cryosteppe"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
       "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
@@ -41,9 +28,7 @@
       "id": "blight-micotico",
       "display_name": "Blight Micotico",
       "role_trofico": "minaccia_microbica",
-      "functional_tags": [
-        "patogeno"
-      ],
+      "functional_tags": ["patogeno"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -52,20 +37,11 @@
         "threat": true,
         "event": false
       },
-      "biomes": [
-        "foresta_temperata"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "boss"
-      },
+      "biomes": ["foresta_temperata"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
       "morphotype": null,
       "jobs_bias": [],
-      "hazards_expected": [
-        "alluvioni lampo",
-        "incendi sporadici"
-      ],
+      "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
     },
@@ -73,11 +49,7 @@
       "id": "cactus-weaver",
       "display_name": "Cactus Weaver",
       "role_trofico": "ingegneri_ecosistema",
-      "functional_tags": [
-        "ingegneri_ecosistema",
-        "specie_chiave",
-        "detritivoro"
-      ],
+      "functional_tags": ["ingegneri_ecosistema", "specie_chiave", "detritivoro"],
       "flags": {
         "apex": false,
         "keystone": true,
@@ -86,20 +58,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "deserto_caldo"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["deserto_caldo"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "ingegnere_radicante",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
       "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
@@ -108,10 +70,7 @@
       "id": "cryo-lynx",
       "display_name": "Cryo Lynx",
       "role_trofico": "predatore_terziario_apex",
-      "functional_tags": [
-        "predatore",
-        "specie_chiave"
-      ],
+      "functional_tags": ["predatore", "specie_chiave"],
       "flags": {
         "apex": true,
         "keystone": false,
@@ -120,20 +79,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "cryosteppe"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "elite"
-      },
+      "biomes": ["cryosteppe"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "elite" },
       "morphotype": "cursoriale_quadrupede",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
@@ -142,10 +91,7 @@
       "id": "dune-stalker",
       "display_name": "Dune Stalker",
       "role_trofico": "predatore_terziario_apex",
-      "functional_tags": [
-        "specie_chiave",
-        "regolazione_prede"
-      ],
+      "functional_tags": ["specie_chiave", "regolazione_prede"],
       "flags": {
         "apex": true,
         "keystone": false,
@@ -154,19 +100,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "elite"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "elite" },
       "morphotype": "cursoriale_quadrupede",
-      "jobs_bias": [
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -181,10 +118,7 @@
       "id": "echo-wing",
       "display_name": "Echo Wing",
       "role_trofico": "dispersore_ponte",
-      "functional_tags": [
-        "impollinatore",
-        "dispersore_semi"
-      ],
+      "functional_tags": ["impollinatore", "dispersore_semi"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -193,23 +127,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "badlands",
-        "FORESTA_TEMPERATA",
-        "DESERTO_CALDO",
-        "CRYOSTEPPE"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["badlands", "FORESTA_TEMPERATA", "DESERTO_CALDO", "CRYOSTEPPE"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -224,9 +145,7 @@
       "id": "evento-brinastorm",
       "display_name": "Evento: Brina Tempestosa",
       "role_trofico": "evento_ecologico",
-      "functional_tags": [
-        "pulse_climatico"
-      ],
+      "functional_tags": ["pulse_climatico"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -235,20 +154,10 @@
         "threat": false,
         "event": true
       },
-      "biomes": [
-        "cryosteppe"
-      ],
-      "balance": {
-        "rarity": "R5",
-        "threat_tier": "T4",
-        "encounter_role": "boss"
-      },
+      "biomes": ["cryosteppe"],
+      "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
@@ -257,9 +166,7 @@
       "id": "evento-ondata-termica",
       "display_name": "Evento: Ondata Termica Ionica",
       "role_trofico": "evento_ecologico",
-      "functional_tags": [
-        "pulse_climatico"
-      ],
+      "functional_tags": ["pulse_climatico"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -268,20 +175,10 @@
         "threat": false,
         "event": true
       },
-      "biomes": [
-        "deserto_caldo"
-      ],
-      "balance": {
-        "rarity": "R5",
-        "threat_tier": "T4",
-        "encounter_role": "boss"
-      },
+      "biomes": ["deserto_caldo"],
+      "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
@@ -290,9 +187,7 @@
       "id": "evento-seme-uragano",
       "display_name": "Evento: Seme d'Uragano",
       "role_trofico": "evento_ecologico",
-      "functional_tags": [
-        "pulse_climatico"
-      ],
+      "functional_tags": ["pulse_climatico"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -301,20 +196,11 @@
         "threat": false,
         "event": true
       },
-      "biomes": [
-        "foresta_temperata"
-      ],
-      "balance": {
-        "rarity": "R5",
-        "threat_tier": "T4",
-        "encounter_role": "boss"
-      },
+      "biomes": ["foresta_temperata"],
+      "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
       "morphotype": null,
       "jobs_bias": [],
-      "hazards_expected": [
-        "alluvioni lampo",
-        "incendi sporadici"
-      ],
+      "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
     },
@@ -322,9 +208,7 @@
       "id": "evento-tempesta-ferrosa",
       "display_name": "Evento: Tempesta Ferrosa",
       "role_trofico": "evento_ecologico",
-      "functional_tags": [
-        "pulse_climatico"
-      ],
+      "functional_tags": ["pulse_climatico"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -333,19 +217,10 @@
         "threat": false,
         "event": true
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R5",
-        "threat_tier": "T4",
-        "encounter_role": "boss"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -360,10 +235,7 @@
       "id": "ferrocolonia-magnetotattica",
       "display_name": "Ferrocolonia Magnetotattica",
       "role_trofico": "predatore_regolatore_simbionte",
-      "functional_tags": [
-        "simbionte",
-        "regolazione_parassiti"
-      ],
+      "functional_tags": ["simbionte", "regolazione_parassiti"],
       "flags": {
         "apex": false,
         "keystone": true,
@@ -373,19 +245,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T2",
-        "encounter_role": "elite"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R3", "threat_tier": "T2", "encounter_role": "elite" },
       "morphotype": "ingegnere_radicante",
-      "jobs_bias": [
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -400,9 +263,7 @@
       "id": "lupus-temperatus",
       "display_name": "Lupo della Foresta",
       "role_trofico": "predatore_terziario_apex",
-      "functional_tags": [
-        "specie_chiave"
-      ],
+      "functional_tags": ["specie_chiave"],
       "flags": {
         "apex": true,
         "keystone": true,
@@ -411,20 +272,11 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "foresta_temperata"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T2",
-        "encounter_role": "elite"
-      },
+      "biomes": ["foresta_temperata"],
+      "balance": { "rarity": "R2", "threat_tier": "T2", "encounter_role": "elite" },
       "morphotype": null,
       "jobs_bias": [],
-      "hazards_expected": [
-        "alluvioni lampo",
-        "incendi sporadici"
-      ],
+      "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
     },
@@ -432,9 +284,7 @@
       "id": "nano-rust-bloom",
       "display_name": "Nano Rust Bloom",
       "role_trofico": "minaccia_microbica",
-      "functional_tags": [
-        "patogeno"
-      ],
+      "functional_tags": ["patogeno"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -443,19 +293,10 @@
         "threat": true,
         "event": false
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "boss"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
       "morphotype": "scavenger_corazzato",
-      "jobs_bias": [
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -470,10 +311,7 @@
       "id": "noctule-termico",
       "display_name": "Noctule Termico",
       "role_trofico": "dispersore_ponte",
-      "functional_tags": [
-        "impollinatore",
-        "dispersore_semi"
-      ],
+      "functional_tags": ["impollinatore", "dispersore_semi"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -482,20 +320,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "deserto_caldo"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["deserto_caldo"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "volatore_planatore",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
       "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
@@ -504,10 +332,7 @@
       "id": "rust-scavenger",
       "display_name": "Rust Scavenger",
       "role_trofico": "ingegneri_ecosistema",
-      "functional_tags": [
-        "specie_chiave",
-        "detritivoro"
-      ],
+      "functional_tags": ["specie_chiave", "detritivoro"],
       "flags": {
         "apex": false,
         "keystone": true,
@@ -516,14 +341,8 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "scavenger_corazzato",
       "jobs_bias": [],
       "hazards_expected": [
@@ -540,10 +359,7 @@
       "id": "sand-burrower",
       "display_name": "Sand Burrower",
       "role_trofico": "erbivoro_primario",
-      "functional_tags": [
-        "prede",
-        "detritivoro"
-      ],
+      "functional_tags": ["prede", "detritivoro"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -552,19 +368,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "badlands"
-      ],
-      "balance": {
-        "rarity": "R1",
-        "threat_tier": "T1",
-        "encounter_role": "minion"
-      },
+      "biomes": ["badlands"],
+      "balance": { "rarity": "R1", "threat_tier": "T1", "encounter_role": "minion" },
       "morphotype": "cursoriale_quadrupede",
-      "jobs_bias": [
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["vanguard", "warden"],
       "hazards_expected": [
         "collassi di scarpate",
         "iron_shards",
@@ -579,9 +386,7 @@
       "id": "sentinella-radice",
       "display_name": "Sentinella Radice",
       "role_trofico": "ingegneri_ecosistema",
-      "functional_tags": [
-        "specie_chiave"
-      ],
+      "functional_tags": ["specie_chiave"],
       "flags": {
         "apex": false,
         "keystone": true,
@@ -591,20 +396,11 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "foresta_temperata"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["foresta_temperata"],
+      "balance": { "rarity": "R3", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": null,
       "jobs_bias": [],
-      "hazards_expected": [
-        "alluvioni lampo",
-        "incendi sporadici"
-      ],
+      "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": true,
       "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
     },
@@ -612,9 +408,7 @@
       "id": "silica-bloom",
       "display_name": "Silica Bloom",
       "role_trofico": "minaccia_microbica",
-      "functional_tags": [
-        "patogeno"
-      ],
+      "functional_tags": ["patogeno"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -623,20 +417,10 @@
         "threat": true,
         "event": false
       },
-      "biomes": [
-        "deserto_caldo"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "boss"
-      },
+      "biomes": ["deserto_caldo"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
       "morphotype": "scavenger_corazzato",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
@@ -645,11 +429,7 @@
       "id": "steppe-bison-mini",
       "display_name": "Bisonte Nano della Steppa",
       "role_trofico": "ingegneri_ecosistema",
-      "functional_tags": [
-        "ingegneri_ecosistema",
-        "specie_chiave",
-        "prede"
-      ],
+      "functional_tags": ["ingegneri_ecosistema", "specie_chiave", "prede"],
       "flags": {
         "apex": false,
         "keystone": true,
@@ -658,20 +438,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "cryosteppe"
-      ],
-      "balance": {
-        "rarity": "R2",
-        "threat_tier": "T1",
-        "encounter_role": "ambient"
-      },
+      "biomes": ["cryosteppe"],
+      "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
       "morphotype": "cursoriale_quadrupede",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
       "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
@@ -680,9 +450,7 @@
       "id": "thaw-rot",
       "display_name": "Thaw Rot",
       "role_trofico": "minaccia_microbica",
-      "functional_tags": [
-        "patogeno"
-      ],
+      "functional_tags": ["patogeno"],
       "flags": {
         "apex": false,
         "keystone": false,
@@ -691,20 +459,10 @@
         "threat": true,
         "event": false
       },
-      "biomes": [
-        "cryosteppe"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "boss"
-      },
+      "biomes": ["cryosteppe"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
       "morphotype": "scavenger_corazzato",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
@@ -713,10 +471,7 @@
       "id": "thermo-raptor",
       "display_name": "Thermo Raptor",
       "role_trofico": "predatore_terziario_apex",
-      "functional_tags": [
-        "predatore",
-        "specie_chiave"
-      ],
+      "functional_tags": ["predatore", "specie_chiave"],
       "flags": {
         "apex": true,
         "keystone": false,
@@ -725,20 +480,10 @@
         "threat": false,
         "event": false
       },
-      "biomes": [
-        "deserto_caldo"
-      ],
-      "balance": {
-        "rarity": "R3",
-        "threat_tier": "T3",
-        "encounter_role": "elite"
-      },
+      "biomes": ["deserto_caldo"],
+      "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "elite" },
       "morphotype": "cursoriale_quadrupede",
-      "jobs_bias": [
-        "skirmisher",
-        "vanguard",
-        "warden"
-      ],
+      "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
       "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"

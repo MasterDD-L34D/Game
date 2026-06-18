@@ -13,30 +13,16 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
-  "balance": {
-    "rarity": "R3",
-    "threat_tier": "T3",
-    "encounter_role": "boss"
-  },
+  "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
   "playable_unit": false,
   "morphotype": "scavenger_corazzato",
-  "vc": {
-    "aggro": 0.3,
-    "risk": 0.85,
-    "cohesion": 0.4,
-    "setup": 0.7,
-    "explore": 0.2,
-    "tilt": 0.8
-  },
+  "vc": { "aggro": 0.3, "risk": 0.85, "cohesion": 0.4, "setup": 0.7, "explore": 0.2, "tilt": 0.8 },
   "spawn_rules": {
     "orario": ["continuo"],
     "meteo": ["whiteout_ionico", "sereno_freddo"],
     "densita": "mid"
   },
-  "environment_affinity": {
-    "biome_class": "mezzanotte_orbitale",
-    "koppen": ["BSk", "Dfc"]
-  },
+  "environment_affinity": { "biome_class": "mezzanotte_orbitale", "koppen": ["BSk", "Dfc"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": [
@@ -50,10 +36,7 @@
     "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.thaw-rot.description",

@@ -13,21 +13,10 @@
     "event": true
   },
   "path": "../../packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
-  "balance": {
-    "rarity": "R5",
-    "threat_tier": "T4",
-    "encounter_role": "boss"
-  },
+  "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
   "playable_unit": false,
   "morphotype": "volatore_planatore",
-  "vc": {
-    "aggro": 0.1,
-    "risk": 0.95,
-    "cohesion": 0.2,
-    "setup": 0.8,
-    "explore": 0.1,
-    "tilt": 0.95
-  },
+  "vc": { "aggro": 0.1, "risk": 0.95, "cohesion": 0.2, "setup": 0.8, "explore": 0.1, "tilt": 0.95 },
   "spawn_rules": {
     "orario": ["crepuscolo"],
     "meteo": ["tempesta_sabbia_magnetica"],
@@ -62,10 +51,7 @@
     "jobs_bias": ["vanguard", "warden"]
   },
   "jobs_bias": ["vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": {
     "core": ["cute_resistente_sali", "enzimi_chelanti", "pelli_anti_ustione", "pigmenti_termici"],
     "optional": [],

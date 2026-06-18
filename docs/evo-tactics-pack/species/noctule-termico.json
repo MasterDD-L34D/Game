@@ -13,30 +13,12 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
-  "balance": {
-    "rarity": "R2",
-    "threat_tier": "T1",
-    "encounter_role": "ambient"
-  },
+  "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": true,
   "morphotype": "volatore_planatore",
-  "vc": {
-    "aggro": 0.2,
-    "risk": 0.2,
-    "cohesion": 0.7,
-    "setup": 0.6,
-    "explore": 0.8,
-    "tilt": 0.2
-  },
-  "spawn_rules": {
-    "orario": ["notte"],
-    "meteo": ["sereno_freddo"],
-    "densita": "mid"
-  },
-  "environment_affinity": {
-    "biome_class": "abisso_vulcanico",
-    "koppen": ["BWh", "BSh"]
-  },
+  "vc": { "aggro": 0.2, "risk": 0.2, "cohesion": 0.7, "setup": 0.6, "explore": 0.8, "tilt": 0.2 },
+  "spawn_rules": { "orario": ["notte"], "meteo": ["sereno_freddo"], "densita": "mid" },
+  "environment_affinity": { "biome_class": "abisso_vulcanico", "koppen": ["BWh", "BSh"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": [
@@ -52,10 +34,7 @@
     "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": 0.17,
-    "spawn_weight": 0.23
-  },
+  "telemetry": { "expected_pick_rate": 0.17, "spawn_weight": 0.23 },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.noctule-termico.description",

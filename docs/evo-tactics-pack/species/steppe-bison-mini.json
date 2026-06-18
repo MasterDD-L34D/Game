@@ -13,30 +13,12 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
-  "balance": {
-    "rarity": "R2",
-    "threat_tier": "T1",
-    "encounter_role": "ambient"
-  },
+  "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": true,
   "morphotype": "cursoriale_quadrupede",
-  "vc": {
-    "aggro": 0.3,
-    "risk": 0.4,
-    "cohesion": 0.8,
-    "setup": 0.6,
-    "explore": 0.4,
-    "tilt": 0.2
-  },
-  "spawn_rules": {
-    "orario": ["diurno"],
-    "meteo": ["sereno_freddo", "whiteout"],
-    "densita": "mid"
-  },
-  "environment_affinity": {
-    "biome_class": "mezzanotte_orbitale",
-    "koppen": ["BSk", "Dfc"]
-  },
+  "vc": { "aggro": 0.3, "risk": 0.4, "cohesion": 0.8, "setup": 0.6, "explore": 0.4, "tilt": 0.2 },
+  "spawn_rules": { "orario": ["diurno"], "meteo": ["sereno_freddo", "whiteout"], "densita": "mid" },
+  "environment_affinity": { "biome_class": "mezzanotte_orbitale", "koppen": ["BSk", "Dfc"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": ["ventriglio_gastroliti", "scheletro_idro_regolante", "respiro_a_scoppio"],
@@ -46,10 +28,7 @@
     "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": 0.15,
-    "spawn_weight": 0.22
-  },
+  "telemetry": { "expected_pick_rate": 0.15, "spawn_weight": 0.22 },
   "genetic_traits": [],
   "services_links": ["supporto:aree_brina_compatta", "regolazione:riciclo_nutrienti_neve"],
   "description": "i18n:species.steppe-bison-mini.description",

@@ -1,13 +1,9 @@
 {
   "id": "evento-ondata-termica",
   "display_name": "Evento: Ondata Termica Ionica",
-  "biomes": [
-    "deserto_caldo"
-  ],
+  "biomes": ["deserto_caldo"],
   "role_trofico": "evento_ecologico",
-  "functional_tags": [
-    "pulse_climatico"
-  ],
+  "functional_tags": ["pulse_climatico"],
   "flags": {
     "apex": false,
     "keystone": false,
@@ -17,11 +13,7 @@
     "event": true
   },
   "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml",
-  "balance": {
-    "rarity": "R5",
-    "threat_tier": "T4",
-    "encounter_role": "boss"
-  },
+  "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
   "playable_unit": false,
   "morphotype": "volatore_planatore",
   "vc": {
@@ -32,22 +24,8 @@
     "explore": 0.1,
     "tilt": 0.95
   },
-  "spawn_rules": {
-    "orario": [
-      "diurno"
-    ],
-    "meteo": [
-      "caldo_pulsato"
-    ],
-    "densita": "low"
-  },
-  "environment_affinity": {
-    "biome_class": "abisso_vulcanico",
-    "koppen": [
-      "BWh",
-      "BSh"
-    ]
-  },
+  "spawn_rules": { "orario": ["diurno"], "meteo": ["caldo_pulsato"], "densita": "low" },
+  "environment_affinity": { "biome_class": "abisso_vulcanico", "koppen": ["BWh", "BSh"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": [
@@ -60,21 +38,10 @@
     ],
     "required_capabilities": [],
     "services_links": [],
-    "jobs_bias": [
-      "skirmisher",
-      "vanguard",
-      "warden"
-    ]
+    "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
-  "jobs_bias": [
-    "skirmisher",
-    "vanguard",
-    "warden"
-  ],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "jobs_bias": ["skirmisher", "vanguard", "warden"],
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.evento-ondata-termica.description",

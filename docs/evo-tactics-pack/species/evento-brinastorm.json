@@ -13,11 +13,7 @@
     "event": true
   },
   "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
-  "balance": {
-    "rarity": "R5",
-    "threat_tier": "T4",
-    "encounter_role": "boss"
-  },
+  "balance": { "rarity": "R5", "threat_tier": "T4", "encounter_role": "boss" },
   "playable_unit": false,
   "morphotype": "volatore_planatore",
   "vc": {
@@ -33,10 +29,7 @@
     "meteo": ["whiteout", "whiteout_ionico"],
     "densita": "low"
   },
-  "environment_affinity": {
-    "biome_class": "mezzanotte_orbitale",
-    "koppen": ["BSk", "Dfc"]
-  },
+  "environment_affinity": { "biome_class": "mezzanotte_orbitale", "koppen": ["BSk", "Dfc"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": [
@@ -52,10 +45,7 @@
     "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.evento-brinastorm.description",

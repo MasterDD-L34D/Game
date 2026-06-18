@@ -1,13 +1,9 @@
 {
   "id": "silica-bloom",
   "display_name": "Silica Bloom",
-  "biomes": [
-    "deserto_caldo"
-  ],
+  "biomes": ["deserto_caldo"],
   "role_trofico": "minaccia_microbica",
-  "functional_tags": [
-    "patogeno"
-  ],
+  "functional_tags": ["patogeno"],
   "flags": {
     "apex": false,
     "keystone": false,
@@ -17,38 +13,16 @@
     "event": false
   },
   "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
-  "balance": {
-    "rarity": "R3",
-    "threat_tier": "T3",
-    "encounter_role": "boss"
-  },
+  "balance": { "rarity": "R3", "threat_tier": "T3", "encounter_role": "boss" },
   "playable_unit": false,
   "morphotype": "scavenger_corazzato",
-  "vc": {
-    "aggro": 0.3,
-    "risk": 0.85,
-    "cohesion": 0.4,
-    "setup": 0.7,
-    "explore": 0.2,
-    "tilt": 0.8
-  },
+  "vc": { "aggro": 0.3, "risk": 0.85, "cohesion": 0.4, "setup": 0.7, "explore": 0.2, "tilt": 0.8 },
   "spawn_rules": {
-    "orario": [
-      "notte"
-    ],
-    "meteo": [
-      "foschia_ferrosa",
-      "caldo_pulsato"
-    ],
+    "orario": ["notte"],
+    "meteo": ["foschia_ferrosa", "caldo_pulsato"],
     "densita": "mid"
   },
-  "environment_affinity": {
-    "biome_class": "abisso_vulcanico",
-    "koppen": [
-      "BWh",
-      "BSh"
-    ]
-  },
+  "environment_affinity": { "biome_class": "abisso_vulcanico", "koppen": ["BWh", "BSh"] },
   "hazards_expected": [],
   "derived_from_environment": {
     "suggested_traits": [
@@ -61,21 +35,10 @@
     ],
     "required_capabilities": [],
     "services_links": [],
-    "jobs_bias": [
-      "skirmisher",
-      "vanguard",
-      "warden"
-    ]
+    "jobs_bias": ["skirmisher", "vanguard", "warden"]
   },
-  "jobs_bias": [
-    "skirmisher",
-    "vanguard",
-    "warden"
-  ],
-  "telemetry": {
-    "expected_pick_rate": null,
-    "spawn_weight": null
-  },
+  "jobs_bias": ["skirmisher", "vanguard", "warden"],
+  "telemetry": { "expected_pick_rate": null, "spawn_weight": null },
   "genetic_traits": [],
   "services_links": [],
   "description": "i18n:species.silica-bloom.description",
