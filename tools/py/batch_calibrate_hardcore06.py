@@ -23,6 +23,7 @@ import urllib.error
 import urllib.request
 
 import calibrate_policies
+from pressure_stats import pressure_stats
 
 SCENARIO_ID = "enc_tutorial_06_hardcore"
 MAX_ROUNDS = 40
@@ -727,6 +728,9 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
         vc_status, vc = get(f"{host}/api/session/{sid}/vc")
         vc_data = vc if vc_status == 200 else {}
 
+    # PE_ratio experiment PR1: compact pressure-trajectory stats for this run.
+    _ps = pressure_stats(pressure_samples)
+
     return {
         "run": run_idx,
         "seed": seed,
@@ -741,6 +745,9 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
         "dmg_taken_player": dmg_taken_player,
         "boss_hp_remaining": boss_hp_remaining,
         "pressure_final": pressure_samples[-1] if pressure_samples else pstart,
+        "pressure_mean": _ps["pressure_mean"],
+        "pressure_frac_ge75": _ps["frac_ge75"],
+        "pressure_pmax": _ps["pmax"],
         "ai_intent_tally": {f"{t}|{a}": c for (t, a), c in ai_intent_tally.items()},
         # 2026-05-20 method F: player + trait telemetry (anti-pattern #8 close).
         "player_action_tally": dict(player_action_tally),
@@ -812,6 +819,12 @@ def aggregate(runs, encounter_class=None):
         "turns_hist": _hist(turns, bins=[(1,5),(6,10),(11,15),(16,20),(21,30),(31,40),(41,999)]),
         "kd_avg": statistics.mean(kd),
         "kd_median": statistics.median(kd),
+        # PE_ratio experiment PR1: aggregate pressure-trajectory stats.
+        "pressure_mean_avg": statistics.mean([r.get("pressure_mean", 0.0) for r in ok]),
+        "pressure_frac_ge75_avg": statistics.mean([r.get("pressure_frac_ge75", 0.0) for r in ok]),
+        "apex_reach_rate": (
+            sum(1 for r in ok if r.get("pressure_pmax", 0.0) >= 95) / len(ok) if ok else 0.0
+        ),
         "dmg_dealt_avg": statistics.mean(r["dmg_dealt_player"] for r in ok),
         "dmg_taken_avg": statistics.mean(r["dmg_taken_player"] for r in ok),
         "boss_hp_remaining_avg_on_loss": (
