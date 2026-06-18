@@ -68,7 +68,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 ### Tool di generazione
 
 - `tools/py/gen_trait_docs.py` — auto-genera `docs/generated/trait-reference.md` da YAML (O3 pattern)
-- `tools/py/gen_trait_types.py` — codegen TS + Python + JSON Schema da YAML (L1 pattern)
+- `tools/py/gen_trait_types.py` -- codegen TS + JSON Schema da YAML (L1 pattern; output Python rimosso in Phase 3, ADR-2026-04-19)
 
 ## Dati di bilanciamento
 
