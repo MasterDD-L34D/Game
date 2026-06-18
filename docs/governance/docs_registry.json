@@ -12459,6 +12459,17 @@
       "source_of_truth": false,
       "language": "en",
       "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-06-18-vc-telemetry-s3.md",
+      "title": "VC telemetry refine S3 -- 5 stub species (#2850 follow-up)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
     }
   ]
 }
