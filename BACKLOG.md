@@ -57,6 +57,13 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
   `enforcement_factor` nel sample telemetria (sez.4). master-dd + harness G2. **Unico residuo
   sostanziale SPEC-H** (la machinery e la surface sono complete).
+- **Codex unlock-reachability gap (Gate-5)** — verify-first 2026-06-18 (#2851): l'unica codex
+  entry autorata (`dune_stalker`) e' `controlled_by:'player'` in OGNI wave wired -> non entra
+  mai nel set sistema-filtered dell'unlock hook; la sua unica apparizione non-player e'
+  `enc_savana_pack_clash` (`apex_neutral`), che nessun routing referenzia -> nel flow default ~0
+  entry sbloccabili. Fix = wire dell'encounter savana OPPURE aggiungere `dune_stalker` come nemico
+  sistema in una wave (content/balance, master-dd). Il guard namespace (#2851) cattura l'orphan;
+  questo gap = reachability del roster, separato.
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
 
@@ -74,6 +81,7 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 - **K-05** Next mission quorum — PENDING.
 - **K-06** Wording cleanup ("host drives" residui) — PENDING.
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
+- **Codex namespace cross-check (HA2 follow-up)** — **DONE 2026-06-18** (PR #2851 `d0d59923`): `validate_codex_aliena.js` orphan-id guard -- una codex entry il cui id non e' in alcun roster sistema/encounter (scenario builders + `data/encounters/*.yaml`) warna SOFT (mai sbloccabile). Reso require()-able, 5 test, CI-enforced. Scoperto il gap reachability di cui sopra (SPEC-H).
 
 Dipendenti gia' flippati che poggiano su questo seam: SPEC-J (consent UI #477) + SPEC-B (visibility).
 Runtime/surface = item-3 Godot, NON blocca il doc-flip (precedent SPEC-I/A/G).
