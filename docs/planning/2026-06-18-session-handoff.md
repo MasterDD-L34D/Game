@@ -73,9 +73,10 @@ Killato per errore la WS port prod 3341 -> prod 3334 giu' -> ripristinato via
 
 - **SPEC-H HA1 flip** = unico residuo sostanziale SPEC-H: `aliena_enforcement.enabled:true`
   - `strength` SOLO post N=40 su `enc_badlands_pilot_01` (via harness G2) + master-dd.
-- **SPEC-K namespace** (audit doc-only/accepted-risk): se si autorano nuove codex-entry,
-  il loro id deve == species-slug di un'unita' sistema, altrimenti niente unlock; eventuale
-  propagation `species_hint -> unit.species_id` negli scenario builder.
+- **SPEC-K namespace** -- **DONE 2026-06-18** (PR #2851 `d0d59923`): orphan-id guard in
+  `validate_codex_aliena.js` (vedi Continuazione sotto). La "propagation species_hint ->
+  unit.species_id" del piano NON serviva (verify-first: gli scenario builder hardcodano
+  `species`, il client unlock hook fa gia' `species_id || species`).
 - Track A: party-select (design-call blocking-rules), altri Godot K-0x (chip).
 - Altri: SPEC-F durable cooldown (forbidden-path contracts), A2 floor re-tune UPWARD-only
   post-playtest, META_NETWORK_ROUTING flip (env, prod-health-gated), Postgres auto-start
@@ -86,3 +87,44 @@ Killato per errore la WS port prod 3341 -> prod 3334 giu' -> ripristinato via
 - Piano coordinato cross-session: `docs/planning/2026-06-17-post-item1-coordinated-plan.md`.
 - Sprint pointer live: `CLAUDE.md` -> "Current sprint (2026-06-18 ...)".
 - Memory auto-load: `MEMORY.md` (SPEC-H/K/J, lessons prod-ports + codex-audit).
+
+## Continuazione 2026-06-18 (SPEC-K namespace hardening + verify-first findings)
+
+Sessione di continuazione (master-dd choice = SPEC-K namespace, dopo aver scartato Track A Nido
+ritual UI = gia' shipped Godot #479). **2 PR merged + 2 findings BACKLOG'd.**
+
+### Shipped
+
+- **#2851 `d0d59923`** namespace cross-check (HA2 follow-up): `validate_codex_aliena.js` +
+  `collectInPlaySpecies()` -- SOFT-warn quando un codex id non e' in alcun roster sistema/encounter
+  (scenario builders non-player UNION `data/encounters/*.yaml` `groups[].species_hint`). Validator
+  reso `require()`-able (`require.main` guard + exports); 5 test (`tests/codex/namespaceGuard.test.js`,
+  CI-enforced). Gira SOLO vs canonical `data/codex` (custom `--codex` fixture -> universe=null skip).
+  Adversarial review `caveman:cavecrew-reviewer` = 6/6 risk clean. **>50-line guardrail flaggato**
+  (tools/js+tests fuori apps/backend) -> NON auto-merge, master-dd OK esplicito.
+- **#2852 `06985540`** fix commento unlock + BACKLOG (vedi finding 1).
+
+### Findings (verify-first, anti-pattern #19)
+
+1. **Codex unlock-reachability gap (Gate-5)**: il commento `apps/play/src/main.js` affermava
+   dune_stalker "sistema in tutorial waves -> unlocks" = FALSO (player-only in OGNI wave wired;
+   unica apparizione non-player = `enc_savana_pack_clash` `apex_neutral`, che nessun routing
+   referenzia) -> SPEC-H Codex unlock-through-play ha ~0 entry sbloccabili nel flow default.
+   Commento corretto (#2852) + BACKLOG (`Codex unlock-reachability gap`). Fix = wire encounter
+   savana O dune_stalker nemico sistema in una wave (content/balance, master-dd).
+2. **ALIENA ancoraggio dimension = boost opzionale mai autorato** (la 3a continuazione scelta,
+   "species-side runtime-field cross-check", risolta come finding): i field `narrative_hooks`/
+   `lore_ref`/`narrative_tag` letti da `alienaCoherence._scoreAncoraggioNarrativo` NON sono
+   autorati in alcun file (solo nello scorer) + sono OPZIONALI (default 0.5) -> ancoraggio
+   uniformemente 0.5. Presence-guard = rumore -> BACKLOG'd, content/design call (se/dove autorare
+   narrative grounding). NO PR codice.
+3. Refutato un falso anti-pattern-#10: `tests/codex/*.test.js` e' GIA' wired in
+   `scripts/run-test-api.cjs` (il mio grep STEPS troncava a riga 57).
+
+### Note operative
+
+- Codex rate-limited su entrambe le PR (0 comments = "non ha guardato") -> adversarial review =
+  controllo compensativo (lesson `lesson_codex_ratelimit_audit_compensating`). Ri-check post-merge: 0.
+- Worktree miei rimossi; restano paralleli (lenovo-host prod, taxonomy, spec-j-lethal leftover).
+- **Next-entry candidati**: SPEC-H HA1 flip (N=40 gated via G2), Track A Godot K-0x (chip),
+  prod-hardening (Postgres auto-start), o i 2 findings sopra (content/design master-dd).

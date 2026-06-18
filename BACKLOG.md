@@ -52,7 +52,8 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   (specie endemica / presenza adattata / presenza inattesa, bande ratificate). Verify-first =
   runtime scorer disallineato (combat pool↔ecosistema, no codex species) -> proxy codex-native
   3-dim su dati authored (master-dd verdict); score resta secret. Residuo minore: biome-aware
-  Skiv pool, `species.yaml` fallback, cross-check species-side runtime-fields (scorer).
+  Skiv pool, `species.yaml` fallback. (Cross-check species-side runtime-fields = resolved as a
+  finding, see "ALIENA ancoraggio dimension" below.)
 - **HA1 flip runtime** — `enabled:true` + `strength` target SOLO post playtest N=40 su
   `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
   `enforcement_factor` nel sample telemetria (sez.4). master-dd + harness G2. **Unico residuo
@@ -64,6 +65,16 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   entry sbloccabili. Fix = wire dell'encounter savana OPPURE aggiungere `dune_stalker` come nemico
   sistema in una wave (content/balance, master-dd). Il guard namespace (#2851) cattura l'orphan;
   questo gap = reachability del roster, separato.
+- **ALIENA ancoraggio dimension = boost opzionale mai autorato** — verify-first 2026-06-18: lo
+  scorer `services/authorial/alienaCoherence.js` `_scoreAncoraggioNarrativo` legge
+  `entry.narrative_hooks`/`lore_ref`/`narrative_tag` sulle spawn-pool entries, ma quei 3 field
+  NON sono autorati in alcun file (`data/`/`packs/` = 0 occorrenze; compaiono solo nello scorer).
+  Sono boost OPZIONALI (default 0.5 -> 1.0 se presenti) -> oggi ancoraggio e' uniformemente 0.5
+  per ogni specie (irrilevante finche' HA1 flag OFF; quando ON, la dimensione narrativa non
+  varia). Un presence cross-check species-side = rumore (warn su tutte = sono opzionali) o no-op
+  -> **guard prematura**. Azione = decisione content/design (se/dove autorare narrative grounding:
+  `species.yaml`? pool? encounter? + quali specie) PRIMA di una guard mirata (es. solo specie con
+  codex entry). master-dd. NO PR codice (nessun dato da validare).
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
 
