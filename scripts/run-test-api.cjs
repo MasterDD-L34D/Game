@@ -48,6 +48,12 @@ const steps = [
   // test runs the script against every real encounter (errors=0), so wiring this
   // glob makes the guard an enforced gate. Flat subtree -> single-* glob.
   'node --test tests/difficulty/*.test.js',
+  // tests/codex/** -- SPEC-H HA2 A.L.I.E.N.A. authoring-gate validator. Same
+  // anti-pattern #10 risk: the guard (validate_codex_aliena.js: 6-dim presence +
+  // content) only blocks mis-authored codex entries if its test runs at merge.
+  // The validator test runs the script against every real data/codex entry
+  // (errors=0), so wiring this glob makes the authoring gate an enforced check.
+  'node --test tests/codex/*.test.js',
 ];
 
 const baseEnv = {
