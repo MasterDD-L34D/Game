@@ -1,0 +1,27 @@
+id: rubrospina-velox
+schema_version: '1.7'
+notes: 'stub provvisorio -- identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc uncalibrated, pending AI-playtest; traits/interactions/foodweb deferred to master-dd.'
+display_name: Corriere Spinato
+biomes:
+- badlands
+role_trofico: consumatore_secondario
+functional_tags: []
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: true
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  densita: low
+vc: {}
+balance:
+  encounter_role: ambient
+environment_affinity: {}
+derived_from_environment: {}
+receipt:
+  source: legacy-catalog-promote
+  author: master-dd
+  note: 'promoted from species_catalog.json legacy-yaml-merge; clade/role canonical per ADR-2026-05-15; trait_refs empty in canon; balance pending calibration'
