@@ -1595,12 +1595,12 @@
       "_provenance": {
         "risk_profile.danger_level": "heuristic-sentience-trait",
         "risk_profile.vectors": "heuristic-trait-vector-map",
-        "interactions.predates_on": "needs-master-dd",
-        "interactions.predated_by": "needs-master-dd",
+        "interactions.predates_on": "master-dd-ratified-2026-06-18",
+        "interactions.predated_by": "master-dd-ratified-2026-06-18",
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
+        "biome_affinity": "master-dd-approved-2026-06-18"
       }
     },
     {
@@ -1841,7 +1841,10 @@
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
+        "predates_on": [
+          "rubrospina-velox",
+          "sand-burrower"
+        ],
         "predated_by": [],
         "symbiosis": "nessuna"
       },
@@ -1863,19 +1866,25 @@
       "legacy_slug": "ferrimordax-rutilus",
       "biome_affinity": "badlands",
       "default_parts": null,
-      "ecology": null,
+      "ecology": {
+        "trophic_tier": "apex",
+        "pack_size": {
+          "min": 1,
+          "max": 1
+        }
+      },
       "pack_size": null,
       "genus": "Ferrimordax",
       "epithet": "rutilus",
       "source": "legacy-yaml-merge",
       "merged_at": "2026-05-15",
       "_provenance": {
-        "interactions.predates_on": "needs-master-dd",
-        "interactions.predated_by": "needs-master-dd",
+        "interactions.predates_on": "master-dd-ratified-2026-06-18",
+        "interactions.predated_by": "master-dd-ratified-2026-06-18",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
+        "biome_affinity": "master-dd-approved-2026-06-18"
       }
     },
     {
@@ -2395,7 +2404,9 @@
       },
       "interactions": {
         "predates_on": [],
-        "predated_by": [],
+        "predated_by": [
+          "lupus-temperatus"
+        ],
         "symbiosis": "nessuna"
       },
       "constraints": [
@@ -2413,7 +2424,13 @@
       "legacy_slug": "nebulocornis-mollis",
       "biome_affinity": "foresta_temperata",
       "default_parts": null,
-      "ecology": null,
+      "ecology": {
+        "trophic_tier": "primary_consumer",
+        "pack_size": {
+          "min": 3,
+          "max": 6
+        }
+      },
       "pack_size": null,
       "genus": "Nebulocornis",
       "epithet": "mollis",
@@ -2422,12 +2439,12 @@
       "_provenance": {
         "risk_profile.danger_level": "heuristic-sentience-trait",
         "risk_profile.vectors": "heuristic-trait-vector-map",
-        "interactions.predates_on": "needs-master-dd",
-        "interactions.predated_by": "needs-master-dd",
+        "interactions.predates_on": "master-dd-ratified-2026-06-18",
+        "interactions.predated_by": "master-dd-ratified-2026-06-18",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
+        "biome_affinity": "master-dd-approved-2026-06-18"
       }
     },
     {
@@ -2607,8 +2624,13 @@
         "vectors": []
       },
       "interactions": {
-        "predates_on": [],
-        "predated_by": [],
+        "predates_on": [
+          "sand-burrower"
+        ],
+        "predated_by": [
+          "ferrimordax-rutilus",
+          "dune-stalker"
+        ],
         "symbiosis": "nessuna"
       },
       "constraints": [
@@ -2627,7 +2649,13 @@
       "legacy_slug": "rubrospina-velox",
       "biome_affinity": "badlands",
       "default_parts": null,
-      "ecology": null,
+      "ecology": {
+        "trophic_tier": "secondary_consumer",
+        "pack_size": {
+          "min": 1,
+          "max": 3
+        }
+      },
       "pack_size": null,
       "genus": "Rubrospina",
       "epithet": "velox",
@@ -2636,12 +2664,12 @@
       "_provenance": {
         "risk_profile.danger_level": "heuristic-sentience-trait",
         "risk_profile.vectors": "heuristic-trait-vector-map",
-        "interactions.predates_on": "needs-master-dd",
-        "interactions.predated_by": "needs-master-dd",
+        "interactions.predates_on": "master-dd-ratified-2026-06-18",
+        "interactions.predated_by": "master-dd-ratified-2026-06-18",
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "needs-master-dd",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
+        "biome_affinity": "master-dd-approved-2026-06-18"
       }
     },
     {
@@ -2929,7 +2957,9 @@
       },
       "interactions": {
         "predates_on": [],
-        "predated_by": [],
+        "predated_by": [
+          "lupus-temperatus"
+        ],
         "symbiosis": "Il pascolo selettivo apre clearings tra le canopie dove le specie eliofile prosperano: ogni traccia di erba consumata diventa nicchia di luce per il sottobosco. Mangiando, costruisce — anche se non sa di farlo."
       },
       "constraints": [
@@ -2947,7 +2977,13 @@
       "legacy_slug": "arboryxis-lenis",
       "biome_affinity": "foresta_temperata",
       "default_parts": null,
-      "ecology": null,
+      "ecology": {
+        "trophic_tier": "primary_consumer",
+        "pack_size": {
+          "min": 1,
+          "max": 2
+        }
+      },
       "pack_size": null,
       "genus": "Arboryxis",
       "epithet": "lenis",
@@ -2956,12 +2992,12 @@
       "_provenance": {
         "risk_profile.danger_level": "heuristic-sentience-trait",
         "risk_profile.vectors": "heuristic-trait-vector-map",
-        "interactions.predates_on": "needs-master-dd",
-        "interactions.predated_by": "needs-master-dd",
+        "interactions.predates_on": "master-dd-ratified-2026-06-18",
+        "interactions.predated_by": "master-dd-ratified-2026-06-18",
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
+        "biome_affinity": "master-dd-approved-2026-06-18"
       }
     },
     {

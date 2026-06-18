@@ -12426,6 +12426,17 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/planning/2026-06-18-species-calib-5stub-ratification.md",
+      "title": "5-stub species calibration + authoring -- master-dd ratification proposal",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
     }
   ]
 }

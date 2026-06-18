@@ -4,17 +4,21 @@
   "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml",
   "biomes": ["foresta_temperata"],
   "display_name": "Cervo di Nebbia",
-  "balance": { "encounter_role": "ambient" },
+  "balance": { "rarity": "R2", "threat_tier": "T1", "encounter_role": "ambient" },
   "playable_unit": false,
   "morphotype": null,
-  "vc": {},
+  "vc": { "aggro": 0.2, "risk": 0.3, "cohesion": 0.6, "setup": 0.5, "explore": 0.5, "tilt": 0.2 },
   "spawn_rules": { "densita": "low" },
   "environment_affinity": {},
   "hazards_expected": [],
   "derived_from_environment": {},
   "jobs_bias": [],
   "telemetry": null,
-  "genetic_traits": null,
+  "genetic_traits": {
+    "core": ["pelle_elastomera", "scheletro_pneumatico_a_maglie", "membrane_pneumatofori"],
+    "optional": ["biofilm_glow", "cuticole_cerose"],
+    "synergy": ["empatia_coordinativa", "focus_frazionato"]
+  },
   "services_links": null,
   "description": null,
   "receipt": {
@@ -22,5 +26,5 @@
     "author": "master-dd",
     "note": "promoted from species_catalog.json legacy-yaml-merge; clade/role canonical per ADR-2026-05-15; trait_refs empty in canon; balance pending calibration"
   },
-  "last_synced_at": "2026-06-18T12:58:43.570Z"
+  "last_synced_at": "2026-06-18T13:57:15.489Z"
 }

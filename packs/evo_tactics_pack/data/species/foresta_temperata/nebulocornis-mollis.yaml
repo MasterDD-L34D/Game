@@ -1,6 +1,6 @@
 id: nebulocornis-mollis
 schema_version: '1.7'
-notes: 'stub provvisorio -- identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc uncalibrated, pending AI-playtest; traits/interactions/foodweb deferred to master-dd.'
+notes: 'identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc/genetic_traits/foodweb/ecology authored 2026-06-18 (master-dd ratified, docs/planning/2026-06-18-species-calib-5stub-ratification.md); vc heuristic (telemetry-refine pending S3); win-rate calibration pending S1/S2.'
 display_name: Cervo di Nebbia
 biomes:
 - foresta_temperata
@@ -16,9 +16,28 @@ flags:
 playable_unit: false
 spawn_rules:
   densita: low
-vc: {}
+vc:
+  aggro: 0.2
+  risk: 0.3
+  cohesion: 0.6
+  setup: 0.5
+  explore: 0.5
+  tilt: 0.2
 balance:
+  rarity: R2
+  threat_tier: T1
   encounter_role: ambient
+genetic_traits:
+  core:
+  - pelle_elastomera
+  - scheletro_pneumatico_a_maglie
+  - membrane_pneumatofori
+  optional:
+  - biofilm_glow
+  - cuticole_cerose
+  synergy:
+  - empatia_coordinativa
+  - focus_frazionato
 environment_affinity: {}
 derived_from_environment: {}
 receipt:

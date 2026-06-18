@@ -1,6 +1,6 @@
 id: rubrospina-velox
 schema_version: '1.7'
-notes: 'stub provvisorio -- identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc uncalibrated, pending AI-playtest; traits/interactions/foodweb deferred to master-dd.'
+notes: 'identity from species_catalog.json (legacy-yaml-merge, ADR-2026-05-15); balance/vc/genetic_traits/foodweb/ecology authored 2026-06-18 (master-dd ratified, docs/planning/2026-06-18-species-calib-5stub-ratification.md); vc heuristic (telemetry-refine pending S3); win-rate calibration pending S1/S2.'
 display_name: Corriere Spinato
 biomes:
 - badlands
@@ -16,9 +16,27 @@ flags:
 playable_unit: false
 spawn_rules:
   densita: low
-vc: {}
+vc:
+  aggro: 0.5
+  risk: 0.5
+  cohesion: 0.4
+  setup: 0.4
+  explore: 0.8
+  tilt: 0.3
 balance:
+  rarity: R2
+  threat_tier: T1
   encounter_role: ambient
+genetic_traits:
+  core:
+  - artigli_sette_vie
+  - aculei_velenosi
+  - zampe_a_molla
+  optional:
+  - antenne_eco_turbina
+  - criostasi_adattiva
+  synergy:
+  - focus_frazionato
 environment_affinity: {}
 derived_from_environment: {}
 receipt:

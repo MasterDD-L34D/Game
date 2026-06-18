@@ -40,7 +40,23 @@ nodes:
     display_name_it: "Detrito"
     display_name_en: "Detritus"
     kind: resource
+  - id: nebulocornis-mollis
+    node_id: nebulocornis-mollis
+    legacy_slug: nebulocornis_mollis
+    display_name_it: "Cervo di Nebbia"
+    display_name_en: "Mist Deer"
+    kind: species
+  - id: arboryxis-lenis
+    node_id: arboryxis-lenis
+    legacy_slug: arboryxis_lenis
+    display_name_it: "Vagabondo della Volta"
+    display_name_en: "Canopy Wanderer"
+    kind: species
 edges:
   - {from: produttori_base, to: HERB_CERVO, type: herbivory}
   - {from: HERB_CERVO, to: PRED_LUPO, type: predation}
   - {from: detrito, to: DECO_FUNGO, type: detritus}
+  - {from: produttori_base, to: nebulocornis-mollis, type: herbivory}
+  - {from: nebulocornis-mollis, to: PRED_LUPO, type: predation}
+  - {from: produttori_base, to: arboryxis-lenis, type: grazing}
+  - {from: arboryxis-lenis, to: PRED_LUPO, type: predation}
