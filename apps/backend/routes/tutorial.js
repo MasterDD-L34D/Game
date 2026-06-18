@@ -39,6 +39,10 @@ const {
   BADLANDS_AMBIENT_SCENARIO_01,
   buildBadlandsAmbientUnits01,
 } = require('../services/worldgen/badlandsPilotScenario');
+const {
+  FORESTA_PILOT_SCENARIO_01,
+  buildForestaPilotUnits01,
+} = require('../services/worldgen/forestaPilotScenario');
 
 // Optional briefing variation: when ?variant_seed=N is passed, swap the
 // hardcoded briefing_pre/post with a YAML-pack variant (tutorial_briefings.yaml).
@@ -178,6 +182,15 @@ function createTutorialRouter() {
       units: buildBadlandsAmbientUnits01(),
       usage:
         'POST units + modulation="quartet". S1 ambient (rubrospina-velox + ferriscroba-detrita). Designed-winnable, winnable-floor [0.70,1.00] (NOT a balance-oracle).',
+    });
+  });
+
+  router.get('/enc_foresta_pilot_01', (_req, res) => {
+    res.json({
+      ...FORESTA_PILOT_SCENARIO_01,
+      units: buildForestaPilotUnits01(),
+      usage:
+        'POST units + modulation="quartet". S2 foresta pilot (lupus-temperatus apex + evento T4 + the 2 #2850 grazers + blight/sentinella). Band [0.40,0.60] (RATIFIED N=100 WR 0.50).',
     });
   });
 
