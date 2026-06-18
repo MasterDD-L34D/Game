@@ -428,6 +428,11 @@ function renderSpecieDetail(el, id) {
       const sections = ALIENA_DIM_ORDER.filter((k) => dims[k])
         .map((k) => renderDimSection(dims[k]))
         .join('');
+      // HA5 -- diegetic presence descriptor (server-derived; never a raw score).
+      const descriptor = r.data.presence_descriptor;
+      const descriptorBadge = descriptor
+        ? `<span class="codex-presence-badge">${escHtml(descriptor)}</span>`
+        : '';
       el.innerHTML = `
         <div class="codex-actions-row">
           <button class="codex-btn" id="codex-specie-back">← Bestiario</button>
@@ -436,6 +441,7 @@ function renderSpecieDetail(el, id) {
           <div class="codex-specie-detail-head">
             <strong class="codex-specie-title">${escHtml(entry.display_name_it)}</strong>
             <span class="codex-specie-en">${escHtml(entry.display_name_en || '')}</span>
+            ${descriptorBadge}
             <div class="codex-specie-subtitle">${escHtml(entry.subtitle_it || '')}</div>
           </div>
           ${sections}

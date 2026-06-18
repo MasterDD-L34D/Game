@@ -41,6 +41,32 @@ test('GET /api/v1/codex/entries lists codex entry summaries', async () => {
   }
 });
 
+// HA5 (sez.7/8): the Codex surfaces a DIEGETIC presence descriptor derived from a
+// codex-native coherence proxy. The descriptor is public; the raw proxy stays
+// secret (never serialized). Bands ratified 2026-06-18.
+const VALID_DESCRIPTORS = ['specie endemica', 'presenza adattata', 'presenza inattesa'];
+
+test('codex list + detail carry an HA5 presence_descriptor (diegetic, never the raw number)', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const list = await request(app).get('/api/v1/codex/entries').expect(200);
+    const dune = list.body.entries.find((e) => e.id === 'dune_stalker');
+    assert.ok(VALID_DESCRIPTORS.includes(dune.presence_descriptor), 'list descriptor is diegetic');
+    // dune_stalker is a richly authored, well-grounded entry -> endemic.
+    assert.equal(dune.presence_descriptor, 'specie endemica');
+
+    const detail = await request(app).get('/api/v1/codex/entries/dune_stalker').expect(200);
+    assert.equal(detail.body.presence_descriptor, 'specie endemica');
+    // The raw proxy must NOT leak: no numeric coherence field on the response.
+    const blob = JSON.stringify(list.body) + JSON.stringify(detail.body);
+    for (const secret of ['aggregate', 'sub_scores', 'coherence', 'enforcement_factor']) {
+      assert.ok(!blob.includes(secret), `secret '${secret}' must not be serialized`);
+    }
+  } finally {
+    await close();
+  }
+});
+
 test('GET /api/v1/codex/entries/:id returns the full 6-dim A.L.I.E.N.A. entry', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {

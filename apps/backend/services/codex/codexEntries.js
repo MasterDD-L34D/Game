@@ -19,6 +19,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
+const { ALIENA_WEIGHTS } = require('../authorial/alienaCoherence');
 
 // The 6 canonical A.L.I.E.N.A. dimensions (authoring gate + Codex share these).
 const ALIENA_DIMENSION_KEYS = [
@@ -29,6 +30,75 @@ const ALIENA_DIMENSION_KEYS = [
   'N_norme_socio',
   'A_ancoraggio_narrativo',
 ];
+
+// HA5 (sez.7, ratified 2026-06-08 = B): the Codex surfaces a DIEGETIC qualitative
+// descriptor derived from a coherence assessment -- never the raw number (sez.8
+// `secret`). The runtime scorer (alienaCoherence.js) operates on combat
+// spawn-pool vs ecosystem-biome pairs, which do NOT align with a browse-time
+// codex species in its narrative home biome (the canonical biomes carry no
+// role_templates / species roster). So HA5 derives a codex-NATIVE coherence
+// proxy from the entry's own authored 6-dim data, reusing the method's frozen
+// 3-dim weights (plausibilita .4 / coerenza_eco .4 / ancoraggio .2). This
+// measures AUTHORING coherence -- the right lens for a Codex. The raw proxy
+// stays internal; only the band descriptor is surfaced. Bands ratified
+// 2026-06-18 (master-dd): >=0.66 endemica / >=0.33 adattata / else inattesa.
+const PRESENCE_BANDS = [
+  { min: 0.66, descriptor: 'specie endemica' },
+  { min: 0.33, descriptor: 'presenza adattata' },
+  { min: 0, descriptor: 'presenza inattesa' },
+];
+
+function _dimContent(dims, key) {
+  const d = dims[key];
+  return d && typeof d.content === 'string' ? d.content.trim() : '';
+}
+
+function _dimHasCrossRef(dims, key) {
+  const d = dims[key];
+  return Boolean(d && Array.isArray(d.cross_ref) && d.cross_ref.length);
+}
+
+// Codex-native 3-dim coherence proxy in [0,1]. INTERNAL -- never serialized.
+function _coherenceProxy(entry) {
+  const dims = (entry && entry.aliena_dimensions) || {};
+
+  // ancoraggio (.2): does A_ancoraggio carry a narrative hook? (mirror of the
+  // scorer's _scoreAncoraggioNarrativo: hook -> 1.0, content-only -> 0.5).
+  const anc = dims.A_ancoraggio_narrativo || {};
+  const hasHook = Boolean(
+    anc.story_hook_it || anc.lore_seed_it || anc.sistema_relation || anc.theme_it,
+  );
+  const n = _dimContent(dims, 'A_ancoraggio_narrativo') ? (hasHook ? 1.0 : 0.5) : 0;
+
+  // plausibilita (.4): a declared home habitat consistent with a biome cross_ref.
+  const eco = dims.E_ecologia || {};
+  const habitat = eco.habitat_primary;
+  const habitatGrounded =
+    _dimHasCrossRef(dims, 'E_ecologia') || _dimHasCrossRef(dims, 'A_ambiente');
+  let p = 0;
+  if (habitat && habitatGrounded) p = 1.0;
+  else if (habitat) p = 0.5;
+
+  // coerenza_eco (.4): the bio-eco-morpho dimensions are grounded + cross-linked.
+  const ecoDims = ['E_ecologia', 'I_impianto', 'L_linee_evolutive'];
+  const grounded = ecoDims.filter((k) => _dimContent(dims, k) && _dimHasCrossRef(dims, k)).length;
+  const e = grounded / ecoDims.length;
+
+  return (
+    p * ALIENA_WEIGHTS.plausibilita +
+    e * ALIENA_WEIGHTS.coerenza_eco +
+    n * ALIENA_WEIGHTS.ancoraggio_narrativo
+  );
+}
+
+// HA5 diegetic descriptor (PUBLIC). The raw proxy value stays secret.
+function presenceDescriptor(entry) {
+  const v = _coherenceProxy(entry);
+  for (const band of PRESENCE_BANDS) {
+    if (v >= band.min) return band.descriptor;
+  }
+  return PRESENCE_BANDS[PRESENCE_BANDS.length - 1].descriptor;
+}
 
 // Worktree vs deployed path candidates (mirror routes/meta.js + services/codex).
 function candidateDirs() {
@@ -73,6 +143,7 @@ function summarize(entry) {
     display_name_it: entry.display_name_it || entry.id,
     display_name_en: entry.display_name_en || '',
     subtitle_it: entry.subtitle_it || '',
+    presence_descriptor: presenceDescriptor(entry),
     unlock: {
       triggers: Array.isArray(unlock.triggers) ? unlock.triggers : [],
       threshold: Number.isFinite(unlock.threshold) ? unlock.threshold : 1,
@@ -99,5 +170,6 @@ module.exports = {
   loadCodexEntries,
   listCodexEntries,
   getCodexEntry,
+  presenceDescriptor,
   _resetCache,
 };
