@@ -1498,6 +1498,122 @@ canvas#grid:hover {
   opacity: 0.9;
 }
 
+/* SPEC-H — Specie tab (A.L.I.E.N.A. 6-dim diegetic Codex). */
+.codex-specie-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.codex-specie-row {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 111, 176, 0.25);
+  background: rgba(139, 111, 176, 0.06);
+}
+.codex-specie-row.unlocked {
+  cursor: pointer;
+  border-color: rgba(120, 180, 140, 0.4);
+}
+.codex-specie-row.unlocked:hover {
+  background: rgba(120, 180, 140, 0.12);
+}
+.codex-specie-row.locked {
+  opacity: 0.7;
+}
+.codex-specie-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.codex-specie-name {
+  font-size: 0.98em;
+}
+.codex-specie-type {
+  font-size: 0.78em;
+  opacity: 0.7;
+  font-weight: normal;
+}
+.codex-specie-sub,
+.codex-specie-hint {
+  font-size: 0.82em;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+.codex-specie-hint {
+  font-style: italic;
+}
+.codex-specie-detail-head {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(139, 111, 176, 0.25);
+}
+.codex-specie-title {
+  font-size: 1.15em;
+}
+.codex-specie-en {
+  font-size: 0.85em;
+  opacity: 0.7;
+  margin-left: 6px;
+}
+.codex-specie-subtitle {
+  font-size: 0.82em;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+.codex-dim {
+  margin: 6px 0;
+  border: 1px solid rgba(139, 111, 176, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.codex-dim-heading {
+  cursor: pointer;
+  padding: 8px 10px;
+  font-weight: bold;
+  background: rgba(139, 111, 176, 0.1);
+  user-select: none;
+}
+.codex-dim-body {
+  padding: 8px 10px;
+}
+.codex-dim-content {
+  margin: 0 0 6px;
+  line-height: 1.45;
+}
+.codex-dim-facts {
+  margin: 6px 0;
+  padding-left: 18px;
+  font-size: 0.86em;
+}
+.codex-dim-facts li {
+  margin: 2px 0;
+}
+.codex-dim-impact {
+  margin-top: 6px;
+  padding: 6px 8px;
+  font-size: 0.84em;
+  border-left: 2px solid #8b6fb0;
+  background: rgba(139, 111, 176, 0.08);
+}
+.codex-skiv-note {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px dashed rgba(200, 170, 120, 0.45);
+  background: rgba(200, 170, 120, 0.08);
+}
+.codex-skiv-text {
+  font-style: italic;
+  line-height: 1.5;
+  color: #e8d4b8;
+}
+.codex-skiv-redraw {
+  margin-top: 8px;
+}
+
 /* Bundle B.2 — Undo button (TBW Tactical Breach Wizards pattern). */
 .undo-btn {
   background: #4a3a5a !important;
