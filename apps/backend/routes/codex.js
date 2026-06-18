@@ -23,6 +23,7 @@
 const { Router } = require('express');
 const tunic = require('../services/codex/tunicGlyphs');
 const codexState = require('../services/codex/codexState');
+const codexEntries = require('../services/codex/codexEntries');
 
 function createCodexRouter() {
   const router = Router();
@@ -110,6 +111,26 @@ function createCodexRouter() {
       newly_added: added,
       content: page.content_clear || '',
     });
+  });
+
+  // ─── A.L.I.E.N.A. 6-dim Codex entries (SPEC-H sez.7) ─────────────────────
+  //
+  // Diegetic Codex content from data/codex/{id}.yaml. PUBLIC lore only: the
+  // coherence SCORE is `secret` (SPEC-H sez.8) and is NOT stored in these files,
+  // so nothing secret is served. Unlock-state is client-side (localStorage); the
+  // list carries unlock METADATA (triggers / locked_preview) for the obscured
+  // sidebar, not per-player progress.
+  router.get('/v1/codex/entries', (_req, res) => {
+    const entries = codexEntries.listCodexEntries();
+    res.json({ entries, total: entries.length });
+  });
+
+  router.get('/v1/codex/entries/:id', (req, res) => {
+    const entry = codexEntries.getCodexEntry(String(req.params.id));
+    if (!entry) {
+      return res.status(404).json({ error: `codex entry '${req.params.id}' non trovata` });
+    }
+    res.json({ entry });
   });
 
   return router;
