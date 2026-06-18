@@ -126,15 +126,54 @@ const PUBLIC_ENTRY_KEYS = [
   'synergies',
 ];
 
-// Project an entry to the public allowlist + deep-clone, so the served object
-// (a) carries no unrecognized field and (b) cannot mutate the process-wide cache.
+// The top-level allowlist keeps PUBLIC containers (aliena_dimensions, variants...)
+// whole, so a secret embedded under a NESTED key (e.g. aliena_dimensions.
+// E_ecologia.coherence) would still serialize (Codex P2 on #2839). This is the
+// exact-match set of the scorer's secret field names (alienaCoherence.js sub_scores
+// + sez.8 enforcement signals); scrubbed at ANY depth. Exact match -> the dimension
+// keys A_ancoraggio_narrativo / E_ecologia are NOT touched (distinct from the
+// sub-score names ancoraggio_narrativo / coerenza_eco).
+const SECRET_KEYS = new Set([
+  'aggregate',
+  'sub_scores',
+  'coherence',
+  'enforcement_factor',
+  '_aliena_enforcement',
+  'plausibilita',
+  'coerenza_eco',
+  'ancoraggio_narrativo',
+  'strength',
+]);
+
+// Recursively delete any secret-named key at any depth (in place, on the clone).
+function _scrubSecrets(node) {
+  if (Array.isArray(node)) {
+    for (const item of node) _scrubSecrets(item);
+    return;
+  }
+  if (node && typeof node === 'object') {
+    for (const k of Object.keys(node)) {
+      if (SECRET_KEYS.has(k)) {
+        delete node[k];
+        continue;
+      }
+      _scrubSecrets(node[k]);
+    }
+  }
+}
+
+// Project an entry to the public allowlist + deep-clone + recursive secret scrub,
+// so the served object (a) carries no unrecognized TOP-LEVEL field, (b) carries no
+// secret-named field at ANY depth, and (c) cannot mutate the process-wide cache.
 function projectPublicEntry(entry) {
   if (!entry || typeof entry !== 'object') return entry;
   const out = {};
   for (const k of PUBLIC_ENTRY_KEYS) {
     if (k in entry) out[k] = entry[k];
   }
-  return structuredClone(out);
+  const cloned = structuredClone(out);
+  _scrubSecrets(cloned);
+  return cloned;
 }
 
 // Worktree vs deployed path candidates (mirror routes/meta.js + services/codex).
@@ -227,5 +266,6 @@ module.exports = {
   listCodexEntries,
   getCodexEntry,
   presenceDescriptor,
+  projectPublicEntry,
   _resetCache,
 };

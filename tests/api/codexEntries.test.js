@@ -148,3 +148,47 @@ test('codex entries never leak a coherence score (SPEC-H sez.8 secret)', async (
     await close();
   }
 });
+
+// 2026-06-18 audit follow-up (Codex P2 on #2839): the top-level allowlist keeps
+// PUBLIC containers whole, so a secret under a NESTED key would still serialize.
+// projectPublicEntry now scrubs secret-named keys at ANY depth.
+test('projectPublicEntry drops top-level unknown AND nested secret-named keys', () => {
+  const { projectPublicEntry } = require('../../apps/backend/services/codex/codexEntries');
+  const crafted = {
+    id: 'x_test',
+    type: 'species',
+    display_name_it: 'Test',
+    alien_fit: 0.9, // top-level unknown -> dropped by allowlist
+    aliena_dimensions: {
+      E_ecologia: {
+        heading: 'Ecologia',
+        content: 'public lore',
+        coherence: 0.8, // NESTED secret -> dropped by scrub
+        sub_scores: { plausibilita: 1 }, // nested secret container -> dropped
+      },
+      A_ancoraggio_narrativo: { heading: 'Anc', content: 'lore', story_hook_it: 'h' },
+    },
+  };
+  const projected = projectPublicEntry(crafted);
+  const blob = JSON.stringify(projected);
+  assert.equal(projected.alien_fit, undefined, 'top-level unknown dropped');
+  assert.equal(
+    projected.aliena_dimensions.E_ecologia.coherence,
+    undefined,
+    'nested coherence scrubbed',
+  );
+  assert.equal(
+    projected.aliena_dimensions.E_ecologia.sub_scores,
+    undefined,
+    'nested sub_scores scrubbed',
+  );
+  for (const secret of ['alien_fit', 'coherence', 'sub_scores', 'plausibilita']) {
+    assert.ok(!blob.includes(secret), `secret '${secret}' must not survive projection`);
+  }
+  // public content survives + the dimension key A_ancoraggio_narrativo is NOT scrubbed.
+  assert.equal(projected.aliena_dimensions.E_ecologia.content, 'public lore');
+  assert.ok(
+    projected.aliena_dimensions.A_ancoraggio_narrativo,
+    'dimension key preserved (exact-match scrub)',
+  );
+});
