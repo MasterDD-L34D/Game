@@ -382,9 +382,7 @@ describe('e2e: real canon vs committed baseline (CI gate)', () => {
     };
     const { newViolations } = partitionByBaseline(runRules(index), []);
     assert.ok(
-      newViolations.some(
-        (v) => v.rule === 'ecosystem-roster-parity' && v.ref === '__nc_ghost__',
-      ),
+      newViolations.some((v) => v.rule === 'ecosystem-roster-parity' && v.ref === '__nc_ghost__'),
       'gate must detect an injected ecosystem roster mismatch (not vacuous)',
     );
   });
