@@ -108,6 +108,11 @@ jobs:
               # skipped stack-quality, allowing schema regressions to slip
               # (e.g. on_hit_status.status_id enum violation in #2223).
               - 'data/core/**/*.yaml'
+              # 2026-06-18 audit — same blind spot for the SPEC-H HA2 codex
+              # authoring-gate (validate_codex_aliena via tests/codex/*, run in
+              # test:api). A codex-only edit matched 'data' (-> dataset-checks)
+              # but not 'stack', so the authoring gate it polices never ran.
+              - 'data/codex/**/*.yaml'
               - 'packs/**/*.yaml'
               - 'packages/contracts/schemas/**'
               # OD-038 — sim bridge JS must hit stack-quality (Prettier).
