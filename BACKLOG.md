@@ -45,9 +45,12 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   `N_norme_socio`/`A_ancoraggio_narrativo`) + i campi runtime-read; HARD su presenza, SOFT su
   rubrica (HA2 ibrido). 🔴 location-decision: `codex.schema.json` in `packages/contracts`
   (FORBIDDEN-PATH = master-dd) vs validator in `tools/py` -- da decidere prima del build.
-- **Codex 6-dim surface** — `apps/play/src/codexPanel.js` oggi TUNIC-glyph; renderizzare le 6
-  dimensioni (content `public`) + unlock QBN + proxy diegetico HA5 (descrittore qualitativo,
-  MAI score grezzo). Gate-5 player-visible.
+- **Codex 6-dim surface** — **DONE 2026-06-18** (e2e): backend `GET /api/v1/codex/entries`
+  (#2828 `fc4418da`, secret-leak guarded) + frontend "Specie" tab `apps/play/src/codexPanel.js`
+  (#2829 `ef45b035`, 6-dim accordion diegetico + Skiv footer + localStorage unlock) + unlock
+  through play (#2830 `0f6b29ab`, `encounter_completed` -> `markCodexEntrySeen`). RESIDUO:
+  proxy diegetico HA5 (descrittore qualitativo da score = **design-call band-cutoff master-dd**),
+  biome-aware Skiv pool, `species.yaml` fallback per entry senza codex yaml.
 - **HA1 flip runtime** — `enabled:true` + `strength` target SOLO post playtest N=40 su
   `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
   `enforcement_factor` nel sample telemetria (sez.4). master-dd.
@@ -64,7 +67,7 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 - **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — PENDING.
 - **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — PENDING.
 - **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
-- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — PENDING (criterio sez.9.5 UNMET).
+- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — IN PROGRESS. Recruit-review slice: Game prereq `GET /meta/npg` gate-enrich (can_recruit/can_mate server-side) MERGED #2826 `3f5ecf21`; Godot recruit-button = chip `task_532a071a` (per-player device, NON-bypass). Residue mating/party-select/principale = SPEC-E slices (party-select eligibility = design-call blocking-rules).
 - **K-05** Next mission quorum — PENDING.
 - **K-06** Wording cleanup ("host drives" residui) — PENDING.
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
