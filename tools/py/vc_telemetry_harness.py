@@ -17,7 +17,10 @@ DERIVABILITY CAVEAT (verified vcScoring.js):
   - TILT returns null in the snapshot path (vcScoring.js:566 -- window-based,
     not snapshot-applicable). The harness collects it defensively; expect 0
     samples, so it ALSO stays heuristic.
-  - Telemetry therefore refines only aggro / risk / setup / explore.
+  - SETUP weights only overwatch_turns/trap_value/cover_before_attack, none of
+    which are in DERIVABLE_RAW_KEYS -> the setup index is always null. Stays
+    heuristic; collected defensively as non-derivable (expect 0 samples).
+  - Telemetry therefore refines only aggro / risk / explore.
 
 Reuses the ratified runner's combat helpers (post/get/health_check/
 plan_player_intents/detect_outcome/load_turn_limit_defeat/MAX_ROUNDS) from
@@ -41,9 +44,13 @@ import time
 
 import batch_calibrate_badlands_ambient_01 as runner
 
-# Telemetry-derivable VC vectors (see module docstring). cohesion + tilt excluded.
-DERIVABLE_INDICES = ["aggro", "risk", "setup", "explore"]
-NON_DERIVABLE_INDICES = ["cohesion", "tilt"]
+# Telemetry-derivable VC vectors (see module docstring). The aggregate INDEX for
+# setup weights only overwatch_turns/trap_value/cover_before_attack -- NONE in
+# DERIVABLE_RAW_KEYS -> setup is non-derivable (joins cohesion/tilt). Keeping it
+# OUT of DERIVABLE_INDICES guarantees a consumer can never auto-overwrite the
+# heuristic setup value from this harness (Codex P2 #2864).
+DERIVABLE_INDICES = ["aggro", "risk", "explore"]
+NON_DERIVABLE_INDICES = ["cohesion", "setup", "tilt"]
 
 SCENARIOS = {
     "badlands_ambient_01": {
@@ -135,12 +142,20 @@ def run_one_vc(host, scenario_id, encounter_class, targets, seed, turn_limit_def
     # Capture vc_per_actor BEFORE /end finalizes (non-destructive GET).
     oc_q = "victory" if outcome == "victory" else outcome
     dstatus, dres = runner.get(f"{host}/api/session/{sid}/debrief?outcome={oc_q}")
-    per_actor = {}
-    if dstatus == 200 and isinstance(dres, dict):
-        per_actor = dres.get("vc_per_actor") or {}
+    per_actor = dres.get("vc_per_actor") if isinstance(dres, dict) else None
 
-    # Cleanup (destructive end).
+    # Cleanup (destructive end) -- done BEFORE any error bail so a telemetry
+    # failure never leaks the session.
     runner.post(f"{host}/api/session/end", {"session_id": sid})
+
+    # Telemetry MUST be present. A non-200 debrief or a null/missing vc_per_actor
+    # (older backend without the field, transient route failure, or a failed
+    # snapshot build) would silently contribute 0 samples while the run still
+    # exits green -- biasing aggregates with n < N or dropping a species. Surface
+    # it as a hard error so the outer loop counts + prints it (Codex P2 #2864).
+    if dstatus != 200 or not isinstance(per_actor, dict):
+        kind = "null" if per_actor is None else type(per_actor).__name__
+        return {"error": f"debrief telemetry unavailable (status={dstatus}, vc_per_actor={kind})"}
 
     samples = {}  # species -> {index -> {"values":[...], "coverage":set}}
     for uid, actor in per_actor.items():
