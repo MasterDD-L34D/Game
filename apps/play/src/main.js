@@ -20,7 +20,12 @@ import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
-import { toggleCodex, setCodexSessionId, setCodexCampaignId } from './codexPanel.js';
+import {
+  toggleCodex,
+  setCodexSessionId,
+  setCodexCampaignId,
+  markCodexEntrySeen,
+} from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
@@ -278,6 +283,21 @@ function redraw() {
       state.endgameShown = true;
       if (outcome === 'victory') sfx.win();
       else sfx.defeat();
+      // SPEC-H — QBN unlock: completing an encounter reveals the Codex entry of
+      // every enemy species faced (trigger `encounter_completed`). Any outcome
+      // counts (you encountered them). markCodexEntrySeen is a no-op for species
+      // without a codex entry, so this is safe for the whole sistema roster.
+      try {
+        const encounteredSpecies = new Set(
+          (state.world.units || [])
+            .filter((u) => u && u.controlled_by === 'sistema')
+            .map((u) => u.species_id || u.species)
+            .filter(Boolean),
+        );
+        encounteredSpecies.forEach((sid) => markCodexEntrySeen(sid, 'encounter_completed'));
+      } catch (err) {
+        console.warn('[codex] unlock-on-encounter', err);
+      }
       // M19 — if coop host, notify server to transition phase → debrief.
       if (lobbyBridge?.isHost && lobbyBridge.session?.code && lobbyBridge.session?.token) {
         const survivors = (state.world.units || [])
@@ -1345,7 +1365,10 @@ async function refresh() {
         round: state.world.round,
         active_id: state.world.active_unit,
         active_unit: state.world.active_unit,
-        phase: lobbyBridge._currentPhase && lobbyBridge._currentPhase !== 'idle' ? lobbyBridge._currentPhase : 'combat',
+        phase:
+          lobbyBridge._currentPhase && lobbyBridge._currentPhase !== 'idle'
+            ? lobbyBridge._currentPhase
+            : 'combat',
         units: state.world.units,
         events: state.world.events,
         pressure: state.world.pressure,
