@@ -129,20 +129,22 @@ const PUBLIC_ENTRY_KEYS = [
 // The top-level allowlist keeps PUBLIC containers (aliena_dimensions, variants...)
 // whole, so a secret embedded under a NESTED key (e.g. aliena_dimensions.
 // E_ecologia.coherence) would still serialize (Codex P2 on #2839). This is the
-// exact-match set of the scorer's secret field names (alienaCoherence.js sub_scores
-// + sez.8 enforcement signals); scrubbed at ANY depth. Exact match -> the dimension
-// keys A_ancoraggio_narrativo / E_ecologia are NOT touched (distinct from the
-// sub-score names ancoraggio_narrativo / coerenza_eco).
+// exact-match set of the scorer's UNAMBIGUOUS container/score keys, scrubbed at
+// ANY depth.
+//
+// Scope (Codex P2 on #2841): only the score CONTAINERS + clearly-score-named keys
+// are listed. The sub-score LEAF names (plausibilita / coerenza_eco /
+// ancoraggio_narrativo) and `strength` are deliberately NOT here: they only ever
+// live under sub_scores / _aliena_enforcement (both removed wholesale), so listing
+// them standalone is redundant AND would drop legit public content (e.g. a synergy
+// `strength` or a creature stat). Exact match also keeps the dimension keys
+// A_ancoraggio_narrativo / E_ecologia untouched.
 const SECRET_KEYS = new Set([
   'aggregate',
   'sub_scores',
   'coherence',
   'enforcement_factor',
   '_aliena_enforcement',
-  'plausibilita',
-  'coerenza_eco',
-  'ancoraggio_narrativo',
-  'strength',
 ]);
 
 // Recursively delete any secret-named key at any depth (in place, on the clone).
