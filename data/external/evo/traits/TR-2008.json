@@ -3,7 +3,7 @@
   "id": "ali_membrana_sonica",
   "label": "Ali Membrana Sonica",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "fattore_mantenimento_energetico": "Basso",
   "tier": "T1",
   "slot": [],
   "sinergie": [
@@ -19,7 +19,6 @@
       },
       "fonte": "env_to_traits",
       "meta": {
-        "expansion": "coverage_q4_2025",
         "notes": "Ali Membrana Sonica ottimizza le operazioni difensivo nelle condizioni di caverna risonante.",
         "tier": "T1"
       }

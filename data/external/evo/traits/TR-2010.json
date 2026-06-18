@@ -3,7 +3,7 @@
   "id": "antenne_dustsense",
   "label": "Antenne Dustsense",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "Basso",
   "tier": "T1",
   "slot": [],
   "sinergie": [
@@ -19,7 +19,6 @@
       },
       "fonte": "env_to_traits",
       "meta": {
-        "expansion": "coverage_q4_2025",
         "notes": "Antenne Dustsense ottimizza le operazioni metabolico nelle condizioni di pianura salina iperarida.",
         "tier": "T1"
       }

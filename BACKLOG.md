@@ -853,6 +853,21 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 
 ## 🟡 Priorità media
 
+### jsonschema shadow removal -- exposed validation follow-ups (2026-06-18)
+
+> **Context**: PR removed the tracked root `jsonschema/` stub (a no-op shim that
+> silently shadowed the real jsonschema across the full pytest suite -- repo-root
+> lands on sys.path during collection, so the stub was imported and cached before
+> any schema test ran, neutralizing ALL JSON-schema validation in CI + local dev).
+> Removal surfaced pre-existing drift. The dominant fix shipped in-PR
+> (`schemas/evo/trait.schema.json` sinergie/conflitti pattern `^TR-\d{4}$` ->
+> canonical slug, matching glossary.json + config/schemas); the rest is tracked
+> below and quarantined as strict (self-clearing) xfail.
+
+- [ ] **TKT-TRAITS-TR200X-METRICS** -- `data/external/evo/traits/TR-2006..2010.json` lack the schema-required `metrics` array (real balance values, cannot be fabricated). Enum + `meta.expansion` already normalized in-PR; only `metrics` remains. Quarantined via `INCOMPLETE_PENDING_METRICS` in `tests/schemas/test_evo_trait_schema.py`. Author the balance metrics, then drop each file from that set (strict xfail self-clears on XPASS).
+- [ ] **TKT-DATATRAITS-ALIASES** -- `data/traits/cognitivo/coscienza_dalveare_diffusa.json` carries a stray `aliases` field rejected by `config/schemas/trait.schema.json` (`additionalProperties:false`). The fix is blocked by a governance contradiction: the `trait_schema_gate` pre-commit hook (ADR-2026-05-29) hard-requires `schema_version: "2.0"`, but the config schema forbids unknown fields and defines no such property -- so no `data/traits` file can satisfy both. Quarantined as strict xfail in `tests/test_trait_template_validator.py`. Reconcile gate-vs-schema, drop the stray `aliases`, then remove the marks. NB the near-duplicate `coscienza_d_alveare_diffusa.json` (canonical slug, = TR-2002) suggests this may be a redundant variant.
+- [ ] **TKT-TRAITVALIDATOR-WIN-ENCODING** -- `tools/py/trait_template_validator.py` crashes with `UnicodeEncodeError` on Windows (cp1252 stdout) when printing a UCUM error containing a non-ASCII char (U+22C5). CI (Linux/utf-8) unaffected; local Windows dev only. Make the validator's stdout utf-8-safe.
+
 ### Audit 2026-05-05 — pre-cutover cleanup tickets
 
 > **Source**: `docs/reports/2026-05-05-repo-audit-static-scan.md` — Phase 3 triage.
