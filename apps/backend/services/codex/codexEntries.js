@@ -132,19 +132,27 @@ const PUBLIC_ENTRY_KEYS = [
 // exact-match set of the scorer's UNAMBIGUOUS container/score keys, scrubbed at
 // ANY depth.
 //
-// Scope (Codex P2 on #2841): only the score CONTAINERS + clearly-score-named keys
-// are listed. The sub-score LEAF names (plausibilita / coerenza_eco /
-// ancoraggio_narrativo) and `strength` are deliberately NOT here: they only ever
-// live under sub_scores / _aliena_enforcement (both removed wholesale), so listing
-// them standalone is redundant AND would drop legit public content (e.g. a synergy
-// `strength` or a creature stat). Exact match also keeps the dimension keys
-// A_ancoraggio_narrativo / E_ecologia untouched.
+// Scope (Codex P2 on #2841 + #2847): the score containers PLUS the score-specific
+// sub-score LEAF names -- but NOT the generic word `strength`.
+//   - Leaf names (plausibilita / coerenza_eco / ancoraggio_narrativo) are kept:
+//     they are scorer terms, never natural public codex content, and a future
+//     entry could place a raw score directly under a dimension
+//     (aliena_dimensions.E_ecologia.plausibilita) -- the HA2 gate does not reject
+//     extra dimension fields, so the scrub is the only guard. Exact match keeps
+//     the DIMENSION keys A_ancoraggio_narrativo / E_ecologia untouched (distinct
+//     from the leaf names ancoraggio_narrativo / coerenza_eco).
+//   - `strength` is NOT scrubbed: it is legit public content (a synergy strength,
+//     a creature stat) and only leaks as part of `_aliena_enforcement`, which is
+//     already removed wholesale.
 const SECRET_KEYS = new Set([
   'aggregate',
   'sub_scores',
   'coherence',
   'enforcement_factor',
   '_aliena_enforcement',
+  'plausibilita',
+  'coerenza_eco',
+  'ancoraggio_narrativo',
 ]);
 
 // Recursively delete any secret-named key at any depth (in place, on the clone).
