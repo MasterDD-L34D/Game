@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/biome.schema.json",
+  "title": "Evo Tactics Biome Catalog (data/core/biomes.yaml)",
+  "$comment": "Phase D / L4 per-entity shape schema for the canonical biome catalog. Validates the per-biome record shape under the `biomes` map; the vc_adapt/mutations/frequencies config sections are permitted (additionalProperties) but not constrained here. Required fields = the set present on ALL current biome records; additionalProperties:true permits per-biome extras (aliases, magnetic_field_strength, future).",
+  "type": "object",
+  "required": ["biomes"],
+  "properties": {
+    "biomes": {
+      "type": "object",
+      "description": "Map keyed by biome id; each value is a biome record.",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "legacy_slug",
+          "biome_class",
+          "display_name_it",
+          "display_name_en",
+          "label",
+          "summary",
+          "diff_base",
+          "mod_biome",
+          "affixes",
+          "hazard",
+          "npc_archetypes",
+          "stresswave",
+          "narrative"
+        ],
+        "properties": {
+          "legacy_slug": { "type": "string" },
+          "biome_class": { "type": "string" },
+          "display_name_it": { "type": "string" },
+          "display_name_en": { "type": "string" },
+          "label": { "type": "string" },
+          "summary": { "type": "string" },
+          "diff_base": { "type": "number" },
+          "mod_biome": { "type": "number" },
+          "affixes": { "type": "array", "items": { "type": "string" } },
+          "aliases": { "type": "array", "items": { "type": "string" } },
+          "magnetic_field_strength": { "type": "number", "minimum": 0, "maximum": 1 },
+          "hazard": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "severity": { "type": "string" },
+              "stress_modifiers": { "type": "object" }
+            },
+            "additionalProperties": true
+          },
+          "npc_archetypes": { "type": "object", "additionalProperties": true },
+          "stresswave": {
+            "type": "object",
+            "properties": {
+              "baseline": { "type": "number" },
+              "escalation_rate": { "type": "number" },
+              "event_thresholds": { "type": "object" }
+            },
+            "additionalProperties": true
+          },
+          "narrative": { "type": "object", "additionalProperties": true }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

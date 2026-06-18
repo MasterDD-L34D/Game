@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/ecosystem.schema.json",
+  "title": "Evo Tactics Ecosystem (data/ecosystems/*.ecosystem.yaml)",
+  "$comment": "Phase D / L4 per-entity shape schema for the canonical ecosystem files. Required fields = the set present on ALL current ecosystem files; additionalProperties:true permits extras (e.g. links.npg_dir). The trofico roster shape is validated loosely (cross-file roster equivalence is enforced by the ecosystem-roster-parity rule in check-canon-consistency.cjs, not here).",
+  "type": "object",
+  "required": ["schema_version", "receipt", "ecosistema", "links", "rules"],
+  "properties": {
+    "schema_version": { "type": ["number", "string"] },
+    "receipt": { "type": "object", "additionalProperties": true },
+    "ecosistema": {
+      "type": "object",
+      "required": [
+        "id",
+        "biome_id",
+        "label",
+        "clima",
+        "composizione_aria",
+        "abiotico",
+        "trofico",
+        "note"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "biome_id": { "type": "string" },
+        "label": { "type": "string" },
+        "clima": { "type": "object", "additionalProperties": true },
+        "composizione_aria": { "type": "object", "additionalProperties": true },
+        "abiotico": { "type": "object", "additionalProperties": true },
+        "trofico": {
+          "type": "object",
+          "properties": {
+            "produttori": { "type": "array", "items": { "type": "string" } },
+            "consumatori": {
+              "type": "object",
+              "properties": {
+                "primari": { "type": "array", "items": { "type": "string" } },
+                "secondari": { "type": "array", "items": { "type": "string" } },
+                "terziari": { "type": "array", "items": { "type": "string" } }
+              },
+              "additionalProperties": true
+            },
+            "decompositori": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": true
+        },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "links": { "type": "object", "additionalProperties": true },
+    "rules": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": true
+}
