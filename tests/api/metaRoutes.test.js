@@ -26,6 +26,43 @@ test('GET /api/meta/npg returns npcs + nest shape', async () => {
   }
 });
 
+// K-04 (SPEC-K device-authority): /npg must surface the recruit/mating gates
+// per-npc so the Godot phone Nido view reads the server-owned gate instead of
+// recomputing the thresholds client-side (drift risk). Mirrors the can_recruit
+// flag already returned by POST /affinity|/trust.
+test('GET /api/meta/npg enriches each npc with can_recruit + can_mate gates', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    // Seed npc_a so it clears the recruit gate (affinity>=0, trust>=2, !recruited).
+    await request(app)
+      .post('/api/meta/affinity')
+      .send({ npc_id: 'npc_enrich_a', delta: 1 })
+      .expect(200);
+    await request(app)
+      .post('/api/meta/trust')
+      .send({ npc_id: 'npc_enrich_a', delta: 2 })
+      .expect(200);
+    // Seed npc_b below the trust gate (trust 0) -> not recruitable.
+    await request(app)
+      .post('/api/meta/affinity')
+      .send({ npc_id: 'npc_enrich_b', delta: 1 })
+      .expect(200);
+
+    const res = await request(app).get('/api/meta/npg').expect(200);
+    const a = res.body.npcs.find((n) => n.npc_id === 'npc_enrich_a');
+    const b = res.body.npcs.find((n) => n.npc_id === 'npc_enrich_b');
+    assert.ok(a, 'seeded npc_a present in npg list');
+    assert.ok(b, 'seeded npc_b present in npg list');
+    assert.equal(a.can_recruit, true); // affinity 1, trust 2, not recruited
+    assert.equal(a.can_mate, false); // not recruited yet -> mate gate closed
+    assert.equal(b.can_recruit, false); // trust 0 < RECRUIT_TRUST_MIN
+    assert.equal(typeof a.affinity, 'number');
+    assert.equal(typeof a.trust, 'number');
+  } finally {
+    await close();
+  }
+});
+
 test('POST /api/meta/affinity updates + returns can_recruit flag', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {

@@ -35,6 +35,25 @@ const TRUST_MAX = 5;
 
 const MATING_THRESHOLD = 12; // DC base
 
+// K-04 (SPEC-K device-authority): pure recruit/mating gate eval over a plain
+// NPC row + nest state. Keeps the gates in ONE place (the constants above) so
+// they can be surfaced server-side on the /npg list. The Godot phone Nido view
+// used to recompute these gates client-side, duplicating the thresholds
+// verbatim (drift risk on re-tune) -- enriching /npg lets the device read the
+// gate the server owns. Matches the can_recruit flag already returned by
+// POST /affinity|/trust and the canRecruit()/canMate() store methods.
+function evalNpcGates(npc = {}, nest = {}) {
+  const affinity = Number(npc.affinity) || 0;
+  const trust = Number(npc.trust) || 0;
+  const recruited = Boolean(npc.recruited);
+  const mated = Boolean(npc.mated);
+  const cooldown = Number(npc.mating_cooldown) || 0;
+  const nestReady = Boolean(nest && nest.requirements_met);
+  const can_recruit = affinity >= RECRUIT_AFFINITY_MIN && trust >= RECRUIT_TRUST_MIN && !recruited;
+  const can_mate = recruited && trust >= MATING_TRUST_MIN && !mated && cooldown <= 0 && nestReady;
+  return { can_recruit, can_mate };
+}
+
 /**
  * D1: Creates a meta progression tracker for a party/campaign.
  * In-memory state — persist externally if needed.
@@ -1304,3 +1323,6 @@ module.exports.TIER_NO_GLOW = TIER_NO_GLOW;
 module.exports.TIER_GOLD = TIER_GOLD;
 module.exports.TIER_RAINBOW = TIER_RAINBOW;
 module.exports.TIER_VISUAL_HINTS = TIER_VISUAL_HINTS;
+
+// K-04 (SPEC-K) — server-side recruit/mating gate eval for /npg enrichment.
+module.exports.evalNpcGates = evalNpcGates;

@@ -28,6 +28,7 @@ const {
   getTribeForUnit,
   recordOffspring,
   listLineageEntries,
+  evalNpcGates,
 } = require('../services/metaProgression');
 const { addFragments } = require('../services/rewards/skipFragmentStore');
 const { loadEpigenomeConfig, computeSpeciesMean } = require('../services/genetics/epigenome');
@@ -132,7 +133,11 @@ function createMetaRouter(opts = {}) {
   router.get('/npg', async (_req, res, next) => {
     try {
       const [npcs, nest] = await Promise.all([store.listNpcs(), store.getNest()]);
-      res.json({ npcs, nest });
+      // K-04 (SPEC-K device-authority): surface the recruit/mating gates per-npc
+      // so the Godot phone Nido view renders the server-owned gate instead of
+      // recomputing the thresholds client-side. Additive (raw fields preserved).
+      const enriched = (npcs || []).map((npc) => ({ ...npc, ...evalNpcGates(npc, nest) }));
+      res.json({ npcs: enriched, nest });
     } catch (err) {
       next(err);
     }
