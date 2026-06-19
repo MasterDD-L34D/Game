@@ -20,7 +20,7 @@
 ## Index per data (cronologico)
 
 <!-- gen:adr-index -->
-_Generato da `tools/generate_decisions_log.py` (72 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
+_Generato da `tools/generate_decisions_log.py` (73 ADR). NON editare a mano: editi gli ADR in `docs/adr/`._
 
 | Data | ADR | Titolo | Status |
 | --- | --- | --- | --- |
@@ -96,6 +96,7 @@ _Generato da `tools/generate_decisions_log.py` (72 ADR). NON editare a mano: edi
 | 2026-06-07 | [ADR-2026-06-07-device-authority-tv-mirror-canon](docs/adr/ADR-2026-06-07-device-authority-tv-mirror-canon.md) | ADR 2026-06-07 -- Device-authority / TV-mirror canon + reconstruction-suite ratification | Accepted |
 | 2026-06-08 | [ADR-2026-06-08-i18n-unify-data-i18n](docs/adr/ADR-2026-06-08-i18n-unify-data-i18n.md) | ADR 2026-06-08 -- i18n: unificare su data/i18n come sorgente unica (QA3) | Accepted |
 | 2026-06-08 | [ADR-2026-06-08-onboarding-per-creature-trait](docs/adr/ADR-2026-06-08-onboarding-per-creature-trait.md) | ADR 2026-06-08 -- Onboarding: trait per-creatura + branco emergente (supersede 51-ONBOARDING-60S, MA1) | Accepted |
+| 2026-06-19 | [ADR-2026-06-19-taxonomy-authoring-sot-steady-state](docs/adr/ADR-2026-06-19-taxonomy-authoring-sot-steady-state.md) | ADR-2026-06-19 -- taxonomy authoring SoT steady-state (RFC #4 S3 NO-GO) | Accepted |
 <!-- /gen:adr-index -->
 
 ## Index per tag
