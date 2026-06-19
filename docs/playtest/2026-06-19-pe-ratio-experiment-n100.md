@@ -72,3 +72,36 @@ Consequences:
   the multi-oracle experiment for a confirmed selection; derive + ratify the composite
   band into `canonical-suite.yaml` (SDMG, human-ratified per CANONICAL sec 9); then
   flip P4 gate-2/4b + P5 to consume the real composite band.
+
+## Multi-oracle re-run (2026-06-19, instrumentation extended)
+
+The per-run pressure trajectory was extended to the `badlands_elite_01` and
+`foresta_pilot_01` batch modules (mirror hc06). Re-run N=40 seed-pinned, node 22, 3
+oracles -- the pe_ratio is now REAL on all three (no longer 0.0):
+
+| oracle            | win_rate | kd_ratio | pe_ratio | composite |
+| ----------------- | -------- | -------- | -------- | --------- |
+| hardcore_06       | 0.125    | 0.721    | 0.937    | 0.477     |
+| badlands_elite_01 | 0.150    | 0.513    | 0.809    | 0.405     |
+| foresta_pilot_01  | 0.550    | 0.778    | 0.903    | 0.695     |
+
+**Composite band PROPOSED (master-dd ratifies, SDMG):** mean 0.526, range [0.405, 0.695];
+k=2.0 -> **[0.236, 0.815]** (k=1.5 -> [0.309, 0.743]). Not yet written to the manifest.
+
+🔴 **Honest finding -- the PE-from-pressure signal is MARGINAL.** All three ratified
+balance oracles run at HIGH pressure (pe_ratio 0.81-0.94 everywhere), so the candidates
+near-SATURATE even multi-oracle. The |corr| ranking is then noise between near-flat
+candidates and is N-sensitive (B won the contaminated N=100 pool at 0.197; A won this
+clean N=40 pool at 0.092; differences are 0.09-0.24). No robust |corr| winner exists.
+`SELECTED_CANDIDATE` stays **B_time_avg** on a PRINCIPLED basis, not the noisy |corr|:
+B (time-averaged pressure) is the only CONTINUOUS candidate, so it carries real variance,
+whereas A (sustained-threat fraction) pins near 1.0 and C (apex-reach) is binary -- both
+degenerate on high-pressure oracles. Consequence for the composite: because pe_ratio is
+~0.8-0.94 for every in-band oracle, the PE term mostly shifts the composite up uniformly
+and adds little DISCRIMINATION between healthy and unhealthy balance.
+
+**Open for master-dd:** (a) ratify (or reject) the proposed composite band; (b) decide
+whether the marginal pressure-PE signal is worth keeping in the composite as-is, OR switch
+to the design's alternate tension source (turns-to-resolve + dmg_taken "contestedness",
+sec 4.5) which is telemetered on every oracle and may avoid the high-pressure saturation;
+(c) only after (a)+(b) flip P4 gate-2/4b + P5 to consume the real band.

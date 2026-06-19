@@ -66,21 +66,23 @@ def attach_composite_terms(agg, candidate=None):
     return agg
 
 
-# SELECTED (PROVISIONAL) by the PR2 experiment (N=100 seed-pinned, node 22, 2026-06-19).
-# B_time_avg (= pressure_mean_avg/100) chosen BY ELIMINATION: on the only fully
-# instrumented oracle (hc06) A_sustained_threat + C_apex_reach SATURATE (hc06 starts
-# at pressure 75=Critical -> frac_ge75 sd=0.009, apex sd=0.000 = degenerate-flat, the
-# "orthogonal-but-no-signal" failure the design warns of); B is the ONLY candidate
-# carrying trajectory variance (sd=0.024). Every experiment ranked B as the real
-# signal. min|corr| << 0.6 -> pressure is NOT rejected as a PE source.
+# SELECTED (PROVISIONAL) by the PR2 experiment (seed-pinned, node 22, 2026-06-19).
+# B_time_avg (= pressure_mean_avg/100) chosen on a PRINCIPLED basis, NOT the noisy
+# |corr| ranking: on every ratified balance oracle pressure runs HIGH (pe_ratio
+# 0.81-0.94 multi-oracle), so the candidates near-SATURATE and the |corr| ranking is
+# noise between near-flat values (N-sensitive: B@N=100 0.197, A@N=40 0.092). B is the
+# only CONTINUOUS candidate (real variance); A (sustained-threat fraction) pins ~1.0
+# and C (apex-reach) is binary -- both degenerate on high-pressure oracles. min|corr|
+# << 0.6 so pressure is not formally rejected, but the signal is MARGINAL.
 #
-# 🔴 OPEN (master-dd + follow-up): a CLEAN multi-oracle |corr| + the composite BAND
-# are BLOCKED. The per-run pressure-trajectory stats (pressure_mean/frac_ge75/pmax)
-# are emitted ONLY by batch_calibrate_hardcore06.py; the varied-pressure oracles that
-# would break hc06's saturation (badlands_elite / foresta_pilot) emit only
-# pressure_final, and hardcore_07 emits none -> their pe_ratio aggregates to 0.0.
-# Extend that instrumentation to the other oracles, then re-run the experiment for a
-# cross-oracle selection + derive the composite band. Evidence:
+# 🔴 OPEN (master-dd, NOT a blocker for this wiring): the per-run trajectory was
+# extended to badlands_elite + foresta_pilot (PR2b) so pe_ratio is now REAL on all 3
+# oracles (no longer 0.0). The composite BAND is PROPOSED ([0.236, 0.815] at k=2.0,
+# mean 0.526) but NOT written to the manifest (SDMG, human-ratified). Because pe_ratio
+# is ~0.8-0.94 everywhere it adds little DISCRIMINATION -> master-dd may instead switch
+# to the design's alternate tension source (turns-to-resolve + dmg_taken contestedness,
+# sec 4.5), telemetered on every oracle, which avoids the high-pressure saturation.
+# Evidence:
 # docs/playtest/2026-06-19-pe-ratio-experiment-n100.md.
 SELECTED_CANDIDATE = "B_time_avg"
 
