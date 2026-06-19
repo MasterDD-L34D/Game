@@ -66,6 +66,30 @@ SCENARIO_MAP = {
         "encounter_class": "badlands",
         "extra_args": ["--encounter-class", "badlands"],
     },
+    # S1 (2026-06-18): dedicated per-role bands for the #2850 species.
+    "badlands_elite_01": {
+        "script": "batch_calibrate_badlands_elite_01.py",
+        "target_band": (0.15, 0.30),
+        "scenario_id": "enc_badlands_elite_01",
+        "encounter_class": "badlands_elite",
+        "extra_args": ["--encounter-class", "badlands_elite"],
+    },
+    # badlands_ambient_01 = DESIGNED-WINNABLE (not a balance-oracle); band = winnable floor.
+    "badlands_ambient_01": {
+        "script": "batch_calibrate_badlands_ambient_01.py",
+        "target_band": (0.70, 1.00),
+        "scenario_id": "enc_badlands_ambient_01",
+        "encounter_class": "badlands_ambient",
+        "extra_args": ["--encounter-class", "badlands_ambient"],
+    },
+    # S2 (2026-06-18): foresta_temperata adapter pilot (exercises the 2 #2850 grazers).
+    "foresta_pilot_01": {
+        "script": "batch_calibrate_foresta_pilot_01.py",
+        "target_band": (0.40, 0.60),
+        "scenario_id": "enc_foresta_pilot_01",
+        "encounter_class": "foresta_pilot",
+        "extra_args": ["--encounter-class", "foresta_pilot"],
+    },
 }
 
 

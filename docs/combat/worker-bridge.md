@@ -14,7 +14,7 @@ review_cycle_days: 14
 
 > **Runtime status 2026-06-06.** This document predates the Python-to-Node combat migration. Treat implementation paths/tests that reference `services/rules/*`, `resolver.py`, `round_orchestrator.py`, `worker.py`, or old Python pytest commands as historical naming only. Current runtime authority is [combat-canon.md](combat-canon.md), `apps/backend/services/roundOrchestrator.js`, `apps/backend/routes/sessionRoundBridge.js`, `apps/backend/services/abilityExecutor.js`, and `apps/backend/services/combat/*`. Semantic notes may remain useful, but do not open build work from legacy paths without checking current code.
 
-Il rules engine è scritto in Python (`services/rules/resolver.py`, `hydration.py`) ma il backend dell'applicazione è Node (`apps/backend/`). La comunicazione avviene tramite `services/rules/worker.py`, un **worker persistente** che legge messaggi JSON-line da stdin e scrive risposte JSON-line su stdout.
+**[STORICO]** Il rules engine era scritto in Python (`services/rules/resolver.py`, `hydration.py`) e il backend dell'applicazione era Node (`apps/backend/`); la comunicazione avveniva tramite `services/rules/worker.py`, un **worker persistente** che leggeva messaggi JSON-line da stdin e scriveva risposte JSON-line su stdout. Dal 2026-05-05 (ADR-2026-04-19, Phase 3) `services/rules/` e' stato rimosso e l'engine e' migrato a Node nativo (`apps/backend/services/roundOrchestrator.js`, `apps/backend/services/abilityExecutor.js`, `apps/backend/services/combat/*`). Paragrafo conservato come riferimento storico del protocollo (vedi banner sopra).
 
 Il pattern è identico a `services/generation/worker.py` (Flow workstream) per coerenza operativa: ready → heartbeat → response loop → shutdown.
 

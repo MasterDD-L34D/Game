@@ -4072,8 +4072,12 @@ function createSessionRouter(options = {}) {
           ? 'victory'
           : rawOutcome || session.outcome || null;
       let debrief = null;
+      // Hoisted so the per_actor VC vectors survive past the try block. S3
+      // species-calib (#2850) telemetry harness reads vc_per_actor to aggregate
+      // derivable vc vectors (aggro/risk/setup/explore) per enemy unit.
+      let vcSnapshot = null;
       try {
-        const vcSnapshot = buildVcSnapshot(session, telemetryConfig);
+        vcSnapshot = buildVcSnapshot(session, telemetryConfig);
         const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
         const peResult = computeSessionPE(vcSnapshot, {
           difficulty: session.encounter_class || session.difficulty || 'standard',
@@ -4088,7 +4092,16 @@ function createSessionRouter(options = {}) {
       } catch {
         /* vc + debrief are best-effort — never block the read */
       }
-      res.json({ session_id: session.session_id, outcome: normalizedOutcome, debrief });
+      res.json({
+        session_id: session.session_id,
+        outcome: normalizedOutcome,
+        debrief,
+        // #2850 S3: per-enemy-unit VC vectors (keyed by ia_controlled_unit ||
+        // actor_id). null when the snapshot build failed. cohesion + tilt stay
+        // non-derivable from current sim logs (vcScoring.js:15) — only
+        // aggro/risk/setup/explore carry telemetry-derivable values.
+        vc_per_actor: vcSnapshot?.per_actor ?? null,
+      });
     } catch (err) {
       next(err);
     }

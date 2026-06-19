@@ -52,7 +52,8 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   (specie endemica / presenza adattata / presenza inattesa, bande ratificate). Verify-first =
   runtime scorer disallineato (combat pool↔ecosistema, no codex species) -> proxy codex-native
   3-dim su dati authored (master-dd verdict); score resta secret. Residuo minore: biome-aware
-  Skiv pool, `species.yaml` fallback, cross-check species-side runtime-fields (scorer).
+  Skiv pool, `species.yaml` fallback. (Cross-check species-side runtime-fields = resolved as a
+  finding, see "ALIENA ancoraggio dimension" below.)
 - **HA1 flip runtime** — `enabled:true` + `strength` target SOLO post playtest N=40 su
   `enc_badlands_pilot_01` (win-rate in banda + no regressione) + propagazione
   `enforcement_factor` nel sample telemetria (sez.4). master-dd + harness G2. **Unico residuo
@@ -64,8 +65,39 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   entry sbloccabili. Fix = wire dell'encounter savana OPPURE aggiungere `dune_stalker` come nemico
   sistema in una wave (content/balance, master-dd). Il guard namespace (#2851) cattura l'orphan;
   questo gap = reachability del roster, separato.
+- **ALIENA ancoraggio dimension = boost opzionale mai autorato** — verify-first 2026-06-18: lo
+  scorer `services/authorial/alienaCoherence.js` `_scoreAncoraggioNarrativo` legge
+  `entry.narrative_hooks`/`lore_ref`/`narrative_tag` sulle spawn-pool entries, ma quei 3 field
+  NON sono autorati in alcun file (`data/`/`packs/` = 0 occorrenze; compaiono solo nello scorer).
+  Sono boost OPZIONALI (default 0.5 -> 1.0 se presenti) -> oggi ancoraggio e' uniformemente 0.5
+  per ogni specie (irrilevante finche' HA1 flag OFF; quando ON, la dimensione narrativa non
+  varia). Un presence cross-check species-side = rumore (warn su tutte = sono opzionali) o no-op
+  -> **guard prematura**. Azione = decisione content/design (se/dove autorare narrative grounding:
+  `species.yaml`? pool? encounter? + quali specie) PRIMA di una guard mirata (es. solo specie con
+  codex entry). master-dd. NO PR codice (nessun dato da validare).
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
+
+### 🟡 OPEN — SPEC-J permadeath flip readiness (`LETHAL_MISSIONS_ENABLED`, 2026-06-18)
+
+Lethal-wounds backend + Godot consent UI gia' shipped (flag OFF). La **gate-attaccamento
+(precondizione emotiva del permadeath) e' ORA SODDISFATTA**: la creature-dossier story-card e'
+player-visible end-to-end (backend #2856 `07996aea` + Godot GGv2 #494 `442c5b3` / hardening #497
+`679277e`). Signal last30days: permadeath paga solo con attaccamento PRE-costruito -> ora c'e'.
+
+Verdetto master-dd 2026-06-18 = **DEFER**. Il flip resta un push COORDINATO master-dd + G2, NON
+una now-action. Prereq aperti:
+
+- **schema `lethal` field** — assente in `schemas/evo/encounter.schema.json` (buildable nub, ma
+  inerte con flag OFF -> 0 valore now).
+- **>=1 encounter `lethal:true` autorato** — 0 oggi. Content + magnitude (quale biome/difficulty/
+  opt-in vs forced / late-node-only) = design-call master-dd.
+- **lethal-mission N=40 in banda** — mai girato; = harness G2 (per-template orchestrator), NON
+  duplicare. Lethal cambia roster-attrition -> banda+composite-target da definire CON la sessione G2.
+- **flip `LETHAL_MISSIONS_ENABLED=true`** (env keys.env + restart prod, mani master-dd) + verdict
+  scar-transform narrativo-vs-mechanical (SPEC-E) prima del go-live.
+
+Riprendere quando si coordina uno sprint lethal-content + N=40 con G2.
 
 ### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17)
 
@@ -77,7 +109,7 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 - **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — PENDING.
 - **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — PENDING.
 - **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
-- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — IN PROGRESS. Recruit-review slice: Game prereq `GET /meta/npg` gate-enrich (can_recruit/can_mate server-side) MERGED #2826 `3f5ecf21`; Godot recruit-button = chip `task_532a071a` (per-player device, NON-bypass). Residue mating/party-select/principale = SPEC-E slices (party-select eligibility = design-call blocking-rules).
+- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — **DONE e2e 2026-06-18** (cross-repo GGv2): recruit-review prereq `GET /meta/npg` gate-enrich MERGED #2826 `3f5ecf21` -> Godot recruit-button GGv2 **#481 `200ac70`** (+overlay #482) + wound-ritual surface GGv2 **#479 `eac9232`**. `phone_nido_view.gd` ora ha azioni player-facing (criterio sez.9.5 MET). Chip `task_532a071a` consumato. **Residue** = mating / party-select / tri-sorgente / custode = SPEC-E slices (party-select eligibility = design-call blocking-rules). + dossier story-card surface GGv2 #494/#497 (attachment, fuori K-04 stretto).
 - **K-05** Next mission quorum — PENDING.
 - **K-06** Wording cleanup ("host drives" residui) — PENDING.
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
@@ -85,6 +117,14 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 
 Dipendenti gia' flippati che poggiano su questo seam: SPEC-J (consent UI #477) + SPEC-B (visibility).
 Runtime/surface = item-3 Godot, NON blocca il doc-flip (precedent SPEC-I/A/G).
+
+### 🟡 OPEN — G2 calibration N=40 leverage: PE_ratio PR2 + flip sequencing (2026-06-19)
+
+Il G2 per-template calibration harness e' **BUILT + CAPABLE end-to-end** (P1-P5 #2809/#2815/#2817/#2821/#2824 + design #2806 + PE_ratio PR1 #2825). Il collo di bottiglia per i flip N=40 (SPEC-J lethal, SPEC-H HA1) si e' **SPOSTATO** da "harness mancante" a **content + esperimento**. Residui sequenziati (SINGLE OWNER per evitare la collision SPEC-J/SPEC-H che reclamano entrambi "via G2"):
+
+- **PE_ratio experiment PR2** (autonomo, backend-dependent) — PR1 #2825 ha shipped harness + candidate-formule A/B/C only; l'esperimento NON e' girato. Run su **node 22** -> seleziona la formula a `|corr|` minimo -> deriva la banda empirica -> wira `pe_ratio` + `kd_ratio` normalizzato nell'aggregate batch. **Gating-prereq**: il `composite_metric` di `canonical-suite.yaml` e' INERTE finche' non gira -> auto-ratify gate-2 fail-closed su composite None.
+- **N=40 sequencing (SINGLE OWNER)** — un solo ticket: PE_ratio PR2 -> autora 1 scenario lethal/HA1 (content, design-call master-dd: biome/roster/banda-attrition) -> run N=40 ATTRAVERSO l'orchestrator G2 (`enc_badlands_pilot_01`), NON un path N=40 parallelo -> risolvi band+composite-target. Sblocca i flip SPEC-J `LETHAL_MISSIONS_ENABLED` (#2865 DEFER) + SPEC-H HA1.
+- **auto-ratify prod-write activation** — oggi UNREACHABLE by-design; attivazione gated su (a) PE_ratio emission, (b) baseline node-22 seed-pinned per gate-3, (c) harsh-review SDMG + master-dd prima dei flag `--auto-ratify`/`--confirm-prod` live.
 
 ### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 
