@@ -123,6 +123,7 @@ class CoopOrchestrator {
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
+    this.missionReadyVotes = new Map(); // player_id → {ready,ts} (SPEC-K K-05 nido next-mission quorum)
     // S22-B -- per-player mating pair vote { player_id -> { pair_id, ts } }.
     this.matingVotes = new Map();
     // GAP-C fase-3 -- per-player meta-network route vote { player_id ->
@@ -284,6 +285,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
     this.routeVotes.clear();
@@ -329,6 +331,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
     this.routeVotes.clear();
@@ -1222,6 +1225,61 @@ class CoopOrchestrator {
   }
 
   /**
+   * SPEC-K K-05 — Nido next-mission readiness QUORUM (device-authority). Each
+   * connected player marks ready on their OWN device instead of the host gating
+   * the start; `startMissionFromNido()` stays as the host anti-deadlock fallback.
+   * Mirrors voteWorld/worldTally. Phase must be 'nido'. Idempotent re-mark.
+   *
+   * @param playerId
+   * @param ready — true (ready to leave) | false (retracts)
+   * @returns missionReadyTally
+   */
+  markMissionReady(playerId, { ready = true, allPlayerIds = [], connectedPlayerIds } = {}) {
+    if (this.phase !== 'nido') throw new Error('not_in_nido');
+    if (!playerId) throw new Error('player_id_required');
+    this.missionReadyVotes.set(playerId, { ready: Boolean(ready), ts: this.now() });
+    this._emit('mission_ready', { player_id: playerId, ready: Boolean(ready) });
+    return this.missionReadyTally(allPlayerIds, connectedPlayerIds);
+  }
+
+  /**
+   * SPEC-K K-05 — readiness tally. `all_connected_ready` is the device-authority
+   * advance signal (every connected player marked ready). Mirror of worldTally:
+   * `connectedPlayerIds` omitted -> connected_* fields absent (legacy callers).
+   */
+  missionReadyTally(allPlayerIds = [], connectedPlayerIds) {
+    let ready = 0;
+    const perPlayer = {};
+    for (const [pid, v] of this.missionReadyVotes.entries()) {
+      if (v.ready) ready += 1;
+      perPlayer[pid] = v;
+    }
+    const cast = this.missionReadyVotes.size;
+    const tally = {
+      ready,
+      total: allPlayerIds.length || cast,
+      pending: Math.max(allPlayerIds.length - cast, 0),
+      per_player: perPlayer,
+    };
+    if (Array.isArray(connectedPlayerIds)) {
+      const connected = connectedPlayerIds.filter(Boolean);
+      const connectedTotal = connected.length;
+      let connectedReady = 0;
+      for (const pid of connected) {
+        const v = this.missionReadyVotes.get(pid);
+        if (v && v.ready) connectedReady += 1;
+      }
+      tally.connected_total = connectedTotal;
+      tally.connected_ready = connectedReady;
+      tally.connected_pending = Math.max(connectedTotal - connectedReady, 0);
+      // Advance signal: every connected player ready (empty set -> false, no
+      // auto-advance with zero participants -- mirrors worldTally).
+      tally.all_connected_ready = connectedTotal > 0 && connectedReady === connectedTotal;
+    }
+    return tally;
+  }
+
+  /**
    * Build the /session/start payload from current characters.
    * Used by M17+ host handler that forwards to existing session route.
    */
@@ -1367,6 +1425,7 @@ class CoopOrchestrator {
     });
     this.debriefChoices.clear();
     this.worldVotes.clear();
+    this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
     this.routeVotes.clear();

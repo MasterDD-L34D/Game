@@ -101,6 +101,17 @@ function createCoopRouter({
         payload: orch.worldTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
     }
+    // SPEC-K K-05 — re-surface the Nido next-mission readiness tally while in the hub
+    // (keeps phones in sync on any coop-state rebroadcast). Mirror of world_tally.
+    if (orch.phase === 'nido') {
+      room.broadcast({
+        type: 'mission_tally',
+        payload: orch.missionReadyTally(
+          quorumPids(room, orch, null),
+          connectedQuorumPids(room, orch),
+        ),
+      });
+    }
     // GAP-C fase-3 — re-surface an open meta-network route choice (phase-agnostic:
     // gated on open candidates, not a PHASES value). Keeps phones in sync on any
     // coop-state rebroadcast while a route vote is in progress.
@@ -244,6 +255,50 @@ function createCoopRouter({
       return res.json({ phase: orch.phase, tally });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_vote_failed' });
+    }
+  });
+
+  // SPEC-K K-05 — Nido next-mission readiness quorum (device-authority). Each
+  // connected player POSTs their ready state; when ALL connected players are ready
+  // the run auto-advances out of the Nido (no host action), mirroring the mating
+  // connected-quorum auto-resolve. The host fallback is /coop/mission/start below.
+  router.post('/coop/mission/ready', (req, res) => {
+    const { code, player_id: playerId, player_token: playerToken, ready = true } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.markMissionReady(playerId, {
+        ready,
+        allPlayerIds: quorumPids(room, orch, playerId),
+        connectedPlayerIds: connectedQuorumPids(room, orch),
+      });
+      let advanced = null;
+      if (tally.all_connected_ready) advanced = orch.advanceScenarioOrEnd();
+      broadcastCoopState(room, orch);
+      return res.json({ phase: orch.phase, tally, advanced });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'mission_ready_failed' });
+    }
+  });
+
+  // SPEC-K K-05 — host anti-deadlock fallback: the host force-starts the next mission
+  // even if not every device marked ready (e.g. an AFK/offline peer).
+  router.post('/coop/mission/start', (req, res) => {
+    const { code, player_id: playerId, player_token: playerToken } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const result = orch.startMissionFromNido(playerId, { hostId: room.hostId });
+      broadcastCoopState(room, orch);
+      return res.json({ phase: orch.phase, advance: result.advance });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'mission_start_failed' });
     }
   });
 
