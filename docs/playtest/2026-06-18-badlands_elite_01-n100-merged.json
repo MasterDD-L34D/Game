@@ -1,6 +1,8 @@
 {
   "scenario": "badlands_elite_01",
   "scenario_id": "enc_badlands_elite_01",
+  "policy_mode": "greedy-only",
+  "oracle_status": "diagnostic -- single-policy (greedy); NOT a multi-policy canonical oracle. Scenario intentionally outside the gated oracle manifest (canonical-suite.yaml); mirrors enc_badlands_pilot_01. Multi-policy band (SoT 1.1/rule 6) applies to gated oracles only.",
   "target_band": [0.15, 0.3],
   "total_n": 100,
   "seed": 424242,

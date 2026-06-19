@@ -60,17 +60,24 @@ NOT in the gated canonical-suite oracle manifest (mirrors the badlands adapter s
 ratified in damage_curves.yaml + this doc, runnable via SCENARIO_MAP, kept OUT of the
 per-PR combat gate.
 
-## Archived measurement (SoT line-122)
+## Archived measurement (greedy-policy diagnostic)
 
-The merged N=100 output is now archived per the AI-playtest SoT contract
-(`docs/process/CANONICAL-AI-PLAYTEST.md` rule 7 -- the win-rate above was
-originally asserted in-table only):
+The merged N=100 output is archived per the AI-playtest SoT contract rule 7
+(`docs/process/CANONICAL-AI-PLAYTEST.md` -- the win-rate above was originally
+asserted in-table only, with no machine-measured `.json`):
 
 - `docs/playtest/2026-06-18-foresta_pilot_01-n100-merged.json`
 
-Re-run 2026-06-19 (node 22.22.3, seed 424242, 4 shards base-port 3410,
+**Single-policy (greedy) -- NOT a multi-policy canonical oracle.** Every run uses
+`policy: greedy`. This adapter pilot is intentionally outside the gated oracle manifest
+(`canonical-suite.yaml`), so it is calibrated greedy-only -- mirroring the ratified
+`enc_badlands_pilot_01` precedent. The multi-policy band requirement (SoT 1.1 / rule 6)
+applies to the gated oracles (hc06/hc07), not to these diagnostics; do NOT treat a
+greedy-only archive as a canonical multi-policy oracle.
+
+Re-run 2026-06-19 (node 22.22.3, seed 424242, greedy policy, 4 shards base-port 3410,
 `tools/py/calibrate_parallel.py`): WR **0.50** (defeat 0.50, timeout 0, kd 3.312)
--- reproduces the merged claim exactly (verdict GREEN, in-band).
+-- reproduces the merged (greedy) claim exactly.
 
 ## vc
 

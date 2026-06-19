@@ -63,19 +63,26 @@ as designed-winnable (tutorial-01-05 category). edm reset to 1.0 (neutral). The
 "calibration" = confirm adapter stats sane (PREDATOR/SUPPORT, no warnings) + the
 encounter stays winnable (floor band [0.70,1.00] for smoke). WR 1.0 N=40 -> winnable.
 
-## Archived measurement (SoT line-122)
+## Archived measurement (greedy-policy diagnostic)
 
-The merged N=100 outputs are now archived per the AI-playtest SoT contract
-(`docs/process/CANONICAL-AI-PLAYTEST.md` rule 7 -- the win-rates above were
-originally asserted in-table only):
+The merged N=100 outputs are archived per the AI-playtest SoT contract rule 7
+(`docs/process/CANONICAL-AI-PLAYTEST.md` -- the win-rates above were originally
+asserted in-table only, with no machine-measured `.json`):
 
 - `docs/playtest/2026-06-18-badlands_elite_01-n100-merged.json` -- elite, edm 1.85
 - `docs/playtest/2026-06-18-badlands_ambient_01-n100-merged.json` -- ambient, edm 1.0
 
-Re-run 2026-06-19 (node 22.22.3, seed 424242, 4 shards base-port 3410,
-`tools/py/calibrate_parallel.py`): elite WR **0.16** (defeat 0.84, kd 1.043),
-ambient WR **1.0** (defeat 0.0) -- both reproduce the merged claims exactly
-(verdict GREEN, in-band). Steep-lever caveat unchanged.
+**Single-policy (greedy) -- NOT a multi-policy canonical oracle.** Every run uses
+`policy: greedy`. These adapter scenarios are intentionally outside the gated oracle
+manifest (`canonical-suite.yaml`), so they are calibrated greedy-only -- mirroring the
+ratified `enc_badlands_pilot_01` precedent (also greedy-only). The multi-policy band
+requirement (SoT 1.1 / rule 6) applies to the gated oracles (hc06/hc07), not to these
+diagnostics; do NOT treat a greedy-only archive as a canonical multi-policy oracle.
+
+Re-run 2026-06-19 (node 22.22.3, seed 424242, greedy policy, 4 shards base-port 3410,
+`tools/py/calibrate_parallel.py`): elite WR **0.16** (defeat 0.84, kd 1.043), ambient
+WR **1.0** (defeat 0.0) -- both reproduce the merged (greedy) claims exactly. Steep-lever
+caveat unchanged.
 
 ## vc
 
