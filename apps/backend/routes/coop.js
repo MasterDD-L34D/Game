@@ -27,6 +27,12 @@ const {
 } = require('../services/coop/vcLedgerReplay');
 const { isDeepStrictEqual } = require('node:util');
 
+// SPEC-K K-02 — co-op world lock-in flag. Default OFF preserves the legacy
+// host-confirm (immediate commit). ON: the host CTA PROPOSES the world and the
+// device quorum auto-commits (host CTA = marked DEV_FALLBACK). Read at call time
+// so tests + ops can toggle without re-instantiating the router.
+const worldConfirmQuorumEnabled = () => process.env.WORLD_CONFIRM_QUORUM_ENABLED === 'true';
+
 function createCoopRouter({
   lobby,
   coopStore,
@@ -261,8 +267,22 @@ function createCoopRouter({
         allPlayerIds: quorumPids(room, orch, playerId),
         connectedPlayerIds: connectedQuorumPids(room, orch),
       });
+      // SPEC-K K-02: if a world is proposed and this vote completes the device
+      // quorum, auto-commit confirmWorld() WITHOUT host action. No-op (null)
+      // when nothing is proposed (legacy path), so this is safe flag-OFF.
+      const auto = orch.tryAutoConfirmWorld({
+        allPlayerIds: quorumPids(room, orch, playerId),
+        connectedPlayerIds: connectedQuorumPids(room, orch),
+      });
       broadcastCoopState(room, orch);
-      return res.json({ phase: orch.phase, tally });
+      const out = { phase: orch.phase, tally };
+      if (auto) {
+        out.world_confirmed = true;
+        out.scenario_id = auto.scenario_id;
+        out.session_start_payload = orch.buildSessionStartPayload();
+        if (auto.enriched_world) Object.assign(out, auto.enriched_world);
+      }
+      return res.json(out);
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_vote_failed' });
     }
@@ -386,16 +406,35 @@ function createCoopRouter({
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    const force = req.body?.force === true;
     try {
-      const result = orch.confirmWorld({
-        scenarioId,
-        biomeId,
-        formAxes,
-        runSeed,
-        trainerCanonical,
-      });
-      broadcastCoopState(room, orch);
-      // Return session-start payload so host can forward to /api/session/start.
+      const params = { scenarioId, biomeId, formAxes, runSeed, trainerCanonical };
+      let result;
+      if (worldConfirmQuorumEnabled()) {
+        // SPEC-K K-02: propose-in-coop. Stashes params + opens the device vote
+        // when there are connected voters; commits immediately for solo/dev or
+        // host force-confirm (anti-deadlock).
+        result = orch.proposeWorld(params, {
+          connectedQuorumPids: connectedQuorumPids(room, orch),
+          force,
+        });
+        broadcastCoopState(room, orch);
+        if (result.committed === false) {
+          // Proposed — awaiting the device quorum (no session start yet).
+          // Versioned event so device phones get an explicit "vote open"
+          // trigger (broadcastCoopState already re-sent world_tally; this is
+          // the named signal the Godot K-02 surface consumes).
+          if (typeof room.publishEvent === 'function') {
+            room.publishEvent('world_proposed', { scenario_id: result.scenario_id });
+          }
+          return res.json({ proposed: true, scenario_id: result.scenario_id, phase: orch.phase });
+        }
+      } else {
+        result = orch.confirmWorld(params);
+        broadcastCoopState(room, orch);
+      }
+      // Committed (legacy OR solo/force). Return session-start payload so host
+      // can forward to /api/session/start.
       const startPayload = orch.buildSessionStartPayload();
       const response = {
         scenario_id: result.scenario_id,
