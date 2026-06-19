@@ -229,7 +229,12 @@ def aggregate_merged(runs, scenario):
     mod = __import__(script_module)
     enc_cls = cfg.get("encounter_class", "hardcore")
     if hasattr(mod, "aggregate"):
-        return mod.aggregate(runs, encounter_class=enc_cls)
+        # PE_ratio PR2: attach the composite terms here so EVERY scenario's metrics
+        # (orchestrator runner reads this) carry kd_ratio + pe_ratio, not just hc06.
+        # Idempotent (hc06's own aggregate already attaches them -> setdefault no-op).
+        from pe_candidates import attach_composite_terms
+
+        return attach_composite_terms(mod.aggregate(runs, encounter_class=enc_cls))
     if hasattr(mod, "summarise"):
         return mod.summarise(runs)
     return {"error": f"no aggregate fn in {script_module}"}
