@@ -150,6 +150,16 @@ function createCoopRouter({
     }
   }
 
+  // SPEC-K K-05 — broadcast a creature_named reveal carried by an advance result
+  // to the whole room (mirror wsSession.broadcastCreatureNamed). No-op when the
+  // advance carries no names. So a Nido-exit name/MBTI reveal reaches every phone,
+  // not only the REST responder.
+  function broadcastCreatureNamedReveal(room, advance) {
+    if (!room || typeof room.broadcast !== 'function') return;
+    const named = advance && Array.isArray(advance.creature_named) ? advance.creature_named : [];
+    if (named.length) room.broadcast({ type: 'creature_named', payload: { named } });
+  }
+
   // 2026-05-20 — readonly diagnostic per onboarding hint (A6 pattern
   // `listStarterBiomas` replicato; gap-fill Explore quick-win discovery).
   // Frontend onboarding HUD può preload role expectation per biome scelto.
@@ -278,6 +288,9 @@ function createCoopRouter({
       let advanced = null;
       if (tally.all_connected_ready) advanced = orch.advanceScenarioOrEnd();
       broadcastCoopState(room, orch);
+      // mirror the WS nido_start_mission path: a name/MBTI reveal carried by the
+      // advance must reach EVERY phone, not just this responder (Codex P2).
+      broadcastCreatureNamedReveal(room, advanced);
       return res.json({ phase: orch.phase, tally, advanced });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'mission_ready_failed' });
@@ -296,6 +309,7 @@ function createCoopRouter({
     try {
       const result = orch.startMissionFromNido(playerId, { hostId: room.hostId });
       broadcastCoopState(room, orch);
+      broadcastCreatureNamedReveal(room, result.advance); // reveal -> every phone (Codex P2)
       return res.json({ phase: orch.phase, advance: result.advance });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'mission_start_failed' });

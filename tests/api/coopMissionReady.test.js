@@ -86,6 +86,19 @@ test('connected_pending counts a ready:false retract as ACTED (not pending)', ()
   assert.equal(t.all_connected_ready, false);
 });
 
+test('a disconnect dropping the last not-ready connected player completes the quorum', () => {
+  // The WS disconnect handler acts on exactly this: re-tally with the shrunk
+  // connected set; all_connected_ready -> auto-advance (Codex P2).
+  const co = nidoOrch();
+  const all = ['p_h', 'p1', 'p2'];
+  co.markMissionReady('p1', { ready: true, allPlayerIds: all, connectedPlayerIds: all });
+  let t = co.markMissionReady('p_h', { ready: true, allPlayerIds: all, connectedPlayerIds: all });
+  assert.equal(t.all_connected_ready, false); // p2 connected + not ready
+  // p2 disconnects -> connected = {p_h, p1}, both ready -> quorum completes
+  t = co.missionReadyTally(all, ['p_h', 'p1']);
+  assert.equal(t.all_connected_ready, true);
+});
+
 test('missionReadyVotes cleared on startRun (mirror worldVotes)', () => {
   const co = nidoOrch();
   co.markMissionReady('p1', { ready: true, allPlayerIds: ['p1'] });
