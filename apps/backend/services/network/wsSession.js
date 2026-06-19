@@ -1076,6 +1076,14 @@ function rebroadcastCoopState(room, orch) {
   if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
     room.broadcast({ type: 'world_tally', payload: orch.worldTally(allIds, connectedIds) });
   }
+  // SPEC-K K-05 — re-surface the Nido readiness tally after a host transfer (mirror
+  // world_tally), so phones keep the correct connected_total/pending.
+  if (orch.phase === 'nido' && typeof orch.missionReadyTally === 'function') {
+    room.broadcast({
+      type: 'mission_tally',
+      payload: orch.missionReadyTally(allIds, connectedIds),
+    });
+  }
   // GAP-C fase-3 — re-surface an open route choice after host transfer (mirror
   // the reconnect snapshot above). Phase-agnostic: gated on open candidates.
   if (
@@ -2249,6 +2257,24 @@ function createWsServer({
               type: 'route_tally',
               payload: orch.routeTally(allPids, connectedPids),
             });
+          }
+          // SPEC-K K-05: a disconnect can COMPLETE the Nido readiness quorum (the
+          // departed peer was the last not-ready connected player). Re-broadcast the
+          // tally; if every REMAINING connected player is ready, auto-advance out of
+          // the Nido + push the reveal (mirror POST /coop/mission/ready). Without
+          // this the run waits forever for a gone player.
+          if (orch && orch.phase === 'nido' && typeof orch.missionReadyTally === 'function') {
+            const allPids = Array.from(room.players.values()).map((p) => p.id);
+            const connectedPids = Array.from(room.players.values())
+              .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+              .map((p) => p.id);
+            const tally = orch.missionReadyTally(allPids, connectedPids);
+            room.broadcast({ type: 'mission_tally', payload: tally });
+            if (tally.all_connected_ready) {
+              const advance = orch.advanceScenarioOrEnd();
+              rebroadcastCoopState(room, orch);
+              broadcastCreatureNamed(room, advance);
+            }
           }
         } catch {
           // swallow -- best-effort re-broadcast.
