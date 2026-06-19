@@ -162,14 +162,20 @@ test('confirmWorld clears any pending proposedWorld', () => {
   assert.equal(co.phase, 'combat');
 });
 
-test('re-propose overwrites the pending proposal; the second params commit', () => {
+test('re-propose clears prior votes; quorum applies to the new proposal only (Codex P2)', () => {
   const co = worldOrch();
   co.proposeWorld({ biomeId: 'foresta' }, { connectedQuorumPids: ['p1'] });
+  // p1 approved proposal A
+  co.voteWorld('p1', { accept: true, allPlayerIds: ['p1'], connectedPlayerIds: ['p1'] });
+  // host changes mind -> re-propose B. p1's accept on A must NOT carry over.
   co.proposeWorld({ biomeId: 'badlands' }, { connectedQuorumPids: ['p1'] });
   assert.equal(co.proposedWorld.biomeId, 'badlands'); // latest wins
+  assert.equal(co.worldVotes.size, 0); // votes reset
+  assert.equal(co.tryAutoConfirmWorld({ allPlayerIds: ['p1'], connectedPlayerIds: ['p1'] }), null); // no auto-commit on the stale vote
+  assert.equal(co.phase, 'world_setup');
+  // p1 re-votes on B -> quorum -> commit
   co.voteWorld('p1', { accept: true, allPlayerIds: ['p1'], connectedPlayerIds: ['p1'] });
-  const r = co.tryAutoConfirmWorld({ allPlayerIds: ['p1'], connectedPlayerIds: ['p1'] });
-  assert.ok(r);
+  assert.ok(co.tryAutoConfirmWorld({ allPlayerIds: ['p1'], connectedPlayerIds: ['p1'] }));
   assert.equal(co.phase, 'combat');
 });
 

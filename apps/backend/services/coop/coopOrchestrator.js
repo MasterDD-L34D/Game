@@ -612,6 +612,10 @@ class CoopOrchestrator {
       return { committed: true, ...this.confirmWorld(params) };
     }
     // co-op: stash proposed params + open the device vote (no phase change).
+    // Codex P2 #2879 — reset prior votes so the quorum applies to THIS proposal
+    // only. Without this, an accept cast against an earlier proposal would carry
+    // over and let a re-proposed (different) world auto-commit without re-vote.
+    this.worldVotes.clear();
     this.proposedWorld = { ...params };
     const sid = params.scenarioId || this.run?.scenarioStack?.[this.run.currentIndex] || null;
     this._emit('world_proposed', { scenario_id: sid, biome_id: params.biomeId || null });
