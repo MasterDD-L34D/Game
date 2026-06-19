@@ -1218,7 +1218,10 @@ class CoopOrchestrator {
    * @returns { phase, advance, run_state }
    */
   startMissionFromNido(playerId, { hostId } = {}) {
-    if (hostId && playerId !== hostId) throw new Error('host_only');
+    // Fail-closed: a null hostId (e.g. a host-transfer gap) must NOT silently
+    // skip the host gate and let any player force-start (coop-phase-validator P2).
+    if (!hostId) throw new Error('no_host');
+    if (playerId !== hostId) throw new Error('host_only');
     if (this.phase !== 'nido') throw new Error('not_in_nido');
     const advance = this.advanceScenarioOrEnd();
     return { phase: this.phase, advance, run_state: this.run };
@@ -1265,13 +1268,17 @@ class CoopOrchestrator {
       const connected = connectedPlayerIds.filter(Boolean);
       const connectedTotal = connected.length;
       let connectedReady = 0;
+      let connectedCast = 0;
       for (const pid of connected) {
         const v = this.missionReadyVotes.get(pid);
-        if (v && v.ready) connectedReady += 1;
+        if (!v) continue;
+        connectedCast += 1; // cast = acted (ready OR retracted), mirror worldTally connectedVoted
+        if (v.ready) connectedReady += 1;
       }
       tally.connected_total = connectedTotal;
       tally.connected_ready = connectedReady;
-      tally.connected_pending = Math.max(connectedTotal - connectedReady, 0);
+      // pending = NOT-yet-acted (a ready:false retract has acted -> not pending).
+      tally.connected_pending = Math.max(connectedTotal - connectedCast, 0);
       // Advance signal: every connected player ready (empty set -> false, no
       // auto-advance with zero participants -- mirrors worldTally).
       tally.all_connected_ready = connectedTotal > 0 && connectedReady === connectedTotal;

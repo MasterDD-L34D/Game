@@ -73,6 +73,19 @@ test('all_connected_ready false with zero connected participants', () => {
   assert.equal(t.all_connected_ready, false);
 });
 
+test('connected_pending counts a ready:false retract as ACTED (not pending)', () => {
+  const co = nidoOrch();
+  const conn = ['p_h', 'p1'];
+  const t = co.markMissionReady('p1', {
+    ready: false,
+    allPlayerIds: conn,
+    connectedPlayerIds: conn,
+  });
+  assert.equal(t.connected_ready, 0);
+  assert.equal(t.connected_pending, 1); // p1 acted (retract) -> only p_h pending, NOT 2
+  assert.equal(t.all_connected_ready, false);
+});
+
 test('missionReadyVotes cleared on startRun (mirror worldVotes)', () => {
   const co = nidoOrch();
   co.markMissionReady('p1', { ready: true, allPlayerIds: ['p1'] });
@@ -119,4 +132,16 @@ test('POST /coop/mission/ready -> 409 run not started', async () => {
     .post('/api/coop/mission/ready')
     .send({ code: h.code, player_id: j.player_id, player_token: j.player_token });
   assert.equal(res.status, 409);
+});
+
+test('POST /coop/mission/start -> 400 host_only for a non-host', async () => {
+  const { app } = buildApp();
+  const { h, j } = await createAndJoin(app);
+  // run started so the orch exists; host gate fires before the phase check.
+  await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+  const res = await request(app)
+    .post('/api/coop/mission/start')
+    .send({ code: h.code, player_id: j.player_id, player_token: j.player_token });
+  assert.equal(res.status, 400);
+  assert.equal(res.body.error, 'host_only');
 });
