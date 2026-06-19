@@ -60,6 +60,18 @@ NOT in the gated canonical-suite oracle manifest (mirrors the badlands adapter s
 ratified in damage_curves.yaml + this doc, runnable via SCENARIO_MAP, kept OUT of the
 per-PR combat gate.
 
+## Archived measurement (SoT line-122)
+
+The merged N=100 output is now archived per the AI-playtest SoT contract
+(`docs/process/CANONICAL-AI-PLAYTEST.md` rule 7 -- the win-rate above was
+originally asserted in-table only):
+
+- `docs/playtest/2026-06-18-foresta_pilot_01-n100-merged.json`
+
+Re-run 2026-06-19 (node 22.22.3, seed 424242, 4 shards base-port 3410,
+`tools/py/calibrate_parallel.py`): WR **0.50** (defeat 0.50, timeout 0, kd 3.312)
+-- reproduces the merged claim exactly (verdict GREEN, in-band).
+
 ## vc
 
 The 2 foresta species carry heuristic vc (S0). Telemetry-driven vc refinement = S3 (deferred).

@@ -1,0 +1,4074 @@
+{
+  "scenario": "foresta_pilot_01",
+  "scenario_id": "enc_foresta_pilot_01",
+  "target_band": [0.4, 0.6],
+  "total_n": 100,
+  "seed": 424242,
+  "shards": 4,
+  "n_per_shard": [25, 25, 25, 25],
+  "hosts": [
+    "http://127.0.0.1:3410",
+    "http://127.0.0.1:3411",
+    "http://127.0.0.1:3412",
+    "http://127.0.0.1:3413"
+  ],
+  "parallel_elapsed_sec": 37.48560357093811,
+  "serial_estimated_sec": 149.94241428375244,
+  "speedup_x": 4,
+  "method": "C-parallel-shards",
+  "method_ref": "docs/research/2026-05-20-calibration-knob-patterns-industry.md",
+  "aggregate": {
+    "N": 100,
+    "encounter_class": "foresta_pilot",
+    "target_bands": {
+      "win_rate": [0.4, 0.6],
+      "defeat_rate": [0.4, 0.7],
+      "timeout_rate": [0.0, 0.15]
+    },
+    "verdict": "GREEN",
+    "verdict_reasons": ["all rates in band"],
+    "win_rate": 0.5,
+    "defeat_rate": 0.5,
+    "timeout_rate": 0.0,
+    "win_count": 50,
+    "loss_count": 50,
+    "timeout_count": 0,
+    "turns_avg": 29.1,
+    "turns_median": 33.0,
+    "turns_stdev": 6.015812497078013,
+    "turns_min": 15,
+    "turns_max": 34,
+    "turns_hist": {
+      "1-5": 0,
+      "6-10": 0,
+      "11-15": 1,
+      "16-20": 15,
+      "21-30": 25,
+      "31-40": 59,
+      "41+": 0
+    },
+    "kd_avg": 3.3125,
+    "kd_median": 3.0,
+    "dmg_dealt_avg": 40.12,
+    "dmg_taken_avg": 21.73,
+    "boss_hp_remaining_avg_on_loss": 0,
+    "players_alive_avg_on_win": 2.5,
+    "ai_intent_distribution": {
+      "High|move": 924,
+      "High|unknown": 203,
+      "High|attack": 385,
+      "Apex|attack": 808,
+      "Apex|move": 2340,
+      "Critical|attack": 124,
+      "Critical|move": 250,
+      "Apex|unknown": 393,
+      "Critical|unknown": 15,
+      "Medium|attack": 7,
+      "Medium|move": 10
+    },
+    "player_action_distribution": {
+      "move": 2673,
+      "unknown": 2115,
+      "attack": 4913
+    },
+    "trait_used_distribution": {
+      "pelle_elastomera": 1172,
+      "scheletro_pneumatico_a_maglie": 891,
+      "membrane_pneumatofori": 891,
+      "status:slow_down": 110,
+      "status:wound": 85
+    }
+  },
+  "runs": [
+    {
+      "run": 0,
+      "seed": 424242,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 21,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 11,
+        "Apex|move": 9,
+        "Critical|attack": 1,
+        "Critical|move": 3,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 20,
+        "attack": 57
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 1,
+      "seed": 424243,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 27,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 11,
+        "Apex|unknown": 7,
+        "Apex|move": 24
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 25,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 2,
+      "seed": 424244,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 7,
+        "Apex|unknown": 5,
+        "Apex|attack": 10
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 17,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 16,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 15,
+        "membrane_pneumatofori": 15
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 3,
+      "seed": 424245,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 33,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 12,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Critical|attack": 2,
+        "Critical|move": 3,
+        "Apex|move": 26,
+        "Apex|attack": 4,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 33,
+        "unknown": 17,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 4,
+      "seed": 424246,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 16,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 5,
+        "Apex|move": 11,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 17,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 5,
+      "seed": 424247,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 20,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 32,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|attack": 12,
+        "Critical|move": 4,
+        "Apex|attack": 6,
+        "Apex|unknown": 2,
+        "Apex|move": 5
+      },
+      "player_action_tally": {
+        "move": 6,
+        "unknown": 7,
+        "attack": 41
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 6,
+      "seed": 424248,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|move": 4,
+        "Apex|move": 40,
+        "Apex|unknown": 3,
+        "Apex|attack": 8
+      },
+      "player_action_tally": {
+        "move": 46,
+        "unknown": 20,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 7,
+      "seed": 424249,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 37,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 13,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|unknown": 4,
+        "Apex|move": 34,
+        "Apex|attack": 7,
+        "Critical|attack": 7,
+        "Critical|move": 22,
+        "Critical|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 13,
+        "unknown": 17,
+        "attack": 61
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 22,
+        "scheletro_pneumatico_a_maglie": 15,
+        "membrane_pneumatofori": 15
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 8,
+      "seed": 424250,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|unknown": 5,
+        "Apex|attack": 4,
+        "Apex|move": 31,
+        "Critical|attack": 1,
+        "Critical|move": 4
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 26,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 9,
+      "seed": 424251,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 7,
+        "Apex|move": 30,
+        "Apex|unknown": 5
+      },
+      "player_action_tally": {
+        "move": 50,
+        "unknown": 31,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 5,
+        "status:wound": 2,
+        "status:slow_down": 1,
+        "scheletro_pneumatico_a_maglie": 3,
+        "membrane_pneumatofori": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 10,
+      "seed": 424252,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Apex|attack": 3,
+        "Apex|unknown": 6,
+        "Apex|move": 33
+      },
+      "player_action_tally": {
+        "move": 50,
+        "unknown": 42,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "status:wound": 1,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:slow_down": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 11,
+      "seed": 424253,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 36,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 3,
+        "Critical|move": 3,
+        "Apex|move": 56,
+        "Apex|attack": 10
+      },
+      "player_action_tally": {
+        "move": 19,
+        "unknown": 19,
+        "attack": 67
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 24,
+        "scheletro_pneumatico_a_maglie": 23,
+        "membrane_pneumatofori": 23,
+        "status:slow_down": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 12,
+      "seed": 424254,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 31,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 35,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|unknown": 1,
+        "Critical|attack": 6,
+        "Critical|move": 7,
+        "Apex|attack": 17,
+        "Apex|move": 39
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 14,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 18,
+        "status:wound": 2,
+        "scheletro_pneumatico_a_maglie": 16,
+        "membrane_pneumatofori": 16,
+        "status:slow_down": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 13,
+      "seed": 424255,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 23,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 3,
+        "High|attack": 2,
+        "Apex|unknown": 7,
+        "Apex|move": 5,
+        "Apex|attack": 8
+      },
+      "player_action_tally": {
+        "move": 17,
+        "unknown": 14,
+        "attack": 57
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 12,
+        "membrane_pneumatofori": 12,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 14,
+      "seed": 424256,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 39,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|unknown": 1,
+        "Critical|move": 3,
+        "Apex|move": 27,
+        "Apex|unknown": 1,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 50,
+        "unknown": 29,
+        "attack": 41
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3,
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 15,
+      "seed": 424257,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 14,
+        "High|unknown": 2,
+        "High|attack": 8,
+        "Apex|attack": 8,
+        "Apex|move": 39,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 12,
+        "unknown": 21,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "status:wound": 2,
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 16,
+      "seed": 424258,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 38,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|unknown": 1,
+        "Critical|move": 2,
+        "Critical|attack": 2,
+        "Apex|move": 6,
+        "Apex|attack": 14,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 8,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:wound": 3,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 17,
+      "seed": 424259,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 33,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Apex|unknown": 5,
+        "Apex|move": 26,
+        "Apex|attack": 9
+      },
+      "player_action_tally": {
+        "move": 33,
+        "unknown": 20,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 18,
+      "seed": 424260,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 2,
+        "Critical|move": 2,
+        "Apex|move": 28,
+        "Apex|unknown": 4,
+        "Apex|attack": 6
+      },
+      "player_action_tally": {
+        "move": 33,
+        "unknown": 25,
+        "attack": 60
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 19,
+      "seed": 424261,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 18,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 16,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 10,
+        "Apex|unknown": 5,
+        "Apex|move": 1
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 12,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "status:wound": 3,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 20,
+      "seed": 424262,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 18,
+      "players_alive": 4,
+      "players_dead": 0,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 8,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 8,
+        "Apex|unknown": 6,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 20,
+        "unknown": 23,
+        "attack": 39
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 7,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 21,
+      "seed": 424263,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 29,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|unknown": 7,
+        "Apex|attack": 18,
+        "Apex|move": 20
+      },
+      "player_action_tally": {
+        "move": 27,
+        "unknown": 23,
+        "attack": 56
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 22,
+      "seed": 424264,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 32,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 14,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Critical|move": 2,
+        "Apex|move": 27,
+        "Apex|unknown": 2,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 19,
+        "unknown": 18,
+        "attack": 63
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 19,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13,
+        "status:wound": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 23,
+      "seed": 424265,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 34,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 20,
+        "Apex|move": 39,
+        "Critical|attack": 1,
+        "Critical|move": 3,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 22,
+        "attack": 55
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 24,
+      "seed": 424266,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 23,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 16,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Apex|unknown": 6,
+        "Apex|move": 23,
+        "Apex|attack": 10
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 14,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 15,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 25,
+      "seed": 424267,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 16,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 7,
+        "Apex|unknown": 7,
+        "Apex|move": 3
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 13,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 26,
+      "seed": 424268,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 19,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 16,
+        "High|unknown": 2,
+        "High|attack": 10,
+        "Apex|unknown": 3,
+        "Apex|move": 8,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 9,
+        "unknown": 10,
+        "attack": 41
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 6,
+        "status:wound": 2,
+        "scheletro_pneumatico_a_maglie": 2,
+        "membrane_pneumatofori": 2,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 27,
+      "seed": 424269,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 4,
+      "players_dead": 0,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 6,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 3,
+        "Apex|move": 11,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 19,
+        "unknown": 18,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 28,
+      "seed": 424270,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 8,
+        "Apex|unknown": 4,
+        "Critical|attack": 1,
+        "Critical|move": 1,
+        "Apex|move": 14
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 31,
+        "attack": 57
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 17,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13,
+        "status:wound": 4,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 29,
+      "seed": 424271,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 24,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 17,
+        "Apex|unknown": 4,
+        "Apex|attack": 8
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 17,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 30,
+      "seed": 424272,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 33,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 28,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Critical|attack": 4,
+        "Critical|move": 7,
+        "Apex|attack": 8,
+        "Apex|move": 27,
+        "Apex|unknown": 4
+      },
+      "player_action_tally": {
+        "move": 34,
+        "unknown": 18,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "status:wound": 4,
+        "pelle_elastomera": 5,
+        "scheletro_pneumatico_a_maglie": 2,
+        "membrane_pneumatofori": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 31,
+      "seed": 424273,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 24,
+        "Apex|unknown": 6,
+        "Apex|attack": 7
+      },
+      "player_action_tally": {
+        "move": 29,
+        "unknown": 21,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "status:slow_down": 1,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 32,
+      "seed": 424274,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 18,
+        "Apex|move": 19,
+        "Apex|unknown": 6
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 29,
+        "attack": 60
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 16,
+        "status:slow_down": 3,
+        "scheletro_pneumatico_a_maglie": 14,
+        "membrane_pneumatofori": 14,
+        "status:wound": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 33,
+      "seed": 424275,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 19,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 30,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 3,
+        "Critical|move": 2,
+        "Apex|attack": 14,
+        "Apex|move": 4,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 8,
+        "unknown": 7,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "status:wound": 1,
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 34,
+      "seed": 424276,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 21,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 6,
+        "Apex|unknown": 7,
+        "Apex|move": 14
+      },
+      "player_action_tally": {
+        "move": 25,
+        "unknown": 16,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 7,
+        "scheletro_pneumatico_a_maglie": 4,
+        "membrane_pneumatofori": 4,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 35,
+      "seed": 424277,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|unknown": 7,
+        "Apex|move": 17,
+        "Apex|attack": 12
+      },
+      "player_action_tally": {
+        "move": 37,
+        "unknown": 28,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "pelle_elastomera": 19,
+        "scheletro_pneumatico_a_maglie": 12,
+        "membrane_pneumatofori": 12,
+        "status:wound": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 36,
+      "seed": 424278,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 36,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 2,
+        "Critical|move": 1,
+        "Apex|move": 49,
+        "Apex|unknown": 3,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 37,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 37,
+      "seed": 424279,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 17,
+        "Apex|move": 28,
+        "Apex|unknown": 2,
+        "Critical|attack": 1,
+        "Critical|move": 13
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 16,
+        "attack": 72
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 32,
+        "scheletro_pneumatico_a_maglie": 22,
+        "membrane_pneumatofori": 22,
+        "status:wound": 6,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 38,
+      "seed": 424280,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|unknown": 5,
+        "Apex|move": 3,
+        "Apex|attack": 9,
+        "Critical|attack": 2,
+        "Critical|move": 13
+      },
+      "player_action_tally": {
+        "move": 34,
+        "unknown": 28,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "status:slow_down": 3,
+        "pelle_elastomera": 22,
+        "scheletro_pneumatico_a_maglie": 20,
+        "membrane_pneumatofori": 20
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 39,
+      "seed": 424281,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|unknown": 4,
+        "Apex|attack": 7,
+        "Apex|move": 35,
+        "Critical|attack": 1,
+        "Critical|move": 11
+      },
+      "player_action_tally": {
+        "move": 38,
+        "unknown": 34,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 40,
+      "seed": 424282,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 31,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|move": 44,
+        "Apex|unknown": 7,
+        "Apex|attack": 6,
+        "Critical|attack": 1,
+        "Critical|move": 3,
+        "Critical|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 36,
+        "unknown": 31,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 41,
+      "seed": 424283,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|unknown": 1,
+        "Critical|attack": 1,
+        "Critical|move": 1,
+        "Apex|move": 41,
+        "Apex|unknown": 4,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 46,
+        "unknown": 26,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 4,
+        "scheletro_pneumatico_a_maglie": 3,
+        "membrane_pneumatofori": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 42,
+      "seed": 424284,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 37,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 70,
+      "ai_intent_tally": {
+        "High|move": 24,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 10,
+        "Apex|move": 10,
+        "Apex|unknown": 4,
+        "Critical|attack": 8,
+        "Critical|move": 9
+      },
+      "player_action_tally": {
+        "move": 35,
+        "unknown": 22,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 18,
+        "scheletro_pneumatico_a_maglie": 14,
+        "membrane_pneumatofori": 14,
+        "status:slow_down": 2,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 43,
+      "seed": 424285,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Apex|attack": 7,
+        "Apex|move": 19,
+        "Apex|unknown": 4
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 33,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 44,
+      "seed": 424286,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|unknown": 9,
+        "Apex|move": 25,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 65,
+        "unknown": 29,
+        "attack": 32
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "scheletro_pneumatico_a_maglie": 4,
+        "membrane_pneumatofori": 4,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 45,
+      "seed": 424287,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 17,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 8,
+        "Apex|unknown": 5,
+        "Apex|move": 1
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 14,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "status:slow_down": 3,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 46,
+      "seed": 424288,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 12,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 8,
+        "Apex|unknown": 6,
+        "Apex|move": 27
+      },
+      "player_action_tally": {
+        "move": 53,
+        "unknown": 28,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 47,
+      "seed": 424289,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 15,
+        "Apex|unknown": 3,
+        "Critical|attack": 3,
+        "Critical|move": 2,
+        "Apex|move": 19
+      },
+      "player_action_tally": {
+        "move": 20,
+        "unknown": 15,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "status:wound": 1,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 48,
+      "seed": 424290,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 31,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 21,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|unknown": 1,
+        "Critical|move": 2,
+        "Apex|unknown": 4,
+        "Apex|move": 32,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 19,
+        "attack": 36
+      },
+      "trait_used_tally": {
+        "status:wound": 1,
+        "pelle_elastomera": 8,
+        "status:slow_down": 1,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 49,
+      "seed": 424291,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 18,
+      "players_alive": 4,
+      "players_dead": 0,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 1,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 12,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "status:wound": 5,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 50,
+      "seed": 424292,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 15,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 16,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Apex|unknown": 6,
+        "Apex|attack": 6,
+        "Apex|move": 1
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 15,
+        "attack": 33
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 51,
+      "seed": 424293,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 14,
+        "High|unknown": 2,
+        "High|attack": 9,
+        "Critical|attack": 1,
+        "Critical|move": 4,
+        "Apex|move": 29,
+        "Apex|unknown": 2,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 27,
+        "unknown": 25,
+        "attack": 61
+      },
+      "trait_used_tally": {
+        "status:wound": 2,
+        "pelle_elastomera": 17,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 52,
+      "seed": 424294,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 24,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 15,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 22,
+        "Apex|unknown": 5,
+        "Apex|attack": 6
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 27,
+        "attack": 37
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 53,
+      "seed": 424295,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 25,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 37,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 15,
+        "Apex|attack": 13,
+        "Apex|move": 6,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 8,
+        "unknown": 7,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 5,
+        "scheletro_pneumatico_a_maglie": 4,
+        "membrane_pneumatofori": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 54,
+      "seed": 424296,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 31,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 1,
+        "Critical|move": 4,
+        "Apex|move": 21,
+        "Apex|unknown": 3,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 46,
+        "unknown": 21,
+        "attack": 39
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 4,
+        "membrane_pneumatofori": 4
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 55,
+      "seed": 424297,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 13,
+        "Apex|unknown": 4,
+        "Critical|attack": 1,
+        "Apex|move": 27
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 20,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 56,
+      "seed": 424298,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 26,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 7,
+        "Apex|unknown": 6,
+        "Critical|attack": 2,
+        "Critical|move": 3,
+        "Apex|move": 38
+      },
+      "player_action_tally": {
+        "move": 34,
+        "unknown": 18,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 7,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 57,
+      "seed": 424299,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 12,
+        "High|unknown": 2,
+        "High|attack": 6,
+        "Apex|move": 40,
+        "Apex|unknown": 3,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 25,
+        "unknown": 20,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 16,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 58,
+      "seed": 424300,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 1,
+        "Critical|move": 2,
+        "Apex|move": 34,
+        "Apex|attack": 3,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 32,
+        "unknown": 26,
+        "attack": 42
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "status:wound": 1,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 59,
+      "seed": 424301,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 36,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|unknown": 2,
+        "Apex|attack": 10,
+        "Apex|move": 33
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 20,
+        "attack": 66
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 15,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 60,
+      "seed": 424302,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|attack": 1,
+        "Critical|move": 3,
+        "Apex|move": 58,
+        "Apex|unknown": 3,
+        "Apex|attack": 2
+      },
+      "player_action_tally": {
+        "move": 46,
+        "unknown": 29,
+        "attack": 34
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 5,
+        "scheletro_pneumatico_a_maglie": 3,
+        "membrane_pneumatofori": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 61,
+      "seed": 424303,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 17,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 7,
+        "Apex|move": 5,
+        "Apex|unknown": 5
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 15,
+        "attack": 39
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 7,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 62,
+      "seed": 424304,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 29,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 11,
+        "Apex|unknown": 6,
+        "Apex|move": 2
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 19,
+        "attack": 67
+      },
+      "trait_used_tally": {
+        "status:wound": 1,
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 63,
+      "seed": 424305,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 22,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 2,
+        "Critical|move": 1,
+        "Apex|move": 46,
+        "Apex|unknown": 3,
+        "Apex|attack": 9
+      },
+      "player_action_tally": {
+        "move": 45,
+        "unknown": 24,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:slow_down": 1,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 64,
+      "seed": 424306,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 32,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 3,
+        "High|attack": 2,
+        "Apex|move": 43,
+        "Apex|unknown": 7,
+        "Apex|attack": 6
+      },
+      "player_action_tally": {
+        "move": 52,
+        "unknown": 26,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 65,
+      "seed": 424307,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 29,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 12,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Critical|unknown": 1,
+        "Critical|move": 4,
+        "Critical|attack": 1,
+        "Apex|move": 26,
+        "Apex|attack": 6,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 23,
+        "unknown": 21,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 66,
+      "seed": 424308,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 39,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 2,
+        "Apex|unknown": 2,
+        "Apex|move": 24,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 23,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "status:slow_down": 1,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 67,
+      "seed": 424309,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 21,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 18,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 6,
+        "Apex|move": 8,
+        "Apex|unknown": 3,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 12,
+        "attack": 49
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:wound": 5,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 68,
+      "seed": 424310,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 7,
+        "Apex|unknown": 7,
+        "Apex|move": 13,
+        "Apex|attack": 8
+      },
+      "player_action_tally": {
+        "move": 18,
+        "unknown": 23,
+        "attack": 52
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 18,
+        "scheletro_pneumatico_a_maglie": 14,
+        "membrane_pneumatofori": 14
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 69,
+      "seed": 424311,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 11,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 6,
+        "Apex|unknown": 2,
+        "Apex|move": 20
+      },
+      "player_action_tally": {
+        "move": 35,
+        "unknown": 15,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 70,
+      "seed": 424312,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 22,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 8,
+        "Apex|unknown": 4,
+        "Critical|attack": 1,
+        "Critical|move": 1,
+        "Apex|move": 3
+      },
+      "player_action_tally": {
+        "move": 14,
+        "unknown": 14,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 71,
+      "seed": 424313,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 41,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Critical|unknown": 1,
+        "Critical|attack": 18,
+        "Critical|move": 29,
+        "Apex|attack": 10,
+        "Apex|move": 17
+      },
+      "player_action_tally": {
+        "move": 11,
+        "unknown": 9,
+        "attack": 56
+      },
+      "trait_used_tally": {
+        "status:wound": 3,
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 12,
+        "membrane_pneumatofori": 12,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 72,
+      "seed": 424314,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 36,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 14,
+        "High|unknown": 2,
+        "High|attack": 6,
+        "Apex|move": 42,
+        "Apex|unknown": 5,
+        "Apex|attack": 9
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 21,
+        "attack": 38
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 7,
+        "status:slow_down": 1,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 73,
+      "seed": 424315,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 30,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 35,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|move": 4,
+        "Critical|attack": 5,
+        "Apex|attack": 21,
+        "Apex|move": 33,
+        "Apex|unknown": 2,
+        "Critical|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 10,
+        "unknown": 11,
+        "attack": 53
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "status:wound": 5,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 74,
+      "seed": 424316,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 19,
+      "players_alive": 4,
+      "players_dead": 0,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 4,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|move": 10,
+        "Apex|unknown": 5,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 30,
+        "unknown": 27,
+        "attack": 36
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 75,
+      "seed": 424317,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 23,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 14,
+        "Apex|move": 39,
+        "Apex|unknown": 3
+      },
+      "player_action_tally": {
+        "move": 41,
+        "unknown": 20,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 10,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7,
+        "status:wound": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 76,
+      "seed": 424318,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Apex|attack": 11,
+        "Apex|unknown": 5,
+        "Apex|move": 7
+      },
+      "player_action_tally": {
+        "move": 21,
+        "unknown": 20,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11,
+        "status:wound": 4,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 77,
+      "seed": 424319,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|move": 29,
+        "Apex|unknown": 6,
+        "Apex|attack": 12,
+        "Critical|attack": 1,
+        "Critical|move": 1,
+        "Critical|unknown": 1
+      },
+      "player_action_tally": {
+        "move": 35,
+        "unknown": 19,
+        "attack": 56
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 15,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 78,
+      "seed": 424320,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 41,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 3,
+        "Critical|move": 2,
+        "Apex|unknown": 1,
+        "Apex|move": 18
+      },
+      "player_action_tally": {
+        "move": 50,
+        "unknown": 33,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 15,
+        "scheletro_pneumatico_a_maglie": 12,
+        "membrane_pneumatofori": 12,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 79,
+      "seed": 424321,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 28,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 24,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 15,
+        "High|unknown": 2,
+        "High|attack": 8,
+        "Critical|move": 2,
+        "Apex|move": 26,
+        "Apex|unknown": 5,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 27,
+        "unknown": 22,
+        "attack": 56
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "scheletro_pneumatico_a_maglie": 5,
+        "membrane_pneumatofori": 5,
+        "status:slow_down": 1,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 80,
+      "seed": 424322,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 80,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 20,
+        "Apex|move": 15,
+        "Apex|unknown": 5,
+        "Critical|attack": 5
+      },
+      "player_action_tally": {
+        "move": 25,
+        "unknown": 31,
+        "attack": 60
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 19,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 16,
+        "membrane_pneumatofori": 16
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 81,
+      "seed": 424323,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 22,
+      "players_alive": 0,
+      "players_dead": 4,
+      "enemies_alive": 6,
+      "enemies_dead": 0,
+      "dmg_dealt_player": 29,
+      "dmg_taken_player": 45,
+      "boss_hp_remaining": 0,
+      "pressure_final": 32,
+      "ai_intent_tally": {
+        "High|move": 17,
+        "High|unknown": 2,
+        "High|attack": 18,
+        "Medium|attack": 7,
+        "Medium|move": 10
+      },
+      "player_action_tally": {
+        "move": 6,
+        "unknown": 6,
+        "attack": 40
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 4,
+        "status:wound": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 82,
+      "seed": 424324,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 33,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 11,
+        "High|unknown": 2,
+        "High|attack": 6,
+        "Apex|unknown": 3,
+        "Apex|move": 43,
+        "Apex|attack": 13
+      },
+      "player_action_tally": {
+        "move": 18,
+        "unknown": 24,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 9,
+        "membrane_pneumatofori": 9,
+        "status:wound": 3,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 83,
+      "seed": 424325,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 35,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Critical|attack": 3,
+        "Critical|unknown": 1,
+        "Critical|move": 6,
+        "Apex|move": 36,
+        "Apex|attack": 3
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 26,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 14,
+        "status:wound": 1,
+        "scheletro_pneumatico_a_maglie": 12,
+        "membrane_pneumatofori": 12
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 84,
+      "seed": 424326,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 37,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 4,
+        "Critical|move": 2,
+        "Apex|attack": 14,
+        "Apex|unknown": 3,
+        "Apex|move": 25
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 12,
+        "attack": 44
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 8,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 85,
+      "seed": 424327,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 26,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 12,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 11,
+        "High|unknown": 2,
+        "High|attack": 4,
+        "Critical|unknown": 1,
+        "Critical|move": 3,
+        "Apex|move": 17,
+        "Apex|unknown": 4,
+        "Apex|attack": 5
+      },
+      "player_action_tally": {
+        "move": 24,
+        "unknown": 26,
+        "attack": 43
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 86,
+      "seed": 424328,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 38,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Apex|attack": 11,
+        "Apex|move": 39,
+        "Apex|unknown": 2
+      },
+      "player_action_tally": {
+        "move": 31,
+        "unknown": 29,
+        "attack": 57
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "scheletro_pneumatico_a_maglie": 10,
+        "membrane_pneumatofori": 10
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 87,
+      "seed": 424329,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 5,
+        "Apex|move": 3,
+        "Apex|unknown": 5
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 16,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 15,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 88,
+      "seed": 424330,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 24,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 9,
+        "Apex|move": 18,
+        "Apex|unknown": 5
+      },
+      "player_action_tally": {
+        "move": 22,
+        "unknown": 14,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 12,
+        "status:slow_down": 2,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 89,
+      "seed": 424331,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 34,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 31,
+        "High|unknown": 2,
+        "High|attack": 7,
+        "Apex|move": 57
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 16,
+        "attack": 50
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 90,
+      "seed": 424332,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 32,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 27,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 7,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|unknown": 5,
+        "Apex|move": 18,
+        "Apex|attack": 11,
+        "Critical|attack": 1,
+        "Critical|move": 12
+      },
+      "player_action_tally": {
+        "move": 33,
+        "unknown": 34,
+        "attack": 51
+      },
+      "trait_used_tally": {
+        "status:slow_down": 2,
+        "pelle_elastomera": 13,
+        "scheletro_pneumatico_a_maglie": 11,
+        "membrane_pneumatofori": 11
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 91,
+      "seed": 424333,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 24,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 9,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|attack": 6,
+        "Apex|unknown": 6,
+        "Apex|move": 18
+      },
+      "player_action_tally": {
+        "move": 20,
+        "unknown": 18,
+        "attack": 45
+      },
+      "trait_used_tally": {
+        "status:slow_down": 1,
+        "pelle_elastomera": 8,
+        "status:wound": 4,
+        "scheletro_pneumatico_a_maglie": 6,
+        "membrane_pneumatofori": 6
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 92,
+      "seed": 424334,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 39,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|unknown": 3,
+        "Apex|attack": 12,
+        "Apex|move": 41
+      },
+      "player_action_tally": {
+        "move": 26,
+        "unknown": 25,
+        "attack": 63
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 18,
+        "scheletro_pneumatico_a_maglie": 17,
+        "membrane_pneumatofori": 17,
+        "status:slow_down": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 93,
+      "seed": 424335,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 31,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 10,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Apex|unknown": 6,
+        "Apex|attack": 7,
+        "Apex|move": 16
+      },
+      "player_action_tally": {
+        "move": 43,
+        "unknown": 37,
+        "attack": 54
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 94,
+      "seed": 424336,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 35,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|unknown": 1,
+        "Critical|move": 3,
+        "Apex|move": 58,
+        "Apex|unknown": 2,
+        "Apex|attack": 13
+      },
+      "player_action_tally": {
+        "move": 28,
+        "unknown": 24,
+        "attack": 48
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 14,
+        "scheletro_pneumatico_a_maglie": 13,
+        "membrane_pneumatofori": 13
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 95,
+      "seed": 424337,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 20,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 2,
+        "Apex|attack": 10,
+        "Apex|move": 6,
+        "Apex|unknown": 4
+      },
+      "player_action_tally": {
+        "move": 16,
+        "unknown": 15,
+        "attack": 47
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 16,
+        "status:wound": 2,
+        "scheletro_pneumatico_a_maglie": 15,
+        "membrane_pneumatofori": 15,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 96,
+      "seed": 424338,
+      "policy": "greedy",
+      "outcome": "victory",
+      "rounds": 22,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 0,
+      "enemies_dead": 6,
+      "dmg_dealt_player": 42,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 3,
+        "High|attack": 2,
+        "Apex|unknown": 6,
+        "Apex|attack": 10,
+        "Apex|move": 1
+      },
+      "player_action_tally": {
+        "move": 15,
+        "unknown": 15,
+        "attack": 58
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 18,
+        "scheletro_pneumatico_a_maglie": 15,
+        "membrane_pneumatofori": 15,
+        "status:slow_down": 3
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 97,
+      "seed": 424339,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 1,
+      "players_dead": 3,
+      "enemies_alive": 2,
+      "enemies_dead": 4,
+      "dmg_dealt_player": 33,
+      "dmg_taken_player": 31,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 10,
+        "High|unknown": 2,
+        "High|attack": 5,
+        "Apex|attack": 10,
+        "Apex|unknown": 3,
+        "Apex|move": 34,
+        "Critical|attack": 5,
+        "Critical|move": 14
+      },
+      "player_action_tally": {
+        "move": 16,
+        "unknown": 22,
+        "attack": 61
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 11,
+        "scheletro_pneumatico_a_maglie": 8,
+        "membrane_pneumatofori": 8,
+        "status:slow_down": 1
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 98,
+      "seed": 424340,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 3,
+      "players_dead": 1,
+      "enemies_alive": 1,
+      "enemies_dead": 5,
+      "dmg_dealt_player": 40,
+      "dmg_taken_player": 14,
+      "boss_hp_remaining": 0,
+      "pressure_final": 100,
+      "ai_intent_tally": {
+        "High|move": 8,
+        "High|unknown": 2,
+        "High|attack": 3,
+        "Critical|attack": 1,
+        "Critical|move": 10,
+        "Apex|move": 40,
+        "Apex|unknown": 4,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 54,
+        "unknown": 35,
+        "attack": 46
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 9,
+        "scheletro_pneumatico_a_maglie": 7,
+        "membrane_pneumatofori": 7
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    },
+    {
+      "run": 99,
+      "seed": 424341,
+      "policy": "greedy",
+      "outcome": "defeat",
+      "rounds": 34,
+      "players_alive": 2,
+      "players_dead": 2,
+      "enemies_alive": 3,
+      "enemies_dead": 3,
+      "dmg_dealt_player": 32,
+      "dmg_taken_player": 20,
+      "boss_hp_remaining": 0,
+      "pressure_final": 90,
+      "ai_intent_tally": {
+        "High|move": 6,
+        "High|unknown": 2,
+        "High|attack": 1,
+        "Critical|attack": 1,
+        "Critical|unknown": 1,
+        "Critical|move": 13,
+        "Apex|move": 50,
+        "Apex|unknown": 4,
+        "Apex|attack": 4
+      },
+      "player_action_tally": {
+        "move": 50,
+        "unknown": 35,
+        "attack": 35
+      },
+      "trait_used_tally": {
+        "pelle_elastomera": 3,
+        "scheletro_pneumatico_a_maglie": 2,
+        "membrane_pneumatofori": 2
+      },
+      "vc": {
+        "mbti": null,
+        "ennea": null,
+        "aggregate": null
+      }
+    }
+  ]
+}

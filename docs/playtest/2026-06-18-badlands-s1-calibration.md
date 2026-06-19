@@ -63,6 +63,20 @@ as designed-winnable (tutorial-01-05 category). edm reset to 1.0 (neutral). The
 "calibration" = confirm adapter stats sane (PREDATOR/SUPPORT, no warnings) + the
 encounter stays winnable (floor band [0.70,1.00] for smoke). WR 1.0 N=40 -> winnable.
 
+## Archived measurement (SoT line-122)
+
+The merged N=100 outputs are now archived per the AI-playtest SoT contract
+(`docs/process/CANONICAL-AI-PLAYTEST.md` rule 7 -- the win-rates above were
+originally asserted in-table only):
+
+- `docs/playtest/2026-06-18-badlands_elite_01-n100-merged.json` -- elite, edm 1.85
+- `docs/playtest/2026-06-18-badlands_ambient_01-n100-merged.json` -- ambient, edm 1.0
+
+Re-run 2026-06-19 (node 22.22.3, seed 424242, 4 shards base-port 3410,
+`tools/py/calibrate_parallel.py`): elite WR **0.16** (defeat 0.84, kd 1.043),
+ambient WR **1.0** (defeat 0.0) -- both reproduce the merged claims exactly
+(verdict GREEN, in-band). Steep-lever caveat unchanged.
+
 ## vc
 
 The 5 species carry heuristic vc (S0). Telemetry-driven vc refinement (N>=50 via
