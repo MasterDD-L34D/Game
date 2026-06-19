@@ -69,7 +69,7 @@ SCENARIO_MAP = {
     # S1 (2026-06-18): dedicated per-role bands for the #2850 species.
     "badlands_elite_01": {
         "script": "batch_calibrate_badlands_elite_01.py",
-        "target_band": (0.15, 0.30),
+        "target_band": (0.10, 0.30),  # widened 2026-06-19 (steep-lever variance, edm 1.85 kept)
         "scenario_id": "enc_badlands_elite_01",
         "encounter_class": "badlands_elite",
         "extra_args": ["--encounter-class", "badlands_elite"],

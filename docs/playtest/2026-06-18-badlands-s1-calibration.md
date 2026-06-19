@@ -45,13 +45,19 @@ Roster: ferrimordax-rutilus (T3 -> APEX, sole anchor) + ferrocolonia-magnetotatt
 | 1.85 | 100 | 0.16 | floor plateau (== 1.9)            |
 | 1.8  | 100 | 0.29 | pre-cliff (ceiling)               |
 
-**RATIFIED: edm 1.85 -> WR 0.16, N=100, in-band [0.15,0.30]** (defeat 0.84, kd 1.04).
+**RATIFIED: edm 1.85 -> WR 0.16, N=100, in-band [0.10,0.30]** (defeat 0.84, kd 1.04).
 Chosen on the stable 0.16 plateau (1.85 == 1.9 forensic).
 
 **STEEP LEVER (hc06-style cliff)**: ~13pp WR drop over 0.05 edm (1.8->0.29 vs
-1.85->0.16); the band mid (~0.22) is not reachable. Ratified value sits ~1pp from the
-0.15 floor. **FOLLOW-UP design-call (master-dd)**: widen the elite band (e.g. [0.10,0.30])
-or switch to a flatter knob (enemy HP) for margin -- mirrors the open hc06 steep-lever call.
+1.85->0.16); the band mid (~0.22) is not reachable. **RESOLVED 2026-06-19 (master-dd
+"procedi con l'ottimale") -- band widened [0.15,0.30] -> [0.10,0.30]** (+ defeat
+[0.55,0.85] -> [0.55,0.90]), edm 1.85 kept. The widen absorbs the steep-lever N=100 CI
+variance (WR 0.16 CI95 ~[0.10,0.24]) so a same-knob re-run cannot read OOB-low on an
+unlucky seed -- mirrors the hc06 steep-lever resolution (decision A: widen band
+asymmetrically toward the variance, keep knob). Flatter-knob (enemy HP) was rejected:
+hc06 proved HP can cliff too (boss_hp WAS its steep lever), so it offers no guaranteed
+flatness and would need a re-calibration that changes the ratified WR. The scenario is
+non-oracle (out of the gated suite), so a centered band is not required.
 
 ## enc_badlands_ambient_01 -- rubrospina + ferriscroba (DESIGNED-WINNABLE)
 
