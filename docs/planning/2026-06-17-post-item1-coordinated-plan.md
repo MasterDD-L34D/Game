@@ -14,6 +14,16 @@ tags: [evo-tactics, item1, planning, coordination, godot, n40, spec-h, spec-k, s
 
 # Post-item-1 coordinated plan (2026-06-17)
 
+> 🔴 **SUPERSEDED / PARTIALLY-CONSUMED (2026-06-19)**. Track A K-04 recruit = DONE e2e (#2826 +
+> GGv2 #481); SPEC-J Nido ritual UI = DONE (GGv2 #479); Track C SPEC-H buildable arc = COMPLETE
+> (#2828-#2835 + namespace guard #2851 + audit-fix #2838-#2848). Solo **Track B** (flip N=40-gated
+> SPEC-J lethal + SPEC-H HA1) resta genuinamente aperto, e il suo gate e' cambiato: il **G2 harness
+> e' ORA BUILT** (P1-P5 #2806-#2825) -> i flip sono gated su **content + PE_ratio PR2 + N=40**, NON
+> piu' su capability-harness mancante. La sez.1 workstream-map qui sotto e' STALE (lista G2 P1-P5
+> come in-flight = tutti shipped; omette dossier #2856/GGv2 #494, taxonomy/canon Phase A-D,
+> species-calib #2850, Ferrospora GGv2). Stato corrente -> sprint pointer `CLAUDE.md` (blocco
+> 2026-06-19) + BACKLOG sezioni "G2 calibration N=40 leverage" / "SPEC-J flip readiness" / "SPEC-K".
+
 > **item-1 = 17/17 active COMPLETE** (suite reconstruction SPEC-A..Q tutta a `doc_status: active`,
 > PR #2816 J/F/K + #2818 B + #2820 H). Il "piano" non e' piu' doc-flip: e' **build-residui** +
 > coordinamento con i workstream paralleli attivi. Questo doc mappa chi-fa-cosa + cosa resta +
