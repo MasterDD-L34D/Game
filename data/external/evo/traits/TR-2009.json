@@ -3,7 +3,7 @@
   "id": "ali_solari_fotoni",
   "label": "Ali Solari Fotoni",
   "famiglia_tipologia": "Locomotivo/Aereo",
-  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "fattore_mantenimento_energetico": "Medio",
   "tier": "T2",
   "slot": [
     "A",

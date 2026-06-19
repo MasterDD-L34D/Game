@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://game.schemas.local/trait.schema.json",
+  "schema_version": "2.0",
   "title": "Trait (definizione base)",
   "description": "Schema canonico per le voci in data/traits.",
   "type": "object",
@@ -121,6 +122,14 @@
     "data_origin": {
       "$ref": "#/$defs/slug",
       "description": "Identificatore del pacchetto o fonte editoriale del tratto."
+    },
+    "aliases": {
+      "type": "array",
+      "description": "Slug alternativi o legacy che risolvono a questo tratto.",
+      "items": {
+        "$ref": "#/$defs/slug"
+      },
+      "uniqueItems": true
     },
     "completion_flags": {
       "type": "object",

@@ -893,6 +893,21 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 
 ## 🟡 Priorità media
 
+### jsonschema shadow removal -- exposed validation follow-ups (2026-06-18)
+
+> **Context**: PR removed the tracked root `jsonschema/` stub (a no-op shim that
+> silently shadowed the real jsonschema across the full pytest suite -- repo-root
+> lands on sys.path during collection, so the stub was imported and cached before
+> any schema test ran, neutralizing ALL JSON-schema validation in CI + local dev).
+> Removal surfaced pre-existing drift. The dominant fix shipped in-PR
+> (`schemas/evo/trait.schema.json` sinergie/conflitti pattern `^TR-\d{4}$` ->
+> canonical slug, matching glossary.json + config/schemas); the rest is tracked
+> below and quarantined as strict (self-clearing) xfail.
+
+- [ ] **TKT-TRAITS-TR200X-METRICS** -- `data/external/evo/traits/TR-2006..2010.json` lack the schema-required `metrics` array (real balance values, cannot be fabricated). Enum + `meta.expansion` already normalized in-PR; only `metrics` remains. Quarantined via `INCOMPLETE_PENDING_METRICS` in `tests/schemas/test_evo_trait_schema.py`. Author the balance metrics, then drop each file from that set (strict xfail self-clears on XPASS).
+- [ ] **TKT-DATATRAITS-SCHEMAVERSION-MIGRATION** -- governance contradiction: the `trait_schema_gate` pre-commit hook (ADR-2026-05-29) hard-requires `schema_version: "2.0"` on `data/traits/*.json`, but `config/schemas/trait.schema.json` is `additionalProperties:false` and (until this PR) defined no such property -- so all 263 `data/traits` files satisfy the schema but fail the gate, i.e. any edit to one is blocked. This PR only added a top-level `schema_version` to the schema FILE (to pass the gate for the schema edit) + the `aliases` property; it did NOT add `schema_version` to the schema's `properties`, so data files still cannot declare it. Reconcile: add `schema_version` to the schema `properties` and migrate the dataset (or relax the gate). The `aliases` violation itself is RESOLVED here (the field was deliberate -- commit `c2aa9cc5` "Add missing trait aliases" -- and the trait is referenced in 8+ files, so it was allowed in the schema, not removed).
+- [ ] **TKT-TRAITVALIDATOR-WIN-ENCODING** -- `tools/py/trait_template_validator.py` crashes with `UnicodeEncodeError` on Windows (cp1252 stdout) when printing a UCUM error containing a non-ASCII char (U+22C5). CI (Linux/utf-8) unaffected; local Windows dev only. Make the validator's stdout utf-8-safe.
+
 ### Audit 2026-05-05 — pre-cutover cleanup tickets
 
 > **Source**: `docs/reports/2026-05-05-repo-audit-static-scan.md` — Phase 3 triage.
