@@ -1,8 +1,19 @@
 #!/usr/bin/env python3
-"""Batch calibration runner — enc_tutorial_06_hardcore (PR #1534).
+"""Batch calibration runner -- enc_foresta_pilot_01 (S2 2026-06-18 foresta adapter pilot).
 
-Greedy player policy (atk-closest), AI auto. N=30 default.
-Target: win_rate 15-25%, turns 14-18, K/D 0.6-0.9.
+Copy of batch_calibrate_hardcore06.py retargeted to the foresta_temperata adapter pilot.
+The enemy roster is derived by ecologyCombatAdapter from real foresta_temperata species
+(no apex boss). Greedy player policy (atk-closest), AI auto. N=30 default.
+Target band: win_rate [0.30, 0.50] (encounter_class 'foresta_pilot', damage_curves.yaml).
+
+Differences vs hardcore06:
+  - SCENARIO_ID = enc_foresta_pilot_01
+  - run_one sends encounter_class='foresta_pilot' in /session/start body so the backend
+    applies the foresta_pilot class multiplier -- this makes calibration
+    mirror real play, where the scenario's encounter_class resolves to 'foresta_pilot'.
+    (hardcore06 omitted it and silently ran at the 'standard' default 1.2x.)
+  - CHANNEL_EXPLOIT_MAP empty: no boss/elite vuln mapping; all attacks 'fisico'.
+  - default --encounter-class 'foresta_pilot'.
 
 PERF / HANG NOTE (2026-05-21): default --host uses 127.0.0.1, NOT "localhost".
 The backend binds IPv4 (0.0.0.0); on Windows "localhost" resolves IPv6 ::1 first
@@ -23,12 +34,12 @@ import urllib.error
 import urllib.request
 
 import calibrate_policies
-from pe_candidates import attach_composite_terms
 from pressure_stats import pressure_stats
 
-SCENARIO_ID = "enc_tutorial_06_hardcore"
+SCENARIO_ID = "enc_foresta_pilot_01"
+ENCOUNTER_CLASS = "foresta_pilot"  # sent in /session/start body (backend class mult resolution)
 MAX_ROUNDS = 40
-DEFAULT_HOST = "http://127.0.0.1:3340"  # IP not "localhost" (Windows IPv6 stall, see module docstring)
+DEFAULT_HOST = "http://127.0.0.1:3341"  # IP not "localhost" (Windows IPv6 stall, see module docstring)
 # 2026-05-21 no-op-bug fix (OD-032): honor DAMAGE_CURVES_PATH env so the batch
 # CLIENT reads the SAME staging file the backend reads. Without this the client's
 # load_turn_limit_defeat / scenario-override parser always read production, making
@@ -54,7 +65,7 @@ def load_target_bands(encounter_class):
     except OSError:
         return None
 
-    # Mini parser: cerca blocco "encounter_classes:" → <class>: → target_bands:
+    # Mini parser: cerca blocco "encounter_classes:" -> <class>: -> target_bands:
     # Pattern compact. Usa regex line-based (YAML semplice, non flow).
     lines = raw.splitlines()
     idx_class = None
@@ -267,7 +278,7 @@ def verdict_for(win_rate, defeat_rate, timeout_rate, bands):
         lo, hi = band
         if lo <= observed <= hi:
             continue
-        # Distance-based amber vs red (±5pp amber tolerance).
+        # Distance-based amber vs red (+/-5pp amber tolerance).
         dist = min(abs(observed - lo), abs(observed - hi))
         if dist <= 0.05:
             score = max(score, 1)
@@ -363,11 +374,8 @@ def step_toward(src, dst, grid_w, grid_h):
 # Mapping statico basato su tutorial species (M5-#3) + species_resistances.yaml.
 # Apex boss + elite hunter = archetype corazzato (vuln psionico, mentale).
 # Altri enemies = adattivo neutral (nessun vantaggio particolare).
-CHANNEL_EXPLOIT_MAP = {
-    "e_apex_boss": "psionico",
-    "e_elite_hunter_1": "psionico",
-    "e_elite_hunter_2": "psionico",
-}
+# Badlands pilot has no boss/elite with a mapped vulnerability -> all attacks fisico.
+CHANNEL_EXPLOIT_MAP = {}
 
 
 def _pick_channel_for(target_id):
@@ -461,7 +469,7 @@ def plan_player_intents(state, occupied):
 
 def detect_outcome(state, turn_limit_defeat=None):
     """M9 P6: turn_limit_defeat forza decision pressure.
-    Se turn >= limit + neither faction wiped → 'defeat' (invece di timeout).
+    Se turn >= limit + neither faction wiped -> 'defeat' (invece di timeout).
     Param None = legacy behavior (timeout rimane timeout).
     """
     units = state.get("units", [])
@@ -477,7 +485,7 @@ def detect_outcome(state, turn_limit_defeat=None):
 
 
 def probe_one(host):
-    """N=1 verbose probe — dump shape API per ogni response (TKT-09 root cause:
+    """N=1 verbose probe -- dump shape API per ogni response (TKT-09 root cause:
     in priority_queue mode AI actions stanno in `results[]` non `ai_result`).
 
     Memory feedback_probe_before_batch.md: sempre N=1 + schema dump prima batch.
@@ -543,7 +551,7 @@ def probe_one(host):
 def _ai_actions_from_resp(resp, sis_actor_ids):
     """Estrai AI actions da /round/execute response.
     TKT-09 fix: in priority_queue mode AI actions sono in results[] (non ai_result.ia_actions).
-    Nota: priority_queue mode results are flat, non c\'è bisogno di fare l\'unwrap di ia_actions.
+    Nota: priority_queue mode results are flat, non c\'e' bisogno di fare l\'unwrap di ia_actions.
     Filtra per actor_id appartenente a SIS-controlled.
     """
     actions = []
@@ -581,13 +589,13 @@ def _extract_trait_ids(action_result):
     """Extract TRIGGERED trait_ids da action_result via canonical schema.
 
     2026-05-21 FASE B fix (Codex audit followup): backend already exposes
-    triggered traits via `result.trait_effects` array — schema canonica in
+    triggered traits via `result.trait_effects` array -- schema canonica in
     sessionRoundBridge.js:753 + session.js:1102. Each entry:
         {trait: 'trait_id', triggered: bool, effect: {...}}
     Estrai SOLO traits con triggered=true (effect attivato runtime).
 
     Chiude F-gap "trait_used_distribution empty" senza richiedere modifiche
-    backend o packages/contracts (schema esisteva già).
+    backend o packages/contracts (schema esisteva gia').
 
     Args:
         action_result: dict di results[] da /api/session/round/execute
@@ -638,6 +646,10 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
         # 2026-05-21 (OD-032 C): id enables scenario_overrides resolution at /start
         # (boss_hp + enemy_damage_multiplier_override per session.js scenarioIdForEdm).
         "encounter": {"id": SCENARIO_ID},
+        # phase 2b: backend getEncounterClass reads body.encounter_class -> resolves
+        # the 'foresta_pilot' class multiplier (1.0). Without this it defaults to 'standard'
+        # (1.2x), diverging from real play. Keeps calibration == shipped behavior.
+        "encounter_class": ENCOUNTER_CLASS,
         # ERMES FASE 3 P2: set biome_id to exercise applyBiomeEcoEffects in calibration.
         **({"biome_id": biome_id} if biome_id else {}),
     })
@@ -681,7 +693,7 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
         state = resp.get("state", state)
         pressure_samples.append(state.get("sistema_pressure", pstart))
 
-        # Tally AI actions — TKT-09 fix: read from results[] (priority_queue) +
+        # Tally AI actions -- TKT-09 fix: read from results[] (priority_queue) +
         # fallback ai_result.ia_actions. Vedi feedback_probe_before_batch.md.
         # Closed as no-op: priority_queue mode results are already flat and correctly provide action_type.
         ai_actions = _ai_actions_from_resp(resp, sis_actor_ids)
@@ -716,7 +728,7 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
                            for u_id, u in final_units.items() if u.get("controlled_by") == "player")
     boss_hp_remaining = final_units.get("e_apex_boss", {}).get("hp", 0)
 
-    # VC scores — TKT-D FU-M3: PR #1564 espone vc_snapshot direttamente
+    # VC scores -- TKT-D FU-M3: PR #1564 espone vc_snapshot direttamente
     # nel response di /end, risparmiando una GET /vc per run.
     end_status, end_res = post(f"{host}/api/session/end", {"session_id": sid})
     vc_data = {}
@@ -729,9 +741,9 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
         vc_status, vc = get(f"{host}/api/session/{sid}/vc")
         vc_data = vc if vc_status == 200 else {}
 
-    # PE_ratio experiment PR1: compact pressure-trajectory stats for this run.
+    # PE_ratio (PR2 follow-up): per-run pressure-trajectory stats so this oracle's
+    # composite carries a real pe_ratio (mirror batch_calibrate_hardcore06).
     _ps = pressure_stats(pressure_samples)
-
     return {
         "run": run_idx,
         "seed": seed,
@@ -800,7 +812,7 @@ def aggregate(runs, encounter_class=None):
         bands = load_target_bands(encounter_class)
         verdict, verdict_reasons = verdict_for(wr, dr, tr, bands)
 
-    _agg = {
+    return {
         "N": n,
         "encounter_class": encounter_class,
         "target_bands": bands,
@@ -819,13 +831,13 @@ def aggregate(runs, encounter_class=None):
         "turns_max": max(turns),
         "turns_hist": _hist(turns, bins=[(1,5),(6,10),(11,15),(16,20),(21,30),(31,40),(41,999)]),
         "kd_avg": statistics.mean(kd),
-        "kd_median": statistics.median(kd),
-        # PE_ratio experiment PR1: aggregate pressure-trajectory stats.
+        # PE_ratio PR2 follow-up: aggregate pressure-trajectory (composite pe_ratio source).
         "pressure_mean_avg": statistics.mean([r.get("pressure_mean", 0.0) for r in ok]),
         "pressure_frac_ge75_avg": statistics.mean([r.get("pressure_frac_ge75", 0.0) for r in ok]),
         "apex_reach_rate": (
             sum(1 for r in ok if r.get("pressure_pmax", 0.0) >= 95) / len(ok) if ok else 0.0
         ),
+        "kd_median": statistics.median(kd),
         "dmg_dealt_avg": statistics.mean(r["dmg_dealt_player"] for r in ok),
         "dmg_taken_avg": statistics.mean(r["dmg_taken_player"] for r in ok),
         "boss_hp_remaining_avg_on_loss": (
@@ -839,15 +851,12 @@ def aggregate(runs, encounter_class=None):
         "player_action_distribution": player_global,
         "trait_used_distribution": trait_global,
     }
-    # PE_ratio PR2: add the two normalized composite terms (kd_ratio + pe_ratio) so
-    # objective.evaluate_metric can compute the composite (no longer KeyErrors).
-    return attach_composite_terms(_agg)
 
 
 def _hist(values, bins):
     """Build histogram labeled buckets. Open-ended bucket (hi >= 999) labeled "{lo}+".
 
-    Codex review fix: MAX_ROUNDS=40 esaurito → run ending at round 41 were dropped
+    Codex review fix: MAX_ROUNDS=40 esaurito -> run ending at round 41 were dropped
     by finite bins. Open-ended bucket cattura timeout + late-resolve run.
     """
     out = {}
@@ -929,12 +938,12 @@ def main():
     ap.add_argument("--cooldown", type=float, default=0.5, help="Sec between runs")
     ap.add_argument("--skip-health", action="store_true", help="Skip /api/health probe")
     ap.add_argument("--probe", action="store_true",
-                    help="Run N=1 verbose probe (schema dump) — REQUIRED prima di batch nuovo. "
+                    help="Run N=1 verbose probe (schema dump) -- REQUIRED prima di batch nuovo. "
                          "Vedi memory feedback_probe_before_batch.md")
-    ap.add_argument("--encounter-class", default="hardcore",
+    ap.add_argument("--encounter-class", default="foresta_pilot",
                     help="M7-#2 Phase D: class key da damage_curves.yaml. "
-                         "Default 'hardcore' (coerente con enc_tutorial_06_hardcore). "
-                         "Valori: tutorial|tutorial_advanced|standard|hardcore|boss")
+                         "Default 'foresta_pilot' (enc_foresta_pilot_01). "
+                         "Valori: tutorial|tutorial_advanced|standard|hardcore|boss|badlands|foresta_pilot")
     ap.add_argument("--biome-id", default=None,
                     help="ERMES FASE 3 P2: set req.body.biome_id to exercise biome eco "
                          "deltas (applyBiomeEcoEffects) during calibration. e.g. "
@@ -989,11 +998,11 @@ def main():
                 failures += 1
             mark = "V" if r.get("outcome") == "victory" else "L" if r.get("outcome") == "defeat" else "T" if r.get("outcome") == "timeout" else "E"
             print(f"[{i+1}/{args.n}] {mark} rounds={r.get('rounds','?')} boss_hp={r.get('boss_hp_remaining','?')} pa={r.get('players_alive','?')}", flush=True)
-            # Incremental JSONL write — resume-friendly (TKT-10).
+            # Incremental JSONL write -- resume-friendly (TKT-10).
             if jsonl_fh:
                 jsonl_fh.write(json.dumps(r) + "\n")
                 jsonl_fh.flush()
-            # Inter-run cooldown — mitiga TCP port exhaustion Windows.
+            # Inter-run cooldown -- mitiga TCP port exhaustion Windows.
             if i + 1 < args.n and args.cooldown > 0:
                 time.sleep(args.cooldown)
             # Periodic health re-check ogni 10 run.

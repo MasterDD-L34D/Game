@@ -12426,6 +12426,50 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/planning/2026-06-18-species-calib-5stub-ratification.md",
+      "title": "5-stub species calibration + authoring -- master-dd ratification proposal",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-06-18-badlands-s1-calibration.md",
+      "title": "Badlands S1 calibration -- ferrimordax elite + ambient pair (#2850 follow-up)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-06-18-foresta-s2-calibration.md",
+      "title": "Foresta S2 calibration -- enc_foresta_pilot_01 (#2850 follow-up)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-06-18-vc-telemetry-s3.md",
+      "title": "VC telemetry refine S3 -- 5 stub species (#2850 follow-up)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-18",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
     }
   ]
 }

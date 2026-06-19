@@ -3,7 +3,7 @@
   "id": "ali_fulminee",
   "label": "Ali Fulminee",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "Basso",
   "tier": "T1",
   "slot": [],
   "sinergie": [
@@ -19,7 +19,6 @@
       },
       "fonte": "env_to_traits",
       "meta": {
-        "expansion": "coverage_q4_2025",
         "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
         "tier": "T1"
       }

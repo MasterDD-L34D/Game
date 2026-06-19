@@ -139,6 +139,60 @@ encounter_classes:
     # the [0.50,0.60] sweet spot so DR lands inside [0.30,0.50].
     turn_limit_defeat: 37
 
+  badlands_ambient:
+    # S1 (2026-06-18): enc_badlands_ambient_01 (rubrospina-velox + ferriscroba-detrita +
+    # filler). DESIGNED-WINNABLE, NOT a balance-oracle (master-dd 2026-06-18): the T1
+    # ambient flavor pair die before dealing damage -> the party sweeps (WR ~1.0 even at
+    # edm 2.2), so no meaningful difficulty band exists. Mirrors the tutorial 01-05 ladder
+    # category. "Calibration" = confirm adapter stats sane + encounter stays winnable.
+    description: 'Badlands ambient minor fauna (designed-winnable, not a balance-oracle).'
+    target_bands:
+      win_rate: [0.70, 1.00]  # WINNABLE FLOOR (sanity), not a difficulty target
+      defeat_rate: [0.00, 0.30]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0  # neutral; the encounter is winnable by design
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 37
+
+  badlands_elite:
+    # S1 (2026-06-18): dedicated elite band for ferrimordax-rutilus (T3 apex anchor),
+    # scenario enc_badlands_elite_01. Band [0.15,0.30]. New/separate band.
+    description: 'Badlands elite (ferrimordax-rutilus apex + escort).'
+    target_bands:
+      win_rate: [0.15, 0.30]  # PROPOSAL pending N=40 ratify (elite range)
+      defeat_rate: [0.55, 0.85]
+      timeout_rate: [0.00, 0.15]
+    # RATIFIED 2026-06-18 N=100 seed 424242: WR 0.16 in-band [0.15,0.30] (1-apex
+    # ferrimordax solo-anchor + escort). STEEP LEVER (hc06-style cliff): 1.8 -> 0.29
+    # (ceiling) / 1.85 -> 0.16 / 1.9 -> 0.16 (floor plateau) -- the band mid is not
+    # reachable without falling off the cliff. Ratified on the stable 0.16 plateau (1.85
+    # == 1.9). FOLLOW-UP design-call (master-dd): widen the elite band or use a flatter
+    # knob (enemy HP) for margin -- mirrors the hc06 steep-lever open call.
+    enemy_damage_multiplier: 1.85
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 30  # decisive (shorter than ambient)
+
+  foresta_pilot:
+    # S2 (2026-06-18): enc_foresta_pilot_01 -- foresta_temperata adapter pilot
+    # (lupus-temperatus T2 apex + blight-micotico T3 hazard + the 2 #2850 grazers
+    # nebulocornis/arboryxis + sentinella-radice support). NOT in the gated suite
+    # (mirrors the badlands adapter scenarios). Exercises the 2 grazers alongside the
+    # canonical foresta apex so their adapter stats move the win-rate.
+    description: 'Foresta Temperata ecology-adapter pilot. Adapter-driven enemies.'
+    target_bands:
+      # RATIFIED 2026-06-18 N=100 seed 424242: WR 0.50 (dead-center), edm 1.0 NEUTRAL.
+      # Re-banded from the proposed [0.30,0.50] -> [0.40,0.60] (master-dd follow-up):
+      # [0.40,0.60] = the badlands-pilot precedent (same scenario type: first-contact adapter
+      # pilot, winnable) and centers the natural WR 0.50. A 5-enemy roster (no T4) saturated
+      # the edm lever at a ~0.575 ceiling; adding evento-seme-uragano (T4) gave the lever grip
+      # so the roster carries the difficulty at NEUTRAL edm (no damage inflation).
+      win_rate: [0.40, 0.60]
+      defeat_rate: [0.40, 0.70]
+      timeout_rate: [0.00, 0.15]
+    enemy_damage_multiplier: 1.0  # NEUTRAL -- roster carries difficulty (edm grip: 1.5->0.30 / 2.8->0.175)
+    boss_enrage_threshold_hp: null
+    turn_limit_defeat: 34
+
 # ─── Enemy tiers ──────────────────────────────────────────────────────
 # Base stats pre-class multiplier. Encounter spawn li legge + applica
 # multiplier da encounter_class.

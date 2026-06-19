@@ -3,7 +3,7 @@
   "id": "ali_ioniche",
   "label": "Ali Ioniche",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "Basso",
   "tier": "T1",
   "slot": [],
   "sinergie": [
@@ -19,7 +19,6 @@
       },
       "fonte": "env_to_traits",
       "meta": {
-        "expansion": "coverage_q4_2025",
         "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
         "tier": "T1"
       }

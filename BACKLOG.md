@@ -78,6 +78,27 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
 
+### 🟡 OPEN — SPEC-J permadeath flip readiness (`LETHAL_MISSIONS_ENABLED`, 2026-06-18)
+
+Lethal-wounds backend + Godot consent UI gia' shipped (flag OFF). La **gate-attaccamento
+(precondizione emotiva del permadeath) e' ORA SODDISFATTA**: la creature-dossier story-card e'
+player-visible end-to-end (backend #2856 `07996aea` + Godot GGv2 #494 `442c5b3` / hardening #497
+`679277e`). Signal last30days: permadeath paga solo con attaccamento PRE-costruito -> ora c'e'.
+
+Verdetto master-dd 2026-06-18 = **DEFER**. Il flip resta un push COORDINATO master-dd + G2, NON
+una now-action. Prereq aperti:
+
+- **schema `lethal` field** — assente in `schemas/evo/encounter.schema.json` (buildable nub, ma
+  inerte con flag OFF -> 0 valore now).
+- **>=1 encounter `lethal:true` autorato** — 0 oggi. Content + magnitude (quale biome/difficulty/
+  opt-in vs forced / late-node-only) = design-call master-dd.
+- **lethal-mission N=40 in banda** — mai girato; = harness G2 (per-template orchestrator), NON
+  duplicare. Lethal cambia roster-attrition -> banda+composite-target da definire CON la sessione G2.
+- **flip `LETHAL_MISSIONS_ENABLED=true`** (env keys.env + restart prod, mani master-dd) + verdict
+  scar-transform narrativo-vs-mechanical (SPEC-E) prima del go-live.
+
+Riprendere quando si coordina uno sprint lethal-content + N=40 con G2.
+
 ### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17)
 
 Spec `docs/design/evo-tactics-godot-device-authority-reconciliation.md` flippata `active`
@@ -88,7 +109,7 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 - **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — PENDING.
 - **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — PENDING.
 - **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
-- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — IN PROGRESS. Recruit-review slice: Game prereq `GET /meta/npg` gate-enrich (can_recruit/can_mate server-side) MERGED #2826 `3f5ecf21`; Godot recruit-button = chip `task_532a071a` (per-player device, NON-bypass). Residue mating/party-select/principale = SPEC-E slices (party-select eligibility = design-call blocking-rules).
+- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — **DONE e2e 2026-06-18** (cross-repo GGv2): recruit-review prereq `GET /meta/npg` gate-enrich MERGED #2826 `3f5ecf21` -> Godot recruit-button GGv2 **#481 `200ac70`** (+overlay #482) + wound-ritual surface GGv2 **#479 `eac9232`**. `phone_nido_view.gd` ora ha azioni player-facing (criterio sez.9.5 MET). Chip `task_532a071a` consumato. **Residue** = mating / party-select / tri-sorgente / custode = SPEC-E slices (party-select eligibility = design-call blocking-rules). + dossier story-card surface GGv2 #494/#497 (attachment, fuori K-04 stretto).
 - **K-05** Next mission quorum — PENDING.
 - **K-06** Wording cleanup ("host drives" residui) — PENDING.
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
@@ -96,6 +117,14 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 
 Dipendenti gia' flippati che poggiano su questo seam: SPEC-J (consent UI #477) + SPEC-B (visibility).
 Runtime/surface = item-3 Godot, NON blocca il doc-flip (precedent SPEC-I/A/G).
+
+### 🟡 OPEN — G2 calibration N=40 leverage: PE_ratio PR2 + flip sequencing (2026-06-19)
+
+Il G2 per-template calibration harness e' **BUILT + CAPABLE end-to-end** (P1-P5 #2809/#2815/#2817/#2821/#2824 + design #2806 + PE_ratio PR1 #2825). Il collo di bottiglia per i flip N=40 (SPEC-J lethal, SPEC-H HA1) si e' **SPOSTATO** da "harness mancante" a **content + esperimento**. Residui sequenziati (SINGLE OWNER per evitare la collision SPEC-J/SPEC-H che reclamano entrambi "via G2"):
+
+- **PE_ratio experiment PR2 — DONE 2026-06-19** (#2867 `77973e47` wiring + #2869 `7d448884` instrumentation extension). `attach_composite_terms()` emette `kd_ratio` (=kd_avg/(kd_avg+1)) + `pe_ratio` (candidato B_time_avg) su OGNI aggregate (hc06 + badlands_elite + foresta_pilot estesi) -> il `composite_metric` di `canonical-suite.yaml` e' ora **COMPUTABILE** (objective non piu' None). 27 test. Esperimento N=40/100 seed-pinned node 22 girato. 🔴 **Finding (master-dd, OPEN)**: il segnale PE-from-pressure e' **MARGINALE** — tutti gli oracoli balance girano high-pressure, i candidati near-saturano (pe_ratio 0.81-0.94 ovunque), il |corr| e' rumore N-sensitive (nessun winner robusto; B tenuto per argomento-varianza). **Banda composite PROPOSTA** (mean 0.526, k=2.0 [0.236, 0.815]) ma NON scritta nel manifest (SDMG). **Decisione aperta**: (a) ratifica la banda as-is, oppure (b) switch alla sorgente-tensione alternativa del design (turns-to-resolve + dmg_taken "contestedness", sec 4.5, evita la saturazione); poi (c) flippa P4 gate-2/4b + P5. Evidence: `docs/playtest/2026-06-19-pe-ratio-experiment-n100.md`.
+- **N=40 sequencing (SINGLE OWNER)** — un solo ticket: PE_ratio PR2 -> autora 1 scenario lethal/HA1 (content, design-call master-dd: biome/roster/banda-attrition) -> run N=40 ATTRAVERSO l'orchestrator G2 (`enc_badlands_pilot_01`), NON un path N=40 parallelo -> risolvi band+composite-target. Sblocca i flip SPEC-J `LETHAL_MISSIONS_ENABLED` (#2865 DEFER) + SPEC-H HA1.
+- **auto-ratify prod-write activation** — oggi UNREACHABLE by-design; attivazione gated su (a) PE_ratio emission, (b) baseline node-22 seed-pinned per gate-3, (c) harsh-review SDMG + master-dd prima dei flag `--auto-ratify`/`--confirm-prod` live.
 
 ### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 
@@ -863,6 +892,21 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 ---
 
 ## 🟡 Priorità media
+
+### jsonschema shadow removal -- exposed validation follow-ups (2026-06-18)
+
+> **Context**: PR removed the tracked root `jsonschema/` stub (a no-op shim that
+> silently shadowed the real jsonschema across the full pytest suite -- repo-root
+> lands on sys.path during collection, so the stub was imported and cached before
+> any schema test ran, neutralizing ALL JSON-schema validation in CI + local dev).
+> Removal surfaced pre-existing drift. The dominant fix shipped in-PR
+> (`schemas/evo/trait.schema.json` sinergie/conflitti pattern `^TR-\d{4}$` ->
+> canonical slug, matching glossary.json + config/schemas); the rest is tracked
+> below and quarantined as strict (self-clearing) xfail.
+
+- [ ] **TKT-TRAITS-TR200X-METRICS** -- `data/external/evo/traits/TR-2006..2010.json` lack the schema-required `metrics` array (real balance values, cannot be fabricated). Enum + `meta.expansion` already normalized in-PR; only `metrics` remains. Quarantined via `INCOMPLETE_PENDING_METRICS` in `tests/schemas/test_evo_trait_schema.py`. Author the balance metrics, then drop each file from that set (strict xfail self-clears on XPASS).
+- [ ] **TKT-DATATRAITS-SCHEMAVERSION-MIGRATION** -- governance contradiction: the `trait_schema_gate` pre-commit hook (ADR-2026-05-29) hard-requires `schema_version: "2.0"` on `data/traits/*.json`, but `config/schemas/trait.schema.json` is `additionalProperties:false` and (until this PR) defined no such property -- so all 263 `data/traits` files satisfy the schema but fail the gate, i.e. any edit to one is blocked. This PR only added a top-level `schema_version` to the schema FILE (to pass the gate for the schema edit) + the `aliases` property; it did NOT add `schema_version` to the schema's `properties`, so data files still cannot declare it. Reconcile: add `schema_version` to the schema `properties` and migrate the dataset (or relax the gate). The `aliases` violation itself is RESOLVED here (the field was deliberate -- commit `c2aa9cc5` "Add missing trait aliases" -- and the trait is referenced in 8+ files, so it was allowed in the schema, not removed).
+- [ ] **TKT-TRAITVALIDATOR-WIN-ENCODING** -- `tools/py/trait_template_validator.py` crashes with `UnicodeEncodeError` on Windows (cp1252 stdout) when printing a UCUM error containing a non-ASCII char (U+22C5). CI (Linux/utf-8) unaffected; local Windows dev only. Make the validator's stdout utf-8-safe.
 
 ### Audit 2026-05-05 — pre-cutover cleanup tickets
 

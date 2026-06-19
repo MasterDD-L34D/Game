@@ -76,6 +76,24 @@ nodes:
   display_name_it: "Carcasse"
   display_name_en: "Carcasses"
   kind: resource
+- id: rubrospina-velox
+  node_id: rubrospina-velox
+  legacy_slug: rubrospina_velox
+  display_name_it: "Corriere Spinato"
+  display_name_en: "Spined Courier"
+  kind: species
+- id: ferrimordax-rutilus
+  node_id: ferrimordax-rutilus
+  legacy_slug: ferrimordax_rutilus
+  display_name_it: "Martellatore Ferroso"
+  display_name_en: "Ferrous Hammerer"
+  kind: species
+- id: ferriscroba-detrita
+  node_id: ferriscroba-detrita
+  legacy_slug: ferriscroba_detrita
+  display_name_it: "Spazzino Ferroso"
+  display_name_en: "Ferrous Scavenger"
+  kind: species
 edges:
 - from: arbusti_xerofili
   to: sand-burrower
@@ -109,3 +127,31 @@ edges:
   to: rust-scavenger
   type: scavenging
   weight: 0.5
+- from: sand-burrower
+  to: rubrospina-velox
+  type: predation
+  weight: 0.5
+- from: rubrospina-velox
+  to: ferrimordax-rutilus
+  type: predation
+  weight: 0.6
+- from: rubrospina-velox
+  to: dune-stalker
+  type: predation
+  weight: 0.5
+- from: sand-burrower
+  to: ferrimordax-rutilus
+  type: predation
+  weight: 0.6
+- from: detrito
+  to: ferriscroba-detrita
+  type: detritus
+  weight: 0.8
+- from: carcasse
+  to: ferriscroba-detrita
+  type: scavenging
+  weight: 0.6
+- from: ferriscroba-detrita
+  to: arbusti_xerofili
+  type: engineering
+  weight: 0.4
