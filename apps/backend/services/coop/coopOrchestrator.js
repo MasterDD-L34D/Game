@@ -1164,7 +1164,12 @@ class CoopOrchestrator {
    */
   submitNextMacro(playerId, { choice } = {}, { hostId } = {}) {
     if (!playerId) throw new Error('player_id_required');
-    if (hostId && playerId !== hostId) throw new Error('host_only');
+    // Fail-closed host gate (mirrors startMissionFromNido / K-05 #2871):
+    // a null/undefined hostId (e.g. transient host-transfer gap) must NOT
+    // short-circuit the identity check, else any player could submit the
+    // host-only macro. Reject the no-host state explicitly first.
+    if (!hostId) throw new Error('no_host');
+    if (playerId !== hostId) throw new Error('host_only');
     if (!this.run) throw new Error('run_not_started');
     // Codex P2 review #2075: include `world_setup` to handle the case
     // where submitDebriefChoice already auto-advanced (last lineage

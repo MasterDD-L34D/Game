@@ -613,6 +613,23 @@ test('W7 — submitNextMacro rejects non-host + invalid choice + wrong phase', (
   );
 });
 
+test('submitNextMacro fails closed when hostId is absent (no host-auth bypass)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a'] });
+  const all = ['p_h', 'p_a'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'enfp' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  // Null/undefined hostId (e.g. transient host-transfer gap) must NOT
+  // short-circuit the gate — any non-host player would otherwise pass.
+  assert.throws(
+    () => co.submitNextMacro('p_a', { choice: 'advance' }, { hostId: null }),
+    /no_host/,
+  );
+  assert.throws(() => co.submitNextMacro('p_a', { choice: 'advance' }, {}), /no_host/);
+});
+
 test('W7 — submitNextMacro from world_setup post-debrief auto-advance is no-op (Codex P2 #2075)', () => {
   // Reproduce Codex P2 scenario: last lineage_choice triggers
   // advanceScenarioOrEnd → phase=world_setup. Subsequent host next_macro
