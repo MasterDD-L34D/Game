@@ -1584,13 +1584,52 @@ function createWsServer({
                 );
                 return;
               }
-              const result = orch.confirmWorld({
+              const params = {
                 scenarioId: msg.payload?.scenario_id,
                 biomeId: msg.payload?.biome_id,
                 formAxes: msg.payload?.form_axes,
                 runSeed: msg.payload?.run_seed,
                 trainerCanonical: msg.payload?.trainer_canonical,
-              });
+              };
+              // SPEC-K K-02 — flag ON: host CTA PROPOSES (co-op) or commits
+              // (solo/force); flag OFF: legacy immediate confirm. Mirror of the
+              // REST /coop/world/confirm branch.
+              if (process.env.WORLD_CONFIRM_QUORUM_ENABLED === 'true') {
+                const connectedPids = Array.from(room.players.values())
+                  .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+                  .map((p) => p.id);
+                const proposeResult = orch.proposeWorld(params, {
+                  connectedQuorumPids: connectedPids,
+                  force: msg.payload?.force === true,
+                });
+                if (proposeResult.committed === false) {
+                  // Proposed — open the device vote (re-surface world_tally),
+                  // broadcast a named "vote open" trigger to all devices, and
+                  // ack the host. No phase change (still world_setup).
+                  rebroadcastCoopState(room, orch);
+                  if (typeof room.publishEvent === 'function') {
+                    room.publishEvent('world_proposed', {
+                      scenario_id: proposeResult.scenario_id,
+                    });
+                  }
+                  socket.send(
+                    JSON.stringify({
+                      type: 'world_proposed',
+                      payload: { scenario_id: proposeResult.scenario_id, phase: orch.phase },
+                    }),
+                  );
+                  return;
+                }
+                room.publishPhaseChange(orch.phase);
+                const ackPayloadF = { scenario_id: proposeResult.scenario_id, phase: orch.phase };
+                if (proposeResult.enriched_world)
+                  Object.assign(ackPayloadF, proposeResult.enriched_world);
+                socket.send(
+                  JSON.stringify({ type: 'world_confirm_accepted', payload: ackPayloadF }),
+                );
+                return;
+              }
+              const result = orch.confirmWorld(params);
               room.publishPhaseChange(orch.phase);
               const ackPayload = { scenario_id: result.scenario_id, phase: orch.phase };
               if (result.enriched_world) Object.assign(ackPayload, result.enriched_world);
@@ -1660,6 +1699,18 @@ function createWsServer({
                 all_connected_accepted: tally.all_connected_accepted,
               });
               room.broadcast({ type: 'world_tally', payload: tally });
+              // SPEC-K K-02 — auto-commit a proposed world when this vote
+              // completes the device quorum (no-op flag-OFF / nothing proposed).
+              const autoWs = orch.tryAutoConfirmWorld({
+                allPlayerIds: allPids,
+                connectedPlayerIds: connectedPids,
+              });
+              if (autoWs) {
+                room.publishPhaseChange(orch.phase);
+                const confirmPayload = { scenario_id: autoWs.scenario_id, phase: orch.phase };
+                if (autoWs.enriched_world) Object.assign(confirmPayload, autoWs.enriched_world);
+                room.broadcast({ type: 'world_confirm_accepted', payload: confirmPayload });
+              }
               socket.send(JSON.stringify({ type: 'world_vote_accepted', payload: { tally } }));
             } catch (err) {
               socket.send(
@@ -2274,6 +2325,37 @@ function createWsServer({
               const advance = orch.advanceScenarioOrEnd();
               rebroadcastCoopState(room, orch);
               broadcastCreatureNamed(room, advance);
+            }
+          }
+          // SPEC-K K-02: a disconnect can COMPLETE the world-confirm device
+          // quorum (the departed peer was the last not-yet-accepted connected
+          // voter). Re-surface the tally; if a world is proposed and every
+          // REMAINING connected voter accepted, auto-commit (mirror the K-05
+          // Nido branch above). No-op when nothing is proposed.
+          if (orch && orch.phase === 'world_setup' && orch.proposedWorld) {
+            const allPidsW = Array.from(room.players.values())
+              .filter((p) => p.id !== room.hostId && p.role !== 'host')
+              .map((p) => p.id);
+            const connectedPidsW = Array.from(room.players.values())
+              .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+              .map((p) => p.id);
+            room.broadcast({
+              type: 'world_tally',
+              payload: orch.worldTally(allPidsW, connectedPidsW),
+            });
+            const autoW = orch.tryAutoConfirmWorld({
+              allPlayerIds: allPidsW,
+              connectedPlayerIds: connectedPidsW,
+            });
+            if (autoW) {
+              room.publishPhaseChange(orch.phase);
+              // Symmetry with the vote-drain auto-commit path: emit
+              // world_confirm_accepted so event-driven clients see the same
+              // sequence whether the quorum closed by a vote or a disconnect.
+              const confirmPayloadW = { scenario_id: autoW.scenario_id, phase: orch.phase };
+              if (autoW.enriched_world) Object.assign(confirmPayloadW, autoW.enriched_world);
+              room.broadcast({ type: 'world_confirm_accepted', payload: confirmPayloadW });
+              rebroadcastCoopState(room, orch);
             }
           }
         } catch {

@@ -123,6 +123,11 @@ class CoopOrchestrator {
     this.run = null; // populated by startRun()
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
+    // SPEC-K K-02 — co-op world lock-in. When the host PROPOSES the world (rich
+    // params it computed: biome/seed/form_axes) the params are stashed here so a
+    // later device-quorum (worldTally.all_connected_accepted) can auto-commit
+    // confirmWorld() WITHOUT a host action. null = legacy host-confirm path.
+    this.proposedWorld = null;
     this.missionReadyVotes = new Map(); // player_id → {ready,ts} (SPEC-K K-05 nido next-mission quorum)
     // S22-B -- per-player mating pair vote { player_id -> { pair_id, ts } }.
     this.matingVotes = new Map();
@@ -285,6 +290,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.proposedWorld = null; // SPEC-K K-02 — drop stale world proposal
     this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
@@ -331,6 +337,7 @@ class CoopOrchestrator {
     };
     this.characters.clear();
     this.worldVotes.clear();
+    this.proposedWorld = null; // SPEC-K K-02 — drop stale world proposal
     this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
@@ -575,6 +582,7 @@ class CoopOrchestrator {
     }
     this._emit('world_confirmed', { scenario_id: sid, biome_id: biomeId || null });
     this._setPhase('combat');
+    this.proposedWorld = null; // committed — drop any pending proposal
     return {
       scenario_id: sid,
       enriched_world: enrichedWorld,
@@ -582,8 +590,57 @@ class CoopOrchestrator {
   }
 
   /**
+   * SPEC-K K-02 — co-op world lock-in (host proposes, device quorum commits).
+   * In co-op (>=1 connected voter) the host CTA PROPOSES the world: the rich
+   * params it computed are stashed and the device vote opens, but the phase
+   * does NOT advance — confirmWorld fires only when worldTally reaches
+   * all_connected_accepted (see tryAutoConfirmWorld). Solo/dev (zero connected
+   * voters) OR `force` (host anti-deadlock) commit immediately = legacy
+   * behavior. The host CTA is the marked DEV_FALLBACK; production commit is the
+   * device quorum (spec sez.6.3 / matrix 131-132 / criterion 9.4).
+   *
+   * @param params — { scenarioId, biomeId, formAxes, runSeed, trainerCanonical }
+   * @param connectedQuorumPids — host-excluded connected voter ids (route helper)
+   * @param force — host force-confirm (skip quorum, anti-deadlock fallback)
+   * @returns { committed:true, ...confirmResult } | { committed:false, proposed:true, scenario_id }
+   */
+  proposeWorld(params = {}, { connectedQuorumPids = [], force = false } = {}) {
+    if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');
+    const voters = (connectedQuorumPids || []).filter(Boolean);
+    if (force || voters.length === 0) {
+      // immediate commit: solo/dev (no device voters) OR host force-confirm.
+      return { committed: true, ...this.confirmWorld(params) };
+    }
+    // co-op: stash proposed params + open the device vote (no phase change).
+    this.proposedWorld = { ...params };
+    const sid = params.scenarioId || this.run?.scenarioStack?.[this.run.currentIndex] || null;
+    this._emit('world_proposed', { scenario_id: sid, biome_id: params.biomeId || null });
+    return { committed: false, proposed: true, scenario_id: sid };
+  }
+
+  /**
+   * SPEC-K K-02 — auto-commit a PROPOSED world once the device vote reaches
+   * all_connected_accepted. No-op (returns null) when no world is proposed
+   * (legacy host-confirm path) OR quorum not yet met, so callers may invoke it
+   * after every world vote / disconnect unconditionally (mirror of the K-05
+   * mission-ready auto-advance). Re-fires confirmWorld with the stashed params.
+   *
+   * @returns confirmWorld result (phase -> combat) | null
+   */
+  tryAutoConfirmWorld({ allPlayerIds = [], connectedPlayerIds } = {}) {
+    if (!this.proposedWorld) return null;
+    if (this.phase !== 'world_setup') return null;
+    const tally = this.worldTally(allPlayerIds, connectedPlayerIds);
+    if (!tally.all_connected_accepted) return null;
+    const params = this.proposedWorld;
+    this.proposedWorld = null;
+    return this.confirmWorld(params);
+  }
+
+  /**
    * M18 — Player casts vote on proposed scenario. accept=true/false.
-   * Host remains arbiter and must still confirmWorld() to commit.
+   * Host remains arbiter for the LEGACY path; under WORLD_CONFIRM_QUORUM_ENABLED
+   * the device quorum auto-commits via tryAutoConfirmWorld (SPEC-K K-02).
    */
   voteWorld(playerId, { scenarioId, accept = true, allPlayerIds = [], connectedPlayerIds } = {}) {
     if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');
@@ -799,6 +856,15 @@ class CoopOrchestrator {
    * indefinitely when 2nd player WS dropped mid-vote. Now: caller may use
    * `all_connected_accepted` flag to advance phase even with offline peers.
    * Backward compat: when `connectedPlayerIds` omitted, behaves as before.
+   *
+   * SPEC-K K-02 design property (mirror of missionReadyTally / B-NEW-1): the
+   * connected-only quorum is computed over the CURRENT connected set, so a
+   * player who casts `reject` and then DISCONNECTS no longer counts toward
+   * `all_connected_accepted` (their stored reject survives in `reject`/`per_player`
+   * but not in `connected_reject`). A rejecter can therefore abandon their veto
+   * by leaving — intentional, identical to how a not-ready peer dropping
+   * completes the Nido readiness quorum. Consumers must read `connected_*`, not
+   * the raw `reject`, to reason about advance.
    */
   worldTally(allPlayerIds = [], connectedPlayerIds) {
     let accept = 0;
@@ -1437,6 +1503,7 @@ class CoopOrchestrator {
     });
     this.debriefChoices.clear();
     this.worldVotes.clear();
+    this.proposedWorld = null; // SPEC-K K-02 — drop stale world proposal
     this.missionReadyVotes.clear();
     this.sessionId = null;
     this.matingVotes.clear();
