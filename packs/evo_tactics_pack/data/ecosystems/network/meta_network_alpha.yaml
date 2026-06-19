@@ -182,6 +182,9 @@ network:
     - DESERTO_CALDO
     - ROVINE_PLANARI
     - CRYOSTEPPE
+    # ATOLLO_OBSIDIANA: completes the #2587 6th-node bridge coverage
+    # (CRYOSTEPPE->ATOLLO + ATOLLO->ROVINE_PLANARI edges). master-dd ratified 2026-06-19.
+    - ATOLLO_OBSIDIANA
   - species_id: ferrocolonia-magnetotattica
     roles:
     - sentinella
