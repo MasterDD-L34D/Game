@@ -109,7 +109,7 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 - **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — PENDING.
 - **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — PENDING.
 - **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
-- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — IN PROGRESS. Recruit-review slice: Game prereq `GET /meta/npg` gate-enrich (can_recruit/can_mate server-side) MERGED #2826 `3f5ecf21`; Godot recruit-button = chip `task_532a071a` (per-player device, NON-bypass). Residue mating/party-select/principale = SPEC-E slices (party-select eligibility = design-call blocking-rules).
+- **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — **DONE e2e 2026-06-18** (cross-repo GGv2): recruit-review prereq `GET /meta/npg` gate-enrich MERGED #2826 `3f5ecf21` -> Godot recruit-button GGv2 **#481 `200ac70`** (+overlay #482) + wound-ritual surface GGv2 **#479 `eac9232`**. `phone_nido_view.gd` ora ha azioni player-facing (criterio sez.9.5 MET). Chip `task_532a071a` consumato. **Residue** = mating / party-select / tri-sorgente / custode = SPEC-E slices (party-select eligibility = design-call blocking-rules). + dossier story-card surface GGv2 #494/#497 (attachment, fuori K-04 stretto).
 - **K-05** Next mission quorum — PENDING.
 - **K-06** Wording cleanup ("host drives" residui) — PENDING.
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
@@ -117,6 +117,14 @@ completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2)
 
 Dipendenti gia' flippati che poggiano su questo seam: SPEC-J (consent UI #477) + SPEC-B (visibility).
 Runtime/surface = item-3 Godot, NON blocca il doc-flip (precedent SPEC-I/A/G).
+
+### 🟡 OPEN — G2 calibration N=40 leverage: PE_ratio PR2 + flip sequencing (2026-06-19)
+
+Il G2 per-template calibration harness e' **BUILT + CAPABLE end-to-end** (P1-P5 #2809/#2815/#2817/#2821/#2824 + design #2806 + PE_ratio PR1 #2825). Il collo di bottiglia per i flip N=40 (SPEC-J lethal, SPEC-H HA1) si e' **SPOSTATO** da "harness mancante" a **content + esperimento**. Residui sequenziati (SINGLE OWNER per evitare la collision SPEC-J/SPEC-H che reclamano entrambi "via G2"):
+
+- **PE_ratio experiment PR2** (autonomo, backend-dependent) — PR1 #2825 ha shipped harness + candidate-formule A/B/C only; l'esperimento NON e' girato. Run su **node 22** -> seleziona la formula a `|corr|` minimo -> deriva la banda empirica -> wira `pe_ratio` + `kd_ratio` normalizzato nell'aggregate batch. **Gating-prereq**: il `composite_metric` di `canonical-suite.yaml` e' INERTE finche' non gira -> auto-ratify gate-2 fail-closed su composite None.
+- **N=40 sequencing (SINGLE OWNER)** — un solo ticket: PE_ratio PR2 -> autora 1 scenario lethal/HA1 (content, design-call master-dd: biome/roster/banda-attrition) -> run N=40 ATTRAVERSO l'orchestrator G2 (`enc_badlands_pilot_01`), NON un path N=40 parallelo -> risolvi band+composite-target. Sblocca i flip SPEC-J `LETHAL_MISSIONS_ENABLED` (#2865 DEFER) + SPEC-H HA1.
+- **auto-ratify prod-write activation** — oggi UNREACHABLE by-design; attivazione gated su (a) PE_ratio emission, (b) baseline node-22 seed-pinned per gate-3, (c) harsh-review SDMG + master-dd prima dei flag `--auto-ratify`/`--confirm-prod` live.
 
 ### 🟡 OPEN — Worldgen GAP-C only (meta-network -> runtime) — GAP-A+B SHIPPED #2447 (ground-truth 2026-05-31)
 

@@ -100,14 +100,14 @@ Attivazione a fasi (RFC Game-Database `docs/rfc/2026-06-11-bidirectional-sync.md
   (header `GENERATED FROM Game-Database <tag>`), passano `evo-import-gate` (round-trip
   errori=0) e il merge resta umano (Eduardo). Un edit manuale a un file generato = drift:
   va riportato nel DB, non difeso nel file.
-- **Seconda ondata -- species (RFC #4 "Species S2", ratificato 2026-06-17)**: superficie
-  export = SOLO i file per-slug `packs/evo_tactics_pack/docs/catalog/species/<slug>.json`
-  del catalog-tier (sourceFiles include `species_catalog_file`). Le species
-  ecosystem-derived e i file `index` / `canonical-index` NON sono esportati: restano
-  rigenerati downstream dal tooling Game. Il marker per le species e' la chiave JSON
-  top-level `_generated_from: "Game-Database <tag>"` (+ `generated_at`), non lo header
-  testuale dei traits; per il resto vale lo stesso gate S2 (trigger CLI manuale, branch+PR
-  dall'operatore locale, `evo-import-gate` round-trip errori=0, merge Eduardo).
+- **Seconda ondata -- species (RFC #4 "Species S2")**: 🔴 **CORRETTO 2026-06-19 (REVERSAL ratificato GG-DB #225)**.
+  La superficie export-on-release `<slug>.json` + marker `_generated_from` **NON e' piu' il piano**:
+  Game-Database #225 ha rescopato l'export species a **fidelity-shadow ONLY** (il DB MISURA il loss
+  vs i file Game, NON scrive per-file shipping; ladder export-on-release CANCELLATA). biome/eco =
+  import-only indefinitamente (GG-DB #227). **SoT authoring species INVARIATO = file-side**
+  `data/core/species/species_catalog.json` (ADR-2026-05-15) -- il DB non e' diventato upstream.
+  S3 DB-as-SoT = SOLO scoping (GG-DB #228, raccomandazione lean keep-files). Reconciliation
+  corrente file-side = `docs/planning/2026-06-18-taxonomy-reconciliation-plan.md` (#2827).
 - In conflitto sul CONTENUTO taxonomy tra un released snapshot DB e un file pack non
   generato/non aggiornato: vince la released version DB; la correzione passa da un nuovo
   export PR, mai da edit divergenti su entrambi i lati.
