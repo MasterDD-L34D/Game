@@ -23,6 +23,7 @@ import urllib.error
 import urllib.request
 
 import calibrate_policies
+from pe_candidates import attach_composite_terms
 from pressure_stats import pressure_stats
 
 SCENARIO_ID = "enc_tutorial_06_hardcore"
@@ -799,7 +800,7 @@ def aggregate(runs, encounter_class=None):
         bands = load_target_bands(encounter_class)
         verdict, verdict_reasons = verdict_for(wr, dr, tr, bands)
 
-    return {
+    _agg = {
         "N": n,
         "encounter_class": encounter_class,
         "target_bands": bands,
@@ -838,6 +839,9 @@ def aggregate(runs, encounter_class=None):
         "player_action_distribution": player_global,
         "trait_used_distribution": trait_global,
     }
+    # PE_ratio PR2: add the two normalized composite terms (kd_ratio + pe_ratio) so
+    # objective.evaluate_metric can compute the composite (no longer KeyErrors).
+    return attach_composite_terms(_agg)
 
 
 def _hist(values, bins):
