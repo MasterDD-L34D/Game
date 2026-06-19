@@ -9,6 +9,12 @@ roles_enum:
 - predatore_filtratore_secondario
 - predatore_regolatore_simbionte
 - predatore_terziario_apex
+# Legacy ecological-consumer synonyms (#2850 5-stub species): standard
+# primary/secondary/tertiary-consumer taxonomy, kept as canonical role_trofico
+# (master-dd field). Adapter ROLE_TROFICO_MAP maps them to APEX/PREDATOR/PREY.
+- predatore_terziario
+- consumatore_secondario
+- consumatore_primario
 - decompositore
 - impollinatore
 - impollinatore_notturno
