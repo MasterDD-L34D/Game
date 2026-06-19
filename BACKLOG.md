@@ -78,6 +78,27 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
 
 Doc-flip != runtime (precedent SPEC-I/K). item-1 = 17/17 a doc-level; questi residui = build.
 
+### 🟡 OPEN — SPEC-J permadeath flip readiness (`LETHAL_MISSIONS_ENABLED`, 2026-06-18)
+
+Lethal-wounds backend + Godot consent UI gia' shipped (flag OFF). La **gate-attaccamento
+(precondizione emotiva del permadeath) e' ORA SODDISFATTA**: la creature-dossier story-card e'
+player-visible end-to-end (backend #2856 `07996aea` + Godot GGv2 #494 `442c5b3` / hardening #497
+`679277e`). Signal last30days: permadeath paga solo con attaccamento PRE-costruito -> ora c'e'.
+
+Verdetto master-dd 2026-06-18 = **DEFER**. Il flip resta un push COORDINATO master-dd + G2, NON
+una now-action. Prereq aperti:
+
+- **schema `lethal` field** — assente in `schemas/evo/encounter.schema.json` (buildable nub, ma
+  inerte con flag OFF -> 0 valore now).
+- **>=1 encounter `lethal:true` autorato** — 0 oggi. Content + magnitude (quale biome/difficulty/
+  opt-in vs forced / late-node-only) = design-call master-dd.
+- **lethal-mission N=40 in banda** — mai girato; = harness G2 (per-template orchestrator), NON
+  duplicare. Lethal cambia roster-attrition -> banda+composite-target da definire CON la sessione G2.
+- **flip `LETHAL_MISSIONS_ENABLED=true`** (env keys.env + restart prod, mani master-dd) + verdict
+  scar-transform narrativo-vs-mechanical (SPEC-E) prima del go-live.
+
+Riprendere quando si coordina uno sprint lethal-content + N=40 con G2.
+
 ### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17)
 
 Spec `docs/design/evo-tactics-godot-device-authority-reconciliation.md` flippata `active`
