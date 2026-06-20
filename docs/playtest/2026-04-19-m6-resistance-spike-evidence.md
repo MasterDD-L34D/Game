@@ -3,7 +3,7 @@ title: Spike M6 resistance evidence — hardcore-06 calibration lever validated
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-19'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: Playtest #2 execution plan — ai-station verdict validation
 doc_status: draft
 doc_owner: master-dd
 workstream: ai-station-playtest
-last_verified: 2026-05-14
+last_verified: 2026-06-20
 language: it
 ---
 

@@ -3,7 +3,7 @@ title: 'Agent-driven smoke iter4 — Godot phone vs web v1 comparison 2026-05-08
 doc_status: active
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14

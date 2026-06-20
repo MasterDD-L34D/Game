@@ -3,7 +3,7 @@ title: 'Phase B synthetic supplement iter2 — Tier 1 phone smoke regression che
 doc_status: active
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: 2026-05-09
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 30

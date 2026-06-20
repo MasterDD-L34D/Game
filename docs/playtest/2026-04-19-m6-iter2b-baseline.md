@@ -3,7 +3,7 @@ title: M6 iter2b baseline — 50% win rate hardcore-06 post-resistance wire
 doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: '2026-04-19'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

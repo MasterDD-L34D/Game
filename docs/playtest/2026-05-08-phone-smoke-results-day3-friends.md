@@ -3,7 +3,7 @@ title: Phone smoke results - 2026-05-08 Day 3/7 friends online retry
 workstream: ops-qa
 doc_status: active
 doc_owner: master-dd
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 30

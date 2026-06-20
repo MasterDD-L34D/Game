@@ -3,7 +3,7 @@ title: 'Phone smoke 2026-05-07 — bundle B6+B7+B8 RCA + prevention'
 doc_status: active
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: 2026-05-07
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: FASE 1 AI-driven sim harness — T1.1 + T1.2 baseline
 workstream: ops-qa
 doc_status: active
 doc_owner: master-dd
-last_verified: 2026-05-09
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 30

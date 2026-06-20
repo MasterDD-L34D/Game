@@ -3,7 +3,7 @@ title: 'Tier 2 PlayGodot integration prep — honest research + kill-60 verdict'
 doc_status: draft
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
