@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-05-10
 source_of_truth: true
 language: it-en
-review_cycle_days: 90
+review_cycle_days: 180
 date: 2026-05-10
 deciders: master-dd, claude-autonomous
 tags: [mutation, runtime, gate-5, p0]

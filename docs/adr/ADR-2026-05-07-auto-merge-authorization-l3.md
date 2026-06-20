@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-05-07
 source_of_truth: true
 language: it
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md
   - docs/adr/ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md

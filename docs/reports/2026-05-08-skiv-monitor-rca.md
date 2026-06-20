@@ -6,7 +6,7 @@ workstream: ops-qa
 last_verified: 2026-06-20
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - .github/workflows/skiv-monitor.yml
   - docs/skiv/CANONICAL.md

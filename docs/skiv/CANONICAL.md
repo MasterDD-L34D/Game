@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-25
 source_of_truth: true
 language: it-en
-review_cycle_days: 30
+review_cycle_days: 180
 tags: [skiv, creature, persona, recap, canonical, cross-pc]
 ---
 

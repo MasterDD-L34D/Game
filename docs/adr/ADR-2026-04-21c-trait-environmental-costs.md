@@ -6,7 +6,7 @@ workstream: combat
 last_verified: '2026-06-06'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - data/core/balance/trait_environmental_costs.yaml
   - apps/backend/services/traitEffects.js

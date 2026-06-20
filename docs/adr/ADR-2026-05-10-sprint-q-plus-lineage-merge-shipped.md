@@ -7,7 +7,7 @@ workstream: cross-cutting
 last_verified: 2026-05-10
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md
   - docs/planning/2026-05-10-sprint-q-plus-full-scope-codification.md

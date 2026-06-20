@@ -6,7 +6,7 @@ workstream: ops-qa
 last_verified: 2026-05-07
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/playtest/2026-05-07-phone-smoke-bundle-rca.md
   - docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md

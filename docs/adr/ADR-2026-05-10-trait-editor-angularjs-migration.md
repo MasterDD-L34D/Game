@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-05-10
 source_of_truth: true
 language: it-en
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - docs/adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md
 related_files:

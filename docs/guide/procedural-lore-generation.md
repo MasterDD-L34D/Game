@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: '2026-06-20'
 source_of_truth: true
 language: it
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - docs/guide/games-source-index.md
   - docs/design/evo-tactics-aliena-enforcement-lore.md

@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-05-07
 source_of_truth: true
 language: it
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md
   - docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md

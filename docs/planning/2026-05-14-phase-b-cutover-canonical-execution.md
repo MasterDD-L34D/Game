@@ -6,7 +6,7 @@ workstream: ops-qa
 last_verified: 2026-05-12
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md
   - docs/playtest/2026-05-14-phase-b-day-7-formal-closure-prestage.md

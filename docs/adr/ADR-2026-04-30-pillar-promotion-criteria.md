@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-30
 source_of_truth: true
 language: it
-review_cycle_days: 60
+review_cycle_days: 180
 related:
   - docs/planning/2026-04-29-master-execution-plan-v3.md
   - docs/adr/ADR-2026-04-29-pivot-godot-immediate.md

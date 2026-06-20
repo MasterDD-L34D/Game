@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-25
 source_of_truth: true
 language: it
-review_cycle_days: 60
+review_cycle_days: 180
 tags: [skiv, swarm, integration, contract, api]
 ---
 
