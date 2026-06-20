@@ -3,7 +3,7 @@ title: 'OD-022 swarm canonical validator — pre-design preview Day 3/7 sera'
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

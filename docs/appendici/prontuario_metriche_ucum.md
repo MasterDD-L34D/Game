@@ -3,7 +3,7 @@ title: Prontuario metriche & unità **UCUM** — Evo Tactics
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

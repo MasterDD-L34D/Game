@@ -3,7 +3,7 @@ title: Evo-swarm distillation — run #5 raw output + verification status
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

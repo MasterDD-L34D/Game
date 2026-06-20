@@ -3,7 +3,7 @@ title: Skiv Narrative Arc Research — Deterministic Long-Form from Event Log
 workstream: cross-cutting
 doc_status: draft
 doc_owner: narrative-design-illuminator
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
