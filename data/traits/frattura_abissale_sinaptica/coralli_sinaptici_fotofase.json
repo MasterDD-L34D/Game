@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "coralli_sinaptici_fotofase",
   "label": "i18n:traits.coralli_sinaptici_fotofase.label",
   "data_origin": "frattura_abissale_sinaptica",

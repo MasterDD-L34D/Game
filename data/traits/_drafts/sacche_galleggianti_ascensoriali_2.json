@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "sacche_galleggianti_ascensoriali_2",
   "label": "i18n:traits.sacche_galleggianti_ascensoriali_2.label",
   "famiglia_tipologia": "TODO/import_esterno",

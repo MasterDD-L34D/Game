@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.focus_frazionato.debolezza",
   "famiglia_tipologia": "Strategico/Psionico",

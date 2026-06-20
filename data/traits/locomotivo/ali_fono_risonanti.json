@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "ali_fono_risonanti",
   "label": "i18n:traits.ali_fono_risonanti.label",
   "debolezza": "i18n:traits.ali_fono_risonanti.debolezza",

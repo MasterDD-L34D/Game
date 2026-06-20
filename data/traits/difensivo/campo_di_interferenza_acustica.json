@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "campo_di_interferenza_acustica",
   "label": "i18n:traits.campo_di_interferenza_acustica.label",
   "debolezza": "i18n:traits.campo_di_interferenza_acustica.debolezza",

@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "organi_metacronici",
   "label": "i18n:traits.organi_metacronici.label",
   "data_origin": "frattura_abissale_sinaptica",
