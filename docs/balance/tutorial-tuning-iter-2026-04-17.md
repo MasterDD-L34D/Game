@@ -3,7 +3,7 @@ title: Tutorial Iter Tuning Pass — 2026-04-17
 doc_status: active
 doc_owner: balancer
 workstream: ops-qa
-last_verified: 2026-04-17
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
