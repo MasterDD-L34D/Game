@@ -208,6 +208,9 @@ test('WS e2e: world-vote survives a real disconnect + reconnect (same token)', a
     aWs.close();
     bWs.close();
   } finally {
-    wsHandle.wss.close();
+    // Use the createWsServer wrapper (clears the heartbeat interval + terminates
+    // any still-connected clients) -- a bare wss.close() leaks the heartbeat and
+    // open sockets if an assertion above throws (Codex P2 #2884).
+    await wsHandle.close();
   }
 });
