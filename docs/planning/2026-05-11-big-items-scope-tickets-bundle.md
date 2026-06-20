@@ -10,7 +10,7 @@ doc_owner: master-dd
 last_verified: 2026-05-11
 source_of_truth: true
 language: it-en
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - OPEN_DECISIONS.md
   - BACKLOG.md

@@ -1,6 +1,6 @@
 ---
 title: Nebula Atlas Aggregator Rollout Runbook
-doc_status: draft
+doc_status: historical_ref
 doc_owner: ops-qa-team
 workstream: ops-qa
 last_verified: 2026-05-06

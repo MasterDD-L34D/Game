@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-18
 source_of_truth: true
 language: it
-review_cycle_days: 90
+review_cycle_days: 180
 related:
   - 'docs/adr/ADR-2026-04-18-art-direction-placeholder.md'
   - 'docs/core/42-STYLE-GUIDE-UI.md'

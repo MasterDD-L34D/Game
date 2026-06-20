@@ -1,6 +1,6 @@
 ---
 title: Deploy Min — checklist operativa Sprint C backbone bundle
-doc_status: draft
+doc_status: historical_ref
 doc_owner: master-dd
 workstream: ops-qa
 last_verified: 2026-04-27

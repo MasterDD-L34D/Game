@@ -6,7 +6,7 @@ workstream: combat
 last_verified: '2026-06-08'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/core/02-PILASTRI.md
   - docs/core/40-ROADMAP.md

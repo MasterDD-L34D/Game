@@ -7,7 +7,7 @@ doc_owner: claude-code
 last_verified: '2026-05-29'
 source_of_truth: true
 language: it
-review_cycle_days: 90
+review_cycle_days: 180
 tags: [playtest, calibration, ai-driven, balance, reproducible, sot]
 supersedes:
   - docs/process/2026-04-26-calibration-harness-policy.md (gate-stance flipped; methodology absorbed)
