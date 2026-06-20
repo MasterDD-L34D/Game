@@ -3,7 +3,7 @@ title: 'Day 3/7 sera completionist multi-action audit (B+D+E + A pre-design)'
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-08
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 7

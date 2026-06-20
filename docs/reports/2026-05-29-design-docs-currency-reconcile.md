@@ -4,7 +4,7 @@ workstream: cross-cutting
 category: report
 doc_status: active
 doc_owner: claude-code
-last_verified: "2026-05-29"
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 tags: [currency, reconcile, audit, governance, worldgen, mutation, nido, lore]

@@ -4,7 +4,7 @@ workstream: cross-cutting
 category: research
 doc_status: draft
 doc_owner: claude-code
-last_verified: '2026-04-27'
+last_verified: 2026-06-20
 tags: [stat-hybrid, companion, tamagotchi, skiv, species, perk, portable, research]
 ---
 

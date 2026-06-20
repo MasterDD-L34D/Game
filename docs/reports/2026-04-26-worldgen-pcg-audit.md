@@ -5,7 +5,7 @@ category: report
 doc_status: draft
 doc_owner: claude-code
 tags: [pcg, worldgen, ecosystem, biome, audit]
-last_verified: "2026-05-29"
+last_verified: 2026-06-20
 reconcile_note: "Curated to museum cards M-012..M-018 + gallery worldgen. Runtime: biomeResonance + biomeSpawnBias live; GAP-A/B/C (foodweb-filter, cross-event-engine, campaign-routing) still open. See docs/reports/2026-05-29-design-docs-currency-reconcile.md"
 ---
 

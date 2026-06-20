@@ -3,7 +3,7 @@ title: "PCG / Level Design Deep Analysis (2026-04-26)"
 doc_status: active
 doc_owner: claude-code
 workstream: cross-cutting
-last_verified: '2026-04-26'
+last_verified: 2026-06-20
 source_of_truth: false
 language: en
 review_cycle_days: 30

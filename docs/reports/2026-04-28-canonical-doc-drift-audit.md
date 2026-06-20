@@ -3,7 +3,7 @@ title: 'Drift audit canonical doc — cross-reference 2026-04-28'
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14
