@@ -126,10 +126,27 @@ def extract_lore_vars(draft: Dict[str, object]) -> Dict[str, object]:
     return dict(ce.get("lore_vars") or {})
 
 
+def _scrub_forbidden(obj: object) -> None:
+    """Recursively delete engine-only score fields (SPEC-H sez.8 secret invariant).
+
+    Defense in depth: even if a malformed input draft already carries these
+    fields, they must never serialize into a player-facing draft.
+    """
+    if isinstance(obj, dict):
+        for key in list(obj.keys()):
+            if key in _FORBIDDEN_SCORE_FIELDS:
+                del obj[key]
+            else:
+                _scrub_forbidden(obj[key])
+    elif isinstance(obj, list):
+        for item in obj:
+            _scrub_forbidden(item)
+
+
 def fill_draft(draft: Dict[str, object], contents: Dict[str, str]) -> Dict[str, object]:
     """Write generated content into a draft + stamp it pending-review.
 
-    Does NOT add any engine-only score field (secret invariant).
+    Scrubs any engine-only score field (secret invariant) before returning.
     """
     ce = draft["codex_entry"]
     ce["lore_review_status"] = REVIEW_STATUS_PENDING
@@ -137,6 +154,7 @@ def fill_draft(draft: Dict[str, object], contents: Dict[str, str]) -> Dict[str, 
     for key, content in contents.items():
         if key in dims and isinstance(dims[key], dict):
             dims[key]["content"] = content
+    _scrub_forbidden(ce)
     return draft
 
 

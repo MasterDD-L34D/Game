@@ -60,3 +60,20 @@ test('NOT ready when a dimension is missing', () => {
   assert.equal(ready, false);
   assert.ok(problems.some((p) => /E_ecologia/.test(p)));
 });
+
+test('NOT ready when lore_review_status is present but null/empty (corrupt)', () => {
+  // A present-but-not-human_reviewed flag must reject, even if falsy. Only an
+  // ABSENT field (hand-authored, or human-removed after review) may promote.
+  for (const bad of [null, '', 'generated_pending_review', 'pending']) {
+    const { ready } = evaluateDraft(draft({ lore_review_status: bad }));
+    assert.equal(ready, false, `expected reject for lore_review_status=${JSON.stringify(bad)}`);
+  }
+});
+
+test('NOT ready when a dimension content is not a string', () => {
+  const d = draft();
+  d.codex_entry.aliena_dimensions.A_ambiente.content = [1, 2, 3];
+  const { ready, problems } = evaluateDraft(d);
+  assert.equal(ready, false);
+  assert.ok(problems.some((p) => /A_ambiente/.test(p)));
+});

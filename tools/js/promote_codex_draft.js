@@ -51,16 +51,23 @@ function evaluateDraft(doc) {
       problems.push(`missing dimension: ${key}`);
       continue;
     }
-    const content = String(dim.content || '').trim();
+    if (typeof dim.content !== 'string') {
+      problems.push(`non-string content: ${key}`);
+      continue;
+    }
+    const content = dim.content.trim();
     if (!content) problems.push(`empty content: ${key}`);
     else if (/TODO\s+master-dd/i.test(content))
       problems.push(`unauthored (TODO master-dd placeholder still present): ${key}`);
   }
-  const status = ce.lore_review_status;
-  if (status && status !== REVIEW_STATUS_OK) {
+  // A PRESENT lore_review_status that is not human_reviewed rejects (incl. null
+  // / empty / generated_pending_review). Only an ABSENT field (hand-authored,
+  // or human-removed after review -- a documented approval path) may promote.
+  if ('lore_review_status' in ce && ce.lore_review_status !== REVIEW_STATUS_OK) {
     problems.push(
-      `generated draft pending human review (lore_review_status: ${status}) -- ` +
-        'edit the prose then set lore_review_status: human_reviewed (or remove the field)',
+      `generated draft pending human review (lore_review_status: ${JSON.stringify(
+        ce.lore_review_status,
+      )}) -- edit the prose then set lore_review_status: human_reviewed (or remove the field)`,
     );
   }
   return { ready: problems.length === 0, problems };

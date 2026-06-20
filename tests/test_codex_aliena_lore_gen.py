@@ -86,23 +86,26 @@ def test_fill_draft_marks_pending_review_and_fills_content():
         assert c.strip()
 
 
-def test_fill_draft_does_not_emit_secret_score_fields():
-    # SPEC-H sez.8 secret invariant: the generator must NEVER write the
-    # engine-only score fields into a player-facing draft.
+def test_fill_draft_strips_secret_score_fields():
+    # SPEC-H sez.8 secret invariant (defense in depth): even if a malformed
+    # input draft already carries the engine-only score fields, fill_draft must
+    # SCRUB them so they never reach a player-facing draft.
+    forbidden = {"aggregate", "sub_scores", "coherence", "enforcement_factor"}
     draft = {
         "codex_entry": {
             "id": "x",
+            "aggregate": 0.91,  # top-level forbidden field
             "aliena_dimensions": {
-                k: {"content": "TODO"} for k in gen.ALIENA_DIMENSION_KEYS
+                k: {"content": "TODO", "coherence": 0.5}  # nested forbidden field
+                for k in gen.ALIENA_DIMENSION_KEYS
             },
         }
     }
     filled = gen.fill_draft(draft, gen.generate_all(GRAMMAR, LORE_VARS, "x"))
-    forbidden = {"aggregate", "sub_scores", "coherence", "enforcement_factor"}
     ce = filled["codex_entry"]
-    assert not (forbidden & set(ce.keys()))
-    for dim in ce["aliena_dimensions"].values():
-        assert not (forbidden & set(dim.keys()))
+    assert not (forbidden & set(ce.keys())), "top-level score field not scrubbed"
+    for key, dim in ce["aliena_dimensions"].items():
+        assert not (forbidden & set(dim.keys())), f"nested score field not scrubbed in {key}"
 
 
 def test_extract_lore_vars_reads_codex_entry_block():
