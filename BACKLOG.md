@@ -64,7 +64,7 @@ IMPLEMENTAZIONE (forward-work, NON doc-flip blocker):
   `enc_savana_pack_clash` (`apex_neutral`), che nessun routing referenzia -> nel flow default ~0
   entry sbloccabili. Fix = wire dell'encounter savana OPPURE aggiungere `dune_stalker` come nemico
   sistema in una wave (content/balance, master-dd). Il guard namespace (#2851) cattura l'orphan;
-  questo gap = reachability del roster, separato.
+  questo gap = reachability del roster, separato. **DECISIONE 2026-06-20 (master-dd) = seed 1 entry per nemico ROUTED**: verify-first ha trovato che il fix reale e' content-mismatch (entry solo per specie non-incontrata; i nemici routed non hanno entry). Scaffold `data/codex/_drafts/predoni_nomadi.yaml` creato (factual/mechanical fields + unlock + 6 dim A.L.I.E.N.A. con `content:` = TODO prose master-dd; in `_drafts/` = loader flat NON lo serve). **Verify-trigger CONFERMATO**: `predoni_nomadi` ha `encounter_role:threat` + e' in `enc_tutorial_01/02` (routed) -> `markCodexEntrySeen` (apps/play/main.js:287-311) fire al primo tutorial. **Promotion (master-dd)**: autora la prosa A.L.I.E.N.A. -> move `_drafts/predoni_nomadi.yaml` -> `data/codex/predoni_nomadi.yaml` = primo unlock reale in-flow (gap chiuso e2e). Caveat: predoni e' tutorial-phantom stub (lore-light); una specie sentient/apex routed sarebbe entry piu' ricca per il futuro.
 - **ALIENA ancoraggio dimension = boost opzionale mai autorato** — verify-first 2026-06-18: lo
   scorer `services/authorial/alienaCoherence.js` `_scoreAncoraggioNarrativo` legge
   `entry.narrative_hooks`/`lore_ref`/`narrative_tag` sulle spawn-pool entries, ma quei 3 field
