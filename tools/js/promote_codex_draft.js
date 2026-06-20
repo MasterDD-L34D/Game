@@ -27,6 +27,45 @@ const DIMENSION_KEYS = [
   'A_ancoraggio_narrativo',
 ];
 
+// Machine-generated drafts (tools/py/codex_aliena_lore_gen.py) are stamped
+// `lore_review_status: generated_pending_review` so AI prose can NEVER be
+// promoted to players without human curation. Promotion requires the author to
+// flip it to `human_reviewed` (or remove the field) after editing the prose.
+const REVIEW_STATUS_OK = 'human_reviewed';
+
+/**
+ * Pure readiness check (no filesystem access -> unit-testable). Returns
+ * { ready, problems }. The CLI (main) wraps it with file IO + the rename.
+ */
+function evaluateDraft(doc) {
+  const problems = [];
+  const ce = doc && doc.codex_entry;
+  const dims = ce && ce.aliena_dimensions;
+  if (!dims) {
+    problems.push('missing codex_entry.aliena_dimensions');
+    return { ready: false, problems };
+  }
+  for (const key of DIMENSION_KEYS) {
+    const dim = dims[key];
+    if (!dim) {
+      problems.push(`missing dimension: ${key}`);
+      continue;
+    }
+    const content = String(dim.content || '').trim();
+    if (!content) problems.push(`empty content: ${key}`);
+    else if (/TODO\s+master-dd/i.test(content))
+      problems.push(`unauthored (TODO master-dd placeholder still present): ${key}`);
+  }
+  const status = ce.lore_review_status;
+  if (status && status !== REVIEW_STATUS_OK) {
+    problems.push(
+      `generated draft pending human review (lore_review_status: ${status}) -- ` +
+        'edit the prose then set lore_review_status: human_reviewed (or remove the field)',
+    );
+  }
+  return { ready: problems.length === 0, problems };
+}
+
 function main() {
   const id = process.argv[2];
   if (!id) {
@@ -54,26 +93,8 @@ function main() {
     process.exit(1);
   }
 
-  const dims = doc && doc.codex_entry && doc.codex_entry.aliena_dimensions;
-  if (!dims) {
-    console.error('missing codex_entry.aliena_dimensions');
-    process.exit(1);
-  }
-
-  const problems = [];
-  for (const key of DIMENSION_KEYS) {
-    const dim = dims[key];
-    if (!dim) {
-      problems.push(`missing dimension: ${key}`);
-      continue;
-    }
-    const content = String(dim.content || '').trim();
-    if (!content) problems.push(`empty content: ${key}`);
-    else if (/TODO\s+master-dd/i.test(content))
-      problems.push(`unauthored (TODO master-dd placeholder still present): ${key}`);
-  }
-
-  if (problems.length) {
+  const { ready, problems } = evaluateDraft(doc);
+  if (!ready) {
     console.error(`NOT READY to promote ${id}:`);
     for (const p of problems) console.error(`  - ${p}`);
     console.error('Author the A.L.I.E.N.A. voice prose in every content: field first.');
@@ -87,4 +108,6 @@ function main() {
   );
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { evaluateDraft, DIMENSION_KEYS };

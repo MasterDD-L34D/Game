@@ -48,6 +48,26 @@ codex_entry:
       per sbloccare il Codex.
     persistence: "localStorage:evo:codex-seen-predoni_nomadi"
 
+  # Structured slots (factual, from data) consumed by the A.L.I.E.N.A. lore
+  # generator (tools/py/codex_aliena_lore_gen.py). The generator narrativizes
+  # these into the 6 `content:` blocks as a DRAFT (pending human review). NOT
+  # the final prose -- master-dd reviews/edits the generated draft before
+  # promoting (the `content:` below stay TODO until then). Adding lore_vars does
+  # not change what is served (file is under _drafts/, the loader globs flat).
+  lore_vars:
+    subject: "predone nomade"
+    biome_name: "savana ionizzata"
+    biome_trait: "dune fotoniche, luce radente e tempeste ioniche"
+    lineage: "razziatori umanoidi"
+    archetype: "adattivo"
+    morphotype: "bipede armato"
+    job: "skirmisher"
+    role: "predatore secondario"
+    threat_tier: "T1"
+    social: "bande di razzia nomadi"
+    sentience: "istintiva"
+    hook: "il primo nemico che affronti nel tutorial"
+
   aliena_dimensions:
     A_ambiente:
       heading: "Ambiente"
