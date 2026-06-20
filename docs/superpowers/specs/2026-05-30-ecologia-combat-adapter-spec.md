@@ -4,7 +4,7 @@ workstream: flow
 category: spec
 doc_status: draft
 doc_owner: claude-code
-last_verified: '2026-05-30'
+last_verified: 2026-06-20
 language: it
 tags: [worldgen, species, combat, ecologia, adapter, foodweb, calibration, spec, keystone]
 ---

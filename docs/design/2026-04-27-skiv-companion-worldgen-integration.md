@@ -3,7 +3,7 @@ title: Skiv Companion — Worldgen-Aware Istanza Generativa
 doc_status: draft
 doc_owner: design-team
 workstream: cross-cutting
-last_verified: 2026-04-27
+last_verified: 2026-06-20
 tags: [skiv, companion, worldgen, species, biome, generative]
 ---
 

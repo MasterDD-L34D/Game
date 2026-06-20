@@ -4,7 +4,7 @@ workstream: combat
 category: spec
 doc_status: draft
 doc_owner: claude-code
-last_verified: '2026-06-01'
+last_verified: 2026-06-20
 language: it
 tags: [phasec, jobs-expansion, combat, aberrant, mutation, phenotype, random-roll, cooldown, cat-f]
 ---
