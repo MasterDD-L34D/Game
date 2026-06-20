@@ -286,6 +286,17 @@ def print_summary(directory: Path) -> None:
 
 
 def main() -> None:
+    # Windows cp1252 stdout crashes when a diagnostic embeds non-ASCII -- e.g. a
+    # schema pattern-violation message echoes the UCUM regex (contains U+22C5).
+    # Force utf-8 on the output streams so errors print on any console codepage
+    # (CI Linux is already utf-8; this only affects local Windows dev). See
+    # TKT-TRAITVALIDATOR-WIN-ENCODING.
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError):
+            pass
+
     parser = argparse.ArgumentParser(description="Valida i trait e l'indice associato.")
     parser.add_argument(
         "--schema",
