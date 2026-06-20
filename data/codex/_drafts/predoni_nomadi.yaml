@@ -111,8 +111,8 @@ codex_entry:
     I_impianto:
       heading: "Impianto morfo-fisiologico"
       content: >
-        Il corpo del predone nomade -- bipede armato -- e' ottimizzato per il
-        skirmisher: rapido, essenziale, fragile se isolato dal gruppo.
+        Il corpo del predone nomade -- bipede armato -- e' ottimizzato per il ruolo
+        di skirmisher: rapido, essenziale, fragile se isolato dal gruppo.
       key_facts:
         - "morphotype: bipede_armato (umanoide armato)"
         - "combat_baseline: hp 4 / ap 2 / mod 2 / dc 12 / range 1 / guardia 0"
