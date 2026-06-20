@@ -8,7 +8,7 @@ workstream: combat
 last_verified: '2026-06-06'
 source_of_truth: true
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 180
 ---
 
 # Combat Hub

@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-17
 source_of_truth: true
 language: it
-review_cycle_days: 7
+review_cycle_days: 180
 ---
 
 # Quarantine Registry

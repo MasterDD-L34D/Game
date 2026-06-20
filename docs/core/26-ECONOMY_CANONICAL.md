@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-20
 source_of_truth: true
 language: it
-review_cycle_days: 14
+review_cycle_days: 180
 related:
   - docs/core/PI-Pacchetti-Forme.md
   - docs/core/25-REGOLE_SBLOCCO_PE.md

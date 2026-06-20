@@ -8,7 +8,7 @@ language: it
 last_verified: '2026-05-09'
 tags: [ai, balance, calibration, utility-brain, commit-window, fase2]
 doc_owner: platform-docs
-review_cycle_days: 14
+review_cycle_days: 180
 ---
 
 # K4 commit-window Approach B — implementation + N=40 sweep results

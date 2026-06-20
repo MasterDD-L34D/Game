@@ -6,7 +6,7 @@ doc_owner: master-dd
 last_verified: 2026-06-20
 source_of_truth: true
 language: it
-review_cycle_days: 7
+review_cycle_days: 180
 status: active
 owner: master-dd
 last_review: 2026-05-09
