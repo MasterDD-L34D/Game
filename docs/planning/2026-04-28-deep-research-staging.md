@@ -3,7 +3,7 @@ title: 2026-04-28 Deep research staging — handoff per NEW session analysis
 doc_status: staging
 doc_owner: master-dd
 workstream: planning
-last_verified: 2026-04-28
+last_verified: 2026-06-20
 language: it
 review_cycle_days: 7
 related:
