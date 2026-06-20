@@ -6,7 +6,7 @@ workstream: backend
 last_verified: '2026-04-21'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/adr/ADR-2026-04-21-campaign-save-persistence.md
   - docs/planning/2026-04-20-integrated-design-map.md

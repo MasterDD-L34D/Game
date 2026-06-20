@@ -1,6 +1,6 @@
 ---
 title: Governance Rollout Plan (6-8 weeks)
-doc_status: active
+doc_status: historical_ref
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-05-06

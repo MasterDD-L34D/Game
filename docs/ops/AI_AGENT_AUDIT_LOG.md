@@ -1,6 +1,6 @@
 ---
 title: AI_AGENT_AUDIT_LOG.md – Diario lavori sistema agenti
-doc_status: draft
+doc_status: historical_ref
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-05-06

@@ -5,7 +5,7 @@ workstream: cross-cutting
 last_verified: '2026-06-06'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 ---
 
 # Evo Tactics — Source of Truth Unificata v5

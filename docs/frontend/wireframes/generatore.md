@@ -1,6 +1,6 @@
 ---
 title: Wireframe — Generatore (v1)
-doc_status: draft
+doc_status: historical_ref
 doc_owner: atlas-team
 workstream: atlas
 last_verified: 2026-05-06

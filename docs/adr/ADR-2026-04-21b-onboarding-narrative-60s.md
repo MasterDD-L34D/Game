@@ -6,7 +6,7 @@ workstream: combat
 last_verified: '2026-06-06'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/core/51-ONBOARDING-60S.md
   - docs/adr/ADR-2026-04-21-campaign-save-persistence.md

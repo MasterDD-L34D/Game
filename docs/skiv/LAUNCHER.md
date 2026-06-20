@@ -6,7 +6,7 @@ workstream: cross-cutting
 last_verified: 2026-04-26
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 tags: [skiv, launcher, windows, playtest]
 ---
 

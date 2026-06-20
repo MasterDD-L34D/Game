@@ -6,7 +6,7 @@ workstream: backend
 last_verified: '2026-04-21'
 source_of_truth: true
 language: it
-review_cycle_days: 30
+review_cycle_days: 180
 related:
   - docs/core/40-ROADMAP.md
   - docs/core/15-LEVEL_DESIGN.md
