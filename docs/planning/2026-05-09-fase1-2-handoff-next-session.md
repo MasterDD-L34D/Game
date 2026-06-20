@@ -3,7 +3,7 @@ title: 'Handoff next session — FASE 1+2 AI sim closure 2026-05-09'
 workstream: ops-qa
 doc_status: active
 doc_owner: master-dd
-last_verified: 2026-05-09
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 7

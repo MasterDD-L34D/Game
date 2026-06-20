@@ -3,7 +3,7 @@ title: Repo content audit handoff — next session brief 2026-05-05
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-05
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14
