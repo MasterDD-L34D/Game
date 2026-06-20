@@ -105,3 +105,17 @@ whether the marginal pressure-PE signal is worth keeping in the composite as-is,
 to the design's alternate tension source (turns-to-resolve + dmg_taken "contestedness",
 sec 4.5) which is telemetered on every oracle and may avoid the high-pressure saturation;
 (c) only after (a)+(b) flip P4 gate-2/4b + P5 to consume the real band.
+
+## Decision (2026-06-20, master-dd)
+
+**(b) SWITCH to contestedness.** PE-from-pressure REJECTED as the PE source (the
+marginal/saturated signal IS the negative-result the design sec 4.5 anticipated). The
+proposed pressure band `[0.236, 0.815]` is DROPPED -- NOT ratified, NOT written to the
+manifest. The `attach_composite_terms` wiring (#2867) + the badlands/foresta
+instrumentation (#2869) stay (the composite is still computable); only the PE SOURCE
+changes. Execution plan (calib-session, single-owner) =
+`docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md`: add turns-to-resolve
+
+- dmg_taken candidates, re-run the orthogonality experiment, derive + (master-dd) ratify a
+  band off contestedness, then flip P4/P5. If contestedness is ALSO materially collinear
+  with WR, escalate to drop-PE or defer (valid negative result; do not force a marginal band).
