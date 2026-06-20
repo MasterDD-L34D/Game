@@ -208,7 +208,7 @@
     {
       "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
       "title": "ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile",
-      "doc_status": "active",
+      "doc_status": "superseded",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
@@ -3944,7 +3944,7 @@
     {
       "path": "docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md",
       "title": "Piano di integrazione — `incoming/lavoro_da_classificare`",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "incoming-archivist",
       "workstream": "incoming",
       "last_verified": "2026-05-06",
@@ -3957,7 +3957,7 @@
     {
       "path": "docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md",
       "title": "Task board — `incoming/lavoro_da_classificare`",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "incoming-archivist",
       "workstream": "incoming",
       "last_verified": "2026-05-06",
@@ -4969,7 +4969,7 @@
     {
       "path": "docs/pitch/evo_tactics_game_vision_reconstructed.md",
       "title": "Evo Tactics — Visione Ricostruita del Gioco",
-      "doc_status": "active",
+      "doc_status": "superseded",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-16",
@@ -6483,7 +6483,7 @@
     {
       "path": "docs/process/2026-04-26-calibration-harness-policy.md",
       "title": "Calibration harness policy — diagnostic, not merge gate",
-      "doc_status": "draft",
+      "doc_status": "superseded",
       "doc_owner": "claude-code",
       "workstream": "ops-qa",
       "last_verified": "2026-04-26",
