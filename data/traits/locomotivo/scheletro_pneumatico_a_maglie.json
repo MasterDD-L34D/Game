@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "scheletro_pneumatico_a_maglie",
   "label": "i18n:traits.scheletro_pneumatico_a_maglie.label",
   "data_origin": "coverage_q4_2025",

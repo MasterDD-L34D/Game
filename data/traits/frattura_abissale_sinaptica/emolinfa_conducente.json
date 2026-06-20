@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "emolinfa_conducente",
   "label": "i18n:traits.emolinfa_conducente.label",
   "data_origin": "frattura_abissale_sinaptica",

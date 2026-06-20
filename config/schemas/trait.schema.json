@@ -20,6 +20,11 @@
     "spinta_selettiva"
   ],
   "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0",
+      "description": "Versione schema del file trait (gate ADR-2026-05-29). Dichiarata da ogni file per coerenza con il trait_schema_gate."
+    },
     "id": {
       "$ref": "#/$defs/trait_id",
       "description": "Identificatore canonico uguale al nome file."

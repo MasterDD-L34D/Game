@@ -161,6 +161,8 @@ def check_biome_feature(biome_slug: str, verbose: bool = False):
     # 5) species_affinity coerenza (se presente)
     if species_affinity and isinstance(species_affinity, dict):
         for trait_id, entries in species_affinity.items():
+            if not isinstance(entries, list):
+                continue  # salta chiavi di metadati (es. schema_version), non mappe trait->lista
             for entry in entries:
                 species_id = entry.get("species_id")
                 if species_id and species_id not in species_for_biome:

@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "occhi_cinetici",
   "label": "i18n:traits.occhi_cinetici.label",
   "debolezza": "i18n:traits.occhi_cinetici.debolezza",

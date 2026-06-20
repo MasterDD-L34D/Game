@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "traits_aggregate",
   "label": "i18n:traits.traits_aggregate.label",
   "data_origin": "external_evo_pack",

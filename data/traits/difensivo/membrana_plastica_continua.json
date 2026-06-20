@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "membrana_plastica_continua",
   "label": "i18n:traits.membrana_plastica_continua.label",
   "data_origin": "coverage_q4_2025",

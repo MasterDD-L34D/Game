@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "secrezioni_antistatiche",
   "label": "i18n:traits.secrezioni_antistatiche.label",
   "data_origin": "frattura_abissale_sinaptica",

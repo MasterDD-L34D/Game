@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "sensori_planctonici",
   "label": "i18n:traits.sensori_planctonici.label",
   "data_origin": "frattura_abissale_sinaptica",

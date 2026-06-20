@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "membrane_fotoconvoglianti",
   "label": "i18n:traits.membrane_fotoconvoglianti.label",
   "data_origin": "frattura_abissale_sinaptica",

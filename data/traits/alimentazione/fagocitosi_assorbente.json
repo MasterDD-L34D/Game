@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "fagocitosi_assorbente",
   "label": "i18n:traits.fagocitosi_assorbente.label",
   "data_origin": "coverage_q4_2025",

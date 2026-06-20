@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.ali_fulminee.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",

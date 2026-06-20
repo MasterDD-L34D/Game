@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "occhi_cristallo_modulare",
   "label": "i18n:traits.occhi_cristallo_modulare.label",
   "famiglia_tipologia": "Sensoriale/Visivo",
