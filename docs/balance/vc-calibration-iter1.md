@@ -3,7 +3,7 @@ title: VC Scoring Calibration — Iteration 1 (analysis + applied)
 doc_status: active
 doc_owner: master-dd
 workstream: dataset-pack
-last_verified: '2026-04-17'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 30

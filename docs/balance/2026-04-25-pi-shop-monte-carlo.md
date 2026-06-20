@@ -3,7 +3,7 @@ title: PI Shop Monte Carlo — N=1000 (2026-04-25)
 doc_status: active
 doc_owner: claude-code
 workstream: dataset-pack
-last_verified: '2026-04-25'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
