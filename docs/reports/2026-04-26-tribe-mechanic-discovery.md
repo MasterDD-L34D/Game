@@ -3,7 +3,7 @@ title: 'Tribe / Tribù — Discovery Report (job → tribe rename intent)'
 doc_status: research
 doc_owner: research-agent
 workstream: cross-cutting
-last_verified: '2026-04-26'
+last_verified: 2026-06-20
 language: it
 review_cycle_days: 14
 ---

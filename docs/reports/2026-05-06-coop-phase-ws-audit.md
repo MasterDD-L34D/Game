@@ -3,7 +3,7 @@ title: 'Co-op phase WS audit + B6/B7/W5/W6/W8 fix bundle'
 doc_status: active
 doc_owner: master-dd
 workstream: coop
-last_verified: 2026-05-06
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
