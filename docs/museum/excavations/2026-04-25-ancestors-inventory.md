@@ -3,7 +3,7 @@ title: Inventory excavate — domain ancestors
 doc_status: draft
 doc_owner: agents/repo-archaeologist
 workstream: cross-cutting
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 tags: [archaeology, museum, ancestors]
 ---
 

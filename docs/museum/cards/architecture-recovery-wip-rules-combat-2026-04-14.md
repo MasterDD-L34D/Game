@@ -17,7 +17,7 @@ related_pillars: [P1, P6]
 status: snapshot
 excavated_by: repo-archaeologist
 excavated_on: 2026-05-04
-last_verified: 2026-05-04
+last_verified: 2026-06-20
 doc_status: active
 doc_owner: governance-illuminator
 workstream: cross-cutting

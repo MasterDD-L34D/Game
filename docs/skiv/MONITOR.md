@@ -3,7 +3,7 @@ title: Skiv Monitor — live creature feed
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-05-11T17:53:05Z
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 7

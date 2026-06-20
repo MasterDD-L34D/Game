@@ -3,7 +3,7 @@ title: Repo-archaeologist agent — Gate 2 smoke test report
 doc_status: draft
 doc_owner: claude-code
 workstream: ops-qa
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 30

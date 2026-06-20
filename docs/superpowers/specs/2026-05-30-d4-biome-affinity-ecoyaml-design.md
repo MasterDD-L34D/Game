@@ -4,7 +4,7 @@ workstream: flow
 category: planning
 doc_status: active
 doc_owner: claude-code
-last_verified: '2026-05-30'
+last_verified: 2026-06-20
 language: it
 tags: [worldgen, biome-affinity, ecosystem, foodweb, heuristic, d4, gap-a, design]
 ---

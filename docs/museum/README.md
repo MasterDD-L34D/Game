@@ -3,7 +3,7 @@ title: Museum — How to use
 doc_status: draft
 doc_owner: agents/repo-archaeologist
 workstream: cross-cutting
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
