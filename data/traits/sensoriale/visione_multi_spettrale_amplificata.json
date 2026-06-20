@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "visione_multi_spettrale_amplificata",
   "label": "i18n:traits.visione_multi_spettrale_amplificata.label",
   "data_origin": "coverage_q4_2025",

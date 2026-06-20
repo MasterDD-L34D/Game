@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "bioantenne_gravitiche",
   "label": "i18n:traits.bioantenne_gravitiche.label",
   "data_origin": "frattura_abissale_sinaptica",

@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "artigli_ipo_termici",
   "label": "i18n:traits.artigli_ipo_termici.label",
   "data_origin": "coverage_q4_2025",

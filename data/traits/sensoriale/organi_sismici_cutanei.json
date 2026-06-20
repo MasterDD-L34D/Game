@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "organi_sismici_cutanei",
   "label": "i18n:traits.organi_sismici_cutanei.label",
   "data_origin": "incoming_tr1100_pack",

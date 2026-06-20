@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "nodi_sinaptici_superficiali",
   "label": "i18n:traits.nodi_sinaptici_superficiali.label",
   "data_origin": "frattura_abissale_sinaptica",

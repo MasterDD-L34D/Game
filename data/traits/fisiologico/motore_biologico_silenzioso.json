@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "motore_biologico_silenzioso",
   "label": "i18n:traits.motore_biologico_silenzioso.label",
   "data_origin": "coverage_q4_2025",

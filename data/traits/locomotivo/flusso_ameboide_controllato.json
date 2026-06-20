@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "flusso_ameboide_controllato",
   "label": "i18n:traits.flusso_ameboide_controllato.label",
   "data_origin": "coverage_q4_2025",

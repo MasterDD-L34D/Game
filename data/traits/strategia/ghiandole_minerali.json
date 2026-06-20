@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.ghiandole_minerali.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
