@@ -8,7 +8,7 @@ language: it
 last_verified: '2026-05-09'
 tags: [ai, balance, calibration, utility-brain, fix, audit, fase2]
 doc_owner: platform-docs
-review_cycle_days: 14
+review_cycle_days: 180
 ---
 
 # K3 production fix shipped + K4 stickiness audit

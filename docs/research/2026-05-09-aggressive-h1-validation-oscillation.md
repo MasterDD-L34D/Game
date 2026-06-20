@@ -8,7 +8,7 @@ language: it
 last_verified: '2026-05-09'
 tags: [ai, balance, calibration, utility-brain, oscillation, validation, fase2]
 doc_owner: platform-docs
-review_cycle_days: 14
+review_cycle_days: 180
 ---
 
 # H1 validation: utility brain oscillation confirmed (aggressive profile)

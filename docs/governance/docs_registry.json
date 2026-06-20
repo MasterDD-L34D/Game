@@ -32,7 +32,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -45,7 +45,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -58,7 +58,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -71,7 +71,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -84,7 +84,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -97,7 +97,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -110,7 +110,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -123,7 +123,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -136,7 +136,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -175,7 +175,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -188,7 +188,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -201,7 +201,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -214,7 +214,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -253,7 +253,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -305,7 +305,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -626,7 +626,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -665,7 +665,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -678,7 +678,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -691,7 +691,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -730,7 +730,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -756,7 +756,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -769,7 +769,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -2355,7 +2355,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2420,7 +2420,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2433,7 +2433,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2446,7 +2446,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2459,7 +2459,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2472,7 +2472,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2485,7 +2485,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2498,7 +2498,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -2511,7 +2511,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -2524,7 +2524,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "authored"
     },
@@ -2537,7 +2537,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2550,7 +2550,7 @@
       "source_of_truth": true,
       "last_verified": "2026-06-06",
       "language": "it-en",
-      "review_cycle_days": 14
+      "review_cycle_days": 180
     },
     {
       "path": "docs/combat/data-flow.md",
@@ -2561,7 +2561,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2574,7 +2574,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2587,7 +2587,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2600,7 +2600,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2613,7 +2613,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2626,7 +2626,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2639,7 +2639,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2652,7 +2652,7 @@
       "source_of_truth": false,
       "last_verified": "2026-06-06",
       "language": "it-en",
-      "review_cycle_days": 14
+      "review_cycle_days": 180
     },
     {
       "path": "docs/combat/worker-bridge.md",
@@ -2663,7 +2663,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "authored"
     },
@@ -2715,7 +2715,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "new"
     },
@@ -2728,7 +2728,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "new"
     },
@@ -2767,7 +2767,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2780,7 +2780,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2793,7 +2793,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2806,7 +2806,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2819,7 +2819,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "migrated"
     },
@@ -2858,7 +2858,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2871,7 +2871,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2884,7 +2884,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2897,7 +2897,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2910,7 +2910,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2923,7 +2923,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2936,7 +2936,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -2949,7 +2949,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3027,7 +3027,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "authored"
     },
@@ -3040,7 +3040,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3053,7 +3053,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3066,7 +3066,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3079,7 +3079,7 @@
       "last_verified": "2026-06-07",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3092,7 +3092,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3105,7 +3105,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -3118,7 +3118,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3131,7 +3131,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3144,7 +3144,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3157,7 +3157,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3170,7 +3170,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3183,7 +3183,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3196,7 +3196,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3209,7 +3209,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3404,7 +3404,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3417,7 +3417,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3430,7 +3430,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3443,7 +3443,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3456,7 +3456,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3469,7 +3469,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3482,7 +3482,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3521,7 +3521,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3547,7 +3547,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3560,7 +3560,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3573,7 +3573,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3586,7 +3586,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3599,7 +3599,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3625,7 +3625,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3638,7 +3638,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3651,7 +3651,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3677,7 +3677,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3690,7 +3690,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3729,7 +3729,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3742,7 +3742,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3768,7 +3768,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3781,7 +3781,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3794,7 +3794,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3807,7 +3807,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -3820,7 +3820,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3833,7 +3833,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3846,7 +3846,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3859,7 +3859,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3872,7 +3872,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3885,7 +3885,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3898,7 +3898,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3911,7 +3911,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "canonical"
     },
@@ -3937,7 +3937,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -3950,7 +3950,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -4325,7 +4325,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4338,7 +4338,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4351,7 +4351,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4364,7 +4364,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4377,7 +4377,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4390,7 +4390,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4403,7 +4403,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4429,7 +4429,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4442,7 +4442,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4468,7 +4468,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4481,7 +4481,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4494,7 +4494,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4507,7 +4507,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4520,7 +4520,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4533,7 +4533,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4546,7 +4546,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4559,7 +4559,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4572,7 +4572,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4585,7 +4585,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4598,7 +4598,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4611,7 +4611,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4624,7 +4624,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4637,7 +4637,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4650,7 +4650,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4663,7 +4663,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4676,7 +4676,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4689,7 +4689,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4702,7 +4702,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4715,7 +4715,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4728,7 +4728,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4741,7 +4741,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4754,7 +4754,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4767,7 +4767,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4780,7 +4780,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4793,7 +4793,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4806,7 +4806,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4819,7 +4819,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4832,7 +4832,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4845,7 +4845,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4858,7 +4858,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4871,7 +4871,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4884,7 +4884,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4897,7 +4897,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4910,7 +4910,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4923,7 +4923,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4936,7 +4936,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -4949,7 +4949,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -5012,7 +5012,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-25-creature-concept-catalog.md",
@@ -5034,7 +5034,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-25-jobs-expansion-design.md",
@@ -5067,7 +5067,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md",
@@ -5078,7 +5078,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-25-status-effects-roadmap.md",
@@ -5100,7 +5100,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-26-next-session-kickoff-p4-mbti-playtest.md",
@@ -5111,7 +5111,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-26-vision-gap-sprint-handoff.md",
@@ -5155,7 +5155,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
@@ -5166,7 +5166,7 @@
       "last_verified": "2026-04-29",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-29-ermes-codex-execution-brief.md",
@@ -5177,7 +5177,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-29-ermes-integration-plan.md",
@@ -5188,7 +5188,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 90
     },
     {
       "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
@@ -5199,7 +5199,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 180
     },
     {
       "path": "docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md",
@@ -5223,7 +5223,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -5236,7 +5236,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "active"
     },
@@ -5249,7 +5249,7 @@
       "last_verified": "2026-05-08",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -5262,7 +5262,7 @@
       "last_verified": "2026-05-08",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -5366,7 +5366,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": true,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": true,
       "track": "authored"
     },
@@ -6487,7 +6487,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6500,7 +6500,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6513,7 +6513,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6526,7 +6526,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6539,7 +6539,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6552,7 +6552,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6565,7 +6565,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6604,7 +6604,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6617,7 +6617,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6630,7 +6630,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6656,7 +6656,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6669,7 +6669,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6682,7 +6682,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6695,7 +6695,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6708,7 +6708,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6721,7 +6721,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6734,7 +6734,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6851,7 +6851,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14
+      "review_cycle_days": 30
     },
     {
       "path": "docs/process/telemetry.md",
@@ -6862,7 +6862,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6875,7 +6875,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6888,7 +6888,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6901,7 +6901,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6914,7 +6914,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6927,7 +6927,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6940,7 +6940,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6953,7 +6953,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6966,7 +6966,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -6979,7 +6979,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -7005,7 +7005,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -7018,7 +7018,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -7031,7 +7031,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -7279,7 +7279,7 @@
       "last_verified": "2026-04-28",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -7292,7 +7292,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -7305,7 +7305,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -7396,7 +7396,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "active"
     },
@@ -7513,7 +7513,7 @@
       "last_verified": "2026-06-01",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "active"
     },
@@ -8033,7 +8033,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "research"
     },
@@ -8094,7 +8094,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8107,7 +8107,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8120,7 +8120,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8133,7 +8133,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8146,7 +8146,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8159,7 +8159,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8172,7 +8172,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8185,7 +8185,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8198,7 +8198,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8211,7 +8211,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8224,7 +8224,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8237,7 +8237,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8250,7 +8250,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8263,7 +8263,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8276,7 +8276,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8289,7 +8289,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8302,7 +8302,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8315,7 +8315,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8328,7 +8328,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8341,7 +8341,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8354,7 +8354,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8367,7 +8367,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8380,7 +8380,7 @@
       "last_verified": "2026-06-11",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8393,7 +8393,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8406,7 +8406,7 @@
       "last_verified": "2026-05-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -8445,7 +8445,7 @@
       "last_verified": "2026-06-06",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -8952,7 +8952,7 @@
       "last_verified": "2026-04-14",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9472,7 +9472,7 @@
       "last_verified": "2026-04-20",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -9537,7 +9537,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9563,7 +9563,7 @@
       "last_verified": "2026-04-17",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -9576,7 +9576,7 @@
       "last_verified": "2026-04-17",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -9641,7 +9641,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9654,7 +9654,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9784,7 +9784,7 @@
       "last_verified": "2026-05-14",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
@@ -9849,7 +9849,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9875,7 +9875,7 @@
       "last_verified": "2026-04-26",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9953,7 +9953,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9979,7 +9979,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -9992,7 +9992,7 @@
       "last_verified": "2026-04-28",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10005,7 +10005,7 @@
       "last_verified": "2026-04-28",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10031,7 +10031,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10044,7 +10044,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10057,7 +10057,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10161,7 +10161,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10174,7 +10174,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10200,7 +10200,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -10213,7 +10213,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -10226,7 +10226,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10239,7 +10239,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10252,7 +10252,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10343,7 +10343,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10733,7 +10733,7 @@
       "last_verified": "2026-04-25",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10746,7 +10746,7 @@
       "last_verified": "2026-05-07",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10772,7 +10772,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10785,7 +10785,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10824,7 +10824,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -10889,7 +10889,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -10941,7 +10941,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11045,7 +11045,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11097,7 +11097,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11136,7 +11136,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11149,7 +11149,7 @@
       "last_verified": "2026-04-26",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11188,7 +11188,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11201,7 +11201,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11214,7 +11214,7 @@
       "last_verified": "2026-04-26",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11266,7 +11266,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11279,7 +11279,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11305,7 +11305,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11331,7 +11331,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11344,7 +11344,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11357,7 +11357,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11383,7 +11383,7 @@
       "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11396,7 +11396,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11474,7 +11474,7 @@
       "last_verified": "2026-05-18",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11487,7 +11487,7 @@
       "last_verified": "2026-05-25",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11500,7 +11500,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11539,7 +11539,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11552,7 +11552,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11708,7 +11708,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11747,7 +11747,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -11760,7 +11760,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -11773,7 +11773,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -11786,7 +11786,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -11799,7 +11799,7 @@
       "last_verified": "2026-05-09",
       "source_of_truth": true,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 180,
       "primary": false,
       "track": "migrated"
     },
@@ -11864,7 +11864,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 7,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11890,7 +11890,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11903,7 +11903,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11916,7 +11916,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11968,7 +11968,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11981,7 +11981,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -11994,7 +11994,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -12007,7 +12007,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -12020,7 +12020,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -12033,7 +12033,7 @@
       "last_verified": "2026-06-20",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -12059,7 +12059,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },
@@ -12202,7 +12202,7 @@
       "last_verified": "2026-06-10",
       "source_of_truth": false,
       "language": "it",
-      "review_cycle_days": 14,
+      "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
     },

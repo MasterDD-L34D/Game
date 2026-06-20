@@ -7,7 +7,7 @@ workstream: cross-cutting
 last_verified: '2026-06-01'
 source_of_truth: true
 language: it
-review_cycle_days: 7
+review_cycle_days: 180
 tags: [pillar, status, runtime, live, canonical, volatile, cross-cutting]
 related:
   - docs/core/02-PILASTRI.md

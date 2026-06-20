@@ -8,7 +8,7 @@ workstream: incoming
 last_verified: 2026-06-06
 source_of_truth: true
 language: it-en
-review_cycle_days: 7
+review_cycle_days: 180
 ---
 
 # Incoming Hub
