@@ -4,7 +4,7 @@ date: 2026-04-28
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-01'
+last_verified: '2026-06-20'
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -206,6 +206,32 @@ related:
 ---
 
 ## Delta history (snapshot temporali)
+
+### 2026-06-20 (freshness re-verify giugno -- ratificato master-dd 2026-06-20)
+
+> ✅ **RATIFICATO master-dd 2026-06-20.** Gli score **6/6 🟢 REGGONO** (verify-first: giugno rinforza tutti i pillar, zero regressioni). Audit freshness Claude (engine LIVE re-grep + 60+ PR Godot giugno) + ratifica master-dd. Questo bump aggiorna `last_verified` + evidenza giugno; tabella + caveat 2026-06-01 lasciati intatti (additive-only, lo storico resta).
+
+**Trigger**: doc 19gg stale (`last_verified` 2026-06-01 vs `review_cycle_days` 7) -- ~6 settimane di reconstruction-suite (item-1 17/17 SPEC `active` doc-level + SPEC-J lethal-wounds + SPEC-K device-authority + SPEC-H codex/ALIENA + creature dossier) non riflesse.
+
+**Metodo**: engine LIVE re-grep (questo repo) + Godot surface via `gh` (60+ PR giugno #454-#520).
+
+- **Engine** (Game, questo repo): 8/8 moduli pillar ancora `require`-d nelle route -- `roundOrchestrator`(2) / `metaProgression`(3) / `mutationEngine`(3) / `coopOrchestrator`(2) / `vcScoring`(3) / `enneaEffects`(2) / `xpBudget`(1) / `sistemaStateStore`(3). CI verde su HEAD.
+- **Surface** (Godot-v2 via `gh`): 60+ PR merged giugno rinforzano TUTTI i pillar.
+
+**Giugno per pillar** (rinforzo surface/engine, NON flip di score):
+
+- **P1 Tattica**: Ferrospora UI art-pass (ActionDock carapace #485/#487, ForecastPanel #509/#520, UnitInfoPanel #489/#493, CT medallion #490) + combat round-hints #469 + overcharge hint #467. Surface ancora piu' pulita -> `def++` resta restorable (master-dd).
+- **P2 Evoluzione**: SPEC-J lethal-wounds e2e (backend 5 PR + Godot consent #477 + wound-ritual #479) + creature dossier lineage #494/#497.
+- **P3 Specie x Job**: SPEC-H codex surface (Game #2828/#2829/#2830 + HA2 validator #2833 + HA5 proxy #2835) + dossier story-card.
+- **P4 Temperamenti**: Form Pulse 5-axis identity (#455/#456/#460/#463) + creature_named reveal #464 + companion voice #458 + dossier narrative.
+- **P5 Co-op vs Sistema**: SPEC-K device-authority 6/7 (K-01 #2878/#516 - K-02 world-confirm #2879/#513 - K-04 recruit #2826/#481 - K-05 mission-ready #2871/#507) + M1 telegraph validate #502.
+- **P6 Fairness**: AI-playtest PASS item-3/4/5 (#465/#468/#471) + PE_ratio calibration experiment (#2867/#2869; switch a contestedness in-progress, calib-session).
+
+**Caveat update 2026-06-20**:
+
+- **P6 baseline -- RISOLTO**: `BASELINE_WR.balanced` ricalibrato a **0.9** (`tools/sim/check-thresholds.js:38`, empirico 3-data-point N=40/N=100). Il caveat 2026-06-01 "baseline 100% stale -> raccomandato recalibrare ~90%" e' CHIUSO (fatto).
+- **P1 def++**: ancora restorable (surface piu' pulita post-Ferrospora) -- ratifica master-dd.
+- **P5 LobbyView TV room-sync**: ancora APERTO (nessun fix giugno; design-call pendente). K-02 world-confirm device-quorum (#2879/#513, flag OFF) avanza il co-op ma e' un gap distinto. Engine non impattato -> 🟢 confirmed regge.
 
 ### 2026-06-01 (reconciliation runtime audit fresh — ratificato master-dd 2026-06-01)
 
