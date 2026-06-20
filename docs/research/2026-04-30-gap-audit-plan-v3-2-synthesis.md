@@ -3,7 +3,7 @@ title: 'Gap audit plan v3 → v3.2 — synthesis 3 agent paralleli (plan precede
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-30
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

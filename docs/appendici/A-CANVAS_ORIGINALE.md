@@ -3,7 +3,7 @@ title: 'Canvas A — Originale (A.L.I.E.N.A.)'
 doc_status: active
 doc_owner: platform-docs
 workstream: dataset-pack
-last_verified: '2026-04-16'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

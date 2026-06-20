@@ -3,7 +3,7 @@ title: 'Localization (i18n) Strategy — it + en'
 doc_status: active
 doc_owner: frontend-team
 workstream: atlas
-last_verified: 2026-04-17
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

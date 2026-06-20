@@ -6,7 +6,7 @@ tags: [ancestors, reentry, museum, style-guide]
 doc_status: active
 doc_owner: repo-archaeologist
 workstream: dataset-pack
-last_verified: 2026-05-10
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 30

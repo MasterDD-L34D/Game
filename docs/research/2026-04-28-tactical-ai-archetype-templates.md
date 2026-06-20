@@ -3,7 +3,7 @@ title: 2026-04-28 Tactical AI archetype templates — pre Sprint N.4 Beehave wir
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-29
+last_verified: 2026-06-20
 language: it
 review_cycle_days: 30
 related:

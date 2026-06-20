@@ -3,7 +3,7 @@ title: 2026-04-28 Deep research SRPG/strategy synthesis — gap analysis × mast
 doc_status: draft
 doc_owner: master-dd
 workstream: planning
-last_verified: 2026-04-28
+last_verified: 2026-06-20
 language: it
 review_cycle_days: 14
 related:
