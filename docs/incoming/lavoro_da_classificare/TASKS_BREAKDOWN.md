@@ -1,6 +1,6 @@
 ---
 title: Task board — `incoming/lavoro_da_classificare`
-doc_status: integrato
+doc_status: historical_ref
 doc_owner: incoming-archivist
 workstream: incoming
 last_verified: 2026-05-06
