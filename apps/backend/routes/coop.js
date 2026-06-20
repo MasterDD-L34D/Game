@@ -274,14 +274,24 @@ function createCoopRouter({
         allPlayerIds: quorumPids(room, orch, playerId),
         connectedPlayerIds: connectedQuorumPids(room, orch),
       });
-      broadcastCoopState(room, orch);
       const out = { phase: orch.phase, tally };
       if (auto) {
+        // K-07 smoke finding: emit world_confirm_accepted on the REST vote path
+        // too, so the device-quorum commit signals the SAME named event whether
+        // the closing vote arrived over WS (wsSession drain) or REST. Without
+        // this, a REST-driven auto-confirm only sent phase_change -- an
+        // event-contract asymmetry vs the WS path.
+        const confirmPayload = { scenario_id: auto.scenario_id, phase: orch.phase };
+        if (auto.enriched_world) Object.assign(confirmPayload, auto.enriched_world);
+        if (typeof room.broadcast === 'function') {
+          room.broadcast({ type: 'world_confirm_accepted', payload: confirmPayload });
+        }
         out.world_confirmed = true;
         out.scenario_id = auto.scenario_id;
         out.session_start_payload = orch.buildSessionStartPayload();
         if (auto.enriched_world) Object.assign(out, auto.enriched_world);
       }
+      broadcastCoopState(room, orch);
       return res.json(out);
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_vote_failed' });

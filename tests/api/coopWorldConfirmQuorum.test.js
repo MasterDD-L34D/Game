@@ -310,3 +310,44 @@ test('flag ON + co-op: host confirm PROPOSES, device quorum auto-commits', async
     delete process.env.WORLD_CONFIRM_QUORUM_ENABLED;
   }
 });
+
+test('flag ON + co-op: REST auto-confirm broadcasts world_confirm_accepted (K-07 smoke finding)', async () => {
+  process.env.WORLD_CONFIRM_QUORUM_ENABLED = 'true';
+  try {
+    const { app, lobby } = buildApp();
+    const { host, p1, p2 } = await bootstrapWorldSetup(app);
+    markConnected(lobby, host.code);
+    // Spy room.broadcast to capture the emitted event types.
+    const room = lobby.getRoom(host.code);
+    const seen = [];
+    const orig = room.broadcast.bind(room);
+    room.broadcast = (msg) => {
+      seen.push(msg);
+      return orig(msg);
+    };
+    await request(app)
+      .post('/api/coop/world/confirm')
+      .send({ code: host.code, host_token: host.host_token });
+    await request(app).post('/api/coop/world/vote').send({
+      code: host.code,
+      player_id: p1.player_id,
+      player_token: p1.player_token,
+      accept: true,
+    });
+    const v2 = await request(app).post('/api/coop/world/vote').send({
+      code: host.code,
+      player_id: p2.player_id,
+      player_token: p2.player_token,
+      accept: true,
+    });
+    assert.equal(v2.body.world_confirmed, true);
+    // The device-quorum commit must emit world_confirm_accepted on the REST vote
+    // path too, not just over WS -- same named event regardless of transport.
+    const confirm = seen.find((m) => m && m.type === 'world_confirm_accepted');
+    assert.ok(confirm, 'world_confirm_accepted broadcast on REST auto-confirm');
+    assert.equal(confirm.payload.phase, 'combat');
+    assert.equal(confirm.payload.scenario_id, v2.body.scenario_id);
+  } finally {
+    delete process.env.WORLD_CONFIRM_QUORUM_ENABLED;
+  }
+});
