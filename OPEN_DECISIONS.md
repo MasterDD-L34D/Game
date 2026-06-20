@@ -15,17 +15,16 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD                                                                                | Titolo                                                           | Livello          | Ref   |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------- | ----- |
-| [OD-059](#od-059-1673-biomememory----reuse-cumulativebiometurns-vs-nuova-tabella) | #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella | P2 (parked M12+) | #1673 |
+| OD  | Titolo | Livello | Ref |
+| --- | ------ | ------- | --- |
 
 <!-- /gen:od-open -->
 
 > _Le sezioni dettagliate sotto includono anche decisioni risolte/archiviate; lo stato canonico e' nel comment `<!-- od -->` di ogni sezione — la lista sopra e' la proiezione delle sole `open`._
 
-### [OD-059] #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella
+### [OD-059] #1673 BiomeMemory -- reuse cumulativeBiomeTurns vs nuova tabella ✅ RISOLTA A (shipped #2784) 2026-06-17
 
-<!-- od id=OD-059 status=open -->
+<!-- od id=OD-059 status=resolved resolved_by="Option A shipped #2784 2026-06-17 (biomeMemory.js campaign-scoped read-only carry-over)" -->
 
 - **Livello**: P2 (parked M12+)
 
@@ -38,6 +37,8 @@ _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i com
 - **C** -- resta parcheggiata, nessuna azione (stato attuale, default se non promossa).
 
 **Default proposto**: A se master-dd promuove; altrimenti C. **NB (Codex P2)**: il semplice "wire increment su `FormSessionState`" NON basta -- `FormSessionState` e' session-scoped (key `(sessionId, unitId)`, `sessionId` fresh per combat), quindi i contatori resterebbero orfani sotto la vecchia sessione e il bonus non sopravvivrebbe alla missione successiva; serve comunque un layer campaign-scoped o un carry-over al session-init. Promozione a SPEC = de-facto nuovo ER8 in SPEC-I (ultima esistente ER7, per-bioma). Cross-ref: museum M-2026-04-25-011 (`docs/museum/cards/architecture-biome-memory-trait-cost.md`), issue #1673, `BACKLOG.md:465`.
+
+**✅ VERDICT [ground-truth audit 2026-06-20]**: RISOLTA **Option A** — SHIPPED PR #2784 (`abcc28f6`, merged 2026-06-17). `apps/backend/services/campaign/biomeMemory.js` (header: "Master-dd verdict (OD-059) = option A") = carry-over campaign-scoped read-only narrativo, NON una tabella Prisma; wired `routes/session.js` + `services/campaign/campaignStore.js`; Codex P1 proto-pollution fix `69221ec5`; test `biomeMemory*.test.js`. NB: l'issue GitHub #1673 resta OPEN con title stale "[P2 parked]" -> relabel/close separato.
 
 ### [OD-032] hardcore_06 secondary band — blocker strutturale + design fork ✅ RISOLTA A+C 2026-05-21
 
