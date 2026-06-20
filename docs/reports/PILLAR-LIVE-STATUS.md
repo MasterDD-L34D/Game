@@ -207,9 +207,9 @@ related:
 
 ## Delta history (snapshot temporali)
 
-### 2026-06-20 (freshness re-verify giugno -- Claude autonomous, PENDING master-dd re-ratifica)
+### 2026-06-20 (freshness re-verify giugno -- ratificato master-dd 2026-06-20)
 
-> ⚠️ **Claude autonomous freshness audit 2026-06-20 -- NON ancora ratificato master-dd.** Gli score 6/6 🟢 della tabella 2026-06-01 REGGONO (verify-first: giugno rinforza tutti i pillar, zero regressioni). Questo bump aggiorna `last_verified` + evidenza giugno; la ri-ratifica formale dei 6 score resta master-dd (item H7 reconstruction-suite). Tabella + caveat 2026-06-01 lasciati intatti (additive-only).
+> ✅ **RATIFICATO master-dd 2026-06-20.** Gli score **6/6 🟢 REGGONO** (verify-first: giugno rinforza tutti i pillar, zero regressioni). Audit freshness Claude (engine LIVE re-grep + 60+ PR Godot giugno) + ratifica master-dd. Questo bump aggiorna `last_verified` + evidenza giugno; tabella + caveat 2026-06-01 lasciati intatti (additive-only, lo storico resta).
 
 **Trigger**: doc 19gg stale (`last_verified` 2026-06-01 vs `review_cycle_days` 7) -- ~6 settimane di reconstruction-suite (item-1 17/17 SPEC `active` doc-level + SPEC-J lethal-wounds + SPEC-K device-authority + SPEC-H codex/ALIENA + creature dossier) non riflesse.
 
