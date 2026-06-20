@@ -4,7 +4,7 @@ date: 2026-05-20
 sprint: parallel-cascade-multi-agent
 doc_status: active
 workstream: cross-cutting
-last_verified: 2026-05-20
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 ---

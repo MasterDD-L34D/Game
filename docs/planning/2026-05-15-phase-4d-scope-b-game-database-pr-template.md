@@ -3,7 +3,7 @@ title: 'Phase 4d Scope B — Game-Database cross-stack PR template'
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-05-15'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

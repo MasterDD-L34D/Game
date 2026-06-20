@@ -4,7 +4,7 @@ date: 2026-05-09
 doc_status: active
 doc_owner: claude-code
 workstream: combat
-last_verified: '2026-05-09'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14

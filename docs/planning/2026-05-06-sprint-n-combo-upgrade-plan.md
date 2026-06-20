@@ -3,7 +3,7 @@ title: 'Sprint N+ COMBO upgrade plan — onboarding 2-step + vote co-op + world 
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

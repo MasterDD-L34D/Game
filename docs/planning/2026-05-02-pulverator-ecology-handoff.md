@@ -2,7 +2,7 @@
 doc_status: active
 doc_owner: dataset-curator
 workstream: cross-cutting
-last_verified: 2026-05-02
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

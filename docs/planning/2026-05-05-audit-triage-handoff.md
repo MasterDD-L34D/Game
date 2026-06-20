@@ -3,7 +3,7 @@ title: Handoff — Repo Content Audit 2026-05-05 (Phase 1+3 complete)
 doc_status: active
 doc_owner: archivist
 workstream: ops-qa
-last_verified: 2026-05-05
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

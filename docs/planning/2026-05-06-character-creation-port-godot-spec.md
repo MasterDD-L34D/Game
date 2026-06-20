@@ -3,7 +3,7 @@ title: 'Character Creation — Canonical Port Spec: Godot Phone v2'
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-05-06'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14
