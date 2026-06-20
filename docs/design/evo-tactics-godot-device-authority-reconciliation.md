@@ -585,3 +585,12 @@ laundering): criterio 3 (route-vote distinzione, PR #2597) e 7 (per-device actio
 Il completamento sez.9 = **item-3 Godot build-residue**, tracciato come K-01..K-07 (sez.10) in
 `BACKLOG.md`. Precedent: SPEC-I/A/G flippate active con forward-work esplicito + runtime/surface
 gated separatamente. Nessuna superficie non-costruita e' spacciata per fatta.
+
+> **Update 2026-06-20 (K-01 design-call 9.5 reconcile, audit PR #2878).** Currency Gate
+> (git > marker): **criterio 5 (Nido phone actions) = MET** -- K-04 DONE e2e 2026-06-18
+> (recruit GGv2 #481 `200ac70` + wound-ritual #479 `eac9232`; `phone_nido_view.gd` ha azioni
+> player-facing). **criterio 4 (world confirm device/quorum) = MET-buildable** -- K-02 DONE
+> (backend #2879 + Godot surface #513, mechanism A1 host-propose/device-commit, flag
+> `WORLD_CONFIRM_QUORUM_ENABLED` OFF). Resta **UNMET solo il criterio 9 (real-device playtest
+> TV+telefoni)** = K-07. SPEC-K item-3 = **6/7 DONE**; surface_role table (criterio 1) anche
+> depositata (GGv2 #516 registry+map). Sez.13 sopra preservata come snapshot 2026-06-17.

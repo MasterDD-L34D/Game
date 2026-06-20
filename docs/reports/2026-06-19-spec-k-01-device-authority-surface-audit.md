@@ -128,6 +128,14 @@ Authority metadata (sez.8.1) per backend action: `confirmWorld` authority=dev_fa
 4. **Enum mismatch 8.2 (4) vs 9.1 (6)**: quale canonico per la K-01 table? **Default: adotta 9.1 (6 valori)** + patch snippet 8.2.
 5. **Route-vote disconnected-voter persistence** (invariante P1-B ereditato): ratify-or-prune? **Default: prune su disconnect** (mirror world/mission re-eval; un player andato non tiene aperto un quorum), salvo intenzionalita' per reconnect.
 
+### Resolutions (2026-06-20, master-dd "risolvo le 5")
+
+- **DC#1 RESOLVED** -- keep `submitNextMacro` host-arbiter (HOST_TECHNICAL); verdict recorded as a code comment at `coopOrchestrator.submitNextMacro`. Not a migration gap (run-shell nav; route-vote owns node choice; `retreat` would need per-player consent, not a quorum).
+- **DC#2 RESOLVED** -- onboarding per-player-vs-aggregate authority deferred to SPEC-A/B (K-spec matrix 129); the device branch already exists. Comment recorded at `submitOnboardingChoice`. Not a K build.
+- **DC#3 RESOLVED (superseded during K-02 build)** -- the audit's "reuse worldVotes + auto-confirm" default was corrected by a verify-first finding: the backend has NO server-side world params (biome/seed are host-computed), so a propose/lock-in step is required. Master-dd chose **mechanism A1** (host proposes, device quorum commits); shipped in #2879.
+- **DC#4 RESOLVED** -- 6-value enum (crit 9.1) adopted; implemented in the GGv2 registry `scripts/coop/surface_role_registry.gd` (#516).
+- **DC#5 PRESENTED (subjective, code-flagged "Eduardo's call")** -- `routeTally` raw `leading_node_id` still counts a departed voter (the `connected_*` quorum already self-heals). Ratify (persist for reconnect) vs prune (present players decide) is a route-vote outcome semantic + flag-OFF (META_NETWORK_ROUTING) = no current effect. Awaiting master-dd.
+
 ## Contraddizione 9.5 (doc-vs-BACKLOG, anti-pattern #19)
 
 Il criterion **9.5** (phone_nido_view action surface) e' **contraddittorio**: la spec sez.13 (flip-verdict) legge "5 = UNMET", ma il BACKLOG dice **K-04 DONE e2e 2026-06-18** (9.5 MET via recruit GGv2 #481 + wound-ritual #479, merged). Per Currency Gate il git-met (BACKLOG) e' autoritativo -> 9.5 = **MET**, spec sez.13 = **stale**. [master-dd: ratifica patch sez.13 spec -> MET, oppure conferma il gap residuo se sez.13 intende altro]

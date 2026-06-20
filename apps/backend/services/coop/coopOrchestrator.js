@@ -373,6 +373,12 @@ class CoopOrchestrator {
    * @param choice — { option_key, trait_id, label, narrative, auto_selected }
    * @param opts.allPlayerIds — expected device players (enables per-player readiness)
    * @param opts.hostId — host player id (legacy host-only gate when no allPlayerIds)
+   *
+   * SPEC-K K-01 design-call DC#2 (RESOLVED 2026-06-20): the per-player-vs-aggregate
+   * AUTHORITY for onboarding is deferred to SPEC-A/B (K-spec matrix line 129), NOT a
+   * K migration. The per-player device branch already exists here (pass allPlayerIds);
+   * the host-only path is the explicit legacy fallback until SPEC-A/B rules the model
+   * and the Godot client sends per-player onboarding_choice. Not a K build gap.
    */
   submitOnboardingChoice(playerId, choice, { allPlayerIds = [], hostId } = {}) {
     if (this.phase !== 'onboarding') throw new Error('not_in_onboarding');
@@ -1218,6 +1224,13 @@ class CoopOrchestrator {
    * {advance, branch, retreat}. Phase must be `debrief` or `ended` (post
    * debrief auto-advance). Records in `run.lastMacro` for telemetry +
    * downstream UI surface.
+   *
+   * SPEC-K K-01 design-call DC#1 (RESOLVED 2026-06-20, master-dd default):
+   * KEEP host-arbiter (HOST_TECHNICAL), NOT a device quorum. Rationale: this is
+   * run-shell navigation, not a player-facing route choice -- route-vote (K-03)
+   * already owns the node choice, and `retreat` is destructive (ends the run for
+   * everyone), so a bare quorum would be wrong; a migration would need per-player
+   * consent (sez.6.4), not a vote. Not a migration gap.
    *
    * Semantics:
    *  - `advance` — proceed to next scenario in stack. Delegates to
