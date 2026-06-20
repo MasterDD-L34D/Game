@@ -1,0 +1,93 @@
+# Curated stopwords per scripts/verify-swarm-claims.py — Tier 3 L_FALSEPOS.
+#
+# Token kebab/snake che assomigliano a entity name ma sono dev-jargon comune,
+# non riferimenti a entity Game canonical. Aggiunti a stopwords automatiche
+# (extracted da Game data field names via harvest_field_names) per ridurre
+# false-positive nel verify gate.
+#
+# Convenzioni:
+# - 1 token per riga, lowercase
+# - Linee vuote e # comment ignorate
+# - Includere sia variante kebab (`follow-up`) che snake (`follow_up`)
+# - Aggiungere via PR. Rimuovere se diventa una vera entity in Game.
+
+# Common Italian/English dev jargon (hyphenated)
+follow-up
+follow_up
+end-to-end
+end_to_end
+real-time
+real_time
+side-effect
+side_effect
+side-by-side
+cross-repo
+cross_repo
+cross-cutting
+cross_cutting
+in-progress
+in_progress
+high-level
+low-level
+single-source-of-truth
+single_source_of_truth
+opt-in
+opt_in
+opt-out
+opt_out
+backward-compat
+backward_compat
+forward-compat
+forward_compat
+data-driven
+data_driven
+event-driven
+event_driven
+runtime-only
+runtime_only
+
+# Schema/protocol artifacts
+co-02
+co_02
+co-01
+co_01
+
+# Generic naming patterns spesso menzionati
+agent-name
+agent_name
+file-path
+file_path
+folder-path
+folder_path
+path-to
+path_to
+config-file
+config_file
+
+# Italian common compounds spesso hyphenated nel testo
+post-it
+post_it
+ad-hoc
+ad_hoc
+e-mail
+e_mail
+on-line
+on_line
+
+# Schema swarm-side che lo swarm cita ma non sono Game entity
+camel-agents
+camel_agents
+docs-team
+docs_team
+dafne-proposals
+dafne_proposals
+cycle-log
+cycle_log
+agents-index
+agents_index
+api-server
+api_server
+swarm-loop
+swarm_loop
+swarm-controls
+swarm_controls
