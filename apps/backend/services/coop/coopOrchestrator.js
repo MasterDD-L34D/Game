@@ -1017,8 +1017,14 @@ class CoopOrchestrator {
    * P1-B (PR #2597 review): a disconnected player's vote PERSISTS in routeVotes
    * (mirrors mating) until the next run-advance clears it. The connected_* fields
    * self-heal via connectedPlayerIds, but the raw `tallies` still count a departed
-   * voter -- intentional, to survive a brief reconnect. Ratify-or-prune is Eduardo's
-   * call (review question 1); this comment documents the inherited invariant.
+   * voter -- intentional, to survive a brief reconnect.
+   *
+   * SPEC-K K-01 DC#5 RATIFIED 2026-06-20 (master-dd): KEEP persist (do NOT prune
+   * on disconnect) so a player who drops + reconnects with the same token keeps
+   * their choice. Reconnect-preserves-changes is locked by
+   * tests/api/coopReconnectPreservesVotes.test.js (orchestrator persist + WS e2e
+   * disconnect->reconnect). Any future "prune on disconnect" MUST keep that test
+   * green or it breaks the reconnect contract.
    */
   routeTally(allPlayerIds = [], connectedPlayerIds) {
     const weightOf = (nodeId) => {
