@@ -542,7 +542,10 @@ class CoopOrchestrator {
 
   /**
    * Confirm scenario for this run. Moves phase world_setup → combat.
-   * Voting logic deferred to M17 (host confirm for MVP).
+   * SPEC-K K-02: under WORLD_CONFIRM_QUORUM_ENABLED this is the committing
+   * primitive the device quorum auto-fires (see tryAutoConfirmWorld); the host
+   * CTA that calls it directly is the marked DEV_FALLBACK / anti-deadlock path,
+   * NOT the production commit. Flag OFF = legacy host-confirm.
    */
   confirmWorld({ scenarioId, biomeId, formAxes, runSeed, trainerCanonical } = {}) {
     if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');

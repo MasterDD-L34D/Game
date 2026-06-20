@@ -495,7 +495,11 @@ function createCoopRouter({
   });
 
   router.post('/coop/combat/end', (req, res) => {
-    // Host notifies combat ended (victory/defeat). MVP: host controls.
+    // Host notifies combat ended (victory/defeat). HOST_TECHNICAL (SPEC-K
+    // sez.6.1): the combat->debrief transition is an event-driven notify from
+    // the authoritative combat session, not a host CHOICE of a player-facing
+    // outcome -- so it stays host-arbiter by design, not a migratable gate.
+
     // 2026-05-15 Bundle C follow-up — optional `debrief_payload` carries
     // 4-layer profilo psicologico (per_actor sentience+conviction+ennea) for
     // phone DebriefView parity reveal. Computed by host-side combat resolver
