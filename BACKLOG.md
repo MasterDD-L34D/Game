@@ -25,9 +25,9 @@
 - **FASE 2 — costruisci** (post Fase 1): GAP-C fase-3/4 (Godot choice-UI + generative grammar) + feature sbloccate, seguendo le direttive + `docs/guide/games-source-index.md`.
 - ⚠️ **GIA SHIPPED, NON ricostruire**: PHASEC 32/32 (#2542), GAP-A (#2447), GAP-C fase-1/2 (#2509), campaign-XP (#2550), symbiont/minion (#2539-2549), ecosystem producers+wiring (#2510/#2447). **+ H2 ECONOMY COMPLETO** (SG #2554 / PP #2555 / PT #2557; rescale=KEEP consume-all #2558). **+ Full-loop AI-playtest runner MVP** (#2559 spec / #2561 fase-0 / #2562 fase-1b-1 / **#2563 fase-1b-2 ✅ merged 2026-06-02** `e4eb65a8`).
 
-### 🔵 OPEN/NEXT — Full-loop AI-playtest runner (estende l'AI-playtest combat→meta-loop)
+### 🟢 MOSTLY SHIPPED — Full-loop AI-playtest runner (fase-2 + fase-1b landed; live continuation = G2 calibration)
 
-L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→choose→completed), `tools/sim/` 12/12 test. Handoff: `docs/planning/2026-06-02-full-loop-build-handoff.md`. #2563 fase-1b-2 ✅ merged 2026-06-02 (`e4eb65a8`). **NEXT**: (1) **fase-1b-3** recruit→combat stat-resolution + mating/affinity; (2) **fase-2** enemy scaled (encounter YAML) + band-metriche N=40 (completion 40-70% XCOM-LW2, attrition, economy) + mbtiPolicy + routing test-context. Memory: `project_full_loop_ai_playtest_runner.md`.
+L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→choose→completed), `tools/sim/` 12/12 test. Handoff: `docs/planning/2026-06-02-full-loop-build-handoff.md`. #2563 fase-1b-2 ✅ merged 2026-06-02 (`e4eb65a8`). **fase-2 SHIPPED 2026-06-02/03** (ground-truth audit 2026-06-20): band-metriche completion #2576 + lineage_diversity policy-sensitive #2579 + gate lineage>=3 + ratify full-loop bands #2580; mbtiPolicy = `tools/sim/mbti-policy.js`. **fase-1b-3** recruit→combat coperto da #2563 Nido meta-step (recruit each chapter); residuo narrow = mating/affinity-in-loop (verificare). **Continuazione live = G2 calibration N=40 / PE_ratio (sez. sotto)**. Memory: `project_full_loop_ai_playtest_runner.md`.
 
 ---
 
@@ -99,18 +99,18 @@ una now-action. Prereq aperti:
 
 Riprendere quando si coordina uno sprint lethal-content + N=40 con G2.
 
-### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17; **6/7 DONE 2026-06-20, only K-07 playtest + the 5 K-01 design-calls remain**)
+### 🟡 OPEN — SPEC-K device-authority item-3 build-residue (K-01..K-07, 2026-06-17; **6/7 DONE 2026-06-20; only K-07 playtest + DC#5 remain — 4/5 K-01 design-calls resolved #2883 [audit 2026-06-20]**)
 
 Spec `docs/design/evo-tactics-godot-device-authority-reconciliation.md` flippata `active`
 2026-06-17 come **design ratificato** (ADR-2026-06-07); la sez.9 acceptance (surface) NON e'
 completa -> i ticket sez.10 sono build-residue item-3 (cross-repo Game-Godot-v2), tracciati qui
 (l'audit ha trovato che non erano mai stati depositati). Stato vs audit flip-readiness:
 
-- **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — **AUDIT DONE 2026-06-19** (PR #2878 `72b1db99`): `docs/reports/2026-06-19-spec-k-01-device-authority-surface-audit.md` (18 host-op classificate: 1 MIGRATION_GAP=confirmWorld, 4 DONE, 11 INTENDED_ARBITER, 2 DESIGN_CALL; surface_role taxonomy 6-value enum crit-9.1 + per-view assignment). **METADATA DONE 2026-06-20** (GGv2 PR #516 `f4ee8be1`): `scripts/coop/surface_role_registry.gd` (26-view->role map, 6-value enum) + GUT test (valid-role + file-exists, no drift) + `docs/godot-v2/spec-k-surface-role-map.md` (table + DEV_FALLBACK/LEGACY sub-element notes). DC#4 enum 6-value crit-9.1 ratified via master-dd '1+2'. **K-01 FULLY DONE.** **5 design-call surfacate** (ancora open) (master-dd, in #2878): DC#1 submitNextMacro keep-host, DC#2 onboarding=SPEC-A/B, DC#4 enum 8.2-vs-9.1, DC#5 route-vote disconnect-persist, + **9.5 contraddizione** spec-sez.13-UNMET-vs-BACKLOG-DONE (Currency-Gate -> MET, patch sez.13 spec).
+- **K-01** Surface audit Godot (inventory + `surface_role:` metadata su tutte le view) — **AUDIT DONE 2026-06-19** (PR #2878 `72b1db99`): `docs/reports/2026-06-19-spec-k-01-device-authority-surface-audit.md` (18 host-op classificate: 1 MIGRATION_GAP=confirmWorld, 4 DONE, 11 INTENDED_ARBITER, 2 DESIGN_CALL; surface_role taxonomy 6-value enum crit-9.1 + per-view assignment). **METADATA DONE 2026-06-20** (GGv2 PR #516 `f4ee8be1`): `scripts/coop/surface_role_registry.gd` (26-view->role map, 6-value enum) + GUT test (valid-role + file-exists, no drift) + `docs/godot-v2/spec-k-surface-role-map.md` (table + DEV_FALLBACK/LEGACY sub-element notes). DC#4 enum 6-value crit-9.1 ratified via master-dd '1+2'. **K-01 FULLY DONE.** **5 design-call surfacate** (ancora open) (master-dd, in #2878): DC#1 submitNextMacro keep-host, DC#2 onboarding=SPEC-A/B, DC#4 enum 8.2-vs-9.1, DC#5 route-vote disconnect-persist, + **9.5 contraddizione** spec-sez.13-UNMET-vs-BACKLOG-DONE (Currency-Gate -> MET, patch sez.13 spec). **RESOLVED #2883 (`db059530`, 2026-06-20)**: DC#1/DC#2/DC#4 + 9.5 reconcile chiusi -> solo **DC#5** route-vote disconnect-persist resta open.
 - **K-02** World confirm migration (host dev-fallback `host_world_confirm_button` -> device/quorum) — **BACKEND DONE 2026-06-19** (PR #2879 `537f4160`): mechanism A1 (host CTA propone, device quorum auto-committa). `coopOrchestrator.proposeWorld`/`tryAutoConfirmWorld` + `proposedWorld` (mirror K-05) + REST/WS/disconnect surface. Flag-gated `WORLD_CONFIRM_QUORUM_ENABLED` **default OFF** (legacy byte-identical, prod untouched). Eventi nuovi: `world_proposed`/`world_confirm_accepted`. coop-phase-validator no-P1 + Codex P2 (reset-votes) fixed. **Godot surface DONE 2026-06-20** (GGv2 PR #513 `86c2b260`: host propose UX + phone world-ready + TV recap; +Codex P1 reenter-guard fixed master-dd `fd77fca`). **K-02 buildable COMPLETE e2e** (backend+Godot, flag OFF). Residue = flip `WORLD_CONFIRM_QUORUM_ENABLED` env-var gated su K-07 playtest + master-dd.
 - **K-03** Route TV pick guard — **DONE** (route-vote distinzione, PR #2597).
 - **K-04** Nido phone action surface (`phone_nido_view.gd` read-only -> azioni player-facing) — **DONE e2e 2026-06-18** (cross-repo GGv2): recruit-review prereq `GET /meta/npg` gate-enrich MERGED #2826 `3f5ecf21` -> Godot recruit-button GGv2 **#481 `200ac70`** (+overlay #482) + wound-ritual surface GGv2 **#479 `eac9232`**. `phone_nido_view.gd` ora ha azioni player-facing (criterio sez.9.5 MET). Chip `task_532a071a` consumato. **Residue** = mating / party-select / tri-sorgente / custode = SPEC-E slices (party-select eligibility = design-call blocking-rules). + dossier story-card surface GGv2 #494/#497 (attachment, fuori K-04 stretto).
-- **K-05** Next mission quorum — **DONE 2026-06-19** (backend, PR #2871 `4534ddb2`). `coopOrchestrator` `markMissionReady`/`missionReadyTally` (per-player ready, mirror voteWorld/worldTally + connected-quorum) + route `POST /coop/mission/ready` (auto-advance quando all_connected_ready) + `POST /coop/mission/start` (host anti-deadlock fallback) + `mission_tally` broadcast (incl. WS disconnect re-eval/auto-advance + host-transfer parity). 4 P2 review fixati (coop-phase-validator: connected_pending acted-count + null-hostId fail-closed; Codex: creature_named reveal broadcast + disconnect quorum re-eval). coop+WS 438/438. **Surface** = chip GGv2 `task_f5abccab` (phone ready-toggle + TV tally + host force-start). + follow-up chip `task_3ce69e8d` (submitNextMacro stesso null-hostId hole).
+- **K-05** Next mission quorum — **DONE 2026-06-19** (backend, PR #2871 `4534ddb2`). `coopOrchestrator` `markMissionReady`/`missionReadyTally` (per-player ready, mirror voteWorld/worldTally + connected-quorum) + route `POST /coop/mission/ready` (auto-advance quando all_connected_ready) + `POST /coop/mission/start` (host anti-deadlock fallback) + `mission_tally` broadcast (incl. WS disconnect re-eval/auto-advance + host-transfer parity). 4 P2 review fixati (coop-phase-validator: connected_pending acted-count + null-hostId fail-closed; Codex: creature_named reveal broadcast + disconnect quorum re-eval). coop+WS 438/438. **Surface DONE 2026-06-19** (GGv2 #507 client + #510 AI-playtest PASS) [audit 2026-06-20; chip `task_f5abccab` consumato]. Residuo follow-up chip `task_3ce69e8d` (submitNextMacro stesso null-hostId hole) resta open.
 - **K-06** Wording cleanup ("host drives" residui) — **DONE 2026-06-20** (Game PR #2881: `confirmWorld` docstring -> DEV_FALLBACK clarity + `/coop/combat/end` "MVP host controls" -> HOST_TECHNICAL; `voteWorld` gia' in #2879). GGv2 stale-doc route-vote-DONE reconcile = nota nel map-doc (#516). Residuo minore = edit storici `sprint-context-archive`/`PRD-BUILD-STATUS` (low-value, snapshot — non fatti).
 - **K-07** Real-device smoke playtest (2 telefoni + TV: route-vote/recruit/mating/Nido/next) — PENDING (criterio sez.9.9 UNMET).
 - **Codex namespace cross-check (HA2 follow-up)** — **DONE 2026-06-18** (PR #2851 `d0d59923`): `validate_codex_aliena.js` orphan-id guard -- una codex entry il cui id non e' in alcun roster sistema/encounter (scenario builders + `data/encounters/*.yaml`) warna SOFT (mai sbloccabile). Reso require()-able, 5 test, CI-enforced. Scoperto il gap reachability di cui sopra (SPEC-H).
@@ -135,9 +135,9 @@ Source: design-docs currency reconcile (`docs/reports/2026-05-29-design-docs-cur
 - ✅ **TKT-WORLDGEN-GAPA** (foodweb -> spawn composition): `apps/backend/services/worldgen/foodwebFilter.js` `filterReinforcementPool` wired into `reinforcementSpawner.js tick():172` (Caves of Qud whitelist; kill-switch `policy.foodweb_filter===false`; band-safe fallback never empties pool; Gate-5 console surface). Tests: `foodwebFilter.test.js` 8/8 + `reinforcementSpawner.test.js` 23/23.
 - ✅ **TKT-WORLDGEN-GAPB** (cross-events -> pressure modifier): `crossEventEngine.js` `getCrossEventPressureDelta(biome,season)` wired into `session.js /start` (`:1532` call → `:1704` pressure_delta applied → `:1735` cross_events/hazards surfaced). Test: `crossEventEngine.test.js` 9/9.
 
-| Ticket            | Gap                              | Verified state 2026-05-31                                                                               | Effort (post-blast-radius) | Decision                                                                                        |
-| ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
-| TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha.yaml` (5 nodi/11 archi) zero consumer; `campaignEngine.js` usa encounter_id statici | ~30-40h (POST-MVP)         | Dormans mission/space grammar su meta-network — POST-MVP, gate normale, NON priorità automatica |
+| Ticket            | Gap                              | Verified state 2026-05-31                                                                                                                                                                              | Effort (post-blast-radius) | Decision                                                                                      |
+| ----------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | --------------------------------------------------------------------------------------------- |
+| TKT-WORLDGEN-GAPC | meta-network -> campaign routing | `meta_network_alpha` HA consumer (`metaNetworkResolver`/`metaNetworkRouting` fase-1/2/3, #2509/#2597) [audit 2026-06-20, cella "zero consumer" era stale]; residuo = grammar generativa Dormans fase-4 | ~30-40h (POST-MVP)         | Dormans mission/space grammar (fase-4 only) — POST-MVP, gate normale, NON priorità automatica |
 
 ### 🟢 P2 DONE 2026-06-07 — Python->Node combat parity sweep -> 4 GAP (2 HIGH actionable)
 
@@ -149,7 +149,7 @@ Trigger: `docs/combat/README.md` SoT-flip review -- il README era `source_of_tru
 - **DONE 2026-06-07** (sub-agent grep-verified, ~70 def vs Node): migrazione SOSTANZIALMENTE completa (resolver/round_orchestrator/hydration/grid/trait_effects portati; worker/demo obsoleti; damage-model divergenza intenzionale). **4 GAP** in stress/mental + PT-maneuver -> ticket sotto.
 - Related decisions 2026-06-07: ADR pincer/plan-reveal/networking-colyseus/networking-co-op = SUPERSEDED; new ADR-2026-05-30-coop-server-authoritative-combat written.
 
-### 🔴 OPEN — Stress / on-hit-status mental layer: port-to-Node O retire orphaned yaml (da parity-sweep 2026-06-07)
+### ✅ DONE 2026-06-07 — Stress / on-hit-status mental layer (port-to-Node + retire orphaned yaml) — SHIPPED #2613
 
 Bug funzionale: effetti-trait progettati silenziosamente INERTI su Node + dati `trait_mechanics.yaml` orfani.
 
@@ -157,7 +157,7 @@ Bug funzionale: effetti-trait progettati silenziosamente INERTI su Node + dati `
 - **GAP-2 (HIGH)**: `on_hit_stress_delta` + breakpoint stress (rage@0.5 / panic@0.75) = LIVE yaml, nessuna logica Node -> loop "attacchi -> stress -> auto rage/panic" assente.
 - **GAP-3 (MEDIUM)**: `spinta` -> `sbilanciato` -> defense-malus: status scritto (shield_bash) ma mai LETTO come malus nel resolver.
 - **GAP-4 (DROP 2026-06-07)**: swarm `scaling_attacks` -- morto ovunque, mai dato live, esisteva solo nel Python rimosso; `multi_attack` copre lo spazio. No-action.
-- **Decisione (Eduardo)**: portare il mental-state layer in `performAttack`, O ritirare i campi yaml orfani. Ref: `resolver.py` (d0c86c60~1) STEP3 vs `apps/backend/routes/session.js` performAttack + `traitEffects.js`. DECISO 2026-06-07: D1 = HYBRID (PORT `on_hit_status` 13 trait in performAttack + RETIRE `on_hit_stress_delta` 2 trait); GAP-3 `sbilanciato` = WIRE-IT (statusModifiers read-path). -> code-batch pending.
+- **Decisione (Eduardo)**: portare il mental-state layer in `performAttack`, O ritirare i campi yaml orfani. Ref: `resolver.py` (d0c86c60~1) STEP3 vs `apps/backend/routes/session.js` performAttack + `traitEffects.js`. DECISO 2026-06-07: D1 = HYBRID (PORT `on_hit_status` 13 trait in performAttack + RETIRE `on_hit_stress_delta` 2 trait); GAP-3 `sbilanciato` = WIRE-IT (statusModifiers read-path). -> **SHIPPED #2613 (`66193685`, merged 2026-06-07)** [ground-truth audit 2026-06-20]: GAP-1 on_hit_status portato (`apps/backend/services/combat/onHitStatus.js`, wired `session.js` + `sessionRoundBridge.js`), GAP-2 on_hit_stress_delta retirato (`grep on_hit_stress_delta apps/` = 0), GAP-3 sbilanciato wired. I bullet GAP-1/2/3 sopra + il marker 🔴 OPEN erano stale.
 
 ### 🟢 P2 DONE 2026-06-07 — Sprint Impronta (aa01/cap-\*) = SUPERSEDE (design non-canonico)
 
@@ -168,13 +168,14 @@ Materiale era disk-only Lenovo (April 25-28); backuppato su `origin/aa01/cap-*` 
 - **VERDETTO 2026-06-07** (sub-agent grep-verified): **SUPERSEDE**. Il backend implementa un modello onboarding NON-canonico (4 body-part choices -> biome via `biomeResolver`) che CONFLIGGE col canon (1-trait/branco + biome-via-route-choice) e in 2 punti REGREDIREBBE main (imprint-phase collassa character_creation+world_setup che main tiene separati; host-token start = anti device-authority). NON merge -- branch preservati su `origin/aa01/cap-*`.
 - **1 REUSE narrow (P3, gated-behind-spec)**: `PlayerRunTelemetry` (store+route+Prisma, `vcSnapshot`+`selectedForm` cross-run) = allineato Form-Pulse/MBTI canon (ADR-2026-06-07 pt3), standalone. Valutare lift SOLO dopo design-spec (no canon-home attuale).
 
-### 🟢 P3 OPEN — Stale services/rules (dead Python) doc/config refs cleanup (2026-06-07)
+### ✅ DONE — Stale services/rules (dead Python) doc/config refs cleanup (2026-06-07) — SHIPPED #2610 + #2860
 
 Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/configs still cite `services/rules/*` Python (REMOVED `d0c86c60` / ADR-2026-04-19) as if alive -- misfire if run. NOT touched by weekend Codex (pre-existing staleness).
 
 - `.claude/agents/session-debugger.md` (resolver/round_orchestrator/hydration as live), `.claude/agents/balance-auditor.md` (`PYTHONPATH=services/rules`), `.claude/commands/{combat-sim,monitor,trait-lint,sprint-close}.md` + `.claude/TASK_PROTOCOL.md` (run/grep `services/rules`), `docs/PILLARS_STATUS.md` (pillar source), `docs/README_FULL_ARCHIVE.md` (engine "risiede in services/rules" + `demo_cli.py`).
 - **Task**: sed-sweep -> repoint a Node runtime (`apps/backend/services/combat/*`, `roundOrchestrator.js`, `abilityExecutor.js`) o marcare removed-per-ADR-2026-04-19. Delegabile (Jules/aider, meccanico). Low-urgency (comandi probabilmente inusati post-Node).
 - **Priorita'**: P3.
+- **DONE [ground-truth audit 2026-06-20]**: SHIPPED #2610 (mark/repoint stale services/rules dead-Python refs) + #2860 (currency-fix Phase-3); i 5 file (session-debugger / balance-auditor / combat-sim / TASK_PROTOCOL / PILLARS_STATUS) ora marcano removed-per-ADR-2026-04-19 + repoint a `apps/backend/services/combat/*`. Marker 🟢 OPEN era stale.
 
 ### 🟢 P3 OPEN — Governance stale-doc burn-down campaign (progressive, 2026-06-07)
 
@@ -939,7 +940,7 @@ Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/sup
 
 - [x] ~~**TKT-P4-MBTI-001** — Phased reveal MBTI Disco-Elysium-style (Proposal A, ~6-8h)~~ → **✅ CHIUSO 2026-04-25 sera (branch `feat/d1a-mbti-phased-reveal`)**: `apps/backend/services/mbtiSurface.js` (NEW, ~140 LOC) helper `computeRevealedAxes` + `buildMbtiRevealedMap` con confidence derivata da coverage×decisiveness, threshold default 0.7 (env `MBTI_REVEAL_THRESHOLD` A/B testabile), label italiani conservative (T="Pensiero"/F="Sentimento"/E="Estroversione"/I="Introversione"/S="Sensazione"/N="Intuizione"/J="Giudizio"/P="Percezione") + hint diegetici per assi nascosti ("Sei socievole o solitario? Ancora non lo sai."). Routes `/:id/vc` e `/:id/pf` estese additivamente con `mbti_revealed` per_actor (lazy-import + try/catch non-blocking, zero breaking change). Frontend `debriefPanel.js` nuova sezione `#db-mbti-section` (4 axis card + hidden hints + confidence bar) + setter `setMbtiRevealed(payload)` + CSS `.db-mbti-*`. 12/12 unit test nuovi (`tests/services/mbtiSurface.test.js`), AI baseline 311/311 verde, vcScoring 56/56 verde, session API smoke verde. P4 🟡 → 🟡+ (UI surface live, playtest pending). Card [M-2026-04-25-009](docs/museum/cards/personality-triangle-strategy-transfer.md) reuse_path eseguito.
 - [x] ~~**TKT-P4-MBTI-002** — Dialogue color codes diegetic (Proposal B, ~5-7h)~~ → **✅ CHIUSO 2026-04-26 (branch `feat/d1b-mbti-dialogue-color-codes`)**: palette canonical 8 lettere E/I/S/N/T/F/J/P in `data/core/personality/mbti_axis_palette.yaml` (WCAG AA garantito ≥5.02:1 contrast vs `#ffffff`, range 5.02-8.72). Backend helper `apps/backend/services/mbtiPalette.js` (loadMbtiPalette memoized + try/catch graceful, colorForAxis lookup, mbtiTaggedLine wrap inline `<mbti axis="X">...</mbti>`, wcagContrastRatio utility). Frontend renderer `apps/play/src/dialogueRender.js` (renderMbtiTaggedHtml DOM-free, isAxisRevealed gating compose con Path A, tagsAreBalanced + escapeHtml safety, stripMbtiTags accessibility fallback) + CSS `apps/play/src/dialogueRender.css` (8 axis classes, hover tooltip pure-CSS, dark-bg `text-shadow`, print-safe `@media print`). Reveal-gated: colore renderizzato SOLO se `mbtiRevealed.revealed[]` contiene axis pair (compose Path A). 26/26 test nuovi `tests/services/mbtiPalette.test.js` (load/lookup/tag/WCAG/render/escape/balance/strip). AI baseline 311/311 verde, format:check verde. ADDITIVE only: testo senza tag passa-through unchanged. P4 🟡+ → 🟡++ (Path A+B both shipped; integration in `narrativeEngine` + `render.js` pendente, helpers ready).
-- [ ] **TKT-P4-MBTI-003** — Recruit gating by MBTI thresholds (Proposal C, ~4-6h). Hook `metaProgression.recruitFromDefeat`. Pre-req: M-007 mating engine activate (Path A in OD-001).
+- [ ] **TKT-P4-MBTI-003** — Recruit gating by MBTI thresholds (Proposal C, ~4-6h). Hook `metaProgression.recruitFromDefeat`. ~~Pre-req: M-007 mating engine activate (Path A in OD-001)~~ **[audit 2026-06-20: pre-req CLEARED — mating engine SHIPPED (OD-001 Path A FULL CLOSURE + SPEC-J/K); ticket actionable, attende solo verdetto OD-013]**.
 
 ### Museum-driven autonomous tasks (user verdict 2026-04-25)
 
@@ -975,8 +976,8 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
   - [x] **terrainReactions wire** — branch `feat/m14a-terrain-reactions-wire` 2026-04-25: `performAttack` post-damage hook chiama `reactTile` quando `action.channel` mappa a fire/ice/water/lightning, `session.tile_state_map` persiste cross-round, decay ttl in `applyEndOfRoundSideEffects`, `terrain_reaction` field surfaced on attack event + response. +7 test (`tests/api/terrainReactionsWire.test.js`). 12/12 unit + 19/19 wire+unit verde, 311/311 AI baseline preserved.
   - [x] **elevation resolver wire residuo** — branch `feat/tkt-09-elevation-resolver-wire` 2026-04-26: `predictCombat` ora ritorna `elevation_multiplier` + `elevation_delta` + `expected_damage` (proxy hit_pct × (1+avg_pt) × multiplier). `performAttack` return surfacing `positional` info, `buildAttackEvent` emits `elevation_multiplier`/`elevation_delta`/`positional_multiplier`/`attack_quadrant` su event quando delta != 0 (rumor reduction). 9 buildAttackEvent call sites wired (sessionRoundBridge, sistemaTurnRunner, 7 in abilityExecutor). +10 test (`tests/services/elevationResolverWire.test.js`). 311/311 AI + 12/12 hardcore + 17/17 round + 7/7 terrainReactions verde. Calibration HC06 iter4 invariata (BOSS mod 5→3 + elev 1 attaccante).
   - **Ancora aperto**: facing system runtime (M14-B parzialmente shipped, full UI integration pending), chainElectrified BFS chain wire (deferred M-future).
-- [ ] **M14-B** — Mechanic 1 (Conviction → MBTI axis reveal) + Mechanic 2 (Scales of Conviction → M18 world_setup upgrade). Effort L. ~12h. Target Pilastro 4 MBTI.
-- [ ] **M15** — Mechanic 7 (Initiative CT bar / Wait action) + Mechanic 6 (class promotion XCOM-style). Effort L. ~15h. Target Pilastro 3 Specie×Job.
+- [ ] **M14-B** — ~~Mechanic 1 (Conviction → MBTI axis reveal)~~ **✅ Mechanic 1 SHIPPED #2248/#2249/#2250 (2026-05-11)** + **Mechanic 2 (Scales of Conviction → M18 world_setup upgrade) OUTSTANDING** [audit 2026-06-20: verificato no impl — `worldSetupVote.js` assente, `worldSetup.js` zero match conviction/weight, nessun PR; residuo = weighted-vote world_setup + persuasion sub-phase + tie-break, Effort M]. Target Pilastro 4 MBTI.
+- [x] ~~**M15** — Mechanic 7 (Initiative CT bar / Wait action) + Mechanic 6 (class promotion XCOM-style)~~ → **✅ CHIUSO 2026-05-11** [audit 2026-06-20]: PR #2242 (CT bar audit + `promotionEngine.js` + `promotions.yaml` + 17 test) + #2245 (FE accept/defer UI). Artifacts su main: `ctBar.js` (lookahead 3-turni = "Wait"), `promotionPanel.js` wired `endgame.js`. Target Pilastro 3 Specie×Job.
 
 ### Sprint 3 archivio (chiude readiness 24/24)
 
@@ -996,7 +997,7 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 ### Deferred (post-MVP)
 
-- [ ] **V3 Mating/Nido** system — ~20h, post-MVP. Vedi `docs/core/Mating-Reclutamento-Nido.md`.
+- [x] ~~**V3 Mating/Nido** system — ~20h, post-MVP~~ → **✅ ENGINE SHIPPED (OD-001 Path A FULL CLOSURE + SPEC-J/K)** [audit 2026-06-20]: nido sprint A-D (#1874/#1875/#1876/#1879) + `metaProgression.js` (canMate/rollMating/recruitFromDefeat) + SPEC-J #2823 + SPEC-K K-05 #2871. La cornice "~20h non-iniziato" era stale ("Engine LIVE Surface DEAD" museum case). Residuo reale = **M12+ P2 Form-evoluzione** (L1002) + **K-07 real-device smoke** recruit/mating/Nido (sez.9.9). Vedi `docs/core/Mating-Reclutamento-Nido.md`.
 - [ ] **V6 UI TV dashboard polish** — ~6h, post-playtest live.
 - [ ] **M12+ P2 Form evoluzione completa** Spore-core — ~35h, deferred (CLAUDE.md sprint roadmap).
 
@@ -1017,14 +1018,16 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 - **TKT-07** ← TKT-06 (predict_combat fix prima di sweep #2)
 - **V6 UI polish** ← playtest canonico AI-driven (`docs/process/CANONICAL-AI-PLAYTEST.md`) OR feedback human opzionale (TKT-M11B-06 declassato, non bloccante)
-- **M15 Triangle Strategy** ← M14-A + M14-B completati (sequenza rollout)
+- ~~**M15 Triangle Strategy** ← M14-A + M14-B completati~~ → **RISOLTO [audit 2026-06-20]**: M14-A shipped + M14-B Mechanic-1 shipped + M15 stesso CHIUSO (#2242/#2245). M14-B Mechanic-2 residuo non blocca M15 (gia' shipped).
 - **Alt B HTTP runtime** ← Game-Database sibling repo availability + deployment pubblico
 
 ---
 
-## Primo sprint consigliato post-merge PR #1732
+## Primo sprint consigliato post-merge PR #1732 — ⚠️ SUPERSEDED 2026-06-20 (archivio storico)
 
-**Obiettivo**: chiudere Pilastri 5 + 6 🟢 definitivi tramite playtest live.
+> **SUPERSEDED [ground-truth audit 2026-06-20]**: il gate del progetto e' ora **AI-driven batch-sim** (`docs/process/CANONICAL-AI-PLAYTEST.md` / PR #2802), NON playtest umano. Task 1 (TKT-M11B-06 playtest 2-4 amici) declassato a conferma opzionale non-bloccante (ref "Bloccato da" V6 L1020 + PROJECT_BRIEF). Task 3 M13 P6 calibration hardcore_07 SHIPPED #2359 (poi superseded da PE_ratio #2867). Blocco lasciato come archivio storico; nessun task live qui.
+
+**Obiettivo (storico)**: chiudere Pilastri 5 + 6 🟢 definitivi tramite playtest live.
 
 - **Task 1** (userland, 2-4h): **TKT-M11B-06** playtest live 2-4 amici
 - **Task 2** (autonomous post-playtest, ~2h): invoke agent `playtest-analyzer` sui telemetry raccolti
