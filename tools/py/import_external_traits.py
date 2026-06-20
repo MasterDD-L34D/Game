@@ -285,6 +285,7 @@ def ensure_unique_ids(seeds: Iterable[TraitSeed], existing_ids: set[str]) -> Lis
 
 def build_payload(seed: TraitSeed) -> Dict[str, object]:
     return {
+        "schema_version": "2.0",
         "id": seed.trait_id,
         "label": seed.label,
         "famiglia_tipologia": "TODO/import_esterno",
