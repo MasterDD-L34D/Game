@@ -3708,6 +3708,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/guide/procedural-lore-generation.md",
+      "title": "Procedural Lore Generation -- standard di settore + pipeline Evo-Tactics",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-20",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/guide/external-references.md",
       "title": "Risorse esterne curate — Game Design Reference",
       "doc_status": "active",
