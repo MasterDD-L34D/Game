@@ -10,7 +10,7 @@
   ],
   "origin_I_impianto": [
     "Sul piano morfo-fisiologico il #subject# e' un #morphotype#, costruito attorno al ruolo di #job#. La struttura privilegia la prontezza sulla resistenza.",
-    "Il corpo del #subject# -- #morphotype# -- e' ottimizzato per il #job#: rapido, essenziale, fragile se isolato dal gruppo."
+    "Il corpo del #subject# -- #morphotype# -- e' ottimizzato per il ruolo di #job#: rapido, essenziale, fragile se isolato dal gruppo."
   ],
   "origin_E_ecologia": [
     "Nell'ecologia di #biome_name# il #subject# occupa la nicchia di #role# (#threat_tier#). Esercita pressione sulle prede senza contendere l'apice.",
