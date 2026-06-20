@@ -3,7 +3,7 @@ title: Naming Validation Pipeline — Specie e Biomi
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-04-16'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
