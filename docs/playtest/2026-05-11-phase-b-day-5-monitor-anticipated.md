@@ -3,7 +3,7 @@ title: 'Phase B Day 5 monitor anticipated — iter4 synthetic supplement 2026-05
 doc_status: active
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: 2026-05-11
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 30

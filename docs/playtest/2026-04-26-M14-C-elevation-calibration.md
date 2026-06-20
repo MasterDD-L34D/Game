@@ -4,7 +4,7 @@ workstream: combat
 category: playtest
 doc_status: active
 doc_owner: claude-code
-last_verified: '2026-04-26'
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: FASE 2 batch AI-vs-AI runner — T2.1 baseline + N=30 signal
 workstream: ops-qa
 doc_status: active
 doc_owner: master-dd
-last_verified: 2026-05-09
+last_verified: 2026-06-20
 source_of_truth: true
 language: it
 review_cycle_days: 30
