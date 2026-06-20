@@ -28,6 +28,8 @@ review_cycle_days: 90
 
 ---
 
+> **Applicazione lore-gen**: i pattern procedurali per la lore (Wildermyth layered, Caves of Qud replacement-grammar generate-then-narrate + Markov, grammar-constrained LLM decoding, HITL review-gate) sono codificati in pipeline operativa -- vedi [`procedural-lore-generation.md`](procedural-lore-generation.md) (SoT del metodo + workflow autoriale + riferimenti cross-repo).
+
 ## Indice
 
 - [Convenzioni](#convenzioni)
