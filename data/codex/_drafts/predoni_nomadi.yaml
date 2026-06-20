@@ -1,0 +1,131 @@
+# encoding: UTF-8
+# Schema: codex_entry v1.0 (2026-04-27) -- mirror data/codex/example_dune_stalker.yaml
+#
+# SPEC-H unlock-reachability seed (2026-06-20). SCAFFOLD -- factual/mechanical
+# fields filled from data (cross-checked below); the A.L.I.E.N.A. VOICE PROSE
+# (`content:` fields) is left as `TODO master-dd` -- lore authoring is master-dd's.
+#
+# THIS FILE IS A DRAFT under data/codex/_drafts/ -- the loader
+# (apps/backend/services/codex/codexEntries.js) globs data/codex/*.yaml FLAT and
+# does NOT recurse, so a _drafts/ entry is NOT served/unlockable. To CLOSE the
+# unlock-reachability gap end-to-end: master-dd authors the `content:` prose,
+# then move this file to data/codex/predoni_nomadi.yaml. The id `predoni_nomadi`
+# matches the sistema unit species slug fought in enc_tutorial_01/02 (routed), so
+# the `encounter_completed` trigger (apps/play/src/main.js:287-311 ->
+# markCodexEntrySeen) fires on the very first tutorial fight -> first real
+# in-flow unlock (today ~0 entries are reachable).
+#
+# CAVEAT (verify-first): predoni_nomadi is a tutorial-phantom stub
+# (predoni-nomadi.yaml: sentient:false, tutorial_phantom:true, "nessun trait
+# speciale", morphotype bipede_armato = humanoid raider). It is the FIRST routed
+# enemy (good for proving the loop + first-impression unlock) but a LORE-LIGHT
+# A.L.I.E.N.A. subject -- the 6 dimensions describe nomad raiders, not a rich
+# alien. A richer/sentient routed species would carry deeper lore for later
+# entries.
+#
+# Data cross-check (factual):
+#   packs/evo_tactics_pack/data/species/tutorial/predoni-nomadi.yaml -- id, display,
+#     archetype, role_trofico, flags, balance, combat_baseline, used_in_encounters
+#   packs/evo_tactics_pack/data/biomes.yaml -- savana (biome_class arid, npc_archetypes.primary)
+#
+# SECRET INVARIANT (SPEC-H sez.8): the coherence/aggregate score is ENGINE-ONLY.
+# Do NOT add aggregate / sub_scores / coherence / enforcement_factor fields here.
+
+codex_entry:
+  id: predoni_nomadi
+  type: species
+  display_name_it: Predoni Nomadi
+  display_name_en: Nomad Raiders
+  subtitle_it: "Razziatori della Savana -- archetipo adattivo - clade Threat (T1)"
+  # Cross-check: predoni-nomadi.yaml:1-5,24 (id, display, encounter_role threat, T1)
+
+  unlock:
+    triggers:
+      - encounter_completed # fine scontro con predoni_nomadi nel roster nemici (enc_tutorial_01/02)
+    threshold: 1
+    locked_preview: >
+      Razziatori nomadi della savana ionizzata. Sopravvivi a uno scontro con loro
+      per sbloccare il Codex.
+    persistence: "localStorage:evo:codex-seen-predoni_nomadi"
+
+  aliena_dimensions:
+    A_ambiente:
+      heading: "Ambiente"
+      content: >
+        TODO master-dd: voce A.L.I.E.N.A. -- l'ambiente savana ionizzata dal punto
+        di vista dei predoni nomadi (dune fotoniche, luce radente, tempeste ioniche).
+      key_facts:
+        - "Bioma nativo: savana ionizzata (biome_class arid)"
+        - "Nomadi -- nessun rifugio fisso; seguono le rotte di razzia stagionali"
+      cross_ref:
+        - "biome:savana" # biomes.yaml -- Savana Ionizzata
+      game_impact: >
+        Comparsa come threat tutorial in enc_tutorial_01 / enc_tutorial_02 (savana).
+
+    L_linee_evolutive:
+      heading: "Linee evolutive"
+      content: >
+        TODO master-dd: origine + traiettoria evolutiva dei predoni (umanoidi
+        razziatori; archetipo adattivo, non sentient nel senso pieno).
+      key_facts:
+        - "resistance_archetype: adattivo (predoni-nomadi.yaml:3)"
+        - "role_trofico: predatore_tutorial_secondario; flags.sentient: false"
+      cross_ref:
+        - "species:predoni_nomadi"
+      game_impact: >
+        Stub tutorial-phantom (nessun trait speciale); skirmisher base.
+
+    I_impianto:
+      heading: "Impianto morfo-fisiologico"
+      content: >
+        TODO master-dd: morfologia del raider umanoide armato.
+      key_facts:
+        - "morphotype: bipede_armato (umanoide armato)"
+        - "combat_baseline: hp 4 / ap 2 / mod 2 / dc 12 / range 1 / guardia 0"
+        - "jobs_bias: skirmisher"
+      cross_ref:
+        - "species:predoni_nomadi"
+      game_impact: >
+        Profilo da skirmisher melee a corto raggio (attack_range 1), HP basso (4) =
+        bersaglio fragile introduttivo.
+
+    E_ecologia:
+      heading: "Ecologia"
+      content: >
+        TODO master-dd: ruolo ecologico dei predoni nella savana (predatore
+        secondario, pressione sulle prede tutorial).
+      key_facts:
+        - "role_trofico: predatore_tutorial_secondario"
+        - "rarity R1 / threat_tier T1 -- minaccia introduttiva diffusa"
+      cross_ref:
+        - "biome:savana"
+      game_impact: >
+        encounter_role: threat; comparsa precoce nel flow (tutorial).
+
+    N_norme_socio:
+      heading: "Norme socio"
+      content: >
+        TODO master-dd: struttura sociale dei nomadi (bande di razzia, codice
+        predatorio); flags.sentient false = socialita' istintiva, non culturale.
+      key_facts:
+        - "functional_tags: nemico_tutorial, predone_umanoide"
+        - "Bande nomadi (predone_umanoide) -- razzia come modello di sussistenza"
+      cross_ref:
+        - "species:predoni_nomadi"
+      game_impact: >
+        Compaiono in gruppo (roster nemico tutorial), non come singolo apex.
+
+    A_ancoraggio_narrativo:
+      heading: "Ancoraggio narrativo"
+      content: >
+        TODO master-dd: il gancio narrativo -- cosa significa, per l'allenatore, il
+        primo scontro con i predoni; perche' questa e' la prima voce del Codex.
+      key_facts:
+        - "Prima specie nemica che il giocatore affronta (enc_tutorial_01)"
+        - "Prima voce del Codex sbloccabile nel flow default"
+      cross_ref:
+        - "encounter:enc_tutorial_01"
+        - "encounter:enc_tutorial_02"
+      game_impact: >
+        Unlock e2e: completare enc_tutorial_01 con predoni_nomadi nel roster nemici
+        sblocca questa voce (primo unlock reale in-flow).
