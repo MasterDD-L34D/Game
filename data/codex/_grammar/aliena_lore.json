@@ -1,0 +1,27 @@
+{
+  "_README": "A.L.I.E.N.A. lore story-grammar (Tracery format) consumed by tools/py/codex_aliena_lore_gen.py. The HANDCRAFTED authoring layer (Wildermyth model): master-dd tunes these templates ONCE; the generator fills the #slots# from each creature's codex_entry.lore_vars and produces a per-creature DRAFT (pending human review). Each origin_<dim> defines the prose for one of the 6 A.L.I.E.N.A. dimensions; >1 variant per origin gives seeded variability across creatures. Slots: subject, biome_name, biome_trait, lineage, archetype, morphotype, job, role, threat_tier, social, sentience, hook. Keep variants ~150-350 chars (HA2 TV-readable band 100-500). NEVER reference a coherence/score slot (SPEC-H sez.8 secret invariant).",
+  "origin_A_ambiente": [
+    "Il territorio del #subject# e' #biome_name#: #biome_trait#. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.",
+    "#biome_name# non e' uno sfondo ma un avversario costante per il #subject#: #biome_trait#. Ogni movimento e' una risposta all'ambiente."
+  ],
+  "origin_L_linee_evolutive": [
+    "Il #subject# discende dai #lineage#. La sua linea segue un archetipo #archetype#: non la forza bruta, ma la capacita' di piegarsi a cio' che il bioma richiede.",
+    "Le origini del #subject# stanno nei #lineage#. Traiettoria #archetype#: ogni generazione conserva cio' che ha funzionato e scarta il resto."
+  ],
+  "origin_I_impianto": [
+    "Sul piano morfo-fisiologico il #subject# e' un #morphotype#, costruito attorno al ruolo di #job#. La struttura privilegia la prontezza sulla resistenza.",
+    "Il corpo del #subject# -- #morphotype# -- e' ottimizzato per il #job#: rapido, essenziale, fragile se isolato dal gruppo."
+  ],
+  "origin_E_ecologia": [
+    "Nell'ecologia di #biome_name# il #subject# occupa la nicchia di #role# (#threat_tier#). Esercita pressione sulle prede senza contendere l'apice.",
+    "Il #subject# e' #role# nel #biome_name#: una presenza diffusa (#threat_tier#) che modella il comportamento di cio' che gli sta sotto nella catena trofica."
+  ],
+  "origin_N_norme_socio": [
+    "La struttura sociale del #subject# si regge su #social#. La socialita' e' #sentience#: coordinazione efficace senza una cultura nel senso pieno.",
+    "Il #subject# vive in #social#. I legami sono di natura #sentience# -- funzionali alla razzia e alla sopravvivenza, non al racconto di se'."
+  ],
+  "origin_A_ancoraggio_narrativo": [
+    "Per l'allenatore il #subject# e' #hook#. E' qui che il Codex comincia: la prima forma di vita di cui annotare la verita'.",
+    "#hook#: ecco perche' il #subject# apre il Codex. Il primo incontro non si dimentica -- diventa il metro di tutto cio' che segue."
+  ]
+}
