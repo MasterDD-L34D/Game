@@ -3,7 +3,7 @@ title: Museum session handoff — 2026-04-25 (PR #1796 ready for merge)
 doc_status: draft
 doc_owner: claude-code
 workstream: cross-cutting
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

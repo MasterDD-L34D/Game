@@ -3,7 +3,7 @@ title: ERMES Codex Execution Brief
 doc_status: draft
 doc_owner: master-dd
 workstream: planning
-last_verified: 2026-04-29
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14

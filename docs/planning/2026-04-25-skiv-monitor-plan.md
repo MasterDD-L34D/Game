@@ -3,7 +3,7 @@ title: Skiv-as-Monitor — feature plan + architecture
 doc_status: draft
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: 2026-04-29 Sprint N.7 spec — Failure model parity Godot port (WoundStat
 doc_status: draft
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-29
+last_verified: 2026-06-20
 language: it
 review_cycle_days: 30
 related:

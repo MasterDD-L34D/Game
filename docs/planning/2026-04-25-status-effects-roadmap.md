@@ -2,7 +2,7 @@
 doc_status: draft
 doc_owner: trait-curator
 workstream: combat
-last_verified: 2026-04-25
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
