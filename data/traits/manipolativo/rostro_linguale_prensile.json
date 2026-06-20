@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "rostro_linguale_prensile",
   "label": "i18n:traits.rostro_linguale_prensile.label",
   "data_origin": "coverage_q4_2025",

@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.mucose_aderenza_sonica.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",

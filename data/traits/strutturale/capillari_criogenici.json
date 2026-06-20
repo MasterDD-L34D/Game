@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.capillari_criogenici.debolezza",
   "famiglia_tipologia": "Strutturale/Adattivo",

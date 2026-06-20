@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "corazze_ferro_magnetico",
   "label": "i18n:traits.corazze_ferro_magnetico.label",
   "data_origin": "frattura_abissale_sinaptica",

@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "locomozione_miriapode_ibrida",
   "label": "i18n:traits.locomozione_miriapode_ibrida.label",
   "data_origin": "coverage_q4_2025",

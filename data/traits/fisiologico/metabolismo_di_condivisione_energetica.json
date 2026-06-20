@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "metabolismo_di_condivisione_energetica",
   "label": "i18n:traits.metabolismo_di_condivisione_energetica.label",
   "data_origin": "coverage_q4_2025",

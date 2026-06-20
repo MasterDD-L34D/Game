@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.random.debolezza",
   "famiglia_tipologia": "Flessibile/Generico",

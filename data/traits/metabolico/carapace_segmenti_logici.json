@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.carapace_segmenti_logici.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",

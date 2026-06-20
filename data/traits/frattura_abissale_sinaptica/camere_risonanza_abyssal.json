@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "camere_risonanza_abyssal",
   "label": "i18n:traits.camere_risonanza_abyssal.label",
   "data_origin": "frattura_abissale_sinaptica",

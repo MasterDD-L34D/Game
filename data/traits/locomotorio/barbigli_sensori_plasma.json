@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "conflitti": [],
   "debolezza": "i18n:traits.barbigli_sensori_plasma.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",

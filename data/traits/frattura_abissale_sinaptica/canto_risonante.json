@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "canto_risonante",
   "label": "i18n:traits.canto_risonante.label",
   "data_origin": "frattura_abissale_sinaptica",

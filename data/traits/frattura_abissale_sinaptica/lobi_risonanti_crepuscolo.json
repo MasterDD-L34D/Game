@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "lobi_risonanti_crepuscolo",
   "label": "i18n:traits.lobi_risonanti_crepuscolo.label",
   "data_origin": "frattura_abissale_sinaptica",

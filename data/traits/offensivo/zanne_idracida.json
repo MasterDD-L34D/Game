@@ -1,4 +1,5 @@
 {
+  "schema_version": "2.0",
   "id": "zanne_idracida",
   "label": "i18n:traits.zanne_idracida.label",
   "data_origin": "coverage_q4_2025",
