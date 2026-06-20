@@ -3,7 +3,7 @@ title: 2026-05-04 Plan v3 drift sync — Godot v2 realtime confronto
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-05
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 14

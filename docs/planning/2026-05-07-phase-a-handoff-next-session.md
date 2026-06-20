@@ -3,7 +3,7 @@ title: 'Phase A LIVE handoff next session — monitoring window + Phase B trigge
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-07
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 7

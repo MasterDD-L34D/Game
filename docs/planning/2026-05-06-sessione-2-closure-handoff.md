@@ -3,7 +3,7 @@ title: 'Handoff sessione 2026-05-06 (parte 2) — PR #2071 Opt C foundation + au
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-20
 source_of_truth: false
 language: it
 review_cycle_days: 30
