@@ -3,7 +3,7 @@ title: Tooling Evo
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-21
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -82,7 +82,7 @@ make update-tracker BATCH=traits TRACKER_CHECK=1
     `schemas/evo`).
   - Esegue `jsonschema.validator_for` con un archivio condiviso di documenti per
     risolvere i riferimenti locali.
-  - Riporta i risultati con gli indicatori ✅/❌ sul logger
+  - Riporta i risultati con gli indicatori OK/FAIL sul logger
     `tools.automation.evo_schema_lint` (usare `--verbose` per il debug).
 
 Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
@@ -172,10 +172,12 @@ Configura `SITE_BASE_URL` seguendo questi passaggi:
    i workflow Evo lo risolveranno prima da `vars/` e, in fallback, dal secret
    protetto.
 
-Il secret è utilizzato da `.github/workflows/ci.yml`, `e2e.yml` e
-`lighthouse.yml` per passare l'URL a Playwright, Lighthouse e alla suite
-`ops/site-audit`. L'inventario `incoming/lavoro_da_classificare/inventario.yml`
-riporta il dettaglio dell'ambiente target per il tracciamento Ops.【F:.github/workflows/ci.yml†L483-L564】【F:.github/workflows/e2e.yml†L1-L35】【F:.github/workflows/lighthouse.yml†L1-L32】【F:incoming/lavoro_da_classificare/inventario.yml†L430-L449】
+Il secret e' utilizzato da `.github/workflows/ci.yml` e
+`.github/workflows/e2e.yml` per passare l'URL a Playwright/Lighthouse e alla
+suite `ops/site-audit` (il job Lighthouse e' interno a `ci.yml`; non esiste un
+workflow `lighthouse.yml` separato). L'inventario
+`incoming/lavoro_da_classificare/inventario.yml` riporta il dettaglio
+dell'ambiente target per il tracciamento Ops.
 
 Per pubblicare automaticamente `reports/evo/rollout/traits_external_sync.csv`
 su storage condiviso configurare inoltre:
@@ -225,7 +227,8 @@ sito vengono saltati ma gli output generati localmente restano disponibili.
     (`vars.PARTNERS_S3_BUCKET` + `vars.PARTNERS_S3_PREFIX`). Gli artefatti
     vengono conservati anche come upload Actions per 14 giorni.
 - **Telemetria specie con fallback**
-  - Il servizio Nebula (`server/services/nebulaTelemetryAggregator.js`) accetta
-    il parametro opzionale `speciesMatrixPath` per applicare automaticamente i
-    fallback slot e propagare `sentience_index` nei payload telemetrici. Il
-    comportamento è validato in `tests/server/nebula-route.spec.js`.
+  - Il servizio Nebula (`apps/backend/services/nebulaTelemetryAggregator.js`,
+    ex `server/services/`) accetta il parametro opzionale `speciesMatrixPath`
+    per applicare automaticamente i fallback slot e propagare `sentience_index`
+    nei payload telemetrici. Il comportamento e' validato in
+    `tests/server/nebula-route.spec.js`.
