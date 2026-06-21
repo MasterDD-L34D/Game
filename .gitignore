@@ -78,6 +78,10 @@ scripts/pip*.exe
 apps/backend/logs/
 reports/status.json
 
+# flint drift snapshot -- generated on-demand by tools/py/flint_status_stdlib.py,
+# no code consumer, not docs_registry-tracked. Regenerate locally, do not commit.
+docs/flint-status.json
+
 # Playtest session event streams raw (rigenerati da ogni run, non servono in VCS)
 # I report analitici (.md) restano tracciati.
 logs/session_*.json
@@ -110,6 +114,8 @@ data/derived/chronicles/
 
 # Phone HTML5 build artifacts (mounted by deploy-quick.sh from Game-Godot-v2/dist/web)
 apps/backend/public/phone/
+# Suffixed Godot web-export variants (phone-k05, etc.) -- same wasm/pck artifact, build-only
+apps/backend/public/phone-*/
 
 # Cloudflare Tunnel deploy logs
 .deploy-logs/
