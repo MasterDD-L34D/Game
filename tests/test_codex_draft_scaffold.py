@@ -127,3 +127,63 @@ def test_scaffold_draft_no_secret_score_fields():
     assert not (forbidden & set(ce.keys()))
     for dim in ce["aliena_dimensions"].values():
         assert not (forbidden & set(dim.keys()))
+
+
+def test_catalog_to_species_and_rich_slots():
+    entry = {
+        "species_id": "cryo_lynx",
+        "common_names": ["Lince Criogenica"],
+        "role_tags": ["predatore_terziario_apex"],
+        "biome_affinity": "savana",
+        "trait_refs": ["artigli_sette_vie", "criostasi_adattiva"],
+        "classification": {"macro_class": "Cursore quadrupede / predatore apex"},
+        "sentience_index": "T1",
+        "visual_description": "Felino compatto dal manto folto.",
+    }
+    sp = scaf.catalog_to_species(entry)
+    assert sp["id"] == "cryo_lynx"
+    assert sp["display_name"] == "Lince Criogenica"
+    assert sp["trait_refs"] == ["artigli_sette_vie", "criostasi_adattiva"]
+    assert sp["flags"]["sentient"] is False  # T1 -> not sentient
+    lifecycle = {
+        "phases": {"hatchling": {}, "mature": {}, "apex": {}},
+        "mutation_morphology": {"artigli_grip_to_glass": {}},
+    }
+    lv = scaf.extract_lore_vars(sp, BIOMES, lifecycle)
+    assert "artigli sette vie" in lv["traits"]
+    assert "Felino compatto" in lv["visual"]
+    assert "hatchling" in lv["lifecycle_arc"]
+    assert "artigli grip to glass" in lv["mutations"]
+
+
+def test_extract_lore_vars_rich_slots_fallback_for_stub():
+    # a stub species (no trait_refs / no lifecycle) gets safe fallbacks, never #leaks#.
+    lv = scaf.extract_lore_vars(SPECIES, BIOMES, None)
+    assert lv["traits"]  # non-empty fallback
+    assert lv["lifecycle_arc"]
+    assert lv["mutations"]
+    assert "#" not in lv["traits"] + lv["visual"] + lv["lifecycle_arc"] + lv["mutations"]
+
+
+def test_scaffold_rich_weaves_traits_into_content():
+    import json
+    from pathlib import Path as _P
+
+    grammar = json.load(
+        open(_P(__file__).resolve().parents[1] / "data/codex/_grammar/aliena_lore.json", encoding="utf-8")
+    )
+    entry = {
+        "species_id": "test_rich",
+        "common_names": ["Bestia Test"],
+        "role_tags": ["predatore"],
+        "biome_affinity": "savana",
+        "trait_refs": ["artigli_sette_vie"],
+        "classification": {"macro_class": "quadrupede"},
+        "sentience_index": "T1",
+        "visual_description": "Una bestia di prova distintiva.",
+    }
+    draft = scaf.scaffold_rich_draft(entry, {"phases": {"mature": {}}}, BIOMES, grammar)
+    dims = draft["codex_entry"]["aliena_dimensions"]
+    assert "artigli sette vie" in dims["L_linee_evolutive"]["content"]  # rich origin used
+    assert "bestia di prova" in dims["I_impianto"]["content"].lower()  # visual woven
+    assert "#" not in dims["L_linee_evolutive"]["content"]
