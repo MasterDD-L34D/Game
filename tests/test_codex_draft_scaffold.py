@@ -92,6 +92,13 @@ def test_extract_lore_vars_maps_species_fields():
     assert "guardiano caverna" not in lv["neighbors"]  # subject excluded from neighbors
     assert "eco predoni" in lv["neighbors"]
     assert "eco" in lv["affixes"]
+    assert "senza contendere" in lv["eco_stance"]  # guardiano is not apex
+
+
+def test_extract_lore_vars_apex_eco_stance():
+    apex = dict(SPECIES, functional_tags=["nemico_tutorial", "apex_creature", "boss"])
+    lv = scaf.extract_lore_vars(apex, BIOMES)
+    assert "Domina la catena trofica" in lv["eco_stance"]
 
 
 def test_scaffold_draft_full_shape():

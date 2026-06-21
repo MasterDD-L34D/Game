@@ -27,6 +27,7 @@ codex_entry:
     social: gruppi territoriali
     sentience: istintiva
     hook: un avversario predatore tank (T2) che affronti in Savana Ionizzata
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Western sci-fi e sopravvivenza carovaniera
     biome_hook: recuperare convogli cristallizzati e nodi di risonanza sepolti
     affixes: termico, luminescente, spore diluite, sabbia
@@ -52,9 +53,9 @@ codex_entry:
       cross_ref:
       - species:cacciatore_corazzato
       game_impact: Archetipo corazzato.
-      content: 'Il cacciatore corazzato discende dai forme a morfologia bipede corazzato.
-        La sua linea segue un archetipo corazzato: non la forza bruta, ma la capacita'' di
-        piegarsi a cio'' che il bioma richiede.'
+      content: 'Il cacciatore corazzato discende da forme a morfologia bipede corazzato. La
+        sua linea segue un archetipo corazzato: non la forza bruta, ma la capacita'' di piegarsi
+        a cio'' che il bioma richiede.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -76,7 +77,7 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'encounter_role: threat.'
-      content: 'Il cacciatore corazzato e'' predatore tank nel Savana Ionizzata: una presenza
+      content: 'Il cacciatore corazzato e'' predatore tank in Savana Ionizzata: una presenza
         diffusa (T2) che, insieme a predoni nomadi, guardiani delle dune, cartografi erranti,
         modella la catena trofica.'
     N_norme_socio:

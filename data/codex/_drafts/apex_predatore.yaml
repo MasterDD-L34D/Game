@@ -27,6 +27,7 @@ codex_entry:
     social: presenza solitaria, non gregaria
     sentience: istintiva
     hook: un avversario predatore apex boss (T3) che affronti in Savana Ionizzata
+    eco_stance: 'Domina la catena trofica: poche prede gli sfuggono.'
     biome_tone: Western sci-fi e sopravvivenza carovaniera
     biome_hook: recuperare convogli cristallizzati e nodi di risonanza sepolti
     affixes: termico, luminescente, spore diluite, sabbia
@@ -52,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:apex_predatore
       game_impact: Archetipo corazzato.
-      content: 'Il predatore apex discende dai apici a morfologia predatore apex bipede. La
+      content: 'Il predatore apex discende da apici a morfologia predatore apex bipede. La
         sua linea segue un archetipo corazzato: non la forza bruta, ma la capacita'' di piegarsi
         a cio'' che il bioma richiede.'
     I_impianto:
@@ -75,9 +76,9 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'encounter_role: boss.'
-      content: Nell'ecologia di Savana Ionizzata il predatore apex occupa la nicchia di predatore
-        apex boss (T3), accanto a predoni nomadi, guardiani delle dune, cartografi erranti.
-        Esercita pressione sulle prede senza contendere l'apice.
+      content: 'Nell''ecologia di Savana Ionizzata il predatore apex occupa la nicchia di
+        predatore apex boss (T3), accanto a predoni nomadi, guardiani delle dune, cartografi
+        erranti. Domina la catena trofica: poche prede gli sfuggono.'
     N_norme_socio:
       heading: Norme socio
       key_facts:

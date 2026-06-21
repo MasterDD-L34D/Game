@@ -182,6 +182,12 @@ def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
         "social": social,
         "sentience": "culturale" if sentient else "istintiva",
         "hook": f"un avversario {role or 'ostile'} ({threat_tier}) che affronti in {biome_name}",
+        # apex-aware ecology stance (avoids "senza contendere l'apice" on a boss)
+        "eco_stance": (
+            "Domina la catena trofica: poche prede gli sfuggono."
+            if is_apex
+            else "Esercita pressione sulle prede senza contendere l'apice."
+        ),
         # AUTHORED biome narrative (was ignored) -- improves A_ambiente voice +
         # gives A_ancoraggio a real hook + names the biome's other fauna.
         "biome_tone": narrative_vars["biome_tone"],

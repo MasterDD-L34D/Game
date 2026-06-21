@@ -27,6 +27,7 @@ codex_entry:
     social: gruppi territoriali
     sentience: istintiva
     hook: un avversario predatore acquatico agile (T2) che affronti in Palude Tossica
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Survival horror organico e diplomazia con culti simbiotici
     biome_hook: recuperare reagenti bio-luminescenti per le squadre mediche
     affixes: fangoso, tossico, luminescente, viti
@@ -52,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:guardiano_pozza
       game_impact: Archetipo adattivo.
-      content: 'Il guardiano della pozza discende dai forme a morfologia anfibio agile. La
+      content: 'Il guardiano della pozza discende da forme a morfologia anfibio agile. La
         sua linea segue un archetipo adattivo: non la forza bruta, ma la capacita'' di piegarsi
         a cio'' che il bioma richiede.'
     I_impianto:

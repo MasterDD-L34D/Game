@@ -27,6 +27,7 @@ codex_entry:
     social: bande di razzia nomadi
     sentience: istintiva
     hook: un avversario predatore secondario (T1) che affronti in Savana Ionizzata
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Western sci-fi e sopravvivenza carovaniera
     biome_hook: recuperare convogli cristallizzati e nodi di risonanza sepolti
     affixes: termico, luminescente, spore diluite, sabbia
@@ -52,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:predone_agile
       game_impact: Archetipo adattivo.
-      content: 'Il predone agile discende dai razziatori umanoidi. La sua linea segue un archetipo
+      content: 'Il predone agile discende da razziatori umanoidi. La sua linea segue un archetipo
         adattivo: non la forza bruta, ma la capacita'' di piegarsi a cio'' che il bioma richiede.'
     I_impianto:
       heading: Impianto morfo-fisiologico
@@ -73,7 +74,7 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'encounter_role: threat.'
-      content: 'Il predone agile e'' predatore secondario nel Savana Ionizzata: una presenza
+      content: 'Il predone agile e'' predatore secondario in Savana Ionizzata: una presenza
         diffusa (T1) che, insieme a predoni nomadi, guardiani delle dune, cartografi erranti,
         modella la catena trofica.'
     N_norme_socio:
