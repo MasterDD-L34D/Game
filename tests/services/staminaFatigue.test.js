@@ -50,3 +50,10 @@ test('fatiguePenalty: fires at threshold, propriocezione tolerates 1 sprint', ()
   assert.equal(sf.fatiguePenalty({ fatica: 1, traits: ['propriocezione'] }), 0);
   assert.equal(sf.fatiguePenalty({ fatica: 2, traits: ['propriocezione'] }), 1);
 });
+
+test('isSprintRound: split moves accumulate (1+1 tiles, 0 AP) -> sprint', () => {
+  // session.js increments _tiles_voluntary_round by `dist` per move; two 1-tile moves
+  // that drain AP must register as a sprint.
+  const u = { ap: 2, ap_remaining: 0, _tiles_voluntary_round: 1 + 1 };
+  assert.equal(sf.isSprintRound(u), true);
+});
