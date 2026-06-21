@@ -12496,6 +12496,17 @@
       "source_of_truth": false,
       "language": "en",
       "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-21-sentience-traits-wiring-scope.md",
+      "title": "Scope -- wiring producer 4 trait interocettivi sensienza (Gate-5 closure)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "backend",
+      "last_verified": "2026-06-21",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90
     }
   ]
 }
