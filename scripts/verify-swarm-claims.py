@@ -1733,6 +1733,10 @@ def render_markdown(reports: list[dict]) -> str:
 
 _FRONTMATTER_RE = re.compile(r"\A---\r?\n.*?\r?\n---\r?\n", re.DOTALL)
 _JSON_FENCE_RE = re.compile(r"```(?:json)?\s*(\[.*?\]|\{.*?\})\s*```", re.DOTALL)
+# Markdown structure that pollutes prose entity-extraction with spurious tokens.
+_MD_FENCE_BLOCK_RE = re.compile(r"```.*?```", re.DOTALL)
+_MD_HEADING_RE = re.compile(r"(?m)^[ \t]*#{1,6}[ \t].*$")
+_MD_SETEXT_RE = re.compile(r"(?m)^[ \t]*[=-]{2,}[ \t]*$")
 
 
 def _strip_frontmatter(text: str) -> str:
@@ -1740,17 +1744,39 @@ def _strip_frontmatter(text: str) -> str:
     return _FRONTMATTER_RE.sub("", text, count=1)
 
 
+def _markdown_to_prose(body: str) -> str:
+    """Pulisce la struttura markdown che genera token-entita' spuri.
+
+    - fenced code block (```...```): i loro canonical_refs sono raccolti a parte
+      (build_artifact_from_markdown li legge dal body completo); lasciare il
+      blocco aggiungerebbe solo rumore strutturale alla prosa.
+    - heading ATX/setext: sono label brevi, non claim; sotto whitespace-collapse
+      una parola di heading non terminata si fonde con l'articolo capitalizzato
+      della riga seguente nell'estrattore di frasi (es. '# Proposta' + 'La ...'
+      -> bigram 'proposta_la' = un falso HALLUCINATED). Rimuovi le righe heading.
+    """
+    text = _MD_FENCE_BLOCK_RE.sub(" ", body)
+    text = _MD_HEADING_RE.sub(" ", text)
+    text = _MD_SETEXT_RE.sub(" ", text)
+    return text
+
+
 def build_artifact_from_markdown(text: str, name: str = "doc") -> dict:
     """Adatta contenuto markdown (design doc / PR body) a un artifact dict.
 
-    Il body (post-frontmatter) diventa `summary`, cosi' la prose-extraction
-    (mentions + A.L.I.E.N.A. relational, assi A/N/I/L/E/A2) gira sul testo.
-    Qualunque fenced block ```json``` con una lista di {ref, claim} (o un dict
-    che contiene `canonical_refs`) viene promosso a `response.canonical_refs`
-    per il check esplicito Tier 4. Mirror del contratto artifact JSON.
+    Il body (post-frontmatter, ripulito da heading/code-fence via
+    _markdown_to_prose) diventa `summary`, cosi' la prose-extraction (mentions +
+    A.L.I.E.N.A. relational, assi A/N/I/L/E/A2) gira sul testo senza falsi
+    positivi da struttura markdown. Qualunque fenced block ```json``` con una
+    lista di {ref, claim} (o un dict con `canonical_refs`) viene letto dal body
+    COMPLETO e promosso a `response.canonical_refs` (Tier 4). Mirror artifact JSON.
     """
     body = _strip_frontmatter(text or "")
-    artifact: dict[str, Any] = {"agent": name, "cycle": 0, "summary": body}
+    artifact: dict[str, Any] = {
+        "agent": name,
+        "cycle": 0,
+        "summary": _markdown_to_prose(body),
+    }
     canonical_refs: list[dict] = []
     for m in _JSON_FENCE_RE.finditer(body):
         try:
