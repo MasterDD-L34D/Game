@@ -31,6 +31,18 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 ---
 
+## 🧰 CI tooling -- canon entity-grounding linter (2026-06-21, #2915 SHIPPED)
+
+PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: vendored evo-swarm verifier (ADR-0042) -> `scripts/verify-swarm-claims.py` (+ `scripts/data/verify_stopwords.txt`) + 2-tier `.github/workflows/swarm-validation.yml` (JSON `--strict` su `docs/research/swarm/**.json` / markdown ADVISORY su `docs/research/**/*.md`). Retired deprecato `tools/py/swarm_canonical_validator.py` (+test). 167 test (`tests/test_verify_swarm_claims.py`) nel CI `python-tests`. Distinto da `scripts/check-canon-consistency.cjs` (canon-internal). Memory `project_canon_entity_grounding_linter.md`.
+
+**Residui (follow-up, non bloccanti)**:
+
+- **Markdown tier = ADVISORY**: tune `scripts/data/verify_stopwords.txt` sui false-positive di design-doc Italian reali, poi flip a `--strict` (rimuovi `--advisory` nello step markdown del workflow).
+- **JSON tier dormant**: nessun `docs/research/swarm/**.json` in-repo -> il gate JSON non scatta finche' non atterra un artifact swarm (atteso, non un bug).
+- **Upstream-sync**: il linter e' una copia vendored; se cambia upstream (`MasterDD-L34D/evo-swarm` `scripts/verify-swarm-claims.py`) ri-vendora (2a copia da tenere in sync).
+
+---
+
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
 ### 🟡 OPEN — SPEC-H ALIENA enforcement implementation-residue (2026-06-17)

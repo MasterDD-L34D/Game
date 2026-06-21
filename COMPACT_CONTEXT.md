@@ -5,7 +5,19 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-14 (Lenovo) — issue #2746 coop-WS gaps CLOSURE backend-side
+## ⚡ Sessione corrente 2026-06-21 (Lenovo) -- canon entity-grounding linter in CI (#2915)
+
+**PR #2915 `4ce1d0cb` MERGED** (squash): vendored il verifier evo-swarm (ADR-0042) come linter Game (`scripts/verify-swarm-claims.py` + `scripts/data/verify_stopwords.txt`) che gate-a contenuti citanti entita' canonical (specie/biomi/trait) vs canon corrente -> cattura **hallucinate-by-association** (nome reale + attributo non-canon). **Retired** deprecato `tools/py/swarm_canonical_validator.py` (+test, leggeva legacy species.yaml). Workflow `swarm-validation.yml` riscritto **2-tier**: JSON `--strict` hard-fail (`docs/research/swarm/**.json`) / markdown ADVISORY (`docs/research/**/*.md`). 167 test (153 vendored + 14 adapter) nel CI `python-tests`. Distinto da `scripts/check-canon-consistency.cjs` (canon-internal).
+
+**Feasibility-gap (recon-first)**: tool upstream parsa solo JSON -> `.md` SKIP = no-op; aggiunto markdown-adapter + `--advisory`/`--include-md` + strict-gate ora fallisce anche su `contradicted` (vero bucket hallucinate-by-association). Mechanism = vendor (vs cross-repo PAT / pip non-packaged).
+
+**Codex rate-limited (0 review)** -> harsh-review self (compensating control): 2 P1 false-green fixati (strict ora fallisce su skip; workflow detect usa `pull_request.base.sha` vs shallow-fetch silent-skip) + de-risk workflow-shell e2e locale. Merge `--admin` past BEHIND-race.
+
+**Next entry point**: tune `verify_stopwords.txt` su false-positive design-doc reali -> flip markdown-tier a `--strict`; JSON-tier dormant finche' non atterra `docs/research/swarm/**.json`. Memory: `project_canon_entity_grounding_linter.md`.
+
+---
+
+## ⚡ Sessione 2026-06-14 (Lenovo) — issue #2746 coop-WS gaps CLOSURE backend-side
 
 **3 PR merged (issue #2746, gap dal playtest AI GGv2 item-5/6)**: #2748 `662fc761` **G4** (store meta globale campaignId null -> findFirst su unique nullable; `GET /api/meta/npg`+`/v1/meta/nest` da 500 a 200; +Codex P2 dup-row serialize+orderBy) · #2751 `087f60cd` **G1** (phase_change broadcast versionato su 3 emitter coop-WS -> publishEvent/version; phone Godot non scarta piu' i frame = no schermo vuoto) · #2756 `e02764f2` **G2+G3+G5** (campaign_id mirror in linkSession + nido broadcast nel drain next_macro + world_tally esclude host TV; +Codex P2 reject host-vote non-giocante).
 
