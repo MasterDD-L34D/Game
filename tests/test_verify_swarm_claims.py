@@ -2017,6 +2017,32 @@ class MarkdownAdapterTest(unittest.TestCase):
         self.assertIn("abisso_vulcanico", mentions)
         self.assertIn("dune_stalker", mentions)
 
+    def test_heading_does_not_create_false_positive(self):
+        # Regression: '# Proposta' + 'La ...' previously merged (post
+        # whitespace-collapse) into the bigram 'proposta_la' -> false
+        # HALLUCINATED. Heading lines are now stripped from the prose summary.
+        text = "# Proposta\nLa specie dune_stalker abita il bioma savana.\n"
+        art = self.mod.build_artifact_from_markdown(text)
+        mentions = self.mod.extract_mentions(art)
+        self.assertNotIn("proposta_la", mentions)
+        # the real prose entities survive
+        self.assertIn("dune_stalker", mentions)
+
+    def test_code_fence_stripped_from_prose_but_refs_kept(self):
+        text = (
+            "Prosa con dune_stalker.\n\n"
+            "```json\n"
+            '[{"ref": "data/core/species.yaml#dune_stalker.biome_affinity", '
+            '"claim": "savana"}]\n'
+            "```\n"
+        )
+        art = self.mod.build_artifact_from_markdown(text)
+        # canonical_refs are still harvested from the full body
+        self.assertEqual(len(self.mod.extract_canonical_refs_from_artifact(art)), 1)
+        # but the fence's structural text is gone from the prose summary
+        self.assertNotIn("```", art["summary"])
+        self.assertNotIn("biome_affinity", art["summary"])
+
 
 class LoadArtifactTest(unittest.TestCase):
     def setUp(self):
