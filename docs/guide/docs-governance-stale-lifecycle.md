@@ -3,7 +3,7 @@ title: Docs-governance stale-doc lifecycle -- standard di settore + metodo Evo-T
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: '2026-06-21'
+last_verified: '2026-06-22'
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -20,7 +20,7 @@ smaltire i `stale_document` warning senza treadmill**. Riusabile cross-repo
 cadenza tiered e gli script-pattern sono indipendenti dal contenuto del repo.
 
 Distillato dalla campagna "stale burn-down" su Game (stale_document **397 ->
-36**, 2026-06; PR #2899-#2913, issue #2914, tracking #2614).
+0**, 2026-06; campagna COMPLETA, issue #2914 CLOSED 36/36, tracking #2614).
 
 ## Il problema
 
@@ -184,8 +184,12 @@ repo; i valori 30/90/180 sono ratificati master-dd 2026-06-20.
 ## Refs
 
 - Campagna burn-down: tracking #2614; batch B7-B10 (#2899/#2900/#2903/#2905);
-  cadence #2909; factual-sync #2910; lifecycle-normalization #2913; residue
-  issue #2914. Stato e ticket per-driver: `BACKLOG.md` sezione campagna.
+  cadence #2909; factual-sync #2910; lifecycle-normalization #2913. **Closeout
+  #2914** (owner-gated dispositions dei 36 DRIFTED residui): #2923 D+E keep+bump
+  / #2929 A retire+salvage (9 -> historical_ref, salvage portato, sentience_sdk
+  vaporware-hazard neutralizzato) / #2931 B rewrite (vs split `ci.yml`) / #2933
+  C rewrite + Urban_Flood retire / #2934 close. **stale_document 397 -> 0, issue
+  #2914 CLOSED 36/36.** Stato e ticket per-driver: `BACKLOG.md` sezione campagna.
 - Tool: `tools/check_docs_governance.py`; schema:
   `docs/governance/docs_metadata.schema.json`; registry (SoT):
   `docs/governance/docs_registry.json`.
