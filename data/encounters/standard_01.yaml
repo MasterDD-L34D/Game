@@ -25,6 +25,16 @@ groups:
     count: 1
     species_hint: echo_seer
     trait_ids: [spore_psichiche_silenziate]
+  - role: apex_neutral
+    power: 5
+    count: 1
+    species_hint: perfusuas_pedes
+    trait_ids: [artiglio_cinetico_a_urto, locomozione_miriapode_ibrida, sistemi_chimio_sonici]
+    notes: >-
+      Lo Zannapiedi (perfusuas_pedes) pattuglia le gallerie carsiche, neutrale
+      finche' la party non invade il suo territorio. Osservatore -- non interferisce
+      con la pattuglia, ma la sua presenza sblocca il Codex (encounter_completed).
+      Pattern apex_neutral (cfr. dune_stalker in enc_savana_pack_clash).
 
 party_vc:
   difficulty_multiplier: 1.0
