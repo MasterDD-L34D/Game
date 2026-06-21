@@ -285,6 +285,24 @@ test('computeResolvePriority applies panic -2 and disorient -1 penalties', () =>
   assert.equal(computeResolvePriority(disUnit, attack), 8);
 });
 
+test('OD-024 engine #1: nocicezione + ferito → -1 initiative (1 tier slower)', () => {
+  const attack = { type: 'attack' };
+  // nocicezione + ferito -> slow_down 1 (via computeSlowDownPenalty): 10 + 0 - 1 = 9.
+  const nociFerito = {
+    id: 'nf',
+    initiative: 10,
+    traits: ['nocicezione'],
+    status: { ferito: true },
+  };
+  assert.equal(computeResolvePriority(nociFerito, attack), 9);
+  // same trait, NOT ferito -> no slow: 10.
+  const nociClean = { id: 'nc', initiative: 10, traits: ['nocicezione'], status: {} };
+  assert.equal(computeResolvePriority(nociClean, attack), 10);
+  // ferito but no nocicezione -> no slow: 10 (band-neutral for non-carriers).
+  const feritoNoTrait = { id: 'ft', initiative: 10, traits: [], status: { ferito: true } };
+  assert.equal(computeResolvePriority(feritoNoTrait, attack), 10);
+});
+
 // ─────────────────────────────────────────────────────────────────
 // 4. Resolve round integration (4 test, con mock resolveAction)
 // ─────────────────────────────────────────────────────────────────
