@@ -460,6 +460,27 @@ class CoopOrchestrator {
     } catch {
       // formInnataTrait helper optional — non blocca character submit.
     }
+    // 2026-06-21 OD-024 ai-station -- sentience interoception trait grant.
+    // Gate-5 closure: append the RFC interoception gateway traits when the
+    // species sentience_index qualifies (>= T1). Flag-gated OFF
+    // (SENTIENCE_INTEROCEPTION_GRANT_ENABLED) -> band-neutral no-op by default
+    // until master-dd flips it post N=40. See services/sentience/
+    // sentienceInteroceptionGrant.js + docs/planning scope doc.
+    try {
+      // eslint-disable-next-line global-require
+      const {
+        applySentienceInteroceptionGrant,
+      } = require('../sentience/sentienceInteroceptionGrant');
+      const granted = applySentienceInteroceptionGrant({
+        species_id: spec.species_id,
+        traits: baseTraits,
+      });
+      if (Array.isArray(granted?.traits)) {
+        baseTraits = granted.traits;
+      }
+    } catch {
+      // sentience grant helper optional -- non blocca character submit.
+    }
     // B-NEW-5 fix 2026-05-08 — idempotent submission. Phone smoke iter4
     // friends-online (lobby XHPV) shipped 19 character_ready emissions in
     // 175s with last 5 within 700ms: phone composer doesn't lock submit
