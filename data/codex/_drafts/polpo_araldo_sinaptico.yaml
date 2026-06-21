@@ -19,15 +19,16 @@ codex_entry:
     biome_name: Frattura Abissale Sinaptica
     biome_trait: Bioma abissale stratificato con tre livelli luminosi/pressori e correnti
       elettroluminescenti che modulano trait temporanei
-    lineage: forme a morfologia unknown
+    lineage: forme a morfologia non catalogata
     archetype: adattivo
-    morphotype: unknown
+    morphotype: non catalogata
     job: ''
-    role: unknown
+    role: creatura di classificazione incerta
     threat_tier: T2
     social: gruppi territoriali
     sentience: culturale
-    hook: un avversario unknown (T2) che affronti in Frattura Abissale Sinaptica
+    hook: una forma di vita ancora da classificare (T2) che incontri in Frattura Abissale
+      Sinaptica
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Sinfonia abissale di luce, nebbia e shear gravitazionale governata da correnti
       elettroluminescenti
@@ -36,11 +37,9 @@ codex_entry:
     affixes: luminescente, elettrico profondo, sinaptico, gravitazionale, pressione estrema
     neighbors: araldi fotofase, sciami memetici, leviatani risonanti
     traits: impulsi bioluminescenti, nodi sinaptici superficiali, membrane fotoconvoglianti,
-      lobi risonanti crepuscolo, filamenti guidalampo, sensori planctonici, ghiandole mnemoniche,
-      secrezioni antistatiche, scintilla sinaptica, canto risonante, tentacoli uncinati, impulsi
-      bioluminescenti
-    visual: un unknown.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+      lobi risonanti crepuscolo, filamenti guidalampo, sensori planctonici
+    visual: un organismo dalla forma non ancora catalogata.
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -81,12 +80,11 @@ codex_entry:
       - trait:tentacoli_uncinati
       - trait:impulsi_bioluminescenti
       game_impact: Archetipo adattivo.
-      content: 'Il polpo araldo sinaptico evolve lungo le fasi hatchling, juvenile, mature,
-        apex, legacy. I suoi tratti -- impulsi bioluminescenti, nodi sinaptici superficiali,
+      content: 'Il polpo araldo sinaptico evolve lungo le fasi cucciolo, giovane, maturo,
+        apex, eredita''. I suoi tratti -- impulsi bioluminescenti, nodi sinaptici superficiali,
         membrane fotoconvoglianti, lobi risonanti crepuscolo, filamenti guidalampo, sensori
-        planctonici, ghiandole mnemoniche, secrezioni antistatiche, scintilla sinaptica, canto
-        risonante, tentacoli uncinati, impulsi bioluminescenti -- non sono ornamenti ma risposte:
-        ognuno racconta una pressione superata, in archetipo adattivo.'
+        planctonici -- non sono ornamenti ma risposte: ognuno racconta una pressione superata,
+        in archetipo adattivo.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -96,9 +94,9 @@ codex_entry:
       cross_ref:
       - species:polpo_araldo_sinaptico
       game_impact: Profilo da  (unknown).
-      content: 'Morfologia: un unknown. Ogni adattamento risponde a una pressione; le linee
-        mutanti note (adattamenti ancora non catalogati) spingono il corpo oltre la forma
-        base.'
+      content: 'Morfologia: un organismo dalla forma non ancora catalogata. Ogni adattamento
+        risponde a una pressione; le linee mutanti note (adattamenti ancora non catalogati)
+        spingono il corpo oltre la forma base.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -108,8 +106,9 @@ codex_entry:
       - biome:frattura_abissale_sinaptica
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Frattura Abissale Sinaptica il polpo araldo sinaptico occupa
-        la nicchia di unknown (T2), accanto a araldi fotofase, sciami memetici, leviatani
-        risonanti. Esercita pressione sulle prede senza contendere l'apice.
+        la nicchia di creatura di classificazione incerta (T2), accanto a araldi fotofase,
+        sciami memetici, leviatani risonanti. Esercita pressione sulle prede senza contendere
+        l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -126,9 +125,11 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il polpo araldo sinaptico e'' un avversario unknown (T2)
-        che affronti in Frattura Abissale Sinaptica. E nel suo mondo la posta in gioco e''
-        stabilizzare i corridoi luminosi della Cresta Fotofase prima delle maree di spore.
-        E'' qui che il Codex comincia: la prima forma di vita di cui annotare la verita''.'
-      story_hook_it: un avversario unknown (T2) che affronti in Frattura Abissale Sinaptica
+      content: 'Per l''allenatore il polpo araldo sinaptico e'' una forma di vita ancora da
+        classificare (T2) che incontri in Frattura Abissale Sinaptica. E nel suo mondo la
+        posta in gioco e'' stabilizzare i corridoi luminosi della Cresta Fotofase prima delle
+        maree di spore. E'' qui che il Codex comincia: la prima forma di vita di cui annotare
+        la verita''.'
+      story_hook_it: una forma di vita ancora da classificare (T2) che incontri in Frattura
+        Abissale Sinaptica
   lore_review_status: generated_pending_review

@@ -22,21 +22,21 @@ codex_entry:
     archetype: adattivo
     morphotype: Aves
     job: ''
-    role: aves
+    role: uccello
     threat_tier: T2
     social: gruppi territoriali
     sentience: culturale
-    hook: un avversario aves (T2) che affronti in Dorsale Termale Tropicale
+    hook: una creatura di tipo uccello (T2) che incontri in Dorsale Termale Tropicale
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Operazioni anfibie tra fumarole luminescenti e correnti instabili
     biome_hook: sigillare sfiati per proteggere gli avamposti sommersi
     affixes: echo surge, shifting winds
-    neighbors: ridge sentinels, plume harvesters, thermal diviners
+    neighbors: sentinelle della dorsale, raccoglitori dei pennacchi, indovini termici
     traits: vello di assorbimento totale, visione multi spettrale amplificata, motore biologico
       silenzioso, artigli ipo termici, comunicazione fotonica coda coda
     visual: Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli
       lunghi; volo felpato e manovrato.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -66,7 +66,7 @@ codex_entry:
       - trait:artigli_ipo_termici
       - trait:comunicazione_fotonica_coda_coda
       game_impact: Archetipo adattivo.
-      content: 'Il uccello ombra evolve lungo le fasi hatchling, juvenile, mature, apex, legacy.
+      content: 'Il uccello ombra evolve lungo le fasi cucciolo, giovane, maturo, apex, eredita''.
         I suoi tratti -- vello di assorbimento totale, visione multi spettrale amplificata,
         motore biologico silenzioso, artigli ipo termici, comunicazione fotonica coda coda
         -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo
@@ -92,9 +92,9 @@ codex_entry:
       cross_ref:
       - biome:dorsale_termale_tropicale
       game_impact: 'encounter_role: None.'
-      content: 'Il uccello ombra e'' aves in Dorsale Termale Tropicale: una presenza diffusa
-        (T2) che, insieme a ridge sentinels, plume harvesters, thermal diviners, modella la
-        catena trofica.'
+      content: 'Il uccello ombra e'' uccello in Dorsale Termale Tropicale: una presenza diffusa
+        (T2) che, insieme a sentinelle della dorsale, raccoglitori dei pennacchi, indovini
+        termici, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -111,9 +111,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il uccello ombra e'' un avversario aves (T2) che affronti
-        in Dorsale Termale Tropicale. E nel suo mondo la posta in gioco e'' sigillare sfiati
-        per proteggere gli avamposti sommersi. E'' qui che il Codex comincia: la prima forma
-        di vita di cui annotare la verita''.'
-      story_hook_it: un avversario aves (T2) che affronti in Dorsale Termale Tropicale
+      content: 'Per l''allenatore il uccello ombra e'' una creatura di tipo uccello (T2) che
+        incontri in Dorsale Termale Tropicale. E nel suo mondo la posta in gioco e'' sigillare
+        sfiati per proteggere gli avamposti sommersi. E'' qui che il Codex comincia: la prima
+        forma di vita di cui annotare la verita''.'
+      story_hook_it: una creatura di tipo uccello (T2) che incontri in Dorsale Termale Tropicale
   lore_review_status: generated_pending_review

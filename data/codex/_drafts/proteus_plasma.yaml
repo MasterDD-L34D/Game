@@ -26,17 +26,17 @@ codex_entry:
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario protista complesso (T2) che affronti in Palude Tossica
+    hook: una creatura di tipo protista complesso (T2) che incontri in Palude Tossica
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Survival horror organico e diplomazia con culti simbiotici
     biome_hook: recuperare reagenti bio-luminescenti per le squadre mediche
     affixes: fangoso, tossico, luminescente, viti
-    neighbors: custodi miasmatici, druidi sporeguard, raccoglitori di fluoro
+    neighbors: custodi miasmatici, druidi delle spore, raccoglitori di fluoro
     traits: membrana plastica continua, flusso ameboide controllato, fagocitosi assorbente,
       moltiplicazione per fusione, cisti di ibernazione minerale
     visual: Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti.
       Variazione volumetrica rapida.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -69,7 +69,7 @@ codex_entry:
       content: 'La linea del mutaforma cellulare porta i segni di membrana plastica continua,
         flusso ameboide controllato, fagocitosi assorbente, moltiplicazione per fusione, cisti
         di ibernazione minerale: ogni tratto core e'' la cicatrice di una pressione del bioma.
-        Attraversa le fasi hatchling, juvenile, mature, apex, legacy, conservando solo cio''
+        Attraversa le fasi cucciolo, giovane, maturo, apex, eredita'', conservando solo cio''
         che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
@@ -93,7 +93,7 @@ codex_entry:
       - biome:palude
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Palude Tossica il mutaforma cellulare occupa la nicchia di
-        protista complesso (T2), accanto a custodi miasmatici, druidi sporeguard, raccoglitori
+        protista complesso (T2), accanto a custodi miasmatici, druidi delle spore, raccoglitori
         di fluoro. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
@@ -111,9 +111,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario protista complesso (T2) che affronti in Palude Tossica: ecco
-        perche'' il mutaforma cellulare apre il Codex. Intorno a lui le storie del bioma --
-        recuperare reagenti bio-luminescenti per le squadre mediche -- danno peso al primo
+      content: 'una creatura di tipo protista complesso (T2) che incontri in Palude Tossica:
+        ecco perche'' il mutaforma cellulare apre il Codex. Intorno a lui le storie del bioma
+        -- recuperare reagenti bio-luminescenti per le squadre mediche -- danno peso al primo
         incontro.'
-      story_hook_it: un avversario protista complesso (T2) che affronti in Palude Tossica
+      story_hook_it: una creatura di tipo protista complesso (T2) che incontri in Palude Tossica
   lore_review_status: generated_pending_review
