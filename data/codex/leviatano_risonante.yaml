@@ -36,9 +36,7 @@ codex_entry:
     affixes: luminescente, elettrico profondo, sinaptico, gravitazionale, pressione estrema
     neighbors: araldi fotofase, sciami memetici, leviatani risonanti
     traits: camere risonanza abyssal, emettitori voidsong, corazze ferro magnetico, bioantenne
-      gravitiche, emolinfa conducente, placche pressioniche, filamenti echo, spicole canalizzatrici,
-      lobi risonanti crepuscolo, pelle piezo satura, canto risonante, vortice nera flash,
-      ghiandole eco mappanti, cuore multicamera bassa pressione, emettitori voidsong
+      gravitiche, emolinfa conducente, placche pressioniche
     visual: un unknown.
     lifecycle_arc: hatchling, juvenile, mature, apex, legacy
     mutations: adattamenti ancora non catalogati
@@ -86,11 +84,8 @@ codex_entry:
       game_impact: Archetipo adattivo.
       content: 'Il leviatano risonante evolve lungo le fasi hatchling, juvenile, mature, apex,
         legacy. I suoi tratti -- camere risonanza abyssal, emettitori voidsong, corazze ferro
-        magnetico, bioantenne gravitiche, emolinfa conducente, placche pressioniche, filamenti
-        echo, spicole canalizzatrici, lobi risonanti crepuscolo, pelle piezo satura, canto
-        risonante, vortice nera flash, ghiandole eco mappanti, cuore multicamera bassa pressione,
-        emettitori voidsong -- non sono ornamenti ma risposte: ognuno racconta una pressione
-        superata, in archetipo adattivo.'
+        magnetico, bioantenne gravitiche, emolinfa conducente, placche pressioniche -- non
+        sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -135,4 +130,4 @@ codex_entry:
         i corridoi luminosi della Cresta Fotofase prima delle maree di spore. E'' qui che
         il Codex comincia: la prima forma di vita di cui annotare la verita''.'
       story_hook_it: un avversario unknown (T2) che affronti in Frattura Abissale Sinaptica
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed

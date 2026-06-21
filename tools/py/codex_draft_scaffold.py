@@ -177,7 +177,10 @@ def extract_lore_vars(
 
     # rich slots: trait_refs (each trait = a pressure) + authored visual_description
     # + lifecycle phases (evolutionary arc) + mutation_morphology. Fallbacks for stubs.
-    traits = ", ".join(_humanize(t) for t in (species.get("trait_refs") or [])) or (
+    # cap to 6 core traits -- some species carry 15+ trait_refs which overflow the
+    # HA2 TV-readable band; the review can surface more if needed.
+    _trait_refs = list(dict.fromkeys(species.get("trait_refs") or []))  # dedup, keep order
+    traits = ", ".join(_humanize(t) for t in _trait_refs[:6]) or (
         "tratti adattivi non ancora documentati"
     )
     visual = str(species.get("visual_description") or "").strip()
