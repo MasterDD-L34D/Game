@@ -18,25 +18,25 @@ codex_entry:
     subject: lupo della foresta
     biome_name: Foresta Temperata Umida
     biome_trait: Boschi piovosi con canopy densa, nebbie calde e radure bioenergetiche
-    lineage: forme a morfologia Cursore quadrupede
+    lineage: apici a morfologia Cursore quadrupede
     archetype: adattivo
     morphotype: Cursore quadrupede
     job: ''
     role: predatore terziario apex
     threat_tier: T3
-    social: gruppi territoriali
+    social: presenza solitaria, non gregaria
     sentience: istintiva
     hook: un avversario predatore terziario apex (T3) che affronti in Foresta Temperata Umida
-    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
+    eco_stance: 'Domina la catena trofica: poche prede gli sfuggono.'
     biome_tone: Ricognizioni stealth tra nebbie radiose e comunità arboree
     biome_hook: proteggere i reattori a risonanza dagli attacchi delle maree
     affixes: rainshade, canopy web, floodpulse
-    neighbors: wardens pluviali, temperate stalkers, druids pluviometrici
+    neighbors: guardiani pluviali, predatori temperati, druidi pluviometrici
     traits: empatia coordinativa, tattiche di branco, risonanza di branco, focus frazionato,
       occhi infrarosso composti
     visual: Canide robusto dal mantello fulvo-grigio fitto, mascelle potenti e andatura instancabile
       da inseguitore di resistenza.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -68,8 +68,8 @@ codex_entry:
       game_impact: Archetipo adattivo.
       content: 'La linea del lupo della foresta porta i segni di empatia coordinativa, tattiche
         di branco, risonanza di branco, focus frazionato, occhi infrarosso composti: ogni
-        tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi hatchling,
-        juvenile, mature, apex, legacy, conservando solo cio'' che sopravvive.'
+        tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi cucciolo,
+        giovane, maturo, apex, eredita'', conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -91,9 +91,9 @@ codex_entry:
       cross_ref:
       - biome:foresta_temperata
       game_impact: 'encounter_role: None.'
-      content: Nell'ecologia di Foresta Temperata Umida il lupo della foresta occupa la nicchia
-        di predatore terziario apex (T3), accanto a wardens pluviali, temperate stalkers,
-        druids pluviometrici. Esercita pressione sulle prede senza contendere l'apice.
+      content: 'Nell''ecologia di Foresta Temperata Umida il lupo della foresta occupa la
+        nicchia di predatore terziario apex (T3), accanto a guardiani pluviali, predatori
+        temperati, druidi pluviometrici. Domina la catena trofica: poche prede gli sfuggono.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -101,8 +101,8 @@ codex_entry:
       cross_ref:
       - species:lupus_temperatus
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: Il lupo della foresta vive in gruppi territoriali. I legami sono di natura
-        istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
+      content: Il lupo della foresta vive in presenza solitaria, non gregaria. I legami sono
+        di natura istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:

@@ -22,21 +22,21 @@ codex_entry:
     archetype: adattivo
     morphotype: Reptilia
     job: ''
-    role: reptilia/pisces
+    role: rettile
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario reptilia/pisces (T2) che affronti in Atollo di Ossidiana
+    hook: una creatura di tipo rettile (T2) che incontri in Atollo di Ossidiana
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Pirateria magnetica e assedi anfibi high-tech
     biome_hook: proteggere i reattori a risonanza dagli attacchi delle maree
     affixes: resonance tide, shard storm
-    neighbors: aegis corsairs, gale splicers, ingegneri falena
+    neighbors: corsari dell'egida, innestatori delle raffiche, ingegneri falena
     traits: integumento bipolare, elettromagnete biologico, scivolamento magnetico, filtro
       metallofago, bozzolo magnetico
     visual: Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente;
       movimenti fluidi senza rumore.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -66,8 +66,8 @@ codex_entry:
       - trait:filtro_metallofago
       - trait:bozzolo_magnetico
       game_impact: Archetipo adattivo.
-      content: 'Il anguilla geomagnetica evolve lungo le fasi hatchling, juvenile, mature,
-        apex, legacy. I suoi tratti -- integumento bipolare, elettromagnete biologico, scivolamento
+      content: 'Il anguilla geomagnetica evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- integumento bipolare, elettromagnete biologico, scivolamento
         magnetico, filtro metallofago, bozzolo magnetico -- non sono ornamenti ma risposte:
         ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
@@ -92,8 +92,8 @@ codex_entry:
       - biome:atollo_obsidiana
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Atollo di Ossidiana il anguilla geomagnetica occupa la nicchia
-        di reptilia/pisces (T2), accanto a aegis corsairs, gale splicers, ingegneri falena.
-        Esercita pressione sulle prede senza contendere l'apice.
+        di rettile (T2), accanto a corsari dell'egida, innestatori delle raffiche, ingegneri
+        falena. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -110,9 +110,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario reptilia/pisces (T2) che affronti in Atollo di Ossidiana: ecco
+      content: 'una creatura di tipo rettile (T2) che incontri in Atollo di Ossidiana: ecco
         perche'' il anguilla geomagnetica apre il Codex. Intorno a lui le storie del bioma
         -- proteggere i reattori a risonanza dagli attacchi delle maree -- danno peso al primo
         incontro.'
-      story_hook_it: un avversario reptilia/pisces (T2) che affronti in Atollo di Ossidiana
+      story_hook_it: una creatura di tipo rettile (T2) che incontri in Atollo di Ossidiana
   lore_review_status: generated_pending_review

@@ -20,15 +20,16 @@ codex_entry:
     biome_name: Frattura Abissale Sinaptica
     biome_trait: Bioma abissale stratificato con tre livelli luminosi/pressori e correnti
       elettroluminescenti che modulano trait temporanei
-    lineage: forme a morfologia unknown
+    lineage: forme a morfologia non catalogata
     archetype: adattivo
-    morphotype: unknown
+    morphotype: non catalogata
     job: ''
-    role: unknown
+    role: creatura di classificazione incerta
     threat_tier: T2
     social: gruppi territoriali
     sentience: culturale
-    hook: un avversario unknown (T2) che affronti in Frattura Abissale Sinaptica
+    hook: una forma di vita ancora da classificare (T2) che incontri in Frattura Abissale
+      Sinaptica
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Sinfonia abissale di luce, nebbia e shear gravitazionale governata da correnti
       elettroluminescenti
@@ -37,11 +38,9 @@ codex_entry:
     affixes: luminescente, elettrico profondo, sinaptico, gravitazionale, pressione estrema
     neighbors: araldi fotofase, sciami memetici, leviatani risonanti
     traits: coralli sinaptici fotofase, membrane fotoconvoglianti, placca diffusione foschia,
-      organi metacronici, nodi sinaptici superficiali, filamenti guidalampo, ghiandole mnemoniche,
-      sensori planctonici, emolinfa conducente, scintilla sinaptica, riverbero memetico, canto
-      risonante, spirito combattivo, carapace luminiscente abissale, coralli sinaptici fotofase
-    visual: un unknown.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+      organi metacronici, nodi sinaptici superficiali, filamenti guidalampo
+    visual: un organismo dalla forma non ancora catalogata.
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -87,11 +86,9 @@ codex_entry:
       game_impact: Archetipo adattivo.
       content: 'La linea del simbionte corallino riflesso porta i segni di coralli sinaptici
         fotofase, membrane fotoconvoglianti, placca diffusione foschia, organi metacronici,
-        nodi sinaptici superficiali, filamenti guidalampo, ghiandole mnemoniche, sensori planctonici,
-        emolinfa conducente, scintilla sinaptica, riverbero memetico, canto risonante, spirito
-        combattivo, carapace luminiscente abissale, coralli sinaptici fotofase: ogni tratto
-        core e'' la cicatrice di una pressione del bioma. Attraversa le fasi hatchling, juvenile,
-        mature, apex, legacy, conservando solo cio'' che sopravvive.'
+        nodi sinaptici superficiali, filamenti guidalampo: ogni tratto core e'' la cicatrice
+        di una pressione del bioma. Attraversa le fasi cucciolo, giovane, maturo, apex, eredita'',
+        conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -101,9 +98,9 @@ codex_entry:
       cross_ref:
       - species:simbionte_corallino_riflesso
       game_impact: Profilo da  (unknown).
-      content: 'Il corpo del simbionte corallino riflesso: un unknown. Sotto pressione puo''
-        sviluppare adattamenti ancora non catalogati, piegando la morfologia a cio'' che il
-        bioma esige.'
+      content: 'Il corpo del simbionte corallino riflesso: un organismo dalla forma non ancora
+        catalogata. Sotto pressione puo'' sviluppare adattamenti ancora non catalogati, piegando
+        la morfologia a cio'' che il bioma esige.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -112,9 +109,9 @@ codex_entry:
       cross_ref:
       - biome:frattura_abissale_sinaptica
       game_impact: 'encounter_role: None.'
-      content: 'Il simbionte corallino riflesso e'' unknown in Frattura Abissale Sinaptica:
-        una presenza diffusa (T2) che, insieme a araldi fotofase, sciami memetici, leviatani
-        risonanti, modella la catena trofica.'
+      content: 'Il simbionte corallino riflesso e'' creatura di classificazione incerta in
+        Frattura Abissale Sinaptica: una presenza diffusa (T2) che, insieme a araldi fotofase,
+        sciami memetici, leviatani risonanti, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -131,9 +128,11 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il simbionte corallino riflesso e'' un avversario unknown
-        (T2) che affronti in Frattura Abissale Sinaptica. E nel suo mondo la posta in gioco
-        e'' stabilizzare i corridoi luminosi della Cresta Fotofase prima delle maree di spore.
-        E'' qui che il Codex comincia: la prima forma di vita di cui annotare la verita''.'
-      story_hook_it: un avversario unknown (T2) che affronti in Frattura Abissale Sinaptica
+      content: 'Per l''allenatore il simbionte corallino riflesso e'' una forma di vita ancora
+        da classificare (T2) che incontri in Frattura Abissale Sinaptica. E nel suo mondo
+        la posta in gioco e'' stabilizzare i corridoi luminosi della Cresta Fotofase prima
+        delle maree di spore. E'' qui che il Codex comincia: la prima forma di vita di cui
+        annotare la verita''.'
+      story_hook_it: una forma di vita ancora da classificare (T2) che incontri in Frattura
+        Abissale Sinaptica
   lore_review_status: generated_pending_review

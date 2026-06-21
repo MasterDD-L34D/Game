@@ -37,6 +37,90 @@ OFF_LIMITS_BIOMES = {"rovine_planari"}
 
 ALIENA_DIMENSION_KEYS = gen.ALIENA_DIMENSION_KEYS
 
+# Lifecycle phase keys (<id>_lifecycle.yaml `phases`) are English -> Italian for the
+# `lifecycle_arc` slot. Unknown keys fall back to _humanize (graceful).
+PHASE_NAME_IT = {
+    "hatchling": "cucciolo",
+    "juvenile": "giovane",
+    "mature": "maturo",
+    "apex": "apex",  # tier word, canonical -- kept
+    "legacy": "eredita'",
+}
+
+# Linnaean macro_class -> Italian taxon noun. Used for the prose `hook`/`role` slots
+# when a catalog species carries NO trophic role_tags (the role would otherwise fall
+# back to its raw taxon, e.g. "un avversario mammalia"). Whole-string first, then the
+# first slash-token; unmapped -> humanized macro; "unknown"/empty -> "" (generic).
+TAXON_IT = {
+    "mammalia": "mammifero",
+    "reptilia": "rettile",
+    "pisces": "pesce",
+    "aves": "uccello",
+    "insecta": "insetto",
+    "amphibia": "anfibio",
+    "arachnida": "aracnide",
+    "artropode": "artropode",
+    "protista": "protista",
+    "protista complesso": "protista complesso",
+}
+
+# Biome npc_archetypes (biomes.yaml) are English/mixed faction slugs; the `neighbors`
+# slot surfaced raw English ("cryo wardens"). Translate the in-scope archetypes to
+# Italian. Drafts stay human-reviewed before promote, so these are a starting point;
+# unmapped slugs fall back to _humanize (graceful, never #leaks#).
+ARCHETYPE_IT = {
+    # atollo_obsidiana
+    "aegis_corsairs": "corsari dell'egida",
+    "gale_splicers": "innestatori delle raffiche",
+    "ingegneri_falena": "ingegneri falena",
+    # badlands
+    "rust_scavengers": "spazzini della ruggine",
+    "ferroclad_brutes": "bruti ferrati",
+    "scrap_oracles": "oracoli dei rottami",
+    # caldera_glaciale
+    "cryo_wardens": "guardiani del gelo",
+    "glacial_sentinels": "sentinelle glaciali",
+    "resonance_mappers": "cartografi della risonanza",
+    # canopia_ionica
+    "canopy_sentinels": "sentinelle della canopia",
+    "lattice_stalkers": "predatori del reticolo",
+    "charge_weavers": "tessitori di carica",
+    # canyons_risonanti
+    "sibilant_wardens": "guardiani sibilanti",
+    "echo_drifters": "erranti dell'eco",
+    "risonatori_nomadi": "risonatori nomadi",
+    # dorsale_termale_tropicale
+    "ridge_sentinels": "sentinelle della dorsale",
+    "plume_harvesters": "raccoglitori dei pennacchi",
+    "thermal_diviners": "indovini termici",
+    # foresta_acida
+    "caustic_hunters": "cacciatori caustici",
+    "ph_balance_enforcers": "esecutori del pH",
+    "antidote_scribes": "scribi degli antidoti",
+    # foresta_temperata
+    "wardens_pluviali": "guardiani pluviali",
+    "temperate_stalkers": "predatori temperati",
+    "druids_pluviometrici": "druidi pluviometrici",
+    # frattura_abissale_sinaptica
+    "araldi_fotofase": "araldi fotofase",
+    "sciami_memetici": "sciami memetici",
+    "leviatani_risonanti": "leviatani risonanti",
+    "custodi_coralli": "custodi dei coralli",
+    "cori_voidsong": "cori del canto del vuoto",
+    # palude
+    "custodi_miasmatici": "custodi miasmatici",
+    "druidi_sporeguard": "druidi delle spore",
+    "raccoglitori_di_fluoro": "raccoglitori di fluoro",
+    # pianura_salina_iperarida
+    "salt_nomads": "nomadi del sale",
+    "prismatic_riders": "cavalcatori prismatici",
+    "aquifer_surveyors": "ricognitori delle falde",
+    # steppe_algoritmiche
+    "protocol_shepherds": "pastori dei protocolli",
+    "logic_riders": "cavalcatori logici",
+    "calibration_mediators": "mediatori di calibrazione",
+}
+
 
 def _humanize(slug: object) -> str:
     return str(slug or "").replace("_", " ").strip()
@@ -45,6 +129,25 @@ def _humanize(slug: object) -> str:
 def _norm(s: object) -> str:
     """Normalize a slug/display for matching: lower, _-and-space equivalent."""
     return str(s or "").lower().replace("_", " ").strip()
+
+
+def _taxon_it(macro: object) -> str:
+    """A KNOWN Linnaean macro_class -> its Italian taxon noun, else ''. Whole-string
+    first, then the first slash-token. '' signals the macro is not a recognised taxon
+    (descriptive hybrid like 'Mammalo-artropode', or 'unknown') -> the caller keeps the
+    trophic voice / uses a generic phrasing rather than 'creatura di tipo <hybrid>'."""
+    m = _norm(macro)
+    if not m or m == "unknown":
+        return ""
+    if m in TAXON_IT:
+        return TAXON_IT[m]
+    first = m.split("/")[0].split()[0] if m else ""
+    return TAXON_IT.get(first, "")
+
+
+def _archetype_it(slug: object) -> str:
+    """Translate a biome npc_archetype slug to Italian (in-scope map); humanize else."""
+    return ARCHETYPE_IT.get(str(slug), _humanize(slug))
 
 
 def _biomes(biomes_doc: Dict) -> Dict:
@@ -116,7 +219,7 @@ def _biome_narrative(entry: Dict, biome_name: str, subject_id: str) -> Dict[str,
             npc_list.extend(v if isinstance(v, list) else [v])
     elif isinstance(npc_raw, list):
         npc_list = list(npc_raw)
-    neighbors = [_humanize(n) for n in npc_list if n and n != subject_id][:3]
+    neighbors = [_archetype_it(n) for n in npc_list if n and n != subject_id][:3]
 
     return {
         "biome_tone": tone,
@@ -150,30 +253,54 @@ def extract_lore_vars(
 
     tags = [str(t) for t in (species.get("functional_tags") or [])]
     morphotype = _humanize(species.get("morphotype"))
+    # a catalog macro_class of "unknown" leaks into the prose ("un unknown") -> treat as
+    # an uncatalogued morphotype with a neutral Italian display.
+    if morphotype.lower() == "unknown":
+        morphotype = ""
+    morphotype_display = morphotype or "non catalogata"
     archetype = str(species.get("resistance_archetype") or "adattivo")
     role = _strip_token(_humanize(species.get("role_trofico")), "tutorial")
     sentient = bool((species.get("flags") or {}).get("sentient"))
 
     is_raider = any("predone" in t for t in tags)
     is_umanoide = "umanoide" in morphotype or any("umanoide" in t for t in tags)
-    is_apex = any(t in ("boss", "apex_creature", "apex") for t in tags)
+    # substring match: "predatore_terziario_apex" IS apex (was missed by exact match).
+    is_apex = any("apex" in t or t == "boss" for t in tags)
 
     if is_raider:
         lineage = "razziatori umanoidi"
         social = "bande di razzia nomadi"
     elif is_apex:
-        lineage = f"apici a morfologia {morphotype}"
+        lineage = f"apici a morfologia {morphotype_display}"
         social = "presenza solitaria, non gregaria"
     elif is_umanoide:
         lineage = "stirpi umanoidi"
         social = "gruppi territoriali"
     else:
-        lineage = f"forme a morfologia {morphotype}"
+        lineage = f"forme a morfologia {morphotype_display}"
         social = "gruppi territoriali"
 
     threat_tier = str((species.get("balance") or {}).get("threat_tier") or "T1")
     subject = (species.get("display_name") or _humanize(species.get("id"))).lower()
     job = _humanize((species.get("jobs_bias") or [""])[0])
+
+    # taxonomic hook (1a): a catalog species with no trophic role_tags falls back to
+    # its raw taxon as `role` -> phrase a KNOWN Linnaean class as a taxon ("una creatura
+    # di tipo mammifero"), not "un avversario mammalia". A descriptive non-Linnaean macro
+    # (e.g. "Mammalo-artropode") keeps the lowercase trophic voice; "unknown" -> generic.
+    # The flag is set by catalog_to_species; stubs default to the trophic voice.
+    is_taxonomic = bool(species.get("_role_is_taxonomic"))
+    taxon = _taxon_it(species.get("_macro_class")) if is_taxonomic else ""
+    macro_norm = _norm(species.get("_macro_class"))
+    if is_taxonomic and taxon:
+        role = taxon
+        hook = f"una creatura di tipo {taxon} ({threat_tier}) che incontri in {biome_name}"
+    elif is_taxonomic and macro_norm in ("", "unknown"):
+        role = "creatura di classificazione incerta"
+        hook = f"una forma di vita ancora da classificare ({threat_tier}) che incontri in {biome_name}"
+    else:
+        # trophic role_tags OR a descriptive non-Linnaean macro -> standard adversary voice
+        hook = f"un avversario {role or 'ostile'} ({threat_tier}) che affronti in {biome_name}"
 
     # rich slots: trait_refs (each trait = a pressure) + authored visual_description
     # + lifecycle phases (evolutionary arc) + mutation_morphology. Fallbacks for stubs.
@@ -184,11 +311,19 @@ def extract_lore_vars(
         "tratti adattivi non ancora documentati"
     )
     visual = str(species.get("visual_description") or "").strip()
-    visual = (visual + ("" if visual.endswith(".") else ".")) if visual else f"un {morphotype}."
+    if visual:
+        visual = visual + ("" if visual.endswith(".") else ".")
+    elif morphotype:
+        visual = f"un {morphotype}."
+    else:
+        visual = "un organismo dalla forma non ancora catalogata."
     lc = lifecycle_doc or {}
     phases = lc.get("phases") or {}
     phase_keys = list(phases.keys()) if isinstance(phases, dict) else [str(p) for p in phases]
-    lifecycle_arc = ", ".join(_humanize(p) for p in phase_keys) or "un ciclo di adattamento continuo"
+    # phase keys are English (<id>_lifecycle.yaml) -> Italian (1b-i); unknown -> humanize.
+    lifecycle_arc = ", ".join(
+        PHASE_NAME_IT.get(str(p), _humanize(p)) for p in phase_keys
+    ) or "un ciclo di adattamento continuo"
     muts = lc.get("mutation_morphology") or {}
     mut_keys = list(muts.keys()) if isinstance(muts, dict) else [str(m) for m in muts]
     mutations = ", ".join(_humanize(m) for m in mut_keys[:5]) or "adattamenti ancora non catalogati"
@@ -199,13 +334,13 @@ def extract_lore_vars(
         "biome_trait": (biome_trait or "un ambiente che non perdona").rstrip(". "),
         "lineage": lineage,
         "archetype": archetype,
-        "morphotype": morphotype,
+        "morphotype": morphotype_display,
         "job": job,
         "role": role,
         "threat_tier": threat_tier,
         "social": social,
         "sentience": "culturale" if sentient else "istintiva",
-        "hook": f"un avversario {role or 'ostile'} ({threat_tier}) che affronti in {biome_name}",
+        "hook": hook,
         # apex-aware ecology stance (avoids "senza contendere l'apice" on a boss)
         "eco_stance": (
             "Domina la catena trofica: poche prede gli sfuggono."
@@ -379,6 +514,11 @@ def catalog_to_species(entry: Dict) -> Dict:
         "used_in_encounters": [],
         "trait_refs": entry.get("trait_refs") or [],
         "visual_description": entry.get("visual_description") or "",
+        # taxonomy hints for the prose hook/role slots: when a catalog species has no
+        # trophic role_tags, role_trofico falls back to the raw taxon -> phrase it as a
+        # taxon ("una creatura di tipo mammifero") instead of "un avversario mammalia".
+        "_macro_class": macro,
+        "_role_is_taxonomic": not bool(role_tags),
     }
 
 
