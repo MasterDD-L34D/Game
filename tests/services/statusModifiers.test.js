@@ -315,6 +315,56 @@ test('Action 5b: clean unit → no trigger', () => {
   assert.equal(r.amount, 0);
 });
 
+// ──────────────────────────────────────────────────────────────────────
+// OD-024 engine #1 — nocicezione "ritardi quando Ferito" (action-timing slow)
+// ──────────────────────────────────────────────────────────────────────
+
+test('OD-024: nocicezione + ferito (object-map bool) → slow_down 1 tier', () => {
+  const unit = { id: 'a', traits: ['nocicezione'], status: { ferito: true } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.includes('nocicezione:ferito'));
+});
+
+test('OD-024: nocicezione + ferito (turns-remaining N) → slow_down', () => {
+  const unit = { id: 'a', traits: ['nocicezione'], status: { ferito: 2 } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.includes('nocicezione:ferito'));
+});
+
+test('OD-024: nocicezione + ferito (array-shape status) → slow_down', () => {
+  const unit = { id: 'a', traits: ['nocicezione'], status: ['ferito', 'stordito'] };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.includes('nocicezione:ferito'));
+});
+
+test('OD-024: nocicezione WITHOUT ferito → no trigger', () => {
+  const unit = { id: 'a', traits: ['nocicezione'], status: {} };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+  assert.ok(!r.triggers.includes('nocicezione:ferito'));
+});
+
+test('OD-024: ferito WITHOUT nocicezione → no slow (ferito alone never slows)', () => {
+  const unit = { id: 'a', traits: ['altro_tratto'], status: { ferito: true } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+});
+
+test('OD-024: nocicezione+ferito + bleeding-medium → capped 1 tier (no cumulate)', () => {
+  const unit = {
+    id: 'a',
+    traits: ['nocicezione'],
+    status: { ferito: true, bleeding: 2, bleeding_severity: 'medium' },
+  };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1); // canonical cap, NOT 2
+  assert.ok(r.triggers.includes('nocicezione:ferito'));
+  assert.ok(r.triggers.some((t) => t.startsWith('bleeding:medium')));
+});
+
 test('Action 5b: computeStatusModifiers exports actorSlowDown flag + log entry', () => {
   const actor = { id: 'a', status: { panic: 1 } };
   const target = { id: 'b', status: {} };

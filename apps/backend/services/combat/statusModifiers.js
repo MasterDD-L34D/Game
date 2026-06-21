@@ -103,9 +103,21 @@ function computeWoundedPermaAttackPenalty(unit) {
   return { penalty, severity, active: true };
 }
 
+// True when the unit carries the `ferito` status, in EITHER shape: object-map
+// (`status.ferito` = turns-remaining N or boolean true) or the back-compat array
+// (`status = ['ferito', ...]`). Mirrors traitEffects.hasActorStatus without the
+// cross-module require (statusModifiers stays leaf).
+function _isFerito(unit) {
+  const st = unit && unit.status;
+  if (!st) return false;
+  if (Array.isArray(st)) return st.includes('ferito');
+  return isPositive(st.ferito);
+}
+
 /**
  * Action 5b — slow_down trigger when ANY of: panic > 0, confused > 0,
- * bleeding ≥ medium severity, fracture ≥ medium severity. Returns
+ * bleeding ≥ medium severity, fracture ≥ medium severity, OR the unit carries
+ * the `nocicezione` interoception trait while Ferito (OD-024 engine #1). Returns
  * action_speed reduction amount (1 = "1 tier slower", 0 = no penalty).
  *
  * Reads unit.status object-map shape (panic/confused/bleeding/fracture =
@@ -131,6 +143,17 @@ function computeSlowDownPenalty(unit) {
     if (BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD[sev]) {
       triggers.push(`fracture:${sev}`);
     }
+  }
+  // OD-024 engine #1 (action-timing): the `nocicezione` interoception trait makes a
+  // unit act 1 tier slower WHILE Ferito ("ritardi quando Ferito" -- master-dd ratified
+  // 2026-06-21: passive -1 initiative). Joins the existing slow triggers under the SAME
+  // canonical "1 tier slower" cap (return below) -- NO new magnitude in the resolver,
+  // and it does NOT cumulate with bleeding/fracture. The sentience grant flag
+  // (SENTIENCE_INTEROCEPTION_GRANT_ENABLED) gates WHO carries nocicezione, so this is
+  // band-neutral until that flag flips (no unit carries the trait today).
+  const traits = Array.isArray(unit && unit.traits) ? unit.traits : [];
+  if (traits.includes('nocicezione') && _isFerito(unit)) {
+    triggers.push('nocicezione:ferito');
   }
   return { amount: triggers.length > 0 ? 1 : 0, triggers };
 }
