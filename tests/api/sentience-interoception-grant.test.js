@@ -29,6 +29,9 @@ const ACTIVE_EFFECTS = yaml.load(
 const REGISTRY = ACTIVE_EFFECTS.traits;
 
 const GATEWAY_IDS = ['propriocezione', 'equilibrio_vestibolare', 'nocicezione', 'termocezione'];
+// D2 progressive subsets (cumulative): T1 = spatial body-sense; T2 adds pain; T3+ = all 4.
+const T1_SET = ['propriocezione', 'equilibrio_vestibolare'];
+const T2_SET = ['propriocezione', 'equilibrio_vestibolare', 'nocicezione'];
 
 const FLAG_ON = { SENTIENCE_INTEROCEPTION_GRANT_ENABLED: 'true' };
 const FLAG_OFF = {};
@@ -37,7 +40,20 @@ const FLAG_OFF = {};
 const CATALOG = {
   syn_t0: { species_id: 'syn_t0', sentience_index: 'T0' },
   syn_t1: { species_id: 'syn_t1', sentience_index: 'T1' },
+  syn_t2: { species_id: 'syn_t2', sentience_index: 'T2' },
   syn_t3: { species_id: 'syn_t3', sentience_index: 'T3' },
+  // D4 per-species override: T1 tier but data authors exactly one interoception trait.
+  syn_override: {
+    species_id: 'syn_override',
+    sentience_index: 'T1',
+    interoception_traits: ['termocezione'],
+  },
+  // override carrying a bad id -> filtered to the whitelist (here: only termocezione).
+  syn_override_bad: {
+    species_id: 'syn_override_bad',
+    sentience_index: 'T1',
+    interoception_traits: ['termocezione', 'not_a_real_trait'],
+  },
 };
 
 function spec(speciesId, traits = []) {
@@ -77,17 +93,26 @@ describe('OD-024 producer -- flag gate (band-neutral default)', () => {
   });
 });
 
-describe('OD-024 producer -- tier gating (flag ON)', () => {
-  test('T1 species grants the 4 gateway traits', () => {
+describe('OD-024 producer -- progressive tier gating (flag ON, D2)', () => {
+  test('T1 species grants only the gateway subset (propriocezione + vestibolare)', () => {
     const out = grant.applySentienceInteroceptionGrant(spec('syn_t1'), {
       env: FLAG_ON,
       catalog: CATALOG,
       registry: REGISTRY,
     });
-    assert.deepEqual([...out.traits].sort(), [...GATEWAY_IDS].sort());
+    assert.deepEqual([...out.traits].sort(), [...T1_SET].sort());
   });
 
-  test('T3 species (above gateway) also grants the 4', () => {
+  test('T2 species adds nocicezione (3 traits)', () => {
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_t2'), {
+      env: FLAG_ON,
+      catalog: CATALOG,
+      registry: REGISTRY,
+    });
+    assert.deepEqual([...out.traits].sort(), [...T2_SET].sort());
+  });
+
+  test('T3 species grants the full set of 4 (progressive ceiling)', () => {
     const out = grant.applySentienceInteroceptionGrant(spec('syn_t3'), {
       env: FLAG_ON,
       catalog: CATALOG,
@@ -103,6 +128,59 @@ describe('OD-024 producer -- tier gating (flag ON)', () => {
       registry: REGISTRY,
     });
     assert.deepEqual(out.traits, []);
+  });
+});
+
+describe('OD-024 producer -- progressive map helper (interoceptionForTier)', () => {
+  test('T1 -> [propriocezione, equilibrio_vestibolare]', () => {
+    assert.deepEqual([...grant.interoceptionForTier('T1')].sort(), [...T1_SET].sort());
+  });
+  test('T2 -> + nocicezione (cumulative)', () => {
+    assert.deepEqual([...grant.interoceptionForTier('T2')].sort(), [...T2_SET].sort());
+  });
+  test('T3 -> all 4', () => {
+    assert.deepEqual([...grant.interoceptionForTier('T3')].sort(), [...GATEWAY_IDS].sort());
+  });
+  test('T6 (above ceiling) -> still all 4, never more', () => {
+    assert.deepEqual([...grant.interoceptionForTier('T6')].sort(), [...GATEWAY_IDS].sort());
+  });
+  test('T0 / unknown -> empty set', () => {
+    assert.deepEqual(grant.interoceptionForTier('T0'), []);
+    assert.deepEqual(grant.interoceptionForTier('garbage'), []);
+  });
+});
+
+describe('OD-024 producer -- per-species override (D4)', () => {
+  test('override replaces the tier subset (T1 species grants exactly termocezione)', () => {
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_override'), {
+      env: FLAG_ON,
+      catalog: CATALOG,
+      registry: REGISTRY,
+    });
+    assert.deepEqual(out.traits, ['termocezione']);
+  });
+
+  test('override is filtered to the gateway whitelist (bad id dropped)', () => {
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_override_bad'), {
+      env: FLAG_ON,
+      catalog: CATALOG,
+      registry: REGISTRY,
+    });
+    assert.deepEqual(out.traits, ['termocezione']);
+    assert.ok(!out.traits.includes('not_a_real_trait'));
+  });
+
+  test('absent/empty override falls back to the progressive tier subset', () => {
+    // perSpeciesOverride contract: null when absent or empty.
+    assert.equal(grant.perSpeciesOverride({ sentience_index: 'T1' }), null);
+    assert.equal(grant.perSpeciesOverride({ interoception_traits: [] }), null);
+    // and a plain T1 entry (no override) still gets the tier subset.
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_t1'), {
+      env: FLAG_ON,
+      catalog: CATALOG,
+      registry: REGISTRY,
+    });
+    assert.deepEqual([...out.traits].sort(), [...T1_SET].sort());
   });
 });
 
@@ -139,17 +217,17 @@ describe('OD-024 producer -- no-dup + immutability + id validation', () => {
     });
     const counts = out.traits.filter((t) => t === 'propriocezione').length;
     assert.equal(counts, 1, 'propriocezione present exactly once');
-    assert.deepEqual([...out.traits].sort(), [...GATEWAY_IDS].sort());
+    assert.deepEqual([...out.traits].sort(), [...T1_SET].sort()); // T1 subset, no dup
   });
 
   test('preserves pre-existing non-interoception traits', () => {
-    const out = grant.applySentienceInteroceptionGrant(spec('syn_t1', ['coda_balanciere']), {
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_t3', ['coda_balanciere']), {
       env: FLAG_ON,
       catalog: CATALOG,
       registry: REGISTRY,
     });
     assert.ok(out.traits.includes('coda_balanciere'));
-    for (const id of GATEWAY_IDS) assert.ok(out.traits.includes(id));
+    for (const id of GATEWAY_IDS) assert.ok(out.traits.includes(id)); // T3 = full set
   });
 
   test('returns a NEW object, never mutates input spec', () => {
@@ -166,7 +244,8 @@ describe('OD-024 producer -- no-dup + immutability + id validation', () => {
   test('only grants ids that exist in the injected registry (yaml is SoT)', () => {
     const partial = { ...REGISTRY };
     delete partial.termocezione;
-    const out = grant.applySentienceInteroceptionGrant(spec('syn_t1'), {
+    // syn_t3 wants all 4; with termocezione absent from the registry it drops to 3.
+    const out = grant.applySentienceInteroceptionGrant(spec('syn_t3'), {
       env: FLAG_ON,
       catalog: CATALOG,
       registry: partial,
@@ -181,10 +260,10 @@ describe('OD-024 producer -- no-dup + immutability + id validation', () => {
 });
 
 describe('OD-024 producer -- real species_catalog (default loaders)', () => {
-  test('anguis_magnetica (T1, real catalog) grants the 4 with flag ON', () => {
+  test('anguis_magnetica (T1, real catalog) grants the T1 subset with flag ON', () => {
     // No catalog/registry injected -> exercises the real disk loaders.
     const out = grant.applySentienceInteroceptionGrant(spec('anguis_magnetica'), { env: FLAG_ON });
-    assert.deepEqual([...out.traits].sort(), [...GATEWAY_IDS].sort());
+    assert.deepEqual([...out.traits].sort(), [...T1_SET].sort());
   });
 
   test('proteus_plasma (T0, real catalog) grants nothing with flag ON', () => {
@@ -195,8 +274,8 @@ describe('OD-024 producer -- real species_catalog (default loaders)', () => {
 
 describe('OD-024 producer -- end-to-end firing (Gate-5 proof)', () => {
   test('granted actor-side traits actually fire through evaluateAttackTraits', () => {
-    // Produce -> the unit now carries the gateway traits.
-    const granted = grant.applySentienceInteroceptionGrant(spec('syn_t1'), {
+    // Produce -> a T3 unit now carries the full gateway set (incl. nocicezione).
+    const granted = grant.applySentienceInteroceptionGrant(spec('syn_t3'), {
       env: FLAG_ON,
       catalog: CATALOG,
       registry: REGISTRY,

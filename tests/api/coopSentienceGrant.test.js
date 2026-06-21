@@ -12,6 +12,9 @@ const { CoopOrchestrator } = require('../../apps/backend/services/coop/coopOrche
 
 const FLAG = 'SENTIENCE_INTEROCEPTION_GRANT_ENABLED';
 const GATEWAY = ['propriocezione', 'equilibrio_vestibolare', 'nocicezione', 'termocezione'];
+// D2 progressive: a T1 species gets only the gateway subset, not the higher-tier ids.
+const T1_SET = ['propriocezione', 'equilibrio_vestibolare'];
+const ABOVE_T1 = ['nocicezione', 'termocezione'];
 
 function buildOrch() {
   const co = new CoopOrchestrator({ roomCode: 'SENT', hostId: 'p_h' });
@@ -37,12 +40,15 @@ function withFlag(value, fn) {
   }
 }
 
-test('submitCharacter grants interoception traits when flag ON + species T1', () => {
+test('submitCharacter grants the T1 progressive subset when flag ON + species T1', () => {
   withFlag('true', () => {
     const co = buildOrch();
     const out = co.submitCharacter('p_h', t1Spec(), { allPlayerIds: ['p_h'] });
-    for (const id of GATEWAY) {
-      assert.ok(out.traits.includes(id), `${id} should be granted`);
+    for (const id of T1_SET) {
+      assert.ok(out.traits.includes(id), `${id} should be granted at T1`);
+    }
+    for (const id of ABOVE_T1) {
+      assert.ok(!out.traits.includes(id), `${id} is above T1 -> not granted progressively`);
     }
   });
 });

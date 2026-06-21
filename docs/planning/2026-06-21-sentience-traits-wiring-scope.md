@@ -211,3 +211,41 @@ Finche' OFF: zero impatto su combat/sim (band-neutral), nessun gate per il merge
   `_loadSpeciesCatalog`).
 - `apps/backend/services/forms/formInnataTrait.js` (pattern producer mirror).
 - `tests/api/interoception-traits-runtime.test.js` (firing engine pre-esistente).
+
+## 7. Verdetti ratificati (2026-06-21, master-dd via AskUserQuestion) + roadmap
+
+Decisioni D1-D7 prese; questa sezione le registra + sequenzia l'esecuzione.
+
+| D   | Verdetto                       | Note                                                                                                          |
+| --- | ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| D1  | **T1 floor**                   | `DEFAULT_MIN_TIER='T1'` (minimo per qualificare); progressivo sopra (D2).                                     |
+| D2  | **Progressivo per tier**       | mappa cumulativa `TIER_INTEROCEPTION_MAP` (vedi sotto).                                                       |
+| D3  | **Player-only**                | perimetro invariato (wire `coopOrchestrator.submitCharacter`); nemici = futuro, calibrazione separata.        |
+| D4  | **Per-specie esplicito**       | campo `interoception_traits` in input data (via pipeline, MAI hand-edit catalog) -> override del subset tier. |
+| D5  | effetti T1 baseline restano    | i +1/-1 attuali sono la base; D6 aggiunge effetti piu' ricchi.                                                |
+| D6  | **Costruisci i 3 motori hook** | stamina / encumbrance / action-timing = 3 sotto-progetti sequenziati (sotto).                                 |
+| D7  | **DEFER flip**                 | flag resta OFF -> band-neutral; flip post D1-D3 ratificate + N=40.                                            |
+
+### Increment 1 -- producer policy (FATTO, questo branch)
+
+`sentienceInteroceptionGrant.js` evoluto da "grant-all-4-uniforme" a:
+
+- **D2** `TIER_INTEROCEPTION_MAP` cumulativa (RATIFIED-PROVISIONAL, SDMG -- master-dd ratifica):
+  `T1 = propriocezione + equilibrio_vestibolare` · `T2 = + nocicezione` · `T3+ = + termocezione (tutti e 4)`.
+- **D4** `perSpeciesOverride(entry)` -> se `entry.interoception_traits` presente (whitelistato sui 4 gateway) sostituisce il subset tier.
+- Flag resta OFF (band-neutral). Test 28/28 (`sentience-interoception-grant` + `coopSentienceGrant`).
+- **Residuo D4 (pipeline)**: propagare `interoception_traits` dai file specie sorgente a `species_catalog.json` via pipeline di generazione + autorare il campo su >=1 specie. NON in questo increment (producer LEGGE il campo; nessuno lo POPOLA ancora).
+
+### Sotto-progetti D6 (sequenziati, ognuno = engine + active_effects + test + N=40)
+
+Ordine raccomandato (per blast-radius crescente + dipendenze):
+
+1. **action-timing** (hook `nocicezione`: "ritardi quando Ferito") -- piu' contenuto, si aggancia allo `status.ferito` gia' esistente.
+2. **stamina/fatigue** (hook `propriocezione`: "-1 stack fatica sprint") -- nuovo pool risorsa per-unita'.
+3. **encumbrance** (hook `equilibrio_vestibolare`: "penalita' carico") -- dipende da un sistema inventario/peso assente.
+
+Ogni motore: design proprio (master-dd) -> engine + magnitudini in `active_effects.yaml` -> TDD -> N=40 -> (eventuale flip parziale). NON costruiti in questo increment.
+
+### Gate al flip D7
+
+`SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true` solo dopo: D2 map ratificata (toglie PROVISIONAL) + calibrazione N=40 del grant (sposta win-rate) + (opzionale) >=1 motore D6 live. Flip = `export ...=true` in `~/.config/api-keys/keys.env` + restart task.

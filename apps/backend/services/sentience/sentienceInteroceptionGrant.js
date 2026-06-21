@@ -60,6 +60,47 @@ function tierQualifies(tier, minTier = DEFAULT_MIN_TIER) {
   return rank !== null && min !== null && rank >= min;
 }
 
+// D2 (master-dd ratified 2026-06-21): progressive interoception by sentience tier --
+// higher tiers gain a richer subset instead of every qualifying species getting all 4.
+// RATIFIED-PROVISIONAL map (SDMG: my proposal = hypothesis, master-dd ratifies on PR).
+// CUMULATIVE -- a tier adds to everything its lower tiers already grant:
+//   T1 gateway   -> propriocezione + equilibrio_vestibolare (basic spatial body-sense)
+//   T2           -> + nocicezione (pain awareness)
+//   T3 and above -> + termocezione (full interoception)
+// Parametrized HERE (not hardcoded in the grant body) so the policy is one edit.
+const TIER_INTEROCEPTION_MAP = Object.freeze({
+  T1: Object.freeze(['propriocezione', 'equilibrio_vestibolare']),
+  T2: Object.freeze(['nocicezione']),
+  T3: Object.freeze(['termocezione']),
+});
+
+// Cumulative interoception subset for a tier: the union of every map entry whose tier
+// rank <= this tier's rank, filtered to the canonical gateway whitelist (defensive --
+// a stray map id can never inject an arbitrary trait).
+function interoceptionForTier(tier) {
+  const rank = _tierRank(tier);
+  if (rank === null) return [];
+  const out = [];
+  for (const [t, ids] of Object.entries(TIER_INTEROCEPTION_MAP)) {
+    const r = _tierRank(t);
+    if (r !== null && r <= rank) out.push(...ids);
+  }
+  return out.filter((id) => INTEROCEPTION_TRAIT_IDS.includes(id));
+}
+
+// D4 (master-dd ratified 2026-06-21): explicit per-species override. When a catalog
+// entry carries an `interoception_traits` array (authored via the generation pipeline
+// -- NEVER hand-edited into the derived catalog), it REPLACES the tier subset. Filtered
+// to the gateway whitelist so a typo / bad id can never inject an arbitrary trait.
+// Returns null when absent/empty -> caller falls back to the progressive tier subset.
+function perSpeciesOverride(entry) {
+  const raw =
+    entry && Array.isArray(entry.interoception_traits) ? entry.interoception_traits : null;
+  if (!raw || raw.length === 0) return null;
+  const filtered = raw.filter((id) => INTEROCEPTION_TRAIT_IDS.includes(id));
+  return filtered.length > 0 ? filtered : null;
+}
+
 let _registryCache = null;
 function _defaultRegistry() {
   if (_registryCache) return _registryCache;
@@ -105,8 +146,10 @@ function applySentienceInteroceptionGrant(spec, opts = {}) {
   if (!tierQualifies(tier, opts.minTier)) return spec; // below gateway / unknown.
 
   const registry = opts.registry || _defaultRegistry();
+  // Which subset to grant: D4 per-species override beats the D2 progressive tier set.
+  const desired = perSpeciesOverride(entry) || interoceptionForTier(tier);
   // Validate ids against the registry -- yaml is SoT for which traits exist.
-  const grantable = INTEROCEPTION_TRAIT_IDS.filter(
+  const grantable = desired.filter(
     (id) => registry && typeof registry === 'object' && registry[id],
   );
   if (grantable.length === 0) return spec;
@@ -122,7 +165,10 @@ module.exports = {
   INTEROCEPTION_TRAIT_IDS,
   FLAG,
   DEFAULT_MIN_TIER,
+  TIER_INTEROCEPTION_MAP,
   isGrantEnabled,
   tierQualifies,
+  interoceptionForTier,
+  perSpeciesOverride,
   applySentienceInteroceptionGrant,
 };
