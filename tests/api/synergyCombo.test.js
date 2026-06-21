@@ -19,7 +19,10 @@ function duneStalkerVsTanker() {
       hp: 14,
       max_hp: 14,
       ap: 2,
-      attack_mod: 8, // bias to land hits + significant damage so bonus is observable
+      // resolveAttack reads `mod` (NOT `attack_mod`). mod 8 vs the target's dc 5
+      // means die+8 >= 5 for every d20 face -> the attack ALWAYS lands, so the
+      // synergy fires deterministically (no dice dependence -> no parallel-CI flake).
+      mod: 8,
       attack_range: 3,
       initiative: 14,
       position: { x: 1, y: 1 },
@@ -33,7 +36,7 @@ function duneStalkerVsTanker() {
       hp: 60,
       max_hp: 60,
       ap: 2,
-      defense_dc: 5, // low DC so attacks reliably land
+      dc: 5, // resolveAttack reads `dc` (NOT `defense_dc`); low DC -> attacks always land
       attack_range: 1,
       initiative: 5,
       position: { x: 2, y: 1 },
@@ -54,7 +57,7 @@ function plainPlayerVsTanker() {
       hp: 14,
       max_hp: 14,
       ap: 2,
-      attack_mod: 8,
+      mod: 8, // guaranteed hit (mod 8 vs dc 5) -> proves no synergy even ON a landed hit
       attack_range: 3,
       initiative: 14,
       position: { x: 1, y: 1 },
@@ -68,7 +71,7 @@ function plainPlayerVsTanker() {
       hp: 60,
       max_hp: 60,
       ap: 2,
-      defense_dc: 5,
+      dc: 5,
       attack_range: 1,
       initiative: 5,
       position: { x: 2, y: 1 },
@@ -98,27 +101,21 @@ test('dune_stalker triggers echo_backstab synergy on hit', async (t) => {
     if (typeof close === 'function') await close().catch(() => {});
   });
   const sid = await startSession(app, duneStalkerVsTanker());
-  // d20 nat-1 always misses → loop with turn/end on miss to retry on full AP.
-  let foundSynergy = false;
-  for (let i = 0; i < 6; i += 1) {
-    const r = await playerAttack(app, sid, 'p1', 'sis');
-    assert.equal(r.status, 200);
-    if (r.body.synergy && r.body.synergy.triggered) {
-      foundSynergy = true;
-      assert.ok(
-        r.body.synergy.synergies.find((s) => s.id === 'echo_backstab'),
-        'echo_backstab in synergies list',
-      );
-      assert.ok(r.body.synergy.bonus_damage >= 1);
-      break;
-    }
-    if (r.body.result && r.body.result.hit) {
-      throw new Error(`hit landed but synergy missing: ${JSON.stringify(r.body.synergy)}`);
-    }
-    // Miss → end the round so cooldown clears and AP refills, then retry
-    await request(app).post('/api/session/turn/end').send({ session_id: sid });
-  }
-  assert.ok(foundSynergy, 'expected at least one synergy fire over 6 attempts');
+  // Hit is deterministic (mod 8 vs dc 5), so the synergy precondition
+  // (landed hit + echolocation+sand_claws parts, cooldown clear on fresh round)
+  // is met on the first attack — no probabilistic retry loop needed.
+  const r = await playerAttack(app, sid, 'p1', 'sis');
+  assert.equal(r.status, 200);
+  assert.equal(r.body.result, 'hit', 'attack must land (mod 8 vs dc 5)');
+  assert.ok(
+    r.body.synergy && r.body.synergy.triggered,
+    `echo_backstab must fire on the guaranteed hit, got ${JSON.stringify(r.body.synergy)}`,
+  );
+  assert.ok(
+    r.body.synergy.synergies.find((s) => s.id === 'echo_backstab'),
+    'echo_backstab in synergies list',
+  );
+  assert.ok(r.body.synergy.bonus_damage >= 1);
 });
 
 test('non-synergy species (velox) does NOT trigger synergy', async (t) => {
@@ -145,18 +142,14 @@ test('synergy state.last_round_synergies populated after fire', async (t) => {
     if (typeof close === 'function') await close().catch(() => {});
   });
   const sid = await startSession(app, duneStalkerVsTanker());
-  // Loop until synergy triggers — same retry pattern as the previous test.
-  let body = null;
-  for (let i = 0; i < 6; i += 1) {
-    const r = await playerAttack(app, sid, 'p1', 'sis');
-    assert.equal(r.status, 200);
-    if (r.body.synergy && r.body.synergy.triggered) {
-      body = r.body;
-      break;
-    }
-    await request(app).post('/api/session/turn/end').send({ session_id: sid });
-  }
-  assert.ok(body, 'expected synergy fire within 6 attempts');
+  // Deterministic hit (mod 8 vs dc 5) -> synergy fires on the first attack.
+  const r = await playerAttack(app, sid, 'p1', 'sis');
+  assert.equal(r.status, 200);
+  assert.ok(
+    r.body.synergy && r.body.synergy.triggered,
+    `expected synergy fire on the guaranteed hit, got ${JSON.stringify(r.body.synergy)}`,
+  );
+  const body = r.body;
   const list = (body.state && body.state.last_round_synergies) || [];
   assert.ok(
     list.length >= 1,
