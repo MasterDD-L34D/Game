@@ -51,8 +51,10 @@ Sensienza all'interno del gioco e delle integrazioni esterne.
 
 ### Documentazione esterna (API / SDK)
 
-- Pubblicare un estratto nel portale SDK con i nuovi codici tier + milestone
-  (vedi `docs/public/sentience_sdk.md`).
+- ~~Pubblicare un estratto nel portale SDK con i nuovi codici tier + milestone~~
+  -- **non applicabile**: il portale SDK e gli endpoint (`/traits/import`,
+  `/sentience/tiers`) non sono mai stati costruiti; `docs/public/sentience_sdk.md`
+  e' ritirato (`historical_ref`). Fonte canonica tier: `docs/guide/README_SENTIENCE.md`.
 - Aggiornare esempi e snippet di chiamate API che facevano riferimento alle
   sigle legacy `Sensienti`.
 - Notificare partner e integratori tramite changelog pubblico.

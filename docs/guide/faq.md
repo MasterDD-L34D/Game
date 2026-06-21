@@ -1,6 +1,6 @@
 ---
 title: Domande frequenti — Support & QA
-doc_status: active
+doc_status: historical_ref
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-05-06
@@ -10,6 +10,13 @@ review_cycle_days: 14
 ---
 
 # Domande frequenti — Support & QA
+
+> **RITIRATO 2026-06-21 (`historical_ref`).** Log operativo Support/QA del ciclo
+> VC-2025-11 (processi datati, molti ref a doc rimossi). Il riferimento CLI
+> `game_cli.py` ancora valido (sottocomandi + alias `validate-ecosystem` +
+> `investigate --destination -` + troubleshooting) e' stato salvato in
+> [`docs/process/bug-template.md`](../process/bug-template.md). Conservato come
+> record storico.
 
 Aggiornato al ciclo VC-2025-11. Nuove domande vengono raccolte dopo ogni retro settimanale (martedì).
 

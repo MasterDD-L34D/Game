@@ -27,5 +27,6 @@ review_cycle_days: 14
 - **Link log**: URL/Drive al log principale (obbligatorio)
 - **Link screenshot/video**: evidenza visiva (PNG/MP4) oppure `N/A` se non applicabile
 - **Riferimento comandi CLI**: `python tools/py/game_cli.py [--profile <nome>] <comando>` con sottocomandi `roll-pack [FORM MBTI] [ARCHETIPO] [data_path] [--seed <valore>]`, `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`, `validate-datasets`, `validate-ecosystem-pack [--json-out <percorso>] [--html-out <percorso>]`, `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME|-] [--max-preview <int>]`
+- **Note CLI** (salvataggio da `docs/guide/faq.md` ritirata, verificate vivo): l'alias storico `validate-ecosystem` viene normalizzato in `validate-ecosystem-pack` dal wrapper; `investigate --destination -` salta i report su disco e stampa il JSON su stdout; se `validate-ecosystem-pack` ritorna `Validator del pack non trovato`, sincronizza gli asset con `scripts/run_deploy_checks.sh`.
 
 _Compila il template in Drive e collega il ticket `#vc-ops` relativo._

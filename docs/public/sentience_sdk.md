@@ -1,6 +1,6 @@
 ---
 title: Sentience Tier Reference (SDK)
-doc_status: draft
+doc_status: historical_ref
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-05-06
@@ -9,6 +9,15 @@ language: it-en
 review_cycle_days: 14
 ---
 # Sentience Tier Reference (SDK)
+
+> **RITIRATO 2026-06-21 (`historical_ref`).** Gli endpoint `POST /traits/import`
+> e `GET /sentience/tiers` descritti in questo file **non sono mai stati
+> costruiti** (nessuna route in `apps/backend/routes/`); non esiste un portale
+> SDK esterno. La tassonomia di senzienza canonica e' VIVA e usa **T0-T6** (non
+> il T1-T6 di questa tabella): vedi [`docs/guide/README_SENTIENCE.md`](../guide/README_SENTIENCE.md)
+> (`source_of_truth`). Gli hook interocettivi sono implementati in
+> `data/core/traits/active_effects.yaml`. Documento conservato solo come record
+> storico -- non usarlo per integrazioni.
 
 Questo documento riepiloga i codici definitivi dei tier di Sensienza da
 utilizzare nelle integrazioni API/SDK.

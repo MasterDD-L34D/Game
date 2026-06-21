@@ -1,6 +1,6 @@
 ---
 title: Gap architetturale Node↔Python resistance engine (M5-#1c discovery)
-doc_status: active
+doc_status: historical_ref
 doc_owner: master-dd
 workstream: combat
 last_verified: '2026-04-19'
