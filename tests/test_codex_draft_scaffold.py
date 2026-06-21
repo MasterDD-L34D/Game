@@ -34,6 +34,12 @@ BIOMES = {
             "display_name_it": "Caverna Risonante",
             "summary": "Gallerie cristalline dove eco e pressioni invertite modellano la fauna.",
             "biome_class": "cave",
+            "affixes": ["eco", "cristallino"],
+            "narrative": {
+                "tone": "horror sotterraneo claustrofobico.",
+                "hooks": ["Mappare le gallerie risonanti.", "Placare gli echi ostili."],
+            },
+            "npc_archetypes": {"primary": ["guardiano_caverna", "eco_predoni"], "secondary": ["cartografi"]},
         },
         "savana": {"display_name_it": "Savana Ionizzata", "summary": "Dune fotoniche."},
         "rovine_planari": {"display_name_it": "Rovine Planari", "summary": "Metropoli in rovina."},
@@ -80,6 +86,19 @@ def test_extract_lore_vars_maps_species_fields():
     assert "razziatori" not in lv["lineage"]
     assert lv["lineage"] == "stirpi umanoidi"
     assert not lv["biome_trait"].endswith(".")  # no double-period in template
+    # AUTHORED biome narrative now captured (was ignored)
+    assert lv["biome_tone"] == "horror sotterraneo claustrofobico"  # trailing period stripped
+    assert "mappare le gallerie" in lv["biome_hook"]  # from narrative.hooks, first-letter lowered
+    assert "guardiano caverna" not in lv["neighbors"]  # subject excluded from neighbors
+    assert "eco predoni" in lv["neighbors"]
+    assert "eco" in lv["affixes"]
+    assert "senza contendere" in lv["eco_stance"]  # guardiano is not apex
+
+
+def test_extract_lore_vars_apex_eco_stance():
+    apex = dict(SPECIES, functional_tags=["nemico_tutorial", "apex_creature", "boss"])
+    lv = scaf.extract_lore_vars(apex, BIOMES)
+    assert "Domina la catena trofica" in lv["eco_stance"]
 
 
 def test_scaffold_draft_full_shape():

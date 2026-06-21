@@ -27,6 +27,11 @@ codex_entry:
     social: bande di razzia nomadi
     sentience: istintiva
     hook: un avversario predatore secondario (T1) che affronti in Savana Ionizzata
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
+    biome_tone: Western sci-fi e sopravvivenza carovaniera
+    biome_hook: recuperare convogli cristallizzati e nodi di risonanza sepolti
+    affixes: termico, luminescente, spore diluite, sabbia
+    neighbors: predoni nomadi, guardiani delle dune, cartografi erranti
   aliena_dimensions:
     A_ambiente:
       heading: Ambiente
@@ -36,9 +41,10 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'Comparsa negli scontri: enc_tutorial_07_hardcore_pod_rush.'
-      content: 'Savana Ionizzata non e'' uno sfondo ma un avversario costante per il predone
-        agile: Dune fotoniche con branchi adattivi e rovine sepolte. Ogni movimento e'' una
-        risposta all''ambiente.'
+      content: Savana Ionizzata -- Dune fotoniche con branchi adattivi e rovine sepolte, dal
+        tono di Western sci-fi e sopravvivenza carovaniera (termico, luminescente, spore diluite,
+        sabbia) -- non e' uno sfondo ma un avversario costante per il predone agile. Ogni
+        movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
@@ -47,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:predone_agile
       game_impact: Archetipo adattivo.
-      content: 'Il predone agile discende dai razziatori umanoidi. La sua linea segue un archetipo
+      content: 'Il predone agile discende da razziatori umanoidi. La sua linea segue un archetipo
         adattivo: non la forza bruta, ma la capacita'' di piegarsi a cio'' che il bioma richiede.'
     I_impianto:
       heading: Impianto morfo-fisiologico
@@ -68,9 +74,9 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'encounter_role: threat.'
-      content: 'Il predone agile e'' predatore secondario nel Savana Ionizzata: una presenza
-        diffusa (T1) che modella il comportamento di cio'' che gli sta sotto nella catena
-        trofica.'
+      content: 'Il predone agile e'' predatore secondario in Savana Ionizzata: una presenza
+        diffusa (T1) che, insieme a predoni nomadi, guardiani delle dune, cartografi erranti,
+        modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -90,7 +96,8 @@ codex_entry:
       game_impact: 'Unlock e2e: completare enc_tutorial_07_hardcore_pod_rush sblocca questa
         voce.'
       content: 'Per l''allenatore il predone agile e'' un avversario predatore secondario
-        (T1) che affronti in Savana Ionizzata. E'' qui che il Codex comincia: la prima forma
-        di vita di cui annotare la verita''.'
+        (T1) che affronti in Savana Ionizzata. E nel suo mondo la posta in gioco e'' recuperare
+        convogli cristallizzati e nodi di risonanza sepolti. E'' qui che il Codex comincia:
+        la prima forma di vita di cui annotare la verita''.'
       story_hook_it: un avversario predatore secondario (T1) che affronti in Savana Ionizzata
   lore_review_status: generated_pending_review

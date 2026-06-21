@@ -27,6 +27,11 @@ codex_entry:
     social: gruppi territoriali
     sentience: istintiva
     hook: un avversario difensore territoriale (T1) che affronti in Caverna Risonante
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
+    biome_tone: Esplorazione claustrofobica guidata da acustica e luce riflessa
+    biome_hook: disinnescare camere di eco instabile prima del collasso
+    affixes: eco, cristallino, fangoso, acque nere
+    neighbors: guardiani risonanza, bracconieri echomantici, cartografi subsonici
   aliena_dimensions:
     A_ambiente:
       heading: Ambiente
@@ -36,9 +41,10 @@ codex_entry:
       cross_ref:
       - biome:caverna
       game_impact: 'Comparsa negli scontri: enc_tutorial_03.'
-      content: 'Caverna Risonante non e'' uno sfondo ma un avversario costante per il guardiano
-        della caverna: Gallerie cristalline dove eco e pressioni invertite modellano la fauna.
-        Ogni movimento e'' una risposta all''ambiente.'
+      content: Caverna Risonante -- Gallerie cristalline dove eco e pressioni invertite modellano
+        la fauna, dal tono di Esplorazione claustrofobica guidata da acustica e luce riflessa
+        (eco, cristallino, fangoso, acque nere) -- non e' uno sfondo ma un avversario costante
+        per il guardiano della caverna. Ogni movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
@@ -47,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:guardiano_caverna
       game_impact: Archetipo adattivo.
-      content: 'Il guardiano della caverna discende dai stirpi umanoidi. La sua linea segue
+      content: 'Il guardiano della caverna discende da stirpi umanoidi. La sua linea segue
         un archetipo adattivo: non la forza bruta, ma la capacita'' di piegarsi a cio'' che
         il bioma richiede.'
     I_impianto:
@@ -71,9 +77,9 @@ codex_entry:
       cross_ref:
       - biome:caverna
       game_impact: 'encounter_role: threat.'
-      content: 'Il guardiano della caverna e'' difensore territoriale nel Caverna Risonante:
-        una presenza diffusa (T1) che modella il comportamento di cio'' che gli sta sotto
-        nella catena trofica.'
+      content: 'Il guardiano della caverna e'' difensore territoriale in Caverna Risonante:
+        una presenza diffusa (T1) che, insieme a guardiani risonanza, bracconieri echomantici,
+        cartografi subsonici, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -82,7 +88,7 @@ codex_entry:
       - species:guardiano_caverna
       game_impact: Comportamento di gruppo/solitario secondo i tag.
       content: Il guardiano della caverna vive in gruppi territoriali. I legami sono di natura
-        istintiva -- funzionali alla razzia e alla sopravvivenza, non al racconto di se'.
+        istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -92,7 +98,8 @@ codex_entry:
       - encounter:enc_tutorial_03
       game_impact: 'Unlock e2e: completare enc_tutorial_03 sblocca questa voce.'
       content: 'Per l''allenatore il guardiano della caverna e'' un avversario difensore territoriale
-        (T1) che affronti in Caverna Risonante. E'' qui che il Codex comincia: la prima forma
-        di vita di cui annotare la verita''.'
+        (T1) che affronti in Caverna Risonante. E nel suo mondo la posta in gioco e'' disinnescare
+        camere di eco instabile prima del collasso. E'' qui che il Codex comincia: la prima
+        forma di vita di cui annotare la verita''.'
       story_hook_it: un avversario difensore territoriale (T1) che affronti in Caverna Risonante
   lore_review_status: generated_pending_review

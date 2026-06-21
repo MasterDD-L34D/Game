@@ -27,6 +27,11 @@ codex_entry:
     social: gruppi territoriali
     sentience: istintiva
     hook: un avversario predatore acquatico agile (T2) che affronti in Palude Tossica
+    eco_stance: Esercita pressione sulle prede senza contendere l'apice.
+    biome_tone: Survival horror organico e diplomazia con culti simbiotici
+    biome_hook: recuperare reagenti bio-luminescenti per le squadre mediche
+    affixes: fangoso, tossico, luminescente, viti
+    neighbors: custodi miasmatici, druidi sporeguard, raccoglitori di fluoro
   aliena_dimensions:
     A_ambiente:
       heading: Ambiente
@@ -36,9 +41,10 @@ codex_entry:
       cross_ref:
       - biome:palude
       game_impact: 'Comparsa negli scontri: enc_tutorial_04.'
-      content: 'Palude Tossica non e'' uno sfondo ma un avversario costante per il guardiano
-        della pozza: Acque stagnanti bio-luminescenti con fauna mutagena. Ogni movimento e''
-        una risposta all''ambiente.'
+      content: Palude Tossica -- Acque stagnanti bio-luminescenti con fauna mutagena, dal
+        tono di Survival horror organico e diplomazia con culti simbiotici (fangoso, tossico,
+        luminescente, viti) -- non e' uno sfondo ma un avversario costante per il guardiano
+        della pozza. Ogni movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
@@ -47,7 +53,7 @@ codex_entry:
       cross_ref:
       - species:guardiano_pozza
       game_impact: Archetipo adattivo.
-      content: 'Il guardiano della pozza discende dai forme a morfologia anfibio agile. La
+      content: 'Il guardiano della pozza discende da forme a morfologia anfibio agile. La
         sua linea segue un archetipo adattivo: non la forza bruta, ma la capacita'' di piegarsi
         a cio'' che il bioma richiede.'
     I_impianto:
@@ -71,8 +77,8 @@ codex_entry:
       - biome:palude
       game_impact: 'encounter_role: threat.'
       content: Nell'ecologia di Palude Tossica il guardiano della pozza occupa la nicchia
-        di predatore acquatico agile (T2). Esercita pressione sulle prede senza contendere
-        l'apice.
+        di predatore acquatico agile (T2), accanto a custodi miasmatici, druidi sporeguard,
+        raccoglitori di fluoro. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -91,7 +97,8 @@ codex_entry:
       - encounter:enc_tutorial_04
       game_impact: 'Unlock e2e: completare enc_tutorial_04 sblocca questa voce.'
       content: 'un avversario predatore acquatico agile (T2) che affronti in Palude Tossica:
-        ecco perche'' il guardiano della pozza apre il Codex. Il primo incontro non si dimentica
-        -- diventa il metro di tutto cio'' che segue.'
+        ecco perche'' il guardiano della pozza apre il Codex. Intorno a lui le storie del
+        bioma -- recuperare reagenti bio-luminescenti per le squadre mediche -- danno peso
+        al primo incontro.'
       story_hook_it: un avversario predatore acquatico agile (T2) che affronti in Palude Tossica
   lore_review_status: generated_pending_review
