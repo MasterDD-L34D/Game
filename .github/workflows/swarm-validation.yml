@@ -1,39 +1,53 @@
-name: Swarm Canonical Validation
+name: Canon Entity-Grounding Linter
 
-# Sprint Q+ Q-8 ETL pipeline integration gate (ADR-2026-05-05 Phase B Path γ
-# ACCEPTED 2026-05-10 sera, OD-022 IMPLICIT ACCEPT 2026-05-08).
+# Entity-grounding gate: verifies that content CITING Game canonical entities
+# (species / biomes / traits) references entities that EXIST and whose values
+# MATCH canon. Catches "hallucinate-by-association" -- real canonical names
+# combined with attributes NOT supported by canon (e.g. claiming
+# dune_stalker.biome_affinity = abisso_vulcanico when canon says savana).
 #
-# Cross-verifica swarm distillation artifact JSON claims vs canonical
-# data/core/ Game prima merge. Gate: hallucination_ratio <= 0.30.
+# Promoted from the evo-swarm verification arc (ADR-0042). SUPERSEDES the
+# deprecated tools/py/swarm_canonical_validator.py (read legacy
+# data/core/species.yaml; slated to break post catalog Phase 4c.6). The promoted
+# linter reads the CURRENT canon (species_catalog.json + glossary/active_effects/
+# index trait union + biome aliases).
 #
-# Trigger:
-#   - pull_request paths docs/research/2026-*-evo-swarm-*-distillation.md
-#   - workflow_dispatch (manual con artifact path input)
+# DISTINCT from scripts/check-canon-consistency.cjs (which lints the canon's
+# INTERNAL consistency); this verifies EXTERNAL content's CLAIMS vs canon.
+# Complementary, not a duplicate.
 #
-# Implementation: tools/py/swarm_canonical_validator.py (Q-7).
+# Two tiers:
+#   - JSON artifacts (docs/research/swarm/**.json): --strict, HARD FAIL on any
+#     hallucinated/contradicted ref. The tool is proven on this artifact shape.
+#   - Markdown design-docs / research (docs/research/**/*.md): ADVISORY
+#     (report + PR comment, NON-blocking) during rollout -- prose-grounding of
+#     Italian design docs has false-positive risk; tune before flipping strict.
+#
+# Implementation: scripts/verify-swarm-claims.py (vendored; 165 pytest cases in
+# tests/test_verify_swarm_claims.py run by the main CI python-tests job).
 
 on:
   pull_request:
     paths:
-      - 'docs/research/2026-*-evo-swarm-*-distillation*.md'
       - 'docs/research/swarm/**.json'
-      - 'docs/research/swarm/**.md'
+      - 'docs/research/**/*.md'
   workflow_dispatch:
     inputs:
-      artifact:
-        description: 'Path artifact swarm (relative repo root)'
+      target:
+        description: 'Path file/dir da lintare (relative repo root)'
         type: string
         required: true
-      threshold:
-        description: 'Hallucination ratio threshold (default 0.30)'
-        type: number
-        default: 0.30
+      strict:
+        description: 'Hard-fail su hallucinated/contradicted (default: advisory)'
+        type: boolean
+        default: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
-  validate:
+  entity-grounding:
+    name: entity-grounding
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,85 +56,104 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Detect target artifact
-        id: detect
+      - name: Install PyYAML
         run: |
-          if [ -n "${{ github.event.inputs.artifact }}" ]; then
-            ARTIFACT="${{ github.event.inputs.artifact }}"
-          else
-            # PR mode: pick latest distillation file changed in PR.
-            ARTIFACT=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
-              | grep -E "docs/research/.*evo-swarm.*distillation.*\.(md|json)$" \
-              | head -1)
-          fi
-          if [ -z "$ARTIFACT" ]; then
-            echo "::warning::No swarm artifact detected in PR — skip validation"
-            echo "skip=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          if [ ! -f "$ARTIFACT" ]; then
-            echo "::error::Artifact $ARTIFACT not found"
-            exit 1
-          fi
-          echo "artifact=$ARTIFACT" >> $GITHUB_OUTPUT
-          echo "skip=false" >> $GITHUB_OUTPUT
+          python -m pip install --upgrade pip
+          python -m pip install "PyYAML>=6.0"
 
-      - name: Run validator
-        if: steps.detect.outputs.skip != 'true'
-        id: validate
+      - name: Resolve target paths
+        id: paths
         run: |
-          THRESHOLD="${{ github.event.inputs.threshold || '0.30' }}"
-          ARTIFACT="${{ steps.detect.outputs.artifact }}"
-          mkdir -p /tmp/swarm-validation
-          # Run validator capture exit (set +e per non-block step).
-          set +e
-          python tools/py/swarm_canonical_validator.py \
-            --artifact "$ARTIFACT" \
-            --canonical-root . \
-            --gate-threshold "$THRESHOLD" \
-            --output /tmp/swarm-validation/report.md \
-            --run-id "$(basename $ARTIFACT .md)" \
-            >> $GITHUB_STEP_SUMMARY
-          STATUS=$?
-          echo "status=$STATUS" >> $GITHUB_OUTPUT
-          if [ $STATUS -ne 0 ]; then
-            echo "regression=true" >> $GITHUB_OUTPUT
+          set -euo pipefail
+          json_list=""
+          md_list=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            t="${{ github.event.inputs.target }}"
+            case "$t" in
+              *.json) json_list="$t" ;;
+              *) md_list="$t" ;;
+            esac
           else
-            echo "regression=false" >> $GITHUB_OUTPUT
+            # PR base SHA is always present in a fetch-depth:0 checkout; prefer it
+            # over origin/<base_ref>, which a shallow/partial fetch may not resolve
+            # (a failed diff -> empty list -> silent false-green).
+            base="${{ github.event.pull_request.base.sha }}"
+            if [ -z "$base" ]; then base="origin/${{ github.base_ref }}"; fi
+            changed="$(git diff --name-only "$base"...HEAD || true)"
+            json_list="$(echo "$changed" | grep -E '^docs/research/swarm/.*\.json$' || true)"
+            md_list="$(echo "$changed" | grep -E '^docs/research/.*\.md$' || true)"
           fi
+          printf '%s\n' "$json_list" | sed '/^$/d' > /tmp/json_targets.txt
+          printf '%s\n' "$md_list" | sed '/^$/d' > /tmp/md_targets.txt
+          echo "json_count=$(wc -l < /tmp/json_targets.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          echo "md_count=$(wc -l < /tmp/md_targets.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          echo "=== JSON targets ==="; cat /tmp/json_targets.txt || true
+          echo "=== MD targets ==="; cat /tmp/md_targets.txt || true
 
-      - name: Comment PR with verification table
-        if: steps.detect.outputs.skip != 'true' && github.event_name == 'pull_request'
+      - name: Lint JSON artifacts (strict, hard-fail)
+        if: steps.paths.outputs.json_count != '0'
+        run: |
+          set -uo pipefail
+          strict_flag="--strict"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ github.event.inputs.strict }}" != "true" ]; then
+            strict_flag="--advisory"
+          fi
+          rc=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            echo "::group::verify $f"
+            python scripts/verify-swarm-claims.py "$f" --game-repo . --no-ermes $strict_flag || rc=$?
+            echo "::endgroup::"
+          done < /tmp/json_targets.txt
+          if [ "$rc" -ne 0 ]; then
+            echo "::error::Entity-grounding (JSON strict): hallucinated/contradicted refs found -- see logs"
+          fi
+          exit $rc
+
+      - name: Lint Markdown design-docs (advisory)
+        if: steps.paths.outputs.md_count != '0'
+        run: |
+          set -uo pipefail
+          : > /tmp/md_report.md
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            echo "### \`$f\`" >> /tmp/md_report.md
+            echo '' >> /tmp/md_report.md
+            echo '```' >> /tmp/md_report.md
+            python scripts/verify-swarm-claims.py "$f" --game-repo . --no-ermes --advisory --include-md >> /tmp/md_report.md 2>&1 || true
+            echo '```' >> /tmp/md_report.md
+            echo '' >> /tmp/md_report.md
+          done < /tmp/md_targets.txt
+          cat /tmp/md_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment PR with advisory report
+        if: steps.paths.outputs.md_count != '0' && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const path = '/tmp/swarm-validation/report.md';
-            if (!fs.existsSync(path)) return;
-            const body = fs.readFileSync(path, 'utf8');
+            const p = '/tmp/md_report.md';
+            if (!fs.existsSync(p)) return;
+            const body = fs.readFileSync(p, 'utf8');
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Swarm Canonical Validation\n\n${body}`,
+              body: `## Canon entity-grounding (advisory)\n\nDesign-doc canon-grounding check -- ADVISORY, does NOT block merge. Investigate HALLUCINATED / CONTRADICTED rows (real entity + non-canon attribute, or invented entity). False positives on legit Italian prose are expected during rollout; tune scripts/data/verify_stopwords.txt or add canonical_refs.\n\n${body}`,
             });
 
       - name: Upload report artifact
-        if: steps.detect.outputs.skip != 'true'
+        if: always() && steps.paths.outputs.md_count != '0'
         uses: actions/upload-artifact@v4
         with:
-          name: swarm-validation-${{ github.run_id }}
-          path: /tmp/swarm-validation/report.md
-          retention-days: 14
-
-      - name: Fail on regression
-        if: steps.detect.outputs.skip != 'true' && steps.validate.outputs.regression == 'true'
-        run: |
-          echo "::error::Hallucination ratio above threshold — see PR comment + artifact"
-          exit 1
+          name: entity-grounding-report-${{ github.run_id }}
+          path: /tmp/md_report.md
+          if-no-files-found: warn
