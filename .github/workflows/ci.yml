@@ -230,9 +230,15 @@ jobs:
         working-directory: tools/ts
         run: npm test
 
-      - name: Validate Species (TS)
-        working-directory: tools/ts
-        run: node dist/validate_species.js ../../data/core/species.yaml
+      # Species validation moved off the legacy data/core/species.yaml (removed
+      # in #2271, Phase 4c.6 ADR-2026-05-15) to the JSON catalog
+      # data/core/species/species_catalog.json. validate_species.ts is a
+      # YAML-`catalog.slots`-schema validator that cannot parse the catalog, so
+      # it only no-ops here. Canonical species/catalog validation now runs in
+      # cli-checks + python-tests (`game_cli.py validate-datasets`) and
+      # dataset-checks (speciesIndexIntegrity / speciesTraitReferences). No
+      # Node-side catalog validator exists, so this TS-only job no longer
+      # validates species (data changes trigger the `data` paths-filter jobs).
 
   # dashboard-quality job rimosso — apps/dashboard cancellato in #1343
   # (SPRINT_001 fase 2). Il workspace non esiste piu' nel repo.
@@ -355,10 +361,14 @@ jobs:
       - name: Run pytest
         run: pytest
 
-      - name: Validate Species (Python)
+      # Species now live in data/core/species/species_catalog.json (legacy
+      # data/core/species.yaml removed in #2271 / Phase 4c.6 ADR-2026-05-15).
+      # validate-datasets runs validate_species_catalog_schema +
+      # validate_species_ecology against the catalog; mirrors the cli-checks
+      # "Validate base datasets (CLI)" step.
+      - name: Validate base datasets (CLI)
         working-directory: tools/py
-        run: |
-          python3 validate_species.py ../../data/core/species.yaml
+        run: python3 game_cli.py validate-datasets
 
       - name: Run Python validation script
         working-directory: tools/py
@@ -721,6 +731,16 @@ jobs:
         run: |
           if [ -z "$SITE_BASE_URL" ]; then
             echo "SITE_BASE_URL not configured; skipping Lighthouse audit." >&2
+            exit 0
+          fi
+          # docs/ Pages site is in maintenance-mode (master-dd 2026-06-21) and no
+          # root lighthouserc.json is committed (only a stray copy under
+          # incoming/lavoro_da_classificare/). Guard so the job stays a true
+          # no-op instead of failing on a missing --config when SITE_BASE_URL is
+          # set. Master-dd call: restore a root lighthouserc.json to re-enable
+          # auditing, or drop this job.
+          if [ ! -f ./lighthouserc.json ]; then
+            echo "lighthouserc.json not found at repo root; skipping Lighthouse audit (site in maintenance-mode)." >&2
             exit 0
           fi
           lhci autorun --config=./lighthouserc.json
