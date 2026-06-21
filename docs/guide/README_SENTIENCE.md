@@ -15,6 +15,11 @@ Questa nota operativa definisce il significato del campo `sentience_index` usato
 
 Tassonomia canonica approvata: merge di README (T0) + RFC v0.1 (T1-T6). Vedi [Canonical Promotion Matrix](../core/00B-CANONICAL_PROMOTION_MATRIX.md) per la decisione.
 
+> Nota (2026-06-21): questa nota e' la **fonte canonica** della scala (T0-T6). Il
+> vecchio `docs/public/sentience_sdk.md` (ritirato, `historical_ref`) descriveva
+> endpoint SDK (`POST /traits/import`, `GET /sentience/tiers`) **mai costruiti** e
+> usava una scala T1-T6 incompleta -- non e' una fonte valida.
+
 ## Definizioni sintetiche
 
 - **T0 · Reattivo**: risposte puramente istintive/riflessive; nessuna pianificazione, linguaggio o uso intenzionale di strumenti. Pattern motorio ripetitivo, nessuna memoria episodica rilevante. Non partecipa come unità di combattimento.

@@ -737,7 +737,7 @@
     {
       "path": "docs/architecture/resistance-engine-gap.md",
       "title": "Gap architetturale Node↔Python resistance engine (M5-#1c discovery)",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "master-dd",
       "workstream": "combat",
       "last_verified": "2026-04-19",
@@ -3593,7 +3593,7 @@
     {
       "path": "docs/guide/CONTRIBUTING_SITE.md",
       "title": "Come contribuire al sito e alla documentazione",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
@@ -3606,7 +3606,7 @@
     {
       "path": "docs/guide/INDEX.md",
       "title": "Legacy Index",
-      "doc_status": "legacy_active",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-13",
@@ -3749,7 +3749,7 @@
     {
       "path": "docs/guide/faq.md",
       "title": "Domande frequenti — Support & QA",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
@@ -3788,7 +3788,7 @@
     {
       "path": "docs/guide/structure_overview.md",
       "title": "Struttura dati e piano di migrazione",
-      "doc_status": "active",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
@@ -4527,7 +4527,7 @@
     {
       "path": "docs/ops/publishing_calendar.md",
       "title": "Calendario editoriale publishing",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
@@ -4540,7 +4540,7 @@
     {
       "path": "docs/ops/qa-window-checklist.md",
       "title": "QA Activation Window Checklist",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-05-06",
@@ -6934,7 +6934,7 @@
     {
       "path": "docs/process/tooling_maintenance_log.md",
       "title": "Tooling Maintenance Log — Incoming Pipeline (Agenti)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-05-06",
@@ -7051,7 +7051,7 @@
     {
       "path": "docs/public/sentience_sdk.md",
       "title": "Sentience Tier Reference (SDK)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-05-06",
