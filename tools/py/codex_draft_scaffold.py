@@ -188,7 +188,7 @@ def extract_lore_vars(
     lifecycle_arc = ", ".join(_humanize(p) for p in phase_keys) or "un ciclo di adattamento continuo"
     muts = lc.get("mutation_morphology") or {}
     mut_keys = list(muts.keys()) if isinstance(muts, dict) else [str(m) for m in muts]
-    mutations = ", ".join(_humanize(m) for m in mut_keys[:5]) or "nessuna mutazione documentata"
+    mutations = ", ".join(_humanize(m) for m in mut_keys[:5]) or "adattamenti ancora non catalogati"
 
     return {
         "subject": subject,
@@ -366,7 +366,7 @@ def catalog_to_species(entry: Dict) -> Dict:
         "id": entry.get("species_id"),
         "display_name": names[0] if names else _humanize(entry.get("species_id")),
         "biomes": [entry["biome_affinity"]] if entry.get("biome_affinity") else [],
-        "role_trofico": role_tags[0] if role_tags else "",
+        "role_trofico": role_tags[0] if role_tags else macro.lower(),
         "morphotype": morpho,
         "resistance_archetype": "adattivo",
         "jobs_bias": [],
