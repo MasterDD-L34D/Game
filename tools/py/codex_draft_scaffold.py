@@ -126,6 +126,11 @@ def _humanize(slug: object) -> str:
     return str(slug or "").replace("_", " ").strip()
 
 
+def _norm(s: object) -> str:
+    """Normalize a slug/display for matching: lower, _-and-space equivalent."""
+    return str(s or "").lower().replace("_", " ").strip()
+
+
 def _taxon_it(macro: object) -> str:
     """A KNOWN Linnaean macro_class -> its Italian taxon noun, else ''. Whole-string
     first, then the first slash-token. '' signals the macro is not a recognised taxon
@@ -143,11 +148,6 @@ def _taxon_it(macro: object) -> str:
 def _archetype_it(slug: object) -> str:
     """Translate a biome npc_archetype slug to Italian (in-scope map); humanize else."""
     return ARCHETYPE_IT.get(str(slug), _humanize(slug))
-
-
-def _norm(s: object) -> str:
-    """Normalize a slug/display for matching: lower, _-and-space equivalent."""
-    return str(s or "").lower().replace("_", " ").strip()
 
 
 def _biomes(biomes_doc: Dict) -> Dict:
