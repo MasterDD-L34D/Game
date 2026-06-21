@@ -102,11 +102,19 @@ def generate_dimension(
     lore_vars: Dict[str, object],
     entry_id: str,
     dim_key: str,
+    rich: bool = False,
 ) -> str:
-    """Generate the prose for one A.L.I.E.N.A. dimension. Deterministic."""
+    """Generate the prose for one A.L.I.E.N.A. dimension. Deterministic.
+
+    rich=True prefers an `origin_<dim>_rich` symbol (which weaves trait/lifecycle
+    slots) when the grammar defines one; otherwise falls back to `origin_<dim>`.
+    """
     merged = _merge_vars(grammar, lore_vars)
     seed = f"{entry_id}:{dim_key}"
-    return _expand(merged, f"origin_{dim_key}", seed).strip()
+    symbol = f"origin_{dim_key}"
+    if rich and f"{symbol}_rich" in grammar:
+        symbol = f"{symbol}_rich"
+    return _expand(merged, symbol, seed).strip()
 
 
 def generate_all(
@@ -114,10 +122,11 @@ def generate_all(
     lore_vars: Dict[str, object],
     entry_id: str,
     dim_keys: Optional[Sequence[str]] = None,
+    rich: bool = False,
 ) -> Dict[str, str]:
     """Generate prose for all 6 dimensions -> {dim_key: content}."""
     keys = list(dim_keys) if dim_keys else ALIENA_DIMENSION_KEYS
-    return {k: generate_dimension(grammar, lore_vars, entry_id, k) for k in keys}
+    return {k: generate_dimension(grammar, lore_vars, entry_id, k, rich=rich) for k in keys}
 
 
 def extract_lore_vars(draft: Dict[str, object]) -> Dict[str, object]:

@@ -122,7 +122,7 @@ def _biome_narrative(entry: Dict, biome_name: str, subject_id: str) -> Dict[str,
         "biome_tone": tone,
         "biome_hook": biome_hook,
         "affixes": ", ".join(affixes) or "pressioni ambientali",
-        "neighbors": ", ".join(neighbors) or "le altre creature del bioma",
+        "neighbors": ", ".join(neighbors) or "predatori e prede del posto",
     }
 
 
@@ -130,8 +130,14 @@ def _strip_token(text: str, token: str) -> str:
     return " ".join(t for t in text.split() if t.lower() != token)
 
 
-def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
-    """Derive the A.L.I.E.N.A. grammar slots from a species master record."""
+def extract_lore_vars(
+    species: Dict, biomes_doc: Dict, lifecycle_doc: Optional[Dict] = None
+) -> Dict[str, str]:
+    """Derive the A.L.I.E.N.A. grammar slots from a species master record.
+
+    For RICH (catalog) species, `species` carries trait_refs + visual_description
+    and `lifecycle_doc` carries phases + mutation_morphology; those feed the rich
+    slots (traits / visual / lifecycle_arc / mutations). For stubs they fall back."""
     index = build_biome_index(biomes_doc)
     biome_key, biome_entry = resolve_biome_entry(species.get("biomes") or [], biomes_doc, index)
     biome_name = (
@@ -169,6 +175,21 @@ def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
     subject = (species.get("display_name") or _humanize(species.get("id"))).lower()
     job = _humanize((species.get("jobs_bias") or [""])[0])
 
+    # rich slots: trait_refs (each trait = a pressure) + authored visual_description
+    # + lifecycle phases (evolutionary arc) + mutation_morphology. Fallbacks for stubs.
+    traits = ", ".join(_humanize(t) for t in (species.get("trait_refs") or [])) or (
+        "tratti adattivi non ancora documentati"
+    )
+    visual = str(species.get("visual_description") or "").strip()
+    visual = (visual + ("" if visual.endswith(".") else ".")) if visual else f"un {morphotype}."
+    lc = lifecycle_doc or {}
+    phases = lc.get("phases") or {}
+    phase_keys = list(phases.keys()) if isinstance(phases, dict) else [str(p) for p in phases]
+    lifecycle_arc = ", ".join(_humanize(p) for p in phase_keys) or "un ciclo di adattamento continuo"
+    muts = lc.get("mutation_morphology") or {}
+    mut_keys = list(muts.keys()) if isinstance(muts, dict) else [str(m) for m in muts]
+    mutations = ", ".join(_humanize(m) for m in mut_keys[:5]) or "nessuna mutazione documentata"
+
     return {
         "subject": subject,
         "biome_name": biome_name,
@@ -194,6 +215,11 @@ def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
         "biome_hook": narrative_vars["biome_hook"],
         "affixes": narrative_vars["affixes"],
         "neighbors": narrative_vars["neighbors"],
+        # rich (catalog + lifecycle); used by the *_rich grammar origins.
+        "traits": traits,
+        "visual": visual,
+        "lifecycle_arc": lifecycle_arc,
+        "mutations": mutations,
     }
 
 
@@ -223,8 +249,10 @@ def _facts(species: Dict, biome_key: str, biome_name: str) -> Dict[str, Dict]:
             "key_facts": [
                 f"resistance_archetype: {species.get('resistance_archetype')}",
                 f"role_trofico: {species.get('role_trofico')}; sentient: {(species.get('flags') or {}).get('sentient')}",
-            ],
-            "cross_ref": [f"species:{sid}"],
+            ]
+            + ([f"trait_refs: {', '.join(species['trait_refs'])}"] if species.get("trait_refs") else []),
+            "cross_ref": [f"species:{sid}"]
+            + [f"trait:{t}" for t in (species.get("trait_refs") or [])],
             "game_impact": f"Archetipo {species.get('resistance_archetype')}.",
         },
         "I_impianto": {
@@ -254,12 +282,21 @@ def _facts(species: Dict, biome_key: str, biome_name: str) -> Dict[str, Dict]:
     }
 
 
-def scaffold_draft(species: Dict, biomes_doc: Dict, grammar: Dict) -> Dict:
-    """Build a complete pending-review codex draft from a species record."""
+def scaffold_draft(
+    species: Dict,
+    biomes_doc: Dict,
+    grammar: Dict,
+    lifecycle_doc: Optional[Dict] = None,
+    rich: bool = False,
+) -> Dict:
+    """Build a complete pending-review codex draft from a species record.
+
+    rich=True (catalog species) weaves trait_refs/visual/lifecycle via the
+    *_rich grammar origins."""
     sid = species["id"]
     index = build_biome_index(biomes_doc)
     biome_key, biome_name, _ = resolve_biome(species.get("biomes") or [], biomes_doc, index)
-    lore_vars = extract_lore_vars(species, biomes_doc)
+    lore_vars = extract_lore_vars(species, biomes_doc, lifecycle_doc)
     enc = species.get("used_in_encounters") or []
     bal = species.get("balance") or {}
     display = species.get("display_name") or _humanize(sid)
@@ -281,7 +318,7 @@ def scaffold_draft(species: Dict, biomes_doc: Dict, grammar: Dict) -> Dict:
             "aliena_dimensions": _facts(species, biome_key, biome_name),
         }
     }
-    contents = gen.generate_all(grammar, lore_vars, sid)
+    contents = gen.generate_all(grammar, lore_vars, sid, rich=rich)
     gen.fill_draft(draft, contents)  # sets content + lore_review_status + scrubs score fields
     # Seed the A_ancoraggio narrative hook (HA2 SOFT expects story_hook_it there);
     # a starting point for the human review to refine.
@@ -294,23 +331,92 @@ def _load(path: str) -> Dict:
         return yaml.safe_load(fh)
 
 
+DEFAULT_CATALOG_PATH = "data/core/species/species_catalog.json"
+DEFAULT_LIFECYCLE_DIR = "data/core/species"
+
+
+def load_catalog(path: str = DEFAULT_CATALOG_PATH) -> Dict[str, Dict]:
+    """species_catalog.json -> {species_id: entry}."""
+    import json
+
+    with open(path, encoding="utf-8") as fh:
+        cat = json.load(fh).get("catalog") or []
+    return {s.get("species_id"): s for s in cat if isinstance(s, dict) and s.get("species_id")}
+
+
+def load_lifecycle(species_id: str, lifecycle_dir: str = DEFAULT_LIFECYCLE_DIR) -> Dict:
+    """Load data/core/species/<id>_lifecycle.yaml if present, else {}."""
+    p = Path(lifecycle_dir) / f"{species_id}_lifecycle.yaml"
+    if p.exists():
+        with open(p, encoding="utf-8") as fh:
+            return yaml.safe_load(fh) or {}
+    return {}
+
+
+def catalog_to_species(entry: Dict) -> Dict:
+    """Adapt a rich catalog entry to the species-dict shape extract_lore_vars
+    expects, carrying trait_refs + visual_description for the rich slots."""
+    role_tags = [str(t) for t in (entry.get("role_tags") or [])]
+    sent = str(entry.get("sentience_index") or "")
+    macro = (entry.get("classification") or {}).get("macro_class") or ""
+    morpho = macro.split("/")[0].strip()  # "Cursore quadrupede / predatore apex" -> first
+    is_apex = any("apex" in t for t in role_tags)
+    names = entry.get("common_names") or []
+    return {
+        "id": entry.get("species_id"),
+        "display_name": names[0] if names else _humanize(entry.get("species_id")),
+        "biomes": [entry["biome_affinity"]] if entry.get("biome_affinity") else [],
+        "role_trofico": role_tags[0] if role_tags else "",
+        "morphotype": morpho,
+        "resistance_archetype": "adattivo",
+        "jobs_bias": [],
+        "functional_tags": role_tags,
+        "flags": {"sentient": sent in ("T3", "T4", "T5")},
+        "balance": {"threat_tier": "T3" if is_apex else "T2"},
+        "used_in_encounters": [],
+        "trait_refs": entry.get("trait_refs") or [],
+        "visual_description": entry.get("visual_description") or "",
+    }
+
+
+def scaffold_rich_draft(catalog_entry: Dict, lifecycle_doc: Dict, biomes_doc: Dict, grammar: Dict) -> Dict:
+    """Scaffold a RICH draft from a catalog entry + its lifecycle (trait_refs +
+    visual_description + lifecycle phases/mutations via the *_rich origins)."""
+    species = catalog_to_species(catalog_entry)
+    return scaffold_draft(species, biomes_doc, grammar, lifecycle_doc=lifecycle_doc, rich=True)
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     p = argparse.ArgumentParser(description="Scaffold a codex A.L.I.E.N.A. draft from a species record")
-    p.add_argument("species", help="path to a species master YAML (packs/.../species/**/<id>.yaml)")
+    p.add_argument("species", nargs="?", help="path to a species master YAML (stub path)")
+    p.add_argument("--catalog", metavar="SPECIES_ID", help="RICH mode: scaffold from species_catalog.json + <id>_lifecycle.yaml")
     p.add_argument("--biomes", default="data/core/biomes.yaml")
     p.add_argument("--grammar", default=gen.DEFAULT_GRAMMAR_PATH)
     p.add_argument("--out-dir", default="data/codex/_drafts")
     p.add_argument("--print", action="store_true", help="print to stdout instead of writing")
     args = p.parse_args(argv)
 
-    species = _load(args.species)
-    sid = species.get("id")
-    if not sid:
-        print("ERROR: species record has no id", file=sys.stderr)
-        return 2
     biomes_doc = _load(args.biomes)
     grammar = gen.load_grammar(args.grammar)
-    draft = scaffold_draft(species, biomes_doc, grammar)
+
+    if args.catalog:
+        catalog = load_catalog()
+        entry = catalog.get(args.catalog)
+        if not entry:
+            print(f"ERROR: species_id '{args.catalog}' not in catalog", file=sys.stderr)
+            return 2
+        sid = args.catalog
+        draft = scaffold_rich_draft(entry, load_lifecycle(sid), biomes_doc, grammar)
+    else:
+        if not args.species:
+            print("ERROR: provide a species path or --catalog <species_id>", file=sys.stderr)
+            return 2
+        species = _load(args.species)
+        sid = species.get("id")
+        if not sid:
+            print("ERROR: species record has no id", file=sys.stderr)
+            return 2
+        draft = scaffold_draft(species, biomes_doc, grammar)
 
     served = Path("data/codex") / f"{sid}.yaml"
     if served.exists():

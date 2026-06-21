@@ -1,5 +1,5 @@
 {
-  "_README": "A.L.I.E.N.A. lore story-grammar (Tracery format) consumed by tools/py/codex_aliena_lore_gen.py. The HANDCRAFTED authoring layer (Wildermyth model): master-dd tunes these templates ONCE; the generator fills the #slots# from each creature's codex_entry.lore_vars and produces a per-creature DRAFT (pending human review). Each origin_<dim> defines the prose for one of the 6 A.L.I.E.N.A. dimensions; >1 variant per origin gives seeded variability across creatures. Slots: subject, biome_name, biome_trait, biome_tone, biome_hook, affixes, neighbors, lineage, archetype, morphotype, job, role, threat_tier, social, sentience, hook, eco_stance. biome_tone/biome_hook/affixes/neighbors come from the AUTHORED biome narrative (biomes.yaml narrative.tone/hooks + affixes + npc_archetypes). Keep variants ~150-420 chars (HA2 TV-readable band 100-500). NEVER reference a coherence/score slot (SPEC-H sez.8 secret invariant).",
+  "_README": "A.L.I.E.N.A. lore story-grammar (Tracery format) consumed by tools/py/codex_aliena_lore_gen.py. The HANDCRAFTED authoring layer (Wildermyth model): master-dd tunes these templates ONCE; the generator fills the #slots# from each creature's codex_entry.lore_vars and produces a per-creature DRAFT (pending human review). Each origin_<dim> defines the prose for one of the 6 A.L.I.E.N.A. dimensions; >1 variant per origin gives seeded variability across creatures. Slots: subject, biome_name, biome_trait, biome_tone, biome_hook, affixes, neighbors, lineage, archetype, morphotype, job, role, threat_tier, social, sentience, hook, eco_stance, traits, visual, lifecycle_arc, mutations. The *_rich origins (used when rich=True for catalog species) weave traits (trait_refs) + visual (visual_description) + lifecycle_arc (lifecycle phases) + mutations (mutation_morphology). biome_tone/biome_hook/affixes/neighbors come from the AUTHORED biome narrative (biomes.yaml narrative.tone/hooks + affixes + npc_archetypes). Keep variants ~150-420 chars (HA2 TV-readable band 100-500). NEVER reference a coherence/score slot (SPEC-H sez.8 secret invariant).",
   "origin_A_ambiente": [
     "Il territorio del #subject# e' #biome_name#: #biome_trait#. Un mondo da #biome_tone#, segnato da #affixes#. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.",
     "#biome_name# -- #biome_trait#, dal tono di #biome_tone# (#affixes#) -- non e' uno sfondo ma un avversario costante per il #subject#. Ogni movimento e' una risposta all'ambiente."
@@ -11,6 +11,14 @@
   "origin_I_impianto": [
     "Sul piano morfo-fisiologico il #subject# e' un #morphotype#, costruito attorno al ruolo di #job#. La struttura privilegia la prontezza sulla resistenza.",
     "Il corpo del #subject# -- #morphotype# -- e' ottimizzato per il ruolo di #job#: rapido, essenziale, fragile se isolato dal gruppo."
+  ],
+  "origin_L_linee_evolutive_rich": [
+    "La linea del #subject# porta i segni di #traits#: ogni tratto core e' la cicatrice di una pressione del bioma. Attraversa le fasi #lifecycle_arc#, conservando solo cio' che sopravvive.",
+    "Il #subject# evolve lungo le fasi #lifecycle_arc#. I suoi tratti -- #traits# -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo #archetype#."
+  ],
+  "origin_I_impianto_rich": [
+    "Morfologia: #visual# Ogni adattamento risponde a una pressione; le linee mutanti note (#mutations#) spingono il corpo oltre la forma base.",
+    "Il corpo del #subject#: #visual# Sotto pressione puo' sviluppare #mutations#, piegando la morfologia a cio' che il bioma esige."
   ],
   "origin_E_ecologia": [
     "Nell'ecologia di #biome_name# il #subject# occupa la nicchia di #role# (#threat_tier#), accanto a #neighbors#. #eco_stance#",
