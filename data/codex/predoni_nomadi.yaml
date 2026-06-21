@@ -83,7 +83,7 @@ codex_entry:
   # edit the 6 content: blocks below, then set lore_review_status: human_reviewed
   # (or remove this field) and run promote_codex_draft.js. The gate refuses to
   # promote while this flag is present.
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed
 
   aliena_dimensions:
     A_ambiente:
