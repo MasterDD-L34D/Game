@@ -100,4 +100,4 @@ codex_entry:
         perche'' il predatore apex apre il Codex. Intorno a lui le storie del bioma -- recuperare
         convogli cristallizzati e nodi di risonanza sepolti -- danno peso al primo incontro.'
       story_hook_it: un avversario predatore apex boss (T3) che affronti in Savana Ionizzata
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed
