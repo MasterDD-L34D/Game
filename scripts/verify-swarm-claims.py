@@ -1858,9 +1858,11 @@ def main(argv: list[str] | None = None) -> int:
                   file=sys.stderr)
 
     reports = []
+    skipped = 0
     for path in artifact_paths:
         artifact = load_artifact(path)
         if artifact is None:
+            skipped += 1
             print(f"SKIP {path.name}: non parsabile come artifact JSON o markdown",
                   file=sys.stderr)
             continue
@@ -1895,6 +1897,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     if args.advisory:
         return 0
+    # --strict means EVERY targeted file must be verified AND clean. A file the
+    # linter could not parse (skipped) is an un-verified gap, not a pass: fail it
+    # instead of silently green-lighting unparsable committed content.
+    if args.strict and skipped:
+        print(f"::error::--strict: {skipped} file non verificabili (skip) -- "
+              f"non parsabili come artifact JSON o markdown", file=sys.stderr)
+        return 1
     if blocking:
         return 1 if args.strict else 2
     return 0

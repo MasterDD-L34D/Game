@@ -82,7 +82,11 @@ jobs:
               *) md_list="$t" ;;
             esac
           else
-            base="origin/${{ github.base_ref }}"
+            # PR base SHA is always present in a fetch-depth:0 checkout; prefer it
+            # over origin/<base_ref>, which a shallow/partial fetch may not resolve
+            # (a failed diff -> empty list -> silent false-green).
+            base="${{ github.event.pull_request.base.sha }}"
+            if [ -z "$base" ]; then base="origin/${{ github.base_ref }}"; fi
             changed="$(git diff --name-only "$base"...HEAD || true)"
             json_list="$(echo "$changed" | grep -E '^docs/research/swarm/.*\.json$' || true)"
             md_list="$(echo "$changed" | grep -E '^docs/research/.*\.md$' || true)"

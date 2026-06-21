@@ -2112,6 +2112,33 @@ class AdvisoryExitTest(unittest.TestCase):
             self.assertEqual(rc, 1)
 
 
+class StrictSkipTest(unittest.TestCase):
+    """--strict must FAIL on a file it could not parse (un-verified gap), not
+    silently pass. Non-strict tolerates the skip (warn-only)."""
+
+    def setUp(self):
+        self.mod = _load_module()
+
+    def test_strict_fails_on_unparsable(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "broken.json"
+            p.write_text("{not valid json", encoding="utf-8")
+            rc = self.mod.main(
+                [str(p), "--game-repo", str(Path(d) / "norepo"), "--no-ermes",
+                 "--strict"]
+            )
+            self.assertEqual(rc, 1)
+
+    def test_nonstrict_tolerates_unparsable(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "broken.json"
+            p.write_text("{not valid json", encoding="utf-8")
+            rc = self.mod.main(
+                [str(p), "--game-repo", str(Path(d) / "norepo"), "--no-ermes"]
+            )
+            self.assertEqual(rc, 0)
+
+
 def main() -> int:
     suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
     runner = unittest.TextTestRunner(verbosity=2)
