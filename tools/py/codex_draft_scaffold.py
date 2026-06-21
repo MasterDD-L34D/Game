@@ -67,26 +67,63 @@ def build_biome_index(biomes_doc: Dict) -> Dict[str, str]:
     return index
 
 
-def resolve_biome(
+def resolve_biome_entry(
     biomes_list: List[str], biomes_doc: Dict, index: Dict[str, str]
-) -> Tuple[str, str, str]:
-    """Return (biome_key, display_name, trait) for the first resolvable,
-    non-off-limits biome a species lists. Fallback: first slug humanized."""
+) -> Tuple[str, Dict]:
+    """Return (biome_key, entry_dict) for the first resolvable, non-off-limits
+    biome a species lists. Fallback: (first non-off-limits slug, {})."""
     biomes = _biomes(biomes_doc)
     for slug in biomes_list or []:
         if slug in OFF_LIMITS_BIOMES:
             continue
         key = index.get(_norm(slug))
         if key and key in biomes:
-            entry = biomes[key]
-            name = entry.get("display_name_it") or entry.get("label") or _humanize(key)
-            trait = entry.get("summary") or ""
-            return key, name, trait
-    # fallback: no resolvable biome -> humanize the first non-off-limits slug
+            return key, biomes[key]
     for slug in biomes_list or []:
         if slug not in OFF_LIMITS_BIOMES:
-            return slug, _humanize(slug), ""
-    return "", "il suo ambiente nativo", ""
+            return slug, {}
+    return "", {}
+
+
+def resolve_biome(
+    biomes_list: List[str], biomes_doc: Dict, index: Dict[str, str]
+) -> Tuple[str, str, str]:
+    """Return (biome_key, display_name, trait). Thin wrapper over resolve_biome_entry."""
+    key, entry = resolve_biome_entry(biomes_list, biomes_doc, index)
+    if not key:
+        return "", "il suo ambiente nativo", ""
+    name = entry.get("display_name_it") or entry.get("label") or _humanize(key)
+    return key, name, entry.get("summary") or ""
+
+
+def _biome_narrative(entry: Dict, biome_name: str, subject_id: str) -> Dict[str, str]:
+    """Pull the AUTHORED biome narrative (tone / hooks / affixes / npc_archetypes)
+    -- the lore-gold the early extractor ignored. Best-effort with fallbacks."""
+    narrative = entry.get("narrative") or {}
+    tone = str(narrative.get("tone") or "").strip().rstrip(".") or "un ambiente ostile"
+    hooks = narrative.get("hooks") or []
+    if hooks:
+        h = str(hooks[0]).strip().rstrip(".")
+        biome_hook = (h[0].lower() + h[1:]) if h else f"sopravvivere in {biome_name}"
+    else:
+        biome_hook = f"sopravvivere in {biome_name}"
+    affixes = [_humanize(a) for a in (entry.get("affixes") or []) if a]
+
+    npc_raw = entry.get("npc_archetypes") or {}
+    npc_list: List[str] = []
+    if isinstance(npc_raw, dict):
+        for v in npc_raw.values():
+            npc_list.extend(v if isinstance(v, list) else [v])
+    elif isinstance(npc_raw, list):
+        npc_list = list(npc_raw)
+    neighbors = [_humanize(n) for n in npc_list if n and n != subject_id][:3]
+
+    return {
+        "biome_tone": tone,
+        "biome_hook": biome_hook,
+        "affixes": ", ".join(affixes) or "pressioni ambientali",
+        "neighbors": ", ".join(neighbors) or "le altre creature del bioma",
+    }
 
 
 def _strip_token(text: str, token: str) -> str:
@@ -96,7 +133,14 @@ def _strip_token(text: str, token: str) -> str:
 def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
     """Derive the A.L.I.E.N.A. grammar slots from a species master record."""
     index = build_biome_index(biomes_doc)
-    _, biome_name, biome_trait = resolve_biome(species.get("biomes") or [], biomes_doc, index)
+    biome_key, biome_entry = resolve_biome_entry(species.get("biomes") or [], biomes_doc, index)
+    biome_name = (
+        biome_entry.get("display_name_it")
+        or biome_entry.get("label")
+        or (_humanize(biome_key) if biome_key else "il suo ambiente nativo")
+    )
+    biome_trait = biome_entry.get("summary") or ""
+    narrative_vars = _biome_narrative(biome_entry, biome_name, species.get("id"))
 
     tags = [str(t) for t in (species.get("functional_tags") or [])]
     morphotype = _humanize(species.get("morphotype"))
@@ -138,6 +182,12 @@ def extract_lore_vars(species: Dict, biomes_doc: Dict) -> Dict[str, str]:
         "social": social,
         "sentience": "culturale" if sentient else "istintiva",
         "hook": f"un avversario {role or 'ostile'} ({threat_tier}) che affronti in {biome_name}",
+        # AUTHORED biome narrative (was ignored) -- improves A_ambiente voice +
+        # gives A_ancoraggio a real hook + names the biome's other fauna.
+        "biome_tone": narrative_vars["biome_tone"],
+        "biome_hook": narrative_vars["biome_hook"],
+        "affixes": narrative_vars["affixes"],
+        "neighbors": narrative_vars["neighbors"],
     }
 
 

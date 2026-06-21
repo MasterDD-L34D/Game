@@ -27,6 +27,10 @@ codex_entry:
     social: gruppi territoriali
     sentience: istintiva
     hook: un avversario predatore tank (T2) che affronti in Savana Ionizzata
+    biome_tone: Western sci-fi e sopravvivenza carovaniera
+    biome_hook: recuperare convogli cristallizzati e nodi di risonanza sepolti
+    affixes: termico, luminescente, spore diluite, sabbia
+    neighbors: predoni nomadi, guardiani delle dune, cartografi erranti
   aliena_dimensions:
     A_ambiente:
       heading: Ambiente
@@ -36,9 +40,10 @@ codex_entry:
       cross_ref:
       - biome:savana
       game_impact: 'Comparsa negli scontri: enc_tutorial_02.'
-      content: 'Savana Ionizzata non e'' uno sfondo ma un avversario costante per il cacciatore
-        corazzato: Dune fotoniche con branchi adattivi e rovine sepolte. Ogni movimento e''
-        una risposta all''ambiente.'
+      content: Savana Ionizzata -- Dune fotoniche con branchi adattivi e rovine sepolte, dal
+        tono di Western sci-fi e sopravvivenza carovaniera (termico, luminescente, spore diluite,
+        sabbia) -- non e' uno sfondo ma un avversario costante per il cacciatore corazzato.
+        Ogni movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
@@ -72,8 +77,8 @@ codex_entry:
       - biome:savana
       game_impact: 'encounter_role: threat.'
       content: 'Il cacciatore corazzato e'' predatore tank nel Savana Ionizzata: una presenza
-        diffusa (T2) che modella il comportamento di cio'' che gli sta sotto nella catena
-        trofica.'
+        diffusa (T2) che, insieme a predoni nomadi, guardiani delle dune, cartografi erranti,
+        modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -82,7 +87,7 @@ codex_entry:
       - species:cacciatore_corazzato
       game_impact: Comportamento di gruppo/solitario secondo i tag.
       content: Il cacciatore corazzato vive in gruppi territoriali. I legami sono di natura
-        istintiva -- funzionali alla razzia e alla sopravvivenza, non al racconto di se'.
+        istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -92,7 +97,7 @@ codex_entry:
       - encounter:enc_tutorial_02
       game_impact: 'Unlock e2e: completare enc_tutorial_02 sblocca questa voce.'
       content: 'un avversario predatore tank (T2) che affronti in Savana Ionizzata: ecco perche''
-        il cacciatore corazzato apre il Codex. Il primo incontro non si dimentica -- diventa
-        il metro di tutto cio'' che segue.'
+        il cacciatore corazzato apre il Codex. Intorno a lui le storie del bioma -- recuperare
+        convogli cristallizzati e nodi di risonanza sepolti -- danno peso al primo incontro.'
       story_hook_it: un avversario predatore tank (T2) che affronti in Savana Ionizzata
   lore_review_status: generated_pending_review
