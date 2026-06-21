@@ -1,6 +1,6 @@
 ---
 title: Golden Path – Bioma urbano allagato con missioni, specie e trait cognitivi
-doc_status: draft
+doc_status: historical_ref
 doc_owner: flow-team
 workstream: flow
 last_verified: 2026-05-06

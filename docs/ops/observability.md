@@ -1,17 +1,25 @@
 ---
-title: Osservabilità client webapp
+title: Osservabilita client mission-console
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-21
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
-# Osservabilità client webapp
+# Osservabilita client mission-console
 
-Questo documento descrive come attivare, testare e monitorare i tre pilastri di osservabilità introdotti nella webapp:
+Il client osservabilita vive in `apps/mission-console/` (workspace npm
+`idea-engine-webapp`; ex `webapp/`, migrata nel bundle mission-console). I
+sorgenti sono in `apps/mission-console/src/observability/`
+(`errorReporting.ts`, `metrics.ts`, `diagnosticsStore.ts`) +
+`apps/mission-console/src/services/clientLogger.ts`. La dashboard pubblica e' il
+bundle prebuilt servito da `docs/mission-console/` (GitHub Pages), generato dal
+workflow `.github/workflows/mission-console-build.yml`.
+
+Questo documento descrive come attivare, testare e monitorare i tre pilastri di osservabilita' del client:
 
 1. **Error reporting** opzionale tramite Sentry (o compatibile) abilitabile da variabili d'ambiente.
 2. **Pannello di diagnostica** visibile nella modalità demo per ispezionare richieste, fallback e log critici.
@@ -42,11 +50,13 @@ VITE_OBSERVABILITY_ERROR_REPORTING_DSN=https://<public>@sentry.io/<project>
 VITE_OBSERVABILITY_ENVIRONMENT=demo
 ```
 
-Avviare la webapp (`npm run dev --workspace webapp`) e generare un errore (es. usando gli strumenti di sviluppo del browser `throw new Error('test Sentry')`). L'evento verrà inviato al DSN configurato; in caso di problemi l'app logga in console ` [observability] inizializzazione error reporting fallita`.
+Avviare il client (`npm run dev --workspace apps/mission-console`, che lancia `vite`) e generare un errore (es. usando gli strumenti di sviluppo del browser `throw new Error('test Sentry')`). L'evento verra' inviato al DSN configurato; in caso di problemi l'app logga in console `[observability] inizializzazione error reporting fallita`.
 
 ## 2. Pannello di diagnostica demo
 
-In modalità demo (`/console/atlas` con meta `demo: true`) appare un pannello in fondo alla pagina che mostra:
+In modalita' demo (route `/console/atlas` con meta `demo: true`) il
+`DemoDiagnosticsPanel` (`apps/mission-console/src/components/observability/DemoDiagnosticsPanel.vue`,
+montato da `AtlasLayout.vue` quando `isDemo`) appare in fondo alla pagina e mostra:
 
 - conteggio richieste totali, fallback, errori e pendenti;
 - ultimo elenco di fetch indicando durata, fallback e messaggi d'errore;
@@ -55,13 +65,13 @@ In modalità demo (`/console/atlas` con meta `demo: true`) appare un pannello in
 
 ### Controllo via env
 
-| Variabile                        | Descrizione                                                                                       |
-| -------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `VITE_OBSERVABILITY_DIAGNOSTICS` | `enabled`, `disabled` o `auto` (default). In `auto` il pannello è attivo in build non production. |
+| Variabile                        | Descrizione                                                                                        |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `VITE_OBSERVABILITY_DIAGNOSTICS` | `enabled`, `disabled` o `auto` (default). In `auto` il pannello e' attivo in build non production. |
 
 ### Come provarlo
 
-1. Avviare la webapp (`npm run dev --workspace webapp`).
+1. Avviare il client (`npm run dev --workspace apps/mission-console`).
 2. Navigare verso la sezione Atlas demo.
 3. Attivare un fallback forzando l'assenza dell'API (es. offline) o modificando `VITE_API_BASE`.
 4. Osservare nel pannello le richieste classificate come fallback/error.
@@ -107,7 +117,7 @@ Quando l'endpoint non è disponibile, le metriche vengono accodate nella chiave 
 
 1. Impostare `VITE_OBSERVABILITY_METRICS_ENDPOINT` su un server locale (es. `http://localhost:3000/metrics`).
 2. Avviare il server che registra le richieste POST.
-3. Navigare nella webapp: dovrebbero comparire richieste POST con i payload sopra descritti.
+3. Navigare nel client mission-console: dovrebbero comparire richieste POST con i payload sopra descritti.
 
 ## Troubleshooting
 
