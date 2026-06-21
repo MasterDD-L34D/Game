@@ -31,11 +31,11 @@ codex_entry:
     biome_tone: Ricognizioni stealth tra nebbie radiose e comunità arboree
     biome_hook: proteggere i reattori a risonanza dagli attacchi delle maree
     affixes: rainshade, canopy web, floodpulse
-    neighbors: wardens pluviali, temperate stalkers, druids pluviometrici
+    neighbors: guardiani pluviali, predatori temperati, druidi pluviometrici
     traits: focus frazionato, pathfinder, pianificatore, random, empatia coordinativa
     visual: Tronco-sentinella nodoso ricoperto di radici aeree sensoriali, con escrescenze
       a occhio che si schiudono al passaggio di intrusi.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -64,8 +64,8 @@ codex_entry:
       - trait:random
       - trait:empatia_coordinativa
       game_impact: Archetipo adattivo.
-      content: 'Il sentinella radice evolve lungo le fasi hatchling, juvenile, mature, apex,
-        legacy. I suoi tratti -- focus frazionato, pathfinder, pianificatore, random, empatia
+      content: 'Il sentinella radice evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- focus frazionato, pathfinder, pianificatore, random, empatia
         coordinativa -- non sono ornamenti ma risposte: ognuno racconta una pressione superata,
         in archetipo adattivo.'
     I_impianto:
@@ -90,7 +90,7 @@ codex_entry:
       - biome:foresta_temperata
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Foresta Temperata Umida il sentinella radice occupa la nicchia
-        di ingegneri ecosistema (T2), accanto a wardens pluviali, temperate stalkers, druids
+        di ingegneri ecosistema (T2), accanto a guardiani pluviali, predatori temperati, druidi
         pluviometrici. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio

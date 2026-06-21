@@ -22,21 +22,21 @@ codex_entry:
     archetype: adattivo
     morphotype: Mammalia
     job: ''
-    role: mammalia
+    role: mammifero
     threat_tier: T2
     social: gruppi territoriali
     sentience: culturale
-    hook: un avversario mammalia (T2) che affronti in Caldera Glaciale
+    hook: una creatura di tipo mammifero (T2) che incontri in Caldera Glaciale
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Esplorazioni verticali e gestione di geyser imprevedibili
     biome_hook: stabilire ponti termici per attraversare crepacci dinamici
     affixes: frost vents, glacial resonance, ice slick
-    neighbors: cryo wardens, glacial sentinels, resonance mappers
+    neighbors: guardiani del gelo, sentinelle glaciali, cartografi della risonanza
     traits: corna psico conduttive, coscienza d alveare diffusa, aura di dispersione mentale,
       metabolismo di condivisione energetica, unghie a micro adesione
     visual: Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle
       adesive; mantello bruno.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -66,8 +66,8 @@ codex_entry:
       - trait:metabolismo_di_condivisione_energetica
       - trait:unghie_a_micro_adesione
       game_impact: Archetipo adattivo.
-      content: 'Il camoscio psionico evolve lungo le fasi hatchling, juvenile, mature, apex,
-        legacy. I suoi tratti -- corna psico conduttive, coscienza d alveare diffusa, aura
+      content: 'Il camoscio psionico evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- corna psico conduttive, coscienza d alveare diffusa, aura
         di dispersione mentale, metabolismo di condivisione energetica, unghie a micro adesione
         -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo
         adattivo.'
@@ -93,8 +93,8 @@ codex_entry:
       - biome:caldera_glaciale
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Caldera Glaciale il camoscio psionico occupa la nicchia di
-        mammalia (T2), accanto a cryo wardens, glacial sentinels, resonance mappers. Esercita
-        pressione sulle prede senza contendere l'apice.
+        mammifero (T2), accanto a guardiani del gelo, sentinelle glaciali, cartografi della
+        risonanza. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -111,9 +111,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il camoscio psionico e'' un avversario mammalia (T2) che
-        affronti in Caldera Glaciale. E nel suo mondo la posta in gioco e'' stabilire ponti
-        termici per attraversare crepacci dinamici. E'' qui che il Codex comincia: la prima
-        forma di vita di cui annotare la verita''.'
-      story_hook_it: un avversario mammalia (T2) che affronti in Caldera Glaciale
+      content: 'Per l''allenatore il camoscio psionico e'' una creatura di tipo mammifero
+        (T2) che incontri in Caldera Glaciale. E nel suo mondo la posta in gioco e'' stabilire
+        ponti termici per attraversare crepacci dinamici. E'' qui che il Codex comincia: la
+        prima forma di vita di cui annotare la verita''.'
+      story_hook_it: una creatura di tipo mammifero (T2) che incontri in Caldera Glaciale
   lore_review_status: generated_pending_review

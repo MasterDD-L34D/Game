@@ -22,21 +22,21 @@ codex_entry:
     archetype: adattivo
     morphotype: Mammalia
     job: ''
-    role: mammalia
+    role: mammifero
     threat_tier: T2
     social: gruppi territoriali
     sentience: culturale
-    hook: un avversario mammalia (T2) che affronti in Steppe Algoritmiche
+    hook: una creatura di tipo mammifero (T2) che incontri in Steppe Algoritmiche
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Conflitti tra IA agricole e tribù adattate alla rete
     biome_hook: ripristinare i nodi sincroni per evitare la tempesta algoritmica
     affixes: sync fields, drone grazers
-    neighbors: protocol shepherds, logic riders, calibration mediators
+    neighbors: pastori dei protocolli, cavalcatori logici, mediatori di calibrazione
     traits: scheletro pneumatico a maglie, cinghia iper ciliare, rete filtro polmonare, canto
       infrasonico tattico, siero anti gelo naturale
     visual: Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio.
       Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -69,7 +69,7 @@ codex_entry:
       content: 'La linea del megattera terrestre porta i segni di scheletro pneumatico a maglie,
         cinghia iper ciliare, rete filtro polmonare, canto infrasonico tattico, siero anti
         gelo naturale: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa
-        le fasi hatchling, juvenile, mature, apex, legacy, conservando solo cio'' che sopravvive.'
+        le fasi cucciolo, giovane, maturo, apex, eredita'', conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -92,8 +92,8 @@ codex_entry:
       - biome:steppe_algoritmiche
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Steppe Algoritmiche il megattera terrestre occupa la nicchia
-        di mammalia (T2), accanto a protocol shepherds, logic riders, calibration mediators.
-        Esercita pressione sulle prede senza contendere l'apice.
+        di mammifero (T2), accanto a pastori dei protocolli, cavalcatori logici, mediatori
+        di calibrazione. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -110,8 +110,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario mammalia (T2) che affronti in Steppe Algoritmiche: ecco perche''
-        il megattera terrestre apre il Codex. Intorno a lui le storie del bioma -- ripristinare
-        i nodi sincroni per evitare la tempesta algoritmica -- danno peso al primo incontro.'
-      story_hook_it: un avversario mammalia (T2) che affronti in Steppe Algoritmiche
+      content: 'una creatura di tipo mammifero (T2) che incontri in Steppe Algoritmiche: ecco
+        perche'' il megattera terrestre apre il Codex. Intorno a lui le storie del bioma --
+        ripristinare i nodi sincroni per evitare la tempesta algoritmica -- danno peso al
+        primo incontro.'
+      story_hook_it: una creatura di tipo mammifero (T2) che incontri in Steppe Algoritmiche
   lore_review_status: generated_pending_review

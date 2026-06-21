@@ -37,7 +37,7 @@ codex_entry:
     visual: Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi.
       Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con
       sacche ripiegabili.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -67,7 +67,7 @@ codex_entry:
       - trait:artiglio_cinetico_a_urto
       - trait:sistemi_chimio_sonici
       game_impact: Archetipo adattivo.
-      content: 'Il zannapiedi evolve lungo le fasi hatchling, juvenile, mature, apex, legacy.
+      content: 'Il zannapiedi evolve lungo le fasi cucciolo, giovane, maturo, apex, eredita''.
         I suoi tratti -- ermafroditismo cronologico, locomozione miriapode ibrida, estroflessione
         gastrica acida, artiglio cinetico a urto, sistemi chimio sonici -- non sono ornamenti
         ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'

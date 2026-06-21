@@ -22,22 +22,22 @@ codex_entry:
     archetype: adattivo
     morphotype: Reptilia
     job: ''
-    role: reptilia
+    role: rettile
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario reptilia (T2) che affronti in Pianura Salina Iperarida
+    hook: una creatura di tipo rettile (T2) che incontri in Pianura Salina Iperarida
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Convogli di sopravvivenza e cacce a miraggi con specchi risonanti
     biome_hook: stabilire torri condensatrici per sostenere gli avamposti
     affixes: salt mirage, resonance pan
-    neighbors: salt nomads, prismatic riders, aquifer surveyors
+    neighbors: nomadi del sale, cavalcatori prismatici, ricognitori delle falde
     traits: rostro emostatico litico, scheletro idraulico a pistoni, ipertrofia muscolare
       massiva, ectotermia dinamica, organi sismici cutanei
     visual: Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti;
       squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come
       stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -67,8 +67,8 @@ codex_entry:
       - trait:ectotermia_dinamica
       - trait:organi_sismici_cutanei
       game_impact: Archetipo adattivo.
-      content: 'Il viverna-elastico evolve lungo le fasi hatchling, juvenile, mature, apex,
-        legacy. I suoi tratti -- rostro emostatico litico, scheletro idraulico a pistoni,
+      content: 'Il viverna-elastico evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- rostro emostatico litico, scheletro idraulico a pistoni,
         ipertrofia muscolare massiva, ectotermia dinamica, organi sismici cutanei -- non sono
         ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
@@ -93,9 +93,9 @@ codex_entry:
       cross_ref:
       - biome:pianura_salina_iperarida
       game_impact: 'encounter_role: None.'
-      content: 'Il viverna-elastico e'' reptilia in Pianura Salina Iperarida: una presenza
-        diffusa (T2) che, insieme a salt nomads, prismatic riders, aquifer surveyors, modella
-        la catena trofica.'
+      content: 'Il viverna-elastico e'' rettile in Pianura Salina Iperarida: una presenza
+        diffusa (T2) che, insieme a nomadi del sale, cavalcatori prismatici, ricognitori delle
+        falde, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -112,9 +112,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il viverna-elastico e'' un avversario reptilia (T2) che
-        affronti in Pianura Salina Iperarida. E nel suo mondo la posta in gioco e'' stabilire
+      content: 'Per l''allenatore il viverna-elastico e'' una creatura di tipo rettile (T2)
+        che incontri in Pianura Salina Iperarida. E nel suo mondo la posta in gioco e'' stabilire
         torri condensatrici per sostenere gli avamposti. E'' qui che il Codex comincia: la
         prima forma di vita di cui annotare la verita''.'
-      story_hook_it: un avversario reptilia (T2) che affronti in Pianura Salina Iperarida
+      story_hook_it: una creatura di tipo rettile (T2) che incontri in Pianura Salina Iperarida
   lore_review_status: generated_pending_review

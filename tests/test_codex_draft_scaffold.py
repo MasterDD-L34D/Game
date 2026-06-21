@@ -43,6 +43,11 @@ BIOMES = {
         },
         "savana": {"display_name_it": "Savana Ionizzata", "summary": "Dune fotoniche."},
         "rovine_planari": {"display_name_it": "Rovine Planari", "summary": "Metropoli in rovina."},
+        "caldera": {
+            "display_name_it": "Caldera Glaciale",
+            "summary": "Crateri di ghiaccio.",
+            "npc_archetypes": {"primary": ["cryo_wardens", "glacial_sentinels", "resonance_mappers"]},
+        },
     }
 }
 
@@ -152,7 +157,10 @@ def test_catalog_to_species_and_rich_slots():
     lv = scaf.extract_lore_vars(sp, BIOMES, lifecycle)
     assert "artigli sette vie" in lv["traits"]
     assert "Felino compatto" in lv["visual"]
-    assert "hatchling" in lv["lifecycle_arc"]
+    # lifecycle phase keys translated EN -> IT (1b-i): hatchling -> cucciolo, etc.
+    assert "cucciolo" in lv["lifecycle_arc"]
+    assert "maturo" in lv["lifecycle_arc"]
+    assert "hatchling" not in lv["lifecycle_arc"]
     assert "artigli grip to glass" in lv["mutations"]
 
 
@@ -187,3 +195,89 @@ def test_scaffold_rich_weaves_traits_into_content():
     assert "artigli sette vie" in dims["L_linee_evolutive"]["content"]  # rich origin used
     assert "bestia di prova" in dims["I_impianto"]["content"].lower()  # visual woven
     assert "#" not in dims["L_linee_evolutive"]["content"]
+
+
+# --- 1a: taxonomic hook (catalog species with no trophic role_tags) ---
+
+def _taxon_entry(macro, biome="caldera", role_tags=None):
+    return {
+        "species_id": "test_taxon",
+        "common_names": ["Bestia Taxon"],
+        "role_tags": role_tags or [],
+        "biome_affinity": biome,
+        "trait_refs": [],
+        "classification": {"macro_class": macro},
+        "sentience_index": "T1",
+        "visual_description": "Una creatura di prova.",
+    }
+
+
+def test_taxonomic_hook_reads_natural():
+    # empty role_tags + Linnaean macro -> hook phrases the taxon, not "un avversario mammalia".
+    sp = scaf.catalog_to_species(_taxon_entry("Mammalia"))
+    assert sp["_role_is_taxonomic"] is True
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert "creatura di tipo mammifero" in lv["hook"]
+    assert "avversario mammalia" not in lv["hook"]
+    assert lv["role"] == "mammifero"  # IT taxon, not raw "mammalia"
+
+
+def test_taxonomic_hook_slash_taxon_first_token():
+    # "Reptilia/Pisces" -> first slash token -> rettile.
+    sp = scaf.catalog_to_species(_taxon_entry("Reptilia/Pisces"))
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert "creatura di tipo rettile" in lv["hook"]
+
+
+def test_taxonomic_hook_unknown_macro_generic():
+    # macro "unknown" + no role_tags -> generic "da classificare", never the word "unknown".
+    sp = scaf.catalog_to_species(_taxon_entry("unknown"))
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert "da classificare" in lv["hook"]
+    assert "unknown" not in lv["hook"].lower()
+    assert "#" not in lv["hook"]
+
+
+def test_unknown_macro_no_leak_in_morpho_slots():
+    # macro "unknown" + empty visual_description must NOT leak "unknown" into the
+    # morphotype / lineage / visual slots ("Morfologia: un unknown.").
+    entry = _taxon_entry("unknown")
+    entry["visual_description"] = ""  # the real frattura-abissale data gap
+    sp = scaf.catalog_to_species(entry)
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    blob = (lv["morphotype"] + lv["lineage"] + lv["visual"]).lower()
+    assert "unknown" not in blob
+    assert lv["morphotype"] == "non catalogata"
+    assert "non ancora catalogata" in lv["visual"]
+
+
+def test_descriptive_macro_keeps_trophic_voice():
+    # a non-Linnaean descriptive macro ("Mammalo-artropode") with no role_tags must NOT
+    # become "una creatura di tipo Mammalo-artropode" -> keep the lowercase trophic voice.
+    sp = scaf.catalog_to_species(_taxon_entry("Mammalo-artropode"))
+    assert sp["_role_is_taxonomic"] is True
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert lv["hook"].startswith("un avversario mammalo-artropode")
+    assert "creatura di tipo" not in lv["hook"]
+    assert "Mammalo-artropode" not in lv["hook"]  # not capitalised mid-sentence
+
+
+def test_trophic_role_tags_keep_combat_hook():
+    # a species WITH role_tags is NOT taxonomic -> keeps the "un avversario ..." voice.
+    sp = scaf.catalog_to_species(_taxon_entry("Mammalia", role_tags=["predatore_terziario_apex"]))
+    assert sp["_role_is_taxonomic"] is False
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert lv["hook"].startswith("un avversario")
+    # "predatore_terziario_apex" carries "apex" substring -> apex eco_stance.
+    assert "Domina la catena trofica" in lv["eco_stance"]
+
+
+# --- 1b-ii: biome npc_archetypes translated EN -> IT in the neighbors slot ---
+
+def test_neighbors_translated_to_italian():
+    sp = scaf.catalog_to_species(_taxon_entry("Mammalia", biome="caldera"))
+    lv = scaf.extract_lore_vars(sp, BIOMES, None)
+    assert "guardiani del gelo" in lv["neighbors"]  # cryo_wardens -> IT
+    assert "sentinelle glaciali" in lv["neighbors"]  # glacial_sentinels -> IT
+    assert "cryo" not in lv["neighbors"].lower()
+    assert "wardens" not in lv["neighbors"].lower()

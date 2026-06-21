@@ -22,22 +22,22 @@ codex_entry:
     archetype: adattivo
     morphotype: Mammalia
     job: ''
-    role: mammalia
+    role: mammifero
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario mammalia (T2) che affronti in Canyon Risonanti
+    hook: una creatura di tipo mammifero (T2) che incontri in Canyon Risonanti
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Duelli sonori e trattative con tribù eco-sintonizzate
     biome_hook: stabilizzare ponti risonanti prima delle tempeste di vento
     affixes: echo surge, shifting winds
-    neighbors: sibilant wardens, echo drifters, risonatori nomadi
+    neighbors: guardiani sibilanti, erranti dell'eco, risonatori nomadi
     traits: pelage idrorepellente avanzato, scudo gluteale cheratinizzato, articolazioni multiassiali,
       coda prensile muscolare, rostro linguale prensile
     visual: Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile;
       regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende
       come una proboscide muscolare.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -70,7 +70,7 @@ codex_entry:
       content: 'La linea del ghiotton-scudo porta i segni di pelage idrorepellente avanzato,
         scudo gluteale cheratinizzato, articolazioni multiassiali, coda prensile muscolare,
         rostro linguale prensile: ogni tratto core e'' la cicatrice di una pressione del bioma.
-        Attraversa le fasi hatchling, juvenile, mature, apex, legacy, conservando solo cio''
+        Attraversa le fasi cucciolo, giovane, maturo, apex, eredita'', conservando solo cio''
         che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
@@ -94,9 +94,9 @@ codex_entry:
       cross_ref:
       - biome:canyons_risonanti
       game_impact: 'encounter_role: None.'
-      content: 'Il ghiotton-scudo e'' mammalia in Canyon Risonanti: una presenza diffusa (T2)
-        che, insieme a sibilant wardens, echo drifters, risonatori nomadi, modella la catena
-        trofica.'
+      content: 'Il ghiotton-scudo e'' mammifero in Canyon Risonanti: una presenza diffusa
+        (T2) che, insieme a guardiani sibilanti, erranti dell''eco, risonatori nomadi, modella
+        la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -113,9 +113,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il ghiotton-scudo e'' un avversario mammalia (T2) che affronti
-        in Canyon Risonanti. E nel suo mondo la posta in gioco e'' stabilizzare ponti risonanti
-        prima delle tempeste di vento. E'' qui che il Codex comincia: la prima forma di vita
-        di cui annotare la verita''.'
-      story_hook_it: un avversario mammalia (T2) che affronti in Canyon Risonanti
+      content: 'Per l''allenatore il ghiotton-scudo e'' una creatura di tipo mammifero (T2)
+        che incontri in Canyon Risonanti. E nel suo mondo la posta in gioco e'' stabilizzare
+        ponti risonanti prima delle tempeste di vento. E'' qui che il Codex comincia: la prima
+        forma di vita di cui annotare la verita''.'
+      story_hook_it: una creatura di tipo mammifero (T2) che incontri in Canyon Risonanti
   lore_review_status: generated_pending_review
