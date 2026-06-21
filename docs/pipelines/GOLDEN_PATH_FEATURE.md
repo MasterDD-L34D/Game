@@ -1,26 +1,34 @@
 ---
-title: GOLDEN_PATH_FEATURE – Pipeline istanziata per nuove feature complesse
+title: GOLDEN_PATH_FEATURE -- Pipeline istanziata per nuove feature complesse
 doc_status: draft
 doc_owner: flow-team
 workstream: flow
-last_verified: 2026-05-06
+last_verified: 2026-06-21
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 30
 ---
 
-# GOLDEN_PATH_FEATURE – Pipeline istanziata per nuove feature complesse
+# GOLDEN_PATH_FEATURE -- Pipeline istanziata per nuove feature complesse
 
 Questa guida istanzia il Golden Path (vedi `docs/pipelines/GOLDEN_PATH.md`) per
 una feature complessa **Bioma + Specie + Trait**, mantenendo l'esecuzione in
 STRICT MODE / SANDBOX. Usala quando ricevi un comando `GOLDEN_PATH_FEATURE`
 con la descrizione della feature ad alto livello.
 
+> **Layout dati corrente (2026-06):** `data/core/species.yaml` (monolite) e' stato
+> RIMOSSO (#2271) -> specie in file per-specie `data/core/species/*.yaml` +
+> catalogo derivato `data/core/species/species_catalog.json`.
+> **Canon-enforcement (regenerate-or-die):** i file derivati si RIGENERANO
+> (`npm run sync:evo-pack`), mai a mano. Combat = Node in
+> `apps/backend/services/combat/` (Python `services/rules/` rimosso, ADR-2026-04-19);
+> backend Express su :3334.
+
 ---
 
 ## 0) Input iniziale
 
-- **Feature (descrizione sintetica):** _inserisci qui la richiesta utente (es. “Nuovo bioma X con specie Y, Z, pool di trait e correnti temporanee”)_
+- **Feature (descrizione sintetica):** _inserisci qui la richiesta utente (es. "Nuovo bioma X con specie Y, Z, pool di trait e correnti temporanee")_
 - **Pipeline da combinare:**
   - SPECIE+BIOMI (se la feature introduce bioma e specie collegate)
   - TRAIT (se aggiunge o modifica soltanto trait/glossary/index)
@@ -34,7 +42,7 @@ con la descrizione della feature ad alto livello.
 - **Agente:** coordinator
 - **Input:**
   - agent_constitution.md, agent.md, router.md
-  - docs/pipelines/GOLDEN_PATH.md, docs/pipelines/GOLDEN_PATH_FEATURE.md
+  - docs/pipelines/GOLDEN_PATH.md, docs/pipelines/GOLDEN_PATH_FEATURE.md, docs/pipelines/PIPELINE_TEMPLATES.md
   - pipeline specifiche selezionate (SPECIE+BIOMI, TRAIT)
 - **Output (sandbox):** briefing `docs/pipelines/<feature>_step1_kickoff.md` con scope, dataset coinvolti, rischi, pipeline selezionate.
 - **Esecuzione:** via `PIPELINE_EXECUTOR` Step 1, STRICT MODE / SANDBOX.
@@ -43,9 +51,9 @@ con la descrizione della feature ad alto livello.
 
 ## 2) Design & Lore (lore-designer + curator)
 
-- **Obiettivo:** definire identità, livelli ambientali, hook delle specie.
+- **Obiettivo:** definire identita', livelli ambientali, hook delle specie.
 - **Agenti:** lore-designer (+ species-curator / biome-ecosystem-curator se rilevante)
-- **Input:** output Step 1, docs/biomes.md, docs/20-SPECIE_E_PARTI.md, hooks narrativi esistenti.
+- **Input:** output Step 1, docs/biomes/biomes.md, docs/core/20-SPECIE_E_PARTI.md, hooks narrativi esistenti.
 - **Output (sandbox):** `docs/biomes/<feature>_lore.md` e/o `docs/species/<feature>_lore.md` con descrizioni narrative.
 - **Esecuzione:** `PIPELINE_EXECUTOR` Step 2, STRICT MODE / SANDBOX.
 
@@ -55,7 +63,7 @@ con la descrizione della feature ad alto livello.
 
 - **Obiettivo:** strutturare bioma, pool, trait_plan senza toccare dataset reali.
 - **Agenti:** biome-ecosystem-curator, trait-curator, species-curator
-- **Input:** output Step 2, config/schemas/\*, data/core/biomes.yaml, biome_pools.json, species.yaml, glossary/index.
+- **Input:** output Step 2, config/schemas/trait.schema.json, data/core/biomes.yaml, data/core/traits/biome_pools.json, data/core/species/\*.yaml + species_catalog.json, data/core/traits/glossary.json, data/traits/index.json.
 - **Output (sandbox):**
   - `docs/biomes/<feature>_biome.md` (scheda tecnica + alias/terraform bands)
   - `docs/traits/<feature>_trait_draft.md` (pool + trait temporanei)
@@ -68,7 +76,7 @@ con la descrizione della feature ad alto livello.
 
 - **Obiettivo:** proporre numeri, scaling, limiti di stacking/form shift.
 - **Agente:** balancer
-- **Input:** output Step 3, 4, 5; docs/10-SISTEMA_TATTICO.md; data/core/game_functions.yaml.
+- **Input:** output Step 3, 4, 5; docs/core/10-SISTEMA_TATTICO.md; data/core/game_functions.yaml; meccaniche trait in packs/evo_tactics_pack/data/balance/trait_mechanics.yaml; combat engine Node in apps/backend/services/combat/.
 - **Output (sandbox):** `docs/balance/<feature>_balance_draft.md` con HP/Armor/Resist, attacchi, costi, regole dinamiche.
 - **Esecuzione:** `PIPELINE_EXECUTOR` Step 6 (SPECIE+BIOMI) in STRICT MODE.
 
@@ -80,7 +88,11 @@ con la descrizione della feature ad alto livello.
 - **Agente:** coordinator
 - **Input:** draft sandbox (biome, trait, species, balance), dataset core per confronto, script `tools/traits/check_biome_feature.py`.
 - **Output (sandbox):** `docs/reports/<feature>_validation_report.md` con problemi e patch_proposte.
-- **Esecuzione:** `PIPELINE_EXECUTOR` Step 7 (SPECIE+BIOMI) + run opzionale `python tools/traits/check_biome_feature.py --biome <slug> --dry-run --verbose`.
+- **Esecuzione:** `PIPELINE_EXECUTOR` Step 7 (SPECIE+BIOMI). Comandi:
+  - `python tools/traits/check_biome_feature.py --biome <slug> --dry-run --verbose`
+  - `python3 tools/py/game_cli.py validate-datasets`
+  - `python3 tools/py/game_cli.py validate-ecosystem-pack --json-out ... --html-out ...`
+  - `npm run schema:lint` + `node scripts/check-canon-consistency.cjs`
 
 ---
 
@@ -98,8 +110,8 @@ con la descrizione della feature ad alto livello.
 
 - **Obiettivo:** appendici per manuali e changelog.
 - **Agente:** archivist
-- **Input:** output dei passi 1–6.
-- **Output (sandbox):** `docs/reports/<feature>_archivist_final.md` con appendici per docs/biomes.md, docs/trait_reference_manual.md e changelog.
+- **Input:** output dei passi 1-6.
+- **Output (sandbox):** `docs/reports/<feature>_archivist_final.md` con appendici per docs/biomes/biomes.md, docs/traits/trait_reference_manual.md e changelog.
 - **Esecuzione:** `PIPELINE_EXECUTOR` Step 9, STRICT MODE.
 
 ---
@@ -122,11 +134,15 @@ con la descrizione della feature ad alto livello.
 - **Procedura consigliata:**
   1. `git checkout -b feature/<slug_feature>`
   2. applicare i blocchi patch in ordine dal patchset sandbox
-  3. eseguire lint/test/schema:
-     - `npm run lint` (o `npm run lint:stack` se definito)
+  3. se hai toccato `data/core/species/` -> RIGENERA catalogo + mirror pack:
+     `npm run sync:evo-pack` (NON editare i derivati a mano -- regenerate-or-die)
+  4. eseguire lint/test/schema:
+     - `npm run format:check`
+     - `npm run test` / `npm run test:api` + `node --test tests/ai/*.test.js`
+     - `PYTHONPATH=tools/py pytest`
      - `python tools/traits/check_biome_feature.py --biome <slug> --dry-run --verbose`
-     - validazioni schema JSON/YAML (ajv/jsonschema)
-  4. preparare PR con checklist CI green e nessun slug duplicato.
+     - `python3 tools/py/game_cli.py validate-datasets` + `npm run schema:lint` + `node scripts/check-canon-consistency.cjs`
+  5. preparare PR con checklist CI green e nessun slug duplicato.
 
 ---
 
@@ -135,7 +151,7 @@ con la descrizione della feature ad alto livello.
 - Ogni Step va eseguito via `PIPELINE_EXECUTOR` in STRICT MODE / SANDBOX: si producono
   solo draft/patch, mai scritture dirette sui dataset core.
 - In caso di feature solo trait (senza bioma/specie), usa la pipeline TRAIT e
-  ometti gli Step specie/bioma non pertinenti, mantenendo comunque Kickoff →
-  Modellazione → Validazione → Patchset.
+  ometti gli Step specie/bioma non pertinenti, mantenendo comunque Kickoff ->
+  Modellazione -> Validazione -> Patchset.
 - Documenta nel briefing di Step 1 quali parti del Golden Path vengono incluse o
   saltate in base alla feature.

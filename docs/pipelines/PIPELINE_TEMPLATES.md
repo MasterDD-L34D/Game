@@ -3,10 +3,10 @@ title: PIPELINE_TEMPLATES.md – Template pipeline multi-agente
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-06
+last_verified: 2026-06-21
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 30
 ---
 
 [INIZIO FILE]
@@ -184,13 +184,13 @@ Pipeline di riferimento: docs/pipelines/PIPELINE_TRAIT_STANDARD.md
 Step ufficiali (eseguire in ordine):
 1. Audit e validazione dataset
    - Agente: Trait Curator
-   - Input: data/traits/<famiglia>/*.json, data/traits/index.json, data/traits/species_affinity.json, config/schemas/trait.schema.json, data/core/traits/glossary.json
+   - Input: data/traits/<famiglia>/*.json, data/traits/index.json, data/traits/species_affinity.json, schemas/evo/trait.schema.json (o config/schemas/trait.schema.json), data/core/traits/glossary.json, data/core/traits/active_effects.yaml
    - Output: Validazione schema; Errori glossario; Duplicati/legacy; Note sinergie/conflitti mancanti
    - Rischio: Medio
 
 2. Proposta di normalizzazione e mapping slug
    - Agente: Trait Curator
-   - Input: Report audit (step 1); apps/trait-editor/docs/howto-author-trait.md; docs/trait_reference_manual.md
+   - Input: Report audit (step 1); apps/trait-editor/docs/howto-author-trait.md; docs/traits/trait_reference_manual.md
    - Output: Piano mapping per slug e famiglie; Check-list per aggiornamenti glossario e locali
    - Rischio: Alto
 
@@ -202,7 +202,7 @@ Step ufficiali (eseguire in ordine):
 
 4. Allineamento specie collegate
    - Agente: Species Curator
-   - Input: species_affinity.json; species.yaml; Mapping slug
+   - Input: data/traits/species_affinity.json; data/core/species/*.yaml + data/core/species/species_catalog.json (NON il monolite species.yaml rimosso #2271); Mapping slug
    - Output: Piano aggiornamento specie; Note onboarding
    - Rischio: Medio
 
@@ -221,7 +221,7 @@ Step ufficiali (eseguire in ordine):
 7. Documentazione e archiviazione
    - Agente: Archivist
    - Input: Roadmap Coordinator; Report curatori
-   - Output: Aggiornamento trait_reference_manual.md; Aggiornamento traits_quicklook.csv; Archiviazione report
+   - Output: Aggiornamento docs/traits/trait_reference_manual.md; Archiviazione report in docs/reports/
    - Rischio: Basso
 
 8. Supporto tooling (opzionale)
@@ -257,12 +257,12 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 1. Kickoff e vincoli cross-dataset
    - Agente: Coordinator
    - Input:
-     - docs/PIPELINE_TEMPLATES.md
+     - docs/pipelines/PIPELINE_TEMPLATES.md
      - agent_constitution.md
      - data/core/biomes.yaml
-     - data/core/species.yaml
+     - data/core/species/species_catalog.json (catalogo) + data/core/species/*.yaml (per-specie)
      - data/core/traits/biome_pools.json
-     - docs/trait_reference_manual.md
+     - docs/traits/trait_reference_manual.md
    - Output:
      - perimetro della feature
      - mappa dipendenze specie/bioma/trait
@@ -272,10 +272,8 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 2. Bozza lore e identità del nuovo bioma
    - Agente: Lore Designer
    - Input:
-     - docs/biomes.md
      - docs/biomes/manifest.md
-     - docs/hooks
-     - docs/20-SPECIE_E_PARTI.md
+     - docs/core/20-SPECIE_E_PARTI.md
    - Output:
      - descrizione narrativa del bioma
      - livelli ambientali/fasi
@@ -302,9 +300,10 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
    - Input:
      - data/core/traits/biome_pools.json
      - data/core/traits/glossary.json
+     - data/core/traits/active_effects.yaml
      - data/traits/index.json
      - data/traits/species_affinity.json
-     - docs/trait_reference_manual.md
+     - docs/traits/trait_reference_manual.md
      - apps/trait-editor/docs/howto-author-trait.md
    - Output:
      - trait ambientali del bioma
@@ -315,11 +314,11 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 5. Progettazione delle specie associate
    - Agente: Species Curator
    - Input:
-     - data/core/species.yaml
+     - data/core/species/species_catalog.json + data/core/species/*.yaml (NON il monolite rimosso; canon-enforcement: file derivati MAI editati a mano)
      - data/core/species/aliases.json
      - data/traits/species_affinity.json
-     - docs/20-SPECIE_E_PARTI.md
-     - output step 2–4
+     - docs/core/20-SPECIE_E_PARTI.md
+     - output step 2-4
    - Output:
      - trait_plan specie
      - biome_affinity
@@ -329,10 +328,10 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 6. Bilanciamento numerico e varianti dinamiche
    - Agente: Balancer
    - Input:
-     - output step 3–5
+     - output step 3-5
      - data/core/game_functions.yaml
-     - docs/10-SISTEMA_TATTICO.md
-     - docs/11-REGOLE_D20_TV.md
+     - docs/core/10-SISTEMA_TATTICO.md
+     - docs/core/11-REGOLE_D20_TV.md
    - Output:
      - tuning HP/danni/slot
      - script eventuali cambi forma/abilità dinamiche
@@ -342,9 +341,9 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 7. Validazione cross-pool e coerenza dataset
    - Agente: Coordinator
    - Input:
-     - output step 3–6
+     - output step 3-6
      - data/core/traits/biome_pools.json
-     - data/core/species.yaml
+     - data/core/species/species_catalog.json
      - data/core/biomes.yaml
    - Output:
      - report coerenza
@@ -367,21 +366,21 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
 9. Documentazione e archiviazione
    - Agente: Archivist
    - Input:
-     - output step 1–8
-     - docs/trait_reference_manual.md
-     - docs/biomes.md
+     - output step 1-8
+     - docs/traits/trait_reference_manual.md
+     - docs/biomes/manifest.md
    - Output:
      - appendici aggiornate
-     - update trait_reference_manual
-     - update biomes.md
+     - update docs/traits/trait_reference_manual.md
+     - update docs/biomes/manifest.md
      - archiviazione report in docs/reports/
    - Rischio: Basso
 
 10. Piano esecutivo e handoff finale
     - Agente: Coordinator
     - Input:
-      - output step 1–9
-      - ops/ci/pipeline.md
+      - output step 1-9
+      - .github/workflows/ (CI canonica)
       - Makefile
     - Output:
       - roadmap esecuzione
