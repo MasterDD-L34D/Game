@@ -26,17 +26,17 @@ codex_entry:
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario artropode (T2) che affronti in Foresta Acida
+    hook: una creatura di tipo artropode (T2) che incontri in Foresta Acida
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Sopravvivenza biochimica e negoziazioni con culti simbiotici acidi
     biome_hook: neutralizzare bacini corrotti prima della tempesta acida
     affixes: acid rain, corrosive bloom, predator vines
-    neighbors: caustic hunters, ph balance enforcers, antidote scribes
+    neighbors: cacciatori caustici, esecutori del pH, scribi degli antidoti
     traits: zanne idracida, seta conduttiva elettrica, articolazioni a leva idraulica, filtrazione
       osmotica, occhi analizzatori di tensione
     visual: Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio.
       Cuticola lucida con bande metalliche.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -66,8 +66,8 @@ codex_entry:
       - trait:filtrazione_osmotica
       - trait:occhi_analizzatori_di_tensione
       game_impact: Archetipo adattivo.
-      content: 'Il aracnide alchemico evolve lungo le fasi hatchling, juvenile, mature, apex,
-        legacy. I suoi tratti -- zanne idracida, seta conduttiva elettrica, articolazioni
+      content: 'Il aracnide alchemico evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- zanne idracida, seta conduttiva elettrica, articolazioni
         a leva idraulica, filtrazione osmotica, occhi analizzatori di tensione -- non sono
         ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
@@ -92,7 +92,7 @@ codex_entry:
       - biome:foresta_acida
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Foresta Acida il aracnide alchemico occupa la nicchia di artropode
-        (T2), accanto a caustic hunters, ph balance enforcers, antidote scribes. Esercita
+        (T2), accanto a cacciatori caustici, esecutori del pH, scribi degli antidoti. Esercita
         pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
@@ -110,9 +110,9 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il aracnide alchemico e'' un avversario artropode (T2) che
-        affronti in Foresta Acida. E nel suo mondo la posta in gioco e'' neutralizzare bacini
-        corrotti prima della tempesta acida. E'' qui che il Codex comincia: la prima forma
-        di vita di cui annotare la verita''.'
-      story_hook_it: un avversario artropode (T2) che affronti in Foresta Acida
+      content: 'Per l''allenatore il aracnide alchemico e'' una creatura di tipo artropode
+        (T2) che incontri in Foresta Acida. E nel suo mondo la posta in gioco e'' neutralizzare
+        bacini corrotti prima della tempesta acida. E'' qui che il Codex comincia: la prima
+        forma di vita di cui annotare la verita''.'
+      story_hook_it: una creatura di tipo artropode (T2) che incontri in Foresta Acida
   lore_review_status: generated_pending_review

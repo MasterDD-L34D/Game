@@ -31,12 +31,12 @@ codex_entry:
     biome_tone: Scorrerie magnetiche e guerre di logoramento tra clan di recupero
     biome_hook: recuperare relè Aeon arrugginiti prima che vengano fusi
     affixes: ferrous spike, dust storm, scrap bloom
-    neighbors: rust scavengers, ferroclad brutes, scrap oracles
+    neighbors: spazzini della ruggine, bruti ferrati, oracoli dei rottami
     traits: nucleo ovomotore rotante, sacche galleggianti ascensoriali, scheletro idro regolante,
       carapace fase variabile, zampe a molla
     visual: Corpo basso e corazzato a fasi variabili, arti molleggiati e carapace opaco color
       ruggine che lo mimetizza nel suolo ferroso.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -70,7 +70,7 @@ codex_entry:
       content: 'La linea del scavatore delle sabbie porta i segni di nucleo ovomotore rotante,
         sacche galleggianti ascensoriali, scheletro idro regolante, carapace fase variabile,
         zampe a molla: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa
-        le fasi hatchling, juvenile, mature, apex, legacy, conservando solo cio'' che sopravvive.'
+        le fasi cucciolo, giovane, maturo, apex, eredita'', conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -93,8 +93,8 @@ codex_entry:
       - biome:badlands
       game_impact: 'encounter_role: None.'
       content: Nell'ecologia di Calanchi Ferromagnetici il scavatore delle sabbie occupa la
-        nicchia di erbivoro primario (T2), accanto a rust scavengers, ferroclad brutes, scrap
-        oracles. Esercita pressione sulle prede senza contendere l'apice.
+        nicchia di erbivoro primario (T2), accanto a spazzini della ruggine, bruti ferrati,
+        oracoli dei rottami. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:

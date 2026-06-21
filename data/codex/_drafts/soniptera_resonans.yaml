@@ -22,21 +22,21 @@ codex_entry:
     archetype: adattivo
     morphotype: Insecta
     job: ''
-    role: insecta
+    role: insetto
     threat_tier: T2
     social: gruppi territoriali
     sentience: istintiva
-    hook: un avversario insecta (T2) che affronti in Canopia Ionica
+    hook: una creatura di tipo insetto (T2) che incontri in Canopia Ionica
     eco_stance: Esercita pressione sulle prede senza contendere l'apice.
     biome_tone: Missioni acrobatiche tra passerelle elettrostatiche e reti sospese
     biome_hook: sincronizzare la rete ionica per aprire corridoi sicuri
     affixes: static vines, ion lattice
-    neighbors: canopy sentinels, lattice stalkers, charge weavers
+    neighbors: sentinelle della canopia, predatori del reticolo, tessitori di carica
     traits: ali fono risonanti, cannone sonico a raggio, campo di interferenza acustica, cervello
       a bassa latenza, occhi cinetici
     visual: Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi
       composti lucidi; addome segmentato aerodinamico.
-    lifecycle_arc: hatchling, juvenile, mature, apex, legacy
+    lifecycle_arc: cucciolo, giovane, maturo, apex, eredita'
     mutations: adattamenti ancora non catalogati
   aliena_dimensions:
     A_ambiente:
@@ -66,10 +66,10 @@ codex_entry:
       - trait:cervello_a_bassa_latenza
       - trait:occhi_cinetici
       game_impact: Archetipo adattivo.
-      content: 'Il libellula sonica evolve lungo le fasi hatchling, juvenile, mature, apex,
-        legacy. I suoi tratti -- ali fono risonanti, cannone sonico a raggio, campo di interferenza
-        acustica, cervello a bassa latenza, occhi cinetici -- non sono ornamenti ma risposte:
-        ognuno racconta una pressione superata, in archetipo adattivo.'
+      content: 'Il libellula sonica evolve lungo le fasi cucciolo, giovane, maturo, apex,
+        eredita''. I suoi tratti -- ali fono risonanti, cannone sonico a raggio, campo di
+        interferenza acustica, cervello a bassa latenza, occhi cinetici -- non sono ornamenti
+        ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -91,9 +91,9 @@ codex_entry:
       cross_ref:
       - biome:canopia_ionica
       game_impact: 'encounter_role: None.'
-      content: Nell'ecologia di Canopia Ionica il libellula sonica occupa la nicchia di insecta
-        (T2), accanto a canopy sentinels, lattice stalkers, charge weavers. Esercita pressione
-        sulle prede senza contendere l'apice.
+      content: Nell'ecologia di Canopia Ionica il libellula sonica occupa la nicchia di insetto
+        (T2), accanto a sentinelle della canopia, predatori del reticolo, tessitori di carica.
+        Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -110,8 +110,8 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario insecta (T2) che affronti in Canopia Ionica: ecco perche'' il
-        libellula sonica apre il Codex. Intorno a lui le storie del bioma -- sincronizzare
+      content: 'una creatura di tipo insetto (T2) che incontri in Canopia Ionica: ecco perche''
+        il libellula sonica apre il Codex. Intorno a lui le storie del bioma -- sincronizzare
         la rete ionica per aprire corridoi sicuri -- danno peso al primo incontro.'
-      story_hook_it: un avversario insecta (T2) che affronti in Canopia Ionica
+      story_hook_it: una creatura di tipo insetto (T2) che incontri in Canopia Ionica
   lore_review_status: generated_pending_review
