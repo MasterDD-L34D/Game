@@ -3,7 +3,7 @@ title: Cloudflare prod deploy execution guide — master-dd manual ops
 doc_status: ready-for-execution
 doc_owner: master-dd
 workstream: ops-deploy
-last_verified: 2026-05-14
+last_verified: 2026-06-21
 language: it
 related:
   - tools/deploy/deploy-quick.sh (Quick Tunnel — no domain, ephemeral)
