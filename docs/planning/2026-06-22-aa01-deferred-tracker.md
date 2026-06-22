@@ -20,6 +20,13 @@ review_cycle_days: 90
 > L'Impronta is its own track -- NOT part of the SPEC-A..Q reconstruction suite**; SPEC /
 > meta-network links are noted only where a deferred item genuinely touches them.
 
+> **Update 2026-06-22 (chip done):** **D1 phone surface + cosmetic hint chip DONE** --
+> GGv2 [#531](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/531) MERGED (stage 1:
+> phone device-authority input + hint chip; GUT tests). The TV briefing / creature-
+> silhouette cinematic is the remaining D1 follow-up. **D2 (flip `IMPRINT_BEAT_ENABLED`)
+> is now the NEXT gate** -- the consumer exists, so the flip is gated only on a playtest +
+> master-dd (still NOT autonomous: prod-affecting flag).
+
 ## 1. Shipped this session (merged / open PRs)
 
 | PR                                                       | Content                                                                                                                                                            | Status |
@@ -43,8 +50,8 @@ Per-CAP disposition (13 branches, all preserved on `origin/aa01/cap-*`):
 
 | #   | Item                                              | What it is                                                                                                          | Gated on                                                                               | Track / link                                                                                 |
 | --- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | chip `task_76c18156`; prereq #2970 merged (done)                                       | aa01 -> build-spec sec.6                                                                     |
-| D2  | **`IMPRINT_BEAT_ENABLED` flip**                   | Turn the imprint beat ON in prod                                                                                    | D1 landed + playtest + master-dd                                                       | aa01 (Gate-5)                                                                                |
+| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | **phone+hint DONE** (GGv2 #531 merged); TV cinematic = follow-up                       | aa01 -> build-spec sec.6                                                                     |
+| D2  | **`IMPRINT_BEAT_ENABLED` flip**                   | Turn the imprint beat ON in prod                                                                                    | **D1 surface landed (#531)** -> playtest + master-dd (NEXT gate)                       | aa01 (Gate-5)                                                                                |
 | D3  | **C2-imprint `publicSessionView` in-match field** | An additive combat-session hint field (today the hint rides coop-state)                                             | a combat-only consumer that does not read coop-state                                   | aa01 -> build-spec sec.5 STEP 3                                                              |
 | D4  | **C2-imprint auto-timer defaulting**              | Silent auto-default of unmarked axes on timeout (host `force` already exists)                                       | master-dd design call ("is a defaulted imprint acceptable?")                           | aa01 -> build-spec open-risk                                                                 |
 | D5  | **C2-imprint route-vote affinity weighting**      | The 2nd affinity consumer (master-dd picked hint + route-vote; only hint built)                                     | `META_NETWORK_ROUTING` flip + Godot route-UI                                           | aa01 + **meta-network / GAP-C**                                                              |
