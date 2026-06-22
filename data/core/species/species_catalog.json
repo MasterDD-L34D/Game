@@ -114,7 +114,15 @@
       "genus": "Anguimagnus",
       "epithet": "litoralis",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-15"
+      "merged_at": "2026-05-15",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "chemnotela_toxica",
@@ -344,7 +352,16 @@
       "genus": "Elastovaranus",
       "epithet": "hydraulicus",
       "source": "pack-v2-full-plus",
-      "merged_at": "2026-05-15"
+      "merged_at": "2026-05-15",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "gulogluteus_scutiger",
@@ -1600,8 +1617,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_sonapteryx_resonans",
@@ -1765,8 +1788,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_ventornis_longiala",
@@ -1884,8 +1913,15 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_pyrosaltus_celeris",
@@ -1940,8 +1976,14 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_basaltocara_scutata",
@@ -1996,8 +2038,14 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-support",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_arenaceros_placidus",
@@ -2383,8 +2431,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_nebulocornis_mollis",
@@ -2551,8 +2605,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_tonitrudens_ferox",
@@ -2604,8 +2664,14 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_rubrospina_velox",
@@ -2669,8 +2735,14 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "needs-master-dd",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_paludogromus_magnus",
@@ -2776,8 +2848,14 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-threat",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_zephyrovum_fidelis",
@@ -2829,8 +2907,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-bridge",
         "visual_description": "claude-polish-per-clade-bridge",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_vitricyba_punctata",
@@ -2936,8 +3020,14 @@
         "interactions.symbiosis": "claude-polish-skiv-style-keystone",
         "visual_description": "claude-polish-per-clade-keystone",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_arboryxis_lenis",
@@ -3056,8 +3146,15 @@
         "interactions.symbiosis": "default-clade-nonkeystone",
         "visual_description": "claude-polish-per-clade-apex",
         "constraints": "heuristic-pattern-C-mechanical",
-        "biome_affinity": "d4-heuristic-suggest+master-dd-approve"
-      }
+        "biome_affinity": "d4-heuristic-suggest+master-dd-approve",
+        "interoception_traits": "d4-derived-rule"
+      },
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ]
     },
     {
       "species_id": "sp_magnetocola_pastoris",
@@ -3452,7 +3549,15 @@
         "ecotypes"
       ],
       "genus": "Echopterus",
-      "epithet": "pollinifer"
+      "epithet": "pollinifer",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "ferrocolonia_magnetotattica",
@@ -3562,7 +3667,15 @@
         "trait_refs",
         "lifecycle_yaml"
       ],
-      "is_event": true
+      "is_event": true,
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "nano_rust_bloom",
@@ -3621,7 +3734,16 @@
         "ecotypes"
       ],
       "genus": "Oxidospora",
-      "epithet": "pestifera"
+      "epithet": "pestifera",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "rust_scavenger",
@@ -3681,7 +3803,15 @@
         "ecotypes"
       ],
       "genus": "Ferrivora",
-      "epithet": "saprophaga"
+      "epithet": "saprophaga",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "sand_burrower",
@@ -3742,7 +3872,15 @@
         "ecotypes"
       ],
       "genus": "Arenofossor",
-      "epithet": "saliphilus"
+      "epithet": "saliphilus",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "slag_veil_ambusher",
@@ -3792,7 +3930,15 @@
         "trait_refs",
         "lifecycle_yaml"
       ],
-      "is_event": true
+      "is_event": true,
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "aurora_bridge_runner",
@@ -3842,7 +3988,15 @@
         "trait_refs",
         "lifecycle_yaml"
       ],
-      "is_event": true
+      "is_event": true,
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "aurora_gull",
@@ -3902,7 +4056,15 @@
         "ecotypes"
       ],
       "genus": "Glacilarus",
-      "epithet": "borealis"
+      "epithet": "borealis",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "cryo_lynx",
@@ -3960,7 +4122,16 @@
         "ecotypes"
       ],
       "genus": "Cryofelis",
-      "epithet": "nivalis"
+      "epithet": "nivalis",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "steppe_bison_mini",
@@ -4020,7 +4191,15 @@
         "ecotypes"
       ],
       "genus": "Nanobison",
-      "epithet": "tundrae"
+      "epithet": "tundrae",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "thaw_rot",
@@ -4079,7 +4258,16 @@
         "ecotypes"
       ],
       "genus": "Geliputris",
-      "epithet": "liquefaciens"
+      "epithet": "liquefaciens",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "zephyr_spore_courier",
@@ -4129,7 +4317,15 @@
         "trait_refs",
         "lifecycle_yaml"
       ],
-      "is_event": true
+      "is_event": true,
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "cactus_weaver",
@@ -4188,7 +4384,15 @@
         "ecotypes"
       ],
       "genus": "Cactotextor",
-      "epithet": "hydrophorus"
+      "epithet": "hydrophorus",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "noctule_termico",
@@ -4249,7 +4453,15 @@
         "ecotypes"
       ],
       "genus": "Thermonoctus",
-      "epithet": "vagans"
+      "epithet": "vagans",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "silica_bloom",
@@ -4310,7 +4522,16 @@
         "ecotypes"
       ],
       "genus": "Siliciflora",
-      "epithet": "pestifera"
+      "epithet": "pestifera",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "thermo_raptor",
@@ -4369,7 +4590,16 @@
         "ecotypes"
       ],
       "genus": "Thermoraptor",
-      "epithet": "aridus"
+      "epithet": "aridus",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione",
+        "termocezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "blight_micotico",
@@ -4429,7 +4659,15 @@
         "ecotypes"
       ],
       "genus": "Mycotabes",
-      "epithet": "corruptor"
+      "epithet": "corruptor",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "glowcap_weaver",
@@ -4536,7 +4774,15 @@
         "ecotypes"
       ],
       "genus": "Silvalupus",
-      "epithet": "temperatus"
+      "epithet": "temperatus",
+      "interoception_traits": [
+        "propriocezione",
+        "equilibrio_vestibolare",
+        "nocicezione"
+      ],
+      "_provenance": {
+        "interoception_traits": "d4-derived-rule"
+      }
     },
     {
       "species_id": "myco_spire_warden",
