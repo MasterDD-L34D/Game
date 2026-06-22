@@ -168,6 +168,18 @@ function normaliseUnit(raw, fallbackIndex) {
       ? { hidden_ability: input.hidden_ability }
       : {}),
   };
+  // OD-024 engine #2: persist `fatica` ONLY when the stamina flag is ON, so flag-OFF
+  // keeps the unit shape (and the publicSessionView `...u` spread) byte-identical. The
+  // `_tiles_voluntary_round` accumulator is transient (round-scoped, never persisted).
+  try {
+    if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
+      unit.fatica = Number.isFinite(Number(input.fatica))
+        ? Math.max(0, Math.trunc(Number(input.fatica)))
+        : 0;
+    }
+  } catch {
+    /* stamina optional */
+  }
   // 2026-05-06 TKT-P3-FORM-STAT-APPLIER — apply form stat_seed delta to
   // baseline. Pre-fix: form_id was cosmetic only — NO mech link to combat.
   // Now: form_id (e.g. INTJ) shifts hp/ap/mod/guardia per stat_seed YAML
@@ -849,6 +861,18 @@ function applyApRefill(unit) {
     }
   } catch {
     /* wound read-apply optional; never block the refill */
+  }
+  // OD-024 engine #2: fatigue -1 AP at refill when over the per-unit threshold
+  // (flag-gated; floor 1 so fatigue never costs a whole turn -- death-spiral guard).
+  // Lazy require mirrors the wound read-apply block above. Flag OFF (default) = no-op.
+  try {
+    const stamina = require('../services/combat/staminaFatigue');
+    if (stamina.isFatigueEnabled()) {
+      const apPenalty = stamina.fatiguePenalty(unit);
+      if (apPenalty > 0) cap = Math.max(1, cap - apPenalty);
+    }
+  } catch {
+    /* stamina optional; never block the refill */
   }
   unit.ap_remaining = cap;
 }

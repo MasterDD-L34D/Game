@@ -2601,6 +2601,12 @@ function createSessionRouter(options = {}) {
             .json({ error: `casella (${dest.x},${dest.y}) occupata da ${blocker.id}` });
         }
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+        // OD-024 engine #2: tally voluntary movement tiles this round (sprint detect),
+        // flag-gated so the transient field never leaks into publicSessionView when OFF.
+        // Only actor-issued `move` actions reach here -> forced displacement excluded.
+        if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
+          actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
+        }
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
@@ -3057,6 +3063,11 @@ function createSessionRouter(options = {}) {
           }
           const dist = manhattanDistance(actor.position, dest);
           actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          // OD-024 engine #2: voluntary-move tile tally (round-path), flag-gated so the
+          // transient field never leaks into publicSessionView when OFF. See per-action site.
+          if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
+            actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
+          }
           const positionFrom = { ...actor.position };
           actor.position = { x: dest.x, y: dest.y };
           const newFacing = facingFromMove(positionFrom, actor.position);
