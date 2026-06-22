@@ -37,6 +37,32 @@ ratify) -> Phase 4 (single re-baseline). Each phase = its own PR(s).
 **Prereq context:** [`docs/guide/derived-artifacts-reproducibility.md`](../../guide/derived-artifacts-reproducibility.md)
 (root cause) + guard `tools/py/check_derived_reproducible.py`. Foundation PR: #2971.
 
+## Status + corrected sequencing (2026-06-22)
+
+DONE in PR #2971 (foundation, green, awaiting master-dd merge): Phase 0 pipeline
+fixes + guard + doc + Phase 1 audit + GAP1 triage.
+
+**Corrected sequencing (verify-first).** Authoring a new trait/creature is
+CI-coupled to derived-sync: the coverage validator requires the per-trait id in
+`index.json.traits` (the aggregate of all per-trait files) AND the evo-pack mirror
+must be re-synced (`sync:evo-pack`). A naive source-add (GAP1 batch 1) failed CI on
+both and was reverted. There is no single `add-trait` tool today -- that gap is the
+trait-side reproducibility hazard.
+
+So the order is NOT "author, then re-baseline at the end". It is:
+
+1. Phase 0 -- pipeline reproducibility (DONE, #2971).
+2. **Phase 1.5 -- `add_trait` sync helper (NEW, the unblock).** One deterministic
+   tool that, given a trait id, writes the per-trait DB file + the
+   `index.json.traits` entry + updates `traits_aggregate` + runs `sync:evo-pack`,
+   so a trait cleanly "passes the iter" in one atomic, CI-green step. Build TDD.
+3. GAP1 authoring (37: 33 + 4 interoception-also-need-glossary) THROUGH the helper,
+   batch per category. Decisions taken: triage-first (16 drop / 37 author); batch
+   per category.
+4. Phase 3 creatures THROUGH the helper + species canonization (Phase 0.3 promote).
+5. Affinity/catalog re-baseline (species_affinity 287->54 + catalog refresh) =
+   separate end-step, still owner-gated.
+
 ---
 
 ## Phase 0 -- Pipeline reproducibility (CODE only, no re-baseline) [MINE]
