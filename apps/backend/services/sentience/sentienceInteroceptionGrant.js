@@ -62,7 +62,8 @@ function tierQualifies(tier, minTier = DEFAULT_MIN_TIER) {
 
 // D2 (master-dd ratified 2026-06-21): progressive interoception by sentience tier --
 // higher tiers gain a richer subset instead of every qualifying species getting all 4.
-// RATIFIED-PROVISIONAL map (SDMG: my proposal = hypothesis, master-dd ratifies on PR).
+// RATIFIED map values (master-dd walk-through 2026-06-22). The N=40 band-validation
+// now gates the D7 incremental flip, not these tier->subset values.
 // CUMULATIVE -- a tier adds to everything its lower tiers already grant:
 //   T1 gateway   -> propriocezione + equilibrio_vestibolare (basic spatial body-sense)
 //   T2           -> + nocicezione (pain awareness)
