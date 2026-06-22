@@ -2183,6 +2183,22 @@ function createAbilityExecutor(deps) {
     if (!target) {
       return { status: 400, body: { error: 'target_id valido richiesto per apply_status' } };
     }
+    // Respect the ability's `target` constraint (the trait apply_status abilities are
+    // target: enemy debuffs). Reject a mismatched faction so a debuff can't hit an ally
+    // or self (no charge on a 4xx -> AP not spent below).
+    const wantTarget = String(ability.target || 'enemy');
+    const sameFaction = target.controlled_by === actor.controlled_by;
+    const isSelf = String(target.id) === String(actor.id);
+    if (
+      (wantTarget === 'enemy' && sameFaction) ||
+      (wantTarget === 'self' && !isSelf) ||
+      (wantTarget === 'ally' && (!sameFaction || isSelf))
+    ) {
+      return {
+        status: 400,
+        body: { error: `apply_status: target non valido per target='${wantTarget}'` },
+      };
+    }
     const statusId = String(ability.status_id || '');
     if (!statusId) {
       return { status: 400, body: { error: 'status_id mancante nella ability apply_status' } };

@@ -236,3 +236,27 @@ test('apply_status (spore_burst): applies its status to the target', async () =>
   assert.ok(Number(enemy.status.disorient) > 0, 'target got disorient');
   assert.equal(actor.ap_remaining, 0, 'spent 2 AP');
 });
+
+test('apply_status: rejects a same-faction target (respects ability.target=enemy)', async () => {
+  const exec = makeAoeExec();
+  const actor = {
+    id: 'a',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    hp: 10,
+    ap: 2,
+    ap_remaining: 2,
+    status: {},
+    traits: ['spore_psichiche_silenziate'],
+  };
+  const ally = { id: 'a2', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 8, status: {} };
+  const session = { units: [actor, ally], grid: { width: 6 }, events: [], turn: 1, session_id: 't' };
+  const res = await exec.executeAbility({
+    session,
+    actor,
+    body: { ability_id: 'spore_burst', target_id: 'a2' },
+  });
+  assert.equal(res.status, 400, 'enemy-target ability must reject an ally target');
+  assert.equal(Number(ally.status.disorient || 0), 0, 'ally not debuffed');
+  assert.equal(actor.ap_remaining, 2, 'no AP spent on a rejected target');
+});
