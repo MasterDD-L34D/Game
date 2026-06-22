@@ -12694,6 +12694,17 @@
       "source_of_truth": false,
       "language": "it-en",
       "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-22-aa01-deferred-tracker.md",
+      "title": "aa01 reconciliation -- deferred-items tracker + session change log (2026-06-22)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-22",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 90
     }
   ]
 }
