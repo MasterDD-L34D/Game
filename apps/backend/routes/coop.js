@@ -18,6 +18,7 @@ const { buildPhaseChangePayload } = require('../services/coop/phaseChangePayload
 // drain WS (#2707/#2708): l'host conta SOLO se e' il submitter corrente o
 // possiede gia' un PG (host-plays); la TV-mirror (mai input) resta esclusa.
 const { lifecycleQuorumPids } = require('../services/network/wsSession');
+const { isImprintEnabled } = require('../services/imprint/imprintBiomeWeights');
 // OD-058 D3 (#2531) -- server-side vcSnapshot replay dal ledger della sessione
 // combat linkata (coopStore.linkSession): il debrief coop non e' piu'
 // trust-the-host.
@@ -127,6 +128,13 @@ function createCoopRouter({
         type: 'route_tally',
         payload: orch.routeTally(quorumPids(room, orch, null), connectedQuorumPids(room, orch)),
       });
+    }
+    // C2-imprint -- re-surface the imprint beat (phase-agnostic: gated on an open beat OR
+    // a stamped hint, not a PHASES value; mirror route_choice). Keeps phones in sync on
+    // any coop-state rebroadcast. Band-neutral: with the flag OFF the beat never opens and
+    // no hint exists, so this never fires.
+    if (orch.imprintOpen || orch.brancoBiomeHint) {
+      room.broadcast({ type: 'imprint_tally', payload: orch.imprintTally() });
     }
     // M19 — debrief ready list if in debrief.
     if (orch.phase === 'debrief') {
@@ -343,6 +351,84 @@ function createCoopRouter({
       return res.json({ phase: orch.phase, advance: result.advance });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'mission_start_failed' });
+    }
+  });
+
+  // C2-imprint (ratified L'Impronta affinity 6.1-A + additive beat 6.2-A). Device-authority
+  // NON-gating cosmetic beat: host OPENS, each connected player MARKS its round-robin
+  // assigned axis; on all 4 axes the cosmetic biome-affinity hint is stamped. Flag-gated at
+  // the open path (IMPRINT_BEAT_ENABLED) -> with the flag OFF the beat never opens
+  // (band-neutral). The host may only open/cancel; the completion is the device marks.
+  router.post('/coop/imprint/open', (req, res) => {
+    const { code, host_token: hostToken } = req.body || {};
+    if (!isImprintEnabled()) return res.status(409).json({ error: 'imprint_disabled' });
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    const connected = connectedQuorumPids(room, orch);
+    // Reject opening a beat with no connected device players -> the assignment would be
+    // empty and the beat could never complete (no axis owners). The host opens AFTER
+    // players connect, post-onboarding.
+    if (connected.length === 0) return res.status(400).json({ error: 'no_connected_players' });
+    try {
+      const tally = orch.openImprint({ connectedPlayerIds: connected });
+      broadcastCoopState(room, orch);
+      return res.json({ tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_open_failed' });
+    }
+  });
+
+  router.post('/coop/imprint/mark', (req, res) => {
+    const { code, player_id: playerId, player_token: playerToken, axis, value } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.submitImprintMark(playerId, { axis, value });
+      broadcastCoopState(room, orch);
+      return res.json({ tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_mark_failed' });
+    }
+  });
+
+  router.post('/coop/imprint/cancel', (req, res) => {
+    const { code, host_token: hostToken } = req.body || {};
+    if (!isImprintEnabled()) return res.status(409).json({ error: 'imprint_disabled' });
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.cancelImprint();
+      broadcastCoopState(room, orch);
+      return res.json({ tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_cancel_failed' });
+    }
+  });
+
+  // Host anti-deadlock: force-complete the open beat by filling any unmarked axes with the
+  // onboarding defaults, then stamp the cosmetic hint. The host EXPLICITLY chooses this
+  // over cancel (a silent auto-defaulting timer stays a master-dd design call, build-spec
+  // open-risk). No-op when the beat is closed.
+  router.post('/coop/imprint/force', (req, res) => {
+    const { code, host_token: hostToken } = req.body || {};
+    if (!isImprintEnabled()) return res.status(409).json({ error: 'imprint_disabled' });
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.forceCompleteImprint();
+      broadcastCoopState(room, orch);
+      return res.json({ tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_force_failed' });
     }
   });
 
