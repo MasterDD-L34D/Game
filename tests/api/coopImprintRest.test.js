@@ -21,7 +21,7 @@ function buildApp() {
   app.use(express.json());
   app.use('/api', createLobbyRouter({ lobby }));
   app.use('/api', createCoopRouter({ lobby, coopStore }));
-  return { app };
+  return { app, coopStore };
 }
 
 async function createAndJoin(app) {
@@ -187,5 +187,24 @@ test('POST /coop/imprint/force -> 403 bad host token (flag ON)', async () => {
       .post('/api/coop/imprint/force')
       .send({ code: h.code, host_token: 'bad' });
     assert.equal(res.status, 403);
+  });
+});
+
+test('POST /coop/imprint/force -> 200 + hint when flag ON + beat open', async () => {
+  // Route plumbing happy-path: open the beat via the orchestrator (the route's
+  // connectedQuorumPids needs WS-attached players), then host force-completes via REST ->
+  // defaults fill the unmarked axes and the cosmetic hint is stamped.
+  await withFlag('true', async () => {
+    const { app, coopStore } = buildApp();
+    const { h, j } = await createAndJoin(app);
+    await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+    coopStore.get(h.code).openImprint({ connectedPlayerIds: [j.player_id] });
+    const res = await request(app)
+      .post('/api/coop/imprint/force')
+      .send({ code: h.code, host_token: h.host_token });
+    assert.equal(res.status, 200);
+    assert.equal(res.body.tally.all_axes_marked, true);
+    assert.equal(res.body.tally.open, false);
+    assert.ok(res.body.tally.branco_biome_hint.leans_toward, 'hint stamped from defaults');
   });
 });
