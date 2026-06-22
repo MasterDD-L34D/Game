@@ -26,6 +26,11 @@ except ModuleNotFoundError:  # pragma: no cover - fallback con messaggio chiaro
 
 ROLE_WEIGHTS: Mapping[str, int] = {"core": 3, "synergy": 2, "optional": 1}
 
+# species_affinity.json carries a top-level schema_version wrapper key (added by
+# #2885). The bridge preserves the existing value and defaults to this when the
+# output file is absent, so a re-baseline keeps the schema-version contract.
+SCHEMA_VERSION_DEFAULT = "2.0"
+
 
 @dataclass
 class SpeciesTraitRoles:
@@ -74,9 +79,14 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 def _write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    # LF explicitly (Windows text mode would emit CRLF; committed files are LF) +
+    # NO sort_keys: callers pass payloads in their intended order, so an EDITED
+    # index.json keeps its existing top-level key order instead of being globally
+    # re-sorted (a major source of the historical spurious diff).
     path.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
 
 
@@ -317,6 +327,26 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def build_affinity_output(
+    affinity: Mapping[str, list[dict[str, Any]]], out_path: Path
+) -> dict[str, Any]:
+    """Wrap the affinity map as the serialized species_affinity.json payload:
+    schema_version first, then trait ids sorted. The schema_version is preserved
+    from the existing output file when present, else SCHEMA_VERSION_DEFAULT."""
+    schema_version = SCHEMA_VERSION_DEFAULT
+    if out_path.exists():
+        try:
+            existing = _load_json(out_path)
+            if isinstance(existing, Mapping) and isinstance(existing.get("schema_version"), str):
+                schema_version = existing["schema_version"]
+        except (json.JSONDecodeError, OSError):
+            pass
+    ordered: dict[str, Any] = {"schema_version": schema_version}
+    for trait_id in sorted(affinity):
+        ordered[trait_id] = affinity[trait_id]
+    return ordered
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
 
@@ -339,7 +369,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Rilevati {len(affinity)} trait con associazioni specie")
         return 0
 
-    _write_json(args.out_json, affinity)
+    _write_json(args.out_json, build_affinity_output(affinity, args.out_json))
 
     index_payload = merge_into_trait_index(args.trait_index, affinity)
     _write_json(args.trait_index, index_payload)

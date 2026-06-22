@@ -84,16 +84,19 @@ def check_trait_bridge() -> list[str]:
         return [f"{AFFINITY_PATH.relative_to(REPO_ROOT)} missing"]
 
     committed = _load_json(AFFINITY_PATH)
-    # The committed file carries a top-level schema_version wrapper key (added by a
-    # consumer migration) that the bridge does NOT emit -- record it as drift.
-    has_schema_wrapper = "schema_version" in committed
     committed_traits = {k: v for k, v in committed.items() if isinstance(v, list)}
 
     bridge = _import_bridge()
-    regen = bridge.build_species_affinity(PACK_SPECIES_ROOT)
+    # Compare against the bridge's ACTUAL serialized output (schema_version wrapper
+    # + sorted traits), so the schema_version key is no longer flagged as drift now
+    # that the bridge emits it.
+    regen = bridge.build_affinity_output(
+        bridge.build_species_affinity(PACK_SPECIES_ROOT), AFFINITY_PATH
+    )
+    schema_parity = ("schema_version" not in committed) or ("schema_version" in regen)
 
     c_ids = set(committed_traits)
-    r_ids = set(regen)
+    r_ids = {k for k, v in regen.items() if isinstance(v, list)}
     only_committed = c_ids - r_ids
     only_regen = r_ids - c_ids
 
@@ -119,10 +122,10 @@ def check_trait_bridge() -> list[str]:
             f"{len(dead)} species referenced by committed affinity are NOT in the "
             f"current catalog (e.g. {sorted(dead)[:5]}). Output is stale."
         )
-    if has_schema_wrapper:
+    if not schema_parity:
         findings.append(
-            "committed species_affinity.json has a top-level schema_version key "
-            "that build_species_trait_bridge.py does not emit -> regen drops it."
+            "bridge output is missing the schema_version wrapper that committed "
+            "species_affinity.json carries (the #2885 contract)."
         )
     return findings
 
