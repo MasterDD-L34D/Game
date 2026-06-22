@@ -14874,6 +14874,78 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "arco_voltaico": {
+      "schema_version": "2.0",
+      "id": "arco_voltaico",
+      "label": "i18n:traits.arco_voltaico.label",
+      "famiglia_tipologia": "Traumatico/Offesa",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.arco_voltaico.mutazione_indotta",
+      "uso_funzione": "i18n:traits.arco_voltaico.uso_funzione",
+      "spinta_selettiva": "i18n:traits.arco_voltaico.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "martello_osseo": {
+      "schema_version": "2.0",
+      "id": "martello_osseo",
+      "label": "i18n:traits.martello_osseo.label",
+      "famiglia_tipologia": "Traumatico/Offesa",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.martello_osseo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.martello_osseo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.martello_osseo.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "pungiglione_paralizzante": {
+      "schema_version": "2.0",
+      "id": "pungiglione_paralizzante",
+      "label": "i18n:traits.pungiglione_paralizzante.label",
+      "famiglia_tipologia": "Traumatico/Offesa",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.pungiglione_paralizzante.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pungiglione_paralizzante.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pungiglione_paralizzante.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "scarica_ionica": {
+      "schema_version": "2.0",
+      "id": "scarica_ionica",
+      "label": "i18n:traits.scarica_ionica.label",
+      "famiglia_tipologia": "Traumatico/Offesa",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.scarica_ionica.mutazione_indotta",
+      "uso_funzione": "i18n:traits.scarica_ionica.uso_funzione",
+      "spinta_selettiva": "i18n:traits.scarica_ionica.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
