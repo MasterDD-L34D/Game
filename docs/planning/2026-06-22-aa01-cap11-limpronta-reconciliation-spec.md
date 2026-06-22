@@ -2,7 +2,7 @@
 title: "L'Impronta reconciliation spec (CAP-11 core + onboarding/telemetry inputs) -- master-dd-gated"
 date: 2026-06-22
 sprint: aa01-impronta-reconciliation
-doc_status: review_needed
+doc_status: active
 doc_owner: claude-code
 workstream: cross-cutting
 last_verified: '2026-06-22'
@@ -13,12 +13,12 @@ review_cycle_days: 90
 
 # L'Impronta reconciliation spec (C1)
 
-> **Status: review_needed -- master-dd ratification PENDING.** This is an OPTIONS
-> spec, not a decision. The subjective L'Impronta design call (which onboarding
-> model the game ships) is master-dd's. This doc maps the canon conflicts, states
-> the MUST-NOT-REGRESS constraints, and lays out reconciliation options per
-> component so master-dd can decide. No imprint code is implemented until this spec
-> is ratified (-> Track C2). Parent plan:
+> **Status: RATIFIED 2026-06-22 (master-dd).** The 3 design calls of section 7 are
+> decided: (1) biomeResolver -> **AFFINITY** (6.1-A); (2) onboarding -> **ADDITIVE
+> separate-phase** beat (6.2-A); (3) PlayerRunTelemetry -> **DEFER** (6.4-C). The
+> options below are kept for the record; the ratified pick is marked per section.
+> C2 = per-piece code reconciliation, now unblocked for the ratified pieces (section
+> 8), with the remaining C2 sub-design-calls flagged in section 7. Parent plan:
 > [`2026-06-22-aa01-impronta-reconciliation-plan.md`](2026-06-22-aa01-impronta-reconciliation-plan.md).
 
 ## 1. Purpose + boundary
@@ -113,8 +113,12 @@ body-derived). Options:
 - **Option C -- defer entirely.** No reconciliation now; branch preserved; revisit if
   an affinity surface is ever wanted.
 
-> Master-dd call: A vs B vs C. (A preserves the work as a canon-safe signal; B/C
-> discard the mechanism.)
+> **RATIFIED 2026-06-22 (master-dd): Option A -- AFFINITY.** biomeResolver becomes a
+> non-binding `biomeAffinity()` weight signal; biome stays route-canon (constraint 1).
+> **Open C2 sub-design-call**: WHERE the affinity is consumed (route-vote presentation
+> weighting / encounter flavor / cosmetic "branco leans toward X" hint) is NOT yet
+> decided -- the C2 affinity build must surface this to master-dd before wiring a
+> consumer (an unconsumed affinity = Gate-5 dead).
 
 ### 6.2 Onboarding phase model (CAP-14 / 15 / 15b)
 
@@ -130,20 +134,44 @@ The imprint phase collapses char-creation + world_setup and uses host-token star
   CAP-15/15b as superseded; lift only mockup/UX ideas into the Godot onboarding.
 - **Option C -- defer.**
 
-> Master-dd call: does the game want a distinct "imprint" onboarding beat at all, and
-> if so, A's additive-separate-phase shape?
+> **RATIFIED 2026-06-22 (master-dd): Option A -- ADDITIVE separate-phase.** The game
+> keeps a distinct "imprint" beat as an OPTIONAL pre-phase that NEVER merges
+> `character_creation` + `world_setup` (constraint 2), device-authoritative + quorum
+> (constraint 3), targeting Godot (constraint 4). **Open C2 sub-design-calls**: (a)
+> exact placement (standalone pre-phase vs folded into `world_setup` framing); (b)
+> what the imprint beat actually asks the player (the 4 body-part axes feed 6.1's
+> affinity, but the player-facing prompt/UX is a design call); (c) the Godot surface.
+> These are master-dd calls the C2 imprint build must NOT invent autonomously.
 
 ### 6.3 onboarding_v2 backend (`/campaign/start/v2`, campaignLoader, default_campaign_mvp)
 
 Mostly canon-neutral plumbing IF decoupled from biomeResolver-binding + host-token.
-Option: reconcile `/campaign/start/v2` to (a) device-authority, (b) no body-part->biome
-binding (consume 6.1's affinity at most), (c) separate phases. Gate behind 6.2's
-decision. Otherwise defer.
+**Per the 6.2-A ratification**: reconcile `/campaign/start/v2` to (a) device-authority
+(no host-token), (b) NO body-part->biome binding (consume 6.1's affinity weight at
+most, read-only), (c) separate phases. Part of the C2 imprint build, gated behind the
+6.2 sub-design-calls above.
 
-### 6.4 PlayerRunTelemetry canon-home (CAP-12) -- folded here per plan
+### 6.4 PlayerRunTelemetry canon-home (CAP-12) -- RATIFIED: DEFER (Option C)
 
-Mechanism is canon-aligned (vcSnapshot + selectedForm, ADR-2026-06-07 pt3); only the
-home is open. Options for canon-home:
+> **RATIFIED 2026-06-22 (master-dd): Option C -- DEFER.** Park CAP-12 until a
+> design-spec decides the home AND a producer exists. The feature is inert/orphaned:
+> no run-lifecycle hook writes to it, the POST route is unauthenticated, no migration
+> is committed, no Gate-5 surface -> it persists nothing today. Both build options
+> (standalone, fold) trip the SAME forbidden-path migration gate and BOTH still need
+> a producer + end-of-run write-hook that do not exist regardless of home; canon (SoT
+> 13.9 / 00D 16.4) treats `vcSnapshot` as reconstruct-from-ledger (session-scoped),
+> arguing against persisting it standalone. Branch preserved.
+>
+> **Ground-truth correction:** the "aligned ADR-2026-06-07 pt3" framing (in the prior
+> BACKLOG/plan note) is OVERSTATED. The only ADR-2026-06-07 is
+> `device-authority-tv-mirror-canon` -- there is no "pt3", and it does NOT sanction
+> `vcSnapshot`/`selectedForm` persistence (it ratifies device-authority + Form-Pulse
+> as a device micro-input). The mechanism is MBTI/Form-Pulse-correlated, but no ADR
+> backs persisting it; `selectedForm` is also non-canonical backend naming (only a
+> test-viewer UI field today). The home + a canonical `selectedForm` owner are exactly
+> what the future design-spec must settle.
+
+Options considered (for the record); canon-home is open:
 
 - **Option A -- session/telemetry workstream, standalone store + route + Prisma model**
   (as built), flag-gated read/write, NOT tied to the imprint model. Lifts cleanly
@@ -153,8 +181,11 @@ home is open. Options for canon-home:
 - **Option C -- defer until an onboarding decision exists** (the plan's current
   default: DEFER, gated).
 
-> Master-dd call: A (standalone lift now) vs B (fold) vs C (keep deferred). Note: a new
-> `prisma/schema.prisma` model = migration = forbidden-path / master-dd manual + ADR.
+> (Ratified C -- DEFER, see banner above. Note for the future spec: a new
+> `prisma/schema.prisma` model = migration = forbidden-path / master-dd manual + ADR;
+> no file-DB fallback, persistence needs Postgres. Finders split on fold-vs-standalone
+> direction -- that disagreement is itself why a dedicated design-spec, not a home
+> commitment now, is the right next move.)
 
 ### 6.5 UX (CAP-13/13b + CAP-14b web mockup)
 
@@ -162,19 +193,41 @@ Reference only. The 1015-LOC web mockup + UX patches inform a Godot onboarding
 surface but are NOT ported to web. Action: catalog as UX reference (museum/curated);
 no code reconciliation.
 
-## 7. Open design calls for master-dd (explicit)
+## 7. Design calls -- RESOLVED 2026-06-22 + remaining C2 sub-calls
 
-1. biomeResolver disposition: affinity (6.1-A) / retire (6.1-B) / defer (6.1-C)?
-2. Is there a distinct "imprint" onboarding beat, and if so the additive-separate
-   shape (6.2-A)?
-3. PlayerRunTelemetry canon-home: standalone (6.4-A) / fold (6.4-B) / defer (6.4-C)?
-   (If standalone with the Prisma model -> migration = ADR + manual merge.)
+**Ratified (master-dd):**
 
-## 8. Sequencing to C2 (post-ratification only)
+1. biomeResolver disposition -> **AFFINITY** (6.1-A).
+2. imprint onboarding beat -> **ADDITIVE separate-phase** (6.2-A).
+3. PlayerRunTelemetry canon-home -> **DEFER** (6.4-C).
 
-After master-dd ratifies sections 6.x, C2 = per-piece code reconciliation PRs, each
-flag-gated + band-neutral, each subtracting Track-A-merged pieces (cap-11 is the
-umbrella superset; CAP-06 already landed via PR #2958). No C2 code before ratification.
+**Remaining C2 sub-design-calls (still master-dd; surface before building each piece):**
+
+- (affinity) WHERE the affinity weight is consumed: route-vote presentation / encounter
+  flavor / cosmetic hint (6.1).
+- (imprint) placement (pre-phase vs `world_setup` framing), the player-facing prompt/UX,
+  and the Godot surface (6.2).
+- (telemetry) the future home + a canonical `selectedForm` owner + producer + auth/PII
+  posture (6.4) -- a separate future spec, not part of this reconciliation.
+
+## 8. Sequencing to C2 (UNBLOCKED for ratified pieces)
+
+C1 is ratified -> C2 = per-piece code reconciliation PRs, each flag-gated +
+band-neutral, each subtracting Track-A-merged pieces (cap-11 is the umbrella superset;
+CAP-06 already landed via PR #2958). Suggested order:
+
+1. **C2-affinity** (6.1-A) -- the most canon-neutral piece: `biomeResolver` ->
+   `biomeAffinity()` returning read-only weights, NO binding biome assignment. BLOCKED
+   on the affinity-consumption sub-call (where it is consumed) -- do not wire a consumer
+   until decided (else Gate-5 dead engine). A pure weight-producer + tests
+   (flag-gated/unconsumed) could land first if master-dd wants forward motion.
+2. **C2-imprint** (6.2-A + 6.3) -- additive separate-phase imprint beat +
+   device-authority `/campaign/start/v2`. BLOCKED on the imprint sub-calls (placement /
+   prompt-UX / Godot surface). Larger; likely its own focused spec + Godot cross-repo chip.
+3. **CAP-12 telemetry** -- DEFERRED (6.4-C); no C2 action; branch parked.
+4. **CAP-13/13b + CAP-14b** -- UX reference only; catalog (museum/curated), no code.
+
+Each C2 PR preserves the source `aa01/*` branch until its piece is integrated.
 
 ## 9. Non-goals
 

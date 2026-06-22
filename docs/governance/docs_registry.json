@@ -12676,7 +12676,7 @@
     {
       "path": "docs/planning/2026-06-22-aa01-cap11-limpronta-reconciliation-spec.md",
       "title": "L'Impronta reconciliation spec (CAP-11 core + onboarding/telemetry inputs) -- master-dd-gated",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-22",

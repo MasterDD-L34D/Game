@@ -257,8 +257,10 @@ Risks validated:
   (554/554 AI baseline, governance errors=0), awaiting master-dd merge.
 - Track B: B1 DONE -- verdict SUPERSEDED (main shipped the stateful terrain system; cap-07
   bridge = dead duplicate). Carve-out chain-lightning = deferred balance/spec follow-up.
-- Track C: C1 spec WRITTEN (review_needed, master-dd-gated) --
-  [`2026-06-22-aa01-cap11-limpronta-reconciliation-spec.md`](2026-06-22-aa01-cap11-limpronta-reconciliation-spec.md);
-  3 open design calls (biomeResolver disposition / imprint-beat shape / telemetry
-  canon-home). C2 code pending ratification.
-- Do NOT make the L'Impronta design call autonomously (subjective, master-dd).
+- Track C: C1 spec RATIFIED 2026-06-22 (active) --
+  [`2026-06-22-aa01-cap11-limpronta-reconciliation-spec.md`](2026-06-22-aa01-cap11-limpronta-reconciliation-spec.md):
+  biomeResolver -> AFFINITY (6.1-A), imprint -> ADDITIVE separate-phase (6.2-A),
+  CAP-12 telemetry -> DEFER (6.4-C). Corrected the ADR-2026-06-07-pt3 telemetry-alignment
+  mis-citation. C2 UNBLOCKED for the ratified pieces; remaining C2 sub-design-calls
+  (affinity consumption surface / imprint placement+prompt+Godot) stay master-dd.
+- Do NOT invent the remaining L'Impronta sub-design-calls autonomously (subjective, master-dd).
