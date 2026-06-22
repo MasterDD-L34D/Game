@@ -29,6 +29,33 @@ const VALID = {
   senses: new Set(['LONTANO', 'ACUTO']),
 };
 
+// The 4 imprint body-part axes (fixed; players are round-robin assigned to them).
+const IMPRINT_AXES = ['locomotion', 'offense', 'defense', 'senses'];
+
+// Anti-deadlock defaults (onboarding_v2 deliberation default_choices p1..p4). A pending
+// axis at the open beat's timeout falls back to these so the team 4-tuple is always
+// complete. NOT a balance value -- cosmetic only.
+const IMPRINT_AXIS_DEFAULTS = Object.freeze({
+  locomotion: 'VELOCE',
+  offense: 'PROFONDA',
+  defense: 'DURA',
+  senses: 'LONTANO',
+});
+
+const IMPRINT_BEAT_FLAG = 'IMPRINT_BEAT_ENABLED';
+
+// Flag gate (mirror staminaFatigue.isFatigueEnabled): OFF by default so the beat never
+// opens and nothing is stamped -> band-neutral. Used by the WS/REST open path.
+function isImprintEnabled(env = process.env) {
+  return Boolean(env) && env[IMPRINT_BEAT_FLAG] === 'true';
+}
+
+// True iff `value` is a legal choice for `axis`. Case-insensitive; never throws.
+function isValidAxisValue(axis, value) {
+  const set = VALID[axis];
+  return Boolean(set) && set.has(String(value == null ? '' : value).toUpperCase());
+}
+
 let cachedConfig = null;
 
 function defaultConfigPath() {
@@ -143,4 +170,8 @@ module.exports = {
   topBiome,
   tupleKey,
   resetCache,
+  IMPRINT_AXES,
+  IMPRINT_AXIS_DEFAULTS,
+  isImprintEnabled,
+  isValidAxisValue,
 };

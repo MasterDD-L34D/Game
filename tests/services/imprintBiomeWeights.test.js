@@ -130,3 +130,37 @@ test('does NOT collide with species biomeAffinity export surface', () => {
     'must not re-export the species combat-affinity name',
   );
 });
+
+const {
+  IMPRINT_AXES,
+  IMPRINT_AXIS_DEFAULTS,
+  isImprintEnabled,
+  isValidAxisValue,
+} = require('../../apps/backend/services/imprint/imprintBiomeWeights');
+
+test('IMPRINT_AXES = the 4 body-part axes', () => {
+  assert.deepEqual(IMPRINT_AXES, ['locomotion', 'offense', 'defense', 'senses']);
+});
+
+test('IMPRINT_AXIS_DEFAULTS covers all 4 axes with valid values', () => {
+  for (const axis of IMPRINT_AXES) {
+    assert.ok(isValidAxisValue(axis, IMPRINT_AXIS_DEFAULTS[axis]), `${axis} default valid`);
+  }
+});
+
+test('isValidAxisValue: case-insensitive, rejects bad axis/value, never throws', () => {
+  assert.equal(isValidAxisValue('locomotion', 'VELOCE'), true);
+  assert.equal(isValidAxisValue('locomotion', 'veloce'), true);
+  assert.equal(isValidAxisValue('locomotion', 'BOGUS'), false);
+  assert.equal(isValidAxisValue('bogus_axis', 'VELOCE'), false);
+  assert.equal(isValidAxisValue('senses', null), false);
+  assert.equal(isValidAxisValue('senses', undefined), false);
+});
+
+test('isImprintEnabled: OFF by default, ON only when env flag === "true"', () => {
+  assert.equal(isImprintEnabled({}), false);
+  assert.equal(isImprintEnabled({ IMPRINT_BEAT_ENABLED: 'false' }), false);
+  assert.equal(isImprintEnabled({ IMPRINT_BEAT_ENABLED: '1' }), false);
+  assert.equal(isImprintEnabled({ IMPRINT_BEAT_ENABLED: 'true' }), true);
+  assert.equal(isImprintEnabled(null), false);
+});

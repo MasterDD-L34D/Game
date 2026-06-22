@@ -13,6 +13,13 @@ const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergenc
 const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
 const { aggregateFormPulses } = require('../formPulseVc');
 const consentSM = require('./lethalConsent');
+const {
+  computeImprintBiomeWeights,
+  topBiome,
+  IMPRINT_AXES,
+  IMPRINT_AXIS_DEFAULTS,
+  isValidAxisValue,
+} = require('../imprint/imprintBiomeWeights');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -168,6 +175,16 @@ class CoopOrchestrator {
     this.creatureIdentities = new Map();
     this.chronicleBaseDir = chronicleBaseDir || null;
     this.namePool = Array.isArray(namePool) ? namePool : null;
+    // C2-imprint (ratified L'Impronta affinity 6.1-A + additive beat 6.2-A) -- NON-gating
+    // transient side-collection (mirror formPulses; no PHASES enum change). Host opens the
+    // beat; the 4 body-part axes are round-robin assigned to the N connected players and
+    // marked per-device; on all-4-axes-marked the cosmetic biome-affinity hint is stamped.
+    // Flag-gated at the open path (IMPRINT_BEAT_ENABLED): with the beat never opened these
+    // stay empty/null -> band-neutral. NEVER binds a biome (route-canon) or feeds combat.
+    this.imprintMarks = new Map(); // axis -> { value, by, ts }
+    this.imprintAssignment = null; // { player_id: [axis,...] } | null (set on open)
+    this.imprintOpen = false;
+    this.brancoBiomeHint = null; // { leans_toward, weights } | null (stamped on quorum)
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -303,6 +320,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this._resetImprint();
     this._clearLethalConsentTimer(); // SPEC-J: drop any armed auto-timeout
     this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('character_creation');
@@ -350,6 +368,7 @@ class CoopOrchestrator {
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
     this.onboardingChoices.clear();
+    this._resetImprint();
     this._clearLethalConsentTimer(); // SPEC-J: drop any armed auto-timeout
     this.lethalConsent = null; // SPEC-J: never carry a consent round across runs
     this._setPhase('onboarding');
@@ -1402,6 +1421,131 @@ class CoopOrchestrator {
       tally.all_connected_ready = connectedTotal > 0 && connectedReady === connectedTotal;
     }
     return tally;
+  }
+
+  // ---- C2-imprint beat (NON-gating side-collection; mirror formPulses + missionReadyTally) ----
+
+  // Reset all imprint beat state. Called on run (re)start; the cosmetic hint is
+  // run-scoped (persists across scenario advances within a run, re-imprinted only on a
+  // fresh run -- so it is NOT cleared in advanceScenarioOrEnd).
+  _resetImprint() {
+    this.imprintMarks.clear();
+    this.imprintAssignment = null;
+    this.imprintOpen = false;
+    this.brancoBiomeHint = null;
+  }
+
+  // Round-robin the 4 fixed axes over the connected players so every axis is owned by
+  // exactly one player and ownership scales to N=2-4 (4p -> 1 axis each; 3p -> one player
+  // owns 2; 2p -> 2 each). Pure; never throws.
+  assignImprintAxes(connectedPlayerIds = []) {
+    const players = (Array.isArray(connectedPlayerIds) ? connectedPlayerIds : []).filter(Boolean);
+    const out = {};
+    for (const pid of players) out[pid] = [];
+    if (players.length === 0) return out;
+    IMPRINT_AXES.forEach((axis, i) => {
+      out[players[i % players.length]].push(axis);
+    });
+    return out;
+  }
+
+  // Host opens the beat (route enforces host). Assigns axes to the connected players,
+  // clears any prior marks/hint, marks the beat open. Non-gating: does NOT change phase.
+  openImprint({ connectedPlayerIds = [] } = {}) {
+    this.imprintMarks.clear();
+    this.brancoBiomeHint = null;
+    this.imprintAssignment = this.assignImprintAxes(connectedPlayerIds);
+    this.imprintOpen = true;
+    this._emit('imprint_opened', { assignment: this.imprintAssignment });
+    return this.imprintTally();
+  }
+
+  // A player marks ITS assigned axis (device-authority: only the owner may mark an axis).
+  // Typed errors the route maps to 4xx; never silently mutates on a closed/unknown beat.
+  // On all-4-axes-marked, stamps the cosmetic hint.
+  submitImprintMark(playerId, { axis, value } = {}) {
+    if (!this.imprintOpen) throw new Error('imprint_not_open');
+    if (!playerId) throw new Error('player_id_required');
+    if (!IMPRINT_AXES.includes(axis)) throw new Error('invalid_axis');
+    if (!isValidAxisValue(axis, value)) throw new Error('invalid_value');
+    const owned =
+      this.imprintAssignment && Array.isArray(this.imprintAssignment[playerId])
+        ? this.imprintAssignment[playerId]
+        : null;
+    if (!owned) throw new Error('player_not_assigned');
+    if (!owned.includes(axis)) throw new Error('axis_not_assigned');
+    this.imprintMarks.set(axis, {
+      value: String(value).toUpperCase(),
+      by: playerId,
+      ts: this.now(),
+    });
+    this._emit('imprint_marked', { axis, by: playerId });
+    if (IMPRINT_AXES.every((a) => this.imprintMarks.has(a))) this._computeImprintHint();
+    return this.imprintTally();
+  }
+
+  // Axis-based readiness tally (the 4 fixed axes, NOT per-player -- a 2-3p team completes
+  // when all 4 axes have a value). `all_axes_marked` is the cosmetic-hint trigger.
+  imprintTally() {
+    const perAxis = {};
+    for (const axis of IMPRINT_AXES) {
+      const m = this.imprintMarks.get(axis);
+      perAxis[axis] = m ? { value: m.value, by: m.by } : null;
+    }
+    const pending = IMPRINT_AXES.filter((a) => !this.imprintMarks.has(a));
+    return {
+      open: this.imprintOpen,
+      assignment: this.imprintAssignment,
+      axes_total: IMPRINT_AXES.length,
+      axes_marked: IMPRINT_AXES.length - pending.length,
+      axes_pending: pending,
+      all_axes_marked: pending.length === 0,
+      per_axis: perAxis,
+      branco_biome_hint: this.brancoBiomeHint,
+    };
+  }
+
+  // Build the team 4-tuple from the marks and stamp the COSMETIC biome-affinity hint.
+  // NEVER assigns/binds a biome (route-canon); display-only. Closes the beat.
+  _computeImprintHint() {
+    const tuple = {};
+    for (const axis of IMPRINT_AXES) {
+      const m = this.imprintMarks.get(axis);
+      if (m) tuple[axis] = m.value;
+    }
+    const weights = computeImprintBiomeWeights([tuple]);
+    const leans = topBiome(weights);
+    this.brancoBiomeHint = leans ? { leans_toward: leans, weights } : null;
+    this.imprintOpen = false;
+    this._emit('imprint_hint', this.brancoBiomeHint);
+    return this.brancoBiomeHint;
+  }
+
+  // Anti-deadlock: fill pending axes with the onboarding defaults, then stamp the hint.
+  // Used by the open beat's timeout (wiring) and host force.
+  forceCompleteImprint() {
+    if (!this.imprintOpen) return this.imprintTally();
+    for (const axis of IMPRINT_AXES) {
+      if (!this.imprintMarks.has(axis)) {
+        this.imprintMarks.set(axis, {
+          value: IMPRINT_AXIS_DEFAULTS[axis],
+          by: null,
+          ts: this.now(),
+        });
+      }
+    }
+    this._computeImprintHint();
+    return this.imprintTally();
+  }
+
+  // Host cancel (anti-deadlock soft escape). Abandons the beat without a hint.
+  cancelImprint() {
+    this.imprintOpen = false;
+    this.imprintMarks.clear();
+    this.imprintAssignment = null;
+    this.brancoBiomeHint = null;
+    this._emit('imprint_cancelled', {});
+    return this.imprintTally();
   }
 
   /**
