@@ -49,47 +49,55 @@ Run (on a worktree off origin/main, catalog with the #2955 overrides):
 # baseline (flag OFF)
 node tools/sim/full-loop-batch.js --runs 40 --seed-base 7000 \
   --out reports/sim/intero-n40-off
-# flag ON
+# flag ON, enemy-side only (single-player full-loop = grant fires on sistema via /start)
 SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true node tools/sim/full-loop-batch.js \
   --runs 40 --seed-base 7000 --out reports/sim/intero-n40-on
+# flag ON, SYMMETRIC (real co-op = party + enemy both granted)
+SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true SIM_GRANT_PARTY_INTEROCEPTION=1 \
+  node tools/sim/full-loop-batch.js --runs 40 --seed-base 7000 \
+  --out reports/sim/intero-n40-symmetric
 ```
 
-Compare `summary.json` between arms (completion_rate + the meta bands +
-`od024_firing_pct` should be 0 in the OFF arm and >0 in the ON arm).
+Compare `summary.json` between arms (completion_rate + the 7 meta bands). Note:
+`full-loop-batch` does not emit the `od024_firing_pct` pillar metric, so the signal
+is the band deltas below; the metrics differing between arms (paired same-seed) is
+itself proof the grant fired.
 
 <!-- EVIDENCE -->
 
-**Run 2026-06-22** (commit `7ddbe3d3`, N=40, `--seed-base 7000`, branch cave_path,
-policy greedy; in-process). All 7 meta-metrics IN-BAND in BOTH arms:
+**Run 2026-06-22** (N=40, `--seed-base 7000`, branch cave_path, policy greedy;
+in-process). THREE arms, paired same-seed. **All 7 meta-metrics IN-BAND in every
+arm.** Key metrics (completion band 0.4-0.7, attrition 0-1, bp_drift 0.5-2):
 
-| metric                            | band            | OFF   | ON    | in-band   |
-| --------------------------------- | --------------- | ----- | ----- | --------- |
-| completion_rate                   | 0.4-0.7         | 0.625 | 0.600 | yes / yes |
-| roster_attrition                  | 0-1             | 0.533 | 0.470 | yes / yes |
-| economy build_power_drift         | 0.5-2           | 1.135 | 1.08  | yes / yes |
-| relationship recruit_rate         | (no hard range) | 5.175 | 5.575 | yes / yes |
-| offspring_avg                     | >=1             | 4.375 | 4.70  | yes / yes |
-| lineage_diversity                 | >=3             | 5     | 5     | yes / yes |
-| roster_composition distinct_roles | >=3             | 5     | 5     | yes / yes |
+| arm                        | grant scope               | completion | attrition | bp_drift | all in-band |
+| -------------------------- | ------------------------- | ---------- | --------- | -------- | ----------- |
+| OFF (baseline)             | none                      | 0.625      | 0.533     | 1.135    | yes         |
+| enemy-only                 | sistema via `/start` (D3) | 0.600      | 0.470     | 1.080    | yes         |
+| **symmetric (real co-op)** | party + enemy             | **0.525**  | 0.583     | 1.105    | yes         |
 
-Delta is small and directionally sensible: flag ON makes encounters marginally
-harder (completion -0.025, attrition -0.063 = a few more real losses), consistent
-with enemies gaining pain/proprioception awareness. No band breaks. Reports:
-`reports/sim/intero-n40-{off,on}/` (summary.json + report.md).
+The enemy-only arm uses `full-loop-batch` as-is (single-player: grant fires on
+`sistema` units via `session.js /start`, NOT the party). The symmetric arm adds
+the opt-in `applyPartyInteroceptionGrant` (`SIM_GRANT_PARTY_INTEROCEPTION=1`) so
+the party ALSO gets the real producer grant -- the true co-op condition (party via
+`coopOrchestrator.submitCharacter` + enemy via `/start`).
 
-**Scope caveat (honest):** the metrics DIFFER between arms (paired same-seed) only
-because the grant FIRED -- proof the flag had a real effect. BUT `full-loop-batch`
-is a SINGLE-PLAYER AI sim: it exercises the grant on `sistema`/enemy units via
-`session.js` `/start` (D3 enemy-wire), NOT the co-op party-submit path
-(`coopOrchestrator.submitCharacter`, which only runs in real co-op). So this N=40
-validates the ENEMY-side of the flip is band-safe. The party-side (co-op) gives
-both sides the grant symmetrically, so the net win-rate shift should be no larger;
-a co-op-path measure can confirm before/with the flip if master-dd wants it.
+**Finding (a prior hypothesis was REFUTED by the measure -- why "measure first"
+mattered):** the symmetric case does NOT cancel out. Both sides gaining +1 attack
+(propriocezione) makes combats bloodier -> symmetric is the HARDEST arm: completion
+0.525 (the largest shift, -0.10 vs the OFF baseline) and the highest attrition
+(0.583). It is STILL well inside the 0.4-0.7 band, but the flip makes the game
+**meaningfully harder**, not neutral. Reports:
+`reports/sim/intero-n40-{off,on,symmetric}/`.
 
 <!-- /EVIDENCE -->
 
 **Verdict:** PENDING master-dd. The batch REPORTS the band placement (L-069); it never
-ratifies the flip. master-dd reads the table + decides ON vs re-tune.
+ratifies the flip. **Decision input:** all three arms are in-band, so the flip is
+band-SAFE; but the real co-op condition (symmetric) drops completion 0.625 -> 0.525
+(a real, noticeable difficulty increase, not a wash). master-dd choices: (a) flip ON
+and accept the harder combats as the intended cost of the sentience layer; (b) flip ON
+AND soften enemy scaling a notch to re-center completion ~0.6; (c) hold. Re-tune is a
+separate calibration knob, not a blocker for band-safety.
 
 ## Flip steps (OWNER hands -- production)
 
