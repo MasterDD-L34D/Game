@@ -105,7 +105,7 @@
                   "cost_ap": { "type": "integer", "minimum": 0 },
                   "effect_type": {
                     "type": "string",
-                    "enum": ["damage", "heal", "apply_status", "buff"]
+                    "enum": ["damage", "heal", "apply_status", "buff", "suppress_ability"]
                   },
                   "damage_dice": {
                     "type": "object",
@@ -128,6 +128,8 @@
                   "status_id": { "type": "string" },
                   "status_duration": { "type": "integer", "minimum": 1 },
                   "status_intensity": { "type": "integer", "minimum": 1 },
+                  "aoe_size": { "type": "integer", "minimum": 1 },
+                  "range": { "type": "integer", "minimum": 0 },
                   "buff_stat": {
                     "type": "string",
                     "enum": ["attack_mod", "defense_mod", "damage_step"]
