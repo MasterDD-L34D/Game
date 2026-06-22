@@ -14694,6 +14694,186 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "canto_di_richiamo": {
+      "schema_version": "2.0",
+      "id": "canto_di_richiamo",
+      "label": "i18n:traits.canto_di_richiamo.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.canto_di_richiamo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.canto_di_richiamo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.canto_di_richiamo.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "ferocia": {
+      "schema_version": "2.0",
+      "id": "ferocia",
+      "label": "i18n:traits.ferocia.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.ferocia.mutazione_indotta",
+      "uso_funzione": "i18n:traits.ferocia.uso_funzione",
+      "spinta_selettiva": "i18n:traits.ferocia.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "intimidatore": {
+      "schema_version": "2.0",
+      "id": "intimidatore",
+      "label": "i18n:traits.intimidatore.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.intimidatore.mutazione_indotta",
+      "uso_funzione": "i18n:traits.intimidatore.uso_funzione",
+      "spinta_selettiva": "i18n:traits.intimidatore.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "legame_di_branco": {
+      "schema_version": "2.0",
+      "id": "legame_di_branco",
+      "label": "i18n:traits.legame_di_branco.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.legame_di_branco.mutazione_indotta",
+      "uso_funzione": "i18n:traits.legame_di_branco.uso_funzione",
+      "spinta_selettiva": "i18n:traits.legame_di_branco.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "marchio_predatorio": {
+      "schema_version": "2.0",
+      "id": "marchio_predatorio",
+      "label": "i18n:traits.marchio_predatorio.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.marchio_predatorio.mutazione_indotta",
+      "uso_funzione": "i18n:traits.marchio_predatorio.uso_funzione",
+      "spinta_selettiva": "i18n:traits.marchio_predatorio.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "midollo_iperattivo": {
+      "schema_version": "2.0",
+      "id": "midollo_iperattivo",
+      "label": "i18n:traits.midollo_iperattivo.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.midollo_iperattivo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.midollo_iperattivo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.midollo_iperattivo.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "spirito_combattivo": {
+      "schema_version": "2.0",
+      "id": "spirito_combattivo",
+      "label": "i18n:traits.spirito_combattivo.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.spirito_combattivo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.spirito_combattivo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.spirito_combattivo.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "spore_paniche": {
+      "schema_version": "2.0",
+      "id": "spore_paniche",
+      "label": "i18n:traits.spore_paniche.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.spore_paniche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.spore_paniche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.spore_paniche.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "sussurro_psichico": {
+      "schema_version": "2.0",
+      "id": "sussurro_psichico",
+      "label": "i18n:traits.sussurro_psichico.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.sussurro_psichico.mutazione_indotta",
+      "uso_funzione": "i18n:traits.sussurro_psichico.uso_funzione",
+      "spinta_selettiva": "i18n:traits.sussurro_psichico.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "voce_imperiosa": {
+      "schema_version": "2.0",
+      "id": "voce_imperiosa",
+      "label": "i18n:traits.voce_imperiosa.label",
+      "famiglia_tipologia": "Comportamentale/Istinto",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.voce_imperiosa.mutazione_indotta",
+      "uso_funzione": "i18n:traits.voce_imperiosa.uso_funzione",
+      "spinta_selettiva": "i18n:traits.voce_imperiosa.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
