@@ -14982,6 +14982,114 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "senso_magnetico": {
+      "schema_version": "2.0",
+      "id": "senso_magnetico",
+      "label": "i18n:traits.senso_magnetico.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.senso_magnetico.mutazione_indotta",
+      "uso_funzione": "i18n:traits.senso_magnetico.uso_funzione",
+      "spinta_selettiva": "i18n:traits.senso_magnetico.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "sintonia_magnetica": {
+      "schema_version": "2.0",
+      "id": "sintonia_magnetica",
+      "label": "i18n:traits.sintonia_magnetica.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.sintonia_magnetica.mutazione_indotta",
+      "uso_funzione": "i18n:traits.sintonia_magnetica.uso_funzione",
+      "spinta_selettiva": "i18n:traits.sintonia_magnetica.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "nocicezione": {
+      "schema_version": "2.0",
+      "id": "nocicezione",
+      "label": "i18n:traits.nocicezione.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.nocicezione.mutazione_indotta",
+      "uso_funzione": "i18n:traits.nocicezione.uso_funzione",
+      "spinta_selettiva": "i18n:traits.nocicezione.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "propriocezione": {
+      "schema_version": "2.0",
+      "id": "propriocezione",
+      "label": "i18n:traits.propriocezione.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.propriocezione.mutazione_indotta",
+      "uso_funzione": "i18n:traits.propriocezione.uso_funzione",
+      "spinta_selettiva": "i18n:traits.propriocezione.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "equilibrio_vestibolare": {
+      "schema_version": "2.0",
+      "id": "equilibrio_vestibolare",
+      "label": "i18n:traits.equilibrio_vestibolare.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.equilibrio_vestibolare.mutazione_indotta",
+      "uso_funzione": "i18n:traits.equilibrio_vestibolare.uso_funzione",
+      "spinta_selettiva": "i18n:traits.equilibrio_vestibolare.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "termocezione": {
+      "schema_version": "2.0",
+      "id": "termocezione",
+      "label": "i18n:traits.termocezione.label",
+      "famiglia_tipologia": "Sensoriale/Percezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.termocezione.mutazione_indotta",
+      "uso_funzione": "i18n:traits.termocezione.uso_funzione",
+      "spinta_selettiva": "i18n:traits.termocezione.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
