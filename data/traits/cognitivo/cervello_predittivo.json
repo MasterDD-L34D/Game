@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "id": "cervello_predittivo",
+  "label": "i18n:traits.cervello_predittivo.label",
+  "famiglia_tipologia": "Mentale/Cognizione",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.cervello_predittivo.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cervello_predittivo.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cervello_predittivo.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "id": "pelli_fitte",
+  "label": "i18n:traits.pelli_fitte.label",
+  "famiglia_tipologia": "Fisiologico/Morfologia",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.pelli_fitte.mutazione_indotta",
+  "uso_funzione": "i18n:traits.pelli_fitte.uso_funzione",
+  "spinta_selettiva": "i18n:traits.pelli_fitte.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

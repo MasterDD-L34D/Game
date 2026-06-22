@@ -3628,6 +3628,30 @@
       "label_en": "Zoccoli Risonanti delle Steppe",
       "description_it": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.",
       "description_en": "Hollow hooves sending rhythmic waves across the steppe pack."
+    },
+    "nocicezione": {
+      "label_it": "Nocicezione",
+      "label_en": "Nocicezione",
+      "description_it": "Nocicezione: quando Ferito, trigger difensivi reattivi infliggono +1 PT danno contrattacco.",
+      "description_en": ""
+    },
+    "propriocezione": {
+      "label_it": "Propriocezione",
+      "label_en": "Propriocezione",
+      "description_it": "Propriocezione: +1 step equilibrio/posizione su attacchi.",
+      "description_en": ""
+    },
+    "equilibrio_vestibolare": {
+      "label_it": "Equilibrio Vestibolare",
+      "label_en": "Equilibrio Vestibolare",
+      "description_it": "Equilibrio Vestibolare: vantaggio vs cadute, riduce 1 PT danno da attacchi destabilizzanti.",
+      "description_en": ""
+    },
+    "termocezione": {
+      "label_it": "Termocezione",
+      "label_en": "Termocezione",
+      "description_it": "Termocezione: clock caldo/freddo + resistenze gear/ambiente.",
+      "description_en": ""
     }
   }
 }

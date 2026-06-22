@@ -63,6 +63,27 @@ So the order is NOT "author, then re-baseline at the end". It is:
 5. Affinity/catalog re-baseline (species_affinity 287->54 + catalog refresh) =
    separate end-step, still owner-gated.
 
+### Update -- Phase 1.5 + GAP1 DONE (PR #2973, all checks green)
+
+`tools/py/add_trait_stub.py` built (TDD) + GAP1 closed: **35 stubs** authored
+through it (16 `starter_bioma_*` dropped, 2 statuses excluded). Verify-first
+surfaced that a trait "passes the iter" only after **5 coupled gates**, all now
+satisfied by the helper + the per-batch flow:
+
+1. schema gate (`trait_schema_gate.py`) -- lenient.
+2. **`trait_template_validator.py`** (real CI gate, stricter): non-empty
+   mutazione/spinta, boolean `completion_flags`, slug `data_origin`, index.json
+   coverage.
+3. **style guide** (`trait_style_check.js --fail-on error`): all free-text fields
+   must be i18n refs (`label`/`uso_funzione`/`mutazione_indotta`/`spinta_selettiva`);
+   dangling refs are the norm (263 existing), canonical text lives in the glossary.
+4. coverage thresholds (`report_trait_coverage.py`).
+5. QA baseline (`npm run export:qa` -> `reports/trait_baseline.json`).
+
+evo-pack mirror: no drift from per-trait adds (batch-1's evo-pack failure was a
+cascade of the coverage break). Next: GAP2 (103, design-gated) + the 14 creatures
+(I-draft/you-ratify) THROUGH the helper + species canonization, then the re-baseline.
+
 ---
 
 ## Phase 0 -- Pipeline reproducibility (CODE only, no re-baseline) [MINE]
