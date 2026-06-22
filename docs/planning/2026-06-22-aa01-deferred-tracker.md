@@ -27,6 +27,15 @@ review_cycle_days: 90
 > is now the NEXT gate** -- the consumer exists, so the flip is gated only on a playtest +
 > master-dd (still NOT autonomous: prod-affecting flag).
 
+> **Update 2026-06-22 (D1 follow-up done):** the TV briefing / creature-silhouette cinematic
+> + the host-open trigger landed -- GGv2 [#535](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/535)
+> (host auto-opens on the lobby->character_creation seam, band-neutral: opens FIRST, mounts
+> only on success, 409 imprint_disabled -> proceed; `MainImprint` + `ImprintCinematicView`
+> N-silhouette TV mirror + cosmetic hint; `CoopApi.open/cancel/force_imprint`; device-quorum
+> advance; 47 GUT). **D1 is now fully DONE** (phone #531 + host/TV #535). **D2 (flip
+> `IMPRINT_BEAT_ENABLED`) is gated only on a co-op playtest + master-dd** (still NOT
+> autonomous: prod-affecting flag).
+
 ## 1. Shipped this session (merged / open PRs)
 
 | PR                                                       | Content                                                                                                                                                            | Status |
@@ -50,7 +59,7 @@ Per-CAP disposition (13 branches, all preserved on `origin/aa01/cap-*`):
 
 | #   | Item                                              | What it is                                                                                                          | Gated on                                                                               | Track / link                                                                                 |
 | --- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | **phone+hint DONE** (GGv2 #531 merged); TV cinematic = follow-up                       | aa01 -> build-spec sec.6                                                                     |
+| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | **DONE** -- #531 (phone+hint) + #535 (host-open + TV cinematic); playtest pending -> D2 | aa01 -> build-spec sec.6                                                                     |
 | D2  | **`IMPRINT_BEAT_ENABLED` flip**                   | Turn the imprint beat ON in prod                                                                                    | **D1 surface landed (#531)** -> playtest + master-dd (NEXT gate)                       | aa01 (Gate-5)                                                                                |
 | D3  | **C2-imprint `publicSessionView` in-match field** | An additive combat-session hint field (today the hint rides coop-state)                                             | a combat-only consumer that does not read coop-state                                   | aa01 -> build-spec sec.5 STEP 3                                                              |
 | D4  | **C2-imprint auto-timer defaulting**              | Silent auto-default of unmarked axes on timeout (host `force` already exists)                                       | master-dd design call ("is a defaulted imprint acceptable?")                           | aa01 -> build-spec open-risk                                                                 |
