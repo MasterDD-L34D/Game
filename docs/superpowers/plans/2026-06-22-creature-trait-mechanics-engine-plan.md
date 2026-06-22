@@ -390,6 +390,55 @@ species pipeline, then the single owner-gated catalog/affinity re-baseline. Resi
 (GAP2 inert traits, stale trace_hashes, CI-wire the guard) tracked in the roadmap +
 `docs/reports/2026-06-22-trait-gate-audit.md`.
 
+## Update 2026-06-23 -- master-dd ratifies ability-granting traits + the trait_native finding
+
+Master-dd: "puoi creare anche trait che diano ability se coerenti ed interessanti."
+Ratified: traits MAY grant active abilities. Slice 1 merged (#2975 -> main `c0bae655`).
+
+**Verify-first / museum-first win: the ability-granting mechanism ALREADY EXISTS.**
+`data/core/jobs.yaml` has a `trait_native` pseudo-job ("ogni unita' eredita le
+abilita' trait-native dei propri trait_id") + a top-level `trait_abilities:` block.
+Both are **DERIVED / auto-generated -- NEVER hand-edit jobs.yaml** (regen clobbers):
+- `scripts/generate_trait_native_abilities.py` reads `trait_mechanics.yaml`
+  `active_effects[*]` per trait -> emits `trait_native.abilities` (the `# END
+  trait_native` marker block).
+- `tools/scripts/seed_trait_abilities_from_mechanics.py` -> `trait_abilities:`.
+- Source of truth = `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`
+  (`<trait>.<variant>.active_effects: [{effect_type, cost_ap, status_id,
+  status_duration, ...}]`). `buildAbilityIndex` (abilityExecutor) indexes all jobs'
+  abilities (incl trait_native) by `ability_id`; `findAbility` resolves any.
+- No server-side per-unit ownership gate (matches the 78 existing trait abilities):
+  the trait->ability link is the `source: trait` + `trait_id` marker; UI/AI offers
+  per-trait. Surfacing to a specific creature = Gate-5 (Godot), later.
+
+So the active modes (matrice Mode A, filtri active, pigmenti active, eco pulse) are
+**trait-granted abilities**: author them in `trait_mechanics.yaml` active_effects +
+regen + a new `effect_type` handler in abilityExecutor. This SUPERSEDES the
+"bespoke active path" framing in slices 5-7 below.
+
+**Re-sequenced: matrice Mode A is the next slice (ability-grant pilot).** Design:
+1. `emit_ability_yaml` (`generate_trait_native_abilities.py`) currently copies
+   `status_id`/`status_duration` but NOT `aoe_size`/`range` -> extend it to copy
+   those (small generator change, TDD).
+2. `trait_mechanics.yaml`: add `matrice_antimagia` with an active_effect
+   `{effect_type: suppress_ability, ability_id: matrice_pulse, cost_ap: 2,
+   aoe_size: 3, range: 3, status_id: inibito, status_duration: 2, target: enemy}`
+   (ratified spec values: 2 AP, radius 2, inibito 2t).
+3. Regen jobs.yaml (`python scripts/generate_trait_native_abilities.py`) -> commit
+   the derived block.
+4. abilityExecutor: add `suppress_ability` to `SUPPORTED_EFFECT_TYPES` + a dispatch
+   `case` + `executeSuppressAbility` (mirror `executeAoeDebuff` at line ~2034, but
+   apply `inibito` status to enemies in area instead of a stat debuff). TDD the
+   handler (RED: unknown effect_type -> 501; GREEN: inibito on in-area enemies, AP
+   spent, far enemies untouched). Reuses slice-1 `inibito` -> completes the suppressor.
+5. Gates: AI baseline + `tests/api/canon-consistency.test.js` (LESSON: run tests/api,
+   not just tests/ai/services) + trait gates if active_effects/glossary touched +
+   format. Band-neutral (no sim unit has matrice_antimagia).
+
+Then the remaining active modes follow the same template; `cleanse_status` (filtri)
+is the second new effect_type. Passive-only slices (2 radici/nuclei, 3 ally_aura)
+are unaffected.
+
 ## Self-review notes
 
 - Spec coverage: all 12 traits + the `inibito` prereq are mapped to a slice (table
