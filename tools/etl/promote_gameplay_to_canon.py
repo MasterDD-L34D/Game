@@ -39,6 +39,8 @@ from datetime import date
 
 import yaml
 
+from interoception_field import filter_interoception
+
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_PATH = os.path.join(REPO_ROOT, "data", "core", "species", "species_catalog.json")
 SPECIES_DIR = os.path.join(REPO_ROOT, "packs", "evo_tactics_pack", "data", "species")
@@ -89,7 +91,7 @@ def derive_entry(pack, biome, fid):
     danger = TIER_DANGER.get(tier, 1)
     sentience = "T3" if sentient else "T1"  # RFC heuristic: sentient->T3, animal->T1
 
-    return {
+    entry = {
         "species_id": norm(fid),
         # --- STUB design fields (presence required by integrity test) ---
         "scientific_name": "",              # TODO author Latin binomial
@@ -122,6 +124,13 @@ def derive_entry(pack, biome, fid):
         "_promote_stub": True,
         "_todo_fields": list(TODO_FIELDS),
     }
+    # D4 (OD-024) -- carry an authored interoception_traits set from the gameplay
+    # YAML source->catalog (mirrors role_tags read-from-source). Omitted when
+    # absent so the catalog stays diff-clean until a species authors the field.
+    intero = filter_interoception(pack.get("interoception_traits"))
+    if intero:
+        entry["interoception_traits"] = intero
+    return entry
 
 
 def main():
