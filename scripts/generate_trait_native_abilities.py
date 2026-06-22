@@ -92,6 +92,10 @@ def emit_ability_yaml(ability_id: str, trait_id: str, eff: dict) -> str:
         out.append(f"        status_id: {eff['status_id']}")
     if "status_duration" in eff:
         out.append(f"        status_duration: {eff['status_duration']}")
+    if "aoe_size" in eff:
+        out.append(f"        aoe_size: {eff['aoe_size']}")
+    if "range" in eff:
+        out.append(f"        range: {eff['range']}")
     target = eff.get("target") or _default_target(effect_type)
     out.append(f"        target: {target}")
     out.append("        rank: 1")

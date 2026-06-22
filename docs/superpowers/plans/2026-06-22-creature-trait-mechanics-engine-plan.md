@@ -449,3 +449,40 @@ are unaffected.
   (Phase 3). The AI baseline therefore stays byte-stable through slices 1-7.
 - New effect.kinds (`suppress_ability` slice 6, `cleanse_status` slice 5) are the
   load-bearing additions -> their slices carry extra adversarial review.
+
+## Update 2026-06-23 (2) -- ability-grant infra is OWNER-GATED (verify-first blockers)
+
+Attempted matrice Mode A through the trait_native generated path. Built + TDD'd the
+SAFE prerequisite (generator `emit_ability_yaml` now copies `aoe_size`/`range`;
+`tests/test_generate_trait_native_abilities.py`). Then hit two hard, owner-gated
+blockers -- so the matrice active ability is NOT shipped here:
+
+1. **traitMechanics schema (FORBIDDEN PATH).** `packages/contracts/schemas/traitMechanics.schema.json`
+   `active_effects` items are `additionalProperties: false`; `effect_type` enum =
+   `[damage, heal, apply_status, buff]`. It allows `status_id`/`status_duration`/
+   `status_intensity` but FORBIDS `aoe_size`/`range`, and forbids `suppress_ability`.
+   -> an AoE trait-granted ability (matrice Mode A, radius 2) cannot be authored in
+   `trait_mechanics.yaml` without editing the contract schema (owner-gated). A
+   SINGLE-TARGET inibito ability (`effect_type: apply_status, status_id: inibito`)
+   IS schema-expressible (no forbidden path), but `apply_status` is not in
+   `abilityExecutor` `SUPPORTED_EFFECT_TYPES` -> needs a new `executeApplyStatus`
+   handler (NOT forbidden; would also un-dormant the existing apply_status trait
+   abilities like `spore_burst`/`ali_membrana_sonica_burst`).
+
+2. **jobs.yaml trait_native block is DRIFT-STALE (3rd derived family, owner-gated
+   re-baseline).** A clean regen (`generate_trait_native_abilities.py --write`) from
+   the committed `trait_mechanics.yaml` diffs **~842 lines** vs committed jobs.yaml:
+   the committed block is MISSING ~50 trait abilities that exist in the source
+   (e.g. all `trait_ali_*`, `trait_antenne_*`) + at least one value drift
+   (`damage_dice modifier 3->2`). This is GENUINE content drift (not formatting/
+   CRLF -- both files are LF), so any trait-ability add via the generator pulls in
+   the full re-baseline. Mirrors the trait-bridge + species-catalog families in
+   `docs/guide/derived-artifacts-reproducibility.md` -- add jobs.yaml as Family 3.
+
+**Net:** ability-granting traits (matrice Mode A + the other active modes) are
+gated on owner decisions. Recommended unblock path (owner): (a) re-baseline
+jobs.yaml (commit the clean regen, +~50 abilities) under the reproducibility-guard
+flow; (b) add `executeApplyStatus` (single-target) + optionally extend the schema
+for `aoe_size`/`range` + `suppress_ability` (AoE). Until then, the PASSIVE slices
+(2 radici/nuclei, 3 ally_aura) are fully unblocked (no generator/schema/jobs.yaml
+touch) and are the next executable work.
