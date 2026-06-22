@@ -268,8 +268,9 @@ dipendenza/blast-radius (ogni fase = PR propria + N=40 dove sposta banda):
    (oggi T1=prop+vest, T2=+noci, T3=+termo, RATIFIED-PROVISIONAL/SDMG) -> N=40 leva PROVISIONAL.
 2. **D4 populate** -- pipeline di generazione che propaga `interoception_traits`
    dai file specie sorgente al catalog + autorare il campo su >=1 specie (read-path gia' c'e').
-3. **D3 enemy-wire** (UPDATE 06-22) -- applicare `applySentienceInteroceptionGrant`
-   anche ai roster nemici/encounter (helper gia' generico); N=40 separato (banda bidirezionale).
+3. ~~**D3 enemy-wire** (UPDATE 06-22)~~ **WIRE FATTO (#2945)** -- `applySentienceInteroceptionGrant`
+   applicato alle unita' `controlled_by==='sistema'` a /start (flag-gated, band-neutral OFF). N=40
+   (banda bidirezionale quando ON) + flip = D7, separato.
 4. ~~**D6 engine #2 stamina-fatigue** (hook propriocezione)~~ **FATTO (#2937)** -- `combat/staminaFatigue.js` (sprint = all-AP-on-move; +1 fatica -> -1 AP next round, floor 1; propriocezione +1 tolerance) flag-gated `STAMINA_FATIGUE_ENABLED` OFF (band-neutral); spec+plan `docs/superpowers/{specs,plans}/2026-06-22-od024-engine2-stamina-fatigue*`. N=40 + flip = D7.
 5. **D6 engine #3 encumbrance** (hook equilibrio_vestibolare) -- dipende da sistema peso/inventario assente (piu' grande).
 6. **D7 flip incrementale** -- flip gateway T1 dopo N=40 parziale, poi ON per ogni fase calibrata.
