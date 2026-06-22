@@ -66,7 +66,10 @@ def check_biome_feature(biome_slug: str, verbose: bool = False):
     glossary_path = ROOT / "data/core/traits/glossary.json"
     index_path = ROOT / "data/traits/index.json"
     species_affinity_path = ROOT / "data/traits/species_affinity.json"
-    species_path = ROOT / "data/core/species.yaml"
+    # data/core/species.yaml removed in #2271 (split). Canonical SoT is the
+    # JSON catalog data/core/species/species_catalog.json: list under "catalog",
+    # each entry has species_id + biome_affinity + trait_refs (flat slug list).
+    species_path = ROOT / "data/core/species/species_catalog.json"
 
     # Caricamenti
     biomes, err = load_yaml(biomes_path)
@@ -93,7 +96,7 @@ def check_biome_feature(biome_slug: str, verbose: bool = False):
     if err:
         warnings.append(err)  # alcune repo potrebbero non usarlo
 
-    species, err = load_yaml(species_path)
+    species, err = load_json(species_path)
     if err:
         issues.append(err)
 
@@ -132,15 +135,13 @@ def check_biome_feature(biome_slug: str, verbose: bool = False):
                         if trait_id not in trait_ids_known:
                             missing_traits.add(trait_id)
 
-    # dalle species
-    if isinstance(species, dict) and "species" in species:
-        for spc in species["species"]:
+    # dalle species (catalog: trait_refs flat slug list, ex-trait_plan)
+    if isinstance(species, dict) and "catalog" in species:
+        for spc in species["catalog"]:
             if spc.get("biome_affinity") == biome_slug:
-                trait_plan = spc.get("trait_plan", {})
-                for section in ("core", "optional", "temp"):
-                    for trait_id in trait_plan.get(section, []):
-                        if trait_id not in trait_ids_known:
-                            missing_traits.add(trait_id)
+                for trait_id in spc.get("trait_refs", []):
+                    if trait_id not in trait_ids_known:
+                        missing_traits.add(trait_id)
 
     if missing_traits:
         issues.append(
@@ -149,10 +150,10 @@ def check_biome_feature(biome_slug: str, verbose: bool = False):
 
     # 4) Species ↔ biome_affinity
     species_for_biome = []
-    if isinstance(species, dict) and "species" in species:
-        for spc in species["species"]:
+    if isinstance(species, dict) and "catalog" in species:
+        for spc in species["catalog"]:
             if spc.get("biome_affinity") == biome_slug:
-                species_for_biome.append(spc.get("id"))
+                species_for_biome.append(spc.get("species_id"))
     if not species_for_biome:
         warnings.append(f"Nessuna species con biome_affinity='{biome_slug}' trovata.")
     elif verbose:

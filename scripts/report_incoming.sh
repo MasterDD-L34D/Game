@@ -11,7 +11,7 @@ TEMP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/incoming_validation.XXXXXX")"
 trap 'rm -rf "${TEMP_ROOT}"' EXIT
 
 if ! command -v unzip >/dev/null 2>&1; then
-    echo "Errore: il comando 'unzip' non è disponibile nel PATH." >&2
+    echo "Errore: il comando 'unzip' non e' disponibile nel PATH." >&2
     exit 1
 fi
 
@@ -43,7 +43,7 @@ process_zip() {
     mkdir -p "${log_dir}"
     summary_file="${log_dir}/summary.txt"
 
-    if ! unzip -q "${zip_file}" -d "${extraction_dir}"; then
+    if ! unzip -qo "${zip_file}" -d "${extraction_dir}"; then
         {
             echo "zip_file: ${base}"
             echo "timestamp: ${TIMESTAMP}"
