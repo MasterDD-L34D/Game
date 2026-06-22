@@ -273,3 +273,31 @@ C1 ratified -> this build-spec (review_needed) -> master-dd decides the 3 sub-ca
 (cross-repo) -> flip `IMPRINT_BEAT_ENABLED` after the surface lands + playtest. Route-vote
 weighting + axis->trait = later/separate. The `aa01/*` branches stay preserved until each
 piece integrates.
+
+## 11. Implementation status (2026-06-22)
+
+**Backend STEP 0-3 BUILT** -> PR #2970 (`feat/aa01-c2-imprint-backend`), flag-OFF /
+band-neutral, awaiting master-dd merge. ~45 imprint tests; coop 235/235 + AI 554/554.
+`coop-phase-validator` adversarial review (2 P1 + 3 P2 + 1 P3 + 1 follow-up) all resolved.
+
+Refinements made during the build (vs the spec above):
+
+- **Beat is NON-gating** (host-opened side-collection, mirror `formPulses`) -- it does NOT
+  intercept the onboarding->character_creation transition; the client sequences it
+  post-onboarding. Lowest blast-radius realization of 4.1-B; zero phase-machine change.
+- **Producer name** = `services/imprint/imprintBiomeWeights.js` /
+  `computeImprintBiomeWeights` (NOT `biomeAffinity`, which is taken by species combat
+  affinity).
+- **STEP 3 surface = coop-state** (`branco_biome_hint` in `broadcastCoopState` +
+  reconnect/host-transfer/disconnect parity + guarded `snapshot()`). The
+  `publicSessionView` in-match field is DEFERRED -- co-op clients read coop-state, which
+  carries the run-scoped hint; thin follow-up if a combat-only consumer ever needs it.
+- **Anti-deadlock** = host `POST /coop/imprint/force` (explicit force-complete with
+  defaults) + host cancel. The silent auto-timer (build-spec open-risk) stays a master-dd
+  design call; NOT built.
+- **Empty-connected guard**: `open` rejects `no_connected_players` (the host opens after
+  devices connect).
+
+Residual (NOT in this MVP): Godot surface chip (cross-repo, prereq = #2970 merged) ->
+flip `IMPRINT_BEAT_ENABLED` after surface + playtest; `publicSessionView` field;
+auto-timer (master-dd); route-vote weighting (meta-network flip); axis->trait grant.
