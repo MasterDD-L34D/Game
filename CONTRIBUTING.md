@@ -100,6 +100,16 @@ Segui queste regole quando lavori con snapshot o backup:
    smoke-test del preview server; assicurati che la tua PR non rompa questi
    step.
 
+## Artefatti derivati (NON hand-edit, regen con cautela)
+
+`data/core/species/species_catalog.json`, `data/traits/index.json` e
+`data/traits/species_affinity.json` sono DERIVED ma attualmente **stale** vs le
+sorgenti: un regen naive su un checkout dev produce un diff spurio enorme che
+corrompe il canon. Esegui `python tools/py/check_derived_reproducible.py` prima di
+rigenerare/committare e consulta
+[`docs/guide/derived-artifacts-reproducibility.md`](docs/guide/derived-artifacts-reproducibility.md)
+(root cause + ricette + remediation owner-gated).
+
 ## Contributi sui trait
 
 Per proposte e modifiche ai trait consulta la guida dedicata in

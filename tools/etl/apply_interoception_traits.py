@@ -1,5 +1,9 @@
 """apply_interoception_traits.py -- OD-024 D4 operational populate path.
 
+NOTE (reproducibility): mutates the DERIVED species_catalog.json (stale vs current
+sources). Run tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+
 Sync an authored `interoception_traits` field from the species sources
 (data/core/species.yaml + species_expansion.yaml) into the canonical
 species_catalog.json, IN PLACE -- the live mirror of tools/py/apply_biome_affinity.py.
