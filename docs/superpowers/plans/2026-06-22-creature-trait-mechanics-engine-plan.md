@@ -390,6 +390,55 @@ species pipeline, then the single owner-gated catalog/affinity re-baseline. Resi
 (GAP2 inert traits, stale trace_hashes, CI-wire the guard) tracked in the roadmap +
 `docs/reports/2026-06-22-trait-gate-audit.md`.
 
+## Update 2026-06-23 -- master-dd ratifies ability-granting traits + the trait_native finding
+
+Master-dd: "puoi creare anche trait che diano ability se coerenti ed interessanti."
+Ratified: traits MAY grant active abilities. Slice 1 merged (#2975 -> main `c0bae655`).
+
+**Verify-first / museum-first win: the ability-granting mechanism ALREADY EXISTS.**
+`data/core/jobs.yaml` has a `trait_native` pseudo-job ("ogni unita' eredita le
+abilita' trait-native dei propri trait_id") + a top-level `trait_abilities:` block.
+Both are **DERIVED / auto-generated -- NEVER hand-edit jobs.yaml** (regen clobbers):
+- `scripts/generate_trait_native_abilities.py` reads `trait_mechanics.yaml`
+  `active_effects[*]` per trait -> emits `trait_native.abilities` (the `# END
+  trait_native` marker block).
+- `tools/scripts/seed_trait_abilities_from_mechanics.py` -> `trait_abilities:`.
+- Source of truth = `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`
+  (`<trait>.<variant>.active_effects: [{effect_type, cost_ap, status_id,
+  status_duration, ...}]`). `buildAbilityIndex` (abilityExecutor) indexes all jobs'
+  abilities (incl trait_native) by `ability_id`; `findAbility` resolves any.
+- No server-side per-unit ownership gate (matches the 78 existing trait abilities):
+  the trait->ability link is the `source: trait` + `trait_id` marker; UI/AI offers
+  per-trait. Surfacing to a specific creature = Gate-5 (Godot), later.
+
+So the active modes (matrice Mode A, filtri active, pigmenti active, eco pulse) are
+**trait-granted abilities**: author them in `trait_mechanics.yaml` active_effects +
+regen + a new `effect_type` handler in abilityExecutor. This SUPERSEDES the
+"bespoke active path" framing in slices 5-7 below.
+
+**Re-sequenced: matrice Mode A is the next slice (ability-grant pilot).** Design:
+1. `emit_ability_yaml` (`generate_trait_native_abilities.py`) currently copies
+   `status_id`/`status_duration` but NOT `aoe_size`/`range` -> extend it to copy
+   those (small generator change, TDD).
+2. `trait_mechanics.yaml`: add `matrice_antimagia` with an active_effect
+   `{effect_type: suppress_ability, ability_id: matrice_pulse, cost_ap: 2,
+   aoe_size: 3, range: 3, status_id: inibito, status_duration: 2, target: enemy}`
+   (ratified spec values: 2 AP, radius 2, inibito 2t).
+3. Regen jobs.yaml (`python scripts/generate_trait_native_abilities.py`) -> commit
+   the derived block.
+4. abilityExecutor: add `suppress_ability` to `SUPPORTED_EFFECT_TYPES` + a dispatch
+   `case` + `executeSuppressAbility` (mirror `executeAoeDebuff` at line ~2034, but
+   apply `inibito` status to enemies in area instead of a stat debuff). TDD the
+   handler (RED: unknown effect_type -> 501; GREEN: inibito on in-area enemies, AP
+   spent, far enemies untouched). Reuses slice-1 `inibito` -> completes the suppressor.
+5. Gates: AI baseline + `tests/api/canon-consistency.test.js` (LESSON: run tests/api,
+   not just tests/ai/services) + trait gates if active_effects/glossary touched +
+   format. Band-neutral (no sim unit has matrice_antimagia).
+
+Then the remaining active modes follow the same template; `cleanse_status` (filtri)
+is the second new effect_type. Passive-only slices (2 radici/nuclei, 3 ally_aura)
+are unaffected.
+
 ## Self-review notes
 
 - Spec coverage: all 12 traits + the `inibito` prereq are mapped to a slice (table
@@ -400,3 +449,48 @@ species pipeline, then the single owner-gated catalog/affinity re-baseline. Resi
   (Phase 3). The AI baseline therefore stays byte-stable through slices 1-7.
 - New effect.kinds (`suppress_ability` slice 6, `cleanse_status` slice 5) are the
   load-bearing additions -> their slices carry extra adversarial review.
+
+## Update 2026-06-23 (2) -- ability-grant infra is OWNER-GATED (verify-first blockers)
+
+Attempted matrice Mode A through the trait_native generated path. Built + TDD'd the
+SAFE prerequisite (generator `emit_ability_yaml` now copies `aoe_size`/`range`;
+`tests/test_generate_trait_native_abilities.py`). Then hit two hard, owner-gated
+blockers -- so the matrice active ability is NOT shipped here:
+
+1. **traitMechanics schema (FORBIDDEN PATH).** `packages/contracts/schemas/traitMechanics.schema.json`
+   `active_effects` items are `additionalProperties: false`; `effect_type` enum =
+   `[damage, heal, apply_status, buff]`. It allows `status_id`/`status_duration`/
+   `status_intensity` but FORBIDS `aoe_size`/`range`, and forbids `suppress_ability`.
+   -> an AoE trait-granted ability (matrice Mode A, radius 2) cannot be authored in
+   `trait_mechanics.yaml` without editing the contract schema (owner-gated). A
+   SINGLE-TARGET inibito ability (`effect_type: apply_status, status_id: inibito`)
+   IS schema-expressible (no forbidden path), but `apply_status` is not in
+   `abilityExecutor` `SUPPORTED_EFFECT_TYPES` -> needs a new `executeApplyStatus`
+   handler (NOT forbidden; would also un-dormant the existing apply_status trait
+   abilities like `spore_burst`/`ali_membrana_sonica_burst`).
+
+2. **jobs.yaml trait_native block is DRIFT-STALE (3rd derived family, owner-gated
+   re-baseline).** A clean regen (`generate_trait_native_abilities.py --write`) from
+   the committed `trait_mechanics.yaml` diffs **~842 lines** vs committed jobs.yaml:
+   the committed block is MISSING ~50 trait abilities that exist in the source
+   (e.g. all `trait_ali_*`, `trait_antenne_*`) + at least one value drift
+   (`damage_dice modifier 3->2`). This is GENUINE content drift (not formatting/
+   CRLF -- both files are LF), so any trait-ability add via the generator pulls in
+   the full re-baseline. Mirrors the trait-bridge + species-catalog families in
+   `docs/guide/derived-artifacts-reproducibility.md` -- add jobs.yaml as Family 3.
+
+**Net:** ability-granting traits (matrice Mode A + the other active modes) are
+gated on owner decisions. Recommended unblock path (owner): (a) re-baseline
+jobs.yaml (commit the clean regen, +~50 abilities) under the reproducibility-guard
+flow; (b) add `executeApplyStatus` (single-target) + optionally extend the schema
+for `aoe_size`/`range` + `suppress_ability` (AoE). Until then, the PASSIVE slices
+(2 radici/nuclei, 3 ally_aura) are fully unblocked (no generator/schema/jobs.yaml
+touch) and are the next executable work.
+
+**RESOLVED 2026-06-23 -- master-dd chose "Infra completa AoE" (AskUserQuestion).** Built
+in this PR: (a) traitMechanics schema extended (`suppress_ability` enum + `aoe_size`/
+`range` props; backend AJV ripple verified); (b) jobs.yaml re-baselined (clean regen,
++~50 source abilities + `matrice_pulse`); (c) `executeSuppressAbility` (matrice Mode A
+AoE inibito) + `executeApplyStatus` (single-target, un-dormants `spore_burst` etc.) +
+both in `SUPPORTED_EFFECT_TYPES` (sentinel 18->20). Matrice Mode A complete (Mode B
+slice-1 + Mode A here). Band-neutral (no sim unit carries the traits; AI 554/554).
