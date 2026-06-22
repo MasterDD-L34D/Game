@@ -12683,6 +12683,17 @@
       "source_of_truth": false,
       "language": "it-en",
       "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-22-aa01-c2-imprint-build-spec.md",
+      "title": "C2-imprint build-spec -- additive L'Impronta beat + imprint affinity + cosmetic hint",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-22",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
     }
   ]
 }
