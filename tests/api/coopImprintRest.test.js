@@ -82,7 +82,10 @@ test('POST /coop/imprint/open -> 409 run not started (flag ON)', async () => {
   });
 });
 
-test('POST /coop/imprint/open -> 200 + open tally when flag ON + run started', async () => {
+test('POST /coop/imprint/open -> 400 no_connected_players (no WS-connected device)', async () => {
+  // The host must open AFTER players connect; a joined-but-not-WS-connected roster yields
+  // an empty connected quorum -> reject (else the beat opens with no axis owners and can
+  // never complete). The connected-open happy path is exercised e2e by the WS test.
   await withFlag('true', async () => {
     const { app } = buildApp();
     const { h } = await createAndJoin(app);
@@ -90,10 +93,8 @@ test('POST /coop/imprint/open -> 200 + open tally when flag ON + run started', a
     const res = await request(app)
       .post('/api/coop/imprint/open')
       .send({ code: h.code, host_token: h.host_token });
-    assert.equal(res.status, 200);
-    assert.equal(res.body.tally.open, true);
-    assert.equal(res.body.tally.axes_total, 4);
-    assert.equal(res.body.tally.branco_biome_hint, null);
+    assert.equal(res.status, 400);
+    assert.equal(res.body.error, 'no_connected_players');
   });
 });
 
@@ -139,12 +140,52 @@ test('POST /coop/imprint/mark -> 400 when beat not open (typed error)', async ()
   assert.equal(res.body.error, 'imprint_not_open');
 });
 
-test('POST /coop/imprint/cancel -> 403 bad host token', async () => {
-  const { app } = buildApp();
-  const { h } = await createAndJoin(app);
-  await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
-  const res = await request(app)
-    .post('/api/coop/imprint/cancel')
-    .send({ code: h.code, host_token: 'bad' });
-  assert.equal(res.status, 403);
+test('POST /coop/imprint/cancel -> 409 imprint_disabled when flag OFF', async () => {
+  await withFlag(undefined, async () => {
+    const { app } = buildApp();
+    const { h } = await createAndJoin(app);
+    await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+    const res = await request(app)
+      .post('/api/coop/imprint/cancel')
+      .send({ code: h.code, host_token: h.host_token });
+    assert.equal(res.status, 409);
+    assert.equal(res.body.error, 'imprint_disabled');
+  });
+});
+
+test('POST /coop/imprint/cancel -> 403 bad host token (flag ON)', async () => {
+  await withFlag('true', async () => {
+    const { app } = buildApp();
+    const { h } = await createAndJoin(app);
+    await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+    const res = await request(app)
+      .post('/api/coop/imprint/cancel')
+      .send({ code: h.code, host_token: 'bad' });
+    assert.equal(res.status, 403);
+  });
+});
+
+test('POST /coop/imprint/force -> 409 imprint_disabled when flag OFF', async () => {
+  await withFlag(undefined, async () => {
+    const { app } = buildApp();
+    const { h } = await createAndJoin(app);
+    await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+    const res = await request(app)
+      .post('/api/coop/imprint/force')
+      .send({ code: h.code, host_token: h.host_token });
+    assert.equal(res.status, 409);
+    assert.equal(res.body.error, 'imprint_disabled');
+  });
+});
+
+test('POST /coop/imprint/force -> 403 bad host token (flag ON)', async () => {
+  await withFlag('true', async () => {
+    const { app } = buildApp();
+    const { h } = await createAndJoin(app);
+    await request(app).post('/api/coop/run/start').send({ code: h.code, host_token: h.host_token });
+    const res = await request(app)
+      .post('/api/coop/imprint/force')
+      .send({ code: h.code, host_token: 'bad' });
+    assert.equal(res.status, 403);
+  });
 });

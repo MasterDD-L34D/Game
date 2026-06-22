@@ -1723,6 +1723,9 @@ class CoopOrchestrator {
       run: this.run,
       characters: Array.from(this.characters.values()),
       log: this.log.slice(-50),
+      // C2-imprint -- additive, guarded: present only when the beat is open or a hint was
+      // stamped, so the snapshot stays byte-identical when the flag is OFF (band-neutral).
+      ...(this.imprintOpen || this.brancoBiomeHint ? { imprint: this.imprintTally() } : {}),
     };
   }
 }

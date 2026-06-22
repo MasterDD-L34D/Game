@@ -366,8 +366,13 @@ function createCoopRouter({
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    const connected = connectedQuorumPids(room, orch);
+    // Reject opening a beat with no connected device players -> the assignment would be
+    // empty and the beat could never complete (no axis owners). The host opens AFTER
+    // players connect, post-onboarding.
+    if (connected.length === 0) return res.status(400).json({ error: 'no_connected_players' });
     try {
-      const tally = orch.openImprint({ connectedPlayerIds: connectedQuorumPids(room, orch) });
+      const tally = orch.openImprint({ connectedPlayerIds: connected });
       broadcastCoopState(room, orch);
       return res.json({ tally });
     } catch (err) {
@@ -393,6 +398,7 @@ function createCoopRouter({
 
   router.post('/coop/imprint/cancel', (req, res) => {
     const { code, host_token: hostToken } = req.body || {};
+    if (!isImprintEnabled()) return res.status(409).json({ error: 'imprint_disabled' });
     const room = authHost(code, hostToken);
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
@@ -403,6 +409,26 @@ function createCoopRouter({
       return res.json({ tally });
     } catch (err) {
       return res.status(400).json({ error: err.message || 'imprint_cancel_failed' });
+    }
+  });
+
+  // Host anti-deadlock: force-complete the open beat by filling any unmarked axes with the
+  // onboarding defaults, then stamp the cosmetic hint. The host EXPLICITLY chooses this
+  // over cancel (a silent auto-defaulting timer stays a master-dd design call, build-spec
+  // open-risk). No-op when the beat is closed.
+  router.post('/coop/imprint/force', (req, res) => {
+    const { code, host_token: hostToken } = req.body || {};
+    if (!isImprintEnabled()) return res.status(409).json({ error: 'imprint_disabled' });
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.forceCompleteImprint();
+      broadcastCoopState(room, orch);
+      return res.json({ tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_force_failed' });
     }
   });
 

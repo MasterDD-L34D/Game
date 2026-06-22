@@ -151,3 +151,72 @@ test('WS imprint_mark: identity is socket-bound -> cannot mark an unowned axis',
     await wsHandle.close();
   }
 });
+
+test('WS reconnect parity: a player connecting after open gets imprint_tally in its snapshot', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Cat' });
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+    orch.openImprint({ connectedPlayerIds: [p1.player_id, p2.player_id] });
+
+    // p1 connects AFTER the beat opened -> its connect snapshot must carry imprint_tally.
+    const p1Ws = openWs(port, { code: room.code, player_id: p1.player_id, token: p1.player_token });
+    await waitOpen(p1Ws);
+    const tally = await waitForMessage(p1Ws, (m) => m.type === 'imprint_tally', 2500);
+    assert.equal(tally.payload.open, true);
+    assert.equal(tally.payload.axes_total, 4);
+
+    p1Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('WS disconnect parity: a peer leaving re-broadcasts imprint_tally to the rest', async () => {
+  const lobby = new LobbyService();
+  const coopStore = createCoopStore({ lobby });
+  const wsHandle = createWsServer({ lobby, coopStore, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Bob' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Cat' });
+    const orch = coopStore.getOrCreate(room.code);
+    orch.startRun({ scenarioStack: ['enc_tutorial_01'] });
+    orch.openImprint({ connectedPlayerIds: [p1.player_id, p2.player_id] });
+
+    const p1Ws = openWs(port, { code: room.code, player_id: p1.player_id, token: p1.player_token });
+    const p2Ws = openWs(port, { code: room.code, player_id: p2.player_id, token: p2.player_token });
+    await Promise.all([waitOpen(p1Ws), waitOpen(p2Ws)]);
+    await Promise.all([
+      waitForMessage(p1Ws, (m) => m.type === 'hello'),
+      waitForMessage(p2Ws, (m) => m.type === 'hello'),
+    ]);
+
+    // Drop prior frames so we only observe the post-disconnect re-broadcast.
+    p1Ws.__buf.length = 0;
+    p2Ws.close();
+    const after = await waitForMessage(p1Ws, (m) => m.type === 'imprint_tally', 2500);
+    assert.equal(after.payload.open, true, 'remaining player re-surfaced the beat state');
+
+    p1Ws.close();
+  } finally {
+    await wsHandle.close();
+  }
+});

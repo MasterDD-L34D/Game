@@ -1025,6 +1025,11 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
     send({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
     send({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
   }
+  // C2-imprint -- reconnect parity: re-surface the beat to a reconnecting/joining player
+  // (guarded: only when open or a hint exists -> band-neutral when the flag is OFF).
+  if (orch.imprintOpen || orch.brancoBiomeHint) {
+    send({ type: 'imprint_tally', payload: orch.imprintTally() });
+  }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     send({
       type: 'debrief_ready_list',
@@ -1093,6 +1098,11 @@ function rebroadcastCoopState(room, orch) {
   ) {
     room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
     room.broadcast({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
+  }
+  // C2-imprint -- host-transfer parity: re-surface the beat to the whole room (guarded:
+  // only when open or a hint exists -> band-neutral when the flag is OFF).
+  if (orch.imprintOpen || orch.brancoBiomeHint) {
+    room.broadcast({ type: 'imprint_tally', payload: orch.imprintTally() });
   }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     room.broadcast({
@@ -2336,6 +2346,13 @@ function createWsServer({
               type: 'route_tally',
               payload: orch.routeTally(allPids, connectedPids),
             });
+          }
+          // C2-imprint -- a disconnect changes who can mark; the beat is NON-gating (no
+          // phase to advance), but re-surface imprint_tally so remaining phones see the
+          // current state (an axis owned by the departed player stays pending -> the host
+          // can cancel/force). Guarded -> band-neutral when the flag is OFF.
+          if (orch && (orch.imprintOpen || orch.brancoBiomeHint)) {
+            room.broadcast({ type: 'imprint_tally', payload: orch.imprintTally() });
           }
           // SPEC-K K-05: a disconnect can COMPLETE the Nido readiness quorum (the
           // departed peer was the last not-ready connected player). Re-broadcast the
