@@ -12637,6 +12637,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/ops/2026-06-22-od024-d7-interoception-flip-runbook.md",
+      "title": "OD-024 D7 -- interoception grant flip runbook + N=40 gate",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-22",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "migrated"
     }
   ]
 }
