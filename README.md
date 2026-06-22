@@ -92,7 +92,7 @@ questa README per bloccare cleanup fattuali o governance re-verify.
 - MUST RESEARCH_TODO **3/3 ✅** + SHOULD **4/4 ✅** — 2026-04-17
 - **Gioco giocabile ✅** — CLI (`node tools/js/play.js`) e browser 2D (`npm run play:dev`)
 - Frontend sprint α-ε merged: ability UI, animations, status icons, VC debrief, replay viewer, SFX synth
-- Pillar status attuale: P1/P3/P5 🟢 post-playtest · P2/P4/P6 🟡
+- Pillar status: SoT runtime [`docs/reports/PILLAR-LIVE-STATUS.md`](docs/reports/PILLAR-LIVE-STATUS.md) (snapshot inline rimosso 2026-06-22 -- driftava; vedi anche `COMPACT_CONTEXT.md`)
 - Test totali: Python 196, Node AI 150+, VC 21, Encounter 8, Replay 20, Difficulty 23, i18n 4
 
 ## Licensing
