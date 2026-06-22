@@ -14496,6 +14496,204 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "aculei_velenosi": {
+      "schema_version": "2.0",
+      "id": "aculei_velenosi",
+      "label": "i18n:traits.aculei_velenosi.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.aculei_velenosi.mutazione_indotta",
+      "uso_funzione": "i18n:traits.aculei_velenosi.uso_funzione",
+      "spinta_selettiva": "i18n:traits.aculei_velenosi.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "aura_glaciale": {
+      "schema_version": "2.0",
+      "id": "aura_glaciale",
+      "label": "i18n:traits.aura_glaciale.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.aura_glaciale.mutazione_indotta",
+      "uso_funzione": "i18n:traits.aura_glaciale.uso_funzione",
+      "spinta_selettiva": "i18n:traits.aura_glaciale.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "cuore_in_furia": {
+      "schema_version": "2.0",
+      "id": "cuore_in_furia",
+      "label": "i18n:traits.cuore_in_furia.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.cuore_in_furia.mutazione_indotta",
+      "uso_funzione": "i18n:traits.cuore_in_furia.uso_funzione",
+      "spinta_selettiva": "i18n:traits.cuore_in_furia.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "denti_seghettati": {
+      "schema_version": "2.0",
+      "id": "denti_seghettati",
+      "label": "i18n:traits.denti_seghettati.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.denti_seghettati.mutazione_indotta",
+      "uso_funzione": "i18n:traits.denti_seghettati.uso_funzione",
+      "spinta_selettiva": "i18n:traits.denti_seghettati.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "pelle_elastomera": {
+      "schema_version": "2.0",
+      "id": "pelle_elastomera",
+      "label": "i18n:traits.pelle_elastomera.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.pelle_elastomera.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pelle_elastomera.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pelle_elastomera.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "pelli_anti_ustione": {
+      "schema_version": "2.0",
+      "id": "pelli_anti_ustione",
+      "label": "i18n:traits.pelli_anti_ustione.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.pelli_anti_ustione.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pelli_anti_ustione.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pelli_anti_ustione.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "pelli_fitte": {
+      "schema_version": "2.0",
+      "id": "pelli_fitte",
+      "label": "i18n:traits.pelli_fitte.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.pelli_fitte.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pelli_fitte.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pelli_fitte.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "sensori_sismici": {
+      "schema_version": "2.0",
+      "id": "sensori_sismici",
+      "label": "i18n:traits.sensori_sismici.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.sensori_sismici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.sensori_sismici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.sensori_sismici.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "tela_appiccicosa": {
+      "schema_version": "2.0",
+      "id": "tela_appiccicosa",
+      "label": "i18n:traits.tela_appiccicosa.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.tela_appiccicosa.mutazione_indotta",
+      "uso_funzione": "i18n:traits.tela_appiccicosa.uso_funzione",
+      "spinta_selettiva": "i18n:traits.tela_appiccicosa.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "tentacoli_uncinati": {
+      "schema_version": "2.0",
+      "id": "tentacoli_uncinati",
+      "label": "i18n:traits.tentacoli_uncinati.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.tentacoli_uncinati.mutazione_indotta",
+      "uso_funzione": "i18n:traits.tentacoli_uncinati.uso_funzione",
+      "spinta_selettiva": "i18n:traits.tentacoli_uncinati.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "zampe_radianti": {
+      "schema_version": "2.0",
+      "id": "zampe_radianti",
+      "label": "i18n:traits.zampe_radianti.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.zampe_radianti.mutazione_indotta",
+      "uso_funzione": "i18n:traits.zampe_radianti.uso_funzione",
+      "spinta_selettiva": "i18n:traits.zampe_radianti.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
