@@ -2,7 +2,7 @@
 title: "C2-imprint build-spec -- additive L'Impronta beat + imprint affinity + cosmetic hint"
 date: 2026-06-22
 sprint: aa01-impronta-reconciliation
-doc_status: review_needed
+doc_status: active
 doc_owner: claude-code
 workstream: cross-cutting
 last_verified: '2026-06-22'
@@ -20,6 +20,11 @@ review_cycle_days: 90
 > diegetic prose / hint string is master-dd-authored (codex-lore HITL boundary) -- this
 > spec does NOT invent it. Every build step is flag-gated default-OFF + band-neutral; the
 > producer does NOT ship without the Godot surface (Gate-5).
+>
+> **DECISIONS 2026-06-22 (master-dd) -- see section 4bis**: placement = transient sub-step
+> (4.1-B); prompt/UX = reuse aa01 4-axis schema, prose master-dd-authored (4.2-A); Godot =
+> full topology staged (4.3-A) **with N-player creature scaling** (2-4 players, not a fixed
+> 4). Backend STEP 0-3 is now buildable.
 
 ## 1. Overview
 
@@ -122,6 +127,37 @@ input + hint chip) **vs** phone-only (loses the shared-screen moment).
 `publicSessionView.branco_biome_hint` chip first (the load-bearing device-authority +
 Gate-5 surface), add the TV briefing/silhouette cinematic as a follow-up. Exact UI = a
 cross-repo Godot chip (section 6).
+
+## 4bis. Decisions (2026-06-22 master-dd) + N-player scaling
+
+- **4.1 placement -> transient sub-step** (formPulses-style `imprintMarks` Map; no PHASES
+  enum change).
+- **4.2 prompt/UX -> reuse the aa01 4-axis schema + axis model**; player-facing prose +
+  hint string stay master-dd-authored (NOT invented in code).
+- **4.3 Godot -> full topology, staged** (4-phone input + hint chip first, TV cinematic
+  follow-up).
+
+**N-player scaling (master-dd correction: "le creature scalano coi player"):** co-op is
+2-4 players; the aa01 "4 phones, one axis each" assumed exactly 4. Reconciled design:
+
+- **Creatures = N = connected player count (2-4), not hardcoded 4.** The TV shows N
+  creature silhouettes (one per player), filling in as each device commits. ALL
+  player-facing "4 creature" copy adapts to N -- this is the DISCLAIMER to carry through
+  prose + Godot.
+- **The 4 body-part axes are constant** (they define the team biome affinity) and are
+  ROUND-ROBIN assigned to the N players so all 4 are always covered: 4p -> 1 axis each;
+  3p -> one player owns 2 axes; 2p -> 2 axes each. A player owning >1 axis answers each in
+  sequence on their device. The team still yields ONE 4-tuple -> `computeImprintBiomeWeights`.
+- Unanswered axes at the anti-deadlock timeout fall back to the onboarding
+  `default_choices` so the 4-tuple is always complete.
+- Keeps the aa01 schema + ONE shared-branco affinity while scaling to any N. (Alternative
+  per-creature model -- each player imprints their own creature across all 4 axes, N
+  4-tuples aggregated -- is a larger input change; FLAGGED, not chosen. master-dd can
+  override.)
+
+The backend assigns axes via a pure `assignImprintAxes(connectedPlayerIds)` ->
+`{playerId: [axis,...]}` round-robin helper; the tally requires every AXIS answered (not
+every player), so a 2-3p team completes when all 4 axes have a value.
 
 ## 5. MVP build plan (each flag-gated, band-neutral)
 
