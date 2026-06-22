@@ -1195,7 +1195,7 @@ leviatano_risonante:
   lore:
     behavior_en: The Leviathan employs resonant singing for group harmony and stress
       reduction. It also uses echomap glands to interpret minute signals and unstable
-      psionic patterns within its resonant cave system.
+      psionic patterns within the synaptic abyssal fracture.
     behavior_it: I Leviatani Risonanti usano il canto risonante per comunicare all'interno
       del gruppo, armonizzandosi e riducendo lo stress, mentre le ghiandole eco mappanti
       permettono di interpretare i segnali minuti dell'ambiente.
@@ -1912,9 +1912,9 @@ psionerva_montis:
         la psionerva montis a navigare tra le complessità del suo ambiente.
       trait_id: lobi_risonanti_crepuscolo
     - text_en: Tesla antennas allow psionerve mountain teams to redistribute loads
-        and adjust structural rigidity within the ionic canopy.
+        and adjust structural rigidity within the glacial caldera.
       text_it: Le antenne Tesla permettono alle squadre di psionerve montis di ridistribuire
-        carichi e modulare la rigidità strutturale all'interno di canopia ionica.
+        carichi e modulare la rigidità strutturale all'interno della caldera glaciale.
       trait_id: antenne_tesla
     - text_en: Cryogenic capillaries allow psyonerve mountain teams to redistribute
         loads and modify structural rigidity within the glacial caldera.
@@ -1940,10 +1940,10 @@ psionerva_montis:
         e ionico, utili in microgravità variabile.
       trait_id: occhi_cristallo_modulare
     - text_en: Crystal language allows psyonerve mountain teams to disperse energy
-        and dampen corrosive or thermal impacts within a hyperarid salt plain.
+        and dampen corrosive or thermal impacts within the glacial caldera.
       text_it: La lingua cristallina permette alle squadre di psionerve montis di
-        disperdere energia e attenuare impatti corrosivi o termici all'interno di
-        pianura salina iperarida.
+        disperdere energia e attenuare impatti corrosivi o termici all'interno della
+        caldera glaciale.
       trait_id: lingua_cristallina
     - text_en: Cryovessel shells allow psyonerve mountain teams to coordinate resource
         and team-stabilization exchanges within the glacial caldera.
@@ -2013,10 +2013,9 @@ pulverator_gregarius:
         di panic in melee.
       trait_id: voce_imperiosa
     - text_en: Double circulation allows teams to coordinate resource and team stability
-        parameter exchanges within a tropical thermal ridge.
+        parameter exchanges within the savana.
       text_it: La circolazione doppia permette alle squadre di coordinare scambi di
-        risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale
-        tropicale.
+        risorse e parametri di stabilizzazione di squadra all'interno della savana.
       trait_id: circolazione_doppia
     - text_en: Scent bulbs trace magnetic fields and metal veins.
       text_it: I bulbi olfattivi tracciano campi magnetici e vene metalliche.
@@ -3030,9 +3029,9 @@ sp_basaltocara_scutata:
     habitat_en: It inhabits the volcanic abyss, specifically within caldera glaciers
       and extreme terrain where its artigli_vetrificati and ghiandole_fango_calde
       provide essential functions for survival.
-    habitat_it: Si trova nei vulcani sottomarini e nelle caldere glaciali, dove la
-      combinazione di calore e ghiaccio crea un ambiente unico. La sua presenza è
-      associata a zone con attività vulcanica attiva e substrati fragili.
+    habitat_it: Si trova nei vulcani sottomarini, dove la combinazione di calore e
+      ghiaccio crea un ambiente unico. La sua presenza è associata a zone con attività
+      vulcanica attiva e substrati fragili.
     origin_en: The species sp_basaltocara_scutata originated in the volcanic abyss,
       where its unique adaptations to extreme conditions allowed it to thrive in an
       environment where few others could survive.
@@ -3044,7 +3043,7 @@ sp_basaltocara_scutata:
     - text_en: The crystalline claws anchor the creature in volcanic zones, allowing
         it to stabilize itself where others cannot.
       text_it: Gli artigli vetrificati permettono alle squadre di ridistribuire carichi
-        e modulare rigidità strutturale all'interno di caldera glaciale.
+        e modulare rigidità strutturale all'interno dell'abisso vulcanico.
       trait_id: artigli_vetrificati
     - text_en: The hot mucus glands seal cracks in the substrate, creating safe habitats
         for other species before they arrive.
@@ -3225,25 +3224,25 @@ sp_cryptolorca_medicata:
       nel bioma caverna, influenzando gli spostamenti stagionali di altre specie attraverso
       le sue proiezioni oracolari.
     habitat_en: It thrives in the cavern biome, where its cartilaginous pseudometallic
-      structures and mirage chambers allow it to modulate structural rigidity in volcanic
-      abysses and predict trajectories in hyperarid salt plains.
+      structures and mirage chambers allow it to modulate structural rigidity and
+      predict trajectories within the cavern depths.
     habitat_it: Si trova in ambienti cavernosi, dove le sue cartilagini pseudometalliche
       e le camere mirage permettono di interagire con il bioma e altre specie.
     origin_en: The species sp_cryptolorca_medicata originated within the cavern biome,
-      evolving as a keystone species that shapes the ecological balance of its volcanic
-      and hyperarid environments through its unique structural and predictive abilities.
+      evolving as a keystone species that shapes the ecological balance of its cavern
+      environment through its unique structural and predictive abilities.
     origin_it: La specie sp_cryptolorca_medicata ha origini nel bioma caverna, dove
       ha sviluppato le sue caratteristiche uniche per sopravvivere in ambienti estremi.
     trait_narrative:
     - text_en: Pseudometallic cartilages allow teams to redistribute loads and modify
-        structural rigidity within a volcanic abyss.
+        structural rigidity within the cavern.
       text_it: Le cartilagini pseudometalliche permettono alle squadre di ridistribuire
-        carichi e modulare rigidità strutturale all'interno di abisso vulcanico.
+        carichi e modulare rigidità strutturale all'interno della caverna.
       trait_id: cartilagini_pseudometalliche
     - text_en: Mirage chambers allow teams to predict trajectories and coordinate
-        multi-level setups within hyperarid salt plains.
+        multi-level setups within the caverns.
       text_it: Le camere mirage permettono alle squadre di prevedere traiettorie e
-        orchestrare setup multilivello all'interno di pianura salina iperarida.
+        orchestrare setup multilivello all'interno della caverna.
       trait_id: camere_mirage
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -3273,13 +3272,13 @@ sp_ferrimordax_rutilus:
     evolutionary_niche_en: As an apex predator, sp_ferrimordax_rutilus disrupts the
       trophic network for weeks after its passage, shaping the ecosystem through its
       feeding habits and leaving a lasting impact on the biological balance of the
-      volcanic abyss.
-    evolutionary_niche_it: Occupa una nicchia di predatore apex nel vulcanico abisso,
-      dove il suo passaggio altera la rete trofica per settimane, ridisegnando l'equilibrio
+      badlands.
+    evolutionary_niche_it: Occupa una nicchia di predatore apex nei badlands, dove
+      il suo passaggio altera la rete trofica per settimane, ridisegnando l'equilibrio
       ecologico locale.
-    habitat_en: It thrives in the volcanic abyss, a biome characterized by extreme
-      heat and mineral deposits, which provides both sustenance and shelter for its
-      ferruginous carapace and ossidoferro teeth.
+    habitat_en: It thrives in the badlands, a biome characterized by extreme heat
+      and mineral deposits, which provides both sustenance and shelter for its ferruginous
+      carapace and ossidoferro teeth.
     habitat_it: Si adatta ai vulcani spenti e alle loro gallerie, dove la sua struttura
       fisica e le sue abilità si integrano perfettamente con l'ambiente estremo.
     origin_en: The species sp_ferrimordax_rutilus originated in the extreme environments
@@ -3290,14 +3289,14 @@ sp_ferrimordax_rutilus:
       e minerali ricchi di ferro.
     trait_narrative:
     - text_en: Obsidian teeth allow teams to predict trajectories and orchestrate
-        multi-level setups within a volcanic abyss.
+        multi-level setups within the badlands.
       text_it: I denti ossidoferro permettono alle squadre di prevedere traiettorie
-        e orchestrare setup multilivello all'interno di abisso vulcanico.
+        e orchestrare setup multilivello all'interno dei badlands.
       trait_id: denti_ossidoferro
     - text_en: Iron plates allow teams to coordinate resource and team stability exchanges
-        at the entrance of a volcanic trench.
+        within the badlands.
       text_it: I carapaci ferruginosi permettono alle squadre di coordinare scambi
-        di risorse e parametri di stabilizzazione di squadra all'intro di abisso vulcanico.
+        di risorse e parametri di stabilizzazione di squadra all'interno dei badlands.
       trait_id: carapaci_ferruginosi
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -3677,14 +3676,15 @@ sp_magnetocola_pastoris:
       il suo metabolismo.
     evolutionary_niche_en: Its evolutionary niche is centered around the obsidian
       atoll biome, where the bifasic circulatory system enables it to disperse energy
-      and mitigate thermal and corrosive impacts within caldera glacial environments.
+      and mitigate thermal and corrosive impacts within the obsidian atoll thermal
+      environments.
     evolutionary_niche_it: La circolazione bifasica ha permesso a questa specie di
-      occupare un'evoluzione nicchia all'interno della caldera glaciale, dove la sua
-      capacità di disperdere energia e attenuare impatti termici la rende indispensabile
+      occupare un'evoluzione nicchia all'interno dell'atollo di ossidiana, dove la
+      sua capacità di disperdere energia e attenuare impatti termici la rende indispensabile
       per la sopravvivenza del gregge.
     habitat_en: It thrives in the obsidian atoll biome, where its circulatory system
       allows it to manage the intense thermal stress and corrosive elements present
-      in the caldera glacial regions.
+      in the obsidian atoll regions.
     habitat_it: Si trova prevalentemente nei bacini termali dell'atollo ossidiana,
       dove la sua circolazione bifasica gli permette di regolare la temperatura corporea
       e assorbire parassiti termici presenti nell'ambiente.
@@ -3693,12 +3693,12 @@ sp_magnetocola_pastoris:
       thermal and corrosive conditions of its environment.
     origin_it: La specie Magnetocola Pastoris ha origini nel cuore dell'atollo di
       ossidiana, dove la sua circolazione bifasica ha evolto come adattamento per
-      sopravvivere agli impatti termici e corrosivi della caldera glaciale.
+      sopravvivere agli impatti termici e corrosivi dell'atollo di ossidiana.
     trait_narrative:
     - text_en: The bifasic circulation allows the herd to disperse energy and mitigate
-        corrosive or thermal impacts within the glacial caldera.
+        corrosive or thermal impacts within the obsidian atoll.
       text_it: La circolazione bifasica permette alle squadre di disperdere energia
-        e attenuare impatti corrosivi o termici all'interno di caldera glaciale.
+        e attenuare impatti corrosivi o termici all'interno dell'atollo di ossidiana.
       trait_id: circolazione_bifasica
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -3774,8 +3774,8 @@ sp_noctipedis_umbrata:
       di lui. Utilizza la sua firma olfattiva di condensa ozono per segnalare la sua
       presenza e catturare la preda senza muoversi.
     evolutionary_niche_en: Its ghiandole_condensa_ozono evolved to enable cooperative
-      load redistribution and structural rigidity modulation within stratospheric
-      storms, positioning it as a dominant apex species in its orbital environment.
+      load redistribution and structural rigidity modulation within the orbital midnight,
+      positioning it as a dominant apex species in its orbital environment.
     evolutionary_niche_it: La sua ghiandola condensa ozono ha permesso di sfruttare
       le condizioni atmosferiche estreme del suo ambiente, permettendogli di comunicare
       e cacciare in modo efficiente. La sua capacità di ridistribuire carichi e modulare
@@ -3896,7 +3896,7 @@ sp_pyrosaltus_celeris:
     - text_en: The teeth of the Saltatore di Cenere melt their prey instantly upon
         contact, cauterizing it without cutting.
       text_it: I denti silice-termici permettono alle squadre di sincronizzare organismi
-        alleati e flussi mutualistici all'interno di dorsale termale tropicale.
+        alleati e flussi mutualistici all'interno dell'abisso vulcanico.
       trait_id: denti_silice_termici
     - text_en: The radiant legs of the Saltatore di Cenere generate kinetic pulses
         at touchdown, dealing extra damage from a high vantage point.
@@ -4364,7 +4364,7 @@ sp_ventornis_longiala:
       alle condizioni estreme dei margini ecologici.
     trait_narrative:
     - text_en: The lightning wings allow the species to interpret subtle signals and
-        unstable psychic patterns within stormy stratosphere, enabling them to traverse
+        unstable psychic patterns within the resonant canyons, enabling them to traverse
         biome boundaries before the air shifts again.
       text_it: Le ali fulminee la portano oltre ogni confine di bioma prima che l'aria
         cambi di nuovo.
