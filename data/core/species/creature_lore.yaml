@@ -32,9 +32,8 @@ anguis_magnetica:
     habitat_it: Vive nei luoghi dove la roccia vulcanica forma campi magneticamente
       attivi, consentendo alla creatura di muoversi in modo fluido e silenzioso attraverso
       il suo ambiente natio.
-    origin_en: The Anguilla Geomagnetica, classified under species_id 'anguis_magnetica',
-      originated in the unique environment of obsidian atolls where its magnetic properties
-      could be best utilized for survival.
+    origin_en: The Anguillid Magnetic hails from the Obsidian Atolls, a biome characterized
+      by strong magnetic fields that have fostered its unique abilities.
     origin_it: L'Anguilla Geomagnetica è originaria degli atollen dell'Obsidiana,
       biome caratterizzato da forti campi magnetici che hanno favorito l'evoluzione
       delle sue capacità.
@@ -232,7 +231,8 @@ blight_micotico:
       text_it: La ghiandola caustica rilascia un acido corrosivo che scioglie le corazze
         leggere dei nemici.
       trait_id: ghiandola_caustica
-    - text_en: Passive chromatophores slowly replicate surrounding colors.
+    - text_en: Passive chromatic camouflage allows the fungus to slowly blend into
+        surrounding surfaces.
       text_it: Il mimetismo cromatico passivo permette al fungo di mimetizzarsi lentamente
         sulle superfici circostanti.
       trait_id: mimetismo_cromatico_passivo
@@ -430,28 +430,28 @@ cryo_lynx:
     origin_it: La specie cryo_lynx ha origini nel periodo mesozoico, adattandosi a
       climi estremi attraverso mutazioni genetiche progressive.
     trait_narrative:
-    - text_en: I artigli_sette_vie si infilano tra le crepe del ghiaccio, permettendo
-        alla lince criogenica di afferrare prede sorprese senza scivolare.
+    - text_en: Multiple claws allow the cryogenic lynx to securely catch its prey
+        on uneven ice.
       text_it: I artigli multipli permettono alla lince criogenica di afferrare saldamente
         le prede sul ghiaccio irregolare.
       trait_id: artigli_sette_vie
-    - text_en: Il carapace_fase_variabile si indurisce quando la lince criogenica
-        si scontra con un predatore, offrendole una protezione temporanea.
+    - text_en: The armor of varying density helps the lynx balance protection against
+        enemies and freedom of movement during the hunt.
       text_it: La corazza che varia densità aiuta la lince a bilanciare la protezione
         contro i nemici e la libertà di movimento durante la caccia.
       trait_id: carapace_fase_variabile
-    - text_en: L'olfatto_risonanza_magnetica permette alla lince criogenica di seguire
-        tracce di ferro e di individuare prede nascoste sotto la neve.
+    - text_en: Scent bulbs of the lynx can trace magnetic fields and identify hidden
+        metal veins beneath the ice.
       text_it: I bulbi olfattivi della lince riescono a tracciare campi magnetici
         e identificare vene metalliche nascoste sotto il ghiaccio.
       trait_id: olfatto_risonanza_magnetica
-    - text_en: La criostasi_adattiva permette alla lince criogenica di sopravvivere
-        a inverni estremi, riducendo il metabolismo fino a un minimo.
+    - text_en: The suspended metabolism of the lynx allows it to survive for months
+        in extreme cold without food.
       text_it: Il metabolismo sospeso della lince le permette di sopravvivere a mesi
         di estremo freddo senza cibo.
       trait_id: criostasi_adattiva
-    - text_en: Le zampe_a_molla accumulano energia per permettere alla lince criogenica
-        di saltare su terreni innevati senza perdere equilibrio.
+    - text_en: The spring-like limbs store energy to allow the lynx to make quick
+        jumps and reposition itself on icy surfaces.
       text_it: Le zampe a molla accumulano energia per permettere alla lince di fare
         salti rapidi e riposizionarsi sulle superfici ghiacciate.
       trait_id: zampe_a_molla
@@ -494,9 +494,8 @@ dune_stalker:
     habitat_it: Questo predatore vive prevalentemente nelle savane, ma può anche adattarsi
       alle pianure salinate e alle foreste acide grazie alla sua capacità di modificare
       la propria fisiologia per sopravvivere in diverse condizioni ambientali.
-    origin_en: The Dune Stalker, identified as species_id dune_stalker and belonging
-      to the Threat clade, emerged in environments that required a blend of adaptability
-      and predatory prowess, developing unique traits to survive and thrive.
+    origin_en: The Dune_Stalker is native to the savannahs, where it evolved to become
+      a predator suited for hunting in open areas and on uneven terrain.
     origin_it: Il dune_stalker è originario delle savane, dove si è evoluto per diventare
       un predatore adatto a cacciare in aree aperte e su terreni irregolari.
     trait_narrative:
@@ -550,31 +549,38 @@ dune_stalker:
       text_it: Quando sotto stress, il dune_stalker entra in uno stato psicofisico
         ferocio che aumenta l'aggressività e la potenza offensiva.
       trait_id: ferocia
-    - text_en: ''
+    - text_en: The hyper-tough biofilm of dune_stalker allows its teams to synchronize
+        allies' organisms within the savannah.
       text_it: Il biofilm iperarido del dune_stalker permette alle sue squadre di
         sincronizzare organismi alleati all'interno della savana.
       trait_id: biofilm_iperarido
-    - text_en: ''
+    - text_en: The Dune Stalker's dustsense antennae stabilize the absorption of multiple
+        sources in the desert environment.
       text_it: Le antenne dustsense del dune_stalker stabilizzano l'assorbimento multi-fonte
         nell'ambiente desertoico.
       trait_id: antenne_dustsense
-    - text_en: ''
+    - text_en: The receptive antennae of the dune_stalker synchronize mutualistic
+        flows with allied organisms within the savannah.
       text_it: Le antenne reagenti del dune_stalker sincronizzano i flussi mutualistici
         con organismi alleati all'interno della savana.
       trait_id: antenne_reagenti
-    - text_en: ''
+    - text_en: The rear-mounted twin counteractive tail of the Dune_Stalker disperses
+        energy to mitigate corrosive or thermal impacts.
       text_it: La coda coppia retroattiva del dune_stalker disperde energia per attenuare
         impatti corrosivi o termici.
       trait_id: coda_coppia_retroattiva
-    - text_en: ''
+    - text_en: The bifurcated cortex of Dune_Stalker allows for active surveillance
+        of two threats simultaneously.
       text_it: Il cortex biforcato del dune_stalker permette di sorvegliare attivamente
         due minacce contemporaneamente.
       trait_id: focus_frazionato
-    - text_en: ''
+    - text_en: The resonance of a pack amplifies the shared buffs among members of
+        the dune_stalker pack.
       text_it: La risonanza di branco amplifica i buff condivisi tra i membri del
         branco del dune_stalker.
       trait_id: risonanza_di_branco
-    - text_en: ''
+    - text_en: Group tactics in Dune_Stalker coordinate shared focuses and shared
+        captures within the team.
       text_it: Le tattiche di branco del dune_stalker coordinano i focus e le prese
         condivise all'interno del gruppo.
       trait_id: tattiche_di_branco
@@ -628,29 +634,29 @@ echo_wing:
       si è concentrato su una nicchia di impollinazione e dispersione di semi tra
       i calanchi, senza intervento intellettivo avanzato.
     trait_narrative:
-    - text_en: Utilizza il sonar interno per mappare l'ambiente attraverso vibrazioni
-        corporee, permettendogli di navigare tra le crepe dei calanchi.
+    - text_en: Use your internal sonar to map the environment through bodily vibrations,
+        allowing navigation among cliffs.
       text_it: Utilizza il sonar interno per mappare l'ambiente attraverso vibrazioni
         corporee, permettendogli di navigare tra i calanchi.
       trait_id: eco_interno_riflesso
-    - text_en: Gli ommatidi infrarossi seguono scie termiche nell'oscurità, aiutandolo
-        a trovare il cammino tra le rocce.
+    - text_en: Infrared compound eyes follow thermal trails in the darkness, helping
+        him navigate through iron lands.
       text_it: Gli occhi a infrarosso composti seguono scie termiche nell'oscurità,
         aiutandolo a orientarsi nei terreni ferrosi.
       trait_id: occhi_infrarosso_composti
-    - text_en: Il cervello alternato permette a uno degli emisferi di vegliare mentre
-        l'altro riposa, ottimizzando la sopravvivenza in ambienti estremi.
+    - text_en: The alternated brain allows this flyer to watch with one hemisphere
+        while the other rests, optimizing survival during continuous movements.
       text_it: Il cervello alternato permette a questo volatore di vegliare con un
         emisfero mentre l'altro riposa, ottimizzando la sopravvivenza nei continui
         spostamenti.
       trait_id: sonno_emisferico_alternato
-    - text_en: Le sacche gassose regolabili lo mantengono in quota nelle termiche
-        ferrose, facilitando il volo senza sforzo.
+    - text_en: Adjustable gas bags keep them aloft in iron thermals, making gliding
+        between cliffs easier.
       text_it: Le sacche gassose regolabili lo mantengono in quota nelle termiche
         ferrose, facilitando il planaggio tra i calanchi.
       trait_id: sacche_galleggianti_ascensoriali
-    - text_en: La lingua sensoriale legge vibrazioni e fratture nascoste, aiutandolo
-        a valutare la stabilità delle rocce durante il volo.
+    - text_en: The sensitive language reads vibrations and hidden fractures, helping
+        it find nests and food sources in harsh terrains.
       text_it: La lingua sensoriale legge vibrazioni e fratture nascoste, aiutandolo
         a trovare nidi e fonti di cibo nei terreni aspri.
       trait_id: lingua_tattile_trama
@@ -777,81 +783,76 @@ electromanta_abyssalis:
       magnetiche e elettriche del suo ambiente. La sua evoluzione è stata guidata
       dall'interazione con il campo magnetico e le correnti elettriche della frattura.
     trait_narrative:
-    - text_en: La creatura utilizza l'elettromagnete biologico per interferire con
-        i circuiti neurali delle prede, paralizzandole.
+    - text_en: Biological electromagnet emits pulses that disrupt the prey's nervous
+        system, paralyzing its movements.
       text_it: L'elettromagnete biologico emana impulsi che disturbano il sistema
         nervoso della preda, paralizzandone i movimenti.
       trait_id: elettromagnete_biologico
-    - text_en: La creatura scivola lungo le linee di forza magnetica, muovendosi senza
-        attrito attraverso le profondità abissali.
+    - text_en: The body moves silently along the magnetic currents, reducing friction
+        and sliding elegantly.
       text_it: Il corpo si muove silenziosamente lungo le correnti magnetiche, riducendo
         l'attrito e scivolando con eleganza.
       trait_id: scivolamento_magnetico
-    - text_en: L'epidermide si orienta lungo le linee di campo magnetico, permettendole
-        di navigare senza sforzo.
+    - text_en: The bipolar covering orients along magnetic field lines, enabling precise
+        navigation.
       text_it: L'integumento bipolare si orienta lungo le linee del campo magnetico,
         permettendo una navigazione precisa.
       trait_id: integumento_bipolare
-    - text_en: Le antenne olfattive rilevano i campi magnetici, tracciando la posizione
-        delle prede attraverso i segnali risonanti.
+    - text_en: Magnetic resonance scent tracking traces magnetic fields, revealing
+        the position of prey through metal vessels.
       text_it: L'olfatto a risonanza magnetica traccia i campi magnetici, rivelando
         la posizione delle prede attraverso vene metalliche.
       trait_id: olfatto_risonanza_magnetica
-    - text_en: Le sete vibrano con scariche elettriche, creando una rete di stordimento
-        che paralizza i nemici vicini.
+    - text_en: Electric conductive threads shock the prey with discharges that spread
+        through the web.
       text_it: Le sete conduttive elettriche stordiscono la preda con scariche che
         si propagano attraverso la tela.
       trait_id: seta_conduttiva_elettrica
-    - text_en: I capillari assorbono la luce ionica, trasformandola in energia per
-        muoversi attraverso i terreni estremi.
+    - text_en: Photovoltaic cables absorb light energy, enabling controlled accelerations
+        on extreme terrains.
       text_it: I capillari fotovoltaici assorbono energia luminosa, permettendo accelerazioni
         controllate su terreni estremi.
       trait_id: capillari_fotovoltaici
-    - text_en: Le antenne Tesla redistribuiscono l'energia elettrica, modulando la
-        rigidità del corpo per adattarsi alle condizioni estreme.
+    - text_en: Tesla antennas redistribute loads and modify structural rigidity in
+        extreme environments.
       text_it: Le antenne Tesla redistribuiscono carichi e modulano la rigidità strutturale
         in ambienti estremi.
       trait_id: antenne_tesla
-    - text_en: Le antenne leggono i gradienti gravitazionali, convertendoli in segnali
-        per prevedere i movimenti delle prede.
+    - text_en: Gravitational bi-antennas detect shear gravitational waves and convert
+        them into useful navigation signals.
       text_it: Le bioantenne gravitiche leggono i shear gravitazionali e li convertono
         in segnali utili per la navigazione.
       trait_id: bioantenne_gravitiche
-    - text_en: Gli artigli canalizzano l'energia cinetica in colpi mirati, distruggendo
-        le prede con precisione.
+    - text_en: Induction claws channel kinetic or elemental energy into precision
+        strikes during conflicts.
       text_it: Gli artigli di induzione canalizzano energia cinetica o elementale
         in colpi mirati durante gli scontri.
       trait_id: artigli_induzione
-    - text_en: L'epidermide previene le traiettorie degli attacchi, permettendo alla
-        creatura di anticipare e schivare con precisione.
+    - text_en: Electric skin allows for predicting trajectories and coordinating complex
+        attacks in stormy environments.
       text_it: L'epidermide dielettrica permette di prevedere traiettorie e orchestrare
         attacchi complessi in ambienti tempestosi.
       trait_id: epidermide_dielettrica
-    - text_en: Le ghiandole rilasciano nebbia ionica, modulando la rigidità del corpo
-        per adattarsi alle condizioni estreme.
+    - text_en: Ionic cloud glands redistribute charges and modify structural rigidity
+        in extreme environments.
       text_it: Le ghiandole a nebbia ionica ridistribuiscono carichi e modulano la
         rigidità strutturale in ambienti estremi.
       trait_id: ghiandole_nebbia_ionica
-    - text_en: I filamenti interpretano segnali psionici, permettendo alla creatura
-        di rilevare minacce invisibili.
+    - text_en: Superconducting filaments interpret unstable psychic signals, revealing
+        hidden threats in icy environments.
       text_it: I filamenti superconduttivi interpretano segnali psionici instabili,
         rivelando minacce nascoste in ambienti gelidi.
       trait_id: filamenti_superconduttivi
-    - text_en: I filamenti assorbono energia magnetica, ridistribuendola per mantenere
-        la rigidità strutturale in ambienti estremi.
+    - text_en: Magnetotropic filaments redistribute charges and modify structural
+        rigidity in volcanic environments.
       text_it: I filamenti magnetotrofi ridistribuiscono carichi e modulano la rigidità
         strutturale in ambienti vulcanici.
       trait_id: filamenti_magnetotrofi
-    - text_en: I barbigli rilevano le traiettorie delle prede, permettendo alla creatura
-        di muoversi con precisione in ambienti tempestosi.
+    - text_en: Plasma sensor coils allow for controlled traction and acceleration
+        on extreme terrains.
       text_it: I barbigli sensori plasma permettono di ottenere presa e accelerazioni
         controllate su terreni estremi.
       trait_id: barbigli_sensori_plasma
-    - text_en: La creatura scivola lungo le linee di forza magnetica, muovendosi senza
-        attrito attraverso le profondità abissali.
-      text_it: Il corpo si muove silenziosamente lungo le correnti magnetiche, riducendo
-        l'attrito e scivolando con eleganza.
-      trait_id: scivolamento_magnetico
   schema_version: 1
   species_id: electromanta_abyssalis
 ferrocolonia_magnetotattica:
@@ -941,78 +942,91 @@ fusomorpha_palustris:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: La fusomorpha palustris mostra comportamenti di flusso ameboide controllato
-      e fagocitosi assorbente, che non solo le permettono di nutrirsi ma anche di
-      incorporare e comprendere il mondo circostante, crescendo con chi la accompagna
-      e mutando con le stagioni.
+    behavior_en: The Marsh Form morph shows complex behaviors such as absorptive phagocytosis,
+      which serves not only for nutrition but also for learning. It uses controlled
+      amoeboid flow and metalloid gills to move and interact with its environment.
+      Its social intelligence and ability to change form make it a highly adaptable
+      being.
     behavior_it: La Fusomorpha Palustris mostra comportamenti complessi come la fagocitosi
       assorbente, che non solo serve per l'alimentazione ma anche per l'apprendimento.
       Utilizza il flus, il flusso ameboide controllato e le branchie metalloidi per
       muoversi e interagire con l'ambiente. La sua intelligenza sociale e la sua capacità
       di mutare forma la rendono un essere altamente adattivo.
-    evolutionary_niche_en: Occupa una nicchia evolutiva nei paludi salmastri, dove
-      la sua capacità di fagocitosi assorbente, la moltiplicazione per fusione e la
-      sua sensibilità chimico-sensoriale le permettono di interagire con l'ambiente
-      e di adattarsi alle sfide del suo habitat.
+    evolutionary_niche_en: The species occupies a specific evolutionary niche within
+      brackish marshes, where its controlled ameboid flow, absorptive phagocytosis,
+      and fusion-based multiplication allow it to adapt and grow dynamically. Its
+      evolution is linked to its ability to integrate the external world through phagocytosis
+      and chemical-somatic sensitivity.
     evolutionary_niche_it: La specie occupa una nicchia evolutiva specifica all'interno
       delle paludi salmastre, dove la sua combinazione di flusso ameboide controllato,
       fagocitosi assorbente e capacità di moltiplicazione per fusione le permette
       di adattarsi e crescere in modo dinamico. La sua evoluzione è legata alla sua
       capacità di integrare il mondo esterno attraverso la fagocitosi e la sensibilità
       chimico-somatica.
-    habitat_en: Si trova nei paludi salmastre, dove il suo scheletro idro-regolante
-      e le branchie metalloidi le permettono di muoversi efficacemente e di sfruttare
-      le risorse disponibili in un ambiente ricco di salinità e tossine.
+    habitat_en: It lives in brackish marsh environments, where its osmotic filtration
+      capacity and microfilter gills allow it to manage the extreme conditions of
+      saltiness and toxicity. Its relationship with the biome is deep and essential
+      for its survival.
     habitat_it: Si trova in ambienti palustri salmastri, dove la sua capacità di filtrazione
       osmotica e le branchie microfiltri le permettono di gestire le condizioni estreme
       di salinità e tossicità. La sua relazione con il biome è profonda e necessaria
       per la sua sopravvivenza.
-    origin_en: Fusomorpha palustris è una specie originaria delle paludi salmastre,
-      sviluppata in un ambiente umido e salino dove la sua capacità di flusso ameboide
-      controllato e fagocitosi assorbente le permettono di sopravvivere e adattarsi
-      a condizioni estreme.
+    origin_en: The Fusomorpha Palustris species originates from brackish marshes,
+      where it has developed a unique ecological niche based on absorptive phagocytosis
+      and controlled amoeboid flow. Its evolution has led to a highly adaptable form
+      capable of surviving and thriving in moist, saline environments.
     origin_it: La specie Fusomorpha Palustris è originaria delle paludi salmastre,
       dove ha sviluppato una nicchia ecologica unica basata sulla fagocitosi assorbente
       e il flusso ameboide controllato. La sua evoluzione ha portato a una forma altamente
       adattativa, in grado di sopravvivere e prosperare in ambienti umidi e salini.
     trait_narrative:
-    - text_en: Sli...
+    - text_en: Glide silently over smooth surfaces, adapting to the ground with a
+        near-invisible fluidity.
       text_it: Scivola silenziosamente su superfici lisce, adattandosi al terreno
         con una fluidità quasi invisibile.
       trait_id: flusso_ameboide_controllato
-    - text_en: In...
+    - text_en: Absorb and digest entire organisms, yet it does so with a curiosity
+        that seems almost to understand their nature.
       text_it: Assorbe e digerisce interi organismi, ma lo fa con una curiosità che
         sembra quasi intuire la loro natura.
       trait_id: fagocitosi_assorbente
-    - text_en: N...
+    - text_en: Utilize osmotic filtration to neutralize toxins, a mechanism that allows
+        them to survive even in the most acidic environment.
       text_it: Sfrutta la filtrazione osmotica per neutralizzare tossine, un meccanismo
         che le permette di sopravvivere anche nel più acido ambiente.
       trait_id: filtrazione_osmotica
-    - text_en: C...
+    - text_en: Changes gender after 1-2 reproduction cycles, a process that seems
+        tied to the passage of time and its evolution.
       text_it: Cambia sesso dopo 1-2 cicli di riproduzione, un processo che sembra
         legato al passare del tempo e alla sua evoluzione.
       trait_id: ermafroditismo_cronologico
-    - text_en: A...
+    - text_en: Multiplies by combining units, increasing both mass and intelligence
+        extraordinarily.
       text_it: Si moltiplica unendo unità, aumentando così massa e intelligenza in
         modo straordinario.
       trait_id: moltiplicazione_per_fusione
-    - text_en: B...
+    - text_en: Metal tentacles allow teams to gain control and controlled acceleration
+        in extreme terrains.
       text_it: Le branchie metalloidi permettono alle squadre di ottenere presa e
         accelerazioni controllate in terreni estremi.
       trait_id: branchie_metalloidi
-    - text_en: C...
+    - text_en: Fluoride capillaries allow teams to interpret unstable psyonic signals
+        in an acidic environment.
       text_it: I capillari fluoridici permettono alle squadre di interpretare segnali
         psionici instabili in un ambiente acido.
       trait_id: capillari_fluoridici
-    - text_en: S...
+    - text_en: Its hydro-regulating skeleton modulates water to change its mass, a
+        perfect adaptation for marshes.
       text_it: Il suo scheletro idro-regolante modula l'acqua per mutare la massa,
         un adattamento perfetto per le paludi.
       trait_id: scheletro_idro_regolante
-    - text_en: R...
+    - text_en: Releases neurotoxic spores causing hallucinations and panic, guiding
+        victims towards flight.
       text_it: Rilascia spore neurotossiche che causano allucinazioni e panico, indirizzando
         le vittime verso la fuga.
       trait_id: spore_paniche
-    - text_en: B...
+    - text_en: Microfilter gills allow teams to scatter energy and reduce thermal
+        or corrosive impacts.
       text_it: Le branchie microfiltri permettono alle squadre di disperdere energia
         e attenuare impatti termici o corrosivi.
       trait_id: branchie_microfiltri
@@ -1297,26 +1311,22 @@ lupus_temperatus:
     origin_it: Il lupus_temperatus si origina nei corridori fluviali delle foreste
       temperate, dove ha sviluppato un'adattamento sociale per cacciare i grandi erbivori.
     trait_narrative:
-    - text_en: Lupi della Foresta si sincronizzano attraverso una rete empatica, permettendo
-        a ogni membro del branco di rispondere istantaneamente alle esigenze di cura
-        e difesa degli altri.
+    - text_en: The wolves synchronize to protect the injured pup while the pack hunts.
       text_it: I lupi si sincronizzano per proteggere il cucciolo ferito mentre il
         branco caccia.
       trait_id: empatia_coordinativa
-    - text_en: Il branco opera in base a un protocollo tattico che distribuisce il
-        focus e le prese condivise in modo preciso durante le caccia.
+    - text_en: The wolves move as one unit to encircle the prey.
       text_it: I lupi si muovono in un'unica unità per circondare la preda.
       trait_id: tattiche_di_branco
-    - text_en: La risonanza del branco amplifica i vantaggi condivisi, creando un
-        effetto sinergico durante le battute di caccia.
+    - text_en: The resonance of the pack amplifies the strength of each member during
+        the hunt.
       text_it: La risonanza del branco amplifica la forza di ciascun membro durante
         la caccia.
       trait_id: risonanza_di_branco
-    - text_en: ''
+    - text_en: A wolf keeps an eye on the predator while the other watches the ground.
       text_it: Un lupo tiene d'occhio il predatore mentre l'altro osserva il terreno.
       trait_id: focus_frazionato
-    - text_en: Gli ommatidi infrarossi seguono le scie termiche nell'oscurità, permettendo
-        ai lupi di cacciare efficacemente anche in condizioni di scarsa visibilità.
+    - text_en: Wolves follow thermal tracks of their prey even in the thickest darkness.
       text_it: I lupi seguono le scie termiche delle prede anche nel buio più fitto.
       trait_id: occhi_infrarosso_composti
   schema_version: 1
@@ -1452,27 +1462,27 @@ nano_rust_bloom:
       è legata alla capacità di sfruttare la materia organica e inorganica in ambienti
       estremi.
     trait_narrative:
-    - text_en: I filamenti digestivi compattano i resti e liberano spazio vitale,
-        accelerando la decomposizione.
+    - text_en: Digestive filaments compact remains and free up vital space, speeding
+        up decomposition.
       text_it: I filamenti digestivi compattano i resti e liberano spazio vitale,
         accelerando la decomposizione.
       trait_id: filamenti_digestivi_compattanti
-    - text_en: Le spore psichiche silenziate sedano e confondono i bersagli vicini,
-        indebolendone la coordinazione.
+    - text_en: Psychic spores quiet and confuse nearby targets, weakening their reaction.
       text_it: Le spore psichiche silenziate sedano e confondono i bersagli vicini,
         indebolendone la reazione.
       trait_id: spore_psichiche_silenziate
-    - text_en: Il scheletro idro-regolante modula il contenuto idrico per mutare la
-        massa e adattarsi alle condizioni.
+    - text_en: The hydro-regulating skeleton controls the water content to change
+        its mass and adapt to environmental conditions.
       text_it: Il scheletro idro-regolante modula il contenuto idrico per mutare la
         massa e adattarsi alle condizioni ambientali.
       trait_id: scheletro_idro_regolante
-    - text_en: Il carapace fase variabile cambia densità per bilanciare la difesa
-        e la mobilità in base alle minacce.
+    - text_en: The variable exoskeleton alters density to balance defense and mobility,
+        optimizing survivability.
       text_it: Il carapace fase variabile cambia densità per bilanciare difesa e mobilità,
         ottimizzando la sopravvivenza.
       trait_id: carapace_fase_variabile
-    - text_en: ''
+    - text_en: Pyrophoric blood ignites the air, striking those who pierce the armor,
+        creating a wall of flame as a barrier.
       text_it: Il sangue piroforico incendia l'aria colpendo chi perfora la corazza,
         creando una bariera di fiamma.
       trait_id: sangue_piroforico
@@ -1517,35 +1527,35 @@ noctule_termico:
       scarsità di risorse. La sua capacità di sfruttare le termiche residue del crepuscolo
       le permette di volare in modo efficiente, riducendo il consumo energetico.
     trait_narrative:
-    - text_en: Le cuticole cerose aiutano a mantenere la temperatura corporea stabilizzando
-        l'assorbimento dell'energia termica durante la caccia nel deserto.
+    - text_en: The waxy shells absorb and convert energy from various sources, helping
+        the Thermal Turtle survive in dynamic environments like hot deserts.
       text_it: Le cuticole cerose assorbono e convertono energia da diverse fonti,
         aiutando il Nottola Termica a sopravvivere in ambienti dinamici come i deserti
         caldi.
       trait_id: cuticole_cerose
-    - text_en: I grassi termici forniscono un'isolamento termico che permette al volatore
-        di regolare la temperatura corporea in ambienti estremi.
+    - text_en: Hot Fat allows the Thermal Turtle to stabilize absorption and energy
+        conversion, essential for its survival in the hot desert.
       text_it: I grassi termici permettono al Nottola Termica di stabilizzare l'assorbimento
         e la conversione energetica, essenziale per la sua sopravvivenza nel deserto
         caldo.
       trait_id: grassi_termici
-    - text_en: Le pelli cave, con le loro sacche d'aria, riducono il calore assorbito
-        durante la giornata, aiutando a mantenere un'equilibrio termico.
+    - text_en: Leather skins with internal air sacs act as a light thermal barrier,
+        reducing heat transfer in dry conditions.
       text_it: Le pelli cave, con sacche d'aria interne, fungono da barriera termica
         leggera, riducendo il trasferimento di calore in condizioni aride.
       trait_id: pelli_cave
-    - text_en: I pigmenti aurorali brillano sotto luce polare, permettendo alla creatura
-        di mimetizzarsi tra i bagliori atmosferici notturni.
+    - text_en: Auroral pigments glow under polar light or magnetic storm, camouflaging
+        the Thermal Troll amidst atmospheric flashes.
       text_it: I pigmenti aurorali fluorescono sotto luce polare o tempesta magnetica,
         mimetizzando il Nottola Termica tra i bagliori atmosferici.
       trait_id: pigmenti_aurorali
-    - text_en: Le proteine di shock termico proteggono le cellule dal danneggiamento
-        causato da picchi di temperatura durante la caccia.
+    - text_en: Heat shock protein stabilizes the polypeptides under thermal stress,
+        preventing cellular denaturation during temperature peaks.
       text_it: Le proteine di shock termico stabilizzano i polipeptidi sotto stress
         termico, prevenendo la denaturazione cellulare durante i picchi di temperatura.
       trait_id: proteine_shock_termico
-    - text_en: Le reti capillari radici scambiano calore con le radici vegetali, aiutando
-        a regolare la temperatura corporea durante l'attività.
+    - text_en: Capillary root networks remove heat and exchange fluids with the surrounding
+        plant substrates, controlling the base temperature of Thermal Notch.
       text_it: Le reti capillari radici rimuovono calore e scambiano fluidi con i
         substrati vegetali, regolando la temperatura basale del Nottola Termica.
       trait_id: reti_capillari_radici
@@ -1667,38 +1677,42 @@ polpo_araldo_sinaptico:
       predatori bioluminescenti che si sono adattate a sfruttare le proprietà elettriche
       del loro ambiente.
     trait_narrative:
-    - text_en: Scariche ritmiche che abbagliano e sincronizzano alleati.
+    - text_en: Rhythmic charges that dazzle and synchronize allies.
       text_it: Scariche ritmiche che abbagliano e sincronizzano alleati.
       trait_id: impulsi_bioluminescenti
-    - text_en: Reticolo di nodi che amplificano segnali superficiali.
+    - text_en: Network of nodes amplifying surface signals.
       text_it: Reticolo di nodi che amplificano segnali superficiali.
       trait_id: nodi_sinaptici_superficiali
-    - text_en: Tessuti che trasportano cariche luminose tra nodi sinaptici.
+    - text_en: Fabrics that transport luminescent charges between synaptic nodes.
       text_it: Tessuti che trasportano cariche luminose tra nodi sinaptici.
       trait_id: membrane_fotoconvoglianti
-    - text_en: Camere risonanti che filtrano segnali instabili.
+    - text_en: Echoing rooms that filter unstable signals.
       text_it: Camere risonanti che filtrano segnali instabili.
       trait_id: lobi_risonanti_crepuscolo
-    - text_en: Filamenti che tracciano rotte sicure nelle correnti.
+    - text_en: Threads that trace safe paths in currents.
       text_it: Filamenti che tracciano rotte sicure nelle correnti.
       trait_id: filamenti_guidalampo
-    - text_en: Sensori diffusi che leggono pattern di plancton memetico.
+    - text_en: Sensors scattered that read patterns of synthetic plankton.
       text_it: Sensori diffusi che leggono pattern di plancton memetico.
       trait_id: sensori_planctonici
-    - text_en: Secrezioni che trattengono copie attenuate di buff.
+    - text_en: Copy buffered versions (reduced) of secrets.
       text_it: Secrezioni che trattengono copie attenuate di buff.
       trait_id: ghiandole_mnemoniche
-    - text_en: ''
+    - text_en: Shield that disperses electrical charges.
       text_it: Film protettivo che disperde accumuli elettrici.
-      trait_id: secrezioni_antistazziche
-    - text_en: Scarica leggera che illumina connessioni e riflessi (temp).
+      trait_id: secrezioni_antistatiche
+    - text_en: 'Lightweight download that highlights connections and reflections (tempo)
+
+
+        (Note: "temp" likely refers to time in this context, but it''s not explicitly
+        defined in the given text.)'
       text_it: Scarica leggera che illumina connessioni e riflessi (temp).
       trait_id: scintilla_sinaptica
-    - text_en: ''
+    - text_en: Frequencies that harmonize the group and reduce temporary stress.
       text_it: Frequenze che armonizzano il gruppo e riducono stress (temp).
       trait_id: canto_risonante
-    - text_en: Tentacoli con uncini cheratinosi che afferrano e immobilizzano per
-        1 turno (frattura).
+    - text_en: Tentacles with chitinous hooks that grasp and immobilize for 1 turn
+        (fracture).
       text_it: Tentacoli con uncini cheratinosi che afferrano e immobilizzano per
         1 turno (frattura).
       trait_id: tentacoli_uncinati
@@ -1745,27 +1759,28 @@ proteus_plasma:
       sua evoluzione è legata alla necessità di sopravvivere in ambienti ricchi di
       nutrienti ma instabili.
     trait_narrative:
-    - text_en: La creatura cambia forma e densità in base alle condizioni ambientali,
-        adattandosi fluidamente al suo ambiente paludoso.
+    - text_en: The creature continuously shapeshifts, assuming various forms and densities
+        to adapt itself to its marshlike environment.
       text_it: La creatura si modella continuamente assumendo diverse forme e densità
         per adattarsi al suo ambiente paludoso.
       trait_id: membrana_plastica_continua
-    - text_en: Scivola silenziosamente sulle superfici lisce, muovendosi con un movimento
-        ondulatorio simile a una nebbia.
+    - text_en: Slide silently along smooth surfaces, moving with a controlled ameboid
+        flow.
       text_it: Scivola silenziosamente lungo le superfici lisce, muovendosi con un
         flusso ameboide controllato.
       trait_id: flusso_ameboide_controllato
-    - text_en: Assorbe interi organismi viventi, decomponendoli rapidamente per ottenere
-        nutrienti.
+    - text_en: Absorb entire fragments of biomass, absorbing nutrients through its
+        plastic membrane.
       text_it: Ingegna e digerisce interi frammenti di biomassa, assorbendo nutrienti
         attraverso la sua membrana plastica.
       trait_id: fagocitosi_assorbente
-    - text_en: Unisce altre unità simili per aumentare la propria massa e la capacità
-        di sopravvivenza.
+    - text_en: Combines with similar units to increase its mass and complexity without
+        any cognitive behavior.
       text_it: Aumenta la sua massa e complessità unendo altre unità simili, senza
         alcun comportamento cognitivo.
       trait_id: moltiplicazione_per_fusione
-    - text_en: ''
+    - text_en: In adverse conditions, it retreats into a mineral fortress, entering
+        an inactive stasis.
       text_it: In condizioni avverse, si ritrae in una cistifera minerale, entrando
         in una stasi inattiva.
       trait_id: cisti_di_ibernazione_minerale
@@ -1822,73 +1837,76 @@ psionerva_montis:
       origine è legata alla sua capacità di adattare il metabolismo a periodi di criostasi,
       una caratteristica chiave per la sua sopravvivenza in un ambiente così rigido.
     trait_narrative:
-    - text_en: Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo
-        il silenzio del ghiaccio in informazione navigabile.
+    - text_en: The psychoconductive horns of the psyonerva mountain capture ferromagnetic
+        currents, translating the silence of the ice into useful information for the
+        pack.
       text_it: Le corna psico-conduttive della psionerva montis captano le correnti
         ferromagnetiche, traducendo il silenzio del ghiaccio in informazioni utili
         per il branco.
       trait_id: corna_psico_conduttive
-    - text_en: Il cortex biforcato mantiene due minacce in sorveglianza attiva, permettendo
-        una pianificazione strategica precisa.
+    - text_en: Fragmented focus allows the mountain psychic to maintain two threats
+        under active surveillance, increasing their response capacity.
       text_it: Il focus frazionato permette alla psionerva montis di mantenere due
         minacce sotto sorveglianza attiva, aumentando la sua capacità di risposta.
       trait_id: focus_frazionato
-    - text_en: Il metabolismo sospeso permette di sopravvivere a stagioni estreme
-        prolungate, adattandosi al freddo estremo.
+    - text_en: Adaptive cryostasis allows the mountaintop psychonerva to survive through
+        prolonged extreme seasons, maintaining a suspended metabolism.
       text_it: La criostasi adattiva permette alla psionerva montis di sopravvivere
         a stagioni estreme prolungate, mantenendo un metabolismo sospeso.
       trait_id: criostasi_adattiva
-    - text_en: I bulbi olfattivi tracciano campi magnetici e vene metalliche, guidando
-        la squadra attraverso il paesaggio ghiacciato.
+    - text_en: The psychic of the mountain uses magnetic resonance smell to trace
+        magnetic fields and metal veins, leading her through the landscape.
       text_it: L'olfatto di risonanza magnetica permette alla psionerva montis di
         tracciare campi magnetici e vene metalliche, guidandola attraverso il paesaggio.
       trait_id: olfatto_risonanza_magnetica
-    - text_en: Il trasferimento di substrati via contatto sostiene feriti o giovani
-        con una riserva collettiva, rafforzando la coesione del branco.
+    - text_en: The shared energy metabolism allows the psyonerva mount to transfer
+        substrates through contact, supporting injured or young ones with a collective
+        reserve.
       text_it: Il metabolismo di condivisione energetica permette alla psionerva montà
         di trasferire substrati via contatto, sostenendo feriti o giovani con una
         riserva collettiva.
       trait_id: metabolismo_di_condivisione_energetica
-    - text_en: Le camere risonanti filtrano segnali instabili, mantenendo una comunicazione
-        chiara nel caos del ghiaccio.
+    - text_en: Echoing whispers of twilight filter unstable signals, helping the psychonerve
+        of the mountain navigate through the complexity of its environment.
       text_it: I lobi risonanti crepuscolari filtrano segnali instabili, aiutando
         la psionerva montis a navigare tra le complessità del suo ambiente.
       trait_id: lobi_risonanti_crepuscolo
-    - text_en: Le antenne Tesla permettono alle squadre di ridistribuire carichi e
-        modulare rigidità strutturale all'interno di canopia ionica.
+    - text_en: Tesla antennas allow psionerve mountain teams to redistribute loads
+        and adjust structural rigidity within the ionic canopy.
       text_it: Le antenne Tesla permettono alle squadre di psionerve montis di ridistribuire
         carichi e modulare la rigidità strutturale all'interno di canopia ionica.
       trait_id: antenne_tesla
-    - text_en: I capillari criogenici permettono alle squadre di ridistribuire carichi
-        e modulare rigidità strutturale all'interno della caldera glaciale.
+    - text_en: Cryogenic capillaries allow psyonerve mountain teams to redistribute
+        loads and modify structural rigidity within the glacial caldera.
       text_it: I capillari criogenici permettono alle squadre di psionerve montis
         di ridistribuire carichi e modulare la rigidità strutturale all'interno della
         caldera glaciale.
       trait_id: capillari_criogenici
-    - text_en: Le falangi criogeniche congelano e fissano il bersaglio al contatto,
-        facilitando la caccia nel ghiaccio.
+    - text_en: Frost claws freeze and lock onto the target upon contact, making the
+        psycho-mountain predator efficient.
       text_it: Gli artigli sghiaccio-glaciale congelano e fissano il bersaglio al
         contatto, rendendo la psionerva montis un predatore efficiente.
       trait_id: artigli_sghiaccio_glaciale
-    - text_en: Gli enzimi antifase termica permettono alle squadre di ottenere presa
-        e accelerazioni controllate su terreni estremi all'interno della caldera glaciale.
+    - text_en: Thermal anti-phase enzymes allow psychonerve mountain teams to gain
+        controlled traction and acceleration on extreme terrains within the glacial
+        caldera.
       text_it: Gli enzimi antifase termica permettono alle squadre di psionerve montis
         di ottenere presa e accelerazioni controllate su terreni estremi all'interno
         della caldera glaciale.
       trait_id: enzimi_antifase_termica
-    - text_en: I prismi sovrapposti riallineano il fuoco tra spettro visibile e ionico,
-        utili in microgravità variabile.
+    - text_en: Crystalline modular eyes realign fire between visible and ionic spectra,
+        useful in variable microgravity.
       text_it: Gli occhi cristallo-modulare riallineano il fuoco tra spettro visibile
         e ionico, utili in microgravità variabile.
       trait_id: occhi_cristallo_modulare
-    - text_en: La lingua cristallina permette alle squadre di disperdere energia e
-        attenuare impatti corrosivi o termici all'interno di pianura salina iperarida.
+    - text_en: Crystal language allows psyonerve mountain teams to disperse energy
+        and dampen corrosive or thermal impacts within a hyperarid salt plain.
       text_it: La lingua cristallina permette alle squadre di psionerve montis di
         disperdere energia e attenuare impatti corrosivi o termici all'interno di
         pianura salina iperarida.
       trait_id: lingua_cristallina
-    - text_en: I gusci criovetro permettono alle squadre di coordinare scambi di risorse
-        e parametri di stabilizzazione di squadra all'interno della caldera glaciale.
+    - text_en: Cryovessel shells allow psyonerve mountain teams to coordinate resource
+        and team-stabilization exchanges within the glacial caldera.
       text_it: I gusci criovetro permettono alle squadre di psionerve montis di coordinare
         scambi di risorse e parametri di stabilizzazione di squadra all'interno della
         caldera glaciale.
@@ -1913,71 +1931,62 @@ pulverator_gregarius:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Si muove in branco seguendo la logica del vento, senza scegliere
-      una direzione ma seguendo la sua traccia. Il branco si coordina attraverso la
-      risonanza di branco, amplificando i buff condivisi e coordinando le tattiche
-      di attacco.
+    behavior_en: The pack works in synchrony, with shared predator tactics and a focus
+      on targeted attacks, while the shared resource and resonating communication
+      maintain the group's cohesion.
     behavior_it: Il branco opera in sincronia, con tattiche di preda condivise e un
       comportamento focalizzato su attacchi mirati, mentre la risorsa condivisa e
       la comunicazione risonante mantengono la coesione del gruppo.
-    evolutionary_niche_en: Occupa una nicchia evolutiva come apex predator, con denti
-      seghettati e artigli sette-vie per catturare prede e difendersi. La sua evoluzione
-      è guidata dall'adattamento al territorio e alla scarsità di risorse, con una
-      circolazione doppia per coordinare le squadre di caccia.
+    evolutionary_niche_en: As an apex species, the Gregarious Pulverator occupies
+      a dominant role in its ecological niche, leveraging its ability to coordinate
+      its pack and its effectiveness in hunting to maintain balance in its environment.
     evolutionary_niche_it: Come specie apex, il pulverator_gregarius occupa un ruolo
       dominante nella sua nicchia ecologica, sfruttando la sua capacità di coordinazione
       di branco e la sua efficacia nella caccia per mantenere l'equilibrio del suo
       ambiente.
-    habitat_en: Vive in ambienti di savana arida, dove la sabbia domina e le risorse
-      sono scarsa. Il suo habitat è unico per la sua capacità di utilizzare la risonanza
-      magnetica per tracciare vene metalliche e trovare cibo.
+    habitat_en: 'Moves in a herd across the savannah, following a logic similar to
+      wind: it doesn''t choose a direction but rather adapts, exploiting its ability
+      to adapt to dry ground and extreme weather conditions.'
     habitat_it: 'Si muove in branco attraverso la savana, seguendo una logica simile
       al vento: non sceglie una direzione, la porta, sfruttando la sua adattabilità
       al suolo asciutto e alle condizioni climatiche estreme.'
-    origin_en: Pulverator gregarius sorge dalle interazioni sottospecie della savana,
-      dove la selezione naturale ha favorito la sua evoluzione come apex predator.
-      La sua origine è legata alla sua capacità di adattarsi ai cambiamenti del territorio,
-      sviluppando un sistema olfattivo che risona con i campi magnetici della savana.
+    origin_en: Born where the savannah stops pretending and sand rules without appeal,
+      the pulverator_gregarius evolved in an environment of extreme competition for
+      resources, developing a body structure suitable for prey and group hunting.
     origin_it: Nato dove la savana smette di fingere e la sabbia governa senza appello,
       il pulverator_gregarius si evolveva in un ambiente di estrema competizione per
       risorse, sviluppando un'architettura corporea adatta alla preda e alla caccia
       in gruppo.
     trait_narrative:
-    - text_en: I denti seghettati lacerano la carne del bersaglio, causando sanguinamento
-        profondo che persiste per due turni.
+    - text_en: Serrated teeth tear into the target's flesh and cause deep bleeding
+        (over 2 turns).
       text_it: I denti seghettati lacerano la carne del bersaglio e applicano sanguinamento
         profondo (2 turni).
       trait_id: denti_seghettati
-    - text_en: Gli artigli sette-vie permettono al Razziatore di Polvere di mantenere
-        una presa stabile su superfici irregolari.
+    - text_en: Multiple claws ensure a stable grip on irregular surfaces.
       text_it: Gli artigli multipli assicurano presa stabile su superfici irregolari.
       trait_id: artigli_sette_vie
-    - text_en: La voce imperiosa paralizza la volontà dei deboli, applicando due turni
-        di panico a chi si trova a contatto diretto.
+    - text_en: The resonant voice immobilizes the will of the weak by applying 2 turns
+        of panic in melee.
       text_it: La voce risonante paralizza la volontà dei deboli applicando 2 turni
         di panic in melee.
       trait_id: voce_imperiosa
-    - text_en: La circolazione doppia permette alle squadre di coordinare lo scambio
-        di risorse e parametri di stabilizzazione all'interno del dorsale termale
-        tropicale.
+    - text_en: Double circulation allows teams to coordinate resource and team stability
+        parameter exchanges within a tropical thermal ridge.
       text_it: La circolazione doppia permette alle squadre di coordinare scambi di
         risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale
         tropicale.
       trait_id: circolazione_doppia
-    - text_en: I bulbi olfattivi tracciano campi magnetici e vene metalliche, guidando
-        il branco verso risorse strategiche.
+    - text_en: Scent bulbs trace magnetic fields and metal veins.
       text_it: I bulbi olfattivi tracciano campi magnetici e vene metalliche.
       trait_id: olfatto_risonanza_magnetica
-    - text_en: La risonanza di branco amplifica i buff condivisi del branco, rafforzando
-        la coesione e l'efficacia delle tattiche.
+    - text_en: The resonant network amplifies shared buffs within the pack.
       text_it: La rete risonante amplifica buff condivisi del branco.
       trait_id: risonanza_di_branco
-    - text_en: Le tattiche di branco coordinano il focus e le prese condivise, ottimizzando
-        la collaborazione tra i membri del branco.
+    - text_en: The tactical protocol coordinates shared focuses and grabs.
       text_it: Il protocollo tattico coordina focus e prese condivise.
       trait_id: tattiche_di_branco
-    - text_en: Il focus frazionato permette al Razziatore di Polvere di mantenere
-        due minacce sotto sorveglianza attiva contemporaneamente.
+    - text_en: The bifurcated cortex maintains two threats under active surveillance.
       text_it: Il cortex biforcato mantiene due minacce in sorveglianza attiva.
       trait_id: focus_frazionato
   schema_version: 1
@@ -2041,7 +2050,8 @@ rupicapra_sensoria:
       text_it: Il campo di odori avversivi ed emissioni deboli induce ansia e vertigini
         nei predatori.
       trait_id: aura_di_dispersione_mentale
-    - text_en: ''
+    - text_en: Transferring substances through contact heals injured or young ones
+        with a collective reserve.
       text_it: Il trasferimento di substrati via contatto sostiene feriti o giovani
         con una riserva collettiva.
       trait_id: metabolismo_di_condivisione_energetica
@@ -2096,23 +2106,23 @@ rust_scavenger:
       La sua evoluzione è legata alla capacità di sopravvivere e prosperare in ambienti
       inospitali, sfruttando le risorse minerali disponibili.
     trait_narrative:
-    - text_en: Il ventriglio muscoloso macina cibi duri con i gastroliti, riducendoli
-        in particelle fini per l'assimilazione.
+    - text_en: The massive muscle grinds with fury the iron debris, grinding and scraping
+        as the gastric stones reduce them to powder.
       text_it: Il ventriglio muscoloso macina con ferocia i detriti ferrosi, sfrigolando
         mentre i gastroliti li riducono in polvere.
       trait_id: ventriglio_gastroliti
-    - text_en: Le valvole toraciche rilasciano getti propulsivi istantanei, permettendo
-        al rust_scavenger di muoversi rapidamente attraverso il deserto.
+    - text_en: The thoracic valves open with a hiss, releasing jets of hot air that
+        move the sand and open new areas for search.
       text_it: Le valvole toraciche si aprono con un sibilo, rilasciando getti di
         aria calda che spostano la sabbia e aprono nuove aree di ricerca.
       trait_id: respiro_a_scoppio
-    - text_en: I filamenti digestivi compattano gli scarti, liberando spazio vitale
-        e facilitando la digestione.
+    - text_en: Digestive fibers contract, compacting metal remains and freeing up
+        vital space for new substances.
       text_it: I filamenti digestivi si contraggono, compattando i resti di metallo
         e liberando spazio vitale per nuove sostanze.
       trait_id: filamenti_digestivi_compattanti
-    - text_en: Il nucleo rotante trasforma il corpo in una ruota motrice, permettendo
-        al rust_scavenger di muoversi attraverso il terreno accidentato.
+    - text_en: The spinning core slides along the ground, transforming the body into
+        a driving wheel that drags debris towards the vortex.
       text_it: Il nucleo rotante scivola lungo il terreno, trasformando il corpo in
         una ruota motrice che trascina i detriti verso il ventriglio.
       trait_id: nucleo_ovomotore_rotante
@@ -2242,65 +2252,61 @@ sciame_larve_neurali:
       La loro esistenza è legata alla presenza di strutture biologiche che generano
       frequenze di squadra e shear.
     trait_narrative:
-    - text_en: La nebbia mnesica crea un'atmosfera vaga che confonde la memoria e
-        l'orientamento degli avversari.
+    - text_en: Mnemonic fog spreads, obscuring the memories and sense of direction
+        for opponents.
       text_it: La nebbia mnesica si espande, offuscando le memorie e il senso dell'orientamento
         degli avversari.
       trait_id: nebbia_mnesica
-    - text_en: I lobi risonanti del crepuscolo filtrano segnali instabili, migliorando
-        la precisione delle comunicazioni interne.
+    - text_en: Echoes resonate in the twilight filter unstable signals, stabilizing
+        communication between the larvae.
       text_it: I lobi risonanti del crepuscolo filtrano segnali instabili, stabilizzando
         la comunicazione tra le larve.
       trait_id: lobi_risonanti_crepuscolo
-    - text_en: Le ghiandole mnemoniche rilasciano secrezioni che conservano copie
-        attenuate degli effetti positivi.
+    - text_en: Mnemonic glands release secretions that retain weakened copies of buffs,
+        enhancing the group's resistance.
       text_it: Le ghiandole mnemoniche rilasciano secrezioni che trattengono copie
         attenuate di buff, amplificando la resistenza del gruppo.
       trait_id: ghiandole_mnemoniche
-    - text_en: Gli organi metacronici gestiscono la sequenza di assorbimento e rilascio
-        degli effetti benefici.
+    - text_en: Metacronic organs sequence the thefts of buffs in a chain, optimizing
+        the distribution of abilities.
       text_it: Gli organi metacronici sequenziano i furti di buff in catena, ottimizzando
         la distribuzione delle abilità.
       trait_id: organi_metacronici
-    - text_en: Le secrezioni antistatiche formano un film protettivo che disperde
-        l'elettricità in eccesso.
+    - text_en: Anti-static secretions create a protective film that disperses electrical
+        buildups, preventing damage.
       text_it: Le secrezioni antistatiche creano un film protettivo che disperde gli
         accumuli elettrici, prevendone danni.
       trait_id: secrezioni_antistatiche
-    - text_en: Le spicole canalizzatrici assorbono gli effetti benefici e li reindirizzano
-        in modo strategico.
+    - text_en: Channeled spikes absorb the buffs and redirect them inside the swarm,
+        improving synergy.
       text_it: Le spicole canalizzatrici assorbono i buff e li reindirizzano all'interno
         del sciame, migliorando la sinergia.
       trait_id: spicole_canalizzatrici
-    - text_en: I filamenti echo rilanciano le frequenze di squadra e riducono l'impatto
-        del shear.
+    - text_en: The Echo Filaments reinforce team frequencies and reduce shear, maintaining
+        group cohesion.
       text_it: I filamenti echo rilanciano frequenze di squadra e attenuano il shear,
         mantenendo la coesione del gruppo.
       trait_id: filamenti_echo
-    - text_en: Il riverbero memetico crea un eco cognitivo che duplica gli effetti
-        benefici a potenza ridotta.
+    - text_en: The metacognitive echo generates a cognitive echo that duplicates buffs
+        with reduced power, increasing collective resistance.
       text_it: Il riverbero memetico genera un eco cognitivo che duplica i buff a
         potenza ridotta, aumentando la resistenza collettiva.
       trait_id: riverbero_memetico
-    - text_en: Il vortice nero flash genera un'implosione luminosa seguita da un vuoto
-        e un teletrasporto breve.
+    - text_en: The black flash vortex forms in a luminescent implosion, followed by
+        a brief vacuum and teleportation that avoids damage.
       text_it: Il vortice nera flash si forma in un implosione luminosa, seguita da
         un vuoto e un teletrasporto breve che evita i danni.
       trait_id: vortice_nera_flash
-    - text_en: Lo spirito combattivo mantiene la determinazione anche sotto pressione,
-        resistendo a stati di panico e paura.
+    - text_en: The fighting spirit maintains determination even under pressure, resisting
+        states of panic and fear.
       text_it: Lo spirito combattivo mantiene la determinazione anche sotto pressione,
         resistendo a stati di panico e paura.
       trait_id: spirito_combattivo
-    - text_en: Il canto di richiamo, dopo un'uccisione, amplifica la furia per due
-        turni e onora la preda caduta.
+    - text_en: The post-kill call amplifies rage for two turns and honors the fallen
+        prey.
       text_it: Il canto di richiamo ritiene post-kill, amplificando la furia per due
         turni e onorando la preda caduta.
       trait_id: canto_di_richiamo
-    - text_en: ''
-      text_it: I lobi risonanti del crepuscolo filtrano segnali instabili, stabilizzando
-        la comunicazione tra le larve.
-      trait_id: lobi_risonanti_crepusolo
   schema_version: 1
   species_id: sciame_larve_neurali
 sentinella_radice:
@@ -2537,7 +2543,8 @@ simbionte_corallino_riflesso:
       text_it: Il fluido accumula carica e drena energia nemica, proteggendo il gruppo
         da attacchi.
       trait_id: emolinfa_conducente
-    - text_en: ''
+    - text_en: Light charge illuminates connections and reflections, improving instant
+        coordination.
       text_it: La scarica leggera illumina connessioni e riflessi, migliorando la
         coordinazione istantanea.
       trait_id: scintilla_sinaptica
@@ -2558,11 +2565,6 @@ simbionte_corallino_riflesso:
       text_it: Il guscio bioluminescente confonde i predatori nelle profondità, offrendo
         una difesa visiva.
       trait_id: carapace_luminiscente_abissale
-    - text_en: The coralline synaptics photophase create bioelectrical barriers that
-        channel light and impulses.
-      text_it: Le barriere bioelettriche canalizzano luce e impulsi, creando un'illuminazione
-        sinaptica che guida i movimenti del gruppo.
-      trait_id: coralli_sinaptici_fotofase
   schema_version: 1
   species_id: simbionte_corallino_riflesso
 slag_veil_ambusher:
@@ -2648,64 +2650,63 @@ sonaraptor_dissonans:
       ha sviluppato adattamenti unici per sopravvivere e cacciare in un ambiente di
       estrema complessità sonora.
     trait_narrative:
-    - text_en: Il Sonaraptor Dissonante lancia un raggio sonico che stordisce la preda
-        con una potente onda di pressione.
+    - text_en: The Dissonant Sonaraptor launches a sonic beam that stuns enemies,
+        utilizing its ability to generate high-frequency pressure waves.
       text_it: Il Sonaraptor Dissonante lancia un raggio sonico che stordisce i nemici,
         sfruttando la sua capacità di generare onde di pressione ad alta frequenza.
       trait_id: cannone_sonico_a_raggio
-    - text_en: Il campo di interferenza acustica del Sonaraptor Dissonante cancella
-        ogni suono, nascondendolo ai nemici.
+    - text_en: Before attacking, the Dissonant Sonaraptor creates an acoustic interference
+        field that blocks external sounds, making it invisible and inaudible.
       text_it: Prima di attaccare, il Sonaraptor Dissonante crea un campo di interferenza
         acustica che blocca i suoni esterni, rendendolo invisibile e inascoltato.
       trait_id: campo_di_interferenza_acustica
-    - text_en: I sistemi chimio-sonici del Sonaraptor Dissonante mappano il movimento
-        delle correnti d'aria senza necessità di vista.
+    - text_en: Using chemico-acoustic systems, the Dissonant Sonaraptor maps the environment
+        and air currents without having to rely on sight.
       text_it: Utilizzando i sistemi chimio-sonici, il Sonaraptor Dissonante mappa
         l'ambiente e le correnti d'aria senza dover dipendere dalla vista.
       trait_id: sistemi_chimio_sonici
-    - text_en: La visione multi-spettrale amplificata del Sonaraptor Dissonante permette
-        di vedere anche in condizioni di luminosità estremamente bassa.
+    - text_en: The enhanced multi-spectral vision of the Dissonant Sonaraptor allows
+        it to see even in extremely low light conditions.
       text_it: La visione multi-spettrale amplificata del Sonaraptor Dissonante gli
         permette di vedere anche in condizioni di luminosità estremamente bassa.
       trait_id: visione_multi_spettrale_amplificata
-    - text_en: Il Sonaraptor Dissonante comunica con altri membri della sua specie
-        tramite impulsi luminosi tattili lungo la coda.
+    - text_en: The Dissonant Styracosaurus communicates with other members of its
+        species using luminescent pulses transmitted through its tail.
       text_it: Il Sonaraptor Dissonante comunica con gli altri membri della sua specie
         tramite impulsi luminosi trasmessi attraverso la coda.
       trait_id: comunicazione_fotonica_coda_coda
-    - text_en: ''
+    - text_en: The resonating wings of the Dissonant Sonaraptor generate a wide range
+        of sounds during flight, used for communication and navigation.
       text_it: Le ali fono-risonanti del Sonaraptor Dissonante generano una vasta
         gamma di suoni durante il volo, utilizzati per comunicare e navigare.
       trait_id: ali_fono_risonanti
-    - text_en: Le antenne Tesla del Sonaraptor Dissonante permettono alle squadre
-        di ridistribuire carichi e modulare la rigidità strutturale all'interno della
-        canopia ionica.
+    - text_en: The Tesla antennas of the Dissonant Sonaraptor allow teams to redistribute
+        loads and modify structural rigidity within the ionic canopy.
       text_it: Le antenne Tesla del Sonaraptor Dissonante permettono alle squadre
         di ridistribuire carichi e modulare la rigidità strutturale all'interno della
         canopia ionica.
       trait_id: antenne_tesla
-    - text_en: Le ali solari fotoni del Sonaraptor Dissonante convertono la luce in
-        spinta e schermatura contro la radianza.
+    - text_en: The solar wing photons of the Dissonant Sonaraptor are equipped with
+        photovoltaic feathers that convert light into thrust and provide shielding
+        against glare.
       text_it: Le ali solari fotoni del Sonaraptor Dissonante sono dotate di piume
         fotovoltaiche che convertono la luce in spinta e forniscono schermature contro
         la radianza.
       trait_id: ali_solari_fotoni
-    - text_en: I denti tuning fork del Sonaraptor Dissonante permettono alle squadre
-        di ridistribuire carichi e modulare la rigidità strutturale all'interno di
-        una caverna risonante.
+    - text_en: The Sonaraptor Dissonant's tuning fork teeth allow teams to redistribute
+        weights and modify structural rigidity within a resonant cave.
       text_it: I denti tuning fork del Sonaraptor Dissonante permettono alle squadre
         di ridistribuire carichi e modulare la rigidità strutturale all'interno di
         una caverna risonante.
       trait_id: denti_tuning_fork
-    - text_en: La coda stabilizzatrice vortex del Sonaraptor Dissonante canalizza
-        l'energia cinetica o elementale in colpi mirati all'interno della stratosfera
-        tempestosa.
+    - text_en: The Vortex Stabilizer Tail of the Dissonant Sonaraptor channels kinetic
+        or elemental energy into precise strikes within the stormy stratosphere.
       text_it: La coda stabilizzatrice vortex del Sonaraptor Dissonante canalizza
         l'energia cinetica o elementale in colpi mirati all'interno della stratosfera
         tempestosa.
       trait_id: coda_stabilizzatrice_vortex
-    - text_en: Le branchie eoliche del Sonaraptor Dissonante interpretano segnali
-        minuti e pattern psionici instabili all'interno della stratosfera tempestosa.
+    - text_en: The wind turbines of the Sonaraptor Dissonant interpret minute signals
+        and unstable psychic patterns within the stormy stratosphere.
       text_it: Le branchie eoliche del Sonaraptor Dissonante interpretano segnali
         minuti e pattern psionici instabili all'interno della stratosfera tempestosa.
       trait_id: branchie_eoliche
@@ -3079,14 +3080,13 @@ sp_cavatympa_sonans:
       dove ha sviluppato capacità uniche per esplorare e interagire con le strutture
       cave senza entrare in contatto diretto con gli ambienti interni.
     trait_narrative:
-    - text_en: Le antenne microonde cavernose permettono alla creatura di mappare
-        le cavità rocciose dall'esterno, annusando l'architettura sotterranea senza
-        entrare in contatto diretto.
+    - text_en: Cavernous microwave antennas allow the species to map rock cavities
+        from the outside, sniffing out underground architecture without entering.
       text_it: Le antenne microonde cavernose permettono alla specie di mappare le
         cavità rocciose dall'esterno, annusando l'architettura sotterranea senza entrare.
       trait_id: antenne_microonde_cavernose
-    - text_en: I tentacoli uncinati si utilizzano per afferrare e immobilizzare le
-        prede per un turno, fratturando la loro capacità di muoversi.
+    - text_en: The hooked tentacles anchor to the walls as it scans, immobilizing
+        potential obstacles for 1 turn.
       text_it: I tentacoli uncinati la ancorano alle pareti mentre scansiona, immobilizzando
         eventuali ostacoli per 1 turno.
       trait_id: tentacoli_uncinati
@@ -3176,13 +3176,13 @@ sp_cryptolorca_medicata:
     origin_it: La specie sp_cryptolorca_medicata ha origini nel bioma caverna, dove
       ha sviluppato le sue caratteristiche uniche per sopravvivere in ambienti estremi.
     trait_narrative:
-    - text_en: Le cartilagini pseudometalliche permettono alle squadre di ridistribuire
-        carichi e modulare rigidità strutturale all'interno di abisso vulcanico.
+    - text_en: Pseudometallic cartilages allow teams to redistribute loads and modify
+        structural rigidity within a volcanic abyss.
       text_it: Le cartilagini pseudometalliche permettono alle squadre di ridistribuire
         carichi e modulare rigidità strutturale all'interno di abisso vulcanico.
       trait_id: cartilagini_pseudometalliche
-    - text_en: Le camere mirage permettono alle squadre di prevedere traiettorie e
-        orchestrare setup multilivello all'interno di pianura salina iperarida.
+    - text_en: Mirage chambers allow teams to predict trajectories and coordinate
+        multi-level setups within hyperarid salt plains.
       text_it: Le camere mirage permettono alle squadre di prevedere traiettorie e
         orchestrare setup multilivello all'interno di pianura salina iperarida.
       trait_id: camere_mirage
@@ -3229,14 +3229,13 @@ sp_ferrimordax_rutilus:
       Badlands, dove la sua evoluzione è stata guidata da condizioni estreme di calore
       e minerali ricchi di ferro.
     trait_narrative:
-    - text_en: I denti ossidoferro permettono alle squadre di prevedere traiettorie
-        e orchestrare setup multilivello all'interno di abisso vulcanico.
+    - text_en: Obsidian teeth allow teams to predict trajectories and orchestrate
+        multi-level setups within a volcanic abyss.
       text_it: I denti ossidoferro permettono alle squadre di prevedere traiettorie
         e orchestrare setup multilivello all'interno di abisso vulcanico.
       trait_id: denti_ossidoferro
-    - text_en: I carapaci ferruginosi permettono alle squadre di coordinare scambi
-        di risorse e parametri di stabilizzazione di squadra all'introito di abisso
-        vulcanico.
+    - text_en: Iron plates allow teams to coordinate resource and team stability exchanges
+        at the entrance of a volcanic trench.
       text_it: I carapaci ferruginosi permettono alle squadre di coordinare scambi
         di risorse e parametri di stabilizzazione di squadra all'intro di abisso vulcanico.
       trait_id: carapaci_ferruginosi
@@ -3338,25 +3337,25 @@ sp_glaciolabis_nitida:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Mantiene comportamenti istintivi, senza pianificazione o linguaggio,
-      adattandosi istintivamente ai cambiamenti ambientali nei margini degli ecosistemi.
+    behavior_en: It doesn't possess language or planning, acting on simple instincts
+      that allow it to exploit opportunities from the edges of ecosystems.
     behavior_it: Non possiede linguaggio né pianificazione, agendo in base a istinti
       semplici che le permettono di sfruttare le opportunità offerte dai margini tra
       gli ecosistemi.
-    evolutionary_niche_en: Come specie bridge, occupa una nicchia evolutiva unica
-      tra habitat diversi, sfruttando le interfacce ecologiche per sopravvivere e
-      prosperare in condizioni marginali.
+    evolutionary_niche_en: As with bridge species, it occupies a unique evolutionary
+      niche, exploiting transition zones between different habitats without belonging
+      to any specific ecosystem.
     evolutionary_niche_it: Come specie bridge, occupa una nicchia evolutiva unica,
       sfruttando le zone di transizione tra habitat diversi senza appartenere a nessun
       ecosistema specifico.
-    habitat_en: Si muove fluidamente tra il ghiaccio e gli habitat adiacenti, senza
-      mai appartenere a nessun ecosistema specifico, mantenendo un equilibrio tra
-      gli spazi marginali.
+    habitat_en: Moves fluidly through the glacial caldera and adjacent habitats, exploiting
+      border zones for hunting and survival without getting stuck in a single environment.
     habitat_it: Si muove fluidamente tra la caldera glaciale e gli habitat limitrofi,
       sfruttando le zone di confine per la caccia e la sopravvivenza senza fissarsi
       in un singolo ambiente.
-    origin_en: Glaciolabis nitida ha origini nella caldera glaciale, dove la sua evoluzione
-      ha favorito adattamenti unici per sopravvivere in ambienti estremi e marginali.
+    origin_en: The species Glaciolabis Nitida originates at the edges between glacial
+      calderas and adjacent environments, where its adaptability allows it to survive
+      in transition areas.
     origin_it: La specie Glaciolabis Nitida ha origini nei margini tra le caldere
       glaciali e gli ambienti adiacenti, dove la sua capacità di adattarsi ha permesso
       di sopravvivere in aree di transizione.
@@ -3556,33 +3555,32 @@ sp_magmocardium_furens:
       la sua circolazione supercritica e il sangue piroforico evolvono per sopravvivere
       alle estreme condizioni termiche e pressive.
     trait_narrative:
-    - text_en: Le squadre di Cuore Furente canalizzano energia cinetica o elementale
-        in colpi mirati all'interno dell'abisso vulcanico.
+    - text_en: The teams of Furious Heart channel kinetic or elemental energy into
+        precision strikes within the volcanic abyss.
       text_it: Le squadre di Cuore Furente canalizzano energia cinetica o elementale
         in colpi mirati all'interno dell'abisso vulcanico.
       trait_id: circolazione_supercritica
-    - text_en: Il fluido ematico incendia l'aria colpendo chi perfora la corazza.
+    - text_en: The blood plasma ignites air upon penetrating armor.
       text_it: Il fluido ematico incendia l'aria colpendo chi perfora la corazza.
       trait_id: sangue_piroforico
-    - text_en: La coda elastica accumula slancio per un colpo cinetico devastante.
+    - text_en: The rubber band stores energy for a powerful kinetic strike.
       text_it: La coda elastica accumula slancio per un colpo cinetico devastante.
       trait_id: coda_frusta_cinetica
-    - text_en: Il stato psicofisico predatoriale aumenta l'aggressività e la potenza
-        offensiva sotto stress, favorendo attacchi multipli consecutivi.
+    - text_en: Predatory psychological state increases aggression and offensive power
+        under stress, favoring consecutive multiple attacks.
       text_it: Lo stato psicofisico predatoriale aumenta l'aggressività e la potenza
         offensiva sotto stress, favorendo attacchi multipli consecutivi.
       trait_id: ferocia
-    - text_en: Le lamelle Shear permettono alle squadre di prevedere traiettorie e
-        orchestrare setup multilivello all'interno della stratosfera tempestosa.
+    - text_en: The Shear Plates allow teams to predict trajectories and orchestrate
+        multi-level setups within the stormy stratosphere.
       text_it: Le lamelle Shear permettono alle squadre di prevedere traiettorie e
         orchestrare setup multilivello all'interno della stratosfera tempestosa.
       trait_id: lamelle_shear
-    - text_en: Il midollo osseo pompa adrenalina ad ogni uccisione, scatenando 3 turni
-        di rage.
+    - text_en: Bone marrow pumps adrenaline at every kill, triggering 3 turns of rage.
       text_it: Il midollo osseo pompa adrenalina ad ogni uccisione, scatenando 3 turni
         di rage.
       trait_id: midollo_iperattivo
-    - text_en: Il cortex biforcato mantiene due minacce in sorveglianza attiva.
+    - text_en: The forked cortex maintains two threats under active surveillance.
       text_it: Il cortex biforcato mantiene due minacce in sorveglianza attiva.
       trait_id: focus_frazionato
   schema_version: 1
@@ -3727,8 +3725,9 @@ sp_noctipedis_umbrata:
       è sviluppata in un contesto di bassa luminosità e condizioni atmosferiche estreme,
       adattandosi a sfruttare le proprietà della condensa ozono per comunicare e cacciare.
     trait_narrative:
-    - text_en: Le ghiandole dorsali condensano ozono, rilasciandolo come una firma
-        olfattiva che segnala la presenza del Corridore Notturno nel mezzanotte orbitale.
+    - text_en: The Condensa Ozono Glands allow the Night Ranger to reduce his scent
+        trail during the orbital midnight, marking the silence before the prey with
+        an undetectable signal.
       text_it: Le ghiandole Condensa Ozono permettono al Corridore Notturno di ridurre
         la sua traccia olfattiva nel mezzanotte orbitale, marcando il silenzio prima
         della preda con un segnale impercettibile.
@@ -3877,13 +3876,13 @@ sp_radiluma_pendula:
       La sua evoluzione è legata alla capacità di pre-digerire nutrienti per supportare
       le specie batteriche simbionti.
     trait_narrative:
-    - text_en: Il biofilm luminescente emette un segnale che guida le specie batteriche
-        simbionti verso le zone nutrienti pre-digerite dal carapace abissale.
+    - text_en: The luminescent biofilm emits a visual signal guiding symbiotic bacteria
+        towards pre-digested nutrient areas within the abyssal shell.
       text_it: Il biofilm luminescente emette un segnale visivo che guida le batteri
         simbionti verso le aree nutrienti pre-digerite dal carapace abissale.
       trait_id: biofilm_glow
-    - text_en: Il guscio bioluminescente confonde i predatori nelle profondità, creando
-        un'illusione di movimento e distrazione.
+    - text_en: The bioluminescent shell causes confusion among predators, allowing
+        the species to survive in the deep dark.
       text_it: Il guscio bioluminescente crea confusione tra i predatori, permettendo
         alla specie di sopravvivere nelle profondità oscure.
       trait_id: carapace_luminiscente_abissale
@@ -4354,27 +4353,31 @@ sp_zephyrovum_fidelis:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Si muove con le correnti d'aria per trasportare pollini e spore,
-      seguendo un comportamento istintivo legato alla dispersione senza pianificazione.
+    behavior_en: It moves with air currents to transport pollen and spores, following
+      predetermined routes. Its seasonal reliability is an ability learned by the
+      surrounding plant species, which have developed a symbiotic relationship with
+      it.
     behavior_it: Si muove con le correnti d'aria per trasportare pollini e spore,
       seguendo rotte predeterminate. La sua affidabilità stagionale è un'abilità imparata
       dalle specie vegetali circostanti, che hanno sviluppato una relazione simbiotica
       con essa.
-    evolutionary_niche_en: Occupa un ruolo chiave nella dispersione dei pollini e
-      delle spore nella stratosfera tempestosa, essendo una specie bridge con adattamenti
-      non specificati per svolgere questa funzione.
+    evolutionary_niche_en: The species occupies a key ecological niche in the dispersal
+      of pollen and spores into the stratosphere. Its adaptations allow it to play
+      an essential role in the connection between plant species living in that environment.
     evolutionary_niche_it: La specie occupa una nicchia ecologica chiave nella dispersione
       dei pollini e delle spore nella stratosfera. I suoi adattamenti le permettono
       di svolgere un ruolo essenziale nella connessione tra le specie vegetali che
       vivono in quel ambiente.
-    habitat_en: Vive esclusivamente nella stratosfera tempestosa, dove si muove grazie
-      alle correnti d'aria per trasportare pollini e spore.
+    habitat_en: Lives exclusively in the stormy stratosphere, where air currents are
+      intense and constant. This environment allows it to move without physical effort,
+      using wind for its survival.
     habitat_it: Vive esclusivamente nella stratosfera tempestosa, dove le correnti
       d'aria sono intense e costanti. Questo ambiente le permette di muoversi senza
       bisogno di sforzi fisici, sfruttando il vento per la sua sopravvivenza.
-    origin_en: sp_zephyrovum_fidelis è una specie bridge che ha sviluppato adattamenti
-      per sopravvivere e muoversi nella stratosfera tempestosa, senza specifici dettagli
-      su origine geografica o evolutiva.
+    origin_en: The species sp_zephyrovum_fidelis originated from the tempestuous stratosphere,
+      where it adapted to perform the role of pollen and spore disperser. Its evolution
+      is tied to its ability to move with air currents, allowing it to reliably transport
+      plant materials.
     origin_it: La specie sp_zephyrovum_fidelis ha origini nella stratosfera tempestosa,
       dove si è adattata per svolgere il ruolo di dispersore di pollini e spore. La
       sua evoluzione è legata alla capacità di muoversi con le correnti d'aria, permettendole
@@ -4490,71 +4493,73 @@ symbiotica_thermalis:
       colonie corali. La sua esistenza è intrinsecamente legata alla salute di questi
       ecosistemi, mantenendo un equilibrio termico e chimico essenziale.
     trait_narrative:
-    - text_en: Trasferimento di substrati via contatto per sostenere feriti o giovani
-        con una riserva collettiva.
+    - text_en: Whisper energy through contact, replenishing the wounded and young
+        with a collective reserve that keeps the colony united.
       text_it: Sussurra energia attraverso il contatto, rifornendo i feriti e i giovani
         con una riserva collettiva che tiene unita la colonia.
       trait_id: metabolismo_di_condivisione_energetica
-    - text_en: ''
+    - text_en: Its hydra skeleton, like a living machine, fires rapid projectile shots
+        with a movement of cranial pistons.
       text_it: Il suo scheletro idra, come una macchina vivente, scatta colpi-proiettile
         rapidi con un movimento di pistoni cranici.
       trait_id: scheletro_idraulico_a_pistoni
-    - text_en: Sostenere organi elettrogeni.
+    - text_en: Filters metals to sustain electromagnetic organs that power its ability
+        to interact with the extreme environment.
       text_it: Filtrando metalli, sostiene gli organi elettrogeni che alimentano la
         sua capacità di interagire con l'ambiente estremo.
       trait_id: filtro_metallofago
-    - text_en: Sacche gassose regolabili per controllare assetto e profondità.
+    - text_en: Adjustable gas bags allow for controlling setup and depth, moving precisely
+        through thermal currents.
       text_it: Le sacche gassose regolabili permettono di controllare l'assetto e
         la profondità, muovendosi con precisione tra le correnti termali.
       trait_id: sacche_galleggianti_ascensoriali
-    - text_en: Rete risonante che amplifica buff condivisi del branco.
+    - text_en: The resonating network amplifies the shared benefits of the pack, uniting
+        members in a harmony of strength and resilience.
       text_it: La rete risonante amplifica i benefici condivisi del branco, unendo
         i membri in un'armonia di forza e resistenza.
       trait_id: risonanza_di_branco
-    - text_en: Capillari Fluoridici permette alle squadre di interpretare segnali
-        minuti e pattern psionici instabili all'interno di foresta acida.
+    - text_en: Fluoride capillaries interpret unstable psychic signals, allowing teams
+        to communicate and coordinate in acidic environments.
       text_it: I capillari fluoridici interpretano segnali psionici instabili, permettendo
         alle squadre di comunicare e coordinarsi in ambienti acidi.
       trait_id: capillari_fluoridici
-    - text_en: Branchie Metalloidi permette alle squadre di ottenere presa e accelerazioni
-        controllate su terreni estremi all'interno di abisso vulcanico.
+    - text_en: Metal tendrils offer traction and controlled acceleration, allowing
+        for agile movement on extreme terrains.
       text_it: Le branchie metalloidi offrono presa e accelerazioni controllate, permettendo
         di muoversi con agilità su terreni estremi.
       trait_id: branchie_metalloidi
-    - text_en: Batteri Termofili Endosimbiosi permette alle squadre di coordinare
-        scambi di risorse e parametri di stabilizzazione di squadra all'interno di
-        dorsale termale tropicale.
+    - text_en: The thermophilic batteries, endosymbionts coordinate the exchange of
+        resources and team stabilization within the thermal dorsal.
       text_it: I batteri termofili endosimbiosi coordinano lo scambio di risorse e
         la stabilizzazione di squadra all'interno della dorsale termale.
       trait_id: batteri_termofili_endosimbiosi
-    - text_en: Denti Chelatanti permette alle squadre di canalizzare energia cinetica
-        o elementale in colpi mirati all'interno di foresta acida.
+    - text_en: The clawed teeth channel kinetic or elemental energy into precision
+        strikes, making every attack accurate and powerful.
       text_it: I denti chelatanti canalizzano energia cinetica o elementale in colpi
         mirati, rendendo ogni attacco preciso e potente.
       trait_id: denti_chelatanti
-    - text_en: Ghiandole Iodoattive permette alle squadre di canalizzare energia cinetica
-        o elementale in colpi mirati all'interno di pianura salina iperarida.
+    - text_en: Iodactive glands channel energy into targeted strikes, adapting to
+        the extreme conditions of salt plains.
       text_it: Le ghiandole iodoattive canalizzano energia in colpi mirati, adattandosi
         alle condizioni estreme delle pianure saline.
       trait_id: ghiandole_iodoattive
-    - text_en: Enzimi Antipredatori Algali permette alle squadre di disperdere energia
-        e attenuare impatti corrosivi o termici all'interno di reef luminescente.
+    - text_en: Algal predator enzymes disperse energy and dampen corrosive impacts,
+        protecting the team in luminescent reefs.
       text_it: Gli enzimi antipredatori algali disperdono energia e attenuano impatti
         corrosivi, proteggendo la squadra nei reef luminescenti.
       trait_id: enzimi_antipredatori_algali
-    - text_en: Batteri Endosimbionti Chemio permette alle squadre di stabilizzare
-        assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.
+    - text_en: Endosymbiotic batteries stabilize absorption and energy conversion,
+        enabling the utilization of various energy sources.
       text_it: I batteri endosimbionti chemio stabilizzano l'assorbimento e la conversione
         energetica, permettendo di sfruttare diverse fonti di energia.
       trait_id: batteri_endosimbionti_chemio
-    - text_en: Filamenti Termoconduzione permette alle squadre di ottenere presa e
-        accelerazioni controllate su terreni estremi all'interno di dorsale termale
-        tropicale.
+    - text_en: Thermal conductive fibers provide grip and controlled acceleration,
+        allowing for nimble movement along thermal spines.
       text_it: I filamenti termoconduzione offrono presa e accelerazioni controllate,
         permettendo di muoversi con agilità lungo le dorsali termali.
       trait_id: filamenti_termoconduzione
-    - text_en: Strato dermico isolante che dissipa calore radiante ed evita danni
-        da ustione da esposizione prolungata a superfici roventi o ondate termiche.
+    - text_en: The insulating dermis layer disperses radiated heat, protecting the
+        creature from burns caused by hot surfaces or thermal waves.
       text_it: Lo strato dermico isolante dissipa calore radiante, proteggendo la
         creatura da ustioni causate da superfici roventi o ondate termiche.
       trait_id: pelli_anti_ustione
@@ -4604,32 +4609,27 @@ terracetus_ambulator:
       algoritmiche, dove la sua evoluzione ha favorito la sua capacità di adattarsi
       a un ambiente ostile e ricco di risorse limitate.
     trait_narrative:
-    - text_en: Il scheletro a maglie pneumatico permette a Terracetus_ambulator di
-        muoversi con leggerezza, facilitando spostamenti lunghi e lenti su terreni
-        vari.
+    - text_en: Its pneumatic skeleton made of mesh allows for effortless movement
+        over long land traversals.
       text_it: Il suo scheletro pneumatico a maglie permette di muoversi senza fatica
         per lunghi spostamenti terrestri.
       trait_id: scheletro_pneumatico_a_maglie
-    - text_en: La cinghia iper ciliare consente a Terracetus_ambulator di aderire
-        saldamente al terreno, sia che sia piano che ruvido, garantendo stabilità
-        durante la locomozione.
+    - text_en: The hyper-cilium belt helps to transfer the body over flat or rough
+        terrain.
       text_it: La cingia iper-ciliare lo aiuta a traslare il corpo su terreni piani
         o ruvidi.
       trait_id: cinghia_iper_ciliare
-    - text_en: La rete filtro polmonare permette a Terracetus_ambulator di assorbire
-        nutrienti da particolari aerodispersi, sfruttando l'ambiente circostante per
-        la sua sopravvivenza.
+    - text_en: The pulmonary filtration network absorbs nutrients dispersed in the
+        air directly.
       text_it: La rete filtro polmonare assorbe nutrienti aerodispersi direttamente
         dall'aria.
       trait_id: rete_filtro_polmonare
-    - text_en: Il canto infrasonico tattico di Terracetus_ambulator serve per disorientare
-        i predatori e comunicare con altri membri della sua specie a distanza.
+    - text_en: Ultrasonic tactical song disorients predators and allows for long-distance
+        communication.
       text_it: Il canto infrasonico tattico disorienta i predatori e permette la comunicazione
         a distanza.
       trait_id: canto_infrasonico_tattico
-    - text_en: Il siero anti gelo naturale di Terracetus_ambulator impedisce la formazione
-        di ghiaccio sulle sue superfici, permettendogli di sopravvivere in ambienti
-        freddi.
+    - text_en: The natural antifreeze serum prevents body freezing at low temperatures.
       text_it: Il siero anti-gelo naturale impedisce la cristallizzazione del corpo
         a basse temperature.
       trait_id: siero_anti_gelo_naturale
@@ -4654,52 +4654,48 @@ thaw_rot:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Thaw_rot mostra attività aumentata nei disgeli, utilizzando il calore
-      per liquefare i tessuti gelati e liberare nutrienti, mentre emette gas di fermentazione
-      come parte del suo processo metabolico.
+    behavior_en: Increases activity during thaws, liquefying frozen tissues and spreading
+      mould, while emitting fermentation gases as part of its metabolism.
     behavior_it: Aumenta l'attività durante i disgeli, liquefacendo i tessuti gelati
       e diffondendo marciume, mentre emette gas di fermentazione come parte del suo
       metabolismo.
-    evolutionary_niche_en: Occupa una nicchia evolutiva come decompositore criofilo,
-      svolgendo un ruolo chiave nella decomposizione dei materiali organici gelati
-      e nella ciclicità degli elementi in ambienti estremi.
+    evolutionary_niche_en: Occupies an evolutionary niche as a cryophile decomposter,
+      utilizing the thawing moment to release nutrients and maintain the ecological
+      balance of cryosteps.
     evolutionary_niche_it: Occupa una nicchia evolutiva come decompositore criofilo,
       sfruttando il momento di disgelo per liberare nutrienti e mantenere l'equilibrio
       ecologico delle cryosteppe.
-    habitat_en: Si sviluppa principalmente nelle cryosteppe, dove i periodi di disgelo
-      forniscono l'opportunità necessaria per attivarsi, liquefare i tessuti gelati
-      e iniziare il processo di decomposizione.
+    habitat_en: Developes predominantly in the cryosteps, where cycles of freeze and
+      thaw create ideal conditions for its activity and proliferation.
     habitat_it: Si sviluppa prevalentemente nelle cryosteppe, dove i cicli di gelo
       e disgelo creano le condizioni ideali per la sua attività e proliferazione.
-    origin_en: Thaw_rot è un decompositore criofilo che si evolve nel contesto delle
-      cryosteppe, adattandosi alle condizioni estreme del suolo ghiacciato e alla
-      scarsità di nutrienti disponibili durante i periodi di gelo.
+    origin_en: Thawrot is a cryophile decomposer native to the cryosteppe, which evolved
+      to exploit nutrients released during thaws, a key event for its survival.
     origin_it: Thaw_rot è un decompositore criofilo originario delle cryosteppe, sviluppatosi
       per sfruttare i nutrienti rilasciati durante i disgeli, un evento chiave per
       la sua sopravvivenza.
     trait_narrative:
-    - text_en: I filamenti digestivi compattano i resti organici, liberando spazio
-        vitale e accelerando la decomposizione.
+    - text_en: Digestive filaments compact waste, freeing up vital space and accelerating
+        decomposition.
       text_it: I filamenti digestivi compattano gli scarti, liberando spazio vitale
         e accelerando la decomposizione.
       trait_id: filamenti_digestivi_compattanti
-    - text_en: Le spore psichiche silenziate confondono e sedano i bersagli, riducendo
-        la loro capacità di reagire.
+    - text_en: Psychic spores silence and calm nearby targets, reducing their reactivity.
       text_it: Le spore psichiche silenziate confondono e sedano i bersagli vicini,
         riducendo la loro reattività.
       trait_id: spore_psichiche_silenziate
-    - text_en: Il sangue piroforico brucia l'aria intorno a chi viene colpito, creando
-        un effetto di incendio.
+    - text_en: Pyrophoric blood ignites the air when it hits armor, causing thermal
+        damage to enemies.
       text_it: Il sangue piroforico brucia l'aria quando colpisce la corazza, causando
         danni termici ai nemici.
       trait_id: sangue_piroforico
-    - text_en: I palmi rilasciano una secrezione gelatinosa che rallenta i movimenti
-        degli avversari.
+    - text_en: The palms release a gelatinous secretion that slows down fast targets
+        by impeding their movements.
       text_it: I palmi rilasciano una secrezione gelatinosa che blocca i bersagli
         rapidi, rallentandone i movimenti.
       trait_id: secrezione_rallentante_palmi
-    - text_en: L'eco interno riflesso permette alla creatura di mappare l'ambiente
-        attraverso vibrazioni corporee.
+    - text_en: Internal echo reflects the environment through bodily vibrations, allowing
+        for identification of obstacles and prey.
       text_it: L'eco interno riflesso mappa l'ambiente attraverso vibrazioni corporee,
         permettendo di individuare ostacoli e prede.
       trait_id: eco_interno_riflesso
