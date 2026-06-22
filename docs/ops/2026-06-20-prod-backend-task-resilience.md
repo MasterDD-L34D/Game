@@ -5,7 +5,7 @@ type: runbook
 doc_status: active
 doc_owner: master-dd
 workstream: ops-qa
-last_verified: '2026-06-20'
+last_verified: '2026-06-22'
 source_of_truth: false
 language: en
 review_cycle_days: 30
@@ -89,6 +89,27 @@ Register-ScheduledTask -Xml (Get-Content C:\Users\edusc\evo-backend-task-backup-
   rewrite (detach instead of block) + an idempotent health-check guard. Deferred as
   a bigger change; the RestartCount-999 + AtStartup fix covers the observed failure
   modes with no rewrite.
-- **Postgres auto-start** (separate prod dependency) -- the portable PG is started
-  by hand (`pg_ctl -D C:/dev/tools/pgdata-game`); a parallel ops residue, not in
-  this runbook.
+- ~~**Postgres auto-start**~~ -- **RESOLVED 2026-06-22** (see below).
+
+## Postgres auto-start (RESOLVED 2026-06-22)
+
+The backend's `DATABASE_URL` points at a portable Postgres
+(`postgresql://...@localhost:5432/game`, data dir `C:/dev/tools/pgdata-game`, binaries
+`C:/dev/tools/pgsql/bin`). It had **no auto-start**, so after a reboot the startup
+lobby hydrate failed with `Can't reach database server at localhost:5432`
+(`lobbyPersistence`, caught/non-fatal -> co-op rooms not restored). Found during the
+OD-024 D7 interoception flip (prod had been running PG-down).
+
+**Fix (applied, non-elevated):** `start-evo-backend.cmd` now **ensures PG before the
+backend** -- idempotent `pg_ctl ... start` (no-op if already running) + a bounded
+(<=30s) `pg_isready` wait, then `source keys.env` + `npm run start:api`. So PG comes
+up on every backend (re)start (logon / crash-restart). Verified: a controlled restart
+hydrated cleanly (`[lobby-ws] Prisma hydrate: 3 room(s) restored`, `/api/health` 200).
+Backup of the pre-edit cmd: `C:\Users\edusc\start-evo-backend.cmd.bak-20260622`.
+
+**Pure-boot survival** still rides on the backend task gaining an **AtStartup** trigger
+(the elevated owner fix above) -- once applied, the cmd brings PG up on boot too. PG
+recovers its own data dir automatically (WAL redo) after an unclean stop. The portable
+PG is NOT registered as a Windows service (would be the only way to start it fully
+independent of the backend task; deferred -- the cmd coupling covers the observed
+failure mode).
