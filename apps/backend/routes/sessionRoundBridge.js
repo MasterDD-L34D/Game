@@ -1316,6 +1316,21 @@ function createRoundBridge(deps) {
       });
     }
 
+    // OD-024 engine #2 (D6): stamina/fatica accrue-or-decay per unit at round end
+    // (flag-gated). The move-tally accumulator was filled during the round; resolve it
+    // to +1 (sprint) or decay, and reset. Default OFF = no-op no-touch.
+    try {
+      const stamina = require('../services/combat/staminaFatigue');
+      if (stamina.isFatigueEnabled()) {
+        for (const unit of session.units || []) {
+          if (!unit) continue;
+          stamina.accrueOrDecay(unit);
+        }
+      }
+    } catch {
+      /* stamina optional; never block round end */
+    }
+
     return {
       hazardEvents,
       bleedingEvents,

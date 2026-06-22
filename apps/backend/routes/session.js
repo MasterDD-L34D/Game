@@ -1811,6 +1811,29 @@ function createSessionRouter(options = {}) {
         units = scenarioUnits;
       }
 
+      // OD-024 D3 (master-dd #2941 ratification: grant extended player-only -> enemies):
+      // apply the sentience interoception grant to enemy/sistema units too (player chars
+      // get it at coopOrchestrator.submitCharacter). Flag-gated inside the helper
+      // (SENTIENCE_INTEROCEPTION_GRANT_ENABLED) -> band-neutral no-op when OFF. The enemy
+      // unit's `species` IS the catalog species_id slug (tier lookup key). Idempotent
+      // (no-dup) + never throws into /start.
+      try {
+        // eslint-disable-next-line global-require
+        const {
+          applySentienceInteroceptionGrant,
+        } = require('../services/sentience/sentienceInteroceptionGrant');
+        for (const u of units) {
+          if (!u || u.controlled_by !== 'sistema') continue;
+          const granted = applySentienceInteroceptionGrant({
+            species_id: u.species,
+            traits: u.traits,
+          });
+          if (Array.isArray(granted?.traits)) u.traits = granted.traits;
+        }
+      } catch {
+        /* sentience grant optional -- never block /start */
+      }
+
       // Q-001 T2.3 PR-3: applica difficulty profile scaling (opt-in, default normal)
       const requestedProfile =
         typeof req.body?.difficulty_profile === 'string'
@@ -2601,6 +2624,12 @@ function createSessionRouter(options = {}) {
             .json({ error: `casella (${dest.x},${dest.y}) occupata da ${blocker.id}` });
         }
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
+        // OD-024 engine #2: tally voluntary movement tiles this round (sprint detect),
+        // flag-gated so the transient field never leaks into publicSessionView when OFF.
+        // Only actor-issued `move` actions reach here -> forced displacement excluded.
+        if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
+          actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
+        }
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
@@ -3057,6 +3086,11 @@ function createSessionRouter(options = {}) {
           }
           const dist = manhattanDistance(actor.position, dest);
           actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          // OD-024 engine #2: voluntary-move tile tally (round-path), flag-gated so the
+          // transient field never leaks into publicSessionView when OFF. See per-action site.
+          if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
+            actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
+          }
           const positionFrom = { ...actor.position };
           actor.position = { x: dest.x, y: dest.y };
           const newFacing = facingFromMove(positionFrom, actor.position);
