@@ -26,7 +26,8 @@ tags: [trait, orphan, correction, data-model, istruttoria, ground-truth]
 | --- | --- | --- |
 | `data/core/traits/active_effects.yaml` | **SOURCE** | mechanics combat (trigger+effect, tier T1-T3) -- valutato a runtime |
 | `data/core/traits/glossary.json` | **SOURCE** | label IT/EN |
-| `data/traits/<categoria>/<trait>.json` + `data/traits/index.json` | **SOURCE** | DB metadata ricco (famiglia, `requisiti_ambientali.biome_class`, sinergie, `completion_flags.has_species_link`, tier) |
+| `data/traits/<categoria>/<trait>.json` | **SOURCE** | DB metadata ricco (famiglia, `requisiti_ambientali.biome_class`, sinergie, `completion_flags.has_species_link`, tier). **NB**: entry = metadata, NON duplica trigger/min_mos (quelli vivono solo in active_effects). |
+| `data/traits/index.json` | **HYBRID** | hand-authored + affinity iniettata da `build_species_trait_bridge.py` (`merge_into_trait_index`). NON pura source -> rinomina nel per-trait file POI rigenera, non hand-edit index. |
 | `data/core/traits/biome_pools.json` | **SOURCE** | pool PCG (core/support/preferred_traits) |
 | `packs/evo_tactics_pack/data/species/**/*.yaml` | **SOURCE** | specie pack (liste trait) |
 | `data/external/evo/` (species + traits TR-NNNN) | **SOURCE (import)** | pack-v2 source per l'ETL |
