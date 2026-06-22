@@ -149,10 +149,25 @@ listeners on `:3334` + `:3341` before relaunching `npm run start:api` from
 4. **Rollback** if win-rates regress in real play: set the flag back to `false` (or
    remove the line), restart the task. The override data in the catalog is inert again.
 
+## Execution record
+
+**Flipped ON in prod 2026-06-22** (master-dd authorized after the symmetric N=40 +
+dry-smoke passed). Deployed `_gamewt-lenovo-host` 5927cb7d -> 0b2cfea4 (producer +
+33 overrides present), appended the flag to keys.env, restarted the task. Verified:
+`/api/health` 200 (stable, 200/200 3s apart -- no crash-loop), task State=Running.
+**Caveat (pre-existing, NOT this flip):** the startup log shows `prisma ... can't
+reach localhost:5432` (Postgres down -> lobby persistence hydrate fails, caught/
+non-fatal) -- 22 prior occurrences, Postgres has never auto-started on this host
+(separate prod-resilience follow-up). Interoception (combat-side) is unaffected by
+it. Rollback if needed: remove the keys.env line + `checkout --detach 5927cb7d` +
+restart.
+
 ## After this flip
 
 - `STAMINA_FATIGUE_ENABLED` = next incremental piece (own N=40 + flip).
 - D6 engine #3 (encumbrance) = PARKED (needs an absent inventory/weight system).
+- Prod Postgres auto-start (5432) = separate follow-up (lobby persistence degraded
+  while down; pre-existing).
 
 Refs: producer `apps/backend/services/sentience/sentienceInteroceptionGrant.js`;
 D4 spec `docs/superpowers/specs/2026-06-22-od024-d4-interoception-overrides-rule-design.md`;
