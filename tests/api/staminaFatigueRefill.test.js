@@ -4,6 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const { applyApRefill, normaliseUnit } = require('../../apps/backend/routes/sessionHelpers');
+const staminaFatigue = require('../../apps/backend/services/combat/staminaFatigue');
 
 const FLAG = 'STAMINA_FATIGUE_ENABLED';
 function withFlag(value, fn) {
@@ -55,4 +56,42 @@ test('normaliseUnit: fatica present (0) when flag ON, absent when OFF', () => {
   assert.equal(onUnit.fatica, 0);
   const offUnit = withFlag(undefined, () => normaliseUnit({ id: 'y', traits: [] }, 0));
   assert.equal('fatica' in offUnit, false);
+});
+
+// Task 4 — round-boundary accrue/decay -> next-round AP penalty (the production loop
+// in applyEndOfRoundSideEffects calls accrueOrDecay per unit; exercised here at module
+// level since the bridge is a per-session factory — see plan Task 4 Step 1).
+test('accrue -> penalty: sprint round +1 fatica, next refill -1 AP', () => {
+  withFlag('true', () => {
+    const unit = {
+      ap: 2,
+      ap_remaining: 0,
+      fatica: 0,
+      traits: [],
+      status: {},
+      _tiles_voluntary_round: 2,
+    };
+    staminaFatigue.accrueOrDecay(unit); // round boundary
+    assert.equal(unit.fatica, 1, 'sprint -> +1 fatica');
+    assert.equal(unit._tiles_voluntary_round, 0, 'accumulator reset');
+    applyApRefill(unit); // next round
+    assert.equal(unit.ap_remaining, 1, 'fatigued -> -1 AP next round');
+  });
+});
+
+test('decay -> recovery: non-sprint round clears fatica, full AP restored', () => {
+  withFlag('true', () => {
+    const unit = {
+      ap: 2,
+      ap_remaining: 2,
+      fatica: 1,
+      traits: [],
+      status: {},
+      _tiles_voluntary_round: 0,
+    };
+    staminaFatigue.accrueOrDecay(unit); // non-sprint -> decay
+    assert.equal(unit.fatica, 0, 'decay -1 to 0');
+    applyApRefill(unit);
+    assert.equal(unit.ap_remaining, 2, 'recovered -> full AP');
+  });
 });
