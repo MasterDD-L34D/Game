@@ -1435,6 +1435,34 @@ function createWsServer({
           // Resolves choice from campaign onboarding YAML, calls
           // orch.submitOnboardingChoice (auto-advances onboarding →
           // character_creation), broadcasts onboarding_chosen.
+          // C2-imprint -- drain the device-authority imprint mark server-side (mirror
+          // onboarding_choice). Submitter identity is SOCKET-BOUND (playerId from the
+          // authenticated connection, NOT from the payload) so a player cannot mark on
+          // another's behalf. On completion the orchestrator stamps the cosmetic hint.
+          if (action === 'imprint_mark' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const axis = typeof msg.payload?.axis === 'string' ? msg.payload.axis : '';
+              const value = msg.payload?.value;
+              const tally = orch.submitImprintMark(playerId, { axis, value });
+              room.broadcast({ type: 'imprint_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'imprint_mark_accepted', payload: { tally } }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'imprint_mark_failed' },
+                }),
+              );
+            }
+            return;
+          }
           if (action === 'onboarding_choice' && coopStore) {
             try {
               const orch = coopStore.get(room.code);
