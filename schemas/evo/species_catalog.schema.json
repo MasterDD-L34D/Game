@@ -116,6 +116,12 @@
             "type": "array",
             "items": { "type": "string" }
           },
+          "interoception_traits": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true,
+            "description": "OD-024 D4 optional per-species interoception gateway override (propriocezione / equilibrio_vestibolare / nocicezione / termocezione). Propagated source->catalog by the ETL pipeline; consumed by apps/backend/services/sentience/sentienceInteroceptionGrant.js perSpeciesOverride. Omitted when unauthored."
+          },
           "lifecycle_yaml": {
             "type": ["string", "null"],
             "description": "Path to per-species lifecycle YAML (null for legacy-yaml-merge entries without lifecycle)"
