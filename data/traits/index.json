@@ -14964,6 +14964,24 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "pelli_cave": {
+      "schema_version": "2.0",
+      "id": "pelli_cave",
+      "label": "i18n:traits.pelli_cave.label",
+      "famiglia_tipologia": "Difensivo/Protezione",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.pelli_cave.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pelli_cave.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pelli_cave.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
