@@ -560,6 +560,17 @@ slider MVP/debug. Recupera A4/A5/A6/A12. Dipende da SPEC-A/B/K. Stato: DESIGN-ON
 docs/design/evo-tactics-onboarding-identity-flow.md
 ```
 
+> **Related, aa01 track (2026-06-22):** the L'Impronta imprint beat -- an additive,
+> device-authority onboarding collection (4 body-part axes -> cosmetic biome-AFFINITY
+> hint; biome stays route-canon) -- was BUILT flag-OFF ([#2970](https://github.com/MasterDD-L34D/Game/pull/2970))
+> as part of the aa01 reconciliation. It is a canon-neutral COSMETIC precursor, **not** the
+> SPEC-M biome-seed mechanic (SPEC-M proper -- the 60s seed of Forma/bioma/Custode --
+> stays DESIGN-ONLY). Its deferred items (Godot surface, flip, route-vote weighting,
+> axis->trait, telemetry canon-home, auto-timer) are tracked in
+> [`2026-06-22-aa01-deferred-tracker.md`](2026-06-22-aa01-deferred-tracker.md). Telemetry
+> (D9) is the genuine SPEC-M cross-link (Form-Pulse/MBTI persistence + reconstruct-from-
+> ledger doctrine).
+
 ### SPEC-N: Localization i18n Scaffold
 
 Obiettivo: scaffold i18n it/en (namespace common/combat/tutorial/narrative) come
