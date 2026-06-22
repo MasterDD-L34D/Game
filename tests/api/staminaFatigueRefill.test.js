@@ -3,7 +3,11 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-const { applyApRefill, normaliseUnit } = require('../../apps/backend/routes/sessionHelpers');
+const {
+  applyApRefill,
+  normaliseUnit,
+  publicSessionView,
+} = require('../../apps/backend/routes/sessionHelpers');
 const staminaFatigue = require('../../apps/backend/services/combat/staminaFatigue');
 
 const FLAG = 'STAMINA_FATIGUE_ENABLED';
@@ -93,5 +97,23 @@ test('decay -> recovery: non-sprint round clears fatica, full AP restored', () =
     assert.equal(unit.fatica, 0, 'decay -1 to 0');
     applyApRefill(unit);
     assert.equal(unit.ap_remaining, 2, 'recovered -> full AP');
+  });
+});
+
+// Task 5 — band-neutrality: flag OFF -> neither the persisted `fatica` field nor the
+// transient `_tiles_voluntary_round` accumulator leaks into the public session view.
+test('band-neutral: flag OFF -> no fatigue fields in publicSessionView units', () => {
+  withFlag(undefined, () => {
+    const unit = normaliseUnit({ id: 'u', traits: [] }, 0);
+    const session = {
+      session_id: 's',
+      turn: 1,
+      units: [unit],
+      grid: { width: 6, height: 6 },
+      events: [],
+    };
+    const view = publicSessionView(session);
+    assert.equal('fatica' in view.units[0], false, 'fatica absent when flag OFF');
+    assert.equal('_tiles_voluntary_round' in view.units[0], false, 'accumulator absent when OFF');
   });
 });
