@@ -223,15 +223,15 @@ Decisioni D1-D7 prese; questa sezione le registra + sequenzia l'esecuzione.
 > engine #1 action-timing nocicezione (#2936). Residuo = D3-enemy-wire, D4-populate,
 > D6-engine2/3, D7-N=40+flip-incrementale. Vedi "Residuo programma" sotto.
 
-| D   | Verdetto (2026-06-22)          | Note                                                                                                                                        |
-| --- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| D1  | **T1 floor**                   | `DEFAULT_MIN_TIER='T1'` (minimo per qualificare); progressivo sopra (D2). FATTO (#2932).                                                    |
-| D2  | **Progressivo per tier**       | mappa cumulativa `TIER_INTEROCEPTION_MAP` (T1=prop+vest, T2=+noci, T3=+termo) RATIFIED-PROVISIONAL; valori -> N=40.                         |
-| D3  | **Player + nemici/sistema**    | (UPDATE 06-22, era player-only) wire grant anche su roster nemici/encounter -> banda bidirezionale, N=40 separato. RESIDUO.                 |
-| D4  | **Per-specie esplicito**       | read-path `perSpeciesOverride` FATTO (#2932); RESIDUO = populate pipeline (autorare `interoception_traits` via gen, MAI hand-edit catalog). |
-| D5  | effetti T1 baseline restano    | i +1/-1 attuali sono la base; ritara a N=40 (D6 aggiunge effetti piu' ricchi).                                                              |
-| D6  | **Costruisci i 3 motori hook** | engine #1 action-timing nocicezione FATTO (#2936); engine #2 stamina-fatigue FATTO (#2937); RESIDUO = #3 encumbrance.                       |
-| D7  | **Flip INCREMENTALE**          | (UPDATE 06-22, era defer) flip gateway T1 dopo N=40 parziale, poi estendi per pezzo. Flag OFF finche' non calibrato.                        |
+| D   | Verdetto (2026-06-22)          | Note                                                                                                                                               |
+| --- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D1  | **T1 floor**                   | `DEFAULT_MIN_TIER='T1'` (minimo per qualificare); progressivo sopra (D2). FATTO (#2932).                                                           |
+| D2  | **Progressivo per tier**       | mappa `TIER_INTEROCEPTION_MAP` (T1=prop+vest, T2=+noci, T3=+termo) **RATIFICATA** (master-dd 2026-06-22); N=40 = gate del flip D7, non dei valori. |
+| D3  | **Player + nemici/sistema**    | (UPDATE 06-22, era player-only) wire grant anche su roster nemici/encounter -> banda bidirezionale, N=40 separato. RESIDUO.                        |
+| D4  | **Per-specie esplicito**       | read-path `perSpeciesOverride` FATTO (#2932); RESIDUO = populate pipeline (autorare `interoception_traits` via gen, MAI hand-edit catalog).        |
+| D5  | effetti T1 baseline restano    | i +1/-1 attuali sono la base; ritara a N=40 (D6 aggiunge effetti piu' ricchi).                                                                     |
+| D6  | **Costruisci i 3 motori hook** | engine #1 action-timing nocicezione FATTO (#2936); engine #2 stamina-fatigue FATTO (#2937); RESIDUO = #3 encumbrance.                              |
+| D7  | **Flip INCREMENTALE**          | (UPDATE 06-22, era defer) flip gateway T1 dopo N=40 parziale, poi estendi per pezzo. Flag OFF finche' non calibrato.                               |
 
 ### Increment 1 -- producer policy (FATTO, questo branch)
 
