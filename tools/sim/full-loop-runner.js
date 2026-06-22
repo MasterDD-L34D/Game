@@ -71,6 +71,23 @@ function freshRoster(roster, aliveIds) {
     .map((u) => ({ ...u, hp: u.max_hp ?? u.hp, status: {} }));
 }
 
+// OD-024 D7 co-op-path measure (opt-in). The full loop is single-player, so the party
+// never goes through coopOrchestrator.submitCharacter -- only the enemies get the
+// interoception grant (session /start, D3 enemy-wire). With { enabled: true } the REAL
+// producer is applied to the party combat units too, so an N=40 batch can measure the
+// SYMMETRIC (party + enemy) flip condition instead of enemy-only. Default off -> returns
+// the roster unchanged (byte-identical). The producer self-loads the catalog + registry
+// and gates on tier internally, so a forced-on env only matters per qualifying species.
+function applyPartyInteroceptionGrant(roster, { enabled } = {}) {
+  if (!enabled) return roster;
+  // eslint-disable-next-line global-require
+  const {
+    applySentienceInteroceptionGrant,
+  } = require('../../apps/backend/services/sentience/sentienceInteroceptionGrant');
+  const env = { SENTIENCE_INTEROCEPTION_GRANT_ENABLED: 'true' };
+  return roster.map((u) => applySentienceInteroceptionGrant(u, { env }));
+}
+
 // Weak deterministic enemy for a chapter (MVP). fase-2 swaps in scaled scenario
 // enemies (encounter YAML) for real attrition/completion bands.
 function enemiesForChapter(step) {
@@ -181,6 +198,9 @@ async function runFullLoop(http, opts = {}) {
     // The retry is what makes wound->re-fight-the-wounded-biome observable in-run.
     a13 = false,
     a13MaxRetries = 1,
+    // OD-024 D7 (opt-in): also grant the party the interoception set (mirrors the co-op
+    // submitCharacter path the single-player loop skips) -> measures the symmetric flip.
+    grantPartyInteroception = false,
   } = opts;
   // Roster GROWS as the Nido recruits: it starts as the authored party and gains a
   // faithful combat unit per cleared chapter. knownIds is the matching id universe so a
@@ -279,7 +299,9 @@ async function runFullLoop(http, opts = {}) {
       const sum = await driver.summary(http, id);
       enc = sum.body?.current_encounter?.encounter_id || `chapter_${step}`;
     }
-    const aliveRoster = freshRoster(roster, aliveIds);
+    const aliveRoster = applyPartyInteroceptionGrant(freshRoster(roster, aliveIds), {
+      enabled: grantPartyInteroception,
+    });
     if (aliveRoster.length === 0) {
       violations.push({ step, v: ['roster wiped before chapter'] });
       break;
@@ -478,4 +500,4 @@ async function runFullLoop(http, opts = {}) {
   };
 }
 
-module.exports = { runFullLoop, enemiesForChapter, sumGrants };
+module.exports = { runFullLoop, enemiesForChapter, sumGrants, applyPartyInteroceptionGrant };

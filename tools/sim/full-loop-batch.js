@@ -237,6 +237,10 @@ async function runBatch(opts = {}) {
       enemyScaling,
       peEarned,
       ...(a13 ? { a13: true, a13MaxRetries } : {}),
+      // OD-024 D7 (opt-in): SIM_GRANT_PARTY_INTEROCEPTION=1 also grants the party the
+      // interoception set (the co-op submitCharacter path the single-player loop skips),
+      // so a paired batch can measure the SYMMETRIC party+enemy flip. Default off.
+      grantPartyInteroception: process.env.SIM_GRANT_PARTY_INTEROCEPTION === '1',
     };
     const res = await runOne(runOpts);
     const scenarioChain = (res.chapters || []).map((c) => c.encounter);
