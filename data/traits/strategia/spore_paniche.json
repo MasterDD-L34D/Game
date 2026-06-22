@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "id": "spore_paniche",
+  "label": "i18n:traits.spore_paniche.label",
+  "famiglia_tipologia": "Comportamentale/Istinto",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.spore_paniche.mutazione_indotta",
+  "uso_funzione": "i18n:traits.spore_paniche.uso_funzione",
+  "spinta_selettiva": "i18n:traits.spore_paniche.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

@@ -23,7 +23,8 @@ def test_validator_returns_success() -> None:
     result = run_validator()
     assert result.returncode == 0, result.stderr
     assert "[TRAIT] artigli_sette_vie: OK" in result.stdout
-    assert "[TRAIT] propriocezione: OK" not in result.stdout  # legacy dataset non include il nuovo esempio
+    # propriocezione is now a real GAP1 trait; use a synthetic never-real sentinel.
+    assert "[TRAIT] __sentinel_absent_trait__: OK" not in result.stdout
 
 
 def test_validator_summary_lists_expected_keys() -> None:
