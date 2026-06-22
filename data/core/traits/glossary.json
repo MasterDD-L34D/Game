@@ -2915,15 +2915,15 @@
       "description_it": "Luminescenza Hydrotermica permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.",
       "description_en": "Luminescenza Hydrotermica allow squads to coordinate resource exchange and squad stabilisation parameters within abisso vulcanico."
     },
-    "magnetic_rift_resonance": {
-      "label_it": "Risonanza con Faglia Magnetica",
-      "label_en": "Magnetic Rift Resonance",
+    "risonanza_magnetica": {
+      "label_it": "Risonanza Magnetica",
+      "label_en": "Magnetic Resonance",
       "description_it": "Sintonizzazione neurologica con anomalie di campo magnetico — permette di leggere correnti di forza in biome di faglia.",
       "description_en": "Neurological attunement to magnetic field anomalies — reads force currents in rift biomes."
     },
-    "magnetic_sensitivity": {
-      "label_it": "Sensibilità Magnetica",
-      "label_en": "Magnetic Sensitivity",
+    "senso_magnetico": {
+      "label_it": "Senso Magnetico",
+      "label_en": "Magnetic Sense",
       "description_it": "Percezione passiva di campi magnetici locali — utile per orientamento in ambienti privi di luce diretta.",
       "description_en": "Passive perception of local magnetic fields — useful for orientation in lightless environments."
     },
@@ -3233,9 +3233,9 @@
       "description_it": "Microvascolatura dermica connessa a terminazioni radicali simbiotiche, rimuovendo calore e scambiando fluidi con substrati vegetali per regolare la temperatura basale.",
       "description_en": "Dermal microvasculature connected to symbiotic root terminals, shedding heat and exchanging fluids with plant substrates to regulate core temperature."
     },
-    "rift_attunement": {
-      "label_it": "Attunement con la Faglia",
-      "label_en": "Rift Attunement",
+    "sintonia_magnetica": {
+      "label_it": "Sintonia Magnetica",
+      "label_en": "Magnetic Attunement",
       "description_it": "Adattamento sensoriale a turbolenze elettromagnetiche di faglia — riduce penalità di percezione in tali biome.",
       "description_en": "Sensory adaptation to rift electromagnetic turbulence — reduces perception penalties in such biomes."
     },
