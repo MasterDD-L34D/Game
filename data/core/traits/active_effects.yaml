@@ -525,7 +525,7 @@ traits:
     effect:
       kind: apply_status
       target_side: target
-      stato: disoriented
+      stato: disorient
       turns: 1
       log_tag: voltaic_arc_disorient
     resistances:
@@ -2753,7 +2753,7 @@ traits:
   # Esposizione canonica del trait + ladder T2 e' il deliverable P0;
   # l'evaluator extension (action_type=support, biome gating, requires-trait
   # gating) e' follow-up M-future (vedi card §"Concrete reuse paths" P1).
-  magnetic_rift_resonance:
+  risonanza_magnetica:
     tier: T2
     category: neurologico
     applies_to: actor
@@ -2779,15 +2779,15 @@ traits:
     biome_affinity:
       atollo_obsidiana: 0.9
     requires_traits:
-    - magnetic_sensitivity
-    - rift_attunement
+    - senso_magnetico
+    - sintonia_magnetica
 
-  # Stub T1 — prerequisito narrativo di magnetic_rift_resonance.
+  # Stub T1 — prerequisito narrativo di risonanza_magnetica.
   # No-op runtime: trigger su action_type=attack ma nessun effect concreto
   # (apply_status su 'sensed' che non e' consumato da policy.js). Serve come
   # "marcatore" data-only finche' M-future non aggiunge percezione magnetica
   # come stat-bonus (es. detection range +1 vs hidden enemies).
-  magnetic_sensitivity:
+  senso_magnetico:
     tier: T1
     category: sensoriale
     applies_to: actor
@@ -2803,10 +2803,10 @@ traits:
     description_it: |
       Sensibilita' magnetica passiva — l'unita' percepisce campi magnetici
       ambientali. Stub data-only (M-future: bonus detection in biomi
-      ferromagnetici). Prerequisito per magnetic_rift_resonance.
+      ferromagnetici). Prerequisito per risonanza_magnetica.
 
   # Stub T2 — biome-affinity locked. Stesso pattern no-op del precedente.
-  rift_attunement:
+  sintonia_magnetica:
     tier: T2
     category: sensoriale
     applies_to: actor
@@ -2819,12 +2819,12 @@ traits:
       target_side: actor
       stato: attuned
       turns: 2
-      log_tag: rift_attunement_passive
+      log_tag: sintonia_magnetica_passive
     description_it: |
       Sintonia con le fratture ossidiane — l'unita' canalizza l'energia
       magnetica del bioma. Stub data-only locked su atollo_obsidiana
       (M-future: enforcement biome gating). Prerequisito per
-      magnetic_rift_resonance.
+      risonanza_magnetica.
     biome_affinity:
       atollo_obsidiana: 0.8
 
@@ -9835,12 +9835,12 @@ traits:
       action_type: melee_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 1
       intensity: 1
       log_tag: secrezione_slowing_touch
     description_it: |
-      Secrezione rallentante palmi: apply_status disoriented su melee hit.
+      Secrezione rallentante palmi: apply_status disorient su melee hit.
       Mirror trait_mechanics (defense_mod 1 base + slowing_touch ability
       enemy-targeting). Status duration 1 + intensity 1 conservative.
 
@@ -9900,7 +9900,7 @@ traits:
       action_type: melee_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 1
       intensity: 1
       log_tag: zoccoli_resonant_stomp
@@ -10304,12 +10304,12 @@ traits:
       action_type: ranged_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 2
       intensity: 1
       log_tag: sonaraptor_jamming_field
     description_it: |
-      Campo di interferenza acustica: apply_status disoriented 2t su
+      Campo di interferenza acustica: apply_status disorient 2t su
       ranged hit (jamming field). Coordination disruption Conquistatore
       semantica T4 acoustic intelligence.
 
