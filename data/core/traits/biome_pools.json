@@ -167,7 +167,8 @@
           "ancestor_attacco_risposta_di_combattimento_co_01",
           "ancestor_attacco_contromanovra_co_02",
           "ancestor_sensi_percezione_se_01",
-          "ancestor_sensi_olfatto_so_01"
+          "ancestor_sensi_olfatto_so_01",
+          "marchio_predatorio"
         ]
       },
       "role_templates": [
@@ -740,7 +741,8 @@
           "ancestor_ardipithecus_ramidus_inibizione_cognitiva_cc_03",
           "ancestor_ardipithecus_ramidus_via_mesolimbica_dp_05",
           "ancestor_insediamento_costruzione_ne_01",
-          "ancestor_insediamento_efficienza_di_costruzione_ne_02"
+          "ancestor_insediamento_efficienza_di_costruzione_ne_02",
+          "marchio_predatorio"
         ]
       },
       "role_templates": [
@@ -754,7 +756,8 @@
           ],
           "preferred_traits": [
             "nebbia_mnesica",
-            "lobi_risonanti_crepuscolo"
+            "lobi_risonanti_crepuscolo",
+            "marchio_predatorio"
           ],
           "tier": 4
         },
