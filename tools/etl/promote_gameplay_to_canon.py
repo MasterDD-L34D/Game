@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Promote gameplay pack-species YAML into the canonical species_catalog.json.
 
+NOTE (reproducibility): additive-only (never prunes) + writes the catalog IN-PLACE
+with no --out, and is skipped by lifecycle stubs -> a re-run does not reproduce the
+committed catalog. Run tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+
 Wave 3 / CANON-RECONCILE (Option 1 "unify"): the canon SoT
 (data/core/species/species_catalog.json, 53 species) and the gameplay creatures
 (packs/evo_tactics_pack/data/species/<biome>/<id>.yaml) were near-disjoint naming

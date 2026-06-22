@@ -1,5 +1,9 @@
 """derive_interoception_overrides.py -- OD-024 D4 principled override populate.
 
+NOTE (reproducibility): mutates the DERIVED species_catalog.json (stale vs current
+sources). Run tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+
 Derive a per-species `interoception_traits` override from a RATIFIED rule and
 write it into the canonical species_catalog.json IN PLACE. Rule-based mirror of
 tools/py/apply_biome_affinity.py + tools/etl/apply_interoception_traits.py.

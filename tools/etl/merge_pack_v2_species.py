@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 """ETL: merge Pack v2-full-plus species catalog into Game/ canonical.
 
+NOTE (reproducibility): the committed species_catalog.json is a DERIVED artifact
+that is STALE vs current sources -- a naive full re-run does not reproduce it and
+can regress it (the default --species-yaml/--expansion-yaml point at files deleted
+in #2271). Run tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+
+
 OD-031 (pack drift merge) + OD-027 (full Species type) + OD-024 (sentience full
 45/45 — wave A: 10 Pack v2 species with sentience_index already assigned).
 

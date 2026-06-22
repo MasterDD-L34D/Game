@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Genera la tabella ponte trait↔specie con pesi normalizzati."""
+"""Genera la tabella ponte trait<->specie con pesi normalizzati.
+
+NOTE (reproducibility): committed output (data/traits/index.json +
+species_affinity.json) is STALE on a plain dev checkout -- a naive regen yields a
+huge spurious diff. It reads trait ids from the species YAML, NOT from the
+per-trait data/traits/<cat>/<trait>.json files. Run
+tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+"""
 from __future__ import annotations
 
 import argparse

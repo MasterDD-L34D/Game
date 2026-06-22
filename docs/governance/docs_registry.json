@@ -12705,6 +12705,19 @@
       "source_of_truth": true,
       "language": "it-en",
       "review_cycle_days": 90
+    },
+    {
+      "path": "docs/guide/derived-artifacts-reproducibility.md",
+      "title": "Derived data artifacts -- reproducibility hazard + guard (trait bridge + species catalog)",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-22",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "authored"
     }
   ]
 }
