@@ -5,7 +5,7 @@ sprint: sentience-traits-wiring
 doc_status: active
 doc_owner: claude-code
 workstream: backend
-last_verified: '2026-06-21'
+last_verified: '2026-06-22'
 source_of_truth: false
 language: it
 review_cycle_days: 90
@@ -212,19 +212,26 @@ Finche' OFF: zero impatto su combat/sim (band-neutral), nessun gate per il merge
 - `apps/backend/services/forms/formInnataTrait.js` (pattern producer mirror).
 - `tests/api/interoception-traits-runtime.test.js` (firing engine pre-esistente).
 
-## 7. Verdetti ratificati (2026-06-21, master-dd via AskUserQuestion) + roadmap
+## 7. Verdetti ratificati (master-dd via AskUserQuestion) + roadmap
 
 Decisioni D1-D7 prese; questa sezione le registra + sequenzia l'esecuzione.
 
-| D   | Verdetto                       | Note                                                                                                          |
-| --- | ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| D1  | **T1 floor**                   | `DEFAULT_MIN_TIER='T1'` (minimo per qualificare); progressivo sopra (D2).                                     |
-| D2  | **Progressivo per tier**       | mappa cumulativa `TIER_INTEROCEPTION_MAP` (vedi sotto).                                                       |
-| D3  | **Player-only**                | perimetro invariato (wire `coopOrchestrator.submitCharacter`); nemici = futuro, calibrazione separata.        |
-| D4  | **Per-specie esplicito**       | campo `interoception_traits` in input data (via pipeline, MAI hand-edit catalog) -> override del subset tier. |
-| D5  | effetti T1 baseline restano    | i +1/-1 attuali sono la base; D6 aggiunge effetti piu' ricchi.                                                |
-| D6  | **Costruisci i 3 motori hook** | stamina / encumbrance / action-timing = 3 sotto-progetti sequenziati (sotto).                                 |
-| D7  | **DEFER flip**                 | flag resta OFF -> band-neutral; flip post D1-D3 ratificate + N=40.                                            |
+> **Aggiornamento 2026-06-22 (master-dd walk-through, SUPERSEDE i provisional 2026-06-21)**:
+> path massimalista confermato. **2 cambi vs 06-21**: **D3 esteso a nemici/sistema**
+> (era player-only) + **D7 flip INCREMENTALE** (era defer). Gli altri confermati.
+> Increment 1 (producer policy) gia' costruito (#2932) copre D1/D2-infra/D4-read +
+> engine #1 action-timing nocicezione (#2936). Residuo = D3-enemy-wire, D4-populate,
+> D6-engine2/3, D7-N=40+flip-incrementale. Vedi "Residuo programma" sotto.
+
+| D   | Verdetto (2026-06-22)          | Note                                                                                                                                        |
+| --- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| D1  | **T1 floor**                   | `DEFAULT_MIN_TIER='T1'` (minimo per qualificare); progressivo sopra (D2). FATTO (#2932).                                                    |
+| D2  | **Progressivo per tier**       | mappa cumulativa `TIER_INTEROCEPTION_MAP` (T1=prop+vest, T2=+noci, T3=+termo) RATIFIED-PROVISIONAL; valori -> N=40.                         |
+| D3  | **Player + nemici/sistema**    | (UPDATE 06-22, era player-only) wire grant anche su roster nemici/encounter -> banda bidirezionale, N=40 separato. RESIDUO.                 |
+| D4  | **Per-specie esplicito**       | read-path `perSpeciesOverride` FATTO (#2932); RESIDUO = populate pipeline (autorare `interoception_traits` via gen, MAI hand-edit catalog). |
+| D5  | effetti T1 baseline restano    | i +1/-1 attuali sono la base; ritara a N=40 (D6 aggiunge effetti piu' ricchi).                                                              |
+| D6  | **Costruisci i 3 motori hook** | engine #1 action-timing nocicezione FATTO (#2936); RESIDUO = #2 stamina-fatigue + #3 encumbrance.                                           |
+| D7  | **Flip INCREMENTALE**          | (UPDATE 06-22, era defer) flip gateway T1 dopo N=40 parziale, poi estendi per pezzo. Flag OFF finche' non calibrato.                        |
 
 ### Increment 1 -- producer policy (FATTO, questo branch)
 
@@ -249,3 +256,23 @@ Ogni motore: design proprio (master-dd) -> engine + magnitudini in `active_effec
 ### Gate al flip D7
 
 `SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true` solo dopo: D2 map ratificata (toglie PROVISIONAL) + calibrazione N=40 del grant (sposta win-rate) + (opzionale) >=1 motore D6 live. Flip = `export ...=true` in `~/.config/api-keys/keys.env` + restart task.
+
+## 8. Residuo programma sequenziato (post-verdetti 2026-06-22)
+
+Programma multi-sprint. FATTO: Increment 1 producer (#2932, D1/D2-infra/D4-read) +
+D6 engine #1 action-timing nocicezione (#2936). RESIDUO ordinato per
+dipendenza/blast-radius (ogni fase = PR propria + N=40 dove sposta banda):
+
+1. **D2 map ratify** -- master-dd conferma/ritocca i valori `TIER_INTEROCEPTION_MAP`
+   (oggi T1=prop+vest, T2=+noci, T3=+termo, RATIFIED-PROVISIONAL/SDMG) -> N=40 leva PROVISIONAL.
+2. **D4 populate** -- pipeline di generazione che propaga `interoception_traits`
+   dai file specie sorgente al catalog + autorare il campo su >=1 specie (read-path gia' c'e').
+3. **D3 enemy-wire** (UPDATE 06-22) -- applicare `applySentienceInteroceptionGrant`
+   anche ai roster nemici/encounter (helper gia' generico); N=40 separato (banda bidirezionale).
+4. **D6 engine #2 stamina-fatigue** (hook propriocezione) -- nuovo pool risorsa + active_effects + TDD + N=40.
+5. **D6 engine #3 encumbrance** (hook equilibrio_vestibolare) -- dipende da sistema peso/inventario assente (piu' grande).
+6. **D7 flip incrementale** -- flip gateway T1 dopo N=40 parziale, poi ON per ogni fase calibrata.
+
+Sub-input design ancora richiesti a master-dd prima del build: valori map D2 (o ratifica
+default), design per-motore D6 (#2/#3), magnitudini per-specie D4 (quali specie). Ogni
+fase gated N=40 + master-dd. Tracking: `BACKLOG.md` (TKT-SENT-\*).
