@@ -525,7 +525,7 @@ traits:
     effect:
       kind: apply_status
       target_side: target
-      stato: disoriented
+      stato: disorient
       turns: 1
       log_tag: voltaic_arc_disorient
     resistances:
@@ -9900,7 +9900,7 @@ traits:
       action_type: melee_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 1
       intensity: 1
       log_tag: zoccoli_resonant_stomp
