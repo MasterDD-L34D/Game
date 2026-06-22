@@ -9835,12 +9835,12 @@ traits:
       action_type: melee_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 1
       intensity: 1
       log_tag: secrezione_slowing_touch
     description_it: |
-      Secrezione rallentante palmi: apply_status disoriented su melee hit.
+      Secrezione rallentante palmi: apply_status disorient su melee hit.
       Mirror trait_mechanics (defense_mod 1 base + slowing_touch ability
       enemy-targeting). Status duration 1 + intensity 1 conservative.
 
@@ -10304,12 +10304,12 @@ traits:
       action_type: ranged_attack
     effect:
       kind: apply_status
-      stato: disoriented
+      stato: disorient
       duration: 2
       intensity: 1
       log_tag: sonaraptor_jamming_field
     description_it: |
-      Campo di interferenza acustica: apply_status disoriented 2t su
+      Campo di interferenza acustica: apply_status disorient 2t su
       ranged hit (jamming field). Coordination disruption Conquistatore
       semantica T4 acoustic intelligence.
 
