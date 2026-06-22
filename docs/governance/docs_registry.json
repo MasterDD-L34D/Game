@@ -12624,6 +12624,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-22-od024-d4-interoception-overrides-rule-design.md",
+      "title": "OD-024 D4 -- principled interoception_traits override rule (full pass)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "backend",
+      "last_verified": "2026-06-22",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "migrated"
     }
   ]
 }
