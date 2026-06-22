@@ -56,10 +56,10 @@ derived_from_environment:
   - tremorsense
   jobs_bias:
   - skirmisher
-  - ambusher
+  - vanguard
 jobs_bias:
 - skirmisher
-- ambusher
+- vanguard
 telemetry:
   expected_pick_rate: 0.1
   spawn_weight: 0.15
