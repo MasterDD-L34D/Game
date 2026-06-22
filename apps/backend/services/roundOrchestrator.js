@@ -255,6 +255,7 @@ function actionSpeed(action, table = DEFAULT_ACTION_SPEED) {
  *   - panic > 0 OR confused > 0 → -1
  *   - bleeding ≥ medium severity → -1
  *   - fracture ≥ medium severity → -1
+ *   - nocicezione trait while ferito → -1 (OD-024 engine #1, #2936)
  *   Trigger combinati NON cumulano (cap -1, "1 tier slower" canonical).
  *   Letto da statusModifiers.computeSlowDownPenalty (lazy require).
  */

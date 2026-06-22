@@ -5,7 +5,19 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-21 (Lenovo) -- canon entity-grounding linter in CI (#2915)
+## ⚡ Sessione corrente 2026-06-22 (Lenovo) -- codex lore PHASE 1+2 + OD-024 sentience program
+
+**Codex A.L.I.E.N.A. (PHASE 1+2, #2930 `268a13d4`)**: voce IT curata nell'extractor (taxon hook Linnaean -> "creatura di tipo X", lifecycle EN->IT, npc_archetypes EN->IT; `biomes.yaml` INTATTO) + pilot encounter `enc_foresta_temperata_radici` (cameo apex_neutral `sentinella_radice`, roster clonato da standard_01) -> sentinella promossa, HA2 zero-orphan. Residuo: replicare pilot per i 19 orfani (per-bioma, balance master-dd).
+
+**OD-024 sentience program (tutto flag-OFF / band-neutral)**: producer #2932 `7053c830` (Gate-5; D1 minTier + D2 map-infra + D4 read-path) + **engine #1** nocicezione action-timing #2936 `d38ffa92` + **engine #2** stamina/fatica #2937 `3c6a0209` + **D3 enemy-wire** #2945 `497124f2` + **D2 map RATIFICATA** #2947. Riconciliato interleave cross-sessione: **#2941** (altra sessione, ratify-program) marcava engine#2 RESIDUO mentre #2937 shippava -> doc-sync #2944/#2946 anti re-build (anti-pattern #19). **4 verdetti master-dd (domande mirate)**: D2 ratifica-default · D4 solo-pipeline (0 override) · engine#3 PARCHEGGIATO · D7 flip-incrementale-post-N=40 (owner).
+
+**Metodo**: brainstorm -> writing-plans -> subagent-driven per engine #2 (**v1 ucciso da adversarial review**: sprint >=3 tile irraggiungibile a DEFAULT_AP=2 + tally per-round inesistente -> v2 = sprint all-AP-on-move; Task-3 review ha preso un leak band-neutrality). Infra degradata (classifier opus unavailable + 529 overload) -> fallback INLINE Tasks 4-5 + final/compensating review (Tasks 1-3 review indipendente). Merge `--admin` autorizzati (#2937) + merge-libero doc-sync.
+
+**Next entry point**: **D4 populate pipeline** -- piano `docs/superpowers/plans/2026-06-22-od024-d4-populate-pipeline.md` (recon-first: catalog = ETL multi-stage). Handoff: `docs/planning/2026-06-22-session-handoff.md`. Memory: `project_sentience_interoception_producer.md` + `project_codex_aliena_lore_gen.md`.
+
+---
+
+## ⚡ Sessione 2026-06-21 (Lenovo) -- canon entity-grounding linter in CI (#2915)
 
 **PR #2915 `4ce1d0cb` MERGED** (squash): vendored il verifier evo-swarm (ADR-0042) come linter Game (`scripts/verify-swarm-claims.py` + `scripts/data/verify_stopwords.txt`) che gate-a contenuti citanti entita' canonical (specie/biomi/trait) vs canon corrente -> cattura **hallucinate-by-association** (nome reale + attributo non-canon). **Retired** deprecato `tools/py/swarm_canonical_validator.py` (+test, leggeva legacy species.yaml). Workflow `swarm-validation.yml` riscritto **2-tier**: JSON `--strict` hard-fail (`docs/research/swarm/**.json`) / markdown ADVISORY (`docs/research/**/*.md`). 167 test (153 vendored + 14 adapter) nel CI `python-tests`. Distinto da `scripts/check-canon-consistency.cjs` (canon-internal).
 
