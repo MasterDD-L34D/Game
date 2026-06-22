@@ -99,22 +99,44 @@ and accept the harder combats as the intended cost of the sentience layer; (b) f
 AND soften enemy scaling a notch to re-center completion ~0.6; (c) hold. Re-tune is a
 separate calibration knob, not a blocker for band-safety.
 
+## Deploy prerequisite (verify-first, 2026-06-22)
+
+The flag is a **no-op on prod until the code is deployed**. The prod worktree
+`/c/dev/_gamewt-lenovo-host` was found at `5927cb7d` (#2783, 2026-06-17) -- **165
+commits behind** origin/main: no producer module
+(`sentienceInteroceptionGrant.js` absent), no D4 catalog overrides, flag not in
+keys.env. Setting the flag there grants nothing because the consumer does not
+exist. So "flip ON" requires a prod **deploy** first.
+
+Deploy verified clean (5927cb7d -> origin/main): working tree has only untracked
+`*.log` files (detached HEAD -> `git checkout` is clean); **package-lock UNCHANGED
+-> no `npm ci`**; **no migrations** changed; prod DB = NeDB (no `DATABASE_URL` in
+keys.env -> no `db:migrate`). Caveat: it is a 165-commit jump (all work since
+06-17, not just OD-024) -- a broad release; everything else is flag-gated
+OFF/band-neutral but it is a real prod version bump.
+
+```bash
+# 1. deploy code (clean; no npm ci, no migrate)
+git -C /c/dev/_gamewt-lenovo-host fetch origin main
+git -C /c/dev/_gamewt-lenovo-host checkout --detach origin/main
+```
+
+Rollback the code: `git -C /c/dev/_gamewt-lenovo-host checkout --detach 5927cb7d`.
+
 ## Flip steps (OWNER hands -- production)
 
-Prod backend = the `EvoTacticsBackend` scheduled task on the Lenovo host (git-bash
-`npm run start:api`), serving HTTP `:3334` + WS `:3341` (always-on; see
-[[lesson_prod_host_ports_3334_3341]]). **NEVER kill 3334/3341** -- restart via the
-scheduled task only.
+Prod backend = the `EvoTacticsBackend` scheduled task on the Lenovo host. Its action
+is `C:\Users\edusc\start-evo-backend.cmd`, which **sources `~/.config/api-keys/keys.env`**
+(so the keys.env flag takes effect on restart) and self-heals: it frees node
+listeners on `:3334` + `:3341` before relaunching `npm run start:api` from
+`/c/dev/_gamewt-lenovo-host`. So a Stop/Start of the task is the sanctioned restart
+(the cmd handles the port cleanup). **NEVER kill 3334/3341 by hand** (see
+[[lesson_prod_host_ports_3334_3341]]).
 
-1. **Add the flag to prod env.** The producer reads `process.env.SENTIENCE_INTEROCEPTION_GRANT_ENABLED`.
-   Put it where the `EvoTacticsBackend` task's process sees it:
-   - If the `start:api` wrapper sources `~/.config/api-keys/keys.env`, add the line there:
-     ```
-     export SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true
-     ```
-   - Else set it in the scheduled-task environment directly.
-     (Verify which applies on the host: check whether the task's start command sources
-     keys.env. If unsure, set BOTH and reconcile.)
+1. **Add the flag to keys.env** (the cmd sources it -> inert until the restart):
+   ```bash
+   echo 'export SENTIENCE_INTEROCEPTION_GRANT_ENABLED=true' >> ~/.config/api-keys/keys.env
+   ```
 2. **Restart the task** (NOT kill-by-port):
    ```powershell
    Stop-ScheduledTask  -TaskName EvoTacticsBackend ; Start-ScheduledTask -TaskName EvoTacticsBackend
@@ -127,10 +149,25 @@ scheduled task only.
 4. **Rollback** if win-rates regress in real play: set the flag back to `false` (or
    remove the line), restart the task. The override data in the catalog is inert again.
 
+## Execution record
+
+**Flipped ON in prod 2026-06-22** (master-dd authorized after the symmetric N=40 +
+dry-smoke passed). Deployed `_gamewt-lenovo-host` 5927cb7d -> 0b2cfea4 (producer +
+33 overrides present), appended the flag to keys.env, restarted the task. Verified:
+`/api/health` 200 (stable, 200/200 3s apart -- no crash-loop), task State=Running.
+**Caveat (pre-existing, NOT this flip):** the startup log shows `prisma ... can't
+reach localhost:5432` (Postgres down -> lobby persistence hydrate fails, caught/
+non-fatal) -- 22 prior occurrences, Postgres has never auto-started on this host
+(separate prod-resilience follow-up). Interoception (combat-side) is unaffected by
+it. Rollback if needed: remove the keys.env line + `checkout --detach 5927cb7d` +
+restart.
+
 ## After this flip
 
 - `STAMINA_FATIGUE_ENABLED` = next incremental piece (own N=40 + flip).
 - D6 engine #3 (encumbrance) = PARKED (needs an absent inventory/weight system).
+- Prod Postgres auto-start (5432) = separate follow-up (lobby persistence degraded
+  while down; pre-existing).
 
 Refs: producer `apps/backend/services/sentience/sentienceInteroceptionGrant.js`;
 D4 spec `docs/superpowers/specs/2026-06-22-od024-d4-interoception-overrides-rule-design.md`;
