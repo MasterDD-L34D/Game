@@ -16,7 +16,7 @@ Standard di check & dry-run per nuove feature Bioma + Specie + Trait
 Questo documento definisce:
 
 - la procedura standard di **check** e **dry-run** per l'integrazione di un nuovo bioma complesso e delle sue specie/trait;
-- come usare lo script `tools/traits/check_biome_feature.py` (con i suoi limiti attuali, vedi §3.5);
+- come usare lo script `tools/traits/check_biome_feature.py` (stage specie repointed al catalog, vedi §3.5);
 - come integrare questi check con i validator canonici e nei merge reali.
 
 ---
@@ -94,7 +94,7 @@ Lo script effettua (in lettura):
 - `data/core/traits/glossary.json`
 - `data/traits/index.json`
 - `data/traits/species_affinity.json`
-- `data/core/species.yaml` (**percorso STALE -- vedi §3.5**)
+- `data/core/species/species_catalog.json` (catalog: `species_id` + `biome_affinity` + `trait_refs`)
 
 ### 3.4 Sequenza raccomandata per una nuova feature
 
@@ -110,15 +110,15 @@ python tools/traits/check_biome_feature.py --biome <slug> --dry-run --verbose
 - Eseguire lint/test del progetto (`npm run schema:lint`, `pytest`, `node --test ...`).
 - Se tutto e' OK -> procedere con PR/merge.
 
-### 3.5 LIMITE NOTO (stage specie rotto)
+### 3.5 Stage specie (repointed al catalog -- RISOLTO)
 
-Lo script carica ancora il monolite rimosso `data/core/species.yaml` (riga `species_path`).
-Dopo la rimozione del monolite (#2271 -> per-specie `data/core/species/*.yaml` + `species_catalog.json`),
-il caricamento fallisce con `File YAML mancante: .../data/core/species.yaml` e lo script termina con
-exit code 1 PRIMA di eseguire i check bioma/pool. **Finche' lo script non punta a `species_catalog.json`,
-lo stage di coverage specie e' non operativo.** Per la coerenza specie<->bioma affidati ai validator
-canonici di §4 (che leggono il layout corrente). La fix dello script e' tracciata come follow-up
-(fuori scope di questo doc; lo script NON e' un file di doc).
+Lo script ora carica `data/core/species/species_catalog.json` (lista sotto
+`catalog`; il monolite `data/core/species.yaml` era stato rimosso in #2271). Lo
+stage di coverage specie<->bioma e' di nuovo OPERATIVO: filtra le entry per
+`biome_affinity == <slug>`, raccoglie gli `species_id` e verifica i `trait_refs`
+contro glossary/index. Verificato live (es. `--biome savana` -> 4 specie,
+`--biome atollo_obsidiana` -> 3, exit 0). I validator canonici di §4 restano la
+coerenza autoritativa specie<->bioma sul layout corrente.
 
 ---
 
