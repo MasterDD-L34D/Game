@@ -3652,6 +3652,12 @@
       "label_en": "Termocezione",
       "description_it": "Termocezione: clock caldo/freddo + resistenze gear/ambiente.",
       "description_en": ""
+    },
+    "matrice_antimagia": {
+      "label_it": "Matrice Antimagia",
+      "label_en": "Matrice Antimagia",
+      "description_it": "Matrice antimagia (golem): ogni colpo ravvicinato riuscito impone `inibito` per 1 turno -- il bersaglio non puo' usare abilita' attive (movimento, attacchi base e reazioni restano attivi).",
+      "description_en": ""
     }
   }
 }

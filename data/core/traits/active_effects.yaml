@@ -10562,3 +10562,31 @@ traits:
   # L'audit 2026-05-10-trait-mech-no-handler-audit.md era stale - il gap b era
   # gia chiuso. Diff balance (amount 0 vs 3) e' decisione Balancer agent + tier
   # check, fuori scope ADR-2026-05-29 §scope guard "NO touch ai dati esistenti".
+
+  # -- Creature-kit trait mechanics (salvage 2026-06-22) -------------------
+  # 12 ratified signature traits per le creature recuperate (spec
+  # docs/superpowers/specs/2026-06-22-creature-trait-mechanics-design.md).
+  # Band-neutral: nessuna unita' di sim referenzia questi id finche' una
+  # creatura non viene canonizzata + flippata live.
+  # Slice 1: matrice_antimagia Mode B (soppressione abilita' on-hit, status inibito).
+  matrice_antimagia:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      # Mode B: solo sui colpi ravvicinati (Manhattan == 1).
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: inibito
+      turns: 1
+      log_tag: matrice_antimagia
+    description_it: |
+      Matrice antimagia (golem): ogni colpo ravvicinato riuscito impone
+      `inibito` per 1 turno -- il bersaglio non puo' usare abilita' attive
+      (movimento, attacchi base e reazioni restano attivi). La modalita' A
+      (impulso AoE da 2 AP) e' una slice successiva. Ref XCOM Disruptive
+      Field / D&D Antimagic Field, duration-gated (non silenzio totale).
