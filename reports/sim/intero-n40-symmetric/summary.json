@@ -3,12 +3,14 @@
     "runs": 40,
     "branch": "cave_path",
     "policy": "greedy",
-    "commit": "eda2bf30780653c4b36d18865b109ec1f76f89d0",
+    "commit": "b7b8ff7d1cfc2cd1f28a607ea0705751f845027c",
     "flags": {
       "META_NETWORK_ROUTING": "false",
       "IDEA_ENGINE_STUB_ORCHESTRATOR": "1",
       "IDEA_ENGINE_DISABLE_STATUS_REFRESH": "1",
-      "A13_WOUND_READ_DISABLED": "0"
+      "A13_WOUND_READ_DISABLED": "0",
+      "SENTIENCE_INTEROCEPTION_GRANT_ENABLED": "true",
+      "SIM_GRANT_PARTY_INTEROCEPTION": "1"
     },
     "enemyScaling": {
       "countMult": 5,
@@ -35,7 +37,7 @@
       "note": "completed campaigns / N"
     },
     "roster_attrition": {
-      "value": 0.583,
+      "value": 0.494,
       "range": [
         0,
         1
@@ -44,31 +46,31 @@
       "note": "survivors / units-that-fought (exclusive: real losses, no wipe)"
     },
     "economy_flow": {
-      "pe_earned_avg": 40.6,
-      "build_power_avg": 149.1,
-      "build_power_drift": 1.105,
+      "pe_earned_avg": 45.6,
+      "build_power_avg": 166.2,
+      "build_power_drift": 1.035,
       "pi_sink_exercised": true,
-      "pi_pick_attempts": 385,
-      "pi_insufficient": 336,
+      "pi_pick_attempts": 437,
+      "pi_insufficient": 383,
       "has_signal": true,
       "range": [
         0.5,
         2
       ],
       "in_band": true,
-      "note": "PE earned + build-power drift; PI sink exercised (385 attempts)"
+      "note": "PE earned + build-power drift; PI sink exercised (437 attempts)"
     },
     "relationship_progress": {
-      "recruit_rate": 4.55,
+      "recruit_rate": 5.175,
       "affinity_proven_rate": 1,
-      "reached_step": 28,
-      "mating_rate": 3.85,
+      "reached_step": 33,
+      "mating_rate": 4.35,
       "range": null,
       "in_band": true,
       "note": "recruit + earned-affinity gate (proven among runs that REACHED the step, decoupled from completion) + mating all fire"
     },
     "offspring_viability": {
-      "offspring_avg": 3.85,
+      "offspring_avg": 4.35,
       "viable_rate": 1,
       "range": [
         1,
@@ -80,10 +82,10 @@
     "lineage_diversity": {
       "value": 5,
       "lineage_profile": {
-        "dune-stalker x nano-rust-bloom": 49,
-        "ferrocolonia-magnetotattica x nano-rust-bloom": 28,
-        "ferrocolonia-magnetotattica x sand-burrower": 28,
-        "rust-scavenger x sand-burrower": 28,
+        "dune-stalker x nano-rust-bloom": 54,
+        "ferrocolonia-magnetotattica x nano-rust-bloom": 33,
+        "ferrocolonia-magnetotattica x sand-burrower": 33,
+        "rust-scavenger x sand-burrower": 33,
         "dune-stalker x rust-scavenger": 21
       },
       "dominant_lineages": [
@@ -99,11 +101,11 @@
     },
     "roster_composition": {
       "role_profile": {
-        "APEX": 49,
-        "HAZARD": 49,
-        "PREDATOR": 28,
-        "PREY": 28,
-        "SUPPORT": 28
+        "APEX": 54,
+        "HAZARD": 54,
+        "PREDATOR": 33,
+        "PREY": 33,
+        "SUPPORT": 33
       },
       "distinct_roles": 5,
       "dominant_roles": [
@@ -124,53 +126,53 @@
     "total": 40
   },
   "personality": {
-    "n_samples": 2055,
+    "n_samples": 2252,
     "per_axis": {
       "symbiosis_predation": {
-        "n": 2055,
-        "mean": 0.9910975252154224,
-        "sd": 0.04152018542353667,
+        "n": 2252,
+        "mean": 0.9897569807674955,
+        "sd": 0.04653227269195095,
         "min": 0.6875,
         "max": 1,
         "neutral_rate": 0
       },
       "explore_caution": {
-        "n": 2055,
-        "mean": 0.6314777609593528,
-        "sd": 0.20804802374100861,
+        "n": 2252,
+        "mean": 0.6281532396631069,
+        "sd": 0.20577073412250133,
         "min": 0.5,
         "max": 1,
-        "neutral_rate": 0.7094890510948905
+        "neutral_rate": 0.7149200710479574
       },
       "solitary_swarm": {
-        "n": 2055,
-        "mean": 0.5753041362530413,
-        "sd": 0.20386673873025077,
+        "n": 2252,
+        "mean": 0.5808170515097691,
+        "sd": 0.2054338395800278,
         "min": 0.25,
         "max": 1,
-        "neutral_rate": 0.7727493917274939
+        "neutral_rate": 0.7717584369449378
       },
       "memory_instinct": {
-        "n": 2055,
-        "mean": 0.5048081015224165,
-        "sd": 0.048363678923144235,
-        "min": 0.4479166666666667,
+        "n": 2252,
+        "mean": 0.5058839353032293,
+        "sd": 0.05162423171875342,
+        "min": 0.43452380952380953,
         "max": 0.875,
-        "neutral_rate": 0.8861313868613139
+        "neutral_rate": 0.8836589698046181
       },
       "agile_robust": {
-        "n": 2055,
-        "mean": 0.47883326177186597,
-        "sd": 0.07476056509761894,
+        "n": 2252,
+        "mean": 0.4785806080869339,
+        "sd": 0.07617438993154894,
         "min": 0.13999999999999996,
         "max": 0.7352941176470588,
-        "neutral_rate": 0.6715328467153284
+        "neutral_rate": 0.6638543516873889
       }
     },
     "degenerate_rate": 0,
     "dominant_hist": {
-      "solitary_swarm": 188,
-      "symbiosis_predation": 1867
+      "solitary_swarm": 210,
+      "symbiosis_predation": 2042
     },
     "correlations": [
       {
@@ -178,112 +180,112 @@
           "symbiosis_predation",
           "explore_caution"
         ],
-        "r": -0.24722453815105397
+        "r": -0.24811105693022267
       },
       {
         "pair": [
           "symbiosis_predation",
           "solitary_swarm"
         ],
-        "r": -0.44666623469873046
+        "r": -0.4491644217285558
       },
       {
         "pair": [
           "symbiosis_predation",
           "memory_instinct"
         ],
-        "r": -0.8893025748698108
+        "r": -0.8981064943071118
       },
       {
         "pair": [
           "symbiosis_predation",
           "agile_robust"
         ],
-        "r": -0.03842051323250485
+        "r": -0.04323999691161958
       },
       {
         "pair": [
           "explore_caution",
           "solitary_swarm"
         ],
-        "r": 0.2647943179511311
+        "r": 0.2902046579476232
       },
       {
         "pair": [
           "explore_caution",
           "memory_instinct"
         ],
-        "r": 0.12131910320384584
+        "r": 0.13262035386401405
       },
       {
         "pair": [
           "explore_caution",
           "agile_robust"
         ],
-        "r": 0.014691808953227276
+        "r": 0.02136955207548624
       },
       {
         "pair": [
           "solitary_swarm",
           "memory_instinct"
         ],
-        "r": 0.20710279287322345
+        "r": 0.232565833401832
       },
       {
         "pair": [
           "solitary_swarm",
           "agile_robust"
         ],
-        "r": -0.053038871283999894
+        "r": -0.05307707873020039
       },
       {
         "pair": [
           "memory_instinct",
           "agile_robust"
         ],
-        "r": 0.04478848927812474
+        "r": 0.04643304398041087
       }
     ],
     "by_faction": {
       "player": {
-        "n_samples": 675,
+        "n_samples": 757,
         "per_axis": {
           "symbiosis_predation": {
-            "n": 675,
-            "mean": 0.9964899436099839,
-            "sd": 0.01069628085141437,
-            "min": 0.9467084639498432,
+            "n": 757,
+            "mean": 0.996721056454446,
+            "sd": 0.010239830959772841,
+            "min": 0.9547368421052631,
             "max": 1,
             "neutral_rate": 0
           },
           "explore_caution": {
-            "n": 675,
-            "mean": 0.6378495769218446,
-            "sd": 0.21321385487243294,
+            "n": 757,
+            "mean": 0.6264858143959856,
+            "sd": 0.20756846100868123,
             "min": 0.5,
             "max": 1,
-            "neutral_rate": 0.7022222222222222
+            "neutral_rate": 0.726552179656539
           },
           "solitary_swarm": {
-            "n": 675,
-            "mean": 0.6177777777777778,
-            "sd": 0.26143950979901776,
+            "n": 757,
+            "mean": 0.6235138705416117,
+            "sd": 0.25751954974295543,
             "min": 0.25,
             "max": 1,
-            "neutral_rate": 0.5777777777777777
+            "neutral_rate": 0.5944517833553501
           },
           "memory_instinct": {
-            "n": 675,
-            "mean": 0.4969469431404189,
-            "sd": 0.012823858242240463,
-            "min": 0.4490254872563718,
+            "n": 757,
+            "mean": 0.4971954098961982,
+            "sd": 0.012007548765524612,
+            "min": 0.45942982456140347,
             "max": 0.5267857142857143,
-            "neutral_rate": 0.8681481481481481
+            "neutral_rate": 0.8758256274768824
           },
           "agile_robust": {
-            "n": 675,
-            "mean": 0.4355590413943335,
-            "sd": 0.11927782841912025,
+            "n": 757,
+            "mean": 0.4362794311912324,
+            "sd": 0.12069183759092876,
             "min": 0.13999999999999996,
             "max": 0.7352941176470588,
             "neutral_rate": 0
@@ -291,42 +293,42 @@
         }
       },
       "sistema": {
-        "n_samples": 1380,
+        "n_samples": 1495,
         "per_axis": {
           "symbiosis_predation": {
-            "n": 1380,
-            "mean": 0.9884599292615607,
-            "sd": 0.04989998816337462,
+            "n": 1495,
+            "mean": 0.9862306896002558,
+            "sd": 0.05631653644865088,
             "min": 0.6875,
             "max": 1,
             "neutral_rate": 0
           },
           "explore_caution": {
-            "n": 1380,
-            "mean": 0.6283611118472644,
-            "sd": 0.20540199146992238,
+            "n": 1495,
+            "mean": 0.6289975479756224,
+            "sd": 0.20484925432112763,
             "min": 0.5,
             "max": 1,
-            "neutral_rate": 0.7130434782608696
+            "neutral_rate": 0.7090301003344481
           },
           "solitary_swarm": {
-            "n": 1380,
-            "mean": 0.5545289855072464,
-            "sd": 0.16475540465410768,
+            "n": 1495,
+            "mean": 0.5591973244147157,
+            "sd": 0.16912332835392616,
             "min": 0.25,
             "max": 1,
-            "neutral_rate": 0.8681159420289855
+            "neutral_rate": 0.8615384615384616
           },
           "memory_instinct": {
-            "n": 1380,
-            "mean": 0.5086532333396983,
-            "sd": 0.057945606969618126,
-            "min": 0.4479166666666667,
+            "n": 1495,
+            "mean": 0.5102834093722081,
+            "sd": 0.06232126437424397,
+            "min": 0.43452380952380953,
             "max": 0.875,
-            "neutral_rate": 0.894927536231884
+            "neutral_rate": 0.8876254180602007
           },
           "agile_robust": {
-            "n": 1380,
+            "n": 1495,
             "mean": 0.5,
             "sd": 0,
             "min": 0.5,

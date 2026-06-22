@@ -408,6 +408,9 @@ async function runChildOnce(args) {
     enemyScaling: calibrationScaling(),
     peEarned: peEarnedConfig(),
     ...(args.a13 ? { a13: true, a13MaxRetries: args.a13MaxRetries } : {}),
+    // OD-024 D7 (opt-in): child inherits process.env but runOpts must thread the flag
+    // explicitly (mirror the in-process path), else --isolate silently skips the party grant.
+    grantPartyInteroception: process.env.SIM_GRANT_PARTY_INTEROCEPTION === '1',
   });
   const out = args.out || path.join(os.tmpdir(), `fl-child-${args.childSeed}.json`);
   fs.writeFileSync(out, JSON.stringify(res));
@@ -424,6 +427,11 @@ function currentFlags() {
     // A13 N=40 control arm: '1' = read-side amplifier neutralized (wound still persists).
     // Provenance MUST carry it -- it is the A/B discriminator between the two batches.
     A13_WOUND_READ_DISABLED: process.env.A13_WOUND_READ_DISABLED || '0',
+    // OD-024 D7 interoception flip arms: the enemy-side grant (producer flag) + the
+    // opt-in party-side grant. Both are A/B discriminators -- provenance must carry them.
+    SENTIENCE_INTEROCEPTION_GRANT_ENABLED:
+      process.env.SENTIENCE_INTEROCEPTION_GRANT_ENABLED || 'false',
+    SIM_GRANT_PARTY_INTEROCEPTION: process.env.SIM_GRANT_PARTY_INTEROCEPTION || '0',
   };
 }
 
