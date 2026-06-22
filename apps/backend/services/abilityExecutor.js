@@ -34,6 +34,7 @@
 
 const { loadJobs, extractAbilities } = require('./jobsLoader');
 const { defaultRng } = require('./combat/pseudoRng');
+const { isAbilityInhibited } = require('./combat/abilitySuppression');
 
 let abilityIndex = null;
 
@@ -2339,6 +2340,31 @@ function createAbilityExecutor(deps) {
   }
 
   async function executeAbility({ session, actor, body }) {
+    // Creature-trait slice 1 (spec 2026-06-22-creature-trait-mechanics-design):
+    // a unit carrying `inibito` cannot use ACTIVE abilities. Spec anchor =
+    // "disables only the unit's ACTIVE abilities (action_type=ability)"; this is
+    // the single action_type=ability dispatch entry, so gate it FIRST -> no spec
+    // load / AP spend / handler.
+    //   - Movement + basic attacks: separate resolvers, untouched.
+    //   - Reflex reactions (parry / overwatch / counter FIRING) do NOT come here:
+    //     they fire via reactionEngine.triggerOnMove -> performAttack (session.js),
+    //     so an inibito unit's already-armed reflexes still trigger (spec: reflex
+    //     reactions work). Spending an ability to REGISTER a new overwatch
+    //     (effect_type:'reaction') IS an active ability (action_type=ability,
+    //     cost_ap) and is intentionally blocked here.
+    // Band-neutral: no sim unit applies inibito until a matrice_antimagia carrier
+    // (golem) is canonized + flipped live.
+    if (isAbilityInhibited(actor)) {
+      return {
+        status: 400,
+        body: {
+          error: 'ability bloccata: unita inibita (status inibito attivo)',
+          blocked: true,
+          reason: 'inibito',
+          ability_id: (body && body.ability_id) || null,
+        },
+      };
+    }
     const abilityId = String(body.ability_id || '');
     if (!abilityId) {
       return { status: 400, body: { error: 'ability_id richiesto per action_type=ability' } };
