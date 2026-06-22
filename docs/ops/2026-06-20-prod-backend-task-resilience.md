@@ -38,7 +38,13 @@ Two gaps:
 2. The only trigger is `LogonTrigger` (no `AtStartup`) -> **no reboot-survival**
    without an interactive logon.
 
-## Fix (designed; requires admin elevation to apply)
+## Fix (APPLIED 2026-06-22)
+
+> **APPLIED** -- master-dd ran `fix-evo-backend-task-resilience.ps1` elevated.
+> Verified: the `EvoTacticsBackend` task now carries both a `MSFT_TaskBootTrigger`
+> (AtStartup) and the `MSFT_TaskLogonTrigger`, with `RestartCount=999`
+> (`RestartInterval=PT1M`). Combined with the cmd PG-ensure (below), boot/crash
+> recovery now covers BOTH the backend and Postgres.
 
 Additive, low-risk -- does NOT touch the running backend or the `.cmd`, keeps the
 blocking-supervision model + all other settings:
