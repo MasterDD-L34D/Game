@@ -75,6 +75,8 @@ const SUPPORTED_EFFECT_TYPES = new Set([
   'team_heal',
   'aoe_buff',
   'aoe_debuff',
+  'suppress_ability',
+  'apply_status',
   'surge_aoe',
   'reaction',
   'aggro_pull',
@@ -2102,6 +2104,133 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // suppress_ability (matrice Mode A): area NxN. Applica `inibito` ai nemici nel
+  // raggio -> non possono usare abilita' attive (combat/abilitySuppression). Abilita'
+  // trait-granted (source: trait, trait_id matrice_antimagia, generata da
+  // trait_mechanics.yaml). Mirror di executeAoeDebuff ma applica uno status di
+  // controllo invece di un debuff statistico.
+  async function executeSuppressAbility({ session, actor, ability, body }) {
+    const center = body.position;
+    if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
+      return { status: 400, body: { error: 'position { x, y } richiesta per suppress_ability' } };
+    }
+    if (!isWithinGrid(center, session.grid?.width || gridSize)) {
+      return { status: 400, body: { error: 'centro AoE fuori griglia' } };
+    }
+    const range = Number(ability.range || 0);
+    if (range > 0 && manhattanDistance(actor.position, center) > range) {
+      return { status: 400, body: { error: `centro AoE fuori range (${range})` } };
+    }
+    const size = Number(ability.aoe_size || 3);
+    const statusId = String(ability.status_id || 'inibito');
+    const duration = Number(ability.status_duration || 1);
+    const inArea = unitsInArea(session.units, center, size);
+    const enemies = inArea.filter((u) => u.controlled_by !== actor.controlled_by);
+
+    const applied = [];
+    for (const enemy of enemies) {
+      if (!enemy.status) enemy.status = {};
+      enemy.status[statusId] = Math.max(Number(enemy.status[statusId]) || 0, duration);
+      applied.push({ unit_id: enemy.id, status: statusId, duration });
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'suppress_ability',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      center,
+      aoe_size: size,
+      enemies_affected: applied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'suppress_ability',
+        center,
+        aoe_size: size,
+        status: statusId,
+        enemies_affected: applied,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // apply_status (trait-granted, single-target): applica `status_id` per
+  // `status_duration` turni al target (body.target_id). Un-dormanta le abilita'
+  // trait-native apply_status generate da trait_mechanics.yaml (es. spore_burst ->
+  // disorient, ali_membrana_sonica_burst -> panic). status_intensity opzionale.
+  async function executeApplyStatus({ session, actor, ability, body }) {
+    const targetId = body.target_id;
+    const target = (session.units || []).find((u) => String(u.id) === String(targetId));
+    if (!target) {
+      return { status: 400, body: { error: 'target_id valido richiesto per apply_status' } };
+    }
+    const statusId = String(ability.status_id || '');
+    if (!statusId) {
+      return { status: 400, body: { error: 'status_id mancante nella ability apply_status' } };
+    }
+    const duration = Number(ability.status_duration || 1);
+    if (!target.status) target.status = {};
+    target.status[statusId] = Math.max(Number(target.status[statusId]) || 0, duration);
+    if (ability.status_intensity != null) {
+      if (!target.status_intensity) target.status_intensity = {};
+      target.status_intensity[statusId] = Number(ability.status_intensity);
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'apply_status',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      target_id: targetId,
+      status_id: statusId,
+      status_duration: duration,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'apply_status',
+        target_id: targetId,
+        status: statusId,
+        duration,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   // surge_aoe (cataclysm): area NxN, danno dadi a tutti i nemici dentro.
   // stress_reset opzionale (Surge Burst meccanica). PP/SG gating skippato.
   async function executeSurgeAoe({ session, actor, ability, body }) {
@@ -2600,6 +2729,10 @@ function createAbilityExecutor(deps) {
           return executeAoeBuff({ session, actor, ability, body });
         case 'aoe_debuff':
           return executeAoeDebuff({ session, actor, ability, body });
+        case 'suppress_ability':
+          return executeSuppressAbility({ session, actor, ability, body });
+        case 'apply_status':
+          return executeApplyStatus({ session, actor, ability, body });
         case 'surge_aoe':
           return executeSurgeAoe({ session, actor, ability, body });
         case 'reaction':

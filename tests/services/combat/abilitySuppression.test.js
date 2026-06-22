@@ -127,3 +127,112 @@ test('matrice_antimagia: ranged (non-melee) hit does NOT apply inibito', () => {
     undefined,
   );
 });
+
+// ── matrice_antimagia Mode A: suppress_ability AoE (trait-granted ability) ──
+
+const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+
+function makeAoeExec() {
+  return createAbilityExecutor({
+    performAttack: () => ({}),
+    buildAttackEvent: () => ({}),
+    buildMoveEvent: () => ({}),
+    appendEvent: () => {},
+    manhattanDistance: manhattan,
+  });
+}
+
+test('suppress_ability (matrice_pulse): inibito to in-area enemies, AP spent', async () => {
+  const exec = makeAoeExec();
+  const actor = {
+    id: 'golem',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    hp: 10,
+    ap: 2,
+    ap_remaining: 2,
+    status: {},
+    traits: ['matrice_antimagia'],
+  };
+  const near = { id: 'e1', controlled_by: 'sistema', position: { x: 1, y: 1 }, hp: 8, status: {} };
+  const far = { id: 'e2', controlled_by: 'sistema', position: { x: 5, y: 5 }, hp: 8, status: {} };
+  const ally = { id: 'a1', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 8, status: {} };
+  const session = {
+    units: [actor, near, far, ally],
+    grid: { width: 6 },
+    events: [],
+    turn: 1,
+    session_id: 't',
+  };
+  const res = await exec.executeAbility({
+    session,
+    actor,
+    body: { ability_id: 'matrice_pulse', position: { x: 1, y: 1 } },
+  });
+  assert.equal(res.status, 200, JSON.stringify(res.body));
+  assert.equal(Number(near.status.inibito), 2, 'in-area enemy inhibited 2 turns');
+  assert.equal(Number(far.status.inibito || 0), 0, 'far enemy not inhibited');
+  assert.equal(Number(ally.status.inibito || 0), 0, 'same-faction ally not inhibited');
+  assert.equal(actor.ap_remaining, 0, 'spent 2 AP');
+});
+
+test('suppress_ability: an inhibited matrice carrier cannot pulse (guard precedes)', async () => {
+  const exec = makeAoeExec();
+  const actor = {
+    id: 'golem',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    hp: 10,
+    ap: 2,
+    ap_remaining: 2,
+    status: { inibito: 1 },
+    traits: ['matrice_antimagia'],
+  };
+  const enemy = { id: 'e1', controlled_by: 'sistema', position: { x: 1, y: 1 }, hp: 8, status: {} };
+  const session = {
+    units: [actor, enemy],
+    grid: { width: 6 },
+    events: [],
+    turn: 1,
+    session_id: 't',
+  };
+  const res = await exec.executeAbility({
+    session,
+    actor,
+    body: { ability_id: 'matrice_pulse', position: { x: 1, y: 1 } },
+  });
+  assert.equal(res.body.reason, 'inibito');
+  assert.equal(Number(enemy.status.inibito || 0), 0, 'no pulse when the caster is inhibited');
+});
+
+// ── apply_status as a trait-granted ability (un-dormants spore_burst etc.) ──
+
+test('apply_status (spore_burst): applies its status to the target', async () => {
+  const exec = makeAoeExec();
+  const actor = {
+    id: 'a',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    hp: 10,
+    ap: 2,
+    ap_remaining: 2,
+    status: {},
+    traits: ['spore_psichiche_silenziate'],
+  };
+  const enemy = { id: 'e1', controlled_by: 'sistema', position: { x: 1, y: 0 }, hp: 8, status: {} };
+  const session = {
+    units: [actor, enemy],
+    grid: { width: 6 },
+    events: [],
+    turn: 1,
+    session_id: 't',
+  };
+  const res = await exec.executeAbility({
+    session,
+    actor,
+    body: { ability_id: 'spore_burst', target_id: 'e1' },
+  });
+  assert.equal(res.status, 200, JSON.stringify(res.body));
+  assert.ok(Number(enemy.status.disorient) > 0, 'target got disorient');
+  assert.equal(actor.ap_remaining, 0, 'spent 2 AP');
+});

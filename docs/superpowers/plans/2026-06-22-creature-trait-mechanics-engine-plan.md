@@ -486,3 +486,11 @@ flow; (b) add `executeApplyStatus` (single-target) + optionally extend the schem
 for `aoe_size`/`range` + `suppress_ability` (AoE). Until then, the PASSIVE slices
 (2 radici/nuclei, 3 ally_aura) are fully unblocked (no generator/schema/jobs.yaml
 touch) and are the next executable work.
+
+**RESOLVED 2026-06-23 -- master-dd chose "Infra completa AoE" (AskUserQuestion).** Built
+in this PR: (a) traitMechanics schema extended (`suppress_ability` enum + `aoe_size`/
+`range` props; backend AJV ripple verified); (b) jobs.yaml re-baselined (clean regen,
++~50 source abilities + `matrice_pulse`); (c) `executeSuppressAbility` (matrice Mode A
+AoE inibito) + `executeApplyStatus` (single-target, un-dormants `spore_burst` etc.) +
+both in `SUPPORTED_EFFECT_TYPES` (sentinel 18->20). Matrice Mode A complete (Mode B
+slice-1 + Mode A here). Band-neutral (no sim unit carries the traits; AI 554/554).
