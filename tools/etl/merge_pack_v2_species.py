@@ -53,6 +53,8 @@ import sys
 from datetime import date
 from pathlib import Path
 
+from interoception_field import filter_interoception
+
 # Sentience tier defaults for non-Pack-v2 species (RFC v0.1 heuristic mapping).
 # Animal types → T1 (Proto-Sentiente, reattivo).
 # Skiv/Custode pre-canonical → T3 (Emergente).
@@ -158,7 +160,7 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
                         pack_trait_refs.extend(t for t in section if isinstance(t, str))
             elif isinstance(tp, list):
                 pack_trait_refs = [t for t in tp if isinstance(t, str)]
-        return {
+        entry = {
             'species_id': species_id,
             'scientific_name': pack.get('scientific_name', species_id.replace('_', ' ').title()),
             'common_names': pack.get('common_names', []),
@@ -186,6 +188,17 @@ def build_entry(species_id: str, pack: dict | None, legacy: dict | None = None) 
             'source': source,
             'merged_at': today,
         }
+        # D4 (OD-024) -- carry an authored interoception_traits set source->catalog
+        # (pack first, legacy overlay fallback). Omitted when absent so the catalog
+        # stays diff-clean until a species authors it. Mirrors trait_refs, filtered
+        # to the gateway whitelist (a bad id never reaches the catalog).
+        intero = filter_interoception(
+            pack.get('interoception_traits')
+            or (legacy.get('interoception_traits') if legacy else None)
+        )
+        if intero:
+            entry['interoception_traits'] = intero
+        return entry
     # Stub for species missing from Pack v2 (Frattura Abissale + dune_stalker).
     return {
         'species_id': species_id,
@@ -292,6 +305,11 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
 
     role_tags = legacy.get('role_tags', [])
 
+    # D4 (OD-024) -- carry an authored interoception_traits set source->catalog,
+    # filtered to the gateway whitelist. Omitted below when empty so the catalog
+    # stays diff-clean until a species authors the field.
+    intero = filter_interoception(legacy.get('interoception_traits'))
+
     # ecotypes: legacy role_tags (apex/predator/keystone...) are roles, NOT
     # ecotype_cluster enum values. Leave empty; canonical ecotype clusters live
     # in data/external/evo/species/<id>_ecotypes.json, authored per-species
@@ -300,7 +318,7 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
 
     sentience = legacy.get('sentience_index') or legacy.get('sentience_tier') or 'T1'
 
-    return {
+    entry = {
         'species_id': species_id,
         'scientific_name': scientific,
         'common_names': common_names,
@@ -337,6 +355,9 @@ def build_entry_from_legacy(species_id: str, legacy: dict) -> dict:
         'source': 'legacy-yaml-merge',
         'merged_at': today,
     }
+    if intero:
+        entry['interoception_traits'] = intero
+    return entry
 
 
 def main():
