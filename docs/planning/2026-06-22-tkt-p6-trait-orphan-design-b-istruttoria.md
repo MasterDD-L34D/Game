@@ -44,7 +44,7 @@ assegnazioni sbloccate**. Decisione richiesta a master-dd molto piu' piccola del
   con ZERO assegnazione a specie E senza valori in `trait_mechanics.yaml`.
 - **Ticket** (BACKLOG.md riga ~593): `TKT-P6-TRAIT-ORPHAN-DESIGN-B (~2h)` = "14 B-defer
   traits design call".
-- **Ticket correlato** (BACKLOG.md riga ~599): `TKT-P6-TRAIT-MECHANICS-SYNC (~1h)` = aggiungi
+- **Ticket correlato** (BACKLOG.md riga ~600): `TKT-P6-TRAIT-MECHANICS-SYNC (~1h)` = aggiungi
   subset trait A-class a `trait_mechanics.yaml` (famiglie wave 1-3 senza balance values). Vedi sez. 6.
 - **Re-flag**: [`docs/reports/2026-06-22-drift-audit.md`](../reports/2026-06-22-drift-audit.md) riga ~65
   classifica entrambi come `DORMANT_TICKET` (~43gg, "design-gated master-dd" / "pre-balance-gated").
@@ -65,19 +65,20 @@ L'audit-fonte ha **incoerenze interne di conteggio**:
 
 - Sez. 4 "B -- Defer": _"B total (non-ancestor): **12**"_ (riga 314).
 - Tabella "Revised totals" (riga 349): _"B defer **14**"_ (= 109 - 91 A - 4 C, per sottrazione).
-- Righe di tabella effettivamente marcate verdetto `B` ed enumerabili: **11** (dopo le 2
-  riclassificazioni a A: `aura_scudo_radianza` B->A, `antenne_flusso_mareale` -> A).
+- Righe marcate verdetto `B` nella sez. 1 dell'audit: **12**; meno 1 (`aura_scudo_radianza`
+  riclassificato B->A in sez. 4) = **11** enumerabili. NB: `antenne_flusso_mareale` era gia'
+  A-side (proposto-C poi tenuto A) -- NON sottrae dai B.
 - Variante "+22 ancestor tag-gated" -> 34 (gli ancestor\_\* NON sono nei 109 orphan core).
 
 **Set canonico actionable usato in questa istruttoria = 11 trait enumerabili** (sotto). Il
 "14" del ticket e' un artefatto aritmetico della fonte, non una lista. _Questa fuzziness e'
 essa stessa un finding: lo scope del ticket andava ridefinito a prescindere._
 
-I 2 trait gia' riclassificati a A dall'audit (fuori scope B, confermati puliti oggi):
+Trait A-class adiacenti citati dall'audit (fuori scope B, confermati puliti oggi):
 
-- `aura_scudo_radianza` (T2, `damage_reduction` -2, pulito) -- A-class.
-- `antenne_flusso_mareale` (T2, `extra_damage` +2, MoS>=5) -- A-class; **ora ha pure mechanics**
-  in `trait_mechanics.yaml:683`.
+- `aura_scudo_radianza` (T2, `damage_reduction` -2, pulito) -- riclassificato B->A in sez. 4.
+- `antenne_flusso_mareale` (T2, `extra_damage` +2, MoS>=5) -- A-side (proposto-C poi A);
+  **ora ha pure mechanics** in `trait_mechanics.yaml:683`.
 
 ## 3. Metodo + fonti verificate (ground-truth 2026-06-22)
 
