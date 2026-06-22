@@ -114,11 +114,30 @@ body-derived). Options:
   an affinity surface is ever wanted.
 
 > **RATIFIED 2026-06-22 (master-dd): Option A -- AFFINITY.** biomeResolver becomes a
-> non-binding `biomeAffinity()` weight signal; biome stays route-canon (constraint 1).
-> **Open C2 sub-design-call**: WHERE the affinity is consumed (route-vote presentation
-> weighting / encounter flavor / cosmetic "branco leans toward X" hint) is NOT yet
-> decided -- the C2 affinity build must surface this to master-dd before wiring a
-> consumer (an unconsumed affinity = Gate-5 dead).
+> non-binding weight signal; biome stays route-canon (constraint 1).
+> **Consumption sub-call RESOLVED (master-dd): surfaces 1+2 = cosmetic hint ("your
+> branco leans toward X", read-only post-imprint) + route-vote presentation weighting
+> (nudge how candidates are presented; vote stays non-binding).**
+>
+> **Verify-first findings that BLOCK a standalone C2-affinity build (2026-06-22):**
+>
+> 1. **Input coupling** -- the affinity weight derives from the 4-axis imprint choices,
+>    which DO NOT exist on main; they are collected by the imprint beat (C2-imprint).
+>    So affinity has no live input until C2-imprint exists -> the two are ONE coupled
+>    build, not independent.
+> 2. **Name collision** -- `biomeAffinity` is ALREADY taken on main
+>    (`apps/backend/services/species/biomeAffinity.js`, `getBiomeAffinityModifier`,
+>    species<->biome combat affinity, used `session.js:547`). The imprint affinity needs
+>    a DISTINCT name/namespace (e.g. `services/imprint/imprintBiomeAffinity`).
+> 3. **Route-vote consumer is doubly-gated** -- meta-network routing is flag-OFF
+>    (`META_NETWORK_ROUTING`, campaign.js:76) + Godot-route-UI-gated; the route-vote
+>    weighting layer cannot light up until that flips. The cosmetic hint (surface 1) is
+>    the only consumer reachable in the near term, and it still needs the imprint beat
+>    (its trigger point) to exist.
+>
+> Net: C2-affinity is NOT independently buildable-live now. It folds into the C2-imprint
+> build (input + hint trigger); route-vote weighting is a later layer behind the
+> meta-network flip. See section 8.
 
 ### 6.2 Onboarding phase model (CAP-14 / 15 / 15b)
 
@@ -201,33 +220,42 @@ no code reconciliation.
 2. imprint onboarding beat -> **ADDITIVE separate-phase** (6.2-A).
 3. PlayerRunTelemetry canon-home -> **DEFER** (6.4-C).
 
-**Remaining C2 sub-design-calls (still master-dd; surface before building each piece):**
+4. affinity consumption surface -> **1+2 = cosmetic hint + route-vote weighting** (6.1).
 
-- (affinity) WHERE the affinity weight is consumed: route-vote presentation / encounter
-  flavor / cosmetic hint (6.1).
+**Remaining C2 sub-design-calls (still master-dd; surface before building):**
+
 - (imprint) placement (pre-phase vs `world_setup` framing), the player-facing prompt/UX,
-  and the Godot surface (6.2).
+  and the Godot surface (6.2). **This is now the gating call**: per the 6.1 verify-first
+  findings, affinity folds INTO the imprint build (its input + hint trigger), so the
+  imprint sub-calls block the whole MVP. Needs a focused C2-imprint build-spec next.
 - (telemetry) the future home + a canonical `selectedForm` owner + producer + auth/PII
   posture (6.4) -- a separate future spec, not part of this reconciliation.
 
 ## 8. Sequencing to C2 (UNBLOCKED for ratified pieces)
 
-C1 is ratified -> C2 = per-piece code reconciliation PRs, each flag-gated +
-band-neutral, each subtracting Track-A-merged pieces (cap-11 is the umbrella superset;
-CAP-06 already landed via PR #2958). Suggested order:
+C1 is ratified -> C2 = code reconciliation, each flag-gated + band-neutral, each
+subtracting Track-A-merged pieces (cap-11 is the umbrella superset; CAP-06 already
+landed via PR #2958).
 
-1. **C2-affinity** (6.1-A) -- the most canon-neutral piece: `biomeResolver` ->
-   `biomeAffinity()` returning read-only weights, NO binding biome assignment. BLOCKED
-   on the affinity-consumption sub-call (where it is consumed) -- do not wire a consumer
-   until decided (else Gate-5 dead engine). A pure weight-producer + tests
-   (flag-gated/unconsumed) could land first if master-dd wants forward motion.
-2. **C2-imprint** (6.2-A + 6.3) -- additive separate-phase imprint beat +
-   device-authority `/campaign/start/v2`. BLOCKED on the imprint sub-calls (placement /
-   prompt-UX / Godot surface). Larger; likely its own focused spec + Godot cross-repo chip.
+**Revised by the 6.1 verify-first findings: affinity is NOT an independent first piece
+-- it folds into the imprint build.** Order:
+
+1. **C2-imprint + affinity producer + cosmetic hint** (6.2-A + 6.3 + 6.1 surface-1) --
+   ONE coupled build: the additive separate-phase imprint beat collects the 4-axis
+   choices (device-authority `/campaign/start/v2`, no host-token), feeds the imprint
+   affinity producer (DISTINCT name, e.g. `services/imprint/imprintBiomeAffinity` --
+   `biomeAffinity` is taken on main), which drives the read-only cosmetic hint. This is
+   the MVP live surface. BLOCKED on the imprint sub-calls (placement / prompt-UX / Godot
+   surface) -- needs a focused C2-imprint build-spec first; likely a Godot cross-repo chip.
+2. **Route-vote affinity weighting** (6.1 surface-2) -- LATER layer, behind the
+   meta-network flip (`META_NETWORK_ROUTING` is OFF + Godot-route-UI-gated). Not buildable-
+   live until that flips.
 3. **CAP-12 telemetry** -- DEFERRED (6.4-C); no C2 action; branch parked.
 4. **CAP-13/13b + CAP-14b** -- UX reference only; catalog (museum/curated), no code.
 
-Each C2 PR preserves the source `aa01/*` branch until its piece is integrated.
+Each C2 PR preserves the source `aa01/*` branch until its piece is integrated. No
+unconsumed-engine PR (Gate-5): the affinity producer ships WITH its imprint trigger +
+hint, not alone.
 
 ## 9. Non-goals
 
