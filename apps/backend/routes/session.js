@@ -1811,6 +1811,29 @@ function createSessionRouter(options = {}) {
         units = scenarioUnits;
       }
 
+      // OD-024 D3 (master-dd #2941 ratification: grant extended player-only -> enemies):
+      // apply the sentience interoception grant to enemy/sistema units too (player chars
+      // get it at coopOrchestrator.submitCharacter). Flag-gated inside the helper
+      // (SENTIENCE_INTEROCEPTION_GRANT_ENABLED) -> band-neutral no-op when OFF. The enemy
+      // unit's `species` IS the catalog species_id slug (tier lookup key). Idempotent
+      // (no-dup) + never throws into /start.
+      try {
+        // eslint-disable-next-line global-require
+        const {
+          applySentienceInteroceptionGrant,
+        } = require('../services/sentience/sentienceInteroceptionGrant');
+        for (const u of units) {
+          if (!u || u.controlled_by !== 'sistema') continue;
+          const granted = applySentienceInteroceptionGrant({
+            species_id: u.species,
+            traits: u.traits,
+          });
+          if (Array.isArray(granted?.traits)) u.traits = granted.traits;
+        }
+      } catch {
+        /* sentience grant optional -- never block /start */
+      }
+
       // Q-001 T2.3 PR-3: applica difficulty profile scaling (opt-in, default normal)
       const requestedProfile =
         typeof req.body?.difficulty_profile === 'string'
