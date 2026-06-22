@@ -250,7 +250,13 @@ test('apply_status: rejects a same-faction target (respects ability.target=enemy
     traits: ['spore_psichiche_silenziate'],
   };
   const ally = { id: 'a2', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 8, status: {} };
-  const session = { units: [actor, ally], grid: { width: 6 }, events: [], turn: 1, session_id: 't' };
+  const session = {
+    units: [actor, ally],
+    grid: { width: 6 },
+    events: [],
+    turn: 1,
+    session_id: 't',
+  };
   const res = await exec.executeAbility({
     session,
     actor,
