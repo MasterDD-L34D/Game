@@ -156,19 +156,17 @@ def check_species_catalog() -> list[str]:
             f"+ docs/archive/historical-snapshots/2026-05-15_species-deprecation/."
         )
 
-    # 2. gameplay-promote entries that now have a lifecycle YAML -> a re-run stubs
-    #    them at the merge stage and promote then SKIPS them (downgrade-on-regen).
-    downgrade = []
+    # 2. gameplay-promote entries whose pack source is an ecological event
+    #    (role_trofico=evento_ecologico) -> a fresh re-run excludes them (additive
+    #    promote never pruned them after the is_event filter landed). They linger in
+    #    the committed catalog until the re-baseline.
+    #    (The earlier lifecycle-stub "downgrade" finding is retired: promote now
+    #    UPGRADES a bare stub in place instead of skipping it -- Phase 0.3.)
     lingering_events = []
     for e in catalog:
         if e.get("source") != "gameplay-promote":
             continue
         sid = e.get("species_id")
-        if (CATALOG_PATH.parent / f"{sid}_lifecycle.yaml").exists():
-            downgrade.append(sid)
-        # 3. gameplay-promote entries whose pack source is an ecological event
-        #    (role_trofico=evento_ecologico) -> a re-run excludes them (additive
-        #    promote never pruned them after the is_event filter landed).
         pack_path = _resolve_pack_path(e.get("pack_path", ""))
         if pack_path is not None:
             try:
@@ -179,12 +177,6 @@ def check_species_catalog() -> list[str]:
             except Exception:  # pragma: no cover - parse hiccup is itself a signal
                 findings.append(f"gameplay-promote '{sid}': pack source unreadable ({e.get('pack_path')})")
 
-    if downgrade:
-        findings.append(
-            f"{len(downgrade)} gameplay-promote species now have a lifecycle YAML "
-            f"(e.g. {sorted(downgrade)[:5]}); a re-run downgrades them to bare "
-            f"game-canonical-stub entries (loses morphotype/threat/pack_path)."
-        )
     if lingering_events:
         findings.append(
             f"{len(lingering_events)} catalog entries are ecological events "
