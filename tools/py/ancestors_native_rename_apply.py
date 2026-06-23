@@ -48,9 +48,14 @@ def slug(s: str) -> str:
 
 
 def signature(v: dict) -> tuple:
+    # Mechanical identity for dedup: tier + applies_to + effect + trigger.
+    # applies_to is load-bearing (actor vs target flips the trait's meaning) -- a
+    # group differing only on it must NOT be deduped. Verified 0 such cases on the
+    # current dataset, so including it leaves the applied result byte-identical;
+    # kept for forward-correctness / reuse on future data.
     eff = v.get("effect", {}) or {}
     trg = v.get("trigger", {}) or {}
-    return (str(v.get("tier")),
+    return (str(v.get("tier")), str(v.get("applies_to")),
             tuple(sorted((k, str(x)) for k, x in eff.items() if k != "log_tag")),
             tuple(sorted((k, str(x)) for k, x in trg.items())))
 
