@@ -52,7 +52,7 @@ l'harness ma **content + esperimento + ratifica**.
 
 | Residuo | Workstream | Gate preciso | Stato |
 | --- | --- | --- | --- |
-| **PE_ratio -> contestedness** (sblocca SPEC-J + SPEC-H) | G2 calib | ✅ **step-1 candidati D/E/F MERGED #3000 `f7253761`** (`pe_candidates.py`, aggregate-form, leggono turns_avg/dmg_taken_avg/dmg_dealt_avg esistenti). Restano: run N=100 (maintainer, backend :3400 NON prod) -> orthogonality 3.2-3.4 -> ratifica banda SDMG (single-owner). PE-from-pressure REJECTED (sec 4.5). Handoff `docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md` |
+| **PE_ratio -> contestedness** (sblocca SPEC-J + SPEC-H) | G2 calib | ✅ candidati #3000 + ✅ **N=100 orthogonality RUN #3008** (`E_dmg_margin` selezionato, 0.499<0.6) MA 🔴 **banda FALSIFICATA da harsh-review** (single-policy diagnostic corpora + banda 3-punti outlier-artifact). **FIX = re-run su corpora MULTI-POLICY canonici** = harness-work (`calibrate_parallel` greedy-only; full-loop = granularita' campagna) -> **chip calib-session** `task_<see-chip>`. Selezione E regge; banda no. Ratifica SDMG dopo il re-run canonico. Evidence `docs/playtest/2026-06-23-pe-contestedness-orthogonality-n100.md` |
 | **SPEC-J `LETHAL_MISSIONS_ENABLED` flip** | SPEC-J | (1) autora >=1 encounter `lethal:true` (content, master-dd: biome/roster/banda-attrition) + (2) lethal-mission N=40 in banda via G2 | OPEN. Backend+Godot consent UI DONE; #2865 DEFER |
 | **SPEC-H HA1 flip** `aliena_enforcement.enabled:true` + `strength` | SPEC-H | N=40 su `enc_badlands_pilot_01` (WR in banda + no regressione) | OPEN. Machinery+surface COMPLETE; e' l'unico residuo sostanziale |
 | **SPEC-I ER7 flag-ON** (population tick per ruolo trofico) | SPEC-I | N=40 flag-ON | OPEN. ER7 build flag-OFF gia' shipped #2723 |
