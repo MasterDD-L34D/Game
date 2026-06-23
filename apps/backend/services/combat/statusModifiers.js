@@ -233,11 +233,16 @@ function computeStatusModifiers(actor, target, units = []) {
     });
   }
   if (isPositive(actorStatus.abbagliato)) {
-    // pigmenti_aurorali glow (creature-trait slice 7): a dazzled unit strikes worse
-    // on its next attack -> -1 attack_mod. Set on adjacent enemies at end-of-round by
-    // combat/pigmentiAurorali while the carrier is HP>=50%; decays 1/round.
-    attackDelta -= 1;
-    log.push({ status: 'abbagliato', side: 'actor', effect: '-1 attack_mod (abbagliato)' });
+    // pigmenti_aurorali glow (creature-trait slice 7 + active): a dazzled unit strikes
+    // worse on its next attack -> -1 attack_mod, or -2 when the glow was intensified
+    // (the active mode sets abbagliato intensity 2). Set on adjacent enemies at
+    // end-of-round by combat/pigmentiAurorali while the carrier is HP>=50%.
+    const intensity = Number(
+      (actor && actor.status_intensity && actor.status_intensity.abbagliato) || 1,
+    );
+    const dazzle = intensity > 1 ? intensity : 1;
+    attackDelta -= dazzle;
+    log.push({ status: 'abbagliato', side: 'actor', effect: `-${dazzle} attack_mod (abbagliato)` });
   }
 
   // ─── Target-side target-defense buffs/debuffs ───────────────────
