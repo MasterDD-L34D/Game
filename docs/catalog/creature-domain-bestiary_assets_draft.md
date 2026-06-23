@@ -17,12 +17,12 @@ Mappa asset-prep dei render v2 approvati (creature-domain LoRA). Catalogo/sandbo
 
 - **LoRA**: `creature_domain_organic_v1.safetensors` (SDXL rank32/alpha16, 2000 step; 13-specie ORGANIC dataset). P4 falsification PASS (qwen2.5vl paired forced-choice 8/8).
 - **Generatore**: `generate_bestiary_p5_v2.py` (ComfyUI SDXL, dpmpp_2m karras, 768, 28 step, cfg 7); seed per-specie (crc32).
-- **Render full-res** (sorgente, NON in repo): Ryzen `C:/AI/creature-lora-dataset/p5_drafts/` -- originali `p5v2_<species>_00001_.png` (+ `manifest_v2.json`), regen Fase 1-bis `p5v2b_<species>_00001_.png` (+ `manifest_regen17.json`). Pipeline render->LoRA = repo Game-Godot-v2 (PR #539).
+- **Render full-res** (sorgente, NON in repo): Ryzen `C:/AI/creature-lora-dataset/p5_drafts/` -- originali `p5v2_<species>_00001_.png` (+ `manifest_v2.json`), regen Fase 1-bis `p5v2b_<species>_00001_.png` (+ `manifest_regen17.json`), basi restyle Fase 1-ter `p5lo_<species>_00001_.png` (LoRA 0.4) + sweep `p5sw_<species>_sNN`. Pipeline render->LoRA = repo Game-Godot-v2 (PR #539).
 - **Caveat LoRA**: palette grey-teal + spore-glow + void bg imposta (cue fuoco/magma/ruggine non rendono = solo forma); specie sciame rendono come corpo singolo (limite single-subject SDXL).
 
 ## Verdetto (HITL, approvato)
 
-**65 canonize / 10 art non-LoRA / 0 reject.** Fase 1: 58 canonize + 17 regen. Fase 1-bis (re-render con prompt migliorati, prefix `p5v2b_`): 7 dei 17 migliorati -> promossi; 10 ancora collassati (limite strutturale LoRA: bipedi/uccelli/verticali-alti/sfaccettato) -> coda art non-LoRA. Asse lore pre-cleared (75/75 id-match `species_catalog`, zero trait_id orfani).
+**65 canonize / 10 coda restyle / 0 reject.** Fase 1: 58 canonize + 17 regen. Fase 1-bis (re-render con prompt migliorati, prefix `p5v2b_`): 7 dei 17 migliorati -> promossi; 10 ancora collassati a LoRA pieno. Fase 1-ter (sweep forza-LoRA): a strength **0.4** la silhouette dei 10 si recupera (base `p5lo_`), ma l'estetica grey-teal si attenua -> restano in **coda restyle** (non canon) finche' un pass non li riporta allo stile pieno. Asse lore pre-cleared (75/75 id-match `species_catalog`, zero trait_id orfani).
 
 ## Schede canonizzate (65)
 
@@ -96,19 +96,21 @@ Render: `p5v2_` = originale Fase 1; `p5v2b_` = regen Fase 1-bis promosso.
 | 64  | `thaw_rot`                     | Marciume del Disgelo         | `p5v2_thaw_rot_00001_.png`                      | cryosteppe                  | Patina viscida grigio-verde che fiorisce sulle superfici in disgelo, con filamenti gelatinosi e bolle di gas di fermentazione.                                                                                                                                                                                                                                                       | silhouette on-intent                                                       |
 | 65  | `zephyr_spore_courier`         | Zephyr Spore Courier         | `p5v2_zephyr_spore_courier_00001_.png`          | cryosteppe                  | Corriere alato dalle ali piumate che lasciano scie di spore.                                                                                                                                                                                                                                                                                                                         | silhouette on-intent                                                       |
 
-## Coda art non-LoRA (10) -- non canonizzate
+## Coda restyle (10) -- basi form-correct @ LoRA 0.4, non canonizzate
 
-Silhouette collassate sia in v2 sia nel regen v2b: la LoRA organic-quadruped non rende bipedi/uccelli/verticali-alti/sfaccettato. Niente altro tentativo LoRA -> art dedicata (asset-workflow Path 2/3 redraw a mano, vedi `docs/guide/asset-creation-workflow.md`). Prompt-intento sotto = riferimento per il redraw.
+A LoRA pieno (1.0) queste 10 collassano (la LoRA organic-quadruped non rende bipedi/uccelli/verticali-alti/sfaccettato). Lo **sweep forza-LoRA** ha trovato che a **strength 0.4** la silhouette si recupera (l'anatomia di SDXL-base passa): render base `p5lo_<species>_00001_.png` (su Ryzen `p5_drafts/`). Trade-off: a 0.4 l'estetica grey-teal/spore-glow e' attenuata e fuori-famiglia.
 
-| #   | species_id                 | motivo (limite LoRA)                                        | intento morfologico (per redraw)                                                                      |
-| --- | -------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| 1   | `dune_stalker`             | MASCOT Skiv -- v2 generic stubby quad; deserves hero render | lean long-legged desert quadruped predator, high ground clearance, whip tail, alert raised head       |
-| 2   | `myco_spire_warden`        | v2 squat dome with legs                                     | tall sessile mushroom spire, single vertical stalk, broad cap on top, NO legs, rooted base            |
-| 3   | `sonaraptor_dissonans`     | v2 quadruped collapse (LoRA-risk: bipedal)                  | bipedal raptor standing upright on two legs, head crest, hooked foreclaws, raised counterbalance tail |
-| 4   | `sp_arenavolux_sagittalis` | v2 blob with weak wing nubs                                 | arrow-shaped sand flyer, swept-back delta wings, streamlined pointed body                             |
-| 5   | `sp_lithoraptor_acutornis` | v2 quad blob (LoRA-risk: beak/biped)                        | stone raptor, sharp hooked beak, taloned grasping legs, upright avian-dinosaur stance                 |
-| 6   | `sp_pyrosaltus_celeris`    | v2 hind-leg/leaping emphasis not reading                    | leaping creature, very long powerful hind legs, compact forelimbs, coiled jumping stance              |
-| 7   | `sp_salisucta_alveata`     | v2 legged blob, alveolate/sessile lost                      | sessile honeycomb alveolate filter body, porous lattice surface, NO legs, anchored base               |
-| 8   | `sp_vitricyba_punctata`    | v2 smoothed (LoRA-structural-risk: faceting)                | angular glassy crystalline creature, sharp faceted planes, geometric body                             |
-| 9   | `thermo_raptor`            | v2 quad collapse (LoRA-risk: bipedal)                       | lean bipedal raptor, long striding hind legs, hooked claws, horizontal counterbalance tail            |
-| 10  | `umbra_alaris`             | v2 read as dark quadruped, not winged bird                  | black bird, broad swept wings spread, fan tail, taloned feet, clear avian silhouette                  |
+**Prossimo pass (restyle, non in questo PR):** riportare le 10 basi allo stile pieno -- es. img2img dalla base `p5lo_` con LoRA a strength piena e denoise basso (tiene la forma, ri-applica lo stile), oppure restyle a mano (asset-workflow Path 2, `docs/guide/asset-creation-workflow.md`). Poi re-review -> promozione.
+
+| #   | species_id                 | esito silhouette @0.4              | base render                                | intento morfologico                                                                                   |
+| --- | -------------------------- | ---------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| 1   | `dune_stalker`             | marginale (quadrupede piu' snello) | `p5lo_dune_stalker_00001_.png`             | lean long-legged desert quadruped predator, high ground clearance, whip tail, alert raised head       |
+| 2   | `myco_spire_warden`        | netto (spira verticale)            | `p5lo_myco_spire_warden_00001_.png`        | tall sessile mushroom spire, single vertical stalk, broad cap on top, NO legs, rooted base            |
+| 3   | `sonaraptor_dissonans`     | netto (raptor bipede)              | `p5lo_sonaraptor_dissonans_00001_.png`     | bipedal raptor standing upright on two legs, head crest, hooked foreclaws, raised counterbalance tail |
+| 4   | `sp_arenavolux_sagittalis` | marginale (ali accennate)          | `p5lo_sp_arenavolux_sagittalis_00001_.png` | arrow-shaped sand flyer, swept-back delta wings, streamlined pointed body                             |
+| 5   | `sp_lithoraptor_acutornis` | netto (raptor bipede)              | `p5lo_sp_lithoraptor_acutornis_00001_.png` | stone raptor, sharp hooked beak, taloned grasping legs, upright avian-dinosaur stance                 |
+| 6   | `sp_pyrosaltus_celeris`    | marginale (zampe lunghe)           | `p5lo_sp_pyrosaltus_celeris_00001_.png`    | leaping creature, very long powerful hind legs, compact forelimbs, coiled jumping stance              |
+| 7   | `sp_salisucta_alveata`     | netto (favo alveolato)             | `p5lo_sp_salisucta_alveata_00001_.png`     | sessile honeycomb alveolate filter body, porous lattice surface, NO legs, anchored base               |
+| 8   | `sp_vitricyba_punctata`    | netto (cristallino sfaccettato)    | `p5lo_sp_vitricyba_punctata_00001_.png`    | angular glassy crystalline creature, sharp faceted planes, geometric body                             |
+| 9   | `thermo_raptor`            | netto (raptor bipede)              | `p5lo_thermo_raptor_00001_.png`            | lean bipedal raptor, long striding hind legs, hooked claws, horizontal counterbalance tail            |
+| 10  | `umbra_alaris`             | netto (uccello, ali aperte)        | `p5lo_umbra_alaris_00001_.png`             | black bird, broad swept wings spread, fan tail, taloned feet, clear avian silhouette                  |

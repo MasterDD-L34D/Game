@@ -11,7 +11,7 @@ review_cycle_days: 180
 
 # Bestiario creature-domain -- lore canonizzata
 
-Promozione HITL di 65 schede lore (su 75) dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Le 65 voci qui hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 promossi). Le 10 specie restanti restano in coda art non-LoRA e non sono promosse.
+Promozione HITL di 65 schede lore (su 75) dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Le 65 voci qui hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 promossi). Le 10 specie restanti hanno una base form-correct (render @LoRA 0.4) ma restano in coda restyle (estetica grey-teal da ripristinare) e non sono ancora promosse.
 
 > Stato `review_needed`: la prosa proviene da generazione macchina, ripulita in stile ASCII e strutturata; la rifinitura player-facing finale resta a master-dd (boundary `docs/guide/procedural-lore-generation.md`). Nessun numero/bilanciamento qui.
 
