@@ -3664,6 +3664,12 @@
       "label_en": "Nuclei Di Controllo",
       "description_it": "Nuclei di controllo (golem): finche' il nucleo e' intatto coordina i colpi (+1 attacco).",
       "description_en": ""
+    },
+    "corteccia_memetica": {
+      "label_it": "Corteccia Memetica",
+      "label_en": "Corteccia Memetica",
+      "description_it": "Corteccia memetica (treant): quando subisce un colpo pesante (>= 3 danni) la corteccia si indurisce (riduzione danno 2 sui colpi successivi) e la ferita condivisa risuona -> risonanza_memetica (uso singolo, +1 attacco) agli alleati entro raggio 3.",
+      "description_en": ""
     }
   }
 }

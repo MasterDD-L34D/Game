@@ -398,3 +398,22 @@ test('nuclei: a broken nucleus no longer grants the attack aura', () => {
   const r = computeStatusModifiers(actor, target, []);
   assert.equal(r.attackDelta, 0, 'no +1 atk once broken');
 });
+
+// ally_aura_mark consumers (creature-trait slice 3): coordinamento (nuclei intact
+// aura) and risonanza_memetica (corteccia single-use ripple) both grant +1 atk to
+// the coordinated/resonating ally.
+test('coordinamento (actor) -> +1 attackDelta', () => {
+  const actor = { id: 'a', status: { coordinamento: 99 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'coordinamento' && e.side === 'actor'));
+});
+
+test('risonanza_memetica (actor) -> +1 attackDelta', () => {
+  const actor = { id: 'a', status: { risonanza_memetica: 2 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'risonanza_memetica' && e.side === 'actor'));
+});

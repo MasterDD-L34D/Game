@@ -115,10 +115,15 @@ function applyPassiveAncestors(unit, registry) {
     const definition = registry[traitId];
     const spec = passiveStatusSpec(definition);
     if (!spec) continue;
-    // nuclei_di_controllo: a broken nucleus (danno_nucleo) must NOT be re-intacted
-    // by a refresh wave (the weak-point break is durable). Skip nucleo_intatto when
-    // the unit is already damaged.
-    if (spec.stato === 'nucleo_intatto' && Number(unit.status.danno_nucleo) > 0) continue;
+    // nuclei_di_controllo: a broken (danno_nucleo) or destroyed (nucleo_distrutto)
+    // nucleus must NOT be re-intacted by a refresh wave (the weak-point progression
+    // is durable). Skip nucleo_intatto when the unit is already damaged/destroyed.
+    if (
+      spec.stato === 'nucleo_intatto' &&
+      (Number(unit.status.danno_nucleo) > 0 || Number(unit.status.nucleo_distrutto) > 0)
+    ) {
+      continue;
+    }
     const current = Number(unit.status[spec.stato] || 0);
     if (current >= spec.turns) continue; // already at-or-above target — no-op
     unit.status[spec.stato] = spec.turns;
