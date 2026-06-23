@@ -114,6 +114,26 @@ traits:
         effect_type: cleanse_status
         range: 1
         target: ally
+  # Creature-kit salvage (2026-06-23): pigmenti_aurorali ACTIVE = trait-granted
+  # self-buff (apply_status pigmenti_intensificato) -- no new effect_type/schema. While
+  # intensified the end-of-round glow dazzles for -2 (abbagliato intensity 2) and anyone
+  # who attacks the carrier is disoriented -- both engine consumers in combat/
+  # pigmentiAurorali + statusModifiers + performAttack. The passive glow lives in
+  # active_effects.yaml + combat/pigmentiAurorali. Spec 2026-06-22-creature-trait-mechanics.
+  pigmenti_aurorali:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: pigmenti_intensifica
+        name_it: "Pigmenti Aurorali -- Intensifica"
+        cost_ap: 1
+        effect_type: apply_status
+        status_id: pigmenti_intensificato
+        status_duration: 2
+        target: self
   filamenti_digestivi_compattanti:
     attack_mod: 0
     defense_mod: 0

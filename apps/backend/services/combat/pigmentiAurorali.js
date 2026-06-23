@@ -37,6 +37,16 @@ const ABBAGLIATO = 'abbagliato';
 const ABBAGLIATO_TTL = 99;
 const HP_GATE = 0.5; // glow only while HP >= 50% of max
 
+// ACTIVE mode (1 AP): the carrier sets `pigmenti_intensificato` on itself (via the
+// existing apply_status ability path). While intensified: (a) the end-of-round glow
+// dazzles for -2 instead of -1 (abbagliato carries intensity 2, read in statusModifiers);
+// (b) anyone who attacks the carrier is disoriented (disorient -> -2 atk, an existing
+// status consumed in performAttack). The self-status decays normally (not persistent).
+const PIGMENTI_INTENSIFICATO = 'pigmenti_intensificato';
+const INTENSIFIED_ATK = 2; // abbagliato intensity while the glow is intensified
+const DISORIENT = 'disorient';
+const DISORIENT_TURNS = 2; // survives to the attacker's next attack, then decays
+
 function hasTrait(unit, traitId) {
   const raw = unit && Array.isArray(unit.traits) ? unit.traits : [];
   for (const t of raw) {
@@ -70,6 +80,9 @@ function applyEndRoundGlow({ carrier, units }) {
   const hp = Number(carrier.hp);
   if (!(max > 0) || !(hp >= HP_GATE * max)) return events;
 
+  // Intensified glow (active) -> the dazzle is -2 (abbagliato intensity 2).
+  const intensity =
+    Number(carrier.status && carrier.status[PIGMENTI_INTENSIFICATO]) > 0 ? INTENSIFIED_ATK : 1;
   const faction = carrier.controlled_by;
   for (const enemy of units) {
     if (!enemy || enemy === carrier || enemy.id === carrier.id) continue;
@@ -79,9 +92,37 @@ function applyEndRoundGlow({ carrier, units }) {
     if (!enemy.status || typeof enemy.status !== 'object') enemy.status = {};
     const current = Number(enemy.status[ABBAGLIATO] || 0);
     if (current < ABBAGLIATO_TTL) enemy.status[ABBAGLIATO] = ABBAGLIATO_TTL;
-    events.push({ unit_id: enemy.id ?? null, stato: ABBAGLIATO, turns: ABBAGLIATO_TTL });
+    if (intensity > 1) {
+      if (!enemy.status_intensity || typeof enemy.status_intensity !== 'object') {
+        enemy.status_intensity = {};
+      }
+      enemy.status_intensity[ABBAGLIATO] = intensity;
+    }
+    events.push({ unit_id: enemy.id ?? null, stato: ABBAGLIATO, turns: ABBAGLIATO_TTL, intensity });
   }
   return events;
+}
+
+/**
+ * On-attacked reaction (active mode): while the carrier is `pigmenti_intensificato`, the
+ * dazzling burst disorients whoever attacks it. Sets `disorient` on the attacker (an
+ * existing status -> -2 atk on its next attack, consumed in performAttack). Pure;
+ * mutates the attacker's status. Returns the event (or null on no-op).
+ *
+ * @param {object} opts
+ * @param {object} opts.carrier  the attacked pigmenti carrier
+ * @param {object} opts.attacker the unit that attacked it (mutated)
+ * @returns {{unit_id, stato, turns} | null}
+ */
+function disorientAttacker({ carrier, attacker }) {
+  if (!hasTrait(carrier, PIGMENTI_TRAIT)) return null;
+  if (!(Number(carrier.status && carrier.status[PIGMENTI_INTENSIFICATO]) > 0)) return null;
+  if (!attacker || typeof attacker !== 'object') return null;
+  if (attacker.id === carrier.id || !(Number(attacker.hp) > 0)) return null;
+  if (!attacker.status || typeof attacker.status !== 'object') attacker.status = {};
+  const current = Number(attacker.status[DISORIENT] || 0);
+  if (current < DISORIENT_TURNS) attacker.status[DISORIENT] = DISORIENT_TURNS;
+  return { unit_id: attacker.id ?? null, stato: DISORIENT, turns: DISORIENT_TURNS };
 }
 
 /**
@@ -104,10 +145,15 @@ function consumeAbbagliato(unit) {
 module.exports = {
   applyEndRoundGlow,
   consumeAbbagliato,
+  disorientAttacker,
   hasTrait,
   manhattanDistance,
   PIGMENTI_TRAIT,
+  PIGMENTI_INTENSIFICATO,
   ABBAGLIATO,
   ABBAGLIATO_TTL,
+  INTENSIFIED_ATK,
+  DISORIENT,
+  DISORIENT_TURNS,
   HP_GATE,
 };

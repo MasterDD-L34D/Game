@@ -126,7 +126,7 @@ const {
 const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
 // Creature-trait slice 7: consume the single-use abbagliato dazzle on the attack it
 // weakened (pigmenti_aurorali; the end-of-round glow producer is in sessionRoundBridge).
-const { consumeAbbagliato } = require('../services/combat/pigmentiAurorali');
+const { consumeAbbagliato, disorientAttacker } = require('../services/combat/pigmentiAurorali');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -1588,6 +1588,27 @@ function createSessionRouter(options = {}) {
           effect: { kind: 'channel_adaptation', channel: tessuti.channel, healed: tessuti.healed },
         });
       }
+    }
+
+    // pigmenti_aurorali (active mode): if the attacked carrier (target) is intensified,
+    // the dazzling burst disorients the attacker (actor). Fires on hit OR miss. Persist
+    // the disorient through the round-model drain so it bites the attacker's next attack.
+    // Band-neutral: no sim unit carries pigmenti_aurorali (and none is intensified).
+    const pigmentiDisorient = disorientAttacker({ carrier: target, attacker: actor });
+    if (pigmentiDisorient) {
+      if (!Array.isArray(session._pendingStatusApplies)) {
+        session._pendingStatusApplies = [];
+      }
+      session._pendingStatusApplies.push({
+        unit_id: actor.id,
+        status: pigmentiDisorient.stato,
+        duration: pigmentiDisorient.turns,
+      });
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'pigmenti_aurorali',
+        triggered: true,
+        effect: { kind: 'glow_disorient', target_id: actor.id },
+      });
     }
 
     // Sprint 6 (2026-04-27) — Beast Bond reaction trigger (AncientBeast Tier
