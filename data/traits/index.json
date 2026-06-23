@@ -15144,6 +15144,42 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "artigli_psionici": {
+      "schema_version": "2.0",
+      "id": "artigli_psionici",
+      "label": "i18n:traits.artigli_psionici.label",
+      "famiglia_tipologia": "Mentale/Cognizione",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.artigli_psionici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.artigli_psionici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.artigli_psionici.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "tessuti_adattivi": {
+      "schema_version": "2.0",
+      "id": "tessuti_adattivi",
+      "label": "i18n:traits.tessuti_adattivi.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.tessuti_adattivi.mutazione_indotta",
+      "uso_funzione": "i18n:traits.tessuti_adattivi.uso_funzione",
+      "spinta_selettiva": "i18n:traits.tessuti_adattivi.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }
