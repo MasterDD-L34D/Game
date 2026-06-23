@@ -12707,6 +12707,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md",
+      "title": "Form-Pulse trait v2 -- N=40 grant-power ratify evidence (master-dd verdict pending)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/guide/derived-artifacts-reproducibility.md",
       "title": "Derived data artifacts -- reproducibility hazard + guard (trait bridge + species catalog)",
       "doc_status": "draft",
