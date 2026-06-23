@@ -46,10 +46,10 @@
           "ghiandole_nebbia_ionica",
           "antenne_wideband",
           "foliage_fotocatodico",
-          "ancestor_deambulazione_resistenza_ab_01",
-          "ancestor_deambulazione_resistenza_al_movimento_ab_02",
-          "ancestor_metabolismo_abilita_profilattica_me_01",
-          "ancestor_metabolismo_abilita_analettica_me_02"
+          "resistenza",
+          "resistenza_al_movimento",
+          "abilita_profilattica",
+          "abilita_analettica"
         ]
       },
       "role_templates": [
@@ -164,10 +164,10 @@
           "filamenti_superconduttivi",
           "antenne_tesla",
           "aculei_velenosi",
-          "ancestor_attacco_risposta_di_combattimento_co_01",
-          "ancestor_attacco_contromanovra_co_02",
-          "ancestor_sensi_percezione_se_01",
-          "ancestor_sensi_olfatto_so_01",
+          "risposta_di_combattimento",
+          "contromanovra_irascible",
+          "percezione",
+          "olfatto",
           "marchio_predatorio"
         ]
       },
@@ -283,10 +283,10 @@
           "lamine_filtranti_aeree",
           "appendici_risonanti_marea",
           "canto_di_richiamo",
-          "ancestor_nuoto_locomozione_acquatica_sw_01",
-          "ancestor_nuoto_resistenza_al_nuoto_sw_02",
-          "ancestor_motricita_bipedismo_bi_01",
-          "ancestor_motricita_abilita_motoria_ms_01"
+          "locomozione_acquatica",
+          "resistenza_al_nuoto",
+          "bipedismo",
+          "abilita_motoria"
         ]
       },
       "role_templates": [
@@ -400,10 +400,10 @@
           "biofilm_glow",
           "branchie_dual_mode",
           "tentacoli_uncinati",
-          "ancestor_schivata_risposta_di_fuga_do_01",
-          "ancestor_schivata_azione_evasiva_do_02",
-          "ancestor_medicina_preventiva_prevenzione_delle_lacerazioni_sb_01",
-          "ancestor_medicina_preventiva_efficienza_della_coagulazione_esterna_sb_02"
+          "risposta_di_fuga",
+          "azione_evasiva_predator",
+          "prevenzione_delle_lacerazioni",
+          "efficienza_della_coagulazione_esterna"
         ]
       },
       "role_templates": [
@@ -518,10 +518,9 @@
           "capsule_paracadute",
           "camere_nutrienti_vent",
           "tela_appiccicosa",
-          "ancestor_destrezza_forza_di_controllo_al_01",
-          "ancestor_destrezza_forza_di_controllo_al_02",
-          "ancestor_intelligenza_percezione_spaziale_an_01",
-          "ancestor_intelligenza_velocita_di_valutazione_an_02"
+          "forza_di_controllo",
+          "percezione_spaziale",
+          "velocita_di_valutazione"
         ]
       },
       "role_templates": [
@@ -635,10 +634,10 @@
           "sensori_planctonici",
           "squame_diffusori_ionici",
           "voce_imperiosa",
-          "ancestor_comunicazione_cinesica_cm_01",
-          "ancestor_comunicazione_auto_rafforzamento_cm_02",
-          "ancestor_autocontrollo_tachipsichia_fr_01",
-          "ancestor_autocontrollo_distorsione_temporale_fr_02"
+          "cinesica",
+          "auto_rafforzamento",
+          "tachipsichia",
+          "distorsione_temporale_mos4"
         ]
       },
       "role_templates": [
@@ -738,10 +737,10 @@
           "secrezioni_antistatiche",
           "organi_metacronici",
           "ghiandole_mnemoniche",
-          "ancestor_ardipithecus_ramidus_inibizione_cognitiva_cc_03",
-          "ancestor_ardipithecus_ramidus_via_mesolimbica_dp_05",
-          "ancestor_insediamento_costruzione_ne_01",
-          "ancestor_insediamento_efficienza_di_costruzione_ne_02",
+          "inibizione_cognitiva",
+          "via_mesolimbica",
+          "costruzione",
+          "efficienza_di_costruzione",
           "marchio_predatorio"
         ]
       },
@@ -846,10 +845,10 @@
           "emolinfa_conducente",
           "placche_pressioniche",
           "filamenti_echo",
-          "ancestor_sensi_percezione_se_01",
-          "ancestor_sensi_olfatto_so_01",
-          "ancestor_orrorin_tugenensis_controllo_cognitivo_cc_01",
-          "ancestor_orrorin_tugenensis_controllo_attentivo_cc_02"
+          "percezione",
+          "olfatto",
+          "controllo_cognitivo",
+          "controllo_attentivo"
         ]
       },
       "role_templates": [
