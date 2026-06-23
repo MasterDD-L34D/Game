@@ -104,6 +104,17 @@ function normaliseUnit(raw, fallbackIndex) {
       input.speed !== undefined && input.speed !== null && Number.isFinite(Number(input.speed))
         ? Number(input.speed)
         : null,
+    // Per-creature volo grade (move terrain-cost substrate gap-fix): the per-unit
+    // override for the adattamento_volo terrain relief, read by evaluateVoloGrade.
+    // Same preserve-or-null pattern as `speed`/`morale_mod` above (silently-stripped
+    // fields never reach their consumer). Default null = no override -> falls back to
+    // the registry base grade. Raw finite preserved; the [1,3] clamp is in the resolver.
+    volo_grade:
+      input.volo_grade !== undefined &&
+      input.volo_grade !== null &&
+      Number.isFinite(Number(input.volo_grade))
+        ? Number(input.volo_grade)
+        : null,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
     initiative,
