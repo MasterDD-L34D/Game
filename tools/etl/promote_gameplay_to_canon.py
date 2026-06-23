@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Promote gameplay pack-species YAML into the canonical species_catalog.json.
 
+NOTE (reproducibility): additive-only (never prunes) + writes the catalog IN-PLACE
+with no --out, and is skipped by lifecycle stubs -> a re-run does not reproduce the
+committed catalog. Run tools/py/check_derived_reproducible.py first and read
+docs/guide/derived-artifacts-reproducibility.md before regenerating + committing.
+
 Wave 3 / CANON-RECONCILE (Option 1 "unify"): the canon SoT
 (data/core/species/species_catalog.json, 53 species) and the gameplay creatures
 (packs/evo_tactics_pack/data/species/<biome>/<id>.yaml) were near-disjoint naming
@@ -133,13 +138,18 @@ def derive_entry(pack, biome, fid):
     return entry
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--biome", action="append", default=[], help="biome dir to promote (repeatable)")
     ap.add_argument("--all-gameplay", action="store_true",
                     help="promote the 6 gameplay-touched biomes (excludes rovine_planari = D6)")
+    ap.add_argument("--catalog", default=CATALOG_PATH,
+                    help="catalog JSON to read (and write unless --out); default = canonical")
+    ap.add_argument("--out", help="write result here instead of in place (dry-test to a temp)")
     ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
+    catalog_path = args.catalog
+    out_path = args.out or args.catalog
 
     # Multi-species gameplay biomes. EXCLUDES:
     #  - rovine_planari (D6 LOCKED = new content, separate decision)
@@ -151,17 +161,22 @@ def main():
         print("ERROR: pass --biome <name> or --all-gameplay", file=sys.stderr)
         return 2
 
-    catalog = json.load(open(CATALOG_PATH, encoding="utf-8"))
-    existing = {e["species_id"] for e in catalog["catalog"]}
+    catalog = json.load(open(catalog_path, encoding="utf-8"))
+    existing_by_id = {e["species_id"]: e for e in catalog["catalog"]}
 
-    added, skipped, excluded_events = [], [], []
+    added, upgraded, skipped, excluded_events = [], [], [], []
     for biome in biomes:
         for p in sorted(glob.glob(os.path.join(SPECIES_DIR, biome, "*.yaml"))):
             fid = os.path.splitext(os.path.basename(p))[0]
             if not is_creature(fid):
                 continue
             sid = norm(fid)
-            if sid in existing:
+            existing_entry = existing_by_id.get(sid)
+            # Skip only when a richer entry already exists. A bare game-canonical-stub
+            # (a lifecycle species the merge stage stubbed) is UPGRADED with its
+            # gameplay data instead of being skipped -- otherwise gaining a lifecycle
+            # YAML would silently downgrade the species to a bare stub on every re-run.
+            if existing_entry is not None and existing_entry.get("source") != "game-canonical-stub":
                 skipped.append(sid)
                 continue
             pack = load_yaml(p)
@@ -169,9 +184,17 @@ def main():
                 excluded_events.append(sid)  # ecological event, not a species
                 continue
             entry = derive_entry(pack, biome, fid)
-            catalog["catalog"].append(entry)
-            existing.add(sid)
-            added.append(sid)
+            if existing_entry is not None:
+                # Upgrade in place, preserving the lifecycle_yaml link from the stub.
+                if existing_entry.get("lifecycle_yaml"):
+                    entry["lifecycle_yaml"] = existing_entry["lifecycle_yaml"]
+                catalog["catalog"][catalog["catalog"].index(existing_entry)] = entry
+                existing_by_id[sid] = entry
+                upgraded.append(sid)
+            else:
+                catalog["catalog"].append(entry)
+                existing_by_id[sid] = entry
+                added.append(sid)
 
     # Recompute stats.
     cat = catalog["catalog"]
@@ -188,6 +211,7 @@ def main():
         catalog["source_provenance"]["gameplay_promote"] = "packs/evo_tactics_pack/data/species"
 
     print(f"added {len(added)}: {added}")
+    print(f"upgraded stubs {len(upgraded)}: {upgraded}")
     print(f"skipped (already canon) {len(skipped)}: {skipped}")
     print(f"excluded events (role={EVENT_ROLE}) {len(excluded_events)}: {excluded_events}")
     print(f"catalog now {len(cat)} species; by_source={by_source}")
@@ -195,10 +219,10 @@ def main():
     if args.dry_run:
         print("[dry-run] not written")
         return 0
-    with open(CATALOG_PATH, "w", encoding="utf-8") as f:
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(catalog, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"written {CATALOG_PATH}")
+    print(f"written {out_path}")
     return 0
 
 

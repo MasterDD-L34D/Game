@@ -1025,6 +1025,11 @@ function sendCoopSnapshotToPlayer(room, orch, playerId) {
     send({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
     send({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
   }
+  // C2-imprint -- reconnect parity: re-surface the beat to a reconnecting/joining player
+  // (guarded: only when open or a hint exists -> band-neutral when the flag is OFF).
+  if (orch.imprintOpen || orch.brancoBiomeHint) {
+    send({ type: 'imprint_tally', payload: orch.imprintTally() });
+  }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     send({
       type: 'debrief_ready_list',
@@ -1093,6 +1098,11 @@ function rebroadcastCoopState(room, orch) {
   ) {
     room.broadcast({ type: 'route_choice', payload: { candidates: orch.routeCandidates } });
     room.broadcast({ type: 'route_tally', payload: orch.routeTally(allIds, connectedIds) });
+  }
+  // C2-imprint -- host-transfer parity: re-surface the beat to the whole room (guarded:
+  // only when open or a hint exists -> band-neutral when the flag is OFF).
+  if (orch.imprintOpen || orch.brancoBiomeHint) {
+    room.broadcast({ type: 'imprint_tally', payload: orch.imprintTally() });
   }
   if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
     room.broadcast({
@@ -1435,6 +1445,34 @@ function createWsServer({
           // Resolves choice from campaign onboarding YAML, calls
           // orch.submitOnboardingChoice (auto-advances onboarding →
           // character_creation), broadcasts onboarding_chosen.
+          // C2-imprint -- drain the device-authority imprint mark server-side (mirror
+          // onboarding_choice). Submitter identity is SOCKET-BOUND (playerId from the
+          // authenticated connection, NOT from the payload) so a player cannot mark on
+          // another's behalf. On completion the orchestrator stamps the cosmetic hint.
+          if (action === 'imprint_mark' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const axis = typeof msg.payload?.axis === 'string' ? msg.payload.axis : '';
+              const value = msg.payload?.value;
+              const tally = orch.submitImprintMark(playerId, { axis, value });
+              room.broadcast({ type: 'imprint_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'imprint_mark_accepted', payload: { tally } }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'imprint_mark_failed' },
+                }),
+              );
+            }
+            return;
+          }
           if (action === 'onboarding_choice' && coopStore) {
             try {
               const orch = coopStore.get(room.code);
@@ -2308,6 +2346,13 @@ function createWsServer({
               type: 'route_tally',
               payload: orch.routeTally(allPids, connectedPids),
             });
+          }
+          // C2-imprint -- a disconnect changes who can mark; the beat is NON-gating (no
+          // phase to advance), but re-surface imprint_tally so remaining phones see the
+          // current state (an axis owned by the departed player stays pending -> the host
+          // can cancel/force). Guarded -> band-neutral when the flag is OFF.
+          if (orch && (orch.imprintOpen || orch.brancoBiomeHint)) {
+            room.broadcast({ type: 'imprint_tally', payload: orch.imprintTally() });
           }
           // SPEC-K K-05: a disconnect can COMPLETE the Nido readiness quorum (the
           // departed peer was the last not-ready connected player). Re-broadcast the

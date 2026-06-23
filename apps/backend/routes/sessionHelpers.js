@@ -22,6 +22,7 @@ const {
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { buildAtlasLive } = require('../services/atlasLive');
 const { applicableSynergies } = require('../services/combat/synergyDetector');
+const { elevationDamageMultiplier } = require('../services/grid/hexGrid');
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -743,9 +744,18 @@ function computePositionalDamage({
   const tElev = Number.isFinite(Number(target?.elevation)) ? Number(target.elevation) : 0;
   const delta = aElev - tElev;
 
-  let elevMul = 1;
-  if (delta >= 1) elevMul = 1 + elevationBonus;
-  else if (delta <= -1) elevMul = 1 + elevationPenalty;
+  // CAP-06 (M14-A) refactor: single-source-of-truth via il helper canonico
+  // `elevationDamageMultiplier` (apps/backend/services/grid/hexGrid.js). Pre-refactor
+  // questa funzione duplicava inline la stessa logica delta>=1 / delta<=-1. Per i
+  // parametri usati dai caller (default 0.3 / -0.15; nessun caller passa
+  // penalty < -0.9) il helper e' EXACTLY equivalente all'inline: il floor interno
+  // Math.max(mult, 0.1) non morde mai nel range reale (vedi positionalDamage.test.js).
+  const elevMul = elevationDamageMultiplier({
+    attackerElevation: aElev,
+    targetElevation: tElev,
+    bonus: elevationBonus,
+    penalty: elevationPenalty,
+  });
   let flankMul = 1;
   if (quadrant === 'flank') flankMul = 1 + flankBonus;
   let rearMul = 1;

@@ -23,9 +23,12 @@ function buildOrch() {
   return co;
 }
 
-// anguis_magnetica is T1 in data/core/species/species_catalog.json (qualifies).
+// glowcap_weaver is T1 + foresta_temperata + danger 1 in species_catalog.json:
+// no D4 derived override -> stays on the pure tier default, so the progressive
+// gating (T1 subset granted, higher-tier ids withheld) is still observable on
+// real data after the D4 populate. (anguis_magnetica now carries an override.)
 function t1Spec() {
-  return { name: 'Anguis', form_id: 'INTJ', species_id: 'anguis_magnetica', traits: [] };
+  return { name: 'Glowcap', form_id: 'INTJ', species_id: 'glowcap_weaver', traits: [] };
 }
 
 function withFlag(value, fn) {

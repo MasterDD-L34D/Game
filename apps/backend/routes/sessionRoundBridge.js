@@ -323,7 +323,21 @@ function createRoundBridge(deps) {
       const liveIds = new Set(
         (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
       );
-      const PERSISTENT_STATUS_KEYS = new Set(['wounds', 'wounded_perma']);
+      // Creature-trait slice 2+3: the nuclei_di_controllo weak-point states are durable
+      // (the broken/destroyed nucleus does not heal between rounds, the intact one is
+      // sustained) -> exempt from the round wipe like wounds. Without this, danno_nucleo/
+      // nucleo_distrutto would be wiped the round after the break and the passive refresh
+      // would re-intact it. coordinamento (slice 3 ally aura) is producer-managed
+      // (allyAuraMark clears+rebroadcasts each refresh) -> exempt so it survives the
+      // mid-round wipe until the round-end recompute.
+      const PERSISTENT_STATUS_KEYS = new Set([
+        'wounds',
+        'wounded_perma',
+        'nucleo_intatto',
+        'danno_nucleo',
+        'nucleo_distrutto',
+        'coordinamento',
+      ]);
       for (const id of Object.keys(sessionUnit.status)) {
         if (PERSISTENT_STATUS_KEYS.has(id)) continue;
         if (!liveIds.has(id)) {
@@ -984,6 +998,17 @@ function createRoundBridge(deps) {
       applyPassiveAncestorsToRoster(session.units || [], registry);
     } catch {
       // best-effort: don't block round-end if registry/applier missing
+    }
+
+    // Creature-trait slice 3: recompute the nuclei_di_controllo coordinamento ally
+    // aura from current positions (clear-then-rebroadcast). Runs AFTER the passive
+    // refresh so nucleo_intatto is current. Keeps coordinated allies accurate as
+    // units move / nuclei break. Best-effort, band-neutral (no sim carrier).
+    try {
+      const { refreshNucleiCoordinamento } = require('../services/combat/allyAuraMark');
+      refreshNucleiCoordinamento(session.units || []);
+    } catch {
+      // best-effort: don't block round-end if the aura producer is missing
     }
 
     // Status engine extension: HP regen ticks (`fed` + `healing`).

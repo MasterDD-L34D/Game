@@ -373,3 +373,47 @@ test('Action 5b: computeStatusModifiers exports actorSlowDown flag + log entry',
   assert.equal(r.targetSlowDown, false);
   assert.ok(r.log.some((e) => e.status === 'slow_down' && e.side === 'actor'));
 });
+
+// nuclei_di_controllo weak-point (creature-trait slice 2, trait 8): intact = +1 atk
+// (offensive coordination node); broken (danno_nucleo) = +1 defense (hunkered).
+test('nucleo_intatto (actor) -> +1 attackDelta', () => {
+  const actor = { id: 'a', status: { nucleo_intatto: 99 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'nucleo_intatto' && e.side === 'actor'));
+});
+
+test('danno_nucleo (target) -> +1 defenseDelta (hunkered DR)', () => {
+  const actor = { id: 'a', status: {} };
+  const target = { id: 'b', status: { danno_nucleo: 99 } };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.defenseDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'danno_nucleo' && e.side === 'target'));
+});
+
+test('nuclei: a broken nucleus no longer grants the attack aura', () => {
+  const actor = { id: 'a', status: { danno_nucleo: 99 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 0, 'no +1 atk once broken');
+});
+
+// ally_aura_mark consumers (creature-trait slice 3): coordinamento (nuclei intact
+// aura) and risonanza_memetica (corteccia single-use ripple) both grant +1 atk to
+// the coordinated/resonating ally.
+test('coordinamento (actor) -> +1 attackDelta', () => {
+  const actor = { id: 'a', status: { coordinamento: 99 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'coordinamento' && e.side === 'actor'));
+});
+
+test('risonanza_memetica (actor) -> +1 attackDelta', () => {
+  const actor = { id: 'a', status: { risonanza_memetica: 2 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, 1);
+  assert.ok(r.log.some((e) => e.status === 'risonanza_memetica' && e.side === 'actor'));
+});

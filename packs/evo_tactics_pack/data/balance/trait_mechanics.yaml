@@ -77,6 +77,25 @@ traits:
         buff_amount: 2
         buff_duration: 2
         target: self
+  # Creature-kit salvage (2026-06-22): matrice_antimagia Mode A = trait-granted
+  # active AoE (suppress_ability). Spec 2026-06-22-creature-trait-mechanics-design.
+  # Mode B (on-hit inibito) lives in active_effects.yaml; this is the AoE pulse.
+  matrice_antimagia:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: matrice_pulse
+        name_it: "Matrice Antimagia"
+        cost_ap: 2
+        effect_type: suppress_ability
+        status_id: inibito
+        status_duration: 2
+        aoe_size: 3
+        range: 3
+        target: enemy
   filamenti_digestivi_compattanti:
     attack_mod: 0
     defense_mod: 0

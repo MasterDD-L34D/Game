@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Phase 3 Path Quick — heuristic enrichment per legacy-yaml-merge species.
 
+NOTE (reproducibility): operates on the DERIVED species_catalog.json, which is
+stale vs current sources. Run tools/py/check_derived_reproducible.py first and
+read docs/guide/derived-artifacts-reproducibility.md before regenerating +
+committing.
+
 ADR-2026-05-15 Q1 Option A Phase 3 (autonomous Path Quick):
 Fill 4 heuristic fields per 38 legacy-yaml-merge entries in species_catalog.json:
 

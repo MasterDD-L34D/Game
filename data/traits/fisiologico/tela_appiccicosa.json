@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "id": "tela_appiccicosa",
+  "label": "i18n:traits.tela_appiccicosa.label",
+  "famiglia_tipologia": "Fisiologico/Morfologia",
+  "fattore_mantenimento_energetico": "Basso (passivo)",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.tela_appiccicosa.mutazione_indotta",
+  "uso_funzione": "i18n:traits.tela_appiccicosa.uso_funzione",
+  "spinta_selettiva": "i18n:traits.tela_appiccicosa.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

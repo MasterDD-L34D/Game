@@ -207,6 +207,31 @@ function computeStatusModifiers(actor, target, units = []) {
     // No stat effect — narrative reveal marker only.
     log.push({ status: 'telepatic_link', side: 'actor', effect: 'reveal (no stat delta)' });
   }
+  if (isPositive(actorStatus.nucleo_intatto)) {
+    // nuclei_di_controllo (creature-trait slice 2): an intact control nucleus
+    // coordinates the unit's strikes -> +1 attack_mod. Lost once the weak-point
+    // is broken (combat/nucleiWeakPoint applies danno_nucleo, which clears this).
+    attackDelta += 1;
+    log.push({ status: 'nucleo_intatto', side: 'actor', effect: '+1 attack_mod (nucleo intatto)' });
+  }
+  if (isPositive(actorStatus.coordinamento)) {
+    // nuclei_di_controllo coordinamento aura (creature-trait slice 3): an ally
+    // within range 2 of an intact nucleus carrier strikes in concert -> +1
+    // attack_mod. Producer = combat/allyAuraMark.refreshNucleiCoordinamento.
+    attackDelta += 1;
+    log.push({ status: 'coordinamento', side: 'actor', effect: '+1 attack_mod (coordinamento)' });
+  }
+  if (isPositive(actorStatus.risonanza_memetica)) {
+    // corteccia_memetica ripple (creature-trait slice 3): a single-use +1 atk
+    // broadcast to allies in range 3 when the treant takes a heavy blow. Spent on
+    // the ally's next attack (combat/cortecciaMemetica.consumeRisonanza clears it).
+    attackDelta += 1;
+    log.push({
+      status: 'risonanza_memetica',
+      side: 'actor',
+      effect: '+1 attack_mod (risonanza memetica)',
+    });
+  }
 
   // ─── Target-side target-defense buffs/debuffs ───────────────────
   if (isPositive(targetStatus.attuned)) {
@@ -226,6 +251,17 @@ function computeStatusModifiers(actor, target, units = []) {
     // the missing read-path (Python resolver had it, dropped in Node migration).
     defenseDelta -= 1;
     log.push({ status: 'sbilanciato', side: 'target', effect: '-1 defense_mod (spinta exposure)' });
+  }
+  if (isPositive(targetStatus.danno_nucleo)) {
+    // nuclei_di_controllo broken state: the unit hunkers around its damaged
+    // nucleus -> +1 defense_mod (harder to hit), trading away the intact attack
+    // aura. Set by combat/nucleiWeakPoint on a MoS>=5 hit.
+    defenseDelta += 1;
+    log.push({
+      status: 'danno_nucleo',
+      side: 'target',
+      effect: '+1 defense_mod (nucleo danneggiato)',
+    });
   }
 
   // ─── OD-058 D2 read-apply (flag-gated, #2531) — location wounds → deltas ───

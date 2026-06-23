@@ -125,3 +125,70 @@ test('positional: explicit rearMultiplier honored', () => {
   });
   assert.equal(res.damage, 15);
 });
+
+// --- CAP-06 (M14-A) refactor regression: inline elevMul -> elevationDamageMultiplier helper ---
+// Asserts the refactor is behavior-identical to the pre-refactor inline formula
+// (delta>=1 -> 1+bonus; delta<=-1 -> 1+penalty; else 1) across the realistic param
+// range used by every caller (default 0.3/-0.15; tests pass bonus up to 1.5; no
+// caller passes penalty < -0.9). See plan docs/planning/2026-06-22-aa01-impronta-reconciliation-plan.md (F2).
+const { elevationDamageMultiplier } = require('../../apps/backend/services/grid/hexGrid');
+
+function frontElevPair(aElev, tElev) {
+  // front quadrant isolates elevation (flank/rear multipliers = 1.0)
+  const target = mkUnit({ x: 3, y: 3, facing: 'S', elevation: tElev });
+  const actor = mkUnit({ x: 3, y: 4, elevation: aElev });
+  return { actor, target };
+}
+
+test('CAP-06 regression: parts.elevation == inline formula across realistic params', () => {
+  const cases = [
+    { aElev: 2, tElev: 0, bonus: 0.3, penalty: -0.15 }, // delta +2
+    { aElev: 1, tElev: 0, bonus: 0.3, penalty: -0.15 }, // delta +1
+    { aElev: 0, tElev: 0, bonus: 0.3, penalty: -0.15 }, // delta 0
+    { aElev: 0, tElev: 1, bonus: 0.3, penalty: -0.15 }, // delta -1
+    { aElev: 0, tElev: 3, bonus: 0.3, penalty: -0.15 }, // delta -3
+    { aElev: 2, tElev: 0, bonus: 1.5, penalty: -0.15 }, // custom large bonus (cf. cap test L98)
+    { aElev: 0, tElev: 2, bonus: 0.3, penalty: -0.5 }, // custom penalty within range (> -0.9)
+  ];
+  for (const c of cases) {
+    const { actor, target } = frontElevPair(c.aElev, c.tElev);
+    const res = computePositionalDamage({
+      actor,
+      target,
+      baseDamage: 10,
+      elevationBonus: c.bonus,
+      elevationPenalty: c.penalty,
+    });
+    const delta = c.aElev - c.tElev;
+    let inline = 1;
+    if (delta >= 1) inline = 1 + c.bonus;
+    else if (delta <= -1) inline = 1 + c.penalty;
+    const expected = Math.round(inline * 100) / 100;
+    assert.equal(res.quadrant, 'front', 'front isolates elevation');
+    assert.equal(
+      res.parts.elevation,
+      expected,
+      `delta=${delta} bonus=${c.bonus} penalty=${c.penalty}`,
+    );
+    // helper is the single source of truth
+    const helperMul = elevationDamageMultiplier({
+      attackerElevation: c.aElev,
+      targetElevation: c.tElev,
+      bonus: c.bonus,
+      penalty: c.penalty,
+    });
+    assert.equal(res.parts.elevation, Math.round(helperMul * 100) / 100);
+  }
+});
+
+test('CAP-06 boundary: helper 0.1-floor on elevMul only bites for penalty < -0.9 (out of caller range)', () => {
+  // The single intentional divergence vs the old inline (which floored only the TOTAL
+  // product). No production/test caller passes such an extreme penalty; pinned here.
+  const m = elevationDamageMultiplier({
+    attackerElevation: 0,
+    targetElevation: 1,
+    bonus: 0.3,
+    penalty: -0.95,
+  });
+  assert.equal(m, 0.1); // 1 + (-0.95) = 0.05 -> Math.max(0.05, 0.1) = 0.1
+});

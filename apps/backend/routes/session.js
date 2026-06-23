@@ -101,6 +101,26 @@ const beastBondReaction = require('../services/combat/beastBondReaction');
 // Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
 // (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
 const { computeStatusModifiers } = require('../services/combat/statusModifiers');
+const { applyNucleoHit } = require('../services/combat/nucleiWeakPoint');
+// Creature-trait slice 3: corteccia_memetica reaction (on >=3 dmg taken -> DR2 +
+// risonanza ally broadcast) + the ally_aura_mark coordinamento producer.
+const {
+  applyCortecciaReaction,
+  computeCortecciaDR,
+  consumeRisonanza,
+} = require('../services/combat/cortecciaMemetica');
+const { refreshNucleiCoordinamento } = require('../services/combat/allyAuraMark');
+// Creature-trait slice 4: artigli_psionici source-marked DR + tessuti_adattivi
+// channel adaptation (engine-coded pure modules; the YAML entry registers the trait).
+const {
+  markPrey,
+  computeArtigliDR,
+  hasTrait: unitHasTrait,
+} = require('../services/combat/artigliPsionici');
+const {
+  applyTessutiAdaptation,
+  computeTessutiResistDelta,
+} = require('../services/combat/tessutiAdattivi');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -657,6 +677,17 @@ function createSessionRouter(options = {}) {
     if (statusMods.defenseDelta !== 0) {
       target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - statusMods.defenseDelta;
     }
+    // Creature-trait slice 3: risonanza_memetica is single-use -- spend it on the
+    // attack it just empowered (computeStatusModifiers added +1 atk above). Consumed
+    // on hit OR miss (the resonance is spent swinging). Band-neutral: no sim actor
+    // carries it. consumeRisonanza is a no-op when the status is absent.
+    if (consumeRisonanza(actor)) {
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'corteccia_memetica',
+        triggered: true,
+        effect: { kind: 'risonanza_spent', actor_id: actor.id },
+      });
+    }
     // Revert chilled attack penalty (per-attack, non-persistente).
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
@@ -820,6 +851,17 @@ function createSessionRouter(options = {}) {
         damageDealt = applyResistance(damageDealt, target._resistances, channel, {
           vulnerabilitiesOnly: perkCombatMods.ignoreDr,
         });
+        // Creature-trait slice 4: tessuti_adattivi -- a status-driven +15% resist to
+        // an adapted channel, applied as a SEPARATE resistanceEngine pass (the static
+        // target._resistances cache is frozen for the unit's lifetime, so it cannot
+        // carry a transient adaptation). Band-neutral: computeTessutiResistDelta is
+        // empty for any unit without an active adattamento_<channel> status.
+        damageDealt = applyResistance(
+          damageDealt,
+          computeTessutiResistDelta(target, channel),
+          channel,
+          { vulnerabilitiesOnly: perkCombatMods.ignoreDr },
+        );
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
@@ -844,6 +886,31 @@ function createSessionRouter(options = {}) {
         if (drResult.reduced > 0) {
           damageDealt = drResult.damage;
           target.archetype_dr_last = drResult.reduced;
+        }
+      }
+      // Creature-trait slice 3: corteccia_memetica hardened bark (corteccia_attiva)
+      // reduces incoming damage by 2 (spec "damage_reduction 2"). Applied at the same
+      // innate-mitigation step as archetype DR, after shield absorption. Band-neutral:
+      // no sim unit carries the status (computeCortecciaDR returns 0).
+      if (damageDealt > 0) {
+        const cortecciaDr = computeCortecciaDR(target);
+        if (cortecciaDr > 0) {
+          const reduced = Math.min(cortecciaDr, damageDealt);
+          damageDealt -= reduced;
+          target.corteccia_dr_last = reduced;
+        }
+      }
+      // Creature-trait slice 4: artigli_psionici "read-the-prey" -- a source-marked
+      // stacking DR (cap 3) that applies ONLY when the defender (target) has studied
+      // THIS attacker (actor.id). Predicated on the attacker identity, in scope here.
+      // Band-neutral: computeArtigliDR returns 0 unless target carries a _lettura_preda
+      // mark for actor.id (no sim unit carries artigli_psionici).
+      if (damageDealt > 0) {
+        const artigliDr = computeArtigliDR(target, actor.id);
+        if (artigliDr > 0) {
+          const reduced = Math.min(artigliDr, damageDealt);
+          damageDealt -= reduced;
+          target.artigli_dr_last = reduced;
         }
       }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
@@ -1367,6 +1434,131 @@ function createSessionRouter(options = {}) {
           unit_id: unit.id,
           status: s.stato,
           duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+        });
+      }
+
+      // Incoming damage from THIS hit (attack + any terrain-reaction burst), captured
+      // before the nucleus self-detonation below so corteccia_memetica reacts to the
+      // hit it took, not to its own nucleus burst (relevant only if a unit ever carries
+      // both traits).
+      const incomingDamage = damageDealt;
+
+      // nuclei_di_controllo weak-point (creature-trait slice 2+3): a precise hit
+      // (MoS>=5) advances the control nucleus one stage (intact -> danno_nucleo ->
+      // nucleo_distrutto). applyNucleoHit mutates target.status; persist the new
+      // durable state through the round-model sync (mirror the loop above). The
+      // destroying hit also detonates the node for a one-time +2 burst.
+      // Band-neutral: no sim unit carries nuclei_di_controllo.
+      const nucleoBreak = applyNucleoHit(target, result);
+      if (nucleoBreak) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: target.id,
+          status: nucleoBreak.to,
+          duration: Number(target.status[nucleoBreak.to]) || 99,
+        });
+        // Destruction burst: one-time extra damage to the unit whose nucleus
+        // detonated (mirror the terrain-burst HP feedback above).
+        if (nucleoBreak.burst > 0 && target.hp > 0) {
+          target.hp = Math.max(0, target.hp - nucleoBreak.burst);
+          damageDealt += nucleoBreak.burst;
+          session.damage_taken[target.id] =
+            (session.damage_taken[target.id] || 0) + nucleoBreak.burst;
+          if (target.hp === 0) killOccurred = true;
+        }
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'nuclei_di_controllo',
+          triggered: true,
+          effect: {
+            kind: 'weak_point_break',
+            from: nucleoBreak.from,
+            to: nucleoBreak.to,
+            mos: nucleoBreak.mos,
+            burst: nucleoBreak.burst,
+          },
+        });
+      }
+
+      // corteccia_memetica (creature-trait slice 3): the carrier takes a heavy blow
+      // (>=3 dmg) -> the bark hardens (corteccia_attiva = DR2 on future hits) and the
+      // shared wound resonates -> risonanza_memetica (single-use +1 atk) to allies in
+      // range 3. Persist the set statuses through the round-model sync (same drain
+      // channel). Band-neutral: no sim unit carries corteccia_memetica.
+      const cortecciaReaction = applyCortecciaReaction({
+        target,
+        damageDealt: incomingDamage,
+        units: session.units || [],
+      });
+      if (cortecciaReaction) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: target.id,
+          status: cortecciaReaction.self_status,
+          duration: Number(target.status[cortecciaReaction.self_status]) || 2,
+        });
+        for (const ev of cortecciaReaction.broadcast) {
+          session._pendingStatusApplies.push({
+            unit_id: ev.unit_id,
+            status: ev.stato,
+            duration: ev.turns,
+          });
+        }
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'corteccia_memetica',
+          triggered: true,
+          effect: {
+            kind: 'memetic_resonance',
+            damage_taken: incomingDamage,
+            allies_resonated: cortecciaReaction.broadcast.length,
+          },
+        });
+      }
+
+      // artigli_psionici (creature-trait slice 4): on a MELEE hit the carrier studies
+      // its prey -> a per-target mark granting a stacking DR (cap 3) when the carrier
+      // later defends vs that same target. Off-status map (no round decay; learned for
+      // the encounter). Band-neutral: no sim unit carries artigli_psionici.
+      if (
+        unitHasTrait(actor, 'artigli_psionici') &&
+        manhattanDistance(actor.position, target.position) === 1
+      ) {
+        const stacks = markPrey(actor, target.id);
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'artigli_psionici',
+          triggered: true,
+          effect: { kind: 'lettura_preda', target_id: target.id, stacks },
+        });
+      }
+
+      // tessuti_adattivi (creature-trait slice 4): taking >=2 dmg of a channel adapts
+      // the tissue -> +15% resist to that channel (3 rounds) + heal 1, cap 2 channels.
+      // Detect post-hit on the INCOMING channel damage (not the nucleus burst); the
+      // resist bites on FUTURE hits (apply-zone pass above). Persist the set status
+      // through the round-model sync. Band-neutral: no sim unit carries the trait.
+      const tessutiChannel =
+        (action && typeof action.channel === 'string' && action.channel) || 'fisico';
+      const tessuti = applyTessutiAdaptation({
+        target,
+        channel: tessutiChannel,
+        damageDealt: incomingDamage,
+      });
+      if (tessuti) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: target.id,
+          status: tessuti.self_status,
+          duration: Number(target.status[tessuti.self_status]) || 3,
+        });
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'tessuti_adattivi',
+          triggered: true,
+          effect: { kind: 'channel_adaptation', channel: tessuti.channel, healed: tessuti.healed },
         });
       }
     }
@@ -2102,6 +2294,14 @@ function createSessionRouter(options = {}) {
         passiveStatusApplied = applyPassiveAncestorsToRoster(units, traitRegistry);
       } catch (err) {
         console.warn('[passive-status] apply failed:', err.message);
+      }
+      // Creature-trait slice 3: broadcast the nuclei_di_controllo coordinamento ally
+      // aura from every intact carrier (range 2). Runs AFTER the passive applier so
+      // nucleo_intatto is already set. Best-effort, band-neutral (no sim carrier).
+      try {
+        refreshNucleiCoordinamento(units);
+      } catch (err) {
+        console.warn('[coordinamento] refresh failed:', err.message);
       }
 
       const session = {

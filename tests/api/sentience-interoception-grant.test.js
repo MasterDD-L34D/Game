@@ -260,10 +260,17 @@ describe('OD-024 producer -- no-dup + immutability + id validation', () => {
 });
 
 describe('OD-024 producer -- real species_catalog (default loaders)', () => {
-  test('anguis_magnetica (T1, real catalog) grants the T1 subset with flag ON', () => {
-    // No catalog/registry injected -> exercises the real disk loaders.
+  test('anguis_magnetica (T1, real catalog) grants its D4 override with flag ON', () => {
+    // No catalog/registry injected -> exercises the real disk loaders. anguis_magnetica
+    // = T1 + atollo_obsidiana + danger 2, so the D4 derive rule (PR populating
+    // interoception_traits) adds nocicezione to the tier floor. Proves a populated
+    // per-species override flows from the real catalog through perSpeciesOverride e2e.
     const out = grant.applySentienceInteroceptionGrant(spec('anguis_magnetica'), { env: FLAG_ON });
-    assert.deepEqual([...out.traits].sort(), [...T1_SET].sort());
+    assert.deepEqual([...out.traits].sort(), [
+      'equilibrio_vestibolare',
+      'nocicezione',
+      'propriocezione',
+    ]);
   });
 
   test('proteus_plasma (T0, real catalog) grants nothing with flag ON', () => {

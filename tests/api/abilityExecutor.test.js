@@ -246,7 +246,19 @@ test('effect_type non supportato → 501 (sentinel test, ability sintetica unsup
   assert.equal(res.body.effect_type, 'unknown_xyz');
   assert.ok(Array.isArray(res.body.supported));
   assert.ok(res.body.supported.includes('aggro_pull'), 'aggro_pull ora supportato in iter5');
-  assert.equal(res.body.supported.length, 18, '18/18 effect_type supportati');
+  assert.ok(
+    res.body.supported.includes('suppress_ability'),
+    'suppress_ability (matrice Mode A, creature-trait)',
+  );
+  assert.ok(
+    res.body.supported.includes('apply_status'),
+    'apply_status (trait-granted, un-dormants spore_burst ecc.)',
+  );
+  assert.equal(
+    res.body.supported.length,
+    20,
+    '20 effect_type supportati (+suppress_ability +apply_status)',
+  );
 });
 
 test('blade_flurry: multi_attack esegue fino a attack_count hit', async (t) => {
