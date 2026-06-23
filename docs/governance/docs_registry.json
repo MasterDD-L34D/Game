@@ -12801,6 +12801,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md",
+      "title": "PE_ratio contestedness -- canonical MULTI-POLICY N=40 re-run -> drop-PE recommendation (master-dd ratify)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
     }
   ]
 }

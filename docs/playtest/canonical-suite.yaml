@@ -25,8 +25,16 @@ repro:
   config_source: data/core/balance/damage_curves.yaml
   scenario_spawn_source: apps/backend/services/hardcoreScenario.js
 
-# Composite metric (anti false-balanced)
-composite_metric: '0.50*win_rate + 0.25*kd_ratio + 0.25*pe_ratio'
+# Composite metric (anti false-balanced). PE_ratio term DROPPED 2026-06-23 (SDMG ratify,
+# master-dd): the canonical multi-policy N=40 experiment falsified every contestedness PE
+# source -- E_dmg_margin is degenerate on timer-race oracles (hardcore_07: zero damage
+# telemetry) and an outcome-proxy on skilled policies (|corr| 0.68-0.71); no WR-orthogonal
+# tension axis exists with current instrumentation. Pressure source was already rejected
+# (saturates). Evidence: docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md.
+# Re-weighted = the renormalized original weights (0.50:0.25 -> 0.70:0.30). NB kd_ratio is
+# itself partly outcome-collinear -> 'is any non-WR axis viable' is a follow-up (would need
+# new instrumentation: AP-usage spread / positional entropy / state-change frequency).
+composite_metric: '0.70*win_rate + 0.30*kd_ratio'
 
 scenarios:
   - id: enc_tutorial_06_hardcore

@@ -10,6 +10,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from objective import evaluate_metric  # noqa: E402
 from suite_manifest import (  # noqa: E402
     DEFAULT_MANIFEST_PATH,
     get_scenario,
@@ -40,6 +41,21 @@ def test_objective_falls_back_to_global_composite(manifest):
     # No per-scenario objective_metric -> global composite_metric.
     obj = scenario_objective(manifest, HC06)
     assert "win_rate" in obj
+
+
+def test_composite_metric_dropped_pe_ratio(manifest):
+    # 2026-06-23 SDMG ratification (master-dd): the PE_ratio term is DROPPED. The
+    # canonical MULTI-POLICY N=40 experiment falsified every contestedness PE source
+    # (E_dmg_margin is degenerate on timer-race oracles + an outcome-proxy on skilled
+    # policies; no WR-orthogonal tension axis exists) -- evidence
+    # docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md. Composite =
+    # re-weighted win_rate + kd_ratio (0.70/0.30 = the renormalized original weights).
+    comp = manifest["composite_metric"]
+    assert "pe_ratio" not in comp, comp
+    assert comp == "0.70*win_rate + 0.30*kd_ratio", comp
+    # Must evaluate with ONLY win_rate + kd_ratio (no KeyError for a missing pe_ratio).
+    val = evaluate_metric(comp, {"win_rate": 0.5, "kd_ratio": 0.6})
+    assert val == pytest.approx(0.70 * 0.5 + 0.30 * 0.6)
 
 
 def test_unknown_scenario_raises(manifest):

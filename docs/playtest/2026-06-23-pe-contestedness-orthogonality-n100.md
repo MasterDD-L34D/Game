@@ -15,6 +15,13 @@ related: docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md
 
 # PE_ratio contestedness orthogonality (N=100)
 
+> **SUPERSEDED 2026-06-23.** This greedy-only N=100 band was NOT ratified (single-policy
+> diagnostic regime + 3-point outlier artifact, per the harsh-review at the bottom). The
+> FIX re-run on canonical MULTI-POLICY N=40 corpora falsified `E_dmg_margin` outright
+> (degenerate on timer-race oracles + outcome-proxy on skilled policies). master-dd
+> ratified **dropping the PE term** (`composite_metric` = `0.70*win_rate + 0.30*kd_ratio`).
+> See `docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md`.
+
 > The handoff's keystone experiment (step 3-5), executed as a **deterministic
 > re-analysis** of the committed N=100 oracle corpora -- NO backend run, NO prod
 > (the corpora are seed-pinned 424242, node 22, from the 2026-06-18 PR2 run; the
@@ -33,12 +40,12 @@ excluded (designed-winnable, not an oracle).
 
 ## Result (|corr(candidate, won)|, lower = better)
 
-| candidate | hc06 | badlands_elite | foresta_pilot | **POOLED (n=240)** |
-| --- | --- | --- | --- | --- |
-| **E_dmg_margin** | 0.403 | 0.478 | 0.464 | **0.499** |
-| D_turns_contest | 0.725 | 0.542 | 0.705 | 0.562 |
-| F_contest_combined | 0.469 | 0.651 | 0.677 | 0.660 |
-| A/B/C (pressure) | -- | -- | -- | 0.000* |
+| candidate          | hc06  | badlands_elite | foresta_pilot | **POOLED (n=240)** |
+| ------------------ | ----- | -------------- | ------------- | ------------------ |
+| **E_dmg_margin**   | 0.403 | 0.478          | 0.464         | **0.499**          |
+| D_turns_contest    | 0.725 | 0.542          | 0.705         | 0.562              |
+| F_contest_combined | 0.469 | 0.651          | 0.677         | 0.660              |
+| A/B/C (pressure)   | --    | --             | --            | 0.000\*            |
 
 \* pressure candidates are DEGENERATE on these corpora (they saved `pressure_final`,
 not the `frac_ge75`/`mean`/`pmax` trajectory keys `run_to_stats` reads -> constant 0).
