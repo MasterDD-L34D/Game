@@ -69,11 +69,15 @@ function resolveEmergenceThreshold(env = process.env) {
 //   - agile_robust- : `zampe_a_molla` = requires posizione_sopraelevata -> spara ~mai su mappe
 //     piatte (near-inert, come `ali_fulminee` che la review aveva gia' scartato). Remap ->
 //     `coda_stabilizzatrice_vortex` (extra_damage melee, LIVE; fratello T2 del minor Agile).
+// Follow-up 2026-06-23 (verdetto Eduardo "stringi il polo S debole"): explore_caution+ (S/Cauto)
+// era `sensori_sismici` = LIVE ma double-gated (melee + mos>=5) -> spara di rado (WEAK, e ci atterra
+// Lealista-6 difensivo). Remap -> `cartilagini_flessoacustiche` (damage_reduction NO-gate, LIVE;
+// difesa anticipatoria acustica = Cauto/vigilanza, ora reliable + coerente con Lealista).
 // Tier branco non normalizzati (cervello_predittivo T3): spread documentato + gestito via
 // encounter-difficulty offset (verdetto Eduardo 2026-06-23, path ratify-doc N=200), non re-tier.
 const PROPOSED_BRANCO_TRAIT_MAPPING = {
   solitary_swarm: { '+': 'legame_di_branco', '-': 'mente_lucida' },
-  explore_caution: { '+': 'sensori_sismici', '-': 'sensori_geomagnetici' },
+  explore_caution: { '+': 'cartilagini_flessoacustiche', '-': 'sensori_geomagnetici' },
   symbiosis_predation: { '+': 'ferocia', '-': 'spirito_combattivo' },
   memory_instinct: { '+': 'cervello_predittivo', '-': 'cervello_a_bassa_latenza' },
   agile_robust: { '+': 'pelle_elastomera', '-': 'coda_stabilizzatrice_vortex' },

@@ -87,27 +87,30 @@ regenerated, seed 20260623):
 
 | metric (N=200, seed 20260623)   | OLD pool (phantom-inflated) | REMAPPED pool (all LIVE) |
 | ------------------------------- | --------------------------- | ------------------------ |
-| power added / creature (CI95)   | 1.21 (1.14 .. 1.29)         | **1.20 (1.13 .. 1.28)**  |
+| power added / creature (CI95)   | 1.21 (1.14 .. 1.29)         | **1.21 (1.13 .. 1.28)**  |
 | branco emergence baseline -> v2 | 91% -> 100%                 | 91% -> 100%              |
 | minor traits / team             | 3.02                        | 3.02                     |
 
-The magnitude barely moves -- but the MEANING flips: the old 1.21 mixed REAL power with phantom
-(the I / F / Agile-minus branches granted near-nothing in actual combat), so the old design
-under-delivered on those branches. The remapped 1.20 is **all engine-LIVE and evenly delivered
-across every MBTI/Ennea branch**. So the encounter-offset calibration target (~1.2/creature, the A/B
-in PR #3017) stays valid -- it's now honest + uniform, not branch-dependent.
+(REMAPPED column includes the S-pole strengthen of sec.4.) The magnitude is essentially identical --
+but the MEANING flips: the old 1.21 mixed REAL power with phantom (the I / F / Agile-minus branches
+granted near-nothing in actual combat), so the old design under-delivered on those branches. The
+remapped 1.21 is **all engine-LIVE and evenly delivered across every MBTI/Ennea branch**. So the
+encounter-offset calibration target (~1.2/creature, the A/B in PR #3017) stays valid -- it's now
+honest + uniform, not branch-dependent.
 
 ## 4. The fix -- remap to existing engine-LIVE traits (verdict 2026-06-23: remap, not author-new)
 
-| Pool . pole           | OLD                              | -> NEW (LIVE)                   | tier | LIVE via                                                  | coherence                                                                              |
-| --------------------- | -------------------------------- | ------------------------------- | ---- | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Branco I (solitary-)  | mimetismo_cromatico_passivo      | **mente_lucida**                | T2   | evaluateStatusTraits (panic 2t, mos>=5)                   | lone perceptive hunter; the prey feels "seen" -> panic. Contrasts the +pole pack-bond. |
-| Branco F (symbiosis-) | empatia_coordinativa             | **spirito_combattivo**          | T2   | beastBondReaction (+1 atk when ANY ally adjacent attacks) | co-op morale = simbiosi/F, BETTER fit than the old name.                               |
-| Branco Agile (agile-) | zampe_a_molla                    | **coda_stabilizzatrice_vortex** | T2   | evaluateAttackTraits (+2 dmg melee, mos>=5)               | agile precision strike; T2 sibling of the Agile minor `coda_stabilizzatrice_filo`.     |
-| Minor F (symbiosis-)  | comunicazione_fotonica_coda_coda | **membrane_eliofiltranti**      | T1   | evaluateAttackTraits (dr 1, no-gate)                      | endure-beside-allies; complements the co-op `spirito_combattivo` branco.               |
+| Pool . pole           | OLD                              | -> NEW (LIVE)                   | tier | LIVE via                                                  | coherence                                                                                                                                                    |
+| --------------------- | -------------------------------- | ------------------------------- | ---- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Branco I (solitary-)  | mimetismo_cromatico_passivo      | **mente_lucida**                | T2   | evaluateStatusTraits (panic 2t, mos>=5)                   | lone perceptive hunter; the prey feels "seen" -> panic. Contrasts the +pole pack-bond.                                                                       |
+| Branco F (symbiosis-) | empatia_coordinativa             | **spirito_combattivo**          | T2   | beastBondReaction (+1 atk when ANY ally adjacent attacks) | co-op morale = simbiosi/F, BETTER fit than the old name.                                                                                                     |
+| Branco Agile (agile-) | zampe_a_molla                    | **coda_stabilizzatrice_vortex** | T2   | evaluateAttackTraits (+2 dmg melee, mos>=5)               | agile precision strike; T2 sibling of the Agile minor `coda_stabilizzatrice_filo`.                                                                           |
+| Minor F (symbiosis-)  | comunicazione_fotonica_coda_coda | **membrane_eliofiltranti**      | T1   | evaluateAttackTraits (dr 1, no-gate)                      | endure-beside-allies; complements the co-op `spirito_combattivo` branco.                                                                                     |
+| Branco S (explore+)   | sensori_sismici (LIVE but WEAK)  | **cartilagini_flessoacustiche** | T2   | evaluateAttackTraits (dr 1, no-gate)                      | follow-up "stringi il polo S": anticipatory acoustic defense = Cauto/vigilanza, reliable + fits Lealista(6)'s defense flavor (old pick double-gated, ~rare). |
 
-All other 16 picks were already LIVE + the 10 minors already T1. The fix is a DATA change to the two
-`PROPOSED_*` mappings only (no trait authored, no shared trait mutated, no schema/glossary churn).
+Net: 4 INERT/near-inert fixes + 1 WEAK-pole strengthen. The other 15 picks were already LIVE + all
+10 minors already T1. The fix is a DATA change to the two `PROPOSED_*` mappings only (no trait
+authored, no shared trait mutated, no schema/glossary churn).
 
 ## 5. Table A -- atomic axis-pole coverage (the real coverage + coherence)
 
@@ -117,7 +120,7 @@ Legend: tier(effect, gate). LIVE = engine-live-reliable after the remaps. **bold
 | --------------------- | ----- | ------------------------------- | --------------------------------------------------------- | ------------------------------------------- | ------------------------------- |
 | solitary_swarm +      | E     | Coordinatore(2) [alt]           | legame_di_branco (T2, +1atk/+1def on same-sp ally attack) | biofilm_glow (dr1 melee)                    | OK ++ pack-bond = social        |
 | solitary_swarm -      | I     | Individualista(4)               | **mente_lucida** (T2, panic 2t, mos>=5)                   | camere_mirage (dr1)                         | OK (was INERT)                  |
-| explore_caution +     | S     | Lealista(6)                     | sensori_sismici (T2, +1dmg melee+mos>=5)                  | cuticole_cerose (dr1 melee)                 | WEAK (double-gated; see 8)      |
+| explore_caution +     | S     | Lealista(6)                     | **cartilagini_flessoacustiche** (T2, dr1 no-gate)         | cuticole_cerose (dr1 melee)                 | OK (was WEAK; strengthened)     |
 | explore_caution -     | N     | Esploratore(7)                  | sensori_geomagnetici (T1, +1dmg mos>=5)                   | antenne_dustsense (+1dmg mos>=5)            | OK ++ explorer navigation       |
 | symbiosis_predation + | T     | Conquistatore(3), Cacciatore(8) | ferocia (T1, rage 3t on_kill)                             | denti_seghettati (bleeding 2t)              | OK (snowball gate)              |
 | symbiosis_predation - | F     | Coordinatore(2)                 | **spirito_combattivo** (T2, +1atk any-ally attack)        | **membrane_eliofiltranti** (dr1)            | OK (both were INERT)            |
@@ -134,27 +137,27 @@ Each type fixes 4 axis poles (the 5th, Forma, is free). The branco that actually
 team's DOMINANT axis; the minor is the player's own dominant (complement). So a type maps to a SET
 of possible branco traits (one per leaned letter). Trait per letter (from Table A):
 
-E=legame_di_branco I=mente_lucida S=sensori_sismici N=sensori_geomagnetici
+E=legame_di_branco I=mente_lucida S=cartilagini_flessoacustiche N=sensori_geomagnetici
 T=ferocia F=spirito_combattivo J=cervello_predittivo P=cervello_a_bassa_latenza
 
-| Type | E/I -> branco        | S/N -> branco            | T/F -> branco          | J/P -> branco                |
-| ---- | -------------------- | ------------------------ | ---------------------- | ---------------------------- |
-| ISTJ | mente_lucida (I)     | sensori_sismici (S)      | ferocia (T)            | cervello_predittivo (J)      |
-| ISFJ | mente_lucida (I)     | sensori_sismici (S)      | spirito_combattivo (F) | cervello_predittivo (J)      |
-| INFJ | mente_lucida (I)     | sensori_geomagnetici (N) | spirito_combattivo (F) | cervello_predittivo (J)      |
-| INTJ | mente_lucida (I)     | sensori_geomagnetici (N) | ferocia (T)            | cervello_predittivo (J)      |
-| ISTP | mente_lucida (I)     | sensori_sismici (S)      | ferocia (T)            | cervello_a_bassa_latenza (P) |
-| ISFP | mente_lucida (I)     | sensori_sismici (S)      | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
-| INFP | mente_lucida (I)     | sensori_geomagnetici (N) | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
-| INTP | mente_lucida (I)     | sensori_geomagnetici (N) | ferocia (T)            | cervello_a_bassa_latenza (P) |
-| ESTJ | legame_di_branco (E) | sensori_sismici (S)      | ferocia (T)            | cervello_predittivo (J)      |
-| ESFJ | legame_di_branco (E) | sensori_sismici (S)      | spirito_combattivo (F) | cervello_predittivo (J)      |
-| ENFJ | legame_di_branco (E) | sensori_geomagnetici (N) | spirito_combattivo (F) | cervello_predittivo (J)      |
-| ENTJ | legame_di_branco (E) | sensori_geomagnetici (N) | ferocia (T)            | cervello_predittivo (J)      |
-| ESTP | legame_di_branco (E) | sensori_sismici (S)      | ferocia (T)            | cervello_a_bassa_latenza (P) |
-| ESFP | legame_di_branco (E) | sensori_sismici (S)      | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
-| ENFP | legame_di_branco (E) | sensori_geomagnetici (N) | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
-| ENTP | legame_di_branco (E) | sensori_geomagnetici (N) | ferocia (T)            | cervello_a_bassa_latenza (P) |
+| Type | E/I -> branco        | S/N -> branco                   | T/F -> branco          | J/P -> branco                |
+| ---- | -------------------- | ------------------------------- | ---------------------- | ---------------------------- |
+| ISTJ | mente_lucida (I)     | cartilagini_flessoacustiche (S) | ferocia (T)            | cervello_predittivo (J)      |
+| ISFJ | mente_lucida (I)     | cartilagini_flessoacustiche (S) | spirito_combattivo (F) | cervello_predittivo (J)      |
+| INFJ | mente_lucida (I)     | sensori_geomagnetici (N)        | spirito_combattivo (F) | cervello_predittivo (J)      |
+| INTJ | mente_lucida (I)     | sensori_geomagnetici (N)        | ferocia (T)            | cervello_predittivo (J)      |
+| ISTP | mente_lucida (I)     | cartilagini_flessoacustiche (S) | ferocia (T)            | cervello_a_bassa_latenza (P) |
+| ISFP | mente_lucida (I)     | cartilagini_flessoacustiche (S) | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
+| INFP | mente_lucida (I)     | sensori_geomagnetici (N)        | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
+| INTP | mente_lucida (I)     | sensori_geomagnetici (N)        | ferocia (T)            | cervello_a_bassa_latenza (P) |
+| ESTJ | legame_di_branco (E) | cartilagini_flessoacustiche (S) | ferocia (T)            | cervello_predittivo (J)      |
+| ESFJ | legame_di_branco (E) | cartilagini_flessoacustiche (S) | spirito_combattivo (F) | cervello_predittivo (J)      |
+| ENFJ | legame_di_branco (E) | sensori_geomagnetici (N)        | spirito_combattivo (F) | cervello_predittivo (J)      |
+| ENTJ | legame_di_branco (E) | sensori_geomagnetici (N)        | ferocia (T)            | cervello_predittivo (J)      |
+| ESTP | legame_di_branco (E) | cartilagini_flessoacustiche (S) | ferocia (T)            | cervello_a_bassa_latenza (P) |
+| ESFP | legame_di_branco (E) | cartilagini_flessoacustiche (S) | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
+| ENFP | legame_di_branco (E) | sensori_geomagnetici (N)        | spirito_combattivo (F) | cervello_a_bassa_latenza (P) |
+| ENTP | legame_di_branco (E) | sensori_geomagnetici (N)        | ferocia (T)            | cervello_a_bassa_latenza (P) |
 
 Every one of the 16 types now resolves -- on EVERY leaned axis -- to an engine-LIVE branco trait
 (pre-fix, any I, F, or Forma-Agile lean produced an inert branco). The minor is whichever non-branco
@@ -177,7 +180,7 @@ Mapping rationale grounded in `telemetry.yaml ennea_themes` triggers + creature-
 | Conquistatore(3)  | aggro>0.65 && risk>0.55                | symbiosis_predation +           | ferocia                     | denti_seghettati / 2nd          | OK ++ aggressive achiever               |
 | Individualista(4) | low_hp_time>0.4 && damage_dealt>0      | solitary_swarm -                | mente_lucida                | camere_mirage / 2nd             | OK withdrawn resilient                  |
 | Architetto(5)     | setup_ratio>0.4 && low risk            | memory_instinct +               | cervello_predittivo         | sensori_planctonici / 2nd       | OK ++ meticulous planner (shares J w/1) |
-| Lealista(6)       | assists>=2 && low risk                 | explore_caution +               | sensori_sismici             | cuticole_cerose / 2nd           | WEAK branco (double-gated; see 8)       |
+| Lealista(6)       | assists>=2 && low risk                 | explore_caution +               | cartilagini_flessoacustiche | cuticole_cerose / 2nd           | OK vigilant defender (was WEAK; fixed)  |
 | Esploratore(7)    | explore>0.45                           | explore_caution -               | sensori_geomagnetici        | antenne_dustsense / 2nd         | OK ++ explorer navigation               |
 | Cacciatore(8)     | evasion_ratio>0.6 && first_blood>0     | agile_robust - (or symbiosis +) | coda_stabilizzatrice_vortex | coda_stabilizzatrice_filo / 2nd | OK (was near-INERT zampe!)              |
 | Stoico(9)         | kills<1 && damage_taken>0 && endurance | agile_robust +                  | pelle_elastomera            | cartilagini_biofibre / 2nd      | OK robust steady                        |
@@ -196,10 +199,10 @@ Per the verdict, branco tiers are NOT normalized; handled via encounter-offset (
   route to it. A J-heavy team gets a structurally stronger branco. Mitigation: the encounter-difficulty
   offset (ratify-doc sec.5) -- the buff is near-constant -> offsettable; confirm the exact number with
   a real combat A/B before fixing it.
-- **explore_caution + (S) = `sensori_sismici` T2 double-gated (melee + mos>=5)** is the WEAK end (and
-  the Lealista-6 branch lands here, whose archetype flavor is defensive while the trait is +dmg). LIVE
-  but low-value. Left as-is for this proposal; candidate for a future swap to a reliable defensive S
-  pick if the spread proves too wide in playtest.
+- **explore_caution + (S): RESOLVED 2026-06-23** (verdict "stringi il polo S debole"). The old
+  `sensori_sismici` was T2 double-gated (melee + mos>=5) = WEAK and offense-flavored vs the defensive
+  Lealista-6 branch. Remapped to `cartilagini_flessoacustiche` (T2, dr1 no-gate) -- reliable AND a
+  defensive anticipatory-sensing fit for Cauto/Lealista. No longer the weak end.
 - **ferocia (T) on_kill** and **legame_di_branco (E) same-species** are conditional (snowball /
   same-species adjacency) but thematically the strongest fits -- accepted as flavor-gated, not inert.
 
