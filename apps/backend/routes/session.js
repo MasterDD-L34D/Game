@@ -110,6 +110,18 @@ const {
   consumeRisonanza,
 } = require('../services/combat/cortecciaMemetica');
 const { refreshNucleiCoordinamento } = require('../services/combat/allyAuraMark');
+// Creature-trait kit (trait 12 -- the last defensive slice): radici_ancora_planare
+// anchor. Always-on slice (master-dd verdict 2026-06-23, NOT gated on
+// MOVE_TERRAIN_COST_ENABLED -- the defensive DR is decoupled from the terrain-cost
+// substrate). Producer anchors carriers at turn/round start (status `ancorato`, DR2),
+// a `move` breaks the anchor (consumer at the move-gate), and the DR is realized at
+// the mitigation seam next to computeCortecciaDR. Band-neutral: no live unit carries
+// radici_ancora_planare yet (no authoring), like the 11 already-merged slices.
+const {
+  applyAnchorAtActivation,
+  breakAnchor,
+  computeAnchorDR,
+} = require('../services/combat/anchorState');
 // Creature-trait slice 4: artigli_psionici source-marked DR + tessuti_adattivi
 // channel adaptation (engine-coded pure modules; the YAML entry registers the trait).
 const {
@@ -383,6 +395,12 @@ function createSessionRouter(options = {}) {
       }
     } catch {
       /* sgTracker optional */
+    }
+    // Creature-trait kit (trait 12): re-anchor radici carriers at each round start
+    // (round-advance hook). A move during the round breaks the anchor. Idempotent,
+    // best-effort, band-neutral (no live unit carries radici_ancora_planare).
+    for (const u of session.units || []) {
+      if (u && u.hp > 0) applyAnchorAtActivation(u);
     }
   }
   // P4 Thought Cabinet: sessionId -> Map<unitId, CabinetState>.
@@ -915,6 +933,18 @@ function createSessionRouter(options = {}) {
           const reduced = Math.min(cortecciaDr, damageDealt);
           damageDealt -= reduced;
           target.corteccia_dr_last = reduced;
+        }
+      }
+      // Creature-trait kit (trait 12): radici_ancora_planare anchor DR. A standing
+      // carrier (status `ancorato`) reduces incoming damage by ANCHOR_DR at the same
+      // innate-mitigation seam as corteccia. Band-neutral: computeAnchorDR returns 0
+      // unless the target carries radici AND has not moved this round.
+      if (damageDealt > 0) {
+        const anchorDr = computeAnchorDR(target);
+        if (anchorDr > 0) {
+          const reduced = Math.min(anchorDr, damageDealt);
+          damageDealt -= reduced;
+          target.anchor_dr_last = reduced;
         }
       }
       // Creature-trait slice 4: artigli_psionici "read-the-prey" -- a source-marked
@@ -2557,6 +2587,12 @@ function createSessionRouter(options = {}) {
           /* wound persistence optional; never block the start */
         }
       }
+      // Creature-trait kit (trait 12): anchor radici carriers at session start so a
+      // standing carrier carries the DR from round 1 (the round-advance hooks only
+      // re-anchor from round 2 on). Band-neutral: no live unit carries radici yet.
+      for (const u of session.units || []) {
+        applyAnchorAtActivation(u);
+      }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
       // PR-1 §22 coop-WS surface — link this combat session back into the coop
@@ -2917,6 +2953,9 @@ function createSessionRouter(options = {}) {
         if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
           actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
         }
+        // radici_ancora_planare: a move forfeits the anchor DR for this round
+        // (break-on-move consumer; idempotent no-op for non-carriers, not flag-gated).
+        breakAnchor(actor);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
@@ -3410,6 +3449,9 @@ function createSessionRouter(options = {}) {
           if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
             actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
           }
+          // radici_ancora_planare: an AI move also forfeits the anchor DR this round
+          // (break-on-move consumer; idempotent no-op for non-carriers, not flag-gated).
+          breakAnchor(actor);
           const positionFrom = { ...actor.position };
           actor.position = { x: dest.x, y: dest.y };
           const newFacing = facingFromMove(positionFrom, actor.position);
