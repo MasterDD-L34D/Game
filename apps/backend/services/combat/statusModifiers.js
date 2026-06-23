@@ -207,6 +207,13 @@ function computeStatusModifiers(actor, target, units = []) {
     // No stat effect — narrative reveal marker only.
     log.push({ status: 'telepatic_link', side: 'actor', effect: 'reveal (no stat delta)' });
   }
+  if (isPositive(actorStatus.nucleo_intatto)) {
+    // nuclei_di_controllo (creature-trait slice 2): an intact control nucleus
+    // coordinates the unit's strikes -> +1 attack_mod. Lost once the weak-point
+    // is broken (combat/nucleiWeakPoint applies danno_nucleo, which clears this).
+    attackDelta += 1;
+    log.push({ status: 'nucleo_intatto', side: 'actor', effect: '+1 attack_mod (nucleo intatto)' });
+  }
 
   // ─── Target-side target-defense buffs/debuffs ───────────────────
   if (isPositive(targetStatus.attuned)) {
@@ -226,6 +233,17 @@ function computeStatusModifiers(actor, target, units = []) {
     // the missing read-path (Python resolver had it, dropped in Node migration).
     defenseDelta -= 1;
     log.push({ status: 'sbilanciato', side: 'target', effect: '-1 defense_mod (spinta exposure)' });
+  }
+  if (isPositive(targetStatus.danno_nucleo)) {
+    // nuclei_di_controllo broken state: the unit hunkers around its damaged
+    // nucleus -> +1 defense_mod (harder to hit), trading away the intact attack
+    // aura. Set by combat/nucleiWeakPoint on a MoS>=5 hit.
+    defenseDelta += 1;
+    log.push({
+      status: 'danno_nucleo',
+      side: 'target',
+      effect: '+1 defense_mod (nucleo danneggiato)',
+    });
   }
 
   // ─── OD-058 D2 read-apply (flag-gated, #2531) — location wounds → deltas ───

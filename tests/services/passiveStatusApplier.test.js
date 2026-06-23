@@ -60,12 +60,21 @@ const REGISTRY = {
 };
 
 describe('WAVE_A_STATUSES + PASSIVE_BLOCKLIST', () => {
-  test('canonical 7 statuses defined', () => {
-    const expected = ['linked', 'fed', 'healing', 'attuned', 'sensed', 'telepatic_link', 'frenzy'];
+  test('canonical statuses defined (7 base + nucleo_intatto)', () => {
+    const expected = [
+      'linked',
+      'fed',
+      'healing',
+      'attuned',
+      'sensed',
+      'telepatic_link',
+      'frenzy',
+      'nucleo_intatto', // creature-trait slice 2
+    ];
     for (const s of expected) {
       assert.ok(WAVE_A_STATUSES.has(s), `${s} should be in Wave A`);
     }
-    assert.equal(WAVE_A_STATUSES.size, 7);
+    assert.equal(WAVE_A_STATUSES.size, 8);
   });
 
   test('frenzy in PASSIVE_BLOCKLIST (rage variant, never auto-permanent)', () => {
@@ -228,5 +237,31 @@ describe('applyPassiveAncestorsToRoster', () => {
     const events = applyPassiveAncestorsToRoster(units, REGISTRY);
     assert.equal(events.length, 1);
     assert.equal(events[0].unit_id, 'a');
+  });
+});
+
+describe('nuclei_di_controllo passive producer (creature-trait slice 2)', () => {
+  const NUCLEI_REG = {
+    nuclei_di_controllo: {
+      applies_to: 'actor',
+      trigger: { action_type: 'passive' },
+      effect: { kind: 'apply_status', stato: 'nucleo_intatto', turns: 99 },
+    },
+  };
+
+  test('nucleo_intatto is in the WAVE_A allowlist', () => {
+    assert.ok(WAVE_A_STATUSES.has('nucleo_intatto'));
+  });
+
+  test('an intact carrier gets nucleo_intatto applied', () => {
+    const unit = { id: 'g', traits: ['nuclei_di_controllo'], status: {} };
+    applyPassiveAncestors(unit, NUCLEI_REG);
+    assert.ok(Number(unit.status.nucleo_intatto) > 0);
+  });
+
+  test('a broken nucleus (danno_nucleo) is NOT re-intacted on a refresh wave', () => {
+    const unit = { id: 'g', traits: ['nuclei_di_controllo'], status: { danno_nucleo: 50 } };
+    applyPassiveAncestors(unit, NUCLEI_REG);
+    assert.ok(!(Number(unit.status.nucleo_intatto) > 0), 'broken stays broken');
   });
 });

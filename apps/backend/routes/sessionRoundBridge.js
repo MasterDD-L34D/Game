@@ -323,7 +323,16 @@ function createRoundBridge(deps) {
       const liveIds = new Set(
         (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
       );
-      const PERSISTENT_STATUS_KEYS = new Set(['wounds', 'wounded_perma']);
+      // Creature-trait slice 2: the nuclei_di_controllo weak-point state is durable
+      // (the broken nucleus does not heal between rounds, the intact one is sustained)
+      // -> exempt from the round wipe like wounds. Without this, danno_nucleo would be
+      // wiped the round after the break and the passive refresh would re-intact it.
+      const PERSISTENT_STATUS_KEYS = new Set([
+        'wounds',
+        'wounded_perma',
+        'nucleo_intatto',
+        'danno_nucleo',
+      ]);
       for (const id of Object.keys(sessionUnit.status)) {
         if (PERSISTENT_STATUS_KEYS.has(id)) continue;
         if (!liveIds.has(id)) {
