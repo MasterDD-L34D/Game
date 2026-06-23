@@ -672,6 +672,18 @@ jobs:
         rank: 1
         source: trait
         trait_id: matrice_antimagia
+      trait_filtri_purga:
+        ability_id: filtri_purga
+        name_it: "Filtri Bioattivi -- Purga"
+        description_it: "Abilità nativa del trait filtri_bioattivi."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: cleanse_status
+        range: 1
+        target: ally
+        rank: 1
+        source: trait
+        trait_id: filtri_bioattivi
       trait_digest_heal:
         ability_id: digest_heal
         name_it: "Digestione Rigenerante"
