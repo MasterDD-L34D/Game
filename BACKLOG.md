@@ -45,6 +45,15 @@ PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: v
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+> 📍 **Registro residui consolidato (2026-06-23)** = [`docs/planning/2026-06-23-residual-gate-register.md`](docs/planning/2026-06-23-residual-gate-register.md) -- vista trasversale di TUTTI i gate residui (SPEC-A..Q + in-flight), ordinata **per tipo-di-gate**, git-verificata su `origin/main`. Le sezioni sotto restano le fonti-di-dettaglio per workstream; il registro le aggrega + traccia i workstream NON ancora sezionati qui. 🔴 **Marker corretti dall'audit 2026-06-23**: prod-resilience (sotto) = APPLIED #2966 -- governance stale (sotto) = CLOSED 397->0 #2914 -- OD-024 interoception = FLIPPED ON prod 2026-06-22.
+>
+> **In-flight NON sezionati qui** (dettaglio nel registro + doc propri):
+>
+> - **trait-mechanics-engine** (creature-kit, 7 slici): 2.5/12 trait + 0/14 creature build. SoT `docs/planning/2026-06-23-derived-canon-salvage-progress.md`. Next = slice 3.
+> - **OD-024 sentience**: interoception FLIPPED ON prod; residui = `STAMINA_FATIGUE` flip (N=40) + engine#3 encumbrance PARKED. Runbook `docs/ops/2026-06-22-od024-d7-interoception-flip-runbook.md`.
+> - **codex-lore**: 19 orfani per-bioma (balance master-dd).
+> - **aa01-Impronta**: tracker D1-D9 `docs/planning/2026-06-22-aa01-deferred-tracker.md` (sezione "aa01 RECONCILIATION" sotto). D2 flip = next gate.
+
 ### 🟡 OPEN — SPEC-H ALIENA enforcement implementation-residue (2026-06-17)
 
 Spec `docs/design/evo-tactics-aliena-enforcement-lore.md` flippata `active` 2026-06-17 come
@@ -138,7 +147,11 @@ Il G2 per-template calibration harness e' **BUILT + CAPABLE end-to-end** (P1-P5 
 - **N=40 sequencing (SINGLE OWNER)** — un solo ticket: PE_ratio PR2 -> autora 1 scenario lethal/HA1 (content, design-call master-dd: biome/roster/banda-attrition) -> run N=40 ATTRAVERSO l'orchestrator G2 (`enc_badlands_pilot_01`), NON un path N=40 parallelo -> risolvi band+composite-target. Sblocca i flip SPEC-J `LETHAL_MISSIONS_ENABLED` (#2865 DEFER) + SPEC-H HA1.
 - **auto-ratify prod-write activation** — oggi UNREACHABLE by-design; attivazione gated su (a) PE_ratio emission, (b) baseline node-22 seed-pinned per gate-3, (c) harsh-review SDMG + master-dd prima dei flag `--auto-ratify`/`--confirm-prod` live.
 
-### 🟡 OPEN — Prod backend task resilience (EvoTacticsBackend, owner-gated elevated) — DESIGNED 2026-06-20
+### ✅ DONE 2026-06-22 — Prod backend task resilience (EvoTacticsBackend) — APPLIED (#2966) + Postgres auto-start RESOLVED (#2965)
+
+> **APPLIED 2026-06-22** (audit 2026-06-23): master-dd ha runnato `fix-evo-backend-task-resilience.ps1` elevato (+AtStartup +RestartCount 999) -- #2966 `faa62e20`. Postgres auto-start RESOLVED via `start-evo-backend.cmd` PG-ensure -- #2965 `0ab859d1` (effetto al prossimo restart pulito del task). Marker 🟡 OPEN era stale. Record DESIGNED preservato sotto.
+
+#### (record DESIGNED 2026-06-20, preservato)
 
 Prod (3334/3341, Lenovo) e' caduto 3x nella sessione 2026-06-19 ([[lesson_prod_host_ports_3334_3341]]). **Root-cause (verify-first 2026-06-20)**: il task `EvoTacticsBackend` runa `start-evo-backend.cmd` che BLOCCA su `npm start:api` -> task "Running" + `RestartCount=3` restarta sul crash, MA dopo 3 crash (= i 3 incidenti kill-by-port) **esaurisce e va "Ready" -> prod giu' fino a Start manuale**. + solo `LogonTrigger` (no reboot-survival). **Fix DESIGNED** (additivo, low-risk): +AtStartup trigger + RestartCount 3->999. 🔴 **owner-gated**: `Set-ScheduledTask` da sessione non-elevata = "Accesso negato" -> serve run ELEVATO (admin). Script pronto: `C:\Users\edusc\fix-evo-backend-task-resilience.ps1` (backup `evo-backend-task-backup-2026-06-20.xml`; verify + revert inclusi). Runbook: `docs/ops/2026-06-20-prod-backend-task-resilience.md`. **Next (master-dd)**: run lo script elevato + (opz) `Start-ScheduledTask` per transizionare l'orfano corrente (~5s blip). Follow-up piu' robusto = watchdog (repetition-trigger + detach-launch) deferito. + residuo separato Postgres auto-start.
 
@@ -202,7 +215,11 @@ Surfaced by the reconstruction-suite README SoT-flip + refresh audit: ~9 docs/co
 - **Priorita'**: P3.
 - **DONE [ground-truth audit 2026-06-20]**: SHIPPED #2610 (mark/repoint stale services/rules dead-Python refs) + #2860 (currency-fix Phase-3); i 5 file (session-debugger / balance-auditor / combat-sim / TASK_PROTOCOL / PILLARS_STATUS) ora marcano removed-per-ADR-2026-04-19 + repoint a `apps/backend/services/combat/*`. Marker 🟢 OPEN era stale.
 
-### 🟢 P3 OPEN — Governance stale-doc burn-down campaign (progressive, 2026-06-07)
+### ✅ CLOSED 2026-06-22 — Governance stale-doc burn-down campaign (397->0)
+
+> **CLOSED** (audit 2026-06-23): stale 397->0, issue #2914 chiusa 36/36 (PR #2899-#2934, tracking #2614). Cadence tiering #2909 ha risolto il treadmill (root-cause sub-mensile). Marker 🟢 P3 OPEN era stale. Residue follow-up (NON campagna): `check_biome_feature.py` species.yaml repoint, TKT-SALVAGE-A1/A2. Record progressivo preservato sotto.
+
+#### (record campagna progressiva 2026-06-07, preservato)
 
 docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, non-blocking / warning-only)** -- base 250 -> 397 col bulk-register #2695 (246 legacy entrate nel conteggio), poi batch-2 -32, batch-3 -11, batch-4 -7, batch-5 -29, batch-6 -27, batch-7 -27, batch-8 -22, batch-9 -31, batch-10 -28. Batch-1 (adr+core, 37) DONE -> 21 re-verified-bumped + 16 real-issue residue (#2611). Batch-2 (process+pipelines, 64) DONE -> 32 re-verified-bumped + 32 residue (29 DRIFTED + 2 SUPERSEDED-da-ratificare + 1 NEEDS-HUMAN) -> ticket TKT-STALE-B2-\* sotto. Batch-3 (ops+traits+balance, 37) DONE -> 11 re-verified-bumped + 26 residue (20 DRIFTED + 6 NEEDS-HUMAN) -> ticket TKT-STALE-B3-\* sotto. Batch-4 (evo-tactics-pack+guide+biomes+catalog+species, 27) DONE -> 7 re-verified-bumped + 20 residue (13 DRIFTED + 7 NEEDS-HUMAN) -> ticket TKT-STALE-B4-\* sotto. Batch-5 (playtest, 34) DONE -> 29 re-verified-bumped (26 record-storici archive-candidate + 3 living-harness) + 5 residue (3 DRIFTED + 2 NEEDS-HUMAN) -> ticket TKT-STALE-B5-\* sotto. Batch-6 (reports, 43) DONE -> 27 re-verified-bumped (record-storici archive-candidate) + 16 residue (15 SUPERSEDED-da-ratificare + 1 NEEDS-HUMAN [PILLAR-LIVE-STATUS living SOT]) -> ticket TKT-STALE-B6-\* sotto. Batch-7 (planning sotto-batch 1 = cluster April-2026, 36) DONE -> 27 re-verified-bumped (25 record-storici archive-candidate + 2 registry-only no-frontmatter) + 9 residue (2 DRIFTED-speciesyaml + 4 SUPERSEDED-da-ratificare [Godot-pivot layer] + 3 NEEDS-HUMAN) -> ticket TKT-STALE-B7-\* sotto. Batch-8 (planning sotto-batch 2 = May-2026 + undated, 31) DONE -> 22 re-verified-bumped (record-storici archive-candidate: handoff/closure/kickoff/decision-log/realized-plan) + 9 residue (1 DRIFTED + 5 SUPERSEDED-da-ratificare + 3 NEEDS-HUMAN) -> ticket TKT-STALE-B8-\* sotto. **Cluster `docs/planning` CHIUSO** (18 stale residue = 9 April B7 + 9 May B8, tutti ticketati owner-gated). Batch-9 (cluster research+architecture+frontend+appendici+tutorials, 48) DONE -> 31 re-verified-bumped (research/appendici dated-records + arch/tutorials/frontend live-reference) + 17 residue (12 DRIFTED + 5 NEEDS-HUMAN) -> ticket TKT-STALE-B9-\* sotto. **Cluster research+arch+frontend+appendici+tutorials CHIUSO**. Batch-10 (cluster museum+superpowers+governance+pitch+skiv+design+incoming+singletons = dir mai-battute, 42) DONE -> 28 re-verified-bumped (museum excavation-records + superpowers design-specs-shipped + design/codex-aliena + pitch/audio live-reference) + 14 residue (5 DRIFTED + 3 SUPERSEDED + 6 NEEDS-HUMAN) -> ticket TKT-STALE-B10-\* sotto. **Cluster dir-mai-battute CHIUSO**. Tool ora skippa superseded/deprecated/archived (#2612).
 
