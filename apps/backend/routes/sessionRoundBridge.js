@@ -1045,6 +1045,21 @@ function createRoundBridge(deps) {
       // best-effort: don't block round-end if the filter module is missing
     }
 
+    // membrane_osmotiche terrain-heal: a living carrier adjacent (4-neighbour) to a
+    // water/bog tile heals 1 at end-of-round. Reads the grid.terrain_features the move
+    // terrain-cost substrate (#3012) now carries onto session.grid. Best-effort,
+    // band-neutral (no sim unit carries the trait AND no grid places a water tile).
+    try {
+      const { applyTerrainHeal } = require('../services/combat/membraneOsmotiche');
+      const { terrainAtFromFeatures } = require('../services/combat/moveCost');
+      const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+      for (const unit of session.units || []) {
+        applyTerrainHeal(unit, { terrainAt });
+      }
+    } catch {
+      // best-effort: don't block round-end if the membrane/terrain module is missing
+    }
+
     // Creature-trait slice 7: pigmenti_aurorali glow -- while a carrier is HP>=50%,
     // dazzle (abbagliato, -1 atk next) the enemies ending adjacent. End-of-round sweep.
     // Best-effort, band-neutral (no sim unit carries the trait).
