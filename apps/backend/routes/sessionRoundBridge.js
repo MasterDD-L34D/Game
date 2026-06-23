@@ -1024,6 +1024,19 @@ function createRoundBridge(deps) {
       // best-effort: don't block round-end if the filter module is missing
     }
 
+    // Creature-trait slice 7: pigmenti_aurorali glow -- while a carrier is HP>=50%,
+    // dazzle (abbagliato, -1 atk next) the enemies ending adjacent. End-of-round sweep.
+    // Best-effort, band-neutral (no sim unit carries the trait).
+    try {
+      const { applyEndRoundGlow } = require('../services/combat/pigmentiAurorali');
+      const roster = session.units || [];
+      for (const carrier of roster) {
+        applyEndRoundGlow({ carrier, units: roster });
+      }
+    } catch {
+      // best-effort: don't block round-end if the glow module is missing
+    }
+
     // Status engine extension: HP regen ticks (`fed` + `healing`).
     // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
     // universal status decay so the last live tick still produces regen.
