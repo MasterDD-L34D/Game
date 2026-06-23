@@ -3,8 +3,9 @@
 
 Validates that data/core/traits/*.json + data/core/traits/active_effects.yaml +
 data/traits/index.json + data/traits/<categoria>/*.json + config/schemas/trait.schema.json
-declare schema_version 2.0 and respect Tier-Ancestor policy (DC-01 derived:
-prefix 'ancestor_' allows design block absent).
+declare schema_version 2.0 and (for index/per-trait files) carry the design block.
+Note: the legacy Tier-Ancestor exemption (DC-01, prefix 'ancestor_') is RETIRED --
+the ancestor_ namespace was migrated to native ids (PR #3001, 2026-06-23).
 
 Usage:
     python tools/lint/trait_schema_gate.py --check <file1> [--check <file2> ...]
@@ -81,8 +82,8 @@ def check(path: Path, allow_skip_marker: bool = False, strict_design: bool = Fal
         - per-entry must be dict
 
     SOFT checks (print WARN to stderr but return 0):
-        - design block (tier/famiglia_tipologia/slot_profile) for non-ancestor
-          entries in index-shaped paths.
+        - design block (tier/famiglia_tipologia/slot_profile) for entries in
+          index-shaped paths.
 
     HARD on per-trait files (data/traits/<cat>/<slug>.json) when strict_design=True
     OR when path matches per-trait pattern (default True via per_trait detection).
@@ -126,15 +127,12 @@ def check(path: Path, allow_skip_marker: bool = False, strict_design: bool = Fal
             rc = 1
             continue
 
-        if str(trait_id).startswith("ancestor_"):
-            continue
-
         if is_index or is_per_trait:
             missing = [f for f in REQUIRED_DESIGN_FIELDS if f not in entry]
             if missing:
                 severity = "MISSING" if design_hard else "WARN-MISSING"
                 print(
-                    f"{severity} design fields {missing} for non-ancestor trait "
+                    f"{severity} design fields {missing} for trait "
                     f"{trait_id!r} in {path}",
                     file=sys.stderr,
                 )
