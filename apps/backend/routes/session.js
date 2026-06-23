@@ -1402,6 +1402,12 @@ function createSessionRouter(options = {}) {
         });
       }
 
+      // Incoming damage from THIS hit (attack + any terrain-reaction burst), captured
+      // before the nucleus self-detonation below so corteccia_memetica reacts to the
+      // hit it took, not to its own nucleus burst (relevant only if a unit ever carries
+      // both traits).
+      const incomingDamage = damageDealt;
+
       // nuclei_di_controllo weak-point (creature-trait slice 2+3): a precise hit
       // (MoS>=5) advances the control nucleus one stage (intact -> danno_nucleo ->
       // nucleo_distrutto). applyNucleoHit mutates target.status; persist the new
@@ -1447,7 +1453,7 @@ function createSessionRouter(options = {}) {
       // channel). Band-neutral: no sim unit carries corteccia_memetica.
       const cortecciaReaction = applyCortecciaReaction({
         target,
-        damageDealt,
+        damageDealt: incomingDamage,
         units: session.units || [],
       });
       if (cortecciaReaction) {
@@ -1471,7 +1477,7 @@ function createSessionRouter(options = {}) {
           triggered: true,
           effect: {
             kind: 'memetic_resonance',
-            damage_taken: damageDealt,
+            damage_taken: incomingDamage,
             allies_resonated: cortecciaReaction.broadcast.length,
           },
         });
