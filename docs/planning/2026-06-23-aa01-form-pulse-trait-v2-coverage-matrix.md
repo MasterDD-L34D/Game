@@ -80,10 +80,22 @@ harsh review caught on the minor pool, but on poles the review did not check:
 | Branco Agile (agile-) | `zampe_a_molla`                    | `requires: posizione_sopraelevata` = near-inert on flat |
 | Minor F (symbiosis-)  | `comunicazione_fotonica_coda_coda` | passive buff_stat -> INERT                              |
 
-Side effect on the N=200 ratify evidence: the power proxy CREDITED power to these 3 passive
-buff_stat traits, so `~1.21 power/creature` is a slight **over-count**; the real add is marginally
-lower. Direction unchanged (still a moderate, calibratable buff); re-run after the remaps if a
-tighter figure is wanted.
+Side effect on the N=200 ratify evidence: the power proxy scored `buff_stat` by its raw amount and
+NEVER zeroed passive buff_stat, so it CREDITED phantom power to the 3 inert picks. Both fixed +
+re-run (`tools/sim/fp-trait-delta-probe.js` hardened to zero passive buff_stat; `reports/sim/fp-trait-n200`
+regenerated, seed 20260623):
+
+| metric (N=200, seed 20260623)   | OLD pool (phantom-inflated) | REMAPPED pool (all LIVE) |
+| ------------------------------- | --------------------------- | ------------------------ |
+| power added / creature (CI95)   | 1.21 (1.14 .. 1.29)         | **1.20 (1.13 .. 1.28)**  |
+| branco emergence baseline -> v2 | 91% -> 100%                 | 91% -> 100%              |
+| minor traits / team             | 3.02                        | 3.02                     |
+
+The magnitude barely moves -- but the MEANING flips: the old 1.21 mixed REAL power with phantom
+(the I / F / Agile-minus branches granted near-nothing in actual combat), so the old design
+under-delivered on those branches. The remapped 1.20 is **all engine-LIVE and evenly delivered
+across every MBTI/Ennea branch**. So the encounter-offset calibration target (~1.2/creature, the A/B
+in PR #3017) stays valid -- it's now honest + uniform, not branch-dependent.
 
 ## 4. The fix -- remap to existing engine-LIVE traits (verdict 2026-06-23: remap, not author-new)
 
@@ -201,7 +213,9 @@ regress). Branco is NOT tier-capped (spread handled by the offset, sec.8).
 ## 10. Disposition
 
 - Changed (PROPOSED, flag default OFF): `brancoTraitEmergence.js` 4 mapping picks + rationale; new
-  enforcement test. No behavior change until the Form-Pulse UX populates pulses AND the flag flips.
-- **Ratification pending master-dd.** On ratify: set the encounter-offset (sec.8) before
-  `FORM_PULSE_TRAIT_V2_ENABLED` is ever turned ON. Optionally re-run `node tools/sim/fp-trait-delta-probe.js --n 200`
-  with the remapped pool for an updated (slightly lower) power figure.
+  enforcement test; `fp-trait-delta-probe.js` proxy hardened (zero passive buff_stat) +
+  `reports/sim/fp-trait-n200` regenerated (corrected figure, sec.3). No behavior change until the
+  Form-Pulse UX populates pulses AND the flag flips.
+- **Ratification pending master-dd.** On ratify: set the encounter-offset (~1.20/creature, sec.3 +
+  the PR #3017 A/B) before `FORM_PULSE_TRAIT_V2_ENABLED` is ever turned ON. Reproduce the figure:
+  `node tools/sim/fp-trait-delta-probe.js --n 200`.

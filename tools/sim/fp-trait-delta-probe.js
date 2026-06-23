@@ -86,6 +86,12 @@ function traitPower(traitId) {
     }
   }
   const tr = t.trigger || {};
+  // Coverage audit 2026-06-23: action_type:passive + buff_stat has NO runtime consumer
+  // (engine-INERT -- traitEffects/passiveStatusApplier/abilityExecutor only apply buff_stat for
+  // move_bonus or active abilities; mirror tests/services/formPulseTraitV2Coverage.test.js). The
+  // earlier proxy scored these by .amount and over-credited the (now-remapped) mimetismo /
+  // empatia / comunicazione picks. Zero them so the power figure is honest.
+  if (tr.action_type === 'passive' && t.effect && t.effect.kind === 'buff_stat') return 0;
   let mult = 1;
   if (Number(tr.min_mos) >= 5) mult *= 0.6; // MoS>=5 is uncommon
   if (tr.requires === 'posizione_sopraelevata') mult *= 0.25; // elevation terrain is rare
