@@ -49,10 +49,12 @@ tags: [combat, movement, terrain-cost, volo, radici, trait-mechanics, substrate,
 ## 2. Decisioni (4 verdetti master-dd 2026-06-23 + sub-decisioni confermate)
 
 ### A. Risoluzione del movement_profile dell'unita'
+
 **Verdetto**: campo esplicito sul species master-record **+ derivazione concorrente da morphotype E form**
 (fallback), poi default medium.
 
 `resolveMovementProfile(unit, speciesRecord)` -- precedenza:
+
 1. `speciesRecord.movement_profile` esplicito (`heavy`|`medium`|`light`) se presente;
 2. else `deriveProfile(morphotype, form)` -- morphotype primario (riusa il pattern `speedForMorphotype`
    / `attackRangeFor`: morphotype aereo/volante -> light; corazzato/massiccio -> heavy; else medium),
@@ -63,6 +65,7 @@ Orfani-roster senza morphotype -> medium (robusto). Il profilo risolto e' poi **
 (sez. C/volo), indipendentemente dalla sorgente.
 
 ### B. Calcolo del costo-terreno
+
 **Verdetto**: cheapest-path BFS/Dijkstra su griglia (solo terreno).
 
 `moveCost(from, dest, profile, terrainGrid) -> cost` = path piu' economico `from -> dest` sotto i
@@ -72,12 +75,15 @@ Orfani-roster senza morphotype -> medium (robusto). Il profilo risolto e' poi **
 (mult 1.0) -> `cost == manhattanDistance` -> flag-ON **band-neutral** finche' non c'e' terreno tipato.
 
 ### C. Stato "anchored" (radici)
+
 **Verdetto**: `unit.status` `ancorato` producer/consumer (allinea ai pattern slici 1-7 + PERSISTENT_STATUS_KEYS).
 
 ### D. Semantica del volo
+
 **Verdetto**: graduato -- volo I = solo costo; volo III = costo + hazard-bypass.
 
 ### Sub-decisioni (proposte e confermate nel design)
+
 - **Move-gate ON**: `apCost = max(1, ceil(moveCost) - move_bonus)`. OFF: Manhattan invariato.
 - **Range delle abilita' restano Manhattan** (linea di tiro != costo di cammino). Solo il path "movimento"
   cambia. Distinzione load-bearing -- da ri-verificare puntualmente in fase 1.
@@ -89,6 +95,7 @@ Orfani-roster senza morphotype -> medium (robusto). Il profilo risolto e' poi **
   (NON hard-block, per non rendere dest irraggiungibili a sorpresa); volo III le attraversa free.
 
 ### E. Banda
+
 **N=40 e' un gate obbligatorio** (non una scelta): il substrate cambia la reachability media -> impatta
 win-rate. Fase 4 misura ON vs OFF (paired seed, harness in-process, NO prod); master-dd ratifica la banda
 (SDMG) PRIMA del flip (fase 5).
@@ -100,7 +107,7 @@ win-rate. Fase 4 misura ON vs OFF (paired seed, harness in-process, NO prod); ma
 - **`moveCost.js`** (nuovo, puro): `moveCost(from, dest, profile, terrainGrid)` Dijkstra + helper
   `terrainTypeAt(terrainGrid, x, y) -> type|null`. Zero dipendenze runtime, 100% testabile.
 - **`resolveMovementProfile(unit, speciesRecord)`** (nuovo, puro): precedenza A. Include `deriveProfile`
-  + l'applicazione del modificatore volo (abbassa il profilo verso light per grado).
+  - l'applicazione del modificatore volo (abbassa il profilo verso light per grado).
 - **Move-gate wire** (`session.js` player + AI, `abilityExecutor.js` minion): dietro
   `MOVE_TERRAIN_COST_ENABLED`. ON -> usa `moveCost`; OFF -> Manhattan. Modulo flag in
   `services/combat/` (mirror `staminaFatigue.isFatigueEnabled()`).

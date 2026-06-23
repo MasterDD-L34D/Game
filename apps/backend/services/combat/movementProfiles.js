@@ -36,8 +36,7 @@ function load(yamlPath = DEFAULT_YAML, logger = console) {
   try {
     const text = fs.readFileSync(yamlPath, { encoding: 'utf8' });
     const parsed = yaml.load(text) || {};
-    const profiles =
-      parsed.profiles && typeof parsed.profiles === 'object' ? parsed.profiles : {};
+    const profiles = parsed.profiles && typeof parsed.profiles === 'object' ? parsed.profiles : {};
     _cache = {
       profiles: Object.keys(profiles).length ? profiles : SAFE_PROFILES,
       default_profile:

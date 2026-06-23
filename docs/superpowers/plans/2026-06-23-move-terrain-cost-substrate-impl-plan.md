@@ -66,6 +66,7 @@ trait kit closes (9.5/12 -> 12/12) or coordinate the exact move-gate region. Reb
 ### Task 1: movementProfiles loader
 
 **Files:**
+
 - Create: `apps/backend/services/combat/movementProfiles.js`
 - Test: `tests/services/combat/movementProfiles.test.js`
 
@@ -150,13 +151,11 @@ function load(yamlPath = DEFAULT_YAML, logger = console) {
   try {
     const text = fs.readFileSync(yamlPath, { encoding: 'utf8' });
     const parsed = yaml.load(text) || {};
-    const profiles =
-      parsed.profiles && typeof parsed.profiles === 'object' ? parsed.profiles : {};
+    const profiles = parsed.profiles && typeof parsed.profiles === 'object' ? parsed.profiles : {};
     _cache = {
       profiles: Object.keys(profiles).length ? profiles : SAFE_PROFILES,
-      default_profile: typeof parsed.default_profile === 'string'
-        ? parsed.default_profile
-        : SAFE_DEFAULT_NAME,
+      default_profile:
+        typeof parsed.default_profile === 'string' ? parsed.default_profile : SAFE_DEFAULT_NAME,
     };
   } catch (err) {
     if (logger && logger.warn) logger.warn(`[movementProfiles] load failed: ${err.message}`);
@@ -201,6 +200,7 @@ git commit -F <msg-file>   # subject <=72; trailers Coding-Agent: claude-code + 
 ### Task 2: moveCost pure Dijkstra
 
 **Files:**
+
 - Create: `apps/backend/services/combat/moveCost.js`
 - Test: `tests/services/combat/moveCost.test.js`
 
@@ -236,9 +236,7 @@ test('routes around a costly tile when cheaper', () => {
 test('detours around an expensive wall of tiles', () => {
   // lava (mult 5) blocks the straight corridor at (1,0); detour cheaper.
   const lavaProfile = { terrain_cost_multiplier: { lava: 5, default: 1.0 } };
-  const terrainAt = terrainAtFromFeatures([
-    { x: 1, y: 0, type: 'lava' },
-  ]);
+  const terrainAt = terrainAtFromFeatures([{ x: 1, y: 0, type: 'lava' }]);
   // (0,0)->(2,0): straight enters lava(5)+default(1)=6; detour via y=1 = 4 default tiles = 4.
   assert.equal(moveCost({ x: 0, y: 0 }, { x: 2, y: 0 }, lavaProfile, terrainAt, bounds), 4);
 });
@@ -350,6 +348,7 @@ Expected: PASS (6 tests).
 ### Task 3: movementResolver (profile resolution + volo modifier)
 
 **Files:**
+
 - Create: `apps/backend/services/combat/movementResolver.js`
 - Test: `tests/services/combat/movementResolver.test.js`
 
@@ -578,7 +577,11 @@ test('moveApDistance returns Infinity when unreachable', () => {
   const d = moveApDistance(
     { x: 0, y: 0 },
     { x: 9, y: 9 },
-    { profile: { terrain_cost_multiplier: { default: 1.0 } }, terrainAt: () => null, bounds: { width: 6, height: 6 } },
+    {
+      profile: { terrain_cost_multiplier: { default: 1.0 } },
+      terrainAt: () => null,
+      bounds: { width: 6, height: 6 },
+    },
   );
   assert.equal(d, Infinity);
 });
@@ -609,12 +612,20 @@ function moveApDistance(from, dest, { profile, terrainAt, bounds }) {
 - [ ] **Step 1:** add requires at the move-imports block (near the `evaluateMovementTraits` import):
 
 ```javascript
-const { isMoveTerrainCostEnabled, moveApDistance, terrainAtFromFeatures } = require('../services/combat/moveCost');
-const { resolveMovementProfile, applyVoloGrade, evaluateVoloGrade } = require('../services/combat/movementResolver');
+const {
+  isMoveTerrainCostEnabled,
+  moveApDistance,
+  terrainAtFromFeatures,
+} = require('../services/combat/moveCost');
+const {
+  resolveMovementProfile,
+  applyVoloGrade,
+  evaluateVoloGrade,
+} = require('../services/combat/movementResolver');
 ```
 
 - [ ] **Step 2:** replace the player move distance calc (currently
-`const dist = manhattanDistance(actor.position, dest);` ... `const apCost = Math.max(1, dist - movTraits.move_bonus);`):
+      `const dist = manhattanDistance(actor.position, dest);` ... `const apCost = Math.max(1, dist - movTraits.move_bonus);`):
 
 ```javascript
 const movTraits = evaluateMovementTraits({ registry: traitRegistry, actor });
@@ -624,7 +635,10 @@ if (isMoveTerrainCostEnabled()) {
     resolveMovementProfile(actor, actor.speciesRecord || null),
     evaluateVoloGrade(traitRegistry, actor),
   );
-  const bounds = { width: session.grid?.width || GRID_SIZE, height: session.grid?.height || GRID_SIZE };
+  const bounds = {
+    width: session.grid?.width || GRID_SIZE,
+    height: session.grid?.height || GRID_SIZE,
+  };
   const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
   const cost = moveApDistance(actor.position, dest, { profile, terrainAt, bounds });
   if (!Number.isFinite(cost)) {
@@ -636,11 +650,11 @@ const apCost = Math.max(1, dist - movTraits.move_bonus);
 ```
 
 - [ ] **Step 3:** add an integration test that drives `POST /api/session/:id/action` (move) on a session
-seeded with a `roccia` tile under the path, with `MOVE_TERRAIN_COST_ENABLED=true`, asserting the AP cost is
-higher than the OFF baseline; and a second case with the flag OFF asserting parity with today. Place in
-`tests/api/` mirroring an existing session-action test. Verify it FAILS first, then PASSES.
+      seeded with a `roccia` tile under the path, with `MOVE_TERRAIN_COST_ENABLED=true`, asserting the AP cost is
+      higher than the OFF baseline; and a second case with the flag OFF asserting parity with today. Place in
+      `tests/api/` mirroring an existing session-action test. Verify it FAILS first, then PASSES.
 - [ ] **Step 4:** run `node --test tests/api/<file>.test.js` + the combat suite. Re-run prettier +
-`npm run lint:stack` (late test edits) per the trait-session lesson.
+      `npm run lint:stack` (late test edits) per the trait-session lesson.
 - [ ] **Step 5:** commit.
 
 ### Task 6: wire AI move (`session.js` ~3313) + minion (`abilityExecutor.js` ~610)
@@ -648,12 +662,12 @@ higher than the OFF baseline; and a second case with the flag OFF asserting pari
 **Files:** Modify `apps/backend/routes/session.js`, `apps/backend/services/abilityExecutor.js`.
 
 - [ ] **Step 1:** AI move -- replace `const dist = manhattanDistance(actor.position, dest); actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);`
-with the same flag-gated cost (no `move_bonus`; AI is trusted, so an unreachable result skips the move:
-`if (!Number.isFinite(cost)) { results.push({ actor_id: actor.id, skipped: 'unreachable_terrain' }); continue; }`).
+      with the same flag-gated cost (no `move_bonus`; AI is trusted, so an unreachable result skips the move:
+      `if (!Number.isFinite(cost)) { results.push({ actor_id: actor.id, skipped: 'unreachable_terrain' }); continue; }`).
 - [ ] **Step 2:** minion -- replace `if (manhattanDistance(minion.position, dest) > (Number(minion.mobility) || 1))`
-with a flag-gated `moveApDistance(minion.position, dest, {...}) > mobility` (profile resolved from the minion).
+      with a flag-gated `moveApDistance(minion.position, dest, {...}) > mobility` (profile resolved from the minion).
 - [ ] **Step 3:** tests: extend the move integration test with an AI-move case + a minion `pack_command` case.
-FAIL -> PASS.
+      FAIL -> PASS.
 - [ ] **Step 4:** run combat + api + AI suites (`node --test tests/ai/*.test.js`).
 - [ ] **Step 5:** commit. **Update `docs/hubs/combat.md`** move-gate section (DoD rule 6).
 
@@ -669,17 +683,17 @@ FAIL -> PASS.
 **Files:** `data/core/traits/active_effects.yaml` (+ `add_trait_stub` -> per-trait DB file + index + glossary).
 
 - [ ] **Step 1:** run `add_trait_stub` for `adattamento_volo` (the 5-gate flow: schema-lenient /
-template_validator-STRICT / style-i18n-refs / coverage / QA-baseline export:qa). Validate with
-`template_validator` + `style_check` (NOT schema_gate) per the reproducibility lesson.
+      template_validator-STRICT / style-i18n-refs / coverage / QA-baseline export:qa). Validate with
+      `template_validator` + `style_check` (NOT schema_gate) per the reproducibility lesson.
 - [ ] **Step 2:** define the active-effect entry: `trigger.action_type: movement`, `effect.kind: move_terrain`,
-`effect.grade: 1` (default; per-creature kits override grade 2/3 where flight is stronger),
-IT description + refs. (Mirror an existing movement-trait entry shape; `evaluateVoloGrade` already reads
-`effect.grade`.)
+      `effect.grade: 1` (default; per-creature kits override grade 2/3 where flight is stronger),
+      IT description + refs. (Mirror an existing movement-trait entry shape; `evaluateVoloGrade` already reads
+      `effect.grade`.)
 - [ ] **Step 3:** test: a combat/integration case where a unit with `adattamento_volo` grade 3 moves across
-`lava` at cost 1/tile while a non-flyer pays the hazard cost. FAIL -> PASS.
+      `lava` at cost 1/tile while a non-flyer pays the hazard cost. FAIL -> PASS.
 - [ ] **Step 4:** run combat suite + the trait-data validators (`template_validator`, `style_check`).
 - [ ] **Step 5:** commit. (Trait-data PRs may need the catalog re-baseline path -- see register bucket 5;
-do NOT hand-edit derived `species_catalog.json` / `trait_abilities`; regenerate deterministically.)
+      do NOT hand-edit derived `species_catalog.json` / `trait_abilities`; regenerate deterministically.)
 
 ---
 
@@ -705,7 +719,13 @@ const {
   RADICI_TRAIT,
 } = require('../../../apps/backend/services/combat/anchorState');
 
-const carrier = (extra = {}) => ({ id: 'treant', hp: 20, status: {}, traits: [RADICI_TRAIT], ...extra });
+const carrier = (extra = {}) => ({
+  id: 'treant',
+  hp: 20,
+  status: {},
+  traits: [RADICI_TRAIT],
+  ...extra,
+});
 
 test('activation anchors a carrier when enabled', () => {
   const u = carrier();
@@ -764,7 +784,15 @@ function breakAnchor(unit) {
 function computeAnchorDR(target) {
   return target && target.status && target.status[ANCORATO] ? ANCHOR_DR : 0;
 }
-module.exports = { applyAnchorAtActivation, breakAnchor, computeAnchorDR, ANCORATO, ANCHOR_DR, RADICI_TRAIT, hasTrait };
+module.exports = {
+  applyAnchorAtActivation,
+  breakAnchor,
+  computeAnchorDR,
+  ANCORATO,
+  ANCHOR_DR,
+  RADICI_TRAIT,
+  hasTrait,
+};
 ```
 
 - [ ] **Step 4: run -> PASS.** **Step 5: commit.**
@@ -774,39 +802,39 @@ module.exports = { applyAnchorAtActivation, breakAnchor, computeAnchorDR, ANCORA
 **Files:** Modify `apps/backend/routes/session.js`.
 
 - [ ] **Step 1:** at unit activation/turn-start, call `applyAnchorAtActivation(unit)` for each unit (find the
-turn-start loop; mirror where other per-activation status refreshes run).
+      turn-start loop; mirror where other per-activation status refreshes run).
 - [ ] **Step 2:** in BOTH move handlers (player ~2826, AI ~3313), call `breakAnchor(actor)` at the start of
-the move branch (when the flag is ON) so moving forfeits the DR for the round.
+      the move branch (when the flag is ON) so moving forfeits the DR for the round.
 - [ ] **Step 3:** at the DR mitigation seam (next to `computeCortecciaDR`, ~913): add
-`const anchorDr = computeAnchorDR(target); if (anchorDr > 0) { const reduced = Math.min(anchorDr, damageDealt); damageDealt -= reduced; }`
-(mirror the corteccia block exactly).
+      `const anchorDr = computeAnchorDR(target); if (anchorDr > 0) { const reduced = Math.min(anchorDr, damageDealt); damageDealt -= reduced; }`
+      (mirror the corteccia block exactly).
 - [ ] **Step 4:** add `ANCORATO` to `PERSISTENT_STATUS_KEYS` (the anchor must survive the end-of-round wipe;
-the WIPE not the decay loop -- see slice-7 pigmenti lesson). Grep `PERSISTENT_STATUS_KEYS` to find it.
+      the WIPE not the decay loop -- see slice-7 pigmenti lesson). Grep `PERSISTENT_STATUS_KEYS` to find it.
 - [ ] **Step 5:** test (integration): a treant with `radici_ancora_planare`, flag ON, that does NOT move
-takes 2 less damage; a treant that DOES move takes full damage that round. FAIL -> PASS. Run combat + api suites.
+      takes 2 less damage; a treant that DOES move takes full damage that round. FAIL -> PASS. Run combat + api suites.
 - [ ] **Step 6:** commit. Update `docs/hubs/combat.md`.
 
 ### Task 10: author `radici_ancora_planare` trait (5-gate)
 
 - [ ] Same flow as Task 7: `add_trait_stub`, active-effect entry (difensivo T2, DR-on-anchor description),
-validators, commit. The engine reads the trait id via `hasTrait`; no `effect.grade` needed.
+      validators, commit. The engine reads the trait id via `hasTrait`; no `effect.grade` needed.
 
 ---
 
 ## Phase 4 -- N=40 band measurement (gate, not code-TDD)
 
 - [ ] Run the in-process combat harness paired-seed on `enc_foresta_temperata_radici` (real typed terrain),
-flag ON vs OFF, N>=40, node 22 (calibrate + gate on the SAME node version -- combat sim is not bit-deterministic
-cross node-version; see canonical-forensic lesson). NO prod backend.
+      flag ON vs OFF, N>=40, node 22 (calibrate + gate on the SAME node version -- combat sim is not bit-deterministic
+      cross node-version; see canonical-forensic lesson). NO prod backend.
 - [ ] Record win-rate delta + reachability delta in `docs/reports/YYYY-MM-DD-move-terrain-n40-evidence.md`.
 - [ ] master-dd ratifies the band (SDMG). If out-of-band -> tune profile multipliers / volo grades, re-measure.
 
 ## Phase 5 -- Flip (owner-gated, master-dd hands)
 
 - [ ] Gate: N=40 in-band ratified AND volo/radici player-visible (Gate-5; build the Godot cost-telegraph
-surface if needed -- cross-repo chip). Until then the flag stays OFF.
+      surface if needed -- cross-repo chip). Until then the flag stays OFF.
 - [ ] Flip = `export MOVE_TERRAIN_COST_ENABLED=true` in `~/.config/api-keys/keys.env` + restart the prod task.
-Reversible. NOT autonomous.
+      Reversible. NOT autonomous.
 
 ---
 
