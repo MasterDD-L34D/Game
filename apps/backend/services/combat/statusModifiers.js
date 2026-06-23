@@ -232,6 +232,13 @@ function computeStatusModifiers(actor, target, units = []) {
       effect: '+1 attack_mod (risonanza memetica)',
     });
   }
+  if (isPositive(actorStatus.abbagliato)) {
+    // pigmenti_aurorali glow (creature-trait slice 7): a dazzled unit strikes worse
+    // on its next attack -> -1 attack_mod. Set on adjacent enemies at end-of-round by
+    // combat/pigmentiAurorali while the carrier is HP>=50%; decays 1/round.
+    attackDelta -= 1;
+    log.push({ status: 'abbagliato', side: 'actor', effect: '-1 attack_mod (abbagliato)' });
+  }
 
   // ─── Target-side target-defense buffs/debuffs ───────────────────
   if (isPositive(targetStatus.attuned)) {

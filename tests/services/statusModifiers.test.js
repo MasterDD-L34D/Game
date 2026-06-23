@@ -417,3 +417,13 @@ test('risonanza_memetica (actor) -> +1 attackDelta', () => {
   assert.equal(r.attackDelta, 1);
   assert.ok(r.log.some((e) => e.status === 'risonanza_memetica' && e.side === 'actor'));
 });
+
+// pigmenti_aurorali (creature-trait slice 7): a dazzled attacker (abbagliato) strikes
+// worse -> -1 attackDelta on its next attack.
+test('abbagliato (actor) -> -1 attackDelta', () => {
+  const actor = { id: 'a', status: { abbagliato: 1 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, -1);
+  assert.ok(r.log.some((e) => e.status === 'abbagliato' && e.side === 'actor'));
+});

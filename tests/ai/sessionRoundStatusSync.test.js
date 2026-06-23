@@ -74,6 +74,7 @@ function syncStatusesFromRoundStateSpec(session) {
       'danno_nucleo',
       'nucleo_distrutto',
       'coordinamento',
+      'abbagliato',
     ]);
     for (const id of Object.keys(sessionUnit.status)) {
       if (PERSISTENT.has(id)) continue;
@@ -155,6 +156,19 @@ test('syncStatusesFromRoundState keeps nucleo_distrutto + coordinamento (slice 3
   assert.ok(Number(session.units[0].status.nucleo_distrutto) > 0, 'nucleo_distrutto persists');
   assert.ok(Number(session.units[1].status.coordinamento) > 0, 'coordinamento persists');
   assert.ok(!(Number(session.units[1].status.panic) > 0), 'non-persistent panic still wiped');
+});
+
+test('syncStatusesFromRoundState keeps abbagliato (slice 7 single-use dazzle, wipe-exempt)', () => {
+  // abbagliato (pigmenti_aurorali) is set at end-of-round but read by the enemy's next
+  // attack; it is durable (PERSISTENT, wipe-exempt) + consumed on that attack. Must
+  // survive the round wipe even when not round-tracked yet.
+  const session = {
+    units: [{ id: 'foe', status: { abbagliato: 99, panic: 1 }, status_intensity: {} }],
+    roundState: { units: [{ id: 'foe', statuses: [] }] },
+  };
+  syncStatusesFromRoundStateSpec(session);
+  assert.ok(Number(session.units[0].status.abbagliato) > 0, 'abbagliato persists');
+  assert.ok(!(Number(session.units[0].status.panic) > 0), 'non-persistent panic still wiped');
 });
 
 test('syncStatusesFromRoundState writes array back to session dict', () => {

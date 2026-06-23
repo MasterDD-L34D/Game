@@ -124,6 +124,9 @@ const {
 // Creature-trait slice 5: membrane_osmotiche duration_absorb (-1 on incoming status
 // durations). filtri_bioattivi turn-start cleanse is wired in sessionRoundBridge.
 const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
+// Creature-trait slice 7: consume the single-use abbagliato dazzle on the attack it
+// weakened (pigmenti_aurorali; the end-of-round glow producer is in sessionRoundBridge).
+const { consumeAbbagliato } = require('../services/combat/pigmentiAurorali');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -689,6 +692,17 @@ function createSessionRouter(options = {}) {
         trait: 'corteccia_memetica',
         triggered: true,
         effect: { kind: 'risonanza_spent', actor_id: actor.id },
+      });
+    }
+    // Creature-trait slice 7: abbagliato (pigmenti_aurorali) is single-use -- the dazzle
+    // costs -1 atk on THIS attack (read above), then is spent (hit OR miss). Durable
+    // until consumed (PERSISTENT_STATUS_KEYS) so the end-of-round dazzle survives to the
+    // enemy's next attack. Band-neutral: no sim actor carries it.
+    if (consumeAbbagliato(actor)) {
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'pigmenti_aurorali',
+        triggered: true,
+        effect: { kind: 'abbagliato_spent', actor_id: actor.id },
       });
     }
     // Revert chilled attack penalty (per-attack, non-persistente).
