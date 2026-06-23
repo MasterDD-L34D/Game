@@ -91,16 +91,31 @@ shared branco slot -- the D6=D "categoria distinta" decision), derived from THEI
 3. Map (axis, pole) -> a **minor-pool** `trait_id` (distinct from the branco mapping;
    minor/passive tier). Apply to that player's OWN creature only.
 
-**PROPOSED minor-pool mapping (ratify N=40 -- placeholder, pick T1/passive traits):** a
-SEPARATE 5x2 table of minor/passive `trait_id`s (NOT the branco combat traits above). The
-full pool selection is a ratify item: pick T1/passive-tier traits that exist in
-`data/core/traits/active_effects.yaml`, verify each, balance via N=40. (Do NOT reuse the
-branco mapping ids -- the minor trait must read as a smaller, personal flavor, not a second
-combat trait.)
+**PROPOSED minor-pool mapping (2026-06-23; ratify + N=40).** A SEPARATE 5x2 table of T1
+`trait_id`s, DISTINCT from the branco mapping (the minor trait reads as a smaller, personal
+flavor, not a second branco-combat trait). Tier = **T1-any** (master-dd: thematic fit over
+passive-only). Fit flags: OK unless noted.
 
-**Open calls (ratify):** the minor-pool ids; whether the minor trait is stripped/re-derived
-if the player re-submits (mirror the branco idempotent swap); whether a 2-axis tie inside a
-single player's bars uses mapping order (yes, for determinism).
+| Axis                | + pole (label) | minor trait `+`              | - pole (label) | minor trait `-`                    |
+| ------------------- | -------------- | ---------------------------- | -------------- | ---------------------------------- |
+| solitary_swarm      | Sciame         | `biofilm_glow` (~loose)      | Solitario      | `camere_mirage`                    |
+| explore_caution     | Cauto          | `cuticole_cerose`            | Esplora        | `antenne_dustsense`                |
+| symbiosis_predation | Predazione     | `denti_seghettati`           | Simbiosi       | `comunicazione_fotonica_coda_coda` |
+| memory_instinct     | Memoria        | `mente_focalizzata` (rename) | Istinto        | `ali_fulminee`                     |
+| agile_robust        | Robusto        | `cartilagini_biofibre`       | Agile          | `coda_stabilizzatrice_filo`        |
+
+All ids verified to exist as T1 in `active_effects.yaml` EXCEPT **`mente_focalizzata`**, a
+PROPOSED Evo-Tactics-style **RENAME** of
+`ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06` (internal-processing-speed ->
+"focused" 2t; the ancestor-import naming is renamed to the native style, master-dd
+2026-06-23). **The rename is a schema-ripple task at build time** (active_effects + glossary +
+index + trait_mechanics + Game-Database), NOT done in this draft. `solitary_swarm +` stays
+~loose (a cleaner swarm/collective minor may be authored). Do NOT reuse the branco mapping ids.
+
+**Open calls (ratify):** confirm the proposed ids above (esp. the `solitary_swarm +` ~loose
+cell + the `mente_focalizzata` rename); whether the minor trait is stripped/re-derived if the
+player re-submits (mirror the branco idempotent swap); whether a 2-axis tie inside a single
+player's bars uses mapping order (yes, for determinism).
 
 ## 4. Piece 3 -- random-fill + 2-stage timeout (NEW)
 
@@ -146,14 +161,19 @@ byte-identical to today. The mapping(s) + timing + flat-tie rule stay PROPOSED u
 ## 7. Open calls -- ratify checklist (master-dd + N=40)
 
 1. The flat-tie fallback at threshold 0 (first-axis-+ vs no-emerge).
-2. The minor-pool 5x2 mapping (pick T1/passive ids, verify exist).
+2. The minor-pool 5x2 mapping is now PROPOSED (sec.3); ratify-confirm the ids (esp. the
+   `solitary_swarm +` ~loose cell) + the `mente_focalizzata` rename (a schema-ripple pass:
+   active_effects + glossary + index + trait_mechanics + Game-Database).
 3. Timing defaults + the per-player scaling increment.
 4. Re-derivation on re-submit (strip/swap the minor trait like the branco one?).
 5. Solo applicability.
-6. **Verify wiring**: a code comment in `_applyBrancoTraitEmergence` warns "phone MBTI axes
-   yield no emergent (axis-vocabulary contract = separate issue)" -- confirm the Godot
-   Form-Pulse bars actually send the 5 creature-axis keys that trigger emergence (else the
-   whole system is dormant). Check before build.
+6. **Wiring VERIFIED 2026-06-23** (live wire-truth drive of the real orchestrator): the
+   Godot Form-Pulse bars send the 5 creature-axis keys (`phone_form_pulse_view.gd`
+   `_collect_form_axes`); `wsSession.js` passes `allPlayerIds` (host-excluded, #2073);
+   `submitFormPulse` stores keys verbatim; emergence fires (`ferocia` emerged from a
+   symbiosis_predation-leaning aggregate + applied to ALL characters). The
+   `_applyBrancoTraitEmergence` "phone MBTI axes yield no emergent" comment is STALE --
+   clean it up at build time (doc hygiene, no behavior change).
 
 ## 8. Build plan (after ratify)
 
