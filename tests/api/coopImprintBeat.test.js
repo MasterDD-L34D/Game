@@ -161,3 +161,84 @@ test('hint is NEVER a biome assignment: weights only, no biome_id field', () => 
   const sum = Object.values(hint.weights).reduce((a, b) => a + b, 0);
   assert.ok(Math.abs(sum - 1) < 1e-9);
 });
+
+// --- warning-only deadline timer (master-dd 2026-06-23: warn, never auto-default) ---
+
+// Orchestrator with an injected fake scheduler: captures the armed callback so the test can
+// fire the deadline deterministically (mirror the lethal-consent timer tests).
+function mkTimed(hostId = 'p_h') {
+  let captured = null;
+  const co = new CoopOrchestrator({
+    roomCode: 'IMPR',
+    hostId,
+    now: () => 1000,
+    setTimeoutFn: (cb) => {
+      captured = cb;
+      return { unref() {} };
+    },
+    clearTimeoutFn: () => {},
+  });
+  return { co, fire: () => (captured ? captured() : undefined), armed: () => captured !== null };
+}
+
+test('imprint warning timer: fires -> flag + onTimeout, beat STAYS open, no auto-default', () => {
+  const { co, fire } = mkTimed();
+  let broadcasts = 0;
+  co.openImprint({
+    connectedPlayerIds: ['a', 'b', 'c', 'd'],
+    timeoutMs: 45000,
+    onTimeout: () => (broadcasts += 1),
+  });
+  assert.equal(co.imprintTally().timeout_warning, false, 'no warning before the deadline');
+  fire();
+  const t = co.imprintTally();
+  assert.equal(t.timeout_warning, true, 'flag set on fire');
+  assert.equal(t.open, true, 'beat stays OPEN (warning-only)');
+  assert.equal(t.axes_marked, 0, 'NO auto-default');
+  assert.equal(broadcasts, 1, 'onTimeout invoked so the transport re-broadcasts');
+});
+
+test('imprint warning cleared on complete / force / cancel', () => {
+  let h = mkTimed();
+  const asg = h.co.openImprint({
+    connectedPlayerIds: ['a', 'b', 'c', 'd'],
+    timeoutMs: 45000,
+    onTimeout() {},
+  }).assignment;
+  h.fire();
+  assert.equal(h.co.imprintTally().timeout_warning, true);
+  markSavana(h.co, asg);
+  assert.equal(h.co.imprintTally().timeout_warning, false, 'cleared when the quorum completes');
+
+  h = mkTimed();
+  h.co.openImprint({ connectedPlayerIds: ['a', 'b', 'c', 'd'], timeoutMs: 45000, onTimeout() {} });
+  h.fire();
+  h.co.forceCompleteImprint();
+  assert.equal(h.co.imprintTally().timeout_warning, false, 'cleared on host force');
+
+  h = mkTimed();
+  h.co.openImprint({ connectedPlayerIds: ['a', 'b'], timeoutMs: 45000, onTimeout() {} });
+  h.fire();
+  h.co.cancelImprint();
+  assert.equal(h.co.imprintTally().timeout_warning, false, 'cleared on host cancel');
+});
+
+test('imprint timer: not armed at timeoutMs<=0; fire after close is a guarded no-op', () => {
+  const noTimer = mkTimed();
+  noTimer.co.openImprint({ connectedPlayerIds: ['a', 'b', 'c', 'd'], timeoutMs: 0 });
+  assert.equal(noTimer.armed(), false, 'no timer armed at timeoutMs=0');
+
+  const h = mkTimed();
+  const asg = h.co.openImprint({
+    connectedPlayerIds: ['a', 'b', 'c', 'd'],
+    timeoutMs: 45000,
+    onTimeout() {},
+  }).assignment;
+  markSavana(h.co, asg); // closes the beat (+ clears the timer)
+  h.fire(); // late fire
+  assert.equal(
+    h.co.imprintTally().timeout_warning,
+    false,
+    'late fire does not re-flag a closed beat',
+  );
+});
