@@ -185,6 +185,11 @@ class CoopOrchestrator {
     this.imprintAssignment = null; // { player_id: [axis,...] } | null (set on open)
     this.imprintOpen = false;
     this.brancoBiomeHint = null; // { leans_toward, weights } | null (stamped on quorum)
+    // C2-imprint deadline (master-dd 2026-06-23): WARNING-ONLY timer. On fire the beat
+    // STAYS open + flags `timeout_warning` so the host TV can prompt force/wait -- it does
+    // NOT silently auto-default (the rejected option). Cleared on every resolve/reset.
+    this.imprintTimeoutWarning = false;
+    this._imprintTimer = null;
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -1429,10 +1434,20 @@ class CoopOrchestrator {
   // run-scoped (persists across scenario advances within a run, re-imprinted only on a
   // fresh run -- so it is NOT cleared in advanceScenarioOrEnd).
   _resetImprint() {
+    this._clearImprintTimer();
+    this.imprintTimeoutWarning = false;
     this.imprintMarks.clear();
     this.imprintAssignment = null;
     this.imprintOpen = false;
     this.brancoBiomeHint = null;
+  }
+
+  // Cancel the pending imprint deadline timer, if any (mirror _clearLethalConsentTimer).
+  _clearImprintTimer() {
+    if (this._imprintTimer) {
+      this._clearTimeoutFn(this._imprintTimer);
+      this._imprintTimer = null;
+    }
   }
 
   // Round-robin the 4 fixed axes over the connected players so every axis is owned by
@@ -1451,13 +1466,38 @@ class CoopOrchestrator {
 
   // Host opens the beat (route enforces host). Assigns axes to the connected players,
   // clears any prior marks/hint, marks the beat open. Non-gating: does NOT change phase.
-  openImprint({ connectedPlayerIds = [] } = {}) {
+  openImprint({ connectedPlayerIds = [], timeoutMs, onTimeout } = {}) {
+    this._clearImprintTimer();
+    this.imprintTimeoutWarning = false;
     this.imprintMarks.clear();
     this.brancoBiomeHint = null;
     this.imprintAssignment = this.assignImprintAxes(connectedPlayerIds);
     this.imprintOpen = true;
     this._emit('imprint_opened', { assignment: this.imprintAssignment });
+    this._armImprintTimer(timeoutMs, onTimeout);
     return this.imprintTally();
+  }
+
+  // Arm the WARNING-ONLY deadline (mirror openLethalConsent: DI _setTimeoutFn + unref so it
+  // never keeps the process alive). On fire: flag `timeout_warning` (the beat STAYS open) +
+  // invoke onTimeout so the transport re-broadcasts. NO auto-default / auto-complete --
+  // host force/cancel or the device marks remain the only resolutions.
+  _armImprintTimer(timeoutMs, onTimeout) {
+    if (typeof timeoutMs !== 'number' || timeoutMs <= 0) return;
+    const handle = this._setTimeoutFn(() => {
+      if (!this.imprintOpen) return;
+      this.imprintTimeoutWarning = true;
+      this._emit('imprint_timeout_warning', {});
+      if (typeof onTimeout === 'function') {
+        try {
+          onTimeout(this.imprintTally());
+        } catch (_e) {
+          /* never crash the timer callback (unhandled throw in setTimeout = process exit) */
+        }
+      }
+    }, timeoutMs);
+    if (handle && typeof handle.unref === 'function') handle.unref();
+    this._imprintTimer = handle;
   }
 
   // A player marks ITS assigned axis (device-authority: only the owner may mark an axis).
@@ -1502,6 +1542,7 @@ class CoopOrchestrator {
       all_axes_marked: pending.length === 0,
       per_axis: perAxis,
       branco_biome_hint: this.brancoBiomeHint,
+      timeout_warning: this.imprintTimeoutWarning,
     };
   }
 
@@ -1517,6 +1558,8 @@ class CoopOrchestrator {
     const leans = topBiome(weights);
     this.brancoBiomeHint = leans ? { leans_toward: leans, weights } : null;
     this.imprintOpen = false;
+    this._clearImprintTimer();
+    this.imprintTimeoutWarning = false;
     this._emit('imprint_hint', this.brancoBiomeHint);
     return this.brancoBiomeHint;
   }
@@ -1540,6 +1583,8 @@ class CoopOrchestrator {
 
   // Host cancel (anti-deadlock soft escape). Abandons the beat without a hint.
   cancelImprint() {
+    this._clearImprintTimer();
+    this.imprintTimeoutWarning = false;
     this.imprintOpen = false;
     this.imprintMarks.clear();
     this.imprintAssignment = null;

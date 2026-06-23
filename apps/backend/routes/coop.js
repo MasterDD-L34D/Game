@@ -34,6 +34,14 @@ const { isDeepStrictEqual } = require('node:util');
 // so tests + ops can toggle without re-instantiating the router.
 const worldConfirmQuorumEnabled = () => process.env.WORLD_CONFIRM_QUORUM_ENABLED === 'true';
 
+// C2-imprint WARNING-ONLY deadline (master-dd 2026-06-23): after this many ms with the beat
+// still open, the orchestrator flags `timeout_warning` so the host TV can prompt force/wait.
+// It NEVER auto-defaults / auto-completes. Read at call time + env-overridable; 0 disables.
+const imprintWarningTimeoutMs = () => {
+  const raw = Number(process.env.IMPRINT_WARNING_TIMEOUT_MS);
+  return Number.isFinite(raw) && raw >= 0 ? raw : 45000;
+};
+
 function createCoopRouter({
   lobby,
   coopStore,
@@ -372,7 +380,11 @@ function createCoopRouter({
     // players connect, post-onboarding.
     if (connected.length === 0) return res.status(400).json({ error: 'no_connected_players' });
     try {
-      const tally = orch.openImprint({ connectedPlayerIds: connected });
+      const tally = orch.openImprint({
+        connectedPlayerIds: connected,
+        timeoutMs: imprintWarningTimeoutMs(),
+        onTimeout: () => broadcastCoopState(room, orch),
+      });
       broadcastCoopState(room, orch);
       return res.json({ tally });
     } catch (err) {
