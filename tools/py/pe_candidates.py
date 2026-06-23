@@ -19,10 +19,34 @@ def candidate_C(stats):  # apex-reach (touched >= 95)
     return 1.0 if float(stats.get("pmax", 0.0)) >= APEX else 0.0
 
 
+# Per-run contestedness forms (sec 4.5): mirror the aggregate D/E/F but read a
+# SINGLE run record (rounds / dmg_taken_player / dmg_dealt_player), so the
+# orthogonality experiment (pe_experiment) can correlate them per-run vs `won`.
+# (The _AGGREGATE_FORM D/E/F below feed the composite; these feed the SELECTION.)
+# TURN_TENSION_NORM is defined below -- resolved at call time, not import time.
+def candidate_D(stats):  # turns-to-resolve tension
+    return float(stats.get("rounds", 0.0)) / TURN_TENSION_NORM
+
+
+def candidate_E(stats):  # damage-taken margin (self-normalizing)
+    taken = float(stats.get("dmg_taken_player", 0.0))
+    dealt = float(stats.get("dmg_dealt_player", 0.0))
+    total = taken + dealt
+    return taken / total if total > 0 else 0.0
+
+
+def candidate_F(stats):  # combined (geometric mean of D,E)
+    d = max(0.0, min(1.0, candidate_D(stats)))
+    return (d * candidate_E(stats)) ** 0.5
+
+
 CANDIDATES = {
     "A_sustained_threat": candidate_A,
     "B_time_avg": candidate_B,
     "C_apex_reach": candidate_C,
+    "D_turns_contest": candidate_D,
+    "E_dmg_margin": candidate_E,
+    "F_contest_combined": candidate_F,
 }
 
 

@@ -20,6 +20,10 @@ def run_to_stats(run):
         "frac_ge75": run.get("pressure_frac_ge75", 0.0),
         "pressure_mean": run.get("pressure_mean", 0.0),
         "pmax": run.get("pressure_pmax", 0.0),
+        # contestedness (sec 4.5) -- per-run turns + party damage (already on every record).
+        "rounds": run.get("rounds", 0.0),
+        "dmg_taken_player": run.get("dmg_taken_player", 0.0),
+        "dmg_dealt_player": run.get("dmg_dealt_player", 0.0),
     }
     return stats, run.get("outcome") == "victory"
 
