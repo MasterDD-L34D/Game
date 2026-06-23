@@ -12707,9 +12707,31 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-aa01-imprint-route-vote-weighting-design-note.md",
+      "title": "Imprint route-vote affinity weighting -- design-note (D5, master-dd-gated PROPOSAL)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md",
       "title": "Form-Pulse trait v2 -- N=40 grant-power ratify evidence (master-dd verdict pending)",
       "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md",
+      "title": "Imprint axis->trait grant -- design spec DRAFT (D6, NON-band-neutral, master-dd ratify)",
+      "doc_status": "draft",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-23",
