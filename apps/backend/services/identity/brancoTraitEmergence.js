@@ -68,20 +68,18 @@ const PROPOSED_BRANCO_TRAIT_MAPPING = {
 // Form-Pulse trait v2 -- Piece 2: per-player MINOR trait pool (spec 2026-06-23, PROPOSED;
 // ratify + N=40). A SEPARATE, distinct-category 5x2 table of T1 trait_ids -- the minor trait
 // reads as a smaller, personal flavor, NEVER a second branco-combat trait (so it must not
-// reuse any PROPOSED_BRANCO_TRAIT_MAPPING id). `memory_instinct +` uses the `ancestor_` id --
-// which is a RATIFIED Phase-2 naming convention (ADR-2026-04-27, wiki provenance), NOT import
-// sludge: the `ancestor_` prefix is load-bearing (DC-01 lint exemption, trait_schema_gate). The
-// spec's `mente_focalizzata` is a master-dd CONVENTION-OVERRIDE (istruttoria on branch
-// docs/ancestor-trait-rename-istruttoria), NOT a trivial cleanup; keep the ratified id here
-// unless/until that override lands. `solitary_swarm +` is ~loose (a cleaner minor may be authored).
+// reuse any PROPOSED_BRANCO_TRAIT_MAPPING id). Every id must be a RELIABLE T1 effect (no
+// engine-inert / heavily-gated picks): the harsh review (PR #2992) caught that the original
+// `memory_instinct` picks were broken -- `ancestor_autocontrollo_...fr_06` is engine-INERT
+// (its requires_target_tag enemy-tag system is not wired) and `ali_fulminee` is elevation-gated
+// (fires ~never on flat maps). Replaced with `sensori_planctonici` (memetic pattern-read,
+// damage_reduction, reliable on-hit) and `coda_prensile_muscolare` (reactive grip, apply_status,
+// reliable on-hit). `solitary_swarm +` stays ~loose. Pool stays PROPOSED (ratify + N=40).
 const PROPOSED_MINOR_TRAIT_MAPPING = {
   solitary_swarm: { '+': 'biofilm_glow', '-': 'camere_mirage' },
   explore_caution: { '+': 'cuticole_cerose', '-': 'antenne_dustsense' },
   symbiosis_predation: { '+': 'denti_seghettati', '-': 'comunicazione_fotonica_coda_coda' },
-  memory_instinct: {
-    '+': 'ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06',
-    '-': 'ali_fulminee',
-  },
+  memory_instinct: { '+': 'sensori_planctonici', '-': 'coda_prensile_muscolare' },
   agile_robust: { '+': 'cartilagini_biofibre', '-': 'coda_stabilizzatrice_filo' },
 };
 

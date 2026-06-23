@@ -117,9 +117,28 @@ test('emergePlayerMinorTrait: dominant collides with branco -> 2nd-strongest (CO
   assert.equal(out.trait_id, 'cuticole_cerose');
 });
 
-test('emergePlayerMinorTrait: empty / flat bars -> null', () => {
+test('emergePlayerMinorTrait: invalid / empty axes -> null', () => {
   assert.equal(emergePlayerMinorTrait({}, 'symbiosis_predation'), null);
   assert.equal(emergePlayerMinorTrait(null, null), null);
+});
+
+test('emergePlayerMinorTrait: all-zero bars -> deterministic first-key fallback (NOT null)', () => {
+  // Harsh-review P2-C: a player who leaned NOTHING (all bars exactly 0) is not "empty" -- the
+  // argmax picks the first mapping axis (excluding the branco axis on collision), pole + (0>=0).
+  // Documented as the defined tie-break; bars are continuous so exact-0 is an edge case.
+  const out = emergePlayerMinorTrait(
+    {
+      solitary_swarm: 0,
+      explore_caution: 0,
+      symbiosis_predation: 0,
+      memory_instinct: 0,
+      agile_robust: 0,
+    },
+    'symbiosis_predation',
+  );
+  assert.ok(out, 'all-zero bars still yield a (fallback) minor trait');
+  assert.equal(out.axis, 'solitary_swarm', 'first non-branco axis in mapping order');
+  assert.equal(out.pole, '+');
 });
 
 test('PROPOSED_MINOR_TRAIT_MAPPING is DISTINCT from the branco mapping (no shared ids)', () => {

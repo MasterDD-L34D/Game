@@ -203,9 +203,12 @@ class CoopOrchestrator {
     // NOT silently auto-default (the rejected option). Cleared on every resolve/reset.
     this.imprintTimeoutWarning = false;
     this._imprintTimer = null;
-    // Form-Pulse trait v2 Piece 3: 2-stage timeout (warn -> auto random-fill) timer handles.
+    // Form-Pulse trait v2 Piece 3: 2-stage timeout (warn -> auto random-fill) timer handles +
+    // the warn flag (mirror imprintTimeoutWarning; reset on every run transition so it never
+    // bleeds a stale `true` into a fresh form_pulse phase -- harsh-review P2 #2992).
     this._formPulseWarnTimer = null;
     this._formPulseAutoTimer = null;
+    this.formPulseTimeoutWarning = false;
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -339,6 +342,7 @@ class CoopOrchestrator {
     this.formPulses.clear();
     this.playerMinorTraits.clear();
     this._clearFormPulseTimer();
+    this.formPulseTimeoutWarning = false;
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -389,6 +393,7 @@ class CoopOrchestrator {
     this.formPulses.clear();
     this.playerMinorTraits.clear();
     this._clearFormPulseTimer();
+    this.formPulseTimeoutWarning = false;
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -1896,6 +1901,7 @@ class CoopOrchestrator {
     this.formPulses.clear();
     this.playerMinorTraits.clear();
     this._clearFormPulseTimer();
+    this.formPulseTimeoutWarning = false;
     this.emergentBrancoTrait = null;
     this.revealAcks.clear();
     // Codex #2794 P1: consent is per-scenario (a lethal mission = a scenario),

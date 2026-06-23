@@ -26,59 +26,68 @@ The spec flags one ratify-blocking concern: **how much combat power does v2 add 
 
 ## 2. Method
 
-`tools/sim/fp-trait-delta-probe.js` (sibling of the ratified `fp-delta-probe.js`): N=40
-synthetic co-op teams (2-4 players, each 5 random bars in [-1,1], seeded LCG -> reproducible).
-Each team is run through the REAL engine (`aggregateFormPulses` + `emergeBrancoTrait` +
+`tools/sim/fp-trait-delta-probe.js` (sibling of the ratified `fp-delta-probe.js`): synthetic
+co-op teams (2-4 players, each 5 random bars in [-1,1], seeded LCG -> reproducible). Each team
+runs through the REAL engine (`aggregateFormPulses` + `emergeBrancoTrait` +
 `emergePlayerMinorTrait`) under BOTH arms; the only difference is the v2 flag (threshold 0 +
 minor grants), so the measured delta IS the feature (paired, zero between-arm variance).
-Combat power = a proxy from `active_effects.yaml` effect magnitudes (extra_damage /
-damage_reduction / heal / buff_stat / attack_bonus = amount; apply_status = 1.5;
-persistent_marker = 1; else 0.5). Branco trait counts once per creature (shared, N x); each
-player's minor counts once.
 
-## 3. Results (4 seeds, N=40 each)
+Combat power = an **effective-power proxy** from `active_effects.yaml`: base effect magnitude,
+then **gating-discounted** (a `min_mos>=5` gate x0.6; `requires: posizione_sopraelevata`
+elevation x0.25; an unwired `requires_target_tag` -> x0 = engine-inert) and **tier-scaled**
+(T2 x1.2, T3 x1.6); ally-synergy traits with no `.effect` (e.g. `legame_di_branco`) score ~2.
+Branco counts once per creature (shared, N x); each player's minor counts once. The proxy was
+hardened after the harsh review (PR #2992) which caught the flat-magnitude version over/under-
+counting gated, inert, and synergy traits.
 
-| seed     | branco emergence (base -> v2) | minor/team | power added / team (CI95) | / creature (CI95) |
-| -------- | ----------------------------- | ---------- | ------------------------- | ----------------- |
-| 20260623 | 85.0% -> 100%                 | 3.08       | **4.31** (3.59 .. 5.03)   | 1.38 (1.21..1.54) |
-| 7        | 95.0% -> 100%                 | 2.92       | 3.94 (3.40 .. 4.48)       | ~1.3              |
-| 99       | 90.0% -> 100%                 | 3.00       | 4.04 (3.41 .. 4.67)       | ~1.3              |
-| 2026     | 92.5% -> 100%                 | 2.85       | 3.65 (3.17 .. 4.13)       | ~1.3              |
+## 3. Results (improved proxy + fixed minor pool)
+
+| sample                | branco emergence (base -> v2) | minor/team | power added / team (CI95) | / creature (CI95)       |
+| --------------------- | ----------------------------- | ---------- | ------------------------- | ----------------------- |
+| N=40 (probe)          | 85% -> 100%                   | 3.08       | 4.14 (3.26 .. 5.01)       | 1.31 (1.10 .. 1.51)     |
+| **N=200 (canonical)** | --                            | --         | **3.72** (3.39 .. 4.05)   | **1.21** (1.14 .. 1.29) |
+
+N=40 is a direction-probe (CI95 ~+-16% of mean); **N=200 is the canonical figure** (CI95 ~+-6%,
+genuinely tight). The original N=40 4-seed table (older flat proxy, means 1.28-1.38/creature)
+is superseded by this run.
 
 ## 4. Reading
 
-- **Power added / team ~= 3.65 - 4.31, tight + overlapping CI95 (~3.2 .. 5.0) across seeds.**
-  The effect is CONSISTENT, not a swingy outlier -- a calibratable constant.
-- **Per creature ~= 1.3 - 1.4 power** = roughly **one extra T1 trait per creature**, almost
-  entirely from the per-player MINOR trait (each creature gains one).
-- **Always-emerge (threshold 0) is nearly free**: it only lifts branco coverage from ~85-95%
-  to 100% (the +5-15% weak-lean teams), a small share of the total add.
-- So the power source is the **per-player minor traits**, not the threshold change.
+- **Power added ~= 1.21 / creature (N=200, tight CI95 1.14 .. 1.29).** A MODERATE, PREDICTABLE
+  buff -- a calibratable constant, not a swingy outlier.
+- The granted traits span **T1-T3** (NOT "one T1 trait", a claim the harsh review corrected):
+  the branco `memory_instinct +` pole is **T3** `cervello_predittivo` (2-turn stun), so a team
+  leaning that axis gets a structurally stronger branco award than a `explore_caution +` team
+  (double-gated T2). The proxy tier-scales for this; the per-axis spread is the residual risk.
+- Almost all the add is the **per-player MINOR trait** (each creature gains one).
+- **Always-emerge (threshold 0) is nearly free**: it only lifts branco coverage from ~85% to
+  100% (the weak-lean teams), a small share of the total.
 
 ## 5. Recommendation (for the master-dd verdict)
 
-- **Threshold -> 0 (always-emerge): LOW-RISK to ratify.** Marginal power, just removes the
+- **Threshold -> 0 (always-emerge): LOW-RISK to ratify.** Marginal power; removes the
   "indeciso -> nothing" dead-end.
-- **Per-player minor traits: the real P6 lever.** ~+1 trait-equiv/creature is a MODERATE,
-  PREDICTABLE buff (tight CI95). Two clean ways to ratify in balance:
-  1. Pair the flag flip with an **encounter-difficulty offset** worth ~1.4 power/creature
-     (the buff is a constant -> offsettable), OR
-  2. Keep the minor-pool **genuinely minor** (cap effect magnitude; some current picks like
-     `denti_seghettati`/`ali_fulminee` carry apply_status/extra_damage = on the higher end).
-- Either path keeps the team's NET power near baseline while preserving the "every player
-  leaves a personal mark" design.
+- **Per-player minor traits: the real P6 lever** (~1.2 power-equiv/creature). Two clean paths:
+  1. Pair the flag flip with an **encounter-difficulty offset** worth ~1.2 power/creature
+     (the buff is a near-constant -> offsettable; the offset is DIRECTIONAL, confirm with a
+     real combat A/B before fixing the exact number), OR
+  2. Keep the minor pool **genuinely minor** (cap effect magnitude / tier). The pool was
+     already hardened in this PR (the inert `ancestor_autocontrollo...` + elevation-gated
+     `ali_fulminee` picks replaced with reliable `sensori_planctonici` / `coda_prensile_muscolare`).
+- Either path keeps NET team power near baseline while preserving "every player leaves a mark".
 
 ## 6. Caveats
 
-- The power-proxy is a **heuristic** (effect magnitude), NOT a live combat win-rate. It bounds
-  the GRANT magnitude; a full combat A/B (`tests/smoke/ai-driven-sim.js` with the granted
-  traits, N=40) would refine the win-rate delta -- a follow-up if master-dd wants win-rate, not
-  just power.
-- The minor-pool ids + the branco threshold stay **PROPOSED** until this verdict.
-- N=40 per seed; 4 seeds shown for stability. Reproduce: `node tools/sim/fp-trait-delta-probe.js`.
+- The proxy is gating-discounted + tier-scaled but STILL a heuristic -- it cannot model
+  encounter terrain / enemy composition, so the offset is **directional**. A full combat A/B
+  (`tests/smoke/ai-driven-sim.js` with the granted traits) is the follow-up if master-dd wants
+  a win-rate, not a power estimate.
+- The branco threshold + both mappings (branco + minor) stay **PROPOSED** until this verdict.
+- Edge: a player with all-zero bars gets a deterministic first-axis fallback minor (not null);
+  bars are continuous so exact-0 is rare (test documents it).
 
 ## 7. Disposition
 
 **Evidence delivered; ratification pending master-dd.** No flag is flipped on this report.
 On ratify, set the encounter offset / minor-tier cap (sec.5) before `FORM_PULSE_TRAIT_V2_ENABLED`
-is ever turned ON.
+is ever turned ON. Reproduce: `node tools/sim/fp-trait-delta-probe.js --n 200`.

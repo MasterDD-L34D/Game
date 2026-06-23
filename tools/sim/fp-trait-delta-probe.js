@@ -47,29 +47,52 @@ function lcg(seed) {
 }
 const rnd = lcg(SEED);
 
-// Power proxy: map a granted trait_id to a scalar "combat power" from active_effects.yaml.
+// EFFECTIVE-power proxy (harsh-review #2992 hardening): map a granted trait_id to an expected
+// combat-power scalar from active_effects.yaml -- base effect magnitude, then DISCOUNTED by how
+// reliably the trait fires (a MoS>=5 / elevation / unwired-enemy-tag gate fires far less often
+// than an on-hit effect) and SCALED by tier (T2/T3 ceilings exceed the raw amount). Still a
+// heuristic: it cannot model encounter terrain / enemy composition -- the offset it informs is
+// DIRECTIONAL, ratify with a real combat A/B or N=200.
 const TRAITS = yaml.load(
   fs.readFileSync(path.resolve(__dirname, '../../data/core/traits/active_effects.yaml'), 'utf8'),
 ).traits;
 function traitPower(traitId) {
   const t = TRAITS[traitId];
-  if (!t || !t.effect) return 0.5;
-  const e = t.effect;
-  const amt = Number(e.amount);
-  switch (e.kind) {
-    case 'extra_damage':
-    case 'damage_reduction':
-    case 'heal':
-    case 'buff_stat':
-    case 'attack_bonus':
-      return Number.isFinite(amt) ? amt : 1;
-    case 'apply_status':
-      return 1.5; // a status effect ~ moderate value
-    case 'persistent_marker':
-      return 1;
-    default:
-      return 0.5;
+  if (!t) return 0;
+  let base;
+  if (!t.effect) {
+    // No `.effect` key: ally-synergy traits (e.g. legame_di_branco) use triggers_on_ally_attack
+    // -- a per-creature conditional buff, ~2 power; otherwise an unmodelled trait ~0.5.
+    base =
+      t.triggers_on_ally_attack || (t.trigger && t.trigger.triggers_on_ally_attack) ? 2.0 : 0.5;
+  } else {
+    const amt = Number(t.effect.amount);
+    switch (t.effect.kind) {
+      case 'extra_damage':
+      case 'damage_reduction':
+      case 'heal':
+      case 'buff_stat':
+      case 'attack_bonus':
+        base = Number.isFinite(amt) ? amt : 1;
+        break;
+      case 'apply_status':
+        base = 1.5;
+        break;
+      case 'persistent_marker':
+        base = 1;
+        break;
+      default:
+        base = 0.5;
+    }
   }
+  const tr = t.trigger || {};
+  let mult = 1;
+  if (Number(tr.min_mos) >= 5) mult *= 0.6; // MoS>=5 is uncommon
+  if (tr.requires === 'posizione_sopraelevata') mult *= 0.25; // elevation terrain is rare
+  if (tr.requires_target_tag) mult *= 0; // enemy-tag system not wired -> engine-inert
+  if (t.tier === 'T3') mult *= 1.6;
+  else if (t.tier === 'T2') mult *= 1.2;
+  return base * mult;
 }
 
 function randomTeam() {
