@@ -96,24 +96,24 @@ shared branco slot -- the D6=D "categoria distinta" decision), derived from THEI
 flavor, not a second branco-combat trait). Tier = **T1-any** (master-dd: thematic fit over
 passive-only). Fit flags: OK unless noted.
 
-| Axis                | + pole (label) | minor trait `+`              | - pole (label) | minor trait `-`                    |
-| ------------------- | -------------- | ---------------------------- | -------------- | ---------------------------------- |
-| solitary_swarm      | Sciame         | `biofilm_glow` (~loose)      | Solitario      | `camere_mirage`                    |
-| explore_caution     | Cauto          | `cuticole_cerose`            | Esplora        | `antenne_dustsense`                |
-| symbiosis_predation | Predazione     | `denti_seghettati`           | Simbiosi       | `comunicazione_fotonica_coda_coda` |
-| memory_instinct     | Memoria        | `mente_focalizzata` (rename) | Istinto        | `ali_fulminee`                     |
-| agile_robust        | Robusto        | `cartilagini_biofibre`       | Agile          | `coda_stabilizzatrice_filo`        |
+| Axis                | + pole (label) | minor trait `+`         | - pole (label) | minor trait `-`                    |
+| ------------------- | -------------- | ----------------------- | -------------- | ---------------------------------- |
+| solitary_swarm      | Sciame         | `biofilm_glow` (~loose) | Solitario      | `camere_mirage`                    |
+| explore_caution     | Cauto          | `cuticole_cerose`       | Esplora        | `antenne_dustsense`                |
+| symbiosis_predation | Predazione     | `denti_seghettati`      | Simbiosi       | `comunicazione_fotonica_coda_coda` |
+| memory_instinct     | Memoria        | `sensori_planctonici`   | Istinto        | `coda_prensile_muscolare`          |
+| agile_robust        | Robusto        | `cartilagini_biofibre`  | Agile          | `coda_stabilizzatrice_filo`        |
 
-All ids verified to exist as T1 in `active_effects.yaml` EXCEPT **`mente_focalizzata`**, a
-PROPOSED Evo-Tactics-style **RENAME** of
-`ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06` (internal-processing-speed ->
-"focused" 2t; the ancestor-import naming is renamed to the native style, master-dd
-2026-06-23). **The rename is a schema-ripple task at build time** (active_effects + glossary +
-index + trait_mechanics + Game-Database), NOT done in this draft. `solitary_swarm +` stays
-~loose (a cleaner swarm/collective minor may be authored). Do NOT reuse the branco mapping ids.
+All ids verified to exist as RELIABLE T1 effects in `active_effects.yaml`. **Updated after the
+harsh review of the build (Game #2992)**: the original `memory_instinct` picks were broken --
+`ancestor_autocontrollo_...fr_06` is engine-INERT (its `requires_target_tag` enemy-tag system is
+not wired) and `ali_fulminee` is elevation-gated (~never fires on flat maps) -- replaced with
+`sensori_planctonici` (memetic pattern-read, damage*reduction) + `coda_prensile_muscolare`
+(reactive grip, apply_status), both reliable on-hit. The earlier `mente_focalizzata` rename
+proposal is DROPPED (the ancestor id is no longer used; per the istruttoria the `ancestor*`naming is a ratified convention anyway).`solitary_swarm +` stays ~loose. Do NOT reuse branco ids.
 
 **Open calls (ratify):** confirm the proposed ids above (esp. the `solitary_swarm +` ~loose
-cell + the `mente_focalizzata` rename); whether the minor trait is stripped/re-derived if the
+cell); whether the minor trait is stripped/re-derived if the
 player re-submits (mirror the branco idempotent swap); whether a 2-axis tie inside a single
 player's bars uses mapping order (yes, for determinism).
 
@@ -161,9 +161,8 @@ byte-identical to today. The mapping(s) + timing + flat-tie rule stay PROPOSED u
 ## 7. Open calls -- ratify checklist (master-dd + N=40)
 
 1. The flat-tie fallback at threshold 0 (first-axis-+ vs no-emerge).
-2. The minor-pool 5x2 mapping is now PROPOSED (sec.3); ratify-confirm the ids (esp. the
-   `solitary_swarm +` ~loose cell) + the `mente_focalizzata` rename (a schema-ripple pass:
-   active_effects + glossary + index + trait_mechanics + Game-Database).
+2. The minor-pool 5x2 mapping is now PROPOSED (sec.3, hardened post harsh-review #2992 to
+   reliable T1 ids); ratify-confirm the ids (esp. the `solitary_swarm +` ~loose cell).
 3. Timing defaults + the per-player scaling increment.
 4. Re-derivation on re-submit (strip/swap the minor trait like the branco one?).
 5. Solo applicability.
