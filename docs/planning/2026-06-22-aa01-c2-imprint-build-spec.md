@@ -290,8 +290,14 @@ Refinements made during the build (vs the spec above):
   affinity).
 - **STEP 3 surface = coop-state** (`branco_biome_hint` in `broadcastCoopState` +
   reconnect/host-transfer/disconnect parity + guarded `snapshot()`). The
-  `publicSessionView` in-match field is DEFERRED -- co-op clients read coop-state, which
-  carries the run-scoped hint; thin follow-up if a combat-only consumer ever needs it.
+  `publicSessionView` in-match field is DEFERRED (D3) -- co-op clients read coop-state,
+  which carries the run-scoped hint; thin follow-up only if a combat-only consumer ever
+  needs it. **Verified 2026-06-23: no such consumer exists** -- the only imprint-hint
+  consumer is the Godot phone chip (`phone_imprint_hint_chip.gd`), mounted on the composer
+  root so it persists into combat and reads the hint off coop-state (`imprint_tally`); no
+  TV / combat-HUD surface reads `publicSessionView` for the hint. Adding the field now =
+  engine-LIVE / surface-DEAD (Gate-5). Stays deferred; build only if a future solo /
+  non-coop combat HUD needs it.
 - **Anti-deadlock** = host `POST /coop/imprint/force` (explicit force-complete with
   defaults) + host cancel. The silent auto-timer (build-spec open-risk) stays a master-dd
   design call; NOT built.
@@ -301,3 +307,16 @@ Refinements made during the build (vs the spec above):
 Residual (NOT in this MVP): Godot surface chip (cross-repo, prereq = #2970 merged) ->
 flip `IMPRINT_BEAT_ENABLED` after surface + playtest; `publicSessionView` field;
 auto-timer (master-dd); route-vote weighting (meta-network flip); axis->trait grant.
+
+**2026-06-23 disposition of the deferred residuals** (full tracker:
+[`2026-06-22-aa01-deferred-tracker.md`](2026-06-22-aa01-deferred-tracker.md)):
+
+- **D3 `publicSessionView` field** -> stays DEFERRED. Gate-5 verified (above): coop-state
+  already delivers the hint in-match; no consumer reads `publicSessionView`. No build.
+- **D5 route-vote weighting** -> design-note
+  [`2026-06-23-aa01-imprint-route-vote-weighting-design-note.md`](2026-06-23-aa01-imprint-route-vote-weighting-design-note.md)
+  (PROPOSED; doubly-gated behind `META_NETWORK_ROUTING` + Godot route-UI; SDMG semantics;
+  no build now).
+- **D6 axis->trait grant** -> spec DRAFT
+  [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md)
+  (NON-band-neutral new feature; master-dd ratify + N=40 before any code).

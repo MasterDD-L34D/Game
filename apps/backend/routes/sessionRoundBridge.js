@@ -116,6 +116,17 @@ function createRoundBridge(deps) {
     } catch {
       /* sgTracker optional */
     }
+    // Creature-trait kit (trait 12): re-anchor radici carriers at each round start
+    // (mirrors the filtri/pigmenti slice wires). A move during the round breaks the
+    // anchor. Best-effort, band-neutral (no live unit carries radici_ancora_planare).
+    try {
+      const { applyAnchorAtActivation } = require('../services/combat/anchorState');
+      for (const u of session.units || []) {
+        if (u && u.hp > 0) applyAnchorAtActivation(u);
+      }
+    } catch {
+      /* anchor module optional */
+    }
   }
 
   // Validates a player intent action against current session state.
@@ -337,6 +348,16 @@ function createRoundBridge(deps) {
         'danno_nucleo',
         'nucleo_distrutto',
         'coordinamento',
+        // Creature-trait slice 7: abbagliato (pigmenti dazzle) is set at end-of-round and
+        // read by the enemy's next attack -> wipe-exempt; it rides a high TTL vs the decay
+        // and is removed by consumeAbbagliato on that attack (single-use).
+        'abbagliato',
+        // Creature-trait kit (trait 12): ancorato (radici anchor DR2) is set at round
+        // start (producer) and held for the whole round unless a move breaks it ->
+        // wipe-exempt so the mid-round status sync cannot clear a standing carrier's DR.
+        // (PERSISTENT guards the WIPE, not the decay loop; the producer re-sets DR2 each
+        // round so no decay applies -- slice-7 pigmenti lesson.)
+        'ancorato',
       ]);
       for (const id of Object.keys(sessionUnit.status)) {
         if (PERSISTENT_STATUS_KEYS.has(id)) continue;
@@ -1009,6 +1030,32 @@ function createRoundBridge(deps) {
       refreshNucleiCoordinamento(session.units || []);
     } catch {
       // best-effort: don't block round-end if the aura producer is missing
+    }
+
+    // Creature-trait slice 5: filtri_bioattivi bio-filter -- once-per-round passive
+    // cleanse of 1 bleeding + 1 fracture + heal 1 per cleanse (object-map). Run at
+    // end-of-round so the carrier starts the next round cleaner ("turn-start" realized
+    // as once-per-round). Best-effort, band-neutral (no sim unit carries the trait).
+    try {
+      const { applyTurnStartCleanse } = require('../services/combat/filtriBioattivi');
+      for (const unit of session.units || []) {
+        applyTurnStartCleanse(unit);
+      }
+    } catch {
+      // best-effort: don't block round-end if the filter module is missing
+    }
+
+    // Creature-trait slice 7: pigmenti_aurorali glow -- while a carrier is HP>=50%,
+    // dazzle (abbagliato, -1 atk next) the enemies ending adjacent. End-of-round sweep.
+    // Best-effort, band-neutral (no sim unit carries the trait).
+    try {
+      const { applyEndRoundGlow } = require('../services/combat/pigmentiAurorali');
+      const roster = session.units || [];
+      for (const carrier of roster) {
+        applyEndRoundGlow({ carrier, units: roster });
+      }
+    } catch {
+      // best-effort: don't block round-end if the glow module is missing
     }
 
     // Status engine extension: HP regen ticks (`fed` + `healing`).

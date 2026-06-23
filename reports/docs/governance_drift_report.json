@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-06-23T13:00:07+00:00",
+  "generated_at": "2026-06-23T21:20:30+00:00",
   "summary": {
-    "total": 16,
+    "total": 20,
     "errors": 0,
-    "warnings": 16
+    "warnings": 20
   },
   "issues": [
     {
@@ -57,6 +57,12 @@
     {
       "level": "warning",
       "code": "unregistered_document",
+      "path": "docs/playtest/2026-06-23-pe-contestedness-orthogonality-n100.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
       "path": "docs/reports/2026-06-22-drift-audit.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     },
@@ -93,6 +99,18 @@
     {
       "level": "warning",
       "code": "unregistered_document",
+      "path": "docs/superpowers/plans/2026-06-23-move-terrain-cost-substrate-impl-plan.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/superpowers/plans/2026-06-23-move-terrain-cost-substrate-plan.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
       "path": "docs/superpowers/specs/2026-06-22-creature-trait-mechanics-design.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     },
@@ -100,6 +118,12 @@
       "level": "warning",
       "code": "unregistered_document",
       "path": "docs/superpowers/specs/2026-06-22-od024-engine2-stamina-fatigue-design.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/superpowers/specs/2026-06-23-move-terrain-cost-substrate-design.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     }
   ]

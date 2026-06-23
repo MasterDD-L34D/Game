@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-23T11:35:26.551659Z",
+  "generated_at": "2026-06-23T12:44:28.855191Z",
   "summary": {
-    "total_traits": 294,
-    "glossary_ok": 294,
+    "total_traits": 297,
+    "glossary_ok": 297,
     "glossary_missing": 0,
-    "matrix_ok": 186,
+    "matrix_ok": 189,
     "matrix_mismatch": 108,
     "with_conflicts": 28,
-    "matrix_only_traits": 36
+    "matrix_only_traits": 33
   },
   "checks": {
     "traits": {
-      "passed": 294,
-      "total": 294,
+      "passed": 297,
+      "total": 297,
       "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 108
@@ -29,18 +29,18 @@
       "ciclo_vitale_anomalo",
       "ciclo_vitale_completo",
       "eco_sismico",
-      "filtri_bioattivi",
       "fisiologia_predatoria",
       "fotosintesi_bifase",
       "ghiandole_nettare_memetico",
       "intangibilita_parziale",
       "lamenti_diradanti",
       "maschera_illusoria",
-      "membrane_osmotiche",
       "metabolismo_attivo",
       "metabolismo_sostentato",
       "nodi_micotici",
-      "origine_artificiale"
+      "origine_artificiale",
+      "pigmenti_termici",
+      "proboscide_polifaga"
     ],
     "matrix_mismatch_traits": [
       "aculei_velenosi",

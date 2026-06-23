@@ -4,7 +4,7 @@
 //   1. Canon files (glossary/index/biome_pools/active_effects) declare schema_version 2.0.
 //   2. Mock traits.sample.ts retired post TKT-CL-08 (skipped pending TKT-CL-08 ship).
 //   3. PUT /api/traits/:id rejects schema-invalid payload (smoke -- expansion follow-up).
-//   4. Glossary entry with prefix ancestor_ may omit design block (Tier-Ancestor policy).
+//   4. Ancestors fully migrated to native ids (Option C, 2026-06-23): 0 ancestor_ slugs remain.
 //   5. Index entry non-ancestor requires design block (tier + famiglia_tipologia + slot_profile).
 //   6. Pre-commit gate exits 1 on schema_version != 2.0 (sandbox temp file).
 //
@@ -60,22 +60,16 @@ test(
   },
 );
 
-test('glossary ancestor_ entries may omit design block (Tier-Ancestor policy)', () => {
+test('glossary has no ancestor_ entries (migrated to native ids -- Option C 2026-06-23)', () => {
+  // Option C (master-dd, istruttoria 2026-06-23 / PR Game#2993): the 290 ancestor_*
+  // wiki-derived traits were dedup+renamed to native Evo-Tactics ids and the
+  // ancestor_ namespace was retired. Provenance was discarded (inspiration-only, no
+  // CC BY-NC-SA constraint). This guard now locks the migration: no ancestor_ regress.
   const doc = JSON.parse(
     fs.readFileSync(path.join(REPO_ROOT, 'data/core/traits/glossary.json'), 'utf8'),
   );
-  const ancestorKeys = Object.keys(doc.traits)
-    .filter((k) => k.startsWith('ancestor_'))
-    .slice(0, 5);
-  assert.ok(ancestorKeys.length >= 1, 'expected at least 1 ancestor_* slug');
-  for (const k of ancestorKeys) {
-    const entry = doc.traits[k];
-    assert.ok(
-      typeof entry.label_it === 'string' || typeof entry.label_en === 'string',
-      `${k} must have label_it or label_en`,
-    );
-    // Identity-only: no requirement for tier / famiglia_tipologia / slot_profile.
-  }
+  const ancestorKeys = Object.keys(doc.traits).filter((k) => k.startsWith('ancestor_'));
+  assert.equal(ancestorKeys.length, 0, `expected 0 ancestor_* slugs, found ${ancestorKeys.length}`);
 });
 
 test('index entry non-ancestor SHOULD have design block (sample first 5, warn-only)', () => {

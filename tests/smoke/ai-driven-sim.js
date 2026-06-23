@@ -485,6 +485,18 @@ function logSistemaDecisions(round, body) {
   // real attack; the skiv_pulse_fired event is genuine engine output, not
   // fabricated (emitted only when getRevealedTiles really returns tiles).
   const ECHO_TRAIT = 'sensori_geomagnetici';
+  // Form-Pulse trait v2 combat A/B (verdict condition 2026-06-23 — confirm the
+  // ~1.2 power/creature offset translates to a real combat advantage before the
+  // FORM_PULSE_TRAIT_V2_ENABLED flip). Env-gated: default OFF = zero behaviour
+  // change for the nightly/sweep CI. When AI_SIM_FORM_PULSE_V2_GRANT=1 the player
+  // team carries the v2 grant — the shared branco trait on EVERY creature + one
+  // per-player COMPLEMENT minor (round-robin by slot). IDs derived offline from
+  // the REAL engine (emergeBrancoTrait threshold 0 + emergePlayerMinorTrait) for
+  // a representative team whose effective-power proxy == 1.20/creature (canonical
+  // N=200 = 1.21); see docs/planning/2026-06-23-aa01-form-pulse-trait-v2-combat-ab.md.
+  const FP_V2_GRANT = process.env.AI_SIM_FORM_PULSE_V2_GRANT === '1';
+  const FP_V2_BRANCO = 'zampe_a_molla';
+  const FP_V2_MINORS = ['denti_seghettati', 'antenne_dustsense'];
   const characters = rawCharacters.map((ch, idx) => ({
     ...ch,
     traits: Array.from(
@@ -494,6 +506,8 @@ function logSistemaDecisions(round, body) {
         // Only the host (idx 0 = Skiv custode) carries echolocation so the
         // OD-026 path mirrors the diegetic design (Skiv personal sprint).
         ...(idx === 0 ? [ECHO_TRAIT] : []),
+        // v2 A/B treatment arm (gated): branco on every creature + per-slot minor.
+        ...(FP_V2_GRANT ? [FP_V2_BRANCO, FP_V2_MINORS[idx % FP_V2_MINORS.length]] : []),
       ]),
     ),
     ...(idx === 0
@@ -513,6 +527,18 @@ function logSistemaDecisions(round, body) {
       : {}),
     status: { ...(ch.status && typeof ch.status === 'object' ? ch.status : {}), ferito: 1 },
   }));
+
+  if (FP_V2_GRANT) {
+    // Cite the exact treatment so the A/B report is reproducible from the JSONL.
+    log('form_pulse_v2_grant', {
+      branco: FP_V2_BRANCO,
+      minors: characters.map((_, i) => FP_V2_MINORS[i % FP_V2_MINORS.length]),
+      proxy_power_per_creature: 1.2,
+    });
+    console.log(
+      `Form-Pulse v2 A/B grant ACTIVE: branco=${FP_V2_BRANCO} minors=${FP_V2_MINORS.join(',')}`,
+    );
+  }
 
   // --- session/start ---
   logSection('session/start');

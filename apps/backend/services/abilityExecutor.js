@@ -77,6 +77,7 @@ const SUPPORTED_EFFECT_TYPES = new Set([
   'aoe_debuff',
   'suppress_ability',
   'apply_status',
+  'cleanse_status',
   'surge_aoe',
   'reaction',
   'aggro_pull',
@@ -607,7 +608,33 @@ function createAbilityExecutor(deps) {
       if (!dest || !Number.isFinite(Number(dest.x)) || !Number.isFinite(Number(dest.y))) {
         return { status: 400, body: { error: 'pack_command: order.position richiesto per move' } };
       }
-      if (manhattanDistance(minion.position, dest) > (Number(minion.mobility) || 1)) {
+      // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
+      // ON -> the mobility budget is checked against the terrain-weighted cheapest-path
+      // cost (volo lowers it); OFF -> literal Manhattan. Registry unavailable here ->
+      // evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (phase-2 follow-up).
+      const mobilityBudget = Number(minion.mobility) || 1;
+      let minionMoveDist = manhattanDistance(minion.position, dest);
+      if (require('./combat/moveCost').isMoveTerrainCostEnabled()) {
+        const { moveApDistance, terrainAtFromFeatures } = require('./combat/moveCost');
+        const {
+          resolveMovementProfile,
+          applyVoloGrade,
+          evaluateVoloGrade,
+        } = require('./combat/movementResolver');
+        const profile = applyVoloGrade(
+          resolveMovementProfile(minion, null),
+          evaluateVoloGrade(null, minion),
+        );
+        const g = session.grid || {};
+        const terrainAt = terrainAtFromFeatures(g.terrain_features || []);
+        const bounds = {
+          width: Number(g.width) || 6,
+          height: Number(g.height ?? g.width) || 6,
+        };
+        const c = moveApDistance(minion.position, dest, { profile, terrainAt, bounds });
+        if (Number.isFinite(c)) minionMoveDist = c;
+      }
+      if (minionMoveDist > mobilityBudget) {
         return {
           status: 400,
           body: { error: `pack_command: move oltre mobility (${minion.mobility})` },
@@ -2247,6 +2274,75 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // Creature-trait salvage (filtri_bioattivi ACTIVE): cleanse all transient negative
+  // statuses on an adjacent ally. 1 AP + a 2-round in-memory cooldown (not a schema
+  // field). Band-neutral: no sim unit carries filtri_bioattivi, so this is never offered.
+  async function executeCleanseStatus({ session, actor, ability, body }) {
+    const { cleanseNegativeStatuses } = require('./combat/cleanseStatus');
+    const COOLDOWN_ROUNDS = 2;
+    const turn = Number(session.turn) || 0;
+    // Cooldown gate (per-actor, in-memory). On cooldown -> reject WITHOUT spending AP.
+    if (Number(actor._filtri_cleanse_cd_until) > turn) {
+      return {
+        status: 409,
+        body: {
+          error: 'cleanse_status in cooldown',
+          cooldown_until: actor._filtri_cleanse_cd_until,
+        },
+      };
+    }
+    const targetId = body.target_id;
+    const target = (session.units || []).find((u) => String(u.id) === String(targetId));
+    if (!target) {
+      return { status: 400, body: { error: 'target_id valido richiesto per cleanse_status' } };
+    }
+    // target must be an adjacent ally (same faction, not self) -- no AP charge on a 4xx.
+    const sameFaction = target.controlled_by === actor.controlled_by;
+    const isSelf = String(target.id) === String(actor.id);
+    if (!sameFaction || isSelf) {
+      return { status: 400, body: { error: 'cleanse_status: il target deve essere un alleato' } };
+    }
+    const range = Number(ability.range || 1);
+    if (manhattanDistance(actor.position, target.position) > range) {
+      return { status: 400, body: { error: 'cleanse_status: alleato fuori portata' } };
+    }
+
+    const cleansed = cleanseNegativeStatuses(target);
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+    actor._filtri_cleanse_cd_until = turn + COOLDOWN_ROUNDS;
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'cleanse_status',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      target_id: targetId,
+      cleansed,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'cleanse_status',
+        target_id: targetId,
+        cleansed,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   // surge_aoe (cataclysm): area NxN, danno dadi a tutti i nemici dentro.
   // stress_reset opzionale (Surge Burst meccanica). PP/SG gating skippato.
   async function executeSurgeAoe({ session, actor, ability, body }) {
@@ -2749,6 +2845,8 @@ function createAbilityExecutor(deps) {
           return executeSuppressAbility({ session, actor, ability, body });
         case 'apply_status':
           return executeApplyStatus({ session, actor, ability, body });
+        case 'cleanse_status':
+          return executeCleanseStatus({ session, actor, ability, body });
         case 'surge_aoe':
           return executeSurgeAoe({ session, actor, ability, body });
         case 'reaction':

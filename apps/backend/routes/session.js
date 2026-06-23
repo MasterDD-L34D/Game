@@ -110,6 +110,18 @@ const {
   consumeRisonanza,
 } = require('../services/combat/cortecciaMemetica');
 const { refreshNucleiCoordinamento } = require('../services/combat/allyAuraMark');
+// Creature-trait kit (trait 12 -- the last defensive slice): radici_ancora_planare
+// anchor. Always-on slice (master-dd verdict 2026-06-23, NOT gated on
+// MOVE_TERRAIN_COST_ENABLED -- the defensive DR is decoupled from the terrain-cost
+// substrate). Producer anchors carriers at turn/round start (status `ancorato`, DR2),
+// a `move` breaks the anchor (consumer at the move-gate), and the DR is realized at
+// the mitigation seam next to computeCortecciaDR. Band-neutral: no live unit carries
+// radici_ancora_planare yet (no authoring), like the 11 already-merged slices.
+const {
+  applyAnchorAtActivation,
+  breakAnchor,
+  computeAnchorDR,
+} = require('../services/combat/anchorState');
 // Creature-trait slice 4: artigli_psionici source-marked DR + tessuti_adattivi
 // channel adaptation (engine-coded pure modules; the YAML entry registers the trait).
 const {
@@ -121,6 +133,12 @@ const {
   applyTessutiAdaptation,
   computeTessutiResistDelta,
 } = require('../services/combat/tessutiAdattivi');
+// Creature-trait slice 5: membrane_osmotiche duration_absorb (-1 on incoming status
+// durations). filtri_bioattivi turn-start cleanse is wired in sessionRoundBridge.
+const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
+// Creature-trait slice 7: consume the single-use abbagliato dazzle on the attack it
+// weakened (pigmenti_aurorali; the end-of-round glow producer is in sessionRoundBridge).
+const { consumeAbbagliato, disorientAttacker } = require('../services/combat/pigmentiAurorali');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -377,6 +395,12 @@ function createSessionRouter(options = {}) {
       }
     } catch {
       /* sgTracker optional */
+    }
+    // Creature-trait kit (trait 12): re-anchor radici carriers at each round start
+    // (round-advance hook). A move during the round breaks the anchor. Idempotent,
+    // best-effort, band-neutral (no live unit carries radici_ancora_planare).
+    for (const u of session.units || []) {
+      if (u && u.hp > 0) applyAnchorAtActivation(u);
     }
   }
   // P4 Thought Cabinet: sessionId -> Map<unitId, CabinetState>.
@@ -688,6 +712,17 @@ function createSessionRouter(options = {}) {
         effect: { kind: 'risonanza_spent', actor_id: actor.id },
       });
     }
+    // Creature-trait slice 7: abbagliato (pigmenti_aurorali) is single-use -- the dazzle
+    // costs -1 atk on THIS attack (read above), then is spent (hit OR miss). Durable
+    // until consumed (PERSISTENT_STATUS_KEYS) so the end-of-round dazzle survives to the
+    // enemy's next attack. Band-neutral: no sim actor carries it.
+    if (consumeAbbagliato(actor)) {
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'pigmenti_aurorali',
+        triggered: true,
+        effect: { kind: 'abbagliato_spent', actor_id: actor.id },
+      });
+    }
     // Revert chilled attack penalty (per-attack, non-persistente).
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
@@ -898,6 +933,18 @@ function createSessionRouter(options = {}) {
           const reduced = Math.min(cortecciaDr, damageDealt);
           damageDealt -= reduced;
           target.corteccia_dr_last = reduced;
+        }
+      }
+      // Creature-trait kit (trait 12): radici_ancora_planare anchor DR. A standing
+      // carrier (status `ancorato`) reduces incoming damage by ANCHOR_DR at the same
+      // innate-mitigation seam as corteccia. Band-neutral: computeAnchorDR returns 0
+      // unless the target carries radici AND has not moved this round.
+      if (damageDealt > 0) {
+        const anchorDr = computeAnchorDR(target);
+        if (anchorDr > 0) {
+          const reduced = Math.min(anchorDr, damageDealt);
+          damageDealt -= reduced;
+          target.anchor_dr_last = reduced;
         }
       }
       // Creature-trait slice 4: artigli_psionici "read-the-prey" -- a source-marked
@@ -1212,6 +1259,11 @@ function createSessionRouter(options = {}) {
         // status (decay included). Duration honors STATUS_DURATION_CAPS.
         if (onHitStatusResult && Array.isArray(onHitStatusResult.applied)) {
           for (const a of onHitStatusResult.applied) {
+            // Creature-trait slice 5: membrane_osmotiche absorbs 1 turn off incoming
+            // on_hit_status durations too (the spec's "incoming status durations" covers
+            // all sources). Fully-absorbed -> skip. Band-neutral.
+            const absorbed = absorbStatusDuration({ target, turns: a.duration });
+            if (Number(a.duration) > 0 && Number(absorbed) <= 0) continue;
             const cap = STATUS_DURATION_CAPS[a.status_id];
             if (!Array.isArray(session._pendingStatusApplies)) {
               session._pendingStatusApplies = [];
@@ -1219,7 +1271,7 @@ function createSessionRouter(options = {}) {
             session._pendingStatusApplies.push({
               unit_id: target.id,
               status: a.status_id,
-              duration: cap !== undefined ? Math.min(cap, a.duration) : a.duration,
+              duration: cap !== undefined ? Math.min(cap, absorbed) : absorbed,
             });
           }
         }
@@ -1414,13 +1466,18 @@ function createSessionRouter(options = {}) {
       for (const s of statusApplies) {
         const unit = s.target_side === 'actor' ? actor : target;
         if (!unit || unit.hp <= 0 || !unit.status) continue;
+        // Creature-trait slice 5: membrane_osmotiche absorbs 1 turn off the incoming
+        // status duration; a 1-turn status is fully absorbed -> skip. Band-neutral:
+        // absorbStatusDuration returns s.turns unchanged for non-carriers.
+        const absorbedTurns = absorbStatusDuration({ target: unit, turns: s.turns });
+        if (Number(s.turns) > 0 && Number(absorbedTurns) <= 0) continue;
         const current = Number(unit.status[s.stato]) || 0;
         // Audit 2026-04-25 sera (balance-auditor): kill chain re-apply rage
         // pattern → sustained rage durante kill streak. Cap totale per status
         // type previene "permanent rage" scenario in late combat.
         // Frenzy (PR #1822) stesso pattern, stesso cap.
         const cap = STATUS_DURATION_CAPS[s.stato];
-        const merged = Math.max(current, s.turns);
+        const merged = Math.max(current, absorbedTurns);
         unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
         // TKT-D4-ENRICH (#2533): persist through the round-model status sync
         // (same drain channel as morale/on_hit_status — see comment at the
@@ -1433,7 +1490,7 @@ function createSessionRouter(options = {}) {
         session._pendingStatusApplies.push({
           unit_id: unit.id,
           status: s.stato,
-          duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+          duration: cap !== undefined ? Math.min(cap, Number(absorbedTurns) || 1) : absorbedTurns,
         });
       }
 
@@ -1561,6 +1618,27 @@ function createSessionRouter(options = {}) {
           effect: { kind: 'channel_adaptation', channel: tessuti.channel, healed: tessuti.healed },
         });
       }
+    }
+
+    // pigmenti_aurorali (active mode): if the attacked carrier (target) is intensified,
+    // the dazzling burst disorients the attacker (actor). Fires on hit OR miss. Persist
+    // the disorient through the round-model drain so it bites the attacker's next attack.
+    // Band-neutral: no sim unit carries pigmenti_aurorali (and none is intensified).
+    const pigmentiDisorient = disorientAttacker({ carrier: target, attacker: actor });
+    if (pigmentiDisorient) {
+      if (!Array.isArray(session._pendingStatusApplies)) {
+        session._pendingStatusApplies = [];
+      }
+      session._pendingStatusApplies.push({
+        unit_id: actor.id,
+        status: pigmentiDisorient.stato,
+        duration: pigmentiDisorient.turns,
+      });
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'pigmenti_aurorali',
+        triggered: true,
+        effect: { kind: 'glow_disorient', target_id: actor.id },
+      });
     }
 
     // Sprint 6 (2026-04-27) — Beast Bond reaction trigger (AncientBeast Tier
@@ -2322,7 +2400,17 @@ function createSessionRouter(options = {}) {
         units,
         // Q-001 T2.4: snapshot iniziale per replay (deep copy, immutable)
         units_snapshot_initial: JSON.parse(JSON.stringify(units)),
-        grid: { width: gridW, height: gridH },
+        // Move terrain-cost substrate: carry the encounter-authored terrain_features
+        // onto the runtime grid so the (flag-gated) move-gate can read per-tile types.
+        // Band-neutral: absent/empty -> no field -> moveCost sees all-default = Manhattan.
+        grid: {
+          width: gridW,
+          height: gridH,
+          ...(Array.isArray(encounterPayload?.grid?.terrain_features) &&
+          encounterPayload.grid.terrain_features.length
+            ? { terrain_features: encounterPayload.grid.terrain_features }
+            : {}),
+        },
         logFilePath,
         events: [],
         created_at: now.toISOString(),
@@ -2498,6 +2586,12 @@ function createSessionRouter(options = {}) {
         } catch {
           /* wound persistence optional; never block the start */
         }
+      }
+      // Creature-trait kit (trait 12): anchor radici carriers at session start so a
+      // standing carrier carries the DR from round 1 (the round-advance hooks only
+      // re-anchor from round 2 on). Band-neutral: no live unit carries radici yet.
+      for (const u of session.units || []) {
+        applyAnchorAtActivation(u);
       }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
@@ -2806,7 +2900,36 @@ function createSessionRouter(options = {}) {
         // stesso turno solo se abbiamo AP residui sufficienti.
         // buff_stat move_bonus (ancestor locomotion traits) reduces AP cost.
         const movTraits = evaluateMovementTraits({ registry: traitRegistry, actor });
-        const apCost = Math.max(1, dist - movTraits.move_bonus);
+        // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
+        // ON -> AP cost = ceil(cheapest terrain-weighted path) under the unit's movement
+        // profile (volo grades lower it); OFF -> literal Manhattan `dist` (unchanged).
+        // `dist` stays literal: stamina tile-tally, facing and the operator message use it.
+        let moveCostTiles = dist;
+        if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+          const { moveApDistance, terrainAtFromFeatures } = require('../services/combat/moveCost');
+          const {
+            resolveMovementProfile,
+            applyVoloGrade,
+            evaluateVoloGrade,
+          } = require('../services/combat/movementResolver');
+          const profile = applyVoloGrade(
+            resolveMovementProfile(actor, actor.speciesRecord || null),
+            evaluateVoloGrade(traitRegistry, actor),
+          );
+          const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+          const cost = moveApDistance(actor.position, dest, {
+            profile,
+            terrainAt,
+            bounds: { width: _gw, height: _gh },
+          });
+          if (!Number.isFinite(cost)) {
+            return res
+              .status(400)
+              .json({ error: 'destinazione irraggiungibile (terreno troppo costoso)' });
+          }
+          moveCostTiles = cost;
+        }
+        const apCost = Math.max(1, moveCostTiles - movTraits.move_bonus);
         if (apCost > (actor.ap_remaining ?? 0)) {
           return res.status(400).json({
             error: `AP insufficienti per muoversi di ${dist} celle (ap residui: ${actor.ap_remaining ?? 0})`,
@@ -2830,6 +2953,9 @@ function createSessionRouter(options = {}) {
         if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
           actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
         }
+        // radici_ancora_planare: a move forfeits the anchor DR for this round
+        // (break-on-move consumer; idempotent no-op for non-carriers, not flag-gated).
+        breakAnchor(actor);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
@@ -3285,12 +3411,47 @@ function createSessionRouter(options = {}) {
             continue;
           }
           const dist = manhattanDistance(actor.position, dest);
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          // Move terrain-cost substrate (flag OFF = band-neutral): AI pays terrain-weighted
+          // AP when ON; an unreachable dest is skipped (AI is trusted, no error path). `dist`
+          // stays literal for the stamina tile-tally below. Registry unavailable in this
+          // scope -> evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (full
+          // grade-2/3 threading to AI is a phase-2 follow-up; no volo trait is authored yet).
+          let aiMoveCost = dist;
+          if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+            const {
+              moveApDistance,
+              terrainAtFromFeatures,
+            } = require('../services/combat/moveCost');
+            const {
+              resolveMovementProfile,
+              applyVoloGrade,
+              evaluateVoloGrade,
+            } = require('../services/combat/movementResolver');
+            const profile = applyVoloGrade(
+              resolveMovementProfile(actor, actor.speciesRecord || null),
+              evaluateVoloGrade(null, actor),
+            );
+            const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+            const c = moveApDistance(actor.position, dest, {
+              profile,
+              terrainAt,
+              bounds: { width: _gw2, height: _gh2 },
+            });
+            if (!Number.isFinite(c)) {
+              results.push({ actor_id: actor.id, skipped: 'unreachable_terrain' });
+              continue;
+            }
+            aiMoveCost = c;
+          }
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - aiMoveCost);
           // OD-024 engine #2: voluntary-move tile tally (round-path), flag-gated so the
           // transient field never leaks into publicSessionView when OFF. See per-action site.
           if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
             actor._tiles_voluntary_round = Number(actor._tiles_voluntary_round || 0) + dist;
           }
+          // radici_ancora_planare: an AI move also forfeits the anchor DR this round
+          // (break-on-move consumer; idempotent no-op for non-carriers, not flag-gated).
+          breakAnchor(actor);
           const positionFrom = { ...actor.position };
           actor.position = { x: dest.x, y: dest.y };
           const newFacing = facingFromMove(positionFrom, actor.position);
@@ -3652,13 +3813,46 @@ function createSessionRouter(options = {}) {
       if (!unit) return res.status(404).json({ error: `unit ${unitId} non in sessione` });
       const nidoRitual = require('../services/combat/nidoRitual');
       const sessionMap = session.lastMissionWounds || null;
+      // SPEC-E scar->transform mechanical grant (verdetto master-dd 2026-06-23).
+      // OFF by default -> band-neutral. When ON, transform also grants the PROPOSED
+      // trait mapped from the scar location, validated against the active_effects SoT.
+      const transformOpts = { sessionMap };
+      if (kind === 'transform' && process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED === 'true') {
+        transformOpts.scarTraitMap = nidoRitual.SCAR_TRAIT_MAP;
+        transformOpts.validTraitIds = Object.keys(traitRegistry || {});
+      }
       const result =
         kind === 'heal'
           ? nidoRitual.healScar(unit, location, { sessionMap })
-          : nidoRitual.transformScar(unit, location, { sessionMap });
+          : nidoRitual.transformScar(unit, location, transformOpts);
       const okFlag = kind === 'heal' ? result.healed : result.transformed;
       if (!okFlag) {
         return res.status(409).json({ error: 'ritual_unavailable', reason: result.reason, kind });
+      }
+      // SPEC-E mechanical grant -> campaign per-creature trait store (MA1). Best-
+      // effort, never blocks the ritual; stays null unless the flag is ON AND a valid
+      // trait was derived (band-neutral when OFF).
+      // granted_trait = what the transform derived (flag-gated, null when OFF/unmapped).
+      // Surfaced in the response so the ritual UI can show it, AND persisted to the
+      // campaign per-creature store (MA1) when a campaign is linked (best-effort).
+      const grantedTrait = result.granted_trait || null;
+      if (grantedTrait && session.campaign_id) {
+        try {
+          const { getCampaign, updateCampaign } = require('../services/campaign/campaignStore');
+          const camp = getCampaign(session.campaign_id);
+          if (camp) {
+            const cur =
+              camp.acquiredTraitsByCreature && typeof camp.acquiredTraitsByCreature === 'object'
+                ? { ...camp.acquiredTraitsByCreature }
+                : {};
+            if (cur[unit.id] !== grantedTrait) {
+              cur[unit.id] = grantedTrait;
+              updateCampaign(session.campaign_id, { acquiredTraitsByCreature: cur });
+            }
+          }
+        } catch {
+          /* campaign apply best-effort */
+        }
       }
       // esito public -> chronicle (best-effort, never blocks the ritual).
       try {
@@ -3670,6 +3864,7 @@ function createSessionRouter(options = {}) {
           kind,
           location,
           mark: result.mark || null,
+          granted_trait: grantedTrait,
           turn: session.turn,
         });
       } catch {
@@ -3683,6 +3878,7 @@ function createSessionRouter(options = {}) {
           location,
           scar: result.scar || null,
           mark: result.mark || null,
+          granted_trait: grantedTrait,
         },
         state: publicSessionView(session),
       });
