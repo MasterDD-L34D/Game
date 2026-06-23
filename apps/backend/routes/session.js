@@ -2370,7 +2370,17 @@ function createSessionRouter(options = {}) {
         units,
         // Q-001 T2.4: snapshot iniziale per replay (deep copy, immutable)
         units_snapshot_initial: JSON.parse(JSON.stringify(units)),
-        grid: { width: gridW, height: gridH },
+        // Move terrain-cost substrate: carry the encounter-authored terrain_features
+        // onto the runtime grid so the (flag-gated) move-gate can read per-tile types.
+        // Band-neutral: absent/empty -> no field -> moveCost sees all-default = Manhattan.
+        grid: {
+          width: gridW,
+          height: gridH,
+          ...(Array.isArray(encounterPayload?.grid?.terrain_features) &&
+          encounterPayload.grid.terrain_features.length
+            ? { terrain_features: encounterPayload.grid.terrain_features }
+            : {}),
+        },
         logFilePath,
         events: [],
         created_at: now.toISOString(),
@@ -2854,7 +2864,36 @@ function createSessionRouter(options = {}) {
         // stesso turno solo se abbiamo AP residui sufficienti.
         // buff_stat move_bonus (ancestor locomotion traits) reduces AP cost.
         const movTraits = evaluateMovementTraits({ registry: traitRegistry, actor });
-        const apCost = Math.max(1, dist - movTraits.move_bonus);
+        // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
+        // ON -> AP cost = ceil(cheapest terrain-weighted path) under the unit's movement
+        // profile (volo grades lower it); OFF -> literal Manhattan `dist` (unchanged).
+        // `dist` stays literal: stamina tile-tally, facing and the operator message use it.
+        let moveCostTiles = dist;
+        if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+          const { moveApDistance, terrainAtFromFeatures } = require('../services/combat/moveCost');
+          const {
+            resolveMovementProfile,
+            applyVoloGrade,
+            evaluateVoloGrade,
+          } = require('../services/combat/movementResolver');
+          const profile = applyVoloGrade(
+            resolveMovementProfile(actor, actor.speciesRecord || null),
+            evaluateVoloGrade(traitRegistry, actor),
+          );
+          const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+          const cost = moveApDistance(actor.position, dest, {
+            profile,
+            terrainAt,
+            bounds: { width: _gw, height: _gh },
+          });
+          if (!Number.isFinite(cost)) {
+            return res
+              .status(400)
+              .json({ error: 'destinazione irraggiungibile (terreno troppo costoso)' });
+          }
+          moveCostTiles = cost;
+        }
+        const apCost = Math.max(1, moveCostTiles - movTraits.move_bonus);
         if (apCost > (actor.ap_remaining ?? 0)) {
           return res.status(400).json({
             error: `AP insufficienti per muoversi di ${dist} celle (ap residui: ${actor.ap_remaining ?? 0})`,
@@ -3333,7 +3372,39 @@ function createSessionRouter(options = {}) {
             continue;
           }
           const dist = manhattanDistance(actor.position, dest);
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          // Move terrain-cost substrate (flag OFF = band-neutral): AI pays terrain-weighted
+          // AP when ON; an unreachable dest is skipped (AI is trusted, no error path). `dist`
+          // stays literal for the stamina tile-tally below. Registry unavailable in this
+          // scope -> evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (full
+          // grade-2/3 threading to AI is a phase-2 follow-up; no volo trait is authored yet).
+          let aiMoveCost = dist;
+          if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+            const {
+              moveApDistance,
+              terrainAtFromFeatures,
+            } = require('../services/combat/moveCost');
+            const {
+              resolveMovementProfile,
+              applyVoloGrade,
+              evaluateVoloGrade,
+            } = require('../services/combat/movementResolver');
+            const profile = applyVoloGrade(
+              resolveMovementProfile(actor, actor.speciesRecord || null),
+              evaluateVoloGrade(null, actor),
+            );
+            const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+            const c = moveApDistance(actor.position, dest, {
+              profile,
+              terrainAt,
+              bounds: { width: _gw2, height: _gh2 },
+            });
+            if (!Number.isFinite(c)) {
+              results.push({ actor_id: actor.id, skipped: 'unreachable_terrain' });
+              continue;
+            }
+            aiMoveCost = c;
+          }
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - aiMoveCost);
           // OD-024 engine #2: voluntary-move tile tally (round-path), flag-gated so the
           // transient field never leaks into publicSessionView when OFF. See per-action site.
           if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {

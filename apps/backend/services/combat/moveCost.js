@@ -69,4 +69,28 @@ function moveCost(from, dest, profile, terrainAt, bounds) {
   return Infinity;
 }
 
-module.exports = { moveCost, terrainAtFromFeatures, _enterCost };
+// --- Phase 1 wire: flag + AP-distance integration helper -----------------------------
+// Flag colocated with the wire logic (mirrors staminaFatigue.isFatigueEnabled). OFF by
+// default -> the move-gate keeps using Manhattan distance -> band-neutral.
+
+const FLAG = 'MOVE_TERRAIN_COST_ENABLED';
+
+function isMoveTerrainCostEnabled(env = process.env) {
+  return Boolean(env) && env[FLAG] === 'true';
+}
+
+// AP distance for the move-gate: ceil of the cheapest terrain-weighted path, or Infinity
+// if the destination is unreachable. Callers gate on isMoveTerrainCostEnabled before use.
+function moveApDistance(from, dest, { profile, terrainAt, bounds }) {
+  const c = moveCost(from, dest, profile, terrainAt, bounds);
+  return Number.isFinite(c) ? Math.ceil(c) : Infinity;
+}
+
+module.exports = {
+  moveCost,
+  terrainAtFromFeatures,
+  _enterCost,
+  isMoveTerrainCostEnabled,
+  moveApDistance,
+  FLAG,
+};
