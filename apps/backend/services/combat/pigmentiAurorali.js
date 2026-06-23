@@ -8,6 +8,13 @@
 // `abbagliato` (-1 atk on its next attack, read in combat/statusModifiers). The glow
 // dims as HP drops -- below the gate it does nothing.
 //
+// Lifecycle: abbagliato is set at END-OF-ROUND but read by the enemy's NEXT-round
+// attack. The universal end-of-round status decay would zero a 1-turn status the same
+// round it is set, so abbagliato is made DURABLE (sessionRoundBridge PERSISTENT_STATUS_
+// KEYS, decay-proof) and SINGLE-USE -- consumeAbbagliato clears it on the dazzled unit's
+// next attack. Net: exactly one -1 atk on the next attack, then gone (not a permanent
+// dazzle). Same shape as risonanza_memetica's single-use consume (slice 3).
+//
 // (The ACTIVE mode -- 1 AP intensify to -2 + disorient on attackers -- is DEFERRED:
 // a trait-granted ability needs the contract-schema effect_type + jobs.yaml
 // re-baseline, owner-gated like filtri/matrice active. The slice-7 partner
@@ -21,7 +28,13 @@
 
 const PIGMENTI_TRAIT = 'pigmenti_aurorali';
 const ABBAGLIATO = 'abbagliato';
-const ABBAGLIATO_TURNS = 1;
+// Durable sustained value (mirror the passive/coordinamento default). abbagliato is set
+// at end-of-round but read by the enemy's NEXT-round attack -- the per-round status
+// decay (sessionRoundBridge) would zero a small value before then, and PERSISTENT_STATUS_
+// KEYS only guards the round wipe, NOT the decay loop. So abbagliato rides a high TTL
+// (decays slowly) + PERSISTENT (wipe-exempt) and is removed by consumeAbbagliato on the
+// dazzled unit's next attack -> net effect = exactly one -1 atk.
+const ABBAGLIATO_TTL = 99;
 const HP_GATE = 0.5; // glow only while HP >= 50% of max
 
 function hasTrait(unit, traitId) {
@@ -65,18 +78,36 @@ function applyEndRoundGlow({ carrier, units }) {
     if (manhattanDistance(enemy.position, carrier.position) !== 1) continue;
     if (!enemy.status || typeof enemy.status !== 'object') enemy.status = {};
     const current = Number(enemy.status[ABBAGLIATO] || 0);
-    if (current < ABBAGLIATO_TURNS) enemy.status[ABBAGLIATO] = ABBAGLIATO_TURNS;
-    events.push({ unit_id: enemy.id ?? null, stato: ABBAGLIATO, turns: ABBAGLIATO_TURNS });
+    if (current < ABBAGLIATO_TTL) enemy.status[ABBAGLIATO] = ABBAGLIATO_TTL;
+    events.push({ unit_id: enemy.id ?? null, stato: ABBAGLIATO, turns: ABBAGLIATO_TTL });
   }
   return events;
 }
 
+/**
+ * Single-use spend of abbagliato. Returns true (and clears the status) when the unit
+ * carried it, false otherwise. Called after the dazzled unit attacks.
+ *
+ * @param {object} unit (mutated)
+ * @returns {boolean}
+ */
+function consumeAbbagliato(unit) {
+  const st = unit && unit.status;
+  if (st && !Array.isArray(st) && Number(st[ABBAGLIATO]) > 0) {
+    delete st[ABBAGLIATO];
+    if (unit.status_intensity) delete unit.status_intensity[ABBAGLIATO];
+    return true;
+  }
+  return false;
+}
+
 module.exports = {
   applyEndRoundGlow,
+  consumeAbbagliato,
   hasTrait,
   manhattanDistance,
   PIGMENTI_TRAIT,
   ABBAGLIATO,
-  ABBAGLIATO_TURNS,
+  ABBAGLIATO_TTL,
   HP_GATE,
 };

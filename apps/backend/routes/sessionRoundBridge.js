@@ -337,6 +337,10 @@ function createRoundBridge(deps) {
         'danno_nucleo',
         'nucleo_distrutto',
         'coordinamento',
+        // Creature-trait slice 7: abbagliato (pigmenti dazzle) is set at end-of-round and
+        // read by the enemy's next attack -> wipe-exempt; it rides a high TTL vs the decay
+        // and is removed by consumeAbbagliato on that attack (single-use).
+        'abbagliato',
       ]);
       for (const id of Object.keys(sessionUnit.status)) {
         if (PERSISTENT_STATUS_KEYS.has(id)) continue;

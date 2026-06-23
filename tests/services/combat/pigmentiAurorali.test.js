@@ -17,10 +17,11 @@ const assert = require('node:assert/strict');
 
 const {
   applyEndRoundGlow,
+  consumeAbbagliato,
   hasTrait,
   PIGMENTI_TRAIT,
   ABBAGLIATO,
-  ABBAGLIATO_TURNS,
+  ABBAGLIATO_TTL,
   HP_GATE,
 } = require('../../../apps/backend/services/combat/pigmentiAurorali');
 
@@ -45,7 +46,7 @@ test('while HP >= 50%, an adjacent enemy gets abbagliato', () => {
   });
   const enemy = unit('foe', 'sistema', 1, 0);
   const events = applyEndRoundGlow({ carrier: treant, units: [treant, enemy] });
-  assert.equal(enemy.status[ABBAGLIATO], ABBAGLIATO_TURNS);
+  assert.equal(enemy.status[ABBAGLIATO], ABBAGLIATO_TTL);
   assert.equal(events.length, 1);
   assert.equal(events[0].unit_id, 'foe');
 });
@@ -70,7 +71,7 @@ test('exactly at the HP gate (50%) still glows', () => {
   });
   const enemy = unit('foe', 'sistema', 1, 0);
   applyEndRoundGlow({ carrier: treant, units: [treant, enemy] });
-  assert.equal(enemy.status[ABBAGLIATO], ABBAGLIATO_TURNS);
+  assert.equal(enemy.status[ABBAGLIATO], ABBAGLIATO_TTL);
 });
 
 test('only ADJACENT enemies are dazzled', () => {
@@ -101,10 +102,21 @@ test('a non-carrier never glows', () => {
   assert.ok(!(ABBAGLIATO in enemy.status));
 });
 
+// Single-use consume: abbagliato is durable (PERSISTENT, decay-proof so it survives
+// from the end-of-round set until the dazzled enemy next attacks) and is consumed on
+// that attack -> exactly "-1 atk on the next attack", then gone (not a permanent dazzle).
+test('consumeAbbagliato: removes the dazzle and reports it was spent', () => {
+  const u = { status: { [ABBAGLIATO]: 1 } };
+  assert.equal(consumeAbbagliato(u), true);
+  assert.ok(!(ABBAGLIATO in u.status), 'cleared after one attack');
+  assert.equal(consumeAbbagliato(u), false, 'nothing left to consume');
+  assert.equal(consumeAbbagliato(null), false);
+});
+
 test('hasTrait + constants', () => {
   assert.equal(hasTrait({ traits: [{ id: 'pigmenti_aurorali' }] }, PIGMENTI_TRAIT), true);
   assert.equal(PIGMENTI_TRAIT, 'pigmenti_aurorali');
   assert.equal(ABBAGLIATO, 'abbagliato');
-  assert.equal(ABBAGLIATO_TURNS, 1);
+  assert.equal(ABBAGLIATO_TTL, 99);
   assert.equal(HP_GATE, 0.5);
 });
