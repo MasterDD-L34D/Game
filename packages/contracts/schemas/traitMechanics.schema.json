@@ -105,7 +105,14 @@
                   "cost_ap": { "type": "integer", "minimum": 0 },
                   "effect_type": {
                     "type": "string",
-                    "enum": ["damage", "heal", "apply_status", "buff", "suppress_ability"]
+                    "enum": [
+                      "damage",
+                      "heal",
+                      "apply_status",
+                      "buff",
+                      "suppress_ability",
+                      "cleanse_status"
+                    ]
                   },
                   "damage_dice": {
                     "type": "object",

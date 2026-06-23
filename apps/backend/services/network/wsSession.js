@@ -35,6 +35,10 @@
 const { WebSocketServer } = require('ws');
 const crypto = require('node:crypto');
 const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
+const {
+  isFormPulseTraitV2Enabled,
+  formPulseTimeoutMs,
+} = require('../identity/brancoTraitEmergence');
 const { applyOps: applyJsonPatchOps } = require('./jsonPatch');
 const { buildPhaseChangePayload } = require('../coop/phaseChangePayload');
 
@@ -2064,6 +2068,32 @@ function createWsServer({
                   payload: { status },
                 }),
               );
+              // Form-Pulse trait v2 Piece 3: arm the 2-stage timeout ONCE (first submit while
+              // players are still pending), flag-gated. A non-submitter then gets random-filled
+              // at the auto deadline so the branco emergence never hangs. onWarn/onAuto
+              // re-broadcast so devices update. Flag OFF => never arms (band-neutral).
+              if (
+                isFormPulseTraitV2Enabled() &&
+                !status.all_ready &&
+                !orch._formPulseAutoTimer &&
+                allPids.length > 0
+              ) {
+                const { warnMs, autoMs } = formPulseTimeoutMs(process.env, allPids.length);
+                orch.armFormPulseTimer(allPids, {
+                  warnMs,
+                  autoMs,
+                  onWarn: (pending) =>
+                    room.broadcast({ type: 'form_pulse_timeout_warning', payload: { pending } }),
+                  onAuto: (filled) =>
+                    room.broadcast({
+                      type: 'form_pulse_list',
+                      payload: {
+                        status: { all_ready: true, auto_filled: filled },
+                        list: orch.formPulseList(allPids),
+                      },
+                    }),
+                });
+              }
             } catch (err) {
               socket.send(
                 JSON.stringify({

@@ -18,10 +18,14 @@ const assert = require('node:assert/strict');
 const {
   applyEndRoundGlow,
   consumeAbbagliato,
+  disorientAttacker,
   hasTrait,
   PIGMENTI_TRAIT,
+  PIGMENTI_INTENSIFICATO,
   ABBAGLIATO,
   ABBAGLIATO_TTL,
+  INTENSIFIED_ATK,
+  DISORIENT,
   HP_GATE,
 } = require('../../../apps/backend/services/combat/pigmentiAurorali');
 
@@ -119,4 +123,70 @@ test('hasTrait + constants', () => {
   assert.equal(ABBAGLIATO, 'abbagliato');
   assert.equal(ABBAGLIATO_TTL, 99);
   assert.equal(HP_GATE, 0.5);
+  assert.equal(PIGMENTI_INTENSIFICATO, 'pigmenti_intensificato');
+  assert.equal(INTENSIFIED_ATK, 2);
+  assert.equal(DISORIENT, 'disorient');
+});
+
+// ─── ACTIVE mode (pigmenti_intensificato): glow -2 + disorient on attackers ──────
+// The active ability (1 AP, apply_status self pigmenti_intensificato) is dispatched by
+// the existing executeApplyStatus; these are its two engine consumers.
+
+test('intensified glow: the dazzle is -2 (abbagliato intensity 2) on adjacent enemies', () => {
+  const treant = unit('treant', 'players', 0, 0, {
+    traits: ['pigmenti_aurorali'],
+    status: { [PIGMENTI_INTENSIFICATO]: 2 },
+  });
+  const enemy = unit('foe', 'sistema', 1, 0);
+  applyEndRoundGlow({ carrier: treant, units: [treant, enemy] });
+  assert.ok(Number(enemy.status[ABBAGLIATO]) > 0, 'still dazzled');
+  assert.equal(enemy.status_intensity[ABBAGLIATO], INTENSIFIED_ATK, 'intensity 2 -> -2 atk');
+});
+
+test('non-intensified glow: abbagliato has no intensity boost (defaults to -1)', () => {
+  const treant = unit('treant', 'players', 0, 0, { traits: ['pigmenti_aurorali'] });
+  const enemy = unit('foe', 'sistema', 1, 0);
+  applyEndRoundGlow({ carrier: treant, units: [treant, enemy] });
+  assert.ok(!(enemy.status_intensity && enemy.status_intensity[ABBAGLIATO] > 1), 'no -2 boost');
+});
+
+test('a non-intensified refresh downgrades a prior intensity-2 dazzle (no stale -2)', () => {
+  const calm = unit('treant', 'players', 0, 0, { traits: ['pigmenti_aurorali'] }); // not intensified
+  const enemy = unit('foe', 'sistema', 1, 0, {
+    status: { [ABBAGLIATO]: 99 },
+    status_intensity: { [ABBAGLIATO]: 2 },
+  });
+  applyEndRoundGlow({ carrier: calm, units: [calm, enemy] });
+  assert.equal(enemy.status_intensity[ABBAGLIATO], 1, 'stale intensity 2 downgraded to 1 (-1)');
+});
+
+test('disorientAttacker: an intensified carrier disorients whoever attacks it', () => {
+  const treant = unit('treant', 'players', 0, 0, {
+    traits: ['pigmenti_aurorali'],
+    status: { [PIGMENTI_INTENSIFICATO]: 2 },
+  });
+  const attacker = unit('foe', 'sistema', 1, 0);
+  const ev = disorientAttacker({ carrier: treant, attacker });
+  assert.ok(ev, 'returns a disorient event');
+  assert.ok(Number(attacker.status[DISORIENT]) > 0, 'attacker disoriented');
+});
+
+test('disorientAttacker: no-op when the carrier is NOT intensified, or lacks the trait', () => {
+  const calm = unit('treant', 'players', 0, 0, { traits: ['pigmenti_aurorali'] }); // not intensified
+  const attacker = unit('foe', 'sistema', 1, 0);
+  assert.equal(disorientAttacker({ carrier: calm, attacker }), null);
+  assert.ok(!(DISORIENT in attacker.status));
+  const plain = unit('plain', 'players', 0, 0, { status: { [PIGMENTI_INTENSIFICATO]: 2 } }); // no trait
+  assert.equal(disorientAttacker({ carrier: plain, attacker }), null);
+});
+
+test('disorientAttacker: tolerant of a null/self/dead attacker', () => {
+  const treant = unit('treant', 'players', 0, 0, {
+    traits: ['pigmenti_aurorali'],
+    status: { [PIGMENTI_INTENSIFICATO]: 2 },
+  });
+  assert.equal(disorientAttacker({ carrier: treant, attacker: null }), null);
+  assert.equal(disorientAttacker({ carrier: treant, attacker: treant }), null, 'not self');
+  const dead = unit('dead', 'sistema', 1, 0, { hp: 0 });
+  assert.equal(disorientAttacker({ carrier: treant, attacker: dead }), null);
 });

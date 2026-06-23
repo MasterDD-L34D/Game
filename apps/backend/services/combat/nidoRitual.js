@@ -9,11 +9,14 @@
 //   - HEAL:      remove the scar (and its malus) -- a clean recovery at the Nido;
 //   - TRANSFORM: remove the scar but crystallize it into a permanent narrative
 //                mark (failure-as-lore: the wound becomes part of the creature's
-//                story). The mark is derived deterministically from the scar (no
-//                new content pool -> no content-ratify gate, deriveHeirloomName
-//                pattern). The MECHANICAL trait/mutation grant is deferred (which
-//                trait + effect = balance, SPEC-E follow-up); here transform is a
-//                narrative record.
+//                story) AND -- when the wire site enables it -- grant a MECHANICAL
+//                trait derived deterministically from the scar location via the
+//                PROPOSED SCAR_TRAIT_MAP (verdetto master-dd 2026-06-23 = trait
+//                meccanico, non solo narrativo). The grant is OFF by default (flag
+//                SCAR_TRANSFORM_TRAIT_GRANT_ENABLED at the wire site) + fail-closed:
+//                no map / unmapped location / id not in the active_effects SoT set
+//                -> narrative-only = band-neutral. The map values + bands are
+//                RATIFIED-PROVISIONAL (master-dd + N=40 before flip).
 //
 // Pure of I/O: mutates the unit (+ an optional persisted scar map) and returns a
 // descriptor. The chronicle `scar_healed`/`scar_transformed` emission happens at
@@ -27,6 +30,41 @@
 'use strict';
 
 const SEVERITY_GRAVE = 'grave';
+
+// PROPOSED scar->trait map (verdetto master-dd 2026-06-23). Failure-as-lore: the
+// wound at a location hardens into a thematic trait. Keyed by woundSystem location
+// (LOCATION_STAT: torso=defense, arti_anteriori=attack, arti_posteriori=mobility,
+// testa=accuracy). `testa` is intentionally UNMAPPED -> fail-closed until master-dd
+// maps it. Values are real active_effects ids but RATIFIED-PROVISIONAL: master-dd
+// confirms/replaces each mapping + runs N=40 before SCAR_TRANSFORM_TRAIT_GRANT_ENABLED
+// is flipped on. Always validated at grant time against the injected SoT id set
+// (never trusts the map alone).
+const SCAR_TRAIT_MAP = Object.freeze({
+  torso: 'pelle_elastomera', // defense scar -> resilient skin
+  arti_anteriori: 'martello_osseo', // attack scar -> bone hammer
+  arti_posteriori: 'zampe_a_molla', // mobility scar -> spring legs
+});
+
+/**
+ * Derive the mechanical trait a transformed scar grants, or null (fail-closed).
+ * Pure: the caller injects the PROPOSED map + the valid-id set (active_effects SoT).
+ * Returns null when there is no map, the location is unmapped, or the mapped id is
+ * not in validTraitIds (so a stale/typo'd map can never grant a non-existent trait).
+ *
+ * @param scar          a grave scar ({ location, ... })
+ * @param map           location -> trait_id (e.g. SCAR_TRAIT_MAP)
+ * @param validTraitIds Set or array of trait ids known to active_effects (SoT)
+ */
+function deriveScarTrait(scar, map, validTraitIds) {
+  if (!scar || !scar.location || !map || typeof map !== 'object') return null;
+  const traitId = map[scar.location];
+  if (!traitId) return null;
+  const known =
+    validTraitIds instanceof Set
+      ? validTraitIds.has(traitId)
+      : Array.isArray(validTraitIds) && validTraitIds.includes(traitId);
+  return known ? traitId : null;
+}
 
 /** All `grave` wounds (= scars) the unit currently carries. */
 function graveWoundsOf(unit) {
@@ -107,7 +145,14 @@ function transformScar(unit, location, opts = {}) {
   if (Array.isArray(opts.permanentMarks)) {
     opts.permanentMarks.push({ creature_id: unit.id, ...mark });
   }
-  return { transformed: true, scar: { ...scar }, mark, unit_id: unit.id };
+  const out = { transformed: true, scar: { ...scar }, mark, unit_id: unit.id };
+  // SPEC-E mechanical grant (OFF by default at the wire site). Only set when the
+  // caller injects BOTH the map and the SoT id set; fail-closed otherwise ->
+  // band-neutral (narrative-only). The wire site applies the id to the campaign
+  // per-creature trait store (acquiredTraitsByCreature) + chronicle.
+  const grantedTrait = deriveScarTrait(scar, opts.scarTraitMap, opts.validTraitIds);
+  if (grantedTrait) out.granted_trait = grantedTrait;
+  return out;
 }
 
 module.exports = {
@@ -116,4 +161,6 @@ module.exports = {
   healScar,
   transformScar,
   deriveScarMark,
+  deriveScarTrait,
+  SCAR_TRAIT_MAP,
 };

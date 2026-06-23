@@ -116,6 +116,17 @@ function createRoundBridge(deps) {
     } catch {
       /* sgTracker optional */
     }
+    // Creature-trait kit (trait 12): re-anchor radici carriers at each round start
+    // (mirrors the filtri/pigmenti slice wires). A move during the round breaks the
+    // anchor. Best-effort, band-neutral (no live unit carries radici_ancora_planare).
+    try {
+      const { applyAnchorAtActivation } = require('../services/combat/anchorState');
+      for (const u of session.units || []) {
+        if (u && u.hp > 0) applyAnchorAtActivation(u);
+      }
+    } catch {
+      /* anchor module optional */
+    }
   }
 
   // Validates a player intent action against current session state.
@@ -341,6 +352,12 @@ function createRoundBridge(deps) {
         // read by the enemy's next attack -> wipe-exempt; it rides a high TTL vs the decay
         // and is removed by consumeAbbagliato on that attack (single-use).
         'abbagliato',
+        // Creature-trait kit (trait 12): ancorato (radici anchor DR2) is set at round
+        // start (producer) and held for the whole round unless a move breaks it ->
+        // wipe-exempt so the mid-round status sync cannot clear a standing carrier's DR.
+        // (PERSISTENT guards the WIPE, not the decay loop; the producer re-sets DR2 each
+        // round so no decay applies -- slice-7 pigmenti lesson.)
+        'ancorato',
       ]);
       for (const id of Object.keys(sessionUnit.status)) {
         if (PERSISTENT_STATUS_KEYS.has(id)) continue;

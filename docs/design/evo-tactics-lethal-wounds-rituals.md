@@ -116,6 +116,13 @@ missione flaggata lethal (public: tutti sanno che e' a rischio)
 - I rituali costano risorse Nido (PE/PI/SG/...) -> spesa = quorum/E6 (SPEC-E).
 - Visibilita': il rituale e' azione `private` device; l'esito (creatura guarita/trasformata)
   e' `public` (roster del branco).
+- **Build status (2026-06-23, verdetto master-dd = trait MECCANICO):** il grant meccanico e'
+  COSTRUITO flag-gated OFF (`SCAR_TRANSFORM_TRAIT_GRANT_ENABLED`, band-neutral). `nidoRitual.transformScar`
+  deriva il trait dalla scar-location via `SCAR_TRAIT_MAP` PROPOSED (torso->`pelle_elastomera` /
+  arti_anteriori->`martello_osseo` / arti_posteriori->`zampe_a_molla`; `testa` UNMAPPED = gate),
+  validato vs `active_effects` SoT (mai fidarsi della map sola); il wire `/nido/ritual` lo persiste su
+  `campaign.acquiredTraitsByCreature` (MA1). RESIDUO owner-gated: ratifica/estensione `SCAR_TRAIT_MAP` +
+  N=40 + flip; il costo (E6) resta SPEC-E. Tracking: `docs/planning/2026-06-23-residual-gate-register.md`.
 
 ## 7. Succession + failure-as-lore
 
