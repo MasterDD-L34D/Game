@@ -64,7 +64,11 @@ function syncStatusesFromRoundStateSpec(session) {
     const liveIds = new Set(
       (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
     );
+    // Mirror the real PERSISTENT_STATUS_KEYS (sessionRoundBridge): wounds + the
+    // nuclei_di_controllo weak-point state are durable, exempt from the round wipe.
+    const PERSISTENT = new Set(['wounds', 'wounded_perma', 'nucleo_intatto', 'danno_nucleo']);
     for (const id of Object.keys(sessionUnit.status)) {
+      if (PERSISTENT.has(id)) continue;
       if (!liveIds.has(id)) {
         delete sessionUnit.status[id];
         delete sessionUnit.status_intensity[id];
@@ -107,6 +111,19 @@ test('adaptSessionToRoundState preserves intensity from status_intensity dict', 
   const byId = Object.fromEntries(state.units[0].statuses.map((s) => [s.id, s]));
   assert.equal(byId.panic.intensity, 3);
   assert.equal(byId.rage.intensity, 2);
+});
+
+test('syncStatusesFromRoundState keeps the durable nuclei weak-point state (persistent)', () => {
+  // danno_nucleo must survive the round wipe even when NOT round-tracked (it is a
+  // durable weak-point, like wounds) -- else a broken nucleus would heal next round
+  // and the passive refresh would re-intact it. A non-persistent status is wiped.
+  const session = {
+    units: [{ id: 'golem', status: { danno_nucleo: 99, panic: 1 }, status_intensity: {} }],
+    roundState: { units: [{ id: 'golem', statuses: [] }] },
+  };
+  syncStatusesFromRoundStateSpec(session);
+  assert.ok(Number(session.units[0].status.danno_nucleo) > 0, 'danno_nucleo persists');
+  assert.ok(!(Number(session.units[0].status.panic) > 0), 'non-persistent panic wiped');
 });
 
 test('syncStatusesFromRoundState writes array back to session dict', () => {
