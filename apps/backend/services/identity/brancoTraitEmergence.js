@@ -31,6 +31,24 @@ const { aggregateFormPulses } = require('../formPulseVc');
 // -> nessun trait condiviso (solo i per-creatura). 0.30 = lean chiaro, non rumore.
 const EMERGENCE_THRESHOLD = 0.3;
 
+// Form-Pulse trait system v2 (spec 2026-06-23) -- Piece 1: always-emerge. Flag-gated,
+// default OFF so the threshold stays 0.30 (band-neutral, byte-identical to today). With the
+// flag ON the threshold drops to 0: the branco ALWAYS receives the dominant-axis trait, even
+// a weak lean (a perfectly flat aggregate falls back to the first mapping axis, pole +, via
+// emergeBrancoTrait's existing argmax). The mapping/threshold stay PROPOSED until N=40.
+const FORM_PULSE_TRAIT_V2_FLAG = 'FORM_PULSE_TRAIT_V2_ENABLED';
+
+// True iff the v2 flag is explicitly 'true' (mirror imprint isImprintEnabled / stamina).
+function isFormPulseTraitV2Enabled(env = process.env) {
+  return Boolean(env) && env[FORM_PULSE_TRAIT_V2_FLAG] === 'true';
+}
+
+// The emergence threshold for the current flag state: 0 (always emerge) when v2 is ON,
+// else the band-neutral default 0.30. Callers pass this as emergeBrancoTrait opts.threshold.
+function resolveEmergenceThreshold(env = process.env) {
+  return isFormPulseTraitV2Enabled(env) ? 0 : EMERGENCE_THRESHOLD;
+}
+
 // PROPOSED (ratify via MA3, master-dd). FP creature axis + pole -> branco trait_id.
 // Tutti i trait_id ESISTONO in data/core/traits/active_effects.yaml (il resolver
 // li applica; mismatch = no-op). Polo "+": vedi annotazioni di formPulseVc.
@@ -46,6 +64,74 @@ const PROPOSED_BRANCO_TRAIT_MAPPING = {
   memory_instinct: { '+': 'cervello_predittivo', '-': 'cervello_a_bassa_latenza' },
   agile_robust: { '+': 'pelle_elastomera', '-': 'zampe_a_molla' },
 };
+
+// Form-Pulse trait v2 -- Piece 2: per-player MINOR trait pool (spec 2026-06-23, PROPOSED;
+// ratify + N=40). A SEPARATE, distinct-category 5x2 table of T1 trait_ids -- the minor trait
+// reads as a smaller, personal flavor, NEVER a second branco-combat trait (so it must not
+// reuse any PROPOSED_BRANCO_TRAIT_MAPPING id). `memory_instinct +` uses the `ancestor_` id --
+// which is a RATIFIED Phase-2 naming convention (ADR-2026-04-27, wiki provenance), NOT import
+// sludge: the `ancestor_` prefix is load-bearing (DC-01 lint exemption, trait_schema_gate). The
+// spec's `mente_focalizzata` is a master-dd CONVENTION-OVERRIDE (istruttoria on branch
+// docs/ancestor-trait-rename-istruttoria), NOT a trivial cleanup; keep the ratified id here
+// unless/until that override lands. `solitary_swarm +` is ~loose (a cleaner minor may be authored).
+const PROPOSED_MINOR_TRAIT_MAPPING = {
+  solitary_swarm: { '+': 'biofilm_glow', '-': 'camere_mirage' },
+  explore_caution: { '+': 'cuticole_cerose', '-': 'antenne_dustsense' },
+  symbiosis_predation: { '+': 'denti_seghettati', '-': 'comunicazione_fotonica_coda_coda' },
+  memory_instinct: {
+    '+': 'ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06',
+    '-': 'ali_fulminee',
+  },
+  agile_robust: { '+': 'cartilagini_biofibre', '-': 'coda_stabilizzatrice_filo' },
+};
+
+// The dominant axis of one player's bars over the mapped axes (argmax|value|), optionally
+// EXCLUDING an axis (used for the complement fall-through). Returns { axis, pole } | null.
+// Pure; deterministic tie-break (mapping definition order, first max wins). Never throws.
+function playerDominantAxis(axes, mapping, exclude) {
+  if (!axes || typeof axes !== 'object') return null;
+  let bestAxis = null;
+  let bestMag = -Infinity;
+  let bestAvg = 0;
+  for (const axis of Object.keys(mapping)) {
+    if (axis === exclude) continue;
+    const v = Number(axes[axis]);
+    if (!Number.isFinite(v)) continue;
+    const mag = Math.abs(v);
+    if (mag > bestMag) {
+      bestMag = mag;
+      bestAxis = axis;
+      bestAvg = v;
+    }
+  }
+  return bestAxis === null ? null : { axis: bestAxis, pole: bestAvg >= 0 ? '+' : '-' };
+}
+
+/**
+ * Per-player minor trait via the COMPLEMENT rule (spec 2026-06-23): the player's OWN dominant
+ * axis -> its minor-pool trait; if that axis EQUALS the branco's dominant axis, fall to the
+ * player's 2nd-strongest axis so the minor COMPLEMENTS (never duplicates) the shared branco
+ * trait. Pure, no-mutate. Empty/all-invalid bars -> null.
+ *
+ * @param playerAxes { [axis]: Number } one player's bars
+ * @param brancoAxis  the emergent branco trait's dominant axis (string) | null
+ * @param opts        { mapping? } (minor-pool mapping, default PROPOSED_MINOR_TRAIT_MAPPING)
+ * @returns { trait_id, axis, pole: '+'|'-' } | null
+ */
+function emergePlayerMinorTrait(playerAxes, brancoAxis, opts = {}) {
+  const mapping = opts.mapping || PROPOSED_MINOR_TRAIT_MAPPING;
+  let pick = playerDominantAxis(playerAxes, mapping);
+  if (!pick) return null;
+  if (pick.axis === brancoAxis) {
+    // Complement: use the 2nd-strongest (skip the branco axis). If the player leaned ONLY
+    // the branco axis, keep it (a distinct minor-pool id, still not the branco trait).
+    const alt = playerDominantAxis(playerAxes, mapping, brancoAxis);
+    if (alt) pick = alt;
+  }
+  const trait_id = mapping[pick.axis] && mapping[pick.axis][pick.pole];
+  if (!trait_id) return null;
+  return { trait_id, axis: pick.axis, pole: pick.pole };
+}
 
 /**
  * Pure: branco axis aggregate -> 1 emergent branco trait (or null).
@@ -93,7 +179,12 @@ function emergeBrancoTraitFromPulses(fpMap, opts = {}) {
 
 module.exports = {
   EMERGENCE_THRESHOLD,
+  FORM_PULSE_TRAIT_V2_FLAG,
   PROPOSED_BRANCO_TRAIT_MAPPING,
+  PROPOSED_MINOR_TRAIT_MAPPING,
+  isFormPulseTraitV2Enabled,
+  resolveEmergenceThreshold,
   emergeBrancoTrait,
   emergeBrancoTraitFromPulses,
+  emergePlayerMinorTrait,
 };

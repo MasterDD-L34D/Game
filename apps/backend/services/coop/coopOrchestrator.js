@@ -9,7 +9,12 @@ const { foldObservations } = require('../ai/sistemaStateAccumulator');
 const { createSistemaStateStore } = require('../ai/sistemaStateStore');
 const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
-const { emergeBrancoTraitFromPulses } = require('../identity/brancoTraitEmergence');
+const {
+  emergeBrancoTraitFromPulses,
+  resolveEmergenceThreshold,
+  emergePlayerMinorTrait,
+  isFormPulseTraitV2Enabled,
+} = require('../identity/brancoTraitEmergence');
 const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
 const { aggregateFormPulses } = require('../formPulseVc');
 const consentSM = require('./lethalConsent');
@@ -164,6 +169,8 @@ class CoopOrchestrator {
     // UI-only `form_pulse` transient phase can populate without strict
     // coupling to PHASES enum (mirror revealAcks pattern).
     this.formPulses = new Map(); // player_id → { axes: {k:Number}, ts }
+    // Form-Pulse trait v2 Piece 2: per-player minor trait tracked for idempotent re-derive.
+    this.playerMinorTraits = new Map(); // player_id → minor trait_id
     // #2674 -- shared branco trait emergent from the aggregated Form Pulse;
     // tracked so re-submits swap cleanly. null until all_ready emerges.
     this.emergentBrancoTrait = null;
@@ -321,6 +328,7 @@ class CoopOrchestrator {
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
+    this.playerMinorTraits.clear();
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -369,6 +377,7 @@ class CoopOrchestrator {
     this.debriefChoices.clear();
     this.revealAcks.clear();
     this.formPulses.clear();
+    this.playerMinorTraits.clear();
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -815,30 +824,64 @@ class CoopOrchestrator {
    * emergent (axis-vocabulary contract = separate issue).
    */
   _applyBrancoTraitEmergence() {
-    const next = emergeBrancoTraitFromPulses(this.formPulses);
+    // Form-Pulse trait v2 Piece 1: the threshold is flag-resolved (0 when v2 ON = always
+    // emerge, else 0.30 = band-neutral). The mapping stays PROPOSED (N=40).
+    const next = emergeBrancoTraitFromPulses(this.formPulses, {
+      threshold: resolveEmergenceThreshold(),
+    });
     const prevId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
     const nextId = next && next.trait_id;
-    if (prevId === nextId) {
-      this.emergentBrancoTrait = next || null;
-      return next || null;
-    }
-    if (prevId) {
-      for (const ch of this.characters.values()) {
-        if (Array.isArray(ch.traits)) {
-          const i = ch.traits.indexOf(prevId);
-          if (i !== -1) ch.traits.splice(i, 1);
+    if (prevId !== nextId) {
+      if (prevId) {
+        for (const ch of this.characters.values()) {
+          if (Array.isArray(ch.traits)) {
+            const i = ch.traits.indexOf(prevId);
+            if (i !== -1) ch.traits.splice(i, 1);
+          }
         }
       }
-    }
-    if (nextId) {
-      for (const ch of this.characters.values()) {
-        if (!Array.isArray(ch.traits)) ch.traits = [];
-        if (!ch.traits.includes(nextId)) ch.traits.push(nextId);
+      if (nextId) {
+        for (const ch of this.characters.values()) {
+          if (!Array.isArray(ch.traits)) ch.traits = [];
+          if (!ch.traits.includes(nextId)) ch.traits.push(nextId);
+        }
+        this._emit('branco_trait_emerged', { ...next });
       }
-      this._emit('branco_trait_emerged', { ...next });
     }
     this.emergentBrancoTrait = next || null;
+    // Form-Pulse trait v2 Piece 2: per-player minor traits re-derive from each player's own
+    // bars + the branco axis (flag-gated; OFF = no minor traits, band-neutral).
+    if (isFormPulseTraitV2Enabled()) this._applyPlayerMinorTraits();
     return next || null;
+  }
+
+  /**
+   * Form-Pulse trait v2 -- Piece 2. Grant each player a per-creature MINOR trait derived from
+   * THEIR OWN bars via the COMPLEMENT rule (emergePlayerMinorTrait): own dominant axis, or the
+   * 2nd-strongest if it collides with the branco axis. Idempotent: re-derive strips the prior
+   * tracked minor per player then adds the new one. Branco + player-chosen traits untouched.
+   * Only invoked when the v2 flag is ON (call site guards).
+   */
+  _applyPlayerMinorTraits() {
+    const brancoAxis = this.emergentBrancoTrait && this.emergentBrancoTrait.axis;
+    for (const [pid, ch] of this.characters.entries()) {
+      if (!ch) continue;
+      if (!Array.isArray(ch.traits)) ch.traits = [];
+      const prev = this.playerMinorTraits.get(pid);
+      if (prev) {
+        const i = ch.traits.indexOf(prev);
+        if (i !== -1) ch.traits.splice(i, 1);
+      }
+      const fp = this.formPulses.get(pid);
+      const minor = fp ? emergePlayerMinorTrait(fp.axes, brancoAxis) : null;
+      const id = minor && minor.trait_id;
+      if (id) {
+        if (!ch.traits.includes(id)) ch.traits.push(id);
+        this.playerMinorTraits.set(pid, id);
+      } else {
+        this.playerMinorTraits.delete(pid);
+      }
+    }
   }
 
   /**
@@ -1746,6 +1789,7 @@ class CoopOrchestrator {
     this.routeVotes.clear();
     this.routeCandidates = null;
     this.formPulses.clear();
+    this.playerMinorTraits.clear();
     this.emergentBrancoTrait = null;
     this.revealAcks.clear();
     // Codex #2794 P1: consent is per-scenario (a lethal mission = a scenario),
