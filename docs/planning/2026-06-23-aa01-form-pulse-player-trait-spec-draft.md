@@ -108,9 +108,10 @@ All ids verified to exist as RELIABLE T1 effects in `active_effects.yaml`. **Upd
 harsh review of the build (Game #2992)**: the original `memory_instinct` picks were broken --
 `ancestor_autocontrollo_...fr_06` is engine-INERT (its `requires_target_tag` enemy-tag system is
 not wired) and `ali_fulminee` is elevation-gated (~never fires on flat maps) -- replaced with
-`sensori_planctonici` (memetic pattern-read, damage*reduction) + `coda_prensile_muscolare`
-(reactive grip, apply_status), both reliable on-hit. The earlier `mente_focalizzata` rename
-proposal is DROPPED (the ancestor id is no longer used; per the istruttoria the `ancestor*`naming is a ratified convention anyway).`solitary_swarm +` stays ~loose. Do NOT reuse branco ids.
+`sensori_planctonici` (memetic pattern-read, `damage_reduction`) + `coda_prensile_muscolare`
+(reactive grip, `apply_status`), both reliable on-hit. The earlier `mente_focalizzata` rename
+proposal is DROPPED (the ancestor id is no longer used; per the istruttoria the `ancestor_`
+naming is a ratified convention anyway). `solitary_swarm +` stays ~loose. Do NOT reuse branco ids.
 
 **Open calls (ratify):** confirm the proposed ids above (esp. the `solitary_swarm +` ~loose
 cell); whether the minor trait is stripped/re-derived if the
