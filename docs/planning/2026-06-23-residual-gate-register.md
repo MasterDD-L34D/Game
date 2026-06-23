@@ -52,7 +52,7 @@ l'harness ma **content + esperimento + ratifica**.
 
 | Residuo | Workstream | Gate preciso | Stato |
 | --- | --- | --- | --- |
-| **PE_ratio -> contestedness** (sblocca SPEC-J + SPEC-H) | G2 calib | run esperimento contestedness (turns-to-resolve + dmg_taken dai raw events, no nuova instrumentation) -> orthogonality 3.2-3.4 -> ratifica banda composite (SDMG, master-dd) | OPEN, single-owner. PE-from-pressure REJECTED (negative-result, sec 4.5). Handoff `docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md` |
+| **PE_ratio -> contestedness** (sblocca SPEC-J + SPEC-H) | G2 calib | ✅ candidati #3000 + ✅ **N=100 orthogonality RUN #3008** (`E_dmg_margin` selezionato, 0.499<0.6) MA 🔴 **banda FALSIFICATA da harsh-review** (single-policy diagnostic corpora + banda 3-punti outlier-artifact). **FIX = re-run su corpora MULTI-POLICY canonici** = harness-work (`calibrate_parallel` greedy-only; full-loop = granularita' campagna) -> **chip calib-session** `task_<see-chip>`. Selezione E regge; banda no. Ratifica SDMG dopo il re-run canonico. Evidence `docs/playtest/2026-06-23-pe-contestedness-orthogonality-n100.md` |
 | **SPEC-J `LETHAL_MISSIONS_ENABLED` flip** | SPEC-J | (1) autora >=1 encounter `lethal:true` (content, master-dd: biome/roster/banda-attrition) + (2) lethal-mission N=40 in banda via G2 | OPEN. Backend+Godot consent UI DONE; #2865 DEFER |
 | **SPEC-H HA1 flip** `aliena_enforcement.enabled:true` + `strength` | SPEC-H | N=40 su `enc_badlands_pilot_01` (WR in banda + no regressione) | OPEN. Machinery+surface COMPLETE; e' l'unico residuo sostanziale |
 | **SPEC-I ER7 flag-ON** (population tick per ruolo trofico) | SPEC-I | N=40 flag-ON | OPEN. ER7 build flag-OFF gia' shipped #2723 |
@@ -65,14 +65,16 @@ l'harness ma **content + esperimento + ratifica**.
 
 ## 2. Gate = decisione master-dd (design-call / verdetto; nessun build-blocker, serve scelta)
 
+> ✅ **3 verdetti master-dd 2026-06-23** (stampati nelle righe sotto): SPEC-J scar->transform = trait MECCANICO / codex 19 orfani = replica pilot-cameo per-bioma / move-substrate (volo I + radici) = BUILD terrain-cost substrate. + correzione marker stale: H1 (GATE ratificato 06-02) + H2 (economy SHIPPED) NON erano aperti.
+
 | Residuo | Workstream | Cosa decidere |
 | --- | --- | --- |
-| **H2 economy cost-gate** | design-closure | `cost_sg/pp/pt` decorativi vs SoT pools (spec #2530-A2, opzioni A/B/C-rec/D) |
-| **H1 GAP-C fase-3/4** | design-closure | build-vs-gate (Godot choice-UI + generative grammar) |
+| ~~H2 economy cost-gate~~ | design-closure | ✅ DECISO/SHIPPED: cost-gate reali consume-all (#2554/#2555/#2557/#2558). NON aperto -- marker NEXT GOAL stale (anti-pattern #19) |
+| ~~H1 GAP-C fase-3/4~~ | design-closure | ✅ DECISO: GATE/POST-MVP ratificato master-dd 2026-06-02 (build greenlit sessione futura al flip). NON aperto -- marker NEXT GOAL stale |
 | **H7 PILLAR re-ratifica** | design-closure | `PILLAR-LIVE-STATUS.md` ~22gg stale: giugno non riflesso (item-1 17/17 + SPEC-J/K/H + dossier); refresh contenuto + re-verify owner (TKT-STALE-B6-PILLAR-REFRESH) |
-| **SPEC-J scar->transform** | SPEC-J/E | narrativo-vs-mechanical prima del go-live lethal |
-| **codex-lore 19 orfani per-bioma** | codex-lore | balance: 19 entry codex senza roster -> assegnazione/banda (master-dd) |
-| **radici_ancora_planare** | trait-mechanics | design-to-engine: serve un producer "0-move this round" (segnale assente) + flat-DR path |
+| **SPEC-J scar->transform** | SPEC-J/E | ✅ **BUILT flag-gated MERGED #2994 `76d2a078`** (NON ricostruire): `nidoRitual.transformScar` + `SCAR_TRAIT_MAP` PROPOSED + flag `SCAR_TRANSFORM_TRAIT_GRANT_ENABLED` OFF=band-neutral; testa-unmapped=gate; persist `acquiredTraitsByCreature`; chronicle registra il grant. Residuo owner-gated: ratifica/estendi map + N=40 + flip; costo E6 = SPEC-E |
+| **codex-lore 19 orfani per-bioma** | codex-lore | ✅ verdetto = replica pilot-cameo, MA **BLOCKED su input master-dd** (verify-first 06-23: HA2 validator = 0 orfani-codex attuali; il "19" NON ha lista [10 codex vs ~75 bestiario = tua curation]; gli orfani-roster derivabili mancano di master-record). Serve la lista 19 (o criterio) + prosa HITL -> poi scaffold |
+| **move-substrate: volo I + radici_ancora_planare** | trait-mechanics | ✅ verdetto = BUILD terrain-cost substrate -> **piano MERGED #2997 `3ab9f788`** (`docs/superpowers/plans/2026-06-23-move-terrain-cost-substrate-plan.md`) + chip `task_ea29f282`. Sessione dedicata (band-affecting N=40; `movement_profiles.yaml` 0-consumer; move=Manhattan in `abilityExecutor.js`; coord. sessione trait viva) |
 | **GAP2 inert-trait mechanics** | trait-mechanics | 103 per-trait DB file inerti: proponi una meccanica per trait (design-gated) |
 | **aa01 D4 auto-timer defaulting** | aa01-Impronta | "un imprint defaultato e' accettabile?" |
 | **aa01 D6 axis->trait grant** | aa01-Impronta | i 4 assi concedono trait meccanici (non-band-neutral, spec separata) |
@@ -98,7 +100,7 @@ l'harness ma **content + esperimento + ratifica**.
 
 | Residuo | Workstream | Cosa costruire | Stato |
 | --- | --- | --- | --- |
-| **trait-mechanics slices 3-7** | trait-mechanics | slice 3 (corteccia + nuclei full + ally_aura_mark) ; 4 (artigli/tessuti/volo-I) ; 5 (filtri/membrane/volo-II-III) ; 7 LARGE (eco_sismico + pigmenti) | **2.5/12 trait built** (inibito + matrice full + nuclei v1). matrice Mode A gia' done |
+| **trait-mechanics slices 5-7** | trait-mechanics | slice 5 (filtri/membrane/volo-II-III) ; 7 LARGE (eco_sismico + pigmenti). volo-I + radici -> via move-substrate (verdetto bucket 2) | **~6.5/12 trait built** (slice 3 #2983 + slice 4 #2985 mergiati: +corteccia/nuclei-full/ally_aura + artigli/tessuti). Sessione viva |
 | **13 creature canonizzazione** | trait-mechanics | spec gameplay + lore HITL + promote (dipendono dai loro kit-trait) + delete vecchi stub | **0/14 canonizzate** (1 speccata: resonant_claw_hunter) |
 | **canon-linter follow-up** | CI tooling | tune `scripts/data/verify_stopwords.txt` sui false-positive design-doc IT -> flip markdown-tier a `--strict` | OPEN non-bloccante |
 | **SPEC-F offspring->playable lineage + QR/card export** | SPEC-F/E | offspring giocabili (lineage SPEC-E) + export card | OPEN |

@@ -42,6 +42,11 @@ function createCoopStore({ lobby, orchestratorOptions = {} } = {}) {
     if (orch && typeof orch._clearLethalConsentTimer === 'function') {
       orch._clearLethalConsentTimer();
     }
+    // Form-Pulse trait v2 (harsh-review P3 #2992): same drain for the 2-stage form-pulse
+    // timeout timer, else its closure fires autoFill/broadcast into the orphaned orchestrator.
+    if (orch && typeof orch._clearFormPulseTimer === 'function') {
+      orch._clearFormPulseTimer();
+    }
     return orchestrators.delete(code);
   }
 

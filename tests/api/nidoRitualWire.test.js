@@ -108,6 +108,52 @@ test('GET nido/scars: unknown session -> 404', async (t) => {
   assert.equal(res.status, 404);
 });
 
+test('nido/ritual transform: flag OFF -> granted_trait null (band-neutral)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid, pgId } = await startWithScar(app, 'torso');
+  delete process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED; // explicit OFF
+  const res = await request(app)
+    .post(`/api/session/${sid}/nido/ritual`)
+    .send({ unit_id: pgId, location: 'torso', kind: 'transform' });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.ritual.granted_trait, null, 'no mechanical grant when flag OFF');
+});
+
+test('nido/ritual transform: flag ON -> grants the PROPOSED scar trait (SPEC-E)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    delete process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid, pgId } = await startWithScar(app, 'torso');
+  process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED = 'true';
+  const res = await request(app)
+    .post(`/api/session/${sid}/nido/ritual`)
+    .send({ unit_id: pgId, location: 'torso', kind: 'transform' });
+  assert.equal(res.status, 200);
+  // torso (defense scar) -> pelle_elastomera per SCAR_TRAIT_MAP, validated vs SoT.
+  assert.equal(res.body.ritual.granted_trait, 'pelle_elastomera');
+  assert.ok(res.body.ritual.mark, 'narrative mark still present alongside the grant');
+});
+
+test('nido/ritual transform: flag ON but UNMAPPED location (testa) -> no grant (gate)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    delete process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid, pgId } = await startWithScar(app, 'testa');
+  process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED = 'true';
+  const res = await request(app)
+    .post(`/api/session/${sid}/nido/ritual`)
+    .send({ unit_id: pgId, location: 'testa', kind: 'transform' });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.ritual.granted_trait, null, 'testa is unmapped -> master-dd gate');
+});
+
 test('nido/ritual: invalid kind -> 400; unknown unit -> 404', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {

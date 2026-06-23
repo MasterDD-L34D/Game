@@ -10635,3 +10635,104 @@ traits:
       condivisa risuona -> risonanza_memetica (uso singolo, +1 attacco) agli alleati
       entro raggio 3. Reazione difensiva con broadcast. Ref Darkest Dungeon ripple /
       Banner Saga willpower.
+
+  # Slice 4: artigli_psionici (rakshasa). Reazione "leggi-la-preda" engine-coded
+  # (combat/artigliPsionici): a ogni colpo in mischia marca il bersaglio; difendendosi
+  # poi da quella stessa preda guadagna riduzione danno crescente (cap 3). DR
+  # source-predicata, letta allo step di mitigazione in performAttack.
+  artigli_psionici:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: artigli_psionici
+      log_tag: artigli_psionici
+    description_it: |
+      Artigli psionici (rakshasa): colpendo in mischia il portatore studia la preda
+      (lettura_preda). Quando in seguito si difende da quella stessa preda accumula
+      riduzione danno (max 3), solo verso quel bersaglio. Difesa condizionale appresa.
+      Ref Pillars Psion / Hades Guan Yu.
+
+  # Slice 4: tessuti_adattivi (rakshasa). Reazione di adattamento canale engine-coded
+  # (combat/tessutiAdattivi): subito >=2 danni di un canale -> +15% resistenza a quel
+  # canale per 3 round + cura 1 (max 2 canali). Resistenza letta allo step di applica
+  # resistenza in performAttack (pass separato, non la cache _resistances congelata).
+  tessuti_adattivi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: tessuti_adattivi
+      log_tag: tessuti_adattivi
+    description_it: |
+      Tessuti adattivi (rakshasa): subendo >= 2 danni di un canale il tessuto si adatta
+      (adattamento_<canale>) -> +15% resistenza a quel canale per 3 round e cura 1.
+      Al massimo 2 canali adattati insieme. La resistenza morde sui colpi successivi.
+      Ref Hades Stubborn Roots.
+
+  # Slice 5: filtri_bioattivi (otyugh). Bio-filtro passivo engine-coded
+  # (combat/filtriBioattivi): a fine round purga 1 sanguinamento + 1 frattura e cura
+  # 1 per purga. Il modo attivo (1 AP, purga tutti gli status negativi su un alleato
+  # adiacente) e' rinviato -- richiede l'effect_type cleanse_status nello schema
+  # contracts (forbidden path) + re-baseline jobs.yaml (owner-gated).
+  filtri_bioattivi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: filtri_bioattivi
+      log_tag: filtri_bioattivi
+    description_it: |
+      Filtri bioattivi (otyugh): ogni round il bio-filtro purga 1 sanguinamento e 1
+      frattura e cura 1 per ogni status purgato. Mantiene la creatura ripulita dalle
+      ferite da logoramento. Ref Subnautica filtering / Pathfinder otyugh.
+
+  # Slice 5: membrane_osmotiche (otyugh). Assorbimento durata engine-coded
+  # (combat/membraneOsmotiche): le durate degli status in arrivo sono ridotte di 1
+  # all'applicazione (uno status da 1 turno e' assorbito del tutto). Il modo cura-da-
+  # terreno (acqua/palude adiacente) e' rinviato -- manca il substrato terreno per-tile.
+  membrane_osmotiche:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: membrane_osmotiche
+      log_tag: membrane_osmotiche
+    description_it: |
+      Membrane osmotiche (otyugh): la membrana assorbe il morso degli status in arrivo
+      -- la loro durata e' ridotta di 1 all'applicazione (uno status da 1 turno viene
+      assorbito completamente). In tensione coi filtri: meno sofferenza, meno cure da
+      purga. Ref Subnautica fluids / Darkest bleed-resist.
+
+  # Slice 7: pigmenti_aurorali (treant). Bagliore passivo engine-coded
+  # (combat/pigmentiAurorali): finche' il portatore e' a HP >= 50%, a fine round
+  # acceca (abbagliato, -1 attacco al prossimo colpo) i nemici adiacenti. Il modo
+  # attivo (intensifica a -2 + disorient) e' rinviato (ability path, owner-gated);
+  # eco_sismico (partner LARGE di slice 7) rinviato -- serve il substrato terreno/mossa.
+  pigmenti_aurorali:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: pigmenti_aurorali
+      log_tag: pigmenti_aurorali
+    description_it: |
+      Pigmenti aurorali (treant): finche' e' in salute (HP >= 50%) i pigmenti brillano
+      e a fine round accecano i nemici che restano adiacenti (abbagliato: -1 attacco al
+      prossimo colpo). Il bagliore si affievolisce sotto meta' vita. Ref Slay-the-Spire
+      Glow.

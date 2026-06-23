@@ -12718,6 +12718,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md",
+      "title": "Form-Pulse trait v2 -- N=40 grant-power ratify evidence (master-dd verdict pending)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/guide/derived-artifacts-reproducibility.md",
       "title": "Derived data artifacts -- reproducibility hazard + guard (trait bridge + species catalog)",
       "doc_status": "draft",
@@ -12729,6 +12740,45 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "authored"
+    },
+    {
+      "path": "docs/species/creature-domain-bestiary.md",
+      "title": "Bestiario creature-domain (lore canonizzata)",
+      "doc_status": "active",
+      "doc_owner": "lore-designer",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 180,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/catalog/creature-domain-bestiary_assets_draft.md",
+      "title": "Bestiario creature-domain -- schede asset (render v2)",
+      "doc_status": "active",
+      "doc_owner": "asset-prep",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 180,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/reports/2026-06-23-move-terrain-substrate-phase0-review.md",
+      "title": "Move terrain-cost substrate phase 0 (#3006) -- adversarial review",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "migrated"
     }
   ]
 }

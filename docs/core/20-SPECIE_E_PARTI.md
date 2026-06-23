@@ -18,3 +18,5 @@ review_cycle_days: 14
 - **Validator**: `tools/py` e `tools/ts` verificano budget, parti esistenti, sinergie note, biomi/affissi validi, ruoli spawn, VC, nest profile.
 
 📄 **Catalogo**: vedi `data/core/species.yaml` (v0.3, esteso cross-canvas).
+
+**Bestiario creature-domain** (lore + render LoRA, HITL approvato): [lore canonizzata](../species/creature-domain-bestiary.md) (75 schede) + [schede asset](../catalog/creature-domain-bestiary_assets_draft.md) (render v2/v2b/restyle; 75/75 canonizzate).
