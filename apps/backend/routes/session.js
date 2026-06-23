@@ -3372,7 +3372,39 @@ function createSessionRouter(options = {}) {
             continue;
           }
           const dist = manhattanDistance(actor.position, dest);
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          // Move terrain-cost substrate (flag OFF = band-neutral): AI pays terrain-weighted
+          // AP when ON; an unreachable dest is skipped (AI is trusted, no error path). `dist`
+          // stays literal for the stamina tile-tally below. Registry unavailable in this
+          // scope -> evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (full
+          // grade-2/3 threading to AI is a phase-2 follow-up; no volo trait is authored yet).
+          let aiMoveCost = dist;
+          if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+            const {
+              moveApDistance,
+              terrainAtFromFeatures,
+            } = require('../services/combat/moveCost');
+            const {
+              resolveMovementProfile,
+              applyVoloGrade,
+              evaluateVoloGrade,
+            } = require('../services/combat/movementResolver');
+            const profile = applyVoloGrade(
+              resolveMovementProfile(actor, actor.speciesRecord || null),
+              evaluateVoloGrade(null, actor),
+            );
+            const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+            const c = moveApDistance(actor.position, dest, {
+              profile,
+              terrainAt,
+              bounds: { width: _gw2, height: _gh2 },
+            });
+            if (!Number.isFinite(c)) {
+              results.push({ actor_id: actor.id, skipped: 'unreachable_terrain' });
+              continue;
+            }
+            aiMoveCost = c;
+          }
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - aiMoveCost);
           // OD-024 engine #2: voluntary-move tile tally (round-path), flag-gated so the
           // transient field never leaks into publicSessionView when OFF. See per-action site.
           if (require('../services/combat/staminaFatigue').isFatigueEnabled()) {
