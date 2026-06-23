@@ -214,6 +214,24 @@ function computeStatusModifiers(actor, target, units = []) {
     attackDelta += 1;
     log.push({ status: 'nucleo_intatto', side: 'actor', effect: '+1 attack_mod (nucleo intatto)' });
   }
+  if (isPositive(actorStatus.coordinamento)) {
+    // nuclei_di_controllo coordinamento aura (creature-trait slice 3): an ally
+    // within range 2 of an intact nucleus carrier strikes in concert -> +1
+    // attack_mod. Producer = combat/allyAuraMark.refreshNucleiCoordinamento.
+    attackDelta += 1;
+    log.push({ status: 'coordinamento', side: 'actor', effect: '+1 attack_mod (coordinamento)' });
+  }
+  if (isPositive(actorStatus.risonanza_memetica)) {
+    // corteccia_memetica ripple (creature-trait slice 3): a single-use +1 atk
+    // broadcast to allies in range 3 when the treant takes a heavy blow. Spent on
+    // the ally's next attack (combat/cortecciaMemetica.consumeRisonanza clears it).
+    attackDelta += 1;
+    log.push({
+      status: 'risonanza_memetica',
+      side: 'actor',
+      effect: '+1 attack_mod (risonanza memetica)',
+    });
+  }
 
   // ─── Target-side target-defense buffs/debuffs ───────────────────
   if (isPositive(targetStatus.attuned)) {

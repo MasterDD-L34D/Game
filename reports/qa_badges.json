@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-23T00:15:45.674481Z",
+  "generated_at": "2026-06-23T09:02:16.270956Z",
   "summary": {
-    "total_traits": 291,
-    "glossary_ok": 291,
+    "total_traits": 292,
+    "glossary_ok": 292,
     "glossary_missing": 0,
-    "matrix_ok": 183,
+    "matrix_ok": 184,
     "matrix_mismatch": 108,
     "with_conflicts": 28,
-    "matrix_only_traits": 39
+    "matrix_only_traits": 38
   },
   "checks": {
     "traits": {
-      "passed": 291,
-      "total": 291,
+      "passed": 292,
+      "total": 292,
       "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 108
@@ -29,7 +29,6 @@
       "campo_di_fase",
       "ciclo_vitale_anomalo",
       "ciclo_vitale_completo",
-      "corteccia_memetica",
       "eco_sismico",
       "filtri_bioattivi",
       "fisiologia_predatoria",
@@ -40,7 +39,8 @@
       "maschera_illusoria",
       "membrane_osmotiche",
       "metabolismo_attivo",
-      "metabolismo_sostentato"
+      "metabolismo_sostentato",
+      "nodi_micotici"
     ],
     "matrix_mismatch_traits": [
       "aculei_velenosi",
