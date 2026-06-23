@@ -150,6 +150,16 @@ test('non-intensified glow: abbagliato has no intensity boost (defaults to -1)',
   assert.ok(!(enemy.status_intensity && enemy.status_intensity[ABBAGLIATO] > 1), 'no -2 boost');
 });
 
+test('a non-intensified refresh downgrades a prior intensity-2 dazzle (no stale -2)', () => {
+  const calm = unit('treant', 'players', 0, 0, { traits: ['pigmenti_aurorali'] }); // not intensified
+  const enemy = unit('foe', 'sistema', 1, 0, {
+    status: { [ABBAGLIATO]: 99 },
+    status_intensity: { [ABBAGLIATO]: 2 },
+  });
+  applyEndRoundGlow({ carrier: calm, units: [calm, enemy] });
+  assert.equal(enemy.status_intensity[ABBAGLIATO], 1, 'stale intensity 2 downgraded to 1 (-1)');
+});
+
 test('disorientAttacker: an intensified carrier disorients whoever attacks it', () => {
   const treant = unit('treant', 'players', 0, 0, {
     traits: ['pigmenti_aurorali'],

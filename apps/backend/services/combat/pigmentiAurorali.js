@@ -92,12 +92,12 @@ function applyEndRoundGlow({ carrier, units }) {
     if (!enemy.status || typeof enemy.status !== 'object') enemy.status = {};
     const current = Number(enemy.status[ABBAGLIATO] || 0);
     if (current < ABBAGLIATO_TTL) enemy.status[ABBAGLIATO] = ABBAGLIATO_TTL;
-    if (intensity > 1) {
-      if (!enemy.status_intensity || typeof enemy.status_intensity !== 'object') {
-        enemy.status_intensity = {};
-      }
-      enemy.status_intensity[ABBAGLIATO] = intensity;
+    // Always reflect THIS glow's intensity (1 or 2) so a later non-intensified refresh
+    // downgrades a prior intensity-2 dazzle (no stale -2 lingering).
+    if (!enemy.status_intensity || typeof enemy.status_intensity !== 'object') {
+      enemy.status_intensity = {};
     }
+    enemy.status_intensity[ABBAGLIATO] = intensity;
     events.push({ unit_id: enemy.id ?? null, stato: ABBAGLIATO, turns: ABBAGLIATO_TTL, intensity });
   }
   return events;
