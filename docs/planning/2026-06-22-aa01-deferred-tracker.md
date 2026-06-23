@@ -28,13 +28,32 @@ review_cycle_days: 90
 > master-dd (still NOT autonomous: prod-affecting flag).
 
 > **Update 2026-06-22 (D1 follow-up done):** the TV briefing / creature-silhouette cinematic
-> + the host-open trigger landed -- GGv2 [#535](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/535)
-> (host auto-opens on the lobby->character_creation seam, band-neutral: opens FIRST, mounts
-> only on success, 409 imprint_disabled -> proceed; `MainImprint` + `ImprintCinematicView`
-> N-silhouette TV mirror + cosmetic hint; `CoopApi.open/cancel/force_imprint`; device-quorum
-> advance; 47 GUT). **D1 is now fully DONE** (phone #531 + host/TV #535). **D2 (flip
-> `IMPRINT_BEAT_ENABLED`) is gated only on a co-op playtest + master-dd** (still NOT
-> autonomous: prod-affecting flag).
+>
+> - the host-open trigger landed -- GGv2 [#535](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/535)
+>   (host auto-opens on the lobby->character_creation seam, band-neutral: opens FIRST, mounts
+>   only on success, 409 imprint_disabled -> proceed; `MainImprint` + `ImprintCinematicView`
+>   N-silhouette TV mirror + cosmetic hint; `CoopApi.open/cancel/force_imprint`; device-quorum
+>   advance; 47 GUT). **D1 is now fully DONE** (phone #531 + host/TV #535). **D2 (flip
+>   `IMPRINT_BEAT_ENABLED`) is gated only on a co-op playtest + master-dd** (still NOT
+>   autonomous: prod-affecting flag).
+
+> **Update 2026-06-23 (D3/D5/D6 disposition):** the 3 remaining backend-side deferred
+> items were scoped against the live code (master-dd-gated, no engine code shipped):
+>
+> - **D3 `publicSessionView` field** -> stays DEFERRED. Gate-5 verified: the ONLY
+>   imprint-hint consumer is the Godot phone chip (`phone_imprint_hint_chip.gd`), mounted
+>   on the composer root so it persists into combat and reads the hint off coop-state; no
+>   TV / combat-HUD surface reads `publicSessionView` for the hint. Adding the field now =
+>   engine-LIVE / surface-DEAD. Build only if a future solo / non-coop combat HUD needs it.
+> - **D5 route-vote weighting** -> design-note authored (PROPOSED, master-dd-gated):
+>   [`2026-06-23-aa01-imprint-route-vote-weighting-design-note.md`](2026-06-23-aa01-imprint-route-vote-weighting-design-note.md).
+>   Doubly-gated (`META_NETWORK_ROUTING` OFF + Godot route-UI) + SDMG semantics -> no build
+>   now; the note is the ratified-design parking spot for when the meta-network flip is a
+>   real call.
+> - **D6 axis->trait grant** -> spec DRAFT authored (NON-band-neutral, master-dd ratify):
+>   [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md).
+>   Mirrors `brancoTraitEmergence` governance; no code until master-dd picks the stacking +
+>   mapping AND it clears an N=40 balance pass.
 
 ## 1. Shipped this session (merged / open PRs)
 
@@ -57,17 +76,17 @@ Per-CAP disposition (13 branches, all preserved on `origin/aa01/cap-*`):
 
 ## 2. Deferred items (the tracker)
 
-| #   | Item                                              | What it is                                                                                                          | Gated on                                                                               | Track / link                                                                                 |
-| --- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | **DONE** -- #531 (phone+hint) + #535 (host-open + TV cinematic); playtest pending -> D2 | aa01 -> build-spec sec.6                                                                     |
-| D2  | **`IMPRINT_BEAT_ENABLED` flip**                   | Turn the imprint beat ON in prod                                                                                    | **D1 surface landed (#531)** -> playtest + master-dd (NEXT gate)                       | aa01 (Gate-5)                                                                                |
-| D3  | **C2-imprint `publicSessionView` in-match field** | An additive combat-session hint field (today the hint rides coop-state)                                             | a combat-only consumer that does not read coop-state                                   | aa01 -> build-spec sec.5 STEP 3                                                              |
-| D4  | **C2-imprint auto-timer defaulting**              | Silent auto-default of unmarked axes on timeout (host `force` already exists)                                       | master-dd design call ("is a defaulted imprint acceptable?")                           | aa01 -> build-spec open-risk                                                                 |
-| D5  | **C2-imprint route-vote affinity weighting**      | The 2nd affinity consumer (master-dd picked hint + route-vote; only hint built)                                     | `META_NETWORK_ROUTING` flip + Godot route-UI                                           | aa01 + **meta-network / GAP-C**                                                              |
-| D6  | **C2-imprint axis->trait grant**                  | Make the 4 axes grant mechanical traits (aa01 V2 dropped V1's choice->trait_id)                                     | master-dd + a separate spec (NON-band-neutral; touches roster/combat)                  | aa01                                                                                         |
-| D7  | **C2-imprint diegetic prose + hint-string**       | Player-facing copy + "il tuo branco tende verso X" wording                                                          | master-dd-authored (codex-lore HITL boundary)                                          | aa01                                                                                         |
-| D8  | **CAP-07 chain-lightning propagation**            | `chainElectrified` multi-tile BFS over the persistent `tile_state_map` on an electrified tile                       | master-dd balance design (chain radius + per-tile damage)                              | terrain reactions (M14-A legacy), NOT a SPEC letter                                          |
-| D9  | **CAP-12 PlayerRunTelemetry canon-home**          | Where `vcSnapshot` + `selectedForm` cross-run telemetry lives (standalone Prisma / fold into campaign-save / defer) | a dedicated design-spec (home + producer + auth/PII); migration = forbidden-path + ADR | aa01 + **SPEC-M (Form-Pulse/MBTI)** + reconstruct-from-ledger doctrine (SoT 13.9 / 00D 16.4) |
+| #   | Item                                              | What it is                                                                                                          | Gated on                                                                                                                                                 | Track / link                                                                                                  |
+| --- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| D1  | **C2-imprint Godot surface**                      | The phone/TV client for the beat + cosmetic hint chip (cross-repo Game-Godot-v2)                                    | **DONE** -- #531 (phone+hint) + #535 (host-open + TV cinematic); playtest pending -> D2                                                                  | aa01 -> build-spec sec.6                                                                                      |
+| D2  | **`IMPRINT_BEAT_ENABLED` flip**                   | Turn the imprint beat ON in prod                                                                                    | **D1 surface landed (#531)** -> playtest + master-dd (NEXT gate)                                                                                         | aa01 (Gate-5)                                                                                                 |
+| D3  | **C2-imprint `publicSessionView` in-match field** | An additive combat-session hint field (today the hint rides coop-state)                                             | VERIFIED 2026-06-23: none (coop-state covers in-match; Godot phone chip persists into combat) -> stays deferred, Gate-5                                  | aa01 -> build-spec sec.5 STEP 3                                                                               |
+| D4  | **C2-imprint auto-timer defaulting**              | Silent auto-default of unmarked axes on timeout (host `force` already exists)                                       | master-dd design call ("is a defaulted imprint acceptable?")                                                                                             | aa01 -> build-spec open-risk                                                                                  |
+| D5  | **C2-imprint route-vote affinity weighting**      | The 2nd affinity consumer (master-dd picked hint + route-vote; only hint built)                                     | `META_NETWORK_ROUTING` flip + Godot route-UI                                                                                                             | aa01 + **meta-network / GAP-C** -> [design-note](2026-06-23-aa01-imprint-route-vote-weighting-design-note.md) |
+| D6  | **C2-imprint axis->trait grant**                  | Make the 4 axes grant mechanical traits (aa01 V2 dropped V1's choice->trait_id)                                     | master-dd ratify + N=40, separate spec (NON-band-neutral; touches roster/combat) -> [spec DRAFT](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md) | aa01                                                                                                          |
+| D7  | **C2-imprint diegetic prose + hint-string**       | Player-facing copy + "il tuo branco tende verso X" wording                                                          | master-dd-authored (codex-lore HITL boundary)                                                                                                            | aa01                                                                                                          |
+| D8  | **CAP-07 chain-lightning propagation**            | `chainElectrified` multi-tile BFS over the persistent `tile_state_map` on an electrified tile                       | master-dd balance design (chain radius + per-tile damage)                                                                                                | terrain reactions (M14-A legacy), NOT a SPEC letter                                                           |
+| D9  | **CAP-12 PlayerRunTelemetry canon-home**          | Where `vcSnapshot` + `selectedForm` cross-run telemetry lives (standalone Prisma / fold into campaign-save / defer) | a dedicated design-spec (home + producer + auth/PII); migration = forbidden-path + ADR                                                                   | aa01 + **SPEC-M (Form-Pulse/MBTI)** + reconstruct-from-ledger doctrine (SoT 13.9 / 00D 16.4)                  |
 
 Notes:
 
