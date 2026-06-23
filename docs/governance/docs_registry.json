@@ -12722,7 +12722,7 @@
     {
       "path": "docs/species/creature-domain-bestiary.md",
       "title": "Bestiario creature-domain (lore canonizzata)",
-      "doc_status": "review_needed",
+      "doc_status": "active",
       "doc_owner": "lore-designer",
       "workstream": "dataset-pack",
       "last_verified": "2026-06-23",
