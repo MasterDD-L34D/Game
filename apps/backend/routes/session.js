@@ -124,6 +124,9 @@ const {
 // Creature-trait slice 5: membrane_osmotiche duration_absorb (-1 on incoming status
 // durations). filtri_bioattivi turn-start cleanse is wired in sessionRoundBridge.
 const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
+// Creature-trait slice 7: consume the single-use abbagliato dazzle on the attack it
+// weakened (pigmenti_aurorali; the end-of-round glow producer is in sessionRoundBridge).
+const { consumeAbbagliato } = require('../services/combat/pigmentiAurorali');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -689,6 +692,17 @@ function createSessionRouter(options = {}) {
         trait: 'corteccia_memetica',
         triggered: true,
         effect: { kind: 'risonanza_spent', actor_id: actor.id },
+      });
+    }
+    // Creature-trait slice 7: abbagliato (pigmenti_aurorali) is single-use -- the dazzle
+    // costs -1 atk on THIS attack (read above), then is spent (hit OR miss). Durable
+    // until consumed (PERSISTENT_STATUS_KEYS) so the end-of-round dazzle survives to the
+    // enemy's next attack. Band-neutral: no sim actor carries it.
+    if (consumeAbbagliato(actor)) {
+      evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+        trait: 'pigmenti_aurorali',
+        triggered: true,
+        effect: { kind: 'abbagliato_spent', actor_id: actor.id },
       });
     }
     // Revert chilled attack penalty (per-attack, non-persistente).
@@ -3665,13 +3679,46 @@ function createSessionRouter(options = {}) {
       if (!unit) return res.status(404).json({ error: `unit ${unitId} non in sessione` });
       const nidoRitual = require('../services/combat/nidoRitual');
       const sessionMap = session.lastMissionWounds || null;
+      // SPEC-E scar->transform mechanical grant (verdetto master-dd 2026-06-23).
+      // OFF by default -> band-neutral. When ON, transform also grants the PROPOSED
+      // trait mapped from the scar location, validated against the active_effects SoT.
+      const transformOpts = { sessionMap };
+      if (kind === 'transform' && process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED === 'true') {
+        transformOpts.scarTraitMap = nidoRitual.SCAR_TRAIT_MAP;
+        transformOpts.validTraitIds = Object.keys(traitRegistry || {});
+      }
       const result =
         kind === 'heal'
           ? nidoRitual.healScar(unit, location, { sessionMap })
-          : nidoRitual.transformScar(unit, location, { sessionMap });
+          : nidoRitual.transformScar(unit, location, transformOpts);
       const okFlag = kind === 'heal' ? result.healed : result.transformed;
       if (!okFlag) {
         return res.status(409).json({ error: 'ritual_unavailable', reason: result.reason, kind });
+      }
+      // SPEC-E mechanical grant -> campaign per-creature trait store (MA1). Best-
+      // effort, never blocks the ritual; stays null unless the flag is ON AND a valid
+      // trait was derived (band-neutral when OFF).
+      // granted_trait = what the transform derived (flag-gated, null when OFF/unmapped).
+      // Surfaced in the response so the ritual UI can show it, AND persisted to the
+      // campaign per-creature store (MA1) when a campaign is linked (best-effort).
+      const grantedTrait = result.granted_trait || null;
+      if (grantedTrait && session.campaign_id) {
+        try {
+          const { getCampaign, updateCampaign } = require('../services/campaign/campaignStore');
+          const camp = getCampaign(session.campaign_id);
+          if (camp) {
+            const cur =
+              camp.acquiredTraitsByCreature && typeof camp.acquiredTraitsByCreature === 'object'
+                ? { ...camp.acquiredTraitsByCreature }
+                : {};
+            if (cur[unit.id] !== grantedTrait) {
+              cur[unit.id] = grantedTrait;
+              updateCampaign(session.campaign_id, { acquiredTraitsByCreature: cur });
+            }
+          }
+        } catch {
+          /* campaign apply best-effort */
+        }
       }
       // esito public -> chronicle (best-effort, never blocks the ritual).
       try {
@@ -3683,6 +3730,7 @@ function createSessionRouter(options = {}) {
           kind,
           location,
           mark: result.mark || null,
+          granted_trait: grantedTrait,
           turn: session.turn,
         });
       } catch {
@@ -3696,6 +3744,7 @@ function createSessionRouter(options = {}) {
           location,
           scar: result.scar || null,
           mark: result.mark || null,
+          granted_trait: grantedTrait,
         },
         state: publicSessionView(session),
       });
