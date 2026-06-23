@@ -1,0 +1,178 @@
+---
+title: 'Form-Pulse trait system v2 -- per-player minor trait + always-emerge + random-fill (DRAFT, NON-band-neutral, master-dd ratify)'
+date: 2026-06-23
+sprint: aa01-impronta-reconciliation
+doc_status: draft
+doc_owner: claude-code
+workstream: cross-cutting
+last_verified: '2026-06-23'
+source_of_truth: false
+language: it-en
+review_cycle_days: 90
+---
+
+# Form-Pulse trait system v2 -- design spec DRAFT
+
+> **Status: DRAFT / PROPOSED -- NON-canon, NON-band-neutral, master-dd ratify + N=40 BEFORE
+> any code.** This extends the EXISTING Form-Pulse -> shared branco-trait system
+> (`brancoTraitEmergence`, MA1 part 2, ADR-2026-06-08) with three master-dd-decided pieces
+> (2026-06-23). It is flag-gated: with the flag OFF the Form-Pulse behaves byte-identically
+> to today. The mapping(s) + rules stay PROPOSED until ratified via N=40 (mirror MA3).
+
+## 0. Scope realignment (why this is on Form-Pulse, not Imprint)
+
+A 2026-06-23 ground-truth check found the co-op flow has **two distinct beats**:
+
+|                  | **IMPRINT ("L'Impronta")**   | **FORM-PULSE**                          |
+| ---------------- | ---------------------------- | --------------------------------------- |
+| Input            | 4 binary pole buttons        | **5 continuous bars/sliders** ([-1,+1]) |
+| Ownership        | round-robin, 1-2 axes/player | **every player moves all 5 bars**       |
+| Output           | cosmetic biome hint only     | **shared branco TRAIT** + MBTI/VC nudge |
+| Per-player trait | none                         | none                                    |
+
+The master-dd design ("per-player bars -> shared branco trait + per-player minor trait
+compatible with own bars + the branco trait, with a random fill for whoever does not
+participate") lives on **FORM-PULSE**. The shared branco trait already exists; this spec
+adds the missing pieces. The IMPRINT items (D3/D5/D6, build-spec + deferred-tracker) are a
+separate cosmetic beat -- **D6 (imprint axis->trait) is SUPERSEDED by this spec** (the trait
+design moved to Form-Pulse). Imprint's deadline timer stays warn-only (#2977); the
+random-fill/timeout here is a Form-Pulse mechanic.
+
+## 1. Existing system (reused as-is)
+
+`services/identity/brancoTraitEmergence.js` + `services/formPulseVc.js` +
+`coopOrchestrator._applyBrancoTraitEmergence` (~L812):
+
+1. Each player submits 5 bars (axes in `[-1,+1]`): `solitary_swarm`, `explore_caution`,
+   `symbiosis_predation`, `memory_instinct`, `agile_robust`.
+2. `aggregateFormPulses` = per-axis **average** across submitting players -> branco aggregate.
+3. `emergeBrancoTrait` = **dominant axis** (`argmax|avg|`); if `|avg| >= EMERGENCE_THRESHOLD`
+   (0.30) the trait for that axis's pole (sign) emerges. Deterministic tie-break (mapping
+   order).
+4. Applied to EVERY submitted character (all share the branco trait). Idempotent; a changed
+   dominant axis swaps the tracked id; player-chosen traits untouched.
+
+PROPOSED branco mapping (ratify N=40 -- kept):
+
+| Axis                | + pole                | - pole                        |
+| ------------------- | --------------------- | ----------------------------- |
+| solitary_swarm      | `legame_di_branco`    | `mimetismo_cromatico_passivo` |
+| explore_caution     | `sensori_sismici`     | `sensori_geomagnetici`        |
+| symbiosis_predation | `ferocia`             | `empatia_coordinativa`        |
+| memory_instinct     | `cervello_predittivo` | `cervello_a_bassa_latenza`    |
+| agile_robust        | `pelle_elastomera`    | `zampe_a_molla`               |
+
+**Decided (master-dd 2026-06-23): keep the dominant-axis model + this mapping.**
+
+## 2. Piece 1 -- always-emerge (threshold -> 0), flag-gated
+
+**Decided**: the branco should ALWAYS receive a trait (no "indeciso -> nothing"). Make
+`EMERGENCE_THRESHOLD` **configurable**; the new mode = 0 (always emerge the dominant-axis
+trait, even weak).
+
+- **Flag-gated / band-neutral**: default threshold stays **0.30** (today's behavior). Only
+  with the v2 flag ON does it drop to 0. Flag OFF => byte-identical.
+- **Flat-tie fallback (open call)**: at threshold 0, a perfectly flat aggregate (every
+  `avg == 0`) has no signed dominant axis. Deterministic fallback = first axis in mapping
+  order, pole `+` (or: no-emerge even at threshold 0). **Ratify which.**
+
+## 3. Piece 2 -- per-player minor trait (NEW)
+
+**Decided**: each player ALSO receives a **minor/passive trait** (distinct category from the
+shared branco slot -- the D6=D "categoria distinta" decision), derived from THEIR OWN bars,
+**complementing** the branco trait.
+
+**Algorithm (COMPLEMENT rule -- decided):**
+
+1. Compute the player's own dominant axis = `argmax|player's 5 bars|`.
+2. If that axis **equals the branco's dominant axis**, use the player's **2nd-strongest**
+   axis instead -> the minor trait COMPLEMENTS (never duplicates) the shared branco trait.
+   "Compatible" = non-duplicate / complementary.
+3. Map (axis, pole) -> a **minor-pool** `trait_id` (distinct from the branco mapping;
+   minor/passive tier). Apply to that player's OWN creature only.
+
+**PROPOSED minor-pool mapping (ratify N=40 -- placeholder, pick T1/passive traits):** a
+SEPARATE 5x2 table of minor/passive `trait_id`s (NOT the branco combat traits above). The
+full pool selection is a ratify item: pick T1/passive-tier traits that exist in
+`data/core/traits/active_effects.yaml`, verify each, balance via N=40. (Do NOT reuse the
+branco mapping ids -- the minor trait must read as a smaller, personal flavor, not a second
+combat trait.)
+
+**Open calls (ratify):** the minor-pool ids; whether the minor trait is stripped/re-derived
+if the player re-submits (mirror the branco idempotent swap); whether a 2-axis tie inside a
+single player's bars uses mapping order (yes, for determinism).
+
+## 4. Piece 3 -- random-fill + 2-stage timeout (NEW)
+
+**Decided**: a player who does not submit must not block the branco emergence forever; on
+timeout their bars are **rolled at random** and feed BOTH the branco aggregate AND their own
+minor trait.
+
+- **2-stage** (mirror the imprint #2977 escalation shape, but it ACTS here): at the **warn**
+  deadline -> a non-blocking warning broadcast (devices nudge the laggards); at the **auto**
+  deadline -> roll the missing players' bars.
+- **Real random, frozen on roll**: the user wants genuinely random bars (NOT a deterministic
+  hash). Reconcile with reconnect/replay-safety by **rolling ONCE server-side and persisting
+  the rolled values into `formPulses`** (exactly like a real submission). After the roll the
+  state is frozen, so reconnect/snapshot stay consistent. The RNG is an injectable seam (DI,
+  mirror `_setTimeoutFn`) so tests are deterministic; production uses a real roll.
+- **Feeds everything**: the rolled bars enter `aggregateFormPulses` (branco) AND that
+  player's per-player minor trait (Piece 2). A randomly-filled player thus gets a coherent
+  minor trait from their rolled profile.
+- **Timing (per-player scaled -- decided knob A)**: warn + grace scale with the connected
+  player count (more devices = more coordination time). PROPOSED defaults (ratify): warn =
+  45000ms, grace = +30000ms, + a per-extra-player increment. All env-configurable, not
+  hardcoded.
+- **Flag-gated**: default OFF = Form-Pulse has NO timeout (today's behavior: a non-submitter
+  blocks emergence until they submit). Flag ON arms the 2-stage timer.
+
+## 5. Flag + band-neutrality
+
+ALL of Pieces 1-3 sit behind a single v2 flag (e.g. `FORM_PULSE_TRAIT_V2_ENABLED`, default
+OFF). OFF => threshold 0.30, no timeout, no per-player minor trait, no random-fill =
+byte-identical to today. The mapping(s) + timing + flat-tie rule stay PROPOSED until N=40.
+
+## 6. P6 Fairness implications (ratify-blocking)
+
+- The branco trait (shared) + a per-player minor trait = MORE team power than a baseline run.
+  The minor traits are a DISTINCT minor/passive tier (D6=D) to cap the creep; N=40 must
+  confirm the combined load vs encounter difficulty.
+- Random-fill gives an absent player a real (rolled) minor trait + shifts the branco
+  aggregate -- acceptable because it is the team's anti-deadlock, but the roll must be a
+  minor/passive trait (low stakes), not a strong combat trait.
+- Solo applicability: if Form-Pulse is co-op-only, solo runs never get these -> account for
+  the solo-vs-co-op gap.
+
+## 7. Open calls -- ratify checklist (master-dd + N=40)
+
+1. The flat-tie fallback at threshold 0 (first-axis-+ vs no-emerge).
+2. The minor-pool 5x2 mapping (pick T1/passive ids, verify exist).
+3. Timing defaults + the per-player scaling increment.
+4. Re-derivation on re-submit (strip/swap the minor trait like the branco one?).
+5. Solo applicability.
+6. **Verify wiring**: a code comment in `_applyBrancoTraitEmergence` warns "phone MBTI axes
+   yield no emergent (axis-vocabulary contract = separate issue)" -- confirm the Godot
+   Form-Pulse bars actually send the 5 creature-axis keys that trigger emergence (else the
+   whole system is dormant). Check before build.
+
+## 8. Build plan (after ratify)
+
+Mirror `brancoTraitEmergence` discipline (pure producer + PROPOSED mapping + flag-gated +
+TDD):
+
+1. Make `EMERGENCE_THRESHOLD` injectable; v2 flag -> 0 + flat-tie fallback. Tests.
+2. `emergePlayerMinorTrait(playerAxes, brancoAxis, opts)` pure helper (complement rule +
+   minor-pool mapping). Tests (incl. the dominant==branco -> 2nd-axis case).
+3. `_applyPlayerMinorTraits()` -> each character gets its own minor trait; idempotent.
+4. 2-stage timer on the Form-Pulse open/submit path (DI `_setTimeoutFn` + RNG seam; persist
+   rolled bars). Tests mirror `coopOrchestratorLethalAutoTimer.test.js`.
+5. Godot: Form-Pulse view shows the warn + (optional) the rolled-fill; surface the per-player
+   minor trait + branco trait in the debrief/roster. Gate-5: ship the consumer with the
+   producer.
+
+## 9. Disposition
+
+**DRAFT.** No code until master-dd ratifies the open calls (sec.7) + the mapping(s) clear an
+N=40 balance pass. On ratify, build per sec.8 (flag OFF until the surface lands + playtest).
+On decline of any piece, that piece stays unbuilt (the others can ship independently behind
+the flag). Supersedes the D6 imprint-axis->trait direction.
