@@ -274,7 +274,7 @@
       "traits": {
         "core": [
           "cuscinetti_elettrostatici",
-          "static_vines",
+          "chioma_parassita_canopica",
           "foliage_fotocatodico",
           "antenne_waveguide"
         ],
@@ -300,7 +300,7 @@
           ],
           "preferred_traits": [
             "cuscinetti_elettrostatici",
-            "static_vines"
+            "chioma_parassita_canopica"
           ],
           "tier": 4
         },
@@ -313,7 +313,7 @@
             "energia"
           ],
           "preferred_traits": [
-            "static_vines",
+            "chioma_parassita_canopica",
             "linfa_tampone"
           ],
           "tier": 3
