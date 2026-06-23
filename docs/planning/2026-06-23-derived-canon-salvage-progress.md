@@ -25,36 +25,40 @@ re-baseline. Roadmap: `docs/superpowers/plans/2026-06-22-derived-canon-salvage-r
 
 ## Merged on main (the spine)
 
-| PR | SHA | Phase | Delivered |
-| --- | --- | --- | --- |
-| [#2971](https://github.com/MasterDD-L34D/Game/pull/2971) | `95ffee23` | 0 Foundation | reproducibility guard `tools/py/check_derived_reproducible.py` + deterministic bridge (LF + order-preserving + schema_version) + idempotent `promote_gameplay_to_canon` (`--catalog`/`--out` + stub-upgrade) + runbook `docs/guide/derived-artifacts-reproducibility.md` |
-| [#2973](https://github.com/MasterDD-L34D/Game/pull/2973) | `87fc3d9b` | 1.5 + GAP1 | `tools/py/add_trait_stub.py` (atomic trait-add through the 5 gates) + **35 GAP1 trait stubs** authored (16 `starter_bioma_*` dropped, 2 statuses excluded) |
-| [#2975](https://github.com/MasterDD-L34D/Game/pull/2975) | `c0bae655` | design + slice 1 | ratified design docs (12-trait mechanics spec + 14-creature proposal + engine plan) + `resonant-claw-hunter.yaml` full spec + **slice 1**: `inibito` status + ability-suppression guard (`combat/abilitySuppression.js` @ `executeAbility`) + `matrice_antimagia` Mode B (on-hit inibito) |
+| PR                                                       | SHA        | Phase               | Delivered                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------------------------------- | ---------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#2971](https://github.com/MasterDD-L34D/Game/pull/2971) | `95ffee23` | 0 Foundation        | reproducibility guard `tools/py/check_derived_reproducible.py` + deterministic bridge (LF + order-preserving + schema_version) + idempotent `promote_gameplay_to_canon` (`--catalog`/`--out` + stub-upgrade) + runbook `docs/guide/derived-artifacts-reproducibility.md`                                                                                             |
+| [#2973](https://github.com/MasterDD-L34D/Game/pull/2973) | `87fc3d9b` | 1.5 + GAP1          | `tools/py/add_trait_stub.py` (atomic trait-add through the 5 gates) + **35 GAP1 trait stubs** authored (16 `starter_bioma_*` dropped, 2 statuses excluded)                                                                                                                                                                                                           |
+| [#2975](https://github.com/MasterDD-L34D/Game/pull/2975) | `c0bae655` | design + slice 1    | ratified design docs (12-trait mechanics spec + 14-creature proposal + engine plan) + `resonant-claw-hunter.yaml` full spec + **slice 1**: `inibito` status + ability-suppression guard (`combat/abilitySuppression.js` @ `executeAbility`) + `matrice_antimagia` Mode B (on-hit inibito)                                                                            |
 | [#2976](https://github.com/MasterDD-L34D/Game/pull/2976) | `37b70964` | ability-grant infra | master-dd "Infra completa AoE": traitMechanics schema (FORBIDDEN, authorized: `+suppress_ability` enum `+aoe_size/range`) + **jobs.yaml re-baseline** (3rd derived-drift family, ~842 stale lines) + `matrice_pulse` (Mode A AoE) + handlers `executeSuppressAbility` + `executeApplyStatus` (un-dormants the trait-native apply_status abilities) ; sentinel 18->20 |
-| [#2978](https://github.com/MasterDD-L34D/Game/pull/2978) | `4efaefb9` | slice 2 | **nuclei_di_controllo weak-point** (first PASSIVE-aura slice): `combat/nucleiWeakPoint.js` + statusModifiers consumer + passiveStatusApplier producer + performAttack wire + `PERSISTENT_STATUS_KEYS` durability |
+| [#2978](https://github.com/MasterDD-L34D/Game/pull/2978) | `4efaefb9` | slice 2             | **nuclei_di_controllo weak-point** (first PASSIVE-aura slice): `combat/nucleiWeakPoint.js` + statusModifiers consumer + passiveStatusApplier producer + performAttack wire + `PERSISTENT_STATUS_KEYS` durability                                                                                                                                                     |
+| [#2983](https://github.com/MasterDD-L34D/Game/pull/2983) | `ab884418` | slice 3             | **ally_aura_mark primitive** (`combat/allyAuraMark.js` broadcastAura + refreshNucleiCoordinamento) + **corteccia_memetica** (DR2 at the mitigation seam + single-use risonanza broadcast) + **nuclei full** (3rd state nucleo_distrutto + burst2 + coordinamento aura); `PERSISTENT_STATUS_KEYS += nucleo_distrutto + coordinamento` (real + spec-mirror)            |
+| [#2985](https://github.com/MasterDD-L34D/Game/pull/2985) | `1e7d7e5e` | slice 4             | **artigli_psionici** (read-the-prey source-marked DR, off-status `_lettura_preda` map predicated on attacker id) + **tessuti_adattivi** (channel adaptation; +15% resist via a separate `applyResistance` pass bypassing the frozen `target._resistances` cache). volo I deferred (move-cost substrate absent)                                                       |
 
 Band-neutral throughout: no sim unit carries the new traits, so the AI baseline is
-byte-stable (554 -> 555 across the whole arc; the +1 is a new sync test).
+byte-stable (554 -> 556 across the whole arc; the +1/+1 are new sync tests).
 
 ## Trait mechanics -- 12 ratified (spec `2026-06-22-creature-trait-mechanics-design.md`)
 
-| # | trait | status | where |
-| --- | --- | --- | --- |
-| -- | `inibito` prereq (ability suppression) | **DONE** | abilitySuppression.js + guard (#2975) |
-| 3 | matrice_antimagia | **DONE** (Mode A AoE + Mode B on-hit) | #2975 + #2976 |
-| 8 | nuclei_di_controllo | **PARTIAL** v1 (2-state intact->danno) | #2978 ; 3rd state (distrutto+burst) + ally coordinamento aura = slice 3 |
-| 1 | adattamento_volo (3 grades) | pending | slice 4/5 |
-| 2 | artigli_psionici (read-the-prey DR) | pending | slice 4 |
-| 4 | corteccia_memetica | pending | slice 3 (ally_aura_mark) |
-| 5 | eco_sismico (tile timed-status) | pending | slice 7 (LARGE) |
-| 6 | filtri_bioattivi (cleanse_status) | pending | slice 5 |
-| 7 | membrane_osmotiche (duration_absorb) | pending | slice 5 |
-| 9 | pigmenti_aurorali (end-round sweep) | pending | slice 7 (LARGE) |
-| 10 | radici_ancora_planare | pending | slice 2-residual (needs 0-move producer + DR path) |
-| 11 | tessuti_adattivi (channel resist) | pending | slice 4 |
+| #   | trait                                  | status                                                                 | where                                                                                                                                                                                                                                           |
+| --- | -------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --  | `inibito` prereq (ability suppression) | **DONE**                                                               | abilitySuppression.js + guard (#2975)                                                                                                                                                                                                           |
+| 3   | matrice_antimagia                      | **DONE** (Mode A AoE + Mode B on-hit)                                  | #2975 + #2976                                                                                                                                                                                                                                   |
+| 8   | nuclei_di_controllo                    | **DONE** (3-state intact->danno->distrutto+burst + coordinamento aura) | #2978 + #2983                                                                                                                                                                                                                                   |
+| 2   | artigli_psionici (read-the-prey DR)    | **DONE**                                                               | #2985                                                                                                                                                                                                                                           |
+| 4   | corteccia_memetica                     | **DONE**                                                               | #2983                                                                                                                                                                                                                                           |
+| 11  | tessuti_adattivi (channel resist)      | **DONE**                                                               | #2985                                                                                                                                                                                                                                           |
+| 1   | adattamento_volo (3 grades)            | **DEFERRED** (substrate-gated)                                         | grade I deferred #2985: live move calc is pure Manhattan, NO terrain move-cost term to ignore (movement_profiles.yaml terrain_cost_multiplier dormant, 0 consumers); grades II/III need elevation/altitude. design-to-engine call for master-dd |
+| 5   | eco_sismico (tile timed-status)        | pending                                                                | slice 7 (LARGE)                                                                                                                                                                                                                                 |
+| 6   | filtri_bioattivi (cleanse_status)      | pending                                                                | slice 5                                                                                                                                                                                                                                         |
+| 7   | membrane_osmotiche (duration_absorb)   | pending                                                                | slice 5                                                                                                                                                                                                                                         |
+| 9   | pigmenti_aurorali (end-round sweep)    | pending                                                                | slice 7 (LARGE)                                                                                                                                                                                                                                 |
+| 10  | radici_ancora_planare                  | **DEFERRED** (substrate-gated)                                         | needs a 0-move producer ("no moved-this-round signal") + flat-DR path; same move-substrate fork as volo                                                                                                                                         |
 
-**Score: 2.5 / 12 built** (inibito prereq + matrice full + nuclei v1). 7-slice plan
-+ per-slice acceptance in `docs/superpowers/plans/2026-06-22-creature-trait-mechanics-engine-plan.md`.
+**Score: 6.5 / 12 built** (inibito prereq + matrice full + nuclei full + corteccia + artigli + tessuti).
+2 substrate-gated (volo, radici -> move/terrain/elevation substrate decision for master-dd).
+Remaining buildable: filtri + membrane (slice 5, pending recon) ; eco_sismico + pigmenti (slice 7 LARGE).
+7-slice plan + per-slice acceptance in `docs/superpowers/plans/2026-06-22-creature-trait-mechanics-engine-plan.md`.
 
 ## Creatures -- 14 ratified (proposal `2026-06-22-retired-creatures-salvage-proposal.md`)
 
@@ -78,13 +82,12 @@ byte-stable (554 -> 555 across the whole arc; the +1 is a new sync test).
 
 ## Residuals (prioritized)
 
-1. **Slice 3**: corteccia_memetica + nuclei full (distrutto+burst + ally coordinamento) -> introduces `ally_aura_mark` (range-based ally broadcast) + on-damage-received reaction.
-2. **Slices 4-7**: artigli/tessuti/volo-I (slice 4) ; filtri/membrane/volo-II-III (slice 5) ; eco_sismico + pigmenti LARGE (slice 7). matrice Mode A already done (was slice 6).
-3. **radici_ancora_planare**: needs a 0-move producer (no "moved this round" signal exists) + flat-DR path -- a design-to-engine call.
-4. **13 creatures**: spec + lore HITL + promote (depend on their kit traits being built) + delete obsolete stubs.
-5. **Final catalog/affinity re-baseline** (owner-gated).
-6. **GAP2**: 103 per-trait DB files NOT wired to active_effects (likely inert) -- reconcile dup `*_2` suffixes, then propose a mechanic per inert trait (design-gated).
-7. **Stale trace_hashes** (repo-wide, separate PR) + **CI-wire the guard** (`.github/workflows`, owner-gated) + register the 2026-06-22 program docs in docs_registry (warning-only).
+1. ~~**Slice 3**~~ DONE (#2983) + ~~**Slice 4** artigli/tessuti~~ DONE (#2985). Remaining trait slices: **slice 5** filtri (`cleanse_status`) + membrane (`duration_absorb`) [volo II/III deferred-substrate] ; **slice 7 LARGE** eco_sismico (tile timed-status) + pigmenti (end-of-round sweep). matrice Mode A already done (was slice 6).
+2. **Move/terrain/elevation substrate** (design-to-engine call, master-dd): `adattamento_volo` grades I-III ("ignore terrain move-cost" / ascent+crash / hover-at-altitude) + `radici_ancora_planare` (0-move anchor) all need substrate that does NOT exist -- the live move calc is pure Manhattan distance (no terrain-cost term), no elevation/altitude model, no 0-move-this-round signal. The Wesnoth `terrain_cost_multiplier` (movement_profiles.yaml) is dormant (0 JS consumers). Decide: build the move-cost/elevation substrate (a larger movement-system slice) vs leave these traits unbuilt. Surfaced #2985.
+3. **13 creatures**: spec + lore HITL + promote (depend on their kit traits being built) + delete obsolete stubs.
+4. **Final catalog/affinity re-baseline** (owner-gated).
+5. **GAP2**: 103 per-trait DB files NOT wired to active_effects (likely inert) -- reconcile dup `*_2` suffixes, then propose a mechanic per inert trait (design-gated).
+6. **Stale trace_hashes** (repo-wide, separate PR) + **CI-wire the guard** (`.github/workflows`, owner-gated) + register the 2026-06-22 program docs in docs_registry (warning-only).
 
 ## Entry point for continuation
 
