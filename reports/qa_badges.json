@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-23T00:15:45.674481Z",
+  "generated_at": "2026-06-23T11:35:26.551659Z",
   "summary": {
-    "total_traits": 291,
-    "glossary_ok": 291,
+    "total_traits": 294,
+    "glossary_ok": 294,
     "glossary_missing": 0,
-    "matrix_ok": 183,
+    "matrix_ok": 186,
     "matrix_mismatch": 108,
     "with_conflicts": 28,
-    "matrix_only_traits": 39
+    "matrix_only_traits": 36
   },
   "checks": {
     "traits": {
-      "passed": 291,
-      "total": 291,
+      "passed": 294,
+      "total": 294,
       "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 108
@@ -24,12 +24,10 @@
       "Strategist",
       "adattamento_volo",
       "architetto",
-      "artigli_psionici",
       "assenza_respirazione",
       "campo_di_fase",
       "ciclo_vitale_anomalo",
       "ciclo_vitale_completo",
-      "corteccia_memetica",
       "eco_sismico",
       "filtri_bioattivi",
       "fisiologia_predatoria",
@@ -40,7 +38,9 @@
       "maschera_illusoria",
       "membrane_osmotiche",
       "metabolismo_attivo",
-      "metabolismo_sostentato"
+      "metabolismo_sostentato",
+      "nodi_micotici",
+      "origine_artificiale"
     ],
     "matrix_mismatch_traits": [
       "aculei_velenosi",

@@ -65,8 +65,16 @@ function syncStatusesFromRoundStateSpec(session) {
       (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
     );
     // Mirror the real PERSISTENT_STATUS_KEYS (sessionRoundBridge): wounds + the
-    // nuclei_di_controllo weak-point state are durable, exempt from the round wipe.
-    const PERSISTENT = new Set(['wounds', 'wounded_perma', 'nucleo_intatto', 'danno_nucleo']);
+    // nuclei_di_controllo weak-point states (intact/danno/distrutto) + the
+    // coordinamento ally aura are durable/producer-managed, exempt from the round wipe.
+    const PERSISTENT = new Set([
+      'wounds',
+      'wounded_perma',
+      'nucleo_intatto',
+      'danno_nucleo',
+      'nucleo_distrutto',
+      'coordinamento',
+    ]);
     for (const id of Object.keys(sessionUnit.status)) {
       if (PERSISTENT.has(id)) continue;
       if (!liveIds.has(id)) {
@@ -124,6 +132,29 @@ test('syncStatusesFromRoundState keeps the durable nuclei weak-point state (pers
   syncStatusesFromRoundStateSpec(session);
   assert.ok(Number(session.units[0].status.danno_nucleo) > 0, 'danno_nucleo persists');
   assert.ok(!(Number(session.units[0].status.panic) > 0), 'non-persistent panic wiped');
+});
+
+test('syncStatusesFromRoundState keeps nucleo_distrutto + coordinamento (slice 3 persistent)', () => {
+  // nucleo_distrutto = durable terminal weak-point state (like danno_nucleo): if it
+  // were wiped, the passive refresh would re-intact a destroyed nucleus. coordinamento
+  // = the producer-managed ally aura (allyAuraMark): exempt from the mid-round wipe so
+  // an ally stays coordinated until the round-end recompute.
+  const session = {
+    units: [
+      { id: 'golem', status: { nucleo_distrutto: 99 }, status_intensity: {} },
+      { id: 'ally', status: { coordinamento: 99, panic: 1 }, status_intensity: {} },
+    ],
+    roundState: {
+      units: [
+        { id: 'golem', statuses: [] },
+        { id: 'ally', statuses: [] },
+      ],
+    },
+  };
+  syncStatusesFromRoundStateSpec(session);
+  assert.ok(Number(session.units[0].status.nucleo_distrutto) > 0, 'nucleo_distrutto persists');
+  assert.ok(Number(session.units[1].status.coordinamento) > 0, 'coordinamento persists');
+  assert.ok(!(Number(session.units[1].status.panic) > 0), 'non-persistent panic still wiped');
 });
 
 test('syncStatusesFromRoundState writes array back to session dict', () => {

@@ -10591,9 +10591,11 @@ traits:
       (impulso AoE da 2 AP) e' una slice successiva. Ref XCOM Disruptive
       Field / D&D Antimagic Field, duration-gated (non silenzio totale).
 
-  # Slice 2: nuclei_di_controllo punto-debole bersagliabile (golem). Passivo:
-  # nucleo_intatto -> +1 attacco (combat/statusModifiers). Un colpo MoS>=5
-  # spezza il nucleo (combat/nucleiWeakPoint -> danno_nucleo, +1 difesa).
+  # Slice 2+3: nuclei_di_controllo punto-debole bersagliabile (golem). Passivo:
+  # nucleo_intatto -> +1 attacco + aura coordinamento agli alleati raggio 2
+  # (combat/statusModifiers + combat/allyAuraMark). Un colpo MoS>=5 avanza lo
+  # stato del nucleo (combat/nucleiWeakPoint): intatto -> danno_nucleo (+1 difesa)
+  # -> nucleo_distrutto (burst +2, terminale).
   nuclei_di_controllo:
     tier: T2
     category: neurologico
@@ -10607,7 +10609,69 @@ traits:
       log_tag: nuclei_di_controllo
     description_it: |
       Nuclei di controllo (golem): finche' il nucleo e' intatto coordina i colpi
-      (+1 attacco). Un colpo preciso (MoS >= 5) spezza il nucleo -> stato
-      danneggiato (+1 difesa, perde l'aura offensiva). Punto debole bersagliabile.
-      Ref XCOM MEC weak-point / Othercide. La 3a fase (nucleo distrutto + burst)
-      e' una slice successiva.
+      (+1 attacco) e l'aura coordinamento da' +1 attacco agli alleati entro raggio 2.
+      Un colpo preciso (MoS >= 5) spezza il nucleo -> stato danneggiato (+1 difesa,
+      perde le aure offensive); un secondo colpo preciso lo distrugge -> nucleo
+      distrutto (detonazione, danno +2 una tantum). Punto debole bersagliabile.
+      Ref XCOM MEC weak-point / Othercide.
+
+  # Slice 3: corteccia_memetica (treant). Reazione difensiva engine-coded
+  # (combat/cortecciaMemetica): subito >=3 danni -> riduzione danno 2 + broadcast
+  # risonanza_memetica agli alleati raggio 3. persistent_marker = no-op nel
+  # resolver; la logica vive in performAttack (session.js) sul trait_id.
+  corteccia_memetica:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: corteccia_memetica
+      log_tag: corteccia_memetica
+    description_it: |
+      Corteccia memetica (treant): quando subisce un colpo pesante (>= 3 danni) la
+      corteccia si indurisce (riduzione danno 2 sui colpi successivi) e la ferita
+      condivisa risuona -> risonanza_memetica (uso singolo, +1 attacco) agli alleati
+      entro raggio 3. Reazione difensiva con broadcast. Ref Darkest Dungeon ripple /
+      Banner Saga willpower.
+
+  # Slice 4: artigli_psionici (rakshasa). Reazione "leggi-la-preda" engine-coded
+  # (combat/artigliPsionici): a ogni colpo in mischia marca il bersaglio; difendendosi
+  # poi da quella stessa preda guadagna riduzione danno crescente (cap 3). DR
+  # source-predicata, letta allo step di mitigazione in performAttack.
+  artigli_psionici:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: artigli_psionici
+      log_tag: artigli_psionici
+    description_it: |
+      Artigli psionici (rakshasa): colpendo in mischia il portatore studia la preda
+      (lettura_preda). Quando in seguito si difende da quella stessa preda accumula
+      riduzione danno (max 3), solo verso quel bersaglio. Difesa condizionale appresa.
+      Ref Pillars Psion / Hades Guan Yu.
+
+  # Slice 4: tessuti_adattivi (rakshasa). Reazione di adattamento canale engine-coded
+  # (combat/tessutiAdattivi): subito >=2 danni di un canale -> +15% resistenza a quel
+  # canale per 3 round + cura 1 (max 2 canali). Resistenza letta allo step di applica
+  # resistenza in performAttack (pass separato, non la cache _resistances congelata).
+  tessuti_adattivi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: tessuti_adattivi
+      log_tag: tessuti_adattivi
+    description_it: |
+      Tessuti adattivi (rakshasa): subendo >= 2 danni di un canale il tessuto si adatta
+      (adattamento_<canale>) -> +15% resistenza a quel canale per 3 round e cura 1.
+      Al massimo 2 canali adattati insieme. La resistenza morde sui colpi successivi.
+      Ref Hades Stubborn Roots.

@@ -264,4 +264,12 @@ describe('nuclei_di_controllo passive producer (creature-trait slice 2)', () => 
     applyPassiveAncestors(unit, NUCLEI_REG);
     assert.ok(!(Number(unit.status.nucleo_intatto) > 0), 'broken stays broken');
   });
+
+  test('a destroyed nucleus (nucleo_distrutto) is NOT re-intacted on a refresh wave', () => {
+    // slice 3: the 3rd weak-point state is terminal -- a refresh wave must not heal
+    // a destroyed nucleus back to intact.
+    const unit = { id: 'g', traits: ['nuclei_di_controllo'], status: { nucleo_distrutto: 50 } };
+    applyPassiveAncestors(unit, NUCLEI_REG);
+    assert.ok(!(Number(unit.status.nucleo_intatto) > 0), 'destroyed stays destroyed');
+  });
 });
