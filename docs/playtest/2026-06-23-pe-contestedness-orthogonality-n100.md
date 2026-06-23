@@ -79,3 +79,33 @@ mean = 0.403, sd = 0.099, k = 2.0 ->
 Write `E_dmg_margin` + the band into `canonical-suite.yaml`; set `SELECTED_CANDIDATE` in
 `pe_candidates.py`; update CANONICAL + the composite spec; flip P4 gate-2/4b + P5 to consume
 the real composite band. That unblocks the SPEC-J + SPEC-H flips (the band is the gate).
+
+## Harsh-review 2026-06-23 (SDMG falsification -- master-dd chose "harsh-review first")
+
+> The external `balance-illuminator` subagent died on a transient infra 500 mid-run; the
+> review below is the INLINE compensating pass (data-backed). An external re-run is advised
+> when infra recovers.
+
+**VERDICT: do NOT ratify the band as-is -> FIX (re-run on canonical MULTI-POLICY corpora).**
+The SELECTION (E least-collinear) is directionally defensible; the BAND is not.
+
+Confirmed flaws (data-backed):
+
+1. **Single-policy diagnostic corpora (HIGH).** All 3 corpora are `policy_mode=greedy-only` /
+   `oracle_status="diagnostic -- single-policy (greedy); NOT a multi-policy canonical"`. The
+   composite gates MULTI-POLICY canonical balance (N=40) -> the band is from the wrong policy
+   regime; greedy-only damage dynamics need not match the canonical policy mix.
+2. **Band = 3-point outlier artifact (HIGH).** All 3 -> [0.205, 0.600] (sd 0.099). Dropping the
+   badlands_elite point (0.541) -> [0.299, 0.368] (sd 0.017): the band COLLAPSES (width 0.395 ->
+   0.069) and shifts. n=3 mean+/-2sd is dominated by one oracle -> not ratifiable.
+3. **0.499 moderate + E ~ outcome-proxy (MEDIUM-HIGH).** E = `dmg_taken/(taken+dealt)` is ~1.0 on
+   a wipe and ~0 on a clean win -> it partly RELABELS the outcome (hence |corr| = 0.499). It clears
+   the 0.6 reject line but adds limited WR-orthogonal signal.
+4. **No head-to-head vs pressure (LOW-MED).** These corpora lack the pressure-trajectory keys, so
+   pressure-vs-contestedness is not compared on the same data (pressure stays rejected from PR2).
+
+**FIX path (verify-first):** "re-run on canonical corpora" is NOT a quick re-analysis -- NO
+multi-policy per-combat corpora exist committed; `calibrate_parallel` is greedy-only (no policy
+flag; its default `--base-port 3341` is a PROD WS port, must override); the canonical multi-policy
+harness is `full-loop-batch` (campaign granularity, not per-combat). Generating canonical
+multi-policy per-combat corpora needs HARNESS WORK -> a dedicated calib-session, NOT crammed here.
