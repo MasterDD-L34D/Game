@@ -12707,6 +12707,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-player-trait-spec-draft.md",
+      "title": "Form-Pulse trait system v2 -- per-player minor trait + always-emerge + random-fill (DRAFT, NON-band-neutral, master-dd ratify)",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-imprint-route-vote-weighting-design-note.md",
       "title": "Imprint route-vote affinity weighting -- design-note (D5, master-dd-gated PROPOSAL)",
       "doc_status": "review_needed",
