@@ -11,7 +11,7 @@ review_cycle_days: 180
 
 # Bestiario creature-domain -- schede asset (render v2)
 
-Mappa asset-prep dei render v2 approvati (creature-domain LoRA). Catalogo/sandbox: mappa naming + render sorgente, nessun binario committato.
+Mappa asset-prep dei render approvati (creature-domain LoRA). I 75 render canonici sono versionati in-repo via git-LFS in `assets/creatures/bestiary/<species_id>.png` (uno per specie); questo doc mappa naming + provenance.
 
 ## Provenance
 
@@ -19,7 +19,7 @@ Mappa asset-prep dei render v2 approvati (creature-domain LoRA). Catalogo/sandbo
 - **Generatore**: `generate_bestiary_p5_v2.py` (ComfyUI SDXL, dpmpp_2m karras, 768, 28 step, cfg 7); seed per-specie (crc32).
 - **Render full-res** (sorgente, NON in repo): Ryzen `C:/AI/creature-lora-dataset/p5_drafts/` -- originali `p5v2_<species>_00001_.png` (+ `manifest_v2.json`), regen Fase 1-bis `p5v2b_<species>_00001_.png` (+ `manifest_regen17.json`), basi Fase 1-ter `p5lo_<species>_00001_.png` (LoRA 0.4) + sweep `p5sw_`, restyle finale Fase 1-quater `p5rs_<species>_00001_.png` (img2img d0.6, + `manifest_restyle.json`). Pipeline render->LoRA = repo Game-Godot-v2 (PR #539).
 - **Caveat LoRA**: palette grey-teal + spore-glow + void bg imposta (cue fuoco/magma/ruggine non rendono = solo forma); specie sciame rendono come corpo singolo (limite single-subject SDXL).
-- **Backup canon (off-Ryzen, 2026-06-23)**: i 75 render canonici (58 `p5v2_` + 7 `p5v2b_` + 10 `p5rs_`, uno per specie, 32.4 MB) sono copiati su Lenovo `C:/Users/edusc/Documents/evo-tactics-art/creature-bestiary-canon/<species_id>.png` + `manifest.txt` (mappa species->file->pass + sha256). Non piu' single-point-of-failure su Ryzen.
+- **Canon in-repo (git-LFS, 2026-06-23)**: i 75 render canonici (58 `p5v2_` + 7 `p5v2b_` + 10 `p5rs_`, uno per specie, 32.4 MB) sono versionati via git-LFS in `assets/creatures/bestiary/<species_id>.png` + `manifest.txt` (species->file->pass + sha256). Regola LFS scoped in `.gitattributes` (`assets/creatures/bestiary/*.png`, non repo-wide). Copia off-machine anche su Lenovo `~/Documents/evo-tactics-art/creature-bestiary-canon/` + sorgente full-res su Ryzen `C:/AI/creature-lora-dataset/p5_drafts/`.
 
 ## Verdetto (HITL, approvato)
 
