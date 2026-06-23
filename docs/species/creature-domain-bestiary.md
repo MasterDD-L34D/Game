@@ -31,7 +31,7 @@ _Glacilarus borealis | classe: Volatore planatore / disperdente-ponte | bioma: c
 
 - `criostasi_adattiva`: Durante le stagioni estreme, il Gabbiano d'Aurora entra in un metabolismo sospeso per sopravvivere ai periodi di freddo intenso.
 - `eco_interno_riflesso`: Utilizzando un sonar interno, il Gabbiano d'Aurora mappa l'ambiente attraverso vibrazioni corporee per navigare negli spazi innevati.
-- `sonno_emisferico_alternato`: Il Gabbiano d'Aur0ra dorme con un emisfero cerebrale attivo mentre l'altro riposa, permettendogli di rimanere vigile durante le lunghe migrazioni.
+- `sonno_emisferico_alternato`: Il Gabbiano d'Aurora dorme con un emisfero cerebrale attivo mentre l'altro riposa, permettendogli di rimanere vigile durante le lunghe migrazioni.
 - `sacche_galleggianti_ascensoriali`: Le sacche gassose regolabili del Gabbiano d'Aurora gli permettono di controllare l'assetto e la profondita' durante il volo.
 - `occhi_infrarosso_composti`: Gli occhi infrarossi composti del Gabbiano d'Aurora seguono scie termiche nell'oscurita', aiutandolo a trovare cibo e direzioni durante la notte.
 
@@ -159,9 +159,11 @@ _Fusomorpha palustris | classe: Playable | bioma: Palude Tossica | indice senzie
 
 ## Glowcap Weaver -- `glowcap_weaver`
 
-_classe: unknown | bioma: Foresta Temperata Umida | indice senziente: T1_
+_bioma: Foresta Temperata Umida | indice senziente: T1_
 
 **Concetto.** La sua nicchia evolutiva si basa sulla capacita' di costruire nidi intricati e sulla sensibilita' ai cambiamenti chimici nell'ambiente, permettendogli di adattarsi alle foreste temperate.
+
+**Aspetto.** Arrampicatore arboricolo con testa a cappello fungino e arti slanciati.
 
 **Ambiente.** Si muove principalmente tra gli alberi e costruisce nidi complessi tra le foglie, sfruttando la struttura arborea per proteggersi dai predatori. Solitario o in piccoli gruppi familiari, si dedica principalmente alla costruzione di nidi e alla ricerca di cibo, senza interazioni sociali complesse.
 
@@ -183,11 +185,13 @@ _Gulogluteus scutiger | classe: Mammalia | bioma: Canyon Risonanti | indice senz
 - `coda_prensile_muscolare`: Affidandosi alla sua coda spessa prensile, il Ghiotton-Scudo si controbilancio' mentre arrampicava su una parete rocciosa del canyon.
 - `rostro_linguale_prensile`: Con grande destrezza, il Ghiotton-Scudo estese la sua lingua prensile all'esterno del suo nascondiglio roccioso e afferro' un frutto lontano.
 
-## leviatano_risonante -- `leviatano_risonante`
+## Leviatano Risonante -- `leviatano_risonante`
 
-_Leviatano Risonante | classe: unknown | bioma: Frattura Abissale Sinaptica | indice senziente: T5_
+_Leviatano Risonante | bioma: Frattura Abissale Sinaptica | indice senziente: T5_
 
 **Concetto.** Ha occupato una nicchia evolutiva cruciale come stabilizzatore delle shear gravitazionali attraverso l'uso degli emettitori voidsong, che emettono cori a frequenze profonde essenziali per la sua sopravvivenza.
+
+**Aspetto.** Leviatano abissale enorme e allungato, profilo cetaceo con pinne ampie.
 
 **Ambiente.** Vive nella frattura abissale sinaptica, un luogo dove la luce e' quasi assente e le forze della gravita' sono instabili, creando un habitat cruciale per la sua sopravvivenza e comportamento. I Leviatani Risonanti usano il canto risonante per comunicare all'interno del gruppo, armonizzandosi e riducendo lo stress, mentre le ghiandole eco mappanti permettono di interpretare i segnali minuti dell'ambiente.
 
@@ -228,9 +232,11 @@ _Silvalupus temperatus | classe: Cursore quadrupede / predatore apex | bioma: Fo
 
 ## Magneto Ridge Hunter -- `magneto_ridge_hunter`
 
-_classe: unknown | bioma: Calanchi Ferromagnetici | indice senziente: T1_
+_bioma: Calanchi Ferromagnetici | indice senziente: T1_
 
 **Concetto.** Il Magneto Ridge Hunter ha occupato una nicchia ecologica specifica nei badlands, specializzandosi nella caccia a specie che vivono intorno ai magneto ridges. La sua evoluzione ha portato a una forte dipendenza da questo ambiente per la sua sopravvivenza e riproduzione.
+
+**Aspetto.** Predatore quadrupede con cresta dorsale spinosa lungo la schiena.
 
 **Ambiente.** Si adatta perfettamente ai terreni rocciosi e difficili dei badlands, dove trova rifugio tra le crepe e i crepacci. La sua sopravvivenza e' strettamente legata alla presenza di magneto ridges, che forniscono sia cibo che un ambiente adatto alla sua strategia di caccia. E' un predatore solitario che si muove lentamente tra le rocce, aspettando il momento giusto per attaccare. La sua strategia di caccia si basa sull'ambush, sfruttando la sua capacita' di mimetizzarsi e il suo olfatto acuto per individuare la preda.
 
@@ -254,7 +260,7 @@ _Oxidospora pestifera | classe: Colonia microbica decompositrice / minaccia pato
 
 ## Nottola Termica -- `noctule_termico`
 
-_Thermonoctus vagans | classe: Volatore planatore notturno / disperdente-ponte | bioma: deserto_caldo | indice senziente: T1_
+_Thermonoctus vagans | classe: Volatore planatore notturno / disperdente-ponte | bioma: deserto caldo | indice senziente: T1_
 
 **Concetto.** La Nottola Termica occupa una nicchia evolutiva specifica nel deserto caldo, combinando capacita' di volo notturno, adattamenti termoregolatori e un ruolo ecologico nel trasferimento di polline tra le aree vegetate isolate.
 
@@ -289,11 +295,13 @@ _Perfusuas pedes | classe: Mammalo-artropode | bioma: Caverna Risonante | indice
 - `artiglio_cinetico_a_urto`: L'appendice ipertrofica del Zannapiedi genera onde d'urto che fratturano la corazza delle prede.
 - `sistemi_chimio_sonici`: Il Zann, utilizzando chimica e suoni, mappa le caverne senza vista, individuando prede e correnti d'aria.
 
-## polpo_araldo_sinaptico -- `polpo_araldo_sinaptico`
+## Polpo Araldo Sinaptico -- `polpo_araldo_sinaptico`
 
-_Polpo Araldo Sinaptico | classe: unknown | bioma: Frattura Abissale Sinaptica | indice senziente: T5_
+_Polpo Araldo Sinaptico | bioma: Frattura Abissale Sinaptica | indice senziente: T5_
 
 **Concetto.** Ha sviluppato membrane fotoconvoglianti e nodi sinaptici superficiali per amplificare segnali elettrici, permettendogli di operare come specie keystone nel suo ambiente.
+
+**Aspetto.** Cefalopode dal corpo bulboso e tentacoli divaricati.
 
 **Ambiente.** Si muove attraverso le fratture abissali sinaptiche, dove le correnti elettriche e la luce bioluminescente interagiscono per creare un ambiente estremamente dinamico e pericoloso. Utilizza i filamenti guidalampo per tracciare rotte sicure e i canti risonanti per ridurre lo stress nel gruppo. Le ghiandole mnemoniche conservano memorie attraverso segnali attenuati.
 
@@ -333,11 +341,11 @@ _Proteus plasma | classe: Protista complesso | bioma: Palude Tossica | indice se
 
 _Psionerva montis | classe: Bridge | bioma: Caldera Glaciale | indice senziente: T4_
 
-**Concetto.** La psionerva_montis ha sviluppato una nicchia evolutiva unica all'interno della caldera glaciale, grazie alla sua capacita' di adattare il metabolismo a condizioni di criostasi e alla sua abilita' di comunicare e condividere energia con il branco. Questi adattamenti le permettono di sopravvivere e prosperare in un ambiente estremo e di sfruttare le risorse limitate del suo habitat.
+**Concetto.** La psionerva montis ha sviluppato una nicchia evolutiva unica all'interno della caldera glaciale, grazie alla sua capacita' di adattare il metabolismo a condizioni di criostasi e alla sua abilita' di comunicare e condividere energia con il branco. Questi adattamenti le permettono di sopravvivere e prosperare in un ambiente estremo e di sfruttare le risorse limitate del suo habitat.
 
 **Aspetto.** Arrampica la caldera glaciale con l'attenzione di chi legge il paesaggio come testo: le corna psico-conduttive captano le correnti ferromagnetiche che altri esseri ignorano, traducendo il silenzio del ghiaccio in informazione navigabile. Abita la soglia tra il freddo e lo psionico, curiosa di entrambi.
 
-**Ambiente.** La psionerva_montis abita la caldera glaciale, un ambiente estremo caratterizzato da temperature estremamente basse e una scarsita' di risorse. La sua capacita' di adattare il metabolismo a condizioni di criostasi gli permette di sopravvivere a stagioni estreme e di sfruttare le risorse limitate del suo habitat. La psionerva_montis si muove come un cryogenic_climber, utilizzando la sua abilita' di magnetic_olfaction per navigare attraverso la caldera glaciale. Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo il silenzio del ghiaccio in informazione navigabile, mentre il focus_frazionato gli permette di mantenere due minacce in sorveglianza attiva.
+**Ambiente.** La psionerva montis abita la caldera glaciale, un ambiente estremo caratterizzato da temperature estremamente basse e una scarsita' di risorse. La sua capacita' di adattare il metabolismo a condizioni di criostasi gli permette di sopravvivere a stagioni estreme e di sfruttare le risorse limitate del suo habitat. La psionerva montis si muove come un cryogenic climber, utilizzando la sua abilita' di magnetic olfaction per navigare attraverso la caldera glaciale. Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo il silenzio del ghiaccio in informazione navigabile, mentre il focus frazionato gli permette di mantenere due minacce in sorveglianza attiva.
 
 **Tratti chiave.**
 
@@ -359,7 +367,7 @@ _Psionerva montis | classe: Bridge | bioma: Caldera Glaciale | indice senziente:
 
 _Pulverator gregarius | classe: Apex | bioma: Savana Ionizzata | indice senziente: T2_
 
-**Concetto.** Come specie apex, il pulverator_gregarius occupa un ruolo dominante nella sua nicchia ecologica, sfruttando la sua capacita' di coordinazione di branco e la sua efficacia nella caccia per mantenere l'equilibrio del suo ambiente.
+**Concetto.** Come specie apex, il pulverator gregarius occupa un ruolo dominante nella sua nicchia ecologica, sfruttando la sua capacita' di coordinazione di branco e la sua efficacia nella caccia per mantenere l'equilibrio del suo ambiente.
 
 **Aspetto.** Nato dove la savana smette di fingere e la sabbia governa senza appello, si muove in branco con la stessa logica del vento: non sceglie una direzione, la porta. I denti seghettati lasciano tracce che il suolo ricorda giorni dopo; gli artigli sette-vie incidono l'aria come scrittura che solo il territorio sa leggere. Dove il branco e' passato, le voci nel vuoto tacciono.
 
@@ -402,7 +410,7 @@ _Ferrivora saprophaga | classe: Saprofago corazzato / specie chiave | bioma: Cal
 
 **Aspetto.** Corpo tozzo e corazzato a piastre rugginose, mandibole trituranti e sacche ventrali gonfie di gastroliti.
 
-**Ambiente.** Si trova nei badlands, dove il terreno e' ricco di detrito ferroso e la scarsita' di acqua richiede un adattamento unico. Questo ambiente ha plasmato la sua struttura fisica e le sue funzioni vitali, rendendolo un elemento chiave del suolo. Il rust_scavenger opera in modi istintivi, scavando e compattando detrito ferroso per riciclare i metalli. Le sue azioni creano spazi per nuove forme di vita, mantenendo un equilibrio ecologico.
+**Ambiente.** Si trova nei badlands, dove il terreno e' ricco di detrito ferroso e la scarsita' di acqua richiede un adattamento unico. Questo ambiente ha plasmato la sua struttura fisica e le sue funzioni vitali, rendendolo un elemento chiave del suolo. Il rust scavenger opera in modi istintivi, scavando e compattando detrito ferroso per riciclare i metalli. Le sue azioni creano spazi per nuove forme di vita, mantenendo un equilibrio ecologico.
 
 **Tratti chiave.**
 
@@ -419,7 +427,7 @@ _Arenofossor saliphilus | classe: Cursore quadrupede fossorio / detritivoro | bi
 
 **Aspetto.** Corpo basso e corazzato a fasi variabili, arti molleggiati e carapace opaco color ruggine che lo mimetizza nel suolo ferroso.
 
-**Ambiente.** Si muove e si nasconde nei deserti aridi, dove la sua capacita' di scavare e la sua mimetizzazione lo rendono invisibile ai predatori e alle forze esterne. La sua sopravvivenza dipende dall'accesso a cripto-flora e detrito sottostante. Il sand_burrower si muove a balzi, utilizzando zampe a molla per spostarsi tra le gallerie scavate. Il suo comportamento e' guidato da istinti semplici, senza pianificazione o linguaggio, e si concentra sulla ricerca di cibo e la difesa dal calore.
+**Ambiente.** Si muove e si nasconde nei deserti aridi, dove la sua capacita' di scavare e la sua mimetizzazione lo rendono invisibile ai predatori e alle forze esterne. La sua sopravvivenza dipende dall'accesso a cripto-flora e detrito sottostante. Il sand burrower si muove a balzi, utilizzando zampe a molla per spostarsi tra le gallerie scavate. Il suo comportamento e' guidato da istinti semplici, senza pianificazione o linguaggio, e si concentra sulla ricerca di cibo e la difesa dal calore.
 
 **Tratti chiave.**
 
@@ -429,11 +437,13 @@ _Arenofossor saliphilus | classe: Cursore quadrupede fossorio / detritivoro | bi
 - `carapace_fase_variabile`: Il carapace cambia densita' per bilanciare la difesa e la mobilita'.
 - `zampe_a_molla`: Le zampe a molla accumulano energia per permettere balzi di riposizionamento.
 
-## sciame_larve_neurali -- `sciame_larve_neurali`
+## Sciame di Larve Neurali -- `sciame_larve_neurali`
 
-_Sciame Larve Neurali | classe: unknown | bioma: Frattura Abissale Sinaptica | indice senziente: T2_
+_Sciame Larve Neurali | bioma: Frattura Abissale Sinaptica | indice senziente: T2_
 
 **Concetto.** Le larve neurali occupano una nicchia evolutiva come predatori e avversari, sfruttando le proprieta' del loro ambiente per accumulare e redistribuire buff. La loro evoluzione ha portato a una serie di tratti che permettono l'assorbimento, la trasformazione e la duplicazione di effetti, rendendole efficienti nella gestione delle risorse sinaptiche e nella sopravvivenza in un ambiente caotico.
+
+**Aspetto.** Ammasso di numerose piccole larve neurali (reso come corpo singolo segmentato dal limite LoRA).
 
 **Ambiente.** Le larve neurali si muovono attraverso la frattura abissale sinaptica, un ambiente caratterizzato da un'alta concentrazione di segnali instabili e accumuli elettrici. Questo habitat offre loro la possibilita' di utilizzare le loro ghiandole mnemoniche e le spicole canalizzatrici per assorbire e reindirizzare buff. La loro biologia e' strettamente legata al mantenimento dell'equilibrio elettrico e alla gestione delle frequenze di squadra. Le larve neurali mostrano una determinazione intrinseca grazie al tratto spirito combattivo, che le protegge da status come panic e fear. Il loro comportamento e' guidato da un richiamo gregario attraverso il canto di richiamo, che amplifica la furia dopo un combattimento. Le loro azioni sono coordinate tramite il riverbero memetico, che duplica i buff a potenza ridotta, mantenendo la coesione del gruppo.
 
@@ -455,11 +465,11 @@ _Sciame Larve Neurali | classe: unknown | bioma: Frattura Abissale Sinaptica | i
 
 _Radicustos vigilans | classe: Organismo radicante sessile / ingegnere d'ecosistema | bioma: Foresta Temperata Umida | indice senziente: T3_
 
-**Concetto.** L'evoluzione della sentinella_radice e' orientata verso la protezione e la cooperazione tra le piante, svolgendo il ruolo di ingegneri radicanti semi-sessili che segnalano e contengono le minacce che attraversano il suolo.
+**Concetto.** L'evoluzione della sentinella radice e' orientata verso la protezione e la cooperazione tra le piante, svolgendo il ruolo di ingegneri radicanti semi-sessili che segnalano e contengono le minacce che attraversano il suolo.
 
 **Aspetto.** Tronco-sentinella nodoso ricoperto di radici aeree sensoriali, con escrescenze a occhio che si schiudono al passaggio di intrusi.
 
-**Ambiente.** Si trova in ambienti di foreste temperate, dove le sue radici aeree sensoriali e il suo sistema di tratti comportamentali gli permettono di interagire con il suolo e con gli altri organismi in modo altamente adattivo. Il comportamento della sentinella_radice si basa su un focus_frazionato, un pathfinder, un pianificatore, un random e un empatia_coordinativa, che combinano problem-solving concreto e un uso rudimentale di strumenti per adattarsi ai cambiamenti ambientali.
+**Ambiente.** Si trova in ambienti di foreste temperate, dove le sue radici aeree sensoriali e il suo sistema di tratti comportamentali gli permettono di interagire con il suolo e con gli altri organismi in modo altamente adattivo. Il comportamento della sentinella radice si basa su un focus frazionato, un pathfinder, un pianificatore, un random e un empatia coordinativa, che combinano problem-solving concreto e un uso rudimentale di strumenti per adattarsi ai cambiamenti ambientali.
 
 **Tratti chiave.**
 
@@ -470,7 +480,7 @@ _Radicustos vigilans | classe: Organismo radicante sessile / ingegnere d'ecosist
 
 ## Fioritura di Silice -- `silica_bloom`
 
-_Siliciflora pestifera | classe: Colonia microbica silicea / minaccia patogena | bioma: deserto_caldo | indice senziente: T1_
+_Siliciflora pestifera | classe: Colonia microbica silicea / minaccia patogena | bioma: deserto caldo | indice senziente: T1_
 
 **Concetto.** La nicchia evolutiva si basa sulla capacita' di colonizzare e modificare il substrato in modo aggressivo, sfruttando le condizioni estreme del deserto caldo. La sua struttura vetracea e la capacita' di assorbire e convertire energia multi-fonte le permettono di occupare un ruolo chiave nel ciclo di nutrienti e nella gestione termica dell'ambiente.
 
@@ -488,9 +498,11 @@ _Siliciflora pestifera | classe: Colonia microbica silicea / minaccia patogena |
 
 ## Slag Veil Ambusher -- `slag_veil_ambusher`
 
-_classe: unknown | bioma: Calanchi Ferromagnetici | indice senziente: T1_
+_bioma: Calanchi Ferromagnetici | indice senziente: T1_
 
 **Concetto.** La sua evoluzione ha favorito un'adattamento al bioma dei badlands, con una capacita' di sopravvivere in condizioni di scarsita' di acqua e di cibo.
+
+**Aspetto.** Predatore d'agguato dal profilo curvo, carapace drappeggiato a velo.
 
 **Ambiente.** Si muove attraverso le aree rocciose e le zone desertificate, sfruttando le crepe e le gallerie per nascondersi e cacciare. E' un predatore solitario che si muove in silenzio, utilizzando l'udito e l'olfatto per individuare le prede, senza dipendere dalla vista.
 
@@ -508,16 +520,16 @@ _Arboryxis lenis | classe: Bridge | bioma: Foresta Temperata Umida | indice senz
 
 _Arenaceros placidus | classe: Keystone | bioma: Savana Ionizzata | indice senziente: T1_
 
-**Concetto.** Occupa una nicchia evolutiva come specie keystone, dove le sue membrane_eliofiltranti e artigli_radice influenzano positivamente l'ecosistema, permettendo a altri brucatori di beneficiare della sua biomassa pre-digerita.
+**Concetto.** Occupa una nicchia evolutiva come specie keystone, dove le sue membrane eliofiltranti e artigli radice influenzano positivamente l'ecosistema, permettendo a altri brucatori di beneficiare della sua biomassa pre-digerita.
 
 **Aspetto.** Le membrane eliofiltranti trasformano ogni ora di luce in biomassa che non trattiene per se': i brucatori la trovano gia' parzialmente pre-digerita nei solchi che gli artigli-radice lasciano nel suolo. Pascola senza fretta, perche' sa di essere la condizione di possibilita' di tutto cio' che pascola con lui.
 
-**Ambiente.** Si muove nei territori di savana, dove le sue membrane_eliofiltranti lo proteggono dalle radiazioni e i suoi artigli_radice permettono di scavare e prevedere traiettorie. Il comportamento e' guidato da istinti semplici, con un'attenzione particolare alla luce solare, che converte in biomassa per il sostentamento, senza trattenere nulla per se'.
+**Ambiente.** Si muove nei territori di savana, dove le sue membrane eliofiltranti lo proteggono dalle radiazioni e i suoi artigli radice permettono di scavare e prevedere traiettorie. Il comportamento e' guidato da istinti semplici, con un'attenzione particolare alla luce solare, che converte in biomassa per il sostentamento, senza trattenere nulla per se'.
 
 **Tratti chiave.**
 
-- `artigli_radice`: I brucatori di Polvere utilizzano gli artigli_radice per scavare solchi nel suolo, lasciando una traccia di biomassa pre-digerita che altri animali possono trovare e consumare.
-- `membrane_eliofiltranti`: Le membrane_eliofiltranti dei brucatori di Polvere schermano le radiazioni e i patogeni sospesi, permettendo loro di sopravvivere in ambienti estremi della savana.
+- `artigli_radice`: I brucatori di Polvere utilizzano gli artigli radice per scavare solchi nel suolo, lasciando una traccia di biomassa pre-digerita che altri animali possono trovare e consumare.
+- `membrane_eliofiltranti`: Le membrane eliofiltranti dei brucatori di Polvere schermano le radiazioni e i patogeni sospesi, permettendo loro di sopravvivere in ambienti estremi della savana.
 
 ## Custode di Basalto -- `sp_basaltocara_scutata`
 
@@ -539,6 +551,8 @@ _Basaltocara scutata | classe: Support | bioma: Abisso Vulcanico | indice senzie
 _Calamipes gracilis | classe: Playable | bioma: Palude Tossica | indice senziente: T1_
 
 **Concetto.** Occupa una nicchia ecologica specifica all'interno delle paludi, sfruttando le risorse disponibili senza competere con altre specie.
+
+**Aspetto.** Trampoliere snello dalle lunghe zampe e collo sottile, da canneto.
 
 **Ambiente.** Si trova prevalentemente in paludi e zone umide, dove la vegetazione fitta e l'acqua stagnante forniscono protezione e cibo. Il comportamento e' guidato da istinti semplici, come la ricerca di cibo e la fuga da predatori, senza pianificazione o linguaggio.
 
@@ -641,11 +655,11 @@ _Limnofalcis serrata | classe: Threat | bioma: Palude Tossica | indice senziente
 
 _Lucinerva filata | classe: Bridge | bioma: Scogliera Luminescente | indice senziente: T2_
 
-**Concetto.** Occupando una nicchia evolutiva di bridge, sp_lucinerva_filata svolge un ruolo cruciale nella connessione tra diversi ambienti. La sua funzione e' quella di facilitare il trasferimento di geni e materiali tra ecosistemi diversi, mantenendo la biodiversita'.
+**Concetto.** Occupando una nicchia evolutiva di bridge, sp lucinerva filata svolge un ruolo cruciale nella connessione tra diversi ambienti. La sua funzione e' quella di facilitare il trasferimento di geni e materiali tra ecosistemi diversi, mantenendo la biodiversita'.
 
 **Aspetto.** Il carapace a segmenti logici si piega ad angoli diversi a seconda del substrato che attraversa, come se il corpo stesso stesse prendendo appunti sul territorio. Dispersore metodico: porta semi, spore e frammenti genetici tra habitat che altrimenti non si toccherebbero mai.
 
-**Ambiente.** Si muove tra le barriere coralline luminose, dove la sua capacita' di adattare il carapace a segmenti logici gli permette di integrarsi con l'ambiente circostante. Questo habitat e' il suo ambiente naturale e vitale. Il comportamento metodico di sp_lucinerva_filata e' centrato sulla dispersione precisa di semi, spore e frammenti genetici, garantendo la connessione tra aree ecologiche isolate. E' un stabilizzatore naturale per gli ecosistemi.
+**Ambiente.** Si muove tra le barriere coralline luminose, dove la sua capacita' di adattare il carapace a segmenti logici gli permette di integrarsi con l'ambiente circostante. Questo habitat e' il suo ambiente naturale e vitale. Il comportamento metodico di sp lucinerva filata e' centrato sulla dispersione precisa di semi, spore e frammenti genetici, garantendo la connessione tra aree ecologiche isolate. E' un stabilizzatore naturale per gli ecosistemi.
 
 **Tratti chiave.**
 
@@ -740,6 +754,8 @@ _Rubrospina velox | classe: Playable | bioma: Calanchi Ferromagnetici | indice s
 
 **Concetto.** Occupa una nicchia evolutiva come specie giocabile, con adattamenti non specificati che gli permettono di esistere in un ambiente estremo e di interagire con il giocatore.
 
+**Aspetto.** Quadrupede agile con lunghe spine dorsali.
+
 **Ambiente.** Si trova prevalentemente nei badlands, dove la sua capacita' di muoversi su terreni difficili e la sua resistenza alle temperature estreme gli permettono di sopravvivere. Il comportamento e' guidato da istinti semplici, con un'assenza di pianificazione o linguaggio, che lo rende un essere totalmente reattivo alle stimoli ambientali.
 
 ## Scavatore Salino -- `sp_salifossa_tenebris`
@@ -766,7 +782,7 @@ _Siltovena bifida | classe: Threat | bioma: Palude Tossica | indice senziente: T
 
 _Sonapteryx resonans | classe: Bridge | bioma: Frattura Abissale Sinaptica | indice senziente: T2_
 
-**Concetto.** Come specie bridge, sp_sonapteryx_resonans utilizza ali_membrana_sonica e canto_di_richiamo per interagire con il bioma e trasmettere informazioni attraverso la frattura_abissale_sinaptica.
+**Concetto.** Come specie bridge, sp sonapteryx resonans utilizza ali membrana sonica e canto di richiamo per interagire con il bioma e trasmettere informazioni attraverso la frattura abissale sinaptica.
 
 **Aspetto.** Le membrane soniche delle ali non servono solo al volo: sono uno strumento che suona il bioma mentre lo attraversa. Il canto di richiamo cambia frequenza a ogni habitat visitato, come se imparasse la lingua locale prima di posarsi. Dispersore che porta notizie di luoghi che nessun'altra specie ha visitato.
 
@@ -774,7 +790,7 @@ _Sonapteryx resonans | classe: Bridge | bioma: Frattura Abissale Sinaptica | ind
 
 **Tratti chiave.**
 
-- `ali_membrana_sonica`: Le piastre vibranti delle ali assorbono l'energia del bioma frattura_abissale_sinaptica, attenuando i danni da impatti corrosivi durante il volo.
+- `ali_membrana_sonica`: Le piastre vibranti delle ali assorbono l'energia del bioma frattura abissale sinaptica, attenuando i danni da impatti corrosivi durante il volo.
 - `canto_di_richiamo`: Dopo aver ucciso, emette un canto rituale che amplifica la sua furia per due turni, onorando la preda caduta con un'eco che si perde nella frattura abissale sinaptica.
 
 ## Maestro della Tempesta -- `sp_tempestarius_psionicus`
@@ -801,11 +817,11 @@ _Tempestarius psionicus | classe: Apex | bioma: Frattura Abissale Sinaptica | in
 
 _Tonitrudens ferox | classe: Threat | bioma: Stratosfera Tempestosa | indice senziente: T1_
 
-**Concetto.** Occupa una nicchia ecologica di onnivoro senza remore, sfruttando le risorse disponibili nel bioma stratosfera_tempestosa. La sua esistenza e' un esempio di adattamento a un ambiente estremo, dove la forza bruta e la reattivita' sono le caratteristiche principali.
+**Concetto.** Occupa una nicchia ecologica di onnivoro senza remore, sfruttando le risorse disponibili nel bioma stratosfera tempestosa. La sua esistenza e' un esempio di adattamento a un ambiente estremo, dove la forza bruta e la reattivita' sono le caratteristiche principali.
 
 **Aspetto.** Onnivoro senza remore: non distingue tra preda e opportunita'. La sua forza bruta e' il segnale di pericolo che ogni specie del bioma ha imparato a riconoscere prima ancora di vederlo. Quando entra in un habitat, tutto cio' che puo' fuggire, fugge -- il resto diventa cibo.
 
-**Ambiente.** Si muove liberamente tra le correnti di vento e le tempeste, sfruttando la stratosfera_tempestosa come ambiente naturale e vitale. La sua capacita' di integrarsi con il bioma lo rende un predatore e un consumatore di qualsiasi cosa possa trovare nel suo percorso. La sua sopravvivenza dipende dal comportamento di predazione istintivo, in cui non distingue tra preda e opportunita'. Il riconoscimento di segnali di pericolo e' un meccanismo chiave per evitare minacce, anche se non possiede una forma di pensiero complesso.
+**Ambiente.** Si muove liberamente tra le correnti di vento e le tempeste, sfruttando la stratosfera tempestosa come ambiente naturale e vitale. La sua capacita' di integrarsi con il bioma lo rende un predatore e un consumatore di qualsiasi cosa possa trovare nel suo percorso. La sua sopravvivenza dipende dal comportamento di predazione istintivo, in cui non distingue tra preda e opportunita'. Il riconoscimento di segnali di pericolo e' un meccanismo chiave per evitare minacce, anche se non possiede una forma di pensiero complesso.
 
 ## Aliante della Mesa -- `sp_ventornis_longiala`
 
@@ -815,7 +831,7 @@ _Ventornis longiala | classe: Bridge | bioma: Canyon Risonanti | indice senzient
 
 **Aspetto.** Le ali fulminee la portano oltre ogni confine di bioma prima che l'aria cambi di nuovo. Le membrane pneumatofore le permettono di planare senza battito per ore, leggendo le correnti come una mappa. Esplora i margini perche' i centri non la interessano -- e' nei bordi che l'ecosistema si rivela.
 
-**Ambiente.** Si muove tra i confini di bioma, sfruttando le correnti atmosferiche e la complessita' dei canyons_risonanti per planare senza battito per ore. Esplora i margini tra biomi, interpretando segnali psionici e modulando la rigidita' strutturale per adattarsi ai cambiamenti improvvisi dell'ambiente.
+**Ambiente.** Si muove tra i confini di bioma, sfruttando le correnti atmosferiche e la complessita' dei canyons risonanti per planare senza battito per ore. Esplora i margini tra biomi, interpretando segnali psionici e modulando la rigidita' strutturale per adattarsi ai cambiamenti improvvisi dell'ambiente.
 
 **Tratti chiave.**
 
@@ -826,11 +842,11 @@ _Ventornis longiala | classe: Bridge | bioma: Canyon Risonanti | indice senzient
 
 _Zephyrovum fidelis | classe: Bridge | bioma: Stratosfera Tempestosa | indice senziente: T1_
 
-**Concetto.** La specie occupa una nicchia ecologica chiave nella dispersione dei pollini e delle spore nella stratosfera_tempestosa. I suoi adattamenti le permettono di svolgere un ruolo essenziale nella connessione tra le specie vegetali che vivono in quel ambiente.
+**Concetto.** La specie occupa una nicchia ecologica chiave nella dispersione dei pollini e delle spore nella stratosfera tempestosa. I suoi adattamenti le permettono di svolgere un ruolo essenziale nella connessione tra le specie vegetali che vivono in quel ambiente.
 
 **Aspetto.** Trasporta spore e pollini attraverso le correnti d'aria con un'affidabilita' stagionale che le specie vegetali circostanti hanno imparato a fare propria. Dispersore fedele: se il vento cambia rotta, la si trova gia' li', adattata, pronta a ricominciare.
 
-**Ambiente.** Vive esclusivamente nella stratosfera_tempestosa, dove le correnti d'aria sono intense e costanti. Questo ambiente le permette di muoversi senza bisogno di sforzi fisici, sfruttando il vento per la sua sopravvivenza. Si muove con le correnti d'aria per trasportare pollini e spore, seguendo rotte predeterminate. La sua affidabilita' stagionale e' un'abilita' imparata dalle specie vegetali circostanti, che hanno sviluppato una relazione simbiotica con essa.
+**Ambiente.** Vive esclusivamente nella stratosfera tempestosa, dove le correnti d'aria sono intense e costanti. Questo ambiente le permette di muoversi senza bisogno di sforzi fisici, sfruttando il vento per la sua sopravvivenza. Si muove con le correnti d'aria per trasportare pollini e spore, seguendo rotte predeterminate. La sua affidabilita' stagionale e' un'abilita' imparata dalle specie vegetali circostanti, che hanno sviluppato una relazione simbiotica con essa.
 
 ## Bisonte Nano della Steppa -- `steppe_bison_mini`
 
@@ -914,8 +930,10 @@ _Geliputris liquefaciens | classe: Colonia microbica decompositrice / minaccia p
 
 ## Zephyr Spore Courier -- `zephyr_spore_courier`
 
-_classe: unknown | bioma: cryosteppe | indice senziente: T1_
+_bioma: cryosteppe | indice senziente: T1_
 
 **Concetto.** Svolgono un ruolo chiave nell'ecosistema delle cryosteppe come diseminatori di spore, contribuendo alla riproduzione delle piante che popolano queste zone fredde e deserte.
+
+**Aspetto.** Corriere alato dalle ali piumate che lasciano scie di spore.
 
 **Ambiente.** Hanno un habitat limitato alle cryosteppe, dove il loro corpo compatto e solido li aiuta a resistere alle temperature estreme e alla mancanza di vegetazione. Si muovono con agilita' grazie ai tentacoli, sfruttando il vento per spostarsi rapidamente e cercano cibo come spore e microrganismi presenti nel loro ambiente.
