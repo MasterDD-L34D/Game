@@ -10675,3 +10675,43 @@ traits:
       (adattamento_<canale>) -> +15% resistenza a quel canale per 3 round e cura 1.
       Al massimo 2 canali adattati insieme. La resistenza morde sui colpi successivi.
       Ref Hades Stubborn Roots.
+
+  # Slice 5: filtri_bioattivi (otyugh). Bio-filtro passivo engine-coded
+  # (combat/filtriBioattivi): a fine round purga 1 sanguinamento + 1 frattura e cura
+  # 1 per purga. Il modo attivo (1 AP, purga tutti gli status negativi su un alleato
+  # adiacente) e' rinviato -- richiede l'effect_type cleanse_status nello schema
+  # contracts (forbidden path) + re-baseline jobs.yaml (owner-gated).
+  filtri_bioattivi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: filtri_bioattivi
+      log_tag: filtri_bioattivi
+    description_it: |
+      Filtri bioattivi (otyugh): ogni round il bio-filtro purga 1 sanguinamento e 1
+      frattura e cura 1 per ogni status purgato. Mantiene la creatura ripulita dalle
+      ferite da logoramento. Ref Subnautica filtering / Pathfinder otyugh.
+
+  # Slice 5: membrane_osmotiche (otyugh). Assorbimento durata engine-coded
+  # (combat/membraneOsmotiche): le durate degli status in arrivo sono ridotte di 1
+  # all'applicazione (uno status da 1 turno e' assorbito del tutto). Il modo cura-da-
+  # terreno (acqua/palude adiacente) e' rinviato -- manca il substrato terreno per-tile.
+  membrane_osmotiche:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: membrane_osmotiche
+      log_tag: membrane_osmotiche
+    description_it: |
+      Membrane osmotiche (otyugh): la membrana assorbe il morso degli status in arrivo
+      -- la loro durata e' ridotta di 1 all'applicazione (uno status da 1 turno viene
+      assorbito completamente). In tensione coi filtri: meno sofferenza, meno cure da
+      purga. Ref Subnautica fluids / Darkest bleed-resist.

@@ -15180,6 +15180,42 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "filtri_bioattivi": {
+      "schema_version": "2.0",
+      "id": "filtri_bioattivi",
+      "label": "i18n:traits.filtri_bioattivi.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.filtri_bioattivi.mutazione_indotta",
+      "uso_funzione": "i18n:traits.filtri_bioattivi.uso_funzione",
+      "spinta_selettiva": "i18n:traits.filtri_bioattivi.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "membrane_osmotiche": {
+      "schema_version": "2.0",
+      "id": "membrane_osmotiche",
+      "label": "i18n:traits.membrane_osmotiche.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.membrane_osmotiche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.membrane_osmotiche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.membrane_osmotiche.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }

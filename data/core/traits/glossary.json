@@ -3682,6 +3682,18 @@
       "label_en": "Tessuti Adattivi",
       "description_it": "Tessuti adattivi (rakshasa): subendo >= 2 danni di un canale il tessuto si adatta (adattamento_<canale>) -> +15% resistenza a quel canale per 3 round e cura 1.",
       "description_en": ""
+    },
+    "filtri_bioattivi": {
+      "label_it": "Filtri Bioattivi",
+      "label_en": "Filtri Bioattivi",
+      "description_it": "Filtri bioattivi (otyugh): ogni round il bio-filtro purga 1 sanguinamento e 1 frattura e cura 1 per ogni status purgato.",
+      "description_en": ""
+    },
+    "membrane_osmotiche": {
+      "label_it": "Membrane Osmotiche",
+      "label_en": "Membrane Osmotiche",
+      "description_it": "Membrane osmotiche (otyugh): la membrana assorbe il morso degli status in arrivo -- la loro durata e' ridotta di 1 all'applicazione (uno status da 1 turno viene assorbito completamente).",
+      "description_en": ""
     }
   }
 }
