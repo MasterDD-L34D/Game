@@ -1,6 +1,6 @@
 ---
 title: Bestiario creature-domain (lore canonizzata)
-doc_status: review_needed
+doc_status: active
 doc_owner: lore-designer
 workstream: dataset-pack
 last_verified: '2026-06-23'
@@ -13,7 +13,7 @@ review_cycle_days: 180
 
 Promozione HITL di tutte le 75 schede lore dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Tutte hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 + Fase 1-quater restyle = 10, recuperate via sweep forza-LoRA 0.4 + img2img d0.6).
 
-> Stato `review_needed`: la prosa proviene da generazione macchina, ripulita in stile ASCII e strutturata; la rifinitura player-facing finale resta a master-dd (boundary `docs/guide/procedural-lore-generation.md`). Nessun numero/bilanciamento qui.
+> Stato `active`: prosa di origine macchina, poi pass diagnostico + light-edit IT (voce preservata) e ratificata da master-dd (boundary `docs/guide/procedural-lore-generation.md`). Nessun numero/bilanciamento qui.
 
 Render approvato per ciascuna voce: vedi `docs/catalog/creature-domain-bestiary_assets_draft.md`.
 
