@@ -608,7 +608,33 @@ function createAbilityExecutor(deps) {
       if (!dest || !Number.isFinite(Number(dest.x)) || !Number.isFinite(Number(dest.y))) {
         return { status: 400, body: { error: 'pack_command: order.position richiesto per move' } };
       }
-      if (manhattanDistance(minion.position, dest) > (Number(minion.mobility) || 1)) {
+      // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
+      // ON -> the mobility budget is checked against the terrain-weighted cheapest-path
+      // cost (volo lowers it); OFF -> literal Manhattan. Registry unavailable here ->
+      // evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (phase-2 follow-up).
+      const mobilityBudget = Number(minion.mobility) || 1;
+      let minionMoveDist = manhattanDistance(minion.position, dest);
+      if (require('./combat/moveCost').isMoveTerrainCostEnabled()) {
+        const { moveApDistance, terrainAtFromFeatures } = require('./combat/moveCost');
+        const {
+          resolveMovementProfile,
+          applyVoloGrade,
+          evaluateVoloGrade,
+        } = require('./combat/movementResolver');
+        const profile = applyVoloGrade(
+          resolveMovementProfile(minion, null),
+          evaluateVoloGrade(null, minion),
+        );
+        const g = session.grid || {};
+        const terrainAt = terrainAtFromFeatures(g.terrain_features || []);
+        const bounds = {
+          width: Number(g.width) || 6,
+          height: Number(g.height ?? g.width) || 6,
+        };
+        const c = moveApDistance(minion.position, dest, { profile, terrainAt, bounds });
+        if (Number.isFinite(c)) minionMoveDist = c;
+      }
+      if (minionMoveDist > mobilityBudget) {
         return {
           status: 400,
           body: { error: `pack_command: move oltre mobility (${minion.mobility})` },
