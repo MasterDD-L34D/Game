@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-23T12:24:43.528615Z",
+  "generated_at": "2026-06-23T12:44:28.855191Z",
   "summary": {
-    "total_traits": 296,
-    "glossary_ok": 296,
+    "total_traits": 297,
+    "glossary_ok": 297,
     "glossary_missing": 0,
-    "matrix_ok": 188,
+    "matrix_ok": 189,
     "matrix_mismatch": 108,
     "with_conflicts": 28,
-    "matrix_only_traits": 34
+    "matrix_only_traits": 33
   },
   "checks": {
     "traits": {
-      "passed": 296,
-      "total": 296,
+      "passed": 297,
+      "total": 297,
       "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 108
@@ -39,8 +39,8 @@
       "metabolismo_sostentato",
       "nodi_micotici",
       "origine_artificiale",
-      "pigmenti_aurorali",
-      "pigmenti_termici"
+      "pigmenti_termici",
+      "proboscide_polifaga"
     ],
     "matrix_mismatch_traits": [
       "aculei_velenosi",
