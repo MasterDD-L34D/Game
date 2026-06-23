@@ -242,9 +242,7 @@ test('requires_actor_tag predator: dodge fires when attacker is predator', () =>
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'azione_evasiva_predator',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'azione_evasiva_predator');
   assert.equal(evt.triggered, true);
   assert.equal(result.damage_modifier, -1);
 });
@@ -267,9 +265,7 @@ test('requires_actor_tag predator: dodge blocked when attacker is wildlife', () 
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'azione_evasiva_predator',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'azione_evasiva_predator');
   assert.equal(evt.triggered, false);
   assert.equal(result.damage_modifier, 0);
 });
@@ -312,9 +308,7 @@ test('regression: risposta_di_combattimento (no tag gate) fires on melee hit', (
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'risposta_di_combattimento',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'risposta_di_combattimento');
   assert.equal(evt.triggered, true);
   assert.equal(result.damage_modifier, 1);
 });
