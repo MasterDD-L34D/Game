@@ -2370,7 +2370,17 @@ function createSessionRouter(options = {}) {
         units,
         // Q-001 T2.4: snapshot iniziale per replay (deep copy, immutable)
         units_snapshot_initial: JSON.parse(JSON.stringify(units)),
-        grid: { width: gridW, height: gridH },
+        // Move terrain-cost substrate: carry the encounter-authored terrain_features
+        // onto the runtime grid so the (flag-gated) move-gate can read per-tile types.
+        // Band-neutral: absent/empty -> no field -> moveCost sees all-default = Manhattan.
+        grid: {
+          width: gridW,
+          height: gridH,
+          ...(Array.isArray(encounterPayload?.grid?.terrain_features) &&
+          encounterPayload.grid.terrain_features.length
+            ? { terrain_features: encounterPayload.grid.terrain_features }
+            : {}),
+        },
         logFilePath,
         events: [],
         created_at: now.toISOString(),
@@ -2854,7 +2864,36 @@ function createSessionRouter(options = {}) {
         // stesso turno solo se abbiamo AP residui sufficienti.
         // buff_stat move_bonus (ancestor locomotion traits) reduces AP cost.
         const movTraits = evaluateMovementTraits({ registry: traitRegistry, actor });
-        const apCost = Math.max(1, dist - movTraits.move_bonus);
+        // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
+        // ON -> AP cost = ceil(cheapest terrain-weighted path) under the unit's movement
+        // profile (volo grades lower it); OFF -> literal Manhattan `dist` (unchanged).
+        // `dist` stays literal: stamina tile-tally, facing and the operator message use it.
+        let moveCostTiles = dist;
+        if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
+          const { moveApDistance, terrainAtFromFeatures } = require('../services/combat/moveCost');
+          const {
+            resolveMovementProfile,
+            applyVoloGrade,
+            evaluateVoloGrade,
+          } = require('../services/combat/movementResolver');
+          const profile = applyVoloGrade(
+            resolveMovementProfile(actor, actor.speciesRecord || null),
+            evaluateVoloGrade(traitRegistry, actor),
+          );
+          const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
+          const cost = moveApDistance(actor.position, dest, {
+            profile,
+            terrainAt,
+            bounds: { width: _gw, height: _gh },
+          });
+          if (!Number.isFinite(cost)) {
+            return res
+              .status(400)
+              .json({ error: 'destinazione irraggiungibile (terreno troppo costoso)' });
+          }
+          moveCostTiles = cost;
+        }
+        const apCost = Math.max(1, moveCostTiles - movTraits.move_bonus);
         if (apCost > (actor.ap_remaining ?? 0)) {
           return res.status(400).json({
             error: `AP insufficienti per muoversi di ${dist} celle (ap residui: ${actor.ap_remaining ?? 0})`,
