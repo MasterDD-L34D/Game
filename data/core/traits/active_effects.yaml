@@ -10590,3 +10590,24 @@ traits:
       (movimento, attacchi base e reazioni restano attivi). La modalita' A
       (impulso AoE da 2 AP) e' una slice successiva. Ref XCOM Disruptive
       Field / D&D Antimagic Field, duration-gated (non silenzio totale).
+
+  # Slice 2: nuclei_di_controllo punto-debole bersagliabile (golem). Passivo:
+  # nucleo_intatto -> +1 attacco (combat/statusModifiers). Un colpo MoS>=5
+  # spezza il nucleo (combat/nucleiWeakPoint -> danno_nucleo, +1 difesa).
+  nuclei_di_controllo:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: nucleo_intatto
+      turns: 99
+      log_tag: nuclei_di_controllo
+    description_it: |
+      Nuclei di controllo (golem): finche' il nucleo e' intatto coordina i colpi
+      (+1 attacco). Un colpo preciso (MoS >= 5) spezza il nucleo -> stato
+      danneggiato (+1 difesa, perde l'aura offensiva). Punto debole bersagliabile.
+      Ref XCOM MEC weak-point / Othercide. La 3a fase (nucleo distrutto + burst)
+      e' una slice successiva.

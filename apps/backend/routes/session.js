@@ -101,6 +101,7 @@ const beastBondReaction = require('../services/combat/beastBondReaction');
 // Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
 // (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
 const { computeStatusModifiers } = require('../services/combat/statusModifiers');
+const { applyNucleoHit } = require('../services/combat/nucleiWeakPoint');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -1367,6 +1368,33 @@ function createSessionRouter(options = {}) {
           unit_id: unit.id,
           status: s.stato,
           duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+        });
+      }
+
+      // nuclei_di_controllo weak-point (creature-trait slice 2): a precise hit
+      // (MoS>=5) on a unit with an intact control nucleus breaks it
+      // (nucleo_intatto -> danno_nucleo). applyNucleoHit mutates target.status;
+      // persist danno_nucleo through the round-model sync (mirror the loop above).
+      // Band-neutral: no sim unit carries nuclei_di_controllo.
+      const nucleoBreak = applyNucleoHit(target, result);
+      if (nucleoBreak) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: target.id,
+          status: 'danno_nucleo',
+          duration: Number(target.status.danno_nucleo) || 99,
+        });
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'nuclei_di_controllo',
+          triggered: true,
+          effect: {
+            kind: 'weak_point_break',
+            from: nucleoBreak.from,
+            to: nucleoBreak.to,
+            mos: nucleoBreak.mos,
+          },
         });
       }
     }
