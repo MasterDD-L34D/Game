@@ -11,7 +11,7 @@ review_cycle_days: 180
 
 # Bestiario creature-domain -- lore canonizzata
 
-Promozione HITL di 65 schede lore (su 75) dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Le 65 voci qui hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 promossi). Le 10 specie restanti hanno una base form-correct (render @LoRA 0.4) ma restano in coda restyle (estetica grey-teal da ripristinare) e non sono ancora promosse.
+Promozione HITL di tutte le 75 schede lore dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Tutte hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 + Fase 1-quater restyle = 10, recuperate via sweep forza-LoRA 0.4 + img2img d0.6).
 
 > Stato `review_needed`: la prosa proviene da generazione macchina, ripulita in stile ASCII e strutturata; la rifinitura player-facing finale resta a master-dd (boundary `docs/guide/procedural-lore-generation.md`). Nessun numero/bilanciamento qui.
 
@@ -133,6 +133,34 @@ _Cryofelis nivalis | classe: Cursore quadrupede / predatore apex | bioma: cryost
 - `olfatto_risonanza_magnetica`: I bulbi olfattivi della lince riescono a tracciare campi magnetici e identificare vene metalliche nascoste sotto il ghiaccio.
 - `criostasi_adattiva`: Il metabolismo sospeso della lince le permette di sopravvivere a mesi di estremo freddo senza cibo.
 - `zampe_a_molla`: Le zampe a molla accumulano energia per permettere alla lince di fare salti rapidi e riposizionarsi sulle superfici ghiacciate.
+
+## dune stalker -- `dune_stalker`
+
+_Dune Stalker | bioma: Savana Ionizzata | indice senziente: T2_
+
+**Concetto.** Il dune stalker occupa la nicchia di predatore, con un comportamento adattato all'ambiente e una coordinazione di gruppo che gli permette di cacciare efficacemente in vari biomi.
+
+**Ambiente.** Questo predatore vive prevalentemente nelle savane, ma puo' anche adattarsi alle pianure salinate e alle foreste acide grazie alla sua capacita' di modificare la propria fisiologia per sopravvivere in diverse condizioni ambientali. Il dune stalker si muove in branchi coordinati, condividendo informazioni cruciali tra i membri del gruppo e utilizzando tattiche complesse per cacciare e difendersi. La sua ferocia aumenta quando e' sotto stress, facilitando attacchi ripetuti.
+
+**Tratti chiave.**
+
+- `artigli_sette_vie`: Il dune stalker si aggrappa saldamente alla roccia ruvida grazie ai suoi artigli multipli.
+- `struttura_elastica_amorfa`: Il corpo amorfo del dune stalker si estende per sfuggire alla presa di un avversario.
+- `scheletro_idro_regolante`: Modulando il contenuto idrico delle sue ossa porose, il dune stalker cambia massa per adattarsi meglio all'ambiente.
+- `sensori_geomagnetici`: I cristalli cranici del dune stalker mappano i corridoi geomagnetici invisibili della savana.
+- `coda_frusta_cinetica`: La coda elastica del dune stalker si accumula di slancio per poi colpire con forza devastante un preda.
+- `sacche_galleggianti_ascensoriali`: Le sacche gassose regolabili del dune stalker permettono all'animale di controllare il proprio assetto e profondita' in acqua.
+- `criostasi_adattiva`: Durante le stagioni estreme, il dune stalker entra in criostasi adattativa, riducendo drasticamente i suoi processi metabolici.
+- `lamelle_termoforetiche`: Le lamelle respiratorie del dune stalker deviano rapidamente i gas estremi entrando e uscendo dal suo corpo con gradienti termici intensi.
+- `legame_di_branco`: Il legame di branco del dune stalker amplifica le reazioni difensive collettive quando un membro sente il pericolo.
+- `ferocia`: Quando sotto stress, il dune stalker entra in uno stato psicofisico ferocio che aumenta l'aggressivita' e la potenza offensiva.
+- `biofilm_iperarido`: Il biofilm iperarido del dune stalker permette alle sue squadre di sincronizzare organismi alleati all'interno della savana.
+- `antenne_dustsense`: Le antenne dustsense del dune stalker stabilizzano l'assorbimento multi-fonte nell'ambiente desertoico.
+- `antenne_reagenti`: Le antenne reagenti del dune stalker sincronizzano i flussi mutualistici con organismi alleati all'interno della savana.
+- `coda_coppia_retroattiva`: La coda coppia retroattiva del dune stalker disperde energia per attenuare impatti corrosivi o termici.
+- `focus_frazionato`: Il cortex biforcato del dune stalker permette di sorvegliare attivamente due minacce contemporaneamente.
+- `risonanza_di_branco`: La risonanza di branco amplifica i buff condivisi tra i membri del branco del dune stalker.
+- `tattiche_di_branco`: Le tattiche di branco del dune stalker coordinano i focus e le prese condivise all'interno del gruppo.
 
 ## Ala d'Eco -- `echo_wing`
 
@@ -320,6 +348,14 @@ _bioma: Calanchi Ferromagnetici | indice senziente: T1_
 **Aspetto.** Predatore quadrupede con cresta dorsale spinosa lungo la schiena.
 
 **Ambiente.** Si adatta perfettamente ai terreni rocciosi e difficili dei badlands, dove trova rifugio tra le crepe e i crepacci. La sua sopravvivenza e' strettamente legata alla presenza di magneto ridges, che forniscono sia cibo che un ambiente adatto alla sua strategia di caccia. E' un predatore solitario che si muove lentamente tra le rocce, aspettando il momento giusto per attaccare. La sua strategia di caccia si basa sull'ambush, sfruttando la sua capacita' di mimetizzarsi e il suo olfatto acuto per individuare la preda.
+
+## Myco Spire Warden -- `myco_spire_warden`
+
+_bioma: Foresta Temperata Umida | indice senziente: T1_
+
+**Concetto.** Ha occupato una nicchia evolutiva come guardiano delle spore, contribuendo alla riproduzione e alla diffusione delle specie vegetali nel suo habitat.
+
+**Ambiente.** Si trova prevalentemente in aree di foresta temperata, dove le condizioni ambientali soddisfano le sue esigenze di sopravvivenza. Il comportamento e' guidato da istinti semplici, senza linguaggio o pianificazione, rispondendo principalmente alle stimolazioni ambientali.
 
 ## Fioritura di Nano-Ruggine -- `nano_rust_bloom`
 
@@ -612,6 +648,30 @@ _bioma: Calanchi Ferromagnetici | indice senziente: T1_
 
 **Ambiente.** Si muove attraverso le aree rocciose e le zone desertificate, sfruttando le crepe e le gallerie per nascondersi e cacciare. E' un predatore solitario che si muove in silenzio, utilizzando l'udito e l'olfatto per individuare le prede, senza dipendere dalla vista.
 
+## Sonaraptor Dissonante -- `sonaraptor_dissonans`
+
+_Sonaraptor dissonans | classe: Threat | bioma: Canopia Ionica | indice senziente: T4_
+
+**Concetto.** Occupa una nicchia predatoria nel canopia ionica, sfruttando le proprieta' acustiche e ottiche dell'ambiente per cacciare e comunicare senza essere rilevato, grazie ai suoi adattamenti multi-sensuali e alla sua capacita' di manipolare il suono.
+
+**Aspetto.** Nell'istante prima dell'attacco, tutta la canopia ionica diventa silenziosa: il suo campo di interferenza acustica precede il corpo di due secondi. La lancia sonica che emette non e' un grido -- e' la negazione del suono altrui, un vuoto che si espande fino a stordire prima che le zanne tocchino. Predatore che uccide il senso prima del corpo.
+
+**Ambiente.** Si muove nei livelli superiori della canopia ionica, dove la sua capacita' di modulare il suono e la sua visione multi-spettrale gli permettono di operare in condizioni di scarsa visibilita' e di sfruttare le proprieta' acustiche dell'ambiente. Utilizza il campo di interferenza acustica per mascherare la propria posizione e la sua lancia sonica per stordire la preda, mentre le antenne Tesla e le ali solari fotoni gli permettono di interagire con l'ambiente ionico.
+
+**Tratti chiave.**
+
+- `cannone_sonico_a_raggio`: Il Sonaraptor Dissonante lancia un raggio sonico che stordisce i nemici, sfruttando la sua capacita' di generare onde di pressione ad alta frequenza.
+- `campo_di_interferenza_acustica`: Prima di attaccare, il Sonaraptor Dissonante crea un campo di interferenza acustica che blocca i suoni esterni, rendendolo invisibile e inascoltato.
+- `sistemi_chimio_sonici`: Utilizzando i sistemi chimio-sonici, il Sonaraptor Dissonante mappa l'ambiente e le correnti d'aria senza dover dipendere dalla vista.
+- `visione_multi_spettrale_amplificata`: La visione multi-spettrale amplificata del Sonaraptor Dissonante gli permette di vedere anche in condizioni di luminosita' estremamente bassa.
+- `comunicazione_fotonica_coda_coda`: Il Sonaraptor Dissonante comunica con gli altri membri della sua specie tramite impulsi luminosi trasmessi attraverso la coda.
+- `ali_fono_risonanti`: Le ali fono-risonanti del Sonaraptor Dissonante generano una vasta gamma di suoni durante il volo, utilizzati per comunicare e navigare.
+- `antenne_tesla`: Le antenne Tesla del Sonaraptor Dissonante permettono alle squadre di ridistribuire carichi e modulare la rigidita' strutturale all'interno della canopia ionica.
+- `ali_solari_fotoni`: Le ali solari fotoni del Sonaraptor Dissonante sono dotate di piume fotovoltaiche che convertono la luce in spinta e forniscono schermature contro la radianza.
+- `denti_tuning_fork`: I denti tuning fork del Sonaraptor Dissonante permettono alle squadre di ridistribuire carichi e modulare la rigidita' strutturale all'interno di una canopia ionica.
+- `coda_stabilizzatrice_vortex`: La coda stabilizzatrice vortex del Sonaraptor Dissonante canalizza l'energia cinetica o elementale in colpi mirati all'interno della canopia ionica.
+- `branchie_eoliche`: Le branchie eoliche del Sonaraptor Dissonante interpretano segnali minuti e pattern psionici instabili all'interno della canopia ionica.
+
 ## Libellula Sonica -- `soniptera_resonans`
 
 _Soniptera resonans | classe: Insecta | bioma: Canopia Ionica | indice senziente: T2_
@@ -654,6 +714,22 @@ _Arenaceros placidus | classe: Keystone | bioma: Savana Ionizzata | indice senzi
 
 - `artigli_radice`: I brucatori di Polvere utilizzano gli artigli radice per scavare solchi nel suolo, lasciando una traccia di biomassa pre-digerita che altri animali possono trovare e consumare.
 - `membrane_eliofiltranti`: Le membrane eliofiltranti dei brucatori di Polvere schermano le radiazioni e i patogeni sospesi, permettendo loro di sopravvivere in ambienti estremi della savana.
+
+## Saettatore delle Dune -- `sp_arenavolux_sagittalis`
+
+_Arenavolux sagittalis | classe: Apex | bioma: Savana Ionizzata | indice senziente: T2_
+
+**Concetto.** Occupando un ruolo di apex predatore, la sua evoluzione si e' concentrata sulla capacita' di anticipare e reagire rapidamente, rendendolo un dominatore nei territori di savana.
+
+**Aspetto.** La coda e' il suo metronomo: ogni oscillazione scandisce l'attesa, poi il midollo iperattivo innesca lo scatto prima che l'occhio lo registri. Predatore che vince non per forza ma per anticipo -- il territorio e' gia' suo nel momento in cui entra in scena.
+
+**Ambiente.** Si trova in ambienti di savana, dove la sua capacita' di muoversi su terreni estremi e la sua strategia di caccia si integrano perfettamente con il suo ambiente. Utilizza la tecnica di caccia anticipatoria, scatenando una risposta adrenalinica immediata grazie al midollo iperattivo, permettendogli di attaccare prima che l'opponente reagisca.
+
+**Tratti chiave.**
+
+- `coda_contrappeso`: La coda contrappeso permette al Saettatore delle Dune di ottenere presa e accelerazioni controllate su terreni estremi, grazie alla sua abilita' nel mangrovieto cinetico.
+- `midollo_iperattivo`: Il midollo iperattivo scatena 3 turni di rage ogni volta che il Saettatore delle Dune uccide, pompando adrenalina nel suo corpo.
+- `pungiglione_paralizzante`: Il pungiglione paralizzante carica di neurotossina inibitrice applica 2 turni di stunned sui colpi precisi del Saettatore delle Dune.
 
 ## Custode di Basalto -- `sp_basaltocara_scutata`
 
@@ -775,6 +851,21 @@ _Limnofalcis serrata | classe: Threat | bioma: Palude Tossica | indice senziente
 
 **Ambiente.** Si trova prevalentemente in paludi, dove la sua capacita' di galleggiare appena sotto la superficie e l'affinita' per le correnti lo rendono un predatore perfetto in questi ecosistemi. Utilizza la paziente attesa del tempo e l'agguato geometrico per catturare le prede, rimanendo immobile e sfruttando la corrente per muoversi senza essere rilevato.
 
+## Cacciatore di Schegge -- `sp_lithoraptor_acutornis`
+
+_Lithoraptor acutornis | classe: Threat | bioma: Canyon Risonanti | indice senziente: T1_
+
+**Concetto.** La sua nicchia evolutiva si e' sviluppata in un ambiente di canyons risonanti, dove le sue capacita' di intimidazione e la capacita' di prevedere traiettorie attraverso le lamelle shear gli hanno permesso di diventare un predatore efficiente.
+
+**Aspetto.** L'intimidazione non e' un segnale: e' la sua prima arma. Le lamelle shear si aprono in ventaglio quando la distanza scende sotto la soglia di sicurezza, e il suono che producono e' gia' abbastanza per fermare il cuore di una preda media. Chi non si ferma scopre le zanne nel modo sbagliato.
+
+**Ambiente.** Si muove nei canyons risonanti, dove le sue lamelle shear possono produrre suoni potenti che si propagano attraverso le fenditure e i grotte, permettendogli di comunicare e intimorire le prede. Il comportamento e' basato su istinti semplici, con un uso strategico dell'intimidatore e delle lamelle shear per catturare prede e mantenere la posizione dominante nel suo ambiente.
+
+**Tratti chiave.**
+
+- `intimidatore`: Quando il Cacciatore di Schegge colpisce con un attacco melee riuscito, la sua presenza terrorizza gli avversari adiacenti, applicando 2 turni di panico.
+- `lamelle_shear`: Le lamelle shear del Cacciatore di Schegge permettono alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno dei canyons risonanti.
+
 ## Tessitore di Luce -- `sp_lucinerva_filata`
 
 _Lucinerva filata | classe: Bridge | bioma: Scogliera Luminescente | indice senziente: T2_
@@ -857,6 +948,21 @@ _Paludogromus magnus | classe: Keystone | bioma: Palude Tossica | indice senzien
 
 **Ambiente.** Si trova esclusivamente in biomi paludali, dove la sua presenza e' fondamentale per la conservazione della struttura del suolo e la prevenzione dell'erosione. Si muove con lentezza ma determinazione attraverso le acque stagnanti, consolidando i sedimenti e contribuendo alla formazione di un ambiente stabile per altre specie.
 
+## Saltatore di Cenere -- `sp_pyrosaltus_celeris`
+
+_Pyrosaltus celeris | classe: Threat | bioma: Abisso Vulcanico | indice senziente: T1_
+
+**Concetto.** Occupa un'niche evolutiva basata sulla caccia passiva, utilizzando la sincronizzazione dei flussi mutualistici e la posizione sopraelevata per massimizzare il danno.
+
+**Aspetto.** Le zampe radianti accumulano calore nei tendini per ore, immobili, finche' lo scatto e' inevitabile come un crollo. I denti silice-termici entrano nella preda alla temperatura della fusione: non tagliano, cauterizzano nell'atto stesso. Cacciatore che non insegue -- attende che la preda entri nel raggio del salto.
+
+**Ambiente.** Si trova nei bacini vulcanici sottomarini, dove le sue zampe radianti e i denti silice-termici sono adatti alle temperature elevate e alla scarsita' di cibo. Non insegue la preda, ma attende che questa entri nel raggio del salto, sfruttando la sua capacita' di accumulare calore nei tendini per attacchi improvvisi.
+
+**Tratti chiave.**
+
+- `denti_silice_termici`: I denti silice-termici permettono alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno dell'abisso vulcanico.
+- `zampe_radianti`: Le zampe radianti generano pulsazione cinetica al touch-down: +2 danno extra da posizione sopraelevata.
+
 ## Lanterna di Radici -- `sp_radiluma_pendula`
 
 _Radiluma pendula | classe: Support | bioma: Frattura Abissale Sinaptica | indice senziente: T2_
@@ -891,6 +997,16 @@ _Salifossa tenebris | classe: Keystone | bioma: Pianura Salina Iperarida | indic
 **Aspetto.** Nelle faglie saline piu' profonde dove la luce non ricorda di esistere, decompone con metodo liturgico: prima i composti solforati, poi i residui minerali, infine il vuoto che prepara per il prossimo ciclo. La sua assenza non si nota subito -- si nota quando due specie di predatori iniziano a competere per una preda che non c'e' piu'.
 
 **Ambiente.** Si trova nelle faglie saline piu' profonde, dove la luce non arriva e la sua attivita' decompositiva e' essenziale per il ciclo delle risorse. Opera seguendo un metodo liturgico, decomponendo prima i composti solforati, poi i residui minerali, infine preparando il vuoto per il prossimo ciclo.
+
+## Filtratore Salmastro -- `sp_salisucta_alveata`
+
+_Salisucta alveata | classe: Keystone | bioma: Pianura Salina Iperarida | indice senziente: T1_
+
+**Concetto.** La sua nicchia evolutiva e' quella di una specie keystone, con adattamenti non specificati ma necessari per svolgere il ruolo fondamentale nell'ecosistema salino.
+
+**Aspetto.** Filtra senza sosta, alveolo dopo alveolo, trattenendo solo cio' che non serve ad altri e restituendo il resto alla corrente. L'ecosistema salino ruota attorno alla sua attivita' come una liturgia che nessuno ha scritto ma tutti rispettano: interrompila, e la torbidita' uccide prima che lo faccia qualsiasi predatore.
+
+**Ambiente.** Si trova esclusivamente in pianure saline iperaride, dove il suo ruolo di specie keystone e' essenziale per mantenere l'equilibrio dell'ecosistema salino. Il suo comportamento si basa sulla costante filtrazione dell'acqua, un'azione continua e inesorabile che sostiene la salute dell'ecosistema salino senza interruzione.
 
 ## Divisore del Delta -- `sp_siltovena_bifida`
 
@@ -961,6 +1077,16 @@ _Ventornis longiala | classe: Bridge | bioma: Canyon Risonanti | indice senzient
 
 - `ali_fulminee`: Le ali fulminee la portano oltre ogni confine di bioma prima che l'aria cambi di nuovo.
 - `membrane_pneumatofori`: Le membrane pneumatofore le permettono di planare senza battito per ore, leggendo le correnti come una mappa.
+
+## Beccatore di Vetro -- `sp_vitricyba_punctata`
+
+_Vitricyba punctata | classe: Threat | bioma: Atollo di Ossidiana | indice senziente: T1_
+
+**Concetto.** Ha sviluppato una nicchia evolutiva basata sull'osservazione e sfruttamento delle routine delle specie vicine, diventando un predatore invisibile e inattaccabile per chi non riesce a rompere la sua routine.
+
+**Aspetto.** Si muove in cerca di cibo con una puntualita' che sembra metodica: lo stesso percorso, la stessa ora, la stessa pazienza. E' il predatore della routine altrui -- impara i ritmi delle specie vicine e li sfrutta con una precisione che non lascia margine di scampo.
+
+**Ambiente.** Si trova in atolli di origine vulcanica, dove la roccia obsidiana domina il paesaggio e la fauna e' scarsa ma precisa nel suo comportamento. Predatore della routine altrui, si muove con una puntualita' metodica, sfruttando i ritmi di altre specie per cacciarle con una precisione inarrivabile.
 
 ## Nidificatore del Maestrale -- `sp_zephyrovum_fidelis`
 
@@ -1051,6 +1177,42 @@ _Geliputris liquefaciens | classe: Colonia microbica decompositrice / minaccia p
 - `sangue_piroforico`: Il sangue piroforico brucia l'aria quando colpisce la corazza, causando danni termici ai nemici.
 - `secrezione_rallentante_palmi`: I palmi rilasciano una secrezione gelatinosa che blocca i bersagli rapidi, rallentandone i movimenti.
 - `eco_interno_riflesso`: L'eco interno riflesso mappa l'ambiente attraverso vibrazioni corporee, permettendo di individuare ostacoli e prede.
+
+## Raptor Termico -- `thermo_raptor`
+
+_Thermoraptor aridus | classe: Cursore quadrupede / predatore apex | bioma: deserto caldo | indice senziente: T1_
+
+**Concetto.** Occupa una nicchia ecologica come predatore dominante in ambienti estremi, grazie a una combinazione di adattamenti termoregolatori e un comportamento predatorio mirato alle prede fiacche in condizioni di calore intenso.
+
+**Aspetto.** Predatore bipede asciutto dalla pelle squamosa chiara riflettente, arti posteriori potenti e creste dorsali termo-disperdenti.
+
+**Ambiente.** Si muove nei deserti caldi, dove la sua pelle riflettente e le creste termo-disperdenti gli permettono di gestire il calore estremo senza sovraccarico metabolico. Predatore apex termofilo, attacca nelle ore piu roventi, sfruttando il calore per indebolire le prede e lanciando attacchi brevi e letali con le arti posteriori potenti.
+
+**Tratti chiave.**
+
+- `cuticole_cerose`: Le cuticole cerose assorbono e convertono l'energia del sole e del calore ambiente in modo efficiente, permettendo al Raptor Termico di muoversi senza sforzo in ambienti estremi.
+- `grassi_termici`: I grassi termici forniscono al Raptor Termico una riserva di energia termica, che gli permette di sopravvivere ai picchi di calore senza perdere la sua agilita'.
+- `pelli_cave`: Le pelli cave con sacche d'aria interne agiscono come una barriera termica leggera, aiutando il Raptor Termico a mantenere un'equilibrio termico in ambienti aridi estremi.
+- `proteine_shock_termico`: Le proteine di shock termico proteggono il Raptor Termico dalle alte temperature, mantenendo la sua struttura cellulare intatta durante le escursioni termiche estreme.
+- `reti_capillari_radici`: Le reti capillari radici permettono al Raptor Termico di scambiare fluidi con le piante circostanti, aiutandolo a regolare la sua temperatura basale e a sopravvivere in ambienti estremi.
+
+## Uccello Ombra -- `umbra_alaris`
+
+_Umbra alaris | classe: Aves | bioma: Dorsale Termale Tropicale | indice senziente: T3_
+
+**Concetto.** L'evoluzione dell'Uccello Ombra si e' sviluppata per sfruttare la scarsita' di luce e la presenza di calore nei dorsali termali tropicali, con tratti come il vello di assorbimento totale e la comunicazione fotonica coda-coda che lo rendono un predatore efficiente.
+
+**Aspetto.** Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.
+
+**Ambiente.** Si muove nei dorsali termali tropicali, luoghi dove la luce solare e' scarsa e le temperature sono elevate, permettendogli di utilizzare la sua invisibilita' ottica quasi totale. Utilizza attacchi ipotermici silenziosi e la sua visione multi-spettrale amplificata per cacciare prede in condizioni di scarsa luminosita', mentre il volo felpato e manovrato gli permette di muoversi senza rumore.
+
+**Tratti chiave.**
+
+- `vello_di_assorbimento_totale`: Il vello di assorbimento totale permette all'Uccello Ombra di rimanere invisibile in ambienti luminosi, assorbendo quasi tutta la luce incidente.
+- `visione_multi_spettrale_amplificata`: La visione multi-spettrale amplificata consente all'Uccello Ombra di vedere in condizioni di luminanza estremamente bassa, anche nel buio piu' totale.
+- `motore_biologico_silenzioso`: Il motore biologico silenzioso permette all'Uccello Ombra di volare per lunghi periodi senza emettere alcun rumore, rendendolo un predatore estremamente stealth.
+- `artigli_ipo_termici`: Gli artigli ipotermici dell'Uccello Ombra possono indurre shock da freddo localizzato nei nemici, paralizzandoli senza danni fisici significativi.
+- `comunicazione_fotonica_coda_coda`: La comunicazione fotonica coda-coda permette all'Uccello Omba di scambiare impulsi luminosi tattili con altri membri della sua specie, comunicando senza emettere suoni.
 
 ## Zephyr Spore Courier -- `zephyr_spore_courier`
 
