@@ -2877,7 +2877,7 @@ traits:
       l'attacco. Ogni colpo riuscito con MoS >= 3 sfrutta il timing esteso
       per +1 PT extra.
 
-  distorsione_temporale_4_1:
+  distorsione_temporale_mos4:
     label_it: "Distorsione Temporale"
     label_en: "Temporal Distortion"
     tier: T1
@@ -2890,12 +2890,12 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: distorsione_temporale_4_1
+      log_tag: distorsione_temporale_mos4
     description_it: |
       Distorsione temporale (FR 02-03) — finestra di timing ampia in combat.
       Su MoS >= 4 trasforma la lettura del tempo in +1 PT.
 
-  distorsione_temporale_6_2:
+  distorsione_temporale_mos6:
     label_it: "Distorsione Temporale"
     label_en: "Temporal Distortion"
     tier: T1
@@ -2908,7 +2908,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 2
-      log_tag: distorsione_temporale_6_2
+      log_tag: distorsione_temporale_mos6
     description_it: |
       Distorsione temporale massimizzata — finestra di timing
       maxed. Su MoS >= 6 +2 PT (tier finale della catena Tachipsichia).
@@ -3766,7 +3766,7 @@ traits:
     description_it: |
       Imitation - It is now possible to ask clan members to mimic switching hand and altering a particular item. Effetto: apply_status (T1).
 
-  bisogno_di_attaccamento_hb_01:
+  bisogno_di_attaccamento_t1:
     label_it: "Bisogno di Attaccamento"
     label_en: "Attachment Need"
     tier: T1
@@ -3782,23 +3782,6 @@ traits:
       log_tag: comm_attachment_need_01
     description_it: |
       Attachment Need - During a generation time lapse, adults will automatically form couples and one baby will be born from their unions. Effetto: apply_status (T1).
-
-  bisogno_di_attaccamento_hb_02:
-    label_it: "Bisogno di Attaccamento"
-    label_en: "Attachment Need"
-    tier: T1
-    category: neurologico
-    applies_to: actor
-    trigger:
-      action_type: passive
-    effect:
-      kind: apply_status
-      stato: linked
-      turns: 2
-      target: actor
-      log_tag: comm_attachment_need_02
-    description_it: |
-      Attachment Need - During a generation time lapse, adults will automatically form couples and two babies will be born from their unions. Effetto: apply_status (T1).
 
   comportamento_deimatico:
     label_it: "Comportamento Deimatico"
@@ -3885,7 +3868,7 @@ traits:
     description_it: |
       Social Confidence (BB CM 01) - A call to gather all clan members now has a wider range. Effetto: apply_status (T2).
 
-  bisogno_di_attaccamento_bb_hb_01:
+  bisogno_di_attaccamento_t2:
     label_it: "Bisogno di Attaccamento"
     label_en: "Attachment Need"
     tier: T2
@@ -4267,7 +4250,7 @@ traits:
     description_it: |
       Wayfinding (BB IN 03) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
 
-  orientamento_attack_apply_status:
+  orientamento_focused:
     label_it: "Orientamento"
     label_en: "Orientation"
     tier: T2
@@ -4284,24 +4267,6 @@ traits:
       log_tag: intel_orientation_bb_05
     description_it: |
       Orientation (BB IN 05) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
-
-  orientamento_attack_apply_status_2:
-    label_it: "Orientamento"
-    label_en: "Orientation"
-    tier: T2
-    category: neurologico
-    applies_to: actor
-    trigger:
-      action_type: attack
-      on_result: miss
-    effect:
-      kind: apply_status
-      stato: focused
-      turns: 1
-      target: actor
-      log_tag: intel_orientation_bb_05_2
-    description_it: |
-      Orientation (BB IN 05-2) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
 
   abilita_profilattica:
     label_it: "Abilita' Profilattica"
@@ -4546,7 +4511,7 @@ traits:
     description_it: |
       Speed (BB WA 02) - The movement speed is increased. Effetto: buff_stat (T2).
 
-  orientamento_movement_buff_stat:
+  orientamento:
     label_it: "Orientamento"
     label_en: "Orientation"
     tier: T2
@@ -4695,7 +4660,7 @@ traits:
     description_it: |
       Omnivorous - Every serving of food consumed provides more energy. Effetto: apply_status (T1).
 
-  metabolismo_xenobiotico_apply_status_fed_3:
+  metabolismo_xenobiotico_fed:
     label_it: "Metabolismo Xenobiotico"
     label_en: "Xenobiotic Metabolism"
     tier: T2
@@ -4711,23 +4676,6 @@ traits:
       log_tag: omni_xenobiotic_metabolism_bb_01
     description_it: |
       Xenobiotic Metabolism (BB OM 01) - The elements used to eliminate food poisoning are more effective. Effetto: apply_status (T2).
-
-  metabolismo_xenobiotico_apply_status_fed_3_2:
-    label_it: "Metabolismo Xenobiotico"
-    label_en: "Xenobiotic Metabolism"
-    tier: T2
-    category: neurologico
-    applies_to: actor
-    trigger:
-      action_type: passive
-    effect:
-      kind: apply_status
-      stato: fed
-      turns: 3
-      target: actor
-      log_tag: omni_xenobiotic_metabolism_bb_02
-    description_it: |
-      Xenobiotic Metabolism (BB OM 02) - The elements used to fight food poisonings are more effective. Effetto: apply_status (T2).
 
   controllo_cognitivo:
     label_it: "Controllo Cognitivo"
@@ -5052,7 +5000,7 @@ traits:
     description_it: |
       Xenobiotic Resistance (BB ST 01) - Getting a full protection against venom poisonnings required fewer items with curative properties. Effetto: damage_reduction (T2).
 
-  metabolismo_xenobiotico_damage_reduction:
+  metabolismo_xenobiotico:
     label_it: "Metabolismo Xenobiotico"
     label_en: "Xenobiotic Metabolism"
     tier: T2
@@ -5067,22 +5015,6 @@ traits:
       log_tag: prev_med_xenobiotic_metabolism_bb_03
     description_it: |
       Xenobiotic Metabolism (BB ST 03) - Getting a full protection against venom poisonnings required fewer items with curative properties. Effetto: damage_reduction (T2).
-
-  metabolismo_xenobiotico_damage_reduction_2:
-    label_it: "Metabolismo Xenobiotico"
-    label_en: "Xenobiotic Metabolism"
-    tier: T2
-    category: neurologico
-    applies_to: target
-    trigger:
-      action_type: passive
-    effect:
-      kind: damage_reduction
-      amount: 2
-      min: 0
-      log_tag: prev_med_xenobiotic_metabolism_bb_04
-    description_it: |
-      Xenobiotic Metabolism (BB ST 04) - Getting a full protection against food poisoning requires fewer items with curative properties. Effetto: damage_reduction (T2).
 
   percezione:
     label_it: "Percezione"
@@ -5724,7 +5656,7 @@ traits:
     description_it: |
       Hydration-Detoxification Efficiency (BB CT 01) - Water consumption reduces the duration of intoxication more effectively. Effetto: apply_status (T2).
 
-  metabolismo_xenobiotico_apply_status_healing_2:
+  metabolismo_xenobiotico_healing:
     label_it: "Metabolismo Xenobiotico"
     label_en: "Xenobiotic Metabolism"
     tier: T2
@@ -5740,35 +5672,6 @@ traits:
       log_tag: ther_med_xenobiotic_metabolism_bb_04
     description_it: |
       Xenobiotic Metabolism (BB CT 04) - The elements used to fight venom poisonings are more effective. Effetto: apply_status (T2).
-
-  metabolismo_xenobiotico_apply_status_healing_2_2:
-    label_it: "Metabolismo Xenobiotico"
-    label_en: "Xenobiotic Metabolism"
-    tier: T2
-    category: neurologico
-    applies_to: actor
-    trigger:
-      action_type: passive
-    effect:
-      kind: apply_status
-      stato: healing
-      turns: 2
-      target: actor
-      log_tag: ther_med_xenobiotic_metabolism_bb_05
-    description_it: |
-      Xenobiotic Metabolism (BB CT 05) - The elements used to fight food poisonings are more effective. Effetto: apply_status (T2).
-
-  # =========================================================================
-  # QW2 / M-017: Starter Bioma trait — adattamento del Form al bioma di
-  # partenza. Slot `starter_bioma` nei pack di form_pack_bias.yaml viene
-  # risolto da formPackRecommender.js a `starter_bioma_<form_id>`.
-  #
-  # Schema: tier T1, kind=extra_damage, amount=1, trigger min_mos=5 (solo
-  # solid hit). Tier 1 leggibile + non combat-breaking (max +1 conditional).
-  # Il campo provenance.starter_biome documenta il bioma tematico associato
-  # al Form (mapping derivato da archetype theme + biomes.yaml shipping).
-  # Wire UI onboarding panel -> follow-up PR.
-  # =========================================================================
 
   starter_bioma_istj:
     tier: T1

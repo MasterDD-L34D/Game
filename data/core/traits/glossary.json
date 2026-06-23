@@ -185,7 +185,7 @@
       "description_it": "Reactions when responding to a threat are faster.",
       "description_en": "Reactions when responding to a threat are faster."
     },
-    "distorsione_temporale_4_1": {
+    "distorsione_temporale_mos4": {
       "label_it": "Distorsione Temporale",
       "label_en": "Temporal Distortion",
       "description_it": "The margin of error is increased during attacks because more time is allowed.",
@@ -197,7 +197,7 @@
       "description_it": "The margin of error is increased during attacks because more time is allowed.",
       "description_en": "The margin of error is increased during attacks because more time is allowed."
     },
-    "distorsione_temporale_6_2": {
+    "distorsione_temporale_mos6": {
       "label_it": "Distorsione Temporale",
       "label_en": "Temporal Distortion",
       "description_it": "The margin of error during attacks is maximized because more time is allowed.",
@@ -233,23 +233,17 @@
       "description_it": "While following you, clan members are able to automatically mimic an intimidation or the action of conquering fear.",
       "description_en": "While following you, clan members are able to automatically mimic an intimidation or the action of conquering fear."
     },
-    "bisogno_di_attaccamento_bb_hb_01": {
+    "bisogno_di_attaccamento_t2": {
       "label_it": "Bisogno di Attaccamento",
       "label_en": "Attachment Need",
       "description_it": "During a generation time lapse, each adult clan member will have automatically developed bonds with a mate so couples will be formed.",
       "description_en": "During a generation time lapse, each adult clan member will have automatically developed bonds with a mate so couples will be formed."
     },
-    "bisogno_di_attaccamento_hb_01": {
+    "bisogno_di_attaccamento_t1": {
       "label_it": "Bisogno di Attaccamento",
       "label_en": "Attachment Need",
       "description_it": "During a generation time lapse, adults will automatically form couples and one baby will be born from their unions.",
       "description_en": "During a generation time lapse, adults will automatically form couples and one baby will be born from their unions."
-    },
-    "bisogno_di_attaccamento_hb_02": {
-      "label_it": "Bisogno di Attaccamento",
-      "label_en": "Attachment Need",
-      "description_it": "During a generation time lapse, adults will automatically form couples and two babies will be born from their unions.",
-      "description_en": "During a generation time lapse, adults will automatically form couples and two babies will be born from their unions."
     },
     "cinesica": {
       "label_it": "Cinesica",
@@ -515,13 +509,7 @@
       "description_it": "The range for detection of non-edible resources is increased.",
       "description_en": "The range for detection of non-edible resources is increased."
     },
-    "orientamento_attack_apply_status": {
-      "label_it": "Orientamento",
-      "label_en": "Orientation",
-      "description_it": "It is possible to remember the position of one more specific location.",
-      "description_en": "It is possible to remember the position of one more specific location."
-    },
-    "orientamento_attack_apply_status_2": {
+    "orientamento_focused": {
       "label_it": "Orientamento",
       "label_en": "Orientation",
       "description_it": "It is possible to remember the position of one more specific location.",
@@ -581,17 +569,11 @@
       "description_it": "The protection against intoxication is longer.",
       "description_en": "The protection against intoxication is longer."
     },
-    "metabolismo_xenobiotico_damage_reduction": {
+    "metabolismo_xenobiotico": {
       "label_it": "Metabolismo Xenobiotico",
       "label_en": "Xenobiotic Metabolism",
       "description_it": "Getting a full protection against venom poisonnings required fewer items with curative properties.",
       "description_en": "Getting a full protection against venom poisonnings required fewer items with curative properties."
-    },
-    "metabolismo_xenobiotico_damage_reduction_2": {
-      "label_it": "Metabolismo Xenobiotico",
-      "label_en": "Xenobiotic Metabolism",
-      "description_it": "Getting a full protection against food poisoning requires fewer items with curative properties.",
-      "description_en": "Getting a full protection against food poisoning requires fewer items with curative properties."
     },
     "prevenzione_del_trauma": {
       "label_it": "Prevenzione del Trauma",
@@ -695,17 +677,11 @@
       "description_it": "The recovery time following an injury is faster.",
       "description_en": "The recovery time following an injury is faster."
     },
-    "metabolismo_xenobiotico_apply_status_healing_2": {
+    "metabolismo_xenobiotico_healing": {
       "label_it": "Metabolismo Xenobiotico",
       "label_en": "Xenobiotic Metabolism",
       "description_it": "The elements used to fight venom poisonings are more effective.",
       "description_en": "The elements used to fight venom poisonings are more effective."
-    },
-    "metabolismo_xenobiotico_apply_status_healing_2_2": {
-      "label_it": "Metabolismo Xenobiotico",
-      "label_en": "Xenobiotic Metabolism",
-      "description_it": "The elements used to fight food poisonings are more effective.",
-      "description_en": "The elements used to fight food poisonings are more effective."
     },
     "sollievo_dal_trauma": {
       "label_it": "Sollievo dal Trauma",
@@ -791,7 +767,7 @@
       "description_it": "A greater distance is traveled when swinging from branch to branch. | MOVE (button) to Swing when hanging in foliage.",
       "description_en": "A greater distance is traveled when swinging from branch to branch. | MOVE (button) to Swing when hanging in foliage."
     },
-    "orientamento_movement_buff_stat": {
+    "orientamento": {
       "label_it": "Orientamento",
       "label_en": "Orientation",
       "description_it": "It is possible to remember the position of one more specific location.",
@@ -887,17 +863,11 @@
       "description_it": "The symptoms following the ingestion of an egg are less severe.",
       "description_en": "The symptoms following the ingestion of an egg are less severe."
     },
-    "metabolismo_xenobiotico_apply_status_fed_3": {
+    "metabolismo_xenobiotico_fed": {
       "label_it": "Metabolismo Xenobiotico",
       "label_en": "Xenobiotic Metabolism",
       "description_it": "The elements used to eliminate food poisoning are more effective.",
       "description_en": "The elements used to eliminate food poisoning are more effective."
-    },
-    "metabolismo_xenobiotico_apply_status_fed_3_2": {
-      "label_it": "Metabolismo Xenobiotico",
-      "label_en": "Xenobiotic Metabolism",
-      "description_it": "The elements used to fight food poisonings are more effective.",
-      "description_en": "The elements used to fight food poisonings are more effective."
     },
     "onnivoro": {
       "label_it": "Onnivoro",

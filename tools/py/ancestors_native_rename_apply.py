@@ -55,6 +55,55 @@ def signature(v: dict) -> tuple:
             tuple(sorted((k, str(x)) for k, x in trg.items())))
 
 
+# Semantic-priority discriminator: NEVER leak engine kind/action_type or raw wiki
+# prov_code into the id. Prefer meaningful axes; fall back to a clean ordinal.
+_DISC_PRI = [("trigger", "requires_target_tag"), ("trigger", "requires_actor_tag"),
+             ("effect", "stato"), ("TIER", "tier"),
+             ("trigger", "min_mos"), ("effect", "amount")]
+
+
+def _getval(v, src, key):
+    if src == "TIER":
+        return str(v.get("tier") or "")
+    return str((v.get(src, {}) or {}).get(key, ""))
+
+
+def _fmt(val, key):
+    if val == "":
+        return ""
+    if key == "tier":
+        return slug(val)            # T2 -> t2
+    if key == "min_mos":
+        return f"mos{val}"
+    if key == "amount":
+        return f"x{val}"
+    return slug(val)                # tag / stato -> semantic token
+
+
+def discriminators(reps):
+    """Per-rep clean discriminator string ('' allowed for one rep = keeps base)."""
+    chosen = []
+    for src, key in _DISC_PRI:
+        if len({_getval(v, src, key) for v in reps}) > 1:
+            chosen.append((src, key))
+            cur = [tuple(_fmt(_getval(v, s, k), k) for s, k in chosen) for v in reps]
+            if len(set(cur)) == len(reps):
+                break
+    discs = []
+    for v in reps:
+        parts = [_fmt(_getval(v, s, k), k) for s, k in chosen]
+        discs.append("_".join(p for p in parts if p))
+    # within-group uniqueness: first occurrence kept as-is ('' = base), dups get ordinal
+    out, counts = [], {}
+    for d in discs:
+        counts[d] = counts.get(d, 0) + 1
+        if counts[d] == 1:
+            out.append(d)
+        else:
+            out.append(f"{d}_v{counts[d]}" if d else f"v{counts[d]}")
+    return out
+
+
 def build_map(traits: dict, gloss: dict):
     """Return (rename_map kept old->new, remove_set retired olds, fuse_map retired->keep new)."""
     groups = defaultdict(list)
@@ -97,23 +146,22 @@ def build_map(traits: dict, gloss: dict):
                 fuse_map[k] = keep_id
                 disp[k] = "DEDUP_RETIRE"
             continue
-        # disambiguate
-        all_kv = defaultdict(set)
-        for _, v in members:
-            for src in (v.get("trigger", {}) or {}, v.get("effect", {}) or {}):
-                for kk, vv in src.items():
-                    if kk != "log_tag":
-                        all_kv[kk].add(str(vv))
-        varying = [kk for kk, vals in all_kv.items() if len(vals) > 1]
+        # multiple signatures: sub-dedup identical-sig members, disambiguate distinct reps
+        by_sig: dict[tuple, list] = defaultdict(list)
         for k, v in members:
-            parts = []
-            for kk in varying:
-                val = (v.get("trigger", {}) or {}).get(kk, (v.get("effect", {}) or {}).get(kk, ""))
-                if val != "":
-                    parts.append(slug(str(val)))
-            disc = "_".join(parts) or slug((v.get("provenance", {}) or {}).get("code", "x"))
-            rename_map[k] = uniq(f"{base}_{disc}")
-            disp[k] = "DISAMB"
+            by_sig[signature(v)].append((k, v))
+        reps = [ms[0] for ms in by_sig.values()]          # one representative per sig
+        rep_vals = [v for _, v in reps]
+        discs = discriminators(rep_vals)
+        for (rk, rv), d in zip(reps, discs):
+            new = uniq(f"{base}_{d}" if d else base)
+            rename_map[rk] = new
+            disp[rk] = "DISAMB"
+            # retire the extra identical-sig members, fuse to this rep
+            for k, _ in by_sig[signature(rv)][1:]:
+                remove_set.add(k)
+                fuse_map[k] = new
+                disp[k] = "DEDUP_RETIRE"
 
     # glossary-only ancestors (not wired in active_effects) -> rename by their label too
     for k, v in gloss.items():
@@ -204,7 +252,14 @@ def main() -> int:
     # active_effects
     lines = open(ACTIVE, encoding="utf-8").readlines()
     new_lines, removed, renamed, prov = rewrite_active(lines, rename_map, remove_set)
-    print(f"active_effects: renamed={renamed} removed_blocks={removed} provenance_stripped={prov}")
+    # strip provenance prose from descriptions: "Source: ancestors_csv ... ." sentences
+    # (may wrap block-scalar lines) + inline wiki codes " (XX NN)".
+    ae_text = "".join(new_lines)
+    ae_text = re.sub(r"\s*Source:\s*ancestors_csv[\s\S]*?\.", "", ae_text)
+    ae_text = re.sub(r" \([A-Z]{2,3} [0-9]+\)", "", ae_text)
+    csv_left = ae_text.count("ancestors_csv")
+    print(f"active_effects: renamed={renamed} removed_blocks={removed} provenance_block_stripped={prov} "
+          f"ancestors_csv_prose_remaining={csv_left}")
 
     # glossary
     full_gloss = json.load(open(GLOSSARY, encoding="utf-8"), object_pairs_hook=OrderedDict)
@@ -241,7 +296,7 @@ def main() -> int:
         print("[DRY RUN] no files written")
         return 0
 
-    open(ACTIVE, "w", encoding="utf-8", newline="\n").writelines(new_lines)
+    open(ACTIVE, "w", encoding="utf-8", newline="\n").write(ae_text)
     with open(GLOSSARY, "w", encoding="utf-8", newline="\n") as f:
         json.dump(full_gloss, f, ensure_ascii=False, indent=2); f.write("\n")
     with open(BIOME, "w", encoding="utf-8", newline="\n") as f:
