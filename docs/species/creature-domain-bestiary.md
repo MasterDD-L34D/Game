@@ -17,6 +17,8 @@ Promozione HITL di tutte le 75 schede lore dalla bozza procedurale `data/core/sp
 
 Render approvato per ciascuna voce: vedi `docs/catalog/creature-domain-bestiary_assets_draft.md`.
 
+> Manutenzione: doc ora curato a mano (pass diagnostico + light-edit IT, 2026-06-23: fix typo / concordanze / troncamenti / calchi inglesi, voce preservata). NON rigenerare da `gen_phase2.py` -- sovrascriverebbe la rifinitura prosa.
+
 ## Anguilla Geomagnetica -- `anguis_magnetica`
 
 _Anguis magnetica | classe: Reptilia/Pisces | bioma: Atollo di Ossidiana | indice senziente: T1_
@@ -65,11 +67,11 @@ _Glacilarus borealis | classe: Volatore planatore / disperdente-ponte | bioma: c
 
 _Mycotabes corruptor | classe: Colonia fungina patogena / decompositrice | bioma: Foresta Temperata Umida | indice senziente: T1_
 
-**Concetto.** Occupa una nicchia evolutiva come fungo patogeno dei boschi, contribuendo al ciclo detritico con la sua capacita' di decomporre e marcire la lettiera, accelerando la riciclo delle risorse naturali.
+**Concetto.** Occupa una nicchia evolutiva come fungo patogeno dei boschi, contribuendo al ciclo detritico con la sua capacita' di decomporre e marcire la lettiera, accelerando il riciclo delle risorse naturali.
 
 **Aspetto.** Chiazze fungine grigio-violacee che si estendono su tronchi e suolo, con corpi fruttiferi gonfi e velo di spore polverose.
 
-**Ambiente.** Si sviluppa prevalentemente in foreste temperate, dove la umidita' e la presenza di materiale organico morto favoriscono la sua crescita e la diffusione delle spore. Agisce seguendo istinti semplici, senza pianificazione ne' linguaggio, concentrando la sua energia nella ricerca di nutrienti e nella propagazione delle spore per la sua sopravvivenza.
+**Ambiente.** Si sviluppa prevalentemente in foreste temperate, dove l'umidita' e la presenza di materiale organico morto favoriscono la sua crescita e la diffusione delle spore. Agisce seguendo istinti semplici, senza pianificazione ne' linguaggio, concentrando la sua energia nella ricerca di nutrienti e nella propagazione delle spore per la sua sopravvivenza.
 
 **Tratti chiave.**
 
@@ -128,7 +130,7 @@ _Cryofelis nivalis | classe: Cursore quadrupede / predatore apex | bioma: cryost
 
 **Tratti chiave.**
 
-- `artigli_sette_vie`: I artigli multipli permettono alla lince criogenica di afferrare saldamente le prede sul ghiaccio irregolare.
+- `artigli_sette_vie`: Gli artigli multipli permettono alla lince criogenica di afferrare saldamente le prede sul ghiaccio irregolare.
 - `carapace_fase_variabile`: La corazza che varia densita' aiuta la lince a bilanciare la protezione contro i nemici e la liberta' di movimento durante la caccia.
 - `olfatto_risonanza_magnetica`: I bulbi olfattivi della lince riescono a tracciare campi magnetici e identificare vene metalliche nascoste sotto il ghiaccio.
 - `criostasi_adattiva`: Il metabolismo sospeso della lince le permette di sopravvivere a mesi di estremo freddo senza cibo.
@@ -148,7 +150,7 @@ _Dune Stalker | bioma: Savana Ionizzata | indice senziente: T2_
 - `struttura_elastica_amorfa`: Il corpo amorfo del dune stalker si estende per sfuggire alla presa di un avversario.
 - `scheletro_idro_regolante`: Modulando il contenuto idrico delle sue ossa porose, il dune stalker cambia massa per adattarsi meglio all'ambiente.
 - `sensori_geomagnetici`: I cristalli cranici del dune stalker mappano i corridoi geomagnetici invisibili della savana.
-- `coda_frusta_cinetica`: La coda elastica del dune stalker si accumula di slancio per poi colpire con forza devastante un preda.
+- `coda_frusta_cinetica`: La coda elastica del dune stalker si accumula di slancio per poi colpire con forza devastante una preda.
 - `sacche_galleggianti_ascensoriali`: Le sacche gassose regolabili del dune stalker permettono all'animale di controllare il proprio assetto e profondita' in acqua.
 - `criostasi_adattiva`: Durante le stagioni estreme, il dune stalker entra in criostasi adattativa, riducendo drasticamente i suoi processi metabolici.
 - `lamelle_termoforetiche`: Le lamelle respiratorie del dune stalker deviano rapidamente i gas estremi entrando e uscendo dal suo corpo con gradienti termici intensi.
@@ -170,7 +172,7 @@ _Echopterus pollinifer | classe: Volatore planatore / impollinatore-disperdente 
 
 **Aspetto.** Esile volatore dalle membrane translucide, grandi occhi composti e sacche ascensoriali che lo tengono in quota nelle termiche ferrose.
 
-**Ambiente.** Vive in ambienti rocciosi e aridi, dove la cripto-flora cresce in nicchie protette e i calanchi offrono spazi per la dispersione dei semi. La sua biologia e' ottimizzata per sopravvivere in questi ecosistemi estremi. Naviga utilizzando un eco-oriented planation con sonar interno e visione infrarossa, impollinando la cripto-flora e disperdendo semi tra i calanchi. Il sonno emisferico alternato permette di ridurre i rischi in ambienti pericolosi.
+**Ambiente.** Vive in ambienti rocciosi e aridi, dove la cripto-flora cresce in nicchie protette e i calanchi offrono spazi per la dispersione dei semi. La sua biologia e' ottimizzata per sopravvivere in questi ecosistemi estremi. Naviga utilizzando una planata eco-orientata con sonar interno e visione infrarossa, impollinando la cripto-flora e disperdendo semi tra i calanchi. Il sonno emisferico alternato permette di ridurre i rischi in ambienti pericolosi.
 
 **Tratti chiave.**
 
@@ -184,7 +186,7 @@ _Echopterus pollinifer | classe: Volatore planatore / impollinatore-disperdente 
 
 _Elastovaranus hydrus | classe: Reptilia | bioma: Pianura Salina Iperarida | indice senziente: T2_
 
-**Concetto.** L'evoluzione di questo rettile ha portato allo sviluppo di un rostro emostatico litico, un scheletro idraulico a pistoni per i colpi-proiettile e una massiccia ipertrofia muscolare che gli permette di attaccare con rapidita' e precisione in ambienti pianeggianti salmastri.
+**Concetto.** L'evoluzione di questo rettile ha portato allo sviluppo di un rostro emostatico litico, uno scheletro idraulico a pistoni per i colpi-proiettile e una massiccia ipertrofia muscolare che gli permette di attaccare con rapidita' e precisione in ambienti pianeggianti salmastri.
 
 **Aspetto.** Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.
 
@@ -241,7 +243,7 @@ _Ferrocolonia magnetotacta | classe: Colonia radicante simbionte / predatore-reg
 - `sangue_piroforico`: Il sangue piroforico della ferrocolonia brucia l'aria intorno a chi la perfora, creando scintille violente.
 - `secrezione_rallentante_palmi`: I palmi della ferrocolonia rilasciano un gel rallentante che immobilizza le prede veloci, permettendo di afferrarle.
 - `lingua_tattile_trama`: La lingua tattile della ferrocolonia esplora la trama del suolo, rilevando movimenti nascosti e fratture sotterranee.
-- `ventriglio_gastroliti`: Il ventriglio muscoloso della ferrozza si muove lentamente, macinando cibi duri grazie ai gastroliti interni.
+- `ventriglio_gastroliti`: Il ventriglio muscoloso della ferrocolonia si muove lentamente, macinando cibi duri grazie ai gastroliti interni.
 
 ## Fusomorfa Palustre -- `fusomorpha_palustris`
 
@@ -251,7 +253,7 @@ _Fusomorpha palustris | classe: Playable | bioma: Palude Tossica | indice senzie
 
 **Aspetto.** Creatura delle paludi salmastre che non ha ancora deciso quale forma preferisce: il flusso ameboide le lascia aperta ogni possibilita', e la fagocitosi che pratica non e' solo alimentazione -- e' curiosita' che incorpora il mondo per capirlo meglio. Cresce con chi la accompagna, cambia con le stagioni, porta addosso ogni incontro come uno strato in piu'.
 
-**Ambiente.** Si trova in ambienti palustri salmastri, dove la sua capacita' di filtrazione osmotica e le branchie microfiltri le permettono di gestire le condizioni estreme di salinita' e tossicita'. La sua relazione con il biome e' profonda e necessaria per la sua sopravvivenza. La Fusomorpha Palustris mostra comportamenti complessi come la fagocitosi assorbente, che non solo serve per l'alimentazione ma anche per l'apprendimento. Utilizza il flus, il flusso ameboide controllato e le branchie metalloidi per muoversi e interagire con l'ambiente. La sua intelligenza sociale e la sua capacita' di mutare forma la rendono un essere altamente adattivo.
+**Ambiente.** Si trova in ambienti palustri salmastri, dove la sua capacita' di filtrazione osmotica e le branchie microfiltri le permettono di gestire le condizioni estreme di salinita' e tossicita'. La sua relazione con il biome e' profonda e necessaria per la sua sopravvivenza. La Fusomorpha Palustris mostra comportamenti complessi come la fagocitosi assorbente, che non solo serve per l'alimentazione ma anche per l'apprendimento. Utilizza il flusso ameboide controllato e le branchie metalloidi per muoversi e interagire con l'ambiente. La sua intelligenza sociale e la sua capacita' di mutare forma la rendono un essere altamente adattivo.
 
 **Tratti chiave.**
 
@@ -347,7 +349,7 @@ _bioma: Calanchi Ferromagnetici | indice senziente: T1_
 
 **Aspetto.** Predatore quadrupede con cresta dorsale spinosa lungo la schiena.
 
-**Ambiente.** Si adatta perfettamente ai terreni rocciosi e difficili dei badlands, dove trova rifugio tra le crepe e i crepacci. La sua sopravvivenza e' strettamente legata alla presenza di magneto ridges, che forniscono sia cibo che un ambiente adatto alla sua strategia di caccia. E' un predatore solitario che si muove lentamente tra le rocce, aspettando il momento giusto per attaccare. La sua strategia di caccia si basa sull'ambush, sfruttando la sua capacita' di mimetizzarsi e il suo olfatto acuto per individuare la preda.
+**Ambiente.** Si adatta perfettamente ai terreni rocciosi e difficili dei badlands, dove trova rifugio tra le crepe e i crepacci. La sua sopravvivenza e' strettamente legata alla presenza di magneto ridges, che forniscono sia cibo che un ambiente adatto alla sua strategia di caccia. E' un predatore solitario che si muove lentamente tra le rocce, aspettando il momento giusto per attaccare. La sua strategia di caccia si basa sull'agguato, sfruttando la sua capacita' di mimetizzarsi e il suo olfatto acuto per individuare la preda.
 
 ## Myco Spire Warden -- `myco_spire_warden`
 
@@ -371,9 +373,9 @@ _Oxidospora pestifera | classe: Colonia microbica decompositrice / minaccia pato
 
 - `filamenti_digestivi_compattanti`: I filamenti digestivi compattano i resti e liberano spazio vitale, accelerando la decomposizione.
 - `spore_psichiche_silenziate`: Le spore psichiche silenziate sedano e confondono i bersagli vicini, indebolendone la reazione.
-- `scheletro_idro_regolante`: Il scheletro idro-regolante modula il contenuto idrico per mutare la massa e adattarsi alle condizioni ambientali.
+- `scheletro_idro_regolante`: Lo scheletro idro-regolante modula il contenuto idrico per mutare la massa e adattarsi alle condizioni ambientali.
 - `carapace_fase_variabile`: Il carapace fase variabile cambia densita' per bilanciare difesa e mobilita', ottimizzando la sopravvivenza.
-- `sangue_piroforico`: Il sangue piroforico incendia l'aria colpendo chi perfora la corazza, creando una bariera di fiamma.
+- `sangue_piroforico`: Il sangue piroforico incendia l'aria colpendo chi perfora la corazza, creando una barriera di fiamma.
 
 ## Nottola Termica -- `noctule_termico`
 
@@ -407,10 +409,10 @@ _Perfusuas pedes | classe: Mammalo-artropode | bioma: Caverna Risonante | indice
 **Tratti chiave.**
 
 - `ermafroditismo_cronologico`: Dopo ogni ciclo di incubazione, il Zannapiedi cambia sesso per adattarsi alle nuove condizioni ambientali delle caverne.
-- `locomozione_miriapode_ibrida`: Il Zannapiedi si aggrappa e scalda su pareti di roccia grazie a centinaia di arti rapidi e flessibili.
-- `estroflessione_gastrica_acida`: Le sacche gastriche del Zannapiedi liquefaccionno i tessuti delle prede al contatto, assorbendone i nutrienti.
+- `locomozione_miriapode_ibrida`: Il Zannapiedi si aggrappa e scala su pareti di roccia grazie a centinaia di arti rapidi e flessibili.
+- `estroflessione_gastrica_acida`: Le sacche gastriche del Zannapiedi liquefanno i tessuti delle prede al contatto, assorbendone i nutrienti.
 - `artiglio_cinetico_a_urto`: L'appendice ipertrofica del Zannapiedi genera onde d'urto che fratturano la corazza delle prede.
-- `sistemi_chimio_sonici`: Il Zann, utilizzando chimica e suoni, mappa le caverne senza vista, individuando prede e correnti d'aria.
+- `sistemi_chimio_sonici`: Il Zannapiedi, utilizzando chimica e suoni, mappa le caverne senza vista, individuando prede e correnti d'aria.
 
 ## Polpo Araldo Sinaptico -- `polpo_araldo_sinaptico`
 
@@ -462,7 +464,7 @@ _Psionerva montis | classe: Bridge | bioma: Caldera Glaciale | indice senziente:
 
 **Aspetto.** Arrampica la caldera glaciale con l'attenzione di chi legge il paesaggio come testo: le corna psico-conduttive captano le correnti ferromagnetiche che altri esseri ignorano, traducendo il silenzio del ghiaccio in informazione navigabile. Abita la soglia tra il freddo e lo psionico, curiosa di entrambi.
 
-**Ambiente.** La psionerva montis abita la caldera glaciale, un ambiente estremo caratterizzato da temperature estremamente basse e una scarsita' di risorse. La sua capacita' di adattare il metabolismo a condizioni di criostasi gli permette di sopravvivere a stagioni estreme e di sfruttare le risorse limitate del suo habitat. La psionerva montis si muove come un cryogenic climber, utilizzando la sua abilita' di magnetic olfaction per navigare attraverso la caldera glaciale. Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo il silenzio del ghiaccio in informazione navigabile, mentre il focus frazionato gli permette di mantenere due minacce in sorveglianza attiva.
+**Ambiente.** La psionerva montis abita la caldera glaciale, un ambiente estremo caratterizzato da temperature estremamente basse e una scarsita' di risorse. La sua capacita' di adattare il metabolismo a condizioni di criostasi gli permette di sopravvivere a stagioni estreme e di sfruttare le risorse limitate del suo habitat. La psionerva montis si muove come un arrampicatore criogenico, utilizzando la sua abilita' di olfatto magnetico per navigare attraverso la caldera glaciale. Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo il silenzio del ghiaccio in informazione navigabile, mentre il focus frazionato gli permette di mantenere due minacce in sorveglianza attiva.
 
 **Tratti chiave.**
 
@@ -470,7 +472,7 @@ _Psionerva montis | classe: Bridge | bioma: Caldera Glaciale | indice senziente:
 - `focus_frazionato`: Il focus frazionato permette alla psionerva montis di mantenere due minacce sotto sorveglianza attiva, aumentando la sua capacita' di risposta.
 - `criostasi_adattiva`: La criostasi adattiva permette alla psionerva montis di sopravvivere a stagioni estreme prolungate, mantenendo un metabolismo sospeso.
 - `olfatto_risonanza_magnetica`: L'olfatto di risonanza magnetica permette alla psionerva montis di tracciare campi magnetici e vene metalliche, guidandola attraverso il paesaggio.
-- `metabolismo_di_condivisione_energetica`: Il metabolismo di condivisione energetica permette alla psionerva monta' di trasferire substrati via contatto, sostenendo feriti o giovani con una riserva collettiva.
+- `metabolismo_di_condivisione_energetica`: Il metabolismo di condivisione energetica permette alla psionerva montis di trasferire substrati via contatto, sostenendo feriti o giovani con una riserva collettiva.
 - `lobi_risonanti_crepuscolo`: I lobi risonanti crepuscolari filtrano segnali instabili, aiutando la psionerva montis a navigare tra le complessita' del suo ambiente.
 - `antenne_tesla`: Le antenne Tesla permettono alle squadre di psionerve montis di ridistribuire carichi e modulare la rigidita' strutturale all'interno della caldera glaciale.
 - `capillari_criogenici`: I capillari criogenici permettono alle squadre di psionerve montis di ridistribuire carichi e modulare la rigidita' strutturale all'interno della caldera glaciale.
@@ -548,9 +550,9 @@ _Arenofossor saliphilus | classe: Cursore quadrupede fossorio / detritivoro | bi
 
 **Tratti chiave.**
 
-- `nucleo_ovomotore_rotante`: Il nucleo rotante permette al creatura di muoversi rapidamente sottoterra.
-- `sacche_galleggianti_ascensoriali`: Le sacche gassose regolabili aiutano il creatura a mantenere l'equilibrio durante lo scavare.
-- `scheletro_idro_regolante`: Il scheletro poroso modula l'acqua per adattare la massa corporea al terreno.
+- `nucleo_ovomotore_rotante`: Il nucleo rotante permette alla creatura di muoversi rapidamente sottoterra.
+- `sacche_galleggianti_ascensoriali`: Le sacche gassose regolabili aiutano la creatura a mantenere l'equilibrio durante lo scavare.
+- `scheletro_idro_regolante`: Lo scheletro poroso modula l'acqua per adattare la massa corporea al terreno.
 - `carapace_fase_variabile`: Il carapace cambia densita' per bilanciare la difesa e la mobilita'.
 - `zampe_a_molla`: Le zampe a molla accumulano energia per permettere balzi di riposizionamento.
 
@@ -571,12 +573,12 @@ _Sciame Larve Neurali | bioma: Frattura Abissale Sinaptica | indice senziente: T
 - `ghiandole_mnemoniche`: Le ghiandole mnemoniche rilasciano secrezioni che trattengono copie attenuate di buff, amplificando la resistenza del gruppo.
 - `organi_metacronici`: Gli organi metacronici sequenziano i furti di buff in catena, ottimizzando la distribuzione delle abilita'.
 - `secrezioni_antistatiche`: Le secrezioni antistatiche creano un film protettivo che disperde gli accumuli elettrici, prevendone danni.
-- `spicole_canalizzatrici`: Le spicole canalizzatrici assorbono i buff e li reindirizzano all'interno del sciame, migliorando la sinergia.
-- `filamenti_echo`: I filamenti echo rilanciano frequenze di squadra e attenuano il shear, mantenendo la coesione del gruppo.
+- `spicole_canalizzatrici`: Le spicole canalizzatrici assorbono i buff e li reindirizzano all'interno dello sciame, migliorando la sinergia.
+- `filamenti_echo`: I filamenti echo rilanciano frequenze di squadra e attenuano lo shear, mantenendo la coesione del gruppo.
 - `riverbero_memetico`: Il riverbero memetico genera un eco cognitivo che duplica i buff a potenza ridotta, aumentando la resistenza collettiva.
-- `vortice_nera_flash`: Il vortice nera flash si forma in un implosione luminosa, seguita da un vuoto e un teletrasporto breve che evita i danni.
+- `vortice_nera_flash`: Il vortice nera flash si forma in un'implosione luminosa, seguita da un vuoto e un teletrasporto breve che evita i danni.
 - `spirito_combattivo`: Lo spirito combattivo mantiene la determinazione anche sotto pressione, resistendo a stati di panico e paura.
-- `canto_di_richiamo`: Il canto di richiamo ritiene post-kill, amplificando la furia per due turni e onorando la preda caduta.
+- `canto_di_richiamo`: Il canto di richiamo risuona post-kill, amplificando la furia per due turni e onorando la preda caduta.
 
 ## Sentinella Radice -- `sentinella_radice`
 
@@ -888,7 +890,7 @@ _Magmocardium furens | classe: Threat | bioma: Abisso Vulcanico | indice senzien
 
 **Aspetto.** Il sangue piroforico scorre a temperature che rendono ogni ferita una doppia minaccia: il danno fisico e il calore che lo accompagna. Quando la circolazione supercritica entra in fase di collasso, il corpo diventa un'arma indiretta -- avvicinarsi troppo ha un costo che la preda paga due volte.
 
-**Ambiente.** Si muove negli abissi vulcanici, dove la sua coda frusta cinetica e le lamelle shear permettono di navigare tra le roccie incandescenti e prevedere le traiettorie delle prede. La sua ferocia aumenta sotto stress, guidando attacchi multipli consecutivi, mentre il focus frazionato mantiene due minacce in sorveglianza attiva durante l'assalto.
+**Ambiente.** Si muove negli abissi vulcanici, dove la sua coda frusta cinetica e le lamelle shear permettono di navigare tra le rocce incandescenti e prevedere le traiettorie delle prede. La sua ferocia aumenta sotto stress, guidando attacchi multipli consecutivi, mentre il focus frazionato mantiene due minacce in sorveglianza attiva durante l'assalto.
 
 **Tratti chiave.**
 
@@ -936,7 +938,7 @@ _Noctipedis umbrata | classe: Apex | bioma: Mezzanotte Orbitale | indice senzien
 
 **Tratti chiave.**
 
-- `ghiandole_condensa_ozono`: Le ghiandole Condensa Ozono permettono al Corridore Notturno di ridurre la sua traccia olfattiva nel mezzanotte orbitale, marcando il silenzio prima della preda con un segnale impercettibile.
+- `ghiandole_condensa_ozono`: Le ghiandole Condensa Ozono permettono al Corridore Notturno di ridurre la sua traccia olfattiva nella mezzanotte orbitale, marcando il silenzio prima della preda con un segnale impercettibile.
 
 ## Colosso Palustre -- `sp_paludogromus_magnus`
 
@@ -975,7 +977,7 @@ _Radiluma pendula | classe: Support | bioma: Frattura Abissale Sinaptica | indic
 
 **Tratti chiave.**
 
-- `biofilm_glow`: Il biofilm luminescente emette un segnale visivo che guida le batteri simbionti verso le aree nutrienti pre-digerite dal carapace abissale.
+- `biofilm_glow`: Il biofilm luminescente emette un segnale visivo che guida i batteri simbionti verso le aree nutrienti pre-digerite dal carapace abissale.
 - `carapace_luminiscente_abissale`: Il guscio bioluminescente crea confusione tra i predatori, permettendo alla specie di sopravvivere nelle profondita' oscure.
 
 ## Corriere Spinato -- `sp_rubrospina_velox`
@@ -1012,7 +1014,7 @@ _Salisucta alveata | classe: Keystone | bioma: Pianura Salina Iperarida | indice
 
 _Siltovena bifida | classe: Threat | bioma: Palude Tossica | indice senziente: T1_
 
-**Concetto.** La specie ha sviluppato una nicchia evolutiva basata sulla preda in acque ristrette, utilizzando la sua forma biforcazione per creare un'attacco inevitabile. La sua esistenza e' strettamente legata agli ecosistemi palustri, dove la sua strategia ha vantaggio.
+**Concetto.** La specie ha sviluppato una nicchia evolutiva basata sulla preda in acque ristrette, utilizzando la sua forma biforcazione per creare un attacco inevitabile. La sua esistenza e' strettamente legata agli ecosistemi palustri, dove la sua strategia ha vantaggio.
 
 **Aspetto.** La biforcazione corporea le permette di occupare due traiettorie simultanee nella corrente limosa, avvicinandosi alla preda da angoli opposti. Non e' veloce -- e' inevitabile: la geometria del suo attacco non lascia via di fuga che non sia gia' presidiata.
 
@@ -1041,7 +1043,7 @@ _Tempestarius psionicus | classe: Apex | bioma: Frattura Abissale Sinaptica | in
 
 **Aspetto.** Le antenne plasmatiche si erigono quando la pressione barometrica cala, trasformando ogni tempesta in un senso supplementare. Usa i sensori geomagnetici per triangolare le prede a distanze che sfidano la logica della caccia convenzionale. Quando attacca, lo fa dall'interno della tempesta -- nessuno lo vede arrivare.
 
-**Ambiente.** Si trova esclusivamente nei biomi di frattura abissale sinaptica, dove le correnti geomagnetiche e le tempeste sono costanti. Questo ambiente gli permette di utilizzare al meglio i suoi sensori geomagnetici e le sue antenne plasmatiche tempesta per cacciare e sopravvivere. Utilizza le antenne plasmatiche tempesta per convogliare fulmini atmosferici in attacchi mirati o scudi ionici. I sensori geomagnetici gli permettono di triangolare le prede a distanze impossibili per la caccia tradizionale. Quando attacca, lo fa dall'interno della tempezza, sfruttando la confusione causata dalle sue antenne plasmatiche.
+**Ambiente.** Si trova esclusivamente nei biomi di frattura abissale sinaptica, dove le correnti geomagnetiche e le tempeste sono costanti. Questo ambiente gli permette di utilizzare al meglio i suoi sensori geomagnetici e le sue antenne plasmatiche tempesta per cacciare e sopravvivere. Utilizza le antenne plasmatiche tempesta per convogliare fulmini atmosferici in attacchi mirati o scudi ionici. I sensori geomagnetici gli permettono di triangolare le prede a distanze impossibili per la caccia tradizionale. Quando attacca, lo fa dall'interno della tempesta, sfruttando la confusione causata dalle sue antenne plasmatiche.
 
 **Tratti chiave.**
 
@@ -1155,7 +1157,7 @@ _Terracetus ambulator | classe: Mammalia | bioma: Steppe Algoritmiche | indice s
 **Tratti chiave.**
 
 - `scheletro_pneumatico_a_maglie`: Il suo scheletro pneumatico a maglie permette di muoversi senza fatica per lunghi spostamenti terrestri.
-- `cinghia_iper_ciliare`: La cingia iper-ciliare lo aiuta a traslare il corpo su terreni piani o ruvidi.
+- `cinghia_iper_ciliare`: La cinghia iper-ciliare lo aiuta a traslare il corpo su terreni piani o ruvidi.
 - `rete_filtro_polmonare`: La rete filtro polmonare assorbe nutrienti aerodispersi direttamente dall'aria.
 - `canto_infrasonico_tattico`: Il canto infrasonico tattico disorienta i predatori e permette la comunicazione a distanza.
 - `siero_anti_gelo_naturale`: Il siero anti-gelo naturale impedisce la cristallizzazione del corpo a basse temperature.
@@ -1186,13 +1188,13 @@ _Thermoraptor aridus | classe: Cursore quadrupede / predatore apex | bioma: dese
 
 **Aspetto.** Predatore bipede asciutto dalla pelle squamosa chiara riflettente, arti posteriori potenti e creste dorsali termo-disperdenti.
 
-**Ambiente.** Si muove nei deserti caldi, dove la sua pelle riflettente e le creste termo-disperdenti gli permettono di gestire il calore estremo senza sovraccarico metabolico. Predatore apex termofilo, attacca nelle ore piu roventi, sfruttando il calore per indebolire le prede e lanciando attacchi brevi e letali con le arti posteriori potenti.
+**Ambiente.** Si muove nei deserti caldi, dove la sua pelle riflettente e le creste termo-disperdenti gli permettono di gestire il calore estremo senza sovraccarico metabolico. Predatore apex termofilo, attacca nelle ore piu' roventi, sfruttando il calore per indebolire le prede e lanciando attacchi brevi e letali con gli arti posteriori potenti.
 
 **Tratti chiave.**
 
 - `cuticole_cerose`: Le cuticole cerose assorbono e convertono l'energia del sole e del calore ambiente in modo efficiente, permettendo al Raptor Termico di muoversi senza sforzo in ambienti estremi.
 - `grassi_termici`: I grassi termici forniscono al Raptor Termico una riserva di energia termica, che gli permette di sopravvivere ai picchi di calore senza perdere la sua agilita'.
-- `pelli_cave`: Le pelli cave con sacche d'aria interne agiscono come una barriera termica leggera, aiutando il Raptor Termico a mantenere un'equilibrio termico in ambienti aridi estremi.
+- `pelli_cave`: Le pelli cave con sacche d'aria interne agiscono come una barriera termica leggera, aiutando il Raptor Termico a mantenere un equilibrio termico in ambienti aridi estremi.
 - `proteine_shock_termico`: Le proteine di shock termico proteggono il Raptor Termico dalle alte temperature, mantenendo la sua struttura cellulare intatta durante le escursioni termiche estreme.
 - `reti_capillari_radici`: Le reti capillari radici permettono al Raptor Termico di scambiare fluidi con le piante circostanti, aiutandolo a regolare la sua temperatura basale e a sopravvivere in ambienti estremi.
 
@@ -1212,7 +1214,7 @@ _Umbra alaris | classe: Aves | bioma: Dorsale Termale Tropicale | indice senzien
 - `visione_multi_spettrale_amplificata`: La visione multi-spettrale amplificata consente all'Uccello Ombra di vedere in condizioni di luminanza estremamente bassa, anche nel buio piu' totale.
 - `motore_biologico_silenzioso`: Il motore biologico silenzioso permette all'Uccello Ombra di volare per lunghi periodi senza emettere alcun rumore, rendendolo un predatore estremamente stealth.
 - `artigli_ipo_termici`: Gli artigli ipotermici dell'Uccello Ombra possono indurre shock da freddo localizzato nei nemici, paralizzandoli senza danni fisici significativi.
-- `comunicazione_fotonica_coda_coda`: La comunicazione fotonica coda-coda permette all'Uccello Omba di scambiare impulsi luminosi tattili con altri membri della sua specie, comunicando senza emettere suoni.
+- `comunicazione_fotonica_coda_coda`: La comunicazione fotonica coda-coda permette all'Uccello Ombra di scambiare impulsi luminosi tattili con altri membri della sua specie, comunicando senza emettere suoni.
 
 ## Zephyr Spore Courier -- `zephyr_spore_courier`
 
