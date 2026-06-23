@@ -31,6 +31,35 @@ def candidate_value(name, stats):
     return max(0.0, min(1.0, v))
 
 
+# --- Contestedness candidates (design sec 4.5 / handoff 2026-06-20) --------------
+# PE-from-pressure was REJECTED (saturates ~0.81-0.94 on every high-pressure oracle =
+# ~zero discrimination). Contestedness = a challenge-skill MARGIN from turns + damage,
+# which does NOT saturate (curb-stomp = few turns + low party-damage; nail-biter = many
+# turns + high party-damage). Read off keys aggregate() ALREADY emits: turns_avg,
+# dmg_taken_avg, dmg_dealt_avg (no new instrumentation -- a rollup of the raw event
+# stream). AGGREGATE-only: the composite + orthogonality experiment correlate per-config
+# aggregates, and the per-run candidate_value() form receives pressure_stats (no
+# turns/damage), so a per-run contestedness form is intentionally absent.
+#
+# Normalizers are PROVISIONAL (master-dd ratifies the SELECTION + the band, SDMG):
+#   D = turns_avg / TURN_TENSION_NORM (capped 1.0) -- arbitrary cap, tunable.
+#   E = dmg_taken / (dmg_taken + dmg_dealt) -- SELF-normalizing margin, no constant.
+#   F = sqrt(D*E) -- combined (geometric mean): both must be high for high tension.
+TURN_TENSION_NORM = 40.0  # = MAX_ROUNDS; a fight at the round cap reads as max tension.
+
+
+def _dmg_taken_margin(agg):
+    """Fraction of total combat damage the party absorbed (0..1, self-normalizing)."""
+    taken = float(agg.get("dmg_taken_avg", 0.0))
+    dealt = float(agg.get("dmg_dealt_avg", 0.0))
+    total = taken + dealt
+    return taken / total if total > 0 else 0.0
+
+
+def _turns_tension(agg):
+    return float(agg.get("turns_avg", 0.0)) / TURN_TENSION_NORM
+
+
 # Aggregate form: the same candidate read off the run-SET aggregate keys that
 # batch_calibrate aggregate() already emits (mean of per-run frac_ge75; mean
 # pressure/100; fraction of runs that reached apex). Linear candidates (A,B)
@@ -40,6 +69,10 @@ _AGGREGATE_FORM = {
     "A_sustained_threat": lambda agg: float(agg.get("pressure_frac_ge75_avg", 0.0)),
     "B_time_avg": lambda agg: float(agg.get("pressure_mean_avg", 0.0)) / 100.0,
     "C_apex_reach": lambda agg: float(agg.get("apex_reach_rate", 0.0)),
+    # contestedness (sec 4.5) -- the non-saturating alternate PE source.
+    "D_turns_contest": _turns_tension,
+    "E_dmg_margin": _dmg_taken_margin,
+    "F_contest_combined": lambda agg: (_turns_tension(agg) * _dmg_taken_margin(agg)) ** 0.5,
 }
 
 

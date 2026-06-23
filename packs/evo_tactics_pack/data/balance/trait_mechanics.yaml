@@ -96,6 +96,24 @@ traits:
         aoe_size: 3
         range: 3
         target: enemy
+  # Creature-kit salvage (2026-06-23): filtri_bioattivi ACTIVE = trait-granted
+  # cleanse ability (cleanse_status). 1 AP, removes all transient negative statuses on
+  # an adjacent ally; a 2-round cooldown is enforced in-memory by the handler
+  # (executeCleanseStatus), not a schema field. The passive cleanse lives in
+  # active_effects.yaml + combat/filtriBioattivi. Spec 2026-06-22-creature-trait-mechanics.
+  filtri_bioattivi:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: filtri_purga
+        name_it: "Filtri Bioattivi -- Purga"
+        cost_ap: 1
+        effect_type: cleanse_status
+        range: 1
+        target: ally
   filamenti_digestivi_compattanti:
     attack_mod: 0
     defense_mod: 0
