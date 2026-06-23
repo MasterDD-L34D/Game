@@ -110,6 +110,17 @@ const {
   consumeRisonanza,
 } = require('../services/combat/cortecciaMemetica');
 const { refreshNucleiCoordinamento } = require('../services/combat/allyAuraMark');
+// Creature-trait slice 4: artigli_psionici source-marked DR + tessuti_adattivi
+// channel adaptation (engine-coded pure modules; the YAML entry registers the trait).
+const {
+  markPrey,
+  computeArtigliDR,
+  hasTrait: unitHasTrait,
+} = require('../services/combat/artigliPsionici');
+const {
+  applyTessutiAdaptation,
+  computeTessutiResistDelta,
+} = require('../services/combat/tessutiAdattivi');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -840,6 +851,17 @@ function createSessionRouter(options = {}) {
         damageDealt = applyResistance(damageDealt, target._resistances, channel, {
           vulnerabilitiesOnly: perkCombatMods.ignoreDr,
         });
+        // Creature-trait slice 4: tessuti_adattivi -- a status-driven +15% resist to
+        // an adapted channel, applied as a SEPARATE resistanceEngine pass (the static
+        // target._resistances cache is frozen for the unit's lifetime, so it cannot
+        // carry a transient adaptation). Band-neutral: computeTessutiResistDelta is
+        // empty for any unit without an active adattamento_<channel> status.
+        damageDealt = applyResistance(
+          damageDealt,
+          computeTessutiResistDelta(target, channel),
+          channel,
+          { vulnerabilitiesOnly: perkCombatMods.ignoreDr },
+        );
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
@@ -876,6 +898,19 @@ function createSessionRouter(options = {}) {
           const reduced = Math.min(cortecciaDr, damageDealt);
           damageDealt -= reduced;
           target.corteccia_dr_last = reduced;
+        }
+      }
+      // Creature-trait slice 4: artigli_psionici "read-the-prey" -- a source-marked
+      // stacking DR (cap 3) that applies ONLY when the defender (target) has studied
+      // THIS attacker (actor.id). Predicated on the attacker identity, in scope here.
+      // Band-neutral: computeArtigliDR returns 0 unless target carries a _lettura_preda
+      // mark for actor.id (no sim unit carries artigli_psionici).
+      if (damageDealt > 0) {
+        const artigliDr = computeArtigliDR(target, actor.id);
+        if (artigliDr > 0) {
+          const reduced = Math.min(artigliDr, damageDealt);
+          damageDealt -= reduced;
+          target.artigli_dr_last = reduced;
         }
       }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
@@ -1480,6 +1515,50 @@ function createSessionRouter(options = {}) {
             damage_taken: incomingDamage,
             allies_resonated: cortecciaReaction.broadcast.length,
           },
+        });
+      }
+
+      // artigli_psionici (creature-trait slice 4): on a MELEE hit the carrier studies
+      // its prey -> a per-target mark granting a stacking DR (cap 3) when the carrier
+      // later defends vs that same target. Off-status map (no round decay; learned for
+      // the encounter). Band-neutral: no sim unit carries artigli_psionici.
+      if (
+        unitHasTrait(actor, 'artigli_psionici') &&
+        manhattanDistance(actor.position, target.position) === 1
+      ) {
+        const stacks = markPrey(actor, target.id);
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'artigli_psionici',
+          triggered: true,
+          effect: { kind: 'lettura_preda', target_id: target.id, stacks },
+        });
+      }
+
+      // tessuti_adattivi (creature-trait slice 4): taking >=2 dmg of a channel adapts
+      // the tissue -> +15% resist to that channel (3 rounds) + heal 1, cap 2 channels.
+      // Detect post-hit on the INCOMING channel damage (not the nucleus burst); the
+      // resist bites on FUTURE hits (apply-zone pass above). Persist the set status
+      // through the round-model sync. Band-neutral: no sim unit carries the trait.
+      const tessutiChannel =
+        (action && typeof action.channel === 'string' && action.channel) || 'fisico';
+      const tessuti = applyTessutiAdaptation({
+        target,
+        channel: tessutiChannel,
+        damageDealt: incomingDamage,
+      });
+      if (tessuti) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: target.id,
+          status: tessuti.self_status,
+          duration: Number(target.status[tessuti.self_status]) || 3,
+        });
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'tessuti_adattivi',
+          triggered: true,
+          effect: { kind: 'channel_adaptation', channel: tessuti.channel, healed: tessuti.healed },
         });
       }
     }

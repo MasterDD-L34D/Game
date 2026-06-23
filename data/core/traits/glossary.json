@@ -3670,6 +3670,18 @@
       "label_en": "Corteccia Memetica",
       "description_it": "Corteccia memetica (treant): quando subisce un colpo pesante (>= 3 danni) la corteccia si indurisce (riduzione danno 2 sui colpi successivi) e la ferita condivisa risuona -> risonanza_memetica (uso singolo, +1 attacco) agli alleati entro raggio 3.",
       "description_en": ""
+    },
+    "artigli_psionici": {
+      "label_it": "Artigli Psionici",
+      "label_en": "Artigli Psionici",
+      "description_it": "Artigli psionici (rakshasa): colpendo in mischia il portatore studia la preda (lettura_preda).",
+      "description_en": ""
+    },
+    "tessuti_adattivi": {
+      "label_it": "Tessuti Adattivi",
+      "label_en": "Tessuti Adattivi",
+      "description_it": "Tessuti adattivi (rakshasa): subendo >= 2 danni di un canale il tessuto si adatta (adattamento_<canale>) -> +15% resistenza a quel canale per 3 round e cura 1.",
+      "description_en": ""
     }
   }
 }
