@@ -19,6 +19,22 @@ review_cycle_days: 90
 > (2026-06-23). It is flag-gated: with the flag OFF the Form-Pulse behaves byte-identically
 > to today. The mapping(s) + rules stay PROPOSED until ratified via N=40 (mirror MA3).
 
+> **RATIFY VERDICT 2026-06-23 (master-dd), conditional.** Build merged (Game #2992,
+> flag-gated OFF). N=40/N=200 evidence:
+> [`2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md`](2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md).
+>
+> - **Piece 1 (threshold -> 0 / always-emerge): RATIFIED.**
+> - **Flat-tie fallback: first-axis +** (the implemented default).
+> - **Piece 2 (per-player minor traits): ratified WITH cap-tier + a COVERAGE CONDITION** --
+>   keep the minors genuinely minor (the pool was hardened post harsh-review to reliable T1),
+>   AND author "correct" branco+minor combos across ALL MBTI (16) + Ennea (9) branches (the
+>   bigger design task; see the trait-coverage chip). This condition gates the minor-trait flip.
+> - **Piece 3 (random-fill timeout): built** (rides the same flag).
+> - **Before the `FORM_PULSE_TRAIT_V2_ENABLED` flip: a real combat A/B** (win-rate, not just
+>   the power proxy) to fix the encounter offset. Flip itself = the dedicated flip chip.
+>
+> So this doc stays DRAFT until the coverage + combat-A/B conditions close.
+
 ## 0. Scope realignment (why this is on Form-Pulse, not Imprint)
 
 A 2026-06-23 ground-truth check found the co-op flow has **two distinct beats**:
