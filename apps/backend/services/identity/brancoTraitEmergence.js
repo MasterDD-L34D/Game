@@ -133,6 +133,39 @@ function emergePlayerMinorTrait(playerAxes, brancoAxis, opts = {}) {
   return { trait_id, axis: pick.axis, pole: pick.pole };
 }
 
+// Form-Pulse trait v2 -- Piece 3: roll a random signed bar value per axis for a
+// non-participating player on timeout. rng() in [0,1) -> 2*rng()-1 in [-1,1), rounded to 3dp.
+// The CALLER persists the result (frozen roll) so reconnect/snapshot stay deterministic
+// despite the real-random source. rng is injectable for tests; default Math.random.
+function rollRandomFormAxes(rng = Math.random) {
+  const out = {};
+  for (const axis of Object.keys(PROPOSED_BRANCO_TRAIT_MAPPING)) {
+    out[axis] = Math.round((2 * rng() - 1) * 1000) / 1000;
+  }
+  return out;
+}
+
+function _posInt(raw, dflt) {
+  const n = Number.parseInt(raw, 10);
+  return Number.isFinite(n) && n > 0 ? n : dflt;
+}
+
+// Form-Pulse trait v2 -- Piece 3: the 2-stage deadline (ms) for `playerCount` connected
+// players. PROPOSED defaults (ratify): warn 45s, grace +30s, +per-player increment (0 by
+// default). All env-configurable. warn = base + perPlayer*count; auto = warn + grace. Only
+// consulted when the v2 flag is ON (the timer is gated by it).
+function formPulseTimeoutMs(env = process.env, playerCount = 2) {
+  const n = Number.isFinite(playerCount) ? Math.max(0, playerCount) : 0;
+  const e = env || {};
+  const warnBase = _posInt(e.FORM_PULSE_WARN_MS, 45000);
+  const grace = _posInt(e.FORM_PULSE_GRACE_MS, 30000);
+  const perPlayer = _posInt(e.FORM_PULSE_PER_PLAYER_MS, 1);
+  // perPlayer default 1ms is effectively "no scaling" unless FORM_PULSE_PER_PLAYER_MS is set.
+  const scaled = e.FORM_PULSE_PER_PLAYER_MS ? perPlayer * n : 0;
+  const warnMs = warnBase + scaled;
+  return { warnMs, autoMs: warnMs + grace };
+}
+
 /**
  * Pure: branco axis aggregate -> 1 emergent branco trait (or null).
  * Mechanism: dominant axis = argmax|avg| among mapped axes; if |avg| >= threshold
@@ -187,4 +220,6 @@ module.exports = {
   emergeBrancoTrait,
   emergeBrancoTraitFromPulses,
   emergePlayerMinorTrait,
+  rollRandomFormAxes,
+  formPulseTimeoutMs,
 };

@@ -14,6 +14,7 @@ const {
   resolveEmergenceThreshold,
   emergePlayerMinorTrait,
   isFormPulseTraitV2Enabled,
+  rollRandomFormAxes,
 } = require('../identity/brancoTraitEmergence');
 const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
 const { aggregateFormPulses } = require('../formPulseVc');
@@ -107,11 +108,16 @@ class CoopOrchestrator {
     namePool = null,
     setTimeoutFn = setTimeout,
     clearTimeoutFn = clearTimeout,
+    randomFn = Math.random,
   } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
     this.hostId = hostId || null;
     this.now = now;
+    // Form-Pulse trait v2 Piece 3 -- RNG seam for the timeout random-fill (DI; default
+    // Math.random, tests inject a deterministic fn). The roll is persisted into formPulses
+    // (frozen) so reconnect/snapshot stay consistent despite the real-random source.
+    this._random = typeof randomFn === 'function' ? randomFn : Math.random;
     // SPEC-J sez.5 trigger-(a) -- wall-clock scheduler for the automatic
     // lethal-consent timeout (DI seam, default globals; tests inject a fake).
     // Pure helpers stay time-source-free; only the auto-timer needs real time.
@@ -197,6 +203,9 @@ class CoopOrchestrator {
     // NOT silently auto-default (the rejected option). Cleared on every resolve/reset.
     this.imprintTimeoutWarning = false;
     this._imprintTimer = null;
+    // Form-Pulse trait v2 Piece 3: 2-stage timeout (warn -> auto random-fill) timer handles.
+    this._formPulseWarnTimer = null;
+    this._formPulseAutoTimer = null;
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -329,6 +338,7 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.playerMinorTraits.clear();
+    this._clearFormPulseTimer();
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -378,6 +388,7 @@ class CoopOrchestrator {
     this.revealAcks.clear();
     this.formPulses.clear();
     this.playerMinorTraits.clear();
+    this._clearFormPulseTimer();
     this.emergentBrancoTrait = null;
     this.creatureIdentities.clear();
     this.onboardingChoice = null;
@@ -881,6 +892,100 @@ class CoopOrchestrator {
       } else {
         this.playerMinorTraits.delete(pid);
       }
+    }
+  }
+
+  /**
+   * Form-Pulse trait v2 -- Piece 3. Roll random bars for any EXPECTED player who never
+   * submitted (the timeout anti-deadlock), PERSIST them into formPulses (frozen roll ->
+   * reconnect-safe), then re-run the branco emergence (+ minor traits). Returns the list of
+   * auto-filled player ids ([] = nothing to do). Flag-gated at the call site (v2 only).
+   */
+  autoFillFormPulses(expectedIds = []) {
+    const filled = [];
+    for (const pid of Array.isArray(expectedIds) ? expectedIds : []) {
+      if (!pid || this.formPulses.has(pid)) continue;
+      this.formPulses.set(pid, {
+        axes: rollRandomFormAxes(this._random),
+        ts: this.now(),
+        auto: true,
+      });
+      filled.push(pid);
+    }
+    if (filled.length) {
+      this._applyBrancoTraitEmergence();
+      this._emit('form_pulse_auto_filled', { players: filled });
+    }
+    return filled;
+  }
+
+  // The expected ids that have NOT yet submitted a form pulse.
+  _pendingFormPulses(expectedIds = []) {
+    return (Array.isArray(expectedIds) ? expectedIds : []).filter(
+      (pid) => pid && !this.formPulses.has(pid),
+    );
+  }
+
+  // True iff every expected id has submitted (no pending).
+  _allFormPulsesReady(expectedIds = []) {
+    return this._pendingFormPulses(expectedIds).length === 0;
+  }
+
+  _clearFormPulseTimer() {
+    if (this._formPulseWarnTimer) {
+      this._clearTimeoutFn(this._formPulseWarnTimer);
+      this._formPulseWarnTimer = null;
+    }
+    if (this._formPulseAutoTimer) {
+      this._clearTimeoutFn(this._formPulseAutoTimer);
+      this._formPulseAutoTimer = null;
+    }
+  }
+
+  /**
+   * Form-Pulse trait v2 -- Piece 3. Arm the 2-stage anti-deadlock timer (mirror
+   * openLethalConsent: DI _setTimeoutFn + unref). warnMs -> non-blocking warning broadcast
+   * (devices nudge the laggards, beat stays open); autoMs -> roll random bars for the still-
+   * pending players + re-run emergence. Both fires no-op once everyone has submitted. The
+   * transport passes onWarn/onAuto to broadcast. Caller arms this only when the v2 flag is ON.
+   */
+  armFormPulseTimer(expectedIds = [], { warnMs, autoMs, onWarn, onAuto } = {}) {
+    this._clearFormPulseTimer();
+    const ids = (Array.isArray(expectedIds) ? expectedIds : []).filter(Boolean);
+    if (ids.length === 0) return;
+    if (Number.isFinite(warnMs) && warnMs > 0) {
+      const wh = this._setTimeoutFn(() => {
+        this._formPulseWarnTimer = null;
+        if (this._allFormPulsesReady(ids)) return;
+        const pending = this._pendingFormPulses(ids);
+        this.formPulseTimeoutWarning = true;
+        this._emit('form_pulse_timeout_warning', { pending });
+        if (typeof onWarn === 'function') {
+          try {
+            onWarn(pending);
+          } catch (_e) {
+            /* never crash the timer callback */
+          }
+        }
+      }, warnMs);
+      if (wh && typeof wh.unref === 'function') wh.unref();
+      this._formPulseWarnTimer = wh;
+    }
+    if (Number.isFinite(autoMs) && autoMs > 0) {
+      const ah = this._setTimeoutFn(() => {
+        this._formPulseAutoTimer = null;
+        if (this._allFormPulsesReady(ids)) return;
+        const filled = this.autoFillFormPulses(ids);
+        if (typeof onAuto === 'function') {
+          try {
+            onAuto(filled);
+          } catch (_e) {
+            /* never crash the timer callback */
+          }
+        }
+      }, autoMs);
+      if (ah && typeof ah.unref === 'function') ah.unref();
+      this._formPulseAutoTimer = ah;
     }
   }
 
@@ -1790,6 +1895,7 @@ class CoopOrchestrator {
     this.routeCandidates = null;
     this.formPulses.clear();
     this.playerMinorTraits.clear();
+    this._clearFormPulseTimer();
     this.emergentBrancoTrait = null;
     this.revealAcks.clear();
     // Codex #2794 P1: consent is per-scenario (a lethal mission = a scenario),
