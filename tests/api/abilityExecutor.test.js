@@ -254,10 +254,14 @@ test('effect_type non supportato → 501 (sentinel test, ability sintetica unsup
     res.body.supported.includes('apply_status'),
     'apply_status (trait-granted, un-dormants spore_burst ecc.)',
   );
+  assert.ok(
+    res.body.supported.includes('cleanse_status'),
+    'cleanse_status (filtri_bioattivi ACTIVE, creature-trait)',
+  );
   assert.equal(
     res.body.supported.length,
-    20,
-    '20 effect_type supportati (+suppress_ability +apply_status)',
+    21,
+    '21 effect_type supportati (+suppress_ability +apply_status +cleanse_status)',
   );
 });
 

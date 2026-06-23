@@ -342,3 +342,28 @@ test('emitScarRitual: null/invalid ctx -> no_ctx (never throws)', () => {
   assert.equal(emitScarRitual(null).error, 'no_ctx');
   assert.equal(emitScarRitual('x').error, 'no_ctx');
 });
+
+test('emitScarRitual transform: records granted_trait (SPEC-E) + null on heal', () => {
+  const baseDir = tmp();
+  emitScarRitual(
+    {
+      campaign_id: 'cg1',
+      creature_id: 'u1',
+      kind: 'transform',
+      location: 'torso',
+      mark: { id: 'scar_torso' },
+      granted_trait: 'pelle_elastomera',
+      turn: 3,
+    },
+    { baseDir },
+  );
+  const ev = getChronicle('cg1', { baseDir })[0];
+  assert.equal(ev.type, 'scar_transformed');
+  assert.equal(ev.payload.granted_trait, 'pelle_elastomera');
+  // heal never carries a mechanical grant (null even if a stray field is passed).
+  emitScarRitual(
+    { campaign_id: 'cg2', creature_id: 'u2', kind: 'heal', location: 'torso', granted_trait: 'x' },
+    { baseDir },
+  );
+  assert.equal(getChronicle('cg2', { baseDir })[0].payload.granted_trait, null);
+});

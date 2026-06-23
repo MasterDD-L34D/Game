@@ -220,6 +220,9 @@ function emitScarRitual(ctx, opts = {}) {
         kind: ctx.kind,
         location: ctx.location || null,
         mark: ctx.kind === 'transform' ? ctx.mark || null : null,
+        // SPEC-E mechanical grant (flag-gated; null when OFF or on a heal). Recorded
+        // so the dossier/lineage can show the trait the scar hardened into.
+        granted_trait: ctx.kind === 'transform' ? ctx.granted_trait || null : null,
         turn: Number.isFinite(Number(ctx.turn)) ? Number(ctx.turn) : null,
       },
     },

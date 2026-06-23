@@ -19,4 +19,4 @@ review_cycle_days: 14
 
 📄 **Catalogo**: vedi `data/core/species.yaml` (v0.3, esteso cross-canvas).
 
-**Bestiario creature-domain** (lore + render LoRA, HITL approvato): [lore canonizzata](../species/creature-domain-bestiary.md) (65 schede) + [schede asset](../catalog/creature-domain-bestiary_assets_draft.md) (render v2/v2b + coda art non-LoRA 10).
+**Bestiario creature-domain** (lore + render LoRA, HITL approvato): [lore canonizzata](../species/creature-domain-bestiary.md) (75 schede) + [schede asset](../catalog/creature-domain-bestiary_assets_draft.md) (render v2/v2b/restyle; 75/75 canonizzate).
