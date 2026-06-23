@@ -12707,6 +12707,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-tkt-ancestor-trait-native-rename-istruttoria.md",
+      "title": "Istruttoria TKT-ANCESTOR-TRAIT-NATIVE-RENAME -- audit + rename-map + schema-ripple brief",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-form-pulse-player-trait-spec-draft.md",
       "title": "Form-Pulse trait system v2 -- per-player minor trait + always-emerge + random-fill (DRAFT, NON-band-neutral, master-dd ratify)",
       "doc_status": "draft",

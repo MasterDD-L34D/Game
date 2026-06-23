@@ -33,12 +33,12 @@ excluded (designed-winnable, not an oracle).
 
 ## Result (|corr(candidate, won)|, lower = better)
 
-| candidate | hc06 | badlands_elite | foresta_pilot | **POOLED (n=240)** |
-| --- | --- | --- | --- | --- |
-| **E_dmg_margin** | 0.403 | 0.478 | 0.464 | **0.499** |
-| D_turns_contest | 0.725 | 0.542 | 0.705 | 0.562 |
-| F_contest_combined | 0.469 | 0.651 | 0.677 | 0.660 |
-| A/B/C (pressure) | -- | -- | -- | 0.000* |
+| candidate          | hc06  | badlands_elite | foresta_pilot | **POOLED (n=240)** |
+| ------------------ | ----- | -------------- | ------------- | ------------------ |
+| **E_dmg_margin**   | 0.403 | 0.478          | 0.464         | **0.499**          |
+| D_turns_contest    | 0.725 | 0.542          | 0.705         | 0.562              |
+| F_contest_combined | 0.469 | 0.651          | 0.677         | 0.660              |
+| A/B/C (pressure)   | --    | --             | --            | 0.000\*            |
 
 \* pressure candidates are DEGENERATE on these corpora (they saved `pressure_final`,
 not the `frac_ge75`/`mean`/`pmax` trajectory keys `run_to_stats` reads -> constant 0).

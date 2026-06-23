@@ -62,7 +62,7 @@ Trasformare il gate movimento da **distanza** a **costo**:
   per-round "anchored" (open question C: dove vive lo stato).
 - **Pathing**: Manhattan assume movimento ortogonale libero. Con costi per-tile serve decidere
   se il costo e' sul path minimo (richiede un mini-pathfinder, es. Dijkstra su griglia piccola
-  6x6) o un'approssimazione (costo = Manhattan * profilo-medio sulle tile di dest). (open question B).
+  6x6) o un'approssimazione (costo = Manhattan \* profilo-medio sulle tile di dest). (open question B).
 
 ## 3. Open design questions (brainstorming + master-dd PRIMA del codice)
 
