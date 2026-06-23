@@ -65,14 +65,16 @@ l'harness ma **content + esperimento + ratifica**.
 
 ## 2. Gate = decisione master-dd (design-call / verdetto; nessun build-blocker, serve scelta)
 
+> ✅ **3 verdetti master-dd 2026-06-23** (stampati nelle righe sotto): SPEC-J scar->transform = trait MECCANICO / codex 19 orfani = replica pilot-cameo per-bioma / move-substrate (volo I + radici) = BUILD terrain-cost substrate. + correzione marker stale: H1 (GATE ratificato 06-02) + H2 (economy SHIPPED) NON erano aperti.
+
 | Residuo | Workstream | Cosa decidere |
 | --- | --- | --- |
-| **H2 economy cost-gate** | design-closure | `cost_sg/pp/pt` decorativi vs SoT pools (spec #2530-A2, opzioni A/B/C-rec/D) |
-| **H1 GAP-C fase-3/4** | design-closure | build-vs-gate (Godot choice-UI + generative grammar) |
+| ~~H2 economy cost-gate~~ | design-closure | ✅ DECISO/SHIPPED: cost-gate reali consume-all (#2554/#2555/#2557/#2558). NON aperto -- marker NEXT GOAL stale (anti-pattern #19) |
+| ~~H1 GAP-C fase-3/4~~ | design-closure | ✅ DECISO: GATE/POST-MVP ratificato master-dd 2026-06-02 (build greenlit sessione futura al flip). NON aperto -- marker NEXT GOAL stale |
 | **H7 PILLAR re-ratifica** | design-closure | `PILLAR-LIVE-STATUS.md` ~22gg stale: giugno non riflesso (item-1 17/17 + SPEC-J/K/H + dossier); refresh contenuto + re-verify owner (TKT-STALE-B6-PILLAR-REFRESH) |
-| **SPEC-J scar->transform** | SPEC-J/E | narrativo-vs-mechanical prima del go-live lethal |
-| **codex-lore 19 orfani per-bioma** | codex-lore | balance: 19 entry codex senza roster -> assegnazione/banda (master-dd) |
-| **radici_ancora_planare** | trait-mechanics | design-to-engine: serve un producer "0-move this round" (segnale assente) + flat-DR path |
+| **SPEC-J scar->transform** | SPEC-J/E | ✅ **VERDETTO 06-23 = trait MECCANICO** (non narrativo-only) -> build gated: serve spec SPEC-E transform-trait + N=40 + scelta trait/banda |
+| **codex-lore 19 orfani per-bioma** | codex-lore | ✅ **VERDETTO 06-23 = replica pilot-cameo per-bioma** (placement cameo per i 19, giudizio balance; pattern `enc_foresta_temperata_radici`) -> content/balance sprint |
+| **move-substrate: volo I + radici_ancora_planare** | trait-mechanics | ✅ **VERDETTO 06-23 = BUILD terrain-cost substrate** (wire `terrain_cost_multiplier` dormiente nel move calc Manhattan -> volo/anchor/terreno meccanici) -> sprint movimento dedicato; tocca combat/move, coord. con sessione trait viva |
 | **GAP2 inert-trait mechanics** | trait-mechanics | 103 per-trait DB file inerti: proponi una meccanica per trait (design-gated) |
 | **aa01 D4 auto-timer defaulting** | aa01-Impronta | "un imprint defaultato e' accettabile?" |
 | **aa01 D6 axis->trait grant** | aa01-Impronta | i 4 assi concedono trait meccanici (non-band-neutral, spec separata) |
@@ -98,7 +100,7 @@ l'harness ma **content + esperimento + ratifica**.
 
 | Residuo | Workstream | Cosa costruire | Stato |
 | --- | --- | --- | --- |
-| **trait-mechanics slices 3-7** | trait-mechanics | slice 3 (corteccia + nuclei full + ally_aura_mark) ; 4 (artigli/tessuti/volo-I) ; 5 (filtri/membrane/volo-II-III) ; 7 LARGE (eco_sismico + pigmenti) | **2.5/12 trait built** (inibito + matrice full + nuclei v1). matrice Mode A gia' done |
+| **trait-mechanics slices 5-7** | trait-mechanics | slice 5 (filtri/membrane/volo-II-III) ; 7 LARGE (eco_sismico + pigmenti). volo-I + radici -> via move-substrate (verdetto bucket 2) | **~6.5/12 trait built** (slice 3 #2983 + slice 4 #2985 mergiati: +corteccia/nuclei-full/ally_aura + artigli/tessuti). Sessione viva |
 | **13 creature canonizzazione** | trait-mechanics | spec gameplay + lore HITL + promote (dipendono dai loro kit-trait) + delete vecchi stub | **0/14 canonizzate** (1 speccata: resonant_claw_hunter) |
 | **canon-linter follow-up** | CI tooling | tune `scripts/data/verify_stopwords.txt` sui false-positive design-doc IT -> flip markdown-tier a `--strict` | OPEN non-bloccante |
 | **SPEC-F offspring->playable lineage + QR/card export** | SPEC-F/E | offspring giocabili (lineage SPEC-E) + export card | OPEN |
