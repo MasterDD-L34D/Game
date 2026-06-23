@@ -20,6 +20,31 @@ tags: [trait, ancestor, naming, rename, schema-ripple, istruttoria, master-dd-ga
 > resta una **decisione master-dd** + una PR di esecuzione separata e ratificata.
 > Nessun file dati e' stato modificato (forbidden-path `data/core/traits/`).
 
+## DECISIONE master-dd (2026-06-23)
+
+> Aggiornamento post-review. Le sezioni 1-7 sotto sono l'istruttoria originale
+> (analisi pre-decisione: raccomandava B). Questo blocco registra la scelta presa
+> e PREVALE sulle raccomandazioni advisory.
+
+- **Direzione scelta: Opzione C** -- blanket rename dei 290 `ancestor_*` a id nativi
+  Evo-Tactics, nuova convention che supersede Phase-2 / `ADR-2026-04-27`.
+- **La provenienza NON e' un vincolo.** master-dd chiarisce: i 297 neuron del wiki
+  `ancestors.fandom.com` sono stati usati SOLO come ISPIRAZIONE; i trait derivati
+  verranno trasformati sostanzialmente in lavorazione (effetti + nomi propri
+  Evo-Tactics) fino a non essere piu' riconducibili all'originale. Quindi nessun
+  obbligo di attribuzione CC BY-NC-SA da preservare e i campi `legacy_code` /
+  `provenance` diventano inutili (da RIMUOVERE col rename, non da conservare).
+  L'argomento "diluisce la tracciabilita' legale" tra i contro di C (sez. 7) DECADE.
+- **Restano i costi TECNICI di C** (non legali), che governano l'esecuzione:
+  136/290 collisioni in 79 gruppi -> servono ~215 nomi tematici/disambiguati (75 id
+  hanno gia' un candidato meccanico univoco); policy DC-01 (design-block per-trait
+  o emend del gate); ripple sulle 5 superfici live + generatore/proposal; supersede
+  esplicito dell'`ADR-2026-04-27`.
+- **Seed #2986 (`fr_06/07/08`): deferred** -- deciso dentro il piano di esecuzione C.
+
+Il rename C resta una **PR separata e ratificata**. Questo doc + PR = istruttoria con
+la decisione registrata; il piano di esecuzione C e' il prossimo step.
+
 ## TL;DR (il punto piu' importante)
 
 Gli id "brutti" tipo `ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06`
@@ -57,8 +82,10 @@ Form-Pulse (#2986). Vedi sez. 6-8.
 - **Fonte**: recovery del wiki `ancestors.fandom.com` (gioco "Ancestors: The
   Humankind Odyssey") -- 297 "neuron" trait. CSV immutabile
   `reports/incoming/ancestors/ancestors_neurons_dump_v07_wiki_recovery.csv`
-  (manifest v07, sha pinnato). License **CC BY-NC-SA 3.0** -> l'attribuzione e' un
-  vincolo legale, non cosmetico.
+  (manifest v07, sha pinnato). License nominale **CC BY-NC-SA 3.0**.
+  **[Superato dalla DECISIONE 2026-06-23]**: master-dd chiarisce che il wiki e' stato
+  solo ispirazione e i derivati sono trasformati sostanzialmente -> NESSUN obbligo di
+  attribuzione da preservare. Questo punto NON e' piu' un blocco al rename.
 - **Canonizzazione**: `docs/adr/ADR-2026-04-27-ancestors-recovery-canonical.md` +
   apply summary `docs/reports/2026-04-27-ancestors-phase-2-apply-summary.md`.
 - **Stato orphan**: famiglia distinta dai 109 orphan core-wave (quelli nativi tipo
@@ -248,7 +275,7 @@ superfici 1-5 -> registra `legacy_id`/`legacy_code` (provenienza). Modello
   l'ergonomia di authoring resta (id lunghi nelle definizioni pool/#2986).
 - **Blast-radius**: nullo.
 
-### Opzione B -- promote-on-use, naming tematico per-trait (RACCOMANDATO advisory)
+### Opzione B -- promote-on-use, naming tematico per-trait (advisory; NON scelta)
 - **Cosa**: quando un `ancestor_*` entra in gameplay attivo (assegnato a specie o a un
   pool come #2986), gli dai un id nativo tematico in quel momento, con migration
   completa (superfici 1-5 + design-block + `legacy_id`). Gli altri restano `ancestor_*`.
@@ -259,15 +286,17 @@ superfici 1-5 -> registra `legacy_id`/`legacy_code` (provenienza). Modello
 - **RACCOMANDATO**: B. Allinea con lo styleguide 00E (migration esplicita) + con la
   natura orphan (la maggior parte non e' consumata -> non urge rinominarla).
 
-### Opzione C -- blanket rename tutti i 290 (cambio-convention totale)
-- **Cosa**: nuova convention "tutto nativo", supersede Phase-2.
-- **Trade-off**: massimo cleanup percepito, ma: 136 collisioni da risolvere a mano,
-  ~290 nomi tematici, emend DC-01 o backfill design-block x290, supersede ADR
-  2026-04-27 + ritiro generatore, e **dilui la tracciabilita' CC BY-NC-SA**
-  (semanticamente, anche se `legacy_code` resta). Alto costo, alto rischio.
+### Opzione C -- blanket rename tutti i 290 (cambio-convention totale) -- SCELTA 2026-06-23
+- **Cosa**: nuova convention "tutto nativo", supersede Phase-2 + `ADR-2026-04-27`.
+- **Trade-off**: massimo cleanup. Costi TECNICI reali: 136 collisioni in 79 gruppi da
+  disambiguare (215 trait), emend DC-01 o backfill design-block, ripple superfici 1-9,
+  ritiro generatore/proposal. **Il contro "diluisce CC BY-NC-SA" DECADE**: master-dd ha
+  chiarito uso-ispirazione (vedi DECISIONE in cima) -> i campi `provenance`/`legacy_code`
+  vanno rimossi, non preservati.
 - **Blast-radius**: massimo (tutte le superfici 1-9).
-- **RACCOMANDATO**: NO, salvo master-dd voglia esplicitamente abbandonare la
-  provenienza-encoding come principio.
+- **ESITO**: **SCELTA da master-dd il 2026-06-23.** La mia raccomandazione advisory era
+  B, ma la rimozione del vincolo-provenienza cambia il bilancio costi/benefici a favore
+  di C. Esecuzione = PR separata ratificata (vedi piano).
 
 ## 8. Cosa deve decidere master-dd
 
