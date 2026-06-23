@@ -11,11 +11,37 @@ review_cycle_days: 180
 
 # Bestiario creature-domain -- lore canonizzata
 
-Promozione HITL di 58 schede lore (su 75) dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Le 58 voci qui hanno superato il gate render+lore (verdetto Fase 1 approvato). Le 17 specie `regen` restano in coda art e non sono promosse.
+Promozione HITL di 65 schede lore (su 75) dalla bozza procedurale `data/core/species/_drafts/creature_lore.yaml` (pipeline qwen + critic mistral). Le 65 voci qui hanno superato il gate render+lore (Fase 1 = 58 + Fase 1-bis regen = 7 promossi). Le 10 specie restanti restano in coda art non-LoRA e non sono promosse.
 
 > Stato `review_needed`: la prosa proviene da generazione macchina, ripulita in stile ASCII e strutturata; la rifinitura player-facing finale resta a master-dd (boundary `docs/guide/procedural-lore-generation.md`). Nessun numero/bilanciamento qui.
 
 Render approvato per ciascuna voce: vedi `docs/catalog/creature-domain-bestiary_assets_draft.md`.
+
+## Anguilla Geomagnetica -- `anguis_magnetica`
+
+_Anguis magnetica | classe: Reptilia/Pisces | bioma: Atollo di Ossidiana | indice senziente: T1_
+
+**Concetto.** L'Anguilla Geomagnetica ha sviluppato un integumento bipolare ed elettromagneti biologici che le permettono di orientarsi nel campo magnetico terrestre, catturare prede e schermarsi da interferenze esterne.
+
+**Aspetto.** Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.
+
+**Ambiente.** Vive nei luoghi dove la roccia vulcanica forma campi magneticamente attivi, consentendo alla creatura di muoversi in modo fluido e silenzioso attraverso il suo ambiente natio. Utilizza le sue capacita' elettromagnetiche per navigare senza rumore nei suoi habitat e per intercettare prede con precisione, sfruttando l'interferenza del sistema nervoso delle vittime.
+
+**Tratti chiave.**
+
+- `integumento_bipolare`: L'anguilla geomagnetica si orientava lungo le linee di campo del suo ambiente, muovendosi fluida e silenziosa.
+- `elettromagnete_biologico`: Con un'interferenza elettromagnetica, l'anguilla geomagnetica disorientava la preda interrompendo i suoi impulsi nervosi.
+- `scivolamento_magnetico`: L'anguilla geomagnetica scivolo' via con un movimento silenzioso, riducendo l'attrito grazie alla sua abilita' magnetica.
+- `filtro_metallofago`: Il filtro metallofago dell'anguilla geomagnetica assorbiva metalli dal suo ambiente, sostenendo i suoi organi elettrogeni.
+- `bozzolo_magnetico`: Per proteggersi dai campi elettromagnetici esterni, l'anguilla geomagnetica si avvolgeva in un bozzolo magnetico protettivo.
+
+## Aurora Bridge Runner -- `aurora_bridge_runner`
+
+_bioma: cryosteppe | indice senziente: T1_
+
+**Concetto.** Si e' evoluto per sfruttare le risorse limitate dei criosteppe, specializzandosi nel consumo di vegetazione bassa. La sua capacita' di rilevare suoni a bassa frequenza e il suo olfatto acuto gli permettono di sopravvivere in condizioni estreme.
+
+**Ambiente.** Si trova principalmente nei criosteppe, aree caratterizzate da inverni severi e stagioni di crescita brevi. Questo ambiente ha plasmato la sua dieta e comportamento, guidandolo a concentrarsi su vegetazione bassa e difficile da raggiungere. E' un animale solitario che evita il contatto con gli altri a meno che non sia necessario. Si muove a quattro zampe con un'andatura simile a quella dei cavalli, adatta alle lunghe distanze su terreni innevati.
 
 ## Gabbiano d'Aurora -- `aurora_gull`
 
@@ -52,6 +78,61 @@ _Mycotabes corruptor | classe: Colonia fungina patogena / decompositrice | bioma
 - `ghiandola_caustica`: La ghiandola caustica rilascia un acido corrosivo che scioglie le corazze leggere dei nemici.
 - `mimetismo_cromatico_passivo`: Il mimetismo cromatico passivo permette al fungo di mimetizzarsi lentamente sulle superfici circostanti.
 - `filamenti_digestivi_compattanti`: I filamenti digestivi compattanti assorbono e trasformano i materiali inutilizzati, liberando spazio vitale per la crescita.
+
+## Tessitore di Cactus -- `cactus_weaver`
+
+_Cactotextor hydrophorus | classe: Produttore radicante / ingegnere idrico | bioma: deserto caldo | indice senziente: T1_
+
+**Concetto.** Occupa una nicchia evolutiva come produttore ingegnere idrico, utilizzando le sue capacita' di tessitura per modificare l'ambiente e sostenere la vita in un ambiente estremo.
+
+**Aspetto.** Groviglio di fusti spinosi intrecciati a rete, tessuti cerosi color giada e radici fittonanti che affondano verso le lenti d'acqua.
+
+**Ambiente.** Si trova in ambienti desertici caldi, dove le sue radici fittonanti si estendono verso le lenti d'acqua sotterranee, creando isole d'ombra che supportano la fauna locale. Il cactus weaver opera in squadre per creare reti di radici e fusti succulenti, che catturano e redistribuiscono l'umidita'. Queste strutture forniscono un ambiente protetto per la fauna e contribuiscono al bilancio idrico del deserto.
+
+**Tratti chiave.**
+
+- `cuticole_cerose`: Le cuticole cerose si intrecciano con i fusti spinosi, formando una barriera impermeabile che cattura l'umidita' dell'aria e la converte in energia.
+- `grassi_termici`: I grassi termici si accumulano nelle radici fittonanti, agendo come serbatoi termici che mantengono la temperatura corporea stabile durante le notti fredde.
+- `pelli_cave`: Le pelli cave, con le loro sacche d'aria, riducono il trasferimento di calore, permettendo al Tessitore di Cactus di sopravvivere alle temperature estreme del deserto.
+- `pigmenti_aurorali`: I pigmenti aurorali brillano sotto le tempeste magnetiche, mimetizzando il Tessitore di Cactus tra i bagliori elettrici del cielo.
+- `proteine_shock_termico`: Le proteine shock termico si attivano durante i picchi di calore, proteggendo le cellule dalle denaturazioni e mantenendo la funzionalita' dei tessuti.
+- `reti_capillari_radici`: Le reti capillari radici trasmettono calore e scambiano fluidi con le piante circostanti, creando un sistema di regolazione termica naturale.
+
+## Aracnide Alchemico -- `chemnotela_toxica`
+
+_Chemnotela toxica | classe: Artropode | bioma: Foresta Acida | indice senziente: T2_
+
+**Concetto.** Adattandosi alle foreste acide, l'Aracnide Alchemico ha sviluppato articolazioni a leva idraulica per movimenti potenti e occhi analizzatori di tensione per monitorare la seta.
+
+**Aspetto.** Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.
+
+**Ambiente.** Questi ragni vivono in foreste acide dove la cuticola lucida con bande metalliche li protegge dall'ambiente corrosivo. L'Aracnide Alchemico costruisce tese trappole utilizzando seta elettroconduttiva per stordire le prede, mentre usa zanne idracide per uccidere.
+
+**Tratti chiave.**
+
+- `zanne_idracida`: Le zanne idrauliche dell'Aracnide Alchemico corrodono rapidamente la corteccia degli alberi della foresta acida.
+- `seta_conduttiva_elettrica`: La seta elettroconduttiva che l'Aracnide Alchemico utilizza per costruire la sua tela puo' stordire gli intrusi con potenti scariche elettriche.
+- `articolazioni_a_leva_idraulica`: Grazie alle sue articolazioni a leva idraulica, l'Aracnide Alchemico puo' compiere balzi sorprendentemente lunghi per catturare la preda.
+- `filtrazione_osmotica`: Il sistema di filtrazione osmotica dell'Aracnide Alchemico gli permette di neutralizzare le tossine prodotte dalle sue stesse zanne idracide.
+- `occhi_analizzatori_di_tensione`: Gli occhi analizzatori di tensione dell'Aracnide Alchemico gli permettono di rilevare i movimenti nella tela e identificare la posizione della preda.
+
+## Lince Criogenica -- `cryo_lynx`
+
+_Cryofelis nivalis | classe: Cursore quadrupede / predatore apex | bioma: cryosteppe | indice senziente: T1_
+
+**Concetto.** Occupa la nicchia di apex predator nella criosteppe, con una strategia di sopravvivenza basata sull'adattamento al freddo e all'ambiente estremo.
+
+**Aspetto.** Felino compatto dal manto folto screziato di bianco-azzurro, zampe larghe da neve e occhi riflettenti adattati alla penombra polare.
+
+**Ambiente.** Si trova esclusivamente nelle cryosteppe, dove il suo metabolismo adattivo e le zampe a molla gli permettono di sopravvivere alle temperature estreme. Predatore da agguato, utilizza la sua pelliccia termo-isolante e gli artigli multipli per catturare prede su superfici ghiacciate.
+
+**Tratti chiave.**
+
+- `artigli_sette_vie`: I artigli multipli permettono alla lince criogenica di afferrare saldamente le prede sul ghiaccio irregolare.
+- `carapace_fase_variabile`: La corazza che varia densita' aiuta la lince a bilanciare la protezione contro i nemici e la liberta' di movimento durante la caccia.
+- `olfatto_risonanza_magnetica`: I bulbi olfattivi della lince riescono a tracciare campi magnetici e identificare vene metalliche nascoste sotto il ghiaccio.
+- `criostasi_adattiva`: Il metabolismo sospeso della lince le permette di sopravvivere a mesi di estremo freddo senza cibo.
+- `zampe_a_molla`: Le zampe a molla accumulano energia per permettere alla lince di fare salti rapidi e riposizionarsi sulle superfici ghiacciate.
 
 ## Ala d'Eco -- `echo_wing`
 
@@ -496,6 +577,31 @@ _Siliciflora pestifera | classe: Colonia microbica silicea / minaccia patogena |
 - `proteine_shock_termico`: Le proteine di shock termico proteggono le cellule dalle denaturazioni causate da picchi di temperatura, garantendo la sopravvivenza della Fioritura di Silice.
 - `reti_capillari_radici`: Le reti capillari radici scambiano calore e fluidi con i substrati vegetali, aiutando la creatura a regolare la sua temperatura basale in modo efficiente.
 
+## simbionte corallino riflesso -- `simbionte_corallino_riflesso`
+
+_Simbionte Corallino Riflesso | bioma: Frattura Abissale Sinaptica | indice senziente: T3_
+
+**Concetto.** La loro nicchia evolutiva si basa sull'adattamento a un ambiente estremo, dove la capacita' di canalizzare energia elettromagnetica, gestire cariche e mantenere una struttura sinaptica stabile ha permesso loro di occupare un ruolo supportivo all'interno della frattura abissale sinaptica.
+
+**Ambiente.** Risiedono all'interno della frattura abissale sinaptica, dove la combinazione di correnti elettromagnetiche e materiali biologici crea un ambiente ideale per la loro sopravvivenza. Questo habitat e' caratterizzato da una interazione dinamica tra energia e struttura biologica. I simbionti corallini riflessi mostrano un comportamento altamente coordinato, utilizzando i loro sensori planctonici per leggere pattern e comunicare attraverso scintille sinaptiche e canti risonanti. La loro capacita' di gestire e trasmettere buff attraverso organi metacronici e ghiandole mnemoniche li rende estremamente adatti al loro ambiente.
+
+**Tratti chiave.**
+
+- `coralli_sinaptici_fotofase`: Le barriere bioelettriche canalizzano luce e impulsi, creando un'illuminazione sinaptica che guida i movimenti del gruppo.
+- `membrane_fotoconvoglianti`: I tessuti trasportano cariche luminose tra nodi sinaptici, rafforzando la comunicazione interna.
+- `placca_diffusione_foschia`: Le placche diffondono e attenuano cariche erratiche, mantenendo la stabilita' del sistema.
+- `organi_metacronici`: Gli organi sequenziano i furti di buff in catena, ottimizzando la distribuzione energetica.
+- `nodi_sinaptici_superficiali`: Il reticolo di nodi amplifica segnali superficiali, migliorando la risposta ai cambiamenti ambientali.
+- `filamenti_guidalampo`: I filamenti tracciano rotte sicure nelle correnti, guidando il gruppo verso zone protette.
+- `ghiandole_mnemoniche`: Le secrezioni trattengono copie attenuate di buff, permettendo un ricordo parziale degli eventi.
+- `sensori_planctonici`: I sensori diffusi leggono pattern di plancton memetico, individuando fonti di energia e minacce.
+- `emolinfa_conducente`: Il fluido accumula carica e drena energia nemica, proteggendo il gruppo da attacchi.
+- `scintilla_sinaptica`: La scarica leggera illumina connessioni e riflessi, migliorando la coordinazione istantanea.
+- `riverbero_memetico`: L'eco cognitivo duplica buff a potenza ridotta, rafforzando la memoria collettiva.
+- `canto_risonante`: Le frequenze armonizzano il gruppo e riducono stress, mantenendo la coesione sociale.
+- `spirito_combattivo`: Il tratto comportamentale mantiene la determinazione sotto pressione, impedendo la diffusione del panico.
+- `carapace_luminiscente_abissale`: Il guscio bioluminescente confonde i predatori nelle profondita', offrendo una difesa visiva.
+
 ## Slag Veil Ambusher -- `slag_veil_ambusher`
 
 _bioma: Calanchi Ferromagnetici | indice senziente: T1_
@@ -505,6 +611,24 @@ _bioma: Calanchi Ferromagnetici | indice senziente: T1_
 **Aspetto.** Predatore d'agguato dal profilo curvo, carapace drappeggiato a velo.
 
 **Ambiente.** Si muove attraverso le aree rocciose e le zone desertificate, sfruttando le crepe e le gallerie per nascondersi e cacciare. E' un predatore solitario che si muove in silenzio, utilizzando l'udito e l'olfatto per individuare le prede, senza dipendere dalla vista.
+
+## Libellula Sonica -- `soniptera_resonans`
+
+_Soniptera resonans | classe: Insecta | bioma: Canopia Ionica | indice senziente: T2_
+
+**Concetto.** La specie occupa un'evoluzione specifica nel canopico ionico, dove la manipolazione sonora e il volo a bassa latenza sono vantaggi competitivi per sopravvivere e predare in un ambiente ad alta attivita' elettrica.
+
+**Aspetto.** Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.
+
+**Ambiente.** Si trova nei strati superiori delle foreste ioniche, dove le correnti elettriche e la presenza di onde sonore creano un ambiente ideale per il suo volo e manipolazione sonora. Utilizza il campo di interferenza acustica per evitare predatori e per cacciare prede, mentre il cannone sonico a raggio serve per difesa o attacco. Il cervello a bassa latenza permette manovre veloci e precise.
+
+**Tratti chiave.**
+
+- `ali_fono_risonanti`: Durante il volo, le ali traslucide emettono un suono risonante che copre l'intero spettro udibile.
+- `cannone_sonico_a_raggio`: Il cannone sonico a raggio emette un impulso acustico potente che stordisce i nemici vicini.
+- `campo_di_interferenza_acustica`: Il campo di interferenza acustica confonde i predatori, rendendo difficile individuare la posizione dell'insetto.
+- `cervello_a_bassa_latenza`: Il cervello a bassa latenza permette al soniptera di eseguire manovre veloci e precise in volo.
+- `occhi_cinetici`: Gli occhi cinetici permettono all'insetto di percepire le onde sonore come pattern visibili nell'aria.
 
 ## Vagabondo della Volta -- `sp_arboryxis_lenis`
 
