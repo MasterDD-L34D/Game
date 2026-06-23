@@ -121,6 +121,9 @@ const {
   applyTessutiAdaptation,
   computeTessutiResistDelta,
 } = require('../services/combat/tessutiAdattivi');
+// Creature-trait slice 5: membrane_osmotiche duration_absorb (-1 on incoming status
+// durations). filtri_bioattivi turn-start cleanse is wired in sessionRoundBridge.
+const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
 
 // Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
 // type previene "sustained rage" durante kill chain (13 trait on_kill rage
@@ -1212,6 +1215,11 @@ function createSessionRouter(options = {}) {
         // status (decay included). Duration honors STATUS_DURATION_CAPS.
         if (onHitStatusResult && Array.isArray(onHitStatusResult.applied)) {
           for (const a of onHitStatusResult.applied) {
+            // Creature-trait slice 5: membrane_osmotiche absorbs 1 turn off incoming
+            // on_hit_status durations too (the spec's "incoming status durations" covers
+            // all sources). Fully-absorbed -> skip. Band-neutral.
+            const absorbed = absorbStatusDuration({ target, turns: a.duration });
+            if (Number(a.duration) > 0 && Number(absorbed) <= 0) continue;
             const cap = STATUS_DURATION_CAPS[a.status_id];
             if (!Array.isArray(session._pendingStatusApplies)) {
               session._pendingStatusApplies = [];
@@ -1219,7 +1227,7 @@ function createSessionRouter(options = {}) {
             session._pendingStatusApplies.push({
               unit_id: target.id,
               status: a.status_id,
-              duration: cap !== undefined ? Math.min(cap, a.duration) : a.duration,
+              duration: cap !== undefined ? Math.min(cap, absorbed) : absorbed,
             });
           }
         }
@@ -1414,13 +1422,18 @@ function createSessionRouter(options = {}) {
       for (const s of statusApplies) {
         const unit = s.target_side === 'actor' ? actor : target;
         if (!unit || unit.hp <= 0 || !unit.status) continue;
+        // Creature-trait slice 5: membrane_osmotiche absorbs 1 turn off the incoming
+        // status duration; a 1-turn status is fully absorbed -> skip. Band-neutral:
+        // absorbStatusDuration returns s.turns unchanged for non-carriers.
+        const absorbedTurns = absorbStatusDuration({ target: unit, turns: s.turns });
+        if (Number(s.turns) > 0 && Number(absorbedTurns) <= 0) continue;
         const current = Number(unit.status[s.stato]) || 0;
         // Audit 2026-04-25 sera (balance-auditor): kill chain re-apply rage
         // pattern → sustained rage durante kill streak. Cap totale per status
         // type previene "permanent rage" scenario in late combat.
         // Frenzy (PR #1822) stesso pattern, stesso cap.
         const cap = STATUS_DURATION_CAPS[s.stato];
-        const merged = Math.max(current, s.turns);
+        const merged = Math.max(current, absorbedTurns);
         unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
         // TKT-D4-ENRICH (#2533): persist through the round-model status sync
         // (same drain channel as morale/on_hit_status — see comment at the
@@ -1433,7 +1446,7 @@ function createSessionRouter(options = {}) {
         session._pendingStatusApplies.push({
           unit_id: unit.id,
           status: s.stato,
-          duration: cap !== undefined ? Math.min(cap, Number(s.turns) || 1) : s.turns,
+          duration: cap !== undefined ? Math.min(cap, Number(absorbedTurns) || 1) : absorbedTurns,
         });
       }
 

@@ -1011,6 +1011,19 @@ function createRoundBridge(deps) {
       // best-effort: don't block round-end if the aura producer is missing
     }
 
+    // Creature-trait slice 5: filtri_bioattivi bio-filter -- once-per-round passive
+    // cleanse of 1 bleeding + 1 fracture + heal 1 per cleanse (object-map). Run at
+    // end-of-round so the carrier starts the next round cleaner ("turn-start" realized
+    // as once-per-round). Best-effort, band-neutral (no sim unit carries the trait).
+    try {
+      const { applyTurnStartCleanse } = require('../services/combat/filtriBioattivi');
+      for (const unit of session.units || []) {
+        applyTurnStartCleanse(unit);
+      }
+    } catch {
+      // best-effort: don't block round-end if the filter module is missing
+    }
+
     // Status engine extension: HP regen ticks (`fed` + `healing`).
     // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
     // universal status decay so the last live tick still produces regen.
