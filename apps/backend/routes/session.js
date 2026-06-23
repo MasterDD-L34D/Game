@@ -2958,6 +2958,18 @@ function createSessionRouter(options = {}) {
         breakAnchor(actor);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
+        // eco_sismico: entering an active zona_risonante tile disorients the unit
+        // (the banshee that laid it is self-immune). Best-effort, band-neutral (no
+        // zona is stamped in combat yet -> no-op on every existing grid).
+        try {
+          require('../services/combat/ecoSismico').applyZonaOnEnter({
+            grid: session.grid,
+            unit: actor,
+            currentRound: session.turn,
+          });
+        } catch {
+          // best-effort: don't block the move if the eco module is missing
+        }
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
         // direzione in cui si e' mossa. Se dx==0 e dy==0 (impossibile
         // dato il check dist > 0) non cambia niente.
@@ -3454,6 +3466,18 @@ function createSessionRouter(options = {}) {
           breakAnchor(actor);
           const positionFrom = { ...actor.position };
           actor.position = { x: dest.x, y: dest.y };
+          // eco_sismico: an AI unit entering an active zona_risonante gets the
+          // disorient status (source self-immune). Best-effort, band-neutral (no
+          // zona stamped yet).
+          try {
+            require('../services/combat/ecoSismico').applyZonaOnEnter({
+              grid: session.grid,
+              unit: actor,
+              currentRound: session.turn,
+            });
+          } catch {
+            // best-effort: don't block the AI move if the eco module is missing
+          }
           const newFacing = facingFromMove(positionFrom, actor.position);
           if (newFacing) actor.facing = newFacing;
           const moveEvent = buildMoveEvent({ session, actor, positionFrom });
