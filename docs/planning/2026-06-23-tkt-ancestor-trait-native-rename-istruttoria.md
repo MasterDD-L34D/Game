@@ -309,7 +309,34 @@ superfici 1-5 -> registra `legacy_id`/`legacy_code` (provenienza). Modello
    (dedup o 2 nomi distinti)?
 5. **Tier di naming**: meccanico (CSV, ma 136 collisioni) vs tematico (~290 decisioni)?
 
-## 9. Disclaimer
+## 9. Fase-1 esecuzione C -- name draft (2026-06-23; DC-01 = backfill)
+
+Generato `tools/py/ancestors_native_rename_namedraft.py` ->
+`docs/planning/ancestor-trait-native-rename-namedraft.csv` (290 righe, DRAFT per ratify).
+Riduce le ~215 decisioni a una review. Risultato che CAMBIA la natura di C:
+
+| Disposition | N | Cosa serve da master-dd |
+| --- | --- | --- |
+| AUTO_UNIQUE (slug del label gia' univoco) | 75 | nulla -> auto-rename |
+| DEDUP_KEEP (tieni 1 del gruppo) | 72 | conferma il "keep" |
+| DEDUP_RETIRE (duplicato meccanico) | 120 | ratifica retire/fusione |
+| DISAMBIGUATED (discriminator placeholder) | 23 (7 gruppi) | sostituisci col nome tematico |
+
+**Finding chiave**: scartata la provenienza, **120/290 trait (41%) sono duplicati
+meccanici puri** (stesso tier+effetto+trigger; es. `vie_dopaminergiche` x10 identici).
+Quindi C non e' solo rename: e' un **dedup + rename** che collassa il catalogo ancestor
+da 290 a **~170 trait distinti** (75 + 72 + 23). I 120 retire vanno fusi/rimossi con
+pulizia ripple su `biome_pools.json` dove presenti.
+
+Seed #2986 -> bucket DISAMBIGUATED: `..._fr_06/07/08` differiscono solo per
+`requires_target_tag` (predator/irascible/wildlife) -> placeholder
+`velocita_di_elaborazione_interna_{predator|irascible|wildlife}`; il nome tematico
+(`mente_focalizzata` per la variante predator) e' la sostituzione che ratifichi.
+
+**DC-01**: scelta master-dd = **backfill** `famiglia_tipologia` + `slot_profile` per
+ogni trait mantenuto (~170), eseguito nella PR di esecuzione (non in questo doc).
+
+## 10. Disclaimer
 
 Questo doc NON decide nulla. Le RACCOMANDAZIONI sono advisory analyst-side e vanno
 ratificate da master-dd (naming/trait design = master-dd subjective, CLAUDE.md).
