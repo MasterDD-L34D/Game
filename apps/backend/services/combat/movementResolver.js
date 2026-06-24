@@ -55,12 +55,39 @@ function applyVoloGrade(profile, grade) {
   return { terrain_cost_multiplier: out };
 }
 
-function evaluateVoloGrade(registry, actor) {
+const VOLO_GRADE_MIN = 1;
+const VOLO_GRADE_MAX = 3;
+
+// Dual trait-shape carrier check (string | {id}), matching the slice modules.
+function hasVoloTrait(actor) {
   const traits = actor && Array.isArray(actor.traits) ? actor.traits : [];
-  if (!traits.includes(VOLO_TRAIT)) return 0;
+  for (const t of traits) {
+    if (typeof t === 'string' && t === VOLO_TRAIT) return true;
+    if (t && typeof t === 'object' && t.id === VOLO_TRAIT) return true;
+  }
+  return false;
+}
+
+function clampGrade(g) {
+  return Math.min(VOLO_GRADE_MAX, Math.max(VOLO_GRADE_MIN, Math.trunc(g)));
+}
+
+// Resolve the volo grade for a unit. Order (per the per-creature gap-fix spec):
+//   1. non-carrier -> 0 (no volo);
+//   2. per-unit override `actor.volo_grade` (>=1) -> clamp [1,3] -- survives the
+//      session-start whitelist (normaliseUnit) and is registry-free, so player/AI/
+//      minion all read it (the minion gap closes without a registry file-read);
+//   3. global base `registry[VOLO_TRAIT].effect.grade` (>=1) -> clamp [1,3];
+//   4. else 1.
+// The gate is trait presence, so a stray volo_grade on a non-carrier is ignored.
+function evaluateVoloGrade(registry, actor) {
+  if (!hasVoloTrait(actor)) return 0;
+  const unitGrade = actor && Number(actor.volo_grade);
+  if (Number.isFinite(unitGrade) && unitGrade >= VOLO_GRADE_MIN) return clampGrade(unitGrade);
   const def = registry && registry[VOLO_TRAIT];
-  const grade = def && def.effect && Number(def.effect.grade);
-  return Number.isFinite(grade) && grade > 0 ? grade : 1;
+  const base = def && def.effect && Number(def.effect.grade);
+  if (Number.isFinite(base) && base >= VOLO_GRADE_MIN) return clampGrade(base);
+  return VOLO_GRADE_MIN;
 }
 
 module.exports = {
