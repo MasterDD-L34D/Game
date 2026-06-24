@@ -5,6 +5,10 @@
   "famiglia_tipologia": "Neurologico/Sistema nervoso",
   "fattore_mantenimento_energetico": "Medio (situazionale)",
   "tier": "T2",
+  "slot_profile": {
+    "core": "nervoso",
+    "complementare": "sistema_nervoso"
+  },
   "slot": [],
   "sinergie": [],
   "conflitti": [],

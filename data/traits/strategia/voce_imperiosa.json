@@ -5,6 +5,10 @@
   "famiglia_tipologia": "Comportamentale/Istinto",
   "fattore_mantenimento_energetico": "Basso (passivo)",
   "tier": "T1",
+  "slot_profile": {
+    "core": "strategia",
+    "complementare": "istinto"
+  },
   "slot": [],
   "sinergie": [],
   "conflitti": [],

@@ -5,6 +5,10 @@
   "famiglia_tipologia": "Fisiologico/Morfologia",
   "fattore_mantenimento_energetico": "Medio (situazionale)",
   "tier": "T2",
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "morfologia"
+  },
   "slot": [],
   "sinergie": [],
   "conflitti": [],

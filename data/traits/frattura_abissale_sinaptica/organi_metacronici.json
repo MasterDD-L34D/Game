@@ -24,6 +24,10 @@
       }
     }
   ],
+  "slot_profile": {
+    "core": "frattura_abissale_sinaptica",
+    "complementare": "sequenziamento"
+  },
   "completion_flags": {
     "has_biome": true,
     "has_data_origin": true,
