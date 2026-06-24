@@ -26,7 +26,16 @@
 
 const { aggregateFormPulses } = require('../formPulseVc');
 
-// PROPOSED (ratify via MA3, master-dd / N=40). Soglia di dominanza: |avg| minimo
+// =============================================================================
+// GOVERNANCE: RATIFIED (master-dd verdict 2026-06-24, Eduardo). The branco + minor mappings,
+// the cap-tier rule, and the threshold->0 (always-emerge) are ACCEPTED. Evidence: coverage
+// matrix + engine-LIVE audit (PR #3016), N=200 power probe (~1.2/creature), combat A/B (PR #3017).
+// The `PROPOSED_*` symbol names are kept for API/import stability (the prefix is now vestigial).
+// NOTE: ratification != flag flip -- FORM_PULSE_TRAIT_V2_ENABLED stays default OFF; the prod env
+// flip is a separate deploy step (Ryzen operator, 2026-06-23-prod-flag-flip-readiness.md).
+// =============================================================================
+
+// RATIFIED (master-dd 2026-06-24). Soglia di dominanza: |avg| minimo
 // dell'asse di branco prima che un trait emerga. Sotto soglia = branco indeciso
 // -> nessun trait condiviso (solo i per-creatura). 0.30 = lean chiaro, non rumore.
 const EMERGENCE_THRESHOLD = 0.3;
@@ -35,7 +44,8 @@ const EMERGENCE_THRESHOLD = 0.3;
 // default OFF so the threshold stays 0.30 (band-neutral, byte-identical to today). With the
 // flag ON the threshold drops to 0: the branco ALWAYS receives the dominant-axis trait, even
 // a weak lean (a perfectly flat aggregate falls back to the first mapping axis, pole +, via
-// emergeBrancoTrait's existing argmax). The mapping/threshold stay PROPOSED until N=40.
+// emergeBrancoTrait's existing argmax). The mapping/threshold are RATIFIED (master-dd 2026-06-24);
+// the flag itself stays default OFF until the separate prod env flip.
 const FORM_PULSE_TRAIT_V2_FLAG = 'FORM_PULSE_TRAIT_V2_ENABLED';
 
 // True iff the v2 flag is explicitly 'true' (mirror imprint isImprintEnabled / stamina).
@@ -49,36 +59,57 @@ function resolveEmergenceThreshold(env = process.env) {
   return isFormPulseTraitV2Enabled(env) ? 0 : EMERGENCE_THRESHOLD;
 }
 
-// PROPOSED (ratify via MA3, master-dd). FP creature axis + pole -> branco trait_id.
-// Tutti i trait_id ESISTONO in data/core/traits/active_effects.yaml (il resolver
-// li applica; mismatch = no-op). Polo "+": vedi annotazioni di formPulseVc.
+// RATIFIED (master-dd 2026-06-24). FP creature axis + pole -> branco trait_id.
+// Ogni trait_id ESISTE in data/core/traits/active_effects.yaml ED e' engine-LIVE
+// (trigger con consumer runtime reale; mismatch o trait inert = no-op silenzioso).
+// Polo "+": vedi annotazioni di formPulseVc.
 //   solitary_swarm  + = Sciame (sociale)      / - = solitario
 //   explore_caution + = Cauto (concreto)      / - = esplorazione
 //   symbiosis_predation + = Predazione (freddo)/ - = simbiosi
 //   memory_instinct + = Memoria (planning)    / - = istinto
 //   agile_robust    + = Robusto (forma)        / - = Agile
+//
+// Coverage audit 2026-06-23 (docs/planning/2026-06-23-aa01-form-pulse-trait-v2-coverage-matrix.md):
+// 3 pick branco erano engine-INERT/near-inert (stesso difetto della review #2992 sul minor pool):
+//   - solitary_swarm- : `mimetismo_cromatico_passivo` = action_type:passive + buff_stat -> NESSUN
+//     consumer runtime (traitEffects/passiveStatusApplier/abilityExecutor non applicano buff_stat
+//     passivo). Remap -> `mente_lucida` (apply_status panic, LIVE via evaluateStatusTraits).
+//   - symbiosis_predation- : `empatia_coordinativa` = passive buff_stat = INERT. Remap ->
+//     `spirito_combattivo` (triggers_on_ally_attack, LIVE via beastBondReaction, co-op/simbiosi).
+//   - agile_robust- : `zampe_a_molla` = requires posizione_sopraelevata -> spara ~mai su mappe
+//     piatte (near-inert, come `ali_fulminee` che la review aveva gia' scartato). Remap ->
+//     `coda_stabilizzatrice_vortex` (extra_damage melee, LIVE; fratello T2 del minor Agile).
+// Follow-up 2026-06-23 (verdetto Eduardo "stringi il polo S debole"): explore_caution+ (S/Cauto)
+// era `sensori_sismici` = LIVE ma double-gated (melee + mos>=5) -> spara di rado (WEAK, e ci atterra
+// Lealista-6 difensivo). Remap -> `cartilagini_flessoacustiche` (damage_reduction NO-gate, LIVE;
+// difesa anticipatoria acustica = Cauto/vigilanza, ora reliable + coerente con Lealista).
+// Tier branco non normalizzati (cervello_predittivo T3): spread documentato + gestito via
+// encounter-difficulty offset (verdetto Eduardo 2026-06-23, path ratify-doc N=200), non re-tier.
 const PROPOSED_BRANCO_TRAIT_MAPPING = {
-  solitary_swarm: { '+': 'legame_di_branco', '-': 'mimetismo_cromatico_passivo' },
-  explore_caution: { '+': 'sensori_sismici', '-': 'sensori_geomagnetici' },
-  symbiosis_predation: { '+': 'ferocia', '-': 'empatia_coordinativa' },
+  solitary_swarm: { '+': 'legame_di_branco', '-': 'mente_lucida' },
+  explore_caution: { '+': 'cartilagini_flessoacustiche', '-': 'sensori_geomagnetici' },
+  symbiosis_predation: { '+': 'ferocia', '-': 'spirito_combattivo' },
   memory_instinct: { '+': 'cervello_predittivo', '-': 'cervello_a_bassa_latenza' },
-  agile_robust: { '+': 'pelle_elastomera', '-': 'zampe_a_molla' },
+  agile_robust: { '+': 'pelle_elastomera', '-': 'coda_stabilizzatrice_vortex' },
 };
 
-// Form-Pulse trait v2 -- Piece 2: per-player MINOR trait pool (spec 2026-06-23, PROPOSED;
-// ratify + N=40). A SEPARATE, distinct-category 5x2 table of T1 trait_ids -- the minor trait
+// Form-Pulse trait v2 -- Piece 2: per-player MINOR trait pool (spec 2026-06-23, RATIFIED
+// master-dd 2026-06-24). A SEPARATE, distinct-category 5x2 table of T1 trait_ids -- the minor trait
 // reads as a smaller, personal flavor, NEVER a second branco-combat trait (so it must not
-// reuse any PROPOSED_BRANCO_TRAIT_MAPPING id). Every id must be a RELIABLE T1 effect (no
-// engine-inert / heavily-gated picks): the harsh review (PR #2992) caught that the original
-// `memory_instinct` picks were broken -- `ancestor_autocontrollo_...fr_06` is engine-INERT
-// (its requires_target_tag enemy-tag system is not wired) and `ali_fulminee` is elevation-gated
-// (fires ~never on flat maps). Replaced with `sensori_planctonici` (memetic pattern-read,
-// damage_reduction, reliable on-hit) and `coda_prensile_muscolare` (reactive grip, apply_status,
-// reliable on-hit). `solitary_swarm +` stays ~loose. Pool stays PROPOSED (ratify + N=40).
+// reuse any PROPOSED_BRANCO_TRAIT_MAPPING id). CAP-TIER (Eduardo verdict 2026-06-23): the minor
+// pool stays genuinely minor = EVERY id is T1 AND engine-LIVE-reliable (enforced by
+// tests/services/formPulseTraitV2Coverage.test.js). The harsh review (PR #2992) caught the
+// `memory_instinct` picks (`ancestor_autocontrollo_...fr_06` requires_target_tag = engine-INERT;
+// `ali_fulminee` elevation-gated = fires ~never) -> replaced with `sensori_planctonici` +
+// `coda_prensile_muscolare`. The coverage audit (2026-06-23) caught a 4th the review missed:
+//   - symbiosis_predation- : `comunicazione_fotonica_coda_coda` = action_type:passive + buff_stat
+//     -> NO runtime consumer = INERT. Remap -> `membrane_eliofiltranti` (damage_reduction T1,
+//     no-gate, reliable; complements the co-op `spirito_combattivo` branco = endure-beside-allies).
+// Pool RATIFIED (master-dd 2026-06-24); flag still default OFF until the prod env flip.
 const PROPOSED_MINOR_TRAIT_MAPPING = {
   solitary_swarm: { '+': 'biofilm_glow', '-': 'camere_mirage' },
   explore_caution: { '+': 'cuticole_cerose', '-': 'antenne_dustsense' },
-  symbiosis_predation: { '+': 'denti_seghettati', '-': 'comunicazione_fotonica_coda_coda' },
+  symbiosis_predation: { '+': 'denti_seghettati', '-': 'membrane_eliofiltranti' },
   memory_instinct: { '+': 'sensori_planctonici', '-': 'coda_prensile_muscolare' },
   agile_robust: { '+': 'cartilagini_biofibre', '-': 'coda_stabilizzatrice_filo' },
 };
