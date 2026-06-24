@@ -1,0 +1,73 @@
+id: filtrophagus_custos
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Filtrofago sentinella
+biomes:
+- palude
+role_trofico: spazzino_sentinella
+functional_tags:
+- spazzino
+- sentinella_difensiva
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: threat
+playable_unit: false
+morphotype: bipede_filtratore
+vc:
+  aggro: 0.5
+  risk: 0.5
+  cohesion: 0.5
+  setup: 0.5
+  explore: 0.5
+  tilt: 0.5
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno
+  densita: low
+environment_affinity:
+  biome_class: palude
+  koppen: []
+  hazards_expected: []
+  multibiome: []
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - filtri_bioattivi
+  - membrane_osmotiche
+  - carapace_fase_variabile
+  optional_traits: []
+  required_capabilities:
+  - filter_feeding
+  - status_cleanse
+  jobs_bias:
+  - warden
+jobs_bias:
+- warden
+telemetry:
+  expected_pick_rate: 0.1
+  spawn_weight: 0.15
+genetic_traits:
+  core:
+  - filtri_bioattivi
+  - membrane_osmotiche
+  - carapace_fase_variabile
+  optional: []
+  synergy: []
+services_links: []
+description: i18n:species.filtrophagus_custos.description
+design_stub: true
+receipt:
+  source: PTPF.v1.0
+  author: claude-code-salvage
+  date: '2026-06-23'
+  note: 'retired-creature salvage item 2a; identity ratified + kit from species_affinity; heuristic fields are honest stubs (vc/spawn/telemetry/koppen) pending calib; lore via codex_aliena_lore_gen HITL'
