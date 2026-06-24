@@ -1,10 +1,10 @@
 ---
-title: '14 retired creatures -- salvage identity proposal (master-dd ratify)'
+title: '14 retired creatures -- salvage identity proposal (RATIFIED 2026-06-23)'
 date: 2026-06-22
-doc_status: draft
+doc_status: active
 doc_owner: claude-code
 workstream: dataset-pack
-last_verified: '2026-06-22'
+last_verified: '2026-06-23'
 source_of_truth: false
 review_cycle_days: 90
 tags: [species, salvage, creatures, ip-safe, ratify, codex]
@@ -60,3 +60,37 @@ Edit freely.
 
 **Your call**: approve the names/concepts/biomes as-is, edit any, and confirm #13
 museum-vs-keep. Then I proceed creature-by-creature.
+
+## RATIFIED 2026-06-23 (master-dd)
+
+master-dd ratified **all 13 viable identities as proposed** (names / ids / biomes /
+danger / sentience unchanged). **#13 resonant-claw-hunter -> museum/defer** confirmed
+(THIN, single trait). Proceed: per creature -> A.L.I.E.N.A. lore DRAFT (HITL review) ->
+source entry -> canonize via the species pipeline (the promote/re-baseline step is the
+owner-gated catalog ETL -- coupled with the salvage residual item 4).
+
+### Recovered kits (ground-truth from the stale `species_affinity.json`, NOT fabricated)
+
+Each retired id's full trait kit, inverted from the trait-keyed affinity (core =
+`roles:[core]`). Authoring source for each creature's `genetic_traits` /
+`derived_from_environment.suggested_traits`. All kit traits are authored in `index.json`
+(the `*_2` files in `data/traits/_drafts/` are external-import duplicates = item 3 dedup,
+NOT missing traits).
+
+| proposed id                  | core kit                                                                                                                                                                       | other kit                                                                                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heliopteryx_radians`        | adattamento_volo, aura_scudo_radianza, ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica                                                                       | ali_solari_fotoni, empatia_coordinativa, focus_frazionato, risonanza_di_branco, visione_spettrale                                                                           |
+| `pyroflagellum_meteoriticum` | adattamento_volo, ciclo_vitale_completo, frusta_fiammeggiante, mantello_meteoritico, metabolismo_attivo, respirazione_biologica                                                | armatura_pietra_planare, artigli_sette_vie, carapace_fase_variabile, empatia_coordinativa, focus_frazionato                                                                 |
+| `sonovespera_lamentans`      | adattamento_volo, ali_fono_risonanti, assenza_respirazione, ciclo_vitale_anomalo, metabolismo_sostentato, origine_artificiale, risonanza_di_branco, spore_psichiche_silenziate | eco_sismico, focus_frazionato, intangibilita_parziale, lamenti_diradanti, voce_spettrale                                                                                    |
+| `tellurmordax_phasicus`      | ciclo_vitale_completo, fisiologia_predatoria, metabolismo_attivo, respirazione_biologica                                                                                       | armatura_pietra_planare, carapace_fase_variabile, coda_frusta_cinetica, lamelle_termoforetiche, scheletro_idro_regolante, sensori_geomagnetici                              |
+| `auroserpens_photonicus`     | adattamento_volo, ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica                                                                                            | ali_solari_fotoni, artigli_sette_vie, empatia_coordinativa, focus_frazionato, ghiandole_nettare_memetico, lamelle_termoforetiche, risonanza_di_branco, sensori_geomagnetici |
+| `lithoconstructus_inhibens`  | armatura_pietra_planare, assenza_respirazione, ciclo_vitale_anomalo, metabolismo_sostentato, origine_artificiale                                                               | carapace_fase_variabile, matrice_antimagia, nuclei_di_controllo                                                                                                             |
+| `amorphovenator_magneticus`  | filamenti_digestivi_compattanti, olfatto_risonanza_magnetica, struttura_elastica_amorfa                                                                                        | lamelle_termoforetiche, scheletro_idro_regolante                                                                                                                            |
+| `rotabrachium_ferox`         | ciclo_vitale_completo, focus_frazionato, frusta_fiammeggiante, mantello_meteoritico, metabolismo_attivo, nucleo_ovomotore_rotante, respirazione_biologica                      | artigli_sette_vie, coda_frusta_cinetica, empatia_coordinativa, sensori_geomagnetici, visione_spettrale                                                                      |
+| `aerostatocyon_altivolans`   | focus_frazionato, occhi_cristallo_modulare, olfatto_risonanza_magnetica, sacche_galleggianti_ascensoriali                                                                      | criostasi_adattiva, eco_interno_riflesso                                                                                                                                    |
+| `filtrophagus_custos`        | ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica                                                                                                              | artigli_sette_vie, carapace_fase_variabile, filtri_bioattivi, lamelle_termoforetiche, membrane_osmotiche, proboscide_polifaga, sensori_chimici                              |
+| `cryptopennatus_psionicus`   | focus_frazionato, mimetismo_cromatico_passivo, pathfinder, sacche_galleggianti_ascensoriali, struttura_elastica_amorfa                                                         | ali_fono_risonanti, nucleo_ovomotore_rotante, occhi_cristallo_modulare, olfatto_risonanza_magnetica, spore_psichiche_silenziate                                             |
+| `illusiopardus_psionicus`    | ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica                                                                                                              | artigli_psionici, empatia_coordinativa, maschera_illusoria, risonanza_di_branco, tessuti_adattivi                                                                           |
+| `radiciforma_ancorans`       | ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica                                                                                                              | armatura_pietra_planare, corteccia_memetica, pigmenti_aurorali, radici_ancora_planare, reti_capillari_radici, risonanza_di_branco                                           |
+
+(`random` markers in the raw affinity are dropped -- not a trait.)
