@@ -118,7 +118,7 @@ aurora_bridge_runner:
       severi e stagioni di crescita brevi. Questo ambiente ha plasmato la sua dieta
       e comportamento, guidandolo a concentrarsi su vegetazione bassa e difficile
       da raggiungere.
-    origin_en: The aurora_bridge_runner evolved in the cryosteppe biome, adapting
+    origin_en: The Aurora Bridge Runner evolved in the cryosteppe biome, adapting
       to the extreme cold and sparse vegetation through natural selection.
     origin_it: L'Aurora Bridge Runner è originario dei criosteppe, dove si è adattato
       a climi estremamente freddi e condizioni di neve persistente. La sua evoluzione
@@ -144,7 +144,7 @@ aurora_gull:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The aurora gull navigates using thermal and magnetic gradients, employing
+    behavior_en: The Aurora Gull navigates using thermal and magnetic gradients, employing
       its sensory adaptations to detect and follow these gradients across vast distances
       during migration.
     behavior_it: Il comportamento si basa su gradienti termo-magnetici, con un sonar
@@ -160,33 +160,33 @@ aurora_gull:
       and magnetic gradients for long-distance travel.
     habitat_it: Si muove attraverso le cryosteppe, sfruttando i gradienti termo-magnetici
       per migrare e disperdere spore e semi tra le zone di permafrost.
-    origin_en: The aurora gull is a migratory planator that evolved in the cryosteppe
+    origin_en: The Aurora Gull is a migratory planator that evolved in the cryosteppe
       biome, adapting to extreme cold and seasonal changes through its unique physiological
       traits and behavioral patterns.
     origin_it: Il Gabbiano d'Aurora ha origine dalle cryosteppe, dove il suo metabolismo
       sospeso gli permette di sopravvivere a estati estreme e inverni senza neve.
     trait_narrative:
-    - text_en: During extreme cold seasons, the aurora gull enters a suspended metabolic
+    - text_en: During extreme cold seasons, the Aurora Gull enters a suspended metabolic
         state to survive prolonged periods of cryosteppe isolation.
       text_it: Durante le stagioni estreme, il Gabbiano d'Aurora entra in un metabolismo
         sospeso per sopravvivere ai periodi di freddo intenso.
       trait_id: criostasi_adattiva
-    - text_en: The aurora gull uses internal echolocation by vibrating its body to
+    - text_en: The Aurora Gull uses internal echolocation by vibrating its body to
         map the cryosteppe terrain and locate hidden food sources.
       text_it: Utilizzando un sonar interno, il Gabbiano d'Aurora mappa l'ambiente
         attraverso vibrazioni corporee per navigare negli spazi innevati.
       trait_id: eco_interno_riflesso
-    - text_en: The aurora gull alternates brain hemispheres to sleep while remaining
+    - text_en: The Aurora Gull alternates brain hemispheres to sleep while remaining
         alert, allowing it to navigate and avoid predators during migration.
       text_it: Il Gabbiano d'Aur0ra dorme con un emisfero cerebrale attivo mentre
         l'altro riposa, permettendogli di rimanere vigile durante le lunghe migrazioni.
       trait_id: sonno_emisferico_alternato
-    - text_en: The aurora gull regulates buoyant gas sacs to control its altitude
+    - text_en: The Aurora Gull regulates buoyant gas sacs to control its altitude
         and depth while gliding across the cryosteppe.
       text_it: Le sacche gassose regolabili del Gabbiano d'Aurora gli permettono di
         controllare l'assetto e la profondità durante il volo.
       trait_id: sacche_galleggianti_ascensoriali
-    - text_en: The aurora gull's compound infrared eyes track thermal trails in the
+    - text_en: The Aurora Gull's compound infrared eyes track thermal trails in the
         darkness, guiding it through the cryosteppe's frozen expanse.
       text_it: Gli occhi infrarossi composti del Gabbiano d'Aurora seguono scie termiche
         nell'oscurità, aiutandolo a trovare cibo e direzioni durante la notte.
@@ -211,7 +211,7 @@ blight_micotico:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Driven by instinctual responses, the blight_micotico lacks complex
+    behavior_en: Driven by instinctual responses, the Blight Micotico lacks complex
       behavior or planning, instead reacting to environmental stimuli through its
       sensory adaptations and spore dispersal mechanisms.
     behavior_it: Agisce seguendo istinti semplici, senza pianificazione né linguaggio,
@@ -230,11 +230,11 @@ blight_micotico:
     habitat_it: Si sviluppa prevalentemente in foreste temperate, dove la umidità
       e la presenza di materiale organico morto favoriscono la sua crescita e la diffusione
       delle spore.
-    origin_en: The blight_micotico species originated within temperate forest ecosystems,
+    origin_en: The Blight Micotico species originated within temperate forest ecosystems,
       evolving as a pathogenic fungus to exploit the dense biomass and nutrient cycles
       of these environments. Its development was driven by the need to decompose organic
       matter efficiently and propagate through spore dispersal.
-    origin_it: Il blight micotico si origina naturalmente nei boschi temperati, dove
+    origin_it: Il Piaga Micotica si origina naturalmente nei boschi temperati, dove
       si è evoluto come parassita delle piante superiori, sfruttando la materia organica
       morta per sopravvivere e riprodursi.
     trait_narrative:
@@ -278,14 +278,15 @@ cactus_weaver:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The cactus weaver operates through instinctual behaviors, focusing
+    behavior_en: The Cactus Weaver operates through instinctual behaviors, focusing
       on the continuous weaving of its root and stem networks. It does not engage
       in complex social interactions or planning, but its actions are crucial for
       maintaining the ecological balance of the desert environment.
-    behavior_it: Il cactus weaver opera in squadre per creare reti di radici e fusti
-      succulenti, che catturano e redistribuiscono l'umidità. Queste strutture forniscono
-      un ambiente protetto per la fauna e contribuiscono al bilancio idrico del deserto.
-    evolutionary_niche_en: As a hydro-engineer producer, the cactus weaver has evolved
+    behavior_it: Il Tessitore di Cactus opera in squadre per creare reti di radici
+      e fusti succulenti, che catturano e redistribuiscono l'umidità. Queste strutture
+      forniscono un ambiente protetto per la fauna e contribuiscono al bilancio idrico
+      del deserto.
+    evolutionary_niche_en: As a hydro-engineer producer, the Cactus Weaver has evolved
       to be a key player in the desert ecosystem. Its specialized adaptations allow
       it to efficiently capture and redistribute water, creating stable microclimates
       that sustain life in an otherwise harsh environment.
@@ -299,43 +300,43 @@ cactus_weaver:
     habitat_it: Si trova in ambienti desertici caldi, dove le sue radici fittonanti
       si estendono verso le lenti d'acqua sotterranee, creando isole d'ombra che supportano
       la fauna locale.
-    origin_en: The cactus weaver is native to the hot desert biome, where it has evolved
+    origin_en: The Cactus Weaver is native to the hot desert biome, where it has evolved
       to thrive in extreme arid conditions. Its unique ability to weave succulent
       stems and root networks allows it to create microhabitats that support both
       itself and other desert organisms.
-    origin_it: Il cactus weaver è originario di deserti caldi, dove ha sviluppato
+    origin_it: Il Tessitore di Cactus è originario di deserti caldi, dove ha sviluppato
       adattamenti unici per sopravvivere alle condizioni estreme. La sua evoluzione
       ha portato alla formazione di strutture complesse di fusti e radici, che permettono
       di catturare e redistribuire l'acqua sotterranea.
     trait_narrative:
-    - text_en: The cactus weaver's waxy cuticles trap moisture from the air, allowing
+    - text_en: The Cactus Weaver's waxy cuticles trap moisture from the air, allowing
         it to thrive in the scorching desert heat.
       text_it: Le cuticole cerose si intrecciano con i fusti spinosi, formando una
         barriera impermeabile che cattura l'umidità dell'aria e la converte in energia.
       trait_id: cuticole_cerose
-    - text_en: The thermal fats within the cactus weaver's body help insulate it against
+    - text_en: The thermal fats within the Cactus Weaver's body help insulate it against
         the extreme temperatures of its arid habitat.
       text_it: I grassi termici si accumulano nelle radici fittonanti, agendo come
         serbatoi termici che mantengono la temperatura corporea stabile durante le
         notti fredde.
       trait_id: grassi_termici
-    - text_en: The porous skin of the cactus weaver contains air sacs that provide
+    - text_en: The porous skin of the Cactus Weaver contains air sacs that provide
         a lightweight thermal barrier, reducing heat transfer in dry conditions.
       text_it: Le pelli cave, con le loro sacche d'aria, riducono il trasferimento
         di calore, permettendo al Tessitore di Cactus di sopravvivere alle temperature
         estreme del deserto.
       trait_id: pelli_cave
-    - text_en: The auroral pigments on the cactus weaver's skin fluoresce under polar
+    - text_en: The auroral pigments on the Cactus Weaver's skin fluoresce under polar
         light or magnetic storms, helping it blend with atmospheric flashes.
       text_it: I pigmenti aurorali brillano sotto le tempeste magnetiche, mimetizzando
         il Tessitore di Cactus tra i bagliori elettrici del cielo.
       trait_id: pigmenti_aurorali
-    - text_en: The thermal shock proteins in the cactus weaver's cells stabilize proteins
+    - text_en: The thermal shock proteins in the Cactus Weaver's cells stabilize proteins
         under heat stress, preventing cellular denaturation during temperature spikes.
       text_it: Le proteine shock termico si attivano durante i picchi di calore, proteggendo
         le cellule dalle denaturazioni e mantenendo la funzionalità dei tessuti.
       trait_id: proteine_shock_termico
-    - text_en: The root capillary networks of the cactus weaver remove heat and exchange
+    - text_en: The root capillary networks of the Cactus Weaver remove heat and exchange
         fluids with plant substrates, regulating its basal body temperature.
       text_it: Le reti capillari radici trasmettono calore e scambiano fluidi con
         le piante circostanti, creando un sistema di regolazione termica naturale.
@@ -376,14 +377,14 @@ chemnotela_toxica:
       adaptations.
     habitat_it: Questi ragni vivono in foreste acide dove la cuticola lucida con bande
       metalliche li protegge dall'ambiente corrosivo.
-    origin_en: The Chemnotela toxica, or Aracnide Alchemico, originated in the acidic
+    origin_en: The Chemnotela Toxica, or Aracnide Alchemico, originated in the acidic
       forests where it evolved to produce industrial-grade acid biologically as a
       defensive and predatory mechanism.
-    origin_it: L'Aracnide Alchemico, noto scientificamente come Chemnotela toxica,
+    origin_it: L'Aracnide Alchemico, noto scientificamente come Aracnide Alchemico,
       è evoluto nelle foreste acide, sviluppando un acido industriale biologico per
       difesa e caccia.
     trait_narrative:
-    - text_en: The Chemnotela toxica's idra-cidal fangs effortlessly corrode through
+    - text_en: The Chemnotela Toxica's idra-cidal fangs effortlessly corrode through
         both flesh and metal, leaving behind a trail of decay.
       text_it: Le zanne idrauliche dell'Aracnide Alchemico corrodono rapidamente la
         corteccia degli alberi della foresta acida.
@@ -431,26 +432,26 @@ cryo_lynx:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: As an ambush predator, the cryo_lynx uses its polar twilight-adapted
+    behavior_en: As an ambush predator, the Cryo Lynx uses its polar twilight-adapted
       eyes and magnetic resonance olfaction to locate and strike prey on ice surfaces.
     behavior_it: Predatore da agguato, utilizza la sua pelliccia termo-isolante e
       gli artigli multipli per catturare prede su superfici ghiacciate.
-    evolutionary_niche_en: The cryo_lynx occupies the apex predator niche in cryosteppe
+    evolutionary_niche_en: The Cryo Lynx occupies the apex predator niche in cryosteppe
       ecosystems, relying on its multi-clawed paws, variable carapace, and adaptive
       cryostasis to dominate its environment.
     evolutionary_niche_it: Occupa la nicchia di apex predator nella criosteppe, con
       una strategia di sopravvivenza basata sull'adattamento al freddo e all'ambiente
       estremo.
-    habitat_en: The cryo_lynx inhabits cryosteppe regions, utilizing its molla-spring
+    habitat_en: The Cryo Lynx inhabits cryosteppe regions, utilizing its molla-spring
       legs and thermal insulation to navigate and survive in harsh, icy conditions.
     habitat_it: Si trova esclusivamente nelle cryosteppe, dove il suo metabolismo
       adattivo e le zampe a molla gli permettono di sopravvivere alle temperature
       estreme.
-    origin_en: Cryo_lynx originated in the cryosteppe biome, evolving to thrive in
+    origin_en: Cryo Lynx originated in the cryosteppe biome, evolving to thrive in
       extreme cold environments through adaptive metabolism and specialized physical
       traits.
-    origin_it: La specie cryo_lynx ha origini nel periodo mesozoico, adattandosi a
-      climi estremi attraverso mutazioni genetiche progressive.
+    origin_it: La specie Lince Criogenica ha origini nel periodo mesozoico, adattandosi
+      a climi estremi attraverso mutazioni genetiche progressive.
     trait_narrative:
     - text_en: Multiple claws allow the cryogenic lynx to securely catch its prey
         on uneven ice.
@@ -496,19 +497,19 @@ dune_stalker:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Dune Stalkers exhibit group coordination through a shared biofilm
+    behavior_en: Dune Stalker exhibit group coordination through a shared biofilm
       that synchronizes with allied organisms, while also adapting to their environment
       through various behavioral axes like environmental adaptation and ferocity under
       stress.
-    behavior_it: Il dune_stalker si muove in branchi coordinati, condividendo informazioni
+    behavior_it: Il Dune Stalker si muove in branchi coordinati, condividendo informazioni
       cruciali tra i membri del gruppo e utilizzando tattiche complesse per cacciare
       e difendersi. La sua ferocia aumenta quando è sotto stress, facilitando attacchi
       ripetuti.
-    evolutionary_niche_en: As apex predators, Dune Stalkers fill the niche by utilizing
+    evolutionary_niche_en: As apex predators, Dune Stalker fill the niche by utilizing
       sophisticated sensory capabilities and physical adaptations, including geomagnetic
       sensing and an elastic amorphous structure, which enable them to hunt efficiently
       in multiple biomes.
-    evolutionary_niche_it: Il dune_stalker occupa la nicchia di predatore, con un
+    evolutionary_niche_it: Il Dune Stalker occupa la nicchia di predatore, con un
       comportamento adattato all'ambiente e una coordinazione di gruppo che gli permette
       di cacciare efficacemente in vari biomi.
     habitat_en: Preferring the vast openness of savana, yet capable of navigating
@@ -517,94 +518,94 @@ dune_stalker:
     habitat_it: Questo predatore vive prevalentemente nelle savane, ma può anche adattarsi
       alle pianure salinate e alle foreste acide grazie alla sua capacità di modificare
       la propria fisiologia per sopravvivere in diverse condizioni ambientali.
-    origin_en: The Dune_Stalker is native to the savana, where it evolved to become
+    origin_en: The Dune Stalker is native to the savana, where it evolved to become
       a predator suited for hunting in open areas and on uneven terrain.
-    origin_it: Il dune_stalker è originario delle savane, dove si è evoluto per diventare
+    origin_it: Il Dune Stalker è originario delle savane, dove si è evoluto per diventare
       un predatore adatto a cacciare in aree aperte e su terreni irregolari.
     trait_narrative:
     - text_en: The Dune Stalker's multiple claws securely gripped the jagged rocks
         as it scaled the steep cliff.
-      text_it: Il dune_stalker si aggrappa saldamente alla roccia ruvida grazie ai
+      text_it: Il Dune Stalker si aggrappa saldamente alla roccia ruvida grazie ai
         suoi artigli multipli.
       trait_id: artigli_sette_vie
     - text_en: Evolving through its savana terrain, the Dune Stalker morphed its form
         to slip through tight rocky crevices.
-      text_it: Il corpo amorfo del dune_stalker si estende per sfuggire alla presa
+      text_it: Il corpo amorfo del Dune Stalker si estende per sfuggire alla presa
         di un avversario.
       trait_id: struttura_elastica_amorfa
     - text_en: As water became scarce during the dry season, the Dune Stalker's porous
         bones adjusted its internal fluid levels for survival.
-      text_it: Modulando il contenuto idrico delle sue ossa porose, il dune_stalker
+      text_it: Modulando il contenuto idrico delle sue ossa porose, il Dune Stalker
         cambia massa per adattarsi meglio all'ambiente.
       trait_id: scheletro_idro_regolante
     - text_en: The Dune Stalker used its geomagnetic crystals to navigate through
         invisible magnetic pathways across the savana.
-      text_it: I cristalli cranici del dune_stalker mappano i corridoi geomagnetici
+      text_it: I cristalli cranici del Dune Stalker mappano i corridoi geomagnetici
         invisibili della savana.
       trait_id: sensori_geomagnetici
     - text_en: With a powerful whip of its kinetic tail, the Dune Stalker delivered
         a devastating strike against its prey.
-      text_it: La coda elastica del dune_stalker si accumula di slancio per poi colpire
+      text_it: La coda elastica del Dune Stalker si accumula di slancio per poi colpire
         con forza devastante un preda.
       trait_id: coda_frusta_cinetica
     - text_en: By adjusting its buoyancy sacs, the Dune Stalker controlled its ascent
         and descent through the air with ease.
-      text_it: Le sacche gassose regolabili del dune_stalker permettono all'animale
+      text_it: Le sacche gassose regolabili del Dune Stalker permettono all'animale
         di controllare il proprio assetto e profondità in acqua.
       trait_id: sacche_galleggianti_ascensoriali
     - text_en: During the harsh winter months, the Dune Stalker entered an adaptive
         cryo state to survive until conditions improved.
-      text_it: Durante le stagioni estreme, il dune_stalker entra in criostasi adattativa,
+      text_it: Durante le stagioni estreme, il Dune Stalker entra in criostasi adattativa,
         riducendo drasticamente i suoi processi metabolici.
       trait_id: criostasi_adattiva
     - text_en: The Dune Stalker's heat-exchanging lamellae expelled hot air as it
         emerged from its sun-baked den.
-      text_it: Le lamelle respiratorie del dune_stalker deviano rapidamente i gas
+      text_it: Le lamelle respiratorie del Dune Stalker deviano rapidamente i gas
         estremi entrando e uscendo dal suo corpo con gradienti termici intensi.
       trait_id: lamelle_termoforetiche
-    - text_en: The pack of Dune Stalkers moved in unison, their shared defensive reactions
+    - text_en: The pack of Dune Stalker moved in unison, their shared defensive reactions
         amplifying each member's alertness to danger.
-      text_it: Il legame di branco del dune_stalker amplifica le reazioni difensive
+      text_it: Il legame di branco del Dune Stalker amplifica le reazioni difensive
         collettive quando un membro sente il pericolo.
       trait_id: legame_di_branco
     - text_en: Under threat, the Dune Stalker entered a ferocious state, increasing
         its aggression and delivering successive powerful attacks on its enemies.
-      text_it: Quando sotto stress, il dune_stalker entra in uno stato psicofisico
+      text_it: Quando sotto stress, il Dune Stalker entra in uno stato psicofisico
         ferocio che aumenta l'aggressività e la potenza offensiva.
       trait_id: ferocia
-    - text_en: The hyper-tough biofilm of dune_stalker allows its teams to synchronize
+    - text_en: The hyper-tough biofilm of Dune Stalker allows its teams to synchronize
         allies' organisms within the savana.
-      text_it: Il biofilm iperarido del dune_stalker permette alle sue squadre di
+      text_it: Il biofilm iperarido del Dune Stalker permette alle sue squadre di
         sincronizzare organismi alleati all'interno della savana.
       trait_id: biofilm_iperarido
     - text_en: The Dune Stalker's dustsense antennae stabilize the absorption of multiple
         sources in the desert environment.
-      text_it: Le antenne dustsense del dune_stalker stabilizzano l'assorbimento multi-fonte
+      text_it: Le antenne dustsense del Dune Stalker stabilizzano l'assorbimento multi-fonte
         nell'ambiente desertoico.
       trait_id: antenne_dustsense
-    - text_en: The receptive antennae of the dune_stalker synchronize mutualistic
+    - text_en: The receptive antennae of the Dune Stalker synchronize mutualistic
         flows with allied organisms within the savana.
-      text_it: Le antenne reagenti del dune_stalker sincronizzano i flussi mutualistici
+      text_it: Le antenne reagenti del Dune Stalker sincronizzano i flussi mutualistici
         con organismi alleati all'interno della savana.
       trait_id: antenne_reagenti
-    - text_en: The rear-mounted twin counteractive tail of the Dune_Stalker disperses
+    - text_en: The rear-mounted twin counteractive tail of the Dune Stalker disperses
         energy to mitigate corrosive or thermal impacts.
-      text_it: La coda coppia retroattiva del dune_stalker disperde energia per attenuare
+      text_it: La coda coppia retroattiva del Dune Stalker disperde energia per attenuare
         impatti corrosivi o termici.
       trait_id: coda_coppia_retroattiva
-    - text_en: The bifurcated cortex of Dune_Stalker allows for active surveillance
+    - text_en: The bifurcated cortex of Dune Stalker allows for active surveillance
         of two threats simultaneously.
-      text_it: Il cortex biforcato del dune_stalker permette di sorvegliare attivamente
+      text_it: Il cortex biforcato del Dune Stalker permette di sorvegliare attivamente
         due minacce contemporaneamente.
       trait_id: focus_frazionato
     - text_en: The resonance of a pack amplifies the shared buffs among members of
-        the dune_stalker pack.
+        the Dune Stalker pack.
       text_it: La risonanza di branco amplifica i buff condivisi tra i membri del
-        branco del dune_stalker.
+        branco del Dune Stalker.
       trait_id: risonanza_di_branco
-    - text_en: Group tactics in Dune_Stalker coordinate shared focuses and shared
+    - text_en: Group tactics in Dune Stalker coordinate shared focuses and shared
         captures within the team.
-      text_it: Le tattiche di branco del dune_stalker coordinano i focus e le prese
+      text_it: Le tattiche di branco del Dune Stalker coordinano i focus e le prese
         condivise all'interno del gruppo.
       trait_id: tattiche_di_branco
   lore_review_status: generated_pending_review
@@ -626,14 +627,14 @@ echo_wing:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Echo_wings use internal sonar and infrared vision for navigation,
+    behavior_en: Echo Wing use internal sonar and infrared vision for navigation,
       following thermal trails to locate cryptoflora. They feed by pollinating hidden
       plants and dispersing seeds across calanchi. Their hemispheric alternated sleep
       allows them to rest while remaining alert to environmental changes.
     behavior_it: Naviga utilizzando un eco-oriented planation con sonar interno e
       visione infrarossa, impollinando la cripto-flora e disperdendo semi tra i calanchi.
       Il sonno emisferico alternato permette di ridurre i rischi in ambienti pericolosi.
-    evolutionary_niche_en: The echo_wing occupies a unique niche as a pollinator and
+    evolutionary_niche_en: The Echo Wing occupies a unique niche as a pollinator and
       seed disperser in rocky landscapes. Its eco-oriented navigation and tactile
       tongue enable it to exploit cryptoflora, while its specialized adaptations allow
       it to thrive in extreme thermal and geological conditions. This niche is crucial
@@ -641,19 +642,19 @@ echo_wing:
     evolutionary_niche_it: Occupa una nicchia evolutiva specifica come pollinatore
       e dispersore di semi in ambienti rocciosi, sfruttando le risorse limitate del
       badlands senza competere con specie più avanzate.
-    habitat_en: Echo_wings are adapted to rocky badlands, where they exploit thermal
-      currents and infrared-guided navigation. Their translucent membranes and sacche_galleggianti_ascensoriali
-      allow them to remain airborne in unstable thermal conditions. They inhabit areas
-      with sparse vegetation and exposed calanchi structures.
+    habitat_en: Echo Wing are adapted to rocky badlands, where they exploit thermal
+      currents and infrared-guided navigation. Their translucent membranes and Elevating
+      Buoyancy Sacs allow them to remain airborne in unstable thermal conditions.
+      They inhabit areas with sparse vegetation and exposed calanchi structures.
     habitat_it: Vive in ambienti rocciosi e aridi, dove la cripto-flora cresce in
       nicchie protette e i calanchi offrono spazi per la dispersione dei semi. La
       sua biologia è ottimizzata per sopravvivere in questi ecosistemi estremi.
-    origin_en: The echo_wing species evolved in the harsh badlands, developing specialized
+    origin_en: The Echo Wing species evolved in the harsh badlands, developing specialized
       traits to thrive in rocky, thermally variable environments. Its eco-oriented
       navigation and sensory adaptations emerged from the need to locate cryptoflora
       and navigate extreme terrain. The species' ecological role as a pollinator and
       seed disperser became central to its evolutionary path.
-    origin_it: La specie echo_wing ha origini in ambienti rocciosi estremi, adattandosi
+    origin_it: La specie Ala d'Eco ha origini in ambienti rocciosi estremi, adattandosi
       a lungo termine alle condizioni difficili del badlands. Il suo sviluppo evolutivo
       si è concentrato su una nicchia di impollinazione e dispersione di semi tra
       i calanchi, senza intervento intellettivo avanzato.
@@ -703,14 +704,13 @@ elastovaranus_hydrus:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Guided by cutaneous seismic organs, Elastovaranus hydrus strikes
+    behavior_en: Guided by cutaneous seismic organs, Elastovaranus Hydrus strikes
       swiftly with a lithe rostrum that inoculates multiple toxins and enzymes. It
       also uses these attacks to aspirate fluids post impact.
-    behavior_it: L'Elastovaranus hydrus si muove in modo semiflessibile, pronto allo
-      scatto, utilizzando la sua sensibilità sismica attraverso gli organi cutanei
-      per localizzare prede nascoste e attaccare con un rostro tubulare che inocula
-      tossine ed enzimi.
-    evolutionary_niche_en: Elastovaranus hydrus fills an ecological niche where rapid-fire
+    behavior_it: L'Viverna-Elastico si muove in modo semiflessibile, pronto allo scatto,
+      utilizzando la sua sensibilità sismica attraverso gli organi cutanei per localizzare
+      prede nascoste e attaccare con un rostro tubulare che inocula tossine ed enzimi.
+    evolutionary_niche_en: Elastovaranus Hydrus fills an ecological niche where rapid-fire
       projectile attacks enable it to prey on or defend against threats in expansive,
       arid saline environments.
     evolutionary_niche_it: L'evoluzione di questo rettile ha portato allo sviluppo
@@ -723,12 +723,12 @@ elastovaranus_hydrus:
     habitat_it: Questo rettile vive nelle pianure salmastre iperaride, dove la sua
       capacità di muoversi rapidamente e attaccare con precisione è essenziale per
       cacciare e sopravvivere in un ambiente scarsamente fornito di risorse.
-    origin_en: Elastovaranus hydrus, known as the Elastic Viverna, originated in hyper-arid
+    origin_en: Elastovaranus Hydrus, known as the Elastic Viverna, originated in hyper-arid
       salt plains where its unique projectile attacks and extended rostrum provide
       an evolutionary advantage.
-    origin_it: L'Elastovaranus hydrus, noto come Viverna-Elastico, evoluto in aree
-      iperaride salmastre, ha sviluppato un'unica strategia di sopravvivenza basata
-      sull'attacco a proiettile rapido e preciso per adattarsi all'ambiente ostile.
+    origin_it: L'Viverna-Elastico, noto come Viverna-Elastico, evoluto in aree iperaride
+      salmastre, ha sviluppato un'unica strategia di sopravvivenza basata sull'attacco
+      a proiettile rapido e preciso per adattarsi all'ambiente ostile.
     trait_narrative:
     - text_en: The Elastovaranus Hydrus extends its rigid tubular rostrum to inject
         multiple toxins and enzymes into its prey before retracting to suction fluids.
@@ -738,19 +738,19 @@ elastovaranus_hydrus:
       trait_id: rostro_emostatico_litico
     - text_en: With hollow bones pressurized like pistons, the Elastovaranus Hydrus
         delivers swift projectile strikes from its head.
-      text_it: Grazie al suo scheletro idraulico a pistoni, l'Elastovaranus hydrus
-        poté scagliare il cranio avanti con uno scatto fulmineo, colpendo la preda
-        con precisione micidiale.
+      text_it: Grazie al suo scheletro idraulico a pistoni, l'Viverna-Elastico poté
+        scagliare il cranio avanti con uno scatto fulmineo, colpendo la preda con
+        precisione micidiale.
       trait_id: scheletro_idraulico_a_pistoni
     - text_en: Massive hypertrophy of muscles allows the Elastovaranus Hydrus to exert
         powerful bursts of strength and speed for short durations.
-      text_it: Le fibre muscolari ipertrofiche dell'Elastovaranus hydrus si contrassero
+      text_it: Le fibre muscolari ipertrofiche dell'Viverna-Elastico si contrassero
         in un attimo, generando una forza tremenda che permise alla creatura di spingere
         il suo corpo attraverso la pianura salina.
       trait_id: ipertrofia_muscolare_massiva
     - text_en: The Elastovaranus Hydrus generates rapid body heat through microscopic
         isometric contractions, boosting performance in cooler climates.
-      text_it: Mentre l'Elastovaranus hydrus si preparava all'attacco, le sue microscosse
+      text_it: Mentre l'Viverna-Elastico si preparava all'attacco, le sue microscosse
         isometriche innalzarono rapidamente la sua temperatura corporea, permettendogli
         di raggiungere i picchi prestazionali necessari per cacciare nel freddo clima
         della pianura salina iperarida.
@@ -975,7 +975,7 @@ fusomorpha_palustris:
       amoeboid flow and metalloid gills to move and interact with its environment.
       Its social intelligence and ability to change form make it a highly adaptable
       being.
-    behavior_it: La Fusomorpha Palustris mostra comportamenti complessi come la fagocitosi
+    behavior_it: La Fusomorfa Palustre mostra comportamenti complessi come la fagocitosi
       assorbente, che non solo serve per l'alimentazione ma anche per l'apprendimento.
       Utilizza il flus, il flusso ameboide controllato e le branchie metalloidi per
       muoversi e interagire con l'ambiente. La sua intelligenza sociale e la sua capacità
@@ -1003,8 +1003,8 @@ fusomorpha_palustris:
       where it has developed a unique ecological niche based on absorptive phagocytosis
       and controlled amoeboid flow. Its evolution has led to a highly adaptable form
       capable of surviving and thriving in moist, saline environments.
-    origin_it: La specie Fusomorpha Palustris è originaria delle paludi salmastre,
-      dove ha sviluppato una nicchia ecologica unica basata sulla fagocitosi assorbente
+    origin_it: La specie Fusomorfa Palustre è originaria delle paludi salmastre, dove
+      ha sviluppato una nicchia ecologica unica basata sulla fagocitosi assorbente
       e il flusso ameboide controllato. La sua evoluzione ha portato a una forma altamente
       adattativa, in grado di sopravvivere e prosperare in ambienti umidi e salini.
     trait_narrative:
@@ -1117,7 +1117,7 @@ gulogluteus_scutiger:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The gulogluteus_scutiger employs a prehensile tail for balance and
+    behavior_en: The Gulogluteus Scutiger employs a prehensile tail for balance and
       hanging, along with a long-range manipulative tongue for feeding. Its multi-axial
       joints allow it to perform tight maneuvers in narrow spaces.
     behavior_it: Il Ghiotton-Scudo si distingue per l'uso della lingua prensile e
@@ -1125,9 +1125,9 @@ gulogluteus_scutiger:
       o controbilanciare durante le manovre in spazi angusti, mentre la sua placca
       dorsocheratinizzata fornisce una difesa passiva efficace.
     evolutionary_niche_en: Specialized as a mammal adapted to canyonous environments,
-      the gulogluteus_scutiger uses its robust gluteal shield and hydrophobic pelage
+      the Gulogluteus Scutiger uses its robust gluteal shield and hydrophobic pelage
       to protect itself while foraging and navigating through challenging terrains.
-    evolutionary_niche_it: Nell'ecologia canyonosa, il Gulogluteus Scutiger ha sviluppato
+    evolutionary_niche_it: Nell'ecologia canyonosa, il Ghiotton-Scudo ha sviluppato
       un ruolo specializzato grazie alla sua capacità di stabilizzare posizioni precarie
       con la coda e manipolare oggetti da distanze ravvicinate usando una lingua prensile,
       consentendogli di sfruttare risorse alimentari inaccessibili ad altre specie.
@@ -1136,15 +1136,15 @@ gulogluteus_scutiger:
     habitat_it: Questo mammifero robusto vive esclusivamente in aree canyonose caratterizzate
       da strettoie e pareti ripidissime, dove la sua pelliccia scura lucida ed idrofoba
       gli consente di muoversi con facilità su superfici verticali.
-    origin_en: The gulogluteus_scutiger, commonly known as the Ghiotton-Scudo, originated
+    origin_en: The Gulogluteus Scutiger, commonly known as the Ghiotton-Scudo, originated
       in resonant canyon biomes where its robust and specialized features evolved
       to thrive.
-    origin_it: Il Gulogluteus Scutiger, noto comunemente come Ghiotton-Scudo, ha evoluto
+    origin_it: Il Ghiotton-Scudo, noto comunemente come Ghiotton-Scudo, ha evoluto
       nel tempo per adattarsi alle complesse geometrie dei canyons risonanti, dove
       la sua struttura anatomicamente unica gli permette di sfruttare i ristretti
       spazi e le sfide ambientali.
     trait_narrative:
-    - text_en: The Gulogluteus scutiger's sleek, shiny coat easily repelled the spray
+    - text_en: The Gulogluteus Scutiger's sleek, shiny coat easily repelled the spray
         from a nearby waterfall in the resonant canyons.
       text_it: Il Ghiotton-Scudo si arrampicò fuori dall'acqua del ruscello, la sua
         pelliccia scura e lucida idrofoba scintillò mentre si scrollava, isolandolo
@@ -1156,7 +1156,7 @@ gulogluteus_scutiger:
         difensiva, sollevando la sua regione glutea corazzata in rilievo per assorbire
         eventuali impatti posteriori.
       trait_id: scudo_gluteale_cheratinizzato
-    - text_en: Navigating the narrow crevices of the canyon, the Gulogluteus scutiger
+    - text_en: Navigating the narrow crevices of the canyon, the Gulogluteus Scutiger
         rotated its limbs with ease through multi-axial joints.
       text_it: Il Ghiotton-Scudo muoveva con grazia le sue zampe corte e molto mobili,
         ruotandole in manovre intricate per attraversare il canyon stretto.
@@ -1166,7 +1166,7 @@ gulogluteus_scutiger:
       text_it: Affidandosi alla sua coda spessa prensile, il Ghiotton-Scudo si controbilanciò
         mentre arrampicava su una parete rocciosa del canyon.
       trait_id: coda_prensile_muscolare
-    - text_en: The Gulogluteus scutiger extended its long, muscular tongue to grasp
+    - text_en: The Gulogluteus Scutiger extended its long, muscular tongue to grasp
         and manipulate objects at a distance with precision.
       text_it: Con grande destrezza, il Ghiotton-Scudo estese la sua lingua prensile
         all'esterno del suo nascondiglio roccioso e afferrò un frutto lontano.
@@ -1217,88 +1217,88 @@ leviatano_risonante:
       abissale sinaptica, evolvendosi in ambienti caratterizzati da intense pressioni
       e shear gravitazionali.
     trait_narrative:
-    - text_en: The leviatano risonante's internal chambers amplify electrical and
+    - text_en: The Leviatano Risonante's internal chambers amplify electrical and
         gravitational waves, enhancing its deep communication within the frattura_abissale_sinaptica.
-      text_it: Il leviatano risonante risuonava attraverso le sue caverne interne,
+      text_it: Il Leviatano Risonante risuonava attraverso le sue caverne interne,
         amplificando onde elettriche e gravitazionali per comunicare con i suoi simili
         nascosti nelle profondità oceaniche.
       trait_id: camere_risonanza_abyssal
-    - text_en: Its emettitori_voidsong organs emit deep chorus sounds to stabilize
-        shear in their environment, a critical function for survival in the abyssal
-        fracture biome.
-      text_it: Gli emettitori voidsong del leviatano risonante producevano cori a
+    - text_en: Its Voidsong Emitters organs emit deep chorus sounds to stabilize shear
+        in their environment, a critical function for survival in the abyssal fracture
+        biome.
+      text_it: Gli emettitori voidsong del Leviatano Risonante producevano cori a
         frequenze profonde, creando un'armonia che stabilizzava la shear nella frattura
         abissale sinaptica.
       trait_id: emettitori_voidsong
-    - text_en: The leviatano risonante is protected by iron magnetite plates that
+    - text_en: The Leviatano Risonante is protected by iron magnetite plates that
         guide deep magnetic fields, shielding it from external disturbances within
         its biome.
-      text_it: Le corazze di ferro magnetico del leviatano risonante guidavano campi
+      text_it: Le corazze di ferro magnetico del Leviatano Risonante guidavano campi
         magnetici profondi, proteggendolo dalle forze abissali e integrando la sua
         struttura robusta.
       trait_id: corazze_ferro_magnetico
     - text_en: Bioantennae read gravitational shear and convert these forces into
-        signals for the leviatano risonante's advanced cognitive functions.
-      text_it: Le bioantenne gravitiche del leviatano risonante catturavano i shear
+        signals for the Leviatano Risonante's advanced cognitive functions.
+      text_it: Le bioantenne gravitiche del Leviatano Risonante catturavano i shear
         gravitazionali della frattura abissale sinaptica e li convertivano in segnali
         utilizzabili.
       trait_id: bioantenne_gravitiche
-    - text_en: The conductive blood of the leviatano risonante accumulates charge
+    - text_en: The conductive blood of the Leviatano Risonante accumulates charge
         and drains enemy energy, enhancing its combat effectiveness.
-      text_it: L'emolinfa conduttrice del leviatano risonante accumulava cariche energetiche,
+      text_it: L'emolinfa conduttrice del Leviatano Risonante accumulava cariche energetiche,
         drenando energia nemica e trasformandola in forza per la creatura.
       trait_id: emolinfa_conducente
     - text_en: Pressure plates disperse abyssal pressure and reduce trauma on the
-        leviatano risonante, allowing it to withstand extreme conditions.
-      text_it: Le placche pressioniche del leviatano risonante disperdevano la forte
+        Leviatano Risonante, allowing it to withstand extreme conditions.
+      text_it: Le placche pressioniche del Leviatano Risonante disperdevano la forte
         pressione abissale, riducendo il trauma fisico che avrebbe potuto causare
         danni alla sua struttura.
       trait_id: placche_pressioniche
     - text_en: Echo filaments relay squad frequencies and attenuate shear, maintaining
         cohesion within the group amidst environmental instability.
-      text_it: I filamenti echo del leviatano risonante rifrangevano le frequenze
+      text_it: I filamenti echo del Leviatano Risonante rifrangevano le frequenze
         di squadra all'interno della frattura abissale sinaptica, attenuando shear
         e migliorando la comunicazione tra i membri della specie.
       trait_id: filamenti_echo
     - text_en: Conductive spines absorb buffs and redistribute them throughout the
         organism, enhancing resilience and adaptability in hostile environments.
-      text_it: Le spicole canalizzatrici del leviatano risonante assorbivano gli effetti
+      text_it: Le spicole canalizzatrici del Leviatano Risonante assorbivano gli effetti
         negativi e li reindirizzavano, proteggendo la creatura dalle aggressioni ambientali.
       trait_id: spicole_canalizzatrici
     - text_en: Twilight resonant lobes filter unstable signals, helping to maintain
-        cognitive clarity for the leviatano risonante amidst chaotic conditions.
-      text_it: I lobi risonanti crepuscolo del leviatano risonante filtravano segnali
+        cognitive clarity for the Leviatano Risonante amidst chaotic conditions.
+      text_it: I lobi risonanti crepuscolo del Leviatano Risonante filtravano segnali
         instabili, mantenendo la stabilità interna della creatura durante i cambiamenti
         ambientali.
       trait_id: lobi_risonanti_crepuscolo
     - text_en: Piezoelectric-saturated skin accumulates electrical charge and reflects
         blows, providing an additional layer of defense against physical attacks.
-      text_it: La pelle piezo-satura del leviatano risonante accumulava carica piezoelettrica,
+      text_it: La pelle piezo-satura del Leviatano Risonante accumulava carica piezoelettrica,
         riflettendo colpi e riducendo l'impatto fisico di eventuali attacchi.
       trait_id: pelle_piezo_satura
-    - text_en: Resonant songs harmonize the group and reduce stress among leviatano
-        risonantes, fostering a cooperative environment within their squad.
-      text_it: Il canto risonante del leviatano risonante armonizzava il gruppo, diminuendo
+    - text_en: Resonant songs harmonize the group and reduce stress among Leviatano
+        Risonante, fostering a cooperative environment within their squad.
+      text_it: Il canto risonante del Leviatano Risonante armonizzava il gruppo, diminuendo
         lo stress e creando una connessione psionica all'interno della frattura abissale
         sinaptica.
       trait_id: canto_risonante
     - text_en: The black flash vortex creates an implosion followed by vacuum and
         short-range teleportation, allowing for rapid repositioning or escape.
-      text_it: Il vortice nera flash del leviatano risonante era un'implosione luminosa
+      text_it: Il vortice nera flash del Leviatano Risonante era un'implosione luminosa
         seguita da un vuoto temporaneo che permetteva alla creatura di teletrasportarsi
         brevemente.
       trait_id: vortice_nera_flash
     - text_en: Eco Mapping Glands allow the squad to interpret minute signals and
         unstable psionic patterns within the Synaptic Abyssal Fracture, enhancing
         their situational awareness.
-      text_it: Le ghiandole eco mappanti del leviatano risonante interpretavano segnali
+      text_it: Le ghiandole eco mappanti del Leviatano Risonante interpretavano segnali
         minuti e pattern psionici instabili, permettendo alle squadre di navigare
         all'interno della frattura abissale sinaptica.
       trait_id: ghiandole_eco_mappanti
-    - text_en: A multicamera low-pressure heart supports the leviatano risonante's
+    - text_en: A multicamera low-pressure heart supports the Leviatano Risonante's
         ability to interpret subtle signals in the Synaptic Abyssal Fracture and maintain
         group cohesion.
-      text_it: Il cuore multicamera bassa pressione del leviatano risonante pompe
+      text_it: Il cuore multicamera bassa pressione del Leviatano Risonante pompe
         fluidi vitali con efficacia, permettendo alle squadre di interpretare segnali
         minuti e pattern psionici instabili.
       trait_id: cuore_multicamera_bassa_pressione
@@ -1322,7 +1322,7 @@ lupus_temperatus:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Lupus_temperatus exhibits highly coordinated social behavior, utilizing
+    behavior_en: Lupus Temperatus exhibits highly coordinated social behavior, utilizing
       empathic networks and shared tactical protocols to enhance group hunting efficiency
       and survival.
     behavior_it: Operano in branco coordinato, con tattiche di caccia che sincronizzano
@@ -1337,10 +1337,10 @@ lupus_temperatus:
       as a keystone predator.
     habitat_it: Si trova in aree di foreste temperate con vegetazione fitta e corsi
       d'acqua, dove predila i corridoi fluviali per la caccia.
-    origin_en: The lupus_temperatus is a species native to temperate forests, where
+    origin_en: The Lupus Temperatus is a species native to temperate forests, where
       it evolved as a top predator within the ecosystem. Its evolutionary path is
       closely tied to the dense vegetation and river corridors of its habitat.
-    origin_it: Il lupus_temperatus si origina nei corridori fluviali delle foreste
+    origin_it: Il Lupo della Foresta si origina nei corridori fluviali delle foreste
       temperate, dove ha sviluppato un'adattamento sociale per cacciare i grandi erbivori.
     trait_narrative:
     - text_en: The wolves synchronize to protect the injured pup while the pack hunts.
@@ -1380,7 +1380,7 @@ magneto_ridge_hunter:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The magneto_ridge_hunter is a solitary predator that relies on ambush
+    behavior_en: The Magneto Ridge Hunter is a solitary predator that relies on ambush
       strategies. It uses its heightened sense of smell and good hearing to detect
       prey, while its limited vision is compensated by its ability to detect vibrations
       and movement in its environment.
@@ -1388,7 +1388,7 @@ magneto_ridge_hunter:
       il momento giusto per attaccare. La sua strategia di caccia si basa sull'ambush,
       sfruttando la sua capacità di mimetizzarsi e il suo olfatto acuto per individuare
       la preda.
-    evolutionary_niche_en: As a predator, the magneto_ridge_hunter occupies a niche
+    evolutionary_niche_en: As a predator, the Magneto Ridge Hunter occupies a niche
       in the badlands ecosystem, filling the role of a top-tier carnivore. Its survival
       depends on its ability to adapt to the harsh conditions and efficiently hunt
       prey in a low-light environment.
@@ -1396,14 +1396,14 @@ magneto_ridge_hunter:
       specifica nei badlands, specializzandosi nella caccia a specie che vivono intorno
       ai magneto ridges. La sua evoluzione ha portato a una forte dipendenza da questo
       ambiente per la sua sopravvivenza e riproduzione.
-    habitat_en: The magneto_ridge_hunter is adapted to live in the rough and rugged
+    habitat_en: The Magneto Ridge Hunter is adapted to live in the rough and rugged
       badlands, where it utilizes the terrain for ambush tactics. It specializes in
       hunting species found around magneto ridges, which are its primary food source.
     habitat_it: Si adatta perfettamente ai terreni rocciosi e difficili dei badlands,
       dove trova rifugio tra le crepe e i crepacci. La sua sopravvivenza è strettamente
       legata alla presenza di magneto ridges, che forniscono sia cibo che un ambiente
       adatto alla sua strategia di caccia.
-    origin_en: The magneto_ridge_hunter originated in the harsh badlands, evolving
+    origin_en: The Magneto Ridge Hunter originated in the harsh badlands, evolving
       to thrive in the extreme conditions of its environment. It is closely tied to
       the magnetic ridges, which provide both shelter and a rich hunting ground. Its
       evolution is shaped by the scarcity of resources and the need for efficient
@@ -1468,9 +1468,9 @@ nano_rust_bloom:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Driven by instinctual survival mechanisms, the nano_rust_bloom uses
-      its spore_psichiche_silenziate to subdue nearby organisms while its filamenti_digestivi_compattanti
-      process and recycle nutrients.
+    behavior_en: Driven by instinctual survival mechanisms, the Nano Rust Bloom uses
+      its Silent Psychic Spores to subdue nearby organisms while its Digestive Compaction
+      Filaments process and recycle nutrients.
     behavior_it: Operano in modo istintivo, seguendo pulsioni semplici legate alla
       ricerca di nutrienti e alla diffusione delle spore. Non mostrano pianificazione,
       ma agiscono in modo coordinato per colonizzare nuovi substrati.
@@ -1489,7 +1489,7 @@ nano_rust_bloom:
       dissolvere metalli e carne rende possibile la sua sopravvivenza in aree inospitali.
       La sua struttura coloniale si adatta alle condizioni di scarsa umidità e alta
       temperatura.
-    origin_en: The nano_rust_bloom is a naturally occurring phenomenon in the badlands,
+    origin_en: The Nano Rust Bloom is a naturally occurring phenomenon in the badlands,
       emerging from the interaction between mineral-rich soils and atmospheric moisture,
       forming a self-sustaining colony of decomposers.
     origin_it: Il Nano-Rust Bloom si è evoluto nei badlands, dove la scarsità di risorse
@@ -1545,7 +1545,7 @@ noctule_termico:
       impollinando i fiori notturni e contribuendo alla connessione tra le isole di
       vegetazione. Utilizza l'ecolocalizzazione per orientarsi nel buio.
     evolutionary_niche_en: Its evolutionary niche is centered around energy efficiency
-      in arid environments, with traits like cuticole_cerose and pelli_cave enabling
+      in arid environments, with traits like Cuticole Cerose and Hollow Skins enabling
       thermal regulation and multi-source energy conversion.
     evolutionary_niche_it: La Nottola Termica occupa una nicchia evolutiva specifica
       nel deserto caldo, combinando capacità di volo notturno, adattamenti termoregolatori
@@ -1555,7 +1555,7 @@ noctule_termico:
     habitat_it: Si trova prevalentemente in ambienti desertici caldi, dove si muove
       tra le isole di vegetazione, sfruttando le zone più fresche per riposare e ripararsi
       dal calore del sole.
-    origin_en: The noctule termico evolved in the deserto_caldo biome, adapting to
+    origin_en: The Noctule Termico evolved in the deserto_caldo biome, adapting to
       the extreme heat and limited resources through specialized physiological traits
       and nocturnal activity patterns.
     origin_it: La Nottola Termica ha origini evolutive nel deserto caldo, dove ha
@@ -1633,11 +1633,11 @@ perfusuas_pedes:
       and extracorporeal digestion.
     habitat_it: Si muove in ambienti sotterranei, dove la sua locomozione miriapode
       ibrida gli permette di aderire e arrampicarsi su qualsiasi superficie.
-    origin_en: The species perfusuas_pedes originated in the deep cavern systems,
+    origin_en: The species Perfusuas Pedes originated in the deep cavern systems,
       evolving to thrive in the dark, enclosed environments where vision is useless.
       Its evolutionary niche as a blind predator led to the development of advanced
       sonar and chemo-navigation systems.
-    origin_it: perfusuas_pedes è un membro del clade Bridge, originario delle profonde
+    origin_it: Zannapiedi è un membro del clade Bridge, originario delle profonde
       cavità sotterranee, adattandosi a un ambiente estremo con scarsa luce e spazi
       ristretti.
     trait_narrative:
@@ -1684,7 +1684,7 @@ polpo_araldo_sinaptico:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The polpo araldo sinaptico exhibits social coordination through bioluminescent
+    behavior_en: The Polpo Araldo Sinaptico exhibits social coordination through bioluminescent
       pulses, uses filament guides for hunting and navigation, and retains memory
       via mnemonic glands. It also reduces stress through resonant singing, which
       harmonizes the group and stabilizes its social structure.
@@ -1706,11 +1706,11 @@ polpo_araldo_sinaptico:
     habitat_it: Si muove attraverso le fratture abissali sinaptiche, dove le correnti
       elettriche e la luce bioluminescente interagiscono per creare un ambiente estremamente
       dinamico e pericoloso.
-    origin_en: The polpo araldo sinaptico is a keystone species that evolved within
+    origin_en: The Polpo Araldo Sinaptico is a keystone species that evolved within
       the frattura abissale sinaptica, a biome characterized by deep-sea synaptic
       fractures. Its evolutionary niche is rooted in the unique environmental pressures
       of this biome, which shaped its bioluminescent and electrostatic capabilities.
-    origin_it: Il polpo araldo sinaptico è un membro del clade Keystone, evoluto in
+    origin_it: Il Polpo Araldo Sinaptico è un membro del clade Keystone, evoluto in
       ambienti di frattura abissale sinaptica. La sua origine risale a colonie di
       predatori bioluminescenti che si sono adattate a sfruttare le proprietà elettriche
       del loro ambiente.
@@ -1793,10 +1793,10 @@ proteus_plasma:
     origin_en: The Proteus Plasma is a naturally occurring entity within swamp biomes,
       evolving from ancient protist-like organisms that adapted to the nutrient-rich,
       unstable environments of wetlands.
-    origin_it: Il Proteus Plasma è originario di paludi umide, dove ha evoluto la
-      sua capacità di adattarsi al continuo mutare delle condizioni ambientali. La
-      sua evoluzione è legata alla necessità di sopravvivere in ambienti ricchi di
-      nutrienti ma instabili.
+    origin_it: Il Mutaforma Cellulare è originario di paludi umide, dove ha evoluto
+      la sua capacità di adattarsi al continuo mutare delle condizioni ambientali.
+      La sua evoluzione è legata alla necessità di sopravvivere in ambienti ricchi
+      di nutrienti ma instabili.
     trait_narrative:
     - text_en: The creature continuously shapeshifts, assuming various forms and densities
         to adapt itself to its marshlike environment.
@@ -1842,36 +1842,36 @@ psionerva_montis:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The psionerva montis is a cryogenic climber, using its psionic horn
+    behavior_en: The Psionerva Montis is a cryogenic climber, using its psionic horn
       to navigate and defend itself, while its magnetic olfaction allows it to detect
       and track metal veins and magnetic anomalies in its environment.
-    behavior_it: La psionerva_montis si muove come un cryogenic_climber, utilizzando
+    behavior_it: La Psionerva Montano si muove come un cryogenic_climber, utilizzando
       la sua abilità di magnetic_olfaction per navigare attraverso la caldera glaciale.
       Le corna psico-conduttive captano le correnti ferromagnetiche, traducendo il
-      silenzio del ghiaccio in informazione navigabile, mentre il focus_frazionato
+      silenzio del ghiaccio in informazione navigabile, mentre il Focus Frazionato
       gli permette di mantenere due minacce in sorveglianza attiva.
-    evolutionary_niche_en: As a member of the Bridge clade, the psionerva montis occupies
+    evolutionary_niche_en: As a member of the Bridge clade, the Psionerva Montis occupies
       a unique evolutionary niche by combining cryogenic adaptation with psionic abilities,
       enabling it to exploit the resources and conditions of the caldera glaciale
       effectively.
-    evolutionary_niche_it: La psionerva_montis ha sviluppato una nicchia evolutiva
+    evolutionary_niche_it: La Psionerva Montano ha sviluppato una nicchia evolutiva
       unica all'interno della caldera glaciale, grazie alla sua capacità di adattare
       il metabolismo a condizioni di criostasi e alla sua abilità di comunicare e
       condividere energia con il branco. Questi adattamenti le permettono di sopravvivere
       e prosperare in un ambiente estremo e di sfruttare le risorse limitate del suo
       habitat.
     habitat_en: It inhabits the caldera glaciale, a biome characterized by its extreme
-      cold, magnetic fields, and the presence of metal veins, which the psionerva
-      montis uses for navigation and survival.
-    habitat_it: La psionerva_montis abita la caldera glaciale, un ambiente estremo
+      cold, magnetic fields, and the presence of metal veins, which the Psionerva
+      Montis uses for navigation and survival.
+    habitat_it: La Psionerva Montano abita la caldera glaciale, un ambiente estremo
       caratterizzato da temperature estremamente basse e una scarsità di risorse.
       La sua capacità di adattare il metabolismo a condizioni di criostasi gli permette
       di sopravvivere a stagioni estreme e di sfruttare le risorse limitate del suo
       habitat.
-    origin_en: The psionerva montis originated in the caldera glaciale, where its
+    origin_en: The Psionerva Montis originated in the caldera glaciale, where its
       unique adaptations to extreme cold and magnetic fields allowed it to thrive
       in an environment where few other species could survive.
-    origin_it: La specie psionerva_montis è originaria della caldera glaciale, un
+    origin_it: La specie Psionerva Montano è originaria della caldera glaciale, un
       ambiente estremo dove la sua evoluzione ha permesso di sviluppare adattamenti
       unici per sopravvivere al freddo estremo e alle condizioni psioniche. La sua
       origine è legata alla sua capacità di adattare il metabolismo a periodi di criostasi,
@@ -1880,23 +1880,23 @@ psionerva_montis:
     - text_en: The psychoconductive horns of the psyonerva mountain capture ferromagnetic
         currents, translating the silence of the ice into useful information for the
         pack.
-      text_it: Le corna psico-conduttive della psionerva montis captano le correnti
+      text_it: Le corna psico-conduttive della Psionerva Montano captano le correnti
         ferromagnetiche, traducendo il silenzio del ghiaccio in informazioni utili
         per il branco.
       trait_id: corna_psico_conduttive
     - text_en: Fragmented focus allows the mountain psychic to maintain two threats
         under active surveillance, increasing their response capacity.
-      text_it: Il focus frazionato permette alla psionerva montis di mantenere due
+      text_it: Il focus frazionato permette alla Psionerva Montano di mantenere due
         minacce sotto sorveglianza attiva, aumentando la sua capacità di risposta.
       trait_id: focus_frazionato
     - text_en: Adaptive cryostasis allows the mountaintop psychonerva to survive through
         prolonged extreme seasons, maintaining a suspended metabolism.
-      text_it: La criostasi adattiva permette alla psionerva montis di sopravvivere
+      text_it: La criostasi adattiva permette alla Psionerva Montano di sopravvivere
         a stagioni estreme prolungate, mantenendo un metabolismo sospeso.
       trait_id: criostasi_adattiva
     - text_en: The psychic of the mountain uses magnetic resonance smell to trace
         magnetic fields and metal veins, leading her through the landscape.
-      text_it: L'olfatto di risonanza magnetica permette alla psionerva montis di
+      text_it: L'olfatto di risonanza magnetica permette alla Psionerva Montano di
         tracciare campi magnetici e vene metalliche, guidandola attraverso il paesaggio.
       trait_id: olfatto_risonanza_magnetica
     - text_en: The shared energy metabolism allows the psyonerva mount to transfer
@@ -1909,7 +1909,7 @@ psionerva_montis:
     - text_en: Echoing whispers of twilight filter unstable signals, helping the psychonerve
         of the mountain navigate through the complexity of its environment.
       text_it: I lobi risonanti crepuscolari filtrano segnali instabili, aiutando
-        la psionerva montis a navigare tra le complessità del suo ambiente.
+        la Psionerva Montano a navigare tra le complessità del suo ambiente.
       trait_id: lobi_risonanti_crepuscolo
     - text_en: Tesla antennas allow psionerve mountain teams to redistribute loads
         and adjust structural rigidity within the glacial caldera.
@@ -1925,7 +1925,7 @@ psionerva_montis:
     - text_en: Frost claws freeze and lock onto the target upon contact, making the
         psycho-mountain predator efficient.
       text_it: Gli artigli sghiaccio-glaciale congelano e fissano il bersaglio al
-        contatto, rendendo la psionerva montis un predatore efficiente.
+        contatto, rendendo la Psionerva Montano un predatore efficiente.
       trait_id: artigli_sghiaccio_glaciale
     - text_en: Thermal anti-phase enzymes allow psychonerve mountain teams to gain
         controlled traction and acceleration on extreme terrains within the glacial
@@ -1981,7 +1981,7 @@ pulverator_gregarius:
     evolutionary_niche_en: As an apex species, the Gregarious Pulverator occupies
       a dominant role in its ecological niche, leveraging its ability to coordinate
       its pack and its effectiveness in hunting to maintain balance in its environment.
-    evolutionary_niche_it: Come specie apex, il pulverator_gregarius occupa un ruolo
+    evolutionary_niche_it: Come specie apex, il Razziatore di Polvere occupa un ruolo
       dominante nella sua nicchia ecologica, sfruttando la sua capacità di coordinazione
       di branco e la sua efficacia nella caccia per mantenere l'equilibrio del suo
       ambiente.
@@ -1992,11 +1992,11 @@ pulverator_gregarius:
       al vento: non sceglie una direzione, la porta, sfruttando la sua adattabilità
       al suolo asciutto e alle condizioni climatiche estreme.'
     origin_en: Born where the savannah stops pretending and sand rules without appeal,
-      the pulverator_gregarius evolved in an environment of extreme competition for
+      the Pulverator Gregarius evolved in an environment of extreme competition for
       resources, developing a body structure suitable for prey and group hunting.
     origin_it: Nato dove la savana smette di fingere e la sabbia governa senza appello,
-      il pulverator_gregarius si evolveva in un ambiente di estrema competizione per
-      risorse, sviluppando un'architettura corporea adatta alla preda e alla caccia
+      il Razziatore di Polvere si evolveva in un ambiente di estrema competizione
+      per risorse, sviluppando un'architettura corporea adatta alla preda e alla caccia
       in gruppo.
     trait_narrative:
     - text_en: Serrated teeth tear into the target's flesh and cause deep bleeding
@@ -2120,10 +2120,10 @@ rust_scavenger:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Driven by simple instincts, the rust scavenger uses its gastrolites
+    behavior_en: Driven by simple instincts, the Rust Scavenger uses its gastrolites
       and muscular ventricle to grind and digest iron-rich material, while its explosive
       respiratory jets aid in movement and foraging.
-    behavior_it: Il rust_scavenger opera in modi istintivi, scavando e compattando
+    behavior_it: Il Spazzino della Ruggine opera in modi istintivi, scavando e compattando
       detrito ferroso per riciclare i metalli. Le sue azioni creano spazi per nuove
       forme di vita, mantenendo un equilibrio ecologico.
     evolutionary_niche_en: As a detritivore, it fills a critical niche by compacting
@@ -2140,13 +2140,13 @@ rust_scavenger:
       e la scarsità di acqua richiede un adattamento unico. Questo ambiente ha plasmato
       la sua struttura fisica e le sue funzioni vitali, rendendolo un elemento chiave
       del suolo.
-    origin_en: The rust scavenger evolved in the harsh badlands, where it adapted
+    origin_en: The Rust Scavenger evolved in the harsh badlands, where it adapted
       to thrive by consuming and recycling iron-rich detritus, becoming a keystone
       species in its ecosystem.
-    origin_it: Il rust_scavenger ha origini nel deserto dei metalli, dove la sua capacità
-      di riciclare il detrito ferroso lo ha reso un deposito vitale per l'ecosistema.
-      La sua evoluzione è legata alla capacità di sopravvivere e prosperare in ambienti
-      inospitali, sfruttando le risorse minerali disponibili.
+    origin_it: Il Spazzino della Ruggine ha origini nel deserto dei metalli, dove
+      la sua capacità di riciclare il detrito ferroso lo ha reso un deposito vitale
+      per l'ecosistema. La sua evoluzione è legata alla capacità di sopravvivere e
+      prosperare in ambienti inospitali, sfruttando le risorse minerali disponibili.
     trait_narrative:
     - text_en: The massive muscle grinds with fury the iron debris, grinding and scraping
         as the gastric stones reduce them to powder.
@@ -2190,11 +2190,11 @@ sand_burrower:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The sand_burrower exhibits fossorial behavior, using its spring-loaded
+    behavior_en: The Sand Burrower exhibits fossorial behavior, using its spring-loaded
       limbs and hydro-regulating skeleton to dig tunnels and forage for cryptoflora
       and detritus beneath the saline crust.
-    behavior_it: Il sand_burrower si muove a balzi, utilizzando zampe a molla per
-      spostarsi tra le gallerie scavate. Il suo comportamento è guidato da istinti
+    behavior_it: Il Scavatore delle Sabbie si muove a balzi, utilizzando zampe a molla
+      per spostarsi tra le gallerie scavate. Il suo comportamento è guidato da istinti
       semplici, senza pianificazione o linguaggio, e si concentra sulla ricerca di
       cibo e la difesa dal calore.
     evolutionary_niche_en: It occupies a fossorial niche within the badlands, adapting
@@ -2210,13 +2210,13 @@ sand_burrower:
       scavare e la sua mimetizzazione lo rendono invisibile ai predatori e alle forze
       esterne. La sua sopravvivenza dipende dall'accesso a cripto-flora e detrito
       sottostante.
-    origin_en: The sand_burrower originated in the harsh badlands, evolving to thrive
+    origin_en: The Sand Burrower originated in the harsh badlands, evolving to thrive
       in the extreme conditions of arid deserts through specialized adaptations for
       survival.
-    origin_it: Il sand_burrower ha origini nel bioma delle dune aride, dove si è adattato
-      a vivere scavando gallerie sotto la crosta salina. La sua evoluzione ha favorito
-      un corpo basso e corazzato, con arti molleggiati e un carapace opaco che lo
-      mimetizza nel suolo ferroso.
+    origin_it: Il Scavatore delle Sabbie ha origini nel bioma delle dune aride, dove
+      si è adattato a vivere scavando gallerie sotto la crosta salina. La sua evoluzione
+      ha favorito un corpo basso e corazzato, con arti molleggiati e un carapace opaco
+      che lo mimetizza nel suolo ferroso.
     trait_narrative:
     - text_en: The rotating egg-motor core transforms its body into a driving wheel
         for rapid movement across the badlands.
@@ -2259,7 +2259,7 @@ sciame_larve_neurali:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The sciame_larve_neurali exhibit determination and gregario calling
+    behavior_en: The Sciame Larve Neurali exhibit determination and gregario calling
       behavior, using their memetic reverberation and resonance lobes to coordinate
       and amplify their combat effectiveness.
     behavior_it: Le larve neurali mostrano una determinazione intrinseca grazie al
@@ -2285,7 +2285,7 @@ sciame_larve_neurali:
       loro ghiandole mnemoniche e le spicole canalizzatrici per assorbire e reindirizzare
       buff. La loro biologia è strettamente legata al mantenimento dell'equilibrio
       elettrico e alla gestione delle frequenze di squadra.
-    origin_en: The sciame_larve_neurali originated within the frattura_abissale_sinaptica
+    origin_en: The Sciame Larve Neurali originated within the frattura_abissale_sinaptica
       biome, evolving as a specialized predator and adversary in this unique environment.
       Their development was shaped by the necessity to navigate and dominate the unstable
       signal conditions of their habitat.
@@ -2371,14 +2371,14 @@ sentinella_radice:
   lore:
     behavior_en: Its behavior is characterized by fractional focus, pathfinding, strategic
       planning, and a random element, allowing it to adapt to unpredictable conditions.
-    behavior_it: Il comportamento della sentinella_radice si basa su un focus_frazionato,
-      un pathfinder, un pianificatore, un random e un empatia_coordinativa, che combinano
+    behavior_it: Il comportamento della Sentinella Radice si basa su un Focus Frazionato,
+      un pathfinder, un pianificatore, un random e un Empatia Coordinativa, che combinano
       problem-solving concreto e un uso rudimentale di strumenti per adattarsi ai
       cambiamenti ambientali.
     evolutionary_niche_en: As a semi-sessile engineer, it establishes mycorrhizal
       networks to protect plants from threats, reinforcing its role as a guardian
       of the forest ecosystem.
-    evolutionary_niche_it: L'evoluzione della sentinella_radice è orientata verso
+    evolutionary_niche_it: L'evoluzione della Sentinella Radice è orientata verso
       la protezione e la cooperazione tra le piante, svolgendo il ruolo di ingegneri
       radicanti semi-sessili che segnalano e contengono le minacce che attraversano
       il suolo.
@@ -2387,34 +2387,34 @@ sentinella_radice:
     habitat_it: Si trova in ambienti di foreste temperate, dove le sue radici aeree
       sensoriali e il suo sistema di tratti comportamentali gli permettono di interagire
       con il suolo e con gli altri organismi in modo altamente adattivo.
-    origin_en: The sentinella_radice evolved in the temperate forest biome, adapting
+    origin_en: The Sentinella Radice evolved in the temperate forest biome, adapting
       to the complex interactions between plant life and soil ecosystems.
-    origin_it: La specie sentinella_radice ha origini profonde nelle foreste temperate,
+    origin_it: La specie Sentinella Radice ha origini profonde nelle foreste temperate,
       dove ha sviluppato una nicchia unica come ingegneri radicanti semi-sessili,
       integrando la sua esistenza con le piante superiori per creare una rete micorrizica
       difensiva.
     trait_narrative:
-    - text_en: The sentinella_radice uses its bifurcated cortex to simultaneously
+    - text_en: The Sentinella Radice uses its bifurcated cortex to simultaneously
         monitor two separate threats, ensuring comprehensive surveillance.
-      text_it: La sentinella radice tiene sotto controllo due minacce contemporaneamente
+      text_it: La Sentinella Radice tiene sotto controllo due minacce contemporaneamente
         con il suo cortex biforcato, mantenendo una sorveglianza precisa e attiva.
       trait_id: focus_frazionato
-    - text_en: The sentinella_radice employs its exploratory suite to identify safe
+    - text_en: The Sentinella Radice employs its exploratory suite to identify safe
         pathways through unpredictable biomes, guiding its movements with precision.
-      text_it: La sentinella radice utilizza la sua suite esplorativa per individuare
+      text_it: La Sentinella Radice utilizza la sua suite esplorativa per individuare
         e segnalare rotte sicure attraverso biomi imprevedibili, guidando la squadra
         verso zone protette.
       trait_id: pathfinder
-    - text_en: The sentinella_radice activates its strategic module to maintain prioritized
+    - text_en: The Sentinella Radice activates its strategic module to maintain prioritized
         objectives and synchronized attack windows, enhancing tactical efficiency.
-      text_it: Il modulo strategico della sentinella radice organizza le priorità
+      text_it: Il modulo strategico della Sentinella Radice organizza le priorità
         e stabilisce finestre d'attacco coordinate, garantendo un'azione mirata e
         efficiente.
       trait_id: pianificatore
-    - text_en: The sentinella_radice establishes an empathic network that synchronizes
+    - text_en: The Sentinella Radice establishes an empathic network that synchronizes
         healing and defense mechanisms across its entire squad, fostering collective
         resilience.
-      text_it: La rete empatica della sentinella radice sincronizza le cure e le difese
+      text_it: La rete empatica della Sentinella Radice sincronizza le cure e le difese
         dell'intera squadra, creando una collaborazione armoniosa e reattiva.
       trait_id: empatia_coordinativa
   lore_review_status: generated_pending_review
@@ -2437,7 +2437,7 @@ silica_bloom:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The silica bloom operates through the aggressive colonization of
+    behavior_en: The Silica Bloom operates through the aggressive colonization of
       silica structures, extracting substrates and spreading pathogenic shards through
       the dust wind.
     behavior_it: Il comportamento è guidato da istinti semplici, con una strategia
@@ -2458,14 +2458,14 @@ silica_bloom:
       incrostare i produttori con strutture vetrose permette di sfruttare il substrato
       e diffondere schegge patogene nel vento di polvere. Questa adattazione le consente
       di competere con altre specie per risorse limitate.
-    origin_en: The silica bloom is a natural phenomenon that arises in the hot desert
+    origin_en: The Silica Bloom is a natural phenomenon that arises in the hot desert
       biome, formed by the accumulation of silica particles and the activity of specific
       microbial colonies.
-    origin_it: La specie silica_bloom ha origini in ambienti desertici caldi, dove
-      ha sviluppato adattamenti unici per sopravvivere al clima estremo. La sua evoluzione
-      è legata alla capacità di colonizzare e modificare il substrato in modo aggressivo,
-      creando strutture vetrose che permettono una sopravvivenza efficiente in condizioni
-      di scarsa umidità.
+    origin_it: La specie Fioritura di Silice ha origini in ambienti desertici caldi,
+      dove ha sviluppato adattamenti unici per sopravvivere al clima estremo. La sua
+      evoluzione è legata alla capacità di colonizzare e modificare il substrato in
+      modo aggressivo, creando strutture vetrose che permettono una sopravvivenza
+      efficiente in condizioni di scarsa umidità.
     trait_narrative:
     - text_en: The cuticole cerose allows the colony to stabilize energy absorption
         and conversion from multiple sources within dynamic environments.
@@ -2519,8 +2519,8 @@ simbionte_corallino_riflesso:
     trace_id: ''
   lore:
     behavior_en: The entity exhibits T3 sentience, solving concrete problems and using
-      rudimentary tools, while its sensori_planctonici detect memetic patterns in
-      plankton, guiding its interactions and survival strategies.
+      rudimentary tools, while its Planctonic Sensors detect memetic patterns in plankton,
+      guiding its interactions and survival strategies.
     behavior_it: I simbionti corallini riflessi mostrano un comportamento altamente
       coordinato, utilizzando i loro sensori planctonici per leggere pattern e comunicare
       attraverso scintille sinaptiche e canti risonanti. La loro capacità di gestire
@@ -2528,8 +2528,8 @@ simbionte_corallino_riflesso:
       estremamente adatti al loro ambiente.
     evolutionary_niche_en: Its evolutionary niche is defined by the integration of
       bioelectrical and luminous adaptations, allowing it to manipulate and transmit
-      energy through its coralli_sinaptici_fotofase and membrane_fotoconvoglianti,
-      while its carapace_luminiscente_abissale provides camouflage against predators.
+      energy through its Photophase Synaptic Corals and Photoconductive Membranes,
+      while its Carapace Luminiscente Abissale provides camouflage against predators.
     evolutionary_niche_it: La loro nicchia evolutiva si basa sull'adattamento a un
       ambiente estremo, dove la capacità di canalizzare energia elettromagnetica,
       gestire cariche e mantenere una struttura sinaptica stabile ha permesso loro
@@ -2541,7 +2541,7 @@ simbionte_corallino_riflesso:
       di correnti elettromagnetiche e materiali biologici crea un ambiente ideale
       per la loro sopravvivenza. Questo habitat è caratterizzato da una interazione
       dinamica tra energia e struttura biologica.
-    origin_en: The symbiotic coral-like entity, simbionte_corallino_riflesso, is a
+    origin_en: The symbiotic coral-like entity, Simbionte Corallino Riflesso, is a
       product of the frattura_abissale_sinaptica biome, where its unique bioelectrical
       structures evolved to harness and channel light and impulses in the extreme
       depths.
@@ -2646,7 +2646,7 @@ slag_veil_ambusher:
       le crepe e le gallerie per nascondersi e cacciare.
     origin_en: The Slag Veil Ambusher is native to the badlands, where it evolved
       to thrive in harsh, arid environments.
-    origin_it: Il slag_veil_ambusher è originario dei biomi desertici e rocciosi,
+    origin_it: Il Slag Veil Ambusher è originario dei biomi desertici e rocciosi,
       dove si è adattato a vivere in ambienti estremi e asciutti.
     trait_narrative: []
   lore_review_status: generated_pending_review
@@ -2778,7 +2778,7 @@ soniptera_resonans:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: Soniptera_resonans uses its fono_risonanti wings to generate sound
+    behavior_en: Soniptera Resonans uses its fono_risonanti wings to generate sound
       waves, which it manipulates for defense, hunting, and communication.
     behavior_it: Utilizza il campo di interferenza acustica per evitare predatori
       e per cacciare prede, mentre il cannone sonico a raggio serve per difesa o attacco.
@@ -2794,10 +2794,10 @@ soniptera_resonans:
     habitat_it: Si trova nei strati superiori delle foreste ioniche, dove le correnti
       elettriche e la presenza di onde sonore creano un ambiente ideale per il suo
       volo e manipolazione sonora.
-    origin_en: The species soniptera_resonans originated in the canopia_ionica biome,
+    origin_en: The species Soniptera Resonans originated in the canopia_ionica biome,
       where its unique adaptations to the electromagnetic environment allowed it to
       thrive.
-    origin_it: La specie soniptera_resonans ha origini nel canopico ionico, dove le
+    origin_it: La specie Libellula Sonica ha origini nel canopico ionico, dove le
       sue capacità sonore si adattano alle condizioni elettriche del ambiente. La
       sua evoluzione è legata all'interazione con le correnti ioniche e le onde sonore
       naturali.
@@ -2853,7 +2853,7 @@ sp_arboryxis_lenis:
     behavior_it: Si muove lentamente e con intenzione, seguendo i confini tra habitat,
       come se cercasse di comprendere dove un ambiente termina e un altro inizia,
       senza urgenza né fretta.
-    evolutionary_niche_en: As a bridge species, sp_arboryxis_lenis occupies an evolutionary
+    evolutionary_niche_en: As a bridge species, Sp Arboryxis Lenis occupies an evolutionary
       niche that connects temperate forest ecosystems with adjacent open spaces. Its
       functional signature as a habitat bridge allows it to maintain ecological connectivity
       without specific adaptations.
@@ -2866,11 +2866,11 @@ sp_arboryxis_lenis:
     habitat_it: Si muove lungo i margini tra la foresta e lo spazio aperto, trovando
       un equilibrio tra la copertura vegetale e l'apertura, senza preferenze specifiche
       per un ambiente più che l'altro.
-    origin_en: The species sp_arboryxis_lenis originated within temperate forest ecosystems,
+    origin_en: The species Sp Arboryxis Lenis originated within temperate forest ecosystems,
       where its niche as a habitat boundary explorer became essential for survival.
       Its evolutionary path is tied to the permeability of forest edges, allowing
       it to thrive in transitional zones.
-    origin_it: La specie sp_arboryxis_lenis ha origini nel bioma foresta_temperata,
+    origin_it: La specie Vagabondo della Volta ha origini nel bioma foresta_temperata,
       dove ha sviluppato una nicchia unica come specie bridge, esplorando i confini
       tra habitat forestali e aperti.
     trait_narrative: []
@@ -2900,34 +2900,34 @@ sp_arenaceros_placidus:
       particolare alla luce solare, che converte in biomassa per il sostentamento,
       senza trattenere nulla per sé.
     evolutionary_niche_en: The species occupies a niche where it both sustains and
-      is sustained by the savana, using its membrane_eliofiltranti and artigli_radice
+      is sustained by the savana, using its Membrane Eliofiltranti and Artigli Radice
       to maintain ecological balance.
     evolutionary_niche_it: Occupa una nicchia evolutiva come specie keystone, dove
-      le sue membrane_eliofiltranti e artigli_radice influenzano positivamente l'ecosistema,
+      le sue Membrane Eliofiltranti e Artigli Radice influenzano positivamente l'ecosistema,
       permettendo a altri brucatori di beneficiare della sua biomassa pre-digerita.
-    habitat_en: It thrives in the savana, where its membrane_eliofiltranti convert
-      sunlight into biomass and its artigli_radice create nutrient-rich soil channels
+    habitat_en: It thrives in the savana, where its Membrane Eliofiltranti convert
+      sunlight into biomass and its Artigli Radice create nutrient-rich soil channels
       for its herbivorous kin.
-    habitat_it: Si muove nei territori di savana, dove le sue membrane_eliofiltranti
-      lo proteggono dalle radiazioni e i suoi artigli_radice permettono di scavare
+    habitat_it: Si muove nei territori di savana, dove le sue Membrane Eliofiltranti
+      lo proteggono dalle radiazioni e i suoi Artigli Radice permettono di scavare
       e prevedere traiettorie.
-    origin_en: The species sp_arenaceros_placidus evolved in the savana biome, where
+    origin_en: The species Sp Arenaceros Placidus evolved in the savana biome, where
       its unique adaptations to sunlight and soil nutrients allowed it to establish
       itself as a keystone species.
-    origin_it: La specie sp_arenaceros_placidus ha origini nel biome savana, dove
-      ha sviluppato artigli_radice e membrane_eliofiltranti per sopravvivere e interagire
+    origin_it: La specie Brucatore di Polvere ha origini nel biome savana, dove ha
+      sviluppato Artigli Radice e Membrane Eliofiltranti per sopravvivere e interagire
       con l'ambiente estremo.
     trait_narrative:
     - text_en: The claws root allow the Brucatore di Polvere to create intricate patterns
         in the soil, which serve as a guide for other creatures navigating the savana.
-      text_it: I brucatori di Polvere utilizzano gli artigli_radice per scavare solchi
+      text_it: I brucatori di Polvere utilizzano gli Artigli Radice per scavare solchi
         nel suolo, lasciando una traccia di biomassa pre-digerita che altri animali
         possono trovare e consumare.
       trait_id: artigli_radice
     - text_en: The electrofiltration membranes of the Brucatore di Polvere shield
         it from harmful radiation and pathogens, allowing it to thrive in the open
         savana.
-      text_it: Le membrane_eliofiltranti dei brucatori di Polvere schermano le radiazioni
+      text_it: Le Membrane Eliofiltranti dei brucatori di Polvere schermano le radiazioni
         e i patogeni sospesi, permettendo loro di sopravvivere in ambienti estremi
         della savana.
       trait_id: membrane_eliofiltranti
@@ -2951,10 +2951,10 @@ sp_arenavolux_sagittalis:
     trace_id: ''
   lore:
     behavior_en: Employing anticipatory hunting and high adrenaline response, the
-      Saettatore delle Dune strikes before visual confirmation, leveraging its midollo_iperattivo
-      to trigger a rage response.
+      Saettatore delle Dune strikes before visual confirmation, leveraging its Hyperactive
+      Marrow to trigger a rage response.
     behavior_it: Utilizza la tecnica di caccia anticipatoria, scatenando una risposta
-      adrenalinica immediata grazie al midollo_iperattivo, permettendogli di attaccare
+      adrenalinica immediata grazie al Midollo Iperattivo, permettendogli di attaccare
       prima che l'opponente reagisca.
     evolutionary_niche_en: As an apex predator, it occupies the top of the savana
       food chain, utilizing its unique physical and behavioral traits to dominate
@@ -2963,16 +2963,15 @@ sp_arenavolux_sagittalis:
       si è concentrata sulla capacità di anticipare e reagire rapidamente, rendendolo
       un dominatore nei territori di savana.
     habitat_en: Native to the savana biome, this species thrives in open terrain with
-      sparse vegetation, utilizing its coda_contrappeso for stability and movement.
+      sparse vegetation, utilizing its Coda Contrappeso for stability and movement.
     habitat_it: Si trova in ambienti di savana, dove la sua capacità di muoversi su
       terreni estremi e la sua strategia di caccia si integrano perfettamente con
       il suo ambiente.
     origin_en: The species Arenavolux Sagittalis is a product of evolutionary convergence
       within the savana biome, developing its apex predator niche through specialized
       adaptations.
-    origin_it: La specie sp_arenavolux_sagittalis ha origini nel clade degli Apex,
-      adattandosi alle sfide dei terreni estremi attraverso la coda_contrappeso e
-      il midollo_iperattivo.
+    origin_it: La specie Saettatore delle Dune ha origini nel clade degli Apex, adattandosi
+      alle sfide dei terreni estremi attraverso la Coda Contrappeso e il Midollo Iperattivo.
     trait_narrative:
     - text_en: The tail counterbalance allows the Saettatore delle Dune to maintain
         stability and precision on uneven terrain, enabling swift and controlled movements
@@ -3019,7 +3018,7 @@ sp_basaltocara_scutata:
     behavior_it: Operano in silenzio, utilizzando artigli vetrificati per ancorarsi
       e ghiandole di fango caldo per riparare il substrato. Non si fermano mai, spostandosi
       rapidamente per evitare la competizione con altre specie.
-    evolutionary_niche_en: The evolutionary niche of sp_basaltocara_scutata is centered
+    evolutionary_niche_en: The evolutionary niche of Sp Basaltocara Scutata is centered
       around the volcanic abyss, where it occupies a role in stabilizing and preparing
       substrates for other species, working silently and disappearing before potential
       inhabitants arrive.
@@ -3027,18 +3026,18 @@ sp_basaltocara_scutata:
       e costruttore di habitat, contribuendo alla stabilità dei terreni estremi e
       facilitando l'insediamento di altre specie.
     habitat_en: It inhabits the volcanic abyss, specifically within caldera glaciers
-      and extreme terrain where its artigli_vetrificati and ghiandole_fango_calde
+      and extreme terrain where its Artigli Vetrificati and Ghiandole Fango Calde
       provide essential functions for survival.
     habitat_it: Si trova nei vulcani sottomarini, dove la combinazione di calore e
       ghiaccio crea un ambiente unico. La sua presenza è associata a zone con attività
       vulcanica attiva e substrati fragili.
-    origin_en: The species sp_basaltocara_scutata originated in the volcanic abyss,
+    origin_en: The species Sp Basaltocara Scutata originated in the volcanic abyss,
       where its unique adaptations to extreme conditions allowed it to thrive in an
       environment where few others could survive.
-    origin_it: La specie sp_basaltocara_scutata ha origini nel cuore degli abissi
-      vulcanici, evolvendosi in ambienti estremi dove la temperatura e la pressione
-      sono altissime. La sua evoluzione è legata alla capacità di adattarsi ai terreni
-      instabili e alle condizioni di scarsa visibilità.
+    origin_it: La specie Custode di Basalto ha origini nel cuore degli abissi vulcanici,
+      evolvendosi in ambienti estremi dove la temperatura e la pressione sono altissime.
+      La sua evoluzione è legata alla capacità di adattarsi ai terreni instabili e
+      alle condizioni di scarsa visibilità.
     trait_narrative:
     - text_en: The crystalline claws anchor the creature in volcanic zones, allowing
         it to stabilize itself where others cannot.
@@ -3080,9 +3079,9 @@ sp_calamipes_gracilis:
       for cover and movement.
     habitat_it: Si trova prevalentemente in paludi e zone umide, dove la vegetazione
       fitta e l'acqua stagnante forniscono protezione e cibo.
-    origin_en: The species sp_calamipes_gracilis is native to swamp biomes, where
+    origin_en: The species Sp Calamipes Gracilis is native to swamp biomes, where
       it has evolved to thrive in the unique conditions of wetland environments.
-    origin_it: Il Camminatore di Canne (sp_calamipes_gracilis) è una specie originaria
+    origin_it: Il Camminatore di Canne (Camminatore di Canne) è una specie originaria
       di paludi umide, dove ha sviluppato adattamenti specifici per sopravvivere in
       ambienti acquatici e vegetali.
     trait_narrative: []
@@ -3106,7 +3105,7 @@ sp_cavatympa_sonans:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: The sp_cavatympa_sonans uses its antennae to scan and map cavern
+    behavior_en: The Sp Cavatympa Sonans uses its antennae to scan and map cavern
       structures while its hooked tentacles anchor it to walls, enabling it to explore
       the boundary between the surface and subterranean worlds. Its behavior is focused
       on reconnaissance and data collection within its biome.
@@ -3128,11 +3127,11 @@ sp_cavatympa_sonans:
     habitat_it: Si muove lungo le pareti di gallerie sotterranee, utilizzando le sue
       antenne microonde cavernose per mappare l'architettura rocciosa e i tentacoli
       uncinati per ancorarsi durante le scansioni.
-    origin_en: The species sp_cavatympa_sonans evolved within subterranean environments,
+    origin_en: The species Sp Cavatympa Sonans evolved within subterranean environments,
       adapting to the unique challenges of life in caverns. Its bridge clade classification
       suggests a transitional form between surface and subterranean ecosystems, with
       specialized traits for navigating and interacting with cave systems.
-    origin_it: La specie sp_cavatympa_sonans è nativa di ambienti rocciosi sotterranei,
+    origin_it: La specie Ascoltatore Cavo è nativa di ambienti rocciosi sotterranei,
       dove ha sviluppato capacità uniche per esplorare e interagire con le strutture
       cave senza entrare in contatto diretto con gli ambienti interni.
     trait_narrative:
@@ -3165,13 +3164,13 @@ sp_cinerastra_nodosa:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: As an ambush predator, sp_cinerastra_nodosa remains motionless for
+    behavior_en: As an ambush predator, Sp Cinerastra Nodosa remains motionless for
       extended periods, using its camouflage to blend with the volcanic substrate.
       It strikes only when prey is within close proximity, relying on its physical
       adaptations for a swift and efficient hunt.
     behavior_it: Come predatore in agguato, si muove lentamente e attivamente si nasconde
       tra i noduli, attendendo il momento giusto per attaccare le prede vicine.
-    evolutionary_niche_en: The evolutionary niche of sp_cinerastra_nodosa is that
+    evolutionary_niche_en: The evolutionary niche of Sp Cinerastra Nodosa is that
       of a specialized ambush predator within the volcanic abyss. Its adaptations
       allow it to exploit the unique resources and conditions of its environment without
       direct competition from other species.
@@ -3185,11 +3184,11 @@ sp_cinerastra_nodosa:
     habitat_it: Si trova esclusivamente negli abissi vulcanici, dove la sua colorazione
       cinerea e la sua struttura nodulare gli permettono di mimetizzarsi perfettamente
       con il substrato.
-    origin_en: The species sp_cinerastra_nodosa originated within the volcanic abyss,
+    origin_en: The species Sp Cinerastra Nodosa originated within the volcanic abyss,
       evolving to exploit the extreme thermal and chemical conditions of its preferred
       biome. Its lineage is part of the clade Threat, indicating a specialized ecological
       role within its environment.
-    origin_it: La specie sp_cinerastra_nodosa ha origini nel cuore degli abissi vulcanici,
+    origin_it: La specie Spirale di Cenere ha origini nel cuore degli abissi vulcanici,
       dove ha sviluppato adattamenti per sopravvivere e cacciare in ambienti estremi.
     trait_narrative: []
   lore_review_status: generated_pending_review
@@ -3228,11 +3227,11 @@ sp_cryptolorca_medicata:
       predict trajectories within the cavern depths.
     habitat_it: Si trova in ambienti cavernosi, dove le sue cartilagini pseudometalliche
       e le camere mirage permettono di interagire con il bioma e altre specie.
-    origin_en: The species sp_cryptolorca_medicata originated within the cavern biome,
+    origin_en: The species Sp Cryptolorca Medicata originated within the cavern biome,
       evolving as a keystone species that shapes the ecological balance of its cavern
       environment through its unique structural and predictive abilities.
-    origin_it: La specie sp_cryptolorca_medicata ha origini nel bioma caverna, dove
-      ha sviluppato le sue caratteristiche uniche per sopravvivere in ambienti estremi.
+    origin_it: La specie Riparatore Carsico ha origini nel bioma caverna, dove ha
+      sviluppato le sue caratteristiche uniche per sopravvivere in ambienti estremi.
     trait_narrative:
     - text_en: Pseudometallic cartilages allow teams to redistribute loads and modify
         structural rigidity within the cavern.
@@ -3269,7 +3268,7 @@ sp_ferrimordax_rutilus:
       though it lacks the capacity for abstract thought.
     behavior_it: Utilizza l'apprendimento associativo e la memoria breve per adattarsi
       alle dinamiche del suo habitat, senza sviluppare capacità di pensiero astratto.
-    evolutionary_niche_en: As an apex predator, sp_ferrimordax_rutilus disrupts the
+    evolutionary_niche_en: As an apex predator, Sp Ferrimordax Rutilus disrupts the
       trophic network for weeks after its passage, shaping the ecosystem through its
       feeding habits and leaving a lasting impact on the biological balance of the
       badlands.
@@ -3281,12 +3280,12 @@ sp_ferrimordax_rutilus:
       carapace and ossidoferro teeth.
     habitat_it: Si adatta ai vulcani spenti e alle loro gallerie, dove la sua struttura
       fisica e le sue abilità si integrano perfettamente con l'ambiente estremo.
-    origin_en: The species sp_ferrimordax_rutilus originated in the extreme environments
+    origin_en: The species Sp Ferrimordax Rutilus originated in the extreme environments
       of the Badlands, where its unique adaptations to volcanic and mineral-rich terrain
       allowed it to establish itself as an apex predator.
-    origin_it: La specie sp_ferrimordax_rutilus ha origini nei vulcani estinti dei
-      Badlands, dove la sua evoluzione è stata guidata da condizioni estreme di calore
-      e minerali ricchi di ferro.
+    origin_it: La specie Martellatore Ferroso ha origini nei vulcani estinti dei Badlands,
+      dove la sua evoluzione è stata guidata da condizioni estreme di calore e minerali
+      ricchi di ferro.
     trait_narrative:
     - text_en: Obsidian teeth allow teams to predict trajectories and orchestrate
         multi-level setups within the badlands.
@@ -3335,9 +3334,8 @@ sp_ferriscroba_detrita:
       è cruciale per il ciclo degli elementi e la sopravvivenza di altre specie.
     origin_en: The species originated in the harsh environments of the badlands, where
       it evolved to thrive by scavenging and recycling detritus.
-    origin_it: La specie sp_ferriscroba_detrita ha origini nell'ambiente di badlands,
-      dove ha sviluppato adattamenti per sopravvivere e svolgere il ruolo di specie
-      keystone.
+    origin_it: La specie Spazzino Ferroso ha origini nell'ambiente di badlands, dove
+      ha sviluppato adattamenti per sopravvivere e svolgere il ruolo di specie keystone.
     trait_narrative: []
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -3465,7 +3463,7 @@ sp_limnofalcis_serrata:
       unique adaptations allow it to thrive in still or slow-moving waters. Its evolutionary
       path is closely tied to the ecological dynamics of these environments, shaping
       its predatory behaviors.
-    origin_it: La specie sp_limnofalcis_serrata ha origini nel bioma paludoso, dove
+    origin_it: La specie Trebbiatore di Palude ha origini nel bioma paludoso, dove
       ha sviluppato adattamenti specifici per sopravvivere e cacciare in ambienti
       acquatici stagnanti.
     trait_narrative: []
@@ -3548,26 +3546,26 @@ sp_lucinerva_filata:
     behavior_en: As a metodico disperser, it systematically transports genetic material
       between disconnected ecosystems, maintaining ecological balance through its
       stabilizzatore behavioral axis.
-    behavior_it: Il comportamento metodico di sp_lucinerva_filata è centrato sulla
-      dispersione precisa di semi, spore e frammenti genetici, garantendo la connessione
-      tra aree ecologiche isolate. È un stabilizzatore naturale per gli ecosistemi.
+    behavior_it: Il comportamento metodico di Tessitore di Luce è centrato sulla dispersione
+      precisa di semi, spore e frammenti genetici, garantendo la connessione tra aree
+      ecologiche isolate. È un stabilizzatore naturale per gli ecosistemi.
     evolutionary_niche_en: Its bridge niche evolved to facilitate the movement of
       genetic material across otherwise isolated habitats, reinforcing ecological
       connectivity through structured dispersal patterns.
-    evolutionary_niche_it: Occupando una nicchia evolutiva di bridge, sp_lucinerva_filata
-      svolge un ruolo cruciale nella connessione tra diversi ambienti. La sua funzione
-      è quella di facilitare il trasferimento di geni e materiali tra ecosistemi diversi,
-      mantenendo la biodiversità.
-    habitat_en: It thrives in the reef_luminescente biome, where its carapace_segmenti_logici
-      adapt to the environment by bending at different angles, enabling it to navigate
-      and stabilize energy absorption across fragmented habitats.
+    evolutionary_niche_it: Occupando una nicchia evolutiva di bridge, Tessitore di
+      Luce svolge un ruolo cruciale nella connessione tra diversi ambienti. La sua
+      funzione è quella di facilitare il trasferimento di geni e materiali tra ecosistemi
+      diversi, mantenendo la biodiversità.
+    habitat_en: It thrives in the reef_luminescente biome, where its Carapace Segmenti
+      Logici adapt to the environment by bending at different angles, enabling it
+      to navigate and stabilize energy absorption across fragmented habitats.
     habitat_it: Si muove tra le barriere coralline luminose, dove la sua capacità
       di adattare il carapace a segmenti logici gli permette di integrarsi con l'ambiente
       circostante. Questo habitat è il suo ambiente naturale e vitale.
-    origin_en: The species sp_lucinerva_filata originated within the reef_luminescente
+    origin_en: The species Sp Lucinerva Filata originated within the reef_luminescente
       biome, where its unique bridge niche allowed it to evolve as a disperser connecting
       isolated ecosystems.
-    origin_it: La specie sp_lucinerva_filata ha origini nel reef_luminescente, dove
+    origin_it: La specie Tessitore di Luce ha origini nel reef_luminescente, dove
       ha sviluppato adattamenti unici per sopravvivere in un ambiente estremo. È un
       prodotto diretto della convergenza evolutiva tra diversi ecosistemi marini.
     trait_narrative:
@@ -3615,7 +3613,7 @@ sp_magmocardium_furens:
     habitat_it: Si muove negli abissi vulcanici, dove la sua coda frusta cinetica
       e le lamelle shear permettono di navigare tra le roccie incandescenti e prevedere
       le traiettorie delle prede.
-    origin_en: The species sp_magmocardium_furens originated in the volcanic abyss,
+    origin_en: The species Sp Magmocardium Furens originated in the volcanic abyss,
       where extreme heat and pressure shaped its unique physiology and behavior.
     origin_it: Il Cuore Furente ha origine in profondità negli abissi vulcanici, dove
       la sua circolazione supercritica e il sangue piroforico evolvono per sopravvivere
@@ -3668,7 +3666,7 @@ sp_magnetocola_pastoris:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: As a silent guardian, sp_magnetocola_pastoris does not engage in
+    behavior_en: As a silent guardian, Sp Magnetocola Pastoris does not engage in
       combat; instead, it absorbs and neutralizes thermal parasites through its bifasic
       circulatory system, protecting the surrounding ecosystem.
     behavior_it: Non combatte, ma assorbe i parassiti termici che colpiscono il gregge,
@@ -3688,7 +3686,7 @@ sp_magnetocola_pastoris:
     habitat_it: Si trova prevalentemente nei bacini termali dell'atollo ossidiana,
       dove la sua circolazione bifasica gli permette di regolare la temperatura corporea
       e assorbire parassiti termici presenti nell'ambiente.
-    origin_en: The species sp_magnetocola_pastoris originated in the obsidian atoll
+    origin_en: The species Sp Magnetocola Pastoris originated in the obsidian atoll
       biome, where its unique circulatory system evolved to counteract the extreme
       thermal and corrosive conditions of its environment.
     origin_it: La specie Magnetocola Pastoris ha origini nel cuore dell'atollo di
@@ -3740,9 +3738,9 @@ sp_nebulocornis_mollis:
     origin_en: The species Nebulocornis mollis originated within temperate forests,
       evolving as a browsing herbivore to exploit the diverse plant life available
       in its biome.
-    origin_it: La specie sp_nebulocornis_mollis ha origini nella foresta temperata,
-      dove ha sviluppato adattamenti per integrarsi nel gregge di brucatori senza
-      attirare l'attenzione.
+    origin_it: La specie Cervo di Nebbia ha origini nella foresta temperata, dove
+      ha sviluppato adattamenti per integrarsi nel gregge di brucatori senza attirare
+      l'attenzione.
     trait_narrative: []
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -3773,7 +3771,7 @@ sp_noctipedis_umbrata:
     behavior_it: Non insegue la preda, ma attende che il buio porti la preda verso
       di lui. Utilizza la sua firma olfattiva di condensa ozono per segnalare la sua
       presenza e catturare la preda senza muoversi.
-    evolutionary_niche_en: Its ghiandole_condensa_ozono evolved to enable cooperative
+    evolutionary_niche_en: Its Ghiandole Condensa Ozono evolved to enable cooperative
       load redistribution and structural rigidity modulation within the orbital midnight,
       positioning it as a dominant apex species in its orbital environment.
     evolutionary_niche_it: La sua ghiandola condensa ozono ha permesso di sfruttare
@@ -3786,11 +3784,11 @@ sp_noctipedis_umbrata:
     habitat_it: Vive in ambienti di mezzanotte orbitale, dove la luce è assente e
       le condizioni atmosferiche sono estreme. Il suo territorio non è definito da
       distanze, ma da ombre e silenzio, con una presenza invisibile e immobile.
-    origin_en: The species sp_noctipedis_umbrata is an apex predator adapted to the
+    origin_en: The species Sp Noctipedis Umbrata is an apex predator adapted to the
       mezzanotte_orbitale biome, evolving to thrive in the unique conditions of orbital
-      darkness. Its ghiandole_condensa_ozono are a key evolutionary trait, allowing
+      darkness. Its Ghiandole Condensa Ozono are a key evolutionary trait, allowing
       it to mark territory and communicate through ozone condensation.
-    origin_it: La specie sp_noctipedis_umbrata è un membro del clade Apex, originario
+    origin_it: La specie Corridore Notturno è un membro del clade Apex, originario
       di un ambiente con affinità biome mezzanotte_orbitale. La sua evoluzione si
       è sviluppata in un contesto di bassa luminosità e condizioni atmosferiche estreme,
       adattandosi a sfruttare le proprietà della condensa ozono per comunicare e cacciare.
@@ -3887,11 +3885,10 @@ sp_pyrosaltus_celeris:
     habitat_it: Si trova nei bacini vulcanici sottomarini, dove le sue zampe radianti
       e i denti silice-termici sono adatti alle temperature elevate e alla scarsità
       di cibo.
-    origin_en: The species sp_pyrosaltus_celeris originated in the volcanic abyssal
+    origin_en: The species Sp Pyrosaltus Celeris originated in the volcanic abyssal
       biome, where extreme heat and pressure shaped its unique adaptations for survival.
-    origin_it: La specie sp_pyrosaltus_celeris ha origine negli abissi vulcanici,
-      dove la sua evoluzione è stata guidata dall'ambiente estremo e dalle risorse
-      termali.
+    origin_it: La specie Saltatore di Cenere ha origine negli abissi vulcanici, dove
+      la sua evoluzione è stata guidata dall'ambiente estremo e dalle risorse termali.
     trait_narrative:
     - text_en: The teeth of the Saltatore di Cenere melt their prey instantly upon
         contact, cauterizing it without cutting.
@@ -3924,13 +3921,13 @@ sp_radiluma_pendula:
     trace_id: ''
   lore:
     behavior_en: Its collective, cooperative behavior focuses on supporting and facilitating
-      nutrition for symbiotic bacteria, using biofilm_glow to guide them to nutrient-rich
+      nutrition for symbiotic bacteria, using Biofilm Glow to guide them to nutrient-rich
       substrates pre-digested by its carapace.
     behavior_it: Lavora in modo cooperativo, prevedendo traiettorie e orchestrando
       setup multilivello all'interno di reef luminescenti. La sua motivazione è supportare
       e facilitare la nutrizione per altre specie.
-    evolutionary_niche_en: As a deep-sea symbiotic ecosystem engineer, sp_radiluma_pendula
-      evolved to fill the niche of luminescent reef engineer, enhancing biodiversity
+    evolutionary_niche_en: As a deep-sea symbiotic ecosystem engineer, Sp Radiluma
+      Pendula evolved to fill the niche of luminescent reef engineer, enhancing biodiversity
       and nutrient availability in the abyssal fracture environment.
     evolutionary_niche_it: Occupa una nicchia evolutiva come ingegnere di ecosistemi
       simbiotici, utilizzando il biofilm e il guscio bioluminescente per creare e
@@ -3941,9 +3938,9 @@ sp_radiluma_pendula:
     habitat_it: Si trova in fratture abissali sinaptiche, dove il biofilm luminescente
       e il guscio bioluminescente facilitano la comunicazione e la sopravvivenza in
       ambienti estremi.
-    origin_en: The species sp_radiluma_pendula originated in the frattura_abissale_sinaptica,
-      a deep-sea abyssal fracture where its unique biofilm_glow and carapace_luminiscente_abissale
-      evolved to support symbiotic bacteria and facilitate nutrient cycling.
+    origin_en: The species Sp Radiluma Pendula originated in the frattura_abissale_sinaptica,
+      a deep-sea abyssal fracture where its unique Biofilm Glow and Carapace Luminiscente
+      Abissale evolved to support symbiotic bacteria and facilitate nutrient cycling.
     origin_it: La specie Radiluma pendula si origina dalle fratture abissali sinaptiche,
       dove ha sviluppato un ruolo chiave come ingegnere di ecosistemi simbiotici.
       La sua evoluzione è legata alla capacità di pre-digerire nutrienti per supportare
@@ -3992,11 +3989,10 @@ sp_rubrospina_velox:
     habitat_it: Si trova prevalentemente nei badlands, dove la sua capacità di muoversi
       su terreni difficili e la sua resistenza alle temperature estreme gli permettono
       di sopravvivere.
-    origin_en: The species sp_rubrospina_velox originated within the harsh environments
+    origin_en: The species Sp Rubrospina Velox originated within the harsh environments
       of the badlands, evolving to thrive in these extreme conditions.
-    origin_it: La specie sp_rubrospina_velox ha origine nei territori dei badlands,
-      dove si è evoluta per adattarsi alle condizioni estreme e alle difficoltà del
-      terreno.
+    origin_it: La specie Corriere Spinato ha origine nei territori dei badlands, dove
+      si è evoluta per adattarsi alle condizioni estreme e alle difficoltà del terreno.
     trait_narrative: []
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -4034,12 +4030,11 @@ sp_salifossa_tenebris:
       the extreme conditions to perform its decomposition process efficiently.
     habitat_it: Si trova nelle faglie saline più profonde, dove la luce non arriva
       e la sua attività decompositiva è essenziale per il ciclo delle risorse.
-    origin_en: The species sp_salifossa_tenebris originated in the hyperarid salt
+    origin_en: The species Sp Salifossa Tenebris originated in the hyperarid salt
       plains, where its unique decomposition methods allowed it to thrive in an environment
       devoid of conventional nutrients.
-    origin_it: La specie sp_salifossa_tenebris si origina da un'evoluzione adattativa
-      in pianure saline iperaride, dove le condizioni estreme hanno plasmato la sua
-      esistenza.
+    origin_it: La specie Scavatore Salino si origina da un'evoluzione adattativa in
+      pianure saline iperaride, dove le condizioni estreme hanno plasmato la sua esistenza.
     trait_narrative: []
   lore_review_status: generated_pending_review
   schema_version: 1
@@ -4075,9 +4070,9 @@ sp_salisucta_alveata:
       salinity and extreme aridity define the ecosystem's structure.
     habitat_it: Si trova esclusivamente in pianure saline iperaride, dove il suo ruolo
       di specie keystone è essenziale per mantenere l'equilibrio dell'ecosistema salino.
-    origin_en: The species sp_salisucta_alveata originated within the hyperarid salt
+    origin_en: The species Sp Salisucta Alveata originated within the hyperarid salt
       flats, evolving to fill a keystone niche through constant water filtration.
-    origin_it: La specie sp_salisucta_alveata ha origine dalle pianure saline iperaride,
+    origin_it: La specie Filtratore Salmastro ha origine dalle pianure saline iperaride,
       dove ha sviluppato adattamenti unici per sopravvivere in un ambiente estremamente
       aspro e salino.
     trait_narrative: []
@@ -4101,14 +4096,14 @@ sp_siltovena_bifida:
     pipeline_version: '1.0'
     trace_id: ''
   lore:
-    behavior_en: sp_siltovena_bifida employs a simultaneous approach from multiple
+    behavior_en: Sp Siltovena Bifida employs a simultaneous approach from multiple
       angles, using its bifurcated body to flank prey in narrow waterways. It relies
       on its keen sense of smell and sensitive lateral line system to detect and ambush
       prey effectively.
     behavior_it: Utilizza la simultaneità di due approcci per aggredire la preda,
       sfruttando la sua biforcazione corporea. Si nasconde in sottovuoti e si muove
       silenziosamente per avvicinarsi alla preda da angoli opposti, senza essere rilevata.
-    evolutionary_niche_en: As a threat predator, sp_siltovena_bifida occupies an evolutionary
+    evolutionary_niche_en: As a threat predator, Sp Siltovena Bifida occupies an evolutionary
       niche defined by its ability to exploit the complex dynamics of marshland ecosystems
       through ambush tactics and its specialized physical adaptations.
     evolutionary_niche_it: La specie ha sviluppato una nicchia evolutiva basata sulla
@@ -4122,11 +4117,11 @@ sp_siltovena_bifida:
       favoriscono la sua strategia di attacco. La sua capacità di muoversi in due
       direzioni contemporaneamente le permette di sorprendere la preda in acque poco
       profonde.
-    origin_en: The species sp_siltovena_bifida originated in the marshland biomes,
+    origin_en: The species Sp Siltovena Bifida originated in the marshland biomes,
       where its unique adaptations allowed it to thrive as a threat predator. Its
       evolutionary path is closely tied to the specific ecological niches of these
       environments.
-    origin_it: La specie sp_siltovena_bifida ha origine nei fangosi e stagnanti territori
+    origin_it: La specie Divisore del Delta ha origine nei fangosi e stagnanti territori
       paludosi, dove la sua biforcazione corporea le permette di occupare due traiettorie
       simultanee nella corrente limosa. La sua evoluzione è legata all'adattamento
       a un ambiente in cui la preda è costretta a muoversi in spazi ristretti.
@@ -4158,19 +4153,19 @@ sp_sonapteryx_resonans:
     evolutionary_niche_en: As a disperser, it plays a key role in spreading information
       across unvisited biomes, leveraging its sonic adaptations to function as a functional
       signature within the Bridge clade.
-    evolutionary_niche_it: Come specie bridge, sp_sonapteryx_resonans utilizza ali_membrana_sonica
-      e canto_di_richiamo per interagire con il bioma e trasmettere informazioni attraverso
-      la frattura_abissale_sinaptica.
+    evolutionary_niche_it: Come specie bridge, Ala Risonante utilizza Ali a Membrana
+      Sonica e Canto di Richiamo per interagire con il bioma e trasmettere informazioni
+      attraverso la frattura_abissale_sinaptica.
     habitat_en: It inhabits regions with frattura_abissale_sinaptica, where its membranous
       wings produce sound that interacts with the biome, adapting to each environment
       it traverses.
     habitat_it: 'Le membrane soniche delle ali non servono solo al volo: sono uno
       strumento che suona il bioma mentre lo attraversa, adattandosi al suono dell''habitat.'
-    origin_en: The species sp_sonapteryx_resonans is a bridge clade organism that
+    origin_en: The species Sp Sonapteryx Resonans is a bridge clade organism that
       evolved in environments characterized by frattura_abissale_sinaptica, a biome
       affinity that influences its dispersal patterns.
-    origin_it: La specie sp_sonapteryx_resonans è un dispersore che porta notizie
-      di luoghi che nessun'altra specie ha visitato, muovendosi attraverso la frattura_abissale_sinaptica.
+    origin_it: La specie Ala Risonante è un dispersore che porta notizie di luoghi
+      che nessun'altra specie ha visitato, muovendosi attraverso la frattura_abissale_sinaptica.
     trait_narrative:
     - text_en: While gliding through the frattura_abissale_sinaptica, the membranous
         wings of the Ala Risonante vibrate at frequencies that harmonize with the
@@ -4206,16 +4201,16 @@ sp_tempestarius_psionicus:
     trace_id: ''
   lore:
     behavior_en: Tempestarius Psionicus employs its antennae_plasmatiche_tempesta
-      to harness lightning and geomagnetic sensors to track prey, while its carapace_luminiscente_abissale
-      provides camouflage in the abyssal darkness.
+      to harness lightning and geomagnetic sensors to track prey, while its Carapace
+      Luminiscente Abissale provides camouflage in the abyssal darkness.
     behavior_it: Utilizza le antenne plasmatiche tempesta per convogliare fulmini
       atmosferici in attacchi mirati o scudi ionici. I sensori geomagnetici gli permettono
       di triangolare le prede a distanze impossibili per la caccia tradizionale. Quando
       attacca, lo fa dall'interno della tempezza, sfruttando la confusione causata
       dalle sue antenne plasmatiche.
     evolutionary_niche_en: As an apex predator, it occupies the evolutionary niche
-      of a solitary hunter with advanced social coordination through risonanza_di_branco
-      and sinapsi_coraline_polifoniche, ensuring dominance in its biome.
+      of a solitary hunter with advanced social coordination through Pack Resonance
+      and Sinapsi Coraline Polifoniche, ensuring dominance in its biome.
     evolutionary_niche_it: Come apex predator, ha evolto per dominare le fratture
       abissali sinaptiche attraverso una combinazione di sensori geomagnetici, antenne
       plasmatiche tempesta e una strategia di branco. La sua evoluzione è stata guidata
@@ -4315,7 +4310,7 @@ sp_tonitrudens_ferox:
     origin_en: The species Tonitrudens ferox originated within the stratospheric storm
       biome, evolving from early threat clade ancestors that adapted to the extreme
       conditions of this environment.
-    origin_it: La specie sp_tonitrudens_ferox è originaria della stratosfera_tempestosa,
+    origin_it: La specie Rosicchiatore di Tuono è originaria della stratosfera_tempestosa,
       dove ha sviluppato adattamenti per sopravvivere in un ambiente estremo e violento.
       La sua evoluzione è stata guidata dalla necessità di adattarsi a condizioni
       di vita caotiche e senza prevedibilità.
@@ -4355,11 +4350,11 @@ sp_ventornis_longiala:
       and electrostatic abilities to function optimally.
     habitat_it: Si muove tra i confini di bioma, sfruttando le correnti atmosferiche
       e la complessità dei canyons_risonanti per planare senza battito per ore.
-    origin_en: The species sp_ventornis_longiala originated in the canyons_risonanti
+    origin_en: The species Sp Ventornis Longiala originated in the canyons_risonanti
       biome, where its unique adaptations to the extreme environmental conditions
       allowed it to thrive in the dynamic and unpredictable terrain of the resonant
       canyons.
-    origin_it: La specie sp_ventornis_longiala ha origini nei canyons_risonanti, dove
+    origin_it: La specie Aliante della Mesa ha origini nei canyons_risonanti, dove
       le sue ali fulminee e le membrane pneumatofori si sono sviluppate per adattarsi
       alle condizioni estreme dei margini ecologici.
     trait_narrative:
@@ -4399,7 +4394,7 @@ sp_vitricyba_punctata:
       predator within its niche.
     behavior_it: Predatore della routine altrui, si muove con una puntualità metodica,
       sfruttando i ritmi di altre specie per cacciarle con una precisione inarrivabile.
-    evolutionary_niche_en: As a threat clade species, sp_vitricyba_punctata occupies
+    evolutionary_niche_en: As a threat clade species, Sp Vitricyba Punctata occupies
       an evolutionary niche as a predator of the routine of other species, leveraging
       its sensory and behavioral traits to ensure consistent prey capture.
     evolutionary_niche_it: Ha sviluppato una nicchia evolutiva basata sull'osservazione
@@ -4410,10 +4405,10 @@ sp_vitricyba_punctata:
       predation.
     habitat_it: Si trova in atolli di origine vulcanica, dove la roccia obsidiana
       domina il paesaggio e la fauna è scarsa ma precisa nel suo comportamento.
-    origin_en: The species sp_vitricyba_punctata originated in the obsidian atolls,
+    origin_en: The species Sp Vitricyba Punctata originated in the obsidian atolls,
       where its unique adaptations allowed it to thrive in an environment characterized
       by extreme conditions and limited resources.
-    origin_it: La specie sp_vitricyba_punctata ha origini nel biome dell'atollo_obsidiana,
+    origin_it: La specie Beccatore di Vetro ha origini nel biome dell'atollo_obsidiana,
       dove si è adattata a vivere in un ambiente estremamente rigido e inospitale.
     trait_narrative: []
   lore_review_status: generated_pending_review
@@ -4457,11 +4452,11 @@ sp_zephyrovum_fidelis:
     habitat_it: Vive esclusivamente nella stratosfera_tempestosa, dove le correnti
       d'aria sono intense e costanti. Questo ambiente le permette di muoversi senza
       bisogno di sforzi fisici, sfruttando il vento per la sua sopravvivenza.
-    origin_en: The species sp_zephyrovum_fidelis originated from the tempestuous stratosphere,
+    origin_en: The species Sp Zephyrovum Fidelis originated from the tempestuous stratosphere,
       where it adapted to perform the role of pollen and spore disperser. Its evolution
       is tied to its ability to move with air currents, allowing it to reliably transport
       plant materials.
-    origin_it: La specie sp_zephyrovum_fidelis ha origini nella stratosfera_tempestosa,
+    origin_it: La specie Nidificatore del Maestrale ha origini nella stratosfera_tempestosa,
       dove si è adattata per svolgere il ruolo di dispersore di pollini e spore. La
       sua evoluzione è legata alla capacità di muoversi con le correnti d'aria, permettendole
       di trasportare materiali vegetali in modo affidabile.
@@ -4501,14 +4496,14 @@ steppe_bison_mini:
       other organisms.
     habitat_it: Abita in criosteppe, zone caratterizzate da permafrost e neve persistente,
       dove si muove tra muschi e licheni.
-    origin_en: The steppe bison mini is a product of the cryosteppe's harsh environment,
+    origin_en: The Steppe Bison Mini is a product of the cryosteppe's harsh environment,
       evolving to thrive in the cold and sparse vegetation of this biome. Its specialized
       adaptations allow it to survive and shape its ecosystem through grazing and
       soil engineering.
     origin_it: Il bisonte nano della steppa ha origine dalle criosteppe, dove si è
       adattato alle condizioni estreme di freddo e neve.
     trait_narrative:
-    - text_en: The steppe bison mini uses its muscular ventricle with gastrolites
+    - text_en: The Steppe Bison Mini uses its muscular ventricle with gastrolites
         to grind tough food.
       text_it: Il bisonte nano della steppa utilizza il suo ventriglio muscoloso per
         macinare cibi duri, grazie ai gastroliti che lo aiutano a digerire muschi
@@ -4518,13 +4513,13 @@ steppe_bison_mini:
       text_it: Le ossa porose del bisonte nano della steppa modulano il contenuto
         idrico per mutare massa, adattandosi alle condizioni del cryosteppe.
       trait_id: scheletro_idro_regolante
-    - text_en: The steppe bison mini expels powerful jets of air through thoracic
+    - text_en: The Steppe Bison Mini expels powerful jets of air through thoracic
         valves for propulsion.
       text_it: Il bisonte nano della steppa usa le valvole toraciche per rilasciare
         getti propulsivi istantanei, permettendogli di muoversi rapidamente sulle
         superfici ghiacciate.
       trait_id: respiro_a_scoppio
-    - text_en: The steppe bison mini controls buoyancy and depth with adjustable gas
+    - text_en: The Steppe Bison Mini controls buoyancy and depth with adjustable gas
         sacs.
       text_it: Il bisonte nano della steppa regola le sacche gassose per controllare
         l'assetto e la profondità, permettendogli di muoversi con agilità nel cryosteppe.
@@ -4559,8 +4554,8 @@ symbiotica_thermalis:
     evolutionary_niche_en: Symbiotica Thermalis occupies a keystone evolutionary niche
       by integrating energy-sharing metabolism, hydraulic skeletal structures, and
       symbiotic bacteria to sustain both itself and the coral colonies it supports.
-    evolutionary_niche_it: Come specie keystone, Symbiotica Thermalis ha sviluppato
-      un metabolismo di condivisione energetica e un sistema di comunicazione risonante
+    evolutionary_niche_it: Come specie keystone, Simbionte Termale ha sviluppato un
+      metabolismo di condivisione energetica e un sistema di comunicazione risonante
       per coordinare le squadre, permettendo una gestione efficiente delle risorse
       e della difesa collettiva nei biomi termali estremi.
     habitat_en: This species exclusively inhabits tropical thermal dorsal biomes,
@@ -4573,10 +4568,10 @@ symbiotica_thermalis:
     origin_en: Symbiotica Thermalis originated within the tropical thermal dorsal
       biomes, evolving to fulfill a keystone role in maintaining coral colony stability
       through its unique metabolic cooperation and hydraulic skeleton.
-    origin_it: Symbiotica Thermalis è originaria delle dorsali termali tropicali,
-      dove ha evoluto una relazione simbiotica cruciale per la sopravvivenza delle
-      colonie corali. La sua esistenza è intrinsecamente legata alla salute di questi
-      ecosistemi, mantenendo un equilibrio termico e chimico essenziale.
+    origin_it: Simbionte Termale è originaria delle dorsali termali tropicali, dove
+      ha evoluto una relazione simbiotica cruciale per la sopravvivenza delle colonie
+      corali. La sua esistenza è intrinsecamente legata alla salute di questi ecosistemi,
+      mantenendo un equilibrio termico e chimico essenziale.
     trait_narrative:
     - text_en: Whisper energy through contact, replenishing the wounded and young
         with a collective reserve that keeps the colony united.
@@ -4677,7 +4672,7 @@ terracetus_ambulator:
       il suo scheletro leggero e la sua locomozione a tappeto gli permettono di spostarsi
       senza sforzo su lunghe distanze.
     evolutionary_niche_en: Adapted to endure extreme cold with its natural antifreeze
-      serum, the terracetus_ambulator occupies a specialized ecological role as both
+      serum, the Terracetus Ambulator occupies a specialized ecological role as both
       a herbivore and a keystone species in its biome.
     evolutionary_niche_it: La sua coesistenza con specie keystone ha plasmato la sua
       evoluzione, rendendolo un elemento chiave nella regolazione dell'equilibrio
@@ -4688,10 +4683,10 @@ terracetus_ambulator:
     habitat_it: Si muove attraverso le steppe algoritmiche, dove il suo ventre ciliare
       e la pelle resistente gli permettono di sopravvivere in terreni difficili e
       temperature estreme.
-    origin_en: The terracetus_ambulator is a keystone species native to the steppe_algoritmiche
+    origin_en: The Terracetus Ambulator is a keystone species native to the steppe_algoritmiche
       biome, evolving in isolation to develop unique adaptations for survival in its
       harsh environment.
-    origin_it: Il Terracetus Ambulator ha origini nella vasta distesa delle steppe
+    origin_it: Il Megattera Terrestre ha origini nella vasta distesa delle steppe
       algoritmiche, dove la sua evoluzione ha favorito la sua capacità di adattarsi
       a un ambiente ostile e ricco di risorse limitate.
     trait_narrative:
@@ -4758,9 +4753,9 @@ thaw_rot:
       e disgelo creano le condizioni ideali per la sua attività e proliferazione.
     origin_en: Thawrot is a cryophile decomposer native to the cryosteppe, which evolved
       to exploit nutrients released during thaws, a key event for its survival.
-    origin_it: Thaw_rot è un decompositore criofilo originario delle cryosteppe, sviluppatosi
-      per sfruttare i nutrienti rilasciati durante i disgeli, un evento chiave per
-      la sua sopravvivenza.
+    origin_it: Marciume del Disgelo è un decompositore criofilo originario delle cryosteppe,
+      sviluppatosi per sfruttare i nutrienti rilasciati durante i disgeli, un evento
+      chiave per la sua sopravvivenza.
     trait_narrative:
     - text_en: Digestive filaments compact waste, freeing up vital space and accelerating
         decomposition.
@@ -4812,7 +4807,7 @@ thermo_raptor:
     behavior_it: Predatore apex termofilo, attacca nelle ore piu roventi, sfruttando
       il calore per indebolire le prede e lanciando attacchi brevi e letali con le
       arti posteriori potenti.
-    evolutionary_niche_en: The thermo_raptor occupies a unique niche as a top predator
+    evolutionary_niche_en: The Thermo Raptor occupies a unique niche as a top predator
       in extreme heat environments, utilizing specialized traits to exploit thermal
       energy and maintain dominance.
     evolutionary_niche_it: Occupa una nicchia ecologica come predatore dominante in
@@ -4825,38 +4820,38 @@ thermo_raptor:
     habitat_it: Si muove nei deserti caldi, dove la sua pelle riflettente e le creste
       termo-disperdenti gli permettono di gestire il calore estremo senza sovraccarico
       metabolico.
-    origin_en: The thermo_raptor evolved in the scorching deserts where extreme heat
+    origin_en: The Thermo Raptor evolved in the scorching deserts where extreme heat
       shaped its physiology and behavior, adapting to thrive in environments where
       other predators could not.
-    origin_it: Il thermo_raptor si è evoluto in ambienti deserti caldi, dove la selezione
+    origin_it: Il Raptor Termico si è evoluto in ambienti deserti caldi, dove la selezione
       naturale ha favorito adattamenti termoregolatori per sopravvivere ai picchi
       di temperatura estremi.
     trait_narrative:
-    - text_en: The thermo raptor's waxy cuticles allow it to efficiently absorb and
+    - text_en: The Thermo Raptor's waxy cuticles allow it to efficiently absorb and
         convert energy from multiple sources within dynamic environments.
       text_it: Le cuticole cerose assorbono e convertono l'energia del sole e del
         calore ambiente in modo efficiente, permettendo al Raptor Termico di muoversi
         senza sforzo in ambienti estremi.
       trait_id: cuticole_cerose
-    - text_en: The thermo raptor's thermal fats enable it to stabilize energy absorption
+    - text_en: The Thermo Raptor's thermal fats enable it to stabilize energy absorption
         and conversion from multiple sources in dynamic environments.
       text_it: I grassi termici forniscono al Raptor Termico una riserva di energia
         termica, che gli permette di sopravvivere ai picchi di calore senza perdere
         la sua agilità.
       trait_id: grassi_termici
-    - text_en: The thermo raptor's porous skin with internal air sacs acts as a lightweight
+    - text_en: The Thermo Raptor's porous skin with internal air sacs acts as a lightweight
         thermal barrier, reducing heat transfer in arid conditions.
       text_it: Le pelli cave con sacche d'aria interne agiscono come una barriera
         termica leggera, aiutando il Raptor Termico a mantenere un'equilibrio termico
         in ambienti aridi estremi.
       trait_id: pelli_cave
-    - text_en: The thermo raptor's heat shock proteins stabilize peptides under thermal
+    - text_en: The Thermo Raptor's heat shock proteins stabilize peptides under thermal
         stress, preventing cellular denaturation during temperature spikes.
       text_it: Le proteine di shock termico proteggono il Raptor Termico dalle alte
         temperature, mantenendo la sua struttura cellulare intatta durante le escursioni
         termiche estreme.
       trait_id: proteine_shock_termico
-    - text_en: The thermo raptor's root-connected capillary networks remove heat and
+    - text_en: The Thermo Raptor's root-connected capillary networks remove heat and
         exchange fluids with plant substrates to regulate basal temperature.
       text_it: Le reti capillari radici permettono al Raptor Termico di scambiare
         fluidi con le piante circostanti, aiutandolo a regolare la sua temperatura
@@ -4907,7 +4902,7 @@ umbra_alaris:
       biome, evolving in the dense, humid environments of the region's thermal tropical
       zones. Its unique adaptations for survival in this biome include optical invisibility
       and thermal attacks, which are crucial for both hunting and defense.
-    origin_it: L'Uccello Ombra (umbra_alaris) è originario del biome dorsale_termale_tropicale,
+    origin_it: L'Uccello Ombra (Uccello Ombra) è originario del biome dorsale_termale_tropicale,
       dove la sua capacità di assorbire la luce è un adattamento chiave per sopravvivere
       negli ambienti oscuri e caldi.
     trait_narrative:
@@ -4971,9 +4966,9 @@ zephyr_spore_courier:
       have adapted to survive the extreme cold and lack of vegetation.
     habitat_it: Hanno un habitat limitato alle cryosteppe, dove il loro corpo compatto
       e solido li aiuta a resistere alle temperature estreme e alla mancanza di vegetazione.
-    origin_en: The Zephyr Spore Couriers originated in the cryosteppe, evolving to
+    origin_en: The Zephyr Spore Courier originated in the cryosteppe, evolving to
       thrive in the harsh, cold environments where they now reside.
-    origin_it: Gli Zephyr Spore Couriers sono originari delle cryosteppe, dove hanno
+    origin_it: Gli Zephyr Spore Courier sono originari delle cryosteppe, dove hanno
       sviluppato adattamenti specifici per sopravvivere al freddo estremo e alla scarsità
       di vegetazione.
     trait_narrative: []
