@@ -66,8 +66,18 @@ under-corrected by -0.80r at N=40; 1.4's CI95 includes 0).
 - **N=40 confirm DONE** (sec.3): 1.4 lands the paired round delta at +0.68 (CI95 -0.14..+1.51,
   crosses 0 = statistically net-neutral). 1.3 left a -0.80r residual (excluded 0).
 - Calibrated on **enc_savana_01** only. The offset is a GLOBAL enemy-HP scalar (composes
-  multiplicatively with each biome's `hp_mult`); a cross-biome sweep is the remaining follow-up
-  (the offset slightly leans toward harder on this scenario -- the safe direction for a buff).
+  multiplicatively with each biome's `hp_mult`); the offset slightly leans toward harder on this
+  scenario -- the safe direction for a buff.
+- **Cross-biome sweep ATTEMPTED (2026-06-24) -- HARNESS-LIMITED, not feasible as-is.** Of the 14
+  encounters, only `enc_savana_01` (standard + elimination + diff2) yields a clean
+  rounds-to-victory A/B. The one other elimination scenario, `enc_badlands_foodweb_pilot_01`
+  (hardcore diff4), saturates the timeout/defeat floor (control 0/16 victories, **0 both-victory
+  pairs** -> no signal); the remaining 12/14 are non-elimination (capture / escort / escape /
+  sabotage / survival) which the passive closest-attack player-AI never wins. So 1.4 stays
+  savana-calibrated (the representative standard-elimination case). A true cross-biome validation
+  needs an objective-aware / positioning player-AI policy or human playtests (a sim-harness
+  upgrade). Residual risk is safe-direction (the offset only adds difficulty; the grant offsets
+  player-side -- on badlands the treatment still scored 1 win + fewer defeats than control).
 - AI-policy sim (passive closest-attack player AI) -> directional, not a human-play win-rate.
 
 ## 5. Disposition
