@@ -178,7 +178,11 @@ const { applyStressWaveTick } = require('../services/combat/stressWave');
 // QW1 (M-018 worldgen card): biome diff_base + stress_modifiers → runtime
 // pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
 // produces different numbers, not just different texture.
-const { getBiomeModifiers, applyEnemyHpMultiplier } = require('../services/combat/biomeModifiers');
+const {
+  getBiomeModifiers,
+  applyEnemyHpMultiplier,
+  formPulseV2EnemyHpOffset,
+} = require('../services/combat/biomeModifiers');
 // TKT-PLAYTEST-SEED (2026-05-29): canonical seedable combat RNG. Unseeded
 // defaultRng === Math.random (zero prod change). The seed is recorded per
 // session (session.combatRng) and installed by sessionRoundBridge via
@@ -2240,8 +2244,15 @@ function createSessionRouter(options = {}) {
       // payload (e.g. hardcore scenarios) -> pressure_delta 0 -> WR bands unchanged.
       const seasonRaw = req.body?.season || req.body?.encounter?.season || null;
       const crossEvent = getCrossEventPressureDelta(biomeIdRaw, seasonRaw);
-      if (biomeModifiers.hp_mult !== 1.0) {
-        applyEnemyHpMultiplier(units, biomeModifiers.hp_mult);
+      // Form-Pulse trait v2 enemy-HP offset (ratify path-1): fold into the biome
+      // hp_mult so enemy HP is scaled ONCE (applyEnemyHpMultiplier is idempotent per
+      // unit via _biome_hp_applied). No-op (1.0) unless FORM_PULSE_TRAIT_V2_ENABLED is
+      // ON -> when the team buff flips on, enemies absorb a matching ~+8% so NET
+      // difficulty stays near baseline (#3017 A/B calibration).
+      const fpV2EnemyHpOffset = formPulseV2EnemyHpOffset();
+      const effectiveEnemyHpMult = biomeModifiers.hp_mult * fpV2EnemyHpOffset;
+      if (effectiveEnemyHpMult !== 1.0) {
+        applyEnemyHpMultiplier(units, effectiveEnemyHpMult);
       }
 
       // M13 P3 Phase B — apply progression perks (effectiveStats + passives).
