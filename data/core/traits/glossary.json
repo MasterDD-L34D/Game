@@ -2956,6 +2956,12 @@
       "label_en": "Radici Ancora Planare",
       "description_it": "Radici ancora planare (treant): molto tanky da fermo.",
       "description_en": ""
+    },
+    "eco_sismico": {
+      "label_it": "Eco Sismico",
+      "label_en": "Eco Sismico",
+      "description_it": "Eco sismico (banshee): un impulso marca il terreno come `zona_risonante` (2 round).",
+      "description_en": ""
     }
   }
 }

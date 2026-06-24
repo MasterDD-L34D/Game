@@ -258,10 +258,14 @@ test('effect_type non supportato → 501 (sentinel test, ability sintetica unsup
     res.body.supported.includes('cleanse_status'),
     'cleanse_status (filtri_bioattivi ACTIVE, creature-trait)',
   );
+  assert.ok(
+    res.body.supported.includes('stamp_tile_status'),
+    'stamp_tile_status (eco_sismico producer, creature-trait)',
+  );
   assert.equal(
     res.body.supported.length,
-    21,
-    '21 effect_type supportati (+suppress_ability +apply_status +cleanse_status)',
+    22,
+    '22 effect_type supportati (+suppress_ability +apply_status +cleanse_status +stamp_tile_status)',
   );
 });
 

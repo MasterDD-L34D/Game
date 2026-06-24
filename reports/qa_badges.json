@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-23T20:48:01.983311Z",
+  "generated_at": "2026-06-24T13:49:48.497342Z",
   "summary": {
-    "total_traits": 299,
-    "glossary_ok": 299,
+    "total_traits": 300,
+    "glossary_ok": 300,
     "glossary_missing": 0,
-    "matrix_ok": 191,
+    "matrix_ok": 192,
     "matrix_mismatch": 108,
     "with_conflicts": 28,
-    "matrix_only_traits": 31
+    "matrix_only_traits": 30
   },
   "checks": {
     "traits": {
-      "passed": 299,
-      "total": 299,
+      "passed": 300,
+      "total": 300,
       "conflicts": 28,
       "missing_glossary": 0,
       "matrix_mismatch": 108
@@ -27,7 +27,6 @@
       "campo_di_fase",
       "ciclo_vitale_anomalo",
       "ciclo_vitale_completo",
-      "eco_sismico",
       "fisiologia_predatoria",
       "fotosintesi_bifase",
       "ghiandole_nettare_memetico",
@@ -40,7 +39,8 @@
       "origine_artificiale",
       "pigmenti_termici",
       "proboscide_polifaga",
-      "proteine_shock_termico"
+      "proteine_shock_termico",
+      "respirazione_biologica"
     ],
     "matrix_mismatch_traits": [
       "aculei_velenosi",
