@@ -7238,6 +7238,27 @@ traits:
       prossimo colpo). Il bagliore si affievolisce sotto meta' vita. Ref Slay-the-Spire
       Glow.
 
+  # Slice salvage (eco_sismico producer): tile-status primitive engine-coded in
+  # combat/ecoSismico (#3015) -- chi entra in una `zona_risonante` e' disorientato
+  # (la banshee sorgente e' immune). persistent_marker = no-op nel resolver; l'abilita'
+  # attiva (impulso d'area, stamp_tile_status) stampa la zona via stampZonaRisonante.
+  # Band-neutral (nessun carrier vivo + nessuna zona stampata di default).
+  eco_sismico:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: eco_sismico
+      log_tag: eco_sismico
+    description_it: |
+      Eco sismico (banshee): un impulso marca il terreno come `zona_risonante`
+      (2 round). Le unita' che vi entrano sono disorientate; la banshee che lo
+      emette ne e' immune. L'abilita' attiva (impulso d'area, raggio 4) stampa la
+      zona. Ref Into the Breach telegraph / Caves of Qud senso sismico.
+
   # Move terrain-cost substrate (phase 2): adattamento_volo (archon/balor/banshee/
   # couatl). Volo planato engine-coded (combat/movementResolver applyVoloGrade +
   # evaluateVoloGrade, read by the move-gate in session.js). persistent_marker =

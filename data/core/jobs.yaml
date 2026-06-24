@@ -697,6 +697,21 @@ jobs:
         rank: 1
         source: trait
         trait_id: pigmenti_aurorali
+      trait_eco_risonanza:
+        ability_id: eco_risonanza
+        name_it: "Eco Sismico -- Risonanza"
+        description_it: "Abilità nativa del trait eco_sismico."
+        cost_ap: 2
+        cost_pi: 0
+        effect_type: stamp_tile_status
+        status_id: zona_risonante
+        status_duration: 2
+        aoe_size: 3
+        range: 4
+        target: self
+        rank: 1
+        source: trait
+        trait_id: eco_sismico
       trait_digest_heal:
         ability_id: digest_heal
         name_it: "Digestione Rigenerante"

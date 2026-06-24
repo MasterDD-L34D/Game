@@ -134,6 +134,26 @@ traits:
         status_id: pigmenti_intensificato
         status_duration: 2
         target: self
+  # Creature-kit salvage (eco_sismico producer): trait-granted ACTIVE = stamp_tile_status.
+  # Position-targeted AoE impulse (raggio 4) che marca le tile come `zona_risonante`
+  # (2 round) via combat/ecoSismico.stampZonaRisonante. Chi entra nella zona e' disorientato
+  # (consumer engine-coded, #3015; sorgente self-immune). cost_ap/aoe_size/range = PROPOSED
+  # (ratify N=40). Spec 2026-06-22-creature-trait-mechanics-design sez.5.
+  eco_sismico:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: eco_risonanza
+        name_it: "Eco Sismico -- Risonanza"
+        cost_ap: 2
+        effect_type: stamp_tile_status
+        status_id: zona_risonante
+        status_duration: 2
+        aoe_size: 3
+        range: 4
   filamenti_digestivi_compattanti:
     attack_mod: 0
     defense_mod: 0
