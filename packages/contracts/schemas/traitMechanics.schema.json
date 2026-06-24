@@ -111,7 +111,8 @@
                       "apply_status",
                       "buff",
                       "suppress_ability",
-                      "cleanse_status"
+                      "cleanse_status",
+                      "stamp_tile_status"
                     ]
                   },
                   "damage_dice": {

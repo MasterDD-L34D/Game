@@ -20,6 +20,7 @@ const {
   zonaAt,
   applyZonaOnEnter,
   decayTileStatuses,
+  tilesInArea,
   ECO_TRAIT,
   ZONA,
   ZONA_ROUNDS,
@@ -124,4 +125,37 @@ test('constants', () => {
   assert.equal(ZONA, 'zona_risonante');
   assert.equal(ZONA_ROUNDS, 2);
   assert.equal(DISORIENT_TURNS, 1);
+});
+
+// --- tilesInArea (AoE tile enumeration for the producer) ------------------------------
+
+function sortTiles(ts) {
+  return ts.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+}
+
+test('tilesInArea size 3 returns the 3x3 box (Chebyshev <= 1) in bounds', () => {
+  const ts = tilesInArea({ x: 2, y: 2 }, 3, { width: 6, height: 6 });
+  assert.equal(ts.length, 9);
+  assert.ok(ts.some((t) => t.x === 1 && t.y === 1));
+  assert.ok(ts.some((t) => t.x === 3 && t.y === 3));
+  assert.ok(!ts.some((t) => t.x === 4));
+});
+
+test('tilesInArea clips to grid bounds at a corner', () => {
+  const ts = tilesInArea({ x: 0, y: 0 }, 3, { width: 6, height: 6 });
+  assert.deepEqual(sortTiles(ts), [
+    { x: 0, y: 0 },
+    { x: 0, y: 1 },
+    { x: 1, y: 0 },
+    { x: 1, y: 1 },
+  ]);
+});
+
+test('tilesInArea size 1 is just the center tile', () => {
+  assert.deepEqual(tilesInArea({ x: 3, y: 2 }, 1, { width: 6, height: 6 }), [{ x: 3, y: 2 }]);
+});
+
+test('tilesInArea tolerates a missing/invalid center or bounds', () => {
+  assert.deepEqual(tilesInArea(null, 3, { width: 6, height: 6 }), []);
+  assert.deepEqual(tilesInArea({ x: 1, y: 1 }, 3, null), []);
 });

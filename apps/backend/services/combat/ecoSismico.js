@@ -102,6 +102,24 @@ function applyZonaOnEnter({ grid, unit, currentRound } = {}) {
 }
 
 /**
+ * Enumerate the in-bounds tiles of a square AoE (side `size`, Chebyshev <= floor(size/2))
+ * centered on `center`. Mirrors the unitsInArea box semantics (size 3 -> 3x3). Returns
+ * [] for a missing/invalid center or bounds. Used by the producer to pick stamp tiles.
+ */
+function tilesInArea(center, size, bounds) {
+  if (!center || !Number.isFinite(center.x) || !Number.isFinite(center.y)) return [];
+  if (!bounds || !Number.isFinite(bounds.width) || !Number.isFinite(bounds.height)) return [];
+  const half = Math.floor((Number(size) || 1) / 2);
+  const out = [];
+  for (let x = center.x - half; x <= center.x + half; x += 1) {
+    for (let y = center.y - half; y <= center.y + half; y += 1) {
+      if (x >= 0 && y >= 0 && x < bounds.width && y < bounds.height) out.push({ x, y });
+    }
+  }
+  return out;
+}
+
+/**
  * End-of-round decay: drop every tile-status whose expiry has passed
  * (expires_round <= currentRound). Returns the count removed.
  */
@@ -124,6 +142,7 @@ module.exports = {
   zonaAt,
   applyZonaOnEnter,
   decayTileStatuses,
+  tilesInArea,
   ECO_TRAIT,
   ZONA,
   DISORIENT,

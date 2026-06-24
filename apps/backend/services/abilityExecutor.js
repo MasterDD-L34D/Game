@@ -78,6 +78,7 @@ const SUPPORTED_EFFECT_TYPES = new Set([
   'suppress_ability',
   'apply_status',
   'cleanse_status',
+  'stamp_tile_status',
   'surge_aoe',
   'reaction',
   'aggro_pull',
@@ -2347,6 +2348,77 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // stamp_tile_status (eco_sismico producer): position-targeted AoE impulse that marks
+  // the terrain as `zona_risonante` for N rounds (combat/ecoSismico). Units that ENTER
+  // the zone are disoriented (consumer engine-coded at the move-sites, #3015; the source
+  // banshee is self-immune). Trait-granted ability (trait_id eco_sismico, generated from
+  // trait_mechanics.yaml). Band-neutral: no live unit carries eco_sismico, so it never
+  // fires by default.
+  async function executeStampTileStatus({ session, actor, ability, body }) {
+    const { stampZonaRisonante, tilesInArea } = require('./combat/ecoSismico');
+    const center = body.position;
+    if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
+      return { status: 400, body: { error: 'position { x, y } richiesta per stamp_tile_status' } };
+    }
+    if (!isWithinGrid(center, session.grid?.width || gridSize)) {
+      return { status: 400, body: { error: 'centro AoE fuori griglia' } };
+    }
+    const range = Number(ability.range || 0);
+    if (range > 0 && manhattanDistance(actor.position, center) > range) {
+      return { status: 400, body: { error: `centro AoE fuori range (${range})` } };
+    }
+    const bounds = {
+      width: Number(session.grid?.width) || gridSize,
+      height: Number(session.grid?.height ?? session.grid?.width) || gridSize,
+    };
+    const tiles = tilesInArea(center, Number(ability.aoe_size || 3), bounds);
+    const rounds = Number(ability.status_duration || 2);
+    const stamped = stampZonaRisonante(session.grid, tiles, {
+      sourceId: actor.id,
+      currentRound: session.turn,
+      rounds,
+    });
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const statusId = String(ability.status_id || 'zona_risonante');
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'stamp_tile_status',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      center,
+      aoe_size: Number(ability.aoe_size || 3),
+      status_id: statusId,
+      rounds,
+      tiles_stamped: stamped,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'stamp_tile_status',
+        center,
+        status_id: statusId,
+        tiles_stamped: stamped,
+        rounds,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   // surge_aoe (cataclysm): area NxN, danno dadi a tutti i nemici dentro.
   // stress_reset opzionale (Surge Burst meccanica). PP/SG gating skippato.
   async function executeSurgeAoe({ session, actor, ability, body }) {
@@ -2851,6 +2923,8 @@ function createAbilityExecutor(deps) {
           return executeApplyStatus({ session, actor, ability, body });
         case 'cleanse_status':
           return executeCleanseStatus({ session, actor, ability, body });
+        case 'stamp_tile_status':
+          return executeStampTileStatus({ session, actor, ability, body });
         case 'surge_aoe':
           return executeSurgeAoe({ session, actor, ability, body });
         case 'reaction':
