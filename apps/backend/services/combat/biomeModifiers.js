@@ -48,14 +48,14 @@ const HP_MULT_FACTOR = 0.05;
 
 // Form-Pulse trait v2 enemy-HP offset (ratify path-1). When FORM_PULSE_TRAIT_V2_ENABLED
 // is ON the team carries the ~1.2/creature branco+minor grant; this offset scales enemy
-// HP so NET difficulty stays near baseline. CALIBRATED empirically (enc_savana_01 paired
-// A/B, N=12/arm, this PR): enemy-HP->rounds is SUB-linear (last-hit overkill + fixed wave
-// timing dampen it), so the naive ~+8% moved rounds ~0. Bracketed on the paired round delta
-// (treat - ctrl): offset 1.0 -> ~-1.8 rounds (buff wins), 1.5 -> ~+1.4 (offset over-corrects),
-// so the net-neutral point is ~1.3. Env-overridable (FORM_PULSE_V2_ENEMY_HP_OFFSET) for
-// re-calibration. Flag owner: services/identity/brancoTraitEmergence. N=12 is a direction
-// probe -- confirm with a full N=40 A/B before the prod flip.
-const FP_V2_ENEMY_HP_OFFSET_DEFAULT = 1.3;
+// HP so NET difficulty stays near baseline. CALIBRATED empirically (enc_savana_01 paired A/B):
+// enemy-HP->rounds is SUB-linear (last-hit overkill + fixed wave timing dampen it), so the naive
+// ~+8% moved rounds ~0. N=40/arm paired round delta (treat - ctrl): 1.3 -> -0.80 (CI95
+// -1.49..-0.11, EXCLUDES 0 = small residual player edge), 1.4 -> +0.68 (CI95 -0.14..+1.51,
+// CROSSES 0 = statistically net-neutral). 1.4 adopted. Env-overridable
+// (FORM_PULSE_V2_ENEMY_HP_OFFSET) for re-calibration / cross-biome sweep. Flag owner:
+// services/identity/brancoTraitEmergence.
+const FP_V2_ENEMY_HP_OFFSET_DEFAULT = 1.4;
 
 // Safe defaults when biome unknown / file missing / malformed.
 const SAFE_DEFAULTS = Object.freeze({

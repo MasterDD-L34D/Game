@@ -42,35 +42,39 @@ rounds FASTER. Ratify path-1: pair the flag flip with an encounter-difficulty of
 - Co-op AND the A/B sim both route enemy build through `/api/session/start`, so the offset
   applies in real play and is measured by the harness.
 
-## 3. Calibration A/B (enc_savana_01, paired N=12/arm, aggressive, 2p)
+## 3. Calibration A/B (enc_savana_01, aggressive, 2p)
 
 Control = flag OFF + no grant. Treatment = flag ON (offset) + the v2 grant
 (`AI_SIM_FORM_PULSE_V2_GRANT=1`). Paired by seed (`fp-trait-ab-analyze.js`), so the only
-between-arm difference is the grant + its offset.
+between-arm difference is the grant + its offset. An N=12/arm probe bracketed the value;
+**N=40/arm** (tight CI) ratified it:
 
-| offset           | paired delta rounds (treat - ctrl) | reading                                                    |
-| ---------------- | ---------------------------------- | ---------------------------------------------------------- |
-| 1.0 (grant only) | **-1.82** (CI95 -2.93 .. -0.70)    | buff wins -- treatment clears faster (matches #3017 -1.63) |
-| **1.3**          | **+0.42** (CI95 -1.47 .. +2.31)    | **CI95 crosses 0 = net-neutral -> CALIBRATED**             |
-| 1.5              | +1.42 (CI95 +0.22 .. +2.61)        | over-corrects -- offset wins                               |
+| offset           | N   | paired delta rounds (treat - ctrl)  | reading                                                   |
+| ---------------- | --- | ----------------------------------- | --------------------------------------------------------- |
+| 1.0 (grant only) | 12  | -1.82 (CI95 -2.93 .. -0.70)         | buff wins (matches #3017 -1.63)                           |
+| 1.3              | 40  | -0.80 (CI95 -1.49 .. -0.11)         | EXCLUDES 0 -- small residual player edge (under-corrects) |
+| **1.4**          | 40  | **+0.68** (CI95 **-0.14 .. +1.51**) | **CROSSES 0 = statistically net-neutral -> ADOPTED**      |
+| 1.5              | 12  | +1.42 (CI95 +0.22 .. +2.61)         | over-corrects                                             |
 
-**Default set to 1.3.** Key finding: enemy-HP -> rounds-to-clear is **sub-linear** (last-hit
+**Default set to 1.4.** Key finding: enemy-HP -> rounds-to-clear is **sub-linear** (last-hit
 overkill + fixed wave-trigger timing dampen it), so the naive ~+8% (1.08) moved the delta ~0;
-the grant's ~1.8-round edge needs ~+30% enemy HP to cancel.
+the grant's ~1.8-round edge needs ~+40% enemy HP to reach statistical neutrality (1.3
+under-corrected by -0.80r at N=40; 1.4's CI95 includes 0).
 
 ## 4. Caveats / before the flip
 
-- **N=12 is a direction probe** (CI95 ~+-1.9 rounds). Confirm with a full **N=40** A/B (the
-  #3017 standard) before `FORM_PULSE_TRAIT_V2_ENABLED` is flipped ON in prod.
+- **N=40 confirm DONE** (sec.3): 1.4 lands the paired round delta at +0.68 (CI95 -0.14..+1.51,
+  crosses 0 = statistically net-neutral). 1.3 left a -0.80r residual (excluded 0).
 - Calibrated on **enc_savana_01** only. The offset is a GLOBAL enemy-HP scalar (composes
-  multiplicatively with each biome's `hp_mult`); a cross-biome sweep is the N=40 follow-up.
+  multiplicatively with each biome's `hp_mult`); a cross-biome sweep is the remaining follow-up
+  (the offset slightly leans toward harder on this scenario -- the safe direction for a buff).
 - AI-policy sim (passive closest-attack player AI) -> directional, not a human-play win-rate.
 
 ## 5. Disposition
 
 PROPOSED. Tests: `tests/services/combat/formPulseV2EnemyHpOffset.test.js` (6/6 -- flag gate,
-env override, enemy-only + idempotent fold). `prettier --check` clean. After this + the N=40
-confirm, the FORM_PULSE flip is a single deploy step: set `FORM_PULSE_TRAIT_V2_ENABLED=true`
+env override, enemy-only + idempotent fold). `prettier --check` clean. The N=40 confirm is DONE
+(sec.3); after this merges the FORM_PULSE flip is a single deploy step: set `FORM_PULSE_TRAIT_V2_ENABLED=true`
 in the deploy `.env` (the offset rides the same flag). See
 `Game-Godot-v2/docs/godot-v2/qa/2026-06-23-prod-flag-flip-readiness.md`. Reproduce: boot two
 backends (control: no flag; treatment: `FORM_PULSE_TRAIT_V2_ENABLED=true`), run
