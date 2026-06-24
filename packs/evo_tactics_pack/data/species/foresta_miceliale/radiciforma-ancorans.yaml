@@ -1,0 +1,75 @@
+id: radiciforma_ancorans
+schema_version: '1.7'
+resistance_archetype: strutturale
+display_name: Ancora radicale
+biomes:
+- foresta_miceliale
+role_trofico: flora_ancorata
+functional_tags:
+- flora_ancorata
+- broadcaster_difensivo
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: threat
+playable_unit: false
+morphotype: flora_radicata
+vc:
+  aggro: 0.5
+  risk: 0.5
+  cohesion: 0.5
+  setup: 0.5
+  explore: 0.5
+  tilt: 0.5
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno
+  densita: low
+environment_affinity:
+  biome_class: foresta_miceliale
+  koppen: []
+  hazards_expected: []
+  multibiome: []
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - corteccia_memetica
+  - pigmenti_aurorali
+  - radici_ancora_planare
+  optional_traits: []
+  required_capabilities:
+  - anchor
+  - aura_broadcast
+  jobs_bias:
+  - warden
+jobs_bias:
+- warden
+telemetry:
+  expected_pick_rate: 0.1
+  spawn_weight: 0.15
+genetic_traits:
+  core:
+  - corteccia_memetica
+  - pigmenti_aurorali
+  - radici_ancora_planare
+  - reti_capillari_radici
+  - armatura_pietra_planare
+  optional: []
+  synergy: []
+services_links: []
+description: i18n:species.radiciforma_ancorans.description
+design_stub: true
+receipt:
+  source: PTPF.v1.0
+  author: claude-code-salvage
+  date: '2026-06-23'
+  note: 'retired-creature salvage item 2a; identity ratified + kit from species_affinity; heuristic fields are honest stubs (vc/spawn/telemetry/koppen) pending calib; lore via codex_aliena_lore_gen HITL'

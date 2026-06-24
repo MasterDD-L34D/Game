@@ -1,0 +1,77 @@
+id: amorphovenator_magneticus
+schema_version: '1.7'
+resistance_archetype: adattivo
+display_name: Sondatore amorfo
+biomes:
+- reef_luminescente
+role_trofico: predatore_secondario
+functional_tags:
+- predatore_amorfo
+- scout_magnetico
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: threat
+playable_unit: false
+morphotype: amorfo
+vc:
+  aggro: 0.5
+  risk: 0.5
+  cohesion: 0.5
+  setup: 0.5
+  explore: 0.5
+  tilt: 0.5
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno
+  densita: low
+environment_affinity:
+  biome_class: reef_luminescente
+  koppen: []
+  hazards_expected: []
+  multibiome: []
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - filamenti_digestivi_compattanti
+  - olfatto_risonanza_magnetica
+  - struttura_elastica_amorfa
+  optional_traits: []
+  required_capabilities:
+  - amorphous
+  - magnetoreception
+  jobs_bias:
+  - ranger
+  - skirmisher
+jobs_bias:
+- ranger
+- skirmisher
+telemetry:
+  expected_pick_rate: 0.1
+  spawn_weight: 0.15
+genetic_traits:
+  core:
+  - filamenti_digestivi_compattanti
+  - olfatto_risonanza_magnetica
+  - struttura_elastica_amorfa
+  - lamelle_termoforetiche
+  - scheletro_idro_regolante
+  optional: []
+  synergy: []
+services_links: []
+description: i18n:species.amorphovenator_magneticus.description
+design_stub: true
+receipt:
+  source: PTPF.v1.0
+  author: claude-code-salvage
+  date: '2026-06-23'
+  note: 'retired-creature salvage item 2a; identity ratified + kit from species_affinity; heuristic fields are honest stubs (vc/spawn/telemetry/koppen) pending calib; lore via codex_aliena_lore_gen HITL'
