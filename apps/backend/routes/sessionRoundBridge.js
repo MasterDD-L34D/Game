@@ -1058,6 +1058,15 @@ function createRoundBridge(deps) {
       // best-effort: don't block round-end if the glow module is missing
     }
 
+    // eco_sismico: expire `zona_risonante` (and any other) tile-statuses whose TTL has
+    // passed. Band-neutral: nothing stamps a zone in combat yet, so the store is empty.
+    try {
+      const { decayTileStatuses } = require('../services/combat/ecoSismico');
+      if (session.grid) decayTileStatuses(session.grid, Number(session.turn || 0));
+    } catch {
+      // best-effort: don't block round-end if the eco module is missing
+    }
+
     // Status engine extension: HP regen ticks (`fed` + `healing`).
     // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
     // universal status decay so the last live tick still produces regen.
