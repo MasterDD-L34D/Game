@@ -15518,6 +15518,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15536,6 +15540,10 @@
       "famiglia_tipologia": "Difensivo/Protezione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
