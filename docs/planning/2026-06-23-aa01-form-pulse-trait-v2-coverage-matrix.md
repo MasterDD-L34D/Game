@@ -1,5 +1,5 @@
 ---
-title: 'Form-Pulse trait v2 -- MBTI x Ennea coverage matrix + engine-LIVE audit (PROPOSED)'
+title: 'Form-Pulse trait v2 -- MBTI x Ennea coverage matrix + engine-LIVE audit (RATIFIED master-dd 2026-06-24)'
 date: 2026-06-23
 sprint: aa01-impronta-reconciliation
 doc_status: review_needed
@@ -13,10 +13,11 @@ review_cycle_days: 90
 
 # Form-Pulse trait v2 -- coverage matrix + engine-LIVE audit
 
-> **L-069 posture: this PROPOSES; the branco/minor mappings + the cap-tier rule are a master-dd
-> ratify (MA3).** This is the ratify-condition for the per-player minor traits of
+> **RATIFIED by master-dd (2026-06-24, Eduardo).** The branco/minor mappings + the cap-tier rule
+> are accepted -- this was the ratify-condition for the per-player minor traits of
 > [Game PR #2992](https://github.com/MasterDD-L34D/Game/pull/2992) (flag
-> `FORM_PULSE_TRAIT_V2_ENABLED`, default OFF) and gates the flag flip. Companion evidence:
+> `FORM_PULSE_TRAIT_V2_ENABLED`, default OFF). The prod flag flip is a separate deploy step (sec.10).
+> Companion evidence:
 > [`2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md`](2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md).
 > Enforcement: `tests/services/formPulseTraitV2Coverage.test.js`.
 
@@ -215,10 +216,12 @@ regress). Branco is NOT tier-capped (spread handled by the offset, sec.8).
 
 ## 10. Disposition
 
-- Changed (PROPOSED, flag default OFF): `brancoTraitEmergence.js` 4 mapping picks + rationale; new
-  enforcement test; `fp-trait-delta-probe.js` proxy hardened (zero passive buff_stat) +
+- Changed (flag default OFF): `brancoTraitEmergence.js` 4 mapping picks + S-pole strengthen +
+  rationale; new enforcement test; `fp-trait-delta-probe.js` proxy hardened (zero passive buff_stat) +
   `reports/sim/fp-trait-n200` regenerated (corrected figure, sec.3). No behavior change until the
   Form-Pulse UX populates pulses AND the flag flips.
-- **Ratification pending master-dd.** On ratify: set the encounter-offset (~1.2/creature, sec.3 +
-  the PR #3017 A/B) before `FORM_PULSE_TRAIT_V2_ENABLED` is ever turned ON. Reproduce the figure:
-  `node tools/sim/fp-trait-delta-probe.js --n 200`.
+- **RATIFIED by master-dd (2026-06-24, Eduardo).** The mappings + cap-tier + threshold->0 are
+  accepted. Remaining before `FORM_PULSE_TRAIT_V2_ENABLED` is turned ON in prod: set the
+  encounter-offset (~1.2/creature, sec.3 + the PR #3017 A/B) and perform the env flip -- a separate
+  deploy step owned by the Ryzen operator (`2026-06-23-prod-flag-flip-readiness.md`), NOT part of
+  this ratification. Reproduce the figure: `node tools/sim/fp-trait-delta-probe.js --n 200`.
