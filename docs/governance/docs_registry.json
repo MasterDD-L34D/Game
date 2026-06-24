@@ -12784,6 +12784,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-24-aa01-form-pulse-trait-v2-encounter-offset.md",
+      "title": "Form-Pulse trait v2 -- encounter-difficulty offset (ratify path-1, flag-gated enemy-HP)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-24",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md",
       "title": "Imprint axis->trait grant -- design spec DRAFT (D6, NON-band-neutral, master-dd ratify)",
       "doc_status": "draft",
