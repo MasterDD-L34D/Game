@@ -46,8 +46,12 @@ def test_kd_normalize_bounded_monotonic():
 
 
 def test_selected_candidate_is_a_known_candidate():
-    # the ratified selection must resolve (guards a typo'd constant)
-    assert SELECTED_CANDIDATE in {"A_sustained_threat", "B_time_avg", "C_apex_reach"}
+    # The dormant pe_ratio diagnostic's default must resolve to a real candidate (guards a
+    # typo'd constant). NB pe_ratio is no longer in the canonical composite (dropped
+    # 2026-06-23, falsified) -- this just keeps the diagnostic computable. Check against the
+    # actual candidate registry, not a hardcoded subset (it was stale: pressure-only).
+    from pe_candidates import CANDIDATES  # noqa: E402
+    assert SELECTED_CANDIDATE in CANDIDATES
 
 
 def _run(outcome, *, rounds=10, players_dead=1, enemies_dead=5, pmean=80.0, frac=1.0, pmax=100.0):

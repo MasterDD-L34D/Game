@@ -83,10 +83,27 @@ oracles where pressure saturated.
   composite gate, and say so in the selection report. Do not force a marginal band.
 - **Do NOT** auto-ratify, auto-flip P4/P5, or write the manifest band without master-dd.
 
-## Status
+## Status -- RESOLVED 2026-06-23 (negative result, PE term DROPPED)
+
+- The contestedness experiment ran on canonical MULTI-POLICY corpora (Restricted-Play
+  `[random,greedy,lookahead2,utility]`, N=40, 6 oracles, seed 424242, node 22). It
+  FALSIFIED the contestedness PE source too: `E_dmg_margin` is degenerate on timer-race
+  oracles (hardcore_07 zero damage telemetry) and an outcome-proxy on skilled policies
+  (`|corr|` 0.68-0.71); no WR-orthogonal tension axis exists with current instrumentation.
+- master-dd ratified (SDMG) **(c) drop the PE term**. `composite_metric` is now
+  `0.70*win_rate + 0.30*kd_ratio` (renormalized original weights). pe_ratio machinery is
+  dormant (diagnostic only, no longer gates). Evidence + harsh-review:
+  `docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md`.
+- Verify-first correction folded in: canonical multi-policy = Restricted-Play (the
+  composite's regime per `canonical-suite.yaml`), NOT MBTI/`full-loop-batch.js` (that's the
+  separate meta-loop gate). The handoff's MBTI framing was superseded.
+- Follow-up (open): "is ANY non-WR-collinear axis viable" needs new instrumentation
+  (AP-usage spread / positional entropy / state-change frequency).
+
+### Historical (pre-resolution)
 
 - PE-from-pressure band `[0.236, 0.815]` = DROPPED (not ratified, not in manifest).
 - `attach_composite_terms` wiring (#2867) + the badlands/foresta instrumentation (#2869)
   stay -- the composite is still computable; only the PE SOURCE changes.
 - Next owner action = the contestedness experiment above (single-owner, with the G2 N=40
-  leverage ticket).
+  leverage ticket). [DONE -> negative result above.]

@@ -76,7 +76,15 @@ altrimenti converge a rumore (L-073).
 | Timeout 100% + turns=max     | timer                    | turn_limit_defeat       |
 | WR ~target ma KD estremo     | swingy                   | variance                |
 
-Composite metric (anti falso-"balanced"): `0.50*WR + 0.25*KD_ratio + 0.25*PE_ratio`.
+Composite metric (anti falso-"balanced"): `0.70*WR + 0.30*KD_ratio`. **PE_ratio DROPPED
+2026-06-23** (SDMG ratify, master-dd): l'esperimento canonico multi-policy N=40 ha
+falsificato OGNI sorgente PE di contestedness -- `E_dmg_margin` degenera sugli oracoli
+timer-race (hardcore_07, zero telemetria danno) ed e' un outcome-proxy sulle policy esperte
+(`|corr|` 0.68-0.71); nessun asse di tensione ortogonale a WR esiste con la strumentazione
+attuale (la sorgente pressure era gia' rifiutata, satura). Evidenza:
+`docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md`. NB: KD_ratio e' a sua volta
+parzialmente outcome-collineare -> "esiste un asse non-WR valido?" e' un follow-up (servirebbe
+nuova strumentazione: spread uso-AP / entropia posizionale / frequenza cambi-stato).
 Metriche gia' emesse: `boss_hp_remaining_avg_on_loss`, `kd_avg`, `dmg_dealt_avg`.
 
 ### 1.4 Multi-knob discipline (L-070/L-072)
