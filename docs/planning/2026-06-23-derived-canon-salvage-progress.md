@@ -38,6 +38,8 @@ re-baseline. Roadmap: `docs/superpowers/plans/2026-06-22-derived-canon-salvage-r
 | [#2995](https://github.com/MasterDD-L34D/Game/pull/2995) | `f3689c10` | slice 7             | **pigmenti_aurorali** passive glow (HP>=50% -> abbagliato -1 atk on adjacent enemies; durable + single-use, P1 decay-timing bug found+fixed). pigmenti-active + eco_sismico deferred                                                                                                                                                                                 |
 | [#3003](https://github.com/MasterDD-L34D/Game/pull/3003) | `5c9c5fb5` | active modes        | **filtri_bioattivi ACTIVE** (`cleanse_status` cleanse-all): new `effect_type` in `traitMechanics.schema.json` (FORBIDDEN path, master-dd merge) + `executeCleanseStatus` handler + jobs.yaml re-baseline                                                                                                                                                             |
 | [#3009](https://github.com/MasterDD-L34D/Game/pull/3009) | `bf6b5ecd` | active modes        | **pigmenti_aurorali ACTIVE** (intensify: -2 glow + disorient on attackers). cavecrew P1+verify-first: abbagliato zeroed by the end-of-round DECAY (not the WIPE) -> durable TTL99 + PERSISTENT + consume-on-attack; Q2 fixed                                                                                                                                         |
+| [#3013](https://github.com/MasterDD-L34D/Game/pull/3013) | `0f73c4d5` | substrate consumer  | **membrane_osmotiche terrain-heal** (closes the deferred half): `applyTerrainHeal` end-of-round in `sessionRoundBridge` -- living carrier 4-neighbour-adjacent to a water/bog tile heals 1. Unblocked by the substrate phase 1 carrying `grid.terrain_features` at runtime. `WATER_BOG_TERRAIN` = `acqua_profonda` (canonical) + synonyms                            |
+| [#3015](https://github.com/MasterDD-L34D/Game/pull/3015) | `e67c7ea0` | substrate consumer  | **eco_sismico tile-status primitive (part 1)**: first tile-keyed status store `grid.tile_statuses` + `stampZonaRisonante`/`zonaAt`/`applyZonaOnEnter` (enter -> disorient, source self-immune) / `decayTileStatuses`; consumer at both move-sites. Producer (active ability) = forbidden-path follow-up                                                              |
 
 Band-neutral throughout: no sim unit carries the new traits, so the AI baseline is
 byte-stable (554 -> 557 across the whole arc; the +N are new sync tests, not sim changes).
@@ -45,31 +47,29 @@ byte-stable (554 -> 557 across the whole arc; the +N are new sync tests, not sim
 
 ## Trait mechanics -- 12 ratified (spec `2026-06-22-creature-trait-mechanics-design.md`)
 
-| #   | trait                                  | status                                                                 | where                                                                                                                                                                                                                                           |
-| --- | -------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --  | `inibito` prereq (ability suppression) | **DONE**                                                               | abilitySuppression.js + guard (#2975)                                                                                                                                                                                                           |
-| 3   | matrice_antimagia                      | **DONE + ACTIVE** (Mode A AoE pulse + Mode B on-hit)                   | #2975 + #2976                                                                                                                                                                                                                                   |
-| 8   | nuclei_di_controllo                    | **DONE** (3-state intact->danno->distrutto+burst + coordinamento aura) | #2978 + #2983                                                                                                                                                                                                                                   |
-| 2   | artigli_psionici (read-the-prey DR)    | **DONE**                                                               | #2985                                                                                                                                                                                                                                           |
-| 4   | corteccia_memetica                     | **DONE**                                                               | #2983                                                                                                                                                                                                                                           |
-| 11  | tessuti_adattivi (channel resist)      | **DONE**                                                               | #2985                                                                                                                                                                                                                                           |
-| 1   | adattamento_volo (3 grades)            | **DEFERRED** (substrate-gated)                                         | grade I deferred #2985: live move calc is pure Manhattan, NO terrain move-cost term to ignore (movement_profiles.yaml terrain_cost_multiplier dormant, 0 consumers); grades II/III need elevation/altitude. design-to-engine call for master-dd |
-| 6   | filtri_bioattivi (cleanse_status)      | **DONE + ACTIVE** (passive + cleanse-all active)                       | #2988 + #3003                                                                                                                                                                                                                                   |
-| 7   | membrane_osmotiche (duration_absorb)   | **DONE** (absorb; terrain-heal substrate-gated)                        | #2988                                                                                                                                                                                                                                           |
-| 9   | pigmenti_aurorali (end-round sweep)    | **DONE + ACTIVE** (passive glow + intensify active)                    | #2995 + #3009                                                                                                                                                                                                                                   |
-| 5   | eco_sismico (tile timed-status)        | **DEFERRED** (substrate-gated)                                         | tile-entry trigger needs the move/terrain substrate (units entering zona_risonante) -- same fork as volo/radici; defer to avoid colliding with the substrate build                                                                              |
-| 1   | adattamento_volo (3 grades)            | **DEFERRED** (substrate-gated)                                         | grade I: live move calc is pure Manhattan, no terrain move-cost term; grades II/III need elevation/altitude/0-move. design-to-engine call                                                                                                       |
-| 10  | radici_ancora_planare                  | **DEFERRED** (substrate-gated)                                         | needs a 0-move producer + flat-DR path; same move-substrate fork                                                                                                                                                                                |
+| #   | trait                                  | status                                                                 | where                                                                                                                                                                                       |
+| --- | -------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --  | `inibito` prereq (ability suppression) | **DONE**                                                               | abilitySuppression.js + guard (#2975)                                                                                                                                                       |
+| 3   | matrice_antimagia                      | **DONE + ACTIVE** (Mode A AoE pulse + Mode B on-hit)                   | #2975 + #2976                                                                                                                                                                               |
+| 8   | nuclei_di_controllo                    | **DONE** (3-state intact->danno->distrutto+burst + coordinamento aura) | #2978 + #2983                                                                                                                                                                               |
+| 2   | artigli_psionici (read-the-prey DR)    | **DONE**                                                               | #2985                                                                                                                                                                                       |
+| 4   | corteccia_memetica                     | **DONE**                                                               | #2983                                                                                                                                                                                       |
+| 11  | tessuti_adattivi (channel resist)      | **DONE**                                                               | #2985                                                                                                                                                                                       |
+| 6   | filtri_bioattivi (cleanse_status)      | **DONE + ACTIVE** (passive + cleanse-all active)                       | #2988 + #3003                                                                                                                                                                               |
+| 7   | membrane_osmotiche (duration_absorb)   | **DONE** (absorb + terrain-heal)                                       | #2988 + #3013                                                                                                                                                                               |
+| 9   | pigmenti_aurorali (end-round sweep)    | **DONE + ACTIVE** (passive glow + intensify active)                    | #2995 + #3009                                                                                                                                                                               |
+| 5   | eco_sismico (tile timed-status)        | **DONE (primitive+consumer)**; producer = forbidden follow-up          | #3015 (tile-status store + zona consumer); producer active ability needs a new `effect_type` (forbidden schema) -- owner-gated                                                              |
+| 1   | adattamento_volo (3 grades)            | **DONE** (substrate workstream, master-dd)                             | substrate phase 2 authored the trait #3018 + per-creature `unit.volo_grade` #3020; resolver `applyVoloGrade`/`evaluateVoloGrade` (substrate). NOT salvage-built (coordination flag honored) |
+| 10  | radici_ancora_planare                  | **DONE** (substrate workstream, master-dd)                             | `anchorState.js` anchor (DR2 from-rest, break-on-move) #3014 + trait authored #3018. NOT salvage-built                                                                                      |
 
-**Score: 9.5 / 12 built; ACTIVE MODES COMPLETE** (inibito prereq + matrice [A+B] + nuclei +
-corteccia + artigli + tessuti + filtri [passive+active] + membrane-absorb + pigmenti
-[passive+active]). The active-mode owner-gate is now CLOSED: all three active modes shipped
-(matrice pulse #2976, filtri cleanse-all #3003, pigmenti intensify #3009; the `cleanse_status`
-`effect_type` was authorized into the forbidden-path schema + jobs.yaml re-baselined).
-The remaining **2.5 are NOW ALL substrate-gated** -- nothing else is band-neutrally buildable
-without the move/terrain/elevation substrate (being built separately, phase 0 landed #3006): **eco_sismico**
-(tile-entry timed status) + **volo I/II/III** (move-cost / ascent-descent / hover) +
-**radici_ancora_planare** (0-move anchor) + **membrane terrain-heal** (adjacent water/bog).
+**Score: 12 / 12 mechanics have an engine path** (active modes complete + the substrate
+landed). Breakdown: salvage built 9.5 directly (inibito + matrice[A+B] + nuclei + corteccia +
+artigli + tessuti + filtri[passive+active] + membrane[absorb+terrain-heal #3013] + pigmenti
+[passive+active] + eco_sismico primitive+consumer #3015); **volo + radici closed by master-dd's
+move/terrain/elevation substrate workstream** (#3014/#3018/#3020), correctly NOT double-built by
+salvage (the cont-1 coordination flag). The single remaining sub-piece = **eco_sismico producer**
+(the active ability that stamps `zona_risonante`): forbidden-path (new `effect_type` in
+`traitMechanics.schema.json` + jobs re-baseline) -> owner-gated, mirrors matrice/filtri active.
 7-slice plan + per-slice acceptance in `docs/superpowers/plans/2026-06-22-creature-trait-mechanics-engine-plan.md`.
 
 ## Creatures -- 14 ratified (proposal `2026-06-22-retired-creatures-salvage-proposal.md`)
@@ -94,9 +94,9 @@ without the move/terrain/elevation substrate (being built separately, phase 0 la
 
 ## Residuals (prioritized)
 
-1. **Trait engine = 9.5 / 12 built, ACTIVE MODES COMPLETE** (slices 1-5 + 7 + matrice/filtri/pigmenti active). The remaining 2.5 are ALL substrate-gated -- nothing more is band-neutrally buildable without the substrate below:
-2. **Move/terrain/elevation substrate** (design-to-engine call, master-dd -- BEING BUILT separately): plan #2997 `3ab9f788` + **phase 0 landed #3006 `840f35ef`** (pure resolvers `moveCost.js`/`movementProfiles.js`/`movementResolver.js`, flag-gated, band-neutral; NOT yet wired into the live move calc). Unblocks `adattamento_volo` I-III + `radici_ancora_planare` (0-move anchor) + `eco_sismico` (tile-entry trigger) + `membrane_osmotiche` terrain-heal. The live move calc is still pure Manhattan (no terrain-cost), no elevation/altitude, no 0-move signal; `unit.elevation` is a static attack-time-only false-substrate. When the substrate is wired / he pings: ADVERSARIAL review it (verify-first), correct, then build those 4 modes on top. (Phase 0 has landed but is incomplete -- do NOT build modes on a not-yet-wired resolver.)
-3. **13 creatures**: spec + lore HITL + promote (depend on their kit traits being built) + delete obsolete stubs. Kits now mostly built -> can draft gameplay specs; promote-into-catalog is owner-gated ETL + lore is HITL.
+1. **Trait engine = 12 / 12 mechanics have an engine path** (salvage built 9.5 + eco primitive/consumer #3015 + membrane terrain-heal #3013; volo + radici closed by the substrate workstream #3014/#3018/#3020). Only remaining sub-piece = **eco_sismico producer** (active ability `stampZonaRisonante`): forbidden-path `effect_type` + jobs re-baseline -> owner-gated, mirrors matrice/filtri active.
+2. **Move/terrain/elevation substrate** (master-dd workstream): phases 0-3 LANDED on main (#3006 resolvers + #3012 move-gate wire + #3014 radici anchor + #3018 volo/radici trait data + #3020 per-creature `unit.volo_grade`). Flag `MOVE_TERRAIN_COST_ENABLED` still OFF; flip = N=40 + master-dd (substrate fase 4-5). Salvage consumers (membrane terrain-heal, eco zona) ride on it, band-neutral until a grid carries typed terrain + a carrier exists.
+3. **13 creatures**: spec + lore HITL + promote (depend on their kit traits being built) + delete obsolete stubs. Kits now built -> can draft gameplay specs; promote-into-catalog is owner-gated ETL + lore is HITL.
 4. **Final catalog/affinity re-baseline** (owner-gated).
 5. **GAP2**: 103 per-trait DB files NOT wired to active_effects (likely inert) + 9 `*_2` external-import drafts in `data/traits/_drafts/` -- mechanic-per-trait is a design call (master-dd).
 6. **CI-wire the guard** (`.github/workflows`, owner-gated) + register the 2026-06-22 program docs in docs_registry (warning-only). DO NOT run `tools/py/update_trace_hashes.py` -- verify-first found it REFORMATS 92 files (tool<->stored-format mismatch), not a trace_hash-only fix; defer.
@@ -104,11 +104,13 @@ without the move/terrain/elevation substrate (being built separately, phase 0 la
 ## Entry point for continuation
 
 Work in the worktree `.claude/worktrees/derived-artifact-reproducibility` (off
-`origin/main`). Trait engine is MAXED at the band-neutral frontier (9.5/12 + all
-active modes). PRIMARY next = the **move/terrain/elevation substrate** (master-dd,
-plan #2997): when it lands / he pings -> adversarial review + build the 4 gated
-modes on top. Gated alternatives (need a master-dd decision -- surface, don't
-fabricate): 13-creature canonization / GAP2 inert-trait mechanics / CI-wire the
-guard. ADR-0011 trailers, branch + PR, no self-merge, compensating review
-(`cavecrew-reviewer`, Codex rate-limited). Memory:
-`project_derived_artifact_reproducibility.md`. Chip `task_7906c07d`.
+`origin/main`). **Trait engine = 12/12 mechanics have an engine path** (all slices +
+active modes + the substrate-gated set closed: membrane terrain-heal #3013 + eco
+primitive/consumer #3015 by salvage; volo + radici by the substrate workstream
+#3014/#3018/#3020). The ONLY remaining trait sub-piece = **eco_sismico producer**
+(active ability that stamps `zona_risonante`): forbidden-path `effect_type` + jobs
+re-baseline -> owner-gated (mirrors matrice/filtri active). Other gated work (surface,
+don't fabricate): 13-creature canonization (kits built; promote = owner-gated ETL +
+lore HITL) / GAP2 inert-trait mechanics / final catalog re-baseline / CI-wire the guard.
+ADR-0011 trailers, branch + PR, no self-merge, compensating review (`cavecrew-reviewer`,
+Codex rate-limited). Memory: `project_derived_artifact_reproducibility.md`. Chip `task_7906c07d`.
