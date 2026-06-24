@@ -3413,9 +3413,10 @@ function createSessionRouter(options = {}) {
           const dist = manhattanDistance(actor.position, dest);
           // Move terrain-cost substrate (flag OFF = band-neutral): AI pays terrain-weighted
           // AP when ON; an unreachable dest is skipped (AI is trusted, no error path). `dist`
-          // stays literal for the stamina tile-tally below. Registry unavailable in this
-          // scope -> evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (full
-          // grade-2/3 threading to AI is a phase-2 follow-up; no volo trait is authored yet).
+          // stays literal for the stamina tile-tally below. Phase 2: the closure-level
+          // `traitRegistry` IS in scope here, so the AI reads the authored volo grade
+          // (currently a global base grade 1 -> identical to the prior null default; the
+          // thread is future-correct if the global grade ever changes).
           let aiMoveCost = dist;
           if (require('../services/combat/moveCost').isMoveTerrainCostEnabled()) {
             const {
@@ -3429,7 +3430,7 @@ function createSessionRouter(options = {}) {
             } = require('../services/combat/movementResolver');
             const profile = applyVoloGrade(
               resolveMovementProfile(actor, actor.speciesRecord || null),
-              evaluateVoloGrade(null, actor),
+              evaluateVoloGrade(traitRegistry, actor),
             );
             const terrainAt = terrainAtFromFeatures(session.grid?.terrain_features || []);
             const c = moveApDistance(actor.position, dest, {

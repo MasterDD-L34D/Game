@@ -2944,6 +2944,18 @@
       "label_en": "Membrane Osmotiche",
       "description_it": "Membrane osmotiche (otyugh): la membrana assorbe il morso degli status in arrivo -- la loro durata e' ridotta di 1 all'applicazione (uno status da 1 turno viene assorbito completamente).",
       "description_en": ""
+    },
+    "adattamento_volo": {
+      "label_it": "Adattamento Volo",
+      "label_en": "Adattamento Volo",
+      "description_it": "Adattamento al volo planato (archon/balor/banshee/couatl): l'unita' attraversa il terreno difficile con costo-movimento ridotto.",
+      "description_en": ""
+    },
+    "radici_ancora_planare": {
+      "label_it": "Radici Ancora Planare",
+      "label_en": "Radici Ancora Planare",
+      "description_it": "Radici ancora planare (treant): molto tanky da fermo.",
+      "description_en": ""
     }
   }
 }

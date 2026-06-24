@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "id": "radici_ancora_planare",
+  "label": "i18n:traits.radici_ancora_planare.label",
+  "famiglia_tipologia": "Difensivo/Protezione",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.radici_ancora_planare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.radici_ancora_planare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.radici_ancora_planare.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

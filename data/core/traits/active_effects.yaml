@@ -7237,3 +7237,52 @@ traits:
       e a fine round accecano i nemici che restano adiacenti (abbagliato: -1 attacco al
       prossimo colpo). Il bagliore si affievolisce sotto meta' vita. Ref Slay-the-Spire
       Glow.
+
+  # Move terrain-cost substrate (phase 2): adattamento_volo (archon/balor/banshee/
+  # couatl). Volo planato engine-coded (combat/movementResolver applyVoloGrade +
+  # evaluateVoloGrade, read by the move-gate in session.js). persistent_marker =
+  # no-op nel resolver; il move-gate legge effect.grade quando il flag
+  # MOVE_TERRAIN_COST_ENABLED e' ON. Grado 1 = base (libera il terreno normale).
+  # NOTA design-gap: evaluateVoloGrade legge un grade GLOBALE dal registry, non
+  # per-creatura; gradi 2-3 per-creatura richiedono un override a livello unita'
+  # (non ancora costruito -- surfaced master-dd). Band-neutral (nessun carrier vivo).
+  adattamento_volo:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: adattamento_volo
+      grade: 1
+      log_tag: adattamento_volo
+    description_it: |
+      Adattamento al volo planato (archon/balor/banshee/couatl): l'unita' attraversa
+      il terreno difficile con costo-movimento ridotto. Grado 1 libera il terreno
+      normale; gradi superiori (2-3) riducono o annullano anche gli hazard (lava,
+      acqua profonda). Consumato dal substrate move terrain-cost
+      (MOVE_TERRAIN_COST_ENABLED) via applyVoloGrade/evaluateVoloGrade.
+      Ref Wesnoth movement-cost / XCOM flight.
+
+  # Move terrain-cost substrate (phase 3): radici_ancora_planare (treant). Ancora
+  # difensiva engine-coded (combat/anchorState): a inizio round il portatore mette
+  # radici (status ancorato, riduzione danno 2); muoversi rompe l'ancora e perde la
+  # riduzione per quel round. DR letta alla mitigation seam in performAttack accanto
+  # a corteccia. persistent_marker = no-op nel resolver; la logica vive nell'engine.
+  # Always-on slice, NON gated sul flag (verdetto master-dd 2026-06-23). Band-neutral.
+  radici_ancora_planare:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: radici_ancora_planare
+      log_tag: radici_ancora_planare
+    description_it: |
+      Radici ancora planare (treant): molto tanky da fermo. A inizio round il portatore
+      mette radici (ancorato, riduzione danno 2). Muoversi rompe l'ancora e perde la
+      riduzione per quel round; restando fermo la mantiene. Tradeoff mobilita'/difesa
+      senza nuove azioni. Ref Wesnoth steadfast / treant.
