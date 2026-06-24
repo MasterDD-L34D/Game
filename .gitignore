@@ -130,3 +130,6 @@ data/core/balance/ratify-provenance/
 # Historical runs already committed stay tracked; this stops NEW runs from
 # cluttering git status. To intentionally keep a run: git add -f.
 docs/playtest/parallel-hardcore_*
+# PE_ratio multi-policy re-run scratch (corpora/logs/driver; seed-pinned, regenerable --
+# see docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md reproduce section).
+docs/playtest/_*

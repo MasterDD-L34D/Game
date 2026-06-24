@@ -15,6 +15,13 @@ related: docs/planning/2026-06-20-pe-ratio-contestedness-switch-handoff.md
 
 # PE_ratio contestedness orthogonality (N=100)
 
+> **SUPERSEDED 2026-06-23.** This greedy-only N=100 band was NOT ratified (single-policy
+> diagnostic regime + 3-point outlier artifact, per the harsh-review at the bottom). The
+> FIX re-run on canonical MULTI-POLICY N=40 corpora falsified `E_dmg_margin` outright
+> (degenerate on timer-race oracles + outcome-proxy on skilled policies). master-dd
+> ratified **dropping the PE term** (`composite_metric` = `0.70*win_rate + 0.30*kd_ratio`).
+> See `docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md`.
+
 > The handoff's keystone experiment (step 3-5), executed as a **deterministic
 > re-analysis** of the committed N=100 oracle corpora -- NO backend run, NO prod
 > (the corpora are seed-pinned 424242, node 22, from the 2026-06-18 PR2 run; the

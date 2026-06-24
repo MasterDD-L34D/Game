@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Composite objective metric evaluation (G2 P1).
 
-Parses + evaluates a linear weighted-sum metric string like
-``0.50*win_rate + 0.25*kd_ratio + 0.25*pe_ratio`` against a metrics dict.
+Parses + evaluates a linear weighted-sum metric string like the canonical
+``0.70*win_rate + 0.30*kd_ratio`` (the manifest `composite_metric`) against a metrics
+dict. Generic: the formula is config (canonical-suite.yaml), not hardcoded here -- the
+PE_ratio term was dropped 2026-06-23 (falsified, see that file) with no code change here.
 Safe parser (no eval): each term is ``<coef>*<metric_name>``.
 """
 

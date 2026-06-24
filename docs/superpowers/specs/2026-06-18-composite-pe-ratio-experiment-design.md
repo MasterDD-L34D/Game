@@ -11,6 +11,17 @@ review_cycle_days: 30
 
 # Composite PE_ratio -- experiment-first definition + composite wiring
 
+> **OUTCOME 2026-06-23 (CLOSED -- negative result).** This experiment-first design ran to
+> completion. Both PE sources were FALSIFIED: pressure saturates (~0.81-0.94, ~zero
+> discrimination); the sec-4.5 contestedness fallback (D/E/F) is degenerate on timer-race
+> oracles and an outcome-proxy on skilled policies (E |corr| 0.68-0.71) on the canonical
+> multi-policy N=40 data. master-dd ratified (SDMG) **dropping the PE term**: the composite
+> is now `0.70*win_rate + 0.30*kd_ratio`. The "experiment proposes, owner ratifies" loop
+> worked as designed -- it prevented locking a non-orthogonal metric into the balance
+> authority. Evidence: `docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md`. The
+> deeper open question ("is ANY non-WR-collinear axis viable") needs new instrumentation
+> (AP-usage spread / positional entropy / state-change frequency) -- a separate effort.
+
 > Brainstormed 2026-06-18 (G2 follow-up, unblocks the deferred composite gate). The
 > per-template calibration composite `0.50*win_rate + 0.25*kd_ratio + 0.25*pe_ratio`
 > (canonical-suite.yaml:29, CANONICAL-AI-PLAYTEST.md:79) is UNCOMPUTABLE today: `pe_ratio`
@@ -63,8 +74,8 @@ experiment-first composite is standard-aligned, and Evo is ahead on the load-bea
   Modelling ... combining player analytics and simulated data", arXiv 2401.17436). Evo's
   AI-driven batch-sim playtest IS this method -- not a gap.
 - **Engagement = challenge-skill balance (flow theory)** (game-engagement-theory; dynamic-
-  difficulty-balancing literature). Tension is operationalized as *sustained challenge relative
-  to skill*. PE-as-tension maps directly: a healthy encounter keeps the AI in the "flow channel"
+  difficulty-balancing literature). Tension is operationalized as _sustained challenge relative
+  to skill_. PE-as-tension maps directly: a healthy encounter keeps the AI in the "flow channel"
   (challenging but winnable). This reinforces candidates A/B (sustained engagement) over C
   (apex-only), and gives PE an academic name (challenge-engagement, not a bespoke coinage).
 - **Win-rate alone is insufficient** -- the composite's whole premise. Community discourse
@@ -97,26 +108,32 @@ CANONICAL sec 9); promoting any gate from advisory (separate SDMG track).
 ## 3. Design (design-for-isolation)
 
 ### 3.1 Sim instrumentation (additive, deterministic)
+
 The per-run result gains compact pressure-trajectory stats (from `pressure_stats(pressure_samples)`):
 `pressure_mean`, `pressure_frac_ge75` (share of rounds in the dangerous Critical+Apex tiers,
 pressure >= 75), `pressure_pmax`. `batch_calibrate_*.py aggregate()` then surfaces the
 aggregated forms over the run set:
+
 - `pressure_mean_avg` (mean of per-run `pressure_mean`),
 - `pressure_frac_ge75_avg` (mean of per-run sustained-threat fraction),
 - `apex_reach_rate` (fraction of runs whose `pressure_pmax` reached >= 95).
-(As-shipped PR1 keys -- the per-run `pressure_frac_ge75` + `pressure_mean` + `pressure_pmax`
-are exactly what candidates A/B/C consume; a full per-tier histogram is YAGNI until a future
-candidate needs it.) Additive keys; no behavior change; seed-pinned -> deterministic.
+  (As-shipped PR1 keys -- the per-run `pressure_frac_ge75` + `pressure_mean` + `pressure_pmax`
+  are exactly what candidates A/B/C consume; a full per-tier histogram is YAGNI until a future
+  candidate needs it.) Additive keys; no behavior change; seed-pinned -> deterministic.
 
 ### 3.2 PE candidates (`tools/py/pe_candidates.py`, pure)
+
 Each maps the trajectory stats -> a 0..1 value (higher = more sustained tension):
+
 - **A -- sustained-threat fraction:** share of rounds with pressure >= 75 (Critical+Apex).
 - **B -- time-averaged pressure:** `pressure_mean / 100` (trajectory, not endpoint-biased).
 - **C -- apex-reach rate:** fraction of runs that reached Apex (>= 95).
-Pure functions, unit-tested on synthetic trajectory dicts. New candidates are easy to add.
+  Pure functions, unit-tested on synthetic trajectory dicts. New candidates are easy to add.
 
 ### 3.3 Orthogonality analysis (`tools/py/pe_orthogonality.py`, pure)
+
 Given a per-run corpus `[(candidate_value, won_bool), ...]` for each candidate:
+
 - `abs(pearson(candidate, won))` -- the collinearity score; LOWER is better (more orthogonal).
   This is the PRIMARY selection criterion.
 - a SECONDARY discrimination check: run each oracle once more at a deliberately-EASED knob
@@ -124,9 +141,10 @@ Given a per-run corpus `[(candidate_value, won_bool), ...]` for each candidate:
   LOWER tension on that trivialized run than on the ratified-knob run (correct direction +
   a meaningful gap). This guards against a candidate that is orthogonal-but-flat (no signal).
 - emits a ranked **selection report** (each candidate's |corr|, discrimination gap, verdict).
-Pure (numpy-free; hand-rolled Pearson), unit-tested with synthetic correlated/uncorrelated data.
+  Pure (numpy-free; hand-rolled Pearson), unit-tested with synthetic correlated/uncorrelated data.
 
 ### 3.4 Experiment runner (maintainer/backend)
+
 A thin CLI that, for each ratified balance-oracle, runs the existing seed-pinned N=100
 harness on **node 22** (CANONICAL sec 3 rule 8), collects per-run `(pressure trajectory,
 won)`, computes A/B/C via 3.2, and feeds 3.3 -> prints the selection report. BACKEND-DEPENDENT
@@ -134,10 +152,12 @@ won)`, computes A/B/C via 3.2, and feeds 3.3 -> prints the selection report. BAC
 calls is fully unit-tested without a backend.
 
 ### 3.5 kd_ratio normalization
+
 `kd_ratio = kd_avg / (kd_avg + 1)` -- bounded (0,1), monotonic increasing, 0.8 -> ~0.44. Makes
 all three composite terms 0..1 and same-direction (higher=healthier). Pure + tested.
 
 ### 3.6 Composite band (human-ratified)
+
 Once `pe_ratio` (the selected candidate) + normalized `kd_ratio` are emitted, compute the
 composite on the in-band ratified oracles at N=100; the band = `[mean - k*half, mean + k*half]`
 derived from those healthy values (proposed, with the numbers shown). The band is

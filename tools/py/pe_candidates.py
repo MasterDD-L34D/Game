@@ -110,11 +110,15 @@ def pe_ratio_aggregate(agg, candidate):
 
 
 def attach_composite_terms(agg, candidate=None):
-    """Idempotently add the two normalized composite terms to an aggregate() dict
-    so objective.evaluate_metric can compute `0.50*win_rate+0.25*kd_ratio+0.25*pe_ratio`.
+    """Idempotently add the normalized composite terms to an aggregate() dict.
       kd_ratio = kd_normalize(kd_avg)   (None if kd_avg absent -- surfaced, never faked)
-      pe_ratio = the experiment-selected candidate read off the aggregate pressure keys
-                 (0.0 if a scenario emits no pressure trajectory, e.g. hardcore_07).
+      pe_ratio = the contestedness candidate read off the aggregate keys.
+
+    NB: pe_ratio is DORMANT since 2026-06-23. The canonical composite dropped the PE term
+    (`composite_metric` = `0.70*win_rate + 0.30*kd_ratio`); the multi-policy N=40 experiment
+    falsified every contestedness PE source (evidence
+    docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md). pe_ratio is still emitted
+    as a cheap diagnostic (useful if PE is ever re-investigated) but no longer gates.
     No-op on an {'error': ...} dict. Returns the same dict for chaining."""
     if not isinstance(agg, dict) or "error" in agg:
         return agg
@@ -123,25 +127,21 @@ def attach_composite_terms(agg, candidate=None):
     return agg
 
 
-# SELECTED (PROVISIONAL) by the PR2 experiment (seed-pinned, node 22, 2026-06-19).
-# B_time_avg (= pressure_mean_avg/100) chosen on a PRINCIPLED basis, NOT the noisy
-# |corr| ranking: on every ratified balance oracle pressure runs HIGH (pe_ratio
-# 0.81-0.94 multi-oracle), so the candidates near-SATURATE and the |corr| ranking is
-# noise between near-flat values (N-sensitive: B@N=100 0.197, A@N=40 0.092). B is the
-# only CONTINUOUS candidate (real variance); A (sustained-threat fraction) pins ~1.0
-# and C (apex-reach) is binary -- both degenerate on high-pressure oracles. min|corr|
-# << 0.6 so pressure is not formally rejected, but the signal is MARGINAL.
-#
-# 🔴 OPEN (master-dd, NOT a blocker for this wiring): the per-run trajectory was
-# extended to badlands_elite + foresta_pilot (PR2b) so pe_ratio is now REAL on all 3
-# oracles (no longer 0.0). The composite BAND is PROPOSED ([0.236, 0.815] at k=2.0,
-# mean 0.526) but NOT written to the manifest (SDMG, human-ratified). Because pe_ratio
-# is ~0.8-0.94 everywhere it adds little DISCRIMINATION -> master-dd may instead switch
-# to the design's alternate tension source (turns-to-resolve + dmg_taken contestedness,
-# sec 4.5), telemetered on every oracle, which avoids the high-pressure saturation.
-# Evidence:
-# docs/playtest/2026-06-19-pe-ratio-experiment-n100.md.
-SELECTED_CANDIDATE = "B_time_avg"
+# PE SOURCE DROPPED 2026-06-23 (SDMG ratify, master-dd) -- the PE term is no longer in the
+# canonical composite (`composite_metric` = `0.70*win_rate + 0.30*kd_ratio`). The full
+# experiment chain falsified PE-as-tension-axis:
+#   - PRESSURE source (A/B/C): rejected -- saturates ~0.81-0.94 on every high-pressure
+#     oracle = ~zero discrimination (2026-06-19 evidence).
+#   - CONTESTEDNESS source (D/E/F, the sec-4.5 fallback): rejected on the canonical
+#     MULTI-POLICY N=40 experiment -- E_dmg_margin's apparent orthogonality (pooled 0.301)
+#     is a degeneracy artifact (hardcore_07 zero-damage timer-race + the constant-loss
+#     `random` policy); on damage-capable oracles it is 0.479 and on skilled policies
+#     0.68-0.71 = an outcome-proxy. No contestedness formula is WR-orthogonal with current
+#     instrumentation. Evidence: docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md.
+# SELECTED_CANDIDATE is retained only as the default for the now-DORMANT pe_ratio diagnostic
+# that attach_composite_terms still emits (it does not gate). E_dmg_margin = the least-bad
+# contestedness candidate found, kept here for any future re-investigation.
+SELECTED_CANDIDATE = "E_dmg_margin"
 
 
 def kd_normalize(kd_avg):

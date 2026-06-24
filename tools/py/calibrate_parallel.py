@@ -166,15 +166,18 @@ def stop_shard(proc, fh, port):
             pass
 
 
-def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None, seed=None):
-    """Subprocess wrapper -- launch batch_calibrate_*.py against one shard.
+def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, policy=None, extra_args=None):
+    """Pure constructor for a per-shard batch_calibrate_*.py command line.
 
-    curves_path (OD-032 no-op-bug fix): if set, the batch CLIENT subprocess gets
-    DAMAGE_CURVES_PATH=curves_path so its scenario-override parser reads the SAME
-    staging file the backend shard reads. Without this the client silently used
-    production overrides (turn_limit/enemy_damage knobs = no-op during calibration).
+    Extracted so the --policy passthrough (PE_ratio contestedness multi-policy
+    re-run) is unit-testable without a backend. `policy` forwards a SINGLE
+    Restricted-Play policy {random,greedy,lookahead2,utility} to the batch script's
+    flat single-policy path (which writes JSONL = shard-mergeable). Omit `policy`
+    for back-compat (batch script default = greedy). 'all' is intentionally NOT a
+    valid passthrough here: the batch script's --policy all short-circuits to the
+    nested triangulation output (no JSONL) which does not compose with shard merge;
+    drive multi-policy by invoking the orchestrator once per policy instead.
     """
-    script_path = TOOLS_PY / scenario_cfg["script"]
     cmd = [
         sys.executable, "-u", str(script_path),
         "--host", host,
@@ -182,7 +185,29 @@ def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curve
         "--out", str(out_path),
         "--jsonl", str(jsonl_path),
         "--skip-health",
-    ] + (["--seed", str(seed)] if seed is not None else []) + scenario_cfg["extra_args"]
+    ]
+    if seed is not None:
+        cmd += ["--seed", str(seed)]
+    if policy is not None:
+        cmd += ["--policy", policy]
+    cmd += list(extra_args or [])
+    return cmd
+
+
+def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None, seed=None, policy=None):
+    """Subprocess wrapper -- launch batch_calibrate_*.py against one shard.
+
+    curves_path (OD-032 no-op-bug fix): if set, the batch CLIENT subprocess gets
+    DAMAGE_CURVES_PATH=curves_path so its scenario-override parser reads the SAME
+    staging file the backend shard reads. Without this the client silently used
+    production overrides (turn_limit/enemy_damage knobs = no-op during calibration).
+
+    policy (PE_ratio contestedness): forward a single Restricted-Play policy to the
+    batch script (None = greedy default).
+    """
+    script_path = TOOLS_PY / scenario_cfg["script"]
+    cmd = build_shard_cmd(script_path, host, n, out_path, jsonl_path,
+                          seed=seed, policy=policy, extra_args=scenario_cfg["extra_args"])
     print(f"[parallel] launch shard host={host} N={n}", flush=True)
     f = open(log_path, "w", encoding="utf-8")
     env = dict(os.environ)
@@ -240,7 +265,7 @@ def aggregate_merged(runs, scenario):
     return {"error": f"no aggregate fn in {script_module}"}
 
 
-def main():
+def build_arg_parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--scenario", choices=list(SCENARIO_MAP.keys()), required=True)
     p.add_argument("--n", type=int, required=True, help="Total N (split across shards)")
@@ -257,7 +282,16 @@ def main():
                    help="TKT-PLAYTEST-SEED: base seed for bit-identical runs. Each shard gets "
                         "a distinct offset (base + cumulative N) so runs never duplicate across "
                         "shards while the whole batch stays reproducible. Omit = Math.random.")
-    args = p.parse_args()
+    p.add_argument("--policy", choices=["random", "greedy", "lookahead2", "utility"], default=None,
+                   help="PE_ratio contestedness multi-policy re-run: forward a single canonical "
+                        "Restricted-Play policy to the batch script (default greedy). 'all' is NOT "
+                        "accepted here (nested triangulation output does not shard-merge) -- run the "
+                        "orchestrator once per policy and pool the corpora instead.")
+    return p
+
+
+def main():
+    args = build_arg_parser().parse_args()
 
     cfg = SCENARIO_MAP[args.scenario]
     label = args.label or time.strftime("%Y-%m-%d-%H%M%S")
@@ -341,7 +375,7 @@ def main():
         out_paths.append(out_p)
         jsonl_paths.append(jsonl_p)
         shard_seed = args.seed + seed_offsets[i] if args.seed is not None else None
-        proc, fh = run_shard_batch(host, cfg, n, out_p, jsonl_p, log_p, seed=shard_seed)
+        proc, fh = run_shard_batch(host, cfg, n, out_p, jsonl_p, log_p, seed=shard_seed, policy=args.policy)
         batch_procs.append((proc, fh, host, n, log_p))
 
     t0 = time.time()
@@ -405,6 +439,10 @@ def main():
     final = {
         "scenario": args.scenario,
         "scenario_id": cfg["scenario_id"],
+        # PE_ratio contestedness: which Restricted-Play policy this corpus was run
+        # under (None passthrough => the batch script's greedy default). The
+        # multi-policy re-run pools one corpus per policy across this field.
+        "policy_mode": args.policy or "greedy",
         "target_band": list(cfg["target_band"]),
         "total_n": args.n,
         "seed": args.seed,
