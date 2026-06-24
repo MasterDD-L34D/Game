@@ -44,22 +44,19 @@ def test_gate_accepts_valid_v2_payload(tmp_path):
     assert r.returncode == 0, f"unexpected fail: {r.stderr}"
 
 
-def test_gate_accepts_ancestor_without_design_block(tmp_path):
-    p = tmp_path / "anc.json"
+def test_gate_ancestor_prefix_no_longer_exempt(tmp_path):
+    # DC-01 Tier-Ancestor exemption RETIRED: the ancestor_ namespace was migrated to
+    # native ids (PR #3001, 2026-06-23). An ancestor_-prefixed id in an index path is
+    # now treated like any other trait -- missing design block -> WARN, not exempt.
+    p = tmp_path / "index.json"
     payload = {
         "schema_version": "2.0",
-        "traits": {
-            "ancestor_xyz_01": {
-                "label_it": "Test",
-                "label_en": "Test",
-                "description_it": "x",
-                "description_en": "x",
-            }
-        },
+        "traits": {"ancestor_xyz_01": {"label_it": "Test"}},  # missing design block
     }
     p.write_text(json.dumps(payload))
     r = _run_gate(["--check", str(p)])
-    assert r.returncode == 0, f"unexpected fail: {r.stderr}"
+    assert r.returncode == 0, "index.json missing design = WARN, not HARD"
+    assert "WARN-MISSING" in (r.stderr + r.stdout), "ancestor_ must NOT be exempt anymore"
 
 
 def test_gate_warns_non_ancestor_without_design_in_index(tmp_path):

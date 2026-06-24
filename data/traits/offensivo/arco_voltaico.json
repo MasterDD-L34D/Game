@@ -5,6 +5,10 @@
   "famiglia_tipologia": "Traumatico/Offesa",
   "fattore_mantenimento_energetico": "Basso (passivo)",
   "tier": "T1",
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "offesa"
+  },
   "slot": [],
   "sinergie": [],
   "conflitti": [],

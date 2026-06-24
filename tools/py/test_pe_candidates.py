@@ -79,6 +79,20 @@ def test_unknown_candidate_raises_not_fakes_zero():
     assert raised
 
 
+def test_per_run_contestedness_forms_read_a_single_record():
+    # per-run forms (CANDIDATES) read a single run's rounds/dmg -> feed the orthogonality
+    # selection (pe_experiment correlates these per-run vs `won`).
+    assert candidate_value("D_turns_contest", {"rounds": 20.0}) == 0.5
+    assert candidate_value("D_turns_contest", {"rounds": 80.0}) == 1.0  # clamped
+    e = candidate_value("E_dmg_margin", {"dmg_taken_player": 5.0, "dmg_dealt_player": 45.0})
+    assert abs(e - 0.1) < 1e-9
+    assert candidate_value("E_dmg_margin", {"dmg_taken_player": 0.0, "dmg_dealt_player": 0.0}) == 0.0
+    f = candidate_value(
+        "F_contest_combined", {"rounds": 40.0, "dmg_taken_player": 50.0, "dmg_dealt_player": 50.0}
+    )
+    assert abs(f - (0.5 ** 0.5)) < 1e-9
+
+
 def test_attach_composite_terms_consumes_a_contestedness_candidate():
     out = attach_composite_terms(
         {"kd_avg": 1.0, "turns_avg": 20.0, "dmg_taken_avg": 30.0, "dmg_dealt_avg": 30.0},

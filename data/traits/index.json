@@ -2448,6 +2448,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "gravitazionale"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2479,6 +2483,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "risonanza"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2510,6 +2518,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "risonanza"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2542,6 +2554,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "supporto"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2573,6 +2589,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "magnetico"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2604,6 +2624,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "anomalia"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2635,6 +2659,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "energetico"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2666,6 +2694,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "risonanza"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2697,6 +2729,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "logistica"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2728,6 +2764,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "copia"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2759,6 +2799,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "illuminazione"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2790,6 +2834,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "crepuscolo"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2821,6 +2869,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "elettrico"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2852,6 +2904,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "memoria"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2883,6 +2939,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "sensore"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2914,6 +2974,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "sequenziamento"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2945,6 +3009,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "difesa"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -2976,6 +3044,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "foschia"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3007,6 +3079,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "pressione"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3038,6 +3114,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "memoria"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3069,6 +3149,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "scarica"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3100,6 +3184,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "antistatico"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3131,6 +3219,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "sensori_planctonici"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3162,6 +3254,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "assorbimento"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3193,6 +3289,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "elettrico"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -3224,6 +3324,10 @@
           }
         }
       ],
+      "slot_profile": {
+        "core": "frattura_abissale_sinaptica",
+        "complementare": "traslazione"
+      },
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
@@ -14468,6 +14572,10 @@
       "famiglia_tipologia": "Mentale/Cognizione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T3",
+      "slot_profile": {
+        "core": "cognitivo",
+        "complementare": "cognizione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14486,6 +14594,10 @@
       "famiglia_tipologia": "Mentale/Cognizione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "cognitivo",
+        "complementare": "cognizione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14504,6 +14616,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14522,6 +14638,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14540,6 +14660,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14558,6 +14682,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14576,6 +14704,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14594,6 +14726,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14612,6 +14748,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14630,6 +14770,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14648,6 +14792,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14666,6 +14814,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14684,6 +14836,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14702,6 +14858,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14720,6 +14880,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14738,6 +14902,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14756,6 +14924,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14774,6 +14946,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14792,6 +14968,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14810,6 +14990,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14828,6 +15012,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14846,6 +15034,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14864,6 +15056,10 @@
       "famiglia_tipologia": "Comportamentale/Istinto",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "istinto"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14882,6 +15078,10 @@
       "famiglia_tipologia": "Traumatico/Offesa",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "offesa"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14900,6 +15100,10 @@
       "famiglia_tipologia": "Traumatico/Offesa",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "offesa"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14918,6 +15122,10 @@
       "famiglia_tipologia": "Traumatico/Offesa",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "offesa"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14936,6 +15144,10 @@
       "famiglia_tipologia": "Traumatico/Offesa",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "offesa"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14954,6 +15166,10 @@
       "famiglia_tipologia": "Neurologico/Sistema nervoso",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "nervoso",
+        "complementare": "sistema_nervoso"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14972,6 +15188,10 @@
       "famiglia_tipologia": "Difensivo/Protezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -14990,6 +15210,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15008,6 +15232,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15026,6 +15254,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15044,6 +15276,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15062,6 +15298,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15080,6 +15320,10 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Basso (passivo)",
       "tier": "T1",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15098,6 +15342,10 @@
       "famiglia_tipologia": "Neurologico/Sistema nervoso",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "nervoso",
+        "complementare": "sistema_nervoso"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15116,6 +15364,10 @@
       "famiglia_tipologia": "Neurologico/Sistema nervoso",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "nervoso",
+        "complementare": "sistema_nervoso"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15134,6 +15386,10 @@
       "famiglia_tipologia": "Difensivo/Protezione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15152,6 +15408,10 @@
       "famiglia_tipologia": "Mentale/Cognizione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "cognitivo",
+        "complementare": "cognizione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15170,6 +15430,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15188,6 +15452,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15206,6 +15474,10 @@
       "famiglia_tipologia": "Fisiologico/Morfologia",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "fisiologico",
+        "complementare": "morfologia"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
@@ -15224,12 +15496,52 @@
       "famiglia_tipologia": "Sensoriale/Percezione",
       "fattore_mantenimento_energetico": "Medio (situazionale)",
       "tier": "T2",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "percezione"
+      },
       "slot": [],
       "sinergie": [],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.pigmenti_aurorali.mutazione_indotta",
       "uso_funzione": "i18n:traits.pigmenti_aurorali.uso_funzione",
       "spinta_selettiva": "i18n:traits.pigmenti_aurorali.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "adattamento_volo": {
+      "schema_version": "2.0",
+      "id": "adattamento_volo",
+      "label": "i18n:traits.adattamento_volo.label",
+      "famiglia_tipologia": "Fisiologico/Morfologia",
+      "fattore_mantenimento_energetico": "Basso (passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.adattamento_volo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.adattamento_volo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.adattamento_volo.spinta_selettiva",
+      "data_origin": "gap1_salvage_2026_06_22",
+      "completion_flags": {
+        "design_stub": true
+      }
+    },
+    "radici_ancora_planare": {
+      "schema_version": "2.0",
+      "id": "radici_ancora_planare",
+      "label": "i18n:traits.radici_ancora_planare.label",
+      "famiglia_tipologia": "Difensivo/Protezione",
+      "fattore_mantenimento_energetico": "Medio (situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [],
+      "conflitti": [],
+      "mutazione_indotta": "i18n:traits.radici_ancora_planare.mutazione_indotta",
+      "uso_funzione": "i18n:traits.radici_ancora_planare.uso_funzione",
+      "spinta_selettiva": "i18n:traits.radici_ancora_planare.spinta_selettiva",
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true

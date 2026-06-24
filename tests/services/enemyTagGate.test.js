@@ -134,7 +134,7 @@ test('requires_target_tag predator: matches predator → trait fires', () => {
   const actor = buildUnit({
     id: 'a',
     position: { x: 0, y: 0 },
-    traits: ['ancestor_attacco_contromanovra_co_04'],
+    traits: ['contromanovra_predator'],
   });
   const target = buildUnit({
     id: 't',
@@ -148,7 +148,7 @@ test('requires_target_tag predator: matches predator → trait fires', () => {
     attackResult: { hit: true, mos: 4 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find((e) => e.trait === 'ancestor_attacco_contromanovra_co_04');
+  const evt = result.trait_effects.find((e) => e.trait === 'contromanovra_predator');
   assert.equal(evt.triggered, true);
   assert.equal(result.damage_modifier, 1);
 });
@@ -157,7 +157,7 @@ test('requires_target_tag predator: blocks irascible target', () => {
   const actor = buildUnit({
     id: 'a',
     position: { x: 0, y: 0 },
-    traits: ['ancestor_attacco_contromanovra_co_04'],
+    traits: ['contromanovra_predator'],
   });
   const target = buildUnit({
     id: 't',
@@ -171,7 +171,7 @@ test('requires_target_tag predator: blocks irascible target', () => {
     attackResult: { hit: true, mos: 4 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find((e) => e.trait === 'ancestor_attacco_contromanovra_co_04');
+  const evt = result.trait_effects.find((e) => e.trait === 'contromanovra_predator');
   assert.equal(evt.triggered, false);
   assert.equal(result.damage_modifier, 0);
 });
@@ -180,7 +180,7 @@ test('requires_target_tag wildlife: matches wildlife target', () => {
   const actor = buildUnit({
     id: 'a',
     position: { x: 0, y: 0 },
-    traits: ['ancestor_attacco_contromanovra_co_03'],
+    traits: ['contromanovra_wildlife'],
   });
   const target = buildUnit({
     id: 't',
@@ -194,7 +194,7 @@ test('requires_target_tag wildlife: matches wildlife target', () => {
     attackResult: { hit: true, mos: 4 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find((e) => e.trait === 'ancestor_attacco_contromanovra_co_03');
+  const evt = result.trait_effects.find((e) => e.trait === 'contromanovra_wildlife');
   assert.equal(evt.triggered, true);
 });
 
@@ -202,7 +202,7 @@ test('requires_target_tag irascible: blocks wildlife target', () => {
   const actor = buildUnit({
     id: 'a',
     position: { x: 0, y: 0 },
-    traits: ['ancestor_attacco_contromanovra_co_02'],
+    traits: ['contromanovra_irascible'],
   });
   const target = buildUnit({
     id: 't',
@@ -216,7 +216,7 @@ test('requires_target_tag irascible: blocks wildlife target', () => {
     attackResult: { hit: true, mos: 4 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find((e) => e.trait === 'ancestor_attacco_contromanovra_co_02');
+  const evt = result.trait_effects.find((e) => e.trait === 'contromanovra_irascible');
   assert.equal(evt.triggered, false);
 });
 
@@ -233,7 +233,7 @@ test('requires_actor_tag predator: dodge fires when attacker is predator', () =>
   const target = buildUnit({
     id: 't',
     position: { x: 1, y: 0 },
-    traits: ['ancestor_schivata_azione_evasiva_do_02'],
+    traits: ['azione_evasiva_predator'],
   });
   const result = evaluateAttackTraits({
     registry,
@@ -242,9 +242,7 @@ test('requires_actor_tag predator: dodge fires when attacker is predator', () =>
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'ancestor_schivata_azione_evasiva_do_02',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'azione_evasiva_predator');
   assert.equal(evt.triggered, true);
   assert.equal(result.damage_modifier, -1);
 });
@@ -258,7 +256,7 @@ test('requires_actor_tag predator: dodge blocked when attacker is wildlife', () 
   const target = buildUnit({
     id: 't',
     position: { x: 1, y: 0 },
-    traits: ['ancestor_schivata_azione_evasiva_do_02'],
+    traits: ['azione_evasiva_predator'],
   });
   const result = evaluateAttackTraits({
     registry,
@@ -267,9 +265,7 @@ test('requires_actor_tag predator: dodge blocked when attacker is wildlife', () 
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'ancestor_schivata_azione_evasiva_do_02',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'azione_evasiva_predator');
   assert.equal(evt.triggered, false);
   assert.equal(result.damage_modifier, 0);
 });
@@ -298,11 +294,11 @@ test('regression: pelle_elastomera (no tag gate) fires on hit indipendentemente 
   assert.equal(result.damage_modifier, -1);
 });
 
-test('regression: ancestor_attacco_risposta_di_combattimento_co_01 (no tag gate) fires on melee hit', () => {
+test('regression: risposta_di_combattimento (no tag gate) fires on melee hit', () => {
   const actor = buildUnit({
     id: 'a',
     position: { x: 0, y: 0 },
-    traits: ['ancestor_attacco_risposta_di_combattimento_co_01'],
+    traits: ['risposta_di_combattimento'],
   });
   const target = buildUnit({ id: 't', position: { x: 1, y: 0 }, species: 'sp_ventornis_longiala' });
   const result = evaluateAttackTraits({
@@ -312,9 +308,7 @@ test('regression: ancestor_attacco_risposta_di_combattimento_co_01 (no tag gate)
     attackResult: { hit: true, mos: 2 },
     allUnits: [actor, target],
   });
-  const evt = result.trait_effects.find(
-    (e) => e.trait === 'ancestor_attacco_risposta_di_combattimento_co_01',
-  );
+  const evt = result.trait_effects.find((e) => e.trait === 'risposta_di_combattimento');
   assert.equal(evt.triggered, true);
   assert.equal(result.damage_modifier, 1);
 });

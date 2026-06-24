@@ -684,6 +684,19 @@ jobs:
         rank: 1
         source: trait
         trait_id: filtri_bioattivi
+      trait_pigmenti_intensifica:
+        ability_id: pigmenti_intensifica
+        name_it: "Pigmenti Aurorali -- Intensifica"
+        description_it: "Abilità nativa del trait pigmenti_aurorali."
+        cost_ap: 1
+        cost_pi: 0
+        effect_type: apply_status
+        status_id: pigmenti_intensificato
+        status_duration: 2
+        target: self
+        rank: 1
+        source: trait
+        trait_id: pigmenti_aurorali
       trait_digest_heal:
         ability_id: digest_heal
         name_it: "Digestione Rigenerante"

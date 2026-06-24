@@ -5,6 +5,10 @@
   "famiglia_tipologia": "Mentale/Cognizione",
   "fattore_mantenimento_energetico": "Medio (situazionale)",
   "tier": "T2",
+  "slot_profile": {
+    "core": "cognitivo",
+    "complementare": "cognizione"
+  },
   "slot": [],
   "sinergie": [],
   "conflitti": [],

@@ -12707,6 +12707,39 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-tkt-ancestor-trait-native-rename-istruttoria.md",
+      "title": "Istruttoria TKT-ANCESTOR-TRAIT-NATIVE-RENAME -- audit + rename-map + schema-ripple brief",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-player-trait-spec-draft.md",
+      "title": "Form-Pulse trait system v2 -- per-player minor trait + always-emerge + random-fill (DRAFT, NON-band-neutral, master-dd ratify)",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-23-aa01-imprint-route-vote-weighting-design-note.md",
+      "title": "Imprint route-vote affinity weighting -- design-note (D5, master-dd-gated PROPOSAL)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-n40-ratify.md",
       "title": "Form-Pulse trait v2 -- N=40 grant-power ratify evidence (master-dd verdict pending)",
       "doc_status": "review_needed",
@@ -12721,6 +12754,28 @@
       "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-coverage-matrix.md",
       "title": "Form-Pulse trait v2 -- MBTI x Ennea coverage matrix + engine-LIVE audit (PROPOSED)",
       "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-combat-ab.md",
+      "title": "Form-Pulse trait v2 -- combat A/B (rounds-to-victory + derived win-rate, verdict-condition evidence)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md",
+      "title": "Imprint axis->trait grant -- design spec DRAFT (D6, NON-band-neutral, master-dd ratify)",
+      "doc_status": "draft",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-23",
@@ -12766,6 +12821,19 @@
       "review_cycle_days": 180,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/reports/2026-06-23-move-terrain-substrate-phase0-review.md",
+      "title": "Move terrain-cost substrate phase 0 (#3006) -- adversarial review",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "migrated"
     }
   ]
 }

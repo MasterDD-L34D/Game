@@ -427,3 +427,11 @@ test('abbagliato (actor) -> -1 attackDelta', () => {
   assert.equal(r.attackDelta, -1);
   assert.ok(r.log.some((e) => e.status === 'abbagliato' && e.side === 'actor'));
 });
+
+// pigmenti ACTIVE: an intensified glow dazzles for -2 (abbagliato carries intensity 2).
+test('abbagliato intensified (intensity 2) -> -2 attackDelta', () => {
+  const actor = { id: 'a', status: { abbagliato: 1 }, status_intensity: { abbagliato: 2 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, -2);
+});
