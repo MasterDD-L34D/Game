@@ -610,8 +610,12 @@ function createAbilityExecutor(deps) {
       }
       // Move terrain-cost substrate (flag MOVE_TERRAIN_COST_ENABLED, OFF = band-neutral):
       // ON -> the mobility budget is checked against the terrain-weighted cheapest-path
-      // cost (volo lowers it); OFF -> literal Manhattan. Registry unavailable here ->
-      // evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier (phase-2 follow-up).
+      // cost (volo lowers it); OFF -> literal Manhattan. No closure trait registry here:
+      // evaluateVoloGrade(null, ...) yields grade 1 for a volo carrier -- identical to the
+      // authored global base grade 1, so this is a no-op today. Threading the real registry
+      // would mean a per-move loadActiveTraitRegistry() file-read (no cached accessor yet)
+      // for zero current benefit; left as a follow-up gated on that accessor + the
+      // per-creature volo-grade mechanism (design gap surfaced to master-dd).
       const mobilityBudget = Number(minion.mobility) || 1;
       let minionMoveDist = manhattanDistance(minion.position, dest);
       if (require('./combat/moveCost').isMoveTerrainCostEnabled()) {
