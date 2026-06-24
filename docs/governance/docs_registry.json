@@ -12751,12 +12751,45 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-coverage-matrix.md",
+      "title": "Form-Pulse trait v2 -- MBTI x Ennea coverage matrix + engine-LIVE audit (RATIFIED master-dd 2026-06-24)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-24",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-24-form-pulse-trait-v2-coverage-handoff.md",
+      "title": "Handoff -- Form-Pulse trait v2 coverage + ratify (2026-06-24)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-24",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/planning/2026-06-23-aa01-form-pulse-trait-v2-combat-ab.md",
       "title": "Form-Pulse trait v2 -- combat A/B (rounds-to-victory + derived win-rate, verdict-condition evidence)",
       "doc_status": "review_needed",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",
       "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/planning/2026-06-24-aa01-form-pulse-trait-v2-encounter-offset.md",
+      "title": "Form-Pulse trait v2 -- encounter-difficulty offset (ratify path-1, flag-gated enemy-HP)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-24",
       "source_of_truth": false,
       "language": "it-en",
       "review_cycle_days": 90
