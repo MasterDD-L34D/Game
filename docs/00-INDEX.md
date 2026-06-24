@@ -103,11 +103,11 @@ review_cycle_days: 30
 | --- | --- | --- | --- | --- | --- |
 | [action-items.md](docs/process/action-items.md) | Action Items — Sintesi operativa | Sintesi quotidiana attività cross-team e follow-up PR giornalieri. | UI Systems · Progression Design · VFX/Lighting · QA Support | 2026-06-10 | `docs/process/action-items.md` |
 | [bug-intake.md](docs/process/bug-intake.md) | Bug Intake Checklist | Verifica dati obbligatori prima del triage ticket. | N/D | 2026-06-10 | `docs/process/bug-intake.md` |
-| [clone-setup.md](docs/process/clone-setup.md) | Procedura di clone e setup iniziale | Istruzioni ambiente standard container /workspace/Game. | Ops/ChatGPT | 2026-05-06 | `docs/process/clone-setup.md` |
-| [demo-release.md](docs/process/demo-release.md) | Checklist release demo pubblica | Passi di coordinamento per bundle demo Evo Tactics Pack. | N/D | 2026-05-06 | `docs/process/demo-release.md` |
+| [clone-setup.md](docs/process/clone-setup.md) | Procedura di clone e setup iniziale | Istruzioni ambiente standard container /workspace/Game. | Ops/ChatGPT | 2026-06-21 | `docs/process/clone-setup.md` |
+| [demo-release.md](docs/process/demo-release.md) | Checklist release demo pubblica | Passi di coordinamento per bundle demo Evo Tactics Pack. | N/D | 2026-06-21 | `docs/process/demo-release.md` |
 | [milestones.md](docs/process/milestones.md) | Checklist Milestone | Stato avanzamento milestone telemetria/dataset/playtest. | N/D | 2026-06-10 | `docs/process/milestones.md` |
-| [project-setup-todo.md](docs/process/project-setup-todo.md) | TODO Operativo — Avvio completo del progetto | Sequenza end-to-end per rendere operativo il progetto con note storiche. | Ops/ChatGPT · Release Ops · Marketing Ops · Lead Dev Tools | 2026-05-06 | `docs/process/project-setup-todo.md` |
-| [telemetry.md](docs/process/telemetry.md) | Checklist — Telemetry Export & QA Filters | Controlli giornalieri/settimanali su export telemetria e filtri QA. | N/D | 2026-05-06 | `docs/process/telemetry.md` |
+| [project-setup-todo.md](docs/process/project-setup-todo.md) | TODO Operativo — Avvio completo del progetto | Sequenza end-to-end per rendere operativo il progetto con note storiche. | Ops/ChatGPT · Release Ops · Marketing Ops · Lead Dev Tools | 2026-06-21 | `docs/process/project-setup-todo.md` |
+| [telemetry.md](docs/process/telemetry.md) | Checklist — Telemetry Export & QA Filters | Controlli giornalieri/settimanali su export telemetria e filtri QA. | N/D | 2026-06-21 | `docs/process/telemetry.md` |
 | [vc_playtest_plan.md](docs/process/vc_playtest_plan.md) | Playtest VC Mirati alla Telemetria | Piano sessioni mirate agli indici VC e setup strumentazione. | N/D | 2026-06-10 | `docs/process/vc_playtest_plan.md` |
 
 ### Processo
@@ -116,11 +116,11 @@ review_cycle_days: 30
 | --- | --- | --- | --- | --- | --- |
 | [incident_reporting_table.md](docs/process/incident_reporting_table.md) | Registro Segnalazioni Cross-Team — Implementazione Operativa | Configurazione tabella Airtable e permessi per segnalazioni condivise. | N/D | 2026-06-10 | `docs/process/incident_reporting_table.md` |
 | [qa_hud.md](docs/process/qa_hud.md) | QA — HUD Smart Alerts | Metriche e pipeline QA per monitorare ack/filter ratio degli alert HUD. | QA lead | 2026-06-10 | `docs/process/qa_hud.md` |
-| [qa_reporting_schema.md](docs/process/qa_reporting_schema.md) | QA Telemetry & Segnalazioni — Schema condiviso | Panorama fonti dati QA, campi disponibili e gap di reporting. | N/D | 2026-05-06 | `docs/process/qa_reporting_schema.md` |
-| [telemetry_ingestion_pipeline.md](docs/process/telemetry_ingestion_pipeline.md) | Pipeline Dati Telemetria → Tabella QA/Design | Flusso di ingestione telemetria, snapshot visuali e modulo QA manuale. | N/D | 2026-05-06 | `docs/process/telemetry_ingestion_pipeline.md` |
-| [traits_checklist.md](docs/process/traits_checklist.md) | Checklist iterativa tratti | Step incrementali per aggiungere/revisionare tratti con controlli dati. | N/D | 2026-05-06 | `docs/process/traits_checklist.md` |
+| [qa_reporting_schema.md](docs/process/qa_reporting_schema.md) | QA Telemetry & Segnalazioni — Schema condiviso | Panorama fonti dati QA, campi disponibili e gap di reporting. | N/D | 2026-06-21 | `docs/process/qa_reporting_schema.md` |
+| [telemetry_ingestion_pipeline.md](docs/process/telemetry_ingestion_pipeline.md) | Pipeline Dati Telemetria → Tabella QA/Design | Flusso di ingestione telemetria, snapshot visuali e modulo QA manuale. | N/D | 2026-06-20 | `docs/process/telemetry_ingestion_pipeline.md` |
+| [traits_checklist.md](docs/process/traits_checklist.md) | Checklist iterativa tratti | Step incrementali per aggiungere/revisionare tratti con controlli dati. | N/D | 2026-06-21 | `docs/process/traits_checklist.md` |
 | [web_handoff.md](docs/process/web_handoff.md) | Web Handoff · Foodweb Archetypes 2025-11-05 | Nota di consegna verso team web/UI con archetipi ruolo×bioma aggiornati. | N/D | 2026-06-10 | `docs/process/web_handoff.md` |
-| [web_pipeline.md](docs/process/web_pipeline.md) | Pipeline web · Procedura di rilascio | Processo end-to-end per promuovere la web experience su GitHub Pages. | N/D | 2026-05-06 | `docs/process/web_pipeline.md` |
+| [web_pipeline.md](docs/process/web_pipeline.md) | Pipeline web · Procedura di rilascio | Processo end-to-end per promuovere la web experience su GitHub Pages. | N/D | 2026-06-20 | `docs/process/web_pipeline.md` |
 
 ### Log & metriche
 
