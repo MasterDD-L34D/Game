@@ -8,7 +8,8 @@
 // review caught on the minor pool (and that the coverage audit then caught on 3 more poles the
 // review missed). It enforces:
 //   1. every branco + minor id EXISTS in active_effects.yaml,
-//   2. every id is ENGINE-LIVE-RELIABLE (has a real runtime consumer, not elevation-near-inert),
+//   2. every id is ENGINE-LIVE-RELIABLE (real runtime consumer, not elevation-near-inert, and
+//      applies_to/kind side-consistent -- dr only target-side, extra_damage only actor-side),
 //   3. CAP-TIER: every MINOR id is T1 (the minor stays "genuinely minor"),
 //   4. branco and minor pools are disjoint (the minor is never a 2nd branco-combat trait),
 //   5. the predicate actually discriminates -- the 4 OLD broken picks FAIL it.
@@ -54,7 +55,20 @@ function isEngineLiveReliable(def) {
   // (b) attack pipeline (action_type undefined or 'attack'), excluding elevation near-inert.
   if (at === undefined || at === 'attack') {
     if (trigger.requires === 'posizione_sopraelevata') return false; // fires ~never on flat maps
-    return ATTACK_LIVE_KINDS.has(effect.kind);
+    if (!ATTACK_LIVE_KINDS.has(effect.kind)) return false;
+    // applies_to/kind side consistency: evaluateAttackTraits consumes damage_reduction ONLY on the
+    // target side and extra_damage/attack_bonus/heal ONLY on the actor side, so a kind/side mismatch
+    // is engine-inert. apply_status fires from either side (evaluateStatusTraits scans both).
+    const appliesTo = def.applies_to || 'actor';
+    if (effect.kind === 'damage_reduction') return appliesTo === 'target';
+    if (
+      effect.kind === 'extra_damage' ||
+      effect.kind === 'attack_bonus' ||
+      effect.kind === 'heal'
+    ) {
+      return appliesTo === 'actor';
+    }
+    return true; // apply_status
   }
   // (c) movement pipeline (evaluateMovementTraits) -- only buff_stat move_bonus is wired.
   if (at === 'movement') return effect.kind === 'buff_stat' && effect.stat === 'move_bonus';

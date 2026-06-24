@@ -219,6 +219,6 @@ regress). Branco is NOT tier-capped (spread handled by the offset, sec.8).
   enforcement test; `fp-trait-delta-probe.js` proxy hardened (zero passive buff_stat) +
   `reports/sim/fp-trait-n200` regenerated (corrected figure, sec.3). No behavior change until the
   Form-Pulse UX populates pulses AND the flag flips.
-- **Ratification pending master-dd.** On ratify: set the encounter-offset (~1.20/creature, sec.3 +
+- **Ratification pending master-dd.** On ratify: set the encounter-offset (~1.2/creature, sec.3 +
   the PR #3017 A/B) before `FORM_PULSE_TRAIT_V2_ENABLED` is ever turned ON. Reproduce the figure:
   `node tools/sim/fp-trait-delta-probe.js --n 200`.
