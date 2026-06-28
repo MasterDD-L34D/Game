@@ -34,7 +34,7 @@ OUT_CSV = os.path.join(ROOT, "docs", "planning",
 
 
 def slugify(s: str) -> str:
-    """ASCII snake_case slug (same normalization as ancestors_style_guide_proposal_v2)."""
+    """ASCII snake_case slug: NFKD -> ascii -> non-alnum to underscore, collapse repeats."""
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode("ascii")
     s = re.sub(r"[^A-Za-z0-9]+", "_", s).strip("_").lower()
     s = re.sub(r"_+", "_", s)
