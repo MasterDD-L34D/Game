@@ -51,7 +51,12 @@
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
   "telemetry": { "expected_pick_rate": 0.18, "spawn_weight": 0.25 },
   "genetic_traits": {
-    "core": ["eco_interno_riflesso", "occhi_infrarosso_composti", "sonno_emisferico_alternato"],
+    "core": [
+      "eco_interno_riflesso",
+      "occhi_infrarosso_composti",
+      "sonno_emisferico_alternato",
+      "adattamento_volo"
+    ],
     "optional": ["sacche_galleggianti_ascensoriali", "lingua_tattile_trama"],
     "synergy": []
   },
@@ -63,5 +68,5 @@
     "date": "2025-10-25",
     "trace_hash": "bfa87faea1e2446a9785596011608bff528cdfc088ca421166df88d0ae99fdb8"
   },
-  "last_synced_at": "2026-06-18T01:46:02.283Z"
+  "last_synced_at": "2026-06-28T17:20:23.740Z"
 }

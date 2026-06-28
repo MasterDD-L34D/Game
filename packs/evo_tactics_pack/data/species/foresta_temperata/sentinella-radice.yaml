@@ -57,7 +57,9 @@ jobs_bias: []
 telemetry:
   expected_pick_rate: 0.12
   spawn_weight: 0.18
-genetic_traits: []
+genetic_traits:
+  core:
+  - radici_ancora_planare
 services_links:
 - supporto:formazione_suolo
 - regolazione:ritenzione_idrica
