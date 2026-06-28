@@ -49,6 +49,12 @@ async function runEncounter(
     // 10x10 reinforcement entry tiles off-grid; a preset (e.g. 'duo_hardcore',
     // deployed 8 -> 10x10) restores the authored board. Absent -> byte-identical.
     modulation = null,
+    // Move terrain-cost substrate N=40: opt-in inline encounter terrain (see startBody).
+    // The canonical pilot encounter lives in data/encounters/, NOT the encounterLoader
+    // dir, so encounter_id cannot load its terrain -- the probe inlines it here. Absent
+    // -> byte-identical start body.
+    terrainFeatures = null,
+    gridSize = null,
   } = {},
 ) {
   const rosterIds = (roster || []).map((u) => u.id);
@@ -75,6 +81,20 @@ async function runEncounter(
       ? { pressure_start: Number(pressureStart), sistema_pressure_start: Number(pressureStart) }
       : {}),
     ...(modulation ? { modulation } : {}),
+    // Move terrain-cost substrate N=40: inline terrain so the move-gate prices typed
+    // tiles. /api/session/start carries req.body.encounter.grid.terrain_features into
+    // session.grid (session.js ~2414). Absent -> byte-identical start body.
+    ...(Array.isArray(terrainFeatures) && terrainFeatures.length
+      ? {
+          encounter: {
+            grid: {
+              width: Number(gridSize) || 6,
+              height: Number(gridSize) || 6,
+              terrain_features: terrainFeatures,
+            },
+          },
+        }
+      : {}),
   };
   const start = await http.post('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
