@@ -50,11 +50,14 @@ canon-passing inline form available; ``environment_affinity`` is used to cover t
 rule WITHOUT asserting a canon violation. Registering these 5 as inline
 ``biomes.yaml`` aliases (so the canon gate exercises the refs) is a master-dd call.
 
-NOTE (validator scope): the pack validator ``validate_species_v1_7.py`` treats a
-missing ``biomes`` field as FATAL and would reject every bare keeper stub; the
-keepers escape it only because ``validate-ecosystem-pack`` (run_all_validators)
-globs a hardcoded subset of biome dirs that excludes them. The "green" pack-
-validation signal therefore means "not inspected", not "valid", for these stubs.
+NOTE (validator scope): the pack validator ``validate_species_v1_7.py`` would
+reject every keeper stub as FATAL -- a bare stub for missing ``biomes`` plus ~10
+other required fields (schema_version, receipt, display_name, role_trofico,
+functional_tags, vc, playable_unit, spawn_rules[.densita], balance[.encounter_role]);
+even the populated ``biomes:[X]`` keepers still fail on those other fields. The
+keepers escape rejection only because ``validate-ecosystem-pack``
+(run_all_validators) globs a hardcoded subset of biome dirs that excludes them, so
+the "green" pack-validation signal means "not inspected", not "valid", for stubs.
 
 Deterministic + committed (salvage idiom, cf. gen_retired_creature_specs.py).
 """
