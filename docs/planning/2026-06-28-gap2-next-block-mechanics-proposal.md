@@ -32,24 +32,44 @@ gating (see [Future clusters](#future-clusters)).
 
 ## Effect-type constraint
 
-All 6 proposed mechanics reuse an EXISTING `active_effects` effect kind
-(`apply_status` / `extra_damage` / `damage_reduction` / `buff_stat` / `heal`) and
-an EXISTING actor-side trigger (`passive` / `attack+on_result:hit`). **No
-forbidden-path schema edit** (no new effect_type, no `traitMechanics.schema.json`,
-no jobs re-baseline). Each is a data-only add: `trait_mechanics.yaml` +
-`active_effects.yaml` MIRROR (the P1 gate) + `add_trait_stub` if the DB needs the
-mechanic-flag -- exactly the #3035 recipe.
+All 6 mechanics use only RUNTIME-CONSUMED trigger/effect pairs (no forbidden-path
+schema edit, no new effect_type, no jobs re-baseline). The two wired channels:
+
+- **attack-side**: `trigger.action_type: attack` -> `resolveTraitEffect` handles
+  `apply_status` (on-hit, deferred), `extra_damage`, `attack_bonus`.
+- **passive apply_status**: `trigger.action_type: passive` + `effect.kind:
+apply_status` with a WAVE_A status -> `passiveStatusApplier` sets it ->
+  `computeStatusModifiers` / `applyTurnRegen` consume it (e.g. `attuned` -> +1
+  defense, `healing` -> +1 HP/turn).
+
+A raw passive `damage_reduction` / `heal` / `buff_stat` is NOT consumed (it is
+filtered by `passesBasicTriggers` before the handler runs) -> see the wiring
+correction below. Each entry is `active_effects.yaml`-only (the 6 DB files +
+index already exist; the mirror gate is `trait_mechanics -> active_effects`
+one-way, so active_effects-only is consistent -- corrected from the #3035 recipe,
+which needed `trait_mechanics` only for active abilities).
 
 ## The 6 proposed mechanics (all PROPOSED magnitudes -> ratify + N=40)
 
-| #   | trait                           | cat         | tier | glossary grounding                                                                                         | trigger        | effect (PROPOSED)                                 |
-| --- | ------------------------------- | ----------- | ---- | ---------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------- |
-| 1   | `zanne_idracida`                | offensivo   | T4   | "Corrodere tessuti e metalli."                                                                             | attack, on hit | `apply_status` fracture 2t (corrosion eats armor) |
-| 2   | `emolinfa_conducente`           | offensivo   | T3   | "Fluido che accumula carica e drena energia nemica."                                                       | attack, on hit | `extra_damage` 1 (electric discharge)             |
-| 3   | `placche_pressioniche`          | difensivo   | T3   | "Strati che disperdono pressione abissale e riducono trauma."                                              | passive        | `damage_reduction` 1                              |
-| 4   | `scudo_gluteale_cheratinizzato` | difensivo   | T3   | "Assorbire impatti posteriori."                                                                            | passive        | `damage_reduction` 1                              |
-| 5   | `ectotermia_dinamica`           | fisiologico | T3   | "Microscosse isometriche che innalzano la temperatura corporea per picchi prestazionali in climi freschi." | passive        | `buff_stat` +1 (readiness; exact stat to confirm) |
-| 6   | `piume_solari_fotovoltaiche`    | fisiologico | T2   | "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni."                                         | passive        | `heal` 1 once/round (solar sustain)               |
+> **WIRING CORRECTION (post-build, verify-first -- Codex P2).** The runtime only
+> consumes an active_effects trait when EITHER (a) the trigger is `action_type:
+attack` (`passesBasicTriggers` in `traitEffects.js` rejects every non-attack
+> trigger before `resolveTraitEffect` runs), OR (b) the trigger is `passive` with
+> `effect.kind: apply_status` (the `passiveStatusApplier` only wires passive
+> apply_status). So a passive `damage_reduction` / `heal` / `buff_stat` is INERT.
+> The build (#3044) therefore remapped the 3 passive rows below to the wired
+> pattern (passive `apply_status` -> a WAVE_A status -> consumer); ectotermia uses
+> `attack_bonus` (passive buff_stat is inert). The "effect (built)" column shows
+> what shipped.
+
+| #   | trait                           | cat         | tier | glossary grounding                                                                                         | trigger        | effect (built, wired)                                         |
+| --- | ------------------------------- | ----------- | ---- | ---------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------- |
+| 1   | `zanne_idracida`                | offensivo   | T4   | "Corrodere tessuti e metalli."                                                                             | attack, on hit | `apply_status` fracture 2t (corrosion eats armor)             |
+| 2   | `emolinfa_conducente`           | offensivo   | T3   | "Fluido che accumula carica e drena energia nemica."                                                       | attack, on hit | `extra_damage` 1 (electric discharge)                         |
+| 3   | `placche_pressioniche`          | difensivo   | T3   | "Strati che disperdono pressione abissale e riducono trauma."                                              | passive        | `apply_status attuned` -> +1 defense (computeStatusModifiers) |
+| 4   | `scudo_gluteale_cheratinizzato` | difensivo   | T3   | "Assorbire impatti posteriori."                                                                            | passive        | `apply_status attuned` -> +1 defense                          |
+| 5   | `ectotermia_dinamica`           | fisiologico | T3   | "Microscosse isometriche che innalzano la temperatura corporea per picchi prestazionali in climi freschi." | attack         | `attack_bonus` 1 (passive buff_stat is inert)                 |
+| 6   | `piume_solari_fotovoltaiche`    | fisiologico | T2   | "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni."                                         | passive        | `apply_status healing` -> +1 HP/turn (applyTurnRegen)         |
 
 Per-trait rationale:
 
@@ -59,32 +79,35 @@ Per-trait rationale:
 2. **emolinfa_conducente** -- "drains enemy energy" simplified to flat on-hit
    bonus damage (the literal energy-steal/buff-drain primitive does NOT exist;
    see Future clusters). A small `extra_damage` is the band-neutral reading.
-3. **placche_pressioniche** -- "disperse pressure, reduce trauma" = a flat passive
-   `damage_reduction 1` (mirror the 89 existing DR traits).
-4. **scudo_gluteale_cheratinizzato** -- "absorb rear impacts" = passive
-   `damage_reduction 1`. (Directional rear-only DR would need a facing system that
-   does not exist -> flat DR is the band-neutral reading; flagged.)
-5. **ectotermia_dinamica** -- "rapid warm-up for performance peaks in cool
-   climates" = a passive readiness `buff_stat +1`. The exact buffed stat
-   (initiative vs move vs attack) is the design call; PROPOSED = the trait's combat
-   tempo stat. (A biome-conditional "only in cold biomes" gate would need a biome
-   read at resolve; PROPOSED = unconditional for band-neutrality.)
-6. **piume_solari_fotovoltaiche** -- "stores light for long missions" = a passive
-   `heal 1` once per round (mirror the 4 existing `heal` traits). PROPOSED cadence
-   once/round (a per-turn heal would be strong).
+3. **placche_pressioniche** -- "disperse pressure, reduce trauma" = passive defense.
+   Built as passive `apply_status attuned` (the `attuned` status is read by
+   `computeStatusModifiers` as +1 defense_mod target-side). A raw passive
+   `damage_reduction` is inert (see the wiring correction).
+4. **scudo_gluteale_cheratinizzato** -- "absorb rear impacts" = passive `apply_status
+attuned` (+1 defense). Directional rear-only DR would need a facing system that
+   does not exist -> a flat defensive buff is the band-neutral reading.
+5. **ectotermia_dinamica** -- "rapid warm-up for performance peaks in cool climates"
+   = an `attack_bonus 1` on attack (warmed musculature strikes harder). A passive
+   `buff_stat` is inert in the resolver; `attack_bonus` is the wired readiness analog.
+6. **piume_solari_fotovoltaiche** -- "stores light for long missions" = passive
+   `apply_status healing` (the `healing` status is read by
+   `statusModifiers.applyTurnRegen` -> +1 HP/turn HoT). A raw passive `heal` is inert.
 
 All 6 are **band-neutral by default**: no current sim/combat unit carries them
 (they are inert catalog traits; wiring only makes the catalog mechanic
 dispatchable, AI 557/557 holds, as with #3035).
 
-## Build plan (after ratify -- per the #3035 recipe)
+## Build plan (as built in #3044)
 
-1. For each: add the `trait_mechanics.yaml` entry + the `active_effects.yaml`
-   MIRROR (the `check_trait_mirror_consistency.py` P1 gate -- a trait in one but
-   not the other is silently no-op'd).
-2. No jobs regen (all passive/on-hit, no trait-granted ability) and no schema edit.
-3. 5 trait gates (template/style/coverage/qa) + `npm run test:api` 0-fail + AI
-   557/557 + cavecrew review.
+1. For each: add the `active_effects.yaml` entry ONLY (the 6 DB files + index
+   already exist; the `check_trait_mirror_consistency.py` gate is
+   `trait_mechanics -> active_effects` one-way, so an active_effects-only add is
+   consistent -- no `trait_mechanics.yaml`, no `add_trait_stub`, no jobs regen).
+2. Use a runtime-consumed trigger/effect pair (attack-side or passive
+   apply_status; see the wiring correction) -- proven end-to-end, not
+   handler-exists.
+3. `npm run test:api` 0-fail + AI 557/557 byte-stable (band-neutral, no carrier) +
+   cavecrew review.
 4. PR (non-forbidden, freely mergeable).
 
 ## Future clusters (the remaining ~43 crisp inert -- different gating)
