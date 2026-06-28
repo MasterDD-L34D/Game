@@ -13,7 +13,8 @@ spawn_rules:
   densita: moderata
 balance:
   encounter_role: minion
-environment_affinity: {}
-derived_from_environment: {}
+derived_from_environment:
+  suggested_traits:
+  - cute_resistente_sali
 receipt:
   source: runtime-generator
