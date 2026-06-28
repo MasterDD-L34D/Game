@@ -1,3 +1,19 @@
 resistance_archetype: adattivo
 id: caverna-risonante-trait-keeper
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- caverna_risonante
+derived_from_environment:
+  suggested_traits:
+  - ali_membrana_sonica
+  - antenne_microonde_cavernose
+  - artigli_scivolo_silente
+  - artigli_sette_vie
+  - cartilagini_flessoacustiche
+  - coda_balanciere
+  - colonne_vibromagnetiche
+  - denti_tuning_fork
+  - echi_risonanti
+  - ghiandole_eco_mappanti
+  - midollo_antivibrazione
+  - mucose_aderenza_sonica

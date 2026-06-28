@@ -1,3 +1,15 @@
 resistance_archetype: adattivo
 id: mangrovieto-cinetico-trait-keeper
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+environment_affinity:
+  biome_class: mangrovieto_cinetico
+derived_from_environment:
+  suggested_traits:
+  - artigli_radice
+  - baffi_mareomotori
+  - coda_contrappeso
+  - foliaggio_spugna
+  - ghiandole_fango_coesivo
+  - giunti_antitorsione
+  - lamine_filtranti_aeree
+  - membrane_pneumatofori

@@ -419,7 +419,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ali_solari_fotoni": {
       "id": "ali_solari_fotoni",
@@ -487,18 +496,20 @@
       },
       "species_affinity": [
         {
+          "species_id": "auroserpens_photonicus",
           "roles": [
+            "core",
             "optional"
           ],
-          "species_id": "archon-solare",
-          "weight": 1
+          "weight": 4
         },
         {
+          "species_id": "heliopteryx_radians",
           "roles": [
+            "core",
             "optional"
           ],
-          "species_id": "couatl-aurora",
-          "weight": 1
+          "weight": 4
         }
       ],
       "completion_flags": {
@@ -570,7 +581,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "barriere_miasma_glaciale": {
       "conflitti": [],
@@ -624,7 +644,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "bozzolo_magnetico": {
       "id": "bozzolo_magnetico",
@@ -738,7 +767,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "campo_di_interferenza_acustica": {
       "id": "campo_di_interferenza_acustica",
@@ -856,7 +894,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "circolazione_bifasica": {
       "conflitti": [],
@@ -910,7 +957,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cisti_di_ibernazione_minerale": {
       "id": "cisti_di_ibernazione_minerale",
@@ -1024,7 +1080,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cute_resistente_sali": {
       "conflitti": [],
@@ -1078,7 +1143,31 @@
       "biome_tags": [
         "badlands"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "evento-tempesta-ferrosa",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "badlands-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "enzimi_antipredatori_algali": {
       "conflitti": [],
@@ -1132,7 +1221,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "filtri_planctonici": {
       "conflitti": [],
@@ -1186,7 +1284,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_fango_coesivo": {
       "conflitti": [],
@@ -1240,7 +1347,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "giunti_antitorsione": {
       "conflitti": [],
@@ -1294,7 +1410,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lingua_cristallina": {
       "conflitti": [],
@@ -1348,7 +1473,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "membrana_plastica_continua": {
       "id": "membrana_plastica_continua",
@@ -1464,7 +1598,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "pelage_idrorepellente_avanzato": {
       "id": "pelage_idrorepellente_avanzato",
@@ -1525,7 +1668,16 @@
       "usage_tags": [
         "tank"
       ],
-      "debolezza": "i18n:traits.pelage_idrorepellente_avanzato.debolezza"
+      "debolezza": "i18n:traits.pelage_idrorepellente_avanzato.debolezza",
+      "species_affinity": [
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "scudo_gluteale_cheratinizzato": {
       "id": "scudo_gluteale_cheratinizzato",
@@ -1702,7 +1854,46 @@
       "biome_tags": [
         "rovine_planari"
       ],
-      "data_origin": "pathfinder_dataset"
+      "data_origin": "pathfinder_dataset",
+      "species_affinity": [
+        {
+          "species_id": "lithoconstructus_inhibens",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "tellurmordax_phasicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "radiciforma_ancorans",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "mantello_meteoritico": {
       "conflitti": [
@@ -1761,7 +1952,32 @@
       "biome_tags": [
         "rovine_planari"
       ],
-      "data_origin": "pathfinder_dataset"
+      "data_origin": "pathfinder_dataset",
+      "species_affinity": [
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "filamenti_digestivi_compattanti": {
       "conflitti": [],
@@ -1840,7 +2056,82 @@
         "caverna_risonante",
         "falde_magnetiche_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "amorphovenator_magneticus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "nano-rust-bloom",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "rust-scavenger",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "ferriscroba-detrita",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "blight-micotico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "falde-magnetiche-psioniche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thaw-rot",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ventriglio_gastroliti": {
       "conflitti": [],
@@ -1906,7 +2197,52 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "rust-scavenger",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "ferriscroba-detrita",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "ferrocolonia-magnetotattica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "steppe-bison-mini",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "spore_psichiche_silenziate": {
       "conflitti": [
@@ -1969,18 +2305,61 @@
       ],
       "species_affinity": [
         {
+          "species_id": "nano-rust-bloom",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
           "roles": [
             "core"
           ],
-          "species_id": "banshee-risonante",
           "weight": 3
         },
         {
+          "species_id": "sonovespera_lamentans",
           "roles": [
-            "synergy"
+            "core"
           ],
-          "species_id": "psionic-canopy-scout",
-          "weight": 2
+          "weight": 3
+        },
+        {
+          "species_id": "blight-micotico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thaw-rot",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
         }
       ],
       "completion_flags": {
@@ -3403,7 +3782,96 @@
         "canopia_psionica_leggera",
         "orbita_psionica_inversa"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "sand-burrower",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "aurora-gull",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "canopia-psionica-leggera-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "echo-wing",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "orbita-psionica-inversa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "steppe-bison-mini",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ali_fono_risonanti": {
       "id": "ali_fono_risonanti",
@@ -3472,18 +3940,19 @@
       },
       "species_affinity": [
         {
+          "species_id": "sonovespera_lamentans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
           "roles": [
             "core"
           ],
-          "species_id": "banshee-risonante",
           "weight": 3
-        },
-        {
-          "roles": [
-            "optional"
-          ],
-          "species_id": "psionic-canopy-scout",
-          "weight": 2
         }
       ],
       "version": "1.0.0",
@@ -3551,7 +4020,15 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
+      "species_affinity": [
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        }
+      ],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3617,7 +4094,6 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3683,7 +4159,6 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3751,7 +4226,6 @@
         "core": "locomotivo",
         "complementare": "arboricolo"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3818,7 +4292,6 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3887,7 +4360,6 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -3960,7 +4432,6 @@
         "core": "locomotivo",
         "complementare": "balistico"
       },
-      "species_affinity": [],
       "debolezza": "i18n:traits.scheletro_idraulico_a_pistoni.debolezza"
     },
     "scheletro_pneumatico_a_maglie": {
@@ -4023,7 +4494,15 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
+      "species_affinity": [
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        }
+      ],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -4089,7 +4568,6 @@
         "core": "locomotivo",
         "complementare": "terrestre"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -4155,7 +4633,6 @@
         "core": "locomotivo",
         "complementare": "arboricolo"
       },
-      "species_affinity": [],
       "version": "1.0.0",
       "versioning": {
         "created": "2025-11-04",
@@ -4216,7 +4693,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_wideband": {
       "conflitti": [],
@@ -4270,7 +4756,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_sette_vie": {
       "conflitti": [],
@@ -4336,7 +4831,81 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "resonant-claw-hunter",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "cryo-lynx",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_sghiaccio_glaciale": {
       "conflitti": [],
@@ -4400,7 +4969,16 @@
       "biome_tags": [
         "calotte_glaciali"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "barbigli_sensori_plasma": {
       "conflitti": [],
@@ -4454,7 +5032,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "branchie_metalloidi": {
       "conflitti": [],
@@ -4508,7 +5095,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "capillari_fotovoltaici": {
       "conflitti": [],
@@ -4562,7 +5158,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cartilagine_flessotermica_venti": {
       "conflitti": [
@@ -4629,7 +5234,16 @@
       "biome_tags": [
         "gole_ventose"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "chemiorecettori_bromuro": {
       "conflitti": [],
@@ -4683,7 +5297,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_contrappeso": {
       "conflitti": [],
@@ -4737,7 +5360,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_frusta_cinetica": {
       "conflitti": [],
@@ -4831,7 +5463,38 @@
         "falde_magnetiche_psioniche",
         "orbita_psionica_inversa"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "tellurmordax_phasicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cuscinetti_elettrostatici": {
       "conflitti": [],
@@ -4885,7 +5548,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "enzimi_antifase_termica": {
       "conflitti": [],
@@ -4939,7 +5611,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "filamenti_termoconduzione": {
       "conflitti": [],
@@ -4993,7 +5674,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_fango_calde": {
       "conflitti": [],
@@ -5047,7 +5737,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_ventosa": {
       "conflitti": [],
@@ -5101,7 +5800,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "linfa_tampone": {
       "conflitti": [],
@@ -5155,7 +5863,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "mucose_aderenza_sonica": {
       "conflitti": [],
@@ -5209,7 +5926,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "zampe_a_molla": {
       "conflitti": [],
@@ -5286,7 +6012,37 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "cryo-lynx",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "sand-burrower",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "zoccoli_risonanti_steppe": {
       "conflitti": [
@@ -5342,7 +6098,16 @@
       "biome_tags": [
         "steppe_risonanti"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "rostro_linguale_prensile": {
       "id": "rostro_linguale_prensile",
@@ -5455,7 +6220,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "appendici_thermotattiche": {
       "conflitti": [],
@@ -5509,7 +6283,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "batteri_endosimbionti_chemio": {
       "conflitti": [],
@@ -5563,7 +6346,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "branchie_solfatiche": {
       "conflitti": [],
@@ -5617,7 +6409,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "carapace_segmenti_logici": {
       "conflitti": [],
@@ -5671,7 +6472,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "circolazione_bifasica_palude": {
       "conflitti": [
@@ -5727,7 +6537,16 @@
       "biome_tags": [
         "paludi_gas_luminescenti"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "circolazione_cooling_loop": {
       "conflitti": [],
@@ -5781,7 +6600,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_stabilizzatrice_filo": {
       "conflitti": [],
@@ -5835,7 +6663,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "criostasi_adattiva": {
       "conflitti": [
@@ -5905,7 +6742,51 @@
         "canopia_psionica_leggera",
         "orbita_psionica_inversa"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "aurora-gull",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "cryo-lynx",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cuticole_cerose": {
       "conflitti": [],
@@ -5959,7 +6840,65 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "cactus-weaver",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-brinastorm",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-ondata-termica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "noctule-termico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "silica-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thermo-raptor",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "enzimi_chelanti": {
       "conflitti": [],
@@ -6014,7 +6953,31 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "evento-tempesta-ferrosa",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "ferriscroba-detrita",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "flagelli_ancoranti": {
       "conflitti": [],
@@ -6068,7 +7031,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_grafene": {
       "conflitti": [],
@@ -6122,7 +7094,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "grassi_termici": {
       "conflitti": [],
@@ -6176,7 +7157,58 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "cactus-weaver",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-brinastorm",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-ondata-termica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "noctule-termico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "silica-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thermo-raptor",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "luminescenza_aurorale": {
       "conflitti": [],
@@ -6230,7 +7262,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "sonno_emisferico_alternato": {
       "conflitti": [],
@@ -6285,7 +7326,38 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "echo-wing",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "aurora-gull",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_flusso_mareale": {
       "conflitti": [],
@@ -6339,7 +7411,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_induzione": {
       "conflitti": [],
@@ -6393,7 +7474,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_ipo_termici": {
       "id": "artigli_ipo_termici",
@@ -6625,7 +7715,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "camere_anticorrosione": {
       "conflitti": [],
@@ -6679,7 +7778,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cannone_sonico_a_raggio": {
       "id": "cannone_sonico_a_raggio",
@@ -6854,7 +7962,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "circolazione_supercritica": {
       "conflitti": [],
@@ -6908,7 +8025,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_stabilizzatrice_vortex": {
       "conflitti": [],
@@ -6962,7 +8088,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "denti_chelatanti": {
       "conflitti": [],
@@ -7016,7 +8151,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "elettromagnete_biologico": {
       "id": "elettromagnete_biologico",
@@ -7130,7 +8274,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "estroflessione_gastrica_acida": {
       "id": "estroflessione_gastrica_acida",
@@ -7245,7 +8398,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "frusta_fiammeggiante": {
       "conflitti": [
@@ -7304,7 +8466,32 @@
       "biome_tags": [
         "rovine_planari"
       ],
-      "data_origin": "pathfinder_dataset"
+      "data_origin": "pathfinder_dataset",
+      "species_affinity": [
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandola_caustica": {
       "conflitti": [],
@@ -7357,17 +8544,17 @@
       },
       "species_affinity": [
         {
-          "roles": [
-            "core"
-          ],
-          "species_id": "laguna-bioreattiva-trait-keeper",
-          "weight": 3
-        },
-        {
+          "species_id": "blight-micotico",
           "roles": [
             "optional"
           ],
-          "species_id": "sentinella-radice",
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
           "weight": 1
         }
       ],
@@ -7440,7 +8627,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "gusci_magnesio": {
       "conflitti": [],
@@ -7494,7 +8690,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "mantelli_geotermici": {
       "conflitti": [],
@@ -7548,7 +8753,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "rostro_emostatico_litico": {
       "id": "rostro_emostatico_litico",
@@ -7685,7 +8899,45 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "ferrocolonia-magnetotattica",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "nano-rust-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thaw-rot",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "seta_conduttiva_elettrica": {
       "id": "seta_conduttiva_elettrica",
@@ -7870,7 +9122,16 @@
       "biome_tags": [
         "delta_salmastri"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lamelle_termoforetiche": {
       "conflitti": [
@@ -7925,7 +9186,23 @@
       "biome_tags": [
         "sorgenti_geotermiche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "amorphovenator_magneticus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "membrane_eliofiltranti": {
       "conflitti": [],
@@ -7980,7 +9257,16 @@
       "biome_tags": [
         "laghi_alcalini"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "polmoni_cristallini_alta_quota": {
       "conflitti": [
@@ -8035,7 +9321,16 @@
       "biome_tags": [
         "picchi_cristallini"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "respiro_a_scoppio": {
       "conflitti": [],
@@ -8091,7 +9386,52 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "rust-scavenger",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "ferriscroba-detrita",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "steppe-bison-mini",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ermafroditismo_cronologico": {
       "id": "ermafroditismo_cronologico",
@@ -8270,18 +9610,55 @@
       ],
       "species_affinity": [
         {
+          "species_id": "rotabrachium_ferox",
           "roles": [
-            "core"
+            "core",
+            "optional"
           ],
-          "species_id": "marilith-vault",
-          "weight": 3
+          "weight": 4
         },
         {
+          "species_id": "sand-burrower",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
           "roles": [
             "optional"
           ],
-          "species_id": "psionic-canopy-scout",
-          "weight": 2
+          "weight": 1
+        },
+        {
+          "species_id": "falde-magnetiche-psioniche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "ferriscroba-detrita",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "orbita-psionica-inversa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "rust-scavenger",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
         }
       ],
       "completion_flags": {
@@ -8348,7 +9725,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_plasmatiche_tempesta": {
       "conflitti": [],
@@ -8414,7 +9800,16 @@
       "biome_tags": [
         "cicloni_psionici"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_waveguide": {
       "conflitti": [],
@@ -8469,7 +9864,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "baffi_mareomotori": {
       "conflitti": [],
@@ -8524,7 +9928,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "branchie_eoliche": {
       "conflitti": [],
@@ -8579,7 +9992,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "capillari_fluoridici": {
       "conflitti": [],
@@ -8634,7 +10056,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cavita_risonanti_tundra": {
       "conflitti": [],
@@ -8700,7 +10131,16 @@
       "biome_tags": [
         "tundra_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cervelletto_equilibrio_statico": {
       "conflitti": [],
@@ -8755,7 +10195,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_balanciere": {
       "conflitti": [],
@@ -8812,7 +10261,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cuore_multicamera_bassa_pressione": {
       "conflitti": [],
@@ -8867,7 +10325,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "echi_risonanti": {
       "conflitti": [],
@@ -8923,7 +10390,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "eco_interno_riflesso": {
       "conflitti": [],
@@ -8992,7 +10468,52 @@
         "canopia_psionica_leggera",
         "falde_magnetiche_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "echo-wing",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "aurora-gull",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thaw-rot",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "filamenti_superconduttivi": {
       "conflitti": [],
@@ -9047,7 +10568,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_eco_mappanti": {
       "conflitti": [],
@@ -9102,7 +10632,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_resina_conduttiva": {
       "conflitti": [],
@@ -9157,7 +10696,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "integumento_bipolare": {
       "id": "integumento_bipolare",
@@ -9274,7 +10822,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lingua_tattile_trama": {
       "conflitti": [],
@@ -9328,7 +10885,37 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "blight-micotico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "echo-wing",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "ferrocolonia-magnetotattica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "midollo_antivibrazione": {
       "conflitti": [],
@@ -9384,7 +10971,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "occhi_analizzatori_di_tensione": {
       "id": "occhi_analizzatori_di_tensione",
@@ -9595,18 +11191,19 @@
       ],
       "species_affinity": [
         {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
           "roles": [
             "core"
           ],
-          "species_id": "orbital-ascendant",
           "weight": 3
-        },
-        {
-          "roles": [
-            "optional"
-          ],
-          "species_id": "psionic-canopy-scout",
-          "weight": 2
         }
       ],
       "debolezza": "i18n:traits.occhi_cristallo_modulare.debolezza"
@@ -9662,7 +11259,38 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "echo-wing",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "aurora-gull",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "lupus-temperatus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "olfatto_risonanza_magnetica": {
       "conflitti": [],
@@ -9730,7 +11358,74 @@
         "falde_magnetiche_psioniche",
         "orbita_psionica_inversa"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "amorphovenator_magneticus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "cryo-lynx",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "falde-magnetiche-psioniche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "orbita-psionica-inversa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "organi_sismici_cutanei": {
       "id": "organi_sismici_cutanei",
@@ -9851,7 +11546,16 @@
       "biome_tags": [
         "pianure_magnetiche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "sistemi_chimio_sonici": {
       "id": "sistemi_chimio_sonici",
@@ -10028,7 +11732,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_scivolo_silente": {
       "conflitti": [],
@@ -10082,7 +11795,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "biofilm_iperarido": {
       "conflitti": [],
@@ -10136,7 +11858,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "bulbi_radici_permafrost": {
       "conflitti": [],
@@ -10201,7 +11932,16 @@
       "biome_tags": [
         "permafrost_psionico"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "camere_nutrienti_vent": {
       "conflitti": [],
@@ -10255,7 +11995,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cartilagini_flessoacustiche": {
       "conflitti": [],
@@ -10309,7 +12058,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "chioma_parassita_canopica": {
       "conflitti": [],
@@ -10363,7 +12121,16 @@
       "biome_tags": [
         "canopie_sospese"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ciste_salmastre": {
       "conflitti": [],
@@ -10417,7 +12184,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coralli_partner": {
       "conflitti": [],
@@ -10471,7 +12247,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "denti_silice_termici": {
       "conflitti": [],
@@ -10525,7 +12310,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "epitelio_fosforescente": {
       "conflitti": [],
@@ -10579,7 +12373,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_cambio_salino": {
       "conflitti": [],
@@ -10633,7 +12436,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_nebbia_acida": {
       "conflitti": [],
@@ -10687,7 +12499,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lamelle_sincroniche": {
       "conflitti": [],
@@ -10741,7 +12562,16 @@
       "biome_tags": [
         "steppe_algoritmiche"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "steppe-algoritmiche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "membrane_planata_vectored": {
       "conflitti": [],
@@ -10795,7 +12625,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "mucillagine_simbionte_mangrovie": {
       "conflitti": [
@@ -10866,7 +12705,16 @@
       "biome_tags": [
         "mangrovie_risonanti"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "nodi_micorrizici_oracolari": {
       "conflitti": [
@@ -10937,7 +12785,16 @@
       "biome_tags": [
         "reti_micorriziche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "sacche_spore_stratosferiche": {
       "conflitti": [
@@ -10992,7 +12849,16 @@
       "biome_tags": [
         "stratosfera_portante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "sinapsi_coraline_polifoniche": {
       "conflitti": [
@@ -11062,7 +12928,16 @@
       "biome_tags": [
         "barriere_coralline_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_microonde_cavernose": {
       "conflitti": [],
@@ -11117,7 +12992,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_radice": {
       "conflitti": [],
@@ -11171,7 +13055,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "biofilm_glow": {
       "conflitti": [],
@@ -11228,7 +13121,23 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "camere_mirage": {
       "conflitti": [],
@@ -11284,7 +13193,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cartilagini_desertiche": {
       "conflitti": [],
@@ -11338,7 +13256,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ciste_riduttive": {
       "conflitti": [],
@@ -11393,7 +13320,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "colonne_vibromagnetiche": {
       "conflitti": [],
@@ -11449,7 +13385,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "denti_ossidoferro": {
       "conflitti": [],
@@ -11503,7 +13448,23 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "epidermide_dielettrica": {
       "conflitti": [],
@@ -11557,7 +13518,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "focus_frazionato": {
       "conflitti": [],
@@ -11641,7 +13611,93 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "aerostatocyon_altivolans",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "canopia-psionica-leggera-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "lupus-temperatus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "orbita-psionica-inversa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "sentinella-radice",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiaccio_piezoelettrico": {
       "conflitti": [],
@@ -11696,7 +13752,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_minerali": {
       "conflitti": [],
@@ -11750,7 +13815,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lamelle_shear": {
       "conflitti": [],
@@ -11805,7 +13879,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "membrane_captura_rugiada": {
       "conflitti": [],
@@ -11860,7 +13943,16 @@
       "biome_tags": [
         "pianura_salina_iperarida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "pianura-salina-iperarida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "pathfinder": {
       "conflitti": [],
@@ -11925,17 +14017,24 @@
       "data_origin": "controllo_psionico",
       "species_affinity": [
         {
+          "species_id": "cryptopennatus_psionicus",
           "roles": [
             "core"
           ],
-          "species_id": "psionic-canopy-scout",
           "weight": 3
         },
         {
+          "species_id": "foresta-miceliale-trait-keeper",
           "roles": [
             "optional"
           ],
+          "weight": 1
+        },
+        {
           "species_id": "sentinella-radice",
+          "roles": [
+            "optional"
+          ],
           "weight": 1
         }
       ],
@@ -12028,7 +14127,23 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "sentinella-radice",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "random": {
       "conflitti": [],
@@ -12089,25 +14204,18 @@
       ],
       "species_affinity": [
         {
+          "species_id": "global-trait-keeper",
           "roles": [
             "optional"
           ],
-          "species_id": "sentinella-radice",
           "weight": 1
         },
         {
-          "roles": [
-            "synergy"
-          ],
-          "species_id": "psionic-canopy-scout",
-          "weight": 3
-        },
-        {
+          "species_id": "sentinella-radice",
           "roles": [
             "optional"
           ],
-          "species_id": "orbital-ascendant",
-          "weight": 2
+          "weight": 1
         }
       ],
       "spinta_selettiva": "i18n:traits.random.spinta_selettiva",
@@ -12201,7 +14309,30 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "lupus-temperatus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_tesla": {
       "conflitti": [],
@@ -12256,7 +14387,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_vetrificati": {
       "conflitti": [],
@@ -12310,7 +14450,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "branchie_dual_mode": {
       "conflitti": [],
@@ -12364,7 +14513,16 @@
       "biome_tags": [
         "laguna_bioreattiva"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "capillari_criogenici": {
       "conflitti": [],
@@ -12418,7 +14576,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "carapace_fase_variabile": {
       "conflitti": [
@@ -12512,7 +14679,75 @@
         "canopia_psionica_leggera",
         "falde_magnetiche_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "filtrophagus_custos",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "lithoconstructus_inhibens",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "tellurmordax_phasicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "cryo-lynx",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "nano-rust-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "sand-burrower",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "steppe-bison-mini",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "carapace_luminiscente_abissale": {
       "conflitti": [
@@ -12579,7 +14814,16 @@
       "biome_tags": [
         "abisso_luminescente"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cartilagini_pseudometalliche": {
       "conflitti": [],
@@ -12633,7 +14877,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cisti_iperbariche": {
       "conflitti": [],
@@ -12687,7 +14940,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cromofori_alert_acido": {
       "conflitti": [],
@@ -12741,7 +15003,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "denti_tuning_fork": {
       "conflitti": [],
@@ -12795,7 +15066,16 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caverna-risonante-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "filamenti_magnetotrofi": {
       "conflitti": [],
@@ -12849,7 +15129,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_condensa_ozono": {
       "conflitti": [],
@@ -12903,7 +15192,16 @@
       "biome_tags": [
         "stratosfera_tempestosa"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_nebbia_ionica": {
       "conflitti": [],
@@ -12957,7 +15255,16 @@
       "biome_tags": [
         "canopia_ionica"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "canopia-ionica-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "lamine_filtranti_aeree": {
       "conflitti": [],
@@ -13011,7 +15318,16 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "membrane_pneumatofori": {
       "conflitti": [],
@@ -13065,7 +15381,23 @@
       "biome_tags": [
         "mangrovieto_cinetico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "mangrovieto-cinetico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "scheletro_idro_regolante": {
       "conflitti": [
@@ -13136,7 +15468,75 @@
       "biome_tags": [
         "caverna_risonante"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "nano-rust-bloom",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "sand-burrower",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "amorphovenator_magneticus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "tellurmordax_phasicus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "rust-scavenger",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "steppe-bison-mini",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "struttura_elastica_amorfa": {
       "conflitti": [],
@@ -13219,7 +15619,61 @@
         "canopia_psionica_leggera",
         "falde_magnetiche_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "amorphovenator_magneticus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cryptopennatus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "canopia-psionica-leggera-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "falde-magnetiche-psioniche-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "antenne_eco_turbina": {
       "conflitti": [],
@@ -13273,7 +15727,23 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "artigli_acidofagi": {
       "conflitti": [],
@@ -13327,7 +15797,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "aura_scudo_radianza": {
       "conflitti": [
@@ -13386,7 +15865,24 @@
       "biome_tags": [
         "rovine_planari"
       ],
-      "data_origin": "pathfinder_dataset"
+      "data_origin": "pathfinder_dataset",
+      "species_affinity": [
+        {
+          "species_id": "heliopteryx_radians",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "batteri_termofili_endosimbiosi": {
       "conflitti": [],
@@ -13440,7 +15936,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "branchie_turbina": {
       "conflitti": [],
@@ -13494,7 +15999,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "carapaci_ferruginosi": {
       "conflitti": [],
@@ -13548,7 +16062,23 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "circolazione_doppia": {
       "conflitti": [],
@@ -13602,7 +16132,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coda_stabilizzatrice_geiser": {
       "conflitti": [],
@@ -13656,7 +16195,16 @@
       "biome_tags": [
         "dorsale_termale_tropicale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "cuticole_neutralizzanti": {
       "conflitti": [],
@@ -13710,7 +16258,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "empatia_coordinativa": {
       "conflitti": [],
@@ -13784,7 +16341,67 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "auroserpens_photonicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "illusiopardus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "heliopteryx_radians",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "rotabrachium_ferox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "lupus-temperatus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "sentinella-radice",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "enzimi_chelatori_rapidi": {
       "conflitti": [],
@@ -13838,7 +16455,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "foliage_fotocatodico": {
       "conflitti": [],
@@ -13892,7 +16518,16 @@
       "biome_tags": [
         "foresta_acida"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "foresta-acida-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "ghiandole_inchiostro_luce": {
       "conflitti": [],
@@ -13946,7 +16581,16 @@
       "biome_tags": [
         "reef_luminescente"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "reef-luminescente-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "gusci_criovetro": {
       "conflitti": [],
@@ -14000,7 +16644,16 @@
       "biome_tags": [
         "caldera_glaciale"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "caldera-glaciale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "luminescenza_hydrotermica": {
       "conflitti": [],
@@ -14054,7 +16707,16 @@
       "biome_tags": [
         "abisso_vulcanico"
       ],
-      "data_origin": "coverage_q4_2025"
+      "data_origin": "coverage_q4_2025",
+      "species_affinity": [
+        {
+          "species_id": "abisso-vulcanico-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "risonanza_di_branco": {
       "conflitti": [],
@@ -14136,7 +16798,52 @@
       "biome_tags": [
         "foresta_miceliale"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "sonovespera_lamentans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "auroserpens_photonicus",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "heliopteryx_radians",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "dune-stalker",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        },
+        {
+          "species_id": "foresta-miceliale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "lupus-temperatus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "mimetismo_cromatico_passivo": {
       "conflitti": [],
@@ -14217,7 +16924,53 @@
         "canopia_psionica_leggera",
         "falde_magnetiche_psioniche"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "cryptopennatus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "ferrocolonia-magnetotattica",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "blight-micotico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "canopia-psionica-leggera-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "mezzanotte-orbitale-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "piume_solari_fotovoltaiche": {
       "conflitti": [
@@ -14274,7 +17027,16 @@
       "biome_tags": [
         "altipiani_solari"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "secrezione_rallentante_palmi": {
       "conflitti": [
@@ -14334,18 +17096,26 @@
       ],
       "species_affinity": [
         {
+          "species_id": "ferrocolonia-magnetotattica",
           "roles": [
-            "core"
+            "core",
+            "optional"
           ],
-          "species_id": "sentinella-radice",
-          "weight": 3
+          "weight": 4
         },
         {
+          "species_id": "dorsale-termale-tropicale-trait-keeper",
           "roles": [
             "optional"
           ],
-          "species_id": "laguna-bioreattiva-trait-keeper",
-          "weight": 2
+          "weight": 1
+        },
+        {
+          "species_id": "thaw-rot",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
         }
       ],
       "completion_flags": {
@@ -14412,7 +17182,16 @@
       "biome_tags": [
         "dune_cristalline"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "vello_condensatore_nebbie": {
       "conflitti": [],
@@ -14466,7 +17245,16 @@
       "biome_tags": [
         "foreste_nubose"
       ],
-      "data_origin": "controllo_psionico"
+      "data_origin": "controllo_psionico",
+      "species_affinity": [
+        {
+          "species_id": "global-trait-keeper",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "coscienza_dalveare_diffusa": {
       "id": "coscienza_dalveare_diffusa",
@@ -14629,7 +17417,16 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "rubrospina-velox",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        }
+      ]
     },
     "aura_glaciale": {
       "schema_version": "2.0",
@@ -14717,7 +17514,23 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "nebulocornis-mollis",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        }
+      ]
     },
     "pelli_anti_ustione": {
       "schema_version": "2.0",
@@ -14739,7 +17552,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "evento-tempesta-ferrosa",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "pelli_fitte": {
       "schema_version": "2.0",
@@ -14761,7 +17584,16 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "evento-seme-uragano",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "sensori_sismici": {
       "schema_version": "2.0",
@@ -14783,7 +17615,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "resonant-claw-hunter",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "tela_appiccicosa": {
       "schema_version": "2.0",
@@ -14893,7 +17735,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "apex_predatore",
+          "roles": [
+            "core",
+            "synergy"
+          ],
+          "weight": 5
+        }
+      ]
     },
     "intimidatore": {
       "schema_version": "2.0",
@@ -14937,7 +17789,16 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "arboryxis-lenis",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        }
+      ]
     },
     "marchio_predatorio": {
       "schema_version": "2.0",
@@ -14959,7 +17820,16 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "synergy"
+          ],
+          "weight": 2
+        }
+      ]
     },
     "midollo_iperattivo": {
       "schema_version": "2.0",
@@ -15113,7 +17983,23 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "apex_predatore",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        },
+        {
+          "species_id": "ferrimordax-rutilus",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "pungiglione_paralizzante": {
       "schema_version": "2.0",
@@ -15201,7 +18087,51 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "cactus-weaver",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-brinastorm",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-ondata-termica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "noctule-termico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "silica-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thermo-raptor",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "senso_magnetico": {
       "schema_version": "2.0",
@@ -15355,7 +18285,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "lithoconstructus_inhibens",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "nuclei_di_controllo": {
       "schema_version": "2.0",
@@ -15377,7 +18317,16 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "lithoconstructus_inhibens",
+          "roles": [
+            "core"
+          ],
+          "weight": 3
+        }
+      ]
     },
     "corteccia_memetica": {
       "schema_version": "2.0",
@@ -15399,7 +18348,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "radiciforma_ancorans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "artigli_psionici": {
       "schema_version": "2.0",
@@ -15421,7 +18380,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "illusiopardus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "tessuti_adattivi": {
       "schema_version": "2.0",
@@ -15443,7 +18412,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "illusiopardus_psionicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "filtri_bioattivi": {
       "schema_version": "2.0",
@@ -15465,7 +18444,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "filtrophagus_custos",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "membrane_osmotiche": {
       "schema_version": "2.0",
@@ -15487,7 +18476,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "filtrophagus_custos",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "pigmenti_aurorali": {
       "schema_version": "2.0",
@@ -15509,7 +18508,59 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "radiciforma_ancorans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "cactus-weaver",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-brinastorm",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "evento-ondata-termica",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "noctule-termico",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "silica-bloom",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        },
+        {
+          "species_id": "thermo-raptor",
+          "roles": [
+            "optional"
+          ],
+          "weight": 1
+        }
+      ]
     },
     "adattamento_volo": {
       "schema_version": "2.0",
@@ -15531,7 +18582,41 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "auroserpens_photonicus",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "heliopteryx_radians",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "pyroflagellum_meteoriticum",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        },
+        {
+          "species_id": "sonovespera_lamentans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "radici_ancora_planare": {
       "schema_version": "2.0",
@@ -15553,7 +18638,17 @@
       "data_origin": "gap1_salvage_2026_06_22",
       "completion_flags": {
         "design_stub": true
-      }
+      },
+      "species_affinity": [
+        {
+          "species_id": "radiciforma_ancorans",
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "weight": 4
+        }
+      ]
     },
     "eco_sismico": {
       "schema_version": "2.0",

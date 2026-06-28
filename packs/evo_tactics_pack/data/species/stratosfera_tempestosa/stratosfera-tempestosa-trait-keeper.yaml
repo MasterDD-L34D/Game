@@ -1,3 +1,16 @@
 resistance_archetype: adattivo
 id: stratosfera-tempestosa-trait-keeper
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+biomes:
+- stratosfera_tempestosa
+derived_from_environment:
+  suggested_traits:
+  - ali_fulminee
+  - barbigli_sensori_plasma
+  - branchie_eoliche
+  - capsule_paracadute
+  - coda_stabilizzatrice_vortex
+  - cuore_multicamera_bassa_pressione
+  - epidermide_dielettrica
+  - ghiandole_condensa_ozono
+  - lamelle_shear
