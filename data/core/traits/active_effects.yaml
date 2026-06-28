@@ -7393,3 +7393,80 @@ traits:
       mette radici (ancorato, riduzione danno 2). Muoversi rompe l'ancora e perde la
       riduzione per quel round; restando fermo la mantiene. Tradeoff mobilita'/difesa
       senza nuove azioni. Ref Wesnoth steadfast / treant.
+  # GAP2 block 2 (salvage item 3, ratified master-dd 2026-06-28): 6 crisp inert
+  # traits wired to EXISTING effect kinds (no forbidden schema, no jobs regen, no
+  # trait_mechanics). Band-neutral: no current sim/combat unit carries them.
+  # Magnitudes PROPOSED (ratify + N=40).
+  zanne_idracida:
+    tier: T4
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 2
+      log_tag: zanne_idracida
+    description_it: 'Zanne idracide: ogni colpo riuscito corrode tessuti e metalli, indebolendo la corazza del bersaglio (fracture 2 turni). Variante corrosiva piu'' persistente della ghiandola caustica.'
+  emolinfa_conducente:
+    tier: T3
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: emolinfa_conducente
+    description_it: 'Emolinfa conducente: il fluido accumula carica e la scarica sul bersaglio a contatto, infliggendo 1 PT di danno extra a ogni colpo riuscito.'
+  placche_pressioniche:
+    tier: T3
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: placche_pressioniche
+    description_it: 'Placche pressioniche: strati che disperdono la pressione abissale e attutiscono il trauma degli impatti (damage_reduction 1).'
+  scudo_gluteale_cheratinizzato:
+    tier: T3
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: scudo_gluteale
+    description_it: 'Scudo gluteale cheratinizzato: placca cheratinizzata che assorbe gli impatti posteriori (damage_reduction 1).'
+  ectotermia_dinamica:
+    tier: T3
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 0
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: ectotermia_dinamica
+    description_it: 'Ectotermia dinamica: microscosse isometriche innalzano in fretta la temperatura corporea, dando un picco prestazionale che aggiunge +1 ai colpi (attack_bonus).'
+  piume_solari_fotovoltaiche:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: heal
+      amount: 1
+      log_tag: piume_solari
+    description_it: 'Piume solari fotovoltaiche: il piumaggio immagazzina luce e la converte in sostegno metabolico, recuperando 1 PT (heal passivo).'
