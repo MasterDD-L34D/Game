@@ -8,10 +8,13 @@
 //
 // FRAMING (master-dd verdict 2026-06-23): radici is an ALWAYS-ON trait-slice, NOT
 // gated on MOVE_TERRAIN_COST_ENABLED -- the defensive DR is decoupled from the
-// terrain-cost substrate (faithful to verdict C, which never named the flag). It is
-// band-neutral because no live unit carries `radici_ancora_planare` yet (no authoring),
-// like the 11 already-merged slices. DR2 is a PROPOSED value (re-validate when a
-// creature carrying radici flips live, per slice convention).
+// terrain-cost substrate (faithful to verdict C, which never named the flag).
+// Carriers authored 2026-06-28 (PR #3050: ferrocolonia-magnetotattica + cactus-weaver,
+// the sessile ingegnere_radicante; NOT sentinella-radice -- that apex_neutral cameo is
+// contractually balance-inert). Band re-validated: ~0 for MOBILE carriers (the greedy AI
+// moves -> breakAnchor clears the anchor; PR #3043). A SESSILE carrier never moves ->
+// permanent DR2 = the intended "tanky da fermo"; DR2 stays a PROPOSED value, re-validate
+// with a hold-capable / human policy (greedy-AI sims cannot see the held-DR band).
 //
 // Pure (mutates the carrier's status object-map in place).
 
