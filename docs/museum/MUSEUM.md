@@ -257,3 +257,12 @@ docs/museum/
 **Major finding session 2**: V3 mating engine GIÀ LIVE (PR #1679, 469 LOC + 7 endpoint). OD-001 era basata su audit incomplete. Decisione product Path A (activate ~12-15h) / Path B (demolish ~2h) / Path C (sandbox ~5h) pending.
 
 **Next**: user review verdict OD-001 + 5 backlog ticket P4 spawn + Sprint A wire (M-005 magnetic_rift, validato 6 GAP da cross-agent audit).
+
+
+---
+
+## Hub museum (codemasterdd-ai-station)
+
+> Sibling museum for hub / process landmarks (merge-autonomy, Jules workflow, governance) -- counterpart to this game-design museum.
+
+- [codemasterdd-ai-station/docs/museum/MUSEUM.md](https://github.com/MasterDD-L34D/codemasterdd-ai-station/blob/main/docs/museum/MUSEUM.md) -- hub / process landmark archive.
