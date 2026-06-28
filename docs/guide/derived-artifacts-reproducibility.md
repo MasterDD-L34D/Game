@@ -4,13 +4,32 @@ date: 2026-06-22
 doc_status: draft
 doc_owner: claude-code
 workstream: dataset-pack
-last_verified: '2026-06-22'
+last_verified: '2026-06-28'
 source_of_truth: false
 review_cycle_days: 90
 tags: [derived, reproducibility, drift, trait, species, catalog, etl, guard, ci]
 ---
 
 # Derived data artifacts -- reproducibility hazard
+
+> **STATUS UPDATE 2026-06-28 -- the hazard below is now RESOLVED for all three
+> families** (the body keeps the original root-cause writeup for history):
+>
+> - **Family 1 (trait bridge)** re-baselined: catalog re-baseline #3045 +
+>   pack-scoped C2 bridge #3047 + keeper re-population #3047 -> `regen == committed`.
+> - **Family 2 (species catalog)** re-baselined #3045 (prune 6 events, canonize 13,
+>   extend GAMEPLAY_BIOMES); provenance now repo-relative (no `/tmp`).
+> - **Family 3 (derived-analysis bundle)** `data/derived/analysis/*` made
+>   host-deterministic + reproducible #3055/#3056 (generator: `sys.executable`,
+>   repo-relative posix manifest stamps, no commit-pin, `generated_at` stripped,
+>   LF-hashing, repo-relative report paths).
+>
+> The guard `tools/py/check_derived_reproducible.py` now has **three checks**
+> (`trait-bridge`, `species-catalog`, `derived-analysis`) and is GREEN on
+> `origin/main`. "regenerate-or-die" is now SAFE for the guarded families. Still
+> owner-gated: CI-wiring the guard (`.github/workflows`, forbidden path) +
+> source-drift detection for the bundle (bundle stale vs CHANGED source data;
+> needs a writing regen, not covered by the cheap hash check).
 
 ## TL;DR (verdict)
 
