@@ -12869,6 +12869,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "authored"
+    },
+    {
+      "path": "docs/planning/2026-06-23-derived-canon-salvage-session-handoff.md",
+      "title": "Derived-canon salvage -- session handoff (2026-06-23 close)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-06-23",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "migrated"
     }
   ]
 }
