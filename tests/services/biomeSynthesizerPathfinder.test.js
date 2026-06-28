@@ -6,16 +6,21 @@ const { translatePathfinderStatblock } = require('../../services/generation/biom
 test('translatePathfinderStatblock throws Error on invalid statblock', () => {
   assert.throws(
     () => translatePathfinderStatblock(null),
-    (err) => err.message.includes('Statblock Pathfinder non valido')
+    (err) => err.message.includes('Statblock Pathfinder non valido'),
   );
   assert.throws(
     () => translatePathfinderStatblock(42),
-    (err) => err.message.includes('Statblock Pathfinder non valido')
+    (err) => err.message.includes('Statblock Pathfinder non valido'),
   );
 });
 
 test('translatePathfinderStatblock characterizes minimal valid statblock without context', () => {
-  const result = translatePathfinderStatblock({ id: 'gob', name: 'Goblin', type: 'Humanoid', axes: {} });
+  const result = translatePathfinderStatblock({
+    id: 'gob',
+    name: 'Goblin',
+    type: 'Humanoid',
+    axes: {},
+  });
 
   assert.equal(result.id, 'pathfinder-gob');
   assert.equal(result.display_name, 'Goblin');
@@ -31,7 +36,7 @@ test('translatePathfinderStatblock characterizes minimal valid statblock without
 test('translatePathfinderStatblock characterizes context with biomeId set', () => {
   const result = translatePathfinderStatblock(
     { id: 'gob', type: 'Humanoid', axes: {} },
-    { biomeId: 'foresta' }
+    { biomeId: 'foresta' },
   );
 
   assert.deepEqual(result.biomes, ['foresta']);
@@ -49,7 +54,7 @@ test('translatePathfinderStatblock characterizes display_name fallbacks', () => 
 test('translatePathfinderStatblock characterizes fallbackTraits in context', () => {
   const result = translatePathfinderStatblock(
     { id: 'gob', genetic_traits: ['z', 'x'], axes: {} },
-    { fallbackTraits: ['x', 'pathfinder', 'y'] }
+    { fallbackTraits: ['x', 'pathfinder', 'y'] },
   );
 
   assert.deepEqual(result.traits.core, ['pathfinder', 'z', 'x', 'y']);
