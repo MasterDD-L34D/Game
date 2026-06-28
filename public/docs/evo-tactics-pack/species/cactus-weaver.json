@@ -40,7 +40,7 @@
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
   "telemetry": { "expected_pick_rate": 0.16, "spawn_weight": 0.24 },
-  "genetic_traits": [],
+  "genetic_traits": { "core": ["radici_ancora_planare"] },
   "services_links": ["supporto:stoccaggio_acqua", "regolazione:ombreggiamento_microhabitat"],
   "description": "i18n:species.cactus-weaver.description",
   "receipt": {
@@ -49,5 +49,5 @@
     "date": "2025-10-25",
     "trace_hash": "1dd6bbfb1052ac0238f0f2508335a3a22e4ba4c2c99ddc84041355320f09091b"
   },
-  "last_synced_at": "2026-06-18T01:46:02.283Z"
+  "last_synced_at": "2026-06-28T17:20:23.740Z"
 }
