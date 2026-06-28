@@ -102,23 +102,62 @@ def generate_trait_coverage(pack_root: Path) -> None:
         str(out_csv),
     ]
     run_command(command)
-    _strip_volatile_report(out_json)
+    _normalize_report(out_json)
 
 
-def _strip_volatile_report(report_path: Path) -> None:
-    """Drop the wall-clock ``generated_at`` field so the committed report is
-    byte-reproducible (``regen == committed``). It is the only non-deterministic
-    field in the bundle; provenance otherwise lives in git. The CI coverage step
-    reads only ``summary`` thresholds, so removing it is gate-neutral."""
+def _normalize_path_fields(obj: object) -> None:
+    """Recursively rewrite path-bearing string fields to repo-relative posix.
+
+    The coverage report embeds the absolute ``--species-root`` paths (every
+    foodweb ``source``) and the ``sources`` block using the OS separator, both of
+    which are host-dependent (``C:\\...`` on Windows, ``/workspace/...`` on Linux)
+    and break ``regen == committed`` on any other checkout. Normalize them so the
+    committed report is host-independent.
+    """
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if isinstance(value, str) and key == "source":
+                obj[key] = _repo_rel(Path(value))
+            elif key == "sources" and isinstance(value, dict):
+                for sk, sv in value.items():
+                    if isinstance(sv, str):
+                        value[sk] = _repo_rel(Path(sv))
+            else:
+                _normalize_path_fields(value)
+    elif isinstance(obj, list):
+        for item in obj:
+            _normalize_path_fields(item)
+
+
+def _normalize_report(report_path: Path) -> None:
+    """Make the coverage report byte-reproducible across hosts: drop the
+    wall-clock ``generated_at`` (the only volatile field; provenance lives in git)
+    and normalize host-dependent path fields to repo-relative posix. The CI
+    coverage step reads only ``summary`` thresholds, so both edits are gate-neutral.
+    """
     if not report_path.exists():
         return
     data = json.loads(report_path.read_text(encoding="utf-8"))
-    if isinstance(data, dict) and "generated_at" in data:
-        del data["generated_at"]
+    if isinstance(data, dict):
+        data.pop("generated_at", None)
+        _normalize_path_fields(data)
         report_path.write_text(
             json.dumps(data, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
+
+
+def _normalize_lf(path: Path) -> None:
+    """Force LF line endings so the working-tree bytes match what Git stores
+    (``.gitattributes`` pins ``eol=lf``). The manifest sha256 must hash these LF
+    bytes, otherwise a verifier on a fresh clone (always LF) sees a different hash.
+    """
+    if not path.exists():
+        return
+    raw = path.read_bytes()
+    if b"\r\n" in raw:
+        path.write_bytes(raw.replace(b"\r\n", b"\n"))
 
 
 def generate_progression(core_root: Path) -> None:
@@ -155,6 +194,7 @@ def write_manifest(
 
     for path in outputs:
         if path.exists():
+            _normalize_lf(path)  # hash the LF bytes Git actually stores
             manifest["artifacts"][_repo_rel(path)] = sha256sum(path)
 
     target = ANALYSIS_ROOT / "manifest.json"
@@ -162,6 +202,7 @@ def write_manifest(
     target.write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
     return manifest
 
@@ -172,8 +213,8 @@ def render_readme(manifest: dict[str, object]) -> str:
     checksum_rows = ["| File | sha256 |", "| --- | --- |"]
     artifacts: dict[str, str] = manifest.get("artifacts", {})  # type: ignore[assignment]
     for path in OUTPUT_FILES:
-        checksum = artifacts.get(str(path), "n/d")
-        rel = path.relative_to(Path.cwd()) if path.is_absolute() else path
+        rel = _repo_rel(path)  # same key write_manifest stores -> no more n/d rows
+        checksum = artifacts.get(rel, "n/d")
         checksum_rows.append(f"| `{rel}` | `{checksum}` |")
 
     lines = [
@@ -242,7 +283,9 @@ def main() -> int:
     manifest = write_manifest(OUTPUT_FILES, core_root, pack_root, command, log_tag)
 
     if args.update_readme:
-        ANALYSIS_README.write_text(render_readme(manifest), encoding="utf-8")
+        ANALYSIS_README.write_text(
+            render_readme(manifest), encoding="utf-8", newline="\n"
+        )
 
     print("[ok] Report analysis aggiornati in data/derived/analysis")
     return 0
