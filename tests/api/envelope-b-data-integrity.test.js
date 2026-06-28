@@ -121,16 +121,17 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     assert.equal(typeof catalog.stats.total_species, 'number');
   });
 
-  test('87 species (53 canon + 34 gameplay-promote) -- 2026-06-28 re-baseline', () => {
+  test('82 species (53 canon + 29 gameplay-promote) -- 2026-06-28 re-baseline', () => {
     // Wave 3 unify promoted gameplay creatures into the canon SoT as structural
     // stubs (source=gameplay-promote). The 2026-06-28 salvage re-baseline extended
-    // GAMEPLAY_BIOMES with the 9 biomes of the 13 ratified retired creatures (B1),
-    // promoting them + the 5 previously-missing newer gameplay species (+18), and
-    // pruned the 6 lingering evento_ecologico (-6): 22 -> 34 gameplay-promote, 75 ->
-    // 87 total. dune_stalker (Skiv) is curated-skipped from auto-upgrade. See
+    // GAMEPLAY_BIOMES with the 9 biomes of the 13 ratified retired creatures (B1)
+    // and pruned the 6 lingering evento_ecologico (-6): 22 -> 29 gameplay-promote,
+    // 75 -> 82 total. dune_stalker (Skiv) is curated-skipped from auto-upgrade; the 5
+    // already-canon species (arboryxis/ferrimordax/ferriscroba/nebulocornis/rubrospina,
+    // present as sp_<id>) are dedup-skipped (no duplicate). See
     // promote_gameplay_to_canon.py + the 2026-06-28 catalog re-baseline.
-    assert.equal(catalog.stats.total_species, 87);
-    assert.equal(catalog.catalog.length, 87);
+    assert.equal(catalog.stats.total_species, 82);
+    assert.equal(catalog.catalog.length, 82);
   });
 
   test('canon base unchanged: 53 = 10 pack + 5 stub + 38 legacy', () => {
@@ -138,9 +139,9 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     assert.equal(base.length, 53, 'the original 53-species canon must be untouched');
   });
 
-  test('gameplay-promote batch (34 species, all flagged _promote_stub)', () => {
+  test('gameplay-promote batch (29 species, all flagged _promote_stub)', () => {
     const promo = catalog.catalog.filter((e) => e.source === 'gameplay-promote');
-    assert.equal(promo.length, 34, 'expected 34 gameplay creatures promoted');
+    assert.equal(promo.length, 29, 'expected 29 gameplay creatures promoted');
     for (const e of promo) {
       assert.equal(e._promote_stub, true, `${e.species_id} must be flagged _promote_stub`);
     }

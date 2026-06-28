@@ -15,15 +15,15 @@
     "phase_3_heuristic": "ADR-2026-05-15 Phase 3 Path Quick: functional_signature + risk_profile + interactions filled from clade_tag + trait_plan + foodweb cross-lookup. visual_description + symbiosis + constraints pending master-dd review."
   },
   "stats": {
-    "total_species": 87,
+    "total_species": 82,
     "by_source": {
       "pack-v2-full-plus": 10,
       "game-canonical-stub": 5,
       "legacy-yaml-merge": 38,
-      "gameplay-promote": 34
+      "gameplay-promote": 29
     },
     "by_sentience_tier": {
-      "T1": 51,
+      "T1": 46,
       "T2": 16,
       "T5": 3,
       "T3": 11,
@@ -4558,178 +4558,6 @@
       "epithet": "vigilans"
     },
     {
-      "species_id": "ferrimordax_rutilus",
-      "scientific_name": "",
-      "common_names": [
-        "Martellatore Ferroso"
-      ],
-      "classification": {
-        "macro_class": "unknown",
-        "habitat": "badlands"
-      },
-      "functional_signature": "",
-      "visual_description": "",
-      "risk_profile": {
-        "danger_level": 3,
-        "vectors": []
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": []
-      },
-      "constraints": [],
-      "sentience_index": "T1",
-      "ecotypes": [],
-      "trait_refs": [],
-      "lifecycle_yaml": null,
-      "source": "gameplay-promote",
-      "legacy_slug": "ferrimordax_rutilus",
-      "biome_affinity": "badlands",
-      "role_tags": [
-        "predatore_terziario"
-      ],
-      "clade_tag": null,
-      "morphotype": null,
-      "threat_tier": "T3",
-      "encounter_role": "elite",
-      "pack_path": "packs/evo_tactics_pack/data/species/badlands/ferrimordax-rutilus.yaml",
-      "merged_at": "2026-06-28",
-      "_promote_stub": true,
-      "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "trait_refs",
-        "lifecycle_yaml"
-      ],
-      "interoception_traits": [
-        "propriocezione",
-        "equilibrio_vestibolare",
-        "nocicezione",
-        "termocezione"
-      ],
-      "_provenance": {
-        "interoception_traits": "d4-derived-rule"
-      }
-    },
-    {
-      "species_id": "ferriscroba_detrita",
-      "scientific_name": "",
-      "common_names": [
-        "Spazzino Ferroso"
-      ],
-      "classification": {
-        "macro_class": "unknown",
-        "habitat": "badlands"
-      },
-      "functional_signature": "",
-      "visual_description": "",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": []
-      },
-      "constraints": [],
-      "sentience_index": "T1",
-      "ecotypes": [],
-      "trait_refs": [],
-      "lifecycle_yaml": null,
-      "source": "gameplay-promote",
-      "legacy_slug": "ferriscroba_detrita",
-      "biome_affinity": "badlands",
-      "role_tags": [
-        "decompositore"
-      ],
-      "clade_tag": null,
-      "morphotype": null,
-      "threat_tier": "T1",
-      "encounter_role": "ambient",
-      "pack_path": "packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml",
-      "merged_at": "2026-06-28",
-      "_promote_stub": true,
-      "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "trait_refs",
-        "lifecycle_yaml"
-      ],
-      "interoception_traits": [
-        "propriocezione",
-        "equilibrio_vestibolare",
-        "termocezione"
-      ],
-      "_provenance": {
-        "interoception_traits": "d4-derived-rule"
-      }
-    },
-    {
-      "species_id": "rubrospina_velox",
-      "scientific_name": "",
-      "common_names": [
-        "Corriere Spinato"
-      ],
-      "classification": {
-        "macro_class": "unknown",
-        "habitat": "badlands"
-      },
-      "functional_signature": "",
-      "visual_description": "",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": []
-      },
-      "constraints": [],
-      "sentience_index": "T1",
-      "ecotypes": [],
-      "trait_refs": [],
-      "lifecycle_yaml": null,
-      "source": "gameplay-promote",
-      "legacy_slug": "rubrospina_velox",
-      "biome_affinity": "badlands",
-      "role_tags": [
-        "consumatore_secondario"
-      ],
-      "clade_tag": null,
-      "morphotype": null,
-      "threat_tier": "T1",
-      "encounter_role": "ambient",
-      "pack_path": "packs/evo_tactics_pack/data/species/badlands/rubrospina-velox.yaml",
-      "merged_at": "2026-06-28",
-      "_promote_stub": true,
-      "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "trait_refs",
-        "lifecycle_yaml"
-      ],
-      "interoception_traits": [
-        "propriocezione",
-        "equilibrio_vestibolare",
-        "termocezione"
-      ],
-      "_provenance": {
-        "interoception_traits": "d4-derived-rule"
-      }
-    },
-    {
       "species_id": "tellurmordax_phasicus",
       "scientific_name": "",
       "common_names": [
@@ -4788,55 +4616,6 @@
       }
     },
     {
-      "species_id": "arboryxis_lenis",
-      "scientific_name": "",
-      "common_names": [
-        "Vagabondo della Volta"
-      ],
-      "classification": {
-        "macro_class": "unknown",
-        "habitat": "foresta_temperata"
-      },
-      "functional_signature": "",
-      "visual_description": "",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": []
-      },
-      "constraints": [],
-      "sentience_index": "T1",
-      "ecotypes": [],
-      "trait_refs": [],
-      "lifecycle_yaml": null,
-      "source": "gameplay-promote",
-      "legacy_slug": "arboryxis_lenis",
-      "biome_affinity": "foresta_temperata",
-      "role_tags": [
-        "consumatore_primario"
-      ],
-      "clade_tag": null,
-      "morphotype": null,
-      "threat_tier": "T1",
-      "encounter_role": "ambient",
-      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml",
-      "merged_at": "2026-06-28",
-      "_promote_stub": true,
-      "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "trait_refs",
-        "lifecycle_yaml"
-      ]
-    },
-    {
       "species_id": "illusiopardus_psionicus",
       "scientific_name": "",
       "common_names": [
@@ -4872,55 +4651,6 @@
       "threat_tier": "T2",
       "encounter_role": "threat",
       "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/illusiopardus-psionicus.yaml",
-      "merged_at": "2026-06-28",
-      "_promote_stub": true,
-      "_todo_fields": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "visual_description",
-        "interactions",
-        "constraints",
-        "trait_refs",
-        "lifecycle_yaml"
-      ]
-    },
-    {
-      "species_id": "nebulocornis_mollis",
-      "scientific_name": "",
-      "common_names": [
-        "Cervo di Nebbia"
-      ],
-      "classification": {
-        "macro_class": "unknown",
-        "habitat": "foresta_temperata"
-      },
-      "functional_signature": "",
-      "visual_description": "",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": []
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": []
-      },
-      "constraints": [],
-      "sentience_index": "T1",
-      "ecotypes": [],
-      "trait_refs": [],
-      "lifecycle_yaml": null,
-      "source": "gameplay-promote",
-      "legacy_slug": "nebulocornis_mollis",
-      "biome_affinity": "foresta_temperata",
-      "role_tags": [
-        "consumatore_primario"
-      ],
-      "clade_tag": null,
-      "morphotype": null,
-      "threat_tier": "T1",
-      "encounter_role": "ambient",
-      "pack_path": "packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml",
       "merged_at": "2026-06-28",
       "_promote_stub": true,
       "_todo_fields": [

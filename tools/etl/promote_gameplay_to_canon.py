@@ -182,7 +182,21 @@ def main(argv=None):
     catalog = json.load(open(catalog_path, encoding="utf-8"))
     existing_by_id = {e["species_id"]: e for e in catalog["catalog"]}
 
-    added, upgraded, skipped, excluded_events = [], [], [], []
+    # Dedup guard: a gameplay species already in canon under an sp_-prefixed id OR
+    # via a normalized legacy_slug must NOT be re-promoted as an unprefixed duplicate.
+    # (Codex P1 #3045: arboryxis_lenis/ferrimordax_rutilus/ferriscroba_detrita/
+    # nebulocornis_mollis/rubrospina_velox already exist as sp_<id> with legacy_slug
+    # <id> -- a fresh promote would create the same creature under two ids.)
+    already_canon = set()
+    for e in catalog["catalog"]:
+        sid_e = e.get("species_id", "")
+        already_canon.add(sid_e)
+        if sid_e.startswith("sp_"):
+            already_canon.add(sid_e[3:])
+        if e.get("legacy_slug"):
+            already_canon.add(norm(e["legacy_slug"]))
+
+    added, upgraded, skipped, excluded_events, deduped = [], [], [], [], []
     for biome in biomes:
         for p in sorted(glob.glob(os.path.join(SPECIES_DIR, biome, "*.yaml"))):
             fid = os.path.splitext(os.path.basename(p))[0]
@@ -193,6 +207,9 @@ def main(argv=None):
                 continue
             sid = norm(fid)
             existing_entry = existing_by_id.get(sid)
+            if existing_entry is None and sid in already_canon:
+                deduped.append(sid)  # already canon under sp_<id>/legacy_slug -> no duplicate
+                continue
             # Skip only when a richer entry already exists. A bare game-canonical-stub
             # (a lifecycle species the merge stage stubbed) is UPGRADED with its
             # gameplay data instead of being skipped -- otherwise gaining a lifecycle
@@ -253,6 +270,7 @@ def main(argv=None):
     print(f"upgraded stubs {len(upgraded)}: {upgraded}")
     print(f"skipped (already canon) {len(skipped)}: {skipped}")
     print(f"excluded events (role={EVENT_ROLE}) {len(excluded_events)}: {excluded_events}")
+    print(f"deduped (already canon as sp_/legacy_slug) {len(deduped)}: {deduped}")
     print(f"pruned lingering events {len(pruned)}: {pruned}")
     print(f"catalog now {len(cat)} species; by_source={by_source}")
 
