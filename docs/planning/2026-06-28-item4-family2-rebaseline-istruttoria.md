@@ -12,6 +12,12 @@ tags: [salvage, derived, catalog, species, affinity, etl, rebaseline, istruttori
 
 # Salvage item 4 + 2b -- catalog / affinity re-baseline istruttoria
 
+> **EXECUTED (master-dd verdicts 2026-06-28)**: A = prune events, B1 = extend
+> GAMEPLAY*BIOMES, C2 = pack-scoped bridge. Catalog half shipped in PR #3045
+> (+13 -6, dedup guard added so the 5 already-canon `sp*` species are not
+> duplicated; catalog 75 -> 82, guard reproducible). Bridge half (C2) is a
+> follow-up. This doc stays as the decision record.
+
 Recon + prepared findings for the OWNER-GATED catalog/affinity re-baseline
 (salvage item 4) coupled with canonizing the 13 retired creatures (item 2b).
 **Nothing regen'd here is committed** -- this is the decision surface (verdict-3
@@ -79,8 +85,11 @@ an automatic regen. Options:
 
 - (B1) extend `GAMEPLAY_BIOMES` with the 11 new biomes (canon-wide, future pack
   species in those biomes auto-promote too);
-- (B2) promote exactly the 13 via `--biome <name>` per biome (scoped to these
-  creatures, no auto-promote of neighbours);
+- (B2) promote via `--biome <name>` per biome. NOTE (Codex P2 correction): `--biome`
+  is NOT creature-scoped -- it promotes every non-event creature YAML in that biome,
+  same as B1 for the selected biomes (it just limits WHICH biomes, not which creatures).
+  Neighbour exclusion comes from the dedup guard + the `is_event` filter, not from
+  `--biome`;
 - (B3) defer canonize -- keep the 13 as pack-only gameplay species (the catalog
   is NOT the gameplay-species registry; see Part C).
 
