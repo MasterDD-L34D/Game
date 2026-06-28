@@ -54,8 +54,23 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
+
+_DRIVE_RE = re.compile(r"^[A-Za-z]:")
+
+
+def _has_absolute_path(value: str) -> bool:
+    """True if a manifest stamp embeds an absolute or backslash path token, i.e.
+    it is host/checkout-location dependent. Catches POSIX abs (`/Users/...`,
+    `/home/ci/...`, `/tmp/...`, `/workspace/...`), Windows drives (`C:\\...`), and
+    any backslash. `value` may be a bare path or a full command line embedding
+    paths, so check every whitespace-separated token."""
+    for token in value.split():
+        if token.startswith("/") or token.startswith("\\") or _DRIVE_RE.match(token) or "\\" in token:
+            return True
+    return False
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TRAITS_DIR = REPO_ROOT / "data" / "traits"
@@ -249,7 +264,7 @@ def check_derived_analysis() -> list[str]:
     bad_stamps: list[str] = []
     for key in ("core_root", "pack_root", "command"):
         value = manifest.get(key, "")
-        if isinstance(value, str) and ("\\" in value or "C:" in value or "/workspace" in value):
+        if isinstance(value, str) and _has_absolute_path(value):
             bad_stamps.append(key)
     if "commit" in manifest:
         bad_stamps.append("commit (non-deterministic per-commit pin)")
