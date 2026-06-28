@@ -100,14 +100,23 @@ def check_trait_bridge() -> list[str]:
     only_committed = c_ids - r_ids
     only_regen = r_ids - c_ids
 
-    # Dead species: referenced by committed affinity but absent from the live catalog.
-    dead = set()
-    if CATALOG_PATH.exists():
-        live = {e["species_id"] for e in _load_json(CATALOG_PATH).get("catalog", [])}
-        for entries in committed_traits.values():
+    # Dead species (C2 pack-scoped, 2026-06-28): the bridge reads pack species YAMLs,
+    # so a species in the affinity is "dead" only if a FRESH REGEN no longer produces
+    # it (a deleted pack species), NOT if it is absent from the separate catalog
+    # registry. Pack and catalog are different id-spaces by design (~23 overlap), so a
+    # pack-vs-catalog check is a permanent false alarm. Compare committed affinity
+    # species against the regen's own species set (its source of truth).
+    regen_species = set()
+    for entries in regen.values():
+        if isinstance(entries, list):
             for e in entries:
-                if isinstance(e, dict) and e.get("species_id") not in live:
-                    dead.add(e.get("species_id"))
+                if isinstance(e, dict) and e.get("species_id"):
+                    regen_species.add(e.get("species_id"))
+    dead = set()
+    for entries in committed_traits.values():
+        for e in entries:
+            if isinstance(e, dict) and e.get("species_id") not in regen_species:
+                dead.add(e.get("species_id"))
 
     print(f"  [trait-bridge] committed trait entries: {len(c_ids)}; "
           f"regen from {PACK_SPECIES_ROOT.relative_to(REPO_ROOT)}: {len(r_ids)}")
@@ -119,8 +128,9 @@ def check_trait_bridge() -> list[str]:
         )
     if dead:
         findings.append(
-            f"{len(dead)} species referenced by committed affinity are NOT in the "
-            f"current catalog (e.g. {sorted(dead)[:5]}). Output is stale."
+            f"{len(dead)} species referenced by committed affinity are no longer "
+            f"produced by a fresh regen (deleted pack species, e.g. "
+            f"{sorted(dead)[:5]}). Output is stale."
         )
     if not schema_parity:
         findings.append(
