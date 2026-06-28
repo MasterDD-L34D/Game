@@ -7426,27 +7426,29 @@ traits:
   placche_pressioniche:
     tier: T3
     category: difensivo
-    applies_to: target
+    applies_to: actor
     trigger:
       action_type: passive
     effect:
-      kind: damage_reduction
-      amount: 1
-      min: 0
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
       log_tag: placche_pressioniche
-    description_it: 'Placche pressioniche: strati che disperdono la pressione abissale e attutiscono il trauma degli impatti (damage_reduction 1).'
+    description_it: 'Placche pressioniche: strati che disperdono la pressione abissale e attutiscono il trauma degli impatti -- passiva attuned (+1 difesa, consumata da computeStatusModifiers).'
   scudo_gluteale_cheratinizzato:
     tier: T3
     category: difensivo
-    applies_to: target
+    applies_to: actor
     trigger:
       action_type: passive
     effect:
-      kind: damage_reduction
-      amount: 1
-      min: 0
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
       log_tag: scudo_gluteale
-    description_it: 'Scudo gluteale cheratinizzato: placca cheratinizzata che assorbe gli impatti posteriori (damage_reduction 1).'
+    description_it: 'Scudo gluteale cheratinizzato: placca cheratinizzata che assorbe gli impatti posteriori -- passiva attuned (+1 difesa).'
   ectotermia_dinamica:
     tier: T3
     category: fisiologico
@@ -7466,7 +7468,9 @@ traits:
     trigger:
       action_type: passive
     effect:
-      kind: heal
-      amount: 1
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
       log_tag: piume_solari
-    description_it: 'Piume solari fotovoltaiche: il piumaggio immagazzina luce e la converte in sostegno metabolico, recuperando 1 PT (heal passivo).'
+    description_it: 'Piume solari fotovoltaiche: il piumaggio immagazzina luce e la converte in sostegno metabolico -- passiva healing (+1 HP/turno, HoT consumato a fine turno).'
