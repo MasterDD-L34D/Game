@@ -37,10 +37,24 @@ So we SPLIT by canon-resolvability (pack biomes.yaml ids UNION aliases):
   * biome_class that does NOT resolve (laguna_bioreattiva, mangrovieto_cinetico,
     canopia_psionica_leggera, falde_magnetiche_psioniche, orbita_psionica_inversa)
     -> write ``environment_affinity.biome_class`` (covers via the coverage engine
-    fallback, invisible to the canon biome-refs gate). These are all minimal
-    stubs the pack validator already tolerates non-fatally.
+    fallback, which the canon biome-refs gate does not inspect).
 The coverage engine reads ``biomes`` first, then falls back to
 ``environment_affinity.biome_class`` -- either yields the (biome_class, None) combo.
+
+CAVEAT (canon-blind refs, owner decision): these 5 biome_class names come from
+``env_to_traits.yaml`` but are NOT recognized by the canon biome-refs gate (3 are
+declared in ``data/core/biome_aliases.yaml`` which that gate does not read; 2 --
+laguna_bioreattiva, mangrovieto_cinetico -- are only in the pack env registry).
+A ``biomes:[X]`` representation would FAIL canon for all 5, so there is no
+canon-passing inline form available; ``environment_affinity`` is used to cover the
+rule WITHOUT asserting a canon violation. Registering these 5 as inline
+``biomes.yaml`` aliases (so the canon gate exercises the refs) is a master-dd call.
+
+NOTE (validator scope): the pack validator ``validate_species_v1_7.py`` treats a
+missing ``biomes`` field as FATAL and would reject every bare keeper stub; the
+keepers escape it only because ``validate-ecosystem-pack`` (run_all_validators)
+globs a hardcoded subset of biome dirs that excludes them. The "green" pack-
+validation signal therefore means "not inspected", not "valid", for these stubs.
 
 Deterministic + committed (salvage idiom, cf. gen_retired_creature_specs.py).
 """
@@ -172,9 +186,11 @@ def repopulate(
         else:
             # Keeper dir whose name is NOT an env_to_traits biome_class -> this keeper
             # carries nothing (the 22 such dirs, e.g. abisso_luminescente). Left inert.
-            # NB: three canonical biomes (foresta_miceliale, foresta_temperata,
-            # mezzanotte_orbitale) DO have rules but no keeper dir at all -- their rule
-            # combos are covered by real (non-keeper) species, so no keeper is needed.
+            # NB: foresta_temperata also has an env rule but no keeper dir; its single
+            # suggested trait (peli_idrofobici) is NOT in trait_reference.json.traits so
+            # it produces ZERO countable rule combos -> needs no keeper. (foresta_miceliale
+            # and mezzanotte_orbitale DO produce combos and now have their own keepers
+            # above, so coverage is in-biome real-species, not cross-biome overlay-masked.)
             continue
 
         if not dry_run:

@@ -370,6 +370,13 @@
         "optional"
       ],
       "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "artigli_sghiaccio_glaciale": [
@@ -655,6 +662,13 @@
     },
     {
       "species_id": "cryo-lynx",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -1012,6 +1026,13 @@
       "weight": 1
     },
     {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "rubrospina-velox",
       "roles": [
         "optional"
@@ -1220,6 +1241,13 @@
       "weight": 1
     },
     {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "thaw-rot",
       "roles": [
         "optional"
@@ -1264,6 +1292,13 @@
         "synergy"
       ],
       "weight": 2
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     },
     {
       "species_id": "lupus-temperatus",
@@ -1422,6 +1457,20 @@
       "weight": 1
     },
     {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "thaw-rot",
       "roles": [
         "optional"
@@ -1542,6 +1591,13 @@
       "weight": 1
     },
     {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "lupus-temperatus",
       "roles": [
         "optional"
@@ -1618,6 +1674,13 @@
   "ghiandola_caustica": [
     {
       "species_id": "blight-micotico",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -1919,6 +1982,13 @@
         "optional"
       ],
       "weight": 1
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "luminescenza_aurorale": [
@@ -2103,6 +2173,13 @@
     },
     {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -2308,6 +2385,13 @@
       "weight": 1
     },
     {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "orbita-psionica-inversa-trait-keeper",
       "roles": [
         "optional"
@@ -2322,6 +2406,13 @@
         "core"
       ],
       "weight": 3
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     },
     {
       "species_id": "sentinella-radice",
@@ -2420,6 +2511,13 @@
     }
   ],
   "pianificatore": [
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
     {
       "species_id": "sentinella-radice",
       "roles": [
@@ -2609,6 +2707,13 @@
       "weight": 1
     },
     {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "steppe-bison-mini",
       "roles": [
         "optional"
@@ -2698,6 +2803,13 @@
       "weight": 2
     },
     {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "lupus-temperatus",
       "roles": [
         "optional"
@@ -2773,6 +2885,13 @@
       "weight": 1
     },
     {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
       "species_id": "orbita-psionica-inversa-trait-keeper",
       "roles": [
         "optional"
@@ -2807,6 +2926,13 @@
     },
     {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -2868,6 +2994,13 @@
     },
     {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -2971,6 +3104,13 @@
         "optional"
       ],
       "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "spore_psichiche_silenziate": [
@@ -3005,6 +3145,20 @@
     },
     {
       "species_id": "dorsale-termale-tropicale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
@@ -3072,6 +3226,13 @@
         "optional"
       ],
       "weight": 1
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     }
   ],
   "tattiche_di_branco": [
@@ -3081,6 +3242,13 @@
         "synergy"
       ],
       "weight": 2
+    },
+    {
+      "species_id": "foresta-miceliale-trait-keeper",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
     },
     {
       "species_id": "lupus-temperatus",
@@ -3134,6 +3302,13 @@
     },
     {
       "species_id": "ferrocolonia-magnetotattica",
+      "roles": [
+        "optional"
+      ],
+      "weight": 1
+    },
+    {
+      "species_id": "mezzanotte-orbitale-trait-keeper",
       "roles": [
         "optional"
       ],
