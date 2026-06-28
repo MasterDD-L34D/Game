@@ -1737,3 +1737,88 @@ traits:
       intensity: 1
       trigger_dc: 13
     notes: "2026-06-10 TKT-D4-ENRICH: elettrico control dedicato (SPEC-D4 PROPOSTA C, estende shock->disorient di arco_voltaico). Zero damage bonus: identita' = finestra tattica (disorient 1T cap canonico: attack -2 + action_speed -1). trigger_dc 13 (sopra umbral_spore 12, sotto arco_voltaico 14: control e' il mestiere del trait). Coordinato D1: nessun -AP. Resist elettrico +10. PROPOSED, ratify N=40 #2533."
+  # Salvage GAP2 (item 3, ratified master-dd 2026-06-23): 6 inert traits get mechanics.
+  # All reuse existing effect_types (no forbidden schema), band-neutral (no sim carrier).
+  # Values PROPOSED (ratify N=40). Grounding = glossary line, see
+  # docs/planning/2026-06-23-gap2-secretion-traits-mechanics-proposal.md.
+  ghiandola_caustica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+    on_hit_status:
+      status_id: fracture
+      duration: 1
+      intensity: 1
+      trigger_dc: 13
+    notes: "GAP2: ghiandola acida offensiva vs corazze leggere -> on-hit fracture (indebolisce armatura). PROPOSED."
+  estroflessione_gastrica_acida:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: liquefazione_gastrica
+        name_it: "Liquefazione Gastrica"
+        cost_ap: 1
+        effect_type: apply_status
+        status_id: bleeding
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  impulsi_bioluminescenti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: scarica_abbagliante
+        name_it: "Scarica Abbagliante"
+        cost_ap: 1
+        effect_type: apply_status
+        status_id: abbagliato
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  canto_risonante:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: armonia_risonante
+        name_it: "Armonia Risonante"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: ally
+  nebbia_mnesica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: foschia_mnesica
+        name_it: "Foschia Mnesica"
+        cost_ap: 1
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  mucillagine_simbionte_mangrovie:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+    notes: "GAP2: mucosa simbionte sigilla ferite -> +1 difesa passiva; il cleanse-veleni attivo = follow-up engine (manca un canale poison canonico). PROPOSED."

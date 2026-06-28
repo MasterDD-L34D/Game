@@ -7259,6 +7259,92 @@ traits:
       emette ne e' immune. L'abilita' attiva (impulso d'area, raggio 4) stampa la
       zona. Ref Into the Breach telegraph / Caves of Qud senso sismico.
 
+  # Salvage GAP2 (item 3, ratified 2026-06-23): active_effects mirror for the 6 traits
+  # whose mechanics live in trait_mechanics.yaml (mirror-consistency gate). ghiandola =
+  # real on-hit; the 4 actives + mucillagine = persistent_marker (the ability fires via
+  # jobs.yaml trait_native, the passive def via trait_mechanics). Band-neutral (no carrier).
+  ghiandola_caustica:
+    tier: T1
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: ghiandola_caustica
+    description_it: |
+      Ghiandola acida offensiva: ogni colpo riuscito spruzza acido che indebolisce
+      le corazze leggere (fracture 1 turno). Ref otyugh caustico.
+  estroflessione_gastrica_acida:
+    tier: T1
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: estroflessione_gastrica_acida
+      log_tag: estroflessione_gastrica_acida
+    description_it: |
+      Estroflessione gastrica acida: l'abilita' attiva liquefa i tessuti al contatto
+      (bleeding 2 turni). Engine via jobs trait_native.
+  impulsi_bioluminescenti:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: impulsi_bioluminescenti
+      log_tag: impulsi_bioluminescenti
+    description_it: |
+      Impulsi bioluminescenti: scariche ritmiche che abbagliano i nemici
+      (abbagliato). Abilita' attiva via jobs trait_native.
+  canto_risonante:
+    tier: T1
+    category: sociale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: canto_risonante
+      log_tag: canto_risonante
+    description_it: |
+      Canto risonante: frequenze che armonizzano il gruppo. Abilita' attiva
+      (buff difesa a un alleato) via jobs trait_native.
+  nebbia_mnesica:
+    tier: T2
+    category: psionico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: nebbia_mnesica
+      log_tag: nebbia_mnesica
+    description_it: |
+      Nebbia mnesica: foschia psionica che offusca orientamento (disorient).
+      Abilita' attiva via jobs trait_native.
+  mucillagine_simbionte_mangrovie:
+    tier: T1
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: mucillagine_simbionte_mangrovie
+      log_tag: mucillagine_simbionte_mangrovie
+    description_it: |
+      Mucillagine simbionte: sigilla le ferite (+1 difesa passiva, in
+      trait_mechanics). Il cleanse-veleni attivo e' un follow-up engine.
+
   # Move terrain-cost substrate (phase 2): adattamento_volo (archon/balor/banshee/
   # couatl). Volo planato engine-coded (combat/movementResolver applyVoloGrade +
   # evaluateVoloGrade, read by the move-gate in session.js). persistent_marker =
