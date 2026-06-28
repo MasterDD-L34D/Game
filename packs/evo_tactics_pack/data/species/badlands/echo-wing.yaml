@@ -89,6 +89,7 @@ genetic_traits:
   - eco_interno_riflesso
   - occhi_infrarosso_composti
   - sonno_emisferico_alternato
+  - adattamento_volo
   optional:
   - sacche_galleggianti_ascensoriali
   - lingua_tattile_trama

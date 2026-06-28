@@ -66,7 +66,9 @@ jobs_bias:
 telemetry:
   expected_pick_rate: 0.16
   spawn_weight: 0.24
-genetic_traits: []
+genetic_traits:
+  core:
+  - radici_ancora_planare
 services_links:
 - supporto:stoccaggio_acqua
 - regolazione:ombreggiamento_microhabitat

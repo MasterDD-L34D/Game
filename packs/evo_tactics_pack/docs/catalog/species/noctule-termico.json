@@ -36,7 +36,7 @@
   },
   "jobs_bias": ["skirmisher", "vanguard", "warden"],
   "telemetry": { "expected_pick_rate": 0.17, "spawn_weight": 0.23 },
-  "genetic_traits": [],
+  "genetic_traits": { "core": ["adattamento_volo"] },
   "services_links": [],
   "description": "i18n:species.noctule-termico.description",
   "receipt": {
@@ -45,5 +45,5 @@
     "date": "2025-10-25",
     "trace_hash": "2b98448ee2537bfedd47824861fb2a6c8577ec6a1f63d720d704aa23a00ef0d5"
   },
-  "last_synced_at": "2026-06-18T01:46:02.283Z"
+  "last_synced_at": "2026-06-28T17:20:23.740Z"
 }
