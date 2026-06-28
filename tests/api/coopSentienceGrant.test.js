@@ -23,12 +23,16 @@ function buildOrch() {
   return co;
 }
 
-// glowcap_weaver is T1 + foresta_temperata + danger 1 in species_catalog.json:
-// no D4 derived override -> stays on the pure tier default, so the progressive
-// gating (T1 subset granted, higher-tier ids withheld) is still observable on
-// real data after the D4 populate. (anguis_magnetica now carries an override.)
+// sp_arboryxis_lenis is T1 in species_catalog.json with NO D4 derived interoception
+// override (interoception_traits: []) -> stays on the pure tier default, so the
+// progressive gating (T1 subset granted, higher-tier ids withheld) is observable on
+// real data. (Replaced the prior glowcap_weaver fixture: that id was a
+// role_trofico=evento_ecologico stub PRUNED in the 2026-06-28 catalog re-baseline --
+// an event is not a usable species fixture. The unprefixed arboryxis_lenis is NOT in
+// canon -- it exists only as sp_arboryxis_lenis [dedup-skipped from promotion].
+// lupus_temperatus/blight_micotico carry nocicezione, danger>=2.)
 function t1Spec() {
-  return { name: 'Glowcap', form_id: 'INTJ', species_id: 'glowcap_weaver', traits: [] };
+  return { name: 'Arboryxis', form_id: 'INTJ', species_id: 'sp_arboryxis_lenis', traits: [] };
 }
 
 function withFlag(value, fn) {
