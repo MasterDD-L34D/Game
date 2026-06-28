@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "sources": {
-    "env_traits": "packs\\evo_tactics_pack\\docs\\catalog\\env_traits.json",
-    "trait_reference": "data\\traits\\index.json",
-    "trait_glossary": "data\\core\\traits\\glossary.json",
-    "species_root": "packs\\evo_tactics_pack\\data\\species",
-    "species_affinity": "data\\traits\\species_affinity.json"
+    "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+    "trait_reference": "data/traits/index.json",
+    "trait_glossary": "data/core/traits/glossary.json",
+    "species_root": "packs/evo_tactics_pack/data/species",
+    "species_affinity": "data/traits/species_affinity.json"
   },
   "summary": {
     "traits_total": 309,
@@ -14178,13 +14178,13 @@
                 "id": "arboryxis-lenis",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\arboryxis-lenis.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/arboryxis-lenis.yaml"
               },
               {
                 "id": "nebulocornis-mollis",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\nebulocornis-mollis.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/nebulocornis-mollis.yaml"
               }
             ]
           }
@@ -14203,7 +14203,7 @@
                 "id": "rubrospina-velox",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\rubrospina-velox.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/rubrospina-velox.yaml"
               }
             ]
           }
@@ -14224,7 +14224,7 @@
                 "id": "ferriscroba-detrita",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\ferriscroba-detrita.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/ferriscroba-detrita.yaml"
               }
             ]
           }
@@ -14245,7 +14245,7 @@
                 "id": "guardiano_caverna",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\guardiano-caverna.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/guardiano-caverna.yaml"
               }
             ]
           }
@@ -14270,7 +14270,7 @@
                   "occhi_infrarosso_composti",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
             ]
           },
@@ -14287,7 +14287,7 @@
                   "occhi_infrarosso_composti",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
             ]
           },
@@ -14304,7 +14304,7 @@
                   "occhi_infrarosso_composti",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
             ]
           },
@@ -14321,7 +14321,7 @@
                   "occhi_infrarosso_composti",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\echo-wing.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
               }
             ]
           },
@@ -14338,7 +14338,7 @@
                   "eco_interno_riflesso",
                   "sonno_emisferico_alternato"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\aurora-gull.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
               }
             ]
           },
@@ -14355,7 +14355,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\noctule-termico.yaml"
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
               }
             ]
           }
@@ -14385,7 +14385,7 @@
                   "sacche_galleggianti_ascensoriali",
                   "scheletro_idro_regolante"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\sand-burrower.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
               }
             ]
           }
@@ -14410,7 +14410,7 @@
                   "sacche_galleggianti_ascensoriali",
                   "struttura_elastica_amorfa"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\canopia_ionica\\cryptopennatus-psionicus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/canopia_ionica/cryptopennatus-psionicus.yaml"
               }
             ]
           }
@@ -14433,7 +14433,7 @@
                 "core_traits": [
                   "cute_resistente_sali"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\badlands-trait-keeper.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"
               },
               {
                 "id": "evento-tempesta-ferrosa",
@@ -14443,19 +14443,19 @@
                   "enzimi_chelanti",
                   "pelli_anti_ustione"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\evento-tempesta-ferrosa.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
               },
               {
                 "id": "magneto-ridge-hunter",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\magneto-ridge-hunter.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
               },
               {
                 "id": "slag-veil-ambusher",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\slag-veil-ambusher.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
               }
             ]
           },
@@ -14468,7 +14468,7 @@
                 "id": "aurora-bridge-runner",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\aurora-bridge-runner.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
               },
               {
                 "id": "evento-brinastorm",
@@ -14478,13 +14478,13 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\evento-brinastorm.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
               },
               {
                 "id": "zephyr-spore-courier",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\zephyr-spore-courier.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
               }
             ]
           },
@@ -14501,7 +14501,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\evento-ondata-termica.yaml"
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
               }
             ]
           },
@@ -14516,19 +14516,19 @@
                 "core_traits": [
                   "pelli_fitte"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\evento-seme-uragano.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
               },
               {
                 "id": "glowcap-weaver",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\glowcap-weaver.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
               },
               {
                 "id": "myco-spire-warden",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\myco-spire-warden.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
               }
             ]
           }
@@ -14553,7 +14553,7 @@
                   "occhi_cristallo_modulare",
                   "olfatto_risonanza_magnetica"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\stratosfera_tempestosa\\aerostatocyon-altivolans.yaml"
+                "source": "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/aerostatocyon-altivolans.yaml"
               }
             ]
           }
@@ -14578,7 +14578,7 @@
                   "pigmenti_aurorali",
                   "radici_ancora_planare"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_miceliale\\radiciforma-ancorans.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_miceliale/radiciforma-ancorans.yaml"
               }
             ]
           }
@@ -14603,7 +14603,7 @@
                   "carapace_fase_variabile",
                   "matrice_antimagia"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\caverna\\lithoconstructus-inhibens.yaml"
+                "source": "packs/evo_tactics_pack/data/species/caverna/lithoconstructus-inhibens.yaml"
               }
             ]
           }
@@ -14628,7 +14628,7 @@
                   "respiro_a_scoppio",
                   "filamenti_digestivi_compattanti"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\rust-scavenger.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
               }
             ]
           },
@@ -14645,7 +14645,7 @@
                   "scheletro_idro_regolante",
                   "respiro_a_scoppio"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\steppe-bison-mini.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
               }
             ]
           },
@@ -14662,7 +14662,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\cactus-weaver.yaml"
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
               }
             ]
           },
@@ -14679,7 +14679,7 @@
                   "pathfinder",
                   "pianificatore"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\sentinella-radice.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
               }
             ]
           }
@@ -14707,7 +14707,7 @@
                   "spore_psichiche_silenziate",
                   "scheletro_idro_regolante"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\nano-rust-bloom.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
               }
             ]
           },
@@ -14724,7 +14724,7 @@
                   "spore_psichiche_silenziate",
                   "sangue_piroforico"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\thaw-rot.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
               }
             ]
           },
@@ -14741,7 +14741,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\silica-bloom.yaml"
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
               }
             ]
           },
@@ -14758,7 +14758,7 @@
                   "lingua_tattile_trama",
                   "ghiandola_caustica"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\blight-micotico.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
               }
             ]
           }
@@ -14782,7 +14782,7 @@
                 "id": "guardiano_pozza",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\guardiano-pozza.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/guardiano-pozza.yaml"
               }
             ]
           }
@@ -14807,7 +14807,7 @@
                   "frusta_fiammeggiante",
                   "mantello_meteoritico"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\abisso_vulcanico\\rotabrachium-ferox.yaml"
+                "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/rotabrachium-ferox.yaml"
               }
             ]
           }
@@ -14828,7 +14828,7 @@
                 "id": "apex_predatore",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\apex-predatore.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/apex-predatore.yaml"
               }
             ]
           },
@@ -14841,7 +14841,7 @@
                 "id": "apex_predatore",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\apex-predatore.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/apex-predatore.yaml"
               }
             ]
           }
@@ -14867,7 +14867,7 @@
                   "sangue_piroforico",
                   "secrezione_rallentante_palmi"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\ferrocolonia-magnetotattica.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
               }
             ]
           }
@@ -14892,7 +14892,7 @@
                   "ali_solari_fotoni",
                   "empatia_coordinativa"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\canopia_ionica\\auroserpens-photonicus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/canopia_ionica/auroserpens-photonicus.yaml"
               }
             ]
           },
@@ -14909,7 +14909,7 @@
                   "ali_fono_risonanti",
                   "risonanza_di_branco"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\canyons_risonanti\\sonovespera-lamentans.yaml"
+                "source": "packs/evo_tactics_pack/data/species/canyons_risonanti/sonovespera-lamentans.yaml"
               }
             ]
           },
@@ -14926,7 +14926,7 @@
                   "olfatto_risonanza_magnetica",
                   "struttura_elastica_amorfa"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\reef_luminescente\\amorphovenator-magneticus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/reef_luminescente/amorphovenator-magneticus.yaml"
               }
             ]
           },
@@ -14943,7 +14943,7 @@
                   "aura_scudo_radianza",
                   "ali_solari_fotoni"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\savana\\heliopteryx-radians.yaml"
+                "source": "packs/evo_tactics_pack/data/species/savana/heliopteryx-radians.yaml"
               }
             ]
           }
@@ -14971,7 +14971,7 @@
                   "frusta_fiammeggiante",
                   "mantello_meteoritico"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\abisso_vulcanico\\pyroflagellum-meteoriticum.yaml"
+                "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/pyroflagellum-meteoriticum.yaml"
               }
             ]
           },
@@ -14984,7 +14984,7 @@
                 "id": "ferrimordax-rutilus",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\ferrimordax-rutilus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/ferrimordax-rutilus.yaml"
               },
               {
                 "id": "tellurmordax_phasicus",
@@ -14994,7 +14994,7 @@
                   "coda_frusta_cinetica",
                   "armatura_pietra_planare"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\tellurmordax-phasicus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/tellurmordax-phasicus.yaml"
               }
             ]
           },
@@ -15010,7 +15010,7 @@
                   "artigli_sette_vie",
                   "sensori_sismici"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\caverna_risonante\\resonant-claw-hunter.yaml"
+                "source": "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
               }
             ]
           },
@@ -15027,7 +15027,7 @@
                   "tessuti_adattivi",
                   "empatia_coordinativa"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\illusiopardus-psionicus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/illusiopardus-psionicus.yaml"
               }
             ]
           }
@@ -15054,7 +15054,7 @@
                   "scheletro_idro_regolante",
                   "struttura_elastica_amorfa"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\badlands\\dune-stalker.yaml"
+                "source": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
               }
             ]
           },
@@ -15071,7 +15071,7 @@
                   "carapace_fase_variabile",
                   "olfatto_risonanza_magnetica"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\cryosteppe\\cryo-lynx.yaml"
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
               }
             ]
           },
@@ -15088,7 +15088,7 @@
                   "grassi_termici",
                   "pelli_cave"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\deserto_caldo\\thermo-raptor.yaml"
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
               }
             ]
           },
@@ -15105,7 +15105,7 @@
                   "tattiche_di_branco",
                   "risonanza_di_branco"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\foresta_temperata\\lupus-temperatus.yaml"
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
               }
             ]
           }
@@ -15129,7 +15129,7 @@
                 "id": "predone_agile",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\predone-agile.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/predone-agile.yaml"
               }
             ]
           },
@@ -15142,13 +15142,13 @@
                 "id": "predone_agile",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\predone-agile.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/predone-agile.yaml"
               },
               {
                 "id": "predoni_nomadi",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\predoni-nomadi.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/predoni-nomadi.yaml"
               }
             ]
           }
@@ -15169,7 +15169,7 @@
                 "id": "cacciatore_corazzato",
                 "playable_unit": false,
                 "core_traits": [],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\tutorial\\cacciatore-corazzato.yaml"
+                "source": "packs/evo_tactics_pack/data/species/tutorial/cacciatore-corazzato.yaml"
               }
             ]
           }
@@ -15194,7 +15194,7 @@
                   "membrane_osmotiche",
                   "carapace_fase_variabile"
                 ],
-                "source": "C:\\dev\\Game\\.claude\\worktrees\\derived-artifact-reproducibility\\packs\\evo_tactics_pack\\data\\species\\palude\\filtrophagus-custos.yaml"
+                "source": "packs/evo_tactics_pack/data/species/palude/filtrophagus-custos.yaml"
               }
             ]
           }
