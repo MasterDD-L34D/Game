@@ -50,6 +50,12 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CATALOG_PATH = os.path.join(REPO_ROOT, "data", "core", "species", "species_catalog.json")
 SPECIES_DIR = os.path.join(REPO_ROOT, "packs", "evo_tactics_pack", "data", "species")
 NEW_SOURCE = "gameplay-promote"
+
+# Hand-maintained canonical creatures whose catalog entry is curated separately
+# (e.g. Skiv = dune_stalker, with its own combat/synergy tests + lore). The generic
+# stub-upgrade must NEVER overwrite them from a gameplay pack file -- doing so changed
+# dune_stalker's trait_refs and broke the echo_backstab synergy tests (2026-06-28).
+CURATED_CANON_SKIP = {"dune_stalker"}
 EVENT_ROLE = "evento_ecologico"  # role_trofico marking an ecological event (not a species)
 
 # Design-rich fields left as stubs for Strato-2 incremental authoring.
@@ -147,6 +153,10 @@ def main(argv=None):
                     help="catalog JSON to read (and write unless --out); default = canonical")
     ap.add_argument("--out", help="write result here instead of in place (dry-test to a temp)")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--prune-events", action="store_true",
+                    help="remove gameplay-promote entries whose backing pack is now an "
+                         "ecological event (role_trofico=evento_ecologico) -- idempotency "
+                         "fix for entries promoted before the is_event filter (v0.4.3)")
     args = ap.parse_args(argv)
     catalog_path = args.catalog
     out_path = args.out or args.catalog
@@ -155,7 +165,15 @@ def main(argv=None):
     #  - rovine_planari (D6 LOCKED = new content, separate decision)
     #  - tutorial (generic scenario role-placeholders, not designed species)
     #  - thin single-creature biomes (YAGNI: promote when that biome enters gameplay)
-    GAMEPLAY_BIOMES = ["badlands", "cryosteppe", "deserto_caldo", "foresta_temperata"]
+    # 2026-06-28 (salvage item 2b/B1, master-dd): the 9 biomes of the 13 ratified
+    # retired creatures enter gameplay canon. Future pack species in these biomes
+    # auto-promote too (the B1 "canon-wide" choice over scoped --biome).
+    GAMEPLAY_BIOMES = [
+        "badlands", "cryosteppe", "deserto_caldo", "foresta_temperata",
+        "abisso_vulcanico", "canopia_ionica", "canyons_risonanti", "caverna",
+        "foresta_miceliale", "palude", "reef_luminescente", "savana",
+        "stratosfera_tempestosa",
+    ]
     biomes = args.biome or (GAMEPLAY_BIOMES if args.all_gameplay else [])
     if not biomes:
         print("ERROR: pass --biome <name> or --all-gameplay", file=sys.stderr)
@@ -168,6 +186,9 @@ def main(argv=None):
     for biome in biomes:
         for p in sorted(glob.glob(os.path.join(SPECIES_DIR, biome, "*.yaml"))):
             fid = os.path.splitext(os.path.basename(p))[0]
+            if norm(fid) in CURATED_CANON_SKIP:
+                skipped.append(norm(fid))  # hand-maintained canon (e.g. Skiv) -> never auto-upgrade
+                continue
             if not is_creature(fid):
                 continue
             sid = norm(fid)
@@ -196,6 +217,24 @@ def main(argv=None):
                 existing_by_id[sid] = entry
                 added.append(sid)
 
+    # Prune lingering ecological events (additive promote never removed them).
+    pruned = []
+    if args.prune_events:
+        event_ids = set()
+        for p in glob.glob(os.path.join(SPECIES_DIR, "**", "*.yaml"), recursive=True):
+            fid = os.path.splitext(os.path.basename(p))[0]
+            if is_event(load_yaml(p)):
+                event_ids.add(norm(fid))
+        # Only touch gameplay-promote entries; legacy/pack-v2 canon species untouched.
+        pruned = [e["species_id"] for e in catalog["catalog"]
+                  if e.get("source") == NEW_SOURCE and e["species_id"] in event_ids]
+        if pruned:
+            keep = set(pruned)
+            catalog["catalog"] = [e for e in catalog["catalog"]
+                                  if not (e.get("source") == NEW_SOURCE
+                                          and e["species_id"] in keep)]
+            existing_by_id = {e["species_id"]: e for e in catalog["catalog"]}
+
     # Recompute stats.
     cat = catalog["catalog"]
     by_source, by_sent = {}, {}
@@ -214,12 +253,15 @@ def main(argv=None):
     print(f"upgraded stubs {len(upgraded)}: {upgraded}")
     print(f"skipped (already canon) {len(skipped)}: {skipped}")
     print(f"excluded events (role={EVENT_ROLE}) {len(excluded_events)}: {excluded_events}")
+    print(f"pruned lingering events {len(pruned)}: {pruned}")
     print(f"catalog now {len(cat)} species; by_source={by_source}")
 
     if args.dry_run:
         print("[dry-run] not written")
         return 0
-    with open(out_path, "w", encoding="utf-8") as f:
+    # newline="\n": deterministic LF on every OS (committed catalog is LF per
+    # .gitattributes; default text-mode write emits CRLF on Windows -> spurious diff).
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(catalog, f, ensure_ascii=False, indent=2)
         f.write("\n")
     print(f"written {out_path}")

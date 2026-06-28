@@ -121,14 +121,16 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     assert.equal(typeof catalog.stats.total_species, 'number');
   });
 
-  test('75 species (53 canon + 22 gameplay-promote) -- Wave3 CANON-RECONCILE', () => {
-    // Wave 3 unify (Option 1): gameplay creatures from the multi-species gameplay
-    // biomes (badlands 7 + cryosteppe 6 + deserto_caldo 4 + foresta_temperata 5)
-    // promoted into the canon SoT as structural stubs (source=gameplay-promote).
-    // Excludes rovine_planari (D6) + tutorial generics + thin biomes. See
-    // docs/planning/2026-05-30-canon-reconcile-audit.md + promote_gameplay_to_canon.py.
-    assert.equal(catalog.stats.total_species, 75);
-    assert.equal(catalog.catalog.length, 75);
+  test('87 species (53 canon + 34 gameplay-promote) -- 2026-06-28 re-baseline', () => {
+    // Wave 3 unify promoted gameplay creatures into the canon SoT as structural
+    // stubs (source=gameplay-promote). The 2026-06-28 salvage re-baseline extended
+    // GAMEPLAY_BIOMES with the 9 biomes of the 13 ratified retired creatures (B1),
+    // promoting them + the 5 previously-missing newer gameplay species (+18), and
+    // pruned the 6 lingering evento_ecologico (-6): 22 -> 34 gameplay-promote, 75 ->
+    // 87 total. dune_stalker (Skiv) is curated-skipped from auto-upgrade. See
+    // promote_gameplay_to_canon.py + the 2026-06-28 catalog re-baseline.
+    assert.equal(catalog.stats.total_species, 87);
+    assert.equal(catalog.catalog.length, 87);
   });
 
   test('canon base unchanged: 53 = 10 pack + 5 stub + 38 legacy', () => {
@@ -136,41 +138,30 @@ describe('OD-027 + OD-031 — species_catalog.json Pack v2 merge', () => {
     assert.equal(base.length, 53, 'the original 53-species canon must be untouched');
   });
 
-  test('gameplay-promote batch (22 species, all flagged _promote_stub)', () => {
+  test('gameplay-promote batch (34 species, all flagged _promote_stub)', () => {
     const promo = catalog.catalog.filter((e) => e.source === 'gameplay-promote');
-    assert.equal(promo.length, 22, 'expected 22 gameplay creatures promoted');
+    assert.equal(promo.length, 34, 'expected 34 gameplay creatures promoted');
     for (const e of promo) {
       assert.equal(e._promote_stub, true, `${e.species_id} must be flagged _promote_stub`);
     }
   });
 
-  test('ecological events flagged is_event (6) -- excluded from species-only consumers', () => {
+  test('ecological events pruned (0 remain) -- promote --prune-events', () => {
     // CANON-RECONCILE #2490 gap: 6 role_trofico=evento_ecologico stubs (lacking the
-    // evento-* filename prefix) were swept into the catalog. They STAY (source/count
-    // unchanged, counts hold) but carry is_event:true so species-only consumers
-    // (bestiary UI, trait/biome heuristics) skip them. promote_gameplay_to_canon.py
-    // now skips this role on future runs. See species_catalog.json v0.4.3.
+    // evento-* filename prefix) were swept into the catalog before the is_event
+    // filter landed. The 2026-06-28 re-baseline PRUNED them (promote --prune-events):
+    // additive promote never removed them, so they lingered; a fresh ETL excludes
+    // them. They no longer exist in the catalog (the 6 were aurora_bridge_runner,
+    // glowcap_weaver, magneto_ridge_hunter, myco_spire_warden, slag_veil_ambusher,
+    // zephyr_spore_courier). See promote_gameplay_to_canon.py.
     const events = catalog.catalog.filter((e) => e.is_event === true);
-    assert.equal(events.length, 6, 'expected 6 evento_ecologico stubs flagged is_event');
-    for (const e of events) {
-      assert.ok(
-        (e.role_tags || []).includes('evento_ecologico'),
-        `${e.species_id} flagged is_event must carry role_tags evento_ecologico`,
-      );
-      assert.equal(
-        e.source,
-        'gameplay-promote',
-        `${e.species_id} stays gameplay-promote (counts hold)`,
-      );
-    }
-    // Inverse: every evento_ecologico entry must be flagged (no silent leak into species consumers).
-    const unflagged = catalog.catalog.filter(
-      (e) => (e.role_tags || []).includes('evento_ecologico') && e.is_event !== true,
-    );
+    assert.equal(events.length, 0, 'lingering evento_ecologico entries must be pruned');
+    // Inverse: no evento_ecologico role leaks in either (fully pruned).
+    const evRole = catalog.catalog.filter((e) => (e.role_tags || []).includes('evento_ecologico'));
     assert.equal(
-      unflagged.length,
+      evRole.length,
       0,
-      `evento_ecologico entries missing is_event flag: ${unflagged.map((e) => e.species_id)}`,
+      `evento_ecologico entries must be pruned: ${evRole.map((e) => e.species_id)}`,
     );
   });
 
