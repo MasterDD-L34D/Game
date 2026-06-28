@@ -15576,6 +15576,177 @@
       "completion_flags": {
         "design_stub": true
       }
+    },
+    "artigli_sette_vie_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.artigli_sette_vie_2.debolezza",
+      "famiglia_tipologia": "Locomotorio/Prensile",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_sette_vie_2",
+      "label": "Artigli a Sette Vie -- Aggancio-Trazione",
+      "mutazione_indotta": "i18n:traits.artigli_sette_vie_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "prensile"
+      },
+      "spinta_selettiva": "i18n:traits.artigli_sette_vie_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.artigli_sette_vie_2.uso_funzione"
+    },
+    "coda_frusta_cinetica_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.coda_frusta_cinetica_2.debolezza",
+      "famiglia_tipologia": "Locomotorio/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coda_frusta_cinetica_2",
+      "label": "Coda Frusta Cinetica -- Trabucco",
+      "mutazione_indotta": "i18n:traits.coda_frusta_cinetica_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "difensivo"
+      },
+      "spinta_selettiva": "i18n:traits.coda_frusta_cinetica_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.coda_frusta_cinetica_2.uso_funzione"
+    },
+    "criostasi_adattiva_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.criostasi_adattiva_2.debolezza",
+      "famiglia_tipologia": "Metabolico/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "criostasi_adattiva_2",
+      "label": "Criostasi Adattiva -- Torpore Controllato",
+      "mutazione_indotta": "i18n:traits.criostasi_adattiva_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "difensivo"
+      },
+      "spinta_selettiva": "i18n:traits.criostasi_adattiva_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.criostasi_adattiva_2.uso_funzione"
+    },
+    "focus_frazionato_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.focus_frazionato_2.debolezza",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "focus_frazionato_2",
+      "label": "Focus Frazionato -- Attenzione Divisa",
+      "mutazione_indotta": "i18n:traits.focus_frazionato_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "psionico"
+      },
+      "spinta_selettiva": "i18n:traits.focus_frazionato_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.focus_frazionato_2.uso_funzione"
+    },
+    "risonanza_di_branco_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.risonanza_di_branco_2.debolezza",
+      "famiglia_tipologia": "Supporto/Coordinativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "risonanza_di_branco_2",
+      "label": "Risonanza di Branco -- Segnalazione Sincronizzata",
+      "mutazione_indotta": "i18n:traits.risonanza_di_branco_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "coordinazione"
+      },
+      "spinta_selettiva": "i18n:traits.risonanza_di_branco_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.risonanza_di_branco_2.uso_funzione"
+    },
+    "sacche_galleggianti_ascensoriali_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.sacche_galleggianti_ascensoriali_2.debolezza",
+      "famiglia_tipologia": "Idrostatico/Locomotorio",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "sacche_galleggianti_ascensoriali_2",
+      "label": "Sacche Galleggianti -- Controllo Assetto",
+      "mutazione_indotta": "i18n:traits.sacche_galleggianti_ascensoriali_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "idrostatico",
+        "complementare": "locomotorio"
+      },
+      "spinta_selettiva": "i18n:traits.sacche_galleggianti_ascensoriali_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali_2.uso_funzione"
+    },
+    "scheletro_idro_regolante_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.scheletro_idro_regolante_2.debolezza",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "scheletro_idro_regolante_2",
+      "label": "Scheletro Idro-Regolante -- Idrostato Muscolare",
+      "mutazione_indotta": "i18n:traits.scheletro_idro_regolante_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "omeostatico"
+      },
+      "spinta_selettiva": "i18n:traits.scheletro_idro_regolante_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.scheletro_idro_regolante_2.uso_funzione"
+    },
+    "struttura_elastica_amorfa_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.struttura_elastica_amorfa_2.debolezza",
+      "famiglia_tipologia": "Strutturale/Locomotorio",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "struttura_elastica_amorfa_2",
+      "label": "Struttura Elastica Amorfa -- Fibre Super-Coiled",
+      "mutazione_indotta": "i18n:traits.struttura_elastica_amorfa_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "locomotorio"
+      },
+      "spinta_selettiva": "i18n:traits.struttura_elastica_amorfa_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.struttura_elastica_amorfa_2.uso_funzione"
+    },
+    "tattiche_di_branco_2": {
+      "schema_version": "2.0",
+      "conflitti": [],
+      "debolezza": "i18n:traits.tattiche_di_branco_2.debolezza",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "tattiche_di_branco_2",
+      "label": "Tattiche di Branco -- Ruoli Specializzati",
+      "mutazione_indotta": "i18n:traits.tattiche_di_branco_2.mutazione_indotta",
+      "slot": [],
+      "sinergie": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "coordinazione"
+      },
+      "spinta_selettiva": "i18n:traits.tattiche_di_branco_2.spinta_selettiva",
+      "tier": "T1",
+      "uso_funzione": "i18n:traits.tattiche_di_branco_2.uso_funzione"
     }
   }
 }
