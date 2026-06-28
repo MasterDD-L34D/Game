@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-06-24T13:49:48.497342Z",
+  "generated_at": "2026-06-28T13:37:48.320348Z",
   "summary": {
-    "total_traits": 300,
-    "glossary_ok": 300,
+    "total_traits": 309,
+    "glossary_ok": 309,
     "glossary_missing": 0,
     "matrix_ok": 192,
-    "matrix_mismatch": 108,
+    "matrix_mismatch": 117,
     "with_conflicts": 28,
     "matrix_only_traits": 30
   },
   "checks": {
     "traits": {
-      "passed": 300,
-      "total": 300,
+      "passed": 309,
+      "total": 309,
       "conflicts": 28,
       "missing_glossary": 0,
-      "matrix_mismatch": 108
+      "matrix_mismatch": 117
     }
   },
   "highlights": {
@@ -49,6 +49,7 @@
       "articolazioni_a_leva_idraulica",
       "articolazioni_multiassiali",
       "artigli_ipo_termici",
+      "artigli_sette_vie_2",
       "artiglio_cinetico_a_urto",
       "aura_di_dispersione_mentale",
       "aura_glaciale",
@@ -61,8 +62,7 @@
       "canto_risonante",
       "cervello_a_bassa_latenza",
       "cervello_predittivo",
-      "cinghia_iper_ciliare",
-      "cisti_di_ibernazione_minerale"
+      "cinghia_iper_ciliare"
     ],
     "zero_coverage_traits": [
       "aculei_velenosi",
@@ -71,6 +71,7 @@
       "articolazioni_a_leva_idraulica",
       "articolazioni_multiassiali",
       "artigli_ipo_termici",
+      "artigli_sette_vie_2",
       "artiglio_cinetico_a_urto",
       "aura_di_dispersione_mentale",
       "aura_glaciale",
@@ -83,8 +84,7 @@
       "canto_risonante",
       "cervello_a_bassa_latenza",
       "cervello_predittivo",
-      "cinghia_iper_ciliare",
-      "cisti_di_ibernazione_minerale"
+      "cinghia_iper_ciliare"
     ],
     "top_conflicts": [
       {

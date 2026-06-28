@@ -2962,6 +2962,60 @@
       "label_en": "Eco Sismico",
       "description_it": "Eco sismico (banshee): un impulso marca il terreno come `zona_risonante` (2 round).",
       "description_en": ""
+    },
+    "artigli_sette_vie_2": {
+      "label_it": "Artigli a Sette Vie -- Aggancio-Trazione",
+      "label_en": "Seven-Way Talons -- Hook-and-Pull",
+      "description_it": "Variante da scavo aggancio-e-trazione: artigli ottimizzati per agganciare e tirare il substrato (profilo retrattore-spalla + flessore-gomito), distinta dalla presa stabile della variante base. Rif. Wiley J.Anat. joa.13815 (forelimb-digging biomechanics, 3 archetypes).",
+      "description_en": "Hook-and-pull digging variant: talons tuned to hook and haul the substrate (shoulder-retractor + elbow-flexor profile), distinct from the base steady-grip. Ref. Wiley J.Anat. joa.13815 (forelimb-digging biomechanics, 3 archetypes)."
+    },
+    "coda_frusta_cinetica_2": {
+      "label_it": "Coda Frusta Cinetica -- Trabucco",
+      "label_en": "Kinetic Whip-Tail -- Trebuchet",
+      "description_it": "Variante a trabucco: la coda agisce come catapulta a contrappeso (vertebre anteriori rigide, posteriori flessibili) per un colpo d'area che stordisce piu' bersagli vicini. Rif. Royal Society RSOS 231473 + NCBI PMC3707734 (thresher-shark tail-whip).",
+      "description_en": "Trebuchet variant: the tail acts as a counterweight catapult (stiff anterior / flexible posterior vertebrae) for an area strike that stuns several nearby targets. Ref. Royal Society RSOS 231473 + NCBI PMC3707734 (thresher-shark tail-whip)."
+    },
+    "criostasi_adattiva_2": {
+      "label_it": "Criostasi Adattiva -- Torpore Controllato",
+      "label_en": "Adaptive Cryostasis -- Controlled Torpor",
+      "description_it": "Variante a torpore controllato: ingresso reversibile in stasi metabolica per sopravvivere al gelo estremo, riducendo il consumo e proteggendo i tessuti. Rif. general cryoprotection / torpor physiology (research angle: physiology and buoyancy).",
+      "description_en": "Controlled-torpor variant: reversible entry into metabolic stasis to survive extreme cold, cutting expenditure and protecting tissue. Ref. general cryoprotection / torpor physiology (research angle: physiology and buoyancy)."
+    },
+    "focus_frazionato_2": {
+      "label_it": "Focus Frazionato -- Attenzione Divisa",
+      "label_en": "Fractional Focus -- Divided Attention",
+      "description_it": "Variante ad attenzione divisa: tracciamento simultaneo di due bersagli separati (un canale all'attacco, uno alla difesa), come il camaleonte (tracking monoculare doppio) e i cefalopodi (attenzione visiva lateralizzata). Rif. JEB chameleon eye-movements 218/13 + NCBI PMC10664291 (cephalopod lateralized attention).",
+      "description_en": "Divided-attention variant: simultaneous tracking of two separate targets (one channel offence, one defence), like chameleon dual monocular tracking and cephalopod lateralized visual attention. Ref. JEB chameleon eye-movements 218/13 + NCBI PMC10664291 (cephalopod lateralized attention)."
+    },
+    "risonanza_di_branco_2": {
+      "label_it": "Risonanza di Branco -- Segnalazione Sincronizzata",
+      "label_en": "Pack Resonance -- Synchronized Signaling",
+      "description_it": "Variante a segnalazione sincronizzata: emissione coordinata di segnali che allineano il gruppo, aumentando la coesione e la reattivita' collettiva. Rif. Pack-hunter collective coordination (Wikipedia, secondary).",
+      "description_en": "Synchronized-signaling variant: coordinated signal emission that aligns the group, raising cohesion and collective responsiveness. Ref. Pack-hunter collective coordination (Wikipedia, secondary)."
+    },
+    "sacche_galleggianti_ascensoriali_2": {
+      "label_it": "Sacche Galleggianti -- Controllo Assetto",
+      "label_en": "Buoyancy Sacs -- Trim Control",
+      "description_it": "Variante a controllo d'assetto: regolazione fine del galleggiamento via sacche di gas per gestire quota e stabilita', analoga a vescica natatoria / pneumatoforo. Rif. gas-sac buoyancy physiology (research angle: physiology and buoyancy).",
+      "description_en": "Trim-control variant: fine buoyancy regulation via gas sacs to manage altitude and stability, analogous to a swim bladder / pneumatophore. Ref. gas-sac buoyancy physiology (research angle: physiology and buoyancy)."
+    },
+    "scheletro_idro_regolante_2": {
+      "label_it": "Scheletro Idro-Regolante -- Idrostato Muscolare",
+      "label_en": "Hydro-Regulating Skeleton -- Muscular Hydrostat",
+      "description_it": "Variante a idrostato muscolare: struttura priva di scheletro rigido che si irrigidisce o deforma via co-contrazione multiassiale dei muscoli antagonisti, regolando il bilancio idrico interno. Rif. JEB jeb245295 (cephalopod muscular hydrostats).",
+      "description_en": "Muscular-hydrostat variant: a skeleton-less structure that stiffens or deforms via multi-axial co-contraction of antagonistic muscles, regulating internal water balance. Ref. JEB jeb245295 (cephalopod muscular hydrostats)."
+    },
+    "struttura_elastica_amorfa_2": {
+      "label_it": "Struttura Elastica Amorfa -- Fibre Super-Coiled",
+      "label_en": "Amorphous Elastic Structure -- Super-Coiled Fibers",
+      "description_it": "Variante a fibre super-coiled: matrice connettivale con fibre elastiche super-avvolte per accumulo passivo di energia e controllo della rigidita', assorbendo gli impatti. Rif. JEB jeb245295 (cephalopod super-coiled elastic fibers).",
+      "description_en": "Super-coiled-fiber variant: a connective matrix with super-coiled elastic fibers for passive energy storage and stiffness control, absorbing impacts. Ref. JEB jeb245295 (cephalopod super-coiled elastic fibers)."
+    },
+    "tattiche_di_branco_2": {
+      "label_it": "Tattiche di Branco -- Ruoli Specializzati",
+      "label_en": "Pack Tactics -- Specialized Roles",
+      "description_it": "Variante a ruoli specializzati: il gruppo assume ruoli distinti (spingitore, bloccante, inseguitore, imboscatore) per la caccia coordinata, come leoni (centri/ali), delfini (driver/barriera) e scimpanze' Tai. Rif. Pack-hunter role specialization (Wikipedia, secondary).",
+      "description_en": "Specialized-roles variant: the group takes distinct roles (driver, blocker, chaser, ambusher) for coordinated hunting, like lions (centres/wings), dolphins (driver/barrier) and Tai chimps. Ref. Pack-hunter role specialization (Wikipedia, secondary)."
     }
   }
 }
