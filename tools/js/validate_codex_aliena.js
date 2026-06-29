@@ -217,7 +217,11 @@ function validateEntry(file, parsed, errors, warnings, universe = null) {
 
   // SOFT (SPEC-K namespace): the unlock hook keys on a sistema unit's species
   // slug, so an id absent from every roster can never unlock through play.
-  if (universe && entry.id && !universe.has(String(entry.id))) {
+  // `codex_archive: true` opts an entry out -- retired-creature lore (#3038) is
+  // intentionally absent from every current roster (kept as readable archive,
+  // surfaced outside the encounter-unlock path), so the orphan warn is not a
+  // dead-content signal for it.
+  if (universe && entry.id && !entry.codex_archive && !universe.has(String(entry.id))) {
     warnings.push(
       `${id}: id matches no sistema/enemy species in any scenario or encounter roster -> cannot unlock through play (orphan entry)`,
     );
