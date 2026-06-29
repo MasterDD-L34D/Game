@@ -190,6 +190,8 @@ biomes:
     affixes:
     - static_vines
     - ion_lattice
+    aliases:
+    - canopia_psionica_leggera
     hazard:
       description: Scariche elettrostatiche e cadute da piattaforme sospese.
       severity: medium
@@ -323,6 +325,7 @@ biomes:
     - shifting_winds
     aliases:
     - badlands
+    - falde_magnetiche_psioniche
     hazard:
       description: Correnti ascendenti, shock termici e micro-eruzioni sottomarine.
       severity: high
@@ -485,6 +488,7 @@ biomes:
     - alarm_cascade
     aliases:
     - cryosteppe
+    - orbita_psionica_inversa
     hazard:
       description: Zero-G intermittente, allarmi a cascata e compartimenti depressurizzati.
       severity: high

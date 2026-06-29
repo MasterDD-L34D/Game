@@ -1,11 +1,11 @@
 resistance_archetype: bioelettrico
 id: falde-magnetiche-psioniche-trait-keeper
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
-environment_affinity:
-  biome_class: falde_magnetiche_psioniche
 derived_from_environment:
   suggested_traits:
   - filamenti_digestivi_compattanti
   - nucleo_ovomotore_rotante
   - olfatto_risonanza_magnetica
   - struttura_elastica_amorfa
+biomes:
+- falde_magnetiche_psioniche
