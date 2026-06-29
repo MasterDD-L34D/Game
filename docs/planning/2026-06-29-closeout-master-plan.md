@@ -66,16 +66,16 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 
 ### 1B. Gate = decisione master-dd (design-call; nessun build-blocker tecnico)
 
-| #   | Progetto                                | Cosa decidere / fare                                                                          | Blocker         | Effort |
-| --- | --------------------------------------- | --------------------------------------------------------------------------------------------- | --------------- | ------ |
-| O1  | **SPEC-J scar->transform map ratify**   | ratifica/estendi `SCAR_TRAIT_MAP` + N=40 + flip; costo E6 = SPEC-E. Built #2994               | OWNER           | S/M    |
-| O2  | **codex-lore 19 orfani** -> 13 draft    | **VERDETTO 06-29 = promuovi i 13 retired-creature lore DRAFT (#3038) via HITL**               | OWNER (HITL)    | M      |
-| O3  | **H7 PILLAR re-ratifica**               | refresh `PILLAR-LIVE-STATUS.md` (~25gg stale: giugno non riflesso) + re-verify owner          | CLOSE-NOW+OWNER | S      |
-| O4  | **aa01 D6 axis->trait grant**           | i 4 assi concedono trait meccanici (non-band-neutral, spec separata)                          | OWNER+build     | M      |
-| O5  | **aa01 D7 prose / hint-string**         | copy player-facing "il tuo branco tende verso X" (HITL, boundary codex-lore)                  | OWNER (HITL)    | S      |
-| O6  | **aa01 D8 chain-lightning propagation** | `chainElectrified` multi-tile: raggio + danno per-tile (balance)                              | OWNER+build     | S-M    |
-| O7  | **GAP2-next mechanics**                 | 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster buff-mobility-recon                | OWNER+build     | L      |
-| O8  | **TKT-SALVAGE-A2 resistance_archetype** | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato | OWNER+build     | M      |
+| #   | Progetto                                | Cosa decidere / fare                                                                                        | Blocker      | Effort |
+| --- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ | ------ |
+| O1  | **SPEC-J scar->transform map ratify**   | ratifica/estendi `SCAR_TRAIT_MAP` + N=40 + flip; costo E6 = SPEC-E. Built #2994                             | OWNER        | S/M    |
+| O2  | **codex-lore 19 orfani** -> 13 draft    | **VERDETTO 06-29 = promuovi i 13 retired-creature lore DRAFT (#3038) via HITL**                             | OWNER (HITL) | M      |
+| O3  | **H7 PILLAR re-ratifica**               | 🟡 date-refresh + delta-history giugno **DONE 06-29** (era 9gg stale); residuo = re-verify VALORI 6/6 owner | OWNER        | S      |
+| O4  | **aa01 D6 axis->trait grant**           | i 4 assi concedono trait meccanici (non-band-neutral, spec separata)                                        | OWNER+build  | M      |
+| O5  | **aa01 D7 prose / hint-string**         | copy player-facing "il tuo branco tende verso X" (HITL, boundary codex-lore)                                | OWNER (HITL) | S      |
+| O6  | **aa01 D8 chain-lightning propagation** | `chainElectrified` multi-tile: raggio + danno per-tile (balance)                                            | OWNER+build  | S-M    |
+| O7  | **GAP2-next mechanics**                 | 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster buff-mobility-recon                              | OWNER+build  | L      |
+| O8  | **TKT-SALVAGE-A2 resistance_archetype** | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato               | OWNER+build  | M      |
 
 ### 1C. Gate = superficie Godot (cross-repo Game-Godot-v2)
 
@@ -90,39 +90,39 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 
 ### 1D. Gate = build / impl (in gran parte autonomo -- CLOSE-NOW)
 
-| #   | Progetto                                        | Cosa costruire                                                                                   | Blocker               | Effort |
-| --- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------- | ------ |
-| B1  | **trait-mechanics slices 5-7 remainder**        | **9.5/12 trait built** (slice 5+7 #2995/#2996); restano i pezzi finali                           | CLOSE-NOW             | M      |
-| B2  | **13 creature canonizzazione**                  | #3045 canonized + #3032 gameplay-spec + #3038 lore-draft; residuo = HITL promote + delete stub   | OWNER(HITL)+CLOSE-NOW | M      |
-| B3  | **canon-linter follow-up**                      | tune `verify_stopwords.txt` (autonomo) -> flip markdown-tier `--strict` (forbidden-path = owner) | CLOSE-NOW+OWNER       | S      |
-| B4  | **SPEC-F offspring->playable lineage + export** | offspring giocabili (lineage SPEC-E) + QR/card export                                            | BUILD                 | M      |
-| B5  | **jsonschema-shadow follow-up**                 | validation follow-ups esposti dalla rimozione stub (BACKLOG:990)                                 | CLOSE-NOW             | S (P2) |
-| B6  | **TKT-KEEPER-CONTENT-DEBT**                     | ~138 trait portati da keeper-stub sintetici; autora specie reali nel tempo (band-neutral oggi)   | BUILD (content)       | L      |
-| B7  | **TKT-KEEPER-VALIDATOR-SCOPE**                  | estendi scope-dir di `run_all_validators.py` quando i keeper diventano specie reali              | CLOSE-NOW             | S (P3) |
-| B8  | **script repoint species.yaml** (TKT-STALE-B2)  | `scripts/qa/*` hardcodano `data/core/species.yaml` rimosso -> repoint o re-frame                 | CLOSE-NOW             | S      |
+| #   | Progetto                                        | Cosa costruire                                                                                                                                                                                                                                                                                                                                                                    | Blocker               | Effort |
+| --- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------ |
+| B1  | **trait-mechanics slices 5-7 remainder**        | **9.5/12 trait built** (slice 5+7 #2995/#2996); restano i pezzi finali                                                                                                                                                                                                                                                                                                            | CLOSE-NOW             | M      |
+| B2  | **13 creature canonizzazione**                  | #3045 canonized + #3032 gameplay-spec + #3038 lore-draft; residuo = HITL promote + delete stub                                                                                                                                                                                                                                                                                    | OWNER(HITL)+CLOSE-NOW | M      |
+| B3  | **canon-linter follow-up**                      | tune `verify_stopwords.txt` (autonomo) -> flip markdown-tier `--strict` (forbidden-path = owner)                                                                                                                                                                                                                                                                                  | CLOSE-NOW+OWNER       | S      |
+| B4  | **SPEC-F offspring->playable lineage + export** | offspring giocabili (lineage SPEC-E) + QR/card export                                                                                                                                                                                                                                                                                                                             | BUILD                 | M      |
+| B5  | **jsonschema-shadow follow-up**                 | validation follow-ups esposti dalla rimozione stub (BACKLOG:990)                                                                                                                                                                                                                                                                                                                  | CLOSE-NOW             | S (P2) |
+| B6  | **TKT-KEEPER-CONTENT-DEBT**                     | ~138 trait portati da keeper-stub sintetici; autora specie reali nel tempo (band-neutral oggi)                                                                                                                                                                                                                                                                                    | BUILD (content)       | L      |
+| B7  | **TKT-KEEPER-VALIDATOR-SCOPE**                  | estendi scope-dir di `run_all_validators.py` quando i keeper diventano specie reali                                                                                                                                                                                                                                                                                               | CLOSE-NOW             | S (P3) |
+| B8  | **script repoint species.yaml** (TKT-STALE-B2)  | 🔁 verify-first 06-29 UPGRADE: **4 BROKEN** (frattura_abissale_validations.py:94 / evo_pack_pipeline.py:52 / data_health.py:124+:201) + **3 DEGRADED** (generator.py / build-idea-taxonomy.js / validate_datasets.py:542 silently 0-species). Logic repoint a `species_catalog.json` (loader `tools/py/lib/species_loader.py`). Bug-fix con test -> PR dedicata (NON marker-flip) | BUILD (tested PR)     | M      |
 
 ### 1E. Gate = infra owner-gated / forbidden-path / mani-prod
 
-| #   | Progetto                                             | Perche' gated                                                                                                                         | Blocker       | Effort   |
-| --- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
-| I1  | **flip CI-wire reproducibility guard -> enforcing**  | togliere `--warn-only` quando l'advisory e' quieto. `.github/workflows` = forbidden                                                   | OWNER-merge   | S        |
-| I2  | **ci.yml stale refs** (chip `task_3f09765d`)         | `Validate Species` ref `species.yaml` rimosso + `lighthouse-ci` ref assente. forbidden                                                | OWNER-merge   | S        |
-| I3  | **SPEC-F durable crossbreed cooldown**               | campo schema `crossbreed_history` = `packages/contracts` forbidden (oggi in-memory)                                                   | OWNER+build   | S        |
-| I4  | **SPEC-E ritual resource-cost (E6)**                 | balance + possibile schema                                                                                                            | OWNER+build   | M        |
-| I5  | **registra program-doc 2026-06-22 in docs_registry** | unregistered_document (warning-only); `tools/docs_governance_migrator.py`                                                             | CLOSE-NOW     | S        |
-| I6  | **D9 CAP-12 PlayerRunTelemetry canon-home**          | migration = forbidden-path + ADR (reconstruct-from-ledger doctrine)                                                                   | OWNER (defer) | L        |
-| I7  | **2 keeper env_affinity orphans**                    | `laguna_bioreattiva` + `mangrovieto_cinetico` senza bioma canonico -> assegna o accetta                                               | OWNER         | S        |
-| I8  | **prod flips bundle** (mani master-dd)               | `LETHAL` / `aliena_enforcement` / `STAMINA_FATIGUE` / `IMPRINT_BEAT` / `META_NETWORK` = env keys.env + restart (post rispettivi gate) | OWNER-hands   | umbrella |
+| #      | Progetto                                             | Perche' gated                                                                                                                         | Blocker       | Effort   |
+| ------ | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| I1     | **flip CI-wire reproducibility guard -> enforcing**  | togliere `--warn-only` quando l'advisory e' quieto. `.github/workflows` = forbidden                                                   | OWNER-merge   | S        |
+| I2     | **ci.yml stale refs** (chip `task_3f09765d`)         | `Validate Species` ref `species.yaml` rimosso + `lighthouse-ci` ref assente. forbidden                                                | OWNER-merge   | S        |
+| I3     | **SPEC-F durable crossbreed cooldown**               | campo schema `crossbreed_history` = `packages/contracts` forbidden (oggi in-memory)                                                   | OWNER+build   | S        |
+| I4     | **SPEC-E ritual resource-cost (E6)**                 | balance + possibile schema                                                                                                            | OWNER+build   | M        |
+| ~~I5~~ | ~~registra program-doc 2026-06-22 in docs_registry~~ | ✅ **gia' fatto** (verify-first 06-29: `unregistered_document` = 0; i 10 program-doc 06-22 sono gia' nel registry). Marker stale      | DONE          | -        |
+| I6     | **D9 CAP-12 PlayerRunTelemetry canon-home**          | migration = forbidden-path + ADR (reconstruct-from-ledger doctrine)                                                                   | OWNER (defer) | L        |
+| I7     | **2 keeper env_affinity orphans**                    | `laguna_bioreattiva` + `mangrovieto_cinetico` senza bioma canonico -> assegna o accetta                                               | OWNER         | S        |
+| I8     | **prod flips bundle** (mani master-dd)               | `LETHAL` / `aliena_enforcement` / `STAMINA_FATIGUE` / `IMPRINT_BEAT` / `META_NETWORK` = env keys.env + restart (post rispettivi gate) | OWNER-hands   | umbrella |
 
 ### 1F. External / triage (issue, cross-repo)
 
-| #   | Item                                                 | Stato                                                                              | Azione          |
-| --- | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------- |
-| X1  | **#3053** calibration harness real terrain-cost band | il sim non risolve i pilot -> blocca move-terrain Godot N=40 (= dep di G6)         | BUILD (harness) |
-| X2  | **#2888 / #2834** AI sim nightly regression          | issue auto-filed da cron regression -> triage: verifica risoluzione poi chiudi     | EXTERNAL        |
-| X3  | **#2744** encounter YAML backport enrichments        | backport hand-authored (pressure floors / terrain / lethal). YAML non e' SoT piena | BUILD (content) |
-| X4  | **#1673** BiomeMemory issue                          | codice shipped (#2784) -> **CLOSE** (title stale)                                  | CLOSE-NOW       |
-| X5  | **Godot #415** GDScript doc-comment campaign         | tracking issue Jules batches, cross-repo                                           | EXTERNAL        |
+| #      | Item                                                 | Stato                                                                              | Azione          |
+| ------ | ---------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------- |
+| X1     | **#3053** calibration harness real terrain-cost band | il sim non risolve i pilot -> blocca move-terrain Godot N=40 (= dep di G6)         | BUILD (harness) |
+| X2     | **#2888 / #2834** AI sim nightly regression          | issue auto-filed da cron regression -> triage: verifica risoluzione poi chiudi     | EXTERNAL        |
+| X3     | **#2744** encounter YAML backport enrichments        | backport hand-authored (pressure floors / terrain / lethal). YAML non e' SoT piena | BUILD (content) |
+| ~~X4~~ | ~~**#1673** BiomeMemory issue~~                      | ✅ **CLOSED 2026-06-29** (codice shipped #2784; title stale)                       | DONE            |
+| X5     | **Godot #415** GDScript doc-comment campaign         | tracking issue Jules batches, cross-repo                                           | EXTERNAL        |
 
 ## 2. Ordine di chiusura ratificato (anti-WIP, master-dd 2026-06-29)
 
@@ -164,18 +164,26 @@ I7 keeper orphans. Presentati <=4 per volta, recommended-default + reversibility
 | Q3  | Housekeeping autonomo | **Si', esegui tutto il tier** (Tier 0+1)                      | 🔄  |
 | Q4  | codex-lore 19 orfani  | **Usa i 13 retired-creature draft (#3038), HITL promote**     | 🔄  |
 
-## 4. Cosa e' autonomamente eseguibile SUBITO (post-approvazione)
+## 4. Stato esecuzione Tier-0/1 (2026-06-29, Q3 greenlight)
 
-Tier 0 + Tier 1 (Q3 = greenlight whole tier). Niente di questo apre un progetto nuovo:
+> Drain eseguito via Workflow recon (6-finder + critic adversariale): ogni closure
+> ground-truthed su `origin/main` PRIMA di applicare. Verify-first ha ri-dimensionato 2 item.
 
-1. **Issue close**: chiudi #1673 (OD-059 shipped) con commento esplicativo.
-2. **Doc refresh**: flip le 12 righe STALE-DONE nel register + BACKLOG; refresh `PILLAR-LIVE-STATUS.md` (H7 content).
-3. **Registry**: registra i program-doc 2026-06-22 in `docs_registry.json` (I5).
-4. **Script repoint**: `scripts/qa/*` species.yaml -> `species_catalog.json` (B8).
-5. **canon-linter**: tune `verify_stopwords.txt` sui false-positive design-doc IT (B3-autonomo).
-6. **jsonschema-shadow** validation follow-ups (B5) + **trait-slices** remainder (B1) come PR separate.
+**✅ FATTO questa sessione** (in PR #3072, doc-hygiene zero-runtime-risk):
 
-Tutto il resto (Tier 2 design-call, Tier 3 N=40 flip) = aspetta i round owner-decision / sessione di calibrazione.
+1. **Issue #1673 CLOSED** (OD-059 shipped #2784, commento esplicativo).
+2. **register flip** (`2026-06-23-residual-gate-register.md`): 8 righe STALE-DONE flippate + DELTA banner + sez.8 pointer + `last_verified` 06-29.
+3. **BACKLOG flip**: trait-mechanics 2.5/12 -> 12/12 engine-path + bullet move-terrain FLIP-LIVE + codex-lore verdetto + header delta.
+4. **PILLAR-LIVE-STATUS refresh (H7)** atomico (frontmatter + registry `last_verified` 06-29 + delta-history giugno; **VALORI 6/6 invariati = re-ratifica master-dd pending**).
+
+**✅ gia' fatto (verify-first, marker stale)**: I5 program-doc registration (`unregistered_document` = 0).
+
+**🔁 ri-dimensionati (NON marker-flip -> PR dedicata con test)**:
+
+- **B8 script repoint** -- verify-first: NON 1-2 file ma **4 broken + 3 degraded** (logic repoint a `species_catalog.json`). Inventario preciso nella riga B8. Bug-fix QA-only (rotti da #2271, non urgenti) -> PR tested separata.
+- **B3 stopwords** -- serve corpus di false-positive reali (run linter) prima del tune. **B5 jsonschema** + **B1 trait-slices remainder** = build, PR separate.
+
+**Resto** (Tier 2 design-call, Tier 3 N=40 flip) = round owner-decision / sessione calibrazione.
 
 ## 5. Esplicitamente NON in-flight (gia' chiusi -- non ri-aprire)
 
