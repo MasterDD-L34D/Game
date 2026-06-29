@@ -22,6 +22,7 @@ balance:
   encounter_role: ambient
 playable_unit: true
 morphotype: volatore_planatore
+volo_grade: 3
 vc:
   aggro: 0.2
   risk: 0.2

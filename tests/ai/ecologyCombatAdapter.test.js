@@ -183,3 +183,23 @@ test('DEFAULT_KNOBS: exposes tier tables for all T0-T5', () => {
     assert.ok(Number.isFinite(DEFAULT_KNOBS.DC_BASE[t]), `DC_BASE.${t}`);
   }
 });
+
+// Move terrain-cost substrate (Path A): per-species volo_grade -> unit.volo_grade.
+test('deriveCombatStats: emits per-species volo_grade for flight carriers', () => {
+  const flyer = {
+    ...T3_APEX,
+    morphotype: 'volatore_planatore',
+    genetic_traits: { core: ['adattamento_volo'] },
+    volo_grade: 3,
+  };
+  assert.equal(deriveCombatStats(flyer).volo_grade, 3);
+});
+
+test('deriveCombatStats: volo_grade defaults to null when the species omits it', () => {
+  assert.equal(deriveCombatStats(T1_PREDATOR).volo_grade, null);
+});
+
+test('deriveCombatStats: coerces a string volo_grade to a number (clamp is downstream)', () => {
+  const flyer = { ...T3_APEX, volo_grade: '2' };
+  assert.equal(deriveCombatStats(flyer).volo_grade, 2);
+});

@@ -66,6 +66,9 @@ function loadBadlandsSpecies(id) {
         : { core: [] },
     jobs_bias: Array.isArray(parsed.jobs_bias) ? parsed.jobs_bias : [],
     morphotype: parsed.morphotype || null,
+    // Move terrain-cost substrate: lift per-species volo grade so deriveCombatStats can
+    // emit unit.volo_grade (else the norm drops it -> carriers fall back to global grade-1).
+    volo_grade: parsed.volo_grade != null ? Number(parsed.volo_grade) : null,
   };
   _speciesCache[id] = norm;
   return norm;
