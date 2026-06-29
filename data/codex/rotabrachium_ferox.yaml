@@ -6,6 +6,7 @@
 codex_entry:
   id: rotabrachium_ferox
   type: species
+  codex_archive: true
   display_name_it: Rotabraccio
   display_name_en: Rotabraccio
   subtitle_it: Rotabraccio -- Abisso Vulcanico (T3)
@@ -33,8 +34,7 @@ codex_entry:
     biome_hook: stabilire condotti di raffreddamento attorno alle fucine naturali
     affixes: termico, luminescente, spore diluite, sabbia
     neighbors: abyssal forgers, magma wardens, geode listeners
-    traits: nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus frazionato,
-      artigli sette vie, coda frusta cinetica
+    traits: nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus frazionato, artigli sette vie, coda frusta cinetica
     visual: un multi arto rotante.
     lifecycle_arc: un ciclo di adattamento continuo
     mutations: adattamenti ancora non catalogati
@@ -47,17 +47,13 @@ codex_entry:
       cross_ref:
       - biome:abisso_vulcanico
       game_impact: 'Comparsa negli scontri: n/d.'
-      content: 'Il territorio del rotabraccio e'' Abisso Vulcanico: Camini abissali con lava
-        pressurizzata e fauna bio-termica. Un mondo da Assalti verticali e estrazioni ad alto
-        rischio tra geyser incandescenti, segnato da termico, luminescente, spore diluite,
-        sabbia. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.'
+      content: 'Il territorio del rotabraccio e'' Abisso Vulcanico: Camini abissali con lava pressurizzata e fauna bio-termica. Un mondo da Assalti verticali e estrazioni ad alto rischio tra geyser incandescenti, segnato da termico, luminescente, spore diluite, sabbia. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.'
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
       - 'resistance_archetype: strutturale'
       - 'role_trofico: predatore_apex; sentient: False'
-      - 'trait_refs: nucleo_ovomotore_rotante, frusta_fiammeggiante, mantello_meteoritico,
-        focus_frazionato, artigli_sette_vie, coda_frusta_cinetica, empatia_coordinativa'
+      - 'trait_refs: nucleo_ovomotore_rotante, frusta_fiammeggiante, mantello_meteoritico, focus_frazionato, artigli_sette_vie, coda_frusta_cinetica, empatia_coordinativa'
       cross_ref:
       - species:rotabrachium_ferox
       - trait:nucleo_ovomotore_rotante
@@ -68,10 +64,7 @@ codex_entry:
       - trait:coda_frusta_cinetica
       - trait:empatia_coordinativa
       game_impact: Archetipo strutturale.
-      content: 'Il rotabraccio evolve lungo le fasi un ciclo di adattamento continuo. I suoi
-        tratti -- nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus
-        frazionato, artigli sette vie, coda frusta cinetica -- non sono ornamenti ma risposte:
-        ognuno racconta una pressione superata, in archetipo strutturale.'
+      content: 'Il rotabraccio evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus frazionato, artigli sette vie, coda frusta cinetica -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo strutturale.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -81,8 +74,7 @@ codex_entry:
       cross_ref:
       - species:rotabrachium_ferox
       game_impact: Profilo da vanguard (multi arto rotante).
-      content: 'Il corpo del rotabraccio: un multi arto rotante. Sotto pressione puo'' sviluppare
-        adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
+      content: 'Il corpo del rotabraccio: un multi arto rotante. Sotto pressione puo'' sviluppare adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -91,9 +83,7 @@ codex_entry:
       cross_ref:
       - biome:abisso_vulcanico
       game_impact: 'encounter_role: threat.'
-      content: 'Il rotabraccio e'' predatore apex in Abisso Vulcanico: una presenza diffusa
-        (T3) che, insieme a abyssal forgers, magma wardens, geode listeners, modella la catena
-        trofica.'
+      content: 'Il rotabraccio e'' predatore apex in Abisso Vulcanico: una presenza diffusa (T3) che, insieme a abyssal forgers, magma wardens, geode listeners, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -101,8 +91,7 @@ codex_entry:
       cross_ref:
       - species:rotabrachium_ferox
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: 'La struttura sociale del rotabraccio si regge su gruppi territoriali. La socialita''
-        e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
+      content: 'La struttura sociale del rotabraccio si regge su gruppi territoriali. La socialita'' e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -110,9 +99,6 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il rotabraccio e'' un avversario predatore apex (T3) che
-        affronti in Abisso Vulcanico. E nel suo mondo la posta in gioco e'' stabilire condotti
-        di raffreddamento attorno alle fucine naturali. E'' qui che il Codex comincia: la
-        prima forma di vita di cui annotare la verita''.'
+      content: 'Per l''allenatore il rotabraccio e'' un avversario predatore apex (T3) che affronti in Abisso Vulcanico. E nel suo mondo la posta in gioco e'' stabilire condotti di raffreddamento attorno alle fucine naturali. E'' qui che il Codex comincia: la prima forma di vita di cui annotare la verita''.'
       story_hook_it: un avversario predatore apex (T3) che affronti in Abisso Vulcanico
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed

@@ -254,7 +254,14 @@ function summarize(entry) {
 }
 
 function listCodexEntries() {
-  return loadCodexEntries().map(summarize);
+  // codex_archive entries (retired-creature lore, #3038) are intentionally absent
+  // from every roster -> they can never unlock through play. Excluding them from the
+  // regular Bestiario list avoids permanently-locked ??? rows and an impossible
+  // completion count (Codex P2 on #3076). They stay loadable by id (getCodexEntry)
+  // for the future archive surface that will expose them outside the unlock path.
+  return loadCodexEntries()
+    .filter((entry) => !entry.codex_archive)
+    .map(summarize);
 }
 
 // Detail entry: allowlisted + deep-cloned (fail-closed secret guard + no cache
