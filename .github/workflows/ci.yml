@@ -70,6 +70,15 @@ jobs:
               - 'scripts/sync_evo_pack_assets.js'
               - 'scripts/utils/generatedMarker.js'
               - 'scripts/utils/jsonio.js'
+              # Reproducibility guard (PR #3059): the guard itself + the
+              # generators it checks must re-run the dataset-checks drift-guard
+              # step when their OWN logic changes, else a guard/generator edit
+              # silently bypasses the reproducibility signal (mirrors the
+              # evo-pack generator entries above).
+              - 'tools/py/check_derived_reproducible.py'
+              - 'tools/py/build_species_trait_bridge.py'
+              - 'scripts/generate_derived_analysis.py'
+              - 'tools/etl/**'
             deploy:
               - 'scripts/trait_audit.py'
               - 'scripts/run_deploy_checks.sh'
@@ -495,6 +504,21 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --requirement requirements.txt
+
+      # Reproducibility guard (derived-canon salvage, 2026-06-28): reports drift if
+      # any of the three committed DERIVED families -- trait bridge
+      # (data/traits/species_affinity.json), species catalog
+      # (data/core/species/species_catalog.json), or the derived-analysis bundle
+      # (data/derived/analysis/*) -- no longer reproduces from current in-repo
+      # sources. ADVISORY for now (--warn-only -> always exit 0): surfaces
+      # "regenerate-or-die" violations in the log without redding PRs while the
+      # heuristic catalog check beds in. Flip to ENFORCING later by dropping
+      # --warn-only. MUST run on the PRISTINE checkout, BEFORE the trait-baseline /
+      # coverage regen steps below overwrite data/derived/analysis/* (same
+      # constraint as the evo-pack drift check above). See
+      # docs/guide/derived-artifacts-reproducibility.md.
+      - name: Verify derived artifacts reproduce (drift guard, advisory)
+        run: python3 tools/py/check_derived_reproducible.py --warn-only
 
       - name: Validate YAML datasets
         run: python3 tools/py/validate_datasets.py
