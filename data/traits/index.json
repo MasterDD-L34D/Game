@@ -18692,7 +18692,7 @@
       "uso_funzione": "i18n:traits.artigli_sette_vie_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "coda_frusta_cinetica_2": {
@@ -18715,7 +18715,7 @@
       "uso_funzione": "i18n:traits.coda_frusta_cinetica_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "criostasi_adattiva_2": {
@@ -18738,7 +18738,7 @@
       "uso_funzione": "i18n:traits.criostasi_adattiva_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "focus_frazionato_2": {
@@ -18761,7 +18761,7 @@
       "uso_funzione": "i18n:traits.focus_frazionato_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "risonanza_di_branco_2": {
@@ -18784,7 +18784,7 @@
       "uso_funzione": "i18n:traits.risonanza_di_branco_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "sacche_galleggianti_ascensoriali_2": {
@@ -18807,7 +18807,7 @@
       "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "scheletro_idro_regolante_2": {
@@ -18830,7 +18830,7 @@
       "uso_funzione": "i18n:traits.scheletro_idro_regolante_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "struttura_elastica_amorfa_2": {
@@ -18853,7 +18853,7 @@
       "uso_funzione": "i18n:traits.struttura_elastica_amorfa_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     },
     "tattiche_di_branco_2": {
@@ -18876,7 +18876,7 @@
       "uso_funzione": "i18n:traits.tattiche_di_branco_2.uso_funzione",
       "data_origin": "appendix_a_variant_deep_research_grounded",
       "completion_flags": {
-        "design_stub": true
+        "design_stub": false
       }
     }
   }
