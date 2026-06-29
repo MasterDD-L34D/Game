@@ -167,6 +167,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-06-29-closeout-master-plan.md",
+      "title": "Close-out master plan -- verified in-flight inventory + closure order (2026-06-29)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-29",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
       "title": "Derived-canon reproducibility arc -- session handoff (2026-06-28/29)",
       "doc_status": "draft",
@@ -188,6 +201,19 @@
       "last_verified": "2026-06-29",
       "source_of_truth": false,
       "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-06-29-session-closeout.md",
+      "title": "2026-06-29 session close-out -- move terrain-cost: telegraph + flip prereqs + LIVE flip",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-29",
+      "source_of_truth": false,
+      "language": "it-en",
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
