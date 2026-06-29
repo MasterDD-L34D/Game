@@ -5,7 +5,21 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-22 (Lenovo) -- codex lore PHASE 1+2 + OD-024 sentience program
+## ⚡ Sessione corrente 2026-06-29 -- derived-canon reproducibility arc CLOSED + 3 residui
+
+**Arco reproducibility derived-canon CHIUSO end-to-end** (~10 PR). Tutte e 3 le famiglie DERIVED reproducibili + guardate + CI-advisory-wired. Handoff `docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md`; memory `project_derived_artifact_reproducibility.md` (cont-17..26).
+
+**PR mergiate**: #3047 `8056eb06` (38 keeper re-population, coverage 131->0 in-biome; canon/validator split biomes-vs-env_affinity) · #3055 `7d6f34f3` (generatore derived-analysis host-deterministic: sys.executable, manifest repo-relative, no commit-pin, generated_at strip, LF-hash) · #3056 `3e3fd3d8` (re-apply 3 Codex P2 che lo squash di #3055 aveva DROPPATO) · #3057 `ad4d6321` (guard 3a check `derived-analysis`) · #3059 `03c9bca0` (CI-wire advisory `--warn-only`) · #3060 `144a35ab` (3 alias canon core+pack -> 3/5 keeper env_affinity->`biomes:[X]`) · #3062 `0d1ba898` (guard `--deep` source-drift, delete-first). #3063 GAP2 block-3 proposal = OPEN (ratify).
+
+**Findings/lessons**: squash droppa commit late-push (verifica `git merge-base --is-ancestor`) · `git status` sotto eol=lf inganna -> testa il blob hash · `git show ref:path` mangiato da MSYS -> `git grep ref --` · cross-python float non-determinismo (skydock 3.11 vs 3.12) · `sync_core` copia core->pack biomes.yaml (alias in core) · `generate_derived_analysis` scrive 5/8 artefatti (gli altri = sibling generators). Codex ATTIVO = alto-segnale su bug path/repro che cavecrew ha mancato. Forbidden-path (.github/workflows) serve auth ESPLICITA.
+
+**Review**: harsh (6-dim) + opposite (4-attack) multi-agent (Workflow); tutti i finding Codex fixati + thread risolti.
+
+**Next entry point**: ratify #3063 -> build GAP2 block-3 (recipe block-2) / flip CI-wire a enforcing post-quiet / owner-residui (13-lore HITL #3038, keeper content-debt, float-stabilize balance_progression). Arco reproducibility = CHIUSO, niente altro da costruire li'.
+
+---
+
+## ⚡ Sessione 2026-06-22 (Lenovo) -- codex lore PHASE 1+2 + OD-024 sentience program
 
 **Codex A.L.I.E.N.A. (PHASE 1+2, #2930 `268a13d4`)**: voce IT curata nell'extractor (taxon hook Linnaean -> "creatura di tipo X", lifecycle EN->IT, npc_archetypes EN->IT; `biomes.yaml` INTATTO) + pilot encounter `enc_foresta_temperata_radici` (cameo apex_neutral `sentinella_radice`, roster clonato da standard_01) -> sentinella promossa, HA2 zero-orphan. Residuo: replicare pilot per i 19 orfani (per-bioma, balance master-dd).
 
