@@ -83,10 +83,12 @@ backfill), oppure aggiornare il docstring a "fatal" se la policy e' cambiata.
 
 ## Note (NON nuovi ticket)
 
-- **N1 -- `data_health.py:126` + `:203` (Missing file `data/core/species.yaml`)**:
-  NON e' un finding nuovo. Sono le rule del set **4 BROKEN** gia' inventariate in
-  B8 (riga closeout "data_health.py:124+:201") e di competenza di **PR #3075**
-  (non ancora su `origin/main`, percio' qui ancora attive). Nessun ticket nuovo.
+- **N1 -- `data_health.py` species.yaml rule (Missing file `data/core/species.yaml`)**:
+  NON e' un finding nuovo. Era la rule del set **4 BROKEN** gia' inventariata in
+  B8 (riga closeout "data_health.py:124+:201"), risolta da **PR #3075**
+  (`fab8f87f`, MERGED su `origin/main` 2026-06-30: la rule punta ora al catalog).
+  Nessun ticket nuovo. NB: #3075 NON ha toccato la riga `generated_at` di
+  `trait_coverage_report.json` (line 70), che resta il fix di questa B8 pt2.
 - **N2 -- inventario B8 potenzialmente incompleto** (needs-audit, P3). **Ticket**:
   `TKT-B8-READER-SWEEP`. Oltre ai 7 script B8, altri reference a `species.yaml`
   esistono. Triage rapido:

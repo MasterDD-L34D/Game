@@ -86,8 +86,9 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
   report_evo_species_ecosystem / seed*\*) hanno fallback by-design; gli ETL
   (merge_pack_v2_species / apply_interoception_traits) usano species.yaml come
   sorgente by-design. Sweep separato.
-- **N1 (NON nuovo)**: `data_health.py:126`/`:203` (Missing file species.yaml) =
-  set "4 BROKEN" di B8, coperto da **PR #3075** (non ancora su origin/main).
+- **N1 (NON nuovo)**: `data_health.py` species.yaml rule = set "4 BROKEN" di B8,
+  risolto da **PR #3075** (`fab8f87f`, MERGED 2026-06-30). #3075 NON ha toccato
+  la riga `generated_at` di trait_coverage_report (line 70) = fix di questa pt2.
 
 ## 🧰 CI tooling -- canon entity-grounding linter (2026-06-21, #2915 SHIPPED)
 
