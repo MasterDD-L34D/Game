@@ -225,14 +225,16 @@ def check_species_catalog() -> list[str]:
     return findings
 
 
-# Artifacts whose generator output is NOT byte-stable across Python versions, so a
-# regen-vs-committed byte compare false-positives when the running interpreter
-# differs from the one that produced the committed bundle. `skydock_siege_xp.json`
-# (balance_progression.py) carries XP floats whose repr differs between CPython
-# 3.11 and 3.12 -- a known cross-version non-determinism. Excluded from the deep
-# byte compare; the 5 coverage-data artifacts + 2 CSVs ARE stable and still cover
-# the important source-drift case (coverage vs species/trait data).
-_DEEP_FLOAT_FRAGILE = {"data/derived/analysis/progression/skydock_siege_xp.json"}
+# Hook for any derived artifact whose generator output is NOT byte-stable across
+# Python versions (a regen-vs-committed byte compare would false-positive when the
+# running interpreter differs from the one that produced the committed bundle).
+# Currently EMPTY: `skydock_siege_xp.json` (balance_progression.py) used to carry a
+# raw sum(cadence_minutes) that repr-differs between CPython 3.11 (23.299999999999997)
+# and 3.12 (23.3 -- 3.12 added compensated float summation to sum()); that sum is now
+# rounded at the source, so the whole bundle is byte-identical cross-version and gets
+# the full deep byte compare. Add a rel-path here only if a future artifact
+# reintroduces cross-version float drift.
+_DEEP_FLOAT_FRAGILE: set[str] = set()
 
 # The ONLY artifacts scripts/generate_derived_analysis.py actually writes (via
 # generate_trait_coverage + generate_progression). The other manifest artifacts
@@ -260,10 +262,10 @@ def _check_analysis_source_drift(artifact_rels: list[str]) -> list[str]:
     regen no longer produces), CHANGED (regen rewrites it differently), NET-NEW
     (regen produces a file not committed).
 
-    Restores the committed bytes in a finally (opt-in, ~seconds). Float-fragile
-    artifacts (_DEEP_FLOAT_FRAGILE) still get the orphan + net-new checks but NOT
-    the byte compare -- their repr differs across Python versions; for those, run
-    under the bundle's own interpreter.
+    Restores the committed bytes in a finally (opt-in, ~seconds). Any artifact
+    listed in _DEEP_FLOAT_FRAGILE (currently empty) still gets the orphan + net-new
+    checks but NOT the byte compare -- for cross-version-fragile floats, run under
+    the bundle's own interpreter.
     """
     findings: list[str] = []
     generator = REPO_ROOT / "scripts" / "generate_derived_analysis.py"

@@ -230,7 +230,12 @@ def simulate_xp_progression(
     class_modifiers: Mapping[str, float] = progression["class_modifiers"]
     difficulty_scalars: Mapping[str, float] = xp_model["difficulty_scalars"]
     targets = progression.get("targets", {})
-    total_duration = _sum_duration_minutes(progression["waves"])
+    # Round the cadence sum to a fixed precision: CPython 3.12 added compensated
+    # (Neumaier) float summation to sum(), so a raw sum(cadence_minutes) repr-differs
+    # across interpreter versions (23.3 on 3.12, 23.299999999999997 on 3.11). Rounding
+    # at the source makes duration_minutes -- and every xp_per_minute derived from it --
+    # decimal-canonical, so the emitted artifact is byte-identical cross-version.
+    total_duration = round(_sum_duration_minutes(progression["waves"]), 4)
     raw_profiles = profiles if profiles is not None else progression.get("profiles", {})
     normalized_profiles = (
         _normalize_profile_map(raw_profiles)

@@ -88,6 +88,24 @@ def test_helix_cipher_profile_is_on_target(progression_payload):
     assert profile["delta_vs_target_pct"] == pytest.approx(-0.0009, abs=1e-3)
 
 
+def test_duration_minutes_is_version_stable(progression_payload):
+    # CPython 3.12 added compensated (Neumaier) summation to sum() for floats, so a
+    # raw sum(cadence_minutes) yields 23.3 on 3.12 but 23.299999999999997 on 3.11.
+    # The emitted duration must be decimal-canonical so the derived artifact is
+    # byte-identical across interpreter versions (uses exact ==, not approx, on
+    # purpose -- approx would mask the precision drift this guards against).
+    duration = progression_payload["waves"]["duration_minutes"]
+    # Version-agnostic invariant: no >4-decimal summation noise survives.
+    # (23.299999999999997 != round(it, 4); 23.3 == round(it, 4).)
+    assert duration == round(duration, 4)
+    # Contract derived from the fixture data (not a hardcoded literal, so editing
+    # cadence_minutes won't make this brittle): duration is the cadence sum rounded.
+    cadence = load_mission_config(MISSION_PATH, "skydock_siege")["progression"]["waves"][
+        "cadence_minutes"
+    ]
+    assert duration == round(sum(float(x) for x in cadence), 4)
+
+
 def test_telemetry_log_is_recorded(telemetry_log):
     assert LOG_FILE.exists()
     helix_cipher_standard = telemetry_log["profiles"]["helix_cipher"]["difficulties"]["standard"]
