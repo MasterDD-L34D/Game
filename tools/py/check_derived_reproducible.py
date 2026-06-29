@@ -54,7 +54,9 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -223,7 +225,128 @@ def check_species_catalog() -> list[str]:
     return findings
 
 
-def check_derived_analysis() -> list[str]:
+# Artifacts whose generator output is NOT byte-stable across Python versions, so a
+# regen-vs-committed byte compare false-positives when the running interpreter
+# differs from the one that produced the committed bundle. `skydock_siege_xp.json`
+# (balance_progression.py) carries XP floats whose repr differs between CPython
+# 3.11 and 3.12 -- a known cross-version non-determinism. Excluded from the deep
+# byte compare; the 5 coverage-data artifacts + 2 CSVs ARE stable and still cover
+# the important source-drift case (coverage vs species/trait data).
+_DEEP_FLOAT_FRAGILE = {"data/derived/analysis/progression/skydock_siege_xp.json"}
+
+# The ONLY artifacts scripts/generate_derived_analysis.py actually writes (via
+# generate_trait_coverage + generate_progression). The other manifest artifacts
+# (trait_gap_report.json, trait_baseline.yaml, trait_env_mapping.json) are produced
+# by SIBLING generators run as separate dataset-checks steps, so the --deep regen
+# (which runs only this generator) must NOT delete/orphan-check them.
+_GENERATOR_OUTPUTS = {
+    "data/derived/analysis/trait_coverage_report.json",
+    "data/derived/analysis/trait_coverage_matrix.csv",
+    "data/derived/analysis/progression/skydock_siege_xp.json",
+    "data/derived/analysis/progression/skydock_siege_xp_summary.csv",
+    "data/derived/analysis/progression/skydock_siege_xp_profiles.csv",
+}
+
+
+def _check_analysis_source_drift(artifact_rels: list[str]) -> list[str]:
+    """Deep (opt-in) source-drift check: DELETE the committed generator outputs,
+    regenerate, then compare -- catching the gap the cheap hash check misses (bundle
+    stale vs CHANGED source data, still matching its own equally-stale manifest).
+
+    Deleting first is essential: an on-top regen would MISS an output that
+    DISAPPEARS (e.g. balance_progression skips skydock_siege_xp_profiles.csv when
+    the mission loses its profiles block) -- the stale file would survive and the
+    check would wrongly pass. Detects three drifts: ORPHAN (committed artifact a
+    regen no longer produces), CHANGED (regen rewrites it differently), NET-NEW
+    (regen produces a file not committed).
+
+    Restores the committed bytes in a finally (opt-in, ~seconds). Float-fragile
+    artifacts (_DEEP_FLOAT_FRAGILE) still get the orphan + net-new checks but NOT
+    the byte compare -- their repr differs across Python versions; for those, run
+    under the bundle's own interpreter.
+    """
+    findings: list[str] = []
+    generator = REPO_ROOT / "scripts" / "generate_derived_analysis.py"
+    if not generator.exists():
+        return [f"deep: generator {generator.relative_to(REPO_ROOT)} missing"]
+
+    # Only this generator's own outputs are deletable/orphan-checkable (the rest of
+    # the manifest comes from sibling generators we don't run here).
+    targets = [rel for rel in artifact_rels if rel in _GENERATOR_OUTPUTS]
+
+    saved = {p: p.read_bytes() for p in ANALYSIS_DIR.rglob("*") if p.is_file()}
+    # All target artifacts (incl float-fragile) get the orphan check; the byte
+    # compare below skips the fragile ones.
+    before_hash = {
+        rel: hashlib.sha256((REPO_ROOT / rel).read_bytes()).hexdigest()
+        for rel in targets
+        if (REPO_ROOT / rel).exists()
+    }
+
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
+    env.setdefault("PYTHONHASHSEED", "0")
+    try:
+        # Clear this generator's committed outputs so a regen that STOPS producing
+        # one (orphan) is detectable -- an on-top regen would leave the stale file.
+        for rel in targets:
+            artifact = REPO_ROOT / rel
+            if artifact.exists():
+                artifact.unlink()
+
+        result = subprocess.run(
+            [sys.executable, str(generator), "--update-readme"],
+            cwd=REPO_ROOT,
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            findings.append(
+                f"deep: generator failed (rc={result.returncode}): "
+                f"{(result.stderr or '').strip()[-300:]}"
+            )
+        else:
+            orphan = sorted(rel for rel in before_hash if not (REPO_ROOT / rel).exists())
+            changed = sorted(
+                rel
+                for rel in before_hash
+                if rel not in _DEEP_FLOAT_FRAGILE
+                and (REPO_ROOT / rel).exists()
+                and hashlib.sha256((REPO_ROOT / rel).read_bytes()).hexdigest() != before_hash[rel]
+            )
+            after = {p for p in ANALYSIS_DIR.rglob("*") if p.is_file()}
+            net_new = sorted(p.relative_to(REPO_ROOT).as_posix() for p in after if p not in saved)
+            if orphan:
+                findings.append(
+                    f"deep: SOURCE-DRIFT -- a fresh regen NO LONGER produces {orphan} "
+                    f"(committed bundle has stale/removed outputs)."
+                )
+            if changed:
+                findings.append(
+                    f"deep: SOURCE-DRIFT -- a fresh regen CHANGES {changed} "
+                    f"(committed bundle stale vs current source data)."
+                )
+            if net_new:
+                findings.append(
+                    f"deep: SOURCE-DRIFT -- a fresh regen produces NEW uncommitted files: {net_new}."
+                )
+            if orphan or changed or net_new:
+                findings.append(
+                    "Run `python scripts/generate_derived_analysis.py --update-readme` and commit."
+                )
+    finally:
+        for path in ANALYSIS_DIR.rglob("*"):
+            if path.is_file() and path not in saved:
+                path.unlink()
+        for path, data in saved.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+    return findings
+
+
+def check_derived_analysis(deep: bool = False) -> list[str]:
     """Verify the derived-analysis bundle is self-consistent + host-independent.
 
     Added 2026-06-28: this 8-artifact bundle (generated by
@@ -239,8 +362,10 @@ def check_derived_analysis() -> list[str]:
          forward-slash core_root/pack_root/command and NO per-commit `commit`
          pin -- otherwise it is not byte-reproducible across hosts/commits.
 
-    NOT covered (harder, needs a writing regen): source-drift where the bundle is
-    stale vs CHANGED source data but still matches its own (equally stale) manifest.
+    With ``deep=True`` (--deep) a third check ALSO runs the generator and compares
+    the regenerated artifacts to the committed bytes -- catching source-drift where
+    the bundle is stale vs CHANGED source data but still matches its own (equally
+    stale) manifest. It restores the committed bytes afterwards (opt-in; ~seconds).
     """
     findings: list[str] = []
     if not ANALYSIS_MANIFEST.exists():
@@ -284,6 +409,9 @@ def check_derived_analysis() -> list[str]:
             f"manifest carries host/commit-dependent stamps {bad_stamps} -> not "
             f"byte-reproducible across hosts. Regenerate with the current generator."
         )
+
+    if deep and not missing:
+        findings.extend(_check_analysis_source_drift(list(artifacts.keys())))
     return findings
 
 
@@ -298,13 +426,23 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--only", choices=sorted(CHECKS), help="run a single check")
     ap.add_argument("--warn-only", action="store_true", help="report drift but exit 0")
+    ap.add_argument(
+        "--deep",
+        action="store_true",
+        help="also run the source-drift check (regenerates the derived-analysis "
+        "bundle in place + restores it; ~seconds)",
+    )
     args = ap.parse_args(argv)
 
     selected = [args.only] if args.only else list(CHECKS)
     total = 0
     for name in selected:
         print(f"== {name} ==")
-        findings = CHECKS[name]()
+        findings = (
+            CHECKS[name](deep=args.deep)
+            if name == "derived-analysis"
+            else CHECKS[name]()
+        )
         if findings:
             for f in findings:
                 print(f"  DRIFT: {f}")
