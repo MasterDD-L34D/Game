@@ -203,6 +203,10 @@ function deriveCombatStats(species, opts = {}) {
     // initiative). Recruited sim units carry it through to unitStatsById.
     speed: speedForMorphotype(sp.morphotype),
     traits,
+    // Move terrain-cost substrate: per-species volo grade -> unit.volo_grade (read by
+    // movementResolver.evaluateVoloGrade at the move-gate; gated on adattamento_volo
+    // presence). null = no per-species grade -> carriers fall back to global grade-1.
+    volo_grade: Number.isFinite(Number(sp.volo_grade)) ? Number(sp.volo_grade) : null,
     job,
     _adapter: { tier, role_class: roleClass, warnings },
   };

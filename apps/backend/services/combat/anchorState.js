@@ -15,8 +15,9 @@
 // value + re-cal is a master-dd ratification, decision 2026-06-28], NOT sentinella-radice
 // [apex_neutral cameo contractually balance-inert]). Band re-validated: ~0 for MOBILE
 // carriers (greedy AI moves -> breakAnchor; PR #3043); a SESSILE carrier never moves ->
-// permanent DR2 = the intended "tanky da fermo"; DR2 stays PROPOSED, re-validate with a
-// hold-capable / human policy (greedy-AI sims cannot see the held-DR band).
+// permanent DR2 = the intended "tanky da fermo". DR2 RATIFIED-PROVISIONAL 2026-06-29
+// (master-dd verdict): value blessed at 2; the held-DR band stays unmeasured by greedy-AI
+// sims -> re-validate with a hold-capable/human policy when a radici carrier goes live.
 //
 // Pure (mutates the carrier's status object-map in place).
 
