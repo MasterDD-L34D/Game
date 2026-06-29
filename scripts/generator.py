@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Sequence
 
+import yaml
+
 ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
@@ -61,6 +63,16 @@ def _load_json(path: Path) -> Mapping[str, Any]:
             return json.load(handle)
     except json.JSONDecodeError as exc:  # pragma: no cover - struttura garantita dal repo
         raise GeneratorProfileError(f"JSON non valido: {path}: {exc}") from exc
+
+
+def _load_yaml(path: Path) -> Mapping[str, Any]:
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8") as handle:
+        payload = yaml.safe_load(handle) or {}
+    if not isinstance(payload, dict):
+        raise GeneratorProfileError(f"Il file YAML {path} deve avere un mapping alla radice")
+    return payload
 
 
 def _iter_matrix_entries(matrix: Mapping[str, Any]) -> Iterable[EntrySummary]:
@@ -130,39 +142,54 @@ def _species_catalog_path(data_root: Path) -> Path:
     return data_root / "species" / "species_catalog.json"
 
 
+def _legacy_species_path(data_root: Path) -> Path:
+    return data_root / "species.yaml"
+
+
 def _normalize_data_root(candidate: Path) -> Path:
-    """Return the directory that actually contains the core dataset.
+    """Return the directory that actually contains the species dataset.
 
     data/core/species.yaml was removed in #2271; the canonical SoT is now the
     JSON catalog data/core/species/species_catalog.json (list under "catalog").
+    Legacy mock/deploy snapshots (e.g. data/derived/mock/prod_snapshot, used by
+    config/cli/generator.yaml) still ship species.yaml without a catalog, so that
+    layout is accepted as a fallback.
     """
 
-    if _species_catalog_path(candidate).exists():
-        return candidate
-    nested = candidate / "core"
-    if _species_catalog_path(nested).exists():
-        return nested
+    for root in (candidate, candidate / "core"):
+        if _species_catalog_path(root).exists() or _legacy_species_path(root).exists():
+            return root
     return candidate
 
 
 def _load_species_dataset(data_root: Path) -> Sequence[Mapping[str, Any]]:
-    # Canonical SoT: data/core/species/species_catalog.json, list under "catalog".
-    # Each entry is keyed by species_id with a flat trait_refs slug list (the
-    # ex-trait_plan core/optional split was flattened in the catalog ETL).
+    # Prefer the canonical catalog (species_id + flat trait_refs slug list, the
+    # ex-trait_plan core/optional split flattened by the ETL); fall back to the
+    # legacy species.yaml (id + trait_plan mapping) for mock/deploy snapshots
+    # that still ship it. Mirrors tools/py/lib/species_loader.py.
     catalog_path = _species_catalog_path(data_root)
-    payload = _load_json(catalog_path)
-    raw_species = payload.get("catalog") or []
+    if catalog_path.exists():
+        payload = _load_json(catalog_path)
+        raw_species = payload.get("catalog") or []
+        source, key = catalog_path, "catalog"
+    else:
+        legacy_path = _legacy_species_path(data_root)
+        if not legacy_path.exists():
+            raise GeneratorProfileError(
+                f"Dataset specie non trovato: ne' {catalog_path} ne' {legacy_path}"
+            )
+        payload = _load_yaml(legacy_path)
+        raw_species = payload.get("species") or []
+        source, key = legacy_path, "species"
     if not isinstance(raw_species, list):
-        raise GeneratorProfileError(
-            f"Il file {catalog_path} deve definire una lista 'catalog'"
-        )
+        raise GeneratorProfileError(f"Il file {source} deve definire una lista '{key}'")
     normalized: List[Mapping[str, Any]] = []
     for index, item in enumerate(raw_species):
         if isinstance(item, Mapping):
             normalized.append(item)
         else:
             raise GeneratorProfileError(
-                f"Elemento catalog[{index}] in {catalog_path} deve essere un mapping"
+                f"Elemento {key}[{index}] in {source} deve essere un mapping"
             )
     return normalized
 
@@ -241,12 +268,13 @@ def generate_profile(
     synergy_traits = sorted([trait for trait, buckets in usage.items() if buckets.get("synergy")])
 
     dataset_species = _load_species_dataset(data_root)
-    # Catalog flattened the ex-trait_plan core/optional split into a flat
-    # trait_refs slug list; count species that carry at least one trait ref.
+    # Count species that carry trait info: the catalog uses a flat trait_refs
+    # slug list, the legacy species.yaml snapshot a trait_plan core/optional map.
     species_with_trait_plan = sum(
         1
         for item in dataset_species
-        if isinstance(item.get("trait_refs"), list) and item.get("trait_refs")
+        if (isinstance(item.get("trait_refs"), list) and item.get("trait_refs"))
+        or isinstance(item.get("trait_plan"), Mapping)
     )
 
     expected_core_traits: Sequence[str]
