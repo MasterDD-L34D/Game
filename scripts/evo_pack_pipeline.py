@@ -58,18 +58,24 @@ def sync_core(core_root: Path, pack_root: Path) -> None:
     #   the pack tree would rmtree the biome subdirs and corrupt the pack.
     #   The pack catalog is regenerated separately by update_evo_pack_catalog.js.
     #   (A naive species.yaml repoint was reverted in PR #3075 after a Codex P1.)
+    #
+    # The sources below are REQUIRED: a missing one (e.g. a misspelled
+    # --core-root, or a genuinely absent input) must fail loudly, never silently
+    # reuse stale pack_root/data and still emit success/log/manifests. To retire
+    # a source intentionally, drop it from this mapping (as species was) rather
+    # than letting it 404 at runtime.
     mapping: dict[Path, Path] = {
         core_root / "biomes.yaml": pack_root / "data" / "biomes.yaml",
         core_root / "biome_aliases.yaml": pack_root / "data" / "biome_aliases.yaml",
         core_root / "telemetry.yaml": pack_root / "data" / "telemetry.yaml",
         core_root / "mating.yaml": pack_root / "data" / "mating.yaml",
     }
+    missing = sorted(str(source) for source in mapping if not source.exists())
+    if missing:
+        raise PipelineError(
+            "Sorgenti core richieste non trovate: " + ", ".join(missing)
+        )
     for source, target in mapping.items():
-        # Missing source is non-fatal: one removed core file must not crash the
-        # whole pipeline. Skip + warn instead of raising PipelineError.
-        if not source.exists():
-            print(f"[skip] sorgente core non trovata, ignorata: {source}")
-            continue
         target.parent.mkdir(parents=True, exist_ok=True)
         if source.is_dir():
             copy_tree(source, target)

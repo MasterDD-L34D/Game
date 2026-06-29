@@ -90,20 +90,22 @@ def test_syncs_present_core_files(tmp_path):
     assert (data / "mating.yaml").read_text(encoding="utf-8") == "mating: core\n"
 
 
-def test_missing_source_skips_without_raising(tmp_path):
-    """A missing core source is skipped+warned, not fatal (one removed file
-    must not crash the whole pipeline)."""
+def test_missing_required_source_raises(tmp_path):
+    """A missing REQUIRED core source must fail loudly. Skipping would let a
+    misspelled --core-root silently reuse stale pack data and still emit
+    success/manifests (Codex P2 on PR #3078). The pre-check also runs before
+    any copy, so no partial sync happens on error."""
     core_root = tmp_path / "core"
     pack_root = tmp_path / "pack"
     # telemetry.yaml intentionally absent
     _make_core(core_root, include={"biomes", "biome_aliases", "mating", "species_dir"})
     _make_pack(pack_root)
 
-    pipeline.sync_core(core_root, pack_root)  # must not raise
+    with pytest.raises(pipeline.PipelineError):
+        pipeline.sync_core(core_root, pack_root)
 
-    data = pack_root / "data"
-    assert (data / "biomes.yaml").exists(), "present source was not synced"
-    assert not (data / "telemetry.yaml").exists(), "absent source must be skipped"
+    # fail-before-mutation: nothing synced when a required source is missing
+    assert not (pack_root / "data" / "biomes.yaml").exists()
 
 
 def test_all_species_mappings_dropped():
