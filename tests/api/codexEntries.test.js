@@ -126,6 +126,27 @@ test('GET /api/v1/codex/entries/:id returns the full 6-dim A.L.I.E.N.A. entry', 
   }
 });
 
+test('codex_archive entries are filtered from the Bestiario list but stay fetchable by id', async () => {
+  // Retired-creature lore (#3038, codex_archive:true) is intentionally absent from
+  // every roster -> it can never unlock through play. It must NOT appear in the
+  // regular Bestiario list (else players see permanently-locked ??? rows and an
+  // impossible completion count -- Codex P2 on #3076). aerostatocyon_altivolans is
+  // a promoted archive entry; it stays loadable by id for the future archive surface.
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const list = await request(app).get('/api/v1/codex/entries').expect(200);
+    const archived = list.body.entries.find((e) => e.id === 'aerostatocyon_altivolans');
+    assert.equal(archived, undefined, 'codex_archive entry excluded from the regular list');
+
+    const detail = await request(app)
+      .get('/api/v1/codex/entries/aerostatocyon_altivolans')
+      .expect(200);
+    assert.equal(detail.body.entry.id, 'aerostatocyon_altivolans', 'still fetchable by id');
+  } finally {
+    await close();
+  }
+});
+
 test('GET /api/v1/codex/entries/:id 404 on unknown id', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {

@@ -6,6 +6,7 @@
 codex_entry:
   id: lithoconstructus_inhibens
   type: species
+  codex_archive: true
   display_name_it: Litoautoma inibitore
   display_name_en: Litoautoma inibitore
   subtitle_it: Litoautoma inibitore -- Caverna Risonante (T2)
@@ -33,8 +34,7 @@ codex_entry:
     biome_hook: disinnescare camere di eco instabile prima del collasso
     affixes: eco, cristallino, fangoso, acque nere
     neighbors: guardiani risonanza, bracconieri echomantici, cartografi subsonici
-    traits: armatura pietra planare, carapace fase variabile, matrice antimagia, nuclei di
-      controllo
+    traits: armatura pietra planare, carapace fase variabile, matrice antimagia, nuclei di controllo
     visual: un costrutto corazzato.
     lifecycle_arc: un ciclo di adattamento continuo
     mutations: adattamenti ancora non catalogati
@@ -47,17 +47,13 @@ codex_entry:
       cross_ref:
       - biome:caverna
       game_impact: 'Comparsa negli scontri: n/d.'
-      content: Caverna Risonante -- Gallerie cristalline dove eco e pressioni invertite modellano
-        la fauna, dal tono di Esplorazione claustrofobica guidata da acustica e luce riflessa
-        (eco, cristallino, fangoso, acque nere) -- non e' uno sfondo ma un avversario costante
-        per il litoautoma inibitore. Ogni movimento e' una risposta all'ambiente.
+      content: Caverna Risonante -- Gallerie cristalline dove eco e pressioni invertite modellano la fauna, dall'atmosfera di Esplorazione claustrofobica guidata da acustica e luce riflessa (eco, cristallino, fangoso, acque nere) -- non e' uno sfondo ma un avversario costante per il litoautoma inibitore. Ogni movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
       - 'resistance_archetype: strutturale'
       - 'role_trofico: guardiano_artificiale; sentient: False'
-      - 'trait_refs: armatura_pietra_planare, carapace_fase_variabile, matrice_antimagia,
-        nuclei_di_controllo'
+      - 'trait_refs: armatura_pietra_planare, carapace_fase_variabile, matrice_antimagia, nuclei_di_controllo'
       cross_ref:
       - species:lithoconstructus_inhibens
       - trait:armatura_pietra_planare
@@ -65,10 +61,7 @@ codex_entry:
       - trait:matrice_antimagia
       - trait:nuclei_di_controllo
       game_impact: Archetipo strutturale.
-      content: 'Il litoautoma inibitore evolve lungo le fasi un ciclo di adattamento continuo.
-        I suoi tratti -- armatura pietra planare, carapace fase variabile, matrice antimagia,
-        nuclei di controllo -- non sono ornamenti ma risposte: ognuno racconta una pressione
-        superata, in archetipo strutturale.'
+      content: 'Il litoautoma inibitore evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- armatura pietra planare, carapace fase variabile, matrice antimagia, nuclei di controllo -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo strutturale.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -78,9 +71,7 @@ codex_entry:
       cross_ref:
       - species:lithoconstructus_inhibens
       game_impact: Profilo da warden (costrutto corazzato).
-      content: 'Morfologia: un costrutto corazzato. Ogni adattamento risponde a una pressione;
-        le linee mutanti note (adattamenti ancora non catalogati) spingono il corpo oltre
-        la forma base.'
+      content: 'Morfologia: un costrutto corazzato. Ogni adattamento risponde a una pressione; le linee mutanti note (adattamenti ancora non catalogati) spingono il corpo oltre la forma base.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -89,9 +80,7 @@ codex_entry:
       cross_ref:
       - biome:caverna
       game_impact: 'encounter_role: threat.'
-      content: Nell'ecologia di Caverna Risonante il litoautoma inibitore occupa la nicchia
-        di guardiano artificiale (T2), accanto a guardiani risonanza, bracconieri echomantici,
-        cartografi subsonici. Esercita pressione sulle prede senza contendere l'apice.
+      content: Nell'ecologia di Caverna Risonante il litoautoma inibitore occupa la nicchia di guardiano artificiale (T2), accanto a guardiani risonanza, bracconieri echomantici, cartografi subsonici. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -99,8 +88,7 @@ codex_entry:
       cross_ref:
       - species:lithoconstructus_inhibens
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: 'La struttura sociale del litoautoma inibitore si regge su gruppi territoriali.
-        La socialita'' e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
+      content: 'La struttura sociale del litoautoma inibitore si regge su gruppi territoriali. La socialita'' e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -108,9 +96,6 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'Per l''allenatore il litoautoma inibitore e'' un avversario guardiano artificiale
-        (T2) che affronti in Caverna Risonante. E nel suo mondo la posta in gioco e'' disinnescare
-        camere di eco instabile prima del collasso. E'' qui che il Codex comincia: la prima
-        forma di vita di cui annotare la verita''.'
+      content: 'Per l''allenatore il litoautoma inibitore e'' un avversario guardiano artificiale (T2) che affronti in Caverna Risonante. E nel suo mondo la posta in gioco e'' disinnescare camere di eco instabile prima del collasso. E'' qui che il Codex comincia: la prima forma di vita di cui annotare la verita''.'
       story_hook_it: un avversario guardiano artificiale (T2) che affronti in Caverna Risonante
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed
