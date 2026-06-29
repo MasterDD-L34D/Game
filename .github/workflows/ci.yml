@@ -70,6 +70,15 @@ jobs:
               - 'scripts/sync_evo_pack_assets.js'
               - 'scripts/utils/generatedMarker.js'
               - 'scripts/utils/jsonio.js'
+              # Reproducibility guard (PR #3059): the guard itself + the
+              # generators it checks must re-run the dataset-checks drift-guard
+              # step when their OWN logic changes, else a guard/generator edit
+              # silently bypasses the reproducibility signal (mirrors the
+              # evo-pack generator entries above).
+              - 'tools/py/check_derived_reproducible.py'
+              - 'tools/py/build_species_trait_bridge.py'
+              - 'scripts/generate_derived_analysis.py'
+              - 'tools/etl/**'
             deploy:
               - 'scripts/trait_audit.py'
               - 'scripts/run_deploy_checks.sh'
