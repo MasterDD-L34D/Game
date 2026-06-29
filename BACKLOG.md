@@ -57,6 +57,38 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
 - **TKT-KEEPER-VALIDATOR-SCOPE** (P3): `run_all_validators.py` (validate-ecosystem-pack) hardcoda 4 biome-dir -> i keeper-stub NON sono ispezionati da `validate_species_v1_7.py` ("green" = "non ispezionato"; fallirebbero su ~10 campi obbligatori). Quando i keeper diventano specie reali, estendere lo scope-dir del loop.
 - ✅ **TKT-DERIVED-ANALYSIS-REGEN DONE** (#3055 `7d6f34f3` core + #3056 `3e3fd3d8` Codex-P2 fixes): the `data/derived/analysis/*` bundle (8 artefatti + manifest) is now host-deterministic + reproducible (`regen == committed`). Generator repaired: `sys.executable` spawn, repo-relative posix manifest stamps, no commit-pin, `generated_at` stripped, LF-hashing, all 53 report path fields repo-relative. The bundle is now **covered by the guard** (`check_derived_reproducible.py` third `derived-analysis` check: artifact bytes must hash to manifest sha256 + no host/commit stamps; validated to catch the pre-fix drift). Residual (harder, owner): source-drift detection (bundle stale vs CHANGED source data, needs a writing regen) + CI-wiring the guard (`.github/workflows`, forbidden path).
 
+## 🧹 B8 repoint species.yaml -- finding fuori scope (2026-06-30)
+
+> B8 pt2 (repoint dei 3 script DEGRADED a `species_catalog.json`) SHIPPED in commit
+> `fd7f41c3` (generator.py / build-idea-taxonomy.js / validate_datasets.py + drop
+> stale `generated_at` data_health.py + test). I finding sotto sono emersi dal
+> verify ma **fuori scope** -> tracciati, NON fixati. Report completo:
+> [`docs/reports/2026-06-30-b8-out-of-scope-findings.md`](docs/reports/2026-06-30-b8-out-of-scope-findings.md).
+> Parent inventario: `docs/planning/2026-06-29-closeout-master-plan.md` riga B8.
+
+- **TKT-B8-IDEATAX-MULTISRC** (P2, F1): `scripts/build-idea-taxonomy.js` degradato
+  anche su biomes/traits/gameFunctions -- legge `data/biomes.yaml` /
+  `data/traits/glossary.json` / `data/game_functions.yaml`, canon = `data/core/*`
+  (ENOENT->{} silent). Artefatto pubblico `docs/public/idea-taxonomy.json` lasciato
+  a HEAD (NON rigenerato: regen attuale azzererebbe quei campi + flip path a
+  backslash Windows). Fix = repoint i 3 collector a `data/core/` poi rigenerare su
+  env posix. Estende [[TKT-STALE-B2-SPECIESYAML]] (stesso pattern, driver diverso).
+- **TKT-B8-ECOLOGY-FATAL** (P3, F2): `validate_species_ecology`
+  (`tools/py/validate_datasets.py`) ora gira (post-repoint, 0 errori sul catalog
+  reale) ma la violazione bidirezionale e' **fatale** (`:680-685` append a
+  `errors`) mentre il docstring (`:526-527`) la dichiara warn-only "durante
+  backfill". Latente: un futuro edit asimmetrico al catalog romperebbe CI. Fix =
+  allineare codice<->docstring (owner-gated quale dei due).
+- **TKT-B8-READER-SWEEP** (P3, N2, needs-audit): inventario B8 = 7 script;
+  candidati degradati FUORI inventario, senza fallback catalog: `generate_minimal_fixture.py`,
+  `trait_orphan_assign_wave_0_1.py`, `dev_redirect_server.py`. Quelli con
+  `species_loader` (export*biodiversity_bundle / normalize_species_style /
+  report_evo_species_ecosystem / seed*\*) hanno fallback by-design; gli ETL
+  (merge_pack_v2_species / apply_interoception_traits) usano species.yaml come
+  sorgente by-design. Sweep separato.
+- **N1 (NON nuovo)**: `data_health.py:126`/`:203` (Missing file species.yaml) =
+  set "4 BROKEN" di B8, coperto da **PR #3075** (non ancora su origin/main).
+
 ## 🧰 CI tooling -- canon entity-grounding linter (2026-06-21, #2915 SHIPPED)
 
 PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: vendored evo-swarm verifier (ADR-0042) -> `scripts/verify-swarm-claims.py` (+ `scripts/data/verify_stopwords.txt`) + 2-tier `.github/workflows/swarm-validation.yml` (JSON `--strict` su `docs/research/swarm/**.json` / markdown ADVISORY su `docs/research/**/*.md`). Retired deprecato `tools/py/swarm_canonical_validator.py` (+test). 167 test (`tests/test_verify_swarm_claims.py`) nel CI `python-tests`. Distinto da `scripts/check-canon-consistency.cjs` (canon-internal). Memory `project_canon_entity_grounding_linter.md`.
