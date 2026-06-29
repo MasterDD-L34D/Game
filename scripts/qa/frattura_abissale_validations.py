@@ -84,6 +84,13 @@ def check_pools_and_traits(index: Mapping[str, dict]):
 
 
 def flatten_trait_plan(species_entry: Mapping) -> Iterable[str]:
+    # Catalog entries carry a flat `trait_refs` slug list (canonical post #2271);
+    # legacy species.yaml used a nested `trait_plan`. Support both.
+    refs = species_entry.get("trait_refs")
+    if refs is not None:
+        for slug in refs or []:
+            yield slug
+        return
     plan = species_entry.get("trait_plan", {}) or {}
     for bucket in ("core", "support", "optional"):
         for slug in plan.get(bucket, []) or []:
@@ -91,8 +98,15 @@ def flatten_trait_plan(species_entry: Mapping) -> Iterable[str]:
 
 
 def check_species_and_affinity(index: Mapping[str, dict]):
-    species_data = load_yaml("data/core/species.yaml")
-    species_map = {entry.get("id"): entry for entry in species_data.get("species", []) if entry.get("id")}
+    # data/core/species.yaml removed in #2271 (split). Canonical SoT is the JSON
+    # catalog data/core/species/species_catalog.json: list under "catalog", each
+    # entry keyed by species_id + biome_affinity + trait_refs (flat slug list).
+    species_data = load_json("data/core/species/species_catalog.json")
+    species_map = {
+        entry.get("species_id"): entry
+        for entry in species_data.get("catalog", [])
+        if entry.get("species_id")
+    }
     for sid in SPECIES_IDS:
         entry = species_map.get(sid)
         assert_true(entry is not None, f"Specie {sid} mancante")

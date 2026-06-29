@@ -36,6 +36,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence
@@ -60,6 +61,55 @@ DEFAULT_GRAMMAR_PATH = "data/codex/_grammar/aliena_lore.json"
 REVIEW_STATUS_PENDING = "generated_pending_review"
 # Engine-only fields the generator must never serialize into a player-facing draft.
 _FORBIDDEN_SCORE_FIELDS = {"aggregate", "sub_scores", "coherence", "enforcement_factor"}
+
+
+# Italian elision: a masculine article / articulated preposition directly before a
+# vowel-initial word is ungrammatical ("il aerostato"); it must elide ("l'aerostato").
+# The grammar templates concatenate a FIXED article (il/del/...) with the data-driven
+# #subject# (a creature name that may start with a vowel), so the bad pairing only
+# surfaces AFTER expansion -> we elide as a post-pass over the flattened prose, which
+# keeps the grammar authoring simple and works no matter which template produced it.
+_ELISION_MAP = {
+    "il": "l'",
+    "lo": "l'",
+    "del": "dell'",
+    "dello": "dell'",
+    "al": "all'",
+    "allo": "all'",
+    "dal": "dall'",
+    "dallo": "dall'",
+    "nel": "nell'",
+    "nello": "nell'",
+    "sul": "sull'",
+    "sullo": "sull'",
+}
+_VOWELS = "aeiouAEIOUàèéìòùÀÈÉÌÒÙ"
+# (?<![\w'’]) = the article starts a fresh word (not a suffix of "civil"/"l'");
+# require whitespace then a vowel so consonant-initial and already-elided forms are left
+# untouched. The first vowel is captured and re-attached (elision drops the space).
+_ELISION_RE = re.compile(
+    r"(?<![\w'’])(" + "|".join(_ELISION_MAP) + r")(\s+)([" + _VOWELS + r"])",
+    re.IGNORECASE,
+)
+
+
+def _apply_italian_elision(text: str) -> str:
+    """Elide a masculine article / articulated preposition before a vowel-initial word.
+
+    "il aerostato" -> "l'aerostato"; "del aliradiante" -> "dell'aliradiante";
+    "Per il aerostato" -> "Per l'aerostato". The case of the article's first letter is
+    preserved, so a sentence-initial "Il aerostato" becomes "L'aerostato". Consonant-
+    initial words and already-elided forms ("nel bosco", "l'apice") are left untouched.
+    """
+
+    def _sub(match: "re.Match[str]") -> str:
+        article, first_vowel = match.group(1), match.group(3)
+        elided = _ELISION_MAP[article.lower()]
+        if article[:1].isupper():
+            elided = elided[:1].upper() + elided[1:]
+        return elided + first_vowel
+
+    return _ELISION_RE.sub(_sub, text)
 
 
 def _stable_pick(pool: Sequence[str], seed: str, salt: str) -> str:
@@ -114,7 +164,7 @@ def generate_dimension(
     symbol = f"origin_{dim_key}"
     if rich and f"{symbol}_rich" in grammar:
         symbol = f"{symbol}_rich"
-    return _expand(merged, symbol, seed).strip()
+    return _apply_italian_elision(_expand(merged, symbol, seed)).strip()
 
 
 def generate_all(
