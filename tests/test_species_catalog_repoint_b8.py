@@ -120,7 +120,23 @@ def test_generator_real_snapshot_does_not_crash() -> None:
 # --- 2. scripts/build-idea-taxonomy.js --------------------------------------
 
 
+def _node_can_run_build_script() -> bool:
+    """True only if node + the js-yaml dep resolve (pure-python CI lacks them)."""
+    import shutil
+
+    if shutil.which("node") is None:
+        return False
+    probe = subprocess.run(
+        ["node", "-e", "require('js-yaml')"],
+        cwd=str(PROJECT_ROOT),
+        capture_output=True,
+    )
+    return probe.returncode == 0
+
+
 def test_build_idea_taxonomy_includes_core_species() -> None:
+    if not _node_can_run_build_script():
+        pytest.skip("node / js-yaml unavailable (pure-python CI)")
     script = PROJECT_ROOT / "scripts" / "build-idea-taxonomy.js"
     out_file = PROJECT_ROOT / "docs" / "public" / "idea-taxonomy.json"
     original = out_file.read_bytes() if out_file.exists() else None
