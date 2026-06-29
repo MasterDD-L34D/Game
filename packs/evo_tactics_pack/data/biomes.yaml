@@ -315,6 +315,8 @@ biomes:
       hooks:
       - Recuperare reagenti bio-luminescenti per le squadre mediche.
       - Placare le colonie simbiotiche prima che scatenino la nube tossica.
+    aliases:
+    - mangrovieto_cinetico
   dorsale_termale_tropicale:
     label: Dorsale Termale Tropicale
     summary: Catena montuosa sommersa con fumarole calde e fauna simbiotica.
@@ -575,6 +577,8 @@ biomes:
       hooks:
       - Proteggere le colonie coralline da razzie di risonanza.
       - Convincere i custodi del reef a condividere i filtri luminescenti.
+    aliases:
+    - laguna_bioreattiva
   savana:
     label: Savana Ionizzata
     summary: Dune fotoniche con branchi adattivi e rovine sepolte.

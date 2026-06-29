@@ -1,8 +1,8 @@
 resistance_archetype: adattivo
 id: laguna-bioreattiva-trait-keeper
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
-environment_affinity:
-  biome_class: laguna_bioreattiva
+biomes:
+- laguna_bioreattiva
 derived_from_environment:
   suggested_traits:
   - antenne_flusso_mareale
