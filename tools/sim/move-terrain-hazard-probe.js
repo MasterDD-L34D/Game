@@ -21,6 +21,7 @@ const { createApp } = require('../../apps/backend/app');
 const { runEncounter } = require('./combat-adapter');
 
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+process.env.IDEA_ENGINE_STUB_ORCHESTRATOR = '1';
 
 function supertestHttp(app) {
   return {

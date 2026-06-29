@@ -18689,7 +18689,11 @@
       },
       "spinta_selettiva": "i18n:traits.artigli_sette_vie_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.artigli_sette_vie_2.uso_funzione"
+      "uso_funzione": "i18n:traits.artigli_sette_vie_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "coda_frusta_cinetica_2": {
       "schema_version": "2.0",
@@ -18708,7 +18712,11 @@
       },
       "spinta_selettiva": "i18n:traits.coda_frusta_cinetica_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.coda_frusta_cinetica_2.uso_funzione"
+      "uso_funzione": "i18n:traits.coda_frusta_cinetica_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "criostasi_adattiva_2": {
       "schema_version": "2.0",
@@ -18727,7 +18735,11 @@
       },
       "spinta_selettiva": "i18n:traits.criostasi_adattiva_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.criostasi_adattiva_2.uso_funzione"
+      "uso_funzione": "i18n:traits.criostasi_adattiva_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "focus_frazionato_2": {
       "schema_version": "2.0",
@@ -18746,7 +18758,11 @@
       },
       "spinta_selettiva": "i18n:traits.focus_frazionato_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.focus_frazionato_2.uso_funzione"
+      "uso_funzione": "i18n:traits.focus_frazionato_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "risonanza_di_branco_2": {
       "schema_version": "2.0",
@@ -18765,7 +18781,11 @@
       },
       "spinta_selettiva": "i18n:traits.risonanza_di_branco_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.risonanza_di_branco_2.uso_funzione"
+      "uso_funzione": "i18n:traits.risonanza_di_branco_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "sacche_galleggianti_ascensoriali_2": {
       "schema_version": "2.0",
@@ -18784,7 +18804,11 @@
       },
       "spinta_selettiva": "i18n:traits.sacche_galleggianti_ascensoriali_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali_2.uso_funzione"
+      "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "scheletro_idro_regolante_2": {
       "schema_version": "2.0",
@@ -18803,7 +18827,11 @@
       },
       "spinta_selettiva": "i18n:traits.scheletro_idro_regolante_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.scheletro_idro_regolante_2.uso_funzione"
+      "uso_funzione": "i18n:traits.scheletro_idro_regolante_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "struttura_elastica_amorfa_2": {
       "schema_version": "2.0",
@@ -18822,7 +18850,11 @@
       },
       "spinta_selettiva": "i18n:traits.struttura_elastica_amorfa_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.struttura_elastica_amorfa_2.uso_funzione"
+      "uso_funzione": "i18n:traits.struttura_elastica_amorfa_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     },
     "tattiche_di_branco_2": {
       "schema_version": "2.0",
@@ -18841,7 +18873,11 @@
       },
       "spinta_selettiva": "i18n:traits.tattiche_di_branco_2.spinta_selettiva",
       "tier": "T1",
-      "uso_funzione": "i18n:traits.tattiche_di_branco_2.uso_funzione"
+      "uso_funzione": "i18n:traits.tattiche_di_branco_2.uso_funzione",
+      "data_origin": "appendix_a_variant_deep_research_grounded",
+      "completion_flags": {
+        "design_stub": true
+      }
     }
   }
 }

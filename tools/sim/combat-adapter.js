@@ -57,6 +57,9 @@ async function runEncounter(
     gridSize = null,
   } = {},
 ) {
+  if (Array.isArray(terrainFeatures) && terrainFeatures.length && scenarioId) {
+    throw new Error('combat-adapter: terrainFeatures and scenarioId are mutually exclusive');
+  }
   const rosterIds = (roster || []).map((u) => u.id);
   const startBody = {
     units: [...(roster || []), ...(enemies || [])],
