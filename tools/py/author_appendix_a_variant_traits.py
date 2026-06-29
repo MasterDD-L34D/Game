@@ -112,6 +112,10 @@ def index_entry(v, tid):
         "spinta_selettiva": f"i18n:traits.{tid}.spinta_selettiva",
         "tier": "T1",
         "uso_funzione": f"i18n:traits.{tid}.uso_funzione",
+        # Keep parity with db_entry: per-file JSONs carry these fields and
+        # index.json must mirror them so validators / completion-dashboards agree.
+        "data_origin": "appendix_a_variant_deep_research_grounded",
+        "completion_flags": {"design_stub": True},
     }
 
 
