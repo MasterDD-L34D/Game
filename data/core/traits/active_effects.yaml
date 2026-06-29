@@ -7558,3 +7558,120 @@ traits:
       turns: 99
       log_tag: emettitori_voidsong
     description_it: 'Emettitori voidsong: organi che emettono cori a frequenze profonde; il void-song destabilizza la mira del bersaglio colpito (on-hit abbagliato, -1 attacco).'
+  artigli_sette_vie_2:
+    tier: T1
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: disorient
+      turns: 1
+      log_tag: artigli_sette_vie_2
+    description_it: 'Artigli a sette vie -- aggancio-trazione: il colpo aggancia e strattona il bersaglio destabilizzandolo (on-hit disorient; primitive pull ideale rinviato).'
+  coda_frusta_cinetica_2:
+    tier: T1
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: disorient
+      turns: 1
+      log_tag: coda_frusta_cinetica_2
+    description_it: 'Coda frusta cinetica -- trabucco: colpo a contrappeso che stordisce il bersaglio colpito (on-hit disorient; AoE ideale rinviato, per ora single-target).'
+  criostasi_adattiva_2:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: criostasi_adattiva_2
+    description_it: 'Criostasi adattiva -- torpore controllato: la stasi reversibile irrobustisce i tessuti e riduce il danno subito (damage_reduction -2).'
+  focus_frazionato_2:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 0
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: focus_frazionato_2
+    description_it: 'Focus frazionato -- attenzione divisa: il tracciamento simultaneo di due bersagli affina la mira (attack_bonus +1).'
+  risonanza_di_branco_2:
+    tier: T1
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
+      log_tag: risonanza_di_branco_2
+    description_it: 'Risonanza di branco -- segnalazione sincronizzata: i segnali coordinati allineano il gruppo e ne rinsaldano la guardia (passiva attuned, +1 difesa).'
+  sacche_galleggianti_ascensoriali_2:
+    tier: T1
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
+      log_tag: sacche_galleggianti_ascensoriali_2
+    description_it: 'Sacche galleggianti ascensoriali -- controllo assetto: la regolazione fine del galleggiamento stabilizza la postura (passiva attuned, +1 difesa).'
+  scheletro_idro_regolante_2:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: scheletro_idro_regolante_2
+    description_it: 'Scheletro idro-regolante -- idrostato muscolare: la co-contrazione multiassiale assorbe gli urti e riduce il danno subito (damage_reduction -2).'
+  struttura_elastica_amorfa_2:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: struttura_elastica_amorfa_2
+    description_it: 'Struttura elastica amorfa -- fibre super-coiled: le fibre super-avvolte assorbono gli impatti riducendo il danno subito (damage_reduction -2).'
+  tattiche_di_branco_2:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 0
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: tattiche_di_branco_2
+    description_it: 'Tattiche di branco -- ruoli specializzati: la caccia coordinata per ruoli distinti affina i colpi del gruppo (attack_bonus +1).'

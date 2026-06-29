@@ -18,6 +18,6 @@
   "debolezza": "i18n:traits.scheletro_idro_regolante_2.debolezza",
   "data_origin": "appendix_a_variant_deep_research_grounded",
   "completion_flags": {
-    "design_stub": true
+    "design_stub": false
   }
 }
