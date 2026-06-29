@@ -22,12 +22,20 @@ this measures the worst case (flag flipped ON) for flip-safety.
 
 Probe: `tools/sim/move-terrain-hazard-encounter-probe.js 40 1.0`.
 
+**Engine fix note**: the original N=40 run (avg_rounds 24.52) was measured with a bug in
+`clampPosition` (sessionHelpers.js ~line 31) that clamped all unit x/y positions to
+`GRID_SIZE-1` (=5) regardless of the encounter's declared grid. Units authored at x=7
+(right edge of the 8x8 grid) were silently moved to x=5, meaning the probe was effectively
+running on a 6-wide grid. The fix (`normaliseUnit`/`normaliseUnitsPayload` now accept an
+optional `bounds` parameter threaded from `req.body.encounter.grid` at `/start`) restores
+the authored 8x8 geometry. Numbers below are from the corrected run.
+
 ```json
 {
   "N": 40,
   "scenario": "bocche-vulcaniche (lava x3 + roccia x4, mixed volo roster, 8x8)",
-  "flag_on":  { "wins": 39, "defeats": 0, "timeouts": 1, "win_rate": 0.975, "avg_rounds": 24.52 },
-  "flag_off": { "wins": 39, "defeats": 0, "timeouts": 1, "win_rate": 0.975, "avg_rounds": 24.52 },
+  "flag_on":  { "wins": 39, "defeats": 0, "timeouts": 1, "win_rate": 0.975, "avg_rounds": 25.07 },
+  "flag_off": { "wins": 39, "defeats": 0, "timeouts": 1, "win_rate": 0.975, "avg_rounds": 25.07 },
   "wr_delta": 0,
   "avg_rounds_delta": 0,
   "node": "v22.22.3"
@@ -35,7 +43,9 @@ Probe: `tools/sim/move-terrain-hazard-encounter-probe.js 40 1.0`.
 ```
 
 The encounter RESOLVES (39/40 wins, not a timeout-null) and the flip is band-NEUTRAL
-(wr_delta 0, rounds_delta 0).
+(wr_delta 0, rounds_delta 0). avg_rounds is slightly higher than the pre-fix run (25.07
+vs 24.52) -- expected: units now start at their authored right-edge positions (x=7),
+adding ~1 tile of crossing distance.
 
 ## 2. Deterministic cost ladder (the "exercised" proof)
 

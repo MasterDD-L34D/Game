@@ -2067,6 +2067,23 @@ function createSessionRouter(options = {}) {
       // each character → unit with owner_id = player_id. Enemies from scenario
       // appended via req.body.units. Both coexist: characters first, then
       // units (scenario enemies) appended.
+      // Pre-resolve encounter grid bounds from the inline encounter payload (available
+      // immediately from req.body) so normaliseUnitsPayload can clamp positions against
+      // the DECLARED grid rather than the fixed GRID_SIZE default. This fixes units on
+      // grids larger than GRID_SIZE (e.g. 8x8 encounter: unit.x=7 was clamped to 5).
+      // Backward-compat: no encounter grid -> bounds=null -> GRID_SIZE-1 as before.
+      // Note: the encounter_id YAML path loads the encounter later (line ~2363); units
+      // on encounter_id-only requests that sit within GRID_SIZE are unaffected. If an
+      // encounter_id path needs extended bounds, the caller should also pass the inline
+      // encounter.grid OR the scenario JS should supply units within GRID_SIZE.
+      const _inlineGrid = req.body?.encounter?.grid;
+      const _normBounds =
+        _inlineGrid &&
+        Number.isFinite(Number(_inlineGrid.width)) &&
+        Number.isFinite(Number(_inlineGrid.height))
+          ? { width: Number(_inlineGrid.width), height: Number(_inlineGrid.height) }
+          : null;
+
       let characterUnits = [];
       if (Array.isArray(req.body?.characters) && req.body.characters.length > 0) {
         const { characterToUnit } = require('../services/coop/coopOrchestrator');
@@ -2074,13 +2091,13 @@ function createSessionRouter(options = {}) {
           .map((ch, idx) => characterToUnit(ch, { index: idx }))
           .filter(Boolean);
       }
-      const scenarioUnits = normaliseUnitsPayload(req.body?.units);
+      const scenarioUnits = normaliseUnitsPayload(req.body?.units, _normBounds);
       // If character path used, filter out any default player units from
       // scenarioUnits to avoid duplicates (keep only sistema-controlled).
       let units;
       if (characterUnits.length > 0) {
         const scenarioEnemies = scenarioUnits.filter((u) => u && u.controlled_by === 'sistema');
-        units = [...normaliseUnitsPayload(characterUnits), ...scenarioEnemies];
+        units = [...normaliseUnitsPayload(characterUnits, _normBounds), ...scenarioEnemies];
       } else {
         units = scenarioUnits;
       }
