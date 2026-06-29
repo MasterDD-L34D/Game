@@ -40,16 +40,16 @@ const SCENARIO = {
   objective: { type: 'elimination' },
 };
 
-function _flyer(id, species, grade, controlled_by, position, initiative) {
+function _flyer(id, species, grade, controlled_by, position, initiative, stats) {
   return {
     id,
     species,
     job: 'skirmisher',
-    hp: 18,
-    max_hp: 18,
+    hp: stats.hp,
+    max_hp: stats.hp,
     ap: 3,
-    mod: 6,
-    dc: 11,
+    mod: stats.mod,
+    dc: stats.dc,
     attack_range: 2,
     initiative,
     position,
@@ -60,17 +60,17 @@ function _flyer(id, species, grade, controlled_by, position, initiative) {
   };
 }
 
-function _ground(id, species, controlled_by, position, initiative) {
+function _ground(id, species, controlled_by, position, initiative, stats) {
   return {
     id,
     species,
     job: 'vanguard',
     morphotype: 'corazzato',
-    hp: 20,
-    max_hp: 20,
+    hp: stats.hp,
+    max_hp: stats.hp,
     ap: 3,
-    mod: 6,
-    dc: 12,
+    mod: stats.mod,
+    dc: stats.dc,
     attack_range: 1,
     initiative,
     position,
@@ -83,15 +83,30 @@ function _ground(id, species, controlled_by, position, initiative) {
 // Mixed both-sides roster. Players (left, x<3) close on the sistema (right, x>4); both
 // factions field a flyer + a ground unit, so the flag-delta is carried by the ground
 // units (flyers are grade-exempt) while the g1/g2/g3 spread is exercised across the wall.
+// Player-favoured lethality (high mod vs low enemy hp/dc) so the encounter RESOLVES
+// (winnable) instead of stalemating to a 30-round timeout -- the substrate can only be
+// measured on a fight that actually ends (mirrors move-terrain-hazard-probe.js).
 function buildUnits() {
   return [
-    // Player faction
-    _flyer('p_noctule', 'noctule_termico', 3, 'player', { x: 0, y: 2 }, 16),
-    _ground('p_corazza', 'corazza_deserto', 'player', { x: 0, y: 4 }, 14),
-    // Sistema faction
-    _flyer('e_echo', 'echo_wing', 1, 'sistema', { x: 7, y: 2 }, 13),
-    _flyer('e_aurora', 'aurora_gull', 2, 'sistema', { x: 7, y: 3 }, 12),
-    _ground('e_scavenger', 'rust-scavenger', 'sistema', { x: 7, y: 5 }, 10),
+    // Player faction (strong: clears the enemy in a handful of rounds -> resolves)
+    _flyer('p_noctule', 'noctule_termico', 3, 'player', { x: 0, y: 2 }, 16, {
+      hp: 22,
+      mod: 9,
+      dc: 12,
+    }),
+    _ground('p_corazza', 'corazza_deserto', 'player', { x: 0, y: 4 }, 14, {
+      hp: 26,
+      mod: 9,
+      dc: 13,
+    }),
+    // Sistema faction (weaker: killable, but still crosses + fights)
+    _flyer('e_echo', 'echo_wing', 1, 'sistema', { x: 7, y: 2 }, 13, { hp: 9, mod: 3, dc: 10 }),
+    _flyer('e_aurora', 'aurora_gull', 2, 'sistema', { x: 7, y: 3 }, 12, { hp: 9, mod: 3, dc: 10 }),
+    _ground('e_scavenger', 'rust-scavenger', 'sistema', { x: 7, y: 5 }, 10, {
+      hp: 10,
+      mod: 3,
+      dc: 10,
+    }),
   ];
 }
 
