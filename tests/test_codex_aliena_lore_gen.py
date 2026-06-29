@@ -16,6 +16,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools" / "py"))
 
 import codex_aliena_lore_gen as gen  # noqa: E402
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+REAL_GRAMMAR_PATH = REPO_ROOT / "data" / "codex" / "_grammar" / "aliena_lore.json"
+
 
 GRAMMAR = {
     "origin_A_ambiente": ["Il #biome# e' il territorio dei #subject#."],
@@ -111,3 +114,65 @@ def test_fill_draft_strips_secret_score_fields():
 def test_extract_lore_vars_reads_codex_entry_block():
     draft = {"codex_entry": {"id": "x", "lore_vars": {"biome": "tundra"}}}
     assert gen.extract_lore_vars(draft) == {"biome": "tundra"}
+
+
+# --- Italian elision (bug: "il aerostato" / "del aliradiante" must elide) -------------
+
+def test_generate_dimension_elides_article_before_vowel_initial_subject():
+    # The grammar concatenates a fixed article + the data-driven #subject#; when the
+    # subject starts with a vowel ("aerostato"), "il #subject#" / "del #subject#" are
+    # ungrammatical and must elide. Fix is a post-pass over the expanded prose.
+    grammar = {
+        "origin_A_ambiente": [
+            "Il territorio del #subject# e' vasto. Il #subject# vola alto.",
+        ],
+    }
+    lore = {"subject": "aerostato ascendente"}
+    out = gen.generate_dimension(grammar, lore, "x", "A_ambiente")
+    low = out.lower()
+    assert "il aerostato" not in low, out
+    assert "del aerostato" not in low, out
+    assert "dell'aerostato ascendente" in out, out          # del -> dell' (mid-sentence)
+    assert "L'aerostato ascendente vola" in out, out         # Il -> L' (sentence-initial, capitalized)
+    assert "Il territorio" in out, out                        # consonant-initial: untouched
+
+
+def test_generate_dimension_does_not_over_elide_consonant_or_already_elided():
+    grammar = {
+        "origin_E_ecologia": [
+            "Il #subject# domina. Esercita pressione senza contendere l'apice. Vive nel bosco.",
+        ],
+    }
+    lore = {"subject": "lupo grigio"}  # consonant-initial subject
+    out = gen.generate_dimension(grammar, lore, "x", "E_ecologia")
+    assert "Il lupo grigio domina" in out, out                # consonant subject: no elision
+    assert "l'apice" in out, out                              # already-elided: preserved
+    assert "nel bosco" in out, out                            # nel + consonant: preserved
+
+
+# --- A_ambiente connector rotation (bug: over-used "dal tono di") ----------------------
+
+def test_real_grammar_a_ambiente_drops_hardcoded_dal_tono_connector():
+    grammar = gen.load_grammar(str(REAL_GRAMMAR_PATH))
+    for tmpl in grammar["origin_A_ambiente"]:
+        assert "dal tono di" not in tmpl, tmpl
+    pool = grammar.get("ambiente_connector")
+    assert pool and len(pool) >= 3, "expected a rotation pool of connectors"
+
+
+def test_a_ambiente_rotates_connector_and_never_emits_dal_tono():
+    grammar = gen.load_grammar(str(REAL_GRAMMAR_PATH))
+    pool = set(grammar["ambiente_connector"])
+    lore = {
+        "subject": "aliradiante solare",
+        "biome_name": "Savana Ionizzata",
+        "biome_trait": "una piana percorsa da scariche statiche",
+        "biome_tone": "un perpetuo crepitio elettrico",
+        "affixes": "tempesta, ozono",
+    }
+    seen = set()
+    for i in range(12):
+        out = gen.generate_dimension(grammar, lore, f"creature_{i}", "A_ambiente")
+        assert "dal tono di" not in out, out
+        seen |= {c for c in pool if c in out}
+    assert len(seen) >= 2, f"connector did not vary across entries (saw {seen})"
