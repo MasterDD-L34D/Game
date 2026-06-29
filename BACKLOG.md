@@ -44,9 +44,9 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 **Residui owner-gated (NON bloccanti):**
 
-- 🔵 **GAP2 block-3** ([#3063](https://github.com/MasterDD-L34D/Game/pull/3063) OPEN): proposta 6 inert traits crisp (block-1 #3035, block-2 #3044) -> RATIFY master-dd -> build (recipe block-2).
-- 🔵 **flip CI-wire a enforcing**: togliere `--warn-only` quando l'advisory si dimostra quieto.
-- 🔵 **float-stabilize `balance_progression`**: arrotondare i float XP -> skydock cross-version reproducibile (sblocca il `--deep` su quel file).
+- ✅ **GAP2 block-3 DONE** ([#3063](https://github.com/MasterDD-L34D/Game/pull/3063) ratify + [#3068](https://github.com/MasterDD-L34D/Game/pull/3068) `102ae13e` build): 6 inert traits in active_effects.yaml (401->407; tier=DB canonici; mirror gate CI no --strict; Codex P2 abbagliato-durable turns:99 fixed). GAP2-next = 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster buff-mobility-recon (need new primitives).
+- 🔵 **flip CI-wire a enforcing**: togliere `--warn-only` quando l'advisory si dimostra quieto (FORBIDDEN-PATH `.github/workflows` -> master-dd merge).
+- ✅ **float-stabilize `balance_progression` DONE** ([#3067](https://github.com/MasterDD-L34D/Game/pull/3067) `7d211a3b`): root cause = CPython 3.12 compensated (Neumaier) `sum()` -> solo `skydock.duration_minutes` (raw cadence sum, unico float non-arrotondato) differiva 3.11 vs 3.12; round `total_duration` alla sorgente = byte-NEUTRAL sul committato; guard un-gated (`_DEEP_FLOAT_FRAGILE=set()`) cosi' `--deep` lo byte-compara.
 - ✅ **TKT-KEEPER-CANON-5BIOMI DONE (3/5)** via #3060: i 3 alias-able registrati come alias canon (canopia_psionica_leggera->canopia_ionica, falde_magnetiche_psioniche->dorsale_termale_tropicale, orbita_psionica_inversa->mezzanotte_orbitale; in core+pack, sopravvivono a `sync_core`). I 2 orfani (laguna_bioreattiva, mangrovieto_cinetico) NON hanno casa canonica -> env_affinity accettato (o dargli un bioma canonico = master-dd).
 
 ### (storico) residui originali post-#3047

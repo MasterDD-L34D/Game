@@ -15,7 +15,7 @@
 
 **Review**: harsh (6-dim) + opposite (4-attack) multi-agent (Workflow); tutti i finding Codex fixati + thread risolti.
 
-**Next entry point**: ratify #3063 -> build GAP2 block-3 (recipe block-2) / flip CI-wire a enforcing post-quiet / owner-residui (13-lore HITL #3038, keeper content-debt, float-stabilize balance_progression). Arco reproducibility = CHIUSO, niente altro da costruire li'.
+**Next entry point**: GAP2 block-3 ([#3068](https://github.com/MasterDD-L34D/Game/pull/3068) `102ae13e`) + float-stabilize ([#3067](https://github.com/MasterDD-L34D/Game/pull/3067) `7d211a3b`) MERGED. Residui owner-gated: flip-CI-enforcing (forbidden-path, post-quiet) / 13-lore HITL #3038 / keeper content-debt / 2 biomi orfani; GAP2-next = 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster. Arco reproducibility = CHIUSO. Memory cont-27.
 
 ---
 
