@@ -49,7 +49,8 @@ def copy_tree(source: Path, target: Path) -> None:
 
 def sync_core(core_root: Path, pack_root: Path) -> None:
     mapping: dict[Path, Path] = {
-        core_root / "species.yaml": pack_root / "data" / "species.yaml",
+        # data/core/species.yaml removed in #2271 (split); the species/ dir below
+        # carries the canonical catalog (species_catalog.json + per-species files).
         core_root / "species": pack_root / "data" / "species",
         core_root / "biomes.yaml": pack_root / "data" / "biomes.yaml",
         core_root / "biome_aliases.yaml": pack_root / "data" / "biome_aliases.yaml",
