@@ -158,11 +158,13 @@ function collectSpecies() {
     }
   }
 
-  const mainCatalog = readYaml(path.join(ROOT, 'data', 'species.yaml'));
-  if (Array.isArray(mainCatalog.species)) {
-    for (const item of mainCatalog.species) {
-      if (item && typeof item === 'object' && item.id) {
-        addSlug(item.id);
+  // data/species.yaml (and data/core/species.yaml) removed in #2271. Canonical
+  // SoT is the JSON catalog: list under "catalog", each entry keyed species_id.
+  const mainCatalog = readJson(path.join(ROOT, 'data', 'core', 'species', 'species_catalog.json'));
+  if (Array.isArray(mainCatalog.catalog)) {
+    for (const item of mainCatalog.catalog) {
+      if (item && typeof item === 'object' && item.species_id) {
+        addSlug(item.species_id);
       }
     }
   }
@@ -216,7 +218,7 @@ function buildTaxonomy() {
         toRelative(path.join(ROOT, 'packs', 'evo_tactics_pack', 'data', 'ecosystems')),
       ],
       species: [
-        toRelative(path.join(ROOT, 'data', 'species.yaml')),
+        toRelative(path.join(ROOT, 'data', 'core', 'species', 'species_catalog.json')),
         toRelative(path.join(ROOT, 'packs', 'evo_tactics_pack', 'data', 'species')),
       ],
       traits: toRelative(path.join(ROOT, 'data', 'traits', 'glossary.json')),

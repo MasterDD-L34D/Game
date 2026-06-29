@@ -67,7 +67,9 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
     DatasetRule(
         path=Path("data/derived/analysis/trait_coverage_report.json"),
         fmt="json",
-        required_keys=("schema_version", "generated_at", "sources", "summary"),
+        # generated_at intentionally STRIPPED by the derived-canon reproducibility
+        # arc (#3055/#3067) for byte-reproducibility -> no longer a required key.
+        required_keys=("schema_version", "sources", "summary"),
         schema_version="1.0",
         dependencies=(
             Path("packs/evo_tactics_pack/docs/catalog/env_traits.json"),
