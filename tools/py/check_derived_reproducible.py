@@ -234,29 +234,53 @@ def check_species_catalog() -> list[str]:
 # the important source-drift case (coverage vs species/trait data).
 _DEEP_FLOAT_FRAGILE = {"data/derived/analysis/progression/skydock_siege_xp.json"}
 
+# The ONLY artifacts scripts/generate_derived_analysis.py actually writes (via
+# generate_trait_coverage + generate_progression). The other manifest artifacts
+# (trait_gap_report.json, trait_baseline.yaml, trait_env_mapping.json) are produced
+# by SIBLING generators run as separate dataset-checks steps, so the --deep regen
+# (which runs only this generator) must NOT delete/orphan-check them.
+_GENERATOR_OUTPUTS = {
+    "data/derived/analysis/trait_coverage_report.json",
+    "data/derived/analysis/trait_coverage_matrix.csv",
+    "data/derived/analysis/progression/skydock_siege_xp.json",
+    "data/derived/analysis/progression/skydock_siege_xp_summary.csv",
+    "data/derived/analysis/progression/skydock_siege_xp_profiles.csv",
+}
+
 
 def _check_analysis_source_drift(artifact_rels: list[str]) -> list[str]:
-    """Deep (opt-in) source-drift check: regenerate the bundle in place, compare
-    the artifacts to their committed bytes, then RESTORE the committed bytes in a
-    finally. Catches the gap the cheap hash check misses -- the bundle being stale
-    vs CHANGED source data (it still matches its own equally-stale manifest).
+    """Deep (opt-in) source-drift check: DELETE the committed generator outputs,
+    regenerate, then compare -- catching the gap the cheap hash check misses (bundle
+    stale vs CHANGED source data, still matching its own equally-stale manifest).
 
-    Runs the full generator (~seconds) so it is opt-in via --deep, not part of the
-    default cheap scan. Net-new files the regen creates are removed on restore.
-    Float-fragile artifacts (_DEEP_FLOAT_FRAGILE) are excluded -- they false-positive
-    across Python versions; for those, run under the bundle's own interpreter.
+    Deleting first is essential: an on-top regen would MISS an output that
+    DISAPPEARS (e.g. balance_progression skips skydock_siege_xp_profiles.csv when
+    the mission loses its profiles block) -- the stale file would survive and the
+    check would wrongly pass. Detects three drifts: ORPHAN (committed artifact a
+    regen no longer produces), CHANGED (regen rewrites it differently), NET-NEW
+    (regen produces a file not committed).
+
+    Restores the committed bytes in a finally (opt-in, ~seconds). Float-fragile
+    artifacts (_DEEP_FLOAT_FRAGILE) still get the orphan + net-new checks but NOT
+    the byte compare -- their repr differs across Python versions; for those, run
+    under the bundle's own interpreter.
     """
     findings: list[str] = []
     generator = REPO_ROOT / "scripts" / "generate_derived_analysis.py"
     if not generator.exists():
         return [f"deep: generator {generator.relative_to(REPO_ROOT)} missing"]
 
-    before_files = sorted(p for p in ANALYSIS_DIR.rglob("*") if p.is_file())
-    saved = {p: p.read_bytes() for p in before_files}
+    # Only this generator's own outputs are deletable/orphan-checkable (the rest of
+    # the manifest comes from sibling generators we don't run here).
+    targets = [rel for rel in artifact_rels if rel in _GENERATOR_OUTPUTS]
+
+    saved = {p: p.read_bytes() for p in ANALYSIS_DIR.rglob("*") if p.is_file()}
+    # All target artifacts (incl float-fragile) get the orphan check; the byte
+    # compare below skips the fragile ones.
     before_hash = {
         rel: hashlib.sha256((REPO_ROOT / rel).read_bytes()).hexdigest()
-        for rel in artifact_rels
-        if rel not in _DEEP_FLOAT_FRAGILE and (REPO_ROOT / rel).exists()
+        for rel in targets
+        if (REPO_ROOT / rel).exists()
     }
 
     env = dict(os.environ)
@@ -264,6 +288,13 @@ def _check_analysis_source_drift(artifact_rels: list[str]) -> list[str]:
     env["PYTHONIOENCODING"] = "utf-8"
     env.setdefault("PYTHONHASHSEED", "0")
     try:
+        # Clear this generator's committed outputs so a regen that STOPS producing
+        # one (orphan) is detectable -- an on-top regen would leave the stale file.
+        for rel in targets:
+            artifact = REPO_ROOT / rel
+            if artifact.exists():
+                artifact.unlink()
+
         result = subprocess.run(
             [sys.executable, str(generator), "--update-readme"],
             cwd=REPO_ROOT,
@@ -277,24 +308,40 @@ def _check_analysis_source_drift(artifact_rels: list[str]) -> list[str]:
                 f"{(result.stderr or '').strip()[-300:]}"
             )
         else:
-            drifted = [
+            orphan = sorted(rel for rel in before_hash if not (REPO_ROOT / rel).exists())
+            changed = sorted(
                 rel
                 for rel in before_hash
-                if (REPO_ROOT / rel).exists()
+                if rel not in _DEEP_FLOAT_FRAGILE
+                and (REPO_ROOT / rel).exists()
                 and hashlib.sha256((REPO_ROOT / rel).read_bytes()).hexdigest() != before_hash[rel]
-            ]
-            if drifted:
+            )
+            after = {p for p in ANALYSIS_DIR.rglob("*") if p.is_file()}
+            net_new = sorted(p.relative_to(REPO_ROOT).as_posix() for p in after if p not in saved)
+            if orphan:
                 findings.append(
-                    f"deep: SOURCE-DRIFT -- a fresh regen changes {len(drifted)} "
-                    f"artifact(s): {sorted(drifted)}. The committed bundle is stale "
-                    f"vs current source data; run "
-                    f"`python scripts/generate_derived_analysis.py --update-readme` and commit."
+                    f"deep: SOURCE-DRIFT -- a fresh regen NO LONGER produces {orphan} "
+                    f"(committed bundle has stale/removed outputs)."
+                )
+            if changed:
+                findings.append(
+                    f"deep: SOURCE-DRIFT -- a fresh regen CHANGES {changed} "
+                    f"(committed bundle stale vs current source data)."
+                )
+            if net_new:
+                findings.append(
+                    f"deep: SOURCE-DRIFT -- a fresh regen produces NEW uncommitted files: {net_new}."
+                )
+            if orphan or changed or net_new:
+                findings.append(
+                    "Run `python scripts/generate_derived_analysis.py --update-readme` and commit."
                 )
     finally:
         for path in ANALYSIS_DIR.rglob("*"):
             if path.is_file() and path not in saved:
                 path.unlink()
         for path, data in saved.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(data)
     return findings
 
