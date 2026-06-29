@@ -7474,3 +7474,82 @@ traits:
       target: actor
       log_tag: piume_solari
     description_it: 'Piume solari fotovoltaiche: il piumaggio immagazzina luce e la converte in sostegno metabolico -- passiva healing (+1 HP/turno, HoT consumato a fine turno).'
+  circolazione_bifasica_palude:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
+      log_tag: circolazione_bifasica
+    description_it: 'Circolazione bifasica di palude: doppio circuito che separa ossigeno e agenti tossici, tamponando il danno ambientale -- passiva attuned (+1 difesa, consumata da computeStatusModifiers).'
+  placca_diffusione_foschia:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: attuned
+      turns: 2
+      target: actor
+      log_tag: placca_diffusione_foschia
+    description_it: 'Placca di diffusione foschia: placche che diffondono e attenuano le cariche erratiche in arrivo -- passiva attuned (+1 difesa).'
+  polmoni_cristallini_alta_quota:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: polmoni_cristallini
+    description_it: 'Polmoni cristallini di alta quota: concentrano ossigeno rarefatto in riserva, sostenendo il recupero -- passiva healing (+1 HP/turno, HoT consumato a fine turno).'
+  organi_sismici_cutanei:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 0
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: organi_sismici_cutanei
+    description_it: 'Organi sismici cutanei: lamelle meccano-recettive percepiscono le vibrazioni del suolo e anticipano il bersaglio per un colpo mirato (attack_bonus +1).'
+  cavita_risonanti_tundra:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: disorient
+      turns: 1
+      log_tag: cavita_risonanti_tundra
+    description_it: 'Cavita risonanti di tundra: camere toraciche proiettano richiami a lunga distanza; il richiamo risonante disorienta il bersaglio colpito (on-hit disorient).'
+  emettitori_voidsong:
+    tier: T3
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: abbagliato
+      turns: 1
+      log_tag: emettitori_voidsong
+    description_it: 'Emettitori voidsong: organi che emettono cori a frequenze profonde; il void-song destabilizza la mira del bersaglio colpito (on-hit abbagliato, -1 attacco).'
