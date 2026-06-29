@@ -7550,6 +7550,11 @@ traits:
       kind: apply_status
       target_side: target
       stato: abbagliato
-      turns: 1
+      # Durable TTL (mirror ABBAGLIATO_TTL=99 in combat/pigmentiAurorali): abbagliato is
+      # read on the target's NEXT attack, but the end-of-round decay would zero a turns:1
+      # status first (esp. if the target already acted this round). abbagliato is
+      # PERSISTENT (wipe-exempt) + single-use -- consumeAbbagliato (session.js performAttack)
+      # clears it on that next attack -- so a high TTL = exactly one -1 atk, then gone.
+      turns: 99
       log_tag: emettitori_voidsong
     description_it: 'Emettitori voidsong: organi che emettono cori a frequenze profonde; il void-song destabilizza la mira del bersaglio colpito (on-hit abbagliato, -1 attacco).'
