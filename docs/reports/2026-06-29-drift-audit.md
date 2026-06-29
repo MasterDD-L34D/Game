@@ -131,4 +131,20 @@ I 25 doc non-registrati emergono dallo stesso pattern: durante sprint intensi, i
 
 ---
 
-*Generato da governance-illuminator schedulato — 2026-06-29*
+## Remediation applicata (2026-06-29, finalize PR #3058)
+
+Dispositions decise da master-dd (AskUserQuestion) ed eseguite in questa PR:
+
+| Finding | Verdetto | Azione |
+|---|---|---|
+| GOVERNANCE_UNREGISTERED | Register all | **33 doc registrati** in `docs_registry.json` (text-surgical, append-only 429 righe). Conteggio salito da 25 (snapshot audit) a 33: nel frattempo main ha aggiunto ~8 doc sprint 06-28/29 + questo stesso report. Cadenza `review_cycle_days: 90` per tutti (tier spec/design/planning/playtest/reports), **NON** il default 14d del migrator (anti-treadmill, lifecycle SoT). Migrator `populate-registry` scartato: scope-creep (aggiungeva doc oltre i 33) + crash cp1252 + cadenza 14d. |
+| GOVERNANCE_STALE_DOC | Bump + raise cadence | `docs/qa/2026-04-25-museum-validation.md`: `last_verified -> 2026-06-29`, `review_cycle_days 60 -> 90` (frontmatter + registry). Record datato coerente; 90d = tier draft (uccide il sub-tier treadmill). |
+| BRANCH_STALE | Delete | `chore/weekly-drift-audit-2026-05-18` cancellato (PR #2327 MERGED 2026-05-19, tip ancestor-of-main = safe). |
+
+Esito governance: `check_docs_governance --strict` **errors=0, warnings=0** (era warnings=34). Nessun `frontmatter_registry_mismatch` (i 33 sono non-SoT).
+
+Note di processo: nessun cambio di cadenza system-wide -- il treadmill qui NON e' la cadenza dell'audit settimanale (scan read-only) ma il process-gap "registry non aggiornato atomicamente alla creazione del doc sprint". Il fix strutturale (registry-step nel DoD sprint-close) resta P3 owner-gated.
+
+---
+
+*Generato da governance-illuminator schedulato -- 2026-06-29; remediation finalize 2026-06-29.*
