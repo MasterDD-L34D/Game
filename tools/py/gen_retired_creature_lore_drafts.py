@@ -127,6 +127,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     p.add_argument("--grammar", default=gen.DEFAULT_GRAMMAR_PATH)
     p.add_argument("--out-dir", default=DEFAULT_OUT_DIR)
     p.add_argument("--print", action="store_true", help="print drafts to stdout, do not write")
+    p.add_argument(
+        "--force",
+        action="store_true",
+        help="overwrite existing draft files (default: skip existing to preserve manual edits)",
+    )
     args = p.parse_args(argv)
 
     biomes_doc = yaml.safe_load(Path(args.biomes).read_text(encoding="utf-8"))
@@ -139,6 +144,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 2
 
     out_dir = Path(args.out_dir)
+    # FIX 4: guard against bypassing the HITL promote gate
+    if out_dir.resolve() == PROMOTED_DIR.resolve():
+        print(
+            f"ERROR: --out-dir resolves to the promoted dir ({PROMOTED_DIR}). "
+            "Writing directly to data/codex/ bypasses the HITL review gate. "
+            "Use the default _drafts/ dir and promote via tools/js/promote_codex_draft.js.",
+            file=sys.stderr,
+        )
+        return 1
     out_dir.mkdir(parents=True, exist_ok=True)
     wrote = 0
     for sid in RETIRED_IDS:
@@ -151,6 +165,10 @@ def main(argv: Optional[List[str]] = None) -> int:
             print(yaml.safe_dump(draft, allow_unicode=True, sort_keys=False, width=88))
             continue
         out = out_dir / f"{sid}.yaml"
+        # FIX 5: don't clobber manual master-dd edits unless --force is set
+        if out.exists() and not args.force:
+            print(f"SKIP {sid}: draft already exists at {out} (use --force to overwrite)", file=sys.stderr)
+            continue
         with open(out, "w", encoding="utf-8") as fh:
             fh.write(_HEADER.format(sid=sid))
             yaml.safe_dump(draft, fh, allow_unicode=True, sort_keys=False, width=88)
