@@ -6,6 +6,7 @@
 codex_entry:
   id: pyroflagellum_meteoriticum
   type: species
+  codex_archive: true
   display_name_it: Flagello igneo
   display_name_en: Flagello igneo
   subtitle_it: Flagello igneo -- Abisso Vulcanico (T2)
@@ -33,8 +34,7 @@ codex_entry:
     biome_hook: stabilire condotti di raffreddamento attorno alle fucine naturali
     affixes: termico, luminescente, spore diluite, sabbia
     neighbors: abyssal forgers, magma wardens, geode listeners
-    traits: adattamento volo, frusta fiammeggiante, mantello meteoritico, armatura pietra
-      planare, artigli sette vie, carapace fase variabile
+    traits: adattamento volo, frusta fiammeggiante, mantello meteoritico, armatura pietra planare, artigli sette vie, carapace fase variabile
     visual: un alato corazzato.
     lifecycle_arc: un ciclo di adattamento continuo
     mutations: adattamenti ancora non catalogati
@@ -47,18 +47,13 @@ codex_entry:
       cross_ref:
       - biome:abisso_vulcanico
       game_impact: 'Comparsa negli scontri: n/d.'
-      content: 'Il territorio del flagello igneo e'' Abisso Vulcanico: Camini abissali con
-        lava pressurizzata e fauna bio-termica. Un mondo da Assalti verticali e estrazioni
-        ad alto rischio tra geyser incandescenti, segnato da termico, luminescente, spore
-        diluite, sabbia. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura
-        a lungo.'
+      content: 'Il territorio del flagello igneo e'' Abisso Vulcanico: Camini abissali con lava pressurizzata e fauna bio-termica. Un mondo da Assalti verticali e estrazioni ad alto rischio tra geyser incandescenti, segnato da termico, luminescente, spore diluite, sabbia. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.'
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
       - 'resistance_archetype: strutturale'
       - 'role_trofico: predatore_terziario; sentient: False'
-      - 'trait_refs: adattamento_volo, frusta_fiammeggiante, mantello_meteoritico, armatura_pietra_planare,
-        artigli_sette_vie, carapace_fase_variabile'
+      - 'trait_refs: adattamento_volo, frusta_fiammeggiante, mantello_meteoritico, armatura_pietra_planare, artigli_sette_vie, carapace_fase_variabile'
       cross_ref:
       - species:pyroflagellum_meteoriticum
       - trait:adattamento_volo
@@ -68,10 +63,7 @@ codex_entry:
       - trait:artigli_sette_vie
       - trait:carapace_fase_variabile
       game_impact: Archetipo strutturale.
-      content: 'Il flagello igneo evolve lungo le fasi un ciclo di adattamento continuo. I
-        suoi tratti -- adattamento volo, frusta fiammeggiante, mantello meteoritico, armatura
-        pietra planare, artigli sette vie, carapace fase variabile -- non sono ornamenti ma
-        risposte: ognuno racconta una pressione superata, in archetipo strutturale.'
+      content: 'Il flagello igneo evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- adattamento volo, frusta fiammeggiante, mantello meteoritico, armatura pietra planare, artigli sette vie, carapace fase variabile -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo strutturale.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -81,9 +73,7 @@ codex_entry:
       cross_ref:
       - species:pyroflagellum_meteoriticum
       game_impact: Profilo da vanguard (alato corazzato).
-      content: 'Morfologia: un alato corazzato. Ogni adattamento risponde a una pressione;
-        le linee mutanti note (adattamenti ancora non catalogati) spingono il corpo oltre
-        la forma base.'
+      content: 'Morfologia: un alato corazzato. Ogni adattamento risponde a una pressione; le linee mutanti note (adattamenti ancora non catalogati) spingono il corpo oltre la forma base.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -92,9 +82,7 @@ codex_entry:
       cross_ref:
       - biome:abisso_vulcanico
       game_impact: 'encounter_role: threat.'
-      content: Nell'ecologia di Abisso Vulcanico il flagello igneo occupa la nicchia di predatore
-        terziario (T2), accanto a abyssal forgers, magma wardens, geode listeners. Esercita
-        pressione sulle prede senza contendere l'apice.
+      content: Nell'ecologia di Abisso Vulcanico il flagello igneo occupa la nicchia di predatore terziario (T2), accanto a abyssal forgers, magma wardens, geode listeners. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -102,8 +90,7 @@ codex_entry:
       cross_ref:
       - species:pyroflagellum_meteoriticum
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: Il flagello igneo vive in gruppi territoriali. I legami sono di natura istintiva
-        -- funzionali alla sopravvivenza piu' che al racconto di se'.
+      content: Il flagello igneo vive in gruppi territoriali. I legami sono di natura istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -111,8 +98,6 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario predatore terziario (T2) che affronti in Abisso Vulcanico: ecco
-        perche'' il flagello igneo apre il Codex. Intorno a lui le storie del bioma -- stabilire
-        condotti di raffreddamento attorno alle fucine naturali -- danno peso al primo incontro.'
+      content: 'un avversario predatore terziario (T2) che affronti in Abisso Vulcanico: ecco perche'' il flagello igneo apre il Codex. Intorno a lui le storie del bioma -- stabilire condotti di raffreddamento attorno alle fucine naturali -- danno peso al primo incontro.'
       story_hook_it: un avversario predatore terziario (T2) che affronti in Abisso Vulcanico
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed

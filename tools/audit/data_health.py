@@ -123,10 +123,10 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         description="Pack tables for MBTI forms and PI shop economy.",
     ),
     DatasetRule(
-        path=Path("data/core/species.yaml"),
-        fmt="yaml",
+        path=Path("data/core/species/species_catalog.json"),
+        fmt="json",
         required_keys=("catalog",),
-        description="Slot catalog + synergies for species builder.",
+        description="Species catalog + synergies (canonical, ex data/core/species.yaml #2271).",
     ),
     DatasetRule(
         path=Path("data/core/biomes.yaml"),
@@ -200,11 +200,10 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         description="Drive sync manifest for approved assets.",
     ),
     DatasetRule(
-        path=Path("packs/evo_tactics_pack/data/core/species.yaml"),
+        path=Path("packs/evo_tactics_pack/data/species.yaml"),
         fmt="yaml",
-        required_keys=("meta", "global_rules"),
-        version_path=("meta", "version"),
-        description="Pack-level species catalog meta + global rules.",
+        required_keys=("catalog", "global_rules"),
+        description="Pack-level species catalog + global rules (synced from core).",
     ),
     DatasetRule(
         path=Path("data/traits/index.json"),
