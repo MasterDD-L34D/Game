@@ -28,22 +28,29 @@ function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
 }
 
-function clampPosition(x, y) {
+// bounds is optional { width, height }. When provided (e.g. from an 8x8 encounter),
+// clamp against the declared grid instead of the fixed GRID_SIZE fallback.
+// Backward-compat: absent/null bounds -> GRID_SIZE-1 exactly as before.
+function clampPosition(x, y, bounds) {
+  const maxX = bounds && Number.isFinite(bounds.width) ? bounds.width - 1 : GRID_SIZE - 1;
+  const maxY = bounds && Number.isFinite(bounds.height) ? bounds.height - 1 : GRID_SIZE - 1;
   return {
-    x: Math.min(Math.max(0, Number(x) || 0), GRID_SIZE - 1),
-    y: Math.min(Math.max(0, Number(y) || 0), GRID_SIZE - 1),
+    x: Math.min(Math.max(0, Number(x) || 0), maxX),
+    y: Math.min(Math.max(0, Number(y) || 0), maxY),
   };
 }
 
-function normaliseUnit(raw, fallbackIndex) {
+function normaliseUnit(raw, fallbackIndex, bounds) {
   const input = raw && typeof raw === 'object' ? raw : {};
   const id = String(input.id || `unit_${fallbackIndex + 1}`);
+  const maxX = bounds && Number.isFinite(bounds.width) ? bounds.width - 1 : GRID_SIZE - 1;
+  const maxY = bounds && Number.isFinite(bounds.height) ? bounds.height - 1 : GRID_SIZE - 1;
   const position =
     input.position && typeof input.position === 'object'
-      ? clampPosition(input.position.x, input.position.y)
+      ? clampPosition(input.position.x, input.position.y, bounds)
       : fallbackIndex === 0
         ? { x: 0, y: 0 }
-        : { x: GRID_SIZE - 1, y: GRID_SIZE - 1 };
+        : { x: maxX, y: maxY };
   const traits = Array.isArray(input.traits) ? input.traits.filter(Boolean).map(String) : [];
   const ap = Number.isFinite(Number(input.ap)) ? Number(input.ap) : DEFAULT_AP;
   const job = input.job ? String(input.job) : 'unknown';
@@ -240,11 +247,14 @@ function buildDefaultUnits() {
   ];
 }
 
-function normaliseUnitsPayload(raw) {
+// bounds is optional { width, height } from the encounter's declared grid.
+// Passed through to normaliseUnit -> clampPosition so units on larger grids
+// (e.g. 8x8) are not clamped down to the fixed GRID_SIZE default.
+function normaliseUnitsPayload(raw, bounds) {
   if (!Array.isArray(raw) || raw.length === 0) {
     return buildDefaultUnits();
   }
-  return raw.map((entry, index) => normaliseUnit(entry, index));
+  return raw.map((entry, index) => normaliseUnit(entry, index, bounds));
 }
 
 // TKT-ORPHAN-MORALE: gameplay "colpo critico" threshold. A hit whose margin of

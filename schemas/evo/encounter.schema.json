@@ -38,6 +38,41 @@
       "maxItems": 2,
       "description": "[width, height] in hex cells"
     },
+    "grid": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional terrain grid for the move terrain-cost substrate (move-terrain spec 2026-06-23). grid_size stays the authoritative board bounds; terrain_features carries per-tile types read by moveCost (flag MOVE_TERRAIN_COST_ENABLED, default OFF -> Manhattan, band-neutral).",
+      "properties": {
+        "width": { "type": "integer", "minimum": 4, "maximum": 20 },
+        "height": { "type": "integer", "minimum": 4, "maximum": 20 },
+        "terrain_features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["x", "y", "type"],
+            "additionalProperties": false,
+            "properties": {
+              "x": { "type": "integer", "minimum": 0 },
+              "y": { "type": "integer", "minimum": 0 },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "roccia",
+                  "sabbia",
+                  "acqua_profonda",
+                  "vegetazione_densa",
+                  "ghiaccio",
+                  "lava",
+                  "radura",
+                  "default"
+                ]
+              },
+              "defense_mod": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
     "objective": {
       "type": "object",
       "required": ["type"],
