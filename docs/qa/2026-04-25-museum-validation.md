@@ -3,10 +3,10 @@ title: Museum cross-agent validation report — session 2 calibration
 doc_status: draft
 doc_owner: claude-code
 workstream: ops-qa
-last_verified: 2026-04-25
+last_verified: 2026-06-29
 source_of_truth: false
 language: it-en
-review_cycle_days: 60
+review_cycle_days: 90
 tags: [validation, museum, archaeology, cross-agent, calibration]
 ---
 
