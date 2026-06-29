@@ -225,7 +225,7 @@ def render_readme(manifest: dict[str, object]) -> str:
         "## Ultima rigenerazione",
         "",
         f"- Comando: `{command}`",
-        f"- Manifest con checksum: `{ANALYSIS_ROOT / 'manifest.json'}`",
+        f"- Manifest con checksum: `{(ANALYSIS_ROOT / 'manifest.json').as_posix()}`",
         f"- Log operativo: `logs/agent_activity.md` → `[{log_tag}]`",
         "",
         "## Output attesi",
