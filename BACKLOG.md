@@ -31,13 +31,30 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 ---
 
-## 🧬 Derived-canon salvage Family-1 residuals (post-#3047, 2026-06-28)
+## 🧬 Derived-canon reproducibility ARC -- CLOSED (2026-06-29)
 
-PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: trait-bridge re-baseline + 38 trait-keeper re-population (coverage gate `rules_missing_species_total` 131 -> 0, in-biome honest). Multi-agent harsh + opposite review verdict = merge_ready, 0 blocker. Driver `tools/py/repopulate_trait_keepers.py`. Memory `project_derived_artifact_reproducibility.md` (cont-20/21). 4 owner-gated residui (NON bloccanti, master-dd-decided):
+**Arco reproducibility derived-canon CHIUSO**: tutte e 3 le famiglie DERIVED reproducibili + guardate + CI-advisory-wired. Handoff [`docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md`](docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md). Memory `project_derived_artifact_reproducibility.md` (cont-17..26).
+
+- ✅ **trait-bridge** ([#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06`): 38 keeper re-population, coverage `rules_missing` 131->0 in-biome honest. Driver `tools/py/repopulate_trait_keepers.py`.
+- ✅ **derived-analysis bundle** ([#3055](https://github.com/MasterDD-L34D/Game/pull/3055) `7d6f34f3` + [#3056](https://github.com/MasterDD-L34D/Game/pull/3056) `3e3fd3d8`): generatore host-deterministic + bundle refresh (Codex P2 re-applied post squash-drop).
+- ✅ **guard covers bundle** ([#3057](https://github.com/MasterDD-L34D/Game/pull/3057) `ad4d6321`): 3a check `derived-analysis` in `check_derived_reproducible.py`.
+- ✅ **CI-wire advisory** ([#3059](https://github.com/MasterDD-L34D/Game/pull/3059) `03c9bca0`): guard step in `dataset-checks` (`--warn-only`, pristine-before-regen) + paths-filter routing.
+- ✅ **canon-honest aliases** ([#3060](https://github.com/MasterDD-L34D/Game/pull/3060) `144a35ab`): 3/5 keeper env_affinity -> `biomes:[X]` (3 expansion aliases in core+pack biomes.yaml). 2 orfani restano env_affinity.
+- ✅ **source-drift --deep** ([#3062](https://github.com/MasterDD-L34D/Game/pull/3062) `0d1ba898`): `--deep` delete-first regen + orphan/changed/net-new (skydock float-fragile escluso).
+
+**Residui owner-gated (NON bloccanti):**
+
+- 🔵 **GAP2 block-3** ([#3063](https://github.com/MasterDD-L34D/Game/pull/3063) OPEN): proposta 6 inert traits crisp (block-1 #3035, block-2 #3044) -> RATIFY master-dd -> build (recipe block-2).
+- 🔵 **flip CI-wire a enforcing**: togliere `--warn-only` quando l'advisory si dimostra quieto.
+- 🔵 **float-stabilize `balance_progression`**: arrotondare i float XP -> skydock cross-version reproducibile (sblocca il `--deep` su quel file).
+- ✅ **TKT-KEEPER-CANON-5BIOMI DONE (3/5)** via #3060: i 3 alias-able registrati come alias canon (canopia_psionica_leggera->canopia_ionica, falde_magnetiche_psioniche->dorsale_termale_tropicale, orbita_psionica_inversa->mezzanotte_orbitale; in core+pack, sopravvivono a `sync_core`). I 2 orfani (laguna_bioreattiva, mangrovieto_cinetico) NON hanno casa canonica -> env_affinity accettato (o dargli un bioma canonico = master-dd).
+
+### (storico) residui originali post-#3047
+
+PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: trait-bridge re-baseline + 38 trait-keeper re-population. 4 residui filed (#3051), ora 2 chiusi (#3060 canon, #3062/#3057 derived-analysis), 2 aperti:
 
 - **TKT-KEEPER-CONTENT-DEBT** (P2 disclosure): ~138/173 env-suggested rule-bearing trait sono portati SOLO da keeper-stub sintetici (zero spawn, `playable_unit:false`, self-label "sostituire con specifica completa"); solo ~31-33 hanno una creatura reale. Green CI != contenuto autorato. Autorare specie reali nel tempo per i biomi keeper-only; band-neutral oggi.
 - **TKT-KEEPER-VALIDATOR-SCOPE** (P3): `run_all_validators.py` (validate-ecosystem-pack) hardcoda 4 biome-dir -> i keeper-stub NON sono ispezionati da `validate_species_v1_7.py` ("green" = "non ispezionato"; fallirebbero su ~10 campi obbligatori). Quando i keeper diventano specie reali, estendere lo scope-dir del loop.
-- **TKT-KEEPER-CANON-5BIOMI** (defer, master-dd): 5 biome_class via `environment_affinity.biome_class` (laguna_bioreattiva, mangrovieto_cinetico, canopia_psionica_leggera, falde_magnetiche_psioniche, orbita_psionica_inversa) perche' nessuna forma `biomes:[X]` passa il canon-gate (3 in biome_aliases.yaml non letto dal gate; 2 solo pack-registry). Decidere: registrare come alias inline in biomes.yaml (il canon-gate li esercita -> `biomes:[X]`) OPPURE accettare env_affinity definitivo.
 - ✅ **TKT-DERIVED-ANALYSIS-REGEN DONE** (#3055 `7d6f34f3` core + #3056 `3e3fd3d8` Codex-P2 fixes): the `data/derived/analysis/*` bundle (8 artefatti + manifest) is now host-deterministic + reproducible (`regen == committed`). Generator repaired: `sys.executable` spawn, repo-relative posix manifest stamps, no commit-pin, `generated_at` stripped, LF-hashing, all 53 report path fields repo-relative. The bundle is now **covered by the guard** (`check_derived_reproducible.py` third `derived-analysis` check: artifact bytes must hash to manifest sha256 + no host/commit stamps; validated to catch the pre-fix drift). Residual (harder, owner): source-drift detection (bundle stale vs CHANGED source data, needs a writing regen) + CI-wiring the guard (`.github/workflows`, forbidden path).
 
 ## 🧰 CI tooling -- canon entity-grounding linter (2026-06-21, #2915 SHIPPED)
