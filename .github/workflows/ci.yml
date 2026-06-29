@@ -510,15 +510,21 @@ jobs:
       # (data/traits/species_affinity.json), species catalog
       # (data/core/species/species_catalog.json), or the derived-analysis bundle
       # (data/derived/analysis/*) -- no longer reproduces from current in-repo
-      # sources. ADVISORY for now (--warn-only -> always exit 0): surfaces
-      # "regenerate-or-die" violations in the log without redding PRs while the
-      # heuristic catalog check beds in. Flip to ENFORCING later by dropping
-      # --warn-only. MUST run on the PRISTINE checkout, BEFORE the trait-baseline /
-      # coverage regen steps below overwrite data/derived/analysis/* (same
-      # constraint as the evo-pack drift check above). See
-      # docs/guide/derived-artifacts-reproducibility.md.
-      - name: Verify derived artifacts reproduce (drift guard, advisory)
-        run: python3 tools/py/check_derived_reproducible.py --warn-only
+      # sources. ENFORCING (2026-06-29): a drift now REDS the PR -- regenerate-or-die.
+      # Flipped from advisory (--warn-only) once the guard proved host-deterministic
+      # and quiet across the salvage arc (it passes clean on main; the only
+      # cross-Python-version float drift was removed in #3067). Runs in --deep mode
+      # so the derived-analysis BUNDLE is regenerated from source and compared, not
+      # just hash-verified against its own (possibly stale) manifest -- otherwise a
+      # source change feeding the bundle (e.g. data/core/missions/skydock_siege.yaml)
+      # could slip past while bundle bytes still match the stale manifest. The
+      # generator is host-deterministic (#3055: repo-relative posix paths + LF +
+      # sys.executable), verified byte-identical on CPython 3.11 and 3.12. MUST run
+      # on the PRISTINE checkout, BEFORE the trait-baseline / coverage regen steps
+      # below overwrite data/derived/analysis/* (same constraint as the evo-pack
+      # drift check above). See docs/guide/derived-artifacts-reproducibility.md.
+      - name: Verify derived artifacts reproduce (drift guard, enforcing)
+        run: python3 tools/py/check_derived_reproducible.py --deep
 
       - name: Validate YAML datasets
         run: python3 tools/py/validate_datasets.py
