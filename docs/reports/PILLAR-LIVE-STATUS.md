@@ -4,7 +4,7 @@ date: 2026-04-28
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-20'
+last_verified: '2026-06-29'
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -206,6 +206,14 @@ related:
 ---
 
 ## Delta history (snapshot temporali)
+
+### 2026-06-29 (freshness re-verify fine-giugno -- VALORI PENDING master-dd)
+
+> **Trigger**: doc 9gg dall'ultimo verify (last_verified 2026-06-20 vs 2026-06-29; entro `review_cycle_days=180`, refresh non-treadmill). **Scope = SOLO date + pointer fine-giugno** (autonomous, close-out master-plan); gli score **6/6 restano il verdetto 2026-06-01/06-20** -- **re-ratifica VALORI pillar PENDING master-dd** (doc_owner: master-dd; nessun nuovo audit runtime score-flip in questa passata, tabella + colonna score intatte).
+>
+> **Reality fine-giugno non ancora citata** (engine/flip, NON cambio di score): OD-024 interoception **FLIP ON in prod** (#2961 N=40 + #2962 flip record) -> P4/P6 surface interocettiva live, flag ex-OFF. move terrain-cost **FLIP LIVE in prod 2026-06-29** (#3061 Path A volo-grades + DR2 + band; deploy/flip #3069 `7d211a3b`) -> P1 substrate movimento attivo, flag ex-OFF. SPEC-K device-authority design-calls risolte + K-07 AI smoke PASS (#2891) -> P5. SPEC-E scar->trait grant mechanical built flag-gated (#2994) -> P2. item-1 17/17 + dossier + SPEC-J/K/H surfaces gia' coperti nell'entry 2026-06-20.
+>
+> **Caveat invariati**: P5 LobbyView TV room-sync ancora APERTO (nessun fix); P1 def++ restorable (master-dd). Engine LIVE invariato (moduli require-d, CI verde HEAD `46706ae4`). SoT del delta = [`docs/planning/2026-06-29-closeout-master-plan.md`](../planning/2026-06-29-closeout-master-plan.md).
 
 ### 2026-06-20 (freshness re-verify giugno -- ratificato master-dd 2026-06-20)
 

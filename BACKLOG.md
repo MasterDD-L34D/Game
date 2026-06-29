@@ -71,13 +71,14 @@ PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: v
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
-> 📍 **Registro residui consolidato (2026-06-23)** = [`docs/planning/2026-06-23-residual-gate-register.md`](docs/planning/2026-06-23-residual-gate-register.md) -- vista trasversale di TUTTI i gate residui (SPEC-A..Q + in-flight), ordinata **per tipo-di-gate**, git-verificata su `origin/main`. Le sezioni sotto restano le fonti-di-dettaglio per workstream; il registro le aggrega + traccia i workstream NON ancora sezionati qui. 🔴 **Marker corretti dall'audit 2026-06-23**: prod-resilience (sotto) = APPLIED #2966 -- governance stale (sotto) = CLOSED 397->0 #2914 -- OD-024 interoception = FLIPPED ON prod 2026-06-22.
+> 📍 **Registro residui consolidato (2026-06-23)** = [`docs/planning/2026-06-23-residual-gate-register.md`](docs/planning/2026-06-23-residual-gate-register.md) -- vista trasversale di TUTTI i gate residui (SPEC-A..Q + in-flight), ordinata **per tipo-di-gate**, git-verificata su `origin/main`. Le sezioni sotto restano le fonti-di-dettaglio per workstream; il registro le aggrega + traccia i workstream NON ancora sezionati qui. 🔴 **Marker corretti dall'audit 2026-06-23**: prod-resilience (sotto) = APPLIED #2966 -- governance stale (sotto) = CLOSED 397->0 #2914 -- OD-024 interoception = FLIPPED ON prod 2026-06-22. 🔴 **+ delta 2026-06-29** ([`closeout-master-plan`](docs/planning/2026-06-29-closeout-master-plan.md)): move-terrain-cost FLIP LIVE prod + trait-mechanics 12/12 engine-path + GAP2 block-2/3 wired + derived-canon arc CLOSED.
 >
 > **In-flight NON sezionati qui** (dettaglio nel registro + doc propri):
 >
-> - **trait-mechanics-engine** (creature-kit, 7 slici): 2.5/12 trait + 0/14 creature build. SoT `docs/planning/2026-06-23-derived-canon-salvage-progress.md`. Next = slice 3.
+> - **move-terrain-cost substrate**: ✅ **FLIP LIVE in prod 2026-06-29** (deploy del prod host 104-behind a `origin/main` `7d211a3b` + `export MOVE_TERRAIN_COST_ENABLED=true` -> lava move = 2 AP verificato live). Telegraph Godot GGv2 #557 + Path A prereqs #3061 + hazard-encounter #3065 + radici-DR2 band #3043. Close-out `docs/planning/2026-06-29-closeout-master-plan.md`. Residuo = Godot engine-AP-enforcement (deferred) + DR2=2 ratify (playtest umano).
+> - **trait-mechanics-engine** (creature-kit): 🟡 **12/12 mechanics have an engine path** (salvage built 9.5 directly: tutte le 7 slici landed #2975/#2978/#2983/#2985/#2988/#2995 + eco primitive/consumer #3015 + membrane terrain-heal #3013; volo+radici chiusi dal move-terrain substrate). 13 retired creatures **canonizzate** (catalog re-baseline #3045). SoT `docs/planning/2026-06-23-derived-canon-salvage-progress.md`. Residui owner-gated = eco_sismico producer (forbidden `effect_type`) + 13-creature gameplay-spec/lore-HITL (#3038)/promote.
 > - **OD-024 sentience**: interoception FLIPPED ON prod; residui = `STAMINA_FATIGUE` flip (N=40) + engine#3 encumbrance PARKED. Runbook `docs/ops/2026-06-22-od024-d7-interoception-flip-runbook.md`.
-> - **codex-lore**: 19 orfani per-bioma (balance master-dd).
+> - **codex-lore**: 19 orfani per-bioma -> verdetto 06-29 = **promuovi i 13 retired-creature lore DRAFT (#3038) via HITL** (no nuova lista).
 > - **aa01-Impronta**: tracker D1-D9 `docs/planning/2026-06-22-aa01-deferred-tracker.md` (sezione "aa01 RECONCILIATION" sotto). D2 flip = next gate.
 
 ### 🟡 OPEN — SPEC-H ALIENA enforcement implementation-residue (2026-06-17)
