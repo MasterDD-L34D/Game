@@ -110,14 +110,21 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 ### W2 -- produttore unificato `brancoTraitProducer` (design-heavy)
 
 > **STATUS (2026-06-30): BUILT flag-OFF.** `apps/backend/services/identity/brancoTraitProducer.js`
-> (`produceBrancoTrait` + `resolveImprintWeight`); rimpiazza il fallback inline #3083 in
-> `coopOrchestrator._applyBrancoTraitEmergence`. OFF (combined=false) = delega a
+> (`produceBrancoTrait` + `resolveImprintWeight` + `selectImprintAxis`); rimpiazza il fallback
+> inline #3083 in `coopOrchestrator._applyBrancoTraitEmergence`. OFF (combined=false) = delega a
 > `emergeBrancoTrait` = byte-identical. `w` PROPOSED 0.5 (env `FORM_PULSE_IMPRINT_WEIGHT`) -> W6.
 
-- Nuovo modulo puro che fa **argmax pesato** sull'unione:
-  `{5 assi form-pulse continui |avg|}` ∪ `{4 assi imprint binari, pesati w}`.
-  Il vincitore dell'argmax decide quale mapping (form-pulse o imprint) fornisce l'UNICO
-  branco trait. Niente proiezione tra assi (gli assi imprint hanno il loro mapping, sez. W3).
+- **Form side**: argmax `|avg|` sui 5 assi form-pulse continui (il vincitore = il rappresentante
+  form-pulse, magnitudine = `|avg|`). **Imprint side**: UN candidato di magnitudine `w`.
+  La precedenza tra i due = STRICT `>` (form-pulse vince il tie esatto = P-c precedenza).
+- 🔑 **Correzione meccanismo imprint (Codex P2 #3115, verdetto master-dd "tuple-determined"):**
+  i 4 assi imprint sono BINARI a magnitudine UGUALE `w` -> NON possono fare argmax fra loro
+  (con un tie-break first-axis vinceva SEMPRE locomotion = le altre celle UNREACHABLE). Quindi
+  **quale asse imprint grant-a = `selectImprintAxis`**: la 4-tupla INTERA seleziona deterministicamente
+  uno degli assi con polo wired (hash-mod sull'intera tupla -> whole-imprint-matters = vera D-2;
+  tutte le celle wired reachable; stesso-tupla -> stesso-asse, reconnect-stabile). Il meccanismo
+  di selezione e' PROPOSED (hash-mod arbitrario-ma-deterministico; master-dd puo' sostituirlo con
+  una tabella tupla->asse curata al ratify N=40). Niente proiezione tra vocabolari di assi.
 - **Rimpiazza** il fallback inline `fromPulses || imprint` di #3083 (su main) e centralizza
   in un solo posto la produzione del branco trait (precedenza esplicita = P-c combinata).
 - Single-slot garantito (UN branco trait) -> nessun power-stack -> l'offset W1 resta valido.
@@ -130,10 +137,15 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 
 ### W3 -- mapping imprint 8-celle + liveness-audit HARD-gate
 
-> **STATUS (2026-06-30): BUILT (partial, 6/8 celle).** `PROPOSED_IMPRINT_TRAIT_MAPPING` esteso a
-> 4 assi; HARD-gate `tests/services/imprintTraitGrantLiveness.test.js` (predicato condiviso
-> `tests/helpers/traitLiveness.js`). 6 celle wired+LIVE-audited; 2 celle (offense/RAPIDA,
-> defense/FLESSIBILE) lasciate UNWIRED = balance-pick master-dd.
+> **STATUS (2026-06-30): BUILT 7/8 celle.** `PROPOSED_IMPRINT_TRAIT_MAPPING` esteso a 4 assi;
+> HARD-gate `tests/services/imprintTraitGrantLiveness.test.js` (predicato condiviso
+> `tests/helpers/traitLiveness.js`). Update post-recon (#3114, master-dd "wira le celle clean"):
+> **defense/FLESSIBILE wired** = `risposta_di_fuga` (recon ha sciolto il gap "no clean trait" =
+> STALE -> Dodge branch LIVE-CLEAN) + **senses/ACUTO swapped** dal double-gated `sensori_sismici`
+> a `occhi_analizzatori_di_tensione` (no-gate CLEAN). **senses/LONTANO TENUTO** = `sensori_geomagnetici`
+> (l'unica opzione no-gate `senso_magnetico` e' self-labeled 'Stub data-only' -> rifiutata, lesson
+> #3083). **Solo offense/RAPIDA resta UNWIRED** (nessun pick clean; menu N=40 in #3114). Tutto
+> flag-OFF/band-neutral, mapping PROPOSED -> ratifica N=40.
 
 - Mappa completa 4 assi x 2 poli (locomotion/offense/defense/senses).
 - **HARD-gate**: ogni pick deve passare un liveness-audit engine-reale (trigger
@@ -146,15 +158,16 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   da verificare) + `defense/FLESSIBILE` (nessun trait evasione pulito oggi = TBD).
 - Ref: D6 spec sez.4
   [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md).
-- **As-built audit (2026-06-30, real registry + `isEngineLiveReliable`)**: i 4 pick non-locomotion
-  audìti passano TUTTI il gate -> wired: `offense/PROFONDA -> ferocia` (attack/apply_status
-  on_kill, CLEAN), `defense/DURA -> pelle_elastomera` (attack/dr, CLEAN), `senses/LONTANO ->
-sensori_geomagnetici` (attack/extra_damage, min_mos:5 situational), `senses/ACUTO ->
-sensori_sismici` (attack/extra_damage, melee+min_mos:5 situational). Le 2 celle min_mos =
-  situational-LIVE (stesso bar del pick VELOCE gia' shippato `coda_stabilizzatrice_vortex` =
-  melee+min_mos:5), flaggate come primary re-pick N=40. `offense/RAPIDA`
-  (`artiglio_cinetico_a_urto`) + `defense/FLESSIBILE` (nessun trait evasione pulito) restano
-  UNWIRED -> balance-pick master-dd (NON auto-assegnati).
+- **As-built (2026-06-30, real registry + `isEngineLiveReliable`, post-recon #3114)**: 7/8 wired:
+  `offense/PROFONDA -> ferocia` (CLEAN), `defense/DURA -> pelle_elastomera` (CLEAN),
+  `defense/FLESSIBILE -> risposta_di_fuga` (CLEAN, recon-found), `senses/LONTANO ->
+sensori_geomagnetici` (min_mos:5 situational, TENUTO -- no clean upgrade), `senses/ACUTO ->
+occhi_analizzatori_di_tensione` (no-gate CLEAN, swapped dal double-gated `sensori_sismici`),
+  - i 2 locomotion. Tutti re-audìti LIVE + disjoint da branco/minor. `senso_magnetico` (no-gate)
+    RIFIUTATO per LONTANO = self-labeled 'Stub data-only'. **Solo `offense/RAPIDA` UNWIRED** = no
+    clean pick (best situational `dilatazione_temporale_percettiva` min_mos:4 / no-gate-control
+    `coda_frusta_cinetica_2`, entrambi PROPOSED in #3114) -> balance-pick master-dd N=40.
+    Recon completo: [`2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md`](2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
 
 ### W4 -- flag-unification
 
