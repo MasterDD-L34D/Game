@@ -66,16 +66,16 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 
 ### 1B. Gate = decisione master-dd (design-call; nessun build-blocker tecnico)
 
-| #   | Progetto                                | Cosa decidere / fare                                                                                        | Blocker      | Effort |
-| --- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ | ------ |
-| O1  | **SPEC-J scar->transform map ratify**   | ratifica/estendi `SCAR_TRAIT_MAP` + N=40 + flip; costo E6 = SPEC-E. Built #2994                             | OWNER        | S/M    |
-| O2  | **codex-lore 19 orfani** -> 13 draft    | **VERDETTO 06-29 = promuovi i 13 retired-creature lore DRAFT (#3038) via HITL**                             | OWNER (HITL) | M      |
-| O3  | **H7 PILLAR re-ratifica**               | 🟡 date-refresh + delta-history giugno **DONE 06-29** (era 9gg stale); residuo = re-verify VALORI 6/6 owner | OWNER        | S      |
-| O4  | **aa01 D6 axis->trait grant**           | i 4 assi concedono trait meccanici (non-band-neutral, spec separata)                                        | OWNER+build  | M      |
-| O5  | **aa01 D7 prose / hint-string**         | copy player-facing "il tuo branco tende verso X" (HITL, boundary codex-lore)                                | OWNER (HITL) | S      |
-| O6  | **aa01 D8 chain-lightning propagation** | `chainElectrified` multi-tile: raggio + danno per-tile (balance)                                            | OWNER+build  | S-M    |
-| O7  | **GAP2-next mechanics**                 | 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster buff-mobility-recon                              | OWNER+build  | L      |
-| O8  | **TKT-SALVAGE-A2 resistance_archetype** | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato               | OWNER+build  | M      |
+| #   | Progetto                                    | Cosa decidere / fare                                                                                                                                                                 | Blocker      | Effort |
+| --- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | ------ |
+| O1  | **SPEC-J scar->transform map ratify**       | ratifica/estendi `SCAR_TRAIT_MAP` + N=40 + flip; costo E6 = SPEC-E. Built #2994                                                                                                      | OWNER        | S/M    |
+| O2  | **codex-lore 19 orfani** -> 13 draft        | **VERDETTO 06-29 = promuovi i 13 retired-creature lore DRAFT (#3038) via HITL**                                                                                                      | OWNER (HITL) | M      |
+| O3  | **H7 PILLAR re-ratifica**                   | 🟡 date-refresh + delta-history giugno **DONE 06-29** (era 9gg stale); residuo = re-verify VALORI 6/6 owner                                                                          | OWNER        | S      |
+| O4  | ~~**aa01 D6 axis->trait grant**~~           | **DONE 2026-06-30** -- ratified B + designated-axis locomotion; BUILT flag-OFF [#3083](https://github.com/MasterDD-L34D/Game/pull/3083) `b57319ad` (mapping PROPOSED -> N=40 flip)   | DONE         | M      |
+| O5  | ~~**aa01 D7 prose / hint-string**~~         | **DONE 2026-06-30** -- scaffold BUILT [#3084](https://github.com/MasterDD-L34D/Game/pull/3084) `3ad66130` (`brancoTendencyHint` structure); player-facing PROSE still master-dd HITL | DONE (HITL)  | S      |
+| O6  | ~~**aa01 D8 chain-lightning propagation**~~ | **DONE 2026-06-30** -- BUILT flag-OFF [#3082](https://github.com/MasterDD-L34D/Game/pull/3082) `b138a7dd` (`chainLightningStrike`; PROPOSED radius 2 / shock 2 -> N=40 flip)         | DONE         | S-M    |
+| O7  | **GAP2-next mechanics**                     | 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster buff-mobility-recon                                                                                                       | OWNER+build  | L      |
+| O8  | **TKT-SALVAGE-A2 resistance_archetype**     | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato                                                                                        | OWNER+build  | M      |
 
 ### 1C. Gate = superficie Godot (cross-repo Game-Godot-v2)
 
