@@ -148,3 +148,27 @@ test('flag ON: full spawn leaves zero carry', () => {
   assert.equal(res.budget_used, 2);
   assert.equal(session.reinforcement_state.overrun_carry, 0);
 });
+
+test('flag ON: pool-exhausted shortfall drops the carry (Codex #3119, no unbounded leak)', () => {
+  // minion_01 is already at its max_spawns:1 cap -> pickPoolEntry returns null ->
+  // pool_exhausted (TERMINAL within the encounter, the pool never refills). The
+  // overrun must NOT accumulate, or repeated overruns leak the carry unbounded.
+  const session = mockSession({
+    reinforcement_state: {
+      total_spawned: 1,
+      last_spawn_round: -Infinity,
+      spawn_history: [{ unit_id: 'minion_01' }],
+      overrun_carry: 3,
+    },
+  });
+  const enc = mockEncounter({
+    reinforcement_pool: [{ unit_id: 'minion_01', weight: 1, max_spawns: 1, hp: 6 }],
+  });
+  const res = tick(session, enc, { rng: () => 0.5, budgetBonus: 2, env: ON });
+  assert.equal(res.budget_used, 0, 'pool exhausted -> no spawn');
+  assert.equal(
+    session.reinforcement_state.overrun_carry,
+    0,
+    'exhausted pool -> carry dropped, not accumulated',
+  );
+});

@@ -388,13 +388,24 @@ function tick(session, encounter, opts = {}) {
 
   const effective = spawned.filter((s) => !s.skipped);
   if (carryEnabled) {
-    // Unspent overrun = the part of effectiveBonus that never became a spawn. The
-    // base budget is spent first (early loop iterations), so the bonus is what is
-    // short when fewer than `budget` units fit (e.g. no walkable tile). baseIntended
-    // is itself capped by `remaining`.
-    const baseIntended = Math.min(baseBudget, remaining);
-    const bonusSpent = Math.max(0, effective.length - baseIntended);
-    state.overrun_carry = Math.max(0, effectiveBonus - bonusSpent);
+    // Codex #3119 P2: pool exhaustion is TERMINAL within an encounter (per-unit
+    // max_spawns never refill), so a shortfall from `pool_exhausted` must NOT carry
+    // -- otherwise repeated overruns on an exhausted pool accumulate the carry
+    // unbounded (if the pool's summed caps are below max_total, max_total_reached
+    // never fires to drop it). A `no_walkable_entry` shortfall DOES carry (a tile
+    // can free up next round).
+    const poolExhausted = spawned.some((s) => s.skipped && s.reason === 'pool_exhausted');
+    if (poolExhausted) {
+      state.overrun_carry = 0;
+    } else {
+      // Unspent overrun = the part of effectiveBonus that never became a spawn. The
+      // base budget is spent first (early loop iterations), so the bonus is what is
+      // short when fewer than `budget` units fit (e.g. no walkable tile). baseIntended
+      // is itself capped by `remaining`.
+      const baseIntended = Math.min(baseBudget, remaining);
+      const bonusSpent = Math.max(0, effective.length - baseIntended);
+      state.overrun_carry = Math.max(0, effectiveBonus - bonusSpent);
+    }
   }
   return {
     spawned: effective,
