@@ -164,11 +164,23 @@ def main(argv: Iterable[str]) -> int:
   parser.add_argument(
     "--combat-strict",
     action="store_true",
-    help="Ri-promuove a FAIL i trait in glossary-ma-non-active_effects + le specie senza trait_refs (audit combat-resolvability, comportamento legacy).",
+    help="Ri-promuove a FAIL i trait in glossary-ma-non-active_effects + le specie senza trait_refs (audit combat-resolvability, comportamento legacy). Richiede --trait-reference YAML (active_effects).",
   )
   args = parser.parse_args(list(argv))
   if args.species is None:
     args.species = [Path("data/core/species/species_catalog.json")]
+
+  # L'audit combat-strict misura la combat-resolvability: la reference DEVE essere
+  # il resolver combat (active_effects YAML). Un index JSON (taxonomy) contiene i
+  # trait non-combat -> li nasconderebbe da combat_unauthored = audit falso-verde.
+  if args.combat_strict and args.trait_reference.suffix.lower() not in (".yaml", ".yml"):
+    print(
+      f"--combat-strict richiede un --trait-reference YAML (active_effects); "
+      f"l'index JSON ({args.trait_reference}) e' la taxonomy, non il resolver combat. "
+      f"Rimuovi --combat-strict oppure passa data/core/traits/active_effects.yaml.",
+      file=sys.stderr,
+    )
+    return 2
 
   combat_reference = load_trait_reference(args.trait_reference)
   if not combat_reference:

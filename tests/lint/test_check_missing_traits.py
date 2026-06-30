@@ -53,6 +53,19 @@ def test_combat_strict_escalates_to_fail(tmp_path):
     assert r.returncode == 1, r.stderr
 
 
+def test_combat_strict_rejects_json_reference(tmp_path):
+    # Codex P2 (#3124): --combat-strict + index JSON nasconderebbe i non-combat
+    # (taxonomy contiene i 15/17) -> audit falso-verde. Deve rifiutare (exit 2).
+    idx = tmp_path / "index.json"
+    idx.write_text(json.dumps({"traits": {"t_glossary_only": {}}}))
+    fx = _fixtures(tmp_path, ["t_glossary_only"])
+    # sostituisci il --trait-reference YAML con l'index JSON
+    fx[fx.index("--trait-reference") + 1] = str(idx)
+    r = _run([*fx, "--combat-strict", "--strict"])
+    assert r.returncode == 2, r.stderr
+    assert "combat-strict" in (r.stderr + r.stdout)
+
+
 def test_real_catalog_strict_is_clean(tmp_path):
     # Il vero gate: tutti i trait_refs del catalog esistono in glossary OR
     # active_effects -> default --strict deve uscire 0 (i 17 non-combat = WARN).
