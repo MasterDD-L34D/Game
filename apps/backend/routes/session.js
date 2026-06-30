@@ -259,6 +259,8 @@ const {
 // Lazy require + try/catch in call sites: missing module never breaks combat.
 const {
   reactTile: terrainReactTile,
+  chainLightningStrike,
+  isChainLightningEnabled,
   ELEMENTS: TERRAIN_ELEMENTS,
 } = require('../services/combat/terrainReactions');
 
@@ -1331,6 +1333,44 @@ function createSessionRouter(options = {}) {
               if (pr) killOccurred = Number(target.hp) <= 0;
             } catch {
               /* symbiont bond optional */
+            }
+          }
+
+          // D8 (aa01 CAP-07 carve-out): chain-lightning propagation. When this
+          // reaction electrifies the tile (lightning + water), BFS-spread through
+          // adjacent water tiles and shock their occupants (chainLightningStrike).
+          // Flag-gated OFF = byte-identical (only the single-tile electrify burst
+          // above fires). PROPOSED conservative radius/shock ratify via N=40. Chained
+          // occupants are FLOORED at 1 HP (weaken, never kill -> no mid-attack death
+          // pipeline on a non-target unit). Friendly-fire by design (telegraph).
+          if (
+            isChainLightningEnabled() &&
+            reaction.nextState.type === 'electrified' &&
+            Array.isArray(reaction.effects) &&
+            reaction.effects.includes('chain_trigger')
+          ) {
+            try {
+              const chain = chainLightningStrike(
+                target.position,
+                session.tile_state_map,
+                session.units || [],
+                { actorId: actor.id },
+              );
+              for (const hit of chain.hits) {
+                if (hit.shock_damage > 0 && session.damage_taken) {
+                  session.damage_taken[hit.actor_id] =
+                    (session.damage_taken[hit.actor_id] || 0) + hit.shock_damage;
+                }
+              }
+              if (chain.electrified_tiles.length > 0 && terrainReactionResult) {
+                terrainReactionResult.chain = chain;
+              }
+            } catch (chainErr) {
+              // eslint-disable-next-line no-console
+              console.warn(
+                '[terrain-chain] skipped:',
+                chainErr && chainErr.message ? chainErr.message : chainErr,
+              );
             }
           }
         }
