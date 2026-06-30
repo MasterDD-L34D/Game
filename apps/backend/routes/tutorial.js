@@ -43,6 +43,10 @@ const {
   FORESTA_PILOT_SCENARIO_01,
   buildForestaPilotUnits01,
 } = require('../services/worldgen/forestaPilotScenario');
+const {
+  ULTIMA_CACCIA_SCENARIO,
+  buildUltimaCacciaUnits01,
+} = require('../services/worldgen/ultimaCacciaScenario');
 
 // Optional briefing variation: when ?variant_seed=N is passed, swap the
 // hardcoded briefing_pre/post with a YAML-pack variant (tutorial_briefings.yaml).
@@ -191,6 +195,15 @@ function createTutorialRouter() {
       units: buildForestaPilotUnits01(),
       usage:
         'POST units + modulation="quartet". S2 foresta pilot (lupus-temperatus apex + evento T4 + the 2 #2850 grazers + blight/sentinella). Band [0.40,0.60] (RATIFIED N=100 WR 0.50).',
+    });
+  });
+
+  router.get('/enc_badlands_ultima_caccia_01', (_req, res) => {
+    res.json({
+      ...ULTIMA_CACCIA_SCENARIO,
+      units: buildUltimaCacciaUnits01(),
+      usage:
+        'POST units + modulation="full". SPEC-J first lethal mission (apex Skiv hunt; enemies = deriveCombatStats da specie badlands reali). KO-gate ~0.40 in [0.25,0.40] (master-dd 2026-06-30). lethal:true inert until LETHAL_MISSIONS_ENABLED + consent.',
     });
   });
 
