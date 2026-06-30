@@ -7675,3 +7675,187 @@ traits:
       amount: 1
       log_tag: tattiche_di_branco_2
     description_it: 'Tattiche di branco -- ruoli specializzati: la caccia coordinata per ruoli distinti affina i colpi del gruppo (attack_bonus +1).'
+  articolazioni_multiassiali:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: articolazioni_multiassiali
+    description_it: |
+      Articolazioni multiassiali che ruotano gli arti per manovre strette.
+      Riduce il costo del movimento (move_bonus +1), facilitando il
+      riposizionamento in spazi angusti.
+  cinghia_iper_ciliare:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: cinghia_iper_ciliare
+    description_it: |
+      Cinghia iper-ciliare che trasla il corpo su terreni piani o ruvidi.
+      Riduce il costo del movimento (move_bonus +1) grazie allo scivolamento
+      ciliare continuo sul substrato.
+  locomozione_miriapode_ibrida:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: locomozione_miriapode_ibrida
+    description_it: |
+      Locomozione miriapode ibrida: aderisce e si arrampica su qualsiasi
+      superficie. Riduce il costo del movimento (move_bonus +1) eliminando
+      le penalita' di terreno verticale o irregolare.
+  unghie_a_micro_adesione:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: unghie_a_micro_adesione
+    description_it: |
+      Lamelle a micro-setole sugli zoccoli che aderiscono a superfici ripide.
+      Riduce il costo del movimento (move_bonus +1) per fughe verticali;
+      l'uso da pascolo resta narrativo (nessun effetto di combattimento).
+  rostro_linguale_prensile:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: rostro_linguale_prensile
+    description_it: |
+      Rostro linguale prensile che afferra e manipola a lungo raggio.
+      La presa estesa morde piu' a fondo: +1 danno extra a ogni hit.
+  vortice_nera_flash:
+    tier: T3
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: disorient
+      turns: 1
+      log_tag: vortice_nera_flash
+    description_it: |
+      Vortice nera flash: implosione luminosa accecante a contatto.
+      Un colpo netto (alto MoS) acceca e disorienta il bersaglio per 1 turno;
+      il breve teletrasporto resta narrativo (nessun consumer engine).
+  nodi_sinaptici_superficiali:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: nodi_sinaptici_amplify
+    description_it: |
+      Reticolo di nodi che amplifica i segnali superficiali. La lettura
+      rinforzata della superficie del bersaglio guida il colpo: +1 alla
+      precisione su ogni hit riuscito.
+  scintilla_sinaptica:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: scintilla_sinaptica_reflex
+    description_it: |
+      Scarica leggera che illumina connessioni e riflessi. Il guizzo
+      sinaptico affina i riflessi al contatto: quando l'unita' subisce un
+      hit riduce il danno di 1 PT (min 0).
+  sinapsi_coraline_polifoniche:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    triggers_on_ally_attack:
+      range: 1
+      species_filter: any
+      atk_delta: 1
+      def_delta: 0
+      duration: 1
+      log_tag: sinapsi_coraline_relay
+    description_it: |
+      Sinapsi coralline che trasmettono ordini tramite armoniche marine.
+      Quando un alleato adiacente (range Manhattan <= 1) attacca, l'ordine
+      relato coordina il portatore: +1 attack_mod fino a fine round.
+  coralli_sinaptici_fotofase:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: coralli_fotofase_jolt
+    description_it: |
+      Barriere bioelettriche che canalizzano luce e impulsi. L'impulso
+      canalizzato scarica lungo il contatto: +1 danno extra a ogni hit riuscito.
+  secrezioni_antistatiche:
+    tier: T1
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: secrezioni_antistatiche
+    description_it: |
+      Film protettivo che disperde gli accumuli elettrici sulla superficie.
+      L'energia di un colpo in arrivo viene in parte scaricata: -1 al danno
+      ricevuto (minimo 0).
+  pianificatore:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: attack_bonus
+      amount: 1
+      log_tag: pianificatore_window
+    description_it: |
+      Modulo strategico che mantiene priorita e finestre d'attacco allineate:
+      quando il colpo cade su una finestra ben allineata (margine alto) aggiunge
+      +1 al danno, premiando il tempismo invece della forza bruta.
