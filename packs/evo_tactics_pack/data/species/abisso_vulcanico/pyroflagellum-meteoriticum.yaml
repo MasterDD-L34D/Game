@@ -1,6 +1,6 @@
 id: pyroflagellum_meteoriticum
 schema_version: '1.7'
-resistance_archetype: strutturale
+resistance_archetype: adattivo
 display_name: Flagello igneo
 biomes:
 - abisso_vulcanico
