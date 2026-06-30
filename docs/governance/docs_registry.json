@@ -12981,6 +12981,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-06-30-stamina-fatigue-n40-evidence.md",
+      "title": "STAMINA_FATIGUE paired N=40 band-safety evidence (OD-024 engine #2)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-18-foresta-s2-calibration.md",
       "title": "Foresta S2 calibration -- enc_foresta_pilot_01 (#2850 follow-up)",
       "doc_status": "active",
