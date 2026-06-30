@@ -180,6 +180,32 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-06-30-session-handoff-aa01-codex-aisim.md",
+      "title": "2026-06-30 session handoff -- aa01 cluster + codex coherence + I2 + Codex-fix round + AI-sim re-baseline",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-06-30-session-handoff-closeout-residuals.md",
+      "title": "2026-06-30 session handoff -- owner-residuals via ask + close-out Tier-2 round",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
       "title": "Derived-canon reproducibility arc -- session handoff (2026-06-28/29)",
       "doc_status": "draft",
