@@ -61,20 +61,23 @@ levels. (Also position-sensitive: the SAME five species reordered gave KO 0.57 v
   usually CLEARS the mission but loses ~40% of its creatures -- real permadeath stakes
   without a guaranteed wipe.
 
-## Owner-gate (master-dd)
+## Owner-gate (master-dd) -- RATIFIED 2026-06-30
 
-1. **Pick the gating metric** for the lethal flip. Recommended: **creature-KO-rate
-   25-40%** (the death-rate), NOT win-rate -- WR 25-40% is far too lethal for a
-   permadeath mission.
-2. **Roster**: the authored #3107 roster already lands KO ~0.40 (top edge). Keep it,
-   or have me soften it to mid-band KO ~0.30-0.35 (slightly easier -- drop a range-2
-   echo). The WR will stay high (~0.80) by construction.
-3. **Real-play materialization (flip-build, owner/next)**: for the encounter to
-   actually run at the calibrated difficulty in real play, the enemies must be
-   materialized via a scenario-builder (adapter stats), mirror `badlandsPilotScenario.js`
-   - a `/api/tutorial/enc_badlands_ultima_caccia_01` route (the `encounter_id` path
-     only supplies metadata; the caller provides the combat units). This is the build
-     that makes the lethal mission playable + unblocks a live-backend Python re-confirm.
+**Verdict (AskUserQuestion)**: gate the lethal flip on **creature-KO-rate 25-40%**
+(NOT win-rate), and **KEEP the #3107 roster** (dune-stalker apex + 2 echo-wing + 2
+rust-scavenger). Its canonical KO-rate ~0.40 sits at the top edge of [0.25,0.40];
+WR ~0.82 -- the party usually clears the mission but ~40% of its creatures fall
+(real permadeath stakes without a guaranteed wipe). No roster change.
+
+**Remaining LETHAL flip-prereqs**:
+
+1. **Real-play scenario-builder (flip-build)**: the enemies must be materialized via
+   a scenario-builder (adapter stats), mirror `badlandsPilotScenario.js` + a
+   `/api/tutorial/enc_badlands_ultima_caccia_01` route (the `encounter_id` path only
+   supplies metadata; the caller provides the combat units). Makes the lethal mission
+   playable at the calibrated difficulty + unblocks a live-backend Python re-confirm.
+2. **master-dd flips** `LETHAL_MISSIONS_ENABLED=true` (irreversible) -- after the
+   scenario-builder + the Godot consent UI (DONE, GGv2 #477) + a lethal data path.
 
 See [[project_spec_j_lethal_wounds]], `docs/playtest/2026-06-30-ultima-caccia-lethal-calibration.md` (the #3107 KO-rate),
 `docs/planning/2026-06-29-closeout-master-plan.md` (N1).
