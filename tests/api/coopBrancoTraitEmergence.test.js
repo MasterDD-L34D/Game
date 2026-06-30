@@ -63,3 +63,40 @@ test('re-submit changing dominant axis -> swap (old removed, new added)', () => 
   assert.ok(co.characters.get('p_a').traits.includes('ferocia'));
   assert.equal(co.characters.get('p_a').traits.includes('legame_di_branco'), false);
 });
+
+// Codex #3083 P2 -- the single branco slot must not stack across scenario advance.
+test('branco trait does NOT stack across scenario advance (slot emptied on advance)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'BSCN', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_a', 'enc_b'] });
+  co._setPhase('character_creation');
+  const mk = (n) => ({ name: n, form_id: 'f', species_id: 's', job_id: 'guerriero' });
+  co.submitCharacter('p_a', mk('A'), ALL);
+  co.submitCharacter('p_b', mk('B'), ALL);
+
+  // Scenario 1: solitary_swarm+ -> legame_di_branco granted to the party.
+  co.submitFormPulse('p_a', { axes: { solitary_swarm: 0.8 } }, ALL);
+  co.submitFormPulse('p_b', { axes: { solitary_swarm: 0.8 } }, ALL);
+  assert.ok(co.characters.get('p_a').traits.includes('legame_di_branco'));
+
+  // Advance to scenario 2 -- the party PERSISTS, the slot must be emptied.
+  const adv = co.advanceScenarioOrEnd();
+  assert.equal(adv.action, 'next_scenario');
+  assert.equal(co.emergentBrancoTrait, null);
+  assert.equal(
+    co.characters.get('p_a').traits.includes('legame_di_branco'),
+    false,
+    'old branco trait stripped from the persisting party on advance',
+  );
+
+  // Scenario 2: a DIFFERENT dominant axis -> ferocia, and ONLY ferocia.
+  co._setPhase('character_creation');
+  co.submitFormPulse('p_a', { axes: { symbiosis_predation: 0.9 } }, ALL);
+  co.submitFormPulse('p_b', { axes: { symbiosis_predation: 0.9 } }, ALL);
+  const traits = co.characters.get('p_a').traits;
+  assert.ok(traits.includes('ferocia'));
+  assert.equal(
+    traits.filter((t) => t === 'ferocia' || t === 'legame_di_branco').length,
+    1,
+    'exactly one branco trait occupies the slot (no cross-scenario stacking)',
+  );
+});
