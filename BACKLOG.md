@@ -113,6 +113,7 @@ PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: v
 > - **OD-024 sentience**: interoception FLIPPED ON prod; residui = `STAMINA_FATIGUE` flip (N=40) + engine#3 encumbrance PARKED. Runbook `docs/ops/2026-06-22-od024-d7-interoception-flip-runbook.md`.
 > - **codex-lore**: 19 orfani per-bioma -> verdetto 06-29 = **promuovi i 13 retired-creature lore DRAFT (#3038) via HITL** (no nuova lista).
 > - **aa01-Impronta**: tracker D1-D9 `docs/planning/2026-06-22-aa01-deferred-tracker.md` (sezione "aa01 RECONCILIATION" sotto). D2 flip = next gate.
+> - **form-pulse trait v2 flip-readiness** (aa01-track): grilling 2026-06-30 (master-dd) -> il flip `FORM_PULSE_TRAIT_V2_ENABLED` NON e' "1 deploy step" ma build W1-W6 gated su **sim-harness upgrade**. 7 verdetti: net-neutral / offset=`f(buff reale)` (chiude bug solo +40%HP) / two-beat unificato (`brancoTraitProducer` P-c + D-2 4 assi imprint) / liveness-audit HARD-gate celle imprint / flip-gate = objective-aware-AI N=40 cross-biome. Build-spec [`2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec`](docs/planning/2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md). D6 #3083 = fallback (no double-count).
 
 ### 🟡 OPEN — SPEC-H ALIENA enforcement implementation-residue (2026-06-17)
 
