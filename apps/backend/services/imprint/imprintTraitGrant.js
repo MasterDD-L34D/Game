@@ -55,20 +55,23 @@ const DESIGNATED_AXIS = 'locomotion';
 // fires, NOT a draft inert no-op (lesson #3083: inert picks pass N=40 falsely as ~0 delta).
 // Pole = the imprint VALUE (VELOCE/SILENZIOSA, ...), not a +/- sign.
 //
-// Audit 2026-06-30 (real registry, the isEngineLiveReliable predicate): all 6 cells below are
-// engine-LIVE (action_type:attack + a wired effect kind, no posizione_sopraelevata near-inert).
-//   - locomotion VELOCE     coda_stabilizzatrice_vortex  attack/extra_damage (melee + min_mos:5)
-//   - locomotion SILENZIOSA cartilagini_flessoacustiche  attack/damage_reduction (no gate) CLEAN
-//   - offense    PROFONDA   ferocia                      attack/apply_status on_kill     CLEAN
-//   - defense    DURA       pelle_elastomera             attack/damage_reduction (no gate) CLEAN
-//   - senses     LONTANO    sensori_geomagnetici         attack/extra_damage (min_mos:5)
-//   - senses     ACUTO      sensori_sismici              attack/extra_damage (melee + min_mos:5)
-// The min_mos/melee cells are situational-LIVE (same bar as the already-shipped VELOCE pick),
-// flagged as the weakest -> the primary N=40 re-pick candidates (master-dd may swap them).
+// Audit 2026-06-30 (real registry, isEngineLiveReliable) + weak-cell recon (#3114, verify-gated
+// scout + main-session re-audit, docs/planning/2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
+// 7/8 cells wired engine-LIVE; only offense/RAPIDA stays unwired (no clean LIVE pick exists).
+//   - locomotion VELOCE     coda_stabilizzatrice_vortex   attack/extra_damage (melee + min_mos:5)
+//   - locomotion SILENZIOSA cartilagini_flessoacustiche   attack/damage_reduction (no gate) CLEAN
+//   - offense    PROFONDA   ferocia                       attack/apply_status on_kill     CLEAN
+//   - defense    DURA       pelle_elastomera              attack/damage_reduction (no gate) CLEAN
+//   - defense    FLESSIBILE risposta_di_fuga              attack/damage_reduction (no gate) CLEAN  [recon: evasion-gap RESOLVED]
+//   - senses     LONTANO    sensori_geomagnetici          attack/extra_damage (min_mos:5)          [kept: senso_magnetico no-gate alt is self-labeled 'Stub data-only' -> rejected]
+//   - senses     ACUTO      occhi_analizzatori_di_tensione attack/extra_damage (no gate) CLEAN     [recon: swapped from double-gated sensori_sismici]
+// The min_mos/melee cells (VELOCE, LONTANO) are situational-LIVE (same bar as the shipped picks),
+// flagged as the weakest -> primary N=40 re-pick candidates (master-dd may swap). All wired ids
+// re-audited LIVE + disjoint from branco/minor pools. Mapping stays PROPOSED (ratify via N=40).
 //
-// TWO cells stay UNWIRED = master-dd / N=40 balance pick (do NOT auto-assign, draft sec.4):
-//   - offense RAPIDA   (draft candidate artiglio_cinetico_a_urto = melee+min_mos:5, situational)
-//   - defense FLESSIBILE (no clean evasion/dodge trait in the catalog today)
+// ONE cell stays UNWIRED = master-dd / N=40 balance pick (do NOT auto-assign, recon found no
+// clean fit): offense/RAPIDA (best situational = dilatazione_temporale_percettiva min_mos:4; the
+// only no-gate option coda_frusta_cinetica_2 leans control not speed -- both PROPOSED in #3114).
 const PROPOSED_IMPRINT_TRAIT_MAPPING = {
   locomotion: {
     VELOCE: 'coda_stabilizzatrice_vortex',
@@ -76,15 +79,15 @@ const PROPOSED_IMPRINT_TRAIT_MAPPING = {
   },
   offense: {
     PROFONDA: 'ferocia',
-    // RAPIDA: TODO -- master-dd balance pick (N=40)
+    // RAPIDA: TODO -- master-dd balance pick (N=40); no clean LIVE pick (recon #3114)
   },
   defense: {
     DURA: 'pelle_elastomera',
-    // FLESSIBILE: TODO -- master-dd balance pick (no clean evasion trait today)
+    FLESSIBILE: 'risposta_di_fuga',
   },
   senses: {
     LONTANO: 'sensori_geomagnetici',
-    ACUTO: 'sensori_sismici',
+    ACUTO: 'occhi_analizzatori_di_tensione',
   },
 };
 

@@ -130,10 +130,15 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 
 ### W3 -- mapping imprint 8-celle + liveness-audit HARD-gate
 
-> **STATUS (2026-06-30): BUILT (partial, 6/8 celle).** `PROPOSED_IMPRINT_TRAIT_MAPPING` esteso a
-> 4 assi; HARD-gate `tests/services/imprintTraitGrantLiveness.test.js` (predicato condiviso
-> `tests/helpers/traitLiveness.js`). 6 celle wired+LIVE-audited; 2 celle (offense/RAPIDA,
-> defense/FLESSIBILE) lasciate UNWIRED = balance-pick master-dd.
+> **STATUS (2026-06-30): BUILT 7/8 celle.** `PROPOSED_IMPRINT_TRAIT_MAPPING` esteso a 4 assi;
+> HARD-gate `tests/services/imprintTraitGrantLiveness.test.js` (predicato condiviso
+> `tests/helpers/traitLiveness.js`). Update post-recon (#3114, master-dd "wira le celle clean"):
+> **defense/FLESSIBILE wired** = `risposta_di_fuga` (recon ha sciolto il gap "no clean trait" =
+> STALE -> Dodge branch LIVE-CLEAN) + **senses/ACUTO swapped** dal double-gated `sensori_sismici`
+> a `occhi_analizzatori_di_tensione` (no-gate CLEAN). **senses/LONTANO TENUTO** = `sensori_geomagnetici`
+> (l'unica opzione no-gate `senso_magnetico` e' self-labeled 'Stub data-only' -> rifiutata, lesson
+> #3083). **Solo offense/RAPIDA resta UNWIRED** (nessun pick clean; menu N=40 in #3114). Tutto
+> flag-OFF/band-neutral, mapping PROPOSED -> ratifica N=40.
 
 - Mappa completa 4 assi x 2 poli (locomotion/offense/defense/senses).
 - **HARD-gate**: ogni pick deve passare un liveness-audit engine-reale (trigger
@@ -146,15 +151,16 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   da verificare) + `defense/FLESSIBILE` (nessun trait evasione pulito oggi = TBD).
 - Ref: D6 spec sez.4
   [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md).
-- **As-built audit (2026-06-30, real registry + `isEngineLiveReliable`)**: i 4 pick non-locomotion
-  audìti passano TUTTI il gate -> wired: `offense/PROFONDA -> ferocia` (attack/apply_status
-  on_kill, CLEAN), `defense/DURA -> pelle_elastomera` (attack/dr, CLEAN), `senses/LONTANO ->
-sensori_geomagnetici` (attack/extra_damage, min_mos:5 situational), `senses/ACUTO ->
-sensori_sismici` (attack/extra_damage, melee+min_mos:5 situational). Le 2 celle min_mos =
-  situational-LIVE (stesso bar del pick VELOCE gia' shippato `coda_stabilizzatrice_vortex` =
-  melee+min_mos:5), flaggate come primary re-pick N=40. `offense/RAPIDA`
-  (`artiglio_cinetico_a_urto`) + `defense/FLESSIBILE` (nessun trait evasione pulito) restano
-  UNWIRED -> balance-pick master-dd (NON auto-assegnati).
+- **As-built (2026-06-30, real registry + `isEngineLiveReliable`, post-recon #3114)**: 7/8 wired:
+  `offense/PROFONDA -> ferocia` (CLEAN), `defense/DURA -> pelle_elastomera` (CLEAN),
+  `defense/FLESSIBILE -> risposta_di_fuga` (CLEAN, recon-found), `senses/LONTANO ->
+sensori_geomagnetici` (min_mos:5 situational, TENUTO -- no clean upgrade), `senses/ACUTO ->
+occhi_analizzatori_di_tensione` (no-gate CLEAN, swapped dal double-gated `sensori_sismici`),
+  - i 2 locomotion. Tutti re-audìti LIVE + disjoint da branco/minor. `senso_magnetico` (no-gate)
+    RIFIUTATO per LONTANO = self-labeled 'Stub data-only'. **Solo `offense/RAPIDA` UNWIRED** = no
+    clean pick (best situational `dilatazione_temporale_percettiva` min_mos:4 / no-gate-control
+    `coda_frusta_cinetica_2`, entrambi PROPOSED in #3114) -> balance-pick master-dd N=40.
+    Recon completo: [`2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md`](2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
 
 ### W4 -- flag-unification
 
