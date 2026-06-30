@@ -95,7 +95,7 @@ drift). Smoke: 87.5% -> clean, 75% -> trips. #2834/#2888 closed; #3085 self-reso
 
 ## Residuals -- ALL owner-gated (autonomous-drainable work is EXHAUSTED)
 
-- **Tier-2 remaining**: O3 PILLAR re-verify VALORI 6/6 (master-dd action; not drainable by the agent).
+- **Tier-2 remaining**: ~~O3 PILLAR re-verify VALORI 6/6~~ **DONE 2026-06-30** (ri-ratificati 6/6 + P1 restore def++, #3096 `a6e0c034`). Tier-2 design-call batch fully drained.
 - **Tier-3 N=40 lane** (ratified order, Q2 = LETHAL first): N1 SPEC-J LETHAL (author >=1 `lethal:true`
   encounter [design-call] -> N=40 via the G2 harness -> flip permadeath, irreversible-ish) -> N2
   SPEC-H HA1 -> N4 OD-024 STAMINA_FATIGUE -> N3 SPEC-I ER7 -> N6 ER6 carry-over -> N5 A2 retune ->
