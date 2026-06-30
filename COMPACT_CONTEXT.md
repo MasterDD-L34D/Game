@@ -5,7 +5,17 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-06-30 -- close-out Tier-2 batch DRAINED + Infra I3/I4 DEFERRED
+## ⚡ Sessione corrente 2026-07-01 -- Form-Pulse v2 build + 7/8 imprint wiring + 12 trait mechanics
+
+**4 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff.md`; build-spec `2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md`; memory `project_form_pulse_v2_flip_readiness` + `project_missing_trait_combat_mechanics`.
+
+- **Form-Pulse trait v2 W1-W4 BUILT flag-OFF** #3113 `de8bde40`: offset=f(buff) (chiude bug solo +40%HP) + produttore unico `brancoTraitProducer` + mapping imprint + flag collassati. Byte-identical OFF.
+- **Recon weak-cell** #3114 `36537b1a` (menu N=40) + **wiring 7/8 + `selectImprintAxis` tuple-determined** #3115 `9a40cb94` (fix Codex P2: assi binari peso-uguale -> solo locomotion reachable -> hash-mod whole-tuple = vera D-2).
+- **12 trait combat** #3118 `42a00832`: dei 29 orfani, 12 combat autorati (active_effects solo, engine-LIVE, PROPOSED). 17 non-combat = TKT-P6 residue (active_effects combat-only). 🔑 mappa: active_effects=resolver combat / index.json+per-trait=taxonomy; add_trait_stub duplica.
+- **4 Codex fixati** (3 P2 + 1 P1), tutti i thread risolti. combat-oracle band-safe. Niente flag prod.
+- **Next (owner)**: W5 sim-harness (gate W6 + Tier-3 N=40) · N=40 picks form-pulse · TKT-P6 17 orfani · borderline review.
+
+## Sessione 2026-06-30 -- close-out Tier-2 batch DRAINED + Infra I3/I4 DEFERRED
 
 **2 lane owner-gated drenate/disposte** (master-dd via AskUserQuestion, recon-first fan-out per ogni decisione). **10 PR merged + 1 closed (#3101), 0 open.** Handoff `docs/planning/2026-06-30-session-handoff-tier2-infra-closeout.md`; plans `2026-06-29-closeout-master-plan.md` + `2026-06-23-residual-gate-register.md`; memory `project_closeout_master_plan`.
 
