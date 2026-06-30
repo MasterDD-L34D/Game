@@ -1,29 +1,59 @@
 ---
-title: 'Imprint axis->trait grant -- design spec DRAFT (D6, NON-band-neutral, master-dd ratify)'
+title: 'Imprint axis->trait grant -- spec (D6, RATIFIED + BUILT flag-OFF 2026-06-30)'
 date: 2026-06-23
 sprint: aa01-impronta-reconciliation
-doc_status: draft
+doc_status: active
 doc_owner: claude-code
 workstream: cross-cutting
-last_verified: '2026-06-23'
+last_verified: '2026-06-30'
 source_of_truth: false
 language: it-en
 review_cycle_days: 90
 ---
 
-# Imprint axis->trait grant -- design spec DRAFT (D6)
+# Imprint axis->trait grant -- spec (D6)
 
-> **Status: DRAFT / PROPOSED -- NON-canon, NON-band-neutral, master-dd ratify BEFORE any
-> code.** This is the design draft for deferred item **D6**: making the 4 imprint body-part
-> axes grant a MECHANICAL trait (aa01 V1 had a `choice -> trait_id` map; V2 deliberately
-> dropped it, so the axes have NO combat effect today). Granting a trait CHANGES gameplay
-> and touches **P6 Fairness** -- it is a new feature, not a fix. **No code is authored
-> until master-dd ratifies the stacking model + the mapping AND the mapping passes an N=40
-> balance pass.** If master-dd declines, D6 closes and the axes stay cosmetic.
+> **Status: RATIFIED + BUILT flag-OFF (2026-06-30).** Master-dd ratified (AskUserQuestion,
+> close-out Tier-2 aa01 cluster) the design below; the producer + wire shipped flag-gated
+> OFF. The mapping stays PROPOSED-pending-N=40. See **sec.0 (RATIFIED + BUILT)** for the
+> as-built decision + the verify-first liveness correction; the rest of the doc is the
+> original DRAFT proposal it ratified.
 >
 > Parent: [`2026-06-22-aa01-c2-imprint-build-spec.md`](2026-06-22-aa01-c2-imprint-build-spec.md)
 > (sec.9 open-risk "axis->trait grant pending") +
 > [`2026-06-22-aa01-deferred-tracker.md`](2026-06-22-aa01-deferred-tracker.md) (row D6).
+
+## 0. RATIFIED + BUILT (2026-06-30)
+
+**Master-dd verdict (AskUserQuestion, close-out Tier-2 aa01 cluster):** YES, build it --
+**stacking model B + mechanism (a) designated-axis = `locomotion`**.
+
+**As built** (`apps/backend/services/imprint/imprintTraitGrant.js` + wire in
+`coopOrchestrator._applyBrancoTraitEmergence` / `_computeImprintHint`):
+
+- **Stacking B**: the imprint FEEDS the single shared branco-trait slot -- it does NOT
+  stack a second trait (no P6 power-creep). Dominance rule (PROPOSED): **Form-Pulse
+  precedence**; the imprint candidate fills the slot ONLY when the Form-Pulse aggregate
+  yields nothing.
+- **Mechanism (a)**: only the `locomotion` pole grants; the other 3 axes stay cosmetic for
+  the trait (they still drive the biome hint).
+- **Flag** `IMPRINT_TRAIT_GRANT_ENABLED` (default OFF, AND-gated by `IMPRINT_BEAT_ENABLED`).
+  OFF = byte-identical (imprint stays cosmetic). Mapping PROPOSED -> ratify via N=40 before
+  any flip (mirror MA3).
+
+**Verify-first liveness correction (load-bearing).** The DRAFT's sec.4 PROPOSED locomotion
+picks were `zampe_a_molla` (VELOCE) + `mimetismo_cromatico_passivo` (SILENZIOSA). BOTH are
+engine-INERT/near-inert -- the exact defect the `brancoTraitEmergence` coverage audit
+(2026-06-23) already caught and rejected (`mimetismo` = `action_type:passive` -> no runtime
+consumer; `zampe_a_molla` = `min_mos>=5` -> fires ~never). A third candidate considered for
+SILENZIOSA, `spore_psichiche_silenziate`, is ALSO inert (`action_type:melee_attack` fails
+`traitEffects.passesBasicTriggers`, which gates on `action_type === 'attack'`). Shipping any
+of them would make the N=40 ratify pass falsely (a no-op trait shows ~0 delta) and ship the
+feature engine-LIVE / surface-DEAD. **The as-built PROPOSED mapping uses audited-LIVE picks
+instead**: `VELOCE -> coda_stabilizzatrice_vortex` (attack/extra_damage, the branco Agile
+pick), `SILENZIOSA -> cartilagini_flessoacustiche` (attack/damage_reduction, no-gate,
+reliable). master-dd may re-pick at the N=40 ratify (esp. if a genuinely LIVE stealth trait
+is authored for SILENZIOSA).
 
 ## 1. Purpose
 
