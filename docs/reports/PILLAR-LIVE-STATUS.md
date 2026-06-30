@@ -4,7 +4,7 @@ date: 2026-04-28
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-29'
+last_verified: '2026-06-30'
 source_of_truth: true
 language: it
 review_cycle_days: 180
@@ -206,6 +206,14 @@ related:
 ---
 
 ## Delta history (snapshot temporali)
+
+### 2026-06-30 (VALORI 6/6 ri-ratificati master-dd + P1 restore def++)
+
+> ✅ **RATIFICATO master-dd 2026-06-30** (close-out Tier-2, AskUserQuestion). I 6/6 VALORI -- rimasti PENDING dal bump freshness 2026-06-29 (solo data/pointer) -- sono **ri-ratificati**: la reality fine-giugno **rinforza** tutti i pillar, **zero regressioni**, nessuno score-downgrade. Driver gia' elencati nel delta 2026-06-29: OD-024 interoception FLIP ON prod (#2961/#2962), move terrain-cost FLIP LIVE prod (#3061/#3069), SPEC-K K-07 AI smoke PASS (#2891), SPEC-E scar->trait built flag-gated (#2994).
+>
+> **P1 Tattica leggibile: 🟢 confirmed -> 🟢 def++ (restore eseguito)**. Il restore -- "restorable" da 2026-06-01 (surface debt AZZERATO: GAP-5 MissionTimer + GAP-6 reinforcement telegraph) e ribadito 06-20 (Ferrospora UI art-pass) -- e' ora **ratificato**: il substrate movimento terrain-cost LIVE in prod (#3061/#3069, costo movimento player-visible) aggiunge leggibilita' tattica. **Score corrente = 6/6 🟢, P1 = def++**.
+>
+> **Caveat invariati (additive-only)**: P5 LobbyView TV room-sync **ancora APERTO** (nessun fix; design-call pendente; engine non impattato -> 🟢 confirmed regge). Tabella + score line 2026-06-01 lasciati intatti per provenance (il valore live corrente e' in questo delta, come da precedente 06-20/06-29). Engine LIVE invariato (moduli require-d, CI verde). SoT del delta = [`docs/planning/2026-06-29-closeout-master-plan.md`](../planning/2026-06-29-closeout-master-plan.md) (O3).
 
 ### 2026-06-29 (freshness re-verify fine-giugno -- VALORI PENDING master-dd)
 
