@@ -71,13 +71,13 @@ WR ~0.82 -- the party usually clears the mission but ~40% of its creatures fall
 
 **Remaining LETHAL flip-prereqs**:
 
-1. **Real-play scenario-builder (flip-build)**: the enemies must be materialized via
-   a scenario-builder (adapter stats), mirror `badlandsPilotScenario.js` + a
-   `/api/tutorial/enc_badlands_ultima_caccia_01` route (the `encounter_id` path only
-   supplies metadata; the caller provides the combat units). Makes the lethal mission
-   playable at the calibrated difficulty + unblocks a live-backend Python re-confirm.
-2. **master-dd flips** `LETHAL_MISSIONS_ENABLED=true` (irreversible) -- after the
-   scenario-builder + the Godot consent UI (DONE, GGv2 #477) + a lethal data path.
+1. **Real-play scenario-builder -- DONE (this PR)**: `ultimaCacciaScenario.js` +
+   `GET /api/tutorial/enc_badlands_ultima_caccia_01` materialize the #3107 roster with
+   canonical adapter stats (the `encounter_id` path only supplies metadata; the caller
+   provides the combat units). The lethal mission is now playable at the calibrated
+   difficulty (and a live-backend Python re-confirm is unblocked).
+2. **master-dd flips** `LETHAL_MISSIONS_ENABLED=true` (irreversible) -- the only
+   remaining step. Scenario-builder DONE (this PR) + Godot consent UI DONE (GGv2 #477).
 
 See [[project_spec_j_lethal_wounds]], `docs/playtest/2026-06-30-ultima-caccia-lethal-calibration.md` (the #3107 KO-rate),
 `docs/planning/2026-06-29-closeout-master-plan.md` (N1).
