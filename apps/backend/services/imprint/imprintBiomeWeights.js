@@ -145,6 +145,28 @@ function computeImprintBiomeWeights(teamTuples, opts = {}) {
 }
 
 /**
+ * D7 (aa01 L'Impronta, 2026-06-30): the diegetic "il tuo branco tende verso X"
+ * tendency descriptor. SCAFFOLD ONLY -- the structure (i18n key + interpolation
+ * var) lives here; the player-facing PROSE is master-dd HITL (codex-lore boundary),
+ * authored in the client i18n table under `i18n_key`. The backend ships NO Italian
+ * sentence -- `placeholder` is a neutral marker so the field is never empty and the
+ * client knows to localize `i18n_key`. Additive to the existing cosmetic hint (rides
+ * the IMPRINT_BEAT_ENABLED gate; band-neutral, no own flag). null for an empty lean.
+ *
+ * @param {string} leansToward the top biome from the cosmetic affinity hint
+ * @returns {{ leans_toward, i18n_key, vars: { biome }, placeholder } | null}
+ */
+function brancoTendencyHint(leansToward) {
+  if (!leansToward || typeof leansToward !== 'string') return null;
+  return {
+    leans_toward: leansToward,
+    i18n_key: 'imprint.branco_tendency', // client resolves the diegetic prose (HITL master-dd)
+    vars: { biome: leansToward }, // "il tuo branco tende verso {biome}"
+    placeholder: 'TODO_IMPRINT_TENDENCY_PROSE',
+  };
+}
+
+/**
  * The biome with the highest weight (stable on ties), or null for empty weights.
  * Drives the cosmetic hint "leans_toward".
  *
@@ -168,6 +190,7 @@ function topBiome(weights) {
 module.exports = {
   computeImprintBiomeWeights,
   topBiome,
+  brancoTendencyHint,
   tupleKey,
   resetCache,
   IMPRINT_AXES,

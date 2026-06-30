@@ -15,7 +15,7 @@
 
 **Review**: harsh (6-dim) + opposite (4-attack) multi-agent (Workflow); tutti i finding Codex fixati + thread risolti.
 
-**Next entry point**: GAP2 block-3 ([#3068](https://github.com/MasterDD-L34D/Game/pull/3068) `102ae13e`) + float-stabilize ([#3067](https://github.com/MasterDD-L34D/Game/pull/3067) `7d211a3b`) MERGED. Residui owner-gated: flip-CI-enforcing (forbidden-path, post-quiet) / 13-lore HITL #3038 / keeper content-debt / 2 biomi orfani; GAP2-next = 45 boilerplate (rewrite-first) / 9 `*_2` (#3036) / cluster. Arco reproducibility = CHIUSO. Memory cont-27.
+**Next entry point** (2026-06-30): tutti i 4 owner-residui + close-out Tier-2 round DONE. MERGED: flip-CI+--deep [#3071](https://github.com/MasterDD-L34D/Game/pull/3071) · orphan-biomes [#3073](https://github.com/MasterDD-L34D/Game/pull/3073) (5/5) · GAP2 *_2 [#3074](https://github.com/MasterDD-L34D/Game/pull/3074) · 13-lore [#3076](https://github.com/MasterDD-L34D/Game/pull/3076) · O8 resistance-guard [#3080](https://github.com/MasterDD-L34D/Game/pull/3080) (pending merge). O1 scar-map ratified, O7 GAP2-next deferred. **Residuo = owner-gated** (sustained involvement): Tier-2 aa01 cluster (O4/O5/O6) + O3 PILLAR; Tier-3 N=40 lane (N1 SPEC-J LETHAL first); infra forbidden-path (I2/I3/I8); Godot (G2/G3/G6); codex strutturale-echo pass. **Handoff**: `docs/planning/2026-06-30-session-handoff-closeout-residuals.md`. Plans: `2026-06-29-closeout-master-plan.md` + `2026-06-23-residual-gate-register.md`. Memory cont-28 + project_closeout_master_plan.
 
 ---
 

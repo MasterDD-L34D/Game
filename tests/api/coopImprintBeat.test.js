@@ -102,7 +102,17 @@ test('all 4 axes marked (4 players) -> cosmetic hint stamped, beat closes', () =
   const t = co.imprintTally();
   assert.equal(t.all_axes_marked, true);
   assert.equal(t.open, false, 'beat auto-closes on completion');
-  assert.deepEqual(t.branco_biome_hint, { leans_toward: 'savana', weights: { savana: 1 } });
+  assert.deepEqual(t.branco_biome_hint, {
+    leans_toward: 'savana',
+    weights: { savana: 1 },
+    // D7: additive diegetic tendency descriptor (structure only; prose = client HITL).
+    tendency: {
+      leans_toward: 'savana',
+      i18n_key: 'imprint.branco_tendency',
+      vars: { biome: 'savana' },
+      placeholder: 'TODO_IMPRINT_TENDENCY_PROSE',
+    },
+  });
 });
 
 test('N=2 scaling: each player owns 2 axes, all 4 -> hint', () => {

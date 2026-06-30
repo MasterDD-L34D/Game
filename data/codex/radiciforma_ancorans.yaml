@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Foresta Miceliale
     biome_trait: Canopia micotica bioluminescente dove la rete fungina coordina la fauna
     lineage: forme a morfologia flora radicata
-    archetype: strutturale
+    archetype: adattivo
     morphotype: flora radicata
     job: warden
     role: flora ancorata
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: strutturale'
+      - 'resistance_archetype: adattivo'
       - 'role_trofico: flora_ancorata; sentient: False'
       - 'trait_refs: corteccia_memetica, pigmenti_aurorali, radici_ancora_planare, reti_capillari_radici, armatura_pietra_planare'
       cross_ref:
@@ -61,7 +61,7 @@ codex_entry:
       - trait:radici_ancora_planare
       - trait:reti_capillari_radici
       - trait:armatura_pietra_planare
-      game_impact: Archetipo strutturale.
+      game_impact: Archetipo adattivo.
       content: 'La linea dell''ancora radicale porta i segni di corteccia memetica, pigmenti aurorali, radici ancora planare, reti capillari radici, armatura pietra planare: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi un ciclo di adattamento continuo, conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico

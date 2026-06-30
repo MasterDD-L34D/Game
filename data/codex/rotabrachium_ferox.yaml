@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Abisso Vulcanico
     biome_trait: Camini abissali con lava pressurizzata e fauna bio-termica
     lineage: forme a morfologia multi arto rotante
-    archetype: strutturale
+    archetype: adattivo
     morphotype: multi arto rotante
     job: vanguard
     role: predatore apex
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: strutturale'
+      - 'resistance_archetype: adattivo'
       - 'role_trofico: predatore_apex; sentient: False'
       - 'trait_refs: nucleo_ovomotore_rotante, frusta_fiammeggiante, mantello_meteoritico, focus_frazionato, artigli_sette_vie, coda_frusta_cinetica, empatia_coordinativa'
       cross_ref:
@@ -63,8 +63,8 @@ codex_entry:
       - trait:artigli_sette_vie
       - trait:coda_frusta_cinetica
       - trait:empatia_coordinativa
-      game_impact: Archetipo strutturale.
-      content: 'Il rotabraccio evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus frazionato, artigli sette vie, coda frusta cinetica -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo strutturale.'
+      game_impact: Archetipo adattivo.
+      content: 'Il rotabraccio evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- nucleo ovomotore rotante, frusta fiammeggiante, mantello meteoritico, focus frazionato, artigli sette vie, coda frusta cinetica -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:

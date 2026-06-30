@@ -22,10 +22,12 @@ const consentSM = require('./lethalConsent');
 const {
   computeImprintBiomeWeights,
   topBiome,
+  brancoTendencyHint,
   IMPRINT_AXES,
   IMPRINT_AXIS_DEFAULTS,
   isValidAxisValue,
 } = require('../imprint/imprintBiomeWeights');
+const { emergeImprintTrait, isImprintTraitGrantEnabled } = require('../imprint/imprintTraitGrant');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -198,6 +200,10 @@ class CoopOrchestrator {
     this.imprintAssignment = null; // { player_id: [axis,...] } | null (set on open)
     this.imprintOpen = false;
     this.brancoBiomeHint = null; // { leans_toward, weights } | null (stamped on quorum)
+    // D6 (master-dd ratify 2026-06-30): the resolved team imprint 4-tuple, stamped at
+    // hint time. Read by the branco-trait emergence (stacking B: imprint feeds the single
+    // slot as a Form-Pulse fallback). null until the beat resolves; flag-gated downstream.
+    this.imprintTuple = null;
     // C2-imprint deadline (master-dd 2026-06-23): WARNING-ONLY timer. On fire the beat
     // STAYS open + flags `timeout_warning` so the host TV can prompt force/wait -- it does
     // NOT silently auto-default (the rejected option). Cleared on every resolve/reset.
@@ -842,9 +848,15 @@ class CoopOrchestrator {
   _applyBrancoTraitEmergence() {
     // Form-Pulse trait v2 Piece 1: the threshold is flag-resolved (0 when v2 ON = always
     // emerge, else 0.30 = band-neutral). The mapping stays PROPOSED (N=40).
-    const next = emergeBrancoTraitFromPulses(this.formPulses, {
+    const fromPulses = emergeBrancoTraitFromPulses(this.formPulses, {
       threshold: resolveEmergenceThreshold(),
     });
+    // D6 stacking B (master-dd ratify 2026-06-30): the imprint FEEDS the same single
+    // branco-trait slot. Form-Pulse takes precedence; the imprint candidate fills the
+    // slot ONLY when Form-Pulse yields nothing (dominance = Form-Pulse > imprint;
+    // PROPOSED, ratify via N=40). Flag-gated -> OFF = byte-identical (fromPulses only).
+    const next =
+      fromPulses || (isImprintTraitGrantEnabled() ? emergeImprintTrait(this.imprintTuple) : null);
     const prevId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
     const nextId = next && next.trait_id;
     if (prevId !== nextId) {
@@ -1593,6 +1605,7 @@ class CoopOrchestrator {
     this.imprintAssignment = null;
     this.imprintOpen = false;
     this.brancoBiomeHint = null;
+    this.imprintTuple = null;
   }
 
   // Cancel the pending imprint deadline timer, if any (mirror _clearLethalConsentTimer).
@@ -1624,6 +1637,7 @@ class CoopOrchestrator {
     this.imprintTimeoutWarning = false;
     this.imprintMarks.clear();
     this.brancoBiomeHint = null;
+    this.imprintTuple = null;
     this.imprintAssignment = this.assignImprintAxes(connectedPlayerIds);
     this.imprintOpen = true;
     this._emit('imprint_opened', { assignment: this.imprintAssignment });
@@ -1709,11 +1723,20 @@ class CoopOrchestrator {
     }
     const weights = computeImprintBiomeWeights([tuple]);
     const leans = topBiome(weights);
-    this.brancoBiomeHint = leans ? { leans_toward: leans, weights } : null;
+    // D7: additive diegetic tendency descriptor ("il tuo branco tende verso X").
+    // Structure only (i18n key + var); the player-facing prose is master-dd HITL.
+    this.brancoBiomeHint = leans
+      ? { leans_toward: leans, weights, tendency: brancoTendencyHint(leans) }
+      : null;
+    // D6: stamp the resolved team tuple for the branco-trait emergence (stacking B).
+    this.imprintTuple = tuple;
     this.imprintOpen = false;
     this._clearImprintTimer();
     this.imprintTimeoutWarning = false;
     this._emit('imprint_hint', this.brancoBiomeHint);
+    // D6 (flag-gated): re-resolve the single branco slot so a late imprint can fill an
+    // empty Form-Pulse slot (Form-Pulse precedence preserved). OFF -> no-op.
+    if (isImprintTraitGrantEnabled()) this._applyBrancoTraitEmergence();
     return this.brancoBiomeHint;
   }
 
@@ -1742,6 +1765,7 @@ class CoopOrchestrator {
     this.imprintMarks.clear();
     this.imprintAssignment = null;
     this.brancoBiomeHint = null;
+    this.imprintTuple = null;
     this._emit('imprint_cancelled', {});
     return this.imprintTally();
   }
