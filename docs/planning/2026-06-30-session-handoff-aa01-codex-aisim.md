@@ -107,7 +107,7 @@ drift). Smoke: 87.5% -> clean, 75% -> trips. #2834/#2888 closed; #3085 self-reso
   keys.env + restart, post their gates).
 - **Godot cross-repo** (Game-Godot-v2): G2 aa01 IMPRINT_BEAT flip / G3 META_NETWORK route-UI /
   G6 move-terrain engine-AP-enforcement.
-- **Content/calibration**: D7 player-facing prose (client i18n, HITL); B6 keeper content-debt (large);
+- **Content/calibration**: ~~D7 player-facing prose~~ **DONE 2026-06-30** (O5 form-B per-biome i18n, #3097); B6 keeper content-debt (large);
   AI-sim #3085 (self-resolves next nightly).
 
 ## Next entry-point
