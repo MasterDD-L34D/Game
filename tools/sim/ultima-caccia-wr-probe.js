@@ -158,19 +158,15 @@ function adapterEnemies(ids) {
     };
   });
 }
-// Calibrated lethal roster (canonical adapter stats): WR 0.275 in the hardcore
-// band [0.25,0.40] (see the sweep in the evidence doc). Override via ULTIMA_ROSTER.
+// Default = the SHIPPED roster (#3107, master-dd KO-gate verdict): apex Skiv + 2
+// echo-wing + 2 rust-scavenger. Canonical adapter stats -> WR ~0.82, creature-KO-rate
+// ~0.40 (in the hardcore band [0.25,0.40]). Override via ULTIMA_ROSTER to re-run the
+// WR/KO sweep (the WR-tuned reject was dune+ferro+nano+rust+sand @ WR 0.275 / KO 0.72).
 const LETHAL_ENEMY_IDS = process.env.ULTIMA_ROSTER
   ? process.env.ULTIMA_ROSTER.split(',')
       .map((s) => s.trim())
       .filter(Boolean)
-  : [
-      'dune-stalker',
-      'ferrocolonia-magnetotattica',
-      'nano-rust-bloom',
-      'rust-scavenger',
-      'sand-burrower',
-    ];
+  : ['dune-stalker', 'echo-wing', 'echo-wing', 'rust-scavenger', 'rust-scavenger'];
 
 async function runOne(app, units, encounterClass, seed) {
   const h = http(app);

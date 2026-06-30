@@ -17,6 +17,14 @@
 //
 // lethal: true rides on the scenario object so /session/start arms the per-mission
 // lethal flag (inert until LETHAL_MISSIONS_ENABLED + per-player consent; band-neutral).
+//
+// DUAL STAT REPRESENTATION (do not mix): the SAME encounter id also exists as
+// docs/planning/encounters/enc_badlands_ultima_caccia_01.yaml, which carries the
+// ai-driven-sim TIER-TABLE stats (echo-wing elite hp10, rust base hp7) -- that file
+// is the harness-lite / encounterLoader-metadata representation. THIS builder is the
+// CANONICAL real-play one (adapter stats: echo-wing hp4, rust hp4) and is what the
+// KO-gate was ratified against (KO ~0.40 adapter ~ 0.356 tier-table -- both in
+// [0.25,0.40], so the gate holds for either, but a calibration run must not mix them).
 
 'use strict';
 

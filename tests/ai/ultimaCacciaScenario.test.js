@@ -78,15 +78,30 @@ test('GET /api/tutorial/enc_badlands_ultima_caccia_01 -> scenario + units + leth
   assert.equal(enemies.length, 5);
 });
 
-test('e2e: start the lethal scenario units -> session.lethal public', async (t) => {
+test("e2e: THIS scenario's own lethal metadata arms session.lethal (public)", async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
   const sc = await request(app).get('/api/tutorial/enc_badlands_ultima_caccia_01');
+  // Use the scenario's OWN lethal flag (sc.body.lethal), not a hand-built true, so
+  // this proves the builder's metadata -- not just that /start honors a lethal payload.
   const res = await request(app)
     .post('/api/session/start')
-    .send({ units: sc.body.units, encounter: { lethal: true }, modulation: 'full' });
+    .send({ units: sc.body.units, encounter: { lethal: sc.body.lethal }, modulation: 'full' });
   assert.equal(res.status, 200);
-  assert.equal(res.body.state.lethal, true, 'lethal mission armed (inert until flag+consent)');
+  assert.equal(res.body.state.lethal, true, 'lethal mission armed from the scenario metadata');
+});
+
+test('band-neutral: flag OFF -> lethal is inert (resolveKoOutcome soft before mission/consent)', () => {
+  // The scenario sets lethal:true, but with LETHAL_MISSIONS_ENABLED unset a player KO
+  // stays soft-death regardless of mission flag / consent (lethalDeath.js fail-closed).
+  delete process.env.LETHAL_MISSIONS_ENABLED;
+  const { resolveKoOutcome } = require('../../apps/backend/services/combat/lethalDeath');
+  const out = resolveKoOutcome(
+    { controlled_by: 'player', hp: 0 },
+    { missionLethal: true, consentGranted: true, isKo: true },
+  );
+  assert.equal(out.outcome, 'soft', 'flag OFF -> soft even with mission+consent (band-neutral)');
+  assert.equal(out.reason, 'lethal_disabled');
 });
