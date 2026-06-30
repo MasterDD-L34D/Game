@@ -432,6 +432,10 @@ function currentFlags() {
     SENTIENCE_INTEROCEPTION_GRANT_ENABLED:
       process.env.SENTIENCE_INTEROCEPTION_GRANT_ENABLED || 'false',
     SIM_GRANT_PARTY_INTEROCEPTION: process.env.SIM_GRANT_PARTY_INTEROCEPTION || '0',
+    // OD-024 engine #2 (sprint stamina/fatica) flip arm: the A/B discriminator for
+    // the STAMINA N=40. Provenance MUST carry it so an OFF vs ON summary.json pair
+    // is self-distinguishing + reproducible (Codex #3108 P2).
+    STAMINA_FATIGUE_ENABLED: process.env.STAMINA_FATIGUE_ENABLED || 'false',
   };
 }
 
