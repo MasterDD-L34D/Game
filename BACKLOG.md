@@ -364,6 +364,15 @@ docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, 
   - TKT-STALE-B10-NEEDS-HUMAN -- 6 doc `source_of_truth: true` (owner-gated bump, NON auto): `COMMIT_STYLE` (commit-convention reference, 1 path stale apps/dashboard), `governance/Q-001-DECISIONS-LOG` (decision-log PR #1463 chiuso), `governance/QUARANTINE` (quarantine registry, Q-001 forse stale se PR merged), `skiv/CANONICAL` (Skiv hub canonico + **drift reale**: cita `data/core/species.yaml:71` rimosso -> owner re-point a `data/core/species/dune_stalker_lifecycle.yaml`), `skiv/LAUNCHER` (script `.cmd`/`.ps1` esistono = clean-bump dopo OK owner), `hubs/incoming` (incoming SOT hub, 3 link live). NB: BOM `﻿---` inganna i regex-scan frontmatter naive (hubs/incoming sot:true visto solo a read-diretto) -> il bump-script e' BOM-tolerant.
 - **Priorita'**: P3, progressive (sessioni dedicate). Non-blocking (gate verde).
 
+### 🟡 P2 OPEN — SPEC-F/E persistence-layer (unblocks Infra I3 + I4) (2026-06-30)
+
+> **TKT-PERSISTENCE-LAYER** -- close-out Infra lane I3 + I4 are BOTH blocked by the same gap: the SPEC-F/E backend persistence layer is not wired for cross-restart durability.
+>
+> - **I3 (durable crossbreed cooldown)** -- PR [#3101](https://github.com/MasterDD-L34D/Game/pull/3101) PREPARED then **CLOSED 2026-06-30**. Verify-first: `apps/backend/services/skiv/companionStateStore.js` `hydrateAsync` is DEFINED but **never called** anywhere (`rg '\.hydrateAsync\('` = def only); `app.js:851` creates the store but no startup/route bulk-hydrate. So on a fresh Prisma process `getCompanionState` 404s before the cooldown check -> a schema-field cooldown delivers no real cross-restart durability (+ a FIFO-eviction edge on `crossbreed_history` cap 10). The in-memory cooldown on main stays (within-run correct; restart-reset moot since companion state resets with it).
+> - **I4 (SPEC-E ritual resource-cost E6)** -- DEFERRED 2026-06-30 (master-dd). No backend resource pool: `Campaign` (Prisma) has only per-chapter `peEarned`/`piEarned` totals, no spendable PE/PI/SG balance; `godotV2State` is a read-only snapshot; no propose-spend/quorum-commit route; the ritual trusts the caller paid (band-neutral).
+>
+> **To unblock (a dedicated workstream, NOT infra-prep)**: (1) hydrate the companion store from Prisma at startup (or per-lineage in the confirm route); (2) add a backend campaign resource pool (Prisma balance fields + a propose-spend/quorum-commit route) -- forbidden-path `packages/contracts` + `migrations`; (3) the 4 I4 design-calls (resource type PE/PI/SG/PP/PT? cost-model flat-vs-scaled? quorum-UX? shared-vs-per-player pool?). Then I3 = uncapped hydration-reliable cooldown key (not the FIFO share-history) + I4 = debit the pool on ritual. **Owner-gated** (design + forbidden-path + migration).
+
 ### 🟢 P3 OPEN — ER6 overrun follow-up: fork carry-over + harness entropy (2026-06-11)
 
 Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifica `OVERRUN_BUDGET_BONUS=1` as-built, nicchia on-grid <=t8):
