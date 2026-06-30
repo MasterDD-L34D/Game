@@ -26,6 +26,9 @@ const {
   buildBadlandsUnits01,
   loadBadlandsSpecies,
 } = require('../../apps/backend/services/worldgen/badlandsPilotScenario');
+const {
+  buildUltimaCacciaUnits01,
+} = require('../../apps/backend/services/worldgen/ultimaCacciaScenario');
 const { deriveCombatStats } = require('../../apps/backend/services/worldgen/ecologyCombatAdapter');
 
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
@@ -246,12 +249,13 @@ async function main() {
     ? { label: 'pilot-skipped', win_rate: 0.55, note: 'validated separately (22/40, in band)' }
     : await runWR('pilot-validate', pilotUnits, 'badlands', N);
   const valid = skipPilot || (pilot.win_rate >= 0.4 && pilot.win_rate <= 0.6);
-  const lethal = await runWR(
-    'lethal',
-    [...quartet, ...adapterEnemies(LETHAL_ENEMY_IDS)],
-    'hardcore',
-    N,
-  );
+  // Default: the EXACT shipped scenario-builder units (single source of truth ->
+  // the probe provably certifies what gets flipped). ULTIMA_ROSTER override builds a
+  // custom roster for the WR/KO sweep (Codex #3112 P1: no default-vs-shipped drift).
+  const lethalUnits = process.env.ULTIMA_ROSTER
+    ? [...quartet, ...adapterEnemies(LETHAL_ENEMY_IDS)]
+    : buildUltimaCacciaUnits01();
+  const lethal = await runWR('lethal', lethalUnits, 'hardcore', N);
 
   console.log(
     JSON.stringify(
