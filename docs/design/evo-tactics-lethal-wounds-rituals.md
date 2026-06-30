@@ -5,7 +5,7 @@ type: design-spec
 doc_status: active
 doc_owner: master-dd
 workstream: flow
-last_verified: '2026-06-08'
+last_verified: '2026-06-30'
 source_of_truth: false
 review_cycle_days: 30
 language: it
@@ -123,6 +123,11 @@ missione flaggata lethal (public: tutti sanno che e' a rischio)
   validato vs `active_effects` SoT (mai fidarsi della map sola); il wire `/nido/ritual` lo persiste su
   `campaign.acquiredTraitsByCreature` (MA1). RESIDUO owner-gated: ratifica/estensione `SCAR_TRAIT_MAP` +
   N=40 + flip; il costo (E6) resta SPEC-E. Tracking: `docs/planning/2026-06-23-residual-gate-register.md`.
+- **Update 2026-06-30 (verdetto master-dd, close-out Tier-2 -- O1):** `SCAR_TRAIT_MAP` **RATIFIED-PROVISIONAL**
+  - `testa` ora **mappato** -> `occhi_cristallo_modulare` (cicatrice accuracy/senses -> ottica cristallina,
+    +2 dmg su colpo MoS>=8). Tutte e 4 le location mappate; una location SCONOSCIUTA fa ancora fail-close.
+    Tutti i 4 target trait sono LIVE (`trigger.action_type=attack`, verificato vs `passesBasicTriggers`).
+    RESIDUO ristretto a: **N=40** (flag ON) + **flip**; il costo (E6) resta SPEC-E. 33/33 test nido verdi.
 
 ## 7. Succession + failure-as-lore
 
