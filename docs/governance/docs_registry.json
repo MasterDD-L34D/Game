@@ -219,6 +219,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md",
+      "title": "2026-07-01 session handoff -- Tier-3 grilling value-picks DRAINED (6/6) + W5 surfaced",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-30-session-handoff-closeout-residuals.md",
       "title": "2026-06-30 session handoff -- owner-residuals via ask + close-out Tier-2 round",
       "doc_status": "active",
