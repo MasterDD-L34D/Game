@@ -151,21 +151,62 @@ test('single slot: returns at most ONE trait (never stacks)', () => {
   assert.ok(!Array.isArray(got));
 });
 
-test('ON: deterministic tie-break among imprint axes (mapping order, first wins)', () => {
-  // both locomotion + senses present; equal weight -> the first mapping axis wins.
-  const imprintMapping = {
-    locomotion: { VELOCE: 'trait_loco' },
-    senses: { ACUTO: 'trait_senses' },
+test('ON: imprint axis is TUPLE-DETERMINED (deterministic + whole-tuple-dependent), not first-axis', () => {
+  // Verdict D-2: the FULL tuple selects WHICH imprint axis grants -- so non-first axes are
+  // reachable (the first-axis tie-break made only locomotion reachable, Codex P2). Deterministic
+  // for a given tuple; different tuples can surface different axes.
+  const call = (tuple) =>
+    produceBrancoTrait({
+      aggregate: {},
+      imprintTuple: tuple,
+      combined: true,
+      threshold: 0,
+      w: 0.5,
+      imprintMapping: PROPOSED_IMPRINT_TRAIT_MAPPING,
+    });
+  const t1 = { locomotion: 'VELOCE', offense: 'PROFONDA', defense: 'FLESSIBILE', senses: 'ACUTO' };
+  assert.equal(call(t1).trait_id, call(t1).trait_id, 'same tuple -> same trait (deterministic)');
+  // whole-tuple-dependent WITH locomotion FIXED: under a first-axis rule the trait would never
+  // change (locomotion always wins); under tuple-determined it can. At least 2 distinct traits.
+  const variants = ['DURA', 'FLESSIBILE'].flatMap((d) =>
+    ['LONTANO', 'ACUTO'].map((s) => ({ ...t1, defense: d, senses: s })),
+  );
+  const traits = new Set(variants.map((v) => call(v).trait_id));
+  assert.ok(traits.size >= 2, 'with locomotion fixed, the tuple must still steer the imprint axis');
+});
+
+test('reachability (Codex P2): every WIRED imprint cell can win for SOME complete tuple', () => {
+  const POLES = {
+    locomotion: ['VELOCE', 'SILENZIOSA'],
+    offense: ['PROFONDA', 'RAPIDA'],
+    defense: ['DURA', 'FLESSIBILE'],
+    senses: ['LONTANO', 'ACUTO'],
   };
-  const got = produceBrancoTrait({
-    aggregate: {},
-    imprintTuple: { locomotion: 'VELOCE', senses: 'ACUTO' },
-    combined: true,
-    threshold: 0,
-    w: 0.5,
-    imprintMapping,
-  });
-  assert.equal(got.trait_id, 'trait_loco');
+  const won = new Set();
+  for (const locomotion of POLES.locomotion)
+    for (const offense of POLES.offense)
+      for (const defense of POLES.defense)
+        for (const senses of POLES.senses) {
+          const r = produceBrancoTrait({
+            aggregate: {},
+            imprintTuple: { locomotion, offense, defense, senses },
+            combined: true,
+            threshold: 0,
+            w: 0.5,
+            imprintMapping: PROPOSED_IMPRINT_TRAIT_MAPPING,
+          });
+          if (r) won.add(r.trait_id);
+        }
+  // the wired non-locomotion cells MUST be reachable across the tuple space (the point of D-2).
+  for (const id of [
+    'ferocia', // offense/PROFONDA
+    'pelle_elastomera', // defense/DURA
+    'risposta_di_fuga', // defense/FLESSIBILE
+    'occhi_analizzatori_di_tensione', // senses/ACUTO
+    'sensori_geomagnetici', // senses/LONTANO
+  ]) {
+    assert.ok(won.has(id), `imprint cell ${id} must be reachable for at least one tuple`);
+  }
 });
 
 test('null / garbage inputs -> null, never throws', () => {

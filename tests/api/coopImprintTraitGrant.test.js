@@ -1,15 +1,26 @@
 'use strict';
 
 // D6 imprint axis->trait grant wired into the coop branco-trait slot. W4 flag-unification
-// (grilling 2026-06-30): the imprint now feeds the single slot through the unified
+// (grilling 2026-06-30): the imprint feeds the single slot through the unified
 // brancoTraitProducer under ONE flag FORM_PULSE_TRAIT_V2_ENABLED (the old
 // IMPRINT_TRAIT_GRANT_ENABLED is collapsed away). OFF = byte-identical (imprint stays
-// cosmetic). Stacking B preserved: ONE slot, imprint competes via the weighted argmax,
-// Form-Pulse precedence on a tie.
+// cosmetic). Stacking B preserved: ONE slot, Form-Pulse precedence on a tie. Which imprint
+// axis grants is TUPLE-DETERMINED (verdict D-2, #3115): the whole 4-tuple selects the axis
+// (selectImprintAxis), so the granted trait is asserted against that, not a fixed pole->trait.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { CoopOrchestrator } = require('../../apps/backend/services/coop/coopOrchestrator');
+const { selectImprintAxis } = require('../../apps/backend/services/identity/brancoTraitProducer');
+const {
+  PROPOSED_IMPRINT_TRAIT_MAPPING,
+} = require('../../apps/backend/services/imprint/imprintTraitGrant');
+
+// The trait the tuple-determined selector would grant for the orchestrator's stamped tuple.
+function expectedImprintTrait(co) {
+  const sel = selectImprintAxis(co.imprintTuple, PROPOSED_IMPRINT_TRAIT_MAPPING);
+  return sel && sel.trait_id;
+}
 
 function party(roomCode = 'IMTG') {
   const co = new CoopOrchestrator({ roomCode, hostId: 'p_h' });
@@ -61,24 +72,34 @@ test('flag OFF (default): imprint completes but grants NO trait (byte-identical)
   );
 });
 
-test('flag ON, no Form-Pulse: imprint VELOCE fills the slot (coda_stabilizzatrice_vortex)', () => {
+test('flag ON, no Form-Pulse: the tuple-determined imprint trait fills the slot (all chars)', () => {
   withFlags(true, () => {
     const co = party();
     completeImprint(co, 'VELOCE');
-    assert.ok(co.emergentBrancoTrait, 'slot filled by the imprint fallback');
-    assert.equal(co.emergentBrancoTrait.trait_id, 'coda_stabilizzatrice_vortex');
+    const want = expectedImprintTrait(co);
+    assert.ok(want, 'a wired imprint cell is selected for this tuple');
+    assert.ok(co.emergentBrancoTrait, 'slot filled by the imprint');
+    assert.equal(co.emergentBrancoTrait.trait_id, want, 'grants the tuple-determined trait');
     assert.equal(co.emergentBrancoTrait.source, 'imprint');
-    assert.ok(co.characters.get('p_a').traits.includes('coda_stabilizzatrice_vortex'));
-    assert.ok(co.characters.get('p_b').traits.includes('coda_stabilizzatrice_vortex'));
+    assert.ok(co.characters.get('p_a').traits.includes(want));
+    assert.ok(co.characters.get('p_b').traits.includes(want), 'shared across the branco');
   });
 });
 
-test('flag ON, SILENZIOSA -> cartilagini_flessoacustiche', () => {
+test('flag ON: a DIFFERENT tuple grants its OWN tuple-determined trait (axis varies by tuple)', () => {
   withFlags(true, () => {
-    const co = party();
-    completeImprint(co, 'SILENZIOSA');
-    assert.equal(co.emergentBrancoTrait.trait_id, 'cartilagini_flessoacustiche');
-    assert.ok(co.characters.get('p_a').traits.includes('cartilagini_flessoacustiche'));
+    const coV = party('IMTV');
+    completeImprint(coV, 'VELOCE');
+    const coS = party('IMTS');
+    completeImprint(coS, 'SILENZIOSA');
+    assert.equal(coV.emergentBrancoTrait.trait_id, expectedImprintTrait(coV));
+    assert.equal(coS.emergentBrancoTrait.trait_id, expectedImprintTrait(coS));
+    // both are valid wired imprint traits (not necessarily the locomotion pick)
+    const wired = new Set(
+      Object.values(PROPOSED_IMPRINT_TRAIT_MAPPING).flatMap((p) => Object.values(p)),
+    );
+    assert.ok(wired.has(coV.emergentBrancoTrait.trait_id));
+    assert.ok(wired.has(coS.emergentBrancoTrait.trait_id));
   });
 });
 
@@ -90,10 +111,11 @@ test('flag ON, Form-Pulse present -> Form-Pulse PRECEDENCE (imprint ignored)', (
     co.submitFormPulse('p_b', { axes: { solitary_swarm: 0.8 } }, ALL); // -> legame_di_branco
     completeImprint(co, 'VELOCE');
     assert.equal(co.emergentBrancoTrait.trait_id, 'legame_di_branco', 'Form-Pulse wins the slot');
+    assert.equal(co.emergentBrancoTrait.source, 'formpulse');
     assert.equal(
-      co.characters.get('p_a').traits.includes('coda_stabilizzatrice_vortex'),
+      co.characters.get('p_a').traits.includes(expectedImprintTrait(co)),
       false,
-      'imprint trait NOT granted while Form-Pulse holds the slot',
+      'the tuple-determined imprint trait is NOT granted while Form-Pulse holds the slot',
     );
   });
 });
@@ -109,7 +131,7 @@ test('flag ON, weak Form-Pulse lean -> imprint weight outvotes it for the slot',
     assert.equal(co.emergentBrancoTrait.source, 'formpulse');
     // ...but the imprint weight (PROPOSED 0.5) outvotes a 0.1 lean once the tuple lands.
     completeImprint(co, 'VELOCE');
-    assert.equal(co.emergentBrancoTrait.trait_id, 'coda_stabilizzatrice_vortex');
+    assert.equal(co.emergentBrancoTrait.trait_id, expectedImprintTrait(co));
     assert.equal(co.emergentBrancoTrait.source, 'imprint');
   });
 });

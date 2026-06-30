@@ -48,14 +48,54 @@ function resolveImprintWeight(env = process.env) {
   return Number.isFinite(raw) && raw >= 0 ? raw : PROPOSED_IMPRINT_WEIGHT;
 }
 
+// Deterministic string hash over the WHOLE imprint tuple (all mapped axes' poles). Drives the
+// tuple-determined axis selection so the COMBINATION decides the trait (verdict D-2).
+function _tupleHash(tuple, axes) {
+  let h = 0;
+  for (const axis of axes) {
+    const v = tuple[axis] == null ? '' : String(tuple[axis]).toUpperCase();
+    for (let i = 0; i < v.length; i++) h = (Math.imul(h, 31) + v.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
+/**
+ * TUPLE-DETERMINED imprint-axis selection (verdict D-2; replaces the first-axis tie-break that
+ * left only locomotion reachable -- Codex P2 #3115). The imprint is a single shared 4-tuple of
+ * EQUAL-magnitude binary axes, so "which axis grants" cannot come from an argmax among them;
+ * instead the WHOLE tuple deterministically selects one of the wired-pole axes. Pure, no-mutate,
+ * never throws; same tuple -> same axis (reconnect/snapshot-stable). All wired cells are reachable
+ * across the tuple space. PROPOSED mechanism (the hash-mod is arbitrary-but-deterministic; master-dd
+ * may swap to a curated tuple->axis table at the N=40 ratify).
+ *
+ * @param {{ locomotion?, offense?, defense?, senses? }} tuple
+ * @param {object} mapping  imprint axis x pole -> trait_id
+ * @returns {{ axis, pole, trait_id } | null}
+ */
+function selectImprintAxis(tuple, mapping) {
+  if (!tuple || typeof tuple !== 'object' || !mapping || typeof mapping !== 'object') return null;
+  const axes = Object.keys(mapping);
+  const candidates = [];
+  for (const axis of axes) {
+    const raw = tuple[axis];
+    if (raw == null) continue;
+    const pole = String(raw).toUpperCase();
+    const trait_id = mapping[axis] && mapping[axis][pole];
+    if (trait_id) candidates.push({ axis, pole, trait_id }); // only wired poles are selectable
+  }
+  if (!candidates.length) return null;
+  const idx = _tupleHash(tuple, axes) % candidates.length;
+  return candidates[idx];
+}
+
 /**
  * Pure: fill the single branco-trait slot from the Form-Pulse aggregate and (when combined)
- * the imprint tuple. No-mutate, deterministic tie-break, never throws.
+ * the imprint tuple. No-mutate, deterministic, never throws.
  *
- * Tie-break: among ALL form candidates only the global argmax can win, so emergeBrancoTrait's
- * own first-max-wins result IS the form representative. It is compared against the imprint
- * candidates with a STRICT `>` so (a) Form-Pulse wins an exact tie with the imprint weight
- * (Form-Pulse precedence), and (b) among imprint axes the first in mapping order wins.
+ * Form side: emergeBrancoTrait's own first-max-wins result IS the form representative (only the
+ * global argmax can win). Imprint side: ONE tuple-determined candidate (selectImprintAxis). The
+ * two compete with a STRICT `>` so Form-Pulse wins an exact tie with the imprint weight w
+ * (Form-Pulse precedence).
  *
  * @param {object}  args.aggregate      Form-Pulse branco aggregate { creatureAxis: avg in [-1,1] }
  * @param {object}  [args.imprintTuple] { locomotion, offense, defense, senses } pole strings | null
@@ -85,8 +125,8 @@ function produceBrancoTrait(args = {}) {
   // Returned bare (no `source`) so the shape == emergeBrancoTrait exactly.
   if (!combined) return fromForm;
 
-  // ON: the imprint binary axes also compete for the single slot, each at magnitude w. The
-  // winner is tagged with which channel supplied it (observability; #3083 carried `source`).
+  // ON: the imprint contributes ONE tuple-determined candidate at magnitude w. The winner is
+  // tagged with which channel supplied it (observability; #3083 carried `source`).
   let best = fromForm ? { ...fromForm, source: 'formpulse' } : null;
   const wMag = Number.isFinite(w) ? w : 0;
   const effThreshold = Number.isFinite(threshold) ? threshold : 0;
@@ -94,15 +134,9 @@ function produceBrancoTrait(args = {}) {
   // control sweep) disables the imprint contribution -- otherwise an empty Form-Pulse aggregate
   // would still grant a magnitude-0 imprint trait, corrupting a zero-weight calibration run.
   if (imprintTuple && typeof imprintTuple === 'object' && wMag > 0 && wMag >= effThreshold) {
-    for (const axis of Object.keys(imprintMapping)) {
-      const raw = imprintTuple[axis];
-      if (raw == null) continue;
-      const pole = String(raw).toUpperCase();
-      const trait_id = imprintMapping[axis] && imprintMapping[axis][pole];
-      if (!trait_id) continue; // unmapped pole (e.g. a TODO balance-pick cell) -> no candidate
-      if (!best || wMag > best.magnitude) {
-        best = { trait_id, axis, pole, magnitude: wMag, source: 'imprint' };
-      }
+    const imp = selectImprintAxis(imprintTuple, imprintMapping);
+    if (imp && (!best || wMag > best.magnitude)) {
+      best = { ...imp, magnitude: wMag, source: 'imprint' };
     }
   }
   return best || null;
@@ -112,5 +146,6 @@ module.exports = {
   IMPRINT_WEIGHT_FLAG,
   PROPOSED_IMPRINT_WEIGHT,
   resolveImprintWeight,
+  selectImprintAxis,
   produceBrancoTrait,
 };

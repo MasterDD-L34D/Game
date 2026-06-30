@@ -110,14 +110,21 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 ### W2 -- produttore unificato `brancoTraitProducer` (design-heavy)
 
 > **STATUS (2026-06-30): BUILT flag-OFF.** `apps/backend/services/identity/brancoTraitProducer.js`
-> (`produceBrancoTrait` + `resolveImprintWeight`); rimpiazza il fallback inline #3083 in
-> `coopOrchestrator._applyBrancoTraitEmergence`. OFF (combined=false) = delega a
+> (`produceBrancoTrait` + `resolveImprintWeight` + `selectImprintAxis`); rimpiazza il fallback
+> inline #3083 in `coopOrchestrator._applyBrancoTraitEmergence`. OFF (combined=false) = delega a
 > `emergeBrancoTrait` = byte-identical. `w` PROPOSED 0.5 (env `FORM_PULSE_IMPRINT_WEIGHT`) -> W6.
 
-- Nuovo modulo puro che fa **argmax pesato** sull'unione:
-  `{5 assi form-pulse continui |avg|}` ∪ `{4 assi imprint binari, pesati w}`.
-  Il vincitore dell'argmax decide quale mapping (form-pulse o imprint) fornisce l'UNICO
-  branco trait. Niente proiezione tra assi (gli assi imprint hanno il loro mapping, sez. W3).
+- **Form side**: argmax `|avg|` sui 5 assi form-pulse continui (il vincitore = il rappresentante
+  form-pulse, magnitudine = `|avg|`). **Imprint side**: UN candidato di magnitudine `w`.
+  La precedenza tra i due = STRICT `>` (form-pulse vince il tie esatto = P-c precedenza).
+- 🔑 **Correzione meccanismo imprint (Codex P2 #3115, verdetto master-dd "tuple-determined"):**
+  i 4 assi imprint sono BINARI a magnitudine UGUALE `w` -> NON possono fare argmax fra loro
+  (con un tie-break first-axis vinceva SEMPRE locomotion = le altre celle UNREACHABLE). Quindi
+  **quale asse imprint grant-a = `selectImprintAxis`**: la 4-tupla INTERA seleziona deterministicamente
+  uno degli assi con polo wired (hash-mod sull'intera tupla -> whole-imprint-matters = vera D-2;
+  tutte le celle wired reachable; stesso-tupla -> stesso-asse, reconnect-stabile). Il meccanismo
+  di selezione e' PROPOSED (hash-mod arbitrario-ma-deterministico; master-dd puo' sostituirlo con
+  una tabella tupla->asse curata al ratify N=40). Niente proiezione tra vocabolari di assi.
 - **Rimpiazza** il fallback inline `fromPulses || imprint` di #3083 (su main) e centralizza
   in un solo posto la produzione del branco trait (precedenza esplicita = P-c combinata).
 - Single-slot garantito (UN branco trait) -> nessun power-stack -> l'offset W1 resta valido.
