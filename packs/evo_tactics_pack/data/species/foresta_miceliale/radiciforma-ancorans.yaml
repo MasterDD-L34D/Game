@@ -1,6 +1,6 @@
 id: radiciforma_ancorans
 schema_version: '1.7'
-resistance_archetype: strutturale
+resistance_archetype: adattivo
 display_name: Ancora radicale
 biomes:
 - foresta_miceliale
