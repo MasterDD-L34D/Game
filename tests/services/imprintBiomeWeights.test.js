@@ -166,25 +166,26 @@ test('isImprintEnabled: OFF by default, ON only when env flag === "true"', () =>
   assert.equal(isImprintEnabled(null), false);
 });
 
-// D7 -- diegetic tendency descriptor scaffold (structure only; prose = client HITL).
+// D7 -- diegetic tendency descriptor (per-biome i18n key; prose = client HITL form-B).
 test('brancoTendencyHint: structured descriptor for a non-empty lean', () => {
   assert.deepEqual(brancoTendencyHint('palude'), {
     leans_toward: 'palude',
-    i18n_key: 'imprint.branco_tendency',
+    i18n_key: 'imprint.branco_tendency.palude',
     vars: { biome: 'palude' },
     placeholder: 'TODO_IMPRINT_TENDENCY_PROSE',
   });
 });
 
-test('brancoTendencyHint: the var tracks the lean (different biome)', () => {
+test('brancoTendencyHint: the key + var track the lean (different biome)', () => {
   const t = brancoTendencyHint('reef');
   assert.equal(t.vars.biome, 'reef');
   assert.equal(t.leans_toward, 'reef');
-  assert.equal(t.i18n_key, 'imprint.branco_tendency');
+  assert.equal(t.i18n_key, 'imprint.branco_tendency.reef');
 });
 
 test('brancoTendencyHint: ships NO player-facing prose (boundary)', () => {
-  // The backend must never embed the Italian sentence; only a neutral marker.
+  // The backend must never embed the Italian sentence; only a neutral marker + the
+  // per-biome i18n key the client localizes.
   assert.equal(brancoTendencyHint('savana').placeholder, 'TODO_IMPRINT_TENDENCY_PROSE');
 });
 

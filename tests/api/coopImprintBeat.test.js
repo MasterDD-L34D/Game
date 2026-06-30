@@ -105,10 +105,10 @@ test('all 4 axes marked (4 players) -> cosmetic hint stamped, beat closes', () =
   assert.deepEqual(t.branco_biome_hint, {
     leans_toward: 'savana',
     weights: { savana: 1 },
-    // D7: additive diegetic tendency descriptor (structure only; prose = client HITL).
+    // D7: additive diegetic tendency descriptor (per-biome key; prose = client HITL form-B).
     tendency: {
       leans_toward: 'savana',
-      i18n_key: 'imprint.branco_tendency',
+      i18n_key: 'imprint.branco_tendency.savana',
       vars: { biome: 'savana' },
       placeholder: 'TODO_IMPRINT_TENDENCY_PROSE',
     },
