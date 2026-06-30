@@ -138,31 +138,58 @@ def _load_inventory_core_traits(path: Path) -> List[str]:
     return result
 
 
-def _normalize_data_root(candidate: Path) -> Path:
-    """Return the directory that actually contains the core dataset."""
+def _species_catalog_path(data_root: Path) -> Path:
+    return data_root / "species" / "species_catalog.json"
 
-    species_path = candidate / "species.yaml"
-    if species_path.exists():
-        return candidate
-    nested = candidate / "core" / "species.yaml"
-    if nested.exists():
-        return candidate / "core"
+
+def _legacy_species_path(data_root: Path) -> Path:
+    return data_root / "species.yaml"
+
+
+def _normalize_data_root(candidate: Path) -> Path:
+    """Return the directory that actually contains the species dataset.
+
+    data/core/species.yaml was removed in #2271; the canonical SoT is now the
+    JSON catalog data/core/species/species_catalog.json (list under "catalog").
+    Legacy mock/deploy snapshots (e.g. data/derived/mock/prod_snapshot, used by
+    config/cli/generator.yaml) still ship species.yaml without a catalog, so that
+    layout is accepted as a fallback.
+    """
+
+    for root in (candidate, candidate / "core"):
+        if _species_catalog_path(root).exists() or _legacy_species_path(root).exists():
+            return root
     return candidate
 
 
 def _load_species_dataset(data_root: Path) -> Sequence[Mapping[str, Any]]:
-    species_path = data_root / "species.yaml"
-    payload = _load_yaml(species_path)
-    raw_species = payload.get("species") or []
+    # Prefer the canonical catalog (species_id + flat trait_refs slug list, the
+    # ex-trait_plan core/optional split flattened by the ETL); fall back to the
+    # legacy species.yaml (id + trait_plan mapping) for mock/deploy snapshots
+    # that still ship it. Mirrors tools/py/lib/species_loader.py.
+    catalog_path = _species_catalog_path(data_root)
+    if catalog_path.exists():
+        payload = _load_json(catalog_path)
+        raw_species = payload.get("catalog") or []
+        source, key = catalog_path, "catalog"
+    else:
+        legacy_path = _legacy_species_path(data_root)
+        if not legacy_path.exists():
+            raise GeneratorProfileError(
+                f"Dataset specie non trovato: ne' {catalog_path} ne' {legacy_path}"
+            )
+        payload = _load_yaml(legacy_path)
+        raw_species = payload.get("species") or []
+        source, key = legacy_path, "species"
     if not isinstance(raw_species, list):
-        raise GeneratorProfileError(f"Il file {species_path} deve definire una lista 'species'")
+        raise GeneratorProfileError(f"Il file {source} deve definire una lista '{key}'")
     normalized: List[Mapping[str, Any]] = []
     for index, item in enumerate(raw_species):
         if isinstance(item, Mapping):
             normalized.append(item)
         else:
             raise GeneratorProfileError(
-                f"Elemento species[{index}] in {species_path} deve essere un mapping"
+                f"Elemento {key}[{index}] in {source} deve essere un mapping"
             )
     return normalized
 
@@ -241,7 +268,14 @@ def generate_profile(
     synergy_traits = sorted([trait for trait, buckets in usage.items() if buckets.get("synergy")])
 
     dataset_species = _load_species_dataset(data_root)
-    species_with_trait_plan = sum(1 for item in dataset_species if isinstance(item.get("trait_plan"), Mapping))
+    # Count species that carry trait info: the catalog uses a flat trait_refs
+    # slug list, the legacy species.yaml snapshot a trait_plan core/optional map.
+    species_with_trait_plan = sum(
+        1
+        for item in dataset_species
+        if (isinstance(item.get("trait_refs"), list) and item.get("trait_refs"))
+        or isinstance(item.get("trait_plan"), Mapping)
+    )
 
     expected_core_traits: Sequence[str]
     if inventory_path is not None:

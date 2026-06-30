@@ -535,25 +535,24 @@ ECOLOGY_LIST_FIELDS = (
 
 
 def _collect_species_entries() -> List[Tuple[str, dict, Path]]:
-    """Return list of (species_id, entry_dict, source_path) across core species files."""
+    """Return list of (species_id, entry_dict, source_path) across core species.
+
+    data/core/species.yaml (+ species_expansion.yaml) were removed in #2271; the
+    canonical SoT is the JSON catalog data/core/species/species_catalog.json
+    (list under "catalog"). Each entry carries species_id + an ecology block
+    whose cross-refs use the species_id namespace.
+    """
     core_dir = _core_data_dir()
     entries: List[Tuple[str, dict, Path]] = []
 
-    species_path = core_dir / "species.yaml"
-    if species_path.exists():
-        data = load_yaml(species_path) or {}
-        for entry in data.get("species", []) or []:
-            sid = entry.get("id") if isinstance(entry, dict) else None
+    catalog_path = core_dir / "species" / "species_catalog.json"
+    if catalog_path.exists():
+        with catalog_path.open("r", encoding="utf-8") as fh:
+            data = json.load(fh) or {}
+        for entry in data.get("catalog", []) or []:
+            sid = entry.get("species_id") if isinstance(entry, dict) else None
             if sid:
-                entries.append((sid, entry, species_path))
-
-    expansion_path = core_dir / "species_expansion.yaml"
-    if expansion_path.exists():
-        data = load_yaml(expansion_path) or {}
-        for entry in data.get("species_examples", []) or []:
-            sid = entry.get("id") if isinstance(entry, dict) else None
-            if sid:
-                entries.append((sid, entry, expansion_path))
+                entries.append((sid, entry, catalog_path))
 
     return entries
 
