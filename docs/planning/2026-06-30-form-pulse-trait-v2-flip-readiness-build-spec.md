@@ -158,16 +158,26 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   da verificare) + `defense/FLESSIBILE` (nessun trait evasione pulito oggi = TBD).
 - Ref: D6 spec sez.4
   [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md).
-- **As-built (2026-06-30, real registry + `isEngineLiveReliable`, post-recon #3114)**: 7/8 wired:
-  `offense/PROFONDA -> ferocia` (CLEAN), `defense/DURA -> pelle_elastomera` (CLEAN),
-  `defense/FLESSIBILE -> risposta_di_fuga` (CLEAN, recon-found), `senses/LONTANO ->
-sensori_geomagnetici` (min_mos:5 situational, TENUTO -- no clean upgrade), `senses/ACUTO ->
-occhi_analizzatori_di_tensione` (no-gate CLEAN, swapped dal double-gated `sensori_sismici`),
-  - i 2 locomotion. Tutti re-audìti LIVE + disjoint da branco/minor. `senso_magnetico` (no-gate)
-    RIFIUTATO per LONTANO = self-labeled 'Stub data-only'. **Solo `offense/RAPIDA` UNWIRED** = no
-    clean pick (best situational `dilatazione_temporale_percettiva` min_mos:4 / no-gate-control
-    `coda_frusta_cinetica_2`, entrambi PROPOSED in #3114) -> balance-pick master-dd N=40.
-    Recon completo: [`2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md`](2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
+- **As-built (2026-06-30, real registry + `isEngineLiveReliable`, post-recon #3114 + grilling
+  wire)**: **8/8 wired**: `offense/PROFONDA -> ferocia` (CLEAN), `offense/RAPIDA ->
+dilatazione_temporale_percettiva` (situational min_mos:4, grilling-wired below),
+  `defense/DURA -> pelle_elastomera` (CLEAN), `defense/FLESSIBILE -> risposta_di_fuga` (CLEAN,
+  recon-found), `senses/LONTANO -> sensori_geomagnetici` (min_mos:5 situational, TENUTO -- no
+  clean upgrade), `senses/ACUTO -> occhi_analizzatori_di_tensione` (no-gate CLEAN, swapped dal
+  double-gated `sensori_sismici`), + i 2 locomotion. Tutti re-audìti LIVE + disjoint da
+  branco/minor. `senso_magnetico` (no-gate) RIFIUTATO per LONTANO = self-labeled 'Stub data-only'.
+  Recon completo: [`2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md`](2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
+- **offense/RAPIDA wired (grilling verdict 2026-06-30)**: master-dd chose the recon primary
+  `dilatazione_temporale_percettiva` (situational min*mos:4, attack/extra_damage+1 actor) over the
+  no-gate-but-control `coda_frusta_cinetica_2`. 🔑 It is engine-LIVE via `extra_damage` (a real
+  attack-pipeline consumer) -- NOT one of the `apply_status:focused` false-greens the recon REJECTED
+  (`velocita_di_valutazione` / `orientamento*\*`: `focused` has NO consumer -> would pass N=40 falsely
+as ~0 delta). The liveness HARD-gate (`imprintTraitGrantLiveness.test.js`) now asserts RAPIDA is
+wired AND `effect.kind === 'extra_damage'`; `selectImprintAxis`reaches it (offense-only tuple ->
+RAPIDA; 2/16 full tuples land on it, tuple-determined). Flag`FORM_PULSE_TRAIT_V2_ENABLED` stays
+  OFF -> byte-identical. **The mapping POWER ratify (incl. RAPIDA) is the W6 N=40, gated on W5 --
+  this wire stays PROPOSED.** No standalone passive-AI N=40 here: the harness sets no imprint tuples
+  - the unified flag is OFF, so it would be inert (the I3-style illusory result the team avoids).
 
 ### W4 -- flag-unification
 
