@@ -96,8 +96,9 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
 
 **Residui owner-gated / N=40**:
 
-- [ ] **W5 sim-harness AI-player objective-aware** (SHARED long-pole) -- gate del form-pulse W6 flip E della lane Tier-3 N=40 (SPEC-J/HA1/STAMINA). Register sez.1 + close-out X1. W6 (flip prod) PARKED.
-- [ ] **Form-pulse N=40 picks** (master-dd): offense/RAPIDA imprint cell (no clean pick; menu #3114) · `w` (`FORM_PULSE_IMPRINT_WEIGHT`) · valori offset (anchor/reference) · tabella tupla->asse (sostituire hash-mod?) · senses/LONTANO swap a `senso_magnetico` (serve de-stub desc active_effects).
+- [ ] **W5 sim-harness AI-player objective-aware** (SHARED long-pole, **= NEXT focus**) -- gate del form-pulse W6 flip E del **re-ratify rigoroso delle bande PROVISIONAL D6/D8/ER6** (grilling value-pick girano su AI passiva) E di G6. Register sez.1 + close-out X1. W6 (flip prod) PARKED. _(Tier-3 N1 LETHAL gia' flippato + N2/N4 chiusi senza W5.)_
+- [ ] **Form-pulse N=40 picks** (master-dd, gated W5): ~~offense/RAPIDA~~ **WIRED #3120 `516ad425`** (`dilatazione_temporale_percettiva`, PROVISIONAL) · `w` (`FORM_PULSE_IMPRINT_WEIGHT`) · valori offset (anchor/reference) · tabella tupla->asse (sostituire hash-mod?) · senses/LONTANO swap a `senso_magnetico` (serve de-stub desc active_effects).
+- [ ] **D8 chain-lightning flip** (master-dd, owner) -- caps 3/2 BUILT flag-OFF #3121 `6b49023c`; flip `TERRAIN_CHAIN_LIGHTNING_ENABLED` **DEFERRED** (non-band-neutral + inerte: nessun encounter electrified-terrain autorato -> flip quando ne atterra uno + post-W5). Footprint `docs/playtest/2026-06-30-d8-chain-lightning-cap-footprint.md`.
 - [ ] **TKT-P6: 17 trait non-combat orphans** -- environmental/feeding/AI/buff-theft; `active_effects` e' combat-only (0 descriptor pattern) -> serve species-ref cleanup (species_catalog owner) O pattern trait non-combat (resolver design-call). + 29 specie senza trait_refs (species-side). Memory `project_missing_trait_combat_mechanics`.
 - [ ] **Borderline trait mechanics review** (#3118, master-dd): coralli_sinaptici_fotofase (barrier->offense), nodi_sinaptici_superficiali (sense->accuracy), scintilla_sinaptica (reflex->DR) = semantic stretch, PROPOSED.
 
@@ -389,7 +390,7 @@ docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, 
 
 Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifica `OVERRUN_BUDGET_BONUS=1` as-built, nicchia on-grid <=t8):
 
-- **TKT-ER6-CARRYOVER** (design fork, non bloccante): semantica carry-over del bonus overrun (persiste fino al primo tick spawnabile O spawn-tick immediato al crossing) -> knob significativo in TUTTI i biomi stresswave invece che solo abisso. Richiede nuova N=40 + verdetto master-dd (la ratifica corrente copre l'as-built consume-once).
+- ~~**TKT-ER6-CARRYOVER**~~ **DONE 2026-07-01 (grilling verdict, #3119 `623860f5`)**: master-dd scelse carry-over (vs consume-once). BUILT flag-OFF `REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED`, single-point in `reinforcementSpawner.tick`; pool-exhausted/max_total = terminal drop (no leak, Codex P2). N=40 band-SAFE **PROVISIONAL** (W5). Flip = owner (post-W5 re-ratify). Evidence `docs/playtest/2026-06-30-er6-overrun-carryover-n40-evidence.md`.
 - **TKT-SIM-PROBE-ENTROPY** (harness reliability): gamba atollo ISO = floor +0.33 tra armi byte-identiche in processi separati (abisso -0.03 pulito) -- entropia process-level non-seedata in un path biome-specifico travolge il paired design. Investigare rng non-seedato (candidati: foodweb/eco path), fixare o documentare. Finche' aperto: ogni N=40 famiglia spec-i-gates-probe riporta il floor della propria gamba e scarta gambe anomale.
 
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
