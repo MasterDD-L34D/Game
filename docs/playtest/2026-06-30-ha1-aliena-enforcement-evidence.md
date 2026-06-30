@@ -73,17 +73,27 @@ fully excluded; weighted-random anti-determinism is preserved, per the design do
   is the input, master-dd ratifies the value (L-069 lock = data; here the "data" is
   the deterministic re-weighting curve, since combat is unaffected on real pools).
 
-## Owner-gate (master-dd)
+## Owner-gate -- VERDICT (master-dd, grilling 2026-06-30)
 
-1. **Ratify strength** (recommended 0.5) -- guardrail aggressiveness, reversible.
-2. **Flip** `policy.aliena_enforcement.enabled` (per-encounter) or a global default
-   -- band-safe (inert on current pools). Reversible.
+**RATIFIED: `strength = 0.5` as GUARDRAIL-LATENT.** Master-dd ratified the
+recommended 0.5 strength AND ruled the mechanic stays **latent** -- do NOT enable
+`aliena_enforcement` on any encounter. It is inert on the coherence-uniform
+authored pools anyway (proven above), so leaving it OFF loses nothing today; the
+machinery stays ready for a future coherence-varied (procedural) pool where the
+guardrail would actually bite. **HA1 is removed from the open Tier-3 N=40 lane**
+(there is no win-rate band to ratify -- the gate was the re-weighting curve, which
+is locked at 0.5).
 
-NOTE: because enforcement is inert on the only authored pools, there is no combat
-N=40 band to ratify here -- the gate is the re-weighting curve + the flip-safety
-proof, not a win-rate band. An optional belt-and-suspenders combat N=40 (inject
-`aliena_enforcement` into a varied pool + run) would confirm combat-neutrality but
-adds no new signal (the weighting math is exercised directly above).
+Latent, not flipped:
+
+1. ~~Ratify strength~~ -- DONE: 0.5 ratified.
+2. ~~Flip `aliena_enforcement.enabled`~~ -- **deliberately NOT flipped** (stays a
+   future-facing guardrail; revisit only if/when a coherence-varied pool ships).
+
+NOTE: because enforcement is inert on the only authored pools, there was never a
+combat N=40 band to ratify here -- the gate was the re-weighting curve + the
+flip-safety proof, not a win-rate band. With the guardrail-latent verdict, even the
+optional belt-and-suspenders combat N=40 is moot (the feature stays OFF).
 
 See [[project_spec_h_codex_surface]],
 `docs/design/evo-tactics-aliena-enforcement-lore.md`,
