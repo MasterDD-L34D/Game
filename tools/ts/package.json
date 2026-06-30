@@ -12,7 +12,6 @@
     "test:web": "node ./scripts/run_playwright_tests.mjs",
     "test:phone:smoke": "playwright test --config=playwright.phone.config.ts",
     "test:ui": "tsx tests/export-modal.test.tsx",
-    "validate:species": "npm run build && node dist/validate_species.js ../../data/core/species.yaml",
     "lighthouse:test-interface": "node ./scripts/run_lighthouse.mjs"
   },
   "dependencies": {
