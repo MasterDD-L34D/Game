@@ -101,10 +101,11 @@ drift). Smoke: 87.5% -> clean, 75% -> trips. #2834/#2888 closed; #3085 self-reso
   SPEC-H HA1 -> N4 OD-024 STAMINA_FATIGUE -> N3 SPEC-I ER7 -> N6 ER6 carry-over -> N5 A2 retune ->
   N8 DR2 -> N7 interoception. Plus the aa01 cluster's own N=40 ratifications (D6 mapping, D8
   radius/shock) fold here.
-- **Infra forbidden-path** (master-dd merge/hands): I3 SPEC-F crossbreed cooldown durable
-  (`packages/contracts`) / I4 SPEC-E ritual resource-cost E6 / I8 prod-flips bundle
-  (LETHAL/aliena_enforcement/STAMINA/IMPRINT/META + the 3 new flag-OFF ones from this session =
-  keys.env + restart, post their gates).
+- **Infra forbidden-path** (master-dd merge/hands): **I3 + I4 DEFERRED 2026-06-30** (same
+  persistence-layer gap -- companion store not hydrated from Prisma [I3] / no backend resource pool
+  [I4]; NOT agent-preparable schema-field PRs, both need a persistence-layer workstream). I8
+  prod-flips bundle (LETHAL/aliena_enforcement/STAMINA/IMPRINT/META + the 3 new flag-OFF ones from
+  this session = keys.env + restart, post their gates).
 - **Godot cross-repo** (Game-Godot-v2): G2 aa01 IMPRINT_BEAT flip / G3 META_NETWORK route-UI /
   G6 move-terrain engine-AP-enforcement.
 - **Content/calibration**: ~~D7 player-facing prose~~ **DONE 2026-06-30** (O5 form-B per-biome i18n, #3097); B6 keeper content-debt (large);
@@ -116,5 +117,6 @@ Present the next owner-decision batch via AskUserQuestion (Tier-2 <=4 per round,
 
 - reversibility-tag), pick a lane with master-dd, then drill. The drainable autonomous lanes are done
   -- everything left needs his design input, his forbidden-path merge, his N=40 verdict, or his prose.
-  Recommended next: the **Tier-3 N=40 lane (SPEC-J LETHAL first)** when he wants the dedicated arc, or
-  the **infra forbidden-path bundle (I3/I4)** for an agent-prepares / master-dd-merges flow.
+  Recommended next: the **Tier-3 N=40 lane (SPEC-J LETHAL first)** -- the dedicated arc. (The infra
+  I3/I4 bundle is **no longer** a quick agent-prepares flow: both DEFERRED 2026-06-30, blocked by the
+  persistence-layer gap -- store hydration [I3] / resource pool [I4].) Other lanes: Godot G2/G3/G6.
