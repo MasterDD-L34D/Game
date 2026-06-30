@@ -164,11 +164,100 @@ function collectInPlaySpecies(repoRoot) {
   return { species, sources, notes };
 }
 
+// The canonical species spec source (per-species pack YAML). Filenames hyphenate
+// (lithoconstructus-inhibens.yaml) while ids underscore, so resolution keys on the
+// in-file `id`, not the filename.
+const SPECIES_PACK_REL = 'packs/evo_tactics_pack/data/species';
+
+// Build a Map<id, resistance_archetype> from the pack species specs. Best-effort:
+// a species file that fails to parse degrades to skip, not a crash. Returns an
+// empty Map if the pack dir is absent (coherence then has nothing to check).
+function loadSpeciesArchetypes(repoRoot) {
+  const map = new Map();
+  const root = path.resolve(repoRoot, SPECIES_PACK_REL);
+  if (!fs.existsSync(root)) return map;
+  const stack = [root];
+  while (stack.length) {
+    const dir = stack.pop();
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const ent of entries) {
+      const full = path.join(dir, ent.name);
+      if (ent.isDirectory()) {
+        stack.push(full);
+      } else if (/\.ya?ml$/.test(ent.name)) {
+        let parsed;
+        try {
+          parsed = yaml.load(fs.readFileSync(full, 'utf8'));
+        } catch {
+          continue;
+        }
+        if (parsed && typeof parsed === 'object' && parsed.id) {
+          const arch = parsed.resistance_archetype;
+          map.set(String(parsed.id), arch == null ? null : String(arch));
+        }
+      }
+    }
+  }
+  return map;
+}
+
+// Extract the resistance_archetype value from an L_linee_evolutive key_facts list.
+// The value is a single token; some entries append a provenance suffix
+// (e.g. 'adattivo (predoni-nomadi.yaml:3)'), so only the leading token counts.
+// Returns the token, or null if no resistance_archetype key_fact is present.
+function parseKeyFactArchetype(keyFacts) {
+  if (!Array.isArray(keyFacts)) return null;
+  for (const item of keyFacts) {
+    const m = /^resistance_archetype\s*:\s*(\S+)/.exec(String(item).trim());
+    if (m) return m[1];
+  }
+  return null;
+}
+
+// Coherence check (HARD): a type:species codex entry declares the species archetype
+// in two spots -- lore_vars.archetype and the L_linee_evolutive resistance_archetype
+// key_fact. Both MUST match the CURRENT species resistance_archetype. This catches
+// the PR #3087 failure mode: a species archetype remapped (strutturale -> adattivo,
+// #3080) after the codex was promoted (#3076), leaving the lore stale & silent.
+// Returns an array of error strings (one per desynced spot); empty when coherent or
+// when neither spot is authored. `speciesArchetype` is the canonical value.
+function checkArchetypeCoherence(entry, speciesArchetype) {
+  const errors = [];
+  if (!entry || typeof entry !== 'object') return errors;
+  const id = entry.id || '(unknown)';
+  const canon = String(speciesArchetype);
+
+  const loreVar = entry.lore_vars && entry.lore_vars.archetype;
+  if (typeof loreVar === 'string' && loreVar.trim() && loreVar.trim() !== canon) {
+    errors.push(
+      `${id}: lore_vars.archetype '${loreVar.trim()}' != species resistance_archetype '${canon}' (codex lore stale vs species canon -- see PR #3087)`,
+    );
+  }
+
+  const L = (entry.aliena_dimensions || {}).L_linee_evolutive || {};
+  const kfArch = parseKeyFactArchetype(L.key_facts);
+  if (kfArch && kfArch !== canon) {
+    errors.push(
+      `${id}: L_linee_evolutive resistance_archetype key_fact '${kfArch}' != species resistance_archetype '${canon}' (codex lore stale vs species canon -- see PR #3087)`,
+    );
+  }
+  return errors;
+}
+
 // Validate a single parsed codex file. Pushes into errors/warnings (mutated).
 // `universe` (optional Set<string>): when provided, the entry id is cross-checked
 // against the in-play species set and an orphan id warns (SOFT). null/undefined
 // skips the cross-check (fixture mode -- no roster context).
-function validateEntry(file, parsed, errors, warnings, universe = null) {
+// `speciesArchetypes` (optional Map<id, resistance_archetype>): when provided, a
+// type:species entry whose id resolves to a species with a defined archetype is
+// hard-checked for codex<->species archetype coherence (PR #3087 guard). An
+// unresolved id is out of scope here (the namespace SOFT check owns orphans).
+function validateEntry(file, parsed, errors, warnings, universe = null, speciesArchetypes = null) {
   const entry = parsed && parsed.codex_entry;
   if (!entry || typeof entry !== 'object') {
     errors.push(`${file}: missing top-level codex_entry`);
@@ -227,6 +316,15 @@ function validateEntry(file, parsed, errors, warnings, universe = null) {
     );
   }
 
+  // HARD (PR #3087 guard): codex<->species archetype coherence. Only when the
+  // type:species id resolves to a species with a defined resistance_archetype.
+  if (speciesArchetypes && entry.type === 'species' && entry.id) {
+    const speciesArch = speciesArchetypes.get(String(entry.id));
+    if (speciesArch != null && String(speciesArch).trim() !== '') {
+      for (const e of checkArchetypeCoherence(entry, String(speciesArch))) errors.push(e);
+    }
+  }
+
   return { id, dims: present };
 }
 
@@ -265,6 +363,11 @@ function main() {
     }
   }
 
+  // Archetype-coherence (PR #3087 guard) resolves against the canonical pack
+  // species specs, independent of which codex dir is under test -- a fixture that
+  // reuses a real species id is checked against that species' current archetype.
+  const speciesArchetypes = loadSpeciesArchetypes(repoRoot);
+
   for (const file of files.sort()) {
     let parsed;
     try {
@@ -273,7 +376,7 @@ function main() {
       errors.push(`${file}: YAML parse error: ${err.message}`);
       continue;
     }
-    rows.push(validateEntry(file, parsed, errors, warnings, universe));
+    rows.push(validateEntry(file, parsed, errors, warnings, universe, speciesArchetypes));
   }
 
   console.log('[codex-aliena] A.L.I.E.N.A. authoring-gate audit (HA2)');
@@ -298,6 +401,9 @@ module.exports = {
   CONTENT_MAX,
   parseArgs,
   collectInPlaySpecies,
+  loadSpeciesArchetypes,
+  parseKeyFactArchetype,
+  checkArchetypeCoherence,
   validateEntry,
 };
 
