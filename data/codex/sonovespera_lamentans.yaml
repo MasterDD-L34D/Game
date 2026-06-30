@@ -6,6 +6,7 @@
 codex_entry:
   id: sonovespera_lamentans
   type: species
+  codex_archive: true
   display_name_it: Vespero sonoro
   display_name_en: Vespero sonoro
   subtitle_it: Vespero sonoro -- Canyon Risonanti (T2)
@@ -46,10 +47,7 @@ codex_entry:
       cross_ref:
       - biome:canyons_risonanti
       game_impact: 'Comparsa negli scontri: n/d.'
-      content: 'Il territorio del vespero sonoro e'' Canyon Risonanti: Labirinto ventoso di
-        gole armoniche alimentate da risonanza. Un mondo da Duelli sonori e trattative con
-        tribù eco-sintonizzate, segnato da echo surge, shifting winds. Qui la sopravvivenza
-        detta la forma, e nulla che non si adatti dura a lungo.'
+      content: 'Il territorio del vespero sonoro e'' Canyon Risonanti: Labirinto ventoso di gole armoniche alimentate da risonanza. Un mondo da Duelli sonori e trattative con tribù eco-sintonizzate, segnato da echo surge, shifting winds. Qui la sopravvivenza detta la forma, e nulla che non si adatti dura a lungo.'
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
@@ -63,10 +61,7 @@ codex_entry:
       - trait:risonanza_di_branco
       - trait:spore_psichiche_silenziate
       game_impact: Archetipo adattivo.
-      content: 'La linea del vespero sonoro porta i segni di adattamento volo, ali fono risonanti,
-        risonanza di branco, spore psichiche silenziate: ogni tratto core e'' la cicatrice
-        di una pressione del bioma. Attraversa le fasi un ciclo di adattamento continuo, conservando
-        solo cio'' che sopravvive.'
+      content: 'La linea del vespero sonoro porta i segni di adattamento volo, ali fono risonanti, risonanza di branco, spore psichiche silenziate: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi un ciclo di adattamento continuo, conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -76,8 +71,7 @@ codex_entry:
       cross_ref:
       - species:sonovespera_lamentans
       game_impact: Profilo da invoker (alato spettrale).
-      content: 'Il corpo del vespero sonoro: un alato spettrale. Sotto pressione puo'' sviluppare
-        adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
+      content: 'Il corpo del vespero sonoro: un alato spettrale. Sotto pressione puo'' sviluppare adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -86,9 +80,7 @@ codex_entry:
       cross_ref:
       - biome:canyons_risonanti
       game_impact: 'encounter_role: threat.'
-      content: Nell'ecologia di Canyon Risonanti il vespero sonoro occupa la nicchia di predatore
-        secondario (T2), accanto a guardiani sibilanti, erranti dell'eco, risonatori nomadi.
-        Esercita pressione sulle prede senza contendere l'apice.
+      content: Nell'ecologia di Canyon Risonanti il vespero sonoro occupa la nicchia di predatore secondario (T2), accanto a guardiani sibilanti, erranti dell'eco, risonatori nomadi. Esercita pressione sulle prede senza contendere l'apice.
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -96,8 +88,7 @@ codex_entry:
       cross_ref:
       - species:sonovespera_lamentans
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: Il vespero sonoro vive in gruppi territoriali. I legami sono di natura istintiva
-        -- funzionali alla sopravvivenza piu' che al racconto di se'.
+      content: Il vespero sonoro vive in gruppi territoriali. I legami sono di natura istintiva -- funzionali alla sopravvivenza piu' che al racconto di se'.
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -105,9 +96,6 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario predatore secondario (T2) che affronti in Canyon Risonanti:
-        ecco perche'' il vespero sonoro apre il Codex. Intorno a lui le storie del bioma --
-        stabilizzare ponti risonanti prima delle tempeste di vento -- danno peso al primo
-        incontro.'
+      content: 'un avversario predatore secondario (T2) che affronti in Canyon Risonanti: ecco perche'' il vespero sonoro apre il Codex. Intorno a lui le storie del bioma -- stabilizzare ponti risonanti prima delle tempeste di vento -- danno peso al primo incontro.'
       story_hook_it: un avversario predatore secondario (T2) che affronti in Canyon Risonanti
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed

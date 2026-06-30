@@ -87,6 +87,19 @@ test('validateEntry skips the orphan check when universe is null (fixture mode)'
   assert.ok(!warnings.some((w) => /orphan/.test(w)), warnings.join(' | '));
 });
 
+test('validateEntry skips the orphan check for a codex_archive entry', () => {
+  // Retired-creature lore (#3038) is intentionally absent from every current
+  // roster -- it can never unlock through play, but is kept as readable archive.
+  // codex_archive:true marks that intent so the orphan SOFT-warn does not fire.
+  const errors = [];
+  const warnings = [];
+  const doc = entry('retired_creature_xyz');
+  doc.codex_entry.codex_archive = true;
+  validateEntry('archive.yaml', doc, errors, warnings, new Set(['dune_stalker']));
+  assert.equal(errors.length, 0, errors.join('\n'));
+  assert.ok(!warnings.some((w) => /orphan/.test(w)), warnings.join(' | '));
+});
+
 test('real data/codex produces no orphan namespace warning', () => {
   const r = spawnSync('node', [SCRIPT], { encoding: 'utf8', cwd: REPO_ROOT });
   assert.equal(r.status, 0, r.stdout + r.stderr);

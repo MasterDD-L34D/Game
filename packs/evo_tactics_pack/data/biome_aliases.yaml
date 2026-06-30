@@ -58,3 +58,11 @@ aliases:
     canonical: frattura_abissale_sinaptica
     status: expansion
     notes: "Alias T1 legato alle creste superficiali luminescenti del nuovo bioma."
+  laguna_bioreattiva:
+    canonical: reef_luminescente
+    status: expansion
+    notes: "Laguna bioreattiva costiera (filtri planctonici, maree risonanti) ricondotta al profilo littorale del Reef Luminescente."
+  mangrovieto_cinetico:
+    canonical: palude
+    status: expansion
+    notes: "Mangrovieto cinetico (pneumatofori, fango coesivo) ricondotto al profilo wetland della Palude."

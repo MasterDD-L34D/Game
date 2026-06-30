@@ -6,6 +6,7 @@
 codex_entry:
   id: amorphovenator_magneticus
   type: species
+  codex_archive: true
   display_name_it: Sondatore amorfo
   display_name_en: Sondatore amorfo
   subtitle_it: Sondatore amorfo -- Scogliera Luminescente (T1)
@@ -18,8 +19,7 @@ codex_entry:
   lore_vars:
     subject: sondatore amorfo
     biome_name: Scogliera Luminescente
-    biome_trait: Barriere coralline sintetiche con correnti luminescenti e fauna sensibile
-      alla risonanza
+    biome_trait: Barriere coralline sintetiche con correnti luminescenti e fauna sensibile alla risonanza
     lineage: forme a morfologia amorfo
     archetype: adattivo
     morphotype: amorfo
@@ -34,8 +34,7 @@ codex_entry:
     biome_hook: proteggere le colonie coralline da razzie di risonanza
     affixes: light current, coral spire
     neighbors: reef wardens, luminescent harriers, tide callers
-    traits: filamenti digestivi compattanti, olfatto risonanza magnetica, struttura elastica
-      amorfa, lamelle termoforetiche, scheletro idro regolante
+    traits: filamenti digestivi compattanti, olfatto risonanza magnetica, struttura elastica amorfa, lamelle termoforetiche, scheletro idro regolante
     visual: un amorfo.
     lifecycle_arc: un ciclo di adattamento continuo
     mutations: adattamenti ancora non catalogati
@@ -48,17 +47,13 @@ codex_entry:
       cross_ref:
       - biome:reef_luminescente
       game_impact: 'Comparsa negli scontri: n/d.'
-      content: Scogliera Luminescente -- Barriere coralline sintetiche con correnti luminescenti
-        e fauna sensibile alla risonanza, dal tono di Operazioni stealth subacquee tra colonne
-        fotoniche e alveari acquatici (light current, coral spire) -- non e' uno sfondo ma
-        un avversario costante per il sondatore amorfo. Ogni movimento e' una risposta all'ambiente.
+      content: Scogliera Luminescente -- Barriere coralline sintetiche con correnti luminescenti e fauna sensibile alla risonanza, all'insegna di Operazioni stealth subacquee tra colonne fotoniche e alveari acquatici (light current, coral spire) -- non e' uno sfondo ma un avversario costante per il sondatore amorfo. Ogni movimento e' una risposta all'ambiente.
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
       - 'resistance_archetype: adattivo'
       - 'role_trofico: predatore_secondario; sentient: False'
-      - 'trait_refs: filamenti_digestivi_compattanti, olfatto_risonanza_magnetica, struttura_elastica_amorfa,
-        lamelle_termoforetiche, scheletro_idro_regolante'
+      - 'trait_refs: filamenti_digestivi_compattanti, olfatto_risonanza_magnetica, struttura_elastica_amorfa, lamelle_termoforetiche, scheletro_idro_regolante'
       cross_ref:
       - species:amorphovenator_magneticus
       - trait:filamenti_digestivi_compattanti
@@ -67,10 +62,7 @@ codex_entry:
       - trait:lamelle_termoforetiche
       - trait:scheletro_idro_regolante
       game_impact: Archetipo adattivo.
-      content: 'Il sondatore amorfo evolve lungo le fasi un ciclo di adattamento continuo.
-        I suoi tratti -- filamenti digestivi compattanti, olfatto risonanza magnetica, struttura
-        elastica amorfa, lamelle termoforetiche, scheletro idro regolante -- non sono ornamenti
-        ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
+      content: 'Il sondatore amorfo evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- filamenti digestivi compattanti, olfatto risonanza magnetica, struttura elastica amorfa, lamelle termoforetiche, scheletro idro regolante -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:
@@ -80,8 +72,7 @@ codex_entry:
       cross_ref:
       - species:amorphovenator_magneticus
       game_impact: Profilo da ranger (amorfo).
-      content: 'Il corpo del sondatore amorfo: un amorfo. Sotto pressione puo'' sviluppare
-        adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
+      content: 'Il corpo del sondatore amorfo: un amorfo. Sotto pressione puo'' sviluppare adattamenti ancora non catalogati, piegando la morfologia a cio'' che il bioma esige.'
     E_ecologia:
       heading: Ecologia
       key_facts:
@@ -90,9 +81,7 @@ codex_entry:
       cross_ref:
       - biome:reef_luminescente
       game_impact: 'encounter_role: threat.'
-      content: 'Il sondatore amorfo e'' predatore secondario in Scogliera Luminescente: una
-        presenza diffusa (T1) che, insieme a reef wardens, luminescent harriers, tide callers,
-        modella la catena trofica.'
+      content: 'Il sondatore amorfo e'' predatore secondario in Scogliera Luminescente: una presenza diffusa (T1) che, insieme a reef wardens, luminescent harriers, tide callers, modella la catena trofica.'
     N_norme_socio:
       heading: Norme socio
       key_facts:
@@ -100,8 +89,7 @@ codex_entry:
       cross_ref:
       - species:amorphovenator_magneticus
       game_impact: Comportamento di gruppo/solitario secondo i tag.
-      content: 'La struttura sociale del sondatore amorfo si regge su gruppi territoriali.
-        La socialita'' e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
+      content: 'La struttura sociale del sondatore amorfo si regge su gruppi territoriali. La socialita'' e'' istintiva: coordinazione efficace senza una cultura nel senso pieno.'
     A_ancoraggio_narrativo:
       heading: Ancoraggio narrativo
       key_facts:
@@ -109,8 +97,6 @@ codex_entry:
       - Voce codex sbloccabile via encounter_completed
       cross_ref: []
       game_impact: 'Unlock e2e: completare lo scontro sblocca questa voce.'
-      content: 'un avversario predatore secondario (T1) che affronti in Scogliera Luminescente:
-        ecco perche'' il sondatore amorfo apre il Codex. Intorno a lui le storie del bioma
-        -- proteggere le colonie coralline da razzie di risonanza -- danno peso al primo incontro.'
+      content: 'un avversario predatore secondario (T1) che affronti in Scogliera Luminescente: ecco perche'' il sondatore amorfo apre il Codex. Intorno a lui le storie del bioma -- proteggere le colonie coralline da razzie di risonanza -- danno peso al primo incontro.'
       story_hook_it: un avversario predatore secondario (T1) che affronti in Scogliera Luminescente
-  lore_review_status: generated_pending_review
+  lore_review_status: human_reviewed
