@@ -36,6 +36,17 @@ const biomePopulation = require('../worldgen/biomePopulation');
 const DEFAULT_MIN_DISTANCE_FROM_PG = 3; // Manhattan
 const TIER_LABEL_ORDER = ['Calm', 'Alert', 'Escalated', 'Critical', 'Apex'];
 
+// SPEC-I ER6 carry-over fork (grilling 2026-06-30). When enabled, the UNSPENT part
+// of the overrun budget bonus (opts.budgetBonus that did not convert to a spawn --
+// no walkable tile / cooldown / tier-below-min) ACCUMULATES onto the next tick,
+// instead of being discarded (the as-built consume-once). Carry state lives on
+// session.reinforcement_state.overrun_carry. Default OFF -> never read/written ->
+// byte-identical to consume-once. Band PROVISIONAL (W5 sim-harness not built).
+const OVERRUN_CARRYOVER_FLAG = 'REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED';
+function isOverrunCarryoverEnabled(env = process.env) {
+  return Boolean(env) && env[OVERRUN_CARRYOVER_FLAG] === 'true';
+}
+
 // #2724 -- position format drift: authored tiles are arrays [x,y], runtime
 // round-model units carry {x,y} objects. Normalize both; unknown -> null.
 function coordOf(p) {
@@ -170,6 +181,7 @@ function emitAlienaPoolSnapshot(session, pool, biomeConfig, round) {
 
 function tick(session, encounter, opts = {}) {
   const rng = typeof opts.rng === 'function' ? opts.rng : defaultRng;
+  const carryEnabled = isOverrunCarryoverEnabled(opts.env || process.env);
   const policy = encounter?.reinforcement_policy;
   if (!policy || policy.enabled !== true) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'policy_disabled' };
@@ -238,6 +250,15 @@ function tick(session, encounter, opts = {}) {
     return { spawned: [], budget_used: 0, skipped: true, reason: 'no_entry_tiles' };
   }
 
+  // ER6 carry-over: the effective overrun bonus = the freshly-armed stresswave
+  // bonus (opts.budgetBonus) PLUS any prior unspent bonus carried on the state
+  // (flag-gated; read defensively -- state may not be ensured yet on this path).
+  const budgetBonus = Math.max(0, Number(opts.budgetBonus) || 0);
+  const carriedIn = carryEnabled
+    ? Math.max(0, Number(session.reinforcement_state?.overrun_carry) || 0)
+    : 0;
+  const effectiveBonus = budgetBonus + carriedIn;
+
   // A2: floor the budget-driving pressure with the per-encounter tier floor
   // (flag OFF -> effectivePressure returns the input unchanged = back-compat).
   const tier = computeSistemaTier(
@@ -245,6 +266,8 @@ function tick(session, encounter, opts = {}) {
   );
   const minTier = policy.min_tier || 'Alert';
   if (!tierMeetsMin(tier.label, minTier)) {
+    // ER6 carry-over: pressure is below min_tier -> the overrun waits for it to rise.
+    if (carryEnabled) ensureReinforcementState(session).overrun_carry = effectiveBonus;
     return {
       spawned: [],
       budget_used: 0,
@@ -257,21 +280,28 @@ function tick(session, encounter, opts = {}) {
   const round = session.round ?? session.turn ?? 0;
   const cooldownRounds = Number(policy.cooldown_rounds) || 0;
   if (round - state.last_spawn_round < cooldownRounds) {
+    // ER6 carry-over: spawner on cooldown -> the overrun waits for the next window.
+    if (carryEnabled) state.overrun_carry = effectiveBonus;
     return { spawned: [], budget_used: 0, skipped: true, reason: 'cooldown_active' };
   }
 
   const maxTotal = Number(policy.max_total_spawns) || Infinity;
   const remaining = maxTotal - state.total_spawned;
   if (remaining <= 0) {
+    // ER6 carry-over: spawn cap reached = terminal -> drop the carry (no future
+    // spawn can ever consume it, so accumulating would leak unbounded).
+    if (carryEnabled) state.overrun_carry = 0;
     return { spawned: [], budget_used: 0, skipped: true, reason: 'max_total_reached' };
   }
 
-  // SPEC-I ER6 -- overrun one-shot: opts.budgetBonus (default 0) extends the
-  // tier budget for THIS tick only; the caller consumes the session flag once.
-  // Still bounded by max_total_spawns (`remaining`).
-  const budgetBonus = Math.max(0, Number(opts.budgetBonus) || 0);
-  const budget = Math.min((Number(tier.reinforcement_budget) || 0) + budgetBonus, remaining);
+  // SPEC-I ER6 -- overrun: effectiveBonus (opts.budgetBonus + any carried-over
+  // unspent bonus, computed above) extends the tier budget for THIS tick. Still
+  // bounded by max_total_spawns (`remaining`). Carry-over flag OFF -> effectiveBonus
+  // == budgetBonus == the consume-once value -> byte-identical.
+  const baseBudget = Number(tier.reinforcement_budget) || 0;
+  const budget = Math.min(baseBudget + effectiveBonus, remaining);
   if (budget <= 0) {
+    if (carryEnabled) state.overrun_carry = 0;
     return { spawned: [], budget_used: 0, skipped: true, reason: 'tier_budget_zero' };
   }
 
@@ -357,6 +387,15 @@ function tick(session, encounter, opts = {}) {
   }
 
   const effective = spawned.filter((s) => !s.skipped);
+  if (carryEnabled) {
+    // Unspent overrun = the part of effectiveBonus that never became a spawn. The
+    // base budget is spent first (early loop iterations), so the bonus is what is
+    // short when fewer than `budget` units fit (e.g. no walkable tile). baseIntended
+    // is itself capped by `remaining`.
+    const baseIntended = Math.min(baseBudget, remaining);
+    const bonusSpent = Math.max(0, effective.length - baseIntended);
+    state.overrun_carry = Math.max(0, effectiveBonus - bonusSpent);
+  }
   return {
     spawned: effective,
     budget_used: effective.length,
@@ -374,6 +413,8 @@ function tick(session, encounter, opts = {}) {
 
 module.exports = {
   tick,
+  OVERRUN_CARRYOVER_FLAG,
+  isOverrunCarryoverEnabled,
   // exported for unit tests
   _internals: {
     manhattanDistance,

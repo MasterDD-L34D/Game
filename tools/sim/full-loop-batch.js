@@ -436,6 +436,10 @@ function currentFlags() {
     // the STAMINA N=40. Provenance MUST carry it so an OFF vs ON summary.json pair
     // is self-distinguishing + reproducible (Codex #3108 P2).
     STAMINA_FATIGUE_ENABLED: process.env.STAMINA_FATIGUE_ENABLED || 'false',
+    // SPEC-I ER6 carry-over fork (grilling 2026-06-30): the A/B discriminator for
+    // the ER6 N=40 (unspent overrun budget accumulates vs consume-once).
+    REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED:
+      process.env.REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED || 'false',
   };
 }
 
