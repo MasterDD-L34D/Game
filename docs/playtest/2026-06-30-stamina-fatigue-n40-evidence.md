@@ -90,8 +90,10 @@ The N=40 measurement is the only autonomous step. The remaining steps are owner:
 2. **Ratify the 4 RATIFIED-PROVISIONAL knobs** (module header): sprint = 2 voluntary
    tiles / threshold 1 (propriocezione 2) / -1 AP penalty / -1 decay per round.
 3. **Design call on symmetry**: keep fatigue carrier-independent (penalizes enemies
-   too -> net eases the player slightly, ecological realism) OR make it player-only
-   (pure tactical cost). Current = carrier-independent.
+   too -> net band-neutral, ecological realism) OR make it player-only (a real
+   tactical cost that would actually bite the player). Current = carrier-independent
+   -- which is WHY the net effect cancels to noise; if the design intent is a player
+   penalty, player-only is the lever.
 
 Raw runs reproducible from the seeded commands above (`reports/sim/stamina-n40-{off,on}/`
 summary.json + report.md committed; runs.jsonl reproducible, not committed).
