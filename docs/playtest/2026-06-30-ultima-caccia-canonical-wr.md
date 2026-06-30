@@ -1,0 +1,80 @@
+---
+title: "L'Ultima Caccia -- canonical WR (round-model) + the WR/KO incompatibility (SPEC-J)"
+workstream: ops-qa
+category: playtest
+doc_status: active
+doc_owner: claude-code
+last_verified: '2026-06-30'
+language: en
+tags: [playtest, calibration, badlands, lethal, spec-j, wr, ai-driven]
+---
+
+# L'Ultima Caccia -- canonical WR + WR/KO incompatibility (Tier-3 N1)
+
+Follow-up to the first-lethal calibration (#3107). #3107 measured the
+creature-KO-rate via the in-process `combat-adapter` path; this doc measures the
+canonical **win-rate** with a validated harness and surfaces a design finding: the
+two band targets from the design-call (party-WR 25-40% AND creature-KO-rate 25-40%)
+are **mutually incompatible**, so master-dd must pick ONE gating metric.
+
+## Method (validated)
+
+Probe `tools/sim/ultima-caccia-wr-probe.js` -- in-process (`createApp` supertest, no
+prod-port), **ROUND model** (`/api/session/round/execute`) driven by a faithful JS
+port of the canonical Python calibrator's `plan_player_intents` (focus-fire greedy),
+`turn_limit_defeat=37` (timeout -> defeat). Enemies use the **canonical adapter
+stats** (`deriveCombatStats` from species YAML), the real-play representation -- NOT
+the tier-table approximation the ai-driven-sim / #3107 band-probe used.
+
+**Validate-first (anti-SDMG)**: the probe is first run on the RATIFIED pilot
+(`enc_badlands_pilot_01`, ratified WR ~0.51). It reproduces **WR 0.55 (N=40), in the
+ratified band [0.40,0.60]** -> the harness + WR convention are trustworthy.
+
+> Why not the earlier in-process path: the `combat-adapter` per-unit `/action` loop
+> does NOT resolve -- it gave WR 0 (40/40 timeout) on the RATIFIED pilot. The round
+> model + focus-fire planner is what reproduces the canonical band. (Caught by the
+> validate-first step.)
+
+## The WR/KO tradeoff (N=40 each, canonical adapter stats)
+
+| roster (apex first)                                 | WR    | creature-KO-rate |
+| --------------------------------------------------- | ----- | ---------------- |
+| dune + ferro + nano + rust + sand (WR-tuned)        | 0.275 | 0.72             |
+| dune + ferro + nano + echo + rust                   | 0.475 | 0.65             |
+| dune + echo + echo + rust + rust (**#3107 roster**) | 0.825 | 0.40             |
+
+WR and KO-rate are **anti-correlated**: a fight hard enough to sit at WR 25-40% kills
+~70% of the party (KO 0.72); a fight whose KO-rate is ~40% has WR ~0.82. There is no
+single roster with BOTH metrics in [0.25,0.40] -- they describe different difficulty
+levels. (Also position-sensitive: the SAME five species reordered gave KO 0.57 vs
+0.72, so enemy spawn slots are a real difficulty lever.)
+
+## Read
+
+- **The design-call's dual target is unsatisfiable.** For a PERMADEATH encounter the
+  meaningful metric is the **creature-KO-rate = the death-rate** (under LETHAL +
+  consent every player KO is a real death). A WR-25-40% roster (KO 0.72) would wipe
+  ~3 of 4 creatures every mission -- far past "hardcore opt-in".
+- **The authored #3107 roster is ~right for a KO-gate.** Its canonical KO-rate is
+  **0.40** (round model, adapter stats) -- corroborating #3107's 0.344 (combat-adapter,
+  tier-table). That sits at the TOP edge of [0.25,0.40]. Its WR is ~0.82: the party
+  usually CLEARS the mission but loses ~40% of its creatures -- real permadeath stakes
+  without a guaranteed wipe.
+
+## Owner-gate (master-dd)
+
+1. **Pick the gating metric** for the lethal flip. Recommended: **creature-KO-rate
+   25-40%** (the death-rate), NOT win-rate -- WR 25-40% is far too lethal for a
+   permadeath mission.
+2. **Roster**: the authored #3107 roster already lands KO ~0.40 (top edge). Keep it,
+   or have me soften it to mid-band KO ~0.30-0.35 (slightly easier -- drop a range-2
+   echo). The WR will stay high (~0.80) by construction.
+3. **Real-play materialization (flip-build, owner/next)**: for the encounter to
+   actually run at the calibrated difficulty in real play, the enemies must be
+   materialized via a scenario-builder (adapter stats), mirror `badlandsPilotScenario.js`
+   - a `/api/tutorial/enc_badlands_ultima_caccia_01` route (the `encounter_id` path
+     only supplies metadata; the caller provides the combat units). This is the build
+     that makes the lethal mission playable + unblocks a live-backend Python re-confirm.
+
+See [[project_spec_j_lethal_wounds]], `docs/playtest/2026-06-30-ultima-caccia-lethal-calibration.md` (the #3107 KO-rate),
+`docs/planning/2026-06-29-closeout-master-plan.md` (N1).
