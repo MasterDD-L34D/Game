@@ -57,10 +57,11 @@ const DESIGNATED_AXIS = 'locomotion';
 //
 // Audit 2026-06-30 (real registry, isEngineLiveReliable) + weak-cell recon (#3114, verify-gated
 // scout + main-session re-audit, docs/planning/2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md).
-// 7/8 cells wired engine-LIVE; only offense/RAPIDA stays unwired (no clean LIVE pick exists).
+// 8/8 cells wired engine-LIVE (offense/RAPIDA wired 2026-06-30, grilling verdict).
 //   - locomotion VELOCE     coda_stabilizzatrice_vortex   attack/extra_damage (melee + min_mos:5)
 //   - locomotion SILENZIOSA cartilagini_flessoacustiche   attack/damage_reduction (no gate) CLEAN
 //   - offense    PROFONDA   ferocia                       attack/apply_status on_kill     CLEAN
+//   - offense    RAPIDA     dilatazione_temporale_percettiva attack/extra_damage (min_mos:4)      [grilling: situational primary, not a focused false-green]
 //   - defense    DURA       pelle_elastomera              attack/damage_reduction (no gate) CLEAN
 //   - defense    FLESSIBILE risposta_di_fuga              attack/damage_reduction (no gate) CLEAN  [recon: evasion-gap RESOLVED]
 //   - senses     LONTANO    sensori_geomagnetici          attack/extra_damage (min_mos:5)          [kept: senso_magnetico no-gate alt is self-labeled 'Stub data-only' -> rejected]
@@ -69,9 +70,10 @@ const DESIGNATED_AXIS = 'locomotion';
 // flagged as the weakest -> primary N=40 re-pick candidates (master-dd may swap). All wired ids
 // re-audited LIVE + disjoint from branco/minor pools. Mapping stays PROPOSED (ratify via N=40).
 //
-// ONE cell stays UNWIRED = master-dd / N=40 balance pick (do NOT auto-assign, recon found no
-// clean fit): offense/RAPIDA (best situational = dilatazione_temporale_percettiva min_mos:4; the
-// only no-gate option coda_frusta_cinetica_2 leans control not speed -- both PROPOSED in #3114).
+// All 8 cells now wired. offense/RAPIDA was the last open balance-pick: master-dd's grilling
+// verdict (2026-06-30) chose the recon primary `dilatazione_temporale_percettiva` (situational
+// min_mos:4) over the no-gate-but-control-flavoured `coda_frusta_cinetica_2`. The mapping stays
+// PROPOSED -- its POWER ratify is the W6 N=40 (gated on the W5 sim-harness), not this wire.
 const PROPOSED_IMPRINT_TRAIT_MAPPING = {
   locomotion: {
     VELOCE: 'coda_stabilizzatrice_vortex',
@@ -79,7 +81,14 @@ const PROPOSED_IMPRINT_TRAIT_MAPPING = {
   },
   offense: {
     PROFONDA: 'ferocia',
-    // RAPIDA: TODO -- master-dd balance pick (N=40); no clean LIVE pick (recon #3114)
+    // RAPIDA: dilatazione_temporale_percettiva -- master-dd grilling verdict 2026-06-30
+    // (the #3114 weak-cell recon primary). situational(min_mos:4) attack/extra_damage+1
+    // actor = engine-LIVE, lightest gate in the fast-flavour set. NOT a focused
+    // false-green: it uses extra_damage (a real attack-pipeline consumer), unlike
+    // velocita_di_valutazione / orientamento_* which apply an UNCONSUMED `focused`
+    // status (no consumer -> would pass N=40 falsely; recon REJECTED them). PROPOSED
+    // (mapping power-ratify = W6 N=40, gated on W5 sim-harness).
+    RAPIDA: 'dilatazione_temporale_percettiva',
   },
   defense: {
     DURA: 'pelle_elastomera',
