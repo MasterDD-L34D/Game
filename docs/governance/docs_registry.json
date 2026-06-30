@@ -245,6 +245,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-07-01-session-handoff.md",
+      "title": "Session handoff -- form-pulse v2 build + 7/8 imprint wiring + 12 trait mechanics (2026-07-01)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md",
       "title": "Form-Pulse trait v2 -- imprint weak-cell balance-pick recon (PROPOSED, N=40 scouting)",
       "doc_status": "active",
