@@ -232,6 +232,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-06-30-form-pulse-trait-v2-imprint-weak-cell-recon.md",
+      "title": "Form-Pulse trait v2 -- imprint weak-cell balance-pick recon (PROPOSED, N=40 scouting)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
       "title": "Derived-canon reproducibility arc -- session handoff (2026-06-28/29)",
       "doc_status": "draft",
