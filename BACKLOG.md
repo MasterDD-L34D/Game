@@ -90,6 +90,17 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
   risolto da **PR #3075** (`fab8f87f`, MERGED 2026-06-30). #3075 NON ha toccato
   la riga `generated_at` di trait_coverage_report (line 70) = fix di questa pt2.
 
+## 🧩 Form-Pulse v2 build core + 12 trait mechanics (2026-07-01, SHIPPED + residui)
+
+**SHIPPED (4 PR merged)**: Form-Pulse trait v2 W1-W4 BUILT flag-OFF [#3113](https://github.com/MasterDD-L34D/Game/pull/3113) `de8bde40` (offset=f(buff) + `brancoTraitProducer` + flag-unif) · recon weak-cell [#3114](https://github.com/MasterDD-L34D/Game/pull/3114) `36537b1a` · wiring imprint 7/8 + `selectImprintAxis` tuple-determined (vera D-2, fix Codex-P2 reachability) [#3115](https://github.com/MasterDD-L34D/Game/pull/3115) `9a40cb94` · 12 trait combat (dei 29 orfani) [#3118](https://github.com/MasterDD-L34D/Game/pull/3118) `42a00832`. Tutto flag-OFF/PROPOSED, combat-oracle band-safe. SoT: `docs/planning/2026-07-01-session-handoff.md` + build-spec `2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md`.
+
+**Residui owner-gated / N=40**:
+
+- [ ] **W5 sim-harness AI-player objective-aware** (SHARED long-pole) -- gate del form-pulse W6 flip E della lane Tier-3 N=40 (SPEC-J/HA1/STAMINA). Register sez.1 + close-out X1. W6 (flip prod) PARKED.
+- [ ] **Form-pulse N=40 picks** (master-dd): offense/RAPIDA imprint cell (no clean pick; menu #3114) · `w` (`FORM_PULSE_IMPRINT_WEIGHT`) · valori offset (anchor/reference) · tabella tupla->asse (sostituire hash-mod?) · senses/LONTANO swap a `senso_magnetico` (serve de-stub desc active_effects).
+- [ ] **TKT-P6: 17 trait non-combat orphans** -- environmental/feeding/AI/buff-theft; `active_effects` e' combat-only (0 descriptor pattern) -> serve species-ref cleanup (species_catalog owner) O pattern trait non-combat (resolver design-call). + 29 specie senza trait_refs (species-side). Memory `project_missing_trait_combat_mechanics`.
+- [ ] **Borderline trait mechanics review** (#3118, master-dd): coralli_sinaptici_fotofase (barrier->offense), nodi_sinaptici_superficiali (sense->accuracy), scintilla_sinaptica (reflex->DR) = semantic stretch, PROPOSED.
+
 ## 🧰 CI tooling -- canon entity-grounding linter (2026-06-21, #2915 SHIPPED)
 
 PR [#2915](https://github.com/MasterDD-L34D/Game/pull/2915) `4ce1d0cb` MERGED: vendored evo-swarm verifier (ADR-0042) -> `scripts/verify-swarm-claims.py` (+ `scripts/data/verify_stopwords.txt`) + 2-tier `.github/workflows/swarm-validation.yml` (JSON `--strict` su `docs/research/swarm/**.json` / markdown ADVISORY su `docs/research/**/*.md`). Retired deprecato `tools/py/swarm_canonical_validator.py` (+test). 167 test (`tests/test_verify_swarm_claims.py`) nel CI `python-tests`. Distinto da `scripts/check-canon-consistency.cjs` (canon-internal). Memory `project_canon_entity_grounding_linter.md`.
