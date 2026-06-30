@@ -24,14 +24,21 @@ function scarredUnit(location, stat) {
   return { id: 'u1', status: { wounds: [graveScar(location, stat)] } };
 }
 
-// The 3 PROPOSED real trait ids (validated against active_effects in the map).
-const VALID = new Set(['pelle_elastomera', 'martello_osseo', 'zampe_a_molla', 'whatever']);
+// The 4 real trait ids (validated against active_effects in the map) + a filler.
+const VALID = new Set([
+  'pelle_elastomera',
+  'martello_osseo',
+  'zampe_a_molla',
+  'occhi_cristallo_modulare',
+  'whatever',
+]);
 
-test('SCAR_TRAIT_MAP maps the 3 stat-scar locations to real proposed traits, leaves testa unmapped', () => {
+test('SCAR_TRAIT_MAP maps all 4 scar locations to real LIVE traits (testa added 2026-06-30)', () => {
   assert.equal(SCAR_TRAIT_MAP.torso, 'pelle_elastomera');
   assert.equal(SCAR_TRAIT_MAP.arti_anteriori, 'martello_osseo');
   assert.equal(SCAR_TRAIT_MAP.arti_posteriori, 'zampe_a_molla');
-  assert.ok(!('testa' in SCAR_TRAIT_MAP), 'testa is intentionally unmapped (master-dd gate)');
+  assert.equal(SCAR_TRAIT_MAP.testa, 'occhi_cristallo_modulare');
+  assert.ok(!('coda' in SCAR_TRAIT_MAP), 'an unknown location stays unmapped -> fail-closed');
 });
 
 test('deriveScarTrait returns the mapped trait when it is a valid id', () => {
@@ -39,8 +46,15 @@ test('deriveScarTrait returns the mapped trait when it is a valid id', () => {
   assert.equal(t, 'pelle_elastomera');
 });
 
-test('deriveScarTrait fail-closes on an unmapped location (testa)', () => {
-  assert.equal(deriveScarTrait(graveScar('testa', 'accuracy'), SCAR_TRAIT_MAP, VALID), null);
+test('deriveScarTrait returns the mapped trait for testa (now mapped 2026-06-30)', () => {
+  assert.equal(
+    deriveScarTrait(graveScar('testa', 'accuracy'), SCAR_TRAIT_MAP, VALID),
+    'occhi_cristallo_modulare',
+  );
+});
+
+test('deriveScarTrait fail-closes on an unknown/unmapped location', () => {
+  assert.equal(deriveScarTrait(graveScar('coda'), SCAR_TRAIT_MAP, VALID), null);
 });
 
 test('deriveScarTrait fail-closes when the mapped id is not in the valid-id set (SoT)', () => {
@@ -73,9 +87,19 @@ test('transformScar WITH map+validIds returns granted_trait for a mapped scar', 
   assert.equal(r.granted_trait, 'zampe_a_molla');
 });
 
-test('transformScar WITH map but unmapped scar (testa) = no granted_trait, still transforms', () => {
+test('transformScar WITH map grants the testa scar its trait (occhi_cristallo_modulare)', () => {
   const u = scarredUnit('testa', 'accuracy');
   const r = transformScar(u, 'testa', {
+    scarTraitMap: SCAR_TRAIT_MAP,
+    validTraitIds: VALID,
+  });
+  assert.equal(r.transformed, true);
+  assert.equal(r.granted_trait, 'occhi_cristallo_modulare');
+});
+
+test('transformScar WITH map but unknown scar location = no granted_trait, still transforms', () => {
+  const u = scarredUnit('coda');
+  const r = transformScar(u, 'coda', {
     scarTraitMap: SCAR_TRAIT_MAP,
     validTraitIds: VALID,
   });

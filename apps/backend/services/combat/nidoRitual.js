@@ -31,18 +31,20 @@
 
 const SEVERITY_GRAVE = 'grave';
 
-// PROPOSED scar->trait map (verdetto master-dd 2026-06-23). Failure-as-lore: the
-// wound at a location hardens into a thematic trait. Keyed by woundSystem location
-// (LOCATION_STAT: torso=defense, arti_anteriori=attack, arti_posteriori=mobility,
-// testa=accuracy). `testa` is intentionally UNMAPPED -> fail-closed until master-dd
-// maps it. Values are real active_effects ids but RATIFIED-PROVISIONAL: master-dd
-// confirms/replaces each mapping + runs N=40 before SCAR_TRANSFORM_TRAIT_GRANT_ENABLED
-// is flipped on. Always validated at grant time against the injected SoT id set
-// (never trusts the map alone).
+// scar->trait map (RATIFIED-PROVISIONAL master-dd 2026-06-30, close-out Tier-2; was
+// PROPOSED 2026-06-23). Failure-as-lore: the wound at a location hardens into a thematic
+// trait. Keyed by woundSystem location (LOCATION_STAT: torso=defense,
+// arti_anteriori=attack, arti_posteriori=mobility, testa=accuracy/senses). All 4
+// locations mapped (master-dd verdict: map `testa`); an UNKNOWN location still
+// fail-closes (deriveScarTrait + injected SoT id set). Values are real active_effects
+// ids, all LIVE (trigger.action_type=attack), RATIFIED-PROVISIONAL: master-dd runs N=40
+// before SCAR_TRANSFORM_TRAIT_GRANT_ENABLED is flipped on. Always validated at grant
+// time against the injected SoT id set (never trusts the map alone).
 const SCAR_TRAIT_MAP = Object.freeze({
-  torso: 'pelle_elastomera', // defense scar -> resilient skin
-  arti_anteriori: 'martello_osseo', // attack scar -> bone hammer
-  arti_posteriori: 'zampe_a_molla', // mobility scar -> spring legs
+  torso: 'pelle_elastomera', // defense scar -> resilient skin (-1 dmg taken on hit)
+  arti_anteriori: 'martello_osseo', // attack scar -> bone hammer (fracture on crit MoS>=8)
+  arti_posteriori: 'zampe_a_molla', // mobility scar -> spring legs (+1 dmg from elevation)
+  testa: 'occhi_cristallo_modulare', // accuracy/senses scar -> crystalline focus optics (+2 dmg on MoS>=8 hit)
 });
 
 /**

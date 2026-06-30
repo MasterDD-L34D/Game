@@ -139,7 +139,7 @@ test('nido/ritual transform: flag ON -> grants the PROPOSED scar trait (SPEC-E)'
   assert.ok(res.body.ritual.mark, 'narrative mark still present alongside the grant');
 });
 
-test('nido/ritual transform: flag ON but UNMAPPED location (testa) -> no grant (gate)', async (t) => {
+test('nido/ritual transform: flag ON + testa (now mapped 2026-06-30) -> grants occhi_cristallo_modulare', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     delete process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED;
@@ -151,7 +151,23 @@ test('nido/ritual transform: flag ON but UNMAPPED location (testa) -> no grant (
     .post(`/api/session/${sid}/nido/ritual`)
     .send({ unit_id: pgId, location: 'testa', kind: 'transform' });
   assert.equal(res.status, 200);
-  assert.equal(res.body.ritual.granted_trait, null, 'testa is unmapped -> master-dd gate');
+  // testa (accuracy/senses scar) -> occhi_cristallo_modulare per SCAR_TRAIT_MAP, validated vs SoT.
+  assert.equal(res.body.ritual.granted_trait, 'occhi_cristallo_modulare');
+});
+
+test('nido/ritual transform: flag ON but UNKNOWN location -> no grant (fail-closed gate)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    delete process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED;
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid, pgId } = await startWithScar(app, 'coda');
+  process.env.SCAR_TRANSFORM_TRAIT_GRANT_ENABLED = 'true';
+  const res = await request(app)
+    .post(`/api/session/${sid}/nido/ritual`)
+    .send({ unit_id: pgId, location: 'coda', kind: 'transform' });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.ritual.granted_trait, null, 'unknown location stays unmapped -> gate');
 });
 
 test('nido/ritual: invalid kind -> 400; unknown unit -> 404', async (t) => {
