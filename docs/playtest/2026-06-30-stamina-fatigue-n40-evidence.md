@@ -81,19 +81,22 @@ band-SAFE verdict is robust; the per-run directional deltas are within that nois
   two sides roughly cancel. DESIGN observation for master-dd (owner-gate Q3:
   carrier-independent vs player-only) -- not a band failure.
 
-## Owner-gate (master-dd; NOT done in this session)
+## Owner-gate -- VERDICT (master-dd, grilling 2026-06-30)
 
-The N=40 measurement is the only autonomous step. The remaining steps are owner:
+The N=40 measurement was the only autonomous step. Master-dd's verdicts:
 
-1. **Flip** (reversible): set `STAMINA_FATIGUE_ENABLED=true` in keys.env + restart
-   (I8 prod-flips bundle). Band-safe per above.
-2. **Ratify the 4 RATIFIED-PROVISIONAL knobs** (module header): sprint = 2 voluntary
-   tiles / threshold 1 (propriocezione 2) / -1 AP penalty / -1 decay per round.
-3. **Design call on symmetry**: keep fatigue carrier-independent (penalizes enemies
-   too -> net band-neutral, ecological realism) OR make it player-only (a real
-   tactical cost that would actually bite the player). Current = carrier-independent
-   -- which is WHY the net effect cancels to noise; if the design intent is a player
-   penalty, player-only is the lever.
+1. **Flip = AUTHORIZED + STAGED** (reversible): `export STAMINA_FATIGUE_ENABLED=true`
+   is already in `keys.env`. It is LATENT in prod -- the LETHAL flip restart was a
+   no-op for it (a 2nd `Start-ScheduledTask` while the task is Running does not
+   restart), so STAMINA activates on the NEXT genuine prod restart. Net-neutral
+   (band-SAFE per above), so no urgency to force a restart. See the 2026-06-30
+   lethal-flip handoff "STAMINA caveat".
+2. **4 knobs** stay RATIFIED-PROVISIONAL (sprint = 2 voluntary tiles / threshold 1,
+   propriocezione 2 / -1 AP penalty / -1 decay per round) -- re-tune only post-W5.
+3. **Symmetry = KEEP carrier-independent (RATIFIED).** Master-dd accepts it as
+   cosmetic flavor (ecological realism: enemies fatigue too -> net band-neutral).
+   The player-only switch is **rejected** -- it would turn fatigue into a real
+   tactical cost, which is NOT the design intent. Carrier-independent is final.
 
 Raw runs reproducible from the seeded commands above (`reports/sim/stamina-n40-{off,on}/`
 summary.json + report.md committed; runs.jsonl reproducible, not committed).

@@ -53,16 +53,16 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 
 ### 1A. Gate = N=40 / calibration (lane single-owner via orchestrator G2)
 
-| #   | Progetto                                            | Cosa manca per chiudere                                                             | Blocker     | Effort |
-| --- | --------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------- | ------ |
-| N1  | **SPEC-J `LETHAL_MISSIONS_ENABLED` flip**           | autora >=1 encounter `lethal:true` (design-call biome/roster/banda) -> N=40 -> flip | OWNER+N=40  | M-L    |
-| N2  | **SPEC-H HA1 `aliena_enforcement` flip**            | N=40 su `enc_badlands_pilot_01` + `strength` + flip. Machinery+surface COMPLETE     | OWNER+N=40  | S-M    |
-| N3  | **SPEC-I ER7 flag-ON** (population tick)            | N=40 flag-ON. Build gia' shipped flag-OFF (#2723)                                   | OWNER+N=40  | S      |
-| N4  | **OD-024 `STAMINA_FATIGUE_ENABLED` flip**           | N=40 proprio + flip incrementale. Engine #2 built flag-OFF (#2937)                  | OWNER+N=40  | M      |
-| N5  | **A2 floor magnitude re-tune** (upward-only)        | playtest umano -> re-tune `pressure_tier_floor` solo verso l'alto. A2 gia' LIVE     | OWNER       | S      |
-| N6  | **ER6 overrun carry-over fork** (TKT-ER6-CARRYOVER) | N=40 + verdetto (as-built = consume-once ratificato)                                | OWNER+N=40  | S (P3) |
-| N7  | **OD-024 interoception re-tune** (opzionale)        | knob: ammorbidire enemy-scaling per ri-centrare completion ~0.6 (flip gia' safe)    | OWNER (opt) | S      |
-| N8  | **move-terrain DR2=2 radici ratify**                | re-valida `DR2=2` con playtest umano hold-capable (RATIFIED-PROVISIONAL)            | OWNER       | S      |
+| #      | Progetto                                            | Cosa manca per chiudere                                                                                                                               | Blocker     | Effort |
+| ------ | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------ |
+| N1     | **SPEC-J `LETHAL_MISSIONS_ENABLED` flip**           | autora >=1 encounter `lethal:true` (design-call biome/roster/banda) -> N=40 -> flip                                                                   | OWNER+N=40  | M-L    |
+| ~~N2~~ | ~~**SPEC-H HA1 `aliena_enforcement` flip**~~        | ✅ **DONE (grilling 2026-06-30) = GUARDRAIL-LATENT**: `strength 0.5` RATIFIED, NON flippato (inerte sui pool autorati). Rimosso dalla lane N=40       | DONE        | S-M    |
+| N3     | **SPEC-I ER7 flag-ON** (population tick)            | N=40 flag-ON. Build gia' shipped flag-OFF (#2723)                                                                                                     | OWNER+N=40  | S      |
+| ~~N4~~ | ~~**OD-024 `STAMINA_FATIGUE_ENABLED` flip**~~       | ✅ **DONE (grilling 2026-06-30)**: N=40 band-SAFE + carrier-independent RATIFIED; flip staged-latent in keys.env (next prod restart). Engine #2 #2937 | DONE        | M      |
+| N5     | **A2 floor magnitude re-tune** (upward-only)        | playtest umano -> re-tune `pressure_tier_floor` solo verso l'alto. A2 gia' LIVE                                                                       | OWNER       | S      |
+| N6     | **ER6 overrun carry-over fork** (TKT-ER6-CARRYOVER) | N=40 + verdetto (as-built = consume-once ratificato)                                                                                                  | OWNER+N=40  | S (P3) |
+| N7     | **OD-024 interoception re-tune** (opzionale)        | knob: ammorbidire enemy-scaling per ri-centrare completion ~0.6 (flip gia' safe)                                                                      | OWNER (opt) | S      |
+| N8     | **move-terrain DR2=2 radici ratify**                | re-valida `DR2=2` con playtest umano hold-capable (RATIFIED-PROVISIONAL)                                                                              | OWNER       | S      |
 
 ### 1B. Gate = decisione master-dd (design-call; nessun build-blocker tecnico)
 
@@ -147,13 +147,30 @@ I7 keeper orphans. Presentati <=4 per volta, recommended-default + reversibility
 
 ### Tier 3 -- flip N=40-gated (lane single-owner G2)
 
-> **Verdetto Q2 = SPEC-J LETHAL per primo.**
+> **Verdetto Q2 = SPEC-J LETHAL per primo.** UPDATE 2026-06-30: **N1 DONE+FLIPPED LIVE prod**
+> (permadeath attivo, reversibile). Grilling value-picks drenati (vedi sotto).
 
-1. **N1 SPEC-J LETHAL** -- autora encounter `lethal:true` (design-call) -> N=40 -> flip (⛔ permadeath).
-2. **N2 SPEC-H HA1** -- N=40 badlands_pilot -> flip (🔄, cheapest-machinery-complete).
-3. **N4 OD-024 STAMINA_FATIGUE** -> **N3 SPEC-I ER7** -> **N6 ER6 carry-over** -> **N5 A2 retune** ->
-   **N8 DR2=2** -> **N7 interoception re-tune** (knob).
-4. Godot lane parallela: **G3 META route-UI** -> G4 D5 / **G6 engine-AP** (dep X1 #3053) / **G5 GAP-C** (POST-MVP).
+1. ✅ **N1 SPEC-J LETHAL** -- DONE: encounter L'Ultima Caccia #3107/#3112 -> N=40 -> **FLIPPED LIVE** (f859817d).
+2. ✅ **N2 SPEC-H HA1** -- DONE = guardrail-latent (strength 0.5 ratify, NON flip).
+3. ✅ **N4 OD-024 STAMINA_FATIGUE** -- DONE = carrier-independent ratify + flip staged-latent.
+4. Resta: **N3 SPEC-I ER7** / **N5 A2 retune** / **N8 DR2=2** / **N7 interoception** (tutti OWNER+N=40, gated W5).
+5. Godot lane parallela: **G3 META route-UI** -> G4 D5 / **G6 engine-AP** (dep X1 #3053) / **G5 GAP-C** (POST-MVP).
+
+### 2bis. Grilling value-picks (master-dd, 2026-06-30) -- continuation work-list
+
+6 verdetti dal /grilling post-LETHAL-flip. **Tutti band-PROVISIONAL** (W5 sim-harness NON costruito ->
+N=40 girano sull'AI-player passive = banda provvisoria; il flip power-sensitive aspetta W5).
+
+| #   | verdetto                                                                                      | stato                              |
+| --- | --------------------------------------------------------------------------------------------- | ---------------------------------- |
+| 1   | **HA1** ratify `strength 0.5` GUARDRAIL-LATENT (NON enable)                                   | ✅ DONE (doc-PR)                   |
+| 2   | **STAMINA** keep carrier-independent (NO player-only switch)                                  | ✅ DONE (doc-PR)                   |
+| 3   | **ER6** BUILD carry-over (unspent overrun budget -> next round) + N=40                        | BUILD (reinforcementSpawner, flag) |
+| 4   | **D6** wire `offense/RAPIDA = dilatazione_temporale_percettiva` (7/8 gia' wired #3115) + N=40 | WIRE (imprintTraitGrant, flag OFF) |
+| 5   | **D8** caps `3/2` (maxDepth 3, shock 2) + N=40 + flip se band-safe AND master-dd OK           | BUILD (terrainReactions, flag OFF) |
+
+> **Focus = drenare i value-pick PRIMA di W5.** Dopo questa lista, **W5** (sim-harness objective-aware)
+> e' il prossimo long-pole: sblocca form-pulse W6 + un re-ratify rigoroso di D6/D8/ER6 (banda reale).
 
 ## 3. Decisioni owner ratificate (questa sessione, AskUserQuestion 2026-06-29)
 
