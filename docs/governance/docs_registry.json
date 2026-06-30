@@ -12970,6 +12970,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-06-30-ultima-caccia-lethal-calibration.md",
+      "title": "L'Ultima Caccia -- first lethal-mission calibration (SPEC-J)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-18-foresta-s2-calibration.md",
       "title": "Foresta S2 calibration -- enc_foresta_pilot_01 (#2850 follow-up)",
       "doc_status": "active",
