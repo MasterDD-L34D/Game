@@ -34,28 +34,35 @@ inherits `env: process.env` (full-loop-batch.js:383), so the flag reaches each
 child's in-process backend (verified -- not the silent-skip trap that needs the
 party-grant SIM hook).
 
-- ARM OFF: `node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-off`
-- ARM ON: `STAMINA_FATIGUE_ENABLED=true node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-on`
+- ARM OFF: `GIT_COMMIT=$(git rev-parse HEAD) node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-off`
+- ARM ON: `GIT_COMMIT=$(git rev-parse HEAD) STAMINA_FATIGUE_ENABLED=true node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-on`
+
+Provenance (Codex #3108 P2): `currentFlags()` now records `STAMINA_FATIGUE_ENABLED`
+and the runs are pinned with `GIT_COMMIT`, so the OFF vs ON `summary.json` config
+blocks are SELF-DISTINGUISHING (commit `c83d6a68`, flag `false` vs `true`) and the
+ON-arm artifact verifies which arm + which revision produced it.
 
 Firing-proof (the mechanic actually activates with the flag on): the e2e tests
 `tests/api/staminaFatigueE2eAccrual.test.js` + `staminaFatigueRefill.test.js` +
 `tests/services/staminaFatigue.test.js` = 17/17 green; AND the paired arms differ
-on 5 metrics (below) -> fatigue fired (not a silent no-op).
+on 5 metrics (below) + the recorded flag differs -> fatigue fired (not a silent no-op).
 
-## Results (N=40, summary.json)
+## Results (N=40, summary.json, commit c83d6a68)
 
 | metric                      | OFF         | ON           | in_band (OFF/ON) |
 | --------------------------- | ----------- | ------------ | ---------------- |
-| completion_rate             | 0.475       | 0.575        | true / true      |
-| roster_attrition            | 0.575       | 0.502        | true / true      |
-| economy_flow drift          | 1.055       | 1.080        | true / true      |
-| relationship (recruit/mate) | 4.45 / 3.75 | 5.275 / 4.45 | true / true      |
-| offspring_viability         | 3.75        | 4.45         | true / true      |
+| completion_rate             | 0.475       | 0.600        | true / true      |
+| roster_attrition            | 0.563       | 0.511        | true / true      |
+| economy_flow drift          | 1.030       | 1.095        | true / true      |
+| relationship (recruit/mate) | 4.5 / 3.775 | 5.25 / 4.425 | true / true      |
+| offspring_viability         | 3.775       | 4.425        | true / true      |
 | lineage_diversity           | 5           | 5            | true / true      |
 | roster_composition          | 5 roles     | 5 roles      | true / true      |
 
-completion: OFF 19/40, ON 23/40. Bands PROVISIONAL (Claude-derived, L-069); the
-exact band numbers are master-dd's to ratify.
+completion: OFF 19/40, ON 24/40. Bands PROVISIONAL (Claude-derived, L-069); the
+exact band numbers are master-dd's to ratify. (The first, pre-provenance run gave
+0.475 / 0.575 -- the verdict is identical; the metrics are stable in-band, the sim
+is not bit-reproducible across bases so the continuous values drift a campaign.)
 
 ## Read
 
@@ -64,11 +71,11 @@ exact band numbers are master-dd's to ratify.
 - **Mechanic FIRED**: the arms diverge on 5 metrics (same seeds) -> fatigue is
   active in the ON arm, not silently skipped.
 - **Counter-intuitive but explainable**: fatigue ON nudged the player slightly
-  BETTER (completion 0.475 -> 0.575, attrition 0.575 -> 0.502). Because fatigue is
+  BETTER (completion 0.475 -> 0.600, attrition 0.563 -> 0.511). Because fatigue is
   carrier-INDEPENDENT it also penalizes SISTEMA units (enemies sprint to close on
   the party), so the net effect on the party is neutral-to-slightly-positive. This
   is a DESIGN observation for master-dd (see owner-gate Q3), not a band failure --
-  the magnitude is modest (+4 completed campaigns / 40) and everything stays
+  the magnitude is modest (+5 completed campaigns / 40) and everything stays
   in-band.
 
 ## Owner-gate (master-dd; NOT done in this session)
