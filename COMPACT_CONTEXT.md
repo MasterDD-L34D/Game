@@ -5,7 +5,23 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 -- Form-Pulse v2 build + 7/8 imprint wiring + 12 trait mechanics
+## ⚡ Sessione corrente 2026-07-01 (cont) -- Tier-3 grilling value-picks DRAINED 6/6 + W5 surfaced
+
+**5 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md`; SoT `2026-06-29-closeout-master-plan.md` sez.2bis + `2026-06-23-residual-gate-register.md`; memory `project_closeout_master_plan` (cont-5/5b).
+
+Eseguiti i 6 verdetti master-dd del /grilling post-LETHAL-flip (entry-point `2026-06-30-session-handoff-lethal-flip-grilling.md`):
+
+- **HA1 + STAMINA** ratify-doc **#3117 `8aa645c3`**: HA1 `strength 0.5` = GUARDRAIL-LATENT (NON abilitato, inerte sui pool uniformi) · STAMINA carrier-independent RATIFIED (player-only rigettato; flip staged-latent keys.env).
+- **ER6 carry-over** **#3119 `623860f5`**: unspent overrun -> round successivo (vs consume-once), `reinforcementSpawner.tick` single-point, flag OFF; N=40 band-SAFE; Codex P2 (pool-exhausted drop = no leak) fixato.
+- **D6 RAPIDA** **#3120 `516ad425`**: 🔑 era 7/8-gia'-wired (#3115) -> solo RAPIDA -> `dilatazione_temporale_percettiva` (extra_damage, NON focused false-green); 8/8, flag OFF.
+- **D8 caps 3/2** **#3121 `6b49023c`**: maxDepth 2->3 + footprint sweep deterministico; **flip DEFERRED** (master-dd: non-band-neutral + inerte sul content).
+- **sync #3123 `dd53f209`**: closeout/register reconciliati + Codex #3117 P2 (stale N1/N2/N4) fixati.
+
+Tutti flag-OFF, zero cambio prod; bande ER6/D6/D8 = **PROVISIONAL** (W5). cavecrew CLEAN x3 (D8 "184-line deletion" = REFUTATO behind-main 2-dot artifact, #3118 aveva aggiunto righe). main `6b49023c` verde (AI 567/567, 77/77 le 3 feature, governance 0, registry 1049).
+
+**Next (owner) = W5 sim-harness objective-aware**: sblocca form-pulse W6 + G6 + re-ratify rigoroso bande D6/D8/ER6.
+
+## Sessione 2026-07-01 (early) -- Form-Pulse v2 build + 7/8 imprint wiring + 12 trait mechanics
 
 **4 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff.md`; build-spec `2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md`; memory `project_form_pulse_v2_flip_readiness` + `project_missing_trait_combat_mechanics`.
 
