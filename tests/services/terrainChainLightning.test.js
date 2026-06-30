@@ -33,28 +33,29 @@ test('flag OFF by default; only "true" enables', () => {
   assert.equal(isChainLightningEnabled(null), false);
 });
 
-test('PROPOSED values are the conservative wire defaults', () => {
-  assert.equal(PROPOSED_CHAIN_MAX_DEPTH, 2);
+test('PROPOSED values = the grilling-ratified caps (3/2)', () => {
+  assert.equal(PROPOSED_CHAIN_MAX_DEPTH, 3); // grilling verdict 2026-06-30 (was 2)
   assert.equal(PROPOSED_CHAIN_SHOCK, 2);
 });
 
-test('spreads through adjacent water, excludes origin, respects maxDepth 2', () => {
-  // Origin (0,0) struck; water line (1,0),(2,0),(3,0). maxDepth 2 -> (3,0) is depth 3, dropped.
+test('spreads through adjacent water, excludes origin, respects maxDepth 3', () => {
+  // Origin (0,0) struck; water line (1,0)..(4,0). maxDepth 3 -> (4,0) is depth 4, dropped.
   const map = waterMap([
     [1, 0],
     [2, 0],
     [3, 0],
+    [4, 0],
   ]);
   map['0,0'] = { type: 'electrified', ttl: 1, source_actor: null };
   const res = chainLightningStrike({ x: 0, y: 0 }, map, []);
   assert.deepEqual(
     res.electrified_tiles.sort(),
-    ['1,0', '2,0'],
-    'origin excluded, (3,0) out of range',
+    ['1,0', '2,0', '3,0'],
+    'origin excluded, (4,0) out of range at maxDepth 3',
   );
   assert.equal(map['1,0'].type, 'electrified');
-  assert.equal(map['2,0'].type, 'electrified');
-  assert.equal(map['3,0'].type, 'water', 'beyond maxDepth stays water');
+  assert.equal(map['3,0'].type, 'electrified', 'depth 3 reached (grilling cap bump 2 -> 3)');
+  assert.equal(map['4,0'].type, 'water', 'beyond maxDepth 3 stays water');
 });
 
 test('occupants on newly-electrified tiles take floored shock; origin occupant untouched', () => {

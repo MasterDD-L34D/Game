@@ -13079,6 +13079,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-06-30-d8-chain-lightning-cap-footprint.md",
+      "title": "D8 chain-lightning cap 3/2 -- footprint evidence + flip-safety (aa01, Tier-3)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-30-ultima-caccia-canonical-wr.md",
       "title": "L'Ultima Caccia canonical WR (round-model) + WR/KO incompatibility (SPEC-J)",
       "doc_status": "active",
