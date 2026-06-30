@@ -33,7 +33,11 @@ const DEFAULT_TTL = {
 // (mirror IMPRINT_BEAT_ENABLED / STAMINA_FATIGUE_ENABLED gating). The helper's own
 // defaults are wider (maxDepth 5); these are the deliberately conservative wire values.
 const CHAIN_LIGHTNING_FLAG = 'TERRAIN_CHAIN_LIGHTNING_ENABLED';
-const PROPOSED_CHAIN_MAX_DEPTH = 2; // conservative blast radius (helper default is 5)
+// Caps = 3/2 (master-dd grilling verdict 2026-06-30; was 2/2 as-built #3082). maxDepth 3 =
+// one more BFS hop than the conservative wire; shock 2 unchanged. Still well under the helper
+// default (5). Footprint of the bump = tools/sim/d8-chain-footprint.js. PROPOSED (flip + cap
+// ratify = master-dd, non-band-neutral -- the chain reaches more water tiles).
+const PROPOSED_CHAIN_MAX_DEPTH = 3; // blast radius (helper default is 5)
 const PROPOSED_CHAIN_SHOCK = 2; // per-tile occupant shock (== the electrify burst)
 
 // Square-grid 4-neighbour offsets for the chain BFS (mirror membraneOsmotiche ADJ).
