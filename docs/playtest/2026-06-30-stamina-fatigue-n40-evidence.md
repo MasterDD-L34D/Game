@@ -37,46 +37,49 @@ party-grant SIM hook).
 - ARM OFF: `GIT_COMMIT=$(git rev-parse HEAD) node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-off`
 - ARM ON: `GIT_COMMIT=$(git rev-parse HEAD) STAMINA_FATIGUE_ENABLED=true node tools/sim/full-loop-batch.js --runs 40 --branch cave_path --policy greedy --seed-base 7000 --isolate --out reports/sim/stamina-n40-on`
 
-Provenance (Codex #3108 P2): `currentFlags()` now records `STAMINA_FATIGUE_ENABLED`
-and the runs are pinned with `GIT_COMMIT`, so the OFF vs ON `summary.json` config
-blocks are SELF-DISTINGUISHING (commit `c83d6a68`, flag `false` vs `true`) and the
-ON-arm artifact verifies which arm + which revision produced it.
+Provenance (Codex #3108 P2 + follow-up): `currentFlags()` now records
+`STAMINA_FATIGUE_ENABLED` and the runs are pinned with `GIT_COMMIT` to the
+**harness-patch revision** `8ba18a63` (the commit that ADDS the flag to
+`currentFlags()` -- NOT its parent), so a checkout of the recorded commit
+reproduces the advertised flag metadata. The OFF vs ON `summary.json` config
+blocks are SELF-DISTINGUISHING (same commit, flag `false` vs `true`).
 
 Firing-proof (the mechanic actually activates with the flag on): the e2e tests
 `tests/api/staminaFatigueE2eAccrual.test.js` + `staminaFatigueRefill.test.js` +
 `tests/services/staminaFatigue.test.js` = 17/17 green; AND the paired arms differ
 on 5 metrics (below) + the recorded flag differs -> fatigue fired (not a silent no-op).
 
-## Results (N=40, summary.json, commit c83d6a68)
+## Results (N=40, summary.json, commit 8ba18a63)
 
-| metric                      | OFF         | ON           | in_band (OFF/ON) |
-| --------------------------- | ----------- | ------------ | ---------------- |
-| completion_rate             | 0.475       | 0.600        | true / true      |
-| roster_attrition            | 0.563       | 0.511        | true / true      |
-| economy_flow drift          | 1.030       | 1.095        | true / true      |
-| relationship (recruit/mate) | 4.5 / 3.775 | 5.25 / 4.425 | true / true      |
-| offspring_viability         | 3.775       | 4.425        | true / true      |
-| lineage_diversity           | 5           | 5            | true / true      |
-| roster_composition          | 5 roles     | 5 roles      | true / true      |
+| metric                      | OFF          | ON           | in_band (OFF/ON) |
+| --------------------------- | ------------ | ------------ | ---------------- |
+| completion_rate             | 0.525        | 0.575        | true / true      |
+| roster_attrition            | 0.458        | 0.502        | true / true      |
+| economy_flow drift          | 1.010        | 1.080        | true / true      |
+| relationship (recruit/mate) | 5.425 / 4.55 | 5.275 / 4.45 | true / true      |
+| offspring_viability         | 4.55         | 4.45         | true / true      |
+| lineage_diversity           | 5            | 5            | true / true      |
+| roster_composition          | 5 roles      | 5 roles      | true / true      |
 
-completion: OFF 19/40, ON 24/40. Bands PROVISIONAL (Claude-derived, L-069); the
-exact band numbers are master-dd's to ratify. (The first, pre-provenance run gave
-0.475 / 0.575 -- the verdict is identical; the metrics are stable in-band, the sim
-is not bit-reproducible across bases so the continuous values drift a campaign.)
+completion: OFF 21/40, ON 23/40. Bands PROVISIONAL (Claude-derived, L-069); the
+exact band numbers are master-dd's to ratify. **Run-to-run variance**: across 3
+runs the sim is NOT bit-reproducible even at the same commit (completion OFF
+0.475-0.525, ON 0.575-0.600). Every metric stayed in-band in every run -> the
+band-SAFE verdict is robust; the per-run directional deltas are within that noise.
 
 ## Read
 
 - **Band-SAFE**: every one of the 7 meta-metrics is in-band in BOTH arms. No OOB
   cratering, no metric pushed out of range by fatigue.
-- **Mechanic FIRED**: the arms diverge on 5 metrics (same seeds) -> fatigue is
-  active in the ON arm, not silently skipped.
-- **Counter-intuitive but explainable**: fatigue ON nudged the player slightly
-  BETTER (completion 0.475 -> 0.600, attrition 0.563 -> 0.511). Because fatigue is
-  carrier-INDEPENDENT it also penalizes SISTEMA units (enemies sprint to close on
-  the party), so the net effect on the party is neutral-to-slightly-positive. This
-  is a DESIGN observation for master-dd (see owner-gate Q3), not a band failure --
-  the magnitude is modest (+5 completed campaigns / 40) and everything stays
-  in-band.
+- **Mechanic FIRED**: the arms diverge on multiple metrics (+ the recorded flag
+  differs) -> fatigue is active in the ON arm, not silently skipped.
+- **Net band-NEUTRAL within noise**: the per-run direction is NOT consistent
+  (run A: ON completion +0.125 / attrition -0.052; this run: ON completion +0.05 /
+  attrition +0.044) -> the directional shift is inside the run-to-run variance, not
+  a real difficulty swing. Mechanistically this fits: fatigue is carrier-INDEPENDENT
+  so it penalizes SISTEMA units too (enemies sprint to close on the party), and the
+  two sides roughly cancel. DESIGN observation for master-dd (owner-gate Q3:
+  carrier-independent vs player-only) -- not a band failure.
 
 ## Owner-gate (master-dd; NOT done in this session)
 
