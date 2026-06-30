@@ -8,6 +8,7 @@ const assert = require('node:assert/strict');
 const {
   computeImprintBiomeWeights,
   topBiome,
+  brancoTendencyHint,
   tupleKey,
 } = require('../../apps/backend/services/imprint/imprintBiomeWeights');
 
@@ -163,4 +164,33 @@ test('isImprintEnabled: OFF by default, ON only when env flag === "true"', () =>
   assert.equal(isImprintEnabled({ IMPRINT_BEAT_ENABLED: '1' }), false);
   assert.equal(isImprintEnabled({ IMPRINT_BEAT_ENABLED: 'true' }), true);
   assert.equal(isImprintEnabled(null), false);
+});
+
+// D7 -- diegetic tendency descriptor scaffold (structure only; prose = client HITL).
+test('brancoTendencyHint: structured descriptor for a non-empty lean', () => {
+  assert.deepEqual(brancoTendencyHint('palude'), {
+    leans_toward: 'palude',
+    i18n_key: 'imprint.branco_tendency',
+    vars: { biome: 'palude' },
+    placeholder: 'TODO_IMPRINT_TENDENCY_PROSE',
+  });
+});
+
+test('brancoTendencyHint: the var tracks the lean (different biome)', () => {
+  const t = brancoTendencyHint('reef');
+  assert.equal(t.vars.biome, 'reef');
+  assert.equal(t.leans_toward, 'reef');
+  assert.equal(t.i18n_key, 'imprint.branco_tendency');
+});
+
+test('brancoTendencyHint: ships NO player-facing prose (boundary)', () => {
+  // The backend must never embed the Italian sentence; only a neutral marker.
+  assert.equal(brancoTendencyHint('savana').placeholder, 'TODO_IMPRINT_TENDENCY_PROSE');
+});
+
+test('brancoTendencyHint: null/empty/invalid lean -> null', () => {
+  assert.equal(brancoTendencyHint(null), null);
+  assert.equal(brancoTendencyHint(''), null);
+  assert.equal(brancoTendencyHint(undefined), null);
+  assert.equal(brancoTendencyHint(42), null);
 });

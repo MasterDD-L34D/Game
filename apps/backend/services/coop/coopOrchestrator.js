@@ -22,6 +22,7 @@ const consentSM = require('./lethalConsent');
 const {
   computeImprintBiomeWeights,
   topBiome,
+  brancoTendencyHint,
   IMPRINT_AXES,
   IMPRINT_AXIS_DEFAULTS,
   isValidAxisValue,
@@ -1722,7 +1723,11 @@ class CoopOrchestrator {
     }
     const weights = computeImprintBiomeWeights([tuple]);
     const leans = topBiome(weights);
-    this.brancoBiomeHint = leans ? { leans_toward: leans, weights } : null;
+    // D7: additive diegetic tendency descriptor ("il tuo branco tende verso X").
+    // Structure only (i18n key + var); the player-facing prose is master-dd HITL.
+    this.brancoBiomeHint = leans
+      ? { leans_toward: leans, weights, tendency: brancoTendencyHint(leans) }
+      : null;
     // D6: stamp the resolved team tuple for the branco-trait emergence (stacking B).
     this.imprintTuple = tuple;
     this.imprintOpen = false;
