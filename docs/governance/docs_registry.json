@@ -13057,6 +13057,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-06-30-er6-overrun-carryover-n40-evidence.md",
+      "title": "ER6 overrun carry-over paired N=40 band-safety evidence (SPEC-I, Tier-3)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-06-30",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-30-ha1-aliena-enforcement-evidence.md",
       "title": "HA1 aliena_enforcement strength evidence + flip-safety (SPEC-H, Tier-3 N2)",
       "doc_status": "active",
