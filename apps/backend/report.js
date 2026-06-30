@@ -138,7 +138,7 @@ function buildIncrementalPlan(idea) {
     '- Produce playtest hooks or sample encounters under `/data/playtests`.',
     '',
     '### Phase 3 · Playtest & Integration',
-    '- Run automated validations (`npm test`, `npm run validate:species`).',
+    '- Run automated validations (`npm test`, `python3 tools/py/game_cli.py validate-datasets`).',
     '- Capture adjustments in `/logs/design-journal`. ',
     '- Merge once documentation and checklists below are satisfied.',
   ];
