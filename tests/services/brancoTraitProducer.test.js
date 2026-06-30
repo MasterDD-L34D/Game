@@ -113,6 +113,31 @@ test('ON: no imprint tuple -> form-pulse only (always-emerge at threshold 0)', (
   assert.equal(got.trait_id, AGILE_TRAIT);
 });
 
+test('ON: w=0 DISABLES imprint -- empty aggregate -> null (no magnitude-0 grant)', () => {
+  // FORM_PULSE_IMPRINT_WEIGHT=0 = the no-imprint control sweep. A zero-weight imprint must
+  // contribute NOTHING; the loop must not grant a magnitude-0 trait when Form-Pulse is empty.
+  const got = produceBrancoTrait({
+    aggregate: {},
+    imprintTuple: { locomotion: 'VELOCE' },
+    combined: true,
+    threshold: 0,
+    w: 0,
+  });
+  assert.equal(got, null);
+});
+
+test('ON: w=0 DISABLES imprint -- form lean present -> form wins, imprint absent', () => {
+  const got = produceBrancoTrait({
+    aggregate: { agile_robust: -0.3 },
+    imprintTuple: { locomotion: 'VELOCE' },
+    combined: true,
+    threshold: 0,
+    w: 0,
+  });
+  assert.equal(got.trait_id, AGILE_TRAIT);
+  assert.equal(got.source, 'formpulse');
+});
+
 test('single slot: returns at most ONE trait (never stacks)', () => {
   const got = produceBrancoTrait({
     aggregate: { agile_robust: -0.9, solitary_swarm: 0.8 },

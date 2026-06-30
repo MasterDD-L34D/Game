@@ -90,7 +90,10 @@ function produceBrancoTrait(args = {}) {
   let best = fromForm ? { ...fromForm, source: 'formpulse' } : null;
   const wMag = Number.isFinite(w) ? w : 0;
   const effThreshold = Number.isFinite(threshold) ? threshold : 0;
-  if (imprintTuple && typeof imprintTuple === 'object' && wMag >= effThreshold) {
+  // w must be a STRICTLY positive weight to compete: w=0 (the FORM_PULSE_IMPRINT_WEIGHT=0
+  // control sweep) disables the imprint contribution -- otherwise an empty Form-Pulse aggregate
+  // would still grant a magnitude-0 imprint trait, corrupting a zero-weight calibration run.
+  if (imprintTuple && typeof imprintTuple === 'object' && wMag > 0 && wMag >= effThreshold) {
     for (const axis of Object.keys(imprintMapping)) {
       const raw = imprintTuple[axis];
       if (raw == null) continue;
