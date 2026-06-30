@@ -139,6 +139,17 @@
     "label": "Bioma ferito",
     "tooltip": "porta le cicatrici di una spedizione fallita; l'ecosistema reagisce con più durezza"
   },
+  "imprint": {
+    "branco_tendency": {
+      "savana": "Il tuo branco tende verso le savane aperte: corsa lunga e orizzonti larghi.",
+      "badlands": "Il tuo branco tende verso i calanchi: terra dura, colpi rapidi.",
+      "caverna_risonante": "Il tuo branco tende verso le caverne risonanti: silenzio e udito acuto.",
+      "rovine_planari": "Il tuo branco tende verso le rovine planari: agguati nel buio.",
+      "palude_tossica": "Il tuo branco tende verso le paludi tossiche: pazienza e resistenza.",
+      "canopia_ionica": "Il tuo branco tende verso la canopia ionica: agilita e scariche fra le fronde.",
+      "reef_luminescente": "Il tuo branco tende verso le scogliere luminescenti: scivola silenzioso nella corrente."
+    }
+  },
   "overcharge_hint": {
     "label": "Il Sistema reagisce al tuo tempo rubato"
   },

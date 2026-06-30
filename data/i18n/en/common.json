@@ -139,6 +139,17 @@
     "label": "Wounded biome",
     "tooltip": "it bears the scars of a failed expedition; the ecosystem reacts more harshly"
   },
+  "imprint": {
+    "branco_tendency": {
+      "savana": "Your pack leans toward the open savannas: long runs and wide horizons.",
+      "badlands": "Your pack leans toward the badlands: hard ground, fast strikes.",
+      "caverna_risonante": "Your pack leans toward the resonant caverns: silence and sharp hearing.",
+      "rovine_planari": "Your pack leans toward the planar ruins: ambushes in the dark.",
+      "palude_tossica": "Your pack leans toward the toxic marshes: patience and resilience.",
+      "canopia_ionica": "Your pack leans toward the ionic canopy: agility and discharges among the fronds.",
+      "reef_luminescente": "Your pack leans toward the luminescent reefs: gliding silent through the current."
+    }
+  },
   "overcharge_hint": {
     "label": "The System reacts to your stolen tempo"
   },
