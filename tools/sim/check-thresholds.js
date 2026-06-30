@@ -30,7 +30,7 @@ const path = require('node:path');
 // Canonical baseline 2026-05-09 (PR #2149 verdict).
 // Update quando ship default profile change.
 const BASELINE_WR = {
-  aggressive: 1.0, // 100% WR utility ON + commit_window 2 (PR #2149)
+  aggressive: 0.9, // re-baselined 2026-06-30 (master-dd authorized). Was 1.0 = the #2149 single-condition measurement (utility ON + commit_window 2) -> too tight, auto-filed recurring false-positives #2834/#2888/#3085. Empirical N=40 nightly: 95.0% (#2834 06-18) / 87.5% (#2888 06-20) / 87.5% (#3085 06-30), mean 90.0%, completion 100%. The 95->87.5 spread is within N=40 variance (+/-~9pp @ p~0.9) of a true ~90% -- NOT a real drift. 0.9 centers the +/-10pp band so the realistic 80-100% range stays in-band and a genuine collapse <80% still trips (mirrors the balanced/cautious re-baseline below).
   aggressive_no_util: 0.95, // K3 ablation reproduction
   aggressive_with_stickiness: 0.55, // K4 sticky 0.15 (PR #2147)
   aggressive_sticky_30: 0.6, // K4 sticky 0.30 (PR #2147)
