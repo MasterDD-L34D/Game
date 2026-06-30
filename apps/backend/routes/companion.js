@@ -360,6 +360,14 @@ function createCompanionRouter({
     }
     // Cooldown 1/campaign (ADR-04-27): durable -- this campaign already crossbred
     // this lineage iff a persisted history event carries its campaign_id.
+    // KNOWN LIMITATION (P3, TKT-SKIV-COOLDOWN-FIFO): crossbreed_history is FIFO-capped
+    // at 10 (product cap), so a lineage crossbred in >10 distinct campaigns evicts the
+    // oldest cooldown record -> re-crossbreeding that evicted campaign is allowed again.
+    // Low-impact: rate-limited flavor feature, needs 11+ distinct-campaign crossbreeds
+    // on ONE lineage, payoff = 1 extra offspring. A FIFO-immune fix (a separate uncapped
+    // campaign-id field) is deferred: it would expose the full campaign-id LIST in the
+    // shared card (a worse share-leak than this single per-event id). master-dd weighs
+    // that trade-off at the forbidden-path merge.
     const priorHistory = store.getCrossbreedHistory(lineageId) || [];
     if (priorHistory.some((e) => e && e.campaign_id === campaignId)) {
       return res.status(409).json({ error: 'crossbreed_cooldown_active' });

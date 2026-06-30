@@ -371,6 +371,10 @@ Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifi
 - **TKT-ER6-CARRYOVER** (design fork, non bloccante): semantica carry-over del bonus overrun (persiste fino al primo tick spawnabile O spawn-tick immediato al crossing) -> knob significativo in TUTTI i biomi stresswave invece che solo abisso. Richiede nuova N=40 + verdetto master-dd (la ratifica corrente copre l'as-built consume-once).
 - **TKT-SIM-PROBE-ENTROPY** (harness reliability): gamba atollo ISO = floor +0.33 tra armi byte-identiche in processi separati (abisso -0.03 pulito) -- entropia process-level non-seedata in un path biome-specifico travolge il paired design. Investigare rng non-seedato (candidati: foodweb/eco path), fixare o documentare. Finche' aperto: ogni N=40 famiglia spec-i-gates-probe riporta il floor della propria gamba e scarta gambe anomale.
 
+### 🟢 P3 OPEN — SPEC-F crossbreed cooldown FIFO edge (I3, 2026-06-30)
+
+- **TKT-SKIV-COOLDOWN-FIFO** (low-impact correctness edge, cavecrew P1 on PR #3101 -> downgraded P3 con motivazione): la durable cooldown 1/campagna (I3) deriva da `crossbreed_history`, che e' FIFO-capped a 10 (product cap). Una lineage crossbred in >10 campagne distinte evince il record piu' vecchio -> ri-crossbreed di quella campagna evinta torna permesso. Impatto basso: feature flavor + rate-limit 10/h, serve 11+ campagne distinte sulla STESSA lineage, payoff = 1 offspring extra. Edge PINNED da un test (`tests/routes/skivCustode.test.js`) + commentato a `companion.js`. **Fix FIFO-immune** = campo separato uncapped `crossbred_campaign_ids` MA esporrebbe l'intera lista campaign-id nella card condivisa (leak peggiore del singolo id per-evento) -> trade-off owner-gated (forbidden-path packages/contracts). Riaprire solo se >10-campaign-su-una-lineage diventa realistico.
+
 ### ✅ SHIPPED — Canonical AI-driven playtest (paradigma flip 2026-05-29)
 
 SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.yaml`. Flip: AI-driven multi-policy (N=40) = gate/oracolo riproducibile; playtest umano = conferma opzionale, mai bloccante. Tooling esistente `tools/py/calibrate_*.py` + `batch_calibrate_*.py`.

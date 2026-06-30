@@ -465,6 +465,29 @@ test('POST /skiv/crossbreed/confirm cooldown is DURABLE: survives a fresh router
   assert.equal(r.body.error, 'crossbreed_cooldown_active');
 });
 
+test('POST /skiv/crossbreed/confirm KNOWN LIMITATION: FIFO cap (10) evicts the oldest cooldown record (TKT-SKIV-COOLDOWN-FIFO)', async () => {
+  // crossbreed_history is FIFO-capped at 10 (product cap). A lineage crossbred in
+  // >10 distinct campaigns evicts the oldest event, so re-crossbreeding that evicted
+  // campaign is allowed again. This test PINS that documented edge (P3, low-impact:
+  // rate-limited, 11+ distinct campaigns, payoff = 1 offspring). Multiple apps share
+  // the SAME store to dodge the per-router 10/window IP rate-limit.
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const mk = (cid) => ({
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: cid,
+  });
+  const app1 = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  for (let i = 1; i <= 10; i += 1) {
+    assert.equal((await postJson(app1, '/api/skiv/crossbreed/confirm', mk(`c${i}`))).status, 200);
+  }
+  // History now holds c1..c10. An 11th distinct campaign evicts c1 (FIFO).
+  const app2 = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  assert.equal((await postJson(app2, '/api/skiv/crossbreed/confirm', mk('c11'))).status, 200);
+  // c1's cooldown record was evicted -> re-crossbreeding c1 is (knowingly) allowed.
+  assert.equal((await postJson(app2, '/api/skiv/crossbreed/confirm', mk('c1'))).status, 200);
+});
+
 test('POST /skiv/crossbreed/confirm missing campaign_id → 400', async () => {
   const store = makeStoreStub({ [LINEAGE]: makeShareState() });
   const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
