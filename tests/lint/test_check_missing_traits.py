@@ -66,6 +66,25 @@ def test_combat_strict_rejects_json_reference(tmp_path):
     assert "combat-strict" in (r.stderr + r.stdout)
 
 
+def test_yaml_reference_case_insensitive(tmp_path):
+    # P3 (pre-merge review): un --trait-reference .YAML deve essere parsato come
+    # YAML (loader case-insensitive), coerente col guard combat-strict che usa
+    # .lower(). Altrimenti load_trait_reference cade nel branch JSON -> crash.
+    active = tmp_path / "active.YAML"
+    active.write_text("traits:\n  t_combat:\n    tier: T1\n")
+    glossary = tmp_path / "glossary.json"
+    glossary.write_text(json.dumps({"traits": {"t_combat": {}, "t_glossary_only": {}}}))
+    catalog = tmp_path / "catalog.json"
+    catalog.write_text(json.dumps({"catalog": [{"species_id": "s1", "trait_refs": ["t_glossary_only"]}]}))
+    r = _run([
+        "--species", str(catalog), "--trait-reference", str(active),
+        "--glossary", str(glossary), "--combat-strict", "--strict",
+    ])
+    # audit gira: t_glossary_only non in active -> combat_unauthored -> FAIL exit 1 (NON un traceback).
+    assert r.returncode == 1, r.stderr
+    assert "Traceback" not in r.stderr
+
+
 def test_real_catalog_strict_is_clean(tmp_path):
     # Il vero gate: tutti i trait_refs del catalog esistono in glossary OR
     # active_effects -> default --strict deve uscire 0 (i 17 non-combat = WARN).

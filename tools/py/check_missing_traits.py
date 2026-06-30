@@ -40,7 +40,7 @@ def load_trait_reference(path: Path) -> Set[str]:
   # - .json (data/traits/index.json) → TR-NNNN format
   # Catalog trait_refs use legacy ids, so YAML reference preferred when
   # validating catalog. JSON reference per Pack v2 species YAML legacy.
-  if path.suffix in (".yaml", ".yml"):
+  if path.suffix.lower() in (".yaml", ".yml"):
     import yaml as _yaml
     payload = _yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     traits = payload.get("traits") if isinstance(payload, dict) else None
