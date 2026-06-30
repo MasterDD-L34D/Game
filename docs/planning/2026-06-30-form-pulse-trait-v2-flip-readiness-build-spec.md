@@ -156,15 +156,18 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 ## 4. Critical path / sequencing
 
 ```
-W1 (offset-rework, piccolo) ----------------------------\
-W5 (sim-harness upgrade, LONG POLE) --------------------\
-W2 (produttore unificato) + W3 (mapping+audit) ---------> W6 (N=40 cross-biome + ratifica) -> W4 flag-unif -> FLIP (Ryzen)
+W1 (offset-rework, piccolo) ----------------------------------------\
+W5 (sim-harness upgrade, LONG POLE) --------------------------------\
+W2 (produttore unificato) + W3 (mapping+audit) + W4 (flag-unif) ----> W6 (N=40 cross-biome + ratifica) -> FLIP (Ryzen)
 ```
 
-- W5 e (W2+W3) in parallelo = i due rami piu' lunghi.
+- W5 e (W2+W3+W4) in parallelo = i due rami piu' lunghi.
 - W1 piccolo, in qualsiasi momento (chiude anche il bug solo, valore safety immediato).
-- W4 si chiude insieme a W2 (stesso punto del codice).
-- W6 dipende da W1+W2+W3+W5 tutti pronti.
+- **W4 (flag-unif) e' PREREQUISITO di W6, NON successivo** (si chiude insieme a W2, stesso
+  punto del codice): l'N=40 di W6 DEVE girare contro il modello a flag-unico finale,
+  altrimenti ratificherebbe il path a 2 flag vecchio e il flip cambierebbe un comportamento
+  non testato. (Codex P2 PR #3111.)
+- W6 dipende da W1+W2+W3+W4+W5 tutti pronti.
 
 ## 5. Residui N=40 / audit-gated (PROPOSED finche' non ratificati)
 
