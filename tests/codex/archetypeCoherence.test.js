@@ -17,6 +17,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const {
+  normSpeciesId,
   parseKeyFactArchetype,
   checkArchetypeCoherence,
   loadSpeciesArchetypes,
@@ -123,11 +124,24 @@ test('checkArchetypeCoherence: skips when neither spot is authored', () => {
 
 // --- loadSpeciesArchetypes --------------------------------------------------
 
+test('normSpeciesId aliases hyphens to underscores (pack ids are inconsistent)', () => {
+  assert.equal(normSpeciesId('sentinella-radice'), 'sentinella_radice');
+  assert.equal(normSpeciesId('lithoconstructus_inhibens'), 'lithoconstructus_inhibens');
+  assert.equal(normSpeciesId(null), '');
+});
+
 test('loadSpeciesArchetypes resolves a known species id by its id field', () => {
   // Filenames hyphenate (lithoconstructus-inhibens.yaml) but ids underscore;
   // resolution must key on the in-file `id`, not the filename.
   const m = loadSpeciesArchetypes(REPO_ROOT);
   assert.equal(m.get('lithoconstructus_inhibens'), 'adattivo');
+});
+
+test('loadSpeciesArchetypes resolves a HYPHEN-id species (Codex P1 #3090 gap)', () => {
+  // sentinella-radice.yaml has id: sentinella-radice (hyphen) -> the raw-key map
+  // missed the underscore codex id sentinella_radice and the gate silently skipped.
+  const m = loadSpeciesArchetypes(REPO_ROOT);
+  assert.equal(m.get('sentinella_radice'), 'bioelettrico');
 });
 
 // --- CLI end-to-end ---------------------------------------------------------

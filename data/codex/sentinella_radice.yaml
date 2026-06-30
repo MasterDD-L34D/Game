@@ -19,7 +19,7 @@ codex_entry:
     biome_name: Foresta Temperata Umida
     biome_trait: Boschi piovosi con canopy densa, nebbie calde e radure bioenergetiche
     lineage: forme a morfologia Organismo radicante sessile
-    archetype: adattivo
+    archetype: bioelettrico
     morphotype: Organismo radicante sessile
     job: ''
     role: ingegneri ecosistema
@@ -53,7 +53,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: bioelettrico'
       - 'role_trofico: ingegneri_ecosistema; sentient: True'
       - 'trait_refs: focus_frazionato, pathfinder, pianificatore, random, empatia_coordinativa'
       cross_ref:
@@ -63,11 +63,11 @@ codex_entry:
       - trait:pianificatore
       - trait:random
       - trait:empatia_coordinativa
-      game_impact: Archetipo adattivo.
+      game_impact: Archetipo bioelettrico.
       content: 'Il sentinella radice evolve lungo le fasi cucciolo, giovane, maturo, apex,
         eredita''. I suoi tratti -- focus frazionato, pathfinder, pianificatore, random, empatia
         coordinativa -- non sono ornamenti ma risposte: ognuno racconta una pressione superata,
-        in archetipo adattivo.'
+        in archetipo bioelettrico.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:

@@ -169,6 +169,15 @@ function collectInPlaySpecies(repoRoot) {
 // in-file `id`, not the filename.
 const SPECIES_PACK_REL = 'packs/evo_tactics_pack/data/species';
 
+// Pack species ids are inconsistent: some underscore (lithoconstructus_inhibens),
+// some hyphen (sentinella-radice), while codex entry ids are always underscore.
+// Normalize hyphens -> underscores on BOTH the map key and the lookup so the
+// coherence gate covers hyphen-id species (Codex P1, PR #3090 follow-up) instead
+// of silently skipping them.
+function normSpeciesId(id) {
+  return String(id == null ? '' : id).replace(/-/g, '_');
+}
+
 // Build a Map<id, resistance_archetype> from the pack species specs. Best-effort:
 // a species file that fails to parse degrades to skip, not a crash. Returns an
 // empty Map if the pack dir is absent (coherence then has nothing to check).
@@ -198,7 +207,7 @@ function loadSpeciesArchetypes(repoRoot) {
         }
         if (parsed && typeof parsed === 'object' && parsed.id) {
           const arch = parsed.resistance_archetype;
-          map.set(String(parsed.id), arch == null ? null : String(arch));
+          map.set(normSpeciesId(parsed.id), arch == null ? null : String(arch));
         }
       }
     }
@@ -319,7 +328,7 @@ function validateEntry(file, parsed, errors, warnings, universe = null, speciesA
   // HARD (PR #3087 guard): codex<->species archetype coherence. Only when the
   // type:species id resolves to a species with a defined resistance_archetype.
   if (speciesArchetypes && entry.type === 'species' && entry.id) {
-    const speciesArch = speciesArchetypes.get(String(entry.id));
+    const speciesArch = speciesArchetypes.get(normSpeciesId(entry.id));
     if (speciesArch != null && String(speciesArch).trim() !== '') {
       for (const e of checkArchetypeCoherence(entry, String(speciesArch))) errors.push(e);
     }
@@ -401,6 +410,7 @@ module.exports = {
   CONTENT_MAX,
   parseArgs,
   collectInPlaySpecies,
+  normSpeciesId,
   loadSpeciesArchetypes,
   parseKeyFactArchetype,
   checkArchetypeCoherence,
