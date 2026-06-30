@@ -223,6 +223,11 @@
       "maximum": 5,
       "description": "1-5 star difficulty"
     },
+    "lethal": {
+      "type": "boolean",
+      "default": false,
+      "description": "SPEC-J per-mission lethal flag (point-9): when true the mission can produce permadeath. Read by routes/session.js /start as session.lethal. Inert unless LETHAL_MISSIONS_ENABLED==='true' AND per-player consent is granted (services/combat/lethalDeath.js); a KO is soft-death otherwise (band-neutral by construction). Default false = soft-death mission."
+    },
     "pressure_tier_floor": {
       "type": "integer",
       "minimum": 0,
