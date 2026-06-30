@@ -913,6 +913,33 @@ class CoopOrchestrator {
   }
 
   /**
+   * Codex #3083 P2: empty the single branco-trait slot + per-player minor traits.
+   * The party PERSISTS across scenarios (advanceScenarioOrEnd keeps `characters`),
+   * so nulling `emergentBrancoTrait` / clearing `playerMinorTraits` alone left the
+   * granted trait id in each character's `traits` array. The next slot source
+   * (Form-Pulse OR the D6 imprint fallback) then ran with prevId=null and ADDED a
+   * second branco trait. Strip the tracked ids from characters first, then clear
+   * the trackers, so the slot is truly empty for the next scenario.
+   */
+  _clearEmergentTraits() {
+    const brancoId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
+    for (const [pid, ch] of this.characters.entries()) {
+      if (!ch || !Array.isArray(ch.traits)) continue;
+      if (brancoId) {
+        const i = ch.traits.indexOf(brancoId);
+        if (i !== -1) ch.traits.splice(i, 1);
+      }
+      const minorId = this.playerMinorTraits.get(pid);
+      if (minorId) {
+        const j = ch.traits.indexOf(minorId);
+        if (j !== -1) ch.traits.splice(j, 1);
+      }
+    }
+    this.emergentBrancoTrait = null;
+    this.playerMinorTraits.clear();
+  }
+
+  /**
    * Form-Pulse trait v2 -- Piece 3. Roll random bars for any EXPECTED player who never
    * submitted (the timeout anti-deadlock), PERSIST them into formPulses (frozen roll ->
    * reconnect-safe), then re-run the branco emergence (+ minor traits). Returns the list of
@@ -1923,10 +1950,11 @@ class CoopOrchestrator {
     this.routeVotes.clear();
     this.routeCandidates = null;
     this.formPulses.clear();
-    this.playerMinorTraits.clear();
     this._clearFormPulseTimer();
     this.formPulseTimeoutWarning = false;
-    this.emergentBrancoTrait = null;
+    // Codex #3083 P2: strip the branco/minor traits from the persisting party
+    // BEFORE clearing the trackers (else the next slot source double-stacks).
+    this._clearEmergentTraits();
     this.revealAcks.clear();
     // Codex #2794 P1: consent is per-scenario (a lethal mission = a scenario),
     // but the run keeps the same run.id == campaign_id across scenarios. Without
