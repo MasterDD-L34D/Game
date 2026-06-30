@@ -183,6 +183,9 @@ const {
   applyEnemyHpMultiplier,
   formPulseV2EnemyHpOffset,
 } = require('../services/combat/biomeModifiers');
+// W1 offset-rework (grilling 2026-06-30): the enemy-HP offset scales on the REAL granted
+// Form-Pulse v2 buff present on the player creatures, not the flag alone.
+const { countGrantedV2BuffPower } = require('../services/identity/brancoTraitEmergence');
 // TKT-PLAYTEST-SEED (2026-05-29): canonical seedable combat RNG. Unseeded
 // defaultRng === Math.random (zero prod change). The seed is recorded per
 // session (session.combatRng) and installed by sessionRoundBridge via
@@ -2301,12 +2304,16 @@ function createSessionRouter(options = {}) {
       // payload (e.g. hardcore scenarios) -> pressure_delta 0 -> WR bands unchanged.
       const seasonRaw = req.body?.season || req.body?.encounter?.season || null;
       const crossEvent = getCrossEventPressureDelta(biomeIdRaw, seasonRaw);
-      // Form-Pulse trait v2 enemy-HP offset (ratify path-1): fold into the biome
+      // Form-Pulse trait v2 enemy-HP offset (W1 offset-rework): fold into the biome
       // hp_mult so enemy HP is scaled ONCE (applyEnemyHpMultiplier is idempotent per
       // unit via _biome_hp_applied). No-op (1.0) unless FORM_PULSE_TRAIT_V2_ENABLED is
-      // ON -> when the team buff flips on, enemies absorb a matching ~+8% so NET
-      // difficulty stays near baseline (#3017 A/B calibration).
-      const fpV2EnemyHpOffset = formPulseV2EnemyHpOffset();
+      // ON; when ON it scales on the REAL granted buff present on the player creatures
+      // (0 buff -> 1.0, the solo fix) so NET difficulty stays near baseline at every
+      // player-count (#3017 A/B calibration anchor).
+      const fpV2EnemyHpOffset = formPulseV2EnemyHpOffset(
+        process.env,
+        countGrantedV2BuffPower(units),
+      );
       const effectiveEnemyHpMult = biomeModifiers.hp_mult * fpV2EnemyHpOffset;
       if (effectiveEnemyHpMult !== 1.0) {
         applyEnemyHpMultiplier(units, effectiveEnemyHpMult);

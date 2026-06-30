@@ -1,9 +1,11 @@
 'use strict';
 
-// D6 (aa01 L'Impronta, 2026-06-30) -- imprint axis->trait grant wired into the coop
-// branco-trait slot (stacking B: imprint feeds the single slot as a Form-Pulse
-// fallback). Flag IMPRINT_TRAIT_GRANT_ENABLED + IMPRINT_BEAT_ENABLED default OFF =
-// byte-identical (imprint stays cosmetic, no trait granted).
+// D6 imprint axis->trait grant wired into the coop branco-trait slot. W4 flag-unification
+// (grilling 2026-06-30): the imprint now feeds the single slot through the unified
+// brancoTraitProducer under ONE flag FORM_PULSE_TRAIT_V2_ENABLED (the old
+// IMPRINT_TRAIT_GRANT_ENABLED is collapsed away). OFF = byte-identical (imprint stays
+// cosmetic). Stacking B preserved: ONE slot, imprint competes via the weighted argmax,
+// Form-Pulse precedence on a tie.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -28,20 +30,23 @@ function completeImprint(co, locomotion) {
   }
 }
 
+// W4: the imprint participates under the SINGLE unified flag FORM_PULSE_TRAIT_V2_ENABLED
+// (threshold -> 0 + imprint enters the argmax). IMPRINT_BEAT_ENABLED is kept set so the
+// beat semantics stay consistent, but it no longer gates the grant.
 function withFlags(on, fn) {
   const prevBeat = process.env.IMPRINT_BEAT_ENABLED;
-  const prevGrant = process.env.IMPRINT_TRAIT_GRANT_ENABLED;
+  const prevV2 = process.env.FORM_PULSE_TRAIT_V2_ENABLED;
   if (on) {
     process.env.IMPRINT_BEAT_ENABLED = 'true';
-    process.env.IMPRINT_TRAIT_GRANT_ENABLED = 'true';
+    process.env.FORM_PULSE_TRAIT_V2_ENABLED = 'true';
   }
   try {
     fn();
   } finally {
     if (prevBeat === undefined) delete process.env.IMPRINT_BEAT_ENABLED;
     else process.env.IMPRINT_BEAT_ENABLED = prevBeat;
-    if (prevGrant === undefined) delete process.env.IMPRINT_TRAIT_GRANT_ENABLED;
-    else process.env.IMPRINT_TRAIT_GRANT_ENABLED = prevGrant;
+    if (prevV2 === undefined) delete process.env.FORM_PULSE_TRAIT_V2_ENABLED;
+    else process.env.FORM_PULSE_TRAIT_V2_ENABLED = prevV2;
   }
 }
 
@@ -93,13 +98,16 @@ test('flag ON, Form-Pulse present -> Form-Pulse PRECEDENCE (imprint ignored)', (
   });
 });
 
-test('flag ON, sub-threshold Form-Pulse -> imprint fallback fills the empty slot', () => {
+test('flag ON, weak Form-Pulse lean -> imprint weight outvotes it for the slot', () => {
   withFlags(true, () => {
     const co = party();
     const ALL = { allPlayerIds: ['p_a', 'p_b'] };
+    // Under the unified flag the threshold is 0, so even a 0.1 lean emerges from Form-Pulse...
     co.submitFormPulse('p_a', { axes: { solitary_swarm: 0.1 } }, ALL);
-    co.submitFormPulse('p_b', { axes: { solitary_swarm: 0.1 } }, ALL); // sub-threshold -> null
-    assert.equal(co.emergentBrancoTrait, null, 'Form-Pulse yields nothing');
+    co.submitFormPulse('p_b', { axes: { solitary_swarm: 0.1 } }, ALL);
+    assert.equal(co.emergentBrancoTrait.trait_id, 'legame_di_branco', 'weak lean still emerges');
+    assert.equal(co.emergentBrancoTrait.source, 'formpulse');
+    // ...but the imprint weight (PROPOSED 0.5) outvotes a 0.1 lean once the tuple lands.
     completeImprint(co, 'VELOCE');
     assert.equal(co.emergentBrancoTrait.trait_id, 'coda_stabilizzatrice_vortex');
     assert.equal(co.emergentBrancoTrait.source, 'imprint');
