@@ -43,15 +43,48 @@ const { isImprintEnabled } = require('./imprintBiomeWeights');
 
 const IMPRINT_TRAIT_GRANT_FLAG = 'IMPRINT_TRAIT_GRANT_ENABLED';
 
-// Mechanism (a): only this axis grants a trait. The other imprint axes stay cosmetic.
+// Mechanism (a): the designated axis `emergeImprintTrait` reads. SUPERSEDED for the live grant
+// path by the unified brancoTraitProducer (W2/W4, grilling 2026-06-30), which under verdict D-2
+// reads ALL 4 imprint axes. `emergeImprintTrait` + this constant are kept (API/test stability +
+// the producer reads this mapping); the producer no longer restricts to one axis.
 const DESIGNATED_AXIS = 'locomotion';
 
-// PROPOSED locomotion pole -> branco trait_id (audited-LIVE; ratify via N=40).
-// Pole here is the imprint VALUE (VELOCE / SILENZIOSA), not a +/- sign.
+// PROPOSED imprint axis x pole -> branco trait_id. W3 (grilling 2026-06-30): wire all 4 axes,
+// but EVERY wired pick MUST pass the engine-liveness HARD-gate (tests/helpers/traitLiveness +
+// tests/services/imprintTraitGrantLiveness.test.js) -- a non-no-op trait the engine actually
+// fires, NOT a draft inert no-op (lesson #3083: inert picks pass N=40 falsely as ~0 delta).
+// Pole = the imprint VALUE (VELOCE/SILENZIOSA, ...), not a +/- sign.
+//
+// Audit 2026-06-30 (real registry, the isEngineLiveReliable predicate): all 6 cells below are
+// engine-LIVE (action_type:attack + a wired effect kind, no posizione_sopraelevata near-inert).
+//   - locomotion VELOCE     coda_stabilizzatrice_vortex  attack/extra_damage (melee + min_mos:5)
+//   - locomotion SILENZIOSA cartilagini_flessoacustiche  attack/damage_reduction (no gate) CLEAN
+//   - offense    PROFONDA   ferocia                      attack/apply_status on_kill     CLEAN
+//   - defense    DURA       pelle_elastomera             attack/damage_reduction (no gate) CLEAN
+//   - senses     LONTANO    sensori_geomagnetici         attack/extra_damage (min_mos:5)
+//   - senses     ACUTO      sensori_sismici              attack/extra_damage (melee + min_mos:5)
+// The min_mos/melee cells are situational-LIVE (same bar as the already-shipped VELOCE pick),
+// flagged as the weakest -> the primary N=40 re-pick candidates (master-dd may swap them).
+//
+// TWO cells stay UNWIRED = master-dd / N=40 balance pick (do NOT auto-assign, draft sec.4):
+//   - offense RAPIDA   (draft candidate artiglio_cinetico_a_urto = melee+min_mos:5, situational)
+//   - defense FLESSIBILE (no clean evasion/dodge trait in the catalog today)
 const PROPOSED_IMPRINT_TRAIT_MAPPING = {
   locomotion: {
     VELOCE: 'coda_stabilizzatrice_vortex',
     SILENZIOSA: 'cartilagini_flessoacustiche',
+  },
+  offense: {
+    PROFONDA: 'ferocia',
+    // RAPIDA: TODO -- master-dd balance pick (N=40)
+  },
+  defense: {
+    DURA: 'pelle_elastomera',
+    // FLESSIBILE: TODO -- master-dd balance pick (no clean evasion trait today)
+  },
+  senses: {
+    LONTANO: 'sensori_geomagnetici',
+    ACUTO: 'sensori_sismici',
   },
 };
 

@@ -88,6 +88,9 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 
 ### W1 -- offset-rework (piccolo; chiude branch 2 + 4)
 
+> **STATUS (2026-06-30): BUILT flag-OFF.** `formPulseV2EnemyHpOffset(env, grantedBuffPower)` +
+> `countGrantedV2BuffPower(units)` + wire in `routes/session.js /start`. OFF = 1.0 byte-identical.
+
 - Cambia `formPulseV2EnemyHpOffset(env)` (`apps/backend/services/combat/biomeModifiers.js`)
   da costante flat a **funzione del buff trait effettivamente concesso** al team in quella
   sessione (somma power-equiv dei branco+minor realmente applicati). Solo (0 trait) -> 1.0
@@ -97,8 +100,19 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   (`FORM_PULSE_V2_ENEMY_HP_OFFSET`) come knob di re-tune.
 - Test: estendi `tests/services/combat/formPulseV2EnemyHpOffset.test.js` (solo->1.0;
   buff-scaling 2p/3p/4p; enemy-only; idempotente).
+- **As-built**: `offset = 1 + (anchor-1) * (grantedBuffPower / reference)` (clamp >=1.0). anchor
+  = 1.4 (#3017, env `FORM_PULSE_V2_ENEMY_HP_OFFSET`), reference = 4 (= un team 2-creature
+  fully-granted = branco+minor x2, env `FORM_PULSE_V2_REFERENCE_BUFF`). Buff power = conteggio
+  istanze dei pool branco/minor/imprint sulle creature giocanti (proxy SAFE-biased: un pick
+  player-scelto gonfia leggermente, mai il vecchio +40% a buff-zero). anchor + reference + spread
+  per-trait restano PROPOSED -> W6 N=40.
 
 ### W2 -- produttore unificato `brancoTraitProducer` (design-heavy)
+
+> **STATUS (2026-06-30): BUILT flag-OFF.** `apps/backend/services/identity/brancoTraitProducer.js`
+> (`produceBrancoTrait` + `resolveImprintWeight`); rimpiazza il fallback inline #3083 in
+> `coopOrchestrator._applyBrancoTraitEmergence`. OFF (combined=false) = delega a
+> `emergeBrancoTrait` = byte-identical. `w` PROPOSED 0.5 (env `FORM_PULSE_IMPRINT_WEIGHT`) -> W6.
 
 - Nuovo modulo puro che fa **argmax pesato** sull'unione:
   `{5 assi form-pulse continui |avg|}` ∪ `{4 assi imprint binari, pesati w}`.
@@ -116,6 +130,11 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
 
 ### W3 -- mapping imprint 8-celle + liveness-audit HARD-gate
 
+> **STATUS (2026-06-30): BUILT (partial, 6/8 celle).** `PROPOSED_IMPRINT_TRAIT_MAPPING` esteso a
+> 4 assi; HARD-gate `tests/services/imprintTraitGrantLiveness.test.js` (predicato condiviso
+> `tests/helpers/traitLiveness.js`). 6 celle wired+LIVE-audited; 2 celle (offense/RAPIDA,
+> defense/FLESSIBILE) lasciate UNWIRED = balance-pick master-dd.
+
 - Mappa completa 4 assi x 2 poli (locomotion/offense/defense/senses).
 - **HARD-gate**: ogni pick deve passare un liveness-audit engine-reale (trigger
   `action_type==='attack'` live; test non-no-op che asserisce delta != 0) PRIMA del wire.
@@ -127,8 +146,22 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   da verificare) + `defense/FLESSIBILE` (nessun trait evasione pulito oggi = TBD).
 - Ref: D6 spec sez.4
   [`2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md`](2026-06-23-aa01-imprint-axis-trait-grant-spec-draft.md).
+- **As-built audit (2026-06-30, real registry + `isEngineLiveReliable`)**: i 4 pick non-locomotion
+  audìti passano TUTTI il gate -> wired: `offense/PROFONDA -> ferocia` (attack/apply_status
+  on_kill, CLEAN), `defense/DURA -> pelle_elastomera` (attack/dr, CLEAN), `senses/LONTANO ->
+sensori_geomagnetici` (attack/extra_damage, min_mos:5 situational), `senses/ACUTO ->
+sensori_sismici` (attack/extra_damage, melee+min_mos:5 situational). Le 2 celle min_mos =
+  situational-LIVE (stesso bar del pick VELOCE gia' shippato `coda_stabilizzatrice_vortex` =
+  melee+min_mos:5), flaggate come primary re-pick N=40. `offense/RAPIDA`
+  (`artiglio_cinetico_a_urto`) + `defense/FLESSIBILE` (nessun trait evasione pulito) restano
+  UNWIRED -> balance-pick master-dd (NON auto-assegnati).
 
 ### W4 -- flag-unification
+
+> **STATUS (2026-06-30): BUILT flag-OFF.** Il produttore (W2) e' gated da UN flag
+> `isFormPulseTraitV2Enabled()`; `IMPRINT_TRAIT_GRANT_ENABLED` rimosso dal path orchestrator
+> (`_applyBrancoTraitEmergence` + `_computeImprintHint`). `imprintTraitGrant.emergeImprintTrait`
+> resta come helper testato (API stability). OFF (entrambi i flag prod) = byte-identical.
 
 - Collassa i due flag intrecciati (`FORM_PULSE_TRAIT_V2_ENABLED` +
   `IMPRINT_TRAIT_GRANT_ENABLED`) nel gating del produttore unico (W2). Un modello di flag
@@ -136,6 +169,15 @@ tags: [evo-tactics, form-pulse, aa01-impronta, trait, flip-readiness, grilling, 
   flag-coupling che ha innescato il branch 3 (offset che rideva solo del flag form-pulse).
 
 ### W5 -- sim-harness upgrade (LONG POLE, prerequisito del flip)
+
+> **STATUS (2026-06-30): SURFACED come work-item cross-lane CONDIVISO, NON costruito qui.**
+> Registrato nel [`2026-06-23-residual-gate-register.md`](2026-06-23-residual-gate-register.md)
+> sez.1 + [`2026-06-29-closeout-master-plan.md`](2026-06-29-closeout-master-plan.md): l'upgrade
+> harness (AI-player objective-aware/positioning) sblocca l'N=40 cross-biome REALE del flip
+> form-pulse **E** la lane Tier-3 N=40 (SPEC-J LETHAL canonical WR, SPEC-H HA1, OD-024
+> STAMINA_FATIGUE) -- tutti gated sulla stessa passive closest-attack AI. Owner = condiviso
+> Tier-3 N=40 lane (NON questo chip). Il flip prod form-pulse (W6) resta PARKED finche' W5 non
+> atterra.
 
 - AI-player **objective-aware / positioning** che vinca gli scenari non-elimination
   (capture/escort/escape/survival) e non saturi su hardcore. Oggi la passive
@@ -191,9 +233,17 @@ W2 (produttore unificato) + W3 (mapping+audit) + W4 (flag-unif) ----> W6 (N=40 c
 
 ## 7. Disposition
 
-Decisioni di design RATIFICATE (sez.1). Build NON iniziato. Prossima sessione: branca da main
-aggiornato (questo worktree e' dietro -- manca #3083), poi esegui W1-W6 nel sequencing sez.4,
-ogni pezzo flag-gated finche' W6 non ratifica e l'operatore Ryzen non flippa.
+Decisioni di design RATIFICATE (sez.1). **Build autonomo flag-gated W1-W4 = DONE (2026-06-30,
+flag default OFF = byte-identical).** W5 (sim-harness) SURFACED come prereq cross-lane condiviso
+(NON costruito qui). W6 (N=40 + flip prod) PARKED finche' W5 non atterra. Nessun flag prod
+flippato; nessun path N=40 prod-flip eseguito.
+
+- **W1** offset-rework: BUILT flag-OFF.
+- **W2** produttore unificato: BUILT flag-OFF.
+- **W3** mapping imprint: BUILT partial (6/8 wired LIVE-audited; 2 celle balance-pick UNWIRED).
+- **W4** flag-unification: BUILT flag-OFF.
+- **W5** sim-harness: cross-lane work-item (register sez.1 + close-out plan) -- owner Tier-3 N=40.
+- **W6** N=40 + flip: PARKED (gated su W5 + ratifica master-dd offset/`w`/pick + operatore Ryzen).
 
 > **Governance**: doc nuovo in `docs/` -> registrare in `docs/governance/docs_registry.json`
 > (atomico, stessa PR) prima del commit/CI. Non ancora committato.

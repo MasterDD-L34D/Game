@@ -10,12 +10,12 @@ const { createSistemaStateStore } = require('../ai/sistemaStateStore');
 const { createRosterStore } = require('../campaign/rosterStore');
 const { checkNidoUnlock } = require('../../routes/sessionHelpers');
 const {
-  emergeBrancoTraitFromPulses,
   resolveEmergenceThreshold,
   emergePlayerMinorTrait,
   isFormPulseTraitV2Enabled,
   rollRandomFormAxes,
 } = require('../identity/brancoTraitEmergence');
+const { produceBrancoTrait, resolveImprintWeight } = require('../identity/brancoTraitProducer');
 const { emergeIdentity, emitCreatureNamed } = require('../identity/identityService');
 const { aggregateFormPulses } = require('../formPulseVc');
 const consentSM = require('./lethalConsent');
@@ -27,7 +27,6 @@ const {
   IMPRINT_AXIS_DEFAULTS,
   isValidAxisValue,
 } = require('../imprint/imprintBiomeWeights');
-const { emergeImprintTrait, isImprintTraitGrantEnabled } = require('../imprint/imprintTraitGrant');
 
 // CAMP-1/CAMP-2 - run.id is the SistemaState persistence key (server writes
 // SistemaState under run.id; Godot client keys CampaignState.campaign_id on
@@ -846,17 +845,20 @@ class CoopOrchestrator {
    * emergent (axis-vocabulary contract = separate issue).
    */
   _applyBrancoTraitEmergence() {
-    // Form-Pulse trait v2 Piece 1: the threshold is flag-resolved (0 when v2 ON = always
-    // emerge, else 0.30 = band-neutral). The mapping stays PROPOSED (N=40).
-    const fromPulses = emergeBrancoTraitFromPulses(this.formPulses, {
+    // W2/W4 unified producer (grilling 2026-06-30): one weighted argmax over the Form-Pulse
+    // continuous axes UNION the 4 imprint binary axes (verdicts P-c + D-2) fills the SINGLE
+    // branco slot. `combined` = the unified flag (isFormPulseTraitV2Enabled, collapsing the
+    // old FORM_PULSE_TRAIT_V2_ENABLED + IMPRINT_TRAIT_GRANT_ENABLED) -> OFF = form-pulse only
+    // at threshold 0.30 = byte-identical to the legacy branco baseline (imprint never read);
+    // ON = combined argmax at threshold 0 + the PROPOSED imprint weight. Single slot, no stack.
+    const combined = isFormPulseTraitV2Enabled();
+    const next = produceBrancoTrait({
+      aggregate: aggregateFormPulses(this.formPulses),
+      imprintTuple: this.imprintTuple,
+      combined,
       threshold: resolveEmergenceThreshold(),
+      w: resolveImprintWeight(),
     });
-    // D6 stacking B (master-dd ratify 2026-06-30): the imprint FEEDS the same single
-    // branco-trait slot. Form-Pulse takes precedence; the imprint candidate fills the
-    // slot ONLY when Form-Pulse yields nothing (dominance = Form-Pulse > imprint;
-    // PROPOSED, ratify via N=40). Flag-gated -> OFF = byte-identical (fromPulses only).
-    const next =
-      fromPulses || (isImprintTraitGrantEnabled() ? emergeImprintTrait(this.imprintTuple) : null);
     const prevId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
     const nextId = next && next.trait_id;
     if (prevId !== nextId) {
@@ -1761,9 +1763,9 @@ class CoopOrchestrator {
     this._clearImprintTimer();
     this.imprintTimeoutWarning = false;
     this._emit('imprint_hint', this.brancoBiomeHint);
-    // D6 (flag-gated): re-resolve the single branco slot so a late imprint can fill an
-    // empty Form-Pulse slot (Form-Pulse precedence preserved). OFF -> no-op.
-    if (isImprintTraitGrantEnabled()) this._applyBrancoTraitEmergence();
+    // W4 (unified flag): re-resolve the single branco slot so a late imprint can enter the
+    // combined argmax (Form-Pulse precedence preserved). OFF -> no-op (imprint not read).
+    if (isFormPulseTraitV2Enabled()) this._applyBrancoTraitEmergence();
     return this.brancoBiomeHint;
   }
 

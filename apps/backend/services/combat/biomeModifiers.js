@@ -46,16 +46,27 @@ const SAVANA_BASELINE = 2;
 const PRESSURE_INITIAL_FACTOR = 5;
 const HP_MULT_FACTOR = 0.05;
 
-// Form-Pulse trait v2 enemy-HP offset (ratify path-1). When FORM_PULSE_TRAIT_V2_ENABLED
-// is ON the team carries the ~1.2/creature branco+minor grant; this offset scales enemy
-// HP so NET difficulty stays near baseline. CALIBRATED empirically (enc_savana_01 paired A/B):
-// enemy-HP->rounds is SUB-linear (last-hit overkill + fixed wave timing dampen it), so the naive
-// ~+8% moved rounds ~0. N=40/arm paired round delta (treat - ctrl): 1.3 -> -0.80 (CI95
-// -1.49..-0.11, EXCLUDES 0 = small residual player edge), 1.4 -> +0.68 (CI95 -0.14..+1.51,
-// CROSSES 0 = statistically net-neutral). 1.4 adopted. Env-overridable
-// (FORM_PULSE_V2_ENEMY_HP_OFFSET) for re-calibration / cross-biome sweep. Flag owner:
-// services/identity/brancoTraitEmergence.
+// Form-Pulse trait v2 enemy-HP offset (W1 offset-rework, grilling 2026-06-30 branch 2+4).
+// When FORM_PULSE_TRAIT_V2_ENABLED is ON the team carries the ~1.2/creature branco+minor grant;
+// this offset scales enemy HP so NET difficulty stays near baseline. It is f(actual granted buff
+// power), NOT a flat constant: the old flat 1.4 rode the FLAG not the GRANT, so flag-ON + solo
+// (0 buff) gave enemies +40% HP for nothing. Now:
+//   offset = 1 + (anchor - 1) * (grantedBuffPower / referenceBuffPower)   (clamped >= 1.0)
+// so 0 buff -> 1.0 (solo / dormant = no-op), and it scales to net-neutral at every player-count.
+//
+// ANCHOR (= FP_V2_ENEMY_HP_OFFSET_DEFAULT, the offset at the reference buff) is the #3017
+// calibration: enc_savana_01 paired A/B, enemy-HP->rounds SUB-linear (last-hit overkill + fixed
+// wave timing dampen it). N=40/arm paired round delta (treat - ctrl): 1.3 -> -0.80 (CI95
+// -1.49..-0.11, EXCLUDES 0), 1.4 -> +0.68 (CI95 -0.14..+1.51, CROSSES 0 = net-neutral). 1.4
+// adopted. The A/B reference team modeled ~1.2/creature as a fully-granted 2-creature team
+// (branco on both + 1 minor each = 4 trait instances) -> FP_V2_REFERENCE_BUFF_DEFAULT = 4. Both
+// the anchor and the reference are PROPOSED, env-overridable (FORM_PULSE_V2_ENEMY_HP_OFFSET /
+// FORM_PULSE_V2_REFERENCE_BUFF) -- the exact per-encounter / per-axis values are the W6 N=40
+// cross-biome ratify (master-dd), NOT fixed here. Buff power is supplied by
+// brancoTraitEmergence.countGrantedV2BuffPower(units). Flag owner: services/identity/
+// brancoTraitEmergence.
 const FP_V2_ENEMY_HP_OFFSET_DEFAULT = 1.4;
+const FP_V2_REFERENCE_BUFF_DEFAULT = 4;
 
 // Safe defaults when biome unknown / file missing / malformed.
 const SAFE_DEFAULTS = Object.freeze({
@@ -173,20 +184,35 @@ function applyEnemyHpMultiplier(units, hpMult) {
 }
 
 /**
- * Form-Pulse trait v2 enemy-HP offset multiplier. Returns 1.0 (no-op) unless the
- * FORM_PULSE_TRAIT_V2_ENABLED flag is ON. The caller FOLDS this into the single
- * applyEnemyHpMultiplier call (biome hp_mult * offset) -- applyEnemyHpMultiplier is
- * idempotent per unit (_biome_hp_applied marker), so it must be applied once. Env
- * override FORM_PULSE_V2_ENEMY_HP_OFFSET supports A/B calibration sweeps without a
- * code change. See the FP_V2_ENEMY_HP_OFFSET_DEFAULT header comment.
+ * Form-Pulse trait v2 enemy-HP offset multiplier (W1 offset-rework). Returns 1.0 (no-op)
+ * unless FORM_PULSE_TRAIT_V2_ENABLED is ON. When ON, scales with the ACTUAL granted buff:
+ * offset = 1 + (anchor - 1) * (grantedBuffPower / referenceBuffPower), clamped >= 1.0. So
+ * 0 buff (solo / dormant) -> 1.0 (the bug fix), and the offset is net-neutral at every
+ * player-count. The caller FOLDS this into the single applyEnemyHpMultiplier call (biome
+ * hp_mult * offset) -- applyEnemyHpMultiplier is idempotent per unit (_biome_hp_applied
+ * marker), so it must be applied once. anchor = FORM_PULSE_V2_ENEMY_HP_OFFSET override or
+ * the calibrated default; reference = FORM_PULSE_V2_REFERENCE_BUFF override or the default.
+ * See the FP_V2_ENEMY_HP_OFFSET_DEFAULT header comment.
  *
  * @param {object} [env=process.env]
- * @returns {number} >0 multiplier (1.0 when the flag is OFF)
+ * @param {number} [grantedBuffPower=0] -- countGrantedV2BuffPower(units) from the caller
+ * @returns {number} >=1.0 multiplier (1.0 when the flag is OFF or no buff was granted)
  */
-function formPulseV2EnemyHpOffset(env = process.env) {
+function formPulseV2EnemyHpOffset(env = process.env, grantedBuffPower = 0) {
   if (!env || env.FORM_PULSE_TRAIT_V2_ENABLED !== 'true') return 1.0;
-  const override = Number(env.FORM_PULSE_V2_ENEMY_HP_OFFSET);
-  return Number.isFinite(override) && override > 0 ? override : FP_V2_ENEMY_HP_OFFSET_DEFAULT;
+  const overrideAnchor = Number(env.FORM_PULSE_V2_ENEMY_HP_OFFSET);
+  const anchor =
+    Number.isFinite(overrideAnchor) && overrideAnchor > 0
+      ? overrideAnchor
+      : FP_V2_ENEMY_HP_OFFSET_DEFAULT;
+  const overrideRef = Number(env.FORM_PULSE_V2_REFERENCE_BUFF);
+  const reference =
+    Number.isFinite(overrideRef) && overrideRef > 0 ? overrideRef : FP_V2_REFERENCE_BUFF_DEFAULT;
+  const buff = Number.isFinite(Number(grantedBuffPower))
+    ? Math.max(0, Number(grantedBuffPower))
+    : 0;
+  const offset = 1 + (anchor - 1) * (buff / reference);
+  return offset >= 1.0 ? offset : 1.0;
 }
 
 /**
@@ -264,6 +290,7 @@ module.exports = {
   applyEnemyHpMultiplier,
   formPulseV2EnemyHpOffset,
   FP_V2_ENEMY_HP_OFFSET_DEFAULT,
+  FP_V2_REFERENCE_BUFF_DEFAULT,
   _resetCache,
   DEFAULT_BIOMES_YAML,
   SAFE_DEFAULTS,

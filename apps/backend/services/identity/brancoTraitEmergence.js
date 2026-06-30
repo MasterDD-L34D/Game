@@ -25,6 +25,7 @@
 'use strict';
 
 const { aggregateFormPulses } = require('../formPulseVc');
+const { PROPOSED_IMPRINT_TRAIT_MAPPING } = require('../imprint/imprintTraitGrant');
 
 // =============================================================================
 // GOVERNANCE: RATIFIED (master-dd verdict 2026-06-24, Eduardo). The branco + minor mappings,
@@ -174,6 +175,45 @@ function rollRandomFormAxes(rng = Math.random) {
   return out;
 }
 
+// W1 offset-rework (grilling 2026-06-30): the set of trait_ids the Form-Pulse v2 system can
+// GRANT (shared branco pole + per-player minor pole + imprint pole). The enemy-HP offset scales
+// on how many of these are actually present on the player creatures, so the offset rides the
+// real GRANT, not the flag (fixes flag-ON + solo = +40% enemy HP with zero buff).
+function _grantableIds(mapping) {
+  return Object.values(mapping || {}).flatMap((poles) => Object.values(poles || {}));
+}
+const GRANTED_V2_TRAIT_IDS = new Set([
+  ..._grantableIds(PROPOSED_BRANCO_TRAIT_MAPPING),
+  ..._grantableIds(PROPOSED_MINOR_TRAIT_MAPPING),
+  ..._grantableIds(PROPOSED_IMPRINT_TRAIT_MAPPING),
+]);
+
+/**
+ * W1 offset-rework: total granted Form-Pulse v2 buff power present on the team = the count of
+ * branco/minor/imprint pool trait instances on the PLAYER creatures (enemy units ignored). Pure,
+ * no-mutate. 0 in solo / when nothing was granted -> the offset is a no-op (1.0).
+ *
+ * PROXY CEILING (ponytail): each granted instance counts as 1 power-unit. A player who happens to
+ * CHOOSE a pool trait inflates the count slightly (small, flag-ON-only, and biased SAFE -- it can
+ * only ADD enemy HP, never the old zero-buff +40%). The exact per-trait power spread is the W6
+ * N=40 ratify (see the combat-A/B caveat 5), not this chip.
+ *
+ * @param {Array} units -- combat units (player + sistema)
+ * @returns {number} >= 0 granted buff power
+ */
+function countGrantedV2BuffPower(units) {
+  if (!Array.isArray(units)) return 0;
+  let power = 0;
+  for (const u of units) {
+    if (!u || u.controlled_by === 'sistema') continue;
+    const traits = Array.isArray(u.traits) ? u.traits : [];
+    for (const id of traits) {
+      if (GRANTED_V2_TRAIT_IDS.has(id)) power += 1;
+    }
+  }
+  return power;
+}
+
 function _posInt(raw, dflt) {
   const n = Number.parseInt(raw, 10);
   return Number.isFinite(n) && n > 0 ? n : dflt;
@@ -251,4 +291,6 @@ module.exports = {
   emergePlayerMinorTrait,
   rollRandomFormAxes,
   formPulseTimeoutMs,
+  countGrantedV2BuffPower,
+  GRANTED_V2_TRAIT_IDS,
 };
