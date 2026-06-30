@@ -48,23 +48,40 @@ def copy_tree(source: Path, target: Path) -> None:
 
 
 def sync_core(core_root: Path, pack_root: Path) -> None:
+    # NOTE: species are intentionally NOT synced here.
+    # - data/core/species.yaml was removed in #2271 (no longer a source).
+    # - data/core/species/ is a FLAT tree (lifecycle YAMLs + species_catalog.json
+    #   + base_stats.yaml + aliases.json + _drafts/), while
+    #   packs/evo_tactics_pack/data/species/ is a BIOME-SUBDIR tree authored
+    #   in-pack (gen_retired_creature_specs.py, codex_draft_scaffold.py) and
+    #   consumed by run_all_validators.py / derive_env_traits. copy_tree() over
+    #   the pack tree would rmtree the biome subdirs and corrupt the pack.
+    #   The pack catalog is regenerated separately by update_evo_pack_catalog.js.
+    #   (A naive species.yaml repoint was reverted in PR #3075 after a Codex P1.)
+    #
+    # The sources below are REQUIRED: a missing one (e.g. a misspelled
+    # --core-root, or a genuinely absent input) must fail loudly, never silently
+    # reuse stale pack_root/data and still emit success/log/manifests. To retire
+    # a source intentionally, drop it from this mapping (as species was) rather
+    # than letting it 404 at runtime.
     mapping: dict[Path, Path] = {
-        core_root / "species.yaml": pack_root / "data" / "species.yaml",
-        core_root / "species": pack_root / "data" / "species",
         core_root / "biomes.yaml": pack_root / "data" / "biomes.yaml",
         core_root / "biome_aliases.yaml": pack_root / "data" / "biome_aliases.yaml",
         core_root / "telemetry.yaml": pack_root / "data" / "telemetry.yaml",
         core_root / "mating.yaml": pack_root / "data" / "mating.yaml",
     }
+    missing = sorted(str(source) for source in mapping if not source.exists())
+    if missing:
+        raise PipelineError(
+            "Sorgenti core richieste non trovate: " + ", ".join(missing)
+        )
     for source, target in mapping.items():
-        if not source.exists():
-            raise PipelineError(f"Sorgente non trovata: {source}")
         target.parent.mkdir(parents=True, exist_ok=True)
         if source.is_dir():
             copy_tree(source, target)
         else:
             shutil.copy2(source, target)
-        print(f"✔ Sync {source} -> {target}")
+        print(f"[ok] Sync {source} -> {target}")
 
 
 def derive_env_traits(pack_root: Path) -> None:
@@ -93,7 +110,7 @@ def derive_env_traits(pack_root: Path) -> None:
             str(target_dir),
         ]
         run_command(command, cwd=REPO_ROOT)
-        print(f"✔ Derivati env_traits per {ecosystem.name} -> {target_dir}")
+        print(f"[ok] Derivati env_traits per {ecosystem.name} -> {target_dir}")
 
 
 def derive_crossbiome_traits(pack_root: Path) -> None:
@@ -111,7 +128,7 @@ def derive_crossbiome_traits(pack_root: Path) -> None:
         str(out_dir),
     ]
     run_command(command, cwd=REPO_ROOT)
-    print(f"✔ Patch cross-biome generate in {out_dir}")
+    print(f"[ok] Patch cross-biome generate in {out_dir}")
 
 
 def update_catalog(pack_root: Path) -> None:
@@ -178,7 +195,7 @@ def _write_catalog_checksums(pack_root: Path) -> tuple[str, Path]:
     ]
 
     manifest_path.write_text("\n".join(header + entries) + "\n", encoding="utf-8")
-    print(f"✔ Manifest cataloghi/asset scritto in {manifest_path}")
+    print(f"[ok] Manifest cataloghi/asset scritto in {manifest_path}")
     return checksum, manifest_path
 
 
@@ -196,7 +213,7 @@ def _git_rev() -> str:
 
 
 def sync_core_with_report(core_root: Path, pack_root: Path) -> Path:
-    print("▶ Sync core -> pack (post-validator)")
+    print("> Sync core -> pack (post-validator)")
     sync_core(core_root, pack_root)
 
     data_root = pack_root / "data"
@@ -207,7 +224,7 @@ def sync_core_with_report(core_root: Path, pack_root: Path) -> Path:
     report_path = out_dir / "core_sync.sha256"
 
     header = [
-        "# core → pack sync manifest",
+        "# core -> pack sync manifest",
         f"timestamp: {datetime.now(timezone.utc).isoformat()}",
         f"core_root: {core_root}",
         f"pack_root: {pack_root}",
@@ -217,7 +234,7 @@ def sync_core_with_report(core_root: Path, pack_root: Path) -> Path:
     ]
     report_path.write_text("\n".join(header + entries) + "\n", encoding="utf-8")
 
-    print(f"✔ Sync core -> pack completato ({report_path})")
+    print(f"[ok] Sync core -> pack completato ({report_path})")
     return report_path
 
 
@@ -258,7 +275,7 @@ def append_activity_log(
     checksums: dict[str, str] | None = None,
 ) -> None:
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    header = f"## {timestamp} – Pipeline pack/derived (dev-tooling)"
+    header = f"## {timestamp} -- Pipeline pack/derived (dev-tooling)"
     note_parts = list(steps)
     if checksums:
         checksum_str = ", ".join(f"{key}={value}" for key, value in checksums.items())
@@ -300,7 +317,7 @@ def main() -> int:
     parser.add_argument(
         "--sync-validate-only",
         action="store_true",
-        help="Esegui solo sync core→pack e validator (più sync post-validator)",
+        help="Esegui solo sync core->pack e validator (piu sync post-validator)",
     )
     parser.add_argument(
         "--with-analysis",
@@ -338,22 +355,22 @@ def main() -> int:
         args.with_analysis = False
         args.with_minimal_fixture = False
 
-    print(f"▶ Sync core -> pack ({core_root} → {pack_root})")
+    print(f"> Sync core -> pack ({core_root} -> {pack_root})")
     sync_core(core_root, pack_root)
-    executed_steps.append("sync core→pack (species/biomes/mating/telemetry)")
+    executed_steps.append("sync core->pack (biomes/aliases/mating/telemetry)")
 
     if not args.skip_env:
-        print("▶ Derivazione env_traits")
+        print("> Derivazione env_traits")
         derive_env_traits(pack_root)
         executed_steps.append("derive env traits")
 
     if not args.skip_cross:
-        print("▶ Derivazione cross-biome")
+        print("> Derivazione cross-biome")
         derive_crossbiome_traits(pack_root)
         executed_steps.append("derive cross-biome")
 
     if not args.sync_validate_only:
-        print("▶ Aggiornamento catalogo pack")
+        print("> Aggiornamento catalogo pack")
         update_catalog(pack_root)
         executed_steps.append("cataloghi pack")
 
@@ -362,30 +379,30 @@ def main() -> int:
         checksums["catalog+asset"] = f"{catalog_checksum} (manifest={manifest_path})"
 
     if not args.skip_build:
-        print("▶ Build distributivo pack")
+        print("> Build distributivo pack")
         build_dist(pack_root)
         executed_steps.append("build dist pack")
 
     if not args.skip_validators:
-        print("▶ Validator pack")
+        print("> Validator pack")
         run_validators(pack_root)
         executed_steps.append("validator pack")
 
         sync_core_with_report(core_root, pack_root)
-        executed_steps.append("sync core→pack post-validator (manifest sha256)")
+        executed_steps.append("sync core->pack post-validator (manifest sha256)")
 
     if args.with_analysis:
-        print("▶ Derived analysis (coverage/progression)")
+        print("> Derived analysis (coverage/progression)")
         generate_analysis(core_root, pack_root)
         executed_steps.append("derived analysis")
 
     if args.with_minimal_fixture:
-        print("▶ Fixture di test minimal")
+        print("> Fixture di test minimal")
         generate_minimal_fixture()
         executed_steps.append("fixture minimal deterministica")
 
     if args.log_activity:
-        print("▶ Log operativo")
+        print("> Log operativo")
         append_activity_log(
             REPO_ROOT / "logs" / "agent_activity.md",
             tag,
@@ -395,7 +412,7 @@ def main() -> int:
             checksums,
         )
 
-    print("✔ Pipeline completata")
+    print("[ok] Pipeline completata")
     return 0
 
 
