@@ -124,6 +124,10 @@
             "anyOf": [{ "type": "null" }, { "type": "string", "pattern": "^[a-f0-9]{64}$" }]
           },
           "offspring_lineage_id": { "type": ["string", "null"] },
+          "campaign_id": {
+            "type": ["string", "null"],
+            "description": "Opaque campaign id that performed this crossbreed. Durable key for the 1-per-campaign cooldown (replaces the ex in-memory Set so the gate survives a backend restart). Same id-class as the lineage ids already in this item; not PII/session."
+          },
           "biome_at_crossbreed": { "type": ["string", "null"] },
           "biome_environmental_mutation": { "type": ["string", "null"] },
           "tier": {

@@ -78,14 +78,11 @@ function createCompanionRouter({
     return false;
   }
 
-  // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). Tracked IN-MEMORY
-  // (per-router), NOT on the crossbreed_history item: the ratified
-  // skiv_companion schema (packages/contracts, additionalProperties:false) does
-  // not model a campaign_id on the event, and that schema is a forbidden-path
-  // change. In-memory matches the rate-limit's durability (per-process / per-run);
-  // a durable cross-restart cooldown needs a contracts schema field = master-dd.
-  const _crossbreedCampaigns = new Set(); // `${campaignId}::${lineageId}`
-  const cooldownKey = (campaignId, lineageId) => `${campaignId}::${lineageId}`;
+  // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). DURABLE (I3,
+  // 2026-06-30): derived from the persisted crossbreed_history -- each event carries
+  // its `campaign_id` (schema field added in packages/contracts), so the gate now
+  // survives a backend restart. (The ex in-memory Set was per-process and reset on
+  // every restart.) The IP rate-limit above stays in-memory by design.
 
   /**
    * POST /api/companion/pick
@@ -361,8 +358,10 @@ function createCompanionRouter({
     if (!local.species_id || !partner.species_id) {
       return res.status(422).json({ error: 'crossbreed_requires_biological' });
     }
-    // Cooldown 1/campaign (ADR-04-27): this campaign already crossbred this lineage.
-    if (_crossbreedCampaigns.has(cooldownKey(campaignId, lineageId))) {
+    // Cooldown 1/campaign (ADR-04-27): durable -- this campaign already crossbred
+    // this lineage iff a persisted history event carries its campaign_id.
+    const priorHistory = store.getCrossbreedHistory(lineageId) || [];
+    if (priorHistory.some((e) => e && e.campaign_id === campaignId)) {
       return res.status(409).json({ error: 'crossbreed_cooldown_active' });
     }
     // Roll with the preview seed (or a fresh one) so confirm == the previewed offspring.
@@ -392,8 +391,8 @@ function createCompanionRouter({
     // Persist the crossbreed event into the lineage Nido record (FIFO 10).
     // Schema-compliant fields ONLY (skiv_companion crossbreed_history item is
     // additionalProperties:false): role / with_lineage_id / offspring_lineage_id /
-    // tier / biome_at_crossbreed. campaign_id + seed are NOT persisted here (not
-    // schema fields) -- the cooldown is tracked in-memory above.
+    // tier / biome_at_crossbreed / campaign_id. `campaign_id` is the DURABLE cooldown
+    // key (I3, 2026-06-30); `seed` stays unpersisted (not a schema field).
     try {
       store.addCrossbreedEvent(lineageId, {
         role: 'parent_a',
@@ -401,14 +400,15 @@ function createCompanionRouter({
         offspring_lineage_id: (result.offspring && result.offspring.lineage_id) || null,
         tier: result.tier,
         biome_at_crossbreed: biomeId,
+        campaign_id: campaignId,
       });
     } catch (err) {
       return res
         .status(500)
         .json({ error: 'companion_crossbreed_failed', message: String(err.message || err) });
     }
-    // Mark this campaign+lineage as having crossbred (cooldown 1/campaign).
-    _crossbreedCampaigns.add(cooldownKey(campaignId, lineageId));
+    // Cooldown is now durable via the persisted campaign_id on the event above --
+    // no separate in-memory marker needed.
     return res.json({
       confirmed: true,
       offspring: result.offspring,

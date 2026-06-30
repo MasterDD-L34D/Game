@@ -383,14 +383,13 @@ test('POST /skiv/crossbreed/confirm valid → 200 confirmed + PERSISTS to histor
   // engine got a seeded rng (preview-integrity) + a numeric crossbreed_seed echoed.
   assert.equal(typeof captured.context.rng, 'function');
   assert.equal(typeof r.body.crossbreed_seed, 'number');
-  // PERSISTED: schema-compliant event (skiv_companion item is
-  // additionalProperties:false -> with_lineage_id, NOT campaign_id/partner_lineage_id).
-  // Cooldown campaign_id is tracked in-memory, never on the history item.
+  // PERSISTED: schema-compliant event. campaign_id IS now persisted (I3, 2026-06-30)
+  // as the DURABLE cooldown key (schema field added in packages/contracts).
   const hist = store.getCrossbreedHistory(LINEAGE);
   assert.equal(hist.length, 1);
   assert.equal(hist[0].with_lineage_id, 'partner-lineage-9999');
   assert.equal(hist[0].offspring_lineage_id, 'offspring-confirmed');
-  assert.equal(hist[0].campaign_id, undefined); // NOT persisted (schema-forbidden)
+  assert.equal(hist[0].campaign_id, 'camp-A'); // durable cooldown key (I3)
 });
 
 test('POST /skiv/crossbreed/confirm seed echo: a passed crossbreed_seed is reused (preview-match)', async () => {
@@ -431,6 +430,39 @@ test('POST /skiv/crossbreed/confirm different campaigns are allowed (cooldown is
   });
   assert.equal((await postJson(app, '/api/skiv/crossbreed/confirm', mk('c1'))).status, 200);
   assert.equal((await postJson(app, '/api/skiv/crossbreed/confirm', mk('c2'))).status, 200);
+});
+
+test('POST /skiv/crossbreed/confirm persists campaign_id on the event (durable cooldown key, I3)', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'camp-persist',
+  });
+  const hist = store.getCrossbreedHistory(LINEAGE);
+  assert.ok(
+    hist.some((e) => e.campaign_id === 'camp-persist'),
+    'crossbreed event carries the campaign_id (durable cooldown key)',
+  );
+});
+
+test('POST /skiv/crossbreed/confirm cooldown is DURABLE: survives a fresh router (ex in-memory Set would not)', async () => {
+  // Durability: the cooldown is now derived from the persisted history, not a
+  // per-router in-memory Set. A brand-new app/router (= a backend restart) over the
+  // SAME store must still see the prior crossbreed and refuse the 2nd in-campaign.
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const body = {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'camp-restart',
+  };
+  const app1 = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  assert.equal((await postJson(app1, '/api/skiv/crossbreed/confirm', body)).status, 200);
+  const app2 = buildApp({ store, rollMatingOffspring: rollStubOk() }); // simulated restart
+  const r = await postJson(app2, '/api/skiv/crossbreed/confirm', body);
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'crossbreed_cooldown_active');
 });
 
 test('POST /skiv/crossbreed/confirm missing campaign_id → 400', async () => {
