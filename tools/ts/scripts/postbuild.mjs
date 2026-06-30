@@ -42,7 +42,6 @@ async function copyFileIfExists(source, target) {
 async function syncTopLevelEntries() {
   const mappings = [
     ['roll_pack.js', 'roll_pack.js'],
-    ['validate_species.js', 'validate_species.js'],
     ['playwright.config.js', 'playwright.config.js'],
   ];
 

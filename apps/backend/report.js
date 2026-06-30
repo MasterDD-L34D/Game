@@ -104,7 +104,7 @@ function repoTouchpoints(idea) {
   }
   if (idea.species && idea.species.length) {
     paths.push(
-      `- Specie coinvolte: ${idea.species.join(', ')} (data/core/species.yaml, docs/catalog/)`,
+      `- Specie coinvolte: ${idea.species.join(', ')} (data/core/species/species_catalog.json, docs/catalog/)`,
     );
   }
   if (idea.traits && idea.traits.length) {
@@ -130,7 +130,7 @@ function buildIncrementalPlan(idea) {
     '- Confirm assets and references listed below are reachable.',
     '- Align keywords with `/config/project_index.json` taxonomy.',
     '- Verifica che biomi/ecosistemi siano presenti in `data/core/biomes.yaml` e negli export `docs/evo-tactics-pack/`.',
-    '- Allinea specie e tratti con `data/core/species.yaml`, `data/core/traits/` e `docs/catalog/species_trait_matrix.json`.',
+    '- Allinea specie e tratti con `data/core/species/species_catalog.json`, `data/core/traits/` e `docs/catalog/species_trait_matrix.json`.',
     '',
     '### Phase 2 · Implementation Draft',
     '- Implement gameplay changes incrementally in dedicated branches.',
@@ -138,7 +138,7 @@ function buildIncrementalPlan(idea) {
     '- Produce playtest hooks or sample encounters under `/data/playtests`.',
     '',
     '### Phase 3 · Playtest & Integration',
-    '- Run automated validations (`npm test`, `npm run validate:species`).',
+    '- Run automated validations (`npm test`, `python3 tools/py/game_cli.py validate-datasets`).',
     '- Capture adjustments in `/logs/design-journal`. ',
     '- Merge once documentation and checklists below are satisfied.',
   ];

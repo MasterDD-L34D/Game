@@ -241,13 +241,14 @@ jobs:
 
       # Species validation moved off the legacy data/core/species.yaml (removed
       # in #2271, Phase 4c.6 ADR-2026-05-15) to the JSON catalog
-      # data/core/species/species_catalog.json. validate_species.ts is a
-      # YAML-`catalog.slots`-schema validator that cannot parse the catalog, so
-      # it only no-ops here. Canonical species/catalog validation now runs in
-      # cli-checks + python-tests (`game_cli.py validate-datasets`) and
-      # dataset-checks (speciesIndexIntegrity / speciesTraitReferences). No
-      # Node-side catalog validator exists, so this TS-only job no longer
-      # validates species (data changes trigger the `data` paths-filter jobs).
+      # data/core/species/species_catalog.json. The dead Node-side
+      # validate_species.ts (a YAML-`catalog.slots`-schema validator that could
+      # not parse the catalog) + its stale `validate:species` script were removed
+      # (it pointed at the deleted species.yaml). Canonical species/catalog
+      # validation now runs in cli-checks + python-tests
+      # (`game_cli.py validate-datasets`) and dataset-checks
+      # (speciesIndexIntegrity / speciesTraitReferences). This TS-only job no
+      # longer validates species (data changes trigger the `data` paths-filter jobs).
 
   # dashboard-quality job rimosso — apps/dashboard cancellato in #1343
   # (SPRINT_001 fase 2). Il workspace non esiste piu' nel repo.
