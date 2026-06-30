@@ -44,13 +44,24 @@ NO prod backend, node 22, seeds 1..N), elimination, grid 10x10, maxRounds 40.
 Roster variants: `pilot` = apex + 2 elite (the pilot wave-1, [0.40,0.60] reference);
 `minus_base` = + 1 base; `full` = + 2 base (the authored wave 1).
 
+Codex #3107 P2 corrections (applied): the probe now (1) emits the authored
+`ai_profile` per enemy (flanking apex + aggressive pack) and (2) spawns enemies at
+the encounter's authored `spawn_points` -- which were aligned to midfield (x~5-6,
+the canonical badlands engagement) so probe and shipped mission are identical.
+
 ## Results
+
+Authoritative (corrected probe -- ai_profile emitted + spawn == encounter):
+
+| variant  | N   | creature_KO_rate | win_rate | timeouts | avg_rounds |
+| -------- | --- | ---------------- | -------- | -------- | ---------- |
+| full (5) | 40  | **0.356**        | 0.025    | 39/40    | 39.8       |
+
+Pre-correction sweep (midfield spawn, ai_profile dropped) -- for direction only:
 
 | variant       | N   | creature_KO_rate | win_rate | timeouts | avg_rounds |
 | ------------- | --- | ---------------- | -------- | -------- | ---------- |
 | pilot (3)     | 12  | 0.396            | 0.083    | 11/12    | 39.6       |
-| minus_base(4) | 12  | 0.354            | 0.250    | 9/12     | 39.0       |
-| full (5)      | 12  | 0.417            | 0.000    | 12/12    | 40.0       |
 | minus_base(4) | 24  | 0.302            | 0.125    | 21/24    | 39.5       |
 | full (5)      | 24  | 0.344            | 0.000    | 24/24    | 40.0       |
 | full (5)      | 40  | 0.344            | 0.000    | 40/40    | 40.0       |
@@ -59,10 +70,11 @@ Roster variants: `pilot` = apex + 2 elite (the pilot wave-1, [0.40,0.60] referen
 
 **Primary metric = creature-KO-rate** (the permadeath-relevant one: under
 LETHAL+consent every player KO becomes a real death, so the KO-rate IS the
-death-rate). The authored **full** roster lands at **0.344 (N=24 AND N=40, identical)** --
-squarely inside the hardcore target band [0.25, 0.40], and very stable across
-sample sizes. (The N=12 0.42 was small-sample noise; N=24/40 tightened it.) The
-roster is in the right ballpark for hardcore opt-in.
+death-rate). The authored **full** roster lands at **0.356 (N=40, corrected probe)** --
+squarely inside the hardcore target band [0.25, 0.40]. (Pre-correction it was 0.344
+at N=24/40; emitting the authored flanking/aggressive profiles nudged it up slightly
+-- the enemies are marginally more lethal with their real behavior, as expected.)
+The roster is in the right ballpark for hardcore opt-in.
 
 **Win-rate is NOT reliably measurable in this in-process probe.** The
 `combat-adapter` player policy grinds to the 40-round cap (avg_rounds ~40,

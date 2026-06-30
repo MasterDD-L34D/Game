@@ -59,8 +59,9 @@ const TIER_MOD = { base: 1, elite: 2, apex: 4 };
 
 // Enemy roster variant (env ULTIMA_ROSTER): 'full' = wave-1 as authored
 // (apex+2elite+2base), 'minus_base' = drop 1 base, 'pilot' = apex+2elite (the
-// badlands-pilot wave-1, [0.40,0.60] reference). Midfield spawn (x~5-6) mirrors
-// the pilot engagement distance so the fight resolves inside maxRounds.
+// badlands-pilot wave-1, [0.40,0.60] reference). Spawn positions match the
+// authored encounter spawn_points 1:1 (Codex #3107 P2: midfield x~5-6, the
+// canonical badlands engagement distance, so the probe band == the real mission).
 const ROSTER_VARIANT = process.env.ULTIMA_ROSTER || 'full';
 
 function enemies() {
@@ -73,7 +74,7 @@ function enemies() {
   ];
   if (ROSTER_VARIANT === 'minus_base') defs = defs.slice(0, 4);
   else if (ROSTER_VARIANT === 'pilot') defs = defs.slice(0, 3);
-  return defs.map(([species, tier, position], i) => ({
+  return defs.map(([species, tier, position, aiProfile], i) => ({
     id: `sis_${i + 1}`,
     species,
     species_id: species,
@@ -87,6 +88,9 @@ function enemies() {
     damage: { min: 1, max: 3 },
     initiative: tier === 'apex' ? 14 : 10,
     position,
+    // Codex #3107 P2: emit the authored ai_profile so /session/start selects the
+    // utility-brain behavior (flanking/aggressive), not the default policy.
+    ai_profile: aiProfile,
     controlled_by: 'sistema',
     status: {},
   }));

@@ -52,15 +52,22 @@ player_spawn:
 
 # Wave unica e decisiva (turn 0). Apex Skiv + branco di supporto. La difficolta'
 # vive tutta qui: l'AI-sim calibration legge solo questa wave.
+#
+# Spawn a META-CAMPO (x~5-6), come il pilot canonico badlands
+# (enc_badlands_pilot_01 spawna a x=5): l'agguato si chiude in fretta e il
+# combattimento risolve entro la mission-clock. spawn_points mappa 1:1 sui
+# probe positions (Codex #3107 P2 parity: la banda calibrata = la missione reale).
+# Ordine = espansione harness (apex -> sp[0]; echo x2 -> sp[1],sp[2]; rust x2 ->
+# sp[3],sp[4]).
 waves:
   - wave_id: 1
     turn_trigger: 0
     spawn_points:
-      - [9, 4]
-      - [9, 5]
-      - [9, 6]
-      - [8, 4]
-      - [8, 6]
+      - [5, 5]
+      - [5, 4]
+      - [5, 6]
+      - [6, 4]
+      - [6, 6]
     units:
       - species: dune-stalker
         count: 1
