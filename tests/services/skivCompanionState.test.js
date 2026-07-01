@@ -427,3 +427,100 @@ test('Phase 1: WHITELIST_TOP_FIELDS includes critical share-safe fields', () => 
   assert.equal(WHITELIST_TOP_FIELDS.includes('email'), false);
   assert.equal(WHITELIST_TOP_FIELDS.includes('diary'), false);
 });
+
+// ─── Persist-all-fields + bulk-hydrate (TKT-PERSISTENCE-LAYER) ───────────
+//
+// A faithful fake Prisma delegate (rows Map = the DB). Exercises the REAL store's
+// persistAsync -> row -> fromPrismaRow -> hydrateAllAsync path across a simulated
+// restart (a NEW store instance over the SAME rows), per lesson_durable_test_must_hydrate
+// (an in-memory-shared stub "persists" trivially and would hide the truncation).
+
+function makeFakePrisma() {
+  const rows = new Map(); // lineageId -> row
+  return {
+    rows,
+    skivCompanionState: {
+      async upsert({ where, create, update }) {
+        const existing = rows.get(where.lineageId);
+        rows.set(where.lineageId, existing ? { ...existing, ...update } : { ...create });
+        return rows.get(where.lineageId);
+      },
+      async findUnique({ where }) {
+        return rows.get(where.lineageId) || null;
+      },
+      async findMany() {
+        return [...rows.values()];
+      },
+    },
+  };
+}
+
+const flush = () => new Promise((r) => setImmediate(r));
+
+test('persistence-layer: full card (species/progression) survives a restart via bulk-hydrate', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  assert.equal(store._mode, 'prisma');
+  store.saveCompanionState(
+    makeValidState({
+      lineage_id: 'skiv-persist-full-0001',
+      species_id: 'dune_stalker',
+      biome_id: 'savana',
+      progression: { level: 7, xp: 4200 },
+      cabinet: { unlocked: ['thought-a', 'thought-b'] },
+      mutations: [{ id: 'frost', ts: '2026-04-27T00:00:00Z' }],
+      aspect: { name: 'ashen' },
+    }),
+  );
+  await flush(); // let the fire-and-forget persistAsync upsert settle
+
+  // Simulate restart: a fresh store over the SAME persisted rows starts EMPTY.
+  const store2 = createCompanionStateStore({ prisma });
+  assert.equal(store2.getCompanionState('skiv-persist-full-0001'), null);
+  const n = await store2.hydrateAllAsync();
+  assert.equal(n, 1);
+
+  const card = store2.getCompanionState('skiv-persist-full-0001');
+  assert.ok(card, 'card hydrated after restart');
+  // These were UNDEFINED before persist-all-fields (only 6 columns survived).
+  assert.equal(card.species_id, 'dune_stalker');
+  assert.equal(card.biome_id, 'savana');
+  assert.equal(card.progression.level, 7);
+  assert.deepEqual(card.cabinet.unlocked, ['thought-a', 'thought-b']);
+  assert.equal(card.mutations[0].id, 'frost');
+  assert.equal(card.aspect.name, 'ashen');
+  assert.equal(card.mbti_axes.E_I.value, 0.68);
+  // Signature is preserved (computed at save-time, stored inside the blob).
+  assert.match(card.companion_card_signature, /^[a-f0-9]{64}$/);
+});
+
+test('persistence-layer: fromPrismaRow falls back to 6 legacy columns when state is NULL', async () => {
+  const prisma = makeFakePrisma();
+  // A pre-migration row: 6 columns present, no `state` blob (NULL).
+  prisma.rows.set('skiv-legacy-0002', {
+    lineageId: 'skiv-legacy-0002',
+    schemaVersion: '0.2.0',
+    signature: 'c'.repeat(64),
+    crossbreedHistory: [{ role: 'parent_a', tier: 'gold' }],
+    voiceDiaryPortable: [],
+    shareUrl: 'https://example.test/skiv/share/skiv-legacy-0002',
+    state: null,
+  });
+  const store = createCompanionStateStore({ prisma });
+  const n = await store.hydrateAllAsync();
+  assert.equal(n, 1);
+  const card = store.getCompanionState('skiv-legacy-0002');
+  assert.ok(card, 'legacy row reconstructs from the 6 columns without crashing');
+  assert.equal(card.lineage_id, 'skiv-legacy-0002');
+  assert.equal(card.share_url, 'https://example.test/skiv/share/skiv-legacy-0002');
+  assert.equal(card.crossbreed_history[0].tier, 'gold');
+  // The truncated fields are genuinely absent for a legacy row (unchanged behaviour).
+  assert.equal(card.species_id, undefined);
+  assert.equal(card.progression, undefined);
+});
+
+test('persistence-layer: hydrateAllAsync is a no-op (0) for an in-memory store', async () => {
+  const store = createCompanionStateStore();
+  assert.equal(store._mode, 'in-memory');
+  assert.equal(await store.hydrateAllAsync(), 0);
+});

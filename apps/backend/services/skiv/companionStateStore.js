@@ -284,6 +284,13 @@ function appendDeduped(homeArr, externalArr) {
 }
 
 function fromPrismaRow(row) {
+  // Prefer the full-card JSONB column (persist-all-fields). Pre-migration rows have
+  // state=NULL -> fall back to the 6 legacy columns (species_id/progression/... are
+  // genuinely absent for those, i.e. the same truncated shape as before the migration).
+  const full = parseJsonSafe(row.state);
+  if (full && typeof full === 'object' && !Array.isArray(full)) {
+    return full;
+  }
   return {
     schema_version: row.schemaVersion || CURRENT_SCHEMA_VERSION,
     lineage_id: row.lineageId,
@@ -336,6 +343,12 @@ function createCompanionStateStore(opts = {}) {
       crossbreedHistory: state.crossbreed_history || [],
       voiceDiaryPortable: state.voice_diary_portable || [],
       shareUrl: state.share_url || null,
+      // Persist the FULL whitelisted card (persist-all-fields, TKT-PERSISTENCE-LAYER).
+      // The 6 columns above drop species_id/biome_id/mbti_axes/progression/cabinet/
+      // mutations/aspect/unit_id/generated_at -> those vanished at first restart. The
+      // `state` JSONB column holds the entire sanitized (PII-free) card; fromPrismaRow
+      // prefers it and falls back to the 6 columns for pre-migration rows (state=null).
+      state,
     };
     opts.prisma.skivCompanionState
       .upsert({
@@ -347,6 +360,7 @@ function createCompanionStateStore(opts = {}) {
           crossbreedHistory: data.crossbreedHistory,
           voiceDiaryPortable: data.voiceDiaryPortable,
           shareUrl: data.shareUrl,
+          state: data.state,
         },
       })
       .catch((err) => {
@@ -371,6 +385,34 @@ function createCompanionStateStore(opts = {}) {
         err?.message || err,
       );
       return null;
+    }
+  }
+
+  /**
+   * Bulk-hydrate ALL persisted companion rows into memory at startup. Without this
+   * the Prisma-backed store starts EMPTY on every restart (hydrateAsync only pulls a
+   * single lineage lazily on a guarded write) -> GET /skiv/share 404s for a persisted
+   * ambassador until something touches it. Fire-and-forget at boot (app.js). No-op for
+   * in-memory stores; never throws (a hydrate failure degrades to a cold start).
+   * Returns the count hydrated. Warm-state only for the Option-A owner index
+   * (ownerLineages is not persisted -> the per-Nido cap stays warm-only until Option C).
+   */
+  async function hydrateAllAsync() {
+    if (!usePrisma) return 0;
+    try {
+      const rows = await opts.prisma.skivCompanionState.findMany();
+      let n = 0;
+      for (const row of rows) {
+        const state = fromPrismaRow(row);
+        if (state && typeof state.lineage_id === 'string') {
+          states.set(state.lineage_id, state);
+          n += 1;
+        }
+      }
+      return n;
+    } catch (err) {
+      log.warn?.(`[companionStateStore] prisma bulk-hydrate failed:`, err?.message || err);
+      return 0;
     }
   }
 
@@ -574,6 +616,7 @@ function createCompanionStateStore(opts = {}) {
     size,
     clearAll,
     hydrateAsync,
+    hydrateAllAsync,
     _mode: usePrisma ? 'prisma' : 'in-memory',
   };
 }
