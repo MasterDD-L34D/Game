@@ -25,7 +25,9 @@
 // cap is scoped PER-OWNER (JWT sub / self-asserted player_id) so honest Nidos stop
 // FIFO-evicting each other; the write rate-limit goes per-owner ONLY for a JWT-trusted
 // owner (a self-asserted player_id stays per-IP so a rotating-id flood can't bypass it).
-// Durable per-Nido cap + a JWT write-gate (middleware/auth.js) = Option C/D, owner-gated.
+// Option D (SPEC_F_WRITE_AUTH_ENABLED, OFF by default) adds a JWT enforce-gate on the
+// WRITES (not the public reads) so req.auth.userId becomes the trusted owner ->
+// adversarial-safe isolation. Durable per-Nido cap (persisted nidoId, Prisma) = Option C.
 
 'use strict';
 
@@ -37,6 +39,7 @@ const { toDisplayCard, toQrPayload } = require('../services/skiv/companionCardEx
 const { rollMatingOffspring: rollMatingOffspringDefault } = require('../services/metaProgression');
 const offspringStoreDefault = require('../services/lineage/offspringStore');
 const { resolveOffspringGenome } = require('../services/skiv/offspringGenome');
+const { createAuthHandlers } = require('../middleware/auth');
 
 // SPEC-F slice 3 -- crossbreed offspring is rolled by the engine, but with a
 // SEEDED rng so the proposal preview (slice 2) and the committed confirm
@@ -70,14 +73,33 @@ const CROSSBREED_RATE_WINDOW_MS = 60 * 60 * 1000;
 // Warm-state only (owner index resets on restart; durable = Option C Prisma migration).
 const NIDO_ISOLATION_ENABLED = process.env.SPEC_F_NIDO_ISOLATION_ENABLED === 'true';
 
+// SPEC-F Option D: optional JWT gate on the WRITE routes (not the public-tier reads).
+// OFF by default = writes stay open, byte-identical. ON = the shared auth handler
+// enforces a valid token IF AUTH_SECRET is configured (else a noop -> still open);
+// a verified token populates req.auth.userId (JWT sub), so deriveOwner returns a
+// crypto-bound (trusted) owner and the per-Nido isolation becomes adversarial-safe
+// (closes the self-asserted player_id spoof/rotation ceiling). Needs the isolation
+// flag too for the per-owner cap; independent so auth + cap can be staged separately.
+const WRITE_AUTH_ENABLED = process.env.SPEC_F_WRITE_AUTH_ENABLED === 'true';
+
 function createCompanionRouter({
   companionPicker = companionPickerDefault,
   store = null,
   rollMatingOffspring = rollMatingOffspringDefault,
   offspringStore = offspringStoreDefault,
   nidoIsolationEnabled = NIDO_ISOLATION_ENABLED,
+  writeAuthEnabled = WRITE_AUTH_ENABLED,
+  authenticate = null,
 } = {}) {
   const router = express.Router();
+
+  // Option D write-gate middleware: enforce/populate auth on SPEC-F writes when
+  // opted in (else a passthrough -> open, byte-identical). Injected `authenticate`
+  // wins (tests); otherwise the shared createAuthHandlers().authenticate is used
+  // (JWT-enforce when AUTH_SECRET set, noop -> open otherwise). Reads never get it.
+  const writeAuth = writeAuthEnabled
+    ? authenticate || createAuthHandlers().authenticate
+    : (_req, _res, next) => next();
 
   // SPEC-F per-Nido isolation (Option A). Owner = the caller's durable identity:
   // JWT sub (req.auth.userId, present only when an AUTH_SECRET middleware ran) else
@@ -311,7 +333,7 @@ function createCompanionRouter({
    *           409 lineage_already_promoted | 422 invalid_offspring |
    *           422 promote_failed | 429 rate_limited
    */
-  router.post('/skiv/offspring/:offspring_id/promote', async (req, res) => {
+  router.post('/skiv/offspring/:offspring_id/promote', writeAuth, async (req, res) => {
     if (!requireStore(res)) return;
     const owner = deriveOwner(req);
     if (promoteRateLimited(rateKey(req, owner))) {
@@ -414,7 +436,7 @@ function createCompanionRouter({
    *           400 signature_mismatch | 400 lineage_id_required |
    *           409 lineage_already_imported | 422 import_failed | 429 rate_limited
    */
-  router.post('/skiv/import', async (req, res) => {
+  router.post('/skiv/import', writeAuth, async (req, res) => {
     if (!requireStore(res)) return;
     // Rate-limit FIRST (before body validation): every attempt -- incl. malformed
     // -- counts against the IP budget, so a garbage flood cannot probe the endpoint
@@ -591,7 +613,7 @@ function createCompanionRouter({
    * = the Nido lineage record). A NEW playable lineage/ambassador from the
    * offspring is SPEC-E follow-up; this records the event + returns the card.
    */
-  router.post('/skiv/crossbreed/confirm', (req, res) => {
+  router.post('/skiv/crossbreed/confirm', writeAuth, (req, res) => {
     if (!requireStore(res)) return;
     const body = req.body || {};
     const lineageId = String(body.lineage_id || '');

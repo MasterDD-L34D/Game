@@ -54,6 +54,13 @@ const steps = [
   // The validator test runs the script against every real data/codex entry
   // (errors=0), so wiring this glob makes the authoring gate an enforced check.
   'node --test tests/codex/*.test.js',
+  // tests/routes/** -- SPEC-F Custode HTTP routes (companion + skivCustode: share/
+  // export/promote/import/crossbreed + per-Nido isolation Option A + write-gate
+  // Option D). Same anti-pattern #10 risk: these express app.listen(0)+fetch tests
+  // are the ONLY coverage of the flag-OFF byte-identical guards + the untrusted-body
+  // and eviction-isolation invariants, but no glob above matched tests/routes/*.
+  // Flat subtree -> single-* glob; wiring makes them an enforced gate.
+  'node --test tests/routes/*.test.js',
 ];
 
 const baseEnv = {
