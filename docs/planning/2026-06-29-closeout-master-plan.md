@@ -4,7 +4,7 @@ date: 2026-06-29
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-06-29'
+last_verified: '2026-07-01'
 source_of_truth: false
 language: it-en
 review_cycle_days: 30
@@ -213,6 +213,31 @@ item-1 SPEC-A..Q doc-flip (17/17 `active`); move-terrain-cost (LIVE); derived-ca
 arc (#3047-#3068); SPEC-H machinery+surface; SPEC-J backend+consent-UI; SPEC-K 6/7; OD-024 D1-D7
 interoception (FLIPPED ON); governance stale (397->0); PE-drop (#3022); prod-resilience+Postgres;
 PHASEC 32/32; GAP-A/B; H1/H2 economy; full-loop runner; aa01 D1/D4.
+
+---
+
+## 6. Aggiornamento 2026-07-01 -- Tier-1 recon reconciliation (anti-WIP)
+
+> Recon 6-finder (Workflow, ground-truth su `origin/main` `bdc01015`) su tutti i candidati
+> **Tier-1 CLOSE-NOW autonomi** (sez. 1D + Tier-1 riga 138). Verdetto: **0 residui Tier-1 sono
+> davvero autonomi-buildable** -- 4 stale-DONE + 1 dormant + 2 owner-gated. Anti-pattern #19
+> (marker = ipotesi, git = verita'); ogni SHA verificata `--is-ancestor origin/main`. Additivo:
+> NON riscrive le righe sez.1 (le marca stale qui). Non-colliding col lane parallelo form-pulse
+> (nessun file toccato -- doc-only) ne' con #3123 (che ha reconciled solo Tier-3).
+
+| #   | Candidate                   | Verdetto git 2026-07-01                                                                                                                                                                                                                                                                            |
+| --- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B1  | trait-slices 5-7 remainder  | **STALE-DONE**: eco_sismico producer built #3027 `982dd33b` (ancestor; `stamp_tile_status` in `traitMechanics.schema.json` + `ecoSismico.js`). 12/12 mechanics engine-live. Riga 95 stale (marker precede #3027)                                                                                   |
+| B8  | script repoint species.yaml | **DONE**: #3075 `fab8f87f` + #3079 `34501442` + #3078 `d117b43a` (tutti ancestor); 14 test verdi; **0 straggler** (i ref residui = comment / fixture-gen / one-shot `.exists()`-guarded / ETL-input / `packs/.../species.yaml` che esiste). Riga 102 chiusa (inventario stale)                     |
+| X2  | AI sim nightly regression   | **DONE**: #2888/#2834 CLOSED 06-30, root-cause fix #3094 `fe07584f` (ancestor; `aggressive` WR 1.0->0.9 in `check-thresholds.js`, era placeholder #2149). #3085 OPEN = self-resolve al prossimo nightly pulito. Riga 122 chiusa                                                                    |
+| B7  | keeper-validator-scope      | **DORMANT** (non stale): precondizione non-soddisfatta -- 0 keeper e' specie reale (40 stub `playable_unit:false`). Riapre solo post B6/keeper-content. Riga 101 resta gated (corretto)                                                                                                            |
+| B5  | jsonschema-shadow           | **DOWNSCOPE**: 2/3 sub-ticket gia' fatti (schema_version migration [const '2.0' + 328 json] + win-encoding). Unico aperto = TR-2006..2010 `metrics` = **balance-values owner** (BACKLOG "cannot be fabricated"); 5 xfail puliti (`test_evo_trait_schema.py` 50 pass/5 xfail). NON autonomo-S       |
+| B3  | canon-stopwords             | **RE-SCOPE owner**: ~2648 FP-token su 47 IT design-doc (100% strict-fail) -> flat-blocklist e' il meccanismo sbagliato per il grounding di prosa. Markdown-tier resta ADVISORY (safe); flip `--strict` = forbidden-path + owner re-scope (require canonical_refs / narrow subtree). NON autonomo-S |
+
+**Conseguenza**: la lane autonoma Tier-1 e' **DRENATA** (stale/dormant/owner). I residui reali
+restano: owner-content (B5 TR-200x metrics, B3 re-scope -- entrambi in stato SAFE, no CI-harm) /
+feature-build (**B4 SPEC-F offspring->playable lineage + export** = unica riga BUILD non-owner
+residua, effort M) / Tier-2 owner-decisions / Tier-3 N=40 (lane form-pulse parallela + W5).
 
 ---
 
