@@ -741,15 +741,15 @@ test('POST /skiv/resync appends external history + diary to home (deduped) → 2
   const eventB = { role: 'initiator', with_lineage_id: 'p2', tier: 'no-glow' };
   const { app, lineageId } = seedHome({
     crossbreed_history: [eventA],
-    voice_diary_portable: [{ ts: 't1', line: 'home' }],
+    voice_diary_portable: [{ ts: 't1', voice_line: 'home' }],
   });
   // returning card: brings eventA (dup) + eventB (new) + a new diary line
   const card = makeReturningCard({
     lineage_id: lineageId,
     crossbreed_history: [eventA, eventB],
     voice_diary_portable: [
-      { ts: 't1', line: 'home' },
-      { ts: 't2', line: 'ext' },
+      { ts: 't1', voice_line: 'home' },
+      { ts: 't2', voice_line: 'ext' },
     ],
   });
   const r = await postJson(app, '/api/skiv/resync', { card });
@@ -763,9 +763,39 @@ test('POST /skiv/resync appends external history + diary to home (deduped) → 2
   // diary: home line deduped, ext appended
   assert.equal(r.body.ambassador.voice_diary_portable.length, 2);
   assert.deepEqual(
-    r.body.ambassador.voice_diary_portable.map((d) => d.line),
+    r.body.ambassador.voice_diary_portable.map((d) => d.voice_line),
     ['home', 'ext'],
   );
+});
+
+test('POST /skiv/resync strips nested PII from appended history/diary items (Codex P1)', async () => {
+  const { app, lineageId } = seedHome();
+  // a validly-signed returning card whose ARRAY ITEMS smuggle nested PII past the
+  // top-level whitelist -- must never persist / leak.
+  const card = makeReturningCard({
+    lineage_id: lineageId,
+    crossbreed_history: [
+      {
+        role: 'initiator',
+        with_lineage_id: 'p1',
+        tier: 'gold',
+        partner_card_url: 'http://leak.example',
+        session_id: 'sess-x',
+      },
+    ],
+    voice_diary_portable: [{ ts: 't9', voice_line: 'hi', _notes: 'private', email: 'a@b.c' }],
+  });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 200);
+  const ev = r.body.ambassador.crossbreed_history.find((e) => e.with_lineage_id === 'p1');
+  assert.ok(ev);
+  assert.equal('partner_card_url' in ev, false); // nested PII stripped
+  assert.equal('session_id' in ev, false);
+  assert.equal(ev.tier, 'gold'); // schema field survives
+  const d = r.body.ambassador.voice_diary_portable.find((x) => x.voice_line === 'hi');
+  assert.ok(d);
+  assert.equal('_notes' in d, false);
+  assert.equal('email' in d, false);
 });
 
 test('POST /skiv/resync is home-authoritative: card cannot regress home stat fields', async () => {
