@@ -13,6 +13,7 @@
 //   GET  /api/skiv/share/:lineage_id?format=json|card|qr — share-safe export card
 //   POST /api/skiv/offspring/:id/promote                 — offspring -> ambassador (B4)
 //   POST /api/skiv/import                                — foreign card -> ambassador (B4, sez.6)
+//   POST /api/skiv/resync                                — returning Custode additive merge (B4, FC1)
 //   GET  /api/skiv/crossbreed/history/:lineage_id        — crossbreed log read
 //   POST /api/skiv/crossbreed                            — offspring proposal (+ crossbreed_seed)
 //   POST /api/skiv/crossbreed/confirm                    — commit (persist + cooldown + rate-limit)
@@ -154,6 +155,7 @@ function createCompanionRouter({
   const crossbreedRateLimited = makeRateLimiter();
   const promoteRateLimited = makeRateLimiter();
   const importRateLimited = makeRateLimiter();
+  const resyncRateLimited = makeRateLimiter();
 
   // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). Tracked IN-MEMORY
   // (per-router), NOT on the crossbreed_history item: the ratified
@@ -490,6 +492,78 @@ function createCompanionRouter({
       return res.status(422).json({ error: 'import_failed', message: String(err.message || err) });
     }
     return res.status(201).json({ ambassador });
+  });
+
+  /**
+   * POST /api/skiv/resync
+   * Body: { card }
+   *
+   * SPEC-F FC1 (ratified Opt-A, spec :172-181) -- additive, home-authoritative
+   * resync of a RETURNING Custode. Unlike /import (create-if-absent, 409 on a
+   * lineage collision), resync REQUIRES the lineage to exist locally (404 else):
+   * it merges the returning card's external history INTO the canonical home state.
+   * The two additive arrays (crossbreed_history, voice_diary_portable) APPEND
+   * external entries (deduped, then the store's FIFO cap); EVERY other field
+   * (progression/cabinet/mutations/aspect/mbti/species/biome) is home-authoritative
+   * -- an import can never regress or forge a home stat. Only the two arrays are
+   * pulled off the card, so incoming PII/non-whitelist keys never touch home.
+   *
+   * Trust (FC4-A, spec :217-219): the signature = transport integrity, NOT
+   * authenticity (public sha256, no server secret) -- a griefer can forge a valid
+   * sig and append to a KNOWN lineage_id. Blast radius is bounded by the FIFO caps
+   * (10 history / 5 diary) + dedup + the 10/h rate-limit; adversarial owner-binding
+   * (only the owner may resync) needs a persisted per-Nido owner = Option C (Prisma
+   * migration, owner-gated). Same ratified trust ceiling as the rest of SPEC-F.
+   * (Persistence caveat: after a restart only the 6 persisted columns survive a
+   * hydrate -- the pre-existing TKT-PERSISTENCE-LAYER gap, orthogonal to resync.)
+   *
+   * Response: 200 { ambassador } | 400 card_required | 400 card_invalid |
+   *           400 signature_mismatch | 400 lineage_id_required |
+   *           404 lineage_not_found | 422 resync_failed | 429 rate_limited
+   */
+  router.post('/skiv/resync', writeAuth, async (req, res) => {
+    if (!requireStore(res)) return;
+    // Rate-limit FIRST (every attempt counts, mirrors /import).
+    const owner = deriveOwner(req);
+    if (resyncRateLimited(rateKey(req, owner))) {
+      return res.status(429).json({ error: 'rate_limited' });
+    }
+    const body = req.body || {};
+    // Untrusted body: reject a non-object OR array card (Array.isArray hygiene, #3131).
+    const card =
+      body.card && typeof body.card === 'object' && !Array.isArray(body.card) ? body.card : null;
+    if (!card) {
+      return res.status(400).json({ error: 'card_required' });
+    }
+    // Transport integrity: signatureFor(card) must match the card's own sig.
+    let expectedSig;
+    try {
+      expectedSig = signatureFor(card);
+    } catch (err) {
+      return res.status(400).json({ error: 'card_invalid', message: String(err.message || err) });
+    }
+    if (card.companion_card_signature !== expectedSig) {
+      return res.status(400).json({ error: 'signature_mismatch' });
+    }
+    const lineageId = card.lineage_id ? String(card.lineage_id) : '';
+    if (lineageId.length < 4) {
+      return res.status(400).json({ error: 'lineage_id_required' });
+    }
+    // FC1: resync is a RETURN home -- the lineage MUST exist locally (404 else).
+    // lineageExists hydrates the persistent row so this also holds after a restart.
+    if (!(await lineageExists(lineageId))) {
+      return res.status(404).json({ error: 'lineage_not_found', lineage_id: lineageId });
+    }
+    if (typeof store.resyncCompanionState !== 'function') {
+      return res.status(422).json({ error: 'resync_unsupported' });
+    }
+    let ambassador;
+    try {
+      ambassador = store.resyncCompanionState(lineageId, card);
+    } catch (err) {
+      return res.status(422).json({ error: 'resync_failed', message: String(err.message || err) });
+    }
+    return res.status(200).json({ ambassador });
   });
 
   /**

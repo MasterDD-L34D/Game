@@ -221,6 +221,29 @@ function fifoBounded(arr, maxSize) {
   return arr.slice(arr.length - maxSize);
 }
 
+/**
+ * Additive append with de-dup (SPEC-F FC1 resync, spec :172-175). Returns a NEW
+ * array = home entries + the external entries whose canonical-JSON form is not
+ * already present (order-preserving, home first). Non-arrays coerce to []. The
+ * caller re-caps (FIFO) + re-signs; this only merges. Entries have no natural id
+ * so canonicalJson is the dedup key (stable across key order).
+ */
+function appendDeduped(homeArr, externalArr) {
+  const home = Array.isArray(homeArr) ? homeArr : [];
+  const external = Array.isArray(externalArr) ? externalArr : [];
+  if (external.length === 0) return home;
+  const seen = new Set(home.map((e) => canonicalJson(e)));
+  const out = [...home];
+  for (const entry of external) {
+    const key = canonicalJson(entry);
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(entry);
+    }
+  }
+  return out;
+}
+
 function fromPrismaRow(row) {
   return {
     schema_version: row.schemaVersion || CURRENT_SCHEMA_VERSION,
@@ -427,6 +450,46 @@ function createCompanionStateStore(opts = {}) {
   }
 
   /**
+   * SPEC-F FC1 additive resync of a RETURNING Custode (spec :172-181, ratified
+   * Opt-A home-authoritative). The lineage MUST already exist at home (caller
+   * checks/hydrates first). Merges the incoming card's external history into the
+   * canonical home state: the two additive arrays (crossbreed_history,
+   * voice_diary_portable) APPEND external entries (deduped); EVERY other field
+   * stays HOME (progression/cabinet/mutations/aspect/mbti/species/biome) -- the
+   * card can never regress or forge a home stat. Reuses saveCompanionState so the
+   * FIFO cap, server-side re-sign, and persist are byte-identical to a normal save;
+   * the lineage exists (isNewLineage=false) so no cap-eviction of another Nido.
+   */
+  function resyncCompanionState(lineageId, incomingCard) {
+    if (!lineageId || typeof lineageId !== 'string') {
+      throw new TypeError('resyncCompanionState: lineageId (string) required');
+    }
+    const existing = states.get(lineageId);
+    if (!existing) {
+      throw new Error(
+        `resyncCompanionState: no home state for lineage_id=${lineageId}. Call saveCompanionState first.`,
+      );
+    }
+    if (!incomingCard || typeof incomingCard !== 'object' || Array.isArray(incomingCard)) {
+      throw new TypeError('resyncCompanionState: incoming card object required');
+    }
+    // Cap the merged arrays here (newest kept): saveCompanionState's assertValid
+    // REJECTS an over-cap array before its own fifoBounded runs, so trim first.
+    const merged = {
+      ...existing,
+      crossbreed_history: fifoBounded(
+        appendDeduped(existing.crossbreed_history, incomingCard.crossbreed_history),
+        CROSSBREED_HISTORY_MAX_ENTRIES,
+      ),
+      voice_diary_portable: fifoBounded(
+        appendDeduped(existing.voice_diary_portable, incomingCard.voice_diary_portable),
+        VOICE_DIARY_MAX_ENTRIES,
+      ),
+    };
+    return saveCompanionState(merged);
+  }
+
+  /**
    * Get crossbreed history for a lineage_id.
    * Returns [] when not present (graceful, not error).
    */
@@ -454,6 +517,7 @@ function createCompanionStateStore(opts = {}) {
   return {
     getCompanionState,
     saveCompanionState,
+    resyncCompanionState,
     addCrossbreedEvent,
     getCrossbreedHistory,
     signatureFor,
@@ -475,6 +539,7 @@ module.exports = {
   migrateLegacyState,
   isLegacySchema,
   fifoBounded,
+  appendDeduped,
   // Constants
   AMBASSADOR_CAP_PER_NIDO,
   VOICE_DIARY_MAX_ENTRIES,

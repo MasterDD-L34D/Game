@@ -106,6 +106,27 @@ function makePersistentStoreStub() {
       memory.set(id, row);
       return row;
     },
+    // FC1 resync (additive merge) mirroring the real store: append external
+    // arrays to the home row, re-sign, persist to BOTH maps.
+    resyncCompanionState(id, card) {
+      const existing = memory.get(id);
+      if (!existing) throw new Error(`resyncCompanionState: no home state for ${id}`);
+      const merged = {
+        ...existing,
+        crossbreed_history: [
+          ...(existing.crossbreed_history || []),
+          ...(Array.isArray(card.crossbreed_history) ? card.crossbreed_history : []),
+        ],
+        voice_diary_portable: [
+          ...(existing.voice_diary_portable || []),
+          ...(Array.isArray(card.voice_diary_portable) ? card.voice_diary_portable : []),
+        ],
+      };
+      const saved = { ...merged, companion_card_signature: signatureFor(merged) };
+      memory.set(id, saved);
+      persistent.set(id, saved);
+      return saved;
+    },
     _restart() {
       memory.clear();
     },
@@ -663,6 +684,168 @@ test('POST /skiv/import refuses a cross-restart overwrite (hydrates persistent s
   const r = await postJson(app, '/api/skiv/import', { card: attack });
   assert.equal(r.status, 409);
   assert.equal(r.body.error, 'lineage_already_imported');
+});
+
+// --- B4: POST /skiv/resync (returning Custode additive merge, FC1 home-authoritative) ---
+
+// A validly-signed returning card (re-signs after overrides so a mutated field
+// does not fail signature-verify).
+function makeReturningCard(overrides = {}) {
+  const card = { ...makePartnerCard(), ...overrides };
+  card.companion_card_signature = signatureFor(card);
+  return card;
+}
+
+// Seed a home lineage into a real store and return { store, app, lineageId }.
+function seedHome(seedOverrides = {}) {
+  const store = createCompanionStateStore();
+  const lineageId = 'skiv-savana-2026-0427-home';
+  store.saveCompanionState(makeShareState({ lineage_id: lineageId, ...seedOverrides }));
+  return { store, app: buildApp({ store }), lineageId };
+}
+
+test('POST /skiv/resync missing card → 400 card_required', async () => {
+  const { app } = seedHome();
+  const r = await postJson(app, '/api/skiv/resync', {});
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'card_required');
+});
+
+test('POST /skiv/resync array card → 400 card_required (Array.isArray guard)', async () => {
+  const { app } = seedHome();
+  const r = await postJson(app, '/api/skiv/resync', { card: [] });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'card_required');
+});
+
+test('POST /skiv/resync tampered signature → 400 signature_mismatch', async () => {
+  const { app, lineageId } = seedHome();
+  const card = makeReturningCard({ lineage_id: lineageId });
+  card.companion_card_signature = 'deadbeef'.repeat(8); // 64 hex, wrong
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'signature_mismatch');
+});
+
+test('POST /skiv/resync unknown lineage → 404 lineage_not_found (RETURN requires existing home)', async () => {
+  const { app } = seedHome();
+  // valid card for a lineage that was never seeded home
+  const card = makeReturningCard({ lineage_id: 'skiv-never-seeded-xyz' });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 404);
+  assert.equal(r.body.error, 'lineage_not_found');
+});
+
+test('POST /skiv/resync appends external history + diary to home (deduped) → 200', async () => {
+  const eventA = { role: 'initiator', with_lineage_id: 'p1', tier: 'gold' };
+  const eventB = { role: 'initiator', with_lineage_id: 'p2', tier: 'no-glow' };
+  const { app, lineageId } = seedHome({
+    crossbreed_history: [eventA],
+    voice_diary_portable: [{ ts: 't1', line: 'home' }],
+  });
+  // returning card: brings eventA (dup) + eventB (new) + a new diary line
+  const card = makeReturningCard({
+    lineage_id: lineageId,
+    crossbreed_history: [eventA, eventB],
+    voice_diary_portable: [
+      { ts: 't1', line: 'home' },
+      { ts: 't2', line: 'ext' },
+    ],
+  });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 200);
+  // eventA deduped, eventB appended
+  assert.equal(r.body.ambassador.crossbreed_history.length, 2);
+  assert.deepEqual(
+    r.body.ambassador.crossbreed_history.map((e) => e.with_lineage_id),
+    ['p1', 'p2'],
+  );
+  // diary: home line deduped, ext appended
+  assert.equal(r.body.ambassador.voice_diary_portable.length, 2);
+  assert.deepEqual(
+    r.body.ambassador.voice_diary_portable.map((d) => d.line),
+    ['home', 'ext'],
+  );
+});
+
+test('POST /skiv/resync is home-authoritative: card cannot regress home stat fields', async () => {
+  const { app, lineageId } = seedHome({
+    species_id: 'dune_stalker',
+    progression: { level: 4, job: 'stalker' },
+  });
+  // card claims a different species + a higher level -> home MUST win
+  const card = makeReturningCard({
+    lineage_id: lineageId,
+    species_id: 'attacker_sp',
+    progression: { level: 99, job: 'hacked' },
+    crossbreed_history: [{ role: 'initiator', with_lineage_id: 'p9', tier: 'rainbow' }],
+  });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.ambassador.species_id, 'dune_stalker'); // home wins
+  assert.equal(r.body.ambassador.progression.level, 4); // home wins
+  // but the additive array still merged the external event
+  assert.equal(r.body.ambassador.crossbreed_history.length, 1);
+  assert.equal(r.body.ambassador.crossbreed_history[0].with_lineage_id, 'p9');
+});
+
+test('POST /skiv/resync FIFO-caps crossbreed_history at 10 (newest kept)', async () => {
+  const home = Array.from({ length: 8 }, (_, i) => ({
+    role: 'initiator',
+    with_lineage_id: `h${i}`,
+    tier: 'no-glow',
+  }));
+  const { app, lineageId } = seedHome({ crossbreed_history: home });
+  const extra = Array.from({ length: 5 }, (_, i) => ({
+    role: 'initiator',
+    with_lineage_id: `n${i}`,
+    tier: 'gold',
+  }));
+  const card = makeReturningCard({
+    lineage_id: lineageId,
+    crossbreed_history: [...home, ...extra], // 8 dup + 5 new = 13 merged -> cap 10
+  });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  assert.equal(r.status, 200);
+  const ids = r.body.ambassador.crossbreed_history.map((e) => e.with_lineage_id);
+  assert.equal(ids.length, 10);
+  assert.equal(ids.includes('n4'), true); // newest kept
+  assert.equal(ids.includes('h0'), false); // oldest dropped
+});
+
+test('POST /skiv/resync rate-limits after 10/h per IP → 429', async () => {
+  const { app, lineageId } = seedHome();
+  let last;
+  for (let i = 0; i < 11; i += 1) {
+    const card = makeReturningCard({ lineage_id: lineageId });
+    last = await postJson(app, '/api/skiv/resync', { card });
+  }
+  assert.equal(last.status, 429);
+  assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST /skiv/resync hydrates a persisted home across a restart → 200 (Codex P1 pattern)', async () => {
+  const store = makePersistentStoreStub();
+  const app = buildApp({ store });
+  const lineageId = 'skiv-persist-home';
+  store.saveCompanionState({
+    schema_version: '0.2.0',
+    lineage_id: lineageId,
+    species_id: 'dune_stalker',
+    crossbreed_history: [{ role: 'initiator', with_lineage_id: 'h0', tier: 'gold' }],
+    voice_diary_portable: [],
+  });
+  // backend restart: memory cleared, the persisted home row survives.
+  store._restart();
+  const card = makeReturningCard({
+    lineage_id: lineageId,
+    crossbreed_history: [{ role: 'initiator', with_lineage_id: 'n0', tier: 'no-glow' }],
+  });
+  const r = await postJson(app, '/api/skiv/resync', { card });
+  // memory-only would 404 here; lineageExists hydrates the persisted row first.
+  assert.equal(r.status, 200);
+  const ids = r.body.ambassador.crossbreed_history.map((e) => e.with_lineage_id);
+  assert.deepEqual(ids, ['h0', 'n0']);
 });
 
 // --- B4: per-Nido isolation (Option A, flag SPEC_F_NIDO_ISOLATION_ENABLED) ---
