@@ -40,7 +40,7 @@ foodweb stats -- and the 06-11 canonical pilot (`...flip-on-pilot-canonical.md`)
 with REAL species stats the combat effect is **outcome-neutral** (-0.025 over the floor) and explicitly
 flagged the differentiated-probe delta as an **artifact** ("il -0.25 era un artefatto, ER7 canonico e'
 benigno"). So this N=40 reproduces the exercise proof + the artifact, and corroborates the 06-11 ratify.
-`on_abundant` is a mild +2.2-round nudge (apex up, prey still present).
+`on_abundant` is only marginal (rounds CI barely excludes 0, attacks CI includes 0).
 
 **No owner action required**: ER7 is already ON + ratified (06-11). This closes the stale "N=40 flag-ON"
 register marker as a re-confirmation, not a new flip.
@@ -70,17 +70,18 @@ so binary WR is uninformative; the W5 lesson: on a saturated encounter read the 
 N=40, **isolated per-arm processes + `--aggregate`** (evidence-grade protocol; `isolated_arms: true`),
 vs the `off2 - off` replicate floor.
 
-| delta                    | rounds (mean, ci95)    | attacks (mean, ci95)   | read                         |
-| ------------------------ | ---------------------- | ---------------------- | ---------------------------- |
-| off2 - off (noise floor) | -0.15 [-1.93, 1.63]    | 0.00 [0.00, 0.00]      | same-config noise (tight)    |
-| **on_depleted - off**    | **+5.22 [3.10, 7.35]** | **+2.92 [1.94, 3.90]** | REAL: ~1.5x longer fight     |
-| on_abundant - off        | +2.20 [0.04, 4.36]     | +1.00 [0.20, 1.80]     | mild (+2.2, CI just excl. 0) |
+| delta                    | rounds (mean, ci95)    | attacks (mean, ci95)   | read                          |
+| ------------------------ | ---------------------- | ---------------------- | ----------------------------- |
+| off2 - off (noise floor) | -0.15 [-1.93, 1.63]    | 0.00 [-0.93, 0.93]     | same-config noise             |
+| **on_depleted - off**    | **+5.22 [3.10, 7.35]** | **+2.92 [1.85, 4.00]** | REAL: ~1.5x longer fight      |
+| on_abundant - off        | +2.20 [0.04, 4.36]     | +1.00 [-0.09, 2.09]    | marginal (attacks CI incl. 0) |
 
-`on_depleted` clears the (now tight) noise floor by a wide margin with a CI that excludes 0 -> a real
-difficulty-lengthening (more meso/apex to grind through). `on_abundant` is mildly positive (+2.2 rounds,
-CI barely excludes 0) -- raising the apex share nudges fight length up but far less than the prey
-exclusion. (The isolated re-run tightened the floor from a contaminated -1.70 and un-masked this small
-on_abundant nudge that the single-process batch had washed to ~0 -- Codex P1 #3156.)
+`on_depleted` clears the noise floor by a wide margin on BOTH channels with CIs that exclude 0 -> a real
+difficulty-lengthening (more meso/apex to grind through). `on_abundant` is only **marginal**: its rounds
+CI barely excludes 0 (+2.2 [0.04, 4.36]) and its attacks CI **includes** 0 ([-0.09, 2.09]) -- raising the
+apex share without removing prey barely nudges fight length. (The isolated re-run tightened the floor from
+a contaminated -1.70 and un-masked this small on_abundant nudge that the single-process batch had washed
+to ~0 -- Codex P1 #3156.)
 
 ## Caveats (adversarial self-check)
 
@@ -124,7 +125,10 @@ for arm in off off2 on_depleted on_abundant; do
   node tools/sim/spec-i-gates-probe.js --effect er7 --arms $arm --runs 40 --seed-base 52000 \
     --out reports/sim/er7-population-n40
 done
-node tools/sim/spec-i-gates-probe.js --effect er7 --aggregate --out reports/sim/er7-population-n40
+# --seed-base MUST match the per-arm runs: the aggregate stamps args metadata and a missing
+# --seed-base defaults to 51000 (parseArgs), which would rewrite the metadata out of sync.
+node tools/sim/spec-i-gates-probe.js --effect er7 --aggregate --seed-base 52000 \
+  --out reports/sim/er7-population-n40
 # then read reports/sim/er7-population-n40/summary.json (isolated_arms:true + summaries + deltas + extras.er7)
 ```
 
