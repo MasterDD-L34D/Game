@@ -47,7 +47,7 @@ Probe `tools/sim/form-pulse-v2-graded-ab-probe.js`. Artifacts `reports/sim/fp-v2
    is ceiling-masked (party survives ~0.92 everywhere), so "survival-neutral" rests on ko_rate alone; a
    higher-attrition measurement point is needed to exercise the defensive grants before this is ratify-grade.
 4. **Imprint weight `w`**: imprint wins the shared branco slot **17.5% @ w=0.3, 70% @ w=0.5** (target 30-40%
-   -> **w~0.38-0.40**). DIRECTIONAL: party-size-dependent (this curve is the 4-player party; a 2-player party
+   -> **w~0.37-0.38**). DIRECTIONAL: party-size-dependent (this curve is the 4-player party; a 2-player party
    at w=0.5 wins ~33%) and the N=40 win-rate swings 27-52% across seeds -> re-sweep at N>=1000 before fixing `w`.
 
 ## Method
@@ -112,7 +112,7 @@ in the same slots -> its "net" is pure position-drift. Over 3 biomes the floor a
 | 1.0 | 100%                     |
 
 The curve is steep across 0.3-0.5 (team-averaged form-pulse |avg| clusters ~0.3-0.5). Target 30-40% ->
-**w~0.38-0.40**. This is a PURE synthesis result (deterministic, drift-immune), but see the caveats: it is
+**w~0.37-0.38**. This is a PURE synthesis result (deterministic, drift-immune), but see the caveats: it is
 party-size-specific and N=40-noisy.
 
 ## The three ratify decisions (SDMG -- owner)
@@ -121,7 +121,7 @@ party-size-specific and N=40-noisy.
    survival-neutral. Lower the anchor to ~1.25 (nulls damage-output too, fuller net-neutrality) OR keep 1.4/4
    (accept survival-neutral + a mildly slower fight as "within band"). Directional; confirm the chosen value
    with one A/B.
-2. **Imprint weight `w`.** Set ~0.38-0.40 for the 30-40% imprint-win target (PROPOSED 0.5 gives 70% = imprint
+2. **Imprint weight `w`.** Set ~0.37-0.38 for the 30-40% imprint-win target (linear interp: w=0.40 overshoots to ~44%; population N=4000 gives w0.38=33.5%) (PROPOSED 0.5 gives 70% = imprint
    dominant). Re-sweep at N>=1000 before fixing; note party-size dependence.
 3. **Imprint mechanism + picks.** 8/8 cells wired (incl offense/RAPIDA = `dilatazione_temporale_percettiva`);
    `selectImprintAxis` uses a hash-mod tuple selection (PROPOSED) -- keep, or swap to a curated tuple->axis
