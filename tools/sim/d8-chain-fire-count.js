@@ -170,7 +170,7 @@ async function main() {
       const roster = probeRoster();
       const enemies = proto.map((u) => ({ ...u, status: { ...(u.status || {}) } }));
       // eslint-disable-next-line no-await-in-loop
-      await runEncounter(h, {
+      const res = await runEncounter(h, {
         roster,
         enemies,
         scenarioId: MP.scenario,
@@ -180,6 +180,14 @@ async function main() {
         pressureStart: MP.pressureStart,
         modulation: 'duo_hardcore',
       });
+      // Codex #3136 P2: runEncounter returns { outcome:'error' } instead of throwing on a
+      // /start or wiring failure. Aborting here prevents a harness/setup error from silently
+      // producing all-zero counters and a FALSE `chain_non_exercised: true` proof.
+      if (!res || res.outcome === 'error') {
+        throw new Error(
+          `d8-chain-fire-count: encounter ${i} failed (outcome=${res && res.outcome}) -- refusing to emit a 0-fire proof on a harness error: ${JSON.stringify(res && res.error)}`,
+        );
+      }
     }
   } finally {
     if (typeof close === 'function') await close().catch(() => {});

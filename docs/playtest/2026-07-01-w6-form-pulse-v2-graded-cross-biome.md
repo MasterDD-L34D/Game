@@ -50,6 +50,38 @@ Probe `tools/sim/form-pulse-v2-graded-ab-probe.js`. Artifacts `reports/sim/fp-v2
    -> **w~0.37-0.38**). DIRECTIONAL: party-size-dependent (this curve is the 4-player party; a 2-player party
    at w=0.5 wins ~33%) and the N=40 win-rate swings 27-52% across seeds -> re-sweep at N>=1000 before fixing `w`.
 
+## CORRECTION -- paired re-run (Codex #3139 P1 seed-fix, 2026-07-01)
+
+Codex caught a real methodology flaw: the probe passed STRING seeds (`fpg-...`), but `/api/session/start`
+seeds the combat RNG only when `Number(seed)` is finite (session.js:2102) -- so string seeds left the RNG
+unset (`Math.random`), the A/B/C arms were NOT actually paired, and the artifacts did not replay. Fixed to
+NUMERIC seeds (reruns now byte-reproducible) and ALL artifacts regenerated. Impact:
+
+- **The over-compensation headline HOLDS + is cleaner**: paired net enemy_hp **+0.12-0.13** at anchor 1.4
+  (all 5 biomes positive) with the drift floor now EXACTLY 0.000 (paired baseline replicates are byte-
+  identical). player_buff enemy_hp -0.145 / ko -0.093. Robust.
+- **The offense-null anchor MOVED**: the paired anchor sweep puts the offense-null (enemy_hp ~0) at
+  **~1.15** (1.20 = +0.038, mild over-comp), NOT 1.20. The unpaired curve was wrong. **The staged keys.env
+  value is 1.20 (master-dd's explicit round-3 pick); the CORRECTED offense-null is ~1.15 -- change the
+  keys.env anchor to 1.15 before restart if offense-null is the goal (owner call; the agent did not
+  substitute its re-derived value for the explicitly-chosen one).**
+- ko_rate stays negative at every anchor (irreducible survival tilt) -- unchanged conclusion.
+- `w~0.78` is PURE synthesis (no combat) -> unaffected by the seed fix.
+
+(P2, Codex #3139: `gridSize:10` is a no-op without inline terrain -> the board is GRID_SIZE=6 and the
+authored x=5-6 enemies clamp -- IDENTICAL to the canonical ultima-caccia/focus-fire/inc-1/inc-2 point, so
+the deltas are board-consistent; a label bug, not a board error vs the validated reference.)
+
+The paired anchor curve (supersedes the earlier table):
+
+| anchor | net enemy_hp | net ko_rate |
+| ------ | ------------ | ----------- |
+| 1.15   | **-0.007**   | -0.058      |
+| 1.20   | +0.038       | -0.042      |
+| 1.25   | +0.078       | -0.033      |
+| 1.30   | +0.095       | -0.029      |
+| 1.40   | +0.131       | -0.033      |
+
 ## Method
 
 **3-arm decouple.** The flag has TWO coupled effects: (buff) v2 grants the team more combat-effective traits

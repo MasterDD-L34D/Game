@@ -239,6 +239,12 @@ async function runOne(http, roster, biomeId, seed) {
     biomeId,
     seed,
     maxRounds: 40,
+    // NB (Codex #3139 P2): gridSize is a NO-OP without inline terrain -- combat-adapter only sends
+    // encounter.grid when terrainFeatures is set, so the board is GRID_SIZE=6 and the authored x=5-6
+    // enemies clamp to the edge. This is IDENTICAL to the canonical ultima-caccia-band-probe.js +
+    // focus-fire-ab-probe.js (inc-1/inc-2), which pass the same gridSize:10 no-op -> the measurement
+    // is on the SAME 6x6-clamped board those validated as power-sensitive. All 3 arms share the board,
+    // so the DELTAS (the ratify signal) are unaffected; only the absolute-difficulty label was wrong.
     gridSize: 10,
   });
   const rosterN = (r.rosterIds || []).length || roster.length;
@@ -315,7 +321,7 @@ async function positiveControl(http, party, w) {
       const r = await http.post('/api/session/start', {
         units: [...v2Roster, ...hardcoreEnemies()],
         biome_id: 'badlands',
-        seed: 'fp-poscontrol',
+        seed: 424242, // numeric (Codex #3139 P1); the offset check reads max_hp, seed is for hygiene
       });
       const sid = r.body.session_id || r.body.id;
       const st = await http.get('/api/session/state', { session_id: sid });
@@ -356,7 +362,11 @@ async function measureBiome(http, party, biomeId, N, seedBase, w, driftFloor = f
     const g = deriveGrants(inputs, w);
     if (g.v2BrancoSource === 'imprint') impWins += 1;
     if (g.v2BrancoId || g.minorIds.some(Boolean)) grantedTeams += 1;
-    const seed = `fpg-${biomeId}-${seedBase + i}`;
+    // NUMERIC seed (Codex #3139 P1): /api/session/start seeds the combat RNG ONLY when
+    // Number(seed) is finite (session.js:2102) -- a STRING seed leaves it unset (Math.random),
+    // so the A/B/C arms would NOT be paired and reruns would not replay. A numeric seed shared
+    // across the arms of one team makes them genuinely paired + the artifact reproducible.
+    const seed = seedBase + i;
     const rosterBaseline = attachTraits(party, g.baselineBrancoId, null);
     const rosterV2 = attachTraits(party, g.v2BrancoId, g.minorIds);
     const rosterB = driftFloor ? rosterBaseline : rosterV2;
@@ -406,7 +416,7 @@ async function anchorSweep(http, party, biomeId, N, seedBase, w, anchors) {
   const savedAnchor = process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET;
   for (let i = 0; i < N; i += 1) {
     const g = deriveGrants(synthTeamInputs(party.length, rnd), w);
-    const seed = `fpanch-${biomeId}-${seedBase + i}`;
+    const seed = seedBase + i; // numeric -> paired arms (Codex #3139 P1; session.js:2102)
     const rosterBaseline = attachTraits(party, g.baselineBrancoId, null);
     const rosterV2 = attachTraits(party, g.v2BrancoId, g.minorIds);
     delete process.env[V2_FLAG];
