@@ -129,6 +129,7 @@ async function runOne(party, seed) {
       seed,
       maxRounds: 40,
       gridSize: 10,
+      endSession: true, // #3157 F4: close the session so the log gets session_end
     });
     const rosterN = (r.rosterIds || []).length || 4;
     const survivors = (r.survivorIds || []).length;

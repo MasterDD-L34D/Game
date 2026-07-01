@@ -100,6 +100,7 @@ async function runArm(flagOn, seed, scale) {
       maxRounds: 30,
       terrainFeatures: hazardWall(),
       gridSize: 8,
+      endSession: true, // #3157 F4: close the session so the log gets session_end
     });
     return { outcome: r.outcome, rounds: r.rounds };
   } finally {

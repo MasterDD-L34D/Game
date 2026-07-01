@@ -301,6 +301,7 @@ async function runArm({ scenario, arm, runs, seedBase, scaling, roster: rosterNa
         maxRounds: 160,
         ...(enc.modulation ? { modulation: enc.modulation } : {}),
         ...(enc.reinf ? { collectEvents: ['reinforcement_spawn'] } : {}),
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       const spawns = enc.reinf
         ? (res.collectedEvents || []).filter((e) => e && e.action_type === 'reinforcement_spawn')

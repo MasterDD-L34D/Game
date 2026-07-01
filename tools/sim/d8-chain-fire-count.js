@@ -179,6 +179,7 @@ async function main() {
         maxRounds: 160,
         pressureStart: MP.pressureStart,
         modulation: 'duo_hardcore',
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       // Codex #3136 P2: runEncounter returns { outcome:'error' } instead of throwing on a
       // /start or wiring failure. Aborting here prevents a harness/setup error from silently

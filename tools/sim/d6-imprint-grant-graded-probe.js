@@ -187,6 +187,7 @@ async function runOne(http, roster, biomeId, seed) {
     seed,
     maxRounds: 40,
     gridSize: 10, // no-op without inline terrain (Codex #3139 P2); identical board across arms
+    endSession: true, // #3157 F4: close the session so the log gets session_end
   });
   const rosterN = (r.rosterIds || []).length || roster.length;
   const kos = Number.isFinite(r.units_lost)
