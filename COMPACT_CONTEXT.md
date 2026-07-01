@@ -5,7 +5,20 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 import + per-Nido AUTH isolation (A+D)
+## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 buildable half)
+
+**1 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices drained); memory `project_spec_f_crossbreed`.
+
+- **B4 FC1 resync** **[#3144](https://github.com/MasterDD-L34D/Game/pull/3144) `802c004e`**: `POST /api/skiv/resync` + `store.resyncCompanionState` + pure `appendDeduped`. FC1 Opt-A **home-authoritative** additive merge del returning Custode -- external `crossbreed_history`+`voice_diary_portable` APPEND (dedup canonicalJson, FIFO cap 10/5); OGNI altro campo (progression/cabinet/mutations/aspect/mbti/species/biome) = HOME. **404-on-missing** (RETURN, inverso di import's 409); 200 non 201. Reuse `saveCompanionState` (re-cap/re-sign/persist byte-identical, no eviction). Flag-less, band-neutral, reversibile, forbidden-path clean. **Chiude la meta' buildable di acceptance #4** (import #3135 = create half). Lane scelta master-dd (AskUserQuestion): FC1 resync (autonomo) vs Option C (forbidden-path) vs Tier-2 batch.
+- 🔑 **Codex P1 (REAL, oltre il mio adversarial-Workflow "CLEAN")**: **nested-PII leak** -- la whitelist top-level NON ricorre -> una card firmata (sig=integrita' non autenticita') puo' smuggle PII (`partner_card_url`/`session_id`/`_notes`) dentro un item crossbreed_history/voice_diary -> persiste + leak via share/history per un lineage_id noto (l'append-to-existing di resync lo rende raggiungibile su lineage owned che import's 409 bloccava). Fix = **ROOT** in shared `saveCompanionState`: `sanitizeItems()` per-item schema whitelist (mirror packages/contracts item additionalProperties:false) -> copre import+promote+resync (ponytail fix-the-shared-hole). resync sanitizza anche pre-dedup.
+- 🔑 **Codex P2** = truncation persistence-layer pre-esistente (`persistAsync` scrive solo 6 colonne -> species_id/biome_id/progression MAI durable, persi al primo restart a prescindere da resync; affects import/promote/share) -> acknowledged/resolved, tracked TKT-PERSISTENCE-LAYER, no code.
+- 🔑 **lesson**: un verdetto adversarial-Workflow "CLEAN" + CI green NON sono prova -- Codex ha trovato 2 finding reali dopo. Verify the claim/harness, non il verdetto (estende [[lesson_codex_ratelimit_audit_compensating]]).
+
+100/100 SPEC-F suites, route glob 76/76, AI 567/567, governance 0. Adversarial 3-lens Workflow + Codex sweep (P1 fixed+resolve, P2 tracked+resolve). **B4 residue buildable = NONE**; residues owner/coord = live-run injection (session.js = W5 lane) + durable cooldown (contracts) + Option C durable nidoId (Prisma).
+
+**Next (owner/coordination)**: Option C durable-nidoId (Prisma migration, owner sign-off) · Tier-2 owner-decision batch (closeout sez.2 + register) · coordinare col lane W5/form-pulse (sessione parallela, NON toccare session.js/imprint/tools/sim).
+
+## ⚡ Sessione 2026-07-01 (cont) -- SPEC-F B4 import + per-Nido AUTH isolation (A+D)
 
 **5 PR merged (3 code + 2 docs), 0 open.** Handoff import `docs/planning/2026-07-01-session-handoff-spec-f-import.md` + auth `docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices) + sez.6ter (auth A+D); memory `project_spec_f_crossbreed`.
 

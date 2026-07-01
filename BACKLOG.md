@@ -392,7 +392,7 @@ docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, 
 >
 > 🔑 **Cross-ref TKT-PERSISTENCE-LAYER I3** (updated in-place above): `lineageExists()` (#3135) already wires per-lineage `hydrateAsync`; I3's remaining gap is the startup BULK-hydrate + the durable-cooldown contracts-schema field (unchanged).
 >
-> Sibling B4 residue (not auth): **FC1 resync** (returning-home lineage additive merge) -- import 409-refuse-overwrites, no additive merge; the other buildable half of acceptance #4. Recon-first for autonomy vs the W5/session lane.
+> Sibling B4 residue: **FC1 resync DONE 2026-07-01** ([#3144](https://github.com/MasterDD-L34D/Game/pull/3144) `802c004e`) -- `POST /skiv/resync` returning-home additive merge (home-authoritative; external crossbreed_history/voice_diary APPEND+dedup+FIFO, every other field = home; 404-on-missing vs import's 409). Closes the buildable half of acceptance #4. Flag-less, band-neutral, no forbidden-path. 🔑 Codex P1 nested-PII fixed at ROOT (`sanitizeItems()` per-item schema whitelist in shared `saveCompanionState`, covers import+promote); P2 post-restart truncation = pre-existing persistence-layer (TKT-PERSISTENCE-LAYER), no code. Remaining B4 buildable residue = NONE; residues = live-run injection (W5 lane) + durable cooldown (contracts) + Option C above.
 
 ### 🟢 P3 OPEN — ER6 overrun follow-up: fork carry-over + harness entropy (2026-06-11)
 
