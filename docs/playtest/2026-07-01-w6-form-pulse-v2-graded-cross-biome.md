@@ -180,8 +180,38 @@ The ratified w~0.38 is a **4-player value**; on a 2-3 player co-op it makes impr
 **Net for the owner**: direction ratified + confirmed. Exact values are a design judgment the sweep
 narrowed but did not close: (a) which channel to null (offense @1.25 / survival @~1.4 / balanced @~1.3);
 (b) `w` cannot be party-neutral without normalizing the producer's form-|avg| by team size (a code
-change) -- else pick `w` for the modal party size and accept off-target elsewhere. Staged only after
-these two are resolved.
+change) -- else pick `w` for the modal party size and accept off-target elsewhere.
+
+## Refined confirming (master-dd 2026-07-01 round 2: anchor->~1.30 balanced, party-normalize the producer)
+
+**Party-normalization SHIPPED + re-measured.** `produceBrancoTrait` now scales the Form-Pulse magnitude
+by `sqrt(nPlayers)` in the imprint-vs-form win comparison (flag-gated: byte-identical when combined=OFF;
+`nPlayers` passed by `coopOrchestrator`). This makes the imprint-win party-size-invariant: the N=4000
+re-sweep converges party 2/3/4 to within ~4pp, and **a single w~0.78 hits the 30-40% target across all
+sizes** (party2 ~32% / party3 ~34% / party4 ~36%). So the ratified normalized weight is **w~0.78** (one
+value, party-neutral).
+
+**Paired anchor sweep (drift-free) pins the balanced anchor.** The earlier per-anchor single runs were
+non-monotonic (net residual ~+-0.06 noise); a PAIRED sweep (per team: arm A once + arm C at every anchor,
+same seed/process -> the anchor is the only between-arm difference) gives a clean monotonic curve
+(`reports/sim/fp-v2-anchorsweep/`, w=0.78, 3 biomes N=40):
+
+| anchor   | net enemy_hp (offense) | net ko_rate (survival) |
+| -------- | ---------------------- | ---------------------- |
+| 1.15     | -0.052                 | -0.081                 |
+| **1.20** | **+0.009**             | -0.056                 |
+| 1.25     | +0.015                 | -0.092                 |
+| 1.30     | +0.039                 | -0.058                 |
+| 1.35     | +0.068                 | -0.065                 |
+| 1.40     | +0.095                 | -0.050                 |
+
+Two clean readings: (1) **the offense-null (enemy_hp ~0) is anchor ~1.20**, NOT 1.30 -- 1.30 leaves a
+mild +0.039 offense over-compensation. (2) **ko_rate is negative at EVERY anchor (-0.05 to -0.09)** ->
+the ~-0.06 survival buff is STRUCTURALLY IRREDUCIBLE by the enemy-HP offset (a blunt single knob that
+adds enemy HP but barely touches player deaths). So NO anchor nulls both channels; ~1.20 is the
+offense-neutral point, carrying an irreducible mild survival tilt (v2 = "leave a mark" -> ~6pp fewer
+deaths, by construction). The anchor choice is offense-balance only: ~1.20 offense-null / ~1.30 slight
+offense-negative / 1.40 as-built offense-disadvantaged.
 
 ## Reproduce (node 22, persistent 127.0.0.1 listener + fetch, no prod port)
 
@@ -191,6 +221,7 @@ node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --drift-floor --biomes ba
 FORM_PULSE_V2_ENEMY_HP_OFFSET=1.25 node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-anchor125
 node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --attrition --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-attrition
 node tools/sim/form-pulse-v2-graded-ab-probe.js --w-resweep --resweep-n 4000 --out reports/sim/fp-v2-w-resweep
+FORM_PULSE_IMPRINT_WEIGHT=0.78 node tools/sim/form-pulse-v2-graded-ab-probe.js --anchor-sweep --n 40 --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-anchorsweep
 ```
 
 Commit `31c07902` | node v22.22.3 | flag `FORM_PULSE_TRAIT_V2_ENABLED` stays OFF (this measures, never flips).

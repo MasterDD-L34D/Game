@@ -198,12 +198,14 @@ function deriveGrants(inputs, w) {
     threshold: EMERGENCE_THRESHOLD,
   });
   // v2: always-emerge (threshold 0) combined producer (form-pulse vs imprint@w) + per-player minor.
+  // nPlayers -> the W6 party-normalization (one w hits the imprint-win target across team sizes).
   const v2Branco = produceBrancoTrait({
     aggregate: agg,
     imprintTuple,
     combined: true,
     threshold: 0,
     w,
+    nPlayers: Object.keys(players).length,
   });
   const brancoAxis = v2Branco && v2Branco.axis;
   const minors = Object.values(players).map((axes) => emergePlayerMinorTrait(axes, brancoAxis));
@@ -390,6 +392,44 @@ async function measureBiome(http, party, biomeId, N, seedBase, w, driftFloor = f
 }
 
 // ---------------------------------------------------------------------------
+// PAIRED anchor sweep: per team, ONE baseline arm A (offset off) + one v2-full arm C at EACH anchor
+// (same team, same seed, adjacent runs, same process). So `net C@anchor - A` for the different
+// anchors share the SAME A and differ ONLY in the offset -> the anchor->net curve is drift-free and
+// monotonic (unlike separate per-anchor runs whose ~+-0.06 residual noise made 1.25/1.30/1.40
+// non-monotonic). This pins the anchor that actually nulls the offense over-compensation.
+// ---------------------------------------------------------------------------
+async function anchorSweep(http, party, biomeId, N, seedBase, w, anchors) {
+  const rnd = lcg(seedBase);
+  const A = [];
+  const byAnchor = {};
+  for (const a of anchors) byAnchor[a] = [];
+  const savedAnchor = process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET;
+  for (let i = 0; i < N; i += 1) {
+    const g = deriveGrants(synthTeamInputs(party.length, rnd), w);
+    const seed = `fpanch-${biomeId}-${seedBase + i}`;
+    const rosterBaseline = attachTraits(party, g.baselineBrancoId, null);
+    const rosterV2 = attachTraits(party, g.v2BrancoId, g.minorIds);
+    delete process.env[V2_FLAG];
+    delete process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET;
+    // eslint-disable-next-line no-await-in-loop
+    A.push(await runOne(http, rosterBaseline, biomeId, seed)); // arm A: baseline, no offset
+    for (const a of anchors) {
+      process.env[V2_FLAG] = 'true';
+      process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET = String(a);
+      // eslint-disable-next-line no-await-in-loop
+      byAnchor[a].push(await runOne(http, rosterV2, biomeId, seed)); // arm C @ anchor a
+    }
+    delete process.env[V2_FLAG];
+  }
+  if (savedAnchor === undefined) delete process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET;
+  else process.env.FORM_PULSE_V2_ENEMY_HP_OFFSET = savedAnchor;
+  const sA = summarize(A);
+  const net = {};
+  for (const a of anchors) net[a] = armDelta(summarize(byAnchor[a]), sA);
+  return { biome: biomeId, A_baseline: sA, net_by_anchor: net };
+}
+
+// ---------------------------------------------------------------------------
 // w sweep (imprint weight): imprint win-rate + net graded impact as w varies (single biome).
 // ---------------------------------------------------------------------------
 async function wSweep(http, party, biomeId, N, seedBase, wValues) {
@@ -449,6 +489,7 @@ function parseArgs(argv) {
         .filter(Boolean);
     else if (t === '--w-sweep') a.wSweep = true;
     else if (t === '--w-resweep') a.wResweep = true;
+    else if (t === '--anchor-sweep') a.anchorSweep = true;
     else if (t === '--resweep-n') a.resweepN = Math.max(1, Number(argv[(i += 1)]) || 4000);
     else if (t === '--drift-floor') a.driftFloor = true;
     else if (t === '--attrition') a.attrition = true;
@@ -496,6 +537,45 @@ async function main() {
     process.stderr.write(
       `[fp-v2-graded] positive-control OK: buff=${control.buff}, offset ${control.enemyHpOff}->${control.enemyHpOn} (x${control.offset_ratio}) -> mechanic fires\n`,
     );
+    // PAIRED anchor sweep (pins the balanced anchor drift-free): --anchor-sweep.
+    if (args.anchorSweep) {
+      const anchors = [1.15, 1.2, 1.25, 1.3, 1.35, 1.4];
+      const rows = [];
+      for (const biomeId of args.biomes) {
+        // eslint-disable-next-line no-await-in-loop
+        rows.push(await anchorSweep(http, party, biomeId, args.n, args.seed, w, anchors));
+        process.stderr.write(`[fp-v2-graded] [ANCHOR-SWEEP] ${biomeId} done\n`);
+      }
+      const chans = ['enemy_hp_remaining', 'creature_ko_rate', 'hp_remaining'];
+      const meanByAnchor = {};
+      for (const a of anchors) {
+        meanByAnchor[a] = {};
+        for (const c of chans) {
+          meanByAnchor[a][c] = Number(
+            (rows.reduce((s, r) => s + r.net_by_anchor[a][c], 0) / rows.length).toFixed(4),
+          );
+        }
+      }
+      const report = {
+        probe: 'form-pulse-v2-anchor-sweep (paired, drift-free)',
+        posture: 'L-069 REPORTS; the balanced anchor is the master-dd verdict',
+        party_size: party.length,
+        n: args.n,
+        seed: args.seed,
+        imprint_weight_w: w,
+        anchors,
+        cross_biome_net_by_anchor: meanByAnchor,
+        per_biome: rows,
+        node: process.version,
+      };
+      const json = JSON.stringify(report, null, 2);
+      if (args.out) {
+        fs.mkdirSync(args.out, { recursive: true });
+        fs.writeFileSync(path.join(args.out, 'anchor-sweep.json'), json + '\n');
+      }
+      console.log(json);
+      return;
+    }
     const biomes = [];
     for (const biomeId of args.biomes) {
       // eslint-disable-next-line no-await-in-loop

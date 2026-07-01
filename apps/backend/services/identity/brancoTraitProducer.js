@@ -102,6 +102,9 @@ function selectImprintAxis(tuple, mapping) {
  * @param {boolean} [args.combined]     true when the unified flag is ON (imprint participates)
  * @param {number}  [args.threshold]    emergence threshold (0 when ON, else 0.30)
  * @param {number}  [args.w]            imprint weight (resolveImprintWeight); only used when combined
+ * @param {number}  [args.nPlayers]     team size for the W6 party-normalization (scales the form
+ *                                      magnitude by sqrt(nPlayers) in the win comparison so one w
+ *                                      hits the imprint-win target across sizes); absent -> unscaled
  * @param {object}  [args.formMapping]  Form-Pulse axis x pole -> trait_id
  * @param {object}  [args.imprintMapping] imprint axis x pole -> trait_id
  * @returns {{ trait_id, axis, pole, magnitude } | null}
@@ -113,6 +116,7 @@ function produceBrancoTrait(args = {}) {
     combined = false,
     threshold,
     w,
+    nPlayers,
     formMapping = PROPOSED_BRANCO_TRAIT_MAPPING,
     imprintMapping = PROPOSED_IMPRINT_TRAIT_MAPPING,
   } = args;
@@ -130,12 +134,26 @@ function produceBrancoTrait(args = {}) {
   let best = fromForm ? { ...fromForm, source: 'formpulse' } : null;
   const wMag = Number.isFinite(w) ? w : 0;
   const effThreshold = Number.isFinite(threshold) ? threshold : 0;
+  // PARTY-NORMALIZATION (W6 ratify 2026-07-01): the Form-Pulse magnitude fed to this argmax is the
+  // team-AVERAGED |avg| (from aggregateFormPulses), whose spread shrinks ~1/sqrt(n) with team size
+  // (CLT) -> a FIXED imprint weight w wins the branco slot far more often on a bigger team (measured
+  // N=4000: imprint-win 23% at 2 players vs 65% at 4 for w=0.5). Scaling the form magnitude by
+  // sqrt(nPlayers) for the WIN COMPARISON makes the imprint-vs-form competition party-size-invariant,
+  // so ONE ratified w hits the 30-40% target across sizes. `nPlayers` absent/invalid -> unscaled =
+  // byte-identical to the pre-normalization behavior. Only the COMPARISON is normalized; the returned
+  // magnitude stays raw |avg| (form) / w (imprint) so downstream semantics are unchanged.
+  const formMagForCompare =
+    best && Number.isFinite(nPlayers) && nPlayers > 0
+      ? best.magnitude * Math.sqrt(nPlayers)
+      : best
+        ? best.magnitude
+        : 0;
   // w must be a STRICTLY positive weight to compete: w=0 (the FORM_PULSE_IMPRINT_WEIGHT=0
   // control sweep) disables the imprint contribution -- otherwise an empty Form-Pulse aggregate
   // would still grant a magnitude-0 imprint trait, corrupting a zero-weight calibration run.
   if (imprintTuple && typeof imprintTuple === 'object' && wMag > 0 && wMag >= effThreshold) {
     const imp = selectImprintAxis(imprintTuple, imprintMapping);
-    if (imp && (!best || wMag > best.magnitude)) {
+    if (imp && (!best || wMag > formMagForCompare)) {
       best = { ...imp, magnitude: wMag, source: 'imprint' };
     }
   }

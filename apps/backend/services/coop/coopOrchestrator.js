@@ -858,6 +858,10 @@ class CoopOrchestrator {
       combined,
       threshold: resolveEmergenceThreshold(),
       w: resolveImprintWeight(),
+      // W6 party-normalization: the team size scales the form-magnitude comparison so ONE ratified
+      // imprint weight hits the target imprint-win across party sizes (byte-identical when combined
+      // is OFF -- produceBrancoTrait ignores nPlayers on the form-only path).
+      nPlayers: Object.keys(this.formPulses || {}).length,
     });
     const prevId = this.emergentBrancoTrait && this.emergentBrancoTrait.trait_id;
     const nextId = next && next.trait_id;
