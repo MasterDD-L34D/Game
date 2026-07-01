@@ -455,8 +455,26 @@ function makeFakePrisma() {
       },
       async findMany(args = {}) {
         let list = [...rows.values()];
-        if (args.orderBy && args.orderBy.updatedAt === 'desc') {
-          list.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        // Honor orderBy like real Prisma: object or array form, updatedAt with an
+        // optional lineageId tiebreaker (reviewer finding: the earlier mock ignored
+        // 'asc' entirely, so the isolate-hydrate test passed by insertion-order
+        // coincidence instead of exercising the query's contract).
+        const orderBy = Array.isArray(args.orderBy)
+          ? args.orderBy
+          : args.orderBy
+            ? [args.orderBy]
+            : [];
+        if (orderBy.length > 0) {
+          list.sort((a, b) => {
+            for (const clause of orderBy) {
+              const [field, dir] = Object.entries(clause)[0];
+              const av = field === 'updatedAt' ? a.updatedAt || 0 : a[field] || '';
+              const bv = field === 'updatedAt' ? b.updatedAt || 0 : b[field] || '';
+              if (av < bv) return dir === 'asc' ? -1 : 1;
+              if (av > bv) return dir === 'asc' ? 1 : -1;
+            }
+            return 0;
+          });
         }
         if (Number.isFinite(args.take)) list = list.slice(0, args.take);
         return list;

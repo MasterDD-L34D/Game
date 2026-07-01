@@ -424,8 +424,10 @@ function createCompanionStateStore(opts = {}) {
     if (!usePrisma) return 0;
     try {
       if (!isolate) {
+        // lineageId tiebreaker: identical updatedAt (ms tie / clock skew) would make
+        // the cap window non-deterministic across restarts (reviewer finding).
         const rows = await opts.prisma.skivCompanionState.findMany({
-          orderBy: { updatedAt: 'desc' },
+          orderBy: [{ updatedAt: 'desc' }, { lineageId: 'desc' }],
           take: ambassadorCap,
         });
         let n = 0;
@@ -439,8 +441,10 @@ function createCompanionStateStore(opts = {}) {
         return n;
       }
       // Isolation ON: per-owner windows, oldest-first for FIFO index order.
+      // lineageId tiebreaker keeps the per-bucket slice deterministic when two
+      // rows share the same updatedAt (ms tie / clock skew).
       const rows = await opts.prisma.skivCompanionState.findMany({
-        orderBy: { updatedAt: 'asc' },
+        orderBy: [{ updatedAt: 'asc' }, { lineageId: 'asc' }],
       });
       const buckets = new Map(); // bucket -> row[] (updatedAt asc)
       for (const row of rows) {
