@@ -77,6 +77,21 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 | O7     | **GAP2-next mechanics**                     | **DEFERRED master-dd 06-30.** Residuo = 39 boilerplate (rewrite-first, prosa design-call) + cluster buff/recon (primitive engine nuove = forbidden-path). _(9 `*_2` DONE #3074; inert recount 91->76; small-slice block-4 = unica increment autonoma se ri-aperto)_                             | OWNER (defer) | L      |
 | O8     | **TKT-SALVAGE-A2 resistance_archetype**     | mapping archetipo-per-specie (default `adattivo`) + schema field + CI-guard. BUILD ratificato                                                                                                                                                                                                   | OWNER+build   | M      |
 
+> **DELTA 2026-07-01 (recon Tier-2 owner-batch, ground-truth su `origin/main` -- marker sopra STALE)**: la
+> maggior parte di questa tabella e' gia' drenata. Verificato via Workflow recon (4-finder, git=verita',
+> anti-pattern #19): **O1** DONE [#3098](https://github.com/MasterDD-L34D/Game/pull/3098) `2b9e978c`
+> (SCAR_TRAIT_MAP RATIFIED-PROVISIONAL 4/4 location, flag OFF) · **O2** DONE
+> [#3076](https://github.com/MasterDD-L34D/Game/pull/3076) `534cc3a4` (13 retired-creature lore draft
+> promossi, HITL eseguito) · **O5** DONE [#3097](https://github.com/MasterDD-L34D/Game/pull/3097)
+> `ffe4be8a` (D7 prose 7 biomi IT/EN reali; il marker "still master-dd HITL" e' STALE) · **I1** DONE
+> [#3071](https://github.com/MasterDD-L34D/Game/pull/3071) `7145ad66` (guard flippato a enforcing; #3067 era
+> il float-drift fix, NON il flip) · **I2** DONE (ci.yml stale refs gia' puliti: species-step rimosso, lighthouse guarded) ·
+> **I7** DONE [#3073](https://github.com/MasterDD-L34D/Game/pull/3073) (biome_aliases: laguna->reef,
+> mangrovieto->palude). **O7** GAP2-next = **defer AFFERMATO** (marker accurato 91->76; re-open solo se
+> block-4 small-slice). **O8** resistance_archetype = enum formalizzato in `species.schema.json` ->
+> **[PR #3147](https://github.com/MasterDD-L34D/Game/pull/3147) OPEN** (forbidden-path, aspetta manual
+> merge master-dd). **Truly-open residui Tier-2 = solo O8 (in-flight PR) + O7 (deferred).**
+
 ### 1C. Gate = superficie Godot (cross-repo Game-Godot-v2)
 
 | #   | Progetto                                     | Gate                                                                          | Blocker          | Effort |
@@ -144,6 +159,11 @@ B1 (trait-slices remainder). Ognuno = PR piccola, verify-before-done, auto-merge
 O1 scar-map ratify / **O2 codex-lore = promuovi 13 draft #3038 (verdetto dato)** / O4/O5/O6 aa01 D6/D7/D8 /
 O7 GAP2-next / O8 resistance_archetype mapping / I1/I2/I3 forbidden-path merge / G1 K-07 device /
 I7 keeper orphans. Presentati <=4 per volta, recommended-default + reversibility-tag.
+
+> **STATO 2026-07-01 (batch DRENATO)**: recon Tier-2 eseguito (vedi DELTA sez.1B). Quasi tutto gia' chiuso su
+> `origin/main`: O1/O2/O5/I1/I2/I7 = DONE (marker stale), O4/O6 gia' DONE, O3/I5 gia' DONE, I3/I4 deferred. **Aperti
+> davvero**: **O8** (enum resistance_archetype -> PR #3147 OPEN forbidden-path, manual merge) + **O7** (GAP2-next,
+> defer affermato). Restano owner-gated fuori-batch: G1 K-07 (device fisico) + I3/I4 (persistence-layer, deferred).
 
 ### Tier 3 -- flip N=40-gated (lane single-owner G2)
 
