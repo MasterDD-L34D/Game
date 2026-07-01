@@ -254,6 +254,16 @@ async function runEncounter(
         0,
       ) / rosterSurvivors.length
     : 0;
+  // W5 inc-2: enemy HP remaining (mean sistema HP fraction over the final board, dead = 0) --
+  // the team's damage-OUTPUT signal. Distinguishes a positioning-bound timeout (players never
+  // engage -> enemies near full) from a DPR-bound one (players engage -> enemies still not dead).
+  const foesFinal = lastUnits.filter((u) => u.controlled_by === 'sistema');
+  const enemyHpRemainingPct = foesFinal.length
+    ? foesFinal.reduce(
+        (s, u) => s + Math.max(0, u.hp ?? 0) / (Number(u.max_hp) || Number(u.hp) || 1),
+        0,
+      ) / foesFinal.length
+    : 0;
 
   // SPEC-I event collector: one post-loop sweep so events emitted by the final
   // commit (after the last in-loop poll) still land in the tail window.
@@ -316,6 +326,7 @@ async function runEncounter(
     survivorIds,
     units_lost: unitsLost,
     hp_remaining_pct: Number(hpRemainingPct.toFixed(4)),
+    enemy_hp_remaining_pct: Number(enemyHpRemainingPct.toFixed(4)),
     personalityUnits,
     biomeWounded,
     ended,

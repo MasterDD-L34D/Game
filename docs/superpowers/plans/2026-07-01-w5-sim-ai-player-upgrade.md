@@ -88,21 +88,29 @@ is total-ordered. Keep the sim node-22-pinned (not bit-repro cross node-version;
     when the party is under sustained attrition. On the tested encounters the party was not being
     ground down -> kill-order was outcome-neutral. => the Gap-A saturation on these encounters is
     TIMEOUT/POSITIONING-driven, NOT target-selection-driven.
-- **inc-2 -- terrain-cost positioning (F3). EVIDENCE-ELEVATED to the primary Gap-A/B lever.** The
-  inc-1 finding shows the AI's weakness is closing distance / not-getting-focused, not which target
-  it picks. Wire `moveCost.js` into candidate-tile scoring + a threat-avoidance term (don't end in a
-  high-incoming-threat tile). Validate on a terrain encounter (`enc_foresta_temperata_radici` /
-  hazard pilot) that volo/radici traits shift a metric AND on the hardcore timeout (does better
-  positioning convert timeouts to decisions?). Unblocks G6.
-- **inc-3 -- ability/trait use (F4).** Generic value-per-AP ability scoring. Validate no
-  regression on inc-1/2 bands.
-- **inc-4 -- P1 tune-to-band (BO).** Bayes-optimize `w_i` per encounter-class to the target WR
-  band. Emit a ratify-doc of the tuned weights (master-dd ratifies, SDMG).
-- **inc-5 -- P1 skill-tier sweep.** 3-tier Restricted-Play harness (degenerate / tuned / full-factor
-  utility-AI as the low/mid/high skill dial) as a periodic sensitivity net.
-- **inc-6 (conditional) -- Gap C power-coupled encounters.** ONLY if the graded metric alone
-  doesn't yield a non-elim power signal: author contested pressure (patrols / tight timers) into
-  objective encounters. Content call -> master-dd.
+- **inc-2 -- graded metrics VALIDATED + PIVOT (THIS SESSION, DONE).** Master-dd ratified the
+  **graded-metric re-ratify** direction (AskUserQuestion 2026-07-01) over more AI-tactics factors.
+  Evidence: [`2026-07-01-w5-graded-metric-power-validation.md`](../../playtest/2026-07-01-w5-graded-metric-power-validation.md).
+  - Added `enemy_hp_remaining_pct` (damage-OUTPUT channel) to `combat-adapter.js` + test; probe
+    `PROBE_MOD_BUFF` synthetic power delta + engagement/output summary. 216/216 sim green.
+  - **KEY FINDING: the graded metrics ARE the Gap-C win.** On the WR-saturated hardcore a team-power
+    delta moves `enemy_hp_remaining` 0.71 -> 0.21 (and ko_rate 0.42 -> 0.13) while binary WR barely
+    twitches. And the hardcore timeout is **DPR/hit-rate-bound, not positioning-bound** (24 attacks
+    land but enemies stay at 74% HP). => the AI-tactics levers (F1 focus-fire, F3 positioning) are
+    band-neutral/irrelevant because the encounters are **power/DPR-bound, not tactics-bound**. The AI
+    already reaches + swings; the signal was always the metric.
+- **inc-3 -- graded re-ratify D6 / D8 / ER6 (NEXT, the W5 payload).** Run flag-ON vs OFF N=40 on
+  each mechanic reading the GRADED metrics (enemy_hp_remaining / ko_rate / hp_remaining, not just
+  WR) on their relevant encounters -> REAL bands (vs the passive-AI WR-only PROVISIONAL bands) ->
+  master-dd ratifies (owner-gated). The sim produces the evidence.
+- **inc-4 -- form-pulse W6 graded measurement.** Same graded harness -> the N=40 cross-biome
+  power measurement the WR-only path could not produce -> feeds the W6 flip decision.
+- **DEPRIORITIZED (evidence: encounters are power-bound not tactics-bound):**
+  - **F3 terrain positioning** -- only real target is Gap B / volo-radici / G6, and the server
+    already enforces terrain move-cost, so a terrain-aware sim AI adds little measurement value
+    (may even shrink the signal). Build ONLY if a G6-specific terrain signal proves it needs it.
+  - **F4 ability use / tune-to-band / skill-sweep** -- diminishing value once the graded metrics
+    read power directly. Revisit only if WR (not graded metrics) must become the discriminator.
 
 ## 4. Then (post-W5, gated on the above)
 

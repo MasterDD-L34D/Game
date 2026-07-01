@@ -136,7 +136,16 @@ async function fetchCanonicalParty() {
 }
 
 function roster(party) {
-  return party.map((u) => ({ ...u, hp: u.max_hp ?? u.hp, status: {} }));
+  // PROBE_MOD_BUFF: additive to-hit buff on every party unit -- a synthetic team-power delta to
+  // test whether the graded metrics (enemy_hp_remaining_pct) discriminate power on a WR-saturated
+  // encounter. Default 0 = the canonical party.
+  const buff = Number(process.env.PROBE_MOD_BUFF) || 0;
+  return party.map((u) => ({
+    ...u,
+    hp: u.max_hp ?? u.hp,
+    mod: (Number(u.mod) || 0) + buff,
+    status: {},
+  }));
 }
 
 async function runOne(party, seed, focusFire, mode) {
@@ -166,6 +175,8 @@ async function runOne(party, seed, focusFire, mode) {
       rosterN,
       hp_remaining_pct: r.hp_remaining_pct,
       units_lost: r.units_lost,
+      enemy_hp_remaining_pct: r.enemy_hp_remaining_pct,
+      player_attacks: r.playerAttacks,
     };
   } finally {
     if (typeof close === 'function') await close().catch(() => {});
@@ -185,6 +196,12 @@ function summarize(arr) {
     creature_ko_rate: Number((totalKo / (totalSlots || 1)).toFixed(4)),
     mean_hp_remaining_pct: Number(
       (arr.reduce((s, r) => s + (r.hp_remaining_pct || 0), 0) / arr.length).toFixed(4),
+    ),
+    mean_enemy_hp_remaining_pct: Number(
+      (arr.reduce((s, r) => s + (r.enemy_hp_remaining_pct || 0), 0) / arr.length).toFixed(4),
+    ),
+    mean_player_attacks: Number(
+      (arr.reduce((s, r) => s + (r.player_attacks || 0), 0) / arr.length).toFixed(2),
     ),
     avg_rounds: Number((arr.reduce((s, r) => s + (r.rounds || 0), 0) / arr.length).toFixed(2)),
   };

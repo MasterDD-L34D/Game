@@ -544,6 +544,19 @@
       "track": "active"
     },
     {
+      "path": "docs/playtest/2026-07-01-w5-graded-metric-power-validation.md",
+      "title": "W5 inc-2 -- graded metrics validated as the Gap-C power discriminator (pivot rationale)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/superpowers/plans/2026-06-23-move-terrain-cost-substrate-plan.md",
       "title": "Move terrain-cost substrate -- implementation plan (volo grades + radici anchor)",
       "doc_status": "active",

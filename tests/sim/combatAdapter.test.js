@@ -148,6 +148,14 @@ test('combatAdapter.runEncounter: returns graded metrics (hp_remaining_pct, unit
     res.hp_remaining_pct > 0 && res.hp_remaining_pct <= 1,
     `hp_remaining_pct in (0,1], got ${res.hp_remaining_pct}`,
   );
+  // W5 inc-2: enemy_hp_remaining_pct = the team's damage-OUTPUT signal. Victory here means the
+  // (weak) enemy is dead, so its remaining HP fraction is 0 -- the metric that discriminates a
+  // team-power delta even when the binary WR is saturated (validated: 0.71 -> 0.21 on a +6 buff).
+  assert.equal(
+    res.enemy_hp_remaining_pct,
+    0,
+    `enemy dead at victory, got ${res.enemy_hp_remaining_pct}`,
+  );
 });
 
 // OA2 (SPEC-O): a NON-elimination objective completes via the objective-driver + the
