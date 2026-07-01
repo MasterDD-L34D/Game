@@ -250,6 +250,12 @@ function parseJsonSafe(raw) {
 function createCompanionStateStore(opts = {}) {
   const states = new Map(); // lineage_id → state
   // FIFO insertion order for cap eviction (Map preserves insertion order in JS).
+  // SPEC-F per-Nido isolation (Option A, in-memory): owner → lineage_ids in
+  // insertion order, used ONLY when a save opts in with { owner, isolate:true }
+  // (flag SPEC_F_NIDO_ISOLATION_ENABLED, wired in the router). Off by default ->
+  // the global cap path below is byte-identical. Warm-state only (not persisted;
+  // resets on restart -- durable per-Nido cap = Option C, a Prisma migration).
+  const ownerLineages = new Map(); // owner → lineage_id[]
   const usePrisma = prismaSupportsSkivCompanion(opts.prisma);
   const log = opts.logger || console;
   const ambassadorCap = Number.isFinite(opts.ambassadorCap)
@@ -325,7 +331,7 @@ function createCompanionStateStore(opts = {}) {
    *
    * Returns the canonical stored state (with computed signature).
    */
-  function saveCompanionState(rawState) {
+  function saveCompanionState(rawState, { owner = null, isolate = false } = {}) {
     // Step 1: schema_version migrate-if-legacy.
     const stateInput = isLegacySchema(rawState) ? migrateLegacyState(rawState) : rawState;
     // Step 2: assert invariants.
@@ -344,8 +350,28 @@ function createCompanionStateStore(opts = {}) {
     sanitized.share_url = sanitized.share_url ?? null;
     // Step 4: compute signature server-side (ignore any client-supplied value).
     sanitized.companion_card_signature = signatureFor(sanitized);
-    // Step 5: ambassador cap FIFO eviction (per Nido = global registry, default 10).
-    if (!states.has(sanitized.lineage_id) && states.size >= ambassadorCap) {
+    // Step 5: ambassador cap FIFO eviction.
+    const isNewLineage = !states.has(sanitized.lineage_id);
+    if (isolate && owner) {
+      // Per-Nido cap (SPEC-F isolation ON): each owner keeps its OWN cap window;
+      // an owner's (cap+1)th add evicts THAT owner's oldest, never another Nido's.
+      let list = ownerLineages.get(owner);
+      if (!list) {
+        list = [];
+        ownerLineages.set(owner, list);
+      }
+      if (isNewLineage && list.length >= ambassadorCap) {
+        const oldest = list.shift();
+        if (oldest !== undefined) {
+          states.delete(oldest);
+          log.debug?.(
+            `[companionStateStore] per-owner FIFO eviction: owner ${owner} cap ${ambassadorCap} reached, dropped ${oldest}`,
+          );
+        }
+      }
+      if (isNewLineage) list.push(sanitized.lineage_id);
+    } else if (isNewLineage && states.size >= ambassadorCap) {
+      // Global cap (default / isolation OFF): current behavior, byte-identical.
       const oldestKey = states.keys().next().value;
       if (oldestKey !== undefined) {
         states.delete(oldestKey);
@@ -412,6 +438,7 @@ function createCompanionStateStore(opts = {}) {
   function clearAll() {
     const n = states.size;
     states.clear();
+    ownerLineages.clear();
     return n;
   }
 
