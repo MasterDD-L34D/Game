@@ -27,6 +27,7 @@ const express = require('express');
 const crypto = require('crypto');
 const companionPickerDefault = require('../services/companion/companionPicker');
 const { sanitizeWhitelist, signatureFor } = require('../services/skiv/companionStateStore');
+const { toDisplayCard, toQrPayload } = require('../services/skiv/companionCardExport');
 const { rollMatingOffspring: rollMatingOffspringDefault } = require('../services/metaProgression');
 
 // SPEC-F slice 3 -- crossbreed offspring is rolled by the engine, but with a
@@ -161,13 +162,17 @@ function createCompanionRouter({
    * are truthy (default opt-out, spec :135-138). Signature is recomputed
    * server-side via signatureFor (transport integrity, spec :111-114).
    *
-   * format=json is the only supported format in v1 (qr/card = follow-up).
+   * format=json (default) = full signed whitelist card. format=card = labeled
+   * display projection. format=qr = the public share_url to encode (ADR-04-27
+   * :110,:174-181: QR encapsulates share_url; scan -> URL -> fetch json -> verify
+   * -> import). card/qr are pure projections of the same signed json card
+   * (companionCardExport.js); the client renders the visual card / QR pixels.
    */
   router.get('/skiv/share/:lineage_id', (req, res) => {
     if (!requireStore(res)) return;
     const lineageId = String(req.params.lineage_id || '');
     const format = req.query.format ? String(req.query.format) : 'json';
-    if (format !== 'json') {
+    if (!['json', 'card', 'qr'].includes(format)) {
       return res.status(400).json({ error: 'unsupported_format', format });
     }
     let state;
@@ -192,6 +197,18 @@ function createCompanionRouter({
     card.generated_at = new Date().toISOString();
     // Recompute signature server-side over the final whitelist payload.
     card.companion_card_signature = signatureFor(card);
+    // card/qr are pure projections of the same signed json card (no new PII path).
+    // QR encodes the PUBLIC share_url (ADR-2026-04-27 :110,:174-181): materialize
+    // from the stored value or the request, NOT injected into the signed card so
+    // the json format's signature is unchanged.
+    if (format === 'card' || format === 'qr') {
+      const shareUrl =
+        card.share_url ||
+        `${req.protocol}://${req.get('host')}${req.baseUrl}/skiv/share/${encodeURIComponent(lineageId)}`;
+      return res.json(
+        format === 'card' ? toDisplayCard(card, shareUrl) : toQrPayload(card, shareUrl),
+      );
+    }
     return res.json(card);
   });
 
