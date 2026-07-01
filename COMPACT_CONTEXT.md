@@ -9,7 +9,7 @@
 
 Handoff: `docs/planning/2026-07-02-session-handoff-w5-graded-close.md`. **10 PR Game + 1 GGv2 merged. W5 graded lane COMPLETA** (X1 = delivered-via-pivot #3163). **W6 form-pulse v2 + STAMINA = LIVE in prod, config ratificata.**
 
-- **D6** #3149+#3151: **REAL band, mapping 8/8 LIVE** (fires 45-318, drift floor esattamente 0; #3083 near-inert REFUTATO; ferocia on_kill exercise-limited = owner KEEP). 🔑 D6 flag DEAD (W4-collapsed in FORM_PULSE_TRAIT_V2) -> subset del bundle W6.
+- **D6** #3149+#3151: **REAL band, mapping 8/8 LIVE** (fires 45-318, drift floor esattamente 0; #3083 near-inert REFUTATO; ferocia on_kill exercise-limited = owner KEEP). 🔑 D6 flag DEAD (W4-collapsed in `FORM_PULSE_TRAIT_V2_ENABLED`) -> subset del bundle W6.
 - **W6 anchor RATIFICATO 1.15** (owner) #3152-#3154 (keys.env staged 1.20->1.15 + cascade handoff sync, 2 Codex P2).
 - **N3 ER7** #3156-#3162: 🔴 verify-first = marker STALE, ER7 **gia' default-ON+ratificato 06-11** (`isEnabled = env !== 'false'`); il mio N=40 = re-conferma (prey 0.54->0.00; +5.22 rounds = artefatto probe-differenziato gia' noto al pilota 06-11; on_abundant marginale). Niente stagato (no-op). 🔑 3-PR Codex cascade per aver saltato il protocollo evidence-grade del probe -> `lesson_spec_i_gates_evidence_grade_protocol` (isolated per-arm procs + --aggregate + --seed-base matching + machine-diff doc vs JSON).
 - **G6 GGv2 #558 `4ac491e7`**: engine-AP-enforcement BUILT flag-OFF (divergence §5b chiuso; engine==telegraph via stesso MoveCostField, parity backend #3012, 53 GUT, flag-OFF byte-identical, tripwire aggiornato come decisione conscia). Flip Godot gated #3053+owner.
