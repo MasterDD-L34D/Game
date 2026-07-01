@@ -1,0 +1,74 @@
+{
+  "probe": "d8-chain-graded",
+  "isolation": "per-arm child process (drift-free)",
+  "scenario": "enc_hardcore_reinf_01",
+  "biome": "abisso_vulcanico",
+  "pressure_start": 30,
+  "modulation": "duo_hardcore",
+  "discriminator": "TERRAIN_CHAIN_LIGHTNING_ENABLED (caps 3/2, maxDepth 3)",
+  "note": "chain fires only on a lightning-channel attack onto a water tile; neither faction emits water/lightning channels in-sim -> NON-EXERCISE. Decisive proof = tools/sim/d8-chain-fire-count.js (0 chain fires); this probe shows on-off within same-config noise.",
+  "chain_OFF": {
+    "N": 40,
+    "win_rate": 1,
+    "mean_enemy_hp_remaining_pct": 0,
+    "mean_hp_remaining_pct": 0.9904,
+    "mean_ko_rate": 0,
+    "avg_rounds": 36.45
+  },
+  "chain_OFF2_replicate": {
+    "N": 40,
+    "win_rate": 1,
+    "mean_enemy_hp_remaining_pct": 0,
+    "mean_hp_remaining_pct": 0.9913,
+    "mean_ko_rate": 0,
+    "avg_rounds": 35.95
+  },
+  "chain_OFF3_replicate": {
+    "N": 40,
+    "win_rate": 1,
+    "mean_enemy_hp_remaining_pct": 0,
+    "mean_hp_remaining_pct": 0.9904,
+    "mean_ko_rate": 0,
+    "avg_rounds": 36.23
+  },
+  "chain_ON": {
+    "N": 40,
+    "win_rate": 1,
+    "mean_enemy_hp_remaining_pct": 0,
+    "mean_hp_remaining_pct": 0.9879,
+    "mean_ko_rate": 0,
+    "avg_rounds": 36.38
+  },
+  "d8_effect_on_minus_off": {
+    "win_rate": 0,
+    "enemy_hp_remaining": 0,
+    "ko_rate": 0,
+    "hp_remaining": -0.0025
+  },
+  "noise_floor_off2_minus_off": {
+    "win_rate": 0,
+    "enemy_hp_remaining": 0,
+    "ko_rate": 0,
+    "hp_remaining": 0.0009
+  },
+  "noise_floor_off3_minus_off": {
+    "win_rate": 0,
+    "enemy_hp_remaining": 0,
+    "ko_rate": 0,
+    "hp_remaining": 0
+  },
+  "noise_floor_spread": {
+    "win_rate": 0,
+    "enemy_hp_remaining": 0,
+    "ko_rate": 0,
+    "hp_remaining": 0.0009
+  },
+  "verdict": {
+    "effect_max_abs": 0.0025,
+    "floor_max_abs": 0.0009,
+    "effect_within_floor": false,
+    "same_order_as_noise": false,
+    "decisive_proof": "tools/sim/d8-chain-fire-count.js (chain_spreads == 0 -> flag inert -> delta is noise)"
+  },
+  "node": "v22.22.3"
+}
