@@ -250,10 +250,14 @@ async function measureBiome(http, party, biomeId, N, seedBase) {
   const A = []; // baseline (empty branco)
   const D = []; // drift replicate (baseline, same seed) -> determinism floor
   const byPick = {};
-  const pickHits = {}; // party-hit denominator accumulated during each pick's arms
+  const pickHits = {}; // party-hit denominator accumulated during THIS biome's pick arms
+  const pickFires = {}; // fires accumulated during THIS biome's pick arms (fireCounts is a GLOBAL
+  // cumulative -> snapshot the per-arm delta so a multi-biome run does not carry earlier biomes'
+  // fires into this biome's report / total (Codex P2 #3149).
   for (const p of IMPRINT_PICKS) {
     byPick[p.trait_id] = [];
     pickHits[p.trait_id] = 0;
+    pickFires[p.trait_id] = 0;
   }
   const rosterBaseline = attachTraits(party, null, null);
   for (let i = 0; i < N; i += 1) {
@@ -264,17 +268,19 @@ async function measureBiome(http, party, biomeId, N, seedBase) {
     D.push(await runOne(http, rosterBaseline, biomeId, seed)); // replicate: must equal A exactly
     for (const p of IMPRINT_PICKS) {
       const hitsBefore = partyHitCalls;
+      const firesBefore = fireCounts[p.trait_id];
       const roster = attachTraits(party, p.trait_id, null);
       // eslint-disable-next-line no-await-in-loop
       byPick[p.trait_id].push(await runOne(http, roster, biomeId, seed));
       pickHits[p.trait_id] += partyHitCalls - hitsBefore;
+      pickFires[p.trait_id] += fireCounts[p.trait_id] - firesBefore;
     }
   }
   const sA = summarize(A);
   const sD = summarize(D);
   const picks = IMPRINT_PICKS.map((p) => {
     const sX = summarize(byPick[p.trait_id]);
-    const fires = fireCounts[p.trait_id];
+    const fires = pickFires[p.trait_id];
     const hits = pickHits[p.trait_id] || 0;
     return {
       trait_id: p.trait_id,
