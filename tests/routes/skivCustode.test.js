@@ -117,6 +117,8 @@ function buildApp({
   rollMatingOffspring,
   offspringStore,
   nidoIsolationEnabled,
+  writeAuthEnabled,
+  authenticate,
   authStub,
 } = {}) {
   const app = express();
@@ -133,9 +135,29 @@ function buildApp({
   }
   app.use(
     '/api',
-    createCompanionRouter({ store, rollMatingOffspring, offspringStore, nidoIsolationEnabled }),
+    createCompanionRouter({
+      store,
+      rollMatingOffspring,
+      offspringStore,
+      nidoIsolationEnabled,
+      writeAuthEnabled,
+      authenticate,
+    }),
   );
   return app;
+}
+
+// Option D enforce stub (mirrors createAuthHandlers().authenticate when AUTH_SECRET
+// is set): require body.token==='ok', then set req.auth.userId = body.player_id
+// (the verified JWT sub); else 401. Injected as `authenticate` for the write-gate.
+function makeEnforceAuth() {
+  return (req, res, next) => {
+    if (!req.body || req.body.token !== 'ok') {
+      return res.status(401).json({ error: 'unauthorized' });
+    }
+    req.auth = { userId: String(req.body.player_id || 'sub') };
+    next();
+  };
 }
 
 // Minimal offspringStore stub -- only getById is called by the promote route.
@@ -731,6 +753,79 @@ test('isolation ON: a non-string player_id (object) is ignored, not used as a ke
   // malformed untrusted input: player_id as an object must never become a Map/rate key.
   const r = await postJson(app, '/api/skiv/import', { card, player_id: { evil: 1 } });
   assert.equal(r.status, 201); // treated as anonymous (global path), no crash / no [object Object]
+});
+
+// --- B4: Option D JWT write-gate (flag SPEC_F_WRITE_AUTH_ENABLED) ---
+
+test('Option D OFF (default): writes stay open, no token required (byte-identical)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store }); // write-auth off
+  const card = makePartnerCard();
+  const r = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(r.status, 201);
+});
+
+test('Option D ON: a write without a valid token is rejected (401)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, writeAuthEnabled: true, authenticate: makeEnforceAuth() });
+  const card = makePartnerCard();
+  const r = await postJson(app, '/api/skiv/import', { card }); // no token
+  assert.equal(r.status, 401);
+});
+
+test('Option D ON: a valid token succeeds + owner is JWT-trusted (per-owner rate-limit)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({
+    store,
+    nidoIsolationEnabled: true,
+    writeAuthEnabled: true,
+    authenticate: makeEnforceAuth(),
+  });
+  // playerA (verified sub) exhausts its own 10/h; playerB is unaffected -> the JWT sub
+  // is the trusted owner key (adversarial-safe, not the self-asserted body path).
+  let last;
+  for (let i = 0; i < 11; i += 1) {
+    const card = makePartnerCard({ lineage_id: `A-d-${i}-zzzz` });
+    card.companion_card_signature = signatureFor(card);
+    last = await postJson(app, '/api/skiv/import', { card, token: 'ok', player_id: 'playerA' });
+  }
+  assert.equal(last.status, 429);
+  const cardB = makePartnerCard({ lineage_id: 'B-d-0-zzzz' });
+  cardB.companion_card_signature = signatureFor(cardB);
+  const rB = await postJson(app, '/api/skiv/import', {
+    card: cardB,
+    token: 'ok',
+    player_id: 'playerB',
+  });
+  assert.notEqual(rB.status, 429);
+});
+
+test('Option D ON: public reads stay open (GET share needs no token)', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const store = makeStoreStub({ [lineageId]: makeShareState() });
+  const app = buildApp({ store, writeAuthEnabled: true, authenticate: makeEnforceAuth() });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}`);
+  assert.equal(r.status, 200); // reads are public-tier, never gated
+});
+
+test('Option D ON without AUTH_SECRET does NOT fall back to the legacy trait token (Codex P2)', async () => {
+  const prevSecret = process.env.AUTH_SECRET;
+  const prevTrait = process.env.TRAIT_EDITOR_TOKEN;
+  delete process.env.AUTH_SECRET;
+  process.env.TRAIT_EDITOR_TOKEN = 'legacy-secret'; // present, but must NOT gate SPEC-F writes
+  try {
+    const store = createCompanionStateStore();
+    // NO injected authenticate -> exercises the real createAuthHandlers({legacyToken:null}).
+    const app = buildApp({ store, writeAuthEnabled: true });
+    const card = makePartnerCard();
+    const r = await postJson(app, '/api/skiv/import', { card }); // no token
+    assert.equal(r.status, 201); // open (noop), NOT 401 legacy-token-gated
+  } finally {
+    if (prevSecret === undefined) delete process.env.AUTH_SECRET;
+    else process.env.AUTH_SECRET = prevSecret;
+    if (prevTrait === undefined) delete process.env.TRAIT_EDITOR_TOKEN;
+    else process.env.TRAIT_EDITOR_TOKEN = prevTrait;
+  }
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
