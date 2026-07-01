@@ -155,12 +155,13 @@ function armDelta(a, b) {
   };
 }
 
-// Verdict: compare the D8 effect (on-off) max-abs channel against the same-config noise floor
-// spread. IMPORTANT -- for a structurally-inert flag the graded A/B is NOT the arbiter: at these
-// magnitudes (sub-1%) the effect and the noise floor are the same order, so effect>floor is NOT
-// evidence of a real band (a single 40-run arm mean has its own sampling jitter). The DECISIVE
-// test is the fire-count (tools/sim/d8-chain-fire-count.js: chain_spreads==0). We report the
-// magnitudes + whether the effect is distinguishable from noise, and defer the ratify to the count.
+// Verdict: report the D8 effect (on-off) max-abs channel against the same-config noise floor
+// spread -- but this probe is NOT the arbiter. Near zero, both the effect and the single-replicate
+// floor are noisy point estimates: `effect_within_floor` FLIPS run-to-run (this run it can read
+// false when the two OFF replicates happen to land tight, yet the mechanic still never fires). A
+// naive reader must NOT treat `effect_within_floor: false` as "a real band". The DECISIVE arbiter
+// is the fire-count (tools/sim/d8-chain-fire-count.js: chain_spreads == 0 -> flag inert -> the delta
+// is noise by construction). We surface the magnitudes + an explicit non-arbiter note and defer.
 function neutralityVerdict(effect, floor) {
   const chans = ['enemy_hp_remaining', 'ko_rate', 'hp_remaining', 'win_rate'];
   const maxAbs = (d) => Math.max(...chans.map((c) => Math.abs(Number(d[c]) || 0)));
@@ -169,9 +170,9 @@ function neutralityVerdict(effect, floor) {
   return {
     effect_max_abs: Number(effectMax.toFixed(4)),
     floor_max_abs: Number(floorMax.toFixed(4)),
+    // Reported for transparency ONLY -- flips run-to-run near zero; NOT a band signal on its own.
     effect_within_floor: effectMax <= floorMax + 1e-9,
-    // sub-2x the noise floor => indistinguishable from same-config jitter at N=40 (not a real band).
-    same_order_as_noise: effectMax <= floorMax * 2 + 1e-9,
+    graded_probe_is_arbiter: false,
     decisive_proof:
       'tools/sim/d8-chain-fire-count.js (chain_spreads == 0 -> flag inert -> delta is noise)',
   };

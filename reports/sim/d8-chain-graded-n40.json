@@ -11,9 +11,9 @@
     "N": 40,
     "win_rate": 1,
     "mean_enemy_hp_remaining_pct": 0,
-    "mean_hp_remaining_pct": 0.9904,
+    "mean_hp_remaining_pct": 0.9838,
     "mean_ko_rate": 0,
-    "avg_rounds": 36.45
+    "avg_rounds": 35.92
   },
   "chain_OFF2_replicate": {
     "N": 40,
@@ -21,53 +21,53 @@
     "mean_enemy_hp_remaining_pct": 0,
     "mean_hp_remaining_pct": 0.9913,
     "mean_ko_rate": 0,
-    "avg_rounds": 35.95
+    "avg_rounds": 36
   },
   "chain_OFF3_replicate": {
     "N": 40,
     "win_rate": 1,
     "mean_enemy_hp_remaining_pct": 0,
-    "mean_hp_remaining_pct": 0.9904,
+    "mean_hp_remaining_pct": 0.9875,
     "mean_ko_rate": 0,
-    "avg_rounds": 36.23
+    "avg_rounds": 36.33
   },
   "chain_ON": {
     "N": 40,
     "win_rate": 1,
     "mean_enemy_hp_remaining_pct": 0,
-    "mean_hp_remaining_pct": 0.9879,
+    "mean_hp_remaining_pct": 0.9896,
     "mean_ko_rate": 0,
-    "avg_rounds": 36.38
+    "avg_rounds": 36.08
   },
   "d8_effect_on_minus_off": {
     "win_rate": 0,
     "enemy_hp_remaining": 0,
     "ko_rate": 0,
-    "hp_remaining": -0.0025
+    "hp_remaining": 0.0058
   },
   "noise_floor_off2_minus_off": {
     "win_rate": 0,
     "enemy_hp_remaining": 0,
     "ko_rate": 0,
-    "hp_remaining": 0.0009
+    "hp_remaining": 0.0075
   },
   "noise_floor_off3_minus_off": {
     "win_rate": 0,
     "enemy_hp_remaining": 0,
     "ko_rate": 0,
-    "hp_remaining": 0
+    "hp_remaining": 0.0037
   },
   "noise_floor_spread": {
     "win_rate": 0,
     "enemy_hp_remaining": 0,
     "ko_rate": 0,
-    "hp_remaining": 0.0009
+    "hp_remaining": 0.0075
   },
   "verdict": {
-    "effect_max_abs": 0.0025,
-    "floor_max_abs": 0.0009,
-    "effect_within_floor": false,
-    "same_order_as_noise": false,
+    "effect_max_abs": 0.0058,
+    "floor_max_abs": 0.0075,
+    "effect_within_floor": true,
+    "graded_probe_is_arbiter": false,
     "decisive_proof": "tools/sim/d8-chain-fire-count.js (chain_spreads == 0 -> flag inert -> delta is noise)"
   },
   "node": "v22.22.3"

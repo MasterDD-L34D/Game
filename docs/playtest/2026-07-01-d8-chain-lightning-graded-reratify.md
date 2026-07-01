@@ -92,23 +92,27 @@ independent same-config noise replicates), `on`. N=40, node 22. Artifact:
 
 | arm                    | win_rate | enemy_hp_rem | hp_rem | ko_rate | rounds |
 | ---------------------- | -------- | ------------ | ------ | ------- | ------ |
-| chain OFF              | 1.0      | 0.0          | 0.9904 | 0.0     | 36.45  |
-| chain OFF2 (replicate) | 1.0      | 0.0          | 0.9913 | 0.0     | 35.95  |
-| chain OFF3 (replicate) | 1.0      | 0.0          | 0.9904 | 0.0     | 36.23  |
-| chain ON               | 1.0      | 0.0          | 0.9879 | 0.0     | 36.38  |
+| chain OFF              | 1.0      | 0.0          | 0.9838 | 0.0     | 35.92  |
+| chain OFF2 (replicate) | 1.0      | 0.0          | 0.9913 | 0.0     | 36.00  |
+| chain OFF3 (replicate) | 1.0      | 0.0          | 0.9875 | 0.0     | 36.33  |
+| chain ON               | 1.0      | 0.0          | 0.9896 | 0.0     | 36.08  |
 
-D8 effect (on-off): `hp_remaining -0.0025`, all other channels exactly 0. Noise floor spread
-(off2-off / off3-off): up to `0.0009`. `enemy_hp_remaining` saturates to 0 (the party always clears
-the fight) and `ko_rate`/`win_rate` are pinned, so `hp_remaining` is the only live channel.
+D8 effect (on-off) this run: `hp_remaining +0.0058`, all other channels exactly 0. Noise floor spread
+(off2-off / off3-off): up to `0.0075`. `enemy_hp_remaining` saturates to 0 (the party always clears
+the fight) and `ko_rate`/`win_rate` are pinned, so `hp_remaining` is the only live channel. (Numbers
+are the committed `d8-chain-graded-n40.json`; the sim has irreducible non-seed jitter, so re-runs
+differ slightly.)
 
-**The cautionary tale**: this run's `on-off` (0.0025) marginally EXCEEDS the tight noise floor
-(0.0009), and across runs the ON arm sat ~0.003 below the OFF family -- which, taken alone, a naive
-reader could mistake for a small friendly-fire band. It is not: the fire-count proves 0 chain fires,
-so ON and OFF are the SAME code path and the sub-0.3% gap is pure sampling of the sim's irreducible
-non-seed non-determinism (the OFF replicates themselves drift ~0.4 rounds run-to-run; a single ON
-replicate under-samples it). This is exactly the W5 lesson made concrete: **the graded metric adds
-discriminating power ONLY on power-differential mechanics; on a structurally-inert flag it just
-measures noise, and the honest verdict comes from the fire-count, not the delta.**
+**The cautionary tale**: the `on-off` delta is sub-1% AND its SIGN FLIPS run-to-run (observed
+-0.0088, -0.0025, +0.0058 across three N=40 runs) while its magnitude sits right around the
+same-config noise floor -- sometimes inside it, sometimes grazing above. Taken alone a naive reader
+could latch onto whichever run shows `on` a hair below `off` and mistake it for a small friendly-fire
+band. It is not: the fire-count proves 0 chain fires, so ON and OFF are the SAME code path and the
+delta is pure sampling of the sim's irreducible non-seed non-determinism (the OFF replicates
+themselves drift ~0.4 rounds run-to-run; a single ON replicate under-samples it, and the sign flip is
+the tell). This is exactly the W5 lesson made concrete: **the graded metric adds discriminating power
+ONLY on power-differential mechanics; on a structurally-inert flag it just measures noise, and the
+honest verdict comes from the fire-count, not the delta.**
 
 ## Evidence C -- footprint (the real cap-3/2 ratify basis, unchanged)
 
@@ -124,10 +128,19 @@ re-ratify.
 
 - **D8 stays flag-OFF.** No prod change. The cap 3/2 values remain PROPOSED, ratified geometrically by
   the footprint; there is no sim-measurable live band to add.
-- **A real live band would require content** the game does not have: an encounter that seeds water
-  terrain AND an agent (player or enemy) that emits `acqua`/`elettrico` channels onto it. Until such
-  content exists, D8 is band-neutral in AI-sim play by construction. (Tracked as a follow-up thought,
-  not a blocker.)
+- **The single gating factor is the absent water-tile producer** (adversarial audit confirmed). The
+  chain needs (A) a tile that is ALREADY `water` AND (B) a lightning-channel attack on it. The
+  `elettrico` half (B) DOES exist in content -- `magnetic_overload` (`data/core/jobs.yaml:2048/3007`,
+  trait `elettromagnete_biologico`) is authored electric-channel damage, and `abilityExecutor.js`
+  plumbs an ability's `channel` into `performAttack`. But (A) has **zero producers anywhere**: no
+  `acqua`/`water` ATTACK channel exists in any species/trait/ability (grep of `data/` = 0; it appears
+  only in the wire test + these probes), `terrain_features` and `tile_state_map` are disjoint systems
+  (nothing seeds water into the reaction map), and the only writer is `session.js:1307` via reactTile.
+  On top of that the AI never selects abilities (`declareSistemaIntents` emits `ability_id: null`) and
+  the sim never emits `type: 'ability'`, so even the reachable lightning half is never invoked. Net:
+  D8 is unreachable in current shippable content, gated by the missing water producer. **Owner note**
+  (latent, not a blocker): the moment any `acqua`/`water` attack channel is added to a species/ability,
+  D8 goes live via the EXISTING elettrico content -- no new lightning content required.
 - **The mechanic is live + correct**, just not exercised: `tests/services/terrainChainLightning.test.js`
   (27 assertions incl. flag gating, cap 3/2, chain spread, floored shock) and
   `tests/api/terrainReactionsWire.test.js` (live acqua->folgore->electrified) all pass.
