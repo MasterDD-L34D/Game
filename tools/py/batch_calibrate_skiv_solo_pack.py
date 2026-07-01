@@ -290,7 +290,11 @@ def run_one(host, run_idx, seed=None):
         # Fell through MAX_ROUNDS without resolution → treat as survival (win)
         outcome = "victory"
 
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    # Note: 'victory' is intentionally NOT declarable -- the board derives wins.
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    post(f"{host}/api/session/end", {"session_id": sid, **declared})
 
     final_units = state.get("units", [])
     skiv_final = next((u for u in final_units if u["id"] == "skiv"), None)

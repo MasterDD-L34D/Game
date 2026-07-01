@@ -350,7 +350,10 @@ def run_one(
     if not outcome:
         outcome = "timeout"
 
-    http_post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    http_post(f"{host}/api/session/end", {"session_id": sid, **declared})
     final_units = state.get("units", [])
     players_alive = sum(
         1 for u in final_units if u.get("controlled_by") == "player" and u.get("hp", 0) > 0
