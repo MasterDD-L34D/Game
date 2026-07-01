@@ -239,6 +239,24 @@ restano: owner-content (B5 TR-200x metrics, B3 re-scope -- entrambi in stato SAF
 feature-build (**B4 SPEC-F offspring->playable lineage + export** = unica riga BUILD non-owner
 residua, effort M) / Tier-2 owner-decisions / Tier-3 N=40 (lane form-pulse parallela + W5).
 
+### 6bis. B4 SPEC-F buildable slices DRAINED (2026-07-01 cont)
+
+> La riga BUILD non-owner residua (sez.6 "Conseguenza", B4) e' ora **drenata**: tutti
+> gli slice buildable di SPEC-F B4 sono su `origin/main`. Additivo; non riscrive sez.6.
+
+| Slice B4                             | Stato git 2026-07-01                                                                               |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| card/qr export (`/skiv/share`)       | **DONE** #3128 `df67dabc` (companionCardExport, read-only, band-neutral)                           |
+| offspring->ambassador promote        | **DONE** #3129 `b3a1037b` (`POST /skiv/offspring/:id/promote` + spawn_descriptor)                  |
+| crossbreed-offspring promote         | **DONE** #3131 `1c582b67` (promote-from-descriptor + genome map)                                   |
+| import foreign card (`/skiv/import`) | **DONE** #3135 `2b28da13` (FC4-A signature+rate-limit, FC1 refuse-overwrite; chiude acceptance #4) |
+
+**Residui B4 = solo owner/coordination** (NON autonomo-buildable): live-run unit injection
+(session.js roster = lane W5/form-pulse, coordinate) + durable crossbreed cooldown
+(`packages/contracts` schema field = forbidden-path) + full per-Nido AUTH isolation (store
+singleton globale + campo `nido_id` schema = owner design-call). SPEC-F acceptance #4 chiusa;
+#1-3/#5/#7 gia' met (spec sez.10).
+
 ---
 
 > **Roadmap-of-record**: `docs/core/40-ROADMAP.md` (strategica) + `BACKLOG.md` (operativo) +
