@@ -66,26 +66,27 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
 > [`docs/reports/2026-06-30-b8-out-of-scope-findings.md`](docs/reports/2026-06-30-b8-out-of-scope-findings.md).
 > Parent inventario: `docs/planning/2026-06-29-closeout-master-plan.md` riga B8.
 
-- **TKT-B8-IDEATAX-MULTISRC** (P2, F1): `scripts/build-idea-taxonomy.js` degradato
-  anche su biomes/traits/gameFunctions -- legge `data/biomes.yaml` /
-  `data/traits/glossary.json` / `data/game_functions.yaml`, canon = `data/core/*`
-  (ENOENT->{} silent). Artefatto pubblico `docs/public/idea-taxonomy.json` lasciato
-  a HEAD (NON rigenerato: regen attuale azzererebbe quei campi + flip path a
-  backslash Windows). Fix = repoint i 3 collector a `data/core/` poi rigenerare su
-  env posix. Estende [[TKT-STALE-B2-SPECIESYAML]] (stesso pattern, driver diverso).
-- **TKT-B8-ECOLOGY-FATAL** (P3, F2): `validate_species_ecology`
-  (`tools/py/validate_datasets.py`) ora gira (post-repoint, 0 errori sul catalog
-  reale) ma la violazione bidirezionale e' **fatale** (`:680-685` append a
-  `errors`) mentre il docstring (`:526-527`) la dichiara warn-only "durante
-  backfill". Latente: un futuro edit asimmetrico al catalog romperebbe CI. Fix =
-  allineare codice<->docstring (owner-gated quale dei due).
-- **TKT-B8-READER-SWEEP** (P3, N2, needs-audit): inventario B8 = 7 script;
-  candidati degradati FUORI inventario, senza fallback catalog: `generate_minimal_fixture.py`,
-  `trait_orphan_assign_wave_0_1.py`, `dev_redirect_server.py`. Quelli con
-  `species_loader` (export*biodiversity_bundle / normalize_species_style /
-  report_evo_species_ecosystem / seed*\*) hanno fallback by-design; gli ETL
-  (merge_pack_v2_species / apply_interoception_traits) usano species.yaml come
-  sorgente by-design. Sweep separato.
+- **TKT-B8-IDEATAX-MULTISRC** (P2, F1) -- **DONE 2026-07-01**: repointati i 4 path
+  legacy (`biomes`/`biome_aliases`/`traits glossary`/`game_functions` -> `data/core/*`)
+  - `toRelative` posix-normalized (regen Windows non flippa piu' a backslash) +
+    artefatto rigenerato: biomi 0->20, specie 28->157, tratti 31->502, funzioni 9.
+    Regression `tests/test_species_catalog_repoint_b8.py` 7/7.
+- **TKT-B8-ECOLOGY-FATAL** (P3, F2) -- **RESOLVED 2026-07-01 (verdetto owner:
+  keep-fatal)**: il gate fatale resta (protegge l'integrita' del catalog, un edit
+  asimmetrico DEVE rompere CI); docstring `:523-527` allineato alla realta'
+  (il "warn-only durante backfill" era stale, backfill chiuso).
+- **TKT-B8-READER-SWEEP** (P3, N2) -- **AUDIT DONE 2026-07-01** (3/3 candidati):
+  (1) `generate_minimal_fixture.py` = FALSO candidato (e' un WRITER: dumpa il
+  proprio species.yaml fixture in un root isolato, non legge il path morto) --
+  clear-with-evidence, no code. (2) `dev_redirect_server.py` repointato: il 301
+  `/data/species.yaml` puntava al path morto `data/core/species.yaml` -> ora al
+  catalog JSON SoT. (3) `trait_orphan_assign_wave_0_1.py` legge il path morto MA
+  wave_2 + wave_3_4 ne IMPORTANO `inject_into_species`/`SPECIES_FILES` -> retire =
+  famiglia intera (3 script one-shot gia' applicati #2206-#2214, hand-edit derived
+  species = anti-pattern canon-enforcement). **Verdetto owner 2026-07-01 = ARCHIVE**:
+  famiglia spostata in `scripts/archive/` (+README do-not-run). TICKET CLOSED.
+  Quelli con `species_loader` hanno fallback by-design; gli ETL usano species.yaml
+  come sorgente by-design (fuori sweep).
 - **N1 (NON nuovo)**: `data_health.py` species.yaml rule = set "4 BROKEN" di B8,
   risolto da **PR #3075** (`fab8f87f`, MERGED 2026-06-30). #3075 NON ha toccato
   la riga `generated_at` di trait_coverage_report (line 70) = fix di questa pt2.
@@ -311,7 +312,7 @@ docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, 
   - **CAMPAGNA #2614 CHIUSA: `stale_document` 397 -> 0** (issue #2914 CLOSED, 36/36 dispositions: D11+E1 keep+bump / A9 retire+salvage / B6+C8 rewrite + C1 retire). Restano solo 9 `unregistered_document` (code diverso, fuori campagna). **Latent-bug follow-up trovati**: (1) `.github/workflows/ci.yml` 235/361 "Validate Species" ref `data/core/species.yaml` rimosso + `lighthouse-ci` ref `lighthouserc.json` assente -> chip `task_3f09765d` (forbidden-path, master-dd); (2) `tools/traits/check_biome_feature.py:69` carica `species.yaml` rimosso (errors+exit 1) -> known-limit doc'd in BIOME_FEATURE_CHECKS, quick-fix follow-up; (3) TKT-SALVAGE-A1 (`unzip -o`) + A2 (resistance M6-#2 fork) sopra.
   - **#2914 Group A EXECUTED (2026-06-21, master-dd verdetto via AskUserQuestion: RETIRE-tutti-9 + porta salvage)**: 9 doc A -> `historical_ref` (fm+registry; INDEX registry-only obsidian-fm). Salvage portato: `sentience_sdk` retire-banner anti-hazard + caveat `README_SENTIENCE` (SoT, body-only) + fix inbound ref `sentience_rollout_plan`; `faq` CLI-ref (alias `validate-ecosystem` + `investigate --destination -` + troubleshooting "Validator non trovato") -> `bug-template.md`; `CONTRIBUTING_SITE` retire-secco (Pages-site NON piu' mantenuto, master-dd). **stale 24->15.** 2 TODO salvage residui (sotto).
     - TKT-SALVAGE-A1 -- **DONE #2940 `f3bf3b4b`**: `unzip -q`->`unzip -qo` in `scripts/report_incoming.sh` (+ASCII-fix legacy char). + follow-up check_biome_feature.py repoint species.yaml->`species_catalog.json` DONE stesso PR (verificato live savana 4 specie). Latent-bug (2) closeout sopra = RISOLTO #2940.
-    - ✅ TKT-SALVAGE-A2 (O8) -- **GUARD DONE [#3080](https://github.com/MasterDD-L34D/Game/pull/3080)** (2026-06-30): CI-guard `tests/services/speciesArchetypeReferences.test.js` (ogni species `resistance_archetype` ∈ set canonico corazzato/bioelettrico/psionico/termico/adattivo; recursive collector; non-no-op; CI-wired test:api) + remap 5 retired-species (#3032) da `strutturale` (archetipo inesistente -> silent-fallback ad adattivo) a `adattivo` (band-neutral). Residuo: schema-field formalization = `packages/contracts/schemas/species.schema.json` FORBIDDEN (oggi tollerato via additionalProperties) + per-species non-default assignments = design pass. Codex `strutturale`-echo nei 5 codex promossi (#3076) = follow-up (gen-source + prosa review).
+    - ✅ TKT-SALVAGE-A2 (O8) -- **GUARD DONE [#3080](https://github.com/MasterDD-L34D/Game/pull/3080)** (2026-06-30): CI-guard `tests/services/speciesArchetypeReferences.test.js` (ogni species `resistance_archetype` ∈ set canonico corazzato/bioelettrico/psionico/termico/adattivo; recursive collector; non-no-op; CI-wired test:api) + remap 5 retired-species (#3032) da `strutturale` (archetipo inesistente -> silent-fallback ad adattivo) a `adattivo` (band-neutral). **schema-field formalization DONE -> [PR #3147](https://github.com/MasterDD-L34D/Game/pull/3147) OPEN** (2026-07-01, forbidden-path -> master-dd manual merge): enum canonico `[adattivo,bioelettrico,corazzato,psionico,termico]` aggiunto a `species.schema.json` (additive/optional; chiude il workaround `additionalProperties:true`); dry-run 107/107 valori gia' canonici (0 rotture) + 3 test enum CI-wired `tests/api/contracts-species-archetype.test.js`; firma forbidden-path via AskUserQuestion (2-step). **Residuo dopo il merge**: per-species non-default assignments = design pass. Codex `strutturale`-echo nei 5 codex promossi (#3076) = follow-up (gen-source + prosa review).
   - **TKT-SENT-\* sentience interocezione (programma multi-sprint, verdetti D1-D7 master-dd 2026-06-22 path massimalista)**: scope+verdetti+sequenza = `docs/planning/2026-06-21-sentience-traits-wiring-scope.md` sez.7-8. FATTO: Increment 1 producer #2932 `7053c830` (D1 minTier + D2 TIER_INTEROCEPTION_MAP infra + D4 perSpeciesOverride read-path, flag-OFF) + D6 engine#1 action-timing nocicezione #2936 `d38ffa92` + D6 engine#2 stamina-fatigue #2937 `3c6a0209` (flag-gated `STAMINA_FATIGUE_ENABLED` OFF) + D3 enemy-wire #2945 `497124f2` (grant esteso a unita' sistema a /start, flag-OFF band-neutral; N=40/flip=D7). D2 map RATIFICATA (default confermati master-dd 06-22; N=40 = gate del flip D7, non dei valori). RESIDUO sequenziato: (1) **D4 populate pipeline SOLO** (master-dd 06-22: propagare `interoception_traits` source->catalog via ETL multi-stage [merge_pack_v2_species/enrich_species_heuristic/promote_gameplay_to_canon + update_evo_pack_catalog.js], 0 override autorati = infra-ready; canon: MAI hand-edit catalog) -- sotto-progetto a se'; (2) D6 #3 encumbrance PARCHEGGIATO (master-dd 06-22: serve sistema peso/inventario assente = il piu' grande); (3) D7 flip INCREMENTALE post-N=40 per pezzo (owner: keys.env). Flag `SENTIENCE_INTEROCEPTION_GRANT_ENABLED` resta OFF (band-neutral).
 - **DRIFTED residue** -> fix-ticket separati (driver: `species.yaml` deprecato 05-15, pivot web->Godot, docs-reorg path-stale). Target = bump-stabili + converti-drift-in-ticket, **NON forced-0**.
 - **Batch-2 residue tickets** (fix separati, dettaglio per-doc nella PR batch-2):

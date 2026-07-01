@@ -13168,6 +13168,28 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-d6-imprint-grant-graded-reratify.md",
+      "title": "D6 imprint axis->trait grant -- graded re-ratify (W5): REAL band, mapping validated (8/8 live)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-07-01-er7-population-flag-on-n40.md",
+      "title": "N3 SPEC-I ER7 population N=40 re-confirm: already default-ON+ratified 06-11 (register marker was stale)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-07-01-w6-form-pulse-v2-graded-cross-biome.md",
       "title": "W6 Form-Pulse trait v2 -- graded cross-biome A/B (flip-readiness evidence; ratify pending)",
       "doc_status": "review_needed",
@@ -13674,6 +13696,19 @@
     {
       "path": "docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md",
       "title": "Session handoff -- SPEC-F B4 FC1 resync (returning Custode additive merge) (2026-07-01 cont)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-07-01-session-handoff-fc1-tier2-o8-closeout.md",
+      "title": "Session handoff -- SPEC-F FC1 resync + Tier-2 owner-batch recon + O8 schema (2026-07-01 closeout)",
       "doc_status": "active",
       "doc_owner": "claude-code",
       "workstream": "cross-cutting",

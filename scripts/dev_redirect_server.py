@@ -17,7 +17,9 @@ from typing import Dict, Tuple
 RedirectMap = Dict[str, Tuple[int, str]]
 
 REDIRECTS: RedirectMap = {
-    "/data/species.yaml": (301, "/data/core/species.yaml"),
+    # data/core/species.yaml removed by #2271 -- SoT is the JSON catalog
+    # (TKT-B8-READER-SWEEP: a 301 to a dead path was a lie).
+    "/data/species.yaml": (301, "/data/core/species/species_catalog.json"),
     "/data/traits": (301, "/data/core/traits"),
     "/data/analysis": (302, "/data/derived/analysis"),
 }

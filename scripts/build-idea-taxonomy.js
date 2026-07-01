@@ -56,7 +56,10 @@ function walkFiles(startDir, extensions = new Set(['.yaml', '.yml'])) {
 }
 
 function toRelative(filePath) {
-  return path.relative(ROOT, filePath);
+  // Posix separators regardless of host OS: the artifact is committed and
+  // consumed cross-platform; a Windows regen must not flip labels to backslash
+  // (TKT-B8-IDEATAX-MULTISRC caveat).
+  return path.relative(ROOT, filePath).split(path.sep).join('/');
 }
 
 function uniqueSorted(iterable) {
@@ -67,7 +70,10 @@ function uniqueSorted(iterable) {
 }
 
 function collectBiomes() {
-  const filePath = path.join(ROOT, 'data', 'biomes.yaml');
+  // data/biomes.yaml retired by the core/ split -- canonical SoT is data/core/
+  // (TKT-B8-IDEATAX-MULTISRC: the legacy path was ENOENT and readFileSync's
+  // swallow left this collector silently empty).
+  const filePath = path.join(ROOT, 'data', 'core', 'biomes.yaml');
   let content = '';
   try {
     content = fs.readFileSync(filePath, 'utf8');
@@ -99,7 +105,7 @@ function collectBiomes() {
     }
   }
 
-  const aliasConfig = readYaml(path.join(ROOT, 'data', 'biome_aliases.yaml'));
+  const aliasConfig = readYaml(path.join(ROOT, 'data', 'core', 'biome_aliases.yaml'));
   const aliases = aliasConfig.aliases || {};
   return {
     list: uniqueSorted(slugs),
@@ -190,13 +196,13 @@ function collectSpecies() {
 }
 
 function collectTraits() {
-  const glossary = readJson(path.join(ROOT, 'data', 'traits', 'glossary.json'));
+  const glossary = readJson(path.join(ROOT, 'data', 'core', 'traits', 'glossary.json'));
   const traits = glossary.traits || {};
   return uniqueSorted(Object.keys(traits));
 }
 
 function collectGameFunctions() {
-  const config = readYaml(path.join(ROOT, 'data', 'game_functions.yaml'));
+  const config = readYaml(path.join(ROOT, 'data', 'core', 'game_functions.yaml'));
   const functions = Array.isArray(config.functions) ? config.functions : [];
   return uniqueSorted(functions);
 }
@@ -211,8 +217,8 @@ function buildTaxonomy() {
   return {
     generatedAt: new Date().toISOString(),
     sources: {
-      biomes: toRelative(path.join(ROOT, 'data', 'biomes.yaml')),
-      biomeAliases: toRelative(path.join(ROOT, 'data', 'biome_aliases.yaml')),
+      biomes: toRelative(path.join(ROOT, 'data', 'core', 'biomes.yaml')),
+      biomeAliases: toRelative(path.join(ROOT, 'data', 'core', 'biome_aliases.yaml')),
       ecosystems: [
         toRelative(path.join(ROOT, 'packs', 'evo_tactics_pack', 'data', 'ecosistemi')),
         toRelative(path.join(ROOT, 'packs', 'evo_tactics_pack', 'data', 'ecosystems')),
@@ -221,8 +227,8 @@ function buildTaxonomy() {
         toRelative(path.join(ROOT, 'data', 'core', 'species', 'species_catalog.json')),
         toRelative(path.join(ROOT, 'packs', 'evo_tactics_pack', 'data', 'species')),
       ],
-      traits: toRelative(path.join(ROOT, 'data', 'traits', 'glossary.json')),
-      gameFunctions: toRelative(path.join(ROOT, 'data', 'game_functions.yaml')),
+      traits: toRelative(path.join(ROOT, 'data', 'core', 'traits', 'glossary.json')),
+      gameFunctions: toRelative(path.join(ROOT, 'data', 'core', 'game_functions.yaml')),
     },
     biomes,
     biomeAliases,
