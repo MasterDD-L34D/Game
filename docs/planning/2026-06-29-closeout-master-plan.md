@@ -258,6 +258,23 @@ crossbreed cooldown (`packages/contracts` schema = forbidden-path) + full per-Ni
 (store singleton globale + campo `nido_id` schema = owner design-call). Acceptance #4 = import
 sub-part met, resync residuo; #1-3/#5/#7 gia' met (spec sez.10).
 
+### 6ter. per-Nido AUTH isolation -- Option A + D DONE (2026-07-01 cont)
+
+> Il gap "full per-Nido AUTH isolation" (sez.6bis Residui) e' stato affrontato incrementalmente
+> (recon 4-finder + design-call master-dd ratificate: owner=player_id/JWT, reads=public-tier,
+> durable=DEFER). Additivo. Tutto flag-OFF/reversibile, no forbidden-path.
+
+| Opzione                  | Stato git 2026-07-01                                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| A -- cap per-owner (mem) | **DONE** #3138 `aa1983bb` (flag `SPEC_F_NIDO_ISOLATION_ENABLED`; `ownerLineages` in-memory; warm-state)        |
+| D -- JWT write-gate      | **DONE** #3140 `61a7594e` (flag `SPEC_F_WRITE_AUTH_ENABLED`; JWT-only, enforce writes; +wired tests/routes CI) |
+| C -- durable `nidoId`    | **RESIDUO owner** -- colonna Prisma additiva + rehydrate owner-index; migrazione = forbidden-path              |
+
+**Adversarial-safe in prod** = entrambi i flag ON + `AUTH_SECRET` configurato (le write richiedono
+un JWT, il sub = owner trusted). Isolation-solo = cooperativa (client onesti). 🔑 collaterale:
+**`tests/routes/**`era CI-orfano** (anti-pattern #10, nessuna glob in`run-test-api.cjs`) -> wired
+(#3140), ora CI-copre anche i test route di #3135/#3138. **Residuo per-Nido auth = solo Option C.**
+
 ---
 
 > **Roadmap-of-record**: `docs/core/40-ROADMAP.md` (strategica) + `BACKLOG.md` (operativo) +
