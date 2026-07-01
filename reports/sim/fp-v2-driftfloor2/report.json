@@ -1,0 +1,172 @@
+{
+  "probe": "form-pulse-v2-graded-ab",
+  "spec": "docs/planning/2026-06-30-form-pulse-trait-v2-flip-readiness-build-spec.md",
+  "posture": "L-069 REPORTS; flip + offset/w/picks values = master-dd verdict",
+  "measurement_point": "enc_badlands_ultima_caccia_01 wave-1 hardcore (unsaturated) x canonical badlands party",
+  "party_size": 4,
+  "n": 40,
+  "seed": 20260701,
+  "imprint_weight_w": 0.5,
+  "anchor_env": "1.4 (default)",
+  "reference_env": "4 (default)",
+  "positive_control": {
+    "buff": 8,
+    "enemyHpOff": 53,
+    "enemyHpOn": 96,
+    "offset_ratio": 1.811
+  },
+  "biomes": [
+    {
+      "biome": "badlands",
+      "drift_floor": true,
+      "imprint_win_rate": 0.7,
+      "granted_team_rate": 1,
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0.025,
+        "creature_ko_rate": 0.3125,
+        "mean_enemy_hp_remaining_pct": 0.6042,
+        "mean_hp_remaining_pct": 0.9369,
+        "avg_rounds": 39.8
+      },
+      "B_v2_no_offset": {
+        "N": 40,
+        "win_rate": 0.025,
+        "creature_ko_rate": 0.3438,
+        "mean_enemy_hp_remaining_pct": 0.6165,
+        "mean_hp_remaining_pct": 0.9556,
+        "avg_rounds": 39.98
+      },
+      "C_v2_full": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.3187,
+        "mean_enemy_hp_remaining_pct": 0.6436,
+        "mean_hp_remaining_pct": 0.9242,
+        "avg_rounds": 40
+      },
+      "player_buff_B_minus_A": {
+        "win_rate": 0,
+        "enemy_hp_remaining": 0.0123,
+        "creature_ko_rate": 0.0313,
+        "hp_remaining": 0.0187
+      },
+      "offset_claws_C_minus_B": {
+        "win_rate": -0.025,
+        "enemy_hp_remaining": 0.0271,
+        "creature_ko_rate": -0.0251,
+        "hp_remaining": -0.0314
+      },
+      "net_flip_C_minus_A": {
+        "win_rate": -0.025,
+        "enemy_hp_remaining": 0.0394,
+        "creature_ko_rate": 0.0062,
+        "hp_remaining": -0.0127
+      }
+    },
+    {
+      "biome": "savana",
+      "drift_floor": true,
+      "imprint_win_rate": 0.7,
+      "granted_team_rate": 1,
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0.025,
+        "creature_ko_rate": 0.25,
+        "mean_enemy_hp_remaining_pct": 0.5821,
+        "mean_hp_remaining_pct": 0.9252,
+        "avg_rounds": 39.83
+      },
+      "B_v2_no_offset": {
+        "N": 40,
+        "win_rate": 0.125,
+        "creature_ko_rate": 0.2437,
+        "mean_enemy_hp_remaining_pct": 0.5671,
+        "mean_hp_remaining_pct": 0.9342,
+        "avg_rounds": 39.65
+      },
+      "C_v2_full": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.2625,
+        "mean_enemy_hp_remaining_pct": 0.6009,
+        "mean_hp_remaining_pct": 0.9225,
+        "avg_rounds": 40
+      },
+      "player_buff_B_minus_A": {
+        "win_rate": 0.1,
+        "enemy_hp_remaining": -0.015,
+        "creature_ko_rate": -0.0063,
+        "hp_remaining": 0.009
+      },
+      "offset_claws_C_minus_B": {
+        "win_rate": -0.125,
+        "enemy_hp_remaining": 0.0338,
+        "creature_ko_rate": 0.0188,
+        "hp_remaining": -0.0117
+      },
+      "net_flip_C_minus_A": {
+        "win_rate": -0.025,
+        "enemy_hp_remaining": 0.0188,
+        "creature_ko_rate": 0.0125,
+        "hp_remaining": -0.0027
+      }
+    },
+    {
+      "biome": "abisso_vulcanico",
+      "drift_floor": true,
+      "imprint_win_rate": 0.7,
+      "granted_team_rate": 1,
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.3125,
+        "mean_enemy_hp_remaining_pct": 0.6707,
+        "mean_hp_remaining_pct": 0.9235,
+        "avg_rounds": 40
+      },
+      "B_v2_no_offset": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.2687,
+        "mean_enemy_hp_remaining_pct": 0.6199,
+        "mean_hp_remaining_pct": 0.9219,
+        "avg_rounds": 40
+      },
+      "C_v2_full": {
+        "N": 40,
+        "win_rate": 0.025,
+        "creature_ko_rate": 0.3,
+        "mean_enemy_hp_remaining_pct": 0.6317,
+        "mean_hp_remaining_pct": 0.9231,
+        "avg_rounds": 39.98
+      },
+      "player_buff_B_minus_A": {
+        "win_rate": 0,
+        "enemy_hp_remaining": -0.0508,
+        "creature_ko_rate": -0.0438,
+        "hp_remaining": -0.0016
+      },
+      "offset_claws_C_minus_B": {
+        "win_rate": 0.025,
+        "enemy_hp_remaining": 0.0118,
+        "creature_ko_rate": 0.0313,
+        "hp_remaining": 0.0012
+      },
+      "net_flip_C_minus_A": {
+        "win_rate": 0.025,
+        "enemy_hp_remaining": -0.039,
+        "creature_ko_rate": -0.0125,
+        "hp_remaining": -0.0004
+      }
+    }
+  ],
+  "cross_biome_net_flip_mean": {
+    "win_rate": -0.0083,
+    "enemy_hp_remaining": 0.0064,
+    "creature_ko_rate": 0.0021,
+    "hp_remaining": -0.0053
+  },
+  "w_sweep": null,
+  "node": "v22.22.3"
+}

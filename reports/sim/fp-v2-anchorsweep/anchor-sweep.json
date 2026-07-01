@@ -1,0 +1,198 @@
+{
+  "probe": "form-pulse-v2-anchor-sweep (paired, drift-free)",
+  "posture": "L-069 REPORTS; the balanced anchor is the master-dd verdict",
+  "party_size": 4,
+  "n": 40,
+  "seed": 20260701,
+  "imprint_weight_w": 0.78,
+  "anchors": [
+    1.15,
+    1.2,
+    1.25,
+    1.3,
+    1.35,
+    1.4
+  ],
+  "cross_biome_net_by_anchor": {
+    "1.15": {
+      "enemy_hp_remaining": -0.0518,
+      "creature_ko_rate": -0.0813,
+      "hp_remaining": -0.0027
+    },
+    "1.2": {
+      "enemy_hp_remaining": 0.0087,
+      "creature_ko_rate": -0.0563,
+      "hp_remaining": 0.0019
+    },
+    "1.25": {
+      "enemy_hp_remaining": 0.0153,
+      "creature_ko_rate": -0.0917,
+      "hp_remaining": -0.0207
+    },
+    "1.3": {
+      "enemy_hp_remaining": 0.0387,
+      "creature_ko_rate": -0.0584,
+      "hp_remaining": 0.0022
+    },
+    "1.35": {
+      "enemy_hp_remaining": 0.0681,
+      "creature_ko_rate": -0.0646,
+      "hp_remaining": -0.0129
+    },
+    "1.4": {
+      "enemy_hp_remaining": 0.095,
+      "creature_ko_rate": -0.0501,
+      "hp_remaining": 0.0047
+    }
+  },
+  "per_biome": [
+    {
+      "biome": "badlands",
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0.025,
+        "creature_ko_rate": 0.3438,
+        "mean_enemy_hp_remaining_pct": 0.676,
+        "mean_hp_remaining_pct": 0.9258,
+        "avg_rounds": 39.98
+      },
+      "net_by_anchor": {
+        "1.15": {
+          "win_rate": 0,
+          "enemy_hp_remaining": -0.0893,
+          "creature_ko_rate": -0.125,
+          "hp_remaining": -0.022
+        },
+        "1.2": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": 0.0089,
+          "creature_ko_rate": -0.0625,
+          "hp_remaining": -0.0012
+        },
+        "1.25": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": 0.0529,
+          "creature_ko_rate": -0.0625,
+          "hp_remaining": -0.0156
+        },
+        "1.3": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": 0.0682,
+          "creature_ko_rate": -0.05,
+          "hp_remaining": -0.0079
+        },
+        "1.35": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": 0.0611,
+          "creature_ko_rate": -0.1001,
+          "hp_remaining": -0.0362
+        },
+        "1.4": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": 0.0938,
+          "creature_ko_rate": -0.0688,
+          "hp_remaining": -0.0041
+        }
+      }
+    },
+    {
+      "biome": "savana",
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0.05,
+        "creature_ko_rate": 0.2938,
+        "mean_enemy_hp_remaining_pct": 0.6339,
+        "mean_hp_remaining_pct": 0.9342,
+        "avg_rounds": 39.67
+      },
+      "net_by_anchor": {
+        "1.15": {
+          "win_rate": -0.025,
+          "enemy_hp_remaining": -0.0275,
+          "creature_ko_rate": -0.0501,
+          "hp_remaining": 0.0075
+        },
+        "1.2": {
+          "win_rate": -0.05,
+          "enemy_hp_remaining": 0.0013,
+          "creature_ko_rate": -0.0251,
+          "hp_remaining": 0.0302
+        },
+        "1.25": {
+          "win_rate": -0.05,
+          "enemy_hp_remaining": -0.0032,
+          "creature_ko_rate": -0.075,
+          "hp_remaining": -0.0173
+        },
+        "1.3": {
+          "win_rate": 0,
+          "enemy_hp_remaining": -0.004,
+          "creature_ko_rate": -0.0501,
+          "hp_remaining": 0.0116
+        },
+        "1.35": {
+          "win_rate": -0.05,
+          "enemy_hp_remaining": 0.094,
+          "creature_ko_rate": -0.0188,
+          "hp_remaining": 0.0135
+        },
+        "1.4": {
+          "win_rate": -0.05,
+          "enemy_hp_remaining": 0.0819,
+          "creature_ko_rate": -0.0501,
+          "hp_remaining": 0.0114
+        }
+      }
+    },
+    {
+      "biome": "abisso_vulcanico",
+      "A_baseline": {
+        "N": 40,
+        "win_rate": 0,
+        "creature_ko_rate": 0.3,
+        "mean_enemy_hp_remaining_pct": 0.6458,
+        "mean_hp_remaining_pct": 0.9287,
+        "avg_rounds": 40
+      },
+      "net_by_anchor": {
+        "1.15": {
+          "win_rate": 0.025,
+          "enemy_hp_remaining": -0.0387,
+          "creature_ko_rate": -0.0687,
+          "hp_remaining": 0.0063
+        },
+        "1.2": {
+          "win_rate": 0,
+          "enemy_hp_remaining": 0.016,
+          "creature_ko_rate": -0.0812,
+          "hp_remaining": -0.0233
+        },
+        "1.25": {
+          "win_rate": 0,
+          "enemy_hp_remaining": -0.0037,
+          "creature_ko_rate": -0.1375,
+          "hp_remaining": -0.0291
+        },
+        "1.3": {
+          "win_rate": 0,
+          "enemy_hp_remaining": 0.052,
+          "creature_ko_rate": -0.075,
+          "hp_remaining": 0.003
+        },
+        "1.35": {
+          "win_rate": 0,
+          "enemy_hp_remaining": 0.0492,
+          "creature_ko_rate": -0.075,
+          "hp_remaining": -0.016
+        },
+        "1.4": {
+          "win_rate": 0,
+          "enemy_hp_remaining": 0.1093,
+          "creature_ko_rate": -0.0313,
+          "hp_remaining": 0.0069
+        }
+      }
+    }
+  ],
+  "node": "v22.22.3"
+}

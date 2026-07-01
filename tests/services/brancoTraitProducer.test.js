@@ -151,6 +151,45 @@ test('single slot: returns at most ONE trait (never stacks)', () => {
   assert.ok(!Array.isArray(got));
 });
 
+// ---- W6 party-normalization (nPlayers scales the form magnitude in the win comparison) ----
+
+test('party-normalization: nPlayers scales the form magnitude (imprint wins less on bigger teams)', () => {
+  // Moderate form lean 0.35 vs imprint w=0.5. Unscaled: 0.5 > 0.35 -> imprint wins. At nPlayers=4 the
+  // form magnitude is compared as 0.35*sqrt(4)=0.70, so 0.5 > 0.70 is FALSE -> the form wins instead.
+  const args = {
+    aggregate: { agile_robust: -0.35 },
+    imprintTuple: { locomotion: 'VELOCE' },
+    combined: true,
+    threshold: 0,
+    w: 0.5,
+  };
+  const unscaled = produceBrancoTrait(args);
+  assert.equal(unscaled.trait_id, VELOCE_TRAIT, 'unscaled -> imprint wins (0.5 > 0.35)');
+  assert.equal(unscaled.source, 'imprint');
+
+  const scaled4 = produceBrancoTrait({ ...args, nPlayers: 4 });
+  assert.equal(scaled4.trait_id, AGILE_TRAIT, 'nPlayers=4 -> form wins (0.5 < 0.35*2)');
+  assert.equal(scaled4.source, 'formpulse');
+});
+
+test('party-normalization: nPlayers=1 (or absent) is byte-identical (sqrt(1)=1)', () => {
+  const args = {
+    aggregate: { agile_robust: -0.35 },
+    imprintTuple: { locomotion: 'VELOCE' },
+    combined: true,
+    threshold: 0,
+    w: 0.5,
+  };
+  assert.deepEqual(produceBrancoTrait({ ...args, nPlayers: 1 }), produceBrancoTrait(args));
+});
+
+test('party-normalization: nPlayers IGNORED on the form-only path (combined=false, byte-identical)', () => {
+  const aggregate = { agile_robust: -0.8, solitary_swarm: 0.2 };
+  const base = produceBrancoTrait({ aggregate, combined: false, threshold: 0.3 });
+  const withN = produceBrancoTrait({ aggregate, combined: false, threshold: 0.3, nPlayers: 4 });
+  assert.deepEqual(withN, base);
+});
+
 test('ON: imprint axis is TUPLE-DETERMINED (deterministic + whole-tuple-dependent), not first-axis', () => {
   // Verdict D-2: the FULL tuple selects WHICH imprint axis grants -- so non-first axes are
   // reachable (the first-axis tie-break made only locomotion reachable, Codex P2). Deterministic
