@@ -5,7 +5,20 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 (cont) -- Tier-3 grilling value-picks DRAINED 6/6 + W5 surfaced
+## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 import + per-Nido AUTH isolation (A+D)
+
+**5 PR merged (3 code + 2 docs), 0 open.** Handoff import `docs/planning/2026-07-01-session-handoff-spec-f-import.md` + auth `docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices) + sez.6ter (auth A+D); memory `project_spec_f_crossbreed`.
+
+- **B4 `POST /skiv/import`** **#3135 `2b28da13`** (foreign signed card -> ambassador; FC4-A signature+rate-limit, FC1 refuse-overwrite 409, whitelist-persist; chiude acceptance #4 import sub-part, resync=residuo). 🔑 Codex P1: memory-only overwrite guard = LIE su store Prisma write-through -> `lineageExists()` hydrate-then-check su import+promote.
+- **per-Nido isolation Option A** **#3138 `aa1983bb`** (flag `SPEC_F_NIDO_ISOLATION_ENABLED` OFF=byte-identical; cap ambassador per-owner in-memory `ownerLineages`; owner=player_id/JWT-sub; reads public-tier). 🔑 2 sec-fix oltre review "CLEAN": rate-limit per-owner solo se JWT-trusted (self-asserted per-IP=anti-rotation) + ownerless->`ANON_BUCKET` (Codex P2). Ceiling: self-asserted=cooperativo, adversarial=JWT.
+- **Option D JWT write-gate** **#3140 `61a7594e`** (flag `SPEC_F_WRITE_AUTH_ENABLED` OFF=byte-identical; `createAuthHandlers({legacyToken:null})` JWT-only sulle 3 write, non le read). 🔑 review P1 anti-pattern #10: `tests/routes/**` era CI-orfano -> wired in `run-test-api.cjs` (retro-copre #3135/#3138). Codex P2 legacy-token fallback fixato.
+- **docs** #3137 `b1218a2e` + #3141 `d7923356` (handoff + closeout 6bis/6ter + registry).
+
+Design-calls master-dd (AskUserQuestion, recon-first): lane=import (auth-full=owner) · owner=player_id+JWT · reads=public-tier · durable=DEFER Option C. **per-Nido auth lane = Option A+D DONE (flag-OFF), residuo = solo Option C (durable nidoId Prisma, forbidden-path).** Flip prod adversarial-safe = entrambi i flag ON + AUTH_SECRET. AI 567/567, 65/65 tests/routes CI-enforced, governance 0.
+
+**Next (owner/coordination)**: Option C durable-nidoId (Prisma migration) · FC1 resync (altro slice B4) · Tier-2 owner batch · coordinare col lane W5/form-pulse (sessione parallela, non toccare session.js/imprint/tools/sim).
+
+## Sessione 2026-07-01 (cont) -- Tier-3 grilling value-picks DRAINED 6/6 + W5 surfaced
 
 **5 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-grilling-value-picks-drained.md`; SoT `2026-06-29-closeout-master-plan.md` sez.2bis + `2026-06-23-residual-gate-register.md`; memory `project_closeout_master_plan` (cont-5/5b).
 

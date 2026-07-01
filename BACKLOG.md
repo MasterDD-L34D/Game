@@ -386,6 +386,14 @@ docs-governance: **181 warnings (172 stale_document + 9 unregistered; 0 errori, 
 >
 > **To unblock (a dedicated workstream, NOT infra-prep)**: (1) hydrate the companion store from Prisma at startup (or per-lineage in the confirm route); (2) add a backend campaign resource pool (Prisma balance fields + a propose-spend/quorum-commit route) -- forbidden-path `packages/contracts` + `migrations`; (3) the 4 I4 design-calls (resource type PE/PI/SG/PP/PT? cost-model flat-vs-scaled? quorum-UX? shared-vs-per-player pool?). Then I3 = uncapped hydration-reliable cooldown key (not the FIFO share-history) + I4 = debit the pool on ritual. **Owner-gated** (design + forbidden-path + migration).
 
+### 🟡 P2 OPEN — SPEC-F per-Nido auth isolation: Option C durable (2026-07-01)
+
+> per-Nido auth lane = **Option A (per-owner cap) + Option D (JWT write-gate) DONE 2026-07-01** (flag-OFF, [#3138](https://github.com/MasterDD-L34D/Game/pull/3138) `aa1983bb` + [#3140](https://github.com/MasterDD-L34D/Game/pull/3140) `61a7594e`; SoT `docs/planning/2026-07-01-session-handoff-spec-f-auth-isolation.md` + closeout sez.6ter). Residuo = **Option C durable per-Nido cap**: persist a `nidoId`/owner column on Prisma `SkivCompanionState` + rehydrate the in-memory owner-index on startup so the per-owner cap survives a restart (Option A is warm-state only, resets on restart). **Owner-gated: Prisma migration = forbidden-path.** Additive nullable column; the handoff has the flip recipe (both flags + `AUTH_SECRET`) + the trust ceiling (self-asserted=cooperative, JWT=adversarial-safe).
+>
+> 🔑 **Partial-unblock of TKT-PERSISTENCE-LAYER I3 (marker above now STALE, anti-pattern #19):** `lineageExists()` ([#3135](https://github.com/MasterDD-L34D/Game/pull/3135)) DOES call `hydrateAsync` per-lineage before the import/promote overwrite guard -- so "`hydrateAsync` never called" (line ~384) is no longer true (the call site is the overwrite guard, not startup-bulk). The confirm-route cooldown still uses the in-memory Set; durable cooldown = the contracts-schema-field task, unchanged.
+>
+> Sibling B4 residue (not auth): **FC1 resync** (returning-home lineage additive merge) -- import 409-refuse-overwrites, no additive merge; the other buildable half of acceptance #4. Recon-first for autonomy vs the W5/session lane.
+
 ### 🟢 P3 OPEN — ER6 overrun follow-up: fork carry-over + harness entropy (2026-06-11)
 
 Da evidence `docs/reports/2026-06-11-spec-i-er6-overrun-n40-evidence.md` (ratifica `OVERRUN_BUDGET_BONUS=1` as-built, nicchia on-grid <=t8):
