@@ -335,6 +335,20 @@ test('POST promote then GET /skiv/share returns the persisted ambassador', async
   assert.equal(r.body.lineage_id, off.lineage_id);
 });
 
+test('POST promote rate-limits after 10/h per IP → 429 (parity w/ crossbreed write)', async () => {
+  const off = makeOffspring();
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub({ 'off-1': off }),
+  });
+  let last;
+  for (let i = 0; i < 11; i++) {
+    last = await postJson(app, '/api/skiv/offspring/off-1/promote', { species_id: 'dune_stalker' });
+  }
+  assert.equal(last.status, 429);
+  assert.equal(last.body.error, 'rate_limited');
+});
+
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
 
 test('GET /skiv/crossbreed/history unknown lineage → [] count 0', async () => {

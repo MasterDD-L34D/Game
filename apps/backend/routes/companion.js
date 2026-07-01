@@ -90,6 +90,25 @@ function createCompanionRouter({
   const _crossbreedCampaigns = new Set(); // `${campaignId}::${lineageId}`
   const cooldownKey = (campaignId, lineageId) => `${campaignId}::${lineageId}`;
 
+  // Promote (offspring->ambassador) is the other write that grows the capped
+  // ambassador registry, so it gets the same 10/h-per-IP posture as the crossbreed
+  // write (partial mitigation of cap-10 FIFO eviction grief; full per-Nido
+  // isolation = SPEC-F-wide auth, see header). Independent budget so a griefer
+  // cannot also exhaust the crossbreed quota.
+  const _promoteHits = new Map();
+  function promoteRateLimited(ip) {
+    const now = Date.now();
+    const key = ip || 'unknown';
+    const recent = (_promoteHits.get(key) || []).filter((t) => now - t < CROSSBREED_RATE_WINDOW_MS);
+    if (recent.length >= CROSSBREED_RATE_LIMIT) {
+      _promoteHits.set(key, recent);
+      return true;
+    }
+    recent.push(now);
+    _promoteHits.set(key, recent);
+    return false;
+  }
+
   /**
    * POST /api/companion/pick
    * Body: { biome_id, form_axes?, run_seed?, trainer_canonical? }
@@ -229,10 +248,14 @@ function createCompanionRouter({
    * carries no species field; adding one = forbidden-path packages/contracts).
    *
    * Response: 201 { ambassador, spawn_descriptor } | 400 species_required
-   *           404 offspring_not_found | 422 promote_failed
+   *           404 offspring_not_found | 422 promote_failed | 429 rate_limited
    */
   router.post('/skiv/offspring/:offspring_id/promote', async (req, res) => {
     if (!requireStore(res)) return;
+    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
+    if (promoteRateLimited(ip)) {
+      return res.status(429).json({ error: 'rate_limited' });
+    }
     const offspringId = String(req.params.offspring_id || '');
     const body = req.body || {};
     const speciesId = body.species_id ? String(body.species_id) : '';
