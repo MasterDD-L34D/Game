@@ -84,8 +84,8 @@ Ordinato **per tipo-di-gate** (cosa lo sblocca). Blocker: **CLOSE-NOW** (autonom
 > [#3076](https://github.com/MasterDD-L34D/Game/pull/3076) `534cc3a4` (13 retired-creature lore draft
 > promossi, HITL eseguito) · **O5** DONE [#3097](https://github.com/MasterDD-L34D/Game/pull/3097)
 > `ffe4be8a` (D7 prose 7 biomi IT/EN reali; il marker "still master-dd HITL" e' STALE) · **I1** DONE
-> [#3067](https://github.com/MasterDD-L34D/Game/pull/3067) (CI-guard gia' enforcing dal 06-29, niente
-> `--warn-only`) · **I2** DONE (ci.yml stale refs gia' puliti: species-step rimosso, lighthouse guarded) ·
+> [#3071](https://github.com/MasterDD-L34D/Game/pull/3071) `7145ad66` (guard flippato a enforcing; #3067 era
+> il float-drift fix, NON il flip) · **I2** DONE (ci.yml stale refs gia' puliti: species-step rimosso, lighthouse guarded) ·
 > **I7** DONE [#3073](https://github.com/MasterDD-L34D/Game/pull/3073) (biome_aliases: laguna->reef,
 > mangrovieto->palude). **O7** GAP2-next = **defer AFFERMATO** (marker accurato 91->76; re-open solo se
 > block-4 small-slice). **O8** resistance_archetype = enum formalizzato in `species.schema.json` ->
