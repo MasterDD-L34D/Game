@@ -82,6 +82,36 @@ function makeStoreStub(seed = {}) {
   };
 }
 
+// Store stub simulating Prisma-backed persistence: getCompanionState reads the
+// in-memory map only; saveCompanionState upserts to BOTH memory + a persistent
+// map; hydrateAsync repopulates memory from persistence. _restart() clears memory
+// (mimics a backend restart) while the persisted rows survive -- the exact shape
+// that exposes a memory-only overwrite guard (Codex P1).
+function makePersistentStoreStub() {
+  const persistent = new Map();
+  const memory = new Map();
+  return {
+    getCompanionState(id) {
+      return memory.get(id) || null;
+    },
+    saveCompanionState(state) {
+      const saved = { ...state, companion_card_signature: signatureFor(state) };
+      memory.set(state.lineage_id, saved);
+      persistent.set(state.lineage_id, saved);
+      return saved;
+    },
+    async hydrateAsync(id) {
+      const row = persistent.get(id);
+      if (!row) return null;
+      memory.set(id, row);
+      return row;
+    },
+    _restart() {
+      memory.clear();
+    },
+  };
+}
+
 function buildApp({ store, rollMatingOffspring, offspringStore } = {}) {
   const app = express();
   app.use(express.json());
@@ -438,6 +468,24 @@ test('POST promote refuses to overwrite an existing ambassador → 409 (anti-clo
   assert.equal(share.body.species_id, 'dune_stalker');
 });
 
+test('POST promote refuses a cross-restart overwrite (hydrates persistent store → 409, Codex P1)', async () => {
+  const store = makePersistentStoreStub();
+  const app = buildApp({ store, offspringStore: makeOffspringStoreStub() });
+  const xbred = makeCrossbreedOffspring();
+  const first = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  assert.equal(first.status, 201);
+  store._restart(); // memory cleared, persisted ambassador survives
+  const r = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'attacker_sp',
+    offspring: makeCrossbreedOffspring({ tier_bonus_traits: ['attacker_trait'] }),
+  });
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'lineage_already_promoted');
+});
+
 test('POST promote crossbreed descriptor without lineage_id → 400 lineage_id_required', async () => {
   const app = buildApp({
     store: createCompanionStateStore(),
@@ -450,6 +498,130 @@ test('POST promote crossbreed descriptor without lineage_id → 400 lineage_id_r
   });
   assert.equal(r.status, 400);
   assert.equal(r.body.error, 'lineage_id_required');
+});
+
+// --- B4: POST /skiv/import (foreign card -> ambassador, FC4-A signature+rate-limit) ---
+
+test('POST /skiv/import missing card → 400 card_required', async () => {
+  const app = buildApp({ store: createCompanionStateStore() });
+  const r = await postJson(app, '/api/skiv/import', {});
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'card_required');
+});
+
+test('POST /skiv/import tampered signature → 400 signature_mismatch', async () => {
+  const app = buildApp({ store: createCompanionStateStore() });
+  const card = makePartnerCard();
+  card.companion_card_signature = 'deadbeef'.repeat(8); // 64 hex, wrong
+  const r = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'signature_mismatch');
+});
+
+test('POST /skiv/import card without lineage_id → 400 lineage_id_required', async () => {
+  const app = buildApp({ store: createCompanionStateStore() });
+  // a validly-signed card that simply has no lineage_id
+  const card = makePartnerCard({ lineage_id: undefined });
+  const r = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'lineage_id_required');
+});
+
+test('POST /skiv/import valid foreign card → 201 persists ambassador (server re-signs)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store });
+  const card = makePartnerCard();
+  const r = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(r.status, 201);
+  assert.equal(r.body.ambassador.lineage_id, card.lineage_id);
+  assert.equal(r.body.ambassador.species_id, 'reef_drifter');
+  // server recomputes the signature over its own whitelist (never trusts client sig)
+  assert.match(r.body.ambassador.companion_card_signature, /^[a-f0-9]{64}$/);
+  // persisted: a later /share returns the imported ambassador
+  const share = await getJson(app, `/api/skiv/share/${card.lineage_id}`);
+  assert.equal(share.status, 200);
+  assert.equal(share.body.species_id, 'reef_drifter');
+});
+
+test('POST /skiv/import strips PII present on the incoming card (whitelist-only persist)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store });
+  // a signed card that also carries ephemeral PII -> must never be persisted
+  const card = makePartnerCard();
+  card.session_id = 'sess-leak';
+  card.hp_current = 3;
+  // (adding PII does not change the signature: signatureFor sanitizes to whitelist)
+  const r = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(r.status, 201);
+  assert.equal('session_id' in r.body.ambassador, false);
+  assert.equal('hp_current' in r.body.ambassador, false);
+});
+
+test('POST /skiv/import refuses to overwrite an existing lineage → 409 (FC1 home-authoritative)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store });
+  const card = makePartnerCard();
+  const first = await postJson(app, '/api/skiv/import', { card });
+  assert.equal(first.status, 201);
+  // an attacker re-imports the SAME lineage_id with a different (validly-signed) species
+  const attack = makePartnerCard({ species_id: 'attacker_sp' });
+  attack.lineage_id = card.lineage_id;
+  attack.companion_card_signature = signatureFor(attack);
+  const r = await postJson(app, '/api/skiv/import', { card: attack });
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'lineage_already_imported');
+  // victim card unchanged
+  const share = await getJson(app, `/api/skiv/share/${card.lineage_id}`);
+  assert.equal(share.body.species_id, 'reef_drifter');
+});
+
+test('POST /skiv/import rate-limits after 10/h per IP → 429', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store });
+  let last;
+  for (let i = 0; i < 11; i += 1) {
+    // distinct lineage each time so the cap/overwrite guard never trips first
+    const card = makePartnerCard({ lineage_id: `partner-lineage-import-${i}` });
+    card.companion_card_signature = signatureFor(card);
+    last = await postJson(app, '/api/skiv/import', { card });
+  }
+  assert.equal(last.status, 429);
+  assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST /skiv/import array card → 400 card_required (Array.isArray guard, #3131)', async () => {
+  const app = buildApp({ store: createCompanionStateStore() });
+  const r = await postJson(app, '/api/skiv/import', { card: [] });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'card_required');
+});
+
+test('POST /skiv/import garbage requests DO consume the rate-limit budget → 429', async () => {
+  const app = buildApp({ store: createCompanionStateStore() });
+  let last;
+  for (let i = 0; i < 11; i += 1) {
+    // empty body (no card) -> each is a 400 card_required, but still counts.
+    last = await postJson(app, '/api/skiv/import', {});
+  }
+  assert.equal(last.status, 429);
+  assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST /skiv/import refuses a cross-restart overwrite (hydrates persistent store → 409, Codex P1)', async () => {
+  const store = makePersistentStoreStub();
+  const app = buildApp({ store });
+  const card = makePartnerCard();
+  assert.equal((await postJson(app, '/api/skiv/import', { card })).status, 201);
+  // backend restart: memory cleared, the persisted ambassador row survives.
+  store._restart();
+  // a validly-signed re-import of the SAME lineage_id must STILL be refused
+  // (memory-only guard would 201 here and overwrite the persisted row).
+  const attack = makePartnerCard({ species_id: 'attacker_sp' });
+  attack.lineage_id = card.lineage_id;
+  attack.companion_card_signature = signatureFor(attack);
+  const r = await postJson(app, '/api/skiv/import', { card: attack });
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'lineage_already_imported');
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
