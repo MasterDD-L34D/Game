@@ -115,6 +115,25 @@ function makeOffspring(overrides = {}) {
   };
 }
 
+// Crossbreed-confirm offspring shape (rollMatingOffspring result), NOT persisted.
+function makeCrossbreedOffspring(overrides = {}) {
+  return {
+    lineage_id: 'skiv-savana-2026-0427-xbred',
+    gene_slots: [
+      { slot_id: 'gs_speed', value: 3 },
+      { slot_id: 'gs_armor', value: 2 },
+    ],
+    environmental_mutation: { id: 'mut_glow', type: 'mutation', tier: 2 },
+    tier_bonus_traits: ['ambush', 'burrow'],
+    hybrid_fusions: [{ id: 'fus_x', type: 'fusion' }],
+    tier: 2,
+    parent_a_id: 'skiv',
+    parent_b_id: 'partner',
+    biome_id_at_mating: 'savana',
+    ...overrides,
+  };
+}
+
 async function getJson(app, path) {
   return new Promise((resolve, reject) => {
     const server = app.listen(0, async () => {
@@ -347,6 +366,49 @@ test('POST promote rate-limits after 10/h per IP → 429 (parity w/ crossbreed w
   }
   assert.equal(last.status, 429);
   assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST promote a CROSSBREED descriptor (body.offspring) maps genome + no store lookup', async () => {
+  // Empty offspringStore -> proves the body descriptor path does not need a persisted record.
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub(),
+  });
+  const xbred = makeCrossbreedOffspring();
+  const r = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  assert.equal(r.status, 201);
+  assert.equal(r.body.ambassador.lineage_id, xbred.lineage_id);
+  // genome projection: env_mutation + hybrid_fusions -> mutations (objects, cap 3)
+  assert.deepEqual(
+    r.body.ambassador.mutations.map((m) => m.id),
+    ['mut_glow', 'fus_x'],
+  );
+  // tier_bonus_traits + gene_slot ids -> cabinet.unlocked
+  assert.deepEqual(r.body.ambassador.cabinet.unlocked, [
+    'ambush',
+    'burrow',
+    'gs_speed',
+    'gs_armor',
+  ]);
+  assert.deepEqual(r.body.spawn_descriptor.trait_ids, ['ambush', 'burrow', 'gs_speed', 'gs_armor']);
+  assert.equal(r.body.spawn_descriptor.biome_origin, 'savana');
+});
+
+test('POST promote crossbreed descriptor without lineage_id → 400 lineage_id_required', async () => {
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub(),
+  });
+  const xbred = makeCrossbreedOffspring({ lineage_id: undefined });
+  const r = await postJson(app, '/api/skiv/offspring/x/promote', {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'lineage_id_required');
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
