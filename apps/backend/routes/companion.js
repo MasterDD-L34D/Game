@@ -247,6 +247,14 @@ function createCompanionRouter({
    * here. Species is resolved at promote-time from the body (the offspring record
    * carries no species field; adding one = forbidden-path packages/contracts).
    *
+   * SCOPE: operates on a PERSISTED offspring lineage record (offspringStore, i.e.
+   * the /api/lineage/offspring-ritual path). Crossbreed-confirm offspring
+   * (rollMatingOffspring result) are NOT persisted to offspringStore and use a
+   * different shape (gene_slots/tier_bonus_traits/biome_id_at_mating), and confirm
+   * is campaign-scoped while offspringStore requires a session_id -> wiring
+   * confirm -> offspringStore.create (to make crossbreed offspring promotable) is a
+   * follow-up with a scoping decision, not this slice. Unknown id -> 404.
+   *
    * Response: 201 { ambassador, spawn_descriptor } | 400 species_required
    *           404 offspring_not_found | 422 promote_failed | 429 rate_limited
    */
