@@ -125,7 +125,10 @@ for arm in off off2 on_depleted on_abundant; do
   node tools/sim/spec-i-gates-probe.js --effect er7 --arms $arm --runs 40 --seed-base 52000 \
     --out reports/sim/er7-population-n40
 done
-node tools/sim/spec-i-gates-probe.js --effect er7 --aggregate --out reports/sim/er7-population-n40
+# --seed-base MUST match the per-arm runs: the aggregate stamps args metadata and a missing
+# --seed-base defaults to 51000 (parseArgs), which would rewrite the metadata out of sync.
+node tools/sim/spec-i-gates-probe.js --effect er7 --aggregate --seed-base 52000 \
+  --out reports/sim/er7-population-n40
 # then read reports/sim/er7-population-n40/summary.json (isolated_arms:true + summaries + deltas + extras.er7)
 ```
 
