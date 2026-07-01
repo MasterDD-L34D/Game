@@ -163,9 +163,10 @@ function createCompanionRouter({
    * server-side via signatureFor (transport integrity, spec :111-114).
    *
    * format=json (default) = full signed whitelist card. format=card = labeled
-   * display projection; format=qr = base64url of the signed card (client renders
-   * the QR; scan+decode -> importable card). card/qr are pure projections of the
-   * same signed json card (companionCardExport.js).
+   * display projection. format=qr = the public share_url to encode (ADR-04-27
+   * :110,:174-181: QR encapsulates share_url; scan -> URL -> fetch json -> verify
+   * -> import). card/qr are pure projections of the same signed json card
+   * (companionCardExport.js); the client renders the visual card / QR pixels.
    */
   router.get('/skiv/share/:lineage_id', (req, res) => {
     if (!requireStore(res)) return;
@@ -197,8 +198,17 @@ function createCompanionRouter({
     // Recompute signature server-side over the final whitelist payload.
     card.companion_card_signature = signatureFor(card);
     // card/qr are pure projections of the same signed json card (no new PII path).
-    if (format === 'card') return res.json(toDisplayCard(card));
-    if (format === 'qr') return res.json(toQrPayload(card));
+    // QR encodes the PUBLIC share_url (ADR-2026-04-27 :110,:174-181): materialize
+    // from the stored value or the request, NOT injected into the signed card so
+    // the json format's signature is unchanged.
+    if (format === 'card' || format === 'qr') {
+      const shareUrl =
+        card.share_url ||
+        `${req.protocol}://${req.get('host')}${req.baseUrl}/skiv/share/${encodeURIComponent(lineageId)}`;
+      return res.json(
+        format === 'card' ? toDisplayCard(card, shareUrl) : toQrPayload(card, shareUrl),
+      );
+    }
     return res.json(card);
   });
 

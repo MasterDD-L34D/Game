@@ -201,6 +201,8 @@ test('GET /skiv/share?format=card returns a display projection (PII-free, summar
   assert.equal('crossbreed_history' in r.body, false);
   assert.equal('voice_diary_portable' in r.body, false);
   assert.equal(typeof r.body.has_diary, 'boolean');
+  // materialized public share_url for a copy-link affordance
+  assert.match(r.body.share_url, /\/api\/skiv\/share\/skiv-savana-2026-0427-test$/);
   // PII never present
   assert.equal('session_id' in r.body, false);
   assert.equal('hp_current' in r.body, false);
@@ -215,22 +217,30 @@ test('GET /skiv/share?format=card honors diary opt-out (has_diary=false without 
   assert.equal(r.body.has_diary, false);
 });
 
-test('GET /skiv/share?format=qr base64url-decodes to a signature-valid, PII-free card', async () => {
+test('GET /skiv/share?format=qr encodes the public share_url (ADR :110), no inline blob', async () => {
   const lineageId = 'skiv-savana-2026-0427-test';
   const app = buildApp({ store: makeStoreStub({ [lineageId]: makeShareState() }) });
   const r = await getJson(app, `/api/skiv/share/${lineageId}?format=qr`);
   assert.equal(r.status, 200);
   assert.equal(r.body.format, 'qr');
-  assert.equal(r.body.encoding, 'base64url+json');
-  assert.equal(typeof r.body.payload, 'string');
-  const jsonStr = Buffer.from(r.body.payload, 'base64url').toString('utf8');
-  assert.equal(r.body.byte_len, Buffer.byteLength(jsonStr, 'utf8'));
-  const decoded = JSON.parse(jsonStr);
-  assert.equal(decoded.lineage_id, lineageId);
-  assert.equal('session_id' in decoded, false);
-  assert.equal('hp_current' in decoded, false);
-  // round-trip integrity: recomputed signature over the decoded card matches its embedded one
-  assert.equal(signatureFor(decoded), decoded.companion_card_signature);
+  assert.equal(r.body.encodes, 'share_url');
+  assert.equal(r.body.lineage_id, lineageId);
+  // absolute URL pointing back to the fetchable share endpoint for this lineage
+  assert.match(r.body.share_url, /^https?:\/\//);
+  assert.match(r.body.share_url, /\/api\/skiv\/share\/skiv-savana-2026-0427-test$/);
+  // no inline card blob, no PII
+  assert.equal('payload' in r.body, false);
+  assert.equal('session_id' in r.body, false);
+});
+
+test('GET /skiv/share?format=qr prefers a stored absolute share_url when present', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const stored = 'https://cards.example/api/skiv/share/skiv-savana-2026-0427-test';
+  const app = buildApp({
+    store: makeStoreStub({ [lineageId]: makeShareState({ share_url: stored }) }),
+  });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}?format=qr`);
+  assert.equal(r.body.share_url, stored);
 });
 
 test('GET /skiv/share?format=bogus → 400 unsupported_format', async () => {
