@@ -50,6 +50,8 @@ def run_one_quartet(host, run_idx, seed=None, policy="greedy", rng=None):
 
     status, start = post(f"{host}/api/session/start", {
         "units": quartet_units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": SCENARIO_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
         **({"seed": seed} if seed is not None else {}),
         "modulation": "quartet",
@@ -113,7 +115,10 @@ def run_one_quartet(host, run_idx, seed=None, policy="greedy", rng=None):
                            for u_id, u in final_units.items() if u.get("controlled_by") == "player" and u_id in initial_units)
     boss_hp_remaining = final_units.get("e_apex_boss", {}).get("hp", 0)
 
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    post(f"{host}/api/session/end", {"session_id": sid, **declared})
 
     return {
         "run": run_idx,

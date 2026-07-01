@@ -852,8 +852,12 @@ function createApp(options = {}) {
   // Warm the persisted ambassadors into memory at boot (persistence-layer): the
   // Prisma-backed store starts empty on every restart, so GET /skiv/share would 404
   // for a persisted Custode until a write touched it. Fire-and-forget, no-op without
-  // Prisma, never throws (a failure degrades to a cold start).
-  companionStore.hydrateAllAsync?.().catch(() => {});
+  // Prisma, never throws (a failure degrades to a cold start). Under per-Nido
+  // isolation (Option C) the hydrate rebuilds the per-owner FIFO windows instead of
+  // the single global-cap window (same env the companion router reads).
+  companionStore
+    .hydrateAllAsync?.({ isolate: process.env.SPEC_F_NIDO_ISOLATION_ENABLED === 'true' })
+    .catch(() => {});
   app.use('/api', createCompanionRouter({ store: companionStore }));
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).

@@ -57,6 +57,8 @@ def run_one(host, scenario_id):
         f"{host}/api/session/start",
         {
             "units": units,
+            # #3157 F3: tag the session so per-scenario telemetry stops logging null
+            "scenario_id": scenario_id,
             "modulation": sc.get("recommended_modulation", "full"),
             "sistema_pressure_start": sc.get("sistema_pressure_start", 50),
             "hazard_tiles": sc.get("hazard_tiles", []),
@@ -86,7 +88,10 @@ def run_one(host, scenario_id):
         state = resp.get("state", state)
     if outcome is None:
         outcome = h6.detect_outcome(state, None) or "timeout"
-    h6.post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    h6.post(f"{host}/api/session/end", {"session_id": sid, **declared})
     return {"outcome": outcome, "rounds": state.get("turn", 0), "difficulty": difficulty}
 
 
