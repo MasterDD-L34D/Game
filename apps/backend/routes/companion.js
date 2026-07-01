@@ -29,6 +29,7 @@ const companionPickerDefault = require('../services/companion/companionPicker');
 const { sanitizeWhitelist, signatureFor } = require('../services/skiv/companionStateStore');
 const { toDisplayCard, toQrPayload } = require('../services/skiv/companionCardExport');
 const { rollMatingOffspring: rollMatingOffspringDefault } = require('../services/metaProgression');
+const offspringStoreDefault = require('../services/lineage/offspringStore');
 
 // SPEC-F slice 3 -- crossbreed offspring is rolled by the engine, but with a
 // SEEDED rng so the proposal preview (slice 2) and the committed confirm
@@ -58,6 +59,7 @@ function createCompanionRouter({
   companionPicker = companionPickerDefault,
   store = null,
   rollMatingOffspring = rollMatingOffspringDefault,
+  offspringStore = offspringStoreDefault,
 } = {}) {
   const router = express.Router();
 
@@ -210,6 +212,71 @@ function createCompanionRouter({
       );
     }
     return res.json(card);
+  });
+
+  /**
+   * POST /api/skiv/offspring/:offspring_id/promote
+   * Body: { species_id, unit_id? }
+   *
+   * SPEC-F B4 slice 2 -- offspring -> playable lineage. FC3 (spec :162): an
+   * EXPLICIT per-offspring extraction (not mass-export). Persists the offspring as
+   * an ambassador companion card (reuses saveCompanionState + the cap-10 FIFO); the
+   * card is the portable, spawnable genome (species + mutations + lineage) AND a
+   * crossbreed-able ambassador. Also returns a thin `spawn_descriptor` = the genome
+   * a session/Godot needs to spawn the offspring as a playable unit; combat-stat
+   * derivation + live-run roster injection are DOWNSTREAM (session lane), not wired
+   * here. Species is resolved at promote-time from the body (the offspring record
+   * carries no species field; adding one = forbidden-path packages/contracts).
+   *
+   * Response: 201 { ambassador, spawn_descriptor } | 400 species_required
+   *           404 offspring_not_found | 422 promote_failed
+   */
+  router.post('/skiv/offspring/:offspring_id/promote', async (req, res) => {
+    if (!requireStore(res)) return;
+    const offspringId = String(req.params.offspring_id || '');
+    const body = req.body || {};
+    const speciesId = body.species_id ? String(body.species_id) : '';
+    if (!speciesId) {
+      return res.status(400).json({
+        error: 'species_required',
+        hint: 'the offspring record carries no species; pass species_id in the body',
+      });
+    }
+    let offspring;
+    try {
+      offspring = await offspringStore.getById(offspringId);
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ error: 'offspring_lookup_failed', message: String(err.message || err) });
+    }
+    if (!offspring) {
+      return res.status(404).json({ error: 'offspring_not_found' });
+    }
+    // Ambassador companion card (saveCompanionState applies cap-10 FIFO + signs).
+    // Only offspring-derived fields are set -- no fabricated mbti/aspect/progression.
+    const ambassadorState = {
+      schema_version: '0.2.0',
+      unit_id: body.unit_id ? String(body.unit_id) : `offspring-${offspring.lineage_id}`,
+      species_id: speciesId,
+      biome_id: offspring.biome_origin || null,
+      lineage_id: offspring.lineage_id,
+      mutations: Array.isArray(offspring.mutations) ? offspring.mutations : [],
+    };
+    let ambassador;
+    try {
+      ambassador = store.saveCompanionState(ambassadorState);
+    } catch (err) {
+      return res.status(422).json({ error: 'promote_failed', message: String(err.message || err) });
+    }
+    const spawnDescriptor = {
+      lineage_id: offspring.lineage_id,
+      species_id: speciesId,
+      applied_mutations: Array.isArray(offspring.mutations) ? offspring.mutations : [],
+      trait_ids: Array.isArray(offspring.trait_inherited) ? offspring.trait_inherited : [],
+      biome_origin: offspring.biome_origin || null,
+    };
+    return res.status(201).json({ ambassador, spawn_descriptor: spawnDescriptor });
   });
 
   /**

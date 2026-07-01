@@ -19,7 +19,10 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const express = require('express');
 const { createCompanionRouter } = require('../../apps/backend/routes/companion');
-const { signatureFor } = require('../../apps/backend/services/skiv/companionStateStore');
+const {
+  signatureFor,
+  createCompanionStateStore,
+} = require('../../apps/backend/services/skiv/companionStateStore');
 
 // A whitelist-shaped Custode state mirroring makeValidState from
 // tests/services/skivCompanionState.test.js, plus non-whitelist PII so we can
@@ -79,11 +82,37 @@ function makeStoreStub(seed = {}) {
   };
 }
 
-function buildApp({ store, rollMatingOffspring } = {}) {
+function buildApp({ store, rollMatingOffspring, offspringStore } = {}) {
   const app = express();
   app.use(express.json());
-  app.use('/api', createCompanionRouter({ store, rollMatingOffspring }));
+  app.use('/api', createCompanionRouter({ store, rollMatingOffspring, offspringStore }));
   return app;
+}
+
+// Minimal offspringStore stub -- only getById is called by the promote route.
+function makeOffspringStoreStub(seed = {}) {
+  const rows = new Map(Object.entries(seed));
+  return {
+    async getById(id) {
+      const r = rows.get(String(id));
+      return r ? { ...r } : null;
+    },
+  };
+}
+
+function makeOffspring(overrides = {}) {
+  return {
+    id: 'off-1',
+    lineage_id: 'skiv-savana-2026-0427-offspring',
+    session_id: 'sess-1',
+    parent_a_id: 'skiv',
+    parent_b_id: 'partner',
+    mutations: ['glow'],
+    trait_inherited: ['ambush', 'burrow'],
+    biome_origin: 'savana',
+    born_at: '2026-06-08T00:00:00Z',
+    ...overrides,
+  };
 }
 
 async function getJson(app, path) {
@@ -249,6 +278,61 @@ test('GET /skiv/share?format=bogus → 400 unsupported_format', async () => {
   const r = await getJson(app, `/api/skiv/share/${lineageId}?format=bogus`);
   assert.equal(r.status, 400);
   assert.equal(r.body.error, 'unsupported_format');
+});
+
+// --- B4 slice 2: POST /skiv/offspring/:id/promote (offspring -> ambassador) ---
+
+test('POST promote unknown offspring → 404 offspring_not_found', async () => {
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub(),
+  });
+  const r = await postJson(app, '/api/skiv/offspring/nope/promote', { species_id: 'dune_stalker' });
+  assert.equal(r.status, 404);
+  assert.equal(r.body.error, 'offspring_not_found');
+});
+
+test('POST promote without species_id → 400 species_required', async () => {
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub({ 'off-1': makeOffspring() }),
+  });
+  const r = await postJson(app, '/api/skiv/offspring/off-1/promote', {});
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'species_required');
+});
+
+test('POST promote persists ambassador + returns spawn_descriptor', async () => {
+  const off = makeOffspring();
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub({ 'off-1': off }),
+  });
+  const r = await postJson(app, '/api/skiv/offspring/off-1/promote', {
+    species_id: 'dune_stalker',
+  });
+  assert.equal(r.status, 201);
+  // ambassador companion card (species resolved from body, offspring-derived fields)
+  assert.equal(r.body.ambassador.lineage_id, off.lineage_id);
+  assert.equal(r.body.ambassador.species_id, 'dune_stalker');
+  assert.deepEqual(r.body.ambassador.mutations, ['glow']);
+  assert.match(r.body.ambassador.companion_card_signature, /^[a-f0-9]{64}$/);
+  // spawn descriptor = the unit-half genome (combat stats derived downstream)
+  assert.equal(r.body.spawn_descriptor.species_id, 'dune_stalker');
+  assert.deepEqual(r.body.spawn_descriptor.trait_ids, ['ambush', 'burrow']);
+  assert.deepEqual(r.body.spawn_descriptor.applied_mutations, ['glow']);
+  assert.equal(r.body.spawn_descriptor.biome_origin, 'savana');
+});
+
+test('POST promote then GET /skiv/share returns the persisted ambassador', async () => {
+  const off = makeOffspring();
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, offspringStore: makeOffspringStoreStub({ 'off-1': off }) });
+  await postJson(app, '/api/skiv/offspring/off-1/promote', { species_id: 'dune_stalker' });
+  const r = await getJson(app, `/api/skiv/share/${off.lineage_id}`);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.species_id, 'dune_stalker');
+  assert.equal(r.body.lineage_id, off.lineage_id);
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
