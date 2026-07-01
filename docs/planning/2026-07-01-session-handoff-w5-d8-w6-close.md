@@ -51,21 +51,24 @@ grilling-decided plan: **D8 -> W6**. **3 PR merged, 0 open, prod untouched, noth
 
 ```
 export FORM_PULSE_TRAIT_V2_ENABLED=true
-export FORM_PULSE_V2_ENEMY_HP_OFFSET=1.20
+export FORM_PULSE_V2_ENEMY_HP_OFFSET=1.15
 export FORM_PULSE_IMPRINT_WEIGHT=0.78
 ```
 
-Prod backend 3334 verified UP (200) + unchanged (the running process holds the old env). Reversible:
+> **UPDATE 2026-07-01: anchor RATIFIED = 1.15** (owner). The staged keys.env value was changed
+> 1.20 -> **1.15** (the corrected offense-null; #3152, W6 evidence RATIFIED section). The block above
+> reflects the ratified value -- restart from THIS.
+
+Prod backend 3334 verified UP + unchanged (the running process holds the old env). Reversible:
 delete the 3 lines (OFF = byte-identical).
 
-## OWNER TODO (2 decisions, owner-sequenced)
+## OWNER TODO (1 remaining -- the anchor is ratified)
 
-1. **Anchor 1.20 vs 1.15.** The staged value is **1.20** (master-dd's explicit round-3 pick). AFTER the
-   Codex seed-fix, the PAIRED anchor sweep moved the offense-null (net enemy_hp ~0) to **~1.15** (1.20 =
-   +0.038, mild over-comp). The agent LEFT 1.20 and surfaced 1.15 -- the auto-mode classifier correctly
-   blocked substituting a re-derived value on an armed prod-flip param. If offense-null is the goal,
-   change the keys.env anchor to 1.15 before restart. (The irreducible ~-0.06 ko survival tilt exists at
-   any anchor -- v2 = "leave a mark".)
+1. ~~**Anchor 1.20 vs 1.15.**~~ ✅ **RATIFIED 1.15** (owner 2026-07-01). The PAIRED anchor sweep (post
+   Codex seed-fix) put the offense-null (net enemy_hp ~0) at **1.15** (1.20 = +0.038, mild over-comp);
+   the owner ratified 1.15 and the staged keys.env was updated to match. (The irreducible ~-0.06 ko
+   survival tilt exists at any anchor -- v2 = "leave a mark".) D6 N=40 (#3149) separately validated the
+   imprint picks feeding the flag = 8/8 LIVE.
 2. **The flip = deploy + restart (owner).** Prod must be deployed to main `>= 92e52636` (the producer
    party-normalization -- else `w=0.78` unnormalized makes imprint win ~90%), THEN restart the backend.
    The chip never restarts prod.
