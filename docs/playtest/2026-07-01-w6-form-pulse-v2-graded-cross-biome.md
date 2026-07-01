@@ -147,11 +147,50 @@ party-size-specific and N=40-noisy.
 - **WR carries no signal** (structurally 0, KO-designed fight); the whole net rests on graded proxies (as
   designed -- inc-2).
 
-## Reproduce (node 22, in-process supertest, no prod port)
+## Confirming sweeps (master-dd ratify 2026-07-01: anchor->~1.25, w->~0.38, run sweeps then stage)
+
+Three confirming measurements were run against the ratified direction (artifacts
+`reports/sim/fp-v2-anchor125/` + `fp-v2-attrition/` + `fp-v2-w-resweep/`). They CONFIRM the direction
+but surface two wrinkles the exact values rest on:
+
+**1. Anchor 1.25 A/B (3 biomes, N=40).** At anchor 1.25 (offset x1.53 for the buff-8 party) the net flip
+is enemy_hp **-0.012** (~0, vs +0.107 at 1.4) -> the damage-output over-compensation is NULLED, as
+predicted. BUT net **ko_rate -0.069** (was ~-0.03 at 1.4) -> the flip is now survival player-FAVORABLE
+(the lower offset stops clawing back the survival buff). **The offset is a single HP knob on a 2D
+(offense+survival) buff and cannot null both**: 1.4 = offense-disadvantaged / survival-neutral; 1.25 =
+offense-neutral / survival-favorable. A compromise ~1.30-1.35 would split the residual.
+
+**2. Attrition point (anchor 1.4, tougher enemy DPR -> baseline ko ~0.47, party genuinely stressed).**
+The defensive v2 grants un-mask on ko_rate: player_buff ko **-0.069**, NET flip ko **-0.044** (survival
+player-favorable when survival actually matters). So the earlier "survival-neutral" was low-attrition-
+specific; under real pressure v2 tilts survival-favorable. (hp_remaining stays ~0.99 even here -- it is
+survivor-only, structurally can't carry this; ko_rate is the defensive channel.)
+
+**3. w re-sweep (pure synthesis, N=4000/cell, party-stratified).** CRITICAL: **no single `w` hits the
+30-40% imprint-win target across party sizes** -- party-4 needs w~0.38, party-3 ~0.44, party-2 ~0.58+
+(a bigger team's averaged |avg| clusters nearer 0 by CLT, so a fixed w wins the branco slot more often).
+The ratified w~0.38 is a **4-player value**; on a 2-3 player co-op it makes imprint near-vestigial (8-20%).
+
+| party size | w for 30-40% imprint-win (N=4000) |
+| ---------- | --------------------------------- |
+| 2          | ~0.58+ (w0.5=22.6%)               |
+| 3          | ~0.44 (w0.5=45.7%)                |
+| 4          | ~0.37-0.38 (w0.38=33.5%)          |
+
+**Net for the owner**: direction ratified + confirmed. Exact values are a design judgment the sweep
+narrowed but did not close: (a) which channel to null (offense @1.25 / survival @~1.4 / balanced @~1.3);
+(b) `w` cannot be party-neutral without normalizing the producer's form-|avg| by team size (a code
+change) -- else pick `w` for the modal party size and accept off-target elsewhere. Staged only after
+these two are resolved.
+
+## Reproduce (node 22, persistent 127.0.0.1 listener + fetch, no prod port)
 
 ```
 node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --w-sweep --out reports/sim/fp-v2-graded-n40
 node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --drift-floor --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-driftfloor2
+FORM_PULSE_V2_ENEMY_HP_OFFSET=1.25 node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-anchor125
+node tools/sim/form-pulse-v2-graded-ab-probe.js --n 40 --attrition --biomes badlands,savana,abisso_vulcanico --out reports/sim/fp-v2-attrition
+node tools/sim/form-pulse-v2-graded-ab-probe.js --w-resweep --resweep-n 4000 --out reports/sim/fp-v2-w-resweep
 ```
 
 Commit `31c07902` | node v22.22.3 | flag `FORM_PULSE_TRAIT_V2_ENABLED` stays OFF (this measures, never flips).

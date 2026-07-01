@@ -36,11 +36,17 @@
 // countGrantedV2BuffPower(v2 roster) > 0 and the flag-ON /start actually raises enemy max_hp (offset
 // applied). If it does not, THROW (a band-neutral would be a broken-probe artifact, not a real null).
 //
-// In-process supertest (createApp, NO prod port, node 22). Sim NOT bit-repro cross node-version
-// (bands as ranges, ~+-0.05). Flag stays OFF in prod -- this measures, never flips.
+// In-process (createApp + ONE persistent 127.0.0.1 listener + fetch keep-alive, NO prod port,
+// node 22). Sim NOT bit-repro cross node-version (bands as ranges, ~+-0.05). Flag stays OFF in prod
+// -- this measures, never flips.
+//
+// Confirming-sweep modes (master-dd ratify 2026-07-01): FORM_PULSE_V2_ENEMY_HP_OFFSET=1.25 (anchor
+// A/B), --attrition (tougher enemy DPR -> un-mask the defensive buff on ko_rate), --w-resweep
+// (pure-synthesis high-N party-stratified imprint-win curve), --drift-floor (order-drift control).
 //
 // Usage: node tools/sim/form-pulse-v2-graded-ab-probe.js [--n 40] [--seed 20260701]
-//          [--biomes savana,badlands,...] [--w-sweep] [--out reports/sim/<dir>]
+//          [--biomes savana,badlands,...] [--w-sweep] [--w-resweep] [--attrition]
+//          [--drift-floor] [--out reports/sim/<dir>]
 
 const fs = require('node:fs');
 const path = require('node:path');
@@ -76,24 +82,42 @@ const IMPRINT_POLES = Object.fromEntries(
 // ---------------------------------------------------------------------------
 // http + measurement-point roster/enemies (mirror focus-fire-ab-probe.js hardcore)
 // ---------------------------------------------------------------------------
-function supertestHttp(app) {
-  return {
+// Persistent listening server + fetch keep-alive (spec-i-gates-probe pattern, L-074). request(app)
+// per call spins a fresh temp server each time -> thousands of ephemeral ports -> Windows EADDRINUSE
+// on long cross-biome runs. One listener + a keep-alive agent reuses a single connection.
+async function makeServerHttp(app) {
+  const server = await new Promise((resolve, reject) => {
+    const s = app.listen(0, '127.0.0.1', () => resolve(s));
+    s.on('error', reject);
+  });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const toRes = async (r) => ({ status: r.status, body: await r.json().catch(() => ({})) });
+  const http = {
     post: (p, body) =>
-      request(app)
-        .post(p)
-        .send(body)
-        .then((r) => ({ status: r.status, body: r.body })),
-    get: (p, query) =>
-      request(app)
-        .get(p)
-        .query(query || {})
-        .then((r) => ({ status: r.status, body: r.body })),
+      fetch(`${base}${p}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body || {}),
+      }).then(toRes),
+    get: (p, query) => {
+      const qs = query ? `?${new URLSearchParams(query)}` : '';
+      return fetch(`${base}${p}${qs}`).then(toRes);
+    },
   };
+  const closeServer = () => new Promise((resolve) => server.close(resolve));
+  return { http, closeServer };
 }
 
 const TIER_HP = { base: 7, elite: 10, apex: 14 };
 const TIER_MOD = { base: 1, elite: 2, apex: 4 };
+// Attrition mode (confirming sweep 3, master-dd ratify): the default fight is LOW-attrition (party
+// survives ~0.92 HP) -> the defensive half of the v2 buff (damage_reduction / pelle_elastomera /
+// risposta_di_fuga) is ceiling-masked. ATTRITION boosts enemy to-hit (+MOD) + damage so the party is
+// ground below ~0.7 HP, un-masking the defensive grants on the hp_remaining channel.
+let ATTRITION = false;
 function hardcoreEnemies() {
+  const modBoost = ATTRITION ? 6 : 0;
+  const dmg = ATTRITION ? { min: 3, max: 6 } : { min: 1, max: 3 };
   return [
     ['dune-stalker', 'apex', { x: 5, y: 5 }, 'flanking'],
     ['echo-wing', 'elite', { x: 5, y: 4 }, 'aggressive'],
@@ -108,10 +132,10 @@ function hardcoreEnemies() {
     max_hp: TIER_HP[tier],
     ap: 2,
     ap_max: 2,
-    mod: TIER_MOD[tier],
+    mod: TIER_MOD[tier] + modBoost,
     dc: tier === 'apex' ? 14 : tier === 'elite' ? 12 : 11,
     attack_range: 1,
-    damage: { min: 1, max: 3 },
+    damage: dmg,
     initiative: tier === 'apex' ? 14 : 10,
     position,
     ai_profile: aiProfile,
@@ -206,8 +230,7 @@ function attachTraits(party, sharedBrancoId, minorIds) {
 // ---------------------------------------------------------------------------
 // Single run
 // ---------------------------------------------------------------------------
-async function runOne(app, roster, biomeId, seed) {
-  const http = supertestHttp(app);
+async function runOne(http, roster, biomeId, seed) {
   const r = await runEncounter(http, {
     roster,
     enemies: hardcoreEnemies(),
@@ -265,7 +288,7 @@ function armDelta(a, b) {
 // ---------------------------------------------------------------------------
 // Positive control: the mechanic must FIRE (else a band-neutral is a broken probe, not a null).
 // ---------------------------------------------------------------------------
-async function positiveControl(app, party, w) {
+async function positiveControl(http, party, w) {
   const rnd = lcg(999983);
   // find a team whose v2 grant is non-empty (almost always; loop a few seeds for safety)
   let grants = null;
@@ -282,7 +305,6 @@ async function positiveControl(app, party, w) {
     );
   }
   // offset must raise enemy max_hp when the flag is ON vs OFF, same roster+biome.
-  const http = supertestHttp(app);
   const startOff = async (flag) => {
     const prev = process.env[V2_FLAG];
     if (flag) process.env[V2_FLAG] = 'true';
@@ -320,7 +342,7 @@ async function positiveControl(app, party, w) {
 // same-process order-drift + non-seed noise at B's and C's exact run-distance from A. A real flag
 // effect must EXCEED this floor. (Arm C runs 2 slots after A in the live design; the drift-floor's
 // C-A quantifies exactly that positional bias.)
-async function measureBiome(app, party, biomeId, N, seedBase, w, driftFloor = false) {
+async function measureBiome(http, party, biomeId, N, seedBase, w, driftFloor = false) {
   const rnd = lcg(seedBase);
   const A = [];
   const B = [];
@@ -340,14 +362,14 @@ async function measureBiome(app, party, biomeId, N, seedBase, w, driftFloor = fa
     // ARM A: baseline roster, flag OFF (no offset)
     delete process.env[V2_FLAG];
     // eslint-disable-next-line no-await-in-loop
-    A.push(await runOne(app, rosterBaseline, biomeId, seed));
+    A.push(await runOne(http, rosterBaseline, biomeId, seed));
     // ARM B: v2 roster, flag OFF (traits present, NO offset -> pure player buff) [driftFloor: baseline replicate]
     // eslint-disable-next-line no-await-in-loop
-    B.push(await runOne(app, rosterB, biomeId, seed));
+    B.push(await runOne(http, rosterB, biomeId, seed));
     // ARM C: v2 roster, flag ON (offset applied -> the real flip) [driftFloor: baseline replicate, flag OFF]
     if (!driftFloor) process.env[V2_FLAG] = 'true';
     // eslint-disable-next-line no-await-in-loop
-    C.push(await runOne(app, rosterC, biomeId, seed));
+    C.push(await runOne(http, rosterC, biomeId, seed));
     delete process.env[V2_FLAG];
   }
   const sA = summarize(A);
@@ -370,11 +392,11 @@ async function measureBiome(app, party, biomeId, N, seedBase, w, driftFloor = fa
 // ---------------------------------------------------------------------------
 // w sweep (imprint weight): imprint win-rate + net graded impact as w varies (single biome).
 // ---------------------------------------------------------------------------
-async function wSweep(app, party, biomeId, N, seedBase, wValues) {
+async function wSweep(http, party, biomeId, N, seedBase, wValues) {
   const out = [];
   for (const w of wValues) {
     // eslint-disable-next-line no-await-in-loop
-    const m = await measureBiome(app, party, biomeId, N, seedBase, w);
+    const m = await measureBiome(http, party, biomeId, N, seedBase, w);
     out.push({
       w,
       imprint_win_rate: m.imprint_win_rate,
@@ -385,12 +407,36 @@ async function wSweep(app, party, biomeId, N, seedBase, wValues) {
   return out;
 }
 
+// PURE-SYNTHESIS w re-sweep (no combat -> cheap high-N). The imprint_win_rate is a deterministic
+// function of the synthesized teams (deriveGrants counts v2BrancoSource==='imprint'), so a high-N
+// sweep firms the w ratify without a single encounter. Party-stratified: the win curve is
+// party-size-dependent (a smaller team's averaged |avg| is noisier -> imprint competes differently).
+function wResweep(nTeams, wGrid, partySizes, seed) {
+  const out = [];
+  for (const nPlayers of partySizes) {
+    const row = { party_size: nPlayers, imprint_win_rate_by_w: {} };
+    for (const w of wGrid) {
+      const rnd = lcg(seed);
+      let wins = 0;
+      for (let i = 0; i < nTeams; i += 1) {
+        const g = deriveGrants(synthTeamInputs(nPlayers, rnd), w);
+        if (g.v2BrancoSource === 'imprint') wins += 1;
+      }
+      row.imprint_win_rate_by_w[w] = Number((wins / nTeams).toFixed(4));
+    }
+    out.push(row);
+  }
+  return out;
+}
+
 function parseArgs(argv) {
   const a = {
     n: 40,
     seed: 20260701,
     biomes: ['badlands', 'savana', 'caverna', 'abisso_vulcanico', 'palude'],
     wSweep: false,
+    wResweep: false,
+    resweepN: 4000,
     out: null,
   };
   for (let i = 2; i < argv.length; i += 1) {
@@ -402,7 +448,10 @@ function parseArgs(argv) {
         .split(',')
         .filter(Boolean);
     else if (t === '--w-sweep') a.wSweep = true;
+    else if (t === '--w-resweep') a.wResweep = true;
+    else if (t === '--resweep-n') a.resweepN = Math.max(1, Number(argv[(i += 1)]) || 4000);
     else if (t === '--drift-floor') a.driftFloor = true;
+    else if (t === '--attrition') a.attrition = true;
     else if (t === '--out') a.out = argv[(i += 1)];
   }
   return a;
@@ -410,23 +459,47 @@ function parseArgs(argv) {
 
 async function main() {
   const args = parseArgs(process.argv);
+  // Pure-synthesis w re-sweep: no combat, no app -> return early (confirming sweep for the w ratify).
+  if (args.wResweep) {
+    const wGrid = [0.3, 0.33, 0.35, 0.37, 0.38, 0.4, 0.42, 0.45, 0.5];
+    const rows = wResweep(args.resweepN, wGrid, [2, 3, 4], args.seed);
+    const report = {
+      probe: 'form-pulse-v2-w-resweep',
+      posture: 'pure synthesis (deterministic, no combat) -- firms the imprint weight w ratify',
+      teams_per_cell: args.resweepN,
+      seed: args.seed,
+      target_band: '30-40% imprint-win',
+      w_grid: wGrid,
+      by_party_size: rows,
+      node: process.version,
+    };
+    const json = JSON.stringify(report, null, 2);
+    if (args.out) {
+      fs.mkdirSync(args.out, { recursive: true });
+      fs.writeFileSync(path.join(args.out, 'w-resweep.json'), json + '\n');
+    }
+    console.log(json);
+    return;
+  }
   if (process.env[V2_FLAG] !== undefined) {
     console.error(`${V2_FLAG} is already set -- unset it (the probe owns the toggle per arm)`);
     process.exitCode = 1;
     return;
   }
+  ATTRITION = !!args.attrition; // confirming sweep 3: un-mask the defensive buff
   const w = resolveImprintWeight(process.env); // PROPOSED default 0.5 unless env override
   const party = await fetchCanonicalParty();
   const { app, close } = createApp({ databasePath: null });
+  const { http, closeServer } = await makeServerHttp(app);
   try {
-    const control = await positiveControl(app, party, w);
+    const control = await positiveControl(http, party, w);
     process.stderr.write(
       `[fp-v2-graded] positive-control OK: buff=${control.buff}, offset ${control.enemyHpOff}->${control.enemyHpOn} (x${control.offset_ratio}) -> mechanic fires\n`,
     );
     const biomes = [];
     for (const biomeId of args.biomes) {
       // eslint-disable-next-line no-await-in-loop
-      const m = await measureBiome(app, party, biomeId, args.n, args.seed, w, args.driftFloor);
+      const m = await measureBiome(http, party, biomeId, args.n, args.seed, w, args.driftFloor);
       biomes.push(m);
       process.stderr.write(
         `[fp-v2-graded]${args.driftFloor ? ' [DRIFT-FLOOR]' : ''} ${biomeId} done (impWin ${m.imprint_win_rate}, net enemy_hp ${m.net_flip_C_minus_A.enemy_hp_remaining})\n`,
@@ -434,7 +507,7 @@ async function main() {
     }
     let sweep = null;
     if (args.wSweep) {
-      sweep = await wSweep(app, party, args.biomes[0], args.n, args.seed, [0, 0.3, 0.5, 0.7, 1.0]);
+      sweep = await wSweep(http, party, args.biomes[0], args.n, args.seed, [0, 0.3, 0.5, 0.7, 1.0]);
     }
     // cross-biome aggregate of the net flip (mean over biomes, per channel).
     const chans = ['win_rate', 'enemy_hp_remaining', 'creature_ko_rate', 'hp_remaining'];
@@ -470,6 +543,7 @@ async function main() {
     }
     console.log(json);
   } finally {
+    await closeServer().catch(() => {});
     if (typeof close === 'function') await close().catch(() => {});
     delete process.env[V2_FLAG];
   }
