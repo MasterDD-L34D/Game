@@ -82,6 +82,36 @@ function makeStoreStub(seed = {}) {
   };
 }
 
+// Store stub simulating Prisma-backed persistence: getCompanionState reads the
+// in-memory map only; saveCompanionState upserts to BOTH memory + a persistent
+// map; hydrateAsync repopulates memory from persistence. _restart() clears memory
+// (mimics a backend restart) while the persisted rows survive -- the exact shape
+// that exposes a memory-only overwrite guard (Codex P1).
+function makePersistentStoreStub() {
+  const persistent = new Map();
+  const memory = new Map();
+  return {
+    getCompanionState(id) {
+      return memory.get(id) || null;
+    },
+    saveCompanionState(state) {
+      const saved = { ...state, companion_card_signature: signatureFor(state) };
+      memory.set(state.lineage_id, saved);
+      persistent.set(state.lineage_id, saved);
+      return saved;
+    },
+    async hydrateAsync(id) {
+      const row = persistent.get(id);
+      if (!row) return null;
+      memory.set(id, row);
+      return row;
+    },
+    _restart() {
+      memory.clear();
+    },
+  };
+}
+
 function buildApp({ store, rollMatingOffspring, offspringStore } = {}) {
   const app = express();
   app.use(express.json());
@@ -438,6 +468,24 @@ test('POST promote refuses to overwrite an existing ambassador → 409 (anti-clo
   assert.equal(share.body.species_id, 'dune_stalker');
 });
 
+test('POST promote refuses a cross-restart overwrite (hydrates persistent store → 409, Codex P1)', async () => {
+  const store = makePersistentStoreStub();
+  const app = buildApp({ store, offspringStore: makeOffspringStoreStub() });
+  const xbred = makeCrossbreedOffspring();
+  const first = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  assert.equal(first.status, 201);
+  store._restart(); // memory cleared, persisted ambassador survives
+  const r = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'attacker_sp',
+    offspring: makeCrossbreedOffspring({ tier_bonus_traits: ['attacker_trait'] }),
+  });
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'lineage_already_promoted');
+});
+
 test('POST promote crossbreed descriptor without lineage_id → 400 lineage_id_required', async () => {
   const app = buildApp({
     store: createCompanionStateStore(),
@@ -557,6 +605,23 @@ test('POST /skiv/import garbage requests DO consume the rate-limit budget → 42
   }
   assert.equal(last.status, 429);
   assert.equal(last.body.error, 'rate_limited');
+});
+
+test('POST /skiv/import refuses a cross-restart overwrite (hydrates persistent store → 409, Codex P1)', async () => {
+  const store = makePersistentStoreStub();
+  const app = buildApp({ store });
+  const card = makePartnerCard();
+  assert.equal((await postJson(app, '/api/skiv/import', { card })).status, 201);
+  // backend restart: memory cleared, the persisted ambassador row survives.
+  store._restart();
+  // a validly-signed re-import of the SAME lineage_id must STILL be refused
+  // (memory-only guard would 201 here and overwrite the persisted row).
+  const attack = makePartnerCard({ species_id: 'attacker_sp' });
+  attack.lineage_id = card.lineage_id;
+  attack.companion_card_signature = signatureFor(attack);
+  const r = await postJson(app, '/api/skiv/import', { card: attack });
+  assert.equal(r.status, 409);
+  assert.equal(r.body.error, 'lineage_already_imported');
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────

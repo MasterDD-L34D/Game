@@ -99,6 +99,26 @@ function createCompanionRouter({
   const _crossbreedCampaigns = new Set(); // `${campaignId}::${lineageId}`
   const cooldownKey = (campaignId, lineageId) => `${campaignId}::${lineageId}`;
 
+  // Overwrite guard for the ambassador registry. getCompanionState reads the
+  // in-memory Map only, but saveCompanionState upserts to Prisma -> after a
+  // backend restart a persisted ambassador is absent from memory and a
+  // client-supplied lineage_id would slip past a memory-only check + overwrite
+  // the persisted row (violating FC1 home-authoritative). Hydrate the row first
+  // so promote/import refuse cross-restart collisions too. No-op for in-memory
+  // stores (hydrateAsync returns null when Prisma is absent); a hydrate failure
+  // degrades to same-process only and never blocks a valid write.
+  async function lineageExists(lineageId) {
+    if (typeof store.getCompanionState !== 'function') return false;
+    if (typeof store.hydrateAsync === 'function') {
+      try {
+        await store.hydrateAsync(lineageId);
+      } catch {
+        /* non-fatal: fall through to the in-memory check */
+      }
+    }
+    return Boolean(store.getCompanionState(lineageId));
+  }
+
   /**
    * POST /api/companion/pick
    * Body: { biome_id, form_axes?, run_seed?, trainer_canonical? }
@@ -296,11 +316,9 @@ function createCompanionRouter({
     // Refuse to overwrite an existing ambassador: promote CREATES a new one, and
     // the (crossbreed-descriptor) lineage_id is client-supplied -> refusing an
     // in-place overwrite stops a caller clobbering another lineage's card
-    // (species/mutations/cabinet) by re-using its lineage_id (store is keyed by it).
-    if (
-      typeof store.getCompanionState === 'function' &&
-      store.getCompanionState(genome.lineage_id)
-    ) {
+    // (species/mutations/cabinet) by re-using its lineage_id (store is keyed by
+    // it). lineageExists hydrates so this holds across a restart too.
+    if (await lineageExists(genome.lineage_id)) {
       return res
         .status(409)
         .json({ error: 'lineage_already_promoted', lineage_id: genome.lineage_id });
@@ -353,7 +371,7 @@ function createCompanionRouter({
    *           400 signature_mismatch | 400 lineage_id_required |
    *           409 lineage_already_imported | 422 import_failed | 429 rate_limited
    */
-  router.post('/skiv/import', (req, res) => {
+  router.post('/skiv/import', async (req, res) => {
     if (!requireStore(res)) return;
     // Rate-limit FIRST (before body validation): every attempt -- incl. malformed
     // -- counts against the IP budget, so a garbage flood cannot probe the endpoint
@@ -388,7 +406,8 @@ function createCompanionRouter({
     // FC1 home-authoritative: refuse to overwrite an existing local ambassador
     // (import CREATES; lineage_id is client-supplied + the store is keyed by it ->
     // without this an importer clobbers another lineage's card by re-using its id).
-    if (typeof store.getCompanionState === 'function' && store.getCompanionState(lineageId)) {
+    // lineageExists hydrates the persistent store so this also holds after a restart.
+    if (await lineageExists(lineageId)) {
       return res.status(409).json({ error: 'lineage_already_imported', lineage_id: lineageId });
     }
     // Persist: saveCompanionState sanitizes to whitelist (drops PII), re-signs
