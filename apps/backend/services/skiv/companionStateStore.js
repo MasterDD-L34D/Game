@@ -396,11 +396,22 @@ function createCompanionStateStore(opts = {}) {
    * in-memory stores; never throws (a hydrate failure degrades to a cold start).
    * Returns the count hydrated. Warm-state only for the Option-A owner index
    * (ownerLineages is not persisted -> the per-Nido cap stays warm-only until Option C).
+   *
+   * Bounded to the GLOBAL ambassador cap, most-recently-updated first: FIFO eviction
+   * only drops a lineage from the in-memory map, never its persisted row, so an
+   * unbounded findMany would revive earlier-evicted ambassadors and push states.size
+   * past the cap on restart (Codex P1). Evicted lineages carry the oldest updatedAt (an
+   * evicted lineage can no longer receive events -- addCrossbreedEvent throws when it is
+   * absent from memory) so they fall outside `take: cap`. Isolation-ON per-owner
+   * durability across restart remains Option C (needs a persisted owner column).
    */
   async function hydrateAllAsync() {
     if (!usePrisma) return 0;
     try {
-      const rows = await opts.prisma.skivCompanionState.findMany();
+      const rows = await opts.prisma.skivCompanionState.findMany({
+        orderBy: { updatedAt: 'desc' },
+        take: ambassadorCap,
+      });
       let n = 0;
       for (const row of rows) {
         const state = fromPrismaRow(row);

@@ -437,19 +437,29 @@ test('Phase 1: WHITELIST_TOP_FIELDS includes critical share-safe fields', () => 
 
 function makeFakePrisma() {
   const rows = new Map(); // lineageId -> row
+  let clock = 0; // monotonic stand-in for @updatedAt (Prisma stamps it server-side)
   return {
     rows,
     skivCompanionState: {
       async upsert({ where, create, update }) {
         const existing = rows.get(where.lineageId);
-        rows.set(where.lineageId, existing ? { ...existing, ...update } : { ...create });
+        const updatedAt = ++clock;
+        rows.set(
+          where.lineageId,
+          existing ? { ...existing, ...update, updatedAt } : { ...create, updatedAt },
+        );
         return rows.get(where.lineageId);
       },
       async findUnique({ where }) {
         return rows.get(where.lineageId) || null;
       },
-      async findMany() {
-        return [...rows.values()];
+      async findMany(args = {}) {
+        let list = [...rows.values()];
+        if (args.orderBy && args.orderBy.updatedAt === 'desc') {
+          list.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        }
+        if (Number.isFinite(args.take)) list = list.slice(0, args.take);
+        return list;
       },
     },
   };
@@ -523,4 +533,28 @@ test('persistence-layer: hydrateAllAsync is a no-op (0) for an in-memory store',
   const store = createCompanionStateStore();
   assert.equal(store._mode, 'in-memory');
   assert.equal(await store.hydrateAllAsync(), 0);
+});
+
+test('persistence-layer: bulk-hydrate respects the cap + drops FIFO-evicted rows (Codex P1)', async () => {
+  const prisma = makeFakePrisma();
+  const cap = 3;
+  const store = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  // Save cap+2 lineages. The in-memory store FIFO-evicts the 2 oldest (keeps 3),
+  // but every save persisted a row -> the DB holds all 5 (eviction never deletes).
+  for (let i = 0; i < cap + 2; i += 1) {
+    store.saveCompanionState(makeValidState({ lineage_id: `skiv-cap-${i}-000` }));
+  }
+  await flush();
+  assert.equal(store.size(), cap, 'in-memory store held at the cap');
+  assert.equal(prisma.rows.size, cap + 2, 'all rows persisted (evicted rows survive in DB)');
+
+  // Restart: a bulk-hydrate must NOT revive the 2 evicted rows past the cap.
+  const store2 = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  const n = await store2.hydrateAllAsync();
+  assert.equal(n, cap, 'hydrated exactly the cap, not all 5');
+  assert.equal(store2.size(), cap);
+  // The 2 oldest (evicted, oldest updatedAt) are excluded; the 3 newest survive.
+  assert.equal(store2.getCompanionState('skiv-cap-0-000'), null);
+  assert.equal(store2.getCompanionState('skiv-cap-1-000'), null);
+  assert.ok(store2.getCompanionState('skiv-cap-4-000'), 'newest ambassador hydrated');
 });
