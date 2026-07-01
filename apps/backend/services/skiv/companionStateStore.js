@@ -22,6 +22,9 @@ const AMBASSADOR_CAP_PER_NIDO = 10;
 const VOICE_DIARY_MAX_ENTRIES = 5;
 const CROSSBREED_HISTORY_MAX_ENTRIES = 10;
 const CURRENT_SCHEMA_VERSION = '0.2.0';
+// Shared bucket for ownerless writes under per-Nido isolation (SPEC-F Option A):
+// keeps anonymous saves from evicting an owned Nido's ambassador (see saveCompanionState).
+const ANON_BUCKET = '__anon__';
 
 // Whitelist campi share-safe per signature + persistenza (ADR §D).
 // NON includere: session_id, hp_current, sg_current, pressure_tier, ap_current,
@@ -352,20 +355,26 @@ function createCompanionStateStore(opts = {}) {
     sanitized.companion_card_signature = signatureFor(sanitized);
     // Step 5: ambassador cap FIFO eviction.
     const isNewLineage = !states.has(sanitized.lineage_id);
-    if (isolate && owner) {
-      // Per-Nido cap (SPEC-F isolation ON): each owner keeps its OWN cap window;
-      // an owner's (cap+1)th add evicts THAT owner's oldest, never another Nido's.
-      let list = ownerLineages.get(owner);
+    if (isolate) {
+      // Per-Nido cap (SPEC-F isolation ON): each owner keeps its OWN cap window; an
+      // owner's (cap+1)th add evicts THAT owner's oldest, never another Nido's. An
+      // ownerless write (owner=null: no JWT/player_id) uses a SHARED anonymous bucket
+      // that can only evict OTHER anonymous entries -- otherwise dropping the owner
+      // field would fall to the global path and evict an owned ambassador, re-opening
+      // the cross-Nido eviction (Codex P2). ANON_BUCKET vs a real player_id collision
+      // is negligible (that player just shares the anon window).
+      const bucket = owner || ANON_BUCKET;
+      let list = ownerLineages.get(bucket);
       if (!list) {
         list = [];
-        ownerLineages.set(owner, list);
+        ownerLineages.set(bucket, list);
       }
       if (isNewLineage && list.length >= ambassadorCap) {
         const oldest = list.shift();
         if (oldest !== undefined) {
           states.delete(oldest);
           log.debug?.(
-            `[companionStateStore] per-owner FIFO eviction: owner ${owner} cap ${ambassadorCap} reached, dropped ${oldest}`,
+            `[companionStateStore] per-owner FIFO eviction: bucket ${bucket} cap ${ambassadorCap} reached, dropped ${oldest}`,
           );
         }
       }

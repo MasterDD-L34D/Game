@@ -696,12 +696,32 @@ test('isolation OFF (default): rate-limit stays per-IP -- player_id is ignored (
   assert.equal(last.status, 429);
 });
 
-test('isolation ON with no player_id falls back to global (no crash)', async () => {
+test('isolation ON with no player_id uses the shared anon bucket (no crash)', async () => {
   const store = createCompanionStateStore();
   const app = buildApp({ store, nidoIsolationEnabled: true });
   const card = makePartnerCard();
   const r = await postJson(app, '/api/skiv/import', { card }); // no player_id, no JWT
   assert.equal(r.status, 201);
+});
+
+test('isolation ON: an ownerless write cannot evict an owned Nido (Codex P2)', async () => {
+  const store = createCompanionStateStore({ ambassadorCap: 2 });
+  const app = buildApp({ store, nidoIsolationEnabled: true });
+  await importAs(app, 'A-one-1111', 'playerA');
+  await importAs(app, 'A-two-2222', 'playerA'); // playerA's bucket full at cap 2
+  // anonymous imports (no player_id) must land in the shared anon bucket + evict only
+  // each other -- NOT playerA's ambassadors (dropping the owner field must not bypass).
+  const anon = async (id) => {
+    const card = makePartnerCard({ lineage_id: id });
+    card.companion_card_signature = signatureFor(card);
+    return postJson(app, '/api/skiv/import', { card });
+  };
+  await anon('anon-one-11');
+  await anon('anon-two-22');
+  await anon('anon-thr-33'); // 3rd anon evicts anon-one (anon bucket), never playerA's
+  assert.equal((await getJson(app, '/api/skiv/share/A-one-1111')).status, 200); // A safe
+  assert.equal((await getJson(app, '/api/skiv/share/A-two-2222')).status, 200);
+  assert.equal((await getJson(app, '/api/skiv/share/anon-one-11')).status, 404); // anon evicted anon
 });
 
 test('isolation ON: a non-string player_id (object) is ignored, not used as a key', async () => {
