@@ -95,6 +95,34 @@ test('focusFire: none in range -> approaches nearest (unchanged)', () => {
   assert.deepEqual(r.target_position, { x: 1, y: 0 });
 });
 
+// Codex P2 #3127: focusFire must be honored in the OA2 in-zone attack path too (attacking
+// does not move the actor, so focusing a low-HP in-range foe keeps the hold intact).
+test('focusFire IN zone: attacks lowest-HP in-range foe, not nearest', () => {
+  const actor = { id: 'p', position: { x: 5, y: 5 }, attack_range: 2, ap_remaining: 1 };
+  const units = [
+    actor,
+    { id: 'hi', controlled_by: 'sistema', hp: 9, position: { x: 5, y: 6 } }, // adjacent, high HP
+    { id: 'lo', controlled_by: 'sistema', hp: 2, position: { x: 6, y: 6 } }, // dist 2, low HP
+  ];
+  const obj = { type: 'capture_point', config: { target_zone: [4, 4, 6, 6] } };
+  const r = selectPlayerAction(actor, units, obj, { focusFire: true });
+  assert.deepEqual(r, { action_type: 'attack', target_id: 'lo' });
+});
+
+test('in zone default (no focusFire): still attacks the nearest in-range (byte-identical)', () => {
+  const actor = { id: 'p', position: { x: 5, y: 5 }, attack_range: 2, ap_remaining: 1 };
+  const units = [
+    actor,
+    { id: 'hi', controlled_by: 'sistema', hp: 9, position: { x: 5, y: 6 } }, // nearest
+    { id: 'lo', controlled_by: 'sistema', hp: 2, position: { x: 6, y: 6 } },
+  ];
+  const obj = { type: 'capture_point', config: { target_zone: [4, 4, 6, 6] } };
+  assert.deepEqual(selectPlayerAction(actor, units, obj), {
+    action_type: 'attack',
+    target_id: 'hi',
+  });
+});
+
 // OA2 (SPEC-O): objective-aware zone-pursuit so non-elimination objectives complete in the sim.
 test('zone objective + actor outside zone -> moves toward the zone, NOT the enemy', () => {
   const actor = { id: 'p', position: { x: 5, y: 5 }, attack_range: 1, ap_remaining: 3 };
