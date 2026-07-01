@@ -8,6 +8,11 @@
     "id": { "$ref": "#/$defs/species_id" },
     "name": { "type": "string", "minLength": 1 },
     "archetype": { "type": "string" },
+    "resistance_archetype": {
+      "type": "string",
+      "enum": ["adattivo", "bioelettrico", "corazzato", "psionico", "termico"],
+      "description": "Canonical resistance archetype (packs/evo_tactics_pack/data/balance/species_resistances.yaml). Absent -> resistanceEngine falls back to default 'adattivo'. TKT-SALVAGE-A2 (O8): schema-level guard over the code-side speciesArchetypeReferences check."
+    },
     "rarity": { "type": "string" },
     "threatTier": { "type": "string" },
     "energyProfile": { "type": "string" },
