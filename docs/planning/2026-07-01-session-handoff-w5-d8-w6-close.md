@@ -99,7 +99,9 @@ delete the 3 lines (OFF = byte-identical).
 
 ## Next entry point
 
-The continuation chip (spawned this session): **D6 graded re-ratify -> N3 ER7 flag-ON N=40 -> G6
-move-terrain Godot**, plus the W6 owner follow-through (anchor decision + prod deploy/restart).
+D6 graded re-ratify = **DONE** (REAL band, mapping validated 8/8 live; #3149 + fix #3151). The W6
+anchor is **RATIFIED 1.15** (owner 2026-07-01; #3152/#3153, keys.env staged). The remaining W6
+follow-through is **only the flip = prod deploy to main `>= 92e52636` + restart** (owner; the anchor is
+no longer open). N3 ER7 flag-ON N=40 -> G6 move-terrain Godot = the paused graded lane (owner unpauses).
 Memory: `project_w5_sim_ai_player_upgrade` + `project_form_pulse_v2_flip_readiness` +
 `lesson_numeric_seeds_paired_sim`.

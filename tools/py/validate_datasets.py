@@ -523,8 +523,10 @@ def validate_telemetry() -> List[str]:
 #   3. bidirectional consistency:
 #        A.preys_on -> B  =>  B.prey_of -> A
 #        A.competes_with -> B  =>  B.competes_with -> A (warn-only on miss).
-# Errors are returned as flat strings; bidirectional asymmetry is a warning
-# during backfill phase (logged via stderr but not fatal).
+# Errors are returned as flat strings. Bidirectional prey asymmetry is FATAL
+# (appended to errors): the backfill phase is over and the gate protects
+# catalog integrity -- a future asymmetric edit MUST red the CI
+# (owner verdict 2026-07-01, TKT-B8-ECOLOGY-FATAL).
 
 ECOLOGY_LIST_FIELDS = (
     "prey_of",

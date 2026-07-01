@@ -1,5 +1,5 @@
 {
-  "data/species.yaml": "data/core/species.yaml",
+  "data/species.yaml": "data/core/species/species_catalog.json",
   "data/traits": "data/core/traits",
   "data/biomes.yaml": "data/core/biomes.yaml",
   "data/biome_aliases.yaml": "data/core/biome_aliases.yaml",
