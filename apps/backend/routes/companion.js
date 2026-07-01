@@ -27,6 +27,7 @@ const express = require('express');
 const crypto = require('crypto');
 const companionPickerDefault = require('../services/companion/companionPicker');
 const { sanitizeWhitelist, signatureFor } = require('../services/skiv/companionStateStore');
+const { toDisplayCard, toQrPayload } = require('../services/skiv/companionCardExport');
 const { rollMatingOffspring: rollMatingOffspringDefault } = require('../services/metaProgression');
 
 // SPEC-F slice 3 -- crossbreed offspring is rolled by the engine, but with a
@@ -161,13 +162,16 @@ function createCompanionRouter({
    * are truthy (default opt-out, spec :135-138). Signature is recomputed
    * server-side via signatureFor (transport integrity, spec :111-114).
    *
-   * format=json is the only supported format in v1 (qr/card = follow-up).
+   * format=json (default) = full signed whitelist card. format=card = labeled
+   * display projection; format=qr = base64url of the signed card (client renders
+   * the QR; scan+decode -> importable card). card/qr are pure projections of the
+   * same signed json card (companionCardExport.js).
    */
   router.get('/skiv/share/:lineage_id', (req, res) => {
     if (!requireStore(res)) return;
     const lineageId = String(req.params.lineage_id || '');
     const format = req.query.format ? String(req.query.format) : 'json';
-    if (format !== 'json') {
+    if (!['json', 'card', 'qr'].includes(format)) {
       return res.status(400).json({ error: 'unsupported_format', format });
     }
     let state;
@@ -192,6 +196,9 @@ function createCompanionRouter({
     card.generated_at = new Date().toISOString();
     // Recompute signature server-side over the final whitelist payload.
     card.companion_card_signature = signatureFor(card);
+    // card/qr are pure projections of the same signed json card (no new PII path).
+    if (format === 'card') return res.json(toDisplayCard(card));
+    if (format === 'qr') return res.json(toQrPayload(card));
     return res.json(card);
   });
 

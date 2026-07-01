@@ -186,6 +186,61 @@ test('GET /skiv/share sets generated_at + recomputed companion_card_signature', 
   assert.equal(typeof r.body.generated_at, 'string');
 });
 
+// --- B4: card / qr export formats (projections of the signed json card) ---
+
+test('GET /skiv/share?format=card returns a display projection (PII-free, summarized)', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const app = buildApp({ store: makeStoreStub({ [lineageId]: makeShareState() }) });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}?format=card`);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.format, 'card');
+  assert.equal(r.body.lineage_id, lineageId);
+  assert.equal(r.body.species_id, 'dune_stalker');
+  // heavy arrays summarized, raw not leaked
+  assert.equal(r.body.crossbreed_count, 0);
+  assert.equal('crossbreed_history' in r.body, false);
+  assert.equal('voice_diary_portable' in r.body, false);
+  assert.equal(typeof r.body.has_diary, 'boolean');
+  // PII never present
+  assert.equal('session_id' in r.body, false);
+  assert.equal('hp_current' in r.body, false);
+  assert.match(r.body.companion_card_signature, /^[a-f0-9]{64}$/);
+});
+
+test('GET /skiv/share?format=card honors diary opt-out (has_diary=false without consent)', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const app = buildApp({ store: makeStoreStub({ [lineageId]: makeShareState() }) });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}?format=card&include_diary=true`);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.has_diary, false);
+});
+
+test('GET /skiv/share?format=qr base64url-decodes to a signature-valid, PII-free card', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const app = buildApp({ store: makeStoreStub({ [lineageId]: makeShareState() }) });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}?format=qr`);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.format, 'qr');
+  assert.equal(r.body.encoding, 'base64url+json');
+  assert.equal(typeof r.body.payload, 'string');
+  const jsonStr = Buffer.from(r.body.payload, 'base64url').toString('utf8');
+  assert.equal(r.body.byte_len, Buffer.byteLength(jsonStr, 'utf8'));
+  const decoded = JSON.parse(jsonStr);
+  assert.equal(decoded.lineage_id, lineageId);
+  assert.equal('session_id' in decoded, false);
+  assert.equal('hp_current' in decoded, false);
+  // round-trip integrity: recomputed signature over the decoded card matches its embedded one
+  assert.equal(signatureFor(decoded), decoded.companion_card_signature);
+});
+
+test('GET /skiv/share?format=bogus → 400 unsupported_format', async () => {
+  const lineageId = 'skiv-savana-2026-0427-test';
+  const app = buildApp({ store: makeStoreStub({ [lineageId]: makeShareState() }) });
+  const r = await getJson(app, `/api/skiv/share/${lineageId}?format=bogus`);
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'unsupported_format');
+});
+
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
 
 test('GET /skiv/crossbreed/history unknown lineage → [] count 0', async () => {
