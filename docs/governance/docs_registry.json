@@ -13144,6 +13144,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-d8-chain-lightning-graded-reratify.md",
+      "title": "D8 chain-lightning -- graded re-ratify (W5): NULL by non-exercise (flag inert in sim)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-30-ha1-aliena-enforcement-evidence.md",
       "title": "HA1 aliena_enforcement strength evidence + flip-safety (SPEC-H, Tier-3 N2)",
       "doc_status": "active",
