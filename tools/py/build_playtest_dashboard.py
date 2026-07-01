@@ -189,7 +189,8 @@ let sc='n',sd=-1;
 function render(){rows.sort((a,b)=>(a[sc]<b[sc]?1:-1)*sd*-1);
  let h='<table><thead><tr>'+cols.map(c=>'<th onclick="window.__sort(\''+c[0]+'\')">'+c[1]+(sc===c[0]?(sd===1?' ▲':' ▼'):'')+'</th>').join('')+'</tr></thead><tbody>';
  rows.forEach(r=>{const cls=r.wr>=30&&r.wr<=50?'band-ok':'band-off';
-  h+='<tr><td>'+r.scenario+'</td><td>'+r.n+'</td><td>'+r.completed+'</td><td>'+r.win+'</td><td>'+r.abandon+'</td><td>'+r.wipe+'</td><td>'+r.truncated+'</td><td class="'+cls+'">'+r.wr+'%</td></tr>';});
+  // cells built FROM cols so header/data can never drift apart again (Codex P2 #3159)
+  h+='<tr>'+cols.map(c=>c[0]==='wr'?'<td class="'+cls+'">'+r.wr+'%</td>':'<td>'+r[c[0]]+'</td>').join('')+'</tr>';});
  document.getElementById('tbl').innerHTML=h+'</tbody></table>';}
 window.__sort=k=>{if(sc===k)sd=-sd;else{sc=k;sd=-1;}render();};
 render();}
