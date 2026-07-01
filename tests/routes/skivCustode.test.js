@@ -808,6 +808,26 @@ test('Option D ON: public reads stay open (GET share needs no token)', async () 
   assert.equal(r.status, 200); // reads are public-tier, never gated
 });
 
+test('Option D ON without AUTH_SECRET does NOT fall back to the legacy trait token (Codex P2)', async () => {
+  const prevSecret = process.env.AUTH_SECRET;
+  const prevTrait = process.env.TRAIT_EDITOR_TOKEN;
+  delete process.env.AUTH_SECRET;
+  process.env.TRAIT_EDITOR_TOKEN = 'legacy-secret'; // present, but must NOT gate SPEC-F writes
+  try {
+    const store = createCompanionStateStore();
+    // NO injected authenticate -> exercises the real createAuthHandlers({legacyToken:null}).
+    const app = buildApp({ store, writeAuthEnabled: true });
+    const card = makePartnerCard();
+    const r = await postJson(app, '/api/skiv/import', { card }); // no token
+    assert.equal(r.status, 201); // open (noop), NOT 401 legacy-token-gated
+  } finally {
+    if (prevSecret === undefined) delete process.env.AUTH_SECRET;
+    else process.env.AUTH_SECRET = prevSecret;
+    if (prevTrait === undefined) delete process.env.TRAIT_EDITOR_TOKEN;
+    else process.env.TRAIT_EDITOR_TOKEN = prevTrait;
+  }
+});
+
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
 
 test('GET /skiv/crossbreed/history unknown lineage → [] count 0', async () => {

@@ -95,10 +95,13 @@ function createCompanionRouter({
 
   // Option D write-gate middleware: enforce/populate auth on SPEC-F writes when
   // opted in (else a passthrough -> open, byte-identical). Injected `authenticate`
-  // wins (tests); otherwise the shared createAuthHandlers().authenticate is used
-  // (JWT-enforce when AUTH_SECRET set, noop -> open otherwise). Reads never get it.
+  // wins (tests); otherwise createAuthHandlers is used JWT-ONLY: `legacyToken:null`
+  // DISABLES the shared TRAIT_EDITOR_TOKEN/TRAITS_API_TOKEN fallback (Codex P2) --
+  // a SPEC-F write must be bound to a per-player JWT sub, never the shared static
+  // trait-editor token (wrong credential + no per-owner identity). So: JWT-enforce
+  // when AUTH_SECRET set, noop -> open otherwise (regardless of the trait tokens).
   const writeAuth = writeAuthEnabled
-    ? authenticate || createAuthHandlers().authenticate
+    ? authenticate || createAuthHandlers({ legacyToken: null }).authenticate
     : (_req, _res, next) => next();
 
   // SPEC-F per-Nido isolation (Option A). Owner = the caller's durable identity:
