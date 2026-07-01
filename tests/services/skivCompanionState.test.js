@@ -535,6 +535,65 @@ test('persistence-layer: hydrateAllAsync is a no-op (0) for an in-memory store',
   assert.equal(await store.hydrateAllAsync(), 0);
 });
 
+// ─── Option C: durable per-Nido cap (owner column + isolate hydrate) ─────
+
+test('option-c: owner persists on owned writes and survives ownerless follow-ups', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-keep-01' }), {
+    owner: 'player-alpha',
+    isolate: true,
+  });
+  await flush();
+  assert.equal(prisma.rows.get('skiv-ownc-keep-01').owner, 'player-alpha');
+  // Internal ownerless write (event append) must NOT wipe the stored owner.
+  store.addCrossbreedEvent('skiv-ownc-keep-01', { role: 'parent_a', tier: 'gold' });
+  await flush();
+  assert.equal(prisma.rows.get('skiv-ownc-keep-01').owner, 'player-alpha');
+});
+
+test('option-c: isolate hydrate rebuilds per-owner windows + FIFO stays per-owner', async () => {
+  const prisma = makeFakePrisma();
+  const cap = 2;
+  const store = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  // Owner A saves cap+1 (oldest FIFO-evicted from memory; all 3 rows persisted),
+  // owner B saves 1, one ownerless (anon bucket).
+  for (let i = 0; i < cap + 1; i += 1) {
+    store.saveCompanionState(makeValidState({ lineage_id: `skiv-ownc-a${i}-000` }), {
+      owner: 'nido-a',
+      isolate: true,
+    });
+  }
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-b0-000' }), {
+    owner: 'nido-b',
+    isolate: true,
+  });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-anon-000' }), {
+    owner: null,
+    isolate: true,
+  });
+  await flush();
+  assert.equal(prisma.rows.size, cap + 3, 'all rows persisted (eviction never deletes)');
+
+  // Restart with isolation ON: per-owner windows, NOT the global take:cap.
+  const store2 = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  const n = await store2.hydrateAllAsync({ isolate: true });
+  assert.equal(n, cap + 2, "A's newest 2 + B's 1 + anon 1 (A's evicted oldest stays out)");
+  assert.equal(store2.getCompanionState('skiv-ownc-a0-000'), null, 'A oldest not revived');
+  assert.ok(store2.getCompanionState('skiv-ownc-a2-000'), 'A newest hydrated');
+  assert.ok(store2.getCompanionState('skiv-ownc-b0-000'), 'B hydrated (own window)');
+  assert.ok(store2.getCompanionState('skiv-ownc-anon-000'), 'anon hydrated (ANON bucket)');
+
+  // Post-hydrate FIFO is per-owner: a new A save evicts A's oldest KEPT, never B/anon.
+  store2.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-a3-000' }), {
+    owner: 'nido-a',
+    isolate: true,
+  });
+  assert.equal(store2.getCompanionState('skiv-ownc-a1-000'), null, "A's oldest-kept evicted");
+  assert.ok(store2.getCompanionState('skiv-ownc-b0-000'), 'B untouched');
+  assert.ok(store2.getCompanionState('skiv-ownc-anon-000'), 'anon untouched');
+});
+
 test('persistence-layer: bulk-hydrate respects the cap + drops FIFO-evicted rows (Codex P1)', async () => {
   const prisma = makeFakePrisma();
   const cap = 3;

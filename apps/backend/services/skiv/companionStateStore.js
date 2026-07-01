@@ -334,8 +334,14 @@ function createCompanionStateStore(opts = {}) {
     ? opts.ambassadorCap
     : AMBASSADOR_CAP_PER_NIDO;
 
-  function persistAsync(state) {
+  function persistAsync(state, owner) {
     if (!usePrisma) return;
+    // Option C (durable per-Nido cap): persist the owner ONLY on an owned write
+    // (non-empty string). Internal ownerless writes (addCrossbreedEvent, resync)
+    // must NOT wipe a stored owner -> the key is OMITTED from the update, not
+    // written as null. The column is server-side metadata, NEVER part of the
+    // whitelisted card (it would leak via share + change the signature).
+    const ownedWrite = typeof owner === 'string' && owner.length > 0;
     const data = {
       lineageId: state.lineage_id,
       schemaVersion: state.schema_version,
@@ -349,6 +355,7 @@ function createCompanionStateStore(opts = {}) {
       // `state` JSONB column holds the entire sanitized (PII-free) card; fromPrismaRow
       // prefers it and falls back to the 6 columns for pre-migration rows (state=null).
       state,
+      ...(ownedWrite ? { owner } : {}),
     };
     opts.prisma.skivCompanionState
       .upsert({
@@ -361,6 +368,7 @@ function createCompanionStateStore(opts = {}) {
           voiceDiaryPortable: data.voiceDiaryPortable,
           shareUrl: data.shareUrl,
           state: data.state,
+          ...(ownedWrite ? { owner } : {}),
         },
       })
       .catch((err) => {
@@ -394,31 +402,72 @@ function createCompanionStateStore(opts = {}) {
    * single lineage lazily on a guarded write) -> GET /skiv/share 404s for a persisted
    * ambassador until something touches it. Fire-and-forget at boot (app.js). No-op for
    * in-memory stores; never throws (a hydrate failure degrades to a cold start).
-   * Returns the count hydrated. Warm-state only for the Option-A owner index
-   * (ownerLineages is not persisted -> the per-Nido cap stays warm-only until Option C).
+   * Returns the count hydrated.
    *
-   * Bounded to the GLOBAL ambassador cap, most-recently-updated first: FIFO eviction
+   * Default (isolate=false) = GLOBAL cap, most-recently-updated first: FIFO eviction
    * only drops a lineage from the in-memory map, never its persisted row, so an
    * unbounded findMany would revive earlier-evicted ambassadors and push states.size
    * past the cap on restart (Codex P1). Evicted lineages carry the oldest updatedAt (an
    * evicted lineage can no longer receive events -- addCrossbreedEvent throws when it is
-   * absent from memory) so they fall outside `take: cap`. Isolation-ON per-owner
-   * durability across restart remains Option C (needs a persisted owner column).
+   * absent from memory) so they fall outside `take: cap`.
+   *
+   * Option C (isolate=true, SPEC_F_NIDO_ISOLATION_ENABLED): per-owner windows.
+   * Under isolation the persisted rows legitimately exceed the global cap (N owners
+   * x cap each), so the global `take: cap` would DROP owned ambassadors. Instead:
+   * load ALL rows oldest-first, bucket by the persisted `owner` column (ownerless
+   * rows -> ANON_BUCKET, mirroring saveCompanionState), keep the NEWEST `cap` per
+   * bucket, and rebuild the ownerLineages index in updatedAt order so post-boot
+   * FIFO eviction (list.shift()) keeps dropping the oldest -- the per-Nido cap is
+   * now durable across restart.
    */
-  async function hydrateAllAsync() {
+  async function hydrateAllAsync({ isolate = false } = {}) {
     if (!usePrisma) return 0;
     try {
-      const rows = await opts.prisma.skivCompanionState.findMany({
-        orderBy: { updatedAt: 'desc' },
-        take: ambassadorCap,
-      });
-      let n = 0;
-      for (const row of rows) {
-        const state = fromPrismaRow(row);
-        if (state && typeof state.lineage_id === 'string') {
-          states.set(state.lineage_id, state);
-          n += 1;
+      if (!isolate) {
+        const rows = await opts.prisma.skivCompanionState.findMany({
+          orderBy: { updatedAt: 'desc' },
+          take: ambassadorCap,
+        });
+        let n = 0;
+        for (const row of rows) {
+          const state = fromPrismaRow(row);
+          if (state && typeof state.lineage_id === 'string') {
+            states.set(state.lineage_id, state);
+            n += 1;
+          }
         }
+        return n;
+      }
+      // Isolation ON: per-owner windows, oldest-first for FIFO index order.
+      const rows = await opts.prisma.skivCompanionState.findMany({
+        orderBy: { updatedAt: 'asc' },
+      });
+      const buckets = new Map(); // bucket -> row[] (updatedAt asc)
+      for (const row of rows) {
+        const bucket =
+          typeof row.owner === 'string' && row.owner.length > 0 ? row.owner : ANON_BUCKET;
+        let list = buckets.get(bucket);
+        if (!list) {
+          list = [];
+          buckets.set(bucket, list);
+        }
+        list.push(row);
+      }
+      let n = 0;
+      for (const [bucket, list] of buckets) {
+        // Newest `cap` per bucket; rows beyond it were FIFO-evicted pre-restart
+        // (or would be immediately) -- leave them in the DB, out of memory.
+        const kept = list.slice(Math.max(0, list.length - ambassadorCap));
+        const index = [];
+        for (const row of kept) {
+          const state = fromPrismaRow(row);
+          if (state && typeof state.lineage_id === 'string') {
+            states.set(state.lineage_id, state);
+            index.push(state.lineage_id);
+            n += 1;
+          }
+        }
+        if (index.length > 0) ownerLineages.set(bucket, index);
       }
       return n;
     } catch (err) {
@@ -507,7 +556,9 @@ function createCompanionStateStore(opts = {}) {
       }
     }
     states.set(sanitized.lineage_id, sanitized);
-    persistAsync(sanitized);
+    // Owner rides to the persistence layer regardless of `isolate` (Option C):
+    // pre-populates durable ownership so a later isolation flip has history.
+    persistAsync(sanitized, owner);
     return getCompanionState(sanitized.lineage_id);
   }
 
