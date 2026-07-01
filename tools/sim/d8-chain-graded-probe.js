@@ -106,6 +106,7 @@ async function runArm(chainOn, N, seedBase) {
         maxRounds: 160,
         pressureStart: MP.pressureStart,
         modulation: 'duo_hardcore',
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       const rosterN = (res.rosterIds || []).length || 1;
       runs.push({

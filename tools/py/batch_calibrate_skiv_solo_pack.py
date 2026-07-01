@@ -250,6 +250,8 @@ def run_one(host, run_idx, seed=None):
     units = build_skiv_units()
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": ENCOUNTER_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay
         # (single-unit survival scenario -> only --seed; no player-ladder policy).
         **({"seed": seed} if seed is not None else {}),
@@ -290,7 +292,11 @@ def run_one(host, run_idx, seed=None):
         # Fell through MAX_ROUNDS without resolution → treat as survival (win)
         outcome = "victory"
 
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    # Note: 'victory' is intentionally NOT declarable -- the board derives wins.
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    post(f"{host}/api/session/end", {"session_id": sid, **declared})
 
     final_units = state.get("units", [])
     skiv_final = next((u for u in final_units if u["id"] == "skiv"), None)
