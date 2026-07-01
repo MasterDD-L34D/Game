@@ -97,7 +97,7 @@ function stepTowardZone(actor, zone, units) {
   return null; // boxed in -> hold this tick
 }
 
-function selectPlayerAction(actor, units, objective) {
+function selectPlayerAction(actor, units, objective, opts = {}) {
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
   // bug C (#2662-era OA2): GET /:id/objective + the evaluator carry `target_zone` at the TOP
@@ -133,14 +133,29 @@ function selectPlayerAction(actor, units, objective) {
   // Default / in-zone / elimination / survival: closest-enemy attack-or-approach.
   const enemies = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
   if (enemies.length === 0) return null;
-  const target = enemies.sort(
-    (a, b) => dist(actor.position, a.position) - dist(actor.position, b.position),
-  )[0];
+  const nearest = enemies
+    .slice()
+    .sort((a, b) => dist(actor.position, a.position) - dist(actor.position, b.position))[0];
   const range = actor.attack_range || 1;
-  if (dist(actor.position, target.position) <= range && (actor.ap_remaining ?? 0) >= 1) {
-    return { action_type: 'attack', target_id: target.id };
+  if (dist(actor.position, nearest.position) <= range && (actor.ap_remaining ?? 0) >= 1) {
+    // W5 inc-1 focus-fire (opt-in via opts.focusFire): among IN-RANGE enemies target the
+    // lowest-HP (finish-off) to concentrate damage; tie-break nearest, then id (deterministic).
+    // Default OFF = byte-identical (attacks the nearest, as before). Only the target PICK
+    // changes -- an enemy is already in range, so we always attack (never chase a far low-HP
+    // foe out of position).
+    if (opts && opts.focusFire) {
+      const inRange = enemies.filter((e) => dist(actor.position, e.position) <= range);
+      const target = inRange.sort(
+        (a, b) =>
+          (a.hp ?? 0) - (b.hp ?? 0) ||
+          dist(actor.position, a.position) - dist(actor.position, b.position) ||
+          (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+      )[0];
+      return { action_type: 'attack', target_id: target.id };
+    }
+    return { action_type: 'attack', target_id: nearest.id };
   }
-  return stepToward(actor, target.position);
+  return stepToward(actor, nearest.position);
 }
 
 module.exports = { dist, inZone, selectPlayerAction, ZONE_PURSUIT_OBJECTIVES };

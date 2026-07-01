@@ -505,6 +505,45 @@
       "track": "active"
     },
     {
+      "path": "docs/superpowers/plans/2026-07-01-w5-sim-ai-player-upgrade.md",
+      "title": "W5 -- sim AI-player upgrade (objective-aware/positioning long-pole) implementation plan",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/research/2026-07-01-w5-ai-player-recon.md",
+      "title": "W5 sim AI-player recon -- objective-aware / positioning long-pole (corrected premise)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/playtest/2026-07-01-w5-focus-fire-ab-evidence.md",
+      "title": "W5 inc-1 -- focus-fire A/B evidence (band-neutral: survival lever, not speed lever)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/superpowers/plans/2026-06-23-move-terrain-cost-substrate-plan.md",
       "title": "Move terrain-cost substrate -- implementation plan (volo grades + radici anchor)",
       "doc_status": "active",

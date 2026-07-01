@@ -55,6 +55,10 @@ async function runEncounter(
     // -> byte-identical start body.
     terrainFeatures = null,
     gridSize = null,
+    // W5 inc-1: opt-in focus-fire player policy (combat-policy.js selectPlayerAction). Default
+    // false = byte-identical closest-attack. The N=40 A/B harness sets it to measure the AI
+    // upgrade against the same seeds.
+    focusFire = false,
   } = {},
 ) {
   if (Array.isArray(terrainFeatures) && terrainFeatures.length && scenarioId) {
@@ -205,7 +209,7 @@ async function runEncounter(
       });
       if (oc && oc.status >= 200 && oc.status < 300) overchargeUses += 1;
     }
-    const action = selectPlayerAction(active, units, objective);
+    const action = selectPlayerAction(active, units, objective, { focusFire });
     if (!action) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
@@ -232,9 +236,24 @@ async function runEncounter(
     }
   }
 
-  const survivorIds = lastUnits
-    .filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0)
-    .map((u) => u.id);
+  const survivors = lastUnits.filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0);
+  const survivorIds = survivors.map((u) => u.id);
+
+  // W5 inc-1: graded calibration metrics (Gap C signal, master-dd Q2). AI-independent read
+  // over the final board -- a team-power delta that the binary win/lose outcome collapses
+  // (cakewalk vs limped-in) shows up here. Scoped to the ROSTER (rosterIds) so a transient
+  // spawned minion (B5: player-controlled but NOT in the roster) can't mask a roster loss in
+  // units_lost nor dilute hp_remaining_pct. units_lost = roster units that fell;
+  // hp_remaining_pct = mean surviving-roster HP fraction (0 when the roster is wiped).
+  const rosterSet = new Set(rosterIds);
+  const rosterSurvivors = lastUnits.filter((u) => rosterSet.has(u.id) && (u.hp ?? 0) > 0);
+  const unitsLost = Math.max(0, rosterIds.length - rosterSurvivors.length);
+  const hpRemainingPct = rosterSurvivors.length
+    ? rosterSurvivors.reduce(
+        (s, u) => s + (u.hp ?? 0) / (Number(u.max_hp) || Number(u.hp) || 1),
+        0,
+      ) / rosterSurvivors.length
+    : 0;
 
   // SPEC-I event collector: one post-loop sweep so events emitted by the final
   // commit (after the last in-loop poll) still land in the tail window.
@@ -295,6 +314,8 @@ async function runEncounter(
     sessionId,
     rosterIds,
     survivorIds,
+    units_lost: unitsLost,
+    hp_remaining_pct: Number(hpRemainingPct.toFixed(4)),
     personalityUnits,
     biomeWounded,
     ended,
