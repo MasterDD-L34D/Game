@@ -146,10 +146,13 @@ their defensive value directly on `creature_ko_rate`: the three dmg_red picks cu
   imprint grant power is part of the W6 bundle. Nothing new flips; no prod change.
 - **The mapping + `w` POWER ratify remains the owner's W6 decision** (staged-latent, anchor 1.20-vs-1.15
   - `w` 0.78). This probe REPORTS (L-069); it never ratifies a value.
-- **One owner micro-decision surfaced**: `ferocia` (PROFONDA) is the lone exercise-limited pick
-  (`on_kill`). Recommended default: KEEP (it is LIVE, just gated on kills the passive AI seldom scores;
-  re-picking on a passive-AI artifact over-fits the harness, and the whole D6/D8/ER6 re-ratify is anyway
-  gated on the X1/W5 AI upgrade). Owner may re-pick a non-`on_kill` PROFONDA alternative at the ratify.
+- **Owner verdict 2026-07-01: KEEP `ferocia`.** The lone exercise-limited pick (`on_kill`, PROFONDA) is
+  LIVE, not broken -- it under-fires only because the passive AI seldom scores kills; its exercise rises
+  in any won fight / under the X1/W5 AI upgrade (the whole D6/D8/ER6 re-ratify is gated on that anyway).
+  Re-picking on a passive-AI artifact would over-fit the harness. Mapping stays as-built, all 8 picks.
+- **The mapping + `w` POWER ratify remains the owner's W6 decision** (staged-latent, anchor 1.20-vs-1.15
+  - `w` 0.78); the owner is handling it directly (this session paused the graded lane after D6). This
+    probe REPORTS (L-069); it never ratifies a value.
 
 ## Reproduce (node 22, in-process, no prod port)
 

@@ -28,7 +28,8 @@
   "attrition": false,
   "positive_control": {
     "pick": "occhi_analizzatori_di_tensione",
-    "fired_in_control": 17
+    "fired_in_control": 17,
+    "status_invoked_in_control": 33
   },
   "per_biome": [
     {
@@ -63,7 +64,7 @@
           "pole": "VELOCE",
           "fires": 169,
           "party_hits": 311,
-          "fire_rate": 0.5434,
+          "fires_per_party_hit": 0.5434,
           "granted": {
             "N": 40,
             "win_rate": 0.075,
@@ -85,7 +86,7 @@
           "pole": "SILENZIOSA",
           "fires": 229,
           "party_hits": 400,
-          "fire_rate": 0.5725,
+          "fires_per_party_hit": 0.5725,
           "granted": {
             "N": 40,
             "win_rate": 0.05,
@@ -107,7 +108,7 @@
           "pole": "PROFONDA",
           "fires": 45,
           "party_hits": 277,
-          "fire_rate": 0.1625,
+          "fires_per_party_hit": 0.1625,
           "granted": {
             "N": 40,
             "win_rate": 0,
@@ -129,7 +130,7 @@
           "pole": "RAPIDA",
           "fires": 197,
           "party_hits": 293,
-          "fire_rate": 0.6724,
+          "fires_per_party_hit": 0.6724,
           "granted": {
             "N": 40,
             "win_rate": 0.025,
@@ -151,7 +152,7 @@
           "pole": "DURA",
           "fires": 229,
           "party_hits": 400,
-          "fire_rate": 0.5725,
+          "fires_per_party_hit": 0.5725,
           "granted": {
             "N": 40,
             "win_rate": 0.05,
@@ -173,7 +174,7 @@
           "pole": "FLESSIBILE",
           "fires": 229,
           "party_hits": 400,
-          "fire_rate": 0.5725,
+          "fires_per_party_hit": 0.5725,
           "granted": {
             "N": 40,
             "win_rate": 0.05,
@@ -195,7 +196,7 @@
           "pole": "LONTANO",
           "fires": 163,
           "party_hits": 295,
-          "fire_rate": 0.5525,
+          "fires_per_party_hit": 0.5525,
           "granted": {
             "N": 40,
             "win_rate": 0.025,
@@ -217,7 +218,7 @@
           "pole": "ACUTO",
           "fires": 318,
           "party_hits": 318,
-          "fire_rate": 1,
+          "fires_per_party_hit": 1,
           "granted": {
             "N": 40,
             "win_rate": 0.075,
@@ -243,7 +244,7 @@
       "pole": "VELOCE",
       "total_fires": 169,
       "total_party_hits": 311,
-      "fire_rate": 0.5434,
+      "fires_per_party_hit": 0.5434,
       "mean_delta_enemy_hp_remaining": -0.1604,
       "mean_delta_creature_ko_rate": -0.0625,
       "mean_delta_hp_remaining": 0.022
@@ -254,7 +255,7 @@
       "pole": "SILENZIOSA",
       "total_fires": 229,
       "total_party_hits": 400,
-      "fire_rate": 0.5725,
+      "fires_per_party_hit": 0.5725,
       "mean_delta_enemy_hp_remaining": -0.1627,
       "mean_delta_creature_ko_rate": -0.1251,
       "mean_delta_hp_remaining": -0.0075
@@ -265,7 +266,7 @@
       "pole": "PROFONDA",
       "total_fires": 45,
       "total_party_hits": 277,
-      "fire_rate": 0.1625,
+      "fires_per_party_hit": 0.1625,
       "mean_delta_enemy_hp_remaining": -0.0142,
       "mean_delta_creature_ko_rate": -0.0063,
       "mean_delta_hp_remaining": 0.0016
@@ -276,7 +277,7 @@
       "pole": "RAPIDA",
       "total_fires": 197,
       "total_party_hits": 293,
-      "fire_rate": 0.6724,
+      "fires_per_party_hit": 0.6724,
       "mean_delta_enemy_hp_remaining": -0.0912,
       "mean_delta_creature_ko_rate": -0.0376,
       "mean_delta_hp_remaining": 0.0225
@@ -287,7 +288,7 @@
       "pole": "DURA",
       "total_fires": 229,
       "total_party_hits": 400,
-      "fire_rate": 0.5725,
+      "fires_per_party_hit": 0.5725,
       "mean_delta_enemy_hp_remaining": -0.1627,
       "mean_delta_creature_ko_rate": -0.1251,
       "mean_delta_hp_remaining": -0.0075
@@ -298,7 +299,7 @@
       "pole": "FLESSIBILE",
       "total_fires": 229,
       "total_party_hits": 400,
-      "fire_rate": 0.5725,
+      "fires_per_party_hit": 0.5725,
       "mean_delta_enemy_hp_remaining": -0.1627,
       "mean_delta_creature_ko_rate": -0.1251,
       "mean_delta_hp_remaining": -0.0075
@@ -309,7 +310,7 @@
       "pole": "LONTANO",
       "total_fires": 163,
       "total_party_hits": 295,
-      "fire_rate": 0.5525,
+      "fires_per_party_hit": 0.5525,
       "mean_delta_enemy_hp_remaining": -0.0799,
       "mean_delta_creature_ko_rate": -0.0313,
       "mean_delta_hp_remaining": 0.005
@@ -320,7 +321,7 @@
       "pole": "ACUTO",
       "total_fires": 318,
       "total_party_hits": 318,
-      "fire_rate": 1,
+      "fires_per_party_hit": 1,
       "mean_delta_enemy_hp_remaining": -0.1716,
       "mean_delta_creature_ko_rate": -0.0501,
       "mean_delta_hp_remaining": 0.0179

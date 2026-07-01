@@ -38,8 +38,9 @@
 // graded delta looks non-zero.
 //
 // POSITIVE CONTROL (avoid a false null): a CLEAN no-gate extra_damage pick
-// (occhi_analizzatori_di_tensione) MUST fire on party hits; if it does not, the instrument or the
-// fight is broken -> THROW (a 0 fire-count would be untrustworthy).
+// (occhi_analizzatori_di_tensione) MUST fire on party hits AND the evaluateStatusTraits patch MUST be
+// invoked (>=1 call); if either fails, the instrument or the fight is broken -> THROW. The status-patch
+// check makes the on_kill pick (ferocia)'s low fire-count a measured fact, not an unbound blind-spot.
 //
 // CHANNEL NOTE: extra_damage picks move enemy_hp_remaining DOWN; damage_reduction picks (defensive)
 // move hp_remaining UP and only un-mask under attrition (the default badlands fight is low-attrition).
@@ -63,7 +64,8 @@ const IMPRINT_PICKS = Object.entries(PROPOSED_IMPRINT_TRAIT_MAPPING).flatMap(([a
 const TRACKED = new Set(IMPRINT_PICKS.map((p) => p.trait_id));
 const fireCounts = {}; // trait_id -> times triggered:true returned
 for (const p of IMPRINT_PICKS) fireCounts[p.trait_id] = 0;
-let partyHitCalls = 0; // evaluateAttackTraits calls where a PLAYER actor landed a hit (fire denominator)
+let partyHitCalls = 0; // evaluateAttackTraits calls where a PLAYER actor landed a hit
+let statusCalls = 0; // evaluateStatusTraits invocations (proves the on_kill/status patch binds)
 
 // Count triggered:true tracked picks in a { trait_effects } return (both trait pipelines share the shape).
 function _tallyFires(r) {
@@ -86,6 +88,7 @@ traitEngine.evaluateAttackTraits = function countingEvaluateAttackTraits(argObj)
 // patch it too or ferocia's fire-count is a blind-spot 0 (session.js:42 destructures it here).
 const _origStatus = traitEngine.evaluateStatusTraits;
 traitEngine.evaluateStatusTraits = function countingEvaluateStatusTraits(argObj) {
+  statusCalls += 1;
   const r = _origStatus(argObj);
   _tallyFires(r);
   return r;
@@ -200,11 +203,14 @@ async function runOne(http, roster, biomeId, seed) {
 }
 
 // ---------------------------------------------------------------------------
-// Positive control: a CLEAN no-gate extra_damage pick MUST fire on party hits.
+// Positive control: a CLEAN no-gate extra_damage pick MUST fire on party hits, AND the
+// evaluateStatusTraits patch MUST be invoked (so the on_kill pick ferocia's 0/low count is a real
+// exercise fact, not a blind-spot from an unbound status patch -- cavecrew #3149).
 // ---------------------------------------------------------------------------
 const POSITIVE_CONTROL_PICK = 'occhi_analizzatori_di_tensione'; // senses/ACUTO, attack/extra_damage no-gate
 async function positiveControl(http, party, biomeId) {
   const before = fireCounts[POSITIVE_CONTROL_PICK];
+  const statusBefore = statusCalls;
   const roster = attachTraits(party, POSITIVE_CONTROL_PICK, null);
   // a few runs so a hit lands even on an unlucky seed
   for (let i = 0; i < 3; i += 1) {
@@ -215,12 +221,26 @@ async function positiveControl(http, party, biomeId) {
   if (!(fired > 0)) {
     throw new Error(
       `positive-control: ${POSITIVE_CONTROL_PICK} (no-gate extra_damage) fired ${fired} times in 3 runs -- ` +
-        `the instrument did not bind or the party never lands a qualifying hit; a 0 fire-count would be a FALSE null`,
+        `the evaluateAttackTraits patch did not bind or the party never lands a qualifying hit; a 0 fire-count would be a FALSE null`,
+    );
+  }
+  // The status pipeline runs post-attack every time performAttack resolves a hit, so >=1 party attack
+  // MUST have driven evaluateStatusTraits. A 0 here means the status patch failed to bind -> ferocia's
+  // (on_kill) fire-count would be an unprovable blind-spot rather than a measured exercise fact.
+  const statusInvoked = statusCalls - statusBefore;
+  if (!(statusInvoked > 0)) {
+    throw new Error(
+      `positive-control: evaluateStatusTraits was invoked ${statusInvoked} times -- the status patch did NOT bind, ` +
+        `so the on_kill pick (ferocia) count would be a FALSE blind-spot 0`,
     );
   }
   // reset the tracked counter for this pick so the control runs do not pollute the measurement
   fireCounts[POSITIVE_CONTROL_PICK] = 0;
-  return { pick: POSITIVE_CONTROL_PICK, fired_in_control: fired };
+  return {
+    pick: POSITIVE_CONTROL_PICK,
+    fired_in_control: fired,
+    status_invoked_in_control: statusInvoked,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -262,7 +282,10 @@ async function measureBiome(http, party, biomeId, N, seedBase) {
       pole: p.pole,
       fires,
       party_hits: hits,
-      fire_rate: Number((fires / (hits || 1)).toFixed(4)),
+      // Denominator = party OFFENSIVE hits. A clean rate only for offense-on-hit picks (extra_damage);
+      // for defensive (fires when the party is TARGET) and on_kill (fires on kills) picks it is a
+      // category mismatch -> lean on absolute `fires` + `delta_vs_baseline`, not this (cavecrew #3149).
+      fires_per_party_hit: Number((fires / (hits || 1)).toFixed(4)),
       granted: sX,
       delta_vs_baseline: armDelta(sX, sA),
     };
@@ -336,7 +359,8 @@ async function main() {
         pole: p.pole,
         total_fires: totalFires,
         total_party_hits: totalHits,
-        fire_rate: Number((totalFires / (totalHits || 1)).toFixed(4)),
+        fires_per_party_hit: Number((totalFires / (totalHits || 1)).toFixed(4)), // denominator caveat: see measureBiome
+
         mean_delta_enemy_hp_remaining: mean((r) => r.delta_vs_baseline.enemy_hp_remaining),
         mean_delta_creature_ko_rate: mean((r) => r.delta_vs_baseline.creature_ko_rate),
         mean_delta_hp_remaining: mean((r) => r.delta_vs_baseline.hp_remaining),
