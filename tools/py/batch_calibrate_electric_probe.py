@@ -345,7 +345,10 @@ def run_one(host, arm, seed):
     if outcome is None:
         outcome = detect_outcome(state) or "timeout"
 
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    post(f"{host}/api/session/end", {"session_id": sid, **declared})
     return {
         "arm": arm,
         "seed": seed,

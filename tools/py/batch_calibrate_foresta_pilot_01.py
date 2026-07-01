@@ -730,7 +730,10 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
 
     # VC scores -- TKT-D FU-M3: PR #1564 espone vc_snapshot direttamente
     # nel response di /end, risparmiando una GET /vc per run.
-    end_status, end_res = post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    end_status, end_res = post(f"{host}/api/session/end", {"session_id": sid, **declared})
     vc_data = {}
     if end_status == 200 and isinstance(end_res, dict):
         vc_snapshot = end_res.get("vc_snapshot") or {}
