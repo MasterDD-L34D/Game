@@ -13609,6 +13609,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-07-01-session-handoff-spec-f-import.md",
+      "title": "Session handoff -- SPEC-F B4 import slice (foreign card -> ambassador) (2026-07-01 cont)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
