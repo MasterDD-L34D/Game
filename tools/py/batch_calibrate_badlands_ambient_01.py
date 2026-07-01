@@ -500,6 +500,8 @@ def probe_one(host):
     units = sc["units"]
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": SCENARIO_ID,
         "modulation": "full",
         "sistema_pressure_start": sc.get("sistema_pressure_start", 75),
         "hazard_tiles": sc.get("hazard_tiles", []),
@@ -636,6 +638,8 @@ def run_one(host, run_idx, turn_limit_defeat=None, biome_id=None, seed=None,
     # Start.
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": SCENARIO_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
         # None -> key omitted -> backend stays on Math.random (no behavior change).
         **({"seed": seed} if seed is not None else {}),

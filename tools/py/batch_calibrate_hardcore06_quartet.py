@@ -50,6 +50,8 @@ def run_one_quartet(host, run_idx, seed=None, policy="greedy", rng=None):
 
     status, start = post(f"{host}/api/session/start", {
         "units": quartet_units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": SCENARIO_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
         **({"seed": seed} if seed is not None else {}),
         "modulation": "quartet",
