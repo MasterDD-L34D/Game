@@ -173,7 +173,7 @@ I7 keeper orphans. Presentati <=4 per volta, recommended-default + reversibility
 1. ✅ **N1 SPEC-J LETHAL** -- DONE: encounter L'Ultima Caccia #3107/#3112 -> N=40 -> **FLIPPED LIVE** (f859817d).
 2. ✅ **N2 SPEC-H HA1** -- DONE = guardrail-latent (strength 0.5 ratify, NON flip).
 3. ✅ **N4 OD-024 STAMINA_FATIGUE** -- DONE = carrier-independent ratify + flip staged-latent.
-4. Resta: **N3 SPEC-I ER7** / **N5 A2 retune** / **N8 DR2=2** / **N7 interoception** (tutti OWNER+N=40, gated W5).
+4. ✅ **N3 SPEC-I ER7** -- marker stale: gia' default-ON dal 06-11; W5 re-confirm #3156-#3162 = no-op. Resta: **N5 A2 retune** / **N8 DR2=2** / **N7 interoception** (OWNER playtest/knob -- NON gated W5: lane consegnata via pivot #3130, graded lane PAUSED owner 07-01).
 5. Godot lane parallela: **G3 META route-UI** -> G4 D5 / **G6 engine-AP** (dep X1 #3053) / **G5 GAP-C** (POST-MVP).
 
 ### 2bis. Grilling value-picks (master-dd, 2026-06-30) -- continuation work-list
@@ -191,8 +191,9 @@ N=40 girano sull'AI-player passive = banda provvisoria; il flip power-sensitive 
 
 > **Tutti i 6 value-pick DRENATI** (2026-07-01). HA1/STAMINA = doc-ratify (#3117). ER6/D6/D8 =
 > code-PR flag-OFF + evidence (#3119/#3120/#3121, master-dd merge). **D8 flip = DEFERRED** (verdetto
-> master-dd: inerte sul content attuale + banda provvisoria -> flip post-W5 / quando atterra un encounter
-> electrified-terrain). Bande ER6/D6/D8 = **PROVISIONAL** (passive-AI harness).
+> master-dd: inerte sul content attuale; graded re-ratify #3136 = **NULL by non-exercise** -> il gate
+> vero e' un encounter electrified-terrain, non W5). Bande re-ratificate (graded lane 07-01): ER6
+> band-neutral #3132 · D6 REAL band 8/8 #3149 · D8 NULL #3136.
 >
 > ~~Focus next = W5~~ **W5 CONSEGNATO via pivot (2026-07-01)**: graded metrics al posto del build
 > objective-aware (inc-2 #3130); re-ratify D6 (REAL band 8/8) / D8 (NULL) / ER6 (band-neutral) / ER7
