@@ -1,6 +1,6 @@
 # SPEC-I ER7 probe (flag `BIOME_POPULATION_ENABLED`, N=40)
 
-Scenario `enc_badlands_foodweb_probe_01` | biome `badlands` | scaling {} | commit `unknown` | seed base 51000.
+Scenario `enc_badlands_foodweb_probe_01` | biome `badlands` | scaling {} | commit `unknown` | seed base 52000.
 
 | arm | n | win rate (Wilson CI95) | timeouts | rounds (tick) | survivors |
 | --- | --- | --- | --- | --- | --- |
