@@ -71,12 +71,10 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
   - `toRelative` posix-normalized (regen Windows non flippa piu' a backslash) +
     artefatto rigenerato: biomi 0->20, specie 28->157, tratti 31->502, funzioni 9.
     Regression `tests/test_species_catalog_repoint_b8.py` 7/7.
-- **TKT-B8-ECOLOGY-FATAL** (P3, F2): `validate_species_ecology`
-  (`tools/py/validate_datasets.py`) ora gira (post-repoint, 0 errori sul catalog
-  reale) ma la violazione bidirezionale e' **fatale** (`:680-685` append a
-  `errors`) mentre il docstring (`:526-527`) la dichiara warn-only "durante
-  backfill". Latente: un futuro edit asimmetrico al catalog romperebbe CI. Fix =
-  allineare codice<->docstring (owner-gated quale dei due).
+- **TKT-B8-ECOLOGY-FATAL** (P3, F2) -- **RESOLVED 2026-07-01 (verdetto owner:
+  keep-fatal)**: il gate fatale resta (protegge l'integrita' del catalog, un edit
+  asimmetrico DEVE rompere CI); docstring `:523-527` allineato alla realta'
+  (il "warn-only durante backfill" era stale, backfill chiuso).
 - **TKT-B8-READER-SWEEP** (P3, N2) -- **AUDIT DONE 2026-07-01** (3/3 candidati):
   (1) `generate_minimal_fixture.py` = FALSO candidato (e' un WRITER: dumpa il
   proprio species.yaml fixture in un root isolato, non legge il path morto) --
@@ -85,10 +83,10 @@ PR [#3047](https://github.com/MasterDD-L34D/Game/pull/3047) `8056eb06` MERGED: t
   catalog JSON SoT. (3) `trait_orphan_assign_wave_0_1.py` legge il path morto MA
   wave_2 + wave_3_4 ne IMPORTANO `inject_into_species`/`SPECIES_FILES` -> retire =
   famiglia intera (3 script one-shot gia' applicati #2206-#2214, hand-edit derived
-  species = anti-pattern canon-enforcement). **Retire-famiglia consigliato, verdetto
-  owner pending** (scope oltre il singolo candidato auditato). Quelli con
-  `species_loader` hanno fallback by-design; gli ETL usano species.yaml come
-  sorgente by-design (fuori sweep).
+  species = anti-pattern canon-enforcement). **Verdetto owner 2026-07-01 = ARCHIVE**:
+  famiglia spostata in `scripts/archive/` (+README do-not-run). TICKET CLOSED.
+  Quelli con `species_loader` hanno fallback by-design; gli ETL usano species.yaml
+  come sorgente by-design (fuori sweep).
 - **N1 (NON nuovo)**: `data_health.py` species.yaml rule = set "4 BROKEN" di B8,
   risolto da **PR #3075** (`fab8f87f`, MERGED 2026-06-30). #3075 NON ha toccato
   la riga `generated_at` di trait_coverage_report (line 70) = fix di questa pt2.
