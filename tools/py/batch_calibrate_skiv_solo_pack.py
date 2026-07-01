@@ -250,6 +250,8 @@ def run_one(host, run_idx, seed=None):
     units = build_skiv_units()
     status, start = post(f"{host}/api/session/start", {
         "units": units,
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": ENCOUNTER_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay
         # (single-unit survival scenario -> only --seed; no player-ladder policy).
         **({"seed": seed} if seed is not None else {}),

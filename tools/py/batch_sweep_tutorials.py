@@ -57,6 +57,8 @@ def run_one(host, scenario_id):
         f"{host}/api/session/start",
         {
             "units": units,
+            # #3157 F3: tag the session so per-scenario telemetry stops logging null
+            "scenario_id": scenario_id,
             "modulation": sc.get("recommended_modulation", "full"),
             "sistema_pressure_start": sc.get("sistema_pressure_start", 50),
             "hazard_tiles": sc.get("hazard_tiles", []),
