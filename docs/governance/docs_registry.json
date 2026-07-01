@@ -13120,6 +13120,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-er6-carryover-graded-reratify.md",
+      "title": "ER6 overrun carry-over -- graded re-ratify (W5 inc-3): band-neutral confirmed",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-06-30-ha1-aliena-enforcement-evidence.md",
       "title": "HA1 aliena_enforcement strength evidence + flip-safety (SPEC-H, Tier-3 N2)",
       "doc_status": "active",
