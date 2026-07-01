@@ -65,6 +65,25 @@ const BLACKLIST_FIELDS = Object.freeze([
   'telemetry',
 ]);
 
+// Per-ITEM whitelist for the two append-bounded arrays, mirroring
+// packages/contracts/schemas/skiv_companion.schema.json (each item is
+// additionalProperties:false). The top-level whitelist keeps the WHOLE array but
+// does NOT recurse, so a client-supplied entry (import / resync of a foreign card,
+// signature = integrity not authenticity) could smuggle nested PII
+// (partner_card_url, session_id, ...) into a persisted item and leak it via
+// share/history for a known lineage_id (Codex P1). Enforce the item schema too.
+const CROSSBREED_ITEM_FIELDS = Object.freeze([
+  'ts',
+  'role',
+  'with_lineage_id',
+  'partner_card_signature',
+  'offspring_lineage_id',
+  'biome_at_crossbreed',
+  'biome_environmental_mutation',
+  'tier',
+]);
+const VOICE_DIARY_ITEM_FIELDS = Object.freeze(['ts', 'phase', 'voice_line', 'trigger_event']);
+
 /**
  * Detect if Prisma client exposes the SkivCompanionState delegate.
  * Stub client doesn't expose it → fallback in-memory only.
@@ -221,6 +240,49 @@ function fifoBounded(arr, maxSize) {
   return arr.slice(arr.length - maxSize);
 }
 
+/**
+ * Whitelist each item of an append-bounded array to its schema sub-fields
+ * (item additionalProperties:false). Drops nested PII / non-schema keys a client
+ * could smuggle inside a crossbreed_history / voice_diary entry (Codex P1). Skips
+ * non-object entries. Returns a NEW array of NEW objects (no external ref kept).
+ */
+function sanitizeItems(arr, fields) {
+  if (!Array.isArray(arr)) return [];
+  const out = [];
+  for (const item of arr) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
+    const clean = {};
+    for (const key of fields) {
+      if (key in item && item[key] !== undefined) clean[key] = item[key];
+    }
+    out.push(clean);
+  }
+  return out;
+}
+
+/**
+ * Additive append with de-dup (SPEC-F FC1 resync, spec :172-175). Returns a NEW
+ * array = home entries + the external entries whose canonical-JSON form is not
+ * already present (order-preserving, home first). Non-arrays coerce to []. The
+ * caller re-caps (FIFO) + re-signs; this only merges. Entries have no natural id
+ * so canonicalJson is the dedup key (stable across key order).
+ */
+function appendDeduped(homeArr, externalArr) {
+  const home = Array.isArray(homeArr) ? homeArr : [];
+  const external = Array.isArray(externalArr) ? externalArr : [];
+  if (external.length === 0) return home;
+  const seen = new Set(home.map((e) => canonicalJson(e)));
+  const out = [...home];
+  for (const entry of external) {
+    const key = canonicalJson(entry);
+    if (!seen.has(key)) {
+      seen.add(key);
+      out.push(entry);
+    }
+  }
+  return out;
+}
+
 function fromPrismaRow(row) {
   return {
     schema_version: row.schemaVersion || CURRENT_SCHEMA_VERSION,
@@ -341,14 +403,16 @@ function createCompanionStateStore(opts = {}) {
     assertValid(stateInput);
     // Step 3: sanitize whitelist (drop any PII keys present).
     const sanitized = sanitizeWhitelist(stateInput);
-    // Defaults for optional arrays.
-    sanitized.crossbreed_history = fifoBounded(
-      sanitized.crossbreed_history || [],
-      CROSSBREED_HISTORY_MAX_ENTRIES,
+    // Defaults for optional arrays. sanitizeItems enforces the PER-ITEM schema
+    // whitelist so a client-supplied entry (import / resync of a foreign card)
+    // cannot persist nested PII past the top-level whitelist (Codex P1).
+    sanitized.crossbreed_history = sanitizeItems(
+      fifoBounded(sanitized.crossbreed_history || [], CROSSBREED_HISTORY_MAX_ENTRIES),
+      CROSSBREED_ITEM_FIELDS,
     );
-    sanitized.voice_diary_portable = fifoBounded(
-      sanitized.voice_diary_portable || [],
-      VOICE_DIARY_MAX_ENTRIES,
+    sanitized.voice_diary_portable = sanitizeItems(
+      fifoBounded(sanitized.voice_diary_portable || [], VOICE_DIARY_MAX_ENTRIES),
+      VOICE_DIARY_ITEM_FIELDS,
     );
     sanitized.share_url = sanitized.share_url ?? null;
     // Step 4: compute signature server-side (ignore any client-supplied value).
@@ -427,6 +491,54 @@ function createCompanionStateStore(opts = {}) {
   }
 
   /**
+   * SPEC-F FC1 additive resync of a RETURNING Custode (spec :172-181, ratified
+   * Opt-A home-authoritative). The lineage MUST already exist at home (caller
+   * checks/hydrates first). Merges the incoming card's external history into the
+   * canonical home state: the two additive arrays (crossbreed_history,
+   * voice_diary_portable) APPEND external entries (deduped); EVERY other field
+   * stays HOME (progression/cabinet/mutations/aspect/mbti/species/biome) -- the
+   * card can never regress or forge a home stat. Reuses saveCompanionState so the
+   * FIFO cap, server-side re-sign, and persist are byte-identical to a normal save;
+   * the lineage exists (isNewLineage=false) so no cap-eviction of another Nido.
+   */
+  function resyncCompanionState(lineageId, incomingCard) {
+    if (!lineageId || typeof lineageId !== 'string') {
+      throw new TypeError('resyncCompanionState: lineageId (string) required');
+    }
+    const existing = states.get(lineageId);
+    if (!existing) {
+      throw new Error(
+        `resyncCompanionState: no home state for lineage_id=${lineageId}. Call saveCompanionState first.`,
+      );
+    }
+    if (!incomingCard || typeof incomingCard !== 'object' || Array.isArray(incomingCard)) {
+      throw new TypeError('resyncCompanionState: incoming card object required');
+    }
+    // Sanitize incoming items to their schema sub-fields BEFORE dedup (so the
+    // canonical-JSON dedup key compares clean items, and no nested PII enters the
+    // merge, Codex P1) + cap here (newest kept): saveCompanionState's assertValid
+    // REJECTS an over-cap array before its own fifoBounded runs, so trim first.
+    const merged = {
+      ...existing,
+      crossbreed_history: fifoBounded(
+        appendDeduped(
+          existing.crossbreed_history,
+          sanitizeItems(incomingCard.crossbreed_history, CROSSBREED_ITEM_FIELDS),
+        ),
+        CROSSBREED_HISTORY_MAX_ENTRIES,
+      ),
+      voice_diary_portable: fifoBounded(
+        appendDeduped(
+          existing.voice_diary_portable,
+          sanitizeItems(incomingCard.voice_diary_portable, VOICE_DIARY_ITEM_FIELDS),
+        ),
+        VOICE_DIARY_MAX_ENTRIES,
+      ),
+    };
+    return saveCompanionState(merged);
+  }
+
+  /**
    * Get crossbreed history for a lineage_id.
    * Returns [] when not present (graceful, not error).
    */
@@ -454,6 +566,7 @@ function createCompanionStateStore(opts = {}) {
   return {
     getCompanionState,
     saveCompanionState,
+    resyncCompanionState,
     addCrossbreedEvent,
     getCrossbreedHistory,
     signatureFor,
@@ -475,6 +588,8 @@ module.exports = {
   migrateLegacyState,
   isLegacySchema,
   fifoBounded,
+  appendDeduped,
+  sanitizeItems,
   // Constants
   AMBASSADOR_CAP_PER_NIDO,
   VOICE_DIARY_MAX_ENTRIES,
