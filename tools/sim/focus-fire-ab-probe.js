@@ -208,7 +208,7 @@ function summarize(arr) {
 }
 
 async function main() {
-  const N = Number(process.argv[2]) || 40;
+  const N = Math.max(1, Number(process.argv[2]) || 40); // guard N<1 -> no empty-array NaN means
   const mode = process.argv[3] === 'synthetic' ? 'synthetic' : 'hardcore';
   const party = mode === 'synthetic' ? null : await fetchCanonicalParty();
   const off = [];
