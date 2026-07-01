@@ -894,7 +894,12 @@ function logSistemaDecisions(round, body) {
   // biome focus) with no backend equivalent — intentionally NOT synthesized
   // headless (analyzer biome_focus_events stays {} by design until the
   // Godot client emits it).
-  await postJson('/api/session/end', { session_id: sessionId });
+  // #3157 F2: declare the client-computed failure outcome so round-cap runs
+  // stop surfacing as board-derived 'abandon'. Server gate (routes/session.js
+  // /end, a13 fix #2703) is downgrade-only over {timeout, defeat,
+  // objective_failed}; 'victory' stays undeclared -- the board derives wins.
+  const declaredEnd = ['timeout', 'defeat'].includes(outcome) ? { outcome } : {};
+  await postJson('/api/session/end', { session_id: sessionId, ...declaredEnd });
   // Coop endCombat is host-only; emulate via coopOrchestrator state poll.
   // For sim purposes we rely on session.events VICTORY/DEFEAT to drive
   // orch.endCombat externally OR we just close the session and skip the
