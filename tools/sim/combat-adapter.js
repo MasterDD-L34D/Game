@@ -236,6 +236,25 @@ async function runEncounter(
     }
   }
 
+  // Codex P2 #3130: on a maxRounds TIMEOUT the loop exits with `lastUnits` = the state polled at
+  // the TOP of the last iteration -- BEFORE that iteration's action landed -- so the board-derived
+  // metrics (survivors, hp_remaining, enemy_hp_remaining) would miss the final action's damage/KO
+  // (a guaranteed-hit maxRounds:1 run would report enemy_hp_remaining 1.0). victory/defeat break on
+  // an accurate top-of-loop poll, so ONLY a timeout needs the refresh. A collectSet run still
+  // fetches (as before) to sweep an event from the last commit; sweepEvents no-ops when not
+  // collecting. Best-effort: keep the in-loop state + sweeps on error.
+  if (outcome === 'timeout' || collectSet) {
+    try {
+      const fin = await http.get('/api/session/state', { session_id: sessionId });
+      if (outcome === 'timeout' && fin && fin.body && Array.isArray(fin.body.units)) {
+        lastUnits = fin.body.units;
+      }
+      sweepEvents(fin && fin.body);
+    } catch {
+      /* keep the last in-loop state + the in-loop event sweeps */
+    }
+  }
+
   const survivors = lastUnits.filter((u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0);
   const survivorIds = survivors.map((u) => u.id);
 
@@ -264,17 +283,6 @@ async function runEncounter(
         0,
       ) / foesFinal.length
     : 0;
-
-  // SPEC-I event collector: one post-loop sweep so events emitted by the final
-  // commit (after the last in-loop poll) still land in the tail window.
-  if (collectSet) {
-    try {
-      const fin = await http.get('/api/session/state', { session_id: sessionId });
-      sweepEvents(fin && fin.body);
-    } catch {
-      /* best-effort -- the in-loop sweeps already carry the early one-shots */
-    }
-  }
 
   // Opt 3 N=40 evidence (#2679): read the NON-destructive GET /:id/vc and lift
   // debrief_payload.per_actor[uid].personality_axes per unit (faction-tagged via

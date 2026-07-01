@@ -158,6 +158,60 @@ test('combatAdapter.runEncounter: returns graded metrics (hp_remaining_pct, unit
   );
 });
 
+// W5 inc-2 (Codex P2 #3130): board-derived metrics must reflect the FINAL action on a maxRounds
+// timeout. The loop polls at the TOP of each iteration, so without a post-loop state refresh
+// lastUnits is the PRE-final-action board -> enemy_hp_remaining would ignore the last hit.
+test('combatAdapter.runEncounter: enemy_hp_remaining_pct reflects the final action (no timeout staleness)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  // Player adjacent to a weak enemy (in range) + maxRounds:1 => the single action is a
+  // guaranteed hit (mod 20 vs dc 1). enemy_hp_remaining_pct MUST be < 1 (damage landed).
+  const oneRoster = [
+    {
+      id: 'hit',
+      hp: 30,
+      max_hp: 30,
+      ap: 3,
+      mod: 20,
+      attack_range: 2,
+      initiative: 18,
+      position: { x: 1, y: 1 },
+      controlled_by: 'player',
+      status: {},
+    },
+  ];
+  const oneFoe = [
+    {
+      id: 'dummy',
+      hp: 10,
+      max_hp: 10,
+      ap: 1,
+      mod: 0,
+      dc: 1,
+      attack_range: 1,
+      initiative: 1,
+      position: { x: 1, y: 2 },
+      controlled_by: 'sistema',
+      status: {},
+    },
+  ];
+  const res = await runEncounter(http, {
+    roster: oneRoster,
+    enemies: oneFoe,
+    scenarioId: 'full_loop_test',
+    seed: 'stale-1',
+    maxRounds: 1,
+  });
+  assert.ok(res.playerAttacks >= 1, `expected a landed attack, got ${res.playerAttacks}`);
+  assert.ok(
+    res.enemy_hp_remaining_pct < 1,
+    `enemy took damage on the final action, got ${res.enemy_hp_remaining_pct}`,
+  );
+});
+
 // OA2 (SPEC-O): a NON-elimination objective completes via the objective-driver + the
 // objective-outcome wiring (sabotage progress while in the zone), NOT elimination.
 test('combatAdapter.runEncounter: OA2 -- sabotage objective completes (not elimination)', async (t) => {
