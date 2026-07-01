@@ -1,0 +1,60 @@
+{
+  "arm": "on_abundant",
+  "args": {
+    "effect": "er7",
+    "runs": 40,
+    "seedBase": 52000,
+    "out": "reports/sim/er7-population-n40",
+    "commit": "unknown",
+    "scaling": {},
+    "band": [
+      0.4,
+      0.6
+    ]
+  },
+  "summary": {
+    "n": 40,
+    "win_rate": 1,
+    "win_ci95": [
+      0.9123754607496077,
+      1
+    ],
+    "timeouts": 0,
+    "rounds": {
+      "mean": 32.25,
+      "sd": 4.661627315730981,
+      "ci95": [
+        30.805346727784457,
+        33.69465327221555
+      ],
+      "n": 40
+    },
+    "player_attacks": {
+      "mean": 12.975,
+      "sd": 2.496022476887619,
+      "ci95": [
+        12.201474620441893,
+        13.748525379558107
+      ],
+      "n": 40
+    },
+    "overcharge_uses": {
+      "mean": null,
+      "sd": null,
+      "ci95": [
+        null,
+        null
+      ],
+      "n": 0
+    },
+    "survivors": {
+      "mean": 2,
+      "sd": 0,
+      "ci95": [
+        2,
+        2
+      ],
+      "n": 40
+    }
+  }
+}

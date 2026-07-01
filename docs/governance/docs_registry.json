@@ -13179,6 +13179,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-er7-population-flag-on-n40.md",
+      "title": "N3 SPEC-I ER7 population N=40 re-confirm: already default-ON+ratified 06-11 (register marker was stale)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-07-01-w6-form-pulse-v2-graded-cross-biome.md",
       "title": "W6 Form-Pulse trait v2 -- graded cross-biome A/B (flip-readiness evidence; ratify pending)",
       "doc_status": "review_needed",
