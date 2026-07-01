@@ -5,7 +5,18 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 buildable half)
+## ⚡ Sessione corrente 2026-07-01 (cont) -- W5 close: D8 NULL + W6 form-pulse graded ratify + staged-latent flip
+
+Handoff: `docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md`. **3 PR merged, 0 open, prod INTATTO.**
+Eseguito il piano grilling **D8 -> W6**.
+
+- **D8** #3136 `31c07902`: graded re-ratify chain-lightning = **NULL by non-exercise** (0 terrain reaction in-sim; nessuna fazione emette canale acqua/elettrico; fire-count 0/N=40 + self-test; autonomo su NULL).
+- **W6 form-pulse** = lane power-differential dove il graded metric MORDE. #3139 `92e52636`: 3-arm decouple + producer **party-normalized** (`sqrt(nPlayers)`, un solo `w~0.78` cross-party) -> **offset OVER-compensa offesa** (net enemy_hp +0.12 @1.4, survival-tilt irriducibile). #3143 `a0a9cce1`: **seed-fix** (Codex #3139 P1: stringa non seeda RNG -> armi non pairate -> numerico; offense-null anchor 1.20 -> ~1.15) + D8 fire-count error-guard. 3 Codex resolved.
+- **STAGED-LATENT keys.env** (flag+anchor 1.20+w0.78, inerti fino a restart). 🔴 **OWNER**: anchor 1.20 vs 1.15 + deploy≥92e52636 + restart.
+- 🔑 lessons: seed NUMERICO sempre (`lesson_numeric_seeds_paired_sim`); graded morde solo su power-differential; classifier=guardrail reale.
+- **Next**: D6 graded re-ratify -> N3 ER7 flag-ON N=40 -> G6 Godot. Memory: `project_w5_sim_ai_player_upgrade` + `project_form_pulse_v2_flip_readiness`.
+
+## ⚡ Sessione 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 buildable half)
 
 **1 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices drained); memory `project_spec_f_crossbreed`.
 
