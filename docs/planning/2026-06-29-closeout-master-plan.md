@@ -239,24 +239,29 @@ restano: owner-content (B5 TR-200x metrics, B3 re-scope -- entrambi in stato SAF
 feature-build (**B4 SPEC-F offspring->playable lineage + export** = unica riga BUILD non-owner
 residua, effort M) / Tier-2 owner-decisions / Tier-3 N=40 (lane form-pulse parallela + W5).
 
-### 6bis. B4 SPEC-F export/import/promote slices DONE (2026-07-01 cont)
+### 6bis. B4 SPEC-F export/import/promote/resync slices DONE (2026-07-01 cont)
 
-> Gli slice export/import/promote di SPEC-F B4 sono su `origin/main`. Resta UN solo slice
-> buildable (l'additive FC1 resync) + i residui owner. Additivo; non riscrive sez.6.
+> Tutti gli slice buildable di SPEC-F B4 (export/import/promote + additive FC1 resync) sono su
+> `origin/main`. Restano solo i residui owner/coordination. Additivo; non riscrive sez.6.
 
-| Slice B4                             | Stato git 2026-07-01                                                                                           |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| card/qr export (`/skiv/share`)       | **DONE** #3128 `df67dabc` (companionCardExport, read-only, band-neutral)                                       |
-| offspring->ambassador promote        | **DONE** #3129 `b3a1037b` (`POST /skiv/offspring/:id/promote` + spawn_descriptor)                              |
-| crossbreed-offspring promote         | **DONE** #3131 `1c582b67` (promote-from-descriptor + genome map)                                               |
-| import foreign card (`/skiv/import`) | **DONE** #3135 `2b28da13` (FC4-A signature+rate-limit, FC1 refuse-overwrite; import sub-part di acceptance #4) |
+| Slice B4                             | Stato git 2026-07-01                                                                                                                |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| card/qr export (`/skiv/share`)       | **DONE** #3128 `df67dabc` (companionCardExport, read-only, band-neutral)                                                            |
+| offspring->ambassador promote        | **DONE** #3129 `b3a1037b` (`POST /skiv/offspring/:id/promote` + spawn_descriptor)                                                   |
+| crossbreed-offspring promote         | **DONE** #3131 `1c582b67` (promote-from-descriptor + genome map)                                                                    |
+| import foreign card (`/skiv/import`) | **DONE** #3135 `2b28da13` (FC4-A signature+rate-limit, FC1 refuse-overwrite; import sub-part di acceptance #4)                      |
+| additive FC1 resync (`/skiv/resync`) | **DONE** #3144 `802c004e` (returning-home merge home-authoritative; 404-on-missing vs import 409; meta' buildable di acceptance #4) |
 
-**Residui B4**: (buildable) **additive FC1 resync** del returning-home lineage -- import fa
-refuse-overwrite 409, NON il merge additivo (spec :172-175); e' l'altra meta' di acceptance #4.
-(owner/coordination) live-run unit injection (session.js roster = lane W5/form-pulse) + durable
-crossbreed cooldown (`packages/contracts` schema = forbidden-path) + full per-Nido AUTH isolation
-(store singleton globale + campo `nido_id` schema = owner design-call). Acceptance #4 = import
-sub-part met, resync residuo; #1-3/#5/#7 gia' met (spec sez.10).
+**Residui B4** (tutti owner/coordination -- lo slice buildable e' DRENATO): live-run unit injection
+(session.js roster = lane W5/form-pulse, coordinare) + durable crossbreed cooldown
+(`packages/contracts` schema = forbidden-path) + full per-Nido AUTH isolation Option C (durable
+`nidoId` Prisma = forbidden-path). **Acceptance #4** = import + additive-resync buildable-parts MET;
+#1-3/#5/#7 gia' met (spec sez.10). 🔑 **Codex P1 su #3144 (nested-PII, verificato+fixato)**: la
+whitelist top-level NON ricorre -> una card firmata (sig=integrita' non autenticita') puo' smuggle
+PII dentro un item crossbreed_history/voice_diary -> leak via share per un lineage_id noto -> fix
+ROOT in `saveCompanionState` (`sanitizeItems()` per-item schema whitelist, copre import+promote).
+P2 (post-restart hydrate parziale) = truncation persistence-layer pre-esistente (solo 6 colonne
+persistite), tracked TKT-PERSISTENCE-LAYER.
 
 ### 6ter. per-Nido AUTH isolation -- Option A + D DONE (2026-07-01 cont)
 
