@@ -13168,6 +13168,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-d6-imprint-grant-graded-reratify.md",
+      "title": "D6 imprint axis->trait grant -- graded re-ratify (W5): REAL band, mapping validated (8/8 live)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-07-01-w6-form-pulse-v2-graded-cross-biome.md",
       "title": "W6 Form-Pulse trait v2 -- graded cross-biome A/B (flip-readiness evidence; ratify pending)",
       "doc_status": "review_needed",
