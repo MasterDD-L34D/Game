@@ -1,5 +1,5 @@
 ---
-title: 'N3 SPEC-I ER7 population flag-ON N=40: EXERCISED + WR-safe (on_depleted real difficulty band)'
+title: 'N3 SPEC-I ER7 population N=40 re-confirm: already default-ON+ratified 06-11 (register marker was stale)'
 workstream: ops-qa
 category: playtest
 doc_status: review_needed
@@ -11,26 +11,39 @@ tags: [playtest, calibration, spec-i, er7, biome-population, n40, flag-on, w5, a
 
 # N3 SPEC-I ER7 population flag-ON N=40
 
-The W5 graded-lane N3 gate: `BIOME_POPULATION_ENABLED` (ER7, population tick per trophic role; build
-shipped flag-OFF #2723). The register gate is "N=40 flag-ON" -- verify the flag-ON behavior is band-safe
-before the owner flips it. Probe: `tools/sim/spec-i-gates-probe.js --effect er7` (the ER1/ER6 harness,
-isolated per-arm same-seed runs + an `off2` replicate noise floor). Artifact:
-`reports/sim/er7-population-n40/summary.json`.
+The W5 graded-lane N3 gate: `BIOME_POPULATION_ENABLED` (ER7, population tick per trophic role). Probe:
+`tools/sim/spec-i-gates-probe.js --effect er7` (the ER1/ER6 harness, isolated per-arm same-seed runs +
+an `off2` replicate noise floor). Artifact: `reports/sim/er7-population-n40/summary.json`.
+
+## GROUND-TRUTH CORRECTION (verify-first, anti-pattern #19)
+
+**ER7 is NOT flag-OFF-awaiting-a-flip. It is ALREADY default-ON in prod (flip 2026-06-11) and was
+already ratified with its own N=40.** The residual-register marker ("N=40 flag-ON / OPEN / build flag-OFF
+#2723") is STALE: `biomePopulation.isEnabled()` is `process.env.BIOME_POPULATION_ENABLED !== 'false'`
+(`biomePopulation.js:71`) = **default ON** since 2026-06-11 (opt-out only), and prod `keys.env` does not
+set it -> it runs ON in prod. The mechanism + magnitudes were RATIFIED 2026-06-11
+(`docs/reports/2026-06-11-spec-i-er7-population-n40-evidence.md` +
+`docs/reports/2026-06-11-spec-i-er7-flip-on-pilot-canonical.md`), scope `ER7_PILOT_BIOMES = ['badlands']`,
+consumer wired at `reinforcementSpawner.js:221`. **So there is nothing to flip or stage** -- staging
+`BIOME_POPULATION_ENABLED=true` is a no-op (same as unset). This N=40 is a RE-CONFIRMATION of the already-
+live behavior, not a flip gate.
 
 ## TL;DR verdict
 
-**EXERCISED + WR-safe. Flip is band-safe; the mechanism works exactly as designed.** Unlike D8/ER6
-(behavioral-identity nulls), ER7 genuinely reshapes the reinforcement pool: `on_depleted` drives the
-**prey share to 0.00** (weak prey excluded, replaced by meso+apex) and `on_abundant` **bumps the apex
-share 0.23 -> 0.34** -- the exact effect the design intends (a depleted biome spawns tougher predators).
-Win-rate stays **1.0 in every arm** (the flip changes no outcomes at this measurement point). The one
-real graded band is `on_depleted`: excluding prey makes the fight **~1.6x longer** (+5.42 rounds
-[3.65, 7.20], +3.13 attacks [2.16, 4.09]) vs the `off2` noise floor (-1.70 rounds) -- a genuine,
-CI-tight difficulty-lengthening, and the _intended_ ecological pressure, not a regression. `on_abundant`
-is near-floor on fight length (apex up, but prey still present, so length ~unchanged).
+**RE-CONFIRMED already-live + band-safe. Exercise reproduces; the fight-length band is the known
+differentiated-probe artifact, NOT a real-stat regression.** Unlike D8/ER6 (behavioral-identity nulls),
+ER7 genuinely reshapes the reinforcement pool: `on_depleted` drives the **prey share to 0.00** (weak prey
+excluded, replaced by meso+apex) and `on_abundant` **bumps the apex share 0.23 -> 0.34** -- exactly the
+06-11 design. Win-rate stays **1.0 in every arm**. The `on_depleted` fight-length band (+5.42 rounds
+[3.65, 7.20], +3.13 attacks) is measured on the probe's DIFFERENTIATED foodweb stats -- and the 06-11
+canonical pilot (`...flip-on-pilot-canonical.md`) already established that with REAL species stats the
+combat effect is **outcome-neutral** (-0.025 over the floor) and explicitly flagged the differentiated-
+probe delta as an **artifact** ("il -0.25 era un artefatto, ER7 canonico e' benigno"). So this N=40
+reproduces the exercise proof + the artifact, and corroborates the 06-11 ratify. `on_abundant` is
+near-floor on fight length.
 
-Per the W5 grilling rule this is a REAL (non-null) band -> surfaced to the owner: the flip is the owner's
-ratify (it changes live difficulty texture when prey depletes). Evidence says it is safe + working.
+**No owner action required**: ER7 is already ON + ratified (06-11). This closes the stale "N=40 flag-ON"
+register marker as a re-confirmation, not a new flip.
 
 ## Exercise proof (DECISIVE) -- the pool reshapes as designed
 
@@ -84,14 +97,16 @@ removing prey does not change fight length here (the party still clears the same
 
 ## What this means
 
-- **The ER7 flip is band-safe.** Flag-ON reshapes the pool as designed (prey exclusion + apex boost
-  proven) and holds WR at 1.0. No regression.
-- **`on_depleted` is a real, intended difficulty band** (~1.6x fight length) -- the ecological pressure
-  the feature exists to create. `on_abundant` is texture-only on fight length at this point.
-- **The flip = owner ratify** (register gate "N=40 flag-ON"). Enabling it makes prey-depletion lengthen
-  fights in live play; that is the design intent, and the N=40 says it is safe. Recommendation: flip-ready
-  -- the owner ratifies whether to enable the population shaping (keys.env `BIOME_POPULATION_ENABLED` +
-  restart, owner-hands; the chip does not restart prod).
+- **ER7 is already default-ON in prod (06-11) + ratified.** No flip, no stage, no owner action -- the
+  register "N=40 flag-ON / OPEN" marker was STALE (anti-pattern #19). This N=40 re-confirms it.
+- **The exercise reproduces** (prey exclusion + apex boost proven) and WR holds at 1.0 -- consistent with
+  the 06-11 canonical ratify.
+- **The `on_depleted` fight-length band is the known differentiated-probe artifact**, not a real-stat
+  regression: the 06-11 pilot with canonical species stats measured the combat effect as outcome-neutral
+  (-0.025 over floor) and named the differentiated delta an artifact. So the +5.42 rounds here reflects
+  the probe's amplified foodweb stats, not what a real prey-depleted badlands encounter does.
+- **Action = close the stale register marker** (ER7 already ON+ratified) -- done in this PR. No keys.env
+  change (would be a redundant no-op vs the default-ON opt-out).
 
 ## Reproduce (node 22, in-process, no prod port)
 

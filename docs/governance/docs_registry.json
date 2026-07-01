@@ -13180,7 +13180,7 @@
     },
     {
       "path": "docs/playtest/2026-07-01-er7-population-flag-on-n40.md",
-      "title": "N3 SPEC-I ER7 population flag-ON N=40: EXERCISED + WR-safe (on_depleted real difficulty band)",
+      "title": "N3 SPEC-I ER7 population N=40 re-confirm: already default-ON+ratified 06-11 (register marker was stale)",
       "doc_status": "review_needed",
       "doc_owner": "claude-code",
       "workstream": "ops-qa",
