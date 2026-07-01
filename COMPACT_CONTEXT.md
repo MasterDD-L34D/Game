@@ -5,7 +5,7 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 chiuso)
+## ⚡ Sessione corrente 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 buildable half)
 
 **1 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices drained); memory `project_spec_f_crossbreed`.
 
