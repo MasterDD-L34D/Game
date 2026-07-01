@@ -153,7 +153,12 @@ async function runOne(party, seed, focusFire, mode) {
       focusFire,
     });
     const rosterN = (r.rosterIds || []).length || 4;
-    const kos = Math.max(0, rosterN - (r.survivorIds || []).length);
+    // Prefer the adapter's roster-scoped units_lost (a spawned minion is player-controlled but
+    // NOT in the roster, so recomputing from survivorIds would undercount roster KOs). Fallback
+    // to the survivor delta only if the field is absent (older adapter). (cavecrew W5 inc-1)
+    const kos = Number.isFinite(r.units_lost)
+      ? r.units_lost
+      : Math.max(0, rosterN - (r.survivorIds || []).length);
     return {
       outcome: r.outcome,
       rounds: r.rounds,
