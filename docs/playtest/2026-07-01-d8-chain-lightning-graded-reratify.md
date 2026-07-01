@@ -74,6 +74,14 @@ D8_FIRE_COUNT = {
 
 Zero across the board -> the flag gates dead code -> any graded delta is noise by construction.
 
+**Instrument positive control (closes the false-null hole).** A monkeypatch that failed to bind
+would ALSO report 0, masking a broken instrument as a real null. Before the measurement the script
+runs a self-test that drives the terrainReactionsWire acqua->folgore sequence (p1 puddles the sis
+tile then electrifies it, same turn) and asserts the counters MOVE -- it prints
+`instrument self-test OK: reactTile+2, chain_branch+1, electrified` and THROWS otherwise. The patch
+provably counts >0 under a known-firing condition, so the 0 across N=40 realistic runs is a REAL
+null, not an instrument failure.
+
 ## Evidence B -- graded A/B (corroborating; and a cautionary tale)
 
 `tools/sim/d8-chain-graded-probe.js` -- ER6-probe pattern, per-arm child-process isolation

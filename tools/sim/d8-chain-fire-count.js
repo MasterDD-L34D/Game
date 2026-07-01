@@ -79,11 +79,90 @@ const http = (app) => ({
       .then((r) => ({ status: r.status, body: r.body })),
 });
 
+// Positive control for the INSTRUMENT (closes the false-null hole): prove the patched wrappers
+// actually intercept session.js's LIVE calls -- otherwise a monkeypatch that failed to bind would
+// ALSO report 0, masking a broken instrument as a real null. Reuse the terrainReactionsWire
+// acqua->folgore sequence: p1 (2 AP, mod 99 = always hit) puddles the sis tile with an acqua attack
+// then electrifies it with folgore in the SAME turn -> reactTile fires twice AND the electrified
+// branch calls chainLightningStrike. If either counter fails to move, THROW (a 0 measurement below
+// would be untrustworthy). Counters are reset afterwards so this does not pollute the N=40 count.
+async function selfTestInstrument(h) {
+  const before = { ...counters };
+  const priorRound = process.env.USE_ROUND_MODEL;
+  process.env.USE_ROUND_MODEL = 'true'; // round model (matches the wire test); restored below
+  try {
+    const units = [
+      {
+        id: 'p1',
+        species: 'velox',
+        job: 'skirmisher',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        initiative: 14,
+        position: { x: 2, y: 2 },
+        controlled_by: 'player',
+        mod: 99,
+        status: {},
+      },
+      {
+        id: 'sis',
+        species: 'carapax',
+        job: 'vanguard',
+        hp: 100,
+        max_hp: 100,
+        ap: 2,
+        attack_range: 1,
+        initiative: 10,
+        position: { x: 3, y: 2 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+    ];
+    const start = await h.post('/api/session/start', { units });
+    const sid = start.body.session_id || start.body.id;
+    await h.post('/api/session/action', {
+      session_id: sid,
+      actor_id: 'p1',
+      action_type: 'attack',
+      target_id: 'sis',
+      channel: 'acqua',
+    });
+    const strike = await h.post('/api/session/action', {
+      session_id: sid,
+      actor_id: 'p1',
+      action_type: 'attack',
+      target_id: 'sis',
+      channel: 'folgore',
+    });
+    const electrified =
+      strike.body &&
+      strike.body.terrain_reaction &&
+      strike.body.terrain_reaction.new_state === 'electrified';
+    const dReact = counters.reactTile_calls - before.reactTile_calls;
+    const dChain = counters.chain_branch_calls - before.chain_branch_calls;
+    if (dReact <= 0 || dChain <= 0 || !electrified) {
+      throw new Error(
+        `instrument self-test FAILED: reactTile+${dReact} chain_branch+${dChain} electrified=${electrified} -- the monkeypatch did NOT intercept session.js, so a 0 measurement would be a FALSE null`,
+      );
+    }
+    process.stderr.write(
+      `[d8-chain-fire-count] instrument self-test OK: reactTile+${dReact}, chain_branch+${dChain}, electrified -> patch binds, a 0 measurement is a REAL null\n`,
+    );
+  } finally {
+    if (priorRound === undefined) delete process.env.USE_ROUND_MODEL;
+    else process.env.USE_ROUND_MODEL = priorRound;
+    for (const k of Object.keys(counters)) counters[k] = 0; // reset: exclude the self-test from the measurement
+  }
+}
+
 async function main() {
   const N = Math.max(1, Number(process.argv[2]) || 40);
   const { app, close } = createApp({ databasePath: null });
   try {
     const h = http(app);
+    await selfTestInstrument(h); // fail loud if the instrument cannot count > 0
     const proto = buildScenarioEnemies(MP.scenario, {});
     if (!proto || !proto.length)
       throw new Error(`measurement point "${MP.scenario}" yielded no roster`);
