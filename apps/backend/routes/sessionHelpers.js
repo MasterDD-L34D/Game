@@ -87,7 +87,12 @@ function normaliseUnit(raw, fallbackIndex, bounds) {
     : JOB_ARCHETYPE[job] || null;
   const unit = {
     id,
-    species: input.species ? String(input.species) : 'unknown',
+    // #3157 F1: pack scenario builders inject kebab-case YAML ids
+    // ('dune-stalker') while the runtime canon is underscore
+    // (data/core/species/species_catalog.json; see
+    // services/species/wikiLinkBridge.js). Canonicalize at this single unit
+    // choke point so telemetry carries ONE id format regardless of source.
+    species: input.species ? String(input.species).replace(/-/g, '_') : 'unknown',
     job,
     traits,
     hp,
