@@ -124,6 +124,32 @@ test('combatAdapter.runEncounter: a fixed seed replays deterministically (Codex 
   assert.equal(a.rounds, b.rounds);
 });
 
+// W5 inc-1: graded calibration metrics (Q2 -- Gap C signal). runEncounter returns
+// hp_remaining_pct + units_lost alongside the binary outcome so a team-power delta that a
+// binary win/lose hides (cakewalk vs limped-in) becomes measurable. AI-independent.
+test('combatAdapter.runEncounter: returns graded metrics (hp_remaining_pct, units_lost)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const res = await runEncounter(http, {
+    roster: roster(),
+    enemies: enemies(),
+    scenarioId: 'full_loop_test',
+    seed: 'graded-1',
+    maxRounds: 40,
+  });
+  assert.equal(res.outcome, 'victory');
+  // both roster units survive the weak enemy -> 0 lost, survivors carry HP.
+  assert.equal(res.units_lost, 0, `expected 0 lost, got ${res.units_lost}`);
+  assert.equal(typeof res.hp_remaining_pct, 'number');
+  assert.ok(
+    res.hp_remaining_pct > 0 && res.hp_remaining_pct <= 1,
+    `hp_remaining_pct in (0,1], got ${res.hp_remaining_pct}`,
+  );
+});
+
 // OA2 (SPEC-O): a NON-elimination objective completes via the objective-driver + the
 // objective-outcome wiring (sabotage progress while in the zone), NOT elimination.
 test('combatAdapter.runEncounter: OA2 -- sabotage objective completes (not elimination)', async (t) => {

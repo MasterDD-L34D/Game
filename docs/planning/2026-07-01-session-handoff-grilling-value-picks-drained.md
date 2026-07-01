@@ -22,13 +22,13 @@ form-pulse W6 + a rigorous re-ratify of the D6/D8/ER6 provisional bands + G6.
 
 ## Done this session
 
-| item      | what                                                                                     | PR / state                   |
-| --------- | ---------------------------------------------------------------------------------------- | ---------------------------- |
-| 1 HA1     | ratify `aliena_enforcement strength 0.5` = **GUARDRAIL-LATENT** (not enabled)            | #3117 **MERGED** (doc)       |
-| 2 STAMINA | keep **carrier-independent** (player-only switch rejected); flip staged-latent           | #3117 **MERGED** (doc)       |
-| 3 ER6     | **BUILD carry-over** (unspent overrun -> next round), flag OFF + N=40 band-SAFE          | #3119 **OPEN** (OWNER-merge) |
-| 4 D6      | wire `offense/RAPIDA = dilatazione_temporale_percettiva` (8/8), liveness-gated, flag OFF | #3120 **OPEN** (OWNER-merge) |
-| 5 D8      | caps **3/2** (maxDepth 3) + footprint sweep, flag OFF; **flip DEFERRED** (master-dd)     | #3121 **OPEN** (OWNER-merge) |
+| item      | what                                                                                     | PR / state                  |
+| --------- | ---------------------------------------------------------------------------------------- | --------------------------- |
+| 1 HA1     | ratify `aliena_enforcement strength 0.5` = **GUARDRAIL-LATENT** (not enabled)            | #3117 **MERGED** (doc)      |
+| 2 STAMINA | keep **carrier-independent** (player-only switch rejected); flip staged-latent           | #3117 **MERGED** (doc)      |
+| 3 ER6     | **BUILD carry-over** (unspent overrun -> next round), flag OFF + N=40 band-SAFE          | #3119 **MERGED** `623860f5` |
+| 4 D6      | wire `offense/RAPIDA = dilatazione_temporale_percettiva` (8/8), liveness-gated, flag OFF | #3120 **MERGED** `516ad425` |
+| 5 D8      | caps **3/2** (maxDepth 3) + footprint sweep, flag OFF; **flip DEFERRED** (master-dd)     | #3121 **MERGED** `6b49023c` |
 
 - All bands **PROVISIONAL** (W5 not built; passive-AI harness). Flags ALL stay OFF.
 - **D8 flip verdict = DEFER** (master-dd 2026-07-01 AskUserQuestion): non-band-neutral +
@@ -57,6 +57,7 @@ that wins only elimination). See close-out plan **X1** + register **W5** row. It
 of its own (weeks); surface it as the next focus.
 
 Other open (OWNER): N3 ER7 flag-ON / N5 A2 re-tune / N7 interoception re-tune / N8 DR2 ratify /
-O5 D7 prose (HITL) / O7 GAP2-next (deferred). The 3 code PRs above await master-dd merge.
+O5 D7 prose (HITL) / O7 GAP2-next (deferred). The 3 code PRs above are **MERGED** (#3119
+`623860f5` / #3120 `516ad425` / #3121 `6b49023c`); W5 is the next focus.
 
 See `docs/playtest/2026-06-30-{ha1-aliena-enforcement,stamina-fatigue-n40,er6-overrun-carryover-n40,d8-chain-lightning-cap-footprint}-*.md`.

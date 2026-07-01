@@ -97,7 +97,25 @@ function stepTowardZone(actor, zone, units) {
   return null; // boxed in -> hold this tick
 }
 
-function selectPlayerAction(actor, units, objective) {
+// Pick the attack target among IN-RANGE enemies. focusFire -> the lowest-HP (finish-off),
+// tie-break nearest then id (deterministic); else the nearest. Null if none in range. Shared by
+// the elimination/survival branch AND the OA2 in-zone hold branch so opts.focusFire is honored in
+// the non-elimination cases W5 measures (Codex P2 #3127) -- attacking never moves the actor, so
+// focusing a low-HP in-range foe keeps the zone hold intact. Default (focusFire off) = nearest
+// in-range, byte-identical to the prior closest-attack.
+function pickInRangeTarget(actor, enemies, focusFire) {
+  const range = actor.attack_range || 1;
+  const inRange = enemies.filter((e) => dist(actor.position, e.position) <= range);
+  if (!inRange.length) return null;
+  const byNearest = (a, b) => dist(actor.position, a.position) - dist(actor.position, b.position);
+  if (!focusFire) return inRange.sort(byNearest)[0];
+  return inRange.sort(
+    (a, b) =>
+      (a.hp ?? 0) - (b.hp ?? 0) || byNearest(a, b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+  )[0];
+}
+
+function selectPlayerAction(actor, units, objective, opts = {}) {
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
   // bug C (#2662-era OA2): GET /:id/objective + the evaluator carry `target_zone` at the TOP
@@ -114,33 +132,28 @@ function selectPlayerAction(actor, units, objective) {
       // centroid funneled every unit to one tile -> 2nd unit blocked outside).
       return stepTowardZone(actor, zone, units);
     }
-    // IN zone: HOLD. Attack only an already-in-range enemy; NEVER leave the zone to
-    // chase a far foe (that would break the hold and the objective would never tick).
+    // IN zone: HOLD. Attack an already-in-range enemy (focus-fire honored); NEVER leave the zone
+    // to chase a far foe (that would break the hold and the objective would never tick).
     const foes = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
-    const tgt = foes.length
-      ? foes.sort((a, b) => dist(actor.position, a.position) - dist(actor.position, b.position))[0]
-      : null;
-    if (
-      tgt &&
-      dist(actor.position, tgt.position) <= (actor.attack_range || 1) &&
-      (actor.ap_remaining ?? 0) >= 1
-    ) {
+    const tgt = pickInRangeTarget(actor, foes, opts && opts.focusFire);
+    if (tgt && (actor.ap_remaining ?? 0) >= 1) {
       return { action_type: 'attack', target_id: tgt.id };
     }
     return null; // hold position -> the zone objective ticks
   }
 
-  // Default / in-zone / elimination / survival: closest-enemy attack-or-approach.
+  // Default / elimination / survival: closest-enemy attack-or-approach (focus-fire honored).
   const enemies = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
   if (enemies.length === 0) return null;
-  const target = enemies.sort(
-    (a, b) => dist(actor.position, a.position) - dist(actor.position, b.position),
-  )[0];
-  const range = actor.attack_range || 1;
-  if (dist(actor.position, target.position) <= range && (actor.ap_remaining ?? 0) >= 1) {
-    return { action_type: 'attack', target_id: target.id };
+  const tgt = pickInRangeTarget(actor, enemies, opts && opts.focusFire);
+  if (tgt && (actor.ap_remaining ?? 0) >= 1) {
+    return { action_type: 'attack', target_id: tgt.id };
   }
-  return stepToward(actor, target.position);
+  // None in range (or no AP): approach the nearest.
+  const nearest = enemies
+    .slice()
+    .sort((a, b) => dist(actor.position, a.position) - dist(actor.position, b.position))[0];
+  return stepToward(actor, nearest.position);
 }
 
 module.exports = { dist, inZone, selectPlayerAction, ZONE_PURSUIT_OBJECTIVES };
