@@ -30,7 +30,8 @@ function resolveOffspringGenome(offspring) {
     throw new TypeError('resolveOffspringGenome: offspring object required');
   }
   if (_isCrossbreedShape(offspring)) {
-    const mutations = [offspring.environmental_mutation, ...(offspring.hybrid_fusions || [])]
+    const hybridFusions = Array.isArray(offspring.hybrid_fusions) ? offspring.hybrid_fusions : [];
+    const mutations = [offspring.environmental_mutation, ...hybridFusions]
       .filter((m) => m && typeof m === 'object')
       .slice(0, 3);
     const geneSlotIds = (Array.isArray(offspring.gene_slots) ? offspring.gene_slots : [])

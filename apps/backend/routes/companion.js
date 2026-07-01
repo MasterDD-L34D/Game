@@ -259,6 +259,7 @@ function createCompanionRouter({
    *
    * Response: 201 { ambassador, spawn_descriptor } | 400 species_required |
    *           400 lineage_id_required | 404 offspring_not_found |
+   *           409 lineage_already_promoted | 422 invalid_offspring |
    *           422 promote_failed | 429 rate_limited
    */
   router.post('/skiv/offspring/:offspring_id/promote', async (req, res) => {
@@ -290,9 +291,30 @@ function createCompanionRouter({
         return res.status(404).json({ error: 'offspring_not_found' });
       }
     }
-    const genome = resolveOffspringGenome(offspring);
+    // Defense-in-depth: body.offspring is untrusted -> never let a malformed
+    // descriptor throw out of the async handler (unhandled rejection = crash).
+    let genome;
+    try {
+      genome = resolveOffspringGenome(offspring);
+    } catch (err) {
+      return res
+        .status(422)
+        .json({ error: 'invalid_offspring', message: String(err.message || err) });
+    }
     if (!genome.lineage_id) {
       return res.status(400).json({ error: 'lineage_id_required' });
+    }
+    // Refuse to overwrite an existing ambassador: promote CREATES a new one, and
+    // the (crossbreed-descriptor) lineage_id is client-supplied -> refusing an
+    // in-place overwrite stops a caller clobbering another lineage's card
+    // (species/mutations/cabinet) by re-using its lineage_id (store is keyed by it).
+    if (
+      typeof store.getCompanionState === 'function' &&
+      store.getCompanionState(genome.lineage_id)
+    ) {
+      return res
+        .status(409)
+        .json({ error: 'lineage_already_promoted', lineage_id: genome.lineage_id });
     }
     // Ambassador companion card (saveCompanionState applies cap-10 FIFO + signs).
     // Only offspring-derived fields are set -- no fabricated mbti/aspect/progression.

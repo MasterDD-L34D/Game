@@ -397,6 +397,47 @@ test('POST promote a CROSSBREED descriptor (body.offspring) maps genome + no sto
   assert.equal(r.body.spawn_descriptor.biome_origin, 'savana');
 });
 
+test('POST promote crossbreed descriptor with non-array hybrid_fusions does NOT crash (Codex P1)', async () => {
+  const app = buildApp({
+    store: createCompanionStateStore(),
+    offspringStore: makeOffspringStoreStub(),
+  });
+  // malformed unauthenticated input: a non-array (non-iterable) hybrid_fusions
+  const xbred = makeCrossbreedOffspring({ hybrid_fusions: { not: 'an array' } });
+  const r = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  // gracefully handled (fusions ignored), not a 500/crash
+  assert.equal(r.status, 201);
+  assert.deepEqual(
+    r.body.ambassador.mutations.map((m) => m.id),
+    ['mut_glow'],
+  );
+});
+
+test('POST promote refuses to overwrite an existing ambassador → 409 (anti-clobber)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, offspringStore: makeOffspringStoreStub() });
+  const xbred = makeCrossbreedOffspring();
+  // first promote creates the ambassador
+  const first = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'dune_stalker',
+    offspring: xbred,
+  });
+  assert.equal(first.status, 201);
+  // an attacker re-uses the SAME lineage_id with different species -> refused, not clobbered
+  const attack = await postJson(app, `/api/skiv/offspring/${xbred.lineage_id}/promote`, {
+    species_id: 'attacker_sp',
+    offspring: makeCrossbreedOffspring({ tier_bonus_traits: ['attacker_trait'] }),
+  });
+  assert.equal(attack.status, 409);
+  assert.equal(attack.body.error, 'lineage_already_promoted');
+  // victim card unchanged
+  const share = await getJson(app, `/api/skiv/share/${xbred.lineage_id}`);
+  assert.equal(share.body.species_id, 'dune_stalker');
+});
+
 test('POST promote crossbreed descriptor without lineage_id → 400 lineage_id_required', async () => {
   const app = buildApp({
     store: createCompanionStateStore(),
