@@ -31,7 +31,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--logs-glob", default=os.path.join(ROOT, "logs", "session_*.json"))
+    # [0-9] guard: match only timestamped batch logs (session_YYYYMMDD_HHMMSS.json),
+    # NOT the deterministic seed fixtures scripts/seed-sessions.js writes as
+    # session_seed_<name>.json (they would pollute KPIs + create bogus day buckets)
+    ap.add_argument("--logs-glob", default=os.path.join(ROOT, "logs", "session_[0-9]*.json"))
     ap.add_argument("--out", default=os.path.join(ROOT, "logs", "reports", "playtest_aggregates.json"))
     args = ap.parse_args()
 
