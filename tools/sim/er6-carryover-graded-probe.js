@@ -80,6 +80,7 @@ async function runArm(carryOn, N, seedBase) {
         collectEvents: ER6.collectEvents,
         pressureStart: ER6.pressureStart,
         modulation: 'duo_hardcore',
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       const ev = extractStresswave(res.collectedEvents);
       const rosterN = (res.rosterIds || []).length || 1;

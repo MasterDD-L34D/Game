@@ -374,6 +374,11 @@ async function runArm({ effect, armName, armDef, runs, seedBase, scaling, onRun 
         // ER1 eco-apply proof reads the FIRST poll (pre-any-action): post-run
         // state is polluted by dynamic AI ability buffs on the same field.
         ...(armDef.jobs ? { captureFirstState: true } : {}),
+        // #3157 F4: endSession INTENTIONALLY OMITTED here -- ER7 arms share one
+        // campaign as a FIXED population condition across seeds ("combat never
+        // mutates it here", above); /end would run the wound-persist pipeline on
+        // campaign.woundedBiomes and contaminate later seeds' measurements.
+        // Truncated logs from this probe are the accepted cost.
       });
       const rec = {
         seed,

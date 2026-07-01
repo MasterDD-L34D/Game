@@ -202,6 +202,7 @@ async function runArm({ scenario, runs, seedBase, armOpts, scaling, onRun }) {
         maxRounds: 160,
         ...(armOpts && armOpts.overcharge ? { overcharge: armOpts.overcharge } : {}),
         ...(initialSg ? { initialSg } : {}),
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       const rec = {
         seed,
