@@ -90,7 +90,7 @@ footer{color:var(--txt2);font-size:12px;padding:8px 4px}
 <script>
 const DATA = /*__DATA__*/;
 const COLORS=['#4C72B0','#DD8452','#55A868','#C44E52','#8172B3','#937860','#DA8BC3','#8C8C8C'];
-const OUTCOL={win:'#55A868',abandon:'#DD8452',truncated:'#8C8C8C',wipe:'#C44E52'};
+const OUTCOL={win:'#55A868',abandon:'#DD8452',timeout:'#8172B3',truncated:'#8C8C8C',wipe:'#C44E52'};
 const fmt=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n.toLocaleString();
 let outChart;
 
@@ -166,7 +166,7 @@ new Chart(document.getElementById('c-hist'),{type:'bar',
 
 // sessions per day stacked by outcome
 {const days=Object.keys(DATA.outcome_by_day).sort();
-const outs=['win','abandon','wipe','truncated'];
+const outs=['win','abandon','timeout','wipe','truncated'];
 new Chart(document.getElementById('c-days'),{type:'bar',
  data:{labels:days,datasets:outs.map(o=>({label:o,data:days.map(d=>(DATA.outcome_by_day[d]||{})[o]||0),backgroundColor:OUTCOL[o]+'CC'}))},
  options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:{stacked:true}},plugins:{legend:{position:'top'}}}});}
@@ -182,9 +182,9 @@ new Chart(document.getElementById('c-funnel'),{type:'line',
   scales:{x:{title:{display:true,text:'turn'}},y:{title:{display:true,text:'events'}}}}});}
 
 // scenario table sortable
-{const cols=[['scenario','Scenario'],['n','Sessions'],['completed','Completed'],['win','Win'],['abandon','Abandon'],['wipe','Wipe'],['truncated','Trunc'],['wr','Win rate']];
+{const cols=[['scenario','Scenario'],['n','Sessions'],['completed','Completed'],['win','Win'],['abandon','Abandon'],['timeout','Timeout'],['wipe','Wipe'],['truncated','Trunc'],['wr','Win rate']];
 const rows=Object.keys(DATA.outcomes_by_scenario).map(s=>{const c=DATA.outcomes_by_scenario[s];const st=scenarioStats(s);
- return {scenario:s,n:st.total,completed:st.completed,win:c.win||0,abandon:c.abandon||0,wipe:c.wipe||0,truncated:c.truncated||0,wr:+st.wr.toFixed(1)};});
+ return {scenario:s,n:st.total,completed:st.completed,win:c.win||0,abandon:c.abandon||0,timeout:c.timeout||0,wipe:c.wipe||0,truncated:c.truncated||0,wr:+st.wr.toFixed(1)};});
 let sc='n',sd=-1;
 function render(){rows.sort((a,b)=>(a[sc]<b[sc]?1:-1)*sd*-1);
  let h='<table><thead><tr>'+cols.map(c=>'<th onclick="window.__sort(\''+c[0]+'\')">'+c[1]+(sc===c[0]?(sd===1?' ▲':' ▼'):'')+'</th>').join('')+'</tr></thead><tbody>';
@@ -212,7 +212,9 @@ def main() -> int:
         data = json.load(fh)
 
     out = HTML.replace("/*__DATA__*/", json.dumps(data, separators=(",", ":")))
-    assert "/*__DATA__*/" not in out and len(out) > 20000, "data injection failed"
+    # injection check: placeholder replaced AND output grew past the bare template
+    # (relative threshold -- a tiny test corpus must not trip a fixed-size assert)
+    assert "/*__DATA__*/" not in out and len(out) > len(HTML), "data injection failed"
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:
         fh.write(out)
