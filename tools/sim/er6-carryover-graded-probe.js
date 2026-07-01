@@ -127,12 +127,31 @@ function summarize(runs) {
   };
 }
 
+// Graded delta between two arm summaries.
+function armDelta(a, b) {
+  return {
+    win_rate: Number((a.win_rate - b.win_rate).toFixed(4)),
+    enemy_hp_remaining: Number(
+      (a.mean_enemy_hp_remaining_pct - b.mean_enemy_hp_remaining_pct).toFixed(4),
+    ),
+    ko_rate: Number((a.mean_ko_rate - b.mean_ko_rate).toFixed(4)),
+    hp_remaining: Number((a.mean_hp_remaining_pct - b.mean_hp_remaining_pct).toFixed(4)),
+  };
+}
+
 async function main() {
   const N = Math.max(1, Number(process.argv[2]) || 40);
   const seedBase = 7000;
-  const off = await runArm(false, N, seedBase); // consume-once
+  // Codex P1: same-process arms can drift via module-global combat state. A same-flag control
+  // REPLICATE (off2, identical config + seeds to off) quantifies that drift + run-to-run noise
+  // as a floor; the ER6 effect (on-off) is only real if it EXCEEDS the floor (off2-off). Mirrors
+  // the #3119 off/off2 methodology. (The behavioral-inertness proof -- overrun_carry never nonzero
+  // -> identical spawns -- is the process-independent core; this floor is the belt-and-braces.)
+  const off = await runArm(false, N, seedBase); // consume-once (1st)
+  const off2 = await runArm(false, N, seedBase); // consume-once REPLICATE = noise floor
   const on = await runArm(true, N, seedBase); // carry-over (paired seeds)
   const sOff = summarize(off);
+  const sOff2 = summarize(off2);
   const sOn = summarize(on);
   console.log(
     JSON.stringify(
@@ -144,15 +163,10 @@ async function main() {
         modulation: 'duo_hardcore',
         discriminator: 'REINFORCEMENT_OVERRUN_CARRYOVER_ENABLED (both arms STRESSWAVE on)',
         consume_once_OFF: sOff,
+        consume_once_OFF2_replicate: sOff2,
         carry_over_ON: sOn,
-        deltas: {
-          win_rate: Number((sOn.win_rate - sOff.win_rate).toFixed(4)),
-          enemy_hp_remaining: Number(
-            (sOn.mean_enemy_hp_remaining_pct - sOff.mean_enemy_hp_remaining_pct).toFixed(4),
-          ),
-          ko_rate: Number((sOn.mean_ko_rate - sOff.mean_ko_rate).toFixed(4)),
-          hp_remaining: Number((sOn.mean_hp_remaining_pct - sOff.mean_hp_remaining_pct).toFixed(4)),
-        },
+        er6_effect_on_minus_off: armDelta(sOn, sOff),
+        noise_floor_off2_minus_off: armDelta(sOff2, sOff),
         node: process.version,
       },
       null,

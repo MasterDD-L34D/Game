@@ -43,15 +43,22 @@ reachable. The ONLY between-arm difference is `REINFORCEMENT_OVERRUN_CARRYOVER_E
 
 ## Results (N=40, node 22)
 
-| metric                    | consume-once (OFF) | carry-over (ON) | delta       |
-| ------------------------- | ------------------ | --------------- | ----------- |
-| win_rate                  | 1.000              | 1.000           | 0           |
-| mean_enemy_hp_remaining   | 0.000              | 0.000           | 0           |
-| mean_hp_remaining (party) | 0.9867             | 0.9863          | **-0.0004** |
-| mean_ko_rate              | 0.000              | 0.000           | 0           |
-| avg_rounds                | 36.13              | 36.55           | +0.42       |
-| **overrun_rate** (fires)  | 1.000              | 1.000           | 0           |
-| mean_spawns               | 4.0                | 4.0             | 0           |
+Three arms: OFF (consume-once), **OFF2** (consume-once REPLICATE = same-process + run-to-run noise
+floor), ON (carry-over). The carry effect is real only if `on-off` EXCEEDS the `off2-off` floor
+(Codex P1: same-process arms can drift via module-global state -- #3119 off/off2 methodology).
+
+| metric                    | OFF    | OFF2   | ON     | **ER6 effect (on-off)** | noise floor (off2-off) |
+| ------------------------- | ------ | ------ | ------ | ----------------------- | ---------------------- |
+| win_rate                  | 1.000  | 1.000  | 1.000  | 0                       | 0                      |
+| mean_enemy_hp_remaining   | 0.000  | 0.000  | 0.000  | 0                       | 0                      |
+| mean_hp_remaining (party) | 0.9896 | 0.9900 | 0.9887 | **-0.0009**             | +0.0004                |
+| mean_ko_rate              | 0.000  | 0.000  | 0.000  | 0                       | 0                      |
+| **overrun_rate** (fires)  | 1.000  | 1.000  | 1.000  | --                      | --                     |
+| mean_spawns               | 4.0    | 4.0    | 4.0    | --                      | --                     |
+
+**The ER6 effect (`on-off` hp_remaining -0.0009) is the SAME magnitude as the noise floor
+(`off2-off` +0.0004)** -- both ~+-0.001, indistinguishable. Every other channel is exactly 0 in
+all three arms. The carry flag produces NO effect beyond the same-process / run-to-run noise.
 
 ## Read -- flag INERT on current content (behavioral-identity null)
 
@@ -71,6 +78,13 @@ reachable. The ONLY between-arm difference is `REINFORCEMENT_OVERRUN_CARRYOVER_E
   nonzero value. => ON == OFF, so all graded channels (enemy_hp, hp_remaining, ko_rate, WR) are
   flat by construction, not by attrition-absorption. (`hp_remaining` delta -0.0004 / `avg_rounds`
   +0.42 = pure noise; sim not bit-repro cross-version, ~+-0.05.)
+- **Same-process drift ruled out (Codex P1)**: the arms run sequentially in one process, which can
+  drift via module-global combat state. The `off2` control replicate (same flag + seeds as off)
+  quantifies that drift as a floor: `off2-off` hp_remaining = +0.0004, i.e. the `on-off` "effect"
+  (-0.0009) is the SAME magnitude as the noise floor and every other channel is 0. So the carry
+  flag produces nothing beyond same-process noise. (The behavioral-inertness proof -- identical
+  spawns + `overrun_carry == 0` from instrumentation -- is process-INDEPENDENT and is the stronger
+  core; the floor is belt-and-braces.)
 - **Honest scope -- what the graded metric did and did NOT do**: it did NOT add discriminating
   power over #3119 here, because there is **no behavioral differential to detect** -- a plain
   spawn-diff shows the same identity. The graded metric's discriminating value (inc-2:
