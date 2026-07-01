@@ -18,7 +18,7 @@ Eseguito il piano grilling **D8 -> W6**.
 
 ## ⚡ Sessione 2026-07-01 (cont) -- SPEC-F B4 FC1 resync (acceptance #4 buildable half)
 
-**1 PR merged, 0 open.** Handoff `docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices drained); memory `project_spec_f_crossbreed`.
+**FC1 resync + 2 doc-sync merged; poi Tier-2 owner-batch reconciled + O8 schema PR #3147 OPEN (forbidden-path, master-dd merge).** Handoff `docs/planning/2026-07-01-session-handoff-spec-f-fc1-resync.md`; closeout `2026-06-29-closeout-master-plan.md` sez.6bis (B4 slices drained) + sez.1B DELTA (Tier-2); memory `project_spec_f_crossbreed`.
 
 - **B4 FC1 resync** **[#3144](https://github.com/MasterDD-L34D/Game/pull/3144) `802c004e`**: `POST /api/skiv/resync` + `store.resyncCompanionState` + pure `appendDeduped`. FC1 Opt-A **home-authoritative** additive merge del returning Custode -- external `crossbreed_history`+`voice_diary_portable` APPEND (dedup canonicalJson, FIFO cap 10/5); OGNI altro campo (progression/cabinet/mutations/aspect/mbti/species/biome) = HOME. **404-on-missing** (RETURN, inverso di import's 409); 200 non 201. Reuse `saveCompanionState` (re-cap/re-sign/persist byte-identical, no eviction). Flag-less, band-neutral, reversibile, forbidden-path clean. **Chiude la meta' buildable di acceptance #4** (import #3135 = create half). Lane scelta master-dd (AskUserQuestion): FC1 resync (autonomo) vs Option C (forbidden-path) vs Tier-2 batch.
 - 🔑 **Codex P1 (REAL, oltre il mio adversarial-Workflow "CLEAN")**: **nested-PII leak** -- la whitelist top-level NON ricorre -> una card firmata (sig=integrita' non autenticita') puo' smuggle PII (`partner_card_url`/`session_id`/`_notes`) dentro un item crossbreed_history/voice_diary -> persiste + leak via share/history per un lineage_id noto (l'append-to-existing di resync lo rende raggiungibile su lineage owned che import's 409 bloccava). Fix = **ROOT** in shared `saveCompanionState`: `sanitizeItems()` per-item schema whitelist (mirror packages/contracts item additionalProperties:false) -> copre import+promote+resync (ponytail fix-the-shared-hole). resync sanitizza anche pre-dedup.
@@ -27,7 +27,9 @@ Eseguito il piano grilling **D8 -> W6**.
 
 100/100 SPEC-F suites, route glob 76/76, AI 567/567, governance 0. Adversarial 3-lens Workflow + Codex sweep (P1 fixed+resolve, P2 tracked+resolve). **B4 residue buildable = NONE**; residues owner/coord = live-run injection (session.js = W5 lane) + durable cooldown (contracts) + Option C durable nidoId (Prisma).
 
-**Next (owner/coordination)**: Option C durable-nidoId (Prisma migration, owner sign-off) · Tier-2 owner-decision batch (closeout sez.2 + register) · coordinare col lane W5/form-pulse (sessione parallela, NON toccare session.js/imprint/tools/sim).
+**Tier-2 owner-batch (07-01, master-dd via AskUserQuestion)**: recon Workflow 4-finder -> **batch quasi tutto DRENATO** (marker stale, git=verita'): O1 #3098 / O2 #3076 / O5 #3097 / I1 #3067 / I2 / I7 #3073 = DONE; O4/O6 gia' DONE; O7 GAP2-next = **defer affermato**. **Unica vera owner-decision** = **O8 resistance_archetype**: enum canonico `[adattivo,bioelettrico,corazzato,psionico,termico]` formalizzato in `packages/contracts/schemas/species.schema.json` (chiude il workaround `additionalProperties:true` = archetipo typo cadeva silent al default) -> **PR #3147 OPEN forbidden-path** (firma master-dd via AskUserQuestion; dry-run 107/107 valori gia' canonici, 0 rotture; +3 test enum CI-wired). Dettaglio: closeout sez.1B DELTA 07-01.
+
+**Next (owner/coordination)**: **merge O8 PR #3147** (forbidden-path, mani master-dd) · Option C durable-nidoId (Prisma migration, owner sign-off) · O7 re-open block-4 (opzionale) · coordinare col lane W5/form-pulse (sessione parallela, NON toccare session.js/imprint/tools/sim).
 
 ## ⚡ Sessione 2026-07-01 (cont) -- SPEC-F B4 import + per-Nido AUTH isolation (A+D)
 
