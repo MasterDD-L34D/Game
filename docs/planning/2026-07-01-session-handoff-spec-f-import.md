@@ -24,7 +24,10 @@ tags: [evo-tactics, spec-f, custode, import, b4, ambassador, handoff, security]
   `packages/contracts` + a Nido-identity model = design-call). `POST /skiv/import`
   was the clean autonomous slice instead -- master-dd confirmed.
 - **`POST /api/skiv/import` BUILT + MERGED** (#3135 `2b28da13`): import a signed
-  foreign card as a permanent ambassador. Closes **SPEC-F acceptance #4**.
+  foreign card as a permanent ambassador. **Advances SPEC-F acceptance #4** (import +
+  signature-verify + cap/rate-limit sub-parts). The additive **FC1 resync** of a
+  returning-home lineage is NOT built -- import refuse-overwrites (409), it does not
+  merge -- so acceptance #4 is not fully closed; resync stays a residual slice.
 - Adversarial 3-lens Workflow (security / spec-fidelity / correctness) + Codex
   sweep. 1 Codex **P1 (real)** caught + fixed (cross-restart overwrite).
 
@@ -81,6 +84,10 @@ tags: [evo-tactics, spec-f, custode, import, b4, ambassador, handoff, security]
       coordinate, not autonomous.
 - [ ] **B4 durable crossbreed cooldown** -- needs a `packages/contracts` schema
       field (forbidden-path, master-dd). In-memory today (per-process).
+- [ ] **B4 additive FC1 resync** (returning-home lineage) -- import currently
+      refuse-overwrites (409); the additive home-authoritative merge (append external
+      crossbreed_history/diary, home wins stat/lineage conflicts, spec :172-175) is a
+      separate slice. Part of acceptance #4 still open.
 - [ ] **Residual-gate leftovers** (from #3126): B5 TR-200x metrics (owner balance
       content), B3 canon-stopwords re-scope (owner), Tier-2 owner-decisions.
 
@@ -92,8 +99,9 @@ tags: [evo-tactics, spec-f, custode, import, b4, ambassador, handoff, security]
    per-Nido auth or durable cooldown (both owner-gated).
 2. **Reference**: this handoff + `project_spec_f_crossbreed` (memory) + the closeout
    master plan sez.6/6bis + the residual-gate register.
-3. **Note**: SPEC-F B4 buildable slices are now DRAINED (closeout sez.6bis) -- all
-   remaining B4 residues are owner/coordination-gated.
+3. **Note**: the SPEC-F B4 export/import/promote slices are DONE (closeout sez.6bis).
+   The additive FC1 resync (returning-home lineage) is the one buildable B4 slice left;
+   the rest of the B4 residues are owner/coordination-gated.
 
 ## Piani toccati (collegamenti)
 
