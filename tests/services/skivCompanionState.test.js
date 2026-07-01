@@ -206,6 +206,47 @@ test('Phase 1: re-saving existing lineage does not trigger eviction', () => {
   assert.notEqual(store.getCompanionState('skiv-bbb-test'), null);
 });
 
+// ─── 5b. Per-owner cap (SPEC-F Nido isolation, Option A) ────────────────
+
+test('Phase 1: per-owner cap isolates FIFO eviction (isolate + owner)', () => {
+  const store = createCompanionStateStore({ ambassadorCap: 2 });
+  const put = (id, owner) =>
+    store.saveCompanionState(makeValidState({ lineage_id: id }), { owner, isolate: true });
+  put('A-one-xxxx', 'A');
+  put('A-two-xxxx', 'A'); // A at cap 2
+  put('B-one-xxxx', 'B');
+  put('B-two-xxxx', 'B'); // B at cap 2 -- must NOT evict any of A's (per-owner, not global)
+  assert.equal(store.size(), 4); // both Nidos hold their full cap
+  assert.ok(store.getCompanionState('A-one-xxxx'));
+  // A's 3rd add evicts A's OWN oldest (A-one), never B's
+  put('A-three-xx', 'A');
+  assert.equal(store.getCompanionState('A-one-xxxx'), null); // A's oldest gone
+  assert.ok(store.getCompanionState('A-two-xxxx'));
+  assert.ok(store.getCompanionState('B-one-xxxx')); // B untouched
+  assert.ok(store.getCompanionState('B-two-xxxx'));
+  assert.ok(store.getCompanionState('A-three-xx'));
+  assert.equal(store.size(), 4);
+});
+
+test('Phase 1: isolate=false keeps the GLOBAL cap (byte-identical default)', () => {
+  const store = createCompanionStateStore({ ambassadorCap: 2 });
+  // owners passed but isolate off -> global cap 2, cross-owner eviction (current behavior)
+  store.saveCompanionState(makeValidState({ lineage_id: 'A-one-xxxx' }), {
+    owner: 'A',
+    isolate: false,
+  });
+  store.saveCompanionState(makeValidState({ lineage_id: 'B-one-xxxx' }), {
+    owner: 'B',
+    isolate: false,
+  });
+  store.saveCompanionState(makeValidState({ lineage_id: 'B-two-xxxx' }), {
+    owner: 'B',
+    isolate: false,
+  });
+  assert.equal(store.size(), 2);
+  assert.equal(store.getCompanionState('A-one-xxxx'), null); // A-one (oldest global) evicted
+});
+
 // ─── 6. Backward-compat 0.1.0 reader ────────────────────────────────────
 
 test('Phase 1: isLegacySchema detects 0.1.x', () => {

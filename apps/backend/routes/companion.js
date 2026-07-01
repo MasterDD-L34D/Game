@@ -20,8 +20,12 @@
 // history/ambassador FIFO cap 10) -- impl of ratified defaults, no open design-call.
 //
 // Auth: FC4-A v1 = signature-verify (transport integrity, NOT anti-forgery) +
-// rate-limit; no allowlist/per-Nido isolation yet (SPEC-F-wide, owner-gated).
-// Future hardening can add a JWT gate via shared AUTH_SECRET (middleware/auth.js).
+// rate-limit. Per-Nido isolation (Option A) behind SPEC_F_NIDO_ISOLATION_ENABLED
+// (OFF by default = global cap + per-IP rate-limit, byte-identical). ON: the ambassador
+// cap is scoped PER-OWNER (JWT sub / self-asserted player_id) so honest Nidos stop
+// FIFO-evicting each other; the write rate-limit goes per-owner ONLY for a JWT-trusted
+// owner (a self-asserted player_id stays per-IP so a rotating-id flood can't bypass it).
+// Durable per-Nido cap + a JWT write-gate (middleware/auth.js) = Option C/D, owner-gated.
 
 'use strict';
 
@@ -58,13 +62,49 @@ function randomCrossbreedSeed() {
 const CROSSBREED_RATE_LIMIT = 10;
 const CROSSBREED_RATE_WINDOW_MS = 60 * 60 * 1000;
 
+// SPEC-F per-Nido isolation (Option A, in-memory). OFF by default = today's global
+// ambassador cap + per-IP rate-limit, byte-identical. ON = the store's cap scopes
+// PER-OWNER (owner = JWT sub, else the request's player_id) so honest Nidos stop
+// FIFO-evicting each other; the write rate-limit goes per-owner ONLY for a JWT-trusted
+// owner (self-asserted player_id stays per-IP -- a rotating-id flood can't mint budgets).
+// Warm-state only (owner index resets on restart; durable = Option C Prisma migration).
+const NIDO_ISOLATION_ENABLED = process.env.SPEC_F_NIDO_ISOLATION_ENABLED === 'true';
+
 function createCompanionRouter({
   companionPicker = companionPickerDefault,
   store = null,
   rollMatingOffspring = rollMatingOffspringDefault,
   offspringStore = offspringStoreDefault,
+  nidoIsolationEnabled = NIDO_ISOLATION_ENABLED,
 } = {}) {
   const router = express.Router();
+
+  // SPEC-F per-Nido isolation (Option A). Owner = the caller's durable identity:
+  // JWT sub (req.auth.userId, present only when an AUTH_SECRET middleware ran) else
+  // the request's player_id (body/query -- already the primary id, campaign.js:216).
+  // null when unknown -> the write degrades to the global cap + per-IP rate-limit.
+  //
+  // TRUST CEILING (load-bearing for the flip decision): the JWT sub is
+  // cryptographically bound (`trusted:true`); player_id is SELF-ASSERTED
+  // (`trusted:false`). Returns { id, trusted }. id is coerced to a string-or-null
+  // (an object/array player_id must never become a Map/rate-limit key).
+  function deriveOwner(req) {
+    const jwtSub = req.auth && typeof req.auth.userId === 'string' ? req.auth.userId : null;
+    if (jwtSub) return { id: jwtSub, trusted: true };
+    const body = req.body && typeof req.body.player_id === 'string' ? req.body.player_id : null;
+    const query = req.query && typeof req.query.player_id === 'string' ? req.query.player_id : null;
+    return { id: body || query || null, trusted: false };
+  }
+  // Rate-limit key: per-owner ONLY for a crypto-bound (JWT-trusted) owner. A
+  // SELF-ASSERTED player_id stays PER-IP on purpose -- otherwise a griefer rotating
+  // distinct player_id strings would mint a fresh 10/h budget each request and flood
+  // the store unbounded (the per-owner cap removes the global ceiling). Per-owner
+  // isolation of the CAP is still cooperative for self-asserted owners; the per-IP
+  // rate-limit is what bounds a rotating-id flood.
+  function rateKey(req, owner) {
+    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
+    return nidoIsolationEnabled && owner.id && owner.trusted ? `owner:${owner.id}` : ip;
+  }
 
   // Each store-growing write (crossbreed, promote, import) gets its OWN 10/h-per-IP
   // budget (ADR-04-27): independent so a griefer exhausting one cannot also block
@@ -273,8 +313,8 @@ function createCompanionRouter({
    */
   router.post('/skiv/offspring/:offspring_id/promote', async (req, res) => {
     if (!requireStore(res)) return;
-    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
-    if (promoteRateLimited(ip)) {
+    const owner = deriveOwner(req);
+    if (promoteRateLimited(rateKey(req, owner))) {
       return res.status(429).json({ error: 'rate_limited' });
     }
     const offspringId = String(req.params.offspring_id || '');
@@ -336,7 +376,10 @@ function createCompanionRouter({
     };
     let ambassador;
     try {
-      ambassador = store.saveCompanionState(ambassadorState);
+      ambassador = store.saveCompanionState(ambassadorState, {
+        owner: owner.id,
+        isolate: nidoIsolationEnabled,
+      });
     } catch (err) {
       return res.status(422).json({ error: 'promote_failed', message: String(err.message || err) });
     }
@@ -377,8 +420,8 @@ function createCompanionRouter({
     // -- counts against the IP budget, so a garbage flood cannot probe the endpoint
     // for free, and the cap-10 FIFO write path stays behind the same budget.
     // Mirrors /promote's rate-limit-first posture.
-    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
-    if (importRateLimited(ip)) {
+    const owner = deriveOwner(req);
+    if (importRateLimited(rateKey(req, owner))) {
       return res.status(429).json({ error: 'rate_limited' });
     }
     const body = req.body || {};
@@ -414,7 +457,10 @@ function createCompanionRouter({
     // server-side, applies cap-10 FIFO. Wrap: a malformed card must 422, not throw.
     let ambassador;
     try {
-      ambassador = store.saveCompanionState(card);
+      ambassador = store.saveCompanionState(card, {
+        owner: owner.id,
+        isolate: nidoIsolationEnabled,
+      });
     } catch (err) {
       return res.status(422).json({ error: 'import_failed', message: String(err.message || err) });
     }
@@ -558,8 +604,8 @@ function createCompanionRouter({
       return res.status(400).json({ error: 'campaign_id_required' });
     }
     // Rate-limit BEFORE any store work (cheap abuse guard, ADR-04-27).
-    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
-    if (crossbreedRateLimited(ip)) {
+    const owner = deriveOwner(req);
+    if (crossbreedRateLimited(rateKey(req, owner))) {
       return res.status(429).json({ error: 'rate_limited' });
     }
     let local;

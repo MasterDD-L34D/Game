@@ -112,10 +112,29 @@ function makePersistentStoreStub() {
   };
 }
 
-function buildApp({ store, rollMatingOffspring, offspringStore } = {}) {
+function buildApp({
+  store,
+  rollMatingOffspring,
+  offspringStore,
+  nidoIsolationEnabled,
+  authStub,
+} = {}) {
   const app = express();
   app.use(express.json());
-  app.use('/api', createCompanionRouter({ store, rollMatingOffspring, offspringStore }));
+  if (authStub) {
+    // Simulate a configured JWT middleware: treat body.player_id as a verified sub
+    // (req.auth.userId) so deriveOwner returns { trusted:true } -- the crypto-bound path.
+    app.use((req, _res, next) => {
+      if (req.body && typeof req.body.player_id === 'string') {
+        req.auth = { userId: req.body.player_id };
+      }
+      next();
+    });
+  }
+  app.use(
+    '/api',
+    createCompanionRouter({ store, rollMatingOffspring, offspringStore, nidoIsolationEnabled }),
+  );
   return app;
 }
 
@@ -622,6 +641,96 @@ test('POST /skiv/import refuses a cross-restart overwrite (hydrates persistent s
   const r = await postJson(app, '/api/skiv/import', { card: attack });
   assert.equal(r.status, 409);
   assert.equal(r.body.error, 'lineage_already_imported');
+});
+
+// --- B4: per-Nido isolation (Option A, flag SPEC_F_NIDO_ISOLATION_ENABLED) ---
+
+// Import a distinct, validly-signed card owned by `player`.
+async function importAs(app, lineageId, player) {
+  const card = makePartnerCard({ lineage_id: lineageId });
+  card.companion_card_signature = signatureFor(card);
+  return postJson(app, '/api/skiv/import', { card, player_id: player });
+}
+
+test('isolation ON: per-owner cap -- owner B does not evict owner A (import)', async () => {
+  const store = createCompanionStateStore({ ambassadorCap: 2 });
+  const app = buildApp({ store, nidoIsolationEnabled: true });
+  await importAs(app, 'A-alpha-1111', 'playerA');
+  await importAs(app, 'A-beta-2222', 'playerA'); // A at cap 2
+  await importAs(app, 'B-gamma-3333', 'playerB'); // B's save must NOT evict A's oldest
+  assert.equal((await getJson(app, '/api/skiv/share/A-alpha-1111')).status, 200);
+  // A's 3rd add evicts A's OWN oldest only; B untouched
+  await importAs(app, 'A-delta-4444', 'playerA');
+  assert.equal((await getJson(app, '/api/skiv/share/A-alpha-1111')).status, 404); // A oldest gone
+  assert.equal((await getJson(app, '/api/skiv/share/A-beta-2222')).status, 200);
+  assert.equal((await getJson(app, '/api/skiv/share/B-gamma-3333')).status, 200); // B safe
+});
+
+test('isolation ON + JWT-trusted owner: rate-limit is per-owner (A hitting 10/h does not block B)', async () => {
+  const store = createCompanionStateStore();
+  // authStub -> body.player_id becomes a verified JWT sub (trusted owner).
+  const app = buildApp({ store, nidoIsolationEnabled: true, authStub: true });
+  let last;
+  for (let i = 0; i < 11; i += 1) last = await importAs(app, `A-rl-${i}-zzzz`, 'playerA');
+  assert.equal(last.status, 429); // A exhausted its own budget
+  const rB = await importAs(app, 'B-rl-0-zzzz', 'playerB');
+  assert.notEqual(rB.status, 429); // B has an independent budget
+});
+
+test('isolation ON + SELF-ASSERTED player_id: rate-limit stays per-IP (rotating id cannot bypass)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, nidoIsolationEnabled: true }); // NO authStub -> untrusted
+  let last;
+  // a griefer rotating a fresh player_id each request must NOT mint fresh budgets:
+  // all share the one per-IP bucket -> the 11th is 429.
+  for (let i = 0; i < 11; i += 1) last = await importAs(app, `rot-${i}-wwww`, `griefer-${i}`);
+  assert.equal(last.status, 429);
+});
+
+test('isolation OFF (default): rate-limit stays per-IP -- player_id is ignored (byte-identical)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store }); // flag off
+  let last;
+  // distinct player_ids all share the one per-IP bucket -> 11th across owners = 429
+  for (let i = 0; i < 11; i += 1) last = await importAs(app, `mix-${i}-wwww`, i % 2 ? 'x' : 'y');
+  assert.equal(last.status, 429);
+});
+
+test('isolation ON with no player_id uses the shared anon bucket (no crash)', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, nidoIsolationEnabled: true });
+  const card = makePartnerCard();
+  const r = await postJson(app, '/api/skiv/import', { card }); // no player_id, no JWT
+  assert.equal(r.status, 201);
+});
+
+test('isolation ON: an ownerless write cannot evict an owned Nido (Codex P2)', async () => {
+  const store = createCompanionStateStore({ ambassadorCap: 2 });
+  const app = buildApp({ store, nidoIsolationEnabled: true });
+  await importAs(app, 'A-one-1111', 'playerA');
+  await importAs(app, 'A-two-2222', 'playerA'); // playerA's bucket full at cap 2
+  // anonymous imports (no player_id) must land in the shared anon bucket + evict only
+  // each other -- NOT playerA's ambassadors (dropping the owner field must not bypass).
+  const anon = async (id) => {
+    const card = makePartnerCard({ lineage_id: id });
+    card.companion_card_signature = signatureFor(card);
+    return postJson(app, '/api/skiv/import', { card });
+  };
+  await anon('anon-one-11');
+  await anon('anon-two-22');
+  await anon('anon-thr-33'); // 3rd anon evicts anon-one (anon bucket), never playerA's
+  assert.equal((await getJson(app, '/api/skiv/share/A-one-1111')).status, 200); // A safe
+  assert.equal((await getJson(app, '/api/skiv/share/A-two-2222')).status, 200);
+  assert.equal((await getJson(app, '/api/skiv/share/anon-one-11')).status, 404); // anon evicted anon
+});
+
+test('isolation ON: a non-string player_id (object) is ignored, not used as a key', async () => {
+  const store = createCompanionStateStore();
+  const app = buildApp({ store, nidoIsolationEnabled: true });
+  const card = makePartnerCard();
+  // malformed untrusted input: player_id as an object must never become a Map/rate key.
+  const r = await postJson(app, '/api/skiv/import', { card, player_id: { evil: 1 } });
+  assert.equal(r.status, 201); // treated as anonymous (global path), no crash / no [object Object]
 });
 
 // ─── Slice 1: GET /api/skiv/crossbreed/history/:lineage_id ──────────────
