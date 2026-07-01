@@ -13583,6 +13583,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/planning/2026-07-01-session-handoff-tkt-p6-tier1-spec-f-b4.md",
+      "title": "Session handoff -- TKT-P6 gate + Tier-1 reconciliation + SPEC-F B4 arc (2026-07-01)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
