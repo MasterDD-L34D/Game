@@ -14,9 +14,11 @@ tags: [playtest, calibration, spec-i, er6, overrun, carryover, n40, graded, w5, 
 W5 inc-3, first mechanic. Re-ratifies the ER6 provisional band (SPEC-I N6, PR #3119) with the
 **W5 graded metrics** (`enemy_hp_remaining_pct` / `ko_rate` / `hp_remaining_pct`) instead of the
 WR-only full-loop meta band. Master-dd direction (2026-07-01 AskUserQuestion): **graded-confirm
-band-neutral** -- ER6 is inert on current content, so confirm that with a sharper metric and turn
-the band PROVISIONAL -> RATIFIED band-neutral. The "when-exercised" band (a forced-under-spend
-scenario) was DEFERRED. Flag stays OFF in prod -- this measures, never flips.
+band-neutral** -- ER6 is inert on current content, so confirm that and turn the band PROVISIONAL
+-> RATIFIED band-neutral. **The confirm is a behavioral-inertness proof** (the flag is a structural
+no-op on this content -- see Read), not a "graded channels absorbed the carry" story. The
+"when-exercised" band (a forced-under-spend scenario) was DEFERRED. Flag stays OFF in prod -- this
+measures, never flips.
 
 ## Why the graded metric (vs #3119 WR-only)
 
@@ -51,29 +53,53 @@ reachable. The ONLY between-arm difference is `REINFORCEMENT_OVERRUN_CARRYOVER_E
 | **overrun_rate** (fires)  | 1.000              | 1.000           | 0           |
 | mean_spawns               | 4.0                | 4.0             | 0           |
 
-## Read -- band-neutral RATIFIED (owner)
+## Read -- flag INERT on current content (behavioral-identity null)
+
+> Framing corrected after adversarial review (2026-07-01): the flatness here is **behavioral
+> identity**, NOT the party absorbing added carry-pressure. Instrumentation of the spawner
+> (`reinforcementSpawner`) confirms `overrun_carry` is **NEVER nonzero** on this content -- so the
+> two arms spawn identical units at identical ticks, and every metric is flat **by construction**.
 
 - **Mechanic fires** (anti-pattern #14): `overrun_rate = 1.0` in BOTH arms -- the overrun event
-  arms every run and the pool spawns to its `max_total` cap (4). The A/B is NOT vacuous.
-- **All graded channels flat**: `enemy_hp_remaining`, `ko_rate`, `win_rate` delta 0; `hp_remaining`
-  delta -0.0004 (shrank from -0.0028 at N=6 -> pure run-to-run noise; sim not bit-repro
-  cross-version, ~+-0.05). `avg_rounds` +0.42 = noise. Carry-over does NOT move any combat metric.
-- **Caveat (honest)**: on this measurement point the party CLEARS the fight (WR 1.0, enemy_hp
-  saturated at 0), so the enemy_hp channel alone could not discriminate a small carry effect.
-  BUT `hp_remaining` (0.986, NOT saturated -- room to drop if the carry added pressure) and
-  `ko_rate` (0 -- room to rise) are ALSO flat, so the band-neutral rests on non-saturated channels
-  too. The graded confirm is robust: the carry's one extra delayed spawn is cleared with no
-  residual damage/attrition.
-- **Verdict**: ER6 carry-over is **band-neutral on current content**, confirmed with a sharper
-  metric than #3119 -> **RATIFIED band-neutral** (owner). Mirrors the mechanic's nature (the +1
-  bonus converts in-tick; carry only bites on forced under-spend, which current content does not
-  produce). The flip stays OWNER-gated + is band-safe by this evidence.
+  arms every run and the pool spawns to its `max_total` cap (4). `mean_spawns = 4.0` **identical**
+  in both arms. The A/B is NOT vacuous (the overrun happens), but the CARRY path is structurally
+  never taken.
+- **Why behaviorally identical**: on every overrun tick the +1 bonus is spent IN THE SAME tick
+  (base budget 1 + bonus 1 = 2 units spawned; the r9 tick has not yet hit the cap), so nothing is
+  left over. The carry-accumulation branch (store the unspent bonus on
+  `session.reinforcement_state.overrun_carry`, fold into the next tick) is never reached with a
+  nonzero value. => ON == OFF, so all graded channels (enemy_hp, hp_remaining, ko_rate, WR) are
+  flat by construction, not by attrition-absorption. (`hp_remaining` delta -0.0004 / `avg_rounds`
+  +0.42 = pure noise; sim not bit-repro cross-version, ~+-0.05.)
+- **Honest scope -- what the graded metric did and did NOT do**: it did NOT add discriminating
+  power over #3119 here, because there is **no behavioral differential to detect** -- a plain
+  spawn-diff shows the same identity. The graded metric's discriminating value (inc-2:
+  `enemy_hp_remaining` 0.71 -> 0.21 on a real power delta) is for POWER-differential mechanics
+  (e.g. form-pulse W6), NOT for a flag that is structurally inert on the current content. This
+  re-ratify's real product is the **behavioral-inertness proof**, delivered by the identical
+  spawns + the `overrun_carry == 0` instrumentation, not by "robust graded channels".
+- **Verdict**: ER6 carry-over is **INERT on current content** -- the flag is behaviorally a no-op
+  because the +1 bonus always spends in-tick. **RATIFIED band-neutral = flag-safe to keep OFF, and
+  band-safe if flipped ON on today's content (it changes nothing)**. This is NOT a clearance of the
+  carry's ACTIVE behavior (when a tick under-spends) -- that is deferred (below) and, if future
+  content forces under-spend, this evidence says nothing about it. Owner ratifies.
 
-## Deferred (master-dd)
+## Deferred (master-dd) -- where the graded metric WOULD add value
 
 The "when-exercised" band -- a synthetic scenario that FORCES under-spend at overrun time
-(congested entry tiles / raised `OVERRUN_BUDGET_BONUS`) to measure what the carry does when it
-actually fires -- was deferred (option 2 not taken). Revisit if/when content exercises the carry.
+(congested entry tiles / raised `OVERRUN_BUDGET_BONUS`) so the carry actually accumulates
+(`overrun_carry > 0`, an extra delayed spawn) -- was deferred (option 2 not taken). THAT is the
+scenario where the graded metrics would genuinely discriminate (a real behavioral differential ->
+more enemy pressure -> `enemy_hp_remaining` / attrition move). Revisit if/when content exercises
+the carry.
+
+## Note for the remaining inc-3 mechanics (D8, D6)
+
+ER6 taught that a graded re-ratify of a mechanic that is **structurally inert on current content**
+reduces to a behavioral-inertness proof (arms byte-identical), where the graded metric adds no
+discriminating power over a spawn/behavior diff. If D8 (chain-lightning, needs electrified terrain)
+and D6 (imprint grant) are likewise inert on the encounters that reach them, expect the same
+behavioral-identity null. The graded metric's payoff is the POWER-differential lane (form-pulse W6).
 
 ## Reproduce
 
