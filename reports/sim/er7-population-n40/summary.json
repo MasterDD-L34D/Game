@@ -2,7 +2,7 @@
   "args": {
     "effect": "er7",
     "runs": 40,
-    "seedBase": 51000,
+    "seedBase": 52000,
     "out": "reports/sim/er7-population-n40",
     "commit": "unknown",
     "scaling": {},
