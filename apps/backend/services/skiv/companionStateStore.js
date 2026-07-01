@@ -404,12 +404,13 @@ function createCompanionStateStore(opts = {}) {
    * in-memory stores; never throws (a hydrate failure degrades to a cold start).
    * Returns the count hydrated.
    *
-   * Default (isolate=false) = GLOBAL cap, most-recently-updated first: FIFO eviction
+   * Default (isolate=false) = GLOBAL cap, most-recently-INSERTED first: FIFO eviction
    * only drops a lineage from the in-memory map, never its persisted row, so an
    * unbounded findMany would revive earlier-evicted ambassadors and push states.size
-   * past the cap on restart (Codex P1). Evicted lineages carry the oldest updatedAt (an
-   * evicted lineage can no longer receive events -- addCrossbreedEvent throws when it is
-   * absent from memory) so they fall outside `take: cap`.
+   * past the cap on restart (Codex P1). Windows sort by createdAt, NOT updatedAt:
+   * live FIFO is insertion-order (an update never reorders it), and an ownerless
+   * event append bumps updatedAt without changing the eviction position (Codex P2).
+   * Evicted lineages are the oldest-inserted -> oldest createdAt -> outside `take: cap`.
    *
    * Option C (isolate=true, SPEC_F_NIDO_ISOLATION_ENABLED): per-owner windows.
    * Under isolation the persisted rows legitimately exceed the global cap (N owners
@@ -424,10 +425,14 @@ function createCompanionStateStore(opts = {}) {
     if (!usePrisma) return 0;
     try {
       if (!isolate) {
-        // lineageId tiebreaker: identical updatedAt (ms tie / clock skew) would make
-        // the cap window non-deterministic across restarts (reviewer finding).
+        // FIFO is INSERTION order (live eviction never reorders on update), so the
+        // durable window sorts by createdAt -- an ownerless update (crossbreed/
+        // resync) bumps updatedAt and would turn the rebuilt window into an LRU,
+        // evicting a newer quiet lineage instead of the true oldest (Codex P2).
+        // Evicted rows are the oldest-INSERTED -> oldest createdAt -> correctly
+        // excluded by take:cap. lineageId tiebreaker keeps ms-ties deterministic.
         const rows = await opts.prisma.skivCompanionState.findMany({
-          orderBy: [{ updatedAt: 'desc' }, { lineageId: 'desc' }],
+          orderBy: [{ createdAt: 'desc' }, { lineageId: 'desc' }],
           take: ambassadorCap,
         });
         let n = 0;
@@ -440,11 +445,14 @@ function createCompanionStateStore(opts = {}) {
         }
         return n;
       }
-      // Isolation ON: per-owner windows, oldest-first for FIFO index order.
-      // lineageId tiebreaker keeps the per-bucket slice deterministic when two
-      // rows share the same updatedAt (ms tie / clock skew).
+      // Isolation ON: per-owner windows, oldest-INSERTED first (createdAt) so the
+      // rebuilt index matches the live FIFO semantics -- an ownerless update
+      // (crossbreed/resync) bumps updatedAt but must NOT move that lineage to the
+      // back of the eviction queue (Codex P2: updatedAt order = LRU, evicts a
+      // newer quiet lineage instead of the true oldest). lineageId tiebreaker
+      // keeps ms-ties deterministic.
       const rows = await opts.prisma.skivCompanionState.findMany({
-        orderBy: [{ updatedAt: 'asc' }, { lineageId: 'asc' }],
+        orderBy: [{ createdAt: 'asc' }, { lineageId: 'asc' }],
       });
       const buckets = new Map(); // bucket -> row[] (updatedAt asc)
       for (const row of rows) {
