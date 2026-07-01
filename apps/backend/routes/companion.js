@@ -8,18 +8,20 @@
 //   POST /api/companion/pick    — runtime pick from skiv_archetype_pool.yaml
 //   GET  /api/companion/pool    — debug: enumerate full pool for biome
 //
-// SPEC-F (Custode Portable Framework) store-backed surface — slices 0-2
-// (read + propose, NO persisted mutation). Route PATHS per spec :51-52, served
-// from this DI-clean router (NOT routes/skiv.js, the fs-json monitor):
-//   GET  /api/skiv/share/:lineage_id?format=json       — share-safe export card
-//   GET  /api/skiv/crossbreed/history/:lineage_id       — crossbreed log read
-//   POST /api/skiv/crossbreed                           — offspring proposal (+ crossbreed_seed)
-//   POST /api/skiv/crossbreed/confirm                   — commit (persist + cooldown + rate-limit)
-// Slice 3 policies are ADR-2026-04-27 ratified (cooldown 1/campaign, rate-limit
-// 10/h IP, history FIFO cap 10) -- impl of ratified defaults, no open design-call.
+// SPEC-F (Custode Portable Framework) store-backed surface. Route PATHS per spec
+// :51-52, served from this DI-clean router (NOT routes/skiv.js, the fs-json monitor):
+//   GET  /api/skiv/share/:lineage_id?format=json|card|qr — share-safe export card
+//   POST /api/skiv/offspring/:id/promote                 — offspring -> ambassador (B4)
+//   POST /api/skiv/import                                — foreign card -> ambassador (B4, sez.6)
+//   GET  /api/skiv/crossbreed/history/:lineage_id        — crossbreed log read
+//   POST /api/skiv/crossbreed                            — offspring proposal (+ crossbreed_seed)
+//   POST /api/skiv/crossbreed/confirm                    — commit (persist + cooldown + rate-limit)
+// Policies are ADR-2026-04-27 ratified (cooldown 1/campaign, rate-limit 10/h IP,
+// history/ambassador FIFO cap 10) -- impl of ratified defaults, no open design-call.
 //
-// Auth: stateless (read-only data lookup, no mutation). Future hardening
-// can add JWT token check via shared AUTH_SECRET if exposed publicly.
+// Auth: FC4-A v1 = signature-verify (transport integrity, NOT anti-forgery) +
+// rate-limit; no allowlist/per-Nido isolation yet (SPEC-F-wide, owner-gated).
+// Future hardening can add a JWT gate via shared AUTH_SECRET (middleware/auth.js).
 
 'use strict';
 
@@ -64,23 +66,29 @@ function createCompanionRouter({
 } = {}) {
   const router = express.Router();
 
-  // Per-router in-memory crossbreed/confirm rate-limit (10/h per IP, ADR-04-27).
-  // Per-instance so each test app + each backend process tracks independently.
-  const _crossbreedHits = new Map(); // ip -> number[] (ms timestamps within the window)
-  function crossbreedRateLimited(ip) {
-    const now = Date.now();
-    const key = ip || 'unknown';
-    const recent = (_crossbreedHits.get(key) || []).filter(
-      (t) => now - t < CROSSBREED_RATE_WINDOW_MS,
-    );
-    if (recent.length >= CROSSBREED_RATE_LIMIT) {
-      _crossbreedHits.set(key, recent);
-      return true;
-    }
-    recent.push(now);
-    _crossbreedHits.set(key, recent);
-    return false;
+  // Each store-growing write (crossbreed, promote, import) gets its OWN 10/h-per-IP
+  // budget (ADR-04-27): independent so a griefer exhausting one cannot also block
+  // the others (partial mitigation of cap-10 FIFO eviction grief; full per-Nido
+  // isolation = SPEC-F-wide auth, see header). Per-router Map (per-process/per-run
+  // durability, matching the in-memory cooldown below).
+  function makeRateLimiter() {
+    const hits = new Map(); // ip -> number[] (ms timestamps within the window)
+    return function limited(ip) {
+      const now = Date.now();
+      const key = ip || 'unknown';
+      const recent = (hits.get(key) || []).filter((t) => now - t < CROSSBREED_RATE_WINDOW_MS);
+      if (recent.length >= CROSSBREED_RATE_LIMIT) {
+        hits.set(key, recent);
+        return true;
+      }
+      recent.push(now);
+      hits.set(key, recent);
+      return false;
+    };
   }
+  const crossbreedRateLimited = makeRateLimiter();
+  const promoteRateLimited = makeRateLimiter();
+  const importRateLimited = makeRateLimiter();
 
   // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). Tracked IN-MEMORY
   // (per-router), NOT on the crossbreed_history item: the ratified
@@ -90,25 +98,6 @@ function createCompanionRouter({
   // a durable cross-restart cooldown needs a contracts schema field = master-dd.
   const _crossbreedCampaigns = new Set(); // `${campaignId}::${lineageId}`
   const cooldownKey = (campaignId, lineageId) => `${campaignId}::${lineageId}`;
-
-  // Promote (offspring->ambassador) is the other write that grows the capped
-  // ambassador registry, so it gets the same 10/h-per-IP posture as the crossbreed
-  // write (partial mitigation of cap-10 FIFO eviction grief; full per-Nido
-  // isolation = SPEC-F-wide auth, see header). Independent budget so a griefer
-  // cannot also exhaust the crossbreed quota.
-  const _promoteHits = new Map();
-  function promoteRateLimited(ip) {
-    const now = Date.now();
-    const key = ip || 'unknown';
-    const recent = (_promoteHits.get(key) || []).filter((t) => now - t < CROSSBREED_RATE_WINDOW_MS);
-    if (recent.length >= CROSSBREED_RATE_LIMIT) {
-      _promoteHits.set(key, recent);
-      return true;
-    }
-    recent.push(now);
-    _promoteHits.set(key, recent);
-    return false;
-  }
 
   /**
    * POST /api/companion/pick
@@ -341,6 +330,76 @@ function createCompanionRouter({
       biome_origin: genome.biome_id,
     };
     return res.status(201).json({ ambassador, spawn_descriptor: spawnDescriptor });
+  });
+
+  /**
+   * POST /api/skiv/import
+   * Body: { card }
+   *
+   * SPEC-F sez.6 -- import a signed FOREIGN card (the GET /skiv/share?format=json
+   * output of ANOTHER Nido) as a permanent ambassador (spec :120-121, acceptance
+   * #4). FC4-A trust model (ratified 2026-06-08): accept a card on a VALID
+   * companion_card_signature (tamper-detect on transport, spec :112-113) +
+   * rate-limit 10/h per IP (ADR-04-27); no allowlist/registry (= "B se abuso").
+   *
+   * The signature detects CORRUPTION, not FORGERY (public sha256, no server
+   * secret, spec :217-219) -- so rate-limit + refuse-overwrite + whitelist
+   * sanitize are the real guards. saveCompanionState re-signs server-side over its
+   * OWN whitelist (client sig + any PII on the card are dropped). FC1
+   * home-authoritative: an import NEVER overwrites an existing local lineage (409);
+   * additive resync of a returning Custode is a separate slice.
+   *
+   * Response: 201 { ambassador } | 400 card_required | 400 card_invalid |
+   *           400 signature_mismatch | 400 lineage_id_required |
+   *           409 lineage_already_imported | 422 import_failed | 429 rate_limited
+   */
+  router.post('/skiv/import', (req, res) => {
+    if (!requireStore(res)) return;
+    // Rate-limit FIRST (before body validation): every attempt -- incl. malformed
+    // -- counts against the IP budget, so a garbage flood cannot probe the endpoint
+    // for free, and the cap-10 FIFO write path stays behind the same budget.
+    // Mirrors /promote's rate-limit-first posture.
+    const ip = req.ip || (req.socket && req.socket.remoteAddress) || 'unknown';
+    if (importRateLimited(ip)) {
+      return res.status(429).json({ error: 'rate_limited' });
+    }
+    const body = req.body || {};
+    // Untrusted body: reject a non-object OR array card (arrays are typeof
+    // 'object' but never a valid card -- Array.isArray boundary-hygiene, #3131).
+    const card =
+      body.card && typeof body.card === 'object' && !Array.isArray(body.card) ? body.card : null;
+    if (!card) {
+      return res.status(400).json({ error: 'card_required' });
+    }
+    // Verify transport integrity: signatureFor(card) must match the card's own sig.
+    let expectedSig;
+    try {
+      expectedSig = signatureFor(card);
+    } catch (err) {
+      return res.status(400).json({ error: 'card_invalid', message: String(err.message || err) });
+    }
+    if (card.companion_card_signature !== expectedSig) {
+      return res.status(400).json({ error: 'signature_mismatch' });
+    }
+    const lineageId = card.lineage_id ? String(card.lineage_id) : '';
+    if (lineageId.length < 4) {
+      return res.status(400).json({ error: 'lineage_id_required' });
+    }
+    // FC1 home-authoritative: refuse to overwrite an existing local ambassador
+    // (import CREATES; lineage_id is client-supplied + the store is keyed by it ->
+    // without this an importer clobbers another lineage's card by re-using its id).
+    if (typeof store.getCompanionState === 'function' && store.getCompanionState(lineageId)) {
+      return res.status(409).json({ error: 'lineage_already_imported', lineage_id: lineageId });
+    }
+    // Persist: saveCompanionState sanitizes to whitelist (drops PII), re-signs
+    // server-side, applies cap-10 FIFO. Wrap: a malformed card must 422, not throw.
+    let ambassador;
+    try {
+      ambassador = store.saveCompanionState(card);
+    } catch (err) {
+      return res.status(422).json({ error: 'import_failed', message: String(err.message || err) });
+    }
+    return res.status(201).json({ ambassador });
   });
 
   /**
