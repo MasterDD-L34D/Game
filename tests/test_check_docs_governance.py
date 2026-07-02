@@ -860,3 +860,40 @@ def test_extract_skips_overlong_line():
 ])
 def test_is_scannable(rel, expected):
     assert validator._is_scannable(rel) is expected
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: scan_doc_pins (filesystem-fallback path, tmp is not a git repo)
+# ---------------------------------------------------------------------------
+
+
+def _write(root: Path, rel: str, text: str) -> None:
+    p = root / rel
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(text, encoding="utf-8")
+
+
+def test_scan_builds_reverse_map(tmp_path):
+    _write(tmp_path, ".github/workflows/skiv.yml",
+           "run: git add docs/skiv/MONITOR.md\n")
+    _write(tmp_path, "tools/x.py",
+           "# see docs/skiv/MONITOR.md\nPATH = 'docs/templates/dossier.html'\n")
+    pin_map = validator.scan_doc_pins(tmp_path)
+    assert pin_map["docs/skiv/MONITOR.md"] == [
+        ".github/workflows/skiv.yml:1", "tools/x.py:1",
+    ]
+    assert pin_map["docs/templates/dossier.html"] == ["tools/x.py:2"]
+
+
+def test_scan_excludes_docs_and_tests_dirs(tmp_path):
+    _write(tmp_path, "docs/core/a.md", "docs/skiv/MONITOR.md\n")
+    _write(tmp_path, "tests/test_x.py", "docs/missing.md\n")
+    pin_map = validator.scan_doc_pins(tmp_path)
+    assert pin_map == {}
+
+
+def test_scan_skips_undecodable_file(tmp_path):
+    (tmp_path / "tools").mkdir(parents=True)
+    (tmp_path / "tools" / "blob.py").write_bytes(b"\xff\xfe docs/a.md \x00")
+    # must not raise; binary file simply yields no pins
+    assert validator.scan_doc_pins(tmp_path) == {}
