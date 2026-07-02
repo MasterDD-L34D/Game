@@ -1,0 +1,97 @@
+# Weapons Database — Evo-Tactics
+# Armi base con stats meccanici e surge compatibility.
+# Fonte: Final Design Freeze v0.9 §12.3
+#
+# Ogni arma definisce: damage_dice, range, cost_ap, surge_compat.
+# Il resolver usa questi dati per calcolare danno base.
+
+version: "0.1.0"
+
+weapons:
+  twin_blades:
+    label: "Lame Gemelle"
+    description_it: "Coppia di lame corte. Attacchi rapidi in mischia, favorisce combo."
+    damage_dice: { count: 2, sides: 4, modifier: 1 }
+    range: 1
+    cost_ap: 1
+    properties:
+      - melee
+      - dual_wield
+    surge_compat:
+      - pierce    # penetra armatura
+      - spin      # attacco circolare AoE
+      - chain     # combo sequenziale
+    job_affinity: [skirmisher, vanguard]
+
+  arc_rod:
+    label: "Asta d'Arco"
+    description_it: "Asta energetica a medio raggio. Colpi singoli potenti, favorisce burst."
+    damage_dice: { count: 1, sides: 8, modifier: 2 }
+    range: 2
+    cost_ap: 1
+    properties:
+      - ranged
+      - energy
+    surge_compat:
+      - pulse     # onda d'urto radiale
+      - overdrive # sovraccarico (playtest-needed)
+      - chain     # rimbalzo energetico
+    job_affinity: [invoker, artificer]
+
+  bio_lance:
+    label: "Lancia Biologica"
+    description_it: "Estensione organica appuntita. Lungo raggio mischia, buon penetrante."
+    damage_dice: { count: 1, sides: 10, modifier: 1 }
+    range: 2
+    cost_ap: 1
+    properties:
+      - melee
+      - reach
+    surge_compat:
+      - pierce
+      - spin
+    job_affinity: [warden, vanguard]
+
+  spore_caster:
+    label: "Lanciaspore"
+    description_it: "Proiettore biologico a lungo raggio. Danno basso ma applica status."
+    damage_dice: { count: 1, sides: 4, modifier: 0 }
+    range: 3
+    cost_ap: 1
+    properties:
+      - ranged
+      - biological
+      - status_applicator
+    surge_compat:
+      - pulse
+      - overdrive
+    job_affinity: [ranger, invoker]
+
+# Surge types reference
+surge_types:
+  pierce:
+    label: "Perforazione"
+    description_it: "Ignora una porzione di armatura del target."
+    effect: armor_reduction
+    armor_reduction: 3
+  spin:
+    label: "Rotazione"
+    description_it: "Attacco circolare che colpisce tutti gli adiacenti."
+    effect: aoe_adjacent
+  chain:
+    label: "Catena"
+    description_it: "Colpo rimbalza al secondo target piu vicino (50% danno)."
+    effect: bounce
+    bounce_damage_pct: 50
+  pulse:
+    label: "Impulso"
+    description_it: "Onda d'urto radiale. Danno ridotto ma knockback."
+    effect: aoe_radial
+    knockback_cells: 1
+  overdrive:
+    label: "Sovraccarico"
+    description_it: "Raddoppia danno ma infligge stress all'utilizzatore. Playtest-needed."
+    effect: damage_multiply
+    damage_multiplier: 2.0
+    self_stress: 0.15
+    status: playtest-needed

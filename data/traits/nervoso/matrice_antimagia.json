@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0",
+  "id": "matrice_antimagia",
+  "label": "i18n:traits.matrice_antimagia.label",
+  "famiglia_tipologia": "Neurologico/Sistema nervoso",
+  "fattore_mantenimento_energetico": "Medio (situazionale)",
+  "tier": "T2",
+  "slot_profile": {
+    "core": "nervoso",
+    "complementare": "sistema_nervoso"
+  },
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.matrice_antimagia.mutazione_indotta",
+  "uso_funzione": "i18n:traits.matrice_antimagia.uso_funzione",
+  "spinta_selettiva": "i18n:traits.matrice_antimagia.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

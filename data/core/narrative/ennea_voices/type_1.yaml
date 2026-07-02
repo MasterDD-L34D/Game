@@ -1,0 +1,87 @@
+# Ennea Voice Palette — Type 1 Riformatore (vc archetype id "Riformatore(1)")
+#
+# Tono canonical (enneagramma_master.yaml + Naranjo): perfezionista, principi,
+# critico, alta precisione, rigore morale. Voice persona: chi misura ogni gesto
+# contro standard interno. Sigla: "Bene fatto."
+#
+# Trigger telemetry: setup_ratio>0.5 && attack_hit_rate>0.65
+# Cross-ref museum: docs/museum/cards/enneagramma-mechanics-registry.md
+schema_version: "0.1.0"
+archetype_id: "Riformatore(1)"
+ennea_type: 1
+canonical_name_it: "Riformatore"
+canonical_name_en: "Reformer"
+voice_persona: |
+  Standard alti. Ogni gesto pesato. Errore non è opzione, è decisione.
+  Linguaggio asciutto, giudizio implicito. Sigla: "Bene fatto."
+
+beats:
+  combat_attack_committed:
+    description: "Linea quando l'attore lancia un attacco con setup completo."
+    lines:
+      - id: "v1_atk_correct"
+        text: "Esecuzione corretta. Standard rispettati."
+      - id: "v1_atk_clean"
+        text: "Pulito. Senza scuse."
+      - id: "v1_atk_done_right"
+        text: "Si fa così, non altrimenti."
+
+  combat_defense_braced:
+    description: "Linea quando l'attore subisce attacco e si difende."
+    lines:
+      - id: "v1_def_principle"
+        text: "Forma corretta. La difesa è disciplina."
+      - id: "v1_def_unforgiven"
+        text: "Errore registrato. Non sarà ripetuto."
+      - id: "v1_def_steady"
+        text: "Postura ferma. Niente derive."
+
+  exploration_new_tile:
+    description: "Linea quando l'attore esplora una nuova tile."
+    lines:
+      - id: "v1_exp_inspect"
+        text: "Ispezione metodica. Nulla saltato."
+      - id: "v1_exp_grid"
+        text: "Griglia mentale. Punto per punto."
+      - id: "v1_exp_thorough"
+        text: "Tutto controllato. Si avanza solo dopo."
+
+  low_hp_warning:
+    description: "Linea sotto soglia HP critica (<35%)."
+    lines:
+      - id: "v1_lhp_compose"
+        text: "Compostezza. Anche qui, soprattutto qui."
+      - id: "v1_lhp_principle"
+        text: "Restare integri. È principio, non strategia."
+      - id: "v1_lhp_correct"
+        text: "Riallineare. Errore correggibile."
+
+  victory_solo:
+    description: "Linea quando l'attore assesta colpo finale."
+    lines:
+      - id: "v1_vct_well_done"
+        text: "Bene fatto."
+      - id: "v1_vct_standard"
+        text: "Come doveva andare. Niente di più."
+      - id: "v1_vct_clean_kill"
+        text: "Chiusura corretta. Forma rispettata."
+
+  defeat_critical:
+    description: "Linea quando l'attore va KO o party perde scenario."
+    lines:
+      - id: "v1_dft_unacceptable"
+        text: "Inaccettabile. Standard mancato."
+      - id: "v1_dft_lesson_hard"
+        text: "Lezione dura. Da non dimenticare."
+      - id: "v1_dft_correct_self"
+        text: "Errore mio. Si corregge."
+
+  idle_round_start:
+    description: "Linea opzionale a inizio round."
+    lines:
+      - id: "v1_idl_review"
+        text: "Verifica posizione. Verifica intento."
+      - id: "v1_idl_steady"
+        text: "Misura. Poi muovi."
+      - id: "v1_idl_principle"
+        text: "Principio prima, azione dopo."

@@ -1,0 +1,33 @@
+# Encounter: Tutorial — 2v2 Tier 1
+# Primo scontro di apprendimento. Nemici semplici, no status effect.
+id: tutorial_01
+label: "Primo Contatto"
+difficulty: tutorial
+biome_id: pianura_aperta
+description_it: "Scontro di addestramento contro creature di bassa minaccia."
+
+party_size: 2
+party_suggested_tier: 1
+
+groups:
+  - role: minion
+    power: 2
+    count: 1
+    species_hint: mud_crawler
+    trait_ids: []
+  - role: minion
+    power: 2
+    count: 1
+    species_hint: sand_skitter
+    trait_ids: []
+
+party_vc:
+  difficulty_multiplier: 0.5
+  pe_base: 3
+
+grid:
+  width: 6
+  height: 6
+  terrain_features: []
+
+notes: "Usare per primo playtest. Nessun hazard, nessun status. Focus su d20 base + movimento."

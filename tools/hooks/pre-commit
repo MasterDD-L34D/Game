@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Pre-commit hook per verificare che le proposte di bilanciamento degli item siano aggiornate.
+# Installa lo script copiandolo in .git/hooks/pre-commit e rendendolo eseguibile:
+#   mkdir -p .git/hooks
+#   cp tools/hooks/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+# È possibile saltare il controllo impostando la variabile SKIP_TUNE_ITEMS=1.
+
+set -euo pipefail
+
+if [[ "${SKIP_TUNE_ITEMS:-0}" == "1" ]]; then
+  echo "[pre-commit] controllo tune_items saltato (SKIP_TUNE_ITEMS=1)."
+  exit 0
+fi
+
+ROOT="$(git rev-parse --show-toplevel)"
+CLI="$ROOT/scripts/balance/tune_items.js"
+DATASET="$ROOT/data/telemetry/items.json"
+OUTPUT="$ROOT/logs/balance_proposals"
+
+if [[ ! -f "$CLI" ]]; then
+  echo "[pre-commit] CLI mancante: $CLI" >&2
+  exit 1
+fi
+
+echo "[pre-commit] Verifica proposte di bilanciamento degli item..."
+node "$CLI" --check --items "$DATASET" --output "$OUTPUT"

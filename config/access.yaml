@@ -1,0 +1,23 @@
+roles:
+  analytics.viewer:
+    description: Accesso in sola lettura alle dashboard analytics.
+    grants:
+      - view: dashboards/campaign-progress
+  analytics.operator:
+    description: Gestione pipeline ETL analytics.
+    inherits:
+      - analytics.viewer
+    grants:
+      - execute: etl/campaign-progress
+
+views:
+  dashboards/campaign-progress:
+    description: Vista Campaign Progress con funnel e heatmap.
+    requiredRoles:
+      - analytics.viewer
+
+jobs:
+  etl/campaign-progress:
+    description: Pipeline ETL per sincronizzare il dataset Campaign Progress.
+    requiredRoles:
+      - analytics.operator

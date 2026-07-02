@@ -1,0 +1,73 @@
+# =============================================================================
+# DRAFT (Claude-proposed, pending master-dd ratify + band-verify) -- NOT promoted.
+# Lives in encounters-draft/ (inert: no loader/validator/sim reads this dir).
+# Node: ROVINE_PLANARI (rovine_planari) PRIMARY (N=1), graph weight 0.5 -- pre-climax.
+# Threat proposal: diff 4, standard, elimination (the run-up to the diff-5 boss
+# enc_tutorial_06_hardcore, the terminal node's secondary encounter).
+# Species = proven archetype labels (stats from tier table); master-dd may reskin.
+# =============================================================================
+
+encounter_id: enc_tutorial_05
+name: 'Soglia delle Rovine'
+biome_id: rovine_planari
+grid_size: [10, 10]
+difficulty_rating: 4
+estimated_turns: 13
+encounter_class: standard
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [1, 4]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 3]
+      - [9, 6]
+    units:
+      - species: guardiani_risonanza
+        species_id: leviatano_risonante
+        count: 2
+        tier: elite
+        ai_profile: territorial
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 1
+        tier: base
+        ai_profile: flanking
+  - wave_id: 2
+    turn_trigger: 5
+    spawn_points:
+      - [9, 5]
+      - [5, 0]
+    units:
+      - species: custode_basalto
+        species_id: terracetus_ambulator
+        count: 1
+        tier: apex
+        ai_profile: aggressive
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 1
+        tier: elite
+        ai_profile: flanking
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 5
+  - type: environmental_mutation
+    trigger_turn: 6
+    effect: planar_flux
+
+tags: [standard]
+
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: cenere_sospesa

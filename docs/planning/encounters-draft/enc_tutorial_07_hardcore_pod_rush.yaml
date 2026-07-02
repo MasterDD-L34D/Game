@@ -1,0 +1,84 @@
+# =============================================================================
+# DRAFT (Claude-proposed, pending master-dd ratify + band-verify) -- NOT promoted.
+# Lives in encounters-draft/ (inert: no loader/validator/sim reads this dir).
+# Node: ATOLLO_OBSIDIANA (atollo_obsidiana), graph weight 0.45 (SP-temperament route).
+# resolve_parallel_key -> hardcore_07 (HC07 band ~30-50% WR). "pod_rush" = swarm:
+# many base pods + reinforcement rush (count is the lever, not per-unit power).
+# Threat proposal: diff 4, hardcore class, elimination + reinforcement.
+# Species = proven archetype labels (stats from tier table); master-dd may reskin.
+# =============================================================================
+
+encounter_id: enc_tutorial_07_hardcore_pod_rush
+name: 'Risacca Obsidiana'
+biome_id: atollo_obsidiana
+grid_size: [10, 10]
+difficulty_rating: 4
+estimated_turns: 14
+encounter_class: hardcore
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 3]
+      - [9, 5]
+      - [9, 7]
+    units:
+      - species: bracconieri_echomantici
+        species_id: anguis_magnetica
+        count: 4
+        tier: base
+        ai_profile: aggressive
+      - species: guardiani_risonanza
+        species_id: leviatano_risonante
+        count: 1
+        tier: elite
+        ai_profile: territorial
+
+reinforcement_pool:
+  - unit_id: bracconieri_echomantici
+    species_id: anguis_magnetica
+    weight: 4
+    max_spawns: 6
+    hp: 7
+    mod: 1
+    dc: 11
+    ai_profile: aggressive
+
+reinforcement_entry_tiles:
+  - [9, 0]
+  - [9, 9]
+  - [5, 0]
+  - [5, 9]
+
+reinforcement_policy:
+  enabled: true
+  min_tier: Alert
+  cooldown_rounds: 2
+  max_total_spawns: 6
+  min_distance_from_pg: 3
+
+conditions:
+  - type: fog_of_war
+    fov_radius: 5
+
+tags: [boss, storm]
+
+didactic_focus:
+  - swarm_control
+  - aoe_value
+  - pressure_management
+
+visual_mood:
+  mood_tag: vivacita_acquatica
+  lighting: chiaroscuro_subacqueo
+  particle_effect: bolle_reef

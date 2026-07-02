@@ -1,0 +1,404 @@
+Run trait audit and dataset validation	Set up job	﻿2025-12-08T17:37:53.5237859Z Current runner version: '2.329.0'
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5276133Z ##[group]Runner Image Provisioner
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5277749Z Hosted Compute Agent
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5278701Z Version: 20251124.448
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5279692Z Commit: fda5086b43ec66ade217e5fcd18146c879571177
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5280979Z Build Date: 2025-11-24T21:16:26Z
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5281927Z ##[endgroup]
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5282833Z ##[group]Operating System
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5283880Z Ubuntu
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5284718Z 24.04.3
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5285457Z LTS
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5286360Z ##[endgroup]
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5287446Z ##[group]Runner Image
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5288658Z Image: ubuntu-24.04
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5289868Z Version: 20251126.144.1
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5291699Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251126.144/images/ubuntu/Ubuntu2404-Readme.md
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5294299Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251126.144
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5296518Z ##[endgroup]
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5298848Z ##[group]GITHUB_TOKEN Permissions
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5301691Z Contents: read
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5302691Z Metadata: read
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5303678Z Packages: read
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5304522Z ##[endgroup]
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5307659Z Secret source: Actions
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5308793Z Prepare workflow directory
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5787613Z Prepare all required actions
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.5843970Z Getting action download info
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:53.9036083Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:54.2882752Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:54.4271729Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:54.5150740Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Run trait audit and dataset validation	Set up job	2025-12-08T17:37:54.7191919Z Complete job name: Run trait audit and dataset validation
+Run trait audit and dataset validation	Checkout repository	﻿2025-12-08T17:37:54.8025988Z ##[group]Run actions/checkout@v4
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8027500Z with:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8028257Z   repository: MasterDD-L34D/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8029467Z   token: ***
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8030183Z   ssh-strict: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8030948Z   ssh-user: git
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8031699Z   persist-credentials: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8032584Z   clean: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8033347Z   sparse-checkout-cone-mode: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8034287Z   fetch-depth: 1
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8035048Z   fetch-tags: false
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8035801Z   show-progress: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8036579Z   lfs: false
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8037522Z   submodules: false
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8038318Z   set-safe-directory: true
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.8039421Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9164887Z Syncing repository: MasterDD-L34D/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9169150Z ##[group]Getting Git version info
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9171071Z Working directory is '/home/runner/work/Game/Game'
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9173784Z [command]/usr/bin/git version
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9224770Z git version 2.52.0
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9252908Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9269603Z Temporarily overriding HOME='/home/runner/work/_temp/3c482b16-4383-4083-9b4a-3dda3a54228d' before making global git config changes
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9274492Z Adding repository directory to the temporary git global config as a safe directory
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9278345Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9316897Z Deleting the contents of '/home/runner/work/Game/Game'
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9320757Z ##[group]Initializing the repository
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9325567Z [command]/usr/bin/git init /home/runner/work/Game/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9428252Z hint: Using 'master' as the name for the initial branch. This default branch name
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9430728Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9433777Z hint: to use in all of your new repositories, which will suppress this warning,
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9436255Z hint: call:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9437714Z hint:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9439511Z hint: 	git config --global init.defaultBranch <name>
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9441373Z hint:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9443123Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9446260Z hint: 'development'. The just-created branch can be renamed via this command:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9448984Z hint:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9450097Z hint: 	git branch -m <name>
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9451497Z hint:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9453107Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9454980Z Initialized empty Git repository in /home/runner/work/Game/Game/.git/
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9458552Z [command]/usr/bin/git remote add origin https://github.com/MasterDD-L34D/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9482719Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9485074Z ##[group]Disabling automatic garbage collection
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9487425Z [command]/usr/bin/git config --local gc.auto 0
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9516315Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9518786Z ##[group]Setting up auth
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9524157Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9555024Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9873161Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:54.9903616Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0119146Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0157931Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0378761Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0412668Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0414950Z ##[group]Fetching the repository
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.0424494Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +50274bda38d2829f0c928b04c7c79e43036dc4c1:refs/remotes/pull/1201/merge
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8191745Z From https://github.com/MasterDD-L34D/Game
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8194081Z  * [new ref]         50274bda38d2829f0c928b04c7c79e43036dc4c1 -> pull/1201/merge
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8225114Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8227751Z ##[group]Determining the checkout info
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8230167Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8232337Z [command]/usr/bin/git sparse-checkout disable
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8271288Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8296404Z ##[group]Checking out the ref
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:55.8299665Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1201/merge
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1182925Z Note: switching to 'refs/remotes/pull/1201/merge'.
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1186040Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1187485Z You are in 'detached HEAD' state. You can look around, make experimental
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1190641Z changes and commit them, and you can discard any commits you make in this
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1193690Z state without impacting any branches by switching back to a branch.
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1195304Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1196329Z If you want to create a new branch to retain commits you create, you may
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1198771Z do so (now or later) by using -c with the switch command. Example:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1199806Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1200333Z   git switch -c <new-branch-name>
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1201442Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1201814Z Or undo this operation with:
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1202406Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1202720Z   git switch -
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1203484Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1204705Z Turn off this advice by setting config variable advice.detachedHead to false
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1206491Z 
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1207996Z HEAD is now at 50274bd Merge 8ea8f6585d4e6638b4676dfa8cce9963a17d162b into a526912d483efd6903b5a77e3c5277ed75064283
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1211909Z ##[endgroup]
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1244320Z [command]/usr/bin/git log -1 --format=%H
+Run trait audit and dataset validation	Checkout repository	2025-12-08T17:37:56.1266041Z 50274bda38d2829f0c928b04c7c79e43036dc4c1
+Run trait audit and dataset validation	Set up Node.js	﻿2025-12-08T17:37:56.1623418Z ##[group]Run actions/setup-node@v4
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1624434Z with:
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1625130Z   node-version: 20
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1625878Z   cache: npm
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1626593Z   always-auth: false
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1627591Z   check-latest: false
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1628673Z   token: ***
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.1629429Z ##[endgroup]
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.4737520Z Found in cache @ /opt/hostedtoolcache/node/20.19.6/x64
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:56.4744110Z ##[group]Environment details
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:59.8982372Z node: v20.19.6
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:59.8983096Z npm: 10.8.2
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:59.8983405Z yarn: 1.22.22
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:59.8984271Z ##[endgroup]
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:37:59.9005938Z [command]/opt/hostedtoolcache/node/20.19.6/x64/bin/npm config get cache
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:38:00.2042054Z /home/runner/.npm
+Run trait audit and dataset validation	Set up Node.js	2025-12-08T17:38:00.3706067Z npm cache is not found
+Run trait audit and dataset validation	Install Node.js dependencies	﻿2025-12-08T17:38:00.3861410Z ##[group]Run npm ci
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:00.3861716Z [36;1mnpm ci[0m
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:00.3905879Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:00.3906170Z ##[endgroup]
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:04.3315405Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:04.4189718Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.4872882Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.4873526Z > prepare
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.4874147Z > node scripts/husky-install.cjs
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.4874469Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5362903Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5363821Z added 446 packages, and audited 458 packages in 17s
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5364263Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5364518Z 67 packages are looking for funding
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5364987Z   run `npm fund` for details
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5604805Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5605714Z 10 vulnerabilities (7 moderate, 3 high)
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5606129Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5606505Z To address issues that do not require attention, run:
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5607345Z   npm audit fix
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5607578Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5608021Z To address all issues possible (including breaking changes), run:
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5608732Z   npm audit fix --force
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5609003Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5609348Z Some issues need review, and may require choosing
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5609924Z a different dependency.
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5610167Z 
+Run trait audit and dataset validation	Install Node.js dependencies	2025-12-08T17:38:17.5610387Z Run `npm audit` for details.
+Run trait audit and dataset validation	Set up Python	﻿2025-12-08T17:38:17.5938375Z ##[group]Run actions/setup-python@v5
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5938678Z with:
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5938861Z   python-version: 3.11
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5939062Z   cache: pip
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5939298Z   cache-dependency-path: requirements-dev.txt
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5939570Z   check-latest: false
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5939881Z   token: ***
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5940072Z   update-environment: true
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5940300Z   allow-prereleases: false
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5940501Z   freethreaded: false
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.5940692Z ##[endgroup]
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.7651296Z ##[group]Installed versions
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.7742409Z Successfully set up CPython (3.11.14)
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.7743398Z ##[endgroup]
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:17.8030396Z [command]/opt/hostedtoolcache/Python/3.11.14/x64/bin/pip cache dir
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:19.1497276Z /home/runner/.cache/pip
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:19.3379666Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-b9b574b8481098235b20845dde01ba87a1205af071b29642fc1d1959e363a2dc
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:20.2005756Z Received 63186923 of 63186923 (100.0%), 82.1 MBs/sec
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:20.2007290Z Cache Size: ~60 MB (63186923 B)
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:20.2126441Z [command]/usr/bin/tar -xf /home/runner/work/_temp/143e44bc-a4a1-4a01-a2bf-48ca3ccd391e/cache.tzst -P -C /home/runner/work/Game/Game --use-compress-program unzstd
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:20.3189478Z Cache restored successfully
+Run trait audit and dataset validation	Set up Python	2025-12-08T17:38:20.3326630Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-b9b574b8481098235b20845dde01ba87a1205af071b29642fc1d1959e363a2dc
+Run trait audit and dataset validation	Install Python dependencies	﻿2025-12-08T17:38:20.3468008Z ##[group]Run python -m pip install --upgrade pip
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3468422Z [36;1mpython -m pip install --upgrade pip[0m
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3468775Z [36;1mpython -m pip install -r requirements-dev.txt[0m
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3469093Z [36;1mpython -m pip install jsonschema[0m
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3503724Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3503989Z env:
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3504239Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3504673Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3505081Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3505438Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3505787Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3506145Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:20.3506445Z ##[endgroup]
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:21.3239032Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (25.3)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:21.9890213Z Collecting pyyaml (from -r requirements-dev.txt (line 1))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:21.9908666Z   Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.2043429Z Collecting numpy (from -r requirements-dev.txt (line 2))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.2060931Z   Using cached numpy-2.3.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.5106214Z Collecting pymongo (from -r requirements-dev.txt (line 3))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.5723730Z   Downloading pymongo-4.15.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (22 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6017289Z Collecting mongomock (from -r requirements-dev.txt (line 4))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6035758Z   Using cached mongomock-4.3.0-py2.py3-none-any.whl.metadata (12 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6342117Z Collecting mongita (from -r requirements-dev.txt (line 5))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6342842Z   Using cached mongita-1.2.0-py3-none-any.whl
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6651748Z Collecting jsonschema>=4.25.1 (from -r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.6666936Z   Using cached jsonschema-4.25.1-py3-none-any.whl.metadata (7.6 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.9855922Z Collecting boto3 (from -r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:22.9897590Z   Downloading boto3-1.42.4-py3-none-any.whl.metadata (6.8 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1507075Z Collecting matplotlib (from -r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1523430Z   Using cached matplotlib-3.10.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1695148Z Collecting dnspython<3.0.0,>=1.16.0 (from pymongo->-r requirements-dev.txt (line 3))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1709825Z   Using cached dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1891859Z Collecting packaging (from mongomock->-r requirements-dev.txt (line 4))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.1906233Z   Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2238869Z Collecting pytz (from mongomock->-r requirements-dev.txt (line 4))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2258822Z   Using cached pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2369164Z Collecting sentinels (from mongomock->-r requirements-dev.txt (line 4))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2382914Z   Using cached sentinels-1.1.1-py3-none-any.whl.metadata (3.0 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2586012Z Collecting sortedcontainers<3.0,>=2.3 (from mongita->-r requirements-dev.txt (line 5))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2600240Z   Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2738750Z Collecting attrs>=22.2.0 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2752933Z   Using cached attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2879583Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.2900575Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.3117238Z Collecting referencing>=0.28.4 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.3130274Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.5773593Z Collecting rpds-py>=0.7.1 (from jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.5814891Z   Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.9708092Z Collecting botocore<1.43.0,>=1.42.4 (from boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.9748962Z   Downloading botocore-1.42.4-py3-none-any.whl.metadata (5.9 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.9890135Z Collecting jmespath<2.0.0,>=0.7.1 (from boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:23.9904085Z   Using cached jmespath-1.0.1-py3-none-any.whl.metadata (7.6 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0071785Z Collecting s3transfer<0.17.0,>=0.16.0 (from boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0107372Z   Downloading s3transfer-0.16.0-py3-none-any.whl.metadata (1.7 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0322686Z Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0338549Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0605931Z Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0644502Z   Downloading urllib3-2.6.1-py3-none-any.whl.metadata (6.6 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0802273Z Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.43.0,>=1.42.4->boto3->-r requirements-dev.txt (line 8))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.0815493Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.2925843Z Collecting contourpy>=1.0.1 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.2943329Z   Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.3045516Z Collecting cycler>=0.10 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.3059829Z   Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.4996006Z Collecting fonttools>=4.22.0 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.5012234Z   Using cached fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (113 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.5674694Z Collecting kiwisolver>=1.3.1 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.5690843Z   Using cached kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.3 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.7293496Z Collecting pillow>=8 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.7309644Z   Using cached pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.7562347Z Collecting pyparsing>=3 (from matplotlib->-r requirements-dev.txt (line 9))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.7577061Z   Using cached pyparsing-3.2.5-py3-none-any.whl.metadata (5.0 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8046927Z Collecting typing-extensions>=4.4.0 (from referencing>=0.28.4->jsonschema>=4.25.1->-r requirements-dev.txt (line 6))
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8060926Z   Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8130500Z Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8150475Z Using cached numpy-2.3.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8347280Z Downloading pymongo-4.15.5-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.5 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8630624Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 77.3 MB/s  0:00:00
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8645747Z Using cached dnspython-2.8.0-py3-none-any.whl (331 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8662051Z Using cached mongomock-4.3.0-py2.py3-none-any.whl (64 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8676335Z Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8690008Z Using cached jsonschema-4.25.1-py3-none-any.whl (90 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8725787Z Downloading boto3-1.42.4-py3-none-any.whl (140 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.8799004Z Downloading botocore-1.42.4-py3-none-any.whl (14.5 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9599887Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.5/14.5 MB 187.7 MB/s  0:00:00
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9614910Z Using cached jmespath-1.0.1-py3-none-any.whl (20 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9630178Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9678162Z Downloading s3transfer-0.16.0-py3-none-any.whl (86 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9744879Z Downloading urllib3-2.6.1-py3-none-any.whl (131 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9782206Z Using cached matplotlib-3.10.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9859469Z Using cached attrs-25.4.0-py3-none-any.whl (67 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9873626Z Using cached contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9889265Z Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9902715Z Using cached fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.0 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9953316Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9966343Z Using cached kiwisolver-1.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:24.9989415Z Using cached packaging-25.0-py3-none-any.whl (66 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0002929Z Using cached pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0065683Z Using cached pyparsing-3.2.5-py3-none-any.whl (113 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0079272Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0122688Z Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (390 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0169174Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0181794Z Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0194818Z Using cached pytz-2025.2-py2.py3-none-any.whl (509 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.0211125Z Using cached sentinels-1.1.1-py3-none-any.whl (3.7 kB)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:25.1717181Z Installing collected packages: sortedcontainers, pytz, urllib3, typing-extensions, six, sentinels, rpds-py, pyyaml, pyparsing, pillow, packaging, numpy, kiwisolver, jmespath, fonttools, dnspython, cycler, attrs, referencing, python-dateutil, pymongo, mongomock, contourpy, mongita, matplotlib, jsonschema-specifications, botocore, s3transfer, jsonschema, boto3
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:31.5894510Z 
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:31.5917070Z Successfully installed attrs-25.4.0 boto3-1.42.4 botocore-1.42.4 contourpy-1.3.3 cycler-0.12.1 dnspython-2.8.0 fonttools-4.61.0 jmespath-1.0.1 jsonschema-4.25.1 jsonschema-specifications-2025.9.1 kiwisolver-1.4.9 matplotlib-3.10.7 mongita-1.2.0 mongomock-4.3.0 numpy-2.3.5 packaging-25.0 pillow-12.0.0 pymongo-4.15.5 pyparsing-3.2.5 python-dateutil-2.9.0.post0 pytz-2025.2 pyyaml-6.0.3 referencing-0.37.0 rpds-py-0.30.0 s3transfer-0.16.0 sentinels-1.1.1 six-1.17.0 sortedcontainers-2.4.0 typing-extensions-4.15.0 urllib3-2.6.1
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2620833Z Requirement already satisfied: jsonschema in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (4.25.1)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2632228Z Requirement already satisfied: attrs>=22.2.0 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (25.4.0)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2638856Z Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (2025.9.1)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2644848Z Requirement already satisfied: referencing>=0.28.4 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (0.37.0)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2650824Z Requirement already satisfied: rpds-py>=0.7.1 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from jsonschema) (0.30.0)
+Run trait audit and dataset validation	Install Python dependencies	2025-12-08T17:38:32.2694159Z Requirement already satisfied: typing-extensions>=4.4.0 in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (from referencing>=0.28.4->jsonschema) (4.15.0)
+Run trait audit and dataset validation	Validate YAML datasets	﻿2025-12-08T17:38:32.3536897Z ##[group]Run python tools/py/validate_datasets.py
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3537396Z [36;1mpython tools/py/validate_datasets.py[0m
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3571007Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3571268Z env:
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3571546Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3571998Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3572424Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3572803Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3573177Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3573552Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:32.3573878Z ##[endgroup]
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:33.3496020Z packs/evo_tactics_pack: 10 controlli eseguiti — 0 avvisi.
+Run trait audit and dataset validation	Validate YAML datasets	2025-12-08T17:38:33.3496531Z Tutti i dataset YAML sono validi.
+Run trait audit and dataset validation	Run trait audit in check mode	﻿2025-12-08T17:38:33.3609488Z ##[group]Run python scripts/trait_audit.py --check
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3609890Z [36;1mpython scripts/trait_audit.py --check[0m
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3642786Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3643017Z env:
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3643263Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3643686Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3644076Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3644429Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3644781Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3645130Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.3645436Z ##[endgroup]
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.4963060Z /home/runner/work/Game/Game/scripts/trait_audit.py:21: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.4965418Z   from jsonschema import Draft202012Validator, RefResolver, exceptions
+Run trait audit and dataset validation	Run trait audit in check mode	2025-12-08T17:38:33.7841480Z Audit dei tratti: nessuna regressione rilevata.
+Run trait audit and dataset validation	Build trait index	﻿2025-12-08T17:38:33.8055369Z ##[group]Run node scripts/build_trait_index.js
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8055746Z [36;1mnode scripts/build_trait_index.js[0m
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8089271Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8089510Z env:
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8089761Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8090340Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8090737Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8091094Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8091467Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8091838Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8092139Z ##[endgroup]
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8651881Z Indice generato (CSV): data/traits/index.csv
+Run trait audit and dataset validation	Build trait index	2025-12-08T17:38:33.8655629Z Totale trait: 263
+Run trait audit and dataset validation	Generate strict trait coverage report	﻿2025-12-08T17:38:33.8721270Z ##[group]Run python tools/py/report_trait_coverage.py --strict
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8721726Z [36;1mpython tools/py/report_trait_coverage.py --strict[0m
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8754734Z shell: /usr/bin/bash -e {0}
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8754970Z env:
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8755230Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8755662Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8756047Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8756398Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8757029Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8757394Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.8757686Z ##[endgroup]
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.9695352Z Validazione species_affinity: impossibile verificare ID specie perché il catalogo non contiene elementi.
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.9696920Z traits_with_species=0 sotto la soglia 27
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.9697913Z rules_missing_species_total=284 eccede il massimo consentito 0
+Run trait audit and dataset validation	Generate strict trait coverage report	2025-12-08T17:38:33.9800097Z ##[error]Process completed with exit code 1.
+Run trait audit and dataset validation	Upload trait reports	﻿2025-12-08T17:38:33.9879287Z ##[group]Run actions/upload-artifact@v4
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9879583Z with:
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9879786Z   name: trait-data-reports-20012320492
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9880445Z   path: reports/**
+Run trait audit and dataset validation	Upload trait reports	logs/trait_audit/trait_progress_history.json
+Run trait audit and dataset validation	Upload trait reports	data/derived/analysis/trait_coverage_report.json
+Run trait audit and dataset validation	Upload trait reports	data/derived/analysis/trait_coverage_matrix.csv
+Run trait audit and dataset validation	Upload trait reports	
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9881084Z   if-no-files-found: warn
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9881301Z   compression-level: 6
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9881499Z   overwrite: false
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9881695Z   include-hidden-files: false
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9881905Z env:
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9882140Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9882545Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9882963Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9883324Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9883684Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9884073Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:33.9884368Z ##[endgroup]
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.2581167Z Multiple search paths detected. Calculating the least common ancestor of all paths
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.2584081Z The least common ancestor is /home/runner/work/Game/Game. This will be the root directory of the artifact
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.2584814Z With the provided path, there will be 228 files uploaded
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.2590096Z Artifact name is valid!
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.2591739Z Root directory input is valid!
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.4256147Z Beginning upload of artifact content to blob storage
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.8361163Z Uploaded bytes 243655
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.8731003Z Finished uploading artifact content to blob storage!
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.8734088Z SHA256 digest of uploaded artifact zip is 5ec41121dabc1cfc15c017e4acf7b11c2c9ecf4276d37d9f3f26ac7c25cc33ee
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:34.8735798Z Finalizing artifact upload
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:35.0030303Z Artifact trait-data-reports-20012320492.zip successfully finalized. Artifact ID 4800743636
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:35.0031630Z Artifact trait-data-reports-20012320492 has been successfully uploaded! Final size is 243655 bytes. Artifact ID is 4800743636
+Run trait audit and dataset validation	Upload trait reports	2025-12-08T17:38:35.0037775Z Artifact download URL: https://github.com/MasterDD-L34D/Game/actions/runs/20012320492/artifacts/4800743636
+Run trait audit and dataset validation	Post Checkout repository	﻿2025-12-08T17:38:35.0225495Z Post job cleanup.
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1195157Z [command]/usr/bin/git version
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1234321Z git version 2.52.0
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1292174Z Temporarily overriding HOME='/home/runner/work/_temp/c85c622e-bc9a-4cb5-9646-9dba3dd139e8' before making global git config changes
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1293283Z Adding repository directory to the temporary git global config as a safe directory
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1297672Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1335214Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1368760Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1608883Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1631286Z http.https://github.com/.extraheader
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1645285Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1677444Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1911449Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Run trait audit and dataset validation	Post Checkout repository	2025-12-08T17:38:35.1943839Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Run trait audit and dataset validation	Complete job	﻿2025-12-08T17:38:35.2290614Z Cleaning up orphan processes

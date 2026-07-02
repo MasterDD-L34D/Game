@@ -1,0 +1,20 @@
+{
+  "id": "TKT-CREATURE-SUBNAUTICA-LIFECYCLE",
+  "title": "Subnautica habitat lifecycle 5-stage Skiv wire",
+  "pillar": "P2",
+  "effort_hours": 3,
+  "donor_game": {
+    "name": "Subnautica",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#9-subnautica-unknown-worlds--2018"
+  },
+  "agent_owner": "creature-aspect-illuminator",
+  "status": "merged",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "`biome_affinity_per_stage` YAML extend Skiv lifecycle + biomeSpawnBias bias per stage.",
+  "merged_pr": 1935,
+  "merged_at": "2026-04-27"
+}

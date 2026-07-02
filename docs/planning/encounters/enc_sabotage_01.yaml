@@ -1,0 +1,64 @@
+# =============================================================================
+# Encounter: "Detonazione nel Cuore" -- Sabotage
+# Difficulty: 3/5 - Grid: 10x10 - Bioma: badlands
+# Objective: restare nella zona centrale [4,4,6,6] per 3 turni (cumulativi) di
+#            sabotaggio entro il time_limit; i difensori provano a sloggiarti.
+# Pilastro coverage: 1 (tattica leggibile) -- obiettivo non-elimination
+# Schema: schemas/evo/encounter.schema.json
+# ADR: ADR-2026-04-20 (objective evaluator sabotage)
+# SPEC-O: completa la copertura dei 6 tipi-obiettivo (sabotage era mancante).
+# NB DRAFT: roster/wave NON ancora calibrati -- il gate completion_rate
+#           0.40-0.70 richiede un full-loop-runner mission-type-aware (vedi SPEC-O).
+# =============================================================================
+
+encounter_id: enc_sabotage_01
+name: 'Detonazione nel Cuore'
+biome_id: badlands
+grid_size: [10, 10]
+difficulty_rating: 3
+estimated_turns: 12
+encounter_class: standard
+
+objective:
+  type: sabotage
+  target_zone: [4, 4, 6, 6]
+  sabotage_turns_required: 3
+  # NB: il sabotage evaluator ora onora min_units_in_zone (default 1) -- fix consistency con
+  # hold_zone; lasciato unset (= 1) per non alterare la difficolta' del template draft.
+  time_limit: 12
+  loss_conditions:
+    time_limit: 12
+    player_wipe: true
+
+player_spawn:
+  - [0, 0]
+  - [0, 1]
+  - [1, 0]
+  - [1, 1]
+
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [9, 9]
+      - [9, 5]
+      - [5, 9]
+    units:
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 2
+        tier: base
+        ai_profile: aggressive
+  - wave_id: 2
+    turn_trigger: 4
+    spawn_points:
+      - [9, 4]
+      - [4, 9]
+    units:
+      - species: predoni_nomadi
+        species_id: gulogluteus_scutiger
+        count: 1
+        tier: elite
+        ai_profile: aggressive
+
+tags: [standard, timed]

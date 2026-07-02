@@ -1,0 +1,20 @@
+{
+  "id": "TKT-UI-DEAD-SPACE-HP-SPRITE-TINT",
+  "title": "Dead Space HP critico sprite tinting (hybrid HUD layer, additive a Tactics Ogre HP bar)",
+  "pillar": "P1",
+  "effort_hours": 2,
+  "donor_game": {
+    "name": "Dead Space",
+    "tier": "A",
+    "matrix_anchor": "docs/research/2026-04-26-tier-a-extraction-matrix.md#11-dead-space-visceral--2008"
+  },
+  "agent_owner": "ui-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Decision codified 2026-04-27 (hybrid HUD). HP critico sprite tinting (low HP = pulsing red interno body sprite) come layer ADDITIVO a Tactics Ogre HP bar floating (#1906 ha già HP critico pulse animation). Layered feedback: precise (bar) + emozionale (tint).",
+  "museum_card": "docs/museum/cards/combat-tactics-ogre-hp-floating-charm.md",
+  "blockers": []
+}

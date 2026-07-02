@@ -1,0 +1,101 @@
+# =============================================================================
+# Encounter: "L'Ultima Caccia" -- First Lethal Mission (SPEC-J permadeath)
+# Difficulty: 5/5 - Grid: 10x10 - Bioma: badlands
+# Objective: elimination. Single decisive wave (no reinforcement) so the AI-sim
+#   calibration band (ai-driven-sim reads wave 1 only) equals the real-play band.
+#
+# SCOPO: il PRIMO encounter `lethal: true` della suite SPEC-J (lethal-wounds +
+#   consent). Permadeath e' OPT-IN per-missione (point-9) e resta inerte finche'
+#   LETHAL_MISSIONS_ENABLED!=='true' AND il consenso per-player non e' concesso
+#   (services/combat/lethalDeath.js). Autorare questo encounter NON flippa nulla:
+#   il flag globale resta OFF -> band-neutral by construction.
+#
+# DESIGN-CALL (master-dd 2026-06-30, AskUserQuestion): veicolo = nuovo dedicato;
+#   banda = hardcore opt-in (target party-WR 25-40%, creature-KO-rate 25-40%).
+#   Narrativa: la party affronta l'apex Skiv (dune-stalker) nel suo territorio
+#   ferroso -- la caccia dove la posta e' reale. Lega permadeath <-> attaccamento
+#   (creature dossier #2856): una creatura puo' cadere per sempre.
+#
+# CALIBRAZIONE: la difficolta' misurata dall'harness vive nella WAVE 1 (l'AI-sim
+#   espande solo la wave a turn_trigger minimo + deriva stat da tier:
+#   base hp7/mod1, elite hp10/mod2, apex hp14/mod4). Niente reinforcement_pool
+#   ne' wave-2 -> banda-harness == banda-reale. Evidenza N=40 ->
+#   docs/playtest/2026-06-30-ultima-caccia-lethal-calibration.md.
+#
+# Schema: schemas/evo/encounter.schema.json (campo `lethal` additivo 2026-06-30)
+# Spec: docs/design/evo-tactics-lethal-wounds-rituals.md (SPEC-J)
+# =============================================================================
+
+encounter_id: enc_badlands_ultima_caccia_01
+name: "L'Ultima Caccia"
+biome_id: badlands
+grid_size: [10, 10]
+difficulty_rating: 5
+pressure_tier_floor: 4
+estimated_turns: 16
+encounter_class: hardcore
+
+# SPEC-J: per-mission lethal flag (point-9). Letto da routes/session.js /start
+# come encounterPayload.lethal -> session.lethal. Inerte finche'
+# LETHAL_MISSIONS_ENABLED && consenso per-player (PR2); markCreatureFallen non
+# scatta mai altrimenti (band-neutral).
+lethal: true
+
+objective:
+  type: elimination
+
+player_spawn:
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [1, 5]
+
+# Wave unica e decisiva (turn 0). Apex Skiv + branco di supporto. La difficolta'
+# vive tutta qui: l'AI-sim calibration legge solo questa wave.
+#
+# Spawn a META-CAMPO (x~5-6), come il pilot canonico badlands
+# (enc_badlands_pilot_01 spawna a x=5): l'agguato si chiude in fretta e il
+# combattimento risolve entro la mission-clock. spawn_points mappa 1:1 sui
+# probe positions (Codex #3107 P2 parity: la banda calibrata = la missione reale).
+# Ordine = espansione harness (apex -> sp[0]; echo x2 -> sp[1],sp[2]; rust x2 ->
+# sp[3],sp[4]).
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - [5, 5]
+      - [5, 4]
+      - [5, 6]
+      - [6, 4]
+      - [6, 6]
+    units:
+      - species: dune-stalker
+        count: 1
+        tier: apex
+        ai_profile: flanking
+      - species: echo-wing
+        count: 2
+        tier: elite
+        ai_profile: aggressive
+      - species: rust-scavenger
+        count: 2
+        tier: base
+        ai_profile: aggressive
+
+conditions: []
+
+tags: [boss]
+
+didactic_focus:
+  - lethal_stakes
+  - focus_fire
+  - positioning
+
+narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: pericolo_calore
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca
+  accent_override: '#c2542f'

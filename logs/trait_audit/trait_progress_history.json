@@ -1,0 +1,92 @@
+[
+  {
+    "timestamp": "2025-11-01T14:28:42.023736+00:00",
+    "metrics": {
+      "completion_flags": {
+        "total_traits": 174,
+        "traits_with_value": 1,
+        "percent": 0.5747126436781609
+      },
+      "data_origin": {
+        "total_traits": 174,
+        "traits_with_value": 1,
+        "percent": 0.5747126436781609
+      },
+      "species_affinity": {
+        "total_traits": 174,
+        "traits_with_value": 173,
+        "percent": 99.42528735632183
+      },
+      "biome_tags": {
+        "total_traits": 174,
+        "traits_with_value": 1,
+        "percent": 0.5747126436781609
+      },
+      "usage_tags": {
+        "total_traits": 174,
+        "traits_with_value": 1,
+        "percent": 0.5747126436781609
+      }
+    }
+  },
+  {
+    "timestamp": "2025-11-03T19:52:40.928056+00:00",
+    "metrics": {
+      "completion_flags": {
+        "total_traits": 174,
+        "traits_with_value": 174,
+        "percent": 100.0
+      },
+      "data_origin": {
+        "total_traits": 174,
+        "traits_with_value": 174,
+        "percent": 100.0
+      },
+      "species_affinity": {
+        "total_traits": 174,
+        "traits_with_value": 174,
+        "percent": 100.0
+      },
+      "biome_tags": {
+        "total_traits": 174,
+        "traits_with_value": 1,
+        "percent": 0.5747126436781609
+      },
+      "usage_tags": {
+        "total_traits": 174,
+        "traits_with_value": 174,
+        "percent": 100.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-12-02T02:04:09.412975+00:00",
+    "metrics": {
+      "species_affinity": {
+        "total_traits": 251,
+        "traits_with_value": 8,
+        "percent": 3.187250996015936
+      },
+      "biome_tags": {
+        "total_traits": 251,
+        "traits_with_value": 174,
+        "percent": 69.32270916334662
+      },
+      "usage_tags": {
+        "total_traits": 251,
+        "traits_with_value": 225,
+        "percent": 89.64143426294821
+      },
+      "completion_flags": {
+        "total_traits": 251,
+        "traits_with_value": 201,
+        "percent": 80.0796812749004
+      },
+      "data_origin": {
+        "total_traits": 251,
+        "traits_with_value": 251,
+        "percent": 100.0
+      }
+    }
+  }
+]

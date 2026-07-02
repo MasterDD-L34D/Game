@@ -1,0 +1,291 @@
+old_id,native_candidate,collision,label_it,label_en,tier,category,effect_kind,status,prov_code,in_glossary,in_biome_pools,in_test,logtag_selfref
+ancestor_ardipithecus_ramidus_aspettativa_di_vita_lf_02,aspettativa_di_vita,INTRA_COLLISION(x3),Aspettativa di Vita,Life Expectancy,T1,neurologico,apply_status,fed,LF 02,True,False,False,False
+ancestor_ardipithecus_ramidus_encefalizzazione_np_02,encefalizzazione,INTRA_COLLISION(x3),Encefalizzazione,Encephalization,T1,neurologico,apply_status,fed,NP 02,True,False,False,False
+ancestor_ardipithecus_ramidus_inibizione_cognitiva_cc_03,inibizione_cognitiva,,Inibizione Cognitiva,Cognitive Inhibition,T1,neurologico,damage_reduction,,CC 03,True,True,False,False
+ancestor_ardipithecus_ramidus_iperfocalizzazione_zo_01,iperfocalizzazione,,Iperfocalizzazione,Hyperfocus,T1,neurologico,damage_reduction,,ZO 01,True,False,False,False
+ancestor_ardipithecus_ramidus_locus_di_controllo_zo_02,locus_di_controllo,INTRA_COLLISION(x2),Locus di Controllo,Locus of Control,T1,neurologico,damage_reduction,,ZO 02,True,False,False,False
+ancestor_ardipithecus_ramidus_locus_di_controllo_zo_03,locus_di_controllo,INTRA_COLLISION(x2),Locus di Controllo,Locus of Control,T1,neurologico,damage_reduction,,ZO 03,True,False,False,False
+ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_01,personalita_autotelica,INTRA_COLLISION(x3),Personalita' Autotelica,Autotelic Personality,T2,neurologico,damage_reduction,,BB ZO 01,True,False,False,False
+ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_02,personalita_autotelica,INTRA_COLLISION(x3),Personalita' Autotelica,Autotelic Personality,T2,neurologico,damage_reduction,,BB ZO 02,True,False,False,False
+ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_03,personalita_autotelica,INTRA_COLLISION(x3),Personalita' Autotelica,Autotelic Personality,T2,neurologico,damage_reduction,,BB ZO 03,True,False,False,False
+ancestor_ardipithecus_ramidus_via_mesolimbica_dp_05,via_mesolimbica,,Via Mesolimbica,Mesolimbic Pathway,T1,neurologico,damage_reduction,,DP 05,True,True,False,False
+ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_06,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 06,True,False,False,False
+ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_07,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 07,True,False,False,False
+ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_08,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 08,True,False,False,False
+ancestor_attacco_contromanovra_co_02,contromanovra,INTRA_COLLISION(x3),Contromanovra,Counter Maneuver,T1,neurologico,extra_damage,,CO 02,True,True,True,True
+ancestor_attacco_contromanovra_co_03,contromanovra,INTRA_COLLISION(x3),Contromanovra,Counter Maneuver,T1,neurologico,extra_damage,,CO 03,True,False,True,True
+ancestor_attacco_contromanovra_co_04,contromanovra,INTRA_COLLISION(x3),Contromanovra,Counter Maneuver,T1,neurologico,extra_damage,,CO 04,True,False,True,True
+ancestor_attacco_difesa_di_gruppo_co_06,difesa_di_gruppo,,Difesa di Gruppo,Group Defense,T1,neurologico,apply_status,focused,CO 06,True,False,False,True
+ancestor_attacco_forza_liberata_bb_co_01,forza_liberata,,Forza Liberata,Released Strength,T2,neurologico,extra_damage,,BB CO 01-02,True,False,False,True
+ancestor_attacco_risposta_di_combattimento_co_01,risposta_di_combattimento,,Risposta di Combattimento,Fight Response,T1,neurologico,extra_damage,,CO 01,True,True,True,True
+ancestor_attacco_risposta_di_soprassalto_co_05,risposta_di_soprassalto,,Risposta di Soprassalto,Startle Response,T1,neurologico,extra_damage,,CO 05,True,False,False,True
+ancestor_australopithecus_afarensis_aspettativa_di_vita_lf_03,aspettativa_di_vita,INTRA_COLLISION(x3),Aspettativa di Vita,Life Expectancy,T1,neurologico,apply_status,fed,LF 03,True,False,False,False
+ancestor_australopithecus_afarensis_controllo_inibitorio_cc_04,controllo_inibitorio,,Controllo Inibitorio,Inhibitory Control,T1,neurologico,damage_reduction,,CC 04,True,False,False,False
+ancestor_australopithecus_afarensis_efficienza_dei_termocettori_bb_th_01,efficienza_dei_termocettori,,Efficienza dei Termocettori,Thermoreceptors Efficiency,T2,neurologico,damage_reduction,,BB TH 01,True,False,False,False
+ancestor_australopithecus_afarensis_efficienza_del_nucleo_ipotalamico_bb_th_03,efficienza_del_nucleo_ipotalamico,,Efficienza del Nucleo Ipotalamico,Hypothalamic Nucleus Efficiency,T2,neurologico,damage_reduction,,BB TH 03,True,False,False,False
+ancestor_australopithecus_afarensis_efficienza_dell_area_preottica_bb_th_02,efficienza_dell_area_preottica,,Efficienza dell'Area Preottica,Preoptic Area Efficiency,T2,neurologico,damage_reduction,,BB TH 02,True,False,False,False
+ancestor_australopithecus_afarensis_encefalizzazione_np_03,encefalizzazione,INTRA_COLLISION(x3),Encefalizzazione,Encephalization,T1,neurologico,apply_status,fed,NP 03,True,False,False,False
+ancestor_australopithecus_afarensis_termoregolazione_th_01,termoregolazione,,Termoregolazione,Thermo Regulation,T1,neurologico,damage_reduction,,TH 01,True,False,False,False
+ancestor_australopithecus_afarensis_via_nigrostriatale_dp_09,via_nigrostriatale,,Via Nigrostriatale,Nigrostriatal Pathway,T1,neurologico,damage_reduction,,DP 09,True,False,False,False
+ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_10,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 10,True,False,False,False
+ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_11,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 11,True,False,False,False
+ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_12,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 12,True,False,False,False
+ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_13,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 13,True,False,False,False
+ancestor_autocontrollo_determinazione_bb_fr_01,determinazione,,Determinazione,Determination,T2,neurologico,extra_damage,,BB FR 01-04,True,False,False,True
+ancestor_autocontrollo_dilatazione_temporale_percettiva_fr_05,dilatazione_temporale_percettiva,,Dilatazione Temporale Percettiva,Perceptual Time Dilation,T1,neurologico,extra_damage,,FR 05,True,False,False,True
+ancestor_autocontrollo_distorsione_temporale_fr_02,distorsione_temporale,INTRA_COLLISION(x2),Distorsione Temporale,Temporal Distortion,T1,neurologico,extra_damage,,FR 02-03,True,True,False,True
+ancestor_autocontrollo_distorsione_temporale_fr_04,distorsione_temporale,INTRA_COLLISION(x2),Distorsione Temporale,Temporal Distortion,T1,neurologico,extra_damage,,FR 04,True,False,False,True
+ancestor_autocontrollo_tachipsichia_fr_01,tachipsichia,,Tachipsichia,Tachypsychia,T1,neurologico,extra_damage,,FR 01,True,True,False,True
+ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06,velocita_di_elaborazione_interna,INTRA_COLLISION(x3),Velocita' di Elaborazione Interna,Internal Process Speed,T1,neurologico,apply_status,focused,FR 06,True,False,False,True
+ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_07,velocita_di_elaborazione_interna,INTRA_COLLISION(x3),Velocita' di Elaborazione Interna,Internal Process Speed,T1,neurologico,apply_status,focused,FR 07,True,False,False,True
+ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_08,velocita_di_elaborazione_interna,INTRA_COLLISION(x3),Velocita' di Elaborazione Interna,Internal Process Speed,T1,neurologico,apply_status,focused,FR 08,True,False,False,True
+ancestor_comunicazione_auto_rafforzamento_cm_02,auto_rafforzamento,,Auto-Rafforzamento,Self Empowerment,T1,neurologico,apply_status,linked,CM 02,True,True,False,False
+ancestor_comunicazione_bisogno_di_attaccamento_bb_hb_01,bisogno_di_attaccamento,INTRA_COLLISION(x3),Bisogno di Attaccamento,Attachment Need,T2,neurologico,apply_status,linked,BB HB 01,True,False,False,False
+ancestor_comunicazione_bisogno_di_attaccamento_hb_01,bisogno_di_attaccamento,INTRA_COLLISION(x3),Bisogno di Attaccamento,Attachment Need,T1,neurologico,apply_status,linked,HB 01,True,False,False,False
+ancestor_comunicazione_bisogno_di_attaccamento_hb_02,bisogno_di_attaccamento,INTRA_COLLISION(x3),Bisogno di Attaccamento,Attachment Need,T1,neurologico,apply_status,linked,HB 02,True,False,False,False
+ancestor_comunicazione_cinesica_cm_01,cinesica,,Cinesica,Kinesics,T1,neurologico,apply_status,linked,CM 01,True,True,False,False
+ancestor_comunicazione_comportamento_deimatico_it_01,comportamento_deimatico,,Comportamento Deimatico,Deimatic Behavior,T1,neurologico,apply_status,linked,IT 01,True,False,False,False
+ancestor_comunicazione_forza_di_volonta_bb_it_01,forza_di_volonta,INTRA_COLLISION(x3),Forza di Volonta',Willpower,T2,neurologico,apply_status,linked,BB IT 01,True,False,False,False
+ancestor_comunicazione_forza_di_volonta_bb_it_02,forza_di_volonta,INTRA_COLLISION(x3),Forza di Volonta',Willpower,T2,neurologico,apply_status,linked,BB IT 02,True,False,False,False
+ancestor_comunicazione_forza_di_volonta_bb_it_03,forza_di_volonta,INTRA_COLLISION(x3),Forza di Volonta',Willpower,T2,neurologico,apply_status,linked,BB IT 03,True,False,False,False
+ancestor_comunicazione_imitazione_cm_06,imitazione,,Imitazione,Imitation,T1,neurologico,apply_status,linked,CM 06,True,False,False,False
+ancestor_comunicazione_linguaggio_del_corpo_cm_03,linguaggio_del_corpo,,Linguaggio del Corpo,Body Language,T1,neurologico,apply_status,linked,CM 03,True,False,False,False
+ancestor_comunicazione_neurone_specchio_cm_05,neurone_specchio,,Neurone Specchio,Mirror Neuron,T1,neurologico,apply_status,linked,CM 05,True,False,False,False
+ancestor_comunicazione_paura_indotta_it_02,paura_indotta,INTRA_COLLISION(x2),Paura Indotta,Induced Fear,T1,neurologico,apply_status,linked,IT 02,True,False,False,False
+ancestor_comunicazione_paura_indotta_it_03,paura_indotta,INTRA_COLLISION(x2),Paura Indotta,Induced Fear,T1,neurologico,apply_status,linked,IT 03,True,False,False,False
+ancestor_comunicazione_percezione_del_pericolo_it_04,percezione_del_pericolo,INTRA_COLLISION(x2),Percezione del Pericolo,Danger Perception,T1,neurologico,apply_status,linked,IT 04,True,False,False,False
+ancestor_comunicazione_percezione_del_pericolo_it_05,percezione_del_pericolo,INTRA_COLLISION(x2),Percezione del Pericolo,Danger Perception,T1,neurologico,apply_status,linked,IT 05,True,False,False,False
+ancestor_comunicazione_sicurezza_sociale_bb_cm_01,sicurezza_sociale,,Sicurezza Sociale,Social Confidence,T2,neurologico,apply_status,linked,BB CM 01,True,False,False,False
+ancestor_comunicazione_specie_dominante_it_06,specie_dominante,,Specie Dominante,Dominant Species,T1,neurologico,apply_status,linked,IT 06,True,False,False,False
+ancestor_comunicazione_unita_del_gruppo_cm_04,unita_del_gruppo,INTRA_COLLISION(x2),Unita' del Gruppo,Group Unity,T1,neurologico,apply_status,linked,CM 04,True,False,False,False
+ancestor_comunicazione_unita_del_gruppo_cm_07,unita_del_gruppo,INTRA_COLLISION(x2),Unita' del Gruppo,Group Unity,T1,neurologico,apply_status,linked,CM 07,True,False,False,False
+ancestor_deambulazione_forza_degli_arti_inferiori_bb_ab_04,forza_degli_arti_inferiori,INTRA_COLLISION(x3),Forza degli Arti Inferiori,Lower Body Strength,T2,neurologico,buff_stat,,BB AB 04,True,False,False,False
+ancestor_deambulazione_forza_degli_arti_inferiori_bb_ab_05,forza_degli_arti_inferiori,INTRA_COLLISION(x3),Forza degli Arti Inferiori,Lower Body Strength,T2,neurologico,buff_stat,,BB AB 05,True,False,False,False
+ancestor_deambulazione_resistenza_ab_01,resistenza,,Resistenza,Endurance,T1,neurologico,buff_stat,,AB 01,True,True,False,False
+ancestor_deambulazione_resistenza_al_dolore_ab_10,resistenza_al_dolore,INTRA_COLLISION(x3),Resistenza al Dolore,Pain Endurance,T1,neurologico,buff_stat,,AB 10,True,False,False,False
+ancestor_deambulazione_resistenza_al_dolore_ab_11,resistenza_al_dolore,INTRA_COLLISION(x3),Resistenza al Dolore,Pain Endurance,T1,neurologico,buff_stat,,AB 11,True,False,False,False
+ancestor_deambulazione_resistenza_al_dolore_ab_12,resistenza_al_dolore,INTRA_COLLISION(x3),Resistenza al Dolore,Pain Endurance,T1,neurologico,buff_stat,,AB 12,True,False,False,False
+ancestor_deambulazione_resistenza_al_movimento_ab_02,resistenza_al_movimento,INTRA_COLLISION(x2),Resistenza al Movimento,Movement Endurance,T1,neurologico,buff_stat,,AB 02,True,True,False,False
+ancestor_deambulazione_resistenza_al_movimento_ab_03,resistenza_al_movimento,INTRA_COLLISION(x2),Resistenza al Movimento,Movement Endurance,T1,neurologico,buff_stat,,AB 03,True,False,False,False
+ancestor_deambulazione_resistenza_in_arrampicata_ab_04,resistenza_in_arrampicata,INTRA_COLLISION(x3),Resistenza in Arrampicata,Climb Endurance,T1,neurologico,buff_stat,,AB 04,True,False,False,False
+ancestor_deambulazione_resistenza_in_arrampicata_ab_05,resistenza_in_arrampicata,INTRA_COLLISION(x3),Resistenza in Arrampicata,Climb Endurance,T1,neurologico,buff_stat,,AB 05,True,False,False,False
+ancestor_deambulazione_resistenza_in_arrampicata_ab_06,resistenza_in_arrampicata,INTRA_COLLISION(x3),Resistenza in Arrampicata,Climb Endurance,T1,neurologico,buff_stat,,AB 06,True,False,False,False
+ancestor_deambulazione_resistenza_nel_trasporto_ab_07,resistenza_nel_trasporto,INTRA_COLLISION(x3),Resistenza nel Trasporto,Carrying Endurance,T1,neurologico,buff_stat,,AB 07,True,False,False,False
+ancestor_deambulazione_resistenza_nel_trasporto_ab_08,resistenza_nel_trasporto,INTRA_COLLISION(x3),Resistenza nel Trasporto,Carrying Endurance,T1,neurologico,buff_stat,,AB 08,True,False,False,False
+ancestor_deambulazione_resistenza_nel_trasporto_ab_09,resistenza_nel_trasporto,INTRA_COLLISION(x3),Resistenza nel Trasporto,Carrying Endurance,T1,neurologico,buff_stat,,AB 09,True,False,False,False
+ancestor_deambulazione_soglia_del_dolore_bb_ab_12,soglia_del_dolore,INTRA_COLLISION(x3),Soglia del Dolore,Pain Threshold,T2,neurologico,buff_stat,,BB AB 12,True,False,False,False
+ancestor_deambulazione_soglia_del_dolore_bb_ab_13,soglia_del_dolore,INTRA_COLLISION(x3),Soglia del Dolore,Pain Threshold,T2,neurologico,buff_stat,,BB AB 13,True,False,False,False
+ancestor_deambulazione_soglia_del_dolore_bb_ab_14,soglia_del_dolore,INTRA_COLLISION(x3),Soglia del Dolore,Pain Threshold,T2,neurologico,buff_stat,,BB AB 14,True,False,False,False
+ancestor_deambulazione_velocita_di_arrampicata_bb_ab_06,velocita_di_arrampicata,INTRA_COLLISION(x3),Velocita' di Arrampicata,Climb Speed,T2,neurologico,buff_stat,,BB AB 06,True,False,False,False
+ancestor_deambulazione_velocita_di_arrampicata_bb_ab_07,velocita_di_arrampicata,INTRA_COLLISION(x3),Velocita' di Arrampicata,Climb Speed,T2,neurologico,buff_stat,,BB AB 07,True,False,False,False
+ancestor_deambulazione_velocita_di_arrampicata_bb_ab_08,velocita_di_arrampicata,INTRA_COLLISION(x3),Velocita' di Arrampicata,Climb Speed,T2,neurologico,buff_stat,,BB AB 08,True,False,False,False
+ancestor_deambulazione_velocita_di_deambulazione_bb_ab_01,velocita_di_deambulazione,INTRA_COLLISION(x3),Velocita' di Deambulazione,Ambulation Speed,T2,neurologico,buff_stat,,BB AB 01,True,False,False,False
+ancestor_deambulazione_velocita_di_deambulazione_bb_ab_02,velocita_di_deambulazione,INTRA_COLLISION(x3),Velocita' di Deambulazione,Ambulation Speed,T2,neurologico,buff_stat,,BB AB 02,True,False,False,False
+ancestor_deambulazione_velocita_di_deambulazione_bb_ab_03,velocita_di_deambulazione,INTRA_COLLISION(x3),Velocita' di Deambulazione,Ambulation Speed,T2,neurologico,buff_stat,,BB AB 03,True,False,False,False
+ancestor_deambulazione_velocita_nel_trasporto_bb_ab_09,velocita_nel_trasporto,INTRA_COLLISION(x3),Velocita' nel Trasporto,Carrying Speed,T2,neurologico,buff_stat,,BB AB 09,True,False,False,False
+ancestor_deambulazione_velocita_nel_trasporto_bb_ab_10,velocita_nel_trasporto,INTRA_COLLISION(x3),Velocita' nel Trasporto,Carrying Speed,T2,neurologico,buff_stat,,BB AB 10,True,False,False,False
+ancestor_deambulazione_velocita_nel_trasporto_bb_ab_11,velocita_nel_trasporto,INTRA_COLLISION(x3),Velocita' nel Trasporto,Carrying Speed,T2,neurologico,buff_stat,,BB AB 11,True,False,False,False
+ancestor_destrezza_abilita_motoria_fine_al_07,abilita_motoria_fine,,Abilita' Motoria Fine,Fine Motor Skill,T1,neurologico,extra_damage,,AL 07,True,False,False,False
+ancestor_destrezza_abilita_motoria_grossolana_de_05,abilita_motoria_grossolana,,Abilita' Motoria Grossolana,Gross Motor Skill,T1,neurologico,extra_damage,,DE 05,True,False,False,False
+ancestor_destrezza_capacita_di_trasporto_de_02,capacita_di_trasporto,INTRA_COLLISION(x3),Capacita' di Trasporto,Carrying Ability,T1,neurologico,extra_damage,,DE 02,True,False,False,False
+ancestor_destrezza_capacita_di_trasporto_de_03,capacita_di_trasporto,INTRA_COLLISION(x3),Capacita' di Trasporto,Carrying Ability,T1,neurologico,extra_damage,,DE 03,True,False,False,False
+ancestor_destrezza_capacita_di_trasporto_de_04,capacita_di_trasporto,INTRA_COLLISION(x3),Capacita' di Trasporto,Carrying Ability,T1,neurologico,extra_damage,,DE 04,True,False,False,False
+ancestor_destrezza_controllo_della_presa_ha_02,controllo_della_presa,INTRA_COLLISION(x3),Controllo della Presa,Grasp Control,T1,neurologico,extra_damage,,HA 02,True,False,False,False
+ancestor_destrezza_controllo_della_presa_ha_03,controllo_della_presa,INTRA_COLLISION(x3),Controllo della Presa,Grasp Control,T1,neurologico,extra_damage,,HA 03,True,False,False,False
+ancestor_destrezza_controllo_della_presa_ha_04,controllo_della_presa,INTRA_COLLISION(x3),Controllo della Presa,Grasp Control,T1,neurologico,extra_damage,,HA 04,True,False,False,False
+ancestor_destrezza_destrezza_manuale_bb_al_01,destrezza_manuale,INTRA_COLLISION(x4),Destrezza Manuale,Manual Dexterity,T2,neurologico,extra_damage,,BB AL 01,True,False,False,False
+ancestor_destrezza_destrezza_manuale_bb_al_01_2,destrezza_manuale,INTRA_COLLISION(x4),Destrezza Manuale,Manual Dexterity,T2,neurologico,extra_damage,,BB AL 01-2,True,False,False,False
+ancestor_destrezza_destrezza_manuale_bb_al_01_3,destrezza_manuale,INTRA_COLLISION(x4),Destrezza Manuale,Manual Dexterity,T2,neurologico,extra_damage,,BB AL 01-3,True,False,False,False
+ancestor_destrezza_destrezza_manuale_bb_al_01_4,destrezza_manuale,INTRA_COLLISION(x4),Destrezza Manuale,Manual Dexterity,T2,neurologico,extra_damage,,BB AL 01-4,True,False,False,False
+ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01,efficienza_dei_propriocettori,INTRA_COLLISION(x5),Efficienza dei Propriocettori,Proprioceptor Efficiency,T2,neurologico,extra_damage,,BB WH 01,True,False,False,False
+ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_2,efficienza_dei_propriocettori,INTRA_COLLISION(x5),Efficienza dei Propriocettori,Proprioceptor Efficiency,T2,neurologico,extra_damage,,BB WH 01-2,True,False,False,False
+ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_3,efficienza_dei_propriocettori,INTRA_COLLISION(x5),Efficienza dei Propriocettori,Proprioceptor Efficiency,T2,neurologico,extra_damage,,BB WH 01-3,True,False,False,False
+ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_4,efficienza_dei_propriocettori,INTRA_COLLISION(x5),Efficienza dei Propriocettori,Proprioceptor Efficiency,T2,neurologico,extra_damage,,BB WH 01-4,True,False,False,False
+ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_5,efficienza_dei_propriocettori,INTRA_COLLISION(x5),Efficienza dei Propriocettori,Proprioceptor Efficiency,T2,neurologico,extra_damage,,BB WH 01-5,True,False,False,False
+ancestor_destrezza_forza_applicata_de_06,forza_applicata,,Forza Applicata,Applied Force,T1,neurologico,extra_damage,,DE 06,True,False,False,False
+ancestor_destrezza_forza_di_controllo_al_01,forza_di_controllo,INTRA_COLLISION(x3),Forza di Controllo,Controlling Strength,T1,neurologico,extra_damage,,AL 01,True,True,False,False
+ancestor_destrezza_forza_di_controllo_al_02,forza_di_controllo,INTRA_COLLISION(x3),Forza di Controllo,Controlling Strength,T1,neurologico,extra_damage,,AL 02,True,True,False,False
+ancestor_destrezza_forza_di_controllo_al_03,forza_di_controllo,INTRA_COLLISION(x3),Forza di Controllo,Controlling Strength,T1,neurologico,extra_damage,,AL 03,True,False,False,False
+ancestor_destrezza_manipolazione_ha_01,manipolazione,,Manipolazione,Handling,T1,neurologico,extra_damage,,HA 01,True,False,False,False
+ancestor_destrezza_manipolazione_oggetti_de_01,manipolazione_oggetti,,Manipolazione Oggetti,Item Manipulation,T1,neurologico,extra_damage,,DE 01,True,False,False,False
+ancestor_destrezza_mira_di_affondo_wh_03,mira_di_affondo,INTRA_COLLISION(x3),Mira di Affondo,Thrusting Aim,T1,neurologico,extra_damage,,WH 03,True,False,False,False
+ancestor_destrezza_mira_di_affondo_wh_04,mira_di_affondo,INTRA_COLLISION(x3),Mira di Affondo,Thrusting Aim,T1,neurologico,extra_damage,,WH 04,True,False,False,False
+ancestor_destrezza_mira_di_affondo_wh_05,mira_di_affondo,INTRA_COLLISION(x3),Mira di Affondo,Thrusting Aim,T1,neurologico,extra_damage,,WH 05,True,False,False,False
+ancestor_destrezza_mira_vera_wh_06,mira_vera,,Mira Vera,True Aim,T1,neurologico,extra_damage,,WH 06,True,False,False,False
+ancestor_destrezza_presa_vera_ha_05,presa_vera,,Presa Vera,True Grip,T1,neurologico,extra_damage,,HA 05,True,False,False,False
+ancestor_destrezza_senso_cinestesico_wh_01,senso_cinestesico,INTRA_COLLISION(x2),Senso Cinestesico,Kinesthetic Sense,T1,neurologico,extra_damage,,WH 01,True,False,False,False
+ancestor_destrezza_senso_cinestesico_wh_02,senso_cinestesico,INTRA_COLLISION(x2),Senso Cinestesico,Kinesthetic Sense,T1,neurologico,extra_damage,,WH 02,True,False,False,False
+ancestor_destrezza_spogliazione_al_04,spogliazione,INTRA_COLLISION(x3),Spogliazione,Stripping,T1,neurologico,extra_damage,,AL 04,True,False,False,False
+ancestor_destrezza_spogliazione_al_05,spogliazione,INTRA_COLLISION(x3),Spogliazione,Stripping,T1,neurologico,extra_damage,,AL 05,True,False,False,False
+ancestor_destrezza_spogliazione_al_06,spogliazione,INTRA_COLLISION(x3),Spogliazione,Stripping,T1,neurologico,extra_damage,,AL 06,True,False,False,False
+ancestor_insediamento_bonus_ben_riposato_ne_09,bonus_ben_riposato,INTRA_COLLISION(x2),Bonus Ben Riposato,Well Rested Boost,T1,neurologico,damage_reduction,,NE 09,True,False,False,False
+ancestor_insediamento_bonus_ben_riposato_ne_09_2,bonus_ben_riposato,INTRA_COLLISION(x2),Bonus Ben Riposato,Well Rested Boost,T1,neurologico,damage_reduction,,NE 09-2,True,False,False,False
+ancestor_insediamento_costruzione_ne_01,costruzione,,Costruzione,Building,T1,neurologico,damage_reduction,,NE 01,True,True,False,False
+ancestor_insediamento_efficienza_di_costruzione_ne_02,efficienza_di_costruzione,,Efficienza di Costruzione,Building Efficiency,T1,neurologico,damage_reduction,,NE 02,True,True,False,False
+ancestor_insediamento_recupero_del_sonno_ne_08,recupero_del_sonno,,Recupero del Sonno,Sleep Recovery,T1,neurologico,damage_reduction,,NE 08,True,False,False,False
+ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01,sonno_efficienza_curativa,INTRA_COLLISION(x3),Sonno - Efficienza Curativa,Sleep - Healing Efficiency,T2,neurologico,damage_reduction,,BB NE 01,True,False,False,False
+ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01_2,sonno_efficienza_curativa,INTRA_COLLISION(x3),Sonno - Efficienza Curativa,Sleep - Healing Efficiency,T2,neurologico,damage_reduction,,BB NE 01-2,True,False,False,False
+ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01_3,sonno_efficienza_curativa,INTRA_COLLISION(x3),Sonno - Efficienza Curativa,Sleep - Healing Efficiency,T2,neurologico,damage_reduction,,BB NE 01-3,True,False,False,False
+ancestor_insediamento_sonno_profondo_ne_06,sonno_profondo,INTRA_COLLISION(x2),Sonno Profondo,Deep Sleep,T1,neurologico,damage_reduction,,NE 06,True,False,False,False
+ancestor_insediamento_sonno_profondo_ne_07,sonno_profondo,INTRA_COLLISION(x2),Sonno Profondo,Deep Sleep,T1,neurologico,damage_reduction,,NE 07,True,False,False,False
+ancestor_intelligenza_memoria_a_lungo_termine_bb_in_01,memoria_a_lungo_termine,INTRA_COLLISION(x2),Memoria a Lungo Termine,Long Term Memory,T2,neurologico,apply_status,focused,BB IN 01,True,False,False,False
+ancestor_intelligenza_memoria_a_lungo_termine_bb_in_01_2,memoria_a_lungo_termine,INTRA_COLLISION(x2),Memoria a Lungo Termine,Long Term Memory,T2,neurologico,apply_status,focused,BB IN 01-2,True,False,False,False
+ancestor_intelligenza_memoria_in_01,memoria,,Memoria,Memory,T1,neurologico,apply_status,focused,IN 01,True,False,False,False
+ancestor_intelligenza_orientamento_bb_in_05,orientamento,INTRA_COLLISION(x3),Orientamento,Orientation,T2,neurologico,apply_status,focused,BB IN 05,True,False,False,False
+ancestor_intelligenza_orientamento_bb_in_05_2,orientamento,INTRA_COLLISION(x3),Orientamento,Orientation,T2,neurologico,apply_status,focused,BB IN 05-2,True,False,False,False
+ancestor_intelligenza_orientamento_nello_spazio_bb_in_03,orientamento_nello_spazio,INTRA_COLLISION(x2),Orientamento nello Spazio,Wayfinding,T2,neurologico,apply_status,focused,BB IN 03,True,False,False,False
+ancestor_intelligenza_orientamento_nello_spazio_bb_in_03_2,orientamento_nello_spazio,INTRA_COLLISION(x2),Orientamento nello Spazio,Wayfinding,T2,neurologico,apply_status,focused,BB IN 03-2,True,False,False,False
+ancestor_intelligenza_percezione_spaziale_an_01,percezione_spaziale,INTRA_COLLISION(x3),Percezione Spaziale,Spatial Perception,T1,neurologico,apply_status,focused,AN 01,True,True,False,False
+ancestor_intelligenza_percezione_spaziale_an_03,percezione_spaziale,INTRA_COLLISION(x3),Percezione Spaziale,Spatial Perception,T1,neurologico,apply_status,focused,AN 03,True,False,False,False
+ancestor_intelligenza_percezione_spaziale_an_04,percezione_spaziale,INTRA_COLLISION(x3),Percezione Spaziale,Spatial Perception,T1,neurologico,apply_status,focused,AN 04,True,False,False,False
+ancestor_intelligenza_riconoscimento_delle_forme_an_05,riconoscimento_delle_forme,INTRA_COLLISION(x3),Riconoscimento delle Forme,Form Recognition,T1,neurologico,apply_status,focused,AN 05,True,False,False,False
+ancestor_intelligenza_riconoscimento_delle_forme_an_06,riconoscimento_delle_forme,INTRA_COLLISION(x3),Riconoscimento delle Forme,Form Recognition,T1,neurologico,apply_status,focused,AN 06,True,False,False,False
+ancestor_intelligenza_riconoscimento_delle_forme_an_07,riconoscimento_delle_forme,INTRA_COLLISION(x3),Riconoscimento delle Forme,Form Recognition,T1,neurologico,apply_status,focused,AN 07,True,False,False,False
+ancestor_intelligenza_velocita_di_valutazione_an_02,velocita_di_valutazione,,Velocita' di Valutazione,Evaluation Speed,T1,neurologico,apply_status,focused,AN 02,True,True,False,False
+ancestor_medicina_preventiva_analgesia_si_01,analgesia,,Analgesia,Analgesia,T1,neurologico,damage_reduction,,SI 01,True,False,False,False
+ancestor_medicina_preventiva_efficienza_della_coagulazione_esterna_sb_02,efficienza_della_coagulazione_esterna,INTRA_COLLISION(x2),Efficienza della Coagulazione Esterna,External Clotting Efficiency,T1,neurologico,damage_reduction,,SB 02,True,True,False,False
+ancestor_medicina_preventiva_efficienza_della_coagulazione_esterna_sb_03,efficienza_della_coagulazione_esterna,INTRA_COLLISION(x2),Efficienza della Coagulazione Esterna,External Clotting Efficiency,T1,neurologico,damage_reduction,,SB 03,True,False,False,False
+ancestor_medicina_preventiva_efficienza_delle_endorfine_bb_si_01,efficienza_delle_endorfine,INTRA_COLLISION(x2),Efficienza delle Endorfine,Endorphins Efficiency,T2,neurologico,damage_reduction,,BB SI 01,True,False,False,False
+ancestor_medicina_preventiva_efficienza_delle_endorfine_bb_si_02,efficienza_delle_endorfine,INTRA_COLLISION(x2),Efficienza delle Endorfine,Endorphins Efficiency,T2,neurologico,damage_reduction,,BB SI 02,True,False,False,False
+ancestor_medicina_preventiva_efficienza_vitamina_k_bb_sb_01,efficienza_vitamina_k,INTRA_COLLISION(x2),Efficienza Vitamina K,Vitamin K Efficiency,T2,neurologico,damage_reduction,,BB SB 01,True,False,False,False
+ancestor_medicina_preventiva_efficienza_vitamina_k_bb_sb_02,efficienza_vitamina_k,INTRA_COLLISION(x2),Efficienza Vitamina K,Vitamin K Efficiency,T2,neurologico,damage_reduction,,BB SB 02,True,False,False,False
+ancestor_medicina_preventiva_immunita_alle_tossine_st_01,immunita_alle_tossine,,Immunita' alle Tossine,Toxin Immunity,T1,neurologico,damage_reduction,,ST 01,True,False,False,False
+ancestor_medicina_preventiva_metabolismo_xenobiotico_bb_st_03,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,damage_reduction,,BB ST 03,True,False,False,False
+ancestor_medicina_preventiva_metabolismo_xenobiotico_bb_st_04,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,damage_reduction,,BB ST 04,True,False,False,False
+ancestor_medicina_preventiva_prevenzione_del_trauma_si_02,prevenzione_del_trauma,INTRA_COLLISION(x3),Prevenzione del Trauma,Trauma Prevention,T1,neurologico,damage_reduction,,SI 02,True,False,False,False
+ancestor_medicina_preventiva_prevenzione_del_trauma_si_03,prevenzione_del_trauma,INTRA_COLLISION(x3),Prevenzione del Trauma,Trauma Prevention,T1,neurologico,damage_reduction,,SI 03,True,False,False,False
+ancestor_medicina_preventiva_prevenzione_del_trauma_si_04,prevenzione_del_trauma,INTRA_COLLISION(x3),Prevenzione del Trauma,Trauma Prevention,T1,neurologico,damage_reduction,,SI 04,True,False,False,False
+ancestor_medicina_preventiva_prevenzione_delle_lacerazioni_sb_01,prevenzione_delle_lacerazioni,,Prevenzione delle Lacerazioni,Laceration Prevention,T1,neurologico,damage_reduction,,SB 01,True,True,False,False
+ancestor_medicina_preventiva_resistenza_al_sanguinamento_sb_04,resistenza_al_sanguinamento,INTRA_COLLISION(x2),Resistenza al Sanguinamento,Bleeding Resistance,T1,neurologico,damage_reduction,,SB 04,True,False,False,False
+ancestor_medicina_preventiva_resistenza_al_sanguinamento_sb_05,resistenza_al_sanguinamento,INTRA_COLLISION(x2),Resistenza al Sanguinamento,Bleeding Resistance,T1,neurologico,damage_reduction,,SB 05,True,False,False,False
+ancestor_medicina_preventiva_resistenza_al_trauma_si_05,resistenza_al_trauma,INTRA_COLLISION(x2),Resistenza al Trauma,Trauma Resistance,T1,neurologico,damage_reduction,,SI 05,True,False,False,False
+ancestor_medicina_preventiva_resistenza_al_trauma_si_06,resistenza_al_trauma,INTRA_COLLISION(x2),Resistenza al Trauma,Trauma Resistance,T1,neurologico,damage_reduction,,SI 06,True,False,False,False
+ancestor_medicina_preventiva_resistenza_al_veleno_st_05,resistenza_al_veleno,INTRA_COLLISION(x2),Resistenza al Veleno,Venom Resistance,T1,neurologico,damage_reduction,,ST 05,True,False,False,False
+ancestor_medicina_preventiva_resistenza_al_veleno_st_06,resistenza_al_veleno,INTRA_COLLISION(x2),Resistenza al Veleno,Venom Resistance,T1,neurologico,damage_reduction,,ST 06,True,False,False,False
+ancestor_medicina_preventiva_resistenza_all_avvelenamento_da_cibo_st_10,resistenza_all_avvelenamento_da_cibo,INTRA_COLLISION(x2),Resistenza all'Avvelenamento da Cibo,Food Poisoning Resistance,T1,neurologico,damage_reduction,,ST 10,True,False,False,False
+ancestor_medicina_preventiva_resistenza_all_avvelenamento_da_cibo_st_11,resistenza_all_avvelenamento_da_cibo,INTRA_COLLISION(x2),Resistenza all'Avvelenamento da Cibo,Food Poisoning Resistance,T1,neurologico,damage_reduction,,ST 11,True,False,False,False
+ancestor_medicina_preventiva_resistenza_xenobiotica_bb_st_01,resistenza_xenobiotica,INTRA_COLLISION(x2),Resistenza Xenobiotica,Xenobiotic Resistance,T2,neurologico,damage_reduction,,BB ST 01,True,False,False,False
+ancestor_medicina_preventiva_resistenza_xenobiotica_bb_st_02,resistenza_xenobiotica,INTRA_COLLISION(x2),Resistenza Xenobiotica,Xenobiotic Resistance,T2,neurologico,damage_reduction,,BB ST 02,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_al_veleno_st_02,tolleranza_al_veleno,INTRA_COLLISION(x3),Tolleranza al Veleno,Venom Tolerance,T1,neurologico,damage_reduction,,ST 02,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_al_veleno_st_03,tolleranza_al_veleno,INTRA_COLLISION(x3),Tolleranza al Veleno,Venom Tolerance,T1,neurologico,damage_reduction,,ST 03,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_al_veleno_st_04,tolleranza_al_veleno,INTRA_COLLISION(x3),Tolleranza al Veleno,Venom Tolerance,T1,neurologico,damage_reduction,,ST 04,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_07,tolleranza_all_avvelenamento_da_cibo,INTRA_COLLISION(x3),Tolleranza all'Avvelenamento da Cibo,Food Poisoning Tolerance,T1,neurologico,damage_reduction,,ST 07,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_08,tolleranza_all_avvelenamento_da_cibo,INTRA_COLLISION(x3),Tolleranza all'Avvelenamento da Cibo,Food Poisoning Tolerance,T1,neurologico,damage_reduction,,ST 08,True,False,False,False
+ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_09,tolleranza_all_avvelenamento_da_cibo,INTRA_COLLISION(x3),Tolleranza all'Avvelenamento da Cibo,Food Poisoning Tolerance,T1,neurologico,damage_reduction,,ST 09,True,False,False,False
+ancestor_medicina_terapeutica_detossificazione_metabolica_ct_01,detossificazione_metabolica,,Detossificazione Metabolica,Metabolic Detoxification,T1,neurologico,apply_status,healing,CT 01,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_del_sollievo_dal_trauma_ci_05,efficienza_del_sollievo_dal_trauma,,Efficienza del Sollievo dal Trauma,Trauma Relief Efficiency,T1,neurologico,apply_status,healing,CI 05,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_della_coagulazione_interna_cb_02,efficienza_della_coagulazione_interna,INTRA_COLLISION(x2),Efficienza della Coagulazione Interna,Internal Clotting Efficiency,T1,neurologico,apply_status,healing,CB 02,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_della_coagulazione_interna_cb_03,efficienza_della_coagulazione_interna,INTRA_COLLISION(x2),Efficienza della Coagulazione Interna,Internal Clotting Efficiency,T1,neurologico,apply_status,healing,CB 03,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_della_detossificazione_ct_08,efficienza_della_detossificazione,,Efficienza della Detossificazione,Detoxification Efficiency,T1,neurologico,apply_status,healing,CT 08,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_01,efficienza_idratazione_detossificazione,INTRA_COLLISION(x3),Efficienza Idratazione-Detossificazione,Hydration-Detoxification Efficiency,T2,neurologico,apply_status,healing,BB CT 01,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_02,efficienza_idratazione_detossificazione,INTRA_COLLISION(x3),Efficienza Idratazione-Detossificazione,Hydration-Detoxification Efficiency,T2,neurologico,apply_status,healing,BB CT 02,True,False,False,False
+ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_03,efficienza_idratazione_detossificazione,INTRA_COLLISION(x3),Efficienza Idratazione-Detossificazione,Hydration-Detoxification Efficiency,T2,neurologico,apply_status,healing,BB CT 03,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_05,eliminazione_del_cibo_avvelenato,INTRA_COLLISION(x3),Eliminazione del Cibo Avvelenato,Food Poison Elimination,T1,neurologico,apply_status,healing,CT 05,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_06,eliminazione_del_cibo_avvelenato,INTRA_COLLISION(x3),Eliminazione del Cibo Avvelenato,Food Poison Elimination,T1,neurologico,apply_status,healing,CT 06,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_07,eliminazione_del_cibo_avvelenato,INTRA_COLLISION(x3),Eliminazione del Cibo Avvelenato,Food Poison Elimination,T1,neurologico,apply_status,healing,CT 07,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_02,eliminazione_del_veleno,INTRA_COLLISION(x3),Eliminazione del Veleno,Venom Elimination,T1,neurologico,apply_status,healing,CT 02,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_03,eliminazione_del_veleno,INTRA_COLLISION(x3),Eliminazione del Veleno,Venom Elimination,T1,neurologico,apply_status,healing,CT 03,True,False,False,False
+ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_04,eliminazione_del_veleno,INTRA_COLLISION(x3),Eliminazione del Veleno,Venom Elimination,T1,neurologico,apply_status,healing,CT 04,True,False,False,False
+ancestor_medicina_terapeutica_guarigione_delle_ferite_ci_01,guarigione_delle_ferite,,Guarigione delle Ferite,Healing Injury,T1,neurologico,apply_status,healing,CI 01,True,False,False,False
+ancestor_medicina_terapeutica_metabolismo_xenobiotico_bb_ct_04,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,apply_status,healing,BB CT 04,True,False,False,False
+ancestor_medicina_terapeutica_metabolismo_xenobiotico_bb_ct_05,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,apply_status,healing,BB CT 05,True,False,False,False
+ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_02,sollievo_dal_trauma,INTRA_COLLISION(x3),Sollievo dal Trauma,Trauma Relief,T1,neurologico,apply_status,healing,CI 02,True,False,False,False
+ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_03,sollievo_dal_trauma,INTRA_COLLISION(x3),Sollievo dal Trauma,Trauma Relief,T1,neurologico,apply_status,healing,CI 03,True,False,False,False
+ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_04,sollievo_dal_trauma,INTRA_COLLISION(x3),Sollievo dal Trauma,Trauma Relief,T1,neurologico,apply_status,healing,CI 04,True,False,False,False
+ancestor_medicina_terapeutica_tolleranza_alle_lacerazioni_cb_01,tolleranza_alle_lacerazioni,,Tolleranza alle Lacerazioni,Laceration Tolerance,T1,neurologico,apply_status,healing,CB 01,True,False,False,False
+ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_01,tolleranza_dei_nocicettori,INTRA_COLLISION(x3),Tolleranza dei Nocicettori,Nociceptors Tolerance,T2,neurologico,apply_status,healing,BB CI 01,True,False,False,False
+ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_02,tolleranza_dei_nocicettori,INTRA_COLLISION(x3),Tolleranza dei Nocicettori,Nociceptors Tolerance,T2,neurologico,apply_status,healing,BB CI 02,True,False,False,False
+ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_03,tolleranza_dei_nocicettori,INTRA_COLLISION(x3),Tolleranza dei Nocicettori,Nociceptors Tolerance,T2,neurologico,apply_status,healing,BB CI 03,True,False,False,False
+ancestor_metabolismo_abilita_analettica_me_02,abilita_analettica,,Abilita' Analettica,Analeptic Ability,T1,neurologico,apply_status,fed,ME 02,True,True,False,False
+ancestor_metabolismo_abilita_profilattica_me_01,abilita_profilattica,,Abilita' Profilattica,Prophylactic Ability,T1,neurologico,apply_status,fed,ME 01,True,True,False,False
+ancestor_metabolismo_assorbimento_dei_nutrienti_bb_me_01,assorbimento_dei_nutrienti,INTRA_COLLISION(x2),Assorbimento dei Nutrienti,Nutrient Absorption,T2,neurologico,apply_status,fed,BB ME 01,True,False,False,False
+ancestor_metabolismo_assorbimento_dei_nutrienti_bb_me_02,assorbimento_dei_nutrienti,INTRA_COLLISION(x2),Assorbimento dei Nutrienti,Nutrient Absorption,T2,neurologico,apply_status,fed,BB ME 02,True,False,False,False
+ancestor_motricita_abilita_motoria_ms_01,abilita_motoria,,Abilita' Motoria,Motor Skill,T1,neurologico,buff_stat,,MS 01,True,True,False,False
+ancestor_motricita_anabolismo_bb_wa_01,anabolismo,,Anabolismo,Anabolism,T2,neurologico,buff_stat,,BB WA 01,True,False,False,False
+ancestor_motricita_anabolismo_idrico_bb_wa_05,anabolismo_idrico,INTRA_COLLISION(x2),Anabolismo Idrico,Anabolism-Water,T2,neurologico,buff_stat,,BB WA 05,True,False,False,False
+ancestor_motricita_anabolismo_idrico_bb_wa_09,anabolismo_idrico,INTRA_COLLISION(x2),Anabolismo Idrico,Anabolism-Water,T2,neurologico,buff_stat,,BB WA 09,True,False,False,False
+ancestor_motricita_bipedismo_bi_01,bipedismo,,Bipedismo,Bipedalism,T1,neurologico,buff_stat,,BI 01,True,True,False,False
+ancestor_motricita_controllo_della_stabilita_bb_wa_06,controllo_della_stabilita,INTRA_COLLISION(x2),Controllo della Stabilita',Stability Control,T2,neurologico,buff_stat,,BB WA 06,True,False,False,False
+ancestor_motricita_controllo_della_stabilita_bb_wa_07,controllo_della_stabilita,INTRA_COLLISION(x2),Controllo della Stabilita',Stability Control,T2,neurologico,buff_stat,,BB WA 07,True,False,False,False
+ancestor_motricita_equilibrio_posturale_wa_11,equilibrio_posturale,INTRA_COLLISION(x2),Equilibrio Posturale,Postural Balance,T1,neurologico,buff_stat,,WA 11,True,False,False,False
+ancestor_motricita_equilibrio_posturale_wa_12,equilibrio_posturale,INTRA_COLLISION(x2),Equilibrio Posturale,Postural Balance,T1,neurologico,buff_stat,,WA 12,True,False,False,False
+ancestor_motricita_equilibriocezione_wa_02,equilibriocezione,,Equilibriocezione,Equilibrioception,T1,neurologico,buff_stat,,WA 02,True,False,False,False
+ancestor_motricita_forza_degli_arti_inferiori_bb_wa_04,forza_degli_arti_inferiori,INTRA_COLLISION(x3),Forza degli Arti Inferiori,Lower Body Strength,T2,neurologico,buff_stat,,BB WA 04,True,False,False,False
+ancestor_motricita_forza_degli_arti_superiori_bb_wa_08,forza_degli_arti_superiori,,Forza degli Arti Superiori,Upper Body Strength,T2,neurologico,buff_stat,,BB WA 08,True,False,False,False
+ancestor_motricita_orientamento_bb_wa_03,orientamento,INTRA_COLLISION(x3),Orientamento,Orientation,T2,neurologico,buff_stat,,BB WA 03,True,False,False,False
+ancestor_motricita_ortostasi_contestuale_wa_01,ortostasi_contestuale,,Ortostasi Contestuale,Contextual Orthostatis,T1,neurologico,buff_stat,,WA 01,True,False,False,False
+ancestor_motricita_ortostasi_e_sensi_wa_00,ortostasi_e_sensi,,Ortostasi e Sensi,Orthostasis & Senses,T1,neurologico,buff_stat,,WA 00,True,False,False,False
+ancestor_motricita_propriocezione_wa_03,propriocezione,COLLIDES_EXISTING_NATIVE,Propriocezione,Proprioception,T1,neurologico,buff_stat,,WA 03,True,False,False,False
+ancestor_motricita_risposta_acuta_allo_stress_ms_02,risposta_acuta_allo_stress,,Risposta Acuta allo Stress,Acute Stress Response,T1,neurologico,buff_stat,,MS 02,True,False,False,False
+ancestor_motricita_sistema_vestibolare_wa_05,sistema_vestibolare,,Sistema Vestibolare,Vestibular System,T1,neurologico,buff_stat,,WA 05,True,False,False,False
+ancestor_motricita_stabilita_medio_laterale_wa_09,stabilita_medio_laterale,,Stabilita' Medio-Laterale,Medial-Lateral Stability,T1,neurologico,buff_stat,,WA 09,True,False,False,False
+ancestor_motricita_velocita_bb_wa_02,velocita,,Velocita',Speed,T2,neurologico,buff_stat,,BB WA 02,True,False,False,False
+ancestor_nuoto_forza_di_bracciata_bb_sw_01,forza_di_bracciata,INTRA_COLLISION(x2),Forza di Bracciata,Stroke Force,T2,neurologico,buff_stat,,BB SW 01,True,False,False,False
+ancestor_nuoto_forza_di_bracciata_bb_sw_01_2,forza_di_bracciata,INTRA_COLLISION(x2),Forza di Bracciata,Stroke Force,T2,neurologico,buff_stat,,BB SW 01-2,True,False,False,False
+ancestor_nuoto_idrodinamica_sw_03,idrodinamica,,Idrodinamica,Hydro-Dynamics,T1,neurologico,buff_stat,,SW 03,True,False,False,False
+ancestor_nuoto_locomozione_acquatica_sw_01,locomozione_acquatica,,Locomozione Acquatica,Aquatic Locomotion,T1,neurologico,buff_stat,,SW 01,True,True,False,False
+ancestor_nuoto_resistenza_al_nuoto_sw_02,resistenza_al_nuoto,,Resistenza al Nuoto,Swim Endurance,T1,neurologico,buff_stat,,SW 02,True,True,False,False
+ancestor_onnivoro_acclimatazione_ai_funghi_eumycota_om_01,acclimatazione_ai_funghi_eumycota,INTRA_COLLISION(x2),Acclimatazione ai Funghi (Eumycota),Eumycota Food Acclimatization,T1,neurologico,apply_status,fed,OM 01,True,False,False,False
+ancestor_onnivoro_acclimatazione_ai_funghi_eumycota_om_02,acclimatazione_ai_funghi_eumycota,INTRA_COLLISION(x2),Acclimatazione ai Funghi (Eumycota),Eumycota Food Acclimatization,T1,neurologico,apply_status,fed,OM 02,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_dei_mammiferi_om_07,acclimatazione_al_cibo_dei_mammiferi,INTRA_COLLISION(x2),Acclimatazione al Cibo dei Mammiferi,Mammal Food Acclimatization,T1,neurologico,apply_status,fed,OM 07,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_dei_mammiferi_om_08,acclimatazione_al_cibo_dei_mammiferi,INTRA_COLLISION(x2),Acclimatazione al Cibo dei Mammiferi,Mammal Food Acclimatization,T1,neurologico,apply_status,fed,OM 08,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_oviparo_om_05,acclimatazione_al_cibo_oviparo,INTRA_COLLISION(x2),Acclimatazione al Cibo Oviparo,Oviparous Food Acclimatization,T1,neurologico,apply_status,fed,OM 05,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_oviparo_om_06,acclimatazione_al_cibo_oviparo,INTRA_COLLISION(x2),Acclimatazione al Cibo Oviparo,Oviparous Food Acclimatization,T1,neurologico,apply_status,fed,OM 06,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_zigotico_om_03,acclimatazione_al_cibo_zigotico,INTRA_COLLISION(x2),Acclimatazione al Cibo Zigotico,Zygote Food Acclimatization,T1,neurologico,apply_status,fed,OM 03,True,False,False,False
+ancestor_onnivoro_acclimatazione_al_cibo_zigotico_om_04,acclimatazione_al_cibo_zigotico,INTRA_COLLISION(x2),Acclimatazione al Cibo Zigotico,Zygote Food Acclimatization,T1,neurologico,apply_status,fed,OM 04,True,False,False,False
+ancestor_onnivoro_metabolismo_xenobiotico_bb_om_01,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,apply_status,fed,BB OM 01,True,False,False,False
+ancestor_onnivoro_metabolismo_xenobiotico_bb_om_02,metabolismo_xenobiotico,INTRA_COLLISION(x6),Metabolismo Xenobiotico,Xenobiotic Metabolism,T2,neurologico,apply_status,fed,BB OM 02,True,False,False,False
+ancestor_onnivoro_onnivoro_om_09,onnivoro,,Onnivoro,Omnivorous,T1,neurologico,apply_status,fed,OM 09,True,False,False,False
+ancestor_orrorin_tugenensis_aspettativa_di_vita_lf_01,aspettativa_di_vita,INTRA_COLLISION(x3),Aspettativa di Vita,Life Expectancy,T1,neurologico,apply_status,fed,LF 01,True,False,False,False
+ancestor_orrorin_tugenensis_controllo_attentivo_cc_02,controllo_attentivo,,Controllo Attentivo,Attentional Control,T1,neurologico,damage_reduction,,CC 02,True,True,False,False
+ancestor_orrorin_tugenensis_controllo_cognitivo_cc_01,controllo_cognitivo,,Controllo Cognitivo,Cognitive Control,T1,neurologico,apply_status,focused,CC 01,True,True,False,False
+ancestor_orrorin_tugenensis_encefalizzazione_np_01,encefalizzazione,INTRA_COLLISION(x3),Encefalizzazione,Encephalization,T1,neurologico,apply_status,fed,NP 01,True,False,False,False
+ancestor_orrorin_tugenensis_via_mesocorticale_dp_01,via_mesocorticale,,Via Mesocorticale,Mesocortical Pathway,T1,neurologico,damage_reduction,,DP 01,True,False,False,False
+ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_02,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 02,True,False,False,False
+ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_03,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 03,True,False,False,False
+ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_04,vie_dopaminergiche,INTRA_COLLISION(x10),Vie Dopaminergiche,Dopaminergic Pathways,T1,neurologico,damage_reduction,,DP 04,True,False,False,False
+ancestor_schivata_atarassia_do_06,atarassia,,Atarassia,Ataraxia,T1,neurologico,apply_status,focused,DO 06,True,False,False,True
+ancestor_schivata_azione_evasiva_bb_do_03,azione_evasiva,INTRA_COLLISION(x3),Azione Evasiva,Evasive Action,T1,neurologico,damage_reduction,,BB DO 03,True,False,False,True
+ancestor_schivata_azione_evasiva_do_02,azione_evasiva,INTRA_COLLISION(x3),Azione Evasiva,Evasive Action,T1,neurologico,damage_reduction,,DO 02,True,True,True,True
+ancestor_schivata_azione_evasiva_do_04,azione_evasiva,INTRA_COLLISION(x3),Azione Evasiva,Evasive Action,T1,neurologico,damage_reduction,,DO 04,True,False,False,True
+ancestor_schivata_preservazione_di_gruppo_do_07,preservazione_di_gruppo,,Preservazione di Gruppo,Group Preservation,T1,neurologico,damage_reduction,,DO 07,True,False,False,True
+ancestor_schivata_riflesso_di_ritiro_do_05,riflesso_di_ritiro,,Riflesso di Ritiro,Withdrawal Reflex,T1,neurologico,damage_reduction,,DO 05,True,False,False,True
+ancestor_schivata_risposta_di_fuga_do_01,risposta_di_fuga,,Risposta di Fuga,Flee Response,T1,neurologico,damage_reduction,,DO 01,True,True,False,True
+ancestor_schivata_via_infundibolare_bb_do_01,via_infundibolare,,Via Infundibolare,Infundibular Pathway,T2,neurologico,apply_status,focused,BB DO 01-03,True,False,False,True
+ancestor_sensi_acuita_chemorecettiva_so_02,acuita_chemorecettiva,,Acuita' Chemorecettiva,Chemoreceptor Acuity,T1,neurologico,apply_status,focused,SO 02,True,False,False,False
+ancestor_sensi_chemotopia_delle_minacce_so_13,chemotopia_delle_minacce,INTRA_COLLISION(x3),Chemotopia delle Minacce,Threat Chemotopy,T1,neurologico,apply_status,focused,SO 13,True,False,False,False
+ancestor_sensi_chemotopia_delle_minacce_so_14,chemotopia_delle_minacce,INTRA_COLLISION(x3),Chemotopia delle Minacce,Threat Chemotopy,T1,neurologico,apply_status,focused,SO 14,True,False,False,False
+ancestor_sensi_chemotopia_delle_minacce_so_15,chemotopia_delle_minacce,INTRA_COLLISION(x3),Chemotopia delle Minacce,Threat Chemotopy,T1,neurologico,apply_status,focused,SO 15,True,False,False,False
+ancestor_sensi_chemotopia_odoranti_so_09,chemotopia_odoranti,INTRA_COLLISION(x4),Chemotopia Odoranti,Odorant Chemotopy,T1,neurologico,apply_status,focused,SO 09,True,False,False,False
+ancestor_sensi_chemotopia_odoranti_so_10,chemotopia_odoranti,INTRA_COLLISION(x4),Chemotopia Odoranti,Odorant Chemotopy,T1,neurologico,apply_status,focused,SO 10,True,False,False,False
+ancestor_sensi_chemotopia_odoranti_so_11,chemotopia_odoranti,INTRA_COLLISION(x4),Chemotopia Odoranti,Odorant Chemotopy,T1,neurologico,apply_status,focused,SO 11,True,False,False,False
+ancestor_sensi_chemotopia_odoranti_so_12,chemotopia_odoranti,INTRA_COLLISION(x4),Chemotopia Odoranti,Odorant Chemotopy,T1,neurologico,apply_status,focused,SO 12,True,False,False,False
+ancestor_sensi_consapevolezza_sonora_ss_10,consapevolezza_sonora,INTRA_COLLISION(x3),Consapevolezza Sonora,Sound Awareness,T1,neurologico,apply_status,focused,SS 10,True,False,False,False
+ancestor_sensi_consapevolezza_sonora_ss_10_2,consapevolezza_sonora,INTRA_COLLISION(x3),Consapevolezza Sonora,Sound Awareness,T1,neurologico,apply_status,focused,SS 10-2,True,False,False,False
+ancestor_sensi_consapevolezza_sonora_ss_10_3,consapevolezza_sonora,INTRA_COLLISION(x3),Consapevolezza Sonora,Sound Awareness,T1,neurologico,apply_status,focused,SS 10-3,True,False,False,False
+ancestor_sensi_differenza_temporale_interaurale_ss_02,differenza_temporale_interaurale,INTRA_COLLISION(x3),Differenza Temporale Interaurale,Interaural Time Difference,T1,neurologico,apply_status,focused,SS 02,True,False,False,False
+ancestor_sensi_differenza_temporale_interaurale_ss_03,differenza_temporale_interaurale,INTRA_COLLISION(x3),Differenza Temporale Interaurale,Interaural Time Difference,T1,neurologico,apply_status,focused,SS 03,True,False,False,False
+ancestor_sensi_differenza_temporale_interaurale_ss_04,differenza_temporale_interaurale,INTRA_COLLISION(x3),Differenza Temporale Interaurale,Interaural Time Difference,T1,neurologico,apply_status,focused,SS 04,True,False,False,False
+ancestor_sensi_identificazione_odoranti_so_06,identificazione_odoranti,INTRA_COLLISION(x2),Identificazione Odoranti,Odorant Identification,T1,neurologico,apply_status,focused,SO 06,True,False,False,False
+ancestor_sensi_identificazione_odoranti_so_07,identificazione_odoranti,INTRA_COLLISION(x2),Identificazione Odoranti,Odorant Identification,T1,neurologico,apply_status,focused,SO 07,True,False,False,False
+ancestor_sensi_localizzazione_delle_minacce_so_03,localizzazione_delle_minacce,INTRA_COLLISION(x2),Localizzazione delle Minacce,Threat Localization,T1,neurologico,apply_status,focused,SO 03,True,False,False,False
+ancestor_sensi_localizzazione_delle_minacce_so_04,localizzazione_delle_minacce,INTRA_COLLISION(x2),Localizzazione delle Minacce,Threat Localization,T1,neurologico,apply_status,focused,SO 04,True,False,False,False
+ancestor_sensi_localizzazione_sonora_ss_01,localizzazione_sonora,,Localizzazione Sonora,Sound Localization,T1,neurologico,apply_status,focused,SS 01,True,False,False,False
+ancestor_sensi_memoria_ecoica_bb_ss_01,memoria_ecoica,INTRA_COLLISION(x2),Memoria Ecoica,Echoic Memory,T2,neurologico,apply_status,focused,BB SS 01,True,False,False,False
+ancestor_sensi_memoria_ecoica_bb_ss_01_2,memoria_ecoica,INTRA_COLLISION(x2),Memoria Ecoica,Echoic Memory,T2,neurologico,apply_status,focused,BB SS 01-2,True,False,False,False
+ancestor_sensi_memoria_iconica_bb_sx_01_2,memoria_iconica,INTRA_COLLISION(x2),Memoria Iconica,Iconic Memory,T2,neurologico,apply_status,focused,BB SX 01-2,True,False,False,False
+ancestor_sensi_memoria_iconica_bb_sx_01_4,memoria_iconica,INTRA_COLLISION(x2),Memoria Iconica,Iconic Memory,T2,neurologico,apply_status,focused,BB SX 01-4,True,False,False,False
+ancestor_sensi_memoria_olfattiva_bb_sx_01,memoria_olfattiva,INTRA_COLLISION(x2),Memoria Olfattiva,Olfactory Memory,T2,neurologico,apply_status,focused,BB SX 01,True,False,False,False
+ancestor_sensi_memoria_olfattiva_bb_sx_01_3,memoria_olfattiva,INTRA_COLLISION(x2),Memoria Olfattiva,Olfactory Memory,T2,neurologico,apply_status,focused,BB SX 01-3,True,False,False,False
+ancestor_sensi_memoria_sensoriale_sx_01,memoria_sensoriale,INTRA_COLLISION(x3),Memoria Sensoriale,Sensory Memory,T1,neurologico,apply_status,focused,SX 01,True,False,False,False
+ancestor_sensi_memoria_sensoriale_sx_02,memoria_sensoriale,INTRA_COLLISION(x3),Memoria Sensoriale,Sensory Memory,T1,neurologico,apply_status,focused,SX 02,True,False,False,False
+ancestor_sensi_memoria_sensoriale_sx_03,memoria_sensoriale,INTRA_COLLISION(x3),Memoria Sensoriale,Sensory Memory,T1,neurologico,apply_status,focused,SX 03,True,False,False,False
+ancestor_sensi_olfatto_so_01,olfatto,,Olfatto,Olfaction,T1,neurologico,apply_status,focused,SO 01,True,True,False,False
+ancestor_sensi_percezione_se_01,percezione,,Percezione,Perception,T1,neurologico,apply_status,focused,SE 01,True,True,False,False
+ancestor_sensi_rilevamento_sonoro_ss_06,rilevamento_sonoro,INTRA_COLLISION(x3),Rilevamento Sonoro,Sound Detection,T1,neurologico,apply_status,focused,SS 06,True,False,False,False
+ancestor_sensi_rilevamento_sonoro_ss_07,rilevamento_sonoro,INTRA_COLLISION(x3),Rilevamento Sonoro,Sound Detection,T1,neurologico,apply_status,focused,SS 07,True,False,False,False
+ancestor_sensi_rilevamento_sonoro_ss_08,rilevamento_sonoro,INTRA_COLLISION(x3),Rilevamento Sonoro,Sound Detection,T1,neurologico,apply_status,focused,SS 08,True,False,False,False
+ancestor_sensi_velocita_di_localizzazione_sonora_ss_05,velocita_di_localizzazione_sonora,INTRA_COLLISION(x2),Velocita' di Localizzazione Sonora,Sound Localization Speed,T1,neurologico,apply_status,focused,SS 05,True,False,False,False
+ancestor_sensi_velocita_di_localizzazione_sonora_ss_09,velocita_di_localizzazione_sonora,INTRA_COLLISION(x2),Velocita' di Localizzazione Sonora,Sound Localization Speed,T1,neurologico,apply_status,focused,SS 09,True,False,False,False
+ancestor_sensi_velocita_di_trasduzione_sensoriale_so_05,velocita_di_trasduzione_sensoriale,INTRA_COLLISION(x2),Velocita' di Trasduzione Sensoriale,Sensory Transduction Speed,T1,neurologico,apply_status,focused,SO 05,True,False,False,False
+ancestor_sensi_velocita_di_trasduzione_sensoriale_so_08,velocita_di_trasduzione_sensoriale,INTRA_COLLISION(x2),Velocita' di Trasduzione Sensoriale,Sensory Transduction Speed,T1,neurologico,apply_status,focused,SO 08,True,False,False,False

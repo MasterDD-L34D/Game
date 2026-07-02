@@ -1,0 +1,9 @@
+Mode: archive-less (03A/03B) — tar/zip dismessi
+Inventory: reports/backups/2025-11-29T0525Z_freeze_03A-03B/inventory.md
+Components:
+- docs/planning/REF_CORE_DERIVED_MATRIX.md — SHA256 364e642861bc4a5b61a345aafb853275bfe2bb74263b2046fa5db7a7f8158946
+- reports/redirects/redirect-smoke-staging.json — baseline redirect smoke (PASS atteso)
+- logs/agent_activity.md — log operativo con policy archive-less
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-12-05T12:00Z (policy update → verificare hash testo + smoke; nessun download archivi)
+Restore: rinfrescare gli asset testuali sopra, rieseguire smoke/validator e loggare in logs/agent_activity.md; notificare ticket #1203/#1206 con riferimento a inventory.md

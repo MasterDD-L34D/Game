@@ -1,0 +1,135 @@
+.venv/
+dist/
+dist.*
+docs/presentations/showcase/dist/
+logs/qa/
+logs/visual_runs/
+logs/visual_baseline/
+# Validator pipeline run artifacts
+logs/TKT-02A-VALIDATOR*.log
+logs/audit-bundle.tar.gz
+logs/03A.log
+logs/03B.log
+logs/freeze.log
+logs/pipeline_preparations.log
+logs/restart.log
+logs/transizione.log
+logs/unfreeze.log
+node_modules/
+data/idea_engine.db
+
+# Pipeline orchestrator outputs
+logs/pipeline_status.log
+logs/audit-bundle.tar.gz
+logs/*.log
+
+# Python bytecode caches
+__pycache__/
+
+# 2026-05-20 L-071 — Godot HTML5 phone build artifacts leak to backend/public/ root.
+# deploy-quick.sh mounts Game-Godot-v2/dist/web to apps/backend/public/phone/ but
+# some pipeline variants drop files at public/ root. Prevent accidental commit.
+# Ref: docs/playtest/2026-05-20-method-ABCF-smoke-results.md §"Bonus discovery L-071".
+apps/backend/public/index.html
+apps/backend/public/index.js
+apps/backend/public/index.wasm
+apps/backend/public/index.pck
+apps/backend/public/index.png
+apps/backend/public/index.icon.png
+apps/backend/public/index.apple-touch-icon.png
+apps/backend/public/index.audio.worklet.js
+apps/backend/public/index.audio.position.worklet.js
+apps/backend/public/index.*.import
+
+# Generated UI artifacts
+logs/tooling/*.png
+
+# Generated analytics outputs
+reports/trait_balance/*.png
+# Derived checksum reports (CI artifacts)
+reports/derived_checksums/
+# Generated trait style reports
+reports/trait_style/
+logs/monthly_trait_maintenance/trait_style_*.json
+.cache/gh-cli/
+logs/monthly_trait_maintenance/trait_style_*.md
+# Backup archives (tracked off-repo)
+reports/backups/**/*.tar.gz
+reports/backups/**/*.tgz
+reports/backups/**/*.zip
+!reports/backups/**/README.md
+.local/
+.docker-prisma-bootstrapped
+
+# Claude Code per-user whitelist (auto-aggiornato dai hook)
+.claude/settings.local.json
+
+# Biodiversity bundle build artifact (Sprint v3.5)
+out/bio/
+
+# Claude Code sub-worktrees (local dev state, non da committare)
+.claude/worktrees/
+
+# Python venv artifact (creati da pip install side effect su Windows)
+Lib/
+scripts/pip*.exe
+
+# Backend runtime artifacts (log audit, snapshot di stato)
+apps/backend/logs/
+reports/status.json
+
+# flint drift snapshot -- generated on-demand by tools/py/flint_status_stdlib.py,
+# no code consumer, not docs_registry-tracked. Regenerate locally, do not commit.
+docs/flint-status.json
+
+# Playtest session event streams raw (rigenerati da ogni run, non servono in VCS)
+# I report analitici (.md) restano tracciati.
+logs/session_*.json
+
+# Backup spurious dei tool ACL (vedi #1347)
+.git_acl_backup_*.txt
+
+# Backup file dei dataset (creati da test runs, vedi #1341)
+*.bak
+data/flow-shell/*.bak
+
+# Setup backlog logs (rigenerati da scripts/setup_*.sh, vedi #1345)
+reports/setup_backlog_*.log
+logs/telemetry_*.jsonl
+.pytest_cache/
+# Skiv ticket #7 — unit diary persistence (runtime, not committed)
+data/derived/unit_diaries/
+# SPEC-Q M-7 — per-branco chronicle (runtime, not committed)
+data/derived/chronicles/
+
+# Repo-local tools (ngrok official ZIP, etc) - installed per-PC, NOT committed
+.tools/
+
+# Local secrets — AUTH_SECRET et al, populated by deploy-quick.sh / setup-once.sh.
+# Canonical secret path is ~/.config/api-keys/keys.env (vedi CLAUDE.md API Keys section).
+# Game/.env locale OK ma NON committable per evitare AUTH_SECRET / token leak.
+.env
+.env.local
+.env.*.local
+
+# Phone HTML5 build artifacts (mounted by deploy-quick.sh from Game-Godot-v2/dist/web)
+apps/backend/public/phone/
+# Suffixed Godot web-export variants (phone-k05, etc.) -- same wasm/pck artifact, build-only
+apps/backend/public/phone-*/
+
+# Cloudflare Tunnel deploy logs
+.deploy-logs/
+
+# 2026-05-21 staging-writer fix (issue #2356) -- ephemeral calibration candidate
+data/core/balance/damage_curves.staging.yaml
+
+# G2 P4 auto-ratify provenance sidecars (run artifacts; the prod write is the SoT).
+data/core/balance/ratify-provenance/
+
+# Playtest parallel-hardcore run artifacts (raw shards/streams/logs).
+# Historical runs already committed stay tracked; this stops NEW runs from
+# cluttering git status. To intentionally keep a run: git add -f.
+docs/playtest/parallel-hardcore_*
+# PE_ratio multi-policy re-run scratch (corpora/logs/driver; seed-pinned, regenerable --
+# see docs/playtest/2026-06-23-pe-contestedness-multipolicy-n40.md reproduce section).
+docs/playtest/_*

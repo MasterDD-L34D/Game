@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="120" height="80" aria-label="Skiv hatchling — Cucciolo delle Dune">
+  <defs>
+    <radialGradient id="sandBg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f4e4c1"/>
+      <stop offset="100%" stop-color="#d4b896"/>
+    </radialGradient>
+    <linearGradient id="bodyHatch" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a08560"/>
+      <stop offset="100%" stop-color="#7a6240"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="80" fill="url(#sandBg)"/>
+  <!-- ground shadow -->
+  <ellipse cx="60" cy="68" rx="28" ry="3" fill="#000" opacity="0.18"/>
+  <!-- tail -->
+  <path d="M 30 56 Q 18 50 12 58 Q 14 52 22 50 Q 32 50 38 54 Z" fill="url(#bodyHatch)" stroke="#5a4a2f" stroke-width="0.8"/>
+  <!-- body small -->
+  <ellipse cx="60" cy="56" rx="22" ry="11" fill="url(#bodyHatch)" stroke="#5a4a2f" stroke-width="0.8"/>
+  <!-- legs (small, 4 stubs) -->
+  <ellipse cx="48" cy="65" rx="3" ry="4" fill="#7a6240"/>
+  <ellipse cx="72" cy="65" rx="3" ry="4" fill="#7a6240"/>
+  <!-- head -->
+  <ellipse cx="84" cy="52" rx="10" ry="8" fill="url(#bodyHatch)" stroke="#5a4a2f" stroke-width="0.8"/>
+  <!-- eye big curious -->
+  <circle cx="88" cy="50" r="2.4" fill="#1a1a1a"/>
+  <circle cx="88.5" cy="49.5" r="0.7" fill="#fff"/>
+  <!-- mouth -->
+  <path d="M 90 54 Q 92 55 93 54" stroke="#3a2818" stroke-width="0.6" fill="none"/>
+  <!-- hatchling label -->
+  <text x="60" y="14" text-anchor="middle" fill="#5a4a2f" font-family="monospace" font-size="9" font-weight="bold">CUCCIOLO</text>
+  <text x="60" y="76" text-anchor="middle" fill="#7a6240" font-family="monospace" font-size="6" font-style="italic">"Dove sono gli altri?"</text>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "schema_version": "2.0",
+  "id": "aculei_velenosi",
+  "label": "i18n:traits.aculei_velenosi.label",
+  "famiglia_tipologia": "Fisiologico/Morfologia",
+  "fattore_mantenimento_energetico": "Basso (passivo)",
+  "tier": "T1",
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "morfologia"
+  },
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.aculei_velenosi.mutazione_indotta",
+  "uso_funzione": "i18n:traits.aculei_velenosi.uso_funzione",
+  "spinta_selettiva": "i18n:traits.aculei_velenosi.spinta_selettiva",
+  "data_origin": "gap1_salvage_2026_06_22",
+  "completion_flags": {
+    "design_stub": true
+  }
+}

@@ -1,0 +1,101 @@
+# =============================================================================
+# Difficulty Configuration — SoT §15.4 formula-driven
+# Risolve A3 (difficulty integration). DATA ONLY, no code.
+# Schema: schemas/evo/difficulty.schema.json
+# =============================================================================
+
+version: 1
+updated: '2026-04-17'
+
+# Formula riferimento (SoT §15.4):
+#   raw_score   = (enemy_count × avg_enemy_tier) + terrain_penalty + hazard_count × 2
+#   biome_mult  = biomes[biome_id].difficulty_base  (da biomes.yaml, default 1.0)
+#   objective_mult = objective_multipliers[objective.type]
+#   difficulty_rating = clamp(raw_score × biome_mult × objective_mult, 1, 5)
+
+# ---------------------------------------------------------------------------
+# Tier weights — costi per creature tier
+# ---------------------------------------------------------------------------
+tier_weights:
+  base: 1.0
+  elite: 2.0
+  apex: 4.0
+
+# ---------------------------------------------------------------------------
+# Terrain penalty — somma di penalità terrain sulle celle
+# ---------------------------------------------------------------------------
+terrain_penalty_per_cell:
+  difficult_terrain: 0.1
+  hazard_tile: 0.3
+  elevation_plus_1: 0.15
+  elevation_plus_2: 0.30
+  fog_of_war: 0.5       # applicato una volta per match, non per cella
+
+# ---------------------------------------------------------------------------
+# Objective multipliers (§15.4)
+# ---------------------------------------------------------------------------
+objective_multipliers:
+  elimination: 1.0
+  capture_point: 1.1
+  escort: 1.5
+  sabotage: 1.3
+  survival: 1.2
+  escape: 1.1
+
+# ---------------------------------------------------------------------------
+# Player-facing difficulty profiles — wesnoth-pattern scaling
+# ---------------------------------------------------------------------------
+player_difficulty_profiles:
+  easy:
+    label_it: 'Facile'
+    label_en: 'Easy'
+    enemy_count_multiplier: 0.7
+    enemy_hp_multiplier: 0.85
+    enemy_damage_multiplier: 0.85
+    player_hp_multiplier: 1.15
+    description_it: 'Meno nemici e più margine d''errore. Ideale per apprendere.'
+  normal:
+    label_it: 'Normale'
+    label_en: 'Normal'
+    enemy_count_multiplier: 1.0
+    enemy_hp_multiplier: 1.0
+    enemy_damage_multiplier: 1.0
+    player_hp_multiplier: 1.0
+    description_it: 'Bilanciamento target del design.'
+  hard:
+    label_it: 'Difficile'
+    label_en: 'Hard'
+    enemy_count_multiplier: 1.3
+    enemy_hp_multiplier: 1.15
+    enemy_damage_multiplier: 1.15
+    player_hp_multiplier: 1.0
+    description_it: 'Più nemici, più danno. Per giocatori tattici esperti.'
+  nightmare:
+    label_it: 'Incubo'
+    label_en: 'Nightmare'
+    enemy_count_multiplier: 1.5
+    enemy_hp_multiplier: 1.3
+    enemy_damage_multiplier: 1.25
+    player_hp_multiplier: 0.9
+    description_it: 'Post-clear challenge. Zero spazio per errori.'
+
+# ---------------------------------------------------------------------------
+# AI difficulty profiles — riferimento a ai_profiles.yaml
+# Mapping player difficulty → AI profile behaviour
+# ---------------------------------------------------------------------------
+ai_profile_mapping:
+  easy: 'easy'       # ai_profiles.yaml:easy (random noise alto)
+  normal: 'balanced' # ai_profiles.yaml:balanced (default)
+  hard: 'hard'       # ai_profiles.yaml:hard (ottimale)
+  nightmare: 'hard'  # stesso AI, scaling stat solamente
+
+# ---------------------------------------------------------------------------
+# Difficulty rating display (1-5 star)
+# Corrisponde al campo encounter.difficulty_rating dopo clamp
+# ---------------------------------------------------------------------------
+rating_display:
+  1: { stars: '★', label_it: 'Tutorial' }
+  2: { stars: '★★', label_it: 'Apprendista' }
+  3: { stars: '★★★', label_it: 'Standard' }
+  4: { stars: '★★★★', label_it: 'Avanzato' }
+  5: { stars: '★★★★★', label_it: 'Boss' }

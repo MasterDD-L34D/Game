@@ -1,0 +1,23 @@
+catalog:
+  slots:
+    sentinel_proto:
+      core:
+        aurora_core:
+          name: "Aurora Core"
+          effects:
+            resistances:
+              light:
+                aurora: true
+          summary: "Modulo base per validare il rendering del catalogo."
+  synergies:
+    - name: "Aurora Focus"
+      modules:
+        - "core.aurora_core"
+      summary: "Aumenta la precisione in ambienti luminosi."
+species:
+  - id: "sentinel_proto"
+    name: "Sentinel Proto"
+    summary: "Specie prototipo per gli scenari di test."
+  - id: "sentinel_shadow"
+    name: "Sentinel Shadow"
+    summary: "Variante antagonista per la checklist."
