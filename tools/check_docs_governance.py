@@ -58,6 +58,17 @@ _DOC_PIN_RE = re.compile(r"docs/[A-Za-z0-9_./${}<>*%-]+")
 _PIN_DYNAMIC_MARKERS = ("*", "{", "}", "<", ">", "$", "%")
 _PIN_DATE_PLACEHOLDER_RE = re.compile(r"YYYY|MM|DD|XX+")
 _PIN_TRAILING = ".,:;)]}>`'\""
+_PIN_INCLUDE_DIRS = (
+    ".github/", "tools/", "scripts/", "services/", "config/", "apps/", "packs/",
+)
+_PIN_EXCLUDE_PREFIXES = (
+    "docs/", ".claude/", "node_modules/", "reports/", "tests/",
+)
+_PIN_EXTS = {
+    ".yml", ".yaml", ".json", ".js", ".cjs", ".mjs", ".ts",
+    ".py", ".sh", ".ps1", ".mk", ".md",
+}
+_PIN_ROOT_FILES = {"Makefile", "package.json"}
 
 
 @dataclass
@@ -387,6 +398,19 @@ def extract_pins_from_line(line: str) -> list[str]:
         if pin and pin not in pins:
             pins.append(pin)
     return pins
+
+
+def _is_scannable(rel_path: str) -> bool:
+    """True if this tracked file should be scanned for docs/ pins."""
+    if any(rel_path.startswith(prefix) for prefix in _PIN_EXCLUDE_PREFIXES):
+        return False
+    name = rel_path.rsplit("/", 1)[-1]
+    suffix = ("." + name.rsplit(".", 1)[-1]) if "." in name else ""
+    if "/" not in rel_path:  # root file
+        return name in _PIN_ROOT_FILES or suffix in _PIN_EXTS
+    if not any(rel_path.startswith(d) for d in _PIN_INCLUDE_DIRS):
+        return False
+    return suffix in _PIN_EXTS
 
 
 def write_report(path: Path, issues: list[Issue]) -> None:
