@@ -55,7 +55,12 @@ DEFAULT_PINS_BASELINE = "docs/governance/doc_pins_baseline.json"
 _URL_RE = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://\S+")
 # Broadened class captures the WHOLE dynamic token (placeholder/glob) so it can be
 # truncated to a directory pin deterministically.
-_DOC_PIN_RE = re.compile(r"docs/[A-Za-z0-9_./${}<>*%-]+")
+# Negative lookbehind: only match `docs/` at a PATH BOUNDARY, never as a
+# non-initial segment of a longer path (e.g. `packs/.../docs/catalog/x.json`
+# or `reports/docs/report.json` must NOT yield a false `docs/...` pin). A
+# preceding path-continuation char (letter, digit, _, ., /, -) means we are
+# mid-path -> skip. Same substring-anchoring hazard the URL-strip guards.
+_DOC_PIN_RE = re.compile(r"(?<![A-Za-z0-9_./-])docs/[A-Za-z0-9_./${}<>*%-]+")
 _PIN_DYNAMIC_MARKERS = ("*", "{", "}", "<", ">", "$", "%")
 _PIN_DATE_PLACEHOLDER_RE = re.compile(r"YYYY|MM|DD|XX+")
 _PIN_TRAILING = ".,:;)]}>`'\""
