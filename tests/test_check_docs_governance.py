@@ -942,3 +942,40 @@ def test_load_pins_baseline(tmp_path):
                   encoding="utf-8")
     assert validator.load_pins_baseline(bl) == {"docs/x.md", "docs/y/"}
     assert validator.load_pins_baseline(tmp_path / "nope.json") == set()
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: report field + integration via the main() call-chain
+# ---------------------------------------------------------------------------
+
+
+def test_write_report_includes_doc_pins(tmp_path):
+    report = tmp_path / "r.json"
+    pin_map = {"docs/a.md": ["tools/x.py:3"]}
+    validator.write_report(report, [], doc_pins=pin_map)
+    payload = json.loads(report.read_text(encoding="utf-8"))
+    assert payload["doc_pins"] == pin_map
+
+
+def test_write_report_defaults_doc_pins_empty(tmp_path):
+    report = tmp_path / "r.json"
+    validator.write_report(report, [])
+    payload = json.loads(report.read_text(encoding="utf-8"))
+    assert payload["doc_pins"] == {}
+
+
+def test_broken_pin_flows_into_report(tmp_path):
+    # Exercises the exact call-chain main() runs: find_broken_doc_pins -> write_report.
+    _write(tmp_path, "tools/x.py", "P = 'docs/gone/missing.md'\n")
+    issues, pin_map = validator.find_broken_doc_pins(tmp_path, set())
+    validator.write_report(tmp_path / "reports" / "r.json", issues, doc_pins=pin_map)
+    payload = json.loads((tmp_path / "reports" / "r.json").read_text(encoding="utf-8"))
+    assert any(i["code"] == "broken_doc_pin" for i in payload["issues"])
+    assert "docs/gone/missing.md" in payload["doc_pins"]
+
+
+def test_parse_args_has_pins_flags(monkeypatch):
+    monkeypatch.setattr(validator.sys, "argv", ["prog", "--pins-strict"])
+    args = validator.parse_args()
+    assert args.pins_strict is True
+    assert args.pins_baseline == validator.DEFAULT_PINS_BASELINE

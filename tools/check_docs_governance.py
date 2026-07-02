@@ -118,6 +118,19 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Exit non-zero when warnings are found.",
     )
+    parser.add_argument(
+        "--pins-baseline",
+        default=DEFAULT_PINS_BASELINE,
+        help=(
+            "Path to JSON baseline of known-broken doc pins "
+            "(key 'broken_known'); listed pins are not flagged."
+        ),
+    )
+    parser.add_argument(
+        "--pins-strict",
+        action="store_true",
+        help="Promote broken_doc_pin from warning to error (owner-gated flip).",
+    )
     return parser.parse_args()
 
 
@@ -490,7 +503,11 @@ def find_broken_doc_pins(
     return issues, pin_map
 
 
-def write_report(path: Path, issues: list[Issue]) -> None:
+def write_report(
+    path: Path,
+    issues: list[Issue],
+    doc_pins: dict[str, list[str]] | None = None,
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -500,6 +517,7 @@ def write_report(path: Path, issues: list[Issue]) -> None:
             "warnings": sum(1 for issue in issues if issue.level == "warning"),
         },
         "issues": [issue.as_dict() for issue in issues],
+        "doc_pins": doc_pins or {},
     }
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -518,7 +536,12 @@ def main() -> int:
     issues = validate_registry(repo_root, registry)
     baseline = load_scan_baseline((repo_root / args.scan_baseline).resolve())
     issues.extend(find_unregistered_documents(repo_root, registry, baseline))
-    write_report(report_path, issues)
+    pins_baseline = load_pins_baseline((repo_root / args.pins_baseline).resolve())
+    pin_issues, pin_map = find_broken_doc_pins(
+        repo_root, pins_baseline, strict=args.pins_strict
+    )
+    issues.extend(pin_issues)
+    write_report(report_path, issues, doc_pins=pin_map)
 
     errors = sum(1 for issue in issues if issue.level == "error")
     warnings = sum(1 for issue in issues if issue.level == "warning")
