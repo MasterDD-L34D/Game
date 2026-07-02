@@ -93,6 +93,11 @@ function characterToUnit(character, { index = 0 } = {}) {
     ...(character.default_parts && typeof character.default_parts === 'object'
       ? { default_parts: character.default_parts }
       : {}),
+    // T2 privacy (arco Ennea Combat Pulse) -- carry the per-player style
+    // profiling opt-out to the unit dict: the Godot runtime gates pulses on
+    // `unit.profiling_opt_out` (GGv2 ennea_effects.gd). Additive mirror of
+    // default_parts: absent unless explicitly boolean true (back-compat).
+    ...(character.profiling_opt_out === true ? { profiling_opt_out: true } : {}),
   };
 }
 
@@ -176,6 +181,10 @@ class CoopOrchestrator {
     // UI-only `form_pulse` transient phase can populate without strict
     // coupling to PHASES enum (mirror revealAcks pattern).
     this.formPulses = new Map(); // player_id → { axes: {k:Number}, ts }
+    // T2 privacy (arco Ennea Combat Pulse) -- per-player style-profiling
+    // opt-out. Sopravvive qui per i toggle arrivati PRIMA del submit del
+    // character; al submit viene stampata sul record (vedi submitCharacter).
+    this.profilingOptOut = new Map(); // player_id → bool (true = opt-out)
     // Form-Pulse trait v2 Piece 2: per-player minor trait tracked for idempotent re-derive.
     this.playerMinorTraits = new Map(); // player_id → minor trait_id
     // #2674 -- shared branco trait emergent from the aggregated Form Pulse;
@@ -580,6 +589,11 @@ class CoopOrchestrator {
       ready: true,
       submitted_at: this.now(),
     };
+    // T2 privacy -- pref opt-out arrivata prima del submit: stampala sul
+    // record (additive: campo presente solo su opt-out, mirror default_parts).
+    if (this.profilingOptOut.get(playerId) === true) {
+      normalized.profiling_opt_out = true;
+    }
     this.characters.set(playerId, normalized);
     // N2 -- persist the created PG to party_rosters (run.id-keyed), best-effort
     // and fire-and-forget. Never block / throw into the submit path: the sync
@@ -834,6 +848,30 @@ class CoopOrchestrator {
       submitted: Array.from(this.formPulses.keys()),
       emergent_branco_trait: emergent,
     };
+  }
+
+  /**
+   * T2 privacy (arco Ennea Combat Pulse) -- consenso profilazione stile
+   * per-player. `enabled=false` -> opt-out: stampato sul character record
+   * (quando gia' presente) cosi' characterToUnit porta `profiling_opt_out`
+   * nel payload /session/start; il runtime Godot gate-a i pulse per-unit
+   * (GGv2 ennea_effects.gd) e l'host fa amnesia live sul broadcast.
+   * Pattern precedente session-scoped: routes/session.js device-event
+   * `session.profilingConsent`.
+   * @returns { player_id, profiling_opt_out } snapshot per broadcast/ack.
+   */
+  setProfilingConsent(playerId, enabled) {
+    if (!playerId) throw new Error('player_id_required');
+    const optOut = enabled !== true;
+    this.profilingOptOut.set(playerId, optOut);
+    const ch = this.characters.get(playerId);
+    if (ch) {
+      if (optOut) ch.profiling_opt_out = true;
+      else delete ch.profiling_opt_out;
+    }
+    const snap = { player_id: playerId, profiling_opt_out: optOut };
+    this._emit('profiling_consent_set', snap);
+    return snap;
   }
 
   /**
