@@ -185,6 +185,8 @@ def place_in_map(feature_map, entry):
         return "skipped"
     fitness = cell_fitness(wr, turns, *cell)
     existing = feature_map.get(cell)
+    if existing is not None and entry.get("sprt_truncated"):
+        return None  # low-N truncated eval may populate, never evict (L-073)
     if existing is not None and fitness >= existing["fitness"]:
         return None
     feature_map[cell] = {
@@ -215,6 +217,7 @@ def append_checkpoint(path, entry):
         "fitness": cell_fitness(entry["wr"], entry["turns"], *cell),
         "origin": entry["origin"],
         "n_eff": entry.get("n_eff"),
+        "sprt_truncated": bool(entry.get("sprt_truncated")),
     }
     with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(line) + "\n")
@@ -247,6 +250,7 @@ def load_checkpoint(path):
                 "turns": line["features"][1],
                 "origin": line.get("origin", "random"),
                 "n_eff": line.get("n_eff"),
+                "sprt_truncated": line.get("sprt_truncated", False),
             }
             place_in_map(feature_map, entry)
             next_iter = max(next_iter, line["iter"] + 1)
@@ -514,7 +518,8 @@ def main():
                 if agg.get("sprt_truncated"):
                     stats["sprt_truncated"] += 1
                 entry = {"iter": it, "knobs": knobs, "wr": wr, "turns": turns,
-                         "origin": origin, "n_eff": n_eff}
+                         "origin": origin, "n_eff": n_eff,
+                         "sprt_truncated": bool(agg.get("sprt_truncated"))}
                 with lock:
                     outcome = place_in_map(feature_map, entry)
                     if outcome in ("populated", "replaced", "skipped"):
