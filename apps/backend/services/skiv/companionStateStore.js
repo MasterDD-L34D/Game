@@ -21,6 +21,11 @@ const crypto = require('node:crypto');
 const AMBASSADOR_CAP_PER_NIDO = 10;
 const VOICE_DIARY_MAX_ENTRIES = 5;
 const CROSSBREED_HISTORY_MAX_ENTRIES = 10;
+// Durable cooldown (ADR-04-27 "1 crossbreed per campaign per lineage"): per-lineage
+// FIFO cap on the remembered campaign ids -- bounds the server-side column without
+// weakening the policy in practice (a lineage spanning >20 campaigns re-enables the
+// oldest, mirroring the pre-durability per-process reset but far rarer).
+const CROSSBREED_CAMPAIGNS_MAX = 20;
 const CURRENT_SCHEMA_VERSION = '0.2.0';
 // Shared bucket for ownerless writes under per-Nido isolation (SPEC-F Option A):
 // keeps anonymous saves from evicting an owned Nido's ambassador (see saveCompanionState).
@@ -328,6 +333,12 @@ function createCompanionStateStore(opts = {}) {
   // the global cap path below is byte-identical. Warm-state only (not persisted;
   // resets on restart -- durable per-Nido cap = Option C, a Prisma migration).
   const ownerLineages = new Map(); // owner → lineage_id[]
+  // Durable crossbreed cooldown (SPEC-F, owner direction 2026-07-02): campaign ids a
+  // lineage has crossbred in. Server-side metadata like `owner` -- NEVER on the
+  // whitelisted card (campaign_id in the shared card = the privacy leak that killed
+  // the #3101 contracts-field approach). Persisted in the crossbreed_campaigns JSONB
+  // column; rehydrated at boot so a restart no longer resets the cooldown.
+  const crossbreedCampaigns = new Map(); // lineage_id → campaignId[] (FIFO, cap 20)
   const usePrisma = prismaSupportsSkivCompanion(opts.prisma);
   const log = opts.logger || console;
   const ambassadorCap = Number.isFinite(opts.ambassadorCap)
@@ -379,6 +390,48 @@ function createCompanionStateStore(opts = {}) {
       });
   }
 
+  // Load the persisted cooldown campaigns off a Prisma row into the in-memory map.
+  function hydrateCrossbreedCampaigns(row) {
+    const list = parseJsonSafe(row.crossbreedCampaigns);
+    if (Array.isArray(list) && list.length > 0 && typeof row.lineageId === 'string') {
+      crossbreedCampaigns.set(
+        row.lineageId,
+        list.filter((c) => typeof c === 'string' && c.length > 0),
+      );
+    }
+  }
+
+  /**
+   * Record that a lineage crossbred in a campaign (ADR-04-27 cooldown source of
+   * truth). FIFO-bounded, idempotent, persisted to the crossbreed_campaigns JSONB
+   * column (fire-and-forget UPDATE: the lineage row already exists on the confirm
+   * path -- the route 404s on a missing local lineage before it gets here; a miss
+   * degrades to warm-only, never blocks the crossbreed).
+   */
+  function recordCrossbreedCampaign(lineageId, campaignId) {
+    if (!lineageId || typeof lineageId !== 'string') return;
+    if (!campaignId || typeof campaignId !== 'string') return;
+    const list = crossbreedCampaigns.get(lineageId) || [];
+    if (list.includes(campaignId)) return;
+    const next = fifoBounded([...list, campaignId], CROSSBREED_CAMPAIGNS_MAX);
+    crossbreedCampaigns.set(lineageId, next);
+    if (!usePrisma) return;
+    opts.prisma.skivCompanionState
+      .update({ where: { lineageId }, data: { crossbreedCampaigns: next } })
+      .catch((err) => {
+        log.warn?.(
+          `[companionStateStore] cooldown persist failed for ${lineageId}:`,
+          err?.message || err,
+        );
+      });
+  }
+
+  /** Campaign ids this lineage crossbred in (durable cooldown read side). */
+  function getCrossbreedCampaigns(lineageId) {
+    if (!lineageId || typeof lineageId !== 'string') return [];
+    return [...(crossbreedCampaigns.get(lineageId) || [])];
+  }
+
   async function hydrateAsync(lineageId) {
     if (!usePrisma) return null;
     try {
@@ -386,6 +439,7 @@ function createCompanionStateStore(opts = {}) {
       if (!row) return null;
       const state = fromPrismaRow(row);
       states.set(lineageId, state);
+      hydrateCrossbreedCampaigns(row);
       return state;
     } catch (err) {
       log.warn?.(
@@ -440,6 +494,7 @@ function createCompanionStateStore(opts = {}) {
           const state = fromPrismaRow(row);
           if (state && typeof state.lineage_id === 'string') {
             states.set(state.lineage_id, state);
+            hydrateCrossbreedCampaigns(row);
             n += 1;
           }
         }
@@ -475,6 +530,7 @@ function createCompanionStateStore(opts = {}) {
           const state = fromPrismaRow(row);
           if (state && typeof state.lineage_id === 'string') {
             states.set(state.lineage_id, state);
+            hydrateCrossbreedCampaigns(row);
             index.push(state.lineage_id);
             n += 1;
           }
@@ -676,6 +732,7 @@ function createCompanionStateStore(opts = {}) {
     const n = states.size;
     states.clear();
     ownerLineages.clear();
+    crossbreedCampaigns.clear();
     return n;
   }
 
@@ -691,6 +748,8 @@ function createCompanionStateStore(opts = {}) {
     clearAll,
     hydrateAsync,
     hydrateAllAsync,
+    recordCrossbreedCampaign,
+    getCrossbreedCampaigns,
     _mode: usePrisma ? 'prisma' : 'in-memory',
   };
 }
@@ -711,6 +770,7 @@ module.exports = {
   AMBASSADOR_CAP_PER_NIDO,
   VOICE_DIARY_MAX_ENTRIES,
   CROSSBREED_HISTORY_MAX_ENTRIES,
+  CROSSBREED_CAMPAIGNS_MAX,
   CURRENT_SCHEMA_VERSION,
   WHITELIST_TOP_FIELDS,
   BLACKLIST_FIELDS,

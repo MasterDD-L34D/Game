@@ -59,6 +59,7 @@ function makeShareState(overrides = {}) {
 // routes call: getCompanionState, getCrossbreedHistory.
 function makeStoreStub(seed = {}) {
   const states = new Map(Object.entries(seed));
+  const campaigns = new Map(); // lineage_id -> campaignId[] (durable-cooldown mirror)
   return {
     getCompanionState(lineageId) {
       return states.get(lineageId) || null;
@@ -76,6 +77,14 @@ function makeStoreStub(seed = {}) {
       s.crossbreed_history = [...(s.crossbreed_history || []), { ...event, ts }].slice(-10);
       states.set(lineageId, s);
       return s;
+    },
+    // Durable cooldown (mirror of the real store's crossbreedCampaigns map).
+    recordCrossbreedCampaign(lineageId, campaignId) {
+      const list = campaigns.get(lineageId) || [];
+      if (!list.includes(campaignId)) campaigns.set(lineageId, [...list, campaignId]);
+    },
+    getCrossbreedCampaigns(lineageId) {
+      return [...(campaigns.get(lineageId) || [])];
     },
     signatureFor,
     _states: states,

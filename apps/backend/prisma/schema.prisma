@@ -372,6 +372,11 @@ model SkivCompanionState {
   // -- never part of the whitelisted card (would leak via share + change the
   // signature). Nullable: ownerless/pre-migration rows bucket to ANON on hydrate.
   owner              String?  @map("owner")
+  // Durable crossbreed cooldown (ADR-04-27 "1/campaign/lineage"): campaign ids this
+  // lineage crossbred in (FIFO cap 20, app-level). Server-side metadata like owner
+  // -- keeping campaign_id OFF the shareable card is the privacy line that killed
+  // the #3101 contracts-field approach. Nullable: pre-migration rows read NULL -> [].
+  crossbreedCampaigns Json?   @map("crossbreed_campaigns")
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
 
