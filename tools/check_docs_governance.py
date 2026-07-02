@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
@@ -411,6 +412,44 @@ def _is_scannable(rel_path: str) -> bool:
     if not any(rel_path.startswith(d) for d in _PIN_INCLUDE_DIRS):
         return False
     return suffix in _PIN_EXTS
+
+
+def git_tracked_files(repo_root: Path) -> list[str]:
+    """Tracked files via git ls-files; filesystem walk fallback (non-repo/CI)."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(repo_root), "ls-files"],
+            capture_output=True, text=True, check=True,
+        )
+        files = [line for line in result.stdout.splitlines() if line]
+        if files:
+            return sorted(files)
+    except (subprocess.CalledProcessError, FileNotFoundError, OSError):
+        pass
+    return sorted(
+        p.relative_to(repo_root).as_posix()
+        for p in repo_root.rglob("*")
+        if p.is_file()
+    )
+
+
+def scan_doc_pins(repo_root: Path) -> dict[str, list[str]]:
+    """Build {pin: [referrer:line, ...]} over all scannable tracked files."""
+    pin_map: dict[str, list[str]] = {}
+    for rel in git_tracked_files(repo_root):
+        if not _is_scannable(rel):
+            continue
+        try:
+            text = (repo_root / rel).read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        for lineno, line in enumerate(text.splitlines(), start=1):
+            for pin in extract_pins_from_line(line):
+                referrer = f"{rel}:{lineno}"
+                bucket = pin_map.setdefault(pin, [])
+                if referrer not in bucket:
+                    bucket.append(referrer)
+    return dict(sorted(pin_map.items()))
 
 
 def write_report(path: Path, issues: list[Issue]) -> None:
