@@ -56,16 +56,32 @@ validator e uploada gia' il report come artifact.
 
 Input: file tracked (`git ls-files`), filtrati per:
 
-- dir: `.github/`, `tools/`, `scripts/`, `services/`, `config/`, `apps/`, `tests/`,
+- dir: `.github/`, `tools/`, `scripts/`, `services/`, `config/`, `apps/`,
   `packs/`, root (`Makefile`, `package.json`, `*.md` root);
 - estensioni: `.yml .yaml .json .js .cjs .mjs .ts .py .sh .ps1 .mk .md`;
 - **esclusi**: `docs/**` (doc-che-cita-doc = territorio del link checker
   `tools/check_site_links.py`), `.claude/**` (protocolli bootstrap con path-esempio),
-  `node_modules/**`, `reports/**` (artifact per-run).
+  `node_modules/**`, `reports/**` (artifact per-run), **`tests/**`** (le fixture di
+`tests/test_check_docs_governance.py`contengono token`docs/`-string
+false-by-construction -- es. `docs/missing.md`, `docs/adr/some-decision.md`,
+`docs/governance/nonexistent.json`-- che referenziano input-di-test, NON pin runtime;
+~44 token misuranti che non si potrebbero mai "sanare"/rimuovere -> corromperebbero la
+baseline decrescente e seppellirebbero i pin veri. Il check-gemello`unregistered_document`non scansiona`tests/`, quindi il suo `SCAN_EXEMPT_PREFIXES` non
+  offre protezione: va escluso esplicitamente qui).
 
-Estrazione per riga: regex token letterali `docs/[A-Za-z0-9_./-]+`, poi normalizzazione
-deterministica:
+Estrazione per riga -- **pre-strip URL** poi regex token letterali `docs/[A-Za-z0-9_./-]+`,
+poi normalizzazione deterministica:
 
+0. **strip degli URL prima dell'estrazione** (o scarto di ogni token il cui match e'
+   preceduto sulla stessa riga da `://`): la regex e' substring-anchored, NON
+   path-anchored, quindi matcha DENTRO gli URL. Un blob GitHub cross-repo
+   `https://github.com/.../blob/main/docs/godot-v2/PRD-...md` produrrebbe un falso pin
+   `docs/godot-v2/...` (assente in locale by-design). Questa classe e' densissima proprio
+   nei `.md` root (CLAUDE.md, OPEN_DECISIONS.md) che la decisione #5 tira in scope -> senza
+   lo strip la promessa "CI verde al primo commit" fallirebbe il giorno 1 (>=13 falsi pin
+   tracciati: CLAUDE.md, OPEN_DECISIONS.md, flint/DEEP_RESEARCH.md, sprt_calibrate.py, ...).
+   Un `docs/`-URL e' un riferimento ESTERNO (lo confermerebbe qualunque link-checker: skip
+   per best-practice internal-only), non un pin locale.
 1. strip prefissi `./`, conversione backslash -> slash;
 2. token con **placeholder** (`YYYY`, `XX`, `${`, `{`, `<`, `%s`, `*.`, `-*`) -> tronca
    alla dir piu' profonda senza placeholder e pinna quella (es.
@@ -91,7 +107,12 @@ con severity = warning (error con `--pins-strict`).
 
 `docs/governance/doc_pins_baseline.json`: array di path noti-rotti pre-esistenti,
 popolato al primo run (attesi: tracker_registry .txt, docs/roadmap/, docs/recap/,
-swarm JSON-tier dormant, piu' quello che emerge). Regole:
+swarm JSON-tier dormant, piu' quello che emerge). Nota: i path **cross-repo bare**
+authored-ma-localmente-assenti che sopravvivono all'URL-strip (regola 0) -- es.
+`docs/adr/0024-...aistation.md` in OPEN_DECISIONS.md verso un altro repo -- sono
+indistinguibili da pin-rotti locali sotto un existence-test puro: atterrano in baseline
+con un commento-tag `# cross-repo-by-design` per non confonderli con i rotti da sanare.
+Regole:
 
 - baseline **solo-decrescente**: si toglie quando si sana il pin, non si aggiunge senza
   istruttoria (regola nel commento header del json e in questa spec);
@@ -125,7 +146,7 @@ chi, (3) muovi solo il non-pinnato o riscrivi i referrer nello stesso PR.
 
 ## Testing (TDD)
 
-Suite esistente `tests/test_check_docs_governance.py` (CI `python-tests`), ~12 casi
+Suite esistente `tests/test_check_docs_governance.py` (CI `python-tests`), ~14 casi
 nuovi su fixture tmp:
 
 1. pin file esistente -> 0 issue;
@@ -135,11 +156,15 @@ nuovi su fixture tmp:
 5. glob -> tronca a dir base;
 6. baseline hit -> 0 issue; baseline miss -> warning;
 7. `--pins-strict` -> severity error (exit code strict);
-8. `.md` fuori docs incluso; `docs/**` escluso; `.claude/**` escluso;
+8. `.md` fuori docs incluso; `docs/**` escluso; `.claude/**` escluso; **`tests/**`escluso** (fixture con`docs/missing.md` non produce pin);
 9. trailing punteggiatura strippata;
 10. reverse-map presente nel report JSON anche per pin sani;
 11. dedup (path, referrer);
-12. file binario nello scan -> nessun crash.
+12. file binario nello scan -> nessun crash;
+13. **URL-embedded**: riga con blob GitHub
+    `https://github.com/x/y/blob/main/docs/z.md` -> **0 pin** (URL-strip regola 0);
+14. **path bare vs URL sulla stessa riga**: `docs/real.md` (locale, esiste) accanto a
+    un `https://.../docs/other.md` -> 1 solo pin per il bare, 0 per l'URL.
 
 ## Rollout e rollback
 
@@ -160,3 +185,41 @@ nuovi su fixture tmp:
 - Unpin del tooling (path const -> config) e bonifica `generated/`+`logs/`: follow-up
   separati, non questo PR.
 - Link fra doc dentro `docs/**`: gia' coperti da `tools/check_site_links.py`.
+- **Annotazioni inline PR (reviewdog / checks-API)**: DEFERRED al futuro flip
+  `--pins-strict`. Richiede un edit a `.github/workflows/` (owner-gated) e paga solo
+  quando `broken_doc_pin` e' un gate duro anziche' un warning assorbito dalla baseline;
+  il payload `referrer:line` gia' emesso in `doc_pins` fornisce i dati per
+  l'annotazione a quel punto. NON questo PR.
+- **Adozione lychee/linkspector off-the-shelf**: scartata -- nessun link-checker
+  dell'ecosistema (lychee/linkspector/markdown-link-check) parsa i riferimenti
+  codice->doc-path (shell arg, YAML paths-filter, const Python, commenti): parsano link
+  DENTRO i markdown, competenza gia' coperta da `check_site_links.py`. Adottarli
+  lascerebbe il gap che questa spec riempie + aggiungerebbe un dep binario Rust + CI
+  wiring evitati by-design. (Confronto ecosistema -> vedi sotto.)
+
+## Selezione da confronto ecosistema (2026-07-02)
+
+Ricerca community/web (`last30days` engine + web pre-research) + Workflow di scoring
+adversariale (10 pattern provati valutati vs questa spec, + critico di completezza
+anti-SDMG). Finding-chiave: **ogni tool dell'ecosistema (lychee 3.7K star, linkspector,
+markdown-link-check) controlla LINK dentro i markdown; nessuno controlla i riferimenti
+codice->doc-path** = la dimensione che `broken_doc_pin` serve e' genuinamente unserved ->
+il custom validator e' giustificato, non reinventa la ruota.
+
+Esito selezione:
+
+- **ADOTTATO in questo PR**: (1) FP-first -> escludi `tests/**` (fixture
+  false-by-construction); (2) URL-strip (regola 0) -- gap trovato dal critico, non
+  dall'ecosistema (trappola SDMG: la mia regex non falsificata contro "codice cita docs/
+  come URL"). Entrambi trivial + 1 caso TDD ciascuno.
+- **GIA' COPERTO**: internal-only (network-free by construction), report-at-file:line
+  (referrer:line in 3 superfici), runnable-locally (CLI argparse in
+  `check_docs_governance.py`, mirror `.claude/commands/docs-govern.md`), PR-review +
+  gate (Temporal 98%: main commit-blocked + baseline decrescente owner-gated).
+- **DEFERRED**: reviewdog inline annotations (post `--pins-strict` flip, vedi Non-goal).
+- **REJECTED**: adopt-lychee / fold-check_site_links-into-lychee (zero overlap +
+  dep/CI evitati) / config-file-baseline stile lychee.toml (aprirebbe un SECONDO canale
+  di silenziamento non-ratcheted accanto alla baseline reviewata = regressione
+  guardrail-integrity; il set di exclude qui e' chiuso/repo-strutturale, non volatile) /
+  caching (`--cache` cachea risultati NETWORK; qui zero chiamate di rete, ogni pin =
+  `os.path.exists` locale).
