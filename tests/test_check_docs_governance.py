@@ -833,3 +833,30 @@ def test_extract_bare_docs_root_is_not_a_pin():
 
 def test_extract_skips_overlong_line():
     assert validator.extract_pins_from_line('docs/a.md ' + 'x' * 2100) == []
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: _is_scannable
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("rel,expected", [
+    (".github/workflows/ci.yml", True),
+    ("tools/foo.py", True),
+    ("scripts/bar.sh", True),
+    ("config/flags.json", True),
+    ("apps/play/src/audio.js", True),
+    ("packs/evo_tactics_pack/x.yaml", True),
+    ("CLAUDE.md", True),          # root .md
+    ("package.json", True),        # root allowlisted
+    ("Makefile", True),            # root allowlisted, no extension
+    ("docs/core/00.md", False),    # docs/ owned by check_site_links
+    (".claude/commands/x.md", False),
+    ("node_modules/pkg/i.js", False),
+    ("reports/docs/r.json", False),
+    ("tests/test_check_docs_governance.py", False),  # fixtures = false pins
+    ("tools/foo.png", False),      # non-text extension
+    ("apps/play/logo.svg", False), # not in ext allowlist
+])
+def test_is_scannable(rel, expected):
+    assert validator._is_scannable(rel) is expected
