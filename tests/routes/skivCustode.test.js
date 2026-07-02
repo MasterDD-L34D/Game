@@ -78,10 +78,11 @@ function makeStoreStub(seed = {}) {
       states.set(lineageId, s);
       return s;
     },
-    // Durable cooldown (mirror of the real store's crossbreedCampaigns map).
+    // Durable cooldown (mirror of the real store's crossbreedCampaigns map,
+    // FIFO cap 20 like CROSSBREED_CAMPAIGNS_MAX).
     recordCrossbreedCampaign(lineageId, campaignId) {
       const list = campaigns.get(lineageId) || [];
-      if (!list.includes(campaignId)) campaigns.set(lineageId, [...list, campaignId]);
+      if (!list.includes(campaignId)) campaigns.set(lineageId, [...list, campaignId].slice(-20));
     },
     getCrossbreedCampaigns(lineageId) {
       return [...(campaigns.get(lineageId) || [])];
@@ -1306,6 +1307,18 @@ test('POST /skiv/crossbreed/confirm missing campaign_id → 400', async () => {
   });
   assert.equal(r.status, 400);
   assert.equal(r.body.error, 'campaign_id_required');
+});
+
+test('POST /skiv/crossbreed/confirm oversized campaign_id (>128) → 400', async () => {
+  const store = makeStoreStub({ [LINEAGE]: makeShareState() });
+  const app = buildApp({ store, rollMatingOffspring: rollStubOk() });
+  const r = await postJson(app, '/api/skiv/crossbreed/confirm', {
+    lineage_id: LINEAGE,
+    partner_card_json: makePartnerCard(),
+    campaign_id: 'c'.repeat(129),
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error, 'campaign_id_invalid');
 });
 
 test('POST /skiv/crossbreed/confirm rate-limit: 11th request in-window → 429', async () => {

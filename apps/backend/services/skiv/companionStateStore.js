@@ -410,7 +410,9 @@ function createCompanionStateStore(opts = {}) {
    */
   function recordCrossbreedCampaign(lineageId, campaignId) {
     if (!lineageId || typeof lineageId !== 'string') return;
-    if (!campaignId || typeof campaignId !== 'string') return;
+    // Defense-in-depth size bound (the route 400s >128 first): the id lands in a
+    // durable JSONB array -- cap COUNT is 20, this caps the per-id size.
+    if (!campaignId || typeof campaignId !== 'string' || campaignId.length > 128) return;
     const list = crossbreedCampaigns.get(lineageId) || [];
     if (list.includes(campaignId)) return;
     const next = fifoBounded([...list, campaignId], CROSSBREED_CAMPAIGNS_MAX);

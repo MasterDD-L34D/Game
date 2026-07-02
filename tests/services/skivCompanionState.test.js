@@ -678,6 +678,13 @@ test('cooldown: record/get + idempotent + FIFO cap 20', () => {
   // Unknown lineage / bad input -> [] (never throws).
   assert.deepEqual(store.getCrossbreedCampaigns('unknown'), []);
   assert.deepEqual(store.getCrossbreedCampaigns(null), []);
+  // Defense-in-depth: an oversized campaign id is rejected (route 400s first;
+  // this guards any future non-route caller from bloating the JSONB column).
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'x'.repeat(129));
+  assert.equal(
+    store.getCrossbreedCampaigns('skiv-cd-basic-000').some((c) => c.length > 128),
+    false,
+  );
 });
 
 test('cooldown: campaigns survive a restart via bulk-hydrate (durable cooldown)', async () => {

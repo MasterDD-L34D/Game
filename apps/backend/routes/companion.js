@@ -701,6 +701,13 @@ function createCompanionRouter({
     if (!campaignId) {
       return res.status(400).json({ error: 'campaign_id_required' });
     }
+    // Trust-boundary bound: campaign_id lands in the durable crossbreed_campaigns
+    // JSONB column (FIFO cap 20 bounds the COUNT, not the per-id size) -- an
+    // unbounded client string would bloat the column (reviewer finding). 128 chars
+    // covers uuid/slug ids with slack.
+    if (campaignId.length > 128) {
+      return res.status(400).json({ error: 'campaign_id_invalid' });
+    }
     // Rate-limit BEFORE any store work (cheap abuse guard, ADR-04-27).
     const owner = deriveOwner(req);
     if (crossbreedRateLimited(rateKey(req, owner))) {
