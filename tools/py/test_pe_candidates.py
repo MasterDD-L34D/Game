@@ -2,7 +2,12 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from pe_candidates import (  # noqa: E402
+    APEX,
     CANDIDATES,
+    SELECTED_CANDIDATE,
+    TURN_TENSION_NORM,
+    candidate_D,
+    candidate_F,
     candidate_value,
     kd_normalize,
     pe_ratio_aggregate,
@@ -100,3 +105,56 @@ def test_attach_composite_terms_consumes_a_contestedness_candidate():
     )
     assert abs(out["pe_ratio"] - 0.5) < 1e-9  # 30/(30+30)
     assert abs(out["kd_ratio"] - 0.5) < 1e-9  # 1/(1+1)
+
+
+# --- edge-case pins (defensive branches + raw-vs-clamped, 2026-07-02) --------------
+
+
+def test_module_constants():
+    # ratified defaults / the apex threshold + the turns normalizer.
+    assert APEX == 95
+    assert TURN_TENSION_NORM == 40.0
+    assert SELECTED_CANDIDATE == "E_dmg_margin"
+
+
+def test_candidate_D_raw_is_unclamped_but_candidate_value_clamps():
+    # candidate_D itself does NOT clamp (a fight beyond the round cap reads > 1.0);
+    # the clamp lives in candidate_value (and pe_ratio_aggregate), not the raw form.
+    assert candidate_D({"rounds": 20}) == 0.5
+    assert candidate_D({"rounds": 80}) == 2.0
+    assert candidate_value("D_turns_contest", {"rounds": 80}) == 1.0  # clamped path
+
+
+def test_candidate_F_clamps_D_internally():
+    # F = sqrt(clamp(D) * E): with rounds > cap, D is clamped to 1.0 INSIDE F, so
+    # F does not exceed sqrt(E). 80 rounds -> D clamped 1.0; E = 30/40 = 0.75.
+    f = candidate_F({"rounds": 80, "dmg_taken_player": 30, "dmg_dealt_player": 10})
+    assert abs(f - (0.75 ** 0.5)) < 1e-9
+
+
+def test_attach_composite_terms_defensive_contracts():
+    # 1. default candidate = SELECTED_CANDIDATE (E_dmg_margin) when none passed.
+    d = {"kd_avg": 1.0, "dmg_taken_avg": 30.0, "dmg_dealt_avg": 10.0}
+    r = attach_composite_terms(d)
+    assert r is d  # mutates + returns the SAME dict (chaining)
+    assert r["kd_ratio"] == 0.5
+    assert r["pe_ratio"] == 0.75  # 30/(30+10) via the default E candidate
+
+    # 2. idempotent: setdefault never overwrites pre-existing terms.
+    d2 = {"kd_avg": 1.0, "dmg_taken_avg": 30.0, "dmg_dealt_avg": 10.0,
+          "kd_ratio": 0.99, "pe_ratio": 0.99}
+    r2 = attach_composite_terms(d2)
+    assert r2["kd_ratio"] == 0.99
+    assert r2["pe_ratio"] == 0.99
+
+    # 3. error dict -> untouched no-op (documented contract).
+    e = {"error": "boom"}
+    assert attach_composite_terms(e) is e
+    assert "kd_ratio" not in e
+
+    # 4. non-dict -> passthrough unchanged.
+    assert attach_composite_terms(42) == 42
+
+    # 5. missing kd_avg -> kd_ratio None (surfaced, never faked).
+    r3 = attach_composite_terms({"dmg_taken_avg": 30.0, "dmg_dealt_avg": 10.0})
+    assert r3["kd_ratio"] is None
