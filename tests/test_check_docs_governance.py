@@ -772,3 +772,64 @@ class TestMainCli:
         )
         codes = [issue["code"] for issue in report["issues"]]
         assert "unregistered_document" not in codes
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: extract_pins_from_line
+# ---------------------------------------------------------------------------
+
+
+def test_extract_plain_pin():
+    assert validator.extract_pins_from_line(
+        'git add docs/skiv/MONITOR.md'
+    ) == ["docs/skiv/MONITOR.md"]
+
+
+def test_extract_strips_url_embedded_docs():
+    # regola 0: docs/ inside a URL is an EXTERNAL ref, not a local pin.
+    line = 'see https://github.com/x/y/blob/main/docs/godot-v2/PRD.md for status'
+    assert validator.extract_pins_from_line(line) == []
+
+
+def test_extract_bare_path_and_url_on_same_line():
+    line = 'local docs/real.md vs https://host/docs/other.md'
+    assert validator.extract_pins_from_line(line) == ["docs/real.md"]
+
+
+def test_extract_placeholder_truncates_to_dir():
+    line = 'cp report docs/playtest/playtest-2-${DATE}.md'
+    assert validator.extract_pins_from_line(line) == ["docs/playtest/"]
+
+
+def test_extract_glob_truncates_to_base_dir():
+    line = "      - 'docs/research/swarm/**.json'"
+    assert validator.extract_pins_from_line(line) == ["docs/research/swarm/"]
+
+
+def test_extract_strips_trailing_prose_punctuation():
+    assert validator.extract_pins_from_line(
+        'vedi docs/core/00-SOURCE-OF-TRUTH.md.'
+    ) == ["docs/core/00-SOURCE-OF-TRUTH.md"]
+    assert validator.extract_pins_from_line(
+        '(docs/hubs/combat.md)'
+    ) == ["docs/hubs/combat.md"]
+
+
+def test_extract_windows_backslash_normalized():
+    assert validator.extract_pins_from_line(
+        r'TEMPLATE = docs\templates\dossier.html'
+    ) == ["docs/templates/dossier.html"]
+
+
+def test_extract_dedups_within_line():
+    line = 'docs/a.md and again docs/a.md'
+    assert validator.extract_pins_from_line(line) == ["docs/a.md"]
+
+
+def test_extract_bare_docs_root_is_not_a_pin():
+    assert validator.extract_pins_from_line('under docs/*/foo') == []
+    assert validator.extract_pins_from_line('the docs/ tree') == []
+
+
+def test_extract_skips_overlong_line():
+    assert validator.extract_pins_from_line('docs/a.md ' + 'x' * 2100) == []

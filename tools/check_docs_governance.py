@@ -46,6 +46,19 @@ DATE_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 SCAN_EXEMPT_PREFIXES = ("docs/generated/",)
 DEFAULT_SCAN_BASELINE = "docs/governance/registry_scan_baseline.json"
 
+# --- broken_doc_pin: scan code/config for docs/ path references ------------
+DEFAULT_PINS_BASELINE = "docs/governance/doc_pins_baseline.json"
+# Strip whole URLs before extraction: docs/ inside https://.../docs/... is an
+# EXTERNAL reference (cross-repo GitHub blob), not a local pin. Substring-anchored
+# extraction would otherwise inject false pins from root .md files.
+_URL_RE = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*://\S+")
+# Broadened class captures the WHOLE dynamic token (placeholder/glob) so it can be
+# truncated to a directory pin deterministically.
+_DOC_PIN_RE = re.compile(r"docs/[A-Za-z0-9_./${}<>*%-]+")
+_PIN_DYNAMIC_MARKERS = ("*", "{", "}", "<", ">", "$", "%")
+_PIN_DATE_PLACEHOLDER_RE = re.compile(r"YYYY|MM|DD|XX+")
+_PIN_TRAILING = ".,:;)]}>`'\""
+
 
 @dataclass
 class Issue:
@@ -328,6 +341,52 @@ def find_unregistered_documents(
             )
         )
     return issues
+
+
+def _pin_segment_is_dynamic(segment: str) -> bool:
+    if any(marker in segment for marker in _PIN_DYNAMIC_MARKERS):
+        return True
+    return bool(_PIN_DATE_PLACEHOLDER_RE.search(segment))
+
+
+def _normalize_pin(token: str) -> str | None:
+    token = token.rstrip(_PIN_TRAILING)
+    if not token.startswith("docs/"):
+        return None
+    kept: list[str] = []
+    truncated = False
+    for segment in token.split("/"):
+        if _pin_segment_is_dynamic(segment):
+            truncated = True
+            break
+        kept.append(segment)
+    if not kept or kept[0] != "docs":
+        return None
+    pin = "/".join(kept)
+    if truncated:
+        pin += "/"
+    if pin in ("docs", "docs/"):
+        return None  # bare docs root is not a concrete pin
+    return pin
+
+
+def extract_pins_from_line(line: str) -> list[str]:
+    """Extract normalized docs/ path pins from one source line.
+
+    Order: skip overlong -> backslash->slash -> strip URLs -> regex match ->
+    per-token normalize (placeholder/glob truncate, trailing-punct strip) ->
+    per-line dedup.
+    """
+    if len(line) > 2000:
+        return []
+    line = line.replace("\\", "/")
+    line = _URL_RE.sub(" ", line)
+    pins: list[str] = []
+    for match in _DOC_PIN_RE.finditer(line):
+        pin = _normalize_pin(match.group(0))
+        if pin and pin not in pins:
+            pins.append(pin)
+    return pins
 
 
 def write_report(path: Path, issues: list[Issue]) -> None:
