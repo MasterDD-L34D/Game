@@ -457,6 +457,12 @@ function makeFakePrisma() {
       async findUnique({ where }) {
         return rows.get(where.lineageId) || null;
       },
+      async update({ where, data }) {
+        const existing = rows.get(where.lineageId);
+        if (!existing) throw new Error(`update: no row for ${where.lineageId}`);
+        rows.set(where.lineageId, { ...existing, ...data, updatedAt: ++clock });
+        return rows.get(where.lineageId);
+      },
       async findMany(args = {}) {
         let list = [...rows.values()];
         // Honor orderBy like real Prisma: object or array form, updatedAt with an
@@ -650,6 +656,83 @@ test('option-c: ownerless update does not turn the rebuilt FIFO into an LRU (Cod
   );
   assert.ok(store2.getCompanionState('skiv-lru-new-000'), 'newer quiet lineage survives');
   assert.ok(store2.getCompanionState('skiv-lru-third-00'));
+});
+
+// ─── Durable crossbreed cooldown (crossbreed_campaigns column) ───────────
+
+test('cooldown: record/get + idempotent + FIFO cap 20', () => {
+  const store = createCompanionStateStore();
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-basic-000' }));
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-A');
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-A'); // idempotent
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-B');
+  assert.deepEqual(store.getCrossbreedCampaigns('skiv-cd-basic-000'), ['camp-A', 'camp-B']);
+  // FIFO cap 20: 21st campaign drops the oldest.
+  for (let i = 0; i < 20; i += 1) {
+    store.recordCrossbreedCampaign('skiv-cd-basic-000', `camp-${i}`);
+  }
+  const list = store.getCrossbreedCampaigns('skiv-cd-basic-000');
+  assert.equal(list.length, 20);
+  assert.equal(list.includes('camp-A'), false, 'oldest dropped at cap');
+  assert.ok(list.includes('camp-19'));
+  // Unknown lineage / bad input -> [] (never throws).
+  assert.deepEqual(store.getCrossbreedCampaigns('unknown'), []);
+  assert.deepEqual(store.getCrossbreedCampaigns(null), []);
+  // Defense-in-depth: an oversized campaign id is rejected (route 400s first;
+  // this guards any future non-route caller from bloating the JSONB column).
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'x'.repeat(129));
+  assert.equal(
+    store.getCrossbreedCampaigns('skiv-cd-basic-000').some((c) => c.length > 128),
+    false,
+  );
+});
+
+test('cooldown: campaigns survive a restart via bulk-hydrate (durable cooldown)', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-dur-0001' }));
+  await flush(); // row exists before the cooldown UPDATE fires
+  store.recordCrossbreedCampaign('skiv-cd-dur-0001', 'camp-X');
+  await flush();
+  assert.deepEqual(prisma.rows.get('skiv-cd-dur-0001').crossbreedCampaigns, ['camp-X']);
+
+  // Restart: fresh store, bulk-hydrate -> the cooldown set is BACK (the old
+  // per-router Set reset here = the re-crossbreed exploit this closes).
+  const store2 = createCompanionStateStore({ prisma });
+  await store2.hydrateAllAsync();
+  assert.deepEqual(store2.getCrossbreedCampaigns('skiv-cd-dur-0001'), ['camp-X']);
+
+  // Lazy per-lineage hydrate path carries it too (guarded-write path).
+  const store3 = createCompanionStateStore({ prisma });
+  await store3.hydrateAsync('skiv-cd-dur-0001');
+  assert.deepEqual(store3.getCrossbreedCampaigns('skiv-cd-dur-0001'), ['camp-X']);
+});
+
+test('cooldown: survives when recorded BEFORE the first card upsert lands (Codex P2 race)', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  // First-save race: confirm path records the cooldown while the lineage row does
+  // NOT yet exist in Prisma (saveCompanionState's own upsert still in flight).
+  // An UPDATE would throw + get swallowed -> durable cooldown silently lost.
+  store.recordCrossbreedCampaign('skiv-cd-race-001', 'camp-R');
+  await flush();
+  assert.deepEqual(
+    prisma.rows.get('skiv-cd-race-001').crossbreedCampaigns,
+    ['camp-R'],
+    'upsert created the row instead of failing',
+  );
+  // The in-flight card save then converges the same row (update branch).
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-race-001' }));
+  await flush();
+  const row = prisma.rows.get('skiv-cd-race-001');
+  assert.deepEqual(row.crossbreedCampaigns, ['camp-R'], 'cooldown kept through card save');
+  assert.ok(row.state, 'card converged onto the same row');
+
+  // Restart: BOTH the card and the cooldown hydrate.
+  const store2 = createCompanionStateStore({ prisma });
+  await store2.hydrateAllAsync();
+  assert.ok(store2.getCompanionState('skiv-cd-race-001'));
+  assert.deepEqual(store2.getCrossbreedCampaigns('skiv-cd-race-001'), ['camp-R']);
 });
 
 test('persistence-layer: bulk-hydrate respects the cap + drops FIFO-evicted rows (Codex P1)', async () => {
