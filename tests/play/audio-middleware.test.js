@@ -7,7 +7,7 @@
 //   - When window.Howl is stubbed, playSample exercises the load+play path.
 //   - setAudioMuted toggles both synth + Howler.mute (if available).
 //
-// Cross-link: docs/audio/howler-middleware-OD-028.md
+// Cross-link: docs/design/audio/howler-middleware-OD-028.md
 //             docs/governance/open-decisions/OD-024-031-verdict-record.md
 
 'use strict';

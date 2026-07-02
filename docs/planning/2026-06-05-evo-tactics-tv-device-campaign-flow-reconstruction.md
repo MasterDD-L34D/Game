@@ -736,7 +736,7 @@ Gia' vivo:
 Fonte:
 
 - `apps/backend/routes/skiv.js`
-- `docs/integrations/swarm-skiv-feed.md`
+- `docs/ops/integrations/swarm-skiv-feed.md`
 - `tools/py/skiv_monitor.py`
 - `.github/workflows/skiv-monitor.yml`
 
@@ -1120,7 +1120,7 @@ Game:
 - `docs/reports/2026-04-27-skiv-portable-companion-research-summary.md`
 - `docs/design/2026-04-27-skiv-companion-worldgen-integration.md`
 - `docs/skiv/CANONICAL.md`
-- `docs/integrations/swarm-skiv-feed.md`
+- `docs/ops/integrations/swarm-skiv-feed.md`
 - `docs/planning/2026-06-02-full-loop-build-handoff.md`
 - `docs/planning/2026-06-02-full-loop-fase2-handoff.md`
 - `apps/backend/services/roundOrchestrator.js`

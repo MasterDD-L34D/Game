@@ -84,7 +84,7 @@
 ## FRICTION log (aggiornato)
 
 ```
-FRICTION #1-#4 (playtest #1): vedi docs/playtests/2026-04-17/notes.md
+FRICTION #1-#4 (playtest #1): vedi docs/qa/playtests/2026-04-17/notes.md
 
 FRICTION #5 (T1 scout): AP vincola "N attacks" dopo move.
   Trigger: Master chiede 2 attack dopo avvicinamento.
@@ -107,7 +107,7 @@ FRICTION #7 (T2 tank): ability effect miss semantics.
 
 ## Cross-reference
 
-- Playtest #1: `docs/playtests/2026-04-17/notes.md`
+- Playtest #1: `docs/qa/playtests/2026-04-17/notes.md`
 - PR #1491 AP budget (FRICTION #2+#3 resolution): cdc26cd3
 - PR #1496 ability discovery (FRICTION #4): 03f672f9
 - PR #1499-#1501 ability executor LIVE: usabile in playtest #3

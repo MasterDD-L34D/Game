@@ -42,7 +42,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Eseguire `node dist/roll_pack.js <MBTI> <archetipo> ../../data/packs.yaml --seed demo` (sostituire `demo` con un seed a scelta per output replicabili). _Seed `demo` testato 2025-10-24._
 - [x] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml --seed demo` e verificare che l'output (chiavi `pack`, `combo`, `total_cost`, ecc.) coincida con la CLI TypeScript. _Esito coincidente con la CLI TS._
 - [x] Generare encounter di prova: `python generate_encounter.py <bioma> ../../data/core/biomes.yaml` per
-      ogni bioma disponibile, salvando gli output in `docs/examples/` o nella sezione encounter. _Output aggiornati per savana/caverna/palude (seed `demo`) in `docs/examples/` il 2025-10-26._
+      ogni bioma disponibile, salvando gli output in `docs/guide/examples/` o nella sezione encounter. _Output aggiornati per savana/caverna/palude (seed `demo`) in `docs/guide/examples/` il 2025-10-26._
 - [x] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie. _Verifica 2025-10-27: seed `demo` (ENTP/invoker) e `alpha42` (ISFJ/support) → diff nullo tra `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py`; log salvati in `logs/tooling/2025-10-27-roll_pack/`._
 - [x] Eseguire lo smoke test CLI `scripts/cli_smoke.sh` (profili `hud`, `playtest`, `support`, `telemetry`) per validare dataset/pack e generare encounter seed `smoke-<profilo>`. _Run 2025-11-07: 22/22 biomi completi, 14 controlli pack senza avvisi, encounter savana VC conforme._
 

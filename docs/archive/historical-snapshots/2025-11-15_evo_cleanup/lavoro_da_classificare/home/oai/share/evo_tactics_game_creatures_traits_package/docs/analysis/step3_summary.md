@@ -24,7 +24,7 @@ Per ottenere un backlog centralizzato, propongo di creare un **progetto GitHub (
 ### A. Dataset & dati
 
 - Verificare che i file YAML dei dataset (biomi, packs, telemetria, specie, tratti) siano coerenti con il GDD; eseguire regolarmente gli script di validazione (`validate_datasets.py`, `report_trait_coverage.py`).
-- Espandere i set di esempi di encounter per ciascun bioma e aggiornarli in `docs/examples/`, come indicato nei seed demo【574174961222444†L15-L16】.
+- Espandere i set di esempi di encounter per ciascun bioma e aggiornarli in `docs/guide/examples/`, come indicato nei seed demo【574174961222444†L15-L16】.
 - Allineare la tabella `compat_forme` con tutte le 16 forme MBTI e assicurarsi che il glossario tratti sia aggiornato (workflow sinergie e baseline【495301925749946†L43-L50】).
 - Integrare le nuove specie e biomi (es. planar ruins) nelle tabelle `species.yaml` e `biomes.yaml`, e aggiornare la matrice specie→tratti.
 

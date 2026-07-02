@@ -169,4 +169,4 @@ apps/play/
 - Backend: `apps/backend/` (porta 3334)
 - CLI alternative: `node tools/js/play.js` (terminale, same backend)
 - Decisions: `RESEARCH_TODO.md` sprint α-ζ
-- Playtest log: `docs/playtests/`
+- Playtest log: `docs/qa/playtests/`

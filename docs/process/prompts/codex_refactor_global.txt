@@ -1,6 +1,6 @@
 # Prompt: Refactor globale del repo Game / Evo Tactics
 # Uso: 
-#   codex --ask-for-approval=always --prompt-file docs/prompts/codex_refactor_global.txt
+#   codex --ask-for-approval=always --prompt-file docs/process/prompts/codex_refactor_global.txt
 #
 # Scopo:
 #   Avviare una sessione Codex in cui:
