@@ -166,7 +166,8 @@ def stop_shard(proc, fh, port):
             pass
 
 
-def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, policy=None, extra_args=None):
+def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, policy=None, extra_args=None,
+                    skip_health=True):
     """Pure constructor for a per-shard batch_calibrate_*.py command line.
 
     Extracted so the --policy passthrough (PE_ratio contestedness multi-policy
@@ -177,6 +178,11 @@ def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, polic
     valid passthrough here: the batch script's --policy all short-circuits to the
     nested triangulation output (no JSONL) which does not compose with shard merge;
     drive multi-policy by invoking the orchestrator once per policy instead.
+
+    skip_health=False (MAP-Elites v2, F2 follow-up) drops --skip-health so the
+    batch client fail-fasts at start AND aborts via its periodic re-check when
+    the backend dies mid-batch (instead of burning connect-retries per run).
+    Default True = back-compat (orchestrators that already wait_healthy).
     """
     cmd = [
         sys.executable, "-u", str(script_path),
@@ -184,8 +190,9 @@ def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, polic
         "--n", str(n),
         "--out", str(out_path),
         "--jsonl", str(jsonl_path),
-        "--skip-health",
     ]
+    if skip_health:
+        cmd.append("--skip-health")
     if seed is not None:
         cmd += ["--seed", str(seed)]
     if policy is not None:
@@ -194,7 +201,8 @@ def build_shard_cmd(script_path, host, n, out_path, jsonl_path, seed=None, polic
     return cmd
 
 
-def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None, seed=None, policy=None):
+def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curves_path=None, seed=None, policy=None,
+                    skip_health=True):
     """Subprocess wrapper -- launch batch_calibrate_*.py against one shard.
 
     curves_path (OD-032 no-op-bug fix): if set, the batch CLIENT subprocess gets
@@ -207,7 +215,8 @@ def run_shard_batch(host, scenario_cfg, n, out_path, jsonl_path, log_path, curve
     """
     script_path = TOOLS_PY / scenario_cfg["script"]
     cmd = build_shard_cmd(script_path, host, n, out_path, jsonl_path,
-                          seed=seed, policy=policy, extra_args=scenario_cfg["extra_args"])
+                          seed=seed, policy=policy, extra_args=scenario_cfg["extra_args"],
+                          skip_health=skip_health)
     print(f"[parallel] launch shard host={host} N={n}", flush=True)
     f = open(log_path, "w", encoding="utf-8")
     env = dict(os.environ)

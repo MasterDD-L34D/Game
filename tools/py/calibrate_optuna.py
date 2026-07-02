@@ -293,15 +293,22 @@ def restore_yaml(yaml_path, original_text):
     return None
 
 
-def start_backend(port=3340, curves_path=None):
+def start_backend(port=3340, curves_path=None, log_path=None):
     """Spawn backend. curves_path (staging file) sets DAMAGE_CURVES_PATH env
-    so backend reads candidate overrides without touching production."""
+    so backend reads candidate overrides without touching production.
+
+    stdout goes to log_path (file) or DEVNULL — NEVER an undrained PIPE.
+    2026-07-02 root cause (MAP-Elites v1 N-leak, 18/40 every iter): stdout=PIPE
+    with no reader fills the ~4KB anonymous pipe buffer after ~18 runs of
+    backend logging and the Node event loop freezes on the blocked write
+    (proven by drain-recovery: reading 4204 queued bytes un-froze /api/health).
+    """
     env = dict(os.environ)
     env["PORT"] = str(port)
     env["LOBBY_WS_ENABLED"] = "false"
     if curves_path is not None:
         env["DAMAGE_CURVES_PATH"] = str(curves_path)
-    log = subprocess.PIPE
+    log = open(log_path, "w", encoding="utf-8") if log_path else subprocess.DEVNULL
     proc = subprocess.Popen(
         ["node", str(BACKEND_INDEX)],
         stdout=log,
