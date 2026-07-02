@@ -708,6 +708,33 @@ test('cooldown: campaigns survive a restart via bulk-hydrate (durable cooldown)'
   assert.deepEqual(store3.getCrossbreedCampaigns('skiv-cd-dur-0001'), ['camp-X']);
 });
 
+test('cooldown: survives when recorded BEFORE the first card upsert lands (Codex P2 race)', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  // First-save race: confirm path records the cooldown while the lineage row does
+  // NOT yet exist in Prisma (saveCompanionState's own upsert still in flight).
+  // An UPDATE would throw + get swallowed -> durable cooldown silently lost.
+  store.recordCrossbreedCampaign('skiv-cd-race-001', 'camp-R');
+  await flush();
+  assert.deepEqual(
+    prisma.rows.get('skiv-cd-race-001').crossbreedCampaigns,
+    ['camp-R'],
+    'upsert created the row instead of failing',
+  );
+  // The in-flight card save then converges the same row (update branch).
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-race-001' }));
+  await flush();
+  const row = prisma.rows.get('skiv-cd-race-001');
+  assert.deepEqual(row.crossbreedCampaigns, ['camp-R'], 'cooldown kept through card save');
+  assert.ok(row.state, 'card converged onto the same row');
+
+  // Restart: BOTH the card and the cooldown hydrate.
+  const store2 = createCompanionStateStore({ prisma });
+  await store2.hydrateAllAsync();
+  assert.ok(store2.getCompanionState('skiv-cd-race-001'));
+  assert.deepEqual(store2.getCrossbreedCampaigns('skiv-cd-race-001'), ['camp-R']);
+});
+
 test('persistence-layer: bulk-hydrate respects the cap + drops FIFO-evicted rows (Codex P1)', async () => {
   const prisma = makeFakePrisma();
   const cap = 3;

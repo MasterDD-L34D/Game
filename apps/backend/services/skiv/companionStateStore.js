@@ -403,10 +403,13 @@ function createCompanionStateStore(opts = {}) {
 
   /**
    * Record that a lineage crossbred in a campaign (ADR-04-27 cooldown source of
-   * truth). FIFO-bounded, idempotent, persisted to the crossbreed_campaigns JSONB
-   * column (fire-and-forget UPDATE: the lineage row already exists on the confirm
-   * path -- the route 404s on a missing local lineage before it gets here; a miss
-   * degrades to warm-only, never blocks the crossbreed).
+   * truth). FIFO-bounded, idempotent, persisted fire-and-forget. UPSERT, not
+   * UPDATE (Codex P2): saveCompanionState's own upsert is fire-and-forget too, so
+   * a confirm right after a first import/promote can reach this write BEFORE the
+   * row exists -- an update would throw, get swallowed, and the durable cooldown
+   * would silently stay warm-only. The minimal create relies on the schema
+   * defaults (schema_version/history/diary); the in-flight card upsert then takes
+   * its UPDATE branch and converges the row.
    */
   function recordCrossbreedCampaign(lineageId, campaignId) {
     if (!lineageId || typeof lineageId !== 'string') return;
@@ -419,7 +422,11 @@ function createCompanionStateStore(opts = {}) {
     crossbreedCampaigns.set(lineageId, next);
     if (!usePrisma) return;
     opts.prisma.skivCompanionState
-      .update({ where: { lineageId }, data: { crossbreedCampaigns: next } })
+      .upsert({
+        where: { lineageId },
+        create: { lineageId, crossbreedCampaigns: next },
+        update: { crossbreedCampaigns: next },
+      })
       .catch((err) => {
         log.warn?.(
           `[companionStateStore] cooldown persist failed for ${lineageId}:`,
