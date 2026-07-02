@@ -71,9 +71,15 @@ from calibrate_sprt import wilson_ci  # noqa: E402
 # ─────────────────────────────────────────────────────────────────────────
 
 KNOB_SPACE = {
+    # hc06 ranges aligned to the manifest SoT (canonical-suite.yaml knob_space:
+    # boss_hp 0.50-1.30, enemy_damage 1.0-2.5) after the v2-run finding that the
+    # old boss_hp cap 1.00 left the WR<20% columns unreachable (WR floor ~28%
+    # with the timer live). turn_limit stays a Method-D knob (turns-axis driver;
+    # Optuna pins it 41 instead -- different regime by design, OD-032 C).
     "hardcore_06": {
-        "boss_hp_multiplier": ("float", 0.50, 1.00),
+        "boss_hp_multiplier": ("float", 0.50, 1.30),
         "turn_limit_defeat_override": ("int", 25, 35),
+        "enemy_damage_multiplier_override": ("float", 1.0, 2.5),
     },
     "hardcore_07": {
         "enemy_count_modifier": ("int", -2, 2),
