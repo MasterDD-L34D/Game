@@ -369,14 +369,17 @@ test('decay coerenza: Lealista(6) duration=2 → buff persiste 2 round end', () 
 // computeEnneaArchetypes config-driven trigger eval (raw-metrics)
 // ─────────────────────────────────────────────────────────────────
 
-test('computeEnneaArchetypes: Riformatore(1) trigger when setup_ratio>0.5 && attack_hit_rate>0.65', () => {
+test('computeEnneaArchetypes: Riformatore(1) trigger when setup_ratio>0.3 && attack_hit_rate>0.65', () => {
   const { computeEnneaArchetypes } = require('../../apps/backend/services/vcScoring');
+  // Retune canon 2026-07-02: era setup_ratio>0.5, strutturalmente
+  // irraggiungibile nel metric-space Godot (QA GGv2 firing-rate sweep).
+  // Il caso 0.35 fira SOLO con la soglia retuned: prova che il canon e' attivo.
   const config = {
-    ennea_themes: [{ id: 'Riformatore(1)', when: 'setup_ratio>0.5 && attack_hit_rate>0.65' }],
+    ennea_themes: [{ id: 'Riformatore(1)', when: 'setup_ratio>0.3 && attack_hit_rate>0.65' }],
   };
   const aggregate = {};
   const triggered = computeEnneaArchetypes(aggregate, config, {
-    setup_ratio: 0.6,
+    setup_ratio: 0.35,
     attack_hit_rate: 0.7,
   });
   assert.equal(triggered.length, 1);
@@ -384,7 +387,7 @@ test('computeEnneaArchetypes: Riformatore(1) trigger when setup_ratio>0.5 && att
   assert.equal(triggered[0].triggered, true);
 
   const notTrig = computeEnneaArchetypes(aggregate, config, {
-    setup_ratio: 0.3,
+    setup_ratio: 0.25,
     attack_hit_rate: 0.7,
   });
   assert.equal(notTrig[0].triggered, false);

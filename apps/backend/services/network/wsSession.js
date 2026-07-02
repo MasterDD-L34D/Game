@@ -2104,6 +2104,34 @@ function createWsServer({
             }
             return;
           }
+          // T2 privacy (arco Ennea Combat Pulse) -- drain profiling_consent_set
+          // server-side via coopOrchestrator.setProfilingConsent (mirror del
+          // drain form_pulse_submit: nessun pushIntent relay, l'host Godot non
+          // ha drain GDScript generico). Broadcast `profiling_consent_update`
+          // cosi' l'host applica il gate per-unit + amnesia live
+          // (GGv2 main_profiling_consent.gd); ack al sender.
+          if (action === 'profiling_consent_set' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const snap = orch.setProfilingConsent(playerId, msg.payload?.enabled === true);
+              room.broadcast({ type: 'profiling_consent_update', payload: snap });
+              socket.send(JSON.stringify({ type: 'profiling_consent_accepted', payload: snap }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'profiling_consent_failed' },
+                }),
+              );
+            }
+            return;
+          }
           // 2026-05-06 phone smoke W7 fix — drain next_macro server-side via
           // coopOrchestrator.submitNextMacro. Host-only post-debrief macro
           // navigation choice {advance, branch, retreat}. Pre-fix relay
