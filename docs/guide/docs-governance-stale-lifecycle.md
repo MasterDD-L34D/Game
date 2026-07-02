@@ -82,6 +82,20 @@ frontmatter. Per i `source_of_truth: true` gira anche un
 `frontmatter_registry_mismatch` (frontmatter deve combaciare col registry) ->
 per quei doc bisogna toccare **entrambi**; per i non-SoT basta il registry.
 
+### Altri check dello stesso validator (contesto)
+
+Lo stesso `check_docs_governance.py` emette anche:
+
+- **`unregistered_document`** (warning) -- un `.md` sotto `docs/` presente su
+  disco ma assente dal registry. Burn-down 2026-06-10 (246 doc legacy
+  bulk-registrati).
+- **`broken_doc_pin`** (warning) -- un path `docs/` citato da codice/config/workflow o
+  da un `.md` fuori `docs/` che non esiste piu' su disco. Baseline decrescente
+  `docs/governance/doc_pins_baseline.json`. La reverse-map completa (`doc_pins` nel drift
+  report) e' la pin-map consultabile PRIMA di un reorg: dice quale doc e' pinnato e da chi.
+  Flip a gate duro = `--pins-strict` (owner). Distinto da `check_site_links.py` (link
+  DENTRO `docs/`).
+
 ## Workflow (il metodo burn-down)
 
 Ordine: **prima fixa la cadenza (root), poi disponi il terminale, poi bumpa i
