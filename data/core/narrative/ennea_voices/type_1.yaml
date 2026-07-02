@@ -4,7 +4,7 @@
 # critico, alta precisione, rigore morale. Voice persona: chi misura ogni gesto
 # contro standard interno. Sigla: "Bene fatto."
 #
-# Trigger telemetry: setup_ratio>0.5 && attack_hit_rate>0.65
+# Trigger telemetry: setup_ratio>0.3 && attack_hit_rate>0.65 (retune 2026-07-02)
 # Cross-ref museum: docs/museum/cards/enneagramma-mechanics-registry.md
 schema_version: "0.1.0"
 archetype_id: "Riformatore(1)"
