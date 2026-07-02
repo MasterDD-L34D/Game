@@ -539,7 +539,7 @@ User resume trigger "verifica PR #217 Game-Godot-v2 master-dd review status + me
 4. Mutation Phase 6 ADR + Prisma migration 0009+ (forbidden path bundle ~3-5h)
 5. Vite/Vitest 5/2 → 6/3 major upgrade cross-3-apps (~3-5h, autonomous-actionable next session)
 6. AngularJS migration ADR (~10-20h apps/trait-editor)
-7. AUTODEPLOY_PAT renewal expires 2026-08-08 (90gg)
+7. AUTODEPLOY_PAT renewal expires 2026-09-30 (90gg, renewed 2026-07-02 via Chrome MCP + gh secret set; verified run 28590387801 AUTODEPLOY_PAT_PRESENT=true)
 8. Worktree disk lock 5 dirs cleanup (reboot Claude Code)
 
 ---
@@ -612,7 +612,7 @@ User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending 
 5. Mutation Phase 6 ADR + Prisma migration 0009+ (forbidden path bundle ~3-5h)
 6. Vite/Vitest major upgrade bundle (~3-5h cross-3-apps)
 7. AngularJS migration ADR (~10-20h apps/trait-editor replace)
-8. AUTODEPLOY_PAT renewal expires 2026-08-08 (90gg)
+8. AUTODEPLOY_PAT renewal expires 2026-09-30 (90gg, renewed 2026-07-02 via Chrome MCP + gh secret set; verified run 28590387801 AUTODEPLOY_PAT_PRESENT=true)
 9. Worktree disk lock 5 dirs cleanup (reboot Claude Code)
 
 ---
