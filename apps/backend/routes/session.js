@@ -43,7 +43,11 @@ const {
   evaluateMovementTraits,
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
-const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+const {
+  loadTelemetryConfig,
+  buildVcSnapshot,
+  aggregateVcSnapshot,
+} = require('../services/vcScoring');
 // SPEC-A Device Input Ledger: validate + consent-gate device events into the
 // session event log, and tier-filter the TV-mirror channel (public + aggregated).
 const { ingest: ingestDeviceEvent } = require('../services/deviceInput');
@@ -4494,6 +4498,9 @@ function createSessionRouter(options = {}) {
       } catch {
         /* best-effort -- epigenome accumulation never blocks session end */
       }
+      const vcAgg = vcSnapshot
+        ? aggregateVcSnapshot(vcSnapshot)
+        : { aggregate: null, mbti: null, ennea: null };
       await appendEvent(session, {
         action_type: 'session_end',
         turn: session.turn,
@@ -4509,9 +4516,12 @@ function createSessionRouter(options = {}) {
         pressure_end: session.pressure ?? null,
         player_alive: playerAlive,
         sistema_alive: sistemaAlive,
-        vc_aggregate: vcSnapshot?.aggregate ?? null,
-        vc_mbti: vcSnapshot?.mbti ?? null,
-        vc_ennea: vcSnapshot?.ennea ?? null,
+        // #3157 follow-up: vcSnapshot has NO top-level aggregate/mbti/ennea
+        // (PR #1535 assumed it did -> null in every session_end ever logged).
+        // Aggregate per_actor session-side via vcScoring.aggregateVcSnapshot.
+        vc_aggregate: vcAgg.aggregate,
+        vc_mbti: vcAgg.mbti,
+        vc_ennea: vcAgg.ennea,
         automatic: true,
       });
       // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).

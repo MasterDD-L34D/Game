@@ -1060,6 +1060,66 @@ function buildVcSnapshot(session, config) {
   };
 }
 
+// #3157 follow-up (P4 analytics unblock) -- session-level VC aggregation for
+// the session_end telemetry event. PR #1535 wrote vcSnapshot.aggregate/.mbti/
+// .ennea into session_end, but buildVcSnapshot never returned those top-level
+// fields, so every session since logged null. Axis averaging mirrors
+// narrative/qbnEngine.extractQualities; ennea counts only TRIGGERED archetypes;
+// null indices (e.g. tilt, window-based) are skipped, never averaged as 0.
+function aggregateVcSnapshot(vcSnapshot) {
+  const actors = Object.values(vcSnapshot?.per_actor || {});
+  if (!actors.length) return { aggregate: null, mbti: null, ennea: null };
+
+  const axisSums = { T_F: 0, S_N: 0, E_I: 0, J_P: 0 };
+  let axisCount = 0;
+  const typeCounts = {};
+  const enneaCounts = {};
+  const indexSums = {};
+  const indexCounts = {};
+
+  for (const a of actors) {
+    const axes = a?.mbti_axes || {};
+    if (typeof axes.T_F === 'number') {
+      axisSums.T_F += axes.T_F;
+      axisSums.S_N += axes.S_N ?? 0.5;
+      axisSums.E_I += axes.E_I ?? 0.5;
+      axisSums.J_P += axes.J_P ?? 0.5;
+      axisCount++;
+    }
+    if (a?.mbti_type) typeCounts[a.mbti_type] = (typeCounts[a.mbti_type] || 0) + 1;
+    for (const arc of a?.ennea_archetypes || []) {
+      if (arc?.triggered && arc.id) enneaCounts[arc.id] = (enneaCounts[arc.id] || 0) + 1;
+    }
+    for (const [name, entry] of Object.entries(a?.aggregate_indices || {})) {
+      const v = entry && typeof entry === 'object' && 'value' in entry ? entry.value : null;
+      if (typeof v === 'number' && Number.isFinite(v)) {
+        indexSums[name] = (indexSums[name] || 0) + v;
+        indexCounts[name] = (indexCounts[name] || 0) + 1;
+      }
+    }
+  }
+
+  const avgAxes = axisCount
+    ? {
+        T_F: axisSums.T_F / axisCount,
+        S_N: axisSums.S_N / axisCount,
+        E_I: axisSums.E_I / axisCount,
+        J_P: axisSums.J_P / axisCount,
+      }
+    : null;
+  const aggregate = {};
+  for (const name of Object.keys(indexSums)) {
+    aggregate[name] = indexSums[name] / indexCounts[name];
+  }
+
+  return {
+    aggregate: Object.keys(aggregate).length ? aggregate : null,
+    mbti:
+      avgAxes || Object.keys(typeCounts).length ? { avg_axes: avgAxes, types: typeCounts } : null,
+    ennea: Object.keys(enneaCounts).length ? { triggered: enneaCounts } : null,
+  };
+}
+
 // 2026-05-14 OD-024 Phase B3 ai-station — sentience tier resolver.
 // Reads species_catalog.json (Game/ data/core/species/) and maps each unit
 // to its sentience_index via species_id lookup. Cache catalog per call site
@@ -1147,6 +1207,7 @@ module.exports = {
   deriveMbtiType,
   computeEnneaArchetypes,
   buildVcSnapshot,
+  aggregateVcSnapshot,
   tokenizeCondition,
   evaluateCondition,
   SCORING_VERSION,
