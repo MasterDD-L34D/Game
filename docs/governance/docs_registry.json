@@ -13744,6 +13744,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-02-doc-pins-guardrail-design.md",
+      "title": "Doc-pins guardrail -- existence-check dei path docs/ referenziati dal codice",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-02",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
