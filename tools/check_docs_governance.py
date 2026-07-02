@@ -452,6 +452,44 @@ def scan_doc_pins(repo_root: Path) -> dict[str, list[str]]:
     return dict(sorted(pin_map.items()))
 
 
+def load_pins_baseline(path: Path) -> set[str]:
+    """Load known pre-existing broken pins (key 'broken_known'); empty if absent."""
+    if not path.exists():
+        return set()
+    data = load_json(path)
+    return {str(entry) for entry in data.get("broken_known", [])}
+
+
+def find_broken_doc_pins(
+    repo_root: Path,
+    baseline: set[str] | None = None,
+    strict: bool = False,
+) -> tuple[list[Issue], dict[str, list[str]]]:
+    """Emit broken_doc_pin Issues for pins absent on disk and not baselined.
+
+    Returns (issues, pin_map). pin_map includes healthy pins too -- it is the
+    consultable reverse-map written into the drift report.
+    """
+    known = baseline or set()
+    pin_map = scan_doc_pins(repo_root)
+    level = "error" if strict else "warning"
+    issues: list[Issue] = []
+    for pin, referrers in pin_map.items():
+        if (repo_root / pin).exists():
+            continue
+        if pin in known:
+            continue
+        issues.append(
+            Issue(
+                level,
+                "broken_doc_pin",
+                pin,
+                f"citato da {referrers[0]}, non esiste su disco",
+            )
+        )
+    return issues, pin_map
+
+
 def write_report(path: Path, issues: list[Issue]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {

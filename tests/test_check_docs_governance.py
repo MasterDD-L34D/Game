@@ -897,3 +897,48 @@ def test_scan_skips_undecodable_file(tmp_path):
     (tmp_path / "tools" / "blob.py").write_bytes(b"\xff\xfe docs/a.md \x00")
     # must not raise; binary file simply yields no pins
     assert validator.scan_doc_pins(tmp_path) == {}
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: find_broken_doc_pins + load_pins_baseline
+# ---------------------------------------------------------------------------
+
+
+def test_find_broken_pin_warns(tmp_path):
+    _write(tmp_path, "tools/x.py", "P = 'docs/gone/missing.md'\n")
+    issues, pin_map = validator.find_broken_doc_pins(tmp_path, set())
+    assert len(issues) == 1
+    iss = issues[0]
+    assert iss.level == "warning"
+    assert iss.code == "broken_doc_pin"
+    assert iss.path == "docs/gone/missing.md"
+    assert "tools/x.py:1" in iss.message
+    assert pin_map["docs/gone/missing.md"] == ["tools/x.py:1"]
+
+
+def test_find_existing_pin_ok(tmp_path):
+    _write(tmp_path, "docs/present.md", "# real\n")
+    _write(tmp_path, "tools/x.py", "P = 'docs/present.md'\n")
+    issues, _ = validator.find_broken_doc_pins(tmp_path, set())
+    assert issues == []
+
+
+def test_find_baseline_absorbs_broken(tmp_path):
+    _write(tmp_path, "tools/x.py", "P = 'docs/gone/missing.md'\n")
+    issues, _ = validator.find_broken_doc_pins(
+        tmp_path, {"docs/gone/missing.md"})
+    assert issues == []
+
+
+def test_find_strict_promotes_to_error(tmp_path):
+    _write(tmp_path, "tools/x.py", "P = 'docs/gone/missing.md'\n")
+    issues, _ = validator.find_broken_doc_pins(tmp_path, set(), strict=True)
+    assert issues[0].level == "error"
+
+
+def test_load_pins_baseline(tmp_path):
+    bl = tmp_path / "bl.json"
+    bl.write_text(json.dumps({"broken_known": ["docs/x.md", "docs/y/"]}),
+                  encoding="utf-8")
+    assert validator.load_pins_baseline(bl) == {"docs/x.md", "docs/y/"}
+    assert validator.load_pins_baseline(tmp_path / "nope.json") == set()
