@@ -979,3 +979,25 @@ def test_parse_args_has_pins_flags(monkeypatch):
     args = validator.parse_args()
     assert args.pins_strict is True
     assert args.pins_baseline == validator.DEFAULT_PINS_BASELINE
+
+
+# ---------------------------------------------------------------------------
+# broken_doc_pin: docs/ must match only at a path boundary (mid-path FP guard)
+# ---------------------------------------------------------------------------
+
+
+def test_extract_ignores_midpath_docs_segment():
+    # docs/ as a NON-initial path segment is NOT a repo-root docs/ pin.
+    assert validator.extract_pins_from_line(
+        "            packs/evo_tactics_pack/docs/catalog/env_traits.json \\"
+    ) == []
+    assert validator.extract_pins_from_line(
+        "        --report reports/docs/governance_drift_report.json"
+    ) == []
+
+
+def test_extract_matches_token_initial_docs():
+    # token-initial docs/ (start of line, after space, after quote) still matches.
+    assert validator.extract_pins_from_line("docs/a.md at line start") == ["docs/a.md"]
+    assert validator.extract_pins_from_line("see docs/b.md here") == ["docs/b.md"]
+    assert validator.extract_pins_from_line("PATH = 'docs/c.md'") == ["docs/c.md"]
