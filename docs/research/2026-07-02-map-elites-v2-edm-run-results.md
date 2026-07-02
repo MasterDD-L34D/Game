@@ -13,8 +13,8 @@ Terza run Method D (seconda completa): knob-space allineato al manifest SoT
 esplorato da Method D) + primo esercizio reale di --sprt. Coverage 10/25 (era
 6/25), WR floor 0.28 -> 0.15, riga turns 30-36 aperta, r(WR,turns)=0.158.
 SPRT ha troncato 14/50 trial risparmiando 352 run (18% del budget). Due
-finding: (a) WR <10%% resta irraggiungibile anche col knob-space pieno --
-floor strutturale ~15%% del greedy AI; (b) wart SPRT trovato sui dati (trial
+finding: (a) WR <10% resta irraggiungibile anche col knob-space pieno --
+floor strutturale ~15% del greedy AI; (b) wart SPRT trovato sui dati (trial
 troncato N=10-11 puo' EVICT un occupante full-N) e fixato post-run
 (truncated = populate-only, mai replace; test dedicato).
 
@@ -44,18 +44,18 @@ troncato N=10-11 puo' EVICT un occupante full-N) e fixato post-run
 (\*) Occupanti low-N da trial SPRT-troncati: direction-probe, NON ratify-grade
 (L-073). Il fix post-run impedisce questi replace nelle run future.
 
-Banda target 15-30%% ora coperta da 3 celle full-N con il lever edm:
-(1,2) 15%%, (2,3) 20%%, (2,2) 25%% -- tutte boss_hp 1.11-1.16 + edm 1.7-1.9.
-NB: la prod (boss 1.02, edm none, WR 23%% N=100) resta la config ratificata;
+Banda target 15-30% ora coperta da 3 celle full-N con il lever edm:
+(1,2) 15%, (2,3) 20%, (2,2) 25% -- tutte boss_hp 1.11-1.16 + edm 1.7-1.9.
+NB: la prod (boss 1.02, edm none, WR 23% N=100) resta la config ratificata;
 queste sono coordinate mappa, non candidati ship.
 
 ## Finding
 
-### F-A: WR <10%% irraggiungibile anche nel knob-space SoT-full
+### F-A: WR <10% irraggiungibile anche nel knob-space SoT-full
 
 WR minimo osservato 0.15 su 50 sample; i 3 sample con WR=0.15 hanno gia'
-boss_hp 1.01-1.26 + edm 1.7-2.1. La colonna 0-10%% richiederebbe condizioni
-fuori dal SoT attuale. Floor strutturale del greedy AI su hc06 ~15%%: la
+boss_hp 1.01-1.26 + edm 1.7-2.1. La colonna 0-10% richiederebbe condizioni
+fuori dal SoT attuale. Floor strutturale del greedy AI su hc06 ~15%: la
 mappa dice che il knob-space canonico NON puo' produrre un hc06 "quasi
 impossibile" -- rilevante se in futuro serve una variante nightmare.
 
@@ -70,7 +70,7 @@ troncata puo' popolare una cella vuota, mai sostituire un occupante
 
 ### F-C: SPRT funziona e paga
 
-14/50 trial troncati = 352 run risparmiate (18%% del budget 2000). I
+14/50 trial troncati = 352 run risparmiate (18% del budget 2000). I
 troncamenti sono tutti su trial alto-WR dopo che la colonna 4 era satura
 (5/5 righe) -- semantica corretta. Wall-time simile alla run non-SPRT
 (894s vs 862s) perche' la wave-barrier limita il guadagno: il beneficio
