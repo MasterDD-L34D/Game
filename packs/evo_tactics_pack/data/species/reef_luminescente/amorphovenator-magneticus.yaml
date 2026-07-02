@@ -1,6 +1,6 @@
 id: amorphovenator_magneticus
 schema_version: '1.7'
-resistance_archetype: adattivo
+resistance_archetype: bioelettrico
 display_name: Sondatore amorfo
 biomes:
 - reef_luminescente

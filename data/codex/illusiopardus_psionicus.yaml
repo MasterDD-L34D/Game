@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Foresta Temperata Umida
     biome_trait: Boschi piovosi con canopy densa, nebbie calde e radure bioenergetiche
     lineage: forme a morfologia felino psionico
-    archetype: adattivo
+    archetype: psionico
     morphotype: felino psionico
     job: skirmisher
     role: predatore terziario
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: psionico'
       - 'role_trofico: predatore_terziario; sentient: True'
       - 'trait_refs: artigli_psionici, tessuti_adattivi, empatia_coordinativa'
       cross_ref:
@@ -59,7 +59,7 @@ codex_entry:
       - trait:artigli_psionici
       - trait:tessuti_adattivi
       - trait:empatia_coordinativa
-      game_impact: Archetipo adattivo.
+      game_impact: Archetipo psionico.
       content: 'La linea del mascheraio illusorio porta i segni di artigli psionici, tessuti adattivi, empatia coordinativa: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi un ciclo di adattamento continuo, conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
