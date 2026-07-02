@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Scogliera Luminescente
     biome_trait: Barriere coralline sintetiche con correnti luminescenti e fauna sensibile alla risonanza
     lineage: forme a morfologia amorfo
-    archetype: adattivo
+    archetype: bioelettrico
     morphotype: amorfo
     job: ranger
     role: predatore secondario
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: bioelettrico'
       - 'role_trofico: predatore_secondario; sentient: False'
       - 'trait_refs: filamenti_digestivi_compattanti, olfatto_risonanza_magnetica, struttura_elastica_amorfa, lamelle_termoforetiche, scheletro_idro_regolante'
       cross_ref:
@@ -61,8 +61,8 @@ codex_entry:
       - trait:struttura_elastica_amorfa
       - trait:lamelle_termoforetiche
       - trait:scheletro_idro_regolante
-      game_impact: Archetipo adattivo.
-      content: 'Il sondatore amorfo evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- filamenti digestivi compattanti, olfatto risonanza magnetica, struttura elastica amorfa, lamelle termoforetiche, scheletro idro regolante -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
+      game_impact: Archetipo bioelettrico.
+      content: 'Il sondatore amorfo evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- filamenti digestivi compattanti, olfatto risonanza magnetica, struttura elastica amorfa, lamelle termoforetiche, scheletro idro regolante -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo bioelettrico.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:

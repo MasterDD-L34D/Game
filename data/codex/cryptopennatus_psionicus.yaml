@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Canopia Ionica
     biome_trait: Foresta verticale sospesa da campi elettrostatici e rampicanti conduttivi
     lineage: forme a morfologia aliante mimetico
-    archetype: adattivo
+    archetype: psionico
     morphotype: aliante mimetico
     job: ranger
     role: esploratore
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: psionico'
       - 'role_trofico: esploratore; sentient: True'
       - 'trait_refs: mimetismo_cromatico_passivo, sacche_galleggianti_ascensoriali, struttura_elastica_amorfa, focus_frazionato, pathfinder, ali_fono_risonanti, spore_psichiche_silenziate, occhi_cristallo_modulare'
       cross_ref:
@@ -64,7 +64,7 @@ codex_entry:
       - trait:ali_fono_risonanti
       - trait:spore_psichiche_silenziate
       - trait:occhi_cristallo_modulare
-      game_impact: Archetipo adattivo.
+      game_impact: Archetipo psionico.
       content: 'La linea dell''esploratore di chioma porta i segni di mimetismo cromatico passivo, sacche galleggianti ascensoriali, struttura elastica amorfa, focus frazionato, pathfinder, ali fono risonanti: ogni tratto core e'' la cicatrice di una pressione del bioma. Attraversa le fasi un ciclo di adattamento continuo, conservando solo cio'' che sopravvive.'
     I_impianto:
       heading: Impianto morfo-fisiologico
