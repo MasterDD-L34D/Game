@@ -5,7 +5,19 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01 (cont) -- W5 close: D8 NULL + W6 form-pulse graded ratify + staged-latent flip
+## ⚡ Sessione corrente 2026-07-01/02 -- W5 graded-lane CLOSE: D6 REAL + ER7 re-confirm + G6 built + W6 flip LIVE @1.15
+
+Handoff: `docs/planning/2026-07-02-session-handoff-w5-graded-close.md`. **10 PR Game + 1 GGv2 merged. W5 graded lane COMPLETA** (X1 = delivered-via-pivot #3163). **W6 form-pulse v2 + STAMINA = LIVE in prod, config ratificata.**
+
+- **D6** #3149+#3151: **REAL band, mapping 8/8 LIVE** (fires 45-318, drift floor esattamente 0; #3083 near-inert REFUTATO; ferocia on_kill exercise-limited = owner KEEP). 🔑 D6 flag DEAD (W4-collapsed in `FORM_PULSE_TRAIT_V2_ENABLED`) -> subset del bundle W6.
+- **W6 anchor RATIFICATO 1.15** (owner) #3152-#3154 (keys.env staged 1.20->1.15 + cascade handoff sync, 2 Codex P2).
+- **N3 ER7** #3156-#3162: 🔴 verify-first = marker STALE, ER7 **gia' default-ON+ratificato 06-11** (`isEnabled = env !== 'false'`); il mio N=40 = re-conferma (prey 0.54->0.00; +5.22 rounds = artefatto probe-differenziato gia' noto al pilota 06-11; on_abundant marginale). Niente stagato (no-op). 🔑 3-PR Codex cascade per aver saltato il protocollo evidence-grade del probe -> `lesson_spec_i_gates_evidence_grade_protocol` (isolated per-arm procs + --aggregate + --seed-base matching + machine-diff doc vs JSON).
+- **G6 GGv2 #558 `4ac491e7`**: engine-AP-enforcement BUILT flag-OFF (divergence §5b chiuso; engine==telegraph via stesso MoveCostField, parity backend #3012, 53 GUT, flag-OFF byte-identical, tripwire aggiornato come decisione conscia). Flip Godot gated #3053+owner.
+- **W6 flip LIVE**: 🔴 verify-first ha beccato il mezzo-flip storto del restart manuale hub (env parziale -> anchor 1.4 default misurato live ratio 1.429 + DATABASE_URL assente = persistence persa) -> fix owner-authorized: prod checkout `_gamewt-lenovo-host` FF `f859817d`->`bba41fb6` (senza, w=0.78 non-normalizzato = imprint-win ~90%) + prisma generate + migrations 19/19 gia' applicate + restart via task (launcher self-heal) -> **verificato live: ratio 1.143 = anchor 1.15 esatto, w 0.78, STAMINA live, Prisma hydrate 5 rooms, WS 3341 up, /api/meta/npg 200**.
+- Cross-session (3 lane parallele, 0 conflitti): SPEC-F persistence #3155/#3169 (migrations 0018/0019) + hub #3157 telemetry arc (#3164/#3166/#3167/#3168/#3159; spec-i-gates escluso intenzionalmente da #3168). Rescue branch `rescue/w5-d6-leftover-a6a0a867` verificato fully-merged -> cancellato.
+- **Residui**: Godot MOVE_TERRAIN flip (#3053-gated) · playtest umano N5/N7/N8 · watch post-flip (imprint-win target 30-40%, stamina feel) · #3157 residuals + dashboard = lane hub · SPEC-F cooldown/Opt-C = owner.
+
+## ⚡ Sessione 2026-07-01 (cont) -- W5 close: D8 NULL + W6 form-pulse graded ratify + staged-latent flip [SUPERSEDED: flip ESEGUITO, anchor 1.15]
 
 Handoff: `docs/planning/2026-07-01-session-handoff-w5-d8-w6-close.md`. **3 PR merged, 0 open, prod INTATTO.**
 Eseguito il piano grilling **D8 -> W6**.

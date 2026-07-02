@@ -160,6 +160,7 @@ async function runOne(party, seed, focusFire, mode) {
       maxRounds: 40,
       gridSize: synthetic ? 8 : 10,
       focusFire,
+      endSession: true, // #3157 F4: close the session so the log gets session_end
     });
     const rosterN = (r.rosterIds || []).length || 4;
     // Prefer the adapter's roster-scoped units_lost (a spawned minion is player-controlled but

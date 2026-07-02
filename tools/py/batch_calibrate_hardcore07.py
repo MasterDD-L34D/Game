@@ -169,6 +169,8 @@ def run_one(host, run_idx, seed=None, policy="greedy", rng=None):
 
     status, start = post(f"{host}/api/session/start", {
         "units": sc["units"],
+        # #3157 F3: tag the session so per-scenario telemetry stops logging null
+        "scenario_id": SCENARIO_ID,
         # TKT-PLAYTEST-SEED: pin backend combat RNG for bit-identical replay.
         # None -> key omitted -> backend stays on Math.random (no behavior change).
         **({"seed": seed} if seed is not None else {}),
@@ -247,7 +249,10 @@ def run_one(host, run_idx, seed=None, policy="greedy", rng=None):
     if not outcome:
         outcome = "timeout"
 
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # #3157 F2: declare the client-computed failure outcome so round-cap runs
+    # stop surfacing as board-derived 'abandon' (server gate: downgrade-only).
+    declared = {"outcome": outcome} if outcome in ("timeout", "defeat") else {}
+    post(f"{host}/api/session/end", {"session_id": sid, **declared})
 
     final_units = state.get("units", [])
     players_alive = sum(

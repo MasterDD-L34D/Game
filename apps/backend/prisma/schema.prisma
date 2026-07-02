@@ -362,6 +362,21 @@ model SkivCompanionState {
   crossbreedHistory  Json     @default("[]") @map("crossbreed_history")
   voiceDiaryPortable Json     @default("[]") @map("voice_diary_portable")
   shareUrl           String?  @map("share_url")
+  // Full whitelisted (PII-free) companion card (persist-all-fields). The 6 columns
+  // above lose species_id/biome_id/mbti_axes/progression/cabinet/mutations/aspect/
+  // unit_id/generated_at at restart; `state` holds the entire card. Nullable ->
+  // pre-migration rows read NULL and fall back to the 6 columns (fromPrismaRow).
+  state              Json?    @map("state")
+  // SPEC-F Option C (durable per-Nido cap): the caller's durable identity (JWT sub
+  // else self-asserted player_id) captured at save-time. Server-side metadata ONLY
+  // -- never part of the whitelisted card (would leak via share + change the
+  // signature). Nullable: ownerless/pre-migration rows bucket to ANON on hydrate.
+  owner              String?  @map("owner")
+  // Durable crossbreed cooldown (ADR-04-27 "1/campaign/lineage"): campaign ids this
+  // lineage crossbred in (FIFO cap 20, app-level). Server-side metadata like owner
+  // -- keeping campaign_id OFF the shareable card is the privacy line that killed
+  // the #3101 contracts-field approach. Nullable: pre-migration rows read NULL -> [].
+  crossbreedCampaigns Json?   @map("crossbreed_campaigns")
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
 

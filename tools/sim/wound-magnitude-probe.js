@@ -104,6 +104,7 @@ async function runArm({ scenario, runs, seedBase, arm, scaling, onRun }) {
         scenarioId: scenario,
         seed,
         maxRounds: 160,
+        endSession: true, // #3157 F4: close the session so the log gets session_end
       });
       const rec = {
         seed,

@@ -23,6 +23,9 @@ logs/pipeline_status.log
 logs/audit-bundle.tar.gz
 logs/*.log
 
+# Generated static HTML reports (e.g. tools/py/build_ermes_report.py)
+logs/reports/*.html
+
 # Python bytecode caches
 __pycache__/
 

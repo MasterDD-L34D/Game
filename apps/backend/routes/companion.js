@@ -157,14 +157,13 @@ function createCompanionRouter({
   const importRateLimited = makeRateLimiter();
   const resyncRateLimited = makeRateLimiter();
 
-  // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). Tracked IN-MEMORY
-  // (per-router), NOT on the crossbreed_history item: the ratified
-  // skiv_companion schema (packages/contracts, additionalProperties:false) does
-  // not model a campaign_id on the event, and that schema is a forbidden-path
-  // change. In-memory matches the rate-limit's durability (per-process / per-run);
-  // a durable cross-restart cooldown needs a contracts schema field = master-dd.
-  const _crossbreedCampaigns = new Set(); // `${campaignId}::${lineageId}`
-  const cooldownKey = (campaignId, lineageId) => `${campaignId}::${lineageId}`;
+  // Cooldown 1 crossbreed per campaign per lineage (ADR-04-27). DURABLE since the
+  // persistence layer (owner direction 2026-07-02): the STORE keeps a per-lineage
+  // campaign list in the server-side crossbreed_campaigns JSONB column (rehydrated
+  // at boot) -- NOT on the crossbreed_history item, so campaign_id never enters the
+  // whitelisted shareable card (the privacy leak that killed the #3101
+  // contracts-field approach). In-memory store mode degrades to per-process
+  // durability, same as the old per-router Set this replaces.
 
   // Overwrite guard for the ambassador registry. getCompanionState reads the
   // in-memory Map only, but saveCompanionState upserts to Prisma -> after a
@@ -702,6 +701,13 @@ function createCompanionRouter({
     if (!campaignId) {
       return res.status(400).json({ error: 'campaign_id_required' });
     }
+    // Trust-boundary bound: campaign_id lands in the durable crossbreed_campaigns
+    // JSONB column (FIFO cap 20 bounds the COUNT, not the per-id size) -- an
+    // unbounded client string would bloat the column (reviewer finding). 128 chars
+    // covers uuid/slug ids with slack.
+    if (campaignId.length > 128) {
+      return res.status(400).json({ error: 'campaign_id_invalid' });
+    }
     // Rate-limit BEFORE any store work (cheap abuse guard, ADR-04-27).
     const owner = deriveOwner(req);
     if (crossbreedRateLimited(rateKey(req, owner))) {
@@ -733,7 +739,9 @@ function createCompanionRouter({
       return res.status(422).json({ error: 'crossbreed_requires_biological' });
     }
     // Cooldown 1/campaign (ADR-04-27): this campaign already crossbred this lineage.
-    if (_crossbreedCampaigns.has(cooldownKey(campaignId, lineageId))) {
+    // Store-backed (durable across restart when Prisma is wired; boot bulk-hydrate
+    // reloads the per-lineage campaign list).
+    if (store.getCrossbreedCampaigns(lineageId).includes(campaignId)) {
       return res.status(409).json({ error: 'crossbreed_cooldown_active' });
     }
     // Roll with the preview seed (or a fresh one) so confirm == the previewed offspring.
@@ -778,8 +786,8 @@ function createCompanionRouter({
         .status(500)
         .json({ error: 'companion_crossbreed_failed', message: String(err.message || err) });
     }
-    // Mark this campaign+lineage as having crossbred (cooldown 1/campaign).
-    _crossbreedCampaigns.add(cooldownKey(campaignId, lineageId));
+    // Mark this campaign+lineage as having crossbred (cooldown 1/campaign, durable).
+    store.recordCrossbreedCampaign(lineageId, campaignId);
     return res.json({
       confirmed: true,
       offspring: result.offspring,

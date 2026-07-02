@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Caverna Risonante
     biome_trait: Gallerie cristalline dove eco e pressioni invertite modellano la fauna
     lineage: forme a morfologia costrutto corazzato
-    archetype: adattivo
+    archetype: corazzato
     morphotype: costrutto corazzato
     job: warden
     role: guardiano artificiale
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: corazzato'
       - 'role_trofico: guardiano_artificiale; sentient: False'
       - 'trait_refs: armatura_pietra_planare, carapace_fase_variabile, matrice_antimagia, nuclei_di_controllo'
       cross_ref:
@@ -60,8 +60,8 @@ codex_entry:
       - trait:carapace_fase_variabile
       - trait:matrice_antimagia
       - trait:nuclei_di_controllo
-      game_impact: Archetipo adattivo.
-      content: 'Il litoautoma inibitore evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- armatura pietra planare, carapace fase variabile, matrice antimagia, nuclei di controllo -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
+      game_impact: Archetipo corazzato.
+      content: 'Il litoautoma inibitore evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- armatura pietra planare, carapace fase variabile, matrice antimagia, nuclei di controllo -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo corazzato.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:

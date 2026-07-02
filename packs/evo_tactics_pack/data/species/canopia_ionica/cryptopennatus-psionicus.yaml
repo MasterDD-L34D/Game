@@ -1,6 +1,6 @@
 id: cryptopennatus_psionicus
 schema_version: '1.7'
-resistance_archetype: adattivo
+resistance_archetype: psionico
 display_name: Esploratore di chioma
 biomes:
 - canopia_ionica

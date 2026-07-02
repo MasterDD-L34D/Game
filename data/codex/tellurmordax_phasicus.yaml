@@ -21,7 +21,7 @@ codex_entry:
     biome_name: Calanchi Ferromagnetici
     biome_trait: Altipiani arrugginiti con tempeste ferrose e rovine sepolte
     lineage: forme a morfologia scavatore corazzato
-    archetype: adattivo
+    archetype: corazzato
     morphotype: scavatore corazzato
     job: vanguard
     role: predatore terziario
@@ -51,7 +51,7 @@ codex_entry:
     L_linee_evolutive:
       heading: Linee evolutive
       key_facts:
-      - 'resistance_archetype: adattivo'
+      - 'resistance_archetype: corazzato'
       - 'role_trofico: predatore_terziario; sentient: False'
       - 'trait_refs: carapace_fase_variabile, coda_frusta_cinetica, armatura_pietra_planare, scheletro_idro_regolante'
       cross_ref:
@@ -60,8 +60,8 @@ codex_entry:
       - trait:coda_frusta_cinetica
       - trait:armatura_pietra_planare
       - trait:scheletro_idro_regolante
-      game_impact: Archetipo adattivo.
-      content: 'Il tellumordace di fase evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- carapace fase variabile, coda frusta cinetica, armatura pietra planare, scheletro idro regolante -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo adattivo.'
+      game_impact: Archetipo corazzato.
+      content: 'Il tellumordace di fase evolve lungo le fasi un ciclo di adattamento continuo. I suoi tratti -- carapace fase variabile, coda frusta cinetica, armatura pietra planare, scheletro idro regolante -- non sono ornamenti ma risposte: ognuno racconta una pressione superata, in archetipo corazzato.'
     I_impianto:
       heading: Impianto morfo-fisiologico
       key_facts:

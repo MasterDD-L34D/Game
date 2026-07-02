@@ -82,6 +82,18 @@ The paired anchor curve (supersedes the earlier table):
 | 1.30   | +0.095       | -0.029      |
 | 1.40   | +0.131       | -0.033      |
 
+## RATIFIED (owner, 2026-07-01)
+
+**Master-dd ratified the offense-null anchor = `FORM_PULSE_V2_ENEMY_HP_OFFSET=1.15`** (the corrected
+paired offense-null, net enemy_hp -0.007). The staged keys.env value was updated 1.20 -> **1.15** on the
+canonical host (CODEMASTERDD, inert until restart). The other staged values are unchanged
+(`FORM_PULSE_TRAIT_V2_ENABLED=true`, `FORM_PULSE_IMPRINT_WEIGHT=0.78`). The irreducible ko survival tilt
+(~-0.06) persists at any anchor by construction (a single enemy-HP knob cannot null a 2-D offense+survival
+buff) -- this is accepted, v2 = "leave a mark". **Flip remains owner-pending**: deploy prod to main
+`>= 92e52636` (the producer party-normalization must be live, else `w=0.78` unnormalized makes imprint win
+~90%) THEN restart the backend. Reversible (delete the 3 keys.env lines = byte-identical OFF). The D6 N=40
+(#3149) separately validated that the imprint picks feeding this flag are engine-LIVE (8/8).
+
 ## Method
 
 **3-arm decouple.** The flag has TWO coupled effects: (buff) v2 grants the team more combat-effective traits

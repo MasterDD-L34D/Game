@@ -246,6 +246,7 @@ async function runOne(http, roster, biomeId, seed) {
     // is on the SAME 6x6-clamped board those validated as power-sensitive. All 3 arms share the board,
     // so the DELTAS (the ratify signal) are unaffected; only the absolute-difficulty label was wrong.
     gridSize: 10,
+    endSession: true, // #3157 F4: close the session so the log gets session_end
   });
   const rosterN = (r.rosterIds || []).length || roster.length;
   const kos = Number.isFinite(r.units_lost)

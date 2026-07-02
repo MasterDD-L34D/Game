@@ -427,3 +427,334 @@ test('Phase 1: WHITELIST_TOP_FIELDS includes critical share-safe fields', () => 
   assert.equal(WHITELIST_TOP_FIELDS.includes('email'), false);
   assert.equal(WHITELIST_TOP_FIELDS.includes('diary'), false);
 });
+
+// ─── Persist-all-fields + bulk-hydrate (TKT-PERSISTENCE-LAYER) ───────────
+//
+// A faithful fake Prisma delegate (rows Map = the DB). Exercises the REAL store's
+// persistAsync -> row -> fromPrismaRow -> hydrateAllAsync path across a simulated
+// restart (a NEW store instance over the SAME rows), per lesson_durable_test_must_hydrate
+// (an in-memory-shared stub "persists" trivially and would hide the truncation).
+
+function makeFakePrisma() {
+  const rows = new Map(); // lineageId -> row
+  let clock = 0; // monotonic stand-in for @updatedAt (Prisma stamps it server-side)
+  return {
+    rows,
+    skivCompanionState: {
+      async upsert({ where, create, update }) {
+        const existing = rows.get(where.lineageId);
+        const updatedAt = ++clock;
+        // createdAt stamps ONCE at insert (like Prisma @default(now())); updates
+        // bump updatedAt only -- the FIFO index sorts on createdAt (Codex P2).
+        rows.set(
+          where.lineageId,
+          existing
+            ? { ...existing, ...update, updatedAt }
+            : { ...create, createdAt: updatedAt, updatedAt },
+        );
+        return rows.get(where.lineageId);
+      },
+      async findUnique({ where }) {
+        return rows.get(where.lineageId) || null;
+      },
+      async update({ where, data }) {
+        const existing = rows.get(where.lineageId);
+        if (!existing) throw new Error(`update: no row for ${where.lineageId}`);
+        rows.set(where.lineageId, { ...existing, ...data, updatedAt: ++clock });
+        return rows.get(where.lineageId);
+      },
+      async findMany(args = {}) {
+        let list = [...rows.values()];
+        // Honor orderBy like real Prisma: object or array form, updatedAt with an
+        // optional lineageId tiebreaker (reviewer finding: the earlier mock ignored
+        // 'asc' entirely, so the isolate-hydrate test passed by insertion-order
+        // coincidence instead of exercising the query's contract).
+        const orderBy = Array.isArray(args.orderBy)
+          ? args.orderBy
+          : args.orderBy
+            ? [args.orderBy]
+            : [];
+        if (orderBy.length > 0) {
+          const NUMERIC = new Set(['updatedAt', 'createdAt']);
+          list.sort((a, b) => {
+            for (const clause of orderBy) {
+              const [field, dir] = Object.entries(clause)[0];
+              const av = NUMERIC.has(field) ? a[field] || 0 : a[field] || '';
+              const bv = NUMERIC.has(field) ? b[field] || 0 : b[field] || '';
+              if (av < bv) return dir === 'asc' ? -1 : 1;
+              if (av > bv) return dir === 'asc' ? 1 : -1;
+            }
+            return 0;
+          });
+        }
+        if (Number.isFinite(args.take)) list = list.slice(0, args.take);
+        return list;
+      },
+    },
+  };
+}
+
+const flush = () => new Promise((r) => setImmediate(r));
+
+test('persistence-layer: full card (species/progression) survives a restart via bulk-hydrate', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  assert.equal(store._mode, 'prisma');
+  store.saveCompanionState(
+    makeValidState({
+      lineage_id: 'skiv-persist-full-0001',
+      species_id: 'dune_stalker',
+      biome_id: 'savana',
+      progression: { level: 7, xp: 4200 },
+      cabinet: { unlocked: ['thought-a', 'thought-b'] },
+      mutations: [{ id: 'frost', ts: '2026-04-27T00:00:00Z' }],
+      aspect: { name: 'ashen' },
+    }),
+  );
+  await flush(); // let the fire-and-forget persistAsync upsert settle
+
+  // Simulate restart: a fresh store over the SAME persisted rows starts EMPTY.
+  const store2 = createCompanionStateStore({ prisma });
+  assert.equal(store2.getCompanionState('skiv-persist-full-0001'), null);
+  const n = await store2.hydrateAllAsync();
+  assert.equal(n, 1);
+
+  const card = store2.getCompanionState('skiv-persist-full-0001');
+  assert.ok(card, 'card hydrated after restart');
+  // These were UNDEFINED before persist-all-fields (only 6 columns survived).
+  assert.equal(card.species_id, 'dune_stalker');
+  assert.equal(card.biome_id, 'savana');
+  assert.equal(card.progression.level, 7);
+  assert.deepEqual(card.cabinet.unlocked, ['thought-a', 'thought-b']);
+  assert.equal(card.mutations[0].id, 'frost');
+  assert.equal(card.aspect.name, 'ashen');
+  assert.equal(card.mbti_axes.E_I.value, 0.68);
+  // Signature is preserved (computed at save-time, stored inside the blob).
+  assert.match(card.companion_card_signature, /^[a-f0-9]{64}$/);
+});
+
+test('persistence-layer: fromPrismaRow falls back to 6 legacy columns when state is NULL', async () => {
+  const prisma = makeFakePrisma();
+  // A pre-migration row: 6 columns present, no `state` blob (NULL).
+  prisma.rows.set('skiv-legacy-0002', {
+    lineageId: 'skiv-legacy-0002',
+    schemaVersion: '0.2.0',
+    signature: 'c'.repeat(64),
+    crossbreedHistory: [{ role: 'parent_a', tier: 'gold' }],
+    voiceDiaryPortable: [],
+    shareUrl: 'https://example.test/skiv/share/skiv-legacy-0002',
+    state: null,
+  });
+  const store = createCompanionStateStore({ prisma });
+  const n = await store.hydrateAllAsync();
+  assert.equal(n, 1);
+  const card = store.getCompanionState('skiv-legacy-0002');
+  assert.ok(card, 'legacy row reconstructs from the 6 columns without crashing');
+  assert.equal(card.lineage_id, 'skiv-legacy-0002');
+  assert.equal(card.share_url, 'https://example.test/skiv/share/skiv-legacy-0002');
+  assert.equal(card.crossbreed_history[0].tier, 'gold');
+  // The truncated fields are genuinely absent for a legacy row (unchanged behaviour).
+  assert.equal(card.species_id, undefined);
+  assert.equal(card.progression, undefined);
+});
+
+test('persistence-layer: hydrateAllAsync is a no-op (0) for an in-memory store', async () => {
+  const store = createCompanionStateStore();
+  assert.equal(store._mode, 'in-memory');
+  assert.equal(await store.hydrateAllAsync(), 0);
+});
+
+// ─── Option C: durable per-Nido cap (owner column + isolate hydrate) ─────
+
+test('option-c: owner persists on owned writes and survives ownerless follow-ups', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-keep-01' }), {
+    owner: 'player-alpha',
+    isolate: true,
+  });
+  await flush();
+  assert.equal(prisma.rows.get('skiv-ownc-keep-01').owner, 'player-alpha');
+  // Internal ownerless write (event append) must NOT wipe the stored owner.
+  store.addCrossbreedEvent('skiv-ownc-keep-01', { role: 'parent_a', tier: 'gold' });
+  await flush();
+  assert.equal(prisma.rows.get('skiv-ownc-keep-01').owner, 'player-alpha');
+});
+
+test('option-c: isolate hydrate rebuilds per-owner windows + FIFO stays per-owner', async () => {
+  const prisma = makeFakePrisma();
+  const cap = 2;
+  const store = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  // Owner A saves cap+1 (oldest FIFO-evicted from memory; all 3 rows persisted),
+  // owner B saves 1, one ownerless (anon bucket).
+  for (let i = 0; i < cap + 1; i += 1) {
+    store.saveCompanionState(makeValidState({ lineage_id: `skiv-ownc-a${i}-000` }), {
+      owner: 'nido-a',
+      isolate: true,
+    });
+  }
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-b0-000' }), {
+    owner: 'nido-b',
+    isolate: true,
+  });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-anon-000' }), {
+    owner: null,
+    isolate: true,
+  });
+  await flush();
+  assert.equal(prisma.rows.size, cap + 3, 'all rows persisted (eviction never deletes)');
+
+  // Restart with isolation ON: per-owner windows, NOT the global take:cap.
+  const store2 = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  const n = await store2.hydrateAllAsync({ isolate: true });
+  assert.equal(n, cap + 2, "A's newest 2 + B's 1 + anon 1 (A's evicted oldest stays out)");
+  assert.equal(store2.getCompanionState('skiv-ownc-a0-000'), null, 'A oldest not revived');
+  assert.ok(store2.getCompanionState('skiv-ownc-a2-000'), 'A newest hydrated');
+  assert.ok(store2.getCompanionState('skiv-ownc-b0-000'), 'B hydrated (own window)');
+  assert.ok(store2.getCompanionState('skiv-ownc-anon-000'), 'anon hydrated (ANON bucket)');
+
+  // Post-hydrate FIFO is per-owner: a new A save evicts A's oldest KEPT, never B/anon.
+  store2.saveCompanionState(makeValidState({ lineage_id: 'skiv-ownc-a3-000' }), {
+    owner: 'nido-a',
+    isolate: true,
+  });
+  assert.equal(store2.getCompanionState('skiv-ownc-a1-000'), null, "A's oldest-kept evicted");
+  assert.ok(store2.getCompanionState('skiv-ownc-b0-000'), 'B untouched');
+  assert.ok(store2.getCompanionState('skiv-ownc-anon-000'), 'anon untouched');
+});
+
+test('option-c: ownerless update does not turn the rebuilt FIFO into an LRU (Codex P2)', async () => {
+  const prisma = makeFakePrisma();
+  const cap = 2;
+  const store = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  // Owner A inserts oldest then newest; the OLDEST then receives an ownerless
+  // event append (bumps updatedAt, createdAt untouched).
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-lru-old-000' }), {
+    owner: 'nido-a',
+    isolate: true,
+  });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-lru-new-000' }), {
+    owner: 'nido-a',
+    isolate: true,
+  });
+  store.addCrossbreedEvent('skiv-lru-old-000', { role: 'parent_a', tier: 'gold' });
+  await flush();
+
+  // Restart: the rebuilt index must be INSERTION order (old first), not LRU.
+  const store2 = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  await store2.hydrateAllAsync({ isolate: true });
+  // Next save at cap must evict the true oldest-INSERTED (skiv-lru-old-000),
+  // even though its updatedAt is now the newest of the two.
+  store2.saveCompanionState(makeValidState({ lineage_id: 'skiv-lru-third-00' }), {
+    owner: 'nido-a',
+    isolate: true,
+  });
+  assert.equal(
+    store2.getCompanionState('skiv-lru-old-000'),
+    null,
+    'true oldest evicted despite the newer updatedAt',
+  );
+  assert.ok(store2.getCompanionState('skiv-lru-new-000'), 'newer quiet lineage survives');
+  assert.ok(store2.getCompanionState('skiv-lru-third-00'));
+});
+
+// ─── Durable crossbreed cooldown (crossbreed_campaigns column) ───────────
+
+test('cooldown: record/get + idempotent + FIFO cap 20', () => {
+  const store = createCompanionStateStore();
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-basic-000' }));
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-A');
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-A'); // idempotent
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'camp-B');
+  assert.deepEqual(store.getCrossbreedCampaigns('skiv-cd-basic-000'), ['camp-A', 'camp-B']);
+  // FIFO cap 20: 21st campaign drops the oldest.
+  for (let i = 0; i < 20; i += 1) {
+    store.recordCrossbreedCampaign('skiv-cd-basic-000', `camp-${i}`);
+  }
+  const list = store.getCrossbreedCampaigns('skiv-cd-basic-000');
+  assert.equal(list.length, 20);
+  assert.equal(list.includes('camp-A'), false, 'oldest dropped at cap');
+  assert.ok(list.includes('camp-19'));
+  // Unknown lineage / bad input -> [] (never throws).
+  assert.deepEqual(store.getCrossbreedCampaigns('unknown'), []);
+  assert.deepEqual(store.getCrossbreedCampaigns(null), []);
+  // Defense-in-depth: an oversized campaign id is rejected (route 400s first;
+  // this guards any future non-route caller from bloating the JSONB column).
+  store.recordCrossbreedCampaign('skiv-cd-basic-000', 'x'.repeat(129));
+  assert.equal(
+    store.getCrossbreedCampaigns('skiv-cd-basic-000').some((c) => c.length > 128),
+    false,
+  );
+});
+
+test('cooldown: campaigns survive a restart via bulk-hydrate (durable cooldown)', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-dur-0001' }));
+  await flush(); // row exists before the cooldown UPDATE fires
+  store.recordCrossbreedCampaign('skiv-cd-dur-0001', 'camp-X');
+  await flush();
+  assert.deepEqual(prisma.rows.get('skiv-cd-dur-0001').crossbreedCampaigns, ['camp-X']);
+
+  // Restart: fresh store, bulk-hydrate -> the cooldown set is BACK (the old
+  // per-router Set reset here = the re-crossbreed exploit this closes).
+  const store2 = createCompanionStateStore({ prisma });
+  await store2.hydrateAllAsync();
+  assert.deepEqual(store2.getCrossbreedCampaigns('skiv-cd-dur-0001'), ['camp-X']);
+
+  // Lazy per-lineage hydrate path carries it too (guarded-write path).
+  const store3 = createCompanionStateStore({ prisma });
+  await store3.hydrateAsync('skiv-cd-dur-0001');
+  assert.deepEqual(store3.getCrossbreedCampaigns('skiv-cd-dur-0001'), ['camp-X']);
+});
+
+test('cooldown: survives when recorded BEFORE the first card upsert lands (Codex P2 race)', async () => {
+  const prisma = makeFakePrisma();
+  const store = createCompanionStateStore({ prisma });
+  // First-save race: confirm path records the cooldown while the lineage row does
+  // NOT yet exist in Prisma (saveCompanionState's own upsert still in flight).
+  // An UPDATE would throw + get swallowed -> durable cooldown silently lost.
+  store.recordCrossbreedCampaign('skiv-cd-race-001', 'camp-R');
+  await flush();
+  assert.deepEqual(
+    prisma.rows.get('skiv-cd-race-001').crossbreedCampaigns,
+    ['camp-R'],
+    'upsert created the row instead of failing',
+  );
+  // The in-flight card save then converges the same row (update branch).
+  store.saveCompanionState(makeValidState({ lineage_id: 'skiv-cd-race-001' }));
+  await flush();
+  const row = prisma.rows.get('skiv-cd-race-001');
+  assert.deepEqual(row.crossbreedCampaigns, ['camp-R'], 'cooldown kept through card save');
+  assert.ok(row.state, 'card converged onto the same row');
+
+  // Restart: BOTH the card and the cooldown hydrate.
+  const store2 = createCompanionStateStore({ prisma });
+  await store2.hydrateAllAsync();
+  assert.ok(store2.getCompanionState('skiv-cd-race-001'));
+  assert.deepEqual(store2.getCrossbreedCampaigns('skiv-cd-race-001'), ['camp-R']);
+});
+
+test('persistence-layer: bulk-hydrate respects the cap + drops FIFO-evicted rows (Codex P1)', async () => {
+  const prisma = makeFakePrisma();
+  const cap = 3;
+  const store = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  // Save cap+2 lineages. The in-memory store FIFO-evicts the 2 oldest (keeps 3),
+  // but every save persisted a row -> the DB holds all 5 (eviction never deletes).
+  for (let i = 0; i < cap + 2; i += 1) {
+    store.saveCompanionState(makeValidState({ lineage_id: `skiv-cap-${i}-000` }));
+  }
+  await flush();
+  assert.equal(store.size(), cap, 'in-memory store held at the cap');
+  assert.equal(prisma.rows.size, cap + 2, 'all rows persisted (evicted rows survive in DB)');
+
+  // Restart: a bulk-hydrate must NOT revive the 2 evicted rows past the cap.
+  const store2 = createCompanionStateStore({ prisma, ambassadorCap: cap });
+  const n = await store2.hydrateAllAsync();
+  assert.equal(n, cap, 'hydrated exactly the cap, not all 5');
+  assert.equal(store2.size(), cap);
+  // The 2 oldest (evicted, oldest updatedAt) are excluded; the 3 newest survive.
+  assert.equal(store2.getCompanionState('skiv-cap-0-000'), null);
+  assert.equal(store2.getCompanionState('skiv-cap-1-000'), null);
+  assert.ok(store2.getCompanionState('skiv-cap-4-000'), 'newest ambassador hydrated');
+});

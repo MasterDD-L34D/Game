@@ -209,6 +209,7 @@ async function runArm(withRadici, seed, scale) {
       seed,
       maxRounds: 30,
       gridSize: 6,
+      endSession: true, // #3157 F4: close the session so the log gets session_end
     });
     return { outcome: r.outcome, rounds: r.rounds, survivors: (r.survivorIds || []).length };
   } finally {

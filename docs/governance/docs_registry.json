@@ -258,6 +258,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-07-02-session-handoff-w5-graded-close.md",
+      "title": "W5 graded-lane close -- D6 REAL + ER7 re-confirm + G6 built + W6 flip LIVE @1.15",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-07-02",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/2026-06-30-session-handoff-closeout-residuals.md",
       "title": "2026-06-30 session handoff -- owner-residuals via ask + close-out Tier-2 round",
       "doc_status": "active",
@@ -13179,6 +13192,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/playtest/2026-07-01-er7-population-flag-on-n40.md",
+      "title": "N3 SPEC-I ER7 population N=40 re-confirm: already default-ON+ratified 06-11 (register marker was stale)",
+      "doc_status": "review_needed",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-01",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-07-01-w6-form-pulse-v2-graded-cross-biome.md",
       "title": "W6 Form-Pulse trait v2 -- graded cross-biome A/B (flip-readiness evidence; ratify pending)",
       "doc_status": "review_needed",
@@ -13704,6 +13728,19 @@
       "last_verified": "2026-07-01",
       "source_of_truth": false,
       "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/playtest/2026-07-02-owner-playtest-evening-runbook.md",
+      "title": "Runbook serata playtest owner -- K-07 + IMPRINT_BEAT + re-tune N5/N7/N8",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-02",
+      "source_of_truth": false,
+      "language": "it",
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"

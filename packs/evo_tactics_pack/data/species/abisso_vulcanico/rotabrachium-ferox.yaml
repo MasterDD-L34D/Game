@@ -1,6 +1,6 @@
 id: rotabrachium_ferox
 schema_version: '1.7'
-resistance_archetype: adattivo
+resistance_archetype: termico
 display_name: Rotabraccio
 biomes:
 - abisso_vulcanico

@@ -133,8 +133,9 @@ test('normSpeciesId aliases hyphens to underscores (pack ids are inconsistent)',
 test('loadSpeciesArchetypes resolves a known species id by its id field', () => {
   // Filenames hyphenate (lithoconstructus-inhibens.yaml) but ids underscore;
   // resolution must key on the in-file `id`, not the filename.
+  // Value = corazzato since the O8 design pass (owner-ratified 2026-07-02).
   const m = loadSpeciesArchetypes(REPO_ROOT);
-  assert.equal(m.get('lithoconstructus_inhibens'), 'adattivo');
+  assert.equal(m.get('lithoconstructus_inhibens'), 'corazzato');
 });
 
 test('loadSpeciesArchetypes resolves a HYPHEN-id species (Codex P1 #3090 gap)', () => {
