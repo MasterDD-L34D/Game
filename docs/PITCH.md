@@ -13,4 +13,4 @@ Non è strategia astratta: le creature hanno corpo, biologia, reazioni. Non è s
 
 ---
 
-_Data: 2026-04-17 · MUST M3 della RESEARCH_TODO · fonti: `docs/core/01-VISIONE.md`, `docs/pitch/evo_tactics_one_page_pitch.md`, `docs/pitch/evo_tactics_publisher_sheet.md`, `docs/core/00-GDD_MASTER.md`._
+_Data: 2026-04-17 · MUST M3 della RESEARCH_TODO · fonti: `docs/core/01-VISIONE.md`, `docs/archive/pitch/evo_tactics_one_page_pitch.md`, `docs/archive/pitch/evo_tactics_publisher_sheet.md`, `docs/core/00-GDD_MASTER.md`._

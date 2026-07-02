@@ -3153,7 +3153,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ci/README.md",
+      "path": "docs/ops/ci/README.md",
       "title": "Automazioni CI — Mappa sito, Link checker, Lighthouse, E2E, Search",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -4982,7 +4982,7 @@
       "track": "museum"
     },
     {
-      "path": "docs/operativo/README-biodiversita-connessa.md",
+      "path": "docs/ops/operativo/README-biodiversita-connessa.md",
       "title": "Biodiversità Connessa — Bundle canonical + drift validator (runbook)",
       "doc_status": "active",
       "doc_owner": "platform-docs",
@@ -5630,7 +5630,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/pitch/evo_tactics_game_vision_reconstructed.md",
+      "path": "docs/archive/pitch/evo_tactics_game_vision_reconstructed.md",
       "title": "Evo Tactics — Visione Ricostruita del Gioco",
       "doc_status": "superseded",
       "doc_owner": "master-dd",
@@ -5643,7 +5643,7 @@
       "track": "new"
     },
     {
-      "path": "docs/pitch/evo_tactics_one_page_pitch.md",
+      "path": "docs/archive/pitch/evo_tactics_one_page_pitch.md",
       "title": "Evo Tactics — One-Page Pitch",
       "doc_status": "active",
       "doc_owner": "master-dd",
@@ -5656,7 +5656,7 @@
       "track": "new"
     },
     {
-      "path": "docs/pitch/evo_tactics_publisher_sheet.md",
+      "path": "docs/archive/pitch/evo_tactics_publisher_sheet.md",
       "title": "Evo Tactics — Publisher Sheet",
       "doc_status": "active",
       "doc_owner": "master-dd",
@@ -10114,7 +10114,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/audio/creature-sfx-spec.md",
+      "path": "docs/design/audio/creature-sfx-spec.md",
       "title": "Creature SFX — Voice-less Audio Spec",
       "doc_status": "active",
       "doc_owner": "audio-team",
@@ -10283,7 +10283,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/integrations/swarm-skiv-feed.md",
+      "path": "docs/ops/integrations/swarm-skiv-feed.md",
       "title": "Swarm UI ⇄ Skiv Monitor — integration contract",
       "doc_status": "active",
       "doc_owner": "docs-team",
@@ -11609,7 +11609,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/playtests/2026-04-17-m3-automated/notes.md",
+      "path": "docs/qa/playtests/2026-04-17-m3-automated/notes.md",
       "title": "Playtest M3 — Automated validation post SoT alignment (ap=2)",
       "doc_status": "active",
       "doc_owner": "combat-team",

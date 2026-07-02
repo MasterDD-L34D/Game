@@ -50,7 +50,7 @@ contenuto estendibile.
 ## Piano di refactor controllato
 
 1. **Preparazione** – i mapping legacy→nuovo vivono in
-   [`config/data_path_redirects.json`](../config/data_path_redirects.json). Questa
+   [`config/data_path_redirects.json`](../ops/config/data_path_redirects.json). Questa
    tabella è sorgente unica sia per gli script di migrazione sia per i servizi
    che devono riscrivere i percorsi in modo trasparente.
 2. **Migrazione assistita** – lo script

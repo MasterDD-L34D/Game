@@ -18,7 +18,7 @@ authority_chain: vault SoT -> ADR-2026-05-26 -> Game runtime
 > Stato: PR #2393 plan DRAFT su `chore/spore-fase1-recon-plan-2026-05-26`;
 > PR #2394 RECON-01 baseline DRAFT su `feat/spore-fase1-recon-01-e2e-baseline`
 > con primo run FAIL ambientale (prisma generate missing). Re-run post-fix
-> pending. Leggi handoff `docs/handoff/2026-05-26-fase1-spore-recon-claude-code-handoff.md`
+> pending. Leggi handoff `docs/planning/2026-05-26-fase1-spore-recon-claude-code-handoff.md`
 > per stato completo + ticket queue RECON-02..06.
 
 ## 1. Authority chain (LEGGI PRIMA)

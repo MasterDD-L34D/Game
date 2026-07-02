@@ -131,6 +131,6 @@ lifecycle, voice) **invariato**: cambia solo il canale di distribuzione.
 - Plan: [docs/planning/2026-04-25-skiv-monitor-plan.md](../planning/2026-04-25-skiv-monitor-plan.md)
 - Online imports research: [docs/research/2026-04-25-skiv-online-imports.md](../research/2026-04-25-skiv-online-imports.md)
 - Octokit npm proposal: [docs/planning/2026-04-25-skiv-octokit-webhooks-proposal.md](../planning/2026-04-25-skiv-octokit-webhooks-proposal.md)
-- Swarm UI integration contract: [docs/integrations/swarm-skiv-feed.md](../integrations/swarm-skiv-feed.md)
+- Swarm UI integration contract: [docs/ops/integrations/swarm-skiv-feed.md](../ops/integrations/swarm-skiv-feed.md)
 
 🦎 _Sabbia segue. Skiv ricorda da quando primo PR è nato._

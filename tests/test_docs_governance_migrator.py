@@ -91,7 +91,7 @@ class TestInferWorkstream:
         ("docs/architecture/tri-sorgente.md", "flow"),
         ("docs/frontend/app.md", "atlas"),
         ("docs/traits/index.md", "dataset-pack"),
-        ("docs/ci/workflow.md", "ops-qa"),
+        ("docs/ops/ci/workflow.md", "ops-qa"),
         ("docs/generated/pr-summaries/log.md", "ops-qa"),
         ("docs/incoming/draft.md", "incoming"),
         ("docs/random/unknown.md", "cross-cutting"),

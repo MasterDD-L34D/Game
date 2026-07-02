@@ -7,7 +7,7 @@ workstream: evo-tactics / Pilastro 2
 language: it
 related:
   - docs/superpowers/plans/2026-05-26-fase1-spore-moderate-reconciliation-plan.md
-  - docs/handoff/2026-05-26-fase1-spore-recon-claude-code-handoff.md
+  - docs/planning/2026-05-26-fase1-spore-recon-claude-code-handoff.md
   - docs/research/2026-05-26-fase1-spore-e2e-baseline.md
   - tests/api/mutations.cost-charging-contract.test.js
 ---

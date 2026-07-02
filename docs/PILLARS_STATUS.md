@@ -2,7 +2,7 @@
 
 > **Regola**: se uno stato è 🔴 da più di **14 giorni**, apri issue.
 > **Update cadence**: ogni lunedì manuale. Caveman hook può ricordare.
-> **Trigger re-assessment**: dopo ogni playtest (vedi `docs/playtests/`).
+> **Trigger re-assessment**: dopo ogni playtest (vedi `docs/qa/playtests/`).
 
 ---
 
@@ -31,7 +31,7 @@ Legenda: 🟢 regge · 🟡 dubbi · 🔴 problema · ⚪ non testato
 
 - Setup: 8×8 savana, 2 Predone Nomade vs Echo Wing + Dune Stalker, job Skirmisher
 - Outcome: **WIN PG round 3** (wipe Sistema, HP PG persi 3/20)
-- 4 friction logged (vedi `docs/playtests/2026-04-17/notes.md`)
+- 4 friction logged (vedi `docs/qa/playtests/2026-04-17/notes.md`)
 - Pilastri testati: 1, 3, 5, 6 (2 e 4 non attivi in questa sessione)
 
 ## Insight aggregati dal playtest
@@ -53,7 +53,7 @@ Dopo il playtest: **tutti 🟡**. Non è regressione reale: è revisione onesta 
 
 ## Azioni per prossimo lunedì
 
-- [ ] Rileggere `docs/playtests/2026-04-17/notes.md` friction log
+- [ ] Rileggere `docs/qa/playtests/2026-04-17/notes.md` friction log
 - [ ] Decidere: risolvere FRICTION #1 (sintassi mosse) o FRICTION #2 (AP count) prima?
 - [ ] Schedulare playtest #2 (stesso setup + 1 regola aggiuntiva per isolamento)
 - [ ] Se dopo 14 gg nessun pilastro scende a 🔴, vittoria tattica settimanale

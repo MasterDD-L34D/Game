@@ -87,8 +87,8 @@ Batch harness attuale (`tutorial0{2-5}.test.js`) continua a usare `/action` lega
 
 ## 8. Cross-ref
 
-- SoT: [`docs/core/11-REGOLE_D20_TV.md`](../../core/11-REGOLE_D20_TV.md) §AP budget canonico
-- ADR round model: [`ADR-2026-04-15`](../../adr/ADR-2026-04-15-round-based-combat-model.md)
+- SoT: [`docs/core/11-REGOLE_D20_TV.md`](../../../core/11-REGOLE_D20_TV.md) §AP budget canonico
+- ADR round model: [`ADR-2026-04-15`](../../../adr/ADR-2026-04-15-round-based-combat-model.md)
 - Previous playtest: [`../2026-04-17-02/notes.md`](../2026-04-17-02/notes.md)
 - Tuning data: `apps/backend/services/tutorialScenario.js` v0.5 post-ap=2
 

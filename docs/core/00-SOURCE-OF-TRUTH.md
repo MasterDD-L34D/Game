@@ -30,7 +30,7 @@ _Re-verify 2026-06-06_: la tesi resta valida, ma lo stato runtime e' avanzato. T
 | ☑     | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) |
 | ☑     | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                         |
 | ☑     | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                        |
-| ☑     | Visione prescrittiva integrata (§20–§23)         | Merge da [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md) — contenuto nuovo (Tri-Sorgente, A.L.I.E.N.A., companion detail, loop prescrittivo)           |
+| ☑     | Visione prescrittiva integrata (§20–§23)         | Merge da [`evo_tactics_game_vision_reconstructed.md`](../archive/pitch/evo_tactics_game_vision_reconstructed.md) — contenuto nuovo (Tri-Sorgente, A.L.I.E.N.A., companion detail, loop prescrittivo)   |
 
 ---
 
@@ -1227,7 +1227,7 @@ Branch dedicato ha prodotto DRAFT concreti per sbloccare decisioni Master DD:
 | Item                     | Area       | Deliverable                                                                          | Stato        |
 | ------------------------ | ---------- | ------------------------------------------------------------------------------------ | ------------ |
 | Q3 Localizzazione        | i18n       | `data/i18n/{it,en}/common.json` scaffold + `docs/architecture/i18n-strategy.md`      | 🟡 DRAFT     |
-| Q10 Voci creature        | audio      | `docs/audio/creature-sfx-spec.md` (taxonomia bio-plausibile)                         | 🟡 DRAFT     |
+| Q10 Voci creature        | audio      | `docs/design/audio/creature-sfx-spec.md` (taxonomia bio-plausibile)                  | 🟡 DRAFT     |
 | Q22 Accessibility        | a11y       | `data/core/ui/accessibility.yaml` + schema AJV + preset                              | 🟡 DRAFT     |
 | Q23 Deaf indicators      | a11y       | `docs/frontend/accessibility-deaf-visual-parity.md` (matrice eventi)                 | 🟡 DRAFT     |
 | Q26 Loading tips         | UX         | `data/core/ui/loading_tips.yaml` (22 tip bilingual)                                  | 🟢 additive  |
@@ -1246,7 +1246,7 @@ Tutte le decisioni Master DD richieste sono marcate nelle "Aperto per Master DD"
 
 ## 20. Tri-Sorgente — progressione a carte ⚠️ PRESCRITTIVO
 
-> **Nota**: le sezioni §20–§23 sono **prescrittive** (come il gioco _dovrebbe_ essere), a differenza di §1–§19 che sono descrittive (cosa _esiste_ nel repo). Origine: [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md).
+> **Nota**: le sezioni §20–§23 sono **prescrittive** (come il gioco _dovrebbe_ essere), a differenza di §1–§19 che sono descrittive (cosa _esiste_ nel repo). Origine: [`evo_tactics_game_vision_reconstructed.md`](../archive/pitch/evo_tactics_game_vision_reconstructed.md).
 
 ### 20.1 Meccanica
 

@@ -74,7 +74,7 @@ Prossimo playtest reale (session 4 potenziale) dovrebbe essere **full playthroug
 - Sprint PR: #1509 (α), #1512 (β), #1514 (γ), #1515 (δ), #1516 (ε), #1517 (ζ)
 - Backend: `apps/backend/` @ main
 - Frontend: `apps/play/` @ main
-- Precedenti playtest: `docs/playtests/2026-04-17/`, `docs/playtests/2026-04-17-02/`
+- Precedenti playtest: `docs/qa/playtests/2026-04-17/`, `docs/qa/playtests/2026-04-17-02/`
 
 ---
 

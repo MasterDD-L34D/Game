@@ -15,7 +15,7 @@
 //     Falls back to a no-op + console warning if Howler not loaded.
 //   - Single mute toggle controls both synth + samples.
 //
-// Cross-link: docs/audio/howler-middleware-OD-028.md
+// Cross-link: docs/design/audio/howler-middleware-OD-028.md
 //             docs/governance/open-decisions/OD-024-031-verdict-record.md
 
 import { sfx, setMuted, isMuted } from './sfx.js';

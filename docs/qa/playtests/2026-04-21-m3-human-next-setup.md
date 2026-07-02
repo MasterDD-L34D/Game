@@ -11,11 +11,11 @@ tags:
   - friction-followup
   - prompt-2
 related:
-  - docs/playtests/README.md
-  - docs/playtests/2026-04-17/notes.md
-  - docs/playtests/2026-04-17-02/notes.md
-  - docs/playtests/2026-04-17-03/notes.md
-  - docs/playtests/2026-04-17-m3-automated/notes.md
+  - docs/qa/playtests/README.md
+  - docs/qa/playtests/2026-04-17/notes.md
+  - docs/qa/playtests/2026-04-17-02/notes.md
+  - docs/qa/playtests/2026-04-17-03/notes.md
+  - docs/qa/playtests/2026-04-17-m3-automated/notes.md
   - docs/planning/2026-04-20-integrated-design-map.md
 ---
 
@@ -172,11 +172,11 @@ Ripeti per #6, #7.
 
 ## 6. Deliverable playtest
 
-1. `docs/playtests/2026-04-21-m3-human/setup.md` (pre-partita)
-2. `docs/playtests/2026-04-21-m3-human/notes.md` (post-partita)
-3. Optional: `docs/playtests/2026-04-21-m3-human/setup.jpg` (foto setup fisico)
+1. `docs/qa/playtests/2026-04-21-m3-human/setup.md` (pre-partita)
+2. `docs/qa/playtests/2026-04-21-m3-human/notes.md` (post-partita)
+3. Optional: `docs/qa/playtests/2026-04-21-m3-human/setup.jpg` (foto setup fisico)
 4. Commit: `playtest: [2026-04-21] m3 human T04 friction #5/#6/#7 validation`
-5. Aggiornare `docs/playtests/README.md` index tabella + `docs/playtests/2026-04-17-02/notes.md` FRICTION log con status nuovo
+5. Aggiornare `docs/qa/playtests/README.md` index tabella + `docs/qa/playtests/2026-04-17-02/notes.md` FRICTION log con status nuovo
 
 ## 7. Post-playtest next steps
 
@@ -190,8 +190,8 @@ Ripeti per #6, #7.
 
 ## 8. Riferimenti
 
-- `docs/playtests/README.md` — anti-regola + index
-- `docs/playtests/2026-04-17-02/notes.md` — origine FRICTION #5/#6/#7
-- `docs/playtests/2026-04-17-m3-automated/notes.md` — M3 automated baseline post ap_max=2
+- `docs/qa/playtests/README.md` — anti-regola + index
+- `docs/qa/playtests/2026-04-17-02/notes.md` — origine FRICTION #5/#6/#7
+- `docs/qa/playtests/2026-04-17-m3-automated/notes.md` — M3 automated baseline post ap_max=2
 - `docs/adr/ADR-2026-04-15-round-based-combat-model.md` — round model canonical
 - `docs/adr/ADR-2026-04-20-damage-scaling-curves.md` — tutorial_advanced target_bands

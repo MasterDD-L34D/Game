@@ -40,7 +40,7 @@ PATH_WORKSTREAM_MAP = {
     "docs/evo-tactics/": "dataset-pack",
     "docs/evo-tactics-pack/": "dataset-pack",
     # Ops-QA workstream
-    "docs/ci/": "ops-qa",
+    "docs/ops/ci/": "ops-qa",
     "docs/qa/": "ops-qa",
     "docs/process/": "ops-qa",
     "docs/playtest/": "ops-qa",

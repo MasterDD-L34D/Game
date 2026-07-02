@@ -136,7 +136,7 @@ Musica 70%, SFX 100%, master 80%. Configurabile in Settings (§17 Screen Flow).
 
 ### 3.4 Prototype audio
 
-freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT).
+freesound.org. Creature SFX spec in `docs/design/audio/creature-sfx-spec.md` (Q10 DRAFT).
 
 ---
 
@@ -221,7 +221,7 @@ Tracciati ufficialmente per ispirazione quando apriamo workstream narrative. Cro
 | --------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | Art       | 3 reference moodboard draft                              | ⏳ prossimo sprint art                                                                                                        | Master DD      |
 | Art       | Palette primarie 3 biomi pilota (savana/caverna/foresta) | ⏳ prossimo sprint art                                                                                                        | Master DD      |
-| Audio     | Creature SFX spec bilingue                               | 🟡 DRAFT `docs/audio/creature-sfx-spec.md`                                                                                    | Audio lead TBD |
+| Audio     | Creature SFX spec bilingue                               | 🟡 DRAFT `docs/design/audio/creature-sfx-spec.md`                                                                             | Audio lead TBD |
 | Narrativa | `narrative_voice` field in `ai_profiles.yaml`            | ⏳ task aperto                                                                                                                | Backend        |
 | Narrativa | Ink knot briefing Sistema per pressure tier              | ⏳ task aperto                                                                                                                | Writing        |
 | Narrativa | Skiv/Custode companion panel + feed + stato persistente  | live partial `apps/play/src/skivPanel.js`, `apps/backend/routes/skiv.js`, `apps/backend/services/skiv/companionStateStore.js` | Backend/UX     |

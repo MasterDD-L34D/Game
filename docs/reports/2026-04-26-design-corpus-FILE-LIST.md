@@ -478,8 +478,8 @@ docs/playtest/procedura-post-sessione.md
 docs/playtest/scenari-critici.md
 docs/playtest/scenari-test.md
 
-=== docs/ops/ + docs/ci/ + docs/logs/ ===
-docs/ci/README.md
+=== docs/ops/ + docs/ops/ci/ + docs/logs/ ===
+docs/ops/ci/README.md
 docs/logs/incoming_triage_agenti.md
 docs/logs/incoming_triage_slack_plan_2025-11-10.md
 docs/logs/link-fix-2025-12-21.md

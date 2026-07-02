@@ -61,7 +61,7 @@
 
 - [ ] Foto del setup/campo finale in `setup.jpg`
 - [ ] `notes.md` compilato (entro 10 min dalla fine)
-- [ ] Aggiornato `docs/playtests/README.md` tabella index
+- [ ] Aggiornato `docs/qa/playtests/README.md` tabella index
 - [ ] Commit `playtest: [2026-04-17] first documented session`
 - [ ] Spunta checkbox M1 in `RESEARCH_TODO.md` → `[x]`
 - [ ] `caveman achievements` per celebrare

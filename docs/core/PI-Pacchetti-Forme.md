@@ -74,7 +74,7 @@ review_cycle_days: 14
 ## Workflow Operativo
 
 1. Usa `tools/py/roll_pack.py <Forma> <Job> data/packs.yaml --seed <seed>` per generare simulazioni deterministiche; verifica parità con `node tools/ts/dist/roll_pack.js` usando lo stesso seed (workflow documentato in `docs/tool_run_report.md`).【F:docs/tool_run_report.md†L1-L25】
-2. Archivia gli output di riferimento in `docs/examples/` per ogni bioma e Forma testata; mantenere i seed condivisi (`demo`) per confronti cross-stack.【F:docs/checklist/action-items.md†L1-L35】
+2. Archivia gli output di riferimento in `docs/guide/examples/` per ogni bioma e Forma testata; mantenere i seed condivisi (`demo`) per confronti cross-stack.【F:docs/checklist/action-items.md†L1-L35】
 3. Aggiorna `docs/Canvas/feature-updates.md` e `docs/piani/roadmap.md` con nuove sinergie o spostamenti budget dopo ogni tuning settimanale PR/telemetria.【F:docs/Canvas/feature-updates.md†L1-L40】【F:docs/piani/roadmap.md†L1-L90】
 
 ## Stato & Azioni

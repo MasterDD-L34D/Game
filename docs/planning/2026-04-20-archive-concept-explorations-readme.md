@@ -61,7 +61,7 @@ Il deck v2 chiude con tre osservazioni emerse durante la concept-exploration. Qu
 - `docs/planning/2026-04-20-integrated-design-map.md` — mappa integrata Freeze + SoT + audit + questa cartella
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — stato reale 6 Pilastri
 - `docs/planning/2026-04-20-design-audit-consolidated.md` — audit 4-agent, 75 domande
-- `docs/playtests/` — 4 playtest documentati
+- `docs/qa/playtests/` — 4 playtest documentati
 
 ## Autori
 

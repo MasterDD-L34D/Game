@@ -44,7 +44,7 @@ Mai iniziare una COULD se c'è una MUST incompleta. Scope creep = silent killer.
 
 ## Status tracker
 
-- [x] **M1** Primo playtest documentato — completata 2026-04-17 (tabletop guidato, seed 2026, outcome WIN PG R3, 4 friction logged. Vedi `docs/playtests/2026-04-17/notes.md`)
+- [x] **M1** Primo playtest documentato — completata 2026-04-17 (tabletop guidato, seed 2026, outcome WIN PG R3, 4 friction logged. Vedi `docs/qa/playtests/2026-04-17/notes.md`)
 - [x] **M2** Taglio backlog feature — completata 2026-04-16 (sessione "repo analysis": 33 issue → 0, vedi `CLAUDE.md` §182)
 - [x] **M3** Pitch 3 frasi — completata 2026-04-17 (commit `9bd92550`, PR #1482 merged, vedi `docs/PITCH.md`)
 
@@ -64,8 +64,8 @@ principale. Wayline e UniversityXP sono unanimi: _senza playtest reali, il desig
 **Criteri di accettazione:**
 
 - [ ] 1 partita giocata (anche solo con te stesso) con 2 specie + 1 bioma + 1 job
-- [ ] Foto del setup su `docs/playtests/2026-04-XX/`
-- [ ] File `docs/playtests/2026-04-XX/notes.md` con:
+- [ ] Foto del setup su `docs/qa/playtests/2026-04-XX/`
+- [ ] File `docs/qa/playtests/2026-04-XX/notes.md` con:
   - cosa funzionava
   - cosa era confuso in <30 secondi
   - cosa hai tagliato mentalmente durante la partita

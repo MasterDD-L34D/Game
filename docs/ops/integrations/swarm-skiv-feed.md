@@ -196,10 +196,10 @@ Swarm UI **non triggera** monitor; si limita a leggere stato.
 
 ## Cross-references
 
-- Plan: [../planning/2026-04-25-skiv-monitor-plan.md](../planning/2026-04-25-skiv-monitor-plan.md)
-- Persona: [../skiv/CANONICAL.md](../skiv/CANONICAL.md)
-- Live monitor doc: [../skiv/MONITOR.md](../skiv/MONITOR.md)
-- Backend route: [`apps/backend/routes/skiv.js`](../../apps/backend/routes/skiv.js)
-- Python monitor: [`tools/py/skiv_monitor.py`](../../tools/py/skiv_monitor.py)
-- Workflow: [`.github/workflows/skiv-monitor.yml`](../../.github/workflows/skiv-monitor.yml)
-- Tests: [`tests/api/skivRoute.test.js`](../../tests/api/skivRoute.test.js), [`tests/test_skiv_monitor.py`](../../tests/test_skiv_monitor.py)
+- Plan: [../planning/2026-04-25-skiv-monitor-plan.md](../../planning/2026-04-25-skiv-monitor-plan.md)
+- Persona: [../skiv/CANONICAL.md](../../skiv/CANONICAL.md)
+- Live monitor doc: [../skiv/MONITOR.md](../../skiv/MONITOR.md)
+- Backend route: [`apps/backend/routes/skiv.js`](../../../apps/backend/routes/skiv.js)
+- Python monitor: [`tools/py/skiv_monitor.py`](../../../tools/py/skiv_monitor.py)
+- Workflow: [`.github/workflows/skiv-monitor.yml`](../../../.github/workflows/skiv-monitor.yml)
+- Tests: [`tests/api/skivRoute.test.js`](../../../tests/api/skivRoute.test.js), [`tests/test_skiv_monitor.py`](../../../tests/test_skiv_monitor.py)

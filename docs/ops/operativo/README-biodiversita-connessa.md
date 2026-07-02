@@ -30,8 +30,8 @@ non sono isomorfe:
 Senza un bundle canonical intermedio, **non c'è un singolo file su cui agganciare
 i tre repo** → drift silente, regressioni rilevate solo a run-time.
 
-Riferimento: [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md)
-e [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).
+Riferimento: [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md)
+e [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](../../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).
 
 ## 2. Architettura
 
@@ -52,7 +52,7 @@ packs/.../ecosystems/*.yaml     ┘
 
 - **Source authority A2** (vedi authority map): solo i source YAML sono "verità".
 - **Bundle = vista derivata canonical**, additive, non modifica i source.
-- **Schema canonical**: [`schemas/evo/biodiversity_bundle.schema.json`](../../schemas/evo/biodiversity_bundle.schema.json).
+- **Schema canonical**: [`schemas/evo/biodiversity_bundle.schema.json`](../../../schemas/evo/biodiversity_bundle.schema.json).
 
 ## 3. Generazione bundle
 
@@ -135,7 +135,7 @@ Se step 2 segnala drift:
 
 ### Cross-repo Game ↔ Game-Database (post-merge)
 
-Dopo `npm run sync:evo-pack` lato Game (vedi [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md §4`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md#4-flusso-operativo-consigliato-oggi)):
+Dopo `npm run sync:evo-pack` lato Game (vedi [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md §4`](../../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md#4-flusso-operativo-consigliato-oggi)):
 
 ```bash
 # 1. Bundle canonical aggiornato
@@ -157,7 +157,7 @@ npm run evo:import
 
 ## 6. Schema bundle (sintesi)
 
-Vedi schema completo: [`schemas/evo/biodiversity_bundle.schema.json`](../../schemas/evo/biodiversity_bundle.schema.json).
+Vedi schema completo: [`schemas/evo/biodiversity_bundle.schema.json`](../../../schemas/evo/biodiversity_bundle.schema.json).
 
 Top-level required:
 
@@ -180,7 +180,7 @@ Top-level optional:
 
 - **NO modifica diretta** dei source di `data/core/` o `packs/`. Il bundle è
   vista derivata read-only. Qualsiasi cambio dati va al source di pertinenza
-  (vedi [Source Authority Map A2](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).
+  (vedi [Source Authority Map A2](../../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).
 - **UTF-8 esplicito**: encoding `utf-8`, `ensure_ascii=False`, `indent=2`.
   Test `test_bundle_utf8_no_mojibake` fallisce se reintrodotto mojibake `Ã`.
 - **Non commiti `out/bio/`**: directory in `.gitignore` (build artifact).
@@ -195,7 +195,7 @@ Copertura: 6 test (determinism, schema shape, drift catch, UTF-8, missing bundle
 
 ## 9. Documenti correlati
 
-- [`schemas/evo/biodiversity_bundle.schema.json`](../../schemas/evo/biodiversity_bundle.schema.json) — schema canonical.
-- [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — regole cross-repo.
-- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — A2 = core data wins su drift.
-- [`ADR-2026-04-14-game-database-topology`](../adr/ADR-2026-04-14-game-database-topology.md) — perché Game-Database NON è runtime.
+- [`schemas/evo/biodiversity_bundle.schema.json`](../../../schemas/evo/biodiversity_bundle.schema.json) — schema canonical.
+- [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — regole cross-repo.
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](../../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — A2 = core data wins su drift.
+- [`ADR-2026-04-14-game-database-topology`](../../adr/ADR-2026-04-14-game-database-topology.md) — perché Game-Database NON è runtime.
