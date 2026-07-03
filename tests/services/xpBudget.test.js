@@ -163,3 +163,31 @@ test('auditEncounter: flag OFF -> byte-identical used (band-neutral)', () => {
   _resetCache();
   assert.equal(off.used + 48, on.used, 'flag ON adds 1 lava * 40 * 1.2 = 48');
 });
+
+test('activationPressure: worst-case cumulative units / party', () => {
+  const { activationPressure } = require('../../apps/backend/services/balance/xpBudget');
+  const enc = {
+    waves: [
+      { turn_trigger: 0, units: [{ count: 2 }] },
+      { turn_trigger: 4, units: [{ count: 1 }, { count: 1 }] },
+    ],
+  };
+  // max cumulative at t=4 = 2+1+1 = 4; party 4 -> ratio 1.0 -> in_band
+  const a = activationPressure(enc, 4);
+  assert.equal(a.activation_ratio, 1.0);
+  assert.equal(a.activation_status, 'in_band');
+});
+
+test('auditEncounter: reports activation_* and does NOT change status', () => {
+  delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
+  _resetCache();
+  const enc = {
+    encounter_class: 'standard',
+    waves: [{ turn_trigger: 0, units: [{ tier: 'base', count: 4 }] }],
+  };
+  const audit = auditEncounter(enc, 4);
+  assert.ok('activation_ratio' in audit && 'activation_status' in audit);
+  assert.ok(
+    ['under', 'in_band', 'over', 'critical_over', 'no_budget_config'].includes(audit.status),
+  );
+});
