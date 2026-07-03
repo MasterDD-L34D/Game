@@ -69,6 +69,27 @@ jobs:
           path: reports/docs/governance_drift_report.json
           if-no-files-found: warn
 
+      - name: Broken doc-pin visibility (warning-tier surface)
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, pathlib
+          rep = pathlib.Path("reports/docs/governance_drift_report.json")
+          pins = []
+          if rep.exists():
+              data = json.loads(rep.read_text(encoding="utf-8"))
+              pins = [i for i in data.get("issues", []) if i.get("code") == "broken_doc_pin"]
+          print("## Broken doc-pins (warning-tier)")
+          if pins:
+              print(f"{len(pins)} non-baselined code/config reference(s) to missing docs/ paths:")
+              for p in pins[:20]:
+                  print(f"- `{p.get('path','')}` -- {p.get('message','')}")
+              if len(pins) > 20:
+                  print(f"- ... and {len(pins) - 20} more (see the uploaded governance report)")
+          else:
+              print("None new (baseline clean).")
+          PY
+
       - name: Workflow summary
         if: always()
         run: |
