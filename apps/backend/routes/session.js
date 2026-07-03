@@ -89,9 +89,7 @@ const { evaluateVoiceTriggers, describeVoice } = require('../services/narrative/
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
 // DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
-const { lineOfSightClear } = require('../services/grid/squareLos');
-const { terrainAtFromFeatures } = require('../services/combat/moveCost');
-const { terrainBlocksLos } = require('../services/combat/losBlockers');
+const { losClearOnGrid } = require('../services/combat/losForGrid');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
@@ -326,11 +324,10 @@ const {
 // (imported above). Only createSessionRouter closure remains inline.
 
 // COMBAT_LOS_ENABLED (default OFF): true iff a terrain blocker sits strictly
-// between attacker and target. Pure + exported for testing.
+// between attacker and target. Thin negation of the shared combat LOS rule
+// (services/combat/losForGrid.js). Exported for testing.
 function losGateBlocks(grid, fromPos, toPos) {
-  if (process.env.COMBAT_LOS_ENABLED !== 'true') return false;
-  const terrainAt = terrainAtFromFeatures((grid && grid.terrain_features) || []);
-  return !lineOfSightClear(fromPos, toPos, (x, y) => terrainBlocksLos(terrainAt(x, y)));
+  return !losClearOnGrid(grid, fromPos, toPos);
 }
 
 function createSessionRouter(options = {}) {
