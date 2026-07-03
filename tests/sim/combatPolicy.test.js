@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { dist, selectPlayerAction } = require('../../tools/sim/combat-policy');
+const { dist, selectPlayerAction, pickInRangeTarget } = require('../../tools/sim/combat-policy');
 
 test('dist = Manhattan distance', () => {
   assert.equal(dist({ x: 0, y: 0 }, { x: 2, y: 3 }), 5);
@@ -209,4 +209,47 @@ test('zone pursuit: two units from adjacent spawns BOTH reach the zone (min_unit
     2,
     `both players must hold the zone (got ${count}: ${players.map((p) => `${p.id}@[${p.position.x},${p.position.y}]`).join(' ')})`,
   );
+});
+
+// Task 6 (LOS parity seam): pickInRangeTarget accepts an optional losFn and, when
+// provided, also requires it -- so an in-range but LOS-blocked enemy is excluded.
+test('pickInRangeTarget: losFn blocking the only in-range enemy -> null', () => {
+  const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 5 };
+  const enemy = { id: 'e', hp: 5, position: { x: 4, y: 0 } };
+  assert.equal(
+    pickInRangeTarget(actor, [enemy], false, () => false),
+    null,
+  );
+  assert.deepEqual(
+    pickInRangeTarget(actor, [enemy], false, () => true),
+    enemy,
+  );
+});
+
+// Task 6 integration: selectPlayerAction wires opts.terrainFeatures through the shared
+// production losClearForAi (apps/backend/services/ai/policy.js), so the sim measures the
+// SAME LOS rule as production. Flag ON + a roccia blocker strictly between actor and the
+// only enemy -> the in-range attack is filtered out and the default branch falls back to
+// approach (move). Flag OFF (unset) -> losClearForAi always returns true -> byte-identical
+// attack.
+test('selectPlayerAction: LOS-blocked in-range enemy falls back to approach (flag ON)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  try {
+    const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 5, ap_remaining: 1 };
+    const units = [actor, { id: 'e', controlled_by: 'sistema', hp: 5, position: { x: 4, y: 0 } }];
+    const terrainFeatures = [{ x: 2, y: 0, type: 'roccia' }];
+    const a = selectPlayerAction(actor, units, { type: 'elimination' }, { terrainFeatures });
+    assert.equal(a.action_type, 'move');
+  } finally {
+    delete process.env.COMBAT_LOS_ENABLED;
+  }
+});
+
+test('selectPlayerAction: same LOS-blocking geometry, flag OFF -> byte-identical attack', () => {
+  delete process.env.COMBAT_LOS_ENABLED;
+  const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 5, ap_remaining: 1 };
+  const units = [actor, { id: 'e', controlled_by: 'sistema', hp: 5, position: { x: 4, y: 0 } }];
+  const terrainFeatures = [{ x: 2, y: 0, type: 'roccia' }];
+  const a = selectPlayerAction(actor, units, { type: 'elimination' }, { terrainFeatures });
+  assert.deepEqual(a, { action_type: 'attack', target_id: 'e' });
 });

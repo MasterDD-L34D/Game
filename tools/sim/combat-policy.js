@@ -1,5 +1,7 @@
 'use strict';
-// Pure player-side AI policy, extracted from tests/smoke/ai-driven-sim.js
+// Player-side AI policy (pure in behavior -- no I/O or session mutation; but see
+// the Task 6 note below for the one backend LOS-rule import it now reuses),
+// extracted from tests/smoke/ai-driven-sim.js
 // (minimal closest-enemy attack; never spends cap_pt to keep fairness intact).
 // Reused by the full-loop combatAdapter so the meta-loop combat runs the SAME
 // player policy as the combat-sim, with no co-op lobby coupling.
@@ -9,6 +11,13 @@
 // non-elimination encounters can complete in the sim (making completion_rate a
 // meaningful calibration metric). In-zone -- or elimination / survival -- falls
 // back to closest-enemy. `objective` is optional: omitted => legacy behavior.
+//
+// Task 6 (Combat LOS slice 1): reuse the SAME losClearForAi the production AI
+// seam uses (apps/backend/services/ai/policy.js) so the batch-sim ratify
+// measures "% shots blocked" against the real rule, not a re-implementation.
+// COMBAT_LOS_ENABLED default OFF -> losClearForAi always returns true -> the
+// LOS filter keeps every in-range candidate (byte-identical to pre-Task-6).
+const { losClearForAi } = require('../../apps/backend/services/ai/policy');
 
 const ZONE_PURSUIT_OBJECTIVES = new Set(['capture_point', 'sabotage', 'escape', 'escort']);
 
@@ -103,9 +112,15 @@ function stepTowardZone(actor, zone, units) {
 // the non-elimination cases W5 measures (Codex P2 #3127) -- attacking never moves the actor, so
 // focusing a low-HP in-range foe keeps the zone hold intact. Default (focusFire off) = nearest
 // in-range, byte-identical to the prior closest-attack.
-function pickInRangeTarget(actor, enemies, focusFire) {
+// Task 6: optional losFn(fromPos, toPos) -- when provided, an in-range enemy must ALSO be
+// visible (shared production LOS rule) to be a candidate. Omitted -> unchanged (no LOS filter).
+function pickInRangeTarget(actor, enemies, focusFire, losFn) {
   const range = actor.attack_range || 1;
-  const inRange = enemies.filter((e) => dist(actor.position, e.position) <= range);
+  const inRange = enemies.filter(
+    (e) =>
+      dist(actor.position, e.position) <= range &&
+      (typeof losFn !== 'function' || losFn(actor.position, e.position)),
+  );
   if (!inRange.length) return null;
   const byNearest = (a, b) => dist(actor.position, a.position) - dist(actor.position, b.position);
   if (!focusFire) return inRange.sort(byNearest)[0];
@@ -116,6 +131,11 @@ function pickInRangeTarget(actor, enemies, focusFire) {
 }
 
 function selectPlayerAction(actor, units, objective, opts = {}) {
+  // Task 6: shared production LOS rule, built once from opts.terrainFeatures (threaded by
+  // combat-adapter.js). COMBAT_LOS_ENABLED OFF -> losClearForAi always true -> no-op filter.
+  const losFn = (from, to) =>
+    losClearForAi({ terrain_features: (opts && opts.terrainFeatures) || [] }, from, to);
+
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
   // bug C (#2662-era OA2): GET /:id/objective + the evaluator carry `target_zone` at the TOP
@@ -135,7 +155,7 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
     // IN zone: HOLD. Attack an already-in-range enemy (focus-fire honored); NEVER leave the zone
     // to chase a far foe (that would break the hold and the objective would never tick).
     const foes = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
-    const tgt = pickInRangeTarget(actor, foes, opts && opts.focusFire);
+    const tgt = pickInRangeTarget(actor, foes, opts && opts.focusFire, losFn);
     if (tgt && (actor.ap_remaining ?? 0) >= 1) {
       return { action_type: 'attack', target_id: tgt.id };
     }
@@ -145,7 +165,7 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
   // Default / elimination / survival: closest-enemy attack-or-approach (focus-fire honored).
   const enemies = units.filter((u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0);
   if (enemies.length === 0) return null;
-  const tgt = pickInRangeTarget(actor, enemies, opts && opts.focusFire);
+  const tgt = pickInRangeTarget(actor, enemies, opts && opts.focusFire, losFn);
   if (tgt && (actor.ap_remaining ?? 0) >= 1) {
     return { action_type: 'attack', target_id: tgt.id };
   }
@@ -156,4 +176,10 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
   return stepToward(actor, nearest.position);
 }
 
-module.exports = { dist, inZone, selectPlayerAction, ZONE_PURSUIT_OBJECTIVES };
+module.exports = {
+  dist,
+  inZone,
+  selectPlayerAction,
+  pickInRangeTarget,
+  ZONE_PURSUIT_OBJECTIVES,
+};
