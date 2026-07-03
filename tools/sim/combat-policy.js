@@ -12,12 +12,14 @@
 // meaningful calibration metric). In-zone -- or elimination / survival -- falls
 // back to closest-enemy. `objective` is optional: omitted => legacy behavior.
 //
-// Task 6 (Combat LOS slice 1): reuse the SAME losClearForAi the production AI
-// seam uses (apps/backend/services/ai/policy.js) so the batch-sim ratify
-// measures "% shots blocked" against the real rule, not a re-implementation.
-// COMBAT_LOS_ENABLED default OFF -> losClearForAi always returns true -> the
+// Task 6 (Combat LOS slice 1): reuse the shared services/combat/losForGrid.js
+// rule -- the SAME predicate the production AI seam uses (via its thin alias
+// in apps/backend/services/ai/policy.js) -- so the batch-sim ratify measures
+// "% shots blocked" against the real rule, not a re-implementation, and sim
+// parity no longer rides on ai/policy.js.
+// COMBAT_LOS_ENABLED default OFF -> losClearOnGrid always returns true -> the
 // LOS filter keeps every in-range candidate (byte-identical to pre-Task-6).
-const { losClearForAi } = require('../../apps/backend/services/ai/policy');
+const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
 
 const ZONE_PURSUIT_OBJECTIVES = new Set(['capture_point', 'sabotage', 'escape', 'escort']);
 
@@ -132,9 +134,9 @@ function pickInRangeTarget(actor, enemies, focusFire, losFn) {
 
 function selectPlayerAction(actor, units, objective, opts = {}) {
   // Task 6: shared production LOS rule, built once from opts.terrainFeatures (threaded by
-  // combat-adapter.js). COMBAT_LOS_ENABLED OFF -> losClearForAi always true -> no-op filter.
+  // combat-adapter.js). COMBAT_LOS_ENABLED OFF -> losClearOnGrid always true -> no-op filter.
   const losFn = (from, to) =>
-    losClearForAi({ terrain_features: (opts && opts.terrainFeatures) || [] }, from, to);
+    losClearOnGrid({ terrain_features: (opts && opts.terrainFeatures) || [] }, from, to);
 
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
