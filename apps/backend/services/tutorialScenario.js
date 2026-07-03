@@ -20,7 +20,6 @@ const TUTORIAL_SCENARIO = {
   // M7-#2 Phase C: tutorial class (multiplier 1.0x, no enrage)
   encounter_class: 'tutorial',
   difficulty_rating: 1,
-  estimated_turns: 6,
   grid_size: 6,
   objective: { type: 'elimination' },
   objective_text: 'Sconfiggi tutte le unità nemiche.',
@@ -37,7 +36,6 @@ const TUTORIAL_SCENARIO_02 = {
   // M7-#2 Phase C: tutorial class (multiplier 1.0x, no enrage)
   encounter_class: 'tutorial',
   difficulty_rating: 2,
-  estimated_turns: 8,
   grid_size: 6,
   objective: { type: 'elimination' },
   objective_text: 'Sconfiggi tutta la pattuglia: due predoni e un cacciatore corazzato.',
@@ -55,7 +53,6 @@ const TUTORIAL_SCENARIO_03 = {
   // Hazard tiles + guardiani tank → skill check tier-3
   encounter_class: 'tutorial_advanced',
   difficulty_rating: 3,
-  estimated_turns: 10,
   grid_size: 6,
   objective: { type: 'elimination' },
   objective_text:
@@ -80,7 +77,6 @@ const TUTORIAL_SCENARIO_05 = {
   // M7-#2 Phase C: boss class (multiplier 1.6x + enrage 50% HP) — apex solo fight
   encounter_class: 'boss',
   difficulty_rating: 5,
-  estimated_turns: 14,
   grid_size: 6,
   objective: { type: 'elimination' },
   objective_text:
@@ -100,7 +96,6 @@ const TUTORIAL_SCENARIO_04 = {
   // Bleeding + hazard + 2v3 → difficulty gap prima del boss (tutorial_05)
   encounter_class: 'tutorial_advanced',
   difficulty_rating: 4,
-  estimated_turns: 12,
   grid_size: 6,
   objective: { type: 'elimination' },
   objective_text:

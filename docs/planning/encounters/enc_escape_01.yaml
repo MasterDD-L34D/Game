@@ -16,7 +16,6 @@ name: 'Fuga dalla Faglia'
 biome_id: rovine_planari
 grid_size: [12, 10]
 difficulty_rating: 3
-estimated_turns: 10
 encounter_class: standard
 
 objective:

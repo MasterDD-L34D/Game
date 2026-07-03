@@ -11,7 +11,6 @@ biome_id: caverna
 grid_size: [10, 10]
 difficulty_rating: 3
 pressure_tier_floor: 2
-estimated_turns: 12
 # M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
 encounter_class: standard
 
@@ -21,8 +20,8 @@ objective:
   hold_turns: 3
   # A2 follow-up (#2774): capture_point senza loss timer -> attrition runaway
   # con pressure_tier_floor ON (artefatto -0.25 standard nell'evidenza N=40).
-  # time_limit generoso (estimated_turns 12 + buffer) cap l'attrition senza
-  # indurire l'encounter (10 sarebbe piu' stretto dell'estimate -> rischio
+  # time_limit generoso (match-length attesa ~12 turni + buffer) cap l'attrition
+  # senza indurire l'encounter (10 sarebbe piu' stretto dell'attesa -> rischio
   # timeout-artefatto opposto).
   loss_conditions:
     time_limit: 14
