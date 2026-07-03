@@ -193,8 +193,8 @@ Coerente con [ADR-2026-04-15](../adr/ADR-2026-04-15-round-based-combat-model.md)
 - Ability spec: [`data/core/jobs.yaml`](../../data/core/jobs.yaml)
 - Ability executor: [`apps/backend/services/abilityExecutor.js`](../../apps/backend/services/abilityExecutor.js)
 - Round execute: [`apps/backend/routes/session.js`](../../apps/backend/routes/session.js) `/round/execute` endpoint
-- Playtest previous: [`docs/playtests/2026-04-17/notes.md`](../playtests/2026-04-17/notes.md), [`docs/playtests/2026-04-17-02/notes.md`](../playtests/2026-04-17-02/notes.md)
-- Automated validation: [`docs/playtests/2026-04-17-m3-automated/notes.md`](../playtests/2026-04-17-m3-automated/notes.md)
+- Playtest previous: [`docs/qa/playtests/2026-04-17/notes.md`](../qa/playtests/2026-04-17/notes.md), [`docs/qa/playtests/2026-04-17-02/notes.md`](../qa/playtests/2026-04-17-02/notes.md)
+- Automated validation: [`docs/qa/playtests/2026-04-17-m3-automated/notes.md`](../qa/playtests/2026-04-17-m3-automated/notes.md)
 
 ---
 

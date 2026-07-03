@@ -210,7 +210,7 @@ Schema canonico in `packages/contracts/schemas/combat.schema.json`. Consumato da
 
 ## Cross-ref
 
-- FRICTION log completo: [`docs/playtests/2026-04-17/notes.md`](../playtests/2026-04-17/notes.md)
+- FRICTION log completo: [`docs/qa/playtests/2026-04-17/notes.md`](../qa/playtests/2026-04-17/notes.md)
 - Sistema tattico: [`10-SISTEMA_TATTICO.md`](10-SISTEMA_TATTICO.md)
 - Combat hub: [`../hubs/combat.md`](../hubs/combat.md)
 - Runtime combat: `apps/backend/services/roundOrchestrator.js`,

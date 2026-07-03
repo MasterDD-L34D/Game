@@ -72,7 +72,7 @@ Questi 4 tipi sono in `NOOP_ACTION_TYPES = frozenset({"defend", "parry", "abilit
 
 ## AP budget per turno (canonico)
 
-> **FRICTION #2+#3 resolution** dal playtest 2026-04-17 (vedi `docs/playtests/2026-04-17/notes.md`).
+> **FRICTION #2+#3 resolution** dal playtest 2026-04-17 (vedi `docs/qa/playtests/2026-04-17/notes.md`).
 
 Regola canonica: **AP è un budget azioni per turno, spendibile liberamente** secondo il costo di ciascuna action. Non esiste un template fisso "1 move + 1 attack" — qualunque combinazione di azioni che somma ≤ `ap_remaining` è valida.
 

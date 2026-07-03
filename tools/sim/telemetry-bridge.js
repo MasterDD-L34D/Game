@@ -270,7 +270,7 @@ function transformRun(events, sessionId) {
 // as an OPTIONAL remote fallback (only used if explicitly set to a
 // reachable URL). REGEN: when the atlas pilot biomes change, re-run the
 // GUT export test in Game-Godot-v2 and copy its biome-focus.jsonl here.
-// See docs/runbook/od026-biome-focus-sync.md.
+// See docs/ops/runbook/od026-biome-focus-sync.md.
 //
 // GRACEFUL DEGRADATION preserved: file missing / malformed / unreachable
 // override → return [] and log a WARN; analyzer shows biome_focus empty

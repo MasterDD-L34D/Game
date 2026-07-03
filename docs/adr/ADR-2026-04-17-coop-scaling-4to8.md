@@ -116,7 +116,7 @@ Implementazione:
 - SoT §pilastro 5: linea 930, va aggiornata con ref questo ADR
 - `docs/core/02-PILASTRI.md`: update text "4 giocatori" → "1-8 giocatori"
 - `data/core/party.yaml`: config canonica
-- Pilastro Playtest log `docs/playtests/`: prossimo playtest #4 può testare 2-player duo
+- Pilastro Playtest log `docs/qa/playtests/`: prossimo playtest #4 può testare 2-player duo
 
 ## Aperto per review
 

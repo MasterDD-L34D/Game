@@ -63,14 +63,14 @@ Open Questions GDD ha 2 BLOCKED audio:
 
 ## Roadmap aggiornata (post M3.8 zero-cost)
 
-| Step                                                                               | Owner     | Stima |      Stato       |
-| ---------------------------------------------------------------------------------- | --------- | ----- | :--------------: |
-| 1. SFX cue list canonica (~20 entries) — `docs/audio/sfx_cues.md`                  | Master DD | 2h    |     🟡 todo      |
-| 2. Ambient brief 9 biome (mood + reference) — `docs/audio/ambient_biomes.md`       | Master DD | 3h    |     🟡 todo      |
-| 3. SFX acquisition zero-cost (freesound CC0/CC-BY + Bfxr/sfxr/Chiptone generate)   | Master DD | 4h    |     🟢 todo      |
-| 4. Ambient track acquisition (OGA + Incompetech CC-BY + Pixabay Music CC0)         | Master DD | 4h    |     🟢 todo      |
-| 5. Pipeline integration: sample loading in sfx.js, fallback synth se asset missing | dev       | 1d    | 🟡 todo post-3+4 |
-| 6. Music intensity hook: legare a `sistema_pressure_tier` via event bus            | dev       | 1d    |  🟡 todo post-4  |
+| Step                                                                                | Owner     | Stima |      Stato       |
+| ----------------------------------------------------------------------------------- | --------- | ----- | :--------------: |
+| 1. SFX cue list canonica (~20 entries) — `docs/design/audio/sfx_cues.md`            | Master DD | 2h    |     🟡 todo      |
+| 2. Ambient brief 9 biome (mood + reference) — `docs/design/audio/ambient_biomes.md` | Master DD | 3h    |     🟡 todo      |
+| 3. SFX acquisition zero-cost (freesound CC0/CC-BY + Bfxr/sfxr/Chiptone generate)    | Master DD | 4h    |     🟢 todo      |
+| 4. Ambient track acquisition (OGA + Incompetech CC-BY + Pixabay Music CC0)          | Master DD | 4h    |     🟢 todo      |
+| 5. Pipeline integration: sample loading in sfx.js, fallback synth se asset missing  | dev       | 1d    | 🟡 todo post-3+4 |
+| 6. Music intensity hook: legare a `sistema_pressure_tier` via event bus             | dev       | 1d    |  🟡 todo post-4  |
 
 Step 1+2 text-only. Step 3-6 zero-cost (community + user curation). NO freelance commission (vincolo team M3.7 ADR zero-cost-asset-policy).
 

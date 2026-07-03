@@ -71,9 +71,15 @@ from calibrate_sprt import wilson_ci  # noqa: E402
 # ─────────────────────────────────────────────────────────────────────────
 
 KNOB_SPACE = {
+    # hc06 ranges aligned to the manifest SoT (canonical-suite.yaml knob_space:
+    # boss_hp 0.50-1.30, enemy_damage 1.0-2.5) after the v2-run finding that the
+    # old boss_hp cap 1.00 left the WR<20% columns unreachable (WR floor ~28%
+    # with the timer live). turn_limit stays a Method-D knob (turns-axis driver;
+    # Optuna pins it 41 instead -- different regime by design, OD-032 C).
     "hardcore_06": {
-        "boss_hp_multiplier": ("float", 0.50, 1.00),
+        "boss_hp_multiplier": ("float", 0.50, 1.30),
         "turn_limit_defeat_override": ("int", 25, 35),
+        "enemy_damage_multiplier_override": ("float", 1.0, 2.5),
     },
     "hardcore_07": {
         "enemy_count_modifier": ("int", -2, 2),
@@ -179,6 +185,8 @@ def place_in_map(feature_map, entry):
         return "skipped"
     fitness = cell_fitness(wr, turns, *cell)
     existing = feature_map.get(cell)
+    if existing is not None and entry.get("sprt_truncated"):
+        return None  # low-N truncated eval may populate, never evict (L-073)
     if existing is not None and fitness >= existing["fitness"]:
         return None
     feature_map[cell] = {
@@ -209,6 +217,7 @@ def append_checkpoint(path, entry):
         "fitness": cell_fitness(entry["wr"], entry["turns"], *cell),
         "origin": entry["origin"],
         "n_eff": entry.get("n_eff"),
+        "sprt_truncated": bool(entry.get("sprt_truncated")),
     }
     with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(line) + "\n")
@@ -241,6 +250,7 @@ def load_checkpoint(path):
                 "turns": line["features"][1],
                 "origin": line.get("origin", "random"),
                 "n_eff": line.get("n_eff"),
+                "sprt_truncated": line.get("sprt_truncated", False),
             }
             place_in_map(feature_map, entry)
             next_iter = max(next_iter, line["iter"] + 1)
@@ -508,7 +518,8 @@ def main():
                 if agg.get("sprt_truncated"):
                     stats["sprt_truncated"] += 1
                 entry = {"iter": it, "knobs": knobs, "wr": wr, "turns": turns,
-                         "origin": origin, "n_eff": n_eff}
+                         "origin": origin, "n_eff": n_eff,
+                         "sprt_truncated": bool(agg.get("sprt_truncated"))}
                 with lock:
                     outcome = place_in_map(feature_map, entry)
                     if outcome in ("populated", "replaced", "skipped"):

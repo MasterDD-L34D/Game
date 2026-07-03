@@ -38,7 +38,7 @@ job: `ts`, `cli`, `python`, `data`, `deploy`, `styleguide`, `stack`,
 - `dataset-checks` (area `data`) -- validazione dataset + gate generation-enforcement (rigenera-e-diff evo-pack, Phase A/L1).
 - `i18n-parity` (area `i18n`) -- parita' chiavi i18n.
 - `playwright-bundle`, `generator-dashboard-validation` -- bundle/dashboard checks.
-- `site-audit` + `lighthouse-ci` (area `site_audit`) -- audit del sito statico docs/ (vedi nota maintenance-mode in `docs/ci/README.md`; richiedono `SITE_BASE_URL`).
+- `site-audit` + `lighthouse-ci` (area `site_audit`) -- audit del sito statico docs/ (vedi nota maintenance-mode in `docs/ops/ci/README.md`; richiedono `SITE_BASE_URL`).
 - `styleguide-compliance` (area `styleguide`) -- linter style trait.
 - `deployment-checks` (area `deploy`) -- `scripts/run_deploy_checks.sh`.
 
@@ -59,7 +59,7 @@ branch-protection.
   Python in `tools/py/requirements.txt`.
 - Il workflow usa il `GITHUB_TOKEN` automatico per il checkout; nessun secret
   obbligatorio per il path principale. `SITE_BASE_URL` abilita i job di audit
-  sito (opzionale, vedi `docs/ci/README.md`).
+  sito (opzionale, vedi `docs/ops/ci/README.md`).
 
 ## Debug locale
 

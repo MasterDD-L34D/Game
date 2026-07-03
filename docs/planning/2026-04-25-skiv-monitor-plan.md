@@ -130,7 +130,7 @@ Mapping è **pure function** `map_event(event_dict) -> {state_delta, voice}`. De
 - Cross-origin GET (Game backend `:3334` da Swarm UI `:5000`)
 - CORS già abilitato lato Game
 - Swarm dashboard fetch + render Skiv card sub-component
-- Documentazione contract endpoint in `docs/integrations/swarm-skiv-feed.md`
+- Documentazione contract endpoint in `docs/ops/integrations/swarm-skiv-feed.md`
 - (Swarm dashboard repo: `~/Dafne/workspace/swarm/` — separato, requires owner Dafne side)
 
 ### Phase 4 — Webhook live (optional, ~2h)

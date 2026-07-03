@@ -60,7 +60,7 @@ lo stato VC-appreso (vcScoring) **parzialmente ereditabile** senza snowball.
 
 ### 2.4 Coherence check vs comparables + SoT (2026-05-27)
 
-**Comparables UFFICIALI** (`docs/pitch/evo_tactics_publisher_sheet.md`
+**Comparables UFFICIALI** (`docs/archive/pitch/evo_tactics_publisher_sheet.md`
 §Comparable References): **Spore** (fantasia evolutiva), **Descent**
 (missione/squad/living-room), tactics-turni moderni (leggibilita'), run-based
 (debrief). One-sentence sell: "il tuo stile di gioco evolve davvero le creature

@@ -81,6 +81,21 @@ def test_place_in_map_out_of_range_skipped():
     assert fmap == {}
 
 
+def test_place_in_map_truncated_populates_but_never_replaces():
+    # SPRT-truncated evals carry low N (noise): allowed to open an empty cell,
+    # NEVER to evict an occupant (edm-run iter 49: N=11 replaced a full-N cell).
+    fmap = {}
+    e0 = _entry(0, 0.22, 23.9)  # off-center occupant
+    e0["sprt_truncated"] = True
+    assert me.place_in_map(fmap, e0) == "populated"  # empty cell: ok
+    e1 = _entry(1, 0.25, 23.0)  # better fitness BUT truncated
+    e1["sprt_truncated"] = True
+    assert me.place_in_map(fmap, e1) is None  # occupied: no eviction
+    assert fmap[me.feature_cell(0.22, 23.9)]["iter_last"] == 0
+    # full-N eval still replaces normally
+    assert me.place_in_map(fmap, _entry(2, 0.25, 23.0)) == "replaced"
+
+
 # ── checkpoint + resume (F3 fix) ─────────────────────────────────────────
 
 def test_checkpoint_roundtrip(tmp_path):

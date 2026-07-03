@@ -208,7 +208,7 @@ test('CombatState valido accetta stato minimale', () => {
 
 ## Aggiornare uno snapshot di hydration
 
-Lo snapshot `tests/snapshots/hydration_caverna.json` è generato hydratando `docs/examples/encounter_caverna.md` + una party fissa. Se il tuo cambio all'hydration (o al catalog) ne modifica l'output, devi rigenerare.
+Lo snapshot `tests/snapshots/hydration_caverna.json` è generato hydratando `docs/guide/examples/encounter_caverna.md` + una party fissa. Se il tuo cambio all'hydration (o al catalog) ne modifica l'output, devi rigenerare.
 
 **Procedura**:
 

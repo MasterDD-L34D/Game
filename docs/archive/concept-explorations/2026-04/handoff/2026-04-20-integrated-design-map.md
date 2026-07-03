@@ -191,7 +191,7 @@ Output: 9 commit + diff sommario.
 ### Prompt 2 — Playtest next step (M3 human, già citato)
 
 ```
-Leggi docs/playtests/README.md e le note dei playtest
+Leggi docs/qa/playtests/README.md e le note dei playtest
 2026-04-17 / 2026-04-17-02 / 2026-04-17-03.
 
 Le note citano un "M3 human playtest su T04/T05" come next step.
