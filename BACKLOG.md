@@ -31,6 +31,17 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 ---
 
+## 🗺️ Big-maps arc — fase-2c grid-wiring SHIPPED (2026-07-03), residui owner-gated
+
+**fase-2c grid-wiring SHIPPED + MERGED** ([#3199](https://github.com/MasterDD-L34D/Game/pull/3199) `6703f782` + ADR flip [#3200](https://github.com/MasterDD-L34D/Game/pull/3200) `cf158b09`). `board_scale: party_sized|grid_sized` LIVE, band-neutral (0/21 encounter cambia board). ADR-2026-07-03 `active`. Handoff [`docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md`](docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md). Memory `project_big_maps_arc_fase2c_2026_07_03`.
+
+- [ ] **Autora >=1 encounter `board_scale: grid_sized`** con `grid_size` grande (in `docs/planning/encounters/`) — rende il wiring osservabile (oggi capacita' dormiente, nessuna big-board autorata).
+- [ ] **N=10 probe -> N=40 ratify** su quell'encounter (author-guard `tools/js/validate_encounter_grid_ratify.js`, #3197; la ratifica NON si trasferisce fra taglie).
+- [ ] **Flip gate geometria** xpBudget (`XP_BUDGET_GEOMETRY_ENABLED`, OFF) post-N=40, per misurare hazard/activation sul board reale.
+- [ ] Convergenza xpBudget Node (`xpBudget.js`) vs Python (`encounter_xp_budget.py`) — follow-up noto (modelli divergenti).
+
+---
+
 ## 🧬 Derived-canon reproducibility ARC -- CLOSED (2026-06-29)
 
 **Arco reproducibility derived-canon CHIUSO**: tutte e 3 le famiglie DERIVED reproducibili + guardate + CI-advisory-wired. Handoff [`docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md`](docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md). Memory `project_derived_artifact_reproducibility.md` (cont-17..26).
