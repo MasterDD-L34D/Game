@@ -209,7 +209,7 @@ async function runEncounter(
       });
       if (oc && oc.status >= 200 && oc.status < 300) overchargeUses += 1;
     }
-    const action = selectPlayerAction(active, units, objective, { focusFire });
+    const action = selectPlayerAction(active, units, objective, { focusFire, terrainFeatures });
     if (!action) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
