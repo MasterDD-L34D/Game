@@ -19,6 +19,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
+const { isAuthoredGrid } = require('../../services/party/loader');
 
 const ENCOUNTER_DIR = path.resolve(__dirname, '..', '..', 'docs', 'planning', 'encounters');
 const ENCOUNTER_DRAFT_DIR = path.resolve(
@@ -38,10 +39,10 @@ const TIER_HP = { base: 7, elite: 10, apex: 14 };
 const TIER_MOD = { base: 1, elite: 2, apex: 4 };
 const TIER_DC = { base: 10, elite: 11, apex: 12 };
 
-// The sim sizes the grid from the PLAYER count (gridSizeFor), NOT the YAML grid_size, so
-// authored spawn points can land off-grid (e.g. x:7 on the 2-player 6x6). Clamp positions
-// to a conservative on-grid bound so the fight is well-formed. The authored per-encounter
-// grid is a fase-2c concern (would need modulation wiring).
+// For party_sized/absent boards the sim sizes the grid from the PLAYER count (gridSizeFor), NOT the
+// YAML grid_size, so authored spawn points can land off-grid (e.g. x:7 on the 2-player 6x6); clamp
+// to this conservative bound so the fight is well-formed. fase-2c (ADR-2026-07-03): a
+// board_scale:'grid_sized' encounter instead clamps to its authored grid_size bound (see below).
 const GRID_SAFE_MAX = 5;
 
 // Only ELIMINATION encounters become scaled 'scenario' fights: the combat-adapter resolves
@@ -102,6 +103,12 @@ function buildScenarioEnemies(scenarioId, scaling = {}, opts = {}) {
   const spawnPoints =
     Array.isArray(wave1.spawn_points) && wave1.spawn_points.length ? wave1.spawn_points : [[7, 3]];
 
+  // fase-2c (ADR-2026-07-03): authored boards clamp spawn to the authored bound (grid_size - 1);
+  // party_sized/absent keeps the conservative GRID_SAFE_MAX (the sim doesn't know player count).
+  const authored = isAuthoredGrid(parsed);
+  const clampX = authored ? parsed.grid_size[0] - 1 : GRID_SAFE_MAX;
+  const clampY = authored ? parsed.grid_size[1] - 1 : GRID_SAFE_MAX;
+
   const enemies = [];
   let spIdx = 0;
   for (const unitDef of wave1.units || []) {
@@ -115,8 +122,8 @@ function buildScenarioEnemies(scenarioId, scaling = {}, opts = {}) {
     for (let i = 0; i < count; i += 1) {
       const pos = spawnPoints[spIdx % spawnPoints.length];
       spIdx += 1;
-      const px = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[0]) || 0));
-      const py = Math.min(GRID_SAFE_MAX, Math.max(0, (pos && pos[1]) || 0));
+      const px = Math.min(clampX, Math.max(0, (pos && pos[0]) || 0));
+      const py = Math.min(clampY, Math.max(0, (pos && pos[1]) || 0));
       enemies.push({
         id: `sis_${scenarioId}_${enemies.length + 1}`,
         species,
