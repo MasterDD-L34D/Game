@@ -2742,7 +2742,8 @@ function createSessionRouter(options = {}) {
           console.warn(
             `[xpBudget audit] session=${sessionId} class=${audit.encounter_class} ` +
               `party=${audit.party_size} budget=${audit.budget} used=${audit.used} ` +
-              `ratio=${audit.ratio} status=${audit.status}`,
+              `ratio=${audit.ratio} status=${audit.status} ` +
+              `activation_ratio=${audit.activation_ratio} activation_status=${audit.activation_status}`,
           );
         }
       } catch {
