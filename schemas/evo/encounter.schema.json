@@ -38,6 +38,12 @@
       "maxItems": 2,
       "description": "[width, height] in hex cells"
     },
+    "board_scale": {
+      "type": "string",
+      "enum": ["party_sized", "grid_sized"],
+      "default": "party_sized",
+      "description": "Board-size policy (ADR-2026-07-03). 'party_sized' (default) = party fill-ratio via gridSizeFor (ADR-2026-04-17), byte-identical al legacy: grid_size ignorato per il dimensionamento. 'grid_sized' = la board usa questo grid_size (board non-legibility-constrained). Passare a 'grid_sized' con una board ridimensionata richiede re-ratify N=10 -> N=40 (author-guard validate_encounter_grid_ratify)."
+    },
     "grid": {
       "type": "object",
       "additionalProperties": false,

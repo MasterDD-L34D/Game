@@ -2392,24 +2392,6 @@ function createSessionRouter(options = {}) {
         console.warn('[damage-curves] apply failed:', err.message);
       }
 
-      // ADR-2026-04-17: grid auto-scale basato su deployed PG count (party.yaml)
-      let gridW = GRID_SIZE;
-      let gridH = GRID_SIZE;
-      try {
-        const { gridSizeFor, getModulation } = require('../../../services/party/loader');
-        const requestedModulation = req.body?.modulation;
-        let deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
-        if (requestedModulation) {
-          const preset = getModulation(requestedModulation);
-          if (preset) deployedCount = preset.deployed;
-        }
-        const [gw, gh] = gridSizeFor(deployedCount);
-        gridW = gw;
-        gridH = gh;
-      } catch {
-        // fallback GRID_SIZE default
-      }
-
       // SPRINT_020: calcola turn_order via iniziativa descending.
       const turnOrder = buildTurnOrder(units);
       const firstActiveId = turnOrder[0] || null;
@@ -2459,6 +2441,24 @@ function createSessionRouter(options = {}) {
         refreshNucleiCoordinamento(units);
       } catch (err) {
         console.warn('[coordinamento] refresh failed:', err.message);
+      }
+
+      // ADR-2026-04-17 (default 'party_sized') + ADR-2026-07-03 (opt-in 'grid_sized'): la board =
+      // grid_size autorato se l'encounter opta board_scale:'grid_sized' con grid_size valido,
+      // altrimenti party fill-ratio (gridSizeFor). resolveBoardSize = unico punto board. Collocato
+      // dopo la risoluzione di encounterPayload (incl. YAML via loadEncounter) cosi' che il grid
+      // autorato sia disponibile qui (il vecchio blocco stava prima e non lo vedeva).
+      let gridW = GRID_SIZE;
+      let gridH = GRID_SIZE;
+      try {
+        const { resolveBoardSize } = require('../../../services/party/loader');
+        const requestedModulation = req.body?.modulation;
+        const deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
+        const [gw, gh] = resolveBoardSize(deployedCount, encounterPayload, requestedModulation);
+        gridW = gw;
+        gridH = gh;
+      } catch {
+        // fallback GRID_SIZE default
       }
 
       const session = {
