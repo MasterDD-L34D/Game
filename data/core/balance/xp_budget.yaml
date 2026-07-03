@@ -71,3 +71,23 @@ audit_defaults:
   warn_under_pct: 0.20  # report se used/budget < 0.80
   warn_over_pct: 0.20   # report se used/budget > 1.20
   critical_over_pct: 0.50  # P0 imbalance se > 1.50
+
+# Geometry-aware difficulty terms (D9 gate slice, flag XP_BUDGET_GEOMETRY_ENABLED, default OFF).
+# Valori PROPOSED (SDMG) -> ratify N=40 via tools/sim/full-loop-batch.js (L-069). NON magic-constant.
+geometry:
+  # Shape 1 (hazard-coupled, Frosthaven donor): folds into `used` only flag-ON.
+  hazard_set: [lava, acqua_profonda]
+  hazard_xp:
+    lava: 40
+    acqua_profonda: 30
+  # Reuses the encounter_class axis (mirror 15-LEVEL_DESIGN Class column).
+  class_scalar:
+    tutorial: 1.0
+    tutorial_advanced: 1.1
+    standard: 1.2
+    hardcore: 1.8
+    boss: 2.0
+  # Shape 2 (activation-pressure, Lancer donor): reported-passive, healthy band [low,high].
+  activation_band:
+    low: 1.0
+    high: 2.0
