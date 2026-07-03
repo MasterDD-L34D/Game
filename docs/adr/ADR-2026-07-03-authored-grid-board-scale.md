@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-07-03 -- board_scale: onorare grid_size autorato per-encounter (opt-in)'
-doc_status: draft
+doc_status: active
 doc_owner: master-dd
 workstream: combat
 last_verified: 2026-07-03
@@ -27,10 +27,10 @@ related_files:
 
 ## Status
 
-**SIGNED-OFF** owner 2026-07-03 (opzione 1; naming ratificato `party_sized`/`grid_sized`). Il campo
-`doc_status` resta `draft` finche' il build-PR non atterra (flip -> `active` al land, scelta owner).
-Draft prodotto da `sot-planner`. Il BUILD (implementazione + N=40 re-ratify se/quando un encounter
-opta `grid_sized`) e' partito su go-signal esplicito owner nella sessione fresca (vedi Sequencing).
+**ACCEPTED** owner 2026-07-03 (opzione 1; naming ratificato `party_sized`/`grid_sized`). Il build-PR
+fase-2c e' atterrato su main (#3199, merge `6703f782`) -> `doc_status` flippato `draft` -> `active`.
+Draft prodotto da `sot-planner`. Il BUILD (wiring band-neutral) e' shippato; la N=40 re-ratify resta
+dovuta se/quando un encounter opta `grid_sized` (vedi Sequencing).
 
 ## Contesto
 
@@ -154,6 +154,6 @@ salta la sequenza di ratifica.
 ## Decisioni owner (2026-07-03, risolte)
 
 - Naming: **RATIFICATO** `board_scale` (`party_sized`/`grid_sized`) -- owner sign-off 2026-07-03.
-- `doc_status`: resta `draft` fino al merge del build-PR, poi flip -> `active` (scelta owner).
+- `doc_status`: flippato `draft` -> `active` al merge del build-PR #3199 (2026-07-03, scelta owner).
 - Accettazione != start-build automatico per design; il build e' partito su go-signal esplicito
   ("parti col build") nella stessa sessione.
