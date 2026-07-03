@@ -36,7 +36,13 @@
 // stesso throughput di 1 turno SIS vecchio). Eventuali upgrade
 // (multi-action intents) sono PR futura.
 
-const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
+const {
+  selectAiPolicy,
+  stepAway,
+  DEFAULT_ATTACK_RANGE,
+  loadAiConfig,
+  losClearForAi,
+} = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
 // A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
@@ -450,6 +456,20 @@ function createDeclareSistemaIntents(deps) {
               ? { rule: 'REGOLA_001', intent: 'attack' }
               : { rule: 'REGOLA_001', intent: 'approach' };
         }
+      }
+
+      // COMBAT_LOS_ENABLED (default OFF): an AI cannot attack a target it cannot see.
+      // Downgrade attack -> approach so a blocked AI advances to gain line of sight
+      // instead of shooting through a blocker. Flag OFF -> losClearForAi()===true -> no-op.
+      // Placed AFTER the commit-window guard and the cornered retreat fallback so LOS
+      // has the final say on any path that could produce 'attack', but BEFORE the
+      // intent is consumed into intents/decisions below.
+      if (
+        policy &&
+        policy.intent === 'attack' &&
+        !losClearForAi(session.grid, actor.position, target.position)
+      ) {
+        policy = { ...policy, intent: 'approach', rule: `${policy.rule || 'REGOLA'}_LOS_BLOCKED` };
       }
 
       // intent='skip' non genera nessun intent: l'unit resta ferma.

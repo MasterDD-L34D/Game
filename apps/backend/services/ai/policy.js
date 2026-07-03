@@ -24,6 +24,10 @@
 // (REGOLA_003 kite, stati emotivi panic/rage/confused, ecc.) senza
 // toccare l'orchestrazione di runSistemaTurn (vedi sistemaTurnRunner.js).
 
+const { lineOfSightClear } = require('../grid/squareLos');
+const { terrainAtFromFeatures } = require('../combat/moveCost');
+const { terrainBlocksLos } = require('../combat/losBlockers');
+
 // --- AI Intent Score Registry (W3 pattern) ---
 // Valori di default inline, sovrascrivibili via loadAiConfig() da YAML.
 let _cfg = {
@@ -291,6 +295,14 @@ function scoreObjectives(actor, target, objectives = DEFAULT_OBJECTIVES) {
   return { totalScore, matchedObjectives: matched };
 }
 
+// COMBAT_LOS_ENABLED (default OFF): true when target is visible to actor.
+// Flag OFF -> always true (band-neutral). Pure + exported for testing.
+function losClearForAi(grid, fromPos, toPos) {
+  if (process.env.COMBAT_LOS_ENABLED !== 'true') return true;
+  const terrainAt = terrainAtFromFeatures((grid && grid.terrain_features) || []);
+  return lineOfSightClear(fromPos, toPos, (x, y) => terrainBlocksLos(terrainAt(x, y)));
+}
+
 module.exports = {
   DEFAULT_ATTACK_RANGE,
   DEFAULT_MAX_HP_FALLBACK,
@@ -304,4 +316,5 @@ module.exports = {
   stepAway,
   selectAiPolicy,
   checkEmotionalOverrides,
+  losClearForAi,
 };

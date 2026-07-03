@@ -119,7 +119,7 @@ Grid size deriva da **deployed PG** via `party.yaml` grid_scaling: 1-4 PG → 6�
 
 Turn_limit_defeat (ADR-2026-04-20 + M9 P6): hardcore=25, boss=20 (force decision pressure Long War pattern).
 
-**Note**: encounter tutorial 01-05 usano 6×6 perché modulation scout (2 PG). Hardcore-06 override esplicito 10×10 via `grid_size: 10` (8 PG full modulation). Vedi `apps/backend/services/party/loader.js` `gridSizeFor(deployed)`.
+**Note**: encounter tutorial 01-05 usano 6x6 perche' modulation scout (2 PG). Hardcore-06 gioca 10x10 perche' la **modulation 8-PG full-coop** (`gridSizeFor` fascia `deployed_7_8`), NON perche' il campo `grid_size` -- che di default (`board_scale: party_sized`) resta **inerte** per il dimensionamento della board (la board la decide `gridSizeFor(deployed)`; il vecchio "`grid_size: 10`" era un mito -- scalare non rappresentabile, lo schema vuole `[w, h]`). Per una board **autorata** indipendente dal party, l'encounter deve optare `board_scale: grid_sized` (ADR-2026-07-03): allora la board = il suo `grid_size` `[w, h]` via `resolveBoardSize`. Vedi `services/party/loader.js` (`resolveBoardSize` / `gridSizeFor`). Una board `grid_sized` ridimensionata DEVE ripassare il ciclo N=10 -> N=40 (regola sotto).
 
 ### Regola re-ratify grid (2026-07-03)
 

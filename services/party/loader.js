@@ -73,6 +73,45 @@ function gridSizeFor(deployedCount) {
 }
 
 /**
+ * True se l'encounter opta un grid autorato valido: board_scale === 'grid_sized' e grid_size e'
+ * un array [w, h] di due interi entro i bound schema (4..20). Mirror di encounter.schema.json
+ * (grid_size: items integer 4..20, arity 2). ADR-2026-07-03.
+ */
+function isAuthoredGrid(encounter) {
+  if (!encounter || encounter.board_scale !== 'grid_sized') return false;
+  const gs = encounter.grid_size;
+  return (
+    Array.isArray(gs) &&
+    gs.length === 2 &&
+    Number.isInteger(gs[0]) &&
+    Number.isInteger(gs[1]) &&
+    gs[0] >= 4 &&
+    gs[0] <= 20 &&
+    gs[1] >= 4 &&
+    gs[1] <= 20
+  );
+}
+
+/**
+ * Risolve la board size [w, h] per una sessione: unico punto che decide la board (ADR-2026-07-03).
+ * - board_scale === 'grid_sized' con grid_size valido -> board = grid_size autorato (nuovo array,
+ *   nessun aliasing dell'encounter).
+ * - altrimenti ('party_sized'/assente/invalido) -> party fill-ratio: la modulation (se preset noto)
+ *   determina il deployed effettivo, poi gridSizeFor. Byte-identical al path legacy (ADR-2026-04-17).
+ */
+function resolveBoardSize(deployedCount, encounter, modulation) {
+  if (isAuthoredGrid(encounter)) {
+    return [encounter.grid_size[0], encounter.grid_size[1]];
+  }
+  let effectiveDeployed = deployedCount;
+  if (modulation) {
+    const preset = getModulation(modulation);
+    if (preset) effectiveDeployed = preset.deployed;
+  }
+  return gridSizeFor(effectiveDeployed);
+}
+
+/**
  * Ritorna modulation preset by name oppure null.
  */
 function getModulation(name) {
@@ -98,6 +137,8 @@ function listModulations() {
 module.exports = {
   getPartyConfig,
   gridSizeFor,
+  resolveBoardSize,
+  isAuthoredGrid,
   getModulation,
   listModulations,
   loadFromDisk,

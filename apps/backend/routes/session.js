@@ -89,6 +89,9 @@ const { evaluateVoiceTriggers, describeVoice } = require('../services/narrative/
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
 // DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
+const { lineOfSightClear } = require('../services/grid/squareLos');
+const { terrainAtFromFeatures } = require('../services/combat/moveCost');
+const { terrainBlocksLos } = require('../services/combat/losBlockers');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
@@ -321,6 +324,14 @@ const {
 // Feature flag: l'intera superficie round-based e' disabilitata se
 // Constants + pure helpers extracted to sessionConstants.js + sessionHelpers.js
 // (imported above). Only createSessionRouter closure remains inline.
+
+// COMBAT_LOS_ENABLED (default OFF): true iff a terrain blocker sits strictly
+// between attacker and target. Pure + exported for testing.
+function losGateBlocks(grid, fromPos, toPos) {
+  if (process.env.COMBAT_LOS_ENABLED !== 'true') return false;
+  const terrainAt = terrainAtFromFeatures((grid && grid.terrain_features) || []);
+  return !lineOfSightClear(fromPos, toPos, (x, y) => terrainBlocksLos(terrainAt(x, y)));
+}
 
 function createSessionRouter(options = {}) {
   const router = Router();
@@ -2392,24 +2403,6 @@ function createSessionRouter(options = {}) {
         console.warn('[damage-curves] apply failed:', err.message);
       }
 
-      // ADR-2026-04-17: grid auto-scale basato su deployed PG count (party.yaml)
-      let gridW = GRID_SIZE;
-      let gridH = GRID_SIZE;
-      try {
-        const { gridSizeFor, getModulation } = require('../../../services/party/loader');
-        const requestedModulation = req.body?.modulation;
-        let deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
-        if (requestedModulation) {
-          const preset = getModulation(requestedModulation);
-          if (preset) deployedCount = preset.deployed;
-        }
-        const [gw, gh] = gridSizeFor(deployedCount);
-        gridW = gw;
-        gridH = gh;
-      } catch {
-        // fallback GRID_SIZE default
-      }
-
       // SPRINT_020: calcola turn_order via iniziativa descending.
       const turnOrder = buildTurnOrder(units);
       const firstActiveId = turnOrder[0] || null;
@@ -2459,6 +2452,24 @@ function createSessionRouter(options = {}) {
         refreshNucleiCoordinamento(units);
       } catch (err) {
         console.warn('[coordinamento] refresh failed:', err.message);
+      }
+
+      // ADR-2026-04-17 (default 'party_sized') + ADR-2026-07-03 (opt-in 'grid_sized'): la board =
+      // grid_size autorato se l'encounter opta board_scale:'grid_sized' con grid_size valido,
+      // altrimenti party fill-ratio (gridSizeFor). resolveBoardSize = unico punto board. Collocato
+      // dopo la risoluzione di encounterPayload (incl. YAML via loadEncounter) cosi' che il grid
+      // autorato sia disponibile qui (il vecchio blocco stava prima e non lo vedeva).
+      let gridW = GRID_SIZE;
+      let gridH = GRID_SIZE;
+      try {
+        const { resolveBoardSize } = require('../../../services/party/loader');
+        const requestedModulation = req.body?.modulation;
+        const deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
+        const [gw, gh] = resolveBoardSize(deployedCount, encounterPayload, requestedModulation);
+        gridW = gw;
+        gridH = gh;
+      } catch {
+        // fallback GRID_SIZE default
       }
 
       const session = {
@@ -2913,6 +2924,15 @@ function createSessionRouter(options = {}) {
         if (attackDist > range) {
           return res.status(400).json({
             error: `bersaglio fuori range (distanza ${attackDist} > range ${range})`,
+          });
+        }
+
+        if (losGateBlocks(session.grid, actor.position, target.position)) {
+          console.warn(
+            `[combat-los] blocked ranged attack ${actor.id} -> ${target.id} (LOS ostruita)`,
+          );
+          return res.status(400).json({
+            error: `bersaglio non in linea di vista (LOS ostruita)`,
           });
         }
 
@@ -3439,7 +3459,7 @@ function createSessionRouter(options = {}) {
       // Dispatch in declared/priority order.
       const results = [];
       const eventsCountBefore = session.events.length;
-      for (const { actor, raw } of dispatchQueue) {
+      for (const { actor, raw, source } of dispatchQueue) {
         if (Number(actor.hp) <= 0) {
           results.push({ actor_id: actor.id, skipped: 'actor_dead_mid_round' });
           continue;
@@ -3460,6 +3480,25 @@ function createSessionRouter(options = {}) {
             results.push({
               actor_id: actor.id,
               skipped: 'target_out_of_range',
+              target_id: action.target_id,
+            });
+            continue;
+          }
+          // Combat LOS slice-1 (COMBAT_LOS_ENABLED, default OFF): a human-declared
+          // ranged attack cannot pass through a terrain blocker. Symmetric with the
+          // single-attack HTTP handler (losGateBlocks in the /action path). Scoped to
+          // source 'player': the AI path is already LOS-gated upstream at target
+          // selection (losClearForAi, the same predicate), so re-gating it here would
+          // be redundant and would perturb the batch-sim ratify. Flag OFF ->
+          // losGateBlocks returns false -> this branch is dead -> byte-identical to
+          // the pre-gate loop.
+          if (source === 'player' && losGateBlocks(session.grid, actor.position, target.position)) {
+            console.warn(
+              `[combat-los] blocked round-dispatch attack ${actor.id} -> ${target.id} (LOS ostruita)`,
+            );
+            results.push({
+              actor_id: actor.id,
+              skipped: 'target_los_blocked',
               target_id: action.target_id,
             });
             continue;
@@ -5242,4 +5281,5 @@ module.exports = {
   buildDefaultUnits,
   normaliseUnit,
   GRID_SIZE,
+  losGateBlocks,
 };

@@ -13809,6 +13809,45 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/adr/ADR-2026-07-03-authored-grid-board-scale.md",
+      "title": "ADR-2026-07-03 -- board_scale: onorare grid_size autorato per-encounter (opt-in)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-07-03",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-03-fase2c-grid-wiring.md",
+      "title": "fase-2c grid-wiring: honor authored grid_size via board_scale -- implementation plan (as-built)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-07-03",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "title": "Handoff fase-2c grid-wiring (board_scale authored grid)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-07-03",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
