@@ -163,9 +163,9 @@ test('wound_location_weights (OD-058 D2) present + matches woundSystem.DEFAULT_L
 // explicit allowlists so a NEW, unexplained cliff/override fails CI, while the
 // calibrated ones (standard->hardcore wall; hc07 edm 2.5) keep passing.
 
-const OVERRIDE_FLOOR = 1.0;   // tutorial baseline; an override below is suspect
+const OVERRIDE_FLOOR = 1.0; // tutorial baseline; an override below is suspect
 const OVERRIDE_HARD_MAX = 3.0; // sanity ceiling; above = almost certainly a typo/regression
-const LADDER_CLIFF_MAX_RATIO = 1.30; // max adjacent-class step before it reads as a cliff
+const LADDER_CLIFF_MAX_RATIO = 1.3; // max adjacent-class step before it reads as a cliff
 // OD-032: the standard->hardcore wall (1.2 -> 1.8, +50%) is a deliberate,
 // N=40/N=100-calibrated difficulty spike tied to the turn_limit_defeat timer.
 const ALLOWED_LADDER_CLIFFS = new Set(['standard->hardcore']);
