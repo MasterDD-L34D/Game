@@ -15,8 +15,9 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD  | Titolo | Livello | Ref |
-| --- | ------ | ------- | --- |
+| OD                                                                     | Titolo                                               | Livello                                                                 | Ref      |
+| ---------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------- | -------- |
+| [OD-060](#od-060-doc-pins-guardrail----pins-strict-flip-prerequisites) | doc-pins guardrail -- pins-strict flip prerequisites | P2 (governance DX; opened as the PR #3191 doc-pins guardrail follow-up) | PR #3191 |
 
 <!-- /gen:od-open -->
 
@@ -584,6 +585,16 @@ Se la decisione:
 allora **non basta questo file**: serve **checkpoint umano** + **ADR ufficiale** in `docs/adr/`. OPEN_DECISIONS è per ambiguità tattiche operative.
 
 **Anti-pattern**: accumulare OD senza review. Periodicamente (ogni 2-3 sprint) → batch review + chiusura o escalation ad ADR.
+
+### [OD-060] doc-pins guardrail -- pins-strict flip prerequisites
+
+<!-- od id=OD-060 status=open -->
+
+- **Livello**: P2 (governance DX; opened as the PR #3191 doc-pins guardrail follow-up)
+- **Contesto**: `broken_doc_pin` (PR #3191) e' warning-tier -- diagnostico, non preventivo: un doc-move che rompe un ref docs/ in un workflow/tool passa CI verde. Il valore anti-regressione arriva solo col flip a `--pins-strict`.
+- **Prerequisiti al flip** (harsh-review PR #3191): (1) enforcement baseline decreasing-only -- un CI-assert che `docs/governance/doc_pins_baseline.json` non e' cresciuto vs origin/main (diff-count), cosi' la baseline non diventa un canale di silenziamento non-ratcheted accanto al gate; (2) audit case-sensitivity -- l'existence-check `(repo_root / pin).exists()` e' case-sensitive su Linux-CI ma case-insensitive su dev-Windows, quindi un pin con case sbagliato passa in locale e romperebbe solo in CI al flip.
+- **Default proposto**: restare warning-tier finche' i 2 prereq non sono soddisfatti. La visibilita' e' gia' migliorata -- i broken pin non-baselined ora appaiono nel `$GITHUB_STEP_SUMMARY` del job docs-governance (stesso follow-up PR).
+- **Ref**: PR #3191
 
 ## Ref
 
