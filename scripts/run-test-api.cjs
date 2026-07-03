@@ -61,6 +61,13 @@ const steps = [
   // and eviction-isolation invariants, but no glob above matched tests/routes/*.
   // Flat subtree -> single-* glob; wiring makes them an enforced gate.
   'node --test tests/routes/*.test.js',
+  // tests/js/** -- encounter-geometry-difficulty-gate PR1 Task 5: grid-ratify
+  // author-guard (validate_encounter_grid_ratify.js). Advisory / warn-only by
+  // design (D9 "warn poi promuovi") -- the guard itself always exits 0, so this
+  // step can never fail the suite; the test file asserts the guard's warn-count
+  // logic (unit-level), not a CI-blocking gate. Wired anyway so a future refactor
+  // that breaks the guard's behavior does not silently rot (anti-pattern #10).
+  'node --test tests/js/*.test.js',
 ];
 
 const baseEnv = {
