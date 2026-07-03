@@ -103,7 +103,6 @@ conditions:
     trigger_turn: 6
     effect: terrain_collapse
 difficulty_rating: 3 # 1-5
-estimated_turns: 10
 ```
 
 ## Progressione difficoltà (post ADR-2026-04-17 hex axial + coop-scaling)

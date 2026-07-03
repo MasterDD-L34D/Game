@@ -854,7 +854,6 @@ encounter_id: enc_tutorial_01
 name: Primi Passi nella Savana
 biome: savana
 difficulty: 1 # scala 1-5
-estimated_turns: 6
 objectives: [eliminate_sentinels]
 restrictions: [no_hazard, no_reactions, no_status]
 didactic_focus: [movement, attack_base, cover, elevation, MoS]
@@ -869,7 +868,6 @@ encounter_id: string # slug unico
 name: string # nome display
 biome: string # ref a biomes.yaml
 difficulty: 1-5 # rating
-estimated_turns: int
 map: # ← NUOVO
   size: [width, height]
   terrain: [[terrain_type]] # matrice o ref a file .map
