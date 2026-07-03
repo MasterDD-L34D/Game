@@ -125,3 +125,41 @@ test('auditEncounter: includes reinforcement_pool worst-case', () => {
     `with reinforcement (${auditWith.used}) > without (${auditNo.used})`,
   );
 });
+
+test('hazardBudgetContribution: sums hazard tiles x class_scalar', () => {
+  const { hazardBudgetContribution } = require('../../apps/backend/services/balance/xpBudget');
+  const enc = {
+    encounter_class: 'standard',
+    grid: {
+      terrain_features: [
+        { x: 3, y: 0, type: 'lava' },
+        { x: 3, y: 1, type: 'lava' },
+        { x: 4, y: 0, type: 'roccia' }, // not in hazard_set -> 0
+      ],
+    },
+  };
+  // 2 lava * hazard_xp 40 * class_scalar standard 1.2 = 96
+  assert.equal(hazardBudgetContribution(enc, 'standard'), 96);
+});
+
+test('hazardBudgetContribution: no grid -> 0', () => {
+  const { hazardBudgetContribution } = require('../../apps/backend/services/balance/xpBudget');
+  assert.equal(hazardBudgetContribution({ encounter_class: 'standard' }, 'standard'), 0);
+});
+
+test('auditEncounter: flag OFF -> byte-identical used (band-neutral)', () => {
+  delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
+  _resetCache();
+  const enc = {
+    encounter_class: 'standard',
+    grid: { terrain_features: [{ x: 3, y: 0, type: 'lava' }] },
+    waves: [{ turn_trigger: 0, units: [{ tier: 'base', count: 4 }] }],
+  };
+  const off = auditEncounter(enc, 4);
+  process.env.XP_BUDGET_GEOMETRY_ENABLED = 'true';
+  _resetCache();
+  const on = auditEncounter(enc, 4);
+  delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
+  _resetCache();
+  assert.equal(off.used + 48, on.used, 'flag ON adds 1 lava * 40 * 1.2 = 48');
+});

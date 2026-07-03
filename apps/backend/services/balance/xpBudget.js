@@ -91,6 +91,25 @@ function computeEncounterBudget(encounterClass, partySize = 4) {
 }
 
 /**
+ * Shape 1 (Frosthaven donor): XP contribution of hazard terrain tiles, scaled by
+ * the encounter_class axis. Reads encounter.grid.terrain_features (already in schema).
+ * Returns 0 when no grid/hazards. PROPOSED values (SDMG) -> ratify N=40.
+ */
+function hazardBudgetContribution(encounter, encounterClass) {
+  const geo = loadConfig().geometry || {};
+  const hazardSet = new Set(geo.hazard_set || []);
+  const hazardXp = geo.hazard_xp || {};
+  const scalar = Number((geo.class_scalar || {})[encounterClass] ?? 1.0);
+  const grid = encounter && encounter.grid;
+  const features = grid && Array.isArray(grid.terrain_features) ? grid.terrain_features : [];
+  let contribution = 0;
+  for (const f of features) {
+    if (f && hazardSet.has(f.type)) contribution += Number(hazardXp[f.type] || 0) * scalar;
+  }
+  return Math.round(contribution);
+}
+
+/**
  * Audit encounter: confronta total enemy XP vs budget atteso.
  * Returns { budget, used, ratio, status: 'under'|'in_band'|'over'|'critical_over', ... }
  */
@@ -147,6 +166,11 @@ function auditEncounter(encounter, partySize = 4) {
     used += Math.round(avgPoolXp * maxReinforcement);
   }
 
+  // Shape 1 hazard term (D9 gate slice): folds into used ONLY flag-ON (band-neutral OFF).
+  if (process.env.XP_BUDGET_GEOMETRY_ENABLED === 'true') {
+    used += hazardBudgetContribution(encounter, cls);
+  }
+
   const ratio = budget > 0 ? used / budget : 0;
   const cfg = loadConfig();
   const cls_cfg = (cfg.encounter_classes || {})[cls] || {};
@@ -181,6 +205,7 @@ function _resetCache() {
 module.exports = {
   computeUnitXp,
   computeEncounterBudget,
+  hazardBudgetContribution,
   auditEncounter,
   _resetCache,
   CONFIG_PATH,
