@@ -3459,7 +3459,7 @@ function createSessionRouter(options = {}) {
       // Dispatch in declared/priority order.
       const results = [];
       const eventsCountBefore = session.events.length;
-      for (const { actor, raw } of dispatchQueue) {
+      for (const { actor, raw, source } of dispatchQueue) {
         if (Number(actor.hp) <= 0) {
           results.push({ actor_id: actor.id, skipped: 'actor_dead_mid_round' });
           continue;
@@ -3480,6 +3480,25 @@ function createSessionRouter(options = {}) {
             results.push({
               actor_id: actor.id,
               skipped: 'target_out_of_range',
+              target_id: action.target_id,
+            });
+            continue;
+          }
+          // Combat LOS slice-1 (COMBAT_LOS_ENABLED, default OFF): a human-declared
+          // ranged attack cannot pass through a terrain blocker. Symmetric with the
+          // single-attack HTTP handler (losGateBlocks in the /action path). Scoped to
+          // source 'player': the AI path is already LOS-gated upstream at target
+          // selection (losClearForAi, the same predicate), so re-gating it here would
+          // be redundant and would perturb the batch-sim ratify. Flag OFF ->
+          // losGateBlocks returns false -> this branch is dead -> byte-identical to
+          // the pre-gate loop.
+          if (source === 'player' && losGateBlocks(session.grid, actor.position, target.position)) {
+            console.warn(
+              `[combat-los] blocked round-dispatch attack ${actor.id} -> ${target.id} (LOS ostruita)`,
+            );
+            results.push({
+              actor_id: actor.id,
+              skipped: 'target_los_blocked',
               target_id: action.target_id,
             });
             continue;
