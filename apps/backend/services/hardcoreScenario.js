@@ -32,7 +32,6 @@ const HARDCORE_SCENARIO_06 = {
   // M7-#2 Phase C: hardcore class (multiplier 1.4x + enrage 40% HP)
   encounter_class: 'hardcore',
   difficulty_rating: 6,
-  estimated_turns: 16,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text:
@@ -287,7 +286,6 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
   biome_id: 'rovine_planari',
   encounter_class: 'hardcore',
   difficulty_rating: 7,
-  estimated_turns: 10,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text:

@@ -12,7 +12,6 @@ name: 'Imboscata nei Canyon'
 biome_id: canyons_risonanti
 grid_size: [10, 10]
 difficulty_rating: 3
-estimated_turns: 11
 encounter_class: standard
 
 objective:

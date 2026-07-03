@@ -13,7 +13,6 @@ biome_id: caverna
 grid_size: [8, 8]
 difficulty_rating: 4
 pressure_tier_floor: 3
-estimated_turns: 10
 # M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
 encounter_class: hardcore
 

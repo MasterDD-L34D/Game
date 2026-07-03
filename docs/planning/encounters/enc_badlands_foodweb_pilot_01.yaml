@@ -29,7 +29,6 @@ name: 'Brulle Ferrose -- Pilota ER7 Stat-Canoniche'
 biome_id: badlands
 grid_size: [10, 10]
 difficulty_rating: 4
-estimated_turns: 18
 encounter_class: hardcore
 
 objective:

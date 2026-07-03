@@ -13,7 +13,6 @@ name: 'Risacca Obsidiana'
 biome_id: atollo_obsidiana
 grid_size: [10, 10]
 difficulty_rating: 4
-estimated_turns: 14
 encounter_class: hardcore
 
 objective:

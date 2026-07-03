@@ -145,12 +145,6 @@ def build_encounter(inputs: Dict[str, Any]) -> Dict[str, Any]:
         "waves": waves_out,
     }
 
-    estimated_turns = inputs.get("estimated_turns")
-    if estimated_turns is not None:
-        if not (isinstance(estimated_turns, int) and estimated_turns >= 1):
-            raise AuthoringError("estimated_turns must be int >= 1")
-        encounter["estimated_turns"] = estimated_turns
-
     tags = inputs.get("tags")
     if tags:
         if not (isinstance(tags, list)

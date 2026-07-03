@@ -32,7 +32,6 @@ biome_id: badlands
 grid_size: [10, 10]
 difficulty_rating: 5
 pressure_tier_floor: 4
-estimated_turns: 16
 encounter_class: hardcore
 
 # SPEC-J: per-mission lethal flag (point-9). Letto da routes/session.js /start
