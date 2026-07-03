@@ -97,7 +97,7 @@ _Generato da `tools/generate_decisions_log.py` (74 ADR). NON editare a mano: edi
 | 2026-06-08 | [ADR-2026-06-08-i18n-unify-data-i18n](docs/adr/ADR-2026-06-08-i18n-unify-data-i18n.md) | ADR 2026-06-08 -- i18n: unificare su data/i18n come sorgente unica (QA3) | Accepted |
 | 2026-06-08 | [ADR-2026-06-08-onboarding-per-creature-trait](docs/adr/ADR-2026-06-08-onboarding-per-creature-trait.md) | ADR 2026-06-08 -- Onboarding: trait per-creatura + branco emergente (supersede 51-ONBOARDING-60S, MA1) | Accepted |
 | 2026-06-19 | [ADR-2026-06-19-taxonomy-authoring-sot-steady-state](docs/adr/ADR-2026-06-19-taxonomy-authoring-sot-steady-state.md) | ADR-2026-06-19 -- taxonomy authoring SoT steady-state (RFC #4 S3 NO-GO) | Accepted |
-| 2026-07-03 | [ADR-2026-07-03-authored-grid-board-scale](docs/adr/ADR-2026-07-03-authored-grid-board-scale.md) | ADR-2026-07-03 -- board_scale: onorare grid_size autorato per-encounter (opt-in) | Proposed |
+| 2026-07-03 | [ADR-2026-07-03-authored-grid-board-scale](docs/adr/ADR-2026-07-03-authored-grid-board-scale.md) | ADR-2026-07-03 -- board_scale: onorare grid_size autorato per-encounter (opt-in) | Accepted |
 <!-- /gen:adr-index -->
 
 ## Index per tag
