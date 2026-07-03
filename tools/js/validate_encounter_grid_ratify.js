@@ -27,7 +27,7 @@ function checkGridRatify(encounter, baseline) {
     );
     return warns;
   }
-  if (!sameGrid(encounter.grid_size, entry.grid_size) && !entry.evidence_ref) {
+  if (!sameGrid(encounter.grid_size, entry.grid_size)) {
     warns.push(
       `[grid-ratify] ${id}: grid changed ${JSON.stringify(entry.grid_size)} -> ${JSON.stringify(encounter.grid_size)} without fresh evidence_ref -- re-run full-loop-batch N=40 (L-069); old ratification does NOT transfer`,
     );
