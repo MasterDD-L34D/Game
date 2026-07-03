@@ -79,7 +79,6 @@ const FORESTA_PILOT_SCENARIO_01 = {
   biome_id: 'foresta_temperata',
   encounter_class: 'foresta_pilot',
   difficulty_rating: 6,
-  estimated_turns: 15,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text: 'Disperdi la fauna ostile del Bosco Specchio.',

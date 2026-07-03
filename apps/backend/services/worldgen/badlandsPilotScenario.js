@@ -85,7 +85,6 @@ const BADLANDS_SCENARIO_01 = {
   biome_id: 'badlands',
   encounter_class: 'badlands', // phase 2b: dedicated calibrated band (damage_curves.yaml)
   difficulty_rating: 5,
-  estimated_turns: 14,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text: 'Elimina la fauna ostile delle Brulle Ferrose.',
@@ -232,7 +231,6 @@ const BADLANDS_ELITE_SCENARIO_01 = {
   biome_id: 'badlands',
   encounter_class: 'badlands_elite',
   difficulty_rating: 8,
-  estimated_turns: 16,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text: 'Sopravvivi al Martellatore Ferroso e alla sua scorta.',
@@ -247,7 +245,6 @@ const BADLANDS_AMBIENT_SCENARIO_01 = {
   biome_id: 'badlands',
   encounter_class: 'badlands_ambient',
   difficulty_rating: 4,
-  estimated_turns: 14,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text: 'Disperdi la fauna minore delle Brulle Ferrose.',

@@ -103,7 +103,6 @@ conditions:
     trigger_turn: 6
     effect: terrain_collapse
 difficulty_rating: 3 # 1-5
-estimated_turns: 10
 ```
 
 ## Progressione difficoltà (post ADR-2026-04-17 hex axial + coop-scaling)
@@ -121,6 +120,14 @@ Grid size deriva da **deployed PG** via `party.yaml` grid_scaling: 1-4 PG → 6�
 Turn_limit_defeat (ADR-2026-04-20 + M9 P6): hardcore=25, boss=20 (force decision pressure Long War pattern).
 
 **Note**: encounter tutorial 01-05 usano 6×6 perché modulation scout (2 PG). Hardcore-06 override esplicito 10×10 via `grid_size: 10` (8 PG full modulation). Vedi `apps/backend/services/party/loader.js` `gridSizeFor(deployed)`.
+
+### Regola re-ratify grid (2026-07-03)
+
+ANY encounter il cui `grid_size` (o blocco `grid`) cambia DEVE ri-eseguire il ciclo sim
+`N=10-probe -> N=40-ratify` (`tools/sim/full-loop-batch.js`, L-069). La ratifica esistente
+NON si trasferisce a una nuova taglia (la geometria muove la difficolta' reale). Author-guard
+advisory: `tools/js/validate_encounter_grid_ratify.js` + baseline `data/core/balance/grid_ratify_baseline.json`.
+Aggiorna il baseline (grid_size + evidence_ref) solo dopo l'evidence N=40.
 
 ## Relazione Bioma → Livello
 

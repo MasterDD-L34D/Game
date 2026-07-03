@@ -91,6 +91,60 @@ function computeEncounterBudget(encounterClass, partySize = 4) {
 }
 
 /**
+ * Shape 1 (Frosthaven donor): XP contribution of hazard terrain tiles, scaled by
+ * the encounter_class axis. Reads encounter.grid.terrain_features (already in schema).
+ * Returns 0 when no grid/hazards. PROPOSED values (SDMG) -> ratify N=40.
+ */
+function hazardBudgetContribution(encounter, encounterClass) {
+  const geo = loadConfig().geometry || {};
+  const hazardSet = new Set(geo.hazard_set || []);
+  const hazardXp = geo.hazard_xp || {};
+  const scalar = Number((geo.class_scalar || {})[encounterClass] ?? 1.0);
+  const grid = encounter && encounter.grid;
+  const features = grid && Array.isArray(grid.terrain_features) ? grid.terrain_features : [];
+  let contribution = 0;
+  for (const f of features) {
+    if (f && hazardSet.has(f.type)) contribution += Number(hazardXp[f.type] || 0) * scalar;
+  }
+  return Math.round(contribution);
+}
+
+/**
+ * Shape 2 (Lancer donor): max concurrent enemy activations / party_size, worst-case
+ * static (assumes nobody dies). Reads encounter.waves[]. Reported-passive: NEVER gates.
+ * NOTE: waves[] are reinforcements; the initial roster comes from the payload, so this
+ * is an approximation (documented in the design spec sez. 1.4).
+ */
+function activationPressure(encounter, partySize) {
+  const waves = Array.isArray(encounter && encounter.waves) ? encounter.waves : [];
+  const triggers = [...new Set(waves.map((w) => Number(w.turn_trigger || 0)))].sort(
+    (a, b) => a - b,
+  );
+  let maxConcurrent = 0;
+  for (const t of triggers) {
+    let cumulative = 0;
+    for (const w of waves) {
+      if (Number(w.turn_trigger || 0) <= t) {
+        const units = Array.isArray(w.units) ? w.units : [];
+        for (const u of units) cumulative += Number(u.count || 1);
+      }
+    }
+    if (cumulative > maxConcurrent) maxConcurrent = cumulative;
+  }
+  const ps = Math.max(1, Number(partySize) || 1);
+  const ratio = maxConcurrent / ps;
+  const band = (loadConfig().geometry || {}).activation_band || {};
+  const low = Number(band.low ?? 1.0);
+  const high = Number(band.high ?? 2.0);
+  let status;
+  if (maxConcurrent === 0) status = 'no_waves';
+  else if (ratio < low) status = 'under';
+  else if (ratio > high) status = 'over';
+  else status = 'in_band';
+  return { activation_ratio: Math.round(ratio * 100) / 100, activation_status: status };
+}
+
+/**
  * Audit encounter: confronta total enemy XP vs budget atteso.
  * Returns { budget, used, ratio, status: 'under'|'in_band'|'over'|'critical_over', ... }
  */
@@ -147,6 +201,11 @@ function auditEncounter(encounter, partySize = 4) {
     used += Math.round(avgPoolXp * maxReinforcement);
   }
 
+  // Shape 1 hazard term (D9 gate slice): folds into used ONLY flag-ON (band-neutral OFF).
+  if (process.env.XP_BUDGET_GEOMETRY_ENABLED === 'true') {
+    used += hazardBudgetContribution(encounter, cls);
+  }
+
   const ratio = budget > 0 ? used / budget : 0;
   const cfg = loadConfig();
   const cls_cfg = (cfg.encounter_classes || {})[cls] || {};
@@ -161,6 +220,7 @@ function auditEncounter(encounter, partySize = 4) {
   else if (ratio > 1 + oobPct) status = 'over';
   else status = 'in_band';
 
+  const activation = activationPressure(encounter, partySize);
   return {
     budget,
     used,
@@ -171,6 +231,8 @@ function auditEncounter(encounter, partySize = 4) {
     enemy_unit_count: unitCount,
     reinforcement_max: maxReinforcement,
     out_of_band_pct: oobPct,
+    activation_ratio: activation.activation_ratio,
+    activation_status: activation.activation_status,
   };
 }
 
@@ -181,6 +243,8 @@ function _resetCache() {
 module.exports = {
   computeUnitXp,
   computeEncounterBudget,
+  hazardBudgetContribution,
+  activationPressure,
   auditEncounter,
   _resetCache,
   CONFIG_PATH,

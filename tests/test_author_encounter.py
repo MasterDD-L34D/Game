@@ -55,10 +55,8 @@ def test_build_minimal_valid_encounter():
 
 def test_build_with_optional_fields():
     inputs = dict(MIN_INPUTS)
-    inputs["estimated_turns"] = 6
     inputs["tags"] = ["tutorial", "standard"]
     out = build_encounter(inputs)
-    assert out["estimated_turns"] == 6
     assert out["tags"] == ["tutorial", "standard"]
 
 

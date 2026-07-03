@@ -16,7 +16,6 @@ name: 'Detonazione nel Cuore'
 biome_id: badlands
 grid_size: [10, 10]
 difficulty_rating: 3
-estimated_turns: 12
 encounter_class: standard
 
 objective:

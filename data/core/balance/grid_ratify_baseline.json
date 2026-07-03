@@ -1,0 +1,174 @@
+{
+  "schema_version": "0.1.0",
+  "notes": "Baseline grid per encounter. grid change -> re-run tools/sim/full-loop-batch.js N=10 probe -> N=40 ratify (L-069). Old ratification does NOT transfer to a new size.",
+  "encounters": {
+    "enc_badlands_foodweb_pilot_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_badlands_foodweb_probe_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_badlands_ultima_caccia_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_capture_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_caverna_02": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_deserto_caldo_bocche_vulcaniche_01": {
+      "grid_size": [
+        8,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_escape_01": {
+      "grid_size": [
+        12,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_escort_01": {
+      "grid_size": [
+        12,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_frattura_03": {
+      "grid_size": [
+        12,
+        12
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_hardcore_reinf_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_sabotage_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_savana_01": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_savana_skiv_solo_vs_pack": {
+      "grid_size": [
+        8,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_survival_01": {
+      "grid_size": [
+        8,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_01": {
+      "grid_size": [
+        8,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_02": {
+      "grid_size": [
+        8,
+        8
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_03": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_04": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_05": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_06_hardcore": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    },
+    "enc_tutorial_07_hardcore_pod_rush": {
+      "grid_size": [
+        10,
+        10
+      ],
+      "evidence_ref": null,
+      "ratified_at": "2026-07-03"
+    }
+  }
+}

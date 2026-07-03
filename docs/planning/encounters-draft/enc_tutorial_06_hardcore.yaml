@@ -13,7 +13,6 @@ name: 'Cuore delle Rovine'
 biome_id: rovine_planari
 grid_size: [10, 10]
 difficulty_rating: 5
-estimated_turns: 15
 encounter_class: hardcore
 
 objective:

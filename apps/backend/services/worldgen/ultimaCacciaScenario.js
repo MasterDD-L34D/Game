@@ -55,7 +55,6 @@ const ULTIMA_CACCIA_SCENARIO = {
   biome_id: 'badlands',
   encounter_class: 'hardcore',
   difficulty_rating: 5,
-  estimated_turns: 16,
   grid_size: 10,
   objective: { type: 'elimination' },
   objective_text: "Sopravvivi all'apex delle Brulle Ferrose -- la caccia dove la posta e' reale.",

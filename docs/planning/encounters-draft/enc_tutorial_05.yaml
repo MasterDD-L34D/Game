@@ -12,7 +12,6 @@ name: 'Soglia delle Rovine'
 biome_id: rovine_planari
 grid_size: [10, 10]
 difficulty_rating: 4
-estimated_turns: 13
 encounter_class: standard
 
 objective:
