@@ -13822,6 +13822,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md",
+      "title": "Handoff fase-2c grid-wiring (board_scale authored grid)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-07-03",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "active"
     }
   ]
 }

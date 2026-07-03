@@ -5,7 +5,16 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-01/02 -- W5 graded-lane CLOSE: D6 REAL + ER7 re-confirm + G6 built + W6 flip LIVE @1.15
+## ⚡ Sessione corrente 2026-07-03 -- fase-2c grid-wiring SHIPPED + ADR active
+
+Handoff: `docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md`. **2 PR merged.** Keystone big-maps arc D1: un `encounter.grid_size` autorato ora dimensiona la board, ma SOLO se l'encounter opta `board_scale: grid_sized` (naming owner-ratified su `auto|authored` dello spec-draft); default `party_sized` = legacy byte-identical -> **band-neutral** (0/21 encounter cambia board).
+
+- **#3199 `6703f782`** = 5 unit TDD: schema `board_scale` enum (FORBIDDEN-PATH additivo, default `party_sized`) + `resolveBoardSize`/`isAuthoredGrid` puri (`services/party/loader.js` = unico punto board, `gridSizeFor`/`getModulation` intatti) + wire `session.js` + sim parity `tools/sim/scenario-enemies.js` (clamp autorato vs `GRID_SAFE_MAX=5`) + myth-fix `15-LEVEL_DESIGN.md` (10x10 hardcore-06 = modulation 8-PG, non `grid_size:10`). DoD: AI 567/567, test:api 25-suite 0-fail, sim 12/12, governance errors=0, code-reviewer adversariale 0 P1/P2.
+- **#3200 `cf158b09`** = ADR-2026-07-03 `draft`->`active`. ADR via sot-planner (owner sign-off; opt-in extension di ADR-04-17).
+- 🔑 **verify-first (deviation)**: lo spec assumeva `session.encounter` al board-resolve (`session.js:~2396`) -> FALSO, `encounterPayload` (incl. YAML via `loadEncounter`) costruito ~30 righe DOPO -> RILOCATO il blocco board dopo `encounterPayload` (Option B, blast-radius minimo); leggere `req.body.encounter` a 2396 avrebbe mancato OGNI encounter YAML. `resolveBoardSize` possiede il fold modulation; invalid-`grid_sized` -> fail-safe a `party_sized`.
+- **Residui (owner-gated, capacita' soltanto -- 0 big-board autorata qui)**: autora encounter `board_scale: grid_sized` -> N=10 probe -> N=40 ratify (author-guard #3197) -> flip gate geometria xpBudget (`XP_BUDGET_GEOMETRY_ENABLED`, OFF). Memory: `project_big_maps_arc_fase2c_2026_07_03`.
+
+## ⚡ Sessione 2026-07-01/02 -- W5 graded-lane CLOSE: D6 REAL + ER7 re-confirm + G6 built + W6 flip LIVE @1.15
 
 Handoff: `docs/planning/2026-07-02-session-handoff-w5-graded-close.md`. **10 PR Game + 1 GGv2 merged. W5 graded lane COMPLETA** (X1 = delivered-via-pivot #3163). **W6 form-pulse v2 + STAMINA = LIVE in prod, config ratificata.**
 
