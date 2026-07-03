@@ -237,6 +237,8 @@ Pattern codificati in memory (`feedback_*.md` under `C:/Users/edusc/.claude/proj
 
 **Non toccare senza segnalare**: `.github/workflows/` (CI) · `migrations/` (schema DB) · `packages/contracts/` (schema condivisi, ripple backend+mock) · `services/generation/` (generatore specie). **Regola 50 righe**: task >50 righe nuove fuori da `apps/backend/` → ferma, segnala, aspetta conferma. **Trait**: solo in `data/core/traits/active_effects.yaml`, mai hardcoded nel resolver. **Nuove dipendenze npm/pip**: approvazione esplicita.
 
+- **Grid resize**: cambiare `grid_size` di un encounter -> re-run N=10 probe -> N=40 ratify (L-069); la ratifica NON si trasferisce (author-guard `tools/js/validate_encounter_grid_ratify.js`).
+
 ### Definition of Done (ogni sprint)
 
 1. `node --test tests/ai/*.test.js` → verde · 2. `npm run format:check` → verde · 3. `git status` pulito · 4. nessun nuovo file in cartelle vietate · 5. toccato `vcScoring.js`/`policy.js` → aggiorna `docs/architecture/ai-policy-engine.md` · 6. toccato `apps/backend/services/combat/` o `roundOrchestrator.js` → aggiorna `docs/hubs/combat.md`.
