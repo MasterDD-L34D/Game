@@ -3,7 +3,7 @@ title: Vertical Slice Playtest Plan
 doc_status: active
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-04-17
+last_verified: 2026-07-03
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -43,7 +43,7 @@ Rationale: coprono curva difficoltà graduale (1→3), 3 biomi distinti, meccani
 Per ogni encounter:
 
 1. **Start**: `POST /api/session/start` con units da encounter.
-2. **Play**: 2+ giocatori umani, no Mission Control AI assist. Target: completare encounter entro `estimated_turns * 1.5` round.
+2. **Play**: 2+ giocatori umani, no Mission Control AI assist. Target: completare ogni encounter entro il round-cap fissato nei Pass criteria (9 / 12 / 15 round).
 3. **Record**: log events serializzati in `logs/session_YYYYMMDD_HHMMSS.json`.
 4. **Debrief post-sessione**: 5 minuti di feedback verbale + note in `docs/playtest/SESSION-YYYY-MM-DD.md` (usare `SESSION-template.md`).
 5. **VC snapshot**: `GET /api/session/:id/vc` per estrarre indici MBTI/Ennea.
@@ -56,7 +56,7 @@ Una sessione vertical slice **passa** se:
 
 | Criterio                              | Soglia                                           |
 | ------------------------------------- | ------------------------------------------------ |
-| Encounter 1 completato                | ≤ 9 round (estimated 6 × 1.5)                    |
+| Encounter 1 completato                | ≤ 9 round                                        |
 | Encounter 2 completato                | ≤ 12 round                                       |
 | Encounter 3 completato                | ≤ 15 round                                       |
 | Hit rate player                       | 40–70% (rispecchia `predict_combat.py` output)   |
