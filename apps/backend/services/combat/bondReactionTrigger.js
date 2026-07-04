@@ -24,6 +24,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
+const { losClearOnGrid } = require('./losForGrid');
 
 const DEFAULT_PATH = path.join(process.cwd(), 'data', 'core', 'companion', 'creature_bonds.yaml');
 
@@ -158,6 +159,10 @@ function fireCounterAttack(session, ally, attacker, bond, performAttack) {
   if (typeof performAttack !== 'function') return null;
   const range = Number(ally.attack_range) || 1;
   if (manhattan(ally.position, attacker.position) > range) return null;
+
+  // COMBAT_LOS_ENABLED (default OFF): the bonded ally cannot counter-strike an
+  // attacker it has no line of sight to. Flag OFF -> no-op (byte-identical).
+  if (!losClearOnGrid(session.grid, ally.position, attacker.position)) return null;
 
   const attackerHpBefore = attacker.hp;
   const res = performAttack(ally, attacker);
