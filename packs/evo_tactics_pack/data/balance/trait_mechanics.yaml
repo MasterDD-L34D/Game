@@ -18,7 +18,13 @@ notes: >
   fuoco, gravita, mentale, taglio, ionico. Balance audit 2026-04-25: canali
   non-canonici `gelo`/`cryo` mappati a `ionico` (proxy per archetipo termico,
   vedi species_resistances.yaml:57); `acido` rimosso (non canonico). Distribuzione: offensive 4,
-  defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
+  defensive 8, hybrid 2, mobility 3, utility 13. Trait con mod non-zero: 14/30.
+  Ultimate tier (TKT-P6-AP3, chiuso 2026-07-04): cost_ap:3 e' LEGALE per abilita'
+  'ultimate' dichiarate (frozen_stasis / meteoric_shield / power_strike / sonic_blast /
+  armatura_pietra_planare_guard). NON violano il budget 2 AP/turn: si consumano via
+  Overcharge (spendi 3 SG -> +1 AP questo turno; apps/backend/services/combat/overchargeEngine.js,
+  route POST /session/:id/overcharge), il gemello simmetrico di /defy. Riclassificato
+  mantello_meteoritico defensive -> hybrid: tanka (def+2, buff+4) E colpisce (meteor_strike 1d8+2).
 
 # O1 pattern (OpenRA template inheritance): baseline defaults per classe.
 # Trait possono usare `inherits: <class>` per ereditare campi dalla classe.
@@ -483,7 +489,7 @@ traits:
     active_effects:
       - ability_id: frozen_stasis
         name_it: "Criostasi Difensiva"
-        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
+        # cost_ap:3 ultimate tier (TKT-P6-AP3): legale, Overcharge-gated. Vedi header.
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
@@ -564,7 +570,7 @@ traits:
     active_effects:
       - ability_id: meteoric_shield
         name_it: "Scudo Meteoritico"
-        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
+        # cost_ap:3 ultimate tier (TKT-P6-AP3): legale, Overcharge-gated. Vedi header.
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
@@ -578,7 +584,7 @@ traits:
         damage_dice: { count: 1, sides: 8, modifier: 2 }
         channel: earth
         target: enemy
-    notes: "T3 bump applied to defense_mod (defensive class + T3). Sprint 6: ability earth + resistance earth+15."
+    notes: "Hybrid class (TKT-P6-AP3: tanks def+2/buff+4 E nukes meteor_strike 1d8+2, ex-defensive). T3 bump applied to defense_mod. Sprint 6: ability earth + resistance earth+15. cost_ap:3 ultimate = Overcharge-gated."
   lingua_tattile_trama:
     attack_mod: 0
     defense_mod: 0
@@ -646,7 +652,7 @@ traits:
     active_effects:
       - ability_id: power_strike
         name_it: "Colpo Devastante"
-        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
+        # cost_ap:3 ultimate tier (TKT-P6-AP3): legale, Overcharge-gated. Vedi header.
         cost_ap: 3
         effect_type: damage
         damage_dice: { count: 2, sides: 6, modifier: 2 }
@@ -686,7 +692,7 @@ traits:
     active_effects:
       - ability_id: sonic_blast
         name_it: "Detonazione Sonica"
-        # balance-audit 2026-05-22: cost_ap=3 exceeds 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
+        # cost_ap:3 ultimate tier (TKT-P6-AP3): legale, Overcharge-gated. Vedi header.
         cost_ap: 3
         effect_type: damage
         damage_dice: { count: 2, sides: 6, modifier: 1 }
@@ -835,7 +841,7 @@ traits:
     active_effects:
       - ability_id: armatura_pietra_planare_guard
         name_it: "Armatura Pietra Planare Guard"
-        # balance-audit 2026-05-22: cost_ap=3 exceeds the 2 AP/turn budget - needs unlock-mechanic doc (PT/SG) or reduce to 2 (TKT-P6-AP3, master-dd verdict)
+        # cost_ap:3 ultimate tier (TKT-P6-AP3): legale, Overcharge-gated. Vedi header.
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
