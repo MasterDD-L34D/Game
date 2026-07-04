@@ -331,6 +331,104 @@ test('triggerBondReaction counter_attack -1 step_mod refund prevents 1-shot kill
 });
 
 // ─────────────────────────────────────────────────────────────────
+// fireCounterAttack — COMBAT_LOS_ENABLED gate (dormant, default OFF)
+// ─────────────────────────────────────────────────────────────────
+
+function makeCounterFixture(gridOverride) {
+  const target = makeUnit({ id: 't', species_id: 'dune_stalker', position: { x: 5, y: 0 } });
+  const ally = makeUnit({
+    id: 'a',
+    species_id: 'dune_stalker',
+    position: { x: 5, y: 1 }, // adjacent to target (bond trigger_range=1)
+    attack_range: 5,
+  });
+  const attacker = makeUnit({
+    id: 'foe',
+    species_id: 'goblin',
+    controlled_by: 'sistema',
+    position: { x: 9, y: 1 }, // same row as ally (manhattan=4, within ally.attack_range=5)
+    hp: 8,
+    max_hp: 8,
+  });
+  const session = makeSession([target, ally, attacker]);
+  session.grid = gridOverride;
+  return { target, ally, attacker, session };
+}
+
+test('LOS flag OFF: counter fires even with a roccia blocker between ally and attacker (byte-identical)', () => {
+  delete process.env.COMBAT_LOS_ENABLED;
+  const { target, ally, attacker, session } = makeCounterFixture({
+    terrain_features: [{ x: 7, y: 1, type: 'roccia' }], // strictly between ally(5,1) and attacker(9,1)
+  });
+
+  let called = false;
+  const performAttack = (a, t) => {
+    called = true;
+    t.hp = Math.max(0, t.hp - 4);
+    return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 4 };
+  };
+
+  const res = triggerBondReaction(session, attacker, target, 3, {
+    bonds: [COUNTER_BOND],
+    performAttack,
+  });
+  assert.ok(res, 'counter fires regardless of blocker when flag is off');
+  assert.equal(res.type, 'counter_attack');
+  assert.equal(called, true, 'performAttack was called');
+  assert.equal(ally._bond_round_used, session.turn, 'reaction fired + cap marker set');
+});
+
+test('LOS flag ON + roccia blocker between ally and attacker: fireCounterAttack (via triggerBondReaction) returns null, no performAttack', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  try {
+    const { target, ally, attacker, session } = makeCounterFixture({
+      terrain_features: [{ x: 7, y: 1, type: 'roccia' }],
+    });
+
+    let called = false;
+    const performAttack = (a, t) => {
+      called = true;
+      t.hp = Math.max(0, t.hp - 4);
+      return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 4 };
+    };
+
+    const res = triggerBondReaction(session, attacker, target, 3, {
+      bonds: [COUNTER_BOND],
+      performAttack,
+    });
+    assert.equal(res, null, 'counter suppressed when blind');
+    assert.equal(called, false, 'performAttack NOT called');
+    assert.equal(ally._bond_round_used, undefined, 'cap not consumed on miss-fire');
+  } finally {
+    delete process.env.COMBAT_LOS_ENABLED;
+  }
+});
+
+test('LOS flag ON + clear line: fireCounterAttack (via triggerBondReaction) fires', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  try {
+    const { target, ally, attacker, session } = makeCounterFixture({ terrain_features: [] });
+
+    let called = false;
+    const performAttack = (a, t) => {
+      called = true;
+      t.hp = Math.max(0, t.hp - 4);
+      return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 4 };
+    };
+
+    const res = triggerBondReaction(session, attacker, target, 3, {
+      bonds: [COUNTER_BOND],
+      performAttack,
+    });
+    assert.ok(res, 'counter fires with clear line');
+    assert.equal(res.type, 'counter_attack');
+    assert.equal(called, true, 'performAttack was called');
+  } finally {
+    delete process.env.COMBAT_LOS_ENABLED;
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────
 // triggerBondReaction — shield_ally
 // ─────────────────────────────────────────────────────────────────
 

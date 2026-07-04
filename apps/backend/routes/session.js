@@ -325,9 +325,11 @@ const {
 
 // COMBAT_LOS_ENABLED (default OFF): true iff a terrain blocker sits strictly
 // between attacker and target. Thin negation of the shared combat LOS rule
-// (services/combat/losForGrid.js). Exported for testing.
-function losGateBlocks(grid, fromPos, toPos) {
-  return !losClearOnGrid(grid, fromPos, toPos);
+// (services/combat/losForGrid.js). Optional `units` also gates a live
+// interposed unit (units_block_los config, default false -- dormant). Exported
+// for testing.
+function losGateBlocks(grid, fromPos, toPos, units) {
+  return !losClearOnGrid(grid, fromPos, toPos, units);
 }
 
 function createSessionRouter(options = {}) {
@@ -2924,7 +2926,7 @@ function createSessionRouter(options = {}) {
           });
         }
 
-        if (losGateBlocks(session.grid, actor.position, target.position)) {
+        if (losGateBlocks(session.grid, actor.position, target.position, session.units)) {
           console.warn(
             `[combat-los] blocked ranged attack ${actor.id} -> ${target.id} (LOS ostruita)`,
           );
@@ -3489,7 +3491,10 @@ function createSessionRouter(options = {}) {
           // be redundant and would perturb the batch-sim ratify. Flag OFF ->
           // losGateBlocks returns false -> this branch is dead -> byte-identical to
           // the pre-gate loop.
-          if (source === 'player' && losGateBlocks(session.grid, actor.position, target.position)) {
+          if (
+            source === 'player' &&
+            losGateBlocks(session.grid, actor.position, target.position, session.units)
+          ) {
             console.warn(
               `[combat-los] blocked round-dispatch attack ${actor.id} -> ${target.id} (LOS ostruita)`,
             );

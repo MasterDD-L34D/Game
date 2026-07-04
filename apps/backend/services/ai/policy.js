@@ -296,9 +296,11 @@ function scoreObjectives(actor, target, objectives = DEFAULT_OBJECTIVES) {
 // COMBAT_LOS_ENABLED (default OFF): true when target is visible to actor.
 // Thin alias over the shared combat LOS rule (services/combat/losForGrid.js);
 // kept so declareSistemaIntents.js and the AI LOS tests keep importing it here.
-// Flag OFF -> always true (band-neutral). Pure + exported for testing.
-function losClearForAi(grid, fromPos, toPos) {
-  return losClearOnGrid(grid, fromPos, toPos);
+// Optional `units` also gates a live interposed unit (units_block_los config,
+// default false -- dormant). Flag OFF -> always true (band-neutral). Pure +
+// exported for testing.
+function losClearForAi(grid, fromPos, toPos, units) {
+  return losClearOnGrid(grid, fromPos, toPos, units);
 }
 
 module.exports = {

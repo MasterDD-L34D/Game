@@ -467,7 +467,7 @@ function createDeclareSistemaIntents(deps) {
       if (
         policy &&
         policy.intent === 'attack' &&
-        !losClearForAi(session.grid, actor.position, target.position)
+        !losClearForAi(session.grid, actor.position, target.position, session.units)
       ) {
         policy = { ...policy, intent: 'approach', rule: `${policy.rule || 'REGOLA'}_LOS_BLOCKED` };
       }

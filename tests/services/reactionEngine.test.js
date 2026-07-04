@@ -286,3 +286,105 @@ test('triggerOnMove respects single-actor reaction cap (consumed not refireable)
   const res3 = reactionEngine.triggerOnMove(session, mover, { x: 9, y: 5 }, performAttack);
   assert.equal(res3, null, 'reaction not refired (cap 1/actor)');
 });
+
+// ─────────────────────────────────────────────────────────────────
+// triggerOnMove — COMBAT_LOS_ENABLED gate (dormant, default OFF)
+// ─────────────────────────────────────────────────────────────────
+
+test('triggerOnMove LOS flag OFF: overwatch fires even with a roccia blocker between (byte-identical)', () => {
+  delete process.env.COMBAT_LOS_ENABLED;
+  const overwatcher = makeUnit({
+    id: 'ranger',
+    position: { x: 0, y: 0 },
+    attack_range: 5,
+    reactions: [{ trigger: 'enemy_moves_in_range', ability_id: 'overwatch_shot' }],
+  });
+  const mover = makeUnit({
+    id: 'enemy',
+    controlled_by: 'sistema',
+    position: { x: 4, y: 0 },
+    hp: 8,
+  });
+  const fromPos = { x: 9, y: 0 };
+  const session = makeSession([overwatcher, mover]);
+  session.grid = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }] };
+
+  let called = false;
+  const performAttack = () => {
+    called = true;
+    return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 3 };
+  };
+
+  const res = reactionEngine.triggerOnMove(session, mover, fromPos, performAttack);
+  assert.ok(res, 'overwatch fires regardless of blocker when flag is off');
+  assert.equal(called, true, 'performAttack spy was called');
+  assert.equal(overwatcher.reactions.length, 0, 'reaction consumed');
+});
+
+test('triggerOnMove LOS flag ON + roccia blocker between watcher and mover: overwatch does NOT fire, reaction NOT consumed', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  try {
+    const overwatcher = makeUnit({
+      id: 'ranger',
+      position: { x: 0, y: 0 },
+      attack_range: 5,
+      reactions: [{ trigger: 'enemy_moves_in_range', ability_id: 'overwatch_shot' }],
+    });
+    const mover = makeUnit({
+      id: 'enemy',
+      controlled_by: 'sistema',
+      position: { x: 4, y: 0 },
+      hp: 8,
+    });
+    const fromPos = { x: 9, y: 0 };
+    const session = makeSession([overwatcher, mover]);
+    session.grid = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }] };
+
+    let called = false;
+    const performAttack = () => {
+      called = true;
+      return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 3 };
+    };
+
+    const res = reactionEngine.triggerOnMove(session, mover, fromPos, performAttack);
+    assert.equal(res, null, 'blind watcher does not fire');
+    assert.equal(called, false, 'performAttack NOT called');
+    assert.equal(overwatcher.reactions.length, 1, 'reaction NOT consumed');
+  } finally {
+    delete process.env.COMBAT_LOS_ENABLED;
+  }
+});
+
+test('triggerOnMove LOS flag ON + clear line: overwatch fires', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  try {
+    const overwatcher = makeUnit({
+      id: 'ranger',
+      position: { x: 0, y: 0 },
+      attack_range: 5,
+      reactions: [{ trigger: 'enemy_moves_in_range', ability_id: 'overwatch_shot' }],
+    });
+    const mover = makeUnit({
+      id: 'enemy',
+      controlled_by: 'sistema',
+      position: { x: 4, y: 0 },
+      hp: 8,
+    });
+    const fromPos = { x: 9, y: 0 };
+    const session = makeSession([overwatcher, mover]);
+    session.grid = { terrain_features: [] };
+
+    let called = false;
+    const performAttack = () => {
+      called = true;
+      return { result: { hit: true, mos: 3, die: 14, roll: 14 }, damageDealt: 3 };
+    };
+
+    const res = reactionEngine.triggerOnMove(session, mover, fromPos, performAttack);
+    assert.ok(res, 'overwatch fires with clear line');
+    assert.equal(called, true, 'performAttack spy was called');
+    assert.equal(overwatcher.reactions.length, 0, 'reaction consumed');
+  } finally {
+    delete process.env.COMBAT_LOS_ENABLED;
+  }
+});

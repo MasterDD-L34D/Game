@@ -135,8 +135,10 @@ function pickInRangeTarget(actor, enemies, focusFire, losFn) {
 function selectPlayerAction(actor, units, objective, opts = {}) {
   // Task 6: shared production LOS rule, built once from opts.terrainFeatures (threaded by
   // combat-adapter.js). COMBAT_LOS_ENABLED OFF -> losClearOnGrid always true -> no-op filter.
+  // unit-blocking fast-follow: also threads `units` (units_block_los config, default false
+  // -- dormant/no-op until an owner flips the config).
   const losFn = (from, to) =>
-    losClearOnGrid({ terrain_features: (opts && opts.terrainFeatures) || [] }, from, to);
+    losClearOnGrid({ terrain_features: (opts && opts.terrainFeatures) || [] }, from, to, units);
 
   // OA2 zone-pursuit: a zone objective + actor outside the zone -> move toward it.
   const objType = objective && objective.type;
