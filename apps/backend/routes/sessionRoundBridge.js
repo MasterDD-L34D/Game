@@ -2135,6 +2135,12 @@ function createRoundBridge(deps) {
       });
     }
 
+    // Co-op hand-off (ADR-2026-04-16 §2, addendum 2026-07-05): il round
+    // sistema e' completamente risolto e inizia una nuova planning phase
+    // player (ordine libero, vincolo = AP budget). Nessuna singola unit
+    // attiva durante il planning: null, non l'id stantio ereditato da /start.
+    session.active_unit = null;
+
     return {
       session_id: session.session_id,
       turn: session.turn,
