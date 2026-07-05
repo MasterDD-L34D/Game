@@ -233,19 +233,20 @@ test('resolve-round priority order: higher initiative resolves first', async (t)
   });
   const sessionId = await startSession(app);
 
+  // begin-planning authors the SIS intent server-side. The /declare-intent route
+  // now rejects client-supplied SIS intents (403), so the enemy intent must enter
+  // the round the legitimate way; p1's intent is still declared explicitly. The
+  // test asserts resolution ORDER by initiative (p1 14 > sis 10), unchanged.
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sessionId })
+    .expect(200);
   await request(app)
     .post('/api/session/declare-intent')
     .send({
       session_id: sessionId,
       actor_id: 'p1',
       action: { id: 'p', type: 'attack', actor_id: 'p1', target_id: 'sis', ap_cost: 1 },
-    });
-  await request(app)
-    .post('/api/session/declare-intent')
-    .send({
-      session_id: sessionId,
-      actor_id: 'sis',
-      action: { id: 's', type: 'attack', actor_id: 'sis', target_id: 'p1', ap_cost: 1 },
     });
   await request(app).post('/api/session/commit-round').send({ session_id: sessionId });
   const resolveRes = await request(app)
