@@ -58,10 +58,15 @@
 // of that shift for the owner.
 //
 // Usage:
-//   node tools/sim/los-repos-probe.js [N] [repos|flip]      (parent: both arms)
+//   node tools/sim/los-repos-probe.js [N] [repos|flip] [enemyScale] [enemyRange]  (parent: both arms)
 //     repos (default) -- LOS ON both, toggle stepToRegainLos (heuristic isolation)
 //     flip            -- flag ON+real-repos vs flag OFF (true balance cost of LOS)
-//   node tools/sim/los-repos-probe.js --child <arm> <N> <scale> <mode>  (internal)
+//     enemyScale      -- optional, default 1.0, applies to BOTH modes (de-ceiling
+//                        the flip-mode fixture: at scale 1.0 the fixture is
+//                        structurally un-losable -- players range 5 vs enemy
+//                        range 2 -- so WR ceilings 1.0/1.0 and masks any
+//                        lethality shift from the LOS constraint).
+//   node tools/sim/los-repos-probe.js --child <arm> <N> <scale> <mode> <enemyRange>  (internal)
 
 const path = require('path');
 const { execFileSync } = require('child_process');
@@ -127,7 +132,7 @@ function roster() {
 // enough there is no melee-rush death spiral that would confound the pace read),
 // tanky (hp 20) so the fight lasts long enough for a repositioning tempo edge to
 // accumulate into a measurable avg_rounds delta. Symmetric per lane (no rigging).
-function enemies(scale) {
+function enemies(scale, enemyRange = 2) {
   const defs = [
     ['foe_1', 20, 6, 12, { x: 5, y: 1 }],
     ['foe_2', 20, 6, 12, { x: 5, y: 5 }],
@@ -141,7 +146,7 @@ function enemies(scale) {
     ap: 3,
     mod: Math.round(mod * scale),
     dc,
-    attack_range: 2,
+    attack_range: enemyRange,
     initiative: 10,
     position,
     controlled_by: 'sistema',
@@ -179,13 +184,13 @@ function dist(a, b) {
 // (2) Reopening-steps-exist: the REAL stepToRegainLos returns a non-null,
 //     clear, in-range tile for each blocked attacker (else repositioning could
 //     never help even if wired). Uses the production helpers, not a re-impl.
-function positiveControls() {
+function positiveControls(enemyRange = 2) {
   process.env.COMBAT_LOS_ENABLED = 'true';
   const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
   const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
   const grid = { terrain_features: TERRAIN, width: GRID_SIZE, height: GRID_SIZE };
   const attackers = roster();
-  const foes = enemies(1.0);
+  const foes = enemies(1.0, enemyRange);
 
   const blockedPairs = [];
   for (const a of attackers) {
@@ -231,7 +236,7 @@ function positiveControls() {
 // ---------------------------------------------------------------------------
 // Child arm: run N seeds for one arm, print a JSON line the parent parses.
 // ---------------------------------------------------------------------------
-async function childMain(arm, N, scale, mode) {
+async function childMain(arm, N, scale, mode, enemyRange) {
   // LOS flag: in repos mode BOTH arms hold LOS ON (the heuristic-isolation
   // control). In flip mode arm 'off' DELETES the flag entirely -> no LOS
   // constraint at all (today's live behavior). Set BEFORE requiring anything
@@ -282,7 +287,7 @@ async function childMain(arm, N, scale, mode) {
   // { outcome, rounds, actionsByUnit }.
   async function runOne(http, seed) {
     const start = await http.post('/api/session/start', {
-      units: [...roster(), ...enemies(scale)],
+      units: [...roster(), ...enemies(scale, enemyRange)],
       seed,
       // board_scale:'grid_sized' + grid_size (ADR-2026-07-03) so the board is the
       // authored 12x12 -- WITHOUT it, resolveBoardSize auto-scales a 3-player
@@ -416,10 +421,10 @@ function summarize(arr) {
 // ---------------------------------------------------------------------------
 // Parent: spawn one child per arm (fresh module graph each), print the report.
 // ---------------------------------------------------------------------------
-function runArmChild(arm, N, scale, mode) {
+function runArmChild(arm, N, scale, mode, enemyRange) {
   const out = execFileSync(
     process.execPath,
-    [__filename, '--child', arm, String(N), String(scale), mode],
+    [__filename, '--child', arm, String(N), String(scale), mode, String(enemyRange)],
     { cwd: path.resolve(__dirname, '..', '..'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
   );
   const line = out.split('\n').find((l) => l.startsWith('__ARM_RESULT__'));
@@ -436,15 +441,24 @@ function main() {
   // 'repos' -> the repos path is byte-identical to before this control existed.
   const modeArg = process.argv[3];
   const mode = modeArg === 'flip' ? 'flip' : 'repos';
-  const scale = mode === 'repos' && modeArg ? Number(modeArg) || 1.0 : 1.0;
+  // argv[4] is the enemyScale arg for BOTH modes when modeArg was the mode token
+  // (i.e. 'flip'); for the legacy `<N> <scale>` repos form modeArg IS the scale
+  // and argv[4] is unused. Default 1.0 -> behavior unchanged when omitted.
+  const scale =
+    mode === 'repos' && modeArg ? Number(modeArg) || 1.0 : Number(process.argv[4]) || 1.0;
+  // argv[5]: optional enemy attack_range (default 2 = unchanged fixture). Range 4-5
+  // makes the fixture SYMMETRIC (enemies shoot across the same blockers -> LOS
+  // constrains both sides) and de-ceilings WR (flag-OFF enemies shoot through
+  // walls from turn 1 = real lethality pressure). Validator condition C1.
+  const enemyRange = Number(process.argv[5]) || 2;
 
-  const controls = positiveControls();
+  const controls = positiveControls(enemyRange);
   console.log('=== POSITIVE CONTROL: fixture validity (LOS ON) ===');
   console.log(JSON.stringify(controls, null, 2));
   console.log('=== END fixture-validity control ===');
 
-  const on = runArmChild('on', N, scale, mode);
-  const off = runArmChild('off', N, scale, mode);
+  const on = runArmChild('on', N, scale, mode, enemyRange);
+  const off = runArmChild('off', N, scale, mode, enemyRange);
 
   // Arm labels reflect the semantic per mode:
   //   repos -> on = real repositioning,  off = stubbed repositioning (LOS ON both)
@@ -487,7 +501,8 @@ if (process.argv[2] === '--child') {
   const N = Number(process.argv[4]) || 10;
   const scale = Number(process.argv[5]) || 1.0;
   const mode = process.argv[6] === 'flip' ? 'flip' : 'repos';
-  childMain(arm, N, scale, mode).catch((e) => {
+  const enemyRange = Number(process.argv[7]) || 2;
+  childMain(arm, N, scale, mode, enemyRange).catch((e) => {
     console.error(e);
     process.exit(1);
   });
