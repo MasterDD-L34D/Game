@@ -229,10 +229,14 @@ test('pickInRangeTarget: losFn blocking the only in-range enemy -> null', () => 
 // Task 6 integration: selectPlayerAction wires opts.terrainFeatures through the shared
 // production losClearForAi (apps/backend/services/ai/policy.js), so the sim measures the
 // SAME LOS rule as production. Flag ON + a roccia blocker strictly between actor and the
-// only enemy -> the in-range attack is filtered out and the default branch falls back to
-// approach (move). Flag OFF (unset) -> losClearForAi always returns true -> byte-identical
-// attack.
-test('selectPlayerAction: LOS-blocked in-range enemy falls back to approach (flag ON)', () => {
+// only enemy -> the in-range attack is filtered out.
+// Task 2 (AI LOS-repositioning): with the reposition wiring, this now takes the
+// stepToRegainLos path (a perpendicular one-tile step that reopens a firing line),
+// NOT the plain stepToward-approach. A single-tile wall at (2,0) leaves a legal
+// reopening step, so the destination lands OFF the enemy's row (y != 0) -- proving
+// the reposition path fired rather than a straight stepToward toward the enemy
+// (which would advance on x and stay on row 0).
+test('flag ON: LOS-blocked enemy triggers repositioning', () => {
   process.env.COMBAT_LOS_ENABLED = 'true';
   try {
     const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 5, ap_remaining: 1 };
@@ -240,6 +244,8 @@ test('selectPlayerAction: LOS-blocked in-range enemy falls back to approach (fla
     const terrainFeatures = [{ x: 2, y: 0, type: 'roccia' }];
     const a = selectPlayerAction(actor, units, { type: 'elimination' }, { terrainFeatures });
     assert.equal(a.action_type, 'move');
+    // reposition moved perpendicular (off row 0), not a stepToward along row 0 at the wall.
+    assert.notEqual(a.target_position.y, 0);
   } finally {
     delete process.env.COMBAT_LOS_ENABLED;
   }
@@ -252,4 +258,92 @@ test('selectPlayerAction: same LOS-blocking geometry, flag OFF -> byte-identical
   const terrainFeatures = [{ x: 2, y: 0, type: 'roccia' }];
   const a = selectPlayerAction(actor, units, { type: 'elimination' }, { terrainFeatures });
   assert.deepEqual(a, { action_type: 'attack', target_id: 'e' });
+});
+
+// Task 2 (AI LOS-repositioning): the sim player-proxy plays "shoot whoever is visible", so
+// it passes ALL enemies to stepToRegainLos. When the only in-range enemy is LOS-blocked, the
+// proxy should try a one-tile reposition that reopens a firing line BEFORE falling back to
+// the dumb stepToward-along-the-wall approach.
+test('flag ON: LOS-blocked ranged attacker repositions instead of walking at the wall', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const actor = {
+    id: 'p1',
+    position: { x: 0, y: 1 },
+    attack_range: 5,
+    ap_remaining: 2,
+    controlled_by: 'player',
+  };
+  const enemy = { id: 'e1', position: { x: 4, y: 1 }, hp: 10, controlled_by: 'sistema' };
+  const units = [actor, enemy];
+  const opts = {
+    terrainFeatures: [
+      { x: 2, y: 0, type: 'roccia' },
+      { x: 2, y: 1, type: 'roccia' },
+    ],
+    gridSize: 6,
+  };
+  const action = selectPlayerAction(actor, units, null, opts);
+  // LOS blocked -> not an attack; should move to a tile that reopens LOS (y changes off row 1),
+  // not a plain stepToward along row 1.
+  assert.equal(action.action_type, 'move');
+  assert.notEqual(action.target_position.y, 1);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag OFF: same setup is byte-identical (in-range attack, LOS ignored)', () => {
+  delete process.env.COMBAT_LOS_ENABLED;
+  const actor = {
+    id: 'p1',
+    position: { x: 0, y: 1 },
+    attack_range: 5,
+    ap_remaining: 2,
+    controlled_by: 'player',
+  };
+  const enemy = { id: 'e1', position: { x: 4, y: 1 }, hp: 10, controlled_by: 'sistema' };
+  const units = [actor, enemy];
+  const opts = {
+    terrainFeatures: [
+      { x: 2, y: 0, type: 'roccia' },
+      { x: 2, y: 1, type: 'roccia' },
+    ],
+    gridSize: 6,
+  };
+  const action = selectPlayerAction(actor, units, null, opts);
+  assert.equal(action.action_type, 'attack');
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// Task 2 graceful fallback ("never worse than today"): flag ON + LOS-blocked but NO single
+// 4-neighbor step reopens a firing line (a FULL vertical wall) -> stepToRegainLos returns null
+// -> the code must fall THROUGH to the plain stepToward approach (not reposition, not stall).
+test('flag ON: LOS-blocked but no reopening step -> graceful stepToward fallback (never worse than today)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const actor = {
+    id: 'p1',
+    position: { x: 0, y: 1 },
+    attack_range: 5,
+    ap_remaining: 2,
+    controlled_by: 'player',
+  };
+  const enemy = { id: 'e1', position: { x: 4, y: 1 }, hp: 10, controlled_by: 'sistema' };
+  const units = [actor, enemy];
+  const opts = {
+    terrainFeatures: [
+      { x: 2, y: 0, type: 'roccia' },
+      { x: 2, y: 1, type: 'roccia' },
+      { x: 2, y: 2, type: 'roccia' },
+      { x: 2, y: 3, type: 'roccia' },
+      { x: 2, y: 4, type: 'roccia' },
+      { x: 2, y: 5, type: 'roccia' },
+    ],
+    gridSize: 6,
+  };
+  const action = selectPlayerAction(actor, units, null, opts);
+  // No 4-neighbor step clears the full wall -> stepToRegainLos returns null ->
+  // the code falls through to the plain approach (stepToward toward the enemy).
+  assert.equal(action.action_type, 'move');
+  // stepToward from (0,1) toward (4,1) advances on x (toward the enemy), NOT a perpendicular reposition.
+  assert.equal(action.target_position.x, 1);
+  assert.equal(action.target_position.y, 1);
+  delete process.env.COMBAT_LOS_ENABLED;
 });

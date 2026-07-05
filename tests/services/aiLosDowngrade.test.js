@@ -150,3 +150,111 @@ test('flag ON: LOS-blocked non-attack intent (retreat) passes through unchanged'
   assert.ok(!/_LOS_BLOCKED$/.test(decisions[0].rule));
   delete process.env.COMBAT_LOS_ENABLED;
 });
+
+// Task 3 (AI LOS-repositioning wiring): when the attack->approach downgrade
+// fires, the SIS must step to a LOS-reopening tile (stepToRegainLos) instead
+// of walking straight toward its chosen target -- and must keep engaging
+// THAT target (only [target] is passed to stepToRegainLos, not all foes).
+//
+// Geometry: SIS at (0,1) attack_range 5, player target at (4,1), roccia wall
+// at (2,0) and (2,1) blocking the row, grid 6x6. Verified via a direct
+// stepToRegainLos(actor, [target], grid, {}) call: the reopening tile is
+// (0,2) (matches the task's suggested geometry, no adjustment needed).
+// Straight stepTowards from (0,1) toward (4,1) would produce (1,1) (still on
+// the blocked row, y===1) -- the reposition must NOT match that.
+const LOS_REPOSITION_UNITS = [
+  {
+    id: 'p1',
+    hp: 10,
+    max_hp: 10,
+    ap: 2,
+    position: { x: 4, y: 1 },
+    controlled_by: 'player',
+    status: {},
+  },
+  {
+    id: 'sis',
+    hp: 10,
+    max_hp: 10,
+    ap: 2,
+    attack_range: 5,
+    position: { x: 0, y: 1 },
+    controlled_by: 'sistema',
+    status: {},
+  },
+];
+
+function makeLosRepositionSession(terrainFeatures) {
+  return {
+    session_id: 'los-reposition',
+    turn: 1,
+    units: LOS_REPOSITION_UNITS,
+    grid: { width: 6, height: 6, terrain_features: terrainFeatures },
+    sistema_pressure: 100,
+  };
+}
+
+test('flag ON: LOS-blocked target -> SIS repositions to regain LOS (not straight approach)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const declare = buildDeclare();
+  const session = makeLosRepositionSession([
+    { x: 2, y: 0, type: 'roccia' },
+    { x: 2, y: 1, type: 'roccia' },
+  ]);
+  const { intents, decisions } = declare(session);
+  assert.equal(intents.length, 1);
+  assert.equal(intents[0].action.type, 'move');
+  // Repositioned off the blocked row -- NOT a straight step toward target
+  // (which would stay on y===1).
+  assert.notEqual(intents[0].action.move_to.y, 1);
+  assert.deepEqual(intents[0].action.move_to, { x: 0, y: 2 });
+  assert.equal(decisions[0].intent, 'approach');
+  assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag OFF: same LOS-blocked geometry -> byte-identical, no downgrade/reposition', () => {
+  delete process.env.COMBAT_LOS_ENABLED;
+  const declare = buildDeclare();
+  const session = makeLosRepositionSession([
+    { x: 2, y: 0, type: 'roccia' },
+    { x: 2, y: 1, type: 'roccia' },
+  ]);
+  const { intents, decisions } = declare(session);
+  assert.equal(intents.length, 1);
+  // Flag OFF -> losClearForAi() always true -> no downgrade -> straight attack.
+  assert.equal(intents[0].action.type, 'attack');
+  assert.equal(decisions[0].intent, 'attack');
+  assert.ok(!/_LOS_BLOCKED$/.test(decisions[0].rule));
+});
+
+// Graceful fallback (mirrors the sim seam's "no reopening step" test): when the
+// downgrade fires but NO single 4-neighbor step reopens LOS, stepToRegainLos
+// returns null and the SIS falls back to a plain stepTowards approach toward its
+// target -- never worse than today. FULL vertical wall at x=2 (y=0..5) blocks the
+// whole column, so no perpendicular step regains sight. Verified via a direct
+// stepToRegainLos(actor, [target], grid, {}) call: returns null; the harness then
+// emits the stepTowards advance move_to={x:1,y:1} (y stays 1, x advances toward
+// the target at (4,1) -- NOT a perpendicular reposition).
+function makeLosFullWallSession() {
+  const wall = [];
+  for (let y = 0; y <= 5; y++) wall.push({ x: 2, y, type: 'roccia' });
+  return makeLosRepositionSession(wall);
+}
+
+test('flag ON: LOS-blocked with no reopening step -> graceful stepTowards fallback', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const declare = buildDeclare();
+  const session = makeLosFullWallSession();
+  const { intents, decisions } = declare(session);
+  assert.equal(intents.length, 1);
+  assert.equal(intents[0].action.type, 'move');
+  // Fallback fired: stepTowards advance toward target (y stays on the row,
+  // x advances) -- NOT a perpendicular reposition.
+  assert.deepEqual(intents[0].action.move_to, { x: 1, y: 1 });
+  assert.equal(intents[0].action.move_to.y, 1);
+  assert.equal(decisions[0].intent, 'approach');
+  // Downgrade still fired (LOS was blocked); there was just no reopening tile.
+  assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
+  delete process.env.COMBAT_LOS_ENABLED;
+});
