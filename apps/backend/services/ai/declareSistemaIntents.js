@@ -44,6 +44,7 @@ const {
   losClearForAi,
 } = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
+const { stepToRegainLos } = require('../combat/losReposition');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
 // A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
 // sessionHelpers owns the single effectivePressure SoT (flag-gated, default OFF).
@@ -469,7 +470,20 @@ function createDeclareSistemaIntents(deps) {
         policy.intent === 'attack' &&
         !losClearForAi(session.grid, actor.position, target.position, session.units)
       ) {
-        policy = { ...policy, intent: 'approach', rule: `${policy.rule || 'REGOLA'}_LOS_BLOCKED` };
+        const occupied = new Set(
+          (session.units || [])
+            .filter((u) => u && u.position && (u.hp ?? 0) > 0 && u.id !== actor.id)
+            .map((u) => `${u.position.x},${u.position.y}`),
+        );
+        // Reposition to regain LOS on the CHOSEN target specifically (keep engaging
+        // it, do not switch enemies) -- pass only [target]. null -> plain approach.
+        const reposition = stepToRegainLos(actor, [target], session.grid, { occupied });
+        policy = {
+          ...policy,
+          intent: 'approach',
+          rule: `${policy.rule || 'REGOLA'}_LOS_BLOCKED`,
+          reposition_to: reposition || undefined,
+        };
       }
 
       // intent='skip' non genera nessun intent: l'unit resta ferma.
@@ -524,10 +538,12 @@ function createDeclareSistemaIntents(deps) {
 
       // intent='approach' o 'retreat' → move
       const positionFrom = { ...actor.position };
+      // `reposition_to` is set by the LOS-downgrade block above when a one-tile step
+      // reopens a firing line on the target; undefined -> plain approach (stepTowards).
       const nextPos =
         policy.intent === 'retreat'
           ? stepAway(actor.position, target.position, effectiveGrid)
-          : stepTowards(actor.position, target.position);
+          : policy.reposition_to || stepTowards(actor.position, target.position);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
         decisions.push({

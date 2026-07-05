@@ -20,6 +20,7 @@
 // COMBAT_LOS_ENABLED default OFF -> losClearOnGrid always returns true -> the
 // LOS filter keeps every in-range candidate (byte-identical to pre-Task-6).
 const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
+const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
 
 const ZONE_PURSUIT_OBJECTIVES = new Set(['capture_point', 'sabotage', 'escape', 'escort']);
 
@@ -172,6 +173,26 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
   const tgt = pickInRangeTarget(actor, enemies, opts && opts.focusFire, losFn);
   if (tgt && (actor.ap_remaining ?? 0) >= 1) {
     return { action_type: 'attack', target_id: tgt.id };
+  }
+  // COMBAT_LOS_ENABLED (default OFF): if nothing is attackable because in-range
+  // enemies are LOS-blocked, try a one-tile step that reopens a firing line before
+  // the plain approach. Flag OFF -> losFn is a no-op so no enemy is ever LOS-blocked
+  // -> this block is skipped (byte-identical).
+  const gridForLos = {
+    terrain_features: (opts && opts.terrainFeatures) || [],
+    width: (opts && opts.gridSize) || 6,
+    height: (opts && opts.gridSize) || 6,
+  };
+  const losBlockedInRange = enemies.some(
+    (e) =>
+      dist(actor.position, e.position) <= (actor.attack_range || 1) &&
+      !losFn(actor.position, e.position),
+  );
+  if (losBlockedInRange) {
+    const repos = stepToRegainLos(actor, enemies, gridForLos, {
+      occupied: occupiedSet(units, actor.id),
+    });
+    if (repos) return { action_type: 'move', target_position: repos };
   }
   // None in range (or no AP): approach the nearest.
   const nearest = enemies

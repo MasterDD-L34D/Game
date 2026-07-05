@@ -153,3 +153,116 @@ test('wound_location_weights (OD-058 D2) present + matches woundSystem.DEFAULT_L
   // Drift guard: YAML data-of-record must equal the in-code default/fallback.
   assert.deepEqual(w, woundSystem.DEFAULT_LOCATION_WEIGHTS);
 });
+
+// -- scenario_overrides + encounter_class guards (fleet-verify 2026-07-03) --
+// The monotonic gate above validates only the canonical difficulty ladder.
+// Three knobs were previously UN-gated: per-scenario
+// enemy_damage_multiplier_override (scenario_overrides.*), cross-class step
+// size, and the base enemy_damage_multiplier on the ADAPTER classes
+// (badlands*/foresta_pilot) that sit OUTSIDE the ladder -- so a typo (edm 25),
+// a silent >boss-ceiling override, or an over-tuned adapter could ship green.
+// These guards are ADDITIVE and change zero data values: the DELIBERATE OD-032
+// exceptions are encoded in explicit allowlists so a NEW, unexplained
+// cliff/override fails CI while the calibrated ones keep passing.
+
+const OVERRIDE_FLOOR = 1.0; // tutorial baseline; a multiplier below is suspect
+const OVERRIDE_HARD_MAX = 3.0; // sanity ceiling; above = almost certainly a typo/regression
+// Cliff cap sits below the real standard->hardcore step (1.8/1.2 = x1.5, the
+// OD-032 wall) so that wall MUST be allowlisted, while ordinary ~x1.1 ladder
+// steps pass unlisted. Any NEW step above this needs a conscious allowlist entry.
+const LADDER_CLIFF_MAX_RATIO = 1.3;
+const CANONICAL_LADDER = ['tutorial', 'tutorial_advanced', 'standard', 'hardcore', 'boss'];
+// Adapter/pilot scenarios: non-oracle encounters whose difficulty is carried by
+// the roster, NOT by a ladder position -- deliberately outside the monotonic +
+// cliff checks. A NEW adapter class must be added here consciously (the
+// classification-completeness test below fails otherwise).
+const ADAPTER_CLASSES = new Set([
+  'badlands',
+  'badlands_ambient',
+  'badlands_elite',
+  'foresta_pilot',
+]);
+// OD-032: the standard->hardcore wall (1.2 -> 1.8, +50%) is a deliberate,
+// N=40/N=100-calibrated difficulty spike tied to the turn_limit_defeat timer.
+const ALLOWED_LADDER_CLIFFS = new Set(['standard->hardcore']);
+// OD-032 / PR #2753 follow-up: hc07 edm 2.5 (> boss ceiling 2.0) is a re-center
+// validated at N=100 seed 424242 (WR 42% in-band). Any OTHER override above the
+// boss ceiling must be added here consciously (and carry a rationale).
+const ALLOWED_OVERRIDES_ABOVE_CEILING = new Set(['enc_tutorial_07_hardcore_pod_rush']);
+
+function collectEdmOverrides(data) {
+  const out = [];
+  for (const [id, def] of Object.entries(data.scenario_overrides ?? {})) {
+    if (def && def.enemy_damage_multiplier_override !== undefined) {
+      out.push({ id, value: def.enemy_damage_multiplier_override, rationale: def.rationale });
+    }
+  }
+  return out;
+}
+
+test('scenario_overrides: every enemy_damage_multiplier_override within sanity band', () => {
+  const data = loadCurves();
+  for (const { id, value } of collectEdmOverrides(data)) {
+    assert.equal(typeof value, 'number', `${id}: override must be numeric`);
+    assert.ok(
+      value >= OVERRIDE_FLOOR && value <= OVERRIDE_HARD_MAX,
+      `${id}: override ${value} outside sanity band [${OVERRIDE_FLOOR}, ${OVERRIDE_HARD_MAX}] (typo/regression?)`,
+    );
+  }
+});
+
+test('scenario_overrides: any override above the boss ceiling must be allowlisted + carry a rationale', () => {
+  const data = loadCurves();
+  const bossCeiling = data.encounter_classes.boss.enemy_damage_multiplier;
+  for (const { id, value, rationale } of collectEdmOverrides(data)) {
+    if (value > bossCeiling) {
+      assert.ok(
+        ALLOWED_OVERRIDES_ABOVE_CEILING.has(id),
+        `${id}: override ${value} exceeds boss ceiling ${bossCeiling} and is NOT allowlisted -- add it to ALLOWED_OVERRIDES_ABOVE_CEILING with justification, or lower the value`,
+      );
+      assert.ok(
+        typeof rationale === 'string' && rationale.trim().length > 0,
+        `${id}: over-ceiling override ${value} must document a rationale`,
+      );
+    }
+  }
+});
+
+test('encounter_classes: every enemy_damage_multiplier within sanity band (canonical + adapter)', () => {
+  const data = loadCurves();
+  for (const [cls, def] of Object.entries(data.encounter_classes)) {
+    const m = def.enemy_damage_multiplier;
+    assert.equal(typeof m, 'number', `${cls}: enemy_damage_multiplier must be numeric`);
+    assert.ok(
+      m >= OVERRIDE_FLOOR && m <= OVERRIDE_HARD_MAX,
+      `${cls}: enemy_damage_multiplier ${m} outside sanity band [${OVERRIDE_FLOOR}, ${OVERRIDE_HARD_MAX}] (typo/regression?)`,
+    );
+  }
+});
+
+test('encounter_classes: every class is either canonical-ladder or a declared adapter', () => {
+  const data = loadCurves();
+  for (const cls of Object.keys(data.encounter_classes)) {
+    assert.ok(
+      CANONICAL_LADDER.includes(cls) || ADAPTER_CLASSES.has(cls),
+      `${cls}: unclassified encounter_class -- add it to CANONICAL_LADDER (gated by the cliff test) or ADAPTER_CLASSES (roster-carried, ungated) so a new class cannot silently escape both`,
+    );
+  }
+});
+
+test('encounter_classes: no un-allowlisted damage cliff across the canonical ladder', () => {
+  const data = loadCurves();
+  for (let i = 1; i < CANONICAL_LADDER.length; i += 1) {
+    const from = CANONICAL_LADDER[i - 1];
+    const to = CANONICAL_LADDER[i];
+    const prev = data.encounter_classes[from].enemy_damage_multiplier;
+    const curr = data.encounter_classes[to].enemy_damage_multiplier;
+    const ratio = curr / prev;
+    if (ratio > LADDER_CLIFF_MAX_RATIO) {
+      assert.ok(
+        ALLOWED_LADDER_CLIFFS.has(`${from}->${to}`),
+        `${from}->${to}: multiplier jump ${prev} -> ${curr} (x${ratio.toFixed(2)}) exceeds cliff cap x${LADDER_CLIFF_MAX_RATIO} and is NOT allowlisted -- add '${from}->${to}' to ALLOWED_LADDER_CLIFFS with justification, or smooth the step`,
+      );
+    }
+  }
+});

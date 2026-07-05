@@ -101,7 +101,7 @@ Ticket senza commit PR >30d, owner/design-gated (non bloccanti):
 | `TKT-ER6-CARRYOVER` | P3 OPEN | N=40 + master-dd |
 | `TKT-SIM-PROBE-ENTROPY` | P3 OPEN | Investigazione RNG |
 | `TKT-ENCOUNTER-CLI` | P3 OPEN | Verdetto master-dd scope M3 |
-| `TKT-P6-AP3` | P3 OPEN | Decision-gated (documento vs riduzione AP) |
+| `TKT-P6-AP3` | ✅ CLOSED 2026-07-04 | Reclassify-as-ultimate (master-dd verdict): cost_ap:3 = ultimate tier legale, Overcharge-gated (SoT 90 §7.1). Band-neutral. |
 
 ---
 
