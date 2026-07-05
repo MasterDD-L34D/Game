@@ -24,7 +24,8 @@ notes: >
   armatura_pietra_planare_guard). NON violano il budget 2 AP/turn: si consumano via
   Overcharge (spendi 3 SG -> +1 AP questo turno; apps/backend/services/combat/overchargeEngine.js,
   route POST /session/:id/overcharge), il gemello simmetrico di /defy. Riclassificato
-  mantello_meteoritico defensive -> hybrid: tanka (def+2, buff+4) E colpisce (meteor_strike 1d8+2).
+  mantello_meteoritico defensive -> hybrid: tanka (def+2, buff+3) E colpisce (meteor_strike 1d8+2).
+  Outlier-trim 2026-07-04: buff 4->3 (era unico max file, comb/AP 3.50 top -> 3.17 al cap).
 
 # O1 pattern (OpenRA template inheritance): baseline defaults per classe.
 # Trait possono usare `inherits: <class>` per ereditare campi dalla classe.
@@ -574,7 +575,12 @@ traits:
         cost_ap: 3
         effect_type: buff
         buff_stat: defense_mod
-        buff_amount: 4
+        # balance 2026-07-04: buff_amount 4->3 = allinea al cap del file (era unico max).
+        # Post-reclassify hybrid (TKT-P6-AP3) l'outlier era comb/AP 3.50 (top file);
+        # trim al cap -> 3.17 (pareggia il top tier, non lo supera). Nuke intatto.
+        # Evidenza EV-parity statico (balance-auditor): la policy sim non esercita
+        # cost_ap 2-3 -> N=40 WR = false-null, EV-parity = fonte (precedente #2381).
+        buff_amount: 3
         buff_duration: 1
         target: self
       - ability_id: meteor_strike
@@ -584,7 +590,7 @@ traits:
         damage_dice: { count: 1, sides: 8, modifier: 2 }
         channel: earth
         target: enemy
-    notes: "Hybrid class (TKT-P6-AP3: tanks def+2/buff+4 E nukes meteor_strike 1d8+2, ex-defensive). T3 bump applied to defense_mod. Sprint 6: ability earth + resistance earth+15. cost_ap:3 ultimate = Overcharge-gated."
+    notes: "Hybrid class (TKT-P6-AP3: tanks def+2/buff+3 E nukes meteor_strike 1d8+2, ex-defensive). T3 bump applied to defense_mod. Sprint 6: ability earth + resistance earth+15. cost_ap:3 ultimate = Overcharge-gated. buff 4->3 (2026-07-04) = outlier-trim al cap del file."
   lingua_tattile_trama:
     attack_mod: 0
     defense_mod: 0
