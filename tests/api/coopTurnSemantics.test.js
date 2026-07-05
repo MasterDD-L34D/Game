@@ -117,7 +117,7 @@ test('free player ordering: any player acts in any order within the round', asyn
   assert.equal(state1.turn, state0.turn, 'player actions non avanzano il turn counter');
 });
 
-test('active_unit e\' null durante la planning phase (hand-off da /start)', async (t) => {
+test("active_unit e' null durante la planning phase (hand-off da /start)", async (t) => {
   const { app, close, restore } = createFlaggedApp('true');
   t.after(async () => {
     restore();
