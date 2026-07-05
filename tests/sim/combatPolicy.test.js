@@ -313,10 +313,13 @@ test('flag OFF: same setup is byte-identical (in-range attack, LOS ignored)', ()
   delete process.env.COMBAT_LOS_ENABLED;
 });
 
-// Task 2 graceful fallback ("never worse than today"): flag ON + LOS-blocked but NO single
-// 4-neighbor step reopens a firing line (a FULL vertical wall) -> stepToRegainLos returns null
-// -> the code must fall THROUGH to the plain stepToward approach (not reposition, not stall).
-test('flag ON: LOS-blocked but no reopening step -> graceful stepToward fallback (never worse than today)', () => {
+// Budget lookahead (v2): flag ON + LOS-blocked and NO single 4-neighbor step reopens a
+// firing line (a FULL vertical wall), but the actor's AP budget reaches a reopening tile
+// two steps away -- standing ON the wall column (terrain blocks LOS, not movement;
+// endpoints are excluded by squareLos, so (2,1) sees the enemy at (4,1) across the free
+// (3,1)). Reserve phase (budget ap-1 = 1) finds nothing; the full-budget phase (2) must
+// spend the whole pool to set up next turn's shot instead of the dumb stepToward.
+test('flag ON: no one-step reopening but a full-budget tile exists -> multi-tile reposition', () => {
   process.env.COMBAT_LOS_ENABLED = 'true';
   const actor = {
     id: 'p1',
@@ -339,10 +342,40 @@ test('flag ON: LOS-blocked but no reopening step -> graceful stepToward fallback
     gridSize: 6,
   };
   const action = selectPlayerAction(actor, units, null, opts);
-  // No 4-neighbor step clears the full wall -> stepToRegainLos returns null ->
-  // the code falls through to the plain approach (stepToward toward the enemy).
   assert.equal(action.action_type, 'move');
-  // stepToward from (0,1) toward (4,1) advances on x (toward the enemy), NOT a perpendicular reposition.
+  assert.deepEqual(action.target_position, { x: 2, y: 1 });
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// Turn-starved guard ("never worse than today"): with 1 AP left the budget lookahead
+// cannot reach past the 4-neighbors (reserve phase budget 0 -> null; full phase budget 1
+// = the shipped greedy step, which the FULL wall defeats) -> graceful stepToward fallback.
+// Pins that the heuristic NEVER returns a tile costing more than ap_remaining.
+test('flag ON: turn-starved (1 AP) + full wall -> graceful stepToward fallback (never worse than today)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const actor = {
+    id: 'p1',
+    position: { x: 0, y: 1 },
+    attack_range: 5,
+    ap_remaining: 1,
+    controlled_by: 'player',
+  };
+  const enemy = { id: 'e1', position: { x: 4, y: 1 }, hp: 10, controlled_by: 'sistema' };
+  const units = [actor, enemy];
+  const opts = {
+    terrainFeatures: [
+      { x: 2, y: 0, type: 'roccia' },
+      { x: 2, y: 1, type: 'roccia' },
+      { x: 2, y: 2, type: 'roccia' },
+      { x: 2, y: 3, type: 'roccia' },
+      { x: 2, y: 4, type: 'roccia' },
+      { x: 2, y: 5, type: 'roccia' },
+    ],
+    gridSize: 6,
+  };
+  const action = selectPlayerAction(actor, units, null, opts);
+  // Full wall defeats budget 1 -> fall through to the plain approach (stepToward).
+  assert.equal(action.action_type, 'move');
   assert.equal(action.target_position.x, 1);
   assert.equal(action.target_position.y, 1);
   delete process.env.COMBAT_LOS_ENABLED;
