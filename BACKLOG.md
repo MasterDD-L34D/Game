@@ -429,7 +429,7 @@ SoT: `docs/process/CANONICAL-AI-PLAYTEST.md` + `docs/playtest/canonical-suite.ya
 
 ### 🟢 MOSTLY CLOSED — intensive fix/tuning audit 2026-05-22 (orphan inventory + balance ratify)
 
-Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). **Ground-truth re-sweep 2026-05-31:** all 4 Gate-5 orphans ✅ DONE (CUMSTATE/WOUNDPERMA/MORALE/VCSNAP wired #2463+earlier) + balance PR #2381 RATIFIED. **Only TKT-P6-AP3 remains open** (decision-gated: document unlock-mechanic vs reduce cost_ap — verified the 5 abilities still `cost_ap: 3` in `data/core/jobs.yaml`, NOT stale).
+Source: `general-purpose` orphan hunt + `balance-auditor` sweep (2026-05-22). **Ground-truth re-sweep 2026-05-31:** all 4 Gate-5 orphans ✅ DONE (CUMSTATE/WOUNDPERMA/MORALE/VCSNAP wired #2463+earlier) + balance PR #2381 RATIFIED. **✅ CLOSED 2026-07-04:** TKT-P6-AP3 resolved (reclassify-as-ultimate, master-dd verdict) — the 5 `cost_ap:3` abilities are a legal declared ultimate tier consumed via the already-shipped Overcharge verb (3 SG -> +1 AP, SoT 90-FINAL-DESIGN-FREEZE §7.1). Section fully closed.
 
 **Gate-5 backend orphans (Engine-LIVE-Surface-DEAD) — wire-vs-remove decision (NO autonomous delete: project = revive culture):**
 
@@ -447,7 +447,7 @@ Note: orphan-agent over-claimed "woundedPerma superseded" — trust-but-verify c
 
 - 5× `def_mod=2` cost_ap 1→2 (#2344 baseline remainder) · artigli dice 1d8+3→1d8+2 · armatura buff_duration 4→2 · rage duration 3→2 (cuore_in_furia + midollo_iperattivo) · corazzato elettrico 100→120 (lore sign-off) — all in PR #2381 (merged).
 - ✅ **Ratify 2026-05-26** (Ryzen, real Postgres): Fendente EV-parity CONFIRMED deterministically (1d8+2 = 3.25 EV/AP == peer `frusta_fiammeggiante`, was 3.75 outlier). N=40 no-regression: hardcore_06 GREEN in-band (WR 0.25, turns_avg 24.2 == #2149 baseline); hardcore_07 N=40 clean. **Caveat L-069/14**: both hardcore scenarios non-discriminating for these knobs (only `zampe_a_molla` exercised; Fendente/corazzato unused) → N=40 = no-break, not direct knob-WR; accepted given conservative parity/dead-channel nature + deterministic EV proof. Evidence: `docs/playtest/2026-05-26-ratify-2381-balance.md`. Lore sign-off (corazzato elettrico) still master-dd.
-- **TKT-P6-AP3**: 5 abilities `cost_ap=3` (frozen_stasis/meteoric_shield/power_strike/sonic_blast/armatura guard) exceed 2 AP/turn budget — flagged in-YAML. Decision: document unlock-mechanic (PT/SG) OR reduce to 2.
+- ✅ **TKT-P6-AP3 CLOSED 2026-07-04** (reclassify-as-ultimate, master-dd verdict): 5 abilities `cost_ap=3` (frozen_stasis/meteoric_shield/power_strike/sonic_blast/armatura guard) are an INTENTIONAL ultimate tier, not a budget violation. Legal per SoT 90-FINAL-DESIGN-FREEZE §7.1 ("2 AP base, esteso a 3 con spesa 3 SG") and consumed via the already-live Overcharge verb (`overchargeEngine.js` + route `POST /session/:id/overcharge`, twin of `/defy`). `mantello_meteoritico` reclassified defensive -> hybrid (tanks def+2/buff+4 AND nukes meteor_strike 1d8+2); header distribution defensive 9->8, hybrid 1->2. 5 self-flag comments removed. Band-neutral (zero numeric change): validate-datasets OK, contracts-trait-mechanics 16/16, AI 570/570.
 
 **Tooling:** `tools/py/ancestors_style_guide_proposal.py` v1 — completed migration tooling (ancestors/neurons taxonomy, museum-covered domain). NOT a dead dup to delete — repo-archaeologist museum-card candidate (reuse provenance). KEEP.
 
