@@ -29,6 +29,8 @@
 // LOS is checked TERRAIN-ONLY here (losClearOnGrid without a units list); unit-body
 // occlusion (units_block_los) is a separate dormant axis, not modeled by this step.
 const { losClearOnGrid } = require('./losForGrid');
+const { terrainBlocksLos } = require('./losBlockers');
+const { isMoveTerrainCostEnabled } = require('./moveCost');
 
 function _manhattan(a, b) {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -43,10 +45,30 @@ function stepToRegainLos(actor, enemies, grid, opts) {
   const width = (grid && grid.width) || 6;
   const height = (grid && grid.height) || 6;
   const occupied = (opts && opts.occupied) || new Set();
+  // range defaults to melee (1): such an actor repositions INTO range-1 of the
+  // enemy by construction -- consistent with intent, and the metric carries no
+  // threat term (AP-only economy; see the QUALITY doc's honesty section).
   const range = actor.attack_range ?? 1;
   const rawBudget = Number.isFinite(opts && opts.budget) ? opts.budget : 1;
-  const budget = mode === 'step' ? Math.min(1, rawBudget) : rawBudget;
+  // Guard (harsh-review P1): with MOVE_TERRAIN_COST_ENABLED the engine's real
+  // move cost is the terrain-weighted path, not Manhattan -- and the WEGO
+  // bridge resolver deducts the intent's ap_cost FIELD without recomputing, so
+  // a multi-tile reposition priced by Manhattan would silently under-charge
+  // AP. Both flags ON -> clamp to the shipped 1-step greedy (whose flat cost
+  // predates this budget and matches the pre-v2 behavior).
+  const terrainCostOn = isMoveTerrainCostEnabled();
+  const budget = mode === 'step' || terrainCostOn ? Math.min(1, rawBudget) : rawBudget;
   if (budget < 1) return null;
+  // Design-validation knob (default OFF = unchanged): exclude candidates that
+  // stand ON a LOS-blocker tile (perched-on-roccia reads bimodally -- the
+  // eventual ratify should A/B it rather than hard-code either answer).
+  const avoidBlockers = !!(opts && opts.avoidBlockerTiles);
+  const blockerAt = new Set();
+  if (avoidBlockers) {
+    for (const f of (grid && grid.terrain_features) || []) {
+      if (f && terrainBlocksLos(f.type)) blockerAt.add(`${f.x},${f.y}`);
+    }
+  }
   const live = enemies.filter((e) => e && e.position && (e.hp ?? 0) > 0);
   if (live.length === 0) return null;
 
@@ -67,6 +89,7 @@ function stepToRegainLos(actor, enemies, grid, opts) {
       if (cost < 1 || cost > budget) continue;
       if (cost > bestCost) continue;
       if (occupied.has(`${cx},${cy}`)) continue;
+      if (avoidBlockers && blockerAt.has(`${cx},${cy}`)) continue;
       const c = { x: cx, y: cy };
       let nearest = Infinity;
       for (const e of live) {
