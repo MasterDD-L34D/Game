@@ -43,9 +43,25 @@
 // multi-tile-lookahead decision); a positive delta means the heuristic works
 // and v1's negative was a fixture artifact.
 //
+// FLIP MODE (probe v2.1 -- the ratify control, added for the owner flip
+// decision). The repos-mode arms above answer "does the repositioning heuristic
+// do anything" (LOS ON both, toggle only stepToRegainLos). The FLIP decision
+// needs a DIFFERENT question: "what does turning the LOS mechanic ON actually
+// cost the balance, on a FAIR fixture?" So `flip` mode compares:
+//   arm on  = COMBAT_LOS_ENABLED='true' + REAL stepToRegainLos (production
+//             behavior IF the flag is flipped on).
+//   arm off = flag DELETED entirely -> losClearOnGrid always returns true, no
+//             LOS constraint at all (today's live behavior, flag defaults OFF).
+// Same fixture, same paired seeds, same child isolation. This is the honest
+// flip-vs-nothing delta -- NOT v1's turn-starved -0.30 artifact. LOS is SUPPOSED
+// to change balance (it is a mechanic); the ratify measures the SIZE and SHAPE
+// of that shift for the owner.
+//
 // Usage:
-//   node tools/sim/los-repos-probe.js [N]                 (parent: runs both arms)
-//   node tools/sim/los-repos-probe.js --child <arm> <seed> (internal, self-spawned)
+//   node tools/sim/los-repos-probe.js [N] [repos|flip]      (parent: both arms)
+//     repos (default) -- LOS ON both, toggle stepToRegainLos (heuristic isolation)
+//     flip            -- flag ON+real-repos vs flag OFF (true balance cost of LOS)
+//   node tools/sim/los-repos-probe.js --child <arm> <N> <scale> <mode>  (internal)
 
 const path = require('path');
 const { execFileSync } = require('child_process');
@@ -215,22 +231,33 @@ function positiveControls() {
 // ---------------------------------------------------------------------------
 // Child arm: run N seeds for one arm, print a JSON line the parent parses.
 // ---------------------------------------------------------------------------
-async function childMain(arm, N, scale) {
-  // BOTH arms hold LOS ON. Set BEFORE requiring anything that reads the flag.
-  process.env.COMBAT_LOS_ENABLED = 'true';
+async function childMain(arm, N, scale, mode) {
+  // LOS flag: in repos mode BOTH arms hold LOS ON (the heuristic-isolation
+  // control). In flip mode arm 'off' DELETES the flag entirely -> no LOS
+  // constraint at all (today's live behavior). Set BEFORE requiring anything
+  // that reads the flag.
+  const losOff = mode === 'flip' && arm === 'off';
+  if (losOff) {
+    delete process.env.COMBAT_LOS_ENABLED;
+  } else {
+    process.env.COMBAT_LOS_ENABLED = 'true';
+  }
   process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
   process.env.IDEA_ENGINE_STUB_ORCHESTRATOR = '1';
 
   // POSITIVE CONTROL FOR THE CONTROL ITSELF: instrument stepToRegainLos on the
-  // cached exports object BEFORE any consumer require. repos-OFF -> replace with
-  // a null-returning stub + counter (proves the stub bites). repos-ON -> wrap
-  // the real helper with a fire-counter (proves the real helper returns a
-  // non-null tile > 0 times). The consumers (combat-policy.js:23,
+  // cached exports object BEFORE any consumer require. repos-mode OFF -> replace
+  // with a null-returning stub + counter (proves the stub bites). Every other
+  // arm (repos-ON, flip-ON, flip-OFF) -> wrap the real helper with a fire-
+  // counter (proves whether the real helper returns a non-null tile). In flip-
+  // OFF the wrap is instructive: with LOS off no shot is ever blocked, so
+  // real_nonnull should be ~0 -- evidence the mechanic (and its detours) are
+  // absent in the live-behavior arm. The consumers (combat-policy.js:23,
   // declareSistemaIntents.js) destructure this property at THEIR require-time,
   // which happens AFTER this mutation -> they see our instrumented version.
   const losRepos = require('../../apps/backend/services/combat/losReposition');
   const counters = { stub_calls: 0, real_calls: 0, real_nonnull: 0 };
-  if (arm === 'off') {
+  if (mode === 'repos' && arm === 'off') {
     losRepos.stepToRegainLos = () => {
       counters.stub_calls += 1;
       return null;
@@ -389,10 +416,10 @@ function summarize(arr) {
 // ---------------------------------------------------------------------------
 // Parent: spawn one child per arm (fresh module graph each), print the report.
 // ---------------------------------------------------------------------------
-function runArmChild(arm, N, scale) {
+function runArmChild(arm, N, scale, mode) {
   const out = execFileSync(
     process.execPath,
-    [__filename, '--child', arm, String(N), String(scale)],
+    [__filename, '--child', arm, String(N), String(scale), mode],
     { cwd: path.resolve(__dirname, '..', '..'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
   );
   const line = out.split('\n').find((l) => l.startsWith('__ARM_RESULT__'));
@@ -404,33 +431,50 @@ function runArmChild(arm, N, scale) {
 
 function main() {
   const N = Number(process.argv[2]) || 10;
-  const scale = Number(process.argv[3]) || 1.0;
+  // argv[3] is the mode token (repos|flip) when non-numeric; otherwise it is the
+  // legacy enemy-scale arg (keeps `node ... <N> <scale>` working). Default mode
+  // 'repos' -> the repos path is byte-identical to before this control existed.
+  const modeArg = process.argv[3];
+  const mode = modeArg === 'flip' ? 'flip' : 'repos';
+  const scale = mode === 'repos' && modeArg ? Number(modeArg) || 1.0 : 1.0;
 
   const controls = positiveControls();
   console.log('=== POSITIVE CONTROL: fixture validity (LOS ON) ===');
   console.log(JSON.stringify(controls, null, 2));
   console.log('=== END fixture-validity control ===');
 
-  const on = runArmChild('on', N, scale);
-  const off = runArmChild('off', N, scale);
+  const on = runArmChild('on', N, scale, mode);
+  const off = runArmChild('off', N, scale, mode);
 
+  // Arm labels reflect the semantic per mode:
+  //   repos -> on = real repositioning,  off = stubbed repositioning (LOS ON both)
+  //   flip  -> on = flag ON + real repos, off = flag OFF (no LOS constraint)
   const out = {
     N,
+    mode,
     enemyScale: scale,
     positive_control: controls,
+    // In flip mode the 'off' arm ran with LOS disabled: no shot is ever blocked,
+    // so blocked-pair enforcement is 0 by construction (the control above still
+    // proves the fixture HAS blockable pairs that the flag-ON arm must contend
+    // with). In repos mode both arms hold LOS ON.
+    los_off_arm_note:
+      mode === 'flip'
+        ? 'flip/off arm ran with COMBAT_LOS_ENABLED unset -> losClearOnGrid always true, 0 blocked-pair enforcement (free shots through walls, = live behavior)'
+        : 'both arms LOS ON',
     // Turn-participation control: per-unit action counts for seed 1 of each arm.
     // Fixture is VALID only if >=2 player units have >0 actions.
     turn_participation_seed1: {
-      repos_on: on.first_seed_actions,
-      repos_off: off.first_seed_actions,
+      arm_on: on.first_seed_actions,
+      arm_off: off.first_seed_actions,
     },
     // Control-for-the-control: the stub/fire counters prove the toggle bites.
     repositioning_counters: {
-      repos_on: on.counters, // real_nonnull > 0 => real helper returned a tile
-      repos_off: off.counters, // stub_calls > 0 => stub was reached
+      arm_on: on.counters, // real_nonnull > 0 => real helper returned a tile
+      arm_off: off.counters, // repos-off: stub_calls > 0; flip-off: real_nonnull ~0 (LOS off)
     },
-    repos_on: on.summary,
-    repos_off: off.summary,
+    arm_on: on.summary,
+    arm_off: off.summary,
     wr_delta: Number((on.summary.win_rate - off.summary.win_rate).toFixed(4)),
     rounds_delta: Number((on.summary.avg_rounds - off.summary.avg_rounds).toFixed(2)),
     node: process.version,
@@ -442,7 +486,8 @@ if (process.argv[2] === '--child') {
   const arm = process.argv[3];
   const N = Number(process.argv[4]) || 10;
   const scale = Number(process.argv[5]) || 1.0;
-  childMain(arm, N, scale).catch((e) => {
+  const mode = process.argv[6] === 'flip' ? 'flip' : 'repos';
+  childMain(arm, N, scale, mode).catch((e) => {
     console.error(e);
     process.exit(1);
   });
