@@ -364,9 +364,10 @@ async function measureBiome(http, party, biomeId, N, seedBase, w, driftFloor = f
     if (g.v2BrancoSource === 'imprint') impWins += 1;
     if (g.v2BrancoId || g.minorIds.some(Boolean)) grantedTeams += 1;
     // NUMERIC seed (Codex #3139 P1): /api/session/start seeds the combat RNG ONLY when
-    // Number(seed) is finite (session.js:2102) -- a STRING seed leaves it unset (Math.random),
-    // so the A/B/C arms would NOT be paired and reruns would not replay. A numeric seed shared
-    // across the arms of one team makes them genuinely paired + the artifact reproducible.
+    // Number(seed) is finite (session.js:2102). NB post-#3232: combat-adapter now hashes a
+    // non-numeric seed to a stable uint32 before /start, so a string seed would ALSO pin the
+    // RNG today -- the numeric seed here stays as the direct, hash-free convention. A seed
+    // shared across the arms of one team makes them genuinely paired + the artifact replayable.
     const seed = seedBase + i;
     const rosterBaseline = attachTraits(party, g.baselineBrancoId, null);
     const rosterV2 = attachTraits(party, g.v2BrancoId, g.minorIds);

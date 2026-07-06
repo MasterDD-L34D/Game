@@ -101,7 +101,12 @@ function buildCombinations(args) {
     for (const scenario of args.scenarios) {
       for (let s = 0; s < args.seedCount; s += 1) {
         runIdx += 1;
-        const seed = 1000 + runIdx; // deterministic, monotonic
+        // Deterministic + monotonic, BUT: the worker (tests/smoke/ai-driven-sim.js)
+        // forwards this as coop `run_seed` (world_confirm), which feeds ONLY the
+        // world enricher (coopOrchestrator.confirmWorld) -- the combat session RNG
+        // is NOT pinned by it (seed census 2026-07-06). Pinning combat here needs a
+        // backend seam (coop world_confirm -> session seed), tracked out of scope.
+        const seed = 1000 + runIdx;
         combos.push({
           run_id: runIdx,
           seed,
