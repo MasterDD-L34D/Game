@@ -29,7 +29,12 @@ test('computeSistemaTier: pressure 25 → Alert', () => {
 });
 
 test('computeSistemaTier: pressure 50 → Escalated', () => {
-  assert.equal(computeSistemaTier(50).label, 'Escalated');
+  const tier = computeSistemaTier(50);
+  assert.equal(tier.label, 'Escalated');
+  // Rebalance 2026-04-17 (sistema_pressure.yaml authority + runtime
+  // PRESSURE_TIER_INTENT_CAP): Escalated 3, Apex 4. This fallback table had
+  // drifted (2/3) -- realigned 2026-07-06 (grid-ratify follow-up).
+  assert.equal(tier.intents_per_round, 3);
 });
 
 test('computeSistemaTier: pressure 75 → Critical', () => {
@@ -41,6 +46,7 @@ test('computeSistemaTier: pressure 75 → Critical', () => {
 test('computeSistemaTier: pressure 95 → Apex', () => {
   const tier = computeSistemaTier(95);
   assert.equal(tier.label, 'Apex');
+  assert.equal(tier.intents_per_round, 4);
   assert.equal(tier.reinforcement_budget, 4);
 });
 
