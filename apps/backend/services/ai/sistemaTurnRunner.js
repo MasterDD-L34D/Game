@@ -63,7 +63,11 @@ function createSistemaTurnRunner(deps) {
   }
 
   return async function runSistemaTurn(session) {
-    const effectiveGrid = session.grid?.width || gridSize;
+    // Rectangular bounds for non-square grid_sized boards (stepAway accepts
+    // { width, height }; a bare number keeps the legacy square behavior).
+    const effectiveGrid = session.grid?.width
+      ? { width: session.grid.width, height: session.grid.height || session.grid.width }
+      : gridSize;
 
     // Sistema Pushback: fires before the turn loop when counter is charged.
     const pushback = applySystemaPushback(session);

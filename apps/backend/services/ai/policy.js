@@ -78,6 +78,14 @@ function manhattanDistance(a, b) {
 }
 
 function stepAway(from, to, gridSize = 6) {
+  // Rectangular bounds (fase-2c grid_sized boards are non-square, e.g. 16x12):
+  // accepts { width, height } or the legacy square scalar (number -> width ==
+  // height, byte-identical). The old scalar-only bound let a retreating unit
+  // walk OFF a non-square board (width used for both axes -> y up to 15 on a
+  // 12-tall board), making elimination unwinnable.
+  const isRect = gridSize && typeof gridSize === 'object';
+  const boundW = isRect ? Number(gridSize.width) || 6 : gridSize;
+  const boundH = isRect ? Number(gridSize.height) || boundW : gridSize;
   const dx = from.x - to.x;
   const dy = from.y - to.y;
   const absDx = Math.abs(dx);
@@ -86,12 +94,12 @@ function stepAway(from, to, gridSize = 6) {
     if (axis === 'x') {
       if (dx === 0) return null;
       const newX = from.x + Math.sign(dx);
-      if (newX < 0 || newX >= gridSize) return null;
+      if (newX < 0 || newX >= boundW) return null;
       return { x: newX, y: from.y };
     }
     if (dy === 0) return null;
     const newY = from.y + Math.sign(dy);
-    if (newY < 0 || newY >= gridSize) return null;
+    if (newY < 0 || newY >= boundH) return null;
     return { x: from.x, y: newY };
   };
   if (absDx >= absDy) {

@@ -317,3 +317,19 @@ test('selectAiPolicy: stunned override tutto', () => {
   assert.equal(selectAiPolicy(actor, target).rule, 'STATO_STUNNED');
   assert.equal(selectAiPolicy(actor, target).intent, 'skip');
 });
+
+// fase-2c (ADR-2026-07-03): grid_sized boards are non-square. stepAway accepts
+// { width, height } bounds; the legacy scalar keeps the square behavior.
+test('stepAway: rectangular bounds block the y-axis at height, not width', () => {
+  // from (10,10) fleeing (10,5) on a 16x12 board: +y step would be y=11 (ok)...
+  assert.deepEqual(stepAway({ x: 10, y: 10 }, { x: 10, y: 5 }, { width: 16, height: 12 }), {
+    x: 10,
+    y: 11,
+  });
+  // ...but from y=11 the +y step (y=12) is off-board -> falls back to x-axis/null.
+  assert.equal(stepAway({ x: 10, y: 11 }, { x: 10, y: 5 }, { width: 16, height: 12 }), null);
+});
+
+test('stepAway: scalar bound keeps legacy square behavior', () => {
+  assert.equal(stepAway({ x: 5, y: 5 }, { x: 5, y: 2 }, 6), null);
+});
