@@ -239,8 +239,25 @@ async function runEncounter(
     }
 
     const activeId = st.body.active_unit;
-    const active = units.find((u) => u.id === activeId);
-    if (!active) break;
+    let active = units.find((u) => u.id === activeId);
+    // Co-op semantics (ADR-2026-04-16 addendum 2026-07-05, PR #3214): active_unit
+    // is null during the player planning phase (advisory only; the real
+    // constraint is the AP budget). Drive the first live player with AP left --
+    // same fix as tests/smoke/ai-driven-sim.js. The old `break` on a missing
+    // active_unit exited with nobody acting = guaranteed timeout (regression
+    // caught by tests/sim/combatAdapter.test.js, which no CI glob runs).
+    if (!active) {
+      active = units.find(
+        (u) =>
+          u.controlled_by === 'player' &&
+          (u.hp ?? 0) > 0 &&
+          Number(u.ap_remaining ?? u.ap ?? 0) > 0,
+      );
+    }
+    if (!active) {
+      await http.post('/api/session/turn/end', { session_id: sessionId });
+      continue;
+    }
     if (active.controlled_by === 'sistema') {
       await http.post('/api/session/turn/end', { session_id: sessionId });
       continue;
