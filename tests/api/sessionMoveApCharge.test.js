@@ -69,3 +69,38 @@ test('AP charge regression: a 1-tile move still costs 1 AP', async (t) => {
   assert.deepEqual(p1.position, { x: 2, y: 3 }, 'move actually resolved');
   assert.equal(p1.ap_remaining, 1, '1-tile move charges 1 AP (unchanged)');
 });
+
+test('AP budget gate: cannot over-declare more moves than real AP via ap_cost:0', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // p1 ap=2 at (2,2); SIS parked far so it never occupies a destination cell.
+  // validatePlayerIntent must gate on the SERVER move cost (max(1, dist) >= 1 per
+  // move), not the client-declared ap_cost:0. Otherwise N move intents each
+  // ap_cost:0 all pass the pending-sum budget check and the resolver executes all
+  // N -- each deduction floored at ap_remaining 0 -- for free movement beyond the
+  // real AP (OWASP A04, same class as the move-undercharge fixed above; the
+  // attack analog lives in sessionActionApCharge.test.js).
+  const sid = await startSession(app, twoUnits({ p1Pos: { x: 2, y: 2 }, sisPos: { x: 5, y: 5 } }));
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
+  const declareMove = (n, moveTo) =>
+    request(app)
+      .post('/api/session/declare-intent')
+      .send({
+        session_id: sid,
+        actor_id: 'p1',
+        action: { id: `p1-mv-${n}`, type: 'move', actor_id: 'p1', ap_cost: 0, move_to: moveTo },
+      });
+
+  // Each destination is 1 tile from (2,2): server cost 1 apiece.
+  await declareMove(1, { x: 2, y: 3 }).expect(200); // running total 1 <= 2
+  await declareMove(2, { x: 2, y: 1 }).expect(200); // running total 2 <= 2
+  const third = await declareMove(3, { x: 1, y: 2 }); // running total 3 > 2 -> rejected
+
+  assert.equal(third.status, 400, '3rd move must be rejected (3 x server cost 1 exceeds 2 AP)');
+  assert.equal(third.body.code, 'AP_INSUFFICIENT', 'rejection must be an AP budget error');
+});

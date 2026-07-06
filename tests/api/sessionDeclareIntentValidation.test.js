@@ -125,14 +125,17 @@ test('validation: AP insufficienti rigettato (AP_INSUFFICIENT)', async (t) => {
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
-  // p1 ap=2, action ap_cost=5
+  // p1 ap=2 at (2,2); move 3 tiles to (2,5) -- empty (sis at default (3,2)), in-grid.
+  // The budget gate uses the SERVER move cost max(1, dist) = 3 > 2, so the client
+  // ap_cost:0 (claiming a free move) cannot bypass it. AP_INSUFFICIENT precedes
+  // MOVE_TOO_FAR here because the AP gate runs before the move-type checks.
   const sid = await startSession(app, twoUnits({ p1Pos: { x: 2, y: 2 } }));
   const r = await declare(app, sid, 'p1', {
     id: 'p1-mv',
     type: 'move',
     actor_id: 'p1',
-    ap_cost: 5,
-    move_to: { x: 3, y: 2 },
+    ap_cost: 0,
+    move_to: { x: 2, y: 5 },
   });
   assert.equal(r.status, 400);
   assert.equal(r.body.code, 'AP_INSUFFICIENT');
