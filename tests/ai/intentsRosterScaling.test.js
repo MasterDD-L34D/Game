@@ -175,8 +175,14 @@ test('integration: flag ON K=3 -> 13 sistema, 5 intents emitted', () => {
 });
 
 test('integration: flag ON, small roster -> unchanged vs OFF (tier floor)', () => {
-  const offCount = withEnv({ [FLAG]: 'false' }, () => makeDeclare()(bigRosterSession(3)).intents.length);
-  const onCount = withEnv({ [FLAG]: 'true' }, () => makeDeclare()(bigRosterSession(3)).intents.length);
+  const offCount = withEnv(
+    { [FLAG]: 'false' },
+    () => makeDeclare()(bigRosterSession(3)).intents.length,
+  );
+  const onCount = withEnv(
+    { [FLAG]: 'true' },
+    () => makeDeclare()(bigRosterSession(3)).intents.length,
+  );
   assert.equal(offCount, onCount, 'flag flip is a no-op on small rosters');
   assert.equal(onCount, 3);
 });
