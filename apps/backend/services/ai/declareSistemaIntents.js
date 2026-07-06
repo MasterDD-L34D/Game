@@ -251,7 +251,11 @@ function createDeclareSistemaIntents(deps) {
     if (!session || !Array.isArray(session.units)) {
       return { intents: [], decisions: [], reveals: [] };
     }
-    const effectiveGrid = session.grid?.width || gridSize;
+    // Rectangular bounds for non-square grid_sized boards (stepAway accepts
+    // { width, height }; a bare number keeps the legacy square behavior).
+    const effectiveGrid = session.grid?.width
+      ? { width: session.grid.width, height: session.grid.height || session.grid.width }
+      : gridSize;
 
     // AI War pattern: compute threat context once per round
     const threatCtx =

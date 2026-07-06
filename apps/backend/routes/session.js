@@ -2146,12 +2146,36 @@ function createSessionRouter(options = {}) {
       // encounter_id path needs extended bounds, the caller should also pass the inline
       // encounter.grid OR the scenario JS should supply units within GRID_SIZE.
       const _inlineGrid = req.body?.encounter?.grid;
-      const _normBounds =
+      let _normBounds =
         _inlineGrid &&
         Number.isFinite(Number(_inlineGrid.width)) &&
         Number.isFinite(Number(_inlineGrid.height))
           ? { width: Number(_inlineGrid.width), height: Number(_inlineGrid.height) }
           : null;
+      // fase-2c follow-up (ADR-2026-07-03): a board_scale:'grid_sized' encounter PLAYS on its
+      // authored grid_size (resolveBoardSize below), so positions must clamp against THAT board,
+      // not the GRID_SIZE default -- otherwise authored spawns beyond 5 collapse into the legacy
+      // 6x6 corner (first observed staging enc_badlands_dorsale_ferrosa_01 16x12: sistema units
+      // authored at x=12-13 all clamped onto x<=5). Covers both the inline encounter body and the
+      // encounter_id YAML path (loadEncounter is cached; the later payload resolution reuses it).
+      // party_sized/absent stays on the existing bounds (played board = gridSizeFor, unchanged).
+      if (!_normBounds) {
+        try {
+          const { isAuthoredGrid } = require('../../../services/party/loader');
+          let _encForBounds = req.body?.encounter ?? null;
+          if (!_encForBounds && req.body?.encounter_id) {
+            const { loadEncounter } = require('../services/combat/encounterLoader');
+            _encForBounds = loadEncounter(req.body.encounter_id, {
+              graphMode: req.body?.graph_mode === true,
+            });
+          }
+          if (isAuthoredGrid(_encForBounds)) {
+            _normBounds = { width: _encForBounds.grid_size[0], height: _encForBounds.grid_size[1] };
+          }
+        } catch {
+          /* fallback: legacy GRID_SIZE clamp */
+        }
+      }
 
       let characterUnits = [];
       if (Array.isArray(req.body?.characters) && req.body.characters.length > 0) {

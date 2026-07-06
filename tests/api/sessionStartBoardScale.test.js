@@ -51,3 +51,42 @@ test('absent encounter keeps party fill-ratio board (legacy default)', async (t)
   assert.equal(res.body.state.grid.width, 6);
   assert.equal(res.body.state.grid.height, 6);
 });
+
+// fase-2c follow-up: positions must clamp against the AUTHORED board, not GRID_SIZE.
+// Regression: authored spawns at x/y > 5 collapsed onto the legacy 6x6 corner.
+test('grid_sized inline encounter keeps unit positions beyond the legacy 6x6 clamp', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const farUnits = [
+    { id: 'p1', controlled_by: 'player', hp: 10, max_hp: 10, position: { x: 0, y: 5 } },
+    { id: 's1', controlled_by: 'sistema', hp: 10, max_hp: 10, position: { x: 13, y: 13 } },
+  ];
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({ units: farUnits, encounter: { board_scale: 'grid_sized', grid_size: [14, 14] } });
+  assert.equal(res.status, 200);
+  const s1 = res.body.state.units.find((u) => u.id === 's1');
+  assert.deepEqual({ x: s1.position.x, y: s1.position.y }, { x: 13, y: 13 });
+});
+
+test('grid_sized encounter_id (YAML) keeps authored far spawns on the played board', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const farUnits = [
+    { id: 'p1', controlled_by: 'player', hp: 10, max_hp: 10, position: { x: 0, y: 5 } },
+    { id: 's1', controlled_by: 'sistema', hp: 10, max_hp: 10, position: { x: 13, y: 5 } },
+  ];
+  // First grid_sized encounter on disk (16x12): enc_badlands_dorsale_ferrosa_01.
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({ units: farUnits, encounter_id: 'enc_badlands_dorsale_ferrosa_01' });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.state.grid.width, 16);
+  assert.equal(res.body.state.grid.height, 12);
+  const s1 = res.body.state.units.find((u) => u.id === 's1');
+  assert.deepEqual({ x: s1.position.x, y: s1.position.y }, { x: 13, y: 5 });
+});
