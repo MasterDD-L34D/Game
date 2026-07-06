@@ -2,6 +2,14 @@
   "schema_version": "0.1.0",
   "notes": "Baseline grid per encounter. grid change -> re-run tools/sim/full-loop-batch.js N=10 probe -> N=40 ratify (L-069). Old ratification does NOT transfer to a new size.",
   "encounters": {
+    "enc_badlands_dorsale_ferrosa_01": {
+      "grid_size": [
+        16,
+        12
+      ],
+      "evidence_ref": "docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md",
+      "ratified_at": "2026-07-06"
+    },
     "enc_badlands_foodweb_pilot_01": {
       "grid_size": [
         10,
