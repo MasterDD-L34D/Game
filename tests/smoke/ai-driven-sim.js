@@ -679,15 +679,25 @@ function logSistemaDecisions(round, body) {
     }
 
     const activeId = st.active_unit;
-    const activeUnit = units.find((u) => u.id === activeId);
-    if (!activeUnit) {
-      console.warn(`round ${rounds}: no active_unit`);
-      break;
-    }
+    let activeUnit = units.find((u) => u.id === activeId);
 
-    if (activeUnit.controlled_by === 'sistema') {
+    if (activeUnit && activeUnit.controlled_by === 'sistema') {
       // Server-side sistemaTurnRunner should have advanced the turn already
       // (via /turn/end). Force /turn/end to nudge if stuck.
+      const teRes = await postJson('/api/session/turn/end', { session_id: sessionId });
+      logSistemaDecisions(rounds, teRes.body);
+      continue;
+    }
+
+    // Co-op semantics (ADR-2026-04-16 §2, addendum 2026-07-05): active_unit
+    // e' null durante la player planning phase (ordine libero, vincolo = AP
+    // budget). Il driver sceglie il primo player vivo con AP residuo; nessuno
+    // -> /turn/end. Prima il driver pilotava SOLO il player pinnato in
+    // active_unit (starvation: gli altri player non agivano mai).
+    if (!activeUnit) {
+      activeUnit = players.find((u) => Number(u.ap_remaining ?? u.ap ?? 0) > 0);
+    }
+    if (!activeUnit) {
       const teRes = await postJson('/api/session/turn/end', { session_id: sessionId });
       logSistemaDecisions(rounds, teRes.body);
       continue;
