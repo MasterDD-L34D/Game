@@ -160,7 +160,7 @@ function fireCounterAttack(session, ally, attacker, bond, performAttack) {
   const range = Number(ally.attack_range) || 1;
   if (manhattan(ally.position, attacker.position) > range) return null;
 
-  // COMBAT_LOS_ENABLED (default OFF): the bonded ally cannot counter-strike an
+  // COMBAT_LOS_ENABLED (default ON since the 2026-07-06 flip, opt-out 'false'): the bonded ally cannot counter-strike an
   // attacker it has no line of sight to. Flag OFF -> no-op (byte-identical).
   if (!losClearOnGrid(session.grid, ally.position, attacker.position)) return null;
 

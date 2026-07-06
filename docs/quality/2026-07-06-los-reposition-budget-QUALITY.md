@@ -149,3 +149,30 @@ so even a flag-ON deployment without seam changes behaves byte-identically to
 the merged greedy. `COMBAT_LOS_REPOSITION_MODE` and `avoidBlockerTiles` are
 measurement knobs, never set in production. The flip remains owner-gated
 post-N=40 (Eduardo) per the SDMG governance in the 2026-07-04 QUALITY doc.
+
+## Addendum 2026-07-06 (sera) -- decisioni owner ratificate POST N=40
+
+Ratify N=40 completa: docs/research/2026-07-06-los-flip-ratify-n40.md (PR #3223).
+Eduardo ha ratificato in-session (AskUserQuestion strutturata, 4 decisioni):
+
+1. **FLIP `COMBAT_LOS_ENABLED` -> default ON** (opt-out esplicito `='false'`).
+   Applicato in questo PR su losForGrid.js + losReposition.js; il gemello
+   client-side (gate nel resolver locale Godot, stesso env-name/default) e'
+   Game-Godot-v2 PR #589 (il tell visivo era gia' in #588).
+2. **Default prod repositioning = STEP** (budget clampato a 1 in
+   declareSistemaIntents): la matrice N=40 non mostra separazione outcome
+   step-vs-budget nemmeno su geometria wide; budget paga solo pace. Il
+   lookahead resta raggiungibile via opts.budget / COMBAT_LOS_REPOSITION_MODE.
+3. **units_block_los resta OFF al flip**: la fixture lane/wide e'
+   strutturalmente cieca all'asse (nessun terzo corpo sulle linee, delta 0 per
+   costruzione -- misura vacua evitata). Misura reale = geometria `crowd`
+   (chip dedicato, post-flip).
+4. **K4 recognizer + avoidBlockerTiles: chiusi YAGNI** (0 timeout su 240
+   encounter = nessuna oscillazione osservata; nessuna evidenza wall-standing
+   dannoso). Riapribili a evidenza playtest.
+
+Blast-radius del flip sui test: i test "flag OFF" passano da `delete env` a
+`env='false'` (il delete ora significa default=ON); il pin full-AP budget e'
+ri-pinnato alla decisione step. Regressione PRE-esistente scoperta durante la
+verifica (adapter sim pilotava via active_unit post-#3214, timeout garantito,
+invisibile ai glob CI): fix separato PR #3225 + chip CI-gap.

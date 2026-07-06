@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const { losClearForAi } = require('../../apps/backend/services/ai/policy');
 
 test('flag OFF: AI LOS filter is a no-op (allows all)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const grid = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }] };
   assert.equal(losClearForAi(grid, { x: 0, y: 0 }, { x: 4, y: 0 }), true);
 });

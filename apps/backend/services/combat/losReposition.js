@@ -1,7 +1,7 @@
 // apps/backend/services/combat/losReposition.js
 'use strict';
 
-// Budget-aware LOS-repositioning (COMBAT_LOS_ENABLED, default OFF).
+// Budget-aware LOS-repositioning (COMBAT_LOS_ENABLED, default ON since the 2026-07-06 flip).
 // When a unit wants to attack but has no line of sight to any in-range enemy,
 // stepToRegainLos returns a tile within `opts.budget` Manhattan steps (default
 // 1 = the original greedy 4-neighbor behavior) that reopens a clear firing
@@ -37,7 +37,7 @@ function _manhattan(a, b) {
 }
 
 function stepToRegainLos(actor, enemies, grid, opts) {
-  if (process.env.COMBAT_LOS_ENABLED !== 'true') return null;
+  if (process.env.COMBAT_LOS_ENABLED === 'false') return null;
   const mode = process.env.COMBAT_LOS_REPOSITION_MODE;
   if (mode === 'off') return null;
   if (!actor || !actor.position || !Array.isArray(enemies) || enemies.length === 0) return null;

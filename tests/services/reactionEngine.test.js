@@ -292,7 +292,7 @@ test('triggerOnMove respects single-actor reaction cap (consumed not refireable)
 // ─────────────────────────────────────────────────────────────────
 
 test('triggerOnMove LOS flag OFF: overwatch fires even with a roccia blocker between (byte-identical)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const overwatcher = makeUnit({
     id: 'ranger',
     position: { x: 0, y: 0 },
