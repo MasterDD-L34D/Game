@@ -2100,6 +2100,18 @@ function createSessionRouter(options = {}) {
       applyStressWaveTick(session); // SPEC-I ER6 (flag-gated, default OFF)
     }
 
+    // Co-op hand-off (ADR-2026-04-16 §2, addendum 2026-07-05): active_unit e'
+    // significativo solo mentre la catena sistema sta risolvendo. I player
+    // agiscono in ordine libero dentro il round (vincolo = AP budget), quindi
+    // quando la catena si ferma su una unit non-sistema (o morta/assente) non
+    // esiste una singola unit attiva: null, non il pin permanente sul primo
+    // player di turn_order (display "chi sta risolvendo ora" stantio + sim
+    // AI-driven affamati sul solo pinned actor).
+    const handoff = session.units.find((u) => u.id === session.active_unit);
+    if (!handoff || handoff.controlled_by !== 'sistema' || handoff.hp <= 0) {
+      session.active_unit = null;
+    }
+
     return { iaActions, bleedingEvents };
   }
 

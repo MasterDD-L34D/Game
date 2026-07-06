@@ -3,7 +3,7 @@ title: 'ADR-2026-04-16: Migrazione Node session engine al round-based combat mod
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-06-06
+last_verified: 2026-07-05
 source_of_truth: true
 language: it-en
 review_cycle_days: 180
@@ -200,3 +200,29 @@ Feature flag come safety net durante la transizione: abilita il rollback senza r
 Questo ADR chiude il **disallineamento temporaneo** dichiarato in ADR-2026-04-15 Conseguenze/Negative. Recepisce la decisione del round-based model come vincolo architetturale anche per il Node session engine. Dopo la migrazione, i due layer (Python rules engine + Node session engine) implementano la **stessa semantica** con interfacce diverse — Python come reference pura, Node come API-backed runtime.
 
 Il [`Final Design Freeze v0.9 §7`](../core/90-FINAL-DESIGN-FREEZE.md) recepisce la convergenza dei due layer come parte del combat system finale shipping.
+
+## Addendum 2026-07-05 -- Semantica `active_unit` ground-truthed (co-op free ordering)
+
+Ground-truth emerso dalla review LOS probe-v2 (PR #3212): post-M17 `session.active_unit`
+veniva scritto SOLO dalla catena AI di /start (`advanceThroughAiTurns`) e restava pinnato
+al primo player di `turn_order` per l'intero fight; `POST /action` risolve l'actor per
+`actor_id` senza alcun check su `active_unit`. Verdict e fix:
+
+1. **Il free player ordering dentro il round E' il design co-op inteso.** `POST /action`
+   autorizza per `actor_id` + AP budget (`validatePlayerIntent` somma gli intent pendenti
+   vs `ap_remaining`; refill solo a fine round), NON per posizione in `turn_order`.
+   Un enforcement del turn order player contraddirebbe il round model (planning condiviso
+   -> commit -> resolution, ADR-2026-04-15), il batch endpoint `/round/execute` e il flusso
+   composer co-op Godot.
+2. **`active_unit` ora e' onesto** (coerente con §2 "advisory"): valorizzato solo mentre
+   la catena sistema sta risolvendo; `null` al hand-off alla planning phase player
+   (da /start) e dopo `/turn/end`. Prima il pin permanente rendeva stantio il display
+   "chi sta risolvendo ora" (ctBar web / phone Godot) e affamava gli harness AI-driven
+   che pilotavano solo il pinned actor (LOS probe v1 starved).
+3. **Consumer verificati null-tolerant**: web `ctBar.js` (fallback priority, test
+   dedicato), `ui.js` ("Active: --"), Godot `phone_coop_ids.gd` (fallback chain, ""
+   se assente), replay panel, client HTML legacy (fallback `turn % 2`). Il driver
+   `tests/smoke/ai-driven-sim.js` ora sceglie il primo player vivo con AP residuo
+   quando `active_unit` e' `null`.
+4. **Regression pin**: `tests/api/coopTurnSemantics.test.js` (ordering libero 3-player,
+   null in planning, null post `/action` e post `/turn/end`, hand-off sistema-first).
