@@ -818,8 +818,11 @@ function facingFromMove(from, to) {
 // packs/evo_tactics_pack/data/balance/sistema_pressure.yaml (future wiring).
 // intents_per_round riallineati 2026-07-06 al rebalance 2026-04-17 (YAML +
 // PRESSURE_TIER_INTENT_CAP + aiProgressMeter): questa copia fallback era
-// driftata (Escalated 2, Apex 3) -- drift display-only, il cap runtime degli
-// intents non la legge.
+// driftata (Escalated 2, Apex 3). Il campo e' surfacciato in
+// publicSessionView.sistema_tier ma nessun consumer lo legge (web client e
+// Godot ricomputano da tabelle proprie gia' allineate; lo spawner legge
+// label+reinforcement_budget, invariati); il cap runtime degli intents vive
+// in declareSistemaIntents.PRESSURE_TIER_INTENT_CAP.
 const SISTEMA_PRESSURE_TIERS = [
   { threshold: 0, label: 'Calm', intents_per_round: 1, reinforcement_budget: 0 },
   { threshold: 25, label: 'Alert', intents_per_round: 2, reinforcement_budget: 1 },

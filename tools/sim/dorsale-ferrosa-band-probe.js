@@ -339,6 +339,8 @@ async function main() {
   const args = parseArgs(process.argv);
   // D4 roster-scaling arm: env set BEFORE any app run; the backend reads the
   // flag at call-time so the in-process createApp picks it up per-request.
+  // ONE ARM PER PROCESS: the env is intentionally never restored -- arms that
+  // must differ (A/B) are separate node invocations, never two main() calls.
   if (args.intentsScaling) process.env.SISTEMA_INTENTS_ROSTER_SCALING_ENABLED = 'true';
   if (args.intentsK >= 1) process.env.SISTEMA_INTENTS_ROSTER_K = String(args.intentsK);
   fs.mkdirSync(args.out, { recursive: true });
@@ -393,8 +395,13 @@ async function main() {
       dcAdd: args.dcAdd,
       countMult: args.countMult,
       rangeAdd: args.rangeAdd,
-      intentsScaling: args.intentsScaling,
-      intentsK: args.intentsScaling ? args.intentsK || 3 : null,
+      // Honest instrumentation: report the env the backend ACTUALLY read
+      // (covers an externally pre-set flag too), not the CLI args echo.
+      intentsScaling: process.env.SISTEMA_INTENTS_ROSTER_SCALING_ENABLED === 'true',
+      intentsK:
+        process.env.SISTEMA_INTENTS_ROSTER_SCALING_ENABLED === 'true'
+          ? Number(process.env.SISTEMA_INTENTS_ROSTER_K) || 3
+          : null,
     },
     objective: enc.objective && enc.objective.type,
     // Ratified N=40 2026-07-06 (evidence: docs/research/2026-07-06-dorsale-

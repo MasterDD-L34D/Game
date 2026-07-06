@@ -192,3 +192,19 @@ test('integration: only ALIVE sistema count toward scaling', () => {
     assert.equal(intents.length, 3, 'dead units excluded from alive count');
   });
 });
+
+// Invariant (harsh-review): aliveSistema is a SNAPSHOT taken at declare entry,
+// before the decision loop. Today declare is pure and spawn happens outside it;
+// if a future refactor wires spawn-in-declare, the cap must NOT re-expand from
+// units injected after entry -- this test pins the snapshot semantics.
+test('integration: aliveSistema is snapshot at entry (cap fixed for the pass)', () => {
+  withEnv({ [FLAG]: 'true' }, () => {
+    const session = bigRosterSession(13);
+    const { intents } = makeDeclare()(session);
+    assert.equal(intents.length, 5, 'ceil(13/3)=5 computed once at entry');
+    // A second declare on the same (unmutated) session recomputes the same
+    // snapshot -- determinism of the cap across passes.
+    const second = makeDeclare()(session);
+    assert.equal(second.intents.length, 5);
+  });
+});

@@ -29,7 +29,7 @@ consumato da `intentsCapForPressure()` (:124, call-site :276). Quattro copie del
 | `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml` (authority) | 1/2/3/3/4 | OK |
 | `declareSistemaIntents.PRESSURE_TIER_INTENT_CAP` (runtime dial) | 1/2/3/3/4 | OK |
 | `aiProgressMeter.PRESSURE_TIERS` (HUD) | 1/2/3/3/4 | OK |
-| `sessionHelpers.SISTEMA_PRESSURE_TIERS` | 1/2/2/3/3 | **STALE** (pre-rebalance; display-only, spawner legge solo reinforcement_budget che combacia) |
+| `sessionHelpers.SISTEMA_PRESSURE_TIERS` | 1/2/2/3/3 | **STALE** (pre-rebalance). Il campo `intents_per_round` E' nel contratto `publicSessionView.sistema_tier`, ma NESSUN consumer lo legge: web client ricomputa da `sistema_pressure` con tabella propria gia' allineata (`apps/play/src/ui.js`), Godot usa tabelle locali gia' allineate (verificato: zero read di `sistema_tier` nei .gd), spawner legge `label`+`reinforcement_budget` (invariati) |
 
 Lo scaling si aggancia a `intentsCapForPressure()` -- unico choke-point, session disponibile
 al call-site. Il drift stale e' fixato in commit separato (display-only).
