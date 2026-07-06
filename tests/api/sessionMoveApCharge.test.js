@@ -23,7 +23,10 @@ const { createApp } = require('../../apps/backend/app');
 const { startSession, twoUnits } = require('./sessionTestHelpers');
 
 async function resolveSingleMove(app, sid, moveTo, apCost) {
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
   await request(app)
     .post('/api/session/declare-intent')
     .send({

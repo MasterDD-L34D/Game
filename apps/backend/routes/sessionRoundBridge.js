@@ -257,7 +257,10 @@ function createRoundBridge(deps) {
     if (actor.controlled_by !== 'player') {
       return {
         status: 403,
-        body: { error: `actor "${actorId}" non e' controllato dal player`, code: 'ACTOR_NOT_OWNED' },
+        body: {
+          error: `actor "${actorId}" non e' controllato dal player`,
+          code: 'ACTOR_NOT_OWNED',
+        },
       };
     }
     if (requireAlive && Number(actor.hp || 0) <= 0) {

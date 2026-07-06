@@ -136,10 +136,11 @@ test('authz: clear-intent for a SIS actor is rejected 403', async (t) => {
   });
   const sid = await startSession(app, twoUnits({ sisPos: { x: 3, y: 2 } }));
   // begin-planning populates a server-authored SIS intent we must not be able to drop.
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
-  const r = await request(app)
-    .post('/api/session/clear-intent/sis')
-    .send({ session_id: sid });
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
+  const r = await request(app).post('/api/session/clear-intent/sis').send({ session_id: sid });
   assert.equal(r.status, 403);
   assert.equal(r.body.code, 'ACTOR_NOT_OWNED');
 });
@@ -150,7 +151,10 @@ test('authz: undo-action for a SIS actor is rejected 403', async (t) => {
     if (typeof close === 'function') await close().catch(() => {});
   });
   const sid = await startSession(app, twoUnits({ sisPos: { x: 3, y: 2 } }));
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
   const r = await request(app)
     .post('/api/session/undo-action')
     .send({ session_id: sid, actor_id: 'sis' });
