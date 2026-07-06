@@ -9,6 +9,18 @@
 
 const { selectPlayerAction } = require('./combat-policy');
 
+// String seed -> stable uint32 (same fold as tools/ts/roll_pack.ts hashSeed, kept
+// in sync so the two sim stacks derive the same stream from the same label).
+function hashStringSeed(seed) {
+  let h = 1779033703 ^ seed.length;
+  for (let i = 0; i < seed.length; i += 1) {
+    h = Math.imul(h ^ seed.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  const normalized = h >>> 0;
+  return normalized === 0 ? 0x6d2b79f5 : normalized;
+}
+
 async function runEncounter(
   http,
   {
@@ -86,7 +98,16 @@ async function runEncounter(
     // /api/session/start seeds the per-session deterministic RNG from `seed`
     // (session.js:1637), NOT `run_seed` (that is the co-op WS world_confirm field).
     // Codex #2561 P2 — sending `seed` makes full-loop encounters replayable.
-    ...(seed !== undefined && seed !== null && seed !== '' ? { seed } : {}),
+    // /start only accepts a FINITE NUMERIC seed (Number(seed) must be isFinite,
+    // else combatRng.state stays null = Math.random passthrough): the string
+    // seeds every sim caller threads (full-loop-runner sends `${seed}-${step}`)
+    // were silently DROPPED, so "seeded" full-loop combats still rolled live
+    // d20s and marginal encounters flaked (fullLoopRouting CI red). Hash a
+    // non-numeric seed to a stable uint32 so string seeds really pin the
+    // per-session RNG; numeric seeds pass through unchanged.
+    ...(seed !== undefined && seed !== null && seed !== ''
+      ? { seed: Number.isFinite(Number(seed)) ? seed : hashStringSeed(String(seed)) }
+      : {}),
     // A13 N=40 evidence (SPEC-I gate): campaign_id links the session to the campaign
     // (read-side woundedStep lookup at /start, session.js:1761) and biome_id selects
     // the eco profile the wound amplifies. Absent -> byte-identical start body.
