@@ -92,6 +92,12 @@ function parseArgs(argv) {
     // sistema never converts on the v2 round-driver; the ranged arm is ALSO the
     // one where the LOS chokepoints/cover of the 16x12 layout get exercised.
     rangeAdd: 0,
+    // D4 roster-scaling A/B (spec 2026-07-06-sistema-intents-roster-scaling):
+    // --intents-scaling sets SISTEMA_INTENTS_ROSTER_SCALING_ENABLED=true for
+    // the in-process app (the backend reads the flag per-call); --intents-k
+    // sets the divisor env. 0 = env untouched -> backend default (3).
+    intentsScaling: false,
+    intentsK: 0,
   };
   for (let i = 2; i < argv.length; i += 1) {
     const tok = argv[i];
@@ -105,6 +111,8 @@ function parseArgs(argv) {
     else if (tok === '--dc-add') args.dcAdd = Number(next());
     else if (tok === '--count-mult') args.countMult = Number(next());
     else if (tok === '--range-add') args.rangeAdd = Number(next());
+    else if (tok === '--intents-scaling') args.intentsScaling = true;
+    else if (tok === '--intents-k') args.intentsK = Number(next());
     else if (tok.startsWith('--')) console.warn(`unknown arg: ${tok}`);
   }
   return args;
@@ -329,6 +337,10 @@ function readCheckpoint(jsonlPath) {
 
 async function main() {
   const args = parseArgs(process.argv);
+  // D4 roster-scaling arm: env set BEFORE any app run; the backend reads the
+  // flag at call-time so the in-process createApp picks it up per-request.
+  if (args.intentsScaling) process.env.SISTEMA_INTENTS_ROSTER_SCALING_ENABLED = 'true';
+  if (args.intentsK >= 1) process.env.SISTEMA_INTENTS_ROSTER_K = String(args.intentsK);
   fs.mkdirSync(args.out, { recursive: true });
   const jsonlPath = path.join(args.out, 'runs.jsonl');
   const enc = loadEncounterYaml();
@@ -381,6 +393,8 @@ async function main() {
       dcAdd: args.dcAdd,
       countMult: args.countMult,
       rangeAdd: args.rangeAdd,
+      intentsScaling: args.intentsScaling,
+      intentsK: args.intentsScaling ? args.intentsK || 3 : null,
     },
     objective: enc.objective && enc.objective.type,
     // Ratified N=40 2026-07-06 (evidence: docs/research/2026-07-06-dorsale-

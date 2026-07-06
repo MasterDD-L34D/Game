@@ -119,15 +119,43 @@ const PRESSURE_TIER_INTENT_CAP = [
   { threshold: 95, intents_per_round: 4 }, // Apex (tutorial_05 BOSS baseline)
 ];
 
+// D4 threat-dial roster-scaling (spec docs/planning/2026-07-06-sistema-intents-
+// roster-scaling-spec.md, feed grid-ratify 2026-07-06 "Limite di modello"): the
+// global per-round dial does not scale with the Sistema roster, so on big
+// boards "more enemies" = LESS per-unit pressure (2/13 = 15% active). Flag
+// default OFF; values PROPOSED (SDMG), flip owner-gated post N=40.
+function isIntentsRosterScalingEnabled() {
+  return process.env.SISTEMA_INTENTS_ROSTER_SCALING_ENABLED === 'true';
+}
+
+// Hard ceiling for the scaled cap: keeps Sistema below the party's 8
+// actions/round (4 units x 2 AP) and bounds the telegraph UI load.
+const INTENTS_ABS_CAP = 6;
+
+// Divisor K: one intent per K alive Sistema units (activation ~1/K on big
+// rosters). Env-tunable for probe A/B; invalid values fall back to 3.
+const ROSTER_K_DEFAULT = 3;
+function rosterScalingK() {
+  const k = Number(process.env.SISTEMA_INTENTS_ROSTER_K);
+  return Number.isInteger(k) && k >= 1 ? k : ROSTER_K_DEFAULT;
+}
+
 // A2: optional `floor` (encounter.pressure_tier_floor) raises the effective
 // pressure before the cap lookup. flag OFF / floor unset -> identical to pre-A2.
-function intentsCapForPressure(pressure, floor) {
+// Roster-scaling: optional `aliveSistema` raises the cap to ceil(alive/K) with
+// the pressure tier as FLOOR (small rosters identical even at flag ON) and
+// INTENTS_ABS_CAP as ceiling. Flag OFF / arg absent/invalid -> tier cap only.
+function intentsCapForPressure(pressure, floor, aliveSistema) {
   const p = effectivePressure(pressure, floor);
   let cap = PRESSURE_TIER_INTENT_CAP[0].intents_per_round;
   for (const t of PRESSURE_TIER_INTENT_CAP) {
     if (p >= t.threshold) cap = t.intents_per_round;
   }
-  return cap;
+  if (!isIntentsRosterScalingEnabled()) return cap;
+  const alive = Number(aliveSistema);
+  if (!Number.isFinite(alive) || alive <= 0) return cap;
+  const scaled = Math.ceil(alive / rosterScalingK());
+  return Math.min(Math.max(cap, scaled), INTENTS_ABS_CAP);
 }
 
 // M1 ADR-2026-05-18 -- true only when a high-threat PG is CURRENTLY on the field
@@ -273,7 +301,16 @@ function createDeclareSistemaIntents(deps) {
     // Tier piu' alto (player vincente) → SIS dichiara piu' intents.
     // Calm: 1 intent/round, Critical/Apex: 3.
     // A2: per-encounter pressure_tier_floor (flag OFF -> no-op = back-compat).
-    const intentsCap = intentsCapForPressure(session.sistema_pressure, session.pressure_tier_floor);
+    // D4 roster-scaling: alive Sistema count (reinforcements included as they
+    // spawn) raises the cap to ceil(alive/K) when the flag is ON; tier = floor.
+    const aliveSistema = session.units.filter(
+      (u) => u && u.controlled_by === 'sistema' && Number(u.hp || 0) > 0,
+    ).length;
+    const intentsCap = intentsCapForPressure(
+      session.sistema_pressure,
+      session.pressure_tier_floor,
+      aliveSistema,
+    );
 
     const intents = [];
     const decisions = [];
@@ -631,6 +668,8 @@ module.exports = {
   createDeclareSistemaIntents,
   computePersistentHighThreat,
   intentsCapForPressure,
+  isIntentsRosterScalingEnabled,
+  INTENTS_ABS_CAP,
   detectHiddenAbilityReveals,
   DEFAULT_HIDDEN_ABILITY_THRESHOLD,
 };
