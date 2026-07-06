@@ -503,3 +503,28 @@ test('#2724: spawned unit position matches the session format (object when PGs a
     `expected {x,y} position, got ${JSON.stringify(spawned.position)}`,
   );
 });
+
+// fase-2c grid_sized probe finding: duplicate spawned ids froze attackers (the
+// backend resolves attack targets by id -> the wrong twin can be out of range).
+// Ids must be unique ACROSS ticks: monotonic on state.total_spawned only.
+test('spawned unit ids are unique across multiple ticks (no reinf_N collision)', () => {
+  const session = mockSession({ pressure: 60 }); // Escalated -> budget 2
+  // 4 distinct entry tiles: spawned units occupy theirs, so both ticks fit fully.
+  const enc = mockEncounter({
+    reinforcement_entry_tiles: [
+      [9, 9],
+      [8, 9],
+      [9, 8],
+      [8, 8],
+    ],
+  });
+  const first = tick(session, enc, { rng: () => 0.5 });
+  session.round += 1;
+  session.turn += 1;
+  const second = tick(session, enc, { rng: () => 0.5 });
+  const ids = [...first.spawned, ...second.spawned]
+    .filter((s) => !s.skipped)
+    .map((s) => s.spawned_unit_id);
+  assert.equal(ids.length, 4, 'two Escalated ticks spawn 2+2');
+  assert.equal(new Set(ids).size, ids.length, `duplicate ids: ${ids.join(', ')}`);
+});

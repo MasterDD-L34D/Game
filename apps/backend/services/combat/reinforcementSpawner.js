@@ -348,7 +348,13 @@ function tick(session, encounter, opts = {}) {
       spawned.push({ skipped: true, reason: 'pool_exhausted' });
       break;
     }
-    const unitId = `reinf_${state.total_spawned + spawned.filter((s) => !s.skipped).length + 1}_${entry.unit_id}`;
+    // Monotonic per-session index: state.total_spawned increments at every spawn
+    // (below), so it alone is collision-free. The old formula ALSO added the
+    // in-tick count -> a 2-budget tick emitted reinf_1/reinf_3 and the NEXT tick
+    // restarted at reinf_3 = duplicate actor ids (first observed on the 16x12
+    // grid_sized probe: attack target resolution hit the wrong twin -> 400
+    // out-of-range -> the attacker froze for the rest of the fight).
+    const unitId = `reinf_${state.total_spawned + 1}_${entry.unit_id}`;
     const newUnit = {
       id: unitId,
       species: entry.unit_id,
