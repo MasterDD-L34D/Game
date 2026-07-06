@@ -100,6 +100,13 @@ piu' encounter misurati non-ceiling -- arriva col lever D5 zone-defense); (c)
 `dial_cap_reference` per-tier (floor autorato -> cap) invece del riferimento fisso 3.
 Il flip resta gated su questa scelta + verdetto owner.
 
+**Verdetto owner (2026-07-06, ratificato in sessione via AskUserQuestion)**: fork **(a)
+lettura relativa RATIFIED** -- flag-ON 'under' = action-economy d'avanzo (coerente col
+misurato), il futuro 'block' scatta solo su critical_over; (b)/(c) restano opzioni v2
+quando arrivera' evidence non-ceiling (lever zone-defense). Flip
+`XP_BUDGET_GEOMETRY_ENABLED` = **staged-latent keys.env** (owner, host CODEMASTERDD:
+inerte fino a restart; da Ryzen non si tocca prod 3334).
+
 ## 6. Gate eseguiti
 
 - `tests/services/xpBudget.test.js` **21/21** (19 pre-esistenti + 2 nuovi; 1 test
