@@ -25,7 +25,10 @@ const { createApp } = require('../../apps/backend/app');
 const { startSession, twoUnits } = require('./sessionTestHelpers');
 
 async function resolveSingleAction(app, sid, action) {
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
   await request(app)
     .post('/api/session/declare-intent')
     .send({ session_id: sid, actor_id: 'p1', action })
@@ -55,7 +58,11 @@ test('AP charge: an attack with negative client ap_cost cannot gain AP -- costs 
     ap_cost: -1,
   });
 
-  assert.equal(p1.ap_remaining, 1, 'attack must charge the server base 1 AP; negative client cost cannot refund AP');
+  assert.equal(
+    p1.ap_remaining,
+    1,
+    'attack must charge the server base 1 AP; negative client cost cannot refund AP',
+  );
 });
 
 test('AP charge: an attack with fractional client ap_cost:0.5 still costs base 1', async (t) => {
@@ -74,7 +81,11 @@ test('AP charge: an attack with fractional client ap_cost:0.5 still costs base 1
     ap_cost: 0.5,
   });
 
-  assert.equal(p1.ap_remaining, 1, 'attack must charge the full server base 1 AP, not the client-declared 0.5');
+  assert.equal(
+    p1.ap_remaining,
+    1,
+    'attack must charge the full server base 1 AP, not the client-declared 0.5',
+  );
 });
 
 test('AP charge regression: an attack with client ap_cost:1 still costs 1 AP', async (t) => {
@@ -125,7 +136,10 @@ test('AP charge: /resolve-round deduction is server-authoritative (no negative-c
   // a negative ap_cost inflated ap.current (Math.max(0, 2 - (-1)) = 3). Defense-in-
   // depth: even this display-only path must use the server-authoritative cost.
   const sid = await startSession(app, twoUnits());
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
   await request(app)
     .post('/api/session/declare-intent')
     .send({
@@ -135,10 +149,17 @@ test('AP charge: /resolve-round deduction is server-authoritative (no negative-c
     })
     .expect(200);
   await request(app).post('/api/session/commit-round').send({ session_id: sid }).expect(200);
-  const res = await request(app).post('/api/session/resolve-round').send({ session_id: sid }).expect(200);
+  const res = await request(app)
+    .post('/api/session/resolve-round')
+    .send({ session_id: sid })
+    .expect(200);
 
   const p1 = res.body.units.find((u) => u.id === 'p1');
-  assert.equal(p1.ap.current, 1, 'resolve-round must charge the server base 1 AP; negative client cost cannot refund');
+  assert.equal(
+    p1.ap.current,
+    1,
+    'resolve-round must charge the server base 1 AP; negative client cost cannot refund',
+  );
 });
 
 test('AP budget gate: cannot over-declare more attacks than real AP via ap_cost:0', async (t) => {
@@ -150,7 +171,10 @@ test('AP budget gate: cannot over-declare more attacks than real AP via ap_cost:
   // the client-declared ap_cost:0 -- otherwise N intents each ap_cost:0 all pass the
   // budget sum and the resolver executes all N (over-declaration free actions, A04).
   const sid = await startSession(app, twoUnits());
-  await request(app).post('/api/session/round/begin-planning').send({ session_id: sid }).expect(200);
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
   const declare = (n) =>
     request(app)
       .post('/api/session/declare-intent')
@@ -167,4 +191,3 @@ test('AP budget gate: cannot over-declare more attacks than real AP via ap_cost:
   assert.equal(third.status, 400, '3rd attack must be rejected (3 x server cost 1 exceeds 2 AP)');
   assert.equal(third.body.code, 'AP_INSUFFICIENT', 'rejection must be an AP budget error');
 });
-
