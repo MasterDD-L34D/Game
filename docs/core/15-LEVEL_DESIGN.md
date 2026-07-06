@@ -2,7 +2,7 @@
 doc_status: active
 doc_owner: master-dd
 workstream: dataset-pack
-last_verified: '2026-06-07'
+last_verified: '2026-07-06'
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -128,6 +128,19 @@ ANY encounter il cui `grid_size` (o blocco `grid`) cambia DEVE ri-eseguire il ci
 NON si trasferisce a una nuova taglia (la geometria muove la difficolta' reale). Author-guard
 advisory: `tools/js/validate_encounter_grid_ratify.js` + baseline `data/core/balance/grid_ratify_baseline.json`.
 Aggiorna il baseline (grid_size + evidence_ref) solo dopo l'evidence N=40.
+
+**Bande pace RATIFICATE N=40 -- board grid_sized (2026-07-06).** Semantica banda =
+completion + pace + reinforcement-liveness, NON letalita': sul driver round-model AI-vs-AI
+la letalita' e' ceiling strutturale (WR 1.0 su ogni arm, throughput cappato dal dial
+`intents_per_round` -- vedi "Limite di modello" nell'evidence dorsale). Un resize futuro si
+confronta su completion/pace: fuori banda = il guard L-069 ha morso.
+
+| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato                          | Evidence                                                  |
+| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | --------------------------------------------------------- |
+| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [10, 18]                | avg 14.03 (sd 1.9), WR 1.0, reinf 4/4  | `docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md` |
+| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [10, 17]                | avg 12.85 (sd 1.25), WR 1.0, reinf 4/4 | `docs/research/2026-07-06-canyon-lungo-grid-ratify.md`    |
+
+Probe generico riusabile: `tools/sim/grid-band-probe.js --encounter <id>` (#3230).
 
 ## Relazione Bioma → Livello
 

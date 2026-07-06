@@ -93,8 +93,10 @@ function parseArgs(argv) {
     a13MaxRetries: 1,
     // --gate: exit 1 if any ratified meta band-metric is out of band (CI gate mode).
     // Default OFF = diagnostic mode (always exit 0 on completion). The batch is NOT
-    // bit-deterministic per seed (recruit/mate/attrition vary), so this is a STATISTICAL
-    // gate -- the bands carry margin; use it warn-only until the runner is fully seed-pinned.
+    // bit-deterministic per seed: the COMBAT leg is pinned since #3232 (combat-adapter
+    // hashes the runner's `${seed}-${step}` string to a uint32 that seeds the session
+    // RNG), but the META leg (recruit/mate rolls server-side) has no seed seam, so this
+    // is a STATISTICAL gate -- the bands carry margin; use it warn-only until then.
     gate: false,
   };
   for (let i = 2; i < argv.length; i += 1) {

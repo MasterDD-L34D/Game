@@ -5,7 +5,21 @@
 
 ---
 
-## ⚡ Sessione corrente 2026-07-03 -- fase-2c grid-wiring SHIPPED + ADR active
+## ⚡ Sessione corrente 2026-07-06 -- big-maps arc: 2 grid_sized RATIFICATI + D4 scaling flag-OFF
+
+**3 PR merged** (main `8026f9c49`): **#3229** `c8d108da8` primo encounter `board_scale: grid_sized`
+16x12 (`enc_badlands_dorsale_ferrosa_01`) + N=40 ratify banda pace [10,18] + 3 bug backend reali
+fixati (clamp pre-resolve, ID rinforzi duplicati, stepAway quadrato su board rettangolare);
+**#3230** `88b1d34b6` secondo grid_sized al cap 20x12 (`enc_badlands_canyon_lungo_01`, banda [10,17])
+
+- probe GENERICO `tools/sim/grid-band-probe.js`; **#3231** `8026f9c49` D4 intents roster-scaling
+  flag-OFF, A/B N=10 = NEGATIVE (lever attivazione da solo non rompe il ceiling). Evidence:
+  `docs/research/2026-07-06-{dorsale-ferrosa,canyon-lungo}-grid-ratify.md` + `2026-07-06-intents-roster-scaling-ab.md`.
+  Residui: calibrazione D9 geometry (over-predict 2.95x) -> flip owner-gated; spec D5 zone-defense;
+  variante capture_point gated su D5. Il blocco 07-03 sotto = storico (i suoi residui "autora+ratify"
+  sono CHIUSI qui).
+
+## ⚡ Sessione 2026-07-03 -- fase-2c grid-wiring SHIPPED + ADR active
 
 Handoff: `docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md`. **2 PR merged.** Keystone big-maps arc D1: un `encounter.grid_size` autorato ora dimensiona la board, ma SOLO se l'encounter opta `board_scale: grid_sized` (naming owner-ratified su `auto|authored` dello spec-draft); default `party_sized` = legacy byte-identical -> **band-neutral** (0/21 encounter cambia board).
 
