@@ -185,6 +185,14 @@
       ],
       "evidence_ref": null,
       "ratified_at": "2026-07-03"
+    },
+    "enc_abisso_colata_basaltica_01": {
+      "grid_size": [
+        18,
+        10
+      ],
+      "evidence_ref": "docs/research/2026-07-06-abisso-colata-grid-ratify.md",
+      "ratified_at": "2026-07-06"
     }
   }
 }
