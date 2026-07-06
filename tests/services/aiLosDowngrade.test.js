@@ -127,7 +127,7 @@ test('flag ON: in-range with clear line -> attack', () => {
 });
 
 test('flag OFF: LOS-blocked target still attacks (no-op)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const declare = buildDeclare();
   const session = makeSession([{ x: 3, y: 0, type: 'roccia' }]);
   const { intents, decisions } = declare(session);
@@ -217,7 +217,7 @@ test('flag ON: LOS-blocked target -> SIS repositions to regain LOS (not straight
 });
 
 test('flag OFF: same LOS-blocked geometry -> byte-identical, no downgrade/reposition', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const declare = buildDeclare();
   const session = makeLosRepositionSession([
     { x: 2, y: 0, type: 'roccia' },
@@ -245,22 +245,21 @@ function makeLosFullWallSession() {
   return makeLosRepositionSession(wall);
 }
 
-// Budget lookahead (v2): the SIS spends its whole AP pool on the reposition when no
-// 1-step tile reopens LOS -- an approach intent is a move-only round anyway, so a
-// farther LOS tile strictly dominates the blind stepTowards. With ap:2 the full wall
-// at x=2 is beaten by standing ON the wall column at (2,1) (terrain blocks LOS, not
-// movement; endpoints excluded -> (2,1) sees (4,1) across the free (3,1)). The intent
-// must charge the REAL move distance (ap_cost 2, not the legacy hardcoded 1) so the
-// WEGO resolver -- which deducts the ap_cost field without recomputing -- stays honest.
-test('flag ON: no one-step reopening -> SIS spends full AP budget on a multi-tile reposition', () => {
+// Owner default 2026-07-06 (ratify N=40: step-vs-budget = no outcome separation,
+// budget pays pace only): prod clamps the reposition budget to 1 (shipped greedy
+// step). On the full wall no 1-step tile reopens LOS -> stepToRegainLos returns
+// null and the SIS falls back to the plain stepTowards approach (never worse
+// than pre-LOS). The multi-tile (2,1) reposition stays reachable via
+// opts.budget (losReposition unit tests) and the probes' REPOSITION_MODE.
+test('flag ON: no one-step reopening -> step default falls back to plain approach', () => {
   process.env.COMBAT_LOS_ENABLED = 'true';
   const declare = buildDeclare();
   const session = makeLosFullWallSession();
   const { intents, decisions } = declare(session);
   assert.equal(intents.length, 1);
   assert.equal(intents[0].action.type, 'move');
-  assert.deepEqual(intents[0].action.move_to, { x: 2, y: 1 });
-  assert.equal(intents[0].action.ap_cost, 2);
+  assert.notDeepEqual(intents[0].action.move_to, { x: 2, y: 1 });
+  assert.equal(intents[0].action.ap_cost, 1);
   assert.equal(decisions[0].intent, 'approach');
   assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
   delete process.env.COMBAT_LOS_ENABLED;

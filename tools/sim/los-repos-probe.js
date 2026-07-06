@@ -350,7 +350,8 @@ async function childMain(arm, N, scale, mode, enemyRange) {
   // that reads the flag.
   const losOff = mode === 'flip' && arm === 'off';
   if (losOff) {
-    delete process.env.COMBAT_LOS_ENABLED;
+    // Post-flip (default ON): the no-LOS arm must OPT OUT explicitly.
+    process.env.COMBAT_LOS_ENABLED = 'false';
   } else {
     process.env.COMBAT_LOS_ENABLED = 'true';
   }
