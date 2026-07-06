@@ -75,11 +75,24 @@ audit_defaults:
 # Geometry-aware difficulty terms (D9 gate slice, flag XP_BUDGET_GEOMETRY_ENABLED, default OFF).
 # Valori PROPOSED (SDMG) -> ratify N=40 via tools/sim/full-loop-batch.js (L-069). NON magic-constant.
 geometry:
-  # Shape 1 (hazard-coupled, Frosthaven donor): folds into `used` only flag-ON.
+  # Shape 1 (hazard-coupled, Frosthaven donor): folds into `used` only flag-ON
+  # E solo con MOVE_TERRAIN_COST_ENABLED=true (calibrazione 2026-07-06: a cost
+  # substrate OFF il pathing evita l'hazard -> contributo misurato 0 su
+  # enc_abisso_colata_basaltica_01, 18 lava, N=40 WR 1.0; hazard_xp resta
+  # PROPOSED e si ratifica quando il substrate flippa).
   hazard_set: [lava, acqua_profonda]
   hazard_xp:
     lava: 40
     acqua_profonda: 30
+  # Shape 3 (action-economy, calibrazione D9 2026-07-06, evidence
+  # docs/research/2026-07-06-xpbudget-geometry-calibration.md): il modello
+  # stat-mass ignora il dial intents_per_round -> over-predice (dorsale ratio
+  # 2.95 critical_over vs WR 1.0 misurato N=40). Flag-ON: used *= min(1,
+  # dial_cap_reference / (party_size * party_ap)). Valori PROPOSED (SDMG):
+  # dial_cap_reference 3 = Escalated (pressure_start 50 dei ratify N=40).
+  action_economy:
+    dial_cap_reference: 3
+    party_ap: 2
   # Reuses the encounter_class axis (mirror 15-LEVEL_DESIGN Class column).
   class_scalar:
     tutorial: 1.0

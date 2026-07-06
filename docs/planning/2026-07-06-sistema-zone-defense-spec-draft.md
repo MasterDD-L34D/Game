@@ -1,6 +1,6 @@
 ---
 title: Spec-draft zone-defense Sistema (lever D4 comportamentale)
-doc_status: draft
+doc_status: active
 doc_owner: master-dd
 workstream: combat
 last_verified: '2026-07-06'
@@ -11,7 +11,7 @@ review_cycle_days: 90
 
 # Sistema zone-defense / intent-type per tier -- SPEC-DRAFT (SDMG: decider Eduardo)
 
-Data: 2026-07-06 | Stato: DRAFT (solo documento, ZERO build) | Autore: claude-fable-5 (sessione autonoma)
+Data: 2026-07-06 | Stato: ACTIVE (fork ratificati sez. 6; resta ZERO build) | Autore: claude-fable-5 (sessione autonoma)
 Feed: `docs/research/2026-07-06-intents-roster-scaling-ab.md` (negative result A/B #3231) +
 `docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md` sez. "Limite di modello".
 Pattern spec di riferimento: `docs/planning/2026-07-06-sistema-intents-roster-scaling-spec.md`
@@ -200,7 +200,23 @@ il player-sim insegue le zone, il Sistema no (asimmetria misurabile, sez. 2).
 - **Tutti i valori PROPOSED**: soglie tier (Fork B1), campo YAML (B2), soglie "morde"
   (Fork C), disegno fattoriale (Fork D) -- decider Eduardo (SDMG: metodo progettato
   dall'agente = ipotesi alto-errore, non decisione).
-- **Nessun fork deciso qui**: A/B/C/D restano APERTI fino a verdetto master-dd.
+- **Fork decisi post-draft**: A/B/C/D ratificati in sez. 6 (verdetti owner 2026-07-06
+  via AskUserQuestion; il draft nasceva coi fork aperti).
 - **Non tocca** `packages/contracts`, raw event schema, `.github/workflows/`. Se il
   verdetto B sceglie il campo YAML -> PR dedicata con segnalazione forbidden-path
   additiva esplicita (precedente `board_scale` #3199).
+
+## 6. Verdetti owner (2026-07-06, ratificati in sessione)
+
+Decisi da Eduardo via AskUserQuestion (sessione merge-wave 2026-07-06 sera), qui ratificati:
+
+| Fork         | Verdetto                                                                                                                                                                                            | Nota di build                                                                                |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| A (verbo)    | **Intent NUOVO `defend_zone`** decision-layer-only, si risolve in move/attack esistenti                                                                                                             | raw-event schema INVARIATO (vcScoring salvo); icona telegraph `defend` gia' mappata          |
+| B (unlock)   | **Per-encounter authored** (campo YAML opt-in, mirror `board_scale` ADR-2026-07-03)                                                                                                                 | additivo su `schemas/evo` = forbidden-path da SEGNALARE nella PR di build (precedente #3199) |
+| C+D (misura) | **Fattoriale 2x2** (roster-scaling #3231 x zone-defense) su variante capture_point della dorsale, stessi seed appaiati, N=10 -> N=40 SOLO su arm vincente + liveness gate (`defend_zone` count > 0) | prereq content: autorare la variante capture della dorsale (layout gia' pronto, doc dorsale) |
+
+Correlati decisi nello stesso giro: calibrazione D9 = fork (a) lettura relativa RATIFIED
+(doc `docs/research/2026-07-06-xpbudget-geometry-calibration.md` sez. 5); flip
+`XP_BUDGET_GEOMETRY_ENABLED` = staged-latent keys.env (owner, host CODEMASTERDD).
+Il build zone-defense = arco dedicato (prossima lane), NON in questa PR.

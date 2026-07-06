@@ -149,6 +149,7 @@ test('hazardBudgetContribution: no grid -> 0', () => {
 
 test('auditEncounter: flag OFF -> byte-identical used (band-neutral)', () => {
   delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
+  delete process.env.MOVE_TERRAIN_COST_ENABLED;
   _resetCache();
   const enc = {
     encounter_class: 'standard',
@@ -156,12 +157,43 @@ test('auditEncounter: flag OFF -> byte-identical used (band-neutral)', () => {
     waves: [{ turn_trigger: 0, units: [{ tier: 'base', count: 4 }] }],
   };
   const off = auditEncounter(enc, 4);
+  // Calibrazione 2026-07-06: flag ON = used * actionEconomyScale (3/8 = 0.375
+  // per party 4); hazard NON sommato finche' MOVE_TERRAIN_COST_ENABLED e' off
+  // (contributo misurato 0 a substrate off, evidence abisso N=40).
   process.env.XP_BUDGET_GEOMETRY_ENABLED = 'true';
   _resetCache();
   const on = auditEncounter(enc, 4);
   delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
   _resetCache();
-  assert.equal(off.used + 48, on.used, 'flag ON adds 1 lava * 40 * 1.2 = 48');
+  assert.equal(on.used, Math.round(off.used * 0.375), 'flag ON scala used col dial (3/8)');
+});
+
+test('actionEconomyScale: config-driven, clamp a 1', () => {
+  const { actionEconomyScale } = require('../../apps/backend/services/balance/xpBudget');
+  _resetCache();
+  // Config repo: dial_cap_reference 3, party_ap 2 -> party 4 = 3/8
+  assert.equal(actionEconomyScale(4), 0.375);
+  // Party 1 -> 3/2 clampa a 1 (mai amplificare)
+  assert.equal(actionEconomyScale(1), 1);
+});
+
+test('auditEncounter: hazard conta solo con MOVE_TERRAIN_COST_ENABLED (flag-ON)', () => {
+  const enc = {
+    encounter_class: 'standard',
+    grid: { terrain_features: [{ x: 3, y: 0, type: 'lava' }] },
+    waves: [{ turn_trigger: 0, units: [{ tier: 'base', count: 4 }] }],
+  };
+  process.env.XP_BUDGET_GEOMETRY_ENABLED = 'true';
+  delete process.env.MOVE_TERRAIN_COST_ENABLED;
+  _resetCache();
+  const senzaCosto = auditEncounter(enc, 4);
+  process.env.MOVE_TERRAIN_COST_ENABLED = 'true';
+  _resetCache();
+  const conCosto = auditEncounter(enc, 4);
+  delete process.env.XP_BUDGET_GEOMETRY_ENABLED;
+  delete process.env.MOVE_TERRAIN_COST_ENABLED;
+  _resetCache();
+  assert.equal(conCosto.used, senzaCosto.used + 48, 'substrate ON aggiunge 1 lava * 40 * 1.2');
 });
 
 test('activationPressure: worst-case cumulative units / party', () => {

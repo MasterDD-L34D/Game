@@ -110,6 +110,25 @@ function hazardBudgetContribution(encounter, encounterClass) {
 }
 
 /**
+ * Shape 3 (calibrazione D9 2026-07-06): action-economy scale. Il modello stat-mass
+ * over-predice sui grid_sized (dorsale: ratio 2.95 critical_over vs WR 1.0 N=40)
+ * perche' ignora il dial intents_per_round: il Sistema gioca dial_cap azioni/round
+ * (PRESSURE_TIER_INTENT_CAP, Escalated=3) contro party_size*party_ap del party.
+ * scale = min(1, dial_cap_reference / (party_size * party_ap)). Config-driven
+ * (geometry.action_economy, valori PROPOSED SDMG); senza config -> 1 (neutro).
+ * Applicato SOLO flag-ON (XP_BUDGET_GEOMETRY_ENABLED), flag-OFF byte-identical.
+ */
+function actionEconomyScale(partySize) {
+  const geo = loadConfig().geometry || {};
+  const ae = geo.action_economy || {};
+  const dialCap = Number(ae.dial_cap_reference ?? 0);
+  const partyAp = Number(ae.party_ap ?? 2);
+  if (!(dialCap > 0) || !(partyAp > 0)) return 1;
+  const ps = Math.max(1, Number(partySize) || 4);
+  return Math.min(1, dialCap / (ps * partyAp));
+}
+
+/**
  * Shape 2 (Lancer donor): max concurrent enemy activations / party_size, worst-case
  * static (assumes nobody dies). Reads encounter.waves[]. Reported-passive: NEVER gates.
  * NOTE: waves[] are reinforcements; the initial roster comes from the payload, so this
@@ -201,9 +220,18 @@ function auditEncounter(encounter, partySize = 4) {
     used += Math.round(avgPoolXp * maxReinforcement);
   }
 
-  // Shape 1 hazard term (D9 gate slice): folds into used ONLY flag-ON (band-neutral OFF).
+  // Geometry terms (D9 gate slice): SOLO flag-ON (band-neutral OFF).
   if (process.env.XP_BUDGET_GEOMETRY_ENABLED === 'true') {
-    used += hazardBudgetContribution(encounter, cls);
+    // Shape 3: action-economy scale (calibrazione 2026-07-06, evidence
+    // docs/research/2026-07-06-xpbudget-geometry-calibration.md).
+    used = Math.round(used * actionEconomyScale(partySize));
+    // Shape 1 hazard: conta SOLO quando il cost-substrate rende l'hazard
+    // meccanicamente reale (MOVE_TERRAIN_COST_ENABLED). Misurato (abisso
+    // 18 lava, N=40): a substrate OFF il pathing evita l'hazard -> contributo
+    // reale 0; sommarlo predirrebbe difficolta' che non puo' esistere.
+    if (process.env.MOVE_TERRAIN_COST_ENABLED === 'true') {
+      used += hazardBudgetContribution(encounter, cls);
+    }
   }
 
   const ratio = budget > 0 ? used / budget : 0;
@@ -244,6 +272,7 @@ module.exports = {
   computeUnitXp,
   computeEncounterBudget,
   hazardBudgetContribution,
+  actionEconomyScale,
   activationPressure,
   auditEncounter,
   _resetCache,
