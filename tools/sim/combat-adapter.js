@@ -59,6 +59,15 @@ async function runEncounter(
     // false = byte-identical closest-attack. The N=40 A/B harness sets it to measure the AI
     // upgrade against the same seeds.
     focusFire = false,
+    // LOS-repos v2: opt-in multi-unit driver. The M17 round model freezes
+    // session.active_unit on turn_order[0] (assigned only at POST /start;
+    // /turn/end never reassigns it), so the state-driven loop below can only
+    // ever act ONE player unit. /api/session/action has no active-unit gate:
+    // with this opt each loop iteration acts EVERY live player unit (until AP/
+    // policy exhaustion, safety-capped) and then ends the round once, so a
+    // probe can measure multi-unit turn economy (>=2 units really act).
+    // Default false = byte-identical legacy loop. No overcharge in this mode.
+    allPlayersActPerRound = false,
   } = {},
 ) {
   if (Array.isArray(terrainFeatures) && terrainFeatures.length && scenarioId) {
@@ -115,6 +124,9 @@ async function runEncounter(
   // OD-058 D1 action-economy counters (always returned, 0 when the opt is off).
   let overchargeUses = 0;
   let playerAttacks = 0;
+  // LOS-repos v2: successful /action posts per player unit id (both driver modes).
+  // Lets a probe PROVE its coverage claim (e.g. ">=2 player units actually act").
+  const playerActionsByUnit = {};
   // A13 PA3 telegraph: /session/state exposes biome_wounded (session-static, set at
   // /start from the campaign's woundedBiomes). Captured for the wound-exposure metric.
   let biomeWounded = false;
@@ -188,6 +200,44 @@ async function runEncounter(
       break;
     }
 
+    // LOS-repos v2 multi-unit driver: act EVERY live player unit this round
+    // (fresh state before each action so occupancy/AP/target liveness are
+    // current), then end the round once. The 12-action safety cap bounds the
+    // inner loop even if a policy keeps emitting actions the backend accepts.
+    if (allPlayersActPerRound) {
+      for (const pid of players.map((u) => u.id)) {
+        for (let guard = 0; guard < 12; guard += 1) {
+          const cur = await http.get('/api/session/state', { session_id: sessionId });
+          const curUnits = (cur.body && cur.body.units) || [];
+          sweepEvents(cur.body);
+          lastUnits = curUnits.length ? curUnits : lastUnits;
+          const u = curUnits.find((x) => x.id === pid);
+          if (!u || (u.hp ?? 0) <= 0) break;
+          if (!curUnits.some((x) => x.controlled_by === 'sistema' && (x.hp ?? 0) > 0)) break;
+          const action = selectPlayerAction(u, curUnits, objective, {
+            focusFire,
+            terrainFeatures,
+            gridSize,
+          });
+          if (!action) break;
+          const wire =
+            action.action_type === 'move'
+              ? { action_type: 'move', position: action.target_position }
+              : action;
+          const act = await http.post('/api/session/action', {
+            session_id: sessionId,
+            actor_id: u.id,
+            ...wire,
+          });
+          if (!act || act.status < 200 || act.status >= 300) break;
+          playerActionsByUnit[u.id] = (playerActionsByUnit[u.id] || 0) + 1;
+          if (wire.action_type === 'attack') playerAttacks += 1;
+        }
+      }
+      await http.post('/api/session/turn/end', { session_id: sessionId });
+      continue;
+    }
+
     const activeId = st.body.active_unit;
     const active = units.find((u) => u.id === activeId);
     if (!active) break;
@@ -235,8 +285,9 @@ async function runEncounter(
     // forever (a move that can't complete would otherwise stick until maxRounds).
     if (!act || act.status < 200 || act.status >= 300) {
       await http.post('/api/session/turn/end', { session_id: sessionId });
-    } else if (wire.action_type === 'attack') {
-      playerAttacks += 1;
+    } else {
+      playerActionsByUnit[active.id] = (playerActionsByUnit[active.id] || 0) + 1;
+      if (wire.action_type === 'attack') playerAttacks += 1;
     }
   }
 
@@ -344,6 +395,7 @@ async function runEncounter(
     ended,
     overchargeUses,
     playerAttacks,
+    playerActionsByUnit,
     collectedEvents,
     firstStateUnits,
   };

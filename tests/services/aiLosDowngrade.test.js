@@ -205,9 +205,12 @@ test('flag ON: LOS-blocked target -> SIS repositions to regain LOS (not straight
   assert.equal(intents.length, 1);
   assert.equal(intents[0].action.type, 'move');
   // Repositioned off the blocked row -- NOT a straight step toward target
-  // (which would stay on y===1).
+  // (which would stay on y===1). Budget v2: the cost-first metric still picks
+  // the 1-step tile (0,2) over any farther candidate, and the intent charges
+  // the real move distance (1).
   assert.notEqual(intents[0].action.move_to.y, 1);
   assert.deepEqual(intents[0].action.move_to, { x: 0, y: 2 });
+  assert.equal(intents[0].action.ap_cost, 1);
   assert.equal(decisions[0].intent, 'approach');
   assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
   delete process.env.COMBAT_LOS_ENABLED;
@@ -242,19 +245,48 @@ function makeLosFullWallSession() {
   return makeLosRepositionSession(wall);
 }
 
-test('flag ON: LOS-blocked with no reopening step -> graceful stepTowards fallback', () => {
+// Budget lookahead (v2): the SIS spends its whole AP pool on the reposition when no
+// 1-step tile reopens LOS -- an approach intent is a move-only round anyway, so a
+// farther LOS tile strictly dominates the blind stepTowards. With ap:2 the full wall
+// at x=2 is beaten by standing ON the wall column at (2,1) (terrain blocks LOS, not
+// movement; endpoints excluded -> (2,1) sees (4,1) across the free (3,1)). The intent
+// must charge the REAL move distance (ap_cost 2, not the legacy hardcoded 1) so the
+// WEGO resolver -- which deducts the ap_cost field without recomputing -- stays honest.
+test('flag ON: no one-step reopening -> SIS spends full AP budget on a multi-tile reposition', () => {
   process.env.COMBAT_LOS_ENABLED = 'true';
   const declare = buildDeclare();
   const session = makeLosFullWallSession();
   const { intents, decisions } = declare(session);
   assert.equal(intents.length, 1);
   assert.equal(intents[0].action.type, 'move');
-  // Fallback fired: stepTowards advance toward target (y stays on the row,
-  // x advances) -- NOT a perpendicular reposition.
-  assert.deepEqual(intents[0].action.move_to, { x: 1, y: 1 });
-  assert.equal(intents[0].action.move_to.y, 1);
+  assert.deepEqual(intents[0].action.move_to, { x: 2, y: 1 });
+  assert.equal(intents[0].action.ap_cost, 2);
   assert.equal(decisions[0].intent, 'approach');
-  // Downgrade still fired (LOS was blocked); there was just no reopening tile.
+  assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// Turn-starved guard: with only 1 AP the budget cannot reach past the 4-neighbors,
+// the full wall defeats the greedy step, and the SIS falls back to the plain
+// stepTowards approach -- never worse than today.
+test('flag ON: turn-starved SIS (1 AP) + full wall -> graceful stepTowards fallback', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const declare = buildDeclare();
+  const session = makeLosFullWallSession();
+  // LOS_REPOSITION_UNITS is a shared module-level fixture: clone before mutating.
+  session.units = session.units.map((u) => ({ ...u }));
+  const sis = session.units.find((u) => u.id === 'sis');
+  sis.ap = 1;
+  sis.ap_remaining = 1;
+  const { intents, decisions } = declare(session);
+  assert.equal(intents.length, 1);
+  assert.equal(intents[0].action.type, 'move');
+  // Fallback fired: stepTowards advance toward target (y stays on the row,
+  // x advances) -- NOT a reposition the unit cannot afford.
+  assert.deepEqual(intents[0].action.move_to, { x: 1, y: 1 });
+  assert.equal(intents[0].action.ap_cost, 1);
+  assert.equal(decisions[0].intent, 'approach');
+  // Downgrade still fired (LOS was blocked); there was just no affordable tile.
   assert.ok(/_LOS_BLOCKED$/.test(decisions[0].rule));
   delete process.env.COMBAT_LOS_ENABLED;
 });

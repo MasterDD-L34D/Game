@@ -477,7 +477,14 @@ function createDeclareSistemaIntents(deps) {
         );
         // Reposition to regain LOS on the CHOSEN target specifically (keep engaging
         // it, do not switch enemies) -- pass only [target]. null -> plain approach.
-        const reposition = stepToRegainLos(actor, [target], session.grid, { occupied });
+        // Budget v2: an approach intent is a move-only round (one intent per unit),
+        // so the SIS may spend its whole AP pool on the reposition -- a farther LOS
+        // tile strictly dominates the blind stepTowards, which also forfeits the
+        // attack. The cost-first metric still prefers the nearest reopening tile.
+        const reposition = stepToRegainLos(actor, [target], session.grid, {
+          occupied,
+          budget: actor.ap_remaining ?? actor.ap ?? 1,
+        });
         policy = {
           ...policy,
           intent: 'approach',
@@ -586,7 +593,12 @@ function createDeclareSistemaIntents(deps) {
         actor_id: actor.id,
         target_id: null,
         ability_id: null,
-        ap_cost: 1,
+        // Real move distance (was hardcoded 1): stepTowards/stepAway still cost 1,
+        // but a budget-v2 multi-tile reposition costs its full Manhattan distance.
+        // The WEGO resolver deducts this FIELD without recomputing (bridge :1927),
+        // so it must carry the true cost -- and buildMoveEvent's ap_spent (= real
+        // distance) stays in sync with what is actually charged.
+        ap_cost: manhattanDistance(positionFrom, nextPos),
         channel: null,
         move_to: { x: nextPos.x, y: nextPos.y },
         position_from: positionFrom,

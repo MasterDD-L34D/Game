@@ -260,3 +260,59 @@ test('combatAdapter.runEncounter: OA2 -- sabotage objective completes (not elimi
   });
   assert.equal(res.outcome, 'victory', `expected objective victory, got ${res.outcome}`);
 });
+
+// LOS-repos v2 (multi-unit control probe): the M17 round model freezes
+// session.active_unit on turn_order[0] forever (assigned only at POST /start;
+// /turn/end never reassigns it), so the state-driven legacy loop can only ever
+// act ONE player unit -- multi-turn repositioning payoffs are unmeasurable.
+// allPlayersActPerRound (default OFF = byte-identical legacy loop) drives EVERY
+// live player unit each iteration (act until AP/policy exhaustion), then ends
+// the round once. playerActionsByUnit (successful /action posts per unit id)
+// proves the coverage either way. The assertion is WHO ACTED, not the outcome,
+// so the test has no damage-RNG coupling (huge foe HP -> timeout both arms).
+test('combatAdapter.runEncounter: allPlayersActPerRound drives every live player unit each round', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const http = supertestHttp(app);
+  const bigFoe = () => [
+    {
+      id: 'tank',
+      species: 'tank',
+      hp: 500,
+      max_hp: 500,
+      ap: 1,
+      mod: 0,
+      dc: 20,
+      attack_range: 1,
+      initiative: 1,
+      position: { x: 1, y: 3 },
+      controlled_by: 'sistema',
+      status: {},
+    },
+  ];
+  const acted = (r) =>
+    Object.entries(r.playerActionsByUnit || {})
+      .filter(([, n]) => n > 0)
+      .map(([id]) => id)
+      .sort();
+
+  const legacy = await runEncounter(http, {
+    roster: roster(),
+    enemies: bigFoe(),
+    seed: 'apr-1',
+    maxRounds: 6,
+  });
+  // Documented freeze: only turn_order[0] (camp_a, initiative 18) ever acts.
+  assert.deepEqual(acted(legacy), ['camp_a']);
+
+  const all = await runEncounter(http, {
+    roster: roster(),
+    enemies: bigFoe(),
+    seed: 'apr-1',
+    maxRounds: 6,
+    allPlayersActPerRound: true,
+  });
+  assert.deepEqual(acted(all), ['camp_a', 'camp_b']);
+});
