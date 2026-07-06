@@ -35,9 +35,10 @@ L'AI gioca il loop INTERO (campagna→combat reale→advance→Nido recruit→ch
 
 **fase-2c grid-wiring SHIPPED + MERGED** ([#3199](https://github.com/MasterDD-L34D/Game/pull/3199) `6703f782` + ADR flip [#3200](https://github.com/MasterDD-L34D/Game/pull/3200) `cf158b09`). `board_scale: party_sized|grid_sized` LIVE, band-neutral (0/21 encounter cambia board). ADR-2026-07-03 `active`. Handoff [`docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md`](docs/planning/2026-07-03-fase2c-grid-wiring-handoff.md). Memory `project_big_maps_arc_fase2c_2026_07_03`.
 
-- [ ] **Autora >=1 encounter `board_scale: grid_sized`** con `grid_size` grande (in `docs/planning/encounters/`) — rende il wiring osservabile (oggi capacita' dormiente, nessuna big-board autorata).
-- [ ] **N=10 probe -> N=40 ratify** su quell'encounter (author-guard `tools/js/validate_encounter_grid_ratify.js`, #3197; la ratifica NON si trasferisce fra taglie).
-- [ ] **Flip gate geometria** xpBudget (`XP_BUDGET_GEOMETRY_ENABLED`, OFF) post-N=40, per misurare hazard/activation sul board reale.
+- [x] **Autora >=1 encounter `board_scale: grid_sized`** -- FATTO 2026-07-06: `enc_badlands_dorsale_ferrosa_01` 16x12 (#3229 `c8d108da8`) + `enc_badlands_canyon_lungo_01` 20x12 cap larghezza (#3230 `88b1d34b6`), in `docs/planning/encounters/`. #3229 ha fixato 3 bug backend reali esposti dalla prima board grande (clamp pre-resolve, ID rinforzi duplicati, stepAway quadrato).
+- [x] **N=10 probe -> N=40 ratify** -- FATTO: bande pace ratificate 16x12 [10,18] + 20x12 [10,17] (evidence `docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md` + `2026-07-06-canyon-lungo-grid-ratify.md`); baseline aggiornata, `validate_encounter_grid_ratify.js` 0 warn. Probe GENERICO `tools/sim/grid-band-probe.js --encounter <id>` (#3230).
+- [ ] **Lever D4 comportamentale** (zone-defense / conversione attivazioni): scaling intents SHIPPED flag-OFF #3231 `8026f9c49`, A/B N=10 = NEGATIVE result (lever attivazione da solo non rompe il ceiling; collo ipotizzato = conversione) -- evidence `docs/research/2026-07-06-intents-roster-scaling-ab.md`. Serve spec con fork owner PRIMA del build.
+- [ ] **Flip gate geometria** xpBudget (`XP_BUDGET_GEOMETRY_ENABLED`, OFF) post-calibrazione D9 (il termine OVER-predice sui grid_sized: dorsale ratio 2.95 `critical_over` vs WR 1.0 misurato -- warn->calibra->block).
 - [ ] Convergenza xpBudget Node (`xpBudget.js`) vs Python (`encounter_xp_budget.py`) — follow-up noto (modelli divergenti).
 
 ---
