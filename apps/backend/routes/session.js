@@ -323,7 +323,7 @@ const {
 // Constants + pure helpers extracted to sessionConstants.js + sessionHelpers.js
 // (imported above). Only createSessionRouter closure remains inline.
 
-// COMBAT_LOS_ENABLED (default OFF): true iff a terrain blocker sits strictly
+// COMBAT_LOS_ENABLED (default ON since the 2026-07-06 flip, opt-out 'false'): true iff a terrain blocker sits strictly
 // between attacker and target. Thin negation of the shared combat LOS rule
 // (services/combat/losForGrid.js). Optional `units` also gates a live
 // interposed unit (units_block_los config, default false -- dormant). Exported
@@ -3495,7 +3495,7 @@ function createSessionRouter(options = {}) {
             });
             continue;
           }
-          // Combat LOS slice-1 (COMBAT_LOS_ENABLED, default OFF): a human-declared
+          // Combat LOS slice-1 (COMBAT_LOS_ENABLED, default ON since the 2026-07-06 flip): a human-declared
           // ranged attack cannot pass through a terrain blocker. Symmetric with the
           // single-attack HTTP handler (losGateBlocks in the /action path). Scoped to
           // source 'player': the AI path is already LOS-gated upstream at target

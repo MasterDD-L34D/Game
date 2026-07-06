@@ -356,7 +356,7 @@ function makeCounterFixture(gridOverride) {
 }
 
 test('LOS flag OFF: counter fires even with a roccia blocker between ally and attacker (byte-identical)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const { target, ally, attacker, session } = makeCounterFixture({
     terrain_features: [{ x: 7, y: 1, type: 'roccia' }], // strictly between ally(5,1) and attacker(9,1)
   });

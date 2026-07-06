@@ -1,7 +1,9 @@
 // apps/backend/services/combat/losForGrid.js
 'use strict';
 
-// Combat LOS slice-1 shared rule (COMBAT_LOS_ENABLED, default OFF).
+// Combat LOS shared rule (COMBAT_LOS_ENABLED, default ON since the 2026-07-06
+// owner flip -- ratify N=40 in docs/research/2026-07-06-los-flip-ratify-n40.md;
+// explicit opt-out via COMBAT_LOS_ENABLED=false for probes/A-B).
 // Single source of truth for "can the attacker at `from` see the target at `to`
 // on this grid" -- consumed by the human attack path (routes/session.js
 // losGateBlocks), the AI target seam (services/ai/policy.js losClearForAi) and
@@ -9,8 +11,8 @@
 // predicate. Extracted at the 3rd consumer (slice-1 QUALITY.md fast-follow) to
 // drop the duplicated 2-line body and the implicit sim -> ai/policy.js coupling.
 //
-// Returns true when the target is VISIBLE. Flag OFF -> always true
-// (band-neutral, byte-identical to pre-LOS behavior). Pure + exported for tests.
+// Returns true when the target is VISIBLE. Flag opted-out ('false') -> always
+// true (byte-identical to pre-LOS behavior). Pure + exported for tests.
 //
 // unit-blocking fast-follow (closes the slice-1 "shoot-through-allies" known
 // gap): takes an optional `units` arg (live units on this grid). A strictly-
@@ -33,7 +35,7 @@ function _unitBlocker(units, enabled) {
 }
 
 function losClearOnGrid(grid, fromPos, toPos, units) {
-  if (process.env.COMBAT_LOS_ENABLED !== 'true') return true;
+  if (process.env.COMBAT_LOS_ENABLED === 'false') return true;
   const terrainAt = terrainAtFromFeatures((grid && grid.terrain_features) || []);
   const unitBlocks = _unitBlocker(units, unitsBlockLos());
   return lineOfSightClear(

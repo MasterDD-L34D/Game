@@ -304,8 +304,11 @@ test('combatAdapter.runEncounter: allPlayersActPerRound drives every live player
     seed: 'apr-1',
     maxRounds: 6,
   });
-  // Documented freeze: only turn_order[0] (camp_a, initiative 18) ever acts.
-  assert.deepEqual(acted(legacy), ['camp_a']);
+  // Post-#3214 (honest active_unit: null in the player phase) the M17 freeze
+  // is gone server-side; the legacy driver now selects by AP budget, so BOTH
+  // players act. The old pin (only turn_order[0] camp_a) documented an
+  // artifact of piloting via active_unit -- dead with the driver fix.
+  assert.deepEqual(acted(legacy), ['camp_a', 'camp_b']);
 
   const all = await runEncounter(http, {
     roster: roster(),

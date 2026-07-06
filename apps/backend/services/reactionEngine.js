@@ -138,7 +138,7 @@ function triggerOnMove(session, mover, fromPos, performAttack) {
     const found = findReaction(unit, 'enemy_moves_in_range');
     if (!found) continue;
 
-    // COMBAT_LOS_ENABLED (default OFF): a watcher cannot overwatch-shoot a mover
+    // COMBAT_LOS_ENABLED (default ON since the 2026-07-06 flip, opt-out 'false'): a watcher cannot overwatch-shoot a mover
     // it has no line of sight to. Flag OFF -> losClearOnGrid()===true -> no-op
     // (the reaction is neither skipped nor consumed). Watcher fires at the mover's
     // destination cell (mover.position is already the post-move cell here).
