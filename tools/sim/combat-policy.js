@@ -33,15 +33,37 @@ function inZone(pos, zone) {
   return pos.x >= zone[0] && pos.x <= zone[2] && pos.y >= zone[1] && pos.y <= zone[3];
 }
 
-// One-tile greedy step toward a destination (Manhattan, x-axis tie-break).
-function stepToward(actor, dest) {
-  const dx = Math.sign(dest.x - actor.position.x);
-  const dy = Math.sign(dest.y - actor.position.y);
-  const stepX = Math.abs(dest.x - actor.position.x) >= Math.abs(dest.y - actor.position.y);
-  const target_position = stepX
-    ? { x: actor.position.x + dx, y: actor.position.y }
-    : { x: actor.position.x, y: actor.position.y + dy };
-  return { action_type: 'move', target_position };
+// One-tile greedy step toward a destination (Manhattan, x-axis tie-break),
+// routing around occupied tiles: primary axis, then secondary axis, then a
+// perpendicular sidestep -- the same candidate walk the OA2 zone-pursuit uses
+// (item 7). A free primary tile keeps the legacy blind-stepToward move, so the
+// happy path is byte-identical. Null when boxed in (caller holds the tick
+// rather than spamming a move the backend rejects with 400 "casella occupata").
+function stepAroundOccupied(actor, dest, occ) {
+  const { x, y } = actor.position;
+  const dx = Math.sign(dest.x - x);
+  const dy = Math.sign(dest.y - y);
+  const primaryX = Math.abs(dest.x - x) >= Math.abs(dest.y - y);
+  const ordered = primaryX
+    ? [
+        { x: x + dx, y },
+        { x, y: y + dy },
+        { x, y: y + 1 },
+        { x, y: y - 1 },
+      ]
+    : [
+        { x, y: y + dy },
+        { x: x + dx, y },
+        { x: x + 1, y },
+        { x: x - 1, y },
+      ];
+  for (const c of ordered) {
+    if (c.x === x && c.y === y) continue; // no-op (axis delta 0)
+    if (c.x < 0 || c.y < 0) continue; // off-board lower bound
+    if (occ.has(`${c.x},${c.y}`)) continue; // would be rejected by occupancy
+    return { action_type: 'move', target_position: c };
+  }
+  return null; // boxed in -> hold this tick
 }
 
 // OA2 (item 7): tiles occupied by OTHER live units -- move targets the backend
@@ -79,30 +101,7 @@ function stepTowardZone(actor, zone, units) {
     x: Math.round((zone[0] + zone[2]) / 2),
     y: Math.round((zone[1] + zone[3]) / 2),
   };
-  const { x, y } = actor.position;
-  const dx = Math.sign(dest.x - x);
-  const dy = Math.sign(dest.y - y);
-  const primaryX = Math.abs(dest.x - x) >= Math.abs(dest.y - y);
-  const ordered = primaryX
-    ? [
-        { x: x + dx, y },
-        { x, y: y + dy },
-        { x, y: y + 1 },
-        { x, y: y - 1 },
-      ]
-    : [
-        { x, y: y + dy },
-        { x: x + dx, y },
-        { x: x + 1, y },
-        { x: x - 1, y },
-      ];
-  for (const c of ordered) {
-    if (c.x === x && c.y === y) continue; // no-op (axis delta 0)
-    if (c.x < 0 || c.y < 0) continue; // off-board lower bound
-    if (occ.has(`${c.x},${c.y}`)) continue; // would be rejected by occupancy
-    return { action_type: 'move', target_position: c };
-  }
-  return null; // boxed in -> hold this tick
+  return stepAroundOccupied(actor, dest, occ);
 }
 
 // Pick the attack target among IN-RANGE enemies. focusFire -> the lowest-HP (finish-off),
@@ -175,7 +174,7 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
   // line before the plain approach. Two-phase budget (v2): first reserve 1 AP so
   // the unit can still shoot THIS turn (budget = ap_remaining - 1); if no such
   // tile exists, spend the full pool to set up next turn's shot (budget =
-  // ap_remaining) -- a LOS tile strictly dominates the blind stepToward, which
+  // ap_remaining) -- a LOS tile strictly dominates the plain approach step, which
   // also forfeits this turn's attack. Flag OFF -> losFn is a no-op so no enemy
   // is ever LOS-blocked -> this block is skipped (byte-identical).
   const gridForLos = {
@@ -196,11 +195,16 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
       stepToRegainLos(actor, enemies, gridForLos, { occupied, budget: apBudget });
     if (repos) return { action_type: 'move', target_position: repos };
   }
-  // None in range (or no AP): approach the nearest.
+  // None in range (or no AP): approach the nearest, routing around occupied
+  // tiles. Post-#3214 free ordering, the AP-driven drivers act units in a FIXED
+  // order, so a blind primary-axis step deterministically funnels a unit onto a
+  // tile an ally already took -> 400 "casella occupata" every round ->
+  // guaranteed timeout (fullLoopRouting enc_tutorial_05). Same routing the
+  // zone-pursuit branch already uses.
   const nearest = enemies
     .slice()
     .sort((a, b) => dist(actor.position, a.position) - dist(actor.position, b.position))[0];
-  return stepToward(actor, nearest.position);
+  return stepAroundOccupied(actor, nearest.position, occupiedSet(units, actor.id));
 }
 
 module.exports = {

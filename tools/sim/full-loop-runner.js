@@ -329,7 +329,13 @@ async function runFullLoop(http, opts = {}) {
       enemies,
       scenarioId: enc,
       seed: seed ? `${seed}-${step}` : undefined,
-      maxRounds: 40,
+      // 40 -> 80 (2026-07-06): the cap is a runaway bound, not a pacing assert.
+      // Real fights legitimately lengthened across the LOS/AP stack (honest AP
+      // costs #3219, unit-blocking #3205, free ordering #3214): chapter rounds
+      // moved from ~14/25 to ~17/31, so 40 left no slack and winnable chapters
+      // flake-timeouted (fullLoopRouting red on main). 80 = same ample-margin
+      // convention as combatAdapter.test.js's sabotage case (120).
+      maxRounds: 80,
       // A13: link the session to the campaign (read-side woundedStep at /start) and
       // fire /end (write-side wound/heal persist). Off -> byte-identical adapter call.
       ...(a13 ? { campaignId: id, biomeId, endSession: true } : {}),

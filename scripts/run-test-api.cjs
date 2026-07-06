@@ -68,6 +68,19 @@ const steps = [
   // logic (unit-level), not a CI-blocking gate. Wired anyway so a future refactor
   // that breaks the guard's behavior does not silently rot (anti-pattern #10).
   'node --test tests/js/*.test.js',
+  // tests/sim/** was CI-orphaned (anti-pattern #10): 32 files / ~229 tests over
+  // the sim driver stack (combat-adapter, combat-policy, full-loop runner/batch/
+  // routing, aggregators, probes) never matched a glob above, so the #3214
+  // active_unit regression left combatAdapter.test.js 5/6 red ON MAIN with CI
+  // green (caught + fixed in #3225) and fullLoopRouting rotted red behind it --
+  // no gate ever ran them. Flat subtree -> single-* glob. --test-concurrency=1
+  // because these tests spawn REAL encounters through supertest (one ephemeral
+  // port per request): the parallel default floods Windows ports (EADDRINUSE
+  // cascade) and flaked the seed-replay determinism test under contention,
+  // while the serial run is 3/3 stable at ~16s -- the same command works on dev
+  // Windows and CI Linux. Verified red-on-regression: restoring the pre-#3225
+  // adapter makes this step fail (combatAdapter.test.js 5/6), so the gate gates.
+  'node --test --test-concurrency=1 tests/sim/*.test.js',
 ];
 
 const baseEnv = {

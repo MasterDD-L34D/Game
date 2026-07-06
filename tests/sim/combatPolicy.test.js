@@ -25,6 +25,38 @@ test('selectPlayerAction: steps one tile toward the target when out of range', (
   assert.deepEqual(a.target_position, { x: 1, y: 0 });
 });
 
+// Post-#3214 free ordering, the AP-driven drivers act units in a FIXED order, so a
+// blind primary-axis approach step deterministically funnels a unit onto a tile an
+// ally already took -> 400 "casella occupata" EVERY round -> guaranteed timeout
+// (fullLoopRouting enc_tutorial_05 red on main). The approach must route around
+// occupied tiles like the OA2 zone-pursuit branch (item 7) already does.
+test('approach: ally on the primary-axis tile -> sidesteps around it', () => {
+  const actor = { id: 'p', position: { x: 1, y: 2 }, attack_range: 1, ap_remaining: 3 };
+  const units = [
+    actor,
+    { id: 'ally', controlled_by: 'player', hp: 10, position: { x: 2, y: 2 } },
+    { id: 'e', controlled_by: 'sistema', hp: 5, position: { x: 5, y: 2 } },
+  ];
+  const a = selectPlayerAction(actor, units);
+  assert.equal(a.action_type, 'move');
+  // primary axis (x+1,y) is taken by the ally; same row -> secondary axis is a
+  // no-op -> perpendicular sidestep (y+1) is the first free candidate.
+  assert.deepEqual(a.target_position, { x: 1, y: 3 });
+});
+
+test('approach: fully boxed in -> null (hold the tick, no 400-spam)', () => {
+  const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 1, ap_remaining: 3 };
+  const units = [
+    actor,
+    { id: 'a1', controlled_by: 'player', hp: 10, position: { x: 1, y: 0 } },
+    { id: 'a2', controlled_by: 'player', hp: 10, position: { x: 0, y: 1 } },
+    { id: 'e', controlled_by: 'sistema', hp: 5, position: { x: 3, y: 0 } },
+  ];
+  // (1,0) and (0,1) occupied, (0,-1) off-board, secondary axis is a no-op ->
+  // every candidate is exhausted -> hold instead of emitting a rejected move.
+  assert.equal(selectPlayerAction(actor, units), null);
+});
+
 test('selectPlayerAction: returns null when no alive enemy', () => {
   const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 1, ap_remaining: 3 };
   const units = [actor, { id: 'e', controlled_by: 'sistema', hp: 0, position: { x: 1, y: 0 } }];
