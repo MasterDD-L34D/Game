@@ -6,7 +6,7 @@ const { losClearOnGrid, _unitBlocker } = require('../../apps/backend/services/co
 const { lineOfSightClear } = require('../../apps/backend/services/grid/squareLos');
 
 test('flag OFF: always visible (band-neutral) even with a blocker', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const grid = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }] };
   assert.equal(losClearOnGrid(grid, { x: 0, y: 0 }, { x: 4, y: 0 }), true);
 });

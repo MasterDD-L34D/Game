@@ -6,7 +6,7 @@ const { losGateBlocks } = require('../../apps/backend/routes/session');
 
 // Pure exported helper (added in Step 3) so we can unit-test the gate without a full HTTP session.
 test('flag OFF: gate never blocks (band-neutral)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const grid = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }] };
   assert.equal(losGateBlocks(grid, { x: 0, y: 0 }, { x: 4, y: 0 }), false);
 });

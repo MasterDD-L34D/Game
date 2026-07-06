@@ -460,7 +460,7 @@ function createDeclareSistemaIntents(deps) {
         }
       }
 
-      // COMBAT_LOS_ENABLED (default OFF): an AI cannot attack a target it cannot see.
+      // COMBAT_LOS_ENABLED (default ON since the 2026-07-06 flip, opt-out 'false'): an AI cannot attack a target it cannot see.
       // Downgrade attack -> approach so a blocked AI advances to gain line of sight
       // instead of shooting through a blocker. Flag OFF -> losClearForAi()===true -> no-op.
       // Placed AFTER the commit-window guard and the cornered retreat fallback so LOS
@@ -474,13 +474,13 @@ function createDeclareSistemaIntents(deps) {
         const occupied = occupiedSetFromUnits(session.units, { excludeId: actor.id });
         // Reposition to regain LOS on the CHOSEN target specifically (keep engaging
         // it, do not switch enemies) -- pass only [target]. null -> plain approach.
-        // Budget v2: an approach intent is a move-only round (one intent per unit),
-        // so the SIS may spend its whole AP pool on the reposition -- a farther LOS
-        // tile strictly dominates the blind stepTowards, which also forfeits the
-        // attack. The cost-first metric still prefers the nearest reopening tile.
+        // Owner default 2026-07-06 (ratify N=40, docs/research/2026-07-06-los-flip-
+        // ratify-n40.md: step-vs-budget = NO outcome separation, budget pays pace
+        // only): prod runs the shipped greedy step (budget 1). The multi-tile
+        // lookahead stays available to probes via opts.budget / REPOSITION_MODE.
         const reposition = stepToRegainLos(actor, [target], session.grid, {
           occupied,
-          budget: actor.ap_remaining ?? actor.ap ?? 1,
+          budget: 1,
         });
         policy = {
           ...policy,

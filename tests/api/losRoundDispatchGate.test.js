@@ -94,7 +94,7 @@ test('round/execute LOS gate — flag OFF: shot through a rock still resolves (b
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const sid = await startSession(app, [{ x: 2, y: 0, type: 'roccia' }]);
   const res = await shoot(app, sid);
 

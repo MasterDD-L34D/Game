@@ -50,8 +50,9 @@
 // cost the balance, on a FAIR fixture?" So `flip` mode compares:
 //   arm on  = COMBAT_LOS_ENABLED='true' + REAL stepToRegainLos (production
 //             behavior IF the flag is flipped on).
-//   arm off = flag DELETED entirely -> losClearOnGrid always returns true, no
-//             LOS constraint at all (today's live behavior, flag defaults OFF).
+//   arm off = flag PINNED to 'false' (the explicit opt-out; default is ON since
+//             the 2026-07-06 flip) -> losClearOnGrid always returns true, no
+//             LOS constraint at all (pre-flip behavior).
 // Same fixture, same paired seeds, same child isolation. This is the honest
 // flip-vs-nothing delta -- NOT v1's turn-starved -0.30 artifact. LOS is SUPPOSED
 // to change balance (it is a mechanic); the ratify measures the SIZE and SHAPE
@@ -73,14 +74,35 @@
 // NOTHING (else the fixture is not wide) and budget-2 must reopen (else the
 // lookahead could never help and the probe would measure nothing).
 //
+// CROWD (probe v2.3 -- the units_block_los axis). lane/wide are structurally
+// BLIND to unit-body occlusion: one attacker + one enemy per lane and
+// squareLos excludes endpoints, so no third body ever sits on a firing line --
+// units_block_los true-vs-false is delta-0 BY CONSTRUCTION there (do not
+// measure the axis with them). 'crowd' removes the in-lane terrain blocker
+// entirely (separator walls y=3/y=7 stay) and parks an allied BODY at x=3 on
+// each lane's firing line (attacker x=1, ally x=3, enemy x=5): with
+// units_block_los=true (data/core/balance/los.yaml, read by losBlockers.js)
+// the ally body blocks the straight shot BOTH ways; false -> free line. The
+// ally is a fixture prop: player-controlled but NEVER driven by the probe loop
+// (not in rosterIds), so the body holds the line until shot down. The axis is
+// a CONFIG, not an env flag: the probe reads whatever the worktree los.yaml
+// says (fresh process per invocation -> losBlockers' cache is always cold).
+// Run the probe twice -- yaml variant true, then false -- to measure the axis;
+// the probe itself never edits the file. Crowd positive control: the
+// units-aware production predicate (losClearOnGrid WITH units) must see the
+// body when the config is true and a free line when it is false -- asserted in
+// BOTH directions, so the control can fail.
+//
 // Usage:
-//   node tools/sim/los-repos-probe.js [N] [repos|flip] [lane|wide] [enemyScale] [enemyRange]
+//   node tools/sim/los-repos-probe.js [N] [repos|flip] [lane|wide|crowd] [enemyScale] [enemyRange]
 //     repos (default) -- LOS ON both, toggle stepToRegainLos (heuristic isolation)
 //     flip            -- flag ON+real-repos vs flag OFF (true balance cost of LOS)
 //     lane  (default) -- 1-tile blocker per lane (1-step reopening exists); the
 //                        geometry token is position-independent (parsed then
 //                        filtered out before the positional args).
 //     wide            -- 3-tile blocker segment per lane (budget>=2 required)
+//     crowd           -- allied body on the firing line, NO in-lane terrain
+//                        (the units_block_los axis; see CROWD above)
 //     enemyScale      -- optional, default 1.0, applies to BOTH modes (de-ceiling
 //                        the flip-mode fixture: at scale 1.0 the fixture is
 //                        structurally un-losable -- players range 5 vs enemy
@@ -117,6 +139,7 @@ function terrainFor(geometry) {
     t.push({ x, y: 7, type: 'roccia' });
   }
   for (const laneY of [1, 5, 9]) {
+    if (geometry === 'crowd') break; // crowd: the in-lane blocker is a BODY, not terrain
     t.push({ x: 3, y: laneY, type: LANE_TYPES[laneY] });
     if (geometry === 'wide') {
       // wide-shadow: widen the blocker to a 3-tile vertical segment. Every
@@ -152,6 +175,39 @@ function roster() {
     dc: 10,
     attack_range: range,
     initiative: 12,
+    position,
+    controlled_by: 'player',
+    traits: [],
+    status: {},
+  }));
+}
+
+// Crowd geometry: one allied BODY per lane, parked ON the firing line (x=3,
+// strictly between attacker x=1 and enemy x=5 -- squareLos excludes endpoints,
+// so only a STRICTLY interposed body can block). controlled_by 'player' so it
+// is an ally, but it is NOT in the probe's driven roster (rosterIds): it never
+// acts, it just stands there. The sistema AI will shoot it (nearest visible
+// target) -- symmetric across arms and config variants, so it is fixture, not
+// rigging. hp 24 / dc 12: tanky enough to hold the line for the opening rounds
+// at enemyScale 2.0 (a 1-hit body would blank the axis after round 1); offense
+// fields are inert since it is never driven.
+function crowdAllies() {
+  const defs = [
+    ['ally_1', { x: 3, y: 1 }],
+    ['ally_2', { x: 3, y: 5 }],
+    ['ally_3', { x: 3, y: 9 }],
+  ];
+  return defs.map(([id, position]) => ({
+    id,
+    species: id,
+    job: 'ranged',
+    hp: 24,
+    max_hp: 24,
+    ap: 3,
+    mod: 0,
+    dc: 12,
+    attack_range: 1,
+    initiative: 8,
     position,
     controlled_by: 'player',
     traits: [],
@@ -242,7 +298,12 @@ function dist(a, b) {
 // (2) Reopening-steps-exist: the REAL stepToRegainLos returns a non-null,
 //     clear, in-range tile for each blocked attacker (else repositioning could
 //     never help even if wired). Uses the production helpers, not a re-impl.
-function positiveControls(enemyRange = 2) {
+// (3) Crowd body-block: the units-aware predicate -- the exact production
+//     attack-gate call shape, losClearOnGrid(grid, from, to, units) -- must
+//     see each lane's attacker->foe line blocked by the ALLY BODY when
+//     units_block_los=true, and free when false. Config read from the worktree
+//     los.yaml via losBlockers (cold cache: fresh process per invocation).
+function positiveControls(geometry, enemyRange = 2) {
   process.env.COMBAT_LOS_ENABLED = 'true';
   // The fixture-validity controls ask about the GEOMETRY (does a budget-1 /
   // budget-2 reopening tile exist?), not about the arm under test -- so they
@@ -254,9 +315,12 @@ function positiveControls(enemyRange = 2) {
   const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
   const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
   const { occupiedSetFromUnits } = require('../../apps/backend/services/combat/occupancy');
+  const { unitsBlockLos } = require('../../apps/backend/services/combat/losBlockers');
   const grid = { terrain_features: TERRAIN, width: GRID_SIZE, height: GRID_SIZE };
   const attackers = roster();
+  const allies = geometry === 'crowd' ? crowdAllies() : [];
   const foes = enemies(1.0, enemyRange);
+  const unitsAll = [...attackers, ...allies, ...foes];
 
   const blockedPairs = [];
   for (const a of attackers) {
@@ -268,7 +332,24 @@ function positiveControls(enemyRange = 2) {
     }
   }
 
-  const occAll = occupiedSetFromUnits([...attackers, ...foes]);
+  // Crowd body-block control (units-aware predicate; empty for lane/wide). The
+  // same pairs as the terrain control above, but WITH the live units threaded --
+  // so the result tracks the worktree units_block_los config and can diverge
+  // from the terrain-only read in exactly one way: body occlusion.
+  const bodyBlockedPairs = [];
+  if (geometry === 'crowd') {
+    for (const a of attackers) {
+      for (const e of foes) {
+        const d = dist(a.position, e.position);
+        if (d > (a.attack_range || 1)) continue;
+        if (!losClearOnGrid(grid, a.position, e.position, unitsAll)) {
+          bodyBlockedPairs.push({ attacker: a.id, enemy: e.id, dist: d });
+        }
+      }
+    }
+  }
+
+  const occAll = occupiedSetFromUnits(unitsAll);
   const reopensClearInRange = (a, tile) => {
     if (!tile) return false;
     for (const e of foes) {
@@ -307,6 +388,9 @@ function positiveControls(enemyRange = 2) {
     reopening_steps: reopening,
     reopening_budget1_ok: reopening.filter((r) => r.budget1_reopens).length,
     reopening_budget2_ok: reopening.filter((r) => r.budget2_reopens).length,
+    units_block_los_config: unitsBlockLos(),
+    body_blocked_pairs: bodyBlockedPairs,
+    body_blocked_pairs_count: bodyBlockedPairs.length,
   };
 }
 
@@ -316,7 +400,30 @@ function positiveControls(enemyRange = 2) {
 //   wide -> NO attacker may have a 1-step reopening (else the fixture is not
 //           wide and step-vs-budget cannot be separated), while the budget-2
 //           reopening must exist for all 3.
+//   crowd -> terrain gate INVERTS (0 terrain-blocked pairs: the blocker is a
+//            body), and the body gate follows the worktree config in BOTH
+//            directions: units_block_los=true MUST body-block all 3 lane
+//            pairs (axis engages), false MUST leave all 3 free (axis truly
+//            dormant). Either direction failing = fixture or predicate broken.
 function assertFixtureValidity(geometry, controls) {
+  if (geometry === 'crowd') {
+    if (controls.blocked_pairs_count !== 0) {
+      throw new Error(
+        `positive control FAILED (crowd): ${controls.blocked_pairs_count} terrain-blocked pairs -- crowd lanes must have NO in-lane terrain`,
+      );
+    }
+    if (controls.units_block_los_config === true && controls.body_blocked_pairs_count !== 3) {
+      throw new Error(
+        `positive control FAILED (crowd): units_block_los=true but the ally body blocks ${controls.body_blocked_pairs_count}/3 lane pairs`,
+      );
+    }
+    if (controls.units_block_los_config !== true && controls.body_blocked_pairs_count !== 0) {
+      throw new Error(
+        `positive control FAILED (crowd): units_block_los=false but ${controls.body_blocked_pairs_count} pairs are body-blocked`,
+      );
+    }
+    return;
+  }
   if (controls.blocked_pairs_count < 2) {
     throw new Error(
       `positive control FAILED (${geometry}): only ${controls.blocked_pairs_count} blocked pairs -- LOS never engages`,
@@ -343,14 +450,17 @@ function assertFixtureValidity(geometry, controls) {
 // ---------------------------------------------------------------------------
 // Child arm: run N seeds for one arm, print a JSON line the parent parses.
 // ---------------------------------------------------------------------------
-async function childMain(arm, N, scale, mode, enemyRange) {
+async function childMain(arm, N, scale, mode, geometry, enemyRange) {
   // LOS flag: in repos mode BOTH arms hold LOS ON (the heuristic-isolation
-  // control). In flip mode arm 'off' DELETES the flag entirely -> no LOS
-  // constraint at all (today's live behavior). Set BEFORE requiring anything
-  // that reads the flag.
+  // control). In flip mode arm 'off' PINS the flag to 'false' -- the explicit
+  // opt-out (post-flip default is ON: both readers gate on === 'false', so a
+  // deleted var would leave LOS ACTIVE). The child echoes the effective value
+  // in its result line so the report can PROVE the off arm really ran
+  // disabled. Set BEFORE requiring anything that reads the flag.
   const losOff = mode === 'flip' && arm === 'off';
   if (losOff) {
-    delete process.env.COMBAT_LOS_ENABLED;
+    // Post-flip (default ON): the no-LOS arm must OPT OUT explicitly.
+    process.env.COMBAT_LOS_ENABLED = 'false';
   } else {
     process.env.COMBAT_LOS_ENABLED = 'true';
   }
@@ -388,13 +498,20 @@ async function childMain(arm, N, scale, mode, enemyRange) {
   // up the instrumented stepToRegainLos.
   const { createApp } = require('../../apps/backend/app');
   const { selectPlayerAction } = require('./combat-policy');
+  const { unitsBlockLos } = require('../../apps/backend/services/combat/losBlockers');
 
   // Drive ONE encounter, acting on EVERY live player unit each round (not just
   // active_unit -- the /action handler does not gate on active_unit). Returns
   // { outcome, rounds, actionsByUnit }.
   async function runOne(http, seed) {
     const start = await http.post('/api/session/start', {
-      units: [...roster(), ...enemies(scale, enemyRange)],
+      // crowd: the allied bodies join the session units (they hold the firing
+      // lines) but NOT rosterIds below -- the probe never drives them.
+      units: [
+        ...roster(),
+        ...(geometry === 'crowd' ? crowdAllies() : []),
+        ...enemies(scale, enemyRange),
+      ],
       seed,
       // board_scale:'grid_sized' + grid_size (ADR-2026-07-03) so the board is the
       // authored 12x12 -- WITHOUT it, resolveBoardSize auto-scales a 3-player
@@ -507,6 +624,11 @@ async function childMain(arm, N, scale, mode, enemyRange) {
       summary,
       counters,
       first_seed_actions: firstSeedActions,
+      // Axis + flag provenance, read in THIS child's process (module graph and
+      // env actually used by the run): the report can prove which config each
+      // arm saw and that the flip-off arm really ran disabled.
+      units_block_los: unitsBlockLos(),
+      los_flag_env: process.env.COMBAT_LOS_ENABLED ?? null,
     })}\n`,
   );
 }
@@ -545,8 +667,8 @@ function main() {
   // Geometry token first (position-independent), then the legacy positional
   // args over what remains: N, then mode (repos|flip) or enemy-scale.
   const args = process.argv.slice(2);
-  const geometry = args.includes('wide') ? 'wide' : 'lane';
-  const rest = args.filter((a) => a !== 'wide' && a !== 'lane');
+  const geometry = args.find((a) => a === 'wide' || a === 'crowd') || 'lane';
+  const rest = args.filter((a) => a !== 'wide' && a !== 'lane' && a !== 'crowd');
   const N = Number(rest[0]) || 10;
   const modeArg = rest[1];
   const mode = modeArg === 'flip' ? 'flip' : 'repos';
@@ -563,7 +685,7 @@ function main() {
   const enemyRange = Number(rest[3]) || 2;
   TERRAIN = terrainFor(geometry);
 
-  const controls = positiveControls(enemyRange);
+  const controls = positiveControls(geometry, enemyRange);
   console.log(`=== POSITIVE CONTROL: fixture validity (LOS ON, geometry=${geometry}) ===`);
   console.log(JSON.stringify(controls, null, 2));
   console.log('=== END fixture-validity control ===');
@@ -585,6 +707,17 @@ function main() {
     reposition_mode: process.env.COMBAT_LOS_REPOSITION_MODE || 'budget',
     enemyScale: scale,
     enemyRange,
+    // The units_block_los axis as each process actually saw it (parent control
+    // + both children read the same worktree los.yaml; a mismatch here means
+    // the config changed mid-run -> the run is invalid). los_flag_env proves
+    // the flip-off arm really ran with the flag disabled (pinned 'false'), not
+    // merely deleted-then-repopulated by some future default.
+    units_block_los: {
+      parent_config: controls.units_block_los_config,
+      arm_on: on.units_block_los,
+      arm_off: off.units_block_los,
+    },
+    los_flag_env: { arm_on: on.los_flag_env, arm_off: off.los_flag_env },
     positive_control: controls,
     // In flip mode the 'off' arm ran with LOS disabled: no shot is ever blocked,
     // so blocked-pair enforcement is 0 by construction (the control above still
@@ -592,7 +725,7 @@ function main() {
     // with). In repos mode both arms hold LOS ON.
     los_off_arm_note:
       mode === 'flip'
-        ? 'flip/off arm ran with COMBAT_LOS_ENABLED unset -> losClearOnGrid always true, 0 blocked-pair enforcement (free shots through walls, = live behavior)'
+        ? "flip/off arm ran with COMBAT_LOS_ENABLED pinned to 'false' (explicit opt-out, default ON post-flip) -> losClearOnGrid always true, 0 blocked-pair enforcement (free shots through walls, = pre-flip behavior)"
         : 'both arms LOS ON',
     // Turn-participation control: per-unit action counts for seed 1 of each arm.
     // Fixture is VALID only if >=2 player units have >0 actions.
@@ -619,9 +752,10 @@ if (process.argv[2] === '--child') {
   const N = Number(process.argv[4]) || 10;
   const scale = Number(process.argv[5]) || 1.0;
   const mode = process.argv[6] === 'flip' ? 'flip' : 'repos';
-  TERRAIN = terrainFor(process.argv[7] === 'wide' ? 'wide' : 'lane');
+  const geometry = ['wide', 'crowd'].includes(process.argv[7]) ? process.argv[7] : 'lane';
+  TERRAIN = terrainFor(geometry);
   const enemyRange = Number(process.argv[8]) || 2;
-  childMain(arm, N, scale, mode, enemyRange).catch((e) => {
+  childMain(arm, N, scale, mode, geometry, enemyRange).catch((e) => {
     console.error(e);
     process.exit(1);
   });

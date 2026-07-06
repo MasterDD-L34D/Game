@@ -284,7 +284,7 @@ test('flag ON: LOS-blocked enemy triggers repositioning', () => {
 });
 
 test('selectPlayerAction: same LOS-blocking geometry, flag OFF -> byte-identical attack', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const actor = { id: 'p', position: { x: 0, y: 0 }, attack_range: 5, ap_remaining: 1 };
   const units = [actor, { id: 'e', controlled_by: 'sistema', hp: 5, position: { x: 4, y: 0 } }];
   const terrainFeatures = [{ x: 2, y: 0, type: 'roccia' }];
@@ -323,7 +323,7 @@ test('flag ON: LOS-blocked ranged attacker repositions instead of walking at the
 });
 
 test('flag OFF: same setup is byte-identical (in-range attack, LOS ignored)', () => {
-  delete process.env.COMBAT_LOS_ENABLED;
+  process.env.COMBAT_LOS_ENABLED = 'false';
   const actor = {
     id: 'p1',
     position: { x: 0, y: 1 },
