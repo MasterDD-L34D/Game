@@ -175,9 +175,13 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
     return { action_type: 'attack', target_id: tgt.id };
   }
   // COMBAT_LOS_ENABLED (default OFF): if nothing is attackable because in-range
-  // enemies are LOS-blocked, try a one-tile step that reopens a firing line before
-  // the plain approach. Flag OFF -> losFn is a no-op so no enemy is ever LOS-blocked
-  // -> this block is skipped (byte-identical).
+  // enemies are LOS-blocked, try a budget-aware reposition that reopens a firing
+  // line before the plain approach. Two-phase budget (v2): first reserve 1 AP so
+  // the unit can still shoot THIS turn (budget = ap_remaining - 1); if no such
+  // tile exists, spend the full pool to set up next turn's shot (budget =
+  // ap_remaining) -- a LOS tile strictly dominates the blind stepToward, which
+  // also forfeits this turn's attack. Flag OFF -> losFn is a no-op so no enemy
+  // is ever LOS-blocked -> this block is skipped (byte-identical).
   const gridForLos = {
     terrain_features: (opts && opts.terrainFeatures) || [],
     width: (opts && opts.gridSize) || 6,
@@ -189,9 +193,11 @@ function selectPlayerAction(actor, units, objective, opts = {}) {
       !losFn(actor.position, e.position),
   );
   if (losBlockedInRange) {
-    const repos = stepToRegainLos(actor, enemies, gridForLos, {
-      occupied: occupiedSet(units, actor.id),
-    });
+    const occupied = occupiedSet(units, actor.id);
+    const apBudget = actor.ap_remaining ?? 1;
+    const repos =
+      stepToRegainLos(actor, enemies, gridForLos, { occupied, budget: apBudget - 1 }) ||
+      stepToRegainLos(actor, enemies, gridForLos, { occupied, budget: apBudget });
     if (repos) return { action_type: 'move', target_position: repos };
   }
   // None in range (or no AP): approach the nearest.

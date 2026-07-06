@@ -72,3 +72,144 @@ test('flag ON: deterministic (same input -> same tile)', () => {
   assert.deepEqual(a, b);
   delete process.env.COMBAT_LOS_ENABLED;
 });
+
+// --- opts.budget (multi-tile lookahead within the AP move budget) ---
+//
+// 1-row corridor fixture (6x1): actor (0,0), enemy (4,0), single roccia at
+// (2,0). No 4-neighbor step reopens LOS ((1,0) is still behind the blocker),
+// but standing ON the blocker tile (2,0) -- legal: terrain blocks LOS, not
+// movement -- reopens the line (endpoints excluded, only (3,0) between).
+const CORRIDOR = { terrain_features: [{ x: 2, y: 0, type: 'roccia' }], width: 6, height: 1 };
+const corridorActor = () => ({ position: { x: 0, y: 0 }, attack_range: 5 });
+const corridorEnemies = () => [{ position: { x: 4, y: 0 }, hp: 5 }];
+
+test('flag ON, budget 2: reaches a firing tile two tiles away when no single step reopens LOS', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const dest = stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 2 });
+  assert.deepEqual(dest, { x: 2, y: 0 });
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, default budget stays 1: same corridor -> null (byte-identical greedy)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  assert.equal(stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, {}), null);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, budget 2: prefers the cheaper tile when a 1-step tile already reopens LOS', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  // WALL (x=2, y=0..1) fixture: (0,2) reopens at cost 1; a bigger budget must
+  // not pick a farther tile (cost-first metric preserves AP for attacks).
+  const actor = { position: { x: 0, y: 1 }, attack_range: 5 };
+  const enemies = [{ position: { x: 4, y: 1 }, hp: 5 }];
+  const dest = stepToRegainLos(actor, enemies, grid(WALL), { budget: 2 });
+  assert.deepEqual(dest, { x: 0, y: 2 });
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, budget 2: excludes an occupied multi-tile destination', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const dest = stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, {
+    budget: 2,
+    occupied: new Set(['2,0']),
+  });
+  assert.equal(dest, null);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, budget 2: candidate must still put the enemy in attack_range', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const actor = { ...corridorActor(), attack_range: 1 };
+  // From (2,0) the enemy at (4,0) is at distance 2 > range 1 -> no valid tile.
+  assert.equal(stepToRegainLos(actor, corridorEnemies(), CORRIDOR, { budget: 2 }), null);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, budget <= 0: returns null (turn-starved guard)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  assert.equal(stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 0 }), null);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('flag ON, budget 3: deterministic (same input -> same tile)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const a = stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 3 });
+  const b = stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 3 });
+  assert.deepEqual(a, b);
+  assert.ok(a);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// --- COMBAT_LOS_REPOSITION_MODE (probe-only knob, read per-call) ---
+// 'off'  -> repositioning disabled on BOTH seams (null), LOS gate untouched.
+// 'step' -> budget clamped to 1 (shipped greedy), for step-vs-budget probe arms.
+// unset  -> opts.budget honored (default 1).
+
+test("mode 'off': returns null even when a reopening tile exists (LOS still ON)", () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  process.env.COMBAT_LOS_REPOSITION_MODE = 'off';
+  const actor = { position: { x: 0, y: 1 }, attack_range: 5 };
+  const enemies = [{ position: { x: 4, y: 1 }, hp: 5 }];
+  assert.equal(stepToRegainLos(actor, enemies, grid(WALL), {}), null);
+  delete process.env.COMBAT_LOS_REPOSITION_MODE;
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test("mode 'step': clamps the budget to 1 (multi-tile candidates excluded)", () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  process.env.COMBAT_LOS_REPOSITION_MODE = 'step';
+  assert.equal(stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 3 }), null);
+  delete process.env.COMBAT_LOS_REPOSITION_MODE;
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// --- MOVE_TERRAIN_COST_ENABLED guard (harsh-review P1) ---
+// The helper budgets and the prod seam prices moves by MANHATTAN distance, but
+// with the terrain-cost flag ON the engine's real cost is the terrain-weighted
+// path (moveApDistance) -- and the WEGO bridge resolver deducts the intent's
+// ap_cost FIELD without recomputing, so a multi-tile reposition would silently
+// under-charge AP. Guard: both flags ON -> clamp the budget to 1 (the shipped
+// greedy step), never a multi-tile candidate.
+
+test('terrain-cost flag ON: budget clamped to 1 (no multi-tile candidate, no AP desync)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  process.env.MOVE_TERRAIN_COST_ENABLED = 'true';
+  assert.equal(stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, { budget: 3 }), null);
+  delete process.env.MOVE_TERRAIN_COST_ENABLED;
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('terrain-cost flag ON: the 1-step greedy path still works', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  process.env.MOVE_TERRAIN_COST_ENABLED = 'true';
+  const actor = { position: { x: 0, y: 1 }, attack_range: 5 };
+  const enemies = [{ position: { x: 4, y: 1 }, hp: 5 }];
+  assert.deepEqual(stepToRegainLos(actor, enemies, grid(WALL), { budget: 2 }), { x: 0, y: 2 });
+  delete process.env.MOVE_TERRAIN_COST_ENABLED;
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+// --- opts.avoidBlockerTiles (design-validation knob, default OFF) ---
+// Standing ON a LOS-blocker tile (perched on roccia, shooting over it) is
+// mechanically legal and often the cheapest reopener; whether it READS as
+// coherent is a design question the eventual A/B ratify should answer. The
+// knob filters blocker tiles from the candidate set; default off = unchanged.
+
+test('avoidBlockerTiles: excludes a blocker-tile reopener (corridor -> null)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const dest = stepToRegainLos(corridorActor(), corridorEnemies(), CORRIDOR, {
+    budget: 2,
+    avoidBlockerTiles: true,
+  });
+  assert.equal(dest, null);
+  delete process.env.COMBAT_LOS_ENABLED;
+});
+
+test('avoidBlockerTiles: still picks a non-blocker reopener (WALL fixture)', () => {
+  process.env.COMBAT_LOS_ENABLED = 'true';
+  const actor = { position: { x: 0, y: 1 }, attack_range: 5 };
+  const enemies = [{ position: { x: 4, y: 1 }, hp: 5 }];
+  const dest = stepToRegainLos(actor, enemies, grid(WALL), { budget: 2, avoidBlockerTiles: true });
+  assert.deepEqual(dest, { x: 0, y: 2 });
+  delete process.env.COMBAT_LOS_ENABLED;
+});
