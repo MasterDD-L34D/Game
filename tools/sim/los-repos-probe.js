@@ -57,16 +57,36 @@
 // to change balance (it is a mechanic); the ratify measures the SIZE and SHAPE
 // of that shift for the owner.
 //
+// GEOMETRY (probe v2.2 -- step-vs-budget differentiation). The default 'lane'
+// fixture has a SINGLE blocker tile per lane, so a 1-tile lateral step already
+// reopens LOS -- it can measure "does repositioning help at all" but CANNOT
+// separate the shipped greedy step from the budget-aware lookahead (both solve
+// it). 'wide' widens each lane's blocker to a 3-tile vertical segment: no
+// single lateral step reopens LOS (every 1-step tile stays in the segment's
+// shadow); the cheapest reopening tile sits ON the segment's center (cost 2,
+// terrain blocks sight not movement, endpoints excluded) -- reachable only by
+// the budget lookahead. Combine with COMBAT_LOS_REPOSITION_MODE=step (clamps
+// the budget to 1) to run the shipped-greedy arm on the same geometry:
+//   repos + wide + MODE unset  -> budget lookahead vs no-repositioning
+//   repos + wide + MODE=step   -> shipped greedy   vs no-repositioning
+// The wide positive control INVERTS the reopening check: budget-1 must find
+// NOTHING (else the fixture is not wide) and budget-2 must reopen (else the
+// lookahead could never help and the probe would measure nothing).
+//
 // Usage:
-//   node tools/sim/los-repos-probe.js [N] [repos|flip] [enemyScale] [enemyRange]  (parent: both arms)
+//   node tools/sim/los-repos-probe.js [N] [repos|flip] [lane|wide] [enemyScale] [enemyRange]
 //     repos (default) -- LOS ON both, toggle stepToRegainLos (heuristic isolation)
 //     flip            -- flag ON+real-repos vs flag OFF (true balance cost of LOS)
+//     lane  (default) -- 1-tile blocker per lane (1-step reopening exists); the
+//                        geometry token is position-independent (parsed then
+//                        filtered out before the positional args).
+//     wide            -- 3-tile blocker segment per lane (budget>=2 required)
 //     enemyScale      -- optional, default 1.0, applies to BOTH modes (de-ceiling
 //                        the flip-mode fixture: at scale 1.0 the fixture is
 //                        structurally un-losable -- players range 5 vs enemy
 //                        range 2 -- so WR ceilings 1.0/1.0 and masks any
 //                        lethality shift from the LOS constraint).
-//   node tools/sim/los-repos-probe.js --child <arm> <N> <scale> <mode> <enemyRange>  (internal)
+//   node tools/sim/los-repos-probe.js --child <arm> <N> <scale> <mode> <geometry> <enemyRange>  (internal)
 
 const path = require('path');
 const { execFileSync } = require('child_process');
@@ -89,17 +109,28 @@ const { execFileSync } = require('child_process');
 // isolation, which is precisely what the LOS heuristic operates on. All three
 // los.yaml blocker_terrain_types appear across the lanes.
 const GRID_SIZE = 12;
-const TERRAIN = (() => {
+const LANE_TYPES = { 1: 'roccia', 5: 'vegetazione_densa', 9: 'obstacle' };
+function terrainFor(geometry) {
   const t = [];
   for (let x = 0; x < GRID_SIZE; x += 1) {
     t.push({ x, y: 3, type: 'roccia' });
     t.push({ x, y: 7, type: 'roccia' });
   }
-  t.push({ x: 3, y: 1, type: 'roccia' });
-  t.push({ x: 3, y: 5, type: 'vegetazione_densa' });
-  t.push({ x: 3, y: 9, type: 'obstacle' });
+  for (const laneY of [1, 5, 9]) {
+    t.push({ x: 3, y: laneY, type: LANE_TYPES[laneY] });
+    if (geometry === 'wide') {
+      // wide-shadow: widen the blocker to a 3-tile vertical segment. Every
+      // 1-step lateral tile stays in its shadow; the cheapest reopening tile
+      // is the segment's center itself (cost 2, standing ON blocker terrain --
+      // it blocks sight, not movement; squareLos excludes endpoints).
+      t.push({ x: 3, y: laneY - 1, type: LANE_TYPES[laneY] });
+      t.push({ x: 3, y: laneY + 1, type: LANE_TYPES[laneY] });
+    }
+  }
   return t;
-})();
+}
+// Set once per process from the parsed geometry (parent main + child entry).
+let TERRAIN = terrainFor('lane');
 
 function roster() {
   // attack_range 5: reaches the lane enemy at x=5 AND, from the lateral reopening
@@ -158,17 +189,44 @@ function supertestHttp(app) {
   // Lazy-require supertest so the parent (which never touches the app) does not
   // need it resolvable before a child run.
   const request = require('supertest');
+  // Windows ephemeral-port retry: supertest binds a fresh listener per request,
+  // and under concurrent sim storms (parallel probe sessions / the documented
+  // 4915x EADDRINUSE flake family) the dynamic-port range (49152+) can collide
+  // TRANSIENTLY on connect. Retry the identical request a few times with a tiny
+  // backoff -- the request itself is idempotent at the socket level (it never
+  // reached the app), so determinism is unaffected.
+  const RETRYABLE = new Set(['EADDRINUSE', 'ECONNRESET', 'EADDRNOTAVAIL']);
+  const withRetry = async (mk) => {
+    let lastErr;
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      try {
+        return await mk();
+      } catch (e) {
+        lastErr = e;
+        if (!RETRYABLE.has(e && e.code)) throw e;
+        // Up to ~4s cumulative: enough to ride out a TIME_WAIT-saturated
+        // ephemeral range under a concurrent sim batch, still fail-fast on a
+        // genuinely stuck host.
+        await new Promise((r) => setTimeout(r, Math.min(700, 50 * (attempt + 1))));
+      }
+    }
+    throw lastErr;
+  };
   return {
     post: (p, body) =>
-      request(app)
-        .post(p)
-        .send(body)
-        .then((r) => ({ status: r.status, body: r.body })),
+      withRetry(() =>
+        request(app)
+          .post(p)
+          .send(body)
+          .then((r) => ({ status: r.status, body: r.body })),
+      ),
     get: (p, query) =>
-      request(app)
-        .get(p)
-        .query(query || {})
-        .then((r) => ({ status: r.status, body: r.body })),
+      withRetry(() =>
+        request(app)
+          .get(p)
+          .query(query || {})
+          .then((r) => ({ status: r.status, body: r.body })),
+      ),
   };
 }
 
@@ -186,6 +244,13 @@ function dist(a, b) {
 //     never help even if wired). Uses the production helpers, not a re-impl.
 function positiveControls(enemyRange = 2) {
   process.env.COMBAT_LOS_ENABLED = 'true';
+  // The fixture-validity controls ask about the GEOMETRY (does a budget-1 /
+  // budget-2 reopening tile exist?), not about the arm under test -- so they
+  // must run with the repositioning MODE knob cleared even when the parent was
+  // invoked with COMBAT_LOS_REPOSITION_MODE=step for the shipped-greedy arm
+  // (the clamp would blank the budget-2 probe and fail the wide gate).
+  const savedMode = process.env.COMBAT_LOS_REPOSITION_MODE;
+  delete process.env.COMBAT_LOS_REPOSITION_MODE;
   const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
   const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
   const grid = { terrain_features: TERRAIN, width: GRID_SIZE, height: GRID_SIZE };
@@ -203,34 +268,75 @@ function positiveControls(enemyRange = 2) {
   }
 
   const occAll = new Set([...attackers, ...foes].map((u) => `${u.position.x},${u.position.y}`));
+  const reopensClearInRange = (a, tile) => {
+    if (!tile) return false;
+    for (const e of foes) {
+      if (
+        dist(tile, e.position) <= (a.attack_range || 1) &&
+        losClearOnGrid(grid, tile, e.position)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
   const reopening = [];
   for (const a of attackers) {
     const occ = new Set(occAll);
     occ.delete(`${a.position.x},${a.position.y}`);
-    const tile = stepToRegainLos(a, foes, grid, { occupied: occ });
-    let clearInRange = false;
-    if (tile) {
-      for (const e of foes) {
-        if (
-          dist(tile, e.position) <= (a.attack_range || 1) &&
-          losClearOnGrid(grid, tile, e.position)
-        ) {
-          clearInRange = true;
-          break;
-        }
-      }
-    }
-    reopening.push({ attacker: a.id, repos_tile: tile, reopens_clear_in_range: clearInRange });
+    // budget 1 = the shipped greedy step; budget 2 = the lookahead's cheapest
+    // wide-shadow solve. On 'lane' the budget-1 tile must exist; on 'wide' it
+    // must NOT (else the fixture is not wide) while budget-2 must reopen.
+    const tile1 = stepToRegainLos(a, foes, grid, { occupied: occ, budget: 1 });
+    const tile2 = stepToRegainLos(a, foes, grid, { occupied: occ, budget: 2 });
+    reopening.push({
+      attacker: a.id,
+      budget1_tile: tile1,
+      budget1_reopens: reopensClearInRange(a, tile1),
+      budget2_tile: tile2,
+      budget2_reopens: reopensClearInRange(a, tile2),
+    });
   }
   delete process.env.COMBAT_LOS_ENABLED;
+  if (savedMode !== undefined) process.env.COMBAT_LOS_REPOSITION_MODE = savedMode;
 
-  const reopeningOk = reopening.filter((r) => r.reopens_clear_in_range).length;
   return {
     blocked_pairs: blockedPairs,
     blocked_pairs_count: blockedPairs.length,
     reopening_steps: reopening,
-    reopening_steps_ok: reopeningOk,
+    reopening_budget1_ok: reopening.filter((r) => r.budget1_reopens).length,
+    reopening_budget2_ok: reopening.filter((r) => r.budget2_reopens).length,
   };
+}
+
+// Fail-fast fixture-validity gates (a ~0 delta is only evidence on a fixture
+// where the mechanic actually bites):
+//   lane -> the greedy 1-step reopening must exist for all 3 attackers.
+//   wide -> NO attacker may have a 1-step reopening (else the fixture is not
+//           wide and step-vs-budget cannot be separated), while the budget-2
+//           reopening must exist for all 3.
+function assertFixtureValidity(geometry, controls) {
+  if (controls.blocked_pairs_count < 2) {
+    throw new Error(
+      `positive control FAILED (${geometry}): only ${controls.blocked_pairs_count} blocked pairs -- LOS never engages`,
+    );
+  }
+  if (geometry === 'wide') {
+    if (controls.reopening_budget1_ok !== 0) {
+      throw new Error(
+        `positive control FAILED (wide): ${controls.reopening_budget1_ok} attackers still have a 1-step reopening -- fixture not wide`,
+      );
+    }
+    if (controls.reopening_budget2_ok !== 3) {
+      throw new Error(
+        `positive control FAILED (wide): budget-2 reopening exists for ${controls.reopening_budget2_ok}/3 attackers`,
+      );
+    }
+  } else if (controls.reopening_budget1_ok !== 3) {
+    throw new Error(
+      `positive control FAILED (lane): 1-step reopening exists for ${controls.reopening_budget1_ok}/3 attackers`,
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -421,10 +527,10 @@ function summarize(arr) {
 // ---------------------------------------------------------------------------
 // Parent: spawn one child per arm (fresh module graph each), print the report.
 // ---------------------------------------------------------------------------
-function runArmChild(arm, N, scale, mode, enemyRange) {
+function runArmChild(arm, N, scale, mode, geometry, enemyRange) {
   const out = execFileSync(
     process.execPath,
-    [__filename, '--child', arm, String(N), String(scale), mode, String(enemyRange)],
+    [__filename, '--child', arm, String(N), String(scale), mode, geometry, String(enemyRange)],
     { cwd: path.resolve(__dirname, '..', '..'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
   );
   const line = out.split('\n').find((l) => l.startsWith('__ARM_RESULT__'));
@@ -435,30 +541,35 @@ function runArmChild(arm, N, scale, mode, enemyRange) {
 }
 
 function main() {
-  const N = Number(process.argv[2]) || 10;
-  // argv[3] is the mode token (repos|flip) when non-numeric; otherwise it is the
-  // legacy enemy-scale arg (keeps `node ... <N> <scale>` working). Default mode
-  // 'repos' -> the repos path is byte-identical to before this control existed.
-  const modeArg = process.argv[3];
+  // Geometry token first (position-independent), then the legacy positional
+  // args over what remains: N, then mode (repos|flip) or enemy-scale.
+  const args = process.argv.slice(2);
+  const geometry = args.includes('wide') ? 'wide' : 'lane';
+  const rest = args.filter((a) => a !== 'wide' && a !== 'lane');
+  const N = Number(rest[0]) || 10;
+  const modeArg = rest[1];
   const mode = modeArg === 'flip' ? 'flip' : 'repos';
-  // argv[4] is the enemyScale arg for BOTH modes when modeArg was the mode token
+  // rest[2] is the enemyScale arg for BOTH modes when modeArg was the mode token
   // (i.e. 'flip'); for the legacy `<N> <scale>` repos form modeArg IS the scale
-  // and argv[4] is unused. Default 1.0 -> behavior unchanged when omitted.
-  const scale =
-    mode === 'repos' && modeArg ? Number(modeArg) || 1.0 : Number(process.argv[4]) || 1.0;
-  // argv[5]: optional enemy attack_range (default 2 = unchanged fixture). Range 4-5
+  // and rest[2] is unused. Default 1.0 -> behavior unchanged when omitted.
+  // (Positional args index into `rest`, NOT process.argv: the geometry token is
+  // position-independent and already filtered out above.)
+  const scale = mode === 'repos' && modeArg ? Number(modeArg) || 1.0 : Number(rest[2]) || 1.0;
+  // rest[3]: optional enemy attack_range (default 2 = unchanged fixture). Range 4-5
   // makes the fixture SYMMETRIC (enemies shoot across the same blockers -> LOS
   // constrains both sides) and de-ceilings WR (flag-OFF enemies shoot through
   // walls from turn 1 = real lethality pressure). Validator condition C1.
-  const enemyRange = Number(process.argv[5]) || 2;
+  const enemyRange = Number(rest[3]) || 2;
+  TERRAIN = terrainFor(geometry);
 
   const controls = positiveControls(enemyRange);
-  console.log('=== POSITIVE CONTROL: fixture validity (LOS ON) ===');
+  console.log(`=== POSITIVE CONTROL: fixture validity (LOS ON, geometry=${geometry}) ===`);
   console.log(JSON.stringify(controls, null, 2));
   console.log('=== END fixture-validity control ===');
+  assertFixtureValidity(geometry, controls);
 
-  const on = runArmChild('on', N, scale, mode, enemyRange);
-  const off = runArmChild('off', N, scale, mode, enemyRange);
+  const on = runArmChild('on', N, scale, mode, geometry, enemyRange);
+  const off = runArmChild('off', N, scale, mode, geometry, enemyRange);
 
   // Arm labels reflect the semantic per mode:
   //   repos -> on = real repositioning,  off = stubbed repositioning (LOS ON both)
@@ -466,7 +577,13 @@ function main() {
   const out = {
     N,
     mode,
+    geometry,
+    // The repositioning heuristic the 'on' arm ran: COMBAT_LOS_REPOSITION_MODE
+    // is inherited by the child processes ('step' clamps the budget to 1 =
+    // shipped greedy; unset = budget-aware lookahead).
+    reposition_mode: process.env.COMBAT_LOS_REPOSITION_MODE || 'budget',
     enemyScale: scale,
+    enemyRange,
     positive_control: controls,
     // In flip mode the 'off' arm ran with LOS disabled: no shot is ever blocked,
     // so blocked-pair enforcement is 0 by construction (the control above still
@@ -501,7 +618,8 @@ if (process.argv[2] === '--child') {
   const N = Number(process.argv[4]) || 10;
   const scale = Number(process.argv[5]) || 1.0;
   const mode = process.argv[6] === 'flip' ? 'flip' : 'repos';
-  const enemyRange = Number(process.argv[7]) || 2;
+  TERRAIN = terrainFor(process.argv[7] === 'wide' ? 'wide' : 'lane');
+  const enemyRange = Number(process.argv[8]) || 2;
   childMain(arm, N, scale, mode, enemyRange).catch((e) => {
     console.error(e);
     process.exit(1);
