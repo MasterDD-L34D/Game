@@ -13861,6 +13861,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/reports/2026-07-06-big-maps-stato-test-triage.md",
+      "title": "Big-maps arc 2026-07-06 -- quadro stato + test su main + triage delegabile",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-07-06",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
