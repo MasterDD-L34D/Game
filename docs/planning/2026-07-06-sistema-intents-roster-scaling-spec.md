@@ -105,6 +105,13 @@ Criterio direction (N=10 = probe, non ratifica): B1/B2 "morde" se dWR <= -0.2 o 
 >= 0.05 o dRounds fuori banda vs B0. Se nessun arm morde -> negative result, si documenta
 e lo scaling resta spec-only (il ceiling potrebbe essere altrove, es. AI melee mai-converte).
 
+**ESITO 2026-07-06 (stessa sessione): NEGATIVE RESULT** -- nessun arm morde, nemmeno
+l'interazione scaling x range (arm C0/C1 aggiunti oltre il piano). Treatment verificato
+attivo (divergenza per-seed), quindi il negative e' reale: il ceiling e' nella conversione,
+non nell'attivazione. Dettaglio: `docs/research/2026-07-06-intents-roster-scaling-ab.md`.
+Lo scaling shippa come INFRA flag OFF (probe-ready per arm futuri); N=40 non eseguito
+(niente direction da ratificare); flip non proposto.
+
 ## 6. Fuori scope v1 (gap dichiarati)
 
 - HUD `ai_progress.intents_per_round` mostra il tier baseline, non il cap effettivo a flag
