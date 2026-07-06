@@ -21,6 +21,7 @@
 // LOS filter keeps every in-range candidate (byte-identical to pre-Task-6).
 const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
 const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
+const { occupiedSetFromUnits } = require('../../apps/backend/services/combat/occupancy');
 
 const ZONE_PURSUIT_OBJECTIVES = new Set(['capture_point', 'sabotage', 'escape', 'escort']);
 
@@ -46,12 +47,7 @@ function stepToward(actor, dest) {
 // OA2 (item 7): tiles occupied by OTHER live units -- move targets the backend
 // rejects with 400 "casella occupata" (session.js "niente overlap").
 function occupiedSet(units, selfId) {
-  const occ = new Set();
-  for (const u of units || []) {
-    if (!u || u.id === selfId || !u.position || (u.hp ?? 0) <= 0) continue;
-    occ.add(`${u.position.x},${u.position.y}`);
-  }
-  return occ;
+  return occupiedSetFromUnits(units, { excludeId: selfId });
 }
 
 // Nearest (Manhattan) zone tile not occupied by a live unit. Deterministic

@@ -91,3 +91,29 @@ swarm-loop
 swarm_loop
 swarm-controls
 swarm_controls
+
+# LOS/combat method + engineering jargon (advisory FP su docs/research
+# 2026-07-06-los-flip-ratify-n40.md -- 20/21 flagged, tutti identificatori di
+# codice reali o vocabolario di metodo, zero entity di canon)
+action-economy
+active_unit
+anti-oscillazione
+budget-vs-step
+by-design
+combat_los_enabled
+combat_los_reposition_mode
+cross-run
+de-ceiling
+de-ceilinged
+game-design-validator
+los-repos-probe
+los_repos_probe
+mirror-wall
+multi-tile
+on-vs-off
+positive-control
+positive_control
+pre-godot
+step-vs-budget
+time_wait
+un-losable

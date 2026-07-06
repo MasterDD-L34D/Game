@@ -293,7 +293,7 @@ function scoreObjectives(actor, target, objectives = DEFAULT_OBJECTIVES) {
   return { totalScore, matchedObjectives: matched };
 }
 
-// COMBAT_LOS_ENABLED (default OFF): true when target is visible to actor.
+// COMBAT_LOS_ENABLED (default ON since the 2026-07-06 flip, opt-out 'false'): true when target is visible to actor.
 // Thin alias over the shared combat LOS rule (services/combat/losForGrid.js);
 // kept so declareSistemaIntents.js and the AI LOS tests keep importing it here.
 // Optional `units` also gates a live interposed unit (units_block_los config,
