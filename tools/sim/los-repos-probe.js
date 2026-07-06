@@ -253,6 +253,7 @@ function positiveControls(enemyRange = 2) {
   delete process.env.COMBAT_LOS_REPOSITION_MODE;
   const { losClearOnGrid } = require('../../apps/backend/services/combat/losForGrid');
   const { stepToRegainLos } = require('../../apps/backend/services/combat/losReposition');
+  const { occupiedSetFromUnits } = require('../../apps/backend/services/combat/occupancy');
   const grid = { terrain_features: TERRAIN, width: GRID_SIZE, height: GRID_SIZE };
   const attackers = roster();
   const foes = enemies(1.0, enemyRange);
@@ -267,7 +268,7 @@ function positiveControls(enemyRange = 2) {
     }
   }
 
-  const occAll = new Set([...attackers, ...foes].map((u) => `${u.position.x},${u.position.y}`));
+  const occAll = occupiedSetFromUnits([...attackers, ...foes]);
   const reopensClearInRange = (a, tile) => {
     if (!tile) return false;
     for (const e of foes) {
