@@ -259,7 +259,10 @@ function createRoundBridge(deps) {
     if (actor.controlled_by !== 'player') {
       return {
         status: 403,
-        body: { error: `actor "${actorId}" non e' controllato dal player`, code: 'ACTOR_NOT_OWNED' },
+        body: {
+          error: `actor "${actorId}" non e' controllato dal player`,
+          code: 'ACTOR_NOT_OWNED',
+        },
       };
     }
     if (requireAlive && Number(actor.hp || 0) <= 0) {
@@ -321,16 +324,36 @@ function createRoundBridge(deps) {
     return Number(action.ap_cost || 1);
   }
 
+  // True when a move destination is a valid, in-grid cell (mirrors the NO_DEST +
+  // OUT_OF_GRID checks in validatePlayerIntent). Used to decide whether the budget
+  // gate can trust a server-authoritative move cost: an off-grid / malformed dest
+  // keeps the advisory client value so its own OUT_OF_GRID / NO_DEST rejection
+  // fires first (clearer error, and no NaN from manhattanDistance on a bad dest).
+  function isValidGridDest(dest) {
+    if (!dest || typeof dest.x !== 'number' || typeof dest.y !== 'number') return false;
+    if (!Number.isFinite(dest.x) || !Number.isFinite(dest.y)) return false;
+    const size = gridSize || 6;
+    return dest.x >= 0 && dest.x < size && dest.y >= 0 && dest.y < size;
+  }
+
   // Declare-time budget cost of an intent, for validatePlayerIntent. Attack/ability
-  // use the server-authoritative resolveActionApCost so a client cannot pass the
-  // budget gate by declaring ap_cost:0/negative and over-declare free actions (the
-  // resolver charges the real cost per action but floors at 0, so an un-gated
-  // over-declaration still executes N actions while paying for fewer -- A04).
-  // move/skip/other keep the client value: moves are gated separately by dist /
-  // MOVE_TOO_FAR, and skip legitimately costs 0.
+  // use the server-authoritative resolveActionApCost, and a move to a valid in-grid
+  // cell uses resolveMoveApCost -- so a client cannot pass the budget gate by
+  // declaring ap_cost:0/negative and over-declare free actions. The resolver charges
+  // the real cost per action but floors ap_remaining at 0, so an un-gated
+  // over-declaration still executes N actions while paying for fewer (OWASP A04):
+  // for moves this means N short moves at ap_cost:0 all clear the pending-sum gate
+  // and the (N+1)th still resolves for free. Charging max(1, dist - move_bonus) per
+  // move in the pending sum closes that. AP_INSUFFICIENT now precedes MOVE_TOO_FAR
+  // for a single over-far in-grid move (both 400 rejections; the over-far move IS
+  // over-budget). skip/off-grid/other keep the client value: skip legitimately
+  // costs 0, and an off-grid dest is rejected by OUT_OF_GRID before this matters.
   function resolveIntentApCost(actor, act) {
     if (act && (act.type === 'attack' || act.ability_id)) {
       return resolveActionApCost(actor, act);
+    }
+    if (act && act.type === 'move' && isValidGridDest(act.move_to)) {
+      return resolveMoveApCost(actor, actor && actor.position, act.move_to);
     }
     return Number((act && act.ap_cost) || 0);
   }
@@ -502,7 +525,10 @@ function createRoundBridge(deps) {
     const targetId = action.target_id ? String(action.target_id) : null;
     const actor = next.units.find((u) => u.id === actorId);
     if (actor && actor.ap) {
-      actor.ap.current = Math.max(0, Number(actor.ap.current || 0) - resolveActionApCost(actor, action));
+      actor.ap.current = Math.max(
+        0,
+        Number(actor.ap.current || 0) - resolveActionApCost(actor, action),
+      );
     }
     let damageApplied = 0;
     let healingApplied = 0;
