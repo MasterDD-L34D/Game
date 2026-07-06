@@ -148,11 +148,13 @@ function createRoundBridge(deps) {
     // client Wave 8N budget check (2 attack ap_cost=2 cada, actor.ap=3: backend
     // accettava entrambi singolarmente, resolveFn scalava -1 cada = consumo
     // 2 AP invece di 4 richiesti).
-    const apCost = Number(action.ap_cost || 0);
+    // 2026-07 hardening: the sum uses resolveIntentApCost (server-authoritative for
+    // attack/ability), so declaring ap_cost:0/negative no longer bypasses the gate.
+    const apCost = resolveIntentApCost(actor, action);
     const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
     const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
       .filter((i) => String(i.unit_id || '') === String(actorId))
-      .reduce((sum, i) => sum + Number((i.action && i.action.ap_cost) || 0), 0);
+      .reduce((sum, i) => sum + resolveIntentApCost(actor, i && i.action), 0);
     const totalProposed = pendingForActor + apCost;
     if (totalProposed > apAvail) {
       return {
@@ -279,6 +281,58 @@ function createRoundBridge(deps) {
     const dist = typeof manhattanDistance === 'function' ? manhattanDistance(from, to) : 0;
     const moveBonus = Math.max(0, Number((actor && actor.move_bonus_bonus) || 0));
     return Math.max(1, dist - moveBonus);
+  }
+
+  // Canon basic-attack AP cost. The client (apps/play lobbyBridge + ability panel)
+  // and the legacy attack wrapper all use 1; jobs.yaml basic attacks are cost_ap:1.
+  const ATTACK_BASE_AP_COST = 1;
+
+  // Server-authoritative AP cost for non-move round actions, mirroring
+  // resolveMoveApCost. validatePlayerIntent only checks the TOTAL declared
+  // ap_cost against the AP budget -- never a per-action minimum -- so a raw-HTTP
+  // client can post a negative/fractional ap_cost on an attack (gain or undercharge
+  // AP) or ap_cost:1 for a 2-AP ability (undercharge by half) and be undercharged
+  // (OWASP A04, same class as the move undercharge). The client value is advisory:
+  //   - attack             -> ATTACK_BASE_AP_COST (canon), client value ignored
+  //   - ability_id present -> registry cost_ap (same source the ability executor
+  //                           deducts); unknown ability floors at 1 AP
+  //   - anything else (skip/pass/...) -> legacy client default; no server cost
+  //     source exists for these, so behavior is preserved (out of scope).
+  // NOTE: the round-bridge `else` branch deducts this cost but does NOT execute
+  // the ability effect (effects run on /round/execute -> abilityExecutor, which
+  // self-deducts cost_ap). If a future change dispatches the effect on the bridge
+  // path too, drop this deduction there to avoid double-charging.
+  function resolveActionApCost(actor, action) {
+    if (!action || typeof action !== 'object') return 1;
+    if (action.type === 'attack') return ATTACK_BASE_AP_COST;
+    if (action.ability_id) {
+      let spec = null;
+      try {
+        spec = require('../services/abilityExecutor').findAbility(action.ability_id);
+      } catch {
+        /* ability registry optional -- fall back to floored client value */
+      }
+      // Floor at 0 to mirror abilityExecutor's clamp (no ability refunds AP even
+      // if a future jobs.yaml entry ships a negative/NaN cost_ap); cost_ap:0 (e.g.
+      // intercept) is a legitimate 0-AP reaction and passes through.
+      if (spec && spec.cost_ap != null) return Math.max(0, Number(spec.cost_ap) || 0);
+      return Math.max(1, Number(action.ap_cost || 1));
+    }
+    return Number(action.ap_cost || 1);
+  }
+
+  // Declare-time budget cost of an intent, for validatePlayerIntent. Attack/ability
+  // use the server-authoritative resolveActionApCost so a client cannot pass the
+  // budget gate by declaring ap_cost:0/negative and over-declare free actions (the
+  // resolver charges the real cost per action but floors at 0, so an un-gated
+  // over-declaration still executes N actions while paying for fewer -- A04).
+  // move/skip/other keep the client value: moves are gated separately by dist /
+  // MOVE_TOO_FAR, and skip legitimately costs 0.
+  function resolveIntentApCost(actor, act) {
+    if (act && (act.type === 'attack' || act.ability_id)) {
+      return resolveActionApCost(actor, act);
+    }
+    return Number((act && act.ap_cost) || 0);
   }
 
   // ────────────────────────────────────────────────────────────────
@@ -448,7 +502,7 @@ function createRoundBridge(deps) {
     const targetId = action.target_id ? String(action.target_id) : null;
     const actor = next.units.find((u) => u.id === actorId);
     if (actor && actor.ap) {
-      actor.ap.current = Math.max(0, Number(actor.ap.current || 0) - Number(action.ap_cost || 0));
+      actor.ap.current = Math.max(0, Number(actor.ap.current || 0) - resolveActionApCost(actor, action));
     }
     let damageApplied = 0;
     let healingApplied = 0;
@@ -638,7 +692,7 @@ function createRoundBridge(deps) {
 
     actor.ap_remaining = Math.max(
       0,
-      (actor.ap_remaining ?? actor.ap) - Number(roundAction.ap_cost || 1),
+      (actor.ap_remaining ?? actor.ap) - resolveActionApCost(actor, roundAction),
     );
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
@@ -1521,7 +1575,7 @@ function createRoundBridge(deps) {
           const res = performAttack(session, actor, target, action);
           actor.ap_remaining = Math.max(
             0,
-            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+            (actor.ap_remaining ?? actor.ap) - resolveActionApCost(actor, action),
           );
 
           let combo = null;
@@ -1686,7 +1740,7 @@ function createRoundBridge(deps) {
       } else {
         actor.ap_remaining = Math.max(
           0,
-          (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          (actor.ap_remaining ?? actor.ap) - resolveActionApCost(actor, action),
         );
       }
 
@@ -1895,7 +1949,7 @@ function createRoundBridge(deps) {
           const res = performAttack(session, actor, target, action);
           actor.ap_remaining = Math.max(
             0,
-            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+            (actor.ap_remaining ?? actor.ap) - resolveActionApCost(actor, action),
           );
           const event = buildAttackEvent({
             session,
@@ -2008,7 +2062,7 @@ function createRoundBridge(deps) {
       } else {
         actor.ap_remaining = Math.max(
           0,
-          (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          (actor.ap_remaining ?? actor.ap) - resolveActionApCost(actor, action),
         );
       }
 
