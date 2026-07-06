@@ -155,12 +155,16 @@ test('with flag on, /action attack sets session.roundState to resolved phase', a
   // quindi auto-trigger beginRound (phase → planning).
   assert.equal(res.body.round_phase, 'resolved');
 
+  // This second declare-intent formerly named 'sis' (a SISTEMA unit) only as a
+  // shortcut -- SIS actors used to bypass validation. The route now rejects
+  // non-player actors (403), so drive the player unit p1 with a valid move; the
+  // assertion under test (auto beginRound: resolved -> planning) is unchanged.
   const declareRes = await request(app)
     .post('/api/session/declare-intent')
     .send({
       session_id: sessionId,
-      actor_id: 'sis',
-      action: { id: 'x', type: 'move', actor_id: 'sis', ap_cost: 1 },
+      actor_id: 'p1',
+      action: { id: 'x', type: 'move', actor_id: 'p1', ap_cost: 1, move_to: { x: 2, y: 3 } },
     })
     .expect(200);
   assert.equal(declareRes.body.round_phase, 'planning');

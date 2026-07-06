@@ -243,6 +243,47 @@ function createRoundBridge(deps) {
     return null;
   }
 
+  // Authz precheck for the player-facing round routes (security fix 2026-07-05).
+  // The HTTP round endpoints (/declare-intent, /declare-reaction, /clear-intent,
+  // /undo-action) are the client surface; only player-controlled units may be
+  // driven from a client. SISTEMA (AI/enemy) intents are authored server-side by
+  // declareSistemaIntents, so a request naming a non-player actor is illegitimate
+  // (CWE-284 / CWE-639 IDOR). Returns null when allowed, else { status, body }.
+  function requirePlayerActor(session, actorId, { requireAlive = true } = {}) {
+    const actor = (session.units || []).find((u) => u.id === actorId);
+    if (!actor) {
+      return { status: 404, body: { error: `actor "${actorId}" non trovato`, code: 'NO_ACTOR' } };
+    }
+    if (actor.controlled_by !== 'player') {
+      return {
+        status: 403,
+        body: {
+          error: `actor "${actorId}" non e' controllato dal player`,
+          code: 'ACTOR_NOT_OWNED',
+        },
+      };
+    }
+    if (requireAlive && Number(actor.hp || 0) <= 0) {
+      return {
+        status: 400,
+        body: { error: `actor "${actorId}" e' KO (hp ${actor.hp})`, code: 'ACTOR_DEAD' },
+      };
+    }
+    return null;
+  }
+
+  // Server-authoritative move AP cost (security fix 2026-07-05). The resolver
+  // must NOT trust action.ap_cost for moves: the shipped client posts ap_cost:1
+  // for any destination, so a raw request could move N tiles for 1 AP. Cost =
+  // max(1, Manhattan(from,to) - move_bonus), mirroring the legacy /session/action
+  // path (routes/session.js). Terrain-weighted cost stays on that legacy path;
+  // the round path uses the Manhattan basis by design (band-neutral).
+  function resolveMoveApCost(actor, from, to) {
+    const dist = typeof manhattanDistance === 'function' ? manhattanDistance(from, to) : 0;
+    const moveBonus = Math.max(0, Number((actor && actor.move_bonus_bonus) || 0));
+    return Math.max(1, dist - moveBonus);
+  }
+
   // ────────────────────────────────────────────────────────────────
   // Guards + adapters
   // ────────────────────────────────────────────────────────────────
@@ -1620,11 +1661,11 @@ function createRoundBridge(deps) {
           });
           turnLogEntry.skipped = 'blocked';
         } else {
+          // Server-authoritative move cost: ignore client action.ap_cost, charge
+          // real distance (minus move_bonus). Computed before the position write.
+          const moveApCost = resolveMoveApCost(actor, positionFrom, dest);
           actor.position = { x: dest.x, y: dest.y };
-          actor.ap_remaining = Math.max(
-            0,
-            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
-          );
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - moveApCost);
           const newFacing = facingFromMove(positionFrom, actor.position);
           if (newFacing) actor.facing = newFacing;
           const event = buildMoveEvent({ session, actor, positionFrom });
@@ -1923,11 +1964,11 @@ function createRoundBridge(deps) {
           });
           turnLogEntry.skipped = 'blocked';
         } else {
+          // Server-authoritative move cost (mirror of the unified path): charge
+          // real distance (minus move_bonus), not the intent's ap_cost field.
+          const moveApCost = resolveMoveApCost(actor, positionFrom, dest);
           actor.position = { x: dest.x, y: dest.y };
-          actor.ap_remaining = Math.max(
-            0,
-            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
-          );
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - moveApCost);
           const newFacing = facingFromMove(positionFrom, actor.position);
           if (newFacing) actor.facing = newFacing;
           const event = buildMoveEvent({ session, actor, positionFrom });
@@ -2296,17 +2337,22 @@ function createRoundBridge(deps) {
             .json({ error: "action richiesto (object con campi 'type', 'actor_id', ...)" });
         }
 
-        // Validate player intent against session state (range/AP/target/etc).
-        // SIS intents bypassano (generati da declareSistemaIntents già validato).
-        const actor = (session.units || []).find((u) => u.id === actorId);
-        if (actor && actor.controlled_by === 'player') {
-          const validationError = validatePlayerIntent(session, actorId, action);
-          if (validationError) {
-            return res.status(400).json({
-              error: validationError.message,
-              code: validationError.code,
-            });
-          }
+        // Actor-ownership authz (security fix): only a player-controlled, live unit
+        // may be driven from a client. SIS intents are authored server-side by
+        // declareSistemaIntents and never flow through this route, so a non-player
+        // actor here is illegitimate -- reject before any state mutation. This also
+        // guarantees validatePlayerIntent (range/AP/bounds) always runs for the
+        // actors the route accepts, closing the OUT_OF_GRID teleport bypass.
+        const ownershipError = requirePlayerActor(session, actorId, { requireAlive: true });
+        if (ownershipError) {
+          return res.status(ownershipError.status).json(ownershipError.body);
+        }
+        const validationError = validatePlayerIntent(session, actorId, action);
+        if (validationError) {
+          return res.status(400).json({
+            error: validationError.message,
+            code: validationError.code,
+          });
         }
 
         const state = ensureRoundState(session);
@@ -2359,6 +2405,13 @@ function createRoundBridge(deps) {
             .json({ error: "reaction_payload richiesto (object con campo 'type')" });
         }
 
+        // Actor-ownership authz (security fix): reactions may only be declared for
+        // player-controlled, live units. SIS reactions are engine-driven.
+        const ownershipError = requirePlayerActor(session, actorId, { requireAlive: true });
+        if (ownershipError) {
+          return res.status(ownershipError.status).json(ownershipError.body);
+        }
+
         const state = ensureRoundState(session);
         let current = state;
         if (current.round_phase !== PHASE_PLANNING) {
@@ -2400,6 +2453,13 @@ function createRoundBridge(deps) {
             .status(400)
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
         }
+        // Actor-ownership authz (security fix): a client may only clear intents for
+        // its own player units, never server-authored SIS intents. Alive not
+        // required -- a stale intent of a just-KO'd player unit stays clearable.
+        const ownershipError = requirePlayerActor(session, actorId, { requireAlive: false });
+        if (ownershipError) {
+          return res.status(ownershipError.status).json(ownershipError.body);
+        }
         const { nextState } = roundOrchestrator.clearIntent(session.roundState, actorId);
         session.roundState = nextState;
         res.json({
@@ -2430,6 +2490,12 @@ function createRoundBridge(deps) {
           return res
             .status(400)
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+        }
+        // Actor-ownership authz (security fix): undo only a client's own player
+        // intents, never server-authored SIS intents.
+        const ownershipError = requirePlayerActor(session, actorId, { requireAlive: false });
+        if (ownershipError) {
+          return res.status(ownershipError.status).json(ownershipError.body);
         }
         const phase = session.roundState.round_phase;
         if (phase !== PHASE_PLANNING) {
