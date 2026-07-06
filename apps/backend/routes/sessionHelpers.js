@@ -816,12 +816,16 @@ function facingFromMove(from, to) {
 // Mappa pressure integer (0..100) → tier capabilities SIS.
 // Tiers hardcoded qui come fallback; il sorgente autoritativo e'
 // packs/evo_tactics_pack/data/balance/sistema_pressure.yaml (future wiring).
+// intents_per_round riallineati 2026-07-06 al rebalance 2026-04-17 (YAML +
+// PRESSURE_TIER_INTENT_CAP + aiProgressMeter): questa copia fallback era
+// driftata (Escalated 2, Apex 3) -- drift display-only, il cap runtime degli
+// intents non la legge.
 const SISTEMA_PRESSURE_TIERS = [
   { threshold: 0, label: 'Calm', intents_per_round: 1, reinforcement_budget: 0 },
   { threshold: 25, label: 'Alert', intents_per_round: 2, reinforcement_budget: 1 },
-  { threshold: 50, label: 'Escalated', intents_per_round: 2, reinforcement_budget: 2 },
+  { threshold: 50, label: 'Escalated', intents_per_round: 3, reinforcement_budget: 2 },
   { threshold: 75, label: 'Critical', intents_per_round: 3, reinforcement_budget: 3 },
-  { threshold: 95, label: 'Apex', intents_per_round: 3, reinforcement_budget: 4 },
+  { threshold: 95, label: 'Apex', intents_per_round: 4, reinforcement_budget: 4 },
 ];
 
 function computeSistemaTier(pressure) {
