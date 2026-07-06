@@ -83,7 +83,14 @@ if (files.length === 0) {
 }
 
 const prettierArgs = ['prettier', '--check', ...files];
-const result = spawnSync('npx', prettierArgs, { stdio: 'inherit' });
+// Windows: the npx launcher is npx.cmd and Node >=18.20 refuses to spawn .cmd
+// files without a shell (CVE-2024-27980) -> spawnSync('npx') dies with ENOENT.
+// Single-string shell form (not args + shell:true, deprecated DEP0190); stack
+// paths never contain spaces (STACK_PATTERNS), so no quoting is needed.
+const result =
+  process.platform === 'win32'
+    ? spawnSync(['npx', ...prettierArgs].join(' '), { stdio: 'inherit', shell: true })
+    : spawnSync('npx', prettierArgs, { stdio: 'inherit' });
 
 if (result.error) {
   console.error('Failed to execute prettier:', result.error.message);
