@@ -1,10 +1,12 @@
 # LOS units_block_los ratify N=40 -- geometria crowd (corpo alleato sulla linea)
 
-Data: 2026-07-06 | Macchina: Ryzen (Node v24.11.0) | Probe: `tools/sim/los-repos-probe.js` @ `c7805844e`
-Stato: RATIFY asse C2 (N=40, seed appaiati). Chiude il gap "units_block_los non-misurato" del report
-`2026-07-06-los-flip-ratify-n40.md` (PR #3223): la fixture lane/wide e' strutturalmente CIECA
-all'asse (1 attaccante + 1 nemico per corsia, endpoint esclusi da squareLos -> nessun terzo corpo
-sta mai sulla linea di tiro; delta 0 garantito per costruzione).
+Data: 2026-07-06 | Macchina: Ryzen (Node v24.11.0) | Probe: `tools/sim/los-repos-probe.js` @ `0feab14c4`
+Base: main POST-FLIP `51e551266` (#3226: `COMBAT_LOS_ENABLED` default ON, sistema reposition
+pinnato a budget 1 = step). Stato: RATIFY asse C2 (N=40, seed appaiati). Chiude il gap
+"units_block_los non-misurato" del report `2026-07-06-los-flip-ratify-n40.md` (PR #3223): la
+fixture lane/wide e' strutturalmente CIECA all'asse (1 attaccante + 1 nemico per corsia, endpoint
+esclusi da squareLos -> nessun terzo corpo sta mai sulla linea di tiro; delta 0 garantito per
+costruzione).
 
 ## Fixture `crowd` (probe v2.3)
 
@@ -19,9 +21,11 @@ dritto in ENTRAMBE le direzioni; con `false` linea libera.
 - Asse: `data/core/balance/los.yaml units_block_los` (letto da losBlockers.js, cache fredda per
   processo). 2 varianti worktree (true / false); la variante true NON e' mai stata committata.
 - Modo `flip`: arm ON = `COMBAT_LOS_ENABLED=true` + repositioning reale; arm OFF = flag PINNATO a
-  `'false'` (non delete: un delete verrebbe ri-popolato se il default flippasse ON; entrambi i
-  reader gate-ano su `!== 'true'`). Provenienza per-arm nel JSON: `los_flag_env` on='true' /
-  off='false' verificato in entrambi i run.
+  `'false'` = l'opt-out esplicito post-flip (#3226: i reader gate-ano su `=== 'false'`, un delete
+  lascerebbe la LOS ATTIVA -- il gotcha "default cambiato" e' gestito e verificato). Provenienza
+  per-arm nel JSON: `los_flag_env` on='true' / off='false' verificato in entrambi i run.
+- Sistema reposition = step (budget pinnato a 1 in `declareSistemaIntents.js`, #3226); il seam
+  player del probe resta budget two-phase (knob `COMBAT_LOS_REPOSITION_MODE` non settato).
 - Banda: `enemyScale 2.0`, `enemyRange 4` (stessa banda de-ceilinged del ratify #3223).
 - N=40 per run, seed appaiati 1..40, child process per arm (module graph fresco).
 - Positive-control nuovo (fallibile in entrambe le direzioni): il predicato units-aware di
@@ -37,16 +41,23 @@ dritto in ENTRAMBE le direzioni; con `false` linea libera.
 | ----------- | --- | ----- | ------------- | ------- | --------- |
 | true        | ON  | 0.150 | [0.071,0.291] | 6/0/34  | 36.88     |
 | true        | OFF | 0.800 | [0.652,0.895] | 32/0/8  | 19.00     |
-| false       | ON  | 0.525 | [0.375,0.671] | 21/11/8 | 25.10     |
+| false       | ON  | 0.525 | [0.375,0.671] | 21/0/19 | 25.60     |
 | false       | OFF | 0.800 | [0.652,0.895] | 32/0/8  | 19.00     |
 
 **Asse units_block (arm ON, true vs false, seed appaiati): dWR = -0.375** (0.525 -> 0.150, CI95
-non sovrapposti), **dRound = +11.78** (25.10 -> 36.88), timeout 8 -> 34, sconfitte 11 -> 0.
-Repositioning counters arm ON: real_calls 10970 / nonnull 8257 (true) vs 152 / 109 (false).
+non sovrapposti), **dRound = +11.28** (25.60 -> 36.88), timeout 19 -> 34.
+Repositioning counters arm ON: real_calls 10970 / nonnull 8257 (true) vs 262 / 96 (false).
 
 Consistenza interna: arm OFF IDENTICO nei due run (32/0/8, WR 0.800, 19.00 round) -- a LOS spento
 la config non viene mai letta e i seed sono appaiati, quindi il controllo replica byte-identico.
 Conferma che il confronto e' pulito (zero rumore cross-run).
+
+Robustezza pre/post-flip: la coppia di run era stata eseguita ANCHE su main pre-#3226 (sistema
+reposition budget full-AP): run true BYTE-IDENTICO (stessi 40 esiti, stessi counter -- in crowd
+il tile 1-step terrain-clear esiste sempre e la metrica cost-first lo sceglieva gia', quindi il
+clamp budget-1 e' un no-op); run false stesso WR 0.525 ma mix esiti diverso (21/11/8 -> 21/0/19:
+il sistema step insegue meno -> le sconfitte diventano timeout). L'asse dWR -0.375 e' identico
+nelle due misure.
 
 ## Meccanismo (replay seed 1, arm ON, config true)
 
@@ -65,21 +76,23 @@ Stallo BILATERALE, ground-truthed con replay loggato round-per-round:
    di bordo y=0 come scappatoia diagonale -- foe_1 la usa e risolve (colpisce ranged_1 aggirando
    il corpo); le corsie y=5 (boxed piena) e y=9 no. Da cui i 6 win residui a config true.
 
-Nota difensiva: a config true le sconfitte AZZERANO (11 -> 0) -- il corpo scherma anche i tiri
-nemici. L'asse alza la difesa e ammazza l'offesa: il collasso WR e' interamente da timeout.
+Nota difensiva: zero sconfitte in ogni arm ON post-flip -- a config true il corpo scherma anche
+i tiri nemici (e pre-flip azzerava le 11 sconfitte del run false). L'asse alza la difesa e
+ammazza l'offesa: il collasso WR e' interamente da timeout.
 
 ## Verdetti
 
 1. **L'asse ora e' misurato e NON e' neutro**: units_block ON su una linea affollata costa
-   dWR -0.375 e +11.78 round, con l'85% degli incontri in stallo (34/40 timeout). Il verdetto
-   "flip LOS" del 2026-07-06 resta valido SOLO a units_block_los=false.
+   dWR -0.375 e +11.28 round, con l'85% degli incontri in stallo (34/40 timeout). Il flip
+   eseguito oggi (#3226) a `units_block_los=false` e' COERENTE col dato: la config deve restare
+   false.
 2. **Il collasso e' comportamentale, non geometrico**: entrambe le AI trattano l'occlusione da
    corpo come un blocco che il loro strumento di sblocco non vede (reposition terrain-only) e
    che la loro selezione target non aggira (no-retarget). Flippare units_block_los senza (a)
    reposition body-aware e (b) retarget su target visibile = stallo patologico.
-3. **Costo flip combinato su questa fixture**: config true, flip ON-vs-OFF = dWR -0.65 (vs -0.275
-   a config false). Ordine di flip obbligato: COMBAT_LOS_ENABLED prima, units_block_los solo dopo
-   le due fix AI.
+3. **Costo combinato su questa fixture**: a config true, LOS ON-vs-OFF = dWR -0.65 (vs -0.275 a
+   config false). Prerequisito per accendere l'asse corpo: le due fix AI del punto 2, POI
+   ri-misura su crowd.
 4. Baseline OFF crowd (0.800) non confrontabile con OFF lane #3223 (0.850): fixture diversa
    (3 corpi in piu' cambiano occupancy/aggro). I confronti validi sono within-fixture.
 
