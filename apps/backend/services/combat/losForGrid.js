@@ -20,6 +20,7 @@
 const { lineOfSightClear } = require('../grid/squareLos');
 const { terrainAtFromFeatures } = require('./moveCost');
 const { terrainBlocksLos, unitsBlockLos } = require('./losBlockers');
+const { occupiedSetFromUnits } = require('./occupancy');
 
 // Pure occupancy predicate from live units, gated by `enabled` (the units_block_los
 // config). Disabled OR no units -> no-op (keeps terrain-only slice-1 behavior
@@ -27,18 +28,7 @@ const { terrainBlocksLos, unitsBlockLos } = require('./losBlockers');
 // attacker/target cell never self-blocks. Exported for testing.
 function _unitBlocker(units, enabled) {
   if (!enabled || !Array.isArray(units) || units.length === 0) return () => false;
-  const occ = new Set();
-  for (const u of units) {
-    if (
-      u &&
-      u.position &&
-      (u.hp ?? 0) > 0 &&
-      Number.isFinite(u.position.x) &&
-      Number.isFinite(u.position.y)
-    ) {
-      occ.add(`${u.position.x},${u.position.y}`);
-    }
-  }
+  const occ = occupiedSetFromUnits(units, { requireFinite: true });
   return (x, y) => occ.has(`${x},${y}`);
 }
 

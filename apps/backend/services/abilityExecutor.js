@@ -35,6 +35,7 @@
 const { loadJobs, extractAbilities } = require('./jobsLoader');
 const { defaultRng } = require('./combat/pseudoRng');
 const { isAbilityInhibited } = require('./combat/abilitySuppression');
+const { occupiedSetFromUnits } = require('./combat/occupancy');
 
 let abilityIndex = null;
 
@@ -489,11 +490,7 @@ function createAbilityExecutor(deps) {
     const grid = session.grid || null;
     // Only LIVE units block a spawn tile (Codex #2544 P2): corpses don't occupy
     // cells, matching the codebase's live-unit movement/occupancy semantics.
-    const occupied = new Set(
-      (session.units || [])
-        .filter((u) => u && u.position && (u.hp ?? 0) > 0)
-        .map((u) => `${u.position.x},${u.position.y}`),
-    );
+    const occupied = occupiedSetFromUnits(session.units);
     const candidates = [
       { x: pos.x + 1, y: pos.y },
       { x: pos.x - 1, y: pos.y },

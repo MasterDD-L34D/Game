@@ -45,6 +45,7 @@ const {
 } = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
 const { stepToRegainLos } = require('../combat/losReposition');
+const { occupiedSetFromUnits } = require('../combat/occupancy');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
 // A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
 // sessionHelpers owns the single effectivePressure SoT (flag-gated, default OFF).
@@ -470,11 +471,7 @@ function createDeclareSistemaIntents(deps) {
         policy.intent === 'attack' &&
         !losClearForAi(session.grid, actor.position, target.position, session.units)
       ) {
-        const occupied = new Set(
-          (session.units || [])
-            .filter((u) => u && u.position && (u.hp ?? 0) > 0 && u.id !== actor.id)
-            .map((u) => `${u.position.x},${u.position.y}`),
-        );
+        const occupied = occupiedSetFromUnits(session.units, { excludeId: actor.id });
         // Reposition to regain LOS on the CHOSEN target specifically (keep engaging
         // it, do not switch enemies) -- pass only [target]. null -> plain approach.
         // Budget v2: an approach intent is a move-only round (one intent per unit),

@@ -30,6 +30,7 @@ const {
   buildUltimaCacciaUnits01,
 } = require('../../apps/backend/services/worldgen/ultimaCacciaScenario');
 const { deriveCombatStats } = require('../../apps/backend/services/worldgen/ecologyCombatAdapter');
+const { occupiedSetFromUnits } = require('../../apps/backend/services/combat/occupancy');
 
 process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
 process.env.IDEA_ENGINE_STUB_ORCHESTRATOR = '1';
@@ -88,9 +89,7 @@ function planPlayerIntents(state) {
   const enemies = units.filter((u) => u.controlled_by === 'sistema' && (u.hp || 0) > 0);
   if (!enemies.length) return [];
   const intents = [];
-  const reserved = new Set(
-    units.filter((u) => (u.hp || 0) > 0).map((u) => `${u.position.x},${u.position.y}`),
-  );
+  const reserved = occupiedSetFromUnits(units);
   for (const pl of players) {
     const ap = pl.ap_remaining != null ? pl.ap_remaining : pl.ap != null ? pl.ap : 2;
     if (ap <= 0) continue;
