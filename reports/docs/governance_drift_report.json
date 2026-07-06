@@ -1,11 +1,23 @@
 {
-  "generated_at": "2026-06-23T21:20:30+00:00",
+  "generated_at": "2026-07-06T07:10:07+00:00",
   "summary": {
-    "total": 20,
+    "total": 34,
     "errors": 0,
-    "warnings": 20
+    "warnings": 34
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/2026-04-25-museum-validation.md",
+      "message": "Documento stale: revisione scaduta il 2026-06-24"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-06-20-session-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-07-04"
+    },
     {
       "level": "warning",
       "code": "unregistered_document",
@@ -57,6 +69,42 @@
     {
       "level": "warning",
       "code": "unregistered_document",
+      "path": "docs/planning/2026-06-23-slot-profile-backfill-proposal.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/planning/2026-06-28-gap2-next-block-mechanics-proposal.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/planning/2026-06-28-item4-family2-rebaseline-istruttoria.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/planning/2026-06-29-derived-canon-reproducibility-arc-handoff.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/planning/2026-06-29-gap2-block3-mechanics-proposal.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/planning/2026-06-29-session-handoff.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
       "path": "docs/playtest/2026-06-23-pe-contestedness-orthogonality-n100.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     },
@@ -76,6 +124,30 @@
       "level": "warning",
       "code": "unregistered_document",
       "path": "docs/reports/2026-06-22-trait-gate-audit.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/reports/2026-06-28-move-terrain-n40-evidence.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/reports/2026-06-28-radici-band-evidence.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/reports/2026-06-29-move-terrain-flip-prereqs-evidence.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/reports/2026-06-29-volo-hazard-encounter-band-evidence.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     },
     {
@@ -124,6 +196,18 @@
       "level": "warning",
       "code": "unregistered_document",
       "path": "docs/superpowers/specs/2026-06-23-move-terrain-cost-substrate-design.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/superpowers/specs/2026-06-23-volo-grade-percreature-design.md",
+      "message": "Documento con frontmatter governato (doc_status) assente dal registry."
+    },
+    {
+      "level": "warning",
+      "code": "unregistered_document",
+      "path": "docs/superpowers/specs/2026-06-29-hazard-terrain-encounter-volo-exercise-design.md",
       "message": "Documento con frontmatter governato (doc_status) assente dal registry."
     }
   ]
