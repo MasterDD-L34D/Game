@@ -14,14 +14,29 @@ env:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # GITHUB_TOKEN non serve piu' in scrittura: push + PR passano dal token
+    # della GitHub App (step app-token). Least privilege: read-only.
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     steps:
+      # Token GitHub App dedicata al posto di GITHUB_TOKEN: dal 2026-06-11
+      # le PR create/aggiornate da github-actions[bot] generano run
+      # pull_request in stato action_required (approvazione umana richiesta)
+      # -> PR #3196 bloccata 6 giorni. L'attore app-bot dedicato non e' gated.
+      # https://github.blog/changelog/2026-06-11-bot-created-pull-requests-can-run-workflows-if-approved/
+      - name: Mint automation app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Credenziale persistita = app token: git push usa l'app, non
+          # github-actions[bot].
+          token: ${{ steps.app-token.outputs.token }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -32,12 +47,12 @@ jobs:
         run: python scripts/daily_tracker_refresh.py --export-json reports/daily_tracker_summary.json
       - name: Open tracker-refresh PR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -e
-          # main e' protetto: il bot github-actions non puo' pushare diretto
-          # (403 -> git-auto-commit-action exit 128). Consegna via PR branch +
-          # auto-PR, idioma riusato da ai-sim-nightly (B3) e skiv-monitor.
+          # main e' protetto: nessun push diretto. Consegna via PR branch +
+          # auto-PR (idioma riusato da ai-sim-nightly B3), con app token
+          # cosi' i check pull_request partono senza approvazione manuale.
           if git diff --quiet -- docs/00-INDEX.md; then
             echo "Tracker index invariato -- nessun PR necessario"
             exit 0

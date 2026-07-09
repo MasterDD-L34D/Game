@@ -61,8 +61,26 @@ jobs:
       issues: write
     timeout-minutes: 30
     steps:
+      # Token GitHub App dedicata per la delivery PR (step B3): dal
+      # 2026-06-11 le PR create/aggiornate da github-actions[bot] generano
+      # run pull_request in action_required (approvazione umana). In piu'
+      # GITHUB_TOKEN qui e' contents:read -> il push del baseline PR era un
+      # 403 latente inghiottito da continue-on-error. L'app token risolve
+      # entrambi. Stesso idioma di daily-tracker-refresh.
+      # https://github.blog/changelog/2026-06-11-bot-created-pull-requests-can-run-workflows-if-approved/
+      - name: Mint automation app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Credenziale persistita = app token (job ~9min << TTL 1h):
+          # il git push di B3 usa l'app, non github-actions[bot].
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Node 22
         uses: actions/setup-node@v4
@@ -242,12 +260,13 @@ jobs:
           fi
 
       # B3 — commit the updated rolling baseline + generated report via PR,
-      # NOT auto-commit to main (PT2-C). Token is contents+PR scoped.
+      # NOT auto-commit to main (PT2-C). App token: contents+PR scoped,
+      # actor non gated (vedi step app-token).
       - name: Open baseline-update PR
         if: github.event_name == 'schedule' && steps.pillar.outputs.pillar_alert != ''
         continue-on-error: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           set -e
           DATE=$(date -u +%Y-%m-%d)
