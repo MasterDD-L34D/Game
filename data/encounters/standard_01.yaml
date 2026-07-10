@@ -3,6 +3,7 @@
 id: standard_01
 label: "Pattuglia della Caverna"
 difficulty: standard
+pressure_tier_floor: 2
 biome_id: caverna_profonda
 description_it: "Scontro tattico contro pattuglia nemica in caverna con coperture naturali."
 
@@ -44,9 +45,9 @@ grid:
   width: 6
   height: 6
   terrain_features:
-    - { x: 2, y: 2, type: roccia, defense_mod: 2 }
-    - { x: 4, y: 3, type: roccia, defense_mod: 2 }
-    - { x: 1, y: 4, type: vegetazione_densa, defense_mod: 2 }
+    - { x: 2, y: 2, type: roccia, terrain_type: stone, elevation: 1, defense_mod: 2 }
+    - { x: 4, y: 3, type: roccia, terrain_type: stone, elevation: 1, defense_mod: 2 }
+    - { x: 1, y: 4, type: vegetazione_densa, terrain_type: forest, elevation: 0, defense_mod: 2 }
 
 hazard:
   description: "Stalagmiti instabili: crollo casuale ogni 3 round."

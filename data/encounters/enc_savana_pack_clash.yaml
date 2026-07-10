@@ -13,6 +13,7 @@
 id: enc_savana_pack_clash
 label: "Branco di Polvere"
 difficulty: hardcore
+pressure_tier_floor: 4
 biome_id: savana
 description_it: >-
   Un branco di Razziatori di Polvere (Pulverator gregarius) ha cinto
@@ -53,11 +54,11 @@ grid:
   width: 10
   height: 10
   terrain_features:
-    - { x: 2, y: 4, type: vegetazione_densa, defense_mod: 2 }
-    - { x: 7, y: 6, type: vegetazione_densa, defense_mod: 2 }
-    - { x: 5, y: 8, type: roccia, defense_mod: 2 }
-    - { x: 3, y: 2, type: duna, defense_mod: 1 }
-    - { x: 8, y: 1, type: duna, defense_mod: 1 }
+    - { x: 2, y: 4, type: vegetazione_densa, terrain_type: forest, elevation: 0, defense_mod: 2 }
+    - { x: 7, y: 6, type: vegetazione_densa, terrain_type: forest, elevation: 0, defense_mod: 2 }
+    - { x: 5, y: 8, type: roccia, terrain_type: stone, elevation: 1, defense_mod: 2 }
+    - { x: 3, y: 2, type: duna, terrain_type: none, elevation: 1, defense_mod: 1 }
+    - { x: 8, y: 1, type: duna, terrain_type: none, elevation: 1, defense_mod: 1 }
 
 hazard:
   description: "Polvere sospesa: -1 perception per tutti i round dispari."

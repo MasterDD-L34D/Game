@@ -3,6 +3,7 @@
 id: elite_01
 label: "Confronto con l'Apex"
 difficulty: boss
+pressure_tier_floor: 3
 biome_id: abisso_vulcanico
 description_it: "Boss fight: un Leviatano Risonante domina il campo. Cooperazione obbligatoria."
 
@@ -28,9 +29,9 @@ grid:
   width: 6
   height: 6
   terrain_features:
-    - { x: 3, y: 3, type: lava, defense_mod: -1 }
-    - { x: 2, y: 1, type: roccia, defense_mod: 2 }
-    - { x: 4, y: 5, type: roccia, defense_mod: 2 }
+    - { x: 3, y: 3, type: lava, terrain_type: cinder, elevation: -1, defense_mod: -1 }
+    - { x: 2, y: 1, type: roccia, terrain_type: stone, elevation: 2, defense_mod: 2 }
+    - { x: 4, y: 5, type: roccia, terrain_type: stone, elevation: 2, defense_mod: 2 }
 
 hazard:
   description: "Eruzioni periodiche: 1d6 danno fuoco a unita su celle lava ogni 2 round."
