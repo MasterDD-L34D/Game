@@ -117,8 +117,9 @@ logga). Nessun cambio runtime di combat: la correzione tocca solo il modello di 
 - `node --test tests/services/xpBudget.test.js` **21/21** (2 test riscritti DICHIARATI:
   gli assert hazard ora leggono `hazard_xp.lava` dal config -- meccanica verificata per
   qualunque valore, valore corrente 0).
-- Audit arms post-fix: 3/3 `ratio 1.11 in_band` sotto `XP_BUDGET_GEOMETRY_ENABLED=true`
-  - `MOVE_TERRAIN_COST_ENABLED=true` (script inline, output nel PR).
+- Audit arms post-fix: 3/3 `ratio 1.11 in_band` sotto entrambi i flag prod
+  (`XP_BUDGET_GEOMETRY_ENABLED=true` e `MOVE_TERRAIN_COST_ENABLED=true`;
+  script inline, output nel PR).
 - `tools/js/validate_encounter_grid_ratify.js`: 0 warn (baseline aggiornato).
 
 ## 7. Artifacts
