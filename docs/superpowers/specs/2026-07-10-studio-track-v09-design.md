@@ -69,8 +69,9 @@ bande quarta ratifica #3265). Richiesta owner: procedere come uno studio di svil
 
 ## Fase 3 -- Roadmap refresh (1 PR)
 
-- Riallineare `docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md` + `docs/core/40-ROADMAP.md`
-  alla sequenza slice-first:
+- Aggiornare `docs/core/40-ROADMAP.md` (roadmap-of-record) alla sequenza slice-first.
+  `EVO_FINAL_DESIGN_MASTER_ROADMAP.md` e' `superseded` da 40-ROADMAP e resta storico:
+  NON si tocca (evita di rianimare una seconda fonte roadmap). Sequenza:
   - **F-A vertical slice vestita**: 1 bioma (badlands, gia' misurato), 2 specie,
     Path A con audio+VFX veri, polish UI. Exit-gate: slice giocabile end-to-end vestita.
   - **F-B playtest N5**: co-op real-device CAMP-4 (gate umano). Exit-gate: report
