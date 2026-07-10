@@ -149,6 +149,15 @@ function isPerUnitActionsEnabled() {
   return process.env.SISTEMA_PER_UNIT_ACTIONS_ENABLED === 'true';
 }
 
+// Retreat gate (spec sistema-symmetry sez. 4.3): utilityBrain deve rispettare
+// la stessa retreat_hp_pct che il path rule-based onora gia' (misurato: 44/45
+// ritirate vengono da UTILITY_AI che la ignora). Nessun knob nuovo: soglia =
+// profiles.<ai_profile>.overrides.retreat_hp_pct, fallback config base.
+// Default OFF -> byte-identical.
+function isRetreatGateEnabled() {
+  return process.env.SISTEMA_RETREAT_GATE_ENABLED === 'true';
+}
+
 // Divisor K: one intent per K alive Sistema units (activation ~1/K on big
 // rosters). Env-tunable for probe A/B; invalid values fall back to 3.
 const ROSTER_K_DEFAULT = 3;
@@ -454,8 +463,25 @@ function createDeclareSistemaIntents(deps) {
         // Utility AI path too (was dropped here; legacy path at selectAiPolicy
         // below already reads threatCtx). Without this, M1's defensive overlay
         // went inert for any Sistema unit running a use_utility_brain profile.
+        // Retreat gate: sopra soglia la ritirata esce dalle azioni legali.
+        let retreatGated = false;
+        if (isRetreatGateEnabled()) {
+          const gateProf =
+            aiProfiles && aiProfiles.profiles && actor.ai_profile
+              ? aiProfiles.profiles[actor.ai_profile]
+              : null;
+          const gateOverrides = (gateProf && gateProf.overrides) || {};
+          const baseCfg = loadAiConfig();
+          const threshold = Number(
+            gateOverrides.retreat_hp_pct ?? baseCfg.LOW_HP_RETREAT_THRESHOLD,
+          );
+          const hpRatio =
+            Number(actor.max_hp) > 0 ? Number(actor.hp || 0) / Number(actor.max_hp) : 1;
+          retreatGated = hpRatio > threshold;
+        }
         const utilityState = {
           persistent_high_threat: !!(threatCtx && threatCtx.persistent_high_threat),
+          retreat_gated: retreatGated,
         };
         policy = selectAiPolicyUtility(actor, target, utilityState, stickyDifficulty);
       } else {
@@ -689,6 +715,7 @@ module.exports = {
   intentsCapForPressure,
   isIntentsRosterScalingEnabled,
   isPerUnitActionsEnabled,
+  isRetreatGateEnabled,
   INTENTS_ABS_CAP,
   detectHiddenAbilityReveals,
   DEFAULT_HIDDEN_ABILITY_THRESHOLD,
