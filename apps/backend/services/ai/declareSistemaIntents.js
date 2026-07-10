@@ -158,6 +158,16 @@ function isRetreatGateEnabled() {
   return process.env.SISTEMA_RETREAT_GATE_ENABLED === 'true';
 }
 
+// Per-unit AP declaration (spec sistema-symmetry sez. 4.2): ogni unita' Sistema
+// dichiara fino al SUO budget (ap_remaining ?? ap), mirror del PG. L'addebito a
+// risoluzione e il refill per-round esistono GIA' per il Sistema (bridge resolve
+// loop + applyApRefill, nessun filtro fazione -- verificato 2026-07-10): questo
+// flag chiude l'unico buco, l'affordability alla dichiarazione. Il cap globale
+// resta per la PRESENTAZIONE telegraph (spec sez. 4.4). Default OFF.
+function isPerUnitApEnabled() {
+  return process.env.SISTEMA_PER_UNIT_AP_ENABLED === 'true';
+}
+
 // Divisor K: one intent per K alive Sistema units (activation ~1/K on big
 // rosters). Env-tunable for probe A/B; invalid values fall back to 3.
 const ROSTER_K_DEFAULT = 3;
@@ -339,6 +349,7 @@ function createDeclareSistemaIntents(deps) {
     );
     // Read at call-time (not module-load) so the probe can toggle per-run.
     const perUnitActions = isPerUnitActionsEnabled();
+    const perUnitAp = isPerUnitApEnabled();
 
     const intents = [];
     const decisions = [];
@@ -386,16 +397,66 @@ function createDeclareSistemaIntents(deps) {
       }, null);
     }
 
+    // Slot-2 (spec sez. 4.2, mirror lookahead2): dopo il primo intent, se il
+    // budget regge, dichiara un attack SOLO se il target e' in gittata dalla
+    // posizione VIRTUALE post-move e la LOS e' libera da li'. Niente re-run
+    // della policy: deterministico, nessuna mutazione (il modulo resta puro),
+    // nessuna interazione col commit-window (bookkeeping invariato).
+    function declareSecondAttack(ctx) {
+      const {
+        actor, target, policy, virtualPos, remaining, intents, decisions, takenTargetIds, session,
+      } = ctx;
+      if (remaining < 1) return 0;
+      if (!target || Number(target.hp || 0) <= 0) return 0;
+      const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+      if (manhattanDistance(virtualPos, target.position) > range) return 0;
+      if (!losClearForAi(session.grid, virtualPos, target.position, session.units)) return 0;
+      const action = {
+        id: `sis-attack2-${actor.id}`,
+        type: 'attack',
+        actor_id: actor.id,
+        target_id: target.id,
+        ability_id: null,
+        ap_cost: 1,
+        channel: pickExploitChannel(target),
+        damage_dice: deps._damageDice || { count: 1, sides: 6, modifier: 2 },
+        source_ia_rule: `${policy.rule}_AP2`,
+      };
+      intents.push({ unit_id: actor.id, action });
+      takenTargetIds.add(target.id);
+      decisions.push({
+        unit_id: actor.id,
+        rule: `${policy.rule}_AP2`,
+        intent: 'attack',
+        target_id: target.id,
+      });
+      return 1;
+    }
+
     for (const actor of session.units) {
       if (!actor) continue;
       if (actor.controlled_by !== 'sistema') continue;
       if (Number(actor.hp || 0) <= 0) continue;
-      if (!perUnitActions && intentsEmitted >= intentsCap) {
+      if (!perUnitActions && !perUnitAp && intentsEmitted >= intentsCap) {
         decisions.push({
           unit_id: actor.id,
           rule: 'PRESSURE_CAP',
           intent: 'skip',
           reason: `pressure cap raggiunto (${intentsEmitted}/${intentsCap})`,
+        });
+        continue;
+      }
+
+      // Budget AP dell'attore (solo flag ON; OFF -> percorso invariato).
+      const apBudget = perUnitAp
+        ? Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0)
+        : Infinity;
+      if (perUnitAp && apBudget < 1) {
+        decisions.push({
+          unit_id: actor.id,
+          rule: 'NO_AP',
+          intent: 'skip',
+          reason: `ap esauriti (${apBudget})`,
         });
         continue;
       }
@@ -623,6 +684,14 @@ function createDeclareSistemaIntents(deps) {
           score: policy.score,
           breakdown: policy.breakdown,
         });
+        if (perUnitAp) {
+          intentsEmitted += declareSecondAttack({
+            actor, target, policy,
+            virtualPos: actor.position,
+            remaining: apBudget - 1,
+            intents, decisions, takenTargetIds, session,
+          });
+        }
         continue;
       }
 
@@ -687,6 +756,15 @@ function createDeclareSistemaIntents(deps) {
         position_from: positionFrom,
         source_ia_rule: policy.rule,
       };
+      if (perUnitAp && moveAction.ap_cost > apBudget) {
+        decisions.push({
+          unit_id: actor.id,
+          rule: 'NO_AP',
+          intent: 'skip',
+          reason: `move cost ${moveAction.ap_cost} > budget ${apBudget}`,
+        });
+        continue;
+      }
       intents.push({ unit_id: actor.id, action: moveAction });
       intentsEmitted++;
       decisions.push({
@@ -699,6 +777,14 @@ function createDeclareSistemaIntents(deps) {
         score: policy.score,
         breakdown: policy.breakdown,
       });
+      if (perUnitAp) {
+        intentsEmitted += declareSecondAttack({
+          actor, target, policy,
+          virtualPos: nextPos,
+          remaining: apBudget - moveAction.ap_cost,
+          intents, decisions, takenTargetIds, session,
+        });
+      }
     }
 
     // SPEC-Q M-4 -- reveal records emitted OFF THE SIDE (never touches intents).
@@ -716,6 +802,7 @@ module.exports = {
   isIntentsRosterScalingEnabled,
   isPerUnitActionsEnabled,
   isRetreatGateEnabled,
+  isPerUnitApEnabled,
   INTENTS_ABS_CAP,
   detectHiddenAbilityReveals,
   DEFAULT_HIDDEN_ABILITY_THRESHOLD,
