@@ -140,3 +140,104 @@ test('gate OFF: determinismo baseline (flag unset)', () => {
   const off2 = withFlag(undefined, () => declareFor(woundedSession()));
   assert.deepEqual(off1.decisions, off2.decisions, 'determinismo baseline');
 });
+
+// ---------------------------------------------------------------------------
+// D2 (ADR-2026-07-10) -- M1 persistent-threat widening. Il path legacy allarga la
+// soglia di ritirata a 1.2x quando c'e' un PG persistent-high-threat sul campo
+// (policy.js REGOLA_002: LOW_HP_RETREAT_THRESHOLD * 1.2). Il gate utility deve
+// fare lo stesso: nella banda (soglia, soglia*1.2] la ritirata torna legale e
+// l'overlay PERSISTENT_THREAT_RETREAT_BONUS (utilityBrain) la fa vincere. Senza il
+// fattore la ritirata resta gated e quel bonus di scoring e' dead-code nella banda.
+// ---------------------------------------------------------------------------
+const HIGH_THREAT = { kills_vs_sistema: 3, sightings: 5, threat_level: 'high' };
+const NORMAL_THREAT = { kills_vs_sistema: 1, sightings: 2, threat_level: 'normal' };
+
+// declareFor con computeThreatIndex iniettato: senza un threatCtx non-null
+// declareSistemaIntents non calcola persistent_high_threat (resterebbe assente) e
+// il widening non potrebbe mai scattare. L'oggetto tornato e' indifferente --
+// declareSistemaIntents vi scrive persistent_high_threat = computePersistentHighThreat(session).
+function declareWithThreat(session) {
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance: manhattan,
+    gridSize: 16,
+    aiProfiles: {
+      profiles: {
+        aggressive: { use_utility_brain: true, overrides: { retreat_hp_pct: 0.15 } },
+      },
+    },
+    computeThreatIndex: () => ({}),
+  });
+  return declare(session);
+}
+
+// SIS ferita a hpRatio 0.16 -- DENTRO la banda (0.15, 0.18]: gated senza widening,
+// libera con widening. playerThreat pilota computePersistentHighThreat (high -> true).
+function bandSession(playerThreat) {
+  return {
+    units: [
+      {
+        id: 'sis_w',
+        controlled_by: 'sistema',
+        hp: 16,
+        max_hp: 100,
+        ap: 2,
+        ap_max: 2,
+        mod: 2,
+        dc: 12,
+        attack_range: 1,
+        initiative: 10,
+        position: { x: 10, y: 5 },
+        status: {},
+        ai_profile: 'aggressive',
+        damage: { min: 1, max: 3 },
+      },
+      {
+        id: 'p1',
+        controlled_by: 'player',
+        hp: 12,
+        max_hp: 12,
+        ap: 2,
+        ap_max: 2,
+        mod: 2,
+        dc: 12,
+        attack_range: 1,
+        initiative: 12,
+        position: { x: 2, y: 5 },
+        status: {},
+      },
+    ],
+    grid: { width: 16, height: 12 },
+    sistema_pressure: 50,
+    sistema_state: { units_observed: { p1: playerThreat } },
+  };
+}
+
+test('gate ON + persistent_high_threat: nella banda (soglia, soglia*1.2] la ritirata NON e gated e vince', () => {
+  withFlag('true', () => {
+    const { decisions } = declareWithThreat(bandSession(HIGH_THREAT));
+    const d = decisions.find((x) => x.unit_id === 'sis_w');
+    assert.ok(d, 'decisione emessa');
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
+    assert.equal(
+      d.intent,
+      'retreat',
+      `widening 1.2x: a hpRatio 0.16 sotto persistent threat la ritirata torna legale e vince (avuto ${d.intent})`,
+    );
+  });
+});
+
+test('gate ON senza persistent threat: stesso HP nella banda resta gated', () => {
+  withFlag('true', () => {
+    const { decisions } = declareWithThreat(bandSession(NORMAL_THREAT));
+    const d = decisions.find((x) => x.unit_id === 'sis_w');
+    assert.ok(d, 'decisione emessa');
+    assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
+    assert.notEqual(
+      d.intent,
+      'retreat',
+      `senza persistent threat la soglia resta 0.15: a hpRatio 0.16 la ritirata e gated (avuto ${d.intent})`,
+    );
+  });
+});
