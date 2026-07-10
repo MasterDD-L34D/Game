@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "locale": "en",
+    "language_name": "English",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-07-10",
+    "completion_percent": 4
+  },
+  "traits": {
+    "aculei_velenosi": {
+      "label": "Venomous Spines",
+      "mutazione_indotta": "Dorsal bristles have turned hollow, grafted onto sacs that distil hemolytic toxins.",
+      "spinta_selettiva": "Against predators too large to repel, only making the bite costly remained.",
+      "uso_funzione": "Melee attackers wound themselves on the spines and bleed at length.",
+      "debolezza": "It guards against nothing that strikes from afar: the punishment needs contact."
+    },
+    "ali_ioniche": {
+      "label": "Ionic Wings",
+      "mutazione_indotta": "Wing membranes gather charge along metallic veins and release it in micro-pulses.",
+      "spinta_selettiva": "In the ionic canopy the air is already electric: whoever can spend it moves first.",
+      "uso_funzione": "Grants sudden directional dashes and rapid altitude changes while scouting.",
+      "debolezza": "Each dash drains the charge; without ionised air the wings are inert membranes."
+    },
+    "antenne_flusso_mareale": {
+      "label": "Tidal-Flow Antennae",
+      "mutazione_indotta": "The antennae tuned themselves to the tide's rhythm, storing the surge in muscular ducts.",
+      "spinta_selettiva": "In the bioreactive lagoon, striking off-beat means striking water and nothing else.",
+      "uso_funzione": "Discharges the stored energy into a single blow that cracks enemy defences.",
+      "debolezza": "The surge must be released: held too long, it discharges into its bearer."
+    },
+    "corteccia_memetica": {
+      "label": "Memetic Bark",
+      "mutazione_indotta": "The bark records every heavy blow as a scar that allies know how to read.",
+      "spinta_selettiva": "In ancient woods, survival belongs to those who turn their wound into a shared warning.",
+      "uso_funzione": "After taking a hit of 3 damage or more it hardens (damage -2) and grants allies within 3 a +1 attack.",
+      "debolezza": "It needs a real wound: against light attrition the bark never wakes."
+    },
+    "criostasi_adattiva": {
+      "label": "Adaptive Cryostasis",
+      "mutazione_indotta": "The blood loads with cryoprotective enzymes that halt metabolism without shattering tissue.",
+      "spinta_selettiva": "Those who cannot cross the winter must learn to sleep through it.",
+      "uso_funzione": "Suspends metabolism to survive extreme seasons and prolonged famine.",
+      "debolezza": "Asleep, the body filters nothing: every poison works undisturbed."
+    },
+    "denti_seghettati": {
+      "label": "Serrated Teeth",
+      "mutazione_indotta": "Dental cusps have splintered into recurved blades that hold flesh fast.",
+      "spinta_selettiva": "Prey kept tearing free of the bite: the wound had to keep working on its own.",
+      "uso_funzione": "The bite lacerates flesh and applies deep bleeding for 2 turns.",
+      "debolezza": "The blades dull on armour and must regrow after every hard kill."
+    },
+    "eco_sismico": {
+      "label": "Seismic Echo",
+      "mutazione_indotta": "Cutaneous plates sense the ground's tremor and return it amplified.",
+      "spinta_selettiva": "Under the rock, sight is useless: all that counts is feeling the weight approach.",
+      "uso_funzione": "A single pulse marks the ground as a resonant zone for 2 rounds.",
+      "debolezza": "The echo tells no friend from foe: the zone reveals its own maker too."
+    },
+    "ghiandole_mnemoniche": {
+      "label": "Mnemonic Glands",
+      "mutazione_indotta": "Synaptic glands condense altered states into secretions that keep them attenuated.",
+      "spinta_selettiva": "In the synaptic fracture every boon fades: those who keep a copy survive.",
+      "uso_funzione": "Stores a weakened copy of a buff and redistributes it later.",
+      "debolezza": "The copy is always poorer than the original, and occupies the gland until spent."
+    },
+    "nodi_micorrizici_oracolari": {
+      "label": "Oracular Mycorrhizal Nodes",
+      "mutazione_indotta": "Dermal roots graft into the fungal network and read its chemical signals in advance.",
+      "spinta_selettiva": "In the mycorrhizal networks the forest knows before you do: better to listen.",
+      "uso_funzione": "Anticipates threats and relays tactical reads to the squad before contact.",
+      "debolezza": "Sever the network and the omens fall silent, leaving only disorientation."
+    },
+    "pelle_elastomera": {
+      "label": "Elastomeric Skin",
+      "mutazione_indotta": "The dermis has layered into elastomeric sheets that give the blow back instead of passing it on.",
+      "spinta_selettiva": "Against a predator you cannot avoid, the only answer is to absorb it and stay standing.",
+      "uso_funzione": "Cushions every incoming blow and reduces damage taken by 1.",
+      "debolezza": "The elastomer blunts impact, not the venom that passes through the skin."
+    },
+    "spore_paniche": {
+      "label": "Panic Spores",
+      "mutazione_indotta": "Sporal sacs ripen beneath the skin and burst at the first sign of threat.",
+      "spinta_selettiva": "There is no need to kill the predator, only to convince it the pack is already lost.",
+      "uso_funzione": "Neurotoxic spores induce hallucinations and rout the target: 3 turns of panic.",
+      "debolezza": "The cloud does not choose its lungs: nearby allies breathe the same terror."
+    },
+    "voce_imperiosa": {
+      "label": "Imperious Voice",
+      "mutazione_indotta": "The vocal cords thickened into a chamber that resonates below the threshold of hearing.",
+      "spinta_selettiva": "In a pack the order to flee arrives before the predator: whoever speaks it commands.",
+      "uso_funzione": "In melee the voice breaks the target's will: 2 turns of panic.",
+      "debolezza": "It works only within earshot, and never touches what has no will to break."
+    },
+    "zampe_a_molla": {
+      "label": "Spring-Loaded Limbs",
+      "mutazione_indotta": "The hind tendons have coiled into springs that hold the thrust between one leap and the next.",
+      "spinta_selettiva": "In the mycelial forest the ground gives way: those who stand still long enough sink.",
+      "uso_funzione": "Stores energy and releases it in a leap that repositions the unit clear of the threat.",
+      "debolezza": "The run-up needs room: in tight quarters the springs have nowhere to unload."
+    }
+  }
+}

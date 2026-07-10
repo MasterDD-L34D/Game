@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "locale": "it",
+    "language_name": "Italiano",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-07-10",
+    "completion_percent": 4
+  },
+  "traits": {
+    "aculei_velenosi": {
+      "label": "Aculei Velenosi",
+      "mutazione_indotta": "Le setole dorsali si sono fatte cave, innestate su sacche che distillano tossine emolitiche.",
+      "spinta_selettiva": "Contro predatori troppo grandi per essere respinti, restava solo rendere costoso il morso.",
+      "uso_funzione": "Chi attacca in mischia si ferisce sugli aculei e sanguina a lungo.",
+      "debolezza": "Non protegge da nulla che colpisca a distanza: la punizione richiede contatto."
+    },
+    "ali_ioniche": {
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "Le membrane alari accumulano carica lungo nervature metalliche e la scaricano in micro-impulsi.",
+      "spinta_selettiva": "Nella canopia ionica l'aria è già elettrica: chi sa spenderla si muove per primo.",
+      "uso_funzione": "Concede scatti direzionali improvvisi e cambi di quota rapidi in esplorazione.",
+      "debolezza": "Ogni scatto svuota la carica; senza aria ionizzata le ali restano membrane inerti."
+    },
+    "antenne_flusso_mareale": {
+      "label": "Antenne di Flusso Mareale",
+      "mutazione_indotta": "Le antenne si sono sintonizzate sul ritmo delle maree, immagazzinando l'onda nei condotti muscolari.",
+      "spinta_selettiva": "Nella laguna bioreattiva colpire fuori tempo significa colpire l'acqua e nient'altro.",
+      "uso_funzione": "Scarica l'energia accumulata in un colpo singolo che apre le difese avversarie.",
+      "debolezza": "L'onda va rilasciata: trattenuta troppo a lungo, si scarica sul portatore."
+    },
+    "corteccia_memetica": {
+      "label": "Corteccia Memetica",
+      "mutazione_indotta": "La corteccia registra ogni colpo pesante come una cicatrice che gli alleati sanno leggere.",
+      "spinta_selettiva": "Nei boschi antichi sopravvive chi trasforma la propria ferita in avvertimento condiviso.",
+      "uso_funzione": "Subito un colpo da 3 danni o più indurisce (danno -2) e concede +1 attacco agli alleati entro 3.",
+      "debolezza": "Serve essere feriti sul serio: contro il logoramento leggero la corteccia non si sveglia mai."
+    },
+    "criostasi_adattiva": {
+      "label": "Criostasi Adattiva",
+      "mutazione_indotta": "Il sangue si carica di enzimi crioprotettivi che fermano il metabolismo senza spezzare i tessuti.",
+      "spinta_selettiva": "Chi non sa attraversare l'inverno deve saperlo dormire.",
+      "uso_funzione": "Sospende il metabolismo per sopravvivere a stagioni estreme e carestie prolungate.",
+      "debolezza": "Nel sonno il corpo non filtra nulla: ogni veleno lavora indisturbato."
+    },
+    "denti_seghettati": {
+      "label": "Denti Seghettati",
+      "mutazione_indotta": "Le cuspidi dentali si sono scheggiate in lame ricurve che trattengono la carne.",
+      "spinta_selettiva": "Prede che si liberavano dal morso: serviva una ferita che continuasse a lavorare da sola.",
+      "uso_funzione": "Il morso lacera la carne e applica sanguinamento profondo per 2 turni.",
+      "debolezza": "Le lame si spuntano sulle corazze e vanno rifatte dopo ogni preda dura."
+    },
+    "eco_sismico": {
+      "label": "Eco Sismico",
+      "mutazione_indotta": "Placche cutanee percepiscono la vibrazione del suolo e la restituiscono amplificata.",
+      "spinta_selettiva": "Sotto la roccia la vista non serve: conta solo chi sente arrivare il peso.",
+      "uso_funzione": "Un impulso marca il terreno come zona risonante per 2 round.",
+      "debolezza": "L'eco non distingue amico da nemico: la zona rivela anche chi l'ha creata."
+    },
+    "ghiandole_mnemoniche": {
+      "label": "Ghiandole Mnemoniche",
+      "mutazione_indotta": "Ghiandole sinaptiche condensano gli stati alterati in secrezioni che li conservano attenuati.",
+      "spinta_selettiva": "Nella frattura sinaptica ogni potenziamento svanisce: sopravvive chi ne serba una copia.",
+      "uso_funzione": "Conserva una copia indebolita di un potenziamento e la ridistribuisce più tardi.",
+      "debolezza": "La copia è sempre più povera dell'originale e occupa la ghiandola finché non viene spesa."
+    },
+    "nodi_micorrizici_oracolari": {
+      "label": "Nodi Micorrizici Oracolari",
+      "mutazione_indotta": "Radici dermiche si innestano nella rete fungina e ne leggono in anticipo i segnali chimici.",
+      "spinta_selettiva": "Nelle reti micorriziche il bosco sa prima di te: conviene ascoltarlo.",
+      "uso_funzione": "Anticipa le minacce e trasmette letture tattiche alla squadra prima del contatto.",
+      "debolezza": "Recisa la rete, i presagi tacciono e resta solo disorientamento."
+    },
+    "pelle_elastomera": {
+      "label": "Pelle Elastomera",
+      "mutazione_indotta": "Il derma si è stratificato in fogli elastomerici che restituiscono l'urto invece di trasmetterlo.",
+      "spinta_selettiva": "Contro un predatore che non si può evitare, l'unica risposta è assorbire e restare in piedi.",
+      "uso_funzione": "Ammortizza ogni colpo in arrivo e riduce il danno subito di 1.",
+      "debolezza": "L'elastomero attutisce l'impatto, non il veleno che passa attraverso la pelle."
+    },
+    "spore_paniche": {
+      "label": "Spore Paniche",
+      "mutazione_indotta": "Sacche sporali maturano sotto la pelle e si aprono al primo segnale di minaccia.",
+      "spinta_selettiva": "Non serve uccidere il predatore: basta convincerlo che il branco è già perduto.",
+      "uso_funzione": "Le spore neurotossiche inducono allucinazioni e mettono in fuga: 3 turni di panico.",
+      "debolezza": "La nube non sceglie i polmoni: gli alleati vicini respirano lo stesso terrore."
+    },
+    "voce_imperiosa": {
+      "label": "Voce Imperiosa",
+      "mutazione_indotta": "Le corde vocali si sono ispessite in una camera che risuona sotto la soglia dell'udito.",
+      "spinta_selettiva": "In un branco l'ordine di fuga arriva prima del predatore: chi lo pronuncia comanda.",
+      "uso_funzione": "In mischia la voce spezza la volontà del bersaglio: 2 turni di panico.",
+      "debolezza": "Vale solo a portata di voce e non tocca chi non ha volontà da spezzare."
+    },
+    "zampe_a_molla": {
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "I tendini posteriori si sono avvolti come molle che trattengono la spinta fra un balzo e l'altro.",
+      "spinta_selettiva": "Nella foresta miceliale il suolo cede: sopravvive chi non resta fermo abbastanza da sprofondare.",
+      "uso_funzione": "Accumula energia e la libera in un balzo che riposiziona l'unità fuori dalla minaccia.",
+      "debolezza": "Serve spazio per la rincorsa: negli anfratti stretti le molle non hanno dove scaricarsi."
+    }
+  }
+}
