@@ -145,7 +145,7 @@
       "label": "Osmotic Membranes",
       "mutazione_indotta": "The outer membrane drinks what strikes it, holding part of it back before it reaches the blood.",
       "spinta_selettiva": "Where every touch is venom, an impermeable body wastes less time healing.",
-      "uso_funzione": "Shortens every incoming status by 1 turn: a 1-turn status is absorbed entirely.",
+      "uso_funzione": "Shortens every incoming status by 1 turn (a 1-turn status never lands); at end of round it heals 1 if adjacent to water or bog.",
       "debolezza": "Against a long status the absorption is a delay, not a defence."
     },
     "mente_lucida": {
@@ -223,7 +223,7 @@
       "mutazione_indotta": "Sporal sacs ripen beneath the skin and burst at the first sign of threat.",
       "spinta_selettiva": "There is no need to kill the predator, only to convince it the pack is already lost.",
       "uso_funzione": "Neurotoxic spores induce hallucinations and rout the target: 3 turns of panic.",
-      "debolezza": "The cloud does not choose its lungs: nearby allies breathe the same terror."
+      "debolezza": "A panicked target flees: the spores pull it out of reach before you can finish it."
     },
     "sussurro_psichico": {
       "label": "Psychic Whisper",
@@ -250,7 +250,7 @@
       "label": "Adaptive Tissues",
       "mutazione_indotta": "The tissues sample what wounds them and reorganise against that very channel.",
       "spinta_selettiva": "An environment that strikes the same way twice teaches its survivors quickly.",
-      "uso_funzione": "After taking 2 or more damage of one channel, it gains +15% resistance to that channel for 3 rounds and heals 1.",
+      "uso_funzione": "After taking 2 or more damage of one channel, it gains +15% resistance to that channel for 3 rounds and heals 1; at most 2 channels at once.",
       "debolezza": "The adaptation looks backward: whoever alternates damage channels never lets it learn."
     },
     "voce_imperiosa": {

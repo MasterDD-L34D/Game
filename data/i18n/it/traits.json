@@ -145,7 +145,7 @@
       "label": "Membrane Osmotiche",
       "mutazione_indotta": "La membrana esterna beve ciò che la colpisce e ne trattiene una parte prima che raggiunga il sangue.",
       "spinta_selettiva": "Dove ogni tocco è veleno, un corpo impermeabile perde meno tempo a guarire.",
-      "uso_funzione": "Riduce di 1 turno la durata di ogni stato in arrivo: uno stato da 1 turno viene assorbito del tutto.",
+      "uso_funzione": "Accorcia di 1 turno ogni stato in arrivo (uno da 1 turno non attecchisce); a fine round cura 1 se adiacente ad acqua o palude.",
       "debolezza": "Contro uno stato lungo l'assorbimento è un rinvio, non una difesa."
     },
     "mente_lucida": {
@@ -223,7 +223,7 @@
       "mutazione_indotta": "Sacche sporali maturano sotto la pelle e si aprono al primo segnale di minaccia.",
       "spinta_selettiva": "Non serve uccidere il predatore: basta convincerlo che il branco è già perduto.",
       "uso_funzione": "Le spore neurotossiche inducono allucinazioni e mettono in fuga: 3 turni di panico.",
-      "debolezza": "La nube non sceglie i polmoni: gli alleati vicini respirano lo stesso terrore."
+      "debolezza": "Un bersaglio in panico fugge: le spore lo tolgono dalla mischia prima che tu possa finirlo."
     },
     "sussurro_psichico": {
       "label": "Sussurro Psichico",
@@ -250,7 +250,7 @@
       "label": "Tessuti Adattivi",
       "mutazione_indotta": "I tessuti campionano ciò che li ferisce e si riorganizzano contro quello stesso canale.",
       "spinta_selettiva": "Un ambiente che colpisce sempre allo stesso modo insegna in fretta a chi sopravvive.",
-      "uso_funzione": "Subiti 2 o più danni di un canale, guadagna +15% di resistenza a quel canale per 3 round e cura 1.",
+      "uso_funzione": "Subiti 2 o più danni di un canale, ottiene +15% di resistenza a quel canale per 3 round e cura 1; al massimo 2 canali insieme.",
       "debolezza": "L'adattamento guarda indietro: chi alterna i canali di danno non gli lascia mai imparare."
     },
     "voce_imperiosa": {
