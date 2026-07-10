@@ -146,3 +146,28 @@ seed di grid-band-probe EFFETTIVI (riproduzione deterministica in un run indipen
 post-merge, stessa toolchain Node v24.11.0; il full-loop driver resta unseeded).
 Output: `reports/sim/*-n10-postmerge-0710/` | log
 `Extras/ollama-runs/2026-07-10-grid-band-reprobe-postmerge.log` (cdd).
+
+## Addendum 2 -- 2026-07-10 sera: FLIP eseguito, bande flag-ON promosse
+
+- **Pre-flip probe flag-ON** (main `d9fd2f0ca` post-#3264, env gate+AP+telegraph ON):
+  N=10 paired (seeds 1..10) vs `reports/sim/*-n40-gateap-stepfix` = **bit-exact 30/30**
+  (incluse le 2 sconfitte dorsale seed 5 e 10, kos 4/4). Doppia conferma: il contratto
+  hidden-row (#3264) e' presentation-only, e le misure N=40 gateap descrivono ESATTAMENTE
+  il comportamento prod flag-ON. Evidence: `reports/sim/*-n10-flagon-preflip-0710/` |
+  log `Extras/ollama-runs/2026-07-10-flagon-preflip-probe.log` (cdd).
+- **FLIP eseguito** (owner-authorized in-session, da Ryzen via SSH): checkout prod
+  Lenovo `_gamewt-lenovo-host` `dc0de487` -> `d9fd2f0ca` (nessun delta lockfile o
+  migrazioni sui 141 file); keys.env + `SISTEMA_RETREAT_GATE_ENABLED=true` +
+  `SISTEMA_PER_UNIT_AP_ENABLED=true` + `SISTEMA_TELEGRAPH_THREATS_ONLY=true`;
+  restart task (pid nuovo, `/api/health` ok, boot log pulito). Rollback: flag via
+  da keys.env (+ eventuale `git checkout --detach dc0de487`) + restart.
+- **Bande flag-ON promosse** in `docs/core/15-LEVEL_DESIGN.md` (quarta ratifica,
+  min-1/max+1 su N=40 gateap): dorsale [11,23], canyon [13,20], abisso [12,25].
+  Completion: sconfitte by-design (dorsale WR 0.925 CI95 [0.801,0.974]).
+- **xpBudget `action_economy`**: decisione owner = DEFER (warn /start accettato;
+  neutralizzazione in PR dedicato quando esistono misure in banda, come da sez. 7).
+- **D2 widening 1.2x** (deciso nell'ADR): implementazione nel gate PENDENTE -- il
+  threshold a `declareSistemaIntents.js` non applica il fattore che il legacy ha in
+  `policy.js` (`LOW_HP_RETREAT_THRESHOLD * 1.2` sotto persistent-threat). Non blocca
+  ne' flip ne' bande (nessun encounter di misura ha `persistent_high_threat`);
+  follow-up TDD dedicato.
