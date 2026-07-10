@@ -40,6 +40,33 @@ e' la CONVERSIONE delle attivazioni, non il loro numero -- le unita' extra si at
 avanzano closest-target, muoiono in approccio. Il prossimo lever e' COMPORTAMENTALE:
 un verbo di zona / intent-type differenziato per tier che trasformi l'attivazione in minaccia.
 
+> **AGGIORNAMENTO 2026-07-10 -- l'ipotesi-conversione e' ora MISURATA, non piu' ipotesi.**
+> Evidence: `docs/research/2026-07-10-sistema-cap-falsification.md`.
+>
+> 1. Terzo negative result convergente: rimuovere del tutto il cap (flag
+>    `SISTEMA_PER_UNIT_ACTIONS_ENABLED`, 3 -> 7 unita' attive a regime) lascia dWR **0.000**
+>    su 3/3 encounter, N=10 paired, wiring falsificato (6-8/10 seed divergenti).
+> 2. `tools/sim/intent-mix-probe.js` (18 fight) MISURA la conversione: il Sistema spende
+>    **~55% delle attivazioni in `retreat`** e ne converte in `attack` solo il **4.6%**
+>    (control); a cap rimosso gli attacchi **calano** (11 -> 6). Dorsale seed 1-2: ZERO
+>    attacchi in 15 round.
+> 3. Causa candidata (grep-verificata, non ancora A/B): 1 azione/unita' vs 2 AP del PG +
+>    gittata Sistema 1 vs `p_ranger`/`p_warden` a 2 + `SelfHealth` che premia `retreat`
+>    quando ferito (`utilityBrain.js`, peso 0.7). Il Sistema arriva ferito e scappa.
+>
+> **Conseguenza per questa spec**: il problema non e' il verbo MANCANTE (`defend_zone`) ma
+> il verbo SBAGLIATO (`retreat`) -- un `defend_zone` nuovo rischia di essere scartato dalla
+> stessa consideration che oggi scarta `attack`. Il doc raccomanda **retreat-gating prima
+> di defend_zone**: stesso costo, testa la causa misurata, e non viola l'invariante di
+> asimmetria (`ai_profiles.yaml` `sistema_resource_model.note`, che vieta di rispecchiare
+> le regole del player). I fork sez. 6 NON sono revocati: restano owner-gated.
+>
+> **Correzione recon (sez. 2.1)**: il cap non seleziona per merito. Il loop `:361` scorre
+> `session.units` in ordine di inserimento; le prime vive consumano il tetto e la coda
+> riceve `PRESSURE_CAP -> skip`. I rinforzi, accodati, sono **statue** finche' non muore un
+> membro della wave-1: la metrica `avg_reinforcements: 4.00 (a cap)` dei ratify N=40 misura
+> lo **spawner**, non l'attivita' dei rinforzi.
+
 **Corollario content**: la variante capture_point della dorsale e' pronta nel layout
 (grid-ratify, Gap dichiarati) ma resta ceiling finche' l'AI Sistema non difende una zona --
 il player-sim insegue le zone, il Sistema no (asimmetria misurabile, sez. 2).
