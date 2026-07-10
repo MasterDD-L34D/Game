@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Il Sistema dichiara azioni a budget AP per-creatura (come i PG), la ritirata utility e' gated dalla soglia gia' dichiarata nei profili, il telegraph mostra solo minacce -- tutto flag-OFF fino all'ADR, misurato con fattoriale 2x2 contro le bande di `damage_curves.yaml`.
+**Goal:** Il Sistema dichiara azioni a budget AP per-creatura (come i PG), la ritirata utility e' gated dalla soglia gia' dichiarata nei profili, il telegraph mostra solo minacce -- tutto flag-OFF fino all'ADR, misurato con fattoriale 2x2 contro le bande di `data/core/balance/damage_curves.yaml`.
 
 **Architecture:** 3 unita' (spec `docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md`): `apLedger` estratto dal closure del bridge (autorita' costi AP condivisa player/Sistema), dichiarazione a budget in `declareSistemaIntents` (2 flag distinti), filtro threats-only in `threatPreview`. L'addebito AP a risoluzione e il refill per-round ESISTONO GIA' per il Sistema (verificato): si costruisce solo il lato dichiarazione.
 
@@ -11,6 +11,8 @@
 ---
 
 ## Convenzioni (valgono per OGNI task)
+
+- **Anchor di riga = INDICATIVI**: il piano e' stato scritto mentre #3246 mergeva; su origin/main i numeri sono slittati (~+19 in declareSistemaIntents: cap-check a :384, non :365). Localizza SEMPRE per simbolo/contenuto, mai per numero secco.
 
 - **Worktree**: lavora in `C:\dev\_game-wt-3246` (il clone `C:\dev\Game` e' occupato da un'altra sessione -- MAI `git checkout` li'). `export NODE_PATH="C:/dev/Game/node_modules"` se un tool lamenta moduli mancanti; i test `node --test` girano dal worktree root senza NODE_PATH (node_modules risolti risalendo? NO: il worktree NON ha node_modules -- per i test usa `cd /c/dev/_game-wt-3246 && NODE_PATH="C:/dev/Game/node_modules" node --test <file>`; se fallisce ancora su require relativi, esegui i test dal clone principale SENZA checkout: `cd /c/dev/Game && node --test <file>` funziona solo se il branch e' lo stesso -- altrimenti resta nel worktree).
 - **Mai** `npm run test:api` completo su Ryzen (EADDRINUSE): solo file espliciti.
@@ -284,16 +286,15 @@ test('enumerateLegalActions: state.retreat_gated toglie retreat dalle legali', (
   const enemy = { id: 'p', hp: 10, max_hp: 10, position: { x: 5, y: 5 }, controlled_by: 'player' };
   const state = { units: { a: actor, p: enemy } };
   const withRetreat = enumerateLegalActions(actor, state).map((a) => a.type);
-  assert.ok(withRetreat.includes('retreat'), 'senza gate retreat e' legale');
+  assert.ok(withRetreat.includes('retreat'), 'senza gate retreat legale');
   const gated = enumerateLegalActions(actor, { ...state, retreat_gated: true }).map((a) => a.type);
   assert.ok(!gated.includes('retreat'), 'gated: retreat non proposta');
   assert.ok(gated.includes('approach'), 'le altre azioni restano');
 });
 ```
 
-NB apici: la stringa `'senza gate retreat e' legale'` sopra ROMPE il JS -- nel file
-reale usa doppi apici: `"senza gate retreat e' legale"`. (Il gate ASCII vieta
-l'apostrofo tipografico, quello dritto in stringa doppia e' ok.)
+(I messaggi degli assert evitano apostrofi di proposito: copia-incolla sicuro,
+niente pattern "incolla-poi-correggi". Gate ASCII: mai apostrofo tipografico.)
 
 Poi il test integrato sul declare loop (stesso file):
 
@@ -965,6 +966,8 @@ e in coda, prima del `return preview;`:
     let cap = preview.length;
     try {
       const { intentsCapForPressure } = require('./declareSistemaIntents');
+      // 2-arg call VOLUTA: senza aliveSistema il roster-scaling non entra
+      // (guard Number.isFinite) -> cap = solo tier. Non "correggere" a 3 arg.
       cap = intentsCapForPressure(session.sistema_pressure, session.pressure_tier_floor);
     } catch {
       /* cap lookup best-effort: senza, nessun taglio */
