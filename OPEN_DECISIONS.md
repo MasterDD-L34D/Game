@@ -15,9 +15,10 @@
 
 _Generato da `tools/generate_open_decisions.py`. NON editare a mano: edita i comment `<!-- od … -->` di ogni sezione e rigenera._
 
-| OD                                                                     | Titolo                                               | Livello                                                                 | Ref      |
-| ---------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------- | -------- |
-| [OD-060](#od-060-doc-pins-guardrail----pins-strict-flip-prerequisites) | doc-pins guardrail -- pins-strict flip prerequisites | P2 (governance DX; opened as the PR #3191 doc-pins guardrail follow-up) | PR #3191 |
+| OD                                                                                     | Titolo                                                                  | Livello                                                                                                                                                                  | Ref      |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| [OD-060](#od-060-doc-pins-guardrail----pins-strict-flip-prerequisites)                 | doc-pins guardrail -- pins-strict flip prerequisites                    | P2 (governance DX; opened as the PR #3191 doc-pins guardrail follow-up)                                                                                                  | PR #3191 |
+| [OD-061](#od-061-predittore-geometrico-xpbudget----prerequisito-al-flip-warn-block-d9) | Predittore geometrico xpBudget -- prerequisito al flip warn->block (D9) | P2 (balance-model; prerequisito del ruling D9 "warn -> calibra N=40 -> block", spec `docs/superpowers/specs/2026-07-03-encounter-geometry-difficulty-gate-design.md` D9) | PR #3243 |
 
 <!-- /gen:od-open -->
 
@@ -595,6 +596,21 @@ allora **non basta questo file**: serve **checkpoint umano** + **ADR ufficiale**
 - **Prerequisiti al flip** (harsh-review PR #3191): (1) enforcement baseline decreasing-only -- un CI-assert che `docs/governance/doc_pins_baseline.json` non e' cresciuto vs origin/main (diff-count), cosi' la baseline non diventa un canale di silenziamento non-ratcheted accanto al gate; (2) audit case-sensitivity -- l'existence-check `(repo_root / pin).exists()` e' case-sensitive su Linux-CI ma case-insensitive su dev-Windows, quindi un pin con case sbagliato passa in locale e romperebbe solo in CI al flip.
 - **Default proposto**: restare warning-tier finche' i 2 prereq non sono soddisfatti. La visibilita' e' gia' migliorata -- i broken pin non-baselined ora appaiono nel `$GITHUB_STEP_SUMMARY` del job docs-governance (stesso follow-up PR).
 - **Ref**: PR #3191
+
+### [OD-061] Predittore geometrico xpBudget -- prerequisito al flip warn->block (D9)
+
+<!-- od id=OD-061 status=open -->
+
+- **Livello**: P2 (balance-model; prerequisito del ruling D9 "warn -> calibra N=40 -> block", spec `docs/superpowers/specs/2026-07-03-encounter-geometry-difficulty-gate-design.md` D9)
+- **Contesto**: dopo il re-ratify substrate-ON (PR #3243, evidence `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md`) `hazard_xp` e' MEASURED-0: il termine per-tile flat era doppiamente falsificato (prediceva `critical_over` 5.43 sull'abisso dove il delta pace misurato e' 0; NON vedeva il canyon, +6.47 round da roccia-detour, che aveva warn identico al dorsale). Azzerandolo, `auditEncounter` **non ha piu' alcun termine geometrico**: i 3 grid_sized rendono `used 221 / ratio 1.11` identico nonostante ~6 round di pace di differenza misurata. Oggi e' innocuo (D9 e' warn-only, non blocca); diventa bloccante-a-caso il giorno del flip a `block`.
+- **Opzioni**:
+  - **A** -- nessun termine geometrico. `xpBudget` resta modello massa + action-economy; la geometria vive dove e' misurata (bande pace ratificate `docs/core/15-LEVEL_DESIGN.md` + guard L-069 re-ratify). Implica: D9 resta warn-only per sempre.
+  - **B (raccomandato se si vuole il flip)** -- termine **path-tax geometrico**: costo del cheapest-path spawn->contatto sotto profilo `medium` (Dijkstra gia' esistente, `apps/backend/services/combat/moveCost.js`) rapportato alla distanza Manhattan; scalar su `used`. E' l'unica shape coerente con ENTRAMBE le falsificazioni (vede la roccia dei detour, non conta le tile hazard evitate dal pathing).
+  - **C** -- rinviare senza posizione (stato ante-#3243, ora peggiore: prima il termine c'era ed era sbagliato, ora non c'e').
+- **Default proposto**: **B, gated**. Non implementabile ora per SDMG: il metodo e' self-designed e la calibrazione avrebbe N=3 encounter tutti a WR 1.000 (ceiling di modello -- il Sistema e' cappato da `intents_per_round`, non puo' produrre evidence di difficolta' reale). Prerequisiti: (1) evidence non-ceiling dal lever **D4 comportamentale** (zone-defense / intent-type unlock, spec-draft `docs/planning/2026-07-06-sistema-zone-defense-spec-draft.md`); (2) falsificazione esterna della shape pre-integrazione (harsh-reviewer + Archon). Fino ad allora D9 resta warn-only e il flip a `block` NON si esegue.
+- **Cross-ref**: i fork (b) `budget_base` per-classe e (c) `dial_cap_reference` per-tier di `docs/research/2026-07-06-xpbudget-geometry-calibration.md` sez. 5 sono gated sullo STESSO prerequisito (evidence non-ceiling) -- vanno decisi insieme a questo, non prima.
+- **Verdetto owner (2026-07-10)**: piano confermato = "warn poi promuovi" (D9 invariato) -> questo OD e' il gate tecnico del "poi". Prossimo passo autorizzato: recon del brain AI nemiche (lever D4).
+- **Ref**: PR #3243
 
 ## Ref
 

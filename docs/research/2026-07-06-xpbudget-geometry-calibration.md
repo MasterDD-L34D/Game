@@ -96,7 +96,7 @@ flag-ON (tutorial_01 0.41, sabotage 0.39, ...). Due letture possibili:
 **Fork per Eduardo (pre-flip, SDMG)**: (a) accettare la lettura relativa (il gate D9
 "block" scatterebbe solo su critical_over, che ora significa davvero fuori scala); (b)
 ri-basare `budget_base` per classe sotto flag-ON (secondo giro di calibrazione, servono
-piu' encounter misurati non-ceiling -- arriva col lever D5 zone-defense); (c)
+piu' encounter misurati non-ceiling -- arriva col lever D4 zone-defense); (c)
 `dial_cap_reference` per-tier (floor autorato -> cap) invece del riferimento fisso 3.
 Il flip resta gated su questa scelta + verdetto owner.
 
