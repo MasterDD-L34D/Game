@@ -280,12 +280,8 @@ function createRoundBridge(deps) {
   // docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md sez. 4.1).
   // Load-bearing comments (anti-double-charge, OWASP A04 hardening) live with
   // the code there now.
-  const {
-    resolveMoveApCost,
-    resolveActionApCost,
-    resolveIntentApCost,
-    isValidGridDest,
-  } = require('../services/combat/apLedger').createApLedger({ manhattanDistance, gridSize });
+  const { resolveMoveApCost, resolveActionApCost, resolveIntentApCost, isValidGridDest } =
+    require('../services/combat/apLedger').createApLedger({ manhattanDistance, gridSize });
 
   // ────────────────────────────────────────────────────────────────
   // Guards + adapters
