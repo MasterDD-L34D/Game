@@ -22,6 +22,12 @@ const steps = [
   'node --test tests/scripts/replaceAllSafety.test.js',
   'node --test tests/scripts/damageCurvesIntegrity.test.js',
   'node --test tests/scripts/crossPlatformRunners.test.js',
+  // tests/scripts/encounterSchema.test.js was CI-orphaned (anti-pattern #10):
+  // never listed above nor matched by any glob, so the AJV gate validating
+  // docs/planning/encounters/*.yaml against schemas/evo/encounter.schema.json
+  // only ever ran locally (found on PR #3244 together with the ci.yml 'stack'
+  // paths-filter blind spot; both fixed 2026-07-10).
+  'node --test tests/scripts/encounterSchema.test.js',
   'node --test tests/i18n/parity.test.js',
   'node --test tests/play/*.test.js',
   // tests/services/** + tests/ai/** were not covered by the globs above ->
