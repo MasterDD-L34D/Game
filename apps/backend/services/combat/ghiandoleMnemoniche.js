@@ -100,9 +100,15 @@ function attenuate(turns) {
  * @param {object} opts
  * @param {object} opts.actor  portatore del tratto (mutato: guadagna il buff)
  * @param {object} opts.target preda (mutata: perde il buff)
+ * @param {Record<string, number>} [opts.caps]  STATUS_DURATION_CAPS, iniettato dal
+ *   chiamante (la tabella vive in routes/session.js). Il dimezzamento NON e' un cap:
+ *   `attenuate(100) = 50`, mentre il cap canonico di `frenzy` e' 5. Senza clamp un
+ *   client puo' seminare `status: {frenzy: 100}` su un nemico alla /start
+ *   (`normaliseUnit` copia `input.status`) e rubarne 50 turni. Gli altri due push-site
+ *   di `_pendingStatusApplies` clampano gia' allo stesso modo. Omesso -> nessun clamp.
  * @returns {{stato: string, stolen_turns: number, granted_turns: number} | null}
  */
-function stealBuff({ actor, target }) {
+function stealBuff({ actor, target, caps }) {
   if (!actor || typeof actor !== 'object') return null;
   if (!target || typeof target !== 'object') return null;
   if (!hasTrait(actor, GHIANDOLE_TRAIT)) return null;
@@ -117,7 +123,12 @@ function stealBuff({ actor, target }) {
     const turns = Number(targetStatus[stato]);
     if (!Number.isFinite(turns) || turns <= 0) continue;
 
-    const granted = attenuate(turns);
+    // Il cap si applica QUI, non solo alla push in session.js: stealBuff muta gia'
+    // actor.status in memoria, e il valore non cappato sopravviverebbe fino al sync.
+    const cap = caps && Number.isFinite(Number(caps[stato])) ? Number(caps[stato]) : null;
+    const halved = attenuate(turns);
+    const granted = cap !== null ? Math.min(cap, halved) : halved;
+
     delete targetStatus[stato];
     if (target.status_intensity && typeof target.status_intensity === 'object') {
       delete target.status_intensity[stato];

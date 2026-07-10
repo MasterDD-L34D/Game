@@ -461,6 +461,12 @@ function createRoundBridge(deps) {
         }
         session._pendingStatusApplies = [];
       }
+      // Simmetria: senza questo, su un throw la coda delle rimozioni resterebbe
+      // popolata e verrebbe drenata al sync successivo, cioe' un round dopo il colpo
+      // che l'ha prodotta. Meglio scartarla: il furto perde la meta' "rimozione" in
+      // quel round (degrada a copia, gia' segnalato dal console.warn sopra) invece di
+      // rubare un buff a distanza di un round.
+      session._pendingStatusRemovals = [];
     }
   }
 

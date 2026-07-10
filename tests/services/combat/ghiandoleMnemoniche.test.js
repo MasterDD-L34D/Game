@@ -104,6 +104,40 @@ test('furto: chi ruba frenzy eredita -1 difesa quando e bersagliato', () => {
   assert.equal(preyNow.attackDelta, 0);
 });
 
+// Cap di durata. Gli altri due push-site di _pendingStatusApplies in session.js
+// (:1295-1302 on_hit_status, :1545) clampano via STATUS_DURATION_CAPS; il furto deve
+// fare lo stesso. `normaliseUnit` copia `input.status` dal payload di /start
+// (sessionHelpers.js:65), e applyMoraleStatus e' Math.max senza cap: senza clamp un
+// client puo' seminare frenzy:100 su un nemico e rubarne 50 turni, contro il cap
+// canonico di 5. Il dimezzamento NON e' un cap: attenuate(100) = 50.
+test('furto: la durata concessa rispetta il cap canonico dello status', () => {
+  const actor = carrier();
+  const target = prey({ frenzy: 100 });
+  const out = stealBuff({ actor, target, caps: { frenzy: 5 } });
+  assert.equal(out.granted_turns, 5);
+  assert.equal(actor.status.frenzy, 5);
+});
+
+test('furto: sotto il cap, il dimezzamento resta intatto', () => {
+  const actor = carrier();
+  const target = prey({ frenzy: 4 });
+  const out = stealBuff({ actor, target, caps: { frenzy: 5 } });
+  assert.equal(out.granted_turns, 2); // ceil(4/2), non toccato dal cap
+});
+
+test('furto: status senza cap -> comportamento invariato', () => {
+  const actor = carrier();
+  const target = prey({ linked: 100 });
+  const out = stealBuff({ actor, target, caps: { frenzy: 5 } });
+  assert.equal(out.granted_turns, 50); // `linked` non e' in STATUS_DURATION_CAPS
+});
+
+test('furto: caps omesso -> nessun clamp (retro-compat)', () => {
+  const actor = carrier();
+  const target = prey({ frenzy: 100 });
+  assert.equal(stealBuff({ actor, target }).granted_turns, 50);
+});
+
 test('furto: actor === target non auto-cancella lo status', () => {
   const u = { id: 'a1', traits: [GHIANDOLE_TRAIT], status: { linked: 4 } };
   const out = stealBuff({ actor: u, target: u });

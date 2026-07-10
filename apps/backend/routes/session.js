@@ -1651,7 +1651,12 @@ function createSessionRouter(options = {}) {
       // Gia' dentro il blocco `if (result.hit)` aperto sopra: nessun re-gate.
       // Il furto fra unita' della stessa fazione lo rifiuta stealBuff (isSameFaction):
       // la route di attacco non valida la fazione del bersaglio.
-      const stolen = stealBuff({ actor, target });
+      // `caps`: il dimezzamento NON e' un cap (attenuate(100) = 50). Gli altri due
+      // push-site di _pendingStatusApplies clampano via STATUS_DURATION_CAPS; questo
+      // deve fare lo stesso, altrimenti un client che semina `status: {frenzy: 100}`
+      // alla /start (normaliseUnit copia input.status) ne ruba 50 turni contro il cap
+      // canonico di 5.
+      const stolen = stealBuff({ actor, target, caps: STATUS_DURATION_CAPS });
       if (stolen) {
         if (!Array.isArray(session._pendingStatusApplies)) {
           session._pendingStatusApplies = [];
