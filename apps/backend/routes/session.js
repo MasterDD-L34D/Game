@@ -227,6 +227,7 @@ const {
 const {
   rollD20,
   clampPosition,
+  normaliseGridBounds,
   normaliseUnit,
   buildDefaultUnits,
   normaliseUnitsPayload,
@@ -2145,13 +2146,11 @@ function createSessionRouter(options = {}) {
       // on encounter_id-only requests that sit within GRID_SIZE are unaffected. If an
       // encounter_id path needs extended bounds, the caller should also pass the inline
       // encounter.grid OR the scenario JS should supply units within GRID_SIZE.
+      // A04/CWE-20 (PR #3253 audit follow-up): normaliseGridBounds enforces the
+      // same integer [4,20] cap as isAuthoredGrid, fail-closed (null) on anything
+      // else -- a finite-but-absurd width (e.g. 9999) no longer widens the clamp.
       const _inlineGrid = req.body?.encounter?.grid;
-      let _normBounds =
-        _inlineGrid &&
-        Number.isFinite(Number(_inlineGrid.width)) &&
-        Number.isFinite(Number(_inlineGrid.height))
-          ? { width: Number(_inlineGrid.width), height: Number(_inlineGrid.height) }
-          : null;
+      let _normBounds = normaliseGridBounds(_inlineGrid);
       // fase-2c follow-up (ADR-2026-07-03): a board_scale:'grid_sized' encounter PLAYS on its
       // authored grid_size (resolveBoardSize below), so positions must clamp against THAT board,
       // not the GRID_SIZE default -- otherwise authored spawns beyond 5 collapse into the legacy

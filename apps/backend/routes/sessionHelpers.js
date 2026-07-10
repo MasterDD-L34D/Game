@@ -40,6 +40,24 @@ function clampPosition(x, y, bounds) {
   };
 }
 
+// A04/CWE-20 (PR #3253 audit follow-up): validate the INLINE
+// req.body.encounter.grid.{width,height} before it becomes clamp bounds for
+// initial unit positions. Mirrors the encounter.schema.json grid_size bounds
+// that isAuthoredGrid (services/party/loader.js) enforces on the authored
+// path -- integer 4..20 -- so the clamp can never place a unit outside any
+// board resolveBoardSize can actually produce. Numeric strings keep the
+// legacy Number() coercion; anything else fails CLOSED (null -> legacy
+// GRID_SIZE clamp in clampPosition/normaliseUnit).
+const GRID_BOUND_MIN = 4;
+const GRID_BOUND_MAX = 20;
+function normaliseGridBounds(grid) {
+  if (!grid || typeof grid !== 'object') return null;
+  const width = Number(grid.width);
+  const height = Number(grid.height);
+  const valid = (n) => Number.isInteger(n) && n >= GRID_BOUND_MIN && n <= GRID_BOUND_MAX;
+  return valid(width) && valid(height) ? { width, height } : null;
+}
+
 function normaliseUnit(raw, fallbackIndex, bounds) {
   const input = raw && typeof raw === 'object' ? raw : {};
   const id = String(input.id || `unit_${fallbackIndex + 1}`);
@@ -944,6 +962,7 @@ const PRESSURE_DELTAS = Object.freeze({
 module.exports = {
   rollD20,
   clampPosition,
+  normaliseGridBounds,
   normaliseUnit,
   buildDefaultUnits,
   normaliseUnitsPayload,
