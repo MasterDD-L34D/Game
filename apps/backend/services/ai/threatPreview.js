@@ -68,6 +68,28 @@ function buildThreatPreview(session) {
   const pending = session.roundState.pending_intents;
   if (!Array.isArray(pending) || pending.length === 0) return [];
 
+  // Threats-only (spec sistema-symmetry sez. 4.4): col Sistema simmetrico le
+  // azioni/round salgono (~14 a regime); si telegrafano SOLO le minacce --
+  // attack su unita' player, move dentro objective.target_zone (zone-based).
+  // Il movimento ordinario si vede sulla board. Il tier cap (che non gata piu'
+  // l'azione quando la dichiarazione e' a budget) diventa il tetto di
+  // PRESENTAZIONE. ADR-2026-04-18: il plan-reveal promette le MINACCE prima
+  // della risoluzione, non ogni passo (lettura da ratificare nell'ADR di
+  // chiusura arco). Default OFF -> byte-identical.
+  const threatsOnly = process.env.SISTEMA_TELEGRAPH_THREATS_ONLY === 'true';
+  const ZONE_OBJECTIVES = new Set(['capture_point', 'sabotage', 'escape', 'escort']);
+  const objective = session.encounter && session.encounter.objective;
+  const zone =
+    threatsOnly &&
+    objective &&
+    ZONE_OBJECTIVES.has(objective.type) &&
+    Array.isArray(objective.target_zone) &&
+    objective.target_zone.length === 4
+      ? objective.target_zone
+      : null;
+  const inZone = (pos) =>
+    zone && pos && pos.x >= zone[0] && pos.y >= zone[1] && pos.x <= zone[2] && pos.y <= zone[3];
+
   // 2026-04-27 PR-Y2 — StS damage forecast inline su intent.
   // Lazy require predictCombat (evitare circular dep + missing module risk).
   let predictCombatFn = null;
@@ -87,6 +109,13 @@ function buildThreatPreview(session) {
 
     const action = intent.action || {};
     const intentType = action.type || 'unknown';
+
+    if (threatsOnly) {
+      const isThreat =
+        intentType === 'attack' ||
+        ((intentType === 'move' || intentType === 'approach') && inZone(action.move_to));
+      if (!isThreat) continue;
+    }
 
     // PR-Y2 — expected_damage solo per attack (move/skip = null).
     let expectedDamage = null;
@@ -113,6 +142,24 @@ function buildThreatPreview(session) {
       expected_damage: expectedDamage,
       hit_pct: hitPct,
     });
+  }
+  if (threatsOnly && preview.length > 0) {
+    // Cap di presentazione: attack prima, poi zone-entry; taglio al tier cap.
+    // Lazy require per evitare cicli (declareSistemaIntents richiede sessionHelpers).
+    let cap = preview.length;
+    try {
+      // eslint-disable-next-line global-require
+      const { intentsCapForPressure } = require('./declareSistemaIntents');
+      // Chiamata a 2 argomenti VOLUTA: senza aliveSistema il roster-scaling non
+      // entra (guard Number.isFinite) -> cap = solo tier. Non "correggere" a 3 arg.
+      cap = intentsCapForPressure(session.sistema_pressure, session.pressure_tier_floor);
+    } catch {
+      /* cap lookup best-effort: senza, nessun taglio */
+    }
+    preview.sort(
+      (a, b) => (a.intent_type === 'attack' ? -1 : 1) - (b.intent_type === 'attack' ? -1 : 1),
+    );
+    return preview.slice(0, cap);
   }
   return preview;
 }

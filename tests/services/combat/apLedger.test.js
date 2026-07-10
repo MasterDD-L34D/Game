@@ -24,11 +24,21 @@ test('resolveMoveApCost: max(1, dist - move_bonus)', () => {
 
 test('resolveActionApCost: attack canon 1, client value ignorato', () => {
   assert.equal(ledger.resolveActionApCost({}, { type: 'attack', ap_cost: -5 }), 1);
-  // NOTA: `Math.max(0, Number(action.ap_cost) || 0) || 1` -> ap_cost:0 e' falsy
-  // in JS e ricade sul default 1 (comportamento legacy preservato: skip/pass non
-  // hanno una server cost source). Il floor tocca solo il segno, non il default.
+  // ap_cost:0 e' falsy in JS e ricade sul default legacy 1 (comportamento verbatim:
+  // skip/pass non hanno una server cost source). Il valore positivo passa invariato.
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 0 }), 1);
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 3 }), 3);
+});
+
+test('resolveActionApCost: skip/ability floor non-negativo e NaN-safe (no AP inflation)', () => {
+  // Un ap_cost negativo/non-numerico su uno skip verrebbe dedotto a execute-time
+  // come costo negativo -> max(0, ap - (-N)) = ap + N -> inflazione AP (OWASP A04).
+  // Il fallback floora a >= 0 (NaN -> 0), quindi un valore ostile costa al piu' 0.
+  assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: -100 }), 0);
+  assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 'abc' }), 0);
+  // Ability sconosciuta: floor a >= 1 (mai undercharge sotto il minimo), NaN-safe.
+  assert.equal(ledger.resolveActionApCost({}, { ability_id: 'nope', ap_cost: -5 }), 1);
+  assert.equal(ledger.resolveActionApCost({}, { ability_id: 'nope', ap_cost: 'abc' }), 1);
 });
 
 test('resolveActionApCost: ability sconosciuta floora a 1 (no undercharge)', () => {
@@ -38,14 +48,11 @@ test('resolveActionApCost: ability sconosciuta floora a 1 (no undercharge)', () 
   );
 });
 
-test('resolveActionApCost: skip con ap_cost negativo non rifonda AP (OWASP A04)', () => {
-  // Il resolver fa Math.max(0, ap_remaining - cost): il floor e' sul RISULTATO,
-  // non sul costo. Un cost negativo lo attraversa e diventa un credito
-  // (ap_remaining + 100). Il floor va messo sul costo.
-  const cost = ledger.resolveActionApCost({}, { type: 'skip', ap_cost: -100 });
-  assert.ok(cost >= 0, `costo skip negativo non floorato: ${cost}`);
-  assert.equal(cost, 1);
-});
+// NOTA (merge di main, #3257): il vettore "skip con ap_cost negativo rifonda AP"
+// e' coperto -- piu' a fondo -- dal test `resolveActionApCost: skip/ability floor
+// non-negativo e NaN-safe` sopra, che asserisce 0 (non 1) e copre anche il NaN e
+// il floor su ability sconosciuta. La versione locale di questa PR asseriva 1 ed
+// e' stata rimossa: contraddiceva il trunk, non aggiungeva copertura.
 
 test('isValidGridDest: bounds', () => {
   assert.equal(ledger.isValidGridDest({ x: 15, y: 15 }), true);
@@ -65,10 +72,18 @@ test('resolveIntentApCost: move in-grid usa costo server, off-grid tiene il clie
   );
 });
 
-test('resolveIntentApCost: skip con ap_cost negativo non accredita il budget', () => {
-  // Il gate declare-time somma i pending: un costo negativo qui e' un credito
-  // che finanzia gli intent successivi dello stesso attore.
-  assert.equal(ledger.resolveIntentApCost({}, { type: 'skip', ap_cost: -5 }), 0);
+test('resolveIntentApCost: skip/off-grid ap_cost negativo/NaN floored a 0 (pending sum >= 0)', () => {
+  // Il pending sum del gate AP e' Sum(resolveIntentApCost). Un ap_cost negativo/NaN
+  // su uno skip (o move off-grid) lo abbasserebbe sotto zero, avvelenando il gate
+  // (riesuma il ramo MOVE_TOO_FAR rimosso) e inflazionando gli AP. Il floor a 0 lo
+  // impedisce: un intento non prezzato lato server contribuisce al piu' 0, mai < 0.
+  const actor = { position: { x: 0, y: 0 } };
+  assert.equal(ledger.resolveIntentApCost(actor, { type: 'skip', ap_cost: -100 }), 0);
+  assert.equal(ledger.resolveIntentApCost(actor, { type: 'skip', ap_cost: 'abc' }), 0);
+  assert.equal(
+    ledger.resolveIntentApCost(actor, { type: 'move', move_to: { x: 99, y: 0 }, ap_cost: -50 }),
+    0,
+  );
 });
 
 test('canAfford: somma pending + candidata vs ap_remaining', () => {

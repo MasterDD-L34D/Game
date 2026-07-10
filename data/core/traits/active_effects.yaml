@@ -7859,3 +7859,53 @@ traits:
       Modulo strategico che mantiene priorita e finestre d'attacco allineate:
       quando il colpo cade su una finestra ben allineata (margine alto) aggiunge
       +1 al danno, premiando il tempismo invece della forza bruta.
+
+  # Oracle reveal -- spec docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+  # Primo produttore PASSIVO di telepatic_link: la pipe combat/telepathicReveal.js era
+  # gia' wired (sessionRoundBridge begin-planning) ma affamata -- l'unico produttore,
+  # risonanza_magnetica, e' gated on_kill + min_mos 5 (boss-finish, spara ~mai).
+  # telepatic_link non concede alcun delta statistico (statusModifiers.js:206-208):
+  # il tratto da' informazione, non forza. Contenimento = il raggio (manhattan 3,
+  # default di computeTelepathicReveal), non la rarita'.
+  # Band-neutral: nessuna sim unit porta questo tratto.
+  nodi_micorrizici_oracolari:
+    tier: T3
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: telepatic_link
+      turns: 2
+      log_tag: nodi_micorrizici_oracolari
+    description_it: |
+      Nodi micorrizici oracolari: la rete fungina simbiotica trasporta segnali
+      premonitori. Il portatore percepisce le intenzioni delle creature ostili
+      entro tre caselle prima che agiscano (fase di pianificazione). Non conferisce
+      alcun bonus di attacco o difesa: e' informazione, non potenza.
+
+  # Buff-steal -- spec docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+  # persistent_marker = sola REGISTRAZIONE: la logica vive in
+  # apps/backend/services/combat/ghiandoleMnemoniche.js, wired post-attacco in
+  # routes/session.js. Stesso pattern di corteccia_memetica / artigli_psionici.
+  # Il canone dice "al 50%": e' reso sulla DURATA, non sulla magnitudo (status_intensity
+  # e' letto solo per abbagliato). Whitelist ordinata frenzy-first: la priorita' e'
+  # togliere al nemico, non massimizzare il guadagno.
+  # Band-neutral: nessuna sim unit porta questo tratto.
+  ghiandole_mnemoniche:
+    tier: T2
+    category: supporto
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: persistent_marker
+      marker: ghiandole_mnemoniche
+      log_tag: ghiandole_mnemoniche
+    description_it: |
+      Ghiandole mnemoniche: secrezioni che trattengono copie attenuate dei buff.
+      Su un colpo andato a segno il portatore strappa alla preda un potenziamento
+      temporaneo (priorita': frenesia, legame, percezione, coordinamento, risonanza)
+      e ne indossa una copia per meta' della durata residua. Rubare la frenesia non
+      e' un affare pulito: se ne eredita anche la guardia abbassata.

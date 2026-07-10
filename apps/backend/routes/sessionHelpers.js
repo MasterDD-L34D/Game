@@ -40,6 +40,24 @@ function clampPosition(x, y, bounds) {
   };
 }
 
+// A04/CWE-20 (PR #3253 audit follow-up): validate the INLINE
+// req.body.encounter.grid.{width,height} before it becomes clamp bounds for
+// initial unit positions. Mirrors the encounter.schema.json grid_size bounds
+// that isAuthoredGrid (services/party/loader.js) enforces on the authored
+// path -- integer 4..20 -- so the clamp can never place a unit outside any
+// board resolveBoardSize can actually produce. Numeric strings keep the
+// legacy Number() coercion; anything else fails CLOSED (null -> legacy
+// GRID_SIZE clamp in clampPosition/normaliseUnit).
+const GRID_BOUND_MIN = 4;
+const GRID_BOUND_MAX = 20;
+function normaliseGridBounds(grid) {
+  if (!grid || typeof grid !== 'object') return null;
+  const width = Number(grid.width);
+  const height = Number(grid.height);
+  const valid = (n) => Number.isInteger(n) && n >= GRID_BOUND_MIN && n <= GRID_BOUND_MAX;
+  return valid(width) && valid(height) ? { width, height } : null;
+}
+
 function normaliseUnit(raw, fallbackIndex, bounds) {
   const input = raw && typeof raw === 'object' ? raw : {};
   const id = String(input.id || `unit_${fallbackIndex + 1}`);
@@ -689,14 +707,20 @@ function pickLowestHpEnemy(session, actor) {
   }, null);
 }
 
-function stepTowards(from, to) {
+// bounds accepts the same shapes as stepAway (policy.js): { width, height } or
+// the legacy square scalar (equivalent to stepAway for the integer bounds the
+// factories pass). Absent/null bounds -> GRID_SIZE-1 exactly as before.
+// Without it, every approach step on a grid_sized board (e.g. 16x12) landing
+// beyond x=5/y=5 collapsed into the 6x6 box (teleport or null move).
+function stepTowards(from, to, bounds) {
   const next = { ...from };
   if (from.x !== to.x) {
     next.x += from.x < to.x ? 1 : -1;
   } else if (from.y !== to.y) {
     next.y += from.y < to.y ? 1 : -1;
   }
-  return clampPosition(next.x, next.y);
+  const rect = typeof bounds === 'number' ? { width: bounds, height: bounds } : bounds;
+  return clampPosition(next.x, next.y, rect);
 }
 
 function isBackstab(actor, target) {
@@ -944,6 +968,7 @@ const PRESSURE_DELTAS = Object.freeze({
 module.exports = {
   rollD20,
   clampPosition,
+  normaliseGridBounds,
   normaliseUnit,
   buildDefaultUnits,
   normaliseUnitsPayload,

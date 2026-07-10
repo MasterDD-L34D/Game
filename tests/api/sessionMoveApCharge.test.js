@@ -104,3 +104,39 @@ test('AP budget gate: cannot over-declare more moves than real AP via ap_cost:0'
   assert.equal(third.status, 400, '3rd move must be rejected (3 x server cost 1 exceeds 2 AP)');
   assert.equal(third.body.code, 'AP_INSUFFICIENT', 'rejection must be an AP budget error');
 });
+
+test('AP inflation guard: a negative skip ap_cost does not add AP at execute-time', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // apLedger.resolveActionApCost fell through to Number(action.ap_cost || 1) for
+  // skip/pass, trusting the client. A skip with ap_cost:-100 deducted a negative
+  // cost -- Math.max(0, ap - (-100)) = ap + 100 -- inflating ap_remaining from 2 to
+  // 102 (OWASP A04, same class as the move-undercharge above). The fallback now
+  // floors the client value >= 0 (NaN-safe), so a hostile ap_cost can only cost 0,
+  // never grant AP.
+  const sid = await startSession(app, twoUnits({ p1Pos: { x: 2, y: 2 }, sisPos: { x: 5, y: 5 } }));
+  await request(app)
+    .post('/api/session/round/begin-planning')
+    .send({ session_id: sid })
+    .expect(200);
+  await request(app)
+    .post('/api/session/declare-intent')
+    .send({
+      session_id: sid,
+      actor_id: 'p1',
+      action: { id: 'p1-skip', type: 'skip', actor_id: 'p1', ap_cost: -100 },
+    })
+    .expect(200);
+  await request(app)
+    .post('/api/session/commit-round')
+    .send({ session_id: sid, auto_resolve: true })
+    .expect(200);
+  const state = await request(app).get('/api/session/state').query({ session_id: sid });
+  const p1 = state.body.units.find((u) => u.id === 'p1');
+  assert.ok(
+    p1.ap_remaining <= 2,
+    `ap_remaining must not exceed the starting 2 (got ${p1.ap_remaining}: AP inflation)`,
+  );
+});
