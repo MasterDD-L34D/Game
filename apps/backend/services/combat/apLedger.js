@@ -4,6 +4,17 @@
 // docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md sez. 4.1).
 // Factory: injected deps, zero state, zero Express.
 
+/**
+ * Build an AP-cost ledger bound to the given grid deps.
+ *
+ * @param {Object} deps
+ * @param {Function} deps.manhattanDistance - (a, b) -> integer tile distance.
+ * @param {number} deps.gridSize - NUMBER (scalar, square-grid) contract
+ *   inherited verbatim from the bridge (falls back to 6 when falsy).
+ *   Rectangular {width,height} support is explicitly a follow-up of the
+ *   Sistema task and MUST NOT be added here.
+ * @returns {Object} ledger: the 4 verbatim resolvers + apAvailable/canAfford.
+ */
 function createApLedger({ manhattanDistance, gridSize }) {
   // Server-authoritative move AP cost (security fix 2026-07-05). The resolver
   // must NOT trust action.ap_cost for moves: the shipped client posts ap_cost:1
@@ -89,17 +100,45 @@ function createApLedger({ manhattanDistance, gridSize }) {
     return Number((act && act.ap_cost) || 0);
   }
 
+  /**
+   * Spendable AP for an actor.
+   *
+   * Fallback chain: ap_remaining when present (the round-model ledger field),
+   * else ap (legacy/pre-round shape), else 0. A null/absent actor, or one
+   * missing both fields, resolves to 0 so downstream gates fail CLOSED
+   * (nothing is affordable for an unknown actor).
+   *
+   * @param {Object|null} actor
+   * @returns {number} spendable AP (0 when unknowable).
+   */
   function apAvailable(actor) {
     return Number(
       actor && actor.ap_remaining != null ? actor.ap_remaining : (actor && actor.ap) || 0,
     );
   }
 
+  /**
+   * Pending-sum affordability gate (the P1-3 multi-intent hardening,
+   * reusable for the Sistema declare-side).
+   *
+   * Keep in lockstep with the hand-rolled pending-sum gate in
+   * routes/sessionRoundBridge.js validatePlayerIntent (extraction
+   * follow-up: rewire that gate onto this ledger).
+   *
+   * @param {Object|null} actor - priced via resolveIntentApCost + apAvailable.
+   * @param {Array<Object>} declaredActions - array of raw ACTION objects
+   *   ({type, ap_cost, move_to, ability_id, ...}), NOT {unit_id, action}
+   *   intent wrappers, already pre-filtered to THIS actor. Passing intent
+   *   wrappers would price everything at 0 and fail OPEN -- as insurance,
+   *   an element carrying an `.action` key is unwrapped before pricing.
+   * @param {Object} action - the candidate raw action to admit.
+   * @returns {boolean} true when pending + candidate fits in apAvailable(actor).
+   */
   function canAfford(actor, declaredActions, action) {
-    const pending = (declaredActions || []).reduce(
-      (sum, a) => sum + resolveIntentApCost(actor, a),
-      0,
-    );
+    const pending = (declaredActions || []).reduce((sum, a) => {
+      const act = a && a.action ? a.action : a;
+      return sum + resolveIntentApCost(actor, act);
+    }, 0);
     return pending + resolveIntentApCost(actor, action) <= apAvailable(actor);
   }
 

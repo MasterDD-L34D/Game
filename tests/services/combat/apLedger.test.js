@@ -1,10 +1,10 @@
-// tests/services/apLedger.test.js -- apLedger = autorita' unica costi AP
+// tests/services/combat/apLedger.test.js -- apLedger = autorita' unica costi AP
 // (estrazione dal closure di sessionRoundBridge, spec sistema-symmetry sez. 4.1).
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-const { createApLedger } = require('../../apps/backend/services/combat/apLedger');
+const { createApLedger } = require('../../../apps/backend/services/combat/apLedger');
 
 const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 const ledger = createApLedger({ manhattanDistance: manhattan, gridSize: 16 });
@@ -29,6 +29,13 @@ test('resolveActionApCost: attack canon 1, client value ignorato', () => {
   // qui: skip/pass non hanno una server cost source, vedi commento sopra).
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 0 }), 1);
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 3 }), 3);
+});
+
+test('resolveActionApCost: ability sconosciuta floora a 1 (no undercharge)', () => {
+  assert.equal(
+    ledger.resolveActionApCost({}, { ability_id: 'nope_does_not_exist', ap_cost: 0 }),
+    1,
+  );
 });
 
 test('isValidGridDest: bounds', () => {
@@ -56,4 +63,27 @@ test('canAfford: somma pending + candidata vs ap_remaining', () => {
   assert.equal(ledger.canAfford(actor, [attack], attack), true);
   assert.equal(ledger.canAfford(actor, [attack, attack], attack), false);
   assert.equal(ledger.canAfford({ ap: 1, position: { x: 0, y: 0 } }, [attack], attack), false);
+});
+
+test('canAfford: move in declaredActions prezzato lato server (non ap_cost client)', () => {
+  const actor = { ap_remaining: 3, position: { x: 0, y: 0 } };
+  const move = { type: 'move', move_to: { x: 2, y: 0 }, ap_cost: 0 }; // costo server 2
+  const attack = { type: 'attack' };
+  assert.equal(ledger.canAfford(actor, [move], attack), true); // 2 + 1 <= 3
+  assert.equal(ledger.canAfford(actor, [move, attack], attack), false); // 2 + 1 + 1 > 3
+});
+
+test('canAfford: intent wrapper {unit_id, action} in declaredActions viene unwrappato', () => {
+  // Senza l'unwrap-insurance il wrapper (niente type/ability_id) verrebbe
+  // prezzato 0 e il gate fallirebbe OPEN: 0 + 1 <= 1 -> true. Con l'unwrap
+  // l'attack interno conta 1: 1 + 1 = 2 > 1 -> false (fail closed).
+  const actor = { ap_remaining: 1, position: { x: 0, y: 0 } };
+  const wrapped = { unit_id: 'x', action: { type: 'attack' } };
+  assert.equal(ledger.canAfford(actor, [wrapped], { type: 'attack' }), false);
+});
+
+test('canAfford: fail-closed su actor null o AP NaN', () => {
+  // actor null -> apAvailable 0 -> 1 <= 0 false; NaN -> 1 <= NaN false.
+  assert.equal(ledger.canAfford(null, [], { type: 'attack' }), false);
+  assert.equal(ledger.canAfford({ ap_remaining: NaN }, [], { type: 'attack' }), false);
 });

@@ -150,6 +150,7 @@ function createRoundBridge(deps) {
     // 2 AP invece di 4 richiesti).
     // 2026-07 hardening: the sum uses resolveIntentApCost (server-authoritative for
     // attack/ability), so declaring ap_cost:0/negative no longer bypasses the gate.
+    // Keep in lockstep with apLedger.canAfford (extraction follow-up: rewire onto the ledger).
     const apCost = resolveIntentApCost(actor, action);
     const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
     const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
