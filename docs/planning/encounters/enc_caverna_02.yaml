@@ -69,6 +69,7 @@ conditions:
   - type: environmental_mutation
     trigger_turn: 6
     effect: echo_feedback
+  - type: lethal
 
 tags: [standard]
 

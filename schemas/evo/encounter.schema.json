@@ -213,7 +213,8 @@
               "stress_wave",
               "terrain_collapse",
               "allied_reinforcement",
-              "environmental_mutation"
+              "environmental_mutation",
+              "lethal"
             ]
           },
           "fov_radius": { "type": "integer", "minimum": 1 },
