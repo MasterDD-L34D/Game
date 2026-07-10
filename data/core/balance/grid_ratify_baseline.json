@@ -7,16 +7,16 @@
         20,
         12
       ],
-      "evidence_ref": "docs/research/2026-07-06-canyon-lungo-grid-ratify.md",
-      "ratified_at": "2026-07-06"
+      "evidence_ref": "docs/research/2026-07-10-grid-terrain-geometry-reprobe.md",
+      "ratified_at": "2026-07-10"
     },
     "enc_badlands_dorsale_ferrosa_01": {
       "grid_size": [
         16,
         12
       ],
-      "evidence_ref": "docs/research/2026-07-06-dorsale-ferrosa-grid-ratify.md",
-      "ratified_at": "2026-07-06"
+      "evidence_ref": "docs/research/2026-07-10-grid-terrain-geometry-reprobe.md",
+      "ratified_at": "2026-07-10"
     },
     "enc_badlands_foodweb_pilot_01": {
       "grid_size": [
@@ -191,8 +191,8 @@
         18,
         10
       ],
-      "evidence_ref": "docs/research/2026-07-06-abisso-colata-grid-ratify.md",
-      "ratified_at": "2026-07-06"
+      "evidence_ref": "docs/research/2026-07-10-grid-terrain-geometry-reprobe.md",
+      "ratified_at": "2026-07-10"
     }
   }
 }
