@@ -140,7 +140,9 @@ ADR #3262 merged), re-probe flag-OFF N=10 paired (seeds 1..10) vs i control
 `reports/sim/*-n40-stepfix` sui 3 grid_sized: **bit-exact su tutti i 30 run**
 (outcome/rounds/kos, incluso il KO di seed 4 abisso). I refactor apLedger e i fix
 #3257/#3260 non muovono la semantica combat flag-OFF: bande `15-LEVEL_DESIGN`
-[14,25]/[15,21]/[13,21] confermate, niente N=40 (guardrail N-sample, delta nullo).
-Nota driver: seed di grid-band-probe EFFETTIVI (riproduzione bit-exact cross-machine
-Lenovo->Ryzen, Node v24.11.0). Output: `reports/sim/*-n10-postmerge-0710/` | log
+[14,25]/[15,21]/[13,21] riprodotte bit-exact (nessuna regressione -- restano derivate
+dal control N=40), niente N=40 nuovo (guardrail N-sample, delta nullo). Nota driver:
+seed di grid-band-probe EFFETTIVI (riproduzione deterministica in un run indipendente
+post-merge, stessa toolchain Node v24.11.0; il full-loop driver resta unseeded).
+Output: `reports/sim/*-n10-postmerge-0710/` | log
 `Extras/ollama-runs/2026-07-10-grid-band-reprobe-postmerge.log` (cdd).
