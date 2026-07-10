@@ -127,7 +127,6 @@ function stealBuff({ actor, target, caps }) {
     // actor.status in memoria, e il valore non cappato sopravviverebbe fino al sync.
     const cap = caps && Number.isFinite(Number(caps[stato])) ? Number(caps[stato]) : null;
     const halved = attenuate(turns);
-    const granted = cap !== null ? Math.min(cap, halved) : halved;
 
     delete targetStatus[stato];
     if (target.status_intensity && typeof target.status_intensity === 'object') {
@@ -138,7 +137,12 @@ function stealBuff({ actor, target, caps }) {
     const current = Number(actor.status[stato] || 0);
     // max-policy, coerente con applyMoraleStatus: un furto non abbassa mai un buff
     // che il portatore possiede gia' con durata maggiore.
-    actor.status[stato] = Math.max(current, granted);
+    const merged = Math.max(current, halved);
+    // Il cap va sul valore FUSO, non solo sull'addendo rubato: se il portatore ha gia'
+    // un valore fuori cap (stesso path client-controlled, ma sulla propria unita'), il
+    // Math.max lo riproporrebbe e session.js lo accoderebbe come granted_turns. Gli
+    // altri cap-site clampano il valore accodato -- questo fa lo stesso.
+    actor.status[stato] = cap !== null ? Math.min(cap, merged) : merged;
 
     return { stato, stolen_turns: turns, granted_turns: actor.status[stato] };
   }

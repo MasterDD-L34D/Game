@@ -132,6 +132,28 @@ test('furto: status senza cap -> comportamento invariato', () => {
   assert.equal(out.granted_turns, 50); // `linked` non e' in STATUS_DURATION_CAPS
 });
 
+// Codex P2 su #3260: clampare solo la META' rubata non basta. Se il ladro possiede
+// gia' un valore fuori cap (stesso path client-controlled, ma sulla PROPRIA unita'),
+// il `Math.max(current, granted)` lo ripropone: `granted_turns` tornava 100, e
+// session.js lo accodava, cosi' il drain riapplicava 100. Gli altri cap-site clampano
+// il valore FUSO, non l'addendo. Questo deve fare lo stesso.
+test('furto: il cap si applica al valore FUSO, non solo alla meta rubata', () => {
+  const actor = carrier();
+  actor.status.frenzy = 100; // seminato dal client sulla propria unita'
+  const target = prey({ frenzy: 4 });
+  const out = stealBuff({ actor, target, caps: { frenzy: 5 } });
+  assert.equal(out.granted_turns, 5);
+  assert.equal(actor.status.frenzy, 5);
+});
+
+test('furto: senza cap, il valore fuso resta il max (invariato)', () => {
+  const actor = carrier();
+  actor.status.linked = 9;
+  const target = prey({ linked: 4 }); // dimezzato -> 2
+  const out = stealBuff({ actor, target, caps: { frenzy: 5 } });
+  assert.equal(out.granted_turns, 9); // `linked` non e' cappato: max(9, 2)
+});
+
 test('furto: caps omesso -> nessun clamp (retro-compat)', () => {
   const actor = carrier();
   const target = prey({ frenzy: 100 });
