@@ -76,8 +76,10 @@ function hasTrait(unit, traitId) {
  * @returns {boolean} true solo quando entrambe dichiarano la STESSA fazione
  */
 function isSameFaction(actor, target) {
-  return Boolean(actor.controlled_by && target.controlled_by) &&
-    actor.controlled_by === target.controlled_by;
+  return (
+    Boolean(actor.controlled_by && target.controlled_by) &&
+    actor.controlled_by === target.controlled_by
+  );
 }
 
 /**

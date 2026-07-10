@@ -19,9 +19,7 @@ const {
   GHIANDOLE_TRAIT,
   STEALABLE,
 } = require('../../../apps/backend/services/combat/ghiandoleMnemoniche');
-const {
-  computeStatusModifiers,
-} = require('../../../apps/backend/services/combat/statusModifiers');
+const { computeStatusModifiers } = require('../../../apps/backend/services/combat/statusModifiers');
 
 function carrier() {
   return { id: 'a1', traits: [GHIANDOLE_TRAIT], status: {} };
