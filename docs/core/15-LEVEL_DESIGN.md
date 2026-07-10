@@ -129,20 +129,22 @@ NON si trasferisce a una nuova taglia (la geometria muove la difficolta' reale).
 advisory: `tools/js/validate_encounter_grid_ratify.js` + baseline `data/core/balance/grid_ratify_baseline.json`.
 Aggiorna il baseline (grid_size + evidence_ref) solo dopo l'evidence N=40.
 
-**Bande pace RATIFICATE N=40 -- board grid_sized (2026-07-06, re-ratify substrate-ON
-2026-07-10).** Semantica banda = completion + pace + reinforcement-liveness, NON letalita':
-sul driver round-model AI-vs-AI la letalita' e' ceiling strutturale (WR 1.0 su ogni arm,
-throughput cappato dal dial `intents_per_round` -- vedi "Limite di modello" nell'evidence
-dorsale). Un resize futuro si confronta su completion/pace: fuori banda = il guard L-069
-ha morso. Le bande sotto valgono con `MOVE_TERRAIN_COST_ENABLED=true` (semantica prod
-2026-07; L-069 NON trasferisce fra semantiche di costo -- il flip 07-06->07-10 ha mosso
-la banda canyon di +11 sul ceiling).
+**Bande pace RATIFICATE N=40 -- board grid_sized (terza ratifica 2026-07-10 sera,
+post-fix stepTowards #3253).** Semantica banda = completion + pace +
+reinforcement-liveness. Nota storica sulla letalita': il "ceiling strutturale WR 1.0"
+delle ratifiche precedenti era il comportamento del Sistema (ritirate utility + cap
+globale + clamp stepTowards), NON un limite del driver -- coi flag simmetria (arm
+gate+AP, misurato N=40, flag OFF in prod) il driver produce sconfitte del party
+(dorsale WR 0.925, CI95 [0.801, 0.974]; evidence nel doc sotto). Le bande QUI restano
+flag-OFF = semantica prod corrente (`MOVE_TERRAIN_COST_ENABLED=true` + stepTowards con
+bounds reali #3253). L-069: NON trasferiscono fra semantiche (il fix stepTowards ha
+mosso il pace dorsale 14.1 -> 18.8: movimento reale al posto del teleport-clamp).
 
-| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato (substrate-ON 07-10)     | Evidence                                                                         |
-| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | -------------------------------------------------------------------------------- |
-| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [10, 18]                | avg 14.07 (sd 1.54), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 dorsale) |
-| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [10, 28]                | avg 19.32 (sd 3.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 canyon)  |
-| 18x10                        | `enc_abisso_colata_basaltica_01`                  | [10, 18]                | avg 13.85 (sd 0.98), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-grid-terrain-geometry-reprobe.md` (base 07-06 abisso)  |
+| Board                        | Encounter esemplare (`docs/planning/encounters/`) | Banda pace (avg_rounds) | N=40 misurato (stepfix 07-10 sera)     | Evidence                                                 |
+| ---------------------------- | ------------------------------------------------- | ----------------------- | -------------------------------------- | --------------------------------------------------------- |
+| 16x12                        | `enc_badlands_dorsale_ferrosa_01`                 | [14, 25]                | avg 18.82 (sd 2.07), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
+| 20x12 (cap larghezza schema) | `enc_badlands_canyon_lungo_01`                    | [15, 21]                | avg 17.45 (sd 1.08), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
+| 18x10                        | `enc_abisso_colata_basaltica_01`                  | [13, 21]                | avg 16.05 (sd 1.50), WR 1.0, reinf 4/4 | `docs/research/2026-07-10-sistema-symmetry-factorial.md` |
 
 Probe generico riusabile: `tools/sim/grid-band-probe.js --encounter <id>` (#3230).
 
