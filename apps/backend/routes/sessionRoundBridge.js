@@ -148,19 +148,19 @@ function createRoundBridge(deps) {
     // client Wave 8N budget check (2 attack ap_cost=2 cada, actor.ap=3: backend
     // accettava entrambi singolarmente, resolveFn scalava -1 cada = consumo
     // 2 AP invece di 4 richiesti).
-    // 2026-07 hardening: the sum uses resolveIntentApCost (server-authoritative for
-    // attack/ability), so declaring ap_cost:0/negative no longer bypasses the gate.
-    // Keep in lockstep with apLedger.canAfford (extraction follow-up: rewire onto the ledger).
-    const apCost = resolveIntentApCost(actor, action);
-    const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
-    const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
+    // 2026-07 hardening: the gate IS apLedger.apBreakdown -- server-authoritative
+    // pricing (attack canon / ability registry / in-grid move) means declaring
+    // ap_cost:0 or negative no longer bypasses it. The route only formats the
+    // rejection: it must NOT recompute the pending sum, or the ledger stops being
+    // the single AP authority and the two copies drift.
+    const pendingActions = ((session.roundState && session.roundState.pending_intents) || [])
       .filter((i) => String(i.unit_id || '') === String(actorId))
-      .reduce((sum, i) => sum + resolveIntentApCost(actor, i && i.action), 0);
-    const totalProposed = pendingForActor + apCost;
-    if (totalProposed > apAvail) {
+      .map((i) => i && i.action);
+    const ap = apBreakdown(actor, pendingActions, action);
+    if (!ap.affordable) {
       return {
         code: 'AP_INSUFFICIENT',
-        message: `AP insufficienti: costo totale ${totalProposed} (pending ${pendingForActor} + nuovo ${apCost}), disponibili ${apAvail}`,
+        message: `AP insufficienti: costo totale ${ap.total} (pending ${ap.pending} + nuovo ${ap.cost}), disponibili ${ap.available}`,
       };
     }
 
@@ -268,12 +268,13 @@ function createRoundBridge(deps) {
     return null;
   }
 
-  // AP cost authority (resolveMoveApCost / resolveActionApCost /
-  // resolveIntentApCost / isValidGridDest) -- extracted to apLedger (spec
+  // AP cost authority -- extracted to apLedger (spec
   // docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md sez. 4.1).
   // Load-bearing comments (anti-double-charge, OWASP A04 hardening) live with
-  // the code there now.
-  const { resolveMoveApCost, resolveActionApCost, resolveIntentApCost, isValidGridDest } =
+  // the code there now. Only what this route CALLS is bound here: the declare
+  // gate goes through apBreakdown, so resolveIntentApCost / isValidGridDest are
+  // ledger internals and must not be re-exposed as a second pricing path.
+  const { resolveMoveApCost, resolveActionApCost, apBreakdown } =
     require('../services/combat/apLedger').createApLedger({ manhattanDistance, gridSize });
 
   // ────────────────────────────────────────────────────────────────
