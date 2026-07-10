@@ -156,19 +156,9 @@ const { consumeAbbagliato, disorientAttacker } = require('../services/combat/pig
 // Default rage/frenzy cap 5 turn (peer ferocia 3-turn variants caps + 2 round
 // max combat momentum). panic/stunned/confused inherit short caps (3-4)
 // per design intent. Status non listati → no cap (unchanged behavior).
-const STATUS_DURATION_CAPS = {
-  rage: 5,
-  frenzy: 5,
-  panic: 4,
-  stunned: 3,
-  confused: 3,
-  bleeding: 5,
-  marked: 2,
-  slowed: 3,
-  burning: 3,
-  chilled: 2,
-  disorient: 1,
-};
+// Estratta in combat/statusDurationCaps.js: serve anche al drain
+// (combat/pendingStatusRemovals.js), che non puo' importare da questa route.
+const { STATUS_DURATION_CAPS } = require('../services/combat/statusDurationCaps');
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
   loadDamageCurves,

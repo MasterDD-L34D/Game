@@ -79,7 +79,15 @@ test('session.js performAttack reads canonical `disorient` for the attack malus'
 test('STATUS_DURATION_CAPS keys the canonical `disorient`', () => {
   // The duration cap entry must be keyed `disorient` so on_hit_status statuses
   // are capped under the same key they are written/read with.
-  assert.match(SESSION_SRC, /\bdisorient:\s*1\b/, 'STATUS_DURATION_CAPS has disorient: 1');
+  // The table moved out of session.js into combat/statusDurationCaps.js: the drain in
+  // combat/pendingStatusRemovals.js needs it and cannot import from a route.
+  // Assert on the exported object instead of on source text -- stronger, and it no
+  // longer breaks when the literal is relocated.
+  const {
+    STATUS_DURATION_CAPS,
+  } = require('../../../apps/backend/services/combat/statusDurationCaps');
+  assert.equal(STATUS_DURATION_CAPS.disorient, 1, 'STATUS_DURATION_CAPS has disorient: 1');
+  assert.equal(STATUS_DURATION_CAPS.disoriented, undefined, 'no divergent `disoriented` key');
 });
 
 test('AI debuff-preference readers recognize the canonical `disorient` key', () => {
