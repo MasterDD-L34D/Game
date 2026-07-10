@@ -96,8 +96,8 @@
       "label": "Eco Sismico",
       "mutazione_indotta": "Placche cutanee percepiscono la vibrazione del suolo e la restituiscono amplificata.",
       "spinta_selettiva": "Sotto la roccia la vista non serve: conta solo chi sente arrivare il peso.",
-      "uso_funzione": "Un impulso marca il terreno come zona risonante per 2 round.",
-      "debolezza": "L'eco non distingue amico da nemico: la zona rivela anche chi l'ha creata."
+      "uso_funzione": "Un impulso marca il terreno come zona risonante per 2 round: chi vi entra resta disorientato.",
+      "debolezza": "La zona non insegue: un nemico che la aggira non ne subisce nulla."
     },
     "ferocia": {
       "label": "Ferocia",
@@ -124,14 +124,14 @@
       "label": "Aura Intimidatoria",
       "mutazione_indotta": "La postura si è irrigidita in una sagoma che il cervello della preda legge come inevitabile.",
       "spinta_selettiva": "Una preda che scappa non combatte: spaventare costa meno che vincere.",
-      "uso_funzione": "Ogni colpo in mischia riuscito applica 2 turni di panico agli avversari adiacenti.",
+      "uso_funzione": "Ogni colpo in mischia riuscito applica 2 turni di panico al bersaglio.",
       "debolezza": "Il terrore ha bisogno di occhi e di vicinanza: da lontano resta solo una sagoma."
     },
     "legame_di_branco": {
       "label": "Legame di Branco",
       "mutazione_indotta": "Le vocalizzazioni si sono ridotte a segnali brevi che il branco decodifica senza guardarsi.",
       "spinta_selettiva": "Un branco che scopre la minaccia insieme la subisce una volta sola.",
-      "uso_funzione": "Quando un compagno adiacente della stessa specie attacca, guadagna +1 all'attacco e +1 alla difesa fino a fine round.",
+      "uso_funzione": "Quando un compagno adiacente della stessa specie attacca, il portatore ottiene +1 all'attacco e +1 alla difesa fino a fine round.",
       "debolezza": "Il legame riconosce solo la propria specie: in una squadra mista resta muto."
     },
     "marchio_predatorio": {
@@ -243,7 +243,7 @@
       "label": "Tentacoli Uncinati",
       "mutazione_indotta": "Uncini di cheratina spuntano lungo i tentacoli e si chiudono all'indietro come ami.",
       "spinta_selettiva": "Trattenere la preda un istante in più valeva quanto un secondo morso.",
-      "uso_funzione": "Ogni colpo in mischia applica 1 turno di frattura, limitando gli AP del bersaglio.",
+      "uso_funzione": "Ogni colpo in mischia applica 1 turno di frattura: il bersaglio scende a 1 AP.",
       "debolezza": "Un uncino che entra deve uscire: staccarsi da una preda corazzata li spezza."
     },
     "tessuti_adattivi": {

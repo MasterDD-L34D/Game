@@ -96,8 +96,8 @@
       "label": "Seismic Echo",
       "mutazione_indotta": "Cutaneous plates sense the ground's tremor and return it amplified.",
       "spinta_selettiva": "Under the rock, sight is useless: all that counts is feeling the weight approach.",
-      "uso_funzione": "A single pulse marks the ground as a resonant zone for 2 rounds.",
-      "debolezza": "The echo tells no friend from foe: the zone reveals its own maker too."
+      "uso_funzione": "A pulse marks the ground as a resonant zone for 2 rounds: whoever enters it is disoriented.",
+      "debolezza": "The zone does not chase: an enemy that walks around it suffers nothing."
     },
     "ferocia": {
       "label": "Ferocity",
@@ -124,14 +124,14 @@
       "label": "Intimidating Aura",
       "mutazione_indotta": "The posture has set into a silhouette the prey's brain reads as inevitable.",
       "spinta_selettiva": "Prey that flees does not fight: frightening costs less than winning.",
-      "uso_funzione": "Each successful melee hit applies 2 turns of panic to adjacent enemies.",
+      "uso_funzione": "Each successful melee hit applies 2 turns of panic to the target.",
       "debolezza": "Terror needs eyes and nearness: from afar it remains only a silhouette."
     },
     "legame_di_branco": {
       "label": "Pack Bond",
       "mutazione_indotta": "Vocalisations have shrunk to brief signals the pack decodes without looking at one another.",
       "spinta_selettiva": "A pack that discovers the threat together suffers it only once.",
-      "uso_funzione": "When an adjacent packmate of the same species attacks, it gains +1 attack and +1 defence until the end of the round.",
+      "uso_funzione": "When an adjacent packmate of the same species attacks, the bearer gains +1 attack and +1 defence until the end of the round.",
       "debolezza": "The bond recognises only its own species: in a mixed squad it stays mute."
     },
     "marchio_predatorio": {
@@ -243,7 +243,7 @@
       "label": "Hooked Tentacles",
       "mutazione_indotta": "Keratin hooks stud the tentacles and close backward like barbs.",
       "spinta_selettiva": "Holding the prey one instant longer was worth a second bite.",
-      "uso_funzione": "Every melee hit applies 1 turn of fracture, limiting the target's AP.",
+      "uso_funzione": "Every melee hit applies 1 turn of fracture: the target drops to 1 AP.",
       "debolezza": "A hook that goes in must come out: tearing free of armoured prey snaps them."
     },
     "tessuti_adattivi": {
