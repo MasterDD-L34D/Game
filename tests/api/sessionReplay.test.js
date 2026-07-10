@@ -11,6 +11,12 @@ const path = require('node:path');
 
 const { createApp } = require('../../apps/backend/app');
 
+// Fail-closed on missing ajv (helper registers the fail/skip test); the
+// non-schema tests in this file still run either way.
+const { requireTestDeps } = require('../helpers/requireTestDeps');
+const ajvDep = requireTestDeps('sessionReplay schema', { Ajv: 'ajv/dist/2020' });
+const Ajv = ajvDep.ok ? ajvDep.mods.Ajv : null;
+
 test('replay endpoint returns payload with session events + meta', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
@@ -55,13 +61,9 @@ test('replay endpoint 404 on unknown session_id', async (t) => {
 });
 
 test('replay payload matches AJV schema', async (t) => {
-  let Ajv, schema;
-  try {
-    Ajv = require('ajv/dist/2020');
-    schema = require('../../packages/contracts/schemas/replay.schema.json');
-  } catch {
-    return; // skip se deps mancanti
-  }
+  if (!Ajv) return; // missing-dep fail/skip already registered by requireTestDeps
+  // Repo file: a direct require throws (test red) if it goes missing.
+  const schema = require('../../packages/contracts/schemas/replay.schema.json');
   const ajv = new Ajv({ allErrors: true, strict: false });
   const validate = ajv.compile(schema);
 
