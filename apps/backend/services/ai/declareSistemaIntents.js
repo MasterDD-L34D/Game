@@ -132,6 +132,23 @@ function isIntentsRosterScalingEnabled() {
 // actions/round (4 units x 2 AP) and bounds the telegraph UI load.
 const INTENTS_ABS_CAP = 6;
 
+// FALSIFYING EXPERIMENT (owner-authorized 2026-07-10, flag default OFF).
+// The WR 1.0 ceiling of every N=40 ratify is attributed by the docs to the
+// AI-vs-AI driver. It is not: the cap above is an invariant that keeps Sistema
+// under the party's action budget, and it runs in the real game too (callers:
+// routes/session.js, routes/sessionRoundBridge.js). Flag ON = every alive
+// Sistema unit declares its intent (the per-unit AP ledger already exists,
+// session.js validates against actor.ap_remaining); the global cap no longer
+// gates emission. Flag OFF -> byte-identical, band-neutral.
+//
+// SCOPE (declared): ON emits 1 intent per unit, NOT 2 actions/unit like the
+// party. Half the gap -- the half measurable without touching multi-action
+// resolution. This is a probe, not a balance proposal: the telegraph UI load
+// (the cap's second, legitimate reason) is NOT addressed here.
+function isPerUnitActionsEnabled() {
+  return process.env.SISTEMA_PER_UNIT_ACTIONS_ENABLED === 'true';
+}
+
 // Divisor K: one intent per K alive Sistema units (activation ~1/K on big
 // rosters). Env-tunable for probe A/B; invalid values fall back to 3.
 const ROSTER_K_DEFAULT = 3;
@@ -311,6 +328,8 @@ function createDeclareSistemaIntents(deps) {
       session.pressure_tier_floor,
       aliveSistema,
     );
+    // Read at call-time (not module-load) so the probe can toggle per-run.
+    const perUnitActions = isPerUnitActionsEnabled();
 
     const intents = [];
     const decisions = [];
@@ -362,7 +381,7 @@ function createDeclareSistemaIntents(deps) {
       if (!actor) continue;
       if (actor.controlled_by !== 'sistema') continue;
       if (Number(actor.hp || 0) <= 0) continue;
-      if (intentsEmitted >= intentsCap) {
+      if (!perUnitActions && intentsEmitted >= intentsCap) {
         decisions.push({
           unit_id: actor.id,
           rule: 'PRESSURE_CAP',
@@ -669,6 +688,7 @@ module.exports = {
   computePersistentHighThreat,
   intentsCapForPressure,
   isIntentsRosterScalingEnabled,
+  isPerUnitActionsEnabled,
   INTENTS_ABS_CAP,
   detectHiddenAbilityReveals,
   DEFAULT_HIDDEN_ABILITY_THRESHOLD,
