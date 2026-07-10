@@ -222,6 +222,7 @@ const {
 const {
   rollD20,
   clampPosition,
+  normaliseGridBounds,
   normaliseUnit,
   buildDefaultUnits,
   normaliseUnitsPayload,
@@ -2177,41 +2178,54 @@ function createSessionRouter(options = {}) {
       // each character → unit with owner_id = player_id. Enemies from scenario
       // appended via req.body.units. Both coexist: characters first, then
       // units (scenario enemies) appended.
+      // Se body.encounter_id passato + YAML trovato → popola encounter payload.
+      // Sblocca: objectiveEvaluator non-elim + biomeSpawnBias initial waves + conditions.
+      // Non override se body.encounter già fornito (preserve scenario JS flow).
+      // Risolto UNA volta qui (era piu' in basso): tre consumer devono concordare --
+      // i bound provvisori di spawn-clamp, resolveBoardSize e il session payload.
+      // loadEncounter e' cached.
+      let encounterPayload = req.body?.encounter ?? null;
+      const encounterIdFromBody = req.body?.encounter_id;
+      // GAP-C option-C C1: a graph-routed session opts into the draft node-encounters
+      // (encounters-draft/) via body.graph_mode. Static/legacy callers omit it -> encounters/-only.
+      const graphMode = req.body?.graph_mode === true;
+      if (!encounterPayload && encounterIdFromBody) {
+        try {
+          const { loadEncounter } = require('../services/combat/encounterLoader');
+          const loaded = loadEncounter(encounterIdFromBody, { graphMode });
+          if (loaded) encounterPayload = loaded;
+        } catch (err) {
+          console.warn('[session/start] encounterLoader failed:', err.message);
+        }
+      }
+
       // Pre-resolve encounter grid bounds from the inline encounter payload (available
       // immediately from req.body) so normaliseUnitsPayload can clamp positions against
       // the DECLARED grid rather than the fixed GRID_SIZE default. This fixes units on
       // grids larger than GRID_SIZE (e.g. 8x8 encounter: unit.x=7 was clamped to 5).
       // Backward-compat: no encounter grid -> bounds=null -> GRID_SIZE-1 as before.
-      // Note: the encounter_id YAML path loads the encounter later (line ~2363); units
-      // on encounter_id-only requests that sit within GRID_SIZE are unaffected. If an
-      // encounter_id path needs extended bounds, the caller should also pass the inline
-      // encounter.grid OR the scenario JS should supply units within GRID_SIZE.
+      // These are PROVISIONAL: they only have to be wide enough that a legitimately
+      // far-flung authored spawn survives normalisation. The resolved board below is
+      // what actually constrains the final positions.
+      // A04/CWE-20 (PR #3253 audit follow-up): normaliseGridBounds enforces the
+      // same integer [4,20] cap as isAuthoredGrid, fail-closed (null) on anything
+      // else -- a finite-but-absurd width (e.g. 9999) no longer widens the clamp.
       const _inlineGrid = req.body?.encounter?.grid;
-      let _normBounds =
-        _inlineGrid &&
-        Number.isFinite(Number(_inlineGrid.width)) &&
-        Number.isFinite(Number(_inlineGrid.height))
-          ? { width: Number(_inlineGrid.width), height: Number(_inlineGrid.height) }
-          : null;
+      let _normBounds = normaliseGridBounds(_inlineGrid);
       // fase-2c follow-up (ADR-2026-07-03): a board_scale:'grid_sized' encounter PLAYS on its
       // authored grid_size (resolveBoardSize below), so positions must clamp against THAT board,
       // not the GRID_SIZE default -- otherwise authored spawns beyond 5 collapse into the legacy
       // 6x6 corner (first observed staging enc_badlands_dorsale_ferrosa_01 16x12: sistema units
-      // authored at x=12-13 all clamped onto x<=5). Covers both the inline encounter body and the
-      // encounter_id YAML path (loadEncounter is cached; the later payload resolution reuses it).
+      // authored at x=12-13 all clamped onto x<=5).
       // party_sized/absent stays on the existing bounds (played board = gridSizeFor, unchanged).
       if (!_normBounds) {
         try {
           const { isAuthoredGrid } = require('../../../services/party/loader');
-          let _encForBounds = req.body?.encounter ?? null;
-          if (!_encForBounds && req.body?.encounter_id) {
-            const { loadEncounter } = require('../services/combat/encounterLoader');
-            _encForBounds = loadEncounter(req.body.encounter_id, {
-              graphMode: req.body?.graph_mode === true,
-            });
-          }
-          if (isAuthoredGrid(_encForBounds)) {
-            _normBounds = { width: _encForBounds.grid_size[0], height: _encForBounds.grid_size[1] };
+          if (isAuthoredGrid(encounterPayload)) {
+            _normBounds = {
+              width: encounterPayload.grid_size[0],
+              height: encounterPayload.grid_size[1],
+            };
           }
         } catch {
           /* fallback: legacy GRID_SIZE clamp */
@@ -2234,6 +2248,36 @@ function createSessionRouter(options = {}) {
         units = [...normaliseUnitsPayload(characterUnits, _normBounds), ...scenarioEnemies];
       } else {
         units = scenarioUnits;
+      }
+
+      // ADR-2026-04-17 (default 'party_sized') + ADR-2026-07-03 (opt-in 'grid_sized'):
+      // resolveBoardSize is the SINGLE authority on the played board. The spawn clamp above
+      // ran against the DECLARED grid, which a party_sized encounter never adopts -- so an
+      // inline `encounter.grid` merely *declared* wider (schema-valid, e.g. 20x20) let a unit
+      // spawn outside the board the session actually plays on (A04/CWE-20, Codex P2 on #3256:
+      // 1 player + enemy at (19,19) -> board 6x6, enemy off-board). Resolve the real board here
+      // and pull every unit inside it, so "unit position ⊆ session.grid" holds by construction.
+      //
+      // Shrink-only: an authored board (>= the declared grid) leaves positions untouched, so
+      // fase-2c grid_sized spawns (16x12 at x=12-13) survive. Band-neutral for the sim probes --
+      // tools/sim/scenario-enemies.js already pre-clamps spawns the same way (GRID_SAFE_MAX for
+      // party_sized, grid_size-1 for authored) -- and Godot v2 never calls /start (combat is local).
+      let gridW = GRID_SIZE;
+      let gridH = GRID_SIZE;
+      try {
+        const { resolveBoardSize } = require('../../../services/party/loader');
+        // units is only ever .map()ed downstream (clones), so this count is invariant.
+        const deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
+        const [gw, gh] = resolveBoardSize(deployedCount, encounterPayload, req.body?.modulation);
+        gridW = gw;
+        gridH = gh;
+      } catch {
+        // fallback GRID_SIZE default
+      }
+      const _boardBounds = { width: gridW, height: gridH };
+      for (const u of units) {
+        if (!u || !u.position) continue;
+        u.position = clampPosition(u.position.x, u.position.y, _boardBounds);
       }
 
       // OD-024 D3 (master-dd #2941 ratification: grant extended player-only -> enemies):
@@ -2489,23 +2533,8 @@ function createSessionRouter(options = {}) {
         ? Number(req.body.pressure_start)
         : null;
       // 2026-04-26 (PCG G1 fix): encounter YAML loader opt-in.
-      // Se body.encounter_id passato + YAML trovato → popola encounter payload.
-      // Sblocca: objectiveEvaluator non-elim + biomeSpawnBias initial waves + conditions.
-      // Non override se body.encounter già fornito (preserve scenario JS flow).
-      let encounterPayload = req.body?.encounter ?? null;
-      const encounterIdFromBody = req.body?.encounter_id;
-      // GAP-C option-C C1: a graph-routed session opts into the draft node-encounters
-      // (encounters-draft/) via body.graph_mode. Static/legacy callers omit it -> encounters/-only.
-      const graphMode = req.body?.graph_mode === true;
-      if (!encounterPayload && encounterIdFromBody) {
-        try {
-          const { loadEncounter } = require('../services/combat/encounterLoader');
-          const loaded = loadEncounter(encounterIdFromBody, { graphMode });
-          if (loaded) encounterPayload = loaded;
-        } catch (err) {
-          console.warn('[session/start] encounterLoader failed:', err.message);
-        }
-      }
+      // encounterPayload + graphMode: risolti a monte (pre-normalizzazione unita'), cosi'
+      // il clamp di spawn e resolveBoardSize leggono lo STESSO encounter.
 
       // Sprint 13 — Status engine wave A: passive ancestor wire.
       // Scan unit.traits, set unit.status[stato] for the 7 canonical Wave A
@@ -2530,23 +2559,8 @@ function createSessionRouter(options = {}) {
         console.warn('[coordinamento] refresh failed:', err.message);
       }
 
-      // ADR-2026-04-17 (default 'party_sized') + ADR-2026-07-03 (opt-in 'grid_sized'): la board =
-      // grid_size autorato se l'encounter opta board_scale:'grid_sized' con grid_size valido,
-      // altrimenti party fill-ratio (gridSizeFor). resolveBoardSize = unico punto board. Collocato
-      // dopo la risoluzione di encounterPayload (incl. YAML via loadEncounter) cosi' che il grid
-      // autorato sia disponibile qui (il vecchio blocco stava prima e non lo vedeva).
-      let gridW = GRID_SIZE;
-      let gridH = GRID_SIZE;
-      try {
-        const { resolveBoardSize } = require('../../../services/party/loader');
-        const requestedModulation = req.body?.modulation;
-        const deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
-        const [gw, gh] = resolveBoardSize(deployedCount, encounterPayload, requestedModulation);
-        gridW = gw;
-        gridH = gh;
-      } catch {
-        // fallback GRID_SIZE default
-      }
+      // gridW/gridH: risolti a monte da resolveBoardSize (unico punto board) insieme al
+      // re-clamp delle posizioni, cosi' clamp e board non possono divergere.
 
       const session = {
         session_id: sessionId,
