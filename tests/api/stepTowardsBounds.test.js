@@ -30,6 +30,13 @@ test('stepTowards: 16x12 bounds, unit at x=5 approaching right moves to x=6 (not
   assert.deepEqual(next, { x: 6, y: 2 });
 });
 
+// --- big-board regression: height axis (the asymmetric one on 20x12) --------
+
+test('stepTowards: 20x12 bounds, approach from y=11 toward y=2 steps to y=10 (height axis)', () => {
+  const next = stepTowards({ x: 5, y: 11 }, { x: 5, y: 2 }, { width: 20, height: 12 });
+  assert.deepEqual(next, { x: 5, y: 10 });
+});
+
 // --- legacy square scalar (stepAway dual-accept parity) ---------------------
 
 test('stepTowards: scalar bounds 8 behaves as 8x8 square', () => {

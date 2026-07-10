@@ -689,8 +689,9 @@ function pickLowestHpEnemy(session, actor) {
   }, null);
 }
 
-// bounds mirrors stepAway's dual-accept (policy.js): { width, height } or the
-// legacy square scalar. Absent/null bounds -> GRID_SIZE-1 exactly as before.
+// bounds accepts the same shapes as stepAway (policy.js): { width, height } or
+// the legacy square scalar (equivalent to stepAway for the integer bounds the
+// factories pass). Absent/null bounds -> GRID_SIZE-1 exactly as before.
 // Without it, every approach step on a grid_sized board (e.g. 16x12) landing
 // beyond x=5/y=5 collapsed into the 6x6 box (teleport or null move).
 function stepTowards(from, to, bounds) {
