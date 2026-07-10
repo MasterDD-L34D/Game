@@ -203,7 +203,7 @@ function createSistemaTurnRunner(deps) {
       const nextPos =
         policy.intent === 'retreat'
           ? stepAway(actor.position, target.position, effectiveGrid)
-          : stepTowards(actor.position, target.position);
+          : stepTowards(actor.position, target.position, effectiveGrid);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
         actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);

@@ -212,21 +212,14 @@ function createRoundBridge(deps) {
           message: `posizione (${dest.x},${dest.y}) fuori griglia ${size}x${size}`,
         };
       }
-      if (typeof manhattanDistance === 'function') {
-        const dist = manhattanDistance(actor.position, dest);
-        // Ennea Esploratore(7) move_bonus consumer: estende il budget di move
-        // di N celle oltre AP disponibili. Bonus consumato qui, non scalato
-        // dall'ap_cost in resolveFn — valido solo per move action, non altre.
-        const moveBudget = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-        if (dist > moveBudget) {
-          return {
-            code: 'MOVE_TOO_FAR',
-            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail}${
-              actor.move_bonus_bonus ? ` +${actor.move_bonus_bonus} bonus` : ''
-            })`,
-          };
-        }
-      }
+      // No declare-time distance ceiling here: the AP gate above already prices an
+      // in-grid move at resolveMoveApCost = max(1, dist - move_bonus) (the Ennea
+      // Esploratore(7) move_bonus is consumed there), so an over-far move is rejected
+      // as AP_INSUFFICIENT before this point. A former MOVE_TOO_FAR branch
+      // (dist > apAvail + move_bonus) was unreachable for any non-negative pending
+      // sum -- AP_INSUFFICIENT always fired first -- and is removed. The pending sum
+      // is floored >= 0 in apLedger.resolveIntentApCost so it cannot be revived by a
+      // negative/NaN client ap_cost.
       const blocker = (session.units || []).find(
         (u) =>
           u.id !== actor.id &&
@@ -427,20 +420,46 @@ function createRoundBridge(deps) {
     // adaptSessionToRoundState promotes the re-applied keys to tracked
     // orchestrator statuses (universal decay included). Best-effort; never
     // blocks the round.
-    if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
-      let applyMoraleStatus = null;
-      try {
-        ({ applyMoraleStatus } = require('../services/combat/morale'));
-      } catch {
-        applyMoraleStatus = null;
-      }
-      if (applyMoraleStatus) {
-        for (const pending of session._pendingStatusApplies) {
-          const u = unitsById.get(String(pending.unit_id));
-          if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+    // Il canale di apply sa solo AGGIUNGERE (applyMoraleStatus = Math.max(cur,dur)), e
+    // il rebuild tracked->dict poco sopra ripristinerebbe qualsiasi delete fatto a meta'
+    // attacco. Serve quindi un canale di RIMOZIONE simmetrico (buff-steal,
+    // ghiandole_mnemoniche), drenato qui, DOPO quel rebuild: il prossimo
+    // adaptSessionToRoundState ri-deriva l'array tracciato dal dict, e la cancellazione
+    // sopravvive.
+    //
+    // L'ORDINE (rimozioni, poi applies) vive in combat/pendingStatusRemovals.js perche'
+    // sia coperto da test: invertirlo farebbe annichilire il buff quando due ladri di
+    // fazione opposta rubano lo stesso status nello stesso round.
+    // Spec: docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+    let applyMoraleStatus = null;
+    try {
+      ({ applyMoraleStatus } = require('../services/combat/morale'));
+    } catch {
+      applyMoraleStatus = null;
+    }
+    try {
+      const { drainPendingStatusEffects } = require('../services/combat/pendingStatusRemovals');
+      drainPendingStatusEffects(session, unitsById, applyMoraleStatus);
+    } catch (err) {
+      // Fallback storico: senza il modulo si drenano almeno gli applies, cosi' un
+      // errore qui non regredisce il comportamento pre-esistente. Rumoroso di
+      // proposito: un throw silenzioso degraderebbe il furto in copia.
+      console.warn('[round-bridge] pending-status drain fallback:', err && err.message);
+      if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
+        if (applyMoraleStatus) {
+          for (const pending of session._pendingStatusApplies) {
+            const u = unitsById.get(String(pending.unit_id));
+            if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+          }
         }
+        session._pendingStatusApplies = [];
       }
-      session._pendingStatusApplies = [];
+      // Simmetria: senza questo, su un throw la coda delle rimozioni resterebbe
+      // popolata e verrebbe drenata al sync successivo, cioe' un round dopo il colpo
+      // che l'ha prodotta. Meglio scartarla: il furto perde la meta' "rimozione" in
+      // quel round (degrada a copia, gia' segnalato dal console.warn sopra) invece di
+      // rubare un buff a distanza di un round.
+      session._pendingStatusRemovals = [];
     }
   }
 

@@ -46,6 +46,7 @@ const {
 const { selectAiPolicyUtility } = require('./utilityBrain');
 const { stepToRegainLos } = require('../combat/losReposition');
 const { occupiedSetFromUnits } = require('../combat/occupancy');
+const { createApLedger } = require('../combat/apLedger');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
 // A2 (TKT-PRESSURE-TIER-ENCOUNTER): per-encounter pressure_tier_floor mirror.
 // sessionHelpers owns the single effectivePressure SoT (flag-gated, default OFF).
@@ -275,6 +276,13 @@ function createDeclareSistemaIntents(deps) {
     threatConfig, // override per threat thresholds (from ai_intent_scores.yaml → threat)
     hiddenAbilityReveal = null, // SPEC-Q M-4 { enabled, defaultThreshold } -- flag OFF default
   } = deps || {};
+
+  // Unica autorita' dei costi AP (spec sez. 4.1). Il declare-side prezza e gata
+  // con gli stessi resolver che la risoluzione usa per addebitare: un ap_cost
+  // calcolato qui a mano divergerebbe dall'addebito server-side non appena il
+  // move smette di essere un passo singolo (budget-v2 multi-tile) o l'attore
+  // porta un move_bonus_bonus.
+  const apLedger = createApLedger({ manhattanDistance, gridSize });
 
   /**
    * Resolve Utility AI flag per-actor (ADR-2026-04-17 gradual rollout).
@@ -589,7 +597,7 @@ function createDeclareSistemaIntents(deps) {
               policy.intent === 'retreat'
                 ? stepAway(actor.position, target.position, effectiveGrid)
                 : policy.intent === 'approach'
-                  ? stepTowards(actor.position, target.position)
+                  ? stepTowards(actor.position, target.position, effectiveGrid)
                   : null;
             const candidateDir = candidatePos ? _moveDirection(actor.position, candidatePos) : null;
             if (_detectFlip(actor, policy.intent, candidateDir)) {
@@ -725,7 +733,7 @@ function createDeclareSistemaIntents(deps) {
       const nextPos =
         policy.intent === 'retreat'
           ? stepAway(actor.position, target.position, effectiveGrid)
-          : policy.reposition_to || stepTowards(actor.position, target.position);
+          : policy.reposition_to || stepTowards(actor.position, target.position, effectiveGrid);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
         decisions.push({
@@ -768,18 +776,20 @@ function createDeclareSistemaIntents(deps) {
         actor_id: actor.id,
         target_id: null,
         ability_id: null,
-        // Real move distance (was hardcoded 1): stepTowards/stepAway still cost 1,
-        // but a budget-v2 multi-tile reposition costs its full Manhattan distance.
-        // The WEGO resolver deducts this FIELD without recomputing (bridge :1927),
-        // so it must carry the true cost -- and buildMoveEvent's ap_spent (= real
-        // distance) stays in sync with what is actually charged.
-        ap_cost: manhattanDistance(positionFrom, nextPos),
+        // Prezzo server-authoritative dal ledger: max(1, dist - move_bonus_bonus),
+        // lo STESSO resolver che la risoluzione ricalcola per addebitare. Con
+        // stepTowards/stepAway (1 casella) vale 1 come prima; un budget-v2
+        // multi-tile o un move_bonus_bonus rendono la differenza osservabile.
+        // Il campo resta load-bearing anche a valle: buildMoveEvent lo pubblica
+        // come ap_spent e il resolver display lo deduce senza ricalcolare, quindi
+        // deve gia' portare il costo vero.
+        ap_cost: apLedger.resolveMoveApCost(actor, positionFrom, nextPos),
         channel: null,
         move_to: { x: nextPos.x, y: nextPos.y },
         position_from: positionFrom,
         source_ia_rule: policy.rule,
       };
-      if (perUnitAp && moveAction.ap_cost > apBudget) {
+      if (perUnitAp && !apLedger.canAfford(actor, [], moveAction)) {
         decisions.push({
           unit_id: actor.id,
           rule: 'NO_AP',
