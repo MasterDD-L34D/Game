@@ -108,7 +108,10 @@ test('ON: objective non zone-based -> solo attack threat, resto hidden', () => {
       'niente zona -> solo attack telegrafato',
     );
     assert.deepEqual(
-      rows.filter(isHidden).map((r) => r.actor_id).sort(),
+      rows
+        .filter(isHidden)
+        .map((r) => r.actor_id)
+        .sort(),
       ['s2', 's3'],
     );
   });
