@@ -138,6 +138,11 @@ const {
   applyTessutiAdaptation,
   computeTessutiResistDelta,
 } = require('../services/combat/tessutiAdattivi');
+// ghiandole_mnemoniche (buff-steal): la logica vive nel modulo; qui la si aggancia
+// post-attacco. La rimozione del buff alla preda passa per il canale dedicato
+// session._pendingStatusRemovals (combat/pendingStatusRemovals.js), perche' il rebuild
+// tracked->dict del round-model annullerebbe un delete fatto a meta' attacco.
+const { stealBuff } = require('../services/combat/ghiandoleMnemoniche');
 // Creature-trait slice 5: membrane_osmotiche duration_absorb (-1 on incoming status
 // durations). filtri_bioattivi turn-start cleanse is wired in sessionRoundBridge.
 const { absorbStatusDuration } = require('../services/combat/membraneOsmotiche');
@@ -1632,6 +1637,47 @@ function createSessionRouter(options = {}) {
             kind: 'memetic_resonance',
             damage_taken: incomingDamage,
             allies_resonated: cortecciaReaction.broadcast.length,
+          },
+        });
+      }
+
+      // ghiandole_mnemoniche: su un colpo andato a segno il portatore strappa UN buff
+      // temporaneo alla preda e ne indossa una copia a durata dimezzata. Il guadagno
+      // passa per _pendingStatusApplies, la perdita per _pendingStatusRemovals: il
+      // primo canale sa solo aggiungere (applyMoraleStatus = Math.max), quindi senza il
+      // secondo il furto degraderebbe a una copia.
+      // Spec: docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+      // Band-neutral: nessuna sim unit porta ghiandole_mnemoniche.
+      // Gia' dentro il blocco `if (result.hit)` aperto sopra: nessun re-gate.
+      // Il furto fra unita' della stessa fazione lo rifiuta stealBuff (isSameFaction):
+      // la route di attacco non valida la fazione del bersaglio.
+      const stolen = stealBuff({ actor, target });
+      if (stolen) {
+        if (!Array.isArray(session._pendingStatusApplies)) {
+          session._pendingStatusApplies = [];
+        }
+        if (!Array.isArray(session._pendingStatusRemovals)) {
+          session._pendingStatusRemovals = [];
+        }
+        session._pendingStatusApplies.push({
+          unit_id: actor.id,
+          status: stolen.stato,
+          duration: stolen.granted_turns,
+        });
+        session._pendingStatusRemovals.push({
+          unit_id: target.id,
+          status: stolen.stato,
+        });
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat({
+          trait: 'ghiandole_mnemoniche',
+          triggered: true,
+          effect: {
+            kind: 'buff_steal',
+            stato: stolen.stato,
+            from: target.id,
+            to: actor.id,
+            stolen_turns: stolen.stolen_turns,
+            granted_turns: stolen.granted_turns,
           },
         });
       }
