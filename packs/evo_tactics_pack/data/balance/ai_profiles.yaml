@@ -19,7 +19,7 @@ sistema_resource_model:
   ignores_fog_of_war: true        # SIS vede stato completo
   ignores_trait_costs: true       # intent non consuma PT/AP del PG model
   reinforcement_from_pressure: true
-  note: "Asymmetry invariant — do NOT refactor to mirror player rules"
+  note: "Action economy symmetric per ADR-2026-07-10-sistema-action-symmetry (flag-gated); trait-cost + fog asymmetries ratified there"
 
 profiles:
   aggressive:
