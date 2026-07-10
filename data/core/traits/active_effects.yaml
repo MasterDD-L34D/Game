@@ -7859,3 +7859,28 @@ traits:
       Modulo strategico che mantiene priorita e finestre d'attacco allineate:
       quando il colpo cade su una finestra ben allineata (margine alto) aggiunge
       +1 al danno, premiando il tempismo invece della forza bruta.
+
+  # Oracle reveal -- spec docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+  # Primo produttore PASSIVO di telepatic_link: la pipe combat/telepathicReveal.js era
+  # gia' wired (sessionRoundBridge begin-planning) ma affamata -- l'unico produttore,
+  # risonanza_magnetica, e' gated on_kill + min_mos 5 (boss-finish, spara ~mai).
+  # telepatic_link non concede alcun delta statistico (statusModifiers.js:206-208):
+  # il tratto da' informazione, non forza. Contenimento = il raggio (manhattan 3,
+  # default di computeTelepathicReveal), non la rarita'.
+  # Band-neutral: nessuna sim unit porta questo tratto.
+  nodi_micorrizici_oracolari:
+    tier: T3
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: telepatic_link
+      turns: 2
+      log_tag: nodi_micorrizici_oracolari
+    description_it: |
+      Nodi micorrizici oracolari: la rete fungina simbiotica trasporta segnali
+      premonitori. Il portatore percepisce le intenzioni delle creature ostili
+      entro tre caselle prima che agiscano (fase di pianificazione). Non conferisce
+      alcun bonus di attacco o difesa: e' informazione, non potenza.
