@@ -41,8 +41,11 @@ function createApLedger({ manhattanDistance, gridSize }) {
   //   - attack             -> ATTACK_BASE_AP_COST (canon), client value ignored
   //   - ability_id present -> registry cost_ap (same source the ability executor
   //                           deducts); unknown ability floors at 1 AP
-  //   - anything else (skip/pass/...) -> legacy client default; no server cost
-  //     source exists for these, so behavior is preserved (out of scope).
+  //   - anything else (skip/pass/...) -> legacy client default, floored at 0. No
+  //     server cost source exists for these, so the falsy->1 default is preserved,
+  //     but the sign is NOT trusted: the round-bridge `else` branch deducts via
+  //     Math.max(0, ap_remaining - cost), which floors the RESULT, not the cost, so
+  //     a declared ap_cost:-100 would resolve as an AP refund (OWASP A04).
   // NOTE: the round-bridge `else` branch deducts this cost but does NOT execute
   // the ability effect (effects run on /round/execute -> abilityExecutor, which
   // self-deducts cost_ap). If a future change dispatches the effect on the bridge
@@ -63,7 +66,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
       if (spec && spec.cost_ap != null) return Math.max(0, Number(spec.cost_ap) || 0);
       return Math.max(1, Number(action.ap_cost || 1));
     }
-    return Number(action.ap_cost || 1);
+    return Math.max(0, Number(action.ap_cost) || 0) || 1;
   }
 
   // True when a move destination is a valid, in-grid cell (mirrors the NO_DEST +
@@ -88,8 +91,11 @@ function createApLedger({ manhattanDistance, gridSize }) {
   // and the (N+1)th still resolves for free. Charging max(1, dist - move_bonus) per
   // move in the pending sum closes that. AP_INSUFFICIENT now precedes MOVE_TOO_FAR
   // for a single over-far in-grid move (both 400 rejections; the over-far move IS
-  // over-budget). skip/off-grid/other keep the client value: skip legitimately
-  // costs 0, and an off-grid dest is rejected by OUT_OF_GRID before this matters.
+  // over-budget). skip/off-grid/other keep the client value FLOORED AT 0: skip
+  // legitimately costs 0, and an off-grid dest is rejected by OUT_OF_GRID before
+  // this matters -- but the sign is not trusted. validatePlayerIntent has no
+  // validation branch for skip/pass, so an unfloored ap_cost:-100 would subtract
+  // from the actor's pending sum and bankroll the intents declared after it.
   function resolveIntentApCost(actor, act) {
     if (act && (act.type === 'attack' || act.ability_id)) {
       return resolveActionApCost(actor, act);
@@ -97,7 +103,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
     if (act && act.type === 'move' && isValidGridDest(act.move_to)) {
       return resolveMoveApCost(actor, actor && actor.position, act.move_to);
     }
-    return Number((act && act.ap_cost) || 0);
+    return Math.max(0, Number(act && act.ap_cost) || 0);
   }
 
   /**

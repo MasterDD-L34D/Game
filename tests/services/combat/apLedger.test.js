@@ -24,9 +24,9 @@ test('resolveMoveApCost: max(1, dist - move_bonus)', () => {
 
 test('resolveActionApCost: attack canon 1, client value ignorato', () => {
   assert.equal(ledger.resolveActionApCost({}, { type: 'attack', ap_cost: -5 }), 1);
-  // NOTA: `Number(action.ap_cost || 1)` nel corpo reale -> ap_cost:0 e' falsy in
-  // JS e ricade sul default 1 (comportamento verbatim, non un bug da correggere
-  // qui: skip/pass non hanno una server cost source, vedi commento sopra).
+  // NOTA: `Math.max(0, Number(action.ap_cost) || 0) || 1` -> ap_cost:0 e' falsy
+  // in JS e ricade sul default 1 (comportamento legacy preservato: skip/pass non
+  // hanno una server cost source). Il floor tocca solo il segno, non il default.
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 0 }), 1);
   assert.equal(ledger.resolveActionApCost({}, { type: 'skip', ap_cost: 3 }), 3);
 });
@@ -36,6 +36,15 @@ test('resolveActionApCost: ability sconosciuta floora a 1 (no undercharge)', () 
     ledger.resolveActionApCost({}, { ability_id: 'nope_does_not_exist', ap_cost: 0 }),
     1,
   );
+});
+
+test('resolveActionApCost: skip con ap_cost negativo non rifonda AP (OWASP A04)', () => {
+  // Il resolver fa Math.max(0, ap_remaining - cost): il floor e' sul RISULTATO,
+  // non sul costo. Un cost negativo lo attraversa e diventa un credito
+  // (ap_remaining + 100). Il floor va messo sul costo.
+  const cost = ledger.resolveActionApCost({}, { type: 'skip', ap_cost: -100 });
+  assert.ok(cost >= 0, `costo skip negativo non floorato: ${cost}`);
+  assert.equal(cost, 1);
 });
 
 test('isValidGridDest: bounds', () => {
@@ -54,6 +63,12 @@ test('resolveIntentApCost: move in-grid usa costo server, off-grid tiene il clie
     ledger.resolveIntentApCost(actor, { type: 'move', move_to: { x: 99, y: 0 }, ap_cost: 0 }),
     0,
   );
+});
+
+test('resolveIntentApCost: skip con ap_cost negativo non accredita il budget', () => {
+  // Il gate declare-time somma i pending: un costo negativo qui e' un credito
+  // che finanzia gli intent successivi dello stesso attore.
+  assert.equal(ledger.resolveIntentApCost({}, { type: 'skip', ap_cost: -5 }), 0);
 });
 
 test('canAfford: somma pending + candidata vs ap_remaining', () => {
@@ -86,4 +101,13 @@ test('canAfford: fail-closed su actor null o AP NaN', () => {
   // actor null -> apAvailable 0 -> 1 <= 0 false; NaN -> 1 <= NaN false.
   assert.equal(ledger.canAfford(null, [], { type: 'attack' }), false);
   assert.equal(ledger.canAfford({ ap_remaining: NaN }, [], { type: 'attack' }), false);
+});
+
+test('canAfford: uno skip a costo negativo non finanzia attacchi successivi', () => {
+  // Exploit: pending = -100 + 1 = -99, quindi -99 + 1 <= 1 -> il gate passa e
+  // l'attore dichiara 2 attacchi con 1 solo AP. Col floor: 1 + 1 = 2 > 1.
+  const actor = { ap_remaining: 1, position: { x: 0, y: 0 } };
+  const freeSkip = { type: 'skip', ap_cost: -100 };
+  const attack = { type: 'attack' };
+  assert.equal(ledger.canAfford(actor, [freeSkip, attack], attack), false);
 });
