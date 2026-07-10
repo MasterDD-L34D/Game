@@ -9,7 +9,7 @@ language: it
 review_cycle_days: 90
 ---
 
-# Fattoriale 2x2 simmetria Sistema -- prima sconfitta del party mai misurata
+# Fattoriale 2x2 simmetria Sistema -- prima sconfitta del party sul driver faithful
 
 Data: 2026-07-10 | Macchina: Ryzen (Node v24.11.0) | Arco: spec+piano #3249, flag #3254,
 apLedger #3251, telegraph #3258, prerequisito fix stepTowards #3253.
@@ -74,9 +74,12 @@ o colpisci). Insieme: avvicini E colpisci.
 | timeouts | 0 | 0 | 0 |
 | reinf | 4.0 | 4.0 | 4.0 |
 
-**Il CI95 della dorsale NON tocca 1.0**: prima volta nella storia del progetto che il
-driver produce sconfitte del party con significativita'. N=40 conferma N=10 (0.925 vs
-0.80, stessa direzione): nessuno STOP.
+**Il CI95 della dorsale NON tocca 1.0**: prima volta che il driver `grid-band-probe`
+in FAITHFUL ARM (party canonico, zero knob di difficolta') produce sconfitte del party
+con significativita'. Scope del claim (fact-check): sconfitte erano gia' state misurate
+con knob/fixture speciali (los-units-block crowd 07-06 WR 0.525; map-elites v2 con
+boss_hp/cap) -- qui cadono SENZA toccare nulla dell'encounter. N=40 conferma N=10
+(0.925 vs 0.80, stessa direzione): nessuno STOP.
 
 ## 5. Composizione (intent-mix, 9 fight gateap post-fix)
 
