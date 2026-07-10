@@ -3,6 +3,7 @@
 id: tutorial_01
 label: "Primo Contatto"
 difficulty: tutorial
+pressure_tier_floor: 1
 biome_id: pianura_aperta
 description_it: "Scontro di addestramento contro creature di bassa minaccia."
 
