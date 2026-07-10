@@ -19,7 +19,21 @@ import { t } from './i18n.js';
 //
 // Auto-select on timeout: default_choice_on_timeout (option_a canonical).
 
-'use strict';
+('use strict');
+
+/**
+ * Riga del tratto su una card di onboarding.
+ * Degrada in due passi: senza label curata resta la vecchia riga `Trait: <id>`;
+ * con la label ma senza effetto, mostra solo il nome. t() ritorna la chiave se assente.
+ */
+export function traitLineFor(traitId, locale) {
+  const labelKey = `traits.${traitId}.label`;
+  const effectKey = `traits.${traitId}.uso_funzione`;
+  const label = t(labelKey, null, locale);
+  if (label === labelKey) return t('onboarding.trait_label', { trait_id: traitId }, locale);
+  const effect = t(effectKey, null, locale);
+  return effect === effectKey ? label : `${label} -- ${effect}`;
+}
 
 function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
@@ -105,7 +119,7 @@ export async function openOnboardingPanel({ onboarding, onPick } = {}) {
       card.appendChild(el('h3', { class: 'onboarding-card-label' }, [choice.label]));
       card.appendChild(el('p', { class: 'onboarding-card-narrative' }, [`"${choice.narrative}"`]));
       card.appendChild(
-        el('small', { class: 'onboarding-card-trait' }, [t('onboarding.trait_label', { trait_id: choice.trait_id })]),
+        el('small', { class: 'onboarding-card-trait' }, [traitLineFor(choice.trait_id)]),
       );
       card.addEventListener('click', () => {
         Array.from(cardGrid.children).forEach((c) => c.classList.remove('selected'));

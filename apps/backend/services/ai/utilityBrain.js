@@ -2,7 +2,7 @@
 // ADR: docs/adr/ADR-2026-04-16-ai-architecture-utility.md
 //
 // Architecture:
-//   1. enumerateLegalActions(state, actorId) → [{type, target?, params}]
+//   1. enumerateLegalActions(actor, state) -> [{type, target?, params}]
 //   2. scoreAction(action, actor, state, considerations, weights) → number
 //   3. selectAction(scores, difficultyProfile) → chosen action
 //
@@ -376,8 +376,9 @@ function enumerateLegalActions(actor, state) {
     actions.push({ type: 'approach', target: targetId });
   }
 
-  // Retreat (always available if HP > 0)
-  if (actor.hp > 0) {
+  // Retreat: legale se HP > 0 e non gated (retreat gate, spec sistema-symmetry
+  // sez. 4.3 -- il flag vive in declareSistemaIntents, qui arriva via state).
+  if (actor.hp > 0 && !(state && state.retreat_gated)) {
     actions.push({ type: 'retreat' });
   }
 

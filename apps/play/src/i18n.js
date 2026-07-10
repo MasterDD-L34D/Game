@@ -10,15 +10,34 @@
 // =============================================================================
 
 import { createT } from './i18nCore.js';
-// data/i18n = sorgente unica (ADR-2026-06-08 QA3). Oggi solo `common.json`
-// (10 namespace dentro); lo split per-namespace = PR-5.
+// data/i18n = sorgente unica (ADR-2026-06-08 QA3). `common.json` (10 namespace dentro)
+// + `traits.json` (namespace `traits`, chiavi `traits.<id>.<campo>` = i platform placeholder
+// `i18n:traits.<id>.<campo>` dei file in data/traits/); lo split del resto = PR-5.
 // Import attributes (`with { type: 'json' }`) -- required by node ESM (test runner)
 // and supported by Vite 8; without them node dynamic-import of any module importing
 // this file throws ERR_IMPORT_ATTRIBUTE_MISSING (breaks the migrated modules' tests).
 import itCommon from '../../../data/i18n/it/common.json' with { type: 'json' };
 import enCommon from '../../../data/i18n/en/common.json' with { type: 'json' };
+import itTraits from '../../../data/i18n/it/traits.json' with { type: 'json' };
+import enTraits from '../../../data/i18n/en/traits.json' with { type: 'json' };
 
-const MESSAGES = { it: itCommon, en: enCommon };
+// Merge per-namespace: `_meta` di ogni bundle resta fuori (non e' una chiave traducibile,
+// e un merge shallow lascerebbe vincere l'ultimo importato).
+function mergeBundles(...bundles) {
+  const out = {};
+  for (const bundle of bundles) {
+    for (const [namespace, value] of Object.entries(bundle)) {
+      if (namespace.startsWith('_')) continue;
+      out[namespace] = value;
+    }
+  }
+  return out;
+}
+
+const MESSAGES = {
+  it: mergeBundles(itCommon, itTraits),
+  en: mergeBundles(enCommon, enTraits),
+};
 
 const DEFAULT_LOCALE = (typeof window !== 'undefined' && window.__EVO_LOCALE__) || 'it';
 

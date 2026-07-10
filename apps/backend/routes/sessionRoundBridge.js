@@ -148,18 +148,19 @@ function createRoundBridge(deps) {
     // client Wave 8N budget check (2 attack ap_cost=2 cada, actor.ap=3: backend
     // accettava entrambi singolarmente, resolveFn scalava -1 cada = consumo
     // 2 AP invece di 4 richiesti).
-    // 2026-07 hardening: the sum uses resolveIntentApCost (server-authoritative for
-    // attack/ability), so declaring ap_cost:0/negative no longer bypasses the gate.
-    const apCost = resolveIntentApCost(actor, action);
-    const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
-    const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
+    // 2026-07 hardening: the gate IS apLedger.apBreakdown -- server-authoritative
+    // pricing (attack canon / ability registry / in-grid move) means declaring
+    // ap_cost:0 or negative no longer bypasses it. The route only formats the
+    // rejection: it must NOT recompute the pending sum, or the ledger stops being
+    // the single AP authority and the two copies drift.
+    const pendingActions = ((session.roundState && session.roundState.pending_intents) || [])
       .filter((i) => String(i.unit_id || '') === String(actorId))
-      .reduce((sum, i) => sum + resolveIntentApCost(actor, i && i.action), 0);
-    const totalProposed = pendingForActor + apCost;
-    if (totalProposed > apAvail) {
+      .map((i) => i && i.action);
+    const ap = apBreakdown(actor, pendingActions, action);
+    if (!ap.affordable) {
       return {
         code: 'AP_INSUFFICIENT',
-        message: `AP insufficienti: costo totale ${totalProposed} (pending ${pendingForActor} + nuovo ${apCost}), disponibili ${apAvail}`,
+        message: `AP insufficienti: costo totale ${ap.total} (pending ${ap.pending} + nuovo ${ap.cost}), disponibili ${ap.available}`,
       };
     }
 
@@ -211,21 +212,14 @@ function createRoundBridge(deps) {
           message: `posizione (${dest.x},${dest.y}) fuori griglia ${size}x${size}`,
         };
       }
-      if (typeof manhattanDistance === 'function') {
-        const dist = manhattanDistance(actor.position, dest);
-        // Ennea Esploratore(7) move_bonus consumer: estende il budget di move
-        // di N celle oltre AP disponibili. Bonus consumato qui, non scalato
-        // dall'ap_cost in resolveFn — valido solo per move action, non altre.
-        const moveBudget = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-        if (dist > moveBudget) {
-          return {
-            code: 'MOVE_TOO_FAR',
-            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail}${
-              actor.move_bonus_bonus ? ` +${actor.move_bonus_bonus} bonus` : ''
-            })`,
-          };
-        }
-      }
+      // No declare-time distance ceiling here: the AP gate above already prices an
+      // in-grid move at resolveMoveApCost = max(1, dist - move_bonus) (the Ennea
+      // Esploratore(7) move_bonus is consumed there), so an over-far move is rejected
+      // as AP_INSUFFICIENT before this point. A former MOVE_TOO_FAR branch
+      // (dist > apAvail + move_bonus) was unreachable for any non-negative pending
+      // sum -- AP_INSUFFICIENT always fired first -- and is removed. The pending sum
+      // is floored >= 0 in apLedger.resolveIntentApCost so it cannot be revived by a
+      // negative/NaN client ap_cost.
       const blocker = (session.units || []).find(
         (u) =>
           u.id !== actor.id &&
@@ -274,89 +268,14 @@ function createRoundBridge(deps) {
     return null;
   }
 
-  // Server-authoritative move AP cost (security fix 2026-07-05). The resolver
-  // must NOT trust action.ap_cost for moves: the shipped client posts ap_cost:1
-  // for any destination, so a raw request could move N tiles for 1 AP. Cost =
-  // max(1, Manhattan(from,to) - move_bonus), mirroring the legacy /session/action
-  // path (routes/session.js). Terrain-weighted cost stays on that legacy path;
-  // the round path uses the Manhattan basis by design (band-neutral).
-  function resolveMoveApCost(actor, from, to) {
-    const dist = typeof manhattanDistance === 'function' ? manhattanDistance(from, to) : 0;
-    const moveBonus = Math.max(0, Number((actor && actor.move_bonus_bonus) || 0));
-    return Math.max(1, dist - moveBonus);
-  }
-
-  // Canon basic-attack AP cost. The client (apps/play lobbyBridge + ability panel)
-  // and the legacy attack wrapper all use 1; jobs.yaml basic attacks are cost_ap:1.
-  const ATTACK_BASE_AP_COST = 1;
-
-  // Server-authoritative AP cost for non-move round actions, mirroring
-  // resolveMoveApCost. validatePlayerIntent only checks the TOTAL declared
-  // ap_cost against the AP budget -- never a per-action minimum -- so a raw-HTTP
-  // client can post a negative/fractional ap_cost on an attack (gain or undercharge
-  // AP) or ap_cost:1 for a 2-AP ability (undercharge by half) and be undercharged
-  // (OWASP A04, same class as the move undercharge). The client value is advisory:
-  //   - attack             -> ATTACK_BASE_AP_COST (canon), client value ignored
-  //   - ability_id present -> registry cost_ap (same source the ability executor
-  //                           deducts); unknown ability floors at 1 AP
-  //   - anything else (skip/pass/...) -> legacy client default; no server cost
-  //     source exists for these, so behavior is preserved (out of scope).
-  // NOTE: the round-bridge `else` branch deducts this cost but does NOT execute
-  // the ability effect (effects run on /round/execute -> abilityExecutor, which
-  // self-deducts cost_ap). If a future change dispatches the effect on the bridge
-  // path too, drop this deduction there to avoid double-charging.
-  function resolveActionApCost(actor, action) {
-    if (!action || typeof action !== 'object') return 1;
-    if (action.type === 'attack') return ATTACK_BASE_AP_COST;
-    if (action.ability_id) {
-      let spec = null;
-      try {
-        spec = require('../services/abilityExecutor').findAbility(action.ability_id);
-      } catch {
-        /* ability registry optional -- fall back to floored client value */
-      }
-      // Floor at 0 to mirror abilityExecutor's clamp (no ability refunds AP even
-      // if a future jobs.yaml entry ships a negative/NaN cost_ap); cost_ap:0 (e.g.
-      // intercept) is a legitimate 0-AP reaction and passes through.
-      if (spec && spec.cost_ap != null) return Math.max(0, Number(spec.cost_ap) || 0);
-      return Math.max(1, Number(action.ap_cost || 1));
-    }
-    return Number(action.ap_cost || 1);
-  }
-
-  // True when a move destination is a valid, in-grid cell (mirrors the NO_DEST +
-  // OUT_OF_GRID checks in validatePlayerIntent). Used to decide whether the budget
-  // gate can trust a server-authoritative move cost: an off-grid / malformed dest
-  // keeps the advisory client value so its own OUT_OF_GRID / NO_DEST rejection
-  // fires first (clearer error, and no NaN from manhattanDistance on a bad dest).
-  function isValidGridDest(dest) {
-    if (!dest || typeof dest.x !== 'number' || typeof dest.y !== 'number') return false;
-    if (!Number.isFinite(dest.x) || !Number.isFinite(dest.y)) return false;
-    const size = gridSize || 6;
-    return dest.x >= 0 && dest.x < size && dest.y >= 0 && dest.y < size;
-  }
-
-  // Declare-time budget cost of an intent, for validatePlayerIntent. Attack/ability
-  // use the server-authoritative resolveActionApCost, and a move to a valid in-grid
-  // cell uses resolveMoveApCost -- so a client cannot pass the budget gate by
-  // declaring ap_cost:0/negative and over-declare free actions. The resolver charges
-  // the real cost per action but floors ap_remaining at 0, so an un-gated
-  // over-declaration still executes N actions while paying for fewer (OWASP A04):
-  // for moves this means N short moves at ap_cost:0 all clear the pending-sum gate
-  // and the (N+1)th still resolves for free. Charging max(1, dist - move_bonus) per
-  // move in the pending sum closes that. AP_INSUFFICIENT now precedes MOVE_TOO_FAR
-  // for a single over-far in-grid move (both 400 rejections; the over-far move IS
-  // over-budget). skip/off-grid/other keep the client value: skip legitimately
-  // costs 0, and an off-grid dest is rejected by OUT_OF_GRID before this matters.
-  function resolveIntentApCost(actor, act) {
-    if (act && (act.type === 'attack' || act.ability_id)) {
-      return resolveActionApCost(actor, act);
-    }
-    if (act && act.type === 'move' && isValidGridDest(act.move_to)) {
-      return resolveMoveApCost(actor, actor && actor.position, act.move_to);
-    }
-    return Number((act && act.ap_cost) || 0);
-  }
+  // AP cost authority -- extracted to apLedger (spec
+  // docs/superpowers/specs/2026-07-10-sistema-symmetry-design.md sez. 4.1).
+  // Load-bearing comments (anti-double-charge, OWASP A04 hardening) live with
+  // the code there now. Only what this route CALLS is bound here: the declare
+  // gate goes through apBreakdown, so resolveIntentApCost / isValidGridDest are
+  // ledger internals and must not be re-exposed as a second pricing path.
+  const { resolveMoveApCost, resolveActionApCost, apBreakdown } =
+    require('../services/combat/apLedger').createApLedger({ manhattanDistance, gridSize });
 
   // ────────────────────────────────────────────────────────────────
   // Guards + adapters
@@ -502,20 +421,46 @@ function createRoundBridge(deps) {
     // adaptSessionToRoundState promotes the re-applied keys to tracked
     // orchestrator statuses (universal decay included). Best-effort; never
     // blocks the round.
-    if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
-      let applyMoraleStatus = null;
-      try {
-        ({ applyMoraleStatus } = require('../services/combat/morale'));
-      } catch {
-        applyMoraleStatus = null;
-      }
-      if (applyMoraleStatus) {
-        for (const pending of session._pendingStatusApplies) {
-          const u = unitsById.get(String(pending.unit_id));
-          if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+    // Il canale di apply sa solo AGGIUNGERE (applyMoraleStatus = Math.max(cur,dur)), e
+    // il rebuild tracked->dict poco sopra ripristinerebbe qualsiasi delete fatto a meta'
+    // attacco. Serve quindi un canale di RIMOZIONE simmetrico (buff-steal,
+    // ghiandole_mnemoniche), drenato qui, DOPO quel rebuild: il prossimo
+    // adaptSessionToRoundState ri-deriva l'array tracciato dal dict, e la cancellazione
+    // sopravvive.
+    //
+    // L'ORDINE (rimozioni, poi applies) vive in combat/pendingStatusRemovals.js perche'
+    // sia coperto da test: invertirlo farebbe annichilire il buff quando due ladri di
+    // fazione opposta rubano lo stesso status nello stesso round.
+    // Spec: docs/superpowers/specs/2026-07-10-buff-steal-e-oracle-reveal-design.md
+    let applyMoraleStatus = null;
+    try {
+      ({ applyMoraleStatus } = require('../services/combat/morale'));
+    } catch {
+      applyMoraleStatus = null;
+    }
+    try {
+      const { drainPendingStatusEffects } = require('../services/combat/pendingStatusRemovals');
+      drainPendingStatusEffects(session, unitsById, applyMoraleStatus);
+    } catch (err) {
+      // Fallback storico: senza il modulo si drenano almeno gli applies, cosi' un
+      // errore qui non regredisce il comportamento pre-esistente. Rumoroso di
+      // proposito: un throw silenzioso degraderebbe il furto in copia.
+      console.warn('[round-bridge] pending-status drain fallback:', err && err.message);
+      if (Array.isArray(session._pendingStatusApplies) && session._pendingStatusApplies.length) {
+        if (applyMoraleStatus) {
+          for (const pending of session._pendingStatusApplies) {
+            const u = unitsById.get(String(pending.unit_id));
+            if (u && Number(u.hp) > 0) applyMoraleStatus(u, pending.status, pending.duration);
+          }
         }
+        session._pendingStatusApplies = [];
       }
-      session._pendingStatusApplies = [];
+      // Simmetria: senza questo, su un throw la coda delle rimozioni resterebbe
+      // popolata e verrebbe drenata al sync successivo, cioe' un round dopo il colpo
+      // che l'ha prodotta. Meglio scartarla: il furto perde la meta' "rimozione" in
+      // quel round (degrada a copia, gia' segnalato dal console.warn sopra) invece di
+      // rubare un buff a distanza di un round.
+      session._pendingStatusRemovals = [];
     }
   }
 
