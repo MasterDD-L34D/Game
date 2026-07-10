@@ -53,7 +53,63 @@ test('/start: unit at x=9998 with declared grid 9999x9999 is clamped inside the 
   }
 });
 
-test('/start: legit inline 8x8 grid still keeps a unit at x=7 (PR #3065 behavior preserved)', async (t) => {
+// Codex P2 (PR #3256 review): a SCHEMA-VALID inline grid larger than the party-sized
+// board is still used as the spawn clamp while resolveBoardSize ignores it (no
+// board_scale:'grid_sized' opt-in) and returns the party fill-ratio board -- so the
+// outside-board vector survives for any in-range value. The invariant the fix pins:
+// after /start, EVERY unit sits inside session.grid, whatever the caller declared.
+test('/start: in-range inline 20x20 grid without board_scale cannot spawn outside the resolved board', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({
+      units: [
+        { id: 'p1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 20, ap: 3 },
+        { id: 'e_edge', controlled_by: 'sistema', position: { x: 19, y: 19 }, hp: 20 },
+      ],
+      encounter: { grid: { width: 20, height: 20 } },
+    });
+  assert.equal(res.status, 200);
+  const grid = res.body.state.grid;
+  const edge = res.body.state.units.find((u) => u.id === 'e_edge');
+  assert.ok(
+    edge.position.x <= grid.width - 1 && edge.position.y <= grid.height - 1,
+    `e_edge (${edge.position.x},${edge.position.y}) outside resolved board ${grid.width}x${grid.height}`,
+  );
+});
+
+// fase-2c (ADR-2026-07-03): an AUTHORED grid really is the played board, so its far spawns
+// must survive -- this is the case PR #3065 and the dorsale-ferrosa 16x12 ratify care about.
+// The shrink-only re-clamp must leave it untouched.
+test('/start: authored grid_sized 8x8 plays on 8x8 and keeps a unit at x=7', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app)
+    .post('/api/session/start')
+    .send({
+      units: [
+        { id: 'p1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 20, ap: 3 },
+        { id: 'e_edge', controlled_by: 'sistema', position: { x: 7, y: 7 }, hp: 20 },
+      ],
+      encounter: { board_scale: 'grid_sized', grid_size: [8, 8] },
+    });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.state.grid.width, 8, 'authored board must be 8 wide');
+  const edge = res.body.state.units.find((u) => u.id === 'e_edge');
+  assert.equal(edge.position.x, 7, 'authored 8x8 right-edge unit must not be clamped');
+  assert.equal(edge.position.y, 7, 'authored 8x8 bottom-edge unit must not be clamped');
+});
+
+// The mirror case: a merely-DECLARED 8x8 (no board_scale opt-in) never becomes the board --
+// resolveBoardSize returns the party fill-ratio 6x6 -- so x=7 was always off-board. Before the
+// fix /start happily returned it; now it is pulled inside. Explicitly pins that clamp and board
+// agree, which is the property PR #3065's test could not express (it asserted at helper level).
+test('/start: merely-declared inline 8x8 (no board_scale) clamps to the 6x6 board it plays on', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -68,9 +124,11 @@ test('/start: legit inline 8x8 grid still keeps a unit at x=7 (PR #3065 behavior
       encounter: { grid: { width: 8, height: 8 } },
     });
   assert.equal(res.status, 200);
+  const grid = res.body.state.grid;
+  assert.equal(grid.width, 6, 'a declared-only grid does not change the played board');
   const edge = res.body.state.units.find((u) => u.id === 'e_edge');
-  assert.equal(edge.position.x, 7, 'legit 8x8 right-edge unit must not be clamped');
-  assert.equal(edge.position.y, 7, 'legit 8x8 bottom-edge unit must not be clamped');
+  assert.equal(edge.position.x, grid.width - 1, 'off-board x pulled to the board edge');
+  assert.equal(edge.position.y, grid.height - 1, 'off-board y pulled to the board edge');
 });
 
 // --- helper-level: normaliseGridBounds mirrors isAuthoredGrid bounds -------
