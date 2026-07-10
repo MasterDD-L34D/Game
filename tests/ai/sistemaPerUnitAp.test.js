@@ -36,13 +36,35 @@ function declareFor(session) {
   return declare(session);
 }
 const sis = (id, x, y, over = {}) => ({
-  id, controlled_by: 'sistema', hp: 10, max_hp: 10, ap: 2, ap_max: 2, mod: 2, dc: 12,
-  attack_range: 1, initiative: 10, position: { x, y }, status: {},
-  ai_profile: 'aggressive', damage: { min: 1, max: 3 }, ...over,
+  id,
+  controlled_by: 'sistema',
+  hp: 10,
+  max_hp: 10,
+  ap: 2,
+  ap_max: 2,
+  mod: 2,
+  dc: 12,
+  attack_range: 1,
+  initiative: 10,
+  position: { x, y },
+  status: {},
+  ai_profile: 'aggressive',
+  damage: { min: 1, max: 3 },
+  ...over,
 });
 const pg = (id, x, y) => ({
-  id, controlled_by: 'player', hp: 12, max_hp: 12, ap: 2, ap_max: 2, mod: 2, dc: 12,
-  attack_range: 1, initiative: 12, position: { x, y }, status: {},
+  id,
+  controlled_by: 'player',
+  hp: 12,
+  max_hp: 12,
+  ap: 2,
+  ap_max: 2,
+  mod: 2,
+  dc: 12,
+  attack_range: 1,
+  initiative: 12,
+  position: { x, y },
+  status: {},
 });
 function session(units) {
   return { units, grid: { width: 16, height: 12 }, sistema_pressure: 50 };

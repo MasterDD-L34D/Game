@@ -163,7 +163,8 @@ function isRetreatGateEnabled() {
 // risoluzione e il refill per-round esistono GIA' per il Sistema (bridge resolve
 // loop + applyApRefill, nessun filtro fazione -- verificato 2026-07-10): questo
 // flag chiude l'unico buco, l'affordability alla dichiarazione. Il cap globale
-// resta per la PRESENTAZIONE telegraph (spec sez. 4.4). Default OFF.
+// resta per la PRESENTAZIONE telegraph (spec sez. 4.4, gradino successivo,
+// non in questo branch). Default OFF.
 function isPerUnitApEnabled() {
   return process.env.SISTEMA_PER_UNIT_AP_ENABLED === 'true';
 }
@@ -350,6 +351,10 @@ function createDeclareSistemaIntents(deps) {
     // Read at call-time (not module-load) so the probe can toggle per-run.
     const perUnitActions = isPerUnitActionsEnabled();
     const perUnitAp = isPerUnitApEnabled();
+    // Retreat gate: flag e config-base (fallback soglia) hoistati per-call,
+    // non per-actor -- nessuno dei due cambia dentro il loop attori.
+    const retreatGateOn = isRetreatGateEnabled();
+    const retreatGateBaseCfg = retreatGateOn ? loadAiConfig() : null;
 
     const intents = [];
     const decisions = [];
@@ -404,13 +409,25 @@ function createDeclareSistemaIntents(deps) {
     // nessuna interazione col commit-window (bookkeeping invariato).
     function declareSecondAttack(ctx) {
       const {
-        actor, target, policy, virtualPos, remaining, intents, decisions, takenTargetIds, session,
+        actor,
+        target,
+        policy,
+        virtualPos,
+        remaining,
+        intents,
+        decisions,
+        takenTargetIds,
+        session,
       } = ctx;
       if (remaining < 1) return 0;
       if (!target || Number(target.hp || 0) <= 0) return 0;
       const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
       if (manhattanDistance(virtualPos, target.position) > range) return 0;
-      if (!losClearForAi(session.grid, virtualPos, target.position, session.units)) return 0;
+      // LOS senza l'attore: virtualPos e' la cella post-move ma l'attore e'
+      // ancora nella cella VECCHIA dentro session.units -- con units_block_los
+      // ON (dormant) il suo stesso corpo si auto-bloccherebbe la linea.
+      const unitsSansActor = session.units.filter((u) => u && u.id !== actor.id);
+      if (!losClearForAi(session.grid, virtualPos, target.position, unitsSansActor)) return 0;
       const action = {
         id: `sis-attack2-${actor.id}`,
         type: 'attack',
@@ -448,9 +465,11 @@ function createDeclareSistemaIntents(deps) {
       }
 
       // Budget AP dell'attore (solo flag ON; OFF -> percorso invariato).
-      const apBudget = perUnitAp
-        ? Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0)
-        : Infinity;
+      // NaN-guard: con ap sporco (non numerico) ogni confronto di budget a
+      // valle sarebbe false -> NaN passerebbe tutti i gate come budget
+      // illimitato. Non-finito -> 0 (fail-closed).
+      const rawAp = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
+      const apBudget = perUnitAp ? (Number.isFinite(rawAp) ? rawAp : 0) : Infinity;
       if (perUnitAp && apBudget < 1) {
         decisions.push({
           unit_id: actor.id,
@@ -526,15 +545,14 @@ function createDeclareSistemaIntents(deps) {
         // went inert for any Sistema unit running a use_utility_brain profile.
         // Retreat gate: sopra soglia la ritirata esce dalle azioni legali.
         let retreatGated = false;
-        if (isRetreatGateEnabled()) {
+        if (retreatGateOn) {
           const gateProf =
             aiProfiles && aiProfiles.profiles && actor.ai_profile
               ? aiProfiles.profiles[actor.ai_profile]
               : null;
           const gateOverrides = (gateProf && gateProf.overrides) || {};
-          const baseCfg = loadAiConfig();
           const threshold = Number(
-            gateOverrides.retreat_hp_pct ?? baseCfg.LOW_HP_RETREAT_THRESHOLD,
+            gateOverrides.retreat_hp_pct ?? retreatGateBaseCfg.LOW_HP_RETREAT_THRESHOLD,
           );
           const hpRatio =
             Number(actor.max_hp) > 0 ? Number(actor.hp || 0) / Number(actor.max_hp) : 1;
@@ -686,10 +704,15 @@ function createDeclareSistemaIntents(deps) {
         });
         if (perUnitAp) {
           intentsEmitted += declareSecondAttack({
-            actor, target, policy,
+            actor,
+            target,
+            policy,
             virtualPos: actor.position,
             remaining: apBudget - 1,
-            intents, decisions, takenTargetIds, session,
+            intents,
+            decisions,
+            takenTargetIds,
+            session,
           });
         }
         continue;
@@ -779,10 +802,15 @@ function createDeclareSistemaIntents(deps) {
       });
       if (perUnitAp) {
         intentsEmitted += declareSecondAttack({
-          actor, target, policy,
+          actor,
+          target,
+          policy,
           virtualPos: nextPos,
           remaining: apBudget - moveAction.ap_cost,
-          intents, decisions, takenTargetIds, session,
+          intents,
+          decisions,
+          takenTargetIds,
+          session,
         });
       }
     }

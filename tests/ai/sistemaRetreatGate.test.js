@@ -50,13 +50,34 @@ function woundedSession() {
   return {
     units: [
       {
-        id: 'sis_w', controlled_by: 'sistema', hp: 5, max_hp: 10, ap: 2, ap_max: 2,
-        mod: 2, dc: 12, attack_range: 1, initiative: 10, position: { x: 10, y: 5 },
-        status: {}, ai_profile: 'aggressive', damage: { min: 1, max: 3 },
+        id: 'sis_w',
+        controlled_by: 'sistema',
+        hp: 5,
+        max_hp: 10,
+        ap: 2,
+        ap_max: 2,
+        mod: 2,
+        dc: 12,
+        attack_range: 1,
+        initiative: 10,
+        position: { x: 10, y: 5 },
+        status: {},
+        ai_profile: 'aggressive',
+        damage: { min: 1, max: 3 },
       },
       {
-        id: 'p1', controlled_by: 'player', hp: 12, max_hp: 12, ap: 2, ap_max: 2,
-        mod: 2, dc: 12, attack_range: 1, initiative: 12, position: { x: 2, y: 5 }, status: {},
+        id: 'p1',
+        controlled_by: 'player',
+        hp: 12,
+        max_hp: 12,
+        ap: 2,
+        ap_max: 2,
+        mod: 2,
+        dc: 12,
+        attack_range: 1,
+        initiative: 12,
+        position: { x: 2, y: 5 },
+        status: {},
       },
     ],
     grid: { width: 16, height: 12 },
@@ -105,6 +126,12 @@ test('gate ON: sotto soglia (hp 10%) il declare loop non crasha', () => {
     // Stessa anti-vacuita' del test sopra: sotto soglia (10% < 0.15) il gate
     // NON scatta (retreat resta legale) ma il path deve essere quello utility.
     assert.match(d.rule, /^UTILITY/, `atteso rule utility, avuto ${d.rule}`);
+    // Mutation-proof (quality review 2026-07-10): a hp 1/10 retreat e' argmax
+    // deterministico (score 2.28 vs 1.16, noise 0, non flaky). Con la soglia
+    // morta (mutazione retreatGated = true) retreat sparisce dalle legali e
+    // questo assert fallisce -- senza, il test non distingue gate-corretto
+    // da gate-sempre-attivo.
+    assert.equal(d.intent, 'retreat', 'sotto soglia retreat resta legale e vince');
   });
 });
 
