@@ -41,8 +41,10 @@ function createApLedger({ manhattanDistance, gridSize }) {
   //   - attack             -> ATTACK_BASE_AP_COST (canon), client value ignored
   //   - ability_id present -> registry cost_ap (same source the ability executor
   //                           deducts); unknown ability floors at 1 AP
-  //   - anything else (skip/pass/...) -> legacy client default; no server cost
-  //     source exists for these, so behavior is preserved (out of scope).
+  //   - anything else (skip/pass/...) -> legacy client default (falsy -> 1), but
+  //     floored non-negative and NaN-safe. A negative/non-numeric client ap_cost
+  //     would otherwise deduct a negative cost at execute-time and INFLATE
+  //     ap_remaining (max(0, ap - (-N)) = ap + N; OWASP A04). The floor closes that.
   // NOTE: the round-bridge `else` branch deducts this cost but does NOT execute
   // the ability effect (effects run on /round/execute -> abilityExecutor, which
   // self-deducts cost_ap). If a future change dispatches the effect on the bridge
@@ -61,9 +63,9 @@ function createApLedger({ manhattanDistance, gridSize }) {
       // if a future jobs.yaml entry ships a negative/NaN cost_ap); cost_ap:0 (e.g.
       // intercept) is a legitimate 0-AP reaction and passes through.
       if (spec && spec.cost_ap != null) return Math.max(0, Number(spec.cost_ap) || 0);
-      return Math.max(1, Number(action.ap_cost || 1));
+      return Math.max(1, Number(action.ap_cost || 1) || 1);
     }
-    return Number(action.ap_cost || 1);
+    return Math.max(0, Number(action.ap_cost || 1) || 0);
   }
 
   // True when a move destination is a valid, in-grid cell (mirrors the NO_DEST +
@@ -86,10 +88,13 @@ function createApLedger({ manhattanDistance, gridSize }) {
   // over-declaration still executes N actions while paying for fewer (OWASP A04):
   // for moves this means N short moves at ap_cost:0 all clear the pending-sum gate
   // and the (N+1)th still resolves for free. Charging max(1, dist - move_bonus) per
-  // move in the pending sum closes that. AP_INSUFFICIENT now precedes MOVE_TOO_FAR
-  // for a single over-far in-grid move (both 400 rejections; the over-far move IS
-  // over-budget). skip/off-grid/other keep the client value: skip legitimately
-  // costs 0, and an off-grid dest is rejected by OUT_OF_GRID before this matters.
+  // move in the pending sum closes that. An over-far single in-grid move is caught
+  // by AP_INSUFFICIENT (its server cost already exceeds the budget) -- there is no
+  // separate MOVE_TOO_FAR ceiling in validatePlayerIntent anymore; it was
+  // unreachable for any non-negative pending sum and was removed. skip/off-grid/
+  // other floor the client ap_cost at 0 (non-negative, NaN-safe): a negative/
+  // non-numeric value would poison the pending sum (P < 0), revive that dead
+  // branch, AND inflate AP at execute-time.
   function resolveIntentApCost(actor, act) {
     if (act && (act.type === 'attack' || act.ability_id)) {
       return resolveActionApCost(actor, act);
@@ -97,7 +102,7 @@ function createApLedger({ manhattanDistance, gridSize }) {
     if (act && act.type === 'move' && isValidGridDest(act.move_to)) {
       return resolveMoveApCost(actor, actor && actor.position, act.move_to);
     }
-    return Number((act && act.ap_cost) || 0);
+    return Math.max(0, Number(act && act.ap_cost) || 0);
   }
 
   /**

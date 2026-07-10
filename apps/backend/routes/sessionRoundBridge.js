@@ -212,21 +212,14 @@ function createRoundBridge(deps) {
           message: `posizione (${dest.x},${dest.y}) fuori griglia ${size}x${size}`,
         };
       }
-      if (typeof manhattanDistance === 'function') {
-        const dist = manhattanDistance(actor.position, dest);
-        // Ennea Esploratore(7) move_bonus consumer: estende il budget di move
-        // di N celle oltre AP disponibili. Bonus consumato qui, non scalato
-        // dall'ap_cost in resolveFn — valido solo per move action, non altre.
-        const moveBudget = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
-        if (dist > moveBudget) {
-          return {
-            code: 'MOVE_TOO_FAR',
-            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail}${
-              actor.move_bonus_bonus ? ` +${actor.move_bonus_bonus} bonus` : ''
-            })`,
-          };
-        }
-      }
+      // No declare-time distance ceiling here: the AP gate above already prices an
+      // in-grid move at resolveMoveApCost = max(1, dist - move_bonus) (the Ennea
+      // Esploratore(7) move_bonus is consumed there), so an over-far move is rejected
+      // as AP_INSUFFICIENT before this point. A former MOVE_TOO_FAR branch
+      // (dist > apAvail + move_bonus) was unreachable for any non-negative pending
+      // sum -- AP_INSUFFICIENT always fired first -- and is removed. The pending sum
+      // is floored >= 0 in apLedger.resolveIntentApCost so it cannot be revived by a
+      // negative/NaN client ap_cost.
       const blocker = (session.units || []).find(
         (u) =>
           u.id !== actor.id &&
