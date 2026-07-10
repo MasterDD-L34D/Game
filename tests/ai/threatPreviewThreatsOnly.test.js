@@ -98,3 +98,30 @@ test('ON: retreat mai telegrafato anche in zona', () => {
     assert.equal(buildThreatPreview(s).length, 0);
   });
 });
+
+test('ON: attack sopravvive al taglio anche se dichiarato ULTIMO', () => {
+  withFlag('true', () => {
+    // 3 zone-entry dichiarate PRIMA + 1 attack dichiarato ULTIMO, cap tier 3
+    // (pressure 50, Escalated): senza la sort attack-first la slice(0, 3)
+    // scarterebbe l'attack. Pinna la priorita' di presentazione.
+    const s = fakeSession();
+    s.units = [
+      ...[1, 2, 3, 4].map((i) => ({
+        id: `s${i}`,
+        controlled_by: 'sistema',
+        hp: 5,
+        position: { x: i, y: i },
+      })),
+      { id: 'p1', controlled_by: 'player', hp: 9, position: { x: 5, y: 5 } },
+    ];
+    s.roundState.pending_intents = [
+      { unit_id: 's1', action: { type: 'move', move_to: { x: 7, y: 7 } } },
+      { unit_id: 's2', action: { type: 'move', move_to: { x: 8, y: 8 } } },
+      { unit_id: 's3', action: { type: 'move', move_to: { x: 9, y: 9 } } },
+      { unit_id: 's4', action: { type: 'attack', target_id: 'p1' } },
+    ];
+    const rows = buildThreatPreview(s);
+    assert.equal(rows.length, 3, 'cap tier Escalated = 3');
+    assert.equal(rows[0].intent_type, 'attack', 'attack prioritario sopravvive alla slice');
+  });
+});
