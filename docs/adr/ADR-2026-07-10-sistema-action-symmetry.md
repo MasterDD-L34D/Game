@@ -1,5 +1,6 @@
 ---
 title: 'ADR-2026-07-10 — Sistema action symmetry: per-unit AP + retreat gate + telegraph threats-only'
+status: proposed
 doc_status: active
 doc_owner: master-dd
 workstream: combat
@@ -48,12 +49,13 @@ PG: move+attack nello stesso round (slot-2 lookahead2-style: attack solo se in g
 LOS dalla posizione post-move). L'addebito a risoluzione e il refill per-round erano GIA'
 per-unita': si e' chiuso solo il buco alla dichiarazione.
 Le asimmetrie RESTANTI sono ratificate ESPLICITAMENTE come volute:
+
 - `ignores_trait_costs: true` (i tratti del Sistema non consumano PT/AP del modello PG)
   -- gap di leggibilita' del recruit DICHIARATO, asse rivalutabile in un ADR futuro;
 - `ignores_fog_of_war: true` (il Sistema vede il campo);
 - `reinforcement_from_pressure` (i rinforzi restano governati da `sistema_pressure`).
-La nota in `ai_profiles.yaml` `sistema_resource_model.note` viene aggiornata per puntare
-a questo ADR (non piu' "do NOT refactor", che vietava senza fonte).
+  La nota in `ai_profiles.yaml` `sistema_resource_model.note` viene aggiornata per puntare
+  a questo ADR (non piu' "do NOT refactor", che vietava senza fonte).
 
 ### D2 -- Retreat gate: la soglia dichiarata vale per TUTTI i cervelli
 
@@ -63,7 +65,9 @@ ritirata resta legale e vince quando lo scoring lo dice (threshold-sensitivity p
 mutation test). Question aperta al decider (non blocca il flip, nessun encounter di misura
 ha `persistent_high_threat`): il path legacy ALLARGA la soglia a 1.2x sotto M1
 persistent-threat -- estendere il widening anche al gate (addendum spec sez. 4.3) o
-tenere la soglia piatta? [ ] widening 1.2x  [ ] piatta
+tenere la soglia piatta? [x] widening 1.2x [ ] piatta
+Decisione owner 2026-07-10 (in-session): widening 1.2x M1 esteso anche al gate --
+coerenza col contratto legacy; il gate segue lo stesso profilo del path rule-based.
 
 ### D3 -- Telegraph: minacce, non passi (lettura plan-reveal RATIFICATA)
 
