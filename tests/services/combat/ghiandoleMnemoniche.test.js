@@ -19,6 +19,9 @@ const {
   GHIANDOLE_TRAIT,
   STEALABLE,
 } = require('../../../apps/backend/services/combat/ghiandoleMnemoniche');
+const {
+  computeStatusModifiers,
+} = require('../../../apps/backend/services/combat/statusModifiers');
 
 function carrier() {
   return { id: 'a1', traits: [GHIANDOLE_TRAIT], status: {} };
@@ -79,6 +82,49 @@ test('furto: frenzy ha priorita su linked', () => {
   assert.equal(target.status.frenzy, undefined);
   assert.equal(target.status.linked, 4);
   assert.equal(actor.status.frenzy, 1);
+});
+
+// Il furto di frenzy NON e' un guadagno netto: chi lo ruba eredita la guardia
+// abbassata. Lo spec lo afferma; qui lo si dimostra sul motore vero, non sulla
+// status-map. computeStatusModifiers legge lo STESSO status sui due lati.
+test('furto: chi ruba frenzy eredita -1 difesa quando e bersagliato', () => {
+  const thief = { id: 'a1', controlled_by: 'player', traits: [GHIANDOLE_TRAIT], status: {} };
+  const enemy = { id: 't1', controlled_by: 'sistema', traits: [], status: { frenzy: 2 } };
+  stealBuff({ actor: thief, target: enemy });
+  assert.equal(thief.status.frenzy, 1);
+
+  // il ladro ora ATTACCA: +1 attacco
+  const onOffense = computeStatusModifiers(thief, enemy, []);
+  assert.equal(onOffense.attackDelta, 1);
+
+  // il ladro ora e' BERSAGLIATO: -1 difesa (l'esposizione ereditata)
+  const onDefense = computeStatusModifiers(enemy, thief, []);
+  assert.equal(onDefense.defenseDelta, -1);
+
+  // e la preda non ha piu' ne' l'uno ne' l'altro
+  const preyNow = computeStatusModifiers(enemy, thief, []);
+  assert.equal(preyNow.attackDelta, 0);
+});
+
+test('furto: actor === target non auto-cancella lo status', () => {
+  const u = { id: 'a1', traits: [GHIANDOLE_TRAIT], status: { linked: 4 } };
+  const out = stealBuff({ actor: u, target: u });
+  assert.equal(out.stato, 'linked');
+  assert.equal(u.status.linked, 2); // rimosso e riapplicato dimezzato, non cancellato
+});
+
+test('furto: preda con status non-oggetto -> null, nessun throw', () => {
+  const actor = carrier();
+  assert.equal(stealBuff({ actor, target: { id: 't1', status: null } }), null);
+  assert.equal(stealBuff({ actor, target: { id: 't2', status: ['linked'] } }), null);
+});
+
+test('furto: turns negativi o frazionari', () => {
+  const actor = carrier();
+  assert.equal(stealBuff({ actor, target: prey({ linked: -3 }) }), null);
+  const a2 = carrier();
+  stealBuff({ actor: a2, target: prey({ linked: 2.5 }) });
+  assert.equal(a2.status.linked, 2); // ceil(2.5/2) = 2
 });
 
 test('furto: nucleo_intatto e telepatic_link non sono rubabili', () => {

@@ -16,6 +16,7 @@ const assert = require('node:assert/strict');
 
 const {
   drainStatusRemovals,
+  drainPendingStatusEffects,
 } = require('../../../apps/backend/services/combat/pendingStatusRemovals');
 
 function unitsMap(units) {
@@ -56,6 +57,53 @@ test('drain: unita senza status -> no-op, nessun throw', () => {
   const session = { _pendingStatusRemovals: [{ unit_id: 't1', status: 'frenzy' }] };
   assert.equal(drainStatusRemovals(session, unitsMap([u])), 0);
   assert.deepEqual(session._pendingStatusRemovals, []);
+});
+
+// ORDINE DEI DRAIN -- invariante load-bearing.
+// syncStatusesFromRoundState drena le RIMOZIONI prima degli APPLIES. Se l'ordine
+// fosse invertito, due ladri di fazione opposta che nello stesso round rubano lo
+// stesso status se lo annichilirebbero a vicenda (entrambi guadagnano, poi entrambe
+// le rimozioni cancellano). Con l'ordine corretto ciascuno perde il proprio e
+// guadagna quello dell'altro. Stesso motivo per cui actor===target non si
+// auto-cancella: rimuove, poi riapplica dimezzato.
+//
+// Il bridge e' una closure non esportata, quindi qui si riproduce la sua sequenza con
+// il vero applyMoraleStatus.
+const { applyMoraleStatus } = require('../../../apps/backend/services/combat/morale');
+
+// La funzione VERA usata dal bridge, con il vero applyMoraleStatus.
+const drainLikeBridge = (session, units) =>
+  drainPendingStatusEffects(session, units, applyMoraleStatus);
+
+test('ordine: furto reciproco non annichila il buff', () => {
+  const a = { id: 'a', hp: 10, status: { frenzy: 2 } };
+  const b = { id: 'b', hp: 10, status: { frenzy: 4 } };
+  const session = {
+    // a ruba a b (4 -> 2), b ruba ad a (2 -> 1)
+    _pendingStatusApplies: [
+      { unit_id: 'a', status: 'frenzy', duration: 2 },
+      { unit_id: 'b', status: 'frenzy', duration: 1 },
+    ],
+    _pendingStatusRemovals: [
+      { unit_id: 'b', status: 'frenzy' },
+      { unit_id: 'a', status: 'frenzy' },
+    ],
+  };
+  drainLikeBridge(session, unitsMap([a, b]));
+  assert.equal(a.status.frenzy, 2, 'a deve conservare il frenzy rubato a b');
+  assert.equal(b.status.frenzy, 1, 'b deve conservare il frenzy rubato ad a');
+});
+
+test('ordine: furto normale -> la preda perde, il ladro guadagna', () => {
+  const thief = { id: 'a', hp: 10, status: {} };
+  const preyUnit = { id: 'b', hp: 10, status: { linked: 4 } };
+  const session = {
+    _pendingStatusApplies: [{ unit_id: 'a', status: 'linked', duration: 2 }],
+    _pendingStatusRemovals: [{ unit_id: 'b', status: 'linked' }],
+  };
+  drainLikeBridge(session, unitsMap([thief, preyUnit]));
+  assert.equal(preyUnit.status.linked, undefined);
+  assert.equal(thief.status.linked, 2);
 });
 
 test('drain: coda assente o vuota -> no-op', () => {

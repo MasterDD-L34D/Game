@@ -185,6 +185,20 @@ Il drain vive in `combat/pendingStatusRemovals.js` -- funzione pura, testabile -
 perche' `syncStatusesFromRoundState` e' una closure non esportata di
 `createRoundBridge`.
 
+**L'ordine e' load-bearing: rimozioni PRIMA degli applies.** Se gli applies girassero
+per primi, due ladri di fazione opposta che nello stesso round rubano lo stesso status
+se lo annichilirebbero (entrambi guadagnano, poi entrambe le rimozioni cancellano --
+verificato: l'ordine invertito lascia `frenzy: undefined` a entrambi). Con le rimozioni
+per prime ciascuno perde il proprio e guadagna quello dell'altro. Per lo stesso motivo
+un `actor === target` non si auto-cancella: rimuove, poi riapplica dimezzato.
+
+Per questo la sequenza vive in `drainPendingStatusEffects(session, unitsById,
+applyStatus)`, nello stesso modulo, e non nella closure del bridge: cosi' l'ordine e'
+coperto da un test invece che affidato a due chiamate adiacenti. Il bridge conserva un
+fallback rumoroso (`console.warn`) che drena almeno gli applies se il modulo non si
+carica -- un throw silenzioso degraderebbe il furto in copia, esattamente il difetto
+che questo canale esiste per impedire.
+
 Band-neutral: nessuna unita' pusha rimozioni se non porta il tratto.
 
 ### 3. Scostamento dal canone, dichiarato
@@ -263,9 +277,18 @@ quindi le run AI restano byte-stabili.
 - hit su bersaglio con `frenzy` + `linked` -> ruba `frenzy` (primo in whitelist),
   **non** `linked`.
 - hit su bersaglio con `frenzy: 2` -> il bersaglio perde `frenzy`; l'attaccante lo
-  guadagna con `1`, e da quel momento `computeStatusModifiers` gli concede `+1`
-  attacco (`:202`) e gli applica `-1` difesa quando e' bersagliato (`:253`). Il
-  test verifica **entrambi** i lati: il furto non e' un guadagno netto.
+  guadagna con `1`. Il test chiama `computeStatusModifiers` **due volte sul motore
+  vero** -- col ladro come attore (`attackDelta === 1`) e col ladro come bersaglio
+  (`defenseDelta === -1`) -- invece di fermarsi alla status-map. Il furto non e' un
+  guadagno netto, e questo lo dimostra.
+- furto da un'unita' della **stessa fazione** -> nessun furto. La route di attacco non
+  valida la fazione del bersaglio (`session.units.find((u) => u.id === body.target_id)`),
+  quindi senza guardia un tratto di sabotaggio deruberebbe un alleato. `isSameFaction`
+  e' conservativa: `controlled_by` mancante (fixture legacy, sim units) non prova
+  l'alleanza, e il furto procede.
+- `actor === target` -> rimuove e riapplica dimezzato, non cancella.
+- `STEALABLE` e' esposto come **copia difensiva**: l'ordine e' il design, e un array
+  vivo esportato sarebbe riordinabile a runtime da qualunque consumatore.
 - hit su bersaglio con `nucleo_intatto` / `telepatic_link` -> **nessun** furto
   (esclusi).
 - miss -> nessun furto.

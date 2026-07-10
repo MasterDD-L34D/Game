@@ -48,4 +48,44 @@ function drainStatusRemovals(session, unitsById) {
   return applied;
 }
 
-module.exports = { drainStatusRemovals };
+/**
+ * Drena ENTRAMBE le code nell'ordine corretto: rimozioni, poi applies.
+ *
+ * L'ordine e' load-bearing, non estetico. Se gli applies girassero per primi, due ladri
+ * di fazione opposta che nello stesso round rubano lo stesso status se lo
+ * annichilirebbero: entrambi guadagnano, poi entrambe le rimozioni cancellano. Con le
+ * rimozioni per prime ciascuno perde il proprio e guadagna quello dell'altro -- il
+ * risultato semanticamente corretto. Stesso motivo per cui un `actor === target` non si
+ * auto-cancella: rimuove, poi riapplica a durata dimezzata.
+ *
+ * Vive qui, e non nella closure di createRoundBridge, proprio perche' l'ordine sia
+ * coperto da un test.
+ *
+ * @param {object} session
+ * @param {Map<string,object>} unitsById
+ * @param {(unit: object, status: string, duration: number) => unknown} [applyStatus]
+ *   applyMoraleStatus, iniettato dal chiamante. Assente -> gli applies sono saltati
+ *   (comportamento storico del bridge quando il modulo morale non si carica).
+ * @returns {{removed: number, applied: number}}
+ */
+function drainPendingStatusEffects(session, unitsById, applyStatus) {
+  const removed = drainStatusRemovals(session, unitsById);
+
+  let applied = 0;
+  if (session && Array.isArray(session._pendingStatusApplies)) {
+    if (typeof applyStatus === 'function') {
+      for (const pending of session._pendingStatusApplies) {
+        if (!pending || !pending.status) continue;
+        const unit = unitsById && unitsById.get(String(pending.unit_id));
+        if (unit && Number(unit.hp) > 0) {
+          applyStatus(unit, pending.status, pending.duration);
+          applied += 1;
+        }
+      }
+    }
+    session._pendingStatusApplies = [];
+  }
+  return { removed, applied };
+}
+
+module.exports = { drainStatusRemovals, drainPendingStatusEffects };
