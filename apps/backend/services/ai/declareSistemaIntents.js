@@ -484,7 +484,7 @@ function createDeclareSistemaIntents(deps) {
               policy.intent === 'retreat'
                 ? stepAway(actor.position, target.position, effectiveGrid)
                 : policy.intent === 'approach'
-                  ? stepTowards(actor.position, target.position)
+                  ? stepTowards(actor.position, target.position, effectiveGrid)
                   : null;
             const candidateDir = candidatePos ? _moveDirection(actor.position, candidatePos) : null;
             if (_detectFlip(actor, policy.intent, candidateDir)) {
@@ -607,7 +607,7 @@ function createDeclareSistemaIntents(deps) {
       const nextPos =
         policy.intent === 'retreat'
           ? stepAway(actor.position, target.position, effectiveGrid)
-          : policy.reposition_to || stepTowards(actor.position, target.position);
+          : policy.reposition_to || stepTowards(actor.position, target.position, effectiveGrid);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
         decisions.push({
