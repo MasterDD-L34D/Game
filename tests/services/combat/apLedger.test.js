@@ -143,6 +143,34 @@ test('apBreakdown: prezza server-side i move e unwrappa gli intent wrapper', () 
   assert.equal(b.total, 4);
 });
 
+test('apBreakdown: una chiave `action` decoy su un attacco raw non lo declassa a 0', () => {
+  // L'unwrap-insurance serve ai wrapper {unit_id, action}. Ma la route passa
+  // azioni RAW, e su un'azione raw `.action` e' scritto dal client: se lo
+  // scartiamo, un attacco (prezzo server 1) viene prezzato sull'inner (0).
+  // L'unwrap non deve mai declassare un'azione gia' prezzabile (type/ability_id).
+  const actor = { ap_remaining: 2, position: { x: 0, y: 0 } };
+  const decoyAttack = { type: 'attack', action: true };
+  const b = ledger.apBreakdown(actor, [decoyAttack, decoyAttack], { type: 'attack' });
+  assert.equal(b.pending, 2, 'due attacchi decoy devono costare 2, non 0');
+  assert.equal(b.affordable, false, '2 + 1 > 2 -> fail closed');
+});
+
+test('canAfford: attacchi decoy non si finanziano a vicenda', () => {
+  const actor = { ap_remaining: 1, position: { x: 0, y: 0 } };
+  const decoyAttack = { type: 'attack', action: { type: 'skip' } };
+  assert.equal(ledger.canAfford(actor, [decoyAttack], { type: 'attack' }), false);
+});
+
+test('apBreakdown: il wrapper {unit_id, action} resta unwrappato (insurance intatta)', () => {
+  // La guardia anti-decoy non deve rompere il caso per cui l'insurance esiste:
+  // un wrapper non ha ne' type ne' ability_id, quindi va ancora scartato.
+  const actor = { ap_remaining: 1, position: { x: 0, y: 0 } };
+  const wrapped = { unit_id: 'x', action: { type: 'attack' } };
+  const b = ledger.apBreakdown(actor, [wrapped], { type: 'attack' });
+  assert.equal(b.pending, 1, "wrapper prezzato sull'attacco interno, non 0");
+  assert.equal(b.affordable, false);
+});
+
 test('apBreakdown: fail-closed su actor null (available 0, non NaN)', () => {
   const b = ledger.apBreakdown(null, [], { type: 'attack' });
   assert.equal(b.available, 0);

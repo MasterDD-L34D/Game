@@ -141,6 +141,34 @@ test('validation: AP insufficienti rigettato (AP_INSUFFICIENT)', async (t) => {
   assert.equal(r.body.code, 'AP_INSUFFICIENT');
 });
 
+test('validation: una chiave decoy `action` non azzera il costo dei pending', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  // Regressione (OWASP A04, CWE-840): la route pre-scarta i wrapper intent con
+  // .map(i => i.action) e passa azioni RAW. Se apBreakdown ri-scarta su `.action`,
+  // quella chiave e' controllata dal client: un attacco con `action: true` viene
+  // prezzato sull'inner (0) invece che come attacco (1), quindi il pending sum
+  // resta 0 per sempre e p1 accoda attacchi illimitati con 2 AP.
+  const sid = await startSession(app, twoUnits({ p1Pos: { x: 2, y: 2 }, sisPos: { x: 3, y: 2 } }));
+  const decoy = (id) => ({ id, type: 'attack', actor_id: 'p1', target_id: 'sis', action: true });
+
+  const first = await declare(app, sid, 'p1', decoy('p1-a1'));
+  assert.equal(first.status, 200, `1st attack (0+1<=2) accepted, got ${first.status}`);
+  const second = await declare(app, sid, 'p1', decoy('p1-a2'));
+  assert.equal(second.status, 200, `2nd attack (1+1<=2) accepted, got ${second.status}`);
+
+  // 3rd: pending DEVE essere 2 (i due attacchi), 2 + 1 = 3 > 2 -> rigetto.
+  const third = await declare(app, sid, 'p1', decoy('p1-a3'));
+  assert.equal(third.status, 400, 'decoy `action` key must not zero the pending sum');
+  assert.equal(third.body.code, 'AP_INSUFFICIENT');
+  assert.equal(
+    third.body.error,
+    'AP insufficienti: costo totale 3 (pending 2 + nuovo 1), disponibili 2',
+  );
+});
+
 test('validation: AP_INSUFFICIENT riporta total/pending/cost/available distinti', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
