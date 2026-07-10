@@ -1,5 +1,5 @@
 ---
-title: 'Fattoriale 2x2 simmetria Sistema -- il ceiling WR 1.0 e'' ROTTO (gate+AP, N=40)'
+title: "Fattoriale 2x2 simmetria Sistema -- il ceiling WR 1.0 e' ROTTO (gate+AP, N=40)"
 doc_status: active
 doc_owner: master-dd
 workstream: combat
@@ -37,11 +37,11 @@ substrate-ON del mattino (`docs/research/2026-07-10-grid-terrain-geometry-reprob
 sono superate. Questo control e' la nuova referenza flag-OFF (e chiude il re-probe
 post-fix richiesto da L-069):
 
-| Encounter | WR | KO | pace avg (sd) [min,max] | reinf | banda pace nuova |
-|---|---|---|---|---|---|
-| dorsale 16x12 | 1.000 | 0.000 | 18.82 (2.07) [15,24] | 4.0 | [14, 25] |
-| canyon 20x12 | 1.000 | 0.006 | 17.45 (1.08) [16,20] | 4.0 | [15, 21] |
-| abisso 18x10 | 1.000 | 0.013 | 16.05 (1.50) [14,20] | 4.0 | [13, 21] |
+| Encounter     | WR    | KO    | pace avg (sd) [min,max] | reinf | banda pace nuova |
+| ------------- | ----- | ----- | ----------------------- | ----- | ---------------- |
+| dorsale 16x12 | 1.000 | 0.000 | 18.82 (2.07) [15,24]    | 4.0   | [14, 25]         |
+| canyon 20x12  | 1.000 | 0.006 | 17.45 (1.08) [16,20]    | 4.0   | [15, 21]         |
+| abisso 18x10  | 1.000 | 0.013 | 16.05 (1.50) [14,20]    | 4.0   | [13, 21]         |
 
 Nota: il pace dorsale sale 14.1 -> 18.8 col fix (le creature AVANZANO invece di
 teleport-clampare: combattimento reale, piu' lungo). WR resta 1.000: il fix da solo
@@ -50,11 +50,11 @@ time_limit 30/25 vs max 24/20 = watch (margine 6/5).
 
 ## 3. Fattoriale pulito (N=10 paired sul control stepfix)
 
-| Arm | dorsale dWR / dKO | canyon dWR / dKO | abisso dWR / dKO | verdetto |
-|---|---|---|---|---|
-| gate-only | 0.00 / 0.000 | 0.00 / 0.000 | 0.00 / +0.050 | non basta |
-| ap-only | 0.00 / +0.025 | 0.00 / +0.075 | 0.00 / +0.100 | direzione debole |
-| **gate+AP** | **-0.20 / +0.400** | 0.00 / +0.100 | 0.00 / +0.150 | **VINCE 3/3** |
+| Arm         | dorsale dWR / dKO  | canyon dWR / dKO | abisso dWR / dKO | verdetto         |
+| ----------- | ------------------ | ---------------- | ---------------- | ---------------- |
+| gate-only   | 0.00 / 0.000       | 0.00 / 0.000     | 0.00 / +0.050    | non basta        |
+| ap-only     | 0.00 / +0.025      | 0.00 / +0.075    | 0.00 / +0.100    | direzione debole |
+| **gate+AP** | **-0.20 / +0.400** | 0.00 / +0.100    | 0.00 / +0.150    | **VINCE 3/3**    |
 
 gateap/dorsale N=10: 2 SCONFITTE del party. Criterio direction (dWR <= -0.2 |
 dKO >= +0.05): centrato esatto. La sinergia e' la storia: senza gate le azioni extra
@@ -63,16 +63,16 @@ o colpisci). Insieme: avvicini E colpisci.
 
 ## 4. N=40 RATIFY su gate+AP (seeds 1..40 paired)
 
-| Metric | dorsale 16x12 | canyon 20x12 | abisso 18x10 |
-|---|---|---|---|
-| **WR party** | **0.925** | 1.000 | **0.975** |
-| WR CI95 Wilson | **[0.801, 0.974]** | [0.912, 1.0] | [0.871, 0.996] |
-| defeats | **3** | 0 | **1** |
-| creature_ko_rate | **0.275** (ctrl 0.000) | 0.113 (ctrl 0.006) | 0.175 (ctrl 0.013) |
-| pace avg (sd) | 16.7 (2.6) [12,22] | 16.1 (1.6) [14,19] | 14.9 (2.3) [13,24] |
-| dPace paired CI95 | -2.10 [-3.05,-1.15] | -1.38 [-1.91,-0.84] | -1.10 [-1.91,-0.29] |
-| timeouts | 0 | 0 | 0 |
-| reinf | 4.0 | 4.0 | 4.0 |
+| Metric            | dorsale 16x12          | canyon 20x12        | abisso 18x10        |
+| ----------------- | ---------------------- | ------------------- | ------------------- |
+| **WR party**      | **0.925**              | 1.000               | **0.975**           |
+| WR CI95 Wilson    | **[0.801, 0.974]**     | [0.912, 1.0]        | [0.871, 0.996]      |
+| defeats           | **3**                  | 0                   | **1**               |
+| creature_ko_rate  | **0.275** (ctrl 0.000) | 0.113 (ctrl 0.006)  | 0.175 (ctrl 0.013)  |
+| pace avg (sd)     | 16.7 (2.6) [12,22]     | 16.1 (1.6) [14,19]  | 14.9 (2.3) [13,24]  |
+| dPace paired CI95 | -2.10 [-3.05,-1.15]    | -1.38 [-1.91,-0.84] | -1.10 [-1.91,-0.29] |
+| timeouts          | 0                      | 0                   | 0                   |
+| reinf             | 4.0                    | 4.0                 | 4.0                 |
 
 **Il CI95 della dorsale NON tocca 1.0**: prima volta che il driver `grid-band-probe`
 in FAITHFUL ARM (party canonico, zero knob di difficolta') produce sconfitte del party
@@ -83,12 +83,12 @@ boss_hp/cap) -- qui cadono SENZA toccare nulla dell'encounter. N=40 conferma N=1
 
 ## 5. Composizione (intent-mix, 9 fight gateap post-fix)
 
-| | control storico | gateap post-fix |
-|---|---|---|
-| attivazioni (9 fight) | 237 | **448** (~2x: per-unit AP reale) |
-| attack | 4.6% | **16.7%** |
-| approach | 39.7% | **82.6%** (avanzano davvero, fix #3253) |
-| retreat | 55.7% | **0.7%** |
+|                       | control storico | gateap post-fix                         |
+| --------------------- | --------------- | --------------------------------------- |
+| attivazioni (9 fight) | 237             | **448** (~2x: per-unit AP reale)        |
+| attack                | 4.6%            | **16.7%**                               |
+| approach              | 39.7%           | **82.6%** (avanzano davvero, fix #3253) |
+| retreat               | 55.7%           | **0.7%**                                |
 
 Conversione su, ritirate azzerate, movimento reale: nessun segnale di artefatto
 (la WR scende CON la conversione che sale, come richiesto dal criterio secondario).
@@ -132,3 +132,17 @@ successive, NON di altri flag. Dichiarato per evitare over-claim.
 
 Doc + bande + baseline: revert del commit. I flag restano OFF in prod fino all'ADR
 (Task 7): nessun cambio runtime da questa PR.
+
+## Addendum 2026-07-10 sera -- re-probe flag-OFF post-merge: delta ZERO
+
+Dopo il landing dell'intero arco su main (#3252/#3256/#3257/#3259/#3260 + #3250,
+ADR #3262 merged), re-probe flag-OFF N=10 paired (seeds 1..10) vs i control
+`reports/sim/*-n40-stepfix` sui 3 grid_sized: **bit-exact su tutti i 30 run**
+(outcome/rounds/kos, incluso il KO di seed 4 abisso). I refactor apLedger e i fix
+#3257/#3260 non muovono la semantica combat flag-OFF: bande `15-LEVEL_DESIGN`
+[14,25]/[15,21]/[13,21] riprodotte bit-exact (nessuna regressione -- restano derivate
+dal control N=40), niente N=40 nuovo (guardrail N-sample, delta nullo). Nota driver:
+seed di grid-band-probe EFFETTIVI (riproduzione deterministica in un run indipendente
+post-merge, stessa toolchain Node v24.11.0; il full-loop driver resta unseeded).
+Output: `reports/sim/*-n10-postmerge-0710/` | log
+`Extras/ollama-runs/2026-07-10-grid-band-reprobe-postmerge.log` (cdd).
