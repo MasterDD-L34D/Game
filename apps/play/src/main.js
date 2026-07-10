@@ -693,6 +693,9 @@ function buildUnitTooltip(unit) {
       skip: 'difesa',
       defend: 'difesa',
       overwatch: 'sentinella',
+      // Threats-only (Codex P2 PR #3258): intent filtrato arriva come riga
+      // 'hidden' (mai assente) -- il fallback attacco sotto non scatta piu'.
+      hidden: 'nascosto',
     };
     if (row) {
       const glyph = glyphMap[row.intent_icon] || '?';

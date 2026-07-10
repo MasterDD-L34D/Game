@@ -5,7 +5,7 @@
 //
 //   {
 //     actor_id: 'e_nomad_1',
-//     intent_type: 'attack' | 'move' | 'skip' | 'unknown',
+//     intent_type: 'attack' | 'move' | 'skip' | 'hidden' | 'unknown',
 //     intent_icon: 'fist' | 'move' | 'shield' | '?',
 //     target_id: 'p_scout' | null,
 //     threat_tiles: [{ x, y }],
@@ -14,6 +14,14 @@
 // `threat_tiles` per attack = cella del target (dove sta cadendo il colpo).
 // `threat_tiles` per move = cella di destinazione (dove SIS sta andando).
 // `threat_tiles` per skip = [].
+//
+// Contratto threats-only (Codex P2 PR #3258): con SISTEMA_TELEGRAPH_THREATS_ONLY
+// ogni unita' SIS viva con intent pendente ha SEMPRE una riga; intent non-threat
+// o tagliato dal cap -> riga mascherata `intent_type: 'hidden'` (icon '?', zero
+// campi informativi). Riga assente = "preview non disponibile" (pre-declare /
+// legacy flow), MAI "intent filtrato": i consumer con fallback-attacco su riga
+// assente (apps/play archiviato, render.js/main.js) non devono mentire proprio
+// sulle unita' che il flag vuole nascondere.
 //
 // NB: legge solo da `session.roundState.pending_intents` → richiede che
 // `declareSistemaIntents` sia già stato chiamato (flow /round/begin-planning).
@@ -29,11 +37,27 @@ const INTENT_ICON_MAP = {
   skip: 'shield',
   defend: 'shield',
   overwatch: 'shield',
+  hidden: '?',
 };
 
 function _iconFor(type) {
   if (!type || typeof type !== 'string') return '?';
   return INTENT_ICON_MAP[type] || '?';
+}
+
+// Riga mascherata threats-only (contratto in testa al file). Costruita da zero,
+// mai derivata mascherando una riga threat: un downgrade da attack che
+// conservasse target/expected_damage/threat_tiles renderebbe il mask cosmetico.
+function _hiddenRow(actorId) {
+  return {
+    actor_id: actorId,
+    intent_type: 'hidden',
+    intent_icon: _iconFor('hidden'),
+    target_id: null,
+    threat_tiles: [],
+    expected_damage: null,
+    hit_pct: null,
+  };
 }
 
 function _unitById(session, id) {
@@ -101,6 +125,7 @@ function buildThreatPreview(session) {
   }
 
   const preview = [];
+  const hidden = [];
   for (const intent of pending) {
     if (!intent || !intent.unit_id) continue;
     const actor = _unitById(session, intent.unit_id);
@@ -114,7 +139,10 @@ function buildThreatPreview(session) {
       const isThreat =
         intentType === 'attack' ||
         ((intentType === 'move' || intentType === 'approach') && inZone(action.move_to));
-      if (!isThreat) continue;
+      if (!isThreat) {
+        hidden.push(_hiddenRow(actor.id));
+        continue;
+      }
     }
 
     // PR-Y2 — expected_damage solo per attack (move/skip = null).
@@ -143,7 +171,7 @@ function buildThreatPreview(session) {
       hit_pct: hitPct,
     });
   }
-  if (threatsOnly && preview.length > 0) {
+  if (threatsOnly) {
     // Cap di presentazione: attack prima, poi zone-entry; taglio al tier cap.
     // Lazy require per evitare cicli (declareSistemaIntents richiede sessionHelpers).
     let cap = preview.length;
@@ -159,7 +187,12 @@ function buildThreatPreview(session) {
     preview.sort(
       (a, b) => (a.intent_type === 'attack' ? -1 : 1) - (b.intent_type === 'attack' ? -1 : 1),
     );
-    return preview.slice(0, cap);
+    // Oltre-cap: downgrade a riga hidden, non drop (contratto in testa al file).
+    // Il cap resta il tetto delle MINACCE telegrafate; le righe hidden non
+    // contano contro il cap perche' non presentano nulla.
+    const kept = preview.slice(0, cap);
+    for (const cut of preview.slice(cap)) hidden.push(_hiddenRow(cut.actor_id));
+    return kept.concat(hidden);
   }
   return preview;
 }

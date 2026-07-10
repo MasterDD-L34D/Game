@@ -104,3 +104,27 @@ piu' un tuning del tetto.
 - Sostituire utilityBrain con lookahead2: scartata dal decider (personalita' = pilastro).
 - 2 AP senza gate ne' fix stepTowards: "castello immobile" (misura contaminata, doc
   fattoriale sez. 1).
+
+## Addendum 2026-07-10 -- Contratto telegraph threats-only (pre-flip, Codex P2 PR #3258)
+
+Con `SISTEMA_TELEGRAPH_THREATS_ONLY=true` il filtro non droppa piu' le righe
+non-threat: ogni unita' SIS viva con intent pendente ha SEMPRE una riga in
+`threat_preview`; intent non-threat o tagliato dal cap -> riga mascherata
+`intent_type: "hidden"` (icon `?`, zero campi informativi: niente target,
+tiles, expected_damage). Riga assente = solo "preview non disponibile"
+(pre-declare / legacy flow), mai "intent filtrato".
+
+Motivo: il consumer legacy (apps/play, archiviato ma di riferimento) tratta la
+riga assente di un'unita' SIS viva come fallback attacco ("Intento: attacco" +
+icona fist) -- il telegraph mentiva proprio nel caso che il flag vuole
+nascondere. Il downgrade oltre-cap ricostruisce la riga da zero (mai mask di
+una riga threat esistente: conservare expected_damage sarebbe leak).
+
+Il frontend canonico Godot (Game-Godot-v2) oggi NON consuma `threat_preview`
+backend: il port locale `ThreatPreview` non ha consumer surface (roadmap
+deferred) ne' filtro threats-only. Quando verra' cablato deve rispettare questo
+contratto (riga sempre presente, `hidden` renderizzato come intent sconosciuto,
+pattern StS).
+
+Stato: pre-condizione (1) del flip risolta. Impl: `threatPreview.js` +
+`tests/ai/threatPreviewThreatsOnly.test.js`.
