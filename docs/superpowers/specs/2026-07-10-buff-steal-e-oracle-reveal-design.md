@@ -43,7 +43,7 @@ Fatti load-bearing, ognuno letto a codice prima di progettare:
 
 4. **La pipe di reveal esiste, e' wired, ed e' affamata.**
    `combat/telepathicReveal.js` e' invocata in
-   `routes/sessionRoundBridge.js:2373` dentro `begin-planning`. Rivela gli intent
+   `routes/sessionRoundBridge.js:2302` dentro `begin-planning`. Rivela gli intent
    nemici (`intent_type`, `target_id`, `distance`) entro manhattan `opts.range`
    (default 3) a ogni attore con `status.telepatic_link > 0`. Il suo unico
    produttore attuale, `risonanza_magnetica`, e' gated su
@@ -160,6 +160,32 @@ Esclusi, con motivo:
   rovescio `danno_nucleo` e' governato da `combat/nucleiWeakPoint.js`.
 - `telepatic_link` -- e' la firma di `nodi_micorrizici_oracolari` (decisione 1);
   rubarlo incrocerebbe i due tratti in un modo che nessuno ha progettato.
+
+### 2b. Canale di rimozione (`_pendingStatusRemovals`)
+
+Il furto non persiste senza un canale dedicato. `_pendingStatusApplies` e' drenato
+con `applyMoraleStatus` (`combat/morale.js:61`), che e'
+`unit.status[s] = Math.max(cur, dur)` -- monotono crescente, non sa rimuovere. E il
+loop di `syncStatusesFromRoundState` (`sessionRoundBridge.js:415-419`) riscrive
+`sessionUnit.status` dall'array tracciato `roundUnit.statuses`, ripristinando
+qualsiasi `delete` fatto a meta' attacco.
+
+Senza rimozione, `ghiandole_mnemoniche` diventerebbe silenziosamente una COPIA nel
+path round-model e un FURTO in quello legacy: due path dello stesso motore con
+comportamento divergente. E' la stessa classe di difetto che questo spec chiude --
+una meccanica che sembra viva perche' il codice c'e', ma il cui effetto viene
+mangiato da un seam a valle.
+
+Soluzione: `session._pendingStatusRemovals` (`[{unit_id, status}]`), drenato subito
+dopo gli applies, cioe' DOPO il rebuild tracked->dict. `adaptSessionToRoundState`
+(`sessionRoundBridge.js:297-309`) ri-deriva l'array tracciato leggendo il dict,
+quindi la cancellazione sopravvive al giro successivo.
+
+Il drain vive in `combat/pendingStatusRemovals.js` -- funzione pura, testabile --
+perche' `syncStatusesFromRoundState` e' una closure non esportata di
+`createRoundBridge`.
+
+Band-neutral: nessuna unita' pusha rimozioni se non porta il tratto.
 
 ### 3. Scostamento dal canone, dichiarato
 
